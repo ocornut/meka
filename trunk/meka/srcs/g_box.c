@@ -25,28 +25,31 @@ void        gui_update_boxes(void)
     t_gui_box * b = NULL;
     t_gui_box * b_hover = NULL;
 
-    if ((gui_mouse.pressed_on == PRESSED_ON_DESKTOP) || (gui_mouse.pressed_on == PRESSED_ON_MENUS))
+    if (gui.mouse.focus == GUI_FOCUS_DESKTOP || gui.mouse.focus == GUI_FOCUS_MENUS)
         return;
 
-    // FIND ON WHICH BOX IS THE MOUSE CURSOR --------------------------------------
+    // Update widgets, and find on which box the mouse cursor is
     for (i = 0; i < gui.boxes_count; i++)
     {
-        int     mouse_x;
-        int     mouse_y;
+        int mouse_x;
+        int mouse_y;
 
         b = gui.boxes_z_ordered[i];
-        if (!(b->flags & GUI_BOX_FLAGS_ACTIVE)) // Skip invisible boxes
+
+        // Skip invisible boxes
+        if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
 
-        mouse_x = gui_mouse.x - b->frame.pos.x;
-        mouse_y = gui_mouse.y - b->frame.pos.y;
+        mouse_x = gui.mouse.x - b->frame.pos.x;
+        mouse_y = gui.mouse.y - b->frame.pos.y;
         will_move = widgets_update_box(b, mouse_x, mouse_y);
 
         if (b_hover == NULL)
         {
             if ((gui_mouse_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2))
                 ||
-                ((gui_mouse.on_box == b) && (gui_mouse.button & 1)))
+                // FIXME-FOCUS
+                ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1)))
             {
                 b_hover = b;
                 break;
@@ -55,12 +58,20 @@ void        gui_update_boxes(void)
     }
     if (b_hover == NULL)
     {
-        if ((gui_mouse.button) && (gui_mouse.pressed_on == PRESSED_ON_NOTHING))
-            gui_mouse.pressed_on = PRESSED_ON_DESKTOP;
+        // FIXME-FOCUS
+        //if ((gui.mouse.buttons) && (gui_mouse.pressed_on == PRESSED_ON_NOTHING))
+        //    gui_mouse.pressed_on = PRESSED_ON_DESKTOP;
+        if ((gui.mouse.buttons) && (gui.mouse.focus == GUI_FOCUS_NONE))
+        {
+            gui.mouse.focus = GUI_FOCUS_DESKTOP;
+            gui.mouse.focus_item = NULL;
+        }
         return;
     }
 
-    if ((gui_mouse.on_box != NULL) && (gui_mouse.on_box != b_hover))
+    // FIXME-FOCUS
+    //if ((gui_mouse.on_box != NULL) && (gui_mouse.on_box != b_hover))
+    if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item != b_hover)
         return;
 
     /*
@@ -69,10 +80,11 @@ void        gui_update_boxes(void)
         will_move = widgets_update_box(b, cx, cy);
     */
 
-    if ((gui_mouse.button & 1) == 0)
+    if ((gui.mouse.buttons & 1) == 0)
         return;
 
-    gui_mouse.on_box = b;
+    // FIXME-FOCUS
+    //gui_mouse.on_box = b;
     gui_box_set_focus(b);
     b->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     // gui.info.must_redraw = TRUE;
@@ -80,23 +92,29 @@ void        gui_update_boxes(void)
     //Msg(MSGT_DEBUG, "will_move=%d", will_move);
 
     // ELSE, MOVE THE BOX --------------------------------------------------------
-    if ((will_move) && (gui_mouse.pressed_on != PRESSED_ON_WIDGET) && (gui_mouse.button & 1))
+    if ((will_move) && (gui.mouse.focus != GUI_FOCUS_WIDGET) && (gui.mouse.buttons & 1))
     {
         int mx, my;
         int ax1, ay1, ax2, ay2;
         int bx1, by1, bx2, by2;
 
-        Show_Mouse_In (NULL);
+        gui_mouse_show (NULL);
 
-        if (gui_mouse.pressed_on != PRESSED_ON_BOX)
+        // FIXME-FOCUS
+        //if (gui_mouse.pressed_on != PRESSED_ON_BOX)
+        if (gui.mouse.focus != GUI_FOCUS_BOX)
         {
-            gui_mouse.pressed_on = PRESSED_ON_BOX;
-            mx = my = 0;
+            // FIXME-FOCUS
+            //gui_mouse.pressed_on = PRESSED_ON_BOX;
+            gui.mouse.focus = GUI_FOCUS_BOX;
+            gui.mouse.focus_item = b;
+            mx = 0;
+            my = 0;
         }
         else
         {
-            mx = gui_mouse.x - gui_mouse.px;
-            my = gui_mouse.y - gui_mouse.py;
+            mx = gui.mouse.x - gui.mouse.x_prev;
+            my = gui.mouse.y - gui.mouse.y_prev;
             // if ((!mx) && (!my)) continue;
         }
 
@@ -181,7 +199,7 @@ void        gui_update_boxes(void)
         b->frame.pos.y += my;
         gui_box_clip_position (b);
 
-        Show_Mouse_In (gui_buffer);
+        gui_mouse_show (gui_buffer);
     } // Move Box -------------------------------------------------------------
 }
 

@@ -6,19 +6,20 @@
 #include "shared.h"
 
 //-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
-void    Show_Mouse_In (void *p)
+void    gui_mouse_show (BITMAP *bitmap)
 {
-    if (Env.mouse_installed != -1)
-    {
-        show_mouse (p);
-    }
+    if (Env.mouse_installed == -1)
+        return;
+    show_mouse(bitmap);
 }
 
 // CHECK IF THE MOUSE IS IN A CERTAIN AREA ------------------------------------
 int     gui_mouse_area (int x1, int y1, int x2, int y2)
 {
-    if ((gui_mouse.x >= x1) && (gui_mouse.y >= y1) && (gui_mouse.x <= x2) && (gui_mouse.y <= y2))
+    if ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2))
         return (1);
     return (0);
 }
@@ -26,8 +27,8 @@ int     gui_mouse_area (int x1, int y1, int x2, int y2)
 // CHECK IF A MOUSE BUTTON WAS PRESSED IN A CERTAIN AREA ----------------------
 int     gui_mouse_test_area (byte b, int x1, int y1, int x2, int y2)
 {
-    if (gui_mouse.button & b)
-        if ((gui_mouse.x >= x1) && (gui_mouse.y >= y1) && (gui_mouse.x <= x2) && (gui_mouse.y <= y2))
+    if (gui.mouse.buttons & b)
+        if ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2))
             return (1);
     return (0);
 }
@@ -40,59 +41,60 @@ void    gui_update_mouse (void)
         return;
     }
 
-    gui_mouse.px = gui_mouse.x;
-    gui_mouse.py = gui_mouse.y;
-    gui_mouse.pbutton = gui_mouse.button;
+    gui.mouse.x_prev = gui.mouse.x;
+    gui.mouse.y_prev = gui.mouse.y;
+    gui.mouse.buttons_prev = gui.mouse.buttons;
 
-    gui_mouse.x = mouse_x;
-    gui_mouse.y = mouse_y;
-    gui_mouse.button = mouse_b;
+    gui.mouse.x = mouse_x;
+    gui.mouse.y = mouse_y;
+    gui.mouse.buttons = mouse_b;
     // Msg (MSGT_DEBUG, "gui_mouse_button = %d", mouse_b);
 
-    gui_mouse.z_prev = gui_mouse.z_current;
-    gui_mouse.z_current = mouse_z;
-    gui_mouse.z_rel = gui_mouse.z_current - gui_mouse.z_prev;
+    gui.mouse.z_prev = gui.mouse.z_current;
+    gui.mouse.z_current = mouse_z;
+    gui.mouse.z_rel = gui.mouse.z_current - gui.mouse.z_prev;
 
     // Uncomment to bypass Allegro 3 button emulation
     // if (gui_mouse.button == 4) gui_mouse.button = 3;
 
-    gui_mouse.time_since_last_click ++;
+    gui.mouse.time_since_last_click ++;
 
-    if (gui_mouse.button == 0)
+    if (gui.mouse.buttons == 0)
     {
-        gui_mouse.pressed_on = PRESSED_ON_NOTHING;
-        gui_mouse.on_box = NULL;
+        gui.mouse.focus = GUI_FOCUS_NONE;
+        gui.mouse.focus_item = NULL;
 
         menus_opt.c_menu = -1;
         menus_opt.c_entry = -1;
         menus_opt.c_generation = -1;
-        if (gui_mouse.reset_timer)
+        if (gui.mouse.reset_timer)
         {
-            gui_mouse.reset_timer = 0;
-            gui_mouse.time_since_last_click = 0;
+            gui.mouse.reset_timer = FALSE;
+            gui.mouse.time_since_last_click = 0;
         }
     }
     else
     {
-        gui_mouse.reset_timer = 1;
+        gui.mouse.reset_timer = TRUE;
     }
 }
 
 // INITIALIZE MOUSE VARIABLES -------------------------------------------------
 void    gui_init_mouse (void)
 {
-    gui_mouse.button = 0;
-    gui_mouse.pbutton = 0;
-    gui_mouse.x = 0;
-    gui_mouse.y = 0;
-    gui_mouse.z_rel = 0;
-    gui_mouse.z_current = gui_mouse.z_prev = 0;
-    gui_mouse.px = 0;
-    gui_mouse.py = 0;
-    gui_mouse.on_box = NULL;
-    gui_mouse.pressed_on = PRESSED_ON_NOTHING;
-    gui_mouse.reset_timer = 1;
-    gui_mouse.time_since_last_click = 0;
+    gui.mouse.x = 0;
+    gui.mouse.y = 0;
+    gui.mouse.x_prev = 0;
+    gui.mouse.y_prev = 0;
+    gui.mouse.buttons = 0;
+    gui.mouse.buttons_prev = 0;
+    gui.mouse.z_rel = 0;
+    gui.mouse.z_current = 0;
+    gui.mouse.z_prev = 0;
+    gui.mouse.focus = GUI_FOCUS_NONE;
+    gui.mouse.focus_item = NULL;
+    gui.mouse.reset_timer = TRUE;
+    gui.mouse.time_since_last_click = 0;
 }
 
 //-----------------------------------------------------------------------------

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_game.h"
 #include "bios.h"
 #include "blitintf.h"
 #include "file.h"

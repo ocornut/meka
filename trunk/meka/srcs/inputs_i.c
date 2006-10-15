@@ -81,6 +81,7 @@ void    Inputs_Joystick_Init(void)
         return;
     }
     ConsolePrintf (Msg_Get (MSG_Inputs_Joy_Init_Found), NumJoy);
+    ConsolePrint ("\n");
 
     for (i = 0; i < NumJoy; i++)
     {

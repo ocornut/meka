@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "desktop.h"
+#include "g_tools.h"
 #include "g_widget.h"
 #include "keyinfo.h"
 #include "inputs_c.h"
@@ -365,8 +366,8 @@ void        Inputs_CFG_Peripherals_Draw (void)
 
 void    Inputs_CFG_Peripheral_Change_Handler (t_widget *w)
 {
-    int    Player = (w->mouse_x <= w->frame.size.x / 2) ? 0 : 1; // 0 or 1 depending on the side the widget was clicked on
-    Inputs_Peripheral_Next (Player);
+    const int player = (w->mouse_x <= w->frame.size.x / 2) ? 0 : 1; // 0 or 1 depending on the side the widget was clicked on
+    Inputs_Peripheral_Next (player);
 }
 
 void    Inputs_CFG_Peripheral_Change (int Player, int Periph)
@@ -385,7 +386,7 @@ void    Inputs_CFG_Map_Change_Handler (t_widget *w)
         return;
 
     // Note: eating mouse press FIXME
-    gui_mouse.pbutton = gui_mouse.button;
+    gui.mouse.buttons_prev = gui.mouse.buttons;
 
     if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
     {
@@ -561,17 +562,17 @@ void    Inputs_CFG_Map_Change_Update (void)
             if (Inputs_CFG.Current_Map >= INPUT_MAP_BUTTON1)
             {
                 int n = -1;
-                if ((gui_mouse.button & 1) && !(gui_mouse.pbutton & 1))
+                if ((gui.mouse.buttons & 1) && !(gui.mouse.buttons_prev & 1))
                     n = 0;
-                else if ((gui_mouse.button & 2) && !(gui_mouse.pbutton & 2))
+                else if ((gui.mouse.buttons & 2) && !(gui.mouse.buttons_prev & 2))
                     n = 1;
-                else if ((gui_mouse.button & 4) && !(gui_mouse.pbutton & 4))
+                else if ((gui.mouse.buttons & 4) && !(gui.mouse.buttons_prev & 4))
                     n = 2;
                 if (n != -1)
                 {
                     input_src->Map [Inputs_CFG.Current_Map].Idx = n;
                     input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_MOUSE_BUTTON;
-                    gui_mouse.pbutton = gui_mouse.button; // Note: eating mouse press FIXME
+                    gui.mouse.buttons_prev = gui.mouse.buttons; // Note: eating mouse press FIXME
                     found = TRUE;
                     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Mouse_Ok_B), n+1);
                     break;

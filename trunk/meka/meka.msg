@@ -29,6 +29,9 @@
 ;                                Msg_Blitters_Unrecognized -> Msg_Blitters_Error_Unrecognized
 ;                                MSG_Options_NES_Activated -> MSG_Options_NES_Enable
 ;              Removed:          Msg_Theme_Unrecognized
+;              Updated:          Msg_Window_Title
+;                                Msg_Inputs_Joy_Init_None
+;                                Msg_Inputs_Joy_Init_Found
 ; MEKA 0.71  : Added:            Msg_Setup_Debugger_Enable              
 ;                                Msg_Menu_Debug_Reload_ROM
 ;                                Msg_LoadROM_Reload_Reloaded
@@ -215,7 +218,7 @@
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Welcome to %s (c) %s"
-Msg_Window_Title                        = "Meka - 8-bit or die!"
+Msg_Window_Title                        = "MEKA - In Pixels We Trust!"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -414,8 +417,8 @@ Msg_Glasses_Unsupported                 = "This game seems not to support 3-D Gl
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initializing joystick... "
-Msg_Inputs_Joy_Init_None                = "none found.\n"
-Msg_Inputs_Joy_Init_Found               = "%d found.\n"
+Msg_Inputs_Joy_Init_None                = "none found."
+Msg_Inputs_Joy_Init_Found               = "%d found."
 Msg_Inputs_Joy_Calibrate_Error          = "Error calibrating joystick. Aborting."
 
 ; Inputs ---------------------------------------------------------------------
@@ -724,7 +727,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Bienvenue dans %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8 bit ou rien!"
+;Msg_Window_Title                        = "MEKA - 8 bit ou rien!"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 ;Msg_Quit                               = "Bonne nuit, brave guerrier. Bonne nuit, pays des monstres...."
 
@@ -920,8 +923,8 @@ Msg_Glasses_Unsupported                 = "Ce jeu ne supporte pas les lunettes 3
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialisation des joysticks... "
-Msg_Inputs_Joy_Init_None                = "aucun joystick trouv‚.\n"
-Msg_Inputs_Joy_Init_Found               = "%d trouv‚(s).\n"
+Msg_Inputs_Joy_Init_None                = "aucun joystick trouv‚."
+Msg_Inputs_Joy_Init_Found               = "%d trouv‚(s)."
 Msg_Inputs_Joy_Calibrate_Error          = "Arrˆt : Erreur de calibrage de joystick."
 
 ; Inputs ---------------------------------------------------------------------
@@ -1224,7 +1227,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Welcome t'%s (c) %s"
-Msg_Window_Title                        = "%s - 8-bit o' die!"
+;Msg_Window_Title                        = "MEKA - 8-bit o' die!"
 Msg_Quit                                = "Good night, brave warrio'. Good night, monster-lan'...."
 
 ; About ----------------------------------------------------------------------
@@ -1410,8 +1413,8 @@ Msg_Glasses_Unsupported                 = "3-D Glasses seems t'be not suppo'ted 
 
 ; Inputs Initializashun ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initializin' joystick. Shet mah mouth!. "
-Msg_Inputs_Joy_Init_None                = "none foun'.\n"
-Msg_Inputs_Joy_Init_Found               = "%d foun'.\n"
+Msg_Inputs_Joy_Init_None                = "none foun'."
+Msg_Inputs_Joy_Init_Found               = "%d foun'."
 Msg_Inputs_Joy_Calibrate_Error          = "Erro' calibratin' joystick. Shet mah mouth! Abo'tin'."
 
 ; Inputs ---------------------------------------------------------------------
@@ -1704,7 +1707,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Welkom bij %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8-bit of ga dood!"
+;Msg_Window_Title                        = "MEKA - 8-bit of ga dood!"
 Msg_Quit                                = "Slaap lekker, dappere strijder. goede nacht, monsterland...."
 
 ; About ----------------------------------------------------------------------
@@ -1898,8 +1901,8 @@ Msg_Glasses_Unsupported                 = "Het lijkt erop alsof dit spel de 3d b
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initializeren joystick.. "
-Msg_Inputs_Joy_Init_None                = "geen gevonden.\n"
-Msg_Inputs_Joy_Init_Found               = "%d gevonden.\n"
+Msg_Inputs_Joy_Init_None                = "geen gevonden."
+Msg_Inputs_Joy_Init_Found               = "%d gevonden."
 Msg_Inputs_Joy_Calibrate_Error          = "Error bij het afstellen van de joystick. Afbrekende."
 
 ; Inputs ---------------------------------------------------------------------
@@ -2192,7 +2195,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Bienvenido a %s (c) %s"
-Msg_Window_Title                        = "MEKA - ¡8-bit o muere!"
+;Msg_Window_Title                        = "MEKA - ¡8-bit o muere!"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -2372,8 +2375,8 @@ Msg_Glasses_Unsupported                 = "Este juego parece no soportar gafas 3
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Iniciando joystick... "
-Msg_Inputs_Joy_Init_None                = "ninguno encontrado.\n"
-Msg_Inputs_Joy_Init_Found               = "%d encontrado.\n"
+Msg_Inputs_Joy_Init_None                = "ninguno encontrado."
+Msg_Inputs_Joy_Init_Found               = "%d encontrado."
 Msg_Inputs_Joy_Calibrate_Error          = "Error calibrando joystick. Abortando."
 
 ; Inputs ---------------------------------------------------------------------
@@ -2666,7 +2669,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Bem vindo a %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8-bit ou a morte!"
+;Msg_Window_Title                        = "MEKA - 8-bit ou a morte!"
 Msg_Quit                                = "Boa noite, bravo guerreiro. Boa noite, terra dos monstros..."
 
 ; About ----------------------------------------------------------------------
@@ -2849,8 +2852,8 @@ Msg_Inputs_Config_BoxTitle              = "Configuração de entradas"
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Inicializando joystick... "
-Msg_Inputs_Joy_Init_None                = "nenhum encontrado.\n"
-Msg_Inputs_Joy_Init_Found               = "encontrado(s) %d joystick(s).\n"
+Msg_Inputs_Joy_Init_None                = "nenhum encontrado."
+Msg_Inputs_Joy_Init_Found               = "encontrado(s) %d joystick(s)."
 Msg_Inputs_Joy_Calibrate_Error          = "Erro ao calibrar o joystick. Cancelado."
 
 ; Inputs ---------------------------------------------------------------------
@@ -3123,7 +3126,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Benvenuto in %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8-bit o morte!"
+;Msg_Window_Title                        = "MEKA - 8-bit o morte!"
 Msg_Quit                                = "Buona notte, valoroso guerriero. Notte, terra dei mostri...."
 
 ; About ----------------------------------------------------------------------
@@ -3303,8 +3306,8 @@ Msg_Glasses_Unsupported                 = "Questo gioco non supporta gli occhial
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Inizializzo joystick.. "
-Msg_Inputs_Joy_Init_None                = "non trovato.\n"
-Msg_Inputs_Joy_Init_Found               = "%d Trovato.\n"
+Msg_Inputs_Joy_Init_None                = "non trovato."
+Msg_Inputs_Joy_Init_Found               = "%d Trovato."
 Msg_Inputs_Joy_Calibrate_Error          = "Errore calibrazione joystick. Esco."
 
 ; Inputs ---------------------------------------------------------------------
@@ -3586,7 +3589,7 @@ WIP
 
 ; Main ------------------------------------------------------------------------
 Msg_Welcome                             = "Willkommen in %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8-bit oder stirb!"
+;Msg_Window_Title                        = "MEKA - 8-bit oder stirb!"
 Msg_Quit                                = "Gute Nacht, mutiger Krieger. Gute Nacht, Monsterland..."
 
 ; About -----------------------------------------------------------------------
@@ -3766,8 +3769,8 @@ Msg_Glasses_Unsupported                 = "Dieses Spiel unterstützt keine 3D-Bri
 
 ; Inputs Initialization -------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialisiere Joystick.. "
-Msg_Inputs_Joy_Init_None                = "nicht gefunden.\n"
-Msg_Inputs_Joy_Init_Found               = "%d gefunden.\n"
+Msg_Inputs_Joy_Init_None                = "nicht gefunden."
+Msg_Inputs_Joy_Init_Found               = "%d gefunden."
 Msg_Inputs_Joy_Calibrate_Error          = "Fehler während der Kalibrierung. Abbruch."
 
 ; Inputs ----------------------------------------------------------------------
@@ -4048,7 +4051,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Välkommen till %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8-bitar eller dö!"
+;Msg_Window_Title                        = "MEKA - 8-bitar eller dö!"
 Msg_Quit                                = "God natt, modiga krigare. God natt, monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -4234,8 +4237,8 @@ Msg_Glasses_Unsupported                 = "Detta spel verkar inte stödja 3D glas
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialiserar joystick.. "
-Msg_Inputs_Joy_Init_None                = "hittades ej.\n"
-Msg_Inputs_Joy_Init_Found               = "%d hittades.\n"
+Msg_Inputs_Joy_Init_None                = "hittades ej."
+Msg_Inputs_Joy_Init_Found               = "%d hittades."
 Msg_Inputs_Joy_Calibrate_Error          = "Fel vid kalibrering av joystick. Avbryter."
 
 ; Inputs ---------------------------------------------------------------------
@@ -4527,7 +4530,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Velkommen til %s (c) %s"
-Msg_Window_Title                        = "MEKA - 8-bit eller dø!"
+;Msg_Window_Title                        = "MEKA - 8-bit eller dø!"
 Msg_Quit                                = "Godnat modige kriger. Godnat monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -4711,8 +4714,8 @@ Msg_Glasses_Unsupported                 = "Det ser ikke ud til at dette spil und
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialiserer joystick.. "
-Msg_Inputs_Joy_Init_None                = "Intet fundet.\n"
-Msg_Inputs_Joy_Init_Found               = "%d fundet.\n"
+Msg_Inputs_Joy_Init_None                = "Intet fundet."
+Msg_Inputs_Joy_Init_Found               = "%d fundet."
 Msg_Inputs_Joy_Calibrate_Error          = "Fejl under kalibrering af joystick. Afbryder."
 
 ; Inputs ---------------------------------------------------------------------

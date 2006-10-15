@@ -5,6 +5,7 @@
 
 #define __MESSAGE_C__ // Needed to include table in Message.h
 #include "shared.h"
+#include "app_game.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 

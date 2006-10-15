@@ -59,7 +59,7 @@ t_blitter *     Blitter_New (char *name)
     b->vsync            = FALSE;
     b->refresh_rate     = 0;                                        // Default
     b->video_depth      = Configuration.video_mode_desktop_depth;   // Default
-    b->stretch          = FALSE;                                    // BLITTER_STRETCH_MAX_INT;
+    b->stretch          = BLITTER_STRETCH_NONE; // BLITTER_STRETCH_MAX_INT;
     b->triple_buffering = FALSE;
     return (b);
 }
@@ -163,7 +163,7 @@ static int  Blitters_Parse_Line (char *s, char *s_case)
         return MEKA_ERR_OK;
         // Stretch
     case 6:
-        Blitters.current->stretch = TRUE;
+        Blitters.current->stretch = BLITETR_STRETCH_MAX_INT;
         return MEKA_ERR_OK;
         // Video Depth
     case 7:
@@ -281,7 +281,6 @@ const static struct
     { BLITTER_SCANLINES,     "scanline"      },
     { BLITTER_TVMODE,        "tv"            },
     { BLITTER_TVMODE,        "tvmode"        },
-    { BLITTER_PARALLEL,      "parallel"      },
     { BLITTER_TVMODE_DOUBLE, "tvmode_double" },
     { BLITTER_EAGLE,         "eagle"         },
     { BLITTER_HQ2X,          "hq2x"          },

@@ -5,7 +5,9 @@
 
 #include "shared.h"
 #include "vdp.h"
+#include "app_game.h"
 #include "debugger.h"
+#include "g_tools.h"
 #include "palette.h"
 #include "video_m2.h"
 
@@ -337,31 +339,30 @@ void    Tms_VDP_Out_Data (int value)
     }
     else
     {
+        // Address mask
+        // Note: not masking sms.VDP_Address itself, based on the idea that higher bits are lost
+        // when passing thru PRAM bus.
+        int address_mask;
+        if (cur_drv->id == DRV_GG)
+            address_mask = 0x3F;
+        else
+            address_mask = 0x1F;
+
         // Palette/CRAM write
         #ifdef DEBUG_VDP_DATA
-            Msg (MSGT_DEBUG, "At PC=%04X: PRAM[%04X] = %02X", CPU_GetPC, sms.VDP_Address, value);
+            Msg (MSGT_DEBUG, "At PC=%04X: PRAM[%04X] = %02X", CPU_GetPC, sms.VDP_Address & address_mask, value);
         #endif
 
-        Tms_VDP_Palette_Write(sms.VDP_Address, value);
+        Tms_VDP_Palette_Write(sms.VDP_Address & address_mask, value);
 
         // Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
-	        if (Debugger.active)
-		        Debugger_WrPRAM_Hook(sms.VDP_Address, value);
-		#endif
+            if (Debugger.active)
+                Debugger_WrPRAM_Hook(sms.VDP_Address & address_mask, value);
+        #endif
 
         // Increment VDP address
-        switch (cur_drv->id)
-        {
-            case DRV_GG:    sms.VDP_Address = (sms.VDP_Address + 1) & 0x3F;    break;
-            case DRV_SMS:   sms.VDP_Address = (sms.VDP_Address + 1) & 0x1F;    break;
-            default:
-                // Default is needed for F-16 Fighter / Fighting Falcon
-                // (Maybe Back to the Future 2 ? I'm not sure)
-                // Just increment CRAM address, but don't set the color entry now
-                sms.VDP_Address = (sms.VDP_Address + 1) & 0x1F;
-                break;
-        }
+        sms.VDP_Address++;
     }
 }
 

@@ -84,7 +84,7 @@ player_button2      = key E
 [Joypad 1]
 type                = joypad
 connection          = 1
-enabled             = no
+enabled             = yes
 player              = 1
 player_up           = joy stick 0 axis 1 dir 0
 player_down         = joy stick 0 axis 1 dir 1
@@ -97,7 +97,7 @@ player_start_pause  = joy_button 2
 [Joypad 2]
 type                = joypad
 connection          = 2
-enabled             = no
+enabled             = yes
 player              = 2
 player_up           = joy stick 0 axis 1 dir 0
 player_down         = joy stick 0 axis 1 dir 1

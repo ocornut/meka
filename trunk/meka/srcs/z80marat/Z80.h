@@ -103,12 +103,6 @@ typedef struct
 /*************************************************************/
 void    ResetZ80(register Z80 *R);
 
-/** ExecZ80() ************************************************/
-/** This function will execute a single Z80 opcode. It will **/
-/** then return next PC, and current register values in R.  **/
-/*************************************************************/
-word    ExecZ80(register Z80 *R);
-
 /** IntZ80() *************************************************/
 /** This function will generate interrupt of given vector.  **/
 /*************************************************************/

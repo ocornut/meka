@@ -28,8 +28,6 @@ typedef struct
 #include "g_action.h"
 #include "g_applet.h"
 #include "g_box.h"
-#include "g_emu.h"
-#include "g_tools.h"
 #include "g_action.h"
 #include "g_mouse.h"
 #include "g_update.h"
@@ -105,7 +103,7 @@ int     gui_box_image (byte is, int which, BITMAP *bitmap);
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct s_gui_box
+struct s_gui_box
 {
     t_frame         frame;						// Frame (position & size)
     char *          title;						// Title
@@ -134,10 +132,30 @@ typedef struct
 
 typedef struct
 {
+    int             x;
+    int             x_prev;
+    int             y;
+    int             y_prev;
+    int             buttons;
+    int             buttons_prev;
+    int             time_since_last_click;
+    bool            reset_timer;
+
+    t_gui_focus     focus;
+    void *          focus_item;
+
+    int             z_rel;      // Z Relative
+    int             z_current;  // Z Current
+    int             z_prev;     // Z Previous
+} t_gui_mouse;
+
+typedef struct
+{
     t_list *        boxes;
     t_gui_box *     boxes_z_ordered[GUI_BOX_MAX];
     int             boxes_count;
     t_gui_info      info;
+    t_gui_mouse     mouse;
 } t_gui;
 
 t_gui           gui;

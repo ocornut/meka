@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.72 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2005
+// MEKA 0.72 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2006
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -137,7 +137,7 @@ void    Init_Default_Values (void)
     Configuration.debug_mode_cfg                = FALSE;
     Configuration.debug_mode_cl                 = FALSE;
 
-    // Miscellaenous
+    // Miscellaneous
     Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
     Configuration.slash_nirv                    = FALSE;
     Configuration.enable_BIOS                   = TRUE;
@@ -146,6 +146,9 @@ void    Init_Default_Values (void)
     Configuration.enable_NES                    = FALSE;
     Configuration.allow_opposite_directions     = FALSE;
     Configuration.start_in_gui                  = TRUE;
+
+    // Applet: Game Screen
+    Configuration.game_screen_scale             = 1;// 2
 
     // Applet: File Browser
     Configuration.fb_close_after_load           = TRUE;
@@ -394,6 +397,7 @@ void    Init_GUI (void)
     Clock_Init              (); // Initialize Clock
     Init_GUI                (); // Initialize Graphical User Interface
     Sound_Init              (); // Initialize Sound
+    Inputs_Joystick_Init    (); // Initialize Joysticks. 
     Machine_Reset           (); // Reset Emulated Machine (set default values)
 
     // Initialization complete
@@ -408,7 +412,6 @@ void    Init_GUI (void)
     ConsoleClose            (); // Close Console
 
     FB_Init_2               (); // Finish initializing the file browser
-    Inputs_Joystick_Init    (); // Initialize Joysticks. For some reason I cannot explain, putting it before cause a problem with Quit_Msg(), the joystick thread crash under Win32
 
     // Setup initial state (fullscreen/GUI)
     if ((machine & MACHINE_RUN) == MACHINE_RUN && !Configuration.start_in_gui)

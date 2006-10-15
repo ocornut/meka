@@ -2,7 +2,7 @@
   MEKA 0.72 - Documentation
  ===========================
   Multi machine emulator for MS-DOS, MS-Windows and GNU/Linux.
-  (c) in 1998-2005 by MEKA team (Omar Cornut and contributors, list below).
+  (c) in 1998-2006 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
  ==========================================================================
@@ -352,15 +352,8 @@
     at runtime. It can be used as a basic cheating functionnality.
     This part requires tweaking the "MEKA.PAT" file manually or using a tool.
 
-  - Smart (or Stupid) Configuration File technology: MEKA will never bother
-    you because of a corrupted configuration file, or some unknown option in
-    it. The file itself is rewritten and recommented everytime you quit the 
-    emulator (I once thought it was a very cool feature, and now dislike it!).
-
-  - Definable video modes with some nice fullscreen effects available such
-    as TV scanline simulation or Eagle graphic destroyer - ok, Eagle is 
-    actually very nice with a few games, R-Type coming to mind.
-    This part requires tweaking the "MEKA.BLT" file manually or using a tool.
+  - Localized messages inside the emulator. Thanks to translating contributor,
+    MEKA is usable in variety of languages.
 
   - Save states. You can load and save in-game, using F5 and F7 keys, with
     up to a hundred slots for storing a game state (change with F6 and F8).
@@ -393,6 +386,11 @@
     developed by the S8-Dev community of SMS Power. For more information,
     and a music archive, go to http://www.smspower.org/music.
     Logging of WAV only works for PSG sound (YM-2413 FM is not yet logged).
+
+  - Definable video modes with some nice fullscreen effects available such
+    as TV scanline simulation or Eagle graphic destroyer - ok, Eagle is 
+    actually very nice with a few games, R-Type coming to mind.
+    This part requires tweaking the "MEKA.BLT" file manually or using a tool.
 
   - Debugging features, making MEKA useful for various programming/debugging
     or even cheating purposes:

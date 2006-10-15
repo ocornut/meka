@@ -183,7 +183,7 @@ void            gui_menu_un_mouse_over (int menu_id)
      {
      if (menu->entry[i]->mouse_over)
         {
-        gui.info.must_redraw = 1;
+        gui.info.must_redraw = TRUE;
         menu->entry[i]->mouse_over = 0;
         if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->attr & AM_Active))
            {

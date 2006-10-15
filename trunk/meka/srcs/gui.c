@@ -5,8 +5,12 @@
 
 #include "shared.h"
 #include "blit.h"
+#include "app_game.h"
+#include "g_tools.h"
 #include "g_widget.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    gui_redraw_everything_now_once (void)
@@ -34,7 +38,7 @@ void            gui_redraw (void)
     t_frame     b_frame;
 
     // Makes mouse disappear
-    Show_Mouse_In (NULL);
+    gui_mouse_show (NULL);
 
     // If we were asked to redraw everything, redraw the background as well
     if (gui.info.must_redraw == TRUE)
@@ -85,7 +89,7 @@ void            gui_redraw (void)
         line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 1, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 1, COLOR_SKIN_WINDOW_BORDER);
         line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 2, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 2, COLOR_SKIN_WINDOW_BORDER);
 
-        // Draw title bar...
+        // Draw title bar.
 		{
 			t_frame titlebar_frame;
 			titlebar_frame.pos.x  = b_frame.pos.x;
@@ -139,7 +143,7 @@ void            gui_redraw (void)
 			blit (b->gfx_buffer, gui_buffer, 0, 0, b_frame.pos.x, b_frame.pos.y, b_frame.size.x + 1, b_frame.size.y + 1);
             break;
         case GUI_BOX_TYPE_GAME : 
-            gamebox_draw (b_frame.pos.x, b_frame.pos.y, screenbuffer);
+            gamebox_draw(b, screenbuffer);
             // Always set dirty redraw flag
             b->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
             break;
@@ -155,7 +159,7 @@ void            gui_redraw (void)
 
     // Clear global redrawing flag and makes mouse reappear
     gui.info.must_redraw = FALSE;
-    Show_Mouse_In (gui_buffer);
+    gui_mouse_show (gui_buffer);
 }
 
 void    gui_relayout(void)

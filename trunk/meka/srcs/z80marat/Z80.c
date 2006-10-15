@@ -528,33 +528,6 @@ void    ResetZ80(Z80 *R)
   R->IRequest = INT_NONE;
 }
 
-/** ExecZ80() ************************************************/
-/** This function will execute a single Z80 opcode. It will **/
-/** then return next PC, and current register values in R.  **/
-/*************************************************************/
-word ExecZ80(Z80 *R)
-{
-  register byte I;
-  register pair J;
-
-  I = RdZ80(R->PC.W++);
-  R->ICount -= Cycles[I];
-  #ifdef MEKA_Z80_OPCODES_USAGE
-    Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_NONE][I]++;
-  #endif
-  switch (I)
-  {
-#include "Codes.h"
-    case PFX_CB: CodesCB(R); break;
-    case PFX_ED: CodesED(R); break;
-    case PFX_FD: CodesFD(R); break;
-    case PFX_DD: CodesDD(R); break;
-  }
-
-  /* We are done */
-  return (R->PC.W);
-}
-
 /** IntZ80() *************************************************/
 /** This function will generate interrupt of given vector.  **/
 /*************************************************************/
@@ -723,6 +696,7 @@ word    RunZ80_Debugging(Z80 *R)
 {
     register byte I;
     register pair J;
+    int icount_before_instruction;
 
     for (;;)
     {
@@ -745,6 +719,10 @@ word    RunZ80_Debugging(Z80 *R)
             if (!Debugger_Hook (R))
                 return (R->PC.W);
 
+        // Save ICount before instruction
+        icount_before_instruction = R->ICount;
+
+        // Execute instruction
         I = RdZ80 (R->PC.W ++);
         R->ICount -= Cycles[I];
         #ifdef MEKA_Z80_OPCODES_USAGE
@@ -758,6 +736,9 @@ word    RunZ80_Debugging(Z80 *R)
       case PFX_FD: CodesFD(R); break;
       case PFX_DD: CodesDD(R); break;
         }
+
+        // Increment debugger cycle counter
+        Debugger.cycle_counter += (icount_before_instruction - R->ICount);
 
         // Reset stepping flag
         Debugger.stepping = FALSE;

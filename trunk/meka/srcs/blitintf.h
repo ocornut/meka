@@ -12,13 +12,13 @@
 #define BLITTER_OS_WIN              "WIN"
 #define BLITTER_OS_UNIX             "UNIX"
 
-enum    t_blitter_stretch
+typedef enum
 {
     BLITTER_STRETCH_NONE        = 0,
     BLITETR_STRETCH_MAX_INT     = 1,     // Default
     BLITTER_STRETCH_MAX_RATIO   = 2,
     BLITTER_STRETCH_MAX         = 3,
-};
+} t_blitter_stretch;
 
 //-----------------------------------------------------------------------------
 // Blitter Data
@@ -26,20 +26,20 @@ enum    t_blitter_stretch
 
 typedef struct
 {
-    char *      name;
-    int         index;
-    int         res_x;
-    int         res_y;
-    int         blitter;
-    int         driver;
-    bool        flip;
-    bool        tv_colors;
-    bool        vsync;
-    int         refresh_rate;
-    int         video_depth;
-    bool        stretch;
-    bool        triple_buffering;
-}               t_blitter;
+    char *              name;
+    int                 index;
+    int                 res_x;
+    int                 res_y;
+    int                 blitter;
+    int                 driver;
+    bool                flip;
+    bool                tv_colors;
+    bool                vsync;
+    int                 refresh_rate;
+    int                 video_depth;
+    t_blitter_stretch   stretch;
+    bool                triple_buffering;
+} t_blitter;
 
 //-----------------------------------------------------------------------------
 // Blitter Functions

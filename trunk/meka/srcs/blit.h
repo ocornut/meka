@@ -11,11 +11,10 @@
 #define BLITTER_DOUBLE          (1)
 #define BLITTER_SCANLINES       (2)
 #define BLITTER_TVMODE          (3)
-#define BLITTER_PARALLEL        (4)
-#define BLITTER_TVMODE_DOUBLE   (5)
-#define BLITTER_EAGLE           (6)
-#define BLITTER_HQ2X            (7)
-#define BLITTER_MAX             (8)
+#define BLITTER_TVMODE_DOUBLE   (4)
+#define BLITTER_EAGLE           (5)
+#define BLITTER_HQ2X            (6)
+#define BLITTER_MAX             (7)
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -29,7 +28,6 @@ void    Blit_GUI (void);
 
 void    Blit_Fullscreen_Normal             (void);
 void    Blit_Fullscreen_Double             (void);
-void    Blit_Fullscreen_Parallel           (void);
 void    Blit_Fullscreen_Scanlines          (void);
 void    Blit_Fullscreen_TV_Mode            (void);
 void    Blit_Fullscreen_TV_Mode_Double     (void);

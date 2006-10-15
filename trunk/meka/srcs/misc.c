@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_game.h"
 #include "app_memview.h"
 #include "capture.h"
 #include "debugger.h"
@@ -84,7 +85,7 @@ void    Change_Mode_Misc (void)
         // .. nothing to do ..
         break;
     }
-    Show_Mouse_In (NULL);
+    gui_mouse_show (NULL);
     //#ifdef DOS
     //    Video_VGA_Set_Border_Color (Border_Color);
     //#endif
