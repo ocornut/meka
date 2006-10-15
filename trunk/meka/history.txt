@@ -54,7 +54,17 @@ They are usually of 2 kinds:
           GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
           GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
           GG  - 0117c3df - Land of Illusion (JP)                --> Mickey Mouse no Mahou no Crystal (JP)
+          GG  - 0cd9c20b - Lion King, The                       --> Lion King, The (Disney's) (EU)
+          GG  - 9808d7b3 - Lion King, The (US)                  --> Lion King, The (Disney's) (US)
+          GG  - cc90c723 - Pocket Jong Sou (JP)                 --> Pocket Jansou (JP)
+          GG  - 445d7cd2 - Royal Stone (JP)                     --> Royal Stone ~Hikarishi Toki no Tobira~ (JP)
+          GG  - 09f9ed60 - Shadam Crusader (JP)                 --> Shadam Crusader ~Harukanaru Oukoku~ (JP)
           SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Ashizawa Hachidan no Tsumeshogi (JP)
+          SG1 - 5970a12b - Champion Baseball                    --> Champion Baseball [16k]
+          SG1 - 09196fc5 - N-Sub (1988)                         --> N-Sub [16k] (1988)
+          SC3 - 622010e1 - Sega Music Editor                    --> Music
+          SC3 - b67ea1c4 - Sega Music Editor                    --> Music [BAD]
+          SC3 - 2ec28526 - Sega Music Editor (JP)               --> Music (JP)
           SC3 - ae4f92cf - Uranai Angel Cuty (JP)               --> Uranai Angel Cutie (JP)
 
 
