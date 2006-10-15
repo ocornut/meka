@@ -1,0 +1,36 @@
+
+ MEKA Sound Engine Structure Description
+ (because it's too messy I cannot understand it)
+ Omar Cornut, May 2002
+
+ INITIALIZATION
+ - ...
+ - Install callback: saSoundTimerCallback()
+ - ...
+
+ UPDATE
+ - saSoundTimerCallback()
+   - saUpdateSound(0)
+     - AUpdateAudio()
+     - saCheckPlayStream()
+       - if (PauseGame > 0)
+         - foreach (sound.Voices) saDestroyChannel(...)
+       - else
+         - foreach (sound.Voices) 
+             AGetVoicePosition(...)
+         - foreach (sound.Voices) 
+             ...Update...
+   - saUpdateSound(60)
+     - streams_sh_update()
+       - foreach (channel)
+         - cStream->callback(...)
+           - [PSG] PSG_Update_16
+         - apply_volume_16
+         - #ifdef USE_MAME_RCFILTER // apply_RC_filter_16 // #endif
+       - foreach (channel)
+         - osd_play_streamed_sample2_16(...)
+           - saPlayBufferedStreamedSampleBase(...)
+             - memcpy data -> vstreambuf
+     - foreach (SndMachine) SndMachine->Update()
+       - [FM_HardOPL] FM_Update
+

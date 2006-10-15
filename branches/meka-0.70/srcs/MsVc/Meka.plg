@@ -1,0 +1,428 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Meka - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\omar\LOCALS~1\Temp\RSP24B.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /I ".." /I "..\tools" /I "..\sound" /I "d:\djgpp\seal\src" /I "d:\djgpp\zlib113" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "X86_ASM" /D "MEKA_SOUND" /D "MEKA_EAGLE" /D "MEKA_ZIP" /D "MEKA_JOY" /D "MEKA_Z80_DEBUGGER" /D "MARAT_Z80" /Fp"Debug/Meka.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"Z:\work\omar\Meka\Srcs\sound\ym2413hd.c"
+"Z:\work\omar\Meka\Srcs\sound\fmeditor.c"
+"Z:\work\omar\Meka\Srcs\sound\fmunit.c"
+"Z:\work\omar\Meka\Srcs\sound\s_init.c"
+"Z:\work\omar\Meka\Srcs\sound\s_log.c"
+"Z:\work\omar\Meka\Srcs\sound\s_misc.c"
+"Z:\work\omar\Meka\Srcs\sound\s_opl.c"
+"Z:\work\omar\Meka\Srcs\sound\sasound.c"
+"Z:\work\omar\Meka\Srcs\sound\sound.c"
+"Z:\work\omar\Meka\Srcs\sound\vgm.c"
+"Z:\work\omar\Meka\Srcs\sound\wav.c"
+"Z:\work\omar\Meka\Srcs\zip\unzip.c"
+"Z:\work\omar\Meka\Srcs\tools\liblist.c"
+"Z:\work\omar\Meka\Srcs\tools\libmy.c"
+"Z:\work\omar\Meka\Srcs\tools\libparse.c"
+"Z:\work\omar\Meka\Srcs\tools\tfile.c"
+"Z:\work\omar\Meka\Srcs\m6502\m6502.c"
+"Z:\work\omar\Meka\Srcs\z80marat\Debug.c"
+"Z:\work\omar\Meka\Srcs\z80marat\Z80.c"
+"Z:\work\omar\Meka\Srcs\z80marat\Z80Call.c"
+"Z:\work\omar\Meka\Srcs\about.c"
+"Z:\work\omar\Meka\Srcs\desktop.c"
+"Z:\work\omar\Meka\Srcs\g_action.c"
+"Z:\work\omar\Meka\Srcs\g_apps.c"
+"Z:\work\omar\Meka\Srcs\g_box.c"
+"Z:\work\omar\Meka\Srcs\g_colors.c"
+"Z:\work\omar\Meka\Srcs\g_emu.c"
+"Z:\work\omar\Meka\Srcs\g_file.c"
+"Z:\work\omar\Meka\Srcs\g_init.c"
+"Z:\work\omar\Meka\Srcs\g_menu.c"
+"Z:\work\omar\Meka\Srcs\g_menu_i.c"
+"Z:\work\omar\Meka\Srcs\g_menu_t.c"
+"Z:\work\omar\Meka\Srcs\g_mouse.c"
+"Z:\work\omar\Meka\Srcs\g_tools.c"
+"Z:\work\omar\Meka\Srcs\g_update.c"
+"Z:\work\omar\Meka\Srcs\g_widget.c"
+"Z:\work\omar\Meka\Srcs\gui.c"
+"Z:\work\omar\Meka\Srcs\options.c"
+"Z:\work\omar\Meka\Srcs\themes.c"
+"Z:\work\omar\Meka\Srcs\themes_b.c"
+"Z:\work\omar\Meka\Srcs\beam.c"
+"Z:\work\omar\Meka\Srcs\blit.c"
+"Z:\work\omar\Meka\Srcs\blitintf.c"
+"Z:\work\omar\Meka\Srcs\palette.c"
+"Z:\work\omar\Meka\Srcs\tileview.c"
+"Z:\work\omar\Meka\Srcs\tms_vdp.c"
+"Z:\work\omar\Meka\Srcs\video.c"
+"Z:\work\omar\Meka\Srcs\video_c.c"
+"Z:\work\omar\Meka\Srcs\video_m2.c"
+"Z:\work\omar\Meka\Srcs\video_m5.c"
+"Z:\work\omar\Meka\Srcs\video_t.c"
+"Z:\work\omar\Meka\Srcs\glasses.c"
+"Z:\work\omar\Meka\Srcs\keyboard.c"
+"Z:\work\omar\Meka\Srcs\keysname.c"
+"Z:\work\omar\Meka\Srcs\lightgun.c"
+"Z:\work\omar\Meka\Srcs\rapidfir.c"
+"Z:\work\omar\Meka\Srcs\sportpad.c"
+"Z:\work\omar\Meka\Srcs\tvoekaki.c"
+"Z:\work\omar\Meka\Srcs\nes.c"
+"Z:\work\omar\Meka\Srcs\nes_maps.c"
+"Z:\work\omar\Meka\Srcs\nes_ppu.c"
+"Z:\work\omar\Meka\Srcs\bios.c"
+"Z:\work\omar\Meka\Srcs\coleco.c"
+"Z:\work\omar\Meka\Srcs\drivers.c"
+"Z:\work\omar\Meka\Srcs\ioports.c"
+"Z:\work\omar\Meka\Srcs\machine.c"
+"Z:\work\omar\Meka\Srcs\sf7000.c"
+"Z:\work\omar\Meka\Srcs\sg1ksc3k.c"
+"Z:\work\omar\Meka\Srcs\areplay.c"
+"Z:\work\omar\Meka\Srcs\bmemory.c"
+"Z:\work\omar\Meka\Srcs\capture.c"
+"Z:\work\omar\Meka\Srcs\checksum.c"
+"Z:\work\omar\Meka\Srcs\clock.c"
+"Z:\work\omar\Meka\Srcs\commport.c"
+"Z:\work\omar\Meka\Srcs\config.c"
+"Z:\work\omar\Meka\Srcs\config_j.c"
+"Z:\work\omar\Meka\Srcs\config_v.c"
+"Z:\work\omar\Meka\Srcs\country.c"
+"Z:\work\omar\Meka\Srcs\cpu.c"
+"Z:\work\omar\Meka\Srcs\data.c"
+"Z:\work\omar\Meka\Srcs\datadump.c"
+"Z:\work\omar\Meka\Srcs\debugger.c"
+"Z:\work\omar\Meka\Srcs\eeprom.c"
+"Z:\work\omar\Meka\Srcs\effects.c"
+"Z:\work\omar\Meka\Srcs\errors.c"
+"Z:\work\omar\Meka\Srcs\fdc765.c"
+"Z:\work\omar\Meka\Srcs\file.c"
+"Z:\work\omar\Meka\Srcs\fonts.c"
+"Z:\work\omar\Meka\Srcs\fskipper.c"
+"Z:\work\omar\Meka\Srcs\games.c"
+"Z:\work\omar\Meka\Srcs\inputs.c"
+"Z:\work\omar\Meka\Srcs\inputs_c.c"
+"Z:\work\omar\Meka\Srcs\inputs_f.c"
+"Z:\work\omar\Meka\Srcs\inputs_i.c"
+"Z:\work\omar\Meka\Srcs\inputs_t.c"
+"Z:\work\omar\Meka\Srcs\inputs_u.c"
+"Z:\work\omar\Meka\Srcs\mainloop.c"
+"Z:\work\omar\Meka\Srcs\mappers.c"
+"Z:\work\omar\Meka\Srcs\meka.c"
+"Z:\work\omar\Meka\Srcs\memory.c"
+"Z:\work\omar\Meka\Srcs\message.c"
+"Z:\work\omar\Meka\Srcs\misc.c"
+"Z:\work\omar\Meka\Srcs\patch.c"
+"Z:\work\omar\Meka\Srcs\register.c"
+"Z:\work\omar\Meka\Srcs\saves.c"
+"Z:\work\omar\Meka\Srcs\sdsc.c"
+"Z:\work\omar\Meka\Srcs\techinfo.c"
+"Z:\work\omar\Meka\Srcs\textbox.c"
+"Z:\work\omar\Meka\Srcs\textview.c"
+"Z:\work\omar\Meka\Srcs\tools.c"
+"Z:\work\omar\Meka\Srcs\tools_t.c"
+"Z:\work\omar\Meka\Srcs\tvtype.c"
+"Z:\work\omar\Meka\Srcs\vlfn.c"
+"Z:\work\omar\Meka\Srcs\vmachine.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\omar\LOCALS~1\Temp\RSP24B.tmp" 
+Creating temporary file "C:\DOCUME~1\omar\LOCALS~1\Temp\RSP24C.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /I ".." /I "..\tools" /I "..\sound" /I "d:\djgpp\seal\src" /I "d:\djgpp\zlib113" /I "d:\djgpp\zlib\\" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "X86_ASM" /D "MEKA_SOUND" /D "MEKA_EAGLE" /D "MEKA_ZIP" /D "MEKA_JOY" /D "MEKA_Z80_DEBUGGER" /D "MARAT_Z80" /Fp"Debug/Meka.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"Z:\work\omar\Meka\Srcs\specials.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\omar\LOCALS~1\Temp\RSP24C.tmp" 
+Creating temporary file "C:\DOCUME~1\omar\LOCALS~1\Temp\RSP24D.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib alleg.lib audw32vc.lib zlib.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/mekaw.pdb" /debug /machine:I386 /out:"debug/mekaw.exe" /pdbtype:sept /libpath:"d:/djgpp/seal/lib/win32/" /libpath:"d:/djgpp/zlib113" /section:.text,erw /section:.data,erw /section:.bss,erw 
+.\Debug\psg.obj
+.\Debug\emu2413.obj
+.\Debug\mekaintf.obj
+.\Debug\ym2413hd.obj
+.\Debug\fmeditor.obj
+.\Debug\fmunit.obj
+.\Debug\s_init.obj
+.\Debug\s_log.obj
+.\Debug\s_misc.obj
+.\Debug\s_opl.obj
+.\Debug\sasound.obj
+.\Debug\sound.obj
+.\Debug\vgm.obj
+.\Debug\wav.obj
+.\Debug\unzip.obj
+.\Debug\liblist.obj
+.\Debug\libmy.obj
+.\Debug\libparse.obj
+.\Debug\tfile.obj
+.\Debug\m6502.obj
+.\Debug\Debug.obj
+.\Debug\Z80.obj
+.\Debug\Z80Call.obj
+.\Debug\about.obj
+.\Debug\desktop.obj
+.\Debug\g_action.obj
+.\Debug\g_apps.obj
+.\Debug\g_box.obj
+.\Debug\g_colors.obj
+.\Debug\g_emu.obj
+.\Debug\g_file.obj
+.\Debug\g_init.obj
+.\Debug\g_menu.obj
+.\Debug\g_menu_i.obj
+.\Debug\g_menu_t.obj
+.\Debug\g_mouse.obj
+.\Debug\g_tools.obj
+.\Debug\g_update.obj
+.\Debug\g_widget.obj
+.\Debug\gui.obj
+.\Debug\options.obj
+.\Debug\specials.obj
+.\Debug\themes.obj
+.\Debug\themes_b.obj
+.\Debug\beam.obj
+.\Debug\blit.obj
+.\Debug\blitintf.obj
+.\Debug\palette.obj
+.\Debug\tileview.obj
+.\Debug\tms_vdp.obj
+.\Debug\video.obj
+.\Debug\video_c.obj
+.\Debug\video_m2.obj
+.\Debug\video_m5.obj
+.\Debug\video_t.obj
+.\Debug\glasses.obj
+.\Debug\keyboard.obj
+.\Debug\keysname.obj
+.\Debug\lightgun.obj
+.\Debug\rapidfir.obj
+.\Debug\sportpad.obj
+.\Debug\tvoekaki.obj
+.\Debug\nes.obj
+.\Debug\nes_maps.obj
+.\Debug\nes_ppu.obj
+.\Debug\bios.obj
+.\Debug\coleco.obj
+.\Debug\drivers.obj
+.\Debug\ioports.obj
+.\Debug\machine.obj
+.\Debug\sf7000.obj
+.\Debug\sg1ksc3k.obj
+.\Debug\areplay.obj
+.\Debug\bmemory.obj
+.\Debug\capture.obj
+.\Debug\checksum.obj
+.\Debug\clock.obj
+.\Debug\commport.obj
+.\Debug\config.obj
+.\Debug\config_j.obj
+.\Debug\config_v.obj
+.\Debug\country.obj
+.\Debug\cpu.obj
+.\Debug\data.obj
+.\Debug\datadump.obj
+.\Debug\debugger.obj
+.\Debug\eeprom.obj
+.\Debug\effects.obj
+.\Debug\errors.obj
+.\Debug\fdc765.obj
+.\Debug\file.obj
+.\Debug\fonts.obj
+.\Debug\fskipper.obj
+.\Debug\games.obj
+.\Debug\inputs.obj
+.\Debug\inputs_c.obj
+.\Debug\inputs_f.obj
+.\Debug\inputs_i.obj
+.\Debug\inputs_t.obj
+.\Debug\inputs_u.obj
+.\Debug\mainloop.obj
+.\Debug\mappers.obj
+.\Debug\meka.obj
+.\Debug\memory.obj
+.\Debug\message.obj
+.\Debug\misc.obj
+.\Debug\patch.obj
+.\Debug\register.obj
+.\Debug\saves.obj
+.\Debug\sdsc.obj
+.\Debug\techinfo.obj
+.\Debug\textbox.obj
+.\Debug\textview.obj
+.\Debug\tools.obj
+.\Debug\tools_t.obj
+.\Debug\tvtype.obj
+.\Debug\vlfn.obj
+.\Debug\vmachine.obj
+.\videoasm.obj
+.\eagle.obj
+.\mappersa.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\omar\LOCALS~1\Temp\RSP24D.tmp"
+<h3>Output Window</h3>
+Compiling...
+ym2413hd.c
+fmeditor.c
+fmunit.c
+s_init.c
+s_log.c
+s_misc.c
+s_opl.c
+Z:\work\omar\Meka\Srcs\sound\s_opl.c(92) : warning C4013: '_inp' undefined; assuming extern returning int
+Z:\work\omar\Meka\Srcs\sound\s_opl.c(111) : warning C4013: '_outp' undefined; assuming extern returning int
+sasound.c
+Z:\work\omar\Meka\Srcs\sound\sasound.c(589) : warning C4018: '<' : signed/unsigned mismatch
+Z:\work\omar\Meka\Srcs\sound\sasound.c(589) : warning C4018: '>=' : signed/unsigned mismatch
+sound.c
+vgm.c
+wav.c
+unzip.c
+liblist.c
+libmy.c
+libparse.c
+tfile.c
+m6502.c
+z:\work\omar\meka\srcs\m6502\codes.h(26) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(26) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(26) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(31) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(31) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(37) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(38) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(54) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(54) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(55) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(55) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(74) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(84) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(91) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(92) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(234) : warning C4761: integral size mismatch in argument; conversion supplied
+Z:\work\omar\Meka\Srcs\m6502\m6502.c(234) : warning C4761: integral size mismatch in argument; conversion supplied
+Z:\work\omar\Meka\Srcs\m6502\m6502.c(235) : warning C4761: integral size mismatch in argument; conversion supplied
+Z:\work\omar\Meka\Srcs\m6502\m6502.c(236) : warning C4761: integral size mismatch in argument; conversion supplied
+Z:\work\omar\Meka\Srcs\m6502\m6502.c(236) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(26) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(26) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(26) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(31) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(31) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(37) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(38) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(54) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(54) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(55) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(55) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(74) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(84) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(91) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(92) : warning C4761: integral size mismatch in argument; conversion supplied
+z:\work\omar\meka\srcs\m6502\codes.h(234) : warning C4761: integral size mismatch in argument; converDebug.c
+sion supplied
+Z80.c
+Z80Call.c
+about.c
+desktop.c
+g_action.c
+g_apps.c
+g_box.c
+g_colors.c
+g_emu.c
+g_file.c
+g_init.c
+g_menu.c
+g_menu_i.c
+g_menu_t.c
+g_mouse.c
+g_tools.c
+g_update.c
+g_widget.c
+gui.c
+options.c
+themes.c
+themes_b.c
+beam.c
+blit.c
+blitintf.c
+palette.c
+tileview.c
+tms_vdp.c
+video.c
+video_c.c
+video_m2.c
+video_m5.c
+video_t.c
+glasses.c
+keyboard.c
+keysname.c
+lightgun.c
+rapidfir.c
+sportpad.c
+tvoekaki.c
+nes.c
+nes_maps.c
+nes_ppu.c
+bios.c
+coleco.c
+drivers.c
+ioports.c
+machine.c
+sf7000.c
+sg1ksc3k.c
+areplay.c
+bmemory.c
+capture.c
+checksum.c
+clock.c
+commport.c
+config.c
+config_j.c
+config_v.c
+country.c
+cpu.c
+data.c
+datadump.c
+debugger.c
+eeprom.c
+effects.c
+errors.c
+fdc765.c
+file.c
+fonts.c
+fskipper.c
+games.c
+inputs.c
+inputs_c.c
+inputs_f.c
+inputs_i.c
+inputs_t.c
+inputs_u.c
+mainloop.c
+mappers.c
+meka.c
+Z:\work\omar\Meka\Srcs\meka.c(315) : warning C4028: formal parameter 1 different from declaration
+Z:\work\omar\Meka\Srcs\meka.c(315) : warning C4028: formal parameter 2 different from declaration
+memory.c
+message.c
+misc.c
+patch.c
+register.c
+saves.c
+sdsc.c
+techinfo.c
+textbox.c
+textview.c
+tools.c
+tools_t.c
+tvtype.c
+vlfn.c
+vmachine.c
+Compiling...
+specials.c
+Linking...
+
+
+
+<h3>Results</h3>
+mekaw.exe - 0 error(s), 42 warning(s)
+</pre>
+</body>
+</html>
