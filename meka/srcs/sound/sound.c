@@ -30,15 +30,15 @@ static  void    Sound_Init_Emulators (void);
 void            Sound_Init_Config(void)
 {
     // General
-    Sound.Enabled               = YES;
-    Sound.Initialized           = NO;
+    Sound.Enabled               = TRUE;
+    Sound.Initialized           = FALSE;
     Sound.SoundCard             = SOUND_SOUNDCARD_SELECT; // Let user select by default
 #ifdef DOS
     Sound.SampleRate            = 22050;                  // 22050 Hz by default for DOS version
 #else
     Sound.SampleRate            = 44100;                  // 44100 Hz by default for WIN32/UNIX version
 #endif
-    Sound.Paused                = NO; // 0
+    Sound.Paused                = FALSE; // 0
     Sound.MasterVolume          = 128;
 
     // FM Emulation
@@ -76,7 +76,7 @@ int             Sound_Init (void)
     // Skip if there is no need to initialize sound now
     // FIXME: will MEKA work properly with now soundcard ?
     // Are emulators functionning properly and saving good savestates ?
-    if (Sound.Enabled == NO)
+    if (Sound.Enabled == FALSE)
         return (MEKA_ERR_OK);
     if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
     {
@@ -94,13 +94,13 @@ int             Sound_Init (void)
     // Disable sound if user selected 'no soundcard'
     if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
     {
-        // Sound.Enabled = NO;
+        // Sound.Enabled = FALSE;
         return (MEKA_ERR_OK);
     }
 
     // Initialize Sound Card, SEAL side
     // Start in pause mode, to avoid sound update on startup (could crash, before everything is initialized)
-    Sound.Paused = YES;
+    Sound.Paused = TRUE;
     Sound_Init_SoundCard();
 
     // Initialize OPL (if available)
@@ -126,8 +126,7 @@ int             Sound_Init (void)
     // Note: this GUI sucks :(
     Sound.FM_Emulator_Current &= Sound.FM_Emulator_Available;
     gui_menu_un_check_area (menus_ID.fm_emu, 0, 1);
-    gui_menu_active_area (NO, menus_ID.fm_emu, 0, 1);
-    gui_menu_active (NO, menus_ID.fm, 3);
+    gui_menu_active_area (FALSE, menus_ID.fm_emu, 0, 1);
 
     // Select FM emulator
     if (Sound.FM_Emulator_Available & FM_EMULATOR_YM2413HD)
@@ -163,7 +162,7 @@ int             Sound_Init (void)
     }
 
     // Ok
-    Sound.Initialized = YES;
+    Sound.Initialized = TRUE;
     return (MEKA_ERR_OK);
 }
 
@@ -222,7 +221,7 @@ static  int     Sound_Init_SoundCard (void)
         }
      ASetVoicePanning(Sound.Voices[i].hVoice, 128); // Center voice
      Sound.Voices[i].lpWave  = NULL;
-     Sound.Voices[i].playing = NO;
+     Sound.Voices[i].playing = FALSE;
      }
 
   // FIXME: is this needed ?
@@ -292,7 +291,7 @@ static  int     Sound_Init_Engine (int buffer_mode)
 
     if (change_sample_rate)
     { // Sample rate has changed, so all emulators must be restarted!
-        change_sample_rate = NO;
+        change_sample_rate = FALSE;
         saStopSoundEmulators();
     }
     ConsolePrint (" - SEAL: Ok\n"); // FIXME: should be a message ?
@@ -371,7 +370,7 @@ static  void    Sound_Init_Emulators (void)
 //-----------------------------------------------------------------------------
 void            Sound_Close (void)
 {
-    if (Sound.Initialized == YES)
+    if (Sound.Initialized == TRUE)
     {
         saRemoveSound ();
         #ifdef MEKA_OPL
@@ -379,7 +378,7 @@ void            Sound_Close (void)
                 Sound_OPL_Close ();
         #endif
         Sound_Log_Close ();
-        Sound.Initialized = NO;
+        Sound.Initialized = FALSE;
     }
 }
 
@@ -405,7 +404,7 @@ void            Sound_Update_Frame (void)
 //-----------------------------------------------------------------------------
 void    Sound_Playback_Start (void)
 {
-    Sound.Paused = YES;
+    Sound.Paused = TRUE;
     Sound_Playback_Resume ();
 }
 
@@ -415,7 +414,7 @@ void    Sound_Playback_Start (void)
 //-----------------------------------------------------------------------------
 void    Sound_Playback_Stop (void)
 {
-    Sound.Paused = NO;
+    Sound.Paused = FALSE;
     Sound_Playback_Mute ();
 }
 

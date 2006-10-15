@@ -20,9 +20,9 @@ void        Capture_Init (void)
 {
     Capture_Init_Game ();
     #ifdef DOS
-        Capture.filename_template = "%.5s-%02d.png"; /* Short File Name */
+        Capture.filename_template = "%.5s-%02d.png"; // Short Filename
     #else
-        Capture.filename_template = "%s-%02d.png";   /* Long File Name (SMS Power) */
+        Capture.filename_template = "%s-%02d.png";   // Long Filename (ala SMS Power)
     #endif
 }
 
@@ -33,7 +33,7 @@ void        Capture_Init (void)
 //-----------------------------------------------------------------------------
 void        Capture_Init_Game (void)
 {
-    Capture.request = NO;
+    Capture.request = FALSE;
     Capture.id_number = 1;
 }
 
@@ -43,7 +43,7 @@ void        Capture_Init_Game (void)
 //-----------------------------------------------------------------------------
 void        Capture_Request (void)
 {
-    Capture.request = YES;
+    Capture.request = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -57,16 +57,13 @@ void        Capture_FileName_Get (char *dst)
     char    s2 [FILENAME_LEN];
 
     // Create directory if necessary
-    if (!file_exists (file.dir_captures, 0xFF, NULL))
-    {
-        meka_mkdir (file.dir_captures);
-        // chmod (file.dir_captures, 1, 0);
-    }
+    if (!file_exists (Env.Paths.ScreenshotDirectory, 0xFF, NULL))
+        meka_mkdir(Env.Paths.ScreenshotDirectory);
 
     // Create second template
     if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
     {
-        strcpy (s1, file.rom);
+        strcpy (s1, Env.Paths.MediaImageFile);
         killpath (s1);
         killext (s1);
         game_name = s1;
@@ -80,7 +77,7 @@ void        Capture_FileName_Get (char *dst)
     // Create a filename and check if the file already exists. Loop if it is the case.
     do
     {
-        sprintf (dst, s2, file.dir_captures, game_name, Capture.id_number);
+        sprintf (dst, s2, Env.Paths.ScreenshotDirectory, game_name, Capture.id_number);
         Capture.id_number ++;
     }
     while (file_exists (dst, 0xFF, NULL) != 0 && Capture.id_number < CAPTURE_ID_MAX);
@@ -92,14 +89,14 @@ void        Capture_FileName_Get (char *dst)
 //-----------------------------------------------------------------------------
 void            Capture_Screen (void)
 {
-    PALETTE     pal;
+    //PALETTE     pal;
     BITMAP *    bmp;
     BITMAP *    source;
     char        s1 [FILENAME_LEN];
     int         x_start, x_len;
     int         y_start, y_len;
 
-    Capture.request = NO;
+    Capture.request = FALSE;
 
     // Get a filename
     Capture_FileName_Get (s1);
@@ -128,8 +125,8 @@ void            Capture_Screen (void)
     case MEKA_STATE_GUI: // GUI mode
         x_start = 0;
         y_start = 0;
-        x_len = cfg.GUI_Res_X;
-        y_len = cfg.GUI_Res_Y;
+        x_len = Configuration.video_mode_gui_res_x;
+        y_len = Configuration.video_mode_gui_res_y;
         source = gui_buffer;
         break;
 
@@ -138,16 +135,16 @@ void            Capture_Screen (void)
     }
 
     acquire_bitmap(source);
-    bmp = create_sub_bitmap (source, x_start, y_start, x_len, y_len);
+    bmp = create_sub_bitmap(source, x_start, y_start, x_len, y_len);
     if (bmp == NULL)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_Capture_Error));
+        Msg (MSGT_USER, Msg_Get(MSG_Capture_Error));
         return;
     }
     release_bitmap(source);
 
-    get_palette (pal);
-    if (save_bitmap (s1, bmp, pal) != 0)
+    //get_palette(pal);
+    if (save_bitmap(s1, bmp, NULL) != 0)
     {
         Msg (MSGT_USER, Msg_Get (MSG_Capture_Error));
         destroy_bitmap (bmp);

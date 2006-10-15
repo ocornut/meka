@@ -46,7 +46,7 @@ void    FM_Null_Active   (void);
 // Interface Functions Accesses macros
 //-----------------------------------------------------------------------------
 
-#define FM_Reset()      do { FM_Used = NO; FM_Unit_Current->f_reset(); } while (0)
+#define FM_Reset()      do { FM_Used = FALSE; FM_Unit_Current->f_reset(); } while (0)
 #define FM_Write(R,V)   do { if (V != 0) { /* Msg (MSGT_DEBUG, "Use FM.. Reg[%02X] = %02X", R, V); */ FM_Used = 60; } FM_Unit_Current->f_write(R, V); } while (0)
 #define FM_Mute         FM_Unit_Current->f_mute
 #define FM_Resume       FM_Unit_Current->f_resume

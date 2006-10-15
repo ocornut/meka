@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
-// MEKA - memview.c
+// MEKA - app_memview.c
 // Memory Viewer - Code
 //-----------------------------------------------------------------------------
 // Based on code by Valerie Tching.
 //-----------------------------------------------------------------------------
-// Note: currently referred as "MemoryViewer" in the code,
+// Note: currently referred as "Memory Viewer" in the code,
 // but always as "Memory Editor" to the user.
 //-----------------------------------------------------------------------------
 
@@ -21,92 +21,159 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define MEMVIEW_LINES   (16)
-#define MEMVIEW_COLUMNS (16)
+#define MEMVIEW_COLUMNS_8_PADDING   (5)     // Horizontal padding between each 8 columns
+
+//-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_memory_viewer *   MemoryViewer_MainInstance;
+t_list *            MemoryViewers;
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-void    MemoryViewer_ViewZ80(void);
-void    MemoryViewer_ViewROM(void);
-void    MemoryViewer_ViewRAM(void);
-void    MemoryViewer_ViewVRAM(void);
-void    MemoryViewer_ViewPRAM(void);
-void    MemoryViewer_ViewSRAM(void);
-void    MemoryViewer_SwitchButton(int new_memtype);
+static void     MemoryViewer_Layout(t_memory_viewer *mv, bool setup);
+static void     MemoryViewer_Update(t_memory_viewer *mv);
+static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv);
+static void     MemoryViewer_MediaReload(t_memory_viewer *mv);
 
-void    MemoryViewer_InputBoxAddr_EnterCallback(t_widget *w);
-void    MemoryViewer_InputBoxValue_EditCallback(t_widget *w);
-void    MemoryViewer_InputBoxValue_EnterCallback(t_widget *w);
-void    MemoryViewer_ClickBottom(t_widget *w);
-void    MemoryViewer_ClickMemoryHex(t_widget *w);
-void    MemoryViewer_ClickMemoryAscii(t_widget *w);
-void    MemoryViewer_SetupEditValueBox(void);
+static void     MemoryViewer_Switch(t_widget *w);
+
+static void     MemoryViewer_ViewZ80(t_widget *w);
+static void     MemoryViewer_ViewROM(t_widget *w);
+static void     MemoryViewer_ViewRAM(t_widget *w);
+static void     MemoryViewer_ViewVRAM(t_widget *w);
+static void     MemoryViewer_ViewPRAM(t_widget *w);
+static void     MemoryViewer_ViewSRAM(t_widget *w);
+static void     MemoryViewer_ViewVREG(t_widget *w);
+
+static void		MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w);
+static void		MemoryViewer_InputBoxValue_EditCallback(t_widget *w);
+static void		MemoryViewer_InputBoxValue_EnterCallback(t_widget *w);
+static void		MemoryViewer_ClickBottom(t_widget *w);
+static void		MemoryViewer_ClickMemoryHex(t_widget *w);
+static void		MemoryViewer_ClickMemoryAscii(t_widget *w);
+static void		MemoryViewer_SetupEditValueBox(t_memory_viewer *mv);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// MemoryViewer_Init (void)
+// MemoryViewer_New(bool register_desktop, int size_columns, int size_lines)
 // Create and initialize Memory Editor applet
 //-----------------------------------------------------------------------------
-void      MemoryViewer_Init (void)
+t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, int size_lines)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
-
-    int     box_id;
-    int     font_id;
+    t_memory_viewer *mv = malloc(sizeof(t_memory_viewer));
     t_frame frame;
 
-    // Off by default
-    mv->active = NO;
+    // Check parameters
+    assert(size_columns >= -1);
+    assert(size_lines >= -1);
+
+    // Add to global list
+    list_add(&MemoryViewers, mv);
+
+    // Setup members
+    mv->active = TRUE;
+    mv->size_columns    = (size_columns != -1) ? size_columns : Configuration.memory_editor_columns;
+    mv->size_lines      = (size_lines != -1)   ? size_lines   : Configuration.memory_editor_lines;
+
+    mv->frame_hex.pos.x  = 4 + (Font_Height(F_MIDDLE) * 6) - 7;
+    mv->frame_hex.pos.y  = 4;
+    mv->frame_hex.size.x = (mv->size_columns * (Font_Height(F_MIDDLE) * (2) - 1)) + ((mv->size_columns - 1) / 8) * MEMVIEW_COLUMNS_8_PADDING;
+    mv->frame_hex.size.y = mv->size_lines * Font_Height(F_MIDDLE);
+
+    mv->frame_ascii.pos.x  = mv->frame_hex.pos.x + mv->frame_hex.size.x + MEMVIEW_COLUMNS_8_PADDING;
+    mv->frame_ascii.pos.y  = 4;
+    mv->frame_ascii.size.x = (mv->size_columns * (Font_Height(F_MIDDLE) - 2));
+    mv->frame_ascii.size.y = mv->size_lines * Font_Height(F_MIDDLE);
 
     // Create box
-    font_id = F_MIDDLE;
     mv->frame_view.pos.x = 226;
     mv->frame_view.pos.y  = 53;
     // A column is made with 2 figures plus a space (except the last one)
     mv->frame_view.size.x = 4;
     // Start of the line: "XXXXX:" (6 characters)
-    mv->frame_view.size.x += (Font_Height(font_id) * 6) - 7;
-    mv->frame_view.size.x += (MEMVIEW_COLUMNS * (Font_Height(font_id) * (2) - 1) + Font_Height(font_id)) - 3;
-    mv->frame_view.size.x += (Font_Height(font_id)) - 3; // Space between numbers and ASCII
-    mv->frame_view.size.x += ((Font_Height(font_id) - 2) * 16);
-    mv->frame_view.size.x += 4;
-    mv->frame_view.size.y = 4;
-    mv->frame_view.size.y += MEMVIEW_LINES * Font_Height(font_id);
-    mv->frame_view.size.y += 3;
+    mv->frame_view.size.x += (Font_Height(F_MIDDLE) * 6) - 7;   // Address
+    mv->frame_view.size.x += mv->frame_hex.size.x;              // Hexadecimal
+    mv->frame_view.size.x += MEMVIEW_COLUMNS_8_PADDING;         // Padding
+    mv->frame_view.size.x += mv->frame_ascii.size.x;            // ASCII
+    mv->frame_view.size.x += 4;                                 // Padding
+    mv->frame_view.size.y = 4 + mv->frame_hex.size.y + 3;
     frame = mv->frame_view;
     // Scrollbar
     frame.size.x += 7;
     // Bottom bar
     frame.size.y += 1 + 1 + Font_Height(F_SMALL) + 2;
-    box_id = gui_box_create (frame.pos.x, frame.pos.y, frame.size.x, frame.size.y, Msg_Get(MSG_MemoryEditor_BoxTitle));
-    mv->box = gui.box[box_id];
-    mv->box->update = MemoryViewer_Update;
-    mv->box_gfx = create_bitmap (frame.size.x + 1, frame.size.y + 1);
-    gui_set_image_box (box_id, mv->box_gfx);
+
+    mv->box = gui_box_new(&frame, Msg_Get(MSG_MemoryEditor_BoxTitle));
+    mv->box->user_data = mv;
+    mv->box_gfx = mv->box->gfx_buffer;
+    mv->box->destroy = MemoryViewer_Delete;
+    mv->box->flags |= GUI_BOX_FLAGS_TAB_STOP;
 
     // Set exclusive inputs flag to avoid messing with emulation
-    // mv->box->focus_inputs_exclusive = YES;
+    // mv->box->focus_inputs_exclusive = TRUE;
 
     // Register to desktop (applet is disabled by default)
-    Desktop_Register_Box ("MEMORY", box_id, NO, &mv->active);
+    if (register_desktop)
+        Desktop_Register_Box("MEMORY", mv->box, FALSE, &mv->active);
 
-    // Add close Button
-    widget_closebox_add (box_id, MemoryViewer_Switch);
+    // Layout
+    MemoryViewer_Layout(mv, TRUE);
 
+    // Setup other members
+    mv->memblock_first = 0;
+    mv->memblocks_max = 0;
+    mv->values_edit_active = FALSE;
+    mv->values_edit_position = 0;
+    mv->section_current = &mv->sections[MEMTYPE_ROM];   // anything but RAM (see below)
+
+    // Start by viewing RAM
+    MemoryViewer_ViewRAM(mv->sections[MEMTYPE_RAM].button);
+
+    // Simulate a ROM load, so that default mapping setting are applied
+    // (this is for when checking the Memory Editor on startup before loading a ROM)
+    MemoryViewer_MediaReload(mv);
+
+    // Return new instance
+    return (mv);
+}
+
+void        MemoryViewer_Delete(t_memory_viewer *mv)
+{
+    // Remove from global list
+    list_remove(&MemoryViewers, mv);
+
+    // Delete
+    free(mv);
+}
+
+static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
+{
+    t_frame frame;
+
+    // Clear
+    clear_to_color(mv->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+
+    // Add closebox widget
+    if (setup)
+        widget_closebox_add(mv->box, MemoryViewer_Switch);
+        
     // Horizontal line to separate buttons from memory
-    line (mv->box_gfx, 0, mv->frame_view.size.y, frame.size.x, mv->frame_view.size.y, GUI_COL_BORDERS);
+    line (mv->box_gfx, 0, mv->frame_view.size.y, mv->box->frame.size.x, mv->frame_view.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Setup Memory sections
+    if (setup)
     {
         t_memory_section *section;
-        frame.pos.x = 187;
+        frame.pos.x = 179;
         frame.pos.y = mv->frame_view.size.y + 1;
-        frame.size.x = 34;
+        frame.size.x = 30;
         frame.size.y = Font_Height (F_SMALL) + 3;
 
         // Z80
@@ -117,7 +184,7 @@ void      MemoryViewer_Init (void)
         section->addr_start     = 0x0000;
         section->addr_length    = 4;
         section->name           = "Z80";
-        section->button         = widget_button_add_draw (box_id, &frame, LOOK_THIN, F_SMALL, 1, MemoryViewer_ViewZ80, (char *)section->name);
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewZ80, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
 
         // ROM
         frame.pos.x += frame.size.x + 2;
@@ -128,7 +195,7 @@ void      MemoryViewer_Init (void)
         section->addr_start     = 0x00000;
         section->addr_length    = 5;
         section->name           = "ROM";
-        section->button         = widget_button_add_draw (box_id, &frame, LOOK_THIN, F_SMALL, 1, MemoryViewer_ViewROM, (char *)section->name);
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewROM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
 
         // RAM
         frame.pos.x += frame.size.x + 2;
@@ -139,7 +206,7 @@ void      MemoryViewer_Init (void)
         section->addr_start     = 0;    // Unknown as of yet
         section->addr_length    = 4;
         section->name           = "RAM";
-        section->button         = widget_button_add_draw (box_id, &frame, LOOK_THIN, F_SMALL, 1, MemoryViewer_ViewRAM, (char *)section->name);
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
 
         // VRAM
         frame.pos.x += frame.size.x + 2;
@@ -150,7 +217,18 @@ void      MemoryViewer_Init (void)
         section->addr_start     = 0x0000;
         section->addr_length    = 4;
         section->name           = "VRAM";
-        section->button         = widget_button_add_draw (box_id, &frame, LOOK_THIN, F_SMALL, 1, MemoryViewer_ViewVRAM, (char *)section->name);
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewVRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
+
+        // VREG
+        frame.pos.x += frame.size.x + 2;
+        section = &mv->sections[MEMTYPE_VREG];
+        section->memtype        = MEMTYPE_VREG;
+        section->memblock_first = 0;
+        section->size           = 11;
+        section->addr_start     = 0x0000;
+        section->addr_length    = 1;
+        section->name           = "VREG";
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewVREG, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
 
         // PRAM
         frame.pos.x += frame.size.x + 2;
@@ -161,7 +239,7 @@ void      MemoryViewer_Init (void)
         section->addr_start     = 0x00;
         section->addr_length    = 2;
         section->name           = "PAL";
-        section->button         = widget_button_add_draw (box_id, &frame, LOOK_THIN, F_SMALL, 1, MemoryViewer_ViewPRAM, (char *)section->name);
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewPRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
 
         // SRAM
         frame.pos.x += frame.size.x + 2;
@@ -172,7 +250,7 @@ void      MemoryViewer_Init (void)
         section->addr_start     = 0;
         section->addr_length    = 4;
         section->name           = "Save";
-        section->button         = widget_button_add_draw (box_id, &frame, LOOK_THIN, F_SMALL, 1, MemoryViewer_ViewSRAM, (char *)section->name);
+        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewSRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
     }
 
     // Invisible Button to catch click on bottom (to cancel editing)
@@ -180,74 +258,67 @@ void      MemoryViewer_Init (void)
     frame.pos.y = mv->frame_view.size.y;
     frame.size.x = mv->box->frame.size.x;
     frame.size.y = mv->box->frame.size.y - mv->frame_view.size.y;
-    mv->bottom_box = widget_button_add(box_id, &frame, 1, MemoryViewer_ClickBottom);
+    if (setup)
+        mv->bottom_box = widget_button_add(mv->box, &frame, 1, MemoryViewer_ClickBottom, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
     // Address text
     frame.pos.y = mv->frame_view.size.y + 1;
     frame.size.y = Font_Height (F_SMALL) + 3;
-    Font_Print (font_id, mv->box_gfx, "Address:", 5, frame.pos.y + 4, GUI_COL_TEXT_IN_BOX);
-    line (mv->box_gfx, 92, frame.pos.y, 92, frame.pos.y + frame.size.y, GUI_COL_BORDERS);
+    Font_Print (F_MIDDLE, mv->box_gfx, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    line(mv->box_gfx, 92, frame.pos.y, 92, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
-    // Goto Address InputBox
-    Font_Print (font_id, mv->box_gfx, "Goto", 100, frame.pos.y + 4, GUI_COL_TEXT_IN_BOX);
-    frame.pos.x = 128;
-    frame.size.x = 40;
-    mv->address_edit_inputbox = widget_inputbox_add(box_id, &frame, 5, F_MIDDLE, MemoryViewer_InputBoxAddr_EnterCallback);
-    widget_inputbox_set_content_type(mv->address_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
+    // Goto Address input box
+    Font_Print (F_MIDDLE, mv->box_gfx, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    if (setup)
+    {
+        frame.pos.x = 128;
+        frame.size.x = 40;
+        mv->address_edit_inputbox = widget_inputbox_add(mv->box, &frame, 5, F_MIDDLE, MemoryViewer_InputBoxAddress_EnterCallback);
+        widget_inputbox_set_content_type(mv->address_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
+    }
 
     // Invisible buttons to catch click on memory for value editing
-    frame.pos.x = 4 + (Font_Height(font_id) * 6) - 7;
-    frame.pos.y = 4;
-    frame.size.x = (MEMVIEW_COLUMNS * (Font_Height(font_id) * (2) - 1) + Font_Height(font_id)) - 3;
-    frame.size.y = MEMVIEW_LINES * Font_Height(font_id); 
-    mv->values_hex_box = widget_button_add(box_id, &frame, 1, MemoryViewer_ClickMemoryHex);
-    
-    frame.pos.x += frame.size.x + Font_Height(font_id) - 3;
-    frame.size.x = MEMVIEW_COLUMNS * (Font_Height(font_id) - 2);
-    mv->values_ascii_box = widget_button_add(box_id, &frame, 1, MemoryViewer_ClickMemoryAscii);
+    if (setup)
+    {
+        // Hexadecimal part
+        mv->values_hex_box = widget_button_add(mv->box, &mv->frame_hex, 1, MemoryViewer_ClickMemoryHex, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+
+        // ASCII part
+        mv->values_ascii_box = widget_button_add(mv->box, &mv->frame_ascii, 1, MemoryViewer_ClickMemoryAscii, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+    }
 
     // Scrollbar
     frame.pos.x = mv->frame_view.size.x;
     frame.pos.y = 0;
     frame.size.x = 7;
     frame.size.y = mv->frame_view.size.y - 1;
-    mv->memblock_first = 0;
-    mv->memblocks_max = 0;
-    mv->memblock_lines_nbr = 16;
-    widget_scrollbar_add (box_id, &frame, &mv->memblocks_max, &mv->memblock_first, &mv->memblock_lines_nbr, MemoryViewer_Update);
-    line (mv->box_gfx, frame.pos.x - 1, 0, frame.pos.x - 1, frame.size.y, GUI_COL_BORDERS);
+    if (setup)
+        mv->widget_scrollbar = widget_scrollbar_add(mv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &mv->memblocks_max, &mv->memblock_first, &mv->size_lines, NULL);
+    line(mv->box_gfx, frame.pos.x - 1, 0, frame.pos.x - 1, frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Input box for memory values
-    mv->values_edit_active = FALSE;
-    mv->values_edit_position = 0;
-    frame.pos.x = 0;
-    frame.pos.y = 0;
-    frame.size.x = Font_Height(F_MIDDLE) * 2 + 3;
-    frame.size.y = Font_Height(F_MIDDLE);
-    mv->values_edit_inputbox = widget_inputbox_add(box_id, &frame, 2, F_MIDDLE, MemoryViewer_InputBoxValue_EnterCallback);
-    widget_inputbox_set_callback_edit(mv->values_edit_inputbox, MemoryViewer_InputBoxValue_EditCallback);
-    widget_inputbox_set_flags(mv->values_edit_inputbox, WIDGET_INPUTBOX_FLAG_NO_CURSOR | WIDGET_INPUTBOX_FLAG_NO_MOVE_CURSOR | WIDGET_INPUTBOX_FLAG_NO_DELETE | WIDGET_INPUTBOX_FLAG_HIGHLIGHT_CURRENT_CHAR, TRUE);
-    widget_inputbox_set_content_type(mv->values_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
-    widget_inputbox_set_insert_mode(mv->values_edit_inputbox, TRUE);
-    mv->values_edit_inputbox->update = NULL;
-    mv->box->n_widgets--; // Hide
-
-    // Initialize memory types, and start by viewing RAM
-    mv->section_current = &mv->sections[MEMTYPE_ROM];   // anything but RAM
-    MemoryViewer_ViewRAM();
-
-    // Simulate a ROM load, so that default mapping setting are applied
-    // (this is just for those checking the Memory Editor on startup before loading a ROM)
-    MemoryViewer_LoadROM();
+    if (setup)
+    {
+        frame.pos.x = 0;
+        frame.pos.y = 0;
+        frame.size.x = Font_Height(F_MIDDLE) * 2 + 3;
+        frame.size.y = Font_Height(F_MIDDLE);
+        mv->values_edit_inputbox = widget_inputbox_add(mv->box, &frame, 2, F_MIDDLE, MemoryViewer_InputBoxValue_EnterCallback);
+        widget_inputbox_set_callback_edit(mv->values_edit_inputbox, MemoryViewer_InputBoxValue_EditCallback);
+        widget_inputbox_set_flags(mv->values_edit_inputbox, WIDGET_INPUTBOX_FLAGS_NO_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_DELETE | WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR, TRUE);
+        widget_inputbox_set_content_type(mv->values_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
+        widget_inputbox_set_insert_mode(mv->values_edit_inputbox, TRUE);
+        mv->values_edit_inputbox->update = NULL;
+        widget_disable(mv->values_edit_inputbox);
+    }
 }
 
 //-----------------------------------------------------------------------------
-// MemoryViewer_Update (void)
-// Refresh Memory Editor box.
+// MemoryViewer_Update(t_memory_viewer *mv)
+// Refresh Memory Editor
 //-----------------------------------------------------------------------------
-void        MemoryViewer_Update (void)
+static void        MemoryViewer_Update(t_memory_viewer *mv)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
     t_memory_section *section = mv->section_current;
 
     int             row, col;
@@ -261,41 +332,67 @@ void        MemoryViewer_Update (void)
     const int       addr_length = section->addr_length;
     const int       addr_start  = section->addr_start;
 
-    //mv->active = YES;
-    mv->box->must_redraw = YES;
+    // Skip update if not active
+    if (!mv->active)
+        return;
 
-    // Clear
-    rectfill (mv->box_gfx, 0, 0, mv->frame_view.size.x - 2, mv->frame_view.size.y - 1, GUI_COL_FILL);
+    // If skin has changed, redraw everything
+    if (mv->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
+    {
+        MemoryViewer_Layout(mv, FALSE);
+        mv->box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+    }
+    else
+    {
+        // Clear anyway
+        rectfill (mv->box_gfx, 0, 0, mv->frame_view.size.x - 2, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_BACKGROUND);
+    }
+
+    // Always dirty (FIXME?)
+    mv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    widget_set_dirty(mv->widget_scrollbar);
+
+    // Update inputs
+    MemoryViewer_Update_Inputs(mv);
 
     y = 4;
-    addr = mv->memblock_first * 16;
+    addr = mv->memblock_first * mv->size_columns;
+    // FIXME: See with debugger or other tools if this can be abstracted and made generic
     switch (mv->section_current->memtype)
     {
-    case MEMTYPE_Z80:   memory = NULL;  break;
-    case MEMTYPE_ROM:   memory = ROM;   break;
-    case MEMTYPE_RAM:   memory = RAM;   break;
-    case MEMTYPE_VRAM:  memory = VRAM;  break;
-    case MEMTYPE_PRAM:  memory = PRAM;  break;
+    case MEMTYPE_Z80:   memory = NULL;      break;
+    case MEMTYPE_ROM:   memory = ROM;       break;
+    case MEMTYPE_RAM:   memory = RAM;       break;
+    case MEMTYPE_VRAM:  memory = VRAM;      break;
+    case MEMTYPE_VREG:  memory = sms.VDP;   break;
+    case MEMTYPE_PRAM:  memory = PRAM;      break;
     case MEMTYPE_SRAM:
         {
             int dummy_len;
             BMemory_Get_Infos((void *)&memory, &dummy_len);
             break;
         }
-    default:            assert(0);
+    default:
+        assert(0); 
+        memory = NULL;
     }
 
-    // Draw vertical lines to separate address/hex/ascii
-    x = 4 + font_height * 6 - 7 - 7;
-    line (mv->box_gfx, x, 0, x, mv->frame_view.size.y - 1, GUI_COL_BORDERS);
-    x = 4 + font_height * 6 - 7 + (MEMVIEW_COLUMNS * (font_height * 2 - 1) + font_height - 3) + font_height - 3 - 4;
-    line (mv->box_gfx, x, 0, x, mv->frame_view.size.y - 1, GUI_COL_BORDERS);
+    // Lines to separate address/hex/ascii
+    // FIXME-SIZE
+    {
+        int x;
+        x = 4 + font_height * 6 - 7 - 7;
+        line (mv->box_gfx, x, 0, x, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_SEPARATORS);
+        //x = 4 + font_height * 6 - 7 + (mv->size_columns * (font_height * 2 - 1) + font_height - 3) + font_height - 3 - 4;
+        x = mv->frame_ascii.pos.x - 4;//MEMVIEW_COLUMNS_8_PADDING/2;
+        line (mv->box_gfx, x, 0, x, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_SEPARATORS);
+    }
 
     // Print current address
-    // FIXME: Should create a label widget for this purpose.
+    // FIXME: Could create a label widget for this purpose.
     sprintf(buf, "%0*X", addr_length, addr_start + (mv->memblock_first * 16) + mv->values_edit_position);
-    rectfill (mv->box_gfx, 56, mv->frame_view.size.y + 1 + 4, 91, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id), GUI_COL_FILL);
-    Font_Print (font_id, mv->box_gfx, buf, 56, mv->frame_view.size.y + 1 + 4, GUI_COL_TEXT_IN_BOX);
+    rectfill (mv->box_gfx, 56, mv->frame_view.size.y + 1 + 4, 91, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id), COLOR_SKIN_WINDOW_BACKGROUND);
+    Font_Print (font_id, mv->box_gfx, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
 
     x = 4 + font_height * 6 - 7;
     y = 4;
@@ -304,12 +401,12 @@ void        MemoryViewer_Update (void)
         char *text = "None";
         if (mv->section_current->memtype == MEMTYPE_Z80 && cur_drv->cpu != CPU_Z80)
             text = "You wish!";
-        Font_Print (font_id, mv->box_gfx, text, x, y, GUI_COL_TEXT_IN_BOX);
+        Font_Print (font_id, mv->box_gfx, text, x, y, COLOR_SKIN_WINDOW_TEXT);
     }
     else 
     {
         // Display all memory content lines
-        for (row = 0; row < MEMVIEW_LINES; row++, y += font_height)
+        for (row = 0; row != mv->size_lines; row++, y += font_height)
         {
             if (mv->memblock_first + row >= mv->memblocks_max)
                 continue;
@@ -317,19 +414,19 @@ void        MemoryViewer_Update (void)
             // Print address
             sprintf(buf, "%0*X", addr_length, addr + addr_start);
             x = 4;
-            Font_Print (font_id, mv->box_gfx, buf, x + (5 - addr_length) * (font_height - 2), y, GUI_COL_TEXT_IN_BOX);
+            Font_Print (font_id, mv->box_gfx, buf, x + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
 
             // Print 16-bytes in both hexadecimal and ASCII
-            x += font_height * 6 - 7;
-            asciix = x + (MEMVIEW_COLUMNS * (font_height * 2 - 1) + font_height - 3) + font_height - 3;
+            x = mv->frame_hex.pos.x;
+            asciix = mv->frame_ascii.pos.x;
 
-            for (col = 0; col < MEMVIEW_COLUMNS; col++, x += font_height * (2) - 1, asciix += font_height - 2)
+            for (col = 0; col != mv->size_columns; col++, x += font_height * (2) - 1, asciix += font_height - 2)
             {
                 int color;
 
-                // Space between columns 7 and 8 (for readability)
-                if (col == 8)
-                    x += Font_Height(font_id) - 3;
+                // Space each 8 columns (for readability)
+                if (col != 0 && ((col & 7) == 0))
+                    x += MEMVIEW_COLUMNS_8_PADDING;
 
                 // Get value
                 if (section->memtype == MEMTYPE_Z80)
@@ -338,27 +435,30 @@ void        MemoryViewer_Update (void)
                     value = memory ? memory[addr] : 0x00;
 
                 // Print hexadecimal
-                color = GUI_COL_TEXT_IN_BOX;
+                color = COLOR_SKIN_WINDOW_TEXT;
                 sprintf(buf, "%02X", value);
                 Font_Print (font_id, mv->box_gfx, buf, x, y, color);
 
                 // Print ASCII
-                if (mv->values_edit_active && (mv->values_edit_position == col + (row * MEMVIEW_COLUMNS)))
-                    color = GUI_COL_TEXT_ACTIVE;
+                if (mv->values_edit_active && (mv->values_edit_position == col + (row * mv->size_columns)))
+                    color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
                 buf[0] = isprint(value) ? value : '.';
                 buf[1] = 0;
                 Font_Print (font_id, mv->box_gfx, buf, asciix, y, color);
 
                 addr++;
+                if (addr >= section->size)
+                    break;
             }
         }
     }
 
     // Refresh current value if edition cursor is at the beginning (no editing done yet)
     if (mv->values_edit_active)
+    {
         if (widget_inputbox_get_cursor_pos(mv->values_edit_inputbox) == 0)
         {
-            const int addr = (mv->memblock_first * 16) + mv->values_edit_position;
+            const int addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
             if (section->memtype == MEMTYPE_Z80)
                 value = (machine & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
             else
@@ -367,17 +467,44 @@ void        MemoryViewer_Update (void)
             widget_inputbox_set_value(mv->values_edit_inputbox, buf);
             widget_inputbox_set_cursor_pos(mv->values_edit_inputbox, 0);
         }
+        
+        // Always set dirty
+        // This is a workaround to make sure that the widget is always rendered,
+        // because we always clear the box manually
+        widget_set_dirty(mv->values_edit_inputbox);
+    }
 }
 
 // ACTION: ENABLE OR DISABLE MEMORY VIEWER -------------------------------------
-void      MemoryViewer_Switch (void)
+static void MemoryViewer_Switch(t_widget *w)
 {
-    if (MemoryViewer.active ^= 1)
-        Msg (MSGT_USER, Msg_Get (MSG_MemoryEditor_Enabled));
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
+    if (mv == MemoryViewer_MainInstance)
+    {
+        MemoryViewer_SwitchMainInstance();
+    }
     else
-        Msg (MSGT_USER, Msg_Get (MSG_MemoryEditor_Disabled));
-    gui_box_show (MemoryViewer.box, MemoryViewer.active, TRUE);
-    gui_menu_inverse_check (menus_ID.tools, 3);
+    {
+        mv->active ^= 1;
+        gui_box_show(mv->box, mv->active, TRUE);
+        if (!mv->active)
+        {
+            // Flag GUI box for deletion
+            mv->box->flags |= GUI_BOX_FLAGS_DELETE;
+            return;
+        }
+    }
+}
+
+void    MemoryViewer_SwitchMainInstance()
+{
+    t_memory_viewer *mv = MemoryViewer_MainInstance;
+    if (mv->active ^= 1)
+        Msg(MSGT_USER, Msg_Get (MSG_MemoryEditor_Enabled));
+    else
+        Msg(MSGT_USER, Msg_Get (MSG_MemoryEditor_Disabled));
+    gui_box_show(mv->box, mv->active, TRUE);
+    gui_menu_inverse_check(menus_ID.tools, 4);
 }
 
 // ACTION: SWITCH TO THE DIFFERENT MEMORIES VIEWS -------------------------------
@@ -391,76 +518,63 @@ static void MemoryViewer_ViewSection(t_memory_viewer *mv, t_memory_section *sect
     mv->section_current->memblock_first = mv->memblock_first;
 
     // Update interface button
-    MemoryViewer_SwitchButton(section->memtype);
+    widget_button_set_selected(mv->section_current->button, FALSE);
+    widget_button_set_selected(section->button, TRUE);
 
     // Switch section
-    MemoryViewer.section_current    = section;
-    MemoryViewer.memblock_first     = section->memblock_first;
-    MemoryViewer.memblocks_max      = section->size / 16;
+    mv->section_current    = section;
+    mv->memblock_first     = section->memblock_first;
+    mv->memblocks_max      = (section->size + mv->size_columns - 1) / mv->size_columns;
     assert(section->size >= 0);
-    //if (MemoryViewer.memblocks_max < MemoryViewer.memblock_lines_nbr)
-    //    MemoryViewer.memblocks_max = MemoryViewer.memblock_lines_nbr;
-    MemoryViewer_SetupEditValueBox();
+    //if (mv->memblocks_max < mv->size_lines)
+    //    mv->memblocks_max = mv->size_lines;
+    MemoryViewer_SetupEditValueBox(mv);
 }
 
-void      MemoryViewer_ViewZ80(void)
+static void      MemoryViewer_ViewZ80(t_widget *w)
 {
-    MemoryViewer_ViewSection(&MemoryViewer, &MemoryViewer.sections[MEMTYPE_Z80]);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_Z80]);
 }
 
-void      MemoryViewer_ViewROM(void)
+static void      MemoryViewer_ViewROM(t_widget *w)
 {
-    MemoryViewer_ViewSection(&MemoryViewer, &MemoryViewer.sections[MEMTYPE_ROM]);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_ROM]);
 }
 
-void      MemoryViewer_ViewRAM(void)
+static void      MemoryViewer_ViewRAM(t_widget *w)
 {
-    MemoryViewer_ViewSection(&MemoryViewer, &MemoryViewer.sections[MEMTYPE_RAM]);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_RAM]);
 }
 
-void      MemoryViewer_ViewVRAM(void)
+static void      MemoryViewer_ViewVRAM(t_widget *w)
 {
-    MemoryViewer_ViewSection(&MemoryViewer, &MemoryViewer.sections[MEMTYPE_VRAM]);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_VRAM]);
 }
 
-void      MemoryViewer_ViewPRAM(void)
+static void      MemoryViewer_ViewPRAM(t_widget *w)
 {
-    MemoryViewer_ViewSection(&MemoryViewer, &MemoryViewer.sections[MEMTYPE_PRAM]);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_PRAM]);
 }
 
-void      MemoryViewer_ViewSRAM(void)
+static void      MemoryViewer_ViewSRAM(t_widget *w)
 {
-    MemoryViewer_ViewSection(&MemoryViewer, &MemoryViewer.sections[MEMTYPE_SRAM]);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_SRAM]);
 }
 
-void          MemoryViewer_SwitchButton(int new_memtype)
+static void      MemoryViewer_ViewVREG(t_widget *w)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
-
-    t_frame *   frame;
-    char *      name;
-    const int   FontIdx = F_SMALL;
-
-    // FIXME: Cannot the buttons have their label & pressed state changed and automatically redrawn ?
-    frame = &mv->section_current->button->frame;
-    name = (char *)mv->section_current->name;
-    rectfill (mv->box_gfx, frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, GUI_COL_BUTTONS);
-    gui_rect (mv->box_gfx, LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, GUI_COL_BORDERS);
-    Font_Print (FontIdx, mv->box_gfx, name, frame->pos.x + ((frame->size.x - Font_TextLength (FontIdx, name)) / 2), frame->pos.y + ((frame->size.y - Font_Height(FontIdx)) / 2) + 1, GUI_COL_TEXT_ACTIVE);
-
-    frame = &mv->sections[new_memtype].button->frame;
-    name = (char *)mv->sections[new_memtype].name;
-    rectfill (mv->box_gfx, frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, GUI_COL_HIGHLIGHT);
-    gui_rect (mv->box_gfx, LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, GUI_COL_BORDERS);
-    Font_Print (FontIdx, mv->box_gfx, name, frame->pos.x + ((frame->size.x - Font_TextLength (FontIdx, name)) / 2), frame->pos.y + ((frame->size.y - Font_Height(FontIdx)) / 2) + 1, GUI_COL_TEXT_ACTIVE);
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
+    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_VREG]);
 }
 
-// ACTION: THINGS TO DO WHEN A ROM IS LOADED -------------------------------
-
-void      MemoryViewer_LoadROM(void)
+static void MemoryViewer_MediaReload(t_memory_viewer *mv)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
-
     int     z80_memblocks_max, rom_memblocks_max, ram_memblocks_max, pram_memblocks_max, sram_memblocks_max;
     int     ram_len, ram_start_addr;
     int     sram_len;
@@ -472,23 +586,23 @@ void      MemoryViewer_LoadROM(void)
         mv->sections[MEMTYPE_Z80].size = 0x10000;
     else
         mv->sections[MEMTYPE_Z80].size = 0;
-    z80_memblocks_max = mv->sections[MEMTYPE_Z80].size / 16;
-    if (mv->sections[MEMTYPE_Z80].memblock_first + mv->memblock_lines_nbr > z80_memblocks_max)
-        mv->sections[MEMTYPE_Z80].memblock_first = MAX(z80_memblocks_max - mv->memblock_lines_nbr, 0);
+    z80_memblocks_max = mv->sections[MEMTYPE_Z80].size / mv->size_columns;
+    if (mv->sections[MEMTYPE_Z80].memblock_first + mv->size_lines > z80_memblocks_max)
+        mv->sections[MEMTYPE_Z80].memblock_first = MAX(z80_memblocks_max - mv->size_lines, 0);
 
     // ROM
-    rom_memblocks_max = tsms.Size_ROM / 16;
+    rom_memblocks_max = tsms.Size_ROM / mv->size_columns;
     mv->sections[MEMTYPE_ROM].size = tsms.Size_ROM;
-    if (mv->sections[MEMTYPE_ROM].memblock_first + mv->memblock_lines_nbr > rom_memblocks_max)
-        mv->sections[MEMTYPE_ROM].memblock_first = MAX(rom_memblocks_max - mv->memblock_lines_nbr, 0);
+    if (mv->sections[MEMTYPE_ROM].memblock_first + mv->size_lines > rom_memblocks_max)
+        mv->sections[MEMTYPE_ROM].memblock_first = MAX(rom_memblocks_max - mv->size_lines, 0);
 
     // RAM
     Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
     mv->sections[MEMTYPE_RAM].size = ram_len;
     mv->sections[MEMTYPE_RAM].addr_start = ram_start_addr;
-    ram_memblocks_max = ram_len / 16;
-    if (mv->sections[MEMTYPE_RAM].memblock_first + mv->memblock_lines_nbr > ram_memblocks_max)
-        mv->sections[MEMTYPE_RAM].memblock_first = MAX(ram_memblocks_max - mv->memblock_lines_nbr, 0);
+    ram_memblocks_max = ram_len / mv->size_columns;
+    if (mv->sections[MEMTYPE_RAM].memblock_first + mv->size_lines > ram_memblocks_max)
+        mv->sections[MEMTYPE_RAM].memblock_first = MAX(ram_memblocks_max - mv->size_lines, 0);
 
     // PRAM
     switch (cur_machine.driver_id)
@@ -498,16 +612,16 @@ void      MemoryViewer_LoadROM(void)
     default:        pram_len = 0;   break;
     }
     mv->sections[MEMTYPE_PRAM].size = pram_len;
-    pram_memblocks_max = pram_len / 16;
-    if (mv->sections[MEMTYPE_PRAM].memblock_first + mv->memblock_lines_nbr > pram_memblocks_max)
-        mv->sections[MEMTYPE_PRAM].memblock_first = MAX(pram_memblocks_max - mv->memblock_lines_nbr, 0);
+    pram_memblocks_max = pram_len / mv->size_columns;
+    if (mv->sections[MEMTYPE_PRAM].memblock_first + mv->size_lines > pram_memblocks_max)
+        mv->sections[MEMTYPE_PRAM].memblock_first = MAX(pram_memblocks_max - mv->size_lines, 0);
 
     // SRAM
     BMemory_Get_Infos((void *)&sram_buf, &sram_len);
     mv->sections[MEMTYPE_SRAM].size = sram_len;
-    sram_memblocks_max = sram_len / 16;
-    if (mv->sections[MEMTYPE_SRAM].memblock_first + mv->memblock_lines_nbr > sram_memblocks_max)
-        mv->sections[MEMTYPE_SRAM].memblock_first = MAX(sram_memblocks_max - mv->memblock_lines_nbr, 0);
+    sram_memblocks_max = sram_len / mv->size_columns;
+    if (mv->sections[MEMTYPE_SRAM].memblock_first + mv->size_lines > sram_memblocks_max)
+        mv->sections[MEMTYPE_SRAM].memblock_first = MAX(sram_memblocks_max - mv->size_lines, 0);
 
     // Adjust current positions
     mv->memblock_first = mv->section_current->memblock_first;
@@ -520,18 +634,21 @@ void      MemoryViewer_LoadROM(void)
     case MEMTYPE_SRAM:  mv->memblocks_max = sram_memblocks_max; break;
     }
 
-    MemoryViewer_SetupEditValueBox();
+    MemoryViewer_SetupEditValueBox(mv);
     // MemoryViewer_Update();
 }
 
-// ACTION: INPUT BOXES --------------------------------------------------------
-
-void      MemoryViewer_InputBoxAddr_EnterCallback(t_widget *w)
+//-----------------------------------------------------------------------------
+// MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
+// Enter callback handler on 'address' input box.
+// Set current cursor position to given address (if valid)
+//-----------------------------------------------------------------------------
+void      MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
     int     addr;
-    char *  text;
+    const char *  text;
 
     // Read address
     text = widget_inputbox_get_value(mv->address_edit_inputbox);
@@ -548,20 +665,28 @@ void      MemoryViewer_InputBoxAddr_EnterCallback(t_widget *w)
 
     // Jump to given address
     addr -= mv->section_current->addr_start;
-    mv->memblock_first = addr / 16;
-    if (mv->memblock_first + mv->memblock_lines_nbr > mv->memblocks_max)
-        mv->memblock_first = MAX(mv->memblocks_max - mv->memblock_lines_nbr, 0);
+    mv->memblock_first = (addr / mv->size_columns) - (mv->size_lines/2);
+	if (mv->memblock_first < 0)
+		mv->memblock_first = 0;
+    if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
+        mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
     mv->values_edit_active = TRUE;
-    mv->values_edit_position = addr & 15;
-    MemoryViewer_SetupEditValueBox();
-    // MemoryViewer_Update();
-    // FIXME: clear ?
-    widget_inputbox_set_value(mv->address_edit_inputbox, "");
+	mv->values_edit_position = addr - (mv->memblock_first * mv->size_columns);
+    MemoryViewer_SetupEditValueBox(mv);
+
+	// Clear address box
+	widget_inputbox_set_value(mv->address_edit_inputbox, "");
 }
 
-void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
+//-----------------------------------------------------------------------------
+// MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
+// Edit callback handler of moving 'value' input box.
+// When second digit is inputed, automatically call 'enter' callback,
+// then move cursor to following location.
+//-----------------------------------------------------------------------------
+static void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
     int     cursor;
 
@@ -576,38 +701,45 @@ void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
 
         // Go to next
         // (this is a copy of the handler code for KEY_RIGHT)
-        if (mv->values_edit_position < (16-1) * 16 - 1)
+        if (mv->values_edit_position < (mv->size_lines-1) * mv->size_columns - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * 16 + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
                 mv->values_edit_position --;
         }
-        else if (((mv->values_edit_position & 15) == 15) && mv->memblock_first + mv->memblock_lines_nbr < mv->memblocks_max)
+        else if (((mv->values_edit_position % mv->size_columns) == (mv->size_columns - 1)) && mv->memblock_first + mv->size_lines < mv->memblocks_max)
         {
             mv->memblock_first++;
-            mv->values_edit_position -= 16 - 1;
+            mv->values_edit_position -= mv->size_columns - 1;
         }
-        else if (mv->values_edit_position < 16 * 16 - 1)
+        else if (mv->values_edit_position < mv->size_lines * mv->size_columns - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * 16 + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
                 mv->values_edit_position --;
         }
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
     // FIXME: when cursor reach 2, write and move to next memory location
 }
 
-void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
+//-----------------------------------------------------------------------------
+// MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
+// Enter callback handler of moving 'value' input box.
+// Write inputed value at current memory location.
+//-----------------------------------------------------------------------------
+static void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
 {
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
+
     int     addr;
     int     value;
-    char *  text;
+    const char *  text;
 
-    text = widget_inputbox_get_value(MemoryViewer.values_edit_inputbox);
-    addr = MemoryViewer.memblock_first * 16 + MemoryViewer.values_edit_position;
+    text = widget_inputbox_get_value(mv->values_edit_inputbox);
+    addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
     sscanf(text, "%X", &value);
-    switch (MemoryViewer.section_current->memtype)
+    switch (mv->section_current->memtype)
     {
     case MEMTYPE_Z80:
         {
@@ -630,7 +762,7 @@ void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
     case MEMTYPE_RAM:
         {
             if (cur_drv->id == DRV_COLECO)
-                Write_Mapper_Coleco(0x6000 + addr, value);  // special hook for Colecovision
+                Write_Mapper_Coleco(0x6000 + addr, value);  // special case for Colecovision
             else
                 RAM[addr] = value;
             break;
@@ -652,69 +784,78 @@ void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
             SRAM[addr] = value;
             break;
         }
+    case MEMTYPE_VREG:
+        {
+            Tms_VDP_Out(addr, value);
+            break;
+        }
     }
-    MemoryViewer.values_edit_active = FALSE;
-    MemoryViewer_SetupEditValueBox();
+    mv->values_edit_active = FALSE;
+    MemoryViewer_SetupEditValueBox(mv);
 }
 
-void      MemoryViewer_ClickBottom(t_widget *w)
+static void      MemoryViewer_ClickBottom(t_widget *w)
 {
-    MemoryViewer.values_edit_active = FALSE;
-    MemoryViewer_SetupEditValueBox();
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
+
+    mv->values_edit_active = FALSE;
+    MemoryViewer_SetupEditValueBox(mv);
 }
 
-void        MemoryViewer_ClickMemoryHex(t_widget *w)
+static void        MemoryViewer_ClickMemoryHex(t_widget *w)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
     int     x, y;
+    int     i;
 
     // Msg (MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
 
-    // Out of the memory area
-    if ((MEMVIEW_COLUMNS / 2) * (Font_Height(F_MIDDLE) * (2) - 1) <= w->mx && 
-        w->mx < (MEMVIEW_COLUMNS / 2) * (Font_Height(F_MIDDLE) * (2) - 1) + Font_Height(F_MIDDLE) - 3)
+    // Clicking in empty columns disable edition
+    for (i = 0; i < (mv->size_columns - 1) / 8; i++)
     {
-        // Hide edit value input box
-        mv->values_edit_active = FALSE;
-        MemoryViewer_SetupEditValueBox();
-        return;
+        const int max_x = (i + 1) * (8 * (Font_Height(F_MIDDLE) * (2) - 1) + MEMVIEW_COLUMNS_8_PADDING);
+        const int min_x = max_x - MEMVIEW_COLUMNS_8_PADDING;
+        if (w->mouse_x >= min_x && w->mouse_x < max_x)
+        {
+            // Hide edit value input box
+            mv->values_edit_active = FALSE;
+            MemoryViewer_SetupEditValueBox(mv);
+            return;
+        }
     }
 
     // Inside
-    if (w->mx < (MEMVIEW_COLUMNS / 2) * (Font_Height(F_MIDDLE) * (2) - 1))
-        x = w->mx / (Font_Height(F_MIDDLE) * (2) - 1); // Left half
-    else
-        x = (w->mx - Font_Height(F_MIDDLE) + 3) / (Font_Height(F_MIDDLE) * (2) - 1); // Right half
-    y = (w->my / Font_Height(F_MIDDLE));
+    // FIXME-SIZE
+    x = w->mouse_x / (Font_Height(F_MIDDLE) * (2) - 1);
+    x = (w->mouse_x - (x / 8) * MEMVIEW_COLUMNS_8_PADDING) / (Font_Height(F_MIDDLE) * (2) - 1);
+    y = (w->mouse_y / Font_Height(F_MIDDLE));
 
-    mv->values_edit_position = x + y * MEMVIEW_COLUMNS;
+    mv->values_edit_position = x + y * mv->size_columns;
     mv->values_edit_active = TRUE;
-    MemoryViewer_SetupEditValueBox();
+    MemoryViewer_SetupEditValueBox(mv);
 }
 
-void        MemoryViewer_ClickMemoryAscii(t_widget *w)
+static void        MemoryViewer_ClickMemoryAscii(t_widget *w)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
+    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
     int     x, y;
 
-    x = w->mx / (Font_Height(F_MIDDLE) - 2);
-    y = w->my / Font_Height(F_MIDDLE);
+    x = w->mouse_x / (Font_Height(F_MIDDLE) - 2);
+    y = w->mouse_y / Font_Height(F_MIDDLE);
     // Msg (MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
     // Msg (MSGT_DEBUG, "x = %d, y = %d\n", x, y);
 
-    mv->values_edit_position = x + y * MEMVIEW_COLUMNS;
+    mv->values_edit_position = x + y * mv->size_columns;
     mv->values_edit_active = TRUE;
-    MemoryViewer_SetupEditValueBox();
+    MemoryViewer_SetupEditValueBox(mv);
 }
 
-void    MemoryViewer_SetupEditValueBox(void)
+static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
-
     // Disable if out of boundaries
-    int addr = mv->memblock_first * MEMVIEW_COLUMNS + mv->values_edit_position;
+    int addr = mv->memblock_first * mv->size_columns + mv->values_edit_position;
     if (addr < 0 || addr >= mv->section_current->size)
     {
         mv->values_edit_active = FALSE;
@@ -727,10 +868,10 @@ void    MemoryViewer_SetupEditValueBox(void)
         {
             t_frame *frame = &mv->values_edit_inputbox->frame;
             const int pos = mv->values_edit_position;
-            frame->pos.x = (pos & 15) * (Font_Height(F_MIDDLE) * 2 - 1);
-            if ((pos & 15) >= 8) // Second half
-                frame->pos.x += Font_Height(F_MIDDLE) - 3;
-            frame->pos.y = (pos / 16) * Font_Height(F_MIDDLE);
+            frame->pos.x = (pos % mv->size_columns) * (Font_Height(F_MIDDLE) * 2 - 1);
+            // Spacing every 8 bytes
+            frame->pos.x += MEMVIEW_COLUMNS_8_PADDING * ((pos % mv->size_columns) / 8);
+            frame->pos.y = (pos / mv->size_columns) * Font_Height(F_MIDDLE);
             frame->pos.x += mv->values_hex_box->frame.pos.x - 5; // Coordinates are parent relative
             frame->pos.y += mv->values_hex_box->frame.pos.y - 1;
         }
@@ -739,8 +880,8 @@ void    MemoryViewer_SetupEditValueBox(void)
         if (mv->values_edit_inputbox->update == NULL)
         {
             mv->values_edit_inputbox->update = widget_inputbox_update;
+            widget_enable(mv->values_edit_inputbox);
             mv->address_edit_inputbox->update = NULL;
-            mv->box->n_widgets++;
         }
 
         // Setup input box default content
@@ -762,6 +903,7 @@ void    MemoryViewer_SetupEditValueBox(void)
                         value = SRAM ? SRAM[addr] : 0x00;
                         break;
                     }
+                case MEMTYPE_VREG:  value = sms.VDP[addr];  break;
                 default:
                     assert(0);
                     return;
@@ -776,145 +918,165 @@ void    MemoryViewer_SetupEditValueBox(void)
         // Hide input box if active
         if (mv->values_edit_inputbox->update != NULL)
         {
-            mv->box->n_widgets--;
             mv->address_edit_inputbox->update = widget_inputbox_update;
             mv->values_edit_inputbox->update = NULL;
+            widget_disable(mv->values_edit_inputbox);
         }
     }
 }
 
 //-----------------------------------------------------------------------------
-// MemoryViewer_Update_Inputs (void)
+// MemoryViewer_Update_Inputs (t_memory_viewer *mv)
 // Poll and update user inputs.
 //-----------------------------------------------------------------------------
 // FIXME: This function is probably unnecessary big.
 //-----------------------------------------------------------------------------
-void            MemoryViewer_Update_Inputs (void)
+static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
 {
-    t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
-
     // Check for focus
     if (!gui_box_has_focus (mv->box))
         return;
 
-    if (Inputs_KeyPressed (KEY_HOME, NO))
+    if (Inputs_KeyPressed (KEY_HOME, FALSE))
     {
         mv->memblock_first = 0;
         mv->values_edit_position = 0;
         mv->values_edit_active = TRUE;
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed (KEY_END, NO))
+    else if (Inputs_KeyPressed (KEY_END, FALSE))
     {
-        mv->memblock_first = MAX(mv->memblocks_max - mv->memblock_lines_nbr, 0);
-        mv->values_edit_position = MIN(16 * 16, mv->section_current->size - mv->memblock_first * 16);
+        mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
+        mv->values_edit_position = MIN(mv->size_lines * mv->size_columns, mv->section_current->size - mv->memblock_first * mv->size_columns);
         if (mv->values_edit_position > 0)
             mv->values_edit_position--;
         mv->values_edit_active = TRUE;
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, NO, 30, 3) || gui_mouse.z_rel > 0)
+    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 30, 3) || gui_mouse.z_rel > 0)
     {
-        mv->memblock_first -= mv->memblock_lines_nbr;
+        mv->memblock_first -= mv->size_lines;
         if (mv->memblock_first < 0)
         {
             mv->memblock_first = 0;
             // if (!(gui_mouse.z_rel > 0))
             //    mv->values_edit_position = mv->values_edit_position & 15;
         }
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, NO, 30, 3) || gui_mouse.z_rel < 0)
+    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 30, 3) || gui_mouse.z_rel < 0)
     {
-        mv->memblock_first += mv->memblock_lines_nbr;
-        if (mv->memblock_first + mv->memblock_lines_nbr > mv->memblocks_max)
+        mv->memblock_first += mv->size_lines;
+        if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
         {
-            mv->memblock_first = MAX(mv->memblocks_max - mv->memblock_lines_nbr, 0);
+            mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
             // if (!(gui_mouse.z_rel < 0))
             //    mv->values_edit_position = (15 * 16) + (mv->values_edit_position & 15);
         }
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_UP, NO, 30, 3))
+    else if (Inputs_KeyPressed_Repeat (KEY_UP, FALSE, 30, 3))
     {
-        if (mv->values_edit_position >= 8 * 16)
-            mv->values_edit_position -= 16;
+        if (mv->size_lines > 1 && mv->values_edit_position >= (mv->size_lines/2) * mv->size_columns)
+            mv->values_edit_position -= mv->size_columns;
         else
         {
             mv->memblock_first--;
             if (mv->memblock_first < 0)
             {
                 mv->memblock_first = 0;
-                if (mv->values_edit_position >= 16)
-                    mv->values_edit_position -= 16;
+                if (mv->values_edit_position >= mv->size_columns)
+                    mv->values_edit_position -= mv->size_columns;
             }
         }
         mv->values_edit_active = TRUE;
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_DOWN, NO, 30, 3))
+    else if (Inputs_KeyPressed_Repeat (KEY_DOWN, FALSE, 30, 3))
     {
-        if (mv->values_edit_position < 7 * 16)
+        if (mv->values_edit_position < (mv->size_lines/2-1) * mv->size_columns)
         {
-            mv->values_edit_position += 16;
-            if (mv->memblock_first * 16 + mv->values_edit_position >= mv->section_current->size)
-                mv->values_edit_position -= 16;
+            mv->values_edit_position += mv->size_columns;
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
+                mv->values_edit_position -= mv->size_columns;
         }
         else
         {
             mv->memblock_first++;
-            if (mv->memblock_first + mv->memblock_lines_nbr > mv->memblocks_max)
+            if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
             {
-                mv->memblock_first = MAX(mv->memblocks_max - mv->memblock_lines_nbr, 0);
-                if (mv->values_edit_position < 15 * 16)
-                    mv->values_edit_position += 16;
+                mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
+                if (mv->values_edit_position < (mv->size_lines-1) * mv->size_columns)
+                    mv->values_edit_position += mv->size_columns;
             }
         }
         mv->values_edit_active = TRUE;
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat (KEY_LEFT, NO, 30, 3))
+    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat (KEY_LEFT, FALSE, 30, 3))
     {
-        if (mv->values_edit_position > 1 * 16)
+        if (mv->values_edit_position > 1 * mv->size_columns)
             mv->values_edit_position--;
-        else if (mv->memblock_first > 0)
+        else if (mv->memblock_first > 0 && (mv->size_lines > 1 || mv->values_edit_position == 0))
         {
             mv->memblock_first--;
-            mv->values_edit_position += 16 - 1;
+            mv->values_edit_position += mv->size_columns - 1;
         }
         else if (mv->values_edit_position > 0)
             mv->values_edit_position--;
         // mv->values_edit_active = TRUE;
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat (KEY_RIGHT, NO, 30, 3))
+    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat (KEY_RIGHT, FALSE, 30, 3))
     {
-        if (mv->values_edit_position < (16-1) * 16 - 1)
+        if (mv->values_edit_position < (mv->size_lines-1) * mv->size_columns - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * 16 + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
                 mv->values_edit_position --;
         }
-        else if (((mv->values_edit_position & 15) == 15) && mv->memblock_first + mv->memblock_lines_nbr < mv->memblocks_max)
+        else if (((mv->values_edit_position % mv->size_columns) == (mv->size_columns - 1)) && mv->memblock_first + mv->size_lines < mv->memblocks_max)
         {
             mv->memblock_first++;
-            mv->values_edit_position -= 16 - 1;
+            mv->values_edit_position -= mv->size_columns - 1;
         }
-        else if (mv->values_edit_position < 16 * 16 - 1)
+        else if (mv->values_edit_position < (mv->size_lines * mv->size_columns) - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * 16 + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
                 mv->values_edit_position --;
         }
         // mv->values_edit_active = TRUE;
-        MemoryViewer_SetupEditValueBox();
+        MemoryViewer_SetupEditValueBox(mv);
     }
 
     // Limits
-    if (mv->memblock_first + mv->memblock_lines_nbr > mv->memblocks_max)
-        mv->memblock_first = MAX(mv->memblocks_max - mv->memblock_lines_nbr, 0);
+    if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
+        mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
     else if (mv->memblock_first < 0)
         mv->memblock_first = 0;
+}
+
+//-----------------------------------------------------------------------------
+
+void      MemoryViewers_Update(void)
+{
+    t_list *mvs;
+    for (mvs = MemoryViewers; mvs != NULL; mvs = mvs->next)
+    {
+        t_memory_viewer *mv = (t_memory_viewer *)mvs->elem;
+        MemoryViewer_Update(mv);
+    }
+}
+
+void      MemoryViewers_MediaReload(void)
+{
+    t_list *mvs;
+    for (mvs = MemoryViewers; mvs != NULL; mvs = mvs->next)
+    {
+        t_memory_viewer *mv = (t_memory_viewer *)mvs->elem;
+        MemoryViewer_MediaReload(mv);
+    }
 }
 
 //-----------------------------------------------------------------------------

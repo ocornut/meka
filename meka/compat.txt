@@ -1,10 +1,12 @@
 -----------------------------------------------------------------------------
  MEKA - Compatibility List
 -----------------------------------------------------------------------------
+ Please contact me or post on MEKA forum if you suspect any game or having
+ a problem not mentionned here.
+-----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  SEGA MASTER SYSTEM (SMS) COMPATIBILITY LIST
- by Omar Cornut
 -----------------------------------------------------------------------------
  FM:        Supports FM Music
  LP/(LP):   Requires/Supports Light Phaser
@@ -42,12 +44,12 @@
  Arcade Smash Hits                              -       Ok
  Argos no ju-jiken / Rygar [A] (JP)             -       Ok
  Argos no ju-jiken / Rygar [B] (JP)             -       Ok
- Ariel - The Little Mermaid (BR)               *-       Ok
+ Ariel - The Little Mermaid (BR)                -       Ok
  Ashura (JP)                                    -       Ok
  Assault City                                   -       Ok
  Assault City [Light Phaser]                    LP      Ok
- Asterix [V0]                                   -       Ok
- Asterix [V1]                                   -       Ok
+ Asterix [v0]                                   -       Ok
+ Asterix [v1]                                   -       Ok
  Asterix and the Great Rescue                   -       Ok
  Asterix and the Secret Mission                 -       Ok
  Astro Flash (JP)                               -       Ok
@@ -126,7 +128,7 @@
  Excellent Dizzy Collection, The [Proto]        -       Ok (The prototype isn't really playable)
  F1                                             -       Ok
  F-16 Fighter                                   -       Ok
- F-16 Fighting Falcon (US)                     *-       Ok
+ F-16 Fighting Falcon (US)                      -       Ok
  F-16 Fighting Falcon (JP)                      -       Ok
  Fantastic Dizzy                                -       Minor graphic bug when pausing.
  Fantasy Zone                                   -       Ok
@@ -145,8 +147,8 @@
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Gain Ground                                    -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
- Galaxy Force [60 Hz]                           FM      Ok
- Galaxy Force [50 / 60 Hz]                      FM      Ok
+ Galaxy Force                                   FM      Ok
+ Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
  Gangster Town                                  LP      Ok
  Gauntlet                                       -       Ok
@@ -157,7 +159,7 @@
  Ghostbusters                                   -       Ok
  Ghouls'n Ghosts                                -       Ok
  Global Defense                                 FM      Ok
- Global Defense [Proto]                        *FM      Ok
+ Global Defense [Proto]                         FM      Ok
  Global Gladiators                              -       Ok
  G-LOC - Air Battle                             -       Ok
  Gokuaku Doumei Dump Matsumoto (JP)             -       Ok
@@ -168,13 +170,15 @@
  Golvellius - Valley of Doom                    FM      Ok
  GP Rider                                       -       Ok
  Great Baseball                                 -       Ok
- Great Baseball (JP)                            -       Ok
+ Great Baseball [JP] (JP)                       -       Ok
  Great Basketball                               -       Ok
  Great Football                                 -       Ok
  Great Golf / Masters Golf                      FM      Ok
  Great Golf [JP] (JP)                           -       Ok
  Great Ice Hockey                               SP      Ok
+ Great Soccer                                   -       Ok
  Great Soccer (JP)                              -       Ok
+ Great Tennis / Super Tennis (JP)               -       Ok
  Great Volleyball                               -       Ok
  Great Volleyball (JP)                          -       Ok
  Haja no Fuuin (JP)                             FM      Ok
@@ -317,7 +321,7 @@
  Secret Command                                 -       Ok
  Sega Chess                                     -       Ok
  Sega World Tournament Golf                     -       Ok
- Seishun Scandal (JP)                          *-       Ok
+ Seishun Scandal (JP)                           -       Ok
  Sensible Soccer                                -       Ok
  Shadow Dancer - The Secret Of Shinobi          -       Ok
  Shadow of the Beast                            -       Ok
@@ -337,8 +341,8 @@
  Sonic Chaos                                    -       Ok
  Sonic Spinball                                 -       Ok
  Sonic The Hedgehog                             -       Ok
- Sonic The Hedgehog 2 [V0]                      -       Ok
- Sonic The Hedgehog 2 [V1]                      -       Ok
+ Sonic The Hedgehog 2 [v0]                      -       Ok
+ Sonic The Hedgehog 2 [v1]                      -       Ok
  Space Gun                                      LP      Ok
  Space Harrier [50 Hz]                          -       Ok
  Space Harrier [50 / 60 Hz]                     -       Ok
@@ -376,7 +380,6 @@
  Super Smash T.V.                               -       Ok
  Super Space Invaders                           -       Ok
  Super Tennis                                   -       Ok
- Super Tennis (JP)                             *-       Ok
  Super Tetris (KR)                              -       Ok
  Super Wonder Boy (JP)                          -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
@@ -389,6 +392,7 @@
  Tecmo World Cup '93 [Proto]                    -       Ok
  Teddy Boy                                      -       Ok
  Teddy Boy Blues (JP)                           -       Ok
+ Teddy Boy Blues [EP-MyCard] (JP)               -       Ok
  Tennis Ace                                     FM      Ok
  Tensai Bakabon (JP)                            FM      Ok
  Terminator, The                                -       Ok
@@ -449,7 +453,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 435 games tested - 433 are "Ok" - Compatibility rate: 99.53%
+ 437 games tested - 435 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -470,7 +474,6 @@
 
 -----------------------------------------------------------------------------
  SEGA GAME 1000 (SG-1000) COMPATIBILITY LIST
- by Omar Cornut
 -----------------------------------------------------------------------------
  Note: (JP) flags are not marked there unless when there's several version.
  All SG-1000 games were originally released in Japan.
@@ -560,7 +563,6 @@
 
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
- by Omar Cornut
 -----------------------------------------------------------------------------
  Challenge Derby                          OM-G005  *Ok
  Guzzler                                  OM-G002   Ok
@@ -576,7 +578,6 @@
 
 -----------------------------------------------------------------------------
  SEGA COMPUTER 3000 (SC-3000) COMPATIBILITY LIST
- by Omar Cornut
 -----------------------------------------------------------------------------
  Note: (JP) flags are not marked there unless when there's several version.
  All SC-3000 cartridge software were originally released in Japan.
@@ -585,14 +586,14 @@
  Chuugaku Hissyuu Eitango (JHS 2)           E-110  *Ok
  Chuugaku Hissyuu Eisakubun (JHS 2)         E-111  *Ok
  Chuugaku Hissyuu Eibunpou (JHS 2)          E-112  *Ok
- Home Basic                                 B-50   *Ok (can't write to cassette)
+ Home Basic                                 B-50   *Ok (can't write to tape)
  Kagaku (Gensokigou Master)                 E-107  *Ok
  Nihonshi Nenpyou                           E-108   Ok
- Sega Basic Level 2 (JP)                    B-30    Ok (can't write to cassette)
- Sega Basic Level 3 1.0                     B-40    Ok (can't write to cassette)
- Sega Basic Level 3 1.1 (JP)                B-41   *Ok (can't write to cassette)
- Sega Music Editor                          E-101   Ok (can't write to cassette)
- Sega Music Editor (JP)                     E-101   Ok (can't write to cassette)
+ Sega Basic Level 2 (JP)                    B-30    Ok (can't write to tape)
+ Sega Basic Level 3 1.0                     B-40    Ok (can't write to tape)
+ Sega Basic Level 3 1.1 (JP)                B-41   *Ok (can't write to tape)
+ Sega Music Editor                          E-101   Ok (can't write to tape)
+ Sega Music Editor (JP)                     E-101   Ok (can't write to tape)
  Sekaishi Nenpyou                           E-109  *Ok
  Tanoshii Sansuu                            E-115   Ok
  Uranai Angel Cuty                          E-119  *Ok
@@ -602,7 +603,6 @@
 
 -----------------------------------------------------------------------------
  SUPER CONTROL STATION (SF-7000) COMPATIBILITY LIST
- by Omar Cornut
 -----------------------------------------------------------------------------
  Note: 
   Disk writing is not yet well supported, and modified disks are not saved.
@@ -612,15 +612,14 @@
  Complete Arcade Pack Collection, The (NZ)          Ok
  Crocky (FR)                                        Bad Dump
  Kamikaze  (FR)                                     Ok
- Sega Disk Basic v1.0p                              Ok (Can't write to disk / cassette)
- Sega Logo v1.0e                                    Ok (Can't write to disk / cassette)
+ Sega Disk Basic v1.0p                              Ok (can't write to disk / cassette)
+ Sega Logo v1.0e                                    Ok (can't write to disk / cassette)
  Poseidon Wars / Space Panic / Rambo (FR)           Ok (Rambo isn't finished)
  Yeno Draw (FR)                                     Ok
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  GAME GEAR (GG) COMPATIBILITY LIST
- by Omar Cornut and Mxs
 -----------------------------------------------------------------------------
  5 in 1 Fun Pak                                     Ok
  Aa Harimanada (JP)                                 Ok
@@ -636,7 +635,7 @@
  Arch Rivals                                        Ok
  Arena - Maze of Death                              Ok
  Ariel - The Little Mermaid                         Ok
- Arliel - Crystal Densetsu (JP)                    *Ok
+ Arliel - Crystal Densetsu (JP)                     Ok
  Asterix and the Great Rescue                       Ok
  Asterix and the Great Rescue (US)                  Ok
  Ax Battler - A Legend of Golden Axe [v1.5] (JP)    Ok
@@ -703,7 +702,8 @@
  Dragon - The Bruce Lee Story                       Ok
  Drop Zone                                          Ok
  Dunk Kids                                          Ok
- Dynamite Headdy                                    Ok
+ Dynamite Headdy                                   *Ok
+ Dynamite Headdy (JP)                               Ok
  Earthworm Jim                                      Ok
  Ecco the Dolphin                                   Ok
  Ecco - The Tides of Time                           Ok
@@ -726,7 +726,7 @@
  Frank Thomas Big Hurt Baseball                     Ok
  Fray (JP)                                         *Ok
  Fred Couples Golf                                  Ok
- Fred Couples Golf (JP)                            *Ok
+ Fred Couples Golf (JP)                             Ok
  Frogger [Proto]                                    Ok
  From TV animation - Slam Dunk - Shouri-e no.. (JP) Ok
  Galaga '91                                         Ok
@@ -762,7 +762,7 @@
  Hurricanes                                         Ok
  Hyokkori Hyoutan Jima (JP)                         Ok
  Hyper Pro Yakyuu '92 (JP)                         *Ok
- Ichidanto-R (JP)                                  *Ok
+ Ichidant~R GG (Puzzle & Action)                   *Ok
  Incredible Crash Dummies, The                      Ok
  Incredible Hulk, The                               Ok
  Indiana Jones and the Last Crusade                 Ok
@@ -770,6 +770,7 @@
  Itchy & Scratchy                                   Ok
  James Bond 007: The Duel                           Ok
  James Pond II - Codename: Robocod                  Ok
+ Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
  Jeopardy! - Sports Edition                         Ok
  J League GG Pro Striker '94 (JP)                   Ok
@@ -842,7 +843,7 @@
  NBA JAM                                           *Ok
  NBA JAM (JP)                                       Ok
  NBA JAM Tournament Edition                         Ok
- Neko Daisuki! (JP)                                *Ok
+ Neko Daisuki! (JP)                                 Ok
  NFL '95                                            Ok
  NFL Quarterback Club                               Ok
  NFL Quarterback Club '96                           Ok
@@ -852,7 +853,7 @@
  Ninja Gaiden (JP)                                  Ok
  Ninku (JP)                                         Ok
  Ninku 2 ~Tenkuryu-e no Michi~ (JP)                 Ok
- Ninku Gaiden (JP)                                 *Ok
+ Ninku Gaiden - Hiroyuki Daikatsugeki (JP)          Ok
  Nomo's World Series Baseball (JP)                  Ok
  Olympic Gold [A] [SMS-GG]                         *Ok
  Olympic Gold [B] [SMS-GG]                          Ok
@@ -890,7 +891,7 @@
  Prince of Persia [SMS-GG] [B]                     *Ok
  Primal Rage                                        Ok
  Pro Yakyuu GG League (JP)                         *Ok
- Pro Yakyuu GG League '94                           Ok
+ Pro Yakyuu GG League '94 (JP)                      Ok
  Psychic World                                      Ok
  Putt & Putter                                      Ok
  Putt & Putter (JP)                                 Ok
@@ -898,7 +899,7 @@
  Puzlow Kids / Puyo Puyo                            Ok
  Puzzle Bobble (JP)                                *Ok
  Quest for the Shaven Yak Starring Ren Hoëk & Sti.. Ok
- Rastan Saga [SMS-GG] (JP)                         *Ok
+ Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
  Revenge of Drancon                                 Ok
  Riddick Rowe Boxing                                Ok
@@ -939,8 +940,8 @@
  Sonic Drift 2                                      Ok
  Sonic Labyrinth                                    Ok
  Sonic Spinball                                     Ok
- Sonic The Hedgehog [V0]                            Ok
- Sonic The Hedgehog [V1]                            Ok
+ Sonic The Hedgehog [v0]                            Ok
+ Sonic The Hedgehog [v1]                            Ok
  Sonic The Hedgehog [Proto]                         Ok
  Sonic The Hedgehog 2                               Ok
  Sonic Triple Trouble                               Ok
@@ -983,7 +984,7 @@
  Taito Chase H.Q. [SMS-GG] (JP)                     Ok
  Tale Spin                                          Ok
  Tama & Friends - 3chome Koen Tamalympic (JP)       Ok
- Tanto-R (JP)                                       Ok
+ Tant~R (Puzzle & Action) (JP)                      Ok
  Tatakae! Pro Yakyuu Twin League (JP)              *Ok
  Taz in Escape from Mars                            Ok
  Taz-Mania                                          Ok
@@ -1017,13 +1018,13 @@
  Wonder Boy                                         Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
- Woody Pop [V0]                                     Ok
- Woody Pop [V1]                                     Ok
+ Woody Pop [v0]                                     Ok
+ Woody Pop [v1]                                     Ok
  World Class Leader Board                           Ok
  World Cup USA 94                                   Ok
  World Derby (JP)                                   Ok
- World Series Baseball [A]                          Ok
- World Series Baseball [B]                          Ok
+ World Series Baseball [v0]                         Ok
+ World Series Baseball [v1]                         Ok
  World Series Baseball '95                          Ok
  WWF Raw                                            Ok
  WWF Wrestlemania Steel Cage Challenge [SMS-GG]     Ok
@@ -1038,7 +1039,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 414 games tested - 406 are "Ok" - Compatibility rate: 98.07%
+ 417 games tested - 408 are "Ok" - Compatibility rate: 97.84%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1249,3 +1250,4 @@
 -----------------------------------------------------------------------------
  180 games tested, too many are not Ok
 -----------------------------------------------------------------------------
+ 

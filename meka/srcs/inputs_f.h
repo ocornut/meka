@@ -9,7 +9,6 @@
 
 void    Load_Inputs_Src_List (void);
 void    Write_Inputs_Src_List (void);
-int     Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *ISrc);
 
 //-----------------------------------------------------------------------------
 

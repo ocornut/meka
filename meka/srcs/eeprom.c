@@ -5,7 +5,10 @@
 
 #include "shared.h"
 // #define DEBUG_EEPROM
+#include "eeprom.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    BMemory_93c46_Load (FILE *f)
@@ -53,7 +56,7 @@ void    EEPROM_93c46_Control (byte v)
      EEPROM_93c46_Init (EEPROM_93C46_INIT_ALL);
      return;
      }
-  EEPROM_93c46.Enabled = (v & 0x08) ? YES : NO;
+  EEPROM_93c46.Enabled = (v & 0x08) ? TRUE : FALSE;
   #ifdef DEBUG_EEPROM
      Msg (MSGT_DEBUG, "At PC=%04X: 93c46: Enabled=%02X", CPU_GetPC, v);
   #endif
@@ -70,9 +73,9 @@ void    EEPROM_93c46_Init (int Init)
 {
   if (Init == EEPROM_93C46_INIT_ALL)
      {
-     EEPROM_93c46.Enabled = NO;
+     EEPROM_93c46.Enabled = FALSE;
      EEPROM_93c46.Lines = 0x00 | EEPROM_93C46_LINE_DATA_OUT;
-     EEPROM_93c46.Read_Only = YES;
+     EEPROM_93c46.Read_Only = TRUE;
      }
   EEPROM_93c46.Status = EEPROM_93C46_STATUS_START;
   EEPROM_93c46.Opcode = 0x0000;
@@ -150,7 +153,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                              #ifdef DEBUG_EEPROM
                                 Msg (MSGT_DEBUG, "At PC=%04X: 93c46: E/W DISABLE", CPU_GetPC);
                              #endif
-                             EEPROM_93c46.Read_Only = YES;
+                             EEPROM_93c46.Read_Only = TRUE;
                              EEPROM_93c46.Status = EEPROM_93C46_STATUS_START;
                              return;
                         case 0x10: // 00: WRITE ALL ----------------------------
@@ -162,7 +165,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                              EEPROM_93c46.Status = EEPROM_93C46_STATUS_WRITING;
                              return;
                         case 0x20: // 00: ERASE ALL ----------------------------
-                             if (EEPROM_93c46.Read_Only == NO)
+                             if (EEPROM_93c46.Read_Only == FALSE)
                                 {
                                 #ifdef DEBUG_EEPROM
                                    Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE ALL", CPU_GetPC());
@@ -180,7 +183,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                              #ifdef DEBUG_EEPROM
                                 Msg (MSGT_DEBUG, "At PC=%04X: 93c46: E/W ENABLE", CPU_GetPC);
                              #endif
-                             EEPROM_93c46.Read_Only = NO;
+                             EEPROM_93c46.Read_Only = FALSE;
                              EEPROM_93c46.Status = EEPROM_93C46_STATUS_START;
                              return;
                         }
@@ -203,7 +206,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                       EEPROM_93c46.Lines &= ~EEPROM_93C46_LINE_DATA_OUT; // Dummy Zero
                       return;
                  case 0xC0: // 11: ERASE ---------------------------------------
-                      if (EEPROM_93c46.Read_Only == NO)
+                      if (EEPROM_93c46.Read_Only == FALSE)
                          {
                          #ifdef DEBUG_EEPROM
                             Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE %02X", CPU_GetPC, EEPROM_93c46.Opcode & 0x3F);
@@ -239,7 +242,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
             EEPROM_93c46.Latch = (EEPROM_93c46.Latch << 1) | data;
             if (++EEPROM_93c46.Position == 16)
                {
-               if (EEPROM_93c46.Read_Only == NO)
+               if (EEPROM_93c46.Read_Only == FALSE)
                   {
                   if ((EEPROM_93c46.Opcode & 0x40) == 0x40)
                      { // 01: WRITE -----------------------------------------------

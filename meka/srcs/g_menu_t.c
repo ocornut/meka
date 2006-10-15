@@ -6,33 +6,35 @@
 #include "shared.h"
 
 //-----------------------------------------------------------------------------
+// Functions - Old API, rewrite and make this obsolete
+//-----------------------------------------------------------------------------
 
 // HIGHLIGHT A MENU ENTRY -----------------------------------------------------
 void    gui_menu_highlight (int menu_id, int entry_id)
 {
- int    x1, x2;
- int    y1, y2;
+    int    x1, x2;
+    int    y1, y2;
 
- gui_menu_return_entry_pos (menu_id, entry_id, &x1, &y1, &x2, &y2);
- rectfill (gui_buffer, x1 - 2, y1, x2 + 2, y2, GUI_COL_HIGHLIGHT);
+    gui_menu_return_entry_pos (menu_id, entry_id, &x1, &y1, &x2, &y2);
+    rectfill (gui_buffer, x1 - 2, y1, x2 + 2, y2, COLOR_SKIN_MENU_SELECTION);
 }
 
 // RETURN COORDINATE OF CHILDREN MENU -----------------------------------------
 void    gui_menu_return_children_pos (int p_menu, int p_entry, int *x, int *y)
 {
- int    x1, x2;
- int    y1, y2;
+    int    x1, x2;
+    int    y1, y2;
 
- gui_menu_return_entry_pos (p_menu, p_entry, &x1, &y1, &x2, &y2);
- if (p_menu == MENU_ID_MAIN)
+    gui_menu_return_entry_pos (p_menu, p_entry, &x1, &y1, &x2, &y2);
+    if (p_menu == MENU_ID_MAIN)
     {
-    *x = x1;
-    *y = y2 + 5;
+        *x = x1;
+        *y = y2 + 5;
     }
- else
+    else
     {
-    *x = x2 + 5;
-    *y = y1 - 1;
+        *x = x2 + 5;
+        *y = y1 - 1;
     }
 }
 
@@ -121,7 +123,7 @@ int     menu_new (void)
 }
 
 // ADD A MENU ITEM ------------------------------------------------------------
-int                     menu_add_menu (int menu_id, char *label, int attr)
+int                     menu_add_menu (int menu_id, const char *label, int attr)
 {
  gui_type_menu          *menu;
  gui_type_menu_entry    *entry;
@@ -148,10 +150,10 @@ int                     menu_add_menu (int menu_id, char *label, int attr)
 }
 
 // ADD A MENU SUBMENU ---------------------------------------------------------
-int                     menu_add_item (int menu_id, char *label, int attr, void (*func)())
+int                     menu_add_item (int menu_id, const char *label, int attr, void (*event_handler)(), void *user_data)
 {
- gui_type_menu          *menu;
- gui_type_menu_entry    *entry;
+ gui_type_menu *		menu;
+ gui_type_menu_entry *	entry;
 
  menu = menus [menu_id];
  if (menu->n_entry >= MAX_MENUS_ENTRY)
@@ -165,11 +167,13 @@ int                     menu_add_item (int menu_id, char *label, int attr, void 
  entry->type = ITEM_EXECUTE;
  entry->attr = attr;
  entry->mouse_over = 0;
- entry->func = func;
+ entry->event_handler = event_handler;
+ entry->user_data = user_data;
  return (menu->n_entry ++);
 }
 
 // SET ALL "MOUSE_OVER" VARIABLE TO ZERO, RECURSIVELY -------------------------
+// FIXME: Make obsolete
 void            gui_menu_un_mouse_over (int menu_id)
 {
  int            i;
@@ -190,6 +194,7 @@ void            gui_menu_un_mouse_over (int menu_id)
 }
 
 // SET ALL "CHECKED" ATTRIBUTES TO ZERO, RECURSIVELY --------------------------
+// FIXME: Make obsolete
 void            gui_menu_un_check (int menu_id)
 {
  int            i;
@@ -206,6 +211,7 @@ void            gui_menu_un_check (int menu_id)
 }
 
 // SET ALL "CHECKED" ATTRIBUTES TO ZERO, RECURSIVELY --------------------------
+// FIXME: Make obsolete
 void            gui_menu_un_check_area (int menu_id, int start, int end)
 {
  int            i;
@@ -221,16 +227,19 @@ void            gui_menu_un_check_area (int menu_id, int start, int end)
      }
 }
 
+// FIXME: Make obsolete
 void            gui_menu_active (int active, int menu_id, int menu_item)
 {
- gui_type_menu  *menu = menus [menu_id];
+    gui_type_menu  *menu = menus [menu_id];
 
- if (active)
-    menu->entry[menu_item]->attr |= (AM_Active);
- else
-    menu->entry[menu_item]->attr &= (~AM_Active);
+    assert(menu_item >= 0 && menu_item < menu->n_entry);
+    if (active)
+        menu->entry[menu_item]->attr |= (AM_Active);
+    else
+        menu->entry[menu_item]->attr &= (~AM_Active);
 }
 
+// FIXME: Make obsolete
 void            gui_menu_active_area (int active, int menu_id, int start, int end)
 {
  int            i;
@@ -245,6 +254,7 @@ void            gui_menu_active_area (int active, int menu_id, int start, int en
      }
 }
 
+// FIXME: Make obsolete
 // INVERSE CHECK ATTRIBUTE OF A CERTAIN ENTRY ---------------------------------
 void    gui_menu_inverse_check (int menu_id, int n_entry)
 {

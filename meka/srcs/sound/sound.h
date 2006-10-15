@@ -66,7 +66,7 @@ typedef struct
     LPAUDIOWAVE lpWave;
     LPBYTE      vstreambuf;     // use bufferedstream mode: stock buffer
     int         vstreambuf_chunk_ready[3];
-    int         playing;        // YES/NO
+    int         playing;        // TRUE/FALSE
     // Variables below are unclear...
     int         vbits;
     int         vchan;          // use bufferedstream mode : write butter counter

@@ -9,7 +9,8 @@
 #include "db.h"
 #include "vlfn.h"
 #include "g_file.h"
-#include "libparse.h"
+#include "tools/libparse.h"
+#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -228,7 +229,8 @@ void        VLFN_RemoveEntry (const char *file_name)
     if (entry != NULL)
     {
         // Delete and remove from list
-        list_remove (&VLFN_DataBase.entries, entry, VLFN_Entry_Delete);
+        list_remove(&VLFN_DataBase.entries, entry);
+        VLFN_Entry_Delete(entry);
 
         // Ask file browser to reload names
         FB_Reload_Names ();

@@ -27,8 +27,8 @@ void   	list_free_no_elem(t_list **list);
 /* Free a list, call given function on all elements */
 void    list_free_custom(t_list **list, void (*custom_free)());
 
-/* Remove a given element from a list. if freer != NULL, call freer on the ->elem */
-void    list_remove(t_list **list, void *elem, void (*freer)());
+/* Remove a given element from a list. */
+void    list_remove(t_list **list, void *elem);
 
 /* Reverse a list */
 void   	list_reverse(t_list **list);

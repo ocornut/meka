@@ -7,17 +7,20 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-int     gamebox_create (int x, int y);
-void    gamebox_create_on_mouse_pos (void);
-void    gamebox_kill_all (void);
-void    gamebox_kill_last (void);
+t_gui_box * gamebox_create (int x, int y);
 
-int     gamebox_x (void);
-int     gamebox_y (void);
+int         gamebox_x (void);
+int         gamebox_y (void);
 
-void    gamebox_draw (int which, int sx, int sy, BITMAP *game_buffer);
-void    gamebox_resize_all (void);
-void    gamebox_rename_all (void);
+void        gamebox_draw (int sx, int sy, BITMAP *game_buffer);
+void        gamebox_resize_all (void);
+void        gamebox_rename_all (void);
+
+//-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+extern t_gui_box *  gamebox_instance;
 
 //-----------------------------------------------------------------------------
 

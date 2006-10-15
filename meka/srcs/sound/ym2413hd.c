@@ -46,7 +46,7 @@ word    fref[9];
 // Variables
 //-----------------------------------------------------------------------------
 
-int                     FM_OPL_Initialized = NO;
+int                     FM_OPL_Initialized = FALSE;
 t_fm_unit_interface     FM_OPL_Interface =
 {
   "YM-2413 OPL Emulator",
@@ -97,7 +97,7 @@ int     FM_OPL_Init (void *userdata /* unused */)
   ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_YM2413_OPL));
 
   FM_OPL_Reset ();
-  FM_OPL_Initialized = YES;
+  FM_OPL_Initialized = TRUE;
 
   ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));
   return (MEKA_ERR_OK);
@@ -385,7 +385,7 @@ void    FM_OPL_Write (int R, int V)
   // FIXME: is the first test necessary ?
   // Note: the second is necessary, when an FM_OPL_Update() is called by the
   // sound engine, while the FM emulator has already been switched to another!
-  if (FM_OPL_Initialized == NO || Sound.FM_Emulator_Current != FM_EMULATOR_YM2413HD)
+  if (FM_OPL_Initialized == FALSE || Sound.FM_Emulator_Current != FM_EMULATOR_YM2413HD)
      {
      FM_OPL_Regs[R] = V;
      return;

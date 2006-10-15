@@ -4,35 +4,23 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Definitions
-//-----------------------------------------------------------------------------
-
-#define OPTIONS_BUTTON_X        (54)
-#define OPTIONS_BUTTON_Y        (25)
-#define OPTIONS_PAD_X           (6)
-#define OPTIONS_PAD_Y           (6)
-#define OPTIONS_CHECK_X         (11)
-#define OPTIONS_CHECK_Y         (11)
-
-//-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct
+typedef struct
 {
-    BITMAP *Bmp;
-    byte    Active, ID;
-    int     Res_X, Res_Y;
-} Options;
+    t_gui_box * box;
+    bool        active;
+} t_app_options;
+
+t_app_options   Options;
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 void    Options_Init_Applet     (void);
+void    Options_Update          (void);
 void    Options_Switch          (void);
 
-void    Option_Switch_Uses_VLFN (void);
-
 //-----------------------------------------------------------------------------
-

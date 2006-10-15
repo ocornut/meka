@@ -59,12 +59,12 @@ void    TVType_Set (int tv_type, bool verbose)
 
 void    TVType_Set_NTSC (void)
 {
-    TVType_Set (TVTYPE_NTSC, YES);
+    TVType_Set (TVTYPE_NTSC, TRUE);
 }
 
 void    TVType_Set_PAL_SECAM (void)
 {
-    TVType_Set (TVTYPE_PAL_SECAM, YES);
+    TVType_Set (TVTYPE_PAL_SECAM, TRUE);
 }
 
 //-----------------------------------------------------------------------------

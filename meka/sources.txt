@@ -175,11 +175,11 @@ I. Compile for Microsoft Windows:
  - Install zlib
    - http://www.gzip.org/zlib/
    - Compile static to zlibs.lib.
-   - Add ZLIBDIR environment variable to ZLIB root directory.
+   - Add ZLIBDIR environment variable, set to ZLIB root directory.
  - Install libpng
    - http://www.libpng.org/pub/png/libpng.html
    - Compile static
-   - Add LIBPNGDIR environment variable to libpng root directory.
+   - Add LIBPNGDIR environment variable, set to libpng root directory.
  - Install NASM
    - http://nasm.sourceforge.net
    - Add NASM environment variable, set to executable path.
@@ -231,7 +231,6 @@ III. Compile for UNIX
  - Compile !
    - Use provided Makefile.
    - May have to edit some source code (unsure, will need to be worked out)
-     - In *.asm files, may need to uncomment the %DEFINE lines at the topm
      - In sound/sound.h, may need to change <seal.h> by <audio.h>.
      - In Makefile, may need to change -lseal by -laudio.
  - Contact me thru the forum for any help. :)

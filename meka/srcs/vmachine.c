@@ -7,34 +7,13 @@
 #include "bios.h"
 #include "db.h"
 #include "file.h"
-#include "vmachpal.c"
+#include "games.h"
+#include "effects.h"
+#include "skin_bg.h"
 
 //-----------------------------------------------------------------------------
-
-// INITIALIZE SMS COLOR ENTRYS ------------------------------------------------
-void            VMachine_Init_Colors (void)
-{
-  int           i;
-  PALETTE       Pal;
-  byte *        Array;
-
-  #ifdef DEBUG_WHOLE
-    Msg (MSGT_DEBUG, "VMachine_Init_Colors ();");
-  #endif
-  if (cur_drv->id != DRV_COLECO)
-     Array = VMachine_Palette_SMS;
-  else
-     Array = VMachine_Palette_Coleco;
-
-  // temp.filler = 0;
-  for (i = 0; i < GUI_COL_MACHINE_NUM; i ++)
-      {
-      Pal [i].r = Array [(i * 3) + 0] / 4;
-      Pal [i].g = Array [(i * 3) + 1] / 4;
-      Pal [i].b = Array [(i * 3) + 2] / 4;
-      }
-  Palette_SetColor_Range (GUI_COL_MACHINE_START, GUI_COL_MACHINE_START + GUI_COL_MACHINE_NUM - 1, Pal);
-}
+// Functions
+//-----------------------------------------------------------------------------
 
 void    VMachine_Draw (void)
 {
@@ -82,7 +61,7 @@ void    Machine_ON (void)
  if (!(machine & MACHINE_POWER_ON))
     {
     machine |= MACHINE_POWER_ON;
-    CPU_Loop_Stop = YES;
+    CPU_Loop_Stop = TRUE;
     Machine_Reset ();
     if (!(machine & MACHINE_ROM_LOADED))
        {
@@ -92,28 +71,29 @@ void    Machine_ON (void)
        BIOS_Load ();
        Machine_Remove_Cartridge ();
        }
-    Regenerate_Background ();
+    Skins_Background_Redraw();
     }
 }
 
 void    Machine_OFF (void)
 {
- if (machine & MACHINE_POWER_ON)
+    if (machine & MACHINE_POWER_ON)
     {
-    BMemory_Save ();                    // Write Backed Memory if necessary
-    game_running = GAME_RUNNING_NONE;   // No internal game is playing
-    machine &= ~MACHINE_POWER_ON;       // Switch power Off
-    CPU_Loop_Stop = YES;                // Setup flag to stop Z80 emulation
-    Machine_Reset ();                   // Reset machine
-    Regenerate_Background ();
-    effects.TV_Start_Line = 0;
-   }
+        BMemory_Save ();                    // Write Backed Memory if necessary
+        game_running = GAME_RUNNING_NONE;   // No internal game is playing
+        machine &= ~MACHINE_POWER_ON;       // Switch power Off
+        CPU_Loop_Stop = TRUE;                // Setup flag to stop Z80 emulation
+        Machine_Reset ();                   // Reset machine
+        Skins_Background_Redraw();
+        //effects.TV_Start_Line = 0;
+        Effects_TV_Reset();
+    }
 }
 
 void    Machine_Insert_Cartridge (void)
 {
     machine |= MACHINE_CART_INSERTED;
-    Regenerate_Background ();
+    Skins_Background_Redraw();
 }
 
 void    Machine_Remove_Cartridge (void)
@@ -123,7 +103,7 @@ void    Machine_Remove_Cartridge (void)
         memset (Game_ROM, 0, tsms.Size_ROM);
     }
     machine &= ~MACHINE_CART_INSERTED;
-    Regenerate_Background ();
+    Skins_Background_Redraw();
 }
 
 void    Free_ROM (void)
@@ -148,12 +128,10 @@ void    Free_ROM (void)
     Machine_Reset ();
     gamebox_rename_all ();
     Change_System_Misc ();
-    Effects_TV_Init_Colors ();
 
-    // Clear filename data
-    strcpy(file.rom, "");
+	// Clear filename data
+    strcpy(Env.Paths.MediaImageFile, "");
     Filenames_Init_ROM();
 }
 
 //-----------------------------------------------------------------------------
-

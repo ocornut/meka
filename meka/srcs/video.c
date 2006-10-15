@@ -11,6 +11,8 @@
 #include "fskipper.h"
 #include "inputs_i.h"
 #include "inputs_t.h"
+#include "palette.h"
+#include "skin_bg.h"
 #include "vdp.h"
 #include "osd/misc.h"
 #include "osd/timer.h"
@@ -30,18 +32,16 @@ extern int    _wait_for_vsync;
 void    Video_Init (void)
 {
     // Allocate buffers
-    screenbuffer_1      = create_bitmap (MAX_RES_X + 32, MAX_RES_Y + 32);
-    screenbuffer_2      = create_bitmap (MAX_RES_X + 32, MAX_RES_Y + 32);
+    screenbuffer_1      = create_bitmap_ex(16, MAX_RES_X + 32, MAX_RES_Y + 32);
+    screenbuffer_2      = create_bitmap_ex(16, MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
     screenbuffer_next   = screenbuffer_2;
-    double_buffer       = NULL;
-    regular_buffer      = NULL;
 
     // Clear variables
     Video.res_x         = 0;
     Video.res_y         = 0;
     Video.page_flipflop = 0;
-    Video.clear_need    = NO;
+    Video.clear_need    = FALSE;
     Video.game_area_x1  = Video.game_area_x2 = Video.game_area_y1 = Video.game_area_y2 = 0;
     Video.driver        = 1;
     Video.refresh_rate_real = Video.refresh_rate_requested = 0;
@@ -66,13 +66,9 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
 
     // We must create the larger buffers in the current depth
     // FIXME-BLIT
-    if (regular_buffer)
-    {
-        destroy_bitmap(regular_buffer);
-	destroy_bitmap(double_buffer);
-    }
-    regular_buffer = create_bitmap (MAX_RES_X + 32, MAX_RES_Y + 32);
-    double_buffer  = create_bitmap ((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
+    if (Blit_Buffer_NativeTemp != NULL)
+        destroy_bitmap(Blit_Buffer_NativeTemp);
+    Blit_Buffer_NativeTemp = create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
 
     previous_mode.driver = driver;
     previous_mode.w = w;
@@ -105,6 +101,9 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     Video.refresh_rate_real = get_refresh_rate();
     Video_Mode_Update_Size ();
 
+    // Update true-color data
+    Data_UpdateVideoMode();
+
     rest(100);
 
     return (MEKA_ERR_OK);
@@ -125,30 +124,29 @@ void    Video_Mode_Update_Size (void)
 
 void    Video_Clear (void)
 {
-    Video.clear_need = YES;
-    // (clearing is done in blit.c)
+    // Note: actual clearing will be done in blit.c
+    Video.clear_need = TRUE;
 }
 
 void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
 {
-    int i;
-
-    assert(depth == 8); // One day...
+    t_list *boxes;
 
     Show_Mouse_In (NULL);
-    cfg.GUI_Res_X = res_x;
-    cfg.GUI_Res_Y = res_y;
-    gui_set_resolution(cfg.GUI_Res_X, cfg.GUI_Res_Y);
+    Configuration.video_mode_gui_res_x = res_x;
+    Configuration.video_mode_gui_res_y = res_y;
+    Configuration.video_mode_gui_depth = depth;
+    gui_set_video_mode(res_x, res_y, depth);
     if (Meka_State == MEKA_STATE_GUI)
         Video_Setup_State();
-    Regenerate_Background();
+    Skins_Background_Redraw();
 
     // Fix position
-    for (i = 0; i < gui.box_last; i ++)
+    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = gui.box[i];
+        t_gui_box *box = boxes->elem;;
         gui_box_clip_position(box);
-        box->must_redraw = YES;
+        box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     }
 }
 
@@ -167,27 +165,27 @@ void    Video_Setup_State (void)
         {
             int driver;
             //#ifdef WIN32
-            //   driver = blitters.current->driver_win;
+            //   driver = Blitters.current->driver_win;
             //#else
-            driver = blitters.current->driver;
+            driver = Blitters.current->driver;
             //#endif
 	
             // FIXME-BLIT
 
             // Set color depth
-            set_color_depth (blitters.current->video_depth);
+            set_color_depth(Blitters.current->video_depth);
 
-            if (blitters.current->triple_buffering)
+            if (Blitters.current->triple_buffering)
             {
                 if (Video_Mode_Change(
                         driver,
-                        blitters.current->res_x, blitters.current->res_y,
+                        Blitters.current->res_x, Blitters.current->res_y,
                     #ifdef WIN32
                         0, 0,
                     #else
-                        0, blitters.current->res_y * 2,
+                        0, Blitters.current->res_y * 2,
                     #endif
-                        blitters.current->refresh_rate, NO) != MEKA_ERR_OK)
+                        Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
                     Meka_State = MEKA_STATE_GUI;
                     Video_Setup_State ();
@@ -211,18 +209,18 @@ void    Video_Setup_State (void)
                 clear_to_color (fs_page_1, Border_Color);
                 clear_to_color (fs_page_2, Border_Color);
                 request_video_bitmap(fs_page_0);
-            } // if (blitters.current->triple_buffering)
-            else if (blitters.current->flip)
+            } // if (Blitters.current->triple_buffering)
+            else if (Blitters.current->flip)
             {
                 if (Video_Mode_Change (driver,
-                    blitters.current->res_x, blitters.current->res_y,
+                    Blitters.current->res_x, Blitters.current->res_y,
 #ifdef WIN32
                     0, 0,
 #else
-                    0, blitters.current->res_y * 2,
+                    0, Blitters.current->res_y * 2,
 #endif
-                    blitters.current->refresh_rate,
-                    NO) != MEKA_ERR_OK)
+                    Blitters.current->refresh_rate,
+                    FALSE) != MEKA_ERR_OK)
                 {
                     Meka_State = MEKA_STATE_GUI;
                     Video_Setup_State ();
@@ -250,10 +248,10 @@ void    Video_Setup_State (void)
             else
             {
                 if (Video_Mode_Change (driver,
-                    blitters.current->res_x, blitters.current->res_y,
+                    Blitters.current->res_x, Blitters.current->res_y,
                     0, 0,
-                    blitters.current->refresh_rate,
-                    NO) != MEKA_ERR_OK)
+                    Blitters.current->refresh_rate,
+                    FALSE) != MEKA_ERR_OK)
                 {
                     Meka_State = MEKA_STATE_GUI;
                     Video_Setup_State ();
@@ -263,47 +261,46 @@ void    Video_Setup_State (void)
                 fs_out = screen;
             }
             Change_Mode_Misc ();
-            Palette_Sync_All ();
+            //Palette_Sync_All ();
             // set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
         }
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
-            // Revert non-fullscreen color depth
-            // FIXME-BLIT
-	    set_color_depth(cfg.Video_Depth);
+            // Revert to GUI color depth
+            // FIXME-DEPTH
+	        set_color_depth(Configuration.video_mode_gui_depth);
 
-            switch (cfg.GUI_Access_Mode)
+            switch (Configuration.video_mode_gui_access_mode)
             {
             case GUI_FB_ACCESS_FLIPPED: //--------------------[ Two video pages ]---
                 {
                     #ifdef WIN32
-                        Video_Mode_Change (cfg.GUI_Driver, cfg.GUI_Res_X, cfg.GUI_Res_X, 0, 0, cfg.GUI_Refresh_Rate, YES);
+                    Video_Mode_Change (Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_x, 0, 0, Configuration.video_mode_gui_refresh_rate, TRUE);
                     #else
-                        Video_Mode_Change (cfg.GUI_Driver, cfg.GUI_Res_X, cfg.GUI_Res_X, 0, cfg.GUI_Res_Y * 2, cfg.GUI_Refresh_Rate, YES);
+                    Video_Mode_Change (Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_x, 0, Configuration.video_mode_gui_res_y * 2, Configuration.video_mode_gui_refresh_rate, TRUE);
                     #endif
-                    gui_page_0 = create_sub_bitmap (screen, 0, 0,             cfg.GUI_Res_X, cfg.GUI_Res_Y);
-                    gui_page_1 = create_sub_bitmap (screen, 0, cfg.GUI_Res_Y, cfg.GUI_Res_X, cfg.GUI_Res_Y);
+                    gui_page_0 = create_sub_bitmap (screen, 0, 0,                                   Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y);
+                    gui_page_1 = create_sub_bitmap (screen, 0, Configuration.video_mode_gui_res_y,  Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y);
                     opt.GUI_Current_Page = 1;
                     gui_buffer = gui_page_1;
-                    scroll_screen (0, cfg.GUI_Res_Y);
+                    scroll_screen (0, Configuration.video_mode_gui_res_y);
                     break;
                 }
             default: //---------------------------------[ One video page ]---
                 {
-                    Video_Mode_Change (cfg.GUI_Driver, cfg.GUI_Res_X, cfg.GUI_Res_Y, 0, 0, cfg.GUI_Refresh_Rate, YES);
-                    if (cfg.GUI_Access_Mode == GUI_FB_ACCESS_DIRECT)
-                    { gui_buffer = screen; }
+                    Video_Mode_Change (Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, 0, 0, Configuration.video_mode_gui_refresh_rate, TRUE);
+                    if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_DIRECT)
+                        gui_buffer = screen;
                     break;
                 }
             }
             gui_init_again ();
             Change_Mode_Misc ();
-
-            Palette_Sync_All ();
+            //Palette_Sync_All ();
 
             gui_redraw_everything_now_once ();
-            if (cfg.GUI_Access_Mode == GUI_FB_ACCESS_BUFFERED)
+            if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_BUFFERED)
             {
                 Show_Mouse_In (gui_buffer);
             }
@@ -352,13 +349,13 @@ void    Refresh_Screen (void)
 
         if (Meka_State == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
         {
-            if (cfg.GUI_Access_Mode == GUI_FB_ACCESS_FLIPPED)
+            if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_FLIPPED)
             {
                 opt.GUI_Current_Page ^= 1;
                 if (opt.GUI_Current_Page == 0)
                 { gui_buffer = gui_page_0; scroll_screen (0, 0); }
                 else
-                { gui_buffer = gui_page_1; scroll_screen (0, cfg.GUI_Res_Y); }
+                { gui_buffer = gui_page_1; scroll_screen (0, Configuration.video_mode_gui_res_y); }
             }
 
             Clock_Start (CLOCK_GUI_UPDATE);
@@ -396,7 +393,7 @@ void    Refresh_Screen (void)
                 char s [16];
                 sprintf (s, "%d FPS", fskipper.FPS);
                 if (cur_drv->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
-                Font_Print (F_MIDDLE, screenbuffer, s, x, y, GUI_COL_WHITE); // In white
+                Font_Print (F_MIDDLE, screenbuffer, s, x, y, COLOR_WHITE); // In white
                 gui_status.timeleft = 0; // Force disabling the current message
             }
 
@@ -408,14 +405,14 @@ void    Refresh_Screen (void)
                 Show_Mouse_In (NULL);
         }
 
+        // Palette update after redraw
+        Palette_UpdateAfterRedraw();
+
         // Clear keypress queue
         Inputs_KeyPressQueue_Clear();
 
         Clock_Draw ();
     } // of: if (fskipper.Show_Current_Frame)
-
-    // Unlock palette colors -----------------------------------------------------
-    Palette_Emu_Unlock_All ();
 
     // Draw next image in other buffer --------------------------------------------
     if (machine & MACHINE_PAUSED)
@@ -433,7 +430,7 @@ void    Refresh_Screen (void)
         // In debugging mode, copy previously rendered buffer to new one
         // This is so the user always see the current rendering taking place over the previous one
         #ifdef MEKA_Z80_DEBUGGER
-            if (Debugger.Active)
+            if (Debugger.active)
                 Screen_Restore_from_Next_Buffer();
         #endif
     }
@@ -441,7 +438,7 @@ void    Refresh_Screen (void)
     // Ask frame-skipper weither next frame should be drawn or not
     Clock_Start (CLOCK_FRAME_SKIPPER);
     fskipper.Show_Current_Frame = Frame_Skipper ();
-    //if (fskipper.Show_Current_Frame == NO)
+    //if (fskipper.Show_Current_Frame == FALSE)
     //   Msg (MSGT_USER, "Skip frame!");
     Clock_Stop (CLOCK_FRAME_SKIPPER);
 

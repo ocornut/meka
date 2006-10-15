@@ -5,12 +5,18 @@
 
 #define __MESSAGE_C__ // Needed to include table in Message.h
 #include "shared.h"
-#include "libparse.h"
+#include "tools/libparse.h"
+#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
+static void		Lang_Set (t_menu_event *event);
+
+//-----------------------------------------------------------------------------
+
+// Win32 Console
 #ifdef WIN32
 
 typedef struct
@@ -27,16 +33,16 @@ typedef struct
     bool        quit;
 } t_console_win32;
 
-int             ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hWndParent);
-void            ConsoleWin32_Close(t_console_win32 *c);
-void            ConsoleWin32_Show(t_console_win32 *c);
-void            ConsoleWin32_Hide(t_console_win32 *c);
-void            ConsoleWin32_Clear(t_console_win32 *c);
-void            ConsoleWin32_CopyToClipboard(t_console_win32 *c);
-void            ConsoleWin32_Print(t_console_win32 *c, char *s);
-bool            ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_run);
-int CALLBACK    ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-DWORD WINAPI    ConsoleWin32_Thread(LPVOID data);
+static int          ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hWndParent);
+static void         ConsoleWin32_Close(t_console_win32 *c);
+static void         ConsoleWin32_Show(t_console_win32 *c);
+static void         ConsoleWin32_Hide(t_console_win32 *c);
+static void         ConsoleWin32_Clear(t_console_win32 *c);
+static void         ConsoleWin32_CopyToClipboard(t_console_win32 *c);
+static void         ConsoleWin32_Print(t_console_win32 *c, char *s);
+static bool         ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_run);
+static int CALLBACK ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+static DWORD WINAPI ConsoleWin32_Thread(LPVOID data);
 
 // Allegro stuff
 extern HINSTANCE    allegro_inst;
@@ -71,7 +77,7 @@ t_lang *        Lang_New (char *name)
     lang->Name = strdup (name);
     for (i = 0; i < MSG_MAX; i++)
         lang->Messages[i] = NULL;
-    lang->WIP = NO;
+    lang->WIP = FALSE;
     list_add_to_end (&Messages.Langs, lang);
     return (lang);
 }
@@ -91,14 +97,14 @@ int             Lang_Post_Check (t_lang *lang)
     {
         // We need to display the first line even in WIP mode, if this is the
         // default language, else MEKA will screw up later, with missing strings..
-        if (lang->WIP == NO || lang == Messages.Lang_Default)
+        if (lang->WIP == FALSE || lang == Messages.Lang_Default)
         {
             ConsolePrintf ("Language \"%s\" is incomplete (%d/%d messages found) !\n",
                 lang->Name, cnt, MSG_MAX - 1);
-        }
-        if (lang->WIP == NO)
-        {
             ConsoleEnablePause ();
+        }
+        if (lang->WIP == FALSE)
+        {
             ConsolePrintf ("The following messages are missing:\n");
             for (i = 1; i < MSG_MAX; i++)
                 if (lang->Messages[i] == NULL)
@@ -109,6 +115,7 @@ int             Lang_Post_Check (t_lang *lang)
                     if (lang != Messages.Lang_Default)
                         lang->Messages[i] = Messages.Lang_Default->Messages[i];
                 }
+            ConsoleEnablePause ();
         }
         else
         {
@@ -150,28 +157,25 @@ int             Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
     lang->Messages[n] = parse_getword(NULL, 0, &msg, "\"", 0, 0);
 
     // Verify that there's nothing after this line
-    skip_spaces(&msg);
+    parse_skip_spaces(&msg);
     if (msg[0])
         return (MEKA_ERR_SYNTAX);
 
     return (MEKA_ERR_OK);
 }
 
-void            Lang_Set (int n)
+static void		Lang_Set (t_menu_event *event)
 {
-    int           i;
-    t_list *      langs;
-    t_lang *      lang;
-
-    for (i = 0, langs = Messages.Langs; i < n && langs; i++, langs = langs->next);
-    if (i != n)
-        Quit_Msg ("Error #710 @ Lang_Set(%d). Please send a report.", n);
-    lang = langs->elem;
-    Messages.Lang_Cur = lang;
+	Messages.Lang_Cur = (t_lang *)event->user_data;
     gui_menu_un_check (menus_ID.languages);
-    gui_menu_check (menus_ID.languages, n);
-    Msg (MSGT_USER, Msg_Get (MSG_Language_Set), lang->Name);
+	gui_menu_check (menus_ID.languages, event->menu_item_idx);
+    Msg (MSGT_USER, Msg_Get (MSG_Language_Set), Messages.Lang_Cur->Name);
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Language_Set_Warning));
+
+    // Post-process
+    // FIXME: Rebuild menus
+    gamebox_rename_all();
+    gui_relayout();
 }
 
 void            Lang_Set_by_Name (char *name)
@@ -203,7 +207,7 @@ void            Langs_Menu_Add (int menu_id)
         for (langs = Messages.Langs; langs; langs = langs->next)
         {
             lang = langs->elem;
-            menu_add_item (menus_ID.languages, lang->Name, AM_Active | Is_Checked (lang == Messages.Lang_Cur), Lang_Set);
+            menu_add_item (menus_ID.languages, lang->Name, AM_Active | Is_Checked (lang == Messages.Lang_Cur), Lang_Set, lang);
         }
     }
 }
@@ -235,7 +239,7 @@ int             Messages_Init_Parse_Line (char *line)
 
     if (stricmp(line, MSG_LANG_WIP_STR) == 0)
     {
-        Messages.Lang_Cur->WIP = YES;
+        Messages.Lang_Cur->WIP = TRUE;
         return (MEKA_ERR_OK);
     }
 
@@ -499,7 +503,7 @@ void            Msg (int attr, const char *format, ...)
 
 #ifdef WIN32
 
-int     ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hWndParent)
+static int     ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hWndParent)
 {
     c->hinstance = hInstance;
     c->hwnd_parent = hWndParent;
@@ -546,7 +550,7 @@ int     ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hW
 #endif
 }
 
-void    ConsoleWin32_Close(t_console_win32 *c)
+static void    ConsoleWin32_Close(t_console_win32 *c)
 {
     // Stop thread
     TerminateThread(c->thread, 1);
@@ -559,21 +563,21 @@ void    ConsoleWin32_Close(t_console_win32 *c)
     c->hwnd_edit = 0;
 }
 
-void    ConsoleWin32_Show(t_console_win32 *c)
+static void    ConsoleWin32_Show(t_console_win32 *c)
 {
     if (c->hwnd == 0)
         return;
     ShowWindow(c->hwnd, SW_SHOWNORMAL);
 }
 
-void    ConsoleWin32_Hide(t_console_win32 *c)
+static void    ConsoleWin32_Hide(t_console_win32 *c)
 {
     if (c->hwnd == 0)
         return;
     ShowWindow(c->hwnd, SW_HIDE);
 }
 
-bool            ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_run)
+static bool     ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_run)
 {
     bool        ret;
 
@@ -594,7 +598,7 @@ bool            ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_run)
     return (ret);
 }
 
-DWORD WINAPI        ConsoleWin32_Thread(LPVOID data)
+static DWORD WINAPI ConsoleWin32_Thread(LPVOID data)
 {
     MSG             msg;
     BOOL            bRet;
@@ -605,7 +609,7 @@ DWORD WINAPI        ConsoleWin32_Thread(LPVOID data)
     if (c->hwnd == 0)
     {
         meka_errno = MEKA_ERR_CONSOLE_WIN32_INIT;
-        return (-1);
+        return (DWORD)-1;
     }
     c->hwnd_edit = GetDlgItem(c->hwnd, IDC_CONSOLE_TEXT);
 
@@ -636,7 +640,7 @@ DWORD WINAPI        ConsoleWin32_Thread(LPVOID data)
     // Release waiting semaphore
     ReleaseSemaphore(c->semaphore_wait, 1, NULL);
 
-    return (0);
+    return (DWORD)0;
 }
 
 static int CALLBACK ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -724,12 +728,12 @@ static int CALLBACK ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wPar
     //return DefDlgProc(hDlg, message, wParam, lParam);
 }
 
-void    ConsoleWin32_Clear(t_console_win32 *c)
+static void    ConsoleWin32_Clear(t_console_win32 *c)
 {
     SetDlgItemText(c->hwnd, IDC_CONSOLE_TEXT, "");
 }
 
-void    ConsoleWin32_CopyToClipboard(t_console_win32 *c)
+static void    ConsoleWin32_CopyToClipboard(t_console_win32 *c)
 {
     if (OpenClipboard(c->hwnd))
     {
@@ -753,10 +757,10 @@ void    ConsoleWin32_CopyToClipboard(t_console_win32 *c)
     }
 }
 
-void        ConsoleWin32_Print(t_console_win32 *c, char *s)
+static void        ConsoleWin32_Print(t_console_win32 *c, char *s)
 {
-    int     text_length;
     char *  text;
+    int     text_length;
     int     newlines_counter;
 
     if (c->hwnd == 0)
@@ -768,16 +772,11 @@ void        ConsoleWin32_Print(t_console_win32 *c, char *s)
         if (*text == '\n')
             newlines_counter++;
 
-    // Read original text
-    text_length = GetWindowTextLength(c->hwnd_edit);
-    text = Memory_Alloc(text_length + strlen(s) + newlines_counter * 1 + 2 + 1);
-    SendMessage(c->hwnd_edit, WM_GETTEXT, (WPARAM)(text_length + 1), (LPARAM)text);
-
+    // Fill text buffer
     // Replace all occurences single "\n" by "\r\n" since windows edit box wants that
-
-    // Append new text
+    text = Memory_Alloc(strlen(s) + (newlines_counter * sizeof(char)) + 2 + 1);
     {
-        char *dst = text + text_length;
+        char *dst = text;
         while (*s != EOSTR)
         {
             if (*s == '\n')
@@ -789,7 +788,10 @@ void        ConsoleWin32_Print(t_console_win32 *c, char *s)
     }
 
     // Set new text
-    SendMessage(c->hwnd_edit, WM_SETTEXT, (WPARAM)0, (LPARAM)text);
+    // Tips: set an empty selection at the end then replace selection, to avoid flickering (better than a WM_SETTEXT)
+    text_length = GetWindowTextLength(c->hwnd_edit);
+    SendMessage(c->hwnd_edit, EM_SETSEL, text_length, text_length);
+    SendMessage(c->hwnd_edit, EM_REPLACESEL, FALSE, (LPARAM)text);
     free(text);
 }
 

@@ -6,7 +6,10 @@
 //#ifndef X86_ASM
 
 #include "shared.h"
+#include "video_m5.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    Decode_Tile_C (int tile_n, byte *start)
@@ -23,7 +26,7 @@ void    Find_Last_Sprite_C (int Height, int VDP_Line)
     Sprites_on_Line = 0;
     while (Sprite_Last < 64)
     {
-        if ((y = SPR_AREA [Sprite_Last]) == 208)
+        if ((y = sprite_attribute_table[Sprite_Last]) == 208)
             break;
         Sprite_Last ++;
         if (y > 224) y -= 256;
@@ -43,7 +46,7 @@ void    Find_Last_Sprite_C_Wide (int Height, int VDP_Line)
     Sprites_on_Line = 0;
     while (Sprite_Last < 64)
     {
-        if ((y = SPR_AREA [Sprite_Last++]) > 224)
+        if ((y = sprite_attribute_table[Sprite_Last++]) > 224)
             y -= 256;
         line = VDP_Line - y - 1;
         if (line >= 0 && line < Height)

@@ -12,23 +12,24 @@
 // Values below are flags for the purpose of testing VDP for a certain
 // feature more easily (like if (VDP_Model & (VDP_MODEL.. | VDP_MODEL..)))
 #define VDP_MODEL_315_5124      (0x01)      // Mark III, Master System
-#define VDP_MODEL_315_5226      (0x02)      // Later Master System, Master System 2
+#define VDP_MODEL_315_5226      (0x02)      // Later Master System, Master System II
 #define VDP_MODEL_315_5378      (0x04)      // Game Gear
 #define VDP_MODEL_315_5313      (0x08)      // Mega Drive
-#define VDP_MODEL_DEFAULT       (VDP_MODEL_315_5226)
 
 // VDP Video Change Flags
 #define VDP_VIDEO_CHANGE_MODE   (0x01)
 #define VDP_VIDEO_CHANGE_SIZE   (0x02)
 #define VDP_VIDEO_CHANGE_ALL    (VDP_VIDEO_CHANGE_MODE | VDP_VIDEO_CHANGE_SIZE)
 
+// FIXME: Latch. Remove/rename those definitions.
 #define VDP_Access_Mode_1       (0)
 #define VDP_Access_Mode_2       (1)
 
 //-----------------------------------------------------------------------------
 // VDP Registers Definitions
 //-----------------------------------------------------------------------------
-// FIXME: change the "sms.VDP[x]&xx" definitions
+// FIXME: Rename below name/macro, use per-bit definitions/mask matching 
+// naming in known/official documentations
 //-----------------------------------------------------------------------------
 // Unknown - 0          (sms.VDP[0] & 0x01) // "External Video Input"
 // Unknown - 1          (sms.VDP[0] & 0x02) // Mode bit 0
@@ -48,11 +49,6 @@
 #define VBlank_ON       (sms.VDP[1] & 0x20)
 #define Display_ON      (sms.VDP[1] & 0x40)
 // Unknown - 1          (sms.VDP[1] & 0x80) // "VRAM 16 kbyte"
-#define Background_ON   (sms.VDP[2] & 0x01)
-//-----------------------------------------------------------------------------
-#define HBlank_OFF      (HBlank_ON == 0x00)
-#define VBlank_OFF      (VBlank_ON == 0x00)
-#define Display_OFF     (Display_ON == 0x00)
 //-----------------------------------------------------------------------------
 #define VDP_STATUS_SpriteCollision  (0x20)
 #define VDP_STATUS_9thSprite        (0x40)
@@ -63,14 +59,14 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-int     VDP_Model_FindByNumber  (char *vdp_number);
+int     VDP_Model_FindByName    (const char *name);
 
 void    VDP_VideoMode_Change    (void);
 void    VDP_VideoMode_Update    (void);
 
-void    Tms_VDP_Out             (int regnum, int Value);
-void    Tms_VDP_Out_Data        (int Value);
-void    Tms_VDP_Out_Address     (int Value);
+void    Tms_VDP_Out             (int vdp_register, int value);
+void    Tms_VDP_Out_Data        (int value);
+void    Tms_VDP_Out_Address     (int value);
 u8      Tms_VDP_In_Status       (void);
 u8      Tms_VDP_In_Data         (void);
 void    Tms_VDP_Palette_Write   (int addr, int value);

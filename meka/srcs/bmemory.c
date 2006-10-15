@@ -8,7 +8,10 @@
 
 #include "shared.h"
 #include "mappers.h"
+#include "eeprom.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    BMemory_Verify_Usage (void)
@@ -55,7 +58,8 @@ void        BMemory_Load (void)
     if (cur_machine.mapper == MAPPER_93c46)
         EEPROM_93c46_Clear ();
 
-    if (!(f = fopen (file.save, "rb")))
+    f = fopen(Env.Paths.BatteryBackedMemoryFile, "rb");
+    if (f == NULL)
         return;
     switch (cur_machine.mapper)
     {
@@ -76,9 +80,9 @@ void        BMemory_Save (void)
     case MAPPER_93c46:          break;
     default:                    return;
     }
-    if (!file_exists (file.dir_saves, 0xFF, NULL))
-        meka_mkdir (file.dir_saves);
-    f = fopen (file.save, "wb");
+    if (!file_exists(Env.Paths.SavegameDirectory, 0xFF, NULL))
+        meka_mkdir(Env.Paths.SavegameDirectory);
+    f = fopen(Env.Paths.BatteryBackedMemoryFile, "wb");
     switch (cur_machine.mapper)
     {
     case MAPPER_Standard:       BMemory_SRAM_Save (f); break;

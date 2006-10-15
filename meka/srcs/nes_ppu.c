@@ -2,10 +2,15 @@
 // MEKA - nes_ppu.c
 // Nintendo PPU Emulation - Code
 //-----------------------------------------------------------------------------
+// FIXME-DEPTH: PRAM
+//-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "fskipper.h"
+#include "palette.h"
 
+//-----------------------------------------------------------------------------
+// Data
 //-----------------------------------------------------------------------------
 
 // Rendering
@@ -19,6 +24,10 @@ static int      NES_NameTables [4][4] =
    {      0,      1,      0,      1 }, // V Mirroring
    {      0,      1,      2,      3 }, // Four Screens (need 2kb+ of VRAM)
  };
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 // PPU helper function to handle mapping
 void    NES_PPU_Map (int page, int page_num, byte *data_start)
@@ -88,9 +97,10 @@ void    NES_PPU_Write (word Addr, byte Value)
             else
             if (sms.VDP_Address & 0x03)
                {
-               Palette_Refs [sms.VDP_Address & 0x1F] = Value;
-               Palette_Refs_Dirty [sms.VDP_Address & 0x1F] = YES;
-               Palette_Refs_Dirty_Any = YES;
+				   // FIXME-DEPTH
+               //Palette_Refs [sms.VDP_Address & 0x1F] = Value;
+               //Palette_Refs_Dirty [sms.VDP_Address & 0x1F] = TRUE;
+               //Palette_Refs_Dirty_Any = TRUE;
                }
             // Msg (MSGT_DEBUG, "VRAM [%04X] = %02X", sms.VDP_Address, Value);
             }
@@ -130,7 +140,7 @@ byte    NES_PPU_Read (word Addr)
          ret = nes->PPU_Read_Latch;
          if (nes->PPU_Read) /* First fead from PPU is invalid */
             {
-            nes->PPU_Read = NO;
+            nes->PPU_Read = FALSE;
             }
          else
             {

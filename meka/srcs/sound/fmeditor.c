@@ -1,3 +1,32 @@
+
+// Outdated
+// - Based on OPL wrapper
+// - Use widget 'id' (made obsolete)
+// Could be worked out to be up to date, if someone has the motivation...
+
+#if 0
+
+/*
+struct type_apps_bitmap
+{
+  BITMAP *FM_Editor;
+};
+
+struct type_apps
+{
+    struct
+    {
+        bool FM_Editor;
+    } active;
+    struct type_apps_bitmap  gfx;
+    struct
+    {
+        byte FM_Editor;
+    } id;
+} apps;
+*/
+
+
 /****************************************************************/
 /*  FM voice editor version 0.01 for MEKA                       */
 /*                               Programmed by Hiromitsu Shioya */
@@ -99,14 +128,14 @@ void    FM_Editor_Redraw (void)
   line = 0;
 
   /**** clear frame buffer ****/
-  rectfill (apps.gfx.FM_Editor, 0, 0, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, GUI_COL_FILL);
+  rectfill (apps.gfx.FM_Editor, 0, 0, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
   /**** set number/parameters ****/
   sprintf (mesg, *mbase, FM_Editor.current_voice_number, (char *)FM_Instruments_Name[FM_Editor.current_voice_number]);
-  Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+  Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
   mbase++;
   line++;
-  Font_Print (-1, apps.gfx.FM_Editor, *mbase, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+  Font_Print (-1, apps.gfx.FM_Editor, *mbase, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
   mbase++;
   line++;
 
@@ -114,26 +143,26 @@ void    FM_Editor_Redraw (void)
   for (i = 0; i < sizeof (FM_OPL_Patch) / 2; i++ )
     {
     sprintf (mesg, *mbase, *voice, *(voice + 1));
-    Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+    Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
     voice += 2;
     mbase++;
     line++;
   }
-  Font_Print (-1, apps.gfx.FM_Editor, *mbase, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+  Font_Print (-1, apps.gfx.FM_Editor, *mbase, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
   line += 2;
 
   /**** now select FM voice ****/
   if (!(FM_Regs[0x0e] & 0x20))
      {
      sprintf (mesg, " FM-MODE: 9 voices mode");
-     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      vmax = 9;
      }
   else
      {
      sprintf (mesg, " FM-MODE: 6 voices & rhythm mode");
-     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      vmax = 6;
      }
@@ -141,11 +170,11 @@ void    FM_Editor_Redraw (void)
      {
      if (i < vmax)  sprintf (mesg, "  Channel #%d = %2d[%02x] ", i, (FM_Regs[0x30 + i]>>4)&0x0f, FM_Regs[0x30 + i]&0x0f);
      else           sprintf (mesg, "  Channel #%d = %2d[%02x]*", i, (FM_Regs[0x30 + i]>>4)&0x0f, FM_Regs[0x30 + i]&0x0f);
-     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, GUI_COL_TEXT_IN_BOX);
+     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      }
 
-  FM_Editor.box->must_redraw = YES;
+  FM_Editor.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 /************************************************/
@@ -227,7 +256,7 @@ void        FM_Editor_Init (void)
         widget_button_add (apps.id.FM_Editor, &frame, 2, FM_Editor_CallBack);
     }
 
-    widget_closebox_add (FM_Editor.box->stupid_id, FM_Editor_Switch);
+    widget_closebox_add(FM_Editor.box, FM_Editor_Switch);
 }
 
 /************************************************/
@@ -246,3 +275,4 @@ void    FM_Editor_Switch (void)
 
 /* EOF */
 
+#endif

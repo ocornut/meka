@@ -5,9 +5,13 @@
 
 #include "shared.h"
 #include "debugger.h"
+#include "effects.h"
 #include "fskipper.h"
+#include "games.h"
 #include "osd/misc.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    Main_Loop (void)
@@ -25,8 +29,9 @@ void    Main_Loop (void)
         Msg (MSGT_DEBUG, "os_type = { %c%c%c%c (%d.%d) }", os_type>>24, (os_type>>16)&0xFF, (os_type>>8)&0xFF, (os_type)&0xFF, os_version, os_revision);
         Msg (MSGT_DEBUG, "cpu = { fpu: %d, mmx:%d, 3dnow:%d-%d, sse:%d, sse2:%d }", CPU_FPU?1:0, CPU_MMX?1:0, CPU_3DNOW?1:0, CPU_ENH3DNOW?1:0, CPU_SSE?1:0, CPU_SSE2?1:0);
         //Msg (MSGT_DEBUG, "cpu = { has_rdtsc: %d }", OSD_X86CPU_Has_RDTSC ());
-        Msg (MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", cfg.GUI_Driver, cfg.GUI_Res_X, cfg.GUI_Res_Y, cfg.GUI_Refresh_Rate, cfg.Video_Depth);
-        Msg (MSGT_DEBUG, "mouse = %d", cfg.Mouse_Installed);
+        Msg (MSGT_DEBUG, "desktop = { depth:%d }", Configuration.video_mode_desktop_depth);
+        Msg (MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, Configuration.video_mode_gui_refresh_rate, Configuration.video_mode_gui_depth_cfg);
+        Msg (MSGT_DEBUG, "mouse = %d", Env.mouse_installed);
         Msg (MSGT_DEBUG, "joystick = %d", num_joysticks);
         Msg (MSGT_DEBUG, "sound = { enable:%d, init:%d, soundcard:%d }", Sound.Enabled, Sound.Initialized, Sound.SoundCard);
         Msg (MSGT_DEBUG, "samplerate = { %d, audio=%d, nominal=%d }", Sound.SampleRate, audio_sample_rate, nominal_sample_rate);
@@ -42,7 +47,7 @@ void    Main_Loop (void)
         #ifdef DEBUG_WHOLE
             Msg (MSGT_DEBUG, "Main_Loop(), Loop;");
         #endif
-        CPU_Loop_Stop = NO;
+        CPU_Loop_Stop = FALSE;
         if ((machine & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON)
         {
             Sound_Playback_Start ();
@@ -54,7 +59,7 @@ void    Main_Loop (void)
             {
                 #ifdef MARAT_Z80
                     #ifdef MEKA_Z80_DEBUGGER
-                        if (Debugger.Active /* && (Debugger.break_point_set || sms.R.Trace)*/)
+                        if (Debugger.active /* && (Debugger.break_point_set || sms.R.Trace)*/)
                         {
                             // Msg (MSGT_USER, "Entering RunZ80_Debugging()");
                             RunZ80_Debugging (&sms.R);
@@ -84,21 +89,18 @@ void    Main_Loop (void)
     }
 
     // Clear screen to black, so that palette switch doesn't look ugly when quitting
-    clear_to_color (screen, Border_Color);  // FIXME: Border_Color should be actually emulated properly one day, then it won't be Black anymore
+    clear_to_color (screen, COLOR_BLACK);
 
     // Stop sound
     Sound_Playback_Stop ();
 }
 
-// MAIN LOOP WHEN NO ROM IS LOADED --------------------------------------------
+// MAIN LOOP WHEN FALSE ROM IS LOADED --------------------------------------------
 void    Main_Loop_No_Emulation (void)
 {
 #ifdef DEBUG_WHOLE
     Msg (MSGT_DEBUG, "Main_Loop_No_Emulation ();");
 #endif
-
-    if (!(machine & MACHINE_POWER_ON))
-        Effects_TV_Init_Colors ();
 
     for (;;)
     {
@@ -117,10 +119,7 @@ void    Main_Loop_No_Emulation (void)
             switch (game_running)
             {
             case GAME_RUNNING_NONE:
-                if (effects.TV_Enabled)
-                {
-                    Effects_TV_Update ();
-                };
+                Effects_TV_Update();
                 break;
             case GAME_RUNNING_BREAKOUT:
                 BreakOut_Update ();

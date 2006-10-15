@@ -18,15 +18,15 @@ extern void eagle_mmx16 (unsigned long *lb,
                          unsigned long *lb2,
                          short width,
                          int destination_segment,
-                         int screen_address1,
-                         int screen_address2);
+                         void *screen_address1,
+                         void *screen_address2);
 
 extern void eagle_bmp   (unsigned long *lb,
                          unsigned long *lb2,
                          short width,
                          int destination_segment,
-                         int screen_address1,
-                         int screen_address2);
+                         void *screen_address1,
+                         void *screen_address2);
 
 //-----------------------------------------------------------------------------
 

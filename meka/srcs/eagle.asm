@@ -32,16 +32,17 @@
 
 	  BITS 32
 
-          ; Uncomment for UNIX build (depending on symbol name)
-	  ;%DEFINE _eagle	eagle
-	  ;%DEFINE _eagle_mmx16	eagle_mmx16
-	  ;%DEFINE _eagle_bmp	eagle_bmp
-	
-	  GLOBAL _eagle
-	  GLOBAL _eagle_mmx16
-	  GLOBAL _eagle_bmp
-	  SECTION .text
 
+%IFDEF UNIX
+%DEFINE _eagle	        eagle
+%DEFINE _eagle_mmx16	eagle_mmx16
+%DEFINE _eagle_bmp	    eagle_bmp
+%ENDIF ; UNIX
+	
+GLOBAL _eagle
+GLOBAL _eagle_mmx16
+GLOBAL _eagle_bmp
+SECTION .text
 
 ;eagle       (  unsigned long *lb,
 ;               unsigned long *lb2,

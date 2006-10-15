@@ -4,11 +4,12 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "themes.h"
 
 //-----------------------------------------------------------------------------
 
 // This palette is generated from the ALL-V?.PCX file
-static byte GUI_Misc_Colors [GUI_COL_MISC_NUM * 3] =
+static u8   GUI_Misc_Colors [GUI_COL_MISC_NUM * 3] =
 {
  0, 0, 0,
  20, 20, 20,
@@ -57,41 +58,43 @@ static byte GUI_Misc_Colors [GUI_COL_MISC_NUM * 3] =
 // INITIALIZE DEFAULT GUI COLORS ----------------------------------------------
 void    gui_init_colors (void)
 {
-  int   i;
+    int   i;
 
-  // Set basic colors ---------------------------------------------------------
-  // (including Black [0] and White [9])
-  for (i = 0; i < GUI_COL_MISC_NUM; i ++)
-     {
-     RGB color;
-     color.r = GUI_Misc_Colors [i * 3 + 0] / 4;
-     color.g = GUI_Misc_Colors [i * 3 + 1] / 4;
-     color.b = GUI_Misc_Colors [i * 3 + 2] / 4;
-     Palette_SetColor (GUI_COL_START + i, color);
-     }
+    // Set basic colors
+    // (including Black [0] and White [9])
+    for (i = 0; i < GUI_COL_MISC_NUM; i ++)
+    {
+        RGB color;
+        color.r = GUI_Misc_Colors [i * 3 + 0] / 4;
+        color.g = GUI_Misc_Colors [i * 3 + 1] / 4;
+        color.b = GUI_Misc_Colors [i * 3 + 2] / 4;
+        Palette_SetColor (GUI_COL_START + i, color);
+    }
 
-  // Set theme colors ---------------------------------------------------------
-  Themes_Set (Themes.current, THEME_CHANGE_QUICK);
-  // Set TV colors ------------------------------------------------------------
-  // Effects_TV_Init_Colors (); // FIXME: use GUI palette
-  // Set dirty flag for Virtual Machine colors --------------------------------
-  gui_palette_need_update = YES;
+    // Set theme colors
+    Themes_Set (Themes.current, THEME_CHANGE_QUICK);
+    Skins_UpdateNativeColorTable();
+
+    // Set TV colors
+    // Effects_TV_Init_Colors (); // FIXME: use GUI palette
+
+    // Set dirty flag for Virtual Machine colors
+    gui_palette_need_update = YES;
 }
 
 void    gui_palette_update (void)
 {
-  gui_palette_need_update = NO;
-  if (ThemeBackground.picture_ok /* theme_current->background_picture */)
-     {
-     Palette_SetColor_Range (GUI_COL_AVAIL_START,
-                             GUI_COL_AVAIL_START + GUI_COL_AVAIL_NUM - 1,
-                             ThemeBackground.pal);
-     }
-  else
-     {
-     VMachine_Init_Colors ();
-     }
+    gui_palette_need_update = NO;
+    if (ThemeBackground.picture_ok /* theme_current->background_picture */)
+    {
+        Palette_SetColor_Range (GUI_COL_AVAIL_START,
+            GUI_COL_AVAIL_START + GUI_COL_AVAIL_NUM - 1,
+            ThemeBackground.pal);
+    }
+    else
+    {
+        VMachine_Init_Colors ();
+    }
 }
 
 //-----------------------------------------------------------------------------
-

@@ -16,7 +16,17 @@ In debug mode, an additionnal menu is added to the top, with access to the
 debugger and data dumping facilities. The debugger can also be switched on 
 and off using the Scroll Lock key.
 
-You can configure the debugger applet size from the configuration file.
+You can configure some part of the debugger from the configuration file,
+search for the following variables:
+
+  debug_mode                            (enable debug mode)
+  debugger_console_lines                (number of console lines)
+  debugger_disassembly_lines            (number of disassembly lines)
+  debugger_disassembly_display_labels   (enable label display)
+  debugger_log                          (enable log of debugger output)
+  
+All debugger output are logged by default. 
+The log is located in the 'DEBUG/DEBUGLOG.TXT' file.
 
 
 Symbols Loading
@@ -38,6 +48,15 @@ Pressing TAB in the debugger command line performs contextual completion.
 If more than one item matches, possible matches are displayed.
 
 
+History
+-------
+
+Command are logged into an history buffer.
+Pressing Up/Down allows navigating in the history buffer.
+Additionnally, the HI/HISTORY allows listing or searching for a given 
+word in the history buffer.
+
+
 Expression evaluator
 --------------------
 
@@ -54,6 +73,10 @@ Supported features are:
      (eg: function_label)
    - Z80 registers names gets replaced by their current value.
      (eg: PC, SP, AF, A, BC, B, C, DE, D, E, HL, H, L, IX, IY)
+     Pay attention that some registers names are ambiguous with hexadecimal
+     constants ('A' is a 10 in hexadecimal). Z80 registers name are always
+     given priority over hexadecimal constants. 
+     Uses the 'Ox' or '$' prefixes to resolve ambiguity.
  - Operators:
    - Integer operators: + - / *
      (eg: 1+2*3 returns 7)
@@ -61,21 +84,22 @@ Supported features are:
      (eg: 0xF0 | 0x0F returns 0xFF)
    - Parenthesis: (), forcing priority
      (eg: (1+2)*3 returns 9)
- - Multiple expression
-   - Seperate expressions by a , (comma) character.
-     (eg: "print 1,1+2")
 
 
 Known problems
 --------------
+
+- Beware of clashes between Z80 registers names and hexadecimal constants.
+  'AF','BC','DE','A','B','C','D','E' by default refers to Z80 registers.
+  Uses $ or 0x hexadecimal prefixes to resolve ambiguities.
 
 - Reseting or loading save states may trigger strange behavior, such as
   breakpoints being ignored for a frame or so.
 
 - Execution breakpoints only function for the leading byte of the opcode.
   eg:
-    1234 - C3 00 20 - JP 2000h
-  Adding an X breakpoint at 1234 will work, but not at 1235 or 1236.
+    1234 - C3 00 20 - JP $2000
+  Adding an X breakpoint at $1234 will work, but not at $1235 or $1236.
   However, adding a R breakpoint will work.
   So usually, you end just adding default RWX or RW breakpoints.
 
@@ -84,25 +108,30 @@ Debugger commands summary
 -------------------------
 
 -- Flow:
- <CR>                  : Step into
- S                     : Step over
- C                     : Continue
- C addr                : Continue up to <addr>
- J addr                : Jump to <addr>
+ <CR>                           : Step into
+ S                              : Step over
+ C                              : Continue
+ C addr                         : Continue up to <addr>
+ J addr                         : Jump to <addr>
 -- Breakpoints:
- B [access] [bus] addr : Add breakpoint
- B LIST                : List breakpoints
- B REMOVE n            : Remove breakpoint
- B ENABLE/DISABLE n    : Enable/disable breakpoint
- B CLEAR               : Clear breakpoints
- W [access] [bus] addr : Add watchpoint
--- Inspect:
- P expr                : Print evaluated expression
- SYM [name]            : List symbols
- M [addr] [len]        : Memory dump at <addr>
- D [addr] [cnt]        : Disassembly at <addr>
- R                     : Dump Z80 registers
- H,? [command]         : Help
+ B [access] [bus] addr [=value] : Add breakpoint
+ W [access] [bus] addr [=value] : Add watchpoint
+ B LIST                         : List breakpoints
+ B REMOVE id                    : Remove breakpoint
+ B ENABLE id                    ; Enable breakpoint
+ B DISABLE id                   : Disable breakpoint
+ B CLEAR                        : Clear breakpoints
+-- Inspect/Modify:
+ R                              : Dump Z80 registers
+ P expr                         : Print evaluated expression
+ M [addr] [len]                 : Memory dump at <addr>
+ D [addr] [cnt]                 : Disassembly at <addr>
+ SYM [name]                     : List symbols
+ SET register=value             : Set Z80 register
+-- Miscellaenous:
+ MEMEDIT [lines] [cols]         : Spawn memory editor
+ HISTORY [word]                 : Print/search history
+ H,? [command]                  : Help
 
 
 Debugger command - H
@@ -119,8 +148,8 @@ S: Step over
 Usage:
  S             ; Step over current instruction
 Examples:
- 0000: CALL 0100h
- 0003: LD HL, 1FFFh
+ 0000: CALL $0100
+ 0003: LD HL, $1FFF
  S             ; Resume execution after the call
 
 
@@ -138,31 +167,41 @@ J/JUMP: Jump
 Usage:
  J address     ; Jump to <address>
 Examples:
- J 0           ; Jump back to 0000h (reset)
- J 1000        ; Jump to 1000h
+ J 0           ; Jump back to $0000 (reset)
+ J 1000        ; Jump to $1000
+Note:
+ Equivalent to SET PC=address
 
 
 Debugger command - B
 --------------------
 B/BREAK: Manage breakpoints
 Usage:
- B address [..address2]    ; Add CPU R/W/X breakpoint
- B [access] [bus] address  ; Add breakpoint (advanced)
- B LIST                    ; List breakpoints
- B REMOVE id               ; Remove breakpoint <id>
- B ENABLE id               ; Enable breakpoint <id>
- B DISABLE id              ; Disable breakpoint <id>
- B CLEAR                   ; Clear breakpoints
+ B address [..address2]         ; Add CPU breakpoint
+ B [access] [bus] address [=xx] ; Add breakpoint
+ B LIST                         ; List breakpoints
+ B REMOVE id                    ; Remove breakpoint <id>
+ B ENABLE id                    ; Enable breakpoint <id>
+ B DISABLE id                   ; Disable breakpoint <id>
+ B CLEAR                        ; Clear breakpoints
 Parameters:
- access  : access to trap, any from r/w/x (rwx)
- bus     : bus to watch, one from cpu/io/vram/pal (cpu)
  address : breakpoint address, can be a range
+ access  : access to trap, any from r/w/x (rwx)
+ bus     : bus/event, one from cpu/io/vram/pal/line (cpu)
+ xx      ; byte to compare to, for conditionnal break
  id      : breakpoint identifier
 Examples:
- B 0038          ; break when CPU access 0038h
- B w io 7f       ; break on IO write to 7Fh
- B rx e000..ffff ; break on CPU read/exec from E000h+
+ B 0038          ; break when CPU access $0038
+ B w io 7f       ; break on IO write to $7F
+ B rx e000..ffff ; break on CPU read/exec from $E000+
+ B x =0,0,C9     ; break on CPU execution of NOP NOP RET
  B w vram 3f00.. ; break on VRAM write to SAT
+ B w pram 0 =03  ; break on PRAM write of color 0 as $03
+ B line #13      ; break on display line 13
+ 
+You can add a description to breakpoints, by ending the
+command line with a string:
+ B 0038 "interrupt"
 
 
 Debugger command - W
@@ -173,6 +212,7 @@ Usage:
  Watchpoints will display value but won't break.
 Examples:
  W r io dd      ; watch and log all IO read from DDh
+ W w pal 0..    ; watch and log all palette write
 
 
 Debugger command - P
@@ -189,6 +229,19 @@ Examples:
  P label       ; print label
 
 
+Debugger command - SET
+----------------------
+SET: Set Z80 register
+Usage:
+ SET register=value [,...]
+Parameters:
+ register : Z80 register name
+ value    : value to assign to register
+Examples:
+ SET BC=$1234    ; set BC register to $1234
+ SET DE=HL,HL=0  ; set DE=HL, then zero HL
+
+
 Debugger command - SYM
 ----------------------
 SYM/SYMBOLS: List symbols
@@ -196,8 +249,11 @@ Usage:
  SYM [name]
 Parameters:
  name : symbol name to search for (*)
+Examples:
+ SYM vdp
+ SYM obj*update
  
-
+    
 Debugger command - M
 --------------------
 M/MEM: Dump memory
@@ -228,6 +284,24 @@ Usage:
  R
 
 
+Debugger command - MEMEDIT
+--------------------------
+MEMEDIT: Spawn memory editor
+Usage:
+ MEMEDIT [lines] [cols]
+Parameters:
+ lines : number of lines
+ cols  : number of columns
+
+
+Debugger command - HISTORY
+--------------------------
+HI/HISTORY: Print/search history
+Usage:
+ HISTORY        ; Print history
+ HISTORY word   ; Search history
+
+
 -----------------------------------------------------------------------------
  2. Palette
 -----------------------------------------------------------------------------
@@ -241,13 +315,19 @@ Usage:
  ...
  
 -----------------------------------------------------------------------------
- 4. Technical Information
+ 4. Tilemap Viewer
+-----------------------------------------------------------------------------
+
+ ...
+ 
+-----------------------------------------------------------------------------
+ 5. Technical Information
 -----------------------------------------------------------------------------
 
  ...
 
 -----------------------------------------------------------------------------
- 5. Memory Editor
+ 6. Memory Editor
 -----------------------------------------------------------------------------
 
  Allows viewing and writing to memory:
@@ -255,6 +335,7 @@ Usage:
  - ROM
  - RAM
  - VRAM
+ - VREG
  - PAL (if any)
  - SaveRAM (if any)
  
@@ -263,25 +344,25 @@ Usage:
  - Using the address box, you can jump to a given address.
  - In some case, you may want to pause the game (F12) while editing,
    in some other case you may want it running.
- - Z80 memory map is what the Z80 CPU see and access thru its buses.
+ - Z80 memory map is what the Z80 CPU sees and accesses thru its buses.
    Refer to technical documentation about the machine memory map to know 
-   how this work. Understand the difference:
-   - Writing to Z80 FFFC-FFFF trigger mapping + write to RAM.
-     But writing to RAM FFFC-FFFF only write to RAM.
-   - Writing to Z80 0000-3FFF is ignored.
-     But writing to ROM 0000-3FFF works.
+   how this works. Understand the difference:
+   - Writing to Z80 $FFFC-$FFFF trigger mapping + write to RAM.
+     But writing to RAM $FFFC-$FFFF only write to RAM.
+   - Writing to Z80 $0000-$3FFF is ignored (by most mappers).
+     But writing to ROM $0000-$3FFF works and modify loaded ROM image.
  - Beware that pressing "BackSpace" may reset the game. Use the "Delete" 
    key instead. (I should hack a way so that BackSpace is disabled 
    but other controller keys still enabled).
 
 -----------------------------------------------------------------------------
- 6. Data Dumping
+ 7. Data Dumping
 -----------------------------------------------------------------------------
 
  ...
 
 -----------------------------------------------------------------------------
- 7. Patching
+ 8. Patching
 -----------------------------------------------------------------------------
 
  Refer to MEKA.PAT file.
@@ -300,7 +381,7 @@ Usage:
  http://users.tkk.fi/~vhelin/wla.html
  
  Maxim's "Getting started with SMS programming" pages
- http://www.smspower.org/maxim/howtoprogram/index.html
+ http://www.smspower.org/maxim/howtoprogram
 
 -----------------------------------------------------------------------------
  9. More ?

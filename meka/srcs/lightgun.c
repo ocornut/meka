@@ -9,7 +9,7 @@
 
 void    LightGun_Init (void)
 {
-    LightGun.Enabled = NO;
+    LightGun.Enabled = FALSE;
     LightGun.LastSync = 0;
     LightGun.X [PLAYER_1] = LightGun.X [PLAYER_2] = 128;//cur_drv->x_res / 2;
     LightGun.Y [PLAYER_1] = LightGun.Y [PLAYER_2] = 96;//cur_drv->y_res / 2;

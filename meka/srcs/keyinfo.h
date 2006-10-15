@@ -4,28 +4,29 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Data
+// Definitions
 //-----------------------------------------------------------------------------
 
 #define KEY_INFO_PRINTABLE    (0x01)
 #define KEY_INFO_ALLOW_USE    (0x02)
 
+//-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
 typedef struct
 {
     int     scancode;
     char *  name;
-    char    printable_char;
     int     flags;
 } t_key_info;
-
-extern   t_key_info     KeyInfo_Table [];
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-t_key_info *    KeyInfo_FindByScancode(int scancode);
-t_key_info *    KeyInfo_FindByName(char *name);
+const t_key_info *    KeyInfo_FindByScancode(int scancode);
+const t_key_info *    KeyInfo_FindByName(const char *name);
 
 //-----------------------------------------------------------------------------
 

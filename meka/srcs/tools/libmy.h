@@ -5,14 +5,8 @@
 
 #define EOSTR                   (0)
 
-#define NO                      (0)
-#define YES                     (1)
-
 #define OK                      (0)
 #define ERR                     (1)
-
-#define OFF                     (0)
-#define ON                      (1)
 
 #define Maj(c)                  ((c >= 'a' && c <= 'z') ? (c + 'A' - 'a') : (c))
 #define Min(c)                  ((c >= 'A' && c <= 'Z') ? (c + 'a' - 'A') : (c))
@@ -24,22 +18,20 @@
   #define Random(a)             (rand() % (a))
 #endif
 
-char   *StrNDup                 (char *src, int n);
+char   *StrNDup                 (const char *src, int n);
 
 unsigned short *StrCpyUnicode   (unsigned short *s1, unsigned short *s2);
-unsigned short *StrDupToUnicode (char *src);
-unsigned short *StrNDupToUnicode(char *src, int n);
-int             StrLenUnicode   (unsigned short *s);
+unsigned short *StrDupToUnicode (const char *src);
+unsigned short *StrNDupToUnicode(const char *src, int n);
+int             StrLenUnicode   (const unsigned short *s);
 
 int     StrNull                 (char *s);
 void    StrReplace              (char *s, char c1, char c2);
-int     GetNbr                  (char *s);
-int     GetNbrHex               (char *s);
-int     GetNbrBase              (char *s, char *base);
+int     GetNbrHex               (const char *s);
 
 int     Power                   (int base, int power);
 
-int	Match                   (char *src, char *wildcards);
+int	    Match                   (const char *src, const char *wildcards);
 
 void    Chomp                   (char *s);
 void    Trim                    (char *s);

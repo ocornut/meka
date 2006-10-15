@@ -384,7 +384,7 @@ void            saDestroyChannel (int ch)
         ADestroyAudioData (voice->lpWave);
         free (voice->lpWave);
         voice->lpWave = NULL;
-        voice->playing = NO;
+        voice->playing = FALSE;
         free (voice->vpan);
         voice->vpan = NULL;
     }
@@ -475,10 +475,10 @@ int         saCheckPlayStream (void)
 
     if (Sound.Paused > 0)
     {
-        if (pause_sound == NO)
+        if (pause_sound == FALSE)
         {
             // Msg (MSGT_DEBUG, "destroying sound");
-            pause_sound = YES;
+            pause_sound = TRUE;
             vbover_err = vbunder_err = 0; /* error initial */
             for (i = NUMVOICES - 1; i >= 0; i--)
                 saDestroyChannel /*Voice*/ (i);
@@ -486,7 +486,7 @@ int         saCheckPlayStream (void)
         return (0);
     }
 
-    pause_sound = NO;
+    pause_sound = FALSE;
 
     // Get current Position
     for (i = 0; i < NUMVOICES; i++)
@@ -684,7 +684,7 @@ void            saPlayBufferedStreamedSampleBase (int channel, signed char *data
         ASetVoiceFrequency (voice->hVoice, (int)((double)freq * nominal_sample_rate / audio_sample_rate));
         ASetVoiceVolume (voice->hVoice, (Sound.MasterVolume * volume) / 512);
         ASetVoicePanning (voice->hVoice, (UINT)pan);
-        voice->playing = YES;      /* use front surface */
+        voice->playing = TRUE;      /* use front surface */
         /**** make sound temp. buffer ****/
         voice->vchan = MODEB_UPDATE_COUNT;
 
@@ -788,7 +788,7 @@ void            saPlayStreamedSampleBase (int channel, signed char *data, int le
         ASetVoiceFrequency(voice->hVoice, (int)((double)freq * nominal_sample_rate / audio_sample_rate));
         ASetVoiceVolume(voice->hVoice, (Sound.MasterVolume * volume) / 512);
         ASetVoicePanning(voice->hVoice, (UINT)pan);
-        voice->playing = YES;      /* use front surface */
+        voice->playing = TRUE;      /* use front surface */
         voice->vchan = 1;
         voice->ventry = 1;
         AStartVoice (voice->hVoice);

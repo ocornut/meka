@@ -2,10 +2,13 @@
 // MEKA - g_widget.c
 // GUI Widgets - Code
 //-----------------------------------------------------------------------------
+// FIXME: Static inheritence would be more proper than dynamic allocating 'data'
+//-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "g_widget.h"
 #include "inputs_t.h"
+#include "keyinfo.h"
 
 //-----------------------------------------------------------------------------
 // Private Data
@@ -13,33 +16,37 @@
 
 typedef struct
 {
-    int         lighted;
-    void        (*callback)();
+    int                         lighted;
+    void                        (*callback)();
 } t_widget_data_closebox;
 
 typedef struct
 {
-    void        (*callback)();
+    const char *                label;
+    t_widget_button_style       style;
+    bool                        selected;
+    void                        (*callback)();
 } t_widget_data_button;
 
 typedef struct
 {
-    int *       v_max;
-    int *       v_start;
-    int *       v_per_page;
-    void        (*callback)();
+    t_widget_scrollbar_type     scrollbar_type;
+    int *                       v_max;
+    int *                       v_start;
+    int *                       v_per_page;
+    void                        (*callback)();
 } t_widget_data_scrollbar;
 
 typedef struct
 {
-    byte *      pvalue;
-    void        (*callback)();
+    bool *                      pvalue;
+    void                        (*callback)();
 } t_widget_data_checkbox;
 
 typedef struct
 {
-    int         color;
-    char *      text;
+    int *                       pcolor;
+    char *                      text;
 } t_widget_data_textbox_line;
 
 typedef struct
@@ -49,8 +56,7 @@ typedef struct
     int                         columns_max;
     t_widget_data_textbox_line *lines;
     int                         font_idx;
-    int                         current_color;
-    int                         need_redraw;
+    int *                       pcurrent_color;
 } t_widget_data_textbox;
 
 // FIXME: add focus parameters: update inputs on box OR widget focus
@@ -72,31 +78,38 @@ typedef struct
 } t_widget_data_inputbox;
 
 //-----------------------------------------------------------------------------
+// Forward Declaration
+//-----------------------------------------------------------------------------
+
+static t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame);
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-int         widgets_update_box (t_gui_box *b, int mouse_x, int mouse_y)
+int         widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
 {
-    int     j;
     bool    wm = TRUE;
+    t_list *widgets;
 
-    for (j = 0; j < b->n_widgets; j ++)
+    for (widgets = b->widgets; widgets != NULL; widgets = widgets->next)
     {
-        t_widget *w = b->widgets [j];
+        t_widget *w = (t_widget *)widgets->elem;
         if (!w->enabled)
             continue;
 
-        w->mx = -1;
-        w->my = -1;
+        w->mouse_x = -1;
+        w->mouse_y = -1;
         w->mouse_action = WIDGET_MOUSE_ACTION_NONE;
         if (gui_mouse.pressed_on == PRESSED_ON_NOTHING || gui_mouse.pressed_on == PRESSED_ON_WIDGET)
             if ((mouse_x >= w->frame.pos.x) && (mouse_y >= w->frame.pos.y) && (mouse_x < w->frame.pos.x + w->frame.size.x) && (mouse_y < w->frame.pos.y + w->frame.size.y))
             {
-                w->mx = mouse_x - w->frame.pos.x;
-                w->my = mouse_y - w->frame.pos.y;
-                w->mb = gui_mouse.button;
+                w->mouse_x = (mouse_x - w->frame.pos.x);
+                w->mouse_y = (mouse_y - w->frame.pos.y);
+                w->mouse_buttons = gui_mouse.button;
+				w->mouse_buttons_previous = gui_mouse.pbutton;
                 w->mouse_action |= WIDGET_MOUSE_ACTION_HOVER;
-                if (w->mb & w->mb_react)
+                if (w->mouse_buttons & w->mouse_buttons_mask)
                 {
                     gui_mouse.pressed_on = PRESSED_ON_WIDGET;
                     w->mouse_action |= WIDGET_MOUSE_ACTION_CLICK;
@@ -108,76 +121,83 @@ int         widgets_update_box (t_gui_box *b, int mouse_x, int mouse_y)
     return (wm);
 }
 
-void    widgets_call_update (void)
+void    widgets_call_update(void)
 {
-    int    i, j;
-
-    for (i = 0; i < gui.box_last; i ++)
+    t_list *boxes;
+    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        if (gui.box[i]->n_widgets > 0)
+        t_gui_box *b = boxes->elem;
+        t_list *widgets;
+        for (widgets = b->widgets; widgets != NULL; widgets = widgets->next)
         {
-            for (j = 0; j < gui.box[i]->n_widgets; j ++)
-            {
-                t_widget *w = gui.box[i]->widgets [j];
-                if (w->enabled && w->update != NULL)
-                    w->update (w);
-            }
+            t_widget *w = (t_widget *)widgets->elem;
+            if (w->enabled && w->update != NULL)
+                w->update (w);
         }
     }
 }
 
 //-----------------------------------------------------------------------------
-// widget_new ()
+// widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
 // Create a new widget in given box
 // FIXME: additionnal widget data should be allocated on the same time...
 //-----------------------------------------------------------------------------
-t_widget *  widget_new (int box_n)
+t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
 {
-    t_gui_box *box = gui.box [box_n];
     t_widget *w;
 
-    // Create and initialize widget
-    w = (t_widget *) malloc(sizeof (t_widget));
-    w->enabled      = YES; // Enabled by default
-    w->id           = box->n_widgets;
-    w->box_n        = box_n;
-    w->box          = box;
-    w->frame.pos.x  = 0;
-    w->frame.pos.y  = 0;
-    w->frame.size.x = 0;
-    w->frame.size.y = 0;
-    w->mx           = -1;
-    w->my           = -1;
-    w->mb           = 0;
-    w->mb_old       = 0;
-    w->mb_react     = 0;
-    w->redraw       = NULL;
-    w->update       = NULL;
-    w->data         = NULL;
-    w->user_data    = NULL;
+    // Create widget
+    w = (t_widget *)malloc(sizeof (t_widget));
+
+    // Setup base members and clear all others
+    w->type                     = type;
+    w->enabled                  = TRUE;     // Enabled by default
+    w->box                      = box;
+    w->frame                    = *frame;
+    w->mouse_x                  = -1;
+    w->mouse_y                  = -1;
+    w->mouse_buttons            = 0;
+    w->mouse_buttons_previous   = 0;
+    w->mouse_buttons_mask       = 0x00;
+    w->dirty                    = TRUE;
+    w->redraw                   = NULL;
+    w->update                   = NULL;
+    w->data                     = NULL;
+    w->user_data                = NULL;
 
     // Add to box
-    if (box->n_widgets == 0)
-        box->widgets = malloc (sizeof (t_widget *));
-    else
-        box->widgets = realloc (box->widgets, (box->n_widgets + 1) * sizeof (t_widget *));
-    box->widgets [box->n_widgets++] = w;
+    list_add_to_end(&box->widgets, w);
+
     return (w);
 }
 
-void        widget_enable (t_widget *w)
+void        widget_delete(t_widget *w)
 {
-    w->enabled = YES;
+    // FIXME: Untested, uncalled
+    assert(0);
+    if (w->data != NULL)
+        free(w->data);
+    free(w);
 }
 
-void        widget_disable (t_widget *w)
+void        widget_enable(t_widget *w)
 {
-    w->enabled = NO;
+    w->enabled = TRUE;
 }
 
-void        widget_set_mouse_reaction(t_widget *w, int mouse_reaction)
+void        widget_disable(t_widget *w)
 {
-    w->mb_react = mouse_reaction;
+    w->enabled = FALSE;
+}
+
+void        widget_set_dirty(t_widget *w)
+{
+    w->dirty = TRUE;
+}
+
+void        widget_set_mouse_buttons_mask(t_widget *w, int mouse_buttons_mask)
+{
+    w->mouse_buttons_mask = mouse_buttons_mask;
 }
 
 void *      widget_get_user_data(t_widget *w)
@@ -200,131 +220,181 @@ void        widget_set_user_data(t_widget *w, void *user_data)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_closebox_add (int box_n, void *callback)
+t_widget *  widget_closebox_add(t_gui_box *box, void (*callback)())
 {
     t_widget *w;
     t_widget_data_closebox *wd;
-    t_gui_box *box = gui.box[box_n];
 
-    w = widget_new (box->stupid_id);
-    widget_set_mouse_reaction(w, 1);
-    w->frame.pos.x = box->frame.size.x - 10;
-    w->frame.pos.y = -15;
-    w->frame.size.x = 7;
-    w->frame.size.y = 6;
+    t_frame frame;
+    frame.pos.x = box->frame.size.x - 10;
+    frame.pos.y = -15;
+    frame.size.x = 7;
+    frame.size.y = 6;
 
+    w = widget_new(box, WIDGET_TYPE_CLOSEBOX, &frame);
+
+    widget_set_mouse_buttons_mask(w, 1);
     w->redraw = widget_closebox_redraw;
     w->update = widget_closebox_update;
 
-    w->data = malloc (sizeof (t_widget_data_closebox));
+    w->data = malloc(sizeof (t_widget_data_closebox));
     wd = w->data;
-    wd->lighted = NO;
+    wd->lighted = FALSE;
     wd->callback = callback;
 
     return w;
 }
 
-void        widget_closebox_redraw (t_widget *w, int bx, int by)
+void        widget_closebox_redraw(t_widget *w)
 {
-    int    color;
+    u32     color;
     t_widget_data_closebox *wd = w->data;
 
     // Get appropriate color
-    color = (wd->lighted) ? GUI_COL_TEXT_ACTIVE : GUI_COL_TEXT_N_ACTIVE;
+    // Note: using titlebar text active/unactive color to display the closebox star
+    color = (wd->lighted) ? COLOR_SKIN_WINDOW_TITLEBAR_TEXT : COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
 
     // Draw box-closing star using the LARGE font
-    Font_Print (F_LARGE, gui_buffer, MEKA_FONT_STR_STAR, bx + w->frame.pos.x, by + w->frame.pos.y - 4, color);
+    Font_Print (F_LARGE, gui_buffer, MEKA_FONT_STR_STAR, 
+        w->box->frame.pos.x + w->frame.pos.x, w->box->frame.pos.y + w->frame.pos.y - 4, 
+        color);
 }
 
-void        widget_closebox_update (t_widget *w)
+void        widget_closebox_update(t_widget *w)
 {
     t_widget_data_closebox *wd = w->data;
+
+    // Mouse handling
     if (!wd->lighted)
     {
-        if ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mb_old == 0) && (w->mb == 1))
+        if ((w->mouse_action & WIDGET_MOUSE_ACTION_HOVER) && /*(w->mouse_buttons_previous == 0) && */ (w->mouse_buttons == 1))
         {
-            wd->lighted = YES;
+            wd->lighted = TRUE;
         }
     }
     else
-        if ((wd->lighted) && (w->mb_old == 1) && (w->mb == 0))
+    {
+        if ((wd->lighted) && (w->mouse_buttons_previous == 1) && (w->mouse_buttons == 0))
         {
-            wd->lighted = NO;
-            if ((w->mx >= 0) && (w->my >= 0) && (w->mx <= w->frame.size.x) && (w->my <= w->frame.size.y))
+            wd->lighted = FALSE;
+            if ((w->mouse_x >= 0) && (w->mouse_y >= 0) && (w->mouse_x <= w->frame.size.x) && (w->mouse_y <= w->frame.size.y))
             {
-                wd->callback ();
+                wd->callback(w);
             }
         }
-        w->mb_old = w->mb;
-        w->mb = 0;
+        //w->mouse_buttons_previous = w->mouse_buttons;
+        //w->mouse_buttons = 0;
+    }
+
+    // Keyboard
+    // CTRL-F4 close window
+    if (gui_box_has_focus(w->box))
+    {
+        if ((key_shifts & KB_CTRL_FLAG) && Inputs_KeyPressed(KEY_F4, FALSE))
+            wd->callback(w);
+    }
+
+    // Always set dirty flag
+    // This is a hack to get always redrawn, because closebox is over titlebar which is always redrawn by GUI system now
+    w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_button_add_draw (int box_n, t_frame *frame, int look, int FontIdx, int react, void *when_clicked, char *s)
-{
-    t_widget *w;
-    w = widget_button_add (box_n, frame, react, when_clicked);
-    rectfill (gui.box_image [box_n], frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, GUI_COL_BUTTONS);
-    gui_rect (gui.box_image [box_n], look, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, GUI_COL_BORDERS);
-    Font_Print (FontIdx, gui.box_image [box_n], s, frame->pos.x + ((frame->size.x - Font_TextLength (FontIdx, s)) / 2), frame->pos.y + ((frame->size.y - Font_Height(FontIdx)) / 2) + 1, GUI_COL_TEXT_ACTIVE);
-    return w;
-}
-
-t_widget *  widget_button_add (int box_n, t_frame *frame, int react, void *callback)
+t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, void (*callback)(), t_widget_button_style style, const char *label)
 {
     t_widget *w;
     t_widget_data_button *wd;
 
-    w = widget_new (box_n);
-    widget_set_mouse_reaction(w, react);
-    w->frame = *frame;
+    w = widget_new(box, WIDGET_TYPE_BUTTON, frame);
+    widget_set_mouse_buttons_mask(w, mouse_buttons_mask);
 
-    w->redraw = NULL;
+    w->redraw = widget_button_redraw;
     w->update = widget_button_update;
 
-    w->data = malloc (sizeof (t_widget_data_button));
+    w->data = malloc(sizeof (t_widget_data_button));
     wd = w->data;
+    wd->label = label ? strdup(label) : NULL;
+    wd->style = style;
+    wd->selected = FALSE;
     wd->callback = callback;
 
     return w;
 }
 
-void        widget_button_update (t_widget *w)
+void        widget_button_update(t_widget *w)
 {
-    int     call;
+    bool    clicked;
     t_widget_data_button *wd = w->data;
 
     // Check if we need to fire the callback
-    call = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mb & w->mb_react) && (w->mb_old == 0));
+    clicked = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask));
 
     // Update mouse buttons
-    w->mb_old = w->mb;
-    w->mb = 0;
+    //w->mouse_buttons_previous = w->mouse_buttons;
+    w->mouse_buttons = 0;
 
-    // Fire the callback. Note that it is done AFTER updating the moue buttons, this
+    // Fire the callback. Note that it is done AFTER updating the mouse buttons, this
     // is to avoid recursive calls if the callback ask for a GUI update (something
     // which the file browser does when clicking on "Load Names").
-    if (call)
+    if (clicked)
         wd->callback (w);
+}
+
+void        widget_button_redraw(t_widget *w)
+{
+    t_widget_data_button *wd = w->data;
+    
+    const int bg_color = wd->selected ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
+
+    switch (wd->style)
+    {
+    case WIDGET_BUTTON_STYLE_INVISIBLE:
+        break;
+    case WIDGET_BUTTON_STYLE_SMALL:
+        {
+            const t_frame *frame = &w->frame;
+            const int font_idx = F_SMALL;
+	        rectfill(w->box->gfx_buffer, frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, bg_color);
+            gui_rect(w->box->gfx_buffer, LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+            Font_Print(font_idx, w->box->gfx_buffer, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_idx, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_idx)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+            break;
+        }
+    case WIDGET_BUTTON_STYLE_BIG:
+        {
+            const t_frame *frame = &w->frame;
+            const int font_idx = F_LARGE;
+	        rectfill(w->box->gfx_buffer, frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, bg_color);
+            gui_rect(w->box->gfx_buffer, LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+            Font_Print(font_idx, w->box->gfx_buffer, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_idx, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_idx)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+            break;
+        }
+    }
+}
+
+void        widget_button_set_selected(t_widget *w, bool selected)
+{
+    t_widget_data_button *wd = w->data;
+    wd->selected = selected;
+    w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_scrollbar_add (int box_n, t_frame *frame, int *v_max, int *v_start, int *v_per_page, void *callback)
+t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, int *v_max, int *v_start, int *v_per_page, void (*callback)())
 {
     t_widget *w;
     t_widget_data_scrollbar *wd;
 
-    w = widget_new (box_n);
-    widget_set_mouse_reaction(w, 1);
-    w->frame = *frame;
+    w = widget_new(box, WIDGET_TYPE_SCROLLBAR, frame);
+    widget_set_mouse_buttons_mask(w, 1);
 
-    w->redraw = NULL;
+    w->redraw = widget_scrollbar_redraw;
     w->update = widget_scrollbar_update;
 
     w->data = (t_widget_data_scrollbar *)malloc (sizeof (t_widget_data_scrollbar));
     wd = w->data;
+    wd->scrollbar_type = scrollbar_type;
     wd->v_max = v_max;
     wd->v_start = v_start;
     wd->v_per_page = v_per_page;
@@ -333,62 +403,97 @@ t_widget *  widget_scrollbar_add (int box_n, t_frame *frame, int *v_max, int *v_
     return w;
 }
 
-void        widget_scrollbar_update (t_widget *w)
+void        widget_scrollbar_update(t_widget *w)
 {
-    int    a = 0;
-    float  pos, h, max;
+    bool    moved = FALSE;
     t_widget_data_scrollbar *wd = w->data;
 
-    if ((w->mb & w->mb_react) /*&& (w->mb_old == 0)*/ && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
+    if ((w->mouse_buttons & w->mouse_buttons_mask) /*&& (w->mouse_buttons_previous == 0)*/ && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
     {
-        a = 1;
-        *wd->v_start = ((w->my * *wd->v_max) / w->frame.size.y) - (*wd->v_per_page / 2);
-    }
-    w->mb_old = w->mb;
-    w->mb = 0;
+        moved = TRUE;
 
-    if (*wd->v_start > *wd->v_max - *wd->v_per_page) 
-        *wd->v_start = *wd->v_max - *wd->v_per_page;
-    if (*wd->v_start < 0) 
-        *wd->v_start = 0;
+		// Move
+        switch (wd->scrollbar_type)
+        {
+        case WIDGET_SCROLLBAR_TYPE_VERTICAL:
+            *wd->v_start = ((w->mouse_y * *wd->v_max) / w->frame.size.y) - (*wd->v_per_page / 2);
+            break;
+        case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
+            *wd->v_start = ((w->mouse_x * *wd->v_max) / w->frame.size.x) - (*wd->v_per_page / 2);
+            break;
+        }
 
-    // Clear bar
-    rectfill (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, GUI_COL_FILL);
+		// Clamp
+		if (*wd->v_start > *wd->v_max - *wd->v_per_page) 
+			*wd->v_start = *wd->v_max - *wd->v_per_page;
+		if (*wd->v_start < 0) 
+			*wd->v_start = 0;
+	}
+    //w->mouse_buttons_previous = w->mouse_buttons;
+    //w->mouse_buttons = 0;
+
+	if (moved)
+	{
+		w->dirty = TRUE;
+
+	    // Callback
+		if (wd->callback != NULL)
+			wd->callback(w);
+	}
+}
+
+void        widget_scrollbar_redraw(t_widget *w)
+{
+    float	pos, size, max;
+    t_widget_data_scrollbar *wd = w->data;
+
+	// Clear bar
+	rectfill(w->box->gfx_buffer, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_SCROLLBAR_BACKGROUND);
 
     // Draw position box
     max = *wd->v_max;
     if (max < *wd->v_per_page) 
         max = *wd->v_per_page;
-    pos = w->frame.pos.y + ((*wd->v_start * w->frame.size.y) / max);
-    h = (*wd->v_per_page * w->frame.size.y) / max;
-    rectfill (gui.box_image [w->box_n], w->frame.pos.x, pos, w->frame.pos.x + w->frame.size.x, pos + h, GUI_COL_HIGHLIGHT);
 
-    if (a == 1)
+    switch (wd->scrollbar_type)
     {
-        wd->callback (w);
+    case WIDGET_SCROLLBAR_TYPE_VERTICAL:
+        {
+            pos = w->frame.pos.y + ((*wd->v_start * w->frame.size.y) / max);
+            size = (*wd->v_per_page * w->frame.size.y) / max;
+            rectfill(w->box->gfx_buffer, w->frame.pos.x, pos, w->frame.pos.x + w->frame.size.x, pos + size, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
+            break;
+        }
+    case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
+        {
+            pos = w->frame.pos.x + ((*wd->v_start * w->frame.size.x) / max);
+            size = (*wd->v_per_page * w->frame.size.x) / max;
+            rectfill(w->box->gfx_buffer, pos, w->frame.pos.y, pos + size, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
+            break;
+        }
     }
+
 }
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_checkbox_add (int box_n, t_frame *frame, byte *pvalue, void *callback)
+t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pvalue, void (*callback)())
 {
     t_widget *w;
     t_widget_data_checkbox *wd;
 
-    w = widget_new (box_n);
-    widget_set_mouse_reaction(w, 1);
-    w->frame = *frame;
+    w = widget_new(box, WIDGET_TYPE_CHECKBOX, frame);
+    widget_set_mouse_buttons_mask(w, 1);
 
-    w->redraw = NULL; // widget_checkbox_redraw;
+    w->redraw = widget_checkbox_redraw;
     w->update = widget_checkbox_update;
 
-    w->data = (t_widget_data_checkbox *)malloc (sizeof (t_widget_data_checkbox));
+    w->data = (t_widget_data_checkbox *)malloc(sizeof (t_widget_data_checkbox));
     wd = w->data;
-    wd->pvalue = NULL;
-    widget_checkbox_redraw (w);
+    //wd->pvalue = NULL;
+    //widget_checkbox_redraw(w);
     wd->pvalue = pvalue;
-    widget_checkbox_redraw (w);
+    //widget_checkbox_redraw(w);
     wd->callback = callback;
 
     return w;
@@ -399,64 +504,60 @@ void        widget_checkbox_update (t_widget *w)
 {
     t_widget_data_checkbox *wd;
 
-    if ((w->mb & w->mb_react) && (w->mb_old == 0) && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
+    if ((w->mouse_buttons & w->mouse_buttons_mask) && (w->mouse_buttons_previous == 0) && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
     {
         wd = w->data;
         *(wd->pvalue) ^= 1; // inverse flag
-        if (wd->callback)
+        if (wd->callback != NULL)
             wd->callback ();
-        widget_checkbox_redraw (w);
+        w->dirty = TRUE;
     }
-    w->mb_old = w->mb;
-    w->mb = 0;
+    //w->mouse_buttons_previous = w->mouse_buttons;
+    //w->mouse_buttons = 0;
 }
 
 void        widget_checkbox_redraw (t_widget *w)
 {
     t_widget_data_checkbox *wd = w->data;
 
-    rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, GUI_COL_BORDERS);
-    rectfill (gui.box_image [w->box_n], w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, GUI_COL_BUTTONS);
+	rect(w->box->gfx_buffer, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+    rectfill(w->box->gfx_buffer, w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
     if (wd->pvalue && *(wd->pvalue))
     {
-        line (gui.box_image [w->box_n], w->frame.pos.x + 2, w->frame.pos.y + 2, w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + w->frame.size.y - 2, GUI_COL_TEXT_ACTIVE);
-        line (gui.box_image [w->box_n], w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + 2, w->frame.pos.x + 2, w->frame.pos.y + w->frame.size.y - 2, GUI_COL_TEXT_ACTIVE);
+        // Note: using widget generic text color to display the cross
+        line(w->box->gfx_buffer, w->frame.pos.x + 2, w->frame.pos.y + 2, w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+        line(w->box->gfx_buffer, w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + 2, w->frame.pos.x + 2, w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
     }
 }
 
-void        widget_checkbox_set_pvalue (t_widget *w, byte *pvalue)
+void        widget_checkbox_set_pvalue (t_widget *w, bool *pvalue)
 {
     t_widget_data_checkbox *wd = w->data;
     wd->pvalue = pvalue;
+    w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
 
-t_widget *      widget_textbox_add(int box_n, t_frame *frame, int lines_max, int font_idx)
+t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lines_max, int font_idx)
 {
     int         i;
     t_widget *  w;
     t_widget_data_textbox *wd;
 
     // Create widget
-    w = widget_new (box_n);
-    widget_set_mouse_reaction(w, 0);
-    w->frame.pos.x = frame->pos.x;
-    w->frame.pos.y = frame->pos.y;
-    w->frame.size.x = frame->size.x;
-    w->frame.size.y = frame->size.y;
+    w = widget_new(box, WIDGET_TYPE_TEXTBOX, frame);
 
     w->redraw = widget_textbox_redraw;
     w->update = NULL;
 
     // Setup values & parameters
-    w->data = malloc (sizeof (t_widget_data_textbox));
+    w->data = malloc(sizeof (t_widget_data_textbox));
     wd = w->data;
     wd->lines_num       = 0;
     wd->lines_max       = lines_max;
     wd->font_idx        = font_idx;
-    wd->current_color   = GUI_COL_TEXT_IN_BOX;
-    wd->need_redraw     = YES;
+    wd->pcurrent_color  = &COLOR_SKIN_WINDOW_TEXT;
 
     // FIXME: To compute 'columns_max', we assume that 'M' is the widest character 
     // of a font. Which may or may not be true, and should be fixed. 
@@ -464,7 +565,7 @@ t_widget *      widget_textbox_add(int box_n, t_frame *frame, int lines_max, int
     wd->lines       = malloc (sizeof (t_widget_data_textbox_line) * lines_max);
     for (i = 0; i < lines_max; i++)
     {
-        wd->lines[i].color = wd->current_color;
+        wd->lines[i].pcolor = wd->pcurrent_color;
         wd->lines[i].text = malloc (sizeof (char) * (wd->columns_max + 1));
         wd->lines[i].text[0] = EOSTR;
     }
@@ -477,32 +578,26 @@ void        widget_textbox_redraw(t_widget *w)
 {
     t_widget_data_textbox *wd = w->data;
 
-    if (wd->need_redraw)
+    int fh = Font_Height (wd->font_idx);
+    int x = w->frame.pos.x;
+    int y = w->frame.pos.y + w->frame.size.y - fh;
+    int i;
+	BITMAP *bmp = w->box->gfx_buffer;
+
+    /*
     {
-        int fh = Font_Height (wd->font_idx);
-        int x = w->frame.pos.x;
-        int y = w->frame.pos.y + w->frame.size.y - fh;
-        int i;
-        BITMAP *bmp = gui.box_image[w->box_n];
+        static cnt = 0;
+        Msg (MSGT_USER_INFOLINE, "widget_textbox_redraw() %d", cnt++);
+    }
+    // rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_BORDER);
+    */
 
-        /*
-        {
-            static cnt = 0;
-            Msg (MSGT_USER_INFOLINE, "widget_textbox_redraw() %d", cnt++);
-        }
-        // rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, GUI_COL_BORDERS);
-        */
-
-        rectfill (bmp, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, GUI_COL_FILL);
-        for (i = 0; i < wd->lines_num; i++)
-        {
-            if (wd->lines[i].text[0] != EOSTR)
-                Font_Print (wd->font_idx, bmp, wd->lines[i].text, x, y, wd->lines[i].color);
-            y -= fh;
-        }
-
-        // Clear our own flag now
-        wd->need_redraw = NO;
+    rectfill (bmp, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
+    for (i = 0; i < wd->lines_num; i++)
+    {
+        if (wd->lines[i].text[0] != EOSTR)
+            Font_Print (wd->font_idx, bmp, wd->lines[i].text, x, y, *wd->lines[i].pcolor);
+        y -= fh;
     }
 }
 
@@ -516,14 +611,14 @@ void        widget_textbox_clear(t_widget *w)
 
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
-    w->box->must_redraw = YES;
-    wd->need_redraw = YES;
+    w->dirty = TRUE;
+    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
-void        widget_textbox_set_current_color(t_widget *w, int current_color)
+void        widget_textbox_set_current_color(t_widget *w, int *pcurrent_color)
 {
     t_widget_data_textbox *wd = w->data;
-    wd->current_color = current_color;
+    wd->pcurrent_color = pcurrent_color;
 }
 
 static void widget_textbox_print_scroll_nowrap (t_widget *w, const char *line)
@@ -547,12 +642,12 @@ static void widget_textbox_print_scroll_nowrap (t_widget *w, const char *line)
 
     // Copy new line
     strcpy (wd->lines[0].text, line);
-    wd->lines[0].color = wd->current_color;
+    wd->lines[0].pcolor = wd->pcurrent_color;
   
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
-    w->box->must_redraw = YES;
-    wd->need_redraw = YES;
+    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    w->dirty = TRUE;
 }
 
 void        widget_textbox_print_scroll (t_widget *w, int wrap, const char *line)
@@ -618,7 +713,7 @@ void        widget_textbox_printf_scroll(t_widget *w, int wrap, const char *form
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_inputbox_add(int box_n, t_frame *frame, int length_max, int font_idx, void (*callback_enter)(t_widget *))
+t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length_max, int font_idx, void (*callback_enter)(t_widget *))
 {
     t_widget *w;
     t_widget_data_inputbox *wd;
@@ -628,23 +723,20 @@ t_widget *  widget_inputbox_add(int box_n, t_frame *frame, int length_max, int f
     int size_y = frame->size.y;
     assert(size_x != -1);
     if (size_y == -1)
-       size_y = Font_Height (font_idx) + 4;
+       size_y = Font_Height(font_idx) + 4;
 
     // Create widget
-    w = widget_new (box_n);
-    widget_set_mouse_reaction(w, 1);
-    w->frame.pos.x = frame->pos.x;
-    w->frame.pos.y = frame->pos.y;
-    w->frame.size.x = size_x;
+    w = widget_new(box, WIDGET_TYPE_INPUTBOX, frame);
     w->frame.size.y = size_y;
+    widget_set_mouse_buttons_mask(w, 1);
 
     w->redraw = widget_inputbox_redraw;
     w->update = widget_inputbox_update;
 
     // Setup values & parameters
-    w->data = malloc (sizeof (t_widget_data_inputbox));
+    w->data = malloc(sizeof (t_widget_data_inputbox));
     wd = w->data;
-    wd->flags               = WIDGET_INPUTBOX_FLAG_DEFAULT;
+    wd->flags               = WIDGET_INPUTBOX_FLAGS_DEFAULT;
     wd->content_type        = WIDGET_CONTENT_TYPE_TEXT;
     wd->insert_mode         = FALSE;
     wd->length_max          = length_max;
@@ -694,6 +786,10 @@ bool    widget_inputbox_insert_char(t_widget *w, char c)
     if (wd->callback_edit)
         wd->callback_edit(w);
 
+    // Set dirty flag
+    w->dirty = TRUE;
+    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+
     return (TRUE);
 }
 
@@ -723,6 +819,10 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
         wd->cursor_pos--;
         wd->length--;
         wd->value[wd->length] = '\0';
+
+        // Set dirty flag
+        w->dirty = TRUE;
+
         return (TRUE);
     }
 }
@@ -752,24 +852,24 @@ void        widget_inputbox_update(t_widget *w)
     if (!gui_box_has_focus (w->box))
         return;
 
-    // Tells GUI that the containing box should be redrawn
-    // FIXME: ideally, only the widget should be redrawn
-    w->box->must_redraw = YES;
-
     // Get pointer to inputbox specific data
     wd = w->data;
 
     // Msg (MSGT_DEBUG, "cascii = %c, cscan = %04x", Inputs.KeyPressed.ascii, Inputs.KeyPressed.scancode);
 
     // Mouse click set position
-    if (!(wd->flags & WIDGET_INPUTBOX_FLAG_NO_MOVE_CURSOR))
-        if ((w->mb & w->mb_react) && (w->mb_old == 0) && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
+    if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
+        if ((w->mouse_buttons & w->mouse_buttons_mask) && (w->mouse_buttons_previous == 0) && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
         {
-            int mx = w->mx -= (2 + 3); // 2+3=start of text entry, see _Redraw() // FIXME
+            //const int mx = w->mouse_x -= (2 + 3); 
+            int mx = w->mouse_x - (2 + 3); // 2+3=start of text entry, see _Redraw() // FIXME
             if (mx <= 0)
+            {
                 widget_inputbox_set_cursor_pos (w, 0);
+            }
             else
             {
+                // Locate clicked-on character
                 int i;
                 char s[2] = { EOSTR, EOSTR };
                 for (i = 0; i < wd->length; i++)
@@ -789,12 +889,12 @@ void        widget_inputbox_update(t_widget *w)
         (keypress_queue != NULL))
     {
         t_key_press *keypress = keypress_queue->elem;
-        t_key_info *ki = KeyInfo_FindByScancode(keypress->scancode);
+        //const t_key_info *ki = KeyInfo_FindByScancode(keypress->scancode);
         keypress_queue = keypress_queue->next;
 
-        if (ki != NULL)
+        //if (ki != NULL)
         {
-            if (ki->scancode == KEY_TAB && (wd->flags & WIDGET_INPUTBOX_FLAG_COMPLETION))
+            if (keypress->scancode == KEY_TAB && (wd->flags & WIDGET_INPUTBOX_FLAGS_COMPLETION))
             {
                 // Completion
                 assert(wd->callback_completion != NULL);
@@ -802,23 +902,24 @@ void        widget_inputbox_update(t_widget *w)
                 Inputs_KeyPressQueue_Remove(keypress);
             }
             else 
-            if (ki->scancode == KEY_UP && (wd->flags & WIDGET_INPUTBOX_FLAG_HISTORY))
+            if (keypress->scancode == KEY_UP && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
             {
                 // History Up
-                assert(wd->callback_history != NULL);
-                wd->callback_history(w, -1);
-                Inputs_KeyPressQueue_Remove(keypress);
-            }
-            else
-            if (ki->scancode == KEY_DOWN && (wd->flags & WIDGET_INPUTBOX_FLAG_HISTORY))
-            {
-                // History Down
                 assert(wd->callback_history != NULL);
                 wd->callback_history(w, +1);
                 Inputs_KeyPressQueue_Remove(keypress);
             }
             else
-            if (ki->flags & KEY_INFO_PRINTABLE)
+            if (keypress->scancode == KEY_DOWN && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
+            {
+                // History Down
+                assert(wd->callback_history != NULL);
+                wd->callback_history(w, -1);
+                Inputs_KeyPressQueue_Remove(keypress);
+            }
+            else
+            //if (ki->flags & KEY_INFO_PRINTABLE)
+            if (isprint(keypress->ascii))
             {
                 char c = keypress->ascii;
                 if (wd->content_type == WIDGET_CONTENT_TYPE_DECIMAL)
@@ -845,8 +946,8 @@ void        widget_inputbox_update(t_widget *w)
     }
 
     // Backspace, Delete
-    if (!(wd->flags & WIDGET_INPUTBOX_FLAG_NO_DELETE))
-        if (Inputs_KeyPressed_Repeat (KEY_BACKSPACE, NO, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat (KEY_DEL, YES, tm_delay, tm_rate))
+    if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_DELETE))
+        if (Inputs_KeyPressed_Repeat (KEY_BACKSPACE, FALSE, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat (KEY_DEL, TRUE, tm_delay, tm_rate))
         {
             if (wd->cursor_pos > 0)
             {
@@ -860,21 +961,33 @@ void        widget_inputbox_update(t_widget *w)
             ///    Inputs_Key_Eat(KEY_BACKSPACE);
         }
 
-    if (!(wd->flags & WIDGET_INPUTBOX_FLAG_NO_MOVE_CURSOR))
+    if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
     {
         // Left/Right arrows: move cursor
-        if (Inputs_KeyPressed_Repeat (KEY_LEFT, NO, tm_delay, tm_rate))
+        if (Inputs_KeyPressed_Repeat (KEY_LEFT, FALSE, tm_delay, tm_rate))
             if (wd->cursor_pos > 0)
+            {
                 wd->cursor_pos--;
-        if (Inputs_KeyPressed_Repeat (KEY_RIGHT, NO, tm_delay, tm_rate))
+                w->dirty = TRUE;
+            }
+        if (Inputs_KeyPressed_Repeat (KEY_RIGHT, FALSE, tm_delay, tm_rate))
             if (wd->cursor_pos < wd->length)
+            {
                 wd->cursor_pos++;
+                w->dirty = TRUE;
+            }
 
         // Home/End: set cursor to beginning/end of input box
-        if (Inputs_KeyPressed (KEY_HOME, NO))
+        if (Inputs_KeyPressed (KEY_HOME, FALSE))
+        {
             wd->cursor_pos = 0;
-        if (Inputs_KeyPressed (KEY_END, NO))
+            w->dirty = TRUE;
+        }
+        if (Inputs_KeyPressed (KEY_END, FALSE))
+        {
             wd->cursor_pos = wd->length;
+            w->dirty = TRUE;
+        }
     }
 
     // Edit callback
@@ -882,20 +995,26 @@ void        widget_inputbox_update(t_widget *w)
         wd->callback_edit(w);
 
     // Enter: validate
-    if (Inputs_KeyPressed_Repeat (KEY_ENTER, NO, 30, 3))
+    if (Inputs_KeyPressed_Repeat (KEY_ENTER, FALSE, 30, 3) || Inputs_KeyPressed_Repeat (KEY_ENTER_PAD, FALSE, 30, 3))
         if (wd->callback_enter)
             wd->callback_enter(w);
+
+    // Tells GUI that the containing box should be redrawn
+    // FIXME: ideally, only the widget should be redrawn
+    if (w->dirty)
+        w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 void        widget_inputbox_redraw(t_widget *w)
 {
+	BITMAP *gfx_buffer = w->box->gfx_buffer;
     t_widget_data_inputbox *wd = w->data;
-    const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAG_NO_CURSOR);
-    const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAG_HIGHLIGHT_CURRENT_CHAR);
+    const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR);
+    const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR);
 
     // Draw border & fill text area
-    rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, GUI_COL_BORDERS);
-    rectfill (gui.box_image [w->box_n], w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, GUI_COL_BUTTONS);
+    rect(gfx_buffer, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+    rectfill(gfx_buffer, w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
 
     // Draw text & cursor
     {
@@ -909,23 +1028,23 @@ void        widget_inputbox_redraw(t_widget *w)
                 // Draw cursor line
                 int cursor_y1 = w->frame.pos.y + 2;
                 int cursor_y2 = cursor_y1 + w->frame.size.y - 2*2;
-                vline (gui.box_image [w->box_n], x, cursor_y1, cursor_y2, GUI_COL_TEXT_ACTIVE);
+                vline(gfx_buffer, x, cursor_y1, cursor_y2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
             }
             if (i < wd->length)
             {
                 // Draw one character
-                int color = (highlight_all || i == wd->cursor_pos) ? GUI_COL_TEXT_ACTIVE : GUI_COL_TEXT_N_ACTIVE;
+                u32 color = (highlight_all || i == wd->cursor_pos) ? COLOR_SKIN_WIDGET_GENERIC_TEXT : COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE;
                 char ch[2];
                 ch[0] = wd->value[i];
                 ch[1] = '\0';
-                Font_Print (wd->font_idx, gui.box_image [w->box_n], ch, x, y, color);
-                x += Font_TextLength (wd->font_idx, ch); // A bit slow
+				Font_Print(wd->font_idx, gfx_buffer, ch, x, y, color);
+                x += Font_TextLength(wd->font_idx, ch); // A bit slow
             }
         }
     }
 }
 
-char *      widget_inputbox_get_value(t_widget *w)
+const char *widget_inputbox_get_value(t_widget *w)
 {
     t_widget_data_inputbox *wd = w->data;
     return (wd->value);
@@ -937,7 +1056,7 @@ int         widget_inputbox_get_value_length(t_widget *w)
     return (wd->length);
 }
 
-void        widget_inputbox_set_value(t_widget *w, char *value)
+void        widget_inputbox_set_value(t_widget *w, const char *value)
 {
     t_widget_data_inputbox *wd = w->data;
     int     len;
@@ -962,7 +1081,10 @@ void        widget_inputbox_set_value(t_widget *w, char *value)
     
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
-    w->box->must_redraw = YES;
+    //w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+
+    // Set dirty flag
+    w->dirty = TRUE;
 }
 
 int         widget_inputbox_get_cursor_pos(t_widget *w)
@@ -986,7 +1108,10 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
     
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
-    w->box->must_redraw = YES;
+    // w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+
+    // Set dirty flag
+    w->dirty = TRUE;
 }
 
 void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)(t_widget *))

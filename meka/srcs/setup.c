@@ -35,7 +35,7 @@ void    Setup_Interactive_Init (void)
         || (Sound.Enabled && Sound.SoundCard == SOUND_SOUNDCARD_SELECT))
     {
         ConsolePrintf ("%s\n", Msg_Get(MSG_Setup_Running));
-        opt.Setup_Interactive_Execute = NO;
+        opt.Setup_Interactive_Execute = FALSE;
         Sound_Init_SEAL (); // FIXME: this is needed to enumerate sound cards
         if (Setup_Interactive () == MEKA_ERR_CANCEL)
         {

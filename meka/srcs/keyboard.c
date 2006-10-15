@@ -6,7 +6,10 @@
 #include "shared.h"
 #include "inputs_t.h"
 #include "keyboard.h"
+#include "skin_bg.h"
 
+//-----------------------------------------------------------------------------
+// Data
 //-----------------------------------------------------------------------------
 
 typedef struct
@@ -189,6 +192,8 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
 };
 
 //-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Keyboard_Switch ()
@@ -198,8 +203,8 @@ void    Keyboard_Switch (void)
 {
     Inputs.Keyboard_Enabled ^= 1;
     gui_menu_inverse_check (menus_ID.inputs, 5);
-    Regenerate_Background ();
-    gui.info.must_redraw = YES;
+    Skins_Background_Redraw();
+    gui.info.must_redraw = TRUE;
     if (Inputs.Keyboard_Enabled)
         Msg (MSGT_USER, Msg_Get (MSG_Inputs_SK1100_Enabled));
     else
@@ -225,13 +230,13 @@ void    Keyboard_Emulation_Update (void)
 {
     int i;
     Keyboard_Emulation_Clear();
-    for (i = 0; i < SK1100_MAPPING_NUM; i ++)
+    for (i = 0; i != SK1100_MAPPING_NUM; i ++)
     {
         if (key [SK1100_Mapping[i].key_pc])
         {
             t_sk1100_key *sk1100_key = &SK1100_Keys[SK1100_Mapping[i].key_sk1100];
             tsms.Control [sk1100_key->row] &= (~sk1100_key->bit);
-            tsms.Control_Check_GUI = NO;
+            tsms.Control_Check_GUI = FALSE;
         }
     }
 }

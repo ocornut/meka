@@ -5,18 +5,25 @@
 
 #include "shared.h"
 #include "bios.h"
-#include "debugger.h"
+#include "commport.h"
 #include "db.h"
+#include "debugger.h"
+#include "eeprom.h"
+#include "glasses.h"
 #include "mappers.h"
+#include "palette.h"
 #include "vdp.h"
+#include "tvoekaki.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 // HARD PAUSE EMULATED MACHINE ------------------------------------------------
 void    Machine_Pause (void)
 {
     machine ^= MACHINE_PAUSED;
-    CPU_Loop_Stop = YES;
+    CPU_Loop_Stop = TRUE;
     if (Machine_Pause_Need_To > 0)
         Machine_Pause_Need_To --;
 
@@ -38,7 +45,7 @@ void    Machine_Debug_Start (void)
 {
     // Msg (MSGT_DEBUG, "Machine_Debug_Start()");
     machine |= MACHINE_PAUSED | MACHINE_DEBUGGING;
-    CPU_Loop_Stop = YES;
+    CPU_Loop_Stop = TRUE;
     Screen_Save_to_Next_Buffer ();
 }
 
@@ -49,7 +56,7 @@ void    Machine_Debug_Stop (void)
     // next pass in MainLoop() will restart CPU emulation
     // We however set the flag in case this function is called with emulation
     // is already running (eg: setting a breakpoint while running)
-    CPU_Loop_Stop = YES;
+    CPU_Loop_Stop = TRUE;
 }
 
 void    Machine_Set_Handler_Loop (void)
@@ -380,22 +387,27 @@ void        Machine_Reset (void)
     if (DB_CurrentEntry && DB_CurrentEntry->emu_vdp_model != -1)
         cur_machine.VDP.model = DB_CurrentEntry->emu_vdp_model;
     else
-        cur_machine.VDP.model = VDP_MODEL_DEFAULT; // 315-5226
+    {
+        if (cur_drv->id == DRV_GG)
+            cur_machine.VDP.model = VDP_MODEL_315_5378;
+        else
+            cur_machine.VDP.model = VDP_MODEL_315_5226;
+    }
 
     // 3-D GLASSES ------------------------------------------------------------
     sms.Glasses_Register = ((Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT) ? 1 : 0);
 
     // CPU (MARAT FAIZULLIN'S CORE) -------------------------------------------
-    CPU_Loop_Stop = YES;
-    CPU_ForceNMI  = NO;
+    CPU_Loop_Stop = TRUE;
+    CPU_ForceNMI  = FALSE;
 
 #ifdef MARAT_Z80
     sms.R.IPeriod = opt.Cur_IPeriod;
-    sms.R.Trace = NO;
+    sms.R.Trace = FALSE;
     ResetZ80 (&sms.R);
     sms.R.IFF |= IFF_IM1;
-    sms.R.IAutoReset = NO;
-    sms.R.TrapBadOps = NO;
+    sms.R.IAutoReset = FALSE;
+    sms.R.TrapBadOps = FALSE;
 
     // CPU (MAME'S CORE) ------------------------------------------------------
 #elif MAME_Z80
@@ -449,10 +461,9 @@ void        Machine_Reset (void)
     memset (VRAM, 0, 0x04000);      // Clear all VRAM
     PRAM = PRAM_Static;
     memset (PRAM, 0, 0x00040);      // Clear all PRAM (palette)
-    RAM [0x0000] = opt.Magic_C000;  // Set RAM[0] to 'Magic' in config file
 
     // Unload BIOS if...
-    if ((cur_drv->id != DRV_SMS || sms.Country != COUNTRY_EUR_US) && (machine & MACHINE_ROM_LOADED))
+    if ((cur_drv->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (machine & MACHINE_ROM_LOADED))
     {
         #ifdef DEBUG_WHOLE
             Msg (MSGT_DEBUG, "Machine_Reset(): BIOS_Unload()");
@@ -473,7 +484,10 @@ void        Machine_Reset (void)
     screenbuffer = screenbuffer_1;
     screenbuffer_next = screenbuffer_2;
 
-    Sprite_Shift_X = 0;
+    cur_machine.VDP.sprite_shift_x = 0;
+    cur_machine.VDP.scroll_x_latched = 0;
+    cur_machine.VDP.scroll_y_latched = 0;
+    memset(cur_machine.VDP.scroll_x_latched_table, 0, sizeof(cur_machine.VDP.scroll_x_latched_table));
     tsms.VDP_Video_Change = VDP_VIDEO_CHANGE_ALL;
 
     // GRAPHICS: SPRITE FLICKERING --------------------------------------------
@@ -486,8 +500,8 @@ void        Machine_Reset (void)
     }
 
     // PALETTE ----------------------------------------------------------------
-    if (machine & MACHINE_POWER_ON)
-        Palette_Emu_Reset ();
+    //if (machine & MACHINE_POWER_ON)
+    Palette_Emulation_Reset();
 
     // INPUT/OUTPUT/VDP -------------------------------------------------------
     sms.VDP_Status = 0x00;
@@ -497,8 +511,8 @@ void        Machine_Reset (void)
     sms.VDP_Pal = 0x00;
     sms.VDP_ReadLatch = 0x00;
     sms.Lines_Left = 255;
-    sms.Need_HBlank = NO;
-    // sms.Need_VBlank = NO; // Unused now
+    sms.Need_HBlank = FALSE;
+    // sms.Need_VBlank = FALSE; // Unused now
     tsms.VDP_Line = 0;
 
     // CONTROLLERS ------------------------------------------------------------
@@ -512,7 +526,7 @@ void        Machine_Reset (void)
     // SOUND ------------------------------------------------------------------
     sms.FM_Register = 0;
     sms.FM_Magic = 0;
-    // if (fm_use == YES) fm_init (FM_ALL_INIT);
+    // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm ();
     FM_Reset ();
     SN76489_Reset (cur_machine.TV->CPU_clock, audio_sample_rate);

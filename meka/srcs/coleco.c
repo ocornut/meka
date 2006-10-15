@@ -4,11 +4,15 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "debugger.h"
 #include "fskipper.h"
 #include "mappers.h"
 #include "patch.h"
 #include "vdp.h"
+#include "video_m2.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 // [MAPPER: COLECOVISION] WRITE BYTE ------------------------------------------
@@ -154,6 +158,13 @@ word    Loop_Coleco (void)
     Sound_CycleCounter += opt.Cur_IPeriod;
 
     tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
+
+    // Debugger hook
+    #ifdef MEKA_Z80_DEBUGGER
+	if (Debugger.active)
+		Debugger_RasterLine_Hook(tsms.VDP_Line);
+	#endif
+
     if (tsms.VDP_Line == 0)
     {
         Interrupt_Loop_Misc_Line_Zero ();

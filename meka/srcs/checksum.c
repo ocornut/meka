@@ -64,7 +64,7 @@ void            Checksum_Perform (u8 *data, int data_size)
 
     // Update VLFN
     {
-        StrCpyPathRemoved(GenericBuffer, file.rom);
+        StrCpyPathRemoved(GenericBuffer, Env.Paths.MediaImageFile);
         if (DB_CurrentEntry)
             VLFN_AddEntry (GenericBuffer, DB_CurrentEntry);
         else

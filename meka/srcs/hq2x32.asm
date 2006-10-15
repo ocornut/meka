@@ -18,6 +18,12 @@
 ;along with this program; if not, write to the Free Software
 ;Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+%IFDEF UNIX
+%DEFINE  _hq2x_32              hq2x_32
+%DEFINE  _HQ2X_LUT16to32       HQ2X_LUT16to32
+%DEFINE  _HQ2X_RGBtoYUV        HQ2X_RGBtoYUV
+%ENDIF ; UNIX
+
 GLOBAL _hq2x_32
 
 EXTERN _HQ2X_LUT16to32
@@ -1798,7 +1804,7 @@ _hq2x_32:
     jmp     .loopx
 .xres_2
     ; x=Xres-2 - special case
-    jl      .xres_1
+    jl near .xres_1
     mov     ebx,[prevline]
     movq    mm5,[esi+ebx-4]
     movq    mm6,[esi-4]

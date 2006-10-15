@@ -9,23 +9,26 @@ BITS    32
 SECTION .data
 ; USE32
 
-; Uncomment for UNIX build
-;%DEFINE  _Decode_Tile_ASM            Decode_Tile_ASM
-;%DEFINE  _Decode_Tile_ASM_Init       Decode_Tile_ASM_Init
-;%DEFINE  _Find_Last_Sprite_ASM       Find_Last_Sprite_ASM
-;%DEFINE  _Find_Last_Sprite_ASM_Wide  Find_Last_Sprite_ASM_Wide
-;%DEFINE  _Sprite_Collide_Line_ASM    Sprite_Collide_Line_ASM
+%IFDEF UNIX
 
-;%DEFINE  _VRAM                       VRAM
-;%DEFINE  _SPR_AREA                   SPR_AREA
-;%DEFINE  _Sprite_Last                Sprite_Last
-;%DEFINE  _Sprites_on_Line            Sprites_on_Line
-;%DEFINE  _Sprites_Collision_Table    Sprites_Collision_Table
-;%DEFINE  _Do_Collision               Do_Collision
-;%DEFINE  _sms                        sms
+%DEFINE  _Decode_Tile_ASM            Decode_Tile_ASM
+%DEFINE  _Decode_Tile_ASM_Init       Decode_Tile_ASM_Init
+%DEFINE  _Find_Last_Sprite_ASM       Find_Last_Sprite_ASM
+%DEFINE  _Find_Last_Sprite_ASM_Wide  Find_Last_Sprite_ASM_Wide
+%DEFINE  _Sprite_Collide_Line_ASM    Sprite_Collide_Line_ASM
+
+%DEFINE  _VRAM                       VRAM
+%DEFINE  _sprite_attribute_table     sprite_attribute_table
+%DEFINE  _Sprite_Last                Sprite_Last
+%DEFINE  _Sprites_on_Line            Sprites_on_Line
+%DEFINE  _Sprites_Collision_Table    Sprites_Collision_Table
+%DEFINE  _Do_Collision               Do_Collision
+%DEFINE  _sms                        sms
+
+%ENDIF ; UNIX
 
 EXTERN  _VRAM
-EXTERN  _SPR_AREA
+EXTERN  _sprite_attribute_table
 EXTERN  _Sprite_Last
 EXTERN  _Sprites_on_Line
 EXTERN  _Sprites_Collision_Table
@@ -258,7 +261,7 @@ _Decode_Tile_ASM:
 ; Sprites_on_Line = 0;
 ; while (Sprite_Last < 64)
 ;   {
-;   if ((y = SPR_AREA [Sprite_Last]) == 208)
+;   if ((y = sprite_attribute_table [Sprite_Last]) == 208)
 ;      break;
 ;   Sprite_Last ++;
 ;   if (y > 224) y -= 256;
@@ -279,7 +282,7 @@ _Find_Last_Sprite_ASM:
         mov     ecx, dword [esp + 24]           ; ecx = Height
         mov     edx, dword [esp + 28]           ; edx = VDP_Line
 
-        mov     esi, [_SPR_AREA]                ; esi = SPR_AREA
+        mov     esi, [_sprite_attribute_table]  ; esi = sprite_attribute_table
         xor     eax, eax                        ; eax = 0 (Sprite_Last)
         mov     dword [_Sprites_on_Line], 0     ; Sprites_on_Line = 0
 
@@ -337,7 +340,7 @@ _Find_Last_Sprite_ASM_Wide:
         mov     ecx, dword [esp + 24]           ; ecx = Height
         mov     edx, dword [esp + 28]           ; edx = VDP_Line
 
-        mov     esi, [_SPR_AREA]                ; esi = SPR_AREA
+        mov     esi, [_sprite_attribute_table]  ; esi = sprite_attribute_table
         xor     eax, eax                        ; eax = 0 (Sprite_Last)
         mov     dword [_Sprites_on_Line], 0     ; Sprites_on_Line = 0
 
@@ -386,14 +389,14 @@ _Find_Last_Sprite_ASM_Wide:
 ;
 ;  p_collision_table = &Sprites_Collision_Table [x];
 ;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO; return; } } p_collision_table++;
-;  if (*p_src  ) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = NO;         } }
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src++) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE; return; } } p_collision_table++;
+;  if (*p_src  ) { if ((p_collision_table[0])++ > 0) { sms.VDP_Status |= VDP_STATUS_SpriteCollision; Do_Collision = FALSE;         } }
 ;}
 ;------------------------------------------------------------------------------
 _Sprite_Collide_Line_ASM:
@@ -484,7 +487,7 @@ _Sprite_Collide_Line_ASM:
 
 .Lcollide
         or      byte [_sms + 69], 0x20          ; sms.VDP_Status |= VDP_STATUS_SpriteCollision; FIXME
-        mov     dword [_Do_Collision], 0        ; Do_Collision = NO
+        mov     dword [_Do_Collision], 0        ; Do_Collision = FALSE
         ; pop   edx
         pop     ecx
         pop     eax

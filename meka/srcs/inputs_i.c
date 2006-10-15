@@ -5,13 +5,13 @@
 
 #include "shared.h"
 #include "inputs_i.h"
+#include "inputs_f.h"
+#include "sportpad.h"
+#include "rapidfir.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
-
-void    Inputs_Init_Mouse(void);
-void    Inputs_Init_Joystick(void);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -34,7 +34,7 @@ void    Inputs_Init (void)
     // Peripheral
     Inputs.Paddle_X [PLAYER_1] = Inputs.Paddle_X [PLAYER_2] = 0;
     LightGun_Init ();
-    SportPad_Init ();
+    SportsPad_Init ();
     RapidFire_Init ();
 
     // Load Inputs Sources List
@@ -53,22 +53,22 @@ void    Inputs_Init_Mouse (void)
 
 void    Inputs_Joystick_Init(void)
 {
-    int    i;
-    int    NumJoy;
-    byte   Found = NO;
+    int     i;
+    int     NumJoy;
+    bool    found = FALSE;
 
     if (Inputs.Sources_Joy_Driver == JOY_TYPE_NONE)
         return;
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *src = Inputs.Sources[i];
-        if (src->Type == INPUT_SRC_JOYPAD)
+        if (src->type == INPUT_SRC_TYPE_JOYPAD)
         {
-            Found = YES;
+            found = TRUE;
             break;
         }
     }
-    if (Found == NO)
+    if (found == FALSE)
         return;
 
     // There is at least one joypad so we'll launch initialization
@@ -84,16 +84,16 @@ void    Inputs_Joystick_Init(void)
 
     for (i = 0; i < NumJoy; i++)
     {
-        int first = NO;
+        int first = FALSE;
         JOYSTICK_INFO *joystick = &joy[i];
         // Msg (MSGT_DEBUG, "joystick %d flags %04X", i, joystick->flags);
         while (joystick->flags & JOYFLAG_CALIB_DIGITAL)
         {
             char *msg = (char *)calibrate_joystick_name(i);
-            if (first == NO)
+            if (first == FALSE)
             {
                 ConsolePrintf (" - Calibrating joystick %d:\n", i);
-                first = YES;
+                first = TRUE;
             }
             ConsolePrintf ("   - %s, and press a key\n", msg);
             readkey ();
@@ -108,9 +108,9 @@ void    Inputs_Joystick_Init(void)
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *src = Inputs.Sources[i];
-        if (src->Type == INPUT_SRC_JOYPAD)
+        if (src->type == INPUT_SRC_TYPE_JOYPAD)
             if (src->Connection_Port < NumJoy)
-                src->Connected_and_Ready = YES;
+                src->Connected_and_Ready = TRUE;
     }
 }
 

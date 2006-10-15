@@ -7,11 +7,13 @@
 #include "app_palview.h"
 #include "desktop.h"
 #include "g_widget.h"
+#include "palette.h"
 
 //-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
+static void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup);
 static void    PaletteViewer_CallbackSelectColor(t_widget *w);
 
 //-----------------------------------------------------------------------------
@@ -20,27 +22,26 @@ static void    PaletteViewer_CallbackSelectColor(t_widget *w);
 
 void    PaletteViewer_Init(t_app_palette_viewer *pv)
 {
-    int box_id;
+    t_frame frame;
 
     // Setup
     pv->active          = TRUE;
+    pv->dirty           = TRUE;
     pv->palette_size    = 32; // Note: PaletteViewer_SetPaletteSize() is called after setting up the window
     pv->color_displayed = -1;
     pv->color_hovered   = -1;
     pv->color_selected  = -1;
 
     // Create box
-    box_id  = gui_box_create (15, 53, 191, 49+13, Msg_Get (MSG_Palette_BoxTitle));
-    pv->box = gui.box[box_id];
-    //pv->box->update = PaletteViewer_Update;
-    pv->box_gfx = create_bitmap (pv->box->frame.size.x + 1, pv->box->frame.size.y + 1);
-    gui_set_image_box (box_id, pv->box_gfx);
+    frame.pos.x     = 15;
+    frame.pos.y     = 53;
+    frame.size.x    = 191;
+    frame.size.y    = 49+13;
+    pv->box = gui_box_new(&frame, Msg_Get(MSG_Palette_BoxTitle));
+    pv->box_gfx = pv->box->gfx_buffer;
 
     // Register to desktop (applet is enabled by default)
-    Desktop_Register_Box ("PALETTE", box_id, TRUE, (byte *)&pv->active);
-
-    // Add close Button
-    widget_closebox_add (box_id, PaletteViewer_Switch);
+    Desktop_Register_Box ("PALETTE", pv->box, TRUE, &pv->active);
 
     // Setup frames
     pv->frame_palette.pos.x     = 0;
@@ -51,19 +52,31 @@ void    PaletteViewer_Init(t_app_palette_viewer *pv)
     pv->frame_info.pos.y        = 50;
     pv->frame_info.size.x       = pv->box->frame.size.x;
     pv->frame_info.size.y       = 13;
-    pv->frame_palette_zone      = widget_button_add(box_id, &pv->frame_palette, 1, PaletteViewer_CallbackSelectColor);
+    pv->frame_palette_zone      = widget_button_add(pv->box, &pv->frame_palette, 1, PaletteViewer_CallbackSelectColor, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
-    // Clear palette area with black
-    rectfill(pv->box_gfx, pv->frame_palette.pos.x, pv->frame_palette.pos.y, pv->frame_palette.pos.x + pv->frame_palette.size.x, pv->frame_palette.pos.y + pv->frame_palette.size.y, GUI_COL_BLACK);
-
-    // Draw line
-    line(pv->box_gfx, pv->frame_info.pos.x, pv->frame_info.pos.y, pv->frame_info.pos.x + pv->frame_info.size.x, pv->frame_info.pos.y, GUI_COL_BORDERS);
-
-    // Draw current color square
-    gui_rect(pv->box_gfx, LOOK_THIN, 2, pv->frame_info.pos.y + 1, 2 + 11, pv->frame_info.pos.y + 1 + 11, GUI_COL_BORDERS);
+    // Layout
+    PaletteViewer_Layout(pv, TRUE);
 
     // Configuration
     PaletteViewer_SetPaletteSize(pv, cur_drv->colors);
+}
+
+void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
+{
+    // Clear
+    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+
+    if (setup)
+    {
+        // Add closebox widget
+        widget_closebox_add(app->box, PaletteViewer_Switch);
+    }
+
+    // Draw line
+    line(app->box_gfx, app->frame_info.pos.x, app->frame_info.pos.y, app->frame_info.pos.x + app->frame_info.size.x, app->frame_info.pos.y, COLOR_SKIN_WINDOW_SEPARATORS);
+
+    // Draw current color square
+    gui_rect(app->box_gfx, LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
 
 void    PaletteViewer_Switch(void)
@@ -89,75 +102,101 @@ void    PaletteViewer_Update(void)
     int         color_current;
     bool        color_current_refresh;
 
+    // Skip update if not active
+    if (!pv->active)
+        return;
+
+    // If skin has changed, redraw everything
+    if (pv->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
+    {
+        PaletteViewer_Layout(pv, FALSE);
+        pv->box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+        pv->dirty = TRUE;
+    }
+
     // Update hovered color index
     {
-        int mx = pv->frame_palette_zone->mx;
-        int my = pv->frame_palette_zone->my;
+        const int mx = pv->frame_palette_zone->mouse_x;
+        const int my = pv->frame_palette_zone->mouse_y;
         if (mx != -1 && my != -1)
-            pv->color_hovered = (pv->frame_palette_zone->mx / color_box_size);
+            pv->color_hovered = (mx / color_box_size);
         else
             pv->color_hovered = -1;
     }
 
     color_current = (pv->color_hovered != -1) ? pv->color_hovered : pv->color_selected;
-    color_current_refresh = (color_current == -1) ? FALSE : ((color_current != pv->color_displayed) ? TRUE : FALSE);
+    color_current_refresh = /*(color_current == -1) ? TRUE :*/ ((color_current != pv->color_displayed) ? TRUE : FALSE);
 
     // Draw palette
-    for (i = 0; i < pv->palette_size; i++)
+    for (i = 0; i != pv->palette_size; i++)
     {
-        if (Palette_Refs_Dirty [i])
+        if (pv->dirty || Palette_EmulationFlags[i] & PALETTE_EMULATION_FLAGS_DIRTY)
         {
             rectfill (pv->box_gfx, 
                 (i * color_box_size), 0, 
                 (i * color_box_size) + color_box_size - 1, 49,
-                Palette_Refs [i]);
-            Palette_Refs_Dirty [i] = NO;
+                Palette_EmulationToHost[i]);
+            Palette_EmulationFlags[i] &= ~PALETTE_EMULATION_FLAGS_DIRTY;
             dirty = TRUE;
             if (i == color_current)
                 color_current_refresh = TRUE;
         }
     }
 
-    if (color_current_refresh)
+    if (pv->dirty || color_current_refresh)
     {
-        char buf[64];
-        char color_bits[20];
-
-        sprintf(buf, "Color %d (0x%02X)", color_current, color_current);
-
-        switch (cur_drv->id)
-        {
-            case DRV_SMS:
-                color_bits[0] = '%';
-                Write_Bits_Field(PRAM[color_current], 8, color_bits + 1);
-                sprintf(buf+strlen(buf), " - %s", color_bits);
-                break;
-            case DRV_GG:
-                color_bits[0] = '%';
-                Write_Bits_Field(PRAM[color_current * 2 + 1], 8, color_bits + 1);
-                color_bits[9] = '.';
-                Write_Bits_Field(PRAM[color_current * 2 + 0], 8, color_bits + 10);
-                sprintf(buf+strlen(buf), " - %s", color_bits);
-                break;
-            default:
-                color_bits[0] = 0;
-                break;
-        }
-        rectfill(pv->box_gfx, 4, pv->frame_info.pos.y + 3, 4 + 7, pv->frame_info.pos.y + 3 + 7, Palette_Refs[color_current]);
-        rectfill(pv->box_gfx, 16, pv->frame_info.pos.y + 1, pv->frame_info.pos.x + pv->frame_info.size.x, pv->frame_info.pos.y + pv->frame_info.size.y, GUI_COL_FILL);
-        Font_Print(F_SMALL, pv->box_gfx, buf, 16, pv->frame_info.pos.y + 1, GUI_COL_TEXT_IN_BOX);
+        rectfill(pv->box_gfx, 16, pv->frame_info.pos.y + 1, pv->frame_info.pos.x + pv->frame_info.size.x, pv->frame_info.pos.y + pv->frame_info.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
         dirty = TRUE;
-        pv->color_displayed = color_current;
+
+        if (color_current != -1)
+        {
+            char buf[64];
+            char color_bits[20];
+
+            // Color square
+            rectfill(pv->box_gfx, 4, pv->frame_info.pos.y + 3, 4 + 7, pv->frame_info.pos.y + 3 + 7, Palette_EmulationToHost[color_current]);
+    
+            // Description
+            sprintf(buf, "Color %d ($%02X)", color_current, color_current);
+            switch (cur_drv->id)
+            {
+                case DRV_SMS:
+                    color_bits[0] = '%';
+                    Write_Bits_Field(PRAM[color_current], 8, color_bits + 1);
+                    sprintf(buf+strlen(buf), " - %s", color_bits);
+                    break;
+                case DRV_GG:
+                    color_bits[0] = '%';
+                    Write_Bits_Field(PRAM[color_current * 2 + 1], 8, color_bits + 1);
+                    color_bits[9] = '.';
+                    Write_Bits_Field(PRAM[color_current * 2 + 0], 8, color_bits + 10);
+                    sprintf(buf+strlen(buf), " - %s", color_bits);
+                    break;
+                default:
+                    color_bits[0] = 0;
+                    break;
+            }
+            Font_Print(F_SMALL, pv->box_gfx, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
+            dirty = TRUE;
+            pv->color_displayed = color_current;
+        }
+        else
+        {
+            // Fill with black
+            rectfill(pv->box_gfx, 4, pv->frame_info.pos.y + 3, 4 + 7, pv->frame_info.pos.y + 3 + 7, COLOR_BLACK);
+        }
     }
 
-    if (dirty)
-        pv->box->must_redraw = YES;
+    if (pv->dirty || dirty)
+    {
+        pv->dirty = FALSE;
+        pv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    }
 }
 
 void    PaletteViewer_SetPaletteSize(t_app_palette_viewer *pv, int palette_size)
 {
     pv->palette_size = palette_size;
-    PaletteViewer_Update();
 }
 
 void    PaletteViewer_CallbackSelectColor(t_widget *w)
@@ -165,9 +204,9 @@ void    PaletteViewer_CallbackSelectColor(t_widget *w)
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
     const int color_box_size = pv->box_gfx->w / pv->palette_size;
 
-    if (w->mx != -1 && w->my != -1)
+    if (w->mouse_x != -1 && w->mouse_y != -1)
     {
-        pv->color_selected = (w->mx / color_box_size);
+        pv->color_selected = (w->mouse_x / color_box_size);
     }
 }
 

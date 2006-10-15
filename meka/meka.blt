@@ -22,12 +22,12 @@
 ; See MEKA.CFG/MEKAW.CFG for a list of available graphics drivers.
 ;
 ; Optional settings:
-;   video_depth = 8 | 16 | 32   (selected video depth)      *WIP* 8 is the default, 16 may be only supported for HQ2X as of yet)
-;   refresh_rate = auto | 60 | 70 | ...
-;   flip                        (enable page flipping to reduce color flickers, slow)
-;   vsync                       (enable wait for vertical synchronization)
-;   triple_buffering            (enable triple buffering)   *WIP*
-;   stretch                     (enable fullscreen stretch) *WIP*
+;   video_depth = auto | 16 | 24 | 32   (video depth)
+;   refresh_rate = auto | 60 | 70 | ... (video refresh rate - prefer 60 Hz)
+;   flip                                (enable page flipping to reduce color flickers, slow)
+;   vsync                               (enable wait for vertical synchronization)
+;   triple_buffering                    (enable triple buffering)   *WIP*
+;   stretch                             (enable fullscreen stretch) *WIP*
 ;
 ; Note: the blitter configuration system is about to be reoverhauled, hence
 ; the settings marked by *WIP*. They may be instable or not compatible with
@@ -84,6 +84,7 @@
 res = 320x200
 driver = directx
 ;flip
+video_depth = auto
 triple_buffering
 refresh_rate = 60
 
@@ -91,36 +92,40 @@ refresh_rate = 60
 res = 320x240
 driver = directx
 ;flip
+video_depth = auto
 triple_buffering
 refresh_rate = auto ; 50
 
-[TV Mode::WIN]
-res = 640x480
-blitter = tvmode_double
-driver = directx
-;flip
-triple_buffering
-refresh_rate = 60
+;[TV Mode::WIN]
+;res = 640x480
+;blitter = tvmode_double
+;driver = directx
+;;flip
+;video_depth = auto
+;triple_buffering
+;;refresh_rate = 60
+
+;[Windowed::WIN]
+;res = 256x200
+;driver = directx_win
+;video_depth = auto
+;;;flip
+;;triple_buffering
 
 [Windowed::WIN]
-res = 256x200
-driver = directx_win
-;;flip
-;triple_buffering
-
-[Windowed Double::WIN]
-res = 512x400
+res = 512x384
 blitter = double
 driver = directx_win
+video_depth = auto
 ;;flip
 ;triple_buffering
 
 [HQ2X::WIN]
 res = 1024x768
 driver = directx
-refresh_rate = auto
+refresh_rate = 60
 blitter = hq2x
-video_depth = 16
+video_depth = auto
 triple_buffering
 stretch
 

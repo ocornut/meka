@@ -9,7 +9,27 @@
 ;-----------------------------------------------------------------------------
 ; History
 ;-----------------------------------------------------------------------------
-; MEKA 0.71  : Added:            Msg_Setup_Debugger_Enable
+; MEKA 0.72  : Added:            Msg_Inputs_Config_Peripheral_Click     
+;                                Msg_Inputs_Config_Source_Enabled       
+;                                Msg_Inputs_Config_Source_Player        
+;                                Msg_Inputs_Config_Source_Emulate_Joypad
+;                                Msg_Theme_Error_Syntax
+;                                Msg_Theme_Error_Attribute_Defined
+;                                Msg_Theme_Error_Out_of_Bound
+;                                Msg_Theme_Error_Theme_Missing_Data
+;                                Msg_Blitters_Error_Incorrect_Value
+;                                Msg_Menu_Tools_TilemapViewer
+;                                Msg_Menu_Help_Debugger
+;              Renamed:          Msg_Inputs_Configuration_BoxTitle -> Msg_Inputs_Config_BoxTitle
+;                                Msg_Theme_Not_Enough -> Msg_Theme_Error_Not_Enough
+;                                Msg_Theme_Missing -> Msg_Theme_Error_Missing_Theme_Name
+;                                Msg_Blitters_Not_Enough -> Msg_Blitters_Error_Not_Enough
+;                                Msg_Blitters_Not_Found -> Msg_Blitters_Error_Not_Found
+;                                Msg_Blitters_Missing -> Msg_Blitters_Error_Missing
+;                                Msg_Blitters_Unrecognized -> Msg_Blitters_Error_Unrecognized
+;                                MSG_Options_NES_Activated -> MSG_Options_NES_Enable
+;              Removed:          Msg_Theme_Unrecognized
+; MEKA 0.71  : Added:            Msg_Setup_Debugger_Enable              
 ;                                Msg_Menu_Debug_Reload_ROM
 ;                                Msg_LoadROM_Reload_Reloaded
 ;                                Msg_LoadROM_Reload_No_ROM
@@ -270,10 +290,11 @@ Msg_TVType_Info_Speed                   = "(Original speed is %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Loading MEKA.BLT (video modes / blitters)... "
-Msg_Blitters_Not_Enough                 = "Not enough blitters found! Check MEKA.BLT file or try re-installing."
-Msg_Blitters_Not_Found                  = "Blitter not found!"
-Msg_Blitters_Missing                    = "On line %d: No blitter name defined for storing value!"
-Msg_Blitters_Unrecognized               = "On line %d: Unrecognized variable!"
+Msg_Blitters_Error_Not_Enough           = "Not enough blitters found! Check MEKA.BLT file or try re-installing."
+Msg_Blitters_Error_Not_Found            = "Blitter not found!"
+Msg_Blitters_Error_Missing              = "On line %d: No blitter name defined for storing value!"
+Msg_Blitters_Error_Unrecognized         = "On line %d: Unrecognized variable!"
+Msg_Blitters_Error_Incorrect_Value      = "On line %d: Incorrect value!"
 Msg_Blitters_Set                        = "Now using \"%s\" fullscreen blitter."
 
 ; Nintendo -------------------------------------------------------------------
@@ -352,7 +373,7 @@ Msg_TechInfo_Enabled                    = "Technical information box enabled"
 Msg_TilesViewer_BoxTitle                = "Tiles Viewer"
 Msg_TilesViewer_Disabled                = "Tiles viewer disabled"
 Msg_TilesViewer_Enabled                 = "Tiles viewer enabled"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Memory Editor --------------------------------------------------------------
 Msg_MemoryEditor_BoxTitle				= "Memory Editor"
@@ -378,7 +399,7 @@ Msg_Patch_Loading                       = "Loading MEKA.PAT (patches)... "
 Msg_Patch_Missing                       = "On line %d: No checksum defined to apply command to!"
 Msg_Patch_Unrecognized                  = "On line %d: Syntax error or unrecognized command!"
 Msg_Patch_Value_Not_a_Byte              = "On line %d: Value %s do not fit into an unsigned byte!"
-Msg_Patch_Out_of_Bound                  = "While patching %s: address 0x%04X is out of boundaries. Patch not applied."
+Msg_Patch_Out_of_Bound                  = "While patching %s: address $%04X is out of boundaries. Patch not applied."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3-D Glasses emulation enabled"
@@ -410,8 +431,12 @@ Msg_Inputs_Play_Pen                     = "Control pen with mouse\nRight-click s
 Msg_Inputs_SK1100_Enabled               = "Sega Keyboard (SK-1100) emulation enabled"
 Msg_Inputs_SK1100_Disabled              = "Sega Keyboard (SK-1100) emulation disabled"
 
-; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Input Configuration"
+; Input Configuration --------------------------------------------------------
+Msg_Inputs_Config_BoxTitle              = "Input Configuration"
+Msg_Inputs_Config_Peripheral_Click      = "Click to select peripheral"
+Msg_Inputs_Config_Source_Enabled        = "Enabled"
+Msg_Inputs_Config_Source_Player         = "Controlling Player %d"
+Msg_Inputs_Config_Source_Emulate_Joypad = "Emulate joypad"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Loading MEKA.INP (inputs sources definition)... "
@@ -476,9 +501,12 @@ Msg_Sound_Volume_Changed                = "Volume changed to %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Loading MEKA.THM (interface themes)... "
-Msg_Theme_Not_Enough                    = "Not enough themes found! Check MEKA.THM file or try re-installing."
-Msg_Theme_Missing                       = "On line %d: No theme name defined for storing value!"
-Msg_Theme_Unrecognized                  = "On line %d: Unrecognized variable!"
+Msg_Theme_Error_Not_Enough              = "Not enough themes found! Check MEKA.THM file or try re-installing."
+Msg_Theme_Error_Missing_Theme_Name      = "On line %d: No theme name defined for storing value!"
+Msg_Theme_Error_Syntax                  = "On line %d: syntax error!"
+Msg_Theme_Error_Attribute_Defined       = "On line %d: attribute already defined!"
+Msg_Theme_Error_Out_of_Bound            = "On line %d: value out of bounds!"
+Msg_Theme_Error_Theme_Missing_Data      = "Theme \"%s\" is missing data. Will be disabled."
 Msg_Theme_Error_BG_Big                  = "Background picture to small to fit with integer scaling!"
 Msg_Theme_Error_BG                      = "Error loading picture associated with theme!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -557,7 +585,7 @@ Msg_Options_Load_Close                  = "Close file browser after loading a ga
 Msg_Options_Load_FullScreen             = "Switch to fullscreen mode after loading a game."
 Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wait for VSync in interface mode."
-Msg_Options_NES_Activated               = "Mario is a not fat plumber."
+Msg_Options_NES_Enable                  = "Mario is not a fat plumber."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Language set to %s"
@@ -667,6 +695,7 @@ Msg_Menu_Tools                          = "TOOLS"
 Msg_Menu_Tools_Messages                 = "Messages"
 Msg_Menu_Tools_Palette                  = "Palette"
 Msg_Menu_Tools_TilesViewer              = "Tiles Viewer"
+Msg_Menu_Tools_TilemapViewer            = "Tilemap Viewer"
 Msg_Menu_Tools_TechInfo                 = "Tech Info"
 Msg_Menu_Tools_MemoryEditor             = "Memory Editor"
 
@@ -678,6 +707,7 @@ Msg_Menu_Help_Documentation_U           = "Documentation (Unix)"
 Msg_Menu_Help_Compat                    = "Compatibility List"
 Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List"
 Msg_Menu_Help_Changes                   = "Changes List"
+Msg_Menu_Help_Debugger					= "Debugger"
 Msg_Menu_Help_About                     = "About"
 
 ;-----------------------------------------------------------------------------
@@ -770,10 +800,10 @@ Msg_TVType_Info_Speed                   = "(La vitesse originale est %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Chargement de MEKA.BLT (modes vid‚o / paramˆtres)... "
-Msg_Blitters_Not_Enough                 = "Il manque des paramˆtres! V‚rifiez le fichier MEKA.BLT ou essayez de r‚-installer."
-Msg_Blitters_Not_Found                  = "Paramˆtres introuvables!"
-Msg_Blitters_Missing                    = "Ligne %d: Aucun nom de paramˆtre d‚fini pour la valeur en mˆmoire!"
-Msg_Blitters_Unrecognized               = "Ligne %d: Variable inconnue!"
+Msg_Blitters_Error_Not_Enough           = "Il manque des paramˆtres! V‚rifiez le fichier MEKA.BLT ou essayez de r‚-installer."
+Msg_Blitters_Error_Not_Found            = "Paramˆtres introuvables!"
+Msg_Blitters_Error_Missing              = "Ligne %d: Aucun nom de paramˆtre d‚fini pour la valeur en mˆmoire!"
+Msg_Blitters_Error_Unrecognized         = "Ligne %d: Variable inconnue!"
 Msg_Blitters_Set                        = "Paramêtre plein écran actuel \"%s\"."
 
 ; Nintendo -------------------------------------------------------------------
@@ -849,7 +879,7 @@ Msg_TechInfo_Enabled                    = "Fenêtre d'informations techniques act
 Msg_TilesViewer_BoxTitle                = "Visionneur de tiles"
 Msg_TilesViewer_Disabled                = "Visionneur de tiles désactivé"
 Msg_TilesViewer_Enabled                 = "Visionneur de tiles activé"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Memory Editor --------------------------------------------------------------
 Msg_MemoryEditor_BoxTitle				= "Editeur mémoire"
@@ -875,7 +905,7 @@ Msg_Patch_Loading                       = "Chargement de MEKA.PAT (patches)... "
 Msg_Patch_Missing                       = "Ligne %d: Checksum non d‚finit pour appliquer la commande!"
 Msg_Patch_Unrecognized                  = "Ligne %d: Erreur de syntaxe ou commande inconnue!"
 Msg_Patch_Value_Not_a_Byte              = "Ligne %d: La valeur %s ne tient pas sur un octet non signé!"
-Msg_Patch_Out_of_Bound                  = "Lors du patch de %s: la position 0x%04X est hors des limites. Patch non appliqué."
+Msg_Patch_Out_of_Bound                  = "Lors du patch de %s: la position $%04X est hors des limites. Patch non appliqué."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "Emulation des lunettes 3-D activée"
@@ -908,7 +938,11 @@ Msg_Inputs_SK1100_Enabled               = "Emulation du Sega Keyboard (SK-1100) 
 Msg_Inputs_SK1100_Disabled              = "Emulation du Sega Keyboard (SK-1100) désactivée"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Configuration des contrôles"
+Msg_Inputs_Config_BoxTitle              = "Configuration des contrôles"
+Msg_Inputs_Config_Peripheral_Click      = "Clic pour sélectionner périphérique"
+Msg_Inputs_Config_Source_Enabled        = "Actif"
+Msg_Inputs_Config_Source_Player         = "Contrôle joueur %d"
+Msg_Inputs_Config_Source_Emulate_Joypad = "Emule le joypad"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Chargement de MEKA.INP (d‚finition des sources de contr“le)... "
@@ -972,10 +1006,13 @@ Msg_Sound_Stream_Error                  = "Arrêt du tampon son. Redémarrage du f
 Msg_Sound_Volume_Changed                = "Volume changé à %d%%."
 
 ; Theme ----------------------------------------------------------------------
-Msg_Theme_Loading                       = "Chargement de MEKA.THM (thˆmes de l'interface)... "
-Msg_Theme_Not_Enough                    = "Il manque des thˆmes! V‚rifiez le fichier MEKA.THM ou essayez de r‚-installer."
-Msg_Theme_Missing                       = "Ligne %d: Aucun nom de thˆme d‚fini pour la valeur en m‚moire!"
-Msg_Theme_Unrecognized                  = "Ligne %d: Variable inconnue!"
+Msg_Theme_Loading                       = "Chargement de MEKA.THM (thêmes de l'interface)... "
+Msg_Theme_Error_Not_Enough              = "Il manque des thêmes! Vérifiez le fichier MEKA.THM ou essayez de réinstaller."
+Msg_Theme_Error_Missing_Theme_Name      = "Ligne %d: Aucun nom de thême défini pour stocker l'attribut!"
+Msg_Theme_Error_Syntax                  = "Ligne %d: Erreur de syntaxe!"
+Msg_Theme_Error_Attribute_Defined       = "Ligne %d: Attribute déja défini!"
+Msg_Theme_Error_Out_of_Bound            = "Ligne %d: Valeur hors limites!"
+Msg_Theme_Error_Theme_Missing_Data      = "Le thême \"%s\" est incomplet. Il sera désactivé."
 Msg_Theme_Error_BG_Big                  = "Image d'arrière-plan trop petite pour l'ajuster complètement!"
 Msg_Theme_Error_BG                      = "Erreur de chargement de l'image associée au thème!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -1052,7 +1089,7 @@ Msg_Options_Load_Close                  = "Fermer l'explorateur après chargement
 Msg_Options_Load_FullScreen             = "Mode plein écran auto après chargement d'un jeu."
 Msg_Options_FullScreen_Messages         = "Afficher les messages en mode plein écran."
 Msg_Options_GUI_VSync                   = "Attendre la VSync en mode interface."
-Msg_Options_NES_Activated               = "Mario n'est pas un gros plombier."
+Msg_Options_NES_Enable                  = "Mario n'est pas un gros plombier."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "La langue est maintenant le %s"
@@ -1260,10 +1297,10 @@ Msg_TVType_Info_Speed                   = "(Origeenal speed is %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Loadin' MEKA.BLT (video modes / blitters).. "
-Msg_Blitters_Not_Enough                 = "Not inough blitters foun'! Fry mah hide! Check MEKA.BLT file o' try re-installin'."
-Msg_Blitters_Not_Found                  = "Blitter not foun'! Fry mah hide!"
-Msg_Blitters_Missing                    = "On line %d: No blitter name defined fo' sto'in' value!"
-Msg_Blitters_Unrecognized               = "On line %d: Unreckanized variable!"
+Msg_Blitters_Error_Not_Enough           = "Not inough blitters foun'! Fry mah hide! Check MEKA.BLT file o' try re-installin'."
+Msg_Blitters_Error_Not_Found            = "Blitter not foun'! Fry mah hide!"
+Msg_Blitters_Error_Missing              = "On line %d: No blitter name defined fo' sto'in' value!"
+Msg_Blitters_Error_Unrecognized         = "On line %d: Unreckanized variable!"
 Msg_Blitters_Set                        = "Now usin' \"%s\" fullscreen blitter."
 
 ; Naimo ----------------------------------------------------------------------
@@ -1339,7 +1376,7 @@ Msg_TechInfo_Enabled                    = "Technical info'mashun box inabled"
 Msg_TilesViewer_BoxTitle                = "Tiles Viewer"
 Msg_TilesViewer_Disabled                = "Tiles viewer disabled"
 Msg_TilesViewer_Enabled                 = "Tiles viewer inabled"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Rapid Fire is now ackivated fo' Player %d Button %d"
@@ -1358,7 +1395,7 @@ Msg_Patch_Loading                       = "Loadin' MEKA.PAT (patches).. "
 Msg_Patch_Missing                       = "On line %d: No checksum defined t'apply comman' to! Fry mah hide!"
 Msg_Patch_Unrecognized                  = "On line %d: Syntax erro' o' unreckanized comman'! Fry mah hide!"
 Msg_Patch_Value_Not_a_Byte              = "On line %d: Value %s does not fit into an unsigned byte!"
-Msg_Patch_Out_of_Bound                  = "While patchin' %s: address 0x%04X is outta boun'aries. Patch not applied, cuss it all t' tarnation."
+Msg_Patch_Out_of_Bound                  = "While patchin' %s: address $%04X is outta boun'aries. Patch not applied, cuss it all t' tarnation."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3-D Glasses emulashun inabled"
@@ -1389,7 +1426,7 @@ Msg_Inputs_Play_Pen                     = "Control pen wif mouse\nRight-click si
 Msg_Inputs_Play_Digital_Unrecommended   = "A digital input device (eg: keyboard) is suppo'ted but NOT recommended"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Input Configurashun"
+Msg_Inputs_Config_BoxTitle              = "Input Configurashun"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Loadin' MEKA.INP (inputs sources definishun).. "
@@ -1454,9 +1491,8 @@ Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulato':"
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Loadin' MEKA.THM (interface themes).. "
-Msg_Theme_Not_Enough                    = "Not inough themes foun'! Fry mah hide! Check MEKA.THM file o' try re-installin'."
-Msg_Theme_Missing                       = "On line %d: No theme name defined fo' sto'in' value!"
-Msg_Theme_Unrecognized                  = "On line %d: Unreckanized variable!"
+Msg_Theme_Error_Not_Enough              = "Not inough themes foun'! Fry mah hide! Check MEKA.THM file o' try re-installin'."
+Msg_Theme_Error_Missing_Theme_Name      = "On line %d: No theme name defined fo' sto'in' value!"
 Msg_Theme_Error_BG_Big                  = "Backgroun' pitcher t'small t'fit wif integer scalin'! Fry mah hide!"
 Msg_Theme_Error_BG                      = "Erro' loadin' pitcher assosheeated wif theme!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -1528,7 +1564,7 @@ Msg_Options_Load_Close                  = "Close file browser af'er loadin' a ga
 Msg_Options_Load_FullScreen             = "Switch t'fullscreen mode af'er loadin' a game."
 Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wait fo' VSync in interface mode."
-Msg_Options_NES_Activated               = "Mario is a not fat plumber."
+Msg_Options_NES_Enable                  = "Mario is a not fat plumber."
 Msg_Options_BIOS_Enable                 = "Display BIOS logo."
 Msg_Options_Bright_Palette              = "Enable bright palette on SMS an' GG."
 Msg_Options_DB_Display                  = "Display names, flags an' icons fum database."
@@ -1742,10 +1778,10 @@ Msg_TVType_Info_Speed                   = "(Originele snelheid is %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Laden van MEKA.BLT (video modes / blitters)... "
-Msg_Blitters_Not_Enough                 = "niet genoeg blitters gevonden controleer MEKA.BLT herinstalleer"
-Msg_Blitters_Not_Found                  = "Blitter niet gevonden!"
-Msg_Blitters_Missing                    = "On line %d: Geen blitter naam ingesteld om de waarde te bewaren!"
-Msg_Blitters_Unrecognized               = "On line %d: niet herkende variable!"
+Msg_Blitters_Error_Not_Enough           = "niet genoeg blitters gevonden controleer MEKA.BLT herinstalleer"
+Msg_Blitters_Error_Not_Found            = "Blitter niet gevonden!"
+Msg_Blitters_Error_Missing              = "On line %d: Geen blitter naam ingesteld om de waarde te bewaren!"
+Msg_Blitters_Error_Unrecognized         = "On line %d: niet herkende variable!"
 Msg_Blitters_Set                        = "Now using \"%s\" fullscreen blitter."
 
 ; Nintendo -------------------------------------------------------------------
@@ -1821,7 +1857,7 @@ Msg_TechInfo_Enabled                    = "Technische informatie box aan"
 Msg_TilesViewer_BoxTitle                = "Tiles bekijker"
 Msg_TilesViewer_Disabled                = "Tiles bekijker uit"
 Msg_TilesViewer_Enabled                 = "Tiles bekijker aan"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Memory Editor --------------------------------------------------------------
 Msg_MemoryEditor_BoxTitle				= "Memory Editor"
@@ -1847,7 +1883,7 @@ Msg_Patch_Loading                       = "Laden MEKA.PAT (patches)... "
 ;Msg_Patch_Missing                       = "On line %d: Geen checksum ingesteld voor de patch!"
 ;Msg_Patch_Unrecognized                  = "On line %d: Niet herkende instruktie!"
 Msg_Patch_Value_Not_a_Byte              = "On line %d: waarde %s past niet in een unsigned byte!"
-;Msg_Patch_Out_of_Bound                  = "Onder het patchen van de ROM: poging om buiten de grenzen te schrijven 0x%02X. Afbreken van de patch."
+;Msg_Patch_Out_of_Bound                  = "Onder het patchen van de ROM: poging om buiten de grenzen te schrijven $%02X. Afbreken van de patch."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3-D bril emulatie aan"
@@ -1877,7 +1913,7 @@ Msg_Inputs_Play_Mouse                   = "Controle met analoog input device (mo
 Msg_Inputs_Play_Pen                     = "Controle pen with mouse\nRight-click simulates removing the pen from the board"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Input Configuratie"
+Msg_Inputs_Config_BoxTitle              = "Input Configuratie"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Laden van MEKA.INP (voegt sources definitions in)... "
@@ -1942,9 +1978,8 @@ Msg_Sound_Volume_Changed                = "Volume gewijzigd naar %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Laden van MEKA.THM (interface themes)... "
-Msg_Theme_Not_Enough                    = "niet genoeg themes gevonden! bekijk MEKA.THM bestand her installeer"
-Msg_Theme_Missing                       = "On line %d: Geen theme name gespecificeerd om waarde op te slaan!"
-Msg_Theme_Unrecognized                  = "On line %d: niet herkende variable!"
+Msg_Theme_Error_Not_Enough              = "niet genoeg themes gevonden! bekijk MEKA.THM bestand her installeer"
+Msg_Theme_Error_Missing_Theme_Name      = "On line %d: Geen theme name gespecificeerd om waarde op te slaan!"
 Msg_Theme_Error_BG_Big                  = "Achtergrond plaatje naar klein om te passen met een integere schaling!"
 Msg_Theme_Error_BG                      = "Error bij het laden van het plaatje wat bij het theme hoort!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -2024,7 +2059,7 @@ Msg_Options_Load_FullScreen             = "Schakel over naar fullscreen na een s
 ;Msg_Options_VFN_Support                 = "Laat lange bestandsnamen zien en landen vlaggen."
 Msg_Options_FullScreen_Messages         = "laat berichten zien in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wacht for VSync in interface mode."
-Msg_Options_NES_Activated               = "Mario is geen dikke loodgieter."
+Msg_Options_NES_Enable                  = "Mario is geen dikke loodgieter."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Taal gezet op %s"
@@ -2226,10 +2261,10 @@ Msg_TVType_Info_Speed                   = "(Velocidad original es %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Cargando MEKA.BLT (video modes / blitters)... "
-Msg_Blitters_Not_Enough                 = "Insuficientes blitters encontrados! Comprueba el archivo MEKA.BLT o reinstala MEKA"
-Msg_Blitters_Not_Found                  = "Blitter no encontrado"
-Msg_Blitters_Missing                    = "On line %d: Sin nombre definido de blitter para almacenar valores!"
-Msg_Blitters_Unrecognized               = "On line %d: Variable irreconocible"
+Msg_Blitters_Error_Not_Enough           = "Insuficientes blitters encontrados! Comprueba el archivo MEKA.BLT o reinstala MEKA"
+Msg_Blitters_Error_Not_Found            = "Blitter no encontrado"
+Msg_Blitters_Error_Missing              = "On line %d: Sin nombre definido de blitter para almacenar valores!"
+Msg_Blitters_Error_Unrecognized         = "On line %d: Variable irreconocible"
 Msg_Blitters_Set                        = "Usando \"%s\" blitter a pantalla completa"
 
 ; Nintendo -------------------------------------------------------------------
@@ -2305,7 +2340,7 @@ Msg_TechInfo_Enabled                    = "Caja de informacion tecnica activada"
 Msg_TilesViewer_BoxTitle                = "Visor de retales"
 Msg_TilesViewer_Disabled                = "Visor de retales desactivado"
 Msg_TilesViewer_Enabled                 = "Visor de retales activado"
-Msg_TilesViewer_Tile                    = "Retal %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Retal %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Fuego rapido activado para jugador %d boton %d"
@@ -2323,7 +2358,7 @@ Msg_Country_JAP                         = "La maquina meulada es ahora japonesa"
 Msg_Patch_Loading                       = "Cargando MEKA.PAT (parches)... "
 ;Msg_Patch_Missing                       = "On line %d: No hay suma de comprobaciones definidas para esta instruccion"
 ;Msg_Patch_Unrecognized                  = "On line %d: Instruccion no reconocida"
-;Msg_Patch_Out_of_Bound                  = "Durante el parcheo de la ROM: intentando escribir fuera de limites, en la positcion 0x%02X. Abortando parcheo"
+;Msg_Patch_Out_of_Bound                  = "Durante el parcheo de la ROM: intentando escribir fuera de limites, en la positcion $%02X. Abortando parcheo"
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "Emulacion de gafas 3D activada"
@@ -2352,7 +2387,7 @@ Msg_Inputs_Play_Mouse                   = "Control con dispositivo de entrada an
 Msg_Inputs_Play_Pen                     = "Control de pluma con raton\nboton derecho simula quitando la pluma de la tableta"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Configuración de entrada"
+Msg_Inputs_Config_BoxTitle              = "Configuración de entrada"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Cargando MEKA.INP (definicion de rutas de entrada)... "
@@ -2414,9 +2449,8 @@ Msg_Sound_Stream_Error                  = "Buffer de sonido detenido. Reempezand
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Cargando MEKA.THM (temas de interfaz)... "
-Msg_Theme_Not_Enough                    = "No hay suficientes temas encontrados! Comprueba el archivo MEKA.THM o intenta reinstalando MEKA."
-Msg_Theme_Missing                       = "On line %d: Sin nombre de tema definido para almacenar valores!"
-Msg_Theme_Unrecognized                  = "On line %d: Variable irreconocible!"
+Msg_Theme_Error_Not_Enough              = "No hay suficientes temas encontrados! Comprueba el archivo MEKA.THM o intenta reinstalando MEKA."
+Msg_Theme_Error_Missing_Theme_Name      = "On line %d: Sin nombre de tema definido para almacenar valores!"
 Msg_Theme_Error_BG_Big                  = "Dibujo de fondo demasiado pequeño para agrandar con scaling integrado!"
 Msg_Theme_Error_BG                      = "Error cargando dibujo asociado con juego!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -2491,7 +2525,7 @@ Msg_Options_Load_FullScreen             = "Cambiar a pantalla completa tras carg
 ;Msg_Options_VFN_Support                 = "Mostrar nombre largo de fichero y pais."
 Msg_Options_FullScreen_Messages         = "Mostrar mensajes en modo pantalla completa"
 Msg_Options_GUI_VSync                   = "Esperar VSync en modo interfaz."
-Msg_Options_NES_Activated               = "Mario no es un fontanero gordo."
+Msg_Options_NES_Enable                  = "Mario no es un fontanero gordo."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Idioma establecido al %s"
@@ -2701,10 +2735,10 @@ Msg_TVType_Info_Speed                   = "(Velocidade original: %dhz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Carregando MEKA.BLT (modos de v¡deo / padräes)... "
-Msg_Blitters_Not_Enough                 = "NÆo foram encontrados padräes suficientes! Verifique o arquivo MEKA.BLT ou tente reinstal -lo."
-Msg_Blitters_Not_Found                  = "PadrÆo nÆo encontrado!"
-Msg_Blitters_Missing                    = "Linha %d: Sem defini‡Æo de nome do padrÆo para armazenamento!"
-Msg_Blitters_Unrecognized               = "Linha %d: Vari vel desconhecida!"
+Msg_Blitters_Error_Not_Enough           = "NÆo foram encontrados padräes suficientes! Verifique o arquivo MEKA.BLT ou tente reinstal -lo."
+Msg_Blitters_Error_Not_Found            = "PadrÆo nÆo encontrado!"
+Msg_Blitters_Error_Missing              = "Linha %d: Sem defini‡Æo de nome do padrÆo para armazenamento!"
+Msg_Blitters_Error_Unrecognized         = "Linha %d: Vari vel desconhecida!"
 Msg_Blitters_Set                        = "Usando '%s' exibição em tela inteira."
 
 ; Nintendo -------------------------------------------------------------------
@@ -2780,7 +2814,7 @@ Msg_TechInfo_Enabled                    = "Informações técnicas ativas"
 Msg_TilesViewer_BoxTitle                = "Visualizador de Tiles"
 Msg_TilesViewer_Disabled                = "Visualização de tiles desativada"
 Msg_TilesViewer_Enabled                 = "Visualização de tiles ativa"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Rapid Fire ativado para o jogador %d, botão %d"
@@ -2798,7 +2832,7 @@ Msg_Country_JAP                         = "Máquina emulada é Japonesa"
 Msg_Patch_Loading                       = "Carregando MEKA.PAT (altera‡äes/patches)... "
 ;Msg_Patch_Missing                       = "Linha %d: Nenhuma checagem (checksum) definido para esta instru‡Æo!"
 ;Msg_Patch_Unrecognized                  = "Linha %d: Instru‡Æo desconhecida!"
-;Msg_Patch_Out_of_Bound                  = "Enquanto modificando ROM: tentativa de escrita fora da área permitida, posição 0x%02X. Cancelando modificações."
+;Msg_Patch_Out_of_Bound                  = "Enquanto modificando ROM: tentativa de escrita fora da área permitida, posição $%02X. Cancelando modificações."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "Emulação de óculos 3-D ativa"
@@ -2811,7 +2845,7 @@ Msg_Glasses_Com_Port                    = "Emulação de óculos 3-D habilitado atr
 Msg_Glasses_Unsupported                 = "Este jogo parece não utilizar óculos 3-D."
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Configuração de entradas"
+Msg_Inputs_Config_BoxTitle              = "Configuração de entradas"
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Inicializando joystick... "
@@ -2889,9 +2923,8 @@ Msg_Sound_Stream_Error                  = "Cache de som parado. Reiniciando sequ
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Carregando MEKA.THM (temas da interface)... "
-Msg_Theme_Not_Enough                    = "Temas insuficientes! Verifique o\narquivo MEKA.THM ou tente reinstal -lo."
-Msg_Theme_Missing                       = "Linha %d: Nenhum tema definido para armazenamento do valor!"
-Msg_Theme_Unrecognized                  = "Linha %d: Vari vel desconhecida!"
+Msg_Theme_Error_Not_Enough              = "Temas insuficientes! Verifique o\narquivo MEKA.THM ou tente reinstal -lo."
+Msg_Theme_Error_Missing_Theme_Name      = "Linha %d: Nenhum tema definido para armazenamento do valor!"
 Msg_Theme_Error_BG_Big                  = "Figura de fundo muito pequena para ser dimensionada com escala de inteiros!"
 Msg_Theme_Error_BG                      = "Erro ao carregar a figura associada ao tema!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -2964,7 +2997,7 @@ Msg_Options_Load_FullScreen             = "Alternar para tela inteira após carre
 ;Msg_Options_VFN_Support                 = "Mostrar nomes longos (Win9X) e bandeira dos países."
 Msg_Options_FullScreen_Messages         = "Mostrar mensagem em tela inteira."
 Msg_Options_GUI_VSync                   = "Aguardar sincronismo vertical no modo interface."
-Msg_Options_NES_Activated               = "Mario não é um encanador gorducho."
+Msg_Options_NES_Enable                  = "Mario não é um encanador gorducho."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Idioma mudado para %s"
@@ -3159,10 +3192,10 @@ Msg_TVType_Info_Speed                   = "(Frequenza di clock originale %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Carico MEKA.BLT (modi video / blitters)... "
-Msg_Blitters_Not_Enough                 = "Non ci sono abbastanza blitter! Controllare MEKA.BLT o reinstallare Meka."
-Msg_Blitters_Not_Found                  = "Blitter non trovato!"
-Msg_Blitters_Missing                    = "On line %d: Nome blitter non definito!"
-Msg_Blitters_Unrecognized               = "On line %d: Variabile non riconosciuta!"
+Msg_Blitters_Error_Not_Enough           = "Non ci sono abbastanza blitter! Controllare MEKA.BLT o reinstallare Meka."
+Msg_Blitters_Error_Not_Found            = "Blitter non trovato!"
+Msg_Blitters_Error_Missing              = "On line %d: Nome blitter non definito!"
+Msg_Blitters_Error_Unrecognized         = "On line %d: Variabile non riconosciuta!"
 Msg_Blitters_Set                        = "Uso \"%s\" Blitter schermo intero."
 
 ; Nintendo -------------------------------------------------------------------
@@ -3238,7 +3271,7 @@ Msg_TechInfo_Enabled                    = "Box informazioni tecniche attivato"
 Msg_TilesViewer_BoxTitle                = "Visore Tiles"
 Msg_TilesViewer_Disabled                = "Visore tile disabilitato"
 Msg_TilesViewer_Enabled                 = "Visore tile attivato"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Autofuoco attivato per giocatore %d Pulsante %d"
@@ -3256,7 +3289,7 @@ Msg_Country_JAP                         = "Sistema emulato : Giapponese"
 Msg_Patch_Loading                       = "Carico MEKA.PAT (patches)... "
 ;Msg_Patch_Missing                       = "On line %d: Nessun checksum definito per l'istruzione!"
 ;Msg_Patch_Unrecognized                  = "On line %d: Instruzione sconosciuta!"
-;Msg_Patch_Out_of_Bound                  = "Patchando la ROM: si sta cercando di scrivere fuori range, alla posizione 0x%02X. Patch fallito."
+;Msg_Patch_Out_of_Bound                  = "Patchando la ROM: si sta cercando di scrivere fuori range, alla posizione $%02X. Patch fallito."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "Emulazione occhiali 3-D attivata"
@@ -3285,7 +3318,7 @@ Msg_Inputs_Play_Mouse                   = "Controllo con periferica input analog
 Msg_Inputs_Play_Pen                     = "Controllo con penna+mouse\nClick-Destro simula la rimozione penna dalla tavola"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Configurazione Input"
+Msg_Inputs_Config_BoxTitle              = "Configurazione Input"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Carico MEKA.INP (Definizione sorgenti input)... "
@@ -3347,9 +3380,8 @@ Msg_Sound_Stream_Error                  = "Buffer sonoro fermato. Ricomincio il 
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Carico MEKA.THM (interfacce temi)... "
-Msg_Theme_Not_Enough                    = "Non ci sono temi! Controlla MEKA.THM o reinstalla Meka."
-Msg_Theme_Missing                       = "On line %d: Il tema non ha nome!"
-Msg_Theme_Unrecognized                  = "On line %d: Variable sconosciuta!"
+Msg_Theme_Error_Not_Enough              = "Non ci sono temi! Controlla MEKA.THM o reinstalla Meka."
+Msg_Theme_Error_Missing_Theme_Name      = "On line %d: Il tema non ha nome!"
 Msg_Theme_Error_BG_Big                  = "Immagine di sfondo troppo piccola per scala di ingrandimento!"
 Msg_Theme_Error_BG                      = "Errore caricamento immagine associata al tema!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -3424,7 +3456,7 @@ Msg_Options_Load_FullScreen             = "Schermo intero dopo il caricamento de
 ;Msg_Options_VFN_Support                 = "Mostra nomi file lunghi e bandiere degli stati."
 Msg_Options_FullScreen_Messages         = "Mostra i messaggi in modalita' schermo intero."
 Msg_Options_GUI_VSync                   = "Aspetta il VSync nella modalita' interfaccia."
-Msg_Options_NES_Activated               = "Mario non e' un idraulico ciccione."
+Msg_Options_NES_Enable                  = "Mario non e' un idraulico ciccione."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Lingua settata : %s"
@@ -3623,10 +3655,10 @@ Msg_TVType_Info_Speed                   = "(Geschwindigkeit %d Hz)"
 
 ; Blitters --------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Lade MEKA.BLT (Videomodi / Blitter)... "
-Msg_Blitters_Not_Enough                 = "Nicht genug Blitter gefunden! (Fehler in MEKA.BLT)"
-Msg_Blitters_Not_Found                  = "Blitter nicht gefunden!"
-Msg_Blitters_Missing                    = "Zeile %d: Name für Blitter nicht definiert!"
-Msg_Blitters_Unrecognized               = "Zeile %d: Unbekannte Variable!"
+Msg_Blitters_Error_Not_Enough           = "Nicht genug Blitter gefunden! (Fehler in MEKA.BLT)"
+Msg_Blitters_Error_Not_Found            = "Blitter nicht gefunden!"
+Msg_Blitters_Error_Missing              = "Zeile %d: Name für Blitter nicht definiert!"
+Msg_Blitters_Error_Unrecognized         = "Zeile %d: Unbekannte Variable!"
 Msg_Blitters_Set                        = "Benutze \"%s\" Vollbild-Blitter."
 
 ; Nintendo --------------------------------------------------------------------
@@ -3702,7 +3734,7 @@ Msg_TechInfo_Enabled                    = "Infobox aktiviert"
 Msg_TilesViewer_BoxTitle                = "Kacheln"
 Msg_TilesViewer_Disabled                = "Kachelbetrachter geschlossen"
 Msg_TilesViewer_Enabled                 = "Kachelbetrachter aktiviert"
-Msg_TilesViewer_Tile                    = "Kachel %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Kachel %d ($%X) @ %s"
 
 ; Rapid Fire ------------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Dauerfeuer für Spieler %d Knopf %d eingeschaltet"
@@ -3720,7 +3752,7 @@ Msg_Country_JAP                         = "Emuliere japanisches Gerät"
 Msg_Patch_Loading                       = "Lade MEKA.PAT (Patches)... "
 ;Msg_Patch_Missing                       = "Zeile %d: Keine Prüfsumme für Befehl definiert!"
 ;Msg_Patch_Unrecognized                  = "Zeile %d: Unbekannter Befehl!"
-;Msg_Patch_Out_of_Bound                  = "Der Patch versuchte einen ungültigen Zugriff an Position 0x%02X. Abbruch."
+;Msg_Patch_Out_of_Bound                  = "Der Patch versuchte einen ungültigen Zugriff an Position $%02X. Abbruch."
 
 ; 3-D Glasses -----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3D-Brille: Emulation ein"
@@ -3767,7 +3799,7 @@ Msg_Inputs_Src_Map_Mouse_No_A           = "Die Mausachse kann leider nicht geänd
 Msg_Inputs_Src_Map_Cancelled            = "Zuweisung abgebrochen!"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Eingabe-Konfiguration"
+Msg_Inputs_Config_BoxTitle              = "Eingabe-Konfiguration"
 
 ; Machine ---------------------------------------------------------------------
 Msg_Machine_Pause                       = "Emulation angehalten"
@@ -3811,9 +3843,8 @@ Msg_Sound_Stream_Error                  = "Klangpuffer angehalten. Stream wird n
 
 ; Theme -----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Lade MEKA.THM (Themen)... "
-Msg_Theme_Not_Enough                    = "Nicht genug Themen gefunden! (Fehler in MEKA.THM)"
-Msg_Theme_Missing                       = "Zeile %d: Variable kann keinem Thema zugeordnet werden!"
-Msg_Theme_Unrecognized                  = "Zeile %d: Unbekannte Variable!"
+Msg_Theme_Error_Not_Enough              = "Nicht genug Themen gefunden! (Fehler in MEKA.THM)"
+Msg_Theme_Error_Missing_Theme_Name      = "Zeile %d: Variable kann keinem Thema zugeordnet werden!"
 Msg_Theme_Error_BG_Big                  = "Hintergrundbild zu klein, um korrekt vergrößert zu werden!"
 Msg_Theme_Error_BG                      = "Fehler beim Laden des Hintergrundbilds!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -3888,7 +3919,7 @@ Msg_Options_Load_FullScreen             = "Nach Laden automatisch Vollbild aktiv
 ;Msg_Options_VFN_Support                 = "Lange Dateinamen, sowie Länderfahnen anzeigen."
 Msg_Options_FullScreen_Messages         = "Meldungen im Vollbildmodus anzeigen."
 Msg_Options_GUI_VSync                   = "Auf VSync im Interfacemodus warten."
-Msg_Options_NES_Activated               = "Mario ist kein fetter Klempner."
+Msg_Options_NES_Enable                  = "Mario ist kein fetter Klempner."
 
 ; Languages / Localization ----------------------------------------------------
 Msg_Language_Set                        = "Sprache für Meldungen ist jetzt %s"
@@ -4090,10 +4121,10 @@ Msg_TVType_Info_Speed                   = "(Ursprunglig hastighet är %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Laddar MEKA.BLT (video lägen / blitters).. "
-Msg_Blitters_Not_Enough                 = "Kunde ej hitta tillräckligt med Blitters! Kontrollera filen MEKA.BLT eller försök installera om."
-Msg_Blitters_Not_Found                  = "Kunde ej hitta Blitter!"
-Msg_Blitters_Missing                    = "På rad %d: Inget blitternamn definierat för lagrande av värde!"
-Msg_Blitters_Unrecognized               = "På rad %d: Okänd variabel!"
+Msg_Blitters_Error_Not_Enough           = "Kunde ej hitta tillräckligt med Blitters! Kontrollera filen MEKA.BLT eller försök installera om."
+Msg_Blitters_Error_Not_Found            = "Kunde ej hitta Blitter!"
+Msg_Blitters_Error_Missing              = "På rad %d: Inget blitternamn definierat för lagrande av värde!"
+Msg_Blitters_Error_Unrecognized         = "På rad %d: Okänd variabel!"
 Msg_Blitters_Set                        = "Använder nu \"%s\" fullskärmsblitter."
 
 ; Nintendo -------------------------------------------------------------------
@@ -4169,7 +4200,7 @@ Msg_TechInfo_Enabled                    = "Fönster för Teknisk information på"
 Msg_TilesViewer_BoxTitle                = "Tilegranskare"
 Msg_TilesViewer_Disabled                = "Tilegranskare av"
 Msg_TilesViewer_Enabled                 = "Tilegranskare på"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Automateld är nu aktiverat för spelare %d knapp %d"
@@ -4188,7 +4219,7 @@ Msg_Patch_Loading                       = "Laddar MEKA.PAT (patchar).. "
 Msg_Patch_Missing                       = "På rad %d: Ingen checksum definierad för att köra kommando på!"
 Msg_Patch_Unrecognized                  = "På rad %d: Syntaxfel eller okänt kommando!"
 Msg_Patch_Value_Not_a_Byte              = "På rad %d: Värdet %s rymms inte i en unsigned byte!"
-Msg_Patch_Out_of_Bound                  = "Under patchning %s: Address 0x%04X är utanför gränserna. Patch ej applicerad."
+Msg_Patch_Out_of_Bound                  = "Under patchning %s: Address $%04X är utanför gränserna. Patch ej applicerad."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "Emulering av 3D glasögon på"
@@ -4219,7 +4250,7 @@ Msg_Inputs_Play_Digital_Unrecommended   = "Digitala styrenheter (t.ex: tangentbo
 Msg_Inputs_Play_Pen                     = "Kontrollera penna med mus\nHöger-klick simulerar att pennan avlägsnas från bordet"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Konfigurering av styrenheter"
+Msg_Inputs_Config_BoxTitle              = "Konfigurering av styrenheter"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Laddar MEKA.INP (definition av källor för styrenheter).. "
@@ -4284,9 +4315,8 @@ Msg_Sound_Volume_Changed                = "Volym ändrad till %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Laddar MEKA.THM (gränssnittsteman).. "
-Msg_Theme_Not_Enough                    = "Kunde ej hitta tillräckligt med teman! Kontrollera filen MEKA.THM eller försök installera om."
-Msg_Theme_Missing                       = "På rad %d: Inget temanamn definierat för lagring av värde!"
-Msg_Theme_Unrecognized                  = "På rad %d: Okänd variabel!"
+Msg_Theme_Error_Not_Enough              = "Kunde ej hitta tillräckligt med teman! Kontrollera filen MEKA.THM eller försök installera om."
+Msg_Theme_Error_Missing_Theme_Name      = "På rad %d: Inget temanamn definierat för lagring av värde!"
 Msg_Theme_Error_BG_Big                  = "Bakgrundsbild för liten för att passa med heltals skalning!"
 Msg_Theme_Error_BG                      = "Fel vid laddning av bild associerad med temat!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -4362,7 +4392,7 @@ Msg_Options_Load_Close                  = "Stäng filgranskaren efter laddning."
 Msg_Options_Load_FullScreen             = "Växla till fullskärmsläge efter laddning."
 Msg_Options_FullScreen_Messages         = "Visa meddelanden i fullskärm."
 Msg_Options_GUI_VSync                   = "Vänta på VSync i interface läge."
-Msg_Options_NES_Activated               = "Mario är inte en fet rörmokare."
+Msg_Options_NES_Enable                  = "Mario är inte en fet rörmokare."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Språk satt till %s"
@@ -4570,10 +4600,10 @@ Msg_TVType_Info_Speed                   = "(Original hastighed er %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
 Msg_Blitters_Loading                    = "Indlaeser MEKA.BLT (video modes / blitters)... "
-Msg_Blitters_Not_Enough                 = "Ikke tilstraekkelige blitters fundet! Check MEKA.BLT eller proev at geninstallere."
-Msg_Blitters_Not_Found                  = "Blitter ikke fundet!"
-Msg_Blitters_Missing                    = "I linie %d: Intet blitternavn defineret til lagring!"
-Msg_Blitters_Unrecognized               = "I linie %d: Ukendt variabel!"
+Msg_Blitters_Error_Not_Enough           = "Ikke tilstraekkelige blitters fundet! Check MEKA.BLT eller proev at geninstallere."
+Msg_Blitters_Error_Not_Found            = "Blitter ikke fundet!"
+Msg_Blitters_Error_Missing              = "I linie %d: Intet blitternavn defineret til lagring!"
+Msg_Blitters_Error_Unrecognized         = "I linie %d: Ukendt variabel!"
 Msg_Blitters_Set                        = "Benytter nu \"%s\" fullskærms-blitter."
 
 ; Nintendo -------------------------------------------------------------------
@@ -4649,7 +4679,7 @@ Msg_TechInfo_Enabled                    = "Teknisk information slået til"
 Msg_TilesViewer_BoxTitle                = "Tile-viser"
 Msg_TilesViewer_Disabled                = "Tile-viser slået fra"
 Msg_TilesViewer_Enabled                 = "Tile-viser slået til"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
+Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
 Msg_RapidFire_JxBx_On                   = "Rapid Fire er nu aktiveret for Spiller %d Knap %d"
@@ -4667,7 +4697,7 @@ Msg_Country_JAP                         = "Emuleret maskine er nu Japansk"
 Msg_Patch_Loading                       = "Indlaeser MEKA.PAT (patcher)... "
 ;Msg_Patch_Missing                       = "I linie %d: Ingen checksum defineret for instruktion!"
 ;Msg_Patch_Unrecognized                  = "I linie %d: Ukendt instruktion!"
-;Msg_Patch_Out_of_Bound                  = "Under patching af ROM: prøver at skrive uden for grænsen, ved position 0x%02X. Afbryder patch."
+;Msg_Patch_Out_of_Bound                  = "Under patching af ROM: prøver at skrive uden for grænsen, ved position $%02X. Afbryder patch."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3-D brille emulation slået til"
@@ -4696,7 +4726,7 @@ Msg_Inputs_Play_Mouse                   = "Kontrol med analog styreenhed (mus)"
 Msg_Inputs_Play_Pen                     = "Kontrollér pennen med musen\nHøjre-klik simulerer, at pennen løftes"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Input Konfiguration"
+Msg_Inputs_Config_BoxTitle              = "Input Konfiguration"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Indlaeser MEKA.INP (definering af styreenheder)... "
@@ -4760,9 +4790,8 @@ Msg_Sound_Volume_Changed                = "Volumen ændret til %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Indlaeser MEKA.THM (brugergraenseflade temaer)... "
-Msg_Theme_Not_Enough                    = "Ikke tilstraekkelige temaer fundet! Check MEKA.THM eller proev at geninstallere."
-Msg_Theme_Missing                       = "I linie %d: Intet tema defineret til lagring af vaerdi!"
-Msg_Theme_Unrecognized                  = "I linie %d: Ukendt variabel!"
+Msg_Theme_Error_Not_Enough              = "Ikke tilstraekkelige temaer fundet! Check MEKA.THM eller proev at geninstallere."
+Msg_Theme_Error_Missing_Theme_Name      = "I linie %d: Intet tema defineret til lagring af vaerdi!"
 Msg_Theme_Error_BG_Big                  = "Baggrundsbilledet er for småt til at passe med heltalsskalering!"
 Msg_Theme_Error_BG                      = "Fejl under indlæsning af billede associeret med temaet!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -4837,7 +4866,7 @@ Msg_Options_Load_FullScreen             = "Skift til fuld skærm efter åbning af 
 ;Msg_Options_VFN_Support                 = "Vis lange filnavne og landeflag."
 Msg_Options_FullScreen_Messages         = "Vis beskeder i fuldskærms mode."
 Msg_Options_GUI_VSync                   = "Vent på VSync i interface mode."
-Msg_Options_NES_Activated               = "Mario er ikke en fed VVS-mand."
+Msg_Options_NES_Enable                  = "Mario er ikke en fed VVS-mand."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Sprog sat til %s"

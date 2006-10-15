@@ -160,7 +160,8 @@ t_data_graphics     Graphics;
 //-----------------------------------------------------------------------------
 
 void    Data_Init                   (void);
+void    Data_Close                  (void);
 
-void    Data_Bitmap_IncrementColor  (BITMAP *bmp, int increment, int exclude);
+void    Data_UpdateVideoMode        (void);
 
 //-----------------------------------------------------------------------------

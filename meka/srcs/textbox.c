@@ -22,87 +22,121 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TB_Message_Init_Values (void)
+void    TB_Message_Init_Values(void)
 {
-    TB_Message.Active           = NO;
-    TB_Message.log_file         = NULL;
-    TB_Message.log_filename     = NULL;
-    TB_Message.box              = NULL;
-    TB_Message.box_gfx          = NULL;
-    TB_Message.widget_textbox   = NULL;
+    t_app_messages *app = &TB_Message;  // Global instance
+
+    app->active           = FALSE;
+    app->log_file         = NULL;
+    app->log_filename     = NULL;
+    app->box              = NULL;
+    app->box_gfx          = NULL;
+    app->widget_textbox   = NULL;
 }
 
-void        TB_Message_Init (void)
+static void TB_Message_Layout(t_app_messages *app, bool setup)
 {
-    int     box_id;
-    int     font_id;
+    // Clear
+    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+
+    if (setup)
+    {
+        t_frame frame;
+
+        // Add closebox widget
+        widget_closebox_add(app->box, TB_Message_Switch);
+
+        // Create textbox widget
+        frame.pos.x = 4;
+        frame.pos.y = 2;
+        frame.size.x = app->box->frame.size.x - (4*2);
+        frame.size.y = app->box->frame.size.y - (2*2);
+        app->widget_textbox = widget_textbox_add(app->box, &frame, TB_MESSAGE_LINES, F_MIDDLE);
+    }
+    //gui_box_set_dirty(app->box);
+}
+
+void        TB_Message_Init(void)
+{
+    t_app_messages *app = &TB_Message;  // Global instance
     t_frame frame;
 
-    TB_Message.Active = YES;
+    app->active = TRUE;
 
     // Create box
-    font_id = F_MIDDLE;
     frame.pos.x  = 10;
     frame.pos.y  = 270;
-    frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (font_id)) + (4*2); // 4*2=padding
-    frame.size.y = (TB_MESSAGE_LINES   * Font_Height (font_id)) + (2*2); // 2*2=padding
-    box_id = gui_box_create (frame.pos.x, frame.pos.y, frame.size.x, frame.size.y, Msg_Get (MSG_Message_BoxTitle));
-    TB_Message.box = gui.box[box_id];
-    TB_Message.box_gfx = create_bitmap (frame.size.x + 1, frame.size.y + 1);
-    gui_set_image_box (box_id, TB_Message.box_gfx);
+    frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (F_MIDDLE)) + (4*2); // 4*2=padding
+    frame.size.y = (TB_MESSAGE_LINES   * Font_Height (F_MIDDLE)) + (2*2); // 2*2=padding
+    app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));
 
     // Register to desktop
-    Desktop_Register_Box ("MESSAGES", box_id, YES, &TB_Message.Active);
+    Desktop_Register_Box("MESSAGES", app->box, TRUE, &app->active);
 
-    // Add closebox widget
-    widget_closebox_add (box_id, TB_Message_Switch);
-
-    // Create textbox widget
-    frame.pos.x = 4;
-    frame.pos.y = 2;
-    frame.size.x = TB_Message.box->frame.size.x - (4*2);
-    frame.size.y = TB_Message.box->frame.size.y - (2*2);
-    TB_Message.widget_textbox = widget_textbox_add(box_id, &frame, TB_MESSAGE_LINES, font_id);
+    // Layout
+    TB_Message_Layout(app, TRUE);
 
     // Open log file
-    if (TB_Message.log_filename != NULL)
+    if (app->log_filename != NULL)
     {
-        TB_Message.log_file = fopen (TB_Message.log_filename, "a+t");
-        if (TB_Message.log_file)
-            fprintf (TB_Message.log_file, Msg_Get (MSG_Log_Session_Start), meka_date_getf ());
+        app->log_file = fopen (app->log_filename, "a+t");
+        if (app->log_file)
+            fprintf (app->log_file, Msg_Get (MSG_Log_Session_Start), meka_date_getf ());
     }
 }
 
-void    TB_Message_Switch (void)
+void    TB_Message_Update(void)
 {
-    if (TB_Message.Active ^= 1)
+    t_app_messages *app = &TB_Message;  // Global instance
+
+    // Skip update if not active
+    if (!app->active)
+        return;
+
+    // If skin has changed, redraw everything
+    if (app->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
+    {
+        TB_Message_Layout(app, FALSE);
+        app->box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+    }
+}
+
+void    TB_Message_Switch(void)
+{
+    t_app_messages *app = &TB_Message;  // Global instance
+
+    if (app->active ^= 1)
         Msg (MSGT_USER, Msg_Get (MSG_Message_Enabled));
     else
         Msg (MSGT_USER, Msg_Get (MSG_Message_Disabled));
-    gui_box_show (TB_Message.box, TB_Message.Active, TRUE);
+    gui_box_show (app->box, app->active, TRUE);
     gui_menu_inverse_check (menus_ID.tools, 0);
 }
 
 void    TB_Message_Print (char *line)
 {
-    widget_textbox_print_scroll(TB_Message.widget_textbox, YES, line);
-    if (TB_Message.log_file)
-       fprintf (TB_Message.log_file, "%s\n", line);
+    t_app_messages *app = &TB_Message;  // Global instance
+
+    widget_textbox_print_scroll(app->widget_textbox, TRUE, line);
+    if (app->log_file)
+       fprintf (app->log_file, "%s\n", line);
 }
 
 void    TB_Message_Destroy (void)
 {
+    t_app_messages *app = &TB_Message;  // Global instance
+
     // FIXME: widgets are not meant to be destroyed yet
     // ...
-    if (TB_Message.log_file)
+    if (app->log_file)
     {
-        fclose (TB_Message.log_file);
-        TB_Message.log_file = NULL;
+        fclose (app->log_file);
+        app->log_file = NULL;
     }
-    if (TB_Message.log_filename)
+    if (app->log_filename)
     {
-        free (TB_Message.log_filename);
-        TB_Message.log_filename = NULL;
+        free (app->log_filename);
+        app->log_filename = NULL;
     }
 }
 

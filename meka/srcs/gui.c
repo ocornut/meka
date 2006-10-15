@@ -29,7 +29,7 @@ void    Redraw_Background (void) // gui_blit() ?
 void            gui_redraw (void)
 {
     int         i, j;
-    int         color, which;
+    int         color;
     t_gui_box * b;
     t_frame     b_frame;
 
@@ -37,73 +37,63 @@ void            gui_redraw (void)
     Show_Mouse_In (NULL);
 
     // If we were asked to redraw everything, redraw the background as well
-    if (gui.info.must_redraw == YES)
+    if (gui.info.must_redraw == TRUE)
         Redraw_Background ();
 
     // For each box...
-    for (i = gui.box_last - 1; i >= 0; i --)
+    for (i = gui.boxes_count - 1; i >= 0; i--)
     {
-        which = gui.box_plan [i];
-        b = gui.box [which];
+        b = gui.boxes_z_ordered[i];
         b_frame = b->frame;
 
         // Check if it's showing
-        if (!(b->attr & A_Show))
+        if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
 
         // Check if it should be redrawn
-        if (b->must_redraw == NO && gui.info.must_redraw == NO)
+        if (!(b->flags & GUI_BOX_FLAGS_DIRTY_REDRAW) && (!gui.info.must_redraw))
             continue;
-        b->must_redraw = NO;
+        b->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW;
 
         if (i == 0)
         {
             // Active/focused box
-            color = GUI_COL_TEXT_ACTIVE;
+            color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT;
         }
         else
         {
             // Non-active/focused box
-            color = GUI_COL_TEXT_N_ACTIVE;
+            color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
 
             // Check if it overlaps by other windows
             // FIXME: why isn't this check done for the active window ??
             for (j = i - 1; j >= 0; j --)
             {
-                t_gui_box *b2 = gui.box[gui.box_plan[j]];
+                t_gui_box *b2 = gui.boxes_z_ordered[j];
                 if ((b2->frame.pos.x + b2->frame.size.x + 2  >=  b_frame.pos.x - 2)
                     && (b2->frame.pos.x - 2                     <=  b_frame.pos.x + b->frame.size.x + 2)
                     && (b2->frame.pos.y + b2->frame.size.y + 2  >=  b_frame.pos.y - 20)
                     && (b2->frame.pos.y - 20                    <=  b_frame.pos.y + b->frame.size.y + 2))
                 {
-                    b2->must_redraw = YES;
+                    b2->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
                 }
             }
         }
 
         // Draw borders
-        gui_rect (gui_buffer, LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, GUI_COL_BORDERS);
-        line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 1, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 1, GUI_COL_BORDERS);
-        line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 2, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 2, GUI_COL_BORDERS);
+        gui_rect (gui_buffer, LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
+        line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 1, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 1, COLOR_SKIN_WINDOW_BORDER);
+        line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 2, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 2, COLOR_SKIN_WINDOW_BORDER);
 
         // Draw title bar...
-        if (gui.info.bar_gradients)
-        {
-            // ...with gradients
-            int t1 = (b_frame.size.x / gui.info.bar_gradients_ratio);
-            int t2 = t1 / (GUI_COL_THEME_GRADIENTS_NUM - gui.info.bar_gradients_unused);
-            int t3 = b_frame.pos.x + b_frame.size.x;
-            for (j = GUI_COL_THEME_GRADIENTS_NUM - gui.info.bar_gradients_unused - 1; j > 0; j --, t3 -= t2)
-            {
-                rectfill (gui_buffer, t3 - t2, b_frame.pos.y - 18, t3, b_frame.pos.y - 3, GUI_COL_BARS + j);
-            }
-            rectfill (gui_buffer, b_frame.pos.x, b_frame.pos.y - 18, t3, b_frame.pos.y - 3, GUI_COL_BARS);
-        }
-        else
-        {
-            // ...without gradients
-            rectfill (gui_buffer, b_frame.pos.x, b_frame.pos.y - 18, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 3, GUI_COL_BARS);
-        }
+		{
+			t_frame titlebar_frame;
+			titlebar_frame.pos.x  = b_frame.pos.x;
+			titlebar_frame.pos.y  = b_frame.pos.y - 18;
+			titlebar_frame.size.x = b_frame.size.x;
+			titlebar_frame.size.y = 15;
+			SkinGradient_DrawHorizontal(&Skins_GetCurrentSkin()->gradient_window_titlebar, gui_buffer, &titlebar_frame);
+		}
 
         // Draw title bar text, with wrapping
         // FIXME: again, the algorythm below sucks. Drawn label should be precomputed anyway.
@@ -123,26 +113,35 @@ void            gui_redraw (void)
             Font_Print (-1, gui_buffer, title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
         }
 
-        // Ask for widgets to redraw
-        if (b->n_widgets > 0)
+        // Redraw widgets
+        if (b->widgets != NULL)
         {
-            for (j = 0; j < b->n_widgets; j ++)
+            t_list *widgets;
+            for (widgets = b->widgets; widgets != NULL; widgets = widgets->next)
             {
-                t_widget *w = b->widgets[j];
-                if (w->redraw && w->enabled)
-                    w->redraw (w, b_frame.pos.x, b_frame.pos.y);
+                t_widget *w = (t_widget *)widgets->elem;
+                if (w->enabled)
+                {
+                    if (w->dirty)
+                    {
+                        w->dirty = FALSE;
+                        if (w->redraw != NULL)
+                            w->redraw(w);
+                    }
+                }
             }
         }
 
         // Blit content
-        switch (gui.box [which]->type)
+        switch (b->type)
         {
-        case GUI_BOX_TYPE_BITMAP : 
-            blit (gui.box_image[which], gui_buffer, 0, 0, b_frame.pos.x, b_frame.pos.y, b_frame.size.x + 1, b_frame.size.y + 1);
+        case GUI_BOX_TYPE_STANDARD: 
+			blit (b->gfx_buffer, gui_buffer, 0, 0, b_frame.pos.x, b_frame.pos.y, b_frame.size.x + 1, b_frame.size.y + 1);
             break;
         case GUI_BOX_TYPE_GAME : 
-            gamebox_draw (which, b_frame.pos.x, b_frame.pos.y, screenbuffer);
-            b->must_redraw = YES; // Always reset 'must_redraw' flag
+            gamebox_draw (b_frame.pos.x, b_frame.pos.y, screenbuffer);
+            // Always set dirty redraw flag
+            b->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
             break;
         }
     }
@@ -155,8 +154,19 @@ void            gui_redraw (void)
     gui_update_applets_after_redraw ();
 
     // Clear global redrawing flag and makes mouse reappear
-    gui.info.must_redraw = NO;
+    gui.info.must_redraw = FALSE;
     Show_Mouse_In (gui_buffer);
+}
+
+void    gui_relayout(void)
+{
+    t_list *boxes;
+    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    {
+        t_gui_box *box = boxes->elem;
+        box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+        gui_box_set_dirty(box);
+    }
 }
 
 //-----------------------------------------------------------------------------

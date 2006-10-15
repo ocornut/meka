@@ -7,8 +7,8 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    SportPad_Init      (void);
-void    SportPad_Update    (int player, int device_x_rel, int device_y_rel);
+void    SportsPad_Init      (void);
+void    SportsPad_Update    (int player, int device_x_rel, int device_y_rel);
 
 //-----------------------------------------------------------------------------
 

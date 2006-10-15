@@ -12,15 +12,15 @@
 
 typedef struct
 {
-    byte        Active;
+    bool        active;
     char *      log_filename;
     FILE *      log_file;
     t_gui_box * box;
     BITMAP *    box_gfx;
     t_widget *  widget_textbox;
-} t_messages_app;
+} t_app_messages;
 
-t_messages_app  TB_Message;
+t_app_messages  TB_Message;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -28,6 +28,7 @@ t_messages_app  TB_Message;
 
 void    TB_Message_Init_Values  (void);
 void    TB_Message_Init         (void);
+void    TB_Message_Update       (void);
 void    TB_Message_Switch       (void);
 void    TB_Message_Destroy      (void);
 void    TB_Message_Print        (char *line);

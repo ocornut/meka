@@ -94,7 +94,7 @@ t_db_entry *        DB_CurrentEntry;
 //-----------------------------------------------------------------------------
 
 void                DB_Init                     (void);
-void                DB_Load                     (char *filename);
+void                DB_Load                     (const char *filename);
 void                DB_Close                    (void);
 
 t_db_entry *        DB_Entry_Find               (u32 crc32, t_meka_crc *mekacrc);

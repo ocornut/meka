@@ -6,8 +6,9 @@
 #include "shared.h"
 #include <zlib.h>
 #include "db.h"
-#include "libparse.h"
 #include "vdp.h"
+#include "tools/libparse.h"
+#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -221,14 +222,14 @@ static int      DB_Load_Entry (char *line)
     if (value == -1)
         return (1); // Silent return if there's anything else than a system
 
-    skip_spaces (&line);
+    parse_skip_spaces (&line);
     // printf("line: %s\n", line);
 
     // Get CRC32 & MekaCRC
     if (sscanf (line, "%08x %08X%08X", &crc_crc32, &crc_mekacrc.v[0], &crc_mekacrc.v[1]) != 3)
         return (0);
     line += 8 + 1 + 16;
-    skip_spaces (&line);
+    parse_skip_spaces (&line);
 
     // Create and add entry to global list
     entry = DB_Entry_New (value, crc_crc32, &crc_mekacrc); // value hold system
@@ -238,7 +239,7 @@ static int      DB_Load_Entry (char *line)
     // Get and add default name
     if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
         return (0);
-    DB_Name_New (entry, w, 0, NO);
+    DB_Name_New (entry, w, 0, FALSE);
 
     // Parse optional parameters
     while ((w = parse_getword(buf, 1024, &line, "=/", ';', 0)) != NULL)
@@ -253,7 +254,7 @@ static int      DB_Load_Entry (char *line)
                 return (0);
             if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
                 break;
-            DB_Name_New (entry, w, value, NO);
+            DB_Name_New (entry, w, value, FALSE);
             // printf("adding country %d name %s", value, w);
         }
         else if (!strcmp (w, "COUNTRY"))
@@ -313,7 +314,7 @@ static int      DB_Load_Entry (char *line)
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
-            if ((entry->emu_vdp_model = VDP_Model_FindByNumber (w)) == -1)
+            if ((entry->emu_vdp_model = VDP_Model_FindByName(w)) == -1)
                 return (0);
         }
         else if (!strcmp (w, "EMU_TVTYPE"))
@@ -417,7 +418,7 @@ static int      DB_Load_EntryOldFormat (char *line)
     DB.entries_counter_format_old++;
 
     // Add default name
-    DB_Name_New (entry, w, 0, NO);
+    DB_Name_New (entry, w, 0, FALSE);
 
     // Parse optional parameters
     while ((w = parse_getword(buf, 1024, &line, "=,", ';', 0)) != NULL)
@@ -428,7 +429,7 @@ static int      DB_Load_EntryOldFormat (char *line)
         {
             if (!(w = parse_getword(NULL, 0, &line, ",", ';', 0)))
                 return (0);
-            DB_Name_New (entry, w, DB_COUNTRY_JP, NO);
+            DB_Name_New (entry, w, DB_COUNTRY_JP, FALSE);
         }
         else if (!strcmp (w, "VER"))
         {
@@ -467,7 +468,7 @@ static int      DB_Load_EntryOldFormat (char *line)
             // If there's anything left after known countries, it goes to VERSION
             if (*wp != EOSTR)
             {
-                skip_spaces (&wp);
+                parse_skip_spaces (&wp);
                 entry->version = strdup (wp);
                 // printf("--> NEW VERSION = '%s'\n", entry->version);
             }
@@ -620,10 +621,10 @@ static int      DB_Load_Line (char *line)
 }
 
 //-----------------------------------------------------------------------------
-// DB_Load (char *filename)
+// DB_Load (const char *filename)
 // Initialize and load given Meka DB file
 //-----------------------------------------------------------------------------
-void            DB_Load (char *filename)
+void            DB_Load (const char *filename)
 {
     t_tfile *   tf;
     t_list *    lines;
@@ -633,7 +634,7 @@ void            DB_Load (char *filename)
     ConsolePrint (Msg_Get (MSG_DB_Loading));
 
     // Open and read file
-    tf = tfile_read (Env.Paths.DataBaseFile);
+    tf = tfile_read (filename);
     if (tf == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
@@ -724,7 +725,7 @@ t_db_entry *    DB_Entry_Find (u32 crc32, t_meka_crc *mekacrc)
 char *          DB_Entry_GetCurrentName (t_db_entry *entry)
 {
     // In Japanese country mode, search for a Japanese name
-    if (Configuration.country == COUNTRY_JAP)
+    if (Configuration.country == COUNTRY_JAPAN)
     {
         t_db_name *name = DB_Entry_GetNameByCountry (entry, DB_COUNTRY_JP);
         if (name)

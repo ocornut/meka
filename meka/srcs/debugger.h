@@ -13,20 +13,24 @@
 #define DEBUGGER_VARIABLE_REPLACEMENT_SYMBOLS   (0x0002)
 #define DEBUGGER_VARIABLE_REPLACEMENT_ALL       (DEBUGGER_VARIABLE_REPLACEMENT_CPU_REGS | DEBUGGER_VARIABLE_REPLACEMENT_SYMBOLS)
 
-#define BREAKPOINT_ACCESS_R             (0x01)
-#define BREAKPOINT_ACCESS_W             (0x02)
-#define BREAKPOINT_ACCESS_X             (0x04)
-#define BREAKPOINT_ACCESS_RW            (BREAKPOINT_ACCESS_R | BREAKPOINT_ACCESS_W)
-#define BREAKPOINT_ACCESS_RWX           (BREAKPOINT_ACCESS_R | BREAKPOINT_ACCESS_W | BREAKPOINT_ACCESS_X)
+#define DEBUGGER_DATA_COMPARE_LENGTH_MAX        (8)
 
-#define BREAKPOINT_LOCATION_CPU         (0)
-#define BREAKPOINT_LOCATION_IO          (1)
-#define BREAKPOINT_LOCATION_VRAM        (2)
-#define BREAKPOINT_LOCATION_PRAM        (3)
-#define BREAKPOINT_LOCATION_MAX_        (4)
+#define BREAKPOINT_ACCESS_R                     (0x01)
+#define BREAKPOINT_ACCESS_W                     (0x02)
+#define BREAKPOINT_ACCESS_X                     (0x04)
+#define BREAKPOINT_ACCESS_RW                    (BREAKPOINT_ACCESS_R | BREAKPOINT_ACCESS_W)
+#define BREAKPOINT_ACCESS_RWX                   (BREAKPOINT_ACCESS_R | BREAKPOINT_ACCESS_W | BREAKPOINT_ACCESS_X)
+#define BREAKPOINT_ACCESS_E                     (0x08)
 
-#define BREAKPOINT_TYPE_BREAK           (0)
-#define BREAKPOINT_TYPE_WATCH           (1)
+#define BREAKPOINT_LOCATION_CPU                 (0)
+#define BREAKPOINT_LOCATION_IO                  (1)
+#define BREAKPOINT_LOCATION_VRAM                (2)
+#define BREAKPOINT_LOCATION_PRAM                (3)
+#define BREAKPOINT_LOCATION_LINE                (4)
+#define BREAKPOINT_LOCATION_MAX_                (5)
+
+#define BREAKPOINT_TYPE_BREAK                   (0)
+#define BREAKPOINT_TYPE_WATCH                   (1)
 
 typedef struct
 {
@@ -37,16 +41,42 @@ typedef struct
     int         access_flags;
     int         address_range[2];               // If single address, both values are equal
     int         auto_delete;                    // If -1, decrement on each break, delete when 0
+    int         data_compare_length;
+    u8          data_compare_bytes[DEBUGGER_DATA_COMPARE_LENGTH_MAX];
     char *      desc;
 } t_debugger_breakpoint;
+
+typedef struct
+{
+    int                 location;
+    char *              name;
+    int                 bus_addr_size;  // in bytes
+    int                 addr_min;
+    int                 addr_max;
+    int                 access;
+    int                 data_compare_length_max;
+} t_debugger_bus_info;
 
 typedef struct
 {
     u16         addr;
     int         bank;                           // Currently unsupported, set to -1
     char *      name;
-    char *      name_uppercase;
+    char *      name_uppercase;					// For grep
 } t_debugger_symbol;
+
+typedef struct
+{
+	char *		line;
+	char *		line_uppercase;					// For grep
+	int			cursor_pos;						// -1 = end
+} t_debugger_history_item;
+
+typedef enum
+{
+	DEBUGGER_VALUE_FLAGS_ACCESS_READ	= 0x01,
+	DEBUGGER_VALUE_FLAGS_ACCESS_WRITE	= 0x02,
+} t_debugger_value_flags;
 
 typedef enum
 {
@@ -56,12 +86,15 @@ typedef enum
     DEBUGGER_VALUE_SOURCE_SYMBOL,               // From symbol
 } t_debugger_value_source;
 
+// 'value' also refered as 'variables'
 typedef struct
 {
-    u32         data;                           // Value data
-    u16         data_size;                      // Value size in bits
+    u32						data;               // Value data
+    u16						data_size;          // Value size in bits
+	t_debugger_value_flags	flags;				// Value flags
     t_debugger_value_source source;             // Value source type
-    void *      source_data;                    // Value source (if applicable)
+    void *					source_data;        // Value source (if applicable)
+    const char *            name;               // Value name
 } t_debugger_value;
 
 typedef enum
@@ -75,8 +108,8 @@ typedef enum
 
 typedef struct
 {
-    int         Enabled;                        // Enabled and initialized
-    byte        Active;                         // Currently showing on GUI // FIXME: is a byte because of Desktop_Register_Box()
+    int         enabled;                        // Enabled and initialized
+    bool        active;                         // Currently showing on GUI
     bool        trap_set;
     u16         trap_address;
     int         stepping;                       // Set when we are doing a single step
@@ -86,23 +119,25 @@ typedef struct
     t_list *    breakpoints_io_space[0x100];
     t_list *    breakpoints_vram_space[0x4000];
     t_list *    breakpoints_pram_space[0x40];
+    t_list *    breakpoints_line_space[313];
     t_list *    symbols;
     int         symbols_count;
     t_list *    symbols_cpu_space[0x10000];
+	int			history_max;
     int         history_count;
-    int         history_max;
-    char **     history;
-    int         history_current_level;          // 0 : new/current edit line, 1+ history lines
-    FILE *      log_file;
-    char *      log_filename;
-    int         watch_counter;                  // For current frame
+	t_debugger_history_item *	history;
+	int			history_current_index;			// 0: new/current edit line, 1+: history lines items
+    t_list *	variables_cpu_registers;
+    FILE *		log_file;
+    char *		log_filename;
+    int			watch_counter;                  // For current frame
 } t_debugger;
 
 t_debugger      Debugger;
 
 // This is like with breakpoints_cpu_space but with direct access to merged CPU read breakpoints. 
 // The Z80 emulator use that to trap CPU read of first opcode byte *BEFORE* execution started.
-// Otherwise, breakpoints works by stopping CPU after the even happened.
+// Otherwise, breakpoints works by stopping CPU after the event happened.
 int             Debugger_CPU_Exec_Traps[0x10000];
 
 // PC log queue (for trackback feature)
@@ -132,17 +167,15 @@ void                        Debugger_Printf(const char *format, ...);
 t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(int addr);
 t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(int addr);
 
-// Debugger Values
-void                        Debugger_Value_SetComputed(t_debugger_value *value, u32 data, int data_size);
-void                        Debugger_Value_SetCpuRegister(t_debugger_value *value, u32 data, int data_size);
-void                        Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_size);
-void                        Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol);
-
 // Hooks
 int                         Debugger_Hook(Z80 *R);
+void                        Debugger_RasterLine_Hook(register int line);
 void                        Debugger_RdVRAM_Hook(register int addr, register u8 value);
 void                        Debugger_WrVRAM_Hook(register int addr, register u8 value);
 void                        Debugger_WrPRAM_Hook(register int addr, register u8 value);
+
+// Bus Data Access Helpers
+int                         Debugger_Bus_Read(int bus, int addr);
 
 //-----------------------------------------------------------------------------
 // Functions - Line

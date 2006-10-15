@@ -2,7 +2,7 @@
 // MEKA - LIBMY.C
 // Various helper functions - Code
 //-----------------------------------------------------------------------------
-// Note: many of those functions are now useless, outdated or not efficient
+// FIXME: many of those functions are now useless, outdated or not efficient
 //-----------------------------------------------------------------------------
 
 #include <stdlib.h>
@@ -22,7 +22,7 @@ unsigned short *StrCpyUnicode (unsigned short *s1, unsigned short *s2)
  return (r);
 }
 
-int     StrLenUnicode (unsigned short *s)
+int     StrLenUnicode (const unsigned short *s)
 {
  int    i = 0;
  while (*s++)
@@ -30,7 +30,7 @@ int     StrLenUnicode (unsigned short *s)
  return (i);
 }
 
-char   *StrNDup (char *src, int n)
+char   *StrNDup(const char *src, int n)
 {
  int    n2;
  char  *ret, *dst;
@@ -45,7 +45,7 @@ char   *StrNDup (char *src, int n)
  return (ret);
 }
 
-unsigned short   *StrDupToUnicode (char *src)
+unsigned short   *StrDupToUnicode(const char *src)
 {
  unsigned short  *ret, *dst;
 
@@ -58,7 +58,7 @@ unsigned short   *StrDupToUnicode (char *src)
  return (ret);
 }
 
-unsigned short   *StrNDupToUnicode (char *src, int n)
+unsigned short   *StrNDupToUnicode (const char *src, int n)
 {
  int    n2;
  unsigned short  *ret, *dst;
@@ -110,7 +110,7 @@ char    *StrSChr (char *s, char *s2)
 }
 */
 
-int         GetNbrHex (char *s)
+int         GetNbrHex (const char *s)
 {
     int     result = 0;
 
@@ -131,46 +131,6 @@ int         GetNbrHex (char *s)
     return (result);
 }
 
-int     GetNbr (char *s)
-{
-    int   sign = 1;
-
-    if (s[0] == '-')
-    {
-        s++;
-        sign = -1;
-    }
-    if (s[0] == '$')
-        return (sign * GetNbrHex (s + 1));
-    if (s[0] == '0')
-    {
-        if (s[1] != EOSTR)
-            switch (s[1])
-        {
-            case 'x':
-            case 'X': return (sign * GetNbrHex (s + 2));
-            case 'b': return (sign * GetNbrBase (s + 2, "01"));
-        }
-    }
-  return (sign * GetNbrBase (s, "0123456789"));
-}
-
-int         GetNbrBase (char *s, char *base)
-{
-    int     result = 0;
-    int     len_base = strlen(base);
-
-    while (*s)
-    {
-        char *p = strchr(base, *s);
-        if (p == NULL)
-            break;
-        result = (result * len_base) + (p - base);
-        s++;
-    }
-    return (result);
-}
-
 int         Power (int base, int power)
 {
     int ret = 1;
@@ -182,7 +142,7 @@ int         Power (int base, int power)
     return (ret);
 }
 
-int	Match (char *src, char *wildcards)
+int	Match (const char *src, const char *wildcards)
 {
   int	nbr;
   int	val;

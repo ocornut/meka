@@ -2,56 +2,12 @@
 // MEKA - tools.c
 // Various tools - Code
 //-----------------------------------------------------------------------------
-// Note: obsolete ?
+// FIXME: OBSOLETE FUNCTIONS. Remove all whenever possible.
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
 
 //-----------------------------------------------------------------------------
-
-// SEPARATE FIRST WORD AND THE REST OF A STRING -------------------------------
-// FIXME: Obsolete. Use parse_getword()
-void    Get_First_Word (char *str, char *wrd, char separator)
-{
- char   *p;
-
- p = strchr (str, separator);
- if (p == NULL)
-    {
-    strcpy (wrd, str);
-    str [0] = EOSTR;
-    }
- else
-    {
-    *p = EOSTR;
-    strcpy (wrd, str);
-    strcpy (str, p + 1);
-    }
-}
-
-/*
-{
- int    i, j;
- char   s1 [256];
-
- for (i = 0, j = 0; str [i] && str [i] != separator; i ++)
-     s1 [j ++] = str [i];
- s1 [j] = EOSTR;
- strcpy (wrd, s1);
- if (str [i] == EOSTR)
-    {
-    str [0] = EOSTR;
-    }
- else
-    {
-    i++;
-    for (i, j = 0; str [i]; i ++)
-       s1 [j ++] = str [i];
-    s1 [j] = EOSTR;
-    strcpy (str, s1);
-    }
-}
-*/
 
 // KILL EXTENSION FROM A FILENAME ---------------------------------------------
 // FIXME: move to libmy
@@ -98,18 +54,18 @@ void    killpath (char *org)
 }
 
 // Extract filename from 'src' and copy it to location 'dst'
-void    StrCpyPathRemoved(char *dst, char *src)
+void    StrCpyPathRemoved(char *dst, const char *src)
 {
-  char *p = strrchr(src, '/');
+    char *p = strrchr(src, '/');
 
-  #ifndef UNIX
-  char *p2 = strrchr(src, '\\');
-  if (p2 != NULL && p2 > p)
-     p = p2;
-  #endif
+#ifndef UNIX
+    char *p2 = strrchr(src, '\\');
+    if (p2 != NULL && p2 > p)
+        p = p2;
+#endif
 
-  p = (p ? p + 1 : src);
-  strcpy (dst, p);
+    p = (p ? p + 1 : src);
+    strcpy (dst, p);
 }
 
 //-----------------------------------------------------------------------------

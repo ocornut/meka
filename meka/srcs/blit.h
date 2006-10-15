@@ -46,7 +46,6 @@ typedef struct          s_blitters_table_entry
   int x_fact, y_fact;
 }                       t_blitters_table_entry;
 
-BITMAP *    Work_Line;
 void        Blitters_Get_Factors (int *, int *);
 
 struct
@@ -55,6 +54,12 @@ struct
   int       src_sy, dst_sy;
   float     tv_mode_factor;
 } blit_cfg;
+
+// Buffers
+
+extern BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
+extern BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
+extern BITMAP *         Blit_Buffer_NativeTemp;
 
 //-----------------------------------------------------------------------------
 

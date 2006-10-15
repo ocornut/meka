@@ -37,7 +37,10 @@
 // (obviously abused by Omar, anyway it was a big source cleaning that I made)
 
 #include "shared.h"
+#include "fdc765.h"
 
+//-----------------------------------------------------------------------------
+// Data
 //-----------------------------------------------------------------------------
 
 FDC765_Disk dsk [FDC765_MAXDRIVES];
@@ -67,9 +70,9 @@ unsigned long FDCDataLength;       /* Anzahl der zu lesenden Daten */
 word    TrackIndex;                /* Index auf dsk[].Tracks[....] */
 unsigned long TrackDataStart;      /* Startposition der Daten des akt. Sektors im Track */
 
-byte bytes_in_cmd[32] =
+const byte bytes_in_cmd[32] =
 {
-        1,  /*  0 = none                                */
+    1,  /*  0 = none                                */
 	1,  /*  1 = none                                */
 	9,  /*  2 = READ TRACK, not implemented         */
 	3,  /*  3 = SPECIFY                             */
@@ -103,6 +106,10 @@ byte bytes_in_cmd[32] =
 	1   /* 31 = none                                */
 };
 
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
+
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
@@ -120,8 +127,8 @@ void    GetRes7 (void)                      /* Return 7 result bytes */
   FDCResPointer = 0;
   FDCResCounter = 7;
   st0 = st1 = st2 = 0;
-  ExecCmdPhase = NO;
-  ResultPhase = YES;
+  ExecCmdPhase = FALSE;
+  ResultPhase = TRUE;
 }
 
 /*********************************************************************/
@@ -135,7 +142,7 @@ void    FDCExecWriteCommand (register byte Value)
       FDCCurrDrv = FDCCommand[1] & 3;
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
       FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
-      if (dsk[FDCCurrDrv].HasDisk == NO)
+      if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
         GetRes7();
@@ -144,7 +151,7 @@ void    FDCExecWriteCommand (register byte Value)
         {
         FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
         FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
-        ExecCmdPhase = YES;
+        ExecCmdPhase = TRUE;
         TrackIndex = FDCCurrTrack[FDCCurrDrv] * dsk[FDCCurrDrv].Header.nbof_heads + FDCCurrSide[FDCCurrDrv];
         TrackDataStart = ((FDCCommand[4] & 0x0F)-1) << 9;
 //        FDCDataLength = (dsk[FDCCurrDrv].Tracks[TrackIndex].BPS * dsk[FDCCurrDrv].Tracks[TrackIndex].SPT) << 9;
@@ -168,8 +175,8 @@ void    FDCExecWriteCommand (register byte Value)
       FDCResCounter = 1;       /* Ein Result-Byte, das zurück gegeben wird */
       FDCResPointer = 0;
       FDCResult[0] = st3;
-      ExecCmdPhase = NO;
-      ResultPhase = YES;
+      ExecCmdPhase = FALSE;
+      ResultPhase = TRUE;
       StatusCounter = 100;
       StatusRegister = 0xD0;		    /* Ready to return results */
       break;
@@ -180,8 +187,8 @@ void    FDCExecWriteCommand (register byte Value)
         FDCCurrDrv = FDCCommand[1] & 3;
         FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
         FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
-        ExecCmdPhase = YES;
-        if (dsk[FDCCurrDrv].HasDisk == NO)
+        ExecCmdPhase = TRUE;
+        if (dsk[FDCCurrDrv].HasDisk == FALSE)
           {
           st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
           GetRes7();
@@ -212,14 +219,14 @@ void    FDCExecWriteCommand (register byte Value)
       FDCCurrDrv = FDCCommand[1] & 3;
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
       FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
-      if (dsk[FDCCurrDrv].HasDisk == NO)
+      if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
         GetRes7();
         }
       else
         {
-        ExecCmdPhase = YES;
+        ExecCmdPhase = TRUE;
         TrackIndex = FDCCurrTrack[FDCCurrDrv] * dsk[FDCCurrDrv].Header.nbof_heads + FDCCurrSide[FDCCurrDrv];
 //        TrackDataStart = ((FDCCommand[4] & 0x0F)-1) << 9;
 //        FDCDataLength = 512 + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<9);
@@ -235,7 +242,7 @@ void    FDCExecWriteCommand (register byte Value)
       st0 = st1 = st2 = 0;
       FDCCurrDrv = FDCCommand[1] & 3;
       st0 = FDCCommand[1] & 7;
-      if (dsk[FDCCurrDrv].HasDisk == NO)
+      if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 |= 0xD8;  /* Equipment check, Not ready */
         }
@@ -254,7 +261,7 @@ void    FDCExecWriteCommand (register byte Value)
         }
       StatusCounter = 100;
       StatusRegister = 0x80 | (1 << (FDCCommand[1] & 3)); /* RQM=1, DIO=CPU->FDC, EXM = 0 */
-      ExecCmdPhase = NO;
+      ExecCmdPhase = FALSE;
       break;
 
     case 8:                    /* Sense Interrupt */
@@ -262,7 +269,7 @@ void    FDCExecWriteCommand (register byte Value)
       FDCResCounter = 2;       /* Two Result-Bytes, die zurück gegeben werden */
       FDCResPointer = 0;
       //st0 = FDCCurrDrv | (FDCCurrSide[FDCCurrDrv]<<2);
-      if (dsk[FDCCurrDrv].HasDisk == NO)
+      if (dsk[FDCCurrDrv].HasDisk == FALSE)
          st0 |= 0x08;                  /* Drive not ready */
       if (!(st0 & 0x38)) st0 |= 0x80;  /* If no interrupt is available */
 /* MLD */
@@ -270,15 +277,15 @@ void    FDCExecWriteCommand (register byte Value)
 st0 &= 0x3F;
       FDCResult[0] = st0; st0 = 0x00;
       FDCResult[1] = FDCCurrTrack [FDCCurrDrv];
-      ExecCmdPhase = NO;
-      ResultPhase = YES;
+      ExecCmdPhase = FALSE;
+      ResultPhase = TRUE;
       StatusCounter = 100;
       break;
 
     case 10:                   /* ID des nächsten Sektors lesen */
       FDCCurrDrv = FDCCommand[1] & 3;
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
-      if (dsk[FDCCurrDrv].HasDisk == NO)
+      if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
         GetRes7();
@@ -298,7 +305,7 @@ st0 &= 0x3F;
       StatusRegister = 0x80 | (1 << (FDCCommand[1] & 3));
       FDCCurrDrv = FDCCommand[1] & 3;
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
-      if (dsk[FDCCurrDrv].HasDisk == NO)
+      if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
         GetRes7();
@@ -307,11 +314,11 @@ st0 &= 0x3F;
         {
         FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
         /* Diskette eingelegt? */
-        if (dsk[FDCCurrDrv].HasDisk == YES)
+        if (dsk[FDCCurrDrv].HasDisk == TRUE)
           st0 = 0x20 | (FDCCommand[1] & 7); /* SEEK end + HD + US1 + US0 */
         else
           st0 = 0x08 | (FDCCommand[1] & 7); /* NOT READY + HD + US1 + US0 */
-        ExecCmdPhase = NO;
+        ExecCmdPhase = FALSE;
         }
       break;
 
@@ -370,7 +377,7 @@ byte    FDCGetResult (void)
   if (FDCResPointer == FDCResCounter)
     {
     StatusRegister = 0x80;
-    ResultPhase = NO;
+    ResultPhase = FALSE;
     }
   return ret;
 }
@@ -384,7 +391,7 @@ void    FDC765_Init (void)
 
   for (i = 0; i < FDC765_MAXDRIVES /* was 1 ?!? */; i++)
     {
-    dsk[i].HasDisk = NO;
+    dsk[i].HasDisk = FALSE;
     dsk[i].Tracks = NULL;
     dsk[i].TracksSize = 0;
     }
@@ -414,18 +421,18 @@ void    FDC765_Reset (void)
 
   FloppyMotor = 0;
   FDCPointer = 0;
-  ExecCmdPhase = NO;
-  ResultPhase = NO;
+  ExecCmdPhase = FALSE;
+  ResultPhase = FALSE;
   StatusRegister = 128;
 
   for (i = 0; i < FDC765_MAXDRIVES; i++)
     {
     FDCCurrTrack[i] = 0;
-    FDCWrProtect[i] = NO;
+    FDCWrProtect[i] = FALSE;
     }
   for (i = 0; i < 9; i++)
     FDCCommand[i] = 0;
-  FDC765_Cmd_For_SF7000 = NO;
+  FDC765_Cmd_For_SF7000 = FALSE;
 }
 
 
@@ -454,7 +461,7 @@ void    FDC765_Data_Write (register byte Value)
         FDCPointer = 0;
         StatusRegister |= 0x20;
         FDCExecWriteCommand (Value);                     /* Kommando ausführen */
-        FDC765_Cmd_For_SF7000 = YES;
+        FDC765_Cmd_For_SF7000 = TRUE;
         }
      }
   else
@@ -468,7 +475,7 @@ void    FDC765_Data_Write (register byte Value)
 /*********************************************************************/
 byte    FDC765_Data_Read (void)
 {
-  FDC765_Cmd_For_SF7000 = NO;
+  FDC765_Cmd_For_SF7000 = FALSE;
   if (ExecCmdPhase)
      return FDCExecReadCommand ();
   if (ResultPhase)
@@ -508,7 +515,7 @@ void    FDC765_Disk_Write_Get (int DrvNum, void **Data, int *DataSize)
 
 void    FDC765_Disk_Remove (int DrvNum)
 {
-  dsk[DrvNum].HasDisk = NO;
+  dsk[DrvNum].HasDisk = FALSE;
   free (dsk[DrvNum].Tracks); // free does the NULL pointer test
 }
 
@@ -537,8 +544,8 @@ void    FDC765_Disk_Insert (int DrvNum, void *Data, int DataSize)
   FDC765_Disk_Remove (DrvNum);
 
   // Set HasDisk and Write Protection flags
-  Disk->HasDisk = YES;
-  FDCWrProtect[DrvNum] = YES; // Write protection always ON yet
+  Disk->HasDisk = TRUE;
+  FDCWrProtect[DrvNum] = TRUE; // Write protection always ON yet
 
   // No header in sf7000 image disks, initialization here
   Disk->Header.nbof_tracks = 40;

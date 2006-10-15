@@ -7,6 +7,8 @@
 
 //-----------------------------------------------------------------------------
 
+byte    Table_Mode_0 [16 * 256 * 8]; // 32 kb
+
 // INITIALIZE TABLE FOR VIDEO MODE 0 REFRESH ----------------------------------
 void    Init_Table_Video_Mode_0 (void)
 {

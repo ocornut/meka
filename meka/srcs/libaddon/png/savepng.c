@@ -75,7 +75,9 @@ static int save_truecolour(png_structp png_ptr, BITMAP *bmp)
     unsigned char *row, *p;
     int i, j, c;
 
-    row = malloc(bmp->w * 4);
+    // [OMAR]
+    row = malloc(bmp->w * 3);
+    //row = malloc(bmp->w * 4);
     if (!row)
 	return 0;
 
@@ -86,7 +88,8 @@ static int save_truecolour(png_structp png_ptr, BITMAP *bmp)
 	    *p++ = getr32(c);
 	    *p++ = getg32(c);
 	    *p++ = getb32(c);
-	    *p++ = geta32(c);
+        // [OMAR]
+	    //*p++ = geta32(c);
         }
 
         png_write_row(png_ptr, row);
@@ -157,8 +160,9 @@ int save_png(AL_CONST char *filename, BITMAP *bmp, AL_CONST RGB *pal)
      */
     if (depth == 8)
 	colour_type = PNG_COLOR_TYPE_PALETTE;
-    else if (depth == 32)
-	colour_type = PNG_COLOR_TYPE_RGB_ALPHA;
+    // [OMAR] No alpha
+    //else if (depth == 32)
+	//colour_type = PNG_COLOR_TYPE_RGB_ALPHA;
     else
 	colour_type = PNG_COLOR_TYPE_RGB;
 

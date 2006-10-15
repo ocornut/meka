@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // Meka - video_m5.h
-// SMS/GG Video Mode Emulation - Headers
+// SMS/GG Video Mode Rendering - Headers
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -21,14 +21,15 @@
 #endif
 
 void            Display_BackGround_Line_5_C (void);
-// extern void     Display_BackGround_Line_5_ASM (byte, byte *, byte *, byte *);
 
 int             Sprite_Last;
-int             Sprite_Shift_X;
 int             Sprites_on_Line;
 
 void            Refresh_Line_5 (void);
-void            Refresh_Sprites_5 (int Draw);
+void            Refresh_Sprites_5 (bool draw);
 
 //-----------------------------------------------------------------------------
 
+void            VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip);
+
+//-----------------------------------------------------------------------------

@@ -64,7 +64,7 @@ int         PSG_Init (void *user_data /* unused */)
     stream_set_volume (PSG_saChannel, VOLUME_MAX);
 
     for (i = 0; i < 4; i++)               // FIXME: to be done in sound.c ?
-        PSG.Channels[i].Active = YES;
+        PSG.Channels[i].Active = TRUE;
     SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, audio_sample_rate);
 
     ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));
@@ -383,7 +383,7 @@ void    SN76489_GetValues(int *result_left, int *result_right)
   c = &PSG.Channels[0];
   for (i = 0; i <= 2; i++, c++)
      {
-     if (c->Active == NO)
+     if (c->Active == FALSE)
         {
         Channels[i] = 0;
         continue;
@@ -394,7 +394,7 @@ void    SN76489_GetValues(int *result_left, int *result_right)
         Channels[i] = c->Volume * c->ToneFreqPos;
      }
   // Noise channel
-  if (c->Active == NO)
+  if (c->Active == FALSE)
      Channels[3] = 0;
   else
      Channels[3] = (short)(2 * c->Volume * (PSG.NoiseShiftRegister & 0x1));

@@ -4,23 +4,72 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "blit.h"
 #include "db.h"
 
 //-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 // ACTION: QUITTING EMULATOR --------------------------------------------------
+// FIXME-DEPTH: Ressources (machines, icons) not faded out
 void    Action_Quit (void)
 {
+    int depth = bitmap_color_depth(gui_buffer);
+
     Msg (MSGT_USER_INFOLINE, Msg_Get(MSG_Quit));
 
-    // Refresh the screen now so we can see the message
-    Refresh_Screen ();
-    Show_Mouse_In (gui_buffer);
     // Shut up sound while fading
-    Sound_Playback_Stop ();
-    // Fade
-    gui_fade_to_black ();
-    opt.Force_Quit = YES;
+    Sound_Playback_Stop();
+
+    // Redraw last time, so message appears on screen
+    gui_redraw_everything_now_once();
+
+    // Software, naive, slow fade
+    // Only 32-bits supported
+    switch (depth)
+    {
+    case 32:
+        {
+            while (TRUE)
+            {
+                bool more = FALSE;
+                int  y;
+                u32 **ppixels = (u32 **)&gui_buffer->line;
+                for (y = gui_buffer->h; y != 0; y--)
+                {
+                    u32 *pixels = *ppixels++;
+                    int  x;
+                    for (x = gui_buffer->w; x != 0; x--)
+                    {
+                        u32 c = *pixels;
+                        int r = c & 0x000000FF;
+                        int g = c & 0x0000FF00;
+                        int b = c & 0x00FF0000;
+                        int loop;
+                        for (loop = 3; loop != 0; loop--)
+                        {
+                            if (r != 0) r -= 0x000001;
+                            if (g != 0) g -= 0x000100;
+                            if (b != 0) b -= 0x010000;
+                        }
+                        c = r | g | b;
+                        if (c != 0)
+                            more = TRUE;
+                        *pixels++ = c;
+                    }
+                }
+                Blit_GUI();
+                if (!more)
+                    break;
+            }
+        } // 32
+    }
+
+    // Switch to full black skin
+    //Skins_Select(Skins_GetSystemSkinBlack(), TRUE);
+    //Skins_QuitAfterFade();
+    Quit();
 }
 
 // ACTION: SHOW OR HIDE SPRITES LAYER -----------------------------------------------
@@ -64,7 +113,7 @@ void    Action_Switch_Flickering_Auto (void)
     Msg (MSGT_USER, Msg_Get (MSG_Flickering_Auto));
 }
 
-// ACTION: SWITCH SPRITE FLICKERING TO 'YES' ----------------------------------
+// ACTION: SWITCH SPRITE FLICKERING TO 'TRUE' ----------------------------------
 void    Action_Switch_Flickering_Yes (void)
 {
     Configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
@@ -73,7 +122,7 @@ void    Action_Switch_Flickering_Yes (void)
     Msg (MSGT_USER, Msg_Get (MSG_Flickering_Yes));
 }
 
-// ACTION: SWITCH SPRITE FLICKERING TO 'NO' -----------------------------------
+// ACTION: SWITCH SPRITE FLICKERING TO 'FALSE' -----------------------------------
 void    Action_Switch_Flickering_No (void)
 {
     Configuration.sprite_flickering = SPRITE_FLICKERING_NO;
@@ -97,30 +146,6 @@ void    Action_Switch_Mode (void)
     Sound_Playback_Mute ();
     Video_Setup_State ();
     Sound_Playback_Resume ();
-}
-
-// ACTION: ENABLE OR DISABLE TECH INFOS ---------------------------------------
-void    Action_Switch_Tech (void)
-{
-    if (apps.active.Tech ^= 1)
-        Msg (MSGT_USER, Msg_Get (MSG_TechInfo_Enabled));
-    else
-        Msg (MSGT_USER, Msg_Get (MSG_TechInfo_Disabled));
-    gui_box_show (gui.box[apps.id.Tech], apps.active.Tech, TRUE);
-    gui_menu_inverse_check (menus_ID.tools, 4);
-}
-
-// ACTION: ENABLE OR DISABLE VOICE RECOGNITION --------------------------------
-void    Action_Switch_Voice_Rec (void)
-{
-    if (apps.active.Voice_Rec ^= 1)
-        Msg (MSGT_USER, Msg_Get (MSG_VoiceRecognition_Enabled));
-    else
-        Msg (MSGT_USER, Msg_Get (MSG_VoiceRecognition_Disabled));
-    gui_menu_inverse_check (menus_ID.sound, 5);
-    gui_box_show (gui.box[apps.id.Voice_Rec], apps.active.Voice_Rec, TRUE);
-    if (apps.active.Voice_Rec)
-        gui.box [apps.id.Voice_Rec]->update ();
 }
 
 //-----------------------------------------------------------------------------
