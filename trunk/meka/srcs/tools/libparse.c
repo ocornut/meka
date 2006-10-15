@@ -21,7 +21,7 @@ void        trim_trailing_spaces (char *s)
 {
     int     i;
     i = strlen(s) - 1;
-    while (i >= 0 && isspace(s[i]))
+    while (i >= 0 && isspace((unsigned char)s[i])) // u8 needed because of accentued characters in MEKA.MSG and isspace asserting
         s[i--] = EOSTR;
 }
 
@@ -47,7 +47,7 @@ void        skip_spaces (char **src)
 // Note: In case of repeated separators (eg: ",,,,", it doesn't return NULL 
 // but empty strings. NULL is returned at end of source pointed string.
 //-----------------------------------------------------------------------------
-char *      parse_getword(char *dst, int dst_len, char **src, char *separators, char comment_char)
+char *      parse_getword(char *dst, int dst_len, char **src, char *separators, char comment_char, t_parse_flags flags)
 {
     char *  p;
     int     inhibit;
@@ -107,7 +107,10 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
     *dst_write = EOSTR;
 
     // Set new source pointer
-    *src = (*p == EOSTR || *p == comment_char) ? p : p + 1;
+    if (flags & PARSE_FLAGS_DONT_EAT_SEPARATORS)
+        *src = p;
+    else
+        *src = (*p == EOSTR || *p == comment_char) ? p : p + 1;
 
     // Return NULL at end of string
     if (dst_write - dst == 0 && (*p == EOSTR || *p == comment_char))

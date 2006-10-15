@@ -7,10 +7,10 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_techinfo.h"
 #include "desktop.h"
 #include "debugger.h"
 #include "g_widget.h"
-#include "techinfo.h"
 #include "vdp.h"
 
 //-----------------------------------------------------------------------------
@@ -143,11 +143,11 @@ void        TechInfo_Update (void)
 #ifdef MEKA_Z80_DEBUGGER
     if (Debugger.Enabled && Debugger.Active)
         sprintf (line, "[VARIOUS] Country:%d - Border:%d - IPeriod:%d/%d - Lines:%d/%d",
-        sms.Country, (sms.VDP[7] & 15), Get_ICount, Get_IPeriod, tsms.VDP_Line, cur_machine.TV_lines);
+        sms.Country, (sms.VDP[7] & 15), CPU_GetICount(), CPU_GetIPeriod(), tsms.VDP_Line, cur_machine.TV_lines);
     else
 #endif
         sprintf (line, "[VARIOUS] Country:%d - Border:%d - IPeriod:%d - Lines:%d",
-        sms.Country, (sms.VDP[7] & 15), Get_IPeriod, cur_machine.TV_lines);
+        sms.Country, (sms.VDP[7] & 15), CPU_GetIPeriod(), cur_machine.TV_lines);
     TechInfo_Update_Line  (line, line_n ++);
 
     if (cur_drv->id != DRV_NES)

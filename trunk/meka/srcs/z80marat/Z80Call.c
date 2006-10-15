@@ -27,7 +27,7 @@ void    Z80_Opcodes_Usage_Reset (void)
 
 extern  byte  *ROM;
 extern  byte  *Mem_Pages[8];
-extern  int    Z80_Disassemble(char *S, word A);
+extern  int    Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indirect_offsets);
 
 void    Z80_Opcodes_Usage_Print (void)
 {
@@ -57,7 +57,7 @@ void    Z80_Opcodes_Usage_Print (void)
         if (Z80_Opcodes_Usage[i][j] > 0)
            {
            op_code[op_code_pos] = j;
-           Z80_Disassemble(op_name, 0x0000);
+           Z80_Disassemble(op_name, 0x0000, FALSE, FALSE);
            printf ("Opcode %02X : %- 12i%-20s%d\n", j, Z80_Opcodes_Usage[i][j], op_name, cycles[j]);
            }
      }

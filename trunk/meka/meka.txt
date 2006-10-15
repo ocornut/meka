@@ -1,11 +1,8 @@
 
-  MEKA 0.70 - Documentation
+  MEKA 0.71 - Documentation
  ===========================
   Multi machine emulator for MS-DOS, MS-Windows and GNU/Linux.
-  (c) in 1998-2005 by Omar Cornut / Bock (omar AT cornut DOT fr) and contributors.
-  Original sound engine by Hiromitsu Shioya / Hiro-shi.
-  Implement code based on Marat Fayzullin, Maxim, Ulrich Cordes, Kittie work.
-  Implement Emu2413 from Mitsutaka Okazaki.
+  (c) in 1998-2005 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
  ==========================================================================
@@ -41,34 +38,24 @@
  You can play other systems on it only if you are smart enough to figure how.
  And if you are, I doubt you will want to play Nintendo games. So forget it.
 
- MEKA was developped by the following handsome people:
+ MEKA is developped and coordinated by:
 
- > Omar Cornut / Bock (omar AT cornut DOT fr)
-   Machine emulation, tools, graphical user interface, sound, and the rest 
-   (support files, etc.).
+ > Omar Cornut / Bock (E-mail: omar AT cornut DOT fr)
+   Project manager, machine emulation, tools, graphical user interface, sound
+   interface, graphics, miscellaneous stuff.
 
- > Hiromitsu Shioya / Hiro-shi
-   Original sound engine, Yamaha YM2413 OPL emulator.
+ And include invaluable contributions from the following handsome people:
 
- > Marat Fayzullin / RST38H
-   Zilog Z80 CPU Core (publicly released a while ago).
-   Implemented with modifications in MEKA.
-
- Also with contributions from:
-
- > Mitsutaka Okazaki
-   Software Yamaha 2413 emulator (EMU2413).
-
- > Maxim
-   Software PSG emulator.
-   Implemented with modifications in MEKA.
-
- > Ulrich Cordes
-   FDC765 (floppy disk controller) for SF-7000.
-   Implemented with modifications in MEKA.
-   
- > Kittie
-   Original Memory Editor.
+ > Hiromitsu Shioya / Hiro-shi  Original sound engine. OPL-based Yamaha 2413 emulator.
+ > Marat Fayzullin / RST38H     Zilog Z80 CPU emulation core. Implemented with modifications/fixes in MEKA.
+ > Mitsutaka Okazaki            Software Yamaha 2413 emulator (EMU2413).
+ > Maxim                        Software PSG emulator.
+ > Ulrich Cordes                FDC765 emulator for SF-7000. Implemented with modifications in MEKA.
+ > Valerie Tching / Kittie      Original Memory Editor.
+ > Johan Euphrosine / Proppy    GNU/Linux tweaks.
+ > DJRobX                       Blitters and video improvements, HQ2X interface.
+ > Maxim Stephin / MaxSt        HQ2X graphics filter.
+ > Dirk Stevens                 Eagle graphics filter.
 
  MEKA in its original flavor, is for MS-DOS and compatible systems.
  MEKAW is the codename for the MS-Windows version of MEKA.
@@ -401,7 +388,7 @@
     This database is kept updated to reflect various game versions, and is
     one of the fundation element of a full-featured web site in the work.
 
-  - Logging of sound output to WAV and VGM formats. VGM is a logging format 
+  - Logging of sound output to VGM (and WAV) format. VGM is a logging format 
     developed by the S8-Dev community of SMS Power. For more information,
     and a music archive, go to http://www.smspower.org/music.
     Logging of WAV only works for PSG sound (YM-2413 FM is not yet logged).
@@ -513,10 +500,12 @@
   Graph ...................... Left Control
 
  The "Pi" key, also used to type the "Ro" kana in Japanese, has
- unfortunately no equivalent on today's PC keyboard of many countries.
+ unfortunately no equivalent on today's PC keyboard of most countries.
  Because of this, you can also either use the backslash key on the
  bottom left of your keyboard, OR the slash key on the keypad, to
  replace the missing "Pi" key.
+ 
+ See a paragraph below about how to use SC-3000 and SF-7000 software.
 
  ColecoVision
  ------------
@@ -650,7 +639,9 @@
 ----------------------------------------------------------------------------
 
  Thanks. In this case, if you want to help further development and support
- the author, you are welcome to make a donation.
+ the author, you are welcome to make a donation. Donation are helpful to
+ cover a fraction of my insane expenses, in the attempt of gathering all
+ Sega 8-bit related items existing on the planet.
 
  This can be done by several ways:
  
@@ -663,7 +654,7 @@
  
   - Donate money (via PayPal or other means):
     Money helps me to purchase games related to the SMS Power project, as
-    well as getting weird pieces of related hardware. 
+    well as getting weird pieces of related Sega 8-bit hardware/items. 
     There is no more minimal amount to send. Anything is useful.
     (Of course the more the better :)
 
@@ -671,7 +662,7 @@
  the right track. What matter is that you are helping a cause, and for that
  reason the more is always the better. Don't stop feeding your children or
  plan to sell your house to donate the money to our cause, though. Just
- think about how much *you* would pay for that software if it was commercial.
+ think about how much *you* would pay for that software.
  
  Hint: don't think too fast that you are such a poor guy: if you can use a
  computer and have access to the Internet, you are probably not! Haha!
@@ -718,7 +709,7 @@
  
  In both cases, it is not worth wasting a lot of money on a small donation.
  Of course, if you want to donate a million, we can find an arrangement.
- If you can't use PayPal, Cash in your country currency is generally a good 
+ If you can't use PayPal, cash in your country currency is generally a good 
  thing. Please e-mail be beforehand if you are unsure about anything.
 
  My address is:    Omar Cornut
@@ -753,6 +744,9 @@
 
  You can download the source code on MEKA homepage:
     http://www.smspower.org/meka
+    
+ Latest work-in-progress version:
+    http://www.smspower.org/meka/wip
     
  Any development related dicussion are held in a dedicated forum:
     http://www.smspower.org/forums/viewforum.php?f=7
@@ -876,11 +870,15 @@
 
  Check out http://www.smspower.org/music for a great Sega 8-bit music
  archive, informations, tools and a forum.
-
+ 
  If you are a musician, use your skills to make us some great remixes of
  Sega Master System music.
 
+ Check out http://www.smspower.org/meka/wip for latest work-in-progress
+ versions of MEKA, with new great features you never dreamed of.
+
  Buy games you like, buy (or register) software you like.
+ Avoid piracy of new games.
  Support the video game industry. 
  Support creative games.
  Support indy and home developpers. 
@@ -984,7 +982,8 @@
  Level 13 : End Credits
 ----------------------------------------------------------------------------
 
- I would like to thank the following persons:
+ In addition to people already listed as "Contributors" at the top of this
+ document, I would like to thank the following persons:
 
  Hiromitsu Shioya (Hiro-Shi):
   for having done the basic work on sound/music emulation in MEKA. Without
@@ -1024,9 +1023,9 @@
   and as made various contributions to the SMS development scenes, with
   homemade programs (such as the world famous Tetracycline game, and
   Damiana - with sources to be released very soon).
+  http://www.smspower.org/heliophobe
   http://www.kenseiden.com
   http://www.kenseiden.com/smeg
-  http://www.smspower.org/heliophobe
 
  Charles Mac Donald:
   for SMS Plus, sharing lot of things together - nice chats, and being one

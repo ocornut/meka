@@ -10,12 +10,12 @@
 //-----------------------------------------------------------------------------
 
 #define PROG_NAME               "Meka"
-#define VERSION                 "0.70"
+#define VERSION                 "0.71"
 #define VERSION_HIGH            (0)
-#define VERSION_LOW             (70)
+#define VERSION_LOW             (71)
 #define PROG_NAME_VER           PROG_NAME " " VERSION
 #define PROG_HOMEPAGE           "http://www.smspower.org/meka"
-#define PROG_AUTHORS            "Omar Cornut (Bock), Hiromitsu Shioya, Marat Faizullin & co."
+#define PROG_AUTHORS            "Omar Cornut (Bock) and contributors"
 #define PROG_AUTHORS_SHORT      "Omar (Bock) and contributors"
 #define PROG_DATE               "1998-2005"
 
@@ -97,7 +97,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 #include "inputs.h"         // INPUTS.H     Inputs processing
 #include "inputs_c.h"       // INPUTS_C.H   Inputs configuration stuff
 #include "inputs_f.h"       // INPUTS_F.H   Inputs file parser/writer
-#include "inputs_i.h"       // INPUTS_I.H   Inputs initialization stuff
 #include "inputs_u.h"       // INPUTS_U.H   Inputs update
 #include "ioports.h"        // IOPORTS.H    IO Ports emulation
 #include "keyinfo.h"        // KEYINFO.H    Keyboard keys definitions (name, scancode, etc.)
@@ -140,10 +139,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 //#include "ym2413hd.h"     // YM2413HD.H   FM emulator / OPL
 //#include "wav.h"          // WAV.H        WAV file creation
 //#include "..mekaintf.h"   // EMU2413.H    FM emulator / Digital
-// EAGLE ----------------------------------------------------------------------
-#ifdef MEKA_EAGLE
- #include "eagle.h"         // EAGLE.H      EAGLE graphic filter
-#endif
 
 //-----------------------------------------------------------------------------
 // MEKA non-shared includes
@@ -165,8 +160,10 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 // #include "db.h"          // DB.H         DataBase
 // #include "debugger.h"    // DEBUGGER.H   Debugger
 // #include "desktop.h"     // DESKTOP.H    Desktop loading/saving functionnality
+// #include "eagle.h"       // EAGLE.H      EAGLE graphic filter
 // #include "file.h"        // FILE.H       File (ROM) loading and processing, filename generation
 // #include "fskipper.h"    // FSKIPPER.H   Frame skipper and auto frame skipper
+// #include "inputs_i.h"    // INPUTS_I.H   Inputs initialization
 // #include "inputs_t.h"    // INPUTS_T.H   Inputs tools
 // #include "keyboard.h"    // KEYBOARD.H   Sega Keyboard emulation
 // #include "mappers.h"     // MAPPERS.H    Mappers system and mappers emulation

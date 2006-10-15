@@ -4,15 +4,17 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "about.h"
+#include "app_about.h"
+#include "app_memview.h"
+#include "app_options.h"
+#include "app_palview.h"
+#include "app_tileview.h"
 #include "blitintf.h"
 #include "debugger.h"
+#include "file.h"
 #include "g_file.h"
 #include "keyboard.h"
-#include "memview.h"
 #include "saves.h"
-#include "options.h"
-#include "tileview.h"
 
 //-----------------------------------------------------------------------------
 // gui_menus_init ()
@@ -68,9 +70,10 @@ void        gui_menus_init (void)
     if (Configuration.debug_mode)
     {
         menu_add_item (menus_ID.debug,  Msg_Get (MSG_Menu_Debug_Enabled), AM_Active | Is_Checked (Debugger.Active), Debugger_Switch);
+        menu_add_item (menus_ID.debug,  Msg_Get (MSG_Menu_Debug_Reload_ROM), AM_Active, Reload_ROM);
         menus_ID.dump  = menu_add_menu (menus_ID.debug, Msg_Get (MSG_Menu_Debug_Dump),       AM_Active);
         DataDump_Init_Menus (menus_ID.dump);
-        menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get (MSG_Menu_Debug_Watch),      AM_Nothing);
+        //menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get (MSG_Menu_Debug_Watch),      AM_Nothing);
     }
 
     //-------------------------------------------------------------------------
@@ -187,9 +190,8 @@ void        gui_menus_init (void)
     // TOOLS
     //-------------------------------------------------------------------------
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_Messages),      AM_Active | Is_Checked (TB_Message.Active), TB_Message_Switch);
-    menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_Palette),       AM_Active | Is_Checked (apps.active.Palette), Action_Switch_Palette);
+    menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_Palette),       AM_Active | Is_Checked (PaletteViewer.active), PaletteViewer_Switch);
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_TilesViewer),   AM_Active | Is_Checked (apps.active.Tiles), TileViewer_Switch);
-    // FIXME-Cherinette
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_MemoryEditor),  AM_Active | Is_Checked (MemoryViewer.active), MemoryViewer_Switch);
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_TechInfo),      AM_Active | Is_Checked (apps.active.Tech), Action_Switch_Tech);
 

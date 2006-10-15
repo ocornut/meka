@@ -7,28 +7,40 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define BLITTER_NONE    ((t_blitter *)(0))
-#define BLITTER_IGNORE  ((t_blitter *)(-1))
+#define BLITTER_NONE                ((t_blitter *)(0))
+#define BLITTER_IGNORE              ((t_blitter *)(-1))
 
-#define BLITTER_OS_SEP  "::"
-#define BLITTER_OS_WIN  "WIN"
-#define BLITTER_OS_UNIX "UNIX"
+#define BLITTER_OS_SEP              "::"
+#define BLITTER_OS_DOS              "DOS"
+#define BLITTER_OS_WIN              "WIN"
+#define BLITTER_OS_UNIX             "UNIX"
+
+enum    t_blitter_stretch
+{
+    BLITTER_STRETCH_NONE        = 0,
+    BLITETR_STRETCH_MAX_INT     = 1,     // Default
+    BLITTER_STRETCH_MAX_RATIO   = 2,
+    BLITTER_STRETCH_MAX         = 3,
+};
 
 //-----------------------------------------------------------------------------
 // Blitter Data
 //-----------------------------------------------------------------------------
 
-typedef struct  s_blitter
+typedef struct
 {
-  char *        name;
-  int           res_x;
-  int           res_y;
-  int           blitter;
-  int           driver;
-  int           flip;
-  int           tv_colors;
-  int           vsync;
-  int           refresh_rate;
+    char *      name;
+    int         res_x;
+    int         res_y;
+    int         blitter;
+    int         driver;
+    bool        flip;
+    bool        tv_colors;
+    bool        vsync;
+    int         refresh_rate;
+    int		video_depth;
+    bool        stretch;
+    bool        triple_buffering;
 }               t_blitter;
 
 //-----------------------------------------------------------------------------
@@ -42,13 +54,13 @@ void            Blitter_Delete (t_blitter *b);
 // Blitters Data
 //-----------------------------------------------------------------------------
 
-typedef struct  s_blitters
+typedef struct
 {
- int            num;
- int            current_num;
- t_blitter *    current;
- t_list *       list;
- char           filename[FILENAME_LEN];
+    int         num;
+    int         current_num;
+    t_blitter * current;
+    t_list *    list;
+    char        filename[FILENAME_LEN];
 }               t_blitters;
 
 t_blitters      blitters;

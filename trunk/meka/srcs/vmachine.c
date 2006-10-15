@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "bios.h"
 #include "db.h"
+#include "file.h"
 #include "vmachpal.c"
 
 //-----------------------------------------------------------------------------
@@ -148,6 +149,10 @@ void    Free_ROM (void)
     gamebox_rename_all ();
     Change_System_Misc ();
     Effects_TV_Init_Colors ();
+
+    // Clear filename data
+    strcpy(file.rom, "");
+    Filenames_Init_ROM();
 }
 
 //-----------------------------------------------------------------------------

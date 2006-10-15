@@ -33,8 +33,8 @@ int  Sound_Rate_Default_Table[4] =
 
 double  Sound_Calc_CPU_Time (void)
 {
-  int CPU_ICount = Get_ICount; // - Sound_Update_Count;
-  int CPU_IPeriod = Get_IPeriod;
+  const int CPU_ICount = CPU_GetICount(); // - Sound_Update_Count;
+  const int CPU_IPeriod = CPU_GetIPeriod();
 
   // IPeriod : 228
   // ICount  : 228.. 227.. 226.. [..] .. 3.. 2.. 1.. 0..

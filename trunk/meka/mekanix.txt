@@ -27,13 +27,9 @@
  Yet, I just don't have much time to work on supporting it. I'm not 
  against you users, but please understand that I'm currently in a very 
  busy situation and targetting UN*X for my emulator is not a priority.
+
  I am welcoming anyone to help, though.
-
- Thus, I will not consider those mails:
-  - "I cannot get it to work."
-  //- "Please release sources now or go to hell."
-
- But, I will do my best to consider those mails:
+ And, I will do my best to consider those mails:
   - "I cannot get it to work, but you may be able to fix it by
      doing xxx or xxx."
   - "I cannot get it to work. Unfortunately, I cannot help you

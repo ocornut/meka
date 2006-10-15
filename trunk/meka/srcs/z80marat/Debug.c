@@ -16,11 +16,22 @@
 // define changed from "DEBUG" to "MEKA_Z80_DEBUGGER"
 #ifdef MEKA_Z80_DEBUGGER
 
+#include "shared.h"
 #include "Z80.h"
+#include "debugger.h"
 
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
+//
+// Syntax in mnemonics strings: [OMAR-20050416]
+//
+//   #h   2-bytes direct value
+//   *h   1-byte direct value
+//   @h   1-byte relative offset
+//   I%   IX/IY
+//   ^H   IX/IY 1-byte relative offset
+// ???
+//
+// I'm not sure to understand everything. The code is hell to decipher.
+//
 
 static char *Mnemonics[256] =
 {
@@ -239,11 +250,12 @@ static char *MnemonicsXCB[256] =
 /** the output text into S. It will return the number of    **/
 /** bytes disassembled.                                     **/
 /*************************************************************/
-int     Z80_Disassemble(char *S, word A)
+int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indirect_offsets)
 {
-    char  R[128], H[10], C, *T, *P;
+    char  R[256], H[256], C, *T, *P;
     byte  J, Offset = 0;
     word  B;
+    int   relative_offset_base = 0;  // 0 : from PC, 1 : from IX, 2 : from IY
 
     B = A;
     C = '\0';
@@ -280,7 +292,13 @@ int     Z80_Disassemble(char *S, word A)
         strcpy(R,T);
 
     if ((P=strchr(R,'%')) != NULL) 
+    {
         *P=C;
+        if (C == 'X')
+            relative_offset_base = 1;
+        else if (C == 'Y')
+            relative_offset_base = 2;
+    }
 
     if ((P=strchr(R,'*')) != NULL)
     {
@@ -301,11 +319,23 @@ int     Z80_Disassemble(char *S, word A)
             if (S != NULL)
             {
                 strncpy(S,R,P-R);S[P-R]='\0';
-                if(!J) Offset=RdZ80_NoHook(B++&0xFFFF);
-                strcat(S,Offset&0x80? "-":"+");
-                J=Offset&0x80? 256-Offset:Offset;
-                sprintf(H,"%02X",J);
-                strcat(S,H);strcat(S,P+1);
+                if(!J) 
+                    Offset=RdZ80_NoHook(B++&0xFFFF);
+                if (resolve_indirect_offsets && relative_offset_base == 0)
+                {
+                    u16 target = B + (signed char)Offset;
+                    char sign = (Offset & 0x80) ? '-' : '+';
+                    J = (Offset & 0x80) ? 256 - Offset : Offset;
+                    sprintf(H, "%c%02Xh (%04Xh)", sign, J, target);
+                    strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
+                }
+                else
+                {
+                    strcat(S,Offset&0x80? "-":"+");
+                    J=Offset&0x80? 256-Offset:Offset;
+                    sprintf(H,"%02X",J);
+                    strcat(S,H);strcat(S,P+1);
+                }
             }
             else
             {
@@ -317,9 +347,20 @@ int     Z80_Disassemble(char *S, word A)
             {
                 if (S != NULL)
                 {
-                    strncpy(S,R,P-R);S[P-R]='\0';
-                    sprintf(H,"%04X",RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF));
-                    strcat(S,H);strcat(S,P+1);
+                    u16 addr = RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF);
+                    t_debugger_symbol *symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
+                    if (symbol != NULL)
+                    {
+                        strncpy(S,R,P-R);S[P-R]='\0';
+                        snprintf(H,256,"%s (%04Xh)", symbol->name, addr);
+                        strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
+                    }
+                    else
+                    {
+                        strncpy(S,R,P-R);S[P-R]='\0';
+                        sprintf(H,"%04X", addr);
+                        strcat(S,H);strcat(S,P+1);
+                    }
                 }
                 B += 2;
             }

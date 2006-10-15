@@ -32,11 +32,14 @@
 THE YET UNSORTED MESS (this is my notepad basically)
 -----------------------------------------------------------------------------
 
-- Command line file not found -> crash!
-  - This is generic bad bug on exit. 
-    Looks like an Allegro exit threading bug.
-    Maybe this one? (I am running 4.1.12 now) : 
-     "4.1.15 to 4.1.16 : Evert Glebbeek fixed a crash when initializing, deinitializing and reinitializing Allegro on Windows. "
+- Compilation
+  - ASM symbols problem, with/without _ prefix depending on system 
+  - AMD64:
+    - gcc parameter: -mpentium
+    - NASM output format may be different
+
+- Allows MEKA updating/running without focus.
+
 - Add PAL/SECAM/NTSC (Auto) mode to be more clear
   See http://www.smspower.org/forums/viewtopic.php?t=6656 
 
@@ -53,63 +56,15 @@ just that I noted them at the top of the file, thinking it would be worth
 doing them now and some are quick work.
 -----------------------------------------------------------------------------
 
-Crash:
- - Incorrect file size can cause mapper accesses to crash. 
-   The padding on load that should happen seems to be incorrectly done.
-   See GoodSMS "Shinobi (UE) [b2].sms" (134.400 bytes).
-
 - 3-D Glasses:
-  - When 3D glasses emulation is enabled, showing either just the left or right side, 
-    I cannot type into the memory editor! -> this is problem with the input widget.
-    It's good however than 3-D glasses support can reproduce the problem easily -> MUST FIX
   - When hard-pausing a 3D game, Meka reports "this game seems not to support 3D glasses" 
     and disables 3D glasses emulation. 
-
-- Widget: Broken input box synchronization
-  This is a big problem when it comes to using the debugger.
-  - Maybe the problem is: Support multiple ASCII translated keypresses per-frame ?
 
 - Check galaxy force (supposed bug, cannot reproduce)
   http://www.smspower.org/forum/messages/19568.html
 
 - Coleco picture palette is broken when freeing ROM.
 - Add auto SK-1100 enable.
-
-- Debugger:
-  - A-class bugs:
-    - inst_after > pc-temp appearing in several cases (eg: Super Basketball demo).
-    - Savestate/reset seems to mess with breakpoints. 
-      Check coherency and switching between mainloops (emulation standard/debug, no emulation)
-    - Backspace in memory editor widget reset machine
-  - Breakpoint:
-    - b clear disabled (only clear disabled breakpoints, pertinent feature)
-    - b enable/disable all
-    - At nop nop (not exactly easy to do without going into modificating the Z80 emulator)
-      Interesting more generic solution: add data compare to breakpoint, eg:
-      - B W 1000 = FF // break when write FF to 1000
-      - Can be a simple equality test at first, then potentially can add: 
-        - Simple masking feature
-        - Full expression evaluation (see P command)
-      - Then, B NOP NOP becomes B X 0-FFFF = 00, 00  which can be added as a shortcut 
-        (of course, this would be somewhat slow but it'll work)
-      - Note: you cannot read/write multiple bytes on the same time on the Z80. 
-        Multiple bytes comparaison apply for execution check as we assume series of opcodes.
-    - Hooks:
-      - VDP register/status
-      - Generally, much more possible things to add.
-  - P command
-    - Write an expression evaluator (can be reused for other parts of debugger)
-      - Standard operators +-*/ () |&^! 
-      - Variable replacement
-        - CPU registers
-        - Access to data table -> RAM[0]
-  - Z80 access:
-    - Register edit
-    - CALL command
-      - Execute a CALL on the Z80, allow easy quick hack
-      - Or more generally, allow inline instruction execution
-  - SOURCE command:
-    - Load commands from a text file. Useful for storing per-project breakpoints.
 
 -----------------------------------------------------------------------------
 
@@ -162,7 +117,7 @@ Crash:
  NAMES / DATABASE
 -----------------------------
  - Switch to UTF-8 !
- - Added Canada (CA) flag/country.
+ - Add Canada (CA) flag/country (what for?)
  - Add media type (cartridge, card, disk, etc...)
  - Add Pirate flag ?
  - Better syntax error verbosing (currently there's none).
@@ -258,8 +213,9 @@ Crash:
    - Probably a lot to do.
    - Implement 2xSai filter.
    - Implement Scale2x filter (scale2x.sourceforge.net)
-   - Implement HQ3X filter (http://www.hiend3d.com/hq3x.html)
-     http://www.doc.ic.ac.uk/~mjg103/gens/sms/
+   - HQ filters
+     - 32 bits version
+     - HQ2X, HQ4X
  - Resize window
    - Need Allegro support of that feature (I think it's in the work).
    - Easy to do for GUI.
@@ -314,22 +270,71 @@ Crash:
 -----------------------------
  DEBUGGER
 -----------------------------
- (see all the stuff at the top of this file)
------------------------------
+ - A-class bugs:
+   - inst_after > pc-temp appearing in several cases (eg: Super Basketball demo).
+   - Savestate/reset/bios seems to mess with breakpoints. 
+     Check coherency and switching between mainloops (emulation standard/debug, no emulation)
+   - Backspace in memory editor widget reset machine
+ - Debugger:
+   - Button to enable/disable exclusive focus.
+   - Auto reload ROM option.
+ - Breakpoint:
+   - At nop nop (not exactly easy to do without going into modificating the Z80 emulator)
+     Interesting more generic solution: add data compare to breakpoint, eg:
+     - B W 1000 = FF // break when write FF to 1000
+     - Can be a simple equality test at first, then potentially can add: 
+       - Simple masking feature
+       - Full expression evaluation/test
+     - Then, B NOP NOP becomes B X 0-FFFF = 00, 00  which can be added as a shortcut 
+       (of course, this would be somewhat slow but it'll work)
+     - Note: you cannot read/write multiple bytes on the same time on the Z80. 
+       Multiple bytes comparaison apply for execution check as we assume series of opcodes,
+       but this will be much more complicated to support for read/write.
+   - Break at register write 
+     - With data comparing (see above)
+   - Z80 read/execute are not perfectly differenciated (opcode 1st byte is X, then it is R)
+   - Hooks:
+     - VDP register/status
+     - PSG/VRAM/dedicated break (per channel/address/tile/whatever).
+     - Generally, much more possible things to add.
  - Datadump could be redirected to debugger console.
- - BIOS mess up breakpoints: they are in memory space, and the reset while
-   switching from BIOS to game screw something in the mainloop I think.
  - Small Bug (may not considered as one bug actually): Debugger ON, play, pause, debugger OFF -> machine gets unpaused.
  - Scroll thru disassembly
- - Search for bytes/ascii
- - Load symbol
-   - Display in disassembly
-   - Support whenever expr/addr is supported
-   - Creating breakpoint use symbol as breakpoint description by default
- - Breakpoints:
-   - Z80 read/execute are not perfectly differenciated (opcode 1st byte is X, then it is R)
-   - PSG/VRAM/dedicated break (per channel/address/tile/whatever).
+ - Completion
+   - Better contextual completion, supporting per-command kind of parameter
+     (eg: break cl[tab] -> clear)
+     - Make the command line parser take additionnal flags, and be able to execute
+       commands as well as just returning a list of words depending on the parsing
+       context.
+ - Profiling feature
+   - Display line/cycles better
+   - User settable timer, global cycle counter.
+ - Print
+   - Find a solution to the problem of not being able to print result that are not 16-bits
+ - Symbols
+   - Different symbol file formats?
+   - Keep track of source symbol, by keeping t_debugger_value all along the chain.
+   - Figure out a way to keep symbol references and have them updated on ROM reload.
+ - SET command
+   - eg: "set HL = $C000", "set BC = label", etc
+   - Need to rework the concept of variable to be writable? l-value flag with access
+     to the write handler? Also think about later stuff such as "set RAM[0] = 0"
+ - SEARCH command
+   - Bytes/ascii search
+   - Access to all kind of memory, once we have the proper abstract (see above).
+ - Misc Commands:
+   - UNMAP command:
+     - eg: Z80 $A123 -> ROM $18123
+   - SOURCE command:
+     Load commands from a text file. Useful for storing per-project breakpoints.
+ - Expression evaluator:
+   - Unary operators -, !, ~
+   - Proper operator priority. Currently two level: +/- gets low priority and 
+     all other higher priority. Requires building a proper evaluation tree.
+   - Access to data table RAM[0] (this gets more complex...)
  - Memory Editor:
+   - Memory editor page focus is lost on ROM change.
+   - Button to enable/disable exclusive focus.
    - 2/3 byte display/editing
    - Highlight edited digits, add backspace support
    - Dump button (calling datadump)
@@ -339,28 +344,39 @@ Crash:
    - Show modified/written values. 
      How do I do that? Modified since when? Could be useful when stepping in code.
    - Find feature
- - Access to machine data in a standardized syntax.
-   - Abstract Marat's core to be able to switch later.
+   - Small ROM doesn't seems to appear in memory editor. Why?
+ - Access to machine data in a standardized way (code/library for programmer,
+   standardized syntax for end-user functionnalities)
+   - Extract generic code to access memory blocks from memory editor, stick
+     them in a generic interface in t_machine. Usable by memory editor, data
+     dumper, debugger M command.
    - eg: registers: HL,AF,A, etc. memory: mem[HL]
-   - User shortcuts. HL would be in fact cpu.hl ? Useful for variables also.
+   - User shortcuts. HL would be in fact cpu.hl ?
+   - Z80 access:
+    - Register edit
+    - CALL command
+      - Execute a CALL on the Z80, allow easy quick hack
+      - Or more generally, allow inline instruction execution
+   - Abstract Marat's core to be able to switch later.
    - Access to the previous state (automatic save state on each user step)
      - Require changing savestate code to work on a memory buffer.
    - User constructed GUI panels showing you info you want.
      Could display registers, any part of memory, tiles, etc.
      Allowing to create panels for custom debugging.
- - Expression evaluator (eg: HL+BC*4)
  - Meka scripting
     - Primitive function with accesses to standardized syntax.
       - A breakpoint can trigger a call.
-    - Support for debug configuration file/script per ROM, example:
-      $0F2D break
-      $0028 print "BC = %BC"
+    - Support for debug configuration file/script per ROM.
     - How can we work out a "project based" setup?
  - Keep a call stack updated (using a modified Z80 core)
  - Tools:
+   - Callstack viewer
+     - Requires Z80 emulator modification
    - Map viewer
      - Show full map, red box over currently displayed part.
        - Support raster H-scrolling
+       - Hover over a tile display info.
+       - Display screen coordinate while hovering.
    - Sprite viewer
      - Select individual sprites, shows infos
    - Sprite ripper
@@ -374,12 +390,10 @@ Crash:
    - Warn incorrect (non standard) VRAM/port accesses.
    - Warn interrupt if VDP latch is set (98% of the time I guess it
      can lead to a bug).
-   //- Disassemble running code, create compilable ASM source code 
-   //  of the game. That's complicated. Maybe see if MEKA can help
-   //  providing data to SMS Examine?
-   - PSG access addresses logger.
+   - Warn interrupt in/out if Z80 registers are differents (except shadow)
+   - PSG access addresses logger
      Show checkbox for all location accessing to PSG, allows to disable some.
-     Would be super useful for VGM logging.
+     Could be super useful for VGM hacking/logging.
 
 -----------------------------
  PATCH
@@ -437,8 +451,8 @@ Crash:
 -----------------------------
  GUI
 -----------------------------
- - Change resolution / video mode
-   - Code done, need to interface.
+ - Change resolution / video mode: need to interface in menus.
+ - Background filling is not correct is GUI resolution ratio is not 4:3
  - Switch fullscreen font to contains bold black+white
    (currently multiple draw pass are done, which is hell slow)
  - Mithril
@@ -668,6 +682,8 @@ Crash:
 -----------------------------
  - Detect empty overdump (00/FF). 
    It used to be ok with MekaCRC but not with CRC32.
+ - Detect empty half (eg: 256 kb game with another 256 kb full of FF).
+   This is often the case on some ROM chip. This would help ROM dumpers.
  - Display AUTHOR field from database (and others?).
  - Support for other compression format:
    - GZ
@@ -942,9 +958,11 @@ Crash:
 -----------------------------
  - SMS Checker:
    - Get out of the MEKA project. Has nothing to do with it!
-   - Currently broken!!
+   - Currently broken!
    - Rewrite with libc, new features, CRC, etc... merge with smspage code ?
    - Make mapper detection optional (/M)
    - Includes pages dump/infos (find duplicate page) (/P) -> smspage
+   - Note that this tool is not very pertinent anymore (due to Maxim's 
+     HeaderReader being available). Not a priority.
 
 -----------------------------------------------------------------------------

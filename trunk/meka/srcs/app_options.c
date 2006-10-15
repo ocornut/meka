@@ -5,7 +5,7 @@
 
 #include "shared.h"
 #include "desktop.h"
-#include "options.h"
+#include "app_options.h"
 #include "g_file.h"
 #include "g_widget.h"
 

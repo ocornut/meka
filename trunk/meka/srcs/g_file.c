@@ -352,7 +352,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         {
             // Create a new file browser entry of given type
             t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-            if (FB.Opt_UsesVLFN)
+            if (Configuration.fb_uses_DB)
                 FB_Entry_FindVLFN (entry);
 
             // Add to list (FIXME: argh)

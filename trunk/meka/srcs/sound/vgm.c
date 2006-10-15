@@ -142,7 +142,7 @@ void            VGM_NewFrame(t_vgm *VGM)
 
 INLINE void     VGM_Wait_Samples(t_vgm *VGM)
 {
-    int CurCycle = ((tsms.VDP_Line + 1) * Get_IPeriod) - Get_ICount;
+    int CurCycle = ((tsms.VDP_Line + 1) * CPU_GetIPeriod()) - CPU_GetICount();
     double Waitd = ((double)(CurCycle + VGM->Cycles_Counter)) * VGM->Samples_per_Cycle;
     int Wait = Waitd;
     // Msg(0, "[%i] %i + %i * %.12f = Waiting %i samples..", tsms.VDP_Line, CurCycle, VGM->Cycles_Counter, VGM->Samples_per_Cycle, Wait);

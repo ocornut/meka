@@ -9,11 +9,11 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_memview.h"
 #include "bmemory.h"
 #include "desktop.h"
 #include "g_widget.h"
 #include "mappers.h"
-#include "memview.h"
 #include "inputs_t.h"
 #include "vdp.h"
 
@@ -36,9 +36,9 @@ void    MemoryViewer_ViewPRAM(void);
 void    MemoryViewer_ViewSRAM(void);
 void    MemoryViewer_SwitchButton(int new_memtype);
 
-void    MemoryViewer_InputBoxAddr_EnterCallback(void);
-void    MemoryViewer_InputBoxValue_EditCallback(void);
-void    MemoryViewer_InputBoxValue_EnterCallback(void);
+void    MemoryViewer_InputBoxAddr_EnterCallback(t_widget *w);
+void    MemoryViewer_InputBoxValue_EditCallback(t_widget *w);
+void    MemoryViewer_InputBoxValue_EnterCallback(t_widget *w);
 void    MemoryViewer_ClickBottom(t_widget *w);
 void    MemoryViewer_ClickMemoryHex(t_widget *w);
 void    MemoryViewer_ClickMemoryAscii(t_widget *w);
@@ -95,7 +95,7 @@ void      MemoryViewer_Init (void)
     // Register to desktop (applet is disabled by default)
     Desktop_Register_Box ("MEMORY", box_id, NO, &mv->active);
 
-    // Close Button
+    // Add close Button
     widget_closebox_add (box_id, MemoryViewer_Switch);
 
     // Horizontal line to separate buttons from memory
@@ -526,7 +526,7 @@ void      MemoryViewer_LoadROM(void)
 
 // ACTION: INPUT BOXES --------------------------------------------------------
 
-void      MemoryViewer_InputBoxAddr_EnterCallback(void)
+void      MemoryViewer_InputBoxAddr_EnterCallback(t_widget *w)
 {
     t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
 
@@ -559,7 +559,7 @@ void      MemoryViewer_InputBoxAddr_EnterCallback(void)
     widget_inputbox_set_value(mv->address_edit_inputbox, "");
 }
 
-void      MemoryViewer_InputBoxValue_EditCallback(void)
+void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
 {
     t_memory_viewer *mv = &MemoryViewer; // for easier switch when we'll be able to instanciate
 
@@ -571,7 +571,7 @@ void      MemoryViewer_InputBoxValue_EditCallback(void)
     if (cursor == 2)
     {
         // Simulate validation, then re-enable edit box
-        MemoryViewer_InputBoxValue_EnterCallback(); 
+        MemoryViewer_InputBoxValue_EnterCallback(w); 
         mv->values_edit_active = TRUE;
 
         // Go to next
@@ -598,7 +598,7 @@ void      MemoryViewer_InputBoxValue_EditCallback(void)
     // FIXME: when cursor reach 2, write and move to next memory location
 }
 
-void      MemoryViewer_InputBoxValue_EnterCallback(void)
+void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
 {
     int     addr;
     int     value;

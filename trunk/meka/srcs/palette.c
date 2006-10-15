@@ -152,6 +152,7 @@ void    Palette_Sync (void)
             {
                 Msg (MSGT_DEBUG, "[PALETTE] sync() min = %d, max = %d, count = %d", sync_min, sync_max, sync_count);
             }
+            // if (cfg.Video_Depth < 16)
             set_palette_range (Palette_Current, sync_min, sync_max, FALSE);
         }
 }

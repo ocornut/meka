@@ -1,9 +1,4 @@
 //-----------------------------------------------------------------------------
-// MEKA (c) Omar Cornut (Bock/Zoop) 1998-2002
-// Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / Coleco Vision / Nintendo emulator
-// Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
-// Z80 CPU core by Marat Faizullin, 1994-1998
-//-----------------------------------------------------------------------------
 // MEKA - meka.h
 // Main variables, headers, prototypes and constants
 //-----------------------------------------------------------------------------
@@ -320,6 +315,7 @@ typedef struct
     bool    fullscreen_after_load;
     int     debugger_console_lines;
     int     debugger_disassembly_lines;
+    bool    debugger_disassembly_display_labels;
     bool    debugger_log_enabled;
 } t_meka_configuration;
 
@@ -374,10 +370,11 @@ int     Debug_Print_Infos;
 // Emulated Screen ------------------------------------------------------------
 BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
 BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
-BITMAP *double_buffer;                     // Double sized buffer (for Eagle..)
+BITMAP *double_buffer;                     // Double-sized buffer
+BITMAP *regular_buffer;                    // Buffer in native mode
 // FullScreen -----------------------------------------------------------------
 BITMAP *fs_out;                            // Fullscreen video buffer
-BITMAP *fs_page_0, *fs_page_1;             // Fullscreen video buffers when using page flipping
+BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
 // GUI ------------------------------------------------------------------------
 BITMAP *gui_buffer;                        // GUI memory buffer
 BITMAP *gui_page_0, *gui_page_1;           // GUI video buffers when using page flipping

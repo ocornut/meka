@@ -152,7 +152,7 @@ typedef struct
     int             MouseMickeys_X;                 // Mouse movement in mickeys for this frame
     int             MouseMickeys_Y;                 //
     // Keyboard
-    t_key_press     KeyPressed;                     // (Single!) current keypressed (this isn't very good, but...)
+    t_list *        KeyPressedQueue;                // Queued keypresses
     // GUI
     int             Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
 } t_inputs;

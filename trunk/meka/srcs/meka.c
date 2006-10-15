@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.70 WIP (c) Omar Cornut (Bock) 1998-2005
+// MEKA 0.71 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2005
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -9,6 +9,8 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_options.h"
+#include "app_tileview.h"
 #include "bios.h"
 #include "blit.h"
 #include "blitintf.h"
@@ -20,12 +22,11 @@
 #include "file.h"
 #include "fskipper.h"
 #include "g_file.h"
+#include "inputs_i.h"
 #include "mappers.h"
-#include "options.h"
 #include "patch.h"
 #include "setup.h"
 #include "vlfn.h"
-#include "tileview.h"
 #include "osd/timer.h"
 #include "libaddon/png/loadpng.h"
 #ifdef WIN32
@@ -103,7 +104,7 @@ void    Init_Default_Values (void)
     cfg.GUI_Driver = GFX_AUTODETECT_FULLSCREEN;
     cfg.GUI_Start_In = YES;
     cfg.GUI_Access_Mode = GUI_FB_ACCESS_BUFFERED;
-    cfg.GUI_VSync = YES;
+    cfg.GUI_VSync = NO;
     cfg.GUI_Refresh_Rate = 0; // Default
 
     // IPeriod
@@ -146,9 +147,10 @@ void    Init_Default_Values (void)
     Configuration.fb_close_after_load       = YES;
     Configuration.fb_uses_DB                = YES;
     Configuration.fullscreen_after_load     = NO;
-    Configuration.debugger_console_lines    = 21;
-    Configuration.debugger_disassembly_lines= 10;
-    Configuration.debugger_log_enabled      = TRUE;
+    Configuration.debugger_console_lines                = 21;
+    Configuration.debugger_disassembly_lines            = 14;
+    Configuration.debugger_disassembly_display_labels   = TRUE;
+    Configuration.debugger_log_enabled                  = TRUE;
 
     // Media
     // FIXME: yet not fully used
@@ -202,6 +204,7 @@ void    Close_Emulator (void)
     FDC765_Close         ();
     Palette_Close        ();
     Inputs_Sources_Close ();
+    Inputs_Joystick_Close();
     gui_close            ();
     Free_Memory          ();
     FB_Free_Memory       ();
@@ -339,6 +342,7 @@ void    Init_GUI (void)
     Configuration_Load      (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);
     Setup_Interactive_Init  (); // Show Interactive Setup if asked to
+    Configuration_Load_PostProcess  ();
     Frame_Skipper_Init      (); // Initialize Auto Frame Skipper
     Country_Init            (); // Initialize Country
     DB_Init                 (); // Initialize and load DataBase file
@@ -356,7 +360,6 @@ void    Init_GUI (void)
     Palette_Init            (); // Initialize Palette system
     NES_Init                (); // Initialize NES emulation
     Init_Tables             (); // Initialize Tables
-    Init_Joystick           (); // Initialize Joysticks
     Machine_Init            (); // Initialize Virtual Machine
     Clock_Init              (); // Initialize Clock
     Init_GUI                (); // Initialize Graphical User Interface
@@ -375,6 +378,7 @@ void    Init_GUI (void)
     ConsoleClose            (); // Close Console
 
     FB_Init_2               (); // Finish initializing the file browser
+    Inputs_Joystick_Init    (); // Initialize Joysticks. For some reason I cannot explain, putting it before cause a problem with Quit_Msg(), the joystick thread crash under Win32
 
     // Setup initial state (fullscreen/GUI)
     if ((machine & MACHINE_RUN) == MACHINE_RUN && !cfg.GUI_Start_In)

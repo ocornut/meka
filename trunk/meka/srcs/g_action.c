@@ -99,17 +99,6 @@ void    Action_Switch_Mode (void)
     Sound_Playback_Resume ();
 }
 
-// ACTION: ENABLE OR DISABLE PALETTE ------------------------------------------
-void    Action_Switch_Palette (void)
-{
-    if (apps.active.Palette ^= 1)
-        Msg (MSGT_USER, Msg_Get (MSG_Palette_Enabled));
-    else
-        Msg (MSGT_USER, Msg_Get (MSG_Palette_Disabled));
-    gui_box_show (gui.box[apps.id.Palette], apps.active.Palette, TRUE);
-    gui_menu_inverse_check (menus_ID.tools, 1);
-}
-
 // ACTION: ENABLE OR DISABLE TECH INFOS ---------------------------------------
 void    Action_Switch_Tech (void)
 {

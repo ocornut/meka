@@ -13,7 +13,6 @@ void    Action_Switch_Flickering_Auto   (void);
 void    Action_Switch_Flickering_Yes    (void);
 void    Action_Switch_Flickering_No     (void);
 
-void    Action_Switch_Palette           (void);
 void    Action_Switch_Message           (void);
 void    Action_Switch_Tech              (void);
 void    Action_Switch_Voice_Rec         (void);

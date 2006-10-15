@@ -4,9 +4,9 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_tileview.h"
 #include "desktop.h"
 #include "g_widget.h"
-#include "tileview.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration

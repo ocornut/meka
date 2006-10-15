@@ -8,6 +8,7 @@
 #include "blitintf.h"
 #include "file.h"
 #include "db.h"
+#include "debugger.h"
 #include "desktop.h"
 #include "patch.h"
 #include "saves.h"
@@ -32,8 +33,6 @@ int             Load_ROM_File           (void);
 int             Load_ROM_Zipped         (void);
 int             Load_ROM_Main           (void);
 void            Load_ROM_Misc           (int reset);
-
-void            Init_Filename_ROM       (void); // Initialize filenames for current ROM
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -163,7 +162,7 @@ void    Filenames_Init (void)
     strcpy (file.save, "");
 }
 
-void    Init_Filename_ROM (void)
+void    Filenames_Init_ROM (void)
 {
     // ROM (when parsed from command line)
     if (StrNull (file.rom))
@@ -179,13 +178,30 @@ void    Init_Filename_ROM (void)
     sprintf  (file.save, "%s/%s.sav", file.dir_saves, file.temp);
 }
 
-void    Load_ROM_Command_Line (void)
+bool    Load_ROM_Command_Line (void)
 {
-    if (file.rom[0] != EOSTR)
+    if (StrNull(file.rom))
+        return (FALSE);
+    return Load_ROM (LOAD_COMMANDLINE, YES);
+}
+
+//-----------------------------------------------------------------------------
+// Reload_ROM (void)
+// Reload current ROM.
+//-----------------------------------------------------------------------------
+bool    Reload_ROM (void)
+{
+    if (StrNull(file.rom))
     {
-        // Load ROM
-        Load_ROM (LOAD_COMMANDLINE, YES);
+        Msg (MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_No_ROM));
+        return (FALSE);
     }
+    if (Load_ROM (LOAD_INTERFACE, FALSE))
+    {
+        Msg (MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_Reloaded));
+        return (TRUE);
+    }
+    return (FALSE);
 }
 
 //-----------------------------------------------------------------------------
@@ -195,7 +211,7 @@ void    Load_ROM_Command_Line (void)
 //-----------------------------------------------------------------------------
 // Note: path to ROM filename must be set in 'file.rom' before calling this
 //-----------------------------------------------------------------------------
-void    Load_ROM (int mode, int user_verbose)
+bool    Load_ROM (int mode, int user_verbose)
 {
     int   reset;
 
@@ -225,10 +241,10 @@ void    Load_ROM (int mode, int user_verbose)
         case LOAD_COMMANDLINE:
             Quit_Msg("%s\n\"%s\"\n", meka_strerror(), file.rom);
             // Quit_Msg (meka_strerror());
-            return;
+            return (FALSE);
         case LOAD_INTERFACE:
             Msg (MSGT_USER, Msg_Get (MSG_Error_Base), meka_strerror());
-            return;
+            return (FALSE);
         }
     }
 
@@ -308,6 +324,8 @@ void    Load_ROM (int mode, int user_verbose)
     // functionnality, it is ok to avoid changing inputs.
     if (user_verbose)
         Input_ROM_Change ();
+
+    return (TRUE);
 }
 
 void    Load_Header_and_Footer_Remove (int *pstart, long *psize)
@@ -465,21 +483,47 @@ int             Load_ROM_File (void)
 static int      Load_ROM_Init_Memory (void)
 {
     u8 *        p;
+    int         alloc_size;
 
+    // FIXME: The computation below are so old that I should be checking them someday. I
+    // I'm sure that something wrong lies here.
+    tsms.Pages_Mask_8k = 1;
+    tsms.Pages_Count_8k = (tsms.Size_ROM / 0x2000);
+    if (tsms.Size_ROM % 0x2000) tsms.Pages_Count_8k += 1;
+    while (tsms.Pages_Mask_8k < tsms.Pages_Count_8k)
+        tsms.Pages_Mask_8k *= 2;
+    tsms.Pages_Mask_8k --;
+    tsms.Pages_Count_8k --;
+    tsms.Pages_Mask_16k = 1;
+    tsms.Pages_Count_16k = (tsms.Size_ROM / 0x4000);
+    if (tsms.Size_ROM % 0x4000) tsms.Pages_Count_16k += 1;
+    while (tsms.Pages_Mask_16k < tsms.Pages_Count_16k)
+        tsms.Pages_Mask_16k *= 2;
+    tsms.Pages_Mask_16k --;
+    tsms.Pages_Count_16k --;
+
+    // Calculate allocation size to upper bound of Pages_Count_16k
     // If ROM is smaller than 48 kb, malloc 48 kb to avoid problem reading
     // data under Z80 emulation (default Sega mapper).
-    if (!(p = malloc ((tsms.Size_ROM > 0xC000) ? tsms.Size_ROM : 0xC000)))
+    alloc_size = (tsms.Pages_Mask_16k + 1) * 0x4000;
+    if (alloc_size < 0xC000)
+        alloc_size = 0xC000;
+
+    // Allocate
+    if (!(p = malloc (alloc_size)))
         return (-1);
     if (Game_ROM)
         free (Game_ROM);
     Game_ROM = p;
 
-    // If ROM is less than 48 kb, fill it with 0xFF
-    // This is needed by Safari Hunting
-    // Actually this depends on the hardware mappers of each cartridge board
-    // But I don't think any game depends on that
-    if (tsms.Size_ROM < 0xC000)
-        memset (Game_ROM, 0xFF, 0xC000);
+    // Fill ROM with 0xFF
+    // - SG-1000 Safari Hunting : ROM is 16kb, access 48 kb memory map
+    //   (actually there's a correct way to emulate that, see Cgfm2's SC-3000 
+    //    documentation, in the meanwhile, filling with 0xFF allow the game to work)
+    // - ROM image that are not power of 2 trying to access inexistant pages.
+    //   eg: Shinobi (UE) [b2].sms
+    memset (Game_ROM, 0xFF, alloc_size);
+
     ROM = Game_ROM;
 
     return (0);
@@ -493,7 +537,7 @@ int             Load_ROM_Main ()
     int         zipped = NO;
 #endif
 
-    Init_Filename_ROM ();
+    Filenames_Init_ROM ();
 
     // Check extension ----------------------------------------------------------
     strcpy (file.temp, file.rom);
@@ -527,22 +571,6 @@ void    Load_ROM_Misc (int reset)
     // Check for overdump
     Check_OverDump ();
 
-    tsms.Pages_Mask_8k = 1;
-    tsms.Pages_Count_8k = (tsms.Size_ROM / 0x2000);
-    if (tsms.Size_ROM % 0x2000) tsms.Pages_Count_8k += 1;
-    while (tsms.Pages_Mask_8k < tsms.Pages_Count_8k)
-        tsms.Pages_Mask_8k *= 2;
-    tsms.Pages_Mask_8k --;
-    tsms.Pages_Count_8k --;
-
-    tsms.Pages_Mask_16k = 1;
-    tsms.Pages_Count_16k = (tsms.Size_ROM / 0x4000);
-    if (tsms.Size_ROM % 0x4000) tsms.Pages_Count_16k += 1;
-    while (tsms.Pages_Mask_16k < tsms.Pages_Count_16k)
-        tsms.Pages_Mask_16k *= 2;
-    tsms.Pages_Mask_16k --;
-    tsms.Pages_Count_16k --;
-
     // Perform checksum and DB lookup
     Checksum_Perform (ROM, tsms.Size_ROM);
 
@@ -554,6 +582,7 @@ void    Load_ROM_Misc (int reset)
         // Why the test? Because we want the game to disfunction "properly" with a .SG/.COL extension
         // Of course, in the future, MEKA may could force ALL driver based on DB entry.
         // But this will cause a problem for Pit Pot secret screen in SG-1000 mode (and Hang On, etc...)
+        // Then this will require advanced-user selectable machine.
         if (cur_machine.driver_id == DRV_GG)
             cur_machine.driver_id = DRV_SMS;
     }
@@ -565,15 +594,13 @@ void    Load_ROM_Misc (int reset)
     // Set driver
     drv_set (cur_machine.driver_id);
 
-    // Do not system if old AND new driver is SF7000
+    // Do not system if old AND new driver is SF7000 (for disk change, this is slighty hacky)
     if (reset || cur_machine.driver_id != DRV_SF7000)
     {
         Machine_Init ();
         machine |= MACHINE_ROM_LOADED;
         Machine_Insert_Cartridge ();
         Machine_ON ();
-        // Machine_ON() performs the reset
-        // Machine_Reset ();
     }
 
     if (cur_machine.driver_id == DRV_SF7000)
@@ -587,6 +614,7 @@ void    Load_ROM_Misc (int reset)
     // Update game boxes
     gamebox_rename_all ();
 
+    // Miscellaenous things to apply when machine type change
     Change_System_Misc ();
 
     // BIOS load/unload

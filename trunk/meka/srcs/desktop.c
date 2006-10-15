@@ -22,7 +22,7 @@ typedef struct
 } t_desktop_item;
 
 //-----------------------------------------------------------------------------
-// FORWARD DECLARATIONS
+// FORWARD DECLARATION
 //-----------------------------------------------------------------------------
 
 static void     Desktop_GetStateFromBoxes (void);
@@ -141,19 +141,19 @@ static int      Desktop_Load_Line (char *line)
     char            name[64+1];
     char            buf[1024+1];
 
-    if (!(w = parse_getword(name, 64, &line, ",", ';')))
+    if (!(w = parse_getword(name, 64, &line, ",", ';', 0)))
         return (0);
 
     {
         int pos_x, pos_y;
         int active;
-        if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+        if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
             return (0);
         pos_x = atoi(w);
-        if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+        if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
             return (0);
         pos_y = atoi(w);
-        if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+        if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
             return (0);
         active = atoi(w);
 

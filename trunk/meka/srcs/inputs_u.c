@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "keyboard.h"
+
 // #define DEBUG_JOY
 
 //-----------------------------------------------------------------------------
@@ -305,17 +306,12 @@ void        Inputs_Sources_Update (void)
     Inputs.MouseMickeys_X = mouse_mx;
     Inputs.MouseMickeys_Y = mouse_my;
 
-    // Key pressed
-    // FIXME: note that only a SINGLE keypressed is stored per frame
-    // This is completely evil, dirty, bad.
+    // Add pressed keys to keypress queue
     if (keypressed ())
     {
-        Inputs.KeyPressed.ascii = ureadkey (&Inputs.KeyPressed.scancode);
-    }
-    else
-    {
-        Inputs.KeyPressed.scancode = 0;
-        Inputs.KeyPressed.ascii = 0;
+        t_key_press *key_press = malloc(sizeof(*key_press));
+        key_press->ascii = ureadkey (&key_press->scancode);
+        list_add_to_end(&Inputs.KeyPressedQueue, key_press);
     }
 
     for (i = 0; i < Inputs.Sources_Max; i++)

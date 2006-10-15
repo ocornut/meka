@@ -93,7 +93,7 @@ void        Load_Game_Misc (void)
     if (Meka_State == MEKA_STATE_FULLSCREEN && LightGun.Enabled)
         LightGun_Mouse_Range (Mask_Left_8);
 
-    // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", Get_ICount, tsms.VDP_Line);
+    // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
 }
 
 //-----------------------------------------------------------------------------

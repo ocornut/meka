@@ -4,13 +4,22 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+typedef enum
+{
+    PARSE_FLAGS_DONT_EAT_SEPARATORS     = 0x0001,
+} t_parse_flags;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 void        trim_trailing_spaces    (char *s);
 void        skip_spaces             (char **src);
 
-char *      parse_getword           (char *dst, int dst_len, char **src, char *separators, char comment_char);
+char *      parse_getword           (char *dst, int dst_len, char **src, char *separators, char comment_char, t_parse_flags flags);
 
 //-----------------------------------------------------------------------------
 // OLD/OBSOLETE

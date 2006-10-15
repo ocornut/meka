@@ -1,7 +1,7 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
 // Used by Meka.rc
-
+//
 #define IDD_SETUP                       9
 #define IDD_CONSOLE                     101
 #define IDC_CONSOLE_TEXT                1001
@@ -16,6 +16,8 @@
 #define IDC_CONSOLE_INFO                1007
 #define IDC_SETUP_SOUNDRATE             1008
 #define IDC_SETUP_SOUND_TEXT_3          1009
+#define IDC_CHECK1                      1010
+#define IDC_SETUP_DEBUGGER_ENABLE       1010
 #define IDC_SETUP_LANGUAGE              1011
 
 // Next default values for new objects
@@ -24,7 +26,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        103
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

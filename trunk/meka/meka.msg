@@ -9,6 +9,14 @@
 ;-----------------------------------------------------------------------------
 ; History
 ;-----------------------------------------------------------------------------
+; MEKA 0.71  : Added:            Msg_Setup_Debugger_Enable
+;                                Msg_Menu_Debug_Reload_ROM
+;                                Msg_LoadROM_Reload_Reloaded
+;                                Msg_LoadROM_Reload_No_ROM
+;                                Msg_Debug_Symbols_Loaded
+;                                Msg_Debug_Symbols_Error
+;                                Msg_Debug_Symbols_Error_Line
+;              Removed:          Msg_Menu_Debug_Watch
 ; MEKA 0.70  : Renamed:          Msg_Options_Allows_Opposite_Directions -> Msg_Options_Allow_Opposite_Directions
 ; MEKA 0.69b : Added:            Msg_Options_Allows_Opposite_Directions
 ;                                Msg_Inputs_SK1100_Enabled
@@ -202,7 +210,7 @@ Msg_Failed                              = "Failed!"
 Msg_Error_Base                          = "Error: %s"
 Msg_Error_Error                         = "Fatal: error getting error type. Something must be wrong."
 Msg_Error_Memory                        = "Not enough memory!"
-Msg_Error_Param                         = "Parameter "%s" is invalid!\n"
+Msg_Error_Param                         = "Parameter \"%s\" is invalid!\n"
 Msg_Error_Syntax                        = "Syntax error!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -238,6 +246,7 @@ Msg_Setup_Soundcard_Select              = "Please select your audio device:"
 Msg_Setup_Soundcard_Select_Tips_DOS     = "(if you have an AWE 32, choose Sound Blaster for a more faithful emulation)\n(if you have a recent SB card, choose Sound Blaster or Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound is highly recommended, if available)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
+Msg_Setup_Debugger_Enable               = "Enable Z80 debugger and associated features"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Screen captured to %s"
@@ -265,7 +274,7 @@ Msg_Blitters_Not_Enough                 = "Not enough blitters found! Check MEKA
 Msg_Blitters_Not_Found                  = "Blitter not found!"
 Msg_Blitters_Missing                    = "On line %d: No blitter name defined for storing value!"
 Msg_Blitters_Unrecognized               = "On line %d: Unrecognized variable!"
-Msg_Blitters_Set                        = "Now using "%s" fullscreen blitter."
+Msg_Blitters_Set                        = "Now using \"%s\" fullscreen blitter."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Fat plumber mode activated"
@@ -275,13 +284,16 @@ Msg_NES_Deny_Facts                      = "You can't deny facts."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initializing debugger... "
-Msg_Debug_Welcome                       = "Welcome to Meka Debugger (%s)!"
+Msg_Debug_Welcome                       = "Welcome to Meka Debugger!"
 Msg_Debug_Not_Available                 = "Debugger not available in this version!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK parameter requires an address!"
 Msg_Debug_Trap_Read                     = "At PC:%04X - Read from %04X"
 Msg_Debug_Trap_Write                    = "At PC:%04X - Write %02X to %04X"
 Msg_Debug_Trap_Port_Read                = "At PC:%04X - Port [%02X] Read"
 Msg_Debug_Trap_Port_Write               = "At PC:%04X - Port [%02X] Write %02X"
+Msg_Debug_Symbols_Loaded                = "Loaded %d symbols from \"%s\"."
+Msg_Debug_Symbols_Error                 = "Error loading symbols from \"%s\":"
+Msg_Debug_Symbols_Error_Line            = "On line %d: unrecognized syntax."
 
 ; Data Dumper ----------------------------------------------------------------
 Msg_DataDump_Mode_Ascii                 = "Data dumps will now be made in ASCII mode."
@@ -406,11 +418,11 @@ Msg_Inputs_Src_Loading                  = "Loading MEKA.INP (inputs sources defi
 Msg_Inputs_Src_Not_Enough               = "Not enough inputs sources found! Check MEKA.INP file or try re-installing."
 Msg_Inputs_Src_Missing                  = "On line %d: No input source defined for storing value!"
 Msg_Inputs_Src_Equal                    = "On line %d: Missing equal sign for variable assignment!"
-Msg_Inputs_Src_Unrecognized             = "On line %d: Unrecognized variable "%s"!"
+Msg_Inputs_Src_Unrecognized             = "On line %d: Unrecognized variable \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "On line %d: Syntax error on variable parameter!"
 Msg_Inputs_Src_Inconsistency            = "On line %d: inconsistency with previous settings!"
 Msg_Inputs_Src_Map_Keyboard             = "Now press the key you want to assign to this action"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Action assigned to key "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Action assigned to key \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Now press the button/axis you want to assign to this action"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Action assigned to joypad stick %i, axis %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Action assigned to joypad button %i."
@@ -443,7 +455,7 @@ Msg_Datafile_Loading                    = "Loading MEKA.DAT (resources)... "
 Msg_Driver_Unknown                      = "Fatal: Unknown Machine Driver!"
 
 ; Overdump detection ---------------------------------------------------------
-Msg_OverDump                            = "This ROM contains %d times the necessary data.\nPlease download SMS Checker to clean it (http://www.smspower.org/maxim/smscheck)."
+Msg_OverDump                            = "This ROM contains %d times the necessary data.\nPlease download SMS Checker to clean it (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initializing sound system..."
@@ -476,9 +488,9 @@ Msg_LoadROM_Loading                     = "Loading ROM... "
 Msg_LoadROM_Success                     = "Successfully loaded %s"
 Msg_LoadDisk_Success                    = "Successfully loaded %s as a floppy disk"
 Msg_LoadROM_Comment                     = "Comment: %s"
-Msg_LoadROM_SMSGG_Mode_Comment          = "This is a Game Gear ROM running in Master System compatibility mode.".
+Msg_LoadROM_SMSGG_Mode_Comment          = "This is a Game Gear ROM running in Master System compatibility mode."
 Msg_LoadROM_Warning                     = "-Warning-"
-Msg_LoadROM_Bad_Dump_Long               = "This ROM is known as being a bad dump.\nChances are that it will not function properly. Please download SMS Checker to check it (http://www.smspower.org/maxim/smscheck)."
+Msg_LoadROM_Bad_Dump_Long               = "This ROM is known as being a bad dump.\nChances are that it will not function properly. Please download SMS Checker to check it (http://www.smspower.org/maxim/smschecker/)."
 Msg_LoadROM_Bad_Dump_Short              = "Warning - This ROM is known as being a bad dump."
 Msg_LoadROM_Product_Num                 = "Product Number: %s"
 Msg_LoadROM_SDSC                        = "-SDSC Header-"
@@ -489,6 +501,8 @@ Msg_LoadROM_SDSC_Author                 = "Author: %s"
 Msg_LoadROM_SDSC_Release_Note           = "Release Note: %s"
 Msg_LoadROM_SDSC_Unknown                = "<Unknown>"
 Msg_LoadROM_SDSC_Error                  = "<Error>"
+Msg_LoadROM_Reload_Reloaded             = "Loaded ROM."
+Msg_LoadROM_Reload_No_ROM               = "No ROM to reload!"
 
 ; File Browser ---------------------------------------------------------------
 Msg_FileBrowser_BoxTitle                = "Load ROM"
@@ -571,8 +585,8 @@ Msg_Menu_Main_Quit                      = "Quit"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Enabled                  = "Enabled"
+Msg_Menu_Debug_Reload_ROM               = "Reload ROM"
 Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Watch                    = "Watch"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MACHINE"
@@ -670,9 +684,10 @@ Msg_Menu_Help_About                     = "About"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Français]
+; Maintainer: Omar Cornut (cornut _@_ noos . fr)
 ; Original text by Overture 1928 (alissalde _@_ aol . fr)
-; Maintener: Omar Cornut (cornut _@_ noos . fr)
 ; Merci à Eric pour ses lumières techniques!
+WIP
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -695,7 +710,7 @@ Msg_Failed                              = "Echec!"
 Msg_Error_Base                          = "Erreur: %s"
 Msg_Error_Error                         = "Fatal: l'erreur a fait une erreur. Quelque chose ne va pas."
 Msg_Error_Memory                        = "Mémoire insuffisante!"
-Msg_Error_Param                         = "Le paramètre "%s" est invalide!\n"
+Msg_Error_Param                         = "Le paramètre \"%s\" est invalide!\n"
 Msg_Error_Syntax                        = "Erreur de syntaxe!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -731,6 +746,7 @@ Msg_Setup_Soundcard_Select              = "Choisissez votre carte son:"
 Msg_Setup_Soundcard_Select_Tips_DOS     = "(Si vous avez une AWE 32, choisissez Sound Blaster pour une ‚mulation fidŠle)\n(si vous avez une carte Sound Blaster r‚cente, choisissez Sound Blaster ou Ensoniq Soundscape"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound est trŠs recommand‚, si disponible)"
 Msg_Setup_SampleRate_Select             = "Fréquence d'échantillonage:"
+Msg_Setup_Debugger_Enable               = "Active le debuggeur Z80 et autres fonctionnalites associees"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Ecran capturé dans %s"
@@ -758,7 +774,7 @@ Msg_Blitters_Not_Enough                 = "Il manque des paramˆtres! V‚rifiez le
 Msg_Blitters_Not_Found                  = "Paramˆtres introuvables!"
 Msg_Blitters_Missing                    = "Ligne %d: Aucun nom de paramˆtre d‚fini pour la valeur en mˆmoire!"
 Msg_Blitters_Unrecognized               = "Ligne %d: Variable inconnue!"
-Msg_Blitters_Set                        = "Paramêtre plein écran actuel "%s"."
+Msg_Blitters_Set                        = "Paramêtre plein écran actuel \"%s\"."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Mode gros plombier activé"
@@ -768,7 +784,7 @@ Msg_NES_Deny_Facts                      = "Un fait est un fait."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialisation du débuggueur... "
-Msg_Debug_Welcome                       = "Bienvenue dans le débuggueur de Meka (%s)!"
+Msg_Debug_Welcome                       = "Bienvenue dans le débuggueur de Meka!"
 Msg_Debug_Not_Available                 = "Le débuggueur n'est pas disponible dans cette version!"
 Msg_Debug_Brk_Need_Param                = "Le paramêtre DEBUGBRK nécessite une adresse!"
 Msg_Debug_Trap_Read                     = "A PC:%04X - Lecture depuis %04X"
@@ -899,11 +915,11 @@ Msg_Inputs_Src_Loading                  = "Chargement de MEKA.INP (d‚finition de
 Msg_Inputs_Src_Not_Enough               = "Il manque des sources de contr“le! V‚rifiez le fichier MEKA.INP ou essayez de r‚-installer."
 Msg_Inputs_Src_Missing                  = "Ligne %d: Aucune source de contr“le d‚finie pour la valeur en m‚moire!"
 Msg_Inputs_Src_Equal                    = "Ligne %d: Signe ‚gal manquant pour l'attribution de la variable!"
-Msg_Inputs_Src_Unrecognized             = "Ligne %d: Variable "%s" non reconnue!"
+Msg_Inputs_Src_Unrecognized             = "Ligne %d: Variable \"%s\" non reconnue!"
 Msg_Inputs_Src_Syntax_Param             = "Ligne %d: Erreur de syntaxe sur paramˆtre variable!"
 Msg_Inputs_Src_Inconsistency            = "Ligne %d: Ne correspond pas aux r‚glages pr‚c‚dents!"
 Msg_Inputs_Src_Map_Keyboard             = "Appuyez sur la touche souhaitée pour y attribuer cette action"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Action attribuée à la touche "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Action attribuée à la touche \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Appuyez sur le bouton ou la direction souhaité pour y attribuer cette action"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Action attribuée au stick %i, axe %i, %c du joypad."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Action attribuée au bouton %i du joypad."
@@ -936,7 +952,7 @@ Msg_Datafile_Loading                    = "Chargement de MEKA.DAT (ressources)..
 Msg_Driver_Unknown                      = "Fatal: Pilote Machine Inconnu!"
 
 ; Overdump detection ---------------------------------------------------------
-Msg_OverDump                            = "Cette ROM contient %d fois les données nécessaires.\nTéléchargez SMS Checker pour la vérifier (http://www.smspower.org/maxim/smschecker)."
+Msg_OverDump                            = "Cette ROM contient %d fois les données nécessaires.\nTéléchargez SMS Checker pour la vérifier (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialisation du son..."
@@ -969,9 +985,9 @@ Msg_LoadROM_Loading                     = "Chargement de la ROM.. "
 Msg_LoadROM_Success                     = "Chargement de %s réussi"
 Msg_LoadDisk_Success                    = "Chargement de %s réussi depuis la disquette"
 Msg_LoadROM_Comment                     = "Commentaire: %s"
-Msg_LoadROM_SMSGG_Mode_Comment          = "Ceci est une ROM Game Gear fonctionnant en mode de compatibilité Master System.".
+Msg_LoadROM_SMSGG_Mode_Comment          = "Ceci est une ROM Game Gear fonctionnant en mode de compatibilité Master System."
 Msg_LoadROM_Warning                     = "-Avertissement-"
-Msg_LoadROM_Bad_Dump_Long               = "Cette ROM est connue comme étant un mauvais dump.\nIl se peut qu'elle ne fonctionne pas correctement. Téléchargez SMS Checker pour la vérifier (http://www.smspower.org/maxim/smschecker)."
+Msg_LoadROM_Bad_Dump_Long               = "Cette ROM est connue comme étant un mauvais dump.\nIl se peut qu'elle ne fonctionne pas correctement. Téléchargez SMS Checker pour la vérifier (http://www.smspower.org/maxim/smschecker/)."
 Msg_LoadROM_Bad_Dump_Short              = "Avertissement - Cette ROM est connue comme étant un mauvais dump."
 Msg_LoadROM_Product_Num                 = "Numéro de produit: %s"
 Msg_LoadROM_SDSC                        = "-En-tête SDSC-"
@@ -1065,7 +1081,6 @@ Msg_Menu_Main_Quit                      = "Quitter"
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Enabled                  = "Activé"
 Msg_Menu_Debug_Dump                     = "Acquisition"
-Msg_Menu_Debug_Watch                    = "Voir"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MACHINE"
@@ -1147,7 +1162,7 @@ Msg_Menu_Tools_Messages                 = "Messages"
 Msg_Menu_Tools_Palette                  = "Palette"
 Msg_Menu_Tools_TilesViewer              = "Visionneur de tiles"
 Msg_Menu_Tools_TechInfo                 = "Informations techniques"
-Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire".
+Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AIDE"
@@ -1187,7 +1202,7 @@ Msg_Failed                              = "Failed! Fry mah hide!"
 Msg_Error_Base                          = "Erro': %s"
 Msg_Error_Error                         = "Fatal: erro' gittin' erro' type. Sumpin muss be wrong, acco'din' t' th' code o' th' heells!"
 Msg_Error_Memory                        = "Not inough memo'y! Fry mah hide!"
-Msg_Error_Param                         = "Pareemeter "%s" is invalid! Fry mah hide!\n"
+Msg_Error_Param                         = "Pareemeter \"%s\" is invalid! Fry mah hide!\n"
 Msg_Error_Syntax                        = "Syntax erro'! Fry mah hide!"
 Msg_Error_Video_Mode_Back_To_GUI        = "Switchin' back t'graphical user interface."
 
@@ -1249,7 +1264,7 @@ Msg_Blitters_Not_Enough                 = "Not inough blitters foun'! Fry mah hi
 Msg_Blitters_Not_Found                  = "Blitter not foun'! Fry mah hide!"
 Msg_Blitters_Missing                    = "On line %d: No blitter name defined fo' sto'in' value!"
 Msg_Blitters_Unrecognized               = "On line %d: Unreckanized variable!"
-Msg_Blitters_Set                        = "Now usin' "%s" fullscreen blitter."
+Msg_Blitters_Set                        = "Now usin' \"%s\" fullscreen blitter."
 
 ; Naimo ----------------------------------------------------------------------
 Msg_NES_Activate                        = "Fat plumber mode ackivated"
@@ -1259,7 +1274,7 @@ Msg_NES_Deny_Facts                      = "Yo' kin deny facks."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initializin' debugger.. "
-Msg_Debug_Welcome                       = "Welcome t'Meka Debugger (%s)! Fry mah hide!"
+Msg_Debug_Welcome                       = "Welcome t'Meka Debugger! Fry mah hide!"
 Msg_Debug_Not_Available                 = "Debugger not available in this hyar vahshun! Fry mah hide!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK opshun needs an address!"
 Msg_Debug_Trap_Read                     = "At PC:%04X - Read fum %04X"
@@ -1353,7 +1368,7 @@ Msg_Glasses_Show_Left                   = "3-D effeck disabled by showin' only l
 Msg_Glasses_Show_Right                  = "3-D effeck disabled by showin' only right side."
 Msg_Glasses_Com_Port                    = "3-D Glasses emulashun inabled through COM Po't %d, cuss it all t' tarnation."
 Msg_Glasses_Com_Port2                   = "(edit MEKA.CFG t'change th' Communicashun Po't)"
-Msg_Glasses_Com_Port_Open_Error		    = "Error "openin' COM po't %d, cuss it all t' tarnation. 3-D Glasses suppo't will not funckshun."
+Msg_Glasses_Com_Port_Open_Error		    = "Error openin' COM po't %d, cuss it all t' tarnation. 3-D Glasses suppo't will not funckshun."
 Msg_Glasses_Unsupported                 = "3-D Glasses seems t'be not suppo'ted by this hyar game."
 
 ; Inputs Initializashun ------------------------------------------------------
@@ -1381,11 +1396,11 @@ Msg_Inputs_Src_Loading                  = "Loadin' MEKA.INP (inputs sources defi
 Msg_Inputs_Src_Not_Enough               = "Not inough inputs sources foun'! Fry mah hide! Check MEKA.INP file o' try re-installin'."
 Msg_Inputs_Src_Missing                  = "On line %d: No input source defined fo' sto'in' value!"
 Msg_Inputs_Src_Equal                    = "On line %d: Missin' equal sign fo' variable assignment! Fry mah hide!"
-Msg_Inputs_Src_Unrecognized             = "On line %d: Unreckanized variable "%s"! Fry mah hide!"
+Msg_Inputs_Src_Unrecognized             = "On line %d: Unreckanized variable \"%s\"! Fry mah hide!"
 Msg_Inputs_Src_Syntax_Param             = "On line %d: Syntax erro' on variable pareemeter! Fry mah hide!"
 Msg_Inputs_Src_Inconsistency            = "On line %d: Incoharncy wif previous settin's!"
 Msg_Inputs_Src_Map_Keyboard             = "Now press th' key yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Ackshun assigned t'key "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Ackshun assigned t'key \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Now press th' button/axis yer hankerin' t'assign t'this ackshun"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Ackshun assigned t'joypad stick %i, axis %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Ackshun assigned t'joypad button %i."
@@ -1418,7 +1433,7 @@ Msg_Datafile_Loading                    = "Loadin' MEKA.DAT (resources).. "
 Msg_Driver_Unknown                      = "Fatal: Unknown Machine Drivah! Fry mah hide!"
 
 ; On overdump deteckshun -----------------------------------------------------
-Msg_OverDump                            = "This hyar ROM corntains %d times th' necessary data.\nPlease download SMS Checker t'clean it (http://www.smspower.org/maxim/smschecker)."
+Msg_OverDump                            = "This hyar ROM corntains %d times th' necessary data.\nPlease download SMS Checker t'clean it (http://www.smspower.org/maxim/smschecker/)."
 
 ; Soun' ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initializin' soun' system, dawgone it.."
@@ -1545,7 +1560,6 @@ Msg_Menu_Main_Quit                      = "Quit"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Watch                    = "Watch"
 Msg_Menu_Debug_Enabled                  = "Enabled"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -1643,464 +1657,6 @@ Msg_Menu_Help_Changes                   = "Changes List"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
-[RedneckOld]
-WIP
-; Translation by the Dialectizer (http://www.rinkworks.com/dialect)
-; Maintainer: Maxim (maxim _@_ smspower . org)
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-
-; Main -----------------------------------------------------------------------
-Msg_Welcome                             = "Welcome t'%s (c) %s"
-Msg_Window_Title                        = "%s - 8-bit o' die!"
-Msg_Quit                                = "Good night, brave warrio'. Good night, monster-lan'...."
-
-; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "About Meka.."
-Msg_About_Line_Meka_Date                = "%s (c) %s"
-Msg_About_Line_Authors                  = "by %s"
-Msg_About_Line_Homepage                 = "%s"
-
-; Errors ---------------------------------------------------------------------
-Msg_Failed                              = "Failed! Fry mah hide!"
-Msg_Error_Base                          = "Erro': %s"
-Msg_Error_Error                         = "Fatal: erro' gittin' erro' type. Sumpin muss be wrong, acco'din' t' th' code o' th' heells!"
-Msg_Error_Memory                        = "Not inough memo'y! Fry mah hide!"
-Msg_Error_Param                         = "Pareemeter "%s" is invalid! Fry mah hide!\n"
-Msg_Error_Syntax                        = "Syntax erro'! Fry mah hide!"
-
-; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Unable t'switch t'desuhed video mode (%dx%d):\n%s"
-
-; Errors: File ---------------------------------------------------------------
-Msg_Error_File_Not_Found                = "File not foun'! Fry mah hide!"
-Msg_Error_File_Read                     = "Unable t'read fum file!"
-Msg_Error_File_Empty                    = "File is emppy! Fry mah hide!"
-
-; Errors: ZIP File -----------------------------------------------------------
-Msg_Error_ZIP_Not_Supported             = "This hyar vahshun don't han'le ZIP files!"
-Msg_Error_ZIP_Loading                   = "Unable t'read ZIP file!"
-Msg_Error_ZIP_Internal                  = "Internal erro' while loadin' ZIP file!"
-
-; Errors: Directory ----------------------------------------------------------
-Msg_Error_Directory_Open                = "Erro' openin' direcko'y! Fry mah hide!"
-
-; Miscellaneous --------------------------------------------------------------
-Msg_Must_Reset                          = "Reset th' game fo' th' changes t'take effeck"
-Msg_No_ROM                              = "No ROM was loaded! Fry mah hide!"
-
-; Initialization -------------------------------------------------------------
-Msg_Init_Allegro                        = "Initializin' Allegro.."
-Msg_Init_GUI                            = "Initializin' graphical user interface.."
-Msg_Init_Completed                      = "[READY]"
-
-; Setup ----------------------------------------------------------------------
-Msg_Setup_Soundcard_Select              = "Please seleck yer audio device:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(if yo' haf an AWE 32, choose Soun' Blaster fo' a mo'e faifful emulashun)\n(if yo' haf a recent SB card, choose Soun' Blaster o' Ensoniq Soun'scape)"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direck X is highly recommended, eff'n available)"
-
-; Screenshots Capture --------------------------------------------------------
-Msg_Capture_Done                        = "Screen cappured t'%s"
-Msg_Capture_Error                       = "Unable t'create screen cappure!"
-Msg_Capture_Error_File                  = "Unable t'find valid filename t'save screen cappure!"
-
-; On-Board Memomy ------------------------------------------------------------
-Msg_SRAM_Loaded                         = "Loaded SaveRAM fum disk (%d Kb)"
-Msg_SRAM_Load_Unable                    = "Unable t'load SaveRAM fum disk"
-Msg_SRAM_Wrote                          = "Wrote SaveRAM t'disk (%d Kb)"
-Msg_SRAM_Write_Unable                   = "Unable t'write SaveRAM t'disk (%d Kb)"
-Msg_93c46_Reset                         = "Resettin' 93c46"
-Msg_93c46_Loaded                        = "Loaded 93c46 EEPROM data fum disk (%d bytes)"
-Msg_93c46_Load_Unable                   = "Unable t'load 93c46 EEPROM data fum disk"
-Msg_93c46_Wrote                         = "Wrote 93c46 EEPROM data t'disk (%d bytes)"
-Msg_93c46_Write_Unable                  = "Unable t'write 93c46 EEPROM data t'disk (%d bytes)"
-
-; TV Type --------------------------------------------------------------------
-Msg_TVType_Set                          = "TV Type is now %s"
-Msg_TVType_Info_Speed                   = "(Origeenal speed is %d Hz)"
-
-; Blitters -------------------------------------------------------------------
-Msg_Blitters_Loading                    = "Loadin' MEKA.BLT (video modes / blitters)... "
-Msg_Blitters_Not_Enough                 = "Not inough blitters foun'! Fry mah hide! Check MEKA.BLT file o' try re-installin'."
-Msg_Blitters_Not_Found                  = "Blitter not foun'! Fry mah hide!"
-Msg_Blitters_Missing                    = "On line %d: No blitter name defined fo' sto'in' value!"
-Msg_Blitters_Unrecognized               = "On line %d: Unreckanized variable!"
-Msg_Blitters_Set                        = "Now usin' "%s" fullscreen blitter."
-
-; Naimo ----------------------------------------------------------------------
-Msg_NES_Activate                        = "Fat plumber mode ackivated"
-Msg_NES_Sucks                           = "Fatal erro': user likes Nintendo! Fry mah hide!"
-Msg_NES_Mapper_Unknown                  = "Unsuppo'ted Mapper: %d, cuss it all t' tarnation. Game sh'd not funckshun."
-Msg_NES_Deny_Facts                      = "Yo' kin deny facks."
-
-; Debugger -------------------------------------------------------------------
-Msg_Debug_Init                          = "Initializin' debugger.. "
-Msg_Debug_Welcome                       = "Welcome t'Meka Debugger (%s)! Fry mah hide!"
-Msg_Debug_Not_Available                 = "Debugger not available in this hyar vahshun! Fry mah hide!"
-Msg_Debug_Brk_Need_Param                = "DEBUGBRK opshun needs an address!"
-Msg_Debug_Trap_Read                     = "At PC:%04X - Read fum %04X"
-Msg_Debug_Trap_Write                    = "At PC:%04X - Write %02X t'%04X"
-Msg_Debug_Trap_Port_Read                = "At PC:%04X - Po't [%02X] Read"
-Msg_Debug_Trap_Port_Write               = "At PC:%04X - Po't [%02X] Write %02X"
-
-; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Follerin' data dumps will be made in ASCIah mode."
-Msg_DataDump_Mode_Raw                   = "Follerin' data dumps will be made in Raw mode."
-Msg_DataDump_Error                      = "Erro' creatin' file t'dump %s!"
-Msg_DataDump_Error_OB_Memory            = "No on-board memo'y t'dump! Fry mah hide!"
-Msg_DataDump_Error_Palette              = "No palette t'dump! Fry mah hide!"
-Msg_DataDump_Error_Sprites              = "No sprites t'dump! Fry mah hide!"
-Msg_DataDump_Main                       = "Dumped %s (%d %s) in %s mode"
-
-; Docoomntashun --------------------------------------------------------------
-Msg_Doc_BoxTitle                        = "Docoomntashun"
-Msg_Doc_File_Error                      = "Unable t'open docoomntashun! Fry mah hide!"
-Msg_Doc_Enabled                         = "Docoomntashun showin' up."
-Msg_Doc_Disabled                        = "Docoomntashun is no mo'e."
-
-; Sprite Flickerin' ----------------------------------------------------------
-Msg_Flickering_Auto                     = "Sprite flickerin' will be han'led autymatically."
-Msg_Flickering_Yes                      = "Sprite flickerin' emulashun is now inabled, cuss it all t' tarnation."
-Msg_Flickering_No                       = "Sprite flickerin' emulashun is now disabled, cuss it all t' tarnation."
-
-; Layers ---------------------------------------------------------------------
-Msg_Layer_BG_Disabled                   = "Backgroun' refresh disabled"
-Msg_Layer_BG_Enabled                    = "Backgroun' refresh inabled"
-Msg_Layer_Spr_Disabled                  = "Sprites refresh disabled"
-Msg_Layer_Spr_Enabled                   = "Sprites refresh inabled"
-
-; Floppy Disk (FDC-765) ------------------------------------------------------
-Msg_FDC765_Unknown_Read                 = "FDC765: Unknown disk read comman' %3i"
-Msg_FDC765_Unknown_Write                = "FDC765: Unknown disk write comman' %3i"
-Msg_FDC765_Disk_Too_Large1              = "Disk Image is larger than specked (%i > %i)"
-Msg_FDC765_Disk_Too_Large2              = "Addishunal data will be igno'ed"
-Msg_FDC765_Disk_Too_Small1              = "Disk Image is smaller than specked (%i < %i)"
-Msg_FDC765_Disk_Too_Small2              = "Missin' data will be assoomd as emppy"
-
-; Terebi Oekaki (Graphic Board) ----------------------------------------------
-Msg_TVOekaki_Pen_Touch                  = "Pen is touchin' graphic board"
-Msg_TVOekaki_Pen_Away                   = "Pen is not touchin' graphic board"
-
-; Palette Viewer -------------------------------------------------------------
-Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Palette viewer disabled"
-Msg_Palette_Enabled                     = "Palette viewer inabled"
-
-; Message box ----------------------------------------------------------------
-Msg_Message_BoxTitle                    = "Messages"
-Msg_Message_Disabled                    = "Message box disabled"
-Msg_Message_Enabled                     = "Message box inabled"
-
-; Technical Info'mashun box --------------------------------------------------
-Msg_TechInfo_BoxTitle                   = "Technical Info'mashun"
-Msg_TechInfo_Disabled                   = "Technical info'mashun box disabled"
-Msg_TechInfo_Enabled                    = "Technical info'mashun box inabled"
-
-; Tile Viewer ----------------------------------------------------------------
-Msg_TilesViewer_BoxTitle                = "Tiles Viewer"
-Msg_TilesViewer_Disabled                = "Tiles viewer disabled"
-Msg_TilesViewer_Enabled                 = "Tiles viewer inabled"
-Msg_TilesViewer_Tile                    = "Tile %d (0x%X) @ %s"
-
-; Rapid Fire -----------------------------------------------------------------
-Msg_RapidFire_JxBx_On                   = "Rapid Fire is now ackivated fo' Player %d Button %d"
-Msg_RapidFire_JxBx_Off                  = "Rapid Fire is now disabled fo' Player %d Button %d"
-
-; FM Unit (YM-2413 gritset) --------------------------------------------------
-Msg_FM_Enabled                          = "FM Unit (YM-2413 gritset) emulashun inabled"
-Msg_FM_Disabled                         = "FM Unit (YM-2413 gritset) emulashun disabled"
-
-; Country --------------------------------------------------------------------
-Msg_Country_European_US                 = "Emulated machine is now European/US"
-Msg_Country_JAP                         = "Emulated machine is now Japanese"
-
-; Patchin' System ------------------------------------------------------------
-Msg_Patch_Loading                       = "Loadin' MEKA.PAT (patches)... "
-;Msg_Patch_Missing                       = "On line %d: No checksum defined fo' instruckshun! Fry mah hide!"
-;Msg_Patch_Unrecognized                  = "On line %d: Unreckanized instruckshun! Fry mah hide!"
-;Msg_Patch_Out_of_Bound                  = "While patchin' ROM: tryin' t'write outta boun'aries, at posishun 0x%02X. Abo'tin' patch."
-
-; 3-D Glasses ----------------------------------------------------------------
-Msg_Glasses_Enabled                     = "3-D Glasses emulashun inabled"
-Msg_Glasses_Disabled                    = "3-D Glasses emulashun disabled"
-Msg_Glasses_Show_Both                   = "3-D effeck kepp as is."
-Msg_Glasses_Show_Left                   = "3-D effeck disabled by showin' only lef' side."
-Msg_Glasses_Show_Right                  = "3-D effeck disabled by showin' only right side."
-Msg_Glasses_Com_Port                    = "3-D Glasses emulashun inabled through COM Po't %d, cuss it all t' tarnation."
-;Msg_Glasses_Com_Port2                   = "(edit MEKA.CFG t'change th' Communicashun Po't)"
-Msg_Glasses_Unsupported                 = "3-D Glasses seems t'be not suppo'ted by this hyar game."
-
-; Inputs Initializashun ------------------------------------------------------
-Msg_Inputs_Joy_Init                     = "Initializin' joystick. Shet mah mouth!. "
-Msg_Inputs_Joy_Init_None                = "none foun'.\n"
-Msg_Inputs_Joy_Init_Found               = "%d foun'.\n"
-Msg_Inputs_Joy_Calibrate_Error          = "Erro' calibratin' joystick. Shet mah mouth! Abo'tin'."
-
-; Inputs ---------------------------------------------------------------------
-Msg_Inputs_Joypad                       = "Input peripheral: Joypad"
-Msg_Inputs_LightPhaser                  = "Input peripheral: Light Phaser"
-Msg_Inputs_PaddleControl                = "Input peripheral: Paddle Control"
-Msg_Inputs_SportsPad                    = "Input peripheral: Spo'ts Pad"
-Msg_Inputs_TVOekaki                     = "Input peripheral: TV Oekaki Graphic Board"
-Msg_Inputs_Play_Digital                 = "Control wif digital input device"
-Msg_Inputs_Play_Mouse                   = "Control wif analog input device (mouse)"
-Msg_Inputs_Play_Pen                     = "Control pen wif mouse\nRight-click simulates removin' th' pen fum th' board"
-
-; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Configuration_BoxTitle       = "Input Configurashun"
-
-; Inputs Sources -------------------------------------------------------------
-Msg_Inputs_Src_Loading                  = "Loadin' MEKA.INP (inputs sources definishun)... "
-Msg_Inputs_Src_Not_Enough               = "Not inough inputs sources foun'! Fry mah hide! Check MEKA.INP file o' try re-installin'."
-Msg_Inputs_Src_Missing                  = "On line %d: No input source defined fo' sto'in' value!"
-Msg_Inputs_Src_Equal                    = "On line %d: Missin' equal sign fo' variable assignment! Fry mah hide!"
-Msg_Inputs_Src_Unrecognized             = "On line %d: Unreckanized variable "%s"! Fry mah hide!"
-Msg_Inputs_Src_Syntax_Param             = "On line %d: Syntax erro' on variable pareemeter! Fry mah hide!"
-Msg_Inputs_Src_Inconsistency            = "On line %d: Incoharncy wif previous settin's!"
-Msg_Inputs_Src_Map_Keyboard             = "Now press th' key yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Ackshun assigned t'key "%s"."
-Msg_Inputs_Src_Map_Joypad               = "Now press th' button/axis yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Joypad_Ok_A          = "Ackshun assigned t'joypad stick %i, axis %i, %c."
-Msg_Inputs_Src_Map_Joypad_Ok_B          = "Ackshun assigned t'joypad button %i."
-Msg_Inputs_Src_Map_Mouse                = "Now press th' button yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Mouse_Ok_B           = "Ackshun assigned t'mouse button %i."
-Msg_Inputs_Src_Map_Mouse_No_A           = "So'ry - Mouse axis kinnot be changed"
-Msg_Inputs_Src_Map_Cancelled            = "Assignment kincelled! Fry mah hide!"
-
-; Machine --------------------------------------------------------------------
-Msg_Machine_Pause                       = "Machine emulashun paused"
-Msg_Machine_Resume                      = "Machine emulashun resoomd"
-Msg_Machine_Reset                       = "Machine reset"
-
-; Filenames Database ---------------------------------------------------------
-Msg_FDB_Loading                         = "Loadin' MEKA.FDB (filenames database)... "
-
-; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Loadin' MEKA.NAM (games names)... "
-Msg_DB_Name_Default                     = "Game Screen"
-Msg_DB_Name_NoCartridge                 = "No Cartridge"
-
-; Configurashun File ---------------------------------------------------------
-Msg_Config_Loading                      = "Loadin' %s (configurashun)... "
-
-; Datafile -------------------------------------------------------------------
-Msg_Datafile_Loading                    = "Loadin' MEKA.DAT (resources)... "
-
-; Drivahs --------------------------------------------------------------------
-Msg_Driver_Unknown                      = "Fatal: Unknown Machine Drivah! Fry mah hide!"
-
-; On overdump deteckshun -----------------------------------------------------
-;Msg_OverDump                            = "This hyar ROM corntains %d times th' necessary data.\nGit "SMS Checker" t'clean it."
-
-; Soun' ----------------------------------------------------------------------
-Msg_Sound_Init                          = "Initializin' soun' system, dawgone it.."
-Msg_Sound_Init_Error_SEAL               = " - Erro' initializin' SEAL! Fry mah hide!"
-Msg_Sound_Init_Error_Audio              = " - Erro' openin' Audio system, dawgone it. Try a diffrunt card an'/o' sample rate."
-Msg_Sound_Init_Error_Blaster            = " - BLASTER variable not foun', disablin' FM soun'! Fry mah hide!"
-Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variable does not corntain address (A=xxx), disablin' FM soun'! Fry mah hide!"
-Msg_Sound_Init_Error_Voices             = " - Voices initializashun failed, cuss it all t' tarnation."
-Msg_Sound_Init_Error_Voice_N            = " - Voice #%d creashun failed, cuss it all t' tarnation."
-Msg_Sound_Init_Soundcard                = " - Initializin' soun' card @ %d Hz, cuss it all t' tarnation.."
-Msg_Sound_Init_Soundcard_No             = "Cain't initialize audio: no soun' card selecked! Fry mah hide!"
-;Msg_Sound_Init_SN76496_Ok               = " - SN76496 emulato':"
-;Msg_Sound_Init_YM2413_Ok                = " - YM2413 emulato':"
-Msg_Sound_Rate_Changed                  = "Soun' rate changed t'%i Hz.\nPlease restart MEKA fo' th' changes t'take effeck."
-Msg_Sound_Stream_Error                  = "Soun' buffer stop. Restartin' stream, dawgone it."
-
-; Theme ----------------------------------------------------------------------
-Msg_Theme_Loading                       = "Loadin' MEKA.THM (interface themes)... "
-Msg_Theme_Not_Enough                    = "Not inough themes foun'! Fry mah hide! Check MEKA.THM file o' try re-installin'."
-Msg_Theme_Missing                       = "On line %d: No theme name defined fo' sto'in' value!"
-Msg_Theme_Unrecognized                  = "On line %d: Unreckanized variable!"
-Msg_Theme_Error_BG_Big                  = "Backgroun' pitcher t'small t'fit wif integer scalin'! Fry mah hide!"
-Msg_Theme_Error_BG                      = "Erro' loadin' pitcher assosheeated wif theme!"
-Msg_Theme_Error_BG_FileName             = "(%s)"
-
-; Loadin' ROM / Disk ---------------------------------------------------------
-Msg_LoadROM_Loading                     = "Loadin' ROM.. "
-Msg_LoadROM_Success                     = "Successfully loaded %s"
-Msg_LoadDisk_Success                    = "Successfully loaded %s as a floppy disk"
-Msg_LoadROM_Comment                     = "Comment: %s"
-Msg_LoadROM_Warning                     = "-Warnin'-"
-;Msg_LoadROM_Bad_Dump_Long               = "This hyar ROM is known as bein' a bad dump.\nChances is thet it will not funckshun proper."
-Msg_LoadROM_Bad_Dump_Short              = "Warnin' - This hyar ROM is known as bein' a bad dump."
-Msg_LoadROM_Product_Num                 = "Produck Number: %s"
-Msg_LoadROM_SDSC                        = "-SDSC Header-"
-Msg_LoadROM_SDSC_Name                   = "Name: %s"
-Msg_LoadROM_SDSC_Version                = "Vershun: %d.%02d"
-Msg_LoadROM_SDSC_Date                   = "Date: %04d.%02d.%02d"
-Msg_LoadROM_SDSC_Author                 = "Autho': %s"
-Msg_LoadROM_SDSC_Release_Note           = "Release Note: %s"
-Msg_LoadROM_SDSC_Unknown                = "<Unknown>"
-Msg_LoadROM_SDSC_Error                  = "<Erro'>"
-
-; File Browser ---------------------------------------------------------------
-Msg_FileBrowser_BoxTitle                = "Load ROM"
-Msg_FileBrowser_Drive                   = "[Drive %c]"
-Msg_FileBrowser_Load                    = "Load"
-Msg_FileBrowser_Close                   = "Close"
-Msg_FileBrowser_LoadNames               = "Load Names"
-Msg_FileBrowser_ReloadDir               = "Reload Dir"
-
-; FM Instruments Editor ------------------------------------------------------
-Msg_FM_Editor_BoxTitle                  = "FM Instroomnts Edito'"
-Msg_FM_Editor_Enabled                   = "FM Voice Edito' inabled"
-Msg_FM_Editor_Disabled                  = "FM Voice Edito' disabled"
-
-; Video Options --------------------------------------------------------------
-Msg_Frameskip_Auto                      = "Frameskip value set to: Automatic (%d Hz)"
-Msg_Frameskip_Standard                  = "Frameskip value set to: 1/%d"
-
-; Logging --------------------------------------------------------------------
-Msg_Log_Need_Param                      = "LOG opshun needs a filename!"
-Msg_Log_Session_Start                   = "-- Loggin' sesshun started on %s"
-
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Voice Recognishun"
-Msg_VoiceRecognition_Enabled            = "Voice Recognishun inabled"
-Msg_VoiceRecognition_Disabled           = "Voice Recognishun disabled"
-
-; Save States ----------------------------------------------------------------
-Msg_Load_Need_Param                     = "LOAD opshun needs a savestate number! Fry mah hide!"
-Msg_Load_Error                          = "Erro' openin' %s!"
-Msg_Load_Not_Valid                      = "File %s is not a valid %s savegame!"
-Msg_Load_Success                        = "State loaded fum %s"
-Msg_Load_Version                        = "%s is an unsuppo'ted savegame vahshun! Fry mah hide!"
-Msg_Load_Wrong_System                   = "%s is not a savegame fo' this hyar system! Fry mah hide!"
-Msg_Load_Massage                        = "File is in MSD fo'mat - cornvahtin'"
-Msg_Save_Not_in_BIOS                    = "Cain't save while runnin' BIOS! Fry mah hide!"
-Msg_Save_Error                          = "Erro' writin' t'%s!"
-Msg_Save_Success                        = "State saved t'%s"
-Msg_Save_Slot                           = "Current savegame slot is: %d"
-
-; Options --------------------------------------------------------------------
-Msg_Options_BoxTitle                    = "Opshuns"
-Msg_Options_Close                       = "Close"
-;Msg_Options_BIOS_Enable                 = "Show internal BIOS logo eff'n available on system, dawgone it."
-;Msg_Options_Product_Number              = "Show game produck number eff'n available in database."
-;Msg_Options_Bright_Palette              = "Bright palette fo' Master System / Game Gear."
-Msg_Options_Load_Close                  = "Close file browser af'er loadin' a game."
-Msg_Options_Load_FullScreen             = "Switch t'fullscreen mode af'er loadin' a game."
-;Msg_Options_VFN_Support                 = "Display long file names an' country flags."
-Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
-Msg_Options_GUI_VSync                   = "Wait fo' VSync in interface mode."
-Msg_Options_NES_Activated               = "Mario is a not fat plumber."
-
-; Languages / Localization ---------------------------------------------------
-Msg_Language_Set                        = "Language set t'%s"
-Msg_Language_Set_Warning                = "Note: it is advised t'restart MEKA fo' all text t'update"
-
-; Sound Dumping --------------------------------------------------------------
-Msg_Sound_Dumping_Start                 = "Started dumpin' soun' output t'%s"
-Msg_Sound_Dumping_Stop                  = "Stopped dumpin' soun' output (%2.02f seconds logged)"
-Msg_Sound_Dumping_Error_File_1          = "Unable t'find a valid filename t'dump soun' output! Fry mah hide!"
-Msg_Sound_Dumping_Error_File_2          = "Erro' openin' output file %s fo' dumpin'! Fry mah hide!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumps will now be frame accurate (smaller files, skip voices)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumps will now be sample accurate (mo' trimenjus files, dump voices)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpin' will hafta be restarted t'take account of noo accuracy)"
-
-; Menu: Main -----------------------------------------------------------------
-Msg_Menu_Main                           = "MAIN"
-Msg_Menu_Main_LoadROM                   = "Load ROM"
-Msg_Menu_Main_FreeROM                   = "Free ROM"
-Msg_Menu_Main_SaveState                 = "Save State"
-Msg_Menu_Main_LoadState                 = "Load State"
-Msg_Menu_Main_Options                   = "Opshuns"
-Msg_Menu_Main_Language                  = "Language"
-Msg_Menu_Main_Quit                      = "Quit"
-
-; Menu: Debug ----------------------------------------------------------------
-Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Watch                    = "Watch"
-
-; Menu: Machine --------------------------------------------------------------
-Msg_Menu_Machine                        = "MACHINE"
-Msg_Menu_Machine_Power                  = "Power"
-Msg_Menu_Machine_Power_On               = "On"
-Msg_Menu_Machine_Power_Off              = "Off"
-Msg_Menu_Machine_Country                = "Country"
-Msg_Menu_Machine_Country_EU             = "European/US"
-Msg_Menu_Machine_Country_Jap            = "Japanese"
-Msg_Menu_Machine_TVType                 = "TV Type"
-Msg_Menu_Machine_TVType_NTSC            = "NTSC"
-Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hard Pause"
-Msg_Menu_Machine_HardReset              = "Hard Reset"
-
-; Menu: Video ----------------------------------------------------------------
-Msg_Menu_Video                          = "VIDEO"
-Msg_Menu_Video_FullScreen               = "Fullscreen"
-Msg_Menu_Video_Themes                   = "Themes"
-Msg_Menu_Video_Blitters                 = "Blitters"
-Msg_Menu_Video_Layers                   = "Layers"
-Msg_Menu_Video_Layers_Sprites           = "Sprites"
-Msg_Menu_Video_Layers_Background        = "Backgroun'"
-Msg_Menu_Video_Flickering               = "Flickerin'"
-Msg_Menu_Video_Flickering_Auto          = "Auto"
-Msg_Menu_Video_Flickering_Yes           = "Yessuh"
-Msg_Menu_Video_Flickering_No            = "No"
-Msg_Menu_Video_3DGlasses                = "3-D Glasses"
-Msg_Menu_Video_3DGlasses_Enabled        = "Enabled"
-Msg_Menu_Video_3DGlasses_ShowBothSides  = "Show both sides"
-Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Show lef' side"
-Msg_Menu_Video_3DGlasses_ShowRightSide  = "Show right side"
-Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Uses Glasses on COM Po't"
-Msg_Menu_Video_Screens                  = "Screens"
-Msg_Menu_Video_Screens_New              = "Noo"
-Msg_Menu_Video_Screens_KillLast         = "Kill Last"
-Msg_Menu_Video_Screens_KillAll          = "Kill All"
-
-; Menu: Sound ----------------------------------------------------------------
-Msg_Menu_Sound                          = "SOUN'"
-Msg_Menu_Sound_FM                       = "FM Unit"
-Msg_Menu_Sound_FM_Enabled               = "Inabled"
-Msg_Menu_Sound_FM_Disabled              = "Disabled"
-Msg_Menu_Sound_FM_Editor                = "Instroomnts Edito'"
-Msg_Menu_Sound_Volume                   = "Voloom"
-Msg_Menu_Sound_Volume_Mute              = "Mute"
-Msg_Menu_Sound_Volume_Value             = "%d%%"
-Msg_Menu_Sound_Rate                     = "Rate"
-Msg_Menu_Sound_Rate_Hz                  = "%d Hz"
-Msg_Menu_Sound_Channels                 = "Channels"
-Msg_Menu_Sound_Channels_Tone            = "Tone %d"
-Msg_Menu_Sound_Channels_Noises          = "Noises"
-Msg_Menu_Sound_Dump                     = "Dump"
-Msg_Menu_Sound_Dump_WAV_Start           = "WAV Start"
-Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
-Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
-Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
-Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accurate"
-Msg_Menu_Sound_VoiceRecognition         = "Voice Recognishun"
-
-; Menu: Inputs ---------------------------------------------------------------
-Msg_Menu_Inputs                         = "INPUTS"
-Msg_Menu_Inputs_Joypad                  = "Joypad"
-Msg_Menu_Inputs_LightPhaser             = "Light Phaser"
-Msg_Menu_Inputs_PaddleControl           = "Paddle Control"
-Msg_Menu_Inputs_SportsPad               = "Spo'ts Pad"
-Msg_Menu_Inputs_GraphicBoard            = "Graphic Board"
-Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
-Msg_Menu_Inputs_RapidFire               = "Rapid Fire"
-Msg_Menu_Inputs_RapidFire_PxBx          = "Player %d Button %d"
-Msg_Menu_Inputs_Configuration           = "Configurashun"
-
-; Menu: Tools ----------------------------------------------------------------
-Msg_Menu_Tools                          = "TOOLS"
-Msg_Menu_Tools_Messages                 = "Messages"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Tiles Viewer"
-Msg_Menu_Tools_TechInfo                 = "Tech Info"
-
-; Menu: Help -----------------------------------------------------------------
-Msg_Menu_Help                           = "HE'P"
-Msg_Menu_Help_Documentation             = "He'p"
-Msg_Menu_Help_About                     = "About"
-
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
 [Dutch]
 WIP
 ; Dutch text door Mark van Tilburg
@@ -2127,7 +1683,7 @@ Msg_Failed                              = "Failed!"
 Msg_Error_Base                          = "Error: %s"
 Msg_Error_Error                         = "Fatal: error getting error type. Er moet iets fout zijn."
 Msg_Error_Memory                        = "Niet genoeg geheugen!"
-Msg_Error_Param                         = "Parameter "%s" is invalide!\n"
+Msg_Error_Param                         = "Parameter \"%s\" is invalide!\n"
 Msg_Error_Syntax                        = "Syntax fout!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -2190,7 +1746,7 @@ Msg_Blitters_Not_Enough                 = "niet genoeg blitters gevonden control
 Msg_Blitters_Not_Found                  = "Blitter niet gevonden!"
 Msg_Blitters_Missing                    = "On line %d: Geen blitter naam ingesteld om de waarde te bewaren!"
 Msg_Blitters_Unrecognized               = "On line %d: niet herkende variable!"
-Msg_Blitters_Set                        = "Now using "%s" fullscreen blitter."
+Msg_Blitters_Set                        = "Now using \"%s\" fullscreen blitter."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Dikke loodgieter mode geactiveerd"
@@ -2200,7 +1756,7 @@ Msg_NES_Deny_Facts                      = "Je kunt geen feiten ontkennen"
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Opstarten van de debugger "
-Msg_Debug_Welcome                       = "Welkom bij de Meka Debugger (%s)!"
+Msg_Debug_Welcome                       = "Welkom bij de Meka Debugger!"
 Msg_Debug_Not_Available                 = "Debugger is niet beschikbaar in deze versie!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK optie heeft een adres nodig!"
 Msg_Debug_Trap_Read                     = "Op PC:%04X - lees van %04X"
@@ -2328,11 +1884,11 @@ Msg_Inputs_Src_Loading                  = "Laden van MEKA.INP (voegt sources def
 Msg_Inputs_Src_Not_Enough               = "niet genoeg input sources gevonden! raadpleeg MEKA.INP bestand, of herinstalleer."
 Msg_Inputs_Src_Missing                  = "On line %d: Geen input signaal om de waarde toe te kennen!"
 Msg_Inputs_Src_Equal                    = "On line %d: Mist hetzelfde signaal voor de waarde!"
-Msg_Inputs_Src_Unrecognized             = "On line %d: niet herkende variable "%s"!"
+Msg_Inputs_Src_Unrecognized             = "On line %d: niet herkende variable \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "On line %d: Syntax error bij variabele parameter"
 Msg_Inputs_Src_Inconsistency            = "On line %d: niet werkend met vorige instelling!"
 Msg_Inputs_Src_Map_Keyboard             = "druk op de knop die je met deze aktie wilt gebruiken"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Aktie vastgemaakt aan knop "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Aktie vastgemaakt aan knop \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Druk op de knop/as die je aan deze aktie wilt koppelen"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Aktie vastgemaakt aan joypad knuppel %i, as %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Aktie vastgemaakt aan joypad knop %i."
@@ -2365,7 +1921,7 @@ Msg_Datafile_Loading                    = "Laden van MEKA.DAT (resources)... "
 Msg_Driver_Unknown                      = "Fataal: Onbekende Machine Driver!"
 
 ; Overdump detection ---------------------------------------------------------
-Msg_OverDump                            = "Deze ROM bevat %d keer de noodzakelijke data.\nDownload SMS Checker om deze data te verwijderen (http://www.smspower.org/maxim/smscheck)."
+Msg_OverDump                            = "Deze ROM bevat %d keer de noodzakelijke data.\nDownload SMS Checker om deze data te verwijderen (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiseren geluids systeem.."
@@ -2398,9 +1954,9 @@ Msg_LoadROM_Loading                     = "Laden van ROM.. "
 Msg_LoadROM_Success                     = "Succesvol geladen %s"
 Msg_LoadDisk_Success                    = "Succesvol geladen %s als een floppy disk"
 Msg_LoadROM_Comment                     = "Commentaar: %s"
-Msg_LoadROM_SMSGG_Mode_Comment          = "Dit is een Game Gear rom die wordt geemuleerd in Master System modus.".
+Msg_LoadROM_SMSGG_Mode_Comment          = "Dit is een Game Gear rom die wordt geemuleerd in Master System modus."
 Msg_LoadROM_Warning                     = "-Waarschuwing-"
-Msg_LoadROM_Bad_Dump_Long               = "Deze ROM staat bekend als een slechte dump.\nEr bestaat een kans dat deze niet goed werkt. Download SMS Checker om deze rom te controleren (http://www.smspower.org/maxim/smscheck)."
+Msg_LoadROM_Bad_Dump_Long               = "Deze ROM staat bekend als een slechte dump.\nEr bestaat een kans dat deze niet goed werkt. Download SMS Checker om deze rom te controleren (http://www.smspower.org/maxim/smschecker/)."
 Msg_LoadROM_Bad_Dump_Short              = "Waarschuwing - Deze ROM staat bekend als een slechte dump."
 Msg_LoadROM_Product_Num                 = "Produkt Nummer: %s"
 Msg_LoadROM_SDSC                        = "-SDSC Hoofd-"
@@ -2496,7 +2052,6 @@ Msg_Menu_Main_Quit                      = "Stoppen"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Dump                     = "Opslaan"
-Msg_Menu_Debug_Watch                    = "Kijken"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MACHINE"
@@ -2595,7 +2150,7 @@ Msg_Menu_Help_About                     = "Over"
 [Español]
 WIP
 ; Translation by Antonio Bazalo (Bazathlon)
-; Maintener: Antonio Bazalo (bazathlon _@_ wanadoo . es)
+; Maintainer: Antonio Bazalo (bazathlon _@_ wanadoo . es)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2616,7 +2171,7 @@ Msg_Failed                              = "¡Fallo!"
 Msg_Error_Base                          = "Error: %s"
 Msg_Error_Error                         = "Error fatal: algo debe ir mal."
 Msg_Error_Memory                        = "No hay suficiente memoria"
-Msg_Error_Param                         = "¡El parametro "%s" es invalido!\n"
+Msg_Error_Param                         = "¡El parametro \"%s\" es invalido!\n"
 Msg_Error_Syntax                        = "¡Error de sintaxis!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -2675,7 +2230,7 @@ Msg_Blitters_Not_Enough                 = "Insuficientes blitters encontrados! C
 Msg_Blitters_Not_Found                  = "Blitter no encontrado"
 Msg_Blitters_Missing                    = "On line %d: Sin nombre definido de blitter para almacenar valores!"
 Msg_Blitters_Unrecognized               = "On line %d: Variable irreconocible"
-Msg_Blitters_Set                        = "Usando "%s" blitter a pantalla completa"
+Msg_Blitters_Set                        = "Usando \"%s\" blitter a pantalla completa"
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Modo Fat plumber activado"
@@ -2685,7 +2240,7 @@ Msg_NES_Deny_Facts                      = "Puedes negar los hechos."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Iniciando debugger.. "
-Msg_Debug_Welcome                       = "Bienvenido al MEKA Debugger (%s)!"
+Msg_Debug_Welcome                       = "Bienvenido al MEKA Debugger!"
 Msg_Debug_Not_Available                 = "Debugger no disponible en esta version!"
 Msg_Debug_Brk_Need_Param                = "La opcion DEBUGBRK necesita una direccion!"
 Msg_Debug_Trap_Read                     = "A PC:%04X - Leido desde %04X"
@@ -2801,14 +2356,14 @@ Msg_Inputs_Configuration_BoxTitle       = "Configuración de entrada"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Cargando MEKA.INP (definicion de rutas de entrada)... "
-Msg_Inputs_Src_Not_Enough               = "Insuficientes caminos de entrada encontrados! Comprueba el archivo MEKA.INP o reinstala MEKA"ng."
+Msg_Inputs_Src_Not_Enough               = "Insuficientes caminos de entrada encontrados! Comprueba el archivo MEKA.INP o reinstala MEKA"
 Msg_Inputs_Src_Missing                  = "On line %d: Sin camino de entrada definido para almacenar valores"
 Msg_Inputs_Src_Equal                    = "On line %d: Señal de equilibrio perdida para asignamiento de variable"
-Msg_Inputs_Src_Unrecognized             = "On line %d: Variable irreconocible "%s"!"
+Msg_Inputs_Src_Unrecognized             = "On line %d: Variable irreconocible \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "On line %d: Error de sintaxis en parametro de variable!"
 Msg_Inputs_Src_Inconsistency            = "On line %d: Inconsistencia con la configuracion previa!"
 Msg_Inputs_Src_Map_Keyboard             = "Ahora presione la tecla que quiera asignar a esta accion"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Accion asignada a la tecla "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Accion asignada a la tecla \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Ahora presione el boton/eje que quiera asignar a esta accion"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Accion asignada al control del joypad %i, eje %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Accion asignada al boton de joypad %i."
@@ -2840,7 +2395,7 @@ Msg_Datafile_Loading                    = "Cargando MEKA.DAT (recursos)... "
 Msg_Driver_Unknown                      = "Fatal: Driver de maquina desconocido!"
 
 ; Overdump detection ---------------------------------------------------------
-Msg_OverDump                            = "Esta ROM contiene %d veces los datos necesarios.\nGet "Comprobador SMS" para limpiarlo."
+Msg_OverDump                            = "Esta ROM contiene %d veces los datos necesarios.\nGet \"SMS Checker\" para limpiarlo."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Iniciando sistema de sonido..."
@@ -2964,7 +2519,6 @@ Msg_Menu_Main_Quit                      = "Salir"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Dump                     = "Dumpeo"
-Msg_Menu_Debug_Watch                    = "Observar"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MAQUINA"
@@ -3092,7 +2646,7 @@ Msg_Failed                              = "Falhou!"
 Msg_Error_Base                          = "Erro: %s"
 Msg_Error_Error                         = "Fatal: erro obtendo tipo do erro. Alguma coisa deve estar errada."
 Msg_Error_Memory                        = "Mem¢ria insuficiente!"
-Msg_Error_Param                         = "Parƒmetro "%s" ‚ inv lido!\n"
+Msg_Error_Param                         = "Parƒmetro \"%s\" ‚ inv lido!\n"
 Msg_Error_Syntax                        = "Erro de sintaxe!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -3161,7 +2715,7 @@ Msg_NES_Deny_Facts                      = "Você não pode negar fatos!"
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Inicializando depurador."
-Msg_Debug_Welcome                       = "Bem vindo ao Depurador Meka (%s)!"
+Msg_Debug_Welcome                       = "Bem vindo ao Depurador Meka!"
 Msg_Debug_Not_Available                 = "Depurador nao esta disponivel nesta versao!"
 Msg_Debug_Brk_Need_Param                = "Opção DEBUGBRK precisa de um endereço!"
 Msg_Debug_Trap_Read                     = "Em PC:%04X - Ler de %04X"
@@ -3280,11 +2834,11 @@ Msg_Inputs_Src_Loading                  = "Carregando MEKA.INP (defini‡äes de di
 Msg_Inputs_Src_Not_Enough               = "Dispositivos de entrada insuficientes! Verifique o arquivo MEKA.INP ou tente reinstal -lo."
 Msg_Inputs_Src_Missing                  = "Linha %d: NÆo h  dispositivo definido para armazenamento!"
 Msg_Inputs_Src_Equal                    = "Linha %d: Faltando sinal de igual para declara‡Æo da vari vel!"
-Msg_Inputs_Src_Unrecognized             = "Linha %d: Vari vel desconhecida "%s"!"
+Msg_Inputs_Src_Unrecognized             = "Linha %d: Vari vel desconhecida \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "Linha %d: Erro de sintaxe no parƒmetro da vari vel!"
 Msg_Inputs_Src_Inconsistency            = "Linha %d: Inconsistˆncia em rela‡Æo … declara‡Æo anterior!"
 Msg_Inputs_Src_Map_Keyboard             = "Agora pressione a tecla que você deseja atribuir a esta ação"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Ação designada à tecla "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Ação designada à tecla \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Agora pressione o botão/eixo a que você deseja atribuir esta ação"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Ação designada ao joypad stick %i, eixo %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Ação designada ao botão %i."
@@ -3439,7 +2993,6 @@ Msg_Menu_Main_Quit                      = "Sair"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEPURAR"
 Msg_Menu_Debug_Dump                     = "Copiar"
-Msg_Menu_Debug_Watch                    = "Verificar"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "CONSOLE"
@@ -3551,7 +3104,7 @@ Msg_Failed                              = "Fallito!"
 Msg_Error_Base                          = "Errore: %s"
 Msg_Error_Error                         = "Fatale: errore di tipo errore. Qualcosa e' andato storto."
 Msg_Error_Memory                        = "Memoria insufficente!"
-Msg_Error_Param                         = "Parametero "%s" non valido!\n"
+Msg_Error_Param                         = "Parametero \"%s\" non valido!\n"
 Msg_Error_Syntax                        = "Comando non valido!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -3610,7 +3163,7 @@ Msg_Blitters_Not_Enough                 = "Non ci sono abbastanza blitter! Contr
 Msg_Blitters_Not_Found                  = "Blitter non trovato!"
 Msg_Blitters_Missing                    = "On line %d: Nome blitter non definito!"
 Msg_Blitters_Unrecognized               = "On line %d: Variabile non riconosciuta!"
-Msg_Blitters_Set                        = "Uso "%s" Blitter schermo intero."
+Msg_Blitters_Set                        = "Uso \"%s\" Blitter schermo intero."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Modalita' Idraulico ciccione attivata"
@@ -3620,7 +3173,7 @@ Msg_NES_Deny_Facts                      = "Non puoi negare i fatti."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Inizializzo il debugger.. "
-Msg_Debug_Welcome                       = "Benvenuto nel Debugger di Meka(%s)!"
+Msg_Debug_Welcome                       = "Benvenuto nel Debugger di Meka!"
 Msg_Debug_Not_Available                 = "Debugger non disponibile in questa versione!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK serve un indirizzo!"
 Msg_Debug_Trap_Read                     = "At PC:%04X - Leggo da %04X"
@@ -3739,11 +3292,11 @@ Msg_Inputs_Src_Loading                  = "Carico MEKA.INP (Definizione sorgenti
 Msg_Inputs_Src_Not_Enough               = "Non ci sono abbastanza sorgenti di input! Controllare il file MEKA.INP o re-installare."
 Msg_Inputs_Src_Missing                  = "On line %d: Nessuna sorgente di input definita per memoria valore!"
 Msg_Inputs_Src_Equal                    = "On line %d: Manca il segno uguale per l'assegnazione di variabile!"
-Msg_Inputs_Src_Unrecognized             = "On line %d: Variabile sconosciuta "%s"!"
+Msg_Inputs_Src_Unrecognized             = "On line %d: Variabile sconosciuta \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "On line %d: Errore di sintassi nel parametro variabile!"
 Msg_Inputs_Src_Inconsistency            = "On line %d: inconsistenza di settaggio precedente!"
 Msg_Inputs_Src_Map_Keyboard             = "Premere il tasto per assegnare azione"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Azione assignata al tasto "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Azione assignata al tasto \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Premere il buttone/asse per assegnare azione"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Azione assegnata al joypad stick %i, asse %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Azione assignata al joypad buttone %i."
@@ -3899,7 +3452,6 @@ Msg_Menu_Main_Quit                      = "Chiudi"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Watch                    = "Guarda"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "CONSOLE"
@@ -4016,7 +3568,7 @@ Msg_Failed                              = "Fehlschlag!"
 Msg_Error_Base                          = "Fehler: %s"
 Msg_Error_Error                         = "Abbruch: Unbekannter Fehler!"
 Msg_Error_Memory                        = "Nicht genug Speicher!"
-Msg_Error_Param                         = "Parameter "%s" nicht erlaubt!\n"
+Msg_Error_Param                         = "Parameter \"%s\" nicht erlaubt!\n"
 Msg_Error_Syntax                        = "Syntaxfehler!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -4075,7 +3627,7 @@ Msg_Blitters_Not_Enough                 = "Nicht genug Blitter gefunden! (Fehler
 Msg_Blitters_Not_Found                  = "Blitter nicht gefunden!"
 Msg_Blitters_Missing                    = "Zeile %d: Name für Blitter nicht definiert!"
 Msg_Blitters_Unrecognized               = "Zeile %d: Unbekannte Variable!"
-Msg_Blitters_Set                        = "Benutze "%s" Vollbild-Blitter."
+Msg_Blitters_Set                        = "Benutze \"%s\" Vollbild-Blitter."
 
 ; Nintendo --------------------------------------------------------------------
 Msg_NES_Activate                        = "Fetter-Klempner-Modus wurde aktiviert."
@@ -4085,7 +3637,7 @@ Msg_NES_Deny_Facts                      = "Die Fakten sind unbestreitbar!"
 
 ; Debugger --------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialisiere debugger.. "
-Msg_Debug_Welcome                       = "Willkommen im Meka Debugger (%s)!"
+Msg_Debug_Welcome                       = "Willkommen im Meka Debugger!"
 Msg_Debug_Not_Available                 = "Debugger in dieser Version nicht möglich!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK Option benötigt eine Adresse!"
 Msg_Debug_Trap_Read                     = "Bei PC:%04X - Lese von %04X"
@@ -4201,11 +3753,11 @@ Msg_Inputs_Src_Loading                  = "Lade MEKA.INP (Eingabegeraete)... "
 Msg_Inputs_Src_Not_Enough               = "Nicht genug Eingabegeraete definiert! (Fehler in MEKA.INP)"
 Msg_Inputs_Src_Missing                  = "Zeile %d: Dem Wert kann kein Eingabegeraet zugeordnet werden!"
 Msg_Inputs_Src_Equal                    = "Zeile %d: Fehlendes Gleichheitszeichen!"
-Msg_Inputs_Src_Unrecognized             = "Zeile %d: Unbekannte Variable "%s"!"
+Msg_Inputs_Src_Unrecognized             = "Zeile %d: Unbekannte Variable \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "Zeile %d: Syntaxfehler!"
 Msg_Inputs_Src_Inconsistency            = "Zeile %d: Konflikt mit vorherigen Einstellungen!"
 Msg_Inputs_Src_Map_Keyboard             = "Bitte drücken Sie die Taste für diesen Befehl"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Befehl wurde Taste "%s" zugewiesen."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Befehl wurde Taste \"%s\" zugewiesen."
 Msg_Inputs_Src_Map_Joypad               = "Bitte drücken Sie Knopf oder Achse für diesen Befehl"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Befehl wurde Gamepad %i, Achse %i, %c zugewiesen."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Befehl wurde Gamepadknopf %i. zugewiesen"
@@ -4240,7 +3792,7 @@ Msg_Datafile_Loading                    = "Lade MEKA.DAT (Ressourcen)... "
 Msg_Driver_Unknown                      = "Abbruch: Unbekannter Treiber!"
 
 ; Overdump detection ----------------------------------------------------------
-Msg_OverDump                            = "Das ROM enthält die benötigten Daten %d -fach.\n Der Fehler kann mit dem SMS- Checker korrigiert werden."
+Msg_OverDump                            = "Das ROM enthält die benötigten Daten %d -fach.\n Der Fehler kann mit dem \"SMS Checker\" korrigiert werden."
 
 ; Sound -----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialisiere Soundsystem.."
@@ -4364,7 +3916,6 @@ Msg_Menu_Main_Quit                      = "Ende"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Dump                     = "Sichern"
-Msg_Menu_Debug_Watch                    = "Wert betrachten"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MASCHINE"
@@ -4481,7 +4032,7 @@ Msg_Failed                              = "Misslyckades!"
 Msg_Error_Base                          = "Fel: %s"
 Msg_Error_Error                         = "Allvarligt fel: Fel vid hämtning av feltyp. Något måste vara fel."
 Msg_Error_Memory                        = "Ej tillräckligt med minne!"
-Msg_Error_Param                         = "Parameter "%s" är ogiltig!\n"
+Msg_Error_Param                         = "Parameter \"%s\" är ogiltig!\n"
 Msg_Error_Syntax                        = "Syntaxfel!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -4543,7 +4094,7 @@ Msg_Blitters_Not_Enough                 = "Kunde ej hitta tillräckligt med Blitt
 Msg_Blitters_Not_Found                  = "Kunde ej hitta Blitter!"
 Msg_Blitters_Missing                    = "På rad %d: Inget blitternamn definierat för lagrande av värde!"
 Msg_Blitters_Unrecognized               = "På rad %d: Okänd variabel!"
-Msg_Blitters_Set                        = "Använder nu "%s" fullskärmsblitter."
+Msg_Blitters_Set                        = "Använder nu \"%s\" fullskärmsblitter."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Fet rörmokare läge aktiverat"
@@ -4553,7 +4104,7 @@ Msg_NES_Deny_Facts                      = "Du kan inte förneka fakta."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialiserar debugger.. "
-Msg_Debug_Welcome                       = "Välkommen till Meka Debugger (%s)!"
+Msg_Debug_Welcome                       = "Välkommen till Meka Debugger!"
 Msg_Debug_Not_Available                 = "Debugger ej tillgänglig i denna version!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK valet kräver en adress!"
 Msg_Debug_Trap_Read                     = "Vid PC:%04X - Läsning från %04X"
@@ -4675,11 +4226,11 @@ Msg_Inputs_Src_Loading                  = "Laddar MEKA.INP (definition av källor
 Msg_Inputs_Src_Not_Enough               = "Kunde ej hitta tillräckligt med styrenhetskällor! Kontrollera filen MEKA.INP eller försök installera om."
 Msg_Inputs_Src_Missing                  = "På rad %d: Ingen källa definierad för lagring av värde!"
 Msg_Inputs_Src_Equal                    = "På rad %d: Likhetstecken saknas för variabeltilldelning!"
-Msg_Inputs_Src_Unrecognized             = "På rad %d: Okänd variabel "%s"!"
+Msg_Inputs_Src_Unrecognized             = "På rad %d: Okänd variabel \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "På rad %d: Syntaxfel på variabelparameter!"
 Msg_Inputs_Src_Inconsistency            = "På rad %d: Oförenlighet med föregående inställningar!"
 Msg_Inputs_Src_Map_Keyboard             = "Tryck nu på den tangent du vill tilldela denna åtgärd till"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Åtgärden tilldelad till tangent "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Åtgärden tilldelad till tangent \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Tryck nu på den knapp/axel du vill tilldela denna åtgärd till"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Åtgärden tilldelad till joypad spak %i, axel %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Åtgärden tilldelad till joypad knapp %i."
@@ -4712,7 +4263,7 @@ Msg_Datafile_Loading                    = "Laddar MEKA.DAT (resurser).. "
 Msg_Driver_Unknown                      = "Allvarligt fel: Okänd maskindrivrutin!"
 
 ; Overdump detection ---------------------------------------------------------
-;Msg_OverDump                            = "Denna ROM innehåller %d gånger mer data än nödvändigt.\nLadda hem SMS Checker för att fixa den (http://www.smspower.org/maxim/smscheck)."
+;Msg_OverDump                            = "Denna ROM innehåller %d gånger mer data än nödvändigt.\nLadda hem \"SMS Checker\" för att fixa den (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiserar ljudsystem.."
@@ -4747,7 +4298,7 @@ Msg_LoadDisk_Success                    = "Laddade %s som en diskett"
 Msg_LoadROM_Comment                     = "Kommentar: %s"
 Msg_LoadROM_SMSGG_Mode_Comment          = "Detta är en Game Gear ROM som körs i Master System-kompatabilitetsläge."
 Msg_LoadROM_Warning                     = "-Varning-"
-Msg_LoadROM_Bad_Dump_Long               = "Denna ROM är en känd dålig dump.\nDen kan komma att fungera otillfredsställande. Ladda hem SMS Checker för att kontrollera den (http://www.smspower.org/maxim/smscheck)"
+Msg_LoadROM_Bad_Dump_Long               = "Denna ROM är en känd dålig dump.\nDen kan komma att fungera otillfredsställande. Ladda hem SMS Checker för att kontrollera den (http://www.smspower.org/maxim/smschecker/)"
 Msg_LoadROM_Bad_Dump_Short              = "Varning - Denna ROM är felaktigt dumpad."
 Msg_LoadROM_Product_Num                 = "Produktnummer: %s"
 Msg_LoadROM_SDSC                        = "-SDSC Header-"
@@ -4840,7 +4391,6 @@ Msg_Menu_Main_Quit                      = "Avsluta"
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Enabled                  = "Aktiverad"
 Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Watch                    = "Granska"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MASKIN"
@@ -4962,7 +4512,7 @@ Msg_Failed                              = "Fejlede!"
 Msg_Error_Base                          = "Fejl: %s"
 Msg_Error_Error                         = "Fatalt: fejl i hentning af fejltype. Noget må være galt."
 Msg_Error_Memory                        = "Ikke tilstraekkeligt med hukommelse"
-Msg_Error_Param                         = "Parameter "%s" er ugyldig\n"
+Msg_Error_Param                         = "Parameter \"%s\" er ugyldig\n"
 Msg_Error_Syntax                        = "Syntaksfejl!"
 
 ; Errors: Video --------------------------------------------------------------
@@ -5024,7 +4574,7 @@ Msg_Blitters_Not_Enough                 = "Ikke tilstraekkelige blitters fundet!
 Msg_Blitters_Not_Found                  = "Blitter ikke fundet!"
 Msg_Blitters_Missing                    = "I linie %d: Intet blitternavn defineret til lagring!"
 Msg_Blitters_Unrecognized               = "I linie %d: Ukendt variabel!"
-Msg_Blitters_Set                        = "Benytter nu "%s" fullskærms-blitter."
+Msg_Blitters_Set                        = "Benytter nu \"%s\" fullskærms-blitter."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Fed VVS-mands-tilstand aktiveret!"
@@ -5034,7 +4584,7 @@ Msg_NES_Deny_Facts                      = "Du kan ikke benægte fakta."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialiserer debugger.. "
-Msg_Debug_Welcome                       = "Velkommen til Meka Debugger (%s)!"
+Msg_Debug_Welcome                       = "Velkommen til Meka Debugger!"
 Msg_Debug_Not_Available                 = "Debuggeren findes ikke i denne version!"
 Msg_Debug_Brk_Need_Param                = "DEBUGBRK mulighed har brug for en adresse!"
 Msg_Debug_Trap_Read                     = "Ved PC:%04X - Læs fra %04X"
@@ -5153,11 +4703,11 @@ Msg_Inputs_Src_Loading                  = "Indlaeser MEKA.INP (definering af sty
 Msg_Inputs_Src_Not_Enough               = "Ikke tilstraekkeligt input af styreenheder! Check MEKA.INP eller proev at geninstallere meka."
 Msg_Inputs_Src_Missing                  = "I linie %d: Ingen styreenhed defineret til lagring af vaerdi!"
 Msg_Inputs_Src_Equal                    = "I linie %d: Lighedstegn savnes til vaerditildeling af variabel!"
-Msg_Inputs_Src_Unrecognized             = "I linie %d: Ukendt variabel "%s"!"
+Msg_Inputs_Src_Unrecognized             = "I linie %d: Ukendt variabel \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "I linie %d: Syntax-fejl i variabel parameter!"
 Msg_Inputs_Src_Inconsistency            = "I linie %d: Uforenlighed med tidligere indstillinger!"
 Msg_Inputs_Src_Map_Keyboard             = "Tryk på den tast, du vil tildele denne handling til"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Handling tildelt til tast "%s"."
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Handling tildelt til tast \"%s\"."
 Msg_Inputs_Src_Map_Joypad               = "Tryk på den tast/akse, du vil tildele denne handling til"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Handling tildelt til joypad stik %i, akse %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Handling tildelt til joypad knap %i."
@@ -5189,7 +4739,7 @@ Msg_Datafile_Loading                    = "Indlaeser MEKA.DAT (resourcer)... "
 Msg_Driver_Unknown                      = "Fatalt: Ukendt maskinedriver!"
 
 ; Overdump detection ---------------------------------------------------------
-;Msg_OverDump                            = "Denne ROM indeholder %d gange den nødvendige data.\nDownload venligst SMS Checker for, at checke den (http://www.smspower.org/maxim/smscheck)."
+;Msg_OverDump                            = "Denne ROM indeholder %d gange den nødvendige data.\nDownload venligst \"SMS Checker\" for, at checke den (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiserer lydsystem.."
@@ -5223,7 +4773,7 @@ Msg_LoadROM_Success                     = "Indlæste %s"
 Msg_LoadDisk_Success                    = "Indlæste %s som en diskette"
 Msg_LoadROM_Comment                     = "Kommentar: %s"
 Msg_LoadROM_Warning                     = "-Advarsel-"
-Msg_LoadROM_Bad_Dump_Long               = "Denne ROM er kendt som et dårligt dump.\nDen fungerer muligvis ikke ordentligt. Download venligst SMS Checker for, at checke den (http://www.smspower.org/maxim/smscheck)."
+Msg_LoadROM_Bad_Dump_Long               = "Denne ROM er kendt som et dårligt dump.\nDen fungerer muligvis ikke ordentligt. Download venligst SMS Checker for, at checke den (http://www.smspower.org/maxim/smschecker/)."
 Msg_LoadROM_Bad_Dump_Short              = "Advarsel - Denne ROM er kendt som et dårligt dump."
 Msg_LoadROM_Product_Num                 = "Produkt Kode: %s"
 Msg_LoadROM_SDSC                        = "-SDSC Header-"
@@ -5315,7 +4865,6 @@ Msg_Menu_Main_Quit                      = "Afslut"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Watch                    = "Watch"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MASKINE"

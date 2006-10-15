@@ -33,13 +33,16 @@
 #------------------------------------------------------
 # System target to compile MEKA for (dos|unix|win32)
 # All systems must currently run on X86 archicture.
-# - dos   : MS-DOS or compatible. Makefile up to date.
 # - unix  : UN*X system. Makefile up to date. May require system/library tweaking.
 # - win32 : Windows 32-bits. Makefile NOT up to date (can be updated). Hardcoded paths. Prefer using MsVc\Meka.sln (MSVC++ 7.1)
+# - dos   : MS-DOS or compatible. Could work. Not maintened anymore.
 #------------------------------------------------------
-SYSTEM = dos
+# SYSTEM = dos
 # SYSTEM = win32
-# SYSTEM = unix
+SYSTEM = unix
+#------------------------------------------------------
+BUILD = release
+# BUILD = debug
 #------------------------------------------------------
 
 #---[ DOS/DJGPP ]--------------------------------------
@@ -73,9 +76,9 @@ EXE     = ../meka.exe
 #--- Output directory
 OD      = obj
 #--- Compilation
-CC      = cc
+CC      = gcc
 CC_OUT  = -o
-LINKER  = cc
+LINKER  = gcc
 ASM     = nasm
 OTYPE   = elf
 #--- Tools
@@ -83,12 +86,13 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DUNIX -DX86_ASM -fwritable-strings
+DEF_OS  = -DUNIX -DX86_ASM
 INC_OS  = -Ilibs -I../include		                               # This may require an update
 X86_ASM = yes
 #--- Libraries
 LIB_OS  = -Llibs -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread -L../lib  # This may require an update
-LIB_OS += -lXxf86dga -lXxf86vm -s
+LIB_OS += -lXcursor -lXpm
+LIB_OS += -lXxf86dga -lXxf86vm
 # -lossaudio
 endif
 
@@ -130,7 +134,6 @@ endif
 # Note: As for the Z80 CPU core, only Marat's core is maintained.
 #-----------------------------------------------------
 OPT_SOUND = yes
-OPT_EAGLE = yes
 OPT_CLOCK = no
 OPT_DEBUGGER = yes
 OPT_JOY = yes
@@ -163,14 +166,6 @@ endif
 ifeq ($(SYSTEM), win32)
 LIB_SOUND = ../libs/seal/lib/win32/audw32vc.lib
 endif
-endif
-
-#-----------------------------------------------------
-# Option : Eagle graphic filter
-#-----------------------------------------------------
-ifeq ($(OPT_EAGLE), yes)
-DEF_EAGLE = -DMEKA_EAGLE
-OBJ_EAGLE = $(OD)/eagle.a
 endif
 
 #-----------------------------------------------------
@@ -240,13 +235,13 @@ endif
 #-----------------------------------------------------
 
 OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_colors.o $(OD)/g_emu.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/themes.o $(OD)/themes_b.o $(OD)/specials.o $(OD)/desktop.o
-OBJ_GAPPS = $(OD)/g_apps.o $(OD)/g_file.o $(OD)/options.o $(OD)/textbox.o $(OD)/tileview.o $(OD)/textview.o $(OD)/techinfo.o $(OD)/memview.o
+OBJ_GAPPS = $(OD)/g_apps.o $(OD)/g_file.o $(OD)/app_options.o $(OD)/textbox.o $(OD)/app_tileview.o $(OD)/textview.o $(OD)/app_techinfo.o $(OD)/app_memview.o $(OD)/app_palview.o $(OD)/app_about.o
 OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $(OD)/bios.o $(OD)/country.o $(OD)/bmemory.o $(OD)/mappers.o $(OD)/eeprom.o $(OD)/beam.o $(OD)/tvtype.o
 OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/keyboard.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/games.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o $(OD)/config_v.o $(OD)/config_j.o
-OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/about.o $(OD)/tools.o $(OD)/tools_t.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/clock.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
-OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o
+OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/tools_t.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/clock.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
+OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_REG   = $(OD)/register.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o $(OD)/m6502.a
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_t.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
@@ -267,7 +262,7 @@ INCLUDES = -I. -I./tools -I./sound $(INC_OS)
 #-----------------------------------------------------
 # Preprocessor Definitions
 #-----------------------------------------------------
-DEFINES = $(DEF_OS) $(DEF_SOUND) $(DEF_EAGLE) $(DEF_CLOCK) $(DEF_ZIP) $(DEF_PNG) $(DEF_JOY)
+DEFINES = $(DEF_OS) $(DEF_SOUND) $(DEF_CLOCK) $(DEF_ZIP) $(DEF_PNG) $(DEF_JOY)
 # DEFINES += -DDEBUG_WHOLE
 # DEFINES += -DDEBUG_IO
 # DEFINES += -DDEBUG_PAGES
@@ -287,11 +282,23 @@ endif
 # Compiler Flags
 #-----------------------------------------------------
 CFLAGS = $(INCLUDES) $(DEFINES)
-ifneq ($(SYSTEM), win32)
-CFLAGS += -Wall -march=pentium -O6 -ffast-math -fno-strength-reduce -funroll-all-loops
-# -fomit-frame-pointer 
-else
+
+ifeq ($(SYSTEM), win32)
+# Win32
+# (Note:TARGET unsupported for Win32 makefile compilation)
 CFLAGS += -W2 -Gd -Ox -GB -MT
+else
+
+# UNIX/MS-DOS
+# RELEASE build
+ifeq ($(BUILD), release)
+CFLAGS += -Wall -march=pentium -O6 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
+endif
+# DEBUG build
+ifeq ($(BUILD), debug)
+CFLAGS += -Wall -g -ggdb
+endif
+
 endif
 
 #-----------------------------------------------------
@@ -331,13 +338,13 @@ endif
 #-----------------------------------------------------
 # Complete Objects List
 #-----------------------------------------------------
-OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT) $(OBJ_MISC) $(OBJ_CFG) $(OBJ_GUI) $(OBJ_GAPPS) $(OBJ_EAGLE) $(OBJ_SOUND) $(OBJ_MACH) $(OBJ_REG) $(OBJ_ZIP) $(OBJ_PNG) $(OBJ_BLIT) $(OBJ_TOOLS) $(OBJ_LIBS)
+OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT) $(OBJ_MISC) $(OBJ_CFG) $(OBJ_GUI) $(OBJ_GAPPS) $(OBJ_SOUND) $(OBJ_MACH) $(OBJ_REG) $(OBJ_ZIP) $(OBJ_PNG) $(OBJ_BLIT) $(OBJ_TOOLS) $(OBJ_LIBS)
 
 #-----------------------------------------------------
 # Linking Rule
 #-----------------------------------------------------
 
-exe	: $(EXE)
+exe	: makedir buildupd.exe $(EXE)
 
 $(EXE)	: $(OBJ_MEKA)
 ifneq ($(SYSTEM), win32)
@@ -351,7 +358,7 @@ endif
 #-----------------------------------------------------
 
 # Compiling MEKA.C call buildupd.exe first to get build time
-$(OD)/meka.o : meka.c meka.h shared.h buildupd.exe
+$(OD)/meka.o : meka.c meka.h shared.h
 	./buildupd.exe
 	$(CC) $(CFLAGS) -c meka.c $(CC_OUT)$@
 
@@ -426,10 +433,6 @@ help :
 buildupd.exe : buildupd.c
 	gcc buildupd.c -o buildupd.exe -s $(DEF_OS) -Wall
 
-# FIXME: This should be make obsolete and moved to a different project
-smscheck.exe : smscheck.c
-	gcc smscheck.c tools/liblist.c tools/libmy.c -Itools -o smscheck.exe -s $(DEF_OS) -Wall
-
 #-----------------------------------------------------
 # Distribution
 #-----------------------------------------------------
@@ -444,6 +447,7 @@ dist_src :
 	@echo Creating Dist/meka-src.zip
 	cd ..
 	-$(MKDIR) Dist
+	-$(RM) srcs/buildupd.exe
 	zip -9 Dist/meka-src.zip meka.blt meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm
 	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip audiow32.dll
 	zip -9 -r Dist/meka-src.zip data/*.*
@@ -466,7 +470,6 @@ dist_src :
 #	zip -9 -r Dist/meka-src.zip srcs/z80raze/*.*
 	@echo Done!
 	
-ifneq ($(SYSTEM), unix)
 dist_bin_dos :
 	@echo Creating Dist/meka.zip
 	cd ..
@@ -477,7 +480,7 @@ dist_bin_dos :
 	@echo Packaging
 	zip -9 Dist/meka.zip meka.blt meka.cfg meka.dat meka.exe meka.inp meka.msg meka.nam meka.pat meka.thm
 	zip -9 Dist/meka.zip icons.zip
-	zip -9 Dist/meka.zip meka.txt changes.txt compat.txt multi.txt tech.txt 
+	zip -9 Dist/meka.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt 
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
@@ -490,12 +493,11 @@ dist_bin_win32 :
 	-upx -9 mekaw.exe
 	@echo Packaging
 	zip -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/mekaw.zip icons.zip audiow32.dll
-	zip -9 Dist/mekaw.zip meka.txt mekaw.txt changes.txt compat.txt multi.txt tech.txt
+	zip -9 Dist/mekaw.zip icons.zip audiow32.dll setup.bat
+	zip -9 Dist/mekaw.zip meka.txt mekaw.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
-endif
 
 # Not sure if this still work
 ifeq ($(SYSTEM), unix)
@@ -507,7 +509,7 @@ dist_bin_unix :
 	-mkdir ./Dist/
 	-mkdir ./Dist/mekanix/
 	cp meka.blt meka.cfg meka.dat meka.exe meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
-	cp meka.txt mekanix.txt changes.txt compat.txt multi.txt tech.txt ./mekanix/
+	cp meka.txt mekanix.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
 	tar cvzf Dist/mekanix.tgz ./mekanix
 	rm -fR ./mekanix/
 	@echo Done!
@@ -518,7 +520,6 @@ endif
 # Cleaning rules -------------------------------------
 clean :		clean_backup
 	$(RM) -f buildupd.exe
-	$(RM) -f smscheck.exe
 	$(RM) -f $(OD)/*.o
 	$(RM) -f $(OD)/osd/*.o
 	$(RM) -f $(OD)/tools/*.o
@@ -543,14 +544,23 @@ clean_backup :
 clean_sound :
 	$(RM) -f $(OD)/sound/*.o
 
-makedir:
+# Directories
+makedir: $(OD) $(OD)/osd $(OD)/tools $(OD)/sound $(OD)/sound/emu2413 $(OD)/libaddon $(OD)/libaddon/png $(OD)/libaddon/zip
+$(OD):
 	-$(MKDIR) $(OD)
+$(OD)/osd:
 	-$(MKDIR) $(OD)/osd
+$(OD)/tools:
 	-$(MKDIR) $(OD)/tools
+$(OD)/sound:
 	-$(MKDIR) $(OD)/sound
+$(OD)/sound/emu2413:
 	-$(MKDIR) $(OD)/sound/emu2413
+$(OD)/libaddon:
 	-$(MKDIR) $(OD)/libaddon
+$(OD)/libaddon/png:
 	-$(MKDIR) $(OD)/libaddon/png
+$(OD)/libaddon/zip:
 	-$(MKDIR) $(OD)/libaddon/zip
 
 #------------------------------------------------------

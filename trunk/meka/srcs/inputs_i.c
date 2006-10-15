@@ -4,7 +4,17 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "inputs_i.h"
 
+//-----------------------------------------------------------------------------
+// Forward declaration
+//-----------------------------------------------------------------------------
+
+void    Inputs_Init_Mouse(void);
+void    Inputs_Init_Joystick(void);
+
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    Inputs_Init (void)
@@ -16,8 +26,7 @@ void    Inputs_Init (void)
     Inputs.MouseMickeys_Y = 0;
 
     // Keyboard
-    Inputs.KeyPressed.scancode = 0;
-    Inputs.KeyPressed.ascii = 0;
+    Inputs.KeyPressedQueue = NULL;
 
     // Sources
     Inputs_Sources_Init ();
@@ -40,12 +49,10 @@ void    Inputs_Init_Mouse (void)
     set_mouse_speed (Inputs.MouseSpeed_X, Inputs.MouseSpeed_Y);
 }
 
-// INITIALIZE JOYSTICKS/JOYPADS -----------------------------------------------
-// Assume inputs sources were initialized/loaded
-void    Init_Joystick (void)
-{
 #ifdef MEKA_JOY
 
+void    Inputs_Joystick_Init(void)
+{
     int    i;
     int    NumJoy;
     byte   Found = NO;
@@ -54,8 +61,8 @@ void    Init_Joystick (void)
         return;
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
-        t_input_src *Src = Inputs.Sources[i];
-        if (Src->Type == INPUT_SRC_JOYPAD)
+        t_input_src *src = Inputs.Sources[i];
+        if (src->Type == INPUT_SRC_JOYPAD)
         {
             Found = YES;
             break;
@@ -100,14 +107,19 @@ void    Init_Joystick (void)
     // Flag available devices "connected and ready"
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
-        t_input_src *Src = Inputs.Sources[i];
-        if (Src->Type == INPUT_SRC_JOYPAD)
-            if (Src->Connection_Port < NumJoy)
-                Src->Connected_and_Ready = YES;
+        t_input_src *src = Inputs.Sources[i];
+        if (src->Type == INPUT_SRC_JOYPAD)
+            if (src->Connection_Port < NumJoy)
+                src->Connected_and_Ready = YES;
     }
+}
+
+void    Inputs_Joystick_Close(void)
+{
+    remove_joystick();
+}
 
 #endif // MEKA_JOY
-}
 
 //-----------------------------------------------------------------------------
 

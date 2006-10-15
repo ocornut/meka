@@ -216,7 +216,7 @@ static int      DB_Load_Entry (char *line)
 
     // Get system
     // FIXME: linear research with strcmp. Could be int compared, or even hashed.
-    parse_getword(buf, 4, &line, " \t", ';');
+    parse_getword(buf, 4, &line, " \t", ';', 0);
     value = DB_CodeToSystemTable_Find(buf);
     if (value == -1)
         return (1); // Silent return if there's anything else than a system
@@ -236,12 +236,12 @@ static int      DB_Load_Entry (char *line)
     DB.entries_counter_format_new++;
 
     // Get and add default name
-    if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
+    if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
         return (0);
     DB_Name_New (entry, w, 0, NO);
 
     // Parse optional parameters
-    while ((w = parse_getword(buf, 1024, &line, "=/", ';')) != NULL)
+    while ((w = parse_getword(buf, 1024, &line, "=/", ';', 0)) != NULL)
     {
         strupr (w);
         // printf ("field '%s'\n", w);
@@ -251,7 +251,7 @@ static int      DB_Load_Entry (char *line)
             w += 5;
             if ((value = DB_CodeToCountryTable_Find(w)) == -1)
                 return (0);
-            if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
                 break;
             DB_Name_New (entry, w, value, NO);
             // printf("adding country %d name %s", value, w);
@@ -260,7 +260,7 @@ static int      DB_Load_Entry (char *line)
         {
             while (line[-1] == ',' || line[-1] == '=')
             {
-                if (!(w = parse_getword(buf, 3, &line, ",/", ';')))
+                if (!(w = parse_getword(buf, 3, &line, ",/", ';', 0)))
                     return (0);
                 if ((value = DB_CodeToCountryTable_Find(w)) == -1)
                     return (0);
@@ -269,19 +269,19 @@ static int      DB_Load_Entry (char *line)
         }
         else if (!strcmp (w, "PRODUCT_NO"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
                 return (0);
             entry->product_no = w;
         }
         else if (!strcmp (w, "EMU_COUNTRY"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",/", ';', 0)))
                 return (0);
             entry->emu_country = atoi (w);
         }
         else if (!strcmp (w, "EMU_INPUTS"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
             strlwr (w);
             if (!strcmp(w, "joypad"))
@@ -299,26 +299,26 @@ static int      DB_Load_Entry (char *line)
         }
         else if (!strcmp (w, "EMU_IPERIOD"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
             entry->emu_iperiod = atoi (w);
         }
         else if (!strcmp (w, "EMU_MAPPER"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
             entry->emu_mapper = atoi (w);
         }
         else if (!strcmp (w, "EMU_VDP"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
             if ((entry->emu_vdp_model = VDP_Model_FindByNumber (w)) == -1)
                 return (0);
         }
         else if (!strcmp (w, "EMU_TVTYPE"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
             strlwr (w);
             if (!strcmp(w, "pal"))
@@ -334,7 +334,7 @@ static int      DB_Load_Entry (char *line)
             entry->flags |= DB_FLAG_EMU_SPRITE_FLICKER;
         else if (!strcmp (w, "COMMENT"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
                 return (0);
             entry->comments = w;
         }
@@ -342,7 +342,7 @@ static int      DB_Load_Entry (char *line)
         {
             while (line[-1] == ',' || line[-1] == '=')
             {
-                if (!(w = parse_getword(buf, 16, &line, ",/", ';')))
+                if (!(w = parse_getword(buf, 16, &line, ",/", ';', 0)))
                     return (0);
                 if      (!strcmp (w, "BAD"))        entry->flags |= DB_FLAG_BAD;
                 else if (!strcmp (w, "BIOS"))       entry->flags |= DB_FLAG_BIOS;
@@ -356,7 +356,7 @@ static int      DB_Load_Entry (char *line)
         }
         else if (!strcmp (w, "TRANS"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';', 0)))
                 return (0);
             // In TRANS field only, 'EN' can be specified. It currently gets the UK flag.
             if (!strcmp (w, "EN"))
@@ -368,13 +368,13 @@ static int      DB_Load_Entry (char *line)
         }
         else if (!strcmp (w, "AUTHORS"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
                 return (0);
             entry->authors = w;
         }
         else if (!strcmp (w, "VERSION"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, "/", ';', 0)))
                 return (0);
             entry->version = w;
         }
@@ -407,7 +407,7 @@ static int      DB_Load_EntryOldFormat (char *line)
     line += 16 + 1;
 
     // Get name
-    if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
+    if (!(w = parse_getword(NULL, 0, &line, ",", ';', 0)))
         return (0);
 
     // Create and add entry to global list
@@ -420,13 +420,13 @@ static int      DB_Load_EntryOldFormat (char *line)
     DB_Name_New (entry, w, 0, NO);
 
     // Parse optional parameters
-    while ((w = parse_getword(buf, 1024, &line, "=,", ';')) != NULL)
+    while ((w = parse_getword(buf, 1024, &line, "=,", ';', 0)) != NULL)
     {
         strupr (w);
         // printf ("field '%s'\n", w);
         if (!strcmp (w, "JAPNAME"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, ",", ';', 0)))
                 return (0);
             DB_Name_New (entry, w, DB_COUNTRY_JP, NO);
         }
@@ -434,7 +434,7 @@ static int      DB_Load_EntryOldFormat (char *line)
         {
             // In the old format, the 'VER' field holds both COUNTRY and VERSION
             char *wp;
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
 
             wp = buf;
@@ -488,32 +488,32 @@ static int      DB_Load_EntryOldFormat (char *line)
             entry->flags |= DB_FLAG_EMU_SPRITE_FLICKER;
         else if (!strcmp (w, "COMMENT"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, ",", ';', 0)))
                 return (0);
             entry->comments = w;
         }
         else if (!strcmp (w, "ID"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, ",", ';', 0)))
                 return (0);
             entry->product_no = w;
         }
         else if (!strcmp (w, "MAPPER"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             entry->emu_mapper = atoi (w);
         }
         else if (!strcmp (w, "COUNTRY"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             entry->emu_country = atoi (w);
         }
         else if (!strcmp (w, "TRANS"))
         {
             int value;
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             // In TRANS field only, 'EN' can be specified. It currently gets the UK flag.
             if (!strcmp (w, "EN"))
@@ -526,13 +526,13 @@ static int      DB_Load_EntryOldFormat (char *line)
         }
         else if (!strcmp (w, "IPERIOD"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             entry->emu_iperiod = atoi (w);
         }
         else if (!strcmp (w, "TVTYPE"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             strlwr (w);
             if (!strcmp(w, "pal") || !strcmp(w, "secam") || !strcmp(w, "pal/secam"))
@@ -544,7 +544,7 @@ static int      DB_Load_EntryOldFormat (char *line)
         }
         else if (!strcmp (w, "VDP"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             if (!strcmp(w, "315-5124"))
                 entry->emu_vdp_model = VDP_MODEL_315_5124;
@@ -559,7 +559,7 @@ static int      DB_Load_EntryOldFormat (char *line)
         }
         else if (!strcmp (w, "INPUT"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             strlwr (w);
             if (!strcmp(w, "joypad"))
@@ -577,13 +577,13 @@ static int      DB_Load_EntryOldFormat (char *line)
         }
         else if (!strcmp (w, "AUTHORS"))
         {
-            if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
+            if (!(w = parse_getword(NULL, 0, &line, ",", ';', 0)))
                 return (0);
             entry->authors = w;
         }
         else if (!strcmp (w, "DATE"))
         {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
+            if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
                 return (0);
             // FIXME: yet ignored
         }
@@ -668,9 +668,9 @@ void            DB_Load (char *filename)
     // Free file data
     tfile_free(tf);
 
-    // FIXME - WIP
-    // ConsolePrintf ("ENTRIES NEW = %d, OLD = %d\n", DB.entries_counter_format_new, DB.entries_counter_format_old);
-    // Quit();
+    // FIXME - Uncomment for counting progress of DB transition
+    //ConsolePrintf ("ENTRIES NEW = %d, OLD = %d\n", DB.entries_counter_format_new, DB.entries_counter_format_old);
+    //Quit();
 }
 
 //-----------------------------------------------------------------------------

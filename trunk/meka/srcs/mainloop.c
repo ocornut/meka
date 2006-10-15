@@ -62,6 +62,7 @@ void    Main_Loop (void)
                         else
                     #endif
                         {
+                            // Msg (MSGT_USER, "Entering RunZ80()");
                             RunZ80 (&sms.R);
                         }
                 #elif MDK_Z80

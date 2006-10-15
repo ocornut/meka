@@ -165,13 +165,13 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                              if (EEPROM_93c46.Read_Only == NO)
                                 {
                                 #ifdef DEBUG_EEPROM
-                                   Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE ALL", CPU_GetPC);
+                                   Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE ALL", CPU_GetPC());
                                 #endif
                                 memset (EEPROM_93c46.Data, 0xFF, EEPROM_93C46_DATA_SIZE);
                                 }
                              else
                                 {
-                                Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE ALL attempt, but E/W is Disabled!", CPU_GetPC);
+                                Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE ALL attempt, but E/W is Disabled!", CPU_GetPC());
                                 }
                              EEPROM_93c46.Lines |= EEPROM_93C46_LINE_DATA_OUT; // Ready
                              EEPROM_93c46.Status = EEPROM_93C46_STATUS_START;
@@ -214,7 +214,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                          }
                       else
                          {
-                         Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE attempt, but E/W is Disabled!", CPU_GetPC);
+                         Msg (MSGT_DEBUG, "At PC=%04X: 93c46: ERASE attempt, but E/W is Disabled!", CPU_GetPC());
                          }
                       return;
                  }
@@ -262,7 +262,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                   }
                else
                   {
-                  Msg (MSGT_DEBUG, "At PC=%04X: 93c46: WRITE [ALL] attempt = %04X, but E/W is Disabled!", CPU_GetPC, EEPROM_93c46.Latch);
+                  Msg (MSGT_DEBUG, "At PC=%04X: 93c46: WRITE [ALL] attempt = %04X, but E/W is Disabled!", CPU_GetPC(), EEPROM_93c46.Latch);
                   }
                EEPROM_93c46.Lines |= EEPROM_93C46_LINE_DATA_OUT; // Ready
                EEPROM_93c46.Status = EEPROM_93C46_STATUS_START;

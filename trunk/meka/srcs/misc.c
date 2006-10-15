@@ -4,8 +4,10 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_memview.h"
 #include "capture.h"
-#include "memview.h"
+#include "debugger.h"
+#include "inputs_i.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -52,7 +54,7 @@ void    Switch_Out_Callback (void)
 
 //-----------------------------------------------------------------------------
 // Change_System_Misc ()
-// Called when system/driver changes - updates various things
+// Called when media (ROM) changes - updates various things
 //-----------------------------------------------------------------------------
 void    Change_System_Misc (void)
 {
@@ -60,6 +62,7 @@ void    Change_System_Misc (void)
     Capture_Init_Game ();
     Sound_Log_Init_Game ();
     MemoryViewer_LoadROM ();
+    Debugger_MediaReload();
 }
 
 //-----------------------------------------------------------------------------
@@ -96,7 +99,7 @@ void    Change_Mode_Misc (void)
 // Set_Mouse_Cursor (int n)
 // Set mouse cursor to given one
 //-----------------------------------------------------------------------------
-// FIXME: cursor is given using non #defined id.
+// FIXME: Add proper enum to cursor values instead of using obscure hardcoded integers.
 //-----------------------------------------------------------------------------
 void    Set_Mouse_Cursor (int n)
 {
@@ -161,7 +164,7 @@ void    Show_End_Message (void)
   printf (FGCOLOR(0) " ");
   printf (FGCOLOR(7) "III");
   printf (FGCOLOR(0) "            ");
-  printf (RESET"  Built on the %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+  printf (RESET"  Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
 
   printf (" ");
   printf(BGCOLOR(1));
@@ -192,7 +195,7 @@ void    Show_End_Message (void)
     textcolor (0);  cprintf ("е");
     textcolor (15); cprintf ("III");
     textcolor (0);  cprintf ("ееееееееееее");
-    printf ("  Built on the %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+    printf ("  Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
     // Line 3 ------------------------------------------------------------------
     printf (" ");
     cprintf ("ееееееееееееееееееееее");
@@ -222,7 +225,7 @@ void    Show_End_Message (void)
     printf ("\n");
 #else
     ConsolePrintf (" %s (c) %s\n", PROG_NAME_VER, PROG_AUTHORS_SHORT);
-    ConsolePrintf (" Built on the %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+    ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
     ConsolePrintf (" " PROG_HOMEPAGE "\n");
 #endif
 

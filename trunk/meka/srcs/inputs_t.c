@@ -29,9 +29,22 @@ static int  typematic_repeat_counter = 0;
 // Inputs_Key_Eat (int keycode)
 // Eat given key by removing the corresponding flag in the global key[] table
 //-----------------------------------------------------------------------------
-void    Inputs_Key_Eat (int keycode)
+void    Inputs_Key_Eat(int keycode)
 {
     key[keycode] = 0;
+}
+
+void    Inputs_KeyPressQueue_Remove(t_key_press *keypress)
+{
+    Inputs_Key_Eat(keypress->scancode); // FIXME
+
+    list_remove(&Inputs.KeyPressedQueue, keypress, NULL);
+    free(keypress);
+}
+
+void    Inputs_KeyPressQueue_Clear(void)
+{
+    list_free(&Inputs.KeyPressedQueue);
 }
 
 //-----------------------------------------------------------------------------

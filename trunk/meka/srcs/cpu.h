@@ -20,9 +20,9 @@ int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the S
 #ifdef MARAT_Z80
   word Loop_SMS (void);
   #define Macro_Stop_CPU    { return (INT_QUIT); }
-  #define CPU_GetPC         (sms.R.PC.W)
-  #define Get_ICount        (sms.R.ICount)
-  #define Get_IPeriod       (sms.R.IPeriod)
+  #define CPU_GetPC()       (sms.R.PC.W)
+  #define CPU_GetICount()   (sms.R.ICount)
+  #define CPU_GetIPeriod()  (sms.R.IPeriod)
 #elif MDK_Z80
   #define INT_NONE          (-1)
   #define INT_IRQ           0x38

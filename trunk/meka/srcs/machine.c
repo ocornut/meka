@@ -24,13 +24,13 @@ void    Machine_Pause (void)
     if (machine & MACHINE_PAUSED)
     {
         Msg (MSGT_USER, Msg_Get (MSG_Machine_Pause));
-        gui_menu_check (menus_ID.machine, 2);
+        // gui_menu_check (menus_ID.machine, 2);
         Screen_Save_to_Next_Buffer ();
     }
     else
     {
         Msg (MSGT_USER, Msg_Get (MSG_Machine_Resume));
-        gui_menu_un_check_one (menus_ID.machine, 2);
+        // gui_menu_un_check_one (menus_ID.machine, 2);
     }
 }
 
@@ -103,6 +103,7 @@ void    Machine_Set_Handler_Read (void)
     default:
         #ifdef X86_ASM
             RdZ80 = RdZ80_NoHook = Read_Default_ASM;
+            // RdZ80 = RdZ80_NoHook = Read_Default;
         #else
             RdZ80 = RdZ80_NoHook = Read_Default;
         #endif
