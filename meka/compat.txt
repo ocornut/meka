@@ -108,6 +108,7 @@
  Desert Strike                                  -       Ok
  Dick Tracy                                     -       Ok
  Dinobasher - Starring Bignose the Ca.. [Proto] -       Ok
+ Dinosaur Dooley, The (KR)                     *-       Ok
  Dodgeball King (KR)                            -       Ok
  Double Dragon                                  FM      Ok
  Double Hawk                                    -       Ok
@@ -457,7 +458,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 439 games tested - 437 are "Ok" - Compatibility rate: 99.54%
+ 440 games tested - 438 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -490,7 +491,8 @@
  C_So!                                 C-64  *Ok (can't write to tape)
  Castle, The                         G-1046   Ok
  Chack'n Pop                           C-52   Ok
- Champion Baseball                   G-1011   Ok
+ Champion Baseball [16k]             G-1011   Ok
+ Champion Baseball [40k]             G-1011  *Ok
  Champion Billiards                    C-71   Ok
  Champion Boxing [card]                C-33   Ok
  Champion Boxing [cart]              G-1033   Ok
@@ -526,8 +528,9 @@
  Lode Runner                         G-1031   Ok
  Monaco GP                           G-1017   Ok
  Monaco GP (JP)                      G-1017  *Ok
- N-Sub (1983)                        G-1003  *Ok
- N-Sub (1988)                        G-1003   Ok
+ N-Sub [16k]                         G-1003  *Ok
+ N-Sub [16k] (1988)                  G-1003   Ok
+ N-Sub [40k]                         G-1003  *Ok
  Ninja Princess                        C-65   Ok
  Orguss                              G-1015   Ok
  Othello                             G-1044  *Ok
@@ -562,22 +565,24 @@
  Zippy Race                          G-1026   Ok
  Zoom 909                              C-47   Ok
 -----------------------------------------------------------------------------
-  79 games tested - 79 are "Ok" - Compatibility rate: 100.00%
+  81 games tested - 81 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- Challenge Derby                          OM-G005  *Ok
+ Challenge Derby [16k]                    OM-G005  *Ok
+ Challenge Derby [40k]                    OM-G005  *Ok
  Guzzler                                  OM-G002   Ok
  James Bond 007                           OM-G008   Ok
- Okamoto Ayako no Match Play Golf         OM-G006  *Ok
+ Okamoto Ayako no Match Play Golf [A]     OM-G006  *Ok
+ Okamoto Ayako no Match Play Golf [B]     OM-G006  *Ok
  Q*Bert                                   OM-G001   Ok
  Sannninn Mah-Jong                        OM-G004  *Ok
  Space Armor                              OM-G007  *Ok
  Space Mountain                           OM-G003  *Ok
 -----------------------------------------------------------------------------
-  8 games tested - 8 are "Ok" - Compatibility rate: 100.00%
+  10 games tested - 10 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -593,11 +598,11 @@
  Home Basic                                 B-50   *Ok (can't write to tape)
  Kagaku (Gensokigou Master)                 E-107  *Ok
  Nihonshi Nenpyou                           E-108   Ok
+ Music                                      E-101   Ok (can't write to tape)
+ Music (JP)                                 E-101   Ok (can't write to tape)
  Sega Basic Level 2 (JP)                    B-30    Ok (can't write to tape)
  Sega Basic Level 3 1.0                     B-40    Ok (can't write to tape)
  Sega Basic Level 3 1.1 (JP)                B-41   *Ok (can't write to tape)
- Sega Music Editor                          E-101   Ok (can't write to tape)
- Sega Music Editor (JP)                     E-101   Ok (can't write to tape)
  Sekaishi Nenpyou                           E-109  *Ok
  Tanoshii Sansuu                            E-115   Ok
  Uranai Angel Cutie                         E-119  *Ok
@@ -657,7 +662,7 @@
  Battletoads                                        Ok
  Beavis and Butt-head                               Ok
  Berenstain Bears', The - Camping Adventure         Ok
- Berlin no Kabe - The Berlin Wall                   Ok
+ Berlin no Kabe - The Berlin Wall (JP)              Ok
  Bonkers Wax Up!                                    Ok
  Bram Stoker's Dracula                              Ok
  Bubble Bobble                                      Ok
@@ -705,7 +710,7 @@
  Dragon Crystal - Tsurani no Meikyu (JP)            Ok
  Dragon - The Bruce Lee Story                       Ok
  Drop Zone                                          Ok
- Dunk Kids                                          Ok
+ Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
  Dynamite Headdy (JP)                               Ok
  Earthworm Jim                                      Ok
@@ -774,7 +779,6 @@
  Itchy & Scratchy                                   Ok
  James Bond 007: The Duel                           Ok
  James Pond II - Codename: Robocod                  Ok
- James Pond 3 - Operation Starfi5h                  Ok
  Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
  Jeopardy! - Sports Edition                         Ok
@@ -863,6 +867,7 @@
  Nomo's World Series Baseball / Nomo Hideo no..(JP) Ok
  Olympic Gold [A] [SMS-GG]                         *Ok
  Olympic Gold [B] [SMS-GG]                          Ok
+ Operation Starfi5h                                 Ok
  Ottifants, The                                     Ok
  Out Run                                            Ok
  Out Run Europa [SMS-GG]                            Ok
@@ -883,7 +888,7 @@
  Phantasy Star Gaiden (JP)                          Ok
  Phantom 2040                                       Ok
  Pinball Dreams                                     Ok
- Pocket Jong Sou (JP)                              *Ok
+ Pocket Jansou (JP)                                *Ok
  Poker Face Paul's Blackjack                        Ok
  Poker Face Paul's Gin                              Ok
  Poker Face Paul's Poker                            Ok
@@ -915,7 +920,7 @@
  RoboCop 3                                          Ok
  RoboCop versus The Terminator                      Ok
  R.B.I. Baseball '94                                Ok
- Royal Stone (JP)                                   Ok
+ Royal Stone ~Hikarishi Toki no Tobira~ (JP)        Ok
  Ryu Kyu (JP)                                       Ok
  Sailor Moon S (JP)                                 Ok
  Samurai Shodown                                    Ok
@@ -923,8 +928,8 @@
  Scratch Golf (JP)                                  Ok
  SD Gundam Winner's History (JP)                    Ok
  Sega Game Pack 4 in 1                              Ok
- Sensible Soccer                                   *Ok
- Shadam Crusader (JP)                               Ok
+ Sensible Soccer                                    Ok
+ Shadam Crusader ~Harukanaru Oukoku~ (JP)           Ok
  Shanghai 2 (JP)                                    Ok
  Shaq Fu                                            Ok
  Shining Force - The Sword of Hajya                 Reset after some missions (?).
@@ -1005,7 +1010,7 @@
  Smurfs, The                                        Ok
  Tintin in Tibet                                    Ok
  Tom and Jerry - The Movie                          Ok
- Torarete Tamaruka!? (JP)                          *Ok
+ Torarete Tamaruka!? (JP)                           Ok
  True Lies                                          Ok
  Ultimate Soccer                                    Ok
  Urban Strike                                       Ok
