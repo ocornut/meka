@@ -41,14 +41,14 @@ BEGIN
                     SS_CENTERIMAGE | SS_SUNKEN
 END
 
-IDD_SETUP DIALOGEX 0, 0, 242, 121
+IDD_SETUP DIALOGEX 0, 0, 242, 149
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
     WS_CAPTION | WS_SYSMENU
 CAPTION "xxx MEKA - Setup"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,135,103,50,14
-    PUSHBUTTON      "Quit",8,189,103,50,14
+    DEFPUSHBUTTON   "OK",IDOK,135,131,50,14
+    PUSHBUTTON      "Quit",8,189,131,50,14
     COMBOBOX        IDC_SETUP_SOUNDCARDS,7,23,227,77,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "xxx Please select your audio device:",
@@ -60,6 +60,10 @@ BEGIN
                     CBS_SORT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Language",IDC_STATIC,2,68,237,29
     GROUPBOX        "Audio",IDC_STATIC,2,2,237,65
+    GROUPBOX        "Debugger",IDC_STATIC,2,98,237,29
+    CONTROL         "xxx Enable Z80 debugger and associated features",
+                    IDC_SETUP_DEBUGGER_ENABLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,110,227,8
 END
 
 
@@ -87,7 +91,7 @@ BEGIN
         VERTGUIDE, 7
         VERTGUIDE, 234
         TOPMARGIN, 2
-        BOTTOMMARGIN, 117
+        BOTTOMMARGIN, 145
     END
 END
 #endif    // APSTUDIO_INVOKED

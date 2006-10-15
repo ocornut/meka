@@ -6,7 +6,7 @@
 // Different version feature different parameters to setup.
 //-----------------------------------------------------------------------------
 // - DOS, UNIX: Text mode. Soundcard setup.
-// - WIN32:     Win32 applet. Soundcard, soundrate and language setup.
+// - WIN32:     Win32 applet. Soundcard, soundrate, language, debugger enable setup.
 //-----------------------------------------------------------------------------
 // Note: the Win32 code, especially initialization, is boring and messy.
 // This may be improved in the future if we need more Win32 stuff.
@@ -19,10 +19,10 @@
 // Forward declaration
 //-----------------------------------------------------------------------------
 #ifdef WIN32
-  static int    Setup_Interactive_Win32 (void);
-  AL_FUNC(HWND, win_get_window, (void));
+    static int    Setup_Interactive_Win32 (void);
+    AL_FUNC(HWND, win_get_window, (void));
 #else
-  static int    Setup_Interactive_Console (void);
+    static int    Setup_Interactive_Console (void);
 #endif
 
 //-----------------------------------------------------------------------------
@@ -48,14 +48,14 @@ void    Setup_Interactive_Init (void)
 
 int     Setup_Interactive (void)
 {
-  // Call appropriate setup
-  #ifdef WIN32
-    // Windows setup
-    return (Setup_Interactive_Win32 ());
-  #else
-    // Console setup (DOS & UNIX)
-    return (Setup_Interactive_Console ());
-  #endif
+    // Call appropriate setup
+    #ifdef WIN32
+        // Windows setup
+        return (Setup_Interactive_Win32 ());
+    #else
+        // Console setup (DOS & UNIX)
+        return (Setup_Interactive_Console ());
+    #endif
 }
 
 //-----------------------------------------------------------------------------
@@ -84,6 +84,7 @@ Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPAR
         SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_1), Msg_Get (MSG_Setup_Soundcard_Select));
         // SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_2), Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
         SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_3), Msg_Get (MSG_Setup_SampleRate_Select));
+        SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get (MSG_Setup_Debugger_Enable));
 
         // Fill soundcards combo box
         n = AGetAudioNumDevs();
@@ -140,6 +141,9 @@ Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPAR
               }
         }
 
+        // Fill debugger enable box
+        CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)Configuration.debug_mode_cfg);
+
         return FALSE;
         }
     case WM_COMMAND:
@@ -166,6 +170,8 @@ Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPAR
                      t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, n, 0);
                      Messages.Lang_Cur = lang; // FIXME
                      }
+                  // Debugger enable
+                  Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
                   EndDialog(hDlg, 0);
                   }
                return TRUE;
@@ -186,15 +192,14 @@ Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPAR
 // Let user choose his sound card driver, sound rate and language
 static  int     Setup_Interactive_Win32 (void)
 {
-  int           ret;
+    int         ret;
 
-  ret = DialogBox(allegro_inst, MAKEINTRESOURCE(IDD_SETUP),
-                  win_get_window(), Setup_Interactive_Win32_DialogProc);
-  if (ret == -1)
-     return (MEKA_ERR_FAIL);
-  if (ret == 2)
-     return (MEKA_ERR_CANCEL);
-  return (MEKA_ERR_OK);
+    ret = DialogBox(allegro_inst, MAKEINTRESOURCE(IDD_SETUP), win_get_window(), Setup_Interactive_Win32_DialogProc);
+    if (ret == -1)
+        return (MEKA_ERR_FAIL);
+    if (ret == 2)
+        return (MEKA_ERR_CANCEL);
+    return (MEKA_ERR_OK);
 }
 
 #else
@@ -203,55 +208,53 @@ static  int     Setup_Interactive_Win32 (void)
 // Let user choose his sound card driver
 static  int     Setup_Interactive_Console (void)
 {
-  int           i, n;
-  AUDIOCAPS     Audio_Caps;
+    int         i, n;
+    AUDIOCAPS   Audio_Caps;
 
-  // Print setup message
-  ConsolePrintf ("[%s]\n", Msg_Get (MSG_Setup_Setup));
+    // Print setup message
+    ConsolePrintf ("[%s]\n", Msg_Get (MSG_Setup_Setup));
 
-  // Print soundcard selection message
-  ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
-  #ifdef WIN32
-    ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
-  #elif DOS
-    ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_DOS));
-  #endif
+    // Print soundcard selection message
+    ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
+    #ifdef WIN32
+        ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
+    #elif DOS
+        ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_DOS));
+    #endif
 
-  // Print soundcard listing
-  n = AGetAudioNumDevs();
-  for (i = 0; i < n; i++)
-      {
-      if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
-         ConsolePrintf ("  %2d. %s\n", i, Audio_Caps.szProductName);
-      }
+    // Print soundcard listing
+    n = AGetAudioNumDevs();
+    for (i = 0; i < n; i++)
+    {
+        if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
+            ConsolePrintf ("  %2d. %s\n", i, Audio_Caps.szProductName);
+    }
 
-  // Let user select (using Allegro keyboard handler)
-  Sound.SoundCard = SOUND_SOUNDCARD_NONE;
+    // Let user select (using Allegro keyboard handler)
+    Sound.SoundCard = SOUND_SOUNDCARD_NONE;
 #ifndef UNIX
     while (!key[KEY_ESC])
-       for (i = 0; i < n; i ++)
-           if (key[KEY_0 + i])
-              {
-              Sound.SoundCard = i;
-              return (MEKA_ERR_OK);
-              }
+        for (i = 0; i < n; i ++)
+            if (key[KEY_0 + i])
+            {
+                Sound.SoundCard = i;
+                return (MEKA_ERR_OK);
+            }
 #else
     while (1)
-      {
-	int k = getc(stdin);
-	if (k >= '0' && k <= '9' && (k - '0') < n)
-	  {
-	    Sound.SoundCard = (k - '0');
-	    return (MEKA_ERR_OK);
-	  }
-      }
+    {
+        int k = getc(stdin);
+        if (k >= '0' && k <= '9' && (k - '0') < n)
+        {
+            Sound.SoundCard = (k - '0');
+            return (MEKA_ERR_OK);
+        }
+    }
 #endif
 
-  return (MEKA_ERR_CANCEL);
+    return (MEKA_ERR_CANCEL);
 }
 
 #endif
 
 //-----------------------------------------------------------------------------
-
-

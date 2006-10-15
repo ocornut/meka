@@ -29,7 +29,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..;..\tools;..\sound;..\..\libs\seal\include;&quot;$(ZLIBDIR)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_EAGLE;MEKA_PNG;MEKA_ZIP;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_PNG;MEKA_ZIP;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="TRUE"
 				MinimalRebuild="FALSE"
 				ExceptionHandling="FALSE"
@@ -102,7 +102,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..;..\tools;..\sound;..\..\libs\seal\include;&quot;$(ZLIBDIR)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_EAGLE;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80;ALLEGRO_STATICLINK"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80;ALLEGRO_STATICLINK"
 				StringPooling="FALSE"
 				MinimalRebuild="TRUE"
 				ExceptionHandling="FALSE"
@@ -181,7 +181,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..;..\tools;..\sound;..\..\libs\seal\include;&quot;$(ZLIBDIR)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_EAGLE;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="TRUE"
 				MinimalRebuild="FALSE"
 				ExceptionHandling="FALSE"
@@ -257,6 +257,9 @@
 				RelativePath="..\..\compat.txt">
 			</File>
 			<File
+				RelativePath="..\..\debugger.txt">
+			</File>
+			<File
 				RelativePath="..\..\history.txt">
 			</File>
 			<File
@@ -318,12 +321,6 @@
 		<Filter
 			Name="Srcs"
 			Filter="">
-			<File
-				RelativePath="..\areplay.c">
-			</File>
-			<File
-				RelativePath="..\areplay.h">
-			</File>
 			<File
 				RelativePath="..\bmemory.c">
 			</File>
@@ -397,55 +394,10 @@
 				RelativePath="..\data.h">
 			</File>
 			<File
-				RelativePath="..\datadump.c">
-			</File>
-			<File
-				RelativePath="..\datadump.h">
-			</File>
-			<File
 				RelativePath="..\db.c">
 			</File>
 			<File
 				RelativePath="..\db.h">
-			</File>
-			<File
-				RelativePath="..\debugger.c">
-			</File>
-			<File
-				RelativePath="..\debugger.h">
-			</File>
-			<File
-				RelativePath="..\eagle.asm">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-						Outputs="$(OutDir)/$(InputName).obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-						Outputs="$(OutDir)/$(InputName).obj"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="ReleaseMax|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-						Outputs="$(OutDir)/$(InputName).obj"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\eagle.h">
 			</File>
 			<File
 				RelativePath="..\eeprom.c">
@@ -589,12 +541,6 @@
 				RelativePath="..\memory.h">
 			</File>
 			<File
-				RelativePath="..\memview.c">
-			</File>
-			<File
-				RelativePath="..\memview.h">
-			</File>
-			<File
 				RelativePath="..\message.c">
 			</File>
 			<File
@@ -637,16 +583,13 @@
 				RelativePath="..\setup.c">
 			</File>
 			<File
+				RelativePath="..\setup.h">
+			</File>
+			<File
 				RelativePath="..\shared.h">
 			</File>
 			<File
 				RelativePath="..\system.h">
-			</File>
-			<File
-				RelativePath="..\techinfo.c">
-			</File>
-			<File
-				RelativePath="..\techinfo.h">
 			</File>
 			<File
 				RelativePath="..\tools.c">
@@ -903,12 +846,6 @@
 				Name="GUI"
 				Filter="">
 				<File
-					RelativePath="..\about.c">
-				</File>
-				<File
-					RelativePath="..\about.h">
-				</File>
-				<File
 					RelativePath="..\desktop.c">
 				</File>
 				<File
@@ -919,12 +856,6 @@
 				</File>
 				<File
 					RelativePath="..\g_action.h">
-				</File>
-				<File
-					RelativePath="..\g_apps.c">
-				</File>
-				<File
-					RelativePath="..\g_apps.h">
 				</File>
 				<File
 					RelativePath="..\g_box.c">
@@ -1005,12 +936,6 @@
 					RelativePath="..\gui.h">
 				</File>
 				<File
-					RelativePath="..\options.c">
-				</File>
-				<File
-					RelativePath="..\options.h">
-				</File>
-				<File
 					RelativePath="..\specials.c">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -1021,18 +946,6 @@
 				</File>
 				<File
 					RelativePath="..\specials.h">
-				</File>
-				<File
-					RelativePath="..\textbox.c">
-				</File>
-				<File
-					RelativePath="..\textbox.h">
-				</File>
-				<File
-					RelativePath="..\textview.c">
-				</File>
-				<File
-					RelativePath="..\textview.h">
 				</File>
 				<File
 					RelativePath="..\themes.c">
@@ -1075,16 +988,43 @@
 					RelativePath="..\blitintf.h">
 				</File>
 				<File
+					RelativePath="..\eagle.asm">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="ReleaseMax|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\eagle.h">
+				</File>
+				<File
 					RelativePath="..\palette.c">
 				</File>
 				<File
 					RelativePath="..\palette.h">
-				</File>
-				<File
-					RelativePath="..\tileview.c">
-				</File>
-				<File
-					RelativePath="..\tileview.h">
 				</File>
 				<File
 					RelativePath="..\vdp.c">
@@ -1152,10 +1092,92 @@
 							Outputs="$(OutDir)/$(InputName).obj"/>
 					</FileConfiguration>
 				</File>
+				<Filter
+					Name="HQ2X"
+					Filter="">
+					<File
+						RelativePath="..\hq2x.c">
+					</File>
+					<File
+						RelativePath="..\hq2x.h">
+					</File>
+					<File
+						RelativePath="..\hq2x16.asm">
+						<FileConfiguration
+							Name="Release|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseMax|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\hq2x32.asm">
+						<FileConfiguration
+							Name="Release|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="ReleaseMax|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="Peripherals"
 				Filter="">
+				<File
+					RelativePath="..\areplay.c">
+				</File>
+				<File
+					RelativePath="..\areplay.h">
+				</File>
 				<File
 					RelativePath="..\glasses.c">
 				</File>
@@ -1302,6 +1324,80 @@
 				</File>
 				<File
 					RelativePath="..\osd\timer.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Applets"
+				Filter="">
+				<File
+					RelativePath="..\app_about.c">
+				</File>
+				<File
+					RelativePath="..\app_about.h">
+				</File>
+				<File
+					RelativePath="..\app_memview.c">
+				</File>
+				<File
+					RelativePath="..\app_memview.h">
+				</File>
+				<File
+					RelativePath="..\app_options.c">
+				</File>
+				<File
+					RelativePath="..\app_options.h">
+				</File>
+				<File
+					RelativePath="..\app_palview.c">
+				</File>
+				<File
+					RelativePath="..\app_palview.h">
+				</File>
+				<File
+					RelativePath="..\app_techinfo.c">
+				</File>
+				<File
+					RelativePath="..\app_techinfo.h">
+				</File>
+				<File
+					RelativePath="..\app_tileview.c">
+				</File>
+				<File
+					RelativePath="..\app_tileview.h">
+				</File>
+				<File
+					RelativePath="..\g_apps.c">
+				</File>
+				<File
+					RelativePath="..\g_apps.h">
+				</File>
+				<File
+					RelativePath="..\textbox.c">
+				</File>
+				<File
+					RelativePath="..\textbox.h">
+				</File>
+				<File
+					RelativePath="..\textview.c">
+				</File>
+				<File
+					RelativePath="..\textview.h">
+				</File>
+			</Filter>
+			<Filter
+				Name="Debugger"
+				Filter="">
+				<File
+					RelativePath="..\datadump.c">
+				</File>
+				<File
+					RelativePath="..\datadump.h">
+				</File>
+				<File
+					RelativePath="..\debugger.c">
+				</File>
+				<File
+					RelativePath="..\debugger.h">
 				</File>
 			</Filter>
 		</Filter>

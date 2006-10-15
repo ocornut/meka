@@ -38,10 +38,10 @@
 // Includes
 //-----------------------------------------------------------------------------
 
+#include "shared.h"
 #include "Z80.h"
 #include "Tables.h"
-#include <stdio.h>
-#include <string.h>
+#include "debugger.h"
 
 #include "Z80Call.c"
 
@@ -59,15 +59,6 @@ extern int              Debugger_Z80_PC_Log_Queue_Write;
 extern int              Debugger_Z80_PC_Log_Queue_First;
 
 //*** MEKA-END ***
-
-/** INLINE ***************************************************/
-/** Different compilers inline C functions differently.     **/
-/*************************************************************/
-#ifdef __GNUC__
-#define INLINE inline
-#else
-#define INLINE static
-#endif
 
 /** System-Dependent Stuff ***********************************/
 /** This is system-dependent code put here to speed things  **/
@@ -723,85 +714,87 @@ word    RunZ80(Z80 *R)
 
 word    RunZ80_Debugging(Z80 *R)
 {
-  register byte I;
-  register pair J;
+    register byte I;
+    register pair J;
 
-  for (;;)
-  {
-    // This is block of code that gets added in RunZ80_Debugging() compared to standard RunZ80()
-    #ifdef MEKA_Z80_DEBUGGER
-      // Log PC
+    for (;;)
+    {
+        // This is block of code that gets added in RunZ80_Debugging() compared to standard RunZ80()
+
+        // Log PC
         Debugger_Z80_PC_Last = R->PC.W;
         Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Write] = R->PC.W;
         Debugger_Z80_PC_Log_Queue_Write = (Debugger_Z80_PC_Log_Queue_Write + 1) & 255;
         if (Debugger_Z80_PC_Log_Queue_Write == Debugger_Z80_PC_Log_Queue_First)
             Debugger_Z80_PC_Log_Queue_First = (Debugger_Z80_PC_Log_Queue_First + 1) & 255;
-      // Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
+        // Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
 
-      // Turn tracing on when reached trap address
-      if (R->PC.W == R->Trap || Debugger_CPU_Exec_Traps[R->PC.W])
-          R->Trace = 1;
+        // Turn tracing on when reached trap address
+        if (R->PC.W == R->Trap || Debugger_CPU_Exec_Traps[R->PC.W])
+            R->Trace = 1;
 
-      // Call single-step debugger, exit if requested
-      if (R->Trace)
-         if (!Debugger_Hook (R))
-            return (R->PC.W);
-    #endif
+        // Call single-step debugger, exit if requested
+        if (R->Trace)
+            if (!Debugger_Hook (R))
+                return (R->PC.W);
 
-    I = RdZ80 (R->PC.W ++);
-    R->ICount -= Cycles[I];
-    #ifdef MEKA_Z80_OPCODES_USAGE
-      Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_NONE][I]++;
-    #endif
-    switch (I)
-    {
-#include "Codes.h"
+        I = RdZ80 (R->PC.W ++);
+        R->ICount -= Cycles[I];
+        #ifdef MEKA_Z80_OPCODES_USAGE
+            Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_NONE][I]++;
+        #endif
+        switch (I)
+        {
+        #include "Codes.h"
       case PFX_CB: CodesCB(R); break;
       case PFX_ED: CodesED(R); break;
       case PFX_FD: CodesFD(R); break;
       case PFX_DD: CodesDD(R); break;
-    }
-
-    /* If cycle counter expired... */
-    if (R->ICount <= 0)
-    {
-      /* If we have come after EI, get address from IRequest */
-      /* Otherwise, get it from the loop handler             */
-      if (R->IFF & IFF_EI)
-      {
-        R->IFF=(R->IFF&~IFF_EI)|IFF_1; /* Done with AfterEI state */
-        R->ICount += R->IBackup - 1;   /* Restore the ICount       */
-
-        /* Call periodic handler or set pending IRQ */
-        if (R->ICount>0) J.W=R->IRequest;
-        else
-        {
-          J.W = LoopZ80(/*R*/);                 /* Call periodic handler    */
-          #ifdef MEKA_Z80_IPERIOD_TRUNC
-             R->ICount=R->IPeriod;              /* Reset the cycle counter  */
-          #else
-             R->ICount+=R->IPeriod;             /* Add up to cycle counter  */
-          #endif
-          if (J.W==INT_NONE) J.W=R->IRequest;   /* Pending IRQ */
         }
-      }
-      else
-      {
-        J.W = LoopZ80(/*R*/);                   /* Call periodic handler    */
-        #ifdef MEKA_Z80_IPERIOD_TRUNC
-           R->ICount=R->IPeriod;                /* Reset the cycle counter  */
-        #else
-           R->ICount+=R->IPeriod;               /* Add up to cycle counter  */
-        #endif
-        if (J.W==INT_NONE) J.W=R->IRequest;     /* Pending int-rupt */
-      }
 
-      if (J.W == INT_QUIT) return (R->PC.W);    /* Exit if INT_QUIT */
-      if (J.W != INT_NONE) IntZ80 (R,J.W);      /* Int-pt if needed */
+        // Reset stepping flag
+        Debugger.stepping = FALSE;
+
+        /* If cycle counter expired... */
+        if (R->ICount <= 0)
+        {
+            /* If we have come after EI, get address from IRequest */
+            /* Otherwise, get it from the loop handler             */
+            if (R->IFF & IFF_EI)
+            {
+                R->IFF=(R->IFF&~IFF_EI)|IFF_1; /* Done with AfterEI state */
+                R->ICount += R->IBackup - 1;   /* Restore the ICount       */
+
+                /* Call periodic handler or set pending IRQ */
+                if (R->ICount>0) J.W=R->IRequest;
+                else
+                {
+                    J.W = LoopZ80(/*R*/);                 /* Call periodic handler    */
+                    #ifdef MEKA_Z80_IPERIOD_TRUNC
+                        R->ICount=R->IPeriod;             /* Reset the cycle counter  */
+                    #else
+                        R->ICount+=R->IPeriod;            /* Add up to cycle counter  */
+                    #endif
+                    if (J.W==INT_NONE) J.W=R->IRequest;   /* Pending IRQ */
+                }
+            }
+            else
+            {
+                J.W = LoopZ80(/*R*/);                   /* Call periodic handler    */
+                #ifdef MEKA_Z80_IPERIOD_TRUNC
+                    R->ICount=R->IPeriod;               /* Reset the cycle counter  */
+                #else
+                    R->ICount+=R->IPeriod;              /* Add up to cycle counter  */
+                #endif
+                if (J.W==INT_NONE) J.W=R->IRequest;     /* Pending int-rupt */
+            }
+
+            if (J.W == INT_QUIT) return (R->PC.W);    /* Exit if INT_QUIT */
+            if (J.W != INT_NONE) IntZ80 (R,J.W);      /* Int-pt if needed */
+        }
     }
-  }
 
-  /* Execution stopped */
-  return (R->PC.W);
+    /* Execution stopped */
+    return (R->PC.W);
 }
 

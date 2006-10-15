@@ -275,7 +275,7 @@
 #define MSG_Menu_Main_Quit                      (249)
 #define MSG_Menu_Debug                          (250)
 #define MSG_Menu_Debug_Dump                     (251)
-#define MSG_Menu_Debug_Watch                    (252)
+#define MSG_Menu_Debug_Reload_ROM               (252)
 #define MSG_Menu_Machine                        (253)
 #define MSG_Menu_Machine_Power                  (254)
 #define MSG_Menu_Machine_Power_On               (255)
@@ -391,8 +391,15 @@
 #define MSG_Options_Allow_Opposite_Directions   (353)
 #define MSG_Inputs_SK1100_Enabled               (354)
 #define MSG_Inputs_SK1100_Disabled              (355)
+// 0.71 WIP
+#define MSG_Setup_Debugger_Enable               (356)
+#define MSG_LoadROM_Reload_Reloaded             (357)
+#define MSG_LoadROM_Reload_No_ROM               (358)
+#define MSG_Debug_Symbols_Loaded                (359)
+#define MSG_Debug_Symbols_Error                 (360)
+#define MSG_Debug_Symbols_Error_Line            (361)
 // Number of messages
-#define MSG_MAX                                 (356)
+#define MSG_MAX                                 (362)
 
 //-----------------------------------------------------------------------------
 
@@ -653,7 +660,7 @@ static S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Menu_Main_Quit),
     __MSG_ADD(MSG_Menu_Debug),
     __MSG_ADD(MSG_Menu_Debug_Dump),
-    __MSG_ADD(MSG_Menu_Debug_Watch),
+    __MSG_ADD(MSG_Menu_Debug_Reload_ROM),
     __MSG_ADD(MSG_Menu_Machine),
     __MSG_ADD(MSG_Menu_Machine_Power),
     __MSG_ADD(MSG_Menu_Machine_Power_On),
@@ -757,6 +764,12 @@ static S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Options_Allow_Opposite_Directions),
     __MSG_ADD(MSG_Inputs_SK1100_Enabled),
     __MSG_ADD(MSG_Inputs_SK1100_Disabled),
+    __MSG_ADD(MSG_Setup_Debugger_Enable),
+    __MSG_ADD(MSG_LoadROM_Reload_Reloaded),
+    __MSG_ADD(MSG_LoadROM_Reload_No_ROM),
+    __MSG_ADD(MSG_Debug_Symbols_Loaded),
+    __MSG_ADD(MSG_Debug_Symbols_Error),
+    __MSG_ADD(MSG_Debug_Symbols_Error_Line),
     { NULL, MSG_NULL }
 };
 #undef __MSG_ADD

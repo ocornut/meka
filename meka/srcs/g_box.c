@@ -76,6 +76,8 @@ void        gui_update_boxes (void)
     b->must_redraw = YES;
     // gui.info.must_redraw = YES;
 
+    //Msg(MSGT_DEBUG, "will_move=%d", will_move);
+
     // ELSE, MOVE THE BOX --------------------------------------------------------
     if ((will_move) && (gui_mouse.pressed_on != PRESSED_ON_WIDGET) && (gui_mouse.button & 1))
     {

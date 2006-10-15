@@ -14,10 +14,12 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void            Load_ROM                (int mode, int user_verbose);
-void            Load_ROM_Command_Line   (void);
+bool            Load_ROM                (int mode, int user_verbose);
+bool            Load_ROM_Command_Line   (void);
+bool            Reload_ROM              (void);
 
-void            Filenames_Init          (void); // Initialize emulator filenames
+void            Filenames_Init          (void);     // Initialize filenames used by emulator (path to config files, etc.)
+void            Filenames_Init_ROM      (void);     // Initialize filenames for current ROM
 
 //-----------------------------------------------------------------------------
 

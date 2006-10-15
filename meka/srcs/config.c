@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_tileview.h"
 #include "blitintf.h"
 #include "capture.h"
 #include "config.h"
@@ -11,7 +12,6 @@
 #include "debugger.h"
 #include "fskipper.h"
 #include "g_file.h"
-#include "tileview.h"
 
 //-----------------------------------------------------------------------------
 
@@ -84,6 +84,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
 
      "debugger_console_lines",
      "debugger_disassembly_lines",
+     "debugger_disassembly_display_labels",
      "debugger_log",
 
      NULL
@@ -351,8 +352,13 @@ static void     Configuration_Load_Line (char *variable, char *value)
             Configuration.debugger_disassembly_lines = n;
         break;
 
-    // debugger_log
+    // debugger_disassembly_display_labels
     case 55:
+        Configuration.debugger_disassembly_display_labels = (bool)atoi(value);
+        break;
+
+    // debugger_log
+    case 56:
         Configuration.debugger_log_enabled = (bool)atoi(value);
         break;
 
@@ -434,9 +440,6 @@ void        Configuration_Load (void)
 
  // Free file data ------------------------------------------------------------
  tfile_free (tf);
-
- // Post process
- Configuration_Load_PostProcess ();
 }
 
 //-----------------------------------------------------------------------------
@@ -619,6 +622,7 @@ void    Configuration_Save (void)
     CFG_Write_Line (" it for a single session by starting MEKA with the /DEBUG parameter)");
     CFG_Write_Int  ("debugger_console_lines", Configuration.debugger_console_lines);
     CFG_Write_Int  ("debugger_disassembly_lines", Configuration.debugger_disassembly_lines);
+    CFG_Write_Int  ("debugger_disassembly_display_labels", Configuration.debugger_disassembly_display_labels);
     CFG_Write_Int  ("debugger_log", Configuration.debugger_log_enabled);
     CFG_Write_Line ("");
 

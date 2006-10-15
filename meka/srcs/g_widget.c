@@ -40,34 +40,35 @@ typedef struct
 {
     int         color;
     char *      text;
-}
-t_widget_data_textbox_line;
+} t_widget_data_textbox_line;
 
 typedef struct
 {
-    int         lines_num;
-    int         lines_max;
-    int         columns_max;
-    t_widget_data_textbox_line *     lines;
-    int         font_idx;
-    int         current_color;
-    int         need_redraw;
+    int                         lines_num;
+    int                         lines_max;
+    int                         columns_max;
+    t_widget_data_textbox_line *lines;
+    int                         font_idx;
+    int                         current_color;
+    int                         need_redraw;
 } t_widget_data_textbox;
 
 // FIXME: add focus parameters: update inputs on box OR widget focus
 // FIXME: Do not show cursor without focus ?
 typedef struct
 {
-    t_widget_inputbox_flags flags;
-    t_widget_content_type   content_type;
-    int                     insert_mode;    // Boolean
-    char *                  value;
-    int                     length;
-    int                     length_max;
-    void                    (*callback_edit)();
-    void                    (*callback_enter)();
-    int                     cursor_pos;
-    int                     font_idx;
+    t_widget_inputbox_flags     flags;
+    t_widget_content_type       content_type;
+    int                         insert_mode;    // Boolean
+    char *                      value;
+    int                         length;
+    int                         length_max;
+    int                         cursor_pos;
+    int                         font_idx;
+    void                        (*callback_edit)(t_widget *inputbox);
+    void                        (*callback_enter)(t_widget *inputbox);
+    bool                        (*callback_completion)(t_widget *inputbox);
+    bool                        (*callback_history)(t_widget *inputbox, int level);
 } t_widget_data_inputbox;
 
 //-----------------------------------------------------------------------------
@@ -88,20 +89,22 @@ int         widgets_update_box (t_gui_box *b, int mouse_x, int mouse_y)
         w->mx = -1;
         w->my = -1;
         w->mouse_action = WIDGET_MOUSE_ACTION_NONE;
-        if ((mouse_x >= w->frame.pos.x) && (mouse_y >= w->frame.pos.y) && (mouse_x < w->frame.pos.x + w->frame.size.x) && (mouse_y < w->frame.pos.y + w->frame.size.y))
-        {
-            w->mx = mouse_x - w->frame.pos.x;
-            w->my = mouse_y - w->frame.pos.y;
-            w->mb = gui_mouse.button;
-            w->mouse_action |= WIDGET_MOUSE_ACTION_HOVER;
-            if (w->mb & w->mb_react)
+        if (gui_mouse.pressed_on == PRESSED_ON_NOTHING || gui_mouse.pressed_on == PRESSED_ON_WIDGET)
+            if ((mouse_x >= w->frame.pos.x) && (mouse_y >= w->frame.pos.y) && (mouse_x < w->frame.pos.x + w->frame.size.x) && (mouse_y < w->frame.pos.y + w->frame.size.y))
             {
-                gui_mouse.pressed_on = PRESSED_ON_WIDGET;
-                w->mouse_action |= WIDGET_MOUSE_ACTION_CLICK;
-                wm = FALSE;
+                w->mx = mouse_x - w->frame.pos.x;
+                w->my = mouse_y - w->frame.pos.y;
+                w->mb = gui_mouse.button;
+                w->mouse_action |= WIDGET_MOUSE_ACTION_HOVER;
+                if (w->mb & w->mb_react)
+                {
+                    gui_mouse.pressed_on = PRESSED_ON_WIDGET;
+                    w->mouse_action |= WIDGET_MOUSE_ACTION_CLICK;
+                    wm = FALSE;
+                }
             }
-        }
     }
+
     return (wm);
 }
 
@@ -151,6 +154,7 @@ t_widget *  widget_new (int box_n)
     w->redraw       = NULL;
     w->update       = NULL;
     w->data         = NULL;
+    w->user_data    = NULL;
 
     // Add to box
     if (box->n_widgets == 0)
@@ -171,11 +175,27 @@ void        widget_disable (t_widget *w)
     w->enabled = NO;
 }
 
-void        widget_init_mb (t_widget *w, int react)
+void        widget_set_mouse_reaction(t_widget *w, int mouse_reaction)
 {
-    w->mb = 0;
-    w->mb_old = 0;
-    w->mb_react = react;
+    w->mb_react = mouse_reaction;
+}
+
+void *      widget_get_user_data(t_widget *w)
+{
+    // Check parameters
+    assert(w != NULL);
+
+    // Get user data
+    return (w->user_data);
+}
+
+void        widget_set_user_data(t_widget *w, void *user_data)
+{
+    // Check parameters
+    assert(w != NULL);
+
+    // Set user data
+    w->user_data = user_data;
 }
 
 //-----------------------------------------------------------------------------
@@ -187,7 +207,7 @@ t_widget *  widget_closebox_add (int box_n, void *callback)
     t_gui_box *box = gui.box[box_n];
 
     w = widget_new (box->stupid_id);
-    widget_init_mb (w, 1);
+    widget_set_mouse_reaction(w, 1);
     w->frame.pos.x = box->frame.size.x - 10;
     w->frame.pos.y = -15;
     w->frame.size.x = 7;
@@ -257,7 +277,7 @@ t_widget *  widget_button_add (int box_n, t_frame *frame, int react, void *callb
     t_widget_data_button *wd;
 
     w = widget_new (box_n);
-    widget_init_mb (w, react);
+    widget_set_mouse_reaction(w, react);
     w->frame = *frame;
 
     w->redraw = NULL;
@@ -297,7 +317,7 @@ t_widget *  widget_scrollbar_add (int box_n, t_frame *frame, int *v_max, int *v_
     t_widget_data_scrollbar *wd;
 
     w = widget_new (box_n);
-    widget_init_mb (w, 1);
+    widget_set_mouse_reaction(w, 1);
     w->frame = *frame;
 
     w->redraw = NULL;
@@ -357,7 +377,7 @@ t_widget *  widget_checkbox_add (int box_n, t_frame *frame, byte *pvalue, void *
     t_widget_data_checkbox *wd;
 
     w = widget_new (box_n);
-    widget_init_mb (w, 1);
+    widget_set_mouse_reaction(w, 1);
     w->frame = *frame;
 
     w->redraw = NULL; // widget_checkbox_redraw;
@@ -420,7 +440,7 @@ t_widget *      widget_textbox_add(int box_n, t_frame *frame, int lines_max, int
 
     // Create widget
     w = widget_new (box_n);
-    widget_init_mb (w, 0);
+    widget_set_mouse_reaction(w, 0);
     w->frame.pos.x = frame->pos.x;
     w->frame.pos.y = frame->pos.y;
     w->frame.size.x = frame->size.x;
@@ -598,7 +618,7 @@ void        widget_textbox_printf_scroll(t_widget *w, int wrap, const char *form
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_inputbox_add(int box_n, t_frame *frame, int length_max, int font_idx, void *callback_enter)
+t_widget *  widget_inputbox_add(int box_n, t_frame *frame, int length_max, int font_idx, void (*callback_enter)(t_widget *))
 {
     t_widget *w;
     t_widget_data_inputbox *wd;
@@ -612,7 +632,7 @@ t_widget *  widget_inputbox_add(int box_n, t_frame *frame, int length_max, int f
 
     // Create widget
     w = widget_new (box_n);
-    widget_init_mb (w, 1);
+    widget_set_mouse_reaction(w, 1);
     w->frame.pos.x = frame->pos.x;
     w->frame.pos.y = frame->pos.y;
     w->frame.size.x = size_x;
@@ -624,20 +644,87 @@ t_widget *  widget_inputbox_add(int box_n, t_frame *frame, int length_max, int f
     // Setup values & parameters
     w->data = malloc (sizeof (t_widget_data_inputbox));
     wd = w->data;
-    wd->flags           = WIDGET_INPUTBOX_FLAG_DEFAULT;
-    wd->content_type    = WIDGET_CONTENT_TYPE_TEXT;
-    wd->insert_mode     = FALSE;
-    wd->length_max      = length_max;
+    wd->flags               = WIDGET_INPUTBOX_FLAG_DEFAULT;
+    wd->content_type        = WIDGET_CONTENT_TYPE_TEXT;
+    wd->insert_mode         = FALSE;
+    wd->length_max          = length_max;
     assert(length_max != -1); // Currently, length must be fixed
-    wd->value           = malloc (sizeof (char) * (length_max + 1));
+    wd->value               = malloc (sizeof (char) * (length_max + 1));
     strcpy (wd->value, "");
-    wd->cursor_pos      = wd->length = 0;
-    wd->callback_enter  = callback_enter;
-    wd->callback_edit   = NULL;
-    wd->font_idx        = font_idx;
+    wd->cursor_pos          = wd->length = 0;
+    wd->font_idx            = font_idx;
+    wd->callback_enter      = callback_enter;
+    wd->callback_edit       = NULL;
+    wd->callback_completion = NULL;
+    wd->callback_history    = NULL;
 
     // Return newly created widget
     return (w);
+}
+
+bool    widget_inputbox_insert_char(t_widget *w, char c)
+{
+    t_widget_data_inputbox *wd = w->data;
+
+    if (wd->insert_mode == FALSE)
+    {
+        // Limit field size
+        if (wd->length == wd->length_max)
+            return (FALSE);
+
+        // Shift everything that is after cursor pos
+        if (wd->cursor_pos < wd->length)
+        {
+            int i;
+            for (i = wd->length; i > wd->cursor_pos; i--)
+                wd->value[i] = wd->value[i-1];
+        }
+    }
+
+    // Insert at cursor pos
+    wd->value[wd->cursor_pos] = c;
+    wd->cursor_pos++;
+    if (wd->length < wd->length_max)
+    {
+        wd->length++;
+        wd->value[wd->length] = '\0';
+    }
+
+    // Edit callback
+    if (wd->callback_edit)
+        wd->callback_edit(w);
+
+    return (TRUE);
+}
+
+bool    widget_inputbox_insert_string(t_widget *w, const char *str)
+{
+    char    c;
+    while ((c = *str++) != '\0')
+        if (!widget_inputbox_insert_char(w, c))
+            return (FALSE);
+    return (TRUE);
+}
+
+bool    widget_inputbox_delete_current_char(t_widget *w)
+{
+    t_widget_data_inputbox *wd = w->data;
+
+    if (wd->cursor_pos == 0)
+    {
+        return (FALSE);
+    }
+    else
+    {
+        // Shift everything that is after cursor
+        int i;
+        for (i = wd->cursor_pos; i < wd->length; i++)
+            wd->value[i-1] = wd->value[i];
+        wd->cursor_pos--;
+        wd->length--;
+        wd->value[wd->length] = '\0';
+        return (TRUE);
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -656,6 +743,7 @@ void        widget_inputbox_update(t_widget *w)
     const int tm_delay = 15;
     const int tm_rate = 1;
     bool edited = FALSE;
+    t_list *keypress_queue;
 
     // Check if we have focus
     // FIXME: This is completely a hack since it checks BOX focus (and not Widget focus,
@@ -696,15 +784,43 @@ void        widget_inputbox_update(t_widget *w)
         }
 
     // Check for printable input keys
-    if (((wd->length < wd->length_max) || (wd->insert_mode == TRUE && wd->cursor_pos < wd->length)) && 
-        (Inputs.KeyPressed.scancode != 0))
+    keypress_queue = Inputs.KeyPressedQueue;
+    while (((wd->length < wd->length_max) || (wd->insert_mode == TRUE && wd->cursor_pos < wd->length)) && 
+        (keypress_queue != NULL))
     {
-        t_key_info *ki = KeyInfo_FindByScancode(Inputs.KeyPressed.scancode);
+        t_key_press *keypress = keypress_queue->elem;
+        t_key_info *ki = KeyInfo_FindByScancode(keypress->scancode);
+        keypress_queue = keypress_queue->next;
 
         if (ki != NULL)
+        {
+            if (ki->scancode == KEY_TAB && (wd->flags & WIDGET_INPUTBOX_FLAG_COMPLETION))
+            {
+                // Completion
+                assert(wd->callback_completion != NULL);
+                wd->callback_completion(w);
+                Inputs_KeyPressQueue_Remove(keypress);
+            }
+            else 
+            if (ki->scancode == KEY_UP && (wd->flags & WIDGET_INPUTBOX_FLAG_HISTORY))
+            {
+                // History Up
+                assert(wd->callback_history != NULL);
+                wd->callback_history(w, -1);
+                Inputs_KeyPressQueue_Remove(keypress);
+            }
+            else
+            if (ki->scancode == KEY_DOWN && (wd->flags & WIDGET_INPUTBOX_FLAG_HISTORY))
+            {
+                // History Down
+                assert(wd->callback_history != NULL);
+                wd->callback_history(w, +1);
+                Inputs_KeyPressQueue_Remove(keypress);
+            }
+            else
             if (ki->flags & KEY_INFO_PRINTABLE)
             {
-                char c = Inputs.KeyPressed.ascii; // ki->printable_char
+                char c = keypress->ascii;
                 if (wd->content_type == WIDGET_CONTENT_TYPE_DECIMAL)
                 {
                     if (!(c >= '0' && c <= '9'))
@@ -719,32 +835,13 @@ void        widget_inputbox_update(t_widget *w)
                 }
                 if (c != 0)
                 {
-                    // Shift everything that is after cursor pos
-                    if (wd->insert_mode == FALSE && wd->cursor_pos < wd->length)
-                    {
-                        int i;
-                        for (i = wd->length; i > wd->cursor_pos; i--)
-                            wd->value[i] = wd->value[i-1];
-                    }
-
-                    // Insert at cursor pos
-                    wd->value[wd->cursor_pos] = c;
-                    wd->cursor_pos++;
-                    if (wd->length < wd->length_max)
-                    {
-                        wd->length++;
-                        wd->value[wd->length] = '\0';
-                    }
-
-                    // Edit callback
-                    if (wd->callback_edit)
-                        wd->callback_edit();
-
-                    // Eat flag in key[]
-                    Inputs_Key_Eat(Inputs.KeyPressed.scancode);
+                    // Insert character
+                    widget_inputbox_insert_char(w, c);
+                    Inputs_KeyPressQueue_Remove(keypress);
                     return;
                 }
             }
+        }
     }
 
     // Backspace, Delete
@@ -753,13 +850,8 @@ void        widget_inputbox_update(t_widget *w)
         {
             if (wd->cursor_pos > 0)
             {
-                // Shift everything that is after cursor
-                int i;
-                for (i = wd->cursor_pos; i < wd->length; i++)
-                    wd->value[i-1] = wd->value[i];
-                wd->cursor_pos--;
-                wd->length--;
-                wd->value[wd->length] = '\0';
+                // Delete current character
+                widget_inputbox_delete_current_char(w);
                 edited = TRUE;
             }
 
@@ -787,12 +879,12 @@ void        widget_inputbox_update(t_widget *w)
 
     // Edit callback
     if (edited && wd->callback_edit)
-        wd->callback_edit();
+        wd->callback_edit(w);
 
     // Enter: validate
     if (Inputs_KeyPressed_Repeat (KEY_ENTER, NO, 30, 3))
         if (wd->callback_enter)
-            wd->callback_enter();
+            wd->callback_enter(w);
 }
 
 void        widget_inputbox_redraw(t_widget *w)
@@ -837,6 +929,12 @@ char *      widget_inputbox_get_value(t_widget *w)
 {
     t_widget_data_inputbox *wd = w->data;
     return (wd->value);
+}
+
+int         widget_inputbox_get_value_length(t_widget *w)
+{
+    t_widget_data_inputbox *wd = w->data;
+    return (wd->length);
 }
 
 void        widget_inputbox_set_value(t_widget *w, char *value)
@@ -891,13 +989,13 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
     w->box->must_redraw = YES;
 }
 
-void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)())
+void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)(t_widget *))
 {
     t_widget_data_inputbox *wd = w->data;
     wd->callback_enter = callback_enter;
 }
 
-void        widget_inputbox_set_callback_edit(t_widget *w, void (*callback_edit)())
+void        widget_inputbox_set_callback_edit(t_widget *w, void (*callback_edit)(t_widget *))
 {
     t_widget_data_inputbox *wd = w->data;
     wd->callback_edit = callback_edit;
@@ -925,5 +1023,18 @@ void        widget_inputbox_set_insert_mode(t_widget *w, int insert_mode)
     wd->insert_mode = insert_mode;
 }
 
+void        widget_inputbox_set_callback_completion(t_widget *w, bool (*callback_completion)(t_widget *widget))
+{
+    t_widget_data_inputbox *wd = w->data;
+    assert(callback_completion != NULL);
+    wd->callback_completion = callback_completion;
+}
+
+void        widget_inputbox_set_callback_history(t_widget *w, bool (*callback_history)(t_widget *widget, int level))
+{
+    t_widget_data_inputbox *wd = w->data;
+    assert(callback_history != NULL);
+    wd->callback_history = callback_history;
+}
 
 //-----------------------------------------------------------------------------

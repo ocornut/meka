@@ -9,6 +9,8 @@
 #include "capture.h"
 #include "debugger.h"
 #include "fskipper.h"
+#include "inputs_i.h"
+#include "inputs_t.h"
 #include "vdp.h"
 #include "osd/misc.h"
 #include "osd/timer.h"
@@ -32,7 +34,8 @@ void    Video_Init (void)
     screenbuffer_2      = create_bitmap (MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
     screenbuffer_next   = screenbuffer_2;
-    double_buffer       = create_bitmap ((MAX_RES_X * 2) + 32, (MAX_RES_Y * 2) + 32);
+    double_buffer       = NULL;
+    regular_buffer      = NULL;
 
     // Clear variables
     Video.res_x         = 0;
@@ -60,6 +63,17 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
         Video_Mode_Update_Size ();
         return (MEKA_ERR_OK);
     }
+
+    // We must create the larger buffers in the current depth
+    // FIXME-BLIT
+    if (regular_buffer)
+    {
+        destroy_bitmap(regular_buffer);
+	destroy_bitmap(double_buffer);
+    }
+    regular_buffer = create_bitmap (MAX_RES_X + 32, MAX_RES_Y + 32);
+    double_buffer  = create_bitmap ((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
+
     previous_mode.driver = driver;
     previous_mode.w = w;
     previous_mode.h = h;
@@ -78,6 +92,7 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     }
     fs_page_0 = NULL;
     fs_page_1 = NULL;
+    fs_page_2 = NULL;
 
 #ifdef DOS
     // Set the Allegro vsync flag to that VGA scroll do not automatically vsync
@@ -90,7 +105,6 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     Video.refresh_rate_real = get_refresh_rate();
     Video_Mode_Update_Size ();
 
-    yield_timeslice();
     rest(100);
 
     return (MEKA_ERR_OK);
@@ -157,7 +171,48 @@ void    Video_Setup_State (void)
             //#else
             driver = blitters.current->driver;
             //#endif
-            if (blitters.current->flip)
+	
+            // FIXME-BLIT
+
+            // Set color depth
+            set_color_depth (blitters.current->video_depth);
+
+            if (blitters.current->triple_buffering)
+            {
+                if (Video_Mode_Change(
+                        driver,
+                        blitters.current->res_x, blitters.current->res_y,
+                    #ifdef WIN32
+                        0, 0,
+                    #else
+                        0, blitters.current->res_y * 2,
+                    #endif
+                        blitters.current->refresh_rate, NO) != MEKA_ERR_OK)
+                {
+                    Meka_State = MEKA_STATE_GUI;
+                    Video_Setup_State ();
+                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                    return;
+                }
+                if (fs_page_0)
+                    destroy_bitmap (fs_page_0);
+                if (fs_page_1)
+                    destroy_bitmap (fs_page_1);
+                if (fs_page_2)
+                    destroy_bitmap (fs_page_2);
+
+                fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
+                fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
+                fs_page_2 = create_video_bitmap (Video.res_x, Video.res_y);
+                enable_triple_buffer();
+                Video.page_flipflop = 0;
+                fs_out = fs_page_1;
+                clear_to_color (fs_page_0, Border_Color);
+                clear_to_color (fs_page_1, Border_Color);
+                clear_to_color (fs_page_2, Border_Color);
+                request_video_bitmap(fs_page_0);
+            } // if (blitters.current->triple_buffering)
+            else if (blitters.current->flip)
             {
                 if (Video_Mode_Change (driver,
                     blitters.current->res_x, blitters.current->res_y,
@@ -178,6 +233,12 @@ void    Video_Setup_State (void)
                     destroy_bitmap (fs_page_0);
                 if (fs_page_1)
                     destroy_bitmap (fs_page_1);
+                if (fs_page_2)
+                {
+                    destroy_bitmap (fs_page_1);
+                    fs_page_2 = NULL;
+                }
+
                 fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
                 fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
                 Video.page_flipflop = 0;
@@ -208,6 +269,10 @@ void    Video_Setup_State (void)
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
+            // Revert non-fullscreen color depth
+            // FIXME-BLIT
+	    set_color_depth(cfg.Video_Depth);
+
             switch (cfg.GUI_Access_Mode)
             {
             case GUI_FB_ACCESS_FLIPPED: //--------------------[ Two video pages ]---
@@ -342,6 +407,9 @@ void    Refresh_Screen (void)
             if (opt.Fullscreen_Cursor)
                 Show_Mouse_In (NULL);
         }
+
+        // Clear keypress queue
+        Inputs_KeyPressQueue_Clear();
 
         Clock_Draw ();
     } // of: if (fskipper.Show_Current_Frame)

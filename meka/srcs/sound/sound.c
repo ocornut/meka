@@ -1,24 +1,33 @@
-//
-// Meka - SOUND.C
-// Sound Engine - Initialization & Main Stuffs
-// Hiromitsu Shioya, 1998-1999.
-// Small improvements and changes by Omar Cornut, 1999-2001.
-//
+//-----------------------------------------------------------------------------
+// MEKA - sound.h
+// Sound Engine - Code. Initialization and main part of the mess.
+//-----------------------------------------------------------------------------
+// Hiromitsu Shioya, 1998-1999
+// Omar Cornut, 1999+
+//-----------------------------------------------------------------------------
 
 #include "shared.h"
 
-// Functions declaration ------------------------------------------------------
-// (Declared static and not usable outside of this file)
+//-----------------------------------------------------------------------------
+// FORWARD DECLARATIONS
+//-----------------------------------------------------------------------------
+
 static  int     Sound_Init_SoundCard (void);
 #ifdef MEKA_OPL
 static  int     Sound_Init_OPL (void);
 #endif
 static  int     Sound_Init_Engine (int buffer_mode);
 static  void    Sound_Init_Emulators (void);
+
+//-----------------------------------------------------------------------------
+// FUNCTIONS
 //-----------------------------------------------------------------------------
 
-// Initialize sound structure with its default values -------------------------
-void            Sound_Init_Config (void)
+//-----------------------------------------------------------------------------
+// Sound_Init_Config(void)
+// Initialize sound structure with its default values
+//-----------------------------------------------------------------------------
+void            Sound_Init_Config(void)
 {
     // General
     Sound.Enabled               = YES;

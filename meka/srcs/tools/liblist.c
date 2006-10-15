@@ -5,57 +5,40 @@
 
 #include "liblist.h"
 
-#include <stdio.h> // for list_print_str
-void    *malloc(int);
+void *  malloc(int);
 void    free(void *);
 
 // LIST_ADD.C ---------------------------------------------------------------
 
 void		list_add(t_list **list, void *elem)
 {
-  t_list	*new;
+    t_list *    item;
 
-  new = malloc(sizeof (t_list));
-  new->elem = elem;
-  new->next = *list;
-  *list = new;
+    item = malloc(sizeof (t_list));
+    item->elem = elem;
+    item->next = *list;
+    *list = item;
 }
 
 void		list_add_to_end(t_list **list, void *elem)
 {
-  t_list	*new;
-  t_list	*list2;
+    t_list *      item;
 
-  new = malloc(sizeof (t_list));
-  new->elem = elem;
-  new->next = 0;
-  if (*list == 0)
-    *list = new;
-  else
+    item = malloc(sizeof (t_list));
+    item->elem = elem;
+    item->next = 0;
+    if (*list == 0)
     {
-      list2 = *list;
-      while (list2->next)
-	list2 = list2->next;
-      list2->next = new;
+        // List is empty, stick on the beginning
+        *list = item;
     }
-}
-
-// LIST_CONTACT.C -----------------------------------------------------------
-
-void		list_concat(t_list **list1, t_list *list2)
-{
-  t_list	*l;
-
-  if (*list1)
+    else
     {
-      l = *list1;
-      while (l->next)
-	l = l->next;
-      l->next = list2;
-    }
-  else
-    {
-      *list1 = list2;
+        // Get to end of list (slow) to add element
+        t_list *list2 = *list;
+        while (list2->next)
+            list2 = list2->next;
+        list2->next = item;
     }
 }
 
@@ -92,46 +75,10 @@ void            list_free_custom(t_list **list, void (*custom_free)())
   while (*list)
     {
       next = (*list)->next;
-      custom_free((*list)->elem);
+      if (custom_free != 0)
+        custom_free((*list)->elem);
       free(*list);
       *list = next;
-    }
-}
-
-// LIST_MERGE.C -------------------------------------------------------------
-
-void		list_merge(t_list **list1, t_list *list2, int (*cmp)(void *elem1, void *elem2))
-{
-  t_list	*l;
-  int		found_flag;
-
-  while (list2)
-    {
-      l = *list1;
-      found_flag = 0;
-      while (l)
-	{
-	  if (cmp(l->elem, list2->elem) == 0)
-	    {
-	      found_flag = 1;
-	      break;
-	    }
-	  l = l->next;
-	}
-      if (found_flag == 0)
-	list_add(list1, list2->elem);
-      list2 = list2->next;
-    }
-}
-
-// LIST_PRINT.C -------------------------------------------------------------
-
-void	list_print_str(t_list *list)
-{
-  while (list)
-    {
-      printf("%s\n", (char *)list->elem);
-      list = list->next;
     }
 }
 

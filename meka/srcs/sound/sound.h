@@ -1,18 +1,28 @@
-//
-// Meka - SOUND.H
+//-----------------------------------------------------------------------------
+// MEKA - sound.h
 // Sound Engine - Headers
-// Hiromitsu Shioya, 1998-1999.
-// Small improvements and changes by Omar Cornut, 1999-2001.
-//
+//-----------------------------------------------------------------------------
+// Hiromitsu Shioya, 1998-1999
+// Omar Cornut, 1999+
+//-----------------------------------------------------------------------------
 
-// Include SEAL library headers -----------------------------------------------
+//-----------------------------------------------------------------------------
+// INCLUDES
+//-----------------------------------------------------------------------------
+
+// Include SEAL library headers
 #ifndef UNIX
 #include "audio.h"
 #else
-#include "seal.h" // Debian package header is named this way
+// Uncomment the appropriate:
+#include "audio.h"      // Official SEAL distribute name
+// #include "seal.h"    // Debian package header file was renamed to seal.h
+// FIXME: Need to automate this of use some Makefile trickery to detect.
 #endif
 
-// Definitions, Constants -----------------------------------------------------
+//-----------------------------------------------------------------------------
+// DEFINITIONS
+//-----------------------------------------------------------------------------
 
 #define SOUND_SOUNDCARD_SELECT  (-1)
 #define SOUND_SOUNDCARD_NONE    (0)
@@ -39,16 +49,14 @@
 #endif
 
 //-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
-// Inclusions, Part 1
+// INCLUDES (more. note the unordered mess)
 //-----------------------------------------------------------------------------
 
 #include "vgm.h"                // VGM.H : for VGM file creation
 #include "wav.h"                // WAV.H : for WAV file creation
 
 //-----------------------------------------------------------------------------
-// Structures
+// DATA
 //-----------------------------------------------------------------------------
 
 // SaSound voice (legacy)
@@ -110,7 +118,7 @@ t_sound         Sound;
 int             Sound_CycleCounter;         // Number of cycle elapsed since last sound sync.
 
 //-----------------------------------------------------------------------------
-// Functions
+// FUNCTIONS
 //-----------------------------------------------------------------------------
 
 void    Sound_Init_Config       (void);     // Initialize sound structure with its default values
@@ -129,7 +137,7 @@ void    Sound_Playback_Resume   (void);     // Resume sound playback
 void    Sound_MasterVolume_Set  (int v);    // Change Master Volume
 
 //-----------------------------------------------------------------------------
-// All crap from old engine
+// All ununderstandable stuff from old engine
 //-----------------------------------------------------------------------------
 
 #define INSTALL_SOUND_TIMER
@@ -154,7 +162,7 @@ int     sound_stream_mode;
 #define SOUND_STREAM_WAIT               (1)
 
 //-----------------------------------------------------------------------------
-// Inclusions, Part 2
+// INCLUDES (even more. note the unordered mess)
 //-----------------------------------------------------------------------------
 
 #include "s_log.h"                      // S_LOG.H      Sound logging

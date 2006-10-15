@@ -1171,17 +1171,6 @@ menu_gradient =1, 9, 1.6
 ;special = blood
 ;-----------------------------------------------------------------------------
 
-[Yeah]
-background_pic =Themes/Amelie.png, 1
-background = 63, 40, 50, 63, 40, 50
-;background = 63, 31, 47, 63, 31, 47
-text = 63, 63, 63, 60, 52, 55, 62, 58, 60
-fill = 63, 10, 28
-borders = 31, 0, 15
-highlight = 63, 22, 42
-bars = 63, 8, 24
-bar_gradient =1, 9, 2.6
-menu_gradient =1, 10, 1.6
 ;[Sonic Nite Sky]
 ;; Author: H Hog
 ;background = 0, 0, 0, 12, 30, 53

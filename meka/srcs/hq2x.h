@@ -1,24 +1,22 @@
 //-----------------------------------------------------------------------------
-// MEKA - tfile.c
-// Text file reading functions
+// MEKA - hq2x.h
+// HQ2X filter initialization and interface.
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
-{
-  int           size;
-  char *        data_raw;
-  t_list *      data_lines;
-}               t_tfile;
+extern unsigned int   HQ2X_LUT16to32[65536];
+extern unsigned int   HQ2X_RGBtoYUV[65536];
 
 //-----------------------------------------------------------------------------
-// Methods
+// Functions
 //-----------------------------------------------------------------------------
 
-t_tfile *       tfile_read(const char *filename);
-void            tfile_free(t_tfile *tf);
+void    hq2x_16(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
+void    hq2x_32(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
+
+void    HQ2X_Init(void);
 
 //-----------------------------------------------------------------------------

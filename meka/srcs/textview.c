@@ -195,25 +195,26 @@ void            TextViewer_Refresh(void)
 
 void            TextViewer_Update(t_textviewer *TV)
 {
- int            i, y, ly;
+    int         i, y, ly;
 
- if (!TV->Need_Update)
-    return;
- TV->Need_Update = 0;
- ly = TV->Pos_Y / TV->Font_Height;
- y = TV->Pad_Y - (TV->Pos_Y % TV->Font_Height);
- rectfill (TV->ID_BoxGfx, TV->Pad_X, TV->Pad_Y, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->ID_BoxGfx->h - TV->Pad_Y, GUI_COL_FILL);
- Font_SetCurrent (TV->ID_Font);
- for (i = ly; i < ly + TV->Size_Y + 1 && i < TV->Num_Lines; i++)
-     {
-     set_clip (TV->ID_BoxGfx, TV->Pad_X, TV->Pad_Y, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->ID_BoxGfx->h - TV->Pad_Y);
-     Font_Print (-1, TV->ID_BoxGfx, TV->Lines[i], TV->Pad_X, y, GUI_COL_TEXT_IN_BOX);
-     set_clip (TV->ID_BoxGfx, 0, 0, TV->ID_BoxGfx->w, TV->ID_BoxGfx->h);
-     y += TV->Font_Height;
-     }
- rectfill (TV->ID_BoxGfx, TV->Pad_X, 0, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->Pad_Y, GUI_COL_FILL);
- rectfill (TV->ID_BoxGfx, TV->Pad_X, TV->ID_BoxGfx->h - TV->Pad_Y, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->ID_BoxGfx->h, GUI_COL_FILL);
- gui.box [TV->ID_Box]->must_redraw = YES;
+    if (!TV->Need_Update)
+        return;
+
+    TV->Need_Update = FALSE;
+    ly = TV->Pos_Y / TV->Font_Height;
+    y = TV->Pad_Y - (TV->Pos_Y % TV->Font_Height);
+    rectfill (TV->ID_BoxGfx, TV->Pad_X, TV->Pad_Y, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->ID_BoxGfx->h - TV->Pad_Y, GUI_COL_FILL);
+    Font_SetCurrent (TV->ID_Font);
+    for (i = ly; i < ly + TV->Size_Y + 1 && i < TV->Num_Lines; i++)
+    {
+        set_clip_rect (TV->ID_BoxGfx, TV->Pad_X, TV->Pad_Y, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->ID_BoxGfx->h - TV->Pad_Y);
+        Font_Print (-1, TV->ID_BoxGfx, TV->Lines[i], TV->Pad_X, y, GUI_COL_TEXT_IN_BOX);
+        set_clip_rect (TV->ID_BoxGfx, 0, 0, TV->ID_BoxGfx->w, TV->ID_BoxGfx->h);
+        y += TV->Font_Height;
+    }
+    rectfill (TV->ID_BoxGfx, TV->Pad_X, 0, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->Pad_Y, GUI_COL_FILL);
+    rectfill (TV->ID_BoxGfx, TV->Pad_X, TV->ID_BoxGfx->h - TV->Pad_Y, TV->ID_BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->ID_BoxGfx->h, GUI_COL_FILL);
+    gui.box [TV->ID_Box]->must_redraw = YES;
 }
 
 void            TextViewer_Update_Inputs(t_textviewer *TV)
@@ -300,4 +301,3 @@ void            TextViewer_Update_Inputs(t_textviewer *TV)
 }
 
 //-----------------------------------------------------------------------------
-

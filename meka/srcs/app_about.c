@@ -54,15 +54,16 @@ void    About_Init (void)
   widget_closebox_add (AboutBox.box->stupid_id, About_Switch);
   draw_sprite (apps.gfx.About, Graphics.Misc.Dragon, 10, (AboutBox.box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
 
-  y = 9+8;
+  y = 9;
   Font_SetCurrent (F_LARGE);
-  for (i = 0; i < 3; i ++)
+  for (i = 0; i < 4; i ++)
       {
       switch (i)
          {
          case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), PROG_NAME_VER, PROG_DATE); break;
          case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), PROG_AUTHORS_SHORT); break;
          case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), PROG_HOMEPAGE); break;
+         case 3: sprintf (GenericBuffer, "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
          /*
          case 3: if (registered.is)
                     {

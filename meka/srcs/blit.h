@@ -14,7 +14,8 @@
 #define BLITTER_PARALLEL        (4)
 #define BLITTER_TVMODE_DOUBLE   (5)
 #define BLITTER_EAGLE           (6)
-#define BLITTER_MAX             (7)
+#define BLITTER_HQ2X            (7)
+#define BLITTER_MAX             (8)
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -32,9 +33,8 @@ void    Blit_Fullscreen_Parallel           (void);
 void    Blit_Fullscreen_Scanlines          (void);
 void    Blit_Fullscreen_TV_Mode            (void);
 void    Blit_Fullscreen_TV_Mode_Double     (void);
-#ifdef MEKA_EAGLE
 void    Blit_Fullscreen_Eagle              (void);
-#endif
+void    Blit_Fullscreen_HQ2X               (void);
 
 //-----------------------------------------------------------------------------
 // Data
@@ -46,16 +46,14 @@ typedef struct          s_blitters_table_entry
   int x_fact, y_fact;
 }                       t_blitters_table_entry;
 
-t_blitters_table_entry Blitters_Table[BLITTER_MAX];
-
-BITMAP *Work_Line;
-void    Blitters_Get_Factors (int *, int *);
+BITMAP *    Work_Line;
+void        Blitters_Get_Factors (int *, int *);
 
 struct
 {
-  int   src_sx, dst_sx;
-  int   src_sy, dst_sy;
-  float tv_mode_factor;
+  int       src_sx, dst_sx;
+  int       src_sy, dst_sy;
+  float     tv_mode_factor;
 } blit_cfg;
 
 //-----------------------------------------------------------------------------

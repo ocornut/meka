@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_options.h"
+#include "app_palview.h"
+#include "app_tileview.h"
 #include "blitintf.h"
 #include "capture.h"
 #include "config_v.h"
@@ -13,10 +16,8 @@
 #include "g_file.h"
 #include "inputs_t.h"
 #include "keyboard.h"
-#include "options.h"
 #include "saves.h"
 #include "vdp.h"
-#include "tileview.h"
 
 //-----------------------------------------------------------------------------
 // Function
@@ -113,7 +114,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                if (Inputs_KeyPressed (KEY_L, NO))         FB_Switch ();
                if (Inputs_KeyPressed (KEY_O, NO))         Options_Switch ();
                if (Inputs_KeyPressed (KEY_M, NO))         TB_Message_Switch ();
-               if (Inputs_KeyPressed (KEY_P, NO))         Action_Switch_Palette ();
+               if (Inputs_KeyPressed (KEY_P, NO))         PaletteViewer_Switch();
                if (Inputs_KeyPressed (KEY_T, NO))         TileViewer_Switch ();
                if (Inputs_KeyPressed (KEY_I, NO))         Action_Switch_Tech ();
                // Quit emulator
@@ -512,7 +513,8 @@ void    Inputs_Peripheral_Change_Update (void)
         if (Cursor == 2) // Light Phaser
         {
             Set_Mouse_Cursor (Cursor);
-            position_mouse (LightGun.X [Player] + gui.box [apps.id_game]->frame.pos.x, LightGun.Y [Player] + gui.box [apps.id_game]->frame.pos.y);
+            // Note: do not reposition mouse in GUI, this is annoying!
+            // position_mouse (LightGun.X [Player] + gui.box [apps.id_game]->frame.pos.x, LightGun.Y [Player] + gui.box [apps.id_game]->frame.pos.y);
         }
         else
             if (Cursor == 3) // Sport Pad

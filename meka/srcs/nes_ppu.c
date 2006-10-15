@@ -153,17 +153,19 @@ void    NES_PPU_Refresh (int Line) /* cgnes */
     // Blank line if necessary ---------------------------------------------------
     if (!(NES_Display_BG))
        {
-       memset (GFX_Line, 95, NES_RES_X); // Border_Color, NES_RES_X);
+       memset (GFX_Line, Border_Color, NES_RES_X);
        return;
        }
 
     // Draw background -----------------------------------------------------------
-    if (opt.Layer_Mask & LAYER_BACKGROUND)
-       NES_PPU_Refresh_BgFg (Line);
-    else
+       if (opt.Layer_Mask & LAYER_BACKGROUND)
        {
-       memset (GFX_Line, Border_Color, NES_RES_X);
-       memset (NES_Spr_Mask, 0, NES_RES_X);
+           NES_PPU_Refresh_BgFg (Line);
+       }
+       else
+       {
+           memset (GFX_Line, 95, NES_RES_X);
+           memset (NES_Spr_Mask, 0, NES_RES_X);
        }
 
     // Draw sprites --------------------------------------------------------------

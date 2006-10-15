@@ -235,12 +235,13 @@ void    Tms_VDP_Out (int RegNum, int Value)
 
      // Horizontal Scrolling --------------------------------------------------
      case 8: X_Scroll_Next = Value;
-             if (Get_ICount >= 8) X_Scroll = Value;
-             // Msg (MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, Get_ICount, Value);
+             if (CPU_GetICount() >= 8) 
+                 X_Scroll = Value;
+             // Msg (MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, CPU_GetICount(), Value);
              break;
 
      // Vertical Scrolling ----------------------------------------------------
-     //case 9: Msg (MSGT_DEBUG, "At PC=%04X, Line=%d: vscroll = %d", sms.R.PC.W, tsms.VDP_Line, Value);
+     //case 9: Msg (MSGT_DEBUG, "At PC=%04X, Line=%d: vscroll = %d", CPU_GetPC(), tsms.VDP_Line, Value);
              // if ((Wide_Screen_28) && Value > 224)
              //   {
              //   Msg (MSGT_DEBUG, "Error #9384: Please contact me if you see this message.");

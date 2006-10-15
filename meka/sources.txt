@@ -24,7 +24,7 @@ INDEX
 - Introduction
 - Technology
 - Communication
-- Licence
+- License
 - How to Compile
 - Hope
 
@@ -60,8 +60,9 @@ Don't freak out yet.
 
 Some parts are better than other, many are bad, some are very bad. 
 For my defense, and my silly pride, I would say that today my coding habits
-and knowledge evolved. I'm just stuck with this software, and rewriting 
-everything from stratch isn't always a viable solution:
+and knowledge evolved. I know that MEKA do not use correct coding practice,
+but I'm just stuck with this software, and rewriting everything from stratch 
+isn't always a viable solution:
 
 	    http://www.joelonsoftware.com/articles/fog0000000069.html
 
@@ -106,28 +107,38 @@ we can always find a way to implement your changes into the tree.
 
 
 ---------------------------------------
- Licence
+ License
 ---------------------------------------
+
+Apply to hq2x.c, hq2x16.asm, hq2x32.asm:
+
+  HQ2X is originally distributed under GPL license, which legally would 
+  not fit in MEKA (with its current license). An alternate license has 
+  been requested to the author, Maxim Stephin, who answered:
+
+    "Ah, just use it... I don't care much about legal stuff.
+     As long as it's not used in a commercial product, of course."
+
+  Overidding GPL terms.
+  
+Apply to all code not by Omar Cornut: (see MEKA.txt)
+
+  Unlicensed. Gray area. Kernel Panic. Ahah!
+
+Apply to everything else:
  
  #1 This source code comes free, without any warantee given.
  
- #2 Any publication of a binary resulting in modification of this source 
-    code requires publication of the source code, unless given specific
-    permission from me.
+ #2 Any modification of this software must have this license preserved,
+    and source code made available under the same condition.
 
- #3 Reuse of source code are authorized for any purpose (commercial or
-    non-commercial). Keep point #2 in mind, though.
-   
- #4 Reuse of embedded data (database, graphics) in other projects are 
+ #3 Reuse of program source code is authorized for any purpose.
+
+ #4 Reuse of embedded data (database, graphics) in other projects is 
     not authorized, unless given specific permission from me.
 
- #5 Creation of derivated work is authorized but discouraged. 
-    The idea is that in most cases, improvements should rather be merged
-    into the main project rather than split into a different one.
-
-
-I know this doesn't look like a clear licence, and it may scare law people.
-I'll try to work it out to provide a better licence in the future.
+I know this doesn't look like a clear licence, and it may scare lawsmen.
+I'll try to work it out to provide a better license in the future.
 Please contact me ( omar AT cornut DOT fr ) for any question.
 
 
@@ -154,13 +165,14 @@ I. Compile for Microsoft Windows:
    - You may get away by using Cygwin provided tools. Tell me if you succeed.
  - Apparently, compiling Allegro requires a GCC compiler for some reason...
    - Mingw GCC, or Cygwin GCC, or DJGPP
- - Install Allegro library, latest WIP.
+ - Install Allegro library, latest WIP
    - http://www.talula.demon.co.uk/allegro/wip.html#unstable
    - Set STATICLINK=1 environment variable.
    - Set STATICRUNTIME=1 environment variable.
+   - fix.bat msvc
    - make
    - make install
- - Install zlib. 
+ - Install zlib
    - http://www.gzip.org/zlib/
    - Compile static to zlibs.lib.
    - Add ZLIBDIR environment variable to ZLIB root directory.
@@ -168,7 +180,7 @@ I. Compile for Microsoft Windows:
    - http://www.libpng.org/pub/png/libpng.html
    - Compile static
    - Add LIBPNGDIR environment variable to libpng root directory.
- - Install Nasm
+ - Install NASM
    - http://nasm.sourceforge.net
    - Add NASM environment variable, set to executable path.
  - Compile !
@@ -183,7 +195,7 @@ II. Compile for MS-DOS compatible systems:
  - Install DJGPP compiler and related tools.
    - http://www.delorie.com/djgpp/
    - Add DJGPP bin/ directory to PATH.
- - Install Allegro, latest WIP.
+ - Install Allegro, latest WIP
    - http://www.talula.demon.co.uk/allegro/wip.html#unstable
    - Apply patches (already in my source tree).
      This may not be necessary. I have some DOS specific patchs.
@@ -191,13 +203,14 @@ II. Compile for MS-DOS compatible systems:
      Allegro already, I'm not sure). Will compile without the patch,
      but some behavior may change compared to official builds.
    - Set STATICLINK=1 environment variable.
+   - fix.bat djgpp
    - make
    - make install
- - Install zlib.
+ - Install zlib
    -> see I. Windows
  - Install libpng
    -> see I. Windows
- - Install nasm
+ - Install NASM
    -> see I. Windows
  - Compile !
    - Use provided Makefile.
@@ -206,9 +219,21 @@ II. Compile for MS-DOS compatible systems:
 III. Compile for UNIX
 
  - You are smart guys, you can figure it out!
- - Use provided Makefile.
- - Install SEAL.
-   - http://www.sonicspot.com/sealsdk/sealsdk.html
+ - Install Allegro library, latest WIP.
+   - http://www.talula.demon.co.uk/allegro/wip.html#unstable
+   - ./configure --enable-static
+   - make
+   - make install
+ - Install NASM
+   - Get a package, or http://nasm.sourceforge.net
+ - Install SEAL
+   - Get a package, or http://www.sonicspot.com/sealsdk/sealsdk.html
+ - Compile !
+   - Use provided Makefile.
+   - May have to edit some source code (unsure, will need to be worked out)
+     - In *.asm files, may need to uncomment the %DEFINE lines at the topm
+     - In sound/sound.h, may need to change <seal.h> by <audio.h>.
+     - In Makefile, may need to change -lseal by -laudio.
  - Contact me thru the forum for any help. :)
 
 

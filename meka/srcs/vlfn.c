@@ -89,7 +89,7 @@ void            VLFN_DataBase_Load (void)
         line_cnt += 1;
         line = lines->elem;
 
-        w = parse_getword(NULL, 0, &line, "/", ';');
+        w = parse_getword(NULL, 0, &line, "/", ';', 0);
         if (w == NULL)
             continue;
         else
@@ -105,7 +105,7 @@ void            VLFN_DataBase_Load (void)
             // Get CRCs
             crc_crc32 = 0;
             crc_mekacrc.v[0] = crc_mekacrc.v[1] = 0;
-            while ((w = parse_getword(buf, 1024, &line, "/", ';')) != NULL)
+            while ((w = parse_getword(buf, 1024, &line, "/", ';', 0)) != NULL)
             {
                 if (!strncmp(w, "MEKACRC:", 8))
                 {

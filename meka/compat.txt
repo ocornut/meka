@@ -21,7 +21,6 @@
  Aerial Assault                                 -       Ok
  After Burner                                   FM      Ok
  Air Rescue                                     -       Ok
- Akai Koudan Zillion (JP)                       -       Ok
  Aladdin                                        -       Ok
  Aleste (JP)                                    FM      Ok
  Alex Kidd: High-Tech World                     -       Ok
@@ -34,6 +33,7 @@
  Alien 3                                        -       Ok
  Alien Storm                                    -       Ok
  Alien Syndrome                                 FM      Ok
+ Alien Syndrome (JP)                            FM      Ok
  Altered Beast                                  FM      Ok
  American Baseball                              -       Ok
  American Pro Football                          -       Ok
@@ -220,7 +220,8 @@
  Loretta no Shouzou (JP)                        -       Ok
  Lord of Sword (JP)                             FM      Ok
  Lord of The Sword                              FM      Ok
- Lucky Dime Caper, The                          -       Ok
+ Lucky Dime Caper, The - Starring Donald Duck   -       Ok
+ Lucky Dime Caper, The - Starring D... [Proto] *-       Ok
  Mahjong Sengoku Jidai (JP)                     -       Ok
  Makai Retsuden (JP)                            -       Ok
  Marble Madness                                 -       Ok
@@ -280,6 +281,7 @@
  Power Strike II                                -       Ok
  Predator 2                                     -       Ok
  Prince of Persia                               -       Ok
+ Promocao Especial M.System III Compact         -       Ok 
  Pro Wrestling                                  -       Ok
  Psychic World                                  -       Ok
  Psycho Fox                                     -       Ok
@@ -376,6 +378,7 @@
  Super Tennis                                   -       Ok
  Super Tennis (JP)                             *-       Ok
  Super Tetris (KR)                              -       Ok
+ Super Wonder Boy (JP)                          -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
  T2 - The Arcade Game                           -       Ok
  Taito Chase H.Q.                               -       Ok
@@ -441,11 +444,28 @@
  Ys (JP)                                        FM      Ok
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
  Zaxxon 3-D / Zaxxon 3D [Proto]                *-       Ok
- Zillion                                        -       Ok
+ Zillion / Akai Koudan Zillion                  -       Ok
+ Zillion (US)                                   -       Ok
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 431 games tested - 429 are "Ok" - Compatibility rate: 99.53%
+ 435 games tested - 433 are "Ok" - Compatibility rate: 99.53%
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ SEGA MASTER SYSTEM (SMS) BIOS IMAGES
+-----------------------------------------------------------------------------
+ Note: the games/animations works properly, but full BIOS behavior is not 
+ emulated. It is not necessary for gaming purpose.
+-----------------------------------------------------------------------------
+ Alex Kidd in Miracle World [BIOS]              -       Ok
+ Hang On [BIOS]                                 -       Ok
+ Hang On / Safari Hunt [BIOS]                   LP      Ok
+ Missile Defense 3-D [BIOS]                    *LP,3D   Ok
+ Sonic The Hedgehog [BIOS]                      -       Ok
+ SMS Japanese (v2.1) [BIOS]                     FM      Ok
+ SMS Prototype (M404) [BIOS]                    -       Ok
+ SMS Store Display Unit [BIOS]                  KIOSK   Kiosk not emulated (no purpose).
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -460,7 +480,7 @@
  Black Onyx, The                       C-72   Ok
  Bomb Jack                             C-61   Ok
  Borderline                          G-1001   Ok
- C_So!                                 C-64  *Ok (can't write to cassette)
+ C_So!                                 C-64  *Ok (can't write to tape)
  Castle, The                         G-1046   Ok
  Chack'n Pop                           C-52   Ok
  Champion Baseball                   G-1011   Ok
@@ -473,8 +493,8 @@
  Champion Kendou                       C-67  *Ok
  Champion Pro Wrestling              G-1039   Ok
  Champion Soccer                     G-1034   Ok
- Champion Tennis                     G-1009  *Ok
- Championship Lode Runner              C-57   Ok (can't write to cassette)
+ Champion Tennis                     G-1009   Ok
+ Championship Lode Runner              C-57   Ok (can't write to tape)
  Choplifter                            C-48   Ok
  Choplifter [Proto]                    C-48   Ok
  Congo Bongo                         G-1007   Ok
@@ -635,7 +655,6 @@
  Beavis and Butt-head                               Ok
  Berenstain Bears', The - Camping Adventure         Ok
  Berlin no Kabe - The Berlin Wall                   Ok
- Big War (JP)                                       Ok
  Bonkers Wax Up!                                    Ok
  Bram Stoker's Dracula                              Ok
  Bubble Bobble                                      Ok
@@ -820,7 +839,8 @@
  Nazo Puyo Aruru no Ru (JP)                         Ok
  Nazo Puyo Aruru no Ru [Editor Proto] (JP)          Ok
  NBA Action                                         Ok
- NBA JAM                                            Ok
+ NBA JAM                                           *Ok
+ NBA JAM (JP)                                       Ok
  NBA JAM Tournament Edition                         Ok
  Neko Daisuki! (JP)                                *Ok
  NFL '95                                            Ok
@@ -848,7 +868,7 @@
  Paperboy 2                                         Ok
  Pengo                                              Ok
  Pengo (JP)                                         Ok
- Pet Club Inu Daisuki! (JP)                        *Ok
+ Pet Club Inu Daisuki! (JP)                         Ok
  Pete Sampras Tennis                                Ok
  PGA TOUR Golf                                      Ok
  PGA TOUR Golf 2                                    Ok
@@ -957,6 +977,7 @@
  T2 - The Arcade Game                               Ok
  Tails Adventure                                    Ok
  Tails' Sky Patrol                                  Ok
+ Taisen-gata Daisenryaku G (JP)                     Ok
  Taisen Mahjong HaoPai (JP)                         Ok
  Taisen Mahjong HaoPai 2 (JP)                       Ok
  Taito Chase H.Q. [SMS-GG] (JP)                     Ok
@@ -1017,7 +1038,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 413 games tested - 405 are "Ok" - Compatibility rate: 98.06%
+ 414 games tested - 406 are "Ok" - Compatibility rate: 98.07%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

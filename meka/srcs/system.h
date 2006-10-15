@@ -45,6 +45,11 @@
         #define ALLEGRO_STATICLINK
     #endif
 #endif
+#ifdef UNIX
+    #ifndef ALLEGRO_STATICLINK
+        #define ALLEGRO_STATICLINK
+    #endif
+#endif
 // #ifdef WIN32
 //  #define USE_CONSOLE
 // #endif
@@ -122,6 +127,7 @@ typedef int                 bool;
 
 #ifdef WIN32
   #define meka_mkdir(a) mkdir(a);
+  #define snprintf      _snprintf
 #else
   #define meka_mkdir(a) mkdir(a, 0700);
 #endif

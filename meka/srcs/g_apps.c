@@ -4,15 +4,16 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "about.h"
+#include "app_about.h"
+#include "app_memview.h"
+#include "app_options.h"
+#include "app_palview.h"
+#include "app_techinfo.h"
+#include "app_tileview.h"
 #include "debugger.h"
 #include "desktop.h"
 #include "g_file.h"
 #include "g_widget.h"
-#include "memview.h"
-#include "options.h"
-#include "techinfo.h"
-#include "tileview.h"
 
 //-----------------------------------------------------------------------------
 // gui_init_applets (void)
@@ -40,6 +41,7 @@ void    gui_init_applets (void)
     TechInfo_Init ();
 
     // Voice Recognition
+#ifdef DOS
     // FIXME: Is this still around ?
     apps.id.Voice_Rec = gui_box_create (10, 50, 147, 29, Msg_Get (MSG_VoiceRecognition_BoxTitle));
     apps.gfx.Voice_Rec = create_bitmap (148, 30);
@@ -49,18 +51,13 @@ void    gui_init_applets (void)
     apps.opt.Voice.Value = 0;
     apps.opt.Voice.Delay = 0;
     Desktop_Register_Box ("VOICEREC", apps.id.Voice_Rec, 0, &apps.active.Voice_Rec);
+#endif
 
     // Tiles Viewer
     TileViewer_Init ();
 
     // Palette Viewer
-    apps.id.Palette = gui_box_create (15, 53, 191, 49, Msg_Get (MSG_Palette_BoxTitle));
-    apps.gfx.Palette = create_bitmap (192, 50);
-    gui_set_image_box (apps.id.Palette, apps.gfx.Palette);
-    gui_applet_palette_configure (cur_drv->colors);
-    gui.box [apps.id.Palette]->update = gui_applet_palette_update;
-    widget_closebox_add (apps.id.Palette, Action_Switch_Palette);
-    Desktop_Register_Box ("PALETTE", apps.id.Palette, 1, &apps.active.Palette);
+    PaletteViewer_Init(&PaletteViewer);
 
     // FM Instruments Editor
     FM_Editor_Init ();
@@ -94,40 +91,6 @@ void    gui_applet_voice_rec (void)
     rectfill (apps.gfx.Voice_Rec, 10 + apps.opt.Voice.Value, 5, 138, 25, GUI_COL_BORDERS);
     apps.opt.Voice.Old_Value = apps.opt.Voice.Value;
     gui.box[apps.id.Voice_Rec]->must_redraw = YES;
-}
-
-void        gui_applet_palette_configure (int size)
-{
-    int     i;
-    int     bar_size;
-
-    apps.opt.Palette_Size = size;
-    bar_size = apps.gfx.Palette->w / size;
-    for (i = 0; i < size; i++)
-        rectfill (apps.gfx.Palette,
-        (i * bar_size), 0, (i * bar_size) + bar_size - 1, 49,
-        Palette_Refs [i]);
-    gui.box[apps.id.Palette]->must_redraw = YES;
-}
-
-// CREATE PALETTE APPLET ------------------------------------------------------
-// Note: has to be executed before tileviewer::update
-void        gui_applet_palette_update (void)
-{
-    int     i;
-    int     bar_size;
-    int     size = apps.opt.Palette_Size;
-
-    bar_size = apps.gfx.Palette->w / size;
-    for (i = 0; i < size; i++)
-        if (Palette_Refs_Dirty [i])
-        {
-            rectfill (apps.gfx.Palette, (
-                i * bar_size), 0, (i * bar_size) + bar_size - 1, 49,
-                Palette_Refs [i]);
-            Palette_Refs_Dirty [i] = NO;
-            gui.box[apps.id.Palette]->must_redraw = YES;
-        }
 }
 
 //-----------------------------------------------------------------------------

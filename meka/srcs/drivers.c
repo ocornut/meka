@@ -4,7 +4,8 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "tileview.h"
+#include "app_palview.h"
+#include "app_tileview.h"
 
 //-----------------------------------------------------------------------------
 
@@ -67,7 +68,7 @@ void    drv_set (int num)
                 case VDP_NES:   palette_max = 2;  break;
             }
             TileViewer_Configure_PaletteMax(palette_max);
-            gui_applet_palette_configure (cur_drv->colors);
+            PaletteViewer_SetPaletteSize(&PaletteViewer, cur_drv->colors);
         }
     }
 }

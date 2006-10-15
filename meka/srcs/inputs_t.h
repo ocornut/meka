@@ -16,8 +16,12 @@ char    Alpha_Table [NUM_ALPHA_KEYS];
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Inputs_Key_Eat (int keycode);
-int     Inputs_KeyPressed (int keycode, int eat);
-int     Inputs_KeyPressed_Repeat (int keycode, int eat, int delay, int rate);
+void    Inputs_Key_Eat                  (int keycode);
+
+void    Inputs_KeyPressQueue_Remove     (t_key_press *keypress);
+void    Inputs_KeyPressQueue_Clear      (void);
+
+int     Inputs_KeyPressed               (int keycode, int eat);
+int     Inputs_KeyPressed_Repeat        (int keycode, int eat, int delay, int rate);
 
 //-----------------------------------------------------------------------------

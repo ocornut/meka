@@ -6,10 +6,11 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_memview.h"
+#include "app_palview.h"
 #include "debugger.h"
 #include "g_file.h"
 #include "g_widget.h"
-#include "memview.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -37,9 +38,8 @@ void    gui_update_applets (void)
     if (FB.active)
         FB_Update_Inputs();
 
-    // FIXME-Cherinette
     if (MemoryViewer.active)
-      MemoryViewer_Update_Inputs();
+        MemoryViewer_Update_Inputs();
 
     #ifdef MEKA_Z80_DEBUGGER
         if (Debugger.Active)
@@ -53,10 +53,9 @@ void    gui_update_applets_before (void)
     // Tile Viewer : flag appropriate decoded VRAM tiles before emulation run
     if (apps.active.Tiles)
         gui.box[apps.id.Tiles]->update ();
-    if (apps.active.Palette)
-        gui.box[apps.id.Palette]->update ();
+    if (PaletteViewer.active)
+        PaletteViewer_Update();
 
-    // FIXME-Cherinette
     if (MemoryViewer.active)
         MemoryViewer_Update();
 

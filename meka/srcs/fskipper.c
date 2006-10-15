@@ -106,8 +106,9 @@ int     Frame_Skipper (void)
                 // pause (); // Wait for an interrupt
             #endif
             //#ifdef WIN32
-              rest(4);
-              yield_timeslice();
+              //rest(4);
+              //yield_timeslice();
+            rest(1);
             //#endif
         }
 

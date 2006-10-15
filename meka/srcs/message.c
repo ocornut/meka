@@ -5,7 +5,7 @@
 
 #define __MESSAGE_C__ // Needed to include table in Message.h
 #include "shared.h"
-#include <stdarg.h>
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -145,8 +145,15 @@ int             Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
             lang->Name, msg_id);
     }
 
-    Replace_Backslash_N (msg);
-    lang->Messages [n] = strdup (msg);
+    // Replace_Backslash_N (msg);
+    // lang->Messages [n] = strdup (msg);
+    lang->Messages[n] = parse_getword(NULL, 0, &msg, "\"", 0, 0);
+
+    // Verify that there's nothing after this line
+    skip_spaces(&msg);
+    if (msg[0])
+        return (MEKA_ERR_SYNTAX);
+
     return (MEKA_ERR_OK);
 }
 
@@ -208,39 +215,51 @@ void            Langs_Menu_Add (int menu_id)
 int             Messages_Init_Parse_Line (char *line)
 {
     char *      p;
-    char *      p2;
+    //char *      p2;
+    int         ret;
 
     if (line[0] == '[')
     {
+        line = strdup(line);    // Work on a copy
         if ((p = strchr(line, ']')) != NULL)
             *p = EOSTR;
         Messages.Lang_Cur = Lang_New(line + 1);
         if (Messages.Lang_Default == NULL)
             Messages.Lang_Default = Messages.Lang_Cur;
+        free(line);
         return (MEKA_ERR_OK);
     }
 
     if (Messages.Lang_Cur == NULL)
         return (MEKA_ERR_MISSING);
 
-    if (strcmp (line, MSG_LANG_WIP_STR) == 0)
+    if (stricmp(line, MSG_LANG_WIP_STR) == 0)
     {
         Messages.Lang_Cur->WIP = YES;
         return (MEKA_ERR_OK);
     }
 
+    line = strdup(line);    // Work on a copy
     if ((p = strchr(line, '=')) == NULL)
+    {
+        free(line);
         return (MEKA_ERR_SYNTAX);
+    }
     *p = EOSTR;
     Trim (line);
     strupr (line);
     Trim (p + 1);
     if ((p = strchr (p + 1, '\"')) == NULL)
+    {
+        free(line);
         return (MEKA_ERR_SYNTAX);
-    if ((p2 = strrchr (p + 1, '\"')) == NULL)
-        return (MEKA_ERR_SYNTAX);
-    *p2 = EOSTR;
-    return (Lang_Message_Add (Messages.Lang_Cur, line, p + 1));
+    }
+    // if ((p2 = strrchr (p + 1, '\"')) == NULL)
+    //    return (MEKA_ERR_SYNTAX);
+    // *p2 = EOSTR;
+    ret = Lang_Message_Add(Messages.Lang_Cur, line, p + 1);
+    free(line);
+    return (ret);
 }
 
 // Load messages from MEKA.MSG file (path given in structure)
@@ -249,7 +268,6 @@ int             Messages_Init (void)
 {
     t_tfile *   tf;
     t_list *    lines;
-    char *      line;
     int         line_cnt;
     char *      p;
 
@@ -271,8 +289,8 @@ int             Messages_Init (void)
     line_cnt = 0;
     for (lines = tf->data_lines; lines; lines = lines->next)
     {
+        char *line = lines->elem;
         line_cnt += 1;
-        line = lines->elem;
 
         // Cut Comments
         p = strchr (line, ';');
@@ -285,17 +303,20 @@ int             Messages_Init (void)
 
         // Parse Line and handle errors
         // ConsolePrintf ("%d: %s--\n", line_cnt, line);
-        switch (Messages_Init_Parse_Line (line))
+        switch (Messages_Init_Parse_Line(line))
         {
-        case MEKA_ERR_MISSING:    ConsolePrintf ("On line %d: No language defined for storing message !", line_cnt);
+        case MEKA_ERR_MISSING:    
+            ConsolePrintf ("On line %d: No language defined for storing message !", line_cnt);
             tfile_free (tf);
             Quit ();
             break;
-        case MEKA_ERR_UNKNOWN:    ConsolePrintf ("On line %d: Unknown message \"%s\", skipping it.\n", line_cnt, line);
+        case MEKA_ERR_UNKNOWN:    
+            ConsolePrintf ("On line %d: Unknown message \"%s\", skipping it.\n", line_cnt, line);
             // tfile_free (tf);
             // Quit ();
             break;
-        case MEKA_ERR_SYNTAX:     ConsolePrintf ("On line %d: Syntax error.\n", line_cnt);
+        case MEKA_ERR_SYNTAX:     
+            ConsolePrintf ("On line %d: Syntax error.\n%s\n", line_cnt, line);
             tfile_free (tf);
             Quit ();
             break;

@@ -9,6 +9,10 @@
 // Data
 //-----------------------------------------------------------------------------
 
+#define DEBUGGER_VARIABLE_REPLACEMENT_CPU_REGS  (0x0001)
+#define DEBUGGER_VARIABLE_REPLACEMENT_SYMBOLS   (0x0002)
+#define DEBUGGER_VARIABLE_REPLACEMENT_ALL       (DEBUGGER_VARIABLE_REPLACEMENT_CPU_REGS | DEBUGGER_VARIABLE_REPLACEMENT_SYMBOLS)
+
 #define BREAKPOINT_ACCESS_R             (0x01)
 #define BREAKPOINT_ACCESS_W             (0x02)
 #define BREAKPOINT_ACCESS_X             (0x04)
@@ -38,6 +42,39 @@ typedef struct
 
 typedef struct
 {
+    u16         addr;
+    int         bank;                           // Currently unsupported, set to -1
+    char *      name;
+    char *      name_uppercase;
+} t_debugger_symbol;
+
+typedef enum
+{
+    DEBUGGER_VALUE_SOURCE_COMPUTED,             // Computed
+    DEBUGGER_VALUE_SOURCE_DIRECT,               // Direct input value
+    DEBUGGER_VALUE_SOURCE_CPU_REG,              // From CPU
+    DEBUGGER_VALUE_SOURCE_SYMBOL,               // From symbol
+} t_debugger_value_source;
+
+typedef struct
+{
+    u32         data;                           // Value data
+    u16         data_size;                      // Value size in bits
+    t_debugger_value_source source;             // Value source type
+    void *      source_data;                    // Value source (if applicable)
+} t_debugger_value;
+
+typedef enum
+{
+    DEBUGGER_EVAL_VALUE_FORMAT_UNKNOWN,
+    DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX,
+    DEBUGGER_EVAL_VALUE_FORMAT_INT_BIN,
+    DEBUGGER_EVAL_VALUE_FORMAT_INT_DEC,
+    DEBUGGER_EVAL_VALUE_FORMAT_STRING,
+} t_debugger_eval_value_format;
+
+typedef struct
+{
     int         Enabled;                        // Enabled and initialized
     byte        Active;                         // Currently showing on GUI // FIXME: is a byte because of Desktop_Register_Box()
     bool        trap_set;
@@ -49,6 +86,13 @@ typedef struct
     t_list *    breakpoints_io_space[0x100];
     t_list *    breakpoints_vram_space[0x4000];
     t_list *    breakpoints_pram_space[0x40];
+    t_list *    symbols;
+    int         symbols_count;
+    t_list *    symbols_cpu_space[0x10000];
+    int         history_count;
+    int         history_max;
+    char **     history;
+    int         history_current_level;          // 0 : new/current edit line, 1+ history lines
     FILE *      log_file;
     char *      log_filename;
     int         watch_counter;                  // For current frame
@@ -78,11 +122,21 @@ void                        Debugger_Close(void);
 
 // Main
 void                        Debugger_MachineReset(void);
+void                        Debugger_MediaReload(void);
 void                        Debugger_Enable(void);
 void                        Debugger_Update(void);
 void                        Debugger_Switch(void);
-
 void                        Debugger_Printf(const char *format, ...);
+
+// Symbols
+t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(int addr);
+t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(int addr);
+
+// Debugger Values
+void                        Debugger_Value_SetComputed(t_debugger_value *value, u32 data, int data_size);
+void                        Debugger_Value_SetCpuRegister(t_debugger_value *value, u32 data, int data_size);
+void                        Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_size);
+void                        Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol);
 
 // Hooks
 int                         Debugger_Hook(Z80 *R);

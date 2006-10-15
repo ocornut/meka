@@ -9,149 +9,174 @@
 #include "config_v.h"
 
 //-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 t_blitter *     Blitter_New (char *name)
 {
-  t_blitter *   b;
-  char *        p;
+    t_blitter * b;
+    char *      p;
 
-  p = name + strlen(name) - 1;
-  if (*p == ']')
-     *p = EOSTR;
-  p = strstr(name, BLITTER_OS_SEP);
+    // Look for system identifier
+    p = name + strlen(name) - 1;
+    if (*p == ']')
+        *p = EOSTR;
+    p = strstr(name, BLITTER_OS_SEP);
 
-  // Ignore blitter if it is not for current system
-  #ifdef DOS
-    if (p)
-       return (BLITTER_IGNORE);
-  #elif WIN32
-    if (!p || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_WIN) != 0)
-       return (BLITTER_IGNORE);
-    else
-       *p = EOSTR;
-  #elif UNIX
-    if (!p || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_UNIX) != 0)
-       return (BLITTER_IGNORE);
-    else
-       *p = EOSTR;
-  #endif
+    // Ignore blitter if it is not for current system
+#ifdef DOS
+    if (p != NULL)
+        if (stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_DOS) != 0)
+            return (BLITTER_IGNORE);
+#elif WIN32
+    if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_WIN) != 0)
+        return (BLITTER_IGNORE);
+#elif UNIX
+    if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_UNIX) != 0)
+        return (BLITTER_IGNORE);
+#endif
+    if (p != NULL)
+        *p = EOSTR;
 
-  // Allocate a blitter and set it with name and default values
-  b = malloc(sizeof (t_blitter));
-  b->name         = strdup(name);
-  b->res_x        = 320;
-  b->res_y        = 200;
-  b->blitter      = BLITTER_NORMAL;
-  b->driver       = GFX_AUTODETECT_FULLSCREEN;
-  b->flip         = NO;
-  b->tv_colors    = NO;
-  b->vsync        = NO;
-  b->refresh_rate = 0; // Default
-  return (b);
+    // Allocate a blitter and set it with name and default values
+    b = malloc(sizeof (t_blitter));
+    b->name             = strdup(name);
+    b->res_x            = 320;
+    b->res_y            = 240;
+    b->blitter          = BLITTER_NORMAL;
+    b->driver           = GFX_AUTODETECT_FULLSCREEN;
+    b->flip             = FALSE;
+    b->tv_colors        = FALSE;
+    b->vsync            = FALSE;
+    b->refresh_rate     = 0; // Default
+    b->video_depth      = 8;
+    b->stretch          = FALSE;// BLITTER_STRETCH_MAX_INT;
+    b->triple_buffering = FALSE;
+    return (b);
 }
 
 void            Blitter_Delete (t_blitter *b)
 {
-  free(b->name);
-  free(b);
+    free(b->name);
+    free(b);
 }
 
 //-----------------------------------------------------------------------------
 
 void            Blitters_Free (void)
 {
-  list_free_custom (&blitters.list, Blitter_Delete);
+    list_free_custom (&blitters.list, Blitter_Delete);
 }
 
+// FIXME: Crap
 void            Blitters_Current_Update (void)
 {
-  int            cnt;
-  t_list         *l;
+    int         cnt;
+    t_list *    list;
 
-  l = blitters.list;
-  cnt = blitters.current_num;
-  while (l && cnt -- > 0)
-    l = l->next;
-  if (l == 0)
-     Quit_Msg (Msg_Get (MSG_Blitters_Not_Found));
-  blitters.current = l->elem;
-  if (blitters.current->blitter == BLITTER_TVMODE
-      || blitters.current->blitter == BLITTER_TVMODE_DOUBLE)
-     blitters.current->tv_colors = YES;
-  else
-     blitters.current->tv_colors = NO;
+    list = blitters.list;
+    cnt = blitters.current_num;
+    while (list && cnt -- > 0)
+        list = list->next;
+    if (list == 0)
+        Quit_Msg (Msg_Get (MSG_Blitters_Not_Found));
+    blitters.current = list->elem;
+    if (blitters.current->blitter == BLITTER_TVMODE
+        || blitters.current->blitter == BLITTER_TVMODE_DOUBLE)
+        blitters.current->tv_colors = YES;
+    else
+        blitters.current->tv_colors = NO;
 }
 
-static char *Blitters_Def_Variables [] =
+static const char * Blitters_Def_Variables [] =
 {
-  "res",
-  "blitter",
-  "driver",
-  "flip",
-  "vsync",
-  "refresh_rate",
-  NULL
+    "res",
+    "blitter",
+    "driver",
+    "flip",
+    "vsync",
+    "refresh_rate",
+    "stretch",
+    "video_depth",
+    "triple_buffering",
+    NULL
 };
 
-int             Blitters_Parse_Line (char *s, char *s_case)
+int         Blitters_Parse_Line (char *s, char *s_case)
 {
-  char           w [256];
-  int            i, line_len;
+    char    w[256];
+    int     i, line_len;
 
-  line_len = strlen(s);
-  if (s [0] == '[')
-     {
-     blitters.current = Blitter_New(&s_case[1]);
-     if (blitters.current != BLITTER_IGNORE)
+    line_len = strlen(s);
+    if (s[0] == '[')
+    {
+        blitters.current = Blitter_New(&s_case[1]);
+        if (blitters.current != BLITTER_IGNORE)
         {
-        blitters.num += 1;
-        list_add(&blitters.list, blitters.current);
+            blitters.num += 1;
+            list_add(&blitters.list, blitters.current);
         }
-     return (0);
-     }
-  if (blitters.current == BLITTER_IGNORE) // Skip line when we're inside a blitter we can ignore
-     return (0);
-  Get_First_Word (s, w, '=');
-  for (i = 0; Blitters_Def_Variables [i]; i++)
-      if (!strcmp (w, Blitters_Def_Variables [i]))
-          break;
-  if (blitters.num == 0)
-     return (2);
-  switch (i)
-     {
-     // Resolution
-     case 0:
-       Get_First_Word (s, w, 'x');
-       blitters.current->res_x = atoi (w);
-       blitters.current->res_y = atoi (s);
-       break;
-     // Blitter
-     case 1:
-       blitters.current->blitter = Blitters_Str2Num (s);
-       break;
-     // Driver
-     case 2:
-       blitters.current->driver = VideoDriver_FindByDesc(s)->drv_id;
-       break;
-     // Flip
-     case 3:
-       blitters.current->flip = YES;
-       break;
-     // VSync
-     case 4:
-       blitters.current->vsync = YES;
-       break;
-     // Refresh Rate
-     case 5:
-       if (!strcmp(w, "auto"))
-          blitters.current->refresh_rate = 0;
-       else
-          blitters.current->refresh_rate = atoi (w);
-       break;
-     default:
-       return (1);
-     }
-   return (0);
+        return (0);
+    }
+
+    // Skip line when we're inside a blitter we can ignore
+    if (blitters.current == BLITTER_IGNORE) 
+        return (0);
+
+    // Set attributes
+    Get_First_Word (s, w, '=');
+    for (i = 0; Blitters_Def_Variables [i]; i++)
+        if (!strcmp (w, Blitters_Def_Variables [i]))
+            break;
+    if (blitters.num == 0)
+        return (2);
+    switch (i)
+    {
+        // Resolution
+    case 0:
+        Get_First_Word (s, w, 'x');
+        blitters.current->res_x = atoi (w);
+        blitters.current->res_y = atoi (s);
+        break;
+        // Blitter
+    case 1:
+        blitters.current->blitter = Blitters_Str2Num (s);
+        break;
+        // Driver
+    case 2:
+        blitters.current->driver = VideoDriver_FindByDesc(s)->drv_id;
+        break;
+        // Flip
+    case 3:
+        blitters.current->flip = TRUE;
+        break;
+        // VSync
+    case 4:
+        blitters.current->vsync = TRUE;
+        break;
+        // Refresh Rate
+    case 5:
+        if (!strcmp(w, "auto"))
+            blitters.current->refresh_rate = 0;
+        else
+            blitters.current->refresh_rate = atoi(s);
+        break;
+        // Stretch
+    case 6:
+        blitters.current->stretch = TRUE;
+        break;
+        // Video Depth
+    case 7:
+        blitters.current->video_depth = atoi(s);
+        break;
+        // Triple Buffering
+    case 8:
+        blitters.current->triple_buffering = TRUE;
+        break;
+    default:
+        return (1);
+    }
+    return (0);
 }
 
 /*
@@ -233,7 +258,7 @@ void            Blitters_Load (void)
 
 void    Blitters_Init_Values (void)
 {
-  blitters.current_num = 0;
+    blitters.current_num = 0;
 }
 
 static struct
@@ -242,66 +267,64 @@ static struct
   char *name;
 } Blitters_Str2Num_Table [] =
 {
-  { BLITTER_NORMAL,        "normal"        },
-  { BLITTER_DOUBLE,        "double"        },
-  { BLITTER_SCANLINES,     "scanlines"     },
-  { BLITTER_SCANLINES,     "scanline"      },
-  { BLITTER_TVMODE,        "tv"            },
-  { BLITTER_TVMODE,        "tvmode"        },
-  { BLITTER_TVMODE,        "joseph"        },
-  { BLITTER_PARALLEL,      "parallel"      },
-  { BLITTER_PARALLEL,      "//"            },
-  { BLITTER_TVMODE_DOUBLE, "tvmode_double" },
-#ifdef MEKA_EAGLE
-  { BLITTER_EAGLE,         "eagle"         },
-#endif
-  { 0, 0 }
+    { BLITTER_NORMAL,        "normal"        },
+    { BLITTER_DOUBLE,        "double"        },
+    { BLITTER_SCANLINES,     "scanlines"     },
+    { BLITTER_SCANLINES,     "scanline"      },
+    { BLITTER_TVMODE,        "tv"            },
+    { BLITTER_TVMODE,        "tvmode"        },
+    { BLITTER_TVMODE,        "joseph"        },
+    { BLITTER_PARALLEL,      "parallel"      },
+    { BLITTER_TVMODE_DOUBLE, "tvmode_double" },
+    { BLITTER_EAGLE,         "eagle"         },
+    { BLITTER_HQ2X,          "hq2x"          },
+    { 0, 0 }
 };
 
 int     Blitters_Str2Num (char *s)
 {
-  int   i;
-  for (i = 0; Blitters_Str2Num_Table[i].name; i ++)
-      if (strcmp (s, Blitters_Str2Num_Table [i].name) == 0)
-         return (Blitters_Str2Num_Table [i].value);
-  return (BLITTER_NORMAL);
+    int   i;
+    for (i = 0; Blitters_Str2Num_Table[i].name; i ++)
+        if (strcmp (s, Blitters_Str2Num_Table [i].name) == 0)
+            return (Blitters_Str2Num_Table [i].value);
+    return (BLITTER_NORMAL);
 }
 
 void    Blitters_Switch_Common (void)
 {
-  Blitters_Current_Update ();
-  if (Meka_State == MEKA_STATE_FULLSCREEN)
-     Video_Setup_State ();
-  Msg (MSGT_USER, Msg_Get (MSG_Blitters_Set), blitters.current->name);
-  gui_menu_un_check (menus_ID.blitters);
-  gui_menu_check (menus_ID.blitters, blitters.current_num);
+    Blitters_Current_Update ();
+    if (Meka_State == MEKA_STATE_FULLSCREEN)
+        Video_Setup_State ();
+    Msg (MSGT_USER, Msg_Get (MSG_Blitters_Set), blitters.current->name);
+    gui_menu_un_check (menus_ID.blitters);
+    gui_menu_check (menus_ID.blitters, blitters.current_num);
 }
 
 void    Blitters_Switch (void)
 {
-  blitters.current_num = (blitters.current_num + 1) % blitters.num;
-  Blitters_Switch_Common ();
+    blitters.current_num = (blitters.current_num + 1) % blitters.num;
+    Blitters_Switch_Common();
 }
 
 void    Blitters_Switch_Menu (int n)
 {
-  blitters.current_num = n;
-  Blitters_Switch_Common ();
+    blitters.current_num = n;
+    Blitters_Switch_Common();
 }
 
 void    Blitters_Menu_Init (int menu_id)
 {
-  t_list *l = blitters.list;
-  t_blitter *b;
+    t_list *l = blitters.list;
+    t_blitter *b;
 
-  while (l)
+    while (l)
     {
-    b = l->elem;
-    menu_add_item (menu_id,
-                   b->name,
-                   AM_Active | ((b == blitters.current) ? AM_Checked : 0),
-                   Blitters_Switch_Menu);
-    l = l->next;
+        b = l->elem;
+        menu_add_item (menu_id,
+            b->name,
+            AM_Active | ((b == blitters.current) ? AM_Checked : 0),
+            Blitters_Switch_Menu);
+        l = l->next;
     }
 }
 
