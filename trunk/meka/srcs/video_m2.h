@@ -20,9 +20,9 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line);
 void                    TMS9918_Palette_Set        (void);
 extern const RGB        TMS9918_Palette [16];
 
-void    Draw_Tile_Mono             (BITMAP *where, byte *addr, int x, int y, byte fcolor, byte bgcolor);
-void    Draw_Sprite_Mono           (BITMAP *where, byte *addr, int x, int y, byte fcolor);
-void    Draw_Sprite_Mono_Double    (BITMAP *where, byte *addr, int x, int y, byte fcolor);
+//-----------------------------------------------------------------------------
+
+void     VDP_Mode0123_DrawTile(BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor, int bgcolor);
 
 //-----------------------------------------------------------------------------
 

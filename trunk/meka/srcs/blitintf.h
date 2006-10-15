@@ -7,9 +7,6 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define BLITTER_NONE                ((t_blitter *)(0))
-#define BLITTER_IGNORE              ((t_blitter *)(-1))
-
 #define BLITTER_OS_SEP              "::"
 #define BLITTER_OS_DOS              "DOS"
 #define BLITTER_OS_WIN              "WIN"
@@ -30,6 +27,7 @@ enum    t_blitter_stretch
 typedef struct
 {
     char *      name;
+    int         index;
     int         res_x;
     int         res_y;
     int         blitter;
@@ -38,7 +36,7 @@ typedef struct
     bool        tv_colors;
     bool        vsync;
     int         refresh_rate;
-    int		video_depth;
+    int         video_depth;
     bool        stretch;
     bool        triple_buffering;
 }               t_blitter;
@@ -56,27 +54,27 @@ void            Blitter_Delete (t_blitter *b);
 
 typedef struct
 {
-    int         num;
-    int         current_num;
+    int         count;
     t_blitter * current;
     t_list *    list;
     char        filename[FILENAME_LEN];
+    char *      blitter_configuration_name;
 }               t_blitters;
 
-t_blitters      blitters;
+t_blitters      Blitters;
 
 //-----------------------------------------------------------------------------
 // Blitters Functions
 //-----------------------------------------------------------------------------
 
-void    Blitters_Load (void);
-void    Blitters_Current_Update (void);
-void    Blitters_Free (void);
-void    Blitters_Init_Values (void);
-int     Blitters_Parse_Line (char *, char *);
-int     Blitters_Str2Num (char *s);
-void    Blitters_Switch (void);
-void    Blitters_Menu_Init (int menu_id);
+void        Blitters_Init_Values(void);
+void        Blitters_Init(void);
+void        Blitters_Close(void);
+
+t_blitter * Blitters_FindBlitterByName(const char *name);
+
+void        Blitters_SwitchNext(void);
+void        Blitters_Menu_Init(int menu_id);
 
 //-----------------------------------------------------------------------------
 

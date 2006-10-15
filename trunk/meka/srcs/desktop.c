@@ -5,7 +5,8 @@
 
 #include "shared.h"
 #include "desktop.h"
-#include "libparse.h"
+#include "tools/libparse.h"
+#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // DATA
@@ -13,12 +14,12 @@
 
 typedef struct
 {
-    int         id;
     char *      name;
+    t_gui_box * box;
     int         pos_x;
     int         pos_y;
-    byte        active;
-    byte *      active_org;
+    bool        active;
+    bool *      active_org;
 } t_desktop_item;
 
 //-----------------------------------------------------------------------------
@@ -44,24 +45,23 @@ void    Desktop_Close (void)
     Desktop_Save ();
 }
 
-static t_desktop_item * Desktop_Item_New (char *name, int id)
+static t_desktop_item * Desktop_Item_New(const char *name, t_gui_box *box)
 {
     t_desktop_item *item;
 
     item        = Memory_Alloc (sizeof (t_desktop_item));
     item->name  = strdup(name);
-    item->id    = id;
+    item->box   = box;  // Note: can be NULL at this stage
 
     return (item);
 }
 
 // FIXME: Desktop_Item_Delete()
 
-void    Desktop_Register_Box (char *name, int id, int default_active, byte *active_org)
+void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_active, bool *active_org)
 {
     t_list *list;
     t_desktop_item *item;
-    t_gui_box *b = gui.box [id];
 
     for (list = Desktop.items; list != NULL; list = list->next)
     {
@@ -69,7 +69,7 @@ void    Desktop_Register_Box (char *name, int id, int default_active, byte *acti
         if (strcmp (item->name, name) == 0)
         {
             // ConsolePrintf ("found old %s\n", name);
-            item->id = id;
+            item->box = box;
             item->active_org = active_org;
             // Set will be set later
             //b->frame.pos.x = item->pos_x;
@@ -83,13 +83,13 @@ void    Desktop_Register_Box (char *name, int id, int default_active, byte *acti
 
     // ConsolePrintf ("make new %s\n", name);
     // Make new item, retrieve current data from box (unnecessary?)
-    item                = Desktop_Item_New (name, id);
-    item->pos_x         = b->frame.pos.x;
-    item->pos_y         = b->frame.pos.y;
+    item                = Desktop_Item_New(name, box);
+    item->pos_x         = box->frame.pos.x;
+    item->pos_y         = box->frame.pos.y;
     item->active_org    = active_org;
     item->active        = default_active;
     *(item->active_org) = default_active;
-    gui_box_show (b, item->active, FALSE); // FIXME: Focus
+    gui_box_show(box, item->active, FALSE); // FIXME: Focus
 
     // Add new item to list
     list_add (&Desktop.items, item);
@@ -102,12 +102,11 @@ static void         Desktop_GetStateFromBoxes (void)
     for (list = Desktop.items; list != NULL; list = list->next)
     {
         t_desktop_item *item = list->elem;
-        if (item->id != -1)
+        if (item->box != NULL)
         {
             // Get state for this box
-            t_gui_box *b = gui.box[item->id];
-            item->pos_x     = b->frame.pos.x;
-            item->pos_y     = b->frame.pos.y;
+            item->pos_x     = item->box->frame.pos.x;
+            item->pos_y     = item->box->frame.pos.y;
             item->active    = *item->active_org;
         }
     }
@@ -121,10 +120,10 @@ void                Desktop_SetStateToBoxes (void)
     for (list = Desktop.items; list != NULL; list = list->next)
     {
         t_desktop_item *item = list->elem;
-        if (item->id != -1)
+        if (item->box != NULL)
         {
             // Set state for this box
-            t_gui_box *b = gui.box[item->id];
+            t_gui_box *b = item->box;
             b->frame.pos.x = item->pos_x;
             b->frame.pos.y = item->pos_y;
             *item->active_org = item->active;
@@ -157,7 +156,7 @@ static int      Desktop_Load_Line (char *line)
             return (0);
         active = atoi(w);
 
-        item = Desktop_Item_New (name, -1);
+        item = Desktop_Item_New(name, NULL);
         item->pos_x = pos_x;
         item->pos_y = pos_y;
         item->active = (bool)active;

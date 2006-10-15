@@ -11,7 +11,7 @@
 byte *                  FM_Regs = NULL;
 
 // Flag telling weither seems to be used or not
-int                     FM_Used = NO;
+int                     FM_Used = FALSE;
 
 // Interface
 void                    FM_Null_Interface_Function(void) { }
@@ -126,7 +126,7 @@ void    FM_Used_Check (void)
            FM_Used = 60;
            return;
            }
-  FM_Used = NO;
+  FM_Used = FALSE;
 }
 
 //-----------------------------------------------------------------------------

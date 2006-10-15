@@ -72,7 +72,7 @@ endif
 #---[ UNIX/GCC ]---------------------------------------
 ifeq ($(SYSTEM), unix)
 #--- Executable name
-EXE     = ../meka.exe
+EXE     = ../meka
 #--- Output directory
 OD      = obj
 #--- Compilation
@@ -234,17 +234,16 @@ endif
 # Objects to create and link
 #-----------------------------------------------------
 
-OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_colors.o $(OD)/g_emu.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/themes.o $(OD)/themes_b.o $(OD)/specials.o $(OD)/desktop.o
-OBJ_GAPPS = $(OD)/g_apps.o $(OD)/g_file.o $(OD)/app_options.o $(OD)/textbox.o $(OD)/app_tileview.o $(OD)/textview.o $(OD)/app_techinfo.o $(OD)/app_memview.o $(OD)/app_palview.o $(OD)/app_about.o
+OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_emu.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/specials.o $(OD)/desktop.o $(OD)/skin.o $(OD)/skin_bg.o
+OBJ_GAPPS = $(OD)/g_file.o $(OD)/app_options.o $(OD)/textbox.o $(OD)/app_mapview.o $(OD)/app_tileview.o $(OD)/app_textview.o $(OD)/app_techinfo.o $(OD)/app_memview.o $(OD)/app_palview.o $(OD)/app_about.o
 OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $(OD)/bios.o $(OD)/country.o $(OD)/bmemory.o $(OD)/mappers.o $(OD)/eeprom.o $(OD)/beam.o $(OD)/tvtype.o
 OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/keyboard.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/games.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o $(OD)/config_v.o $(OD)/config_j.o
 OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/tools_t.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/clock.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
-OBJ_REG   = $(OD)/register.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o $(OD)/m6502.a
-OBJ_VIDEO = $(OD)/video.o $(OD)/video_t.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
+OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/nes.o $(OD)/nes_maps.o $(OD)/nes_ppu.o $(OD)/coleco.o $(OD)/fdc765.o
 OBJ_TOOLS = $(OD)/memory.o $(OD)/tools/libmy.o $(OD)/tools/liblist.o $(OD)/tools/libparse.o $(OD)/tools/tfile.o $(OD)/osd/misc.o $(OD)/osd/timer.o
 OBJ_LIBS  = #$(OD)/alsymbol.o
@@ -338,7 +337,7 @@ endif
 #-----------------------------------------------------
 # Complete Objects List
 #-----------------------------------------------------
-OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT) $(OBJ_MISC) $(OBJ_CFG) $(OBJ_GUI) $(OBJ_GAPPS) $(OBJ_SOUND) $(OBJ_MACH) $(OBJ_REG) $(OBJ_ZIP) $(OBJ_PNG) $(OBJ_BLIT) $(OBJ_TOOLS) $(OBJ_LIBS)
+OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT) $(OBJ_MISC) $(OBJ_CFG) $(OBJ_GUI) $(OBJ_GAPPS) $(OBJ_SOUND) $(OBJ_MACH) $(OBJ_ZIP) $(OBJ_PNG) $(OBJ_BLIT) $(OBJ_TOOLS) $(OBJ_LIBS)
 
 #-----------------------------------------------------
 # Linking Rule
@@ -371,7 +370,6 @@ $(OD)/g_menu_t.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
 # $(OD)/cpu.o : cpu.c cpu.h mcpu.c mcpu.h shared.h meka.h
 # $(OD)/palette.o : palette.c palette.h video.h shared.h meka.h
 # $(OD)/inputs.o : inputs.c inputs.h keyboard.c keyboard.h keyb_map.h
-# $(OD)/vmachine.o : vmachine.c vmachine.h vmachpal.h g_colors.h
 # $(OD)/data.o : data.c data.h g_colors.h
 
 # CPU emulators related compilation
@@ -390,10 +388,10 @@ $(OD)/%.o : %.c %.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 $(OD)/%.o : %.asm
-	$(ASM) -f $(OTYPE) $< -o $@
+	$(ASM) $(DEF_OS) -f $(OTYPE) $< -o $@
 
 $(OD)/%.a : %.asm
-	$(ASM) -f $(OTYPE) $< -o $@
+	$(ASM) $(DEF_OS)-f $(OTYPE) $< -o $@
 
 $(OD)/osd/%.o : osd/%.c osd/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
@@ -449,7 +447,7 @@ dist_src :
 	-$(MKDIR) Dist
 	-$(RM) srcs/buildupd.exe
 	zip -9 Dist/meka-src.zip meka.blt meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip audiow32.dll
+	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip audiow32.dll setup.bat
 	zip -9 -r Dist/meka-src.zip data/*.*
 	zip -9 -r Dist/meka-src.zip libs/*.*
 	zip -9 -D Dist/meka-src.zip srcs/*.*
@@ -504,11 +502,11 @@ ifeq ($(SYSTEM), unix)
 dist_bin_unix :
 	@echo Creating Dist/mekanix.tgz
 	@echo Compressing
-	-upx -9 meka.exe
+	-upx -9 meka
 	@echo Packaging
 	-mkdir ./Dist/
 	-mkdir ./Dist/mekanix/
-	cp meka.blt meka.cfg meka.dat meka.exe meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
+	cp meka meka.blt meka.cfg meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
 	cp meka.txt mekanix.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
 	tar cvzf Dist/mekanix.tgz ./mekanix
 	rm -fR ./mekanix/

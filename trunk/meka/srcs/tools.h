@@ -13,14 +13,12 @@ void    keepext (char *org);
 void    killext (char *org);
 void    killpath (char *org);
 
-void    Get_First_Word (char *str, char *wrd, char separator);
-
 //-----------------------------------------------------------------------------
 // Functions (NEW)
 //-----------------------------------------------------------------------------
 
 // Extract filename from 'src' and copy it to location 'dst'
-void    StrCpyPathRemoved(char *dst, char *src);
+void    StrCpyPathRemoved(char *dst, const char *src);
 
 //-----------------------------------------------------------------------------
 

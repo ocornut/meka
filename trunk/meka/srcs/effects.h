@@ -7,21 +7,9 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Effects_Init_Values (void);
-void    Effects_TV_Update (void);
-void    Effects_TV_Init_Colors (void);
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-typedef struct
-{
-  int   TV_Enabled;
-  int   TV_Start_Line;
-} t_effects;
-
-t_effects       effects;
+void	Effects_TV_Init(void);
+void    Effects_TV_Reset(void);
+void    Effects_TV_Update(void);
 
 //-----------------------------------------------------------------------------
 

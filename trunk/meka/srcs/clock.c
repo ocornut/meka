@@ -6,8 +6,9 @@
 // NOTE: outdated, currently unused, properly not functionnal
 //-----------------------------------------------------------------------------
 
-#ifdef CLOCK
 #include "shared.h"
+
+#ifdef CLOCK
 
 //-----------------------------------------------------------------------------
 // x86 Macros
@@ -41,8 +42,8 @@ void    Clock_Draw(void)
   for (i = 0; i < CLOCK_MAX; i++)
       {
       sprintf (s, "%s%s", clocks[i].name, Clock_GetString(Clock[i].time));
-      Font_Write (screen, str, 2, 5 + (Font_Height() * i), GUI_COL_BLACK);
-      Font_Write (screen, str, 3, 6 + (Font_Height() * i), GUI_COL_WHITE);
+      Font_Write (screen, str, 2, 5 + (Font_Height() * i), COLOR_BLACK);
+      Font_Write (screen, str, 3, 6 + (Font_Height() * i), COLOR_WHITE);
       // rectfill (screen, 110, 30 + (20 * i), 110 + (Clock[i].time / 100), 45 + (20 * i), 80);
       Clock[i].time = 0;
       }
@@ -166,4 +167,3 @@ void    Clock_Close (void)
 #endif
 
 //-----------------------------------------------------------------------------
-

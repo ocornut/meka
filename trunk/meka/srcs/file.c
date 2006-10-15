@@ -10,6 +10,7 @@
 #include "db.h"
 #include "debugger.h"
 #include "desktop.h"
+#include "fdc765.h"
 #include "patch.h"
 #include "saves.h"
 #include "sdsc.h"
@@ -22,14 +23,14 @@
 // Data
 //-----------------------------------------------------------------------------
 
-static int      Loading_UserVerbose = YES;
+static int      Loading_UserVerbose = TRUE;
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
 static int      Load_ROM_Init_Memory    (void);
-int             Load_ROM_File           (void);
+int             Load_ROM_File           (const char *filename_ext);
 int             Load_ROM_Zipped         (void);
 int             Load_ROM_Main           (void);
 void            Load_ROM_Misc           (int reset);
@@ -106,8 +107,9 @@ void    Filenames_Init (void)
 #ifdef UNIX
     {   // ????
         int len;
-        strcpy (file.temp, Env.Paths.EmulatorDirectory);
-        realpath (file.temp, Env.Paths.EmulatorDirectory);
+        char temp[FILENAME_LEN];
+        strcpy (temp, Env.Paths.EmulatorDirectory);
+        realpath (temp, Env.Paths.EmulatorDirectory);
         len = strlen (Env.Paths.EmulatorDirectory);
         Env.Paths.EmulatorDirectory [len] = '/';
         Env.Paths.EmulatorDirectory [len + 1] = EOSTR;
@@ -119,10 +121,11 @@ void    Filenames_Init (void)
     // Datafiles ----------------------------------------------------------------
     sprintf (Env.Paths.DataFile,        "%s/meka.dat",      Env.Paths.EmulatorDirectory);
     sprintf (Env.Paths.DataBaseFile,    "%s/meka.nam",      Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.SkinFile,        "%s/meka.thm",      Env.Paths.EmulatorDirectory);
+
     sprintf (Patches.filename,        "%s/meka.pat",        Env.Paths.EmulatorDirectory);
     sprintf (VLFN_DataBase.filename,    "%s/meka.fdb",      Env.Paths.EmulatorDirectory);
-    sprintf (Themes.filename,         "%s/meka.thm",    Env.Paths.EmulatorDirectory);
-    sprintf (blitters.filename,       "%s/meka.blt",    Env.Paths.EmulatorDirectory);
+    sprintf (Blitters.filename,       "%s/meka.blt",    Env.Paths.EmulatorDirectory);
     //sprintf (registered.filename [0], "%s/meka.reg",    Env.Paths.EmulatorDirectory);
     //sprintf (registered.filename [1], "%s/meka.key",    Env.Paths.EmulatorDirectory);
     sprintf (Desktop.filename,        "%s/meka.dsk",    Env.Paths.EmulatorDirectory);
@@ -130,59 +133,63 @@ void    Filenames_Init (void)
     sprintf (Messages.FileName,       "%s/meka.msg",    Env.Paths.EmulatorDirectory);
 
     // Documentations -----------------------------------------------------------
-    sprintf (Env.Paths.DocumentationMain,   "%s/meka.txt",      Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationMain,       "%s/meka.txt",      Env.Paths.EmulatorDirectory);
 #ifdef WIN32
-    sprintf (Env.Paths.DocumentationMainW,  "%s/mekaw.txt",     Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationMainW,      "%s/mekaw.txt",     Env.Paths.EmulatorDirectory);
 #elif UNIX
-    sprintf (Env.Paths.DocumentationMainU,  "%s/mekanix.txt",   Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationMainU,      "%s/mekanix.txt",   Env.Paths.EmulatorDirectory);
 #endif
-    sprintf (Env.Paths.DocumentationCompat, "%s/compat.txt",    Env.Paths.EmulatorDirectory);
-    sprintf (Env.Paths.DocumentationMulti,  "%s/multi.txt",     Env.Paths.EmulatorDirectory);
-    sprintf (Env.Paths.DocumentationChanges,"%s/changes.txt",   Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationCompat,     "%s/compat.txt",    Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationMulti,      "%s/multi.txt",     Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationChanges,    "%s/changes.txt",   Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DocumentationDebugger,   "%s/debugger.txt",  Env.Paths.EmulatorDirectory);
 
     // Configuration file -------------------------------------------------------
 #ifdef WIN32
-    sprintf (Env.Paths.ConfigurationFile,   "%s/mekaw.cfg",     Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.ConfigurationFile,       "%s/mekaw.cfg",     Env.Paths.EmulatorDirectory);
 #else
-    sprintf (Env.Paths.ConfigurationFile,   "%s/meka.cfg",      Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.ConfigurationFile,       "%s/meka.cfg",      Env.Paths.EmulatorDirectory);
 #endif
 
     // Directories
 #ifdef DOS
-    sprintf (file.dir_captures,       "%s/Shots",       Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.ScreenshotDirectory,     "%s/Shots",         Env.Paths.EmulatorDirectory);
 #else
-    sprintf (file.dir_captures,       "%s/Screenshots", Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.ScreenshotDirectory,     "%s/Screenshots",   Env.Paths.EmulatorDirectory);
 #endif
-    sprintf (file.dir_saves,          "%s/Saves",       Env.Paths.EmulatorDirectory);
-    sprintf (file.dir_musics,         "%s/Music"  ,     Env.Paths.EmulatorDirectory);
-    sprintf (file.dir_debug,          "%s/Debug",       Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.SavegameDirectory,       "%s/Saves",         Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.MusicDirectory,          "%s/Music",         Env.Paths.EmulatorDirectory);
+    sprintf (Env.Paths.DebugDirectory,          "%s/Debug",         Env.Paths.EmulatorDirectory);
 
     // ROM ----------------------------------------------------------------------
-    strcpy (file.rom,  "");
-    strcpy (file.save, "");
+    strcpy (Env.Paths.MediaImageFile,  "");
+    strcpy (Env.Paths.BatteryBackedMemoryFile, "");
 }
 
 void    Filenames_Init_ROM (void)
 {
     // ROM (when parsed from command line)
-    if (StrNull (file.rom))
+    if (StrNull(Env.Paths.MediaImageFile))
     {
-        strcpy (file.save, "");
+        strcpy(Env.Paths.BatteryBackedMemoryFile, "");
         return;
     }
 
-    // Save state
-    strcpy   (file.temp, file.rom);
-    killext  (file.temp);
-    killpath (file.temp);
-    sprintf  (file.save, "%s/%s.sav", file.dir_saves, file.temp);
+    // Save/OnBoard memory filename
+    {
+        char temp[FILENAME_LEN];
+        strcpy   (temp, Env.Paths.MediaImageFile);
+        killext  (temp);
+        killpath (temp);
+        sprintf  (Env.Paths.BatteryBackedMemoryFile, "%s/%s.sav", Env.Paths.SavegameDirectory, temp);
+    }
 }
 
 bool    Load_ROM_Command_Line (void)
 {
-    if (StrNull(file.rom))
+    if (StrNull(Env.Paths.MediaImageFile))
         return (FALSE);
-    return Load_ROM (LOAD_COMMANDLINE, YES);
+    return Load_ROM (LOAD_COMMANDLINE, TRUE);
 }
 
 //-----------------------------------------------------------------------------
@@ -191,7 +198,7 @@ bool    Load_ROM_Command_Line (void)
 //-----------------------------------------------------------------------------
 bool    Reload_ROM (void)
 {
-    if (StrNull(file.rom))
+    if (StrNull(Env.Paths.MediaImageFile))
     {
         Msg (MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_No_ROM));
         return (FALSE);
@@ -209,7 +216,7 @@ bool    Reload_ROM (void)
 // Load media/ROM from given filename.
 // If user_verbose if false, avoid printing stuff to the message box
 //-----------------------------------------------------------------------------
-// Note: path to ROM filename must be set in 'file.rom' before calling this
+// Note: path to ROM filename must be set in 'Env.Paths.MediaImageFile' before calling this
 //-----------------------------------------------------------------------------
 bool    Load_ROM (int mode, int user_verbose)
 {
@@ -239,7 +246,7 @@ bool    Load_ROM (int mode, int user_verbose)
         switch (mode)
         {
         case LOAD_COMMANDLINE:
-            Quit_Msg("%s\n\"%s\"\n", meka_strerror(), file.rom);
+            Quit_Msg("%s\n\"%s\"\n", meka_strerror(), Env.Paths.MediaImageFile);
             // Quit_Msg (meka_strerror());
             return (FALSE);
         case LOAD_INTERFACE:
@@ -250,9 +257,9 @@ bool    Load_ROM (int mode, int user_verbose)
 
     // If we are already in SF-7000 mode, do not reset ---------------------------
     if (cur_drv->id == DRV_SF7000)
-        reset = NO;
+        reset = FALSE;
     else
-        reset = YES;
+        reset = TRUE;
 
     // Miscellaenous stuff (including reset)
     Load_ROM_Misc (reset);
@@ -273,7 +280,7 @@ bool    Load_ROM (int mode, int user_verbose)
     if (user_verbose)
     {
         // Display success message
-        StrCpyPathRemoved (GenericBuffer, file.rom);
+        StrCpyPathRemoved (GenericBuffer, Env.Paths.MediaImageFile);
         if (cur_drv->id != DRV_SF7000)
             Msg (MSGT_USER, Msg_Get (MSG_LoadROM_Success), GenericBuffer);
         else
@@ -380,8 +387,9 @@ int             Load_ROM_Zipped (void)
     unzFile       zf = NULL;
     unz_file_info zf_infos;
     int           start_at;
+    char          temp[FILENAME_LEN];
 
-    zf = unzOpen(file.rom);
+    zf = unzOpen(Env.Paths.MediaImageFile);
     if (zf == NULL)
         return (MEKA_ERR_ZIP_LOADING); // Error loading ZIP file
 
@@ -390,17 +398,17 @@ int             Load_ROM_Zipped (void)
     if (err != UNZ_OK) { unzClose (zf); return (MEKA_ERR_ZIP_INTERNAL); }
 
     // Getting informations..
-    unzGetCurrentFileInfo (zf, &zf_infos, file.temp, FILENAME_LEN, NULL, 0, NULL, 0);
+    unzGetCurrentFileInfo (zf, &zf_infos, temp, FILENAME_LEN, NULL, 0, NULL, 0);
     tsms.Size_ROM = zf_infos.uncompressed_size;
 
     // Setting driver ------------------------------------------------------------
     // Must be done there because we don't have the filename before..
-    keepext (file.temp);
-    strupr (file.temp);
-    cur_machine.driver_id = drv_get_from_ext (file.temp);
+    keepext(temp);
+    strupr(temp);
+    cur_machine.driver_id = drv_get_from_filename_extension(temp);
 
     // Remove Header & Footer
-    Load_Header_and_Footer_Remove (&start_at, &tsms.Size_ROM);
+    Load_Header_and_Footer_Remove(&start_at, &tsms.Size_ROM);
 
     // Check out if the ROM isn't actually empty
     if (tsms.Size_ROM <= 0)
@@ -436,17 +444,17 @@ int             Load_ROM_Zipped (void)
 #endif // ifdef MEKA_ZIP
 
 // LOAD A ROM FROM A FILE -----------------------------------------------------
-int             Load_ROM_File (void)
+int             Load_ROM_File(const char *filename_ext)
 {
     FILE *      f;
     int         start_at;
 
     // Setting driver -----------------------------------------------------------
     // Must be done there because Load_ROM_Zip
-    cur_machine.driver_id = drv_get_from_ext (file.temp);
+    cur_machine.driver_id = drv_get_from_filename_extension(filename_ext);
 
     // Open file ----------------------------------------------------------------
-    if (!(f = fopen (file.rom, "rb")))
+    if (!(f = fopen (Env.Paths.MediaImageFile, "rb")))
         return (MEKA_ERR_FILE_OPEN);
 
     // Get file size
@@ -532,21 +540,22 @@ static int      Load_ROM_Init_Memory (void)
 // LOAD A ROM INTO MEMORY, RESET SYSTEM AND VARIOUS STUFF.. -------------------
 int             Load_ROM_Main ()
 {
-    int           err;
+    int         err;
+    char        filename_ext[FILENAME_LEN];
 #ifdef MEKA_ZIP
-    int         zipped = NO;
+    int         zipped = FALSE;
 #endif
 
     Filenames_Init_ROM ();
 
     // Check extension ----------------------------------------------------------
-    strcpy (file.temp, file.rom);
-    keepext (file.temp);
-    strupr (file.temp);
-    if (strcmp (file.temp, "ZIP") == 0)
+    strcpy(filename_ext, Env.Paths.MediaImageFile);
+    keepext(filename_ext);
+    strupr(filename_ext);
+    if (strcmp(filename_ext, "ZIP") == 0)
     {
 #ifdef MEKA_ZIP
-        zipped = YES;
+        zipped = TRUE;
 #else
         meka_errno = MEKA_ERR_ZIP_NOT_SUPPORTED;
         return (MEKA_ERR_ZIP_NOT_SUPPORTED); // ZIP files not supported
@@ -555,10 +564,10 @@ int             Load_ROM_Main ()
 
 #ifdef MEKA_ZIP
     if (zipped)
-        err = Load_ROM_Zipped ();
+        err = Load_ROM_Zipped();
     else
 #endif
-        err = Load_ROM_File ();
+        err = Load_ROM_File(filename_ext);
 
     // Now done in Load_ROM_xxx()
     // cur_machine.driver_id = drv_get_from_ext (file.temp);
@@ -619,7 +628,7 @@ void    Load_ROM_Misc (int reset)
 
     // BIOS load/unload
     // FIXME: this is a mess
-    if ((Configuration.enable_BIOS) && (cur_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EUR_US))
+    if ((Configuration.enable_BIOS) && (cur_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
         BIOS_Load ();
     else
         BIOS_Unload ();

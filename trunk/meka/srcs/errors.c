@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 
 // FIXME: switch that to a table with the #define inside
-char   *meka_strerror(void)
+const char *  meka_strerror(void)
 {
  switch (meka_errno)
    {

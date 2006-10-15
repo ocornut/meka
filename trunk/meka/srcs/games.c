@@ -9,24 +9,27 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "games.h"
 #include "inputs_t.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 void    Games_Blit (void)
 {
- blit (games_bmp, screenbuffer, 0, 0, 0, 0, 256, 192);
+	blit (games_bmp, screenbuffer, 0, 0, 0, 0, 256, 192);
 }
 
 void    Init_Games (void)
 {
- game_running = GAME_RUNNING_NONE;
- slow_down_game = 0;
- games_bmp = create_bitmap_ex (8, 256, 192);
- BreakOut_Init ();
- Tetris_Init ();
- BrainWash_Init ();
- Pong_Init ();
+	game_running = GAME_RUNNING_NONE;
+	slow_down_game = 0;
+	games_bmp = create_bitmap_ex(16, 256, 192);
+	BreakOut_Init ();
+	Tetris_Init ();
+	BrainWash_Init ();
+	Pong_Init ();
 }
 
 //-----------------------------------------------------------------------------
@@ -35,45 +38,45 @@ void    Init_Games (void)
 
 void    BreakOut_Start (void)
 {
- if (!(machine & MACHINE_POWER_ON))
+    if (!(machine & MACHINE_POWER_ON))
     {
-    game_running = GAME_RUNNING_BREAKOUT;
-    Msg (MSGT_USER, "Welcome to -BReAk oUt- by Johannes Holmberg");
+        game_running = GAME_RUNNING_BREAKOUT;
+        Msg (MSGT_USER, "Welcome to -BReAk oUt- by Johannes Holmberg");
     }
- BreakOut_Init ();
+    BreakOut_Init ();
 }
 
 void    BreakOut_Init (void)
 {
- bo.scr = games_bmp;
- clear_to_color (bo.scr, GUI_COL_BLACK);
- bo.paddle = 116;
- bo.ballx = 125;
- bo.bally = 180;
- switch (Random(4))
-   { case 0: bo.bdx = -2.0; break; case 1: bo.bdx = -1.0; break;
-     case 2: bo.bdx =  1.0; break; case 3: bo.bdx =  2.0; break; }
- bo.bdy = -2.0;
- bo.score = 0;
- BreakOut_Reset_Bricks ();
- BreakOut_Move_Paddle (0);
+    bo.scr = games_bmp;
+    clear_to_color (bo.scr, COLOR_BLACK);
+    bo.paddle = 116;
+    bo.ballx = 125;
+    bo.bally = 180;
+    switch (Random(4))
+    { case 0: bo.bdx = -2.0; break; case 1: bo.bdx = -1.0; break;
+    case 2: bo.bdx =  1.0; break; case 3: bo.bdx =  2.0; break; }
+    bo.bdy = -2.0;
+    bo.score = 0;
+    BreakOut_Reset_Bricks ();
+    BreakOut_Move_Paddle (0);
 }
 
 void    BreakOut_Reset_Bricks (void)
 {
- int    x, y;
+    int    x, y;
 
- bo.bricks = 56;
- for (y = 0; y < 64; y += 8)
-     for (x = 0; x < 224; x += 32)
-         rectfill (bo.scr, 16 + x, 48 + y, x + 46, y + 54, GUI_COL_WHITE);
+    bo.bricks = 56;
+    for (y = 0; y < 64; y += 8)
+        for (x = 0; x < 224; x += 32)
+            rectfill (bo.scr, 16 + x, 48 + y, x + 46, y + 54, COLOR_WHITE);
 }
 
 void    BreakOut_Move_Paddle (int where)
 {
- rectfill (bo.scr, bo.paddle, 184, bo.paddle + 39, 191, GUI_COL_BLACK);
- bo.paddle += where;
- rectfill (bo.scr, bo.paddle, 184, bo.paddle + 39, 191, GUI_COL_WHITE);
+    rectfill (bo.scr, bo.paddle, 184, bo.paddle + 39, 191, COLOR_BLACK);
+    bo.paddle += where;
+    rectfill (bo.scr, bo.paddle, 184, bo.paddle + 39, 191, COLOR_WHITE);
 }
 
 void    BreakOut_Draw_Score (void)
@@ -86,12 +89,12 @@ void    BreakOut_Draw_Score (void)
     return;
 
  Font_SetCurrent (F_MIDDLE);
- rectfill (bo.scr, 1, 1, 80, Font_Height(-1), GUI_COL_BLACK);
+ rectfill (bo.scr, 1, 1, 80, Font_Height(-1), COLOR_BLACK);
  sprintf (s, "SCORE: %d", bo.score);
  for (i = 0; i < 5; i ++) 
      if (Random(2)) 
          s [i] += ('a' - 'A');
- Font_Print (-1, bo.scr, s, 1, 1, GUI_COL_WHITE);
+ Font_Print (-1, bo.scr, s, 1, 1, COLOR_WHITE);
  last_score = bo.score;
  if ((bo.score % 56) == 0)
     switch (bo.score / 56)
@@ -112,67 +115,81 @@ void    BreakOut_Draw_Score (void)
 
 void    BreakOut_Update (void)
 {
- int    tx, ty;
+    int    tx, ty;
 
- circlefill (bo.scr, bo.ballx, bo.bally, 3, GUI_COL_BLACK);
- bo.ballx += bo.bdx;
- bo.bally += bo.bdy;
- circlefill (bo.scr, bo.ballx, bo.bally, 3, GUI_COL_WHITE);
- tx = bo.ballx - 16;
- ty = bo.bally - 48;
+    circlefill (bo.scr, bo.ballx, bo.bally, 3, COLOR_BLACK);
+    bo.ballx += bo.bdx;
+    bo.bally += bo.bdy;
+    circlefill (bo.scr, bo.ballx, bo.bally, 3, COLOR_WHITE);
+    tx = bo.ballx - 16;
+    ty = bo.bally - 48;
 
- if (bo.bally < 160)
+    if (bo.bally < 160)
     {
-    if (bo.bdy < 0)
-       if (getpixel (bo.scr, bo.ballx, bo.bally - 4) == GUI_COL_WHITE)
-          {
-          rectfill (bo.scr, (tx & 224) + 16, 48 + ((ty - 4) & 248), (tx & 224) + 46, 54 + ((ty - 4) & 248), GUI_COL_BLACK);
-          bo.bdy =- bo.bdy; bo.bricks --; bo.score ++;
-          }
-    if (bo.bdx > 0)
-       if (getpixel (bo.scr, bo.ballx + 4, bo.bally) == GUI_COL_WHITE)
-          {
-          rectfill (bo.scr, 16 + ((tx + 4) & 224), 48 + (ty & 248), ((tx + 4) & 224) + 46, (ty & 248) + 54, GUI_COL_BLACK);
-          bo.bdx =- bo.bdx; bo.bricks --; bo.score ++;
-          }
-    if (bo.bdy > 0)
-       if (getpixel (bo.scr, bo.ballx, bo.bally + 4) == GUI_COL_WHITE)
-          {
-          rectfill (bo.scr, (tx & 224) + 16, 48 + ((ty + 4) & 248), (tx & 224) + 46, 54 + ((ty + 4) & 248), GUI_COL_BLACK);
-          bo.bdy =- bo.bdy; bo.bricks --; bo.score ++;
-          }
-    if (bo.bdx < 0)
-       if (getpixel (bo.scr, bo.ballx - 4, bo.bally) == GUI_COL_WHITE)
-          {
-          rectfill (bo.scr, 16 + ((tx - 4) & 224), 48 + (ty & 248), ((tx - 4) & 224) + 46, (ty & 248) + 54, GUI_COL_BLACK);
-          bo.bdx =- bo.bdx; bo.bricks --; bo.score ++;
-          }
+        if (bo.bdy < 0)
+            if (getpixel (bo.scr, bo.ballx, bo.bally - 4) != 0)
+            {
+                rectfill (bo.scr, (tx & 224) + 16, 48 + ((ty - 4) & 248), (tx & 224) + 46, 54 + ((ty - 4) & 248), COLOR_BLACK);
+                bo.bdy =- bo.bdy; bo.bricks --; bo.score ++;
+            }
+            if (bo.bdx > 0)
+                if (getpixel (bo.scr, bo.ballx + 4, bo.bally) != 0)
+                {
+                    rectfill (bo.scr, 16 + ((tx + 4) & 224), 48 + (ty & 248), ((tx + 4) & 224) + 46, (ty & 248) + 54, COLOR_BLACK);
+                    bo.bdx =- bo.bdx; bo.bricks --; bo.score ++;
+                }
+                if (bo.bdy > 0)
+                    if (getpixel (bo.scr, bo.ballx, bo.bally + 4) != 0)
+                    {
+                        rectfill (bo.scr, (tx & 224) + 16, 48 + ((ty + 4) & 248), (tx & 224) + 46, 54 + ((ty + 4) & 248), COLOR_BLACK);
+                        bo.bdy =- bo.bdy; bo.bricks --; bo.score ++;
+                    }
+                    if (bo.bdx < 0)
+                        if (getpixel (bo.scr, bo.ballx - 4, bo.bally) != 0)
+                        {
+                            rectfill (bo.scr, 16 + ((tx - 4) & 224), 48 + (ty & 248), ((tx - 4) & 224) + 46, (ty & 248) + 54, COLOR_BLACK);
+                            bo.bdx =- bo.bdx; bo.bricks --; bo.score ++;
+                        }
     }
 
- if (bo.bricks == 0)
-    BreakOut_Reset_Bricks ();
+    if (bo.bricks == 0)
+        BreakOut_Reset_Bricks ();
 
- if (((int)bo.bally >= 180) && ((int)bo.bally < 184))
-    if (bo.ballx > bo.paddle)
-       if (bo.ballx < bo.paddle + 40)
-          {
-          bo.bdy =- bo.bdy;
-          bo.bdx = (bo.ballx - bo.paddle - 20) / 5;
-          }
+    if (((int)bo.bally >= 180) && ((int)bo.bally < 184))
+    {
+        if (bo.ballx > bo.paddle)
+            if (bo.ballx < bo.paddle + 40)
+            {
+                bo.bdy =- bo.bdy;
+                bo.bdx = (bo.ballx - bo.paddle - 20) / 5;
+            }
+    }
 
- if ((int)bo.bally == 188) { BreakOut_Init (); return; }
- if ((int)bo.bally <= 14) bo.bdy =- bo.bdy;
- if (((int)bo.ballx <= 4) || ((int)bo.ballx >= 251)) bo.bdx =- bo.bdx;
+    if ((int)bo.bally == 188) 
+    { 
+        BreakOut_Init (); 
+        return; 
+    }
+    if ((int)bo.bally <= 14) 
+        bo.bdy = -bo.bdy;
+    if ((int)bo.ballx <= 4)
+    {
+        bo.bdx = -bo.bdx;
+    }
+    else if ((int)bo.ballx >= 251)
+    {
+        bo.bdx = -bo.bdx;
+    }
 
- if (key [KEY_RIGHT])
-    if (bo.paddle < 214)
-       BreakOut_Move_Paddle (+5);
- if (key [KEY_LEFT])
-    if (bo.paddle > 1)
-       BreakOut_Move_Paddle (-5);
+    if (key [KEY_RIGHT])
+        if (bo.paddle < 214)
+            BreakOut_Move_Paddle (+5);
+    if (key [KEY_LEFT])
+        if (bo.paddle > 1)
+            BreakOut_Move_Paddle (-5);
 
- BreakOut_Draw_Score ();
- Games_Blit ();
+    BreakOut_Draw_Score ();
+    Games_Blit ();
 }
 
 //-----------------------------------------------------------------------------
@@ -216,30 +233,29 @@ static int     figures[7][4][4] =
 
 void    Tetris_Start (void)
 {
- if (!(machine & MACHINE_POWER_ON))
+    if (!(machine & MACHINE_POWER_ON))
     {
-    game_running = GAME_RUNNING_TETRIS;
-    Msg (MSGT_USER,"Welcome to -bUgGy tEtRiS- by Archeide");
+        game_running = GAME_RUNNING_TETRIS;
+        Msg (MSGT_USER,"Welcome to -bUgGy tEtRiS- by Archeide");
     }
- Tetris_Init ();
+    Tetris_Init ();
 }
 
 void    Tetris_Init (void)
 {
- to.scr = games_bmp;
- clear_to_color (to.scr, GUI_COL_BLACK);
- Tetris_Reset ();
- Tetris_Move_Figure (0, 0);
+    to.scr = games_bmp;
+    clear_to_color (to.scr, COLOR_BLACK);
+    Tetris_Reset ();
+    Tetris_Move_Figure (0, 0);
 }
 
 void    Tetris_Redraw (void)
 {
- int   x, y;
+    int   x, y;
 
- for (x = 0; x < 20; x++)
-     for (y = 0; y < 24; y++)
-         rectfill (to.scr, x*8, y*8, x*8+7, y*8+7,
-                   to.tab[x][y] ? GUI_COL_WHITE : GUI_COL_BLACK);
+    for (x = 0; x < 20; x++)
+        for (y = 0; y < 24; y++)
+            rectfill (to.scr, x*8, y*8, x*8+7, y*8+7, to.tab[x][y] ? COLOR_WHITE : COLOR_BLACK);
 }
 
 void    Tetris_Remove_Filled_Lines (void)
@@ -285,8 +301,8 @@ void    Tetris_Reset (void)
  for (i = 0; i < 20; i++)
     for (j = 0; j < 24; j++)
        to.tab[i][j] = 0;
- rectfill (to.scr, 0, 0, 20*8, 24*8, GUI_COL_BLACK);
- line (to.scr, 165, 0, 165, 192, GUI_COL_WHITE);
+ rectfill (to.scr, 0, 0, 20*8, 24*8, COLOR_BLACK);
+ line (to.scr, 165, 0, 165, 192, COLOR_WHITE);
 }
 
 int     Tetris_Test_Collisions (int wherex, int wherey)
@@ -353,7 +369,7 @@ void    Tetris_Draw_Figure (int clear)
             {
             to.tab[to.posx+x][to.posy+y] = clear?0:1;
             rectfill(to.scr, (to.posx+x)*8, (to.posy+y)*8, (to.posx+x)*8+7, (to.posy+y)*8+7,
-                     clear ? GUI_COL_BLACK : GUI_COL_WHITE);
+                     clear ? COLOR_BLACK : COLOR_WHITE);
             }
          }
 }
@@ -375,15 +391,15 @@ void    Tetris_Draw_Score (void)
  if (to.score == last_score)
     return;
  Font_SetCurrent (F_MIDDLE);
- rectfill (to.scr, 171, 1, 250, Font_Height(-1), GUI_COL_BLACK);
+ rectfill (to.scr, 171, 1, 250, Font_Height(-1), COLOR_BLACK);
  sprintf (s, "Score: %d", to.score);
- Font_Print (-1, to.scr, s, 171, 1, GUI_COL_WHITE);
+ Font_Print (-1, to.scr, s, 171, 1, COLOR_WHITE);
  last_score = to.score;
  if (to.level != last_level)
     {
-    rectfill (to.scr, 171, 41, 250, Font_Height(-1), GUI_COL_BLACK);
+    rectfill (to.scr, 171, 41, 250, Font_Height(-1), COLOR_BLACK);
     sprintf (s, "Level: %d", to.level);
-    Font_Print (-1, to.scr, s, 171, 41, GUI_COL_WHITE);
+    Font_Print (-1, to.scr, s, 171, 41, COLOR_WHITE);
     last_level = to.level;
     if (to.level > 1)
        switch (to.level)
@@ -498,7 +514,7 @@ void    Tetris_Update (void)
 // Brain Wash
 //-----------------------------------------------------------------------------
 
-int BrainWashfigures[13][5][5] =
+static const int BrainWashfigures[13][5][5] =
 {
 /* FIGURE DE BASE */
   { { 0,0,0,0,0 },
@@ -602,12 +618,12 @@ void    BrainWash_Draw_Figure (int x, int y)
     {
         px = (x+i)<<2;
         py = ((y+j)<<2)+16;
-        CE = BrainWashfigures[bwo.figure][j][i] == 1 ? GUI_COL_WHITE : GUI_COL_BLACK;
+        CE = BrainWashfigures[bwo.figure][j][i] == 1 ? COLOR_WHITE : COLOR_BLACK;
         CF = getpixel (bwo.scr, px, py);
         rectfill (bwo.scr, px,py,px+3,py+3,
-                  CF == GUI_COL_BLACK
+                  CF == COLOR_BLACK
                   ? CE
-                  : ((CE == GUI_COL_WHITE) ? GUI_COL_BLACK : CF));
+                  : ((CE == COLOR_WHITE) ? COLOR_BLACK : CF));
     }
 }
 
@@ -625,7 +641,7 @@ void    BrainWash_Reset_Board (void)
   int   i;
 
   bwo.figure = (bwo.level-1)%13;
-  clear_to_color (bwo.scr, GUI_COL_BLACK);
+  clear_to_color (bwo.scr, COLOR_BLACK);
   for (i = 0; i < bwo.level; i += 1)
     BrainWash_Draw_Figure (Random(52), Random(32));
   BrainWash_Draw_Figure (bwo.posx,bwo.posy);
@@ -633,8 +649,8 @@ void    BrainWash_Reset_Board (void)
 
 void    BrainWash_Draw_Erasor (int wherex, int wherey)
 {
- line(bwo.scr, wherex, 16, wherex, 192, GUI_COL_WHITE);
- line(bwo.scr, 0,wherey, 256, wherey, GUI_COL_WHITE);
+    line(bwo.scr, wherex, 16, wherex, 192, COLOR_WHITE);
+    line(bwo.scr, 0,wherey, 256, wherey, COLOR_WHITE);
 }
 
 void    BrainWash_Move_Erasor (int wherex, int wherey)
@@ -672,12 +688,12 @@ void    BrainWash_Update (void)
     bwo.level+=1;
     BrainWash_Reset_Board();
     }
-    if (Inputs_KeyPressed (KEY_SPACE, NO))
+    if (Inputs_KeyPressed (KEY_SPACE, FALSE))
     {
     BrainWash_Draw_Figure(bwo.posx,bwo.posy);
     for (j=0;j<32;j++)
        for (i=0;i<52;i++)
-          if (getpixel(bwo.scr,i<<2,(j<<2)+16)==GUI_COL_WHITE)
+          if (getpixel(bwo.scr,i<<2,(j<<2)+16) != 0)
              {
              trouve = 1;
              break;
@@ -701,9 +717,9 @@ void    BrainWash_Draw_Score (void)
   if (bwo.level == last_level)
      return;
   Font_SetCurrent (F_MIDDLE);
-  rectfill (bwo.scr, 1, 1, 80, 8, GUI_COL_BLACK);
+  rectfill (bwo.scr, 1, 1, 80, 8, COLOR_BLACK);
   sprintf (s, "LEVEL: %d", bwo.level);
-  Font_Print (-1, bwo.scr, s, 1, 1, GUI_COL_WHITE);
+  Font_Print (-1, bwo.scr, s, 1, 1, COLOR_WHITE);
   last_level = bwo.level;
   if (bwo.level==1) return;
   switch (bwo.level)
@@ -741,12 +757,12 @@ void    Pong_Start (void)
 void    Pong_Init (void)
 {
  pong.scr = games_bmp;
- clear_to_color (pong.scr, GUI_COL_BLACK);
+ clear_to_color (pong.scr, COLOR_BLACK);
  Pong_Init_Ball ();
  pong.p1y = pong.p2y = 80;
  pong.p1score = pong.p2score = 0;
- rectfill (pong.scr, 9, pong.p1y, 13, pong.p1y + 32, GUI_COL_WHITE);
- rectfill (pong.scr, 250, pong.p2y, 254, pong.p2y + 32, GUI_COL_WHITE);
+ rectfill (pong.scr, 9, pong.p1y, 13, pong.p1y + 32, COLOR_WHITE);
+ rectfill (pong.scr, 250, pong.p2y, 254, pong.p2y + 32, COLOR_WHITE);
 }
 
 void    Pong_Init_Ball (void)
@@ -761,16 +777,16 @@ void    Pong_Update (void)
 {
  char   score [20];
 
- circlefill (pong.scr, pong.ballx, pong.bally, 3, GUI_COL_BLACK);
+ circlefill (pong.scr, pong.ballx, pong.bally, 3, COLOR_BLACK);
  pong.ballx += pong.balldx;
  pong.bally += pong.balldy;
- circlefill (pong.scr, pong.ballx, pong.bally, 3, GUI_COL_WHITE);
+ circlefill (pong.scr, pong.ballx, pong.bally, 3, COLOR_WHITE);
  if (pong.balldx > 0)
     {
     if (pong.ballx > 255)
        {
        pong.p1score ++;
-       circlefill (pong.scr, pong.ballx, pong.bally, 3, GUI_COL_BLACK);
+       circlefill (pong.scr, pong.ballx, pong.bally, 3, COLOR_BLACK);
        Pong_Init_Ball ();
        }
     if (pong.ballx > 245)
@@ -785,7 +801,7 @@ void    Pong_Update (void)
     if (pong.ballx < 9)
        {
        pong.p2score ++;
-       circlefill (pong.scr, pong.ballx, pong.bally, 3, GUI_COL_BLACK);
+       circlefill (pong.scr, pong.ballx, pong.bally, 3, COLOR_BLACK);
        Pong_Init_Ball ();
        }
     if (pong.ballx < 19)
@@ -797,25 +813,25 @@ void    Pong_Update (void)
     }
  if (key[KEY_W] | key[KEY_S])
     {
-    rectfill (pong.scr, 9, pong.p1y, 13, pong.p1y + 32, GUI_COL_BLACK);
+    rectfill (pong.scr, 9, pong.p1y, 13, pong.p1y + 32, COLOR_BLACK);
     if ((key [KEY_W]) && (pong.p1y > 12)) pong.p1y -= 3;
     if ((key [KEY_S]) && (pong.p1y < 157)) pong.p1y += 3;
-    rectfill (pong.scr, 9, pong.p1y, 13, pong.p1y + 32, GUI_COL_WHITE);
+    rectfill (pong.scr, 9, pong.p1y, 13, pong.p1y + 32, COLOR_WHITE);
     }
  if (key [KEY_UP] | key [KEY_DOWN])
     {
-    rectfill (pong.scr, 250, pong.p2y, 254, pong.p2y + 32, GUI_COL_BLACK);
+    rectfill (pong.scr, 250, pong.p2y, 254, pong.p2y + 32, COLOR_BLACK);
     if ((key[KEY_UP]) && (pong.p2y > 12)) pong.p2y -= 3;
     if ((key[KEY_DOWN]) && (pong.p2y < 157)) pong.p2y += 3;
-    rectfill (pong.scr, 250, pong.p2y, 254, pong.p2y + 32, GUI_COL_WHITE);
+    rectfill (pong.scr, 250, pong.p2y, 254, pong.p2y + 32, COLOR_WHITE);
     }
  if ((pong.balldy > 0) && (pong.bally > 187)) pong.balldy =- pong.balldy;
  if ((pong.balldy < 0) && (pong.bally < 14))  pong.balldy =- pong.balldy;
 
  Font_SetCurrent (F_MIDDLE);
  sprintf (score, "%d - %d", pong.p1score, pong.p2score);
- rectfill (pong.scr, 0, 1, 255, 1 + Font_Height(-1), GUI_COL_BLACK);
- Font_Print (-1, pong.scr, score, 8 + ((248 - Font_TextLength(-1, score)) / 2), 1, GUI_COL_WHITE);
+ rectfill (pong.scr, 0, 1, 255, 1 + Font_Height(-1), COLOR_BLACK);
+ Font_Print (-1, pong.scr, score, 8 + ((248 - Font_TextLength(-1, score)) / 2), 1, COLOR_WHITE);
 
  Games_Blit ();
 }

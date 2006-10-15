@@ -9,8 +9,8 @@
 
 // new names
 int     menu_new (void);
-int     menu_add_item (int n_menu, char *label, int attr, void (*pnt)());
-int     menu_add_menu (int n_menu, char *label, int attr);
+int     menu_add_item (int n_menu, const char *label, int attr, void (*event_handler)(), void *user_data);
+int     menu_add_menu (int n_menu, const char *label, int attr);
 
 // old names
 void    gui_menu_highlight              (int menu_id, int entry_id);

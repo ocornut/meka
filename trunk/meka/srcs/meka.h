@@ -24,10 +24,10 @@
 // Max tiles (in video mode 5)
 #define MAX_TILES               (512)
 
-// Video Depth ----------------------------------------------------------------
-#define MEKA_DEPTH_8
-// #define MEKA_DEPTH_16        // Not done
-//-----------------------------------------------------------------------------
+// Fixed colors
+//// FIXME: Currently call makecol(), should refer to a precomputed table
+#define COLOR_BLACK				(0x00000000)	//makecol(0,0,0)
+#define COLOR_WHITE             (0xFFFFFFFF)	//makecol(255,255,255)
 
 #ifdef MDK_Z80
  int    Z80_IRQ;
@@ -46,8 +46,6 @@ u8 *    Mem_Pages [8];              // Pointer to memory pages
 u8 *    BACK_AREA;
 u8 *    SG_BACK_TILE;
 u8 *    SG_BACK_COLOR;
-u8 *    SPR_AREA;
-u8 *    SPR_TILE;
 
 // Flags for layer handling ---------------------------------------------------
 #define LAYER_BACKGROUND            (0x01)
@@ -71,9 +69,7 @@ char ** params_v;
 
 // On Board RAM Macros (currently only for Ernie Els Golf)
 #define ONBOARD_RAM_EXIST       (0x20)
-#define OnBoard_RAM_Exist       (sms.Mapping_Register & ONBOARD_RAM_EXIST)
 #define ONBOARD_RAM_ACTIVE      (0x40)
-#define OnBoard_RAM_Active      (sms.Mapping_Register & ONBOARD_RAM_ACTIVE)
 //-----------------------------------------------------------------------------
 
 // Variables needed by one emulated SMS
@@ -124,20 +120,16 @@ struct TSMS_TYPE
     u8      Control_Check_GUI;
     u8      Control_Start_Pause;
     int     VDP_Line;
-    int     Pages_Mask_8k,  Pages_Mask_16k;
-    int     Pages_Count_8k, Pages_Count_16k;
+    int     Pages_Mask_8k,  Pages_Count_8k;
+    int     Pages_Mask_16k, Pages_Count_16k;
     long    Size_ROM;
     u8      Periph_Nat;
     int     VDP_VideoMode, VDP_New_VideoMode;
     int     VDP_Video_Change;
 };
 
-// Scrolling
-byte    X_Scroll, X_Scroll_Next;
-byte    Y_Scroll;
-
 // Pointer to current line on emulated screen buffer
-byte    *GFX_Line;
+byte *  GFX_Line;   // FIXME: Obsolete
 
 // Bits for gfx.Tile_Dirty
 #define TILE_DIRTY_DECODE       (0x01)
@@ -148,7 +140,6 @@ typedef struct
 {
  byte    Tile_Dirty [MAX_TILES];
  byte    Tile_Decoded [MAX_TILES] [64];
- word    Base_Sprite;
 } TGFX_TYPE;
 
 typedef struct
@@ -159,12 +150,11 @@ typedef struct
     int         Layer_Mask;
     int         Current_Key_Pressed;
     //----
-    bool        Force_Quit;                         // Set to YES for program to quit
+    bool        Force_Quit;                         // Set to TRUE for program to quit
     int         State_Current;                      // Current savestate number
     int         State_Load;                         // Set to != 1 to set and load a state on Machine_Reset();
-    bool        Setup_Interactive_Execute;          // Set to YES to execute an interactive setup on startup
+    bool        Setup_Interactive_Execute;          // Set to TRUE to execute an interactive setup on startup
     int         Debug_Step;
-    u8          Magic_C000;
     int         GUI_Current_Page;
     #ifdef CLOCK
     bool        Show_Clock;
@@ -176,38 +166,11 @@ typedef struct
 
 // Generic 512-Character-Wide buffer
 // (Not to be used accross functions calls! etc...)
+// FIXME: Make obsoletes
 char    GenericBuffer [512];
 
-// Filenames
-typedef struct
-{
-    char rom            [FILENAME_LEN];
-    char save           [FILENAME_LEN];
-    char temp           [FILENAME_LEN];  // FIXME: crap
-    char dir_emu        [FILENAME_LEN];
-    char dir_captures   [FILENAME_LEN];
-    char dir_saves      [FILENAME_LEN];
-    char dir_musics     [FILENAME_LEN];
-    char dir_debug      [FILENAME_LEN];
-} FILE_TYPE;
-
-// Configuration
-typedef struct
-{
- int   Video_Depth;
- long  GUI_Driver;
- int   GUI_Res_X, GUI_Res_Y;
- int   GUI_Start_In;
- int   GUI_Access_Mode;
- int   GUI_Refresh_Rate;
- bool  GUI_VSync;
- int   Mouse_Installed;
-} CFG_TYPE;
-
-CFG_TYPE          cfg;
 OPT_TYPE          opt;
 TGFX_TYPE         tgfx;
-FILE_TYPE         file;
 
 // Declare one 'sms' and one 'tsms'
 struct SMS_TYPE   sms;
@@ -233,7 +196,19 @@ typedef struct
 typedef struct
 {
     int                     model;
+    int                     sprite_shift_x;						// 0 or 8
+	int						sprite_pattern_base_index;			// 0 or 256, SMS/GG only
+	u8 *					sprite_pattern_base_address;
+
+    // Scrolling latches
+    u8                      scroll_x_latched;
+    u8                      scroll_y_latched;
+    u8                      scroll_x_latched_table[MAX_RES_Y];
 } t_machine_vdp_smsgg;
+
+// FIXME: Global because accessed by videoasm.asm
+// Figure out a proper way to deal with this (export structure members offsets as definitions, etc)
+u8 *						sprite_attribute_table;
 
 typedef struct
 {
@@ -257,6 +232,14 @@ typedef struct
     char    ConfigurationFile       [FILENAME_LEN];
     char    DataBaseFile            [FILENAME_LEN];
     char    DataFile                [FILENAME_LEN];
+    char    SkinFile                [FILENAME_LEN];
+    char    ScreenshotDirectory     [FILENAME_LEN];
+    char    SavegameDirectory       [FILENAME_LEN];
+    char    BatteryBackedMemoryFile [FILENAME_LEN];
+    char    MusicDirectory          [FILENAME_LEN];
+    char    DebugDirectory          [FILENAME_LEN];
+
+    char    MediaImageFile          [FILENAME_LEN];     // FIXME: abstract media (per type/slot)
 
     char    DocumentationMain       [FILENAME_LEN];
 #ifdef WIN32
@@ -267,12 +250,14 @@ typedef struct
     char    DocumentationCompat     [FILENAME_LEN];
     char    DocumentationMulti      [FILENAME_LEN];
     char    DocumentationChanges    [FILENAME_LEN];
+    char    DocumentationDebugger   [FILENAME_LEN];
     // FIXME: add and use TECH.TXT ?
 } t_meka_env_paths;
 
 typedef struct
 {
     t_meka_env_paths    Paths;
+    int                 mouse_installed;
 } t_meka_env;
 
 t_meka_env  Env;
@@ -285,10 +270,6 @@ t_meka_env  Env;
 // This structure should basically reflect the content of MEKA.CFG
 //-----------------------------------------------------------------------------
 
-// Values for Configuration.palette_type
-#define PALETTE_TYPE_MUTED          (0)
-#define PALETTE_TYPE_BRIGHT         (1) // Default
-
 // Values for Configuration.sprite_flickering
 #define SPRITE_FLICKERING_NO        (0)
 #define SPRITE_FLICKERING_ENABLED   (1)
@@ -296,13 +277,17 @@ t_meka_env  Env;
 
 typedef struct
 {
+    // Country
     int     country;                    // Country to use (session)
     int     country_cfg;                // " given by configuration file and saved back
     int     country_cl;                 // " given by command-line
+
+    // Debug Mode
     bool    debug_mode;                 // Set if debug mode enabled (session)
     bool    debug_mode_cfg;             // " given by configuration file and saved back
     bool    debug_mode_cl;              // " given by command-line
-    int     palette_type;               // Palette type
+
+    // Miscellaenous
     int     sprite_flickering;          // Set to emulate sprite flickering.
     bool    slash_nirv;                 // Increase FPS counter by many. Old private joke for NiRV.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.
@@ -310,13 +295,34 @@ typedef struct
     bool    enable_NES;             
     bool    show_fullscreen_messages;
     bool    show_product_number;
+    bool    start_in_gui;
+
+    // Applet: File Browser
     bool    fb_close_after_load;
     bool    fb_uses_DB;
     bool    fullscreen_after_load;
+
+    // Applet: Debugger
     int     debugger_console_lines;
     int     debugger_disassembly_lines;
     bool    debugger_disassembly_display_labels;
     bool    debugger_log_enabled;
+
+    // Applet: Memory Editor
+    int     memory_editor_lines;
+    int     memory_editor_columns;
+
+    // Video
+    int     video_mode_desktop_depth;
+    int     video_mode_gui_depth;
+    int     video_mode_gui_depth_cfg;
+    long    video_mode_gui_driver;
+    int     video_mode_gui_res_x;
+    int     video_mode_gui_res_y;
+    bool    video_mode_gui_vsync;
+    int     video_mode_gui_refresh_rate;
+    int     video_mode_gui_access_mode;         // Make obsolete
+
 } t_meka_configuration;
 
 t_meka_configuration    Configuration;
@@ -340,6 +346,7 @@ typedef struct
     int         data_size;
     t_meka_crc  mekacrc;
     u32         crc32;
+    // char *   filename ?
 } t_media_image;
 
 // Currently a global to hold ROM infos.
@@ -352,7 +359,7 @@ t_media_image   media_ROM;
 //-----------------------------------------------------------------------------
 
 // Colors
-#define Border_Color                    (GUI_COL_BLACK) /*((sms.VDP[7] & 15) + 16)*/
+#define Border_Color                    (COLOR_BLACK) /*((sms.VDP[7] & 15) + 16)*/
 #define Border_Color_x4                 (Border_Color) | (Border_Color << 8) | (Border_Color << 16) | (Border_Color << 24)
 
 // Debugging
@@ -370,9 +377,7 @@ int     Debug_Print_Infos;
 // Emulated Screen ------------------------------------------------------------
 BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
 BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
-BITMAP *double_buffer;                     // Double-sized buffer
-BITMAP *regular_buffer;                    // Buffer in native mode
-// FullScreen -----------------------------------------------------------------
+// FullScreen / Video Memory --------------------------------------------------
 BITMAP *fs_out;                            // Fullscreen video buffer
 BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
 // GUI ------------------------------------------------------------------------

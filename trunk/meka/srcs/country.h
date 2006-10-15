@@ -7,8 +7,8 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define         COUNTRY_EUR_US          (0)
-#define         COUNTRY_JAP             (1)
+#define         COUNTRY_EXPORT          (0)
+#define         COUNTRY_JAPAN           (1)
 #define         COUNTRY_AUTO            (2)
 
 //-----------------------------------------------------------------------------

@@ -9,7 +9,7 @@
 
 void    Show_Mouse_In (void *p)
 {
-    if (cfg.Mouse_Installed != -1)
+    if (Env.mouse_installed != -1)
     {
         show_mouse (p);
     }
@@ -35,7 +35,7 @@ int     gui_mouse_test_area (byte b, int x1, int y1, int x2, int y2)
 // UPDATE MOUSE VARIABLES -----------------------------------------------------
 void    gui_update_mouse (void)
 {
-    if (cfg.Mouse_Installed == -1)
+    if (Env.mouse_installed == -1)
     {
         return;
     }
@@ -61,7 +61,7 @@ void    gui_update_mouse (void)
     if (gui_mouse.button == 0)
     {
         gui_mouse.pressed_on = PRESSED_ON_NOTHING;
-        gui_mouse.on_box = -1;
+        gui_mouse.on_box = NULL;
 
         menus_opt.c_menu = -1;
         menus_opt.c_entry = -1;
@@ -89,7 +89,7 @@ void    gui_init_mouse (void)
     gui_mouse.z_current = gui_mouse.z_prev = 0;
     gui_mouse.px = 0;
     gui_mouse.py = 0;
-    gui_mouse.on_box = -1;
+    gui_mouse.on_box = NULL;
     gui_mouse.pressed_on = PRESSED_ON_NOTHING;
     gui_mouse.reset_timer = 1;
     gui_mouse.time_since_last_click = 0;

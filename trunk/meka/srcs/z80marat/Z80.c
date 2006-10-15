@@ -12,6 +12,9 @@
 /**     commercially. Please, notify me, if you make any    **/
 /**     changes to this file.                               **/
 /*************************************************************/
+/* Heavily modified by Omar Cornut, for usage in MEKA.       */
+/*************************************************************/
+
 
 //*** MEKA-START ***
 
@@ -20,9 +23,12 @@
 //-----------------------------------------------------------------------------
 
 // Define to enable debugging features
-// #define MEKA_Z80_DEBUGGER    // is in project
+// #define MEKA_Z80_DEBUGGER    // already defined in project
 
-// Define to reload IPeriod everytime. Else, IPeriod is added to current ICount (technically more accurate)
+// Definitions below are related to various attempts to fix/tweak 
+// the Z80 emulator.
+
+// Define to reload IPeriod everytime. Else, IPeriod is added to current ICount (which is accurate)
 // #define MEKA_Z80_IPERIOD_TRUNC
 
 // Define to enable timing on NMI/Int acceptance
@@ -49,9 +55,9 @@
 // External declaration
 //-----------------------------------------------------------------------------
 
-extern void    Msg (int attr, const char *format, ...);
+extern void    Msg(int attr, const char *format, ...);
 
-extern int              Debugger_Hook (Z80 *R);
+extern int              Debugger_Hook(Z80 *R);
 extern int              Debugger_CPU_Exec_Traps[0x10000];
 extern unsigned short   Debugger_Z80_PC_Last;
 extern unsigned short   Debugger_Z80_PC_Log_Queue[256];
@@ -709,6 +715,7 @@ word    RunZ80(Z80 *R)
   }
 
   /* Execution stopped */
+  // Note: unreachable code
   return (R->PC.W);
 }
 
@@ -730,11 +737,11 @@ word    RunZ80_Debugging(Z80 *R)
         // Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
 
         // Turn tracing on when reached trap address
-        if (R->PC.W == R->Trap || Debugger_CPU_Exec_Traps[R->PC.W])
+        if (R->PC.W == R->Trap)
             R->Trace = 1;
 
         // Call single-step debugger, exit if requested
-        if (R->Trace)
+        if (R->Trace || Debugger_CPU_Exec_Traps[R->PC.W])
             if (!Debugger_Hook (R))
                 return (R->PC.W);
 
@@ -795,6 +802,7 @@ word    RunZ80_Debugging(Z80 *R)
     }
 
     /* Execution stopped */
+   // Note: unreachable code
     return (R->PC.W);
 }
 

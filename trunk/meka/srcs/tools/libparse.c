@@ -9,15 +9,22 @@
 #include "libmy.h"
 #include "libparse.h"
 
+#ifndef FALSE
+#define FALSE   0
+#endif
+#ifndef  TRUE
+#define TRUE    1
+#endif
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// trim_trailing_spaces (char *s)
+// parse_trim_trailing_spaces(char *s)
 // Trim trailing spaces by writing an end-of-string marker
 //-----------------------------------------------------------------------------
-void        trim_trailing_spaces (char *s)
+void        parse_trim_trailing_spaces (char *s)
 {
     int     i;
     i = strlen(s) - 1;
@@ -26,10 +33,10 @@ void        trim_trailing_spaces (char *s)
 }
 
 //-----------------------------------------------------------------------------
-// skip_spaces (char **src)
+// parse_skip_spaces(char **src)
 // Skip all spaces in pointed string
 //-----------------------------------------------------------------------------
-void        skip_spaces (char **src)
+void        parse_skip_spaces(char **src)
 {
     char    c;
     while ((c = **src) == ' ' || c == '\t')
@@ -58,7 +65,7 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
     if (dst == NULL)
     {
         dst_len = 0;
-        inhibit = NO;
+        inhibit = FALSE;
         for (p = *src; (c = *p) != EOSTR; p++)
         {
             if (!inhibit)
@@ -69,12 +76,12 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
                     break;
                 if (c == '\\')
                 {
-                    inhibit = YES;
+                    inhibit = TRUE;
                     continue;
                 }
             }
             dst_len++;
-            inhibit = NO;
+            inhibit = FALSE;
         }
         if (dst_len == 0 && (*p == EOSTR || *p == comment_char))
             return (NULL);
@@ -84,7 +91,7 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
 
     // Copy word until separator or end-of-string is found. Handle \ inhibitor.
     dst_write = dst;
-    inhibit = NO;
+    inhibit = FALSE;
     for (p = *src; (c = *p) != EOSTR; p++)
     {
         if (!inhibit)
@@ -95,14 +102,21 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
                 break;
             if (c == '\\')
             {
-                inhibit = YES;
+                inhibit = TRUE;
                 continue;
             }
         }
         if (dst_write - dst == dst_len)
             break;
+        if (inhibit)
+        {
+            if (c == 'n')
+                c = '\n';
+            else if (c == 't')
+                c = '\t';
+        }
         *dst_write++ = c;
-        inhibit = NO;
+        inhibit = FALSE;
     }
     *dst_write = EOSTR;
 
@@ -117,49 +131,82 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
         return (NULL);
 
     // Trim trailing spaces
-    trim_trailing_spaces(dst);
+    parse_trim_trailing_spaces(dst);
+
+    return (dst);
+}
+
+char *      parse_escape_string(const char *src, const char *escape_chars)
+{
+    char *  p;
+    char *  dst;
+    char    c;
+    int     count;
+    int     src_length;
+
+    // Default escape characters
+    if (escape_chars == NULL)
+        escape_chars = PARSE_ESCAPE_CHARACTERS_DEFAULT;
+
+    // Count characters to escape
+    count = 0;
+    for (src_length = 0; (c = src[src_length]) != '\0'; src_length++)
+    {
+        if (strchr(escape_chars, c) != NULL)
+            count++;
+    }
+
+    // If none, return NULL
+    if (count == 0)
+        return NULL;
+
+    dst = malloc(sizeof(char) * (src_length + count + 1));
+    p = dst;
+    while ((c = *src++) != '\0')
+    {
+        if (strchr(escape_chars, c) != NULL)
+        {
+            *p++ = '\\';
+            //count--;
+        }
+        *p++ = c;
+    }
+    *p = '\0';
+
+    return (dst);
+}
+
+char *      parse_unescape_string(const char *src, const char *escape_chars)
+{
+    char *  dst;
+    char *  p;
+    char    c;
+    int     src_length;
+
+    // Default escape characters
+    if (escape_chars == NULL)
+        escape_chars = PARSE_ESCAPE_CHARACTERS_DEFAULT;
+
+    // Make it easier, allocate same as source length
+    src_length = strlen(src);
+    dst = malloc(sizeof(char) * (src_length + 1));
+    p = dst;
+
+    // Copy
+    while ((c = *src++) != '\0')
+    {
+        if (strchr(escape_chars, c) != NULL)
+        {
+            c = *src++;
+            if (c == '\0')  // FIXME: not exact behavior, but at least we're safe here
+                break;
+        }
+        *p++ = c;
+    }
+    *p = '\0';
 
     return (dst);
 }
 
 //-----------------------------------------------------------------------------
-// OLD/OBSOLETE
-//-----------------------------------------------------------------------------
-
-static char *   Parse_Separators = " \t"; // Default value
-
-char*   Parse_GetSep (void)
-{
- return Parse_Separators;
-}
-
-void    Parse_SetSep (char *Sep)
-{
- Parse_Separators = Sep;
-}
-
-void    Parse_SkipSpaces (char **Src)
-{
- while (*(*Src) == ' ' || *(*Src) == '\t')
-   (*Src) += 1;
-}
-
-int     Parse_WordGet (t_word *Word, char **Src)
-{
- int    i;
- while (*(*Src) && strchr (Parse_Separators, *(*Src)))
-   (*Src) += 1;
- for (i = 0; (*Src)[i] && !strchr (Parse_Separators, (*Src)[i]); i++);
- Word->len = i;
- //if (i == 0)
- //   return 0;
- strncpy (Word->s, *Src, i);
- Word->s [i] = EOSTR;
- (*Src) += i;
- //Word->s = *Src; // StrNDup (*Src, i);
- //(*Src) += i;
- //(*Src)[0] = 0;
- //(*Src) += 1;
- return i;
-}
 

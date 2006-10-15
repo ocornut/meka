@@ -6,10 +6,13 @@
 #include "shared.h"
 #include "blit.h"
 #include "blitintf.h"
+#include "glasses.h"
+#include "inputs_c.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
+
 int     Glasses_ComPort_Initialize      (void);
 void    Glasses_ComPort_Close           (void);
 void    Glasses_ComPort_Write           (int left_enable, int right_enable);
@@ -20,7 +23,7 @@ void    Glasses_ComPort_Write           (int left_enable, int right_enable);
 
 void    Glasses_Init_Values (void)
 {
-    Glasses.Enabled = NO;
+    Glasses.Enabled = FALSE;
     Glasses_Set_Mode (GLASSES_MODE_SHOW_ONLY_RIGHT);
     // Note: RIGHT being the default is better because when ran in Japanese
     // mode, Space Harrier and Maze Walker keep only this side enabled for
@@ -50,13 +53,13 @@ int     Glasses_Must_Skip_Frame (void)
     static int security_cnt = 0;
     // Msg (MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
 
-    if (blitters.current->blitter == BLITTER_PARALLEL)
-        return (NO);
+    if (Blitters.current->blitter == BLITTER_PARALLEL)
+        return (FALSE);
     side = sms.Glasses_Register & 1;
     ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side)
         ||
         (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT && side);
-    if (ret == NO)
+    if (ret == FALSE)
     {
         security_cnt = 0;
     }

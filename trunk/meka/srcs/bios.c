@@ -32,7 +32,7 @@ void    BIOS_Unload (void)
 //-----------------------------------------------------------------------------
 void    BIOS_Load (void)
 {
-    if (sms.Country == COUNTRY_JAP)
+    if (sms.Country == COUNTRY_JAPAN)
     {
         ROM = BIOS_ROM_Jap;
     }

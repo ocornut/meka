@@ -8,9 +8,18 @@
 #include "vdp.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_gui_box *  gamebox_instance;
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 // DRAW A GAME BOX ------------------------------------------------------------
-void        gamebox_draw (int which, int sx, int sy, BITMAP *game_buffer)
+// FIXME: ??
+void        gamebox_draw (int sx, int sy, BITMAP *game_buffer)
 {
     int     x_start = cur_drv->x_start;
     int     y_start = cur_drv->y_show_start;
@@ -19,8 +28,8 @@ void        gamebox_draw (int which, int sx, int sy, BITMAP *game_buffer)
 
     if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
     {
-        rectfill (gui_buffer, sx, sy, sx + 3, sy + y_len - 1, GUI_COL_BLACK);
-        rectfill (gui_buffer, sx + x_len - 4, sy, sx + x_len - 1, sy + y_len - 1, GUI_COL_BLACK);
+        rectfill (gui_buffer, sx, sy, sx + 3, sy + y_len - 1, COLOR_BLACK);
+        rectfill (gui_buffer, sx + x_len - 4, sy, sx + x_len - 1, sy + y_len - 1, COLOR_BLACK);
         x_len -= 8;
         x_start += 8;
         sx += 4;
@@ -31,83 +40,58 @@ void        gamebox_draw (int which, int sx, int sy, BITMAP *game_buffer)
 // RETURN WIDTH OF A GAME BOX -------------------------------------------------
 int     gamebox_x (void)
 {
-    return (cur_drv->x_res - 1);
+    return (cur_drv->x_res) - 1;
 }
 
 // RETURN HEIGHT OF A GAME BOX -------------------------------------------------
 int     gamebox_y (void)
 {
-    return (cur_drv->y_res - 1);
+    return (cur_drv->y_res) - 1;
 }
 
 // CREATE A GAME BOX ----------------------------------------------------------
-int     gamebox_create (int x, int y)
+t_gui_box * gamebox_create(int x, int y)
 {
-    int n = gui_box_create (x, y, gamebox_x (), gamebox_y (), "--");
-    if (n == -1) 
-        return (-1);
-    gui.box[n]->type = GUI_BOX_TYPE_GAME;
-    gui_box_clip_position (gui.box[n]);
-    gamebox_rename_all ();
-    return (n);
-}
+    t_gui_box *box;
+    t_frame frame;
 
-// CREATE A GAME BOX USING MOUSE POSITIONS ------------------------------------
-void    gamebox_create_on_mouse_pos (void)
-{
-    gamebox_create (gui_mouse.x, gui_mouse.y);
-}
+    frame.pos.x = x;
+    frame.pos.y = y;
+    frame.size.x = gamebox_x();
+    frame.size.y = gamebox_y();
+    box = gui_box_new(&frame, "--");
+    if (box == NULL)
+        return (NULL);
 
-void        gamebox_kill_all (void)
-{
-    int     n;
-    int     first = 1;
+    box->type = GUI_BOX_TYPE_GAME;
+    box->flags |= GUI_BOX_FLAGS_TAB_STOP;
 
-    for (n = 0; n < gui.box_last; n ++)
-        if (gui.box [n]->type == GUI_BOX_TYPE_GAME)
-        {
-            if (first)
-            {
-                first = 0;
-            }
-            else
-            {
-                //..kill here..
-            }
-        }
-}
+    gui_box_clip_position(box);
+    gamebox_rename_all();
 
-void        gamebox_kill_last (void)
-{
-    int     n;
-    for (n = gui.box_last - 1; n >= 0; n ++)
-        if (gui.box [n]->type == GUI_BOX_TYPE_GAME)
-        {
-            //..kill here..
-            break;
-        }
+    return (box);
 }
 
 void        gamebox_resize_all (void)
 {
-    int     i;
-    for (i = 0; i < gui.box_last; i++)
+    t_list *boxes;
+    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = gui.box[i];
+        t_gui_box *box = boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
         {
             box->frame.size.x = gamebox_x ();
             box->frame.size.y = gamebox_y ();
-            box->must_redraw = YES;
+            box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
         }
     }
-    gui.info.must_redraw = YES;
+    gui.info.must_redraw = TRUE;
 }
 
 void        gamebox_rename_all (void)
 {
-    int     i;
-    char *  new_name;
+    t_list *boxes;
+    const char *new_name;
     
     if (DB_CurrentEntry)
         new_name = DB_Entry_GetCurrentName(DB_CurrentEntry);
@@ -119,9 +103,9 @@ void        gamebox_rename_all (void)
             new_name = Msg_Get (MSG_DB_Name_NoCartridge);
     }
 
-    for (i = 0; i < gui.box_last; i ++)
+    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = gui.box[i];
+        t_gui_box *box = boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
             gui_box_set_title (box, new_name);
     }

@@ -10,48 +10,17 @@
 #include "bios.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+static DATAFILE *   g_Datafile = NULL;
+static t_list *     g_DatafileBitmapCopy32 = NULL;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Data_Bitmap_IncrementColor  (BITMAP *bmp, int increment, int exclude)
-// Increment colors in given bitmap by given increment.
-// A "key" color can be excluded.
-//-----------------------------------------------------------------------------
-void        Data_Bitmap_IncrementColor  (BITMAP *bmp, int increment, int exclude)
-{
-    int     i, j;
-    u8 *    p = bmp->dat;
-
-    for (j = 0; j < bmp->h; j ++)
-        for (i = 0; i < bmp->w; i ++)
-        {
-            const u8 color = *p;
-            if (color != exclude)
-                *p = color + increment;
-            p ++;
-        }
-}
-
-//-----------------------------------------------------------------------------
-// Data_Bitmap_ReplaceColor (BITMAP *bmp, int color_old, int color_new)
-// Replace given color in a bitmap.
-//-----------------------------------------------------------------------------
-static void Data_Bitmap_ReplaceColor (BITMAP *bmp, int color_old, int color_new)
-{
-    int     i, j;
-    u8 *    p = bmp->dat;
-
-    for (j = 0; j < bmp->h; j ++)
-        for (i = 0; i < bmp->w; i ++)
-        {
-            if (*p == color_old)
-                *p = color_new;
-            p ++;
-        }
-}
-
-void *      Data_CopyInBiggerArea (void *src, int src_size, int dst_size)
+static void *      Data_CopyInBiggerArea(void *src, int src_size, int dst_size)
 {
     void *  p = malloc (dst_size);
     memcpy (p, src, src_size);
@@ -64,28 +33,23 @@ void *      Data_CopyInBiggerArea (void *src, int src_size, int dst_size)
 // Load graphics, font & BIOS data from datafile
 // Some data processing is done here
 //-----------------------------------------------------------------------------
-void            Data_Init (void)
+void            Data_Init(void)
 {
-    int         i;
     DATAFILE *  df;
-    char *      passwd = strdup ("westone0000000");
 
     // Print loading message to console
     ConsolePrint (Msg_Get (MSG_Datafile_Loading));
 
-    // Stupid and lame password protection
-    // So at least the password is not 'raw' in the executable
-    passwd [4] = '0'; 
-
-    // Open datafile
-    packfile_password (passwd);
-    df = load_datafile (Env.Paths.DataFile);
-    packfile_password (NULL);
-    free (passwd);
-    if (df == NULL)
+    // Open and load datafile
+    assert(g_Datafile == NULL);
+    df = g_Datafile = load_datafile (Env.Paths.DataFile);
+    if (g_Datafile == NULL)
         Quit_Msg (Msg_Get (MSG_Failed));
-
     ConsolePrint ("\n");
+
+    // Make a copy of ALL bitmaps
+    // This is required to handle successives calls to fixup_datafile()
+    g_DatafileBitmapCopy32 = NULL;
 
     // Assign pointers to data:
     {
@@ -149,8 +113,8 @@ void            Data_Init (void)
 
     // BIOS
     // Note: BIOSes are unpacked in a bigger memory area, so they can be mapped
-    // without having to handle read outside of their real data.
-    // The same trick is done on loading < 48 kb Sega 8-bits ROM images.
+    // without having to handle memory accesses outside their allocated range.
+    // The same trick is done on loading < 48 KB Sega 8-bits ROM images.
     BIOS_ROM            = Data_CopyInBiggerArea (df [DATA_ROM_SMS].dat,     0x2000, 0xC000);
     BIOS_ROM_Jap        = Data_CopyInBiggerArea (df [DATA_ROM_SMS_J].dat,   0x2000, 0xC000);
     BIOS_ROM_Coleco     = Data_CopyInBiggerArea (df [DATA_ROM_COLECO].dat,  0x2000, 0x2000);
@@ -162,73 +126,55 @@ void            Data_Init (void)
     BIOS_ROM_SF7000[0x1D8] = BIOS_ROM_SF7000[0x1D9] = BIOS_ROM_SF7000[0x1DA] = 0x00;
 
     // Fonts
-    Fonts_AddFont (F_LARGE,     df [DATA_FONT_0].dat);  // Font Large Sized
-    Fonts_AddFont (F_MIDDLE,    df [DATA_FONT_1].dat);  // Font Middle Sized
-    Fonts_AddFont (F_SMALL,     df [DATA_FONT_2].dat);  // Font Small Sized
+    Fonts_AddFont(F_LARGE,     df[DATA_FONT_0].dat);  // Font Large Sized
+    Fonts_AddFont(F_MIDDLE,    df[DATA_FONT_1].dat);  // Font Middle Sized
+    Fonts_AddFont(F_SMALL,     df[DATA_FONT_2].dat);  // Font Small Sized
+}
 
-    // Post process data
-    for (i = 0; i < DATA_COUNT; i ++)
+void    Data_Close(void)
+{
+    assert(g_Datafile != NULL);
+    list_free_custom(&g_DatafileBitmapCopy32, destroy_bitmap);
+    unload_datafile(g_Datafile);
+    g_Datafile = NULL;
+}
+
+// Convert truecolor graphics stored in datafile in current native format
+void    Data_UpdateVideoMode()
+{
+    int i;
+    t_list *bmp_copies;
+
+    assert(g_Datafile != NULL);
+    bmp_copies = g_DatafileBitmapCopy32;
+
+    if (bmp_copies == NULL)
     {
-        if (df[i].type != DAT_BITMAP)
-            continue;
-        switch (i)
+        fixup_datafile(g_Datafile);
+        for (i = 0; g_Datafile[i].type != DAT_END; i++)
         {
-        case DATA_CURSOR_LIGHTPHASER:
-        case DATA_CURSOR_MAIN:
-        case DATA_CURSOR_SPORTSPAD:
-        case DATA_CURSOR_TVOEKAKI:
-        case DATA_CURSOR_WAIT:
-        case DATA_GFX_DRAGON:
-        case DATA_GFX_GLASSES:
-        case DATA_GFX_INPUTS:
-        case DATA_GFX_JOYPAD:
-        case DATA_GFX_KEYBOARD:
-        case DATA_GFX_LIGHTPHASER:
-        case DATA_GFX_PADDLECONTROL:
-        case DATA_GFX_SPORTSPAD:
-        case DATA_GFX_SUPERHEROPAD:
-        case DATA_GFX_TVOEKAKI:
-        case DATA_ICON_BAD:
-        case DATA_ICON_BIOS:
-        case DATA_ICON_HACK:
-        case DATA_ICON_HOMEBREW:
-        case DATA_ICON_PROTO:
-        case DATA_ICON_TRANS_JP:
-        case DATA_ICON_TRANS_JP_US:
-        case DATA_FLAG_AU:
-        case DATA_FLAG_BR:
-        case DATA_FLAG_CH:
-        case DATA_FLAG_DE:
-        case DATA_FLAG_EU:
-        case DATA_FLAG_FR:
-        case DATA_FLAG_HK:
-        case DATA_FLAG_IT:
-        case DATA_FLAG_JP:
-        case DATA_FLAG_KR:
-        case DATA_FLAG_NZ:
-        case DATA_FLAG_PT:
-        case DATA_FLAG_SP:
-        case DATA_FLAG_SW:
-        case DATA_FLAG_UK:
-        case DATA_FLAG_UNKNOWN:
-        case DATA_FLAG_US:
-            // Switch pixel values to use palette starting from GUI_COL_START-1
-            Data_Bitmap_IncrementColor (df[i].dat, GUI_COL_START - 1, 0);
-            break;
-        case DATA_GFX_HEART1:
-        case DATA_GFX_HEART2:
-            // Hearts gets their color from the theme (with indeed sucks...)
-            Data_Bitmap_IncrementColor (df[i].dat, GUI_COL_BARS - 1, 0);
-            break;
-        case DATA_MACHINE_COLECO:
-        case DATA_MACHINE_SMS:
-        case DATA_MACHINE_SMS_CART:
-        case DATA_MACHINE_SMS_LIGHT:
-            // Machines colors starts at 128
-            Data_Bitmap_IncrementColor (df[i].dat, GUI_COL_MACHINE_START, 0);
-            break;
+            if (g_Datafile[i].type == DAT_BITMAP)
+            {
+                BITMAP * dat_bmp = g_Datafile[i].dat;
+                BITMAP * copy_bmp = create_bitmap_ex(32, dat_bmp->w, dat_bmp->h);
+                blit(dat_bmp, copy_bmp, 0, 0, 0, 0, dat_bmp->w, dat_bmp->h);
+                list_add_to_end(&g_DatafileBitmapCopy32, copy_bmp);
+            }
+        }
+        bmp_copies = g_DatafileBitmapCopy32;
+    }
+
+    for (i = 0; g_Datafile[i].type != DAT_END; i++)
+    {
+        if (g_Datafile[i].type == DAT_BITMAP)
+        {
+            BITMAP * dat_bmp = g_Datafile[i].dat;
+            BITMAP * copy_bmp = bmp_copies->elem;
+            blit(copy_bmp, dat_bmp, 0, 0, 0, 0, dat_bmp->w, dat_bmp->h);
+            bmp_copies = bmp_copies->next;
         }
     }
+    //fixup_datafile(g_Datafile);
 }
 
 //-----------------------------------------------------------------------------

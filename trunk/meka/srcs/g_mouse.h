@@ -35,10 +35,10 @@ typedef struct
   int y, py;
   int button, pbutton;
   int pressed_on;  // -1: Nothing - 0: Desktop - 1: Menus - 2: Boxes
-  int on_box;
-  //int on_widget;
+  t_gui_box *   on_box;
   int time_since_last_click;
   int reset_timer;
+
 
   int   z_rel;     // Z Relative
   int   z_current; // Z Current

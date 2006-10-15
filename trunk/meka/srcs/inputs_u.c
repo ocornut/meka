@@ -5,6 +5,9 @@
 
 #include "shared.h"
 #include "keyboard.h"
+#include "rapidfir.h"
+#include "sportpad.h"
+#include "tvoekaki.h"
 
 // #define DEBUG_JOY
 
@@ -36,15 +39,15 @@ t_input_src *       Inputs_Sources_Add (char *name)
     int             i;
     t_input_src *   Src = malloc (sizeof (t_input_src));
 
-    Src->Name                      = name;
-    Src->Type                      = INPUT_SRC_KEYBOARD;
-    Src->Enabled                   = YES;
-    Src->Player                    = PLAYER_1;
+    Src->name                      = name;
+    Src->type                      = INPUT_SRC_TYPE_KEYBOARD;
+    Src->enabled                   = TRUE;
+    Src->flags                     = INPUT_SRC_FLAGS_DIGITAL;
+    Src->player                    = PLAYER_1;
     Src->Connection_Port           = 0;
     Src->Driver                    = 0;
-    Src->Result_Type               = DIGITAL;
     Src->Analog_to_Digital_FallOff = 0.8f;
-    Src->Connected_and_Ready       = NO; // by default. need to be flagged for use
+    Src->Connected_and_Ready       = FALSE; // by default. need to be flagged for use
 
     for (i = 0; i < INPUT_MAP_MAX; i++)
     {
@@ -67,11 +70,11 @@ void       Inputs_Sources_Close (void)
 
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
-        if (Inputs.Sources[i]->Name)
-            free (Inputs.Sources[i]->Name);
-        free (Inputs.Sources[i]);
+        t_input_src *input_src = Inputs.Sources[i];
+        free(input_src->name);
+        free(input_src);
     }
-    free (Inputs.Sources);
+    free(Inputs.Sources);
     Inputs.Sources = NULL;
     Inputs.Sources_Max = 0;
 }
@@ -87,7 +90,7 @@ void        Inputs_Emulation_Update (bool running)
 {
     int     i, j;
     u16 *   c;
-    int     Pause_Pressed = NO, Reset_Pressed = NO;
+    int     Pause_Pressed = FALSE, Reset_Pressed = FALSE;
     int     players;
 
     //----------------------------------------------------------------------------
@@ -107,7 +110,7 @@ void        Inputs_Emulation_Update (bool running)
     // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
     // and I use an easy path, that is until rewriting the GUI.
     if (Meka_State == MEKA_STATE_GUI && !(machine & MACHINE_PAUSED))
-        if (gui.box[gui.box_plan[0]]->focus_inputs_exclusive)
+        if (gui.boxes_z_ordered[0] && gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE)
         {
             // Returning from the emulation inputs update requires to take care
             // of a few variables...
@@ -126,19 +129,19 @@ void        Inputs_Emulation_Update (bool running)
         for (j = 0; j < Inputs.Sources_Max; j++)
         {
             t_input_src *Src = Inputs.Sources[j];
-            if (Src->Enabled == NO || Src->Player != i)
+            if (Src->enabled == FALSE || Src->player != i)
                 continue;
             // Starting from here, source 'j' apply to player 'i' ------------------
             // If current peripheral is digital, skip analog only inputs sources
             // If current peripheral is analog, skip digital only inputs sources
-            // k = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].Result_Type;
+            // k = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].result_type;
             // if (!(Src->Result_Type & (k | (k << 1))))
             //    continue;
             // Process peripheral dependant stuff
             switch (Inputs.Peripheral [i])
             {
             case INPUT_JOYPAD: //---------------------------- Joypad/Control Stick
-                if (Src->Result_Type & DIGITAL)
+                if (Src->flags & INPUT_SRC_FLAGS_DIGITAL)
                 {
                     if (Src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
                     if (Src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
@@ -147,7 +150,7 @@ void        Inputs_Emulation_Update (bool running)
                     if (Src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
                     if (Src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
-                else if (Src->Result_Type & EMULATE_DIGITAL) // ANALOG
+                else if (Src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) // ANALOG
                 {
                     if (Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res < 0)  *c &= (!i? ~0x0001 : ~0x0040);
                     if (Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res > 0)  *c &= (!i? ~0x0002 : ~0x0080);
@@ -158,7 +161,7 @@ void        Inputs_Emulation_Update (bool running)
                 }
                 break;
             case INPUT_LIGHTPHASER: //------------------------------- Light Phaser
-                if (Src->Result_Type & ANALOG)
+                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
                     LightGun_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res);
                 if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
                 if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
@@ -167,7 +170,7 @@ void        Inputs_Emulation_Update (bool running)
                 {
                     int x = Inputs.Paddle_X[i];
                     int dx = 0;
-                    if (Src->Result_Type & ANALOG)
+                    if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
                     {
                         // Using analogic relative movement
                         dx = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
@@ -206,13 +209,13 @@ void        Inputs_Emulation_Update (bool running)
                     break;
                 }
             case INPUT_SPORTSPAD: //--------------------------------- Sports Pads
-                if (Src->Result_Type & ANALOG)
-                    SportPad_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res);
+                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    SportsPad_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res);
                 if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
                 if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;
             case INPUT_TVOEKAKI: //--------------------------------- Terebi Oekaki
-                if (Src->Result_Type & ANALOG)
+                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
                 {
                     // Create button field (this is due to old code legacy)
                     int b_field = (Src->Map[INPUT_MAP_BUTTON1].Res ? 1 : 0) | (Src->Map[INPUT_MAP_BUTTON2].Res ? 2 : 0);
@@ -230,8 +233,8 @@ void        Inputs_Emulation_Update (bool running)
                 break;
             }
             // Process RESET and PAUSE/START buttons
-            if (Src->Map[INPUT_MAP_PAUSE_START].Res) { Pause_Pressed = YES; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
-            if (Src->Map[INPUT_MAP_RESET].Res)       { Reset_Pressed = YES; }
+            if (Src->Map[INPUT_MAP_PAUSE_START].Res) { Pause_Pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
+            if (Src->Map[INPUT_MAP_RESET].Res)       { Reset_Pressed = TRUE; }
         }
 
     // SK-1100 Keyboard update
@@ -239,7 +242,7 @@ void        Inputs_Emulation_Update (bool running)
         Keyboard_Emulation_Update ();
 
     // Handle reset and clear pause latch if necessary
-    if (Reset_Pressed == YES)
+    if (Reset_Pressed == TRUE)
     {
         if (cur_drv->id == DRV_SMS)
         {
@@ -253,13 +256,13 @@ void        Inputs_Emulation_Update (bool running)
             {
                 // If SK-1100 is not emulated then process with an hardware Reset
                 // Note: this test is invalid in case Reset was pressed from a pad, it will cancel pressing reset from the pad
-                if (Inputs.Keyboard_Enabled == NO)
+                if (Inputs.Keyboard_Enabled == FALSE)
                     Machine_Reset();
             }
         }
     }
 
-    if (Pause_Pressed == NO)
+    if (Pause_Pressed == FALSE)
         tsms.Control_Start_Pause = 0;
 
     // Game Gear Start button
@@ -297,7 +300,7 @@ void        Inputs_Sources_Update (void)
     int     mouse_mx, mouse_my;
 
 #ifdef MEKA_JOY
-    int     Joy_Polled = NO;
+    int     Joy_Polled = FALSE;
 #endif
 
     // Poll mouse
@@ -317,14 +320,14 @@ void        Inputs_Sources_Update (void)
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *Src = Inputs.Sources[i];
-        if (Src->Enabled == NO || Src->Connected_and_Ready == NO)
+        if (!Src->enabled || Src->Connected_and_Ready == FALSE)
             continue;
-        switch (Src->Type)
+        switch (Src->type)
         {
             // Keyboard -------------------------------------------------------------
-        case INPUT_SRC_KEYBOARD:
+        case INPUT_SRC_TYPE_KEYBOARD:
             {
-                for (j = 0; j < INPUT_MAP_MAX; j++)
+                for (j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
                     int old_res = map->Res;
@@ -338,13 +341,13 @@ void        Inputs_Sources_Update (void)
             }
 #ifdef MEKA_JOY
             // Digital Joypad/Joystick ----------------------------------------------
-        case INPUT_SRC_JOYPAD:
+        case INPUT_SRC_TYPE_JOYPAD:
             {
                 JOYSTICK_INFO *joystick = &joy[Src->Connection_Port];
                 if (!Joy_Polled) 
                 { 
                     poll_joystick(); 
-                    Joy_Polled = YES; 
+                    Joy_Polled = TRUE; 
                 }
 
 #ifdef DEBUG_JOY
@@ -369,7 +372,7 @@ void        Inputs_Sources_Update (void)
                 }
 #endif
 
-                for (j = 0; j < INPUT_MAP_MAX; j++)
+                for (j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
                     int old_res = map->Res;
@@ -398,7 +401,7 @@ void        Inputs_Sources_Update (void)
             }
 #endif // #ifdef MEKA_JOY
             // Mouse ----------------------------------------------------------------
-        case INPUT_SRC_MOUSE:
+        case INPUT_SRC_TYPE_MOUSE:
             {
                 int x, y;
                 bool disable_mouse_button = FALSE;
@@ -412,9 +415,9 @@ void        Inputs_Sources_Update (void)
                 {
                     // Compute distance to first GUI game box
                     // FIXME: this sucks
-                    x = mouse_x - gui.box [apps.id_game]->frame.pos.x;
-                    y = mouse_y - gui.box [apps.id_game]->frame.pos.y;
-                    if (x < 0 || y < 0 || x >= gui.box[apps.id_game]->frame.size.x || y >= gui.box[apps.id_game]->frame.size.y)
+                    x = mouse_x - gamebox_instance->frame.pos.x;
+                    y = mouse_y - gamebox_instance->frame.pos.y;
+                    if (x < 0 || y < 0 || x >= gamebox_instance->frame.size.x || y >= gamebox_instance->frame.size.y)
                         disable_mouse_button = TRUE;
                     if (x < 0) x = 0; 
                     // if (x > 255) x = 255;
@@ -482,54 +485,6 @@ static void    Inputs_FixUp_JoypadOppositesDirections (void)
     if (!(joy & (0x0100 | 0x0200))) { joy |= (0x0100 | 0x0200); } // P2 Left & Right
     tsms.Control[7] = joy;
 }
-
-//-----------------------------------------------------------------------------
-// Inputs_Update_VoiceRecognition ()
-// Update fake voice recognition system :)
-//-----------------------------------------------------------------------------
-// Note: MS-DOS only. I'd like to 'port' it to other systems but I need
-// to find a sound input value.
-//-----------------------------------------------------------------------------
-#ifdef DOS
-void    Inputs_Update_VoiceRecognition (void)
-{
-    if (!apps.active.Voice_Rec)
-        return;
-
-    // Get value from SB
-    // Note: I forgot what kind of value it was :) ... I think, some sound input level...
-    outp (0x22C, 0x20);
-    apps.opt.Voice.Value = inp (0x22A);
-    if (apps.opt.Voice.Value < 128)
-        apps.opt.Voice.Value = 256 - apps.opt.Voice.Value;
-    apps.opt.Voice.Value -= 128;
-
-    switch (Random(3))
-    {
-        // Simulate directionnal presses
-    case 0:
-    case 1: if (!apps.opt.Voice.Delay)
-            {
-                if (apps.opt.Voice.Value > 80)
-                {
-                    apps.opt.Voice.Dir = Random(4);
-                    apps.opt.Voice.Delay = 10 + Random(40);
-                    tsms.Control[7] &= ~(1 << apps.opt.Voice.Dir);
-                }
-            }
-            else
-            {
-                apps.opt.Voice.Delay --;
-                tsms.Control[7] &= ~(1 << apps.opt.Voice.Dir);
-            }
-            break;
-            // Simulate button presses
-    case 2: if (apps.opt.Voice.Value > 80)
-                tsms.Control[7] &= ~(1 << (Random(2) + 4));
-        break;
-    }
-}
-#endif // DOS
 
 //-----------------------------------------------------------------------------
 

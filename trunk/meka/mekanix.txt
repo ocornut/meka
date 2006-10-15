@@ -81,6 +81,7 @@
    If you are fairly skilled, very familiar with multimedia technology on
    any x86 based UN*X like system (GNU/Linux, BSD systems, etc.) and
    interested in improving MEKA, please e-mail me about it.
+
    
 Thanks for your reading,
 

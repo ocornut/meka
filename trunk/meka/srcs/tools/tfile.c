@@ -6,18 +6,20 @@
 #include "shared.h"
 #include "libmy.h"
 #include "liblist.h"
+#include "tfile.h"
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-t_tfile *           tfile_read(const char *filename)
+t_tfile *       tfile_read(const char *filename)
 {
     t_tfile *   tf;
     FILE *      f;
     int         size;
     char *      p_cur;
     char *      p_new;
+    int         lines_count;
 
     // Open and file
     if ((f = fopen(filename, "rb")) == NULL)
@@ -48,12 +50,14 @@ t_tfile *           tfile_read(const char *filename)
 
     // Parse raw data to create the lines list
     tf->data_lines = NULL;
+    lines_count = 0;
     p_cur = tf->data_raw;
     while ((p_new = strchr(p_cur, '\n')) != NULL)
     {
         *p_new = EOSTR;
         Chomp(p_cur);
         list_add_to_end(&tf->data_lines, p_cur);
+        lines_count++;
         p_cur = p_new + 1;
     }
 
@@ -61,9 +65,11 @@ t_tfile *           tfile_read(const char *filename)
     if (p_cur < tf->data_raw + tf->size)
     {
         list_add_to_end(&tf->data_lines, p_cur);
+        lines_count++;
     }
+    tf->data_lines_count = lines_count;
 
-    // Ok
+    // OK
     meka_errno = MEKA_ERR_OK;
     return (tf);
 }

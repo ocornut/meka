@@ -57,15 +57,15 @@ int         SDSC_Read_and_Display (void)
     int     offset;
 
     if (tsms.Size_ROM < 0x8000)
-        return (NO);
-    if (strncmp (Game_ROM + 0x7FE0, SDSC_MAGIC, 4) != 0)
-        return (NO);
+        return (FALSE);
+    if (strncmp((const char *)Game_ROM + 0x7FE0, SDSC_MAGIC, 4) != 0)
+        return (FALSE);
 
     Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC));
 
     // Name
     offset = *(u16 *)(Game_ROM + 0x7FEC);
-    s = SDSC_String_Get (offset, YES);
+    s = SDSC_String_Get (offset, TRUE);
     Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Name), s);
     free (s);
 
@@ -87,7 +87,7 @@ int         SDSC_Read_and_Display (void)
 
     // Author
     offset = *(u16 *)(Game_ROM + 0x7FEA);
-    s = SDSC_String_Get (offset, NO);
+    s = SDSC_String_Get (offset, FALSE);
     if (s)
     {
         Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Author), s);
@@ -96,7 +96,7 @@ int         SDSC_Read_and_Display (void)
 
     // Release Note
     offset = *(u16 *)(Game_ROM + 0x7FEE);
-    s = SDSC_String_Get (offset, NO);
+    s = SDSC_String_Get (offset, FALSE);
     if (s)
     {
         // Msg (MSGT_USER_BOX, "len = %d", strlen(s));
@@ -104,7 +104,7 @@ int         SDSC_Read_and_Display (void)
         free (s);
     }
 
-    return (YES);
+    return (TRUE);
 }
 
 //-----------------------------------------------------------------------------

@@ -28,21 +28,24 @@
 #define MEKA_ERR_ZIP_INTERNAL           (16)
 #define MEKA_ERR_CONSOLE_WIN32_INIT     (17)
 #define MEKA_ERR_CANCEL                 (18)
+#define MEKA_ERR_ALREADY_DEFINED        (19)
+#define MEKA_ERR_VALUE_OUT_OF_BOUND	    (20)
+#define MEKA_ERR_VALUE_INCORRECT        (21)
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-int     meka_errno;
+int             meka_errno;
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-char   *meka_strerror(void);
+const char *    meka_strerror(void);
 
 #ifdef WIN32
-void    ShowWindowsErrorMessage(void);
+void            ShowWindowsErrorMessage(void);
 #endif
 
 //-----------------------------------------------------------------------------

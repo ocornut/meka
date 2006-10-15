@@ -13,9 +13,9 @@
 #include <math.h>
 #include <string.h>
 #include <float.h>
-#include <assert.h>
 #include <sys/stat.h>
 #include <ctype.h>
+#include <assert.h>
 #ifndef WIN32
   #include <dirent.h>
 #endif
@@ -31,35 +31,28 @@
     #include <sys/nearptr.h>
   #endif
 #endif
+#ifdef WIN32
+    #define BITMAP WINDOWS_BITMAP
+    #include <windows.h>
+    #include <crtdbg.h>
+    #undef BITMAP
+    #undef RGB
+#endif
 
 //-----------------------------------------------------------------------------
 // Allegro Library
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
-    #define BITMAP WINDOWS_BITMAP
-    #include <windows.h>
-    #undef BITMAP
-    #undef RGB
-    #ifndef ALLEGRO_STATICLINK
-        #define ALLEGRO_STATICLINK
-    #endif
+#ifndef ALLEGRO_STATICLINK
+    #define ALLEGRO_STATICLINK
 #endif
-#ifdef UNIX
-    #ifndef ALLEGRO_STATICLINK
-        #define ALLEGRO_STATICLINK
-    #endif
-#endif
-// #ifdef WIN32
-//  #define USE_CONSOLE
-// #endif
 #define alleg_flic_unused
 #define alleg_sound_unused
 #define alleg_gui_unused
 #define alleg_math_unused
 #define ALLEGRO_NO_COMPATIBILITY
 #include <allegro.h>
-#undef MSG_USER // To avoid mistyping MSG_USER instead of MSGT_USER
+#undef MSG_USER             // To avoid mistyping MSG_USER instead of MSGT_USER. We don't use Allegro GUI anyway.
 
 //-----------------------------------------------------------------------------
 // Basic Types
@@ -133,6 +126,17 @@ typedef int                 bool;
 #endif
 #ifdef UNIX
   #define strnicmp strncasecmp
+#endif
+
+//-----------------------------------------------------------------------------
+// Warning Disable
+//-----------------------------------------------------------------------------
+// Now compiling at warning level 4, so a few can be omitted.
+//-----------------------------------------------------------------------------
+
+#ifdef WIN32
+#pragma warning (disable: 4100) // 'unreferenced formal parameter'
+#pragma warning (disable: 4127) // 'conditional expression is constant'
 #endif
 
 //-----------------------------------------------------------------------------

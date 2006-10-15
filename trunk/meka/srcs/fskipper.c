@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "fskipper.h"
+#include "glasses.h"
 #include "osd/misc.h"
 #include "osd/timer.h"
 
@@ -19,11 +20,11 @@ void    Frame_Skipper_Init_Values (void)
     fskipper.Automatic_Frame_Elapsed    = 0;
     fskipper.Standard_Frameskip         = 1; // 1/1
     fskipper.Standard_Counter           = 0;
-    fskipper.Show_Current_Frame         = YES;
+    fskipper.Show_Current_Frame         = TRUE;
     fskipper.FPS                        = 0.0f;
-    fskipper.FPS_Display                = NO;
+    fskipper.FPS_Display                = FALSE;
     //fskipper.FPS_LastComputedTime       = 0;
-    fskipper.New_Second                 = NO;
+    fskipper.New_Second                 = FALSE;
     fskipper.Frame_Rendered             = 0;
 }
 
@@ -35,7 +36,7 @@ END_OF_FUNCTION (Frame_Skipper_Auto_Adjust_Handler);
 
 void    Frame_Skipper_New_Second_Handler (void)
 {
-    fskipper.New_Second = YES;
+    fskipper.New_Second = TRUE;
 }
 END_OF_FUNCTION (Frame_Skipper_New_Second_Handler);
 
@@ -122,24 +123,24 @@ int     Frame_Skipper (void)
         // Skip next frame if we have more than one to go (we're late)
         // Else don't skip
         if (fskipper.Automatic_Frame_Elapsed -- > 1)
-            return NO;
+            return FALSE;
 
         // Software 3-D glasses emulation may require to skip this frame
         if (Glasses.Enabled && Glasses_Must_Skip_Frame ())
-            return NO;
+            return FALSE;
     }
     else
     // Standard frame-skipping ------------------------------------------------
     {
         // Software 3-D glasses emulation may require to skip this frame
         if (Glasses.Enabled && Glasses_Must_Skip_Frame ())
-            return NO;
+            return FALSE;
 
         // Skip Standard_Counter-1 frames every Standard_Counter frames
         if (fskipper.Standard_Counter < fskipper.Standard_Frameskip)
         {
             fskipper.Standard_Counter ++;
-            return NO;
+            return FALSE;
         }
         fskipper.Standard_Counter = 1;
     }
@@ -155,7 +156,7 @@ int     Frame_Skipper (void)
         //int fps = (fskipper.Frame_Rendered * cycle_per_second + (cycle_per_second / 2)) / elapsed;
         //fskipper.FPS = fps;
         //Msg (MSGT_DEBUG, "Frame_Rendered = %d, FPS = %d", fskipper.Frame_Rendered, fskipper.FPS);
-        fskipper.New_Second = NO;
+        fskipper.New_Second = FALSE;
         fskipper.FPS = fskipper.Frame_Rendered;
         fskipper.Frame_Rendered = 0;
         //if (fskipper.FPS_LastComputedTime == 0)
@@ -168,7 +169,7 @@ int     Frame_Skipper (void)
             fskipper.FPS += 120;
     }
 
-    return YES; // Will show next frame
+    return TRUE; // Will show next frame
 }
 
 // CHANGE FRAMESKIP VALUE -----------------------------------------------------

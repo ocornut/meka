@@ -13,22 +13,42 @@ void            VGM_Header_Init(t_vgm_header *h)
 {
     int         i;
 
-    memcpy(h->Magic, VGM_MAGIC, sizeof (h->Magic));
-    h->EOF_Relative = 0;                        // Unknown as of yet
-    h->Version = VGM_VERSION;                   // VGM Version
+    assert(sizeof(t_vgm_header) == 64);
+    memcpy(h->magic, VGM_MAGIC, sizeof (h->magic));
+    h->eof_offset           = 0;                            // Unknown as of yet
+    h->version_number       = VGM_VERSION;                  // VGM Version
     // FIXME: PSG?
-    h->PSG_Speed = cur_machine.TV->CPU_clock;   // CPU Clock
-    h->FM_Speed = 0;                            // Will be set back if VGM_FM_Used==YES
-    h->GD3_Relative = 0;                        // Unknown as of yet
-    h->N_Samples = 0;
-    h->Loop_Point_Relative = 0;
-    h->Loop_N_Samples = 0;
-    h->Rate = cur_machine.TV->screen_frequency;
-    for (i = 0; i < VGM_PADDING_SIZE; i++)
-        h->Padding[i] = 0;
+    h->sn76489_clock        = cur_machine.TV->CPU_clock;    // CPU Clock
+    h->ym2413_clock         = 0;                            // Will be set back if VGM_FM_Used==TRUE
+    h->gd3_offset           = 0;                            // Unknown as of yet
+    h->total_samples        = 0;
+    h->loop_offset          = 0;
+    h->loop_samples         = 0;
+    h->rate                 = cur_machine.TV->screen_frequency;
+    if (cur_drv->snd == SND_SN76489)
+    {
+        h->sn76489_feedback     = 0x0009;
+        h->sn76489_shift_width  = 16;
+    }
+    else if (cur_drv->snd == SND_SN76489AN)
+    {
+        h->sn76489_feedback     = 0x0003;   // 2005/11/12: VGM specs are incorrect, says 0x0006
+        h->sn76489_shift_width  = 15;
+    }
+    else
+    {
+        assert(0);
+        h->sn76489_feedback     = 0;
+        h->sn76489_shift_width  = 0;
+    }
+    h->_reserved            = 0;
+    h->ym2612_clock         = 0;
+    h->ym2151_clock         = 0;
+    for (i = 0; i != VGM_PADDING_SIZE; i++)
+        h->_padding[i] = 0;
 }
 
-int             VGM_Start(t_vgm *VGM, char *FileName, int Logging_Accuracy)
+int             VGM_Start(t_vgm *VGM, const char *FileName, int Logging_Accuracy)
 {
     int         i;
 
@@ -36,9 +56,9 @@ int             VGM_Start(t_vgm *VGM, char *FileName, int Logging_Accuracy)
     VGM->File = fopen(FileName, "wb");
     if (VGM->File  == NULL)
         return (MEKA_ERR_FILE_WRITE);
-    VGM_Header_Init (&VGM->Header);
-    GD3_Header_Init (&VGM->GD3);
-    fwrite (&VGM->Header, sizeof (VGM->Header), 1, VGM->File);
+    VGM_Header_Init(&VGM->vgm_header);
+    GD3_Header_Init(&VGM->gd3_header);
+    fwrite (&VGM->vgm_header, sizeof (VGM->vgm_header), 1, VGM->File);
 
     VGM->DataSize = 0;
     VGM->Cycles_Counter = 0;
@@ -62,11 +82,11 @@ int             VGM_Start(t_vgm *VGM, char *FileName, int Logging_Accuracy)
     VGM_Data_Add_PSG (VGM, 0xE0 | (PSG.Registers[6] & 0x0F));
 
     // Initialize FM State
-    VGM->FM_Used = NO;
+    VGM->FM_Used = FALSE;
     for (i = 0; i < YM2413_REGISTERS; i++)
         if (FM_Regs[i] != 0x00) // FIXME
         {
-            VGM->FM_Used = YES;
+            VGM->FM_Used = TRUE;
             break;
         }
     if (VGM->FM_Used)
@@ -83,22 +103,22 @@ void            VGM_Close(t_vgm *VGM)
     VGM_Data_Add_Byte (VGM, VGM_CMD_EOF);
 
     // Calculate final EOF_Relative
-    VGM->Header.EOF_Relative = sizeof (VGM->Header) - 4 + VGM->DataSize;
+    VGM->vgm_header.eof_offset = sizeof (VGM->vgm_header) - 4 + VGM->DataSize;
 
     // Write GD3, increment EOF_Relative
-    VGM->Header.EOF_Relative += GD3_Header_Write(&VGM->GD3, VGM->File);
-    GD3_Header_Close (&VGM->GD3);
+    VGM->vgm_header.eof_offset += GD3_Header_Write(&VGM->gd3_header, VGM->File);
+    GD3_Header_Close(&VGM->gd3_header);
 
     // Calculate final GD3_Relative
-    VGM->Header.GD3_Relative = sizeof (VGM->Header) - 0x14 + VGM->DataSize;
+    VGM->vgm_header.gd3_offset = sizeof (VGM->vgm_header) - 0x14 + VGM->DataSize;   // 0x14 must be offsetof(gd3_offset)
 
     // Enable YM-2413 in header is enabled
     if (VGM->FM_Used)
-        VGM->Header.FM_Speed = VGM->Header.PSG_Speed;
+        VGM->vgm_header.ym2413_clock = VGM->vgm_header.sn76489_clock;
 
     // Rewrite header with updated N_Samples & EOF_Relative
     fseek (VGM->File, 0, SEEK_SET);
-    fwrite (&VGM->Header, sizeof (VGM->Header), 1, VGM->File);
+    fwrite (&VGM->vgm_header, sizeof (VGM->vgm_header), 1, VGM->File);
     fclose (VGM->File);
 
     // Clean out
@@ -125,12 +145,12 @@ void            VGM_NewFrame(t_vgm *VGM)
         if (cur_machine.TV->id == TVTYPE_NTSC)
         {
             b = VGM_CMD_WAIT_735;
-            VGM->Header.N_Samples += 735;
+            VGM->vgm_header.total_samples += 735;
         }
         else
         {
             b = VGM_CMD_WAIT_882;
-            VGM->Header.N_Samples += 882;
+            VGM->vgm_header.total_samples += 882;
         }
         VGM_Data_Add_Byte(VGM, b);
     }
@@ -196,7 +216,7 @@ void            VGM_Data_Add_FM(t_vgm *VGM, int RegData)
     *(word *)&buf[1] = RegData;
     fwrite (buf, 3, sizeof (byte), VGM->File);
     VGM->DataSize += 3;
-    VGM->FM_Used = YES;
+    VGM->FM_Used = TRUE;
 }
 
 void            VGM_Data_Add_Wait(t_vgm *VGM, int Samples)
@@ -205,7 +225,7 @@ void            VGM_Data_Add_Wait(t_vgm *VGM, int Samples)
 
     if (Samples <= 0)
         return;
-    VGM->Header.N_Samples += Samples;
+    VGM->vgm_header.total_samples += Samples;
     if (Samples > 0xFFFF)
     {
         *(word *)&buf[1] = 0xFFFF;
@@ -226,19 +246,19 @@ void            VGM_Data_Add_Wait(t_vgm *VGM, int Samples)
 // GD3
 //-----------------------------------------------------------------------------
 
-void            GD3_Header_Init(t_gd3 *h)
+void            GD3_Header_Init(t_gd3_header *h)
 {
     char *      name;
 
-    memcpy(h->Magic, GD3_MAGIC, 4);
-    h->Version = GD3_VERSION;
-    h->Data_Length = 0;            // Unknown as of yet
-    h->Strings[GD3_S_NAME_TRACK_ENG]  = StrDupToUnicode ("");
-    h->Strings[GD3_S_NAME_TRACK_JAP]  = StrDupToUnicode ("");
+    memcpy(h->magic, GD3_MAGIC, 4);
+    h->version = GD3_VERSION;
+    h->data_length = 0;            // Unknown as of yet
+    h->strings[GD3_S_NAME_TRACK_ENG]  = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_TRACK_JAP]  = StrDupToUnicode ("");
 
     // English name
     name = DB_CurrentEntry ? DB_Entry_GetCurrentName (DB_CurrentEntry) : "";
-    h->Strings[GD3_S_NAME_GAME_ENG]   = StrDupToUnicode (name);
+    h->strings[GD3_S_NAME_GAME_ENG]   = StrDupToUnicode (name);
 
     // Japanese name
     if (DB_CurrentEntry)
@@ -248,28 +268,28 @@ void            GD3_Header_Init(t_gd3 *h)
     }
     else
         name = "";
-    h->Strings[GD3_S_NAME_GAME_JAP]   = StrDupToUnicode (name);
+    h->strings[GD3_S_NAME_GAME_JAP]   = StrDupToUnicode (name);
 
     // System, Author, Date, File author (filled if MEKA is registered), Notes
-    h->Strings[GD3_S_NAME_SYSTEM_ENG] = StrDupToUnicode (cur_drv->full_name);
-    h->Strings[GD3_S_NAME_SYSTEM_JAP] = StrDupToUnicode ("");
-    h->Strings[GD3_S_NAME_AUTHOR_ENG] = StrDupToUnicode ("");
-    h->Strings[GD3_S_NAME_AUTHOR_JAP] = StrDupToUnicode ("");
-    h->Strings[GD3_S_DATE]            = StrDupToUnicode ("");
-    h->Strings[GD3_S_FILE_AUTHOR]     = StrDupToUnicode (""); //registered.is ? registered.user_name_only : "");
-    h->Strings[GD3_S_NOTES]           = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_SYSTEM_ENG] = StrDupToUnicode (cur_drv->full_name);
+    h->strings[GD3_S_NAME_SYSTEM_JAP] = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_AUTHOR_ENG] = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_AUTHOR_JAP] = StrDupToUnicode ("");
+    h->strings[GD3_S_DATE]            = StrDupToUnicode ("");
+    h->strings[GD3_S_FILE_AUTHOR]     = StrDupToUnicode (""); //registered.is ? registered.user_name_only : "");
+    h->strings[GD3_S_NOTES]           = StrDupToUnicode ("");
 }
 
-void            GD3_Header_Close(t_gd3 *h)
+void            GD3_Header_Close(t_gd3_header *h)
 {
     int         i;
 
-    for (i = 0; i < GD3_S_MAX; i++)
-        free (h->Strings[i]);
+    for (i = 0; i != GD3_S_MAX; i++)
+        free (h->strings[i]);
 }
 
 // Write GD3 header to given Stdio file
-int             GD3_Header_Write(t_gd3 *h, FILE *f)
+int             GD3_Header_Write(t_gd3_header *h, FILE *f)
 {
     int         i;
     int         Len;
@@ -278,17 +298,17 @@ int             GD3_Header_Write(t_gd3 *h, FILE *f)
 
     // Calculate Data Length
     Len = 0;
-    for (i = 0; i < GD3_S_MAX; i++)
-        Len += (StrLenUnicode (h->Strings[i]) + 1) * 2;
-    h->Data_Length = Len;
+    for (i = 0; i != GD3_S_MAX; i++)
+        Len += (StrLenUnicode (h->strings[i]) + 1) * 2;
+    h->data_length = Len;
 
     // Create buffer with all strings
     Buf = Memory_Alloc (Len);
     Pos = 0;
     for (i = 0; i < GD3_S_MAX; i++)
     {
-        StrCpyUnicode ((word *)(Buf + Pos), h->Strings[i]);
-        Pos += StrLenUnicode (h->Strings[i]) * 2;
+        StrCpyUnicode ((word *)(Buf + Pos), h->strings[i]);
+        Pos += StrLenUnicode (h->strings[i]) * 2;
         *(word *)(Buf + Pos) = 0x0000;
         Pos += 2;
     }
@@ -298,11 +318,11 @@ int             GD3_Header_Write(t_gd3 *h, FILE *f)
         Quit_Msg ("Fatal Error in sound/vgm.c::GD3_Header_Write(), Pos != Len");
 
     // Write data
-    fwrite (h, sizeof (h->Magic) + sizeof (h->Version) + sizeof (h->Data_Length), 1, f);
+    fwrite (h, sizeof (h->magic) + sizeof (h->version) + sizeof (h->data_length), 1, f);
     fwrite (Buf, Len, 1, f);
     free (Buf);
 
-    return (sizeof (h->Magic) + sizeof (h->Version) + sizeof (h->Data_Length) + Len);
+    return (sizeof (h->magic) + sizeof (h->version) + sizeof (h->data_length) + Len);
 }
 
 //-----------------------------------------------------------------------------

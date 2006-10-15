@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.71 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2005
+// MEKA 0.72 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2005
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -19,13 +19,20 @@
 #include "db.h"
 #include "debugger.h"
 #include "desktop.h"
+#include "effects.h"
+#include "fdc765.h"
 #include "file.h"
 #include "fskipper.h"
+#include "games.h"
 #include "g_file.h"
+#include "glasses.h"
+#include "inputs_f.h"
 #include "inputs_i.h"
 #include "mappers.h"
+#include "palette.h"
 #include "patch.h"
 #include "setup.h"
+#include "video_m5.h"
 #include "vlfn.h"
 #include "osd/timer.h"
 #include "libaddon/png/loadpng.h"
@@ -40,6 +47,7 @@
 
 BEGIN_COLOR_DEPTH_LIST
    COLOR_DEPTH_8
+   COLOR_DEPTH_15
    COLOR_DEPTH_16
    COLOR_DEPTH_24
    COLOR_DEPTH_32
@@ -84,7 +92,6 @@ void    Init_Emulator (void)
 // INITALIZE PRE-CALCULATED TABLES --------------------------------------------
 void    Init_Tables (void)
 {
-    Init_Table_Video_Mode_0 ();
     Coleco_Init_Table_Inputs ();
     #ifdef X86_ASM
         Decode_Tile_ASM_Init ();
@@ -94,18 +101,9 @@ void    Init_Tables (void)
 // INITIALIZING DEFAULT VARIABLES VALUES --------------------------------------
 void    Init_Default_Values (void)
 {
-    Debug_Now = NO;
+    Debug_Now = FALSE;
     Debug_Generic_Value = 0;
-    Debug_Print_Infos = NO;
-
-    cfg.Video_Depth = 8;
-    cfg.GUI_Res_X = 640;
-    cfg.GUI_Res_Y = 480;
-    cfg.GUI_Driver = GFX_AUTODETECT_FULLSCREEN;
-    cfg.GUI_Start_In = YES;
-    cfg.GUI_Access_Mode = GUI_FB_ACCESS_BUFFERED;
-    cfg.GUI_VSync = NO;
-    cfg.GUI_Refresh_Rate = 0; // Default
+    Debug_Print_Infos = FALSE;
 
     // IPeriod
     opt.IPeriod = opt.Cur_IPeriod = 228;
@@ -113,44 +111,67 @@ void    Init_Default_Values (void)
     opt.IPeriod_Sg1000_Sc3000 = 228;
     opt.IPeriod_NES = 114;
 
-    // Value poked at 0xC000
-    opt.Magic_C000 = 0;
-
     opt.Layer_Mask = LAYER_BACKGROUND | LAYER_SPRITES;
 
-    opt.GUI_Inited = NO;
+    opt.GUI_Inited = FALSE;
     opt.Current_Key_Pressed = 0;
     opt.State_Current = 0;
     opt.State_Load = -1;
-    opt.Setup_Interactive_Execute = NO;
-    opt.Force_Quit = NO;
+    opt.Setup_Interactive_Execute = FALSE;
+    opt.Force_Quit = FALSE;
     opt.Debug_Step = 0;
     #ifdef CLOCK
-        opt.Show_Clock = YES;
+        opt.Show_Clock = TRUE;
     #endif
 
     // Machine
     cur_machine.driver_id = DRV_SMS;
 
-    // Configuration (new, cleaner structure)
-    Configuration.country                   = Configuration.country_cfg = COUNTRY_EUR_US;
-    Configuration.country_cl                = COUNTRY_AUTO;
-    Configuration.debug_mode                = Configuration.debug_mode_cfg = Configuration.debug_mode_cl = NO;
-    Configuration.palette_type              = PALETTE_TYPE_BRIGHT;
-    Configuration.sprite_flickering         = SPRITE_FLICKERING_AUTO;
-    Configuration.slash_nirv                = NO;
-    Configuration.enable_BIOS               = YES;
-    Configuration.show_product_number       = NO;
-    Configuration.show_fullscreen_messages  = YES;
-    Configuration.enable_NES                = NO;
-    Configuration.allow_opposite_directions = NO;
-    Configuration.fb_close_after_load       = YES;
-    Configuration.fb_uses_DB                = YES;
-    Configuration.fullscreen_after_load     = NO;
-    Configuration.debugger_console_lines                = 21;
-    Configuration.debugger_disassembly_lines            = 14;
-    Configuration.debugger_disassembly_display_labels   = TRUE;
-    Configuration.debugger_log_enabled                  = TRUE;
+    // Country
+    Configuration.country                       = COUNTRY_EXPORT;
+    Configuration.country_cfg                   = COUNTRY_EXPORT;
+    Configuration.country_cl                    = COUNTRY_AUTO;
+
+    // Debug Mode
+    Configuration.debug_mode                    = FALSE;
+    Configuration.debug_mode_cfg                = FALSE;
+    Configuration.debug_mode_cl                 = FALSE;
+
+    // Miscellaenous
+    Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
+    Configuration.slash_nirv                    = FALSE;
+    Configuration.enable_BIOS                   = TRUE;
+    Configuration.show_product_number           = FALSE;
+    Configuration.show_fullscreen_messages      = TRUE;
+    Configuration.enable_NES                    = FALSE;
+    Configuration.allow_opposite_directions     = FALSE;
+    Configuration.start_in_gui                  = TRUE;
+
+    // Applet: File Browser
+    Configuration.fb_close_after_load           = TRUE;
+    Configuration.fb_uses_DB                    = TRUE;
+    Configuration.fullscreen_after_load         = FALSE;
+
+    // Applet: Debugger
+    Configuration.debugger_console_lines        = 22;
+    Configuration.debugger_disassembly_lines    = 14;
+    Configuration.debugger_disassembly_display_labels = TRUE;
+    Configuration.debugger_log_enabled          = TRUE;
+
+    // Applet: Memory Editor
+    Configuration.memory_editor_lines           = 16;
+    Configuration.memory_editor_columns         = 16;
+
+    // Video
+    Configuration.video_mode_desktop_depth      = 0;    // Unknown yet
+    Configuration.video_mode_gui_depth          = 0;    // Default
+    Configuration.video_mode_gui_depth_cfg      = 0;    // Default
+    Configuration.video_mode_gui_res_x          = 640;
+    Configuration.video_mode_gui_res_y          = 480;
+    Configuration.video_mode_gui_driver         = GFX_AUTODETECT_FULLSCREEN;
+    Configuration.video_mode_gui_refresh_rate   = 0;    // Default
+    Configuration.video_mode_gui_access_mode    = GUI_FB_ACCESS_BUFFERED;
+    Configuration.video_mode_gui_vsync          = FALSE;
 
     // Media
     // FIXME: yet not fully used
@@ -161,9 +182,8 @@ void    Init_Default_Values (void)
     media_ROM.mekacrc.v[1]= 0;
     media_ROM.crc32       = 0;
 
-    Machine_Pause_Need_To = NO;
+    Machine_Pause_Need_To = FALSE;
 
-    Themes_Init_Values ();
     Blitters_Init_Values ();
     Frame_Skipper_Init_Values ();
 
@@ -172,10 +192,10 @@ void    Init_Default_Values (void)
 
     TB_Message_Init_Values ();
     Sound_Init_Config ();
-    Effects_Init_Values ();
     TVType_Init_Values ();
     Glasses_Init_Values ();
     TileViewer_Init_Values ();
+    Skins_Init_Values();
 
     #ifdef MEKA_Z80_DEBUGGER
         Debugger_Init_Values ();
@@ -209,8 +229,9 @@ void    Close_Emulator (void)
     Free_Memory          ();
     FB_Free_Memory       ();
     DB_Close             ();
-    Blitters_Free        ();
+    Blitters_Close       ();
     Glasses_Close        ();
+    Data_Close           ();
 }
 
 // Remove Allegro installed callback
@@ -238,13 +259,22 @@ int     Init_Allegro (void)
     // Initialize timer BEFORE allegro
     // OSD_Timer_Initialize ();
 
-    set_uformat (U_ASCII);
-    allegro_init ();
-    set_color_depth (cfg.Video_Depth);
-    install_timer ();
+    set_uformat(U_ASCII);
+    allegro_init();
+
+    Configuration.video_mode_desktop_depth = desktop_color_depth();
+    if (Configuration.video_mode_desktop_depth == 0)
+        Configuration.video_mode_desktop_depth = 16;
+    Configuration.video_mode_gui_depth = Configuration.video_mode_gui_depth_cfg;
+    if (Configuration.video_mode_gui_depth == 0)
+        Configuration.video_mode_gui_depth = Configuration.video_mode_desktop_depth;
+
+    set_color_depth(Configuration.video_mode_gui_depth); // FIXME-DEPTH
+    set_color_conversion(COLORCONV_TOTAL);	// FIXME-DEPTH: SHOULD REMOVE IN THE END
+    install_timer();
 
     // Keyboard
-    install_keyboard ();
+    install_keyboard();
 
     // Mouse
     //static char cmd[] = "emulate_three = 0\n";
@@ -258,8 +288,7 @@ int     Init_Allegro (void)
         //}   
         //#endif
     #endif
-    cfg.Mouse_Installed = install_mouse ();
-    // printf("mouseinstalled %d\n", cfg.Mouse_Installed);
+    Env.mouse_installed = install_mouse ();
 
     // PNG support
     #ifdef MEKA_PNG
@@ -282,7 +311,7 @@ int     Init_Allegro (void)
 void    Init_GUI (void)
 {
     ConsolePrintf ("%s\n", Msg_Get (MSG_Init_GUI));
-    gui_init (cfg.GUI_Res_X, cfg.GUI_Res_Y);
+    gui_init(Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, Configuration.video_mode_gui_depth);
 }
 
 // MAIN FUNCTION --------------------------------------------------------------
@@ -348,12 +377,13 @@ void    Init_GUI (void)
     DB_Init                 (); // Initialize and load DataBase file
     Patches_List_Init       (); // Load Patches List
     VLFN_Init               (); // Load Virtual Long Filename List
-    Load_Theme_List         (); // Load Theme List
-    Blitters_Load           (); // Load Blitter List
+    Skins_Init              (); // Load Skin List
+    Blitters_Init           (); // Load Blitter List
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
     Blit_Init               (); // Initialize Blitter
     Random_Init             (); // Initialize Pifometer (Random Number Generator)
     Fonts_Init              (); // Initialize Fonts system
+	Effects_TV_Init			();	// Initialize TV snow effect
     FDC765_Init             (); // Initialize Floppy Disk emulation
     Data_Init               (); // Load datafile
     Init_Emulator           (); // Initialize Emulation
@@ -381,7 +411,7 @@ void    Init_GUI (void)
     Inputs_Joystick_Init    (); // Initialize Joysticks. For some reason I cannot explain, putting it before cause a problem with Quit_Msg(), the joystick thread crash under Win32
 
     // Setup initial state (fullscreen/GUI)
-    if ((machine & MACHINE_RUN) == MACHINE_RUN && !cfg.GUI_Start_In)
+    if ((machine & MACHINE_RUN) == MACHINE_RUN && !Configuration.start_in_gui)
         Meka_State = MEKA_STATE_FULLSCREEN;
     else
         Meka_State = MEKA_STATE_GUI;

@@ -2,12 +2,20 @@
 // MEKA - ioports.c
 // I/O Ports Emulation - Code
 //-----------------------------------------------------------------------------
+// FIXME: Old, crappy, incorrect mess.
+// FIXME: Implement proper port map, mirroring, etc. Per system.
+// FIXME: I did not write this! I'm innocent! My evil twin programmer did! *cough*
+//-----------------------------------------------------------------------------
 
 //#define DEBUG_IO
 #include "shared.h"
 #include "bios.h"
 #include "vdp.h"
+#include "commport.h"
+#include "fdc765.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 #define IO_LOG_WRITE      \
@@ -19,6 +27,7 @@
 //-----------------------------------------------------------------------------
 
 // OUTPUT - CALLED BY THE EMULATED Z80 ----------------------------------------
+//-----------------------------------------------------------------------------
 #ifdef NEIL_Z80
  void OutZ80 (UINT16 Port, UINT8 Value, struct z80PortWrite *dunno)
 #elif MDK_Z80
@@ -40,11 +49,13 @@ switch (Port /* & 0xFF*/)
  // 0x3F/63 : LightGun & Nationalisation Port ---------------------------------
  case 0x3F: if ((tsms.Periph_Nat & 0xF) != (Value & 0xF))
                {
-               Inputs.SportPad_Latch [0] = Inputs.SportPad_Latch [1] = 1;
+               Inputs.SportsPad_Latch [0] = Inputs.SportsPad_Latch [1] = 1;
                }
             tsms.Periph_Nat = Value;
-            if (tsms.Periph_Nat == 0x0D) Inputs.SportPad_Latch [0] ^= 1;
-            if (tsms.Periph_Nat == 0x07) Inputs.SportPad_Latch [1] ^= 1;
+            if (tsms.Periph_Nat == 0x0D) 
+                Inputs.SportsPad_Latch [0] ^= 1;
+            if (tsms.Periph_Nat == 0x07) 
+                Inputs.SportsPad_Latch [1] ^= 1;
             // IO_LOG_WRITE;
             return;
 
@@ -107,6 +118,7 @@ switch (Port /* & 0xFF*/)
             return;
 
  // 0xFF/255: Switch from BIOS to Cartridge -----------------------------------
+ // FIXME: This is awful! If anyone sees this, say goodbye to my honor.
  case 0xFF: if ((machine & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
                {
                BIOS_Switch_to_Game ();
@@ -171,8 +183,8 @@ u8     In_SMS (u16 Port)
         {
             switch (sms.Country)
             {
-            case COUNTRY_EUR_US: tsms.Control_GG |= 0x40; break;
-            case COUNTRY_JAP:    tsms.Control_GG &= 0xBF; break;
+            case COUNTRY_EXPORT:    tsms.Control_GG |= 0x40; break;
+            case COUNTRY_JAPAN:     tsms.Control_GG &= 0xBF; break;
             }
             return (tsms.Control_GG /* | 0x3F */);
         }
@@ -275,7 +287,7 @@ switch (Port)
          // Reset Floppy Disk
          FDC765_Reset ();
          // Need to trigger a NMI there ?
-         CPU_ForceNMI = YES;
+         CPU_ForceNMI = TRUE;
          }
       return;
  case 0xE7: // Control Register
@@ -292,7 +304,7 @@ switch (Port)
          if (Value & 0x04)
             {
             FDC765_Reset ();
-            FDC765_Cmd_For_SF7000 = YES;
+            FDC765_Cmd_For_SF7000 = TRUE;
             }
          }
 

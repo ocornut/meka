@@ -7,10 +7,10 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_init (int res_x, int res_y);
-void    gui_set_resolution (int res_x, int res_y);
-void    gui_init_again (void);
-void    gui_close (void);
+void    gui_init(int res_x, int res_y, int color_depth);
+void    gui_set_video_mode(int res_x, int res_y, int color_depth);
+void    gui_init_again(void);
+void    gui_close(void);
 
 //-----------------------------------------------------------------------------
 

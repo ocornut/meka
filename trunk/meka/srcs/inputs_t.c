@@ -38,7 +38,7 @@ void    Inputs_KeyPressQueue_Remove(t_key_press *keypress)
 {
     Inputs_Key_Eat(keypress->scancode); // FIXME
 
-    list_remove(&Inputs.KeyPressedQueue, keypress, NULL);
+    list_remove(&Inputs.KeyPressedQueue, keypress);
     free(keypress);
 }
 
@@ -48,58 +48,58 @@ void    Inputs_KeyPressQueue_Clear(void)
 }
 
 //-----------------------------------------------------------------------------
-// Inputs_KeyPressed (int keycode, int eat)
+// Inputs_KeyPressed (int keycode, bool eat)
 // Return weither given key was just pressed, then eat the key if asked for
 //-----------------------------------------------------------------------------
-int     Inputs_KeyPressed (int keycode, int eat)
+int     Inputs_KeyPressed (int keycode, bool eat)
 {
     // Check if requested key was just pressed
     if (key[keycode] && opt.Current_Key_Pressed == 0)
     {
         opt.Current_Key_Pressed = keycode;
-        typematic_repeating = NO;
+        typematic_repeating = FALSE;
         typematic_repeat_counter = 0;
         if (eat)
             key[keycode] = 0;
-        return (YES);
+        return (TRUE);
     }
     // Check if previously pressed key was released
     // FIXME: should be done in this function, but rather in a single inputs-update
     if (opt.Current_Key_Pressed != 0 && key [opt.Current_Key_Pressed] == 0)
         opt.Current_Key_Pressed = 0;
-    return (NO);
+    return (FALSE);
 }
 
 //-----------------------------------------------------------------------------
-// Inputs_KeyPressed_Repeat (int keycode, int eat, int delay, int rate)
+// Inputs_KeyPressed_Repeat (int keycode, bool eat, int delay, int rate)
 // Return weither given key was pressed, handing repetition,
 // then eat the key if asked for.
 //-----------------------------------------------------------------------------
 // FIXME: this function is theorically incorrect, since it relies on
 // static global data. Repeating two keys should mess the whole thing ?
 //-----------------------------------------------------------------------------
-int     Inputs_KeyPressed_Repeat (int keycode, int eat, int delay, int rate)
+int     Inputs_KeyPressed_Repeat (int keycode, bool eat, int delay, int rate)
 {
     // hmm...
     Inputs_KeyPressed (keycode, eat);
     if (opt.Current_Key_Pressed != keycode)
-        return (NO);
+        return (FALSE);
 
     // Increment counter
     typematic_repeat_counter++;
 
     // Delay
-    if (typematic_repeating == NO)
+    if (typematic_repeating == FALSE)
     {
-        // Return YES on first press
+        // Return TRUE on first press
         if (typematic_repeat_counter == 1)
-            return (YES);
+            return (TRUE);
         // Then wait for given delay
         if (typematic_repeat_counter == delay)
         {
-            typematic_repeating = YES;
+            typematic_repeating = TRUE;
             typematic_repeat_counter = 0;
-            return (YES);
+            return (TRUE);
         }
     }
     else
@@ -108,10 +108,10 @@ int     Inputs_KeyPressed_Repeat (int keycode, int eat, int delay, int rate)
         if (typematic_repeat_counter == rate)
         {
             typematic_repeat_counter = 0;
-            return (YES);
+            return (TRUE);
         }
     }
-    return (NO);
+    return (FALSE);
 }
 
 //-----------------------------------------------------------------------------

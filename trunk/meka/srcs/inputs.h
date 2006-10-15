@@ -29,19 +29,28 @@
 //
 //-----------------------------------------------------------------------------
 
-// Input Sources Types --------------------------------------------------------
-#define  INPUT_SRC_UNUSED               (0)
-#define  INPUT_SRC_KEYBOARD             (1)
-#define  INPUT_SRC_JOYPAD               (2) // Digital
-#define  INPUT_SRC_MOUSE                (3)
-//-----------------------------------------------------------------------------
+// Input Sources Types
+typedef enum
+{
+    INPUT_SRC_TYPE_KEYBOARD = 0,
+    INPUT_SRC_TYPE_JOYPAD   = 1,    // Digital only (yet)
+    INPUT_SRC_TYPE_MOUSE    = 2,
+} t_input_src_type;
 
-//-----------------------------------------------------------------------------
+// Input Sources Flags
+typedef enum
+{
+    INPUT_SRC_FLAGS_DIGITAL         = 0x0001,
+    INPUT_SRC_FLAGS_EMULATE_DIGITAL = 0x0002,
+    INPUT_SRC_FLAGS_ANALOG          = 0x0004,
+    INPUT_SRC_FLAGS_EMULATE_ANALOG  = 0x0008,
+} t_input_src_flags;
+
+// Players Definitions
 #define  PLAYER_NO      (-1)
 #define  PLAYER_1       (0)
 #define  PLAYER_2       (1)
 #define  PLAYER_MAX     (2)
-//-----------------------------------------------------------------------------
 
 // Input Mapping Types --------------------------------------------------------
 #define  INPUT_MAP_TYPE_KEY             (0)
@@ -53,17 +62,13 @@
 #define  INPUT_MAP_TYPE_MOUSE_BUTTON    (0)
 #define  INPUT_MAP_TYPE_MOUSE_AXIS      (1)
 //-----------------------------------------------------------------------------
-#define  DIGITAL                        (1)
-#define  EMULATE_DIGITAL                (DIGITAL << 1)
-#define  ANALOG                         (4)
-#define  EMULATE_ANALOG                 (ANALOG << 1)
-//-----------------------------------------------------------------------------
+
 typedef struct
 {
-        char   *Name;
-        int     Result_Type;
-}       t_input_peripheral_info;
-extern  t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX];
+    char   *name;
+} t_input_peripheral_info;
+extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX];
+
 //-----------------------------------------------------------------------------
 
 // Input Mapping Indexes ------------------------------------------------------
@@ -115,12 +120,13 @@ typedef struct
 
 typedef struct
 {
-    char *          Name;                       // Source name
-    byte            Type;                       // 0: INPUT_SRC_xx / INPUT_SRC_UNUSED being theorically useless!
-    byte            Enabled;                    // Enabled
-    byte            Player;                     // PLAYER_1 or PLAYER_2
+    char *              name;                  
+    t_input_src_flags   flags;                 
+    t_input_src_type    type;
+    bool                enabled;
+    int                 player;                 // PLAYER_1 or PLAYER_2
+
     byte            Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
-    byte            Result_Type;                // Bit 0 set if Analog, else Digital, Bit 1 set if emulating other
     float           Analog_to_Digital_FallOff;  // Default: 0.8f
     byte            Connected_and_Ready;        // No/Yes
     int             Driver;                     // Driver (NOW UNUSED)
@@ -144,8 +150,8 @@ typedef struct
     int             Sources_Joy_Driver;
     int             Keyboard_Enabled;               // Boolean. Set when SK-1100 enabled.
     u8              Paddle_X [PLAYER_MAX];
-    char            SportPad_XY [PLAYER_MAX] [2];
-    byte            SportPad_Latch [PLAYER_MAX];
+    char            SportsPad_XY [PLAYER_MAX] [2];
+    u8              SportsPad_Latch [PLAYER_MAX];
     // Mouse
     int             MouseSpeed_X;                   // Mouse speed
     int             MouseSpeed_Y;                   //
@@ -176,7 +182,7 @@ void    Inputs_Switch_Current       (void);
 void    Inputs_Switch_Joypad        (void);
 void    Inputs_Switch_LightPhaser   (void);
 void    Inputs_Switch_PaddleControl (void);
-void    Inputs_Switch_SportPad      (void);
+void    Inputs_Switch_SportsPad     (void);
 void    Inputs_Switch_TVOekaki      (void);
 
 byte    Input_Port_DC               (void);

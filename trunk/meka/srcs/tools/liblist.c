@@ -70,81 +70,82 @@ void		list_free_no_elem(t_list **list)
 
 void            list_free_custom(t_list **list, void (*custom_free)())
 {
-  t_list	*next;
+    t_list	*next;
 
-  while (*list)
+    while (*list)
     {
-      next = (*list)->next;
-      if (custom_free != 0)
-        custom_free((*list)->elem);
-      free(*list);
-      *list = next;
+        next = (*list)->next;
+        if (custom_free != 0)
+        {
+            void *elem = (*list)->elem;
+            custom_free(elem);
+        }
+        free(*list);
+        *list = next;
     }
 }
 
 // LIST_REMOVE.C ------------------------------------------------------------
 
-void            list_remove(t_list **list, void *elem, void (*freer)())
+void            list_remove(t_list **list, void *elem)
 {
-  t_list        *elem_prev;
-  t_list        *save;
-  t_list        *tmp;
+    t_list        *elem_prev;
+    t_list        *save;
+    t_list        *tmp;
 
-  elem_prev = 0;
-  save = *list;
-  while (*list)
+    elem_prev = 0;
+    save = *list;
+    while (*list)
     {
-      if ((*list)->elem == elem)
+        if ((*list)->elem == elem)
         {
-          tmp = *list;
-          *list = (*list)->next;
-	  if (freer)
-	    freer(tmp->elem);
-          free(tmp);
-          if (!elem_prev)
-            save = *list;
-          else
-            elem_prev->next = *list;
+            tmp = *list;
+            *list = (*list)->next;
+            free(tmp);
+            if (!elem_prev)
+                save = *list;
+            else
+                elem_prev->next = *list;
         }
-      if ((elem_prev = *list))
-        *list = (*list)->next;
+        if ((elem_prev = *list))
+            *list = (*list)->next;
     }
-  *list = save;
+    *list = save;
 }
 
 // LIST_REVERSE.C -----------------------------------------------------------
 
 void		list_reverse(t_list **list)
 {
-  t_list	*src;
-  t_list	*dest;
+    t_list	*src;
+    t_list	*dest;
 
-  if (*list == 0)
-    return;
-  src = 0;
-  while ((*list)->next)
+    if (*list == 0)
+        return;
+    src = 0;
+    while ((*list)->next)
     {
-      dest = (*list)->next;
-      (*list)->next = src;
-      src = *list;
-      *list = dest;
+        dest = (*list)->next;
+        (*list)->next = src;
+        src = *list;
+        *list = dest;
     }
-  (*list)->next = src;
+    (*list)->next = src;
 }
 
 // LIST_SIZE.C --------------------------------------------------------------
 
 int	list_size(t_list *list)
 {
-  int	cnt;
+    int	cnt;
 
-  cnt = 0;
-  while (list)
+    cnt = 0;
+    while (list)
     {
-      cnt += 1;
-      list = list->next;
+        cnt++;
+        list = list->next;
     }
-  return (cnt);
+    return (cnt);
 }
 
 // LIST_SORT.C --------------------------------------------------------------

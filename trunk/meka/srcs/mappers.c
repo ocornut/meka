@@ -7,6 +7,7 @@
 //#define DEBUG_PAGES
 #include "shared.h"
 #include "mappers.h"
+#include "eeprom.h"
 
 //-----------------------------------------------------------------------------
 // Macros / Inline functions
@@ -82,11 +83,12 @@ int         Mapper_Autodetect (void)
     for (i = 0; i < 0x8000; i++)
         if (ROM [i] == 0x32) // Z80 opcode for: LD (xxxx), A
         {
-            if (*(word *)&ROM [i + 1] == 0xFFFF)
+            u16 addr = *(u16 *)&ROM [i + 1];
+            if (addr == 0xFFFF)
             { i += 2; cFFFF++; continue; }
-            if (*(word *)&ROM [i + 1] == 0x8000)
+            if (addr == 0x8000)
             { i += 2; c8000++; continue; }
-            if (*(word *)&ROM [i + 1] == 0xA000)
+            if (addr == 0xA000)
             { i += 2; cA000++; continue; }
         }
 
@@ -270,7 +272,7 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
            }
         else
            {
-           if (OnBoard_RAM_Active)
+           if (sms.Mapping_Register & ONBOARD_RAM_ACTIVE)
               {
               // Map Page 2 back if we just disabled On Board RAM
               Map_8k_ROM (5, sms.Pages_Reg [2] * 2 + 1);
@@ -296,7 +298,7 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
     {
     // On Board RAM [0xA000]->[0xC000] ----------------------------------------
     // (for Ernie Els Golf)
-    case 5: if (OnBoard_RAM_Active) { Mem_Pages [5] [Addr] = Value; return; } break;
+    case 5: if (sms.Mapping_Register & ONBOARD_RAM_ACTIVE) { Mem_Pages [5] [Addr] = Value; return; } break;
     // RAM [0xC000] = [0xE000] ------------------------------------------------
     case 6: Mem_Pages [6] [Addr] = Value; return;
     case 7: Mem_Pages [7] [Addr] = Value; return;

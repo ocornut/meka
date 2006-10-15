@@ -1,8 +1,169 @@
 
 This is the "private" version of CHANGES.TXT
 Not much difference, mainly:
-- Including few source-related comments.
+- Including some source-related comments.
 - Including pre-0.10 changelog.
+
+Lines starting with ## are only pertinent on WIP releases, and should
+removed when copying changes to CHANGES.TXT for a stable release.
+They are usually of 2 kinds:
+- Fixes or addition to things changed during WIP.
+- Programmer/hacker centric information.
+
+
+ MEKA 0.72 WIP 20051120
+ ----------------------
+  - (Win32) Updated Allegro library from WIP 4.1.18 to 4.2.0, including
+    various fixes/improvements:
+        http://www.talula.demon.co.uk/allegro/onlinedocs/en/changes.html
+  - Sound:
+    - Added support for VGM 1.10 header type. [Omar]
+  - GUI:
+##  - Added support for horizontal scrollbars. [Omar]
+##  - Fixed scrollbars non refreshing when scrolling with keyboard. [Omar]
+    - Added link to debugger documentation in HELP menu. [Omar]
+  - Development:
+    - Debugger:
+      - Fixed various command-line parsing bugs. [Omar]
+      - Added conditionnal breakpoints. [Omar]
+        eg:
+          BREAK r C000.. =01,02,03,04   ; break on read of 01020304 in RAM
+          BREAK x =C9                   ; break on CPU execution of RET
+          BREAK x =0,0                  ; break on CPU execution of NOP NOP
+          BREAK w pram 0 =03            ; break on PRAM write of color 0 as red
+      - Added display line event breakpoints/watchpoints. [Omar]
+        Useful for debugging line interrupts.
+        eg: 
+          BREAK line #13                ; break on display line 13
+    - Tilemap viewer:
+##    - Added support for manually selecting map address. [Omar]
+##    - Added (partial) support for overscan video modes (used by CodeMasters
+##      games). The bottom of the 32x32 tilemap is not yet shown thought. [Omar]
+##    - Removed drawing of horizontal screen border lines on raster effects,
+##      was indeed very confusing to understand. [Omar]
+##    - Support for top rows horizontal scroll lock bit. [Omar]
+  - Miscellaenous:
+    - Various fixes.
+    - (UN*X) Renamed main executable to 'meka' (instead of 'meka.exe').
+##- Added and modified entries in the checksum and compatibility lists. [Omar]
+##  Some particular renaming includes:
+      SMS - 0e21e6cf - Astro Flash (JP)                     --> Astro Flash [Hack] (JP)
+      SMS - 5d08e823 - Fushigi no Oshiro Pit Pot (JP)       --> Fushigi no Oshiro Pit Pot [Hack] (JP)
+      SMS - a4ac35d8 - Galaxy Force [50 / 60 Hz]            --> Galaxy Force
+      SMS - 6c827520 - Galaxy Force [60 Hz]                 --> Galaxy Force (US)
+      SMS - dabcc054 - Ghost house (JP)                     --> Ghost House [Hack] (JP)
+      SMS - c1e699db - Great Baseball [JP] (JP)             --> Great Baseball [JP] [Hack] (JP)
+      SMS - 84665648 - Great Soccer (JP)                    --> Great Soccer [Hack] (JP)
+      SMS - 87b9ecb8 - Satellite 7 (JP)                     --> Satellite 7 [Hack] (JP)
+      SMS - bcd91d78 - Seishun Scandal (JP)                 --> Seishun Scandal [Hack] (JP)
+      SMS - a71bc542 - Spy vs Spy (JP)                      --> Spy vs Spy [Hack] (JP)
+      SMS - 95cbf3dd - Super Tennis (JP)                    --> Great Tennis / Super Tennis (JP) (note: this one is tricky. Official game name is "Great Tennis" but title screen says "Super Tennis").
+      SMS - 9dfa67ee - Teddy Boy Blues (JP)                 --> Teddy Boy Blues [Hack] (JP)
+      GG  - f6af4b6b - Dynamite Headdy                      --> Dynamite Headdy (JP) (note: US/EU version is another dump)
+
+      
+ MEKA 0.72 WIP 20050918
+ ----------------------
+  - Miscellaenous:
+##  - Fixed screenshots being fully transparent. [Omar]
+    - Updated various tidbits in the configuration file. [Omar]
+  - Development:
+    - Added tilemap viewer. [Omar]
+      - Shows tilemap, hovering or clicking a tile shows specific info 
+        about it, allows filtering BG/FG, disabling tile flipping, tile 
+        flipping, display of scrolling box, with or without raster effects,
+        manual selection of tilemap address, etc.
+    - Cleaned Technical Information Viewer content, renamed a few fields
+      to their official names, removed redundant information. It's not
+      yet all clean. [Omar]
+
+
+ MEKA 0.72 WIP 20050910
+ ----------------------
+  - Development:
+    - Debugger:
+      - Added line history. Navigate history by pressing Up/Down. 
+        List or search in history using HISTORY (HI) command. [Omar]
+##- Fixed various bugs: scrollbar display during theme switch, 
+##  memory editor scrollbar crashing, etc.
+  - Sources/Project
+    - (Win32) Now linking to zlib.lib instead of zlibs.lib (name for standard
+       static build of ZLIB). [Omar]
+
+
+ MEKA 0.72 WIP 20050904
+ ----------------------
+  - Video:
+    - Upgraded everything to hi-color video modes and got rid of old, 
+      8-bit indexed video modes. This is a major change in MEKA core.
+      Some of the benefits are:
+      - No more snow and/or color flickering on video card drivers 
+        which disliked palette changes.
+      - Better integration with desktop (usually run faster).
+      - Getting possible to use various kind of graphics filters.
+      - No more hassle with color limitation for the programmer
+        (meaning more features implemented for the end-user).
+      - Finally possible to show all Game Gear colors at once, 
+        and to implement LCD screen persistence (not yet done).
+      Some of the features above goes hand to hand with the blitter
+      system, which will be improved soon. [Omar]
+  - GUI:
+    - KeyPad Enter key now works on input boxes. [Omar]
+    - Added shortcut CTRL-F4: closes current window. [Omar]
+    - Added shortcut CTRL-TAB: cycles thru windows taking inputs. [Omar]
+    - Reworked theme (skin) system from stratch: [Omar]
+      - Changed MEKA.THM file format.
+      - Using explicit names for variables.
+      - Added more variables, making the skin system a little more 
+        complicated but also more configurable.
+      - Using de-facto standard of specifying colors in #RRGGBB format.
+      - Rewrote most code since it was all legacy from old MEKA 0.10. 
+  - Miscellaenous:
+    - (Win32) Removed flickering from initialization message console. [Maxim]
+  - Development:
+    - Made '$' default prefix for hexadecimal values in various places. [Omar]
+    - Datadump: [Ambil, Omar]
+      - Fixed "palette" dumping. Blue and green components were inverted. 
+        Replaced dumping of target host RGB values by actual SMS/GG components. 
+      - Added sprite pattern base address in "sprites" dumping.
+    - Memory Editor:
+      - Added viewing and editing of VDP registers (VREG). [Omar]
+      - Added configuration file directive for resizing window. [Omar]
+      - Fixed cursor position when inputing an address on last page. [Omar]
+    - Debugger:
+      - REGS (R) command in debugger now display shadow registers as well. [Omar]
+      - Added cursor before current instruction in disassembly. [Omar]
+      - Added access to shadow registers in expression evaluator. [Omar]
+        eg: 
+          PRINT AF',BC',DE',HL'
+      - Added SET command to modify Z80 registers. [Omar]
+        eg:
+          SET BC=$1234    ; set BC register to $1234
+          SET DE=HL,HL=0  ; set DE=HL, then zero HL
+      - Added MEMEDIT command to spawn a new memory editor. [Omar]
+  - Sources/Project:
+    - Removed password encryption from MEKA datafile (became useless). [Omar]
+    - Fixed a bunch of warnings on higher warning levels. [Omar]
+    - Hacked a lot of old GUI code (box, widgets, menus among others), cleaned
+      and renamed various structures, replaced several usage of indexes by 
+      pointers, added const qualifiers, rewrote parts of various applets, 
+      got rid of some old obsolete code, etc. Hopefully broke nothing. [Omar]
+    - (Win32) Fixed MSVC project to reference LIBPNGDIR.
+    - (Win32) Including statically compiled libpng.lib in package. [Omar]
+    - (UN*X) No more need to manually edit .ASM files to compile. [Omar]
+  - Updated various tidbits of documentation. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+      GG  - 9f64c2bb - Ichidanto-R (JP)                     --> Ichidant~R (Puzzle & Action)
+      GG  - 09151743 - Tanto-R (JP)                         --> Tant~R (Puzzle & Action)
+      GG  - 3d8d0dd6 - World Series Baseball [A]            --> World Series Baseball [v0]
+      GG  - bb38cfd7 - World Series Baseball [B]            --> World Series Baseball [v1]
+
+
+ MEKA 0.71
+ ---------
+  Includes all 0.71 WIP below.
+
 
  MEKA 0.71 WIP 20050625
  ----------------------

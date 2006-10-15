@@ -7,95 +7,114 @@
 #include "app_tileview.h"
 #include "desktop.h"
 #include "g_widget.h"
+#include "palette.h"
+#include "video_m2.h"
+#include "video_m5.h"
 
 //-----------------------------------------------------------------------------
-// Forward declaration
+// Forward Declaration
 //-----------------------------------------------------------------------------
 
-void    TileViewer_Change_Palette (void);
-void    TileViewer_SelectedTile_Select (t_widget *w);
+void    TileViewer_Layout(t_app_tile_viewer *app, bool setup);
+
+void    TileViewer_Change_Palette(void);
+void    TileViewer_SelectedTile_Select(t_widget *w);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-// DRAW A 8x8 SPRITE TILE -----------------------------------------------------
-static void     Draw_One_Tile (byte *Palette, byte *p0, int x, int y)
-{
-    int         i;
-    u8 *        p2;
-
-    for (i = 0; i < 8; i ++)
-    {
-        p2 = &apps.gfx.Tiles->line[y++][x];
-        *p2++ = Palette[*p0++];
-        *p2++ = Palette[*p0++];
-        *p2++ = Palette[*p0++];
-        *p2++ = Palette[*p0++];
-        *p2++ = Palette[*p0++];
-        *p2++ = Palette[*p0++];
-        *p2++ = Palette[*p0++];
-        *p2   = Palette[*p0++];
-    }
-}
-
 void    TileViewer_Init_Values (void)
 {
-    TileViewer.palette          = 0;
-    TileViewer.palette_max      = 2;
-    TileViewer.tile_displayed   = -1;
-    TileViewer.tile_hovered     = -1;
-    TileViewer.tile_selected    = -1;
-    TileViewer.tiles_count      = 448;
-    TileViewer.tiles_width      = -1;
-    TileViewer.tiles_height     = -1;
+    TileViewer.active               = FALSE;
+    TileViewer.dirty                = TRUE;
+    TileViewer.palette              = 0;
+    TileViewer.palette_max          = 2;
+    TileViewer.tile_displayed       = -1;
+    TileViewer.tile_hovered         = -1;
+    TileViewer.tile_selected        = -1;
+    TileViewer.tiles_count          = 512;  // 448
+    TileViewer.tiles_width          = -1;
+    TileViewer.tiles_height         = -1;
     TileViewer.tiles_display_zone   = NULL;
 }
 
 // CREATE AND INITIALIZE TILE VIEWER APPLET ----------------------------------
 void    TileViewer_Init (void)
 {
-    int tile_size_x, tile_size_y;
+    t_app_tile_viewer *app = &TileViewer; // Global instance
     t_frame frame;
 
-    TileViewer.tiles_width  = 16;
-    TileViewer.tiles_height = TileViewer.tiles_count / TileViewer.tiles_width;
-    tile_size_x = TileViewer.tiles_width  * 8;
-    tile_size_y = TileViewer.tiles_height * 8;
+    // Setup members
+    app->tiles_width  = 16;
+    app->tiles_height = app->tiles_count / app->tiles_width;
+    app->tiles_display_frame.pos.x = 0;
+    app->tiles_display_frame.pos.y = 0;
+    app->tiles_display_frame.size.x = TileViewer.tiles_width  * 8;
+    app->tiles_display_frame.size.y = TileViewer.tiles_height * 8;
 
-    apps.id.Tiles = gui_box_create (503, 48, tile_size_x - 1, tile_size_y + 13 - 1,
-        Msg_Get (MSG_TilesViewer_BoxTitle));
-    apps.gfx.Tiles = create_bitmap (tile_size_x, tile_size_y + 13);
-    gui_set_image_box (apps.id.Tiles, apps.gfx.Tiles);
-    gui.box [apps.id.Tiles]->update = TileViewer_Update;
-    widget_closebox_add (apps.id.Tiles, TileViewer_Switch);
+    // Create box
+    frame.pos.x     = 503;
+    frame.pos.y     = 48;
+    frame.size.x    = app->tiles_display_frame.size.x - 1;
+    frame.size.y    = app->tiles_display_frame.size.y + 13 - 1;
+    app->box = gui_box_new(&frame, Msg_Get(MSG_TilesViewer_BoxTitle));
+    Desktop_Register_Box ("TILES", app->box, FALSE, &app->active);
 
-    frame.pos.x = 0;
-    frame.pos.y = 0;
-    frame.size.x = tile_size_x - 1;
-    frame.size.y = tile_size_y - 1;
-    TileViewer.tiles_display_zone = widget_button_add (apps.id.Tiles, &frame, 1, TileViewer_SelectedTile_Select);
-    widget_button_add (apps.id.Tiles, &frame, 2, TileViewer_Change_Palette);
-    line (apps.gfx.Tiles, 0, tile_size_y, tile_size_x - 1, tile_size_y, GUI_COL_BORDERS);
-    gui_rect (apps.gfx.Tiles, LOOK_THIN, 2, tile_size_y + 1, 2 + 11, tile_size_y + 1 + 11, GUI_COL_BORDERS);
-
-    Desktop_Register_Box ("TILES", apps.id.Tiles, 0, &apps.active.Tiles);
+    // Layout
+    TileViewer_Layout(&TileViewer, TRUE);
 }
 
-// UPDATE THE TILE VIEWER APPLET ----------------------------------------------
-void    TileViewer_Update (void)
+void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
+{
+    // Clear
+    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+
+    if (setup)
+    {
+        // Add closebox widget
+        widget_closebox_add(app->box, TileViewer_Switch);
+
+        // Create invisible buttons for hovering/selecting palette
+        TileViewer.tiles_display_zone = widget_button_add(TileViewer.box, &app->tiles_display_frame, 1, TileViewer_SelectedTile_Select, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &app->tiles_display_frame, 2, TileViewer_Change_Palette, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+    }
+
+    // Separation line
+    line(app->box->gfx_buffer, 0, app->tiles_display_frame.size.y, app->tiles_display_frame.size.x - 1, app->tiles_display_frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+    // Rectangle enclosing current/selected tile
+    gui_rect(app->box->gfx_buffer, LOOK_THIN, 2, app->tiles_display_frame.size.y + 1, 2 + 11, app->tiles_display_frame.size.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+}
+
+void    TileViewer_Update(t_app_tile_viewer *app)
 {
     int     x, y;
-    int     must_redraw = NO;
+    bool    dirty;
+    bool    dirty_all;
     int     tile_current;
     bool    tile_current_refresh;
     int     tile_current_addr;
-    bool    palette_dirty = Palette_Emu_Dirty_Any || Palette_Refs_Dirty_Any;
+    BITMAP *bmp = TileViewer.box->gfx_buffer;
+
+    // Skip update if not active
+    if (!app->active)
+        return;
+
+    // If skin has changed, redraw everything
+    if (app->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
+    {
+        TileViewer_Layout(app, FALSE);
+        app->box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+        app->dirty = TRUE;
+    }
+
+    dirty_all = app->dirty || Palette_EmulationDirtyAny;
+    dirty = dirty_all;
 
     // Update hovered tile index
     {
-        int mx = TileViewer.tiles_display_zone->mx;
-        int my = TileViewer.tiles_display_zone->my;
+        int mx = TileViewer.tiles_display_zone->mouse_x;
+        int my = TileViewer.tiles_display_zone->mouse_y;
         // Msg (MSGT_USER, "mx = %d, my = %d", mx, my);
         if (mx != -1 && my != -1)
             TileViewer.tile_hovered = ((my / 8) * 16) + mx / 8;
@@ -104,8 +123,8 @@ void    TileViewer_Update (void)
     }
 
     // Compute the tile that is to display in the bottom info line
-    tile_current = (TileViewer.tile_hovered != -1) ? TileViewer.tile_hovered : TileViewer.tile_selected;
-    tile_current_refresh = (tile_current == -1) ? FALSE : ((tile_current != TileViewer.tile_displayed || palette_dirty || tgfx.Tile_Dirty [tile_current]));
+    tile_current = (app->tile_hovered != -1) ? app->tile_hovered : app->tile_selected;
+    tile_current_refresh = /*(tile_current == -1) ? FALSE : */ (((tile_current != app->tile_displayed) || dirty_all || tgfx.Tile_Dirty [tile_current]));
     tile_current_addr = -1;
 
     // Then redraw all tiles
@@ -114,18 +133,18 @@ void    TileViewer_Update (void)
     case VDP_SMSGG:
         {
             int     n = 0;
-            char *  nd = &tgfx.Tile_Decoded[0][0];
-            u8 *    palette = TileViewer.palette ? &Palette_Refs[16] : &Palette_Refs[0];
-            for (y = 0; y < TileViewer.tiles_height; y++)
-                for (x = 0; x < TileViewer.tiles_width; x++)
+            u8 *    nd = &tgfx.Tile_Decoded[0][0];
+            int *   palette_host = TileViewer.palette ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
+            for (y = 0; y != TileViewer.tiles_height; y++)
+                for (x = 0; x != TileViewer.tiles_width; x++)
                 {
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
                         Decode_Tile (n);
-                    if (palette_dirty || tgfx.Tile_Dirty [n])
+                    if (dirty_all || tgfx.Tile_Dirty [n])
                     {
-                        Draw_One_Tile (palette, nd, (x * 8), (y * 8));
+                        VDP_Mode4_DrawTile(TileViewer.box->gfx_buffer, nd, palette_host, (x * 8), (y * 8), 0);
                         tgfx.Tile_Dirty [n] = 0;
-                        must_redraw = YES;
+                        dirty = TRUE;
                     }
                     if (n == tile_current)
                         tile_current_addr = 0x0000 + (n * 32);
@@ -134,43 +153,45 @@ void    TileViewer_Update (void)
                 }
                 break;
         }
-    case VDP_TMS:
+    case VDP_TMS9918:
         {
-            const int fg_color = (TileViewer.palette + 1);
-            const int bg_color = (fg_color != 1) ? 1 : 15;
+            const int fg_color = Palette_EmulationToHost[TileViewer.palette + 1];
+            const int bg_color = Palette_EmulationToHost[(TileViewer.palette != 0) ? 1 : 15];
             u8 * addr = SG_BACK_TILE;
             // addr = &VRAM[apps.opt.Tiles_Base];
             // addr = VRAM;
             int n = 0;
-            for (y = 0; y < TileViewer.tiles_height; y ++)
-                for (x = 0; x < TileViewer.tiles_width; x ++)
+            for (y = 0; y != TileViewer.tiles_height; y ++)
+                for (x = 0; x != TileViewer.tiles_width; x ++)
                 {
                     if ((addr - VRAM) > 0x4000)
                         break;
-                    Draw_Tile_Mono (apps.gfx.Tiles, addr, (x * 8), (y * 8), fg_color, bg_color);
+                    VDP_Mode0123_DrawTile(bmp, addr, (x * 8), (y * 8), fg_color, bg_color);
                     if (n == tile_current)
                         tile_current_addr = 0x0000 + (n * 8);
                     n++;
                     addr += 8;
                 }
-                must_redraw = YES; // to be replaced later
+                dirty = TRUE; // to be replaced later
                 break;
         }
     case VDP_NES:
         {
             int     n = 0;
-            char *  nd = &tgfx.Tile_Decoded[0][0];
-            u8 *    palette = TileViewer.palette ? &PRAM[16] : &PRAM[0];
-            for (y = 0; y < TileViewer.tiles_height; y ++)
-                for (x = 0; x < TileViewer.tiles_width; x ++)
+            u8 *    nd = &tgfx.Tile_Decoded[0][0];
+//            u8 *    palette = TileViewer.palette ? &PRAM[16] : &PRAM[0];
+            int *   palette_host = TileViewer.palette ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
+            // FIXME-DEPTH: untested
+            for (y = 0; y != TileViewer.tiles_height; y ++)
+                for (x = 0; x != TileViewer.tiles_width; x ++)
                 {
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
                         NES_Decode_Tile (n);
-                    if (palette_dirty || tgfx.Tile_Dirty [n])
+                    if (dirty_all || tgfx.Tile_Dirty [n])
                     {
-                        Draw_One_Tile (palette, nd, (x * 8), (y * 8));
+                        VDP_Mode4_DrawTile(TileViewer.box->gfx_buffer, nd, palette_host, (x * 8), (y * 8), 0);
                         tgfx.Tile_Dirty [n] = 0;
-                        must_redraw = YES;
+                        dirty = TRUE;
                     }
                     if (n == tile_current)
                         tile_current_addr = 0x0000 + (n * 32);
@@ -180,73 +201,80 @@ void    TileViewer_Update (void)
                 break;
         }
     }
-    Palette_Refs_Dirty_Any = NO;
 
     // First refresh bottom tile info
-    if (tile_current_refresh)
+    if (dirty_all || tile_current_refresh)
     {
-        char s[128];
-        char addr[8];
-        int y = (TileViewer.tiles_height * 8);
+        const int y = (app->tiles_height * 8);
+        rectfill(bmp, 16, y + 1, 127, y + 11, COLOR_SKIN_WINDOW_BACKGROUND);
+        dirty = TRUE;
 
-        if (tile_current_addr != -1)
-            sprintf(addr, "0x%04X", tile_current_addr);
+        if (tile_current != -1)
+        {
+            char s[128];
+            char addr[16];
+
+            // Tile 
+            blit(bmp, bmp, (tile_current % 16) * 8, (tile_current / 16) * 8, 4, app->tiles_height * 8 + 3, 8, 8);
+
+            // Description
+            if (tile_current_addr != -1)
+                sprintf(addr, "$%04X", tile_current_addr);
+            else
+                sprintf(addr, "????");
+            sprintf (s, Msg_Get(MSG_TilesViewer_Tile), tile_current, tile_current, addr);
+            Font_Print (F_SMALL, bmp, s, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
+            app->tile_displayed = tile_current;
+        }
         else
-            sprintf(addr, "????");
-
-        sprintf (s, Msg_Get(MSG_TilesViewer_Tile), tile_current, tile_current, addr);
-        rectfill (apps.gfx.Tiles, 16, y + 1, 127, y + 11, GUI_COL_FILL);
-        blit (apps.gfx.Tiles, apps.gfx.Tiles, (tile_current % 16) * 8, (tile_current / 16) * 8, 4, TileViewer.tiles_height * 8 + 3, 8, 8);
-        Font_Print (F_SMALL, apps.gfx.Tiles, s, 16, y + 1, GUI_COL_TEXT_IN_BOX);
-        must_redraw = TRUE;
-        TileViewer.tile_displayed = tile_current;
+        {
+            // Fill tile with black
+            rectfill(bmp, 4, app->tiles_height * 8 + 3, 4+7, app->tiles_height * 8 + 3+7, COLOR_BLACK);
+        }
     }
 
-    if (must_redraw)
-        gui.box[apps.id.Tiles]->must_redraw = YES;
+    if (dirty_all || dirty)
+    {
+        app->dirty = FALSE;
+        app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    }
 }
 
 // CHANGE THE PALETTE USED IN THE TILE VIEWER ---------------------------------
 void    TileViewer_Change_Palette (void)
 {
-    int   i;
+    //int   i;
     TileViewer.palette = (TileViewer.palette + 1) % TileViewer.palette_max;
-    for (i = 0; i < MAX_TILES; i++)
-        tgfx.Tile_Dirty [i] |= TILE_DIRTY_REDRAW;
-    TileViewer_Update ();
+    //for (i = 0; i < MAX_TILES; i++)
+    //    tgfx.Tile_Dirty [i] |= TILE_DIRTY_REDRAW;
+    TileViewer.dirty = TRUE;
 }
 
 void        TileViewer_Configure_PaletteMax (int palette_max)
 {
-    int     i;
-
+    //int     i;
     if (palette_max == TileViewer.palette_max)
         return;
     TileViewer.palette_max = palette_max;
     if (TileViewer.palette >= palette_max)
         TileViewer.palette %= palette_max;
-    for (i = 0; i < MAX_TILES; i++)
-        tgfx.Tile_Dirty [i] |= TILE_DIRTY_REDRAW;
-    // FIXME: This can potentially crash in NES mode, as NES_VRAM_Banks[] pointers are not set the first time
-    TileViewer_Update ();
+    TileViewer.dirty = TRUE;
 }
 
 void    TileViewer_SelectedTile_Select (t_widget *w)
 {
-    if (w->mx != -1 && w->my != -1)
-    {
-        TileViewer.tile_selected = ((w->my / 8) * 16) + w->mx / 8;
-    }
+    if (w->mouse_x != -1 && w->mouse_y != -1)
+        TileViewer.tile_selected = ((w->mouse_y / 8) * 16) + (w->mouse_x / 8);
 }
 
 // ACTION: ENABLE OR DISABLE TILES VIEWER -------------------------------------
 void    TileViewer_Switch (void)
 {
-    if (apps.active.Tiles ^= 1)
+    if (TileViewer.active ^= 1)
         Msg (MSGT_USER, Msg_Get (MSG_TilesViewer_Enabled));
     else
         Msg (MSGT_USER, Msg_Get (MSG_TilesViewer_Disabled));
-    gui_box_show (gui.box[apps.id.Tiles], apps.active.Tiles, TRUE);
+    gui_box_show (TileViewer.box, TileViewer.active, TRUE);
     gui_menu_inverse_check (menus_ID.tools, 2);
 }
 

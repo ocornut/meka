@@ -1,5 +1,5 @@
 
-  MEKA 0.71 - Documentation
+  MEKA 0.72 - Documentation
  ===========================
   Multi machine emulator for MS-DOS, MS-Windows and GNU/Linux.
   (c) in 1998-2005 by MEKA team (Omar Cornut and contributors, list below).
@@ -7,6 +7,7 @@
   Homepage: http://www.smspower.org/meka
  ==========================================================================
   This documentation is best viewed with a fixed width font.
+  Please forgive my sometimes flaky english.
 
 ----------------------------------------------------------------------------
  Level 0 : I am a busy guy
@@ -462,42 +463,42 @@
 
  Common to all systems
  ---------------------
-  D-Pad ...................... Arrow Keys
-  Button 1 ................... Left Control
-  Button 2 ................... Left Alternate
+  D-Pad ........................... Arrow Keys (default)
+  Button 1 ........................ Left Control (default)
+  Button 2 ........................ Left Alternate (default)
 
  Master System / SG-1000
  -----------------------
-  Soft Pause ................. Space
+  Soft Pause ...................... Space
     This is the same pause as if you pressed the button on a real machine.
     It can be used only if the game supports it at the moment you press it.
     On some game, pressing pause will get you a menu, etc..
-  Hard Pause ................. Alt-P or F12
+  Hard Pause ...................... ALT+P or F12
     This "special" pause with simply freeze the game, without changing
     anything. It is usable everytime, everywhere.
-  Soft Reset ................. Backspace
+  Soft Reset ...................... Backspace
     This is the same reset as if you pressed the button on a real machine.
     It can be used only if the game supports it at the moment you press it.
     On some emulated systems that does not support software reset, like the
     Game Gear, pressing this key will actually produces an hard reset.
-  Hard Reset ................. Alt+Backspace
+  Hard Reset ...................... ALT+Backspace
     This "special" reset with completly reset the emulated system.
     It is usable everytime, everywhere.
 
  Game Gear
  ---------
-  Start ...................... Space
-  Hard Reset ................. Backspace
+  Start ........................... Space
+  Hard Reset ...................... Backspace
 
  SC-3000/SF-7000 (anytime using the SK-1100, in fact)
  ----------------------------------------------------
-  Soft Reset ................. Break
+  Soft Reset ...................... Break
 
  Other keys are mapped at the same place as the Sega Keyboard (SK-1100).
  So be sure to look at the provided picture carefully. For example:
 
-  Control .................... Caps Lock
-  Graph ...................... Left Control
+  Control ......................... Caps Lock
+  Graph ........................... Left Control
 
  The "Pi" key, also used to type the "Ro" kana in Japanese, has
  unfortunately no equivalent on today's PC keyboard of most countries.
@@ -509,32 +510,36 @@
 
  ColecoVision
  ------------
-  Numeric Pad ................ Keys 0 to 9, Minus and Equal
+  Numeric Pad ..................... Keys 0 to 9, Minus and Equal
 
  Miscellaneous keys
  ------------------
-  Switch to next fullscreen blitter ........................ F1
-  Switch between automatic and standard frameskipping ...... F2
-  Decrease speed (automatic) or frameskip (standard) ....... F3
-  Increase speed (automatic) or frameskip (standard) ....... F4
+  Switch to next fullscreen blitter ....................... F1
+  Switch between automatic and standard frameskipping ..... F2
+  Decrease speed (automatic) or frameskip (standard) ...... F3
+  Increase speed (automatic) or frameskip (standard) ...... F4
 
-  Save Game State ............ F5
-  Load Game State ............ F7
-  Previous/Next Slot ......... F6/F8
+  Save Game State ................. F5
+  Load Game State ................. F7
+  Previous State Slot ............. F6
+  Next State Slot ................. F8
 
-  Show FPS counter ........... Alt+F
+  Show FPS counter ................ ALT+F
 
-  Change control device ...... F9
-  Enable/Disable keyboard .... Alt+F9
+  Change emulated peripheral ...... F9
+  Enable/Disable Sega keyboard .... ALT+F9
 
-  Enable/Disable sprites ..... F11
-  Enable/Disable background .. Alt+F11
+  Enable/Disable sprites .......... F11
+  Enable/Disable background ....... ALT+F11
 
-  Enable/Disable debugger .... Scroll Lock (*1)
+  Enable/Disable debugger ......... Scroll Lock (*1)
+  
+  Close current window ............ CTRL+F4
+  Cycle thru inputs windows ....... CTRL+TAB
 
-  Quit emulator .............. F10
-  Save screen to a file ...... PrintScreen (*2)
-  Switch fullscreen/windowed.. Alt+Enter
+  Quit emulator ................... F10
+  Save screen to a file ........... PrintScreen (*2)
+  Switch fullscreen/windowed....... ALT+Enter
 
   (*1) Debugger must be activated. See "How to use the debugger".
 
@@ -717,7 +722,7 @@
                    75019 Paris
                    France
 
- My PayPal account (very practical) is :  cornut @ noos . fr
+ My PayPal account is :  cornut @ noos . fr
 
  Finally, if your main pretext for not donating is lazyness, then you
  know yourself it is not a valid pretext :)
@@ -728,9 +733,9 @@
  kill them by sending ultra sonic waves through the PC speakers. 
  Just don't say I made it for the money, please.
 
- Users who donated will receive information and new version before others.
- They will also get access to ROM on SMS Power, and more importantly: the
- great feeling of helping a project to improve.
+ Users who donated will get subscribed to a newsletter and be notified of
+ new releases. They will also get access to ROM on SMS Power, and more 
+ importantly: the great feeling of helping a project to improve.
 
  Enjoy!
 
@@ -1234,3 +1239,4 @@
       .  |    |   | |   .     .       .     .                .
   .      |    |   | |             .                .                .   .
 ----------------------------------------------------------------------------
+             

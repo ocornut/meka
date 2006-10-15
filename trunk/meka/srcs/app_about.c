@@ -7,79 +7,108 @@
 #include "desktop.h"
 #include "g_widget.h"
 #include "inputs_t.h"
+#include "app_about.h"
+#include "games.h"
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
-{
-    t_gui_box *     box;
-} t_about_box;
+t_app_about_box     AboutBox;
 
-t_about_box         AboutBox;
+//-----------------------------------------------------------------------------
+// Forward Declaration
+//-----------------------------------------------------------------------------
+
+static void         AboutBox_Layout(bool setup);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    About_Switch (void)
+void    AboutBox_Switch (void)
 {
-    int    menu_pos;
+#ifdef DOS
+    int menu_pos = 4;
+#else
+    int menu_pos = 5;
+#endif
 
-    #ifdef DOS
-        menu_pos = 4;
-    #else
-        menu_pos = 5;
-    #endif
-    apps.active.About ^= 1;
-    gui_box_show (gui.box[apps.id.About], apps.active.About, TRUE);
+	AboutBox.active ^= 1;
+	gui_box_show (AboutBox.box, AboutBox.active, TRUE);
     gui_menu_inverse_check (menus_ID.help, menu_pos);
 
     // Easter egg: BrainWash
-    if (Inputs_KeyPressed (KEY_LCONTROL, NO))
+    if (Inputs_KeyPressed (KEY_LCONTROL, FALSE))
         BrainWash_Start ();
 }
 
-void    About_Init (void)
+static void     AboutBox_Layout(bool setup)
 {
-  int   i, x, y;
+    t_app_about_box *app = &AboutBox;	// Global instance
 
-  apps.id.About = gui_box_create (285, 60, 346, 92, Msg_Get (MSG_About_BoxTitle));
-  AboutBox.box = gui.box[apps.id.About];
-  apps.gfx.About = create_bitmap (AboutBox.box->frame.size.x + 1, AboutBox.box->frame.size.y + 1);
-  gui_set_image_box (apps.id.About, apps.gfx.About);
-  Desktop_Register_Box ("ABOUT", apps.id.About, 0, &apps.active.About);
+    // Clear
+    clear_to_color(AboutBox.box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
 
-  widget_closebox_add (AboutBox.box->stupid_id, About_Switch);
-  draw_sprite (apps.gfx.About, Graphics.Misc.Dragon, 10, (AboutBox.box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
+    if (setup)
+    {
+        // Add closebox widget
+        widget_closebox_add(app->box, AboutBox_Switch);
+    }
 
-  y = 9;
-  Font_SetCurrent (F_LARGE);
-  for (i = 0; i < 4; i ++)
-      {
-      switch (i)
-         {
-         case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), PROG_NAME_VER, PROG_DATE); break;
-         case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), PROG_AUTHORS_SHORT); break;
-         case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), PROG_HOMEPAGE); break;
-         case 3: sprintf (GenericBuffer, "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
-         /*
-         case 3: if (registered.is)
-                    {
-                    strcpy (GenericBuffer, "Registered version");
-                    }
-                 else
-                    {
-                    strcpy (GenericBuffer, "Unregistered version");
-                    }
-                 break;
-         */
-         }
-      x = (( (AboutBox.box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, GenericBuffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;
-      Font_Print (-1, apps.gfx.About, GenericBuffer, x, y, GUI_COL_TEXT_IN_BOX);
-      y += Font_Height (-1) + 3;
-      }
+    // Draw MEKA dragon sprite
+	draw_sprite (app->box->gfx_buffer, Graphics.Misc.Dragon, 10, (app->box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
+
+    // Print about information lines
+    {
+        int i;
+        int y = 9;
+	    Font_SetCurrent (F_LARGE);
+	    for (i = 0; i < 4; i ++)
+	    {
+            int x;
+		    switch (i)
+		    {
+		    case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), PROG_NAME_VER, PROG_DATE); break;
+		    case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), PROG_AUTHORS_SHORT); break;
+		    case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), PROG_HOMEPAGE); break;
+		    case 3: sprintf (GenericBuffer, "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
+		    }
+		    x = (( (app->box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, GenericBuffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;
+		    Font_Print (-1, app->box->gfx_buffer, GenericBuffer, x, y, COLOR_SKIN_WINDOW_TEXT);
+		    y += Font_Height (-1) + 3;
+	    }
+    }
+}
+
+void            AboutBox_Init (void)
+{
+    t_app_about_box *app = &AboutBox;	// Global instance
+
+    t_frame frame;
+	frame.pos.x = 285;
+	frame.pos.y = 60;
+	frame.size.x = 346;
+	frame.size.y = 93;
+    app->box = gui_box_new(&frame, Msg_Get(MSG_About_BoxTitle));
+	Desktop_Register_Box("ABOUT", app->box, 0, &AboutBox.active);
+
+    // Layout
+    AboutBox_Layout(TRUE);
+}
+
+void        AboutBox_Update()
+{
+    // Skip update if not active
+    if (!AboutBox.active)
+        return;
+
+    // If skin has changed, redraw everything
+    if (AboutBox.box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
+    {
+        AboutBox_Layout(FALSE);
+        AboutBox.box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+    }
 }
 
 //-----------------------------------------------------------------------------

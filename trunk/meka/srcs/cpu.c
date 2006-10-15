@@ -6,9 +6,12 @@
 #include "shared.h"
 #include "patch.h"
 #include "vdp.h"
+#include "video_m2.h"
+#include "video_m5.h"
+#include "debugger.h"
 
 //-----------------------------------------------------------------------------
-// Note: only MARAT_Z80 is functionnal/compiles now.
+// Note: only MARAT_Z80 is functional/compiles now.
 //-----------------------------------------------------------------------------
 
 // Z80 scanline handler
@@ -23,6 +26,11 @@ word    Loop_SMS (void)
     int Interrupt = INT_NONE;
 
     tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
+    // Debugger hook
+    #ifdef MEKA_Z80_DEBUGGER
+		if (Debugger.active)
+			Debugger_RasterLine_Hook(tsms.VDP_Line);
+	#endif
 
     // Update sound cycle counter
     Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
@@ -31,18 +39,19 @@ word    Loop_SMS (void)
     if (tsms.VDP_Line == 0)
     {
         Interrupt_Loop_Misc_Line_Zero ();
-        X_Scroll = X_Scroll_Next;
-        Y_Scroll = sms.VDP [9];
+        cur_machine.VDP.scroll_x_latched = sms.VDP[8];
+        cur_machine.VDP.scroll_y_latched = sms.VDP[9];
         sms.Lines_Left = sms.VDP [10];
     }
 
     // Screen Refresh
     if (tsms.VDP_Line >= cur_drv->y_show_start && tsms.VDP_Line <= cur_drv->y_show_end)
     {
+        cur_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = cur_machine.VDP.scroll_x_latched;
         if (tsms.VDP_VideoMode > 3)
-            Refresh_Line_5 ();
-        X_Scroll = X_Scroll_Next;
-        if (cur_drv->vdp == VDP_TMS)
+            Refresh_Line_5();
+        cur_machine.VDP.scroll_x_latched = sms.VDP[8];
+        if (cur_drv->vdp == VDP_TMS9918)
             Check_Sprites_Collision_Modes_1_2_3_Line (tsms.VDP_Line);
         if (tsms.VDP_Line == cur_drv->y_show_end)
         {
@@ -60,7 +69,7 @@ word    Loop_SMS (void)
         if (sms.Lines_Left -- <= 0)
         {
             sms.Lines_Left = sms.VDP [10];
-            sms.Need_HBlank = YES;
+            sms.Need_HBlank = TRUE;
             #ifdef DEBUG_VDP
                 Msg (MSGT_DEBUG, "%d @ Lines_Left == 0, HBlank == %d, Reloading VDP[10] = %d", tsms.VDP_Line, (HBlank_ON) ? 1 : 0, sms.VDP [10]);
             #endif

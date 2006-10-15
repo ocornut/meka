@@ -21,7 +21,7 @@ void    Inputs_Key_Eat                  (int keycode);
 void    Inputs_KeyPressQueue_Remove     (t_key_press *keypress);
 void    Inputs_KeyPressQueue_Clear      (void);
 
-int     Inputs_KeyPressed               (int keycode, int eat);
-int     Inputs_KeyPressed_Repeat        (int keycode, int eat, int delay, int rate);
+int     Inputs_KeyPressed               (int keycode, bool eat);
+int     Inputs_KeyPressed_Repeat        (int keycode, bool eat, int delay, int rate);
 
 //-----------------------------------------------------------------------------

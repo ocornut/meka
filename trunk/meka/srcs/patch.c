@@ -6,6 +6,7 @@
 // #define DEBUG_PATCHES
 #include "shared.h"
 #include "patch.h"
+#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Patch_New (void)

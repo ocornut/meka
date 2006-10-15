@@ -5,10 +5,34 @@
 
 #include "shared.h"
 
-// OLD STUFFS -----------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// Forward declaration
+//-----------------------------------------------------------------------------
 
-int  Sound_Rate_Default_Table[4] =
-{ 11025, 22050, 44100, -1 };
+static void		Sound_Volume_Menu_Handler(t_menu_event *event);
+static void		Sound_Rate_Menu_Handler(t_menu_event *event);
+
+//-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+int		Sound_Rate_Default_Table[4] =
+{ 
+	11025, 
+	22050, 
+	44100, 
+	-1
+};
+
+// Global
+int		sound_vcount, sound_icount;
+int		Sound_Update_Count;
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
+
+// OLD STUFFS -----------------------------------------------------------------
 
 //
 // Note from OMAR:
@@ -66,7 +90,7 @@ double  Sound_Calc_CPU_Time (void)
 
 void    FM_Disable (void)
 {
-    Sound.FM_Enabled = NO;
+    Sound.FM_Enabled = FALSE;
     Msg (MSGT_USER, Msg_Get (MSG_FM_Disabled));
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
     gui_menu_un_check_area (menus_ID.fm, 0, 1);
@@ -75,7 +99,7 @@ void    FM_Disable (void)
 
 void    FM_Enable (void)
 {
-    Sound.FM_Enabled = YES;
+    Sound.FM_Enabled = TRUE;
     Msg (MSGT_USER, Msg_Get (MSG_FM_Enabled));
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
     gui_menu_un_check_area (menus_ID.fm, 0, 1);
@@ -118,16 +142,19 @@ void    Sound_Volume_Menu_Init (int menu_id)
             sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Volume_Mute));
         else
             sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Volume_Value), i);
-        menu_add_item  (menu_id, GenericBuffer, AM_Nothing | Is_Checked (i - 9 < master_volume_100 && i + 9 > master_volume_100), Sound_Volume_Menu_Handler);
+        menu_add_item(menu_id, GenericBuffer, AM_Nothing | Is_Checked (i - 9 < master_volume_100 && i + 9 > master_volume_100), 
+			Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
     }
 }
 
-void    Sound_Volume_Menu_Handler (int pos)
+void    Sound_Volume_Menu_Handler (t_menu_event *event)
 {
-    Sound_MasterVolume_Set ((float)(pos * 20) * ((float)128 / 100));
-    Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Volume_Changed), pos * 20);
+	const int volume = (int)event->user_data;
+
+	Sound_MasterVolume_Set(volume);
+    Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Volume_Changed), volume);
     gui_menu_un_check (menus_ID.volume);
-    gui_menu_check (menus_ID.volume, pos);
+	gui_menu_check (menus_ID.volume, event->menu_item_idx);
 }
 
 // SOUND->RATE menu -----------------------------------------------------------
@@ -135,17 +162,13 @@ void    Sound_Volume_Menu_Handler (int pos)
 void    Sound_Rate_Menu_Init (int menu_id)
 {
     int    i;
-    int    found;
 
-    found = NO;
-    for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
+	for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
     {
         sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table [i]);
-        menu_add_item (menus_ID.rate, GenericBuffer, AM_Active, Sound_Rate_Menu_Handler);
-        if (Sound_Rate_Default_Table[i] == Sound.SampleRate)
-            found = YES;
+        menu_add_item (menus_ID.rate, GenericBuffer, AM_Active, Sound_Rate_Menu_Handler, (void *)Sound_Rate_Default_Table[i]);
     }
-    Sound_Rate_Set (Sound.SampleRate, NO);
+    Sound_Rate_Set (Sound.SampleRate, FALSE);
 }
 
 void    Sound_Rate_Set (int value, int reinit_hardware)
@@ -166,24 +189,19 @@ void    Sound_Rate_Set (int value, int reinit_hardware)
         }
 }
 
-void    Sound_Rate_Menu_Handler (int pos)
+void    Sound_Rate_Menu_Handler (t_menu_event *event)
 {
-    int    i;
-
-    for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
-        if (i == pos)
-        {
-            Sound_Rate_Set (Sound_Rate_Default_Table[i], YES);
-            return;
-        }
-        Msg (MSGT_DEBUG, "Error #3731 - Please contact me!");
+	const int sound_rate = (int)event->user_data;
+    Sound_Rate_Set (sound_rate, TRUE);
 }
 
 // SOUND->CHANNELS menu -------------------------------------------------------
 
-void    Sound_Channels_Menu_Handler (int channel)
+void    Sound_Channels_Menu_Handler(t_menu_event *event)
 {
-    PSG.Channels[channel].Active ^= 1;
-    gui_menu_inverse_check (menus_ID.channels, channel);
+	const int channel_idx = (int)event->user_data;
+
+    PSG.Channels[channel_idx].Active ^= 1;
+    gui_menu_inverse_check (menus_ID.channels, channel_idx);
 }
 

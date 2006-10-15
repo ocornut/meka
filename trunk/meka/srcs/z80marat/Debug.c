@@ -27,7 +27,7 @@
 //   *h   1-byte direct value
 //   @h   1-byte relative offset
 //   I%   IX/IY
-//   ^H   IX/IY 1-byte relative offset
+//   ^h   IX/IY 1-byte relative offset
 // ???
 //
 // I'm not sure to understand everything. The code is hell to decipher.
@@ -285,8 +285,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
     if ((P=strchr(T,'^')) != NULL)
     {
         strncpy(R,T,P-T);R[P-T]='\0';
-        sprintf(H,"%02X",RdZ80_NoHook(B++&0xFFFF));
-        strcat(R,H);strcat(R,P+1);
+        sprintf(H,"%02Xh",RdZ80_NoHook(B++&0xFFFF));
+        strcat(R,H);strcat(R,P+2);
     }
     else 
         strcpy(R,T);
@@ -305,8 +305,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
         if (S != NULL)
         {
             strncpy(S,R,P-R);S[P-R]='\0';
-            sprintf(H,"%02X",RdZ80_NoHook(B++&0xFFFF));
-            strcat(S,H);strcat(S,P+1);
+            sprintf(H,"%02Xh",RdZ80_NoHook(B++&0xFFFF));
+            strcat(S,H);strcat(S,P+2);
         }
         else
         {
@@ -323,8 +323,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                     Offset=RdZ80_NoHook(B++&0xFFFF);
                 if (resolve_indirect_offsets && relative_offset_base == 0)
                 {
-                    u16 target = B + (signed char)Offset;
-                    char sign = (Offset & 0x80) ? '-' : '+';
+                    const u16 target = B + (signed char)Offset;
+                    const char sign = (Offset & 0x80) ? '-' : '+';
                     J = (Offset & 0x80) ? 256 - Offset : Offset;
                     sprintf(H, "%c%02Xh (%04Xh)", sign, J, target);
                     strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
@@ -333,8 +333,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                 {
                     strcat(S,Offset&0x80? "-":"+");
                     J=Offset&0x80? 256-Offset:Offset;
-                    sprintf(H,"%02X",J);
-                    strcat(S,H);strcat(S,P+1);
+                    sprintf(H,"%02Xh",J);
+                    strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
                 }
             }
             else
@@ -358,8 +358,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                     else
                     {
                         strncpy(S,R,P-R);S[P-R]='\0';
-                        sprintf(H,"%04X", addr);
-                        strcat(S,H);strcat(S,P+1);
+                        sprintf(H,"%04Xh", addr);
+                        strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
                     }
                 }
                 B += 2;

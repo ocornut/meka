@@ -19,7 +19,7 @@ void    FB_Switch               (void);
 void    FB_Init_Values          (void);
 void    FB_Init                 (void);
 void    FB_Init_2               (void);
-void    FB_Update_Inputs        (void);
+void    FB_Update               (void);
 void    FB_Free_Memory          (void);
 
 void    FB_Load_Directory       (void);
@@ -41,16 +41,19 @@ typedef struct
 
 typedef struct
 {
-    BITMAP *    bmp;
-    byte        active, id;
+    t_gui_box *         box;
+    BITMAP *            bmp;
+    bool                active;
     t_filebrowser_entry **  files;
-    int                     files_max;
-    int                     file_pos;
-    int                     file_display_first;
-    int                     file_first, file_last; // Other are directories & drives
-    int         last_click;
-    char        current_directory [FILENAME_LEN+1];
-    int         res_x, file_y;
+    int                 files_max;
+    int                 file_pos;
+    int                 file_display_first;
+    int                 file_first, file_last; // Other are directories & drives
+    int                 last_click;
+    char                current_directory [FILENAME_LEN+1];
+    int                 res_x, file_y;
+
+    t_widget *          widget_scrollbar;
 } t_filebrowser;
 
 t_filebrowser   FB;

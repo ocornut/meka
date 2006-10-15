@@ -44,6 +44,8 @@ void    gui_update_menus (void);
 // FIXME: Finish and obsolete old API
 //-----------------------------------------------------------------------------
 
+// WIP
+/*
 typedef struct
 {
     t_list *            items;
@@ -66,7 +68,7 @@ typedef enum
 typedef struct t_menu_item
 {
     char *              label;                                      // Menu item label
-    int                 label_msg_ref;                              // Reference to MSG ID For localization purpose
+    int                 label_msg_ref;                              // Reference to MSG ID For localization purpose	// FIXME: How to handle dynamic message with format strings?
     t_menu_item_type    type;                                       // Menu item type (single/submenu/separator)
     t_menu_item_attr    attributes;                                 // Attributes
     int                 group_id;                                   // Group ID (only 1 of a group can be checked)
@@ -84,6 +86,14 @@ typedef struct t_menu_item
     void *              user_data;
 } t_menu_item;
 
+typedef struct
+{
+	t_menu *			menu;
+	t_menu_item *		menu_item;
+	int					menu_item_idx;		// FIXME: Make obsolete only menu API doesn't need this crap anymore
+	void *				user_data;
+} t_menu_event;
+*/
 
 //-----------------------------------------------------------------------------
 // Data
@@ -121,7 +131,8 @@ typedef struct
   byte  attr;
   byte  mouse_over;
   byte  submenu_id;     // id of submenu if (action == 1)
-  void  (*func)();      // pointer to function to execute if (action == 2)
+  void  (*event_handler)();      // pointer to function to execute if (action == 2)
+  void  *user_data;
  } gui_type_menu_entry;
 
 typedef struct
@@ -143,6 +154,15 @@ struct  gui_type_menus_opt
  } menus_opt;
 
 gui_type_menu *menus[MAX_MENUS];
+
+typedef struct
+{
+	gui_type_menu *			menu;
+	int						menu_idx;			// FIXME: Make obsolete once menu API doesn't need this crap anymore
+	gui_type_menu_entry *	menu_item;
+	int						menu_item_idx;		// FIXME: Make obsolete once menu API doesn't need this crap anymore
+	void *					user_data;
+} t_menu_event;
 
 //-----------------------------------------------------------------------------
 

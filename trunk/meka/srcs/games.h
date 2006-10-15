@@ -22,7 +22,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-BITMAP  *games_bmp;
+BITMAP *games_bmp;
 int     game_running;
 int     slow_down_game;
 void    Init_Games (void);
@@ -69,6 +69,8 @@ void    Pong_Init_Ball (void);
 void    Pong_Start (void);
 void    Pong_Update (void);
 
+//-----------------------------------------------------------------------------
+// Data
 //-----------------------------------------------------------------------------
 
 typedef struct

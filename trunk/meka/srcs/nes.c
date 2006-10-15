@@ -13,8 +13,40 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "nes_pal.c"
 #include "mappers.h"
+#include "palette.h"
+#include "debugger.h"
+
+//-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+const RGB   NES_Palette [64] =
+{
+  { 0x80,0x80,0x80,0 }, { 0x00,0x00,0xBB,0 }, { 0x37,0x00,0xBF,0 }, { 0x84,0x00,0xA6,0 },
+  { 0xBB,0x00,0x6A,0 }, { 0xB7,0x00,0x1E,0 }, { 0xB3,0x00,0x00,0 }, { 0x91,0x26,0x00,0 },
+  { 0x7B,0x2B,0x00,0 }, { 0x00,0x3E,0x00,0 }, { 0x00,0x48,0x0D,0 }, { 0x00,0x3C,0x22,0 },
+  { 0x00,0x2F,0x66,0 }, { 0x00,0x00,0x00,0 }, { 0x05,0x05,0x05,0 }, { 0x05,0x05,0x05,0 },
+
+  { 0xC8,0xC8,0xC8,0 }, { 0x00,0x59,0xFF,0 }, { 0x44,0x3C,0xFF,0 }, { 0xB7,0x33,0xCC,0 },
+  { 0xFF,0x33,0xAA,0 }, { 0xFF,0x37,0x5E,0 }, { 0xFF,0x37,0x1A,0 }, { 0xD5,0x4B,0x00,0 },
+  { 0xC4,0x62,0x00,0 }, { 0x3C,0x7B,0x00,0 }, { 0x1E,0x84,0x15,0 }, { 0x00,0x95,0x66,0 },
+  { 0x00,0x84,0xC4,0 }, { 0x11,0x11,0x11,0 }, { 0x09,0x09,0x09,0 }, { 0x09,0x09,0x09,0 },
+
+  { 0xFF,0xFF,0xFF,0 }, { 0x00,0x95,0xFF,0 }, { 0x6F,0x84,0xFF,0 }, { 0xD5,0x6F,0xFF,0 },
+  { 0xFF,0x77,0xCC,0 }, { 0xFF,0x6F,0x99,0 }, { 0xFF,0x7B,0x59,0 }, { 0xFF,0x91,0x5F,0 },
+  { 0xFF,0xA2,0x33,0 }, { 0xA6,0xBF,0x00,0 }, { 0x51,0xD9,0x6A,0 }, { 0x4D,0xD5,0xAE,0 },
+  { 0x00,0xD9,0xFF,0 }, { 0x66,0x66,0x66,0 }, { 0x0D,0x0D,0x0D,0 }, { 0x0D,0x0D,0x0D,0 },
+
+  { 0xFF,0xFF,0xFF,0 }, { 0x84,0xBF,0xFF,0 }, { 0xBB,0xBB,0xFF,0 }, { 0xD0,0xBB,0xFF,0 },
+  { 0xFF,0xBF,0xEA,0 }, { 0xFF,0xBF,0xCC,0 }, { 0xFF,0xC4,0xB7,0 }, { 0xFF,0xCC,0xAE,0 },
+  { 0xFF,0xD9,0xA2,0 }, { 0xCC,0xE1,0x99,0 }, { 0xAE,0xEE,0xB7,0 }, { 0xAA,0xF7,0xEE,0 },
+  { 0xB3,0xEE,0xFF,0 }, { 0xDD,0xDD,0xDD,0 }, { 0x11,0x11,0x11,0 }, { 0x11,0x11,0x11,0 }
+};
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 // NES Memory Map -------------------------------------------------------------
 //  0000h -> 1FFFh : RAM (mirrored, blocks of 2 kb)
@@ -82,7 +114,7 @@ void    NES_Reset (void)
  NES_PPU_Map (0, 8, (NES_Chr_Cnt >= 1 ? NES_Chr : &VRAM[0x0000]));
  NES_PPU_Set_Mirroring (nes->Mirroring);
  // PRAM = VRAM + 0x3F00;
- PRAM = Palette_Refs;
+ //PRAM = Palette_Refs;
  memset (&nes->Object_RAM, 0, 0x100);
  NES_Decode_Tiles (); // Dirty flags are set in machine_reset
  //-- INPUT -------------------------------------------------------------------
@@ -91,7 +123,7 @@ void    NES_Reset (void)
  // Note: has to be done after ROM mapping is done
  nes->Regs.IPeriod = opt.Cur_IPeriod; // 114: 1.7897725 Mhz (NTSC) or 1.773447 (PAL)
  Reset6502 (&nes->Regs);
- nes->Regs.TrapBadOps = NO;
+ nes->Regs.TrapBadOps = FALSE;
 }
 
 void    Wr6502 (register word Addr, register byte Value)
@@ -177,6 +209,12 @@ byte    Rd6502 (register word Addr)
 byte    Loop6502 (register M6502 *R)
 {
     tsms.VDP_Line = (tsms.VDP_Line + 1) % 262; // opt.Cur_TV_Lines; // Break ICE Hockey
+
+    // Debugger hook
+    #ifdef MEKA_Z80_DEBUGGER
+	if (Debugger.active)
+		Debugger_RasterLine_Hook(tsms.VDP_Line);
+	#endif
 
     // Update sound cycle counter
     Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
@@ -271,21 +309,10 @@ void    NES_Decode_Tiles (void)
 void    NES_Palette_Set (void)
 {
     int   i;
-    RGB   color;
 
     // Set NES emulation palette
-    for (i = 0; i < 64; i++)
-    {
-        color = NES_Palette[i];
-        color.r /= 4;
-        color.g /= 4;
-        color.b /= 4;
-        Palette_SetColor_Emulation (i, color);
-    }
-
-    // Set all default references based on NES PaletteRAM
-    for (i = 0; i < 32; i++)
-        Palette_SetColor_Reference_Force (i, PRAM [i]);
+    for (i = 0; i != 32; i++)
+        Palette_Emulation_SetColor(i, NES_Palette[PRAM[i] & 63]);
 }
 
 //-----------------------------------------------------------------------------

@@ -8,6 +8,7 @@
 #include "capture.h"
 #include "debugger.h"
 #include "inputs_i.h"
+#include "palette.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -21,7 +22,7 @@ void    Close_Button_Callback (void)
 {
     if (Meka_State == MEKA_STATE_INIT || Meka_State == MEKA_STATE_SHUTDOWN)
         return;
-    opt.Force_Quit = YES;
+    opt.Force_Quit = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -58,10 +59,10 @@ void    Switch_Out_Callback (void)
 //-----------------------------------------------------------------------------
 void    Change_System_Misc (void)
 {
-    gamebox_resize_all ();
-    Capture_Init_Game ();
-    Sound_Log_Init_Game ();
-    MemoryViewer_LoadROM ();
+    gamebox_resize_all();
+    Capture_Init_Game();
+    Sound_Log_Init_Game();
+    MemoryViewers_MediaReload();
     Debugger_MediaReload();
 }
 
@@ -75,13 +76,8 @@ void    Change_Mode_Misc (void)
     {
     case MEKA_STATE_FULLSCREEN: // Fullscreen
         {
-            RGB color_black = {  0,  0,  0, 0 };
-            RGB color_white = { 63, 63, 63, 0 };
-            Palette_SetColor (GUI_COL_BLACK, color_black); // These colors are
-            Palette_SetColor (GUI_COL_WHITE, color_white); // used for cursors.
+            Palette_Emulation_Reload();
             Video_Clear ();
-            if (!(machine & MACHINE_POWER_ON))
-                Effects_TV_Init_Colors ();
             break;
         }
     case MEKA_STATE_GUI:
@@ -89,39 +85,45 @@ void    Change_Mode_Misc (void)
         break;
     }
     Show_Mouse_In (NULL);
-    #ifdef DOS
-        Video_VGA_Set_Border_Color (Border_Color);
-    #endif
+    //#ifdef DOS
+    //    Video_VGA_Set_Border_Color (Border_Color);
+    //#endif
     Inputs_Peripheral_Change_Update ();
 }
 
 //-----------------------------------------------------------------------------
-// Set_Mouse_Cursor (int n)
-// Set mouse cursor to given one
+// Set_Mouse_Cursor(int mouse_cursor)
+// Set current mouse cursor
 //-----------------------------------------------------------------------------
-// FIXME: Add proper enum to cursor values instead of using obscure hardcoded integers.
+// FIXME: Merge with Inputs_Peripheral_Change_Update() ?
 //-----------------------------------------------------------------------------
-void    Set_Mouse_Cursor (int n)
+void    Set_Mouse_Cursor(int mouse_cursor)
 {
-    if (cfg.Mouse_Installed == -1)
+    if (Env.mouse_installed == -1)
         return;
-    switch (n)
+    switch (mouse_cursor)
     {
-    case 0: set_mouse_sprite (NULL);
+    case MEKA_MOUSE_CURSOR_NONE: 
+        set_mouse_sprite (NULL);
         break;
-    case 1: set_mouse_sprite (Graphics.Cursors.Main);
+    case MEKA_MOUSE_CURSOR_STANDARD: 
+        set_mouse_sprite (Graphics.Cursors.Main);
         set_mouse_sprite_focus (0, 0);
         break;
-    case 2: set_mouse_sprite (Graphics.Cursors.LightPhaser);
+    case MEKA_MOUSE_CURSOR_LIGHT_PHASER: 
+        set_mouse_sprite (Graphics.Cursors.LightPhaser);
         set_mouse_sprite_focus (7, 7);
         break;
-    case 3: set_mouse_sprite (Graphics.Cursors.SportsPad);
+    case MEKA_MOUSE_CURSOR_SPORTS_PAD: 
+        set_mouse_sprite (Graphics.Cursors.SportsPad);
         set_mouse_sprite_focus (7, 7);
         break;
-    case 4: set_mouse_sprite (Graphics.Cursors.TvOekaki);
+    case MEKA_MOUSE_CURSOR_TV_OEKAKI: 
+        set_mouse_sprite (Graphics.Cursors.TvOekaki);
         set_mouse_sprite_focus (3, 12);
         break;
-    case 5: set_mouse_sprite (Graphics.Cursors.Wait);
+    case MEKA_MOUSE_CURSOR_WAIT: 
+        set_mouse_sprite (Graphics.Cursors.Wait);
         set_mouse_sprite_focus (6, 2);
         break;
     }

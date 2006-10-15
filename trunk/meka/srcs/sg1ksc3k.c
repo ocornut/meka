@@ -7,7 +7,11 @@
 #include "fskipper.h"
 #include "patch.h"
 #include "vdp.h"
+#include "video_m2.h"
+#include "debugger.h"
 
+//-----------------------------------------------------------------------------
+// Functions
 //-----------------------------------------------------------------------------
 
 word    Loop_SG1000_SC3000 (void)
@@ -19,6 +23,13 @@ word    Loop_SG1000_SC3000 (void)
     Sound_CycleCounter += opt.Cur_IPeriod;
 
     tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
+
+    // Debugger hook
+    #ifdef MEKA_Z80_DEBUGGER
+	if (Debugger.active)
+		Debugger_RasterLine_Hook(tsms.VDP_Line);
+	#endif
+
     if (tsms.VDP_Line == 0)
     {
         Interrupt_Loop_Misc;
@@ -74,7 +85,7 @@ word    Loop_SG1000_SC3000 (void)
         // case we are using CPU_ForceNMI now.
         if (CPU_ForceNMI)
         {
-            CPU_ForceNMI = NO;
+            CPU_ForceNMI = FALSE;
             sms.R.IRequest = Interrupt;
             return (INT_NMI);
         }

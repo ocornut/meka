@@ -11,6 +11,7 @@ typedef struct
 {
     // Interface
     bool                active;
+    bool                dirty;
     t_gui_box *         box;
     BITMAP *            box_gfx;
     t_frame             frame_palette;

@@ -30,6 +30,10 @@
 // Forward declaration
 //-----------------------------------------------------------------------------
 
+void    FB_Layout               (t_filebrowser *app, bool setup);
+
+//
+
 int     FB_Return_File_Area_X   (void);
 int     FB_Return_File_Area_Y   (void);
 int     FB_Return_Res_Y         (void);
@@ -107,87 +111,106 @@ INLINE int     FB_Return_Res_Y (void)
     return (FB_Return_File_Area_Y () + (3 * FB_PAD_Y) + FB_BUTTON_Y);
 }
 
-void    FB_Switch (void)
+void    FB_Switch(void)
 {
     FB.active ^= 1;
-    gui_box_show (gui.box[FB.id], FB.active, TRUE);
-    gui_menu_inverse_check (menus_ID.file, 0);
+    gui_box_show(FB.box, FB.active, TRUE);
+    gui_menu_inverse_check(menus_ID.file, 0);
 }
 
-void    FB_Init_Values (void)
+void    FB_Init_Values(void)
 {
-    FB.res_x                    = 320;
-    FB.file_y                   = 17;
+    FB.res_x    = 320;
+    FB.file_y   = 17;
 }
 
 void            FB_Init (void)
 {
     t_frame     frame;
 
-    FB.id = gui_box_create (310, 50, FB.res_x, FB_Return_Res_Y (), Msg_Get (MSG_FileBrowser_BoxTitle));
-    FB.bmp = create_bitmap (gui.box [FB.id]->frame.size.x + 1, gui.box [FB.id]->frame.size.y + 1);
-    gui_set_image_box (FB.id, FB.bmp);
-    Desktop_Register_Box ("LOAD", FB.id, 0, &FB.active);
+    frame.pos.x     = 310;
+    frame.pos.y     = 50;
+    frame.size.x    = FB.res_x;
+    frame.size.y    = FB_Return_Res_Y();
+    FB.box = gui_box_new(&frame, Msg_Get (MSG_FileBrowser_BoxTitle));
+    FB.bmp = FB.box->gfx_buffer;
+    Desktop_Register_Box("LOAD", FB.box, 0, &FB.active);
 
     // Set exclusive inputs flag to avoid messing with emulation
-    gui.box[FB.id]->focus_inputs_exclusive = YES;
+    FB.box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
 
     // Add close box widget
-    widget_closebox_add (FB.id, FB_Switch);
+    widget_closebox_add(FB.box, FB_Switch);
 
-    // Add scrollbar
-    frame.pos.x = FB.res_x - FB_PAD_X - FB_SCROLL_X + 1;
-    frame.pos.y = FB_PAD_Y + 2;
-    frame.size.x = FB_SCROLL_X - 3;
-    frame.size.y = FB_Return_File_Area_Y () - 4;
-    widget_scrollbar_add (FB.id, &frame, &FB.files_max, &FB.file_display_first, &FB.file_y, FB_Draw_List);
-
-    // Add an invisible 'button' to catch click on the list
-    // (currently the GUI doesn't handle list/combo)
-    frame.pos.x = FB_PAD_X + 2;
-    frame.pos.y = FB_PAD_Y + 2;
-    frame.size.x = FB.res_x - (2 * FB_PAD_X) - FB_SCROLL_X - 4;
-    frame.size.y = FB_Return_File_Area_Y () - 6;
-    widget_button_add (FB.id, &frame, 1, FB_Click_List);
-    gui_rect (FB.bmp, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), GUI_COL_BORDERS);
-
-    // Add 'CLOSE' button
-    //frame.pos.x = FB_BUTTON_X + 10;
-    frame.pos.x = FB.res_x - FB_BUTTON_X - 10;
-    frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y);
-    frame.size.x = FB_BUTTON_X;
-    frame.size.y = FB_BUTTON_Y;
-    widget_button_add_draw (FB.id, &frame, LOOK_ROUND, F_LARGE, 1, FB_Switch, Msg_Get (MSG_FileBrowser_Close));
-
-    // Add 'LOAD' button
-    frame.pos.x -= FB_BUTTON_X + 10;
-    //frame.pos.x = 122;
-    widget_button_add_draw (FB.id, &frame, LOOK_ROUND, F_LARGE, 1, FB_Open, Msg_Get (MSG_FileBrowser_Load));
-
-    // Add small 'LOAD NAMES' button
-    frame.pos.x = FB_PAD_X;
-    frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MIDDLE) + 6;
-    frame.size.x = 54;
-    frame.size.y = Font_Height (F_SMALL) + 3;
-    widget_button_add_draw (FB.id, &frame, LOOK_THIN, F_SMALL, 1, FB_Load_All_Names, Msg_Get (MSG_FileBrowser_LoadNames));
-
-    // Add small 'RELOAD DIR' button
-    frame.pos.x += frame.size.x + 1;
-    widget_button_add_draw (FB.id, &frame, LOOK_THIN, F_SMALL, 1, FB_Load_Directory, Msg_Get (MSG_FileBrowser_ReloadDir));
+    // Layout
+    FB_Layout(&FB, TRUE);
 }
 
 void    FB_Init_2 (void)
 {
-    chdir (FB.current_directory);
-    FB_Load_Directory ();
+    chdir(FB.current_directory);
+    FB_Load_Directory();
 }
 
-void        FB_Free_Memory (void)
+void        FB_Layout(t_filebrowser *app, bool setup)
+{
+    // Clear
+    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+
+    // Setup widgets
+    if (setup)
+    {
+        t_frame frame; 
+
+        // Add scrollbar
+        frame.pos.x = FB.res_x - FB_PAD_X - FB_SCROLL_X + 1;
+        frame.pos.y = FB_PAD_Y + 2;
+        frame.size.x = FB_SCROLL_X - 3;
+        frame.size.y = FB_Return_File_Area_Y () - 4;
+        app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, &FB.file_y, FB_Draw_List);
+
+        // Add an invisible 'button' to catch click on the list
+        // (currently the GUI doesn't handle list/combo)
+        frame.pos.x = FB_PAD_X + 2;
+        frame.pos.y = FB_PAD_Y + 2;
+        frame.size.x = FB.res_x - (2 * FB_PAD_X) - FB_SCROLL_X - 4;
+        frame.size.y = FB_Return_File_Area_Y () - 6;
+        widget_button_add(FB.box, &frame, 1, FB_Click_List, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+
+        // Add 'CLOSE' button
+        //frame.pos.x = FB_BUTTON_X + 10;
+        frame.pos.x = FB.res_x - FB_BUTTON_X - 10;
+        frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y);
+        frame.size.x = FB_BUTTON_X;
+        frame.size.y = FB_BUTTON_Y;
+        widget_button_add(FB.box, &frame, 1, FB_Switch, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Close));
+
+        // Add 'LOAD' button
+        frame.pos.x -= FB_BUTTON_X + 10;
+        widget_button_add(FB.box, &frame, 1, FB_Open, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Load));
+
+        // Add small 'LOAD NAMES' button
+        frame.pos.x = FB_PAD_X;
+        frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MIDDLE) + 6;
+        frame.size.x = 54;
+        frame.size.y = Font_Height (F_SMALL) + 3;
+        widget_button_add(FB.box, &frame, 1, FB_Load_All_Names, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
+
+        // Add small 'RELOAD DIR' button
+        frame.pos.x += frame.size.x + 1;
+        widget_button_add(FB.box, &frame, 1, FB_Load_Directory, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
+    }
+
+    // Additionnal drawing
+    gui_rect (FB.bmp, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_GENERIC_BORDER);
+}
+
+void        FB_Free_Memory(void)
 {
     int     i;
     for (i = 0; i < FB.files_max; i ++)
-        FB_Entry_Delete (FB.files[i]);
-    free (FB.files);
+        FB_Entry_Delete(FB.files[i]);
+    free(FB.files);
 }
 
 #ifndef UNIX
@@ -449,7 +472,7 @@ static void     FB_Load_Directory_Internal (void)
     // First add directories and sort them
     FB_Add_Entries (NULL, FB_ENTRY_TYPE_DIRECTORY);
     i = FB.files_max;
-    if (strcmp (FB.files [0]->file_name, "..") == 0)
+    if (FB.files_max > 0 && (strcmp (FB.files [0]->file_name, "..") == 0))
         FB_Sort_Files (1, i);
     else
         FB_Sort_Files (0, i);
@@ -506,18 +529,18 @@ void        FB_Draw_Infos (void)
     rectfill (FB.bmp,
         FB_TEXT_PAD_X, FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2,
         88, FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2/*+ 6*/ + Font_Height(-1),
-        GUI_COL_FILL);
+        COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print (-1, FB.bmp, s,
         (110 - Font_TextLength (-1, s)) / 2,
         FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2,
-        GUI_COL_TEXT_IN_BOX);
+        COLOR_SKIN_WINDOW_TEXT);
 }
 
 //-----------------------------------------------------------------------------
 // FB_Draw_List ()
 // Redraw file listing
 //-----------------------------------------------------------------------------
-void        FB_Draw_List (void)
+void        FB_Draw_List(void)
 {
     int     x = FB_TEXT_PAD_X;
     int     y = FB_TEXT_PAD_Y;
@@ -525,15 +548,18 @@ void        FB_Draw_List (void)
     char    name_buffer [256];
 
     // Set window redraw flag
-    gui.box [FB.id]->must_redraw = YES;
+    FB.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
     lines_max = FB.file_display_first + FB.file_y;
     if (lines_max > FB.files_max)
         lines_max = FB.files_max;
 
+    // Ask scrollbar to refresh
+    widget_set_dirty(FB.widget_scrollbar);
+
     //
-    rectfill (FB.bmp, FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X - 1, FB_PAD_Y + FB_Return_File_Area_Y () - 2, GUI_COL_BARS);
-    line (FB.bmp, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y () - 2, GUI_COL_BORDERS);
+    rectfill (FB.bmp, FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X - 1, FB_PAD_Y + FB_Return_File_Area_Y () - 2, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
+    line (FB.bmp, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y () - 2, COLOR_SKIN_WINDOW_SEPARATORS);
 
     Font_SetCurrent (F_LARGE);
     for (n = FB.file_display_first; n < lines_max; n++)
@@ -545,7 +571,7 @@ void        FB_Draw_List (void)
 
         // Highlight the current file
         if (n == FB.file_pos)
-            rectfill (FB.bmp, FB_PAD_X + 2, y /*- 1*/, FB.res_x - FB_SCROLL_X - FB_PAD_X - 2, y + Font_Height(-1) - 2, GUI_COL_HIGHLIGHT);
+            rectfill (FB.bmp, FB_PAD_X + 2, y /*- 1*/, FB.res_x - FB_SCROLL_X - FB_PAD_X - 2, y + Font_Height(-1) - 2, COLOR_SKIN_WIDGET_LISTBOX_SELECTION);
 
         // Get the name to print and additionnal width usage (icons, etc...)
         switch (entry->type)
@@ -618,7 +644,7 @@ void        FB_Draw_List (void)
         }
 
         // Print name
-        Font_Print (-1, FB.bmp, name_buffer, x, y, GUI_COL_TEXT_ACTIVE);
+        Font_Print (-1, FB.bmp, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
 
         // Print additionnal infos/icons
         switch (entry->type)
@@ -627,7 +653,7 @@ void        FB_Draw_List (void)
         case FB_ENTRY_TYPE_DRIVE:
             {
                 // Directory/Drive '>' marker
-                Font_Print (-1, FB.bmp, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, GUI_COL_TEXT_N_ACTIVE);
+                Font_Print (-1, FB.bmp, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
                 break;
             }
         case FB_ENTRY_TYPE_FILE:
@@ -704,98 +730,116 @@ void            FB_Check_and_Repos (void)
         FB.file_display_first = 0;
 }
 
-void            FB_Update_Inputs (void)
+void            FB_Update(void)
 {
-    int         dirty;
+    int         dirty = FALSE;
 
-    // Check for focus
-    if (!gui_box_has_focus (gui.box[FB.id]))
+    // Skip update if not active
+    if (!FB.active)
         return;
 
-    // Update keyboard inputs
-    dirty = YES;
-    if (Inputs_KeyPressed (KEY_ENTER, NO))
+    // If skin has changed, redraw everything
+    if (FB.box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
     {
-        FB_Open ();
+        FB_Layout(&FB, FALSE);
+        FB.box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+        dirty = TRUE;
     }
-    else if (Inputs_KeyPressed (KEY_HOME, NO))
+
+    // Update user inputs only if focused
+    if (gui_box_has_focus(FB.box))
     {
-        FB.file_pos = 0;
-    }
-    else if (Inputs_KeyPressed (KEY_END, NO))
-    {
-        FB.file_pos = FB.files_max - 1;
-    }
-    else if (Inputs_KeyPressed_Repeat (KEY_DOWN, NO, 15, 1))
-    {
-        FB.file_pos ++;
-    }
-    else if (Inputs_KeyPressed_Repeat (KEY_UP, NO, 15, 1))
-    {
-        FB.file_pos --;
-    }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, NO, 30, 4))
-    {
-        FB.file_pos += FB.file_y;
-    }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, NO, 30, 4))
-    {
-        FB.file_pos -= FB.file_y;
-    }
-    // Note: we check for no key modifiers to be pressed
-    // Eg: we don't want ALT-L to jump on 'L' games
-    else if ((key_shifts & (KB_CTRL_FLAG | KB_ALT_FLAG | KB_SHIFT_FLAG)) == 0)
-    {
-        // FIXME: this function may need a rewrite. Also, avoid using strupr()!
-        // FIXME: could use allegro feature of keycode->ascii conversion
-        int i, j;
-        for (i = 0; i < NUM_ALPHA_KEYS; i ++)
-            if (Inputs_KeyPressed_Repeat (Key_Alpha_Table [i], NO, 20, 2))
-            {
-                for (j = FB.file_pos + 1; j < FB.files_max; j ++)
+        // Update keyboard inputs
+        if (Inputs_KeyPressed (KEY_ENTER, TRUE) || Inputs_KeyPressed (KEY_ENTER_PAD, TRUE))
+        {
+            FB_Open ();
+            dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed (KEY_HOME, FALSE))
+        {
+            FB.file_pos = 0;
+            dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed (KEY_END, FALSE))
+        {
+            FB.file_pos = FB.files_max - 1;
+            dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed_Repeat (KEY_DOWN, FALSE, 15, 1))
+        {
+            FB.file_pos ++;
+            dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed_Repeat (KEY_UP, FALSE, 15, 1))
+        {
+            FB.file_pos --;
+            dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 30, 4))
+        {
+            FB.file_pos += FB.file_y;
+            dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 30, 4))
+        {
+            FB.file_pos -= FB.file_y;
+            dirty = TRUE;
+        }
+        // Note: we check for no key modifiers to be pressed
+        // Eg: we don't want ALT-L to jump on 'L' games
+        else if ((key_shifts & (KB_CTRL_FLAG | KB_ALT_FLAG | KB_SHIFT_FLAG)) == 0)
+        {
+            // FIXME: this function may need a rewrite. Also, avoid using strupr()!
+            // FIXME: could use allegro feature of keycode->ascii conversion
+            int i, j;
+            for (i = 0; i < NUM_ALPHA_KEYS; i ++)
+                if (Inputs_KeyPressed_Repeat (Key_Alpha_Table [i], FALSE, 20, 2))
                 {
-                    t_filebrowser_entry *entry = FB.files[j];
-                    char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
-                    if (toupper(c) == Alpha_Table [i])
-                    { 
-                        FB.file_pos = j; 
-                        break; 
-                    }
-                }
-                if (j == FB.files_max)
-                    for (j = 0; j < FB.file_pos; j ++)
+                    for (j = FB.file_pos + 1; j < FB.files_max; j ++)
                     {
                         t_filebrowser_entry *entry = FB.files[j];
                         char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
-                        if (toupper (c) == Alpha_Table [i])
+                        if (toupper(c) == Alpha_Table [i])
                         { 
                             FB.file_pos = j; 
                             break; 
                         }
                     }
-                    break;
-            }
-        if (i == NUM_ALPHA_KEYS) 
-            dirty = NO;
-    }
+                    if (j == FB.files_max)
+                        for (j = 0; j < FB.file_pos; j ++)
+                        {
+                            t_filebrowser_entry *entry = FB.files[j];
+                            char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
+                            if (toupper (c) == Alpha_Table [i])
+                            { 
+                                FB.file_pos = j; 
+                                break; 
+                            }
+                        }
+                        break;
+                }
+            if (i != NUM_ALPHA_KEYS) 
+                dirty = TRUE;
+        }
 
-    // Update mouse inputs (wheel)
-    if (gui_mouse.z_rel != 0)
-    {
-        if (gui_mouse.z_rel < 0)
-            //FB.file_display_first++;
-            FB.file_pos++;
-        if (gui_mouse.z_rel > 0)
-            //FB.file_display_first--;
-            FB.file_pos--;
-        dirty = YES;
+        // Update mouse inputs (wheel)
+        if (gui_mouse.z_rel != 0)
+        {
+            if (gui_mouse.z_rel < 0)
+                //FB.file_display_first++;
+                FB.file_pos++;
+            if (gui_mouse.z_rel > 0)
+                //FB.file_display_first--;
+                FB.file_pos--;
+            dirty = TRUE;
+        }
     }
 
     // Fix and redraw
     if (dirty)
     {
-        FB_Check_and_Repos ();
-        FB_Draw_List ();
+        FB_Check_and_Repos();
+        FB_Draw_List();
     }
 }
 
@@ -832,12 +876,12 @@ void        FB_Load_All_Names (void)
         t_filebrowser_entry *entry = FB.files[i];
         if (entry->type == FB_ENTRY_TYPE_FILE)
         {
-            strcpy (file.rom, entry->file_name);
+            strncpy(Env.Paths.MediaImageFile, entry->file_name, sizeof(Env.Paths.MediaImageFile));
             // Msg (MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
             FB.file_pos = i;
             FB_Check_and_Repos ();
             FB_Draw_List ();
-            Load_ROM (LOAD_INTERFACE, NO);
+            Load_ROM (LOAD_INTERFACE, FALSE);
             gui_redraw_everything_now_once ();
         }
     }
@@ -847,6 +891,7 @@ void        FB_Load_All_Names (void)
 
     // Reload directory and position us to first entry
     FB.file_pos = 0;
+    FB.file_display_first = 0;
     FB_Load_Directory ();
     FB_Draw_List ();
 }
@@ -878,8 +923,8 @@ void        FB_Open (void)
         }
     case FB_ENTRY_TYPE_FILE:
         {
-            strcpy (file.rom, entry->file_name);
-            Load_ROM (LOAD_INTERFACE, YES);
+            strncpy(Env.Paths.MediaImageFile, entry->file_name, sizeof(Env.Paths.MediaImageFile));
+            Load_ROM (LOAD_INTERFACE, TRUE);
             FB_Reload_Names ();
             if (Configuration.fb_close_after_load)
             {
@@ -906,7 +951,7 @@ void    FB_Click_List (t_widget *w)
 {
     int    i;
 
-    i = FB.file_display_first + (w->my / Font_Height (F_LARGE));
+    i = FB.file_display_first + (w->mouse_y / Font_Height (F_LARGE));
     if ((i == FB.last_click) && (gui_mouse.time_since_last_click < DOUBLE_CLICK_SPEED))
     {
         // FIXME: double-clicks should be generically handled by GUI and supports frameskipping

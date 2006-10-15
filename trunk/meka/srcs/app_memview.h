@@ -1,10 +1,7 @@
 //-----------------------------------------------------------------------------
-// MEKA - memview.h
+// MEKA - app_memview.h
 // Memory Viewer - Headers
 //-----------------------------------------------------------------------------
-
-#ifndef _MEKA_MEMVIEW_H_
-#define _MEKA_MEMVIEW_H_
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -16,7 +13,8 @@
 #define MEMTYPE_VRAM  (3)
 #define MEMTYPE_PRAM  (4)
 #define MEMTYPE_SRAM  (5)
-#define MEMTYPE_MAX   (6)
+#define MEMTYPE_VREG  (6)
+#define MEMTYPE_MAX   (7)
 
 //-----------------------------------------------------------------------------
 // Data
@@ -36,19 +34,23 @@ typedef struct
 typedef struct
 {
     // Logic
+    int                 size_columns;
+    int                 size_lines;
     int                 memblocks_max;
     int                 memblock_first;
-    int                 memblock_lines_nbr;
     t_memory_section    sections[MEMTYPE_MAX];
     t_memory_section *  section_current;
 
     // Interface
-    byte                active;
+    bool                active;
     t_gui_box *         box;
     BITMAP *            box_gfx;
+    t_widget *          widget_scrollbar;
 
     // Interface - Top (values)
     t_frame             frame_view;
+    t_frame             frame_hex;
+    t_frame             frame_ascii;
     t_widget *          values_hex_box;
     t_widget *          values_ascii_box;
     bool                values_edit_active;
@@ -61,18 +63,18 @@ typedef struct
 
 } t_memory_viewer;
 
-t_memory_viewer MemoryViewer;
+extern t_memory_viewer *MemoryViewer_MainInstance;
+extern t_list *         MemoryViewers;
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void      MemoryViewer_Init              (void);
-void      MemoryViewer_Switch            (void);
-void      MemoryViewer_Update            (void);
-void      MemoryViewer_Update_Inputs     (void);
-void      MemoryViewer_LoadROM           (void);
+t_memory_viewer *       MemoryViewer_New(bool register_desktop, int size_columns, int size_lines);
+void                    MemoryViewer_Delete(t_memory_viewer *mv);
+void                    MemoryViewer_SwitchMainInstance(void);
+
+void                    MemoryViewers_Update(void);
+void                    MemoryViewers_MediaReload(void);
 
 //-----------------------------------------------------------------------------
-
-#endif // _MEKA_MEMVIEW_H_

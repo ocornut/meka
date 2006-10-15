@@ -4,42 +4,70 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_about.h"
+#include "app_mapview.h"
+#include "app_memview.h"
+#include "app_palview.h"
+#include "app_options.h"
+#include "app_techinfo.h"
+#include "app_textview.h"
+#include "app_tileview.h"
+#include "datadump.h"
+#include "debugger.h"
 #include "desktop.h"
+#include "g_file.h"
+#include "inputs_c.h"
 
 //-----------------------------------------------------------------------------
+// Forward Declaration
+//-----------------------------------------------------------------------------
 
-void    gui_init (int res_x, int res_y)
+static void    gui_init_applets(void);
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
+
+void    gui_init(int res_x, int res_y, int color_depth)
 {
-    opt.GUI_Inited = YES;
+    opt.GUI_Inited = TRUE;
 
     gui_buffer = NULL;
     gui_background = NULL;
-    gui_set_resolution(res_x, res_y);
+    gui_set_video_mode(res_x, res_y, color_depth);
 
     gui.info.screen_pad.x = 2;
     gui.info.screen_pad.y = 2;
     gui.info.bars_height = 19;
     gui.info.grid_distance = 32;
 
-    gui.box_last = 0;
+    gui.boxes = NULL;
+    gui.boxes_count = 0;
     Desktop_Init ();
     gui_init_applets ();
     special_effects_init ();
-    gui_init_default_box ();
+
+    // Create game box
+    {
+        static bool active_dummy = TRUE;
+        gamebox_instance = gamebox_create (35, 132);
+        Desktop_Register_Box ("GAME", gamebox_instance, 1, &active_dummy);
+    }
+
     Desktop_SetStateToBoxes ();     // Set all boxes state based on MEKA.DSK data
     gui_menus_init ();              // Create menus (Note: need to be done after Desktop_SetStateToBoxes because it uses the 'active' flags to check items)
     gui_init_mouse ();
 }
 
 //-----------------------------------------------------------------------------
-// gui_set_resolution (int res_x, int res_y)
-// Set GUI desktop resolution
+// gui_set_video_mode(int res_x, int res_y, int color_depth)
+// Set GUI desktop resolution and color depth
 //-----------------------------------------------------------------------------
 // Note: this cannot be naively called from anywhere. 
 // Some things needs to be updated accordingly: background redrawn, 
 // actual video mode changed, etc.
 //-----------------------------------------------------------------------------
-void    gui_set_resolution (int res_x, int res_y)
+void    gui_set_video_mode(int res_x, int res_y, int color_depth)
 {
     gui.info.screen.x = res_x;
     gui.info.screen.y = res_y;
@@ -55,7 +83,7 @@ void    gui_set_resolution (int res_x, int res_y)
     }
 
     // Setup buffers
-    switch (cfg.GUI_Access_Mode)
+    switch (Configuration.video_mode_gui_access_mode)
     {
     case GUI_FB_ACCESS_DIRECT:
         // Direct accesses to video memory
@@ -63,8 +91,8 @@ void    gui_set_resolution (int res_x, int res_y)
         break;
     case GUI_FB_ACCESS_BUFFERED:
         // Buffered accesses to video memory (default, the only good one now)
-        gui_buffer = create_bitmap (res_x, res_y);
-        clear_to_color (gui_buffer, 0);
+        gui_buffer = create_bitmap_ex(color_depth, res_x, res_y);
+        clear_to_color (gui_buffer, COLOR_BLACK);
         break;
     case GUI_FB_ACCESS_FLIPPED:
         // Direct accesses with page flipping
@@ -73,24 +101,83 @@ void    gui_set_resolution (int res_x, int res_y)
         // ... no initialization here ...
         break;
     }
-    gui_background = create_bitmap (gui.info.screen.x, gui.info.screen.x);
+    gui_background = create_bitmap_ex(color_depth, gui.info.screen.x, gui.info.screen.x);
 }
 
 void    gui_init_again (void)
 {
-    gui_init_colors ();
-    gui.info.must_redraw = YES;
+    // Set theme colors
+    Skins_StartupFadeIn();
+
+	// Set dirty flag
+	gui.info.must_redraw = TRUE;
 }
 
 // CLOSE GUI / FREE (SOME) ALLOCATED MEMORY -----------------------------------
+// FIXME: Old crap
 void        gui_close (void)
 {
-    int     i;
+    // FIXME: freeing only that and nothing else is admitting the pure lameness of this code.
+    //int i;
+    //for (i = 0; i < gui.box_last; i ++)
+    //    free (gui.box [i]);
+}
 
-    // FIXME: doing only that and nothing else is admitting the pure 
-    // lameness of this code.
-    for (i = 0; i < gui.box_last; i ++)
-        free (gui.box [i]);
+//-----------------------------------------------------------------------------
+// gui_init_applets (void)
+// Initialize default GUI applets
+//-----------------------------------------------------------------------------
+void    gui_init_applets (void)
+{
+    // About box
+    AboutBox_Init();
+
+    // Message Log
+    TB_Message_Init();
+
+    // Memory Viewer
+    MemoryViewer_MainInstance = MemoryViewer_New(TRUE, -1, -1);
+
+    // Tilemap Viewer
+    TilemapViewer_MainInstance = TilemapViewer_New(TRUE);
+
+    // Text Viewer
+    TextViewer_Init(&TextViewer);
+    // FIXME: save current file in meka.cfg
+    if (TextViewer_Open(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), Env.Paths.DocumentationMain) != MEKA_ERR_OK)
+        Msg (MSGT_USER, Msg_Get(MSG_Doc_File_Error));
+    TextViewer.current_file = 0; // FIXME: Remove this field
+
+    // Technical Information
+    TechInfo_Init ();
+
+    // Tiles Viewer
+    TileViewer_Init ();
+
+    // Palette Viewer
+    PaletteViewer_Init(&PaletteViewer);
+
+    // FM Instruments Editor
+    // FM_Editor_Init ();
+
+    // File Browser
+    FB_Init ();
+
+    // Options
+    Options_Init_Applet ();
+
+    // Inputs Configuration
+    Inputs_CFG_Init_Applet ();
+
+    // Debugger
+    #ifdef MEKA_Z80_DEBUGGER
+    if (Configuration.debug_mode)
+    {
+        Debugger_Enable ();
+        Debugger_Init ();
+        DataDump_Init ();
+    }
+    #endif
 }
 
 //-----------------------------------------------------------------------------

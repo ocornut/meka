@@ -1,3 +1,52 @@
+
+WIP:
+ - closebox widget is broken?
+ - "Macros"
+   - break nopnop --> break x =0,0 "(NOP NOP)"
+ - Menu display bug:
+   http://www.republika.pl/belegdol/temp/menubug.png
+ - Depth
+   - Remove color conversion flag in main loop to avoid too many 
+     behind-the-scene conversions.
+ - Blitters (lots to do)
+   - All blitters, redo, etc
+   - TV mode rely on palette.
+ - Themes:
+   - Convert all themes.
+   - Background pictures switch effect.
+ - Sources:
+   - Link warning regarding zlib?
+   - Include Allegro install package somehow?
+- Data
+  - Embed small default theme package.
+    Remove *Overclocked* and *Amelie* from it (only keep Sega 8-bit related)
+  - Tweak flags for proper color now that there's no more palette.
+- NES broken (untested)
+
+MEKA.CFG: (inform Maxim)
+ - Removed 
+    //gui_access_mode
+    //CFG_Write_Int  ("tv_snow_effect", effects.TV_Enabled);
+    //CFG_Write_Str  ("palette", (Configuration.palette_type == PALETTE_TYPE_MUTED) ? "muted" : "bright");
+    //CFG_Write_Line ("(palette type, either 'muted' or 'bright'");
+    //CFG_Write_Int  ("magic", opt.Magic_C000);
+ - Added
+   gui_video_depth 'auto' 16,24,32, etc
+   
+ - Switching to using int to escaped strings:
+   (escaped characters are: ';' '\' and '"'. all escaped with a '\')
+   (you can ignore escaping if you want)
+   //blitter %d -> blitter %s 
+   //color_theme %d -> theme %s
+
+ - Switching from using string to escaped string:
+   //last_directory
+   //language
+   //screenshots_filename_template
+   //music_wav_filename_template
+   //music_vgm_filename_template
+   Previously those were hacked, with ' ' replaced by '*'
+
   /------------------\
 /-|  MEKA TODO LIST  |-------------------------------------------------\
 | \------------------/                                                 |
@@ -22,7 +71,6 @@
 | - inputs system improvement (analog sources, map all features, etc)  |
 | - full featured debugger/hacking tools                               |
 | - fill new database entries (redump/sort)                            |
-| - new GUI (easier to build around, allows 16/24/32 bpp)              |
 | - tape emulation                                                     |
 | - better SF-7000 disk support (write & save)                         |
 | - new savestate format + better manager (icons, etc)                 |
@@ -33,7 +81,6 @@ THE YET UNSORTED MESS (this is my notepad basically)
 -----------------------------------------------------------------------------
 
 - Compilation
-  - ASM symbols problem, with/without _ prefix depending on system 
   - AMD64:
     - gcc parameter: -mpentium
     - NASM output format may be different
@@ -69,9 +116,10 @@ doing them now and some are quick work.
 -----------------------------------------------------------------------------
 
 -----------------------------
- WINDOWS PORT PRIORITY
+ WINDOWS PORT PRIORITY/NOTES
 -----------------------------
  - THE AUTO FRAME SKIPPER SUCKS
+ - SOUND SUCKS
  - Screen flashing (see PatrickP e-mails) - screen/buffer data written 
    to by some other applet (apparently DirectX cannot prevent this), and
    screen is never cleared by MEKA.
@@ -98,15 +146,16 @@ doing them now and some are quick work.
 -----------------------------
  VGM
 -----------------------------
- - Support VGM 1.02 (Noise feedback parameter) + in PSG emulation
- - Add feature to only start logging "when sound start"
  - Built-in VGM player (implement Maxim VGM stub)
  - GD3: 
    - Japanese GD3 (for systems at least)
    - Option to create VGM without GD3.
    - Store user name somewhere, now that MEKA.KEY file is obsolete.
  - Check http://isweb38.infoseek.co.jp/art/rophon/data/download.htm
- - Semi-automatic FX disabler (track PSG IO access, NOP some)
+ - Tool:
+   - Automatic trimming.
+   - PSG access addresses logger/hacker (see notes under DEBUGGER).
+ - Add feature to only start logging "when sound start" (for WAV log)
 
 -----------------------------
  ROM INFORMATION
@@ -123,8 +172,9 @@ doing them now and some are quick work.
  - Better syntax error verbosing (currently there's none).
  - Generally:
    - Check Maxim's old & new e-mails.
-   - Check Kevin Chase e-mail.
-   - Fixes missing "the". Pay attention to complicated licensed titles.
+   - Check Kevin Chase e-mails.
+   - Fixes missing "the". 
+   - Pay attention to complicated licensed titles (eg: "Disney's Aladdin".
 
 -----------------------------
  PERIPHERALS/INPUTS EMULATION
@@ -185,6 +235,7 @@ doing them now and some are quick work.
 -----------------------------
  BLITTERS
 -----------------------------
+ - Fallback to safe mode
  - GUI video modes should be in MEKA.BLT (just all any blitter, but with
    less features - no filtering, etc).
  - Replace video_clear() by a future clearing on blit
@@ -222,6 +273,7 @@ doing them now and some are quick work.
    - Support for fullscreen blitter (hmm..?)
  - Old (don't remember what it is for, check e-mail archive))
    - Check video drivers stuff (9016/9021) : http://www.ati.com/support/products/pc/radeon/win98/radeonwin98drivers.html?cboOS=Windows+98&cboProducts=RADEON+64MB+DDR+VIVO&cmdNext=GO%21.
+ - [Win32] Support OS resolution change.
 
 -----------------------------
  AUTO FRAME SKIPPER / SYNC
@@ -237,13 +289,15 @@ doing them now and some are quick work.
 -----------------------------
  - Add triple buffering (seems easy and very useful)
  - Support 16/24/32 bits.
-    - First introduce support in GUI.
+    - Strip out 8-bit modes
+    - Palette system hold value of color in current mode.
+    - First introduce support in GUI
     - Need to rewrite video emulation drawers (use hacky #define/#include or template?)
-    - In true color, palette system hold value of color in current mode.
     - Theme switching and fading will require full redraw.
+    - Once done, do a pass on GUI theme to rename and reselect colors appropriately
  - Fix page flipping waiting for VSync.
  - Find a solution to the fact color raster effects in GUI sucks so much. [8bpp]
- - DOS:
+ - MS-DOS:
    - Colors broken on Permedia 2 ?
    - Colors 512x384 video mode, etc
    - Mode Q (check ZSnes)
@@ -255,17 +309,28 @@ doing them now and some are quick work.
  VDP/VIDEO EMULATION
 -----------------------------
  - 224/240 lines mode should only be activated if both bits are set (see Charles's doc)
- - Add VDP Model selection somewhere in GUI (useful for programmers).
- - VDP Model 315-5124: Doubled sprites bug (see Earthworm Jim)
+ - VDP Model differences
+   - Add VDP Model selection somewhere in GUI (useful for programmers).
+   - VDP Model 315-5124: Doubled sprites bug (see Earthworm Jim)
+   - Write to CRAM on legacy VDP (which?) should not update palette (only CRAM).
  - Fix interrupt emulation and VDP control over the Z80 IRQ Line.
- - Write to CRAM on legacy VDP (which?) should not update palette (only CRAM).
  - Other VDP Model differences (see Interactive Sprite Test, bug on SMS 1)
- - Support TMS9918 palette as on Japanese SMS (and Mark III)
-   http://www.purose.net/befis/halloffame/msx_col/
- - Support TMS9918 palette from http://junior.apk.net/~drushel/pub/coleco/twwmca/wk961118.html
+ - Palette
+   - Support TMS9918 palette as on Japanese SMS (and Mark III)
+     http://www.purose.net/befis/halloffame/msx_col/
+   - Support TMS9918 palette from http://junior.apk.net/~drushel/pub/coleco/twwmca/wk961118.html
+ - TMS9918
+   - Render on a line basis to fix "Zoom Effect #1" demo (grr..)
  - Border emulation (this is a big miss)
  - Handle VRAM Accesses while refresh is ongoing (for programmers)
- - Emulate sprite overflow (VDP status bit 6 set). Should be fairly easy.
+   See http://www.smspower.org/forums/viewtopic.php?t=7849
+ - Emulate sprite overflow (9th sprite) (VDP status bit 6 set). Should be fairly easy.
+
+-----------------------------
+ TECHINFO APPLET
+-----------------------------
+ - Standardize names, registers names, etc.
+ - Redo from stratch? Separate applets for different system components? 
 
 -----------------------------
  DEBUGGER
@@ -276,11 +341,15 @@ doing them now and some are quick work.
      Check coherency and switching between mainloops (emulation standard/debug, no emulation)
    - Backspace in memory editor widget reset machine
  - Debugger:
+   - Console log: add full print history + a scrollbar.
    - Button to enable/disable exclusive focus.
-   - Auto reload ROM option.
+   - Auto reload ROM option
+     - Win32: possible to setup a notification
  - Breakpoint:
-   - At nop nop (not exactly easy to do without going into modificating the Z80 emulator)
-     Interesting more generic solution: add data compare to breakpoint, eg:
+   - Add breakpoint from memory editor and/or disassembly window.
+     - Simple version: click on disassembly window for breakpoint.
+   - At nop nop break
+   - Interesting more generic solution: add data compare to breakpoint, eg:
      - B W 1000 = FF // break when write FF to 1000
      - Can be a simple equality test at first, then potentially can add: 
        - Simple masking feature
@@ -316,17 +385,33 @@ doing them now and some are quick work.
    - Keep track of source symbol, by keeping t_debugger_value all along the chain.
    - Figure out a way to keep symbol references and have them updated on ROM reload.
  - SET command
-   - eg: "set HL = $C000", "set BC = label", etc
-   - Need to rework the concept of variable to be writable? l-value flag with access
-     to the write handler? Also think about later stuff such as "set RAM[0] = 0"
+   - Access to non Z80 registers.
+   - Indexing.
+     eg: "set RAM[0] = 0"
+ - MEMEDIT command
+   - Specify address
+   - Specify bus (standardize)
  - SEARCH command
    - Bytes/ascii search
-   - Access to all kind of memory, once we have the proper abstract (see above).
- - Misc Commands:
-   - UNMAP command:
-     - eg: Z80 $A123 -> ROM $18123
-   - SOURCE command:
-     Load commands from a text file. Useful for storing per-project breakpoints.
+   - Access to all kind of memory, once we have the proper abstract (see above)
+ - VAR (?) command
+    " As promised, here's my idea.
+      v address var1 [var2 [var3...]]
+      When execution reaches "address", the contents of var1, var2 etc are reported in the
+      message window and execution is not stopped. var1 etc can be a register or an address
+      in the Z80 memory map. In other words, it allows one to spy on parameters being passed
+      to functions, as well as intermediate variable values inside functions, without having
+      to set breakpoints and watch those values manually using memory dumps or the register
+      display.
+      Letter v is for "variable", since I can't think of a better letter to use. "
+    - Could be this feature or something possibly more generic.
+ - Tilemap viewer:
+   - Support vertical lock (gauntlet, golvellius...).
+   - Proper support for extended modes requires resizing window (tilemap becomes 256*256).
+ - UNMAP command:
+   - eg: Z80 $A123 -> ROM $18123
+ - SOURCE command:
+   Load commands from a text file. Useful for storing per-project breakpoints.
  - Expression evaluator:
    - Unary operators -, !, ~
    - Proper operator priority. Currently two level: +/- gets low priority and 
@@ -339,14 +424,15 @@ doing them now and some are quick work.
    - Highlight edited digits, add backspace support
    - Dump button (calling datadump)
    - Edit ASCII
-   - Editing palette make it possible to screw the TV effect palette
    - Lock a writing value
    - Show modified/written values. 
      How do I do that? Modified since when? Could be useful when stepping in code.
    - Find feature
-   - Small ROM doesn't seems to appear in memory editor. Why?
  - Access to machine data in a standardized way (code/library for programmer,
    standardized syntax for end-user functionnalities)
+   - 8/16-bits differenciation:
+     - WLA DX uses nnnn.b and nnnn.w for ambigous opcodes on other CPUs
+       Use a similar system to remove ambiguity!
    - Extract generic code to access memory blocks from memory editor, stick
      them in a generic interface in t_machine. Usable by memory editor, data
      dumper, debugger M command.
@@ -363,20 +449,20 @@ doing them now and some are quick work.
    - User constructed GUI panels showing you info you want.
      Could display registers, any part of memory, tiles, etc.
      Allowing to create panels for custom debugging.
+ - Input locker
+   - Set input bits manually using check boxes
  - Meka scripting
     - Primitive function with accesses to standardized syntax.
       - A breakpoint can trigger a call.
     - Support for debug configuration file/script per ROM.
     - How can we work out a "project based" setup?
- - Keep a call stack updated (using a modified Z80 core)
+ - Call Stack
+   - Keep a call stack updated (using a modified Z80 core)
+   - "often I find myself having to manually dump the stack memory to find 
+      the address of the calling code for a function"
  - Tools:
    - Callstack viewer
      - Requires Z80 emulator modification
-   - Map viewer
-     - Show full map, red box over currently displayed part.
-       - Support raster H-scrolling
-       - Hover over a tile display info.
-       - Display screen coordinate while hovering.
    - Sprite viewer
      - Select individual sprites, shows infos
    - Sprite ripper
@@ -391,7 +477,7 @@ doing them now and some are quick work.
    - Warn interrupt if VDP latch is set (98% of the time I guess it
      can lead to a bug).
    - Warn interrupt in/out if Z80 registers are differents (except shadow)
-   - PSG access addresses logger
+   - PSG access addresses logger/hacker
      Show checkbox for all location accessing to PSG, allows to disable some.
      Could be super useful for VGM hacking/logging.
 
@@ -452,12 +538,13 @@ doing them now and some are quick work.
  GUI
 -----------------------------
  - Change resolution / video mode: need to interface in menus.
+ - Fade: only 32-bits mode. supported
+ - Font: Move the standalone tilde lower if possible (where does it apply? forgot)
  - Background filling is not correct is GUI resolution ratio is not 4:3
  - Switch fullscreen font to contains bold black+white
    (currently multiple draw pass are done, which is hell slow)
- - Mithril
-   - Rewrite new GUI library
-   - Note: give a quick look at QT (might borrow ideas. I already know .NET and GTK)
+ - Leaks:
+   - gui_box_delete() doesn't delete widgets
  - Optimize (dirty rectangles...) // doesn't require much optimization anymore
  - Documentation viewer
    - Add generic text viewer applet (that user can use to load his stuff).
@@ -473,7 +560,6 @@ doing them now and some are quick work.
     - Support keyboard
     - Show Hotkeys
     - Multi part menus for like the big theme menu
- - Dynamic Box handling dynamic (need to be able to delete them...)
  - Message box: load success/infos message order
 
 -----------------------------
@@ -735,6 +821,7 @@ doing them now and some are quick work.
  - meka.msg
    - Remove Msg_Debug_Brk_Need_Param (little annoying to remove something 
      from the define list now)
+   - Switch all accents from old DOS codepage to Windows one
  - Add code to verify sync/order of message definitions & tables.
  - Switching to full multi languages:
    1. Switch to UTF-8 (accents, etc...). That include updating existing 
@@ -807,7 +894,9 @@ doing them now and some are quick work.
  - TV snow noise
  - Black & white TV mode
  - Screensaver
- - More easters eggs
+ - Easters eggs
+   - More
+   - BreakOut seems broken (ball doesn't always bounce)
  - Blood layer have priorities over menus
 
 -----------------------------
@@ -901,6 +990,7 @@ doing them now and some are quick work.
    - Require mixing on our side, or retrieval of mixed buffer.
  - Game Gear Stereo Emulation
  PSG:
+ - Different PSG feedback/noise for SG-1000/SC-3000/etc.. (SN76489AN variant)
  - Higher PSG Volume
  - Enhanced PSG via samples (using Dave's idea) / or generating sinuses / other ways.
  FM:
@@ -952,17 +1042,13 @@ doing them now and some are quick work.
       don't hear it, so it's a Meka problem."
       - see Maxim e-mail
       - This is just the standard effect of the main sound bug described above.
-     
------------------------------
- SMS TOOLS
------------------------------
- - SMS Checker:
-   - Get out of the MEKA project. Has nothing to do with it!
-   - Currently broken!
-   - Rewrite with libc, new features, CRC, etc... merge with smspage code ?
-   - Make mapper detection optional (/M)
-   - Includes pages dump/infos (find duplicate page) (/P) -> smspage
-   - Note that this tool is not very pertinent anymore (due to Maxim's 
-     HeaderReader being available). Not a priority.
+
+-----------------------------------------------------------------------------
+ NAMING CONVENTION
+-----------------------------------------------------------------------------
+ - Export/Japan
+ - Everything in MEKA.CFG
+ - Everything in MEKA.MSG
+ - ...
 
 -----------------------------------------------------------------------------

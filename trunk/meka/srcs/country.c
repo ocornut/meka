@@ -24,7 +24,7 @@ void    Set_Country_European_US (void)
     Msg (MSGT_USER, Msg_Get (MSG_Country_European_US));
     if (machine & MACHINE_POWER_ON)
         Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
-    Configuration.country = Configuration.country_cfg = COUNTRY_EUR_US;
+    Configuration.country = Configuration.country_cfg = COUNTRY_EXPORT;
     gui_menu_un_check (menus_ID.country);
     gui_menu_check (menus_ID.country, 0);
 
@@ -41,7 +41,7 @@ void    Set_Country_JP (void)
     Msg (MSGT_USER, Msg_Get (MSG_Country_JAP));
     if (machine & MACHINE_POWER_ON)
         Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
-    Configuration.country = Configuration.country_cfg = COUNTRY_JAP;
+    Configuration.country = Configuration.country_cfg = COUNTRY_JAPAN;
     gui_menu_un_check (menus_ID.country);
     gui_menu_check (menus_ID.country, 1);
 
@@ -55,7 +55,7 @@ void    Set_Country_JP (void)
 
 void    Nationalize (byte *v)
 {
-    if (sms.Country == COUNTRY_EUR_US)
+    if (sms.Country == COUNTRY_EXPORT)
         if ((tsms.Periph_Nat & 0xF) == 0x5)
         {
             if ((tsms.Periph_Nat & 0xF0) == 0xF0)

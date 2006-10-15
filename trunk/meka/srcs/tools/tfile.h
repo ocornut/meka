@@ -12,6 +12,7 @@ typedef struct
   int           size;
   char *        data_raw;
   t_list *      data_lines;
+  int           data_lines_count;
 }               t_tfile;
 
 //-----------------------------------------------------------------------------

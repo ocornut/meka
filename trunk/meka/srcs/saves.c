@@ -5,8 +5,11 @@
 
 #include "shared.h"
 #include "bios.h"
+#include "commport.h"
 #include "mappers.h"
+#include "palette.h"
 #include "saves.h"
+#include "tvoekaki.h"
 #include "vdp.h"
 
 //-----------------------------------------------------------------------------
@@ -75,7 +78,7 @@ void        Load_Game_Misc (void)
     // VDP/Graphic related
     tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
     Update_Line_Start_End ();
-    // NO!!! // tsms.VDP_Line = 224;
+    // FALSE!!! // tsms.VDP_Line = 224;
 
     // Rewrite all VDP registers (we can do that since it has zero side-effect)
     for (i = 0; i < 16; i ++)
@@ -86,7 +89,7 @@ void        Load_Game_Misc (void)
         tgfx.Tile_Dirty [i] = TILE_DIRTY_DECODE | TILE_DIRTY_REDRAW;
 
     // Reload palette
-    Palette_Emu_Reload ();
+    Palette_Emulation_Reload ();
 
     // FIXME: Sorry having to do that, but it is because Tms_VDP_Out only
     // react and call LightGun_Mouse_Range() on the flip flop.
@@ -250,7 +253,7 @@ int     Save_Game_MSV (FILE *f)
         fwrite (&SF7000, sizeof (SF7000), 1, f);
         break;
     case MAPPER_CodeMasters:
-        if (OnBoard_RAM_Exist) // Ernie Els Golf Onboard RAM
+        if (sms.Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
             fwrite (RAM, 0x2000 + 0x2000, 1, f);
         else
             fwrite (RAM, 0x2000, 1, f);
@@ -393,7 +396,7 @@ int         Load_Game_MSV (FILE *f)
         fread (&SF7000, sizeof (SF7000), 1, f);
         break;
     case MAPPER_CodeMasters:
-        if (OnBoard_RAM_Exist) // Ernie Els Golf Onboard RAM
+        if (sms.Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
             fread (RAM, 0x2000 + 0x2000, 1, f);
         else
             fread (RAM, 0x2000, 1, f);
@@ -579,14 +582,14 @@ void    Save_Get_Filename (char *str)
     char buf [FILENAME_LEN];
 
     // Create save state directory if it doesn't exist already
-    if (!file_exists (file.dir_saves, 0xFF, NULL))
-        meka_mkdir (file.dir_saves);
+    if (!file_exists (Env.Paths.SavegameDirectory, 0xFF, NULL))
+        meka_mkdir (Env.Paths.SavegameDirectory);
 
     // Compute save state filename
-    strcpy (buf, file.rom);
+    strcpy (buf, Env.Paths.MediaImageFile);
     killext (buf);
     killpath (buf);
-    sprintf (str, "%s/%s.S%02d", file.dir_saves, buf, opt.State_Current);
+    sprintf (str, "%s/%s.S%02d", Env.Paths.SavegameDirectory, buf, opt.State_Current);
 }
 
 //-----------------------------------------------------------------------------

@@ -9,10 +9,11 @@ BITS    32
 SECTION .data
 ; USE32
 
-; Uncomment for UNIX build
-;%DEFINE  _Read_Default_ASM         Read_Default_ASM
-;%DEFINE  _Write_Mapper_32kRAM_ASM  Write_Mapper_32kRAM_ASM
-;%DEFINE  _Mem_Pages                Mem_Pages
+%IFDEF UNIX
+%DEFINE  _Read_Default_ASM         Read_Default_ASM
+%DEFINE  _Write_Mapper_32kRAM_ASM  Write_Mapper_32kRAM_ASM
+%DEFINE  _Mem_Pages                Mem_Pages
+%ENDIF ; UNIX
 	
 GLOBAL  _Read_Default_ASM
 GLOBAL  _Write_Mapper_32kRAM_ASM
