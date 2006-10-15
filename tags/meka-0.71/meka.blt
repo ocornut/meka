@@ -1,0 +1,261 @@
+;-----------------------------------------------------------------------------
+; MEKA - Video Configuration
+; http://www.smspower.org/meka
+;-----------------------------------------------------------------------------
+; To create your own themes, the easiest way is to use Maxim's MEKA configurator:
+;    http://www.smspower.org/maxim/mconfig/
+; Otherwise, you can manually edit this file, using the syntax described below.
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; Syntax:
+;
+;   [name]
+;   res = XRESOLUTIONxYRESOLUTION
+;   blitter = normal | double | scanlines | tvmode | tvmode_double | eagle | parallel
+;   driver = auto | another driver
+;
+; The configuration name must be postfixed by a mark of the appliable operating system:
+;   ::DOS   for the DOS version of MEKA.
+;   ::WIN   for the Windows version of MEKA.
+;   ::UNIX  for the UNIX version of MEKA.
+; See MEKA.CFG/MEKAW.CFG for a list of available graphics drivers.
+;
+; Optional settings:
+;   video_depth = 8 | 16 | 32   (selected video depth)      *WIP* 8 is the default, 16 may be only supported for HQ2X as of yet)
+;   refresh_rate = auto | 60 | 70 | ...
+;   flip                        (enable page flipping to reduce color flickers, slow)
+;   vsync                       (enable wait for vertical synchronization)
+;   triple_buffering            (enable triple buffering)   *WIP*
+;   stretch                     (enable fullscreen stretch) *WIP*
+;
+; Note: the blitter configuration system is about to be reoverhauled, hence
+; the settings marked by *WIP*. They may be instable or not compatible with
+; all kind of settings as of yet. Next version of MEKA should change everything.
+;
+; Available video modes depends on your video card. Some modes you may
+; want to try are 256x192, 256x240, 320x200 and 512x384.
+;
+; ADVICE
+; A great setting in most cases is to setting refresh_rate to 60,
+; enable vsync and disable the autoframeskipper in MEKA. This way,
+; emulation will be perfectly synchronized to 60 Hz.
+; Note all video card / drivers support setting a refresh rate other
+; than the default one, however.
+;
+; FOR MAXIMUM PERFORMANCE
+; - Under DOS, set the higher VESA mode if possible as it's not always
+;   selected by default when using the "auto" driver.
+; - Under Windows, try DirectX modes in priority.
+;
+; Blitters description:
+;  "normal"         default one, nothing special
+;  "double"         double the size of each pixel (need a high resolution
+;                   such as 640x480). It is useful if your video card/driver
+;                   cannot support low resolution modes, or if you can get
+;                   a fullscreen coverage in certain mode (eg: 512x384).
+;  "scanlines"      simulates TV scanlines, faster but not very accurate
+;  "tvmode"         simulates TV scanlines, a bit slower but very nice
+;                   looking. lines are vertically doubled so you need a
+;                   suitable resolution (eg: 320x400).
+;  "tvmode_double"  simulates TV scanlines and double the size of each
+;                   pixels both horizontally and vertically.
+;  "parallel"       show even and odd frames side by side
+;  "eagle"          apply Eagle filtering (requires a *2 resolution)
+;  "hq2x"           apply HQ2X filtering (requires a *2 resolution)
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; WINDOWS - Default Modes
+;-----------------------------------------------------------------------------
+
+;[Normal::WIN]
+;res = 320x200
+;driver = directx
+;refresh_rate = auto
+
+;[PAL Screen::WIN]
+;res = 320x240
+;driver = directx
+;flip
+;refresh_rate = auto ; 50
+
+[Smooth::WIN]
+res = 320x200
+driver = directx
+;flip
+triple_buffering
+refresh_rate = 60
+
+[Smooth PAL::WIN]
+res = 320x240
+driver = directx
+;flip
+triple_buffering
+refresh_rate = auto ; 50
+
+[TV Mode::WIN]
+res = 640x480
+blitter = tvmode_double
+driver = directx
+;flip
+triple_buffering
+refresh_rate = 60
+
+[Windowed::WIN]
+res = 256x200
+driver = directx_win
+;;flip
+;triple_buffering
+
+[Windowed Double::WIN]
+res = 512x400
+blitter = double
+driver = directx_win
+;;flip
+;triple_buffering
+
+[HQ2X::WIN]
+res = 1024x768
+driver = directx
+refresh_rate = auto
+blitter = hq2x
+video_depth = 16
+triple_buffering
+stretch
+
+;[Eagle::WIN]
+;res = 640x480
+;blitter = eagle
+;driver = auto
+;; flip
+
+;-----------------------------------------------------------------------------
+; UNIX - Default Modes
+;-----------------------------------------------------------------------------
+
+[Fullscreen::UNIX]
+res = 640x480
+blitter = double
+driver = auto
+
+[Windowed::UNIX]
+res = 256x200
+driver = auto
+
+[Windowed Double::UNIX]
+res = 512x400
+blitter = double
+driver = auto
+
+;-----------------------------------------------------------------------------
+; DOS - Default Modes
+;-----------------------------------------------------------------------------
+
+;[Normal::DOS]
+;res = 320x200
+;driver = auto
+;;vsync
+
+;[PAL Screen::DOS]
+;res = 320x240
+;driver = auto
+;;vsync
+
+[Smooth::DOS]
+res = 320x200
+driver = auto
+flip
+refresh_rate = 60
+
+[Smooth PAL::DOS]
+res = 320x240
+driver = auto
+flip
+refresh_rate = 60
+
+[TV Mode::DOS]
+res = 320x400
+blitter = tvmode
+driver = auto
+;vsync
+
+;-----------------------------------------------------------------------------
+; OBSOLETE - Other modes you can enable or toy with
+;-----------------------------------------------------------------------------
+
+;[Vsync]
+;res = 320x200
+;blitter = normal
+;driver = auto
+;vsync
+
+;[Page Flipping]
+;res = 320x200
+;blitter = normal
+;driver = auto
+;flip
+
+;[VSync + Page Flipping]
+;res = 320x200
+;blitter = normal
+;driver = auto
+;vsync
+;flip
+
+;[Normal 256x192]
+;res = 256x192
+;blitter = normal
+;driver = auto
+
+;[Doubled]
+;res = 512x384
+;blitter = double
+;driver = auto
+
+;[Doubled Game Gear]
+;;res = 400x300
+;;res = 376x308
+;;blitter = double
+;;driver = auto
+;;; res = 320x350
+;;; res = 376x282
+;;; res = 360x360
+
+;[Scanlines]
+;res = 320x400
+;blitter = scanlines
+;driver = auto
+
+;[TV Mode Doubled]
+;res = 512x384
+;blitter = tvmode_double
+;driver = auto
+
+;[Eagle]
+;res = 640x480
+;blitter = eagle
+;driver = auto
+;; flip
+
+;[Parallel]
+;res = 640x480
+;blitter = parallel
+;driver = auto
+
+;[Perfect]
+;res = 512x384
+;blitter = tvmode_double
+;driver = auto
+;flip
+;;vsync
+
+;[Perfect 2]
+;res = 320x400
+;blitter = tvmode
+;driver = auto
+;flip
+;;vsync
+;; Use this one if "Perfect" gives you wrong colors
+
+;-----------------------------------------------------------------------------

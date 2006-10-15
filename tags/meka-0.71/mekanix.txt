@@ -1,0 +1,87 @@
+
+  MEKA for UN*X - Documentation
+ ===============================
+
+ Note: please read the main documentation (MEKA.TXT) for everything
+ that generally apply to MEKA and all its versions. This file covers
+ specific aspects of the UN*X versions.
+
+ Since years, I have working builds of MEKA for GNU/Linux and NetBSD,
+ that I sometimes played with at school. Several people asked me in
+ the past, and more recently, to release UN*X builds.
+
+ Here is a GNU/Linux build to begin.
+ I've build it on a recently installed RedHat system, and it was
+ successfully tested on a recent Debian as well.
+
+ Please however keep in mind, that:
+  - It is crappy.
+  - It may or not works on your system.
+  - Now that sources are available, you can help ;)
+    See development forum: 
+    http://www.smspower.org/forums/viewforum.php?f=7
+
+ I am not willing to spend much time maintaining UN*X releases yet.
+ Those releases are for people who nicely asked for MEKA being available 
+ on communist operating systems :) and I have hope that it can be useful. 
+ Yet, I just don't have much time to work on supporting it. I'm not 
+ against you users, but please understand that I'm currently in a very 
+ busy situation and targetting UN*X for my emulator is not a priority.
+
+ I am welcoming anyone to help, though.
+ And, I will do my best to consider those mails:
+  - "I cannot get it to work, but you may be able to fix it by
+     doing xxx or xxx."
+  - "I cannot get it to work. Unfortunately, I cannot help you
+     with technical suggestion but I'll give you plenty of
+     information and it may guide you to a solution."
+  - "I have a smart suggestion to improve the program: xxx."
+
+ Technical notes
+
+ - Security
+
+   UN*X users are usually paranoid about security, so let me get straight to
+   the point: MEKA has MANY potentially unsecure points, including, but not
+   limited to, overflowable buffers, format string bugs, integer overflow bugs, 
+   race condition and everything bad you can think about.
+   
+   Do NOT setuid it, and do NOT let other users access to your configuration
+   files unless you trust them. Generally speaking, MEKA is to be used by the
+   local user and main owner of the computer.
+   Being logged as root helps since some X Window extension seems to be only
+   available as root (eg: DGA), making the whole thing even more scary and
+   probably also more cool to deal with!
+
+ - Video
+
+   MEKA relies on palettized video modes which are not well supported on 
+   some newer videocard/drivers combos. Thus, you may (or not) experience 
+   slowdowns, tearing, snow or wrong colors with some videocard/drivers.
+   Best performance can be obtained by setting your X Window server to 8-bit
+   video mode, or setting up MEKA to switch to such mode (often using an
+   X extension, such as DGA).
+
+ - Sound
+
+   Out of what I was able to test, I got a choppy and 1 second retarded
+   sound output. It may works better on some systems / configuration, and
+   I'd be glad to hear reports about that.
+   This is due to crappy sound code on the software side. This problem
+   is being addressed.
+
+ - Inputs
+
+   Inputs sources other than keyboard or mouse were not tested.
+   Please report successes or failures.
+
+ - Other things
+
+   I'm considering to find an UN*X maintainer.
+   If you are fairly skilled, very familiar with multimedia technology on
+   any x86 based UN*X like system (GNU/Linux, BSD systems, etc.) and
+   interested in improving MEKA, please e-mail me about it.
+   
+Thanks for your reading,
+
+Omar Cornut

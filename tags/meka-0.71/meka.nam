@@ -1,0 +1,1566 @@
+;-----------------------------------------------------------------------------
+; MEKA - Software Database
+; Last updated 2005/06/12
+;-----------------------------------------------------------------------------
+; Database made and kept updated by Omar Cornut (Bock).
+; This file relates to an important part of the MEKA / SMS Power projects,
+; that is to dump, archive, label and version ROM images properly. 
+; It is being updated regularly based on various data sources and analysis.
+; Please contact me if you have any change to request/suggest.
+;-----------------------------------------------------------------------------
+; Note about data preprocessing that is done by MEKA before applying CRCs:
+; - Duplicated data removed (2x/3x/4x+ overdumps)
+; - Sega 8-bits:
+;   - 512-bytes header removed
+;   -  64-bytes footer removed
+; - ColecoVision:
+;   - 128-bytes header removed 
+;   - 512-bytes footer removed
+;-----------------------------------------------------------------------------
+; Note about additionnal information in name field:
+; - Version is added to the name field, if there's several versions for a
+;   same software.
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; State of the Database:
+;-----------------------------------------------------------------------------
+; All data are now being converted to a new, better format. In addition,
+; extended analysis and verification will be made on a case by case basis,
+; before adding entries to the new format. 
+; - Names are verified based on original media/cartridge, box and manuals.
+;   I am now paying particular attention to exact casing.
+; - Every cartridge is being redumped and verified.
+; - Each ROM is properly associated to countries where it has been released. 
+;   In some case, not all country version were dumped and some countries are
+;   being associated to a ROM under the assumption that the version of this
+;   country contains the same data as the other one.
+;     eg: European game dumped, Brasilian version assumed to be the same.
+;   Whenever possible, everything is being dumped, and country association
+;   are confirmed or corrected as new cartridges are being dumped.
+; Entries in the new format are therefore to be all considered as GOOD and
+; associated to GOOD dumps.
+; Of course, it could always happen that errors were left, but overally
+; the new database content will be more much exhaustive and accurate than
+; any existing database.
+;-----------------------------------------------------------------------------
+; Approximately 20% of the database was converted.
+;-----------------------------------------------------------------------------
+; The top part of this file consists in verified entries in the new format.
+; The bottom part consists in entries in the old format. Once every entries
+; will be verified and converted, the old format will be made obsolete.
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; DATA - SEGA MASTER SYSTEM (SMS)
+;-----------------------------------------------------------------------------
+
+SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
+SMS 8b43d21d 656A7A10AFC7AD84   Air Rescue/COUNTRY=EU,BR/PRODUCT_NO=7102
+SMS 17a40e29 7D8119AF99740429   Alex Kidd in Miracle World [v0]/COUNTRY=US/PRODUCT_NO=5067/COMMENT=This is the first version released in USA.
+SMS aed9aac4 9E9ACFFA4B7344FD   Alex Kidd in Miracle World [v1]/COUNTRY=US,EU/PRODUCT_NO=5067/COMMENT=This version was released in both Europe and USA.
+SMS 08c9ec91 8F4496EF846F02B3   Alex Kidd no Miracle World/COUNTRY=JP/PRODUCT_NO=G-1306
+SMS d2417ed7 7ACEE06A678FF583   Alex Kidd in Shinobi World/COUNTRY=US,EU,BR/PRODUCT_NO=7044
+SMS 82038ad4 8C8CBA6269074D0F   Alf/COUNTRY=US,BR/PRODUCT_NO=5111
+SMS b618b144 2C339F1D709F32A4   Alien 3/COUNTRY=EU,BR/PRODUCT_NO=27043-50
+SMS 5cbfe997 468211BFBE1EC3C9   Alien Syndrome/COUNTRY=US,EU,BR/PRODUCT_NO=7006
+SMS 4cc11df9 DCF4C5DA46B94250   Alien Syndrome/COUNTRY=JP/PRODUCT_NO=G-1339
+SMS fff63b0b 706FE01391B816CF   Anmitsu Hime/COUNTRY=JP/PRODUCT_NO=G-1328/COMMENT=Japanese version of "Alex Kidd: High-Tech World".   ; [EDITOR NOTE] SMS checksum is wrong, was verified on original cartridge.
+SMS e4163163 52E64F6379BC4E93   Arcade Smash Hits/COUNTRY=EU/PRODUCT_NO=27032
+SMS 0bd8da96 61A53B8B8924BFC8   Assault City/COUNTRY=EU/PRODUCT_NO=7034/COMMENT=A Light Phaser version also exists.
+SMS 861b6e79 3192D86747C4C62D   Assault City [Light Phaser]/COUNTRY=EU,BR/PRODUCT_NO=7040/EMU_INPUTS=LIGHTPHASER/COMMENT=A Joypad version also exists.
+SMS 69efd483 35006A2A22FE0710   Astro Warrior \/ Pit Pot/COUNTRY=EU,DE/PRODUCT_NO=6081,41011
+SMS ff614eb3 C0065F686A4316B0   Aztec Adventure/NAME_JP=Nazca '88/COUNTRY=JP,EU,US/PRODUCT_NO=G-1335,5100
+SMS 655fb1f4 D8A13BCA59CD77E5   Bank Panic/COUNTRY=EU,DE/PRODUCT_NO=4084,41022,4584
+SMS 0df8597f 0C2223DC0ECAB348   Basketball Nightmare/COUNTRY=EU,BR/PRODUCT_NO=7025
+SMS da3a2f57 23DA1C4AC46CB8B5   Black Belt/COUNTRY=US,EU/PRODUCT_NO=5054/COMMENT=Export version of "Hokuto no Ken". The original Japanese game is based on the "Fist of the North Star" manga. Characters and levels were replaced for the export version.
+SMS b0fc4577 C10FA02711E01C5C   Buggy Run/COUNTRY=EU,BR/PRODUCT_NO=9025,028340
+SMS 3cff6e80 CA4954F3D05891ED   Casino Games/COUNTRY=US,EU/PRODUCT_NO=7021
+SMS 953f42e1 6A279D3154CF1D61   Castle of Illusion/COUNTRY=EU,BR/PRODUCT_NO=7053
+SMS b9db4282 DA621A73F5D66606   Castle of Illusion/COUNTRY=US/PRODUCT_NO=7053
+SMS 9942b69b 98C6E58711A96715   Castle of Illusion [SMS-GG]/NAME_JP=Mickey Mouse no Castle Illusion/FLAGS=SMSGG_MODE/COUNTRY=JP/PRODUCT_NO=G-3301
+SMS 59840fd6 CCD28DCAC9AC7C1A   Castle of Illusion [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=US,EU
+SMS 23163a12 F15F4C92401D6312   Champions of Europe/COUNTRY=EU,BR/PRODUCT_NO=27034-50,025430
+SMS 492c7c6e 2F6E3B854AD2C1C6   Chapolim x Dr·cula - Um Duelo Assustador/COUNTRY=BR/PRODUCT_NO=023430/COMMENT=Hacked version of "Ghost House", by Tec Toy.
+SMS 4a21c15f BA03F66F1CEFB221   Choplifter/COUNTRY=US,EU/PRODUCT_NO=5051
+SMS 16ec3575 59B7B528A8C7DFC5   Choplifter [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMENT=Prototype version of the game, found on a Japanese-format cartridge.
+SMS e421e466 8854D3291643319E   Chouon Senshi Borgman/COUNTRY=JP/PRODUCT_NO=G-1371/COMMENT=Japanese version of "Cyborg Hunter".
+SMS c30e690a B2D10AB51B1C5136   Chuck Rock II - Son of Chuck/COUNTRY=EU/PRODUCT_NO=29019-50
+SMS 87783c04 DE902135694BC6C2   Chuck Rock II - Son of Chuck/COUNTRY=BR/PRODUCT_NO=028440/COMMENT=This version is an earlier build than the European version.
+SMS 9d549e08 59868AC9BD4815B4   Comical Machine Gun Joe/COUNTRY=JP/PRODUCT_NO=C-511
+SMS 7253c3ec DF1EDD826F58CE0F   Color & Switch Test/COMMENT=The origin of this program is unknown but it is likely official. The ROM contains a "POWER BASE CHECK" string.
+SMS 13ac9023 7269A76D348E66E9   Cool Spot/COUNTRY=EU/PRODUCT_NO=27068
+SMS 29822980 AA098A4FE1EB594F   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=27074-50/EMU_MAPPER=3/EMU_TVTYPE=PAL/EMU_SPRITE_FLICKER
+SMS b137007a F82AE98027F45A00   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=EU,BR/PRODUCT_NO=7122 ; [EDITOR NOTE] Missing BR version product_no
+SMS 52b83072 06C09D75451032A1   Double Target - Cynthia no Nemuri/COUNTRY=JP/PRODUCT_NO=G-1314/COMMENT=Japanese version of "Quartet".
+SMS 7db5b0fa 8B7CE5483E4F1B24   Dynamite Headdy/COUNTRY=BR/PRODUCT_NO=028570/COMMENT=This is a port from the Game Gear version. It was apparently ported to the Master System by a division of SEGA outside Japan, but never released at the time. Tec Toy later released it.
+SMS c4d5efc5 65DF0FAE9B9BD8F1   Earthworm Jim/COUNTRY=BR/PRODUCT_NO=028690/EMU_TVTYPE=NTSC/COMMENT=This is a port from the Game Gear version. It has a status bar display bug on early Master System 1.
+SMS 00e73541 93D3417EE009757D   Enduro Racer/NAME_BR=Super Cross/COUNTRY=US,EU,BR/PRODUCT_NO=5077/COMMENT=This is the limited version of the game as released outside of Japan (5 differents level layout instead of 10 in the Japanese version).
+SMS c4bb1676 C12FD315320E1CCC   E-SWAT [A]/COUNTRY=US,EU,BR/VERSION=A/PRODUCT_NO=7042
+SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [B]/COUNTRY=US,EU,BR/VERSION=B/PRODUCT_NO=7042
+SMS aa140c9c 0E423CDBCAD3E01C   Excellent Dizzy Collection, The [SMS-GG]/COUNTRY=EU/FLAGS=SMSGG_MODE/EMU_TVTYPE=PAL/EMU_MAPPER=3
+SMS 8813514b B7049344859B9CB2   Excellent Dizzy Collection, The [Proto]/FLAGS=PROTO/EMU_TVTYPE=PAL/EMU_MAPPER=3/COMMENT=Seems incomplete. The prototype was submitted as a 256 KB EPROM, while the full Game Gear version is twice as big. It's possible to run this version a bit further by appending the second half from the Game Gear version, but it'll eventually crash.
+SMS eaebf323 A14F71C94A96B145   F-16 Fighter/COUNTRY=US,EU,DE/PRODUCT_NO=4005M,4081,4581,41005
+SMS 7ce06fce 41BC24AC74DB9252   F-16 Fighting Falcon/COUNTRY=JP/PRODUCT_NO=C-508
+SMS 184c23b7 8B5072C94E9DBB44   F-16 Fighting Falcon/COUNTRY=US/PRODUCT_NO=4005
+SMS 7abc70e9 BAB2C9BE74870012   Family Games (Party Games)/COUNTRY=JP/PRODUCT_NO=G-1342/COMMENT=Japanese version of "Parlour Games". When ran on an export Master System, the game title screen says "Party Games". This later name was however never used officially in any country, since the export release is named "Parlour Games".
+SMS b9664ae1 914DC1AEAC3729A7   Fantastic Dizzy/COUNTRY=EU/EMU_MAPPER=3/EMU_TVTYPE=PAL/PRODUCT_NO=27074-50
+SMS c888222b 42A62B8FE6E5DCB7   Fantastic Dizzy [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/EMU_MAPPER=3/EMU_TVTYPE=PAL
+SMS 8b24a640 C9A68D7C60D1C196   Fire & Ice/COUNTRY=BR/PRODUCT_NO=027360/COMMENT=This game was developped and planned for release in Europe, then was cancelled. Tec Toy later released the game in Brasil.
+SMS 5fc74d2a 1EE251A5D9687455   Gangster Town/COUNTRY=EU,US,BR/EMU_INPUTS=LIGHTPHASER/EMU_IPERIOD=258/PRODUCT_NO=5074,023120   ; [EDITOR-NOTE] BR blue box version is 023120. BR cardboard version has no product_no.
+SMS b746a6f5 A9CF4BEC1F7EF8BC   Global Defense/COUNTRY=US,EU/PRODUCT_NO=5102/COMMENT=Export version of "Strategic Defense Initiative".
+SMS 91a0fc4e CB2CDBCADF1A610A   Global Defense [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS 05cdc24e 03D41A910937FC42   G-LOC - Air Battle/NAME_BR=G-Loc/COUNTRY=EU,BR/PRODUCT_NO=7071
+SMS c7ded988 9BCA87E879AE0BFA   Golden Axe Warrior/COUNTRY=US,EU,BR/PRODUCT_NO=7505
+SMS a51376fe 593A81384915F462   Golvellius - Valley of Doom/COUNTRY=US,EU/PRODUCT_NO=7017/COMMENT=Export version of "Maou Golvellius".
+SMS 98e4ae4a 20A77684F32545E2   Great Golf/NAME_JP=Masters Golf/COUNTRY=JP,US,EU/PRODUCT_NO=G-1332,5057/COMMENT=This game was called "Masters Golf" in Japan. Another game also named "Great Golf" was released in Japan, but isn't the same game.
+SMS 6586bd1f 60D284A3414C61B9   Great Golf [JP]/COUNTRY=JP/PRODUCT_NO=G-1313/COMMENT=Another game also named "Great Golf" was released in USA and Europe, but isn't the same game.
+SMS 1c5059f0 AC0BC3BFC7D2AB83   Hang On \/ Astro Warrior/COUNTRY=US/PRODUCT_NO=6002
+SMS e167a561 319F4234855F6670   Hang On \/ Safari Hunt/COUNTRY=US,KR/PRODUCT_NO=6001/EMU_INPUTS=LIGHTPHASER
+SMS 6a664405 97C27C98AF09FCDF   James "Buster" Douglas Knockout Boxing/COUNTRY=US/PRODUCT_NO=7063/COMMENT=Same game as "George Foreman's KO Boxing" and "Heavyweight Champ".
+SMS 102d5fea 0C38C7A1580A24CE   James Pond II - Codename: Robocod/COUNTRY=EU,BR/PRODUCT_NO=29013-50,028580
+SMS 695a9a15 C723308C422E8664   Jungle Book, The/NAME_DE=Das Dschungelbuch/NAME_FR=Le Livre de la Jungle/COUNTRY=EU,BR/PRODUCT_NO=MK-27069,027330
+SMS f8d33bc4 7A69F7D063546D32   King's Quest - Quest for the Crown/COUNTRY=US/PRODUCT_NO=4360
+SMS b7fe0a9d A7EF2C74C4AA61FB   King's Quest - Quest for the Crown [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Unfinished prototype version of the game.
+SMS d11d32e4 261F3B6965EAC701   Kujakuou/COUNTRY=JP/PRODUCT_NO=G-1366/COMMENT=Japanese version of SpellCaster.
+SMS a1710f13 57B8D77289FE41E0   Lucky Dime Caper, The - Starring Donald Duck/NAME_BR=Lucky Dime Caper, The - Estrelando Pato Donald/COUNTRY=EU,BR/PRODUCT_NO=7072
+SMS 7f6d0df6 FF0D4BCCBFED062B   Lucky Dime Caper, The - Starring Donald Duck [Proto]/FLAGS=PROTO/COMMENT=Unfinished prototype version of the game, featuring a single level and no sound\/music. Cartridge label says "Donald Duck".
+SMS bf0411ad FFA3B9E9C1445E59   Maou Golvellius/COUNTRY=JP/PRODUCT_NO=G-1363/COMMENT=Japanese version of "Golvellius - Valley of Doom".     ; [EDITOR NOTE] SMS checksum is wrong, was verified on original cartridge.
+SMS e8ea842c 8865855EC8C5267D   Marksman Shooting & Trap Shooting/COUNTRY=US,BR/EMU_INPUTS=LIGHTPHASER/PRODUCT_NO=6003         ; [EDITOR-NOTE] BR cardboard version has no product_no.
+SMS 1b1d8cc2 9E56B510032E6FA7   Ninja Gaiden/COUNTRY=EU,BR/PRODUCT_NO=7101
+SMS 761e9396 762C4C122E81DD74   Ninja Gaiden [Proto]/FLAGS=PROTO/COUNTRY=EU,BR/PRODUCT_NO=7101/COMMENT=Prototype version of the game.
+SMS d6f43dda 1BB3AE977AC3CCE4   Out Run 3-D/NAME_BR=Out Run 3D/COUNTRY=EU,BR/PRODUCT_NO=8007/EMU_3D/COMMENT=This game can be played using a Paddle Control, if you enable it. The 3-D effect can be removed by pressing Pause on title screen.
+SMS e030e66c 621888488B1D43CB   Parlour Games/COUNTRY=US,EU/PRODUCT_NO=5103/COMMENT=Export version of "Family Games" ("Party Games").
+SMS 9aefe664 B3AE3F297F8E9793   Pat Riley Basketball [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the unreleased game.
+SMS 6605d36a 2E083BD3646B9C51   Phantasy Star/COUNTRY=JP/PRODUCT_NO=G-1341
+SMS 07301f83 A8CCBAD5B519DA55   Phantasy Star [Megadrive]/COUNTRY=JP/PRODUCT_NO=G-4534/COMMENT=This is the Sega Megadrive version, as reissued in Japan on April 2nd, 1994. It was later included in "Phantasy Star Collection" for the Sega Saturn.
+SMS e4a65e79 ABD648F1F23F54C1   Phantasy Star [v2]/COUNTRY=US,EU/PRODUCT_NO=9500/COMMENT=This first batch of the English localization has a minor graphic bug. In the interface, when trying to save from certain place, there's garbage on the screen. It was fixed in version 3 of the ROM, which is more common.
+SMS 00bef1d7 ABD447F2F23F56C1   Phantasy Star [v3]/COUNTRY=US,EU/PRODUCT_NO=9500
+SMS 75971bef 1B751562EAF667B2   Phantasy Star/COUNTRY=BR/PRODUCT_NO=029010
+SMS 747e83b5 4CB57E6A76C6CF0C   Phantasy Star/COUNTRY=KR/PRODUCT_NO=GB 4014KS
+SMS c7a1fdef E9FF01CC584A7A2F   Populous/COUNTRY=EU,BR/PRODUCT_NO=27014
+SMS 7704287d 2AD78D0B99231992   Prince of Persia/COUNTRY=EU,BR/PRODUCT_NO=27022-50,027270
+SMS 30af0233 6B2F747298C5F330   Promocao Especial M.System III Compact/COUNTRY=BR/COMMENT=Tec Toy cartridge sent to Brasilian shops, promoting the Master System III Super Compact and release of Sonic The Hedgehog 2.
+SMS 97993479 51C5A27AE5C1A97F   Psycho Fox/COUNTRY=US,EU,BR/PRODUCT_NO=7032
+SMS 357d4f78 F8FBE39B6B9A7A10   Putt & Putter/NAME_BR=Minigolf/COUNTRY=EU,BR/PRODUCT_NO=5122
+SMS 8167ccc4 57D2E5AF6CF007E0   Putt & Putter [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS e0f34fa6 7B806045EC630110   Quartet/COUNTRY=US,EU/PRODUCT_NO=5073/COMMENT=Export version of "Double Target - Cynthia no Nemuri".
+SMS c172a22c 7BCD35D3A8365C76   Rainbow Islands/COUNTRY=EU/PRODUCT_NO=7117
+SMS 00ec173a 60C74DD2B1355C78   Rainbow Islands/COUNTRY=BR/PRODUCT_NO=026360/COMMENT=This version is an earlier build than the European version. It has different copyright information.
+SMS 8212b754 7C3D8387CD52CB53   RoboCop versus The Terminator/COUNTRY=EU,BR/PRODUCT_NO=29022-50,028520
+SMS 6bd5c2bf BEFA25D66361C8C1   Space Harrier 3-D/COUNTRY=US,EU,BR/PRODUCT_NO=8004/EMU_3D/COMMENT=The 3-D effect can be removed by doing the following: complete the game with a score that qualifies for a sixth or higher position on the high score screen, then enter THREE as a name on the high score screen with Control Pad 2.
+SMS 156948f9 97FA12D86875C8E0   Space Harrier 3D/COUNTRY=JP/PRODUCT_NO=G-1349/EMU_3D/COMMENT=The 3-D effect can be removed by doing the following: complete the game with a score that qualifies for a sixth or higher position on the high score screen, then enter THREE as a name on the high score screen with Control Pad 2.
+SMS fa8e4ca0 A6E188CF3FB0E053   Special Criminal Investigation - S.C.I./COUNTRY=EU/PRODUCT_NO=7079
+SMS 1b7d2a20 AEE088CC3FB0E04F   Special Criminal Investigation - S.C.I. [Proto]/FLAGS=PROTO/COMMENT=Pre-approval prototype version of the game. Game content is identical, only the ROM header is different.
+SMS e42e4998 C4C45B848BC2A3A9   Sports Pad Football/COUNTRY=US/PRODUCT_NO=5060/EMU_INPUTS=SPORTSPAD
+SMS d8f2f1b9 2E5B54DFAA4D4706   Submarine Attack/COUNTRY=EU/PRODUCT_NO=7048
+SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
+SMS 55bf81a0 59B3C79CC4A7DE48   Super Monaco GP/COUNTRY=EU,BR/PRODUCT_NO=7043   ; [EDITOR-NOTE] BR cardboard version has no product_no.
+SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
+SMS e0b1aff8 55607A442D170643   Super Smash T.V./COUNTRY=EU/PRODUCT_NO=27044-50/COMMENT=Official game material mentions "Super Smash T.V.", but the game shows a "Smash T.V." title screen.
+SMS e2fcb6f3 A9F764062AFED3FB   Super Wonder Boy/COUNTRY=JP/PRODUCT_NO=G-1316/COMMENT=Japanese version of "Wonder Boy".
+SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
+SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
+SMS 7bb81e3d 508B3E02BE909106   Taito Chase H.Q. [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=JP/PRODUCT_NO=T-11017
+SMS 11ce074c C37CA576419924A8   Taz in Escape From Mars/COUNTRY=BR/PRODUCT_NO=028620/COMMENT=This is a port from the Game Gear version.
+SMS 7cc3e837 3781F099BC8BE494   Taz-Mania/COUNTRY=EU,BR/PRODUCT_NO=7111,027154
+SMS 1b312e04 EFF0F33BC64A548F   Taz-Mania [Proto]/FLAGS=PROTO/COMMENT=Unfinished prototype version of the game.
+SMS 1a390b93 98916E9343CD4A7C   Tennis Ace/NAME_BR=Super Tennis/COUNTRY=EU,BR/PRODUCT_NO=7028   ; [EDITOR-NOTE] BR cardboard version has no product_no.
+SMS 4bc42857 DA63DA8BEB8E7C69   TransBot/NAME_BR=Nuclear Creature/COUNTRY=EU,US,BR/PRODUCT_NO=4004,4502,021050/COMMENT=Export version of "Astro Flash".
+SMS 3d55759b 2893A79D37A62301   Walter Payton Football/COUNTRY=US/PRODUCT_NO=7020/COMMENT=US version of "American Pro Football".
+SMS a20290b6 B24204297A3B42E8   Winter Olympics/COUNTRY=EU/PRODUCT_NO=29015-xx
+SMS 2fec2b4a F624C8EE78DBDD00   Winter Olympics/COUNTRY=BR/PRODUCT_NO=028350
+SMS 428b1e7c 3086E74963CE9E4B   Where in the World is Carmen Sandiego?/COUNTRY=US/PRODUCT_NO=4350
+SMS 88aa8ca6 EFC7A06831BB0650   Where in the World is Carmen Sandiego?/COUNTRY=BR/PRODUCT_NO=023450
+SMS 73705c02 AFB122C8D3EE7A7B   Wonder Boy/COUNTRY=US,EU,BR/PRODUCT_NO=5068/COMMENT=Export version of "Super Wonder Boy".
+SMS 8cbef0c1 522ECFED1D0DF8A2   Wonder Boy in Monster Land/COUNTRY=US,EU/PRODUCT_NO=7007/COMMENT=Early production batch of the US version was labelled "Super Wonder Boy Super Monster Land" on the cartridge, but kept showing the "Wonder Boy in Monster Land" title screen.
+SMS 679e1676 9C7847B5CB3F875F   Wonder Boy III: The Dragon's Trap/NAME_JP=Monster World II/COUNTRY=US,EU/PRODUCT_NO=7026
+SMS 315917d4 96069693DD5753B4   Woody Pop - Shinjinrui no Block Kuzushi/COUNTRY=JP/PRODUCT_NO=C-519/EMU_COUNTRY=1/EMU_INPUTS=PADDLE
+SMS a2a60bc8 036FB34FE9E516A8   World Games/COUNTRY=EU,BR/PRODUCT_NO=5114
+SMS 914d3fc4 15E6422DECFDF4B9   World Games [Proto]/FLAGS=PROTO/COMMENT=Unfinished prototype version of the game.
+SMS 7b369892 1624A9110762168D   World Grand Prix/COUNTRY=US/PRODUCT_NO=5080/COMMENT=US version of "The Circuit".
+SMS 4aaad0d6 761980092FA9EA26   World Grand Prix/COUNTRY=EU/PRODUCT_NO=5080/COMMENT=European version of "The Circuit".
+SMS 72112b75 54286C65B89E5409   World Soccer/NAME_US=Great Soccer/NAME_BR=Super Futebol/COUNTRY=JP,EU,US/PRODUCT_NO=G-1327,5059/COMMENT=This game has multiple name and title screen. It is named "Great Soccer" in USA.
+SMS 2db21448 E816FF0B158ACF8A   WWF Wrestlemania Steel Cage Challenge/COUNTRY=EU,BR/PRODUCT_NO=27054-050,026270
+SMS da8e95a9 1C2E45C0C47B0E64   WWF Wrestlemania Steel Cage Challenge [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU
+SMS 32759751 13C43FBEE6B25341   Ys/COUNTRY=JP/PRODUCT_NO=G-1370/EMU_VDP=315-5124
+SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
+SMS bba74147 2D689EA985B828BF   Zaxxon 3-D [Proto]/NAME_JP=Zaxxon 3D/FLAGS=PROTO/EMU_3D/COMMENT=Unfinished prototype version of the game.
+SMS 60c19645 39A919D7DA6933B8   Zillion/NAME_JP=Akai Koudan Zillion/COUNTRY=JP,EU/PRODUCT_NO=G-1325,5075
+SMS 5718762c 88E69FBAA2DA4974   Zillion/COUNTRY=US/PRODUCT_NO=5075
+
+; BIOS images
+SMS cf4a09ea E7605A0A2D3939B6   Alex Kidd in Miracle World [BIOS]/FLAGS=BIOS
+SMS 8edf7ac6 394EDEF5E1094A72   Hang On [BIOS]/FLAGS=BIOS
+SMS 91e93385 E48EA39C2A04D150   Hang On \/ Safari Hunt [BIOS]/FLAGS=BIOS
+SMS e79bb689 0BCFEBA4D00C704B   Missile Defense 3-D [BIOS]/FLAGS=BIOS
+SMS 81c3476b 21346172A6AAF296   Sonic The Hedgehog [BIOS]/FLAGS=BIOS
+SMS 48d44a13 312C856A6F60479E   SMS Japanese (v2.1) [BIOS]/COUNTRY=JP/FLAGS=BIOS
+SMS 1a15dfcc AEA4E4E75C18620D   SMS Prototype (M404) [BIOS]/FLAGS=BIOS
+SMS ee2c29ba D96A4E58E20A9794   SMS Store Display Unit [BIOS]/EMU_MAPPER=10/COUNTRY=US/FLAGS=BIOS/COMMENT=This is not properly emulated.
+
+; Bad dumps
+SMS 8b4ca9e4 8CFC7A4DECE2BC27   Air Rescue/FLAGS=BAD
+SMS 6a9eaef7 6A00D45444FC0E20   Astro Warrior \/ Pit Pot/FLAGS=BAD/COMMENT=Overdumped ROM with 1 bad byte.
+SMS b4dfb825 D8A33ACA58CD77E5   Bank Panic/FLAGS=BAD/COMMENT=2 bad bytes (incorrect header).
+SMS e239ed95 AF4F56F9D7628FEB   Casino Games/FLAGS=BAD/COMMENT=46 bad bytes.
+SMS f964f356 CA4954F3D05891ED   Casino Games/FLAGS=BAD/COMMENT=1 bad byte.
+SMS 6203efbb 285215E561B24732   Castle of Illusion/FLAGS=BAD
+SMS c5083000 9F54DCE0F03F170B   Hang On \/ Safari Hunt/COUNTRY=US,KR/FLAGS=BAD/EMU_INPUTS=LIGHTPHASER/COMMENT=This dump has the first 16 Kb duplicated on an unused location of the ROM. Thus the game is working but checksum is failing.
+SMS fef68275 0C38C7A1580A24CE   James Pond II - Codename: Robocod/FLAGS=BAD/COMMENT=1 bad byte.
+SMS 68108314 261F3B6965EAC701   Kujakuou/FLAGS=BAD/COUNTRY=JP/COMMENT=1 bad byte.
+SMS cb42bd33 C95F6AD329B98B2E   WWF Wrestlemania Steel Cage Challenge [SMS-GG]/FLAGS=BAD,SMSGG_MODE/COUNTRY=EU/COMMENT=First 64 Kb from the correct ROM.
+
+; Hacks
+SMS 5877b10d AAD6EA9514AE82BD   Castle of Illusion [SMS-GG] [Hack]/FLAGS=SMSGG_MODE,HACK/COUNTRY=JP
+SMS 44fbe8f6 1995410AC093A113   Taito Chase H.Q. [SMS-GG] [Hack]/FLAGS=HACK,SMSGG_MODE/COUNTRY=JP
+SMS 18086b70 69207F0C7E233219   Taito Chase H.Q. [SMS-GG] [Hack]/FLAGS=BAD,HACK,SMSGG_MODE/COUNTRY=JP/COMMENT=2x Overdump. The first half was hacked.
+SMS 7522cf0a 5F37D2F71D0F086D   Wonder Boy in Monster Land [Hack]/FLAGS=HACK/COUNTRY=US,EU/COMMENT=This hack does two things: force the game to run in Japanese mode (with an harder difficulty level), and allows to Pause the game by pressing LEFT+RIGHT+Button 2 on joypad 1 (a combination that cannot be done on a normal SMS joypad).
+
+; Homebrews
+SMS ca270f40 6DE7159995D9820E   AntiISDA Warrior [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=Buggy.
+SMS 7408ef2f 6BF3098A9DD38B14   AntiISDA Warrior [v1.01]/FLAGS=HOMEBREW/VERSION=1.01/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=A bit less buggy than version 1.00.
+SMS b3e5986e 57EB138F95E3980C   AntiISDA Warrior [v1.02]/FLAGS=HOMEBREW/VERSION=1.02/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy
+SMS 2734a9b4 79DBBE8D02C64D4C   Blockhead/FLAGS=HOMEBREW/AUTHORS=proppy & tet/COMMENT=4K game, released for 2004 MiniGame Compo.
+SMS 1d43a351 8B4F3D6114DE1086   Bock's Birthday 2002/FLAGS=HOMEBREW/AUTHORS=Maxim
+SMS c07cb738 D489232826DFDA79   Bock's Birthday 2003/FLAGS=HOMEBREW/AUTHORS=Maxim
+SMS 43600bb1 038591ABC985F9F5   Copyright Violation/FLAGS=HOMEBREW/AUTHORS=Heliophobe
+SMS bfee193c 5FED15D30F837BBF   Code 38 - Volume I [French\/NoPSG]/FLAGS=HOMEBREW/AUTHORS=Furrtek\/L.i.N./COMMENT=French version. No music.
+SMS 0299bda4 8EEACEC09980CF12   Crappy/FLAGS=HOMEBREW/AUTHORS=Memetic
+SMS 7cc2a20b 0929A17E9208977E   DCEvolution.net Intro/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=Promotional intro for the DCEvolution.net SMS\/GG\/SG-1000 project.
+SMS a95013d3 B788F3842E5B8938   Fri For Fransk! [v1.02]/FLAGS=HOMEBREW/VERSION=1.02/AUTHORS=Marc Klemp
+SMS 07c39ba4 20C7DA1FAAE0375F   Happy Looser/FLAGS=HOMEBREW/AUTHORS=Omar Cornut (Zoop)
+SMS 922954c6 19C6E01FA9E23760   Happy Looser/FLAGS=BAD,HOMEBREW/AUTHORS=Omar Cornut (Zoop)/COMMENT=Corrupted ROM header. This ROM was distributed in the sources package.
+SMS ed169d59 A9A8F900277B8C88   Headbreak for a Scroller/FLAGS=HOMEBREW/AUTHORS=Furrtek\/L.i.N.
+SMS 6eaead07 A05F0BE71505FEF7   Page Frame Register Detect [v0.01]/FLAGS=HOMEBREW/VERSION=0.01/AUTHORS=Eric R. Quinn
+SMS ad0ff4f1 CDABEB55AD267EF7   Page Frame Register Detect [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Eric R. Quinn
+SMS 1f30cb32 ADD696C40348EEEA   Page Frame Register Detect [v2.00]/FLAGS=HOMEBREW/VERSION=2.00/AUTHORS=Eric R. Quinn
+SMS f61874c9 D91BB1A6725E02E3   Robbyie/FLAGS=HOMEBREW/VERSION=0.99/AUTHORS=Ventzislav Tzvetkov/COMMENT=1K game, released for 2004 MiniGame Compo.
+SMS 7cbd4432 7BC5F85A1C32DF41   SALY/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Mark Klemp
+SMS 49790a5a 6CD4D4285F37A589   Sega Mark III Port Test/FLAGS=HOMEBREW/VERSION=0.1/AUTHORS=Enri (T.H)
+SMS 5f1120c8 389C255B45409790   Sega Mark III BG Test/FLAGS=HOMEBREW/VERSION=0.01/AUTHORS=Enri (T.H)
+SMS 297efb87 F6CA6BFD36AE4CA8   SMSPower 7 [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Nick Warren (Heliophobe)/COMMENT=SMS Power 7th Anniversary Demo.
+SMS 72506a85 7389804C41C573BF   SMSPower 7 [v1.03]/FLAGS=HOMEBREW/VERSION=1.03/AUTHORS=Nick Warren (Heliophobe)/COMMENT=SMS Power 7th Anniversary Demo. ; SDSC tag says version 1.02 but it is 1.03, really.
+SMS a3e97d04 89D423D3A6865130   Tetracycline [v1]/FLAGS=HOMEBREW/VERSION=1/AUTHORS=Heliophobe
+SMS 983e17e4 D8DB27E4A88354C3   Tetracycline [v2]/FLAGS=HOMEBREW/VERSION=2/AUTHORS=Heliophobe
+SMS fd603aea A19CB1789551FCB8   Tetracycline [v3]/FLAGS=HOMEBREW/VERSION=3/AUTHORS=Heliophobe
+SMS a0bf829b 2D816184804F9806   Tetracycline [v4]/FLAGS=HOMEBREW/VERSION=4/AUTHORS=Heliophobe
+SMS 046ebc1b 795067F611200B9E   UnitÈ Centrale de Huit Bits/FLAGS=HOMEBREW/AUTHORS=Comic Bakery/COMMENT=SMS Demo for Mainframe03.
+SMS ad300bd9 8147C138C1003E40   VIK 01/FLAGS=HOMEBREW/AUTHORS=L.i.N.
+
+; Translations
+SMS 7338d04e 6399700AAAC09F81   Air Rescue/FLAGS=TRANS/TRANS=PT/AUTHORS=Emutrans
+SMS 7337abb7 8A2B7047E7DBAE24   Air Rescue/FLAGS=BAD,TRANS/TRANS=PT/AUTHORS=Emutrans
+SMS 11e19fb1 C24C078D64F2E325   Golvellius - Valley of Doom/FLAGS=TRANS/COUNTRY=EU,US/TRANS=FR/VERSION=1.3/AUTHORS=floflo
+SMS 359141ef 848E8CA2DD44E9B6   Golvellius - Valley of Doom/FLAGS=TRANS/COUNTRY=EU,US/TRANS=DE/AUTHORS=Star-trans
+SMS 00196eba F1227B8A149789B4   Golvellius - Valley of Doom/FLAGS=TRANS/COUNTRY=EU,US/TRANS=BR/AUTHORS=Albert Viudes Dick.
+SMS 0643620e 078F6E3FDB3CDFC7   Ninja Gaiden/FLAGS=TRANS/TRANS=FR/AUTHORS=?/COMMENT=Translation based on the prototype version.
+SMS 41e5b485 6B11424AD07AE6C8   Ninja Gaiden/FLAGS=TRANS/TRANS=FR/AUTHORS=Terminus/COMMENT=Translation based on the prototype version.
+SMS 317f14da 642D4E5E1BB23ABC   Ninja Gaiden/FLAGS=TRANS/TRANS=DE/VERSION=1.00/AUTHORS=Star-trans/COMMENT=Translation based on the prototype version.
+
+;-----------------------------------------------------------------------------
+; DATA - SEGA GAME GEAR (GG)
+;-----------------------------------------------------------------------------
+
+GG  dfcf555f 5FA88D0C551D33BB   Ax Battler - A Legend of Golden Axe [v1.5]/NAME_JP=Ax Battler - Golden Axe Densetsu/COUNTRY=JP/PRODUCT_NO=G-3304
+GG  3435ab54 20D68E092FC9A0DB   Ax Battler - A Legend of Golden Axe [v2.0]/COUNTRY=US,EU    ; [EDITOR-NOTE] might be a prototype
+GG  663bcf8a C75A6F968FFFD973   Ax Battler - A Legend of Golden Axe [v2.4]/COUNTRY=US,EU
+GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,EU,US/PRODUCT_NO=G-3314
+GG  f6a697f8 CADE4673E162E27A   Car Licence/COUNTRY=JP/COMMENT=Non-retail Japanese release. The exact story behind this cartridge is yet unknown.
+GG  191b1ed8 D569D43547670605   Chuck Rock/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-3320,016740
+GG  6caa625b 6D119C88287DCBEE   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=T-120028-50/EMU_MAPPER=3/EMU_TVTYPE=PAL/EMU_SPRITE_FLICKER
+GG  03d28eab 6B96D3F3E3A93875   Crayon Shin Chan - Taiketsu! Tankam Panic!!/COUNTRY=JP/PRODUCT_NO=T-133047
+GG  c2e111ac 10D532DB6BFB198F   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=US/PRODUCT_NO=2442
+GG  ec808026 B9DF362895F7017D   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=EU/PRODUCT_NO=2442
+GG  25db174f FED59D64601210AA   Devilish/COUNTRY=JP/PRODUCT_NO=T-28017
+GG  d43ac6c5 7DFFB63AF302306F   Devilish/COUNTRY=EU,BR/PRODUCT_NO=2321,015340
+GG  c01293b0 A9F32B4C77256DE4   Devilish/COUNTRY=US                                         ; [EDITOR-NOTE] might be a prototype
+GG  733292a6 1D6B7F6FC8CE6D87   Doraemon Waku Waku Pocket Paradise/COUNTRY=JP/PRODUCT_NO=G-3383
+GG  04302bbd E46D03796A96D95A   Eternal Legend/COUNTRY=JP/PRODUCT_NO=G-3402
+GG  cd53f3af 5434506F49A77C4D   Garfield - Caught in the Act/COUNTRY=US/PRODUCT_NO=2560     ; released EU?
+GG  18de59ed 093B5C63C1FA1E24   G-LOC - Air Battle/NAME_BR=G-LOC/COUNTRY=US,EU,BR/PRODUCT_NO=2301,012120
+GG  7e9dea46 400DE4894112C132   Halley Wars/COUNTRY=EU/PRODUCT_NO=2318                      ; released US?
+GG  def5a5d0 1F25824E7BFAA5D2   Halley Wars/COUNTRY=JP/PRODUCT_NO=T-11027
+GG  9fb5c155 50DEECE6BA2DD940   James Pond II - Codename: Robocod/COUNTRY=EU,US             ; missing product_no
+GG  4af7f2aa FAF731A5A0AB9757   Kinetic Connection/COUNTRY=JP/PRODUCT_NO=G-3401
+GG  9289dfcc 2D785B7B8B594E53   Mighty Morphin Power Rangers/COUNTRY=EU,US/PRODUCT_NO=2548
+GG  b47c19e5 F02DEF107C75975C   Mighty Morphin Power Rangers - The Movie/COUNTRY=EU,US/PRODUCT_NO=2564
+GG  4b304e0f 607CA3543FEBBE45   Mortal Kombat II/NAME_JP=Mortal Kombat II - Kyukyoku-Shinken/COUNTRY=JP,US,EU/PRODUCT_NO=T-81107
+GG  54ab42a4 05449D8E50F56DDA   Nazo Puyo Aruru no Ru/COUNTRY=JP/PRODUCT_NO=G-3357
+GG  4c874466 7B8178C415DEF4E1   Nazo Puyo Aruru no Ru [Editor Proto]/FLAGS=PROTO/COUNTRY=JP/COMMENT=Development version embedding a full-featured level editor.
+GG  8f17597e 64654505786B10FA   NBA JAM/COUNTRY=US,EU/PRODUCT_NO=T-81248
+GG  a49e9033 5F43D36F49F4AB34   NBA JAM/COUNTRY=JP/PRODUCT_NO=T-81037
+GG  3679be80 FCD47238A9F827BE   Neko Daisuki!/COUNTRY=JP/PRODUCT_NO=3434
+GG  06247dd2 C6F0B20D1690598C   Ninku 2 ~Tenkuryu-e no Michi~/COUNTRY=JP/PRODUCT_NO=G-3376
+GG  4ed45bda DE60DCC646F22CBC   Nomo's World Series Baseball/NAME_JP=Nomo-Eiyu no World Series Baseball/COUNTRY=JP/PRODUCT_NO=G-3432/EMU_MAPPER=4
+GG  68bb7f71 32FF34928F7D6B92   Operation Starfi5h/COUNTRY=EU/PRODUCT_NO=79158-50/EMU_IPERIOD=227/COMMENT=Packaging and in-game screens are inconsistents about the exact name spelling. Packaging, manual and cartridges all says "Operation Starfi5h". In-game screens says "James Pond 3 - Operation Starfish".
+GG  64c28e20 C2E0E5F5C47DF350   Pac-In-Time [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
+GG  b42d8430 12378C9F6286693B   Pet Club Inu Daisuki!/COUNTRY=JP/PRODUCT_NO=G-3436
+GG  281b1c3a F97057A139C5CFD2   Phantom 2040/COUNTRY=US,EU/PRODUCT_NO=T-139028-50
+GG  635c483a 233F62535FB604D0   Pinball Dreams/COUNTRY=US   ; released EU? missing product_no
+GG  2a34b5c7 18673C53CC026BB9   Primal Rage/COUNTRY=US,EU/PRODUCT_NO=T-48218,T-48218-50
+GG  ecc301dd AD4D9A4947CE49C5   Putt & Putter/COUNTRY=US,EU/PRODUCT_NO=2307
+GG  407ac070 ECCE2FC29C7E1526   Putt & Putter/COUNTRY=JP/PRODUCT_NO=G-3209
+GG  03e9c607 EACA76A0EF9F1D8B   Revenge of Drancon/NAME_BR=Wonder Boy/COUNTRY=US,BR/PRODUCT_NO=2302,012080/COMMENT=Same game as "Wonder Boy", with a different title.
+GG  663f2abb 2ED7693B07C9BFC8   Sonic Chaos/COUNTRY=US,EU,BR/PRODUCT_NO=1204,077080/COMMENT=Export version of "Sonic & Tails".
+GG  8ba43af3 DAA4C785B7042952   Super Columns/COUNTRY=US/PRODUCT_NO=2449                    ; released EU?
+GG  2a100717 E7260408CEC8EE63   Super Columns/COUNTRY=JP/PRODUCT_NO=G-3226
+GG  73df5a15 43574420E8CF212A   Superman - The Man of Steel/COUNTRY=EU/PRODUCT_NO=T-70068   ; released US?
+GG  fcf12547 E7834B512CBEB35D   Super Monaco GP/NAME_BR=GP MÙnaco/COUNTRY=EU,US,BR/PRODUCT_NO=012140    ; BR product_no
+GG  4f686c4a 7F39562D4299AE3C   Super Monaco GP/COUNTRY=JP/PRODUCT_NO=G-3201
+GG  1d1b1dd3 8E89AE12C88F29A9   Super Monaco GP II (Ayrton Senna's)/COUNTRY=EU,US
+GG  661faeff 16D6ADD4B37ACB9B   Super Monaco GP II (Ayrton Senna's)/COUNTRY=JP/PRODUCT_NO=G-3312,G-3337
+GG  5bb6e5d6 134A286D9BE1D8BA   Tails Adventures/COUNTRY=JP,US/PRODUCT_NO=G-3372,2583       ; released EU?
+GG  c029a5fd EFDF88CF8D68A343   Terminator, The/COUNTRY=US,EU/PRODUCT_NO=T-70048
+GG  820965a3 78192012DB30BF73   Ultimate Soccer/COUNTRY=JP,EU,BR/PRODUCT_NO=G-3333,075300
+GG  d431c452 89865690753E3F19   Virtua Fighter Animation/COUNTRY=US,EU/PRODUCT_NO=2570
+GG  c05657f8 5B5E5A20BC6D6440   Virtua Fighter Mini/COUNTRY=JP/PRODUCT_NO=G-3380
+GG  b0f22745 E4B611A11356D972   VR Troopers/COUNTRY=EU,US
+GG  ce1108fd 5EF9334D02922E67   Wimbledon/COUNTRY=JP,EU/PRODUCT_NO=G-3221
+GG  d15d335b 8C9DF406D503E322   Winter Olympics/COUNTRY=EU,US/PRODUCT_NO=T-79088
+GG  d5195a39 5AE30E1DD51AC5E4   Winter Olympics/COUNTRY=JP/PRODUCT_NO=G-3342
+
+; Bad dumps
+GG  65e60dfe 516CF5541BA9E056   Batman Returns/FLAGS=BAD/COUNTRY=JP,EU,US/COMMENT=1 bad byte, affecting an instruction. It might be a hack.
+GG  808a71c3 F2F739A55BF09757   Kinetic Connection/FLAGS=BAD/COUNTRY=JP/COMMENT=Overdumped ROM.
+GG  e30e7dc6 7F39562D4299AC3E   Super Monaco GP/FLAGS=BAD/COUNTRY=JP/COMMENT=2 bad bytes.
+GG  346e1cf1 16D6ADD4B37AC4A2   Super Monaco GP II (Ayrton Senna's)/FLAGS=BAD/COUNTRY=JP/COMMENT=7 bad bytes.
+GG  cb591501 0F4A286C9AE1D8C0   Tails Adventures/FLAGS=BAD/COUNTRY=JP,US/COMMENT=3 bad bytes.
+GG  924ce5be 2D0E8F4CFE37872E   Virtua Fighter Animation/FLAGS=BAD/COUNTRY=US
+GG  231e5b78 E4B611A11356D972   VR Troopers/FLAGS=BAD/COUNTRY=EU,US
+
+; Homebrews
+GG  820ceb2c 30002377B9BF704E   Chaos/FLAGS=HOMEBREW/AUTHORS=Charles Doty (Raster) & Pickster
+GG  dbdb3a2e 707D62A152450079   Frog/FLAGS=HOMEBREW/VERSION=2/AUTHORS=Charles Doty
+GG  f366b29d 8A4C513A5DD6DD8F   Windows for the GG/FLAGS=HOMEBREW/VERSION=4/AUTHORS=Victor Klemp
+
+;-----------------------------------------------------------------------------
+; DATA - SEGA GAME 1000 (SG-1000)
+;-----------------------------------------------------------------------------
+
+SG1 d8a87095 BDE475C4465199F6   Bank Panic/COUNTRY=JP/PRODUCT_NO=C-53
+SG1 26ecd094 4627CCD92099C86D   Black Onyx, The/COUNTRY=JP/PRODUCT_NO=C-72
+SG1 ea0f2691 0A34F046A94E1382   Bomb Jack/NAME_AU=Bombjack/COUNTRY=JP,AU/PRODUCT_NO=C-61
+SG1 0b4bca74 2AAE5B779DB522E2   Borderline/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1001
+SG1 092f29d6 7314B489F3BDC5C7   Castle, The/COUNTRY=JP/PRODUCT_NO=G-1046/EMU_MAPPER=1/COMMENT=This cartridge contains a onboard 8 kb RAM chip.
+SG1 f8b2ac1d 4123EF723DD41E0C   Champion Boxing [card]/COUNTRY=JP/PRODUCT_NO=C-33
+SG1 26f947d1 1FB7BB8E1123BAF3   Champion Boxing [cart]/COUNTRY=JP/PRODUCT_NO=G-1033
+SG1 bdc05652 7D6DE53955B78D5F   Champion Ice Hockey/COUNTRY=JP/PRODUCT_NO=C-59
+SG1 10cdebce 070357A3254C1774   Champion Kendou/COUNTRY=JP/PRODUCT_NO=C-67
+SG1 7c663316 085A9DF0EF513B96   Champion Tennis/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1009
+SG1 11db4b1d FF5544CA075675CC   Championship Lode Runner/COUNTRY=JP,AU/PRODUCT_NO=C-57
+SG1 6f39719e 157515CDB5D2C746   Champion Soccer/COUNTRY=JP/PRODUCT_NO=G-1034
+SG1 732b7180 308D125E31D34B84   Choplifter/COUNTRY=JP,AU/PRODUCT_NO=C-48
+SG1 ff435469 279AD92023C895C6   Choplifter [Proto]/FLAGS=PROTO/COUNTRY=JP/VERSION=V-613/COMMENT=Prototype version of the game. Labelled V-613.
+SG1 288940cb 546C1EFBFD7F5754   Drol/COUNTRY=JP,AU/PRODUCT_NO=C-51
+SG1 5af8f69d 0DE0E10D161A876E   Elevator Action/COUNTRY=JP/PRODUCT_NO=C-55
+SG1 bd24d27b E3234655B4D74292   Flicky/COUNTRY=JP/PRODUCT_NO=G-1036
+SG1 1898f274 38DCD62C5EFD0C83   Girl's Garden/COUNTRY=JP/PRODUCT_NO=G-1037
+SG1 9be3c6bd 0EF416397D1321FE   Hang On II/COUNTRY=JP,AU/PRODUCT_NO=C-60
+SG1 4587de6e 9E321231AEEF54FC   H.E.R.O./COUNTRY=JP/PRODUCT_NO=C-58
+SG1 3b912408 0D51374D3F55E6A4   Ninja Princess/COUNTRY=JP,AU/PRODUCT_NO=C-65
+SG1 5a917e06 012791545F90CD37   Shinnyushain Tooru Kun (Konami no)/COUNTRY=JP/PRODUCT_NO=G-1041
+SG1 01932df9 39B539F98CD283FF   Sindbad Mystery/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1012
+SG1 922c5468 37CC1C413181F4FA   Soukoban/NAME_AU=Thinking Rabbit/COUNTRY=JP,AU/PRODUCT_NO=C-56/COMMENT=Also known as "Thinking Rabbit" in bootleg form. Pirates mistakenly choose this name because it is the only latin-readable text shown on the title screen.
+SG1 1ae94122 79C8686A8C7539B3   Star Jacker [v0]/COUNTRY=JP/PRODUCT_NO=G-1010
+SG1 7f25deca 4614717ECAA82D18   Star Jacker [v1]/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1010
+SG1 3fe59505 4614717ECAA82D18   Star Jacker [v1-alt]/COUNTRY=EU/PRODUCT_NO=G-1010
+SG1 084cc13e 05318ACB15C32F6E   Super Tank/COUNTRY=JP/PRODUCT_NO=C-66
+SG1 bc5d20df 1C80273C5B02376D   Zippy Race/COUNTRY=JP,AU/PRODUCT_NO=C-26,G-1026
+SG1 093830d8 93DD3B768470FCEF   Zoom 909/COUNTRY=JP/PRODUCT_NO=C-47
+
+; Bad dumps
+SG1 8201b53d 005544CB075676C9   Championship Lode Runner/FLAGS=BAD/COUNTRY=JP,AU/COMMENT=2 bad bytes.
+SG1 d4c8c6d7 E3234656B5D7438F   Flicky/FLAGS=BAD/COUNTRY=JP/COMMENT=3 bad bytes.
+SG1 54d5bec3 3AB53AF88CD283FE   Sindbad Mystery/FLAGS=BAD/COUNTRY=JP,AU,NZ,EU/COMMENT=1 bad byte.
+
+; Homebrews
+SG1 b1cbec5a 781CA0E7EF3207BD   S_sniper/FLAGS=HOMEBREW/AUTHORS=Maechiko
+SG1 56abc493 BA07B1875BCCF2EE   Omikuji/FLAGS=HOMEBREW/AUTHORS=Maechiko
+
+;-----------------------------------------------------------------------------
+; DATA - SEGA COMPUTER 3000 (SC-3000)
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; DATA - SEGA SUPER CONTROL STATION (SF-7000)
+;-----------------------------------------------------------------------------
+
+SF7 ad19c0a0 A55FE3E37F6681D0   Complete Arcade Pack Collection, The/COUNTRY=NZ
+
+;-----------------------------------------------------------------------------
+; DATA - OTHELLO MULTIVISION (OMV)
+;-----------------------------------------------------------------------------
+
+OMV 61fa9ea0 33335D5204BB9D8F   Guzzler/COUNTRY=JP/PRODUCT_NO=OM-G002
+OMV 90160849 511AFC9B86848A6A   James Bond 007/COUNTRY=JP/VERSION=2.7/PRODUCT_NO=OM-G008
+
+;-----------------------------------------------------------------------------
+; DATA - COLECOVISION (COL)
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; OLD DATA (to be verified before converting)
+;-----------------------------------------------------------------------------
+
+---- MASTER SYSTEM ----
+9EB1F06967AA8DBA,Ace of Aces
+2BCDA99F0321A4F8,Action Fighter,ID=5055
+2CCEA6A00321A4F8,Action Fighter,VER=Japanese,ID=G-1305
+40698151916E7D09,Addams Family\, The,TVTYPE=PAL/SECAM
+8BB24BB9F2B8E62F,Aerial Assault
+69AAC8EBB8D1F6BB,After Burner,ID=9001\,G-1340
+836571585D162CB0,Aladdin,TVTYPE=PAL/SECAM
+7AF7BA94F1EB0263,Aleste,VER=Japanese,ID=G-1352,COMMENT=Japanese version of Power Strike.
+02B8FA4E6DCA25A2,Alex Kidd: High-Tech World,COMMENT=Export version of Anmitsu Hime.
+FCA1E2B346E4B6EE,Alex Kidd: The Lost Stars,ID=7005\,G-1347
+122165765570939A,Alien Storm,ID=7075
+B604DAE9BC58B6B9,Altered Beast
+C546819D9058925D,American Baseball
+F5E365059B891882,American Pro Football,COMMENT=European version of "Walter Payton Football".
+EC195693CDC41170,Andre Agassi Tennis
+B1B3520AE6A57C39,Argos no Juujiken [A],ID=Silver-001,VER=Japanese A,COMMENT=Known in the west as Rygar.
+606D1F7886714065,Argos no Juujiken [B],ID=Silver-001,VER=Japanese B,COMMENT=Known in the west as Rygar.
+A7AF89DB1688A107,Ariel - The Little Mermaid,VER=Brazilian,ID=026350,COMMENT=This is a port from the Game Gear version.
+8A53E8116C3E95EB,Ashura,VER=Japanese,ID=G-1307,COMMENT=Japanese version of Secret Command and Rambo - First Blood Part II.
+B6F98801021AA804,Asterix [V0],VER=0
+C3FA970F111DBEB1,Asterix [V1],VER=1
+B3825A1E4E13AD45,Asterix and the Great Rescue
+5861B70BCC1B2A74,Asterix and the Secret Mission
+2C1F1C2AD72C87E5,Astro Flash,ID=C-503,VER=Japanese,COMMENT=Japanese version of TransBot.
+E41681744EF7FAD2,Astro Warrior,ID=G-1312
+D2BE59AA0185BE29,Back to the Future II
+84C9B8E5194A882B,Back to the Future III,TVTYPE=PAL/SECAM
+BE8D0BC44B5555F1,Baku Baku Animal,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+4220E6AA3FBBA074,Bart vs. The Space Mutants (The Simpsons),ID=27031-50
+98430D51443E0D38,Bart vs. The World (The Simpsons),ID=27053-50
+35A2509E003333D5,Batman Returns
+D1A8660091BC1ABA,Battlemaniacs,VER=Brazilian,TVTYPE=PAL/SECAM,COMMENT=This game was developped by RARE (UK) but only released in Brasil. It seems to have been 95% completed with some glitchs left and a quite easy ending sequence.
+2063D1C61FABFC20,Battle Out Run
+95A173467C000C89,Blade Eagle 3-D,JAPNAME=Blade Eagle,ID=G-1351,3D
+7F77195ABBCB050C,BMX Trial - Alex Kidd,VER=Japanese,INPUT=PADDLE,ID=G-1330
+BD3F8777A78138A6,Bomber Raid,ID=G-1373
+DC830766ED4115F1,Bonanza Bros.,ID=7073
+1A817AD5D227C35A,Bonkers Wax Up!,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+1AF283FD7C694E41,Bram Stoker's Dracula,TVTYPE=PAL/SECAM
+9DCEFDF112FC2D6C,Bubble Bobble,ID=G-1362
+CF790CF50722A0EE,California Games
+53E11D9FBBD9FB81,California Games II,TVTYPE=PAL/SECAM,COMMENT=European version of "Jogos de Ver„o II".
+DE36EE3D634864B2,Captain Silver,ID=G-1356,COMMENT=This is the full original version of the game as released in Japan and Europe (6 levels).
+ED86FC925D8967B2,Captain Silver,ID=G-1356,VER=USA,COMMENT=This is the limited version of the game as released in USA (4 levels out of 6).
+FC9BB664160566CE,Castelo RÅETim-Bum,VER=Brazilian
+C7A7D1085D01ABB0,Championship Hockey
+5F5124D60E874C75,Cheese Cat-astrophe
+8CFE7B6CC112B903,Chuck Rock
+BA12C9527CEE0DA2,Cloud Master,JAPNAME=Chuka Taisen
+AA7CEDD6C88CA221,Columns,ID=5120
+54D5553AF5264FDE,Cyber Shinobi\, The
+48CF176FE2E9692F,Cyborg Hunter,VER=Export,ID=G-1371,COMMENT=Export version of "Chouon Senshi Borgman".
+8C16E13E120E48D7,Daffy Duck in Hollywood,TVTYPE=NTSC
+573DC782B785EDFA,Danan: The Jungle Fighter
+D57FCD7C1E815D67,Dead Angle
+E705BC457D04D7BB,Deep Duck Trouble
+F0BF995E2C2E5FA1,Desert Strike
+E2628BCB39487174,Dick Tracy
+E3D53E738DD294A4,Dodgeball King,ID=G9511-RP4,Mapper=9,VER=Korean
+3488F258EC375C7B,Double Dragon,ID=G-1369
+128E2488C291E978,Double Hawk
+71FD7E5B59B78722,Dragon - The Bruce Lee Story
+6C4E00641D7F6ADC,Dragon Crystal
+4F253839D8443AC5,Dr. Robotnik's Mean Bean Machine
+D8735FD26D415482,Dynamite Duke
+4002AEAA680311EA,Dynamite Dux
+83074B5C0E7C3A0B,Ecco the Dolphin,TVTYPE=PAL/SECAM
+B26E818E12334547,Ecco - The Tides of Time,TVTYPE=PAL/SECAM,VER=Brazilian,COMMENT=This is a port from the Game Gear version. The in-game demonstration has timing problems making it buggy on MEKA and also on a real system. Therefore an emulator running the in-game demo well is in fact not accurate.
+6038C2516F841949,Enduro Racer,VER=Japanese,ID=G-1322,COMMENT=This is the full original version of the game as released in Japan (10 differents level layout).
+066B34EF6BEC0411,F1
+6D3986E0E6097F86,Fantasy Zone,ID=G-1301
+822C747C6F162BB2,Fantasy Zone II,JAPNAME=Fantasy Zone II - Opa Opa no Namida,ID=G-1329,VER=Export
+670E9195613A25A5,Fantasy Zone II,JAPNAME=Fantasy Zone II - Opa Opa no Namida,ID=G-1329,VER=Japanese
+732FC6FC6BDC0A4B,Fantasy Zone: The Maze,ID=G-1343,COMMENT=Export version of Opa Opa.
+5C434F34BA4434AC,FÈrias Frustradas do Pica Pau,VER=Brazilian,COMMENT=Starring Woody Wood Pecker.
+78A312E98554F41D,FIFA International Soccer,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+1812E0F53178AFA9,Final Bubble Bobble,VER=Japanese,ID=G-1362
+E356BEF0D3941C96,Fire & Forget II,COMMENT=Other versions of the game are subtitled "The Death Convoy"\, but not the Master System version. Note that it is the original version of the game. Amiga and Atari ST versions are actually ports.
+087CCA33EB554EF1,Flash\, The
+BD9E05F283723B7E,Flintstones\, The
+4589A9BD05075E62,Forgotten Worlds
+BD3E8E6BB4B48C18,Fushigi no Oshiro Pit Pot,ID=C-507,VER=Japanese
+EF924BC5AE023A85,Game Box SÈrie Esportes Radicais,VER=Brazilian,COMMENT=Hacked version of California Games released by Tec Toy with only two events.
+A5FA6D631981688F,Galactic Protector,VER=Japanese,INPUT=PADDLE,ID=G-1348
+1B819E859D0C3860,Galaxy Force [60 Hz],TVTYPE=NTSC,COMMENT=This is the first version of the game - working only on 60 Hz systems.
+0B932CEAD9975587,Galaxy Force [50 / 60 Hz],COMMENT=This is a later version of the game - working on both 50 and 60 Hz systems.
+C00413DAC7946A8A,Gain Ground
+0DD3230F6E789E6A,Gauntlet
+E466186F844A540D,George Foreman's KO Boxing,ID=27041-50,COMMENT=Same game as Heavyweight Champ and James "Buster" Douglas Knockout Boxing.
+25ABB2B6FC7AD67C,Geraldinho,VER=Brazilian,COMMENT=Hacked version of Teddy Boy by Tec Toy.
+DC6545FFFA415CE4,Ghostbusters
+102C54291BD04715,Ghost House,VER=Export,ID=C-512
+6A8138E7EE6B9409,Ghost House,VER=Japanese,ID=C-512
+DB5D5B37B0F77916,Ghouls'n Ghosts,ID=7055\,025170
+DA2CA2C86604B076,Global Gladiators,ID=27062-50
+CEDEE0CA40083032,Gokuaku Doumei Dump Matsumoto,VER=Japanese,ID=G-1302,COMMENT=Japanese version of Pro Wrestling. 
+07A18B1093D71D36,Golden Axe
+C0AB0A7E886044E1,Golfamania
+D7DD318BE2DA8351,Golfamania [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+EB6D4D69959BF2D0,GP Rider
+40C511003F43AFB9,Great Baseball,VER=Export,COMMENT=It is not the same game as the Japanese version of Great Baseball.
+9B82007132F58AC1,Great Baseball [JP],ID=C-505,VER=Japanese,COMMENT=It is not the same game as the Export version of Great Baseball.
+47A87FEE28140464,Great Basketball,ID=G-1320
+9081CE66CC2A03C2,Great Football,ID=G-1321
+B0132F32485E1D19,Great Ice Hockey,ID=5062,VER=Export,INPUT=SPORTSPAD
+A1CCBAEB22981321,Great Soccer,ID=C-504,VER=Japanese
+8FC056003B11CF40,Great Volleyball,ID=G-1317,VER=Export
+46304A99131AF783,Great Volleyball,ID=G-1317,VER=Japanese
+6A8EE24DE483B4BE,Haja no Fuuin,VER=Japanese,ID=G-1331,COMMENT=Japanese version of Miracle Warriors - Seal of The Dark Lord.
+F0A23277115075EF,Hang On,VER=Export,ID=C-502
+EE5DD09C3A26C623,Hang On,VER=Japanese,ID=C-502
+AEB225FECBA7EE1D,Heavyweight Champ,COMMENT=Same game as George Foreman's KO Boxing and James "Buster" Douglas Knockout Boxing.
+003CC95FA787A4CA,Heroes of the Lance
+7DD79A9894C6A878,High School! Kimengumi,VER=Japanese,ID=G-1309
+36CE68D578724E87,Hokuto no Ken,ID=G-1303,VER=Japanese,COMMENT=Japanese version of "Black Belt". This game is based on the "Fist of the North Star" manga.
+78639E5DF49500A1,Hokuto no Ken,ID=G-1303,VER=Hong-Kong,BAD,COMMENT=Hacked Chinese version of "Hokuto no Ken". This game is based on the Fist of the North Star serie. This dump has some incorrect graphics data.
+FA6B14A912C33ECB,Home Alone,TVTYPE=PAL/SECAM
+09D4957E1609945D,Hook [Proto],PROTO,COMMENT=This is a prototype version of the unreleased game.
+F35F09A93C040AB2,Hoshi wo Sagashite... (The Story of Mio),VER=Japanese,JAPNAME=Hoshi wo Sagashite...,ID=G-1354
+C4B805DCD752A8D2,Impossible Mission
+1C154AA5EFE3EF1F,Incredible Crash Dummies\, The,ID=27057-50
+19CC267376518536,Incredible Hulk\, The
+17779413DD492085,Indiana Jones and the Last Crusade,ID=27008-50
+5CEC5CB49DC68FB6,James Bond 007: The Duel,ID=27046-50
+A022B16F114CDAE7,James Bond 007: The Duel,VER=Brazilian,ID=027230
+3B2C5FDB4270713C,Joe Montana Football
+CE99027ABB34D757,Jogos de Ver„o II,VER=Brazilian,COMMENT=Brazilian version of California Games II.
+9E66E0AB50B7A4C6,Jurassic Park
+841BF3EB6EAF3E28,Kenseiden,ID=G-1358,VER=Export
+C248674DC457190E,Kenseiden,ID=G-1358,VER=Japanese
+97D1E5EB0E6664F0,KLAX,ID=301040-0160
+97D1E5EB0E6663F1,KLAX,COMMENT=This dump contains one bad byte.
+50C0B42AE27D4D66,Kung Fu Kid,VER=Export,ID=G-1324,COMMENT=Export version of "Makai Retsuden".
+6328C143CB001393,Krusty's Fun House,ID=27056-50
+37B375B8FEA09AB1,Land of Illusion
+B3C4296E5BC63899,Laser Ghost,COMMENT=This game can be played using a Light Phaser. To enable this feature\, start the game by pressing a button on the second Control Pad.
+EBBA1A5F14B6D543,Legend of Illusion,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+C3A7D6B47AE01C96,Lemmings
+9841AB54F8EB0441,Lemmings [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+9C076464A46F730F,Line of Fire,ID=9006,COMMENT=This game can be played using 3-D Glasses. To enable this feature\, press both Control Pad buttons on hard reset.
+DC4FD0C90A6F5E65,Lion King\, The,TVTYPE=PAL/SECAM
+10BBC3D7919A561A,Loretta no Shouzou,VER=Japanese,ID=G-1315
+572DF98CDFB5D98A,Lord of Sword,VER=Japanese,ID=G-1361,COMMENT=Japanese version of Lord of The Sword.
+92362CB89D5572F0,Lord of The Sword,VER=Export,ID=G-1361,COMMENT=Export version of Lord of Sword.
+C3982C78688D8983,Mahjong Sengoku Jidai,VER=Japanese,ID=G-1337
+DFCFA670AC174930,Makai Retsuden,VER=Japanese,ID=G-1324,COMMENT=Japanese version of "Kung Fu Kid".
+EFA3373E2142D2C4,Marble Madness
+EFA3373E2142D1C5,Marble Madness,COMMENT=This dump contains one bad byte.
+73340E125480BFA6,Marksman Shooting / Trap Shooting / Safari Hunt,INPUT=LIGHTPHASER
+4B833BC369A0A586,Master of Darkness,COMMENT=Alternate version of Vampire.
+6A32F08336B0FA11,Masters of Combat,COMMENT=Master System version of Buster Fight (Game Gear).
+8775EA954C13F531,Maze Hunter 3-D,3D,COMMENT=Export version of Maze Walker.
+6F10F2363597F697,Maze Walker,ID=G-1345,3D,VER=Japanese,COMMENT=Japanese version of Maze Hunter 3-D.
+9AE49900AF32A95F,Megumi Rescue,VER=Japanese,INPUT=PADDLE,ID=G-1359
+0C2287D260615D5B,Mercs,ID=9007
+61223A2720C539FE,Mickey's Ultimate Challenge,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+8264C47AA02D1CF3,Micro Machines,Mapper=3,TVTYPE=PAL/SECAM
+5DF944A13D3573E0,Miracle Warriors - Seal of the Dark Lord,VER=Export,JAPNAME=Haja no Fuuin,ID=G-1331,COMMENT=Export version of Haja no Fuuin.
+32DAD3B36F53F7B5,Missile Defense 3-D,INPUT=LIGHTPHASER,3D
+78D6D79A391713DE,MÙnica no Castelo do Drag„o,VER=Brazilian,COMMENT=Hacked version of Wonder Boy in Monster Land by Tec Toy.
+4D632D43B6FE42EA,Monopoly [A],COMMENT=Cartridge label say Mono Poly.
+486A3C3EC40B37CE,Monopoly [B],COMMENT=Cartridge label say Monopoly.
+E5824AEB86A48CAE,Montezuma's Revenge - Featuring Panama Joe,VER=USA,ID=4370
+FA387D6C37963DDB,Moonwalker (Michael Jackson's)
+BC55ADDD0F5CF901,Mortal Kombat
+C71D87669810186F,Mortal Kombat II
+6E91621C296C02EC,Mortal Kombat 3,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
+F78B647E2DECD2B1,Ms. Pac-Man
+ED4ACAF1CF794680,My Hero,VER=Export,ID=C-510,COMMENT=Export version of Seishun Scandal.
+43FAFA9DD769AB41,Nekyuu Kousien,VER=Japanese,ID=G-1367
+0F4613232FB9602D,NewZealand Story\, The
+A6491A91F74F0A16,Olympic Gold
+489D35A442E436E6,Olympic Gold [SMS-GG] [A],SMSGG_MODE,VER=International
+972BE85E65BA5A7F,Olympic Gold [SMS-GG] [B],SMSGG_MODE,VER=Export
+7DBE1156242EEE1E,Opa Opa,VER=Japanese,ID=G-1343,COMMENT=Japanese version of Fantasy Zone: The Maze.
+0BD7C48F97528F53,Operation Wolf,INPUT=LIGHTPHASER,TVTYPE=PAL/SECAM,COMMENT=This game can also be played using the second Control Pad.
+9C0F1AFF59252A94,Ottifants\, The
+B32F41555F15C94B,Out Run,ID=G-1326,COMMENT=This game can be played using a Paddle Control\, if you enable it.
+436E35E9D2EFEF81,Out Run Europa,ID=27016-50
+3BFAB46092543899,Out Run Europa [SMS-GG],SMSGG_MODE
+7DBED7938B8E4FF3,Pacmania
+EBC446E748FB6978,Paperboy,VER=European,ID=25008-50
+266B27943121471B,Paperboy,VER=USA,ID=5121
+E01345F078025D01,Penguin Land,JAPNAME=Doki Doki Penguin Land - Uchuu-Daibouken,ID=G-1334,VER=Export
+9A7D6603682DA249,Penguin Land,JAPNAME=Doki Doki Penguin Land - Uchuu-Daibouken,ID=G-1334,VER=Japanese
+5C82866D629F75B9,PGA TOUR Golf,ID=27070-50 301045-0160
+99682219F73E5738,Pit-Fighter,VER=European
+97682219F73E573A,Pit-Fighter,VER=European,COMMENT=This dump will work but has a few bytes wrong. You might want to get the good dump.
+B0EEC623306A5986,Pit-Fighter,VER=Brazilian
+DFAFA4ECD0D02D15,Poseidon Wars 3-D,3D,COMMENT=The 3-D effect can be removed by pressing Control Pad 2 Button 1 on title screen.
+A3A0129B65F27148,Power Strike,VER=Export,JAPNAME=Aleste,ID=G-1352
+2BC9EC1AC078E1ED,Power Strike II
+CCDD81E10B375F54,Predator 2,TVTYPE=PAL/SECAM
+C5D3A3094BD09F02,Predator 2 [SMS-GG],SMSGG_MODE
+A7AF7C148412B4D0,Prince of Persia [SMS-GG] [A],SMSGG_MODE,VER=A
+A8AB7C128212B8D3,Prince of Persia [SMS-GG] [B],SMSGG_MODE,VER=B
+FE6C6689595835C1,Pro Wrestling,VER=Export,COMMENT=Export version of Gokuaku Doumei Dump Matsumoto.
+106D424E827F1FD3,Psychic World
+35A0597C0B263AEB,Rambo - First Blood Part II,VER=Export,COMMENT=Export version of Ashura. Also same game as Secret Command.
+670E95C06B26376E,Rambo III,INPUT=LIGHTPHASER
+554C7BE855EAE1DC,Rampage
+23F4F2C7282735AC,Rampart
+1DA1B2C2A17604B3,Rastan
+D5F5307E4C80328A,Rastan Saga [SMS-GG],SMSGG_MODE,VER=Japanese,ID=T-11037
+A3E4BFF29BB8066F,R.C. Grand Prix
+A88B7C7AF6466F2C,R.C. Grand Prix [SMS-GG],SMSGG_MODE,VER=Export
+4D23BD40BBC8C14F,Reggie Jackson Baseball,ID=7019,VER=USA
+62359CD87BD76D36,Renegade
+B8840BAF3B2A2C79,Quest for the Shaven Yak Starring Ren HoÅE & Stimpy,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
+3913D462E83B4912,Rescue Mission,INPUT=LIGHTPHASER
+E1D4360F1398203B,Road Rash
+D1F812706360AE44,RoboCop 3,TVTYPE=PAL/SECAM,ID=27064-50
+6510DE9EFF33617C,Rocky,ID=7002\,G-1319
+5286A12D022F2801,R-Type,ID=G-1364
+9815A90C29BA6556,Running Battle
+D28E2F698C014338,Sagaia
+49C0303E13D3CBD8,Sangokushi 3,VER=Korean,Mapper=9,ID=GL9411-RP4
+A98E33A9C7FDAC7D,Sapo XulÅEO Mestre do Kung Fu,ID=023500,COMMENT=Hacked version of Kung Fu Kid by Tec Toy,VER=Brazilian
+137517DF00728D83,Sapo XulÅES.O.S. Lagoa Polu˙Åa,ID=023510,COMMENT=Hacked version of Astro Warrior by Tec Toy,VER=Brazilian
+A55A9508345B7560,Sapo XulÅEVs Os Invasores do Brejo,ID=026340,COMMENT=Hacked version of Psycho Fox by Tec Toy,VER=Brazilian
+ACFDD61911549271,Satellite 7,ID=C-506,VER=Japanese
+A12A7AFAC9472988,Seishun Scandal,VER=Japanese,ID=C-510,COMMENT=Japanese version of My Hero.
+4F1F78F6C14326FA,Seishun Scandal,VER=Japanese,ID=C-510,COMMENT=Japanese version of My Hero.
+8C879DB38E98096E,Scramble Spirits
+E7DF258AF50C0981,Secret Command,VER=Export,ID=G-1307,COMMENT=Title screen says "Secret Commando" but packaging and other listing says "Secret Command". Export version of Ashura. Also same game as Rambo - First Blood Part II.
+A2AB60901AE8F3CE,Sega Chess
+C1191ABD8EFFA31F,Sega World Tournament Golf
+233B773430937DB7,Sensible Soccer
+BB279C12C22FBFC0,Shadow Dancer - The Secret Of Shinobi  ; TVTYPE=PAL/SECAM ; Not sure if it this needed
+F96C3BA032F7D6C1,Shadow of the Beast,TVTYPE=PAL/SECAM
+EC0F9129D095CB1B,Shanghai
+DEF9F2C7A058ADCB,Shinobi,ID=G-1353
+E3EBF1D8895B9FE6,Shinobi,VER=Japanese,ID=G-1353
+034E26895A59CF7E,Shooting Gallery,INPUT=LIGHTPHASER
+10361067C4C6C7F2,S˙ëio do Picapau Amarelo,VER=Brazilian,ID=028710
+094AF2F7B08DE3A4,Slap Shot [A]
+594106F8C181ED39,Slap Shot [B]
+124C00EBBF84E58F,Slap Shot,VER=USA
+EB6998CED0932CB7,Slap Shot [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+0199AF74006BE2F6,Smurfs\, The,ID=27082-50,COMMENT=Original french title is on top and side of the box: "Les Schtroumpfs".
+4F65ACDA08A4B169,Smurfs Travel the World\, The,ID=27085-50,COMMENT=Original french title is on top and side of the box: "Les Schtroumpfs Autour du Monde".
+146FA8E655225E1A,Solomon no Kagi - Oujo Rihita no Namida,VER=Japanese,ID=Silver-002
+5A989B9EFF10EED8,Sonic Blast,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
+724EF423E356618F,Sonic Chaos,ID=9021\,028320
+D3A4F10A4B37C04C,Sonic Spinball,ID=9034\,028489
+2F2C8E1A0AE456B9,Sonic The Hedgehog
+89244C65041595F4,Sonic The Hedgehog 2 [V0],TVTYPE=PAL/SECAM,VER=0
+9E35369CB6BB509A,Sonic The Hedgehog 2 [V1],TVTYPE=PAL/SECAM,VER=1
+33FD350EEDE48D2F,Space Gun,INPUT=LIGHTPHASER
+82CBE6058E19A67B,Space Harrier [50 Hz],ID=G-1310,TVTYPE=PAL/SECAM,COMMENT=This version of the game has color flickering on 60 Hz systems.
+0AEA3665ABDB3AB1,Space Harrier [50 / 60 Hz],ID=G-1310,COMMENT=This version of the game works both on 50 and 60 Hz systems.
+A416C45F248AD89D,Speedball [Image Works]
+7B32EAE9E99C54A7,Speedball [Virgin]
+5D5B88F6AA6D367D,Speedball 2
+DCC8653E70E4F66F,SpellCaster,ID=G-1366,COMMENT=Export version of Kujakuou.
+F0697EEFE5278CA2,Spider-Man - vs. The Kingpin,ID=7065
+5C12588F41421117,Spider-Man - Return of the Sinister Six,ID=27055-50
+6333A82396B2CF88,Sports Pad Soccer,VER=Japanese,INPUT=SPORTSPAD,ID=G-1365
+83A4D6495B81DD01,Spy vs Spy,VER=Export,ID=C-514
+410BA7B1518CEF90,Spy vs Spy,VER=Japanese,ID=C-514
+440AA3B0518BF192,Spy vs Spy,VER=Japanese,ID=C-514,COMMENT=Has a different header.
+92936B306B38B8E5,Star Wars
+FD39BA27B96F853C,Strategic Defense Initiative,COMMENT=Japanese version of Global Defense.,VER=Japanese,ID=G-1338
+905391ED1A483904,Street Fighter II',VER=Brazilian
+8F5391ED1B463906,Street Fighter II',VER=Brazilian,COMMENT=This dump will work but has a few bytes wrong. You might want to get the good dump.
+905391ED1B463806,Street Fighter II',VER=Brazilian,COMMENT=This dump will work but has a few bytes wrong. You might want to get the good dump.
+CC782C54E741D242,Streets of Rage
+C8782C54E741D246,Streets of Rage,COMMENT=This dump will work but has a few bytes wrong. You might want to get the good dump.
+40214E28DB2E75AB,Streets of Rage II
+87B23673DB921899,Strider
+44E778659B2ECD62,Strider II
+57E32ED9EF14328A,Sukeban Deka II - Shoujo Tekkamen Densetsu,VER=Japanese,ID=G-1318
+AF2D01D4A78C8B91,Summer Games
+50701F46EEB21328,Super Kick Off
+30332F1FFBCB8405,Super Kick Off [SMS-GG],SMSGG_MODE,VER=Japanese
+8F53B08718544338,Superman - The Man of Steel
+0EE799CB6D17E43F,Super Monaco GP II (Ayrton Senna's)
+F34CECBA9A4AAF88,Super Off Road
+52DA42A9A94927D0,Super Racing,VER=Japanese,ID=G-1357,COMMENT=This game can be played using a Paddle Control if you enable it.
+A2F23281E94DB5CE,Super Space Invaders
+F799F9C458560EF7,Super Tennis,ID=C-515,VER=Export
+03AA0AD98772E196,Super Tennis,ID=C-515,VER=Japanese
+230C5D2B35293BB0,Super Tetris,VER=Korean
+BC18F17F4F471214,T2 - The Arcade Game,ID=27061-50
+3AABE45F522F0156,Tecmo World Cup '93,ID=7106
+155B04B46BAEE2DD,Tecmo World Cup '93 [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game. Title screen says "Tecmo World Cup '92".
+C57A94919D619509,Teddy Boy,VER=Export,ID=C-501
+B4EAE0440091F6B7,Teddy Boy Blues,VER=Japanese,ID=C-501
+CEEB86B43819EAD2,Tensai Bakabon,VER=Japanese,ID=G-1355
+00F96F49ABD7E3EA,Terminator\, The,ID=27025-50
+798ED2D04A190EE6,Terminator 2 - Judgment Day,ID=27052-50
+C69000F39D02997F,Time Soldiers
+6E674174DCF99F02,The Ninja,ID=5066,VER=Export
+690DDE10E39C7CA1,The Ninja,ID=G-1308,VER=Japanese
+690DDE11E39C7CA0,The Ninja,ID=G-1308,VER=Japanese,COMMENT=This dump will work but has a byte wrong. You might want to get the good dump.
+368FE6B9C92FC4E0,The Pro Yakyuu Pennant Race,VER=Japanese,ID=G-1323
+71B0240AD8312583,Thunder Blade,ID=G-1360
+1FE27772C146E52A,Thunder Blade,ID=G-1360,VER=Japanese
+2CAB2FD57FA3D42F,Tom and Jerry - The Movie
+CF198685CF743C8E,Tom and Jerry - The Movie [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+A896A3A30327D280,Toto World 3,ID=DS-G301,VER=Korean
+8C3364BCB756F81C,Trivial Pursuit - Genus Edition
+0E91C33709612BD2,Turma da MÙnica em: O Resgate,VER=Brazilian,ID=026260,COMMENT=Hacked version of Wonder Boy III: The Dragon's Trap / Monster World II by Tec Toy.
+830DC65B43CD65DA,TV Colosso (As Aventuras da),VER=Brazilian,ID=028650,COMMENT=Hacked version of Asterix by Tec Toy.
+3EEC41D938FA3456,Ultima IV,ID=9501
+A9FD5B95131658E9,Ultima IV [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+7638A4C78062F114,Ultimate Soccer
+5B02852A4E1B3952,Vampire,COMMENT=Alternate version of Master of Darkness.
+826B0C3B91EAF65B,Vigilante,ID=7024
+63CE90266CDA3B98,Virtua Fighter Animation,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+1E9957BF6F2A4B4F,Wanted,INPUT=LIGHTPHASER
+6002C9391330D782,Wimbledon
+F3781A7463B39160,Wimbledon II
+FBDA82A4AA3C34EB,Wolfchild
+9ECDFDB1438755C8,Wonder Boy in Monster World
+2AC27C1DAA5E640F,Wonder Boy in Monster World [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+29655F8F9FFB0EDC,World Class Leader Board
+83C0B3E1924F1434,World Cup Italia '90
+412EC711CEF9955D,World Cup USA 94
+2AB04A10D714A23F,World Grand Prix,VER=Japanese,JAPNAME=The Circuit,ID=G-1304
+5817A60154C0D7FF,X-Men - Mojo World,VER=Brazilian,COMMENT=This is a port from the Game Gear version.
+148D13D956C94E06,Xenon 2 - Megablast [Image Works],COMMENT=Image Works packaged version of the game.
+949238322F74AC21,Xenon 2 - Megablast [Virgin],COMMENT=Virgin packaged version of the game.
+6C4C3C65EF39ADD2,Y's - The Vanished Omens,ID=G-1370,VER=Export
+FE36CB6E6BC5ED76,Zillion II - The Tri Formation,JAPNAME=Tri Formation,ID=G-1344
+F8C690D818C64DAF,Zool
+
+---- MASTER SYSTEM BAD DUMPS ----
+9D9AD0FA4B7344FD,Alex Kidd in Miracle World,ID=G-1306,VER=Export,COMMENT=This dump will work but a byte is wrong. You might want to look for the good dump.
+7ACEE06A678FF682,Alex Kidd in Shinobi World,BAD,COMMENT=This dump will work but a byte is wrong. You might want to look for the good dump.
+E71464BFE1BB77CF,Alex Kidd: The Lost Stars,ID=G-1347,BAD
+EC1883774FF7FDBF,Astro Warrior,ID=G-1312,BAD
+FD9CB764170567C9,Castelo RÅETim Bum,VER=Brazilian,BAD
+3488F258EC375B7C,Double Dragon,ID=G-1369,BAD,COMMENT=This dump will work but a byte is wrong. You might want to look for the good dump.
+58AE94E16F8DD5B4,Enduro Racer,ID=G-1322,BAD
+914DC1AEAB372AA7,Fantastic Dizzy,Mapper=3,BAD,TVTYPE=PAL/SECAM
+CEDEE0CC40083030,Gokuaku Doumei Dump Matsumoto,VER=Japanese,ID=G-1302,COMMENT=Japanese version of Pro Wrestling. This dump is slighty incorrect.,BAD
+07A18B1093D71B38,Golden Axe,BAD,COMMENT=This dump contains two bad bytes. It will work but you might want to look for the good dump.
+75BA56063B17C95A,Great Volleyball,ID=G-1317,VER=Export,BAD
+A222B16F114CDAE5,James Bond 007: The Duel,VER=Brazilian,BAD,COMMENT=This dump contains one bad byte. It will work but you might want to look for the good dump.
+6E32F08336B0FA0D,Masters of Combat,COMMENT=Master System version of Buster Fight (Game Gear).,BAD
+8363C47AA02D1DF2,Micro Machines,Mapper=3,BAD,TVTYPE=PAL/SECAM
+BDDCD79E4A141381,MÙnica no Castelo do Dragao,VER=Brazilian,COMMENT=Hacked version of Wonder Boy in Monster Land by Tec Toy. This dump is slighty incorrect.,BAD
+5EF11842A570D86A,Monopoly [A],COMMENT=The second half of this ROM is useless and can be safely removed.
+B32F41555F15C84C,Out Run,ID=G-1326,BAD,COMMENT=This dump contains one bad byte. It will work but you might want to look for the good dump.
+E11345F078025D00,Penguin Land,JAPNAME=Doki Doki Penguin Land,VER=Export,ID=G-1334,BAD
+910728C9B9AC1CF6,Pro Wrestling,BAD
+312F9C13C82FBE3C,Shadow Dancer,BAD
+E4C8653E70E4F667,SpellCaster,ID=G-1366,BAD
+87B23674DB921898,Strider,BAD
+0BDC8EDC154D82CB,Super Futebol,VER=Brazilian,BAD
+4D6F1F46EEB2132C,Super Kick Off,BAD
+5286A12D022F2702,R-Type,ID=G-1364,BAD,COMMENT=This dump contains one bad byte. It will work but you might want to look for the good dump.
+7715F237A0952EE8,Wonder Boy in Monster Land,BAD
+
+---- SG1000 - MYCARDS ----
+522DCE76FD2DC053,Champion Golf [A],ID=C-05/G-1005
+A11DC05FF929AD54,Champion Golf [B],ID=C-05/G-1005
+C2A4F2DAB27E1D81,Dragon Wang [A],ID=C-46
+C299FED8BA801D78,Dragon Wang [B],ID=C-46
+985694ED9B8C4B1F,Pitfall II [A],ID=C-49,FLICKER
+975C771A81914D1D,Pitfall II [B],ID=C-49,FLICKER,COMMENT=Alternate color version\, looks better with Mark III / Master System.
+211D1B015A77D203,Doki Doki Penguin Land,ID=C-50
+987616376C42CC2B,Doki Doki Penguin Land,VER=Hong-Kong,ID=R-050
+F7646908C0727A88,Chack'n Pop,ID=C-52
+44B2C607937091A9,Rock n' Bolt,ID=C-54,FLICKER
+CA8C9D9A871F7D50,Gulkave,ID=C-63
+F6C4074F8EB7307B,C_So!,ID=C-64
+D9D0ED81D45D08B0,Wonder Boy [A],ID=C-69
+60AEE7ED6EDF1DB4,Wonder Boy [B],ID=C-69
+60DC69943898F205,Champion Billiards,ID=C-71
+
+---- SG1000 - CARTRIDGES ----
+C5114D3DD002F2DC,Safari Hunting,ID=G-1002
+5AACF5554AD6DCB4,N-Sub [1983],ID=G-1003
+5CACF5534AD6DCB4,N-Sub [1988],ID=G-1003,COMMENT=This version has the date modified to 1988. The origin of this modification is unknown.
+254B7166E51F15A0,Sega Mah-Jong,ID=G-1004
+9FAB5418930F2484,Ashizawa's Hatchidan Tsumeshogi,ID=G-1006
+; Congo Bongo: correspond to both CRC:DC4383CC (last 8 kb filled with 00) and CRC:B09E2E6D (filled with FF).
+5BF7BDD18D354618,Congo Bongo,ID=G-1007
+0B6F31D372EC70B4,Yamato,ID=G-1008
+B7E3FD4DBDC04758,Champion Baseball,ID=G-1011
+1B5A61BF9994C579,Golgo 13,ID=G-1014
+466EC65A2B946EFF,Orguss,ID=G-1015
+E7A6DEA71E6978EF,Monaco GP,ID=C-17/G-1017,VER=Japanese
+B4242BD5DE3E2CE0,Monaco GP,ID=G-1017,VER=B
+5C5A333AD02831B4,Sega Flipper,ID=G-1018
+0E3BEA9E54820158,Pop Flamer,ID=G-1019
+A61DC848154BD1FC,Pacar,ID=G-1020
+4C8C69BF8C6621ED,Sega Galaga,ID=G-1022
+8E2F02DC58C51E2A,Space Slalom,ID=G-1023
+AF0E995B15914C5D,Pachinko,ID=G-1027,COMMENT=This may be a bad dump.
+4F4C5CAA21C5A8D1,Exerion,ID=G-1028
+012054B9AACC5804,Pachinko II,ID=G-1029
+DA7481AF2A3B8697,Home Mah-Jong,ID=G-1030,VER=B
+7C7748E59B2DCE4A,Lode Runner,ID=G-1031
+A9EF65B1A5C8F7EE,Safari Race [A],ID=G-1032,VER=A
+6CED5FAB9EC9F343,Safari Race [B],ID=G-1032,VER=B
+6F16109C70F21E4F,Hustle Chumy,ID=G-1035
+237439957A2DF103,Zaxxon,ID=G-1038
+A765C6DF45AA223E,Champion Pro Wrestling,ID=G-1039
+9B2EAB302403AF86,GP World [A],ID=G-1040
+273CD5E6FC69F08D,GP World [B],ID=G-1040
+0CBF98A750BA42AA,Hyper Sports (Konami no),ID=G-1042
+BE0870060DA1B462,Star Force,ID=G-1043
+FC9BB64B14BEE9AD,Othello,ID=G-1044,MAPPER=1,COMMENT=This cartridge contains a onboard 2 kb RAM chip.
+832D295F5C58E72D,Space Invaders,ID=G-1045
+
+---- SG-1000 - TSUKUDA ORIGINAL - OTHELLO MULTIVISION GAME --------
+5B068CAB72E35CB7,Q*Bert,ID=OM-G001
+DD4EE8250BFB259D,Space Mountain,ID=OM-G003
+32C4026057CD592B,Sannninn Mah-Jong,ID=OM-G004
+6ECC9480122FEA87,Challenge Derby,ID=OM-G005
+25724877DA819DB2,Okamoto Ayako no Match Play Golf,ID=OM-G006
+4CA7AF13C260F633,Space Armor,ID=OM-G007
+
+---- UNCLASSABLE ----
+830D8CF823BC2CE1,Terebi Oekaki,VER=Japanese,ID=GB-800,INPUT=TVOEKAKI,Mapper=7
+
+---- SG-1000 BAD DUMPS ----
+B8A40008D60220A4,Congo Bongo,ID=G-1007,BAD
+
+---- SC-3000 ----
+A498D750D50A8638,Sega Basic Level II,VER=Japanese,ID=B-10,MAPPER=1
+242CE123F9157D21,Sega Basic Level III,VER=Export 1.0,ID=B-40,MAPPER=1
+242CE122F9157C23,Sega Basic Level III,VER=Export 1.0,ID=B-40,MAPPER=1
+0261FB18D318752A,Sega Basic Level III,VER=Japanese 1.1,ID=B-41,MAPPER=1
+0C8784F17E89F5FC,Home Basic,VER=Japanese,ID=B-50,MAPPER=1
+F363D14ADA372658,Sega Music Editor,MAPPER=1,VER=Export,ID=E-101
+F563D149DA372558,Sega Music Editor,MAPPER=1,VER=Export,ID=E-101
+92CFAC110866B4C0,Sega Music Editor,MAPPER=1,VER=Japanese,ID=E-101
+ECF917D715120BFB,Chuugaku Hissyuu Eitango (JHS 1st),VER=Japanese,ID=E-103,COMMENT=Educational Software: Junior High School-1 English Words
+F2544D2C76A5988E,Kagaku (Gensokigou Master),VER=Japanese,ID=E-107,COMMENT=Educational Software: Science
+BB95690B9391EC2C,Nihonshi Nenpyou,VER=Japanese,ID=E-108,COMMENT=Educational Software: Japanese History
+3EA1F4B0ED61240B,Sekaishi Nenpyou,VER=Japanese,ID=E-109,COMMENT=Educational Software: World History
+86502CA2E84C8E9A,Chuugaku Hissyuu Eitango (JHS 2nd),VER=Japanese,ID=E-110,COMMENT=Educational Software: Junior High School-2 English Words
+F4F5FC7EF064F356,Chuugaku Hissyuu Eisakubun (JHS 2nd),VER=Japanese,ID=E-111,COMMENT=Educational Software: Junior High School-2 English Compositions
+577B6DD9FD8F2D2F,Chuugaku Hissyuu Eibunpou (JHS 2nd),VER=Japanese,ID=E-112,COMMENT=Educational Software: Junior High School-2 English Grammar
+933EBD35FDA0326E,Tanoshii Sansuu (ES 6th - Vol 2),VER=Japanese,ID=E-115,COMMENT=Educational Software: Elementary School-6 Mathematics\, Volume 2
+1916AF8D8DF9E52A,Uranai Angel Cuty,VER=Japanese,ID=E-119
+
+---- SF-7000 ----
+8AFD7D1C2386B087,Crocky,BAD,VER=French,COMMENT=Floppy disk file allocation table is missing entrys for the game program.
+275F28FBF8ADCBE7,Kamikaze,VER=French,COMMENT=The original tape game was ported to a SF-7000 disk by Marc Le Douarain. It is known not to run properly in auto-boot mode so you first have to load the Disk Basic then boot Kamikaze from it.
+32505C23950676EE,Sega Disk Basic v1.0p,VER=1.0p,COMMENT=This is the original disk as provided with SF-7000 systems sold in France.
+04DDAC7564D37A4D,Sega Disk Basic v1.0p + Yeno Demo,VER=1.0p,COMMENT=This is the original disk to which was added a separately provided demonstration.
+1787122D7B8052D6,Sega Logo v1.0e,VER=1.0e
+B8077BB4C4963E7A,Poseidon Wars / Space Panic / Rambo,COMMENT=This disk contains three amators programs by Marc Le Douarain. Rambo is unfinished and so will not be playable past the title screen.,AUTHORS=Marc le Douarain
+2D2F639451F2C0AA,Yeno Draw [Face 1],AUTHORS=Marc le Douarain
+BE14C62C214ED2FB,Yeno Draw [Face 2],AUTHORS=Marc le Douarain
+
+---- GAME GEAR ----
+5DB92D172BF43C4B,5 in 1 Fun Pak,VER=English
+A5D21350B842022A,Aa Harimanada,ID=G-3327,VER=Japanese
+EE39E44E85E0C77B,Addams Family\, The,VER=English
+E66F317D87443101,Adventures of Batman and Robin,VER=English
+D0CFB9E6942DCC35,Aerial Assault,ID=G-3219,VER=English
+B9E076A223923E5C,Aladdin,ID=G-3336,VER=English
+0FAC122A0F7FFA81,Aladdin,ID=G-3336,VER=Japanese
+73C0F3CC1F5A1D78,Alien 3,ID=T-81047,VER=International
+8E692D2511E6F5CB,Alien Syndrome,ID=T-44037,VER=English
+3F02FDFC275C2F14,Andre Agassi Tennis,VER=English
+8E92A6014E129049,Arcade Classics,VER=English
+9A1D6EB1E8A2AAF6,Arch Rivals,VER=English
+3556E4BEA15709D2,Arena - Maze of Death,VER=English
+F70090C4366C52C1,Ariel - The Little Mermaid,VER=English
+EDE3ACDDC72A476F,Arliel - Crystal Densetsu,ID=G-3403,VER=Japanese,COMMENT=Japanese version of Crystal Warriors.
+0676B41642F43153,Asterix and the Great Rescue,VER=European
+A662E4EF17F3CC4F,Asterix and the Great Rescue,VER=USA       
+DF6C0BFA8275ECCD,Baku Baku Animal,ID=G-3378,VER=English
+72E0E91D3A450128,Baku Baku Animal - Sekai Shiikugakari Senshu-ken,ID=G-3378,VER=Japanese
+2D9E0A3FD48CA3E9,Bart vs. The Space Mutants (The Simpsons),VER=English
+EC249DDDD77540EA,Bart vs. The World (The Simpsons),JAPNAME=Bart World,VER=International
+2949C80F6E63FBEB,Bartman meets Radioactive Man (The Simpsons),VER=English
+AB897446BC1570D1,Batman Forever,ID=T-81187,VER=English
+C201ABFADA677FD8,Batter Up,VER=English,COMMENT=Export version of Gear Stadium.
+82E53FF69611EBD2,Battleship,VER=English
+86AFBDE2C233C176,Battleship,VER=English,COMMENT=This ROM can be safely cut to 65536 bytes.  ; mark as BAD
+EA08216FFAAA5E7C,Battletoads,ID=G-3311,VER=English
+23BF4FE1E01DC42D,Beavis and Butt-head,VER=English
+F7196CDC184FF74A,Berenstain Bears'\, The - Camping Adventure,VER=English
+5213F712A56DCDB3,Berlin no Kabe - The Berlin Wall,ID=T-33017,VER=Japanese
+7239ED165A6A8608,Bonkers Wax Up!,VER=English
+A3B7C429356E31E5,Bram Stoker's Dracula,VER=English
+D558C670ED32D2AC,Bubble Bobble,VER=English
+0A954147D11708E9,Bugs Bunny in Double Trouble
+DCCED394874D1605,Bust a Move,VER=English
+7545BA4617EBF252,Buster Ball,ID=T-53027,VER=English
+AE763A9D3E7084D3,Buster Fight,ID=G-3341,VER=Japanese,COMMENT=Game Gear version of Masters of Combat (Master System).
+3377568CE62DE47D,Caesars Palace,VER=English
+ABD4AF91D87D8369,Captain America and The Avengers,VER=English
+A6DB92F52896C476,Chakan,VER=English
+C8E8E57E33BC39C5,Chicago Syndicate,VER=English
+4CFC722EB04E8892,Choplifter III,VER=English
+65F159C71229103F,Chuck Rock II - Son of Chuck,VER=English
+2F97B4630C0D23E7,Cliffhanger,VER=English
+2A64139E7A706B6C,Coca Cola Kid,ID=G-3350,VER=Japanese
+9FD46CE7B8EE365E,Columns,ID=G-3101,VER=English
+10E74B085532032C,Columns,ID=G-3101,VER=Japanese
+775934E6039885F6,Cool Spot,VER=English
+9B49411CCAC8D756,Clutch Hitter,VER=English
+A21AD85B167F6913,Crystal Warriors,ID=G-3403,VER=English,COMMENT=English version of Arliel - Crystal Densetsu.
+C2965F6E8A59A751,Cutthroat Island,ID=T-81338
+099CC645306AB402,Daffy Duck in Hollywood,VER=English
+FF64CE10F01C7D36,Deep Duck Trouble,JAPNAME=Donald Duck no Yottsu no Himitsu,ID=G-3332,VER=Japanese
+02E7288B76458A1F,Defenders of Oasis,VER=English,COMMENT=English version of Shadam Crusader.
+AE87403603D0E79B,Desert Strike,VER=English
+4200580F20BADF9E,Doraemon Nora no Suke no Yabou,ID=G-3326,VER=Japanese
+505B00DA3C579A4E,Double Dragon,VER=English
+B247BC4945B611F6,Double Dragon [Proto],PROTO,VER=English,COMMENT=This is an unfinished prototype version of the game.
+D163D0F834459CEF,Dragon - The Bruce Lee Story,VER=English
+77C55F382ABB2325,Dragon Crystal,ID=G-3206,VER=English
+D522749CF8737519,Dragon Crystal - Tsurani no Meikyu,ID=G-3206,VER=Japanese
+4C605B8937009F9A,Drop Zone,Mapper=3,ID=T-121007,VER=English
+129ED3B48CD93133,Dr. Robotnik's Mean Bean Machine,VER=English
+646BC15AEE70793F,Dunk Kids,ID=G-3352,VER=Japanese
+B33070CAB97B921D,Dynamite Headdy,ID=G-3355,VER=International
+A338FA736E8E1D9F,Earthworm Jim,VER=English
+855EA7962D1B2B6D,Ecco the Dolphin,ID=G-3344,VER=International
+21E70CD78EEE2D6C,Ecco - The Tides of Time,JAPNAME=Ecco the Dolphin II,ID=G-3362,VER=English
+AF60C9ACE9E9A406,Ecco - The Tides of Time,JAPNAME=Ecco the Dolphin II,ID=G-3362,VER=Japanese
+658232077A8D8554,Ernie Els Golf,Mapper=3,COMMENT=This cartridge contains a onboard 64 kb RAM chip.
+970EAA8535666E23,Evander Holyfield Boxing,VER=English
+2B05E6CBE6E79BB7,F1,VER=English
+D340349AE7C03345,F-15 Strike Eagle,VER=English
+CFF55A311BC62FA1,Face Ball 2000,ID=T-53037,VER=Japanese
+C32205C4D7835C9C,Factory Panic,VER=English,COMMENT=Export version of 'Ganbare Gorby!'.
+2B867DCECA734285,Fantasy Zone Gear,ID=T-44017,VER=English
+2C887DCDCA714285,Fantasy Zone Gear,ID=T-44017,VER=English
+01B1CB4E2F1E4C9C,Fatal Fury Special,JAPNAME=Garou Densetsu Special,VER=English
+79E80A0C5A985A3D,FIFA International Soccer,ID=T-10617,VER=English
+7ECE281E38B22163,FIFA International Soccer,ID=T-10617,VER=Japanese
+B55C08995BA5E26C,FIFA Soccer 96,VER=English
+F20EFF6AC22E099E,Foreman for Real,ID=T-81197,VER=English
+DA478D64E6018A7D,Frank Thomas Big Hurt Baseball,VER=English
+776593D0265E3FFE,Fray,ID=T-52037,VER=Japanese
+6686067B7F5218AA,Fred Couples Golf,ID=G-3358,VER=English
+FCB8715AAD21852E,Fred Couples Golf,ID=G-3358,VER=Japanese
+10CC5C366165B616,Frogger [Proto],PROTO,COMMENT=This is a nearly finished prototype of the unreleased game.
+B0541293B90BC5CE,From TV animation - Slam Dunk - Shouri-e no Starting 5,ID=T-133037,VER=Japanese
+905D6D377D1F9D36,Galaga '91,ID=T-14057,VER=English
+45190AB92665163E,Gamble Panic,ID=G-3364,VER=Japanese
+9E7E0CAD62261E85,Gambler Jikochuushin Ha,ID=G-3339,VER=Japanese
+F740DD014127ACD7,Ganbare Gorby!,VER=Japanese,COMMENT=Japanese version of 'Factory Panic'.
+C92745E46E995090,George Foreman's KO Boxing,VER=English
+27BA4F0E3A5DBF6C,Gear Stadium,ID=T-14037,VER=Japanese,COMMENT=Japanese version of Batter Up.
+08ADE585B8DA024D,Gear Stadium Heiseiban,ID=T-14077,VER=Japanese
+F9F734AF23CDB28B,Gear Works,VER=English
+682713F64A0AAD67,GG Aleste,ID=T-66017,VER=Japanese
+5D96967FEE1C49A5,GG Portrait - Yuuki Akira,ID=G-3386,VER=Japanese
+FCC991E880B52D60,GG Portrait - Pai Chan,ID=G-3387,VER=Japanese
+82C3D1CAD4A50C9B,Shinobi,ID=G-3302,VER=English
+7EC1D6C6D2A7119B,GG Shinobi,ID=G-3302,VER=Japanese
+4C0CF2421287A932,Shinobi II - The Silent Fury,JAPNAME=GG Shinobi II,ID=G-3315,VER=International
+F0E8A87399B7C4F9,Global Gladiators,VER=English
+6949D8B6CE13CD12,G-LOC - Air Battle [A],ID=G-3204,VER=Japanese A
+9B4CDA9945218AB6,G-LOC - Air Battle [B],ID=G-3204,VER=Japanese B
+AB28B8AACF008D6F,Godzilla - Kaiju Dai-Shingeki,ID=G-3430,VER=Japanese
+12D2CD56CAF145F9,GP Rider,ID=G-3347,TVTYPE=NTSC,VER=English
+5184CBDD08EAAEE3,Green Dog,VER=English
+AB0C222F75C0695A,Griffin,ID=T-49017,VER=English
+6A66AD66C5D81A66,Gunstar Heroes,ID=G-3349,VER=Japanese
+357F4A30EE2C9A1E,Honoo no Toukyuuji Dodge Danpei,ID=G-3220,VER=Japanese
+90F66A8B1F353DF4,Head Buster,ID=T-25017,VER=Japanese
+BFF25E2CEA4F8C00,Heavyweight Champ,ID=T-44027,Ver=Japanese
+4CB0035708055746,Home Alone,VER=English
+54FCF17485714015,Hook,VER=English,ID=T-93028-50
+D0C9FEBE08434B15,House of Tarot,JAPNAME=Tarot no Yakata,ID=G-3208,VER=Japanese
+83AE170BBEE765A3,Hurricanes,VER=English
+07EAA1CEF2F8BBFB,Hyper Pro Yakyuu 92,ID=G-3217,VER=Japanese
+3F8665D57BA3A043,Hyokkori Hyoutan Jima,ID=G-3218,VER=Japanese
+F1E3947961D3D813,Incredible Crash Dummies\, The,ID=T-81127,VER=English
+C11C2B5FAA24A02B,Incredible Hulk\, The,VER=English
+4991B2A2AE8AB9E1,Indiana Jones and the Last Crusade,VER=English
+67E30F160D0B7FFA,In the Wake of Vampire,ID=T-44047,VER=Japanese
+50513CEA88DD577D,Iron Man X-O Manowar,VER=English
+C919CCEF16A7376F,Itchy & Scratchy,VER=English
+499877BC81C4D4D3,James Bond 007: The Duel,VER=English
+4BB99C103FA92B3D,Jeopardy!,VER=English
+2C18F1F2231B2E6D,Jeopardy! - Sports Edition,VER=English
+ED553EA2FE167951,Joe Montana Football,ID=G-3305,VER=English
+F1553EA2FE16794D,Joe Montana Football,ID=G-3305,VER=English
+214814EA42B19C0A,J League GG Pro Striker '94,ID=G-3417,VER=Japanese
+CC0DEE292FE1B749,J League Soccer - Dream Eleven,ID=G-3431,VER=Japanese
+3CC3817F0F2AD7F1,Judge Dredd,VER=English
+3D8EFDAAD4168123,Junction,ID=T-22017,VER=English
+AE4DC2168F64AF8B,Jungle Book\, The,VER=European
+BC411BF2B555F1FB,Jungle Book\, The,VER=USA
+78FF86D439FA807C,Jurassic Park,ID=G-3229,VER=English
+2192332A14FC845C,Jurassic Park,ID=G-3229,VER=Japanese
+5B21015F3D470997,Kaitou Saint Tail,ID=G-3382,VER=Japanese
+14860DC4BF4D9CED,Kawasaki Superbike Challenge,VER=English   ; Cartridge says "Kawasaki Superbikes"
+E8983AA73B33032E,Kick & Rush,VER=Japanese,ID=T-44057
+73CDFBB9A17B628E,Kishin Douji Zenki,ID=G-3373,VER=Japanese
+B87E281ACCCE2FBF,KLAX,VER=English
+3321E82A25113E26,Krusty's Fun House,VER=English
+D04392A2150C4850,Kuni Chan's Game Paradise,JAPNAME=Kuni Chan no Game Tengoku,ID=G-3303,VER=Japanese
+FFCDA1F1F85CCC82,Kuni Chan's Game Paradise 2,JAPNAME=Kuni Chan no Game Tengoku 2,ID=G-3322,VER=Japanese
+B0B04035A468D44B,Land of Illusion,ID=G-3323,VER=English
+6C107B6F23212630,Land of Illusion,JAPNAME=Mickey Mouse no Mahou no Crystal,ID=G-3323,VER=Japanese
+415BEEFFADDCF9F5,Last Action Hero,ID=T-93048,VER=English
+4789B713B7475612,Legend of Illusion,ID=G-3360,VER=English
+C47B5E5AC577A12C,Legend of Illusion,JAPNAME=Mickey Mouse Densetsu no Oukoku,ID=G-3360,VER=Japanese
+48D2B5FB715B2545,Lemmings
+B706651F0ECDA044,Lemmings [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+0DE81165350FE170,Lion King\, The,ID=G-3363,VER=USA
+0EE71166350EE170,Lion King\, The,ID=T-70158,VER=European
+EEBEEC8A267160E7,Lucky Dime Caper\, The,ID=G-3306,VER=English,COMMENT=English version of "Donald Duck no Lucky Dime".
+9A5CD4E692C2A854,Donald Duck no Lucky Dime,ID=G-3306,VER=Japanese,COMMENT=Japanese version of "Lucky Dime Caper\, The".
+5540503E9E1A8A9B,Lunar - Sanpo-suru Gakuen,ID=T-45017,VER=Japanese
+FFBCED0863554B4D,Mac Donald - Ronald in the Magical World,JAPNAME=Mac Donald - Donald no Magical World,ID=G-3340,VER=International
+C4BF3F5C6538EF56,Madden NFL '95,VER=English
+0C48B8C0E5B82B6C,Madden '96,VER=English
+BC1CE72A38884E09,Magical Puzzle Popils,ID=T-48017,VER=Japanese
+0D6D3E01E06AB24B,Magical Taruruto-kun,ID=T-65017,VER=Japanese
+5837AF8624E254E2,Magic Knight Ray Earth,JAPNAME=Mahou-Senshi Ray Earth,ID=G-3423,VER=Japanese
+349A9743A068B997,Magic Knight Ray Earth 2 ~making of magic knight~,JAPNAME=Mahou-Senshi Ray Earth 2 ~making of magic knight~,ID=G-3429,VER=Japanese
+15446D03DB6DB53A,Majors Pro Baseball,VER=English,Mapper=4
+EEF607B16825FADD,Man Overboard!,VER=English,Mapper=3,TVTYPE=PAL/SECAM
+2CB25F033DADD204,Mappy,ID=T-14027,VER=Japanese
+B424918FF035A83B,Marble Madness,VER=English
+4E62CA7D9E439B8D,Marko's Magic Football,VER=English
+F0B8660AB1883B74,Megaman,VER=English
+F5296F1E651FF4DD,Megami Tensei Gaiden - Last Bible,ID=G-3418,VER=Japanese
+6FA65308EF07702A,Megami Tensei Gaiden - Last Bible Special,ID=G-3427,VER=Japanese
+DE2CEEA5F01F074D,Mickey's Ultimate Challenge,VER=English
+51710931D2A8ED9D,Micro Machines,Mapper=3
+0D511C6572333844,Micro Machines 2: Turbo Tournament,Mapper=3
+C1D9061468CD789F,MLBPA Baseball,VER=English
+9A15007FFAC7F51C,Moldorian,ID=G-3422,VER=Japanese
+3190F6DA57189070,Monster Truck Wars,VER=English
+F36CF621FCC28C40,Monster World II - Dragon no Wana,ID=G-3308,VER=Japanese,COMMENT=Japanese version of Wonder Boy: The Dragon's Trap.
+108F1B645538E075,Mortal Kombat,ID=81017,VER=International v2.6
+48AEDFE8EA0EEC5F,Mortal Kombat,ID=81017,VER=Japanese v3.3
+7CDB14D40344D8A2,Mortal Kombat 3,VER=English
+571564ED798B67D8,Ms. Pac-Man,VER=English
+14D6D23E291005C8,Nazo Puyo,ID=G-3224,VER=Japanese
+E6D9919FD2886354,Nazo Puyo 2,ID=G-3413,VER=Japanese
+89CC59B95194278D,NBA Action,VER=English,TVTYPE=NTSC
+A8121F7AE0AC57CA,NBA JAM Tournament Edition,TVTYPE=NTSC,ID=T-81137,VER=International
+5E4B9FC084E7107D,NFL '95,VER=English
+FD0304D38203D6CE,NFL Quarterback Club,ID=T-81147
+58C8DD73B1B345E7,NFL Quarterback Club '96,VER=English
+743D647340B4FC88,NHL All Stars,VER=English
+1521D014975325D7,NHL Hockey,VER=English
+C216F5FA17F30926,Ninja Gaiden,JAPNAME=Ninja Ryuukenden,ID=G-3215,VER=English,FLICKER
+491A5BE482A63303,Ninja Gaiden,JAPNAME=Ninja Ryuukenden,ID=G-3215,VER=Japanese,FLICKER
+22BA40932FD367E8,Ninku,ID=G-3370,VER=Japanese
+7DB3E5B919ED36F6,Ninku Gaiden,ID=G-3377,VER=Japanese
+76A0E0E382CF8254,Ottifants\, The,VER=English
+21B16C153724A0B2,Out Run,ID=G-3213,VER=English,IPERIOD=261
+024D2C99042B8D30,Pac-Attack,VER=English
+3E0814A4FB499C22,Pac-Man,ID=T-14017,VER=English
+09198DB9275CA96C,Panzer Dragoon Mini,ID=G-3384,VER=Japanese
+45111CC58FB4FF87,Paperboy,VER=English
+5A78E272B1729621,Paperboy 2,VER=English
+770CA17EE8E592FF,Pengo,ID=G-3102,VER=English
+593C7A3470EED58A,Pengo,ID=G-3102,VER=Japanese
+BDC45082B4BFDC5E,Pete Sampras Tennis,Mapper=3,VER=English
+EF9680FBB3E34327,PGA TOUR Golf,VER=English
+ED0CCDB6736CF4B1,PGA TOUR Golf 2,VER=English
+F18A7578F6BB8067,PGA TOUR 96,VER=English
+CEE87887BE4C5BE6,Phantasy Star Adventure,ID=G-3216,VER=Japanese
+38B4091C24542651,Phantasy Star Gaiden,ID=G-3405,VER=Japanese
+5567550DB4B0017D,Pocket Jong Sou,ID=T-14067,Ver=Japanese
+2CE2D57DB5BA46EB,Poker Face Paul's Blackjack,VER=English
+2B4995C63316E305,Poker Face Paul's Gin,VER=English
+7E75083EC5AC3224,Poker Face Paul's Poker,VER=English
+13AD1C132F72E28E,Poker Face Paul's Solitaire,VER=English
+75675BCE2FD003F9,Pop Breaker,ID=T-52017,COUNTRY=1,VER=Japanese
+E9A50801BEAAFD04,Popeye's Beach Volleyball,ID=T-154017,VER=Japanese
+580F2481F9E66BAA,Power Strike II,JAPNAME=GG Aleste II,ID=G-3330
+50F748597A78081E,Pro Yakyuu GG League,ID=G-3407,VER=Japanese,Mapper=4
+C6EE3E765A5503E6,Pro Yakyuu GG League '94,ID=G-3353,VER=Japanese
+B06D9479FA71A7C4,Psychic World [A],ID=G-3203,VER=English
+C0B450E4E8C49C10,Psychic World [B],ID=G-3203,VER=English,COMMENT=????
+A3111B362AD924D4,Puyo Puyo 2,ID=T-66037,VER=Japanese
+6D6D979B9D368E93,Puzlow Kids,JAPNAME=Puyo Puyo,ID=G-3324,VER=International
+E463A36AE4D522D1,Puzzle Bobble,VER=Japanese,ID=T-11047
+2A50C584823D710D,Quest for the Shaven Yak Starring Ren HoÅE & Stimpy,VER=English
+D56E2790AD1DEE4E,R.B.I. Baseball '94,VER=USA
+45EF1710B24D079F,Riddick Bowe Boxing,ID=T-22027,VER=International
+C8EC4DEA219A73E7,Rise of the Robots,VER=English,TVTYPE=NTSC,IPERIOD=229
+66C33CFBDC17A706,Ristar,JAPNAME=Ristar the shooting Star,ID=G-3365,VER=International
+01B64665BDBF978B,Madou Monogatari I - Mittsu no Madokyu,ID=G-3410,VER=Japanese
+3A833A5A08D0F2E5,Madou Monogatari II - Aruru 16-sai,ID=G-3419,VER=Japanese
+2BAC3EE795F07A05,Madou Monogatari III - Kyukyoku Joo-sama,ID=G-3424,VER=Japanese
+4E4D0E995D8F933F,Madou Monogatari A - Dokidoki-Bake Shon,ID=T-66047,VER=Japanese
+897F02048B132F25,Road Rash,VER=English
+6065615A7606FD07,RoboCop 3,ID=T-81097,VER=English
+E89A7A9BE94BBB7A,RoboCop versus The Terminator,VER=English
+5A7BEBD52838F714,Royal Stone,ID=G-3425,VER=Japanese
+8FB34BFC642CB82F,Ryu Kyu,ID=T-54017,VER=Japanese,COMMENT=Japanese version of Solitaire Poker.
+7C9BF74B57970FAA,Sailor Moon S,ID=T-133017,VER=Japanese
+86DFCF18904BCC0D,Samurai Shodown,ID=T-103017,VER=English
+13F9F13BACF847DD,Samurai Spirits,ID=T-103017,VER=Japanese
+F964F26101F693C6,Scratch Golf,ID=T-23017,VER=Japanese
+DF6FF459A561AAB5,SD Gundam Winner's History,ID=G-133027,VER=Japanese
+0BFD5F19A146A2F7,Sega Game Pack 4 in 1,VER=English
+3179021AB1F4F3A2,Shadam Crusader,ID=G-3404,VER=Japanese,COMMENT=Japanese version of Defenders of Oasis.
+3DDFD5DF7B74DE63,Shanghai 2,ID=T-15017,VER=Japanese
+FA3B4B7B568BAC78,Shaq Fu,VER=English
+7FF06E0DC05E8A6E,Shikinjou,ID=T-15027,VER=Japanese
+76749360F64106E6,Shining Force - The Sword of Hajya,ID=G-3409,VER=English
+C76F1AE91B588DC7,Shining Force Gaiden,ID=G-3406,VER=Japanese
+1F9714187E37FE6B,Shining Force Gaiden II,ID=G-3409,VER=Japanese
+87CA29057C33E3EF,Shining Force Gaiden - Final Conflict,ID=G-3428,VER=Japanese
+F58430F7B49CA36D,Skweek,ID=T-60017,VER=Japanese
+B34D79D4184F2C20,Smurfs\, The
+3D9031096A4369E3,Slider,ID=T-60017,VER=English
+DA3A3FA2A0C2CCDD,Super Smash T.V.,ID=T-81057,VER=English
+4FFC5704FCA43783,Sokoban World,ID=T-53017,VER=Japanese
+8A518DD06AA27646,Solitaire Fun Pak,VER=English
+FE70EF747ED5B22A,Solitaire Poker,ID=T-54017,VER=English,COMMENT=English version of Ryu Kyu.
+7B48F7CDDDBD7D62,Sonic Blast,JAPNAME=G-Sonic,ID=G-3385,VER=International
+1BD056AB87F45643,Sonic Drift,ID=G-3415,VER=Japanese
+0CE1C4FB95A321FB,Sonic Drift 2,ID=G-3366,VER=Japanese
+BEFCEE0501199B9E,Sonic Labyrinth,ID=G-3374,VER=International
+B4010E08A03EFD5A,Sonic Spinball,VER=English
+9DC02F576DAE37CB,Sonic & Tails,ID=G-3331,VER=Japanese,COMMENT=Japanese version of Sonic Chaos.
+866A749727ECB141,Sonic & Tails 2,ID=G-3356,VER=Japanese,COMMENT=Japanese version of Sonic Triple Trouble.
+2D341FEB6A1B46CA,Sonic The Hedgehog [v0],ID=G-3307,VER=0
+53D934469DC6E116,Sonic The Hedgehog [v1],ID=G-3307,VER=1
+97222AD3F8DE1D57,Sonic The Hedgehog [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
+D2612363E352F220,Sonic The Hedgehog 2,ID=G-3321,VER=English
+0F635FF9B1886A93,Sonic Triple Trouble,VER=English,COMMENT=Export version of Sonic & Tails 2.
+308DC2BE252AC7AD,Space Harrier,ID=G-3212,VER=English
+43EA5FAFAF94EA98,Spider-Man - vs. The Kingpin,VER=English
+1D52E7C5C3B8F07A,Spider-Man - Return of the Sinister Six,VER=English
+D307ACC6641167D8,Spider-Man and the X-Men in Arcade's Revenge,VER=English
+289F743A3E37CC4A,Sports Illustrated Championship Football & Baseball,VER=English
+8E4C09D06B5DE4A1,Sports Trivia,VER=English
+7C8CA98E3973C74E,Sports Trivia - Championship Edition,VER=English
+2D231FD27C8A8930,Star Gate,ID=T-81157,VER=International
+B5826969AF8E0EAC,Star Trek Generations - Beyond the Nexus,VER=English
+CCD54E587E846A4D,Star Trek The Next Generation - The Advanced Holodeck Tutorial,VER=English,ID=T-86038
+E93FF24340FB3434,Star Wars,VER=English
+5AD835BF116EC299,Streets of Rage,JAPNAME=Bare Knuckle,ID=G-3313,VER=International
+85CFE82DBD812633,Streets of Rage II,JAPNAME=Bare Knuckle II,ID=G-3228
+24A227CBB87248D6,Strider Returns,VER=English
+FAE75543A7740E5E,Super Golf,ID=T-26017,VER=Japanese
+C2886A87DB50B1E9,Super Off Road,VER=English
+BA886A87DB50B1F1,Super Off Road,VER=English
+A220C02C0082E6EA,Super Momotarou Dentetsu III,ID=T-143017,VER=Japanese
+6FA4E449AE525A66,Super Return of the Jedi
+6FA3E44AAE525A66,Super Return of the Jedi
+3D4B8D95C6F89CFC,Super Space Invaders,VER=English
+86FF547C91408D4D,Surf Ninjas,VER=English
+1AF375AAF3F11AD6,Sylvan Tale,ID=G-3426,VER=Japanese
+FF60671102D2A2B3,T2 - The Arcade Game,ID=T-81027,VER=International
+9AB480AD16FFC7A9,Tails' Sky Patrol,ID=G-3368,VER=Japanese
+67685BAE2C08E014,Taisen-gata Daisenryaku G,ID=T-51017,VER=Japanese
+20AF191BD7103DD9,Taisen Mahjong HaoPai,ID=G-3202,VER=Japanese
+128F9497F4469169,Taisen Mahjong HaoPai 2,ID=G-3335,VER=Japanese
+0198EBBE947301B6,Tale Spin,VER=English
+8A60EE2A92FAE58D,Tama & Friends - 3chome Koen Tamalympic,ID=G-3361,VER=Japanese
+73869AAE809FD1CF,Tanto-R,ID=G-3345,VER=Japanese
+69824C1FDBCFC040,Ichidanto-R,ID=G-3359,VER=Japanese
+95202199862FC616,Tatakae! Pro Yakyuu Twin League,ID=G-3371,VER=Japanese
+9B7DE59E03D29000,Taz in Escape From Mars,VER=English
+4CD14D2B04F786EA,Taz-Mania,VER=English
+2D756A0E3A873BEA,Tempo Jr.,ID=G-3369,VER=International
+0942170D3CFD87D1,Tengen World Cup Soccer,VER=English
+796B2AA0D64851E3,Terminator 2 - Judgment Day,ID=T-81117,VER=International
+D7713EC45DD6B5CE,Tesserae,VER=English
+340FBB84D6F82B85,The Chessmaster,VER=English
+C8930333BCD00BD8,The Pro Yakyuu '91,ID=G-3207,VER=Japanese
+70BA6E9D99C81B4F,The Quiz Gear Fight!!,ID=G-3367,VER=Japanese
+5A5865B5148A5541,Tintin in Tibet
+DC1F080D96A53D78,Tom and Jerry - The Movie,ID=G-3319,VER=International
+F9471D41510253BC,Torarete Tamaruka!?,ID=G-3348,VER=Japanese
+B31BDB3827A8440C,True Lies,ID=T-81167,VER=International
+07D77087D26DD517,Urban Strike,VER=International
+84C269594C15F3A4,Vampire: Master of Darkness,VER=English
+DFBD34655C7A6293,Wagan Land [A],ID=T-14047,VER=Japanese
+C7BD34655C7A62AB,Wagan Land [B],ID=T-14047,VER=Japanese
+533DC337F17121F3,Wheel of Fortune,VER=English
+C2DB65453292985D,Wizard Pinball,VER=English
+9C35260DA7367AA5,Wolfchild,VER=English
+9FF4810003787DF4,Wonder Boy,ID=G-3205,VER=English
+2CDE35F4553095B3,Wonder Boy: The Dragon's Trap,ID=2242,VER=English,COMMENT=English version of Monster World II - Dragon no Wana.
+885AA4D1B3814E27,Wonder Boy: The Dragon's Trap [Proto],PROTO,ID=2242,VER=English,COMMENT=English version of Monster World II - Dragon no Wana. This is an unfinished prototype of the english version of the game.
+902D4CDEE014FD28,Woody Pop [V0],ID=G-3103,VER=International 0
+ED6C5F01DA350830,Woody Pop [V1],ID=G-3103,VER=International 1
+747E83E3BEE414F2,World Class Leader Board,VER=English
+39D9CF45064E186E,World Cup USA 94,VER=English
+756BCDAD19F5D3C5,World Derby,ID=T-68017,VER=Japanese
+B172FFF90B6B79F6,World Series Baseball [A],VER=English,Mapper=4
+82392945686157B7,World Series Baseball [B],VER=English,Mapper=4
+1ED4D8EC92EBC10C,World Series Baseball '95,VER=English,Mapper=4
+001C952F658A1021,WWF Raw,VER=English
+896982D01506AFF2,Yaiba Adventures,ID=G-3346,VER=Japanese
+734B2CD0EC0E2B21,Yogi Bear [Proto],PROTO,COMMENT=This is a nearly finished prototype of the unreleased game.
+B2B6F1EBDC28B206,Yuu Yuu Hakusho,ID=G-3343,VER=Japanese
+33DF404CAF5A0B4E,Yuu Yuu Hakusho II,ID=G-3354,VER=Japanese
+4E1CB94E6B30D61E,X-Men,VER=English
+CD0B39F3B2896859,X-Men - GamesMaster's Legacy,ID=2531,VER=English
+BAC9E98F228F95BF,X-Men - Mojo World,VER=English
+8CE8B1B8A48E3BB6,Zan Gear,ID=T-32017,VER=Japanese
+41E4E0DC502EC3DE,Zool,ID=T-149017,VER=Japanese
+0F6D1D96C28B90F4,Zoop,VER=English
+
+---- GAME GEAR BAD DUMPS ----
+92CFF74D6DAEC57B,Bart vs. The World (The Simpsons),JAPNAME=Bart World,VER=International,BAD
+47D7D87C28BE3870,Chicago Syndicate,BAD
+1F888E6BA55ACB96,Griffin,BAD
+505B123BE8CD341F,Land of Illusion,BAD
+4B1A5BE482A63301,Ninja Gaiden,JAPNAME=Ninja Ryuukenden,BAD,ID=G-3304,COMMENT=Only one byte is bad in this dump\, and MEKA will automatically patches the wrong byte on startup so the game should in fact be perfectly playable.,FLICKER
+EE09D1B37475F6A6,PGA TOUR Golf 2,VER=English,BAD
+FC1058B0D816D826,Predator 2,BAD
+9D6E278FAC1FEE86,R.B.I. Baseball '94,VER=English,BAD
+97403601CB2901FD,Sailor Moon S,ID=T-133017,VER=Japanese,BAD
+0278F5B6235484E0,Sonic Blast,BAD
+F7A0D2156165A21A,Sonic Blast,BAD
+2532BB34C10FBA30,Ultimate Soccer,BAD
+4AC066A25C14027C,World Series Baseball,VER=English,Mapper=4,BAD
+
+---- COLECO VISION ----
+36E08CEDA41FBBF3,2010 - The Graphic Action Game,DATE=1984
+F04C1831F731A5AE,Adam's Musicbox Demo,DATE=1987
+B84FC388F1E31EBC,Alcazar - The Forgotten Fortress,DATE=1985
+E58BBDF86F202428,Alphabet Zoo,DATE=1984
+EBEB109FE7FB6B2E,Amazing Bumpman,DATE=1986
+2B29847663943982,Antarctic Adventure (alt),DATE=1984
+F171BEB28CD46E60,Antarctic Adventure,DATE=1984
+631102E59B886F13,Aquattack,DATE=1984
+10F54BB38E577A9E,Artillery Duel,DATE=1983
+8BA52F31C2A57693,BC's Quest for Tires,DATE=1983
+EDD2795EF15B9886,BC's Quest for Tires II - Grog's Revenge (24k) (alt),DATE=1984
+C0704F70A3DF424D,BC's Quest for Tires II - Grog's Revenge (32k) (bad),DATE=1984
+34F411A6909EF4FF,BC's Quest for Tires II - Grog's Revenge (32k),DATE=1984
+7C535948CDC450AF,Beamrider,DATE=1983
+BD8519D1474BB092,Blockade Runner,DATE=1984
+55CE5522544806C4,Boulder Dash,DATE=1984
+3F6A16DABB021E8C,Brain Strainers,DATE=1984
+4B29DE86674CC8AD,Bump 'N' Jump,DATE=1982-84
+A97BBBEA5ABEFD22,Bump 'N' Jump (Mattel),DATE=1982-84
+71872823FB082C8E,BurgerTime (Mattel),DATE=1982-83
+6021C2B1A1797F73,BurgerTime,DATE=1982-84
+32B90C82E73B8FD6,Cabbage Patch Kids - Adventures in the Park (alt),DATE=1983-84
+1C4D93DC1E94EA8C,Cabbage Patch Kids - Adventures in the Park,DATE=1983-84
+666F9F113565548D,Cabbage Patch Kids Picture Show,DATE=1984
+33795675FF0C7C02,Campaign '84,DATE=1983
+156689CF758BF23B,Carnival,DATE=1982
+4B482412AD424701,Centipede,DATE=1983
+218412D27961AEEF,Choplifter,DATE=1982-84
+1E8412D37961AEF1,Choplifter (alt),DATE=1982-84
+CACE62C2877C6CD5,Chuck Norris - Super Kicks,DATE=1983
+B4393EAB78B73CBF,Coleco Vision BIOS (different font),DATE=1982
+F60E5F2FE8CBBA01,Coleco Vision BIOS (no title delay),DATE=1982
+F20F5F30E8CCBB01,Coleco Vision BIOS (original),DATE=1982
+64D45120BD7083A7,Coleco Vision Noise Generator,COMMENT=Public Domain.,DATE=1996
+C28F7C08B831A1A1,Congo Bongo,DATE=1984
+28C77AC3E23CD3E3,Cosmic Avenger (alt),DATE=1982
+26C77AC3E23CD3E5,Cosmic Avenger,DATE=1982
+72679E2CC3743CEA,Cosmic Crisis,DATE=1983
+5A5B3BB6F64E17FF,Cosmo Fighter 2,DATE=1996-97,COMMENT=Public Domain\, by Marcel de Kogel.
+C0BC2014250F1606,Dam Busters (The),DATE=1984
+716B8625360F53E1,Dance Fantasy,DATE=1984
+0BE2C0CCB77E3E14,Defender,DATE=1980-83
+ACF9C3A3B1AA9802,Destructor,DATE=1984
+C16A5CA79189D1E7,Dig Dug [Proto],PROTO,DATE=1984-2001,COMMENT=Released at Classic Gaming Expo 2001.
+8FFFEFBB0C6760F5,Donkey Kong (16k),DATE=1982
+8BCA6CBAF1282F3D,Donkey Kong (24k) (Adam),DATE=1982
+AD6D7822CB270F4B,Donkey Kong Jr,DATE=1982-83
+0FD988AA6F2FFE4A,Dr. Seuss's Fix-Up The Mix-Up Puzzler,DATE=1984
+DCA68C6FCED322C0,DragonFire,DATE=1984
+71247B1A6BCF6537,Dukes of Hazzard (The),DATE=1984
+B1D4E1CC4D9C29BC,Escape From The Mind Master [Proto],PROTO,DATE=1983
+F78598381CD1883F,Evolution,DATE=1983
+90CDC5B5E0188EA3,Facemaker,DATE=1983
+58D31DFD90013EEC,Fall Guy [Proto],PROTO,DATE=1983
+638614C207B15237,Fathom,DATE=1983
+5FA1C7BF2871A839,Flipper Slipper,DATE=1983
+FFAB3E2A37E2963F,Fortune Builder,DATE=1984
+DB8B0459092C21E7,Fraction Fever,DATE=1983
+DE9C1463F8F976A8,Frantic Freddy,DATE=1983
+3B658A1D2FA28C5C,Frenzy! (alt),DATE=1982-83
+3723E8FA60A1C7FC,Frenzy!,DATE=1982-83
+8C1AF7FF9FBE8582,Frogger,DATE=1982-83,COMMENT=Overdumped ROM.
+E634E77B5B24E124,Frogger,DATE=1982-83
+F418D401DE0AC275,Frogger II - ThreeDeep!,DATE=1984
+107053B62DB51F76,From Out Of The Jungle,DATE=1984
+94C4659844142330,Frontline (alt),DATE=1983
+96BD669C43152231,Frontline,DATE=1983
+060F88EF6F4914A8,Galaxian (alt),DATE=1983
+4E9E3EDDEDE7091C,Galaxian,DATE=1983
+CE6AE2FCD9B2500F,Gateway to Apshai,DATE=1984
+71053199D9693D41,Gorf,DATE=1981-83
+2D4E683D06C0D149,Gust Buster,DATE=1983
+F1EBE8ABF2B3727A,Gyruss,DATE=1984
+9DF82C37507F5EDB,H.E.R.O.,DATE=1984
+AEFE3A8B06E7FDA5,Heist (The) (alt),DATE=1983
+AFFE3A8906E7FCA7,Heist (The),DATE=1983
+53E618B9374A7FF6,Illusions,DATE=1984
+7211BB1BED4F501B,It's Only Rock'n'Roll,DATE=1984
+3381234BABB9E793,James Bond,DATE=1984
+1A1C2B970A36D0F8,Joust [Proto],PROTO,COMMENT=Released at Classic Gaming Expo 2001.
+99200D019849BF99,Juke Box,DATE=1984
+273AB38581885D01,Jumpman Junior (alt),DATE=1984
+253AB38581885D03,Jumpman Junior,DATE=1984
+1DAFE2E7AABA7493,Jungle Hunt,DATE=1982-83
+9DD3E66C3BF718F4,Ken Uston Blackjack-Poker,DATE=1983
+6537CC74D2649A54,Kevtris (alt),DATE=1996,COMMENT=Public Domain.
+4893B2A2A33EE50B,Kevtris,DATE=1996,COMMENT=Public Domain.
+956CC97F766F5A78,Keystone Kapers,DATE=1983-84
+0B287537C1889345,Kill Barney in Tokyo,DATE=1997,COMMENT=Public Domain.
+11D89E3CF37DC10C,Killer Instinct,DATE=1997,COMMENT=Public Domain.
+565CE17442132C78,Lady Bug,DATE=1982
+805765B7785F1224,Linking Logic,DATE=1984
+00F4BE822F5984C0,Logic Levels,DATE=1984
+3239B806B62136CA,Looping,DATE=1983
+6775323548472C02,M.A.S.H. [Proto],PROTO,DATE=1983
+D6D812105A9498AA,Memory Manor,DATE=1984,COMMENT=Overdumped ROM.
+6BEC09882DCA4CD5,Memory Manor,DATE=1984
+02A2D25E20635851,Meteoric Shower,DATE=1983
+37FBB52968DEB0FA,Miner 2049er (alt),DATE=1983
+39FBB42868DDAFFC,Miner 2049er,DATE=1983
+7147C2395C0E7E65,Monkey Academy (alt),DATE=1984
+7EC2AD0905263DA2,Monkey Academy,DATE=1984
+976BD98BBDBFBA64,Montezuma's Revenge,DATE=1984
+4DA655F21AEC754B,Moon Patrol [Proto],PROTO,DATE=1982-84
+58ACC5A302F91F7A,Moonsweeper (alt),DATE=1983
+58ACC7A302F91F78,Moonsweeper,DATE=1983
+6850266144333B0F,Motocross Racer (alt),DATE=1984
+6A50266146333B0B,Motocross Racer,DATE=1984
+299112293A050DBF,Mountain King,DATE=1983-84
+7828BE970037676D,Mousetrap,DATE=1982,COMMENT=Overdumped ROM.
+7A72C2A7A81509E5,Mousetrap,DATE=1982
+D04BA2BAA441DCC8,Mr Do! (alt),DATE=1983
+CE4BA2BAA441DCCA,Mr Do!,DATE=1983
+BDEA9BD82126524D,Mr Do's Castle,DATE=1983
+6630EB6F74B630B6,Nova Blast,DATE=1983
+E149C996EB04CBBD,Oil's Well,DATE=1984
+52C6239CBF8F7863,Omega Race,DATE=1981-83
+345BB2CF7DFE7401,One on One,DATE=1984
+B6DAF461664FE87E,Pac-Man [Proto],PROTO,DATE=1983-2001,COMMENT=Released at Classic Gaming Expo 2001.
+263619940498312A,Pepper II,DATE=1983
+3A79A80393FEF31E,Pitfall II - Lost Caverns,DATE=1983-84
+49FE5C16443C6067,Pitstop (alt),DATE=1983
+48FF5C16443C6067,Pitstop,DATE=1983
+CC5F8A89ED2E990E,Popeye,DATE=1983
+16A14D51D6A988A4,Porky's [Proto],PROTO,DATE=1983.
+6E259BE900489C05,Purple Dinosaur Massacre,DATE=1996
+83BA0ED8DE992244,Q-bert (alt),DATE=1983
+81BA0FD8DE992245,Q-bert,DATE=1983
+6A76D5ACA0B88DBA,Q-bert II,DATE=1984
+E4E9DB8118F1A42A,Quest for Quintana Roo,DATE=1983
+F11FB33671A0E214,Robin Hood,DATE=1984
+F21FB43671A0E212,Robin Hood (alt),DATE=1984
+B0F8E4FB563A6D7C,Roc 'N Rope,DATE=1983-84
+125786D75BDDB151,Rock N Bolt,DATE=1984,FLICKER
+2EBA5541D8FB1996,Rocky Super-Action Boxing,DATE=1983
+CE800F1108054441,Rolloverture,DATE=1983
+5357F8FCCDFA2D6E,Sammy Lightfoot (alt),DATE=1983
+5557F809CD072D52,Sammy Lightfoot,DATE=1983
+F1799E6C2AE7F784,Sector Alpha (alt),DATE=1983
+7DC5357F0568623B,Sector Alpha (alt2),DATE=1983
+DA77FCF286DA243D,Sector Alpha,DATE=1983
+9B48B7CCE0E5587D,Sewer Sam,DATE=1984
+5F92264DD14E2657,Sir Lancelot,DATE=1983
+A21CF664C4DA6DDD,Skiing,DATE=1986
+E5A25CE5D2ABC8F3,Slither,DATE=1983
+E54C25DE0DB133DB,Slurpy,DATE=1984
+60B2331F9205FB0A,Smurf Paint 'n Play Workshop,DATE=1983
+271BAA0346276C38,Smurf Rescue,DATE=1982
+4099857131AA9ABC,Space Fury (alt),DATE=1983
+867C3D65E31D5C00,Space Fury,DATE=1983
+9BCF131E71A52B24,Space Invasion,DATE=1998,COMMENT=Public Domain.
+68010C0A08190858,Space Panic,DATE=1983
+6F4ABE31951F1A8A,Spectron,DATE=1983
+956A960EC6F4BEE5,Spy Hunter,DATE=1983-84
+0446C08E65D2A58C,Squish 'Em Sam!,DATE=1983
+2D519ECC5E4BC8A7,Star Fortress,DATE=1997,COMMENT=Public Domain.
+DC1DC54454218EFB,Star Trek - Strategic Operations Simulator,DATE=1984
+97B2C2B74C25FFCE,Star Wars - The Arcade Game,DATE=1984
+708443560A88469B,Strike It! (alt),DATE=1983
+92F6C2D88518F64B,Strike It!,DATE=1983
+AF657FDB54733D8E,Subroc (alt),DATE=1983
+3CA816E9AF65E128,Subroc,DATE=1983
+3426761D89884AB8,Super Action Football (alt),DATE=1984
+DB8AB6F935B343C1,Super Action Football,DATE=1984
+37277320868949B7,Super Action Soccer,DATE=1984
+D4703CD3C02808BD,Super Controller Tester,DATE=1983
+F0CE15DAFF053A15,Super Cross Force (alt),DATE=1983
+DD9F9E3FF63A482F,Super Cross Force,DATE=1983
+5BDB2884F18A742F,Super DK! (Adam),DATE=1983
+E3FB4CB589EE4664,Super DK!,DATE=1983
+887B110A729AE8EE,Super-Action Baseball (alt),DATE=1983
+D0ADA176737B83FB,Super-Action Baseball,DATE=1983
+34BAAD0F376DF3BF,Tank Wars,DATE=1983
+988FFA89E2FAFB7F,Tapper,DATE=1984
+7051F166A0849331,Telly Turtle,DATE=1984
+3E1986B5BF4CCB98,Test Cartridge
+A6311979966CE6AF,Threshold,DATE=1983
+DA143B7DA982CD8A,Tic Tac Toe (alt),DATE=1996,COMMENT=Public Domain.
+DC0C27939B88F28B,Tic Tac Toe,DATE=1996,COMMENT=Public Domain.
+BD41972A4DB97FBC,Time Pilot,DATE=1983
+C505C676CDF90430,Tomarc the Barbarian,DATE=1984
+A0A3E152BFD66C89,Tournament Tennis,DATE=1984
+02AEBA5A447F6316,Tunnels & Trolls (Adam) (Demo),DATE=1983
+AFBA321B01ACC8D5,Turbo,DATE=1982
+FCD438F82A087955,Tutankham,DATE=1983,COMMENT=Overdumped ROM.
+30544295B698381F,Tutankham,DATE=1983
+BECDB6C87C2F91BB,Up 'N Down,DATE=1984
+BE8A5418E98DC90D,Venture,DATE=1982
+FF5EE460D2D9C1F3,Victory,DATE=1983
+5573347539400A0C,Video Hustler [Proto],PROTO,DATE=1984
+AABE49D18686036F,War Games,DATE=1983-84
+BA0CD56F9D92FEC9,War Room (24k),DATE=1983
+2D0898A666208E79,War Room (32k),DATE=1983
+0C4692EB0F447B63,Wing War,DATE=1983
+FD21DBA359149265,Winky Trap,DATE=1997,COMMENT=Public Domain.
+C9B30746D0A6FDC4,Wizard of Id's Wizmath,DATE=1984
+FD0A2D53B9678ACF,Word Feud,DATE=1984
+520280344E0AABF5,Yolk's on You (The) [Proto],PROTO,DATE=1983
+2B586CD9585B8BFA,Zaxxon,DATE=1982
+26324DB05C14310A,Zenji,DATE=1984
+
+---- COLECO VISION BAD DUMPS ----
+C0704F70A3DF424D,BC's Quest for Tires II - Grog's Revenge (32 k),DATE=1984,BAD
+032464D2FF4F094C,Buck Rogers - Planet Of Zoom,DATE=1983,BAD
+55A1FBCAE860AC51,Decathlon,DATE=1983,BAD
+E4DB5FC9CBB30497,Facemaker,DATE=1983,BAD
+71043199D9693C43,Gorf,DATE=1981-83,BAD
+53E618B937497FF7,Illusions,DATE=1984,BAD
+9FD3E66C3BF718F2,Ken Uston Blackjack-Poker,DATE=1983,BAD
+AFE0D9D1CAB23F0C,Learning With Leeper,DATE=1983,BAD
+3039B806B62136CC,Looping,DATE=1983,BAD
+E049C996EB04CBBE,Oil's Well,DATE=1984,BAD
+FAC47CF877CD7713,Pitfall!,DATE=1983,BAD
+48FE5B16443C6069,Pitstop,DATE=1983,BAD
+CB5F8A89ED2E990F,Popeye,DATE=1983,BAD
+BB6A5AB6B169A20F,River Raid,DATE=1982-84,BAD,FLICKER
+8EE99C25FC6AEE74,Slurpy,DATE=1984,BAD
+291BAA0346276C36,Smurf Rescue,DATE=1982,BAD
+976A950EC6F4BEE4,Spy Hunter,DATE=1983-84,BAD
+2EE9BD8C4DBAD5C4,Star Trek - Strategic Operations Simulator,DATE=1984,BAD
+99B589157F3BFA60,Super Cobra,DATE=1983,BAD
+9AB589147F3BF961,Super Cobra,DATE=1983,BAD
+978FFA89E2F9FB81,Tapper,DATE=1984,BAD
+C505C675CDF90332,Tomarc the Barbarian,DATE=1984,BAD
+C08A5418E98DC90B,Venture,DATE=1982,BAD
+2D586CD9585B8BF8,Zaxxon,DATE=1982,BAD
+
+---- HOMEBREW SEGA 8-BITS ROMS ----
+158CB0CABB981979,Birthday Card,VER=1,AUTHORS=Heliophobe
+F79EAFD4B8972079,Birthday Card,VER=2,AUTHORS=Heliophobe
+9316111BBB5E37DB,Charles Doty's Text Demo,VER=1,AUTHORS=Charles Doty
+B43B2032181B4C40,Color Check,AUTHORS=Dave
+2072E5B90F9D2DF7,Damiana,VER=1,AUTHORS=Heliophobe
+1F79E6B113F81EA8,Damiana,VER=2,AUTHORS=Heliophobe
+160D59BD3F8FC633,Elite Gaiden,VER=0.1.0,AUTHORS=Ricardo Bittencourt
+4F084DB74098B31A,Elite Gaiden,VER=0.1.28,AUTHORS=Ricardo Bittencourt
+D133AE33C55913EA,Game Gear Demo,AUTHORS=Charles Mac Donald
+ACF5878232012AF9,GG High Resolution Graphics Demo,VER=1.02,AUTHORS=Charles Mac Donald
+2E2F74C63947B732,GG Turrican Demo,VER=0.90,AUTHORS=Martin Konrad
+31AE4F5F2F606F75,Good Advice,VER=1,AUTHORS=Heliophobe
+363D52651F4794DC,Interactive Sprite Test,AUTHORS=Charles Mac Donald,FLICKER
+2BA427D4F4171D0E,Not Only Words,AUTHORS=Maxim
+666376D33288FA3A,Mega Drive 6-Button Controller Test,AUTHORS=Charles Mac Donald
+B65FA3FEE5FEDF88,Music Station,VER=Demo,AUTHORS=Ricardo Bittencourt,MAPPER=0
+E38A4D98CB653846,Only Words,AUTHORS=Mike Gordon
+5694EE3448B239C1,Pretty Photo,AUTHORS=Maxim
+8E7662AF258B0B30,64-Color Palette Test Program,AUTHORS=Charles Mac Donald
+433E5C932667E41F,Scroll Test Program,AUTHORS=Charles Mac Donald
+D4E33E7972A85127,SG1000/SC3000 Information Database,VER=1
+2464136D1B405845,Simple Sprite Demo,AUTHORS=Heliophobe
+C23010310D22435B,Snail Music Demo,AUTHORS=Eric Quinn
+3FD64CA4D3EB99A4,SMS Cast,AUTHORS=Omar Cornut,VER=1.0
+C207598D7A91C680,SMSC's Text Demo,VER=1
+84225E96769DD083,SMSC's Text Demo,VER=2
+A3E72D1C7869A2AA,SMS Chip-8 Interpreter,AUTHORS=Maxim,VER=0.10
+9A362896C76D96A8,SMS Chip-8 Interpreter,AUTHORS=Maxim,VER=0.11
+94F3A78C8378BC8F,SMS Palette,VER=1,AUTHORS=Omar Cornut
+A43B75EE89CADC8F,SMS Power,VER=31,AUTHORS=Omar Cornut
+5A7D658DA018CEB1,SMS Sound Test 1.1,VER=1.1,AUTHORS=Heliophobe
+C554A3F5ACCBEFE9,SMS VDP Test 1,AUTHORS=Flavio Morsoletto
+BB9D4DDD3E478772,Synth Test,AUTHORS=Heliophobe
+D0CCF9AF67F5B4AC,V Counter Test Program,VER=1,AUTHORS=Charles Mac Donald
+311A4B64115BACEE,VRAM Write Test Program,VER=1,AUTHORS=Charles Mac Donald
+2C1B4764105CADF5,VRAM Write Test Program,VER=2,AUTHORS=Charles Mac Donald
+59B4D4964FC597DE,Zoop'em Up,AUTHORS=Martin Konrad
+28255C1B1BF8EE3B,Z80 Instruction Exerciser,VER=0.10,AUTHORS=Various
+8D133348145094ED,Z80 Port Dumper,AUTHORS=Charles Mac Donald
+
+---- TRANSLATED ROMS ----
+56C13DB5D14D14C5,Aerial Assault,TRANS=FR,COMMENT=Translated by Luke.
+4EA630D8F2D52F0E,Aladdin,TRANS=BR,COMMENT=Hacked and Translated by ?.
+D0819C0AFBB8D086,Alex Kidd in Miracle World,TRANS=BR,COMMENT=Translated by Darth Vader of Emuroms Translations.
+317C8A79010670D9,California Games,TRANS=BR,COMMENT=Hacked and translated by Lennon of Emuboarding.
+94BB64515E0E038D,Blade Eagle 3D,TRANS=BR,COMMENT=Translated by X-DooMer of Emuroms Translations.
+67CF7597C00B6A89,Enduro Racer,TRANS=BR,COMMENT=Translated by Overflow of Emuroms Translations.
+2E30322805F4420D,Ghost House,TRANS=BR,COMMENT=Translated by Leo.
+BAC363840BFFC5CD,Golden Axe Warrior,TRANS=BR,COMMENT=Translated by Alvs of Emuroms Translations.
+F8B226730B4B78EF,Hang On,TRANS=BR,COMMENT=Translated by X-DooMer of Emuroms Translations.
+B481282F7C2B7C51,Hook,TRANS=BR,COMMENT=Translated by Alvs of Emuroms Translations.
+A17FA9EE49BD281B,Kenseiden,TRANS=BR,COMMENT=Translated by Alvs of Emuroms Translations.
+3902684008B29AC9,Phantasy Star Gaiden,TRANS=BR,COMMENT=Translated by CBT\, based on the hack and translation by Magic Translations.
+FB440E0D8B87088C,Phantasy Star Gaiden,TRANS=EN,COMMENT=Hacked and Translated by Magic Translations.
+C74BC0424D8872A5,Phantasy Star Gaiden,TRANS=EN,VER=Bold Font,COMMENT=Hacked and Translated by Magic Translations.
+49C76FF9183253EB,R-Type,ID=G-1364,TRANS=BR,COMMENT=Hacked and translated by Lennon of Emuboarding.
+1E04362C6B0A32D5,SD Gundam Winner's History,ID=G-133027,TRANS=EN,COMMENT=Hacked and translated by Dave and Joe of Gaijin Production.
+AA760140B795F261,Soldados do Tempo,TRANS=BR,COMMENT=Hacked and Translated by Lennon of Emuboarding.
+156677E162D50DE9,Strider,TRANS=BR,COMMENT=Hacked and translated by Lennon of Emuboarding.
+F49A9D2BA7DD3BEB,Sylvan Tale,TRANS=EN,COMMENT=Hacked and translated by Aeon Genesis.
+E9D8EABD927B7912,Wonder Boy III: The Dragon's Trap,TRANS=FR,COMMENT=Translated by Macrotrads.
+971B81476C829404,Wonder Boy in Monster World,TRANS=FR,COMMENT=Translated by Macrotrads.
+53B9652C0D44DC36,Yuu Yuu Hakusho II,ID=G-3354,TRANS=EN,COMMENT=Hacked and translated by Dave and Joe of Gaijin Production.
+
+---- HACKED ROMS ----
+---- This part is a big mess. 
+---- It'll be cleaned in a future version, when moving entries to the new format
+8CBC70EA0E4351BC,Phantasy Star [HK01],HACK,ID=G-1341,VER=English,COMMENT=This version was hacked with changed characters and objects names to match better the Japanese version.
+ADD146F3F43B57C3,Phantasy Star [Pat Johnson],HACK,ID=G-1341,VER=English,COMMENT=This version has some minor changes compared to the original version.
+8EF38073E8EABEFC,Sonicboy in Monsterland,HACK,AUTHORS=Yuski the Dog
+A9DE2B7D8841AE5A,Treinamento do Mymo,HACK,AUTHORS=Yuski the Dog
+9188FC95BE86CD45,Sonicboy 3: Eggman's Room [A],HACK,VER=A,AUTHORS=Yuski the Dog
+6BE41DBAF792FC55,Sonicboy 3: Eggman's Room [B],HACK,VER=B,AUTHORS=Yuski the Dog
+63711799EA445FEF,Sonicboy 2: The Eggman's Trap,HACK,AUTHORS=Yuski the Dog
+7E04A3B5B88826C0,Pokemon Secreto,HACK,AUTHORS=Yuski the Dog
+B99B1B5D6A932F08,Rodrigo em: O Resgate,HACK,AUTHORS=Yuski the Dog
+185F21C461686576,Rodrigo 2 em: Mate o Leonardo,HACK,AUTHORS=Yuski the Dog
+25EBADCAC9736BD2,Pokemon Amarelo,HACK,AUTHORS=Yuski the Dog
+26ED9FCCC4701D31,Pokemon Azul,HACK,AUTHORS=Yuski the Dog
+83C09599CA531161,Felipe em Aáao,HACK,AUTHORS=Yuski the Dog
+6ECA835AED978DDA,Treinamento do Guerreiro Lobo I,HACK,AUTHORS=Yuski the Dog
+9A3C67F3438C5AA7,Treinamento do Guerreiro Lobo II,HACK,AUTHORS=Yuski the Dog
+399A792FAD110FB8,Guerreiro Lobo,HACK,AUTHORS=Yuski the Dog
+B22597E52D095621,Sonic vs. Os Mauniks,HACK,AUTHORS=Yuski the Dog
+B827A32E86B8838F,Magali no Castelo do Drag„o,HACK,AUTHORS=Yuski the Dog
+26A4CCB6449BE5F0,Master Mega Man,HACK,AUTHORS=EmuBoarding
+418AB9F7117FCD28,Jornada do Mymo,HACK,AUTHORS=Yuski the Dog
+F3DEFC7C14AE20D5,Jornada do Mymo II,HACK,AUTHORS=Yuski the Dog
+31B8AFC0C55B7018,Master Zelda,HACK,AUTHORS=EmuBoarding
+9031A508D695D651,Natal do Mymo,HACK,COMMENT=Hacked version of Psycho Fox,AUTHORS=Yuski the Dog
+82A1301330003832,Pokemon Master,HACK,AUTHORS=Yuski the Dog
+F2E1A2E9FA6D9C9F,Teddy Boy & Geraldinho,HACK,AUTHORS=Yuski the Dog
+4406BFBEC28646AB,Pokemon Vermelho,HACK,AUTHORS=Yuski the Dog
+B14AEAA29C79F272,Master Smash Brothers,HACK,AUTHORS=EmuBoarding
+B16033737A9347F5,Pokemon Legend,HACK,AUTHORS=EmuBoarding
+B881C3B91A5EFFD4,Master Mario Bros,HACK,AUTHORS=Yuski the Dog
+E99105D877617C55,Rodrigo 2 em: Mate o Papai Noel - Vers„o de Natal,HACK,AUTHORS=Yuski the Dog
+D88C705C6BB4D5DC,Rodrigo O Resgate,HACK,COMMENT=Hacked version of Wonder Boy,AUTHORS=Yuski the Dog
+71988B4470C047B1,Sonicboy 4,VER=A,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
+8199554D6AC34CCB,Sonicboy 4,VER=B,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
+2833EE67174B8A64,R.H.W. 2000,HACK,COMMENT=Hacked version of Psycho Fox,AUTHORS=Yuski the Dog
+AAAD7B0A23CBB77F,Wonder Boy III DC,HACK,COMMENT=Hacked version of Wonder Boy III: The Dragon's Trap,AUTHORS=Yuski the Dog
+9592610A1DB0D4CD,Xaropinho,HACK,COMMENT=Hacked version of Mappi,AUTHORS=Yuski the Dog
+3BFC388B71CD1BAD,MÙnica 3,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
+553652BFEAA1EFEA,Sonic RPG,HACK,COMMENT=Hacked version of Phantasy Star,AUTHORS=Yuski the Dog
+5DB5943F04B770F0,Jornada do Krazy,HACK,AUTHORS=Yuski the Dog
+50C9BC3D97E07106,Treinamento do Mymo [B],HACK,AUTHORS=Yuski the Dog
+FE4FDAA6EA7A8847,Jornada do Mymo [B],HACK,AUTHORS=Yuski the Dog
+82A5838252DB1C8B,MÙnica 3,HACK,AUTHORS=Yuski the Dog
+
+---- MISCELLANEOUS ----
+2A26B6AA93E2F7E4,Super Magic Drive BIOS 3.0,VER=3,BIOS,AUTHORS=JSI / CCL / Front Far East,COMMENT=This program is used and running in SMS mode on a Megadrive.
+804BCF87BAFFE145,Super Magic Drive BIOS 4.1a,VER=4.1A,BIOS,AUTHORS=JSI / CCL / Front Far East,COMMENT=This program is used and running in SMS mode on a Megadrive.
+
