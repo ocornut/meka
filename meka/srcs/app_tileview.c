@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_tileview.h"
 #include "desktop.h"
+#include "g_tools.h"
 #include "g_widget.h"
 #include "palette.h"
 #include "video_m2.h"
@@ -116,7 +117,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         int mx = TileViewer.tiles_display_zone->mouse_x;
         int my = TileViewer.tiles_display_zone->mouse_y;
         // Msg (MSGT_USER, "mx = %d, my = %d", mx, my);
-        if (mx != -1 && my != -1)
+        if (TileViewer.tiles_display_zone->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
             TileViewer.tile_hovered = ((my / 8) * 16) + mx / 8;
         else
             TileViewer.tile_hovered = -1;
@@ -263,7 +264,7 @@ void        TileViewer_Configure_PaletteMax (int palette_max)
 
 void    TileViewer_SelectedTile_Select (t_widget *w)
 {
-    if (w->mouse_x != -1 && w->mouse_y != -1)
+    if (w->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
         TileViewer.tile_selected = ((w->mouse_y / 8) * 16) + (w->mouse_x / 8);
 }
 

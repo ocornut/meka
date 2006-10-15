@@ -287,7 +287,7 @@ typedef struct
     bool    debug_mode_cfg;             // " given by configuration file and saved back
     bool    debug_mode_cl;              // " given by command-line
 
-    // Miscellaenous
+    // Miscellaneous
     int     sprite_flickering;          // Set to emulate sprite flickering.
     bool    slash_nirv;                 // Increase FPS counter by many. Old private joke for NiRV.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.
@@ -296,6 +296,9 @@ typedef struct
     bool    show_fullscreen_messages;
     bool    show_product_number;
     bool    start_in_gui;
+
+    // Applet: Game Screen
+    int     game_screen_scale;
 
     // Applet: File Browser
     bool    fb_close_after_load;

@@ -25,6 +25,7 @@ void    Action_Quit (void)
     // Redraw last time, so message appears on screen
     gui_redraw_everything_now_once();
 
+    /*
     // Software, naive, slow fade
     // Only 32-bits supported
     switch (depth)
@@ -65,11 +66,12 @@ void    Action_Quit (void)
             }
         } // 32
     }
+    */
 
     // Switch to full black skin
     //Skins_Select(Skins_GetSystemSkinBlack(), TRUE);
     //Skins_QuitAfterFade();
-    Quit();
+    opt.Force_Quit = TRUE;
 }
 
 // ACTION: SHOW OR HIDE SPRITES LAYER -----------------------------------------------

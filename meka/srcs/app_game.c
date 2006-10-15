@@ -1,9 +1,12 @@
 //-----------------------------------------------------------------------------
-// MEKA - g_emu.c
-// GUI things related with emulated machines - Code
+// MEKA - app_game.c
+// Game screen applet - Code
+//-----------------------------------------------------------------------------
+// FIXME: very old code.
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_game.h"
 #include "db.h"
 #include "vdp.h"
 
@@ -17,36 +20,38 @@ t_gui_box *  gamebox_instance;
 // Functions
 //-----------------------------------------------------------------------------
 
-// DRAW A GAME BOX ------------------------------------------------------------
-// FIXME: ??
-void        gamebox_draw (int sx, int sy, BITMAP *game_buffer)
+void        gamebox_draw (t_gui_box *box, BITMAP *game_buffer)
 {
     int     x_start = cur_drv->x_start;
     int     y_start = cur_drv->y_show_start;
     int     x_len   = cur_drv->x_res;
     int     y_len   = cur_drv->y_res;
+    int     x_dst   = box->frame.pos.x;
+    int     y_dst   = box->frame.pos.y;
 
     if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
     {
-        rectfill (gui_buffer, sx, sy, sx + 3, sy + y_len - 1, COLOR_BLACK);
-        rectfill (gui_buffer, sx + x_len - 4, sy, sx + x_len - 1, sy + y_len - 1, COLOR_BLACK);
+        // Center screen when 8 left columns are masked
+        // This not logical but looks good
+        rectfill (gui_buffer, x_dst, y_dst, x_dst + 3, y_dst + y_len - 1, COLOR_BLACK);
+        rectfill (gui_buffer, x_dst + x_len - 4, y_dst, x_dst + x_len - 1, y_dst + y_len - 1, COLOR_BLACK);
         x_len -= 8;
         x_start += 8;
-        sx += 4;
+        x_dst += 4;
     }
-    blit (game_buffer, gui_buffer, x_start, y_start, sx, sy, x_len, y_len);
+
+    //stretch_blit(screenbuffer, fs_out, 
+      //  blit_cfg.src_sx, blit_cfg.src_sy,
+        //cur_drv->x_res, cur_drv->y_res,
+        //0,0, Video.res_x, Video.res_y);
+
+    blit (game_buffer, gui_buffer, x_start, y_start, x_dst, y_dst, x_len, y_len);
 }
 
-// RETURN WIDTH OF A GAME BOX -------------------------------------------------
-int     gamebox_x (void)
+void        gamebox_compute_size(int *x, int *y)
 {
-    return (cur_drv->x_res) - 1;
-}
-
-// RETURN HEIGHT OF A GAME BOX -------------------------------------------------
-int     gamebox_y (void)
-{
-    return (cur_drv->y_res) - 1;
+    *x = (cur_drv->x_res * Configuration.game_screen_scale) - 1;
+    *y = (cur_drv->y_res * Configuration.game_screen_scale) - 1;
 }
 
 // CREATE A GAME BOX ----------------------------------------------------------
@@ -57,8 +62,7 @@ t_gui_box * gamebox_create(int x, int y)
 
     frame.pos.x = x;
     frame.pos.y = y;
-    frame.size.x = gamebox_x();
-    frame.size.y = gamebox_y();
+    gamebox_compute_size(&frame.size.x, &frame.size.y);
     box = gui_box_new(&frame, "--");
     if (box == NULL)
         return (NULL);
@@ -80,8 +84,7 @@ void        gamebox_resize_all (void)
         t_gui_box *box = boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
         {
-            box->frame.size.x = gamebox_x ();
-            box->frame.size.y = gamebox_y ();
+            gamebox_compute_size(&box->frame.size.x, &box->frame.size.y);
             box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
         }
     }

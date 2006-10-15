@@ -132,7 +132,7 @@ void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
 {
     t_list *boxes;
 
-    Show_Mouse_In (NULL);
+    gui_mouse_show(NULL);
     Configuration.video_mode_gui_res_x = res_x;
     Configuration.video_mode_gui_res_y = res_y;
     Configuration.video_mode_gui_depth = depth;
@@ -302,7 +302,7 @@ void    Video_Setup_State (void)
             gui_redraw_everything_now_once ();
             if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_BUFFERED)
             {
-                Show_Mouse_In (gui_buffer);
+                gui_mouse_show (gui_buffer);
             }
         }
         break;
@@ -378,13 +378,13 @@ void    Refresh_Screen (void)
             // Blit GUI screen ------------------------------------------------------
             Blit_GUI ();
 
-            Show_Mouse_In (NULL);
+            gui_mouse_show (NULL);
         }
 
         if (Meka_State == MEKA_STATE_FULLSCREEN) // FULLSCREEN ---------------------
         {
             if (opt.Fullscreen_Cursor)
-                Show_Mouse_In (screenbuffer);
+                gui_mouse_show (screenbuffer);
 
             // Show current FPS -----------------------------------------------------
             if (fskipper.FPS_Display)
@@ -402,7 +402,7 @@ void    Refresh_Screen (void)
 
             // Disable LightGun cursor until next screen refresh --------------------
             if (opt.Fullscreen_Cursor)
-                Show_Mouse_In (NULL);
+                gui_mouse_show (NULL);
         }
 
         // Palette update after redraw

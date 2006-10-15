@@ -6,6 +6,22 @@
 // FIXME: need a full rewrite/rethinking. Now that hi-color modes are well
 // supported, this will be more straightforward than before.
 //-----------------------------------------------------------------------------
+//
+// WIP notes
+//
+// SMS      256x192     512x384     768x576     1024x768
+// SMS-EXT  256x224     512x448     768x672     1024x896
+// GG       160x144     320x288     480x432     640x576     800x720     960x864
+//
+// refresh_rate     -> external to blitter, FS only
+// flip             -> external to blitter, FS only
+// vsync            -> external to blitter, FS only
+// triple_buffering -> external to blitter, FS only
+//
+// video_depth      -> 16 FS, auto GUI? What would be the point of 32 in FS mode?
+//
+//-----------------------------------------------------------------------------
+
 
 #include "shared.h"
 #include "blit.h"
@@ -47,7 +63,6 @@ static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
     { Blit_Fullscreen_Double,           2,      2 },
     { Blit_Fullscreen_Scanlines,        1,      2 },
     { Blit_Fullscreen_TV_Mode,          1,      2 },
-    { Blit_Fullscreen_Parallel,         2,      1 },
     { Blit_Fullscreen_TV_Mode_Double,   2,      2 },
     { Blit_Fullscreen_Eagle,            2,      2 },
     { Blit_Fullscreen_HQ2X,             2,      2 },
@@ -169,21 +184,13 @@ void    Blit_Fullscreen_Normal (void)
 
 void    Blit_Fullscreen_Double (void)
 {
-    int   i;
-
-    for (i = 0; i < cur_drv->y_res; i ++)
-    {
-        u16 *psrc  = (u16 *)screenbuffer->line[i + blit_cfg.src_sy] + blit_cfg.src_sx;
-        u16 *pdst1 = (u16 *)Blit_Buffer_Double->line[(i * 2)];
-        u16 *pdst2 = (u16 *)Blit_Buffer_Double->line[(i * 2) + 1];
-        int j = cur_drv->x_res;
-        while (j--)
-        {
-            const u16 pixel = *psrc++;
-            *pdst1++ = pixel; *pdst2++ = pixel;
-            *pdst1++ = pixel; *pdst2++ = pixel;
-        }
-    }
+    // x1 -> x2
+    stretch_blit(screenbuffer, Blit_Buffer_Double, 
+        blit_cfg.src_sx, blit_cfg.src_sy,
+        cur_drv->x_res, cur_drv->y_res,
+        0,0, 
+        cur_drv->x_res*2, cur_drv->y_res*2
+        );
     Blit_Fullscreen_Misc ();
     blit (Blit_Buffer_Double, fs_out,
         0, 0,
@@ -195,14 +202,16 @@ void    Blit_Fullscreen_Eagle (void)
 {
   int   i;
 
+  // Eagle, x1 -> x2
   for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + cur_drv->y_res; i ++)
+  {
       eagle_mmx16 ((unsigned long *)((u16 *)screenbuffer->line[i] + blit_cfg.src_sx),
              (unsigned long *)((u16 *)screenbuffer->line[i + 1] + blit_cfg.src_sx),
               (short)cur_drv->x_res,
               screenbuffer->seg,
               Blit_Buffer_Double->line[i * 2],
               Blit_Buffer_Double->line[i * 2 + 1]);
-
+  }
   Blit_Fullscreen_Misc ();
   blit (Blit_Buffer_Double, fs_out,
          1, blit_cfg.src_sy * 2,
@@ -246,20 +255,6 @@ void    Blit_Fullscreen_HQ2X (void)
                 0,0, Video.res_x, Video.res_y);
         }
     }
-}
-
-void    Blit_Fullscreen_Parallel (void)
-{
-  Blit_Fullscreen_Misc ();
-  blit (screenbuffer_1, fs_out,
-         blit_cfg.src_sx, blit_cfg.src_sy,
-         blit_cfg.dst_sx, blit_cfg.dst_sy,
-         cur_drv->x_res, cur_drv->y_res);
-  blit_cfg.dst_sx += cur_drv->x_res;
-  blit (screenbuffer_2, fs_out,
-         blit_cfg.src_sx, blit_cfg.src_sy,
-         blit_cfg.dst_sx, blit_cfg.dst_sy,
-         cur_drv->x_res, cur_drv->y_res);
 }
 
 void    Blit_Fullscreen_Scanlines (void)

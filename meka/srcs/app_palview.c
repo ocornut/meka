@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_palview.h"
 #include "desktop.h"
+#include "g_tools.h"
 #include "g_widget.h"
 #include "palette.h"
 
@@ -118,7 +119,7 @@ void    PaletteViewer_Update(void)
     {
         const int mx = pv->frame_palette_zone->mouse_x;
         const int my = pv->frame_palette_zone->mouse_y;
-        if (mx != -1 && my != -1)
+        if (pv->frame_palette_zone->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
             pv->color_hovered = (mx / color_box_size);
         else
             pv->color_hovered = -1;
@@ -204,10 +205,8 @@ void    PaletteViewer_CallbackSelectColor(t_widget *w)
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
     const int color_box_size = pv->box_gfx->w / pv->palette_size;
 
-    if (w->mouse_x != -1 && w->mouse_y != -1)
-    {
+    if (w->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
         pv->color_selected = (w->mouse_x / color_box_size);
-    }
 }
 
 //-----------------------------------------------------------------------------

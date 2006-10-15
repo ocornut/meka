@@ -53,8 +53,6 @@ int     Glasses_Must_Skip_Frame (void)
     static int security_cnt = 0;
     // Msg (MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
 
-    if (Blitters.current->blitter == BLITTER_PARALLEL)
-        return (FALSE);
     side = sms.Glasses_Register & 1;
     ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side)
         ||

@@ -48,10 +48,10 @@ static void	SkinEffect_Blood_Update(void)
 
 	// Create new drops around cursor
 	for (i = 0; i < 6; i ++)
-		gui_applet_blood_create (Random(4), gui_mouse.x - 2 + Random(5), gui_mouse.y - 2 + Random(5));
+		gui_applet_blood_create (Random(4), gui.mouse.x - 2 + Random(5), gui.mouse.y - 2 + Random(5));
 	for (i = 0; i < 3; i ++)
-		gui_applet_blood_create (Random(4), gui_mouse.x - 4 + Random(9), gui_mouse.y - 4 + Random(9));
-	gui_applet_blood_create (Random(4), gui_mouse.x - 5 + Random(11), gui_mouse.y - 5 + Random(11));
+		gui_applet_blood_create (Random(4), gui.mouse.x - 4 + Random(9), gui.mouse.y - 4 + Random(9));
+	gui_applet_blood_create (Random(4), gui.mouse.x - 5 + Random(11), gui.mouse.y - 5 + Random(11));
 
 	// Create new drops below currently focused window
 	b = gui.boxes_z_ordered[0];

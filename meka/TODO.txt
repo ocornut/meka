@@ -1,16 +1,58 @@
 
+Proppy session debugger notes:
+- 'breakpoint' window list
+  - show list
+  - with enable checkbox
+  - edit/add fields
+- breakpoint write: only when values changing, !=
+- datadump sprite output is weird
+- call OutputDebugString() so that Visual can catch it
+- bind RELOAD rom on a key, or add 'reload' command
+
+- debugger auto-start mode? (command-line, config?)
+- want to set breakpoints on ROM addresses... b r $30000 
+- 'M hl-1' doesn't work
+
+2.
+<cgfm2> I did notice one thing, if I load a ROM such as 'mekaw c:\test\myprog.sms' and choose "Reload ROM" the wrong file is reloaded,
+<cgfm2> I think it's whatever file was last opened through the GUI
+<cgfm2> (err.. GUI's file open dialog box)
+
+3.
+<cgfm2> can I increase the SMS display window size in GUI mode?
+<cgfm2> at a high resolution, it's hard to keep the mouse cursor exactly within
+the width of the scrollbar when scrolling up/down
+<cgfm2> would it be possible to allow the mouse cursor to stray to the left or
+right a little, and still move the bar?
+
+4.
+<cgfm2> add spaces between all commands in log (optional)
+
+Jacko:
+Well, I downloaded last copy 2005-11-20 yesterday and had a few problems!!
+For some strange reason The message window shows:
+ Current save game slot is 0
+ Current save game slot is 1
+ ...
+ Current save game slot is 99
+In this midtime, the debug command textbox freeze :(
+It seems to occur when I press backspace key, which sometimes don't work the right way.
+If I change window and then set focus again in meka (window-mode) I can use backspace again, but once again the current save message appears... (???)
+
+Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually 
+(like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 
+so it is hard to tell if it was my PC doing something or it was MEKA.
+
 WIP:
- - closebox widget is broken?
  - "Macros"
    - break nopnop --> break x =0,0 "(NOP NOP)"
- - Menu display bug:
-   http://www.republika.pl/belegdol/temp/menubug.png
  - Depth
    - Remove color conversion flag in main loop to avoid too many 
      behind-the-scene conversions.
  - Blitters (lots to do)
    - All blitters, redo, etc
    - TV mode rely on palette.
+   - Integer stretch
  - Themes:
    - Convert all themes.
    - Background pictures switch effect.
@@ -23,29 +65,14 @@ WIP:
   - Tweak flags for proper color now that there's no more palette.
 - NES broken (untested)
 
-MEKA.CFG: (inform Maxim)
- - Removed 
-    //gui_access_mode
-    //CFG_Write_Int  ("tv_snow_effect", effects.TV_Enabled);
-    //CFG_Write_Str  ("palette", (Configuration.palette_type == PALETTE_TYPE_MUTED) ? "muted" : "bright");
-    //CFG_Write_Line ("(palette type, either 'muted' or 'bright'");
-    //CFG_Write_Int  ("magic", opt.Magic_C000);
- - Added
-   gui_video_depth 'auto' 16,24,32, etc
-   
- - Switching to using int to escaped strings:
-   (escaped characters are: ';' '\' and '"'. all escaped with a '\')
-   (you can ignore escaping if you want)
-   //blitter %d -> blitter %s 
-   //color_theme %d -> theme %s
+Game Recording:
+- Topic
+  http://bisqwit.iki.fi/nesvideos/forum/viewtopic.php?t=3726
+- VBM Format
+  http://bisqwit.iki.fi/nesvideos/VBM.html
+- Desired Features Wiki
+  http://bisqwit.iki.fi/nesvideos/DesiredFeatures.html
 
- - Switching from using string to escaped string:
-   //last_directory
-   //language
-   //screenshots_filename_template
-   //music_wav_filename_template
-   //music_vgm_filename_template
-   Previously those were hacked, with ' ' replaced by '*'
 
   /------------------\
 /-|  MEKA TODO LIST  |-------------------------------------------------\
@@ -247,6 +274,7 @@ doing them now and some are quick work.
    - Add x3, x4 blitters, separate X and Y (be able to do a 2x3 blit, etc..).
      All combinations should be working.
    - Add stretching blitters (especially for windows version)
+   - Integer stretch
    - What would ALT-ENTER do?
    - Lots of info in mind or on paper. Need to sort out, and maybe write
      a short specification document.
@@ -255,11 +283,6 @@ doing them now and some are quick work.
    - Handle video mode priority list, etc..
  - For Game Gear:
     H*2/Y*3 in 320*480, H*4/Y*3 in 640x480..
- - Parallel blitter:
-   - Doesn't work with TV mode?
-   - Check out if sides are right for the Parallel blitter
-   - Bug in hard pause + 3D parallel
-   - Or get rid of that thing.
  - Filters:
    - Probably a lot to do.
    - Implement 2xSai filter.
@@ -345,22 +368,16 @@ doing them now and some are quick work.
    - Button to enable/disable exclusive focus.
    - Auto reload ROM option
      - Win32: possible to setup a notification
+ - Disassembly
+   - Option to display cycle count next to each instruction.
  - Breakpoint:
    - Add breakpoint from memory editor and/or disassembly window.
      - Simple version: click on disassembly window for breakpoint.
-   - At nop nop break
-   - Interesting more generic solution: add data compare to breakpoint, eg:
-     - B W 1000 = FF // break when write FF to 1000
-     - Can be a simple equality test at first, then potentially can add: 
-       - Simple masking feature
-       - Full expression evaluation/test
-     - Then, B NOP NOP becomes B X 0-FFFF = 00, 00  which can be added as a shortcut 
-       (of course, this would be somewhat slow but it'll work)
-     - Note: you cannot read/write multiple bytes on the same time on the Z80. 
-       Multiple bytes comparaison apply for execution check as we assume series of opcodes,
-       but this will be much more complicated to support for read/write.
-   - Break at register write 
-     - With data comparing (see above)
+   - Conditionnal breakpoints:
+     - Simple masking feature
+     - Full expression evaluation/test?
+     - At nop nop break (macro or helper).
+     - Break at register write ?
    - Z80 read/execute are not perfectly differenciated (opcode 1st byte is X, then it is R)
    - Hooks:
      - VDP register/status
@@ -450,7 +467,8 @@ doing them now and some are quick work.
      Could display registers, any part of memory, tiles, etc.
      Allowing to create panels for custom debugging.
  - Input locker
-   - Set input bits manually using check boxes
+   - Set input bits manually using check boxes, being able to set inputs 
+     at any point.
  - Meka scripting
     - Primitive function with accesses to standardized syntax.
       - A breakpoint can trigger a call.
@@ -744,6 +762,11 @@ doing them now and some are quick work.
  - Register R:
    - Investigate Rastan, register R (bit 7), use for bonus?
    - Differently emulated with different Z80 cores?
+ - IFF:
+   - "Actually, according to Z80 undocumented EI & DI affect both IFF1 and IFF2, so when 
+      an NMI occurs only IFF1 is cleared, I don't know how MEKA treats them but I know that 
+      it still is buggy on RETI (it doesn't copy IFF2 back to IFF1) if you pause in Robocop 3 
+      before the game starts it locks up."
  - Implement a good Z80 emulator.
    - Common, do it.
  - Test with Zexall

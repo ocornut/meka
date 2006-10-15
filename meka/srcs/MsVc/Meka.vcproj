@@ -12,6 +12,83 @@
 	</Platforms>
 	<Configurations>
 		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="FALSE"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include;../../libs/libpng/include;&quot;$(ZLIBDIR)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80;ALLEGRO_STATICLINK"
+				StringPooling="FALSE"
+				MinimalRebuild="TRUE"
+				ExceptionHandling="FALSE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				PrecompiledHeaderFile=""
+				AssemblerListingLocation=".\Debug/"
+				ObjectFile=".\Debug/"
+				ProgramDataBaseFileName=".\Debug/"
+				BrowseInformation="1"
+				WarningLevel="3"
+				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="3"
+				CompileAs="1"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalOptions="/MACHINE:I386"
+				AdditionalDependencies="alleg_s.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib"
+				OutputFile="../../mekaw.exe"
+				Version=""
+				LinkIncremental="2"
+				SuppressStartupBanner="TRUE"
+				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
+				IgnoreAllDefaultLibraries="FALSE"
+				IgnoreDefaultLibraryNames="libcmt"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
+				GenerateMapFile="FALSE"
+				MapFileName="$(IntDir)/mekaw.map"
+				MapExports="TRUE"
+				MapLines="TRUE"
+				SubSystem="2"/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="TRUE"
+				SuppressStartupBanner="TRUE"
+				TargetEnvironment="1"
+				TypeLibraryName=".\Debug/Meka.tlb"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG"
+				Culture="0"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
@@ -20,20 +97,21 @@
 			UseOfATL="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2"
-			WholeProgramOptimization="FALSE">
+			WholeProgramOptimization="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include;../../libs/libpng/include;&quot;$(ZLIBDIR)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_PNG;MEKA_ZIP;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="TRUE"
 				MinimalRebuild="FALSE"
 				ExceptionHandling="FALSE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				EnableEnhancedInstructionSet="0"
 				UsePrecompiledHeader="0"
@@ -44,13 +122,14 @@
 				BrowseInformation="2"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
 				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="alleg_s.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="alleg_s.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dinput8.lib dxguid.lib"
 				ShowProgress="0"
 				OutputFile="../../mekaw.exe"
 				Version=""
@@ -58,10 +137,16 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
-				IgnoreDefaultLibraryNames="msvcrt"
+				IgnoreDefaultLibraryNames="libcmt"
 				ModuleDefinitionFile=""
-				ProgramDatabaseFile=".\Release\Meka.pdb"
-				SubSystem="2"/>
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
+				GenerateMapFile="FALSE"
+				MapFileName="$(IntDir)/mekaw.map"
+				MapExports="TRUE"
+				MapLines="TRUE"
+				SubSystem="2"
+				OptimizeReferences="2"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -78,7 +163,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1036"/>
+				Culture="0"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -91,7 +176,7 @@
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
-			Name="Debug|Win32"
+			Name="Debug - No DLL|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
@@ -117,7 +202,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -126,13 +211,18 @@
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="alleg_s.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib"
 				OutputFile="../../mekaw.exe"
+				Version=""
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
 				IgnoreDefaultLibraryNames="msvcrt,msvcrtd"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Debug/mekaw.pdb"
+				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
+				GenerateMapFile="FALSE"
+				MapFileName="$(IntDir)/mekaw.map"
+				MapExports="TRUE"
+				MapLines="TRUE"
 				SubSystem="2"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -150,7 +240,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1036"/>
+				Culture="0"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -163,7 +253,7 @@
 				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration
-			Name="ReleaseMax|Win32"
+			Name="Release - No DLL|Win32"
 			OutputDirectory="$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
@@ -196,6 +286,7 @@
 				BrowseInformation="2"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				DebugInformationFormat="3"
 				CompileAs="1"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -213,8 +304,13 @@
 				IgnoreDefaultLibraryNames="msvcrt"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\ReleaseMax\Meka.pdb"
-				SubSystem="2"/>
+				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
+				GenerateMapFile="FALSE"
+				MapFileName="$(IntDir)/mekaw.map"
+				MapExports="TRUE"
+				MapLines="TRUE"
+				SubSystem="2"
+				OptimizeReferences="2"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
@@ -231,7 +327,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1036"/>
+				Culture="0"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
@@ -501,29 +597,38 @@
 			<File
 				RelativePath="..\mappersa.asm">
 				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-						Outputs="$(OutDir)/$(InputName).obj"/>
-				</FileConfiguration>
-				<FileConfiguration
 					Name="Debug|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Assembling $(InputPath)"
-						CommandLine="$(NASM) -DWIN32 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 						Outputs="$(OutDir)/$(InputName).obj"/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="ReleaseMax|Win32">
+					Name="Release|Win32">
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Assembling $(InputPath)"
-						CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+						Outputs="$(OutDir)/$(InputName).obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug - No DLL|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Assembling $(InputPath)"
+						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+						Outputs="$(OutDir)/$(InputName).obj"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release - No DLL|Win32">
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Assembling $(InputPath)"
+						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 						Outputs="$(OutDir)/$(InputName).obj"/>
 				</FileConfiguration>
@@ -861,12 +966,6 @@
 					RelativePath="..\g_box.h">
 				</File>
 				<File
-					RelativePath="..\g_emu.c">
-				</File>
-				<File
-					RelativePath="..\g_emu.h">
-				</File>
-				<File
 					RelativePath="..\g_file.c">
 				</File>
 				<File
@@ -946,6 +1045,12 @@
 							Name="VCCLCompilerTool"
 							AdditionalIncludeDirectories=""/>
 					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug - No DLL|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							AdditionalIncludeDirectories=""/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\specials.h">
@@ -981,29 +1086,38 @@
 				<File
 					RelativePath="..\eagle.asm">
 					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Assembling $(InputPath)"
-							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-							Outputs="$(OutDir)/$(InputName).obj"/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="$(NASM) -DWIN32 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 							Outputs="$(OutDir)/$(InputName).obj"/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseMax|Win32">
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug - No DLL|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release - No DLL|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 							Outputs="$(OutDir)/$(InputName).obj"/>
 					</FileConfiguration>
@@ -1050,29 +1164,38 @@
 				<File
 					RelativePath="..\videoasm.asm">
 					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Assembling $(InputPath)"
-							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-							Outputs="$(OutDir)/$(InputName).obj"/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="$(NASM) -DWIN32 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 							Outputs="$(OutDir)/$(InputName).obj"/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseMax|Win32">
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="$(NASM) -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug - No DLL|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+							Outputs="$(OutDir)/$(InputName).obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release - No DLL|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							Description="Assembling $(InputPath)"
+							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 							Outputs="$(OutDir)/$(InputName).obj"/>
 					</FileConfiguration>
@@ -1089,31 +1212,41 @@
 					<File
 						RelativePath="..\hq2x16.asm">
 						<FileConfiguration
-							Name="Release|Win32">
-							<Tool
-								Name="VCCustomBuildTool"
-								Description="Assembling $(InputPath)"
-								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-								AdditionalDependencies=""
-								Outputs="$(OutDir)/$(InputName).obj"/>
-						</FileConfiguration>
-						<FileConfiguration
 							Name="Debug|Win32">
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="$(NASM) -DWIN32 -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="ReleaseMax|Win32">
+							Name="Release|Win32">
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug - No DLL|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release - No DLL|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"/>
@@ -1122,31 +1255,41 @@
 					<File
 						RelativePath="..\hq2x32.asm">
 						<FileConfiguration
-							Name="Release|Win32">
-							<Tool
-								Name="VCCustomBuildTool"
-								Description="Assembling $(InputPath)"
-								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
-"
-								AdditionalDependencies=""
-								Outputs="$(OutDir)/$(InputName).obj"/>
-						</FileConfiguration>
-						<FileConfiguration
 							Name="Debug|Win32">
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="$(NASM) -DWIN32 -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="ReleaseMax|Win32">
+							Name="Release|Win32">
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="$(NASM) -O1 -f win32 $(InputPath) -o $(OutDir)/$(InputName).obj
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Debug - No DLL|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
+"
+								AdditionalDependencies=""
+								Outputs="$(OutDir)/$(InputName).obj"/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release - No DLL|Win32">
+							<Tool
+								Name="VCCustomBuildTool"
+								Description="Assembling $(InputPath)"
+								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;
 "
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"/>
@@ -1280,19 +1423,25 @@
 				<File
 					RelativePath="..\osd\misc.c">
 					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)/$(InputName)1.obj"/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)/$(InputName)1.obj"/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseMax|Win32">
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug - No DLL|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release - No DLL|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="$(IntDir)/$(InputName)1.obj"/>
@@ -1318,6 +1467,12 @@
 					RelativePath="..\app_about.h">
 				</File>
 				<File
+					RelativePath="..\app_game.c">
+				</File>
+				<File
+					RelativePath="..\app_game.h">
+				</File>
+				<File
 					RelativePath="..\app_mapview.c">
 				</File>
 				<File
@@ -1326,19 +1481,25 @@
 				<File
 					RelativePath="..\app_memview.c">
 					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							WarningLevel="4"/>
-					</FileConfiguration>
-					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							WarningLevel="4"/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="ReleaseMax|Win32">
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							WarningLevel="4"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug - No DLL|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							WarningLevel="4"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release - No DLL|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							WarningLevel="4"/>

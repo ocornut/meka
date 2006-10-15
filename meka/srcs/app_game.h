@@ -1,7 +1,13 @@
 //-----------------------------------------------------------------------------
-// MEKA - g_emu.h
-// GUI things related with emulated machines - Headers
+// MEKA - app_game.h
+// Game screen applet - Headers
 //-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+extern t_gui_box *  gamebox_instance;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -9,18 +15,9 @@
 
 t_gui_box * gamebox_create (int x, int y);
 
-int         gamebox_x (void);
-int         gamebox_y (void);
-
-void        gamebox_draw (int sx, int sy, BITMAP *game_buffer);
+void        gamebox_draw (t_gui_box *box, BITMAP *game_buffer);
 void        gamebox_resize_all (void);
 void        gamebox_rename_all (void);
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-extern t_gui_box *  gamebox_instance;
 
 //-----------------------------------------------------------------------------
 

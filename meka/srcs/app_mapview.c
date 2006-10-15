@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_mapview.h"
 #include "desktop.h"
+#include "g_tools.h"
 #include "g_widget.h"
 #include "vdp.h"
 #include "video_m5.h"
@@ -21,8 +22,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_tilemap_viewer *	TilemapViewer_MainInstance;
-t_list *			TilemapViewers;
+t_tilemap_viewer *  TilemapViewer_MainInstance;
+t_list *            TilemapViewers;
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -211,7 +212,7 @@ void         TilemapViewer_CallbackTilemapClick(t_widget *w)
     t_tilemap_viewer *app = (t_tilemap_viewer *)w->box->user_data; // Get instance
     const int mx = app->frame_tilemap_zone->mouse_x;
     const int my = app->frame_tilemap_zone->mouse_y;
-    if (mx != -1 && my != -1)
+    if (app->frame_tilemap_zone->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
         app->tile_selected = (mx / 8) + (my / 8) * 32;
 }
 
@@ -223,10 +224,13 @@ void        TilemapViewer_CallbackTilemapAddressScroll(t_widget *w)
     int cur_addr;
     if (Wide_Screen_28)
     {
+        // Extended resolution screen mapping (eg: used by CodeMasters games)
+        // FIXME: Should display the whole 256x224 screen.
         new_addr = 0x0700 + (app->widget_tilemap_addr_scrollbar_cur) * 0x1000;
     }
     else
     {
+        // Regular screen mapping
         new_addr = (app->widget_tilemap_addr_scrollbar_cur) * 0x0800;
     }
     cur_addr = (app->config_tilemap_addr);
@@ -395,7 +399,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     {
         const int mx = app->frame_tilemap_zone->mouse_x;
         const int my = app->frame_tilemap_zone->mouse_y;
-        if (mx != -1 && my != -1)
+        if (app->frame_tilemap_zone->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
             app->tile_hovered = (mx / 8) + (my / 8) * 32;
         else
             app->tile_hovered = -1;

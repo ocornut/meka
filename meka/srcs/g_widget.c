@@ -2,13 +2,20 @@
 // MEKA - g_widget.c
 // GUI Widgets - Code
 //-----------------------------------------------------------------------------
-// FIXME: Static inheritence would be more proper than dynamic allocating 'data'
+// FIXME: Static inheritance would be more proper than dynamic allocating 'data'
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "g_tools.h"
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "keyinfo.h"
+
+//-----------------------------------------------------------------------------
+// Definitions
+//-----------------------------------------------------------------------------
+
+#define WIDGET_SCROLLBAR_MOUSE_TOLERANCE        (6)
 
 //-----------------------------------------------------------------------------
 // Private Data
@@ -98,24 +105,30 @@ int         widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
         if (!w->enabled)
             continue;
 
-        w->mouse_x = -1;
-        w->mouse_y = -1;
+        w->mouse_x = (mouse_x - w->frame.pos.x);
+        w->mouse_y = (mouse_y - w->frame.pos.y);
         w->mouse_action = WIDGET_MOUSE_ACTION_NONE;
-        if (gui_mouse.pressed_on == PRESSED_ON_NOTHING || gui_mouse.pressed_on == PRESSED_ON_WIDGET)
-            if ((mouse_x >= w->frame.pos.x) && (mouse_y >= w->frame.pos.y) && (mouse_x < w->frame.pos.x + w->frame.size.x) && (mouse_y < w->frame.pos.y + w->frame.size.y))
+        w->mouse_buttons = gui.mouse.buttons;
+		w->mouse_buttons_previous = gui.mouse.buttons_prev;
+        if ((w->mouse_x >= 0) && (w->mouse_y >= 0) && (w->mouse_x <= w->frame.size.x) && (w->mouse_y <= w->frame.size.y))
+        {
+            w->mouse_action |= WIDGET_MOUSE_ACTION_HOVER;
+
+            // FIXME-FOCUS
+            //if (gui_mouse.pressed_on == PRESSED_ON_NOTHING || gui_mouse.pressed_on == PRESSED_ON_WIDGET)
+            if (gui.mouse.focus == GUI_FOCUS_NONE || (gui.mouse.focus == GUI_FOCUS_WIDGET)) // && gui.mouse.focus_item == w;
             {
-                w->mouse_x = (mouse_x - w->frame.pos.x);
-                w->mouse_y = (mouse_y - w->frame.pos.y);
-                w->mouse_buttons = gui_mouse.button;
-				w->mouse_buttons_previous = gui_mouse.pbutton;
-                w->mouse_action |= WIDGET_MOUSE_ACTION_HOVER;
                 if (w->mouse_buttons & w->mouse_buttons_mask)
                 {
-                    gui_mouse.pressed_on = PRESSED_ON_WIDGET;
+                    // FIXME-FOCUS
+                    //gui_mouse.pressed_on = PRESSED_ON_WIDGET;
+                    gui.mouse.focus = GUI_FOCUS_WIDGET;
+                    gui.mouse.focus_item = w;
                     w->mouse_action |= WIDGET_MOUSE_ACTION_CLICK;
                     wm = FALSE;
                 }
             }
+        }
     }
 
     return (wm);
@@ -255,6 +268,7 @@ void        widget_closebox_redraw(t_widget *w)
     color = (wd->lighted) ? COLOR_SKIN_WINDOW_TITLEBAR_TEXT : COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
 
     // Draw box-closing star using the LARGE font
+    // MEKA_FONT_STR_STAR correspond to a string holding the * picture in the font
     Font_Print (F_LARGE, gui_buffer, MEKA_FONT_STR_STAR, 
         w->box->frame.pos.x + w->frame.pos.x, w->box->frame.pos.y + w->frame.pos.y - 4, 
         color);
@@ -267,23 +281,27 @@ void        widget_closebox_update(t_widget *w)
     // Mouse handling
     if (!wd->lighted)
     {
-        if ((w->mouse_action & WIDGET_MOUSE_ACTION_HOVER) && /*(w->mouse_buttons_previous == 0) && */ (w->mouse_buttons == 1))
+        if ((w->mouse_action & WIDGET_MOUSE_ACTION_HOVER) && (w->mouse_buttons & 1))
         {
             wd->lighted = TRUE;
         }
     }
     else
     {
-        if ((wd->lighted) && (w->mouse_buttons_previous == 1) && (w->mouse_buttons == 0))
+        if (!(w->mouse_action & WIDGET_MOUSE_ACTION_HOVER))
         {
             wd->lighted = FALSE;
-            if ((w->mouse_x >= 0) && (w->mouse_y >= 0) && (w->mouse_x <= w->frame.size.x) && (w->mouse_y <= w->frame.size.y))
+        }
+        else
+        {
+            if ((w->mouse_buttons_previous & 1) && !(w->mouse_buttons & 1))
             {
-                wd->callback(w);
+                wd->lighted = FALSE;
+                {
+                    wd->callback(w);
+                }
             }
         }
-        //w->mouse_buttons_previous = w->mouse_buttons;
-        //w->mouse_buttons = 0;
     }
 
     // Keyboard
@@ -405,41 +423,72 @@ t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollb
 
 void        widget_scrollbar_update(t_widget *w)
 {
-    bool    moved = FALSE;
     t_widget_data_scrollbar *wd = w->data;
+    int mx = w->mouse_x;
+    int my = w->mouse_y;
 
-    if ((w->mouse_buttons & w->mouse_buttons_mask) /*&& (w->mouse_buttons_previous == 0)*/ && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
+    if (!(w->mouse_buttons & w->mouse_buttons_mask))
+        return;
+
+    // First click needs to be inside. After, we tolerate moving a little outside.
+    if (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK)
     {
-        moved = TRUE;
+        // OK
+    }
+    else
+    {
+        if (w->mouse_buttons_previous & w->mouse_buttons_mask)
+        {
+            if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_VERTICAL)
+            {
+                if (mx < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || mx >= w->frame.size.x + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
+                    return;
+                if (my < 0 || my >= w->frame.size.y)
+                    return;
+            }
+            else if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_HORIZONTAL)
+            {
+                if (mx < 0 || mx >= w->frame.size.x)
+                    return;
+                if (my < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || my >= w->frame.size.y + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
+                    return;
+            }
+        }
+        else
+        {
+            return;
+        }
+    }
+
+    {
+        int v_start;
 
 		// Move
         switch (wd->scrollbar_type)
         {
         case WIDGET_SCROLLBAR_TYPE_VERTICAL:
-            *wd->v_start = ((w->mouse_y * *wd->v_max) / w->frame.size.y) - (*wd->v_per_page / 2);
+            v_start = ((my * *wd->v_max) / w->frame.size.y) - (*wd->v_per_page / 2);
             break;
         case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
-            *wd->v_start = ((w->mouse_x * *wd->v_max) / w->frame.size.x) - (*wd->v_per_page / 2);
+            v_start = ((mx * *wd->v_max) / w->frame.size.x) - (*wd->v_per_page / 2);
             break;
         }
 
 		// Clamp
-		if (*wd->v_start > *wd->v_max - *wd->v_per_page) 
-			*wd->v_start = *wd->v_max - *wd->v_per_page;
-		if (*wd->v_start < 0) 
-			*wd->v_start = 0;
-	}
-    //w->mouse_buttons_previous = w->mouse_buttons;
-    //w->mouse_buttons = 0;
+		if (v_start > *wd->v_max - *wd->v_per_page) 
+			v_start = *wd->v_max - *wd->v_per_page;
+		if (v_start < 0) 
+			v_start = 0;
 
-	if (moved)
-	{
-		w->dirty = TRUE;
+        *wd->v_start = v_start;
+    }
 
-	    // Callback
-		if (wd->callback != NULL)
-			wd->callback(w);
-	}
+    // Moved, set dirty flag
+	w->dirty = TRUE;
+
+    // Callback
+	if (wd->callback != NULL)
+		wd->callback(w);
 }
 
 void        widget_scrollbar_redraw(t_widget *w)

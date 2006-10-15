@@ -10,6 +10,64 @@ They are usually of 2 kinds:
 - Fixes or addition to things changed during WIP.
 - Programmer/hacker centric information.
 
+ 
+ MEKA 0.72 WIP xxxxxxxx
+ ----------------------
+  - Emulation:
+    - Fixed data corruption/overflow in VDP emulation when seeking and
+      writing to an invalid palette address. Thanks Maxim. [Omar]
+    - VDP palette write do not mask out current VDP address, so performing
+      the (unprobable) set address/access palette/access VRAM sequence will
+      keep address in the full 16KB range. [Omar]
+  - Video:
+    - Changed default fullscreen blitter configuration in the hope of getting 
+      something more compatible (640x480 by default), as so many people have 
+      problems with fullscreen modes.
+    - Got rid of "parallel" blitter that displayed both odd and even frame
+      next to each other. Seems useless now. Could be brought back if some
+      four-eyed person request it. [Omar]
+  - Debugger:
+    - Added "CLOCK" command, to display/reset a Z80 cycle counter.
+      Very simple but can be helpful to time Z80 routines. [Omar]
+##- Project:
+    - (Win32) Added new targets supporting shared standard libraries. [Omar]
+    - Updated SOURCES.TXT documentation. [Omar]
+##- GUI:
+##  - Fixed background picture not loading on startup. [Omar]
+    - Removed closing fadeout since the current implementation is way 
+      inefficient and cannot garantee proper speed. [Omar]
+##- Added and modified entries in the checksum and compatibility lists. [Omar]
+##  Some particular renaming includes:
+          SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
+          SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
+          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
+          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
+          SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
+          SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
+          SMS - 695a9a15 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+          SMS - 24e97200 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+          SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)
+          SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
+          SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
+          GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
+          GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+          GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
+          GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+          GG  - 0117c3df - Land of Illusion (JP)                --> Mickey Mouse no Mahou no Crystal (JP)
+          SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Ashizawa Hachidan no Tsumeshogi (JP)
+          SC3 - ae4f92cf - Uranai Angel Cuty (JP)               --> Uranai Angel Cutie (JP)
+
+
+ MEKA 0.72 WIP 20051203
+ ----------------------
+##- GUI:
+##  - Fixed bug with window closing button widget. [Omar]
+##  - Fixed bug when quitting using the menu, configuration files were 
+##    not saved. Thanks Jacko. (Omar)
+##  - (Un*x) Fixed bug where menus would not clear themselves. (Omar)
+##    (This was due to Allegro.h defining TRUE as -1 and a 1 value being
+##    hardcoded in some part of the code).
+
 
  MEKA 0.72 WIP 20051120
  ----------------------
@@ -70,9 +128,9 @@ They are usually of 2 kinds:
   - Development:
     - Added tilemap viewer. [Omar]
       - Shows tilemap, hovering or clicking a tile shows specific info 
-        about it, allows filtering BG/FG, disabling tile flipping, tile 
-        flipping, display of scrolling box, with or without raster effects,
-        manual selection of tilemap address, etc.
+        about it, allows filtering BG/FG, disabling tile flipping, display 
+        of scrolling box, with or without raster effects, manual selection 
+        of tilemap address, etc.
     - Cleaned Technical Information Viewer content, renamed a few fields
       to their official names, removed redundant information. It's not
       yet all clean. [Omar]

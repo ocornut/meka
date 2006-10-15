@@ -17,7 +17,7 @@
 #define PROG_HOMEPAGE           "http://www.smspower.org/meka"
 #define PROG_AUTHORS            "Omar Cornut (Bock) and contributors"
 #define PROG_AUTHORS_SHORT      "Omar (Bock) and contributors"
-#define PROG_DATE               "1998-2005"
+#define PROG_DATE               "1998-2006"
 
 extern char MEKA_BUILD_DATE[];
 extern char MEKA_BUILD_TIME[];

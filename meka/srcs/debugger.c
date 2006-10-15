@@ -152,6 +152,15 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " C address     ; Continue up to reaching <address>"
     },
     {
+        NULL, "CLOCK",
+        "Display Z80 cycle accumulator",
+        // Description
+        "CLOCK: Display Z80 cycle accumulator\n"
+        "Usage:\n"
+        " CLOCK         ; Display cycle accumulator\n"
+        " CLOCK R[ESET] ; Reset cycle accumulator"
+    },
+    {
         "J", "JUMP",
         "Jump",
         // Description
@@ -242,7 +251,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " name : symbol name to search for (*)"
     },
 	{
-		"SET", "SET",
+		NULL, "SET",
 		"Set Z80 register",
 		// Description
 		"SET: Set Z80 register\n"
@@ -281,7 +290,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " cnt     : number of instruction to disassemble (10)"
     },
     {
-        "MEMEDIT","MEMEDIT",
+        NULL,"MEMEDIT",
         "Memory Editor",
         // Description
         "MEMEDIT: Spawn memory editor\n"
@@ -289,7 +298,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " MEMEDIT [lines] [cols]\n"
         "Parameters:\n"
         " lines : number of lines\n"
-        " cols  : number of columns\n"
+        " cols  : number of columns"
     },
     {
         "HI", "HISTORY",
@@ -372,6 +381,7 @@ void        Debugger_Init_Values (void)
     Debugger.log_file = NULL;
     Debugger.log_filename = "debuglog.txt";
     Debugger.watch_counter = 0;
+    Debugger.cycle_counter = 0;
     memset(Debugger_CPU_Exec_Traps, 0, sizeof(Debugger_CPU_Exec_Traps));
 
     // Add Z80 CPU registers variables
@@ -486,31 +496,33 @@ void        Debugger_Enable (void)
 //-----------------------------------------------------------------------------
 void        Debugger_MachineReset(void)
 {
-    // Reset breakpoint on CPU
-    if (Debugger.active)
-    {
-        Debugger_Printf (Msg_Get (MSG_Machine_Reset));
-        Debugger_SetTrap(0x0000);
-        sms.R.Trace = 1;
+	if (!Debugger.active)
+		return;
 
-        // Reset trap table
-        // Debugger_BreakPointRefreshCpuExecTraps();
+	// Reset breakpoint on CPU
+    Debugger_Printf (Msg_Get (MSG_Machine_Reset));
+    Debugger_SetTrap(0x0000);
+    sms.R.Trace = 1;
 
-        // Clear Z80 PC log queue
-        memset(Debugger_Z80_PC_Log_Queue, 0, sizeof(Debugger_Z80_PC_Log_Queue));
-        Debugger_Z80_PC_Log_Queue_Write = 0;
-        Debugger_Z80_PC_Log_Queue_First = 0;
+    // Reset trap table
+    // Debugger_BreakPointRefreshCpuExecTraps();
 
-        // Hook Z80 read/write and I/O
-        Debugger_Hooks_Install();
+    // Clear Z80 PC log queue
+    memset(Debugger_Z80_PC_Log_Queue, 0, sizeof(Debugger_Z80_PC_Log_Queue));
+    Debugger_Z80_PC_Log_Queue_Write = 0;
+    Debugger_Z80_PC_Log_Queue_First = 0;
 
-        // Set PRAM size
-        if (cur_drv->id == DRV_GG)
-            DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x3F;
-        else
-            DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x1F;
-    }
- 
+    // Hook Z80 read/write and I/O
+    Debugger_Hooks_Install();
+
+    // Set PRAM size
+    if (cur_drv->id == DRV_GG)
+		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x3F;
+    else
+		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x1F;
+
+    // Reset cycle counter
+    Debugger.cycle_counter = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -1912,6 +1924,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf (" D [addr] [cnt]         : Disassembly at <addr>"      );
         Debugger_Printf (" SYM [name]             : List symbols"               );
         Debugger_Printf (" SET register=value     : Set Z80 register"           );
+        Debugger_Printf (" CLOCK [RESET]          : Display Z80 cycle counter"  );
         Debugger_Printf ("-- Miscellaenous:");
         Debugger_Printf (" MEMEDIT [lines] [cols] : Spawn memory editor"        );
         Debugger_Printf (" HISTORY [word]         : Print/search history"       );
@@ -1922,9 +1935,9 @@ static void     Debugger_Help(const char *cmd)
     {
         // Search for specific command
         t_debugger_command_info *command_info = &DebuggerCommandInfos[0];
-        while (command_info->command_short != NULL)
+        while (command_info->command_long != NULL)
         {
-            if (!stricmp(cmd, command_info->command_short) || (command_info->command_long && !stricmp(cmd, command_info->command_long)))
+            if ((command_info->command_short) && !stricmp(cmd, command_info->command_short) || (command_info->command_long && !stricmp(cmd, command_info->command_long)))
             {
                 Debugger_Printf("%s", command_info->description);
                 return;
@@ -2559,6 +2572,29 @@ void        Debugger_InputParseCommand(char *line)
         {
             Debugger_Help("P");
         }
+        return;
+    }
+
+    // CLOCK
+    if (!strcmp(cmd, "CLOCK"))
+    {
+        if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
+        {
+            // Display clock
+            Debugger_Printf("Clock: %d cycles", Debugger.cycle_counter);
+            return;
+        }
+
+        if (!stricmp(arg, "r") || !stricmp(arg, "reset"))
+        {
+            // Reset clock
+            Debugger.cycle_counter = 0;
+            Debugger_Printf("Clock reseted");
+            Debugger_Printf("Clock: %d cycles", Debugger.cycle_counter);
+            return;
+        }
+
+        Debugger_Help("CLOCK");
         return;
     }
 
@@ -3402,7 +3438,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
     {
         // Complete with command
         t_debugger_command_info *command_info = &DebuggerCommandInfos[0];
-        while (command_info->command_short != NULL)
+        while (command_info->command_long != NULL)
         {
             if (!strnicmp(current_word, command_info->command_long, current_word_len))
             {

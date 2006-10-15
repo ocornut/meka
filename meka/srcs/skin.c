@@ -531,6 +531,9 @@ void        Skins_Apply(void)
 void        Skins_StartupFadeIn(void)
 {
     // Setup fade-in from black, or using some special effect?
+    t_skin *skin = Skins.skin_current;
+    Skins.skin_current = NULL;
+    Skins_Select(skin, FALSE);
     Skins_Apply();
 }
 
@@ -566,9 +569,6 @@ void        Skins_Select(t_skin *skin, bool fade)
             Msg(MSGT_USER_BOX, Msg_Get (MSG_Theme_Error_BG_FileName), Skins.skin_current->background_picture);
         }
     }
-
-    // Apply
-    Skins_Apply();
 }
 
 void        Skins_Update(void)
@@ -702,6 +702,7 @@ static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
     // Switch smoothly to new theme
     t_skin *skin = event->user_data;
     Skins_Select(skin, TRUE);
+    Skins_Apply();
 
     // Check new selected theme in menu
     gui_menu_un_check (menus_ID.themes);

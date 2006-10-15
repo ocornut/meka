@@ -5,6 +5,18 @@
  source code and refer to HISTORY.TXT file.
 -----------------------------------------------------------------------------
 
+ ...
+ 
+ MEKA 0.72 WIP 20051203
+ ----------------------
+  - GUI:
+    - Fixed bug with window closing button widget. [Omar]
+    - Fixed bug when quitting using the menu, configuration files were 
+      not saved. Thanks Jacko. [Omar]
+    - (Un*x) Fixed bug where menus would not clear themselves. [Omar]
+      (This was due to Allegro.h defining TRUE as -1 and a 1 value being
+      hardcoded in some part of the code).
+
 
  MEKA 0.72 WIP 20051120
  ----------------------
@@ -71,8 +83,9 @@
     - Tilemap viewer:
       - Added tilemap viewer. [Omar]
         Shows tilemap, hovering or clicking a tile shows specific info 
-        about it, allows filtering BG/FG, disabling tile flipping, tile 
-        flipping, display of scrolling box, with or without raster effects.
+        about it, allows filtering BG/FG, disabling tile flipping, display 
+        of scrolling box, with or without raster effects, manual selection 
+        of tilemap address, etc.
     - Made '$' default prefix for hexadecimal values in various places. [Omar]
     - Datadump: [Ambil, Omar]
       - Fixed "palette" dumping. Blue and green components were inverted. 

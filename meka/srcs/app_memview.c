@@ -953,7 +953,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 30, 3) || gui_mouse.z_rel > 0)
+    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 30, 3) || gui.mouse.z_rel > 0)
     {
         mv->memblock_first -= mv->size_lines;
         if (mv->memblock_first < 0)
@@ -964,7 +964,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         }
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 30, 3) || gui_mouse.z_rel < 0)
+    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 30, 3) || gui.mouse.z_rel < 0)
     {
         mv->memblock_first += mv->size_lines;
         if (mv->memblock_first + mv->size_lines > mv->memblocks_max)

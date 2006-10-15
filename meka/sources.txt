@@ -10,7 +10,7 @@
 
 ---------------------------------------------------------------------------
  Note to the knowledge-eager person:
-  MEKA IS FULL OF INCORRECT EMULATION BEHAVIOURS.
+  MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
   MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
   (READ TECHNICAL DOCUMENTATION INSTEAD.)
   IF YOU ARE DOUBTING OF ANYTHING, PLEASE ASK TO BE SURE.
@@ -38,7 +38,7 @@ For any further discussion, please visit MEKA development forum:
         http://www.smspower.org/forums/viewforum.php?f=7
 	
 I'd be happy to discuss anything over there, answers questions, and see
-how we can all work together in a happy world.
+how we can all work together in a happy world while holding hands.
 
 
 ---------------------------------------
@@ -120,6 +120,10 @@ Apply to hq2x.c, hq2x16.asm, hq2x32.asm:
      As long as it's not used in a commercial product, of course."
 
   Overidding GPL terms.
+  Maxim Stephin's comments is also a decent reminder about how many
+  people who release their product under GPL/LGPL don't actually 
+  understand the fundation of those license (both licenses allows
+  commercial usage).
   
 Apply to all code not by Omar Cornut: (see MEKA.txt)
 
@@ -159,29 +163,35 @@ I. Compile for Microsoft Windows:
     but you'll have to recreate the project or convert it)
    Note: Some version of Allegro may require Visual Studio to be installed
    in a pathname accessible without spacing.
- - Install standard UN*X like tools (for compiling the libraries)
-   - GNU make
-   - Probably standard rm/mkdir/mv tools.
-   - You may get away by using Cygwin provided tools. Tell me if you succeed.
- - Apparently, compiling Allegro requires a GCC compiler for some reason...
-   - Mingw GCC, or Cygwin GCC, or DJGPP
- - Install Allegro library, latest WIP
-   - http://www.talula.demon.co.uk/allegro/wip.html#unstable
-   - Set STATICLINK=1 environment variable.
-   - Set STATICRUNTIME=1 environment variable.
-   - fix.bat msvc
-   - make
-   - make install
+ - Install Allegro library, latest WIP:
+   - You can either download a precompiled Win32, or compile Allegro yourself.
+   - Download: http://www.talula.demon.co.uk/allegro/wip.html#unstable
+   - If using precompiled Win32 package:
+     - Download from "Allegro binary package" link.
+     - Read 'readme.txt'.
+     - Provided binaries are compiled using DLL standard libraries (/MD).
+     - Compile MEKA using "Debug" or "Release" targets.
+     - This is not fully testing. Seems to work in "Debug" target, but certain
+       standard library stuff such as the stdout stream accessed by printf()
+       seems to be broken in "Release" target.
+   - If compiling yourself:
+     - Download "Source code" package.
+     - Read 'docs/build/msvc.txt'.
+     - Compiling Allegro requires a GCC-based compiler (Mingw, Cygwin, DJGPP).
+     - $ set STATICLINK=1
+     - $ set STATICRUNTIME=1
+     - $ fix.bat msvc
+     - $ make
+     - $ make install
+     - This will compile Allegro using static standard librairies (/MT).
+       This is the preferred choice to build official MEKA releases.
+     - Compile MEKA using "Debug - No DLL" or "Release - No DLL" targets.
  - Install zlib
-   - http://www.gzip.org/zlib/
-   - Compile static to zlibs.lib.
+   - Download: http://www.gzip.org/zlib/
+   - $ nmake -f win32\Makefile.msc
    - Add ZLIBDIR environment variable, set to ZLIB root directory.
- - Install libpng
-   - http://www.libpng.org/pub/png/libpng.html
-   - Compile static
-   - Add LIBPNGDIR environment variable, set to libpng root directory.
  - Install NASM
-   - http://nasm.sourceforge.net
+   - http://sourceforge.net/projects/nasm/
    - Add NASM environment variable, set to executable path.
  - Compile !
    - MEKA project is in MsVc\Meka.sln , for MS Visual 7.1.
@@ -202,14 +212,16 @@ II. Compile for MS-DOS compatible systems:
      Contact me if you're interested (some may have been applied to 
      Allegro already, I'm not sure). Will compile without the patch,
      but some behavior may change compared to official builds.
-   - Set STATICLINK=1 environment variable.
-   - fix.bat djgpp
-   - make
-   - make install
+   - $ set STATICLINK=1
+   - $ fix.bat djgpp
+   - $ make
+   - $ make install
  - Install zlib
    -> see I. Windows
  - Install libpng
-   -> see I. Windows
+   - http://www.libpng.org/pub/png/libpng.html
+   - Compile static
+   - Add LIBPNGDIR environment variable, set to libpng root directory.
  - Install NASM
    -> see I. Windows
  - Compile !
@@ -221,9 +233,9 @@ III. Compile for UNIX
  - You are smart guys, you can figure it out!
  - Install Allegro library, latest WIP.
    - http://www.talula.demon.co.uk/allegro/wip.html#unstable
-   - ./configure --enable-static
-   - make
-   - make install
+   - $ ./configure --enable-static
+   - $ make
+   - $ make install
  - Install NASM
    - Get a package, or http://nasm.sourceforge.net
  - Install SEAL

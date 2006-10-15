@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "app_about.h"
+#include "app_game.h"
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_palview.h"

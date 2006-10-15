@@ -216,9 +216,15 @@ endif
 #-----------------------------------------------------
 
 # Allegro
-ifneq ($(SYSTEM), win32)
+ifeq ($(SYSTEM), dos)
 LIB_ALLEG = -lalleg
-else
+endif
+
+ifeq ($(SYSTEM), unix)
+LIB_ALLEG = `allegro-config --libs`
+endif
+
+ifeq ($(SYSTEM), win32)
 LIB_ALLEG = alleg_s.lib
 endif
 

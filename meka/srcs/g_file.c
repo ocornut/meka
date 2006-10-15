@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "desktop.h"
 #include "g_file.h"
+#include "g_tools.h"
 #include "g_widget.h"
 #include "db.h"
 #include "file.h"
@@ -202,7 +203,7 @@ void        FB_Layout(t_filebrowser *app, bool setup)
     }
 
     // Additionnal drawing
-    gui_rect (FB.bmp, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_GENERIC_BORDER);
+    gui_rect (FB.bmp, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
 }
 
 void        FB_Free_Memory(void)
@@ -823,12 +824,12 @@ void            FB_Update(void)
         }
 
         // Update mouse inputs (wheel)
-        if (gui_mouse.z_rel != 0)
+        if (gui.mouse.z_rel != 0)
         {
-            if (gui_mouse.z_rel < 0)
+            if (gui.mouse.z_rel < 0)
                 //FB.file_display_first++;
                 FB.file_pos++;
-            if (gui_mouse.z_rel > 0)
+            if (gui.mouse.z_rel > 0)
                 //FB.file_display_first--;
                 FB.file_pos--;
             dirty = TRUE;
@@ -952,11 +953,11 @@ void    FB_Click_List (t_widget *w)
     int    i;
 
     i = FB.file_display_first + (w->mouse_y / Font_Height (F_LARGE));
-    if ((i == FB.last_click) && (gui_mouse.time_since_last_click < DOUBLE_CLICK_SPEED))
+    if ((i == FB.last_click) && (gui.mouse.time_since_last_click < DOUBLE_CLICK_SPEED))
     {
         // FIXME: double-clicks should be generically handled by GUI and supports frameskipping
-        gui_mouse.reset_timer = 1;
-        gui_mouse.time_since_last_click = DOUBLE_CLICK_SPEED + 1;
+        gui.mouse.reset_timer = TRUE;
+        gui.mouse.time_since_last_click = DOUBLE_CLICK_SPEED + 1;
         FB_Open ();
     }
     else
