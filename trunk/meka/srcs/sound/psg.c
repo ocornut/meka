@@ -85,7 +85,7 @@ void        PSG_Update (int chip, void *buffer, int length)
     {
         int left;
 
-        // From 1 sample from emulator
+        // Get 1 sample from emulator
         SN76489_GetValues (&left, NULL);
 
         // Pad to limits and rewrite to SEAL buffer
