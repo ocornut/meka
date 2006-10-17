@@ -1030,6 +1030,8 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
 //-----------------------------------------------------------------------------
 // FUNCTIONS - BUS
 //-----------------------------------------------------------------------------
+// FIXME: Generalize bus accesses, since this kind code is repeated in too many occasions. 
+//-----------------------------------------------------------------------------
 
 int      Debugger_Bus_Read(int bus, int addr)
 {
@@ -1050,7 +1052,7 @@ int      Debugger_Bus_Read(int bus, int addr)
             switch (cur_machine.driver_id)
             {
             case DRV_SMS:   addr &= 31;  break;
-            case DRV_GG:    addr &= 64;  break;
+            case DRV_GG:    addr &= 63;  break;
             default:
                 // FIXME
                 return -1;
