@@ -13,6 +13,7 @@ They are usually of 2 kinds:
  
  MEKA 0.72 WIP xxxxxxxx
  ----------------------
+  - Updated k.
   - Emulation:
     - Fixed data corruption/overflow in VDP emulation when seeking and
       writing to an invalid palette address. Thanks Maxim. [Omar]
