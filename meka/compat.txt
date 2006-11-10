@@ -633,7 +633,7 @@
  5 in 1 Fun Pak                                     Ok
  Aa Harimanada (JP)                                 Ok
  Addams Family, The                                 Ok
- Adventures of Batman and Robin                     Flickering status (LCD persistance).
+ Adventures of Batman & Robin, The                  Flickering status (LCD persistance).
  Aerial Assault                                     Ok
  Aladdin                                            Ok
  Aladdin (JP)                                       Ok
@@ -709,6 +709,7 @@
  Dragon Crystal                                     Ok
  Dragon Crystal - Tsurani no Meikyu (JP)            Ok
  Dragon - The Bruce Lee Story                       Ok
+ Dragon - The Bruce Lee Story (US)                 *Ok
  Drop Zone                                          Ok
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
@@ -921,7 +922,7 @@
  RoboCop versus The Terminator                      Ok
  R.B.I. Baseball '94                                Ok
  Royal Stone ~Hikarishi Toki no Tobira~ (JP)        Ok
- Ryu Kyu (JP)                                       Ok
+ Ryuu Kyuu (JP)                                     Ok
  Sailor Moon S (JP)                                 Ok
  Samurai Shodown                                    Ok
  Samurai Spirits                                    Ok
@@ -1051,7 +1052,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 420 games tested - 411 are "Ok" - Compatibility rate: 97.86%
+ 421 games tested - 412 are "Ok" - Compatibility rate: 97.86%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
