@@ -50,6 +50,7 @@ They are usually of 2 kinds:
           SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)
           SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
           SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
+          GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
           GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
           GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
           GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
@@ -59,6 +60,7 @@ They are usually of 2 kinds:
           GG  - 9808d7b3 - Lion King, The (US)                  --> Lion King, The (Disney's) (US)
           GG  - cc90c723 - Pocket Jong Sou (JP)                 --> Pocket Jansou (JP)
           GG  - 445d7cd2 - Royal Stone (JP)                     --> Royal Stone ~Hikarishi Toki no Tobira~ (JP)
+          GG  - 95efd52b - Ryu Kyu (JP)                         --> Ryuu Kyuu (JP)
           GG  - 09f9ed60 - Shadam Crusader (JP)                 --> Shadam Crusader ~Harukanaru Oukoku~ (JP)
           SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Ashizawa Hachidan no Tsumeshogi (JP)
           SG1 - 5970a12b - Champion Baseball                    --> Champion Baseball [16k]
