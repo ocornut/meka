@@ -45,6 +45,7 @@ They are usually of 2 kinds:
           SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
           SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
           SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
+          SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck
           SMS - 695a9a15 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
           SMS - 24e97200 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
           SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)

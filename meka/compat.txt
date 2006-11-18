@@ -103,7 +103,7 @@
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
  Dead Angle                                     -       Ok
- Deep Duck Trouble                              -       Ok
+ Deep Duck Trouble - Starring Donald Duck       -       Ok
  Desert Speedtrap - Starring Road Runner and..  -       Ok
  Desert Strike                                  -       Ok
  Dick Tracy                                     -       Ok
@@ -405,6 +405,7 @@
  The Ninja                                      -       Ok
  The Ninja (JP)                                 -       Ok
  The Pro Yakyuu Pennant Race (JP)               -       Ok
+ The Three Dragon Story (KR)                    -       Ok
  Thunder Blade                                  FM      Ok
  Thunder Blade (JP)                             FM      Ok
  Time Soldiers                                  FM      Ok
@@ -458,7 +459,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 440 games tested - 438 are "Ok" - Compatibility rate: 99.54%
+ 441 games tested - 439 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -580,7 +581,7 @@
  Q*Bert                                   OM-G001   Ok
  Sannninn Mah-Jong                        OM-G004  *Ok
  Space Armor                              OM-G007  *Ok
- Space Mountain                           OM-G003  *Ok
+ Space Mountain                           OM-G003   Ok
 -----------------------------------------------------------------------------
   10 games tested - 10 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
@@ -709,7 +710,7 @@
  Dragon Crystal                                     Ok
  Dragon Crystal - Tsurani no Meikyu (JP)            Ok
  Dragon - The Bruce Lee Story                       Ok
- Dragon - The Bruce Lee Story (US)                 *Ok
+ Dragon - The Bruce Lee Story (US)                  Ok
  Drop Zone                                          Ok
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok

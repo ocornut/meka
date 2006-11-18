@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2006/11/04
+; Last updated 2006/11/18
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -124,13 +124,15 @@ SMS 29822980 AA098A4FE1EB594F   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=MK-27074-
 SMS 1350e4f8 54D5553AF5264FDE   Cyber Shinobi, The/COUNTRY=EU,BR/PRODUCT_NO=7050
 SMS 908e7524 48CF176FE2E9692F   Cyborg Hunter/COUNTRY=US,EU,BR/PRODUCT_NO=QC-002,25003/COMMENT=Export version of "Chouon Senshi Borgman".
 SMS e2f7193e D57FCD7C1E815D67   Dead Angle/COUNTRY=US,EU/PRODUCT_NO=7030
-SMS b137007a F82AE98027F45A00   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=EU,BR/PRODUCT_NO=7122 ; [EDITOR NOTE] Missing BR version product_no
+SMS 42fc3a6e E705BC457D04D7BB   Deep Duck Trouble - Starring Donald Duck/COUNTRY=EU,BR/PRODUCT_NO=9022
+SMS b137007a F82AE98027F45A00   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=EU,BR/PRODUCT_NO=7122,027250
 SMS f6fab48d E2628BCB39487174   Dick Tracy/COUNTRY=US,EU,BR/PRODUCT_NO=7057
 SMS ea5c3a6f 31C90A07943577B5   Dinobasher - Starring Bignose the Caveman [Proto]/FLAGS=PROTO/EMU_MAPPER=3/COMMENT=Prototype version of the unreleased game.
 SMS 32f4b791 AEC0BB10E75FCFB2   Dinosaur Dooley, The/COUNTRY=KR
 SMS a55d89f3 3488F258EC375C7B   Double Dragon/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1369,7012
 SMS 8370f6cd 128E2488C291E978   Double Hawk/COUNTRY=EU/PRODUCT_NO=7036
 SMS 52b83072 06C09D75451032A1   Double Target - Cynthia no Nemuri/COUNTRY=JP/PRODUCT_NO=G-1314/COMMENT=Japanese version of "Quartet".
+SMS 9549fce4 6C4E00641D7F6ADC   Dragon Crystal/COUNTRY=EU,BR/PRODUCT_NO=5123
 SMS c88a5064 71FD7E5B59B78722   Dragon - The Bruce Lee Story/COUNTRY=EU/PRODUCT_NO=MK-27079-50
 SMS 16537865 CAB3012EDD748A79   Dr. HELLO/COUNTRY=KR
 SMS 7db5b0fa 8B7CE5483E4F1B24   Dynamite Headdy/COUNTRY=BR/PRODUCT_NO=028570/COMMENT=This is a port from the Game Gear version. It was apparently ported to the Master System by a division of SEGA outside Japan, but never released at the time. Tec Toy later released it.
@@ -198,6 +200,7 @@ SMS 0667ed9f 9E66E0AB50B7A4C6   Jurassic Park/COUNTRY=EU,BR/PRODUCT_NO=9030,0283
 SMS f8d33bc4 7A69F7D063546D32   King's Quest - Quest for the Crown/COUNTRY=US/PRODUCT_NO=4360
 SMS b7fe0a9d A7EF2C74C4AA61FB   King's Quest - Quest for the Crown [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Unfinished prototype version of the game.
 SMS d11d32e4 261F3B6965EAC701   Kujakuou/COUNTRY=JP/PRODUCT_NO=G-1366/COMMENT=Japanese version of SpellCaster.
+SMS 1e949d1f 50C0B42AE27D4D66   Kung Fu Kid/COUNTRY=US,EU,BR/PRODUCT_NO=5078/COMMENT=Export version of "Makai Retsuden".
 SMS 24e97200 37B375B8FEA09AB1   Land of Illusion - Starring Mickey Mouse/COUNTRY=EU,BR/PRODUCT_NO=9014
 SMS 0ca95637 B3C4296E5BC63899   Laser Ghost/COUNTRY=EU/PRODUCT_NO=7074/COMMENT=This game can be played using the Light Phaser. To enable this feature, start the game by pressing a button on the second Control Pad.
 SMS 6350e649 EBBA1A5F14B6D543   Legend of Illusion - Starring Mickey Mouse/COUNTRY=BR/PRODUCT_NO=028750/COMMENT=This is a port from the Game Gear version. 
@@ -208,6 +211,7 @@ SMS a1710f13 57B8D77289FE41E0   Lucky Dime Caper, The - Starring Donald Duck/NAM
 SMS 7f6d0df6 FF0D4BCCBFED062B   Lucky Dime Caper, The - Starring Donald Duck [Proto]/FLAGS=PROTO/COMMENT=Unfinished prototype version of the game, featuring a single playable level and no sound. Cartridge label says "Donald Duck".
 SMS bcfbfc67 C3982C78688D8983   Mahjong Sengoku Jidai/NAME_HK=Mah-jong/COUNTRY=JP,HK/PRODUCT_NO=G-1337
 SMS 996b2a07 17F25E349C4BF48A   Mahjong Sengoku Jidai [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS ca860451 DFCFA670AC174930   Makai Retsuden/COUNTRY=JP/PRODUCT_NO=G-1324/COMMENT=Japanese version of "Kung Fu Kid".
 SMS bf0411ad FFA3B9E9C1445E59   Maou Golvellius/COUNTRY=JP/PRODUCT_NO=G-1363/COMMENT=Japanese version of "Golvellius - Valley of Doom".     ; [EDITOR NOTE] SMS checksum is wrong, was verified on original cartridge.
 SMS e8ea842c 8865855EC8C5267D   Marksman Shooting & Trap Shooting/COUNTRY=US,BR/PRODUCT_NO=6003/EMU_INPUTS=LIGHTPHASER         ; [EDITOR-NOTE] BR cardboard version has no product_no.
 SMS e8215c2e 73340E125480BFA6   Marksman Shooting \/ Trap Shooting \/ Safari Hunt/COUNTRY=EU/EMU_INPUTS=LIGHTPHASER
@@ -263,6 +267,9 @@ SMS e1fff1bb E3EBF1D8895B9FE6   Shinobi/COUNTRY=JP/PRODUCT_NO=G-1353
 SMS 0c6fac4e DEF9F2C7A058ADCB   Shinobi/COUNTRY=US,EU,BR/PRODUCT_NO=7009
 SMS aedf3bdf 724EF423E356618F   Sonic Chaos/COUNTRY=EU,BR/PRODUCT_NO=9021,028120
 SMS 11c1bc8a D3A4F10A4B37C04C   Sonic Spinball/COUNTRY=EU,BR/PRODUCT_NO=9034,028489
+SMS b519e833 2F2C8E1A0AE456B9   Sonic The Hedgehog/COUNTRY=EU,US,BR/PRODUCT_NO=7076
+SMS 5b3b922c 89244C65041595F4   Sonic The Hedgehog 2 [v0]/COUNTRY=EU,BR/PRODUCT_NO=9015,028120/EMU_TVTYPE=PAL/VERSION=0
+SMS d6f2bfca 9E35369CB6BB509A   Sonic The Hedgehog 2 [v1]/COUNTRY=EU,BR/PRODUCT_NO=9015,028120/EMU_TVTYPE=PAL/VERSION=1
 SMS 6bd5c2bf BEFA25D66361C8C1   Space Harrier 3-D/COUNTRY=US,EU,BR/PRODUCT_NO=8004/EMU_3D/COMMENT=The 3-D effect can be removed by doing the following: complete the game with a score that qualifies for a sixth or higher position on the high score screen, then enter THREE as a name on the high score screen with Control Pad 2.
 SMS 156948f9 97FA12D86875C8E0   Space Harrier 3D/COUNTRY=JP/PRODUCT_NO=G-1349/EMU_3D/COMMENT=The 3-D effect can be removed by doing the following: complete the game with a score that qualifies for a sixth or higher position on the high score screen, then enter THREE as a name on the high score screen with Control Pad 2.
 SMS fa8e4ca0 A6E188CF3FB0E053   Special Criminal Investigation - S.C.I./COUNTRY=EU/PRODUCT_NO=7079
@@ -271,6 +278,7 @@ SMS ebe45388 5C12588F41421117   Spider-Man - Return of the Sinister Six/COUNTRY=
 SMS e42e4998 C4C45B848BC2A3A9   Sports Pad Football/COUNTRY=US/PRODUCT_NO=5060/EMU_INPUTS=SPORTSPAD
 SMS 78d7faab 83A4D6495B81DD01   Spy vs Spy/COUNTRY=US,EU,DE,BR/PRODUCT_NO=4083,4583,41021/COMMENT=Sometimes refered to as "Spy Vs. Spy".
 SMS d41b9a08 440AA3B0518BF192   Spy vs Spy/COUNTRY=JP/PRODUCT_NO=C-514
+SMS 9802ed31 87B23673DB921899   Strider/COUNTRY=EU,US,BR/PRODUCT_NO=9005
 SMS d8f2f1b9 2E5B54DFAA4D4706   Submarine Attack/COUNTRY=EU/PRODUCT_NO=7048
 SMS b13df647 57E32ED9EF14328A   Sukeban Deka II - Shoujo Tekkamen Densetsu/COUNTRY=JP/PRODUCT_NO=G-1318
 SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
@@ -291,6 +299,7 @@ SMS 316727dd BBE8D843FF8FF6BE   Teddy Boy Blues/COUNTRY=JP/PRODUCT_NO=C-501/COMM
 SMS d7508041 D7FED948FE980371   Teddy Boy Blues [EP-MyCard]/COUNTRY=JP/PRODUCT_NO=C-501/FLAGS=PROTO/COMMENT=Prototype cartridge containing data to be used by the unreleased EP-MyCard system. Located after the regular game data, additionnal data includes the game name (in japanese katakana), product number and duplication price of 1800 yens.
 SMS 1a390b93 98916E9343CD4A7C   Tennis Ace/NAME_BR=Super Tennis/COUNTRY=EU,BR/PRODUCT_NO=7028   ; [EDITOR-NOTE] BR cardboard version has no product_no.
 SMS 8132ab2c CEEB86B43819EAD2   Tensai Bakabon/COUNTRY=JP/PRODUCT_NO=G-1355
+SMS 8640e7e8 F59737442BCF7986   Three Dragon Story, The/COUNTRY=KR
 SMS 4bc42857 DA63DA8BEB8E7C69   TransBot/NAME_BR=Nuclear Creature/COUNTRY=US,EU,DE,BR/PRODUCT_NO=4004,4502,41003,021050/COMMENT=Export version of "Astro Flash".
 SMS 22cca9bb 0E91C33709612BD2   Turma da Mônica em - O Resgate/COUNTRY=BR/PRODUCT_NO=026260/COMMENT=Brasilian hacked version of "Wonder Boy III: The Dragon's Trap" \/ "Monster World II", released by Tec Toy.
 SMS 15668ca4 7638A4C78062F114   Ultimate Soccer/COUNTRY=EU,BR/PRODUCT_NO=7119,024440
@@ -422,7 +431,7 @@ GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,US,EU/PRODUCT_NO=G-331
 GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears', The - Camping Adventure/COUNTRY=US/PRODUCT_NO=2447
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The Berlin Wall/COUNTRY=JP/PRODUCT_NO=T-33017
 GG  f6a697f8 CADE4673E162E27A   Car Licence/COUNTRY=JP/COMMENT=Non-retail Japanese release. The exact story behind this cartridge is yet unknown.
-GG  da811ba6 340FBB84D6F82B85   Chessmaster, The/COUNTRY=US,EU/PRODUCT_NO=2317  ; missing US product_no
+GG  da811ba6 340FBB84D6F82B85   Chessmaster, The/COUNTRY=US,EU/PRODUCT_NO=2317
 GG  191b1ed8 D569D43547670605   Chuck Rock/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-3320,016740
 GG  6caa625b 6D119C88287DCBEE   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=T-120028-50/EMU_MAPPER=3/EMU_TVTYPE=PAL/EMU_SPRITE_FLICKER
 GG  03d28eab 6B96D3F3E3A93875   Crayon Shin Chan - Taiketsu! Tankam Panic!!/COUNTRY=JP/PRODUCT_NO=T-133047
@@ -677,10 +686,8 @@ C7A7D1085D01ABB0,Championship Hockey
 BA12C9527CEE0DA2,Cloud Master,JAPNAME=Chuka Taisen
 8C16E13E120E48D7,Daffy Duck in Hollywood,TVTYPE=NTSC
 573DC782B785EDFA,Danan: The Jungle Fighter
-E705BC457D04D7BB,Deep Duck Trouble
 F0BF995E2C2E5FA1,Desert Strike
 E3D53E738DD294A4,Dodgeball King,ID=G9511-RP4,Mapper=9,VER=Korean
-6C4E00641D7F6ADC,Dragon Crystal
 4F253839D8443AC5,Dr. Robotnik's Mean Bean Machine
 D8735FD26D415482,Dynamite Duke
 4002AEAA680311EA,Dynamite Dux
@@ -720,13 +727,11 @@ CE99027ABB34D757,Jogos de Verão II,VER=Brazilian,COMMENT=Brazilian version of Ca
 C248674DC457190E,Kenseiden,ID=G-1358,VER=Japanese
 97D1E5EB0E6664F0,KLAX,ID=301040-0160
 97D1E5EB0E6663F1,KLAX,COMMENT=This dump contains one bad byte.
-50C0B42AE27D4D66,Kung Fu Kid,VER=Export,ID=G-1324,COMMENT=Export version of "Makai Retsuden".
 6328C143CB001393,Krusty's Fun House,ID=27056-50
 C3A7D6B47AE01C96,Lemmings
 9841AB54F8EB0441,Lemmings [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
 572DF98CDFB5D98A,Lord of Sword,VER=Japanese,ID=G-1361,COMMENT=Japanese version of Lord of The Sword.
 92362CB89D5572F0,Lord of The Sword,VER=Export,ID=G-1361,COMMENT=Export version of Lord of Sword.
-DFCFA670AC174930,Makai Retsuden,VER=Japanese,ID=G-1324,COMMENT=Japanese version of "Kung Fu Kid".
 EFA3373E2142D2C4,Marble Madness
 EFA3373E2142D1C5,Marble Madness,COMMENT=This dump contains one bad byte.
 4B833BC369A0A586,Master of Darkness,COMMENT=Alternate version of Vampire.
@@ -796,9 +801,6 @@ EB6998CED0932CB7,Slap Shot [Proto],PROTO,COMMENT=This is an unfinished prototype
 4F65ACDA08A4B169,Smurfs Travel the World\, The,ID=27085-50,COMMENT=Original french title is on top and side of the box: "Les Schtroumpfs Autour du Monde".
 146FA8E655225E1A,Solomon no Kagi - Oujo Rihita no Namida,VER=Japanese,ID=Silver-002
 5A989B9EFF10EED8,Sonic Blast,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
-2F2C8E1A0AE456B9,Sonic The Hedgehog
-89244C65041595F4,Sonic The Hedgehog 2 [v0],TVTYPE=PAL/SECAM,VER=0
-9E35369CB6BB509A,Sonic The Hedgehog 2 [v1],TVTYPE=PAL/SECAM,VER=1
 33FD350EEDE48D2F,Space Gun,INPUT=LIGHTPHASER
 82CBE6058E19A67B,Space Harrier [50 Hz],ID=G-1310,TVTYPE=PAL/SECAM,COMMENT=This version of the game has color flickering on 60 Hz systems.
 0AEA3665ABDB3AB1,Space Harrier [50 / 60 Hz],ID=G-1310,COMMENT=This version of the game works both on 50 and 60 Hz systems.
@@ -815,7 +817,6 @@ F0697EEFE5278CA2,Spider-Man - vs. The Kingpin,ID=7065
 CC782C54E741D242,Streets of Rage
 C8782C54E741D246,Streets of Rage,COMMENT=This dump will work but has a few bytes wrong. You might want to get the good dump.
 40214E28DB2E75AB,Streets of Rage II
-87B23673DB921899,Strider
 44E778659B2ECD62,Strider II
 AF2D01D4A78C8B91,Summer Games
 50701F46EEB21328,Super Kick Off
