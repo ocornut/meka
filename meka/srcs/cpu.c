@@ -64,7 +64,7 @@ word    Loop_SMS (void)
         }
     }
 
-    if (tsms.VDP_Line <= 192)
+    if (tsms.VDP_Line <= cur_drv->y_int)
     {
         if (sms.Lines_Left -- <= 0)
         {
@@ -78,11 +78,14 @@ word    Loop_SMS (void)
             Interrupt = INT_IRQ;
     }
     else
+#if 1
+    {
         // --------------------------------------------------------------------------
         // New interrupt code
         // --------------------------------------------------------------------------
-#if 1
-    {
+        // FIXME: Needless to say, this is vastly incorrect but has given pretty
+        // good result so far.
+        // --------------------------------------------------------------------------
         if (tsms.VDP_Line == cur_drv->y_int + 1)
             sms.VDP_Status |= VDP_STATUS_VBlank;
         else
