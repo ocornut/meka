@@ -20,6 +20,9 @@ They are usually of 2 kinds:
     - VDP palette write do not mask out current VDP address, so performing
       the (unprobable) set address/access palette/access VRAM sequence will
       keep address in the full 16KB range. [Omar]
+    - Fixed VDP line interrupts not properly running in overscan area in 
+      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
+      BB2K6 demo. [Omar]
   - Video:
     - Changed default fullscreen blitter configuration in the hope of getting 
       something more compatible (640x480 by default), as so many people have 
