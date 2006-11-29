@@ -113,7 +113,7 @@ void    TB_Message_Switch(void)
     gui_menu_inverse_check (menus_ID.tools, 0);
 }
 
-void    TB_Message_Print (char *line)
+void    TB_Message_Print (const char *line)
 {
     t_app_messages *app = &TB_Message;  // Global instance
 

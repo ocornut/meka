@@ -549,7 +549,7 @@ t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pval
 }
 
 // FIXME: potential bug there, if wd->pvalue is NULL..
-void        widget_checkbox_update (t_widget *w)
+void        widget_checkbox_update(t_widget *w)
 {
     t_widget_data_checkbox *wd;
 
@@ -565,7 +565,7 @@ void        widget_checkbox_update (t_widget *w)
     //w->mouse_buttons = 0;
 }
 
-void        widget_checkbox_redraw (t_widget *w)
+void        widget_checkbox_redraw(t_widget *w)
 {
     t_widget_data_checkbox *wd = w->data;
 
@@ -579,7 +579,7 @@ void        widget_checkbox_redraw (t_widget *w)
     }
 }
 
-void        widget_checkbox_set_pvalue (t_widget *w, bool *pvalue)
+void        widget_checkbox_set_pvalue(t_widget *w, bool *pvalue)
 {
     t_widget_data_checkbox *wd = w->data;
     wd->pvalue = pvalue;
@@ -670,7 +670,7 @@ void        widget_textbox_set_current_color(t_widget *w, int *pcurrent_color)
     wd->pcurrent_color = pcurrent_color;
 }
 
-static void widget_textbox_print_scroll_nowrap (t_widget *w, const char *line)
+static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
 {
     t_widget_data_textbox *wd = w->data;
 
@@ -699,7 +699,7 @@ static void widget_textbox_print_scroll_nowrap (t_widget *w, const char *line)
     w->dirty = TRUE;
 }
 
-void        widget_textbox_print_scroll (t_widget *w, int wrap, const char *line)
+void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
 {
     t_widget_data_textbox *wd = w->data;
     int     pos;
@@ -708,7 +708,7 @@ void        widget_textbox_print_scroll (t_widget *w, int wrap, const char *line
 
     if (!wrap || line[0] == EOSTR || Font_TextLength (wd->font_idx, line) <= w->frame.size.x)
     {
-        widget_textbox_print_scroll_nowrap (w, line);
+        widget_textbox_print_scroll_nowrap(w, line);
         return;
     }
 
@@ -739,7 +739,7 @@ void        widget_textbox_print_scroll (t_widget *w, int wrap, const char *line
                 src--; // Rewind by one to display the character later
                 pos--;
             }
-            widget_textbox_print_scroll_nowrap (w, buf);
+            widget_textbox_print_scroll_nowrap(w, buf);
             pos = 0;
         }
         else
@@ -751,7 +751,7 @@ void        widget_textbox_print_scroll (t_widget *w, int wrap, const char *line
 
     // Some text left, print it
     if (pos != 0)
-        widget_textbox_print_scroll_nowrap (w, buf);
+        widget_textbox_print_scroll_nowrap(w, buf);
 }
 
 void        widget_textbox_printf_scroll(t_widget *w, int wrap, const char *format, ...)

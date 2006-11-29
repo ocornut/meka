@@ -33,6 +33,9 @@ They are usually of 2 kinds:
   - Debugger:
     - Added "CLOCK" command, to display/reset a Z80 cycle counter.
       Very simple but can be helpful to time Z80 routines. [Omar]
+    - (Win32) Forward debugging log to Windows debugging stream via
+      OutputDebugString(), so running MEKA from Microsoft Visual studio 
+      will display log in the 'Output' window. [Omar]
 ##- Project:
     - (Win32) Added new targets supporting shared standard libraries. [Omar]
     - Updated SOURCES.TXT documentation. [Omar]

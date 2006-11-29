@@ -31,7 +31,7 @@ void    TB_Message_Init         (void);
 void    TB_Message_Update       (void);
 void    TB_Message_Switch       (void);
 void    TB_Message_Destroy      (void);
-void    TB_Message_Print        (char *line);
+void    TB_Message_Print        (const char *line);
 
 //-----------------------------------------------------------------------------
 
