@@ -44,9 +44,9 @@ static void     Debugger_InputBoxCallback(t_widget *w);
 static bool     Debugger_CompletionCallback(t_widget *w);
 
 // Evaluator
-static bool     Debugger_Eval_GetValue(char **src, t_debugger_value *result);
+static int      Debugger_Eval_GetValue(char **src, t_debugger_value *result);
 static bool     Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result);
-static bool     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result);
+static int      Debugger_Eval_GetExpression(char **expr, t_debugger_value *result);
 static bool     Debugger_Eval_GetVariable(int variable_replacement_flags, const char *var, t_debugger_value *result);
 
 static void     Debugger_GetAccessString(int access, char buf[5])
@@ -1030,8 +1030,6 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
 //-----------------------------------------------------------------------------
 // FUNCTIONS - BUS
 //-----------------------------------------------------------------------------
-// FIXME: Generalize bus accesses, since this kind code is repeated in too many occasions. 
-//-----------------------------------------------------------------------------
 
 int      Debugger_Bus_Read(int bus, int addr)
 {
@@ -1495,6 +1493,11 @@ void        Debugger_Printf(const char *format, ...)
     va_start (param_list, format);
     vsprintf (buf, format, param_list);
     va_end (param_list);
+
+    // Output to debug console
+#ifdef WIN32
+    //OutputDebugString(buf);
+#endif
 
     // Log to file
     if (Debugger.log_file != NULL)
@@ -2221,7 +2224,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
 
         // Parse different kind of ranges (A, A.., A..B, ..B)
         p = arg;
-        if (Debugger_Eval_GetExpression(&p, &address_start))
+        if (Debugger_Eval_GetExpression(&p, &address_start) > 0)
         {
             // Default is no range, so end==start
             address_start.data = (u16)address_start.data;
@@ -2236,7 +2239,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             // Get second part of the range
             if (address_start.data == -1)
                 address_start.data = bus_info->addr_min;
-            if (Debugger_Eval_GetExpression(&p, &address_end))
+            if (Debugger_Eval_GetExpression(&p, &address_end) > 0)
                 address_end.data = (u16)address_end.data;
             else
                 address_end.data = bus_info->addr_max;
@@ -2467,7 +2470,7 @@ void        Debugger_InputParseCommand(char *line)
             Machine_Debug_Start ();
         }
 
-        if (Debugger_Eval_GetExpression(&line, &value))
+        if (Debugger_Eval_GetExpression(&line, &value) > 0)
         {
             // Continue up to...
             u16 addr = value.data;
@@ -2507,7 +2510,7 @@ void        Debugger_InputParseCommand(char *line)
             // If running, stop and entering into debugging state
             Machine_Debug_Start ();
         }
-        if (Debugger_Eval_GetExpression(&line, &value))
+        if (Debugger_Eval_GetExpression(&line, &value) > 0)
         {
             sms.R.PC.W = value.data;
             Debugger_Printf("Jump to $%04X", sms.R.PC.W);
@@ -2547,7 +2550,7 @@ void        Debugger_InputParseCommand(char *line)
         if (line[0])
         {
             char *p = line;
-            while (*p && Debugger_Eval_GetExpression(&p, &value))
+            while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
             {
                 s16 data = value.data;
                 int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
@@ -2591,7 +2594,7 @@ void        Debugger_InputParseCommand(char *line)
         {
             // Reset clock
             Debugger.cycle_counter = 0;
-            Debugger_Printf("Clock reseted");
+            Debugger_Printf("Clock reset");
             Debugger_Printf("Clock: %d cycles", Debugger.cycle_counter);
             return;
         }
@@ -2650,7 +2653,7 @@ void        Debugger_InputParseCommand(char *line)
                 {
                     // Get right value
                     t_debugger_value rvalue;
-                    if (Debugger_Eval_GetExpression(&p, &rvalue))
+                    if (Debugger_Eval_GetExpression(&p, &rvalue) > 0)
                     {
                         // Assign
                         if (rvalue.data_size > lvalue->data_size)
@@ -2704,15 +2707,27 @@ void        Debugger_InputParseCommand(char *line)
             u16 addr = sms.R.PC.W;
             int len  = 10;
             t_debugger_value value;
-            if (Debugger_Eval_GetValue(&line, &value))
+            int expr_error;
+            if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
+            {
+                Debugger_Printf("Syntax error!");
+                return;
+            }
+            if (expr_error > 0)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if (Debugger_Eval_GetValue(&line, &value))
+                if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
+                {
+                    Debugger_Printf("Syntax error!");
+                    return;
+                }
+                if (expr_error > 0)
                 {
                     len = value.data;
                 }
             }
+ 
             {
                 int i;
                 for (i = 0; i < len; i++)
@@ -2766,11 +2781,11 @@ void        Debugger_InputParseCommand(char *line)
             u16 addr = sms.R.PC.W;
             int len  = 16*8;
             t_debugger_value value;
-            if (Debugger_Eval_GetValue(&line, &value))
+            if (Debugger_Eval_GetValue(&line, &value) > 0)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if (Debugger_Eval_GetValue(&line, &value))
+                if (Debugger_Eval_GetValue(&line, &value) > 0)
                 {
                     len = value.data;
                 }
@@ -3152,14 +3167,18 @@ bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result
 //-----------------------------------------------------------------------------
 // Parse a single value out of given string.
 // Advance string pointer.
-// Return TRUE on success and fill result, else return FALSE.
+// Return:
+//  > 0 : success
+//    0 : no value found
+//  < 0 : parsing error
 //-----------------------------------------------------------------------------
-bool    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
+int    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
 {
     //t_debugger_eval_value_format value_format;
     char    token_buf[256];
     char *  token = token_buf;
     char *  src = *src_result;
+    int     expr_error;
 
     // Debugger_Printf("Debugger_Eval_GetValue(\"%s\")", src);
     parse_skip_spaces(&src);
@@ -3168,47 +3187,49 @@ bool    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
     if (*src == '(')
     {
         src++;
-        if (!Debugger_Eval_GetExpression(&src, result))
-            return (FALSE);
+        expr_error = Debugger_Eval_GetExpression(&src, result);
+        if (expr_error <= 0)
+            return (expr_error);
         if (*src != ')')
         {
             // Unterminated parenthesis
             Debugger_Printf("Syntax Error - Missing closing parenthesis!");
             *src_result = src;
-            return (FALSE);
+            return (-1);
         }
         src++;
         *src_result = src;
-        return (TRUE);
+        return (expr_error);
     }
 
     // Get token
     if (!parse_getword(token_buf, sizeof(token_buf), &src, " \t\n+-*/&|^(),.", 0, PARSE_FLAGS_DONT_EAT_SEPARATORS))
-        return (FALSE);
+        return (0);
     if (token[0] == '\0')
-        return (FALSE);
+        return (0);
 
     // Attempt to see if it's a variable
     if (Debugger_Eval_GetVariable(DEBUGGER_VARIABLE_REPLACEMENT_ALL, token, result))
     {
         *src_result = src;
-        return (TRUE);
+        return (1);
     }
 
     // Else a direct value
     if (Debugger_Eval_GetValueDirect(token, result))
     {
         *src_result = src;
-        return (TRUE);
+        return (1);
     }
 
-    return (FALSE);
+    return (-1);
 }
 
-static bool Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *result)
+static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *result)
 {
     char *  p;
     char    op;
+    int     expr_error;
     t_debugger_value value1;
     t_debugger_value value2;
 
@@ -3219,15 +3240,16 @@ static bool Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     if (p[0] == '\0')
     {
         // Empty expression
-        return (FALSE);
+        return (0);
     }
 
     // Get first value
-    if (!Debugger_Eval_GetValue(&p, &value1))
+    expr_error = Debugger_Eval_GetValue(&p, &value1);
+    if (expr_error <= 0)
     {
         Debugger_Printf("Syntax error at \"%s\"!", p);
         Debugger_Printf("                 ^ invalid value or label");
-        return (FALSE);
+        return (expr_error);
     }
     for (;;)
     {
@@ -3252,16 +3274,17 @@ static bool Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
         {
             Debugger_Printf("Syntax error at \"%s\"!", p);
             Debugger_Printf("                 ^ unexpected operator");
-            return (FALSE);
+            return (-1);
         }
         p++;
 
         // Get a second value (since all our operator are binary operator now)
-        if (!Debugger_Eval_GetValue(&p, &value2))
+        expr_error = Debugger_Eval_GetValue(&p, &value2);
+        if (expr_error <= 0)
         {
             Debugger_Printf("Syntax error at \"%s\"!", p);
             Debugger_Printf("                 ^ invalid value or label");
-            return (FALSE);
+            return (expr_error);
         }
 
         {
@@ -3294,7 +3317,7 @@ static bool Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     // Ok
     *result = value1;
     *expr = p;
-    return (TRUE);
+    return (1);
 }
 
 //-----------------------------------------------------------------------------
@@ -3302,7 +3325,10 @@ static bool Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
 //-----------------------------------------------------------------------------
 // Parse and evaluate expression from given string.
 // Advance string pointer.
-// Return TRUE on success and fill result, else return FALSE.
+// Return:
+//  > 0 : success
+//    0 : no value found
+//  < 0 : parsing error
 //-----------------------------------------------------------------------------
 // Expression exemples:
 //  A
@@ -3312,10 +3338,11 @@ static bool Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
 //  A+(B*C)
 //  ((0xFF^0x10)&%11110000)
 //-----------------------------------------------------------------------------
-bool    Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
+int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
 {
     char *  p;
     char    op;
+    int     expr_error;
     t_debugger_value value1;
     t_debugger_value value2;
 
@@ -3326,12 +3353,13 @@ bool    Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
     if (p[0] == '\0')
     {
         // Empty expression
-        return (FALSE);
+        return (0);
     }
 
     // Get first expression block
-    if (!Debugger_Eval_GetExpression_Block(&p, &value1))
-        return (FALSE);
+    expr_error = Debugger_Eval_GetExpression_Block(&p, &value1);
+    if (expr_error <= 0)
+        return (expr_error);
 
     for (;;)
     {
@@ -3352,16 +3380,19 @@ bool    Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
         {
             Debugger_Printf("Syntax error at \"%s\"!", p);
             Debugger_Printf("                 ^ unexpected operator");
-            return (FALSE);
+            return (-1);
         }
         p++;
 
         // Get a second expression block (since all our operator are binary operator now)
-        if (!Debugger_Eval_GetExpression_Block(&p, &value2))
+        expr_error = Debugger_Eval_GetExpression_Block(&p, &value2);
+        if (expr_error < 0)
+            return (expr_error);
+        if (expr_error == 0)
         {
             Debugger_Printf("Syntax error at \"%s\"!", p);
             Debugger_Printf("                 ^ invalid value or label");
-            return (FALSE);
+            return (-1);
         }
 
         {
@@ -3385,7 +3416,7 @@ bool    Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
     // Ok
     *result = value1;
     *expr = p;
-    return (TRUE);
+    return (1);
 }
 
 //-----------------------------------------------------------------------------
