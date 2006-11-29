@@ -161,14 +161,15 @@ static void     Configuration_Load_Line (char *variable, char *value)
              if (!strcmp (value, "digital"))
                 Sound.FM_Emulator_Current = FM_EMULATOR_EMU2413;
              break;
-    #ifdef MEKA_OPL
     // opl_speed
-    case 8:  n = atoi (value);
+    case 8:  
+#ifdef MEKA_OPL
+             n = atoi (value);
              if (n < 0)
                  n = 0;
              Sound.OPL_Speed = n;
+#endif // MEKA_OPL
              break;
-    #endif
     //-------------------------------------------------------------------------
     // gui_video_mode
     case 9:  
