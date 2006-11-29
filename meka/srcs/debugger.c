@@ -451,23 +451,23 @@ static void Debugger_Init_LogFile(void)
         sprintf(filename, "%s/%s", Env.Paths.DebugDirectory, Debugger.log_filename);
         Debugger.log_file = fopen(filename, "a+t");
         if (Debugger.log_file != NULL)
-            fprintf (Debugger.log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
+            fprintf(Debugger.log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
     }
 }
 
 void        Debugger_Init (void)
 {
-    ConsolePrintf ("%s\n", Msg_Get (MSG_Debug_Init));
-    Debugger_Applet_Init ();
+    ConsolePrintf("%s\n", Msg_Get (MSG_Debug_Init));
+    Debugger_Applet_Init();
 
     // Open log file
     if (Debugger.active)
         Debugger_Init_LogFile();
 
     // Print welcome line
-    Debugger_Printf (Msg_Get (MSG_Debug_Welcome));
-    Debugger_Printf ("Enter H for help. Open HELP menu for details.");
-    Debugger_Printf ("Press TAB for completion.");
+    Debugger_Printf("%s\n", Msg_Get (MSG_Debug_Welcome));
+    Debugger_Printf("Enter H for help. Open HELP menu for details.\n");
+    Debugger_Printf("Press TAB for completion.\n");
 }
 
 void        Debugger_Close (void)
@@ -500,7 +500,7 @@ void        Debugger_MachineReset(void)
 		return;
 
 	// Reset breakpoint on CPU
-    Debugger_Printf (Msg_Get (MSG_Machine_Reset));
+    Debugger_Printf("%s\n", Msg_Get (MSG_Machine_Reset));
     Debugger_SetTrap(0x0000);
     sms.R.Trace = 1;
 
@@ -559,7 +559,7 @@ void        Debugger_Update(void)
 int         Debugger_Hook(Z80 *R)
 {
     const u16 pc = R->PC.W;
-    // Debugger_Printf("hook, pc=%04X", pc);
+    // Debugger_Printf("hook, pc=%04X\n", pc);
 
     // If in stepping, disable current hook/breakpoint
     // Note that the stepping flag is reseted after each opcode execution, so it
@@ -578,7 +578,7 @@ int         Debugger_Hook(Z80 *R)
 
     // If we arrived from a trap, print a line about it
     if (pc == Debugger.trap_address)
-        Debugger_Printf("Break at $%04X", pc);
+        Debugger_Printf("Break at $%04X\n", pc);
 
     // If we arrived from a breakpoint CPU exec trap...
     if (Debugger_CPU_Exec_Traps[pc])
@@ -648,19 +648,19 @@ void                        Debugger_BreakPoints_Clear(bool disabled_only)
         Debugger_BreakPoint_Remove(breakpoint);
     }
     if (disabled_only)
-        Debugger_Printf("Disabled breakpoints cleared.");
+        Debugger_Printf("Disabled breakpoints cleared.\n");
     else
-        Debugger_Printf("Breakpoints cleared.");
+        Debugger_Printf("Breakpoints cleared.\n");
 }
 
 void                        Debugger_BreakPoints_List(void)
 {
     t_list *breakpoints;
     
-    Debugger_Printf("Breakpoints/Watchpoints:");
+    Debugger_Printf("Breakpoints/Watchpoints:\n");
     if (Debugger.breakpoints == NULL)
     {
-        Debugger_Printf(" <None>");
+        Debugger_Printf(" <None>\n");
         return;
     }
     for (breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
@@ -668,7 +668,7 @@ void                        Debugger_BreakPoints_List(void)
         t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
         char buf[256];
         Debugger_BreakPoint_GetSummaryLine(breakpoint, buf);
-        Debugger_Printf(" %s", buf);
+        Debugger_Printf(" %s\n", buf);
     }
 }
 
@@ -914,7 +914,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
     const char *action;
     char buf[256];
 
-    // Debugger_Printf("Debugger_BreakPoint_ActivatedVerbose() %04x", addr);
+    // Debugger_Printf("Debugger_BreakPoint_ActivatedVerbose() %04x\n", addr);
 
     // Data comparer
     // FIXME
@@ -947,7 +947,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
         if (++Debugger.watch_counter >= 100)
         {
             if (Debugger.watch_counter == 100)
-                Debugger_Printf("Maximum number of watch triggered this frame (100)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.");
+                Debugger_Printf("Maximum number of watch triggered this frame (100)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.\n");
             return (TRUE);
         }
         action = "watch";
@@ -1022,7 +1022,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
         }
     }
 
-    Debugger_Printf("%s", buf);
+    Debugger_Printf("%s\n", buf);
 
     return (TRUE);
 }
@@ -1075,6 +1075,7 @@ void     Debugger_Symbols_Load(void)
     t_tfile *   symbol_file;
     t_list *    lines;
     int         line_cnt;
+    char        buf[256];
 
     // First, clear any existing symbol
     Debugger_Symbols_Clear();
@@ -1156,8 +1157,8 @@ void     Debugger_Symbols_Load(void)
     list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByAddress);
 
     // Verbose
-    Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Loaded), Debugger.symbols_count, symbol_filename);
-    Debugger_Printf(Msg_Get(MSG_Debug_Symbols_Loaded), Debugger.symbols_count, symbol_filename);
+    sprintf(buf, Msg_Get(MSG_Debug_Symbols_Loaded), Debugger.symbols_count, symbol_filename);
+    Debugger_Printf("%s\n", buf);
 }
 
 void    Debugger_Symbols_Clear(void)
@@ -1179,13 +1180,13 @@ void    Debugger_Symbols_List(char *search_name)
     
     if (search_name)
     {
-        Debugger_Printf("Symbols matching \"%s\":", search_name);
+        Debugger_Printf("Symbols matching \"%s\":\n", search_name);
         search_name = strdup(search_name);
         strupr(search_name);
     }
     else
     {
-        Debugger_Printf("Symbols:");
+        Debugger_Printf("Symbols:\n");
     }
 
     count = 0;
@@ -1198,15 +1199,15 @@ void    Debugger_Symbols_List(char *search_name)
             if (strstr(symbol->name_uppercase, search_name) == NULL)
                 continue;
         count++;
-        Debugger_Printf(" %04X  %s", symbol->addr, symbol->name);
+        Debugger_Printf(" %04X  %s\n", symbol->addr, symbol->name);
     }
     if (count == 0)
     {
-        Debugger_Printf(" <None>");
+        Debugger_Printf(" <None>\n");
     }
     else
     {
-        Debugger_Printf("%d symbols", count);
+        Debugger_Printf("%d symbols\n", count);
     }
     if (search_name != NULL)
     {
@@ -1480,7 +1481,7 @@ void        Debugger_Switch (void)
 }
 
 //-----------------------------------------------------------------------------
-// Debugger_Printf ()
+// Debugger_Printf()
 //-----------------------------------------------------------------------------
 // Print a formatted line to the debugger console
 //-----------------------------------------------------------------------------
@@ -1496,13 +1497,13 @@ void        Debugger_Printf(const char *format, ...)
 
     // Output to debug console
 #ifdef WIN32
-    //OutputDebugString(buf);
+    OutputDebugString(buf);
 #endif
 
     // Log to file
     if (Debugger.log_file != NULL)
     {
-        fprintf(Debugger.log_file, "%s\n", buf);
+        fprintf(Debugger.log_file, "%s", buf);
         fflush(Debugger.log_file);
     }
 
@@ -1516,9 +1517,9 @@ void        Debugger_Printf(const char *format, ...)
         {
             *p++ = EOSTR;
         }
-        widget_textbox_print_scroll (DebuggerApp.console, TRUE, line);
+        widget_textbox_print_scroll(DebuggerApp.console, TRUE, line);
     }
-    while (p != NULL);
+    while (p != NULL && *p != EOSTR);
 }
 
 //-----------------------------------------------------------------------------
@@ -1908,33 +1909,33 @@ static void     Debugger_Help(const char *cmd)
     if (cmd == NULL)
     {
         // Generic help
-        Debugger_Printf ("Debugger Help:" );
-        Debugger_Printf ("-- Flow:");
-        Debugger_Printf (" <CR>                   : Step into"                  );
-        Debugger_Printf (" S                      : Step over"                  );
-        Debugger_Printf (" C [addr]               : Continue (up to <addr>)"    );
-        Debugger_Printf (" J addr                 : Jump to <addr>"             );
-        Debugger_Printf ("-- Breakpoints:");
-        Debugger_Printf (" B [access] [bus] addr  : Add breakpoint"             );
-        Debugger_Printf (" W [access] [bus] addr  : Add watchpoint"             );
-        Debugger_Printf (" B                      : Detailed breakpoint help"   );
-        //Debugger_Printf (" B LIST                 : List breakpoints"          );
-        //Debugger_Printf (" B REMOVE n             : Remove breakpoint"         );
-        //Debugger_Printf (" B ENABLE/DISABLE n     : Enable/disable breakpoint" );
-        //Debugger_Printf (" B CLEAR                : Clear breakpoints"         );
-        Debugger_Printf ("-- Inspect/Modify:");
-        Debugger_Printf (" R                      : Dump Z80 registers"         );
-        Debugger_Printf (" P expr                 : Print evaluated expression" );
-        Debugger_Printf (" M [addr] [len]         : Memory dump at <addr>"      );
-        Debugger_Printf (" D [addr] [cnt]         : Disassembly at <addr>"      );
-        Debugger_Printf (" SYM [name]             : List symbols"               );
-        Debugger_Printf (" SET register=value     : Set Z80 register"           );
-        Debugger_Printf (" CLOCK [RESET]          : Display Z80 cycle counter"  );
-        Debugger_Printf ("-- Miscellaenous:");
-        Debugger_Printf (" MEMEDIT [lines] [cols] : Spawn memory editor"        );
-        Debugger_Printf (" HISTORY [word]         : Print/search history"       );
-        Debugger_Printf (" H,? [command]          : Help"                       );
-        Debugger_Printf ("Use H for detailed help on individual command."       );
+        Debugger_Printf("Debugger Help:\n");
+        Debugger_Printf("-- Flow:\n");
+        Debugger_Printf(" <CR>                   : Step into"                  "\n");
+        Debugger_Printf(" S                      : Step over"                  "\n");
+        Debugger_Printf(" C [addr]               : Continue (up to <addr>)"    "\n");
+        Debugger_Printf(" J addr                 : Jump to <addr>"             "\n");
+        Debugger_Printf("-- Breakpoints:\n");
+        Debugger_Printf(" B [access] [bus] addr  : Add breakpoint"             "\n");
+        Debugger_Printf(" W [access] [bus] addr  : Add watchpoint"             "\n");
+        Debugger_Printf(" B                      : Detailed breakpoint help"   "\n");
+        //Debugger_Printf(" B LIST                 : List breakpoints"          "\n");
+        //Debugger_Printf(" B REMOVE n             : Remove breakpoint"         "\n");
+        //Debugger_Printf(" B ENABLE/DISABLE n     : Enable/disable breakpoint" "\n");
+        //Debugger_Printf(" B CLEAR                : Clear breakpoints"         "\n");
+        Debugger_Printf("-- Inspect/Modify:\n");
+        Debugger_Printf(" R                      : Dump Z80 registers"         "\n");
+        Debugger_Printf(" P expr                 : Print evaluated expression" "\n");
+        Debugger_Printf(" M [addr] [len]         : Memory dump at <addr>"      "\n");
+        Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
+        Debugger_Printf(" SYM [name]             : List symbols"               "\n");
+        Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
+        Debugger_Printf(" CLOCK [RESET]          : Display Z80 cycle counter"  "\n");
+        Debugger_Printf("-- Miscellaenous:\n");
+        Debugger_Printf(" MEMEDIT [lines] [cols] : Spawn memory editor"        "\n");
+        Debugger_Printf(" HISTORY [word]         : Print/search history"       "\n");
+        Debugger_Printf(" H,? [command]          : Help"                       "\n");
+        Debugger_Printf("Use H for detailed help on individual command."       "\n");
     }
     else
     {
@@ -1944,12 +1945,12 @@ static void     Debugger_Help(const char *cmd)
         {
             if ((command_info->command_short) && !stricmp(cmd, command_info->command_short) || (command_info->command_long && !stricmp(cmd, command_info->command_long)))
             {
-                Debugger_Printf("%s", command_info->description);
+                Debugger_Printf("%s\n", command_info->description);
                 return;
             }
             command_info++;
         }
-        Debugger_Printf("Unknown command \"%s\" !", cmd);
+        Debugger_Printf("Unknown command \"%s\" !\n", cmd);
     }
 }
 
@@ -1991,8 +1992,8 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                 Debugger_BreakPoints_Clear(TRUE);
                 return;
             }
-            Debugger_Printf("Syntax error!");
-            Debugger_Printf("Type HELP B for usage instruction.");
+            Debugger_Printf("Syntax error!\n");
+            Debugger_Printf("Type HELP B for usage instruction.\n");
             return;
         }
         Debugger_BreakPoints_Clear(FALSE);
@@ -2004,7 +2005,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     {
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
-            Debugger_Printf("Missing parameter!");
+            Debugger_Printf("Missing parameter!\n");
         }
         else
         {
@@ -2016,7 +2017,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                     t_debugger_breakpoint *breakpoint = breakpoints->elem;
                     Debugger_BreakPoint_Enable(breakpoint);
                 }
-                Debugger_Printf("Enabled all breakpoints/watchpoints.");
+                Debugger_Printf("Enabled all breakpoints/watchpoints.\n");
             }
             else
             {
@@ -2027,19 +2028,19 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                     char buf[256];
                     if (breakpoint->enabled)
                     {
-                        Debugger_Printf("%s [%d] already enabled.", Debugger_BreakPoint_GetTypeName(breakpoint), id);
+                        Debugger_Printf("%s [%d] already enabled.\n", Debugger_BreakPoint_GetTypeName(breakpoint), id);
                     }
                     else
                     {
                         Debugger_BreakPoint_Enable(breakpoint);
-                        Debugger_Printf("%s [%d] enabled.", Debugger_BreakPoint_GetTypeName(breakpoint), id);
+                        Debugger_Printf("%s [%d] enabled.\n", Debugger_BreakPoint_GetTypeName(breakpoint), id);
                     }
                     Debugger_BreakPoint_GetSummaryLine(breakpoint, buf);
-                    Debugger_Printf(" %s", buf);
+                    Debugger_Printf(" %s\n", buf);
                 }
                 else
                 {
-                    Debugger_Printf("Breakpoint [%s] not found!", arg);
+                    Debugger_Printf("Breakpoint [%s] not found!\n", arg);
                 }
             }
         }
@@ -2051,7 +2052,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     {
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
-            Debugger_Printf("Missing parameter!");
+            Debugger_Printf("Missing parameter!\n");
         }
         else
         {
@@ -2063,7 +2064,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                     t_debugger_breakpoint *breakpoint = breakpoints->elem;
                     Debugger_BreakPoint_Disable(breakpoint);
                 }
-                Debugger_Printf("Disabled all breakpoints/watchpoints.");
+                Debugger_Printf("Disabled all breakpoints/watchpoints.\n");
             }
             else
             {
@@ -2074,19 +2075,19 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                     char buf[256];
                     if (!breakpoint->enabled)
                     {
-                        Debugger_Printf("%s [%d] already disabled.", Debugger_BreakPoint_GetTypeName(breakpoint), id);
+                        Debugger_Printf("%s [%d] already disabled.\n", Debugger_BreakPoint_GetTypeName(breakpoint), id);
                     }
                     else
                     {
                         Debugger_BreakPoint_Disable(breakpoint);
-                        Debugger_Printf("%s [%d] disabled.", Debugger_BreakPoint_GetTypeName(breakpoint), id);
+                        Debugger_Printf("%s [%d] disabled.\n", Debugger_BreakPoint_GetTypeName(breakpoint), id);
                     }
                     Debugger_BreakPoint_GetSummaryLine(breakpoint, buf);
-                    Debugger_Printf(" %s", buf);
+                    Debugger_Printf(" %s\n", buf);
                 }
                 else
                 {
-                    Debugger_Printf("Breakpoint [%s] not found!", arg);
+                    Debugger_Printf("Breakpoint [%s] not found!\n", arg);
                 }
             }
         }
@@ -2098,7 +2099,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     {
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
-            Debugger_Printf("Missing parameter!");
+            Debugger_Printf("Missing parameter!\n");
         }
         else
         {
@@ -2106,12 +2107,12 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             t_debugger_breakpoint *breakpoint = Debugger_BreakPoints_SearchById(id);
             if (breakpoint)
             {
-                Debugger_Printf("%s [%d] removed.", Debugger_BreakPoint_GetTypeName(breakpoint), id);
+                Debugger_Printf("%s [%d] removed.\n", Debugger_BreakPoint_GetTypeName(breakpoint), id);
                 Debugger_BreakPoint_Remove(breakpoint);
             }
             else
             {
-                Debugger_Printf("Breakpoint [%s] not found!", arg);
+                Debugger_Printf("Breakpoint [%s] not found!\n", arg);
             }
         }
         return;
@@ -2141,7 +2142,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         }
         if (type == BREAKPOINT_TYPE_WATCH && (access & BREAKPOINT_ACCESS_X)) // Watch
         {
-            Debugger_Printf("Cannot watch execution. Use breakpoints.");
+            Debugger_Printf("Cannot watch execution. Use breakpoints.\n");
             return;
         }
     }
@@ -2150,8 +2151,8 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         // Get next argument
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
-            Debugger_Printf("Missing parameter!");
-            Debugger_Printf("Type HELP B/W for usage instruction.");
+            Debugger_Printf("Missing parameter!\n");
+            Debugger_Printf("Type HELP B/W for usage instruction.\n");
             return;
         }
     }
@@ -2177,8 +2178,8 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         // Get next argument
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
-            Debugger_Printf("Syntax error!");
-            Debugger_Printf("Type HELP B/W for usage instruction.");
+            Debugger_Printf("Syntax error!\n");
+            Debugger_Printf("Type HELP B/W for usage instruction.\n");
             return;
         }
     }
@@ -2199,7 +2200,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             char buf[5];
             Debugger_GetAccessString(access_unpermitted, buf);
-            Debugger_Printf("Access %s not permitted on this bus.", buf);
+            Debugger_Printf("Access %s not permitted on this bus.\n", buf);
             return;
         }
     }
@@ -2247,35 +2248,35 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
 
         if (p[0] != '\0')
         {
-            Debugger_Printf("Syntax error!");
-            Debugger_Printf("Type HELP B for usage instruction.");
+            Debugger_Printf("Syntax error!\n");
+            Debugger_Printf("Type HELP B for usage instruction.\n");
             return;
         }
 
         if (address_start.data == -1 || address_end.data == -1)
         {
-            Debugger_Printf("Syntax error!");
-            Debugger_Printf("Type HELP B for usage instruction.");
+            Debugger_Printf("Syntax error!\n");
+            Debugger_Printf("Type HELP B for usage instruction.\n");
             return;
         }
 
         // Check out address range
         if (address_end.data < address_start.data)
         {
-            Debugger_Printf("Second address in range must be higher.");
+            Debugger_Printf("Second address in range must be higher.\n");
             return;
         }
         if (address_start.data < (u32)bus_info->addr_min || address_start.data > (u32)bus_info->addr_max)
         {
             if (bus_info->location == BREAKPOINT_LOCATION_LINE)
             {
-                Debugger_Printf("Address %X is out of %s range (%d..%d).", 
+                Debugger_Printf("Address %X is out of %s range (%d..%d).\n", 
                     address_start.data, 
                     bus_info->name, bus_info->addr_min, bus_info->addr_max);
             }
             else
             {
-                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).", 
+                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).\n", 
                     address_start.data, 
                     bus_info->name, bus_info->bus_addr_size * 2, bus_info->addr_min, bus_info->bus_addr_size * 2, bus_info->addr_max);
             }
@@ -2285,13 +2286,13 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             if (bus_info->location == BREAKPOINT_LOCATION_LINE)
             {
-                Debugger_Printf("Address %X is out of %s range (%d..%d).", 
+                Debugger_Printf("Address %X is out of %s range (%d..%d).\n", 
                     address_end.data, 
                     bus_info->name, bus_info->addr_min, bus_info->addr_max);
             }
             else
             {
-                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).", 
+                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).\n", 
                     address_end.data, 
                     bus_info->name, bus_info->bus_addr_size * 2, bus_info->addr_min, bus_info->bus_addr_size * 2, bus_info->addr_max);
             }
@@ -2320,24 +2321,24 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             if (data_compare_length >= data_compare_length_max)
             {
                 if (data_compare_length_max == 0)
-                    Debugger_Printf("Error: data comparing on this bus is not allowed!");
+                    Debugger_Printf("Error: data comparing on this bus is not allowed!\n");
                 else
-                    Debugger_Printf("Error: data comparing on this bus is limited to %d bytes!", data_compare_length_max);
+                    Debugger_Printf("Error: data comparing on this bus is limited to %d bytes!\n", data_compare_length_max);
                 return;
             }
             if ((access & BREAKPOINT_ACCESS_W) && (data_compare_length >= 1))
             {
-                Debugger_Printf("Error: data comparing for write accesses is limited to 1 byte! Only read/execute accesses can uses more.");
+                Debugger_Printf("Error: data comparing for write accesses is limited to 1 byte! Only read/execute accesses can uses more.\n");
                 return;
             }
             if (!Debugger_Eval_GetValueDirect(value_buf, &value))
             {
-                Debugger_Printf("Syntax error!");
+                Debugger_Printf("Syntax error!\n");
                 return;
             }
             if (value.data & ~0xFF)
             {
-                Debugger_Printf("Error: comparing values must be given in bytes.\n\"%s\" doesn't fit in byte.",
+                Debugger_Printf("Error: comparing values must be given in bytes.\n\"%s\" doesn't fit in byte.\n",
                     value_buf);
                 return;
             }
@@ -2365,8 +2366,8 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             }
             else
             {
-                Debugger_Printf("Syntax error!");
-                Debugger_Printf("Type HELP B for usage instruction.");
+                Debugger_Printf("Syntax error!\n");
+                Debugger_Printf("Type HELP B for usage instruction.\n");
                 return;
             }
         }
@@ -2405,9 +2406,9 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         }
  
         // Verbose
-        Debugger_Printf("%s [%d] added.", Debugger_BreakPoint_GetTypeName(breakpoint), breakpoint->id);
+        Debugger_Printf("%s [%d] added.\n", Debugger_BreakPoint_GetTypeName(breakpoint), breakpoint->id);
         Debugger_BreakPoint_GetSummaryLine(breakpoint, buf);
-        Debugger_Printf(" %s", buf);
+        Debugger_Printf(" %s\n", buf);
     }
 
 
@@ -2460,28 +2461,28 @@ void        Debugger_InputParseCommand(char *line)
         t_debugger_value value;
         if (!(machine & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running");
+            Debugger_Printf("Command unavailable while machine is not running\n");
             return;
         }
 
         if (!(machine & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
-            Machine_Debug_Start ();
+            Machine_Debug_Start();
         }
 
         if (Debugger_Eval_GetExpression(&line, &value) > 0)
         {
             // Continue up to...
             u16 addr = value.data;
-            Debugger_Printf ("Continuing up to $%04X", addr);
-            Debugger_SetTrap (addr);
+            Debugger_Printf("Continuing up to $%04X\n", addr);
+            Debugger_SetTrap(addr);
         }
         else
         {
             // Continue
             // Disable one-time trap
-            Debugger_SetTrap (-1);
+            Debugger_SetTrap(-1);
         }
 
         // Stop tracing
@@ -2502,7 +2503,7 @@ void        Debugger_InputParseCommand(char *line)
         t_debugger_value value;
         if (!(machine & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running");
+            Debugger_Printf("Command unavailable while machine is not running!\n");
             return;
         }
         if (!(machine & MACHINE_DEBUGGING))
@@ -2513,12 +2514,12 @@ void        Debugger_InputParseCommand(char *line)
         if (Debugger_Eval_GetExpression(&line, &value) > 0)
         {
             sms.R.PC.W = value.data;
-            Debugger_Printf("Jump to $%04X", sms.R.PC.W);
+            Debugger_Printf("Jump to $%04X\n", sms.R.PC.W);
             Debugger_Applet_Redraw_State();
         }
         else
         {
-            Debugger_Printf ("Missing parameter!");
+            Debugger_Printf("Missing parameter!\n");
         }
         return;
     }
@@ -2528,7 +2529,7 @@ void        Debugger_InputParseCommand(char *line)
     {
         if (!(machine & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running");
+            Debugger_Printf("Command unavailable while machine is not running!\n");
         }
         else
         {
@@ -2566,7 +2567,7 @@ void        Debugger_InputParseCommand(char *line)
                     sprintf(char_s, "'%c'", data & 0xFF);
                 else
                     sprintf(char_s, "N/A");
-                Debugger_Printf(" $%0*hX  bin: %%%s.%s  asc: %s  dec: %d", data_size_bytes * 2, data, binary_s[1], binary_s[0], char_s, data);
+                Debugger_Printf(" $%0*hX  bin: %%%s.%s  asc: %s  dec: %d\n", data_size_bytes * 2, data, binary_s[1], binary_s[0], char_s, data);
 
                 // Skip comma to get to next expression, if any
                 if (*p == ',')
@@ -2586,7 +2587,7 @@ void        Debugger_InputParseCommand(char *line)
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
             // Display clock
-            Debugger_Printf("Clock: %d cycles", Debugger.cycle_counter);
+            Debugger_Printf("Clock: %d cycles\n", Debugger.cycle_counter);
             return;
         }
 
@@ -2594,8 +2595,8 @@ void        Debugger_InputParseCommand(char *line)
         {
             // Reset clock
             Debugger.cycle_counter = 0;
-            Debugger_Printf("Clock reset");
-            Debugger_Printf("Clock: %d cycles", Debugger.cycle_counter);
+            Debugger_Printf("Clock reset\n");
+            Debugger_Printf("Clock: %d cycles\n", Debugger.cycle_counter);
             return;
         }
 
@@ -2624,7 +2625,7 @@ void        Debugger_InputParseCommand(char *line)
                 // Get variable name to assign too
                 if (!parse_getword(arg, sizeof(arg), &p, "=", 0, PARSE_FLAGS_NONE))
                 {
-                    Debugger_Printf("Missing parameter!");
+                    Debugger_Printf("Missing parameter!\n");
                     Debugger_Help("SET");
                     return;
                 }
@@ -2658,7 +2659,7 @@ void        Debugger_InputParseCommand(char *line)
                         // Assign
                         if (rvalue.data_size > lvalue->data_size)
                             if (rvalue.data & ~((1 << lvalue->data_size) - 1))
-                                Debugger_Printf("Warning: value truncated from %d to %d bits.", rvalue.data_size, lvalue->data_size);
+                                Debugger_Printf("Warning: value truncated from %d to %d bits.\n", rvalue.data_size, lvalue->data_size);
                         Debugger_Value_Write(lvalue, rvalue.data);
                     }
                     else
@@ -2669,7 +2670,7 @@ void        Debugger_InputParseCommand(char *line)
                 }
                 else
                 {
-                    Debugger_Printf("Unknown variable: %s", arg);
+                    Debugger_Printf("Unknown variable: %s\n", arg);
                 }
 
                 // Skip comma to get to next expression, if any
@@ -2691,7 +2692,7 @@ void        Debugger_InputParseCommand(char *line)
         const int lines_count = Debugger_GetZ80SummaryLines(&lines, FALSE);
         int i;
         for (i = 0; i != lines_count; i++)
-            Debugger_Printf("%s", lines[i]);
+            Debugger_Printf("%s\n", lines[i]);
         return;
     }
 
@@ -2700,7 +2701,7 @@ void        Debugger_InputParseCommand(char *line)
     {
         if (!(machine & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running");
+            Debugger_Printf("Command unavailable while machine is not running!\n");
         }
         else
         {
@@ -2710,7 +2711,7 @@ void        Debugger_InputParseCommand(char *line)
             int expr_error;
             if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
             {
-                Debugger_Printf("Syntax error!");
+                Debugger_Printf("Syntax error!\n");
                 return;
             }
             if (expr_error > 0)
@@ -2719,7 +2720,7 @@ void        Debugger_InputParseCommand(char *line)
                 parse_skip_spaces(&line);
                 if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
                 {
-                    Debugger_Printf("Syntax error!");
+                    Debugger_Printf("Syntax error!\n");
                     return;
                 }
                 if (expr_error > 0)
@@ -2742,16 +2743,16 @@ void        Debugger_InputParseCommand(char *line)
                         for (symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
                         {
                             t_debugger_symbol *symbol = symbols->elem;
-                            Debugger_Printf("%s:", symbol->name);
+                            Debugger_Printf("%s:\n", symbol->name);
                         }
 
                         // Display instruction
-                        Debugger_Printf(" %s", buf);
+                        Debugger_Printf(" %s\n", buf);
                     }
                     else
                     {
                         // Note the subtle difference: no space before '%s'
-                        Debugger_Printf("%s", buf);
+                        Debugger_Printf("%s\n", buf);
                     }
                 }
             }
@@ -2774,7 +2775,7 @@ void        Debugger_InputParseCommand(char *line)
     {
         if (!(machine & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running");
+            Debugger_Printf("Command unavailable while machine is not running!\n");
         }
         else
         {
@@ -2816,8 +2817,9 @@ void        Debugger_InputParseCommand(char *line)
                     p += 2;
                     for (i = 0; i < line_len; i++)
                         *p++ = (isprint(data[i]) ? data[i] : '.');
+                    *p++ = '\n';
                     *p = EOSTR;
-                    Debugger_Printf (buf);
+                    Debugger_Printf(buf);
                     addr += 8;
                     len -= line_len;
                 }
@@ -2835,7 +2837,7 @@ void        Debugger_InputParseCommand(char *line)
         {
             if (sscanf(arg, "%d", &size_y) < 1)
             {
-                Debugger_Printf("Syntax error!");
+                Debugger_Printf("Syntax error!\n");
                 Debugger_Help("MEMEDIT");
             }
         }
@@ -2843,7 +2845,7 @@ void        Debugger_InputParseCommand(char *line)
         {
             if (sscanf(arg, "%d", &size_x) < 1)
             {
-                Debugger_Printf("Syntax error!");
+                Debugger_Printf("Syntax error!\n");
                 Debugger_Help("MEMEDIT");
             }
         }
@@ -2852,7 +2854,7 @@ void        Debugger_InputParseCommand(char *line)
     }
 
     // Unknown command
-    Debugger_Printf ("Syntax error");
+    Debugger_Printf("Syntax error!\n");
 }
 
 //-----------------------------------------------------------------------------
@@ -2889,7 +2891,7 @@ void        Debugger_InputBoxCallback(t_widget *w)
             {
                 // Activate debugging
                 Debugger.stepping = 0;
-                Debugger_Printf("Breaking at $%04X", sms.R.PC.W);
+                Debugger_Printf("Breaking at $%04X\n", sms.R.PC.W);
                 Debugger_Applet_Redraw_State();
                 Machine_Debug_Start();
                 //Debugger_Hook (&sms.R);
@@ -2905,7 +2907,7 @@ void        Debugger_InputBoxCallback(t_widget *w)
     // Print line to the console, as a user command log
     // Note: passing address of the color because we need a theme switch to be reflected on this
     widget_textbox_set_current_color(DebuggerApp.console, &COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT);
-    Debugger_Printf ("# %s", line_buf);
+    Debugger_Printf("# %s\n", line_buf);
     widget_textbox_set_current_color(DebuggerApp.console, &COLOR_SKIN_WINDOW_TEXT);
 
     // Parse command
@@ -3104,7 +3106,7 @@ bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result
 {
     t_debugger_eval_value_format value_format;
 
-    // Debugger_Printf(" - token = %s", token);
+    // Debugger_Printf(" - token = %s\n", token);
 
     // Assume default hexadecimal
     value_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX;
@@ -3180,7 +3182,7 @@ int    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
     char *  src = *src_result;
     int     expr_error;
 
-    // Debugger_Printf("Debugger_Eval_GetValue(\"%s\")", src);
+    // Debugger_Printf("Debugger_Eval_GetValue(\"%s\")\n", src);
     parse_skip_spaces(&src);
 
     // Parenthesis open a sub expression
@@ -3193,7 +3195,7 @@ int    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
         if (*src != ')')
         {
             // Unterminated parenthesis
-            Debugger_Printf("Syntax Error - Missing closing parenthesis!");
+            Debugger_Printf("Syntax Error - Missing closing parenthesis!\n");
             *src_result = src;
             return (-1);
         }
@@ -3234,7 +3236,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     t_debugger_value value2;
 
     p = (char *)*expr; 
-    // Debugger_Printf("Debugger_Eval_GetExpression_Block(\"%s\")", p);
+    // Debugger_Printf("Debugger_Eval_GetExpression_Block(\"%s\")\n", p);
 
     parse_skip_spaces(&p);
     if (p[0] == '\0')
@@ -3247,8 +3249,8 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     expr_error = Debugger_Eval_GetValue(&p, &value1);
     if (expr_error <= 0)
     {
-        Debugger_Printf("Syntax error at \"%s\"!", p);
-        Debugger_Printf("                 ^ invalid value or label");
+        Debugger_Printf("Syntax error at \"%s\"!\n", p);
+        Debugger_Printf("                 ^ invalid value or label\n");
         return (expr_error);
     }
     for (;;)
@@ -3272,8 +3274,8 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
         // Verify that we have a valid operator
         if (!strchr("*/&|^", op))
         {
-            Debugger_Printf("Syntax error at \"%s\"!", p);
-            Debugger_Printf("                 ^ unexpected operator");
+            Debugger_Printf("Syntax error at \"%s\"!\n", p);
+            Debugger_Printf("                 ^ unexpected operator\n");
             return (-1);
         }
         p++;
@@ -3282,8 +3284,8 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
         expr_error = Debugger_Eval_GetValue(&p, &value2);
         if (expr_error <= 0)
         {
-            Debugger_Printf("Syntax error at \"%s\"!", p);
-            Debugger_Printf("                 ^ invalid value or label");
+            Debugger_Printf("Syntax error at \"%s\"!\n", p);
+            Debugger_Printf("                 ^ invalid value or label\n");
             return (expr_error);
         }
 
@@ -3347,7 +3349,7 @@ int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
     t_debugger_value value2;
 
     p = (char *)*expr; 
-    // Debugger_Printf("Debugger_Eval_GetExpression(\"%s\")", p);
+    // Debugger_Printf("Debugger_Eval_GetExpression(\"%s\")\n", p);
 
     parse_skip_spaces(&p);
     if (p[0] == '\0')
@@ -3378,8 +3380,8 @@ int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
         // Verify that we have a valid operator
         if (!strchr("+-", op))
         {
-            Debugger_Printf("Syntax error at \"%s\"!", p);
-            Debugger_Printf("                 ^ unexpected operator");
+            Debugger_Printf("Syntax error at \"%s\"!\n", p);
+            Debugger_Printf("                 ^ unexpected operator\n");
             return (-1);
         }
         p++;
@@ -3390,8 +3392,8 @@ int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
             return (expr_error);
         if (expr_error == 0)
         {
-            Debugger_Printf("Syntax error at \"%s\"!", p);
-            Debugger_Printf("                 ^ invalid value or label");
+            Debugger_Printf("Syntax error at \"%s\"!\n", p);
+            Debugger_Printf("                 ^ invalid value or label\n");
             return (-1);
         }
 
@@ -3499,7 +3501,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
     if (matching_words_count == 0)
     {
         // No match
-        Debugger_Printf("No match for \"%s\"", current_word);
+        Debugger_Printf("No match for \"%s\"\n", current_word);
         result = NULL;
     }
     else if (matching_words_count == 1)
@@ -3519,13 +3521,13 @@ bool        Debugger_CompletionCallback(t_widget *w)
         
         // Print them
         if (current_word_len > 0)
-            Debugger_Printf("%d matches for \"%s\":", matching_words_count, current_word);
+            Debugger_Printf("%d matches for \"%s\":\n", matching_words_count, current_word);
         else
-            Debugger_Printf("%d matches:", matching_words_count);
+            Debugger_Printf("%d matches:\n", matching_words_count);
         for (matches = matching_words; matches != NULL; matches = matches->next)
         {
             const char *complete_word = matches->elem;
-            Debugger_Printf(" - %s", complete_word);
+            Debugger_Printf(" - %s\n", complete_word);
         }
 
         // Find common prefix, if any
@@ -3684,18 +3686,18 @@ void        Debugger_History_List(const char *search_term_arg)
 
 	if (search_term_arg)
 	{
-	    Debugger_Printf("History lines matching \"%s\":", search_term_arg);
+	    Debugger_Printf("History lines matching \"%s\":\n", search_term_arg);
 		search_term = strdup(search_term_arg);
 		strupr(search_term);
 	}
 	else
 	{
-	    Debugger_Printf("History:");
+	    Debugger_Printf("History:\n");
 		search_term = NULL;
 	}
     //if (n <= 1)  // It's always 1 as current command was already pushed into history
     //{
-    //    Debugger_Printf(" <None>");
+    //    Debugger_Printf(" <None>\n");
     //    return;
     //}
 
@@ -3709,7 +3711,7 @@ void        Debugger_History_List(const char *search_term_arg)
 				continue;
 
 		// Print
-        Debugger_Printf(" %*s[%d] %s", 
+        Debugger_Printf(" %*s[%d] %s\n",
             (Debugger.history_count >= 10 && index < 10) ? 1 : 0, "", 
             index, Debugger.history[index]);
     }
