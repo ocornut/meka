@@ -37,6 +37,7 @@
 // Note: not everything is implemented as on this table.
 //-----------------------------------------------------------------------------
 
+// FIXME: Document the below. 
 static u8   VDP_Mask [10] [2] =
 {
   /* 0 */ { 0x00, /*0x3F*/ 0x07 },
@@ -109,26 +110,34 @@ void    VDP_VideoMode_Change (void)
     tsms.VDP_Video_Change = 0x00;
 }
 
+// See table in Charles' VDP documentation.
 void    VDP_VideoMode_Update (void)
 {
-  switch (((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1))
-     {
-      // Bits 0, 1 are bits 1, 2 in VDP Register 0
-      // Bits 3, 4 are bits 3, 4 in VDP Register 1
-      case 0x08: /* 10.00 */ tsms.VDP_New_VideoMode = 0; break;
-      case 0x00: /* 00.00 */ tsms.VDP_New_VideoMode = 1; break;
-      case 0x01: /* 00.01 */ tsms.VDP_New_VideoMode = 2; break;
-      case 0x04: /* 01.00 */ tsms.VDP_New_VideoMode = 3; break;
-      case 0x02: /* 00.10 */ tsms.VDP_New_VideoMode = 4; break;
-      case 0x03: /* 00.11 */ tsms.VDP_New_VideoMode = 5; break;
-      case 0x0A: /* 10.10 */ tsms.VDP_New_VideoMode = 9; break; // ?
-      // default: Msg (MSGT_DEBUG, "Error #42 - Unknown video mode %d - Please contact me", ((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1));
-     }
-  if (tsms.VDP_VideoMode != tsms.VDP_New_VideoMode)
-     {
-     tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_MODE;
-     // Msg (MSGT_DEBUG, "Change video mode, %d -> %d", tsms.VDP_VideoMode, tsms.VDP_New_VideoMode);
-     }
+    // Transform into M1/M2/M3/M4 as in Charles' VDP documentation (this is confusing).
+    //int mode;
+    //mode  = (sms.VDP[1] & 0x10) >> 4);  // M1 = Reg 1, Bit 4
+    //mode |= (sms.VDP[0] & 0x02);        // M2 = Reg 0, Bit 1
+    //mode |= (sms.VDP[1] & 0x08) >> 1);  // M3 = Reg 1, Bit 3
+    //mode |= (sms.VDP[0] & 0x04) << 1);  // M4 = Reg 0, Bit 2
+
+    switch (((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1))
+    {
+        // Bits 0, 1 are bits 1, 2 in VDP Register 0
+        // Bits 3, 4 are bits 3, 4 in VDP Register 1
+    case 0x08: /* 10.00 */ tsms.VDP_New_VideoMode = 0; break;
+    case 0x00: /* 00.00 */ tsms.VDP_New_VideoMode = 1; break;
+    case 0x01: /* 00.01 */ tsms.VDP_New_VideoMode = 2; break;
+    case 0x04: /* 01.00 */ tsms.VDP_New_VideoMode = 3; break;
+    case 0x02: /* 00.10 */ tsms.VDP_New_VideoMode = 4; break;
+    case 0x03: /* 00.11 */ tsms.VDP_New_VideoMode = 5; break;
+    case 0x0A: /* 10.10 */ tsms.VDP_New_VideoMode = 9; break; // ?
+        // default: Msg (MSGT_DEBUG, "Error #42 - Unknown video mode %d - Please contact me", ((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1));
+    }
+    if (tsms.VDP_VideoMode != tsms.VDP_New_VideoMode)
+    {
+        tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_MODE;
+        // Msg (MSGT_DEBUG, "Change video mode, %d -> %d", tsms.VDP_VideoMode, tsms.VDP_New_VideoMode);
+    }
 }
 
 // WRITE A VALUE TO A VDP REGISTER --------------------------------------------
