@@ -115,7 +115,7 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
     }
 
     // Print a header
-    fprintf(f_dump, PROG_NAME_VER "\n");
+    fprintf(f_dump, MEKA_NAME_VERSION "\n");
     fprintf(f_dump, "** %s dump\n", name);
     fprintf(f_dump, "** File: %s\n", Env.Paths.MediaImageFile);
     // Note: meka_date_getf() return a string with an ending \n

@@ -329,7 +329,7 @@ void    Write_Inputs_Src_List (void)
     return;
 
  INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; MEKA " VERSION " - Inputs Configuration");
+ INP_Write_Line ("; " MEKA_NAME " " MEKA_VERSION " - Inputs Configuration");
  INP_Write_Line ("; This file is automatically updated and rewritten when quitting");
  INP_Write_Line ("; Feel free to edit this file manually if you feel the need to.");
  INP_Write_Line ("; However, any comment you may manually add will be deleted!");

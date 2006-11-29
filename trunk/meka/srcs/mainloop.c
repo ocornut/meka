@@ -24,7 +24,7 @@ void    Main_Loop (void)
     if (Debug_Print_Infos)
     {
         Msg (MSGT_DEBUG, "### Debugging information ###");
-        Msg (MSGT_DEBUG, "Meka %s (%s %s)", VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+        Msg (MSGT_DEBUG, "MEKA %s (%s %s)", MEKA_VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME);
         Msg (MSGT_DEBUG, "allegro_id = %s", allegro_id);
         Msg (MSGT_DEBUG, "os_type = { %c%c%c%c (%d.%d) }", os_type>>24, (os_type>>16)&0xFF, (os_type>>8)&0xFF, (os_type)&0xFF, os_version, os_revision);
         Msg (MSGT_DEBUG, "cpu = { fpu: %d, mmx:%d, 3dnow:%d-%d, sse:%d, sse2:%d }", CPU_FPU?1:0, CPU_MMX?1:0, CPU_3DNOW?1:0, CPU_ENH3DNOW?1:0, CPU_SSE?1:0, CPU_SSE2?1:0);

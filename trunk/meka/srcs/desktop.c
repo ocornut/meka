@@ -207,7 +207,7 @@ void            Desktop_Save (void)
 
     // Write header
     fprintf (f, ";-----------------------------------------------------------------------------\n");
-    fprintf (f, "; MEKA " VERSION " - Desktop State\n");
+    fprintf (f, "; " MEKA_NAME " " MEKA_VERSION " - Desktop State\n");
     fprintf (f, "; This file is automatically updated and rewritten by the emulator\n");
     fprintf (f, ";-----------------------------------------------------------------------------\n\n");
 

@@ -338,9 +338,9 @@ void    Init_GUI (void)
 
     ConsoleInit (); // First thing to do
     #ifdef WIN32
-        ConsolePrintf ("%s\n(c) %s\n--\n", PROG_NAME_VER, PROG_AUTHORS);
+        ConsolePrintf ("%s\n(c) %s\n--\n", MEKA_NAME_VERSION, MEKA_AUTHORS);
     #else
-        ConsolePrintf ("\n%s (c) %s\n--\n", PROG_NAME_VER, PROG_AUTHORS);
+        ConsolePrintf ("\n%s (c) %s\n--\n", MEKA_NAME_VERSION, MEKA_AUTHORS);
     #endif
 
     // Wait for Win32 console signal

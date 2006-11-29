@@ -9,15 +9,15 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define PROG_NAME               "Meka"
-#define VERSION                 "0.72"
-#define VERSION_HIGH            (0)
-#define VERSION_LOW             (72)
-#define PROG_NAME_VER           PROG_NAME " " VERSION
-#define PROG_HOMEPAGE           "http://www.smspower.org/meka"
-#define PROG_AUTHORS            "Omar Cornut (Bock) and contributors"
-#define PROG_AUTHORS_SHORT      "Omar (Bock) and contributors"
-#define PROG_DATE               "1998-2006"
+#define MEKA_NAME               "MEKA"
+#define MEKA_VERSION            "0.72 WIP"
+#define MEKA_VERSION_HIGH       (0)
+#define MEKA_VERSION_LOW        (72)
+#define MEKA_NAME_VERSION       MEKA_NAME " " MEKA_VERSION
+#define MEKA_HOMEPAGE           "http://www.smspower.org/meka"
+#define MEKA_AUTHORS            "Omar Cornut (Bock) and contributors"
+#define MEKA_AUTHORS_SHORT      "Omar (Bock) and contributors"
+#define MEKA_DATE               "1998-2006"
 
 extern char MEKA_BUILD_DATE[];
 extern char MEKA_BUILD_TIME[];

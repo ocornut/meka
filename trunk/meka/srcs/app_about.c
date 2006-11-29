@@ -69,9 +69,9 @@ static void     AboutBox_Layout(bool setup)
             int x;
 		    switch (i)
 		    {
-		    case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), PROG_NAME_VER, PROG_DATE); break;
-		    case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), PROG_AUTHORS_SHORT); break;
-		    case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), PROG_HOMEPAGE); break;
+		    case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE); break;
+		    case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT); break;
+		    case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
 		    case 3: sprintf (GenericBuffer, "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
 		    }
 		    x = (( (app->box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, GenericBuffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;

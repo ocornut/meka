@@ -160,7 +160,7 @@ void        VLFN_DataBase_Save (void)
 
     // Write header
     fprintf (f, ";-----------------------------------------------------------------------------\n");
-    fprintf (f, "; MEKA " VERSION " - User Filenames DataBase\n");
+    fprintf (f, "; " MEKA_NAME " " MEKA_VERSION " - User Filenames DataBase\n");
     fprintf (f, "; Associate user filenames with MEKA DataBase entries.\n");
     fprintf (f, "; This information is used by the file loader.\n");
     fprintf (f, "; This file is automatically updated and rewritten by the emulator.\n");
