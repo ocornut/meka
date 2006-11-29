@@ -155,7 +155,7 @@ void    Show_End_Message (void)
   printf(BGCOLOR(1));
   printf(FGCOLOR(0));
   printf ("                           ");  
-  printf (RESET "  %s (c) %s\n", PROG_NAME_VER, PROG_AUTHORS_SHORT);
+  printf (RESET "  %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
   
   printf (" ");
   printf(BGCOLOR(1));
@@ -175,7 +175,7 @@ void    Show_End_Message (void)
   printf ("                      ");
   printf (FGCOLOR(7) "SEGA");
   printf (FGCOLOR(0) " ");
-  printf (RESET "  " PROG_HOMEPAGE "\n");
+  printf (RESET "  " MEKA_HOMEPAGE "\n");
 
   printf (" ");
   printf ("===========================");
@@ -188,7 +188,7 @@ void    Show_End_Message (void)
     textcolor (0);          // Black text
     printf (" ");
     cprintf ("еееееееееееееееееееееееееее");
-    printf ("  %s (c) %s\n", PROG_NAME_VER, PROG_AUTHORS_SHORT);
+    printf ("  %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
     // Line 2 ------------------------------------------------------------------
     printf (" ");
     cprintf ("е");
@@ -204,7 +204,7 @@ void    Show_End_Message (void)
     cprintf ("ееееееееееееееееееееее");
     textcolor (15); cprintf ("SEGA");
     textcolor (0);  cprintf ("е");
-    printf ("  " PROG_HOMEPAGE "\n");
+    printf ("  " MEKA_HOMEPAGE "\n");
     // Line 4 ------------------------------------------------------------------
     textbackground (0); // Black background
     textcolor (8);      // Dark Gray text
@@ -227,9 +227,9 @@ void    Show_End_Message (void)
     */
     printf ("\n");
 #else
-    ConsolePrintf (" %s (c) %s\n", PROG_NAME_VER, PROG_AUTHORS_SHORT);
+    ConsolePrintf (" %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
     ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
-    ConsolePrintf (" " PROG_HOMEPAGE "\n");
+    ConsolePrintf (" " MEKA_HOMEPAGE "\n");
 #endif
 
     // Print registered info line

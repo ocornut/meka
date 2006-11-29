@@ -466,7 +466,7 @@ void    Configuration_Save (void)
         return;
 
     CFG_Write_Line (";");
-    CFG_Write_Line ("; MEKA " VERSION " - Configuration File");
+    CFG_Write_Line ("; " MEKA_NAME " " MEKA_VERSION " - Configuration File");
     CFG_Write_Line (";");
     CFG_Write_Line ("");
 
