@@ -83,8 +83,8 @@ They are usually of 2 kinds:
 ##- GUI:
 ##  - Fixed bug with window closing button widget. [Omar]
 ##  - Fixed bug when quitting using the menu, configuration files were 
-##    not saved. Thanks Jacko. (Omar)
-##  - (Un*x) Fixed bug where menus would not clear themselves. (Omar)
+##    not saved. Thanks Jacko. [Omar]
+##  - (Un*x) Fixed bug where menus would not clear themselves. [Omar]
 ##    (This was due to Allegro.h defining TRUE as -1 and a 1 value being
 ##    hardcoded in some part of the code).
 
