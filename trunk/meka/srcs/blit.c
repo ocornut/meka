@@ -73,11 +73,9 @@ void    Blit_Fullscreen_Misc (void)
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
     // FIXME: 70 should be replaced by actual screen refresh rate ... can we obtain it ?
-    Clock_Start (CLOCK_VSYNC);
     if (Blitters.current->vsync)
         if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
             vsync ();
-    Clock_Stop (CLOCK_VSYNC);
 
     // Clear Screen if it has been asked
     if (Video.clear_need)
@@ -102,9 +100,7 @@ void    Blit_Fullscreen_Misc (void)
         Glasses_Update ();
 
     // Update palette if necessary
-    //Clock_Start (CLOCK_GFX_PALETTE);
     //Palette_Sync ();
-    //Clock_Stop (CLOCK_GFX_PALETTE);
 }
 
 // FIXME: if blitting will be done outside of screen (because of y)
@@ -351,7 +347,6 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 // Blit screenbuffer to video memory in fullscreen mode
 void    Blit_Fullscreen (void)
 {
-    Clock_Start (CLOCK_GFX_BLIT);
     blit_cfg.src_sx = cur_drv->x_start;
     blit_cfg.src_sy = cur_drv->y_show_start;
     blit_cfg.dst_sx = Video.game_area_x1;
@@ -407,8 +402,6 @@ void    Blit_Fullscreen (void)
         else
             fs_out = fs_page_1;
     }
-
-    Clock_Stop (CLOCK_GFX_BLIT);
 }
 
 void    Blitters_Get_Factors (int *x, int *y)
@@ -420,7 +413,6 @@ void    Blitters_Get_Factors (int *x, int *y)
 void    Blit_GUI (void)
 {
     // Wait for VSync if necessary
-    Clock_Start (CLOCK_VSYNC);
     if (Configuration.video_mode_gui_vsync)
     {
         // FIXME: see note about line below in Blit_Fullscreen()
@@ -431,15 +423,11 @@ void    Blit_GUI (void)
         if (Glasses.Enabled)
             Glasses_Update ();
     }
-    Clock_Stop (CLOCK_VSYNC);
 
     // Update palette if necessary
-    //Clock_Start (CLOCK_GFX_PALETTE);
     //Palette_Sync ();
-    //Clock_Stop (CLOCK_GFX_PALETTE);
 
     // Blit
-    Clock_Start (CLOCK_GUI_BLIT);
     switch (Configuration.video_mode_gui_access_mode)
     {
     case GUI_FB_ACCESS_DIRECT:
@@ -457,7 +445,6 @@ void    Blit_GUI (void)
     if (!Configuration.video_mode_gui_vsync)
         if (Glasses.Enabled)
             Glasses_Update ();
-    Clock_Stop (CLOCK_GUI_BLIT);
 }
 
 //-----------------------------------------------------------------------------

@@ -313,7 +313,6 @@ void    Video_Setup_State (void)
         set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
     #endif
 
-    Clock_Init ();
     Inputs_Init_Mouse (); // why? I forgot
 }
 
@@ -358,9 +357,7 @@ void    Refresh_Screen (void)
                 { gui_buffer = gui_page_1; scroll_screen (0, Configuration.video_mode_gui_res_y); }
             }
 
-            Clock_Start (CLOCK_GUI_UPDATE);
             gui_update ();
-            Clock_Stop (CLOCK_GUI_UPDATE);
 
             // Check if we're switching GUI off now
             if (Meka_State != MEKA_STATE_GUI)
@@ -371,9 +368,7 @@ void    Refresh_Screen (void)
 
             // Msg (MSGT_DEBUG, "calling gui_redraw(), screenbuffer=%d", (screenbuffer==screenbuffer_1)?1:2);
 
-            Clock_Start (CLOCK_GUI_REDRAW);
             gui_redraw ();
-            Clock_Stop (CLOCK_GUI_REDRAW);
 
             // Blit GUI screen ------------------------------------------------------
             Blit_GUI ();
@@ -411,7 +406,6 @@ void    Refresh_Screen (void)
         // Clear keypress queue
         Inputs_KeyPressQueue_Clear();
 
-        Clock_Draw ();
     } // of: if (fskipper.Show_Current_Frame)
 
     // Draw next image in other buffer --------------------------------------------
@@ -436,11 +430,9 @@ void    Refresh_Screen (void)
     }
 
     // Ask frame-skipper weither next frame should be drawn or not
-    Clock_Start (CLOCK_FRAME_SKIPPER);
     fskipper.Show_Current_Frame = Frame_Skipper ();
     //if (fskipper.Show_Current_Frame == FALSE)
     //   Msg (MSGT_USER, "Skip frame!");
-    Clock_Stop (CLOCK_FRAME_SKIPPER);
 
     // Update console (under WIN32)
     // #ifdef WIN32

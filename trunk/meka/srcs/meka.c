@@ -120,9 +120,6 @@ void    Init_Default_Values (void)
     opt.Setup_Interactive_Execute = FALSE;
     opt.Force_Quit = FALSE;
     opt.Debug_Step = 0;
-    #ifdef CLOCK
-        opt.Show_Clock = TRUE;
-    #endif
 
     // Machine
     cur_machine.driver_id = DRV_SMS;
@@ -220,7 +217,6 @@ void    Free_Memory (void)
 // CLOSE EMULATOR -------------------------------------------------------------
 void    Close_Emulator (void)
 {
-    Clock_Close          ();
     Sound_Close          ();
     Desktop_Close        ();
     Fonts_Close          ();
@@ -394,7 +390,6 @@ void    Init_GUI (void)
     NES_Init                (); // Initialize NES emulation
     Init_Tables             (); // Initialize Tables
     Machine_Init            (); // Initialize Virtual Machine
-    Clock_Init              (); // Initialize Clock
     Init_GUI                (); // Initialize Graphical User Interface
     Sound_Init              (); // Initialize Sound
     Inputs_Joystick_Init    (); // Initialize Joysticks. 

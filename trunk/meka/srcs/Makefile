@@ -1,6 +1,6 @@
 #------------------------------------------------------
 # MEKA - Makefile
-# 1998-2005
+# 1998-2006
 # http://www.smspower.org/meka
 # (c) Omar Cornut and contributors
 #     Hiromitsu Shioya (Sound stuff), Started on the 12 February 1999
@@ -134,7 +134,6 @@ endif
 # Note: As for the Z80 CPU core, only Marat's core is maintained.
 #-----------------------------------------------------
 OPT_SOUND = yes
-OPT_CLOCK = no
 OPT_DEBUGGER = yes
 OPT_JOY = yes
 # CPU_CORE = raze
@@ -167,18 +166,6 @@ ifeq ($(SYSTEM), win32)
 LIB_SOUND = ../libs/seal/lib/win32/audw32vc.lib
 endif
 endif
-
-#-----------------------------------------------------
-# Option : Clock 
-#-----------------------------------------------------
-# I think this is obsolete. This is functionality to profile
-# under MS-DOS using hardware timers.
-# Even if enabled, this may compile to nothing (see clock.*)
-#-----------------------------------------------------
-ifeq ($(OPT_CLOCK), yes)
-DEF_CLOCK = -DCLOCK
-endif
-#-----------------------------------------------------
 
 #-----------------------------------------------------
 # Option : Joypad/joystick support
@@ -246,7 +233,7 @@ OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $
 OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/keyboard.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/games.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o $(OD)/config_v.o $(OD)/config_j.o
-OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/tools_t.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/clock.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
+OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/tools_t.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o $(OD)/m6502.a
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
@@ -267,7 +254,7 @@ INCLUDES = -I. -I./tools -I./sound $(INC_OS)
 #-----------------------------------------------------
 # Preprocessor Definitions
 #-----------------------------------------------------
-DEFINES = $(DEF_OS) $(DEF_SOUND) $(DEF_CLOCK) $(DEF_ZIP) $(DEF_PNG) $(DEF_JOY)
+DEFINES = $(DEF_OS) $(DEF_SOUND) $(DEF_ZIP) $(DEF_PNG) $(DEF_JOY)
 # DEFINES += -DDEBUG_WHOLE
 # DEFINES += -DDEBUG_IO
 # DEFINES += -DDEBUG_PAGES

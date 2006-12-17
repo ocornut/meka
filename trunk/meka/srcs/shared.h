@@ -75,7 +75,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 #include "beam.h"           // TV beam emulation
 #include "bmemory.h"        // Backed memory devices emulation
 #include "checksum.h"       // Checksum processing
-#include "clock.h"          // Clock/Profiling functions
 #include "coleco.h"         // Colecovision specifics emulation
 #include "country.h"        // Country interfacing and emulation
 #include "cpu.h"            // Interface with CPU / Interrupt emulation
