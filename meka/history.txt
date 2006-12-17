@@ -11,7 +11,7 @@ They are usually of 2 kinds:
 - Programmer/hacker centric information.
 
  
- MEKA 0.72 WIP xxxxxxxx
+ MEKA 0.72 WIP 20061217
  ----------------------
   - Updated k.
   - Emulation:
