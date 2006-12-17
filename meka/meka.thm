@@ -383,29 +383,6 @@ menu_text_unactive_color            = #FFFFFF
 menu_gradient                       = 50%-100% #19216A
 
 ;-----------------------------------------------------------------------------
-[More Red Stuff]
-authors                             = Dexter & Mandark
-background_color                    = #000000
-background_grid_color               = #000000
-background_picture                  = "Themes/TRW-2.png" stretch
-window_border_color                 = #7A000D
-window_background_color             = #8E0000
-window_titlebar_color               = #BF0000
-window_titlebar_text_color          = #F7DFDF
-window_titlebar_text_unactive_color = #D38E8E
-window_titlebar_gradient            = 44%-100% #970000
-window_text_color                   = #BBAAAA
-window_text_highlight_color         = #F7DFDF
-window_separators_color             = #7A000D
-menu_background_color               = #BF0000
-menu_border_color                   = #7A000D
-menu_selection_color                = #D33129
-menu_text_color                     = #F7DFDF
-menu_text_unactive_color            = #D38E8E
-menu_gradient                       = 16%-100% #7F0000
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
 [Dragon's Rage]
 authors                             = Myau of Algol
 background_color                    = #414041
@@ -425,27 +402,4 @@ menu_selection_color                = #5EA29E
 menu_text_color                     = #FFFFFF
 menu_text_unactive_color            = #F3F3F3
 menu_gradient                       = 58%-100% #00002E
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
-[Amélie Poulain]
-authors                             = Omar Cornut
-background_color                    = #FFA2CB
-background_grid_color               = #FFA2CB
-background_picture                  = "Themes/Amelie.png" stretch
-window_border_color                 = #7E003D
-window_background_color             = #FF2972
-window_titlebar_color               = #FF2162
-window_titlebar_text_color          = #FFFFFF
-window_titlebar_text_unactive_color = #F3D3DF
-window_titlebar_gradient            = 61%-100% #DF0142
-window_text_color                   = #FBEBF3
-window_text_highlight_color         = #FFFFFF
-window_separators_color             = #7E003D
-menu_background_color               = #FF2162
-menu_border_color                   = #7E003D
-menu_selection_color                = #FF5AAA
-menu_text_color                     = #FFFFFF
-menu_text_unactive_color            = #F3D3DF
-menu_gradient                       = 37%-100% #E30546
 ;-----------------------------------------------------------------------------

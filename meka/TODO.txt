@@ -1,4 +1,6 @@
 
+- Revert to _SAFE video driver if startup driver cannot be used.
+
 Proppy session debugger notes:
 - 'breakpoint' window list
   - show list
@@ -6,7 +8,6 @@ Proppy session debugger notes:
   - edit/add fields
 - breakpoint write: only when values changing, !=
 - datadump sprite output is weird
-- call OutputDebugString() so that Visual can catch it
 - bind RELOAD rom on a key, or add 'reload' command
 
 - debugger auto-start mode? (command-line, config?)
