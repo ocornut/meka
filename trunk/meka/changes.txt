@@ -5,7 +5,72 @@
  source code and refer to HISTORY.TXT file.
 -----------------------------------------------------------------------------
 
- ...
+ MEKA 0.72 WIP 20061217
+ ----------------------
+  - Updated k.
+  - Emulation:
+    - Fixed data corruption/overflow in VDP emulation when seeking and
+      writing to an invalid palette address. Thanks Maxim. [Omar]
+    - VDP palette write do not mask out current VDP address, so performing
+      the (unprobable) set address/access palette/access VRAM sequence will
+      keep address in the full 16KB range. [Omar]
+    - Fixed VDP line interrupts not properly running in overscan area in 
+      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
+      BB2K6 demo. [Omar]
+  - Video:
+    - Changed default fullscreen blitter configuration in the hope of getting 
+      something more compatible (640x480 by default), as so many people have 
+      problems with fullscreen modes.
+    - Got rid of "parallel" blitter that displayed both odd and even frame
+      next to each other. Seems useless now. Could be brought back if some
+      four-eyed person request it. [Omar]
+  - Debugger:
+    - Added "CLOCK" command, to display/reset a Z80 cycle counter.
+      Very simple but can be helpful to time Z80 routines. [Omar]
+    - (Win32) Forward debugging log to Windows debugging stream via
+      OutputDebugString(), so running MEKA from Microsoft Visual studio 
+      will display log in the 'Output' window. [Omar]
+  - Project:
+    - (Win32) Added new targets supporting shared standard libraries. [Omar]
+    - Updated SOURCES.TXT documentation. [Omar]
+  - GUI:
+    - Fixed background picture not loading on startup. [Omar]
+    - Removed closing fadeout since the current implementation is way 
+      inefficient and cannot garantee proper speed. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+          SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
+          SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
+          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
+          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
+          SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
+          SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
+          SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck
+          SMS - 695a9a15 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+          SMS - 24e97200 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+          SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)
+          SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
+          SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
+          GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
+          GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
+          GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+          GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
+          GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+          GG  - 0117c3df - Land of Illusion (JP)                --> Mickey Mouse no Mahou no Crystal (JP)
+          GG  - 0cd9c20b - Lion King, The                       --> Lion King, The (Disney's) (EU)
+          GG  - 9808d7b3 - Lion King, The (US)                  --> Lion King, The (Disney's) (US)
+          GG  - cc90c723 - Pocket Jong Sou (JP)                 --> Pocket Jansou (JP)
+          GG  - 445d7cd2 - Royal Stone (JP)                     --> Royal Stone ~Hikarishi Toki no Tobira~ (JP)
+          GG  - 95efd52b - Ryu Kyu (JP)                         --> Ryuu Kyuu (JP)
+          GG  - 09f9ed60 - Shadam Crusader (JP)                 --> Shadam Crusader ~Harukanaru Oukoku~ (JP)
+          SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Ashizawa Hachidan no Tsumeshogi (JP)
+          SG1 - 5970a12b - Champion Baseball                    --> Champion Baseball [16k]
+          SG1 - 09196fc5 - N-Sub (1988)                         --> N-Sub [16k] (1988)
+          SC3 - 622010e1 - Sega Music Editor                    --> Music
+          SC3 - b67ea1c4 - Sega Music Editor                    --> Music [BAD]
+          SC3 - 2ec28526 - Sega Music Editor (JP)               --> Music (JP)
+          SC3 - ae4f92cf - Uranai Angel Cuty (JP)               --> Uranai Angel Cutie (JP)
+
  
  MEKA 0.72 WIP 20051203
  ----------------------
