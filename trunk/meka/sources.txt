@@ -207,11 +207,7 @@ II. Compile for MS-DOS compatible systems:
    - Add DJGPP bin/ directory to PATH.
  - Install Allegro, latest WIP
    - http://www.talula.demon.co.uk/allegro/wip.html#unstable
-   - Apply patches (already in my source tree).
-     This may not be necessary. I have some DOS specific patchs.
-     Contact me if you're interested (some may have been applied to 
-     Allegro already, I'm not sure). Will compile without the patch,
-     but some behavior may change compared to official builds.
+   - Apply patches from libs/allegro-msdos-patchs/
    - $ set STATICLINK=1
    - $ fix.bat djgpp
    - $ make
