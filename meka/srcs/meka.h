@@ -156,9 +156,6 @@ typedef struct
     bool        Setup_Interactive_Execute;          // Set to TRUE to execute an interactive setup on startup
     int         Debug_Step;
     int         GUI_Current_Page;
-    #ifdef CLOCK
-    bool        Show_Clock;
-    #endif
 } OPT_TYPE;
 
 // FIXME: define to MAXPATHLEN ?

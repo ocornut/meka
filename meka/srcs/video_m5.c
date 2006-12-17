@@ -216,19 +216,11 @@ void    VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_hos
 // REDRAW A SCREEN LINE -------------------------------------------------------
 void    Refresh_Line_5 (void)
 {
-#ifdef CLOCK
-	int clock_save = Clock[CLOCK_GFX_BACK].time;
-#endif
-
 	// Point to current video line
 	GFX_Line16 = (u16 *)screenbuffer->line[tsms.VDP_Line];
 
 	if (fskipper.Show_Current_Frame == TRUE)
 	{
-#ifdef CLOCK
-		Clock_Start (CLOCK_GFX_BACK);
-#endif
-
         // Scroll lock, update in X latch table (for tilemap viewer)
         if (Top_No_Scroll && tsms.VDP_Line < 16)
             cur_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = 0;
@@ -252,18 +244,7 @@ void    Refresh_Line_5 (void)
 			memset(Sprites_Draw_Mask, 0, 256);
 		}
 
-#ifdef CLOCK
-		Clock_Stop (CLOCK_GFX_BACK);
-		Clock [CLOCK_GFX_BACK].time += clock_save;
-		clock_save = Clock[CLOCK_GFX_SPRITES].time;
-		Clock_Start (CLOCK_GFX_SPRITES);
-#endif
-
 		Refresh_Sprites_5 (Display_ON && (opt.Layer_Mask & LAYER_SPRITES));
-
-#ifdef CLOCK
-		Clock_Stop (CLOCK_GFX_SPRITES);
-#endif
 
 		// Mask left columns with black if necessary
 		if (Mask_Left_8)
