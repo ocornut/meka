@@ -85,6 +85,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
 
      "language",
      "screenshots_filename_template",
+	 "screenshots_automatic_crop_align",
 
      "music_wav_filename_template", "musics_wav_filename_template",
      "music_vgm_filename_template", "musics_vgm_filename_template",
@@ -264,7 +265,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
              break;
     // screenshot_template (OBSOLETE variable name, see below)
     case 27: StrReplace (value, '*', ' ');
-             Capture.filename_template = strdup(value);
+             g_Configuration.capture_filename_template = strdup(value);
              break;
     //-------------------------------------------------------------------------
     // 3dglasses_mode
@@ -308,84 +309,87 @@ static void     Configuration_Load_Line (char *variable, char *value)
     case 36: Lang_Set_by_Name(value);
              break;
     // screenshots_filename_template
-    case 37: Capture.filename_template = strdup(value);
+    case 37: g_Configuration.capture_filename_template = strdup(value);
              break;
+	// screenshots_automatic_crop_align
+	case 38: g_Configuration.capture_automatic_crop_align = (bool)atoi(value);
+			 break;
     // music[s]_wav_filename_template
-    case 38:
-    case 39: 
+    case 39:
+    case 40: 
              Sound.LogWav_FileName_Template = strdup(value);
              break;
     // music[s]_vgm_filename_template
-    case 40:
-    case 41: Sound.LogVGM_FileName_Template = strdup(value);
+    case 41:
+    case 42: Sound.LogVGM_FileName_Template = strdup(value);
              break;
     // music[s]_vgm_log_accuracy
-    case 42:
-    case 43: if (strcmp(value, "frame") == 0)
+    case 43:
+    case 44: if (strcmp(value, "frame") == 0)
                 Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_FRAME;
              else
              if (strcmp(value, "sample") == 0)
                 Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_SAMPLE;
              break;
     // fm_enabled
-    case 44: if (!strcmp(value, "yes"))
+    case 45: if (!strcmp(value, "yes"))
                 Sound.FM_Enabled = TRUE;
              else
              if (!strcmp(value, "no"))
                 Sound.FM_Enabled = FALSE;
              break;
     // gui_refresh_rate
-    case 45: if (!strcmp(value, "auto"))
+    case 46: if (!strcmp(value, "auto"))
                  g_Configuration.video_mode_gui_refresh_rate = 0;
              else
                  g_Configuration.video_mode_gui_refresh_rate = atoi (value);
              break;
     // tile_viewer_displayed_tiles
-    case 46: n = atoi(value);
+    case 47: n = atoi(value);
              if (n == 448 || n == 512)
                  TileViewer.tiles_count = n;
              break;
     // debug_mode
-    case 47: g_Configuration.debug_mode_cfg = (bool)atoi(value);
+    case 48: g_Configuration.debug_mode_cfg = (bool)atoi(value);
              break;
 
     // allow_opposite_directions
-    case 48: g_Configuration.allow_opposite_directions = (bool)atoi(value);
+    case 49: g_Configuration.allow_opposite_directions = (bool)atoi(value);
              break;
 
     // debugger_console_lines
-    case 49:
+    case 50:
         n = atoi(value);
         if (n >= 1)
             g_Configuration.debugger_console_lines = n;
         break;
 
     // debugger_disassembly_lines
-    case 50:
+    case 51:
         n = atoi(value);
         if (n >= 1)
             g_Configuration.debugger_disassembly_lines = n;
         break;
 
     // debugger_disassembly_display_labels
-    case 51:
+    case 52:
         g_Configuration.debugger_disassembly_display_labels = (bool)atoi(value);
         break;
 
     // debugger_log
-    case 52:
+    case 53:
         g_Configuration.debugger_log_enabled = (bool)atoi(value);
         break;
     
     // memory_editor_lines
-    case 53:
+    case 54:
         n = atoi(value);
         if (n >= 1)
             g_Configuration.memory_editor_lines = n;
         break;
 
     // memory_editor_columns
-    case 54:
+    case 55:
         n = atoi(value);
         if (n >= 1)
             g_Configuration.memory_editor_columns = n;
@@ -575,7 +579,8 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("show_product_number", g_Configuration.show_product_number);
     CFG_Write_Int  ("show_messages_fullscreen", g_Configuration.show_fullscreen_messages);
     CFG_Write_Int  ("allow_opposite_directions", g_Configuration.allow_opposite_directions);
-    CFG_Write_StrEscape  ("screenshots_filename_template", Capture.filename_template);
+    CFG_Write_StrEscape  ("screenshots_filename_template", g_Configuration.capture_filename_template);
+	CFG_Write_Int  ("screenshots_automatic_crop_align", g_Configuration.capture_automatic_crop_align);
     CFG_Write_StrEscape  ("music_wav_filename_template", Sound.LogWav_FileName_Template);
     CFG_Write_StrEscape  ("music_vgm_filename_template", Sound.LogVGM_FileName_Template);
     CFG_Write_Line ("(see documentation for more information about templates)");

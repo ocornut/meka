@@ -25,9 +25,8 @@ void    Capture_Screen              (void);
 
 typedef struct
 {
-  int           request;
-  int           id_number;
-  char *        filename_template;
+	int         request;
+	int         id_number;
 }               t_capture;
 
 t_capture       Capture;

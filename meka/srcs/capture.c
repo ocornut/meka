@@ -19,11 +19,6 @@
 void        Capture_Init (void)
 {
     Capture_Init_Game ();
-    #ifdef DOS
-        Capture.filename_template = "%.5s-%02d.png"; // Short Filename
-    #else
-        Capture.filename_template = "%s-%02d.png";   // Long Filename (ala SMS Power)
-    #endif
 }
 
 //-----------------------------------------------------------------------------
@@ -72,7 +67,7 @@ void        Capture_FileName_Get (char *dst)
     {
         game_name = CAPTURE_DEFAULT_PREFIX;
     }
-    sprintf (s2, "%%s/%s", Capture.filename_template);
+    sprintf (s2, "%%s/%s", g_Configuration.capture_filename_template);
 
     // Create a filename and check if the file already exists. Loop if it is the case.
     do
@@ -108,30 +103,52 @@ void            Capture_Screen (void)
 
     switch (Meka_State)
     {
-    case MEKA_STATE_FULLSCREEN: // Fullscreen
-        x_start = cur_drv->x_start;
-        y_start = cur_drv->y_show_start;
-        x_len = cur_drv->x_res;
-        y_len = cur_drv->y_res;
-        // Crop left column
-        if ((cur_drv->id == DRV_SMS) && (tsms.VDP_VideoMode > 4) && (Mask_Left_8))
-        {
-            x_start += 8;
-            x_len -= 8;
-        }
-        source = screenbuffer;
-        break;
+    case MEKA_STATE_FULLSCREEN: 
+		{
+			// Fullscreen
+			source = screenbuffer;
+			x_start = cur_drv->x_start;
+			y_start = cur_drv->y_show_start;
+			x_len = cur_drv->x_res;
+			y_len = cur_drv->y_res;
 
-    case MEKA_STATE_GUI: // GUI mode
-        x_start = 0;
-        y_start = 0;
-        x_len = g_Configuration.video_mode_gui_res_x;
-        y_len = g_Configuration.video_mode_gui_res_y;
-        source = gui_buffer;
-        break;
+			// Crop left column
+			if ((cur_drv->id == DRV_SMS) && (tsms.VDP_VideoMode > 4) && (Mask_Left_8))
+			{
+				x_start += 8;
+				x_len -= 8;
+			}
 
-    default: // Unknown Mode
-        return;
+			// Automatic crop on tile boundaries (for map making)
+			// In total, remove 8 pixels from each axis
+			if (g_Configuration.capture_automatic_crop_align)
+			{
+				const int scroll_x = cur_machine.VDP.scroll_x_latched;
+				const int scroll_y = cur_machine.VDP.scroll_y_latched;
+				x_start += scroll_x & 7;
+				y_start += 8 - (scroll_y & 7);
+				x_len -= 8;
+				y_len -= 8;
+			}
+			break;
+		}
+
+    case MEKA_STATE_GUI: 
+		{
+			// GUI mode
+			x_start = 0;
+			y_start = 0;
+			x_len = g_Configuration.video_mode_gui_res_x;
+			y_len = g_Configuration.video_mode_gui_res_y;
+			source = gui_buffer;
+			break;
+		}
+    default: 
+		{
+			// Unknown Mode
+			assert(0);
+			return;
+		}
     }
 
     acquire_bitmap(source);
