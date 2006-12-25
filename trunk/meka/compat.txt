@@ -509,7 +509,7 @@
  Choplifter [Proto]                    C-48   Ok
  Congo Bongo                         G-1007   Ok
  Doki Doki Penguin Land                C-50   Ok
- Doki Doki Penguin Land (CH)          R-050   Ok
+ Doki Doki Penguin Land (HK)          R-050   Ok
  Dragon Wang [A]                       C-46   Ok
  Dragon Wang [B]                       C-46   Ok
  Drol                                  C-51   Ok
@@ -523,10 +523,12 @@
  Gulkave                               C-63   Ok
  Hang On II                            C-60   Ok
  H.E.R.O.                              C-58   Ok
- Home Mah-Jong                       G-1030  *Ok
+ Home Mahjong [v0]                   G-1030  *Ok
+ Home Mahjong [v1]                  G-1030B  *Ok
  Hustle Chumy                        G-1035   Ok
  Hyper Sports (Konami no)            G-1042   Ok
  Lode Runner                         G-1031   Ok
+ Mahjong (Sega)                      G-1004  *Ok
  Monaco GP                           G-1017   Ok
  Monaco GP (JP)                      G-1017  *Ok
  N-Sub [16k]                         G-1003  *Ok
@@ -547,7 +549,6 @@
  Safari Race (JP)                    G-1032  *Ok
  Sega Flipper                        G-1018   Ok
  Sega Galaga                         G-1022   Ok
- Sega Mah-Jong                       G-1004  *Ok
  Shinnyushain Tooru Kun (Konami no)  G-1041   Ok
  Sindbad Mystery                     G-1012   Ok
  Soukoban                              C-56   Ok
@@ -566,7 +567,7 @@
  Zippy Race                          G-1026   Ok
  Zoom 909                              C-47   Ok
 -----------------------------------------------------------------------------
-  81 games tested - 81 are "Ok" - Compatibility rate: 100.00%
+  82 games tested - 82 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -579,7 +580,7 @@
  Okamoto Ayako no Match Play Golf [A]     OM-G006  *Ok
  Okamoto Ayako no Match Play Golf [B]     OM-G006  *Ok
  Q*Bert                                   OM-G001   Ok
- Sannninn Mah-Jong                        OM-G004  *Ok
+ San-nin Mahjong                          OM-G004  *Ok
  Space Armor                              OM-G007  *Ok
  Space Mountain                           OM-G003   Ok
 -----------------------------------------------------------------------------
@@ -636,8 +637,8 @@
  Addams Family, The                                 Ok
  Adventures of Batman & Robin, The                  Flickering status (LCD persistance).
  Aerial Assault                                     Ok
- Aladdin                                            Ok
- Aladdin (JP)                                       Ok
+ Aladdin (Disney's)                                 Ok
+ Aladdin (Disney's) (JP)                            Ok
  Alien 3                                            Ok
  Alien Syndrome                                     Ok
  Andre Agassi Tennis                                Ok
@@ -717,11 +718,12 @@
  Dynamite Headdy (JP)                               Ok
  Earthworm Jim                                      Ok
  Ecco the Dolphin                                   Ok
+ Ecco the Dolphin (JP)                             *Ok
  Ecco - The Tides of Time                           Ok
  Ecco - The Tides of Time / Ecco the Dolphin II (JP)Ok
  Ernie Els Golf                                     Ok
  Eternal Legend (JP)                                Ok
- Evander Holyfield Boxing                           Ok
+ Evander Holyfield's "Real Deal" Boxing             Ok
  Excellent Dizzy Collection, The [SMS-GG]           Ok
  F1                                                 Ok
  F-15 Strike Eagle                                  Ok
@@ -759,6 +761,7 @@
  G-LOC - Air Battle [v1] (JP)                       Ok
  Godzilla - Kaiju Dai-Shingeki (JP)                 Ok
  GP Rider                                           Ok
+ GP Rider (JP)                                     *Ok
  Greendog                                           Ok
  Griffin                                            Ok
  Gunstar Heroes (JP)                                Ok
@@ -816,10 +819,11 @@
  Mac Donald - Ronald in the Magical World           Ok
  Madden's NFL '95                                   Ok
  Madden' 96                                         Ok
- Madou Monogatari I - Mittsu no Madokyu (JP)        Ok
- Madou Monogatari II - Aruru 16-sai (JP)            Ok
- Madou Monogatari III - Kyukyoku Joo-sama (JP)      Ok
- Madou Monogatari A - Dokidoki-Bake Shon (JP)       Ok
+ Madoh Monogatari I - Mittsu no Madokyuu (JP)       Ok
+ Madoh Monogatari II - Aruru 16-sai (JP)            Ok
+ Madoh Monogatari III - Kyuukyoku Joo-sama [v0] (JP)Ok
+ Madoh Monogatari III - Kyuukyoku Joo-sama [v1] (JP*Ok
+ Madoh Monogatari A - Dokidoki-Bake Shon (JP)       Ok
  Magic Knight Ray Earth (JP)                        Ok
  Magic Knight Ray Earth 2 ~making of magic k.. (JP) Ok
  Magical Puzzle Popils (JP)                         Ok
@@ -830,8 +834,8 @@
  Marble Madness                                     Ok
  Marko's Magic Football                             Ok
  Megaman                                            Ok
- Megami Tensei Gaiden - Last Bible (JP)             Ok
- Megami Tensei Gaiden - Last Bible Special (JP)     Ok
+ Megami Tensei Gaiden Last Bible (JP)               Ok
+ Megami Tensei Gaiden Last Bible Special (JP)       Ok
  Mickey Mouse no Mahou no Crystal (JP)              Ok
  Mickey's Ultimate Challenge                        Ok
  Micro Machines                                     Ok
@@ -932,14 +936,14 @@
  Sega Game Pack 4 in 1                              Ok
  Sensible Soccer                                    Ok
  Shadam Crusader ~Harukanaru Oukoku~ (JP)           Ok
- Shanghai 2 (JP)                                    Ok
+ Shanghai II (JP)                                   Ok
  Shaq Fu                                            Ok
  Shining Force - The Sword of Hajya                 Reset after some missions (?).
- Shining Force Gaiden (JP)                          Ok
- Shining Force Gaiden II (JP)                       Ok
- Shining Force Gaiden - Final Conflict (JP)         Ok
+ Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP) Ok
+ Shining Force Gaiden II ~Jashin no Mezame~ (JP)    Ok
+ Shining Force Gaiden ~Final Conflict~ (JP)         Ok
  Shikinjou (JP)                                     Ok
- Skweek                                             Ok
+ Skweek (JP)                                        Ok
  Shinobi / GG Shinobi, The                          Ok
  Shinobi II - The Silent Fury / GG Shinobi II (JP)  Ok
  Side Pocket (US)                                   Ok
@@ -985,7 +989,7 @@
  Super Monaco GP II (Ayrton Senna's)                Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) (JP)           Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
- Super Return of the Jedi (Star Wars)              *Ok
+ Super Return of the Jedi (Star Wars)               Ok
  Super Smash T.V.                                   Ok
  Super Space Invaders                               Ok
  Surf Ninjas                                        Ok
@@ -1053,7 +1057,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 421 games tested - 412 are "Ok" - Compatibility rate: 97.86%
+ 423 games tested - 414 are "Ok" - Compatibility rate: 97.86%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
