@@ -165,7 +165,7 @@ int     Frame_Skipper (void)
             //fskipper.FPS_LastComputedTime += cycle_per_second;
 
         // /NIRV mode :) for Nirv who likes to do benchmarking and once made a scandal about it
-        if (Configuration.slash_nirv)
+        if (g_Configuration.slash_nirv)
             fskipper.FPS += 120;
     }
 

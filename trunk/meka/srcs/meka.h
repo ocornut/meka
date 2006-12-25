@@ -58,10 +58,6 @@ int     Meka_State;
 #define MEKA_STATE_GUI              (2)
 #define MEKA_STATE_SHUTDOWN         (3)
 
-// Program parameters ---------------------------------------------------------
-int     params_c;
-char ** params_v;
-
 // Battery Backed RAM Macros --------------------------------------------------
 #define SRAM_Active             (sms.Mapping_Register & 0x08)
 #define SRAM_Page               (sms.Mapping_Register & 0x04)
@@ -255,9 +251,11 @@ typedef struct
 {
     t_meka_env_paths    Paths;
     int                 mouse_installed;
+	int					argc;
+	char **				argv;
 } t_meka_env;
 
-t_meka_env  Env;
+t_meka_env  g_Env;
 
 //-----------------------------------------------------------------------------
 // Configuration
@@ -267,7 +265,7 @@ t_meka_env  Env;
 // This structure should basically reflect the content of MEKA.CFG
 //-----------------------------------------------------------------------------
 
-// Values for Configuration.sprite_flickering
+// Values for g_Configuration.sprite_flickering
 #define SPRITE_FLICKERING_NO        (0)
 #define SPRITE_FLICKERING_ENABLED   (1)
 #define SPRITE_FLICKERING_AUTO      (2) // Default
@@ -325,7 +323,7 @@ typedef struct
 
 } t_meka_configuration;
 
-t_meka_configuration    Configuration;
+t_meka_configuration    g_Configuration;
 
 //-----------------------------------------------------------------------------
 // Media image
@@ -358,7 +356,8 @@ t_media_image   media_ROM;
 // Macros
 //-----------------------------------------------------------------------------
 
-// Colors
+// Border Color
+// FIXME
 #define Border_Color                    (COLOR_BLACK) /*((sms.VDP[7] & 15) + 16)*/
 #define Border_Color_x4                 (Border_Color) | (Border_Color << 8) | (Border_Color << 16) | (Border_Color << 24)
 
@@ -366,9 +365,8 @@ t_media_image   media_ROM;
 #define Debug_Stepping(a)               { if (opt.Debug_Step) ConsolePrintf(a); }
 #define Debug_Trace(a)                  { ConsolePrintf("%s\n", a); /* Font_Write (screen, a, 10, 10, Border_Color); delay (200); */ }
 #define Debug_Pause                     { Refresh_Screen (); while (!key[KEY_SPACE]); while (key[KEY_SPACE]); }
-int     Debug_Now;
 int     Debug_Generic_Value;
-int     Debug_Print_Infos;
+bool    Debug_Print_Infos;
 
 //-----------------------------------------------------------------------------
 // Data (video buffers)

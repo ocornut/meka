@@ -352,7 +352,7 @@ void    Blit_Fullscreen (void)
     blit_cfg.dst_sx = Video.game_area_x1;
     blit_cfg.dst_sy = Video.game_area_y1;
 
-    if (gui_status.timeleft && Configuration.show_fullscreen_messages)
+    if (gui_status.timeleft && g_Configuration.show_fullscreen_messages)
     {
         Blit_Fullscreen_Message ();
         gui_status.timeleft --;
@@ -413,7 +413,7 @@ void    Blitters_Get_Factors (int *x, int *y)
 void    Blit_GUI (void)
 {
     // Wait for VSync if necessary
-    if (Configuration.video_mode_gui_vsync)
+    if (g_Configuration.video_mode_gui_vsync)
     {
         // FIXME: see note about line below in Blit_Fullscreen()
         if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
@@ -428,13 +428,13 @@ void    Blit_GUI (void)
     //Palette_Sync ();
 
     // Blit
-    switch (Configuration.video_mode_gui_access_mode)
+    switch (g_Configuration.video_mode_gui_access_mode)
     {
     case GUI_FB_ACCESS_DIRECT:
         // Nothing to do
         break;
     case GUI_FB_ACCESS_BUFFERED:
-        blit (gui_buffer, screen, 0, 0, 0, 0, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y);
+        blit (gui_buffer, screen, 0, 0, 0, 0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
         break;
     case GUI_FB_ACCESS_FLIPPED:
         // Nothing to do
@@ -442,7 +442,7 @@ void    Blit_GUI (void)
     }
 
     // Update 3-D Glasses (if no VSync)
-    if (!Configuration.video_mode_gui_vsync)
+    if (!g_Configuration.video_mode_gui_vsync)
         if (Glasses.Enabled)
             Glasses_Update ();
 }

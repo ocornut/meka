@@ -29,9 +29,9 @@ void    Main_Loop (void)
         Msg (MSGT_DEBUG, "os_type = { %c%c%c%c (%d.%d) }", os_type>>24, (os_type>>16)&0xFF, (os_type>>8)&0xFF, (os_type)&0xFF, os_version, os_revision);
         Msg (MSGT_DEBUG, "cpu = { fpu: %d, mmx:%d, 3dnow:%d-%d, sse:%d, sse2:%d }", CPU_FPU?1:0, CPU_MMX?1:0, CPU_3DNOW?1:0, CPU_ENH3DNOW?1:0, CPU_SSE?1:0, CPU_SSE2?1:0);
         //Msg (MSGT_DEBUG, "cpu = { has_rdtsc: %d }", OSD_X86CPU_Has_RDTSC ());
-        Msg (MSGT_DEBUG, "desktop = { depth:%d }", Configuration.video_mode_desktop_depth);
-        Msg (MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, Configuration.video_mode_gui_refresh_rate, Configuration.video_mode_gui_depth_cfg);
-        Msg (MSGT_DEBUG, "mouse = %d", Env.mouse_installed);
+        Msg (MSGT_DEBUG, "desktop = { depth:%d }", g_Configuration.video_mode_desktop_depth);
+        Msg (MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_refresh_rate, g_Configuration.video_mode_gui_depth_cfg);
+        Msg (MSGT_DEBUG, "mouse = %d", g_Env.mouse_installed);
         Msg (MSGT_DEBUG, "joystick = %d", num_joysticks);
         Msg (MSGT_DEBUG, "sound = { enable:%d, init:%d, soundcard:%d }", Sound.Enabled, Sound.Initialized, Sound.SoundCard);
         Msg (MSGT_DEBUG, "samplerate = { %d, audio=%d, nominal=%d }", Sound.SampleRate, audio_sample_rate, nominal_sample_rate);

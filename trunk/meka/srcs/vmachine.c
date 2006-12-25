@@ -131,7 +131,7 @@ void    Free_ROM (void)
     Change_System_Misc ();
 
 	// Clear filename data
-    strcpy(Env.Paths.MediaImageFile, "");
+    strcpy(g_Env.Paths.MediaImageFile, "");
     Filenames_Init_ROM();
 }
 

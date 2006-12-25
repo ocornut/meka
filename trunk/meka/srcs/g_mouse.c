@@ -11,7 +11,7 @@
 
 void    gui_mouse_show (BITMAP *bitmap)
 {
-    if (Env.mouse_installed == -1)
+    if (g_Env.mouse_installed == -1)
         return;
     show_mouse(bitmap);
 }
@@ -36,7 +36,7 @@ int     gui_mouse_test_area (byte b, int x1, int y1, int x2, int y2)
 // UPDATE MOUSE VARIABLES -----------------------------------------------------
 void    gui_update_mouse (void)
 {
-    if (Env.mouse_installed == -1)
+    if (g_Env.mouse_installed == -1)
     {
         return;
     }

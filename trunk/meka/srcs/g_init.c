@@ -84,7 +84,7 @@ void    gui_set_video_mode(int res_x, int res_y, int color_depth)
     }
 
     // Setup buffers
-    switch (Configuration.video_mode_gui_access_mode)
+    switch (g_Configuration.video_mode_gui_access_mode)
     {
     case GUI_FB_ACCESS_DIRECT:
         // Direct accesses to video memory
@@ -145,7 +145,7 @@ void    gui_init_applets (void)
     // Text Viewer
     TextViewer_Init(&TextViewer);
     // FIXME: save current file in meka.cfg
-    if (TextViewer_Open(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), Env.Paths.DocumentationMain) != MEKA_ERR_OK)
+    if (TextViewer_Open(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMain) != MEKA_ERR_OK)
         Msg (MSGT_USER, Msg_Get(MSG_Doc_File_Error));
     TextViewer.current_file = 0; // FIXME: Remove this field
 
@@ -172,7 +172,7 @@ void    gui_init_applets (void)
 
     // Debugger
     #ifdef MEKA_Z80_DEBUGGER
-    if (Configuration.debug_mode)
+    if (g_Configuration.debug_mode)
     {
         Debugger_Enable ();
         Debugger_Init ();

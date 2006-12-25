@@ -100,7 +100,7 @@ void    Change_Mode_Misc (void)
 //-----------------------------------------------------------------------------
 void    Set_Mouse_Cursor(int mouse_cursor)
 {
-    if (Env.mouse_installed == -1)
+    if (g_Env.mouse_installed == -1)
         return;
     switch (mouse_cursor)
     {
@@ -252,7 +252,7 @@ void    Quit (void)
     }
 
     // Return back to starting directory
-    chdir (Env.Paths.StartingDirectory);
+    chdir (g_Env.Paths.StartingDirectory);
 
 #ifdef WIN32
     if (Meka_State == MEKA_STATE_INIT)
@@ -283,7 +283,7 @@ void            Quit_Msg (const char *format, ...)
     }
 
     // Return back to starting directory
-    chdir (Env.Paths.StartingDirectory);
+    chdir (g_Env.Paths.StartingDirectory);
 
 #ifdef WIN32
     {

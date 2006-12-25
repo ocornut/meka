@@ -50,8 +50,8 @@ void        gamebox_draw (t_gui_box *box, BITMAP *game_buffer)
 
 void        gamebox_compute_size(int *x, int *y)
 {
-    *x = (cur_drv->x_res * Configuration.game_screen_scale) - 1;
-    *y = (cur_drv->y_res * Configuration.game_screen_scale) - 1;
+    *x = (cur_drv->x_res * g_Configuration.game_screen_scale) - 1;
+    *y = (cur_drv->y_res * g_Configuration.game_screen_scale) - 1;
 }
 
 // CREATE A GAME BOX ----------------------------------------------------------

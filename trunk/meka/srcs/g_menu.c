@@ -16,15 +16,15 @@ void        gui_redraw_bars (void)
     char    s[16];
 
     // Redraw status bar ------------------------------------------------------
-    rectfill (gui_buffer, 0, Configuration.video_mode_gui_res_y - gui.info.bars_height,     Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
-    rectfill (gui_buffer, 0, Configuration.video_mode_gui_res_y - gui.info.bars_height - 2, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y - gui.info.bars_height - 1, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
+    rectfill (gui_buffer, 0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height,     g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    rectfill (gui_buffer, 0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 1, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
     Font_SetCurrent (F_LARGE);
 
     // Show status bar message
     if (gui_status.timeleft)
     {
-        Font_Print (-1, gui_buffer, gui_status.message, gui_status.x, Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print (-1, gui_buffer, gui_status.message, gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
         gui_status.timeleft --;
     }
 
@@ -32,12 +32,12 @@ void        gui_redraw_bars (void)
     if (fskipper.FPS_Display)
     {
         sprintf (s, "%d FPS", fskipper.FPS);
-        Font_Print (-1, gui_buffer, s, Configuration.video_mode_gui_res_x - 100 - Font_TextLength (-1, s), Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     meka_time_getf (s);
-    Font_Print (-1, gui_buffer, s, Configuration.video_mode_gui_res_x - 10 - Font_TextLength (-1, s), Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 10 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 // UPDATE ALL MENUS -----------------------------------------------------------
@@ -145,8 +145,8 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     if (n_menu == MENU_ID_MAIN) // Main menu (horizontal) ------------------------
     {
         // Draw menu background
-        rectfill (gui_buffer, 0, 0, Configuration.video_mode_gui_res_x, gui.info.bars_height, COLOR_SKIN_MENU_BACKGROUND);
-        rectfill (gui_buffer, 0, gui.info.bars_height + 1, Configuration.video_mode_gui_res_x, gui.info.bars_height + 2, COLOR_SKIN_MENU_BORDER);
+        rectfill (gui_buffer, 0, 0, g_Configuration.video_mode_gui_res_x, gui.info.bars_height, COLOR_SKIN_MENU_BACKGROUND);
+        rectfill (gui_buffer, 0, gui.info.bars_height + 1, g_Configuration.video_mode_gui_res_x, gui.info.bars_height + 2, COLOR_SKIN_MENU_BORDER);
 
         // Draw menu entrys
         x = menus_opt.distance;
@@ -154,7 +154,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         for (i = 0; i < menu->n_entry; i ++)
         {
             ln = Font_TextLength (-1, menu->entry[i]->label);
-            if (x + ln > Configuration.video_mode_gui_res_x)
+            if (x + ln > g_Configuration.video_mode_gui_res_x)
             {
                 break;
             }
@@ -211,7 +211,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         y = menu->sy + MENUS_PADDING_Y;
         for (i = 0; i < menu->n_entry; i ++)
         {
-            if (y + ln > Configuration.video_mode_gui_res_y)
+            if (y + ln > g_Configuration.video_mode_gui_res_y)
             {
                 break;
             }

@@ -220,7 +220,7 @@ void        Skins_Init(void)
     Skins.quit_after_fade       = FALSE;
 
     // Load skins from MEKA.THM file
-    Skins_Load(Env.Paths.SkinFile);
+    Skins_Load(g_Env.Paths.SkinFile);
 
     // Post process skins and verify skin validity (all colors sets, etc)
     {
@@ -561,7 +561,7 @@ void        Skins_Select(t_skin *skin, bool fade)
     if (Skins.skin_current->background_picture != NULL)
     {
         char filename[FILENAME_LEN];
-        sprintf(filename, "%s/%s", Env.Paths.EmulatorDirectory, Skins.skin_current->background_picture);
+        sprintf(filename, "%s/%s", g_Env.Paths.EmulatorDirectory, Skins.skin_current->background_picture);
         Skins.background_picture = load_bitmap(filename, NULL);
         if (Skins.background_picture == NULL)
         {

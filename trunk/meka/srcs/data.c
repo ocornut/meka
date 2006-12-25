@@ -42,7 +42,7 @@ void            Data_Init(void)
 
     // Open and load datafile
     assert(g_Datafile == NULL);
-    df = g_Datafile = load_datafile (Env.Paths.DataFile);
+    df = g_Datafile = load_datafile (g_Env.Paths.DataFile);
     if (g_Datafile == NULL)
         Quit_Msg (Msg_Get (MSG_Failed));
     ConsolePrint ("\n");

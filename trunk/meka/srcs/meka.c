@@ -101,7 +101,6 @@ void    Init_Tables (void)
 // INITIALIZING DEFAULT VARIABLES VALUES --------------------------------------
 void    Init_Default_Values (void)
 {
-    Debug_Now = FALSE;
     Debug_Generic_Value = 0;
     Debug_Print_Infos = FALSE;
 
@@ -125,53 +124,53 @@ void    Init_Default_Values (void)
     cur_machine.driver_id = DRV_SMS;
 
     // Country
-    Configuration.country                       = COUNTRY_EXPORT;
-    Configuration.country_cfg                   = COUNTRY_EXPORT;
-    Configuration.country_cl                    = COUNTRY_AUTO;
+    g_Configuration.country                       = COUNTRY_EXPORT;
+    g_Configuration.country_cfg                   = COUNTRY_EXPORT;
+    g_Configuration.country_cl                    = COUNTRY_AUTO;
 
     // Debug Mode
-    Configuration.debug_mode                    = FALSE;
-    Configuration.debug_mode_cfg                = FALSE;
-    Configuration.debug_mode_cl                 = FALSE;
+    g_Configuration.debug_mode                    = FALSE;
+    g_Configuration.debug_mode_cfg                = FALSE;
+    g_Configuration.debug_mode_cl                 = FALSE;
 
     // Miscellaneous
-    Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
-    Configuration.slash_nirv                    = FALSE;
-    Configuration.enable_BIOS                   = TRUE;
-    Configuration.show_product_number           = FALSE;
-    Configuration.show_fullscreen_messages      = TRUE;
-    Configuration.enable_NES                    = FALSE;
-    Configuration.allow_opposite_directions     = FALSE;
-    Configuration.start_in_gui                  = TRUE;
+    g_Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
+    g_Configuration.slash_nirv                    = FALSE;
+    g_Configuration.enable_BIOS                   = TRUE;
+    g_Configuration.show_product_number           = FALSE;
+    g_Configuration.show_fullscreen_messages      = TRUE;
+    g_Configuration.enable_NES                    = FALSE;
+    g_Configuration.allow_opposite_directions     = FALSE;
+    g_Configuration.start_in_gui                  = TRUE;
 
     // Applet: Game Screen
-    Configuration.game_screen_scale             = 1;// 2
+    g_Configuration.game_screen_scale             = 1;// 2
 
     // Applet: File Browser
-    Configuration.fb_close_after_load           = TRUE;
-    Configuration.fb_uses_DB                    = TRUE;
-    Configuration.fullscreen_after_load         = FALSE;
+    g_Configuration.fb_close_after_load           = TRUE;
+    g_Configuration.fb_uses_DB                    = TRUE;
+    g_Configuration.fullscreen_after_load         = FALSE;
 
     // Applet: Debugger
-    Configuration.debugger_console_lines        = 22;
-    Configuration.debugger_disassembly_lines    = 14;
-    Configuration.debugger_disassembly_display_labels = TRUE;
-    Configuration.debugger_log_enabled          = TRUE;
+    g_Configuration.debugger_console_lines        = 22;
+    g_Configuration.debugger_disassembly_lines    = 14;
+    g_Configuration.debugger_disassembly_display_labels = TRUE;
+    g_Configuration.debugger_log_enabled          = TRUE;
 
     // Applet: Memory Editor
-    Configuration.memory_editor_lines           = 16;
-    Configuration.memory_editor_columns         = 16;
+    g_Configuration.memory_editor_lines           = 16;
+    g_Configuration.memory_editor_columns         = 16;
 
     // Video
-    Configuration.video_mode_desktop_depth      = 0;    // Unknown yet
-    Configuration.video_mode_gui_depth          = 0;    // Default
-    Configuration.video_mode_gui_depth_cfg      = 0;    // Default
-    Configuration.video_mode_gui_res_x          = 640;
-    Configuration.video_mode_gui_res_y          = 480;
-    Configuration.video_mode_gui_driver         = GFX_AUTODETECT_FULLSCREEN;
-    Configuration.video_mode_gui_refresh_rate   = 0;    // Default
-    Configuration.video_mode_gui_access_mode    = GUI_FB_ACCESS_BUFFERED;
-    Configuration.video_mode_gui_vsync          = FALSE;
+    g_Configuration.video_mode_desktop_depth      = 0;    // Unknown yet
+    g_Configuration.video_mode_gui_depth          = 0;    // Default
+    g_Configuration.video_mode_gui_depth_cfg      = 0;    // Default
+    g_Configuration.video_mode_gui_res_x          = 640;
+    g_Configuration.video_mode_gui_res_y          = 480;
+    g_Configuration.video_mode_gui_driver         = GFX_AUTODETECT_FULLSCREEN;
+    g_Configuration.video_mode_gui_refresh_rate   = 0;    // Default
+    g_Configuration.video_mode_gui_access_mode    = GUI_FB_ACCESS_BUFFERED;
+    g_Configuration.video_mode_gui_vsync          = FALSE;
 
     // Media
     // FIXME: yet not fully used
@@ -247,7 +246,7 @@ void    Close_Callback (void)
 // This function is registered in the atexit() table to be called on quit
 void    Close_Emulator_Starting_Dir (void)
 {
-    chdir (Env.Paths.StartingDirectory);
+    chdir (g_Env.Paths.StartingDirectory);
 }
 
 // INITIALIZE ALLEGRO ---------------------------------------------------------
@@ -261,14 +260,14 @@ int     Init_Allegro (void)
     set_uformat(U_ASCII);
     allegro_init();
 
-    Configuration.video_mode_desktop_depth = desktop_color_depth();
-    if (Configuration.video_mode_desktop_depth == 0)
-        Configuration.video_mode_desktop_depth = 16;
-    Configuration.video_mode_gui_depth = Configuration.video_mode_gui_depth_cfg;
-    if (Configuration.video_mode_gui_depth == 0)
-        Configuration.video_mode_gui_depth = Configuration.video_mode_desktop_depth;
+    g_Configuration.video_mode_desktop_depth = desktop_color_depth();
+    if (g_Configuration.video_mode_desktop_depth == 0)
+        g_Configuration.video_mode_desktop_depth = 16;
+    g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_gui_depth_cfg;
+    if (g_Configuration.video_mode_gui_depth == 0)
+        g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_desktop_depth;
 
-    set_color_depth(Configuration.video_mode_gui_depth); // FIXME-DEPTH
+    set_color_depth(g_Configuration.video_mode_gui_depth); // FIXME-DEPTH
     set_color_conversion(COLORCONV_TOTAL);	// FIXME-DEPTH: SHOULD REMOVE IN THE END
     install_timer();
 
@@ -287,7 +286,7 @@ int     Init_Allegro (void)
         //}   
         //#endif
     #endif
-    Env.mouse_installed = install_mouse ();
+    g_Env.mouse_installed = install_mouse ();
 
     // PNG support
     #ifdef MEKA_PNG
@@ -310,7 +309,7 @@ int     Init_Allegro (void)
 void    Init_GUI (void)
 {
     ConsolePrintf ("%s\n", Msg_Get (MSG_Init_GUI));
-    gui_init(Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, Configuration.video_mode_gui_depth);
+    gui_init(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
 }
 
 // MAIN FUNCTION --------------------------------------------------------------
@@ -344,16 +343,16 @@ void    Init_GUI (void)
         return (0);
 
     // Save command line parameters
-    params_c = argc;
-    params_v = malloc (sizeof (char *) * (params_c + 1));
-    for (i = 0; i < params_c; i ++)
+    g_Env.argc = argc;
+    g_Env.argv = malloc (sizeof (char *) * (g_Env.argc + 1));
+    for (i = 0; i != g_Env.argc; i++)
     {
-        params_v [i] = strdup (argv [i]);
+        g_Env.argv[i] = strdup(argv [i]);
         //#ifndef UNIX
-        //  strupr (params_v [i]);
+        //  strupr(g_Env.argv[i]);
         //#endif
     }
-    params_v [i] = NULL;
+    g_Env.argv[i] = NULL;
 
     // FIXME: add 'init system' here
 
@@ -409,7 +408,7 @@ void    Init_GUI (void)
     FB_Init_2               (); // Finish initializing the file browser
 
     // Setup initial state (fullscreen/GUI)
-    if ((machine & MACHINE_RUN) == MACHINE_RUN && !Configuration.start_in_gui)
+    if ((machine & MACHINE_RUN) == MACHINE_RUN && !g_Configuration.start_in_gui)
         Meka_State = MEKA_STATE_FULLSCREEN;
     else
         Meka_State = MEKA_STATE_GUI;

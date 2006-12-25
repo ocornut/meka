@@ -58,7 +58,7 @@ void        BMemory_Load (void)
     if (cur_machine.mapper == MAPPER_93c46)
         EEPROM_93c46_Clear ();
 
-    f = fopen(Env.Paths.BatteryBackedMemoryFile, "rb");
+    f = fopen(g_Env.Paths.BatteryBackedMemoryFile, "rb");
     if (f == NULL)
         return;
     switch (cur_machine.mapper)
@@ -80,9 +80,9 @@ void        BMemory_Save (void)
     case MAPPER_93c46:          break;
     default:                    return;
     }
-    if (!file_exists(Env.Paths.SavegameDirectory, 0xFF, NULL))
-        meka_mkdir(Env.Paths.SavegameDirectory);
-    f = fopen(Env.Paths.BatteryBackedMemoryFile, "wb");
+    if (!file_exists(g_Env.Paths.SavegameDirectory, 0xFF, NULL))
+        meka_mkdir(g_Env.Paths.SavegameDirectory);
+    f = fopen(g_Env.Paths.BatteryBackedMemoryFile, "wb");
     switch (cur_machine.mapper)
     {
     case MAPPER_Standard:       BMemory_SRAM_Save (f); break;

@@ -58,7 +58,7 @@ t_blitter *     Blitter_New (char *name)
     b->tv_colors        = FALSE;
     b->vsync            = FALSE;
     b->refresh_rate     = 0;                                        // Default
-    b->video_depth      = Configuration.video_mode_desktop_depth;   // Default
+    b->video_depth      = g_Configuration.video_mode_desktop_depth;   // Default
     b->stretch          = BLITTER_STRETCH_NONE; // BLITTER_STRETCH_MAX_INT;
     b->triple_buffering = FALSE;
     return (b);
@@ -169,7 +169,7 @@ static int  Blitters_Parse_Line (char *s, char *s_case)
     case 7:
         if (!strcmp(s, "auto"))
         {
-            Blitters.current->video_depth = Configuration.video_mode_desktop_depth;
+            Blitters.current->video_depth = g_Configuration.video_mode_desktop_depth;
             return MEKA_ERR_OK;
         }
         else
