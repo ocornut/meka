@@ -39,7 +39,7 @@ static void    Option_Switch_Uses_VLFN(void)
 
 static void    Option_Switch_NES_Crap(void)
 {
-    Configuration.enable_NES = FALSE;
+    g_Configuration.enable_NES = FALSE;
     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_NES_Deny_Facts));
 }
 
@@ -98,16 +98,16 @@ static void     Options_Layout(t_app_options *app, bool setup)
     frame.pos.y  = OPTIONS_PAD_Y;
     frame.size.x = OPTIONS_CHECK_X;
     frame.size.y = OPTIONS_CHECK_Y;
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_BIOS_Enable),                &Configuration.enable_BIOS,                NULL);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_DB_Display),                 &Configuration.fb_uses_DB,                 Option_Switch_Uses_VLFN);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Product_Number),             &Configuration.show_product_number,        NULL);
-    //Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Bright_Palette),             &Configuration.palette_type,               Palette_Emu_Reload);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Allow_Opposite_Directions),  &Configuration.allow_opposite_directions,  NULL);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Load_Close),                 &Configuration.fb_close_after_load,        NULL);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Load_FullScreen),            &Configuration.fullscreen_after_load,      NULL);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_FullScreen_Messages),        &Configuration.show_fullscreen_messages,   NULL);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_GUI_VSync),                  &Configuration.video_mode_gui_vsync,       NULL);
-    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_NES_Enable),                 &Configuration.enable_NES,                 Option_Switch_NES_Crap);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_BIOS_Enable),                &g_Configuration.enable_BIOS,                NULL);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_DB_Display),                 &g_Configuration.fb_uses_DB,                 Option_Switch_Uses_VLFN);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Product_Number),             &g_Configuration.show_product_number,        NULL);
+    //Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Bright_Palette),             &g_Configuration.palette_type,               Palette_Emu_Reload);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Allow_Opposite_Directions),  &g_Configuration.allow_opposite_directions,  NULL);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Load_Close),                 &g_Configuration.fb_close_after_load,        NULL);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_Load_FullScreen),            &g_Configuration.fullscreen_after_load,      NULL);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_FullScreen_Messages),        &g_Configuration.show_fullscreen_messages,   NULL);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_GUI_VSync),                  &g_Configuration.video_mode_gui_vsync,       NULL);
+    Options_Layout_AddLine(setup, &frame, Msg_Get(MSG_Options_NES_Enable),                 &g_Configuration.enable_NES,                 Option_Switch_NES_Crap);
 }
 
 void    Options_Update(void)

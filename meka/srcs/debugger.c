@@ -443,12 +443,12 @@ void        Debugger_Init_Values (void)
 static void Debugger_Init_LogFile(void)
 {
     // Open log file if not already open
-    if (Configuration.debugger_log_enabled && Debugger.log_file == NULL)
+    if (g_Configuration.debugger_log_enabled && Debugger.log_file == NULL)
     {
         char filename[FILENAME_LEN];
-        if (!file_exists(Env.Paths.DebugDirectory, 0xFF, NULL))
-            meka_mkdir(Env.Paths.DebugDirectory);
-        sprintf(filename, "%s/%s", Env.Paths.DebugDirectory, Debugger.log_filename);
+        if (!file_exists(g_Env.Paths.DebugDirectory, 0xFF, NULL))
+            meka_mkdir(g_Env.Paths.DebugDirectory);
+        sprintf(filename, "%s/%s", g_Env.Paths.DebugDirectory, Debugger.log_filename);
         Debugger.log_file = fopen(filename, "a+t");
         if (Debugger.log_file != NULL)
             fprintf(Debugger.log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
@@ -1082,7 +1082,7 @@ void     Debugger_Symbols_Load(void)
 
     // Load symbol file
     // 1. Try "image.sym"
-    strcpy(symbol_filename, Env.Paths.MediaImageFile);
+    strcpy(symbol_filename, g_Env.Paths.MediaImageFile);
     killext(symbol_filename);
     strcat(symbol_filename, ".sym");
     symbol_file = tfile_read(symbol_filename);
@@ -1093,7 +1093,7 @@ void     Debugger_Symbols_Load(void)
             Msg(MSGT_USER, meka_strerror());
 
         // 2. Try "image.ext.sym"
-        snprintf(symbol_filename, FILENAME_MAX, "%s.sym", Env.Paths.MediaImageFile);
+        snprintf(symbol_filename, FILENAME_MAX, "%s.sym", g_Env.Paths.MediaImageFile);
         symbol_file = tfile_read(symbol_filename);
         if (symbol_file == NULL)
         {
@@ -1537,7 +1537,7 @@ static void Debugger_Applet_Init (void)
     frame.pos.x     = 280;
     frame.pos.y     = 50;
     frame.size.x    = 360;
-    frame.size.y    = ((Configuration.debugger_console_lines + 1 + Configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
+    frame.size.y    = ((g_Configuration.debugger_console_lines + 1 + g_Configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
 
     DebuggerApp.box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
@@ -1570,9 +1570,9 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.x = 6;
     frame.pos.y = 2;
     frame.size.x = DebuggerApp.box->frame.size.x - (6*2);
-    frame.size.y = Configuration.debugger_console_lines * DebuggerApp.font_height;
+    frame.size.y = g_Configuration.debugger_console_lines * DebuggerApp.font_height;
     if (setup)
-        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, Configuration.debugger_console_lines, DebuggerApp.font_id);
+        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, g_Configuration.debugger_console_lines, DebuggerApp.font_id);
     frame.pos.y += frame.size.y;
 
     // Add line
@@ -1583,7 +1583,7 @@ static void     Debugger_Applet_Layout(bool setup)
     DebuggerApp.frame_disassembly.pos.x   = frame.pos.x;
     DebuggerApp.frame_disassembly.pos.y   = frame.pos.y;
     DebuggerApp.frame_disassembly.size.x  = frame.size.x;
-    DebuggerApp.frame_disassembly.size.y  = Configuration.debugger_disassembly_lines * DebuggerApp.font_height;
+    DebuggerApp.frame_disassembly.size.y  = g_Configuration.debugger_disassembly_lines * DebuggerApp.font_height;
     frame.pos.y += DebuggerApp.frame_disassembly.size.y;
 
     // Add line
@@ -1712,7 +1712,7 @@ void        Debugger_Applet_Redraw_State(void)
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines = ((Configuration.debugger_disassembly_lines - 1) / 4) + 1; 
+        int     trackback_lines = ((g_Configuration.debugger_disassembly_lines - 1) / 4) + 1; 
         trackback_lines = MIN(trackback_lines, 10); // Max 10
         //  1 -> 1
         //  5 -> 2
@@ -1812,12 +1812,12 @@ void        Debugger_Applet_Redraw_State(void)
         //  JR NZ
 
         // Disassemble instructions starting at 'PC'
-        for (i = 0; i < Configuration.debugger_disassembly_lines; i++)
+        for (i = 0; i < g_Configuration.debugger_disassembly_lines; i++)
         {
             char buf[256];
             int text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
 
-            if (Configuration.debugger_disassembly_display_labels)
+            if (g_Configuration.debugger_disassembly_display_labels)
             {
                 // Display symbols/labels
                 if (Debugger.symbols_cpu_space[pc] != NULL)
@@ -1834,10 +1834,10 @@ void        Debugger_Applet_Redraw_State(void)
                         sprintf(buf, "%s:", symbol->name);
                         Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
                         i++;
-                        if (i >= Configuration.debugger_disassembly_lines)
+                        if (i >= g_Configuration.debugger_disassembly_lines)
                             break;
                     }
-                    if (i >= Configuration.debugger_disassembly_lines)
+                    if (i >= g_Configuration.debugger_disassembly_lines)
                         break;
                 }
             }
@@ -1846,7 +1846,7 @@ void        Debugger_Applet_Redraw_State(void)
             //Debugger_Z80_PC_Log_Queue_Add(pc);
 
             // Disassemble
-            if (Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
+            if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
             {
                 buf[0] = ' ';
                 pc += Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
@@ -2736,7 +2736,7 @@ void        Debugger_InputParseCommand(char *line)
                     char buf[256];
                     addr += Debugger_Disassemble_Format(buf, addr, addr == sms.R.PC.W);
 
-                    if (Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
+                    if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
                     {
                         // Display symbols/labels (if any)
                         t_list *symbols;

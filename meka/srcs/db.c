@@ -199,7 +199,7 @@ void            DB_Init (void)
     DB.entries_counter_format_new   = 0;
 
     DB_CurrentEntry = NULL;
-    DB_Load (Env.Paths.DataBaseFile);
+    DB_Load (g_Env.Paths.DataBaseFile);
 }
 
 //-----------------------------------------------------------------------------
@@ -725,7 +725,7 @@ t_db_entry *    DB_Entry_Find (u32 crc32, t_meka_crc *mekacrc)
 char *          DB_Entry_GetCurrentName (t_db_entry *entry)
 {
     // In Japanese country mode, search for a Japanese name
-    if (Configuration.country == COUNTRY_JAPAN)
+    if (g_Configuration.country == COUNTRY_JAPAN)
     {
         t_db_name *name = DB_Entry_GetNameByCountry (entry, DB_COUNTRY_JP);
         if (name)

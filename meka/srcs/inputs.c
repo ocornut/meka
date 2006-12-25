@@ -226,11 +226,11 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                     }
                     else if (Meka_State == MEKA_STATE_GUI)
                     {
-                        t_video_driver *driver = VideoDriver_FindByDriverId(Configuration.video_mode_gui_driver);
+                        t_video_driver *driver = VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver);
                         if (driver && driver->drv_id_switch_fs_win)
                         {
-                            Configuration.video_mode_gui_driver = driver->drv_id_switch_fs_win;
-                            Video_GUI_ChangeVideoMode(Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, Configuration.video_mode_gui_depth);
+                            g_Configuration.video_mode_gui_driver = driver->drv_id_switch_fs_win;
+                            Video_GUI_ChangeVideoMode(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
                         }
                     }
                     return;
@@ -507,7 +507,7 @@ void    Inputs_Peripheral_Change_Update (void)
     // Update LightGun.Enabled quick access flag
     LightGun.Enabled = (Inputs.Peripheral [0] == INPUT_LIGHTPHASER || Inputs.Peripheral [1] == INPUT_LIGHTPHASER);
 
-    if (Env.mouse_installed == -1)
+    if (g_Env.mouse_installed == -1)
         return;
 
     Cursor = MEKA_MOUSE_CURSOR_STANDARD; 

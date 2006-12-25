@@ -79,8 +79,8 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
 
     // Setup members
     mv->active = TRUE;
-    mv->size_columns    = (size_columns != -1) ? size_columns : Configuration.memory_editor_columns;
-    mv->size_lines      = (size_lines != -1)   ? size_lines   : Configuration.memory_editor_lines;
+    mv->size_columns    = (size_columns != -1) ? size_columns : g_Configuration.memory_editor_columns;
+    mv->size_lines      = (size_lines != -1)   ? size_lines   : g_Configuration.memory_editor_lines;
 
     mv->frame_hex.pos.x  = 4 + (Font_Height(F_MIDDLE) * 6) - 7;
     mv->frame_hex.pos.y  = 4;

@@ -142,7 +142,7 @@ Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPAR
         }
 
         // Fill debugger enable box
-        CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)Configuration.debug_mode_cfg);
+        CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_Configuration.debug_mode_cfg);
 
         return FALSE;
         }
@@ -171,7 +171,7 @@ Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPAR
                      Messages.Lang_Cur = lang; // FIXME
                      }
                   // Debugger enable
-                  Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
+                  g_Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
                   EndDialog(hDlg, 0);
                   }
                return TRUE;

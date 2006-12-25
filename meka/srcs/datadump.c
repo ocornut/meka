@@ -72,9 +72,9 @@ void    DataDump_Mode_Raw (void)
 
 static void     DataDump_Write_Filename (char *s, const char *name)
 {
-    if (!file_exists (Env.Paths.DebugDirectory, 0xFF, NULL))
-        meka_mkdir (Env.Paths.DebugDirectory);
-    sprintf (s, "%s/%s", Env.Paths.DebugDirectory, name);
+    if (!file_exists (g_Env.Paths.DebugDirectory, 0xFF, NULL))
+        meka_mkdir (g_Env.Paths.DebugDirectory);
+    sprintf (s, "%s/%s", g_Env.Paths.DebugDirectory, name);
 }
 
 static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
@@ -117,7 +117,7 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
     // Print a header
     fprintf(f_dump, MEKA_NAME_VERSION "\n");
     fprintf(f_dump, "** %s dump\n", name);
-    fprintf(f_dump, "** File: %s\n", Env.Paths.MediaImageFile);
+    fprintf(f_dump, "** File: %s\n", g_Env.Paths.MediaImageFile);
     // Note: meka_date_getf() return a string with an ending \n
     fprintf(f_dump, "** Date: %s\n", meka_date_getf());
 

@@ -1,4 +1,12 @@
 
+Map making: being able to take a screenshot with scrolling rounded to the nearest 8 pixels might help
+
+http://www.smspower.org/forums/viewtopic.php?t=9478
+Now I have a question. In some Master System games (made at 1993 to be exact) such as 
+Sonic Chaos, Deep Duck Trouble have problems. Sometimes they are fine, other times the 
+games crash after they get to the title card(Level Name) as these problems have been 
+in previous releases. 
+
 - Revert to _SAFE video driver if startup driver cannot be used.
 
 Proppy session debugger notes:

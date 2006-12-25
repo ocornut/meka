@@ -571,7 +571,7 @@ void        Refresh_Sprites_5 (bool draw)
         Sprites_on_Line = 64 + 9;
     }
     // Draw all sprites on line if flickering is not enabled
-    else if (!(Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED))
+    else if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED))
     {
         Sprites_on_Line = 0;
     }

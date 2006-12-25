@@ -376,7 +376,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         {
             // Create a new file browser entry of given type
             t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-            if (Configuration.fb_uses_DB)
+            if (g_Configuration.fb_uses_DB)
                 FB_Entry_FindVLFN (entry);
 
             // Add to list (FIXME: argh)
@@ -434,7 +434,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         {
             // Create a new file browser entry of given type
             t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-            if (Configuration.fb_uses_DB)
+            if (g_Configuration.fb_uses_DB)
                 FB_Entry_FindVLFN (entry);
 
             // Add to list (FIXME: argh)
@@ -489,7 +489,7 @@ static void     FB_Load_Directory_Internal (void)
     list_add (&ext_list, "COL");
     list_add (&ext_list, "BIN");
     list_add (&ext_list, "ROM");
-    if (Configuration.enable_NES)
+    if (g_Configuration.enable_NES)
         list_add (&ext_list, "NES");
     #ifdef MEKA_ZIP
         list_add (&ext_list, "ZIP");
@@ -877,7 +877,7 @@ void        FB_Load_All_Names (void)
         t_filebrowser_entry *entry = FB.files[i];
         if (entry->type == FB_ENTRY_TYPE_FILE)
         {
-            strncpy(Env.Paths.MediaImageFile, entry->file_name, sizeof(Env.Paths.MediaImageFile));
+            strncpy(g_Env.Paths.MediaImageFile, entry->file_name, sizeof(g_Env.Paths.MediaImageFile));
             // Msg (MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
             FB.file_pos = i;
             FB_Check_and_Repos ();
@@ -924,14 +924,14 @@ void        FB_Open (void)
         }
     case FB_ENTRY_TYPE_FILE:
         {
-            strncpy(Env.Paths.MediaImageFile, entry->file_name, sizeof(Env.Paths.MediaImageFile));
+            strncpy(g_Env.Paths.MediaImageFile, entry->file_name, sizeof(g_Env.Paths.MediaImageFile));
             Load_ROM (LOAD_INTERFACE, TRUE);
             FB_Reload_Names ();
-            if (Configuration.fb_close_after_load)
+            if (g_Configuration.fb_close_after_load)
             {
                 FB_Switch ();
             }
-            if (Configuration.fullscreen_after_load)
+            if (g_Configuration.fullscreen_after_load)
             {
                 Action_Switch_Mode ();
             }
@@ -978,7 +978,7 @@ void    FB_Reload_Names (void)
 {
     int i;
 
-    if (!Configuration.fb_uses_DB)
+    if (!g_Configuration.fb_uses_DB)
         return;
 
     // Reget all names

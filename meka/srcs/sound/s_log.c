@@ -37,13 +37,13 @@ void    Sound_Log_FileName_Get (char *result, char *filename_template, int *id)
     char   s2 [FILENAME_LEN];
 
     // Create Directory if necessary --------------------------------------------
-    if (!file_exists(Env.Paths.MusicDirectory, 0xFF, NULL))
-        meka_mkdir(Env.Paths.MusicDirectory);
+    if (!file_exists(g_Env.Paths.MusicDirectory, 0xFF, NULL))
+        meka_mkdir(g_Env.Paths.MusicDirectory);
 
     // Create second template ----------------------------------------------------
     if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & runnnig
     {
-        strcpy (s1, Env.Paths.MediaImageFile);
+        strcpy (s1, g_Env.Paths.MediaImageFile);
         killpath (s1);
         killext (s1);
         game_name = s1;
@@ -56,7 +56,7 @@ void    Sound_Log_FileName_Get (char *result, char *filename_template, int *id)
 
     do
     {
-        sprintf (result, s2, Env.Paths.MusicDirectory, game_name, *id);
+        sprintf (result, s2, g_Env.Paths.MusicDirectory, game_name, *id);
         (*id) ++;
     }
     while (file_exists (result, 0xFF, NULL) != 0 && *id < SOUND_LOG_ID_MAX);

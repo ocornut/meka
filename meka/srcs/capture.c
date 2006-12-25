@@ -57,13 +57,13 @@ void        Capture_FileName_Get (char *dst)
     char    s2 [FILENAME_LEN];
 
     // Create directory if necessary
-    if (!file_exists (Env.Paths.ScreenshotDirectory, 0xFF, NULL))
-        meka_mkdir(Env.Paths.ScreenshotDirectory);
+    if (!file_exists (g_Env.Paths.ScreenshotDirectory, 0xFF, NULL))
+        meka_mkdir(g_Env.Paths.ScreenshotDirectory);
 
     // Create second template
     if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
     {
-        strcpy (s1, Env.Paths.MediaImageFile);
+        strcpy (s1, g_Env.Paths.MediaImageFile);
         killpath (s1);
         killext (s1);
         game_name = s1;
@@ -77,7 +77,7 @@ void        Capture_FileName_Get (char *dst)
     // Create a filename and check if the file already exists. Loop if it is the case.
     do
     {
-        sprintf (dst, s2, Env.Paths.ScreenshotDirectory, game_name, Capture.id_number);
+        sprintf (dst, s2, g_Env.Paths.ScreenshotDirectory, game_name, Capture.id_number);
         Capture.id_number ++;
     }
     while (file_exists (dst, 0xFF, NULL) != 0 && Capture.id_number < CAPTURE_ID_MAX);
@@ -125,8 +125,8 @@ void            Capture_Screen (void)
     case MEKA_STATE_GUI: // GUI mode
         x_start = 0;
         y_start = 0;
-        x_len = Configuration.video_mode_gui_res_x;
-        y_len = Configuration.video_mode_gui_res_y;
+        x_len = g_Configuration.video_mode_gui_res_x;
+        y_len = g_Configuration.video_mode_gui_res_y;
         source = gui_buffer;
         break;
 

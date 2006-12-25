@@ -133,9 +133,9 @@ void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
     t_list *boxes;
 
     gui_mouse_show(NULL);
-    Configuration.video_mode_gui_res_x = res_x;
-    Configuration.video_mode_gui_res_y = res_y;
-    Configuration.video_mode_gui_depth = depth;
+    g_Configuration.video_mode_gui_res_x = res_x;
+    g_Configuration.video_mode_gui_res_y = res_y;
+    g_Configuration.video_mode_gui_depth = depth;
     gui_set_video_mode(res_x, res_y, depth);
     if (Meka_State == MEKA_STATE_GUI)
         Video_Setup_State();
@@ -269,28 +269,28 @@ void    Video_Setup_State (void)
         {
             // Revert to GUI color depth
             // FIXME-DEPTH
-	        set_color_depth(Configuration.video_mode_gui_depth);
+	        set_color_depth(g_Configuration.video_mode_gui_depth);
 
-            switch (Configuration.video_mode_gui_access_mode)
+            switch (g_Configuration.video_mode_gui_access_mode)
             {
             case GUI_FB_ACCESS_FLIPPED: //--------------------[ Two video pages ]---
                 {
                     #ifdef WIN32
-                    Video_Mode_Change (Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_x, 0, 0, Configuration.video_mode_gui_refresh_rate, TRUE);
+                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
                     #else
-                    Video_Mode_Change (Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_x, 0, Configuration.video_mode_gui_res_y * 2, Configuration.video_mode_gui_refresh_rate, TRUE);
+                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, g_Configuration.video_mode_gui_res_y * 2, g_Configuration.video_mode_gui_refresh_rate, TRUE);
                     #endif
-                    gui_page_0 = create_sub_bitmap (screen, 0, 0,                                   Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y);
-                    gui_page_1 = create_sub_bitmap (screen, 0, Configuration.video_mode_gui_res_y,  Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y);
+                    gui_page_0 = create_sub_bitmap (screen, 0, 0,                                   g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
+                    gui_page_1 = create_sub_bitmap (screen, 0, g_Configuration.video_mode_gui_res_y,  g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
                     opt.GUI_Current_Page = 1;
                     gui_buffer = gui_page_1;
-                    scroll_screen (0, Configuration.video_mode_gui_res_y);
+                    scroll_screen (0, g_Configuration.video_mode_gui_res_y);
                     break;
                 }
             default: //---------------------------------[ One video page ]---
                 {
-                    Video_Mode_Change (Configuration.video_mode_gui_driver, Configuration.video_mode_gui_res_x, Configuration.video_mode_gui_res_y, 0, 0, Configuration.video_mode_gui_refresh_rate, TRUE);
-                    if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_DIRECT)
+                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+                    if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_DIRECT)
                         gui_buffer = screen;
                     break;
                 }
@@ -300,7 +300,7 @@ void    Video_Setup_State (void)
             //Palette_Sync_All ();
 
             gui_redraw_everything_now_once ();
-            if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_BUFFERED)
+            if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_BUFFERED)
             {
                 gui_mouse_show (gui_buffer);
             }
@@ -348,13 +348,13 @@ void    Refresh_Screen (void)
 
         if (Meka_State == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
         {
-            if (Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_FLIPPED)
+            if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_FLIPPED)
             {
                 opt.GUI_Current_Page ^= 1;
                 if (opt.GUI_Current_Page == 0)
                 { gui_buffer = gui_page_0; scroll_screen (0, 0); }
                 else
-                { gui_buffer = gui_page_1; scroll_screen (0, Configuration.video_mode_gui_res_y); }
+                { gui_buffer = gui_page_1; scroll_screen (0, g_Configuration.video_mode_gui_res_y); }
             }
 
             gui_update ();

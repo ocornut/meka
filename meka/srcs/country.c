@@ -25,12 +25,12 @@ void    Set_Country_European_US (void)
     Msg (MSGT_USER, Msg_Get (MSG_Country_European_US));
     if (machine & MACHINE_POWER_ON)
         Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
-    Configuration.country = Configuration.country_cfg = COUNTRY_EXPORT;
+    g_Configuration.country = g_Configuration.country_cfg = COUNTRY_EXPORT;
     gui_menu_un_check (menus_ID.country);
     gui_menu_check (menus_ID.country, 0);
 
     // Set emulation country
-    sms.Country = Configuration.country;
+    sms.Country = g_Configuration.country;
 
     // Update game boxes name and file browser
     gamebox_rename_all ();
@@ -42,12 +42,12 @@ void    Set_Country_JP (void)
     Msg (MSGT_USER, Msg_Get (MSG_Country_JAP));
     if (machine & MACHINE_POWER_ON)
         Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
-    Configuration.country = Configuration.country_cfg = COUNTRY_JAPAN;
+    g_Configuration.country = g_Configuration.country_cfg = COUNTRY_JAPAN;
     gui_menu_un_check (menus_ID.country);
     gui_menu_check (menus_ID.country, 1);
 
     // Set emulation country
-    sms.Country = Configuration.country;
+    sms.Country = g_Configuration.country;
 
     // Update game boxes name and file browser
     gamebox_rename_all ();
@@ -73,10 +73,10 @@ void    Nationalize (byte *v)
 // INITIALIZE COUNTRY ---------------------------------------------------------
 void    Country_Init (void)
 {
-    if (Configuration.country_cl != COUNTRY_AUTO)
-        Configuration.country = Configuration.country_cl;
+    if (g_Configuration.country_cl != COUNTRY_AUTO)
+        g_Configuration.country = g_Configuration.country_cl;
     else
-        Configuration.country = Configuration.country_cfg;
+        g_Configuration.country = g_Configuration.country_cfg;
 }
 
 //-----------------------------------------------------------------------------

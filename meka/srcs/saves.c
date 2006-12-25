@@ -582,14 +582,14 @@ void    Save_Get_Filename (char *str)
     char buf [FILENAME_LEN];
 
     // Create save state directory if it doesn't exist already
-    if (!file_exists (Env.Paths.SavegameDirectory, 0xFF, NULL))
-        meka_mkdir (Env.Paths.SavegameDirectory);
+    if (!file_exists (g_Env.Paths.SavegameDirectory, 0xFF, NULL))
+        meka_mkdir (g_Env.Paths.SavegameDirectory);
 
     // Compute save state filename
-    strcpy (buf, Env.Paths.MediaImageFile);
+    strcpy (buf, g_Env.Paths.MediaImageFile);
     killext (buf);
     killpath (buf);
-    sprintf (str, "%s/%s.S%02d", Env.Paths.SavegameDirectory, buf, opt.State_Current);
+    sprintf (str, "%s/%s.S%02d", g_Env.Paths.SavegameDirectory, buf, opt.State_Current);
 }
 
 //-----------------------------------------------------------------------------
