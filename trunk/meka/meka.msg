@@ -20,6 +20,7 @@
 ;                                Msg_Blitters_Error_Incorrect_Value
 ;                                Msg_Menu_Tools_TilemapViewer
 ;                                Msg_Menu_Help_Debugger
+;                                Msg_Options_Capture_Automatic_Crop_Align
 ;              Renamed:          Msg_Inputs_Configuration_BoxTitle -> Msg_Inputs_Config_BoxTitle
 ;                                Msg_Theme_Not_Enough -> Msg_Theme_Error_Not_Enough
 ;                                Msg_Theme_Missing -> Msg_Theme_Error_Missing_Theme_Name
@@ -29,6 +30,10 @@
 ;                                Msg_Blitters_Unrecognized -> Msg_Blitters_Error_Unrecognized
 ;                                MSG_Options_NES_Activated -> MSG_Options_NES_Enable
 ;              Removed:          Msg_Theme_Unrecognized
+;                                Msg_VoiceRecognition_BoxTitle
+;                                Msg_VoiceRecognition_Enabled
+;                                Msg_VoiceRecognition_Disabled
+;                                Msg_Menu_Sound_VoiceRecognition
 ;              Updated:          Msg_Window_Title
 ;                                Msg_Inputs_Joy_Init_None
 ;                                Msg_Inputs_Joy_Init_Found
@@ -558,11 +563,6 @@ Msg_FPS_Counter_Disabled                = "FPS counter disabled"
 Msg_Log_Need_Param                      = "LOG parameter requires a filename!"
 Msg_Log_Session_Start                   = "-- Logging session started on %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Voice Recognition"
-Msg_VoiceRecognition_Enabled            = "Voice Recognition enabled"
-Msg_VoiceRecognition_Disabled           = "Voice Recognition disabled"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "LOAD parameter requires a savestate number!"
 Msg_Load_Error                          = "Error opening %s!"
@@ -588,6 +588,7 @@ Msg_Options_Load_Close                  = "Close file browser after loading a ga
 Msg_Options_Load_FullScreen             = "Switch to fullscreen mode after loading a game."
 Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wait for VSync in interface mode."
+Msg_Options_Capture_Automatic_Crop_Align= "Automatically crop and align screen captures."
 Msg_Options_NES_Enable                  = "Mario is not a fat plumber."
 
 ; Languages / Localization ---------------------------------------------------
@@ -679,7 +680,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
 Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
 Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accurate"
-Msg_Menu_Sound_VoiceRecognition         = "Voice Recognition"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "INPUTS"
@@ -1062,11 +1062,6 @@ Msg_FPS_Counter_Disabled                = "Compteur d'image par seconde désactiv
 Msg_Log_Need_Param                      = "Le paramêtre LOG nécessite un nom de fichier!"
 Msg_Log_Session_Start                   = "-- Rapport de session débuté le %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Reconnaissance vocale"
-Msg_VoiceRecognition_Enabled            = "Reconnaissance vocale activée"
-Msg_VoiceRecognition_Disabled           = "Reconnaissance vocale désactivée"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "Le paramêtre LOAD nécessite un numéro de sauvegarde!"
 Msg_Load_Error                          = "Erreur en ouvrant %s!"
@@ -1182,7 +1177,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "Arrêter en WAV"
 Msg_Menu_Sound_Dump_VGM_Start           = "Démarrer en VGM"
 Msg_Menu_Sound_Dump_VGM_Stop            = "Arrêter en VGM"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "Haute précision VGM"
-Msg_Menu_Sound_VoiceRecognition         = "Reconnaissance vocale"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "CONTROLE"
@@ -1542,11 +1536,6 @@ Msg_FPS_Counter_Disabled                = "FPS counter disabled"
 Msg_Log_Need_Param                      = "LOG opshun needs a filename!"
 Msg_Log_Session_Start                   = "-- Loggin' sesshun started on %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Voice Recognishun"
-Msg_VoiceRecognition_Enabled            = "Voice Recognishun inabled"
-Msg_VoiceRecognition_Disabled           = "Voice Recognishun disabled"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "LOAD opshun needs a savestate number! Fry mah hide!"
 Msg_Load_Error                          = "Erro' openin' %s!"
@@ -1658,7 +1647,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
 Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
 Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accurate"
-Msg_Menu_Sound_VoiceRecognition         = "Voice Recognishun"
 Msg_Menu_Sound_FM_Emulator              = "Emulashun Engine"
 Msg_Menu_Sound_FM_Emulator_OPL          = "OPL"
 Msg_Menu_Sound_FM_Emulator_Digital      = "Digital"
@@ -2029,12 +2017,6 @@ Msg_FPS_Counter_Disabled                = "FPS teller uitgeschakeld"
 Msg_Log_Need_Param                      = "LOG optie heeft een bestandsnaam nodig!"
 Msg_Log_Session_Start                   = "-- Logge sessie gestart op %s"
 
-
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Stem herkenning"
-Msg_VoiceRecognition_Enabled            = "Stem herkenning aan"
-Msg_VoiceRecognition_Disabled           = "Stem herkenning uit"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "LAAD optie heeft een savestate nummer nodig!"
 Msg_Load_Error                          = "Error openen van %s!"
@@ -2151,7 +2133,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
 Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
 Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accuratie"
-Msg_Menu_Sound_VoiceRecognition         = "Stem herkenning"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "CONTROLS"
@@ -2499,11 +2480,6 @@ Msg_FPS_Counter_Disabled                = "Contador de FPS deshabilitado"
 Msg_Log_Need_Param                      = "LOG de opciones necesita un nombre de archivo!"
 Msg_Log_Session_Start                   = "-- Sesion de LOG empezada en %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Reconocimiento de voz"
-Msg_VoiceRecognition_Enabled            = "Reconocimiento de voz habilitado"
-Msg_VoiceRecognition_Disabled           = "Reconocimiento de voz deshabilitado"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "La opcion LOAD necesita un numero de estado salvado"
 Msg_Load_Error                          = "Error abriendo %s!"
@@ -2614,7 +2590,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "Parar WAV"
 Msg_Menu_Sound_Dump_VGM_Start           = "Empezar VGM"
 Msg_Menu_Sound_Dump_VGM_Stop            = "Parar VGM"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accurate"
-Msg_Menu_Sound_VoiceRecognition         = "Reconocimiento de voz"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "ENTRADA"
@@ -2971,11 +2946,6 @@ Msg_Frameskip_Standard                  = "Taxa de quadros ajustada para: 1/%d"
 Msg_Log_Need_Param                      = "Op‡Æo LOG precisa de um nome de arquivo!"
 Msg_Log_Session_Start                   = "-- Registrando sessÆo iniciada em %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Reconhecimento de voz"
-Msg_VoiceRecognition_Enabled            = "Reconhecimento de voz ligado"
-Msg_VoiceRecognition_Disabled           = "Reconhecimento de voz desligado"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "A op‡Æo LOAD precisa de um n£mero de estado gravado"
 Msg_Load_Error                          = "Erro abrindo %s!"
@@ -3087,7 +3057,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "Pára WAV"
 Msg_Menu_Sound_Dump_VGM_Start           = "Inicia VGM"
 Msg_Menu_Sound_Dump_VGM_Stop            = "Pára VGM"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM com sample preciso"
-Msg_Menu_Sound_VoiceRecognition         = "Reconhecimento de voz"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "ENTRADAS"
@@ -3430,11 +3399,6 @@ Msg_FPS_Counter_Disabled                = "Contatore FPS disattivato"
 Msg_Log_Need_Param                      = "Opzione LOG, serve un nome-file!"
 Msg_Log_Session_Start                   = "-- Logging sessione partito %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Riconoscitore voci"
-Msg_VoiceRecognition_Enabled            = "Riconoscitore voci attivato"
-Msg_VoiceRecognition_Disabled           = "Riconoscitore voci disattivato"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "All'opzione LOAD serve un numero di file di stato!"
 Msg_Load_Error                          = "Errore di apertura %s!"
@@ -3545,7 +3509,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "Termina Dump WAV"
 Msg_Menu_Sound_Dump_VGM_Start           = "Comincia Dump VGM"
 Msg_Menu_Sound_Dump_VGM_Stop            = "Termina Dump VGM"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "Campioni VGM accurati"
-Msg_Menu_Sound_VoiceRecognition         = "Riconoscitore voci"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "INPUT"
@@ -3893,11 +3856,6 @@ Msg_FPS_Counter_Disabled                = "FPS-Anzeige aus"
 Msg_Log_Need_Param                      = "LOG benötigt einen Dateinamen!"
 Msg_Log_Session_Start                   = "-- Logging gestartet um %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Stimmerkennung"
-Msg_VoiceRecognition_Enabled            = "Stimmerkennung aktiviert"
-Msg_VoiceRecognition_Disabled           = "Stimmerkennung deaktiviert"
-
 ; Save States -----------------------------------------------------------------
 Msg_Load_Need_Param                     = "Laden benötigt Nummer des Slots!"
 Msg_Load_Error                          = "Fehler beim Öffnen von %s!"
@@ -4008,7 +3966,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
 Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
 Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM samplegenau"
-Msg_Menu_Sound_VoiceRecognition         = "Stimmerkennung"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "EINGABE"
@@ -4366,11 +4323,6 @@ Msg_FPS_Counter_Disabled                = "FPS-räknare av"
 Msg_Log_Need_Param                      = "LOG valet kräver ett filnamn!"
 Msg_Log_Session_Start                   = "-- Loggnings session startad på %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Röstigenkänning"
-Msg_VoiceRecognition_Enabled            = "Röstigenkänning på"
-Msg_VoiceRecognition_Disabled           = "Röstigenkänning av"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "LADDA valet kräver ett savestate nummer!"
 Msg_Load_Error                          = "Fel vid öppnande av %s!"
@@ -4485,7 +4437,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
 Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
 Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sampel exakt"
-Msg_Menu_Sound_VoiceRecognition         = "Röstigenkänning"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "STYRENHETER"
@@ -4840,11 +4791,6 @@ Msg_FPS_Counter_Disabled                = "FPS tæller slået fra"
 Msg_Log_Need_Param                      = "LOG-mulighed behoever et filnavn!"
 Msg_Log_Session_Start                   = "-- Logning startet %s"
 
-; Voice Recognition ----------------------------------------------------------
-Msg_VoiceRecognition_BoxTitle           = "Stemmegenkendelse"
-Msg_VoiceRecognition_Enabled            = "Stemmegenkendelse slået til"
-Msg_VoiceRecognition_Disabled           = "Stemmegenkendelse slået fra"
-
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "LOAD-muligheden har brug for et tilstandsnummer!"
 Msg_Load_Error                          = "Fejl under åbning af %s!"
@@ -4958,7 +4904,6 @@ Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
 Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
 Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample-Eksakt"
-Msg_Menu_Sound_VoiceRecognition         = "Stemmegenkendelse"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "STYREENHEDER"

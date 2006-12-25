@@ -172,6 +172,14 @@ void    Init_Default_Values (void)
     g_Configuration.video_mode_gui_access_mode    = GUI_FB_ACCESS_BUFFERED;
     g_Configuration.video_mode_gui_vsync          = FALSE;
 
+	// Capture
+#ifdef DOS
+	g_Configuration.capture_filename_template	  = "%.5s-%02d.png"; // Short Filename
+#else
+	g_Configuration.capture_filename_template	  = "%s-%02d.png";   // Long Filename (ala SMS Power)
+#endif
+	g_Configuration.capture_automatic_crop_align  = FALSE;
+
     // Media
     // FIXME: yet not fully used
     media_ROM.type        = MEDIA_IMAGE_ROM;

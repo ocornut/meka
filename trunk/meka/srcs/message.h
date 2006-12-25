@@ -21,778 +21,883 @@
 #define MSG_LANG_WIP_STR                "WIP"
 
 // Messages definitions
-#define MSG_NULL                                    (0)
-#define MSG_Quit                                    (1)
-#define MSG_About_Line_Meka_Date                    (2)
-#define MSG_About_Line_Authors                      (3)
-#define MSG_About_Line_Homepage                     (4)
-#define MSG_Capture_Done                            (5)
-#define MSG_Capture_Error_File                      (6)
-#define MSG_SRAM_Loaded                             (7)
-#define MSG_SRAM_Load_Unable                        (8)
-#define MSG_SRAM_Wrote                              (9)
-#define MSG_SRAM_Write_Unable                       (10)
-#define MSG_93c46_Reset                             (11)
-#define MSG_93c46_Loaded                            (12)
-#define MSG_93c46_Load_Unable                       (13)
-#define MSG_93c46_Wrote                             (14)
-#define MSG_93c46_Write_Unable                      (15)
-#define MSG_TVType_Set                              (16)
-#define MSG_TVType_Info_Speed                       (17)
-#define MSG_Blitters_Loading                        (18)
-#define MSG_Blitters_Error_Not_Enough               (19)
-#define MSG_Blitters_Error_Not_Found                (20)
-#define MSG_Blitters_Error_Missing                  (21)
-#define MSG_Blitters_Error_Unrecognized             (22)
-#define MSG_Blitters_Set                            (23)
-#define MSG_NES_Activate                            (24)
-#define MSG_NES_Sucks                               (25)
-#define MSG_NES_Mapper_Unknown                      (26)
-#define MSG_NES_Deny_Facts                          (27)
-#define MSG_Debug_Trap_Read                         (28)
-#define MSG_Debug_Trap_Write                        (29)
-#define MSG_Debug_Trap_Port_Read                    (30)
-#define MSG_Debug_Trap_Port_Write                   (31)
-#define MSG_DataDump_Mode_Ascii                     (32)
-#define MSG_DataDump_Mode_Raw                       (33)
-#define MSG_DataDump_Error                          (34)
-#define MSG_DataDump_Error_OB_Memory                (35)
-#define MSG_DataDump_Error_Palette                  (36)
-#define MSG_DataDump_Error_Sprites                  (37)
-#define MSG_DataDump_Main                           (38)
-#define MSG_Doc_File_Error                          (39)
-#define MSG_Doc_Enabled                             (40)
-#define MSG_Doc_Disabled                            (41)
-#define MSG_Flickering_Auto                         (42)
-#define MSG_Flickering_Yes                          (43)
-#define MSG_Flickering_No                           (44)
-#define MSG_Layer_BG_Disabled                       (45)
-#define MSG_Layer_BG_Enabled                        (46)
-#define MSG_Layer_Spr_Disabled                      (47)
-#define MSG_Layer_Spr_Enabled                       (48)
-#define MSG_FDC765_Unknown_Read                     (49)
-#define MSG_FDC765_Unknown_Write                    (50)
-#define MSG_FDC765_Disk_Too_Large1                  (51)
-#define MSG_FDC765_Disk_Too_Large2                  (52)
-#define MSG_TVOekaki_Pen_Touch                      (53)
-#define MSG_TVOekaki_Pen_Away                       (54)
-#define MSG_Palette_Disabled                        (55)
-#define MSG_Palette_Enabled                         (56)
-#define MSG_Message_Disabled                        (57)
-#define MSG_Message_Enabled                         (58)
-#define MSG_TechInfo_Disabled                       (59)
-#define MSG_TechInfo_Enabled                        (60)
-#define MSG_TilesViewer_Disabled                    (61)
-#define MSG_TilesViewer_Enabled                     (62)
-#define MSG_RapidFire_JxBx_On                       (63)
-#define MSG_RapidFire_JxBx_Off                      (64)
-#define MSG_FM_Enabled                              (65)
-#define MSG_FM_Disabled                             (66)
-#define MSG_Country_European_US                     (67)
-#define MSG_Country_JAP                             (68)
-#define MSG_Must_Reset                              (69)
-#define MSG_Error_File_Not_Found                    (70)
-#define MSG_Error_File_Read                         (71)
-#define MSG_Error_File_Empty                        (72)
-#define MSG_Error_ZIP_Not_Supported                 (73)
-#define MSG_Error_ZIP_Loading                       (74)
-#define MSG_Error_ZIP_Internal                      (75)
-#define MSG_Error_Base                              (76)
-#define MSG_Error_Error                             (77)
-#define MSG_Error_Memory                            (78)
-#define MSG_Error_Param                             (79)
-#define MSG_Error_Syntax                            (80)
-#define MSG_Error_Video_Mode                        (81)
-#define MSG_Patch_Value_Not_a_Byte                  (82)
-#define MSG_Patch_Missing                           (83)
-#define MSG_Patch_Unrecognized                      (84)
-#define MSG_Patch_Out_of_Bound                      (85)
-#define MSG_Glasses_Enabled                         (86)
-#define MSG_Glasses_Disabled                        (87)
-#define MSG_Glasses_Show_Both                       (88)
-#define MSG_Glasses_Show_Left                       (89)
-#define MSG_Glasses_Show_Right                      (90)
-#define MSG_Glasses_Com_Port                        (91)
-#define MSG_Glasses_Com_Port2                       (92)
-#define MSG_Glasses_Unsupported                     (93)
-#define MSG_Inputs_Src_Loading                      (94)
-#define MSG_Inputs_Src_Not_Enough                   (95)
-#define MSG_Inputs_Src_Missing                      (96)
-#define MSG_Inputs_Src_Equal                        (97)
-#define MSG_Inputs_Src_Unrecognized                 (98)
-#define MSG_Inputs_Src_Syntax_Param                 (99)
-#define MSG_Inputs_Src_Inconsistency                (100)
-#define MSG_Inputs_Src_Map_Keyboard                 (101)
-#define MSG_Inputs_Src_Map_Keyboard_Ok              (102)
-#define MSG_Inputs_Src_Map_Joypad                   (103)
-#define MSG_Inputs_Src_Map_Joypad_Ok_A              (104)
-#define MSG_Inputs_Src_Map_Joypad_Ok_B              (105)
-#define MSG_Inputs_Src_Map_Mouse                    (106)
-#define MSG_Inputs_Src_Map_Mouse_Ok_B               (107)
-#define MSG_Inputs_Src_Map_Mouse_No_A               (108)
-#define MSG_Inputs_Src_Map_Cancelled                (109)
-#define MSG_Machine_Pause                           (110)
-#define MSG_Machine_Resume                          (111)
-#define MSG_Machine_Reset                           (112)   // Unused
-#define MSG_Inputs_Joy_Init                         (113)
-#define MSG_Inputs_Joy_Init_None                    (114)
-#define MSG_Inputs_Joy_Init_Found                   (115)
-#define MSG_Inputs_Joy_Calibrate_Error              (116)
-#define MSG_FDB_Loading                             (117)
-#define MSG_Welcome                                 (118)
-#define MSG_Window_Title                            (119)
-#define MSG_Patch_Loading                           (120)
-#define MSG_DB_Loading                              (121)
-#define MSG_DB_Name_Default                         (122)
-#define MSG_DB_Name_NoCartridge                     (123)
-#define MSG_Config_Loading                          (124)
-#define MSG_Datafile_Loading                        (125)
-#define MSG_Failed                                  (126)
-#define MSG_Driver_Unknown                          (127)
-#define MSG_OverDump                                (128)
-#define MSG_Debug_Init                              (129)
-#define MSG_Debug_Welcome                           (130)
-#define MSG_Debug_Not_Available                     (131)
-#define MSG_Debug_Brk_Need_Param                    (132)
-//#define MSG_Debug_Brk_Enable                      (133)
-#define MSG_Menu_Debug_Enabled                      (133)
-#define MSG_Sound_Init                              (134)
-#define MSG_Sound_Init_Error_SEAL                   (135)
-#define MSG_Sound_Init_Error_Audio                  (136)
-#define MSG_Sound_Init_Error_Blaster                (137)
-#define MSG_Sound_Init_Error_Blaster_A              (138)
-#define MSG_Sound_Init_Error_Voices                 (139)
-#define MSG_Sound_Init_Error_Voice_N                (140)
-#define MSG_Sound_Init_Soundcard                    (141)
-#define MSG_Setup_Soundcard_Select                  (142)
-#define MSG_Setup_Soundcard_Select_Tips_DOS         (143)
-#define MSG_Setup_Soundcard_Select_Tips_Win32       (144)
-#define MSG_Sound_Init_Soundcard_No                 (145)
-#define MSG_Sound_Init_SN76496                      (146)
-#define MSG_Sound_Init_YM2413_OPL                   (147)
-#define MSG_Sound_Stream_Error                      (148)
-#define MSG_Sound_Rate_Changed                      (149)
-#define MSG_Theme_Loading                           (150)
-#define MSG_Theme_Error_Not_Enough                  (151)
-#define MSG_Theme_Error_Missing_Theme_Name          (152)
-#define MSG_Theme_Error_Syntax                      (153)
-#define MSG_Theme_Error_BG_Big                      (154)
-#define MSG_Theme_Error_BG                          (155)
-#define MSG_Theme_Error_BG_FileName                 (156)
-#define MSG_LoadROM_Loading                         (157)
-#define MSG_LoadROM_Success                         (158)
-#define MSG_LoadDisk_Success                        (159)
-#define MSG_LoadROM_Comment                         (160)
-#define MSG_LoadROM_Warning                         (161)
-#define MSG_LoadROM_Bad_Dump_Long                   (162)
-#define MSG_LoadROM_Bad_Dump_Short                  (163)
-#define MSG_LoadROM_Product_Num                     (164)
-#define MSG_FM_Editor_Enabled                       (165)
-#define MSG_FM_Editor_Disabled                      (166)
-#define MSG_Frameskip_Auto                          (167)
-#define MSG_Frameskip_Standard                      (168)
-#define MSG_Log_Need_Param                          (169)
-#define MSG_Inputs_Joypad                           (170)
-#define MSG_Inputs_LightPhaser                      (171)
-#define MSG_Inputs_PaddleControl                    (172)
-#define MSG_Inputs_SportsPad                        (173)
-#define MSG_Inputs_TVOekaki                         (174)
-#define MSG_Inputs_Play_Digital                     (175)
-#define MSG_Inputs_Play_Mouse                       (176)
-#define MSG_Inputs_Play_Pen                         (177)
-#define MSG_No_ROM                                  (178)
-#define MSG_Init_Allegro                            (179)
-#define MSG_Init_GUI                                (180)
-#define MSG_Init_Completed                          (181)
-#define MSG_Load_Error                              (182)
-#define MSG_Load_Not_Valid                          (183)
-#define MSG_Load_Success                            (184)
-#define MSG_Load_Version                            (185)
-#define MSG_Load_Wrong_System                       (186)
-#define MSG_Load_Massage                            (187)
-#define MSG_Save_Error                              (188)
-#define MSG_Save_Success                            (189)
-#define MSG_Save_Slot                               (190)
-#define MSG_Error_Directory_Open                    (191)
-#define MSG_Log_Session_Start                       (192)
-#define MSG_Options_BIOS_Enable                     (193)
-#define MSG_Options_Product_Number                  (194)
-#define MSG_Options_Bright_Palette                  (195)
-#define MSG_Options_Load_Close                      (196)
-#define MSG_Options_Load_FullScreen                 (197)
-#define MSG_Options_DB_Display                      (198)
-#define MSG_Options_FullScreen_Messages             (199)
-#define MSG_Options_GUI_VSync                       (200)
-#define MSG_Options_NES_Enable                      (201)
-#define MSG_Language_Set                            (202)
-#define MSG_Language_Set_Warning                    (203)
-#define MSG_Sound_Dumping_Start                     (204)
-#define MSG_Sound_Dumping_Stop                      (205)
-#define MSG_Sound_Dumping_Error_File_1              (206)
-#define MSG_Sound_Dumping_Error_File_2              (207)
-#define MSG_Load_Need_Param                         (208)
-#define MSG_LoadROM_SDSC                            (209)
-#define MSG_LoadROM_SDSC_Name                       (210)
-#define MSG_LoadROM_SDSC_Version                    (211)
-#define MSG_LoadROM_SDSC_Date                       (212)
-#define MSG_LoadROM_SDSC_Release_Note               (213)
-#define MSG_LoadROM_SDSC_Unknown                    (214)
-#define MSG_LoadROM_SDSC_Error                      (215)
-#define MSG_Save_Not_in_BIOS                        (216)
-#define MSG_Sound_Dumping_VGM_Acc_Frame             (217)
-#define MSG_Sound_Dumping_VGM_Acc_Sample            (218)
-#define MSG_Sound_Dumping_VGM_Acc_Change            (219)
-// 0.61
-#define MSG_FDC765_Disk_Too_Small1                  (220)
-#define MSG_FDC765_Disk_Too_Small2                  (221)
-#define MSG_LoadROM_SDSC_Author                     (222)
-#define MSG_VoiceRecognition_BoxTitle               (223)
-#define MSG_VoiceRecognition_Enabled                (224)
-#define MSG_VoiceRecognition_Disabled               (225)
-#define MSG_TilesViewer_BoxTitle                    (226)
-#define MSG_TilesViewer_Tile                        (227)
-#define MSG_Options_BoxTitle                        (228)
-#define MSG_Options_Close                           (229)
-#define MSG_FileBrowser_BoxTitle                    (230)
-#define MSG_FileBrowser_Drive                       (231)
-#define MSG_FileBrowser_Load                        (232)
-#define MSG_FileBrowser_Close                       (233)
-#define MSG_FileBrowser_LoadNames                   (234)
-#define MSG_FileBrowser_ReloadDir                   (235)
-#define MSG_Inputs_Config_BoxTitle                  (236)
-#define MSG_Message_BoxTitle                        (237)
-#define MSG_TechInfo_BoxTitle                       (238)
-#define MSG_Doc_BoxTitle                            (239)
-#define MSG_About_BoxTitle                          (240)
-#define MSG_Palette_BoxTitle                        (241)
-#define MSG_Menu_Main                               (242)
-#define MSG_Menu_Main_LoadROM                       (243)
-#define MSG_Menu_Main_FreeROM                       (244)
-#define MSG_Menu_Main_SaveState                     (245)
-#define MSG_Menu_Main_LoadState                     (246)
-#define MSG_Menu_Main_Options                       (247)
-#define MSG_Menu_Main_Language                      (248)
-#define MSG_Menu_Main_Quit                          (249)
-#define MSG_Menu_Debug                              (250)
-#define MSG_Menu_Debug_Dump                         (251)
-#define MSG_Menu_Debug_Reload_ROM                   (252)
-#define MSG_Menu_Machine                            (253)
-#define MSG_Menu_Machine_Power                      (254)
-#define MSG_Menu_Machine_Power_On                   (255)
-#define MSG_Menu_Machine_Power_Off                  (256)
-#define MSG_Menu_Machine_Country                    (257)
-#define MSG_Menu_Machine_Country_EU                 (258)
-#define MSG_Menu_Machine_Country_Jap                (259)
-#define MSG_Menu_Machine_TVType                     (260)
-#define MSG_Menu_Machine_TVType_NTSC                (261)
-#define MSG_Menu_Machine_TVType_PALSECAM            (262)
-#define MSG_Menu_Machine_HardPause                  (263)
-#define MSG_Menu_Machine_HardReset                  (264)
-#define MSG_Menu_Video                              (265)
-#define MSG_Menu_Video_FullScreen                   (266)
-#define MSG_Menu_Video_Themes                       (267)
-#define MSG_Menu_Video_Blitters                     (268)
-#define MSG_Menu_Video_Layers                       (269)
-#define MSG_Menu_Video_Layers_Sprites               (270)
-#define MSG_Menu_Video_Layers_Background            (271)
-#define MSG_Menu_Video_Flickering                   (272)
-#define MSG_Menu_Video_Flickering_Auto              (273)
-#define MSG_Menu_Video_Flickering_Yes               (274)
-#define MSG_Menu_Video_Flickering_No                (275)
-#define MSG_Menu_Video_3DGlasses                    (276)
-#define MSG_Menu_Video_3DGlasses_Enabled            (277)
-#define MSG_Menu_Video_3DGlasses_ShowBothSides      (278)
-#define MSG_Menu_Video_3DGlasses_ShowLeftSide       (279)
-#define MSG_Menu_Video_3DGlasses_ShowRightSide      (280)
-#define MSG_Menu_Video_3DGlasses_UsesCOMPort        (281)
-#define MSG_Menu_Video_Screens                      (282)
-#define MSG_Menu_Video_Screens_New                  (283)
-#define MSG_Menu_Video_Screens_KillLast             (284)
-#define MSG_Menu_Video_Screens_KillAll              (285)
-#define MSG_Menu_Sound                              (286)
-#define MSG_Menu_Sound_FM                           (287)
-#define MSG_Menu_Sound_FM_Enabled                   (288)
-#define MSG_Menu_Sound_FM_Disabled                  (289)
-#define MSG_Menu_Sound_FM_Editor                    (290)
-#define MSG_Menu_Sound_Volume                       (291)
-#define MSG_Menu_Sound_Volume_Mute                  (292)
-#define MSG_Menu_Sound_Volume_Value                 (293)
-#define MSG_Menu_Sound_Rate                         (294)
-#define MSG_Menu_Sound_Rate_Hz                      (295)
-#define MSG_Menu_Sound_Channels                     (296)
-#define MSG_Menu_Sound_Channels_Tone                (297)
-#define MSG_Menu_Sound_Channels_Noises              (298)
-#define MSG_Menu_Sound_Dump                         (299)
-#define MSG_Menu_Sound_Dump_WAV_Start               (300)
-#define MSG_Menu_Sound_Dump_WAV_Stop                (301)
-#define MSG_Menu_Sound_Dump_VGM_Start               (302)
-#define MSG_Menu_Sound_Dump_VGM_Stop                (303)
-#define MSG_Menu_Sound_Dump_VGM_SampleAccurate      (304)
-#define MSG_Menu_Sound_VoiceRecognition             (305)
-#define MSG_Menu_Inputs                             (306)
-#define MSG_Menu_Inputs_Joypad                      (307)
-#define MSG_Menu_Inputs_LightPhaser                 (308)
-#define MSG_Menu_Inputs_PaddleControl               (309)
-#define MSG_Menu_Inputs_SportsPad                   (310)
-#define MSG_Menu_Inputs_GraphicBoard                (311)
-#define MSG_Menu_Inputs_SK1100                      (312)
-#define MSG_Menu_Inputs_RapidFire                   (313)
-#define MSG_Menu_Inputs_RapidFire_PxBx              (314)
-#define MSG_Menu_Inputs_Configuration               (315)
-#define MSG_Menu_Tools                              (316)
-#define MSG_Menu_Tools_Messages                     (317)
-#define MSG_Menu_Tools_Palette                      (318)
-#define MSG_Menu_Tools_TilesViewer                  (319)
-#define MSG_Menu_Tools_TechInfo                     (320)
-#define MSG_Menu_Help                               (321)
-#define MSG_Menu_Help_Documentation                 (322)
-#define MSG_Menu_Help_About                         (323)
-#define MSG_FM_Editor_BoxTitle                      (324)
-// 0.62
-#define MSG_Capture_Error                           (325)
-// 0.62c
-#define MSG_Menu_Help_Documentation_W               (326)
-#define MSG_Menu_Help_Compat                        (327)
-#define MSG_Menu_Help_Changes                       (328)
-// 0.63
-#define MSG_FPS_Counter_Enabled                     (329)
-#define MSG_FPS_Counter_Disabled                    (330)
-#define MSG_Menu_Help_Multiplayer_Games             (331)
-// 0.63c
-#define MSG_Menu_Sound_FM_Emulator                  (332)
-#define MSG_Menu_Sound_FM_Emulator_OPL              (333)
-#define MSG_Menu_Sound_FM_Emulator_Digital          (334)
-#define MSG_Sound_Init_YM2413_Digital               (335)
-#define MSG_Ok                                      (336)
-#define MSG_Sound_Volume_Changed                    (337)
-// 0.64c
-#define MSG_Error_Video_Mode_Back_To_GUI            (338)
-// 0.65
-#define MSG_Menu_Help_Documentation_U               (339)
-// 0.65b
-#define MSG_Setup_SampleRate_Select                 (340)
-#define MSG_Setup_Setup                             (341)
-// 0.66
-#define MSG_Glasses_Com_Port_Open_Error             (342)
-// 0.67
-#define MSG_Inputs_Play_Digital_Unrecommended       (343)
-// 0.68
-#define MSG_DB_SyntaxError                          (344)
-#define MSG_LoadROM_SMSGG_Mode_Comment              (345)
-// 0.69
-#define MSG_MemoryEditor_BoxTitle                   (346)
-#define MSG_MemoryEditor_Disabled                   (347)
-#define MSG_MemoryEditor_Enabled                    (348)
-#define MSG_Menu_Tools_MemoryEditor                 (349)
-#define MSG_MemoryEditor_WriteZ80_Unable            (350)
-#define MSG_MemoryEditor_Address_Out_of_Bound       (351)
-#define MSG_Setup_Running                           (352)
-// 0.69b
-#define MSG_Options_Allow_Opposite_Directions       (353)
-#define MSG_Inputs_SK1100_Enabled                   (354)
-#define MSG_Inputs_SK1100_Disabled                  (355)
-// 0.71
-#define MSG_Setup_Debugger_Enable                   (356)
-#define MSG_LoadROM_Reload_Reloaded                 (357)
-#define MSG_LoadROM_Reload_No_ROM                   (358)
-#define MSG_Debug_Symbols_Loaded                    (359)
-#define MSG_Debug_Symbols_Error                     (360)
-#define MSG_Debug_Symbols_Error_Line                (361)
-// 0.72
-#define MSG_Inputs_Config_Peripheral_Click          (362)
-#define MSG_Inputs_Config_Source_Enabled            (363)
-#define MSG_Inputs_Config_Source_Player             (364)
-#define MSG_Inputs_Config_Source_Emulate_Joypad     (365)
-#define MSG_Theme_Error_Attribute_Defined           (366)
-#define MSG_Theme_Error_Out_of_Bound                (367)
-#define MSG_Theme_Error_Theme_Missing_Data          (368)
-#define MSG_Blitters_Error_Incorrect_Value          (369)
-#define MSG_Menu_Tools_TilemapViewer                (370)
-#define MSG_Menu_Help_Debugger                      (371)
+enum
+{
+	MSG_NULL                                    = 0,
 
-// Number of messages
-#define MSG_MAX                                     (372)
+	MSG_Welcome,
+	MSG_Window_Title,
+	MSG_Quit,
+
+	MSG_About_BoxTitle,
+	MSG_About_Line_Meka_Date,
+	MSG_About_Line_Authors,
+	MSG_About_Line_Homepage,
+
+	MSG_Ok,
+	MSG_Failed,
+	MSG_Error_Base,
+	MSG_Error_Error,
+	MSG_Error_Memory,
+	MSG_Error_Param,
+	MSG_Error_Syntax,
+
+	MSG_Error_Video_Mode,
+	MSG_Error_Video_Mode_Back_To_GUI,
+
+	MSG_Error_File_Not_Found,
+	MSG_Error_File_Read,
+	MSG_Error_File_Empty,
+
+	MSG_Error_ZIP_Not_Supported,
+	MSG_Error_ZIP_Loading,
+	MSG_Error_ZIP_Internal,
+
+	MSG_Error_Directory_Open,
+
+	MSG_Must_Reset,
+	MSG_No_ROM,
+
+	MSG_Init_Allegro,
+	MSG_Init_GUI,
+	MSG_Init_Completed,
+
+	MSG_Setup_Running,
+	MSG_Setup_Setup,
+	MSG_Setup_Soundcard_Select,
+	MSG_Setup_Soundcard_Select_Tips_DOS,
+	MSG_Setup_Soundcard_Select_Tips_Win32,
+	MSG_Setup_SampleRate_Select,
+	MSG_Setup_Debugger_Enable,
+
+	MSG_Capture_Done,
+	MSG_Capture_Error,
+	MSG_Capture_Error_File,
+	
+	MSG_SRAM_Loaded,
+	MSG_SRAM_Load_Unable,
+	MSG_SRAM_Wrote,
+	MSG_SRAM_Write_Unable,
+	
+	MSG_93c46_Reset,
+	MSG_93c46_Loaded,
+	MSG_93c46_Load_Unable,
+	MSG_93c46_Wrote,
+	MSG_93c46_Write_Unable,
+	
+	MSG_TVType_Set,
+	MSG_TVType_Info_Speed,
+	
+	MSG_Blitters_Loading,
+	MSG_Blitters_Error_Not_Enough,
+	MSG_Blitters_Error_Not_Found,
+	MSG_Blitters_Error_Missing,
+	MSG_Blitters_Error_Unrecognized,
+	MSG_Blitters_Error_Incorrect_Value,
+	MSG_Blitters_Set,
+	
+	MSG_NES_Activate,
+	MSG_NES_Sucks,
+	MSG_NES_Mapper_Unknown,
+	MSG_NES_Deny_Facts,
+	
+	MSG_Debug_Init,
+	MSG_Debug_Welcome,
+	MSG_Debug_Not_Available,
+	MSG_Debug_Brk_Need_Param,
+	MSG_Debug_Trap_Read,
+	MSG_Debug_Trap_Write,
+	MSG_Debug_Trap_Port_Read,
+	MSG_Debug_Trap_Port_Write,
+	MSG_Debug_Symbols_Loaded,
+	MSG_Debug_Symbols_Error,
+	MSG_Debug_Symbols_Error_Line,
+	
+	MSG_DataDump_Mode_Ascii,
+	MSG_DataDump_Mode_Raw,
+	MSG_DataDump_Error,
+	MSG_DataDump_Error_OB_Memory,
+	MSG_DataDump_Error_Palette,
+	MSG_DataDump_Error_Sprites,
+	MSG_DataDump_Main,
+
+	MSG_Doc_BoxTitle,
+	MSG_Doc_File_Error,
+	MSG_Doc_Enabled,
+	MSG_Doc_Disabled,
+	
+	MSG_Flickering_Auto,
+	MSG_Flickering_Yes,
+	MSG_Flickering_No,
+	
+	MSG_Layer_BG_Disabled,
+	MSG_Layer_BG_Enabled,
+	MSG_Layer_Spr_Disabled,
+	MSG_Layer_Spr_Enabled,
+
+	MSG_FDC765_Unknown_Read,
+	MSG_FDC765_Unknown_Write,
+	MSG_FDC765_Disk_Too_Large1,
+	MSG_FDC765_Disk_Too_Large2,
+	MSG_FDC765_Disk_Too_Small1,
+	MSG_FDC765_Disk_Too_Small2,
+	
+	MSG_TVOekaki_Pen_Touch,
+	MSG_TVOekaki_Pen_Away,
+	
+	MSG_Palette_BoxTitle,
+	MSG_Palette_Disabled,
+	MSG_Palette_Enabled,
+	
+	MSG_Message_BoxTitle,
+	MSG_Message_Disabled,
+	MSG_Message_Enabled,
+	
+	MSG_TechInfo_BoxTitle,
+	MSG_TechInfo_Disabled,
+	MSG_TechInfo_Enabled,
+	
+	MSG_TilesViewer_BoxTitle,
+	MSG_TilesViewer_Disabled,
+	MSG_TilesViewer_Enabled,
+	MSG_TilesViewer_Tile,
+	
+	MSG_MemoryEditor_BoxTitle,
+	MSG_MemoryEditor_Disabled,
+	MSG_MemoryEditor_Enabled,
+	MSG_MemoryEditor_WriteZ80_Unable,
+	MSG_MemoryEditor_Address_Out_of_Bound,
+
+	MSG_RapidFire_JxBx_On,
+	MSG_RapidFire_JxBx_Off,
+	
+	MSG_FM_Enabled,
+	MSG_FM_Disabled,
+	
+	MSG_Country_European_US,
+	MSG_Country_JAP,
+	
+	MSG_Patch_Loading,
+	MSG_Patch_Missing,
+	MSG_Patch_Unrecognized,
+	MSG_Patch_Value_Not_a_Byte,
+	MSG_Patch_Out_of_Bound,
+	
+	MSG_Glasses_Enabled,
+	MSG_Glasses_Disabled,
+	MSG_Glasses_Show_Both,
+	MSG_Glasses_Show_Left,
+	MSG_Glasses_Show_Right,
+	MSG_Glasses_Com_Port,
+	MSG_Glasses_Com_Port2,
+	MSG_Glasses_Com_Port_Open_Error,
+	MSG_Glasses_Unsupported,
+
+	MSG_Inputs_Joy_Init,
+	MSG_Inputs_Joy_Init_None,
+	MSG_Inputs_Joy_Init_Found,
+	MSG_Inputs_Joy_Calibrate_Error,
+
+	MSG_Inputs_Joypad,
+	MSG_Inputs_LightPhaser,
+	MSG_Inputs_PaddleControl,
+	MSG_Inputs_SportsPad,
+	MSG_Inputs_TVOekaki,
+	MSG_Inputs_Play_Digital,
+	MSG_Inputs_Play_Mouse,
+	MSG_Inputs_Play_Digital_Unrecommended,
+	MSG_Inputs_Play_Pen,
+	MSG_Inputs_SK1100_Enabled,
+	MSG_Inputs_SK1100_Disabled,
+
+	MSG_Inputs_Config_BoxTitle,
+	MSG_Inputs_Config_Peripheral_Click,
+	MSG_Inputs_Config_Source_Enabled,
+	MSG_Inputs_Config_Source_Player,
+	MSG_Inputs_Config_Source_Emulate_Joypad,
+
+	MSG_Inputs_Src_Loading,
+	MSG_Inputs_Src_Not_Enough,
+	MSG_Inputs_Src_Missing,
+	MSG_Inputs_Src_Equal,
+	MSG_Inputs_Src_Unrecognized,
+	MSG_Inputs_Src_Syntax_Param,
+	MSG_Inputs_Src_Inconsistency,
+	MSG_Inputs_Src_Map_Keyboard,
+	MSG_Inputs_Src_Map_Keyboard_Ok,
+	MSG_Inputs_Src_Map_Joypad,
+	MSG_Inputs_Src_Map_Joypad_Ok_A,
+	MSG_Inputs_Src_Map_Joypad_Ok_B,
+	MSG_Inputs_Src_Map_Mouse,
+	MSG_Inputs_Src_Map_Mouse_Ok_B,
+	MSG_Inputs_Src_Map_Mouse_No_A,
+	MSG_Inputs_Src_Map_Cancelled,
+
+	MSG_Machine_Pause,
+	MSG_Machine_Resume,
+	MSG_Machine_Reset,
+	
+	MSG_FDB_Loading,
+
+	MSG_DB_Loading,
+	MSG_DB_Name_Default,
+	MSG_DB_Name_NoCartridge,
+	MSG_DB_SyntaxError,
+
+	MSG_Config_Loading,
+	
+	MSG_Datafile_Loading,
+	
+	MSG_Driver_Unknown,
+	
+	MSG_OverDump,
+	
+	MSG_Sound_Init,
+	MSG_Sound_Init_Error_SEAL,
+	MSG_Sound_Init_Error_Audio,
+	MSG_Sound_Init_Error_Blaster,
+	MSG_Sound_Init_Error_Blaster_A,
+	MSG_Sound_Init_Error_Voices,
+	MSG_Sound_Init_Error_Voice_N,
+	MSG_Sound_Init_Soundcard,
+	MSG_Sound_Init_Soundcard_No,
+	MSG_Sound_Init_SN76496,
+	MSG_Sound_Init_YM2413_OPL,
+	MSG_Sound_Init_YM2413_Digital,
+	MSG_Sound_Rate_Changed,
+	MSG_Sound_Stream_Error,
+	MSG_Sound_Volume_Changed,
+	
+	MSG_Theme_Loading,
+	MSG_Theme_Error_Not_Enough,
+	MSG_Theme_Error_Missing_Theme_Name,
+	MSG_Theme_Error_Syntax,
+	MSG_Theme_Error_Attribute_Defined,
+	MSG_Theme_Error_Out_of_Bound,
+	MSG_Theme_Error_Theme_Missing_Data,
+	MSG_Theme_Error_BG_Big,
+	MSG_Theme_Error_BG,
+	MSG_Theme_Error_BG_FileName,
+	
+	MSG_LoadROM_Loading,
+	MSG_LoadROM_Success,
+	MSG_LoadDisk_Success,
+	MSG_LoadROM_Comment,
+	MSG_LoadROM_SMSGG_Mode_Comment,
+	MSG_LoadROM_Warning,
+	MSG_LoadROM_Bad_Dump_Long,
+	MSG_LoadROM_Bad_Dump_Short,
+	MSG_LoadROM_Product_Num,
+	MSG_LoadROM_SDSC,
+	MSG_LoadROM_SDSC_Name,
+	MSG_LoadROM_SDSC_Version,
+	MSG_LoadROM_SDSC_Date,
+	MSG_LoadROM_SDSC_Author,
+	MSG_LoadROM_SDSC_Release_Note,
+	MSG_LoadROM_SDSC_Unknown,
+	MSG_LoadROM_SDSC_Error,
+	MSG_LoadROM_Reload_Reloaded,
+	MSG_LoadROM_Reload_No_ROM,
+
+	MSG_FileBrowser_BoxTitle,
+	MSG_FileBrowser_Drive,
+	MSG_FileBrowser_Load,
+	MSG_FileBrowser_Close,
+	MSG_FileBrowser_LoadNames,
+	MSG_FileBrowser_ReloadDir,
+
+	MSG_FM_Editor_BoxTitle,
+	MSG_FM_Editor_Enabled,
+	MSG_FM_Editor_Disabled,
+	
+	MSG_Frameskip_Auto,
+	MSG_Frameskip_Standard,
+	MSG_FPS_Counter_Enabled,
+	MSG_FPS_Counter_Disabled,
+	
+	MSG_Log_Need_Param,
+	MSG_Log_Session_Start,
+	
+	MSG_Load_Need_Param,
+	MSG_Load_Error,
+	MSG_Load_Not_Valid,
+	MSG_Load_Success,
+	MSG_Load_Version,
+	MSG_Load_Wrong_System,
+	MSG_Load_Massage,
+	MSG_Save_Not_in_BIOS,
+	MSG_Save_Error,
+	MSG_Save_Success,
+	MSG_Save_Slot,
+	
+	MSG_Options_BoxTitle,
+	MSG_Options_Close,
+	MSG_Options_BIOS_Enable,
+	MSG_Options_DB_Display,
+	MSG_Options_Product_Number,
+	MSG_Options_Bright_Palette,
+	MSG_Options_Allow_Opposite_Directions,
+	MSG_Options_Load_Close,
+	MSG_Options_Load_FullScreen,
+	MSG_Options_FullScreen_Messages,
+	MSG_Options_GUI_VSync,
+	MSG_Options_Capture_Automatic_Crop_Align,
+	MSG_Options_NES_Enable,
+	
+	MSG_Language_Set,
+	MSG_Language_Set_Warning,
+	
+	MSG_Sound_Dumping_Start,
+	MSG_Sound_Dumping_Stop,
+	MSG_Sound_Dumping_Error_File_1,
+	MSG_Sound_Dumping_Error_File_2,
+	MSG_Sound_Dumping_VGM_Acc_Frame,
+	MSG_Sound_Dumping_VGM_Acc_Sample,
+	MSG_Sound_Dumping_VGM_Acc_Change,
+
+	MSG_Menu_Main,
+	MSG_Menu_Main_LoadROM,
+	MSG_Menu_Main_FreeROM,
+	MSG_Menu_Main_SaveState,
+	MSG_Menu_Main_LoadState,
+	MSG_Menu_Main_Options,
+	MSG_Menu_Main_Language,
+	MSG_Menu_Main_Quit,
+	
+	MSG_Menu_Debug,
+	MSG_Menu_Debug_Enabled,
+	MSG_Menu_Debug_Reload_ROM,
+	MSG_Menu_Debug_Dump,
+	
+	MSG_Menu_Machine,
+	MSG_Menu_Machine_Power,
+	MSG_Menu_Machine_Power_On,
+	MSG_Menu_Machine_Power_Off,
+	MSG_Menu_Machine_Country,
+	MSG_Menu_Machine_Country_EU,
+	MSG_Menu_Machine_Country_Jap,
+	MSG_Menu_Machine_TVType,
+	MSG_Menu_Machine_TVType_NTSC,
+	MSG_Menu_Machine_TVType_PALSECAM,
+	MSG_Menu_Machine_HardPause,
+	MSG_Menu_Machine_HardReset,
+	
+	MSG_Menu_Video,
+	MSG_Menu_Video_FullScreen,
+	MSG_Menu_Video_Themes,
+	MSG_Menu_Video_Blitters,
+	MSG_Menu_Video_Layers,
+	MSG_Menu_Video_Layers_Sprites,
+	MSG_Menu_Video_Layers_Background,
+	MSG_Menu_Video_Flickering,
+	MSG_Menu_Video_Flickering_Auto,
+	MSG_Menu_Video_Flickering_Yes,
+	MSG_Menu_Video_Flickering_No,
+	MSG_Menu_Video_3DGlasses,
+	MSG_Menu_Video_3DGlasses_Enabled,
+	MSG_Menu_Video_3DGlasses_ShowBothSides,
+	MSG_Menu_Video_3DGlasses_ShowLeftSide,
+	MSG_Menu_Video_3DGlasses_ShowRightSide,
+	MSG_Menu_Video_3DGlasses_UsesCOMPort,
+	MSG_Menu_Video_Screens,
+	MSG_Menu_Video_Screens_New,
+	MSG_Menu_Video_Screens_KillLast,
+	MSG_Menu_Video_Screens_KillAll,
+	
+	MSG_Menu_Sound,
+	MSG_Menu_Sound_FM,
+	MSG_Menu_Sound_FM_Enabled,
+	MSG_Menu_Sound_FM_Disabled,
+	MSG_Menu_Sound_FM_Emulator,
+	MSG_Menu_Sound_FM_Emulator_OPL,
+	MSG_Menu_Sound_FM_Emulator_Digital,
+	MSG_Menu_Sound_FM_Editor,
+	MSG_Menu_Sound_Volume,
+	MSG_Menu_Sound_Volume_Mute,
+	MSG_Menu_Sound_Volume_Value,
+	MSG_Menu_Sound_Rate,
+	MSG_Menu_Sound_Rate_Hz,
+	MSG_Menu_Sound_Channels,
+	MSG_Menu_Sound_Channels_Tone,
+	MSG_Menu_Sound_Channels_Noises,
+	MSG_Menu_Sound_Dump,
+	MSG_Menu_Sound_Dump_WAV_Start,
+	MSG_Menu_Sound_Dump_WAV_Stop,
+	MSG_Menu_Sound_Dump_VGM_Start,
+	MSG_Menu_Sound_Dump_VGM_Stop,
+	MSG_Menu_Sound_Dump_VGM_SampleAccurate,
+	
+	MSG_Menu_Inputs,
+	MSG_Menu_Inputs_Joypad,
+	MSG_Menu_Inputs_LightPhaser,
+	MSG_Menu_Inputs_PaddleControl,
+	MSG_Menu_Inputs_SportsPad,
+	MSG_Menu_Inputs_GraphicBoard,
+	MSG_Menu_Inputs_SK1100,
+	MSG_Menu_Inputs_RapidFire,
+	MSG_Menu_Inputs_RapidFire_PxBx,
+	MSG_Menu_Inputs_Configuration,
+	
+	MSG_Menu_Tools,
+	MSG_Menu_Tools_Messages,
+	MSG_Menu_Tools_Palette,
+	MSG_Menu_Tools_TilesViewer,
+	MSG_Menu_Tools_TilemapViewer,
+	MSG_Menu_Tools_TechInfo,
+	MSG_Menu_Tools_MemoryEditor,
+	
+	MSG_Menu_Help,
+	MSG_Menu_Help_Documentation,
+	MSG_Menu_Help_Documentation_W,
+	MSG_Menu_Help_Documentation_U,
+	MSG_Menu_Help_Compat,
+	MSG_Menu_Help_Multiplayer_Games,
+	MSG_Menu_Help_Changes,
+	MSG_Menu_Help_Debugger,
+	MSG_Menu_Help_About,
+
+	// Number of messages
+	MSG_MAX,
+};
 
 //-----------------------------------------------------------------------------
 
 #ifdef __MESSAGE_C__
 #define __MSG_ADD(ID)   { #ID, ID }
-static S2I_TYPE Msg_Translation_Table [] =
+static const S2I_TYPE Msg_Translation_Table [] =
 {
-    __MSG_ADD(MSG_Quit),
-    __MSG_ADD(MSG_About_Line_Meka_Date),
-    __MSG_ADD(MSG_About_Line_Authors),
-    __MSG_ADD(MSG_About_Line_Homepage),
-    __MSG_ADD(MSG_Capture_Done),
-    __MSG_ADD(MSG_Capture_Error_File),
-    __MSG_ADD(MSG_SRAM_Loaded),
-    __MSG_ADD(MSG_SRAM_Load_Unable),
-    __MSG_ADD(MSG_SRAM_Wrote),
-    __MSG_ADD(MSG_SRAM_Write_Unable),
-    __MSG_ADD(MSG_93c46_Reset),
-    __MSG_ADD(MSG_93c46_Loaded),
-    __MSG_ADD(MSG_93c46_Load_Unable),
-    __MSG_ADD(MSG_93c46_Wrote),
-    __MSG_ADD(MSG_93c46_Write_Unable),
-    __MSG_ADD(MSG_TVType_Set),
-    __MSG_ADD(MSG_TVType_Info_Speed),
-    __MSG_ADD(MSG_Blitters_Loading),
-    __MSG_ADD(MSG_Blitters_Error_Not_Enough),
-    __MSG_ADD(MSG_Blitters_Error_Not_Found),
-    __MSG_ADD(MSG_Blitters_Error_Missing),
-    __MSG_ADD(MSG_Blitters_Error_Unrecognized),
-    __MSG_ADD(MSG_Blitters_Set),
-    __MSG_ADD(MSG_NES_Activate),
-    __MSG_ADD(MSG_NES_Sucks),
-    __MSG_ADD(MSG_NES_Mapper_Unknown),
-    __MSG_ADD(MSG_NES_Deny_Facts),
-    __MSG_ADD(MSG_Debug_Trap_Read),
-    __MSG_ADD(MSG_Debug_Trap_Write),
-    __MSG_ADD(MSG_Debug_Trap_Port_Read),
-    __MSG_ADD(MSG_Debug_Trap_Port_Write),
-    __MSG_ADD(MSG_DataDump_Mode_Ascii),
-    __MSG_ADD(MSG_DataDump_Mode_Raw),
-    __MSG_ADD(MSG_DataDump_Error),
-    __MSG_ADD(MSG_DataDump_Error_OB_Memory),
-    __MSG_ADD(MSG_DataDump_Error_Palette),
-    __MSG_ADD(MSG_DataDump_Error_Sprites),
-    __MSG_ADD(MSG_DataDump_Main),
-    __MSG_ADD(MSG_Doc_File_Error),
-    __MSG_ADD(MSG_Doc_Enabled),
-    __MSG_ADD(MSG_Doc_Disabled),
-    __MSG_ADD(MSG_Flickering_Auto),
-    __MSG_ADD(MSG_Flickering_Yes),
-    __MSG_ADD(MSG_Flickering_No),
-    __MSG_ADD(MSG_Layer_BG_Disabled),
-    __MSG_ADD(MSG_Layer_BG_Enabled),
-    __MSG_ADD(MSG_Layer_Spr_Disabled),
-    __MSG_ADD(MSG_Layer_Spr_Enabled),
-    __MSG_ADD(MSG_FDC765_Unknown_Read),
-    __MSG_ADD(MSG_FDC765_Unknown_Write),
-    __MSG_ADD(MSG_FDC765_Disk_Too_Large1),
-    __MSG_ADD(MSG_FDC765_Disk_Too_Large2),
-    __MSG_ADD(MSG_TVOekaki_Pen_Touch),
-    __MSG_ADD(MSG_TVOekaki_Pen_Away),
-    __MSG_ADD(MSG_Palette_Disabled),
-    __MSG_ADD(MSG_Palette_Enabled),
-    __MSG_ADD(MSG_Message_Disabled),
-    __MSG_ADD(MSG_Message_Enabled),
-    __MSG_ADD(MSG_TechInfo_Disabled),
-    __MSG_ADD(MSG_TechInfo_Enabled),
-    __MSG_ADD(MSG_TilesViewer_Disabled),
-    __MSG_ADD(MSG_TilesViewer_Enabled),
-    __MSG_ADD(MSG_RapidFire_JxBx_On),
-    __MSG_ADD(MSG_RapidFire_JxBx_Off),
-    __MSG_ADD(MSG_FM_Enabled),
-    __MSG_ADD(MSG_FM_Disabled),
-    __MSG_ADD(MSG_Country_European_US),
-    __MSG_ADD(MSG_Country_JAP),
-    __MSG_ADD(MSG_Must_Reset),
-    __MSG_ADD(MSG_Error_File_Not_Found),
-    __MSG_ADD(MSG_Error_File_Read),
-    __MSG_ADD(MSG_Error_File_Empty),
-    __MSG_ADD(MSG_Error_ZIP_Not_Supported),
-    __MSG_ADD(MSG_Error_ZIP_Loading),
-    __MSG_ADD(MSG_Error_ZIP_Internal),
-    __MSG_ADD(MSG_Error_Base),
-    __MSG_ADD(MSG_Error_Error),
-    __MSG_ADD(MSG_Error_Memory),
-    __MSG_ADD(MSG_Error_Param),
-    __MSG_ADD(MSG_Error_Syntax),
-    __MSG_ADD(MSG_Error_Video_Mode),
-    __MSG_ADD(MSG_Patch_Value_Not_a_Byte),
-    __MSG_ADD(MSG_Patch_Missing),
-    __MSG_ADD(MSG_Patch_Unrecognized),
-    __MSG_ADD(MSG_Patch_Out_of_Bound),
-    __MSG_ADD(MSG_Glasses_Enabled),
-    __MSG_ADD(MSG_Glasses_Disabled),
-    __MSG_ADD(MSG_Glasses_Show_Both),
-    __MSG_ADD(MSG_Glasses_Show_Left),
-    __MSG_ADD(MSG_Glasses_Show_Right),
-    __MSG_ADD(MSG_Glasses_Com_Port),
-    __MSG_ADD(MSG_Glasses_Com_Port2),
-    __MSG_ADD(MSG_Glasses_Unsupported),
-    __MSG_ADD(MSG_Inputs_Src_Loading),
-    __MSG_ADD(MSG_Inputs_Src_Not_Enough),
-    __MSG_ADD(MSG_Inputs_Src_Missing),
-    __MSG_ADD(MSG_Inputs_Src_Equal),
-    __MSG_ADD(MSG_Inputs_Src_Unrecognized),
-    __MSG_ADD(MSG_Inputs_Src_Syntax_Param),
-    __MSG_ADD(MSG_Inputs_Src_Inconsistency),
-    __MSG_ADD(MSG_Inputs_Src_Map_Keyboard),
-    __MSG_ADD(MSG_Inputs_Src_Map_Keyboard_Ok),
-    __MSG_ADD(MSG_Inputs_Src_Map_Joypad),
-    __MSG_ADD(MSG_Inputs_Src_Map_Joypad_Ok_A),
-    __MSG_ADD(MSG_Inputs_Src_Map_Joypad_Ok_B),
-    __MSG_ADD(MSG_Inputs_Src_Map_Mouse),
-    __MSG_ADD(MSG_Inputs_Src_Map_Mouse_Ok_B),
-    __MSG_ADD(MSG_Inputs_Src_Map_Mouse_No_A),
-    __MSG_ADD(MSG_Inputs_Src_Map_Cancelled),
-    __MSG_ADD(MSG_Machine_Pause),
-    __MSG_ADD(MSG_Machine_Resume),
-    __MSG_ADD(MSG_Machine_Reset),
-    __MSG_ADD(MSG_Inputs_Joy_Init),
-    __MSG_ADD(MSG_Inputs_Joy_Init_None),
-    __MSG_ADD(MSG_Inputs_Joy_Init_Found),
-    __MSG_ADD(MSG_Inputs_Joy_Calibrate_Error),
-    __MSG_ADD(MSG_FDB_Loading),
-    __MSG_ADD(MSG_Welcome),
-    __MSG_ADD(MSG_Window_Title),
-    __MSG_ADD(MSG_Patch_Loading),
-    __MSG_ADD(MSG_DB_Loading),
-    __MSG_ADD(MSG_DB_Name_Default),
-    __MSG_ADD(MSG_DB_Name_NoCartridge),
-    __MSG_ADD(MSG_Config_Loading),
-    __MSG_ADD(MSG_Datafile_Loading),
-    __MSG_ADD(MSG_Failed),
-    __MSG_ADD(MSG_Driver_Unknown),
-    __MSG_ADD(MSG_OverDump),
-    __MSG_ADD(MSG_Debug_Init),
-    __MSG_ADD(MSG_Debug_Welcome),
-    __MSG_ADD(MSG_Debug_Not_Available),
-    __MSG_ADD(MSG_Debug_Brk_Need_Param),
-    //__MSG_ADD(MSG_Debug_Brk_Enable),
-    __MSG_ADD(MSG_Menu_Debug_Enabled),
-    __MSG_ADD(MSG_Sound_Init),
-    __MSG_ADD(MSG_Sound_Init_Error_SEAL),
-    __MSG_ADD(MSG_Sound_Init_Error_Audio),
-    __MSG_ADD(MSG_Sound_Init_Error_Blaster),
-    __MSG_ADD(MSG_Sound_Init_Error_Blaster_A),
-    __MSG_ADD(MSG_Sound_Init_Error_Voices),
-    __MSG_ADD(MSG_Sound_Init_Error_Voice_N),
-    __MSG_ADD(MSG_Sound_Init_Soundcard),
-    __MSG_ADD(MSG_Setup_Soundcard_Select),
-    __MSG_ADD(MSG_Setup_Soundcard_Select_Tips_DOS),
-    __MSG_ADD(MSG_Setup_Soundcard_Select_Tips_Win32),
-    __MSG_ADD(MSG_Sound_Init_Soundcard_No),
-    __MSG_ADD(MSG_Sound_Init_SN76496),
-    __MSG_ADD(MSG_Sound_Init_YM2413_OPL),
-    __MSG_ADD(MSG_Sound_Stream_Error),
-    __MSG_ADD(MSG_Sound_Rate_Changed),
-    __MSG_ADD(MSG_Theme_Loading),
-    __MSG_ADD(MSG_Theme_Error_Not_Enough),
-    __MSG_ADD(MSG_Theme_Error_Missing_Theme_Name),
-    __MSG_ADD(MSG_Theme_Error_Syntax),
-    __MSG_ADD(MSG_Theme_Error_BG_Big),
-    __MSG_ADD(MSG_Theme_Error_BG),
-    __MSG_ADD(MSG_Theme_Error_BG_FileName),
-    __MSG_ADD(MSG_LoadROM_Loading),
-    __MSG_ADD(MSG_LoadROM_Success),
-    __MSG_ADD(MSG_LoadDisk_Success),
-    __MSG_ADD(MSG_LoadROM_Comment),
-    __MSG_ADD(MSG_LoadROM_Warning),
-    __MSG_ADD(MSG_LoadROM_Bad_Dump_Long),
-    __MSG_ADD(MSG_LoadROM_Bad_Dump_Short),
-    __MSG_ADD(MSG_LoadROM_Product_Num),
-    __MSG_ADD(MSG_FM_Editor_Enabled),
-    __MSG_ADD(MSG_FM_Editor_Disabled),
-    __MSG_ADD(MSG_Frameskip_Auto),
-    __MSG_ADD(MSG_Frameskip_Standard),
-    __MSG_ADD(MSG_Log_Need_Param),
-    __MSG_ADD(MSG_Inputs_Joypad),
-    __MSG_ADD(MSG_Inputs_LightPhaser),
-    __MSG_ADD(MSG_Inputs_PaddleControl),
-    __MSG_ADD(MSG_Inputs_SportsPad),
-    __MSG_ADD(MSG_Inputs_TVOekaki),
-    __MSG_ADD(MSG_Inputs_Play_Digital),
-    __MSG_ADD(MSG_Inputs_Play_Mouse),
-    __MSG_ADD(MSG_Inputs_Play_Pen),
-    __MSG_ADD(MSG_No_ROM),
-    __MSG_ADD(MSG_Init_Allegro),
-    __MSG_ADD(MSG_Init_GUI),
-    __MSG_ADD(MSG_Init_Completed),
-    __MSG_ADD(MSG_Load_Need_Param),
-    __MSG_ADD(MSG_Load_Error),
-    __MSG_ADD(MSG_Load_Not_Valid),
-    __MSG_ADD(MSG_Load_Success),
-    __MSG_ADD(MSG_Load_Version),
-    __MSG_ADD(MSG_Load_Wrong_System),
-    __MSG_ADD(MSG_Load_Massage),
-    __MSG_ADD(MSG_Save_Error),
-    __MSG_ADD(MSG_Save_Success),
-    __MSG_ADD(MSG_Save_Slot),
-    __MSG_ADD(MSG_Error_Directory_Open),
-    __MSG_ADD(MSG_Log_Session_Start),
-    __MSG_ADD(MSG_Options_BIOS_Enable),
-    __MSG_ADD(MSG_Options_Product_Number),
-    __MSG_ADD(MSG_Options_Bright_Palette),
-    __MSG_ADD(MSG_Options_Load_Close),
-    __MSG_ADD(MSG_Options_Load_FullScreen),
-    __MSG_ADD(MSG_Options_DB_Display),
-    __MSG_ADD(MSG_Options_FullScreen_Messages),
-    __MSG_ADD(MSG_Options_GUI_VSync),
-    __MSG_ADD(MSG_Options_NES_Enable),
-    __MSG_ADD(MSG_Language_Set),
-    __MSG_ADD(MSG_Language_Set_Warning),
-    __MSG_ADD(MSG_Sound_Dumping_Start),
-    __MSG_ADD(MSG_Sound_Dumping_Stop),
-    __MSG_ADD(MSG_Sound_Dumping_Error_File_1),
-    __MSG_ADD(MSG_Sound_Dumping_Error_File_2),
-    __MSG_ADD(MSG_LoadROM_SDSC),
-    __MSG_ADD(MSG_LoadROM_SDSC_Name),
-    __MSG_ADD(MSG_LoadROM_SDSC_Version),
-    __MSG_ADD(MSG_LoadROM_SDSC_Date),
-    __MSG_ADD(MSG_LoadROM_SDSC_Release_Note),
-    __MSG_ADD(MSG_LoadROM_SDSC_Unknown),
-    __MSG_ADD(MSG_LoadROM_SDSC_Error),
-    __MSG_ADD(MSG_Save_Not_in_BIOS),
-    __MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Frame),
-    __MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Sample),
-    __MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Change),
-    __MSG_ADD(MSG_FDC765_Disk_Too_Small1),
-    __MSG_ADD(MSG_FDC765_Disk_Too_Small2),
-    __MSG_ADD(MSG_LoadROM_SDSC_Author),
-    __MSG_ADD(MSG_VoiceRecognition_BoxTitle),
-    __MSG_ADD(MSG_VoiceRecognition_Enabled),
-    __MSG_ADD(MSG_VoiceRecognition_Disabled),
-    __MSG_ADD(MSG_TilesViewer_BoxTitle),
-    __MSG_ADD(MSG_TilesViewer_Tile),
-    __MSG_ADD(MSG_Options_BoxTitle),
-    __MSG_ADD(MSG_Options_Close),
-    __MSG_ADD(MSG_FileBrowser_BoxTitle),
-    __MSG_ADD(MSG_FileBrowser_Drive),
-    __MSG_ADD(MSG_FileBrowser_Load),
-    __MSG_ADD(MSG_FileBrowser_Close),
-    __MSG_ADD(MSG_FileBrowser_LoadNames),
-    __MSG_ADD(MSG_FileBrowser_ReloadDir),
-    __MSG_ADD(MSG_Inputs_Config_BoxTitle),
-    __MSG_ADD(MSG_Message_BoxTitle),
-    __MSG_ADD(MSG_TechInfo_BoxTitle),
-    __MSG_ADD(MSG_Doc_BoxTitle),
-    __MSG_ADD(MSG_About_BoxTitle),
-    __MSG_ADD(MSG_Palette_BoxTitle),
-    __MSG_ADD(MSG_Palette_BoxTitle),
-    __MSG_ADD(MSG_Menu_Main),
-    __MSG_ADD(MSG_Menu_Main_LoadROM),
-    __MSG_ADD(MSG_Menu_Main_FreeROM),
-    __MSG_ADD(MSG_Menu_Main_SaveState),
-    __MSG_ADD(MSG_Menu_Main_LoadState),
-    __MSG_ADD(MSG_Menu_Main_Options),
-    __MSG_ADD(MSG_Menu_Main_Language),
-    __MSG_ADD(MSG_Menu_Main_Quit),
-    __MSG_ADD(MSG_Menu_Debug),
-    __MSG_ADD(MSG_Menu_Debug_Dump),
-    __MSG_ADD(MSG_Menu_Debug_Reload_ROM),
-    __MSG_ADD(MSG_Menu_Machine),
-    __MSG_ADD(MSG_Menu_Machine_Power),
-    __MSG_ADD(MSG_Menu_Machine_Power_On),
-    __MSG_ADD(MSG_Menu_Machine_Power_Off),
-    __MSG_ADD(MSG_Menu_Machine_Country),
-    __MSG_ADD(MSG_Menu_Machine_Country_EU),
-    __MSG_ADD(MSG_Menu_Machine_Country_Jap),
-    __MSG_ADD(MSG_Menu_Machine_TVType),
-    __MSG_ADD(MSG_Menu_Machine_TVType_NTSC),
-    __MSG_ADD(MSG_Menu_Machine_TVType_PALSECAM),
-    __MSG_ADD(MSG_Menu_Machine_HardPause),
-    __MSG_ADD(MSG_Menu_Machine_HardReset),
-    __MSG_ADD(MSG_Menu_Video),
-    __MSG_ADD(MSG_Menu_Video_FullScreen),
-    __MSG_ADD(MSG_Menu_Video_Themes),
-    __MSG_ADD(MSG_Menu_Video_Blitters),
-    __MSG_ADD(MSG_Menu_Video_Layers),
-    __MSG_ADD(MSG_Menu_Video_Layers_Sprites),
-    __MSG_ADD(MSG_Menu_Video_Layers_Background),
-    __MSG_ADD(MSG_Menu_Video_Flickering),
-    __MSG_ADD(MSG_Menu_Video_Flickering_Auto),
-    __MSG_ADD(MSG_Menu_Video_Flickering_Yes),
-    __MSG_ADD(MSG_Menu_Video_Flickering_No),
-    __MSG_ADD(MSG_Menu_Video_3DGlasses),
-    __MSG_ADD(MSG_Menu_Video_3DGlasses_Enabled),
-    __MSG_ADD(MSG_Menu_Video_3DGlasses_ShowBothSides),
-    __MSG_ADD(MSG_Menu_Video_3DGlasses_ShowLeftSide),
-    __MSG_ADD(MSG_Menu_Video_3DGlasses_ShowRightSide),
-    __MSG_ADD(MSG_Menu_Video_3DGlasses_UsesCOMPort),
-    __MSG_ADD(MSG_Menu_Video_Screens),
-    __MSG_ADD(MSG_Menu_Video_Screens_New),
-    __MSG_ADD(MSG_Menu_Video_Screens_KillLast),
-    __MSG_ADD(MSG_Menu_Video_Screens_KillAll),
-    __MSG_ADD(MSG_Menu_Sound),
-    __MSG_ADD(MSG_Menu_Sound_FM),
-    __MSG_ADD(MSG_Menu_Sound_FM_Enabled),
-    __MSG_ADD(MSG_Menu_Sound_FM_Disabled),
-    __MSG_ADD(MSG_Menu_Sound_FM_Editor),
-    __MSG_ADD(MSG_Menu_Sound_Volume),
-    __MSG_ADD(MSG_Menu_Sound_Volume_Mute),
-    __MSG_ADD(MSG_Menu_Sound_Volume_Value),
-    __MSG_ADD(MSG_Menu_Sound_Rate),
-    __MSG_ADD(MSG_Menu_Sound_Rate_Hz),
-    __MSG_ADD(MSG_Menu_Sound_Channels),
-    __MSG_ADD(MSG_Menu_Sound_Channels_Tone),
-    __MSG_ADD(MSG_Menu_Sound_Channels_Noises),
-    __MSG_ADD(MSG_Menu_Sound_Dump),
-    __MSG_ADD(MSG_Menu_Sound_Dump_WAV_Start),
-    __MSG_ADD(MSG_Menu_Sound_Dump_WAV_Stop),
-    __MSG_ADD(MSG_Menu_Sound_Dump_VGM_Start),
-    __MSG_ADD(MSG_Menu_Sound_Dump_VGM_Stop),
-    __MSG_ADD(MSG_Menu_Sound_Dump_VGM_SampleAccurate),
-    __MSG_ADD(MSG_Menu_Sound_VoiceRecognition),
-    __MSG_ADD(MSG_Menu_Inputs),
-    __MSG_ADD(MSG_Menu_Inputs_Joypad),
-    __MSG_ADD(MSG_Menu_Inputs_LightPhaser),
-    __MSG_ADD(MSG_Menu_Inputs_PaddleControl),
-    __MSG_ADD(MSG_Menu_Inputs_SportsPad),
-    __MSG_ADD(MSG_Menu_Inputs_GraphicBoard),
-    __MSG_ADD(MSG_Menu_Inputs_SK1100),
-    __MSG_ADD(MSG_Menu_Inputs_RapidFire),
-    __MSG_ADD(MSG_Menu_Inputs_RapidFire_PxBx),
-    __MSG_ADD(MSG_Menu_Inputs_Configuration),
-    __MSG_ADD(MSG_Menu_Tools),
-    __MSG_ADD(MSG_Menu_Tools_Messages),
-    __MSG_ADD(MSG_Menu_Tools_Palette),
-    __MSG_ADD(MSG_Menu_Tools_TilesViewer),
-    __MSG_ADD(MSG_Menu_Tools_TechInfo),
-    __MSG_ADD(MSG_Menu_Help),
-    __MSG_ADD(MSG_Menu_Help_Documentation),
-    __MSG_ADD(MSG_Menu_Help_About),
-    __MSG_ADD(MSG_FM_Editor_BoxTitle),
-    __MSG_ADD(MSG_Capture_Error),
-    __MSG_ADD(MSG_Menu_Help_Documentation_W),
-    __MSG_ADD(MSG_Menu_Help_Compat),
-    __MSG_ADD(MSG_Menu_Help_Changes),
-    __MSG_ADD(MSG_FPS_Counter_Enabled),
-    __MSG_ADD(MSG_FPS_Counter_Disabled),
-    __MSG_ADD(MSG_Menu_Help_Multiplayer_Games),
-    __MSG_ADD(MSG_Menu_Sound_FM_Emulator),
-    __MSG_ADD(MSG_Menu_Sound_FM_Emulator_OPL),
-    __MSG_ADD(MSG_Menu_Sound_FM_Emulator_Digital),
-    __MSG_ADD(MSG_Sound_Init_YM2413_Digital),
-    __MSG_ADD(MSG_Ok),
-    __MSG_ADD(MSG_Sound_Volume_Changed),
-    __MSG_ADD(MSG_Error_Video_Mode_Back_To_GUI),
-    __MSG_ADD(MSG_Menu_Help_Documentation_U),
-    __MSG_ADD(MSG_Setup_SampleRate_Select),
-    __MSG_ADD(MSG_Setup_Setup),
-    __MSG_ADD(MSG_Glasses_Com_Port_Open_Error),
-    __MSG_ADD(MSG_Inputs_Play_Digital_Unrecommended),
-    __MSG_ADD(MSG_DB_SyntaxError),
-    __MSG_ADD(MSG_LoadROM_SMSGG_Mode_Comment),
-    __MSG_ADD(MSG_MemoryEditor_BoxTitle),
-    __MSG_ADD(MSG_MemoryEditor_Disabled),
-    __MSG_ADD(MSG_MemoryEditor_Enabled),
-    __MSG_ADD(MSG_Menu_Tools_MemoryEditor),
-    __MSG_ADD(MSG_MemoryEditor_WriteZ80_Unable),
-    __MSG_ADD(MSG_MemoryEditor_Address_Out_of_Bound),
-    __MSG_ADD(MSG_Setup_Running),
-    __MSG_ADD(MSG_Options_Allow_Opposite_Directions),
-    __MSG_ADD(MSG_Inputs_SK1100_Enabled),
-    __MSG_ADD(MSG_Inputs_SK1100_Disabled),
-    __MSG_ADD(MSG_Setup_Debugger_Enable),
-    __MSG_ADD(MSG_LoadROM_Reload_Reloaded),
-    __MSG_ADD(MSG_LoadROM_Reload_No_ROM),
-    __MSG_ADD(MSG_Debug_Symbols_Loaded),
-    __MSG_ADD(MSG_Debug_Symbols_Error),
-    __MSG_ADD(MSG_Debug_Symbols_Error_Line),
-    __MSG_ADD(MSG_Inputs_Config_Peripheral_Click),      
-    __MSG_ADD(MSG_Inputs_Config_Source_Enabled),
-    __MSG_ADD(MSG_Inputs_Config_Source_Player),
-    __MSG_ADD(MSG_Inputs_Config_Source_Emulate_Joypad), 
-    __MSG_ADD(MSG_Theme_Error_Attribute_Defined),
-    __MSG_ADD(MSG_Theme_Error_Out_of_Bound),
-    __MSG_ADD(MSG_Theme_Error_Theme_Missing_Data),
-    __MSG_ADD(MSG_Blitters_Error_Incorrect_Value),
-    __MSG_ADD(MSG_Menu_Tools_TilemapViewer),
-    __MSG_ADD(MSG_Menu_Help_Debugger),
-    { NULL, MSG_NULL }
+	__MSG_ADD(MSG_Welcome),
+	__MSG_ADD(MSG_Window_Title),
+	__MSG_ADD(MSG_Quit),
+
+	__MSG_ADD(MSG_About_BoxTitle),
+	__MSG_ADD(MSG_About_Line_Meka_Date),
+	__MSG_ADD(MSG_About_Line_Authors),
+	__MSG_ADD(MSG_About_Line_Homepage),
+
+	__MSG_ADD(MSG_Ok),
+	__MSG_ADD(MSG_Failed),
+	__MSG_ADD(MSG_Error_Base),
+	__MSG_ADD(MSG_Error_Error),
+	__MSG_ADD(MSG_Error_Memory),
+	__MSG_ADD(MSG_Error_Param),
+	__MSG_ADD(MSG_Error_Syntax),
+
+	__MSG_ADD(MSG_Error_Video_Mode),
+	__MSG_ADD(MSG_Error_Video_Mode_Back_To_GUI),
+
+	__MSG_ADD(MSG_Error_File_Not_Found),
+	__MSG_ADD(MSG_Error_File_Read),
+	__MSG_ADD(MSG_Error_File_Empty),
+
+	__MSG_ADD(MSG_Error_ZIP_Not_Supported),
+	__MSG_ADD(MSG_Error_ZIP_Loading),
+	__MSG_ADD(MSG_Error_ZIP_Internal),
+
+	__MSG_ADD(MSG_Error_Directory_Open),
+
+	__MSG_ADD(MSG_Must_Reset),
+	__MSG_ADD(MSG_No_ROM),
+
+	__MSG_ADD(MSG_Init_Allegro),
+	__MSG_ADD(MSG_Init_GUI),
+	__MSG_ADD(MSG_Init_Completed),
+
+	__MSG_ADD(MSG_Setup_Running),
+	__MSG_ADD(MSG_Setup_Setup),
+	__MSG_ADD(MSG_Setup_Soundcard_Select),
+	__MSG_ADD(MSG_Setup_Soundcard_Select_Tips_DOS),
+	__MSG_ADD(MSG_Setup_Soundcard_Select_Tips_Win32),
+	__MSG_ADD(MSG_Setup_SampleRate_Select),
+	__MSG_ADD(MSG_Setup_Debugger_Enable),
+
+	__MSG_ADD(MSG_Capture_Done),
+	__MSG_ADD(MSG_Capture_Error),
+	__MSG_ADD(MSG_Capture_Error_File),
+
+	__MSG_ADD(MSG_SRAM_Loaded),
+	__MSG_ADD(MSG_SRAM_Load_Unable),
+	__MSG_ADD(MSG_SRAM_Wrote),
+	__MSG_ADD(MSG_SRAM_Write_Unable),
+
+	__MSG_ADD(MSG_93c46_Reset),
+	__MSG_ADD(MSG_93c46_Loaded),
+	__MSG_ADD(MSG_93c46_Load_Unable),
+	__MSG_ADD(MSG_93c46_Wrote),
+	__MSG_ADD(MSG_93c46_Write_Unable),
+
+	__MSG_ADD(MSG_TVType_Set),
+	__MSG_ADD(MSG_TVType_Info_Speed),
+
+	__MSG_ADD(MSG_Blitters_Loading),
+	__MSG_ADD(MSG_Blitters_Error_Not_Enough),
+	__MSG_ADD(MSG_Blitters_Error_Not_Found),
+	__MSG_ADD(MSG_Blitters_Error_Missing),
+	__MSG_ADD(MSG_Blitters_Error_Unrecognized),
+	__MSG_ADD(MSG_Blitters_Error_Incorrect_Value),
+	__MSG_ADD(MSG_Blitters_Set),
+
+	__MSG_ADD(MSG_NES_Activate),
+	__MSG_ADD(MSG_NES_Sucks),
+	__MSG_ADD(MSG_NES_Mapper_Unknown),
+	__MSG_ADD(MSG_NES_Deny_Facts),
+
+	__MSG_ADD(MSG_Debug_Init),
+	__MSG_ADD(MSG_Debug_Welcome),
+	__MSG_ADD(MSG_Debug_Not_Available),
+	__MSG_ADD(MSG_Debug_Brk_Need_Param),
+	__MSG_ADD(MSG_Debug_Trap_Read),
+	__MSG_ADD(MSG_Debug_Trap_Write),
+	__MSG_ADD(MSG_Debug_Trap_Port_Read),
+	__MSG_ADD(MSG_Debug_Trap_Port_Write),
+	__MSG_ADD(MSG_Debug_Symbols_Loaded),
+	__MSG_ADD(MSG_Debug_Symbols_Error),
+	__MSG_ADD(MSG_Debug_Symbols_Error_Line),
+
+	__MSG_ADD(MSG_DataDump_Mode_Ascii),
+	__MSG_ADD(MSG_DataDump_Mode_Raw),
+	__MSG_ADD(MSG_DataDump_Error),
+	__MSG_ADD(MSG_DataDump_Error_OB_Memory),
+	__MSG_ADD(MSG_DataDump_Error_Palette),
+	__MSG_ADD(MSG_DataDump_Error_Sprites),
+	__MSG_ADD(MSG_DataDump_Main),
+
+	__MSG_ADD(MSG_Doc_BoxTitle),
+	__MSG_ADD(MSG_Doc_File_Error),
+	__MSG_ADD(MSG_Doc_Enabled),
+	__MSG_ADD(MSG_Doc_Disabled),
+
+	__MSG_ADD(MSG_Flickering_Auto),
+	__MSG_ADD(MSG_Flickering_Yes),
+	__MSG_ADD(MSG_Flickering_No),
+
+	__MSG_ADD(MSG_Layer_BG_Disabled),
+	__MSG_ADD(MSG_Layer_BG_Enabled),
+	__MSG_ADD(MSG_Layer_Spr_Disabled),
+	__MSG_ADD(MSG_Layer_Spr_Enabled),
+
+	__MSG_ADD(MSG_FDC765_Unknown_Read),
+	__MSG_ADD(MSG_FDC765_Unknown_Write),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Large1),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Large2),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Small1),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Small2),
+
+	__MSG_ADD(MSG_TVOekaki_Pen_Touch),
+	__MSG_ADD(MSG_TVOekaki_Pen_Away),
+
+	__MSG_ADD(MSG_Palette_BoxTitle),
+	__MSG_ADD(MSG_Palette_Disabled),
+	__MSG_ADD(MSG_Palette_Enabled),
+
+	__MSG_ADD(MSG_Message_BoxTitle),
+	__MSG_ADD(MSG_Message_Disabled),
+	__MSG_ADD(MSG_Message_Enabled),
+
+	__MSG_ADD(MSG_TechInfo_BoxTitle),
+	__MSG_ADD(MSG_TechInfo_Disabled),
+	__MSG_ADD(MSG_TechInfo_Enabled),
+
+	__MSG_ADD(MSG_TilesViewer_BoxTitle),
+	__MSG_ADD(MSG_TilesViewer_Disabled),
+	__MSG_ADD(MSG_TilesViewer_Enabled),
+	__MSG_ADD(MSG_TilesViewer_Tile),
+
+	__MSG_ADD(MSG_MemoryEditor_BoxTitle),
+	__MSG_ADD(MSG_MemoryEditor_Disabled),
+	__MSG_ADD(MSG_MemoryEditor_Enabled),
+	__MSG_ADD(MSG_MemoryEditor_WriteZ80_Unable),
+	__MSG_ADD(MSG_MemoryEditor_Address_Out_of_Bound),
+
+	__MSG_ADD(MSG_RapidFire_JxBx_On),
+	__MSG_ADD(MSG_RapidFire_JxBx_Off),
+
+	__MSG_ADD(MSG_FM_Enabled),
+	__MSG_ADD(MSG_FM_Disabled),
+
+	__MSG_ADD(MSG_Country_European_US),
+	__MSG_ADD(MSG_Country_JAP),
+
+	__MSG_ADD(MSG_Patch_Loading),
+	__MSG_ADD(MSG_Patch_Missing),
+	__MSG_ADD(MSG_Patch_Unrecognized),
+	__MSG_ADD(MSG_Patch_Value_Not_a_Byte),
+	__MSG_ADD(MSG_Patch_Out_of_Bound),
+
+	__MSG_ADD(MSG_Glasses_Enabled),
+	__MSG_ADD(MSG_Glasses_Disabled),
+	__MSG_ADD(MSG_Glasses_Show_Both),
+	__MSG_ADD(MSG_Glasses_Show_Left),
+	__MSG_ADD(MSG_Glasses_Show_Right),
+	__MSG_ADD(MSG_Glasses_Com_Port),
+	__MSG_ADD(MSG_Glasses_Com_Port2),
+	__MSG_ADD(MSG_Glasses_Com_Port_Open_Error),
+	__MSG_ADD(MSG_Glasses_Unsupported),
+
+	__MSG_ADD(MSG_Inputs_Joy_Init),
+	__MSG_ADD(MSG_Inputs_Joy_Init_None),
+	__MSG_ADD(MSG_Inputs_Joy_Init_Found),
+	__MSG_ADD(MSG_Inputs_Joy_Calibrate_Error),
+
+	__MSG_ADD(MSG_Inputs_Joypad),
+	__MSG_ADD(MSG_Inputs_LightPhaser),
+	__MSG_ADD(MSG_Inputs_PaddleControl),
+	__MSG_ADD(MSG_Inputs_SportsPad),
+	__MSG_ADD(MSG_Inputs_TVOekaki),
+	__MSG_ADD(MSG_Inputs_Play_Digital),
+	__MSG_ADD(MSG_Inputs_Play_Mouse),
+	__MSG_ADD(MSG_Inputs_Play_Digital_Unrecommended),
+	__MSG_ADD(MSG_Inputs_Play_Pen),
+	__MSG_ADD(MSG_Inputs_SK1100_Enabled),
+	__MSG_ADD(MSG_Inputs_SK1100_Disabled),
+
+	__MSG_ADD(MSG_Inputs_Config_BoxTitle),
+	__MSG_ADD(MSG_Inputs_Config_Peripheral_Click),
+	__MSG_ADD(MSG_Inputs_Config_Source_Enabled),
+	__MSG_ADD(MSG_Inputs_Config_Source_Player),
+	__MSG_ADD(MSG_Inputs_Config_Source_Emulate_Joypad),
+
+	__MSG_ADD(MSG_Inputs_Src_Loading),
+	__MSG_ADD(MSG_Inputs_Src_Not_Enough),
+	__MSG_ADD(MSG_Inputs_Src_Missing),
+	__MSG_ADD(MSG_Inputs_Src_Equal),
+	__MSG_ADD(MSG_Inputs_Src_Unrecognized),
+	__MSG_ADD(MSG_Inputs_Src_Syntax_Param),
+	__MSG_ADD(MSG_Inputs_Src_Inconsistency),
+	__MSG_ADD(MSG_Inputs_Src_Map_Keyboard),
+	__MSG_ADD(MSG_Inputs_Src_Map_Keyboard_Ok),
+	__MSG_ADD(MSG_Inputs_Src_Map_Joypad),
+	__MSG_ADD(MSG_Inputs_Src_Map_Joypad_Ok_A),
+	__MSG_ADD(MSG_Inputs_Src_Map_Joypad_Ok_B),
+	__MSG_ADD(MSG_Inputs_Src_Map_Mouse),
+	__MSG_ADD(MSG_Inputs_Src_Map_Mouse_Ok_B),
+	__MSG_ADD(MSG_Inputs_Src_Map_Mouse_No_A),
+	__MSG_ADD(MSG_Inputs_Src_Map_Cancelled),
+
+	__MSG_ADD(MSG_Machine_Pause),
+	__MSG_ADD(MSG_Machine_Resume),
+	__MSG_ADD(MSG_Machine_Reset),
+
+	__MSG_ADD(MSG_FDB_Loading),
+
+	__MSG_ADD(MSG_DB_Loading),
+	__MSG_ADD(MSG_DB_Name_Default),
+	__MSG_ADD(MSG_DB_Name_NoCartridge),
+	__MSG_ADD(MSG_DB_SyntaxError),
+
+	__MSG_ADD(MSG_Config_Loading),
+
+	__MSG_ADD(MSG_Datafile_Loading),
+
+	__MSG_ADD(MSG_Driver_Unknown),
+
+	__MSG_ADD(MSG_OverDump),
+
+	__MSG_ADD(MSG_Sound_Init),
+	__MSG_ADD(MSG_Sound_Init_Error_SEAL),
+	__MSG_ADD(MSG_Sound_Init_Error_Audio),
+	__MSG_ADD(MSG_Sound_Init_Error_Blaster),
+	__MSG_ADD(MSG_Sound_Init_Error_Blaster_A),
+	__MSG_ADD(MSG_Sound_Init_Error_Voices),
+	__MSG_ADD(MSG_Sound_Init_Error_Voice_N),
+	__MSG_ADD(MSG_Sound_Init_Soundcard),
+	__MSG_ADD(MSG_Sound_Init_Soundcard_No),
+	__MSG_ADD(MSG_Sound_Init_SN76496),
+	__MSG_ADD(MSG_Sound_Init_YM2413_OPL),
+	__MSG_ADD(MSG_Sound_Init_YM2413_Digital),
+	__MSG_ADD(MSG_Sound_Rate_Changed),
+	__MSG_ADD(MSG_Sound_Stream_Error),
+	__MSG_ADD(MSG_Sound_Volume_Changed),
+
+	__MSG_ADD(MSG_Theme_Loading),
+	__MSG_ADD(MSG_Theme_Error_Not_Enough),
+	__MSG_ADD(MSG_Theme_Error_Missing_Theme_Name),
+	__MSG_ADD(MSG_Theme_Error_Syntax),
+	__MSG_ADD(MSG_Theme_Error_Attribute_Defined),
+	__MSG_ADD(MSG_Theme_Error_Out_of_Bound),
+	__MSG_ADD(MSG_Theme_Error_Theme_Missing_Data),
+	__MSG_ADD(MSG_Theme_Error_BG_Big),
+	__MSG_ADD(MSG_Theme_Error_BG),
+	__MSG_ADD(MSG_Theme_Error_BG_FileName),
+
+	__MSG_ADD(MSG_LoadROM_Loading),
+	__MSG_ADD(MSG_LoadROM_Success),
+	__MSG_ADD(MSG_LoadDisk_Success),
+	__MSG_ADD(MSG_LoadROM_Comment),
+	__MSG_ADD(MSG_LoadROM_SMSGG_Mode_Comment),
+	__MSG_ADD(MSG_LoadROM_Warning),
+	__MSG_ADD(MSG_LoadROM_Bad_Dump_Long),
+	__MSG_ADD(MSG_LoadROM_Bad_Dump_Short),
+	__MSG_ADD(MSG_LoadROM_Product_Num),
+	__MSG_ADD(MSG_LoadROM_SDSC),
+	__MSG_ADD(MSG_LoadROM_SDSC_Name),
+	__MSG_ADD(MSG_LoadROM_SDSC_Version),
+	__MSG_ADD(MSG_LoadROM_SDSC_Date),
+	__MSG_ADD(MSG_LoadROM_SDSC_Author),
+	__MSG_ADD(MSG_LoadROM_SDSC_Release_Note),
+	__MSG_ADD(MSG_LoadROM_SDSC_Unknown),
+	__MSG_ADD(MSG_LoadROM_SDSC_Error),
+	__MSG_ADD(MSG_LoadROM_Reload_Reloaded),
+	__MSG_ADD(MSG_LoadROM_Reload_No_ROM),
+
+	__MSG_ADD(MSG_FileBrowser_BoxTitle),
+	__MSG_ADD(MSG_FileBrowser_Drive),
+	__MSG_ADD(MSG_FileBrowser_Load),
+	__MSG_ADD(MSG_FileBrowser_Close),
+	__MSG_ADD(MSG_FileBrowser_LoadNames),
+	__MSG_ADD(MSG_FileBrowser_ReloadDir),
+
+	__MSG_ADD(MSG_FM_Editor_BoxTitle),
+	__MSG_ADD(MSG_FM_Editor_Enabled),
+	__MSG_ADD(MSG_FM_Editor_Disabled),
+
+	__MSG_ADD(MSG_Frameskip_Auto),
+	__MSG_ADD(MSG_Frameskip_Standard),
+	__MSG_ADD(MSG_FPS_Counter_Enabled),
+	__MSG_ADD(MSG_FPS_Counter_Disabled),
+
+	__MSG_ADD(MSG_Log_Need_Param),
+	__MSG_ADD(MSG_Log_Session_Start),
+
+	__MSG_ADD(MSG_Load_Need_Param),
+	__MSG_ADD(MSG_Load_Error),
+	__MSG_ADD(MSG_Load_Not_Valid),
+	__MSG_ADD(MSG_Load_Success),
+	__MSG_ADD(MSG_Load_Version),
+	__MSG_ADD(MSG_Load_Wrong_System),
+	__MSG_ADD(MSG_Load_Massage),
+	__MSG_ADD(MSG_Save_Not_in_BIOS),
+	__MSG_ADD(MSG_Save_Error),
+	__MSG_ADD(MSG_Save_Success),
+	__MSG_ADD(MSG_Save_Slot),
+
+	__MSG_ADD(MSG_Options_BoxTitle),
+	__MSG_ADD(MSG_Options_Close),
+	__MSG_ADD(MSG_Options_BIOS_Enable),
+	__MSG_ADD(MSG_Options_DB_Display),
+	__MSG_ADD(MSG_Options_Product_Number),
+	__MSG_ADD(MSG_Options_Bright_Palette),
+	__MSG_ADD(MSG_Options_Allow_Opposite_Directions),
+	__MSG_ADD(MSG_Options_Load_Close),
+	__MSG_ADD(MSG_Options_Load_FullScreen),
+	__MSG_ADD(MSG_Options_FullScreen_Messages),
+	__MSG_ADD(MSG_Options_GUI_VSync),
+	__MSG_ADD(MSG_Options_Capture_Automatic_Crop_Align),
+	__MSG_ADD(MSG_Options_NES_Enable),
+
+	__MSG_ADD(MSG_Language_Set),
+	__MSG_ADD(MSG_Language_Set_Warning),
+
+	__MSG_ADD(MSG_Sound_Dumping_Start),
+	__MSG_ADD(MSG_Sound_Dumping_Stop),
+	__MSG_ADD(MSG_Sound_Dumping_Error_File_1),
+	__MSG_ADD(MSG_Sound_Dumping_Error_File_2),
+	__MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Frame),
+	__MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Sample),
+	__MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Change),
+
+	__MSG_ADD(MSG_Menu_Main),
+	__MSG_ADD(MSG_Menu_Main_LoadROM),
+	__MSG_ADD(MSG_Menu_Main_FreeROM),
+	__MSG_ADD(MSG_Menu_Main_SaveState),
+	__MSG_ADD(MSG_Menu_Main_LoadState),
+	__MSG_ADD(MSG_Menu_Main_Options),
+	__MSG_ADD(MSG_Menu_Main_Language),
+	__MSG_ADD(MSG_Menu_Main_Quit),
+
+	__MSG_ADD(MSG_Menu_Debug),
+	__MSG_ADD(MSG_Menu_Debug_Enabled),
+	__MSG_ADD(MSG_Menu_Debug_Reload_ROM),
+	__MSG_ADD(MSG_Menu_Debug_Dump),
+
+	__MSG_ADD(MSG_Menu_Machine),
+	__MSG_ADD(MSG_Menu_Machine_Power),
+	__MSG_ADD(MSG_Menu_Machine_Power_On),
+	__MSG_ADD(MSG_Menu_Machine_Power_Off),
+	__MSG_ADD(MSG_Menu_Machine_Country),
+	__MSG_ADD(MSG_Menu_Machine_Country_EU),
+	__MSG_ADD(MSG_Menu_Machine_Country_Jap),
+	__MSG_ADD(MSG_Menu_Machine_TVType),
+	__MSG_ADD(MSG_Menu_Machine_TVType_NTSC),
+	__MSG_ADD(MSG_Menu_Machine_TVType_PALSECAM),
+	__MSG_ADD(MSG_Menu_Machine_HardPause),
+	__MSG_ADD(MSG_Menu_Machine_HardReset),
+
+	__MSG_ADD(MSG_Menu_Video),
+	__MSG_ADD(MSG_Menu_Video_FullScreen),
+	__MSG_ADD(MSG_Menu_Video_Themes),
+	__MSG_ADD(MSG_Menu_Video_Blitters),
+	__MSG_ADD(MSG_Menu_Video_Layers),
+	__MSG_ADD(MSG_Menu_Video_Layers_Sprites),
+	__MSG_ADD(MSG_Menu_Video_Layers_Background),
+	__MSG_ADD(MSG_Menu_Video_Flickering),
+	__MSG_ADD(MSG_Menu_Video_Flickering_Auto),
+	__MSG_ADD(MSG_Menu_Video_Flickering_Yes),
+	__MSG_ADD(MSG_Menu_Video_Flickering_No),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_Enabled),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_ShowBothSides),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_ShowLeftSide),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_ShowRightSide),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_UsesCOMPort),
+	__MSG_ADD(MSG_Menu_Video_Screens),
+	__MSG_ADD(MSG_Menu_Video_Screens_New),
+	__MSG_ADD(MSG_Menu_Video_Screens_KillLast),
+	__MSG_ADD(MSG_Menu_Video_Screens_KillAll),
+
+	__MSG_ADD(MSG_Menu_Sound),
+	__MSG_ADD(MSG_Menu_Sound_FM),
+	__MSG_ADD(MSG_Menu_Sound_FM_Enabled),
+	__MSG_ADD(MSG_Menu_Sound_FM_Disabled),
+	__MSG_ADD(MSG_Menu_Sound_FM_Emulator),
+	__MSG_ADD(MSG_Menu_Sound_FM_Emulator_OPL),
+	__MSG_ADD(MSG_Menu_Sound_FM_Emulator_Digital),
+	__MSG_ADD(MSG_Menu_Sound_FM_Editor),
+	__MSG_ADD(MSG_Menu_Sound_Volume),
+	__MSG_ADD(MSG_Menu_Sound_Volume_Mute),
+	__MSG_ADD(MSG_Menu_Sound_Volume_Value),
+	__MSG_ADD(MSG_Menu_Sound_Rate),
+	__MSG_ADD(MSG_Menu_Sound_Rate_Hz),
+	__MSG_ADD(MSG_Menu_Sound_Channels),
+	__MSG_ADD(MSG_Menu_Sound_Channels_Tone),
+	__MSG_ADD(MSG_Menu_Sound_Channels_Noises),
+	__MSG_ADD(MSG_Menu_Sound_Dump),
+	__MSG_ADD(MSG_Menu_Sound_Dump_WAV_Start),
+	__MSG_ADD(MSG_Menu_Sound_Dump_WAV_Stop),
+	__MSG_ADD(MSG_Menu_Sound_Dump_VGM_Start),
+	__MSG_ADD(MSG_Menu_Sound_Dump_VGM_Stop),
+	__MSG_ADD(MSG_Menu_Sound_Dump_VGM_SampleAccurate),
+
+	__MSG_ADD(MSG_Menu_Inputs),
+	__MSG_ADD(MSG_Menu_Inputs_Joypad),
+	__MSG_ADD(MSG_Menu_Inputs_LightPhaser),
+	__MSG_ADD(MSG_Menu_Inputs_PaddleControl),
+	__MSG_ADD(MSG_Menu_Inputs_SportsPad),
+	__MSG_ADD(MSG_Menu_Inputs_GraphicBoard),
+	__MSG_ADD(MSG_Menu_Inputs_SK1100),
+	__MSG_ADD(MSG_Menu_Inputs_RapidFire),
+	__MSG_ADD(MSG_Menu_Inputs_RapidFire_PxBx),
+	__MSG_ADD(MSG_Menu_Inputs_Configuration),
+
+	__MSG_ADD(MSG_Menu_Tools),
+	__MSG_ADD(MSG_Menu_Tools_Messages),
+	__MSG_ADD(MSG_Menu_Tools_Palette),
+	__MSG_ADD(MSG_Menu_Tools_TilesViewer),
+	__MSG_ADD(MSG_Menu_Tools_TilemapViewer),
+	__MSG_ADD(MSG_Menu_Tools_TechInfo),
+	__MSG_ADD(MSG_Menu_Tools_MemoryEditor),
+
+	__MSG_ADD(MSG_Menu_Help),
+	__MSG_ADD(MSG_Menu_Help_Documentation),
+	__MSG_ADD(MSG_Menu_Help_Documentation_W),
+	__MSG_ADD(MSG_Menu_Help_Documentation_U),
+	__MSG_ADD(MSG_Menu_Help_Compat),
+	__MSG_ADD(MSG_Menu_Help_Multiplayer_Games),
+	__MSG_ADD(MSG_Menu_Help_Changes),
+	__MSG_ADD(MSG_Menu_Help_Debugger),
+	__MSG_ADD(MSG_Menu_Help_About),
+
+	{ NULL, MSG_NULL }
 };
 #undef __MSG_ADD
 #endif

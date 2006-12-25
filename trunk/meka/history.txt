@@ -12,6 +12,12 @@ They are usually of 2 kinds:
 
  MEKA 0.72 WIP xxxxxxxx
  ----------------------
+  - Miscellaenous:
+    - Added "Automatically crop and align screen captures" option.
+      This option aligns screen captures on the nearest visible tile, 
+      helping to simplify the process of creating game maps by pasting 
+      captures next to each other. [Omar]
+      Note: May not work properly on game using scanline based effects.
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
           GG  - 7a41c1dc - Aladdin                              --> Aladdin (Disney's)
