@@ -785,6 +785,8 @@ doing them now and some are quick work.
  - Try to implement Dayvee's Z80 emulator
  - Undocumented flags (ref: http://www.srcf.ucam.org/~pak21/cssfaq/tech_z80.html#UNDOC)
  - Proper iperiod pal/secam + CPU speed pal/secam!! (3.54689)
+ - OUT (C), 0 variant
+   http://www.smspower.org/forums/viewtopic.php?t=9412
 
 -----------------------------
  SPEED

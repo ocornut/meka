@@ -489,7 +489,7 @@
  Black Onyx, The                       C-72   Ok
  Bomb Jack                             C-61   Ok
  Borderline                          G-1001   Ok
- C_So!                                 C-64  *Ok (can't write to tape)
+ C_So!                                 C-64   Ok (can't write to tape)
  Castle, The                         G-1046   Ok
  Chack'n Pop                           C-52   Ok
  Champion Baseball [16k]             G-1011   Ok
@@ -528,7 +528,7 @@
  Hustle Chumy                        G-1035   Ok
  Hyper Sports (Konami no)            G-1042   Ok
  Lode Runner                         G-1031   Ok
- Mahjong (Sega)                      G-1004  *Ok
+ Mahjong (Sega)                      G-1004   Ok
  Monaco GP                           G-1017   Ok
  Monaco GP (JP)                      G-1017  *Ok
  N-Sub [16k]                         G-1003  *Ok
@@ -536,9 +536,9 @@
  N-Sub [40k]                         G-1003  *Ok
  Ninja Princess                        C-65   Ok
  Orguss                              G-1015   Ok
- Othello                             G-1044  *Ok
+ Othello                             G-1044   Ok
  Pacar                               G-1020   Ok
- Pachinko                            G-1027  *Ok
+ Pachinko                            G-1027   Ok
  Pachinko II                         G-1029   Ok
  Pitfall 2 [A]                         C-49   Ok
  Pitfall 2 [B]                         C-49   Ok
@@ -694,7 +694,7 @@
  Crystal Warriors                                   Ok
  Cutthroat Island                                   Ok
  Daffy Duck in Hollywood                            Ok
- Deep Duck Trouble / Donald Duck no Yottsu no Him.. Ok
+ Deep Duck Trouble - Starring Donald Duck           Ok
  Defenders of Oasis                                 Ok
  Desert Speedtrap - Starring Road Runner and Wile.. Ok
  Desert Speedtrap - Starring Road Runner and.. (US) Ok
@@ -703,6 +703,7 @@
  Devilish (US)                                      Ok
  Devilish (JP)                                      Ok
  Donald Duck no Lucky Dime (JP)                     Ok
+ Donald Duck no Yottsu no Himitsu (JP)              Ok
  Doraemon Nora no Suke no Yabou (JP)                Ok
  Doraemon Waku Waku Pocket Paradise (JP)            Ok
  Double Dragon                                      Ok
@@ -776,7 +777,7 @@
  Hurricanes                                         Ok
  Hyokkori Hyoutan Jima (JP)                         Ok
  Hyper Chou Pro Yakyuu '92 (JP)                     Ok
- Ichidant~R GG (Puzzle & Action)                   *Ok
+ Ichidant~R GG (Puzzle & Action)                    Ok
  Incredible Crash Dummies, The                      Ok
  Incredible Hulk, The                               Ok
  Indiana Jones and the Last Crusade                 Ok
@@ -1057,7 +1058,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 423 games tested - 414 are "Ok" - Compatibility rate: 97.86%
+ 425 games tested - 416 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
