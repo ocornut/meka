@@ -239,7 +239,6 @@ OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o $(OD)/m6502.a
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/nes.o $(OD)/nes_maps.o $(OD)/nes_ppu.o $(OD)/coleco.o $(OD)/fdc765.o
 OBJ_TOOLS = $(OD)/memory.o $(OD)/tools/libmy.o $(OD)/tools/liblist.o $(OD)/tools/libparse.o $(OD)/tools/tfile.o $(OD)/osd/misc.o $(OD)/osd/timer.o
-OBJ_LIBS  = #$(OD)/alsymbol.o
 
 ifeq ($(X86_ASM), yes)
 OBJ_EMU += $(OD)/mappersa.o
