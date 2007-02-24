@@ -82,13 +82,18 @@ static void     Check_OverDump (void)
         Msg (MSGT_USER, Msg_Get (MSG_OverDump), overdump_ratio);
 }
 
-// INITIALIZE FILENAME STRINGS WITH APPROPRIATE VALUES ------------------------
-void    Filenames_Init (void)
+//-----------------------------------------------------------------------------
+// Filenames_Init()
+// Initialize filenames of various path/files (configuration files, etc).
+//-----------------------------------------------------------------------------
+// FIXME-BUFFER: Potential buffer overflows here.
+//-----------------------------------------------------------------------------
+void    Filenames_Init(void)
 {
     char *p;
 
     // Get and save current directory
-    getcwd (g_Env.Paths.StartingDirectory, FILENAME_LEN);
+    getcwd (g_Env.Paths.StartingDirectory, countof(g_Env.Paths.StartingDirectory));
 
     // Find emulator directory --------------------------------------------------
     strcpy (g_Env.Paths.EmulatorDirectory, g_Env.argv[0]);
@@ -119,21 +124,21 @@ void    Filenames_Init (void)
     strlwr (g_Env.Paths.EmulatorDirectory);
 #endif
 
-    // Datafiles ----------------------------------------------------------------
-    sprintf (g_Env.Paths.DataFile,        "%s/meka.dat",      g_Env.Paths.EmulatorDirectory);
-    sprintf (g_Env.Paths.DataBaseFile,    "%s/meka.nam",      g_Env.Paths.EmulatorDirectory);
-    sprintf (g_Env.Paths.SkinFile,        "%s/meka.thm",      g_Env.Paths.EmulatorDirectory);
+    // Datafiles
+    sprintf (g_Env.Paths.DataFile,      "%s/meka.dat",    g_Env.Paths.EmulatorDirectory);
+    sprintf (g_Env.Paths.DataBaseFile,  "%s/meka.nam",    g_Env.Paths.EmulatorDirectory);
+    sprintf (g_Env.Paths.SkinFile,      "%s/meka.thm",    g_Env.Paths.EmulatorDirectory);
 
-    sprintf (Patches.filename,        "%s/meka.pat",        g_Env.Paths.EmulatorDirectory);
-    sprintf (VLFN_DataBase.filename,    "%s/meka.fdb",      g_Env.Paths.EmulatorDirectory);
-    sprintf (Blitters.filename,       "%s/meka.blt",    g_Env.Paths.EmulatorDirectory);
+    sprintf (Patches.filename,			"%s/meka.pat",    g_Env.Paths.EmulatorDirectory);
+    sprintf (VLFN_DataBase.filename,    "%s/meka.fdb",    g_Env.Paths.EmulatorDirectory);
+    sprintf (Blitters.filename,			"%s/meka.blt",    g_Env.Paths.EmulatorDirectory);
     //sprintf (registered.filename [0], "%s/meka.reg",    g_Env.Paths.EmulatorDirectory);
     //sprintf (registered.filename [1], "%s/meka.key",    g_Env.Paths.EmulatorDirectory);
-    sprintf (Desktop.filename,        "%s/meka.dsk",    g_Env.Paths.EmulatorDirectory);
-    sprintf (Inputs.FileName,         "%s/meka.inp",    g_Env.Paths.EmulatorDirectory);
-    sprintf (Messages.FileName,       "%s/meka.msg",    g_Env.Paths.EmulatorDirectory);
+    sprintf (Desktop.filename,			"%s/meka.dsk",    g_Env.Paths.EmulatorDirectory);
+    sprintf (Inputs.FileName,			"%s/meka.inp",    g_Env.Paths.EmulatorDirectory);
+    sprintf (Messages.FileName,			"%s/meka.msg",    g_Env.Paths.EmulatorDirectory);
 
-    // Documentations -----------------------------------------------------------
+    // Documentations
     sprintf (g_Env.Paths.DocumentationMain,       "%s/meka.txt",      g_Env.Paths.EmulatorDirectory);
 #ifdef WIN32
     sprintf (g_Env.Paths.DocumentationMainW,      "%s/mekaw.txt",     g_Env.Paths.EmulatorDirectory);
@@ -145,7 +150,7 @@ void    Filenames_Init (void)
     sprintf (g_Env.Paths.DocumentationChanges,    "%s/changes.txt",   g_Env.Paths.EmulatorDirectory);
     sprintf (g_Env.Paths.DocumentationDebugger,   "%s/debugger.txt",  g_Env.Paths.EmulatorDirectory);
 
-    // Configuration file -------------------------------------------------------
+    // Configuration file
 #ifdef WIN32
     sprintf (g_Env.Paths.ConfigurationFile,       "%s/mekaw.cfg",     g_Env.Paths.EmulatorDirectory);
 #else
@@ -162,7 +167,7 @@ void    Filenames_Init (void)
     sprintf (g_Env.Paths.MusicDirectory,          "%s/Music",         g_Env.Paths.EmulatorDirectory);
     sprintf (g_Env.Paths.DebugDirectory,          "%s/Debug",         g_Env.Paths.EmulatorDirectory);
 
-    // ROM ----------------------------------------------------------------------
+    // ROM
     strcpy (g_Env.Paths.MediaImageFile,  "");
     strcpy (g_Env.Paths.BatteryBackedMemoryFile, "");
 }
@@ -281,11 +286,12 @@ bool    Load_ROM (int mode, int user_verbose)
     if (user_verbose)
     {
         // Display success message
-        StrCpyPathRemoved (GenericBuffer, g_Env.Paths.MediaImageFile);
+		char filename[FILENAME_LEN];
+        StrCpyPathRemoved(filename, g_Env.Paths.MediaImageFile);
         if (cur_drv->id != DRV_SF7000)
-            Msg (MSGT_USER, Msg_Get (MSG_LoadROM_Success), GenericBuffer);
+            Msg(MSGT_USER, Msg_Get(MSG_LoadROM_Success), filename);
         else
-            Msg (MSGT_USER, Msg_Get (MSG_LoadDisk_Success), GenericBuffer);
+            Msg(MSGT_USER, Msg_Get(MSG_LoadDisk_Success), filename);
 
         // Display data from DB
         if (DB_CurrentEntry)

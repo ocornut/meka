@@ -30,6 +30,7 @@
 void        gui_menus_init (void)
 {
     int     i;
+	char	buffer[256];
 
     gui_status.x = 10;
 #if 1
@@ -155,8 +156,8 @@ void        gui_menus_init (void)
     menus_ID.channels = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_Channels), AM_Active);
     for (i = 1; i <= 3; i += 1)
     {
-        sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Channels_Tone), i);
-        menu_add_item  (menus_ID.channels, GenericBuffer, AM_Active | AM_Checked, Sound_Channels_Menu_Handler, (void *)(i - 1));
+        snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Channels_Tone), i);
+        menu_add_item  (menus_ID.channels, buffer, AM_Active | AM_Checked, Sound_Channels_Menu_Handler, (void *)(i - 1));
     }
     menu_add_item     (menus_ID.channels, Msg_Get (MSG_Menu_Sound_Channels_Noises),        AM_Active | AM_Checked, Sound_Channels_Menu_Handler, (void *)3);
     // SOUND -> LOGGING
@@ -178,14 +179,14 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.inputs,   Msg_Get (MSG_Menu_Inputs_SK1100),        AM_Active, Keyboard_Switch, NULL);
     // INPUTS -> RAPID FIRE
     menus_ID.rapidfire = menu_add_menu (menus_ID.inputs, Msg_Get (MSG_Menu_Inputs_RapidFire), AM_Active);
-    sprintf           (GenericBuffer, Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 1, 1);
-    menu_add_item     (menus_ID.rapidfire, GenericBuffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J1B1), RapidFire_Switch_J1B1, NULL);
-    sprintf           (GenericBuffer, Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 1, 2);
-    menu_add_item     (menus_ID.rapidfire, GenericBuffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J1B2), RapidFire_Switch_J1B2, NULL);
-    sprintf           (GenericBuffer, Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 2, 1);
-    menu_add_item     (menus_ID.rapidfire, GenericBuffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J2B1), RapidFire_Switch_J2B1, NULL);
-    sprintf           (GenericBuffer, Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 2, 2);
-    menu_add_item     (menus_ID.rapidfire, GenericBuffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J2B2), RapidFire_Switch_J2B2, NULL);
+    snprintf          (buffer, countof(buffer), Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 1, 1);
+    menu_add_item     (menus_ID.rapidfire, buffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J1B1), RapidFire_Switch_J1B1, NULL);
+    snprintf          (buffer, countof(buffer), Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 1, 2);
+    menu_add_item     (menus_ID.rapidfire, buffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J1B2), RapidFire_Switch_J1B2, NULL);
+    snprintf          (buffer, countof(buffer), Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 2, 1);
+    menu_add_item     (menus_ID.rapidfire, buffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J2B1), RapidFire_Switch_J2B1, NULL);
+    snprintf          (buffer, countof(buffer), Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 2, 2);
+    menu_add_item     (menus_ID.rapidfire, buffer, AM_Active | Is_Checked (RapidFire & RAPIDFIRE_J2B2), RapidFire_Switch_J2B2, NULL);
     // INPUTS (misc)
     menu_add_item     (menus_ID.inputs,    Msg_Get (MSG_Menu_Inputs_Configuration), AM_Active | Is_Checked (Inputs_CFG.active), Inputs_CFG_Switch, NULL);
 

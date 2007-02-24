@@ -134,15 +134,16 @@ void    Sound_Volume_Menu_Init (int menu_id)
 {
     int    i;
     int    master_volume_100;
+	char   buffer[256];
 
     master_volume_100 = (float)Sound.MasterVolume * ((float)100 / 128);
     for (i = 0; i <= 100; i += 20)
     {
         if (i == 0)
-            sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Volume_Mute));
+            snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Mute));
         else
-            sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Volume_Value), i);
-        menu_add_item(menu_id, GenericBuffer, AM_Nothing | Is_Checked (i - 9 < master_volume_100 && i + 9 > master_volume_100), 
+            snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Value), i);
+        menu_add_item(menu_id, buffer, AM_Nothing | Is_Checked (i - 9 < master_volume_100 && i + 9 > master_volume_100), 
 			Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
     }
 }
@@ -161,14 +162,15 @@ void    Sound_Volume_Menu_Handler (t_menu_event *event)
 
 void    Sound_Rate_Menu_Init (int menu_id)
 {
-    int    i;
+    int		i;
+	char	buffer[256];
 
 	for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
     {
-        sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table [i]);
-        menu_add_item (menus_ID.rate, GenericBuffer, AM_Active, Sound_Rate_Menu_Handler, (void *)Sound_Rate_Default_Table[i]);
+        sprintf(buffer, Msg_Get(MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table [i]);
+        menu_add_item(menus_ID.rate, buffer, AM_Active, Sound_Rate_Menu_Handler, (void *)Sound_Rate_Default_Table[i]);
     }
-    Sound_Rate_Set (Sound.SampleRate, FALSE);
+    Sound_Rate_Set(Sound.SampleRate, FALSE);
 }
 
 void    Sound_Rate_Set (int value, int reinit_hardware)

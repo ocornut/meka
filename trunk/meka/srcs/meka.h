@@ -153,13 +153,11 @@ typedef struct
     int         GUI_Current_Page;
 } OPT_TYPE;
 
-// FIXME: define to MAXPATHLEN ?
-#define FILENAME_LEN (256+64)
-
-// Generic 512-Character-Wide buffer
-// (Not to be used accross functions calls! etc...)
-// FIXME: Make obsoletes
-char    GenericBuffer [512];
+// Max path length
+// FIXME: Portable way to obtain this at compilation stage?
+#define FILENAME_LEN	(512)
+//#define FILENAME_LEN	MAXPATHLEN
+//#define FILENAME_LEN	PATH_MAX
 
 OPT_TYPE          opt;
 TGFX_TYPE         tgfx;
