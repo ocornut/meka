@@ -703,21 +703,25 @@ word    RunZ80_Debugging(Z80 *R)
         // This is block of code that gets added in RunZ80_Debugging() compared to standard RunZ80()
 
         // Log PC
+#ifdef MEKA_Z80_DEBUGGER
         Debugger_Z80_PC_Last = R->PC.W;
         Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Write] = R->PC.W;
         Debugger_Z80_PC_Log_Queue_Write = (Debugger_Z80_PC_Log_Queue_Write + 1) & 255;
         if (Debugger_Z80_PC_Log_Queue_Write == Debugger_Z80_PC_Log_Queue_First)
             Debugger_Z80_PC_Log_Queue_First = (Debugger_Z80_PC_Log_Queue_First + 1) & 255;
         // Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
+#endif // MEKA_Z80_DEBUGGER
 
         // Turn tracing on when reached trap address
         if (R->PC.W == R->Trap)
             R->Trace = 1;
 
         // Call single-step debugger, exit if requested
+#ifdef MEKA_Z80_DEBUGGER
         if (R->Trace || Debugger_CPU_Exec_Traps[R->PC.W])
             if (!Debugger_Hook (R))
                 return (R->PC.W);
+#endif // MEKA_Z80_DEBUGGER
 
         // Save ICount before instruction
         icount_before_instruction = R->ICount;
@@ -738,10 +742,12 @@ word    RunZ80_Debugging(Z80 *R)
         }
 
         // Increment debugger cycle counter
+#ifdef MEKA_Z80_DEBUGGER
         Debugger.cycle_counter += (icount_before_instruction - R->ICount);
 
         // Reset stepping flag
         Debugger.stepping = FALSE;
+#endif // MEKA_Z80_DEBUGGER
 
         /* If cycle counter expired... */
         if (R->ICount <= 0)

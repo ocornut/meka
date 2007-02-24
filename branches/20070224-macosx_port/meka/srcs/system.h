@@ -9,7 +9,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <malloc.h>
+#ifndef MACOSX
+  #include <malloc.h>
+#endif // MACOSX
 #include <math.h>
 #include <string.h>
 #include <float.h>

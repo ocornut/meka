@@ -39,7 +39,8 @@
 #------------------------------------------------------
 # SYSTEM = dos
 # SYSTEM = win32
-SYSTEM = unix
+# SYSTEM = unix
+SYSTEM = macosx
 #------------------------------------------------------
 BUILD = release
 # BUILD = debug
@@ -86,7 +87,7 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DUNIX -DX86_ASM
+DEF_OS  = -DUNIX -DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
 INC_OS  = -Ilibs -I../include		                               # This may require an update
 X86_ASM = yes
 #--- Libraries
@@ -94,6 +95,30 @@ LIB_OS  = -Llibs -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread -L../lib  # This ma
 LIB_OS += -lXcursor -lXpm
 LIB_OS += -lXxf86dga -lXxf86vm
 # -lossaudio
+endif
+
+#---[ MACOSX/GCC ]---------------------------------------
+ifeq ($(SYSTEM), macosx)
+#--- Executable name
+EXE     = ../meka
+#--- Output directory
+OD      = obj
+#--- Compilation
+CC      = gcc
+CC_OUT  = -o
+LINKER  = gcc
+ASM     = nasm
+OTYPE   = macho
+#--- Tools
+RM      = rm
+MV      = mv
+MKDIR   = mkdir
+#--- Definitions
+DEF_OS  = -DMACOSX -DUNIX -DX86_ASM
+INC_OS  = -Ilibs -I../include -I../libs/seal/include `pkg-config libpng --cflags` # This may require an update
+X86_ASM = yes
+#--- Libraries
+LIB_OS  = `pkg-config libpng --libs`
 endif
 
 #---[ WINDOWS/MSVC ]-----------------------------------
@@ -135,6 +160,9 @@ endif
 #-----------------------------------------------------
 OPT_SOUND = yes
 OPT_DEBUGGER = yes
+ifeq ($(SYSTEM), macosx)
+OPT_DEBUGGER = no
+endif
 OPT_JOY = yes
 # CPU_CORE = raze
 CPU_CORE = marat
@@ -153,13 +181,16 @@ ifeq ($(OPT_SOUND), yes)
 DEF_SOUND = -DMEKA_SOUND
 OBJ_SOUND = $(OD)/sound/sound.o $(OD)/sound/s_misc.o $(OD)/sound/s_opl.o $(OD)/sound/s_log.o $(OD)/sound/sasound.o $(OD)/sound/psg.o $(OD)/sound/fmeditor.o $(OD)/sound/wav.o $(OD)/sound/vgm.o $(OD)/sound/fmunit.o $(OD)/sound/ym2413hd.o 
 OBJ_SOUND += $(OD)/sound/emu2413/emu2413.o $(OD)/sound/emu2413/mekaintf.o
-
 ifeq ($(SYSTEM), dos)
 LIB_SOUND = -L../libs/seal/lib -laudio
 endif
 
 ifeq ($(SYSTEM), unix)
 LIB_SOUND = -lseal
+endif
+
+ifeq ($(SYSTEM), macosx)
+OBJ_SOUND += $(OD)/sound/null_seal.o
 endif
 
 ifeq ($(SYSTEM), win32)
@@ -208,6 +239,10 @@ LIB_ALLEG = -lalleg
 endif
 
 ifeq ($(SYSTEM), unix)
+LIB_ALLEG = `allegro-config --libs`
+endif
+
+ifeq ($(SYSTEM), macosx)
 LIB_ALLEG = `allegro-config --libs`
 endif
 

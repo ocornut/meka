@@ -74,6 +74,7 @@ void        gui_menus_init (void)
     //-------------------------------------------------------------------------
     // DEBUG
     //-------------------------------------------------------------------------
+#ifdef MEKA_Z80_DEBUGGER
     if (g_Configuration.debug_mode)
     {
         menu_add_item (menus_ID.debug,  Msg_Get (MSG_Menu_Debug_Enabled), AM_Active | Is_Checked (Debugger.active), Debugger_Switch, NULL);
@@ -82,7 +83,7 @@ void        gui_menus_init (void)
         DataDump_Init_Menus (menus_ID.dump);
         //menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get (MSG_Menu_Debug_Watch),      AM_Nothing);
     }
-
+#endif // MEKA_Z80_DEBUGGER
     //-------------------------------------------------------------------------
     // MACHINE
     //-------------------------------------------------------------------------
@@ -212,7 +213,9 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Compat),         AM_Active, TextViewer_Switch_Doc_Compat, NULL);
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Multiplayer_Games),AM_Active, TextViewer_Switch_Doc_Multiplayer_Games, NULL);
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Changes),        AM_Active, TextViewer_Switch_Doc_Changes, NULL);
+#ifdef MEKA_Z80_DEBUGGER
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Debugger),       AM_Active, TextViewer_Switch_Doc_Debugger, NULL);
+#endif // MEKA_Z80_DEBUGGER
 	menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_About),          AM_Active | Is_Checked (AboutBox.active), AboutBox_Switch, NULL);
 
     // ...

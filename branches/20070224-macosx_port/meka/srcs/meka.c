@@ -45,6 +45,7 @@
 // Note: I'm not even sure it works as expected
 //-----------------------------------------------------------------------------
 
+#ifndef MACOSX
 BEGIN_COLOR_DEPTH_LIST
    COLOR_DEPTH_8
    COLOR_DEPTH_15
@@ -58,6 +59,7 @@ END_DIGI_DRIVER_LIST
 
 BEGIN_MIDI_DRIVER_LIST
 END_MIDI_DRIVER_LIST
+#endif // MACOSX
 
 //-----------------------------------------------------------------------------
 // Functions

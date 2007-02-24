@@ -224,6 +224,11 @@ static  int     Setup_Interactive_Console (void)
 
     // Print soundcard listing
     n = AGetAudioNumDevs();
+    if (n == 0)
+    {
+        Sound.SoundCard = SOUND_SOUNDCARD_NONE;
+        return (MEKA_ERR_OK);
+    }
     for (i = 0; i < n; i++)
     {
         if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)

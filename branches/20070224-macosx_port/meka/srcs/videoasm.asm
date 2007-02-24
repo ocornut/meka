@@ -9,7 +9,7 @@ BITS    32
 SECTION .data
 ; USE32
 
-%IFDEF UNIX
+%IFDEF ASM_SYMBOLS_REQUIRE_UNDERSCORE
 
 %DEFINE  _Decode_Tile_ASM            Decode_Tile_ASM
 %DEFINE  _Decode_Tile_ASM_Init       Decode_Tile_ASM_Init
@@ -25,7 +25,7 @@ SECTION .data
 %DEFINE  _Do_Collision               Do_Collision
 %DEFINE  _sms                        sms
 
-%ENDIF ; UNIX
+%ENDIF ; ASM_SYMBOLS_REQUIRE_UNDERSCORE
 
 EXTERN  _VRAM
 EXTERN  _sprite_attribute_table
