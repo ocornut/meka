@@ -1974,6 +1974,15 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             Debugger_Help("W");
         return;
     }
+
+	// B NOPNOP -> B x =0,0 "(NOP NOP)"
+	// FIXME-WIP: Of course, a generic macro system would be welcome as well.
+	if (!stricmp(arg, "nopnop"))
+	{
+		static char break_nopnop_string[] = "x =0,0 \"(NOP NOP)\"";
+		line = break_nopnop_string;
+		parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE);
+	}
         
     // B LIST
     if (!stricmp(arg, "l") || !stricmp(arg, "list"))

@@ -1,3 +1,9 @@
+video mode switching prob
+http://www.smspower.org/forums/viewtopic.php?t=9602
+hey guys. been a fan of meka for years. i just recently got .71 because i thought maybe .70 was giving me the problem. 
+the emu loads fine, i can run it in a window but if i press escape to full screen sometimes it works, sometimes not. 
+BUT everytime i press escape to go back to a smaller window i get an error msg saying "Unable to switch to desired video mode (640x480):nUnsupported color depth. 
+
 
 Map making: being able to take a screenshot with scrolling rounded to the nearest 8 pixels might help
 
@@ -53,8 +59,6 @@ Also I was playing Shanghai before with the FM Chip enabled and the music slowed
 so it is hard to tell if it was my PC doing something or it was MEKA.
 
 WIP:
- - "Macros"
-   - break nopnop --> break x =0,0 "(NOP NOP)"
  - Depth
    - Remove color conversion flag in main loop to avoid too many 
      behind-the-scene conversions.

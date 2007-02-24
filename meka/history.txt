@@ -12,6 +12,9 @@ They are usually of 2 kinds:
 
  MEKA 0.72 WIP xxxxxxxx
  ----------------------
+  - Debugger:
+    - Added "B nopnop" shortcut to break on two successives NOP instructions.
+      This is basically equivalent to "B x =0,0". [Omar]
   - Miscellaenous:
     - Increased max length of directory/filenames. [Musuruan]
     - Added "Automatically crop and align screen captures" option.
