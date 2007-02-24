@@ -150,7 +150,6 @@ typedef struct
     int         State_Current;                      // Current savestate number
     int         State_Load;                         // Set to != 1 to set and load a state on Machine_Reset();
     bool        Setup_Interactive_Execute;          // Set to TRUE to execute an interactive setup on startup
-    int         Debug_Step;
     int         GUI_Current_Page;
 } OPT_TYPE;
 
@@ -367,10 +366,6 @@ t_media_image   media_ROM;
 #define Border_Color_x4                 (Border_Color) | (Border_Color << 8) | (Border_Color << 16) | (Border_Color << 24)
 
 // Debugging
-#define Debug_Stepping(a)               { if (opt.Debug_Step) ConsolePrintf(a); }
-#define Debug_Trace(a)                  { ConsolePrintf("%s\n", a); /* Font_Write (screen, a, 10, 10, Border_Color); delay (200); */ }
-#define Debug_Pause                     { Refresh_Screen (); while (!key[KEY_SPACE]); while (key[KEY_SPACE]); }
-int     Debug_Generic_Value;
 bool    Debug_Print_Infos;
 
 //-----------------------------------------------------------------------------

@@ -484,7 +484,7 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
- Ashizawa Hachidan no Tsumeshogi     G-1006  *Ok
+ Ashizawa Hachidan no Tsumeshogi     G-1006   Ok
  Bank Panic                            C-53   Ok
  Black Onyx, The                       C-72   Ok
  Bomb Jack                             C-61   Ok
@@ -895,7 +895,7 @@
  Phantasy Star Gaiden (JP)                          Ok
  Phantom 2040                                       Ok
  Pinball Dreams                                     Ok
- Pocket Jansou (JP)                                *Ok
+ Pocket Jansou (JP)                                 Ok
  Poker Face Paul's Blackjack                        Ok
  Poker Face Paul's Gin                              Ok
  Poker Face Paul's Poker                            Ok

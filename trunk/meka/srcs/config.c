@@ -646,7 +646,7 @@ void    Command_Line_Parse (void)
 		"EURO", "US", "JAP", "JP", "JPN", "NIRV", "HELP", "?",
 		"SOUND", "NOELEPHANT", "DEBUG", "LOG", "LOAD",
 		"SETUP",
-		"_DEBUG_STEP", "_DEBUG_INFOS",
+		"_DEBUG_INFOS",
 		NULL
 	};
 
@@ -698,10 +698,7 @@ void    Command_Line_Parse (void)
 				opt.Setup_Interactive_Execute = TRUE;
 				break;
 				// Private Usage
-			case 14: // _DEBUG_STEP
-				opt.Debug_Step = 1;
-				break;
-			case 15: // _DEBUG_INFOS
+			case 14: // _DEBUG_INFOS
 				Debug_Print_Infos = TRUE;
 				if (TB_Message.log_filename == NULL)
 					TB_Message.log_filename = strdup("debuglog.txt");

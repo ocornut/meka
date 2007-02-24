@@ -275,13 +275,6 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     // if (Test_Key(KEY_U)) SG_BACK_TILE -= 0x100;
     // if (Test_Key(KEY_I)) SG_BACK_TILE += 0x100;
     // if (Test_Key(KEY_O)) SG_BACK_TILE -= 0x2000;
-
-    /*
-    if (Test_Key(KEY_U))
-        { Debug_Generic_Value ++; Msg (MSGT_DEBUG, "Debug_Generic_Value: %d -> %d", Debug_Generic_Value - 1, Debug_Generic_Value); }
-    if (Test_Key(KEY_I))
-        { Debug_Generic_Value --; Msg (MSGT_DEBUG, "Debug_Generic_Value: %d -> %d", Debug_Generic_Value + 1, Debug_Generic_Value); }
-    */
 }
 
 // ACTION: SET INPUT TO STANDARD JOYPADS --------------------------------------
