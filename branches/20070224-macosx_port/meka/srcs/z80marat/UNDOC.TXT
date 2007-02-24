@@ -1,0 +1,10 @@
+
+[Codes ED]
+ 4C, 54, 5C, 64, 6C, 74, 7C     --> NEG  (ED 44)        8 cycles
+     55, 5D, 65, 6D, 75, 7D     --> RETN (ED 45)       14 cycles
+ 4E,         66, 6E             --> IM 0 (ED 46)        8 cycles
+                     76         --> IM 1 (ED 56)        8 cycles
+                     7E         --> IM 2 (ED 5E)        8 cycles
+                     77, 7F     --> NOP                 4 cycles
+                     71         --> OUT (C), 0         12 cycles
+

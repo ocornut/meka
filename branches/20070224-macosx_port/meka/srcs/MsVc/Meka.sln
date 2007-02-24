@@ -1,0 +1,40 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meka", "Meka.vcproj", "{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{63B96009-6B50-4D7E-A868-62F22424B2C8} = {63B96009-6B50-4D7E-A868-62F22424B2C8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "build_date_update", "build_date_update.vcproj", "{63B96009-6B50-4D7E-A868-62F22424B2C8}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Debug - No DLL = Debug - No DLL
+		Release = Release
+		Release - No DLL = Release - No DLL
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug.ActiveCfg = Debug|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug.Build.0 = Debug|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug - No DLL.ActiveCfg = Debug - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug - No DLL.Build.0 = Debug - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release.ActiveCfg = Release|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release.Build.0 = Release|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release - No DLL.ActiveCfg = Release - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release - No DLL.Build.0 = Release - No DLL|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug.ActiveCfg = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug.Build.0 = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug - No DLL.ActiveCfg = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug - No DLL.Build.0 = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release.ActiveCfg = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release.Build.0 = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release - No DLL.ActiveCfg = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release - No DLL.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
