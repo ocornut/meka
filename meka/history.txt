@@ -13,6 +13,7 @@ They are usually of 2 kinds:
  MEKA 0.72 WIP xxxxxxxx
  ----------------------
   - Miscellaenous:
+    - Increased max length of directory/filenames. [Musuruan]
     - Added "Automatically crop and align screen captures" option.
       This option aligns screen captures on the nearest visible tile, 
       helping to simplify the process of creating game maps by pasting 

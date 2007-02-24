@@ -64,11 +64,12 @@ void            Checksum_Perform (u8 *data, int data_size)
 
     // Update VLFN
     {
-        StrCpyPathRemoved(GenericBuffer, g_Env.Paths.MediaImageFile);
+		char media_path[FILENAME_LEN];
+        StrCpyPathRemoved(media_path, g_Env.Paths.MediaImageFile);
         if (DB_CurrentEntry)
-            VLFN_AddEntry (GenericBuffer, DB_CurrentEntry);
+            VLFN_AddEntry(media_path, DB_CurrentEntry);
         else
-            VLFN_RemoveEntry (GenericBuffer);
+            VLFN_RemoveEntry(media_path);
     }
 }
 

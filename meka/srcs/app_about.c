@@ -57,28 +57,29 @@ static void     AboutBox_Layout(bool setup)
     }
 
     // Draw MEKA dragon sprite
-	draw_sprite (app->box->gfx_buffer, Graphics.Misc.Dragon, 10, (app->box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
+	draw_sprite(app->box->gfx_buffer, Graphics.Misc.Dragon, 10, (app->box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
 
-    // Print about information lines
-    {
-        int i;
-        int y = 9;
-	    Font_SetCurrent (F_LARGE);
-	    for (i = 0; i < 4; i ++)
-	    {
-            int x;
-		    switch (i)
-		    {
-		    case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE); break;
-		    case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT); break;
-		    case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
-		    case 3: sprintf (GenericBuffer, "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
-		    }
-		    x = (( (app->box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, GenericBuffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;
-		    Font_Print (-1, app->box->gfx_buffer, GenericBuffer, x, y, COLOR_SKIN_WINDOW_TEXT);
-		    y += Font_Height (-1) + 3;
-	    }
-    }
+	// Print about information lines
+	{
+		int i;
+		int y = 9;
+		Font_SetCurrent(F_LARGE);
+		for (i = 0; i < 4; i ++)
+		{
+			int x;
+			char buffer[256];
+			switch (i)
+			{
+			case 0: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE); break;
+			case 1: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT); break;
+			case 2: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
+			case 3: snprintf(buffer, countof(buffer), "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
+			}
+			x = (( (app->box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, buffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;
+			Font_Print(-1, app->box->gfx_buffer, buffer, x, y, COLOR_SKIN_WINDOW_TEXT);
+			y += Font_Height(-1) + 3;
+		}
+	}
 }
 
 void            AboutBox_Init (void)

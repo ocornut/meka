@@ -288,11 +288,12 @@ void            Quit_Msg (const char *format, ...)
 #ifdef WIN32
     {
         // FIXME: should redirect on console
+		char buffer[512];
         va_start (params, format);
-        vsprintf (GenericBuffer, format, params);
+        vsprintf (buffer, format, params);
         va_end   (params);
 
-        ConsolePrint(GenericBuffer);
+        ConsolePrint(buffer);
         ConsoleEnablePause();
 
         if (Meka_State == MEKA_STATE_INIT)
@@ -300,7 +301,7 @@ void            Quit_Msg (const char *format, ...)
         else
         {
             // Note: we don't use allegro_message() because Allegro might be unitialized here
-            MessageBox (NULL, GenericBuffer, Msg_Get (MSG_Window_Title), MB_OK | MB_ICONINFORMATION);
+            MessageBox (NULL, buffer, Msg_Get (MSG_Window_Title), MB_OK | MB_ICONINFORMATION);
         }
     }
 #else

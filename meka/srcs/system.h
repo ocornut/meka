@@ -128,6 +128,16 @@ typedef int                 bool;
   #define strnicmp strncasecmp
 #endif
 
+// countof(): provide number of elements in an array
+// The simple version is:
+//   #define countof(array) (sizeof(array) / sizeof(array[0]))
+// This more complicated version ensure that an array (not a pointer) is actually provided as the parameter
+// From http://blogs.msdn.com/the1/archive/2004/05/07/128242.aspx
+//template <typename T, size_t N>
+//char (&_ArraySizeHelper(T (&array)[N])) [N];
+//#define countof(array) (sizeof(_ArraySizeHelper(array)))
+#define countof(array)	(sizeof(array) / sizeof(array[0]))
+
 //-----------------------------------------------------------------------------
 // Warning Disable
 //-----------------------------------------------------------------------------

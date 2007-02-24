@@ -652,9 +652,10 @@ static int CALLBACK ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wPar
     {
     case WM_INITDIALOG:
         {
+			// char buffer[256];
             // dialogInit(hDlg, message, wParam, lParam);
-            //sprintf(GenericBuffer, "MEKA %s\nStartup in progress...", VERSION);
-            //SetWindowText(GetDlgItem(hDlg, IDC_CONSOLE_INFO), GenericBuffer);
+            //sprintf(buffer, "MEKA %s\nStartup in progress...", MEKA_VERSION);
+            //SetWindowText(GetDlgItem(hDlg, IDC_CONSOLE_INFO), buffer);
             return 0;
         }
     case WM_COMMAND:

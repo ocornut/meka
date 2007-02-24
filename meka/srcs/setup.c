@@ -65,127 +65,130 @@ int     Setup_Interactive (void)
 extern HINSTANCE      allegro_inst;
 
 // Win32 Dialog Procedure for interactive setup -------------------------------
-static BOOL CALLBACK
-Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-  switch (message)
-  {
-    case WM_INITDIALOG:
-        {
-        int i, n;
-        int default_selection;
-        AUDIOCAPS Audio_Caps;
-        HWND combo_hwnd;
-        int  combo_idx;
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		{
+			int i, n;
+			int default_selection;
+			AUDIOCAPS Audio_Caps;
+			HWND combo_hwnd;
+			int  combo_idx;
 
-        // Set various localized text
-        sprintf(GenericBuffer, "MEKA - %s", Msg_Get (MSG_Setup_Setup));
-        SetWindowText(hDlg, GenericBuffer);
-        SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_1), Msg_Get (MSG_Setup_Soundcard_Select));
-        // SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_2), Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
-        SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_3), Msg_Get (MSG_Setup_SampleRate_Select));
-        SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get (MSG_Setup_Debugger_Enable));
+			// Set various localized text
+			char buffer[256];
+			snprintf(buffer, countof(buffer), "MEKA - %s", Msg_Get (MSG_Setup_Setup));
+			SetWindowText(hDlg, buffer);
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_1), Msg_Get (MSG_Setup_Soundcard_Select));
+			// SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_2), Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_3), Msg_Get (MSG_Setup_SampleRate_Select));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get (MSG_Setup_Debugger_Enable));
 
-        // Fill soundcards combo box
-        n = AGetAudioNumDevs();
-        combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS);
-        default_selection = Sound.SoundCard;
-        for (i = 0; i < n; i++)
-            if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
-               {
-               combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)Audio_Caps.szProductName);
-               SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
-               if (default_selection == SOUND_SOUNDCARD_SELECT)
-                  if (strcmp (Audio_Caps.szProductName, "DirectSound") == 0)
-                      default_selection = i;
-               }
-        if (default_selection != SOUND_SOUNDCARD_SELECT)
-           SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
+			// Fill soundcards combo box
+			n = AGetAudioNumDevs();
+			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS);
+			default_selection = Sound.SoundCard;
+			for (i = 0; i < n; i++)
+			{
+				if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
+				{
+					combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)Audio_Caps.szProductName);
+					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
+					if (default_selection == SOUND_SOUNDCARD_SELECT)
+						if (strcmp (Audio_Caps.szProductName, "DirectSound") == 0)
+							default_selection = i;
+				}
+			}
+			if (default_selection != SOUND_SOUNDCARD_SELECT)
+				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
 
-        // Fill soundrates combo box
-        combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE);
-        default_selection = 2; // FIXME: 2= 44100 KH
-        for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
-           {
-           sprintf (GenericBuffer, Msg_Get (MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table [i]);
-           combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)GenericBuffer);
-           SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
-           if (Sound_Rate_Default_Table[i] == Sound.SampleRate)
-              default_selection = i;
-           }
-        if (default_selection != -1)
-           SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
+			// Fill soundrates combo box
+			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE);
+			default_selection = 2; // FIXME: 2= 44100 KH
+			for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
+			{
+				char buffer[256];
+				snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table[i]);
+				combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)buffer);
+				SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
+				if (Sound_Rate_Default_Table[i] == Sound.SampleRate)
+					default_selection = i;
+			}
+			if (default_selection != -1)
+				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
 
-        // Fill language combo box
-        {
-           t_list *langs;
-           combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_LANGUAGE);
-           for (langs = Messages.Langs; langs; langs = langs->next)
-              {
-              t_lang *lang = langs->elem;
-              combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)lang->Name);
-              SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)lang);
-              // printf("lang %s %i\n", lang->Name, combo_idx);
-              }
-           n = SendMessage(combo_hwnd, CB_GETCOUNT, 0, 0);
-           // Now set default selection
-           // Note: we have to do it that way because the combo box is sorted!
-           for (i = 0; i < n; i++)
-              {
-              t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, i, 0);
-              if (lang == Messages.Lang_Cur)
-                 {
-                 SendMessage(combo_hwnd, CB_SETCURSEL, i, 0);
-                 break;
-                 }
-              }
-        }
+			// Fill language combo box
+			{
+				t_list *langs;
+				combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_LANGUAGE);
+				for (langs = Messages.Langs; langs; langs = langs->next)
+				{
+					t_lang *lang = langs->elem;
+					combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)lang->Name);
+					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)lang);
+					// printf("lang %s %i\n", lang->Name, combo_idx);
+				}
+				n = SendMessage(combo_hwnd, CB_GETCOUNT, 0, 0);
+				// Now set default selection
+				// Note: we have to do it that way because the combo box is sorted!
+				for (i = 0; i < n; i++)
+				{
+					t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, i, 0);
+					if (lang == Messages.Lang_Cur)
+					{
+						SendMessage(combo_hwnd, CB_SETCURSEL, i, 0);
+						break;
+					}
+				}
+			}
 
-        // Fill debugger enable box
-        CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_Configuration.debug_mode_cfg);
+			// Fill debugger enable box
+			CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_Configuration.debug_mode_cfg);
 
-        return FALSE;
-        }
-    case WM_COMMAND:
-        {
-        switch (LOWORD(wParam))
-           {
-           case IDOK:
-               {
-               if (HIWORD(wParam) == BN_CLICKED)
-                  {
-                  int  n;
-                  HWND combo_hwnd;
+			return FALSE;
+		}
+	case WM_COMMAND:
+		{
+			switch (LOWORD(wParam))
+			{
+			case IDOK:
+				{
+					if (HIWORD(wParam) == BN_CLICKED)
+					{
+						int  n;
+						HWND combo_hwnd;
 
-                  // Sound Card
-                  if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS), CB_GETCURSEL, 0, 0)) != CB_ERR)
-                     Sound.SoundCard = n;
-                  // Sample Rate
-                  if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE), CB_GETCURSEL, 0, 0)) != CB_ERR)
-                     Sound.SampleRate = Sound_Rate_Default_Table[n];
-                  // Language
-                  combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_LANGUAGE);
-                  if ((n = SendMessage(combo_hwnd, CB_GETCURSEL, 0, 0)) != CB_ERR)
-                     {
-                     t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, n, 0);
-                     Messages.Lang_Cur = lang; // FIXME
-                     }
-                  // Debugger enable
-                  g_Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
-                  EndDialog(hDlg, 0);
-                  }
-               return TRUE;
-               }
-           case IDCLOSE:
-              {
-              if (HIWORD(wParam) == BN_CLICKED)
-                 EndDialog(hDlg, 2);
-              return TRUE;
-              }
-           }
-        }
-  }
-  return FALSE;
+						// Sound Card
+						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS), CB_GETCURSEL, 0, 0)) != CB_ERR)
+							Sound.SoundCard = n;
+						// Sample Rate
+						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE), CB_GETCURSEL, 0, 0)) != CB_ERR)
+							Sound.SampleRate = Sound_Rate_Default_Table[n];
+						// Language
+						combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_LANGUAGE);
+						if ((n = SendMessage(combo_hwnd, CB_GETCURSEL, 0, 0)) != CB_ERR)
+						{
+							t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, n, 0);
+							Messages.Lang_Cur = lang; // FIXME
+						}
+						// Debugger enable
+						g_Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
+						EndDialog(hDlg, 0);
+					}
+					return TRUE;
+				}
+			case IDCLOSE:
+				{
+					if (HIWORD(wParam) == BN_CLICKED)
+						EndDialog(hDlg, 2);
+					return TRUE;
+				}
+			}
+		}
+	}
+	return FALSE;
 }
 
 // Interactive Setup (Win32 version) ------------------------------------------
