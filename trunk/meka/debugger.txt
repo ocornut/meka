@@ -204,6 +204,11 @@ You can add a description to breakpoints, by ending the
 command line with a string:
  B 0038 "interrupt"
 
+As a shortcut:
+ B nopnop
+Is equivalent to:
+ B x=0,0 "NOP NOP"
+
 
 Debugger command - W
 --------------------
