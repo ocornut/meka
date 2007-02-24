@@ -78,6 +78,7 @@ void    Inputs_Joystick_Init(void)
         || ((NumJoy = num_joysticks) == 0))
     {
         ConsolePrint (Msg_Get (MSG_Inputs_Joy_Init_None));
+		ConsolePrint ("\n");
         return;
     }
     ConsolePrintf (Msg_Get (MSG_Inputs_Joy_Init_Found), NumJoy);

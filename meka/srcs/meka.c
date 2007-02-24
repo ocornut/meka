@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.72 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2006
+// MEKA 0.72 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2007
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -101,7 +101,6 @@ void    Init_Tables (void)
 // INITIALIZING DEFAULT VARIABLES VALUES --------------------------------------
 void    Init_Default_Values (void)
 {
-    Debug_Generic_Value = 0;
     Debug_Print_Infos = FALSE;
 
     // IPeriod
@@ -118,7 +117,6 @@ void    Init_Default_Values (void)
     opt.State_Load = -1;
     opt.Setup_Interactive_Execute = FALSE;
     opt.Force_Quit = FALSE;
-    opt.Debug_Step = 0;
 
     // Machine
     cur_machine.driver_id = DRV_SMS;
