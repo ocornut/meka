@@ -1,0 +1,258 @@
+----------------------------------------------------------------------------
+ MEKA Sources
+ Messy guide to the first-time hacker, and various technical notes
+----------------------------------------------------------------------------
+ Homepage - http://www.smspower.org/meka
+ Development Forum - http://www.smspower.org/forums/viewforum.php?f=7
+----------------------------------------------------------------------------
+ Absolutely read the 'TODO.txt' file as well.
+----------------------------------------------------------------------------
+
+---------------------------------------------------------------------------
+ Note to the knowledge-eager person:
+  MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
+  MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
+  (READ TECHNICAL DOCUMENTATION INSTEAD.)
+  IF YOU ARE DOUBTING OF ANYTHING, PLEASE ASK TO BE SURE.
+---------------------------------------------------------------------------
+
+---------------------------------------
+INDEX 
+---------------------------------------
+
+- Before anything else...
+- Introduction
+- Technology
+- Communication
+- License
+- How to Compile
+- Hope
+
+---------------------------------------
+ Before anything else...
+---------------------------------------
+
+This document is only a quick introduction to some aspect of MEKA development.
+For any further discussion, please visit MEKA development forum:
+	
+        http://www.smspower.org/forums/viewforum.php?f=7
+	
+I'd be happy to discuss anything over there, answers questions, and see
+how we can all work together in a happy world while holding hands.
+
+
+---------------------------------------
+ Introduction
+---------------------------------------
+
+At some point, I realized that MEKA had all advantage to have its code
+sources opened. Letting people tweak the software, improve it, port it, 
+learn from it. Benefits for everyone. Here we are, finally.
+
+MEKA is my pet project. 
+I started writing this software during summer of 1998.
+Doesn't it feel like an eternity now?
+
+My code is messy. It is hell. Far away from many common coding practices.
+To get you an idea, MEKA was my first real project in C. At that time,
+I was not even familiar with that vague notion called "pointers". 
+Don't freak out yet.
+
+Some parts are better than other, many are bad, some are very bad. 
+For my defense, and my silly pride, I would say that today my coding habits
+and knowledge evolved. I know that MEKA do not use correct coding practice,
+but I'm just stuck with this software, and rewriting everything from stratch 
+isn't always a viable solution:
+
+	    http://www.joelonsoftware.com/articles/fog0000000069.html
+
+So well, this code is hell, but it's better than nothing.
+May it serves, may we can work together and improve it.
+
+
+---------------------------------------
+ Technology
+---------------------------------------
+
+See MEKA.TXT documentation, chapter 11, for a summary of the various
+technology and librairies used by MEKA.
+
+
+---------------------------------------
+ Communication
+---------------------------------------
+
+Please communicate on the dedicated MEKA forum on SMS Power.
+
+ - Feel free to ask any kind of question. I'll try to help.
+ - You can post snippets of code and ask for explanation.
+ - Some things may seems weird and not properly commented. 
+   Show me and I should be able to say if there's a known reason for doing
+   it the way it is done, or if it is just a mistake or unproper coding on 
+   my part.
+ - Feel free to suggest anything.
+ 
+If you have an idea of some piece of work in mind, again, please communicate:
+
+ - I may be able to help, provides guidelines, or ideas if I already thought
+   about the specific feature you're thinking about.
+ - May be already in the work.
+ - Most important and likely, I may be able to give direction about how to 
+   implement certain things given the current constraints in MEKA code.
+
+I haven't setup anything yet, but it is probable that in the future, if
+MEKA gets development interest, I can setup a source tracking system for it.
+In the meanwhile, if you have something to contribute, let's discuss and
+we can always find a way to implement your changes into the tree.
+
+
+---------------------------------------
+ License
+---------------------------------------
+
+Apply to hq2x.c, hq2x16.asm, hq2x32.asm:
+
+  HQ2X is originally distributed under GPL license, which legally would 
+  not fit in MEKA (with its current license). An alternate license has 
+  been requested to the author, Maxim Stephin, who answered:
+
+    "Ah, just use it... I don't care much about legal stuff.
+     As long as it's not used in a commercial product, of course."
+
+  Overidding GPL terms.
+  Maxim Stephin's comments is also a decent reminder about how many
+  people who release their product under GPL/LGPL don't actually 
+  understand the fundation of those license (both licenses allows
+  commercial usage).
+  
+Apply to all code not by Omar Cornut: (see MEKA.txt)
+
+  Unlicensed. Gray area. Kernel Panic. Ahah!
+
+Apply to everything else:
+ 
+ #1 This source code comes free, without any warantee given.
+ 
+ #2 Any modification of this software must have this license preserved,
+    and source code made available under the same condition.
+
+ #3 Reuse of program source code is authorized for any purpose.
+
+ #4 Reuse of embedded data (database, graphics) in other projects is 
+    not authorized, unless given specific permission from me.
+
+I know this doesn't look like a clear licence, and it may scare lawsmen.
+I'll try to work it out to provide a better license in the future.
+Please contact me ( omar AT cornut DOT fr ) for any question.
+
+
+---------------------------------------
+ How to Compile
+---------------------------------------
+
+Note: Several of the libraries belows are patched or compiled with
+specific settings on my computer. This is for the main purpose of
+linking required libraries along with the executable, while stripping
+unused features. You may not need that, just keep in mind that your
+executables may be bigger than the ones provided on MEKA homepage.
+
+I. Compile for Microsoft Windows:
+
+ - Requires Microsoft Visual Studio 7.1 with C++ compiler.
+   (it's absolutly possible to make it compiles with older version,
+    but you'll have to recreate the project or convert it)
+   Note: Some version of Allegro may require Visual Studio to be installed
+   in a pathname accessible without spacing.
+ - Install Allegro library, latest WIP:
+   - You can either download a precompiled Win32, or compile Allegro yourself.
+   - Download: http://www.talula.demon.co.uk/allegro/wip.html#unstable
+   - If using precompiled Win32 package:
+     - Download from "Allegro binary package" link.
+     - Read 'readme.txt'.
+     - Provided binaries are compiled using DLL standard libraries (/MD).
+     - Compile MEKA using "Debug" or "Release" targets.
+     - This is not fully testing. Seems to work in "Debug" target, but certain
+       standard library stuff such as the stdout stream accessed by printf()
+       seems to be broken in "Release" target.
+   - If compiling yourself:
+     - Download "Source code" package.
+     - Read 'docs/build/msvc.txt'.
+     - Compiling Allegro requires a GCC-based compiler (Mingw, Cygwin, DJGPP).
+     - $ set STATICLINK=1
+     - $ set STATICRUNTIME=1
+     - $ fix.bat msvc
+     - $ make
+     - $ make install
+     - This will compile Allegro using static standard librairies (/MT).
+       This is the preferred choice to build official MEKA releases.
+     - Compile MEKA using "Debug - No DLL" or "Release - No DLL" targets.
+ - Install zlib
+   - Download: http://www.gzip.org/zlib/
+   - $ nmake -f win32\Makefile.msc
+   - Add ZLIBDIR environment variable, set to ZLIB root directory.
+ - Install NASM
+   - http://sourceforge.net/projects/nasm/
+   - Add NASM environment variable, set to executable path.
+ - Compile !
+   - MEKA project is in MsVc\Meka.sln , for MS Visual 7.1.
+     (MsVc\Meka.dsw is for 6.0, but outdated. Some tools can convert 7.1 -> 6.0)
+   - May require adding some paths to your Visual Studio configuration,
+     such as DirectX path, etc.
+   - Provided Makefile is outdated but may work if worked to be up to date.   
+
+II. Compile for MS-DOS compatible systems:
+
+ - Install DJGPP compiler and related tools.
+   - http://www.delorie.com/djgpp/
+   - Add DJGPP bin/ directory to PATH.
+ - Install Allegro, latest WIP
+   - http://www.talula.demon.co.uk/allegro/wip.html#unstable
+   - Apply patches from libs/allegro-msdos-patchs/
+   - $ set STATICLINK=1
+   - $ fix.bat djgpp
+   - $ make
+   - $ make install
+ - Install zlib
+   -> see I. Windows
+ - Install libpng
+   - http://www.libpng.org/pub/png/libpng.html
+   - Compile static
+   - Add LIBPNGDIR environment variable, set to libpng root directory.
+ - Install NASM
+   -> see I. Windows
+ - Compile !
+   - Use provided Makefile.
+   
+
+III. Compile for UNIX
+
+ - You are smart guys, you can figure it out!
+ - Install Allegro library, latest WIP.
+   - http://www.talula.demon.co.uk/allegro/wip.html#unstable
+   - $ ./configure --enable-static
+   - $ make
+   - $ make install
+ - Install NASM
+   - Get a package, or http://nasm.sourceforge.net
+ - Install SEAL
+   - Get a package, or http://www.sonicspot.com/sealsdk/sealsdk.html
+ - Compile !
+   - Use provided Makefile.
+   - May have to edit some source code (unsure, will need to be worked out)
+     - In sound/sound.h, may need to change <seal.h> by <audio.h>.
+     - In Makefile, may need to change -lseal by -laudio.
+ - Contact me thru the forum for any help. :)
+
+
+---------------------------------------
+ Hope
+---------------------------------------
+
+Don't get too depressed over problems or ugly sources.
+With the support and continued work of various people, MEKA should
+be able to evolve into the 21st century, get better, get cleaned, and
+have plenty of sexy features for all to enjoy.
+
+Let's work and iterate toward the better.
+
+----------------------------------------------------------------------------

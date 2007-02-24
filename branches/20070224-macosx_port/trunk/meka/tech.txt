@@ -1,0 +1,393 @@
+-----------------------------------------------------------------------------
+ MEKA - Technical Stuff
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ SUMMARY
+-----------------------------------------------------------------------------
+1. Sega Master System & Game Gear quick specifications
+2. SMS Joypads Pinouts
+3. SMS Joypads (DB-9) to Parallel port adapter (type 1)
+4. SMS Joypads (DB-9) to Parallel port adapter (type 2)
+5. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
+6. SMS 3-D Glasses to Serial/COM port adapter
+7. More ?
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 1. Sega Master System & Game Gear quick specifications
+    by Omar Cornut
+-----------------------------------------------------------------------------
+ Mainly intended for webmasters who would like to put some technical 
+ information about Sega 8-bit systems. If you want to know way more about them, 
+ check out S8-Dev at the following address: http://www.smspower.org/dev
+
+  CPU:         Zilog Z80 at 3.58 mhz (3.579545 hz to be exact).
+
+  RAM:         64 kbits (= 8 kbytes)
+
+  SaveRAM:     Battery backed memory. Included on certain cartridges only.
+               usually one or two banks of 128 kbits each (= 16 kbytes).
+
+  Video RAM:   128 kbits (= 16 kbytes)
+
+  Colors:      32 (16*2) on-screen, with an available palette of 64 colors
+               on the Master System and 4096 on the Game Gear.
+
+  Resolution:  256x224 pixels. In video modes used by the very most games,
+               only the top 256x192 pixels or the top right 248x192 pixels
+               are shown on the screen. On the Game Gear, a 160x144 pixels
+               centered area is always shown.
+
+  Characters:  8x8 pixels, using one of the two 16 colors palette. Up to
+               512 characters can be stored in VRAM but usually only 448
+               are used because there will be not enough room to store
+               actual screen and sprite tables.
+
+  Sprites:     maximum of 64 sprites on-screen, 8 per lines. Sized of 8x8
+               or 8x16 pixels, using one of the two 16 colors palette (the
+               same for all sprites). May be masked by foreground tiles.
+
+  Scrolling:   hardware scrolling, vertical and horizontal, line-based,
+               allowing raster effects. Scrolling can hardware ignored for
+               the top 16 pixels (used in many games for a status bar) and 
+               for the 64 rightmost pixels (used by Gauntlet and Golvellius
+               in vertical stages).
+
+  Audio:       three tone channels with 1024 different frequencies and one
+               noise (sound) channel. 16 different volume step.
+
+               optional YM-2413 FM chipset on Japanese systems: 9 channels
+               (or 6 + 3 drums), 15+1 instruments, hardware vibrato and
+               amplitude modulation.
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 2. SMS Joypads Pinouts
+    Copied from Linux Joystick Driver documentation
+    http://atrey.karlin.mff.cuni.cz/~vojtech/joystick/
+-----------------------------------------------------------------------------
+
+ Pinouts are shown looking into a controller plug.
+
+        +-----------> Power (unused on most controllers)
+        | +---------> Right
+        | | +-------> Left
+        | | | +-----> Down
+        | | | | +---> Up
+        | | | | |
+      _____________
+    5 \ o o o o o / 1       DB-9 connector
+       \ o o x o /
+      9 `~~~~~~~' 6
+         | |   |
+         | |   +----> Button 1
+         | +--------> Ground
+         +----------> Button 2
+
+ DB-9 joypads (and more generally, inputs peripherals) were of common usage
+ on Sega Master System, Megadrive (Genesis), several older consoles, Amiga 
+ and Atari computers, etc.
+ Although the DB-9 connector is shared by many controllers, not all uses
+ the same pinouts as the Sega Master System controller. Old joystick might
+ also have only one button connected.
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 3. SMS Joypads (DB-9) to Parallel port adapter (type 1)
+    Comments by Mike Gordon.
+-----------------------------------------------------------------------------
+ This adapter schematic is natively supported by the MS-DOS version of MEKA
+ through the Allegro library. The adapter is also usable under Windows using 
+ the DirectPad Pro driver. 
+ If you do not plan to use the MS-DOS version, building the second type of
+ adapter is recommended.
+-----------------------------------------------------------------------------
+
+ Note
+ ----
+ This is a copy based on the schematic available on the now defunct
+ DirectPad Pro site. A mirror is available at:
+    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/ 
+ I'm not sure who is the original author of this schematic, but it is very 
+ simple and the common nature of the adapter make it somewhat public domain
+ knowledge.
+
+ D-Connector Pinouts
+ -------------------
+
+ DB-9 SMS Joypad plug:
+     -------------  
+     \ 5 4 3 2 1 /  
+      \ 9 8 7 6 /
+       ---------
+
+ DB-25 Parallel connector on PC (female):
+     ------------------------------------------
+     \ 13 12 11 10  9  8  7  6  5  4  3  2  1 /    
+      \  25 24 23 22 21 20 19 18 17 16 15 14 / 
+       --------------------------------------
+
+
+ Legend
+ ------
+ Resistor:  --vvvvv--
+
+ Circuit
+ -------
+
+ PARALLEL PORT (DB-25)                          SMS PAD (DB-9)
+
+     DB25:1  <----------------------------------->  DB-9:1      (Up)
+
+     DB25:2  <------vvvvvvvvv---+---------------->  DB-9:6      (Button 1)
+                       10K      |
+     DB25:11 <------------------+
+
+     DB25:3  <------vvvvvvvvv---+---------------->  DB-9:9      (Button 2)
+                       10K      |
+     DB25:12 <------------------+
+
+     DB25:14 <----------------------------------->  DB-9:2      (Down)
+     DB25:16 <----------------------------------->  DB-9:3      (Left)
+     DB25:17 <----------------------------------->  DB-9:4      (Right)
+
+     DB25:18 <------------------+---------------->  DB-9:8      (Ground)
+                                |
+     DB25:19 <------------------+
+
+* You need a 25-pin male D-plug (DB-25) for the parallel port connection (to
+  fit the female parallel port socket), and a 9-pin male D-plug (DB-9) for
+  the SMS joypad connection (to fit the female joypad plug). The pin numbers 
+  should be marked on the plug itself.
+
+* The type of resistor used (metal film, carbon etc.) is not important. The
+  resistors can be soldered directly to the DB-25 connector, i.e. connect one
+  resistor between pin 3 and pin 12, another between pin 2 and pin 11. (And
+  a wire link, between pins 18 and 19.)
+ 
+  The resistor value (10K) is indicated by coloured bands on the body of the
+  resistor, as follows, from left to right:
+
+   Either: Brown Black Orange       (gap)  Brown or Gold
+       or: Brown Black Black Red    (gap)  Brown or Gold
+
+* Use shielded cable, and use the outer shield of the cable for the Ground
+  connection. Try and keep the cable as short as possible.
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 4. SMS Joypads (DB-9) to Parallel port adapter (type 2)
+    Comments by Gary Pierce (Youltar).
+-----------------------------------------------------------------------------
+ Please refer to SmsCartPad homepage for more detailed instruction:
+    http://www.smspower.org/smscartpad/
+-----------------------------------------------------------------------------
+
+ Circuit
+ -------
+
+ PARALLEL PORT (DB-25)                          SMS PAD (DB-9)
+
+     DB25:2  <----------------------------------->  DB-9:1      (Up)
+     DB25:3  <----------------------------------->  DB-9:2      (Down)
+     DB25:4  <----------------------------------->  DB-9:3      (Left)
+     DB25:5  <----------------------------------->  DB-9:4      (Right)
+     DB25:6  <----------------------------------->  DB-9:6      (Button 1)
+     DB25:1  <----------------------------------->  DB-9:5      (Power)
+     DB25:18 <----------------------------------->  DB-9:8      (Ground)
+     DB25:7  <----------------------------------->  DB-9:9      (Button 2)
+     DB25:14 <----------------------------------->  DB-9:7      (?)
+
+ After some research and digging around this is the diagram I have found to
+ work best for me. As you can see above, there is no need for any diodes or 
+ resistors. This is a straight-through connection. All one needs to do is 
+ connect the proper pins from the DB 9 to the DB 25 connector. 
+ 
+ I used an old IDE ribbon cable and some crimp on connectors. That's it. 
+ (I used crimp connectors because my soldering skills are somewhat lacking)
+ 
+ Select the "Linux-DB9" in the driver configuration window.
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 5. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
+-----------------------------------------------------------------------------
+ GNU/Linux kernels starting version 2.2 supports a wide range of joysticks, 
+ based on the "Linux Joystick Driver" project:
+    http://atrey.karlin.mff.cuni.cz/~vojtech/joystick/
+ Please refer to appropriate documentation (joystick-parport.txt) for
+ detailed instruction about how to build different kind of adapters.
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 6. SMS 3-D Glasses to Serial/COM port adapter
+    Unknown original author. Comments by Frank and Mike Gordon.
+-----------------------------------------------------------------------------
+ This adapter schematic is natively supported by the MS-DOS and Windows 
+ versions of MEKA. As of yet, UN*X versions does not support this feature.
+-----------------------------------------------------------------------------
+ Please refer to SmsCartPad homepage for more detailed instruction:
+    http://www.smspower.org/smscartpad/3d_glasses.shtml
+-----------------------------------------------------------------------------
+
+ Note
+ ----
+ About the MS-DOS version of MEKA: the SMS 3-D Glasses adapter should work 
+ even under in a Windows 95/98 command prompt, but I have not done extensive 
+ testing to confirm. Please e-mail me any problem you may have.
+
+ The Nintendo Famicom 3-D Glasses are said to be compatible with the
+ SMS 3-D Glasses, meaning that they should work with this adapter as well.
+ I could not confirm it myself.
+
+ Legend
+ ------
+ Diode:      --|>|--
+
+ Resistor:  --vvvvv--
+
+                |
+ Capacitor:    ---
+               ---
+                |
+
+ Circuit
+ -------
+
+       RS-232
+     DB25 / DB9
+                                                   10K
+RTS   4      7  Switching signal +/- 10V  --------vvvvv--+
+                                                         |
+                                                         |
+GND   7      5  Ground ----+-------------+--+---------+--|----+
+                           |             |  |         |  |    |
+                           |             |  +-|>|--+  |  |    |
+                           +--|>|--+    ---        |  |  |    |  Transistor
+                                   |    ---  22 uF |  |  |    |   2N2222
+                                   |     |         |  |  |  +-+---------+
+                                   |     |         |  |  |  | Emitter   |
+                                   |     |         |  |  |  |           |
+DTR  20      4  Vdd +10V --|>|-----+-----+         +--|--+--+ Base      |
+                                         |            |     |           |
+                              +--+--+--+-+-vvvvv---+--|-----+ Collector |
+                              |  |  |  |    10K    |  |     |           |
+                              |  |  |  |           |  |     +-----------+
+                      +-------+--+--+--+-----------+--+--+
+                      |       1  9  13 14          5  7  |
+                      |                                  |
+                      |   RCA CD 4030 Quad XOR gate      |
+                      |                                  |
+                      | 2 11  12       3  6  8   10   4  |
+                      +-+--+---+-------+--+--+----+---+--+
+                        |  |   |       |  |  |    |   |
+                        +--+   |       +--+--+    |   +--- Outside of jack
+                           |   |             |    |
+                           |   +-vvvvv-+     |    +------- Middle of jack
+                           |      22K  |     |
+                           |           |     +------------ Centre of jack
+                           +-vvvvv-----+     |
+                              22K      |     |
+                                      ---    |
+                              .01 uF  ---    |
+                                       |     |
+                                       +-----+
+
+[FRANK]
+
+This is my best attempt at a rendition of the circuit which connects my
+SEGA glasses to my AT. I didn't design the circuit -- I'm a software
+rather than hardware person. In fact I barely understand it -- as far as
+I can tell, the .01uF capacitor & the 22K resistors act as a delay. The
+outputs of the XOR gates feed back into their own inputs, thus producing
+an oscillator. The "jack" mentioned in the diagram is the mini-jack
+which is connected as standard to the glasses. "Centre", "middle", and
+"outside" relate to the external connections, looking at the thing
+end-on.
+
+Caveat emptor... to paraphrase the standard software licence agreement:
+It's as good as I can get it. If it doesn't work or blows up your
+computer or your glasses and blinds you for life, I'll give you back all
+the money you paid me.
+
+[MIKE GORDON]
+
+As far as I can see, the oscillator circuit is used to provide an AC supply
+to power the glasses. The switching signal (+ or - 10 volts) applied to the
+base of the transistor produces a high or low output on the collector, which
+presumably is used to switch between left and right frames.
+
+When building the adapter:
+
+* Use a CMOS series 4030B (or 4070B, which is functionally equivalent). Do 
+  not use a 74HC series chip.
+
+  Chip pin numbering:
+
+      7  6  5  4  3  2  1
+     +-------------------+
+     |                   |
+     |   4070B           < - notch
+     |                   |
+     +-------------------+
+      8  9 10 11 12 13 14
+
+
+* Use 1N4148 (or equivalent) signal diodes. The positive end is marked by a
+  black band around the component.
+
+      Negative  -  --|>|--  +  Positive
+
+
+* The resistors should ideally be metal film types (blue-coloured body). 
+  The value is indicated by coloured bands, as follows, from left to right:
+
+     22K - Red Red Orange           (gap)  Brown or Gold
+      OR - Red Red Black Red        (gap)  Brown or Gold
+
+     10K - Brown Black Orange       (gap)  Brown or Gold
+      OR - Brown Black Black Red    (gap)  Brown or Gold
+
+
+* The .01 uF (10 nF) capacitor should be a ceramic disc type, while the 22uF
+  capacitor should be an electrolytic type.
+
+
+* For the 2N2222A transistor (looking at it from below, with the pins towards
+  you) :
+
+
+                     o - Base
+
+
+     Emitter -   o       o   - Collector
+
+             
+  Metal tab - /_/
+                   
+
+* The serial port is a 9-pin D-type male connector, so you need a 9-pin
+  female D plug for the adapter. Looking into the serial port itself, this
+  is the pin configuration:
+
+                 1 2 3 4 5
+               -------------
+               \ o o o o o /
+                \ o o o o /
+                 ---------               
+                  6 7 8 9
+
+
+* Finally, the 3-D glasses jack is a 3.5mm stereo phone socket, i.e. the
+  Walkman type.
+
+Good luck building the adapter, and enjoy!
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+ 7. More ?
+-----------------------------------------------------------------------------
+ If you have something interesting to contribute to this document, 
+ feel free to contact me about it (see my e-mail in the MEKA.TXT file).
+-----------------------------------------------------------------------------
