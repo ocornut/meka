@@ -216,7 +216,7 @@
 ;-----------------------------------------------------------------------------
 [English]
 ; Original text by Omar Cornut (Bock)
-; Maintainer: Omar Cornut (cornut _@_ noos . fr)
+; Maintainer: Omar Cornut (omar AT miracleworld.net)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -717,8 +717,8 @@ Msg_Menu_Help_About                     = "About"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Français]
-; Maintainer: Omar Cornut (cornut _@_ noos . fr)
-; Original text by Overture 1928 (alissalde _@_ aol . fr)
+; Maintainer: Omar Cornut (omar AT miracleworld.net)
+; Original text by Overture 1928 (alissalde AT aol.fr)
 ; Merci à Eric pour ses lumières techniques!
 WIP
 ;-----------------------------------------------------------------------------
@@ -1214,7 +1214,7 @@ Msg_Menu_Help_About                     = "A propos"
 [Redneck]
 WIP
 ; Translation by the Dialectizer (http://www.rinkworks.com/dialect)
-; Maintainer: Maxim (maxim @ mwos.cjb.net)
+; Maintainer: Maxim (maxim AT mwos.cjb.net)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2169,7 +2169,7 @@ Msg_Menu_Help_About                     = "Over"
 [Español]
 WIP
 ; Translation by Antonio Bazalo (Bazathlon)
-; Maintainer: Antonio Bazalo (bazathlon _@_ wanadoo . es)
+; Maintainer: Antonio Bazalo (bazathlon AT wanadoo.es)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3088,7 +3088,7 @@ Msg_Menu_Help_About                     = "Sobre"
 [Italiano]
 WIP
 ; Translation by Andrea Ballandino (Adol)
-; Maintainer: Andrea Ballandino (adol _@_ email . it)
+; Maintainer: Andrea Ballandino (adol AT email.it)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3544,7 +3544,7 @@ Msg_Menu_Help_About                     = "About"
 [Deutsch]
 WIP
 ; Übersetzung / translation to German: Tilman Hesse
-; Maintainer: Tilman Hesse (tilman_h _@_ yahoo . de)
+; Maintainer: Tilman Hesse (tilman_h AT yahoo.de)
 ; Used accents: äöüÄÖÜß
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -4001,7 +4001,7 @@ Msg_Menu_Help_About                     = "Über"
 [Swedish]
 WIP
 ; Translation by Henrik Sankala
-; Maintainer: Henrik Sankala (hensan-7 _@_ student . ltu . se)
+; Maintainer: Henrik Sankala (hensan-7 AT student.ltu.se)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -4474,7 +4474,7 @@ Msg_Menu_Help_About                     = "Om MEKA"
 [Danish]
 WIP
 ; Translation by Marc Klemp
-; Maintainer: Marc Klemp (Supreme1 _@_ gmx . co . uk)
+; Maintainer: Marc Klemp (Supreme1 AT gmx.co.uk)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
