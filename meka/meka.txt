@@ -41,9 +41,10 @@
 
  MEKA is developped and coordinated by:
 
- > Omar Cornut / Bock (E-mail: omar AT cornut DOT fr)
+ > Omar Cornut / Bock
    Project manager, machine emulation, tools, graphical user interface, sound
    interface, graphics, miscellaneous stuff.
+   E-mail: omar -AT- miracleworld.net (replace -AT- by @).
 
  And include invaluable contributions from the following handsome people:
 
