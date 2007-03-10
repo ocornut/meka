@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2006/12/24
+; Last updated 2007/03/10
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -600,7 +600,6 @@ GG  f366b29d 8A4C513A5DD6DD8F   Windows for the GG/FLAGS=HOMEBREW/VERSION=4/AUTH
 ; DATA - SEGA GAME 1000 (SG-1000)
 ;-----------------------------------------------------------------------------
 
-SG1 545fc9bb 9FAB5418930F2484   Ashizawa Hachidan no Tsumeshogi/COUNTRY=JP/PRODUCT_NO=G-1006/COMMENT=Also referred to as "Tsumeshogi" (box shows both the full and short titles).
 SG1 d8a87095 BDE475C4465199F6   Bank Panic/COUNTRY=JP/PRODUCT_NO=C-53
 SG1 26ecd094 4627CCD92099C86D   Black Onyx, The/COUNTRY=JP/PRODUCT_NO=C-72
 SG1 ea0f2691 0A34F046A94E1382   Bomb Jack/NAME_AU=Bombjack/COUNTRY=JP,AU/PRODUCT_NO=C-61
@@ -645,6 +644,7 @@ SG1 fd7cb50a 012054B9AACC5804   Pachinko II/COUNTRY=JP/PRODUCT_NO=G-1029
 SG1 db6404ba 0E3BEA9E54820158   Pop Flamer/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1019
 SG1 8efc77bc 5C5A333AD02831B4   Sega Flipper/NAME_NZ=Video Flipper/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1018
 SG1 981e36c1 4C8C69BF8C6621ED   Sega Galaga/COUNTRY=JP,AU/PRODUCT_NO=G-1022
+SG1 545fc9bb 9FAB5418930F2484   Serizawa Hachidan no Tsumeshogi/COUNTRY=JP/PRODUCT_NO=G-1006/COMMENT=Also referred to as "Tsumeshogi" (box shows both the full and short titles).
 SG1 5a917e06 012791545F90CD37   Shinnyushain Tooru Kun (Konami no)/COUNTRY=JP/PRODUCT_NO=G-1041
 SG1 01932df9 39B539F98CD283FF   Sindbad Mystery/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1012
 SG1 922c5468 37CC1C413181F4FA   Soukoban/NAME_AU=Thinking Rabbit/COUNTRY=JP,AU/PRODUCT_NO=C-56/COMMENT=Also known as "Thinking Rabbit" in bootleg form. Pirates mistakenly choose this name because it is the only latin-readable text shown on the title screen, but it is the developer's name.
