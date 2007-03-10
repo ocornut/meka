@@ -36,8 +36,9 @@ They are usually of 2 kinds:
           GG  - 4d1f4699 - Shining Force Gaiden (JP)            --> Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP)
           GG  - 30374681 - Shining Force Gaiden II (JP)         --> Shining Force Gaiden II ~Jashin no Mezame~ (JP)
           GG  - 6019fe5e - Shining Force Gaiden Final Con.. (JP)--> Shining Force Gaiden ~Final Conflict~ (JP)
-          SG  - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
-          SG  - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
+          SG1 - 545fc9bb - Ashizawa Hachidan no Tsumeshogi (JP) --> Serizawa Hachidan no Tsumeshogi (JP)
+          SG1 - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
+          SG1 - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
 
 
  MEKA 0.72 WIP 20061217

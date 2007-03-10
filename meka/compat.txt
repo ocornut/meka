@@ -484,7 +484,6 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
- Ashizawa Hachidan no Tsumeshogi     G-1006   Ok
  Bank Panic                            C-53   Ok
  Black Onyx, The                       C-72   Ok
  Bomb Jack                             C-61   Ok
@@ -523,8 +522,8 @@
  Gulkave                               C-63   Ok
  Hang On II                            C-60   Ok
  H.E.R.O.                              C-58   Ok
- Home Mahjong [v0]                   G-1030  *Ok
- Home Mahjong [v1]                  G-1030B  *Ok
+ Home Mahjong [v0]                   G-1030   Ok
+ Home Mahjong [v1]                  G-1030B   Ok
  Hustle Chumy                        G-1035   Ok
  Hyper Sports (Konami no)            G-1042   Ok
  Lode Runner                         G-1031   Ok
@@ -549,6 +548,7 @@
  Safari Race (JP)                    G-1032  *Ok
  Sega Flipper                        G-1018   Ok
  Sega Galaga                         G-1022   Ok
+ Serizawa Hachidan no Tsumeshogi     G-1006   Ok
  Shinnyushain Tooru Kun (Konami no)  G-1041   Ok
  Sindbad Mystery                     G-1012   Ok
  Soukoban                              C-56   Ok
@@ -762,7 +762,7 @@
  G-LOC - Air Battle [v1] (JP)                       Ok
  Godzilla - Kaiju Dai-Shingeki (JP)                 Ok
  GP Rider                                           Ok
- GP Rider (JP)                                     *Ok
+ GP Rider (JP)                                      Ok
  Greendog                                           Ok
  Griffin                                            Ok
  Gunstar Heroes (JP)                                Ok
