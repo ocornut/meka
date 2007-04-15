@@ -24,18 +24,26 @@ They are usually of 2 kinds:
       Note: May not work properly on game using scanline based effects.
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
+          SMS - 65d7e4e0 - Fantasy Zone                         --> Fantasy Zone [v2]
+          SMS - 60c19645 - Zillion                              --> Zillion [v0]
+          SMS - 5718762c - Zillion (US)                         --> Zillion [v1] (US)
           GG  - 7a41c1dc - Aladdin                              --> Aladdin (Disney's)
           GG  - 770e95e1 - Aladdin (JP)                         --> Aladdin (Disney's) (JP)
           GG  - 4457e7c0 - Deep Duck Trouble / Donald Duck no.. --> Donald Duck no Yottsu no Himitsu (JP) (was Japanese dump)
           GG  - 36aaf536 - Evander Holyfield Boxing             --> Evander Holyfield's "Real Deal" Boxing
+          GG  - 8c048325 - Indiana Jones and the Last Crusade   --> Indiana Jones and the Last Crusade [BAD]
+          GG  - 4a98678b - Joe Montana Football                 --> Joe Montana Football (JP)
           GG  - 00c34d94 - Madou Monogatari I - Mittsu no.. (JP)--> Madoh Monogatari I - Mittsu no Madokyuu (JP)
           GG  - 12eb2287 - Madou Monogatari II - Aruru 16.. (JP)--> Madou Monogatari II - Aruru 16-sai (JP)
           GG  - 0a634d79 - Madou Monogatari III - Kyukyok.. (JP)--> Madou Monogatari III - Kyuukyoku Joo-sama [v0] (JP)
           GG  - 7ec95282 - Madou Monogatari A - Dokidoki-.. (JP)--> Madoh Monogatari A - Dokidoki-Bake Shon
+          GG  - afcc7828 - Psychic World                        --> Psychic World (JP)
           GG  - 2ae8c75f - Shanghai 2 (JP)                      --> Shanghai II (JP)
           GG  - 4d1f4699 - Shining Force Gaiden (JP)            --> Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP)
           GG  - 30374681 - Shining Force Gaiden II (JP)         --> Shining Force Gaiden II ~Jashin no Mezame~ (JP)
           GG  - 6019fe5e - Shining Force Gaiden Final Con.. (JP)--> Shining Force Gaiden ~Final Conflict~ (JP)
+          GG  - 742a372b - Spider-Man and the X-Men in Arcade'..--> Spider-Man / X-Men: Arcade's Revenge
+          GG  - f1732ffe - Tale Spin                            --> TaleSpin
           SG1 - 545fc9bb - Ashizawa Hachidan no Tsumeshogi (JP) --> Serizawa Hachidan no Tsumeshogi (JP)
           SG1 - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
           SG1 - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)

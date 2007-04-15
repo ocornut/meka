@@ -89,6 +89,7 @@
  Choplifter                                     -       Ok
  Choplifter [Proto] (JP)                        -       Ok
  Chouon Senshi Borgman (JP)                     FM      Ok
+ Chouon Senshi Borgman [Proto] (JP)             FM     *Ok
  Chuck Rock                                     -       Ok
  Chuck Rock II - Son of Chuck                   -       Ok
  Chuck Rock II - Son of Chuck (BR)              -       Ok
@@ -110,6 +111,8 @@
  Dinobasher - Starring Bignose the Ca.. [Proto] -       Ok
  Dinosaur Dooley, The (KR)                     *-       Ok
  Dodgeball King (KR)                            -       Ok
+ Doki Doki Penguin Land - Uchuu-Daibouken (JP)  FM      Ok
+ Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM     *Ok
  Double Dragon                                  FM      Ok
  Double Hawk                                    -       Ok
  Double Target - Cynthia no Nemuri              -       Ok
@@ -133,7 +136,9 @@
  F-16 Fighting Falcon (US)                      -       Ok
  F-16 Fighting Falcon (JP)                      -       Ok
  Fantastic Dizzy                                -       Minor graphic bug when pausing.
- Fantasy Zone                                   -       Ok
+ Fantasy Zone [v0] (JP)                         -      *Ok
+ Fantasy Zone [v1] [Proto]                      -      *Ok
+ Fantasy Zone [v2]                              -       Ok
  Fantasy Zone II                                FM      Ok
  Fantasy Zone II (JP)                           FM      Ok
  Fantasy Zone: The Maze                         FM      Ok
@@ -274,7 +279,6 @@
  Parlour Games                                  FM      Ok
  Pat Riley Basketball [Proto]                   -       Ok
  Penguin Land                                   FM      Ok
- Penguin Land (JP) / Doki Doki Penguin Land     FM      Ok
  PGA TOUR Golf                                  -       Ok
  Phantasy Star [v2]                             -       Ok
  Phantasy Star [v3]                             -       Ok
@@ -374,6 +378,7 @@
  Submarine Attack                               -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   -       Ok
+ Summer Games [Proto]                          *-       Ok
  Super Basketball [Demo]                        -       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
@@ -401,6 +406,7 @@
  Tennis Ace                                     FM      Ok
  Tensai Bakabon (JP)                            FM      Ok
  Terminator, The                                -       Ok
+ Terminator, The (BR)                           -      *Ok
  Terminator 2 - Judgment Day                    -       Ok
  The Ninja                                      -       Ok
  The Ninja (JP)                                 -       Ok
@@ -454,12 +460,13 @@
  Ys (JP)                                        FM      Ok
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
  Zaxxon 3-D / Zaxxon 3D [Proto]                 FM,(3D) Ok
- Zillion / Akai Koudan Zillion                  -       Ok
- Zillion (US)                                   -       Ok
+ Zillion [v0] / Akai Koudan Zillion             -       Ok
+ Zillion [v1]                                   -       Ok
+ Zillion [v2]                                  *-       Ok
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 441 games tested - 439 are "Ok" - Compatibility rate: 99.54%
+ 448 games tested - 446 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -650,7 +657,7 @@
  Asterix and the Great Rescue                       Ok
  Asterix and the Great Rescue (US)                  Ok
  Ax Battler - A Legend of Golden Axe [v1.5] (JP)    Ok
- Ax Battler - A Legend of Golden Axe [v2.0]        *Ok
+ Ax Battler - A Legend of Golden Axe [v2.0] [Proto]*Ok
  Ax Battler - A Legend of Golden Axe [v2.4]         Ok
  Baku Baku Animal                                   Ok
  Baku Baku Animal - Sekai Shiikugakari Senshu..(JP) Ok
@@ -780,7 +787,7 @@
  Ichidant~R GG (Puzzle & Action)                    Ok
  Incredible Crash Dummies, The                      Ok
  Incredible Hulk, The                               Ok
- Indiana Jones and the Last Crusade                 Ok
+ Indiana Jones and the Last Crusade                *Ok
  Iron Man X-O Manowar in Heavy Metal                Ok
  Itchy & Scratchy                                   Ok
  James Bond 007: The Duel                           Ok
@@ -790,7 +797,8 @@
  Jeopardy! - Sports Edition                         Ok
  J League GG Pro Striker '94 (JP)                   Ok
  J League Soccer - Dream Eleven (JP)                Ok
- Joe Montana Football                               Ok
+ Joe Montana Football                              *Ok
+ Joe Montana Football (JP)                          Ok
  Judge Dredd                                        Ok
  Junction                                           Ok
  Jungle Book, The (Walt Disney's Classic)           Ok
@@ -910,6 +918,7 @@
  Pro Yakyuu GG League (JP)                         *Ok
  Pro Yakyuu GG League '94 (JP)                      Ok
  Psychic World                                      Ok
+ Psychic World (JP)                                *Ok
  Putt & Putter                                      Ok
  Putt & Putter (JP)                                 Ok
  Puyo Puyo 2 (JP)                                   Ok
@@ -957,6 +966,7 @@
  Sonic Blast / G-Sonic                              Ok
  Sonic Chaos                                        Ok
  Sonic Drift                                        Ok
+ Sonic Drift [Demo] (JP)                           *Ok
  Sonic Drift 2                                      Ok
  Sonic Labyrinth                                    Ok
  Sonic Spinball                                     Ok
@@ -968,7 +978,7 @@
  Space Harrier                                      Flickering status (LCD persistance).
  Spider-Man - Return of the Sinister Six            Ok
  Spider-Man - vs. The Kingpin                       Ok
- Spider-Man and the X-Men Arcade's Rev.             Ok
+ Spider-Man / X-Men: Arcade's Revenge               Ok
  Sports Illustrated Championship F&B                Ok
  Sports Trivia                                      Ok
  Sports Trivia - Championship Edition               Ok
@@ -1058,7 +1068,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 425 games tested - 416 are "Ok" - Compatibility rate: 97.88%
+ 428 games tested - 419 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
