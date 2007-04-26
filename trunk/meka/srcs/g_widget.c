@@ -110,7 +110,7 @@ int         widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
         w->mouse_action = WIDGET_MOUSE_ACTION_NONE;
         w->mouse_buttons = gui.mouse.buttons;
 		w->mouse_buttons_previous = gui.mouse.buttons_prev;
-        if ((w->mouse_x >= 0) && (w->mouse_y >= 0) && (w->mouse_x <= w->frame.size.x) && (w->mouse_y <= w->frame.size.y))
+        if ((w->mouse_x >= 0) && (w->mouse_y >= 0) && (w->mouse_x < w->frame.size.x) && (w->mouse_y < w->frame.size.y))
         {
             w->mouse_action |= WIDGET_MOUSE_ACTION_HOVER;
 

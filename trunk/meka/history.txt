@@ -12,6 +12,8 @@ They are usually of 2 kinds:
 
  MEKA 0.72 WIP xxxxxxxx
  ----------------------
+    - Tilemap viewer:
+##    - Fixed leftover of white rectangle when mouse hover last line. [Omar]
   - Debugger:
     - Added "B nopnop" shortcut to break on two successives NOP instructions.
       This is basically equivalent to "B x =0,0". [Omar]
