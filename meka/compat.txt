@@ -109,7 +109,7 @@
  Desert Strike                                  -       Ok
  Dick Tracy                                     -       Ok
  Dinobasher - Starring Bignose the Ca.. [Proto] -       Ok
- Dinosaur Dooley, The (KR)                     *-       Ok
+ Dinosaur Dooley, The (KR)                      -       Ok
  Dodgeball King (KR)                            -       Ok
  Doki Doki Penguin Land - Uchuu-Daibouken (JP)  FM      Ok
  Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM     *Ok
@@ -831,7 +831,7 @@
  Madoh Monogatari I - Mittsu no Madokyuu (JP)       Ok
  Madoh Monogatari II - Aruru 16-sai (JP)            Ok
  Madoh Monogatari III - Kyuukyoku Joo-sama [v0] (JP)Ok
- Madoh Monogatari III - Kyuukyoku Joo-sama [v1] (JP*Ok
+ Madoh Monogatari III - Kyuukyoku Joo-sama [v1] (JP)Ok
  Madoh Monogatari A - Dokidoki-Bake Shon (JP)       Ok
  Magic Knight Ray Earth (JP)                        Ok
  Magic Knight Ray Earth 2 ~making of magic k.. (JP) Ok
