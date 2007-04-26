@@ -38,8 +38,8 @@
  #define READ_FUNC(a)   int  a  (int Addr)
  #define WRITE_FUNC(a)  void a  (int Addr, int Value)
 #else
- #define READ_FUNC(a)   u8 a    (register int Addr)
- #define WRITE_FUNC(a)  void a  (register int Addr, register u8 Value)
+ #define READ_FUNC(a)   u8 a    (register word Addr)
+ #define WRITE_FUNC(a)  void a  (register word Addr, register u8 Value)
 #endif
 
 //-----------------------------------------------------------------------------

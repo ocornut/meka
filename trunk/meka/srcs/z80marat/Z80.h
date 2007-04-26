@@ -120,13 +120,13 @@ word    RunZ80_Debugging(Z80 *R); /* MEKA */
 /** These functions are called when access to RAM occurs.   **/
 /** They allow to control memory access.                    **/
 /************************************ TO BE WRITTEN BY USER **/
-void    (*WrZ80)(register int Addr, register byte Value);
-byte    (*RdZ80)(register int Addr);
+void    (*WrZ80)(register word Addr, register byte Value);
+byte    (*RdZ80)(register word Addr);
 
 // Those are no-hook version to be used by tools.
 // The Z80 emulator still use the normal version, which may be hooked by the debugger.
-void    (*WrZ80_NoHook)(register int Addr, register byte Value);
-byte    (*RdZ80_NoHook)(register int Addr);
+void    (*WrZ80_NoHook)(register word Addr, register byte Value);
+byte    (*RdZ80_NoHook)(register word Addr);
 
 /** InZ80()/OutZ80() *****************************************/
 /** Z80 emulation calls these functions to read/write from  **/
