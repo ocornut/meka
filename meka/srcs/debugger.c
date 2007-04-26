@@ -66,8 +66,8 @@ static void     Debugger_GetAccessString(int access, char buf[5])
 // Hooks
 static void                     Debugger_Hooks_Install(void);
 static void                     Debugger_Hooks_Uninstall(void);
-static void                     Debugger_WrZ80_Hook(register int addr, register u8 value);
-static u8                       Debugger_RdZ80_Hook(register int addr);
+static void                     Debugger_WrZ80_Hook(register u16 addr, register u8 value);
+static u8                       Debugger_RdZ80_Hook(register u16 addr);
 static void                     Debugger_OutZ80_Hook(register u16 addr, register u8 value);
 static u8                       Debugger_InZ80_Hook(register u16 addr);
 
@@ -1314,7 +1314,7 @@ void     Debugger_Hooks_Uninstall(void)
     OutZ80 = OutZ80_NoHook;
 }
 
-void        Debugger_WrZ80_Hook(register int addr, register u8 value)
+void        Debugger_WrZ80_Hook(register u16 addr, register u8 value)
 {
     t_list *breakpoints;
     for (breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
@@ -1329,7 +1329,7 @@ void        Debugger_WrZ80_Hook(register int addr, register u8 value)
     WrZ80_NoHook(addr, value);
 }
 
-u8          Debugger_RdZ80_Hook(register int addr)
+u8          Debugger_RdZ80_Hook(register u16 addr)
 {
     u8 value = RdZ80_NoHook(addr);
     t_list *breakpoints;

@@ -12,8 +12,13 @@ They are usually of 2 kinds:
 
  MEKA 0.72 WIP xxxxxxxx
  ----------------------
-    - Tilemap viewer:
-##    - Fixed leftover of white rectangle when mouse hover last line. [Omar]
+  - CPU:
+    - Z80: Fixed cases were address arithmetic would not wrap in the 
+      16-bit address space, effectively crashing the emulator (those cases
+      were mostly happening on corrupted data, but it also legit Z80 code, 
+      and in any case we don't want the emulator to crash). [Omar]
+  - Tilemap viewer:
+##  - Fixed leftover of white rectangle when mouse hover last line. [Omar]
   - Debugger:
     - Added "B nopnop" shortcut to break on two successives NOP instructions.
       This is basically equivalent to "B x =0,0". [Omar]

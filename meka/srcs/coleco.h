@@ -14,7 +14,7 @@ byte   *BIOS_ROM_Coleco;
 //-----------------------------------------------------------------------------
 
 // FIXME: use WRITE_FUNC from mappers.h
-void    Write_Mapper_Coleco (register int Addr, register byte Value);
+void    Write_Mapper_Coleco (register word Addr, register byte Value);
 
 byte    Coleco_Port_In (word Port);
 void    Coleco_Port_Out (word Port, byte Value);

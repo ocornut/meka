@@ -40,6 +40,7 @@ _Read_Default_ASM:
         ;xor   edi, edi
         ;mov   di, word [esp + 16]      ; edi = Addr & 0xFFFF
         mov     edi, dword [esp + 16]   ; edi = Addr
+        and     edi, 0xFFFF
 
         mov     ebp, _Mem_Pages         ; ebp = Mem_Pages
         mov     esi, edi                ; esi = Addr
