@@ -19,6 +19,13 @@ They are usually of 2 kinds:
       probably other infrequent cases. [FluBBa, Omar]
     - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
       by Sean Young's "The Undocumented Z80 Documented". [Omar]
+  - ColecoVision:
+    - Fixed emulation of pending NMI, pending flag is cleared when
+      reading VDP status. Fixes "Rock 'N Bolt" among other. 
+      Thanks to the anonymous poster on SMS Power! forums. [Omar]
+    - Note that the compatibility list for ColecoVision titles is
+      severly outdated. At some point, James Carter worked on a new,
+      more accurate list, but I lost all contact with him.
 
 
  MEKA 0.72 WIP 20070426

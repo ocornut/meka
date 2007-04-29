@@ -1075,8 +1075,7 @@
  COLECOVISION (COL) COMPATIBILITY LIST
  by Tincho DJ, Jossa and Omar Cornut
 -----------------------------------------------------------------------------
- Note: this list is outdated. James Carter has provided much better
- ColecoVision games testing. His work will be added here as soon as possible.
+ Note: this list is outdated. Please help rewriting it if you're interested.
 -----------------------------------------------------------------------------
  D:     Requires Driving Controller
  DO:    Supports Driving Controller (Optional)
@@ -1108,7 +1107,7 @@
  Campaign '84                                 1604   -       Ok
  Carnival                                     2445   -       Ok
  Centipede                                   70004   RO      Ok
- Choplifter                                   2690   -       Various graphic bugs
+ Choplifter                                   2690   -       ok
  Choplifter (alt)                                    -       Ok
  Chuck Norris Superkicks                             -       Ok
  ColecoVision Noise Generator                        -       Ok
@@ -1202,7 +1201,7 @@
  River Raid                                 VS-002   -       Ok
  Robin Hood                                  99023   -       Ok
  Roc 'N Rope                                  2668   -       Ok
- Rock 'N Bolt                               TC-202   -       Various graphic bugs.
+ Rock 'N Bolt                               TC-202   -       Ok
  Rocky Super Action Boxing                    2606   SO      Ok
  Rolloverture                                 1602   -       Ok
  Sammy Light Foot                          SLL-901   -       Ok
@@ -1244,7 +1243,7 @@
  The Heist                                           -       Ok
  The Yolk's On You                                   -       Ok
  Threshold                                  THQ903   -       Game often restarts.
- Tic Tac Toe                                         -       Freezes MEKA.
+ Tic Tac Toe                                         -       Ok
  Tic Tac Toe (alt)                                   -       Ok
  Time Pilot                                   2633   -       Ok
  Tomarc The Barbarian                        99025   -       Ok

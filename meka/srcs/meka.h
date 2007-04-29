@@ -84,12 +84,12 @@ struct SMS_TYPE
     u16     VDP_Address;                   // Current VDP address
     u8      VDP_Access_Mode;               // 0: Address Low - 1: Address High
     u8      VDP_Access_First;              // Address Low Latch
-    u8      VDP_ReadLatch;                      // Read Latch
+    u8      VDP_ReadLatch;                 // Read Latch
     u8      VDP_Pal;                       // Currently Reading Palette ?
     u8      Country;                       // 0: English - 1: Japanese
     int     Lines_Left;                    // Lines Left before H-Blank
-    u8      Need_HBlank;
-    u8      __UNUSED__Need_VBlank;
+    u8      Pending_HBlank;                // Pending HBL interrupt
+    u8      Pending_NMI;                   // Pending NMI interrupt (for Coleco emulation)
     u8      Glasses_Register;              // 3-D Glasses Register
     u8      SRAM_Pages;                    // SRAM pages used
     u8      Mapping_Register;              // SRAM status + mapping offset
