@@ -23,11 +23,6 @@ int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the S
   #define CPU_GetPC()       (sms.R.PC.W)
   #define CPU_GetICount()   (sms.R.ICount)
   #define CPU_GetIPeriod()  (sms.R.IPeriod)
-#elif MDK_Z80
-  #define INT_NONE          (-1)
-  #define INT_IRQ           0x38
-  #define INT_NMI           0x66
-  #define Macro_Stop_CPU    { Z80_Running = 0; return (0); }
 #elif RAZE_Z80
   #define INT_IRQ           (0x38)
   #define INT_NMI           (0x66)

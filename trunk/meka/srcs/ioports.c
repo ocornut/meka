@@ -28,13 +28,7 @@
 
 // OUTPUT - CALLED BY THE EMULATED Z80 ----------------------------------------
 //-----------------------------------------------------------------------------
-#ifdef NEIL_Z80
- void OutZ80 (UINT16 Port, UINT8 Value, struct z80PortWrite *dunno)
-#elif MDK_Z80
- void OutZ80 (byte Port, byte Value)
-#else
- void Out_SMS (word Port, byte Value)
-#endif
+void	Out_SMS (word Port, byte Value)
 {
 switch (Port /* & 0xFF*/)
  {
@@ -132,13 +126,7 @@ switch (Port /* & 0xFF*/)
 }
 
 // INPUT - CALLED BY THE EMULATED Z80 -----------------------------------------
-#ifdef NEIL_Z80
-UINT16 InZ80 (UINT16 Port, struct z80PortRead *dunno)
-#elif MDK_Z80
-u8     InZ80 (u8 Port)
-#else
-u8     In_SMS (u16 Port)
-#endif
+u8		In_SMS (u16 Port)
 {
     // FIXME: Proper mirroring/port mapping is not emulated.
     // Note how this is dependant of the SMS/GG revision.

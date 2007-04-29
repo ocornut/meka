@@ -15,13 +15,7 @@
 //-----------------------------------------------------------------------------
 
 // Z80 scanline handler
-#ifdef MDK_Z80
-int     Z80_Interrupt (void)
-#elif NEIL_Z80
-int     LoopZ80 (void)
-#else
 word    Loop_SMS (void)
-#endif
 {
     int Interrupt = INT_NONE;
 
@@ -163,37 +157,11 @@ void    CPU_Loop (void)
 #endif
 
 //-----------------------------------------------------------------------------
-
-#ifdef NEIL_Z80
-// MAIN EMULATION LOOP (NEIL'S CORE) ------------------------------------------
-void    CPU_Loop (void)
-{
-    for (;;)
-    {
-        mz80exec (opt.Cur_IPeriod);
-        mz80GetElapsedTicks (TRUE);
-        switch (LoopZ80 ())
-        {
-        case INT_IRQ: mz80int (INT_IRQ); break;
-        case INT_NMI: mz80nmi (); break;
-        case INT_QUIT: return;
-        }
-    }
-}
-#endif
-
-//-----------------------------------------------------------------------------
 // Empty/Defaults Functions
 //-----------------------------------------------------------------------------
 
 #ifdef MARAT_Z80
     void  PatchZ80 (Z80 *R) { }
-#endif
-
-#ifdef MDK_Z80
-    void  Z80_Patch (Z80_Regs *Regs) { }
-    void  Z80_Reti (void) { }
-    void  Z80_Retn (void) { }
 #endif
 
 #ifdef MAME_Z80

@@ -70,8 +70,6 @@ void    Main_Loop (void)
                             // Msg (MSGT_USER, "Entering RunZ80()");
                             RunZ80 (&sms.R);
                         }
-                #elif MDK_Z80
-                    Z80 ();
                 #else
                     CPU_Loop ();
                 #endif

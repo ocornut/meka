@@ -138,8 +138,6 @@ OPT_DEBUGGER = yes
 OPT_JOY = yes
 # CPU_CORE = raze
 CPU_CORE = marat
-# CPU_CORE = neil
-# CPU_CORE = mdk
 # CPU_CORE = mame
 #-----------------------------------------------------
 
@@ -302,12 +300,6 @@ CFLAGS += -DMARAT_Z80
 OBJ_CPU += $(OD)/z80marat.a
 endif
 
-# Marcel de Kogel Z80 Core (obsolete)
-ifeq ($(CPU_CORE), mdk)
-CFLAGS += -DMDK_Z80
-OBJ_CPU += z80mk/z80.o
-endif
-
 # Richard Mitton's RAZE Z80 Core (obsolete)
 ifeq ($(CPU_CORE), raze)
 CFLAGS += -DRAZE_Z80
@@ -318,12 +310,6 @@ endif
 ifeq ($(CPU_CORE), mame)
 CFLAGS += -DMAME_Z80
 OBJ_CPU += z80mame/z80.o
-endif
-
-# Neil Bradley's Z80 Core (obsolete)
-ifeq ($(CPU_CORE), neil)
-CFLAGS += -DNEIL_Z80
-OBJ_CPU += $(OD)/mz80.o
 endif
 
 #-----------------------------------------------------
@@ -359,7 +345,7 @@ $(OD)/build.o : build.c
 $(OD)/g_menu.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
 $(OD)/g_menu_i.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
 $(OD)/g_menu_t.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-# $(OD)/cpu.o : cpu.c cpu.h mcpu.c mcpu.h shared.h meka.h
+# $(OD)/cpu.o : cpu.c cpu.h shared.h meka.h
 # $(OD)/palette.o : palette.c palette.h video.h shared.h meka.h
 # $(OD)/inputs.o : inputs.c inputs.h keyboard.c keyboard.h keyb_map.h
 # $(OD)/data.o : data.c data.h g_colors.h

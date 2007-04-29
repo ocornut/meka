@@ -29,10 +29,6 @@
 #define COLOR_BLACK				(0x00000000)	//makecol(0,0,0)
 #define COLOR_WHITE             (0xFFFFFFFF)	//makecol(255,255,255)
 
-#ifdef MDK_Z80
- int    Z80_IRQ;
-#endif
-
 u8      RAM[0x10000];               // RAM
 u8      SRAM[0x8000];               // Save RAM
 u8      VRAM[0x4000];               // Video RAM
@@ -75,10 +71,6 @@ struct SMS_TYPE
     // CPU State
 #ifdef MARAT_Z80
     Z80   R;                              // CPU Registers (Marat Faizullin)
-#elif NEIL_Z80
-    CONTEXTMZ80 CPU;                      // CPU Registers (Neil Bradley)
-#elif MDK_Z80
-    Z80_Regs R;                           // CPU Registers (Marcel de Kogel)
 #elif RAZE_Z80
     void *CPU;                            // CPU Registers (Richard Mitton)
 #elif MAME_Z80
