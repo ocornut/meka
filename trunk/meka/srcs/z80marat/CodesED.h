@@ -115,7 +115,8 @@ case IM_2:     R->IFF=(R->IFF&~IFF_IM1)|IFF_IM2;break;
 case DB_77: case DB_7F: // Undocumented NOP
                break;
 
-case RETI:     M_RET;break;
+case RETI:     if(R->IFF&IFF_2) R->IFF|=IFF_1; else R->IFF&=~IFF_1;
+               M_RET;break;
 
 case DB_55: case DB_5D: case DB_65: case DB_6D: case DB_75: case DB_7D: // Undocumented
 case RETN:     if(R->IFF&IFF_2) R->IFF|=IFF_1; else R->IFF&=~IFF_1;
