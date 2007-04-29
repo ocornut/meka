@@ -38,21 +38,14 @@ extern char MEKA_BUILD_TIME[];
 // Z80 CPU cores
 //-----------------------------------------------------------------------------
 
-// with Marat Faizullin's Z80 Core
 #ifdef MARAT_Z80
+// with Marat Faizullin's Z80 Core
   #include "z80marat/Z80.h"
-// with Richard Mitton's Z80 Core
 #elif RAZE_Z80
+// with Richard Mitton's Z80 Core
   #include "z80raze/raze.h"
-// with Neil Bradley's Z80 Core
-#elif NEIL_Z80
-  #include "mz80.h"
-  #include "mcpu.h"
-// with Marcel de Kogel's Z80 Core
-#elif MDK_Z80
-  #include "z80mk/z80.h"
-// with MAME's Z80 Core
 #elif MAME_Z80
+// with MAME's Z80 Core
   #include "z80mame/z80.h"
 #else
   #error "No CPU choosen for compilation."

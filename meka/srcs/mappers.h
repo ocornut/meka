@@ -32,9 +32,7 @@
 #define MAPPER_SMS_Korean       (9)
 #define MAPPER_SMS_DisplayUnit  (10)
 
-#ifdef MDK_Z80
- #define WRITE_FUNC(a)  void a  (unsigned Addr, u8 Value)
-#elif MAME_Z80
+#ifdef MAME_Z80
  #define READ_FUNC(a)   int  a  (int Addr)
  #define WRITE_FUNC(a)  void a  (int Addr, int Value)
 #else

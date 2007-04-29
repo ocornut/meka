@@ -416,13 +416,6 @@ void        Machine_Reset (void)
     z80_set_irq_line (0, ASSERT_LINE);
     z80_set_irq_line (0, CLEAR_LINE);
 
-    // CPU (MARCEL DE KOGEL'S CORE) -------------------------------------------
-#elif MDK_Z80
-    Z80_IRQ = Z80_IGNORE_INT;
-    Z80_IPeriod = opt.Cur_IPeriod;
-    sms.R.IM = 1;
-    Z80_Reset ();
-
     // CPU (RICHARD MITTON'S CORE) --------------------------------------------
 #elif RAZE_Z80
     z80_init_memmap ();
@@ -441,19 +434,6 @@ void        Machine_Reset (void)
     z80_set_out (OutZ80);
     z80_end_memmap ();
     z80_reset ();
-
-    // CPU (NEIL BRADLEY'S CORE) ----------------------------------------------
-#elif NEIL_Z80
-    sms.CPU.z80Base = ROM;
-    sms.CPU.z80IoRead = ReadPorts;
-    sms.CPU.z80IoWrite = WritePorts;
-    sms.CPU.z80MemRead = ReadMem;
-    sms.CPU.z80MemWrite = WriteMem;
-    sms.CPU.z80interruptMode = 0;
-    sms.CPU.z80intAddr = 0x38;
-    sms.CPU.z80nmiAddr = 0x66;
-    mz80SetContext (&sms.CPU);
-    mz80reset ();
 #endif
 
     // MEMORY -----------------------------------------------------------------
