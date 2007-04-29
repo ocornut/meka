@@ -10,7 +10,18 @@ They are usually of 2 kinds:
 - Fixes or addition to things changed during WIP.
 - Programmer/hacker centric information.
 
- MEKA 0.72 WIP xxxxxxxx
+
+ MEKA 0.72 WIP 2007xxxx
+ ----------------------
+  - CPU:
+    - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
+      Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
+      probably other infrequent cases. [FluBBa, Omar]
+    - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
+      by Sean Young's "The Undocumented Z80 Documented". [Omar]
+
+
+ MEKA 0.72 WIP 20070426
  ----------------------
   - CPU:
     - Z80: Fixed cases were address arithmetic would not wrap in the 

@@ -550,7 +550,7 @@ void IntZ80(Z80 *R,word Vector)
     if(Vector==INT_NMI)
     {
       /* Copy IFF1 to IFF2 */
-      if(R->IFF&IFF_1) R->IFF|=IFF_2; else R->IFF&=~IFF_2;
+      //if(R->IFF&IFF_1) R->IFF|=IFF_2; else R->IFF&=~IFF_2;
       /* Clear IFF1 */
       R->IFF&=~(IFF_1|IFF_EI);
       /* Jump to hardwired NMI vector */

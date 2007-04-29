@@ -1,11 +1,15 @@
+
+http://www.smspower.org/forums/viewtopic.php?t=9920:
+ In the coleco emulation when NMI is generated as the VSYNC it should be held until the status is read. So if the status hasn't been read and the next frame occurs there should be no new NMI.
+ Adjusting this will fix Rock n Bolt corruption in Meka as it uses at least 2 frames to draw the display, and not correctly emulating the NMI is breaking it.
+
+SMS screenshots always 256x192, not 248x192?
+
 video mode switching prob
 http://www.smspower.org/forums/viewtopic.php?t=9602
 hey guys. been a fan of meka for years. i just recently got .71 because i thought maybe .70 was giving me the problem. 
 the emu loads fine, i can run it in a window but if i press escape to full screen sometimes it works, sometimes not. 
 BUT everytime i press escape to go back to a smaller window i get an error msg saying "Unable to switch to desired video mode (640x480):nUnsupported color depth. 
-
-
-Map making: being able to take a screenshot with scrolling rounded to the nearest 8 pixels might help
 
 http://www.smspower.org/forums/viewtopic.php?t=9478
 Now I have a question. In some Master System games (made at 1993 to be exact) such as 
@@ -775,11 +779,6 @@ doing them now and some are quick work.
  - Register R:
    - Investigate Rastan, register R (bit 7), use for bonus?
    - Differently emulated with different Z80 cores?
- - IFF:
-   - "Actually, according to Z80 undocumented EI & DI affect both IFF1 and IFF2, so when 
-      an NMI occurs only IFF1 is cleared, I don't know how MEKA treats them but I know that 
-      it still is buggy on RETI (it doesn't copy IFF2 back to IFF1) if you pause in Robocop 3 
-      before the game starts it locks up."
  - Implement a good Z80 emulator.
    - Common, do it.
  - Test with Zexall
