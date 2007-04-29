@@ -491,8 +491,8 @@ void        Machine_Reset (void)
     sms.VDP_Pal = 0x00;
     sms.VDP_ReadLatch = 0x00;
     sms.Lines_Left = 255;
-    sms.Need_HBlank = FALSE;
-    // sms.Need_VBlank = FALSE; // Unused now
+    sms.Pending_HBlank = FALSE;
+	sms.Pending_NMI = FALSE;
     tsms.VDP_Line = 0;
 
     // CONTROLLERS ------------------------------------------------------------

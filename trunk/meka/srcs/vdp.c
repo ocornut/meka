@@ -163,7 +163,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
                 }
              */
 
-             if ((sms.Need_HBlank) && ((HBlank_ON) != (value & 0x10)))
+             if ((sms.Pending_HBlank) && ((HBlank_ON) != (value & 0x10)))
              {
                 if (!(value & 0x10))
                    {
@@ -495,7 +495,8 @@ u8          Tms_VDP_In_Status (void)
     sms.VDP_Status &= 0x1F; // Clear bits 5, 6, 7
     // sms.VDP_Status = 0x1F // FIXME: investigate on this!
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
-    sms.Need_HBlank = FALSE;
+    sms.Pending_HBlank = FALSE;
+	sms.Pending_NMI = FALSE;
     #ifdef MARAT_Z80
         sms.R.IRequest = INT_NONE;
     #elif MAME_Z80

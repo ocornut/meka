@@ -1,8 +1,4 @@
 
-http://www.smspower.org/forums/viewtopic.php?t=9920:
- In the coleco emulation when NMI is generated as the VSYNC it should be held until the status is read. So if the status hasn't been read and the next frame occurs there should be no new NMI.
- Adjusting this will fix Rock n Bolt corruption in Meka as it uses at least 2 frames to draw the display, and not correctly emulating the NMI is breaking it.
-
 SMS screenshots always 256x192, not 248x192?
 
 video mode switching prob

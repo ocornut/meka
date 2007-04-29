@@ -63,12 +63,12 @@ word    Loop_SMS (void)
         if (sms.Lines_Left -- <= 0)
         {
             sms.Lines_Left = sms.VDP [10];
-            sms.Need_HBlank = TRUE;
+            sms.Pending_HBlank = TRUE;
             #ifdef DEBUG_VDP
                 Msg (MSGT_DEBUG, "%d @ Lines_Left == 0, HBlank == %d, Reloading VDP[10] = %d", tsms.VDP_Line, (HBlank_ON) ? 1 : 0, sms.VDP [10]);
             #endif
         }
-        if ((sms.Need_HBlank) && (HBlank_ON))
+        if ((sms.Pending_HBlank) && (HBlank_ON))
             Interrupt = INT_IRQ;
     }
     else

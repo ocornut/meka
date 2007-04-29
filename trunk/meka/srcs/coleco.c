@@ -182,6 +182,7 @@ word    Loop_Coleco (void)
         Interrupt_Loop_Misc_Common;
         if (fskipper.Show_Current_Frame)
             Refresh_Modes_0_1_2_3 ();
+
         // sms.VDP_Status &= ~VDP_STATUS_SpriteCollision;
         sms.VDP_Status |= VDP_STATUS_VBlank;
         //if (!(sms.VDP_Status & VDP_STATUS_SpriteCollision))
@@ -194,10 +195,11 @@ word    Loop_Coleco (void)
             Macro_Stop_CPU;
     }
 
-    if ((VBlank_ON) && (sms.VDP_Status & VDP_STATUS_VBlank) /* && (sms.VDP_Access_Mode == VDP_Access_Mode_1) */ )
+    if ((VBlank_ON) && (sms.VDP_Status & VDP_STATUS_VBlank) && (sms.Pending_NMI == FALSE) /* && (sms.VDP_Access_Mode == VDP_Access_Mode_1) */ )
     {
         sms.VDP_Status &= ~VDP_STATUS_VBlank;
-        return (INT_NMI); // No pending interrupts on Coleco
+		sms.Pending_NMI = TRUE;
+        return (INT_NMI);
     }
 
     return (INT_NONE);
