@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2007/04/15
+; Last updated 2007/04/29
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -59,7 +59,7 @@ SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
 SMS 887d9f6b 9EB1F06967AA8DBA   Ace of Aces/COUNTRY=EU/PRODUCT_NO=7054
 SMS d91b340d 2CCEA6A00321A4F8   Action Fighter/COUNTRY=JP/PRODUCT_NO=G-1305
 SMS 3658f3e0 2BCDA99F0321A4F8   Action Fighter/COUNTRY=US,EU,BR/PRODUCT_NO=5055
-SMS 72420f38 40698151916E7D09   Addams Family, The/COUNTRY=EU/PRODUCT_NO=MK-27067-50,EMU_TVTYPE=PAL
+SMS 72420f38 40698151916E7D09   Addams Family, The/COUNTRY=EU/PRODUCT_NO=MK-27067-50/EMU_TVTYPE=PAL
 SMS 1c951f8e 69AAC8EBB8D1F6BB   After Burner/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1340,9001
 SMS 8b43d21d 656A7A10AFC7AD84   Air Rescue/COUNTRY=EU,BR/PRODUCT_NO=7102
 SMS c8718d40 836571585D162CB0   Aladdin (Disney's)/COUNTRY=EU,BR,AU/PRODUCT_NO=9027,028420
