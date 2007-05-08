@@ -64,7 +64,9 @@ void    Change_System_Misc (void)
     Capture_Init_Game();
     Sound_Log_Init_Game();
     MemoryViewers_MediaReload();
+#ifdef MEKA_Z80_DEBUGGER
     Debugger_MediaReload();
+#endif // MEKA_Z80_DEBUGGER
 }
 
 //-----------------------------------------------------------------------------

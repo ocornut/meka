@@ -33,11 +33,11 @@
 	  BITS 32
 
 
-%IFDEF UNIX
+%IFDEF ASM_SYMBOLS_REQUIRE_UNDERSCORE
 %DEFINE _eagle	        eagle
 %DEFINE _eagle_mmx16	eagle_mmx16
 %DEFINE _eagle_bmp	    eagle_bmp
-%ENDIF ; UNIX
+%ENDIF ; ASM_SYMBOLS_REQUIRE_UNDERSCORE
 	
 GLOBAL _eagle
 GLOBAL _eagle_mmx16

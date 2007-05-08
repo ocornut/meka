@@ -18,11 +18,11 @@
 ;along with this program; if not, write to the Free Software
 ;Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-%IFDEF UNIX
+%IFDEF ASM_SYMBOLS_REQUIRE_UNDERSCORE
 %DEFINE  _hq2x_32              hq2x_32
 %DEFINE  _HQ2X_LUT16to32       HQ2X_LUT16to32
 %DEFINE  _HQ2X_RGBtoYUV        HQ2X_RGBtoYUV
-%ENDIF ; UNIX
+%ENDIF ; ASM_SYMBOLS_REQUIRE_UNDERSCORE
 
 GLOBAL _hq2x_32
 

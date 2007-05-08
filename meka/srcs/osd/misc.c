@@ -12,6 +12,9 @@
 //-----------------------------------------------------------------------------
 bool    OSD_X86CPU_Has_RDTSC (void)
 {
+#ifdef MACOSX
+    return TRUE;
+#endif // MACOSX
     int cpu_id;
 
     //if (!(cpu_capabilities & CPU_ID))
