@@ -90,7 +90,6 @@ WIP 0.72:
      behind-the-scene conversions.
  - Blitters (lots to do)
    - All blitters, redo, etc
-   - TV mode rely on palette.
    - Integer stretch
  - Themes:
    - Convert all themes.

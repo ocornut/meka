@@ -277,8 +277,6 @@ const static struct
 {
     { BLITTER_NORMAL,        "normal"        },
     { BLITTER_DOUBLE,        "double"        },
-    { BLITTER_SCANLINES,     "scanlines"     },
-    { BLITTER_SCANLINES,     "scanline"      },
     { BLITTER_TVMODE,        "tv"            },
     { BLITTER_TVMODE,        "tvmode"        },
     { BLITTER_TVMODE_DOUBLE, "tvmode_double" },

@@ -12,7 +12,7 @@
 ;
 ;   [name]
 ;   res = XRESOLUTIONxYRESOLUTION
-;   blitter = normal | double | scanlines | tvmode | tvmode_double | eagle | hq2x
+;   blitter = normal | double | tvmode | tvmode_double | eagle | hq2x
 ;   driver = auto | another driver
 ;
 ; The configuration name must be postfixed by a mark of the appliable operating system:
@@ -54,7 +54,6 @@
 ;                   such as 640x480). It is useful if your video card/driver
 ;                   cannot support low resolution modes, or if you can get
 ;                   a fullscreen coverage in certain mode (eg: 512x384).
-;  "scanlines"      simulates TV scanlines, faster but not very accurate
 ;  "tvmode"         simulates TV scanlines, a bit slower but very nice
 ;                   looking. lines are vertically doubled so you need a
 ;                   suitable resolution (eg: 320x400).
@@ -103,14 +102,13 @@ refresh_rate = 60
 ;triple_buffering
 ;refresh_rate = auto ; 50
 
-;[TV Mode::WIN]
-;res = 640x480
-;blitter = tvmode_double
-;driver = directx
-;;flip
-;video_depth = auto
-;triple_buffering
-;;refresh_rate = 60
+[TV Mode::WIN]
+res = 640x480
+driver = auto
+blitter = tvmode_double
+video_depth = auto
+triple_buffering
+;refresh_rate = 60
 
 ;[Windowed::WIN]
 ;res = 256x200
@@ -137,10 +135,13 @@ triple_buffering
 stretch
 
 ;[Eagle::WIN]
-;res = 640x480
+;res = 1024x768
+;driver = directx
+;refresh_rate = 60
 ;blitter = eagle
-;driver = auto
-;; flip
+;video_depth = auto
+;triple_buffering
+;stretch
 
 ;-----------------------------------------------------------------------------
 ; UNIX - Default Modes
@@ -233,11 +234,6 @@ driver = auto
 ;;; res = 320x350
 ;;; res = 376x282
 ;;; res = 360x360
-
-;[Scanlines]
-;res = 320x400
-;blitter = scanlines
-;driver = auto
 
 ;[TV Mode Doubled]
 ;res = 512x384
