@@ -13,6 +13,11 @@ They are usually of 2 kinds:
 
  MEKA 0.72 WIP 2007xxxx
  ----------------------
+  - Ports:
+    - Preliminary MacOSX port. [Proppy]
+      Compile and run under a x86-based MacOSX system. Missing sound (due 
+      to Seal) and debugger (unknown problem to resolve).
+      Looking for someone who wish to improve and maintain this port.
   - CPU:
     - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
       Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
