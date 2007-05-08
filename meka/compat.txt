@@ -406,7 +406,7 @@
  Tennis Ace                                     FM      Ok
  Tensai Bakabon (JP)                            FM      Ok
  Terminator, The                                -       Ok
- Terminator, The (BR)                           -      *Ok
+ Terminator, The (BR)                           -       Ok
  Terminator 2 - Judgment Day                    -       Ok
  The Ninja                                      -       Ok
  The Ninja (JP)                                 -       Ok
@@ -462,7 +462,7 @@
  Zaxxon 3-D / Zaxxon 3D [Proto]                 FM,(3D) Ok
  Zillion [v0] / Akai Koudan Zillion             -       Ok
  Zillion [v1]                                   -       Ok
- Zillion [v2]                                  *-       Ok
+ Zillion [v2]                                   -       Ok
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
@@ -706,7 +706,7 @@
  Desert Speedtrap - Starring Road Runner and Wile.. Ok
  Desert Speedtrap - Starring Road Runner and.. (US) Ok
  Desert Strike                                      Ok
- Devilish                                          *Ok
+ Devilish                                           Ok
  Devilish (US)                                      Ok
  Devilish (JP)                                      Ok
  Donald Duck no Lucky Dime (JP)                     Ok
@@ -966,7 +966,7 @@
  Sonic Blast / G-Sonic                              Ok
  Sonic Chaos                                        Ok
  Sonic Drift                                        Ok
- Sonic Drift [Demo] (JP)                           *Ok
+ Sonic Drift [Demo] (JP)                            Replay loose synchronization on second race.
  Sonic Drift 2                                      Ok
  Sonic Labyrinth                                    Ok
  Sonic Spinball                                     Ok
@@ -1068,7 +1068,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 428 games tested - 419 are "Ok" - Compatibility rate: 97.88%
+ 428 games tested - 418 are "Ok" - Compatibility rate: 97.66%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
