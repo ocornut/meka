@@ -8,6 +8,7 @@
 #include "effects.h"
 #include "fskipper.h"
 #include "games.h"
+#include "nes.h"
 #include "osd/misc.h"
 
 //-----------------------------------------------------------------------------

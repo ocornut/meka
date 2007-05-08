@@ -116,9 +116,6 @@ struct TSMS_TYPE
     int     VDP_Video_Change;
 };
 
-// Pointer to current line on emulated screen buffer
-byte *  GFX_Line;   // FIXME: Obsolete
-
 // Bits for gfx.Tile_Dirty
 #define TILE_DIRTY_DECODE       (0x01)
 #define TILE_DIRTY_REDRAW       (0x02)

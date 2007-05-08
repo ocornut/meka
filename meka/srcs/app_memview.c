@@ -608,6 +608,7 @@ static void MemoryViewer_MediaReload(t_memory_viewer *mv)
     switch (cur_machine.driver_id)
     {
     case DRV_SMS:   pram_len = 32;  break;
+	case DRV_NES:   pram_len = 32;  break;
     case DRV_GG:    pram_len = 64;  break;
     default:        pram_len = 0;   break;
     }

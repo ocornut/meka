@@ -7,6 +7,7 @@
 #include "bios.h"
 #include "commport.h"
 #include "mappers.h"
+#include "nes.h"
 #include "palette.h"
 #include "saves.h"
 #include "tvoekaki.h"

@@ -65,7 +65,7 @@ void    drv_set (int num)
             {
                 case VDP_SMSGG:     palette_max = 2;  break;
                 case VDP_TMS9918:   palette_max = 15; break;
-                case VDP_NES:       palette_max = 2;  break;
+                case VDP_NES:       palette_max = 8;  break;
             }
             TileViewer_Configure_PaletteMax(palette_max);
             PaletteViewer_SetPaletteSize(&PaletteViewer, cur_drv->colors);

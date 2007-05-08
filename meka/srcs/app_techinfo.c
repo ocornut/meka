@@ -11,6 +11,7 @@
 #include "desktop.h"
 #include "debugger.h"
 #include "g_widget.h"
+#include "nes.h"
 #include "vdp.h"
 #include "games.h"
 
@@ -252,7 +253,7 @@ void        TechInfo_Update(void)
 
     // Blank left lines
     while (line_idx < TECHINFO_LINES)
-        TechInfo_SetLine(app, line, line_idx++);
+        TechInfo_SetLine(app, "", line_idx++);
 
     // Redraw
     TechInfo_Redraw(app);

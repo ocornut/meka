@@ -10,6 +10,7 @@
 #include "blit.h"
 #include "blitintf.h"
 #include "palette.h"
+#include "nes.h"
 #include "video_m2.h"
 
 // #define DEBUG_PALETTE
