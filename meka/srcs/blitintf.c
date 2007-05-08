@@ -7,6 +7,7 @@
 #include "blit.h"
 #include "blitintf.h"
 #include "config_v.h"
+#include "video.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 
@@ -54,13 +55,9 @@ t_blitter *     Blitter_New (char *name)
     b->res_y            = 240;
     b->blitter          = BLITTER_NORMAL;
     b->driver           = GFX_AUTODETECT_FULLSCREEN;
-    b->flip             = FALSE;
     b->tv_colors        = FALSE;
-    b->vsync            = FALSE;
     b->refresh_rate     = 0;                                        // Default
-    b->video_depth      = g_Configuration.video_mode_desktop_depth;   // Default
     b->stretch          = BLITTER_STRETCH_NONE; // BLITTER_STRETCH_MAX_INT;
-    b->triple_buffering = FALSE;
     return (b);
 }
 
@@ -82,12 +79,8 @@ static const char * Blitters_Def_Variables [] =
     "res",
     "blitter",
     "driver",
-    "flip",
-    "vsync",
     "refresh_rate",
     "stretch",
-    "video_depth",
-    "triple_buffering",
     NULL
 };
 
@@ -146,44 +139,15 @@ static int  Blitters_Parse_Line (char *s, char *s_case)
     case 2:
         Blitters.current->driver = VideoDriver_FindByDesc(s)->drv_id;
         return MEKA_ERR_OK;
-        // Flip
     case 3:
-        Blitters.current->flip = TRUE;
-        return MEKA_ERR_OK;
-        // VSync
-    case 4:
-        Blitters.current->vsync = TRUE;
-        return MEKA_ERR_OK;
-        // Refresh Rate
-    case 5:
         if (!strcmp(w, "auto"))
             Blitters.current->refresh_rate = 0;
         else
             Blitters.current->refresh_rate = atoi(s);
         return MEKA_ERR_OK;
         // Stretch
-    case 6:
+    case 4:
         Blitters.current->stretch = BLITETR_STRETCH_MAX_INT;
-        return MEKA_ERR_OK;
-        // Video Depth
-    case 7:
-        if (!strcmp(s, "auto"))
-        {
-            Blitters.current->video_depth = g_Configuration.video_mode_desktop_depth;
-            return MEKA_ERR_OK;
-        }
-        else
-        {
-            const int depth = atoi(s);
-            if (depth != 16 && depth != 24 && depth != 32)
-                return (MEKA_ERR_VALUE_INCORRECT);
-            Blitters.current->video_depth = atoi(s);
-            return MEKA_ERR_OK;
-        }
-        return MEKA_ERR_VALUE_INCORRECT;
-        // Triple Buffering
-    case 8:
-        Blitters.current->triple_buffering = TRUE;
         return MEKA_ERR_OK;
     default:
         return MEKA_ERR_UNKNOWN;

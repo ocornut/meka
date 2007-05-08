@@ -14,6 +14,7 @@
 #include "nes.h"
 #include "palette.h"
 #include "vdp.h"
+#include "video.h"
 #include "tvoekaki.h"
 
 //-----------------------------------------------------------------------------
@@ -458,7 +459,7 @@ void        Machine_Reset (void)
     for (i = 0; i < MAX_TILES; i++)
         tgfx.Tile_Dirty [i] = TILE_DIRTY_DECODE | TILE_DIRTY_REDRAW;
 
-    Update_Line_Start_End ();
+    VDP_UpdateLineLimits();
 
     clear_bitmap (screenbuffer_1);
     clear_bitmap (screenbuffer_2);

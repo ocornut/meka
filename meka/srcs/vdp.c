@@ -9,6 +9,7 @@
 #include "debugger.h"
 #include "g_tools.h"
 #include "palette.h"
+#include "video.h"
 #include "video_m2.h"
 
 //#define DEBUG_VDP
@@ -82,7 +83,7 @@ void    VDP_VideoMode_Change (void)
         {
             drv_set (cur_machine.driver_id); // Revert back to original driver
         }
-        Update_Line_Start_End ();
+        VDP_UpdateLineLimits();
         Machine_Set_Handler_Loop ();
         Palette_Emulation_Reload ();
         for (i = 0; i < 16; i ++)
@@ -94,17 +95,17 @@ void    VDP_VideoMode_Change (void)
         if (cur_drv->id == DRV_SMS)
         {
             cur_drv->y_res = ((Wide_Screen_28) ? 224 : 192);
-            gamebox_resize_all ();
-            Update_Line_Start_End ();
-            Video_Mode_Update_Size ();
+            gamebox_resize_all();
+            VDP_UpdateLineLimits();
+            Video_Mode_Update_Size();
             if (Meka_State == MEKA_STATE_FULLSCREEN)
             {
-                Video_Clear ();
+                Video_Clear();
             }
         }
         else
         {
-            Update_Line_Start_End ();
+            VDP_UpdateLineLimits();
         }
     }
     tsms.VDP_Video_Change = 0x00;
@@ -138,6 +139,19 @@ void    VDP_VideoMode_Update (void)
         tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_MODE;
         // Msg (MSGT_DEBUG, "Change video mode, %d -> %d", tsms.VDP_VideoMode, tsms.VDP_New_VideoMode);
     }
+}
+
+void	VDP_UpdateLineLimits(void)
+{
+	if (cur_drv->id == DRV_GG && Wide_Screen_28)
+		cur_drv->y_show_start = cur_drv->y_start + 16;
+	else
+		cur_drv->y_show_start = cur_drv->y_start;
+	cur_drv->y_show_end = cur_drv->y_show_start + cur_drv->y_res - 1;
+	if (Wide_Screen_28)
+		cur_drv->y_int = 224;
+	else
+		cur_drv->y_int = 192;
 }
 
 // WRITE A VALUE TO A VDP REGISTER --------------------------------------------

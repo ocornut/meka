@@ -32,21 +32,17 @@ typedef struct
     int                 res_y;
     int                 blitter;
     int                 driver;
-    bool                flip;
     bool                tv_colors;
-    bool                vsync;
     int                 refresh_rate;
-    int                 video_depth;
     t_blitter_stretch   stretch;
-    bool                triple_buffering;
 } t_blitter;
 
 //-----------------------------------------------------------------------------
 // Blitter Functions
 //-----------------------------------------------------------------------------
 
-t_blitter *     Blitter_New (char *name);
-void            Blitter_Delete (t_blitter *b);
+t_blitter *     Blitter_New(char *name);
+void            Blitter_Delete(t_blitter *b);
 
 //-----------------------------------------------------------------------------
 // Blitters Data

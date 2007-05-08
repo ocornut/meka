@@ -14,6 +14,7 @@
 #include "palette.h"
 #include "skin_bg.h"
 #include "vdp.h"
+#include "video.h"
 #include "osd/misc.h"
 #include "osd/timer.h"
 
@@ -38,14 +39,19 @@ void    Video_Init (void)
     screenbuffer_next   = screenbuffer_2;
 
     // Clear variables
-    Video.res_x         = 0;
-    Video.res_y         = 0;
-    Video.page_flipflop = 0;
-    Video.clear_need    = FALSE;
-    Video.game_area_x1  = Video.game_area_x2 = Video.game_area_y1 = Video.game_area_y2 = 0;
-    Video.driver        = 1;
-    Video.refresh_rate_real = Video.refresh_rate_requested = 0;
-    fs_page_0 = fs_page_1 = fs_out = NULL;
+    Video.res_x						= 0;
+    Video.res_y						= 0;
+    Video.page_flipflop				= 0;
+    Video.clear_request				= FALSE;
+    Video.game_area_x1				= 0;
+	Video.game_area_x2				= 0;
+	Video.game_area_y1				= 0;
+	Video.game_area_y2				= 0;
+    Video.driver					= 1;
+    Video.refresh_rate_real			= 0;
+	Video.refresh_rate_requested	= 0;
+	Video.triple_buffering_activated= FALSE;
+    fs_page_0 = fs_page_1 = fs_out	= NULL;
 }
 
 // CHANGE GRAPHIC MODE AND UPDATE NECESSARY VARIABLES -------------------------
@@ -125,7 +131,7 @@ void    Video_Mode_Update_Size (void)
 void    Video_Clear (void)
 {
     // Note: actual clearing will be done in blit.c
-    Video.clear_need = TRUE;
+    Video.clear_request = TRUE;
 }
 
 void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
@@ -173,9 +179,10 @@ void    Video_Setup_State (void)
             // FIXME-BLIT
 
             // Set color depth
-            set_color_depth(Blitters.current->video_depth);
+            set_color_depth(g_Configuration.video_mode_game_depth);
 
-            if (Blitters.current->triple_buffering)
+			Video.triple_buffering_activated = FALSE;
+			if (g_Configuration.video_mode_game_triple_buffering)
             {
                 if (Video_Mode_Change(
                         driver,
@@ -192,25 +199,46 @@ void    Video_Setup_State (void)
                     Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                     return;
                 }
-                if (fs_page_0)
-                    destroy_bitmap (fs_page_0);
-                if (fs_page_1)
-                    destroy_bitmap (fs_page_1);
-                if (fs_page_2)
-                    destroy_bitmap (fs_page_2);
+				if (fs_page_0)
+				{
+					destroy_bitmap (fs_page_0);
+					fs_page_0 = NULL;
+				}
+				if (fs_page_1)
+				{
+					destroy_bitmap (fs_page_1);
+					fs_page_1 = NULL;
+				}
+				if (fs_page_2)
+				{
+					destroy_bitmap (fs_page_2);
+					fs_page_2 = NULL;
+				}
 
-                fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
-                fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
-                fs_page_2 = create_video_bitmap (Video.res_x, Video.res_y);
-                enable_triple_buffer();
-                Video.page_flipflop = 0;
-                fs_out = fs_page_1;
-                clear_to_color (fs_page_0, Border_Color);
-                clear_to_color (fs_page_1, Border_Color);
-                clear_to_color (fs_page_2, Border_Color);
-                request_video_bitmap(fs_page_0);
-            } // if (Blitters.current->triple_buffering)
-            else if (Blitters.current->flip)
+				if (gfx_capabilities & GFX_CAN_TRIPLE_BUFFER)
+				{
+					// Enable triple buffering
+					fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
+					fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
+					fs_page_2 = create_video_bitmap (Video.res_x, Video.res_y);
+					fs_out = fs_page_1;
+					enable_triple_buffer();
+					Video.page_flipflop = 0;
+					clear_to_color (fs_page_0, Border_Color);
+					clear_to_color (fs_page_1, Border_Color);
+					clear_to_color (fs_page_2, Border_Color);
+					request_video_bitmap(fs_page_0);
+					Video.triple_buffering_activated = TRUE;
+				}
+				else
+				{
+					// No triple buffering
+					// FIXME: We allocated too much VRAM...
+					fs_out = screen;
+					clear_to_color(fs_out, Border_Color);
+				}
+            }
+			else if (g_Configuration.video_mode_game_page_flipping)
             {
                 if (Video_Mode_Change (driver,
                     Blitters.current->res_x, Blitters.current->res_y,
@@ -228,9 +256,15 @@ void    Video_Setup_State (void)
                     return;
                 }
                 if (fs_page_0)
+				{
                     destroy_bitmap (fs_page_0);
+					fs_page_0 = NULL;
+				}
                 if (fs_page_1)
+				{
                     destroy_bitmap (fs_page_1);
+					fs_page_1 = NULL;
+				}
                 if (fs_page_2)
                 {
                     destroy_bitmap (fs_page_1);
@@ -440,21 +474,6 @@ void    Refresh_Screen (void)
     // #endif
 
     // release_bitmap(screen);
-}
-
-// UPDATE LINE_START & LINE_END VARIABLES -------------------------------------
-// FIXME: move to vdp.c
-void    Update_Line_Start_End (void)
-{
-    if (cur_drv->id == DRV_GG && Wide_Screen_28)
-        cur_drv->y_show_start = cur_drv->y_start + 16;
-    else
-        cur_drv->y_show_start = cur_drv->y_start;
-    cur_drv->y_show_end = cur_drv->y_show_start + cur_drv->y_res - 1;
-    if (Wide_Screen_28)
-        cur_drv->y_int = 224;
-    else
-        cur_drv->y_int = 192;
 }
 
 // SET BORDER COLOR IN VGA MODES ----------------------------------------------
