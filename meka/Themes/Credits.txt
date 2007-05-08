@@ -6,6 +6,9 @@
  Most are screenshots or composition from other sources.
  The credits thus only mention the submitter/composer of the image.
  Game, scene and characters pictured are properties of their owner.
+ 
+ Don't hesitate to submit new Sega 8-bit related themes, or
+ tweaked existing themes.
 
 Default package:
 
@@ -13,7 +16,6 @@ Default package:
  DragonsRage.png                Myau of Algol
  MarioMustDie.png               Vincent Cochet
  NinjaGaiden.png                Kurt Roliz
- OverClocked.png                David Lloyd
  PhantasyStar.png               Myau of Algol
  PsychoFox.png                  Barry McLarnon
  WonderBoyIII.png               Andrea Ballandino
