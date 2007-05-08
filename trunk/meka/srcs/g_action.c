@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "blit.h"
 #include "db.h"
+#include "video.h"
 
 //-----------------------------------------------------------------------------
 // Functions

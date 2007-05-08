@@ -92,7 +92,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 #include "tools.h"          // Various tools
 #include "tools_t.h"        // Various time related tools
 #include "tvtype.h"         // TV Types interfacing and data table
-#include "video.h"          // Main video functions
 #include "video_c.h"        // C Replacement functions for existing ASM functions
 #include "vmachine.h"       // Virtual machine system
 
@@ -165,6 +164,7 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 // #include "tileview.h"    // Tile viewer GUI Applet
 // #include "tvoekaki.h"    // Sega TV Oekaki emulation
 // #include "vdp.h"         // VDP I/O emulation & misc stuff
+// #include "video.h"       // Main video functions
 // #include "video_m2.h"    // Video modes 0,1,2,3 rendering (SG/SC/COL)
 // #include "video_m5.h"    // Video mode 4 rendering (SMS/GG)
 // #include "vlfn.h"        // Virtual long file names system

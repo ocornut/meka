@@ -9,6 +9,7 @@
 #include "mappers.h"
 #include "patch.h"
 #include "vdp.h"
+#include "video.h"
 #include "video_m2.h"
 
 //-----------------------------------------------------------------------------

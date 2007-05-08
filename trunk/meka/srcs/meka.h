@@ -297,8 +297,13 @@ typedef struct
     int     memory_editor_columns;
 
     // Video
-    int     video_mode_desktop_depth;
-    int     video_mode_gui_depth;
+    int     video_mode_depth_desktop;
+	int		video_mode_game_depth;
+	int		video_mode_game_depth_cfg;
+	bool	video_mode_game_vsync;
+	bool	video_mode_game_triple_buffering;	// Note: fullscreen only.
+	bool	video_mode_game_page_flipping;
+	int     video_mode_gui_depth;
     int     video_mode_gui_depth_cfg;
     long    video_mode_gui_driver;
     int     video_mode_gui_res_x;

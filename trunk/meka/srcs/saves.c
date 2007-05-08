@@ -78,7 +78,7 @@ void        Load_Game_Misc (void)
 
     // VDP/Graphic related
     tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
-    Update_Line_Start_End ();
+    VDP_UpdateLineLimits();
     // FALSE!!! // tsms.VDP_Line = 224;
 
     // Rewrite all VDP registers (we can do that since it has zero side-effect)

@@ -22,16 +22,8 @@
 ; See MEKA.CFG/MEKAW.CFG for a list of available graphics drivers.
 ;
 ; Optional settings:
-;   video_depth = auto | 16 | 24 | 32   (video depth)
 ;   refresh_rate = auto | 60 | 70 | ... (video refresh rate - prefer 60 Hz)
-;   flip                                (enable page flipping to reduce color flickers, slow)
-;   vsync                               (enable wait for vertical synchronization)
-;   triple_buffering                    (enable triple buffering)   *WIP*
-;   stretch                             (enable fullscreen stretch) *WIP*
-;
-; Note: the blitter configuration system is about to be reoverhauled, hence
-; the settings marked by *WIP*. They may be instable or not compatible with
-; all kind of settings as of yet. Next version of MEKA should change everything.
+;   stretch                             (enable fullscreen stretch)
 ;
 ; Available video modes depends on your video card. Some modes you may
 ; want to try are 256x192, 256x240, 320x200 and 512x384.
@@ -75,63 +67,34 @@
 ;[PAL Screen::WIN]
 ;res = 320x240
 ;driver = directx
-;flip
 ;refresh_rate = auto ; 50
 
 [Fullscreen::WIN]
 res = 640x480
 driver = auto
 blitter = double
-video_depth = auto
-triple_buffering
 refresh_rate = 60
-
-;[Smooth::WIN]
-;res = 640x480
-;driver = directx
-;;flip
-;video_depth = auto
-;triple_buffering
-;refresh_rate = 60
-
-;[Smooth PAL::WIN]
-;res = 320x240
-;driver = directx
-;;flip
-;video_depth = auto
-;triple_buffering
-;refresh_rate = auto ; 50
 
 [TV Mode::WIN]
 res = 640x480
 driver = auto
 blitter = tvmode_double
-video_depth = auto
-triple_buffering
 ;refresh_rate = 60
 
 ;[Windowed::WIN]
 ;res = 256x200
 ;driver = directx_win
-;video_depth = auto
-;;;flip
-;;triple_buffering
 
 [Windowed::WIN]
 res = 512x384
 blitter = double
 driver = directx_win
-video_depth = auto
-;;flip
-;triple_buffering
 
 [HQ2X::WIN]
 res = 1024x768
 driver = directx
 refresh_rate = 60
 blitter = hq2x
-video_depth = auto
-triple_buffering
 stretch
 
 ;[Eagle::WIN]
@@ -139,8 +102,6 @@ stretch
 ;driver = directx
 ;refresh_rate = 60
 ;blitter = eagle
-;video_depth = auto
-;triple_buffering
 ;stretch
 
 ;-----------------------------------------------------------------------------
@@ -165,56 +126,24 @@ driver = auto
 ; DOS - Default Modes
 ;-----------------------------------------------------------------------------
 
-;[Normal::DOS]
-;res = 320x200
-;driver = auto
-;;vsync
-
-;[PAL Screen::DOS]
-;res = 320x240
-;driver = auto
-;;vsync
-
-[Smooth::DOS]
+[Normal::DOS]
 res = 320x200
 driver = auto
-flip
 refresh_rate = 60
 
-[Smooth PAL::DOS]
+[PAL Screen::DOS]
 res = 320x240
 driver = auto
-flip
-refresh_rate = 60
+;refresh_rate = 50
 
 [TV Mode::DOS]
 res = 320x400
 blitter = tvmode
 driver = auto
-;vsync
 
 ;-----------------------------------------------------------------------------
 ; OBSOLETE - Other modes you can enable or toy with
 ;-----------------------------------------------------------------------------
-
-;[Vsync]
-;res = 320x200
-;blitter = normal
-;driver = auto
-;vsync
-
-;[Page Flipping]
-;res = 320x200
-;blitter = normal
-;driver = auto
-;flip
-
-;[VSync + Page Flipping]
-;res = 320x200
-;blitter = normal
-;driver = auto
-;vsync
-;flip
 
 ;[Normal 256x192]
 ;res = 256x192
@@ -244,21 +173,16 @@ driver = auto
 ;res = 640x480
 ;blitter = eagle
 ;driver = auto
-;; flip
 
 ;[Perfect]
 ;res = 512x384
 ;blitter = tvmode_double
 ;driver = auto
-;flip
-;;vsync
 
 ;[Perfect 2]
 ;res = 320x400
 ;blitter = tvmode
 ;driver = auto
-;flip
-;;vsync
 ;; Use this one if "Perfect" gives you wrong colors
 
 ;-----------------------------------------------------------------------------

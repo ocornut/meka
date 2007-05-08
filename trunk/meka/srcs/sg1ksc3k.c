@@ -7,6 +7,7 @@
 #include "fskipper.h"
 #include "patch.h"
 #include "vdp.h"
+#include "video.h"
 #include "video_m2.h"
 #include "debugger.h"
 

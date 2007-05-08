@@ -53,7 +53,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
  static char  *Config_File_Variables [] =
      {
      "frameskip_mode", "frameskip_auto_speed", "frameskip_normal_speed",
-     "blitter",
+     "video_game_blitter",
 
      "sound_card", "sound_enabled", "sound_rate",
      "fm_emulator", "opl_speed",
@@ -108,6 +108,11 @@ static void     Configuration_Load_Line (char *variable, char *value)
      "memory_editor_lines",
      "memory_editor_columns",
 
+	 "video_game_depth",
+	 "video_game_vsync",
+	 "video_game_triple_buffering",
+	 "video_game_page_flipping",
+
      NULL
      };
 
@@ -138,7 +143,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
     case 1:  fskipper.Automatic_Speed = atoi(value); break;
     // frameskip_value
     case 2:  fskipper.Standard_Frameskip = atoi(value); break;
-    // blitter
+    // video_game_blitter
     case 3:  Blitters.blitter_configuration_name = strdup(value); break;
     //-------------------------------------------------------------------------
     // sound_card
@@ -395,6 +400,29 @@ static void     Configuration_Load_Line (char *variable, char *value)
             g_Configuration.memory_editor_columns = n;
         break;
 
+	// video_game_depth
+	case 56:
+		if (!stricmp(value, "auto"))
+			g_Configuration.video_mode_game_depth_cfg = 0;
+		else
+			g_Configuration.video_mode_game_depth_cfg = atoi(value);
+		break;
+
+	// video_game_vsync
+	case 57:
+		g_Configuration.video_mode_game_vsync = (bool)atoi(value);
+		break;
+
+	// video_game_triple_buffering
+	case 58:
+		g_Configuration.video_mode_game_triple_buffering = (bool)atoi(value);
+		break;
+
+	// video_game_page_flipping
+	case 59:
+		g_Configuration.video_mode_game_page_flipping = (bool)atoi(value);
+		break;
+
     default:
         Quit_Msg("Error #4785");
         break;
@@ -456,6 +484,17 @@ void        Configuration_Load (void)
 void    Configuration_Load_PostProcess (void)
 {
     g_Configuration.debug_mode = (g_Configuration.debug_mode_cfg || g_Configuration.debug_mode_cl);
+
+	g_Configuration.video_mode_game_depth = g_Configuration.video_mode_game_depth_cfg;
+	if (g_Configuration.video_mode_game_depth == 0)
+		g_Configuration.video_mode_game_depth = g_Configuration.video_mode_depth_desktop;
+	g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_gui_depth_cfg;
+	if (g_Configuration.video_mode_gui_depth == 0)
+		g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_depth_desktop;
+
+	set_color_depth(g_Configuration.video_mode_gui_depth); // FIXME-DEPTH
+	set_color_conversion(COLORCONV_TOTAL);	// FIXME-DEPTH: SHOULD REMOVE IN THE END
+	//set_color_conversion(COLORCONV_NONE);
 }
 
 //-----------------------------------------------------------------------------
@@ -478,19 +517,29 @@ void    Configuration_Save (void)
     CFG_Write_Line ( "This is a list of video/graphic card drivers available in this version");
     CFG_Write_Line ( "of Meka. Those are needed to create video modes in the MEKA.BLT file and");
     CFG_Write_Line ( "if you want to set a custom driver for the graphical user interface.");
-    VideoDriver_DumpAllDesc (CFG_File);
+    VideoDriver_DumpAllDesc(CFG_File);
     // CFG_Write_Int  ("video_depth", cfg.Video_Depth);
     CFG_Write_Line ("");
 
-    CFG_Write_Line ( "-----< FRAMESKIP and BLITTER >----------------------------------------------");
+    CFG_Write_Line ( "-----< FRAME SKIPPING >-----------------------------------------------------");
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
         CFG_Write_Line  ("frameskip_mode = auto");
     else
         CFG_Write_Line  ("frameskip_mode = normal");
     CFG_Write_Int  ("frameskip_auto_speed", fskipper.Automatic_Speed);
     CFG_Write_Int  ("frameskip_normal_speed", fskipper.Standard_Frameskip);
-    CFG_Write_StrEscape("blitter", Blitters.current->name);
+	CFG_Write_Line ("");
+
+	CFG_Write_Line ( "-----< VIDEO >--------------------------------------------------------------");
+	if (g_Configuration.video_mode_game_depth_cfg == 0)
+		CFG_Write_Str ("video_game_depth", "auto");
+	else
+		CFG_Write_Int ("video_game_depth", g_Configuration.video_mode_game_depth_cfg);
+	CFG_Write_StrEscape("video_game_blitter", Blitters.current->name);
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
+	CFG_Write_Int  ("video_game_vsync", g_Configuration.video_mode_game_vsync);
+	CFG_Write_Int  ("video_game_triple_buffering", g_Configuration.video_mode_game_triple_buffering);
+	CFG_Write_Int  ("video_game_page_flipping", g_Configuration.video_mode_game_page_flipping);
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< INPUTS >--------------------------------------------------------------");
@@ -523,10 +572,10 @@ void    Configuration_Save (void)
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
     sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
     CFG_Write_Str  ("gui_video_mode", s1);
-    if (g_Configuration.video_mode_gui_depth_cfg == 0)
-        CFG_Write_Str ("gui_video_depth", "auto");
-    else
-        CFG_Write_Int ("gui_video_depth", g_Configuration.video_mode_gui_depth_cfg);
+	if (g_Configuration.video_mode_gui_depth_cfg == 0)
+		CFG_Write_Str ("gui_video_depth", "auto");
+	else
+		CFG_Write_Int ("gui_video_depth", g_Configuration.video_mode_gui_depth_cfg);
     CFG_Write_Str  ("gui_video_driver", VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver)->desc);
     CFG_Write_Line ("(Available video drivers are marked at the top of this file.");
     CFG_Write_Line (" Please note that 'auto' does not always choose the fastest mode!)");

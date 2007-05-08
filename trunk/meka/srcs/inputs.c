@@ -23,6 +23,7 @@
 #include "saves.h"
 #include "tvoekaki.h"
 #include "vdp.h"
+#include "video.h"
 
 //-----------------------------------------------------------------------------
 // Function

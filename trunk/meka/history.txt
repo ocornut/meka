@@ -24,6 +24,12 @@ They are usually of 2 kinds:
       Implementation is slower than previously, but it works well. [Omar]
     - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
     - Stretching works on all blitters. [Omar]
+    - Video depth, Vsync, Triple Buffering and Page flipping are now global 
+      video settings, removed from each specific blitter. Greatly simplify 
+      configuration and tweaking. [Omar]
+    - Triple buffering doesn't interfere with the refresh is not supported
+      by the current settings (eg: windowed mode), making it safe and more
+      simple to always leave it enabled. [Omar]
   - CPU:
     - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
       Fixes pausing in SMS Robocop 3 during legal screens/introduction, 

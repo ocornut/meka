@@ -15,10 +15,6 @@
 //
 // refresh_rate     -> external to blitter, FS only
 // flip             -> external to blitter, FS only
-// vsync            -> external to blitter, FS only
-// triple_buffering -> external to blitter, FS only
-//
-// video_depth      -> 16 FS, auto GUI? What would be the point of 32 in FS mode?
 //
 //-----------------------------------------------------------------------------
 
@@ -27,10 +23,11 @@
 #include "blitintf.h"
 #include "eagle.h"
 #include "fskipper.h"
+#include "glasses.h"
 #include "hq2x.h"
 #include "palette.h"
 #include "vdp.h"
-#include "glasses.h"
+#include "video.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -70,17 +67,19 @@ void    Blit_Fullscreen_Misc (void)
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
     // FIXME: 70 should be replaced by actual screen refresh rate ... can we obtain it ?
-    if (Blitters.current->vsync)
+    if (g_Configuration.video_mode_game_vsync)
+	{
         if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
             vsync ();
+	}
 
     // Clear Screen if it has been asked
-    if (Video.clear_need)
+    if (Video.clear_request)
     {
         // int cpu_capabilities_backup = cpu_capabilities;
         // cpu_capabilities &= ~CPU_MMX;
-        Video.clear_need = FALSE;
-        if (Blitters.current->flip)
+        Video.clear_request = FALSE;
+        if (g_Configuration.video_mode_game_page_flipping)
         {
             clear_to_color (fs_page_0, Border_Color);
             clear_to_color (fs_page_1, Border_Color);
@@ -143,7 +142,7 @@ void	Blit_Fullscreen_CopyStretch(void *src_buffer, int src_scale_x, int src_scal
 	else
 	{
 		// Note: 'stretch_blit' doesn't convert!
-		if (Blitters.current->video_depth != 16)
+		if (g_Configuration.video_mode_game_depth != 16)
 		{
 			// Need this for conversion
 			blit (src_buffer, Blit_Buffer_NativeTemp,
@@ -295,14 +294,14 @@ void    Blit_Fullscreen (void)
 
     Blitters_Table [Blitters.current->blitter].func ();
 
-    if (Blitters.current->triple_buffering)
+    if (Video.triple_buffering_activated)
     {
         while (poll_scroll())
             rest(0); // was: yield_timeslice(), deprecated in Allegro in favor of rest(0)
 
         request_video_bitmap(fs_out);
         Video.page_flipflop = (Video.page_flipflop + 1) % 3;
-        switch(Video.page_flipflop)
+        switch (Video.page_flipflop)
         {
         case 0:
             fs_out = fs_page_0;
@@ -315,7 +314,7 @@ void    Blit_Fullscreen (void)
             break;
         }
     } 
-    else if (Blitters.current->flip)
+    else if (g_Configuration.video_mode_game_page_flipping)
     {
         show_video_bitmap(fs_out);
         Video.page_flipflop ^= 1;

@@ -17,6 +17,7 @@
 #include "mappers.h"
 #include "nes.h"
 #include "palette.h"
+#include "video.h"
 
 //-----------------------------------------------------------------------------
 // Data

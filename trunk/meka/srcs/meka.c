@@ -33,6 +33,7 @@
 #include "palette.h"
 #include "patch.h"
 #include "setup.h"
+#include "video.h"
 #include "video_m5.h"
 #include "vlfn.h"
 #include "osd/timer.h"
@@ -163,15 +164,20 @@ void    Init_Default_Values (void)
     g_Configuration.memory_editor_columns         = 16;
 
     // Video
-    g_Configuration.video_mode_desktop_depth      = 0;    // Unknown yet
-    g_Configuration.video_mode_gui_depth          = 0;    // Default
-    g_Configuration.video_mode_gui_depth_cfg      = 0;    // Default
-    g_Configuration.video_mode_gui_res_x          = 640;
-    g_Configuration.video_mode_gui_res_y          = 480;
-    g_Configuration.video_mode_gui_driver         = GFX_AUTODETECT_FULLSCREEN;
-    g_Configuration.video_mode_gui_refresh_rate   = 0;    // Default
-    g_Configuration.video_mode_gui_access_mode    = GUI_FB_ACCESS_BUFFERED;
-    g_Configuration.video_mode_gui_vsync          = FALSE;
+    g_Configuration.video_mode_depth_desktop		= 0;    // Unknown yet
+	g_Configuration.video_mode_game_depth			= 16;   // 16-bits
+	g_Configuration.video_mode_game_depth_cfg		= 16;   // 16-bits
+	g_Configuration.video_mode_game_vsync			= FALSE;
+	g_Configuration.video_mode_game_triple_buffering= TRUE;
+	g_Configuration.video_mode_game_page_flipping	= FALSE;
+    g_Configuration.video_mode_gui_depth			= 0;    // Auto
+    g_Configuration.video_mode_gui_depth_cfg		= 0;    // Auto
+    g_Configuration.video_mode_gui_res_x			= 640;
+    g_Configuration.video_mode_gui_res_y			= 480;
+    g_Configuration.video_mode_gui_driver			= GFX_AUTODETECT_FULLSCREEN;
+    g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
+    g_Configuration.video_mode_gui_access_mode		= GUI_FB_ACCESS_BUFFERED;
+    g_Configuration.video_mode_gui_vsync			= FALSE;
 
 	// Capture
 #ifdef DOS
@@ -269,15 +275,10 @@ int     Init_Allegro (void)
     set_uformat(U_ASCII);
     allegro_init();
 
-    g_Configuration.video_mode_desktop_depth = desktop_color_depth();
-    if (g_Configuration.video_mode_desktop_depth == 0)
-        g_Configuration.video_mode_desktop_depth = 16;
-    g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_gui_depth_cfg;
-    if (g_Configuration.video_mode_gui_depth == 0)
-        g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_desktop_depth;
+    g_Configuration.video_mode_depth_desktop = desktop_color_depth();
+    if (g_Configuration.video_mode_depth_desktop == 0)
+        g_Configuration.video_mode_depth_desktop = 16;	// Default
 
-    set_color_depth(g_Configuration.video_mode_gui_depth); // FIXME-DEPTH
-    set_color_conversion(COLORCONV_TOTAL);	// FIXME-DEPTH: SHOULD REMOVE IN THE END
     install_timer();
 
     // Keyboard

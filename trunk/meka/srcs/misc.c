@@ -10,6 +10,7 @@
 #include "debugger.h"
 #include "inputs_i.h"
 #include "palette.h"
+#include "video.h"
 
 //-----------------------------------------------------------------------------
 // Functions
