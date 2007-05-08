@@ -36,7 +36,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-BITMAP *         Blit_Buffer_LineScratch;	// Line buffer stratch pad, 16-bits
+BITMAP *         Blit_Buffer_LineScratch;	// Line buffer scratch pad, 16-bits
 BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
 BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color format
 
@@ -49,8 +49,7 @@ void    Blit_Init (void)
     Blit_Buffer_LineScratch = create_bitmap_ex(16, MAX_RES_X * 2, 1);   // FIXME-DEPTH
     Blit_Buffer_Double      = create_bitmap_ex(16, (MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
     Blit_Buffer_NativeTemp  = NULL;
-
-    blit_cfg.tv_mode_factor = 1.5f;
+    blit_cfg.tv_mode_factor = 0.700f;	// FIXME-TUNING
 
     // Initialize HQ2X filters
     HQ2X_Init();
@@ -60,7 +59,6 @@ static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
 {
     { Blit_Fullscreen_Normal,           1,      1 },
     { Blit_Fullscreen_Double,           2,      2 },
-    { Blit_Fullscreen_Scanlines,        1,      2 },
     { Blit_Fullscreen_TV_Mode,          1,      2 },
     { Blit_Fullscreen_TV_Mode_Double,   2,      2 },
     { Blit_Fullscreen_Eagle,            2,      2 },
@@ -132,218 +130,140 @@ void        Blit_Fullscreen_Message (void)
     Font_Print (-1, screenbuffer, gui_status.message, x,     y,     COLOR_WHITE);
 }
 
-void    Blit_Fullscreen_Normal (void)
+void	Blit_Fullscreen_CopyStretch(void *src_buffer, int src_scale_x, int src_scale_y)
 {
-    Blit_Fullscreen_Misc ();
-
-    //if (Blitters.current->video_depth == 16)
-    //    set_color_conversion(COLORCONV_8_TO_16 | COLORCONV_EXPAND_256);
-    //if (Blitters.current->video_depth == 32)
-    //    assert(0);
-
-    if (!Blitters.current->stretch)
-    {
-        // Note: 'blit' converts 16 to native format
-        blit (screenbuffer, fs_out,
-            blit_cfg.src_sx, blit_cfg.src_sy,
-            blit_cfg.dst_sx, blit_cfg.dst_sy,
-            cur_drv->x_res,  cur_drv->y_res);
-    }
-    else
-    {
-        // Note: 'stretch_blit' doesn't convert!
-        if (Blitters.current->video_depth != 16)
-        {
-            // Need this for conversion
-            blit (screenbuffer, Blit_Buffer_NativeTemp,
-                blit_cfg.src_sx, blit_cfg.src_sy,
-                blit_cfg.src_sx, blit_cfg.src_sy,
-                cur_drv->x_res,  cur_drv->y_res);
-            stretch_blit(Blit_Buffer_NativeTemp, fs_out, 
-                blit_cfg.src_sx, blit_cfg.src_sy,
-                cur_drv->x_res, cur_drv->y_res,
-                0,0, Video.res_x, Video.res_y);
-        }
-        else
-        {
-            stretch_blit(screenbuffer, fs_out, 
-                blit_cfg.src_sx, blit_cfg.src_sy,
-                cur_drv->x_res, cur_drv->y_res,
-                0,0, Video.res_x, Video.res_y);
-        }
-    }
-
-    //if (Blitters.current->video_depth != 8)
-    //    set_color_conversion(COLORCONV_NONE);
+	if (!Blitters.current->stretch)
+	{
+		// Note: 'blit' converts 16 to native format
+		blit (src_buffer, fs_out,
+			blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
+			blit_cfg.dst_sx, blit_cfg.dst_sy,
+			cur_drv->x_res * src_scale_x,  cur_drv->y_res * src_scale_y);
+	}
+	else
+	{
+		// Note: 'stretch_blit' doesn't convert!
+		if (Blitters.current->video_depth != 16)
+		{
+			// Need this for conversion
+			blit (src_buffer, Blit_Buffer_NativeTemp,
+				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
+				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
+				cur_drv->x_res  * src_scale_x, cur_drv->y_res  * src_scale_y);
+			stretch_blit(Blit_Buffer_NativeTemp, fs_out, 
+				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
+				cur_drv->x_res  * src_scale_x, cur_drv->y_res  * src_scale_y,
+				0,0, Video.res_x, Video.res_y);
+		}
+		else
+		{
+			stretch_blit(src_buffer, fs_out, 
+				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
+				cur_drv->x_res  * src_scale_x, cur_drv->y_res  * src_scale_y,
+				0,0, Video.res_x, Video.res_y);
+		}
+	}
 }
 
+void    Blit_Fullscreen_Normal (void)
+{
+    Blit_Fullscreen_Misc();
+	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1);
+}
+
+// FIXME-OPT: Obviously stupid, potentially doing 2 successive stretchs
 void    Blit_Fullscreen_Double (void)
 {
     // x1 -> x2
     stretch_blit(screenbuffer, Blit_Buffer_Double, 
         blit_cfg.src_sx, blit_cfg.src_sy,
         cur_drv->x_res, cur_drv->y_res,
-        0,0, 
+        blit_cfg.src_sx * 2, blit_cfg.src_sy * 2, 
         cur_drv->x_res*2, cur_drv->y_res*2
         );
     Blit_Fullscreen_Misc ();
-    blit (Blit_Buffer_Double, fs_out,
-        0, 0,
-        blit_cfg.dst_sx, blit_cfg.dst_sy,
-        cur_drv->x_res * 2, cur_drv->y_res * 2);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 void    Blit_Fullscreen_Eagle (void)
 {
-  int   i;
-
-  // Eagle, x1 -> x2
-  for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + cur_drv->y_res; i ++)
-  {
-      eagle_mmx16 ((unsigned long *)((u16 *)screenbuffer->line[i] + blit_cfg.src_sx),
-             (unsigned long *)((u16 *)screenbuffer->line[i + 1] + blit_cfg.src_sx),
-              (short)cur_drv->x_res,
-              screenbuffer->seg,
-              Blit_Buffer_Double->line[i * 2],
-              Blit_Buffer_Double->line[i * 2 + 1]);
-  }
-  Blit_Fullscreen_Misc ();
-  blit (Blit_Buffer_Double, fs_out,
-         1, blit_cfg.src_sy * 2,
-         blit_cfg.dst_sx, blit_cfg.dst_sy,
-         cur_drv->x_res * 2 - 1, cur_drv->y_res * 2 - 1);
+	// Eagle, x1 -> x2
+	int i;
+	for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + cur_drv->y_res; i ++)
+	{
+		eagle_mmx16(
+			(unsigned long *)((u16 *)screenbuffer->line[i] + blit_cfg.src_sx),
+			(unsigned long *)((u16 *)screenbuffer->line[i + 1] + blit_cfg.src_sx),
+			(short)cur_drv->x_res * 2,
+			screenbuffer->seg,
+			(u16 *)Blit_Buffer_Double->line[i * 2] + (blit_cfg.src_sx * 2),
+			(u16 *)Blit_Buffer_Double->line[i * 2 + 1] + (blit_cfg.src_sx * 2));
+	}
+	Blit_Fullscreen_Misc ();
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 void    Blit_Fullscreen_HQ2X (void)
 {
     // Perform HQ2X into double buffer
+	// FIXME-OPT: Apply on full width.
     hq2x_16(
-		(unsigned char *)(screenbuffer->line[blit_cfg.src_sy]), 
-		(unsigned char *)(Blit_Buffer_Double->line[blit_cfg.src_sy * 2]), 
+		(unsigned char *)((u16 *)screenbuffer->line[blit_cfg.src_sy] + 0), 
+		(unsigned char *)((u16 *)Blit_Buffer_Double->line[blit_cfg.src_sy * 2] + 0), 
 		MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
-    Blit_Fullscreen_Misc ();
-
-    if (!Blitters.current->stretch)
-    {
-        blit (Blit_Buffer_Double, fs_out,
-            blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
-            blit_cfg.dst_sx, blit_cfg.dst_sy,
-            cur_drv->x_res * 2 - 1, cur_drv->y_res * 2 - 1);
-    }
-    else
-    {
-        // Note: 'stretch_blit' doesn't convert!
-        if (Blitters.current->video_depth != 16)
-        {
-            // Need this for conversion
-            blit (Blit_Buffer_Double, Blit_Buffer_NativeTemp,
-                blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
-                blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
-                cur_drv->x_res * 2 - 1, cur_drv->y_res * 2 - 1);
-            stretch_blit(Blit_Buffer_NativeTemp, fs_out, 
-                blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
-                cur_drv->x_res * 2 - 1, cur_drv->y_res * 2 - 1,
-                0,0, Video.res_x, Video.res_y);
-        }
-        else
-        {
-            stretch_blit(Blit_Buffer_Double, fs_out, 
-                blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
-                cur_drv->x_res * 2 - 1, cur_drv->y_res * 2 - 1,
-                0,0, Video.res_x, Video.res_y);
-        }
-    }
-}
-
-void    Blit_Fullscreen_Scanlines (void)
-{
-  int   i;
-
-  Blit_Fullscreen_Misc ();
-  for (i = 0; i < cur_drv->y_res; i ++)
-      {
-      blit (screenbuffer, fs_out,
-            blit_cfg.src_sx, blit_cfg.src_sy + i,
-            blit_cfg.dst_sx, blit_cfg.dst_sy + (i * 2),
-            cur_drv->x_res, 1);
-      }
+    Blit_Fullscreen_Misc();
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 void    Blit_Fullscreen_TV_Mode (void)
 {
-  int   i, j;
-  u8 *  psrc;
-  u8 *  pdst;
-
-  Blit_Fullscreen_Misc ();
-  for (i = 0; i < cur_drv->y_res; i ++)
-      {
-      blit (screenbuffer, fs_out,
-         blit_cfg.src_sx, blit_cfg.src_sy + i,
-         blit_cfg.dst_sx, blit_cfg.dst_sy + (i * 2),
-         cur_drv->x_res, 1);
-      j = cur_drv->x_res;
-      psrc = &screenbuffer->line[blit_cfg.src_sy + i][blit_cfg.src_sx];
-      pdst = &Blit_Buffer_LineScratch->line[0][0];
-      assert((j & 3) == 0);
-      while (j > 4)
-         {
-         int color = *(int *)psrc;
-         psrc += 4;
-         // FIXME: the test is due to black & white colors
-         // If we can have them set in the upper color area, then
-         // the test could be safely removed
-         // Note: & 0xC0 is to only increase game colors (0-63)
-         /*
-         if (!(color & 0x000000C0))
-            color += GUI_COL_AVAIL_START;
-         if (!(color & 0x0000C000))
-            color += GUI_COL_AVAIL_START << 8;
-         if (!(color & 0x00C00000))
-            color += GUI_COL_AVAIL_START << 16;
-         if (!(color & 0xC0000000))
-            color += GUI_COL_AVAIL_START << 24;
-         */
-         *(int *)pdst = color;
-         pdst += 4;
-         j -= 4;
-         }
-      blit (Blit_Buffer_LineScratch, fs_out,
-          0, 0,
-          blit_cfg.dst_sx, blit_cfg.dst_sy + (i * 2) + 1,
-          cur_drv->x_res, 1);
-      }
+	int i;
+	for (i = 0; i < cur_drv->y_res; i ++)
+	{
+		const u16 *psrc  = (u16 *)screenbuffer->line[blit_cfg.src_sy + i] + blit_cfg.src_sx;
+		u16 *pdst1 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2] + (blit_cfg.src_sx * 1);
+		u16 *pdst2 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2 + 1] + (blit_cfg.src_sx * 1);
+		int j = cur_drv->x_res;
+		while (j-- != 0)
+		{
+			const u16 color_org = *psrc++;
+			const u32 color_mod_r = ((color_org      ) & 0x1F) * blit_cfg.tv_mode_factor;
+			const u32 color_mod_g = ((color_org >> 5 ) & 0x3F) * blit_cfg.tv_mode_factor;
+			const u32 color_mod_b = ((color_org >> 11) & 0x1F) * blit_cfg.tv_mode_factor;
+			const u16 color_mod = (color_mod_r) | (color_mod_g << 5) | (color_mod_b << 11);
+			*((u16 *)pdst1)++ = color_org;
+			*((u16 *)pdst2)++ = color_mod;
+		}
+	}
+	Blit_Fullscreen_Misc();
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 1, 2);
 }
 
+// FIXME-OPT: Obviously this is very slow. Just trying to get something working for 0.72. Later shall work better solution (generating inline assembly, etc).
 void    Blit_Fullscreen_TV_Mode_Double (void)
 {
-  int   i;
-  for (i = 0; i < cur_drv->y_res; i ++)
-      {
-      byte *psrc  = &screenbuffer->line[blit_cfg.src_sy + i][blit_cfg.src_sx];
-      byte *pdst1 = Blit_Buffer_Double->line[(i * 2)];
-      byte *pdst2 = Blit_Buffer_Double->line[(i * 2) + 1];
-      int j = cur_drv->x_res;
-      while (j--)
-         {
-         byte b = *psrc++;
-         word color = b | (b << 8);
-         *(word *)pdst1 = color;
-         pdst1 += 2;
-         // Note: & 0xC0 is to only increase game colors (0-63)
-         /*
-         if (!(color & 0xC0C0))
-            color += GUI_COL_AVAIL_START | (GUI_COL_AVAIL_START << 8);
-        */
-         *(word *)pdst2 = color;
-         pdst2 += 2;
-         }
-      }
-  Blit_Fullscreen_Misc ();
-  blit (Blit_Buffer_Double, fs_out,
-         0, 0,
-         blit_cfg.dst_sx, blit_cfg.dst_sy,
-         cur_drv->x_res * 2, cur_drv->y_res * 2);
+	int i;
+	for (i = 0; i < cur_drv->y_res; i ++)
+	{
+		const u16 *psrc  = (u16 *)screenbuffer->line[blit_cfg.src_sy + i] + blit_cfg.src_sx;
+		u16 *pdst1 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2] + (blit_cfg.src_sx * 2);
+		u16 *pdst2 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2 + 1] + (blit_cfg.src_sx * 2);
+		int j = cur_drv->x_res;
+		while (j-- != 0)
+		{
+			const u16 color_org = *psrc++;
+			const u32 color_org_32 = color_org | (color_org << 16);
+			const u32 color_mod_r = ((color_org      ) & 0x1F) * blit_cfg.tv_mode_factor;
+			const u32 color_mod_g = ((color_org >> 5 ) & 0x3F) * blit_cfg.tv_mode_factor;
+			const u32 color_mod_b = ((color_org >> 11) & 0x1F) * blit_cfg.tv_mode_factor;
+			const u16 color_mod = (color_mod_r) | (color_mod_g << 5) | (color_mod_b << 11);
+			const u32 color_mod_32 = color_mod | (color_mod << 16);
+			*((u32 *)pdst1)++ = color_org_32;
+			*((u32 *)pdst2)++ = color_mod_32;
+		}
+	}
+	Blit_Fullscreen_Misc();
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 // Blit screenbuffer to video memory in fullscreen mode
@@ -406,7 +326,7 @@ void    Blit_Fullscreen (void)
     }
 }
 
-void    Blitters_Get_Factors (int *x, int *y)
+void    Blitters_Get_Factors(int *x, int *y)
 {
     *x = Blitters_Table[Blitters.current->blitter].x_fact;
     *y = Blitters_Table[Blitters.current->blitter].y_fact;

@@ -9,12 +9,11 @@
 
 #define BLITTER_NORMAL          (0)
 #define BLITTER_DOUBLE          (1)
-#define BLITTER_SCANLINES       (2)
-#define BLITTER_TVMODE          (3)
-#define BLITTER_TVMODE_DOUBLE   (4)
-#define BLITTER_EAGLE           (5)
-#define BLITTER_HQ2X            (6)
-#define BLITTER_MAX             (7)
+#define BLITTER_TVMODE          (2)
+#define BLITTER_TVMODE_DOUBLE   (3)
+#define BLITTER_EAGLE           (4)
+#define BLITTER_HQ2X            (5)
+#define BLITTER_MAX             (6)
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -26,13 +25,14 @@ void    Blit_Fullscreen_Misc (void);
 void    Blit_Fullscreen_Message (void);
 void    Blit_GUI (void);
 
-void    Blit_Fullscreen_Normal             (void);
-void    Blit_Fullscreen_Double             (void);
-void    Blit_Fullscreen_Scanlines          (void);
-void    Blit_Fullscreen_TV_Mode            (void);
-void    Blit_Fullscreen_TV_Mode_Double     (void);
-void    Blit_Fullscreen_Eagle              (void);
-void    Blit_Fullscreen_HQ2X               (void);
+void    Blit_Fullscreen_Normal          (void);
+void    Blit_Fullscreen_Double          (void);
+void    Blit_Fullscreen_TV_Mode         (void);
+void    Blit_Fullscreen_TV_Mode_Double  (void);
+void    Blit_Fullscreen_Eagle           (void);
+void    Blit_Fullscreen_HQ2X            (void);
+
+void	Blit_Fullscreen_CopyStretch		(void *src_buffer, int src_scale_x, int src_scale_y);
 
 //-----------------------------------------------------------------------------
 // Data

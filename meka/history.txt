@@ -20,6 +20,10 @@ They are usually of 2 kinds:
       Looking for someone who wish to improve and maintain this port.
   - Blitter/Video:
     - Fixed HQ2X stretched blitter when target output was not 16-bits. [Omar]
+#   - Fixed TV Mode blitters broken since since switching to hi-color.
+      Implementation is slower than previously, but it works well. [Omar]
+    - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
+    - Stretching works on all blitters. [Omar]
   - CPU:
     - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
       Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
