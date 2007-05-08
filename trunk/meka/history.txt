@@ -31,6 +31,10 @@ They are usually of 2 kinds:
     - Added PRAM support in Memory Editor. [Omar]
     - Added 8 palette switching in Tile Viewer. [Omar]
     - Note: NES emulation is humor legacy code and won't be supported.
+  - GUI:
+    - Sorted default themes, removed non Sega 8-bit related themes.
+    - Now embedding background pictures in regular binary distribution. 
+    - CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
 
 
  MEKA 0.72 WIP 20070426

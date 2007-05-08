@@ -99,9 +99,8 @@ WIP 0.72:
    - Link warning regarding zlib?
    - Include Allegro install package somehow?
 - Data
-  - Embed small default theme package.
-    Remove *Overclocked* and *Amelie* from it (only keep Sega 8-bit related)
-  - Tweak flags for proper color now that there's no more palette.
+  - Update/remove Themes section from web page.
+  - Tweak country flags for proper color now that there's no more palette.
 
 Game Recording:
 - Topic

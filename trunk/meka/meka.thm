@@ -337,29 +337,6 @@ menu_text_unactive_color            = #000000
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
-[OverClocked]
-authors                             = David Lloyd
-background_color                    = #FFF7F7
-background_grid_color               = #B3E3CB
-background_picture                  = "Themes/OverClocked.png" stretch
-window_border_color                 = #119A4D
-window_background_color             = #003D00
-window_titlebar_color               = #006A00
-window_titlebar_text_color          = #FFFFD7
-window_titlebar_text_unactive_color = #A2A2CB
-window_titlebar_gradient            = 00%-100% #002A00
-window_text_color                   = #A2A2CB
-window_text_highlight_color         = #FFFFD7
-window_separators_color             = #119A4D
-menu_background_color               = #006A00
-menu_border_color                   = #119A4D
-menu_selection_color                = #3DC33D
-menu_text_color                     = #FFFFD7
-menu_text_unactive_color            = #A2A2CB
-menu_gradient                       = 00%-100% #002A00
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
 [Mario Must Die]
 authors                             = Vincent Cochet, Omar Cornut, Sandro Filippi
 comments                            = Based on Sandro Filippi's "Mastercast" theme.
