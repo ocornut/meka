@@ -40,24 +40,25 @@ void    Blit_Fullscreen_HQ2X               (void);
 
 typedef struct          s_blitters_table_entry
 {
-  void (*func)();
-  int x_fact, y_fact;
+	void	(*func)();
+	int		x_fact;
+	int		y_fact;
 }                       t_blitters_table_entry;
 
-void        Blitters_Get_Factors (int *, int *);
+void        Blitters_Get_Factors(int *, int *);
 
 struct
 {
-  int       src_sx, dst_sx;
-  int       src_sy, dst_sy;
-  float     tv_mode_factor;
+	int		src_sx;
+	int		dst_sx;
+	int		src_sy;
+	int		dst_sy;
+	float	tv_mode_factor;
 } blit_cfg;
 
 // Buffers
-
 extern BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
 extern BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
 extern BITMAP *         Blit_Buffer_NativeTemp;
 
 //-----------------------------------------------------------------------------
-

@@ -22,7 +22,6 @@
 //
 //-----------------------------------------------------------------------------
 
-
 #include "shared.h"
 #include "blit.h"
 #include "blitintf.h"
@@ -37,9 +36,9 @@
 // Data
 //-----------------------------------------------------------------------------
 
-BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
-BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
-BITMAP *         Blit_Buffer_NativeTemp;
+BITMAP *         Blit_Buffer_LineScratch;	// Line buffer stratch pad, 16-bits
+BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
+BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color format
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -218,7 +217,10 @@ void    Blit_Fullscreen_Eagle (void)
 void    Blit_Fullscreen_HQ2X (void)
 {
     // Perform HQ2X into double buffer
-    hq2x_16((unsigned char *)(screenbuffer->line[blit_cfg.src_sy]), (unsigned char *)(Blit_Buffer_Double->line[blit_cfg.src_sy * 2]), MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
+    hq2x_16(
+		(unsigned char *)(screenbuffer->line[blit_cfg.src_sy]), 
+		(unsigned char *)(Blit_Buffer_Double->line[blit_cfg.src_sy * 2]), 
+		MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
     Blit_Fullscreen_Misc ();
 
     if (!Blitters.current->stretch)
@@ -236,7 +238,7 @@ void    Blit_Fullscreen_HQ2X (void)
             // Need this for conversion
             blit (Blit_Buffer_Double, Blit_Buffer_NativeTemp,
                 blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
-                blit_cfg.src_sx * 2, blit_cfg.src_sx * 2,
+                blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
                 cur_drv->x_res * 2 - 1, cur_drv->y_res * 2 - 1);
             stretch_blit(Blit_Buffer_NativeTemp, fs_out, 
                 blit_cfg.src_sx * 2, blit_cfg.src_sy * 2,
