@@ -10,13 +10,13 @@
 //-----------------------------------------------------------------------------
 
 #define MEKA_NAME               "MEKA"
-#define MEKA_VERSION            "0.72 WIP"
+#define MEKA_VERSION            "0.72"
 #define MEKA_VERSION_HIGH       (0)
 #define MEKA_VERSION_LOW        (72)
 #define MEKA_NAME_VERSION       MEKA_NAME " " MEKA_VERSION
 #define MEKA_HOMEPAGE           "http://www.smspower.org/meka"
 #define MEKA_AUTHORS            "Omar Cornut (Bock) and contributors"
-#define MEKA_AUTHORS_SHORT      "Omar (Bock) and contributors"
+#define MEKA_AUTHORS_SHORT      "Omar Cornut and contributors"
 #define MEKA_DATE               "1998-2007"
 
 extern char MEKA_BUILD_DATE[];
@@ -65,9 +65,7 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 // See commented list of includes below.
 //-----------------------------------------------------------------------------
 #include "meka.h"           // Main structures and definitions
-#include "beam.h"           // TV beam emulation
 #include "bmemory.h"        // Backed memory devices emulation
-#include "checksum.h"       // Checksum processing
 #include "coleco.h"         // Colecovision specifics emulation
 #include "country.h"        // Country interfacing and emulation
 #include "cpu.h"            // Interface with CPU / Interrupt emulation
@@ -79,7 +77,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 #include "inputs.h"         // Inputs processing
 #include "inputs_u.h"       // Inputs update
 #include "ioports.h"        // IO Ports emulation
-#include "lightgun.h"       // Light Phaser emulation
 #include "machine.h"        // Emulated machine initialization/reset
 #include "mainloop.h"       // Main Loop
 #include "message.h"        // Messages system and all messages
@@ -92,7 +89,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 #include "tools.h"          // Various tools
 #include "tools_t.h"        // Various time related tools
 #include "tvtype.h"         // TV Types interfacing and data table
-#include "video_c.h"        // C Replacement functions for existing ASM functions
 #include "vmachine.h"       // Virtual machine system
 
 // SOUND ENGINE ---------------------------------------------------------------
@@ -120,11 +116,13 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 
 // #include "about.h"       // About box
 // #include "areplay.h"     // Action Replay emulation
+// #include "beam.h"        // TV beam emulation
 // #include "bios.h"        // BIOS interface
 // #include "blit.h"        // Blitters
 // #include "blit_c.h"      // Blitters/Video Configuration Applet
 // #include "blitintf.h"    // Blitters interfacing
 // #include "capture.h"     // Screen capture
+// #include "checksum.h"    // Checksum processing
 // #include "config.h"      // Configuration file handling
 // #include "config_j.h"    // Configuration / Joystick drivers list
 // #include "config_v.h"    // Configuration / Video drivers list
@@ -147,6 +145,7 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 // #include "inputs_t.h"    // Inputs tools
 // #include "keyboard.h"    // Sega Keyboard emulation
 // #include "keyinfo.h"     // Keyboard keys definitions (name, scancode, etc.)
+// #include "lightgun.h"    // Light Phaser emulation
 // #include "mappers.h"     // Mappers system and mappers emulation
 // #include "memview.h"     // Memory viewer GUI Applet
 // #include "nes.h"         // NES emulation
@@ -165,6 +164,7 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 // #include "tvoekaki.h"    // Sega TV Oekaki emulation
 // #include "vdp.h"         // VDP I/O emulation & misc stuff
 // #include "video.h"       // Main video functions
+// #include "video_c.h"     // C Replacement functions for existing ASM functions
 // #include "video_m2.h"    // Video modes 0,1,2,3 rendering (SG/SC/COL)
 // #include "video_m5.h"    // Video mode 4 rendering (SMS/GG)
 // #include "vlfn.h"        // Virtual long file names system

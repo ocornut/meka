@@ -12,7 +12,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-static void     mekacrc(t_meka_crc *dst, u8 *data, int data_size)
+static void     mekacrc(t_meka_crc *dst, const u8 *data, int data_size)
 {
     int         i;
     long        Checksum_8 [8];
@@ -39,12 +39,12 @@ static void     mekacrc(t_meka_crc *dst, u8 *data, int data_size)
 }
 
 //-----------------------------------------------------------------------------
-// Checksum_Perform (u8 *data, int data_size)
+// Checksum_Perform(const u8 *data, int data_size)
 // Compute checksums for given set of ROM and update appropriate date
 //-----------------------------------------------------------------------------
 // FIXME: should take a media in parameter?
 //-----------------------------------------------------------------------------
-void            Checksum_Perform (u8 *data, int data_size)
+void            Checksum_Perform(const u8 *data, int data_size)
 {
     t_meka_crc  crc_mekacrc;
 

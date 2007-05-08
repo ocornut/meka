@@ -5,137 +5,15 @@
  source code and refer to HISTORY.TXT file.
 -----------------------------------------------------------------------------
 
- 
- MEKA 0.72 WIP 20070426
- ----------------------
-  - CPU:
-    - Z80: Fixed cases were address arithmetic would not wrap in the 
-      16-bit address space, effectively crashing the emulator (those cases
-      were mostly happening on corrupted data, but it also legit Z80 code, 
-      and in any case we don't want the emulator to crash). [Omar]
-  - Tilemap viewer:
-    - Fixed leftover of white rectangle when mouse hover last line. [Omar]
-  - Debugger:
-    - Added "B nopnop" shortcut to break on two successives NOP instructions.
-      This is basically equivalent to "B x =0,0". [Omar]
-  - Miscellaenous:
-    - Increased max length of directory/filenames. [Musuruan]
-    - Added "Automatically crop and align screen captures" option.
-      This option aligns screen captures on the nearest visible tile, 
-      helping to simplify the process of creating game maps by pasting 
-      captures next to each other. [Omar]
-      Note: May not work properly on game using scanline based effects.
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-          SMS - 65d7e4e0 - Fantasy Zone                         --> Fantasy Zone [v2]
-          SMS - 60c19645 - Zillion                              --> Zillion [v0]
-          SMS - 5718762c - Zillion (US)                         --> Zillion [v1] (US)
-          GG  - 7a41c1dc - Aladdin                              --> Aladdin (Disney's)
-          GG  - 770e95e1 - Aladdin (JP)                         --> Aladdin (Disney's) (JP)
-          GG  - 4457e7c0 - Deep Duck Trouble / Donald Duck no.. --> Donald Duck no Yottsu no Himitsu (JP) (was Japanese dump)
-          GG  - 36aaf536 - Evander Holyfield Boxing             --> Evander Holyfield's "Real Deal" Boxing
-          GG  - 8c048325 - Indiana Jones and the Last Crusade   --> Indiana Jones and the Last Crusade [BAD]
-          GG  - 4a98678b - Joe Montana Football                 --> Joe Montana Football (JP)
-          GG  - 00c34d94 - Madou Monogatari I - Mittsu no.. (JP)--> Madoh Monogatari I - Mittsu no Madokyuu (JP)
-          GG  - 12eb2287 - Madou Monogatari II - Aruru 16.. (JP)--> Madou Monogatari II - Aruru 16-sai (JP)
-          GG  - 0a634d79 - Madou Monogatari III - Kyukyok.. (JP)--> Madou Monogatari III - Kyuukyoku Joo-sama [v0] (JP)
-          GG  - 7ec95282 - Madou Monogatari A - Dokidoki-.. (JP)--> Madoh Monogatari A - Dokidoki-Bake Shon
-          GG  - afcc7828 - Psychic World                        --> Psychic World (JP)
-          GG  - 2ae8c75f - Shanghai 2 (JP)                      --> Shanghai II (JP)
-          GG  - 4d1f4699 - Shining Force Gaiden (JP)            --> Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP)
-          GG  - 30374681 - Shining Force Gaiden II (JP)         --> Shining Force Gaiden II ~Jashin no Mezame~ (JP)
-          GG  - 6019fe5e - Shining Force Gaiden Final Con.. (JP)--> Shining Force Gaiden ~Final Conflict~ (JP)
-          GG  - 742a372b - Spider-Man and the X-Men in Arcade'..--> Spider-Man / X-Men: Arcade's Revenge
-          GG  - f1732ffe - Tale Spin                            --> TaleSpin
-          SG1 - 545fc9bb - Ashizawa Hachidan no Tsumeshogi (JP) --> Serizawa Hachidan no Tsumeshogi (JP)
-          SG1 - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
-          SG1 - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
-
-
- MEKA 0.72 WIP 20061217
- ----------------------
+ MEKA 0.72
+ ---------
   - Updated k.
-  - Emulation:
-    - Fixed data corruption/overflow in VDP emulation when seeking and
-      writing to an invalid palette address. Thanks Maxim. [Omar]
-    - VDP palette write do not mask out current VDP address, so performing
-      the (unprobable) set address/access palette/access VRAM sequence will
-      keep address in the full 16KB range. [Omar]
-    - Fixed VDP line interrupts not properly running in overscan area in 
-      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
-      BB2K6 demo. [Omar]
-  - Video:
-    - Changed default fullscreen blitter configuration in the hope of getting 
-      something more compatible (640x480 by default), as so many people have 
-      problems with fullscreen modes.
-    - Got rid of "parallel" blitter that displayed both odd and even frame
-      next to each other. Seems useless now. Could be brought back if some
-      four-eyed person request it. [Omar]
-  - Debugger:
-    - Added "CLOCK" command, to display/reset a Z80 cycle counter.
-      Very simple but can be helpful to time Z80 routines. [Omar]
-    - (Win32) Forward debugging log to Windows debugging stream via
-      OutputDebugString(), so running MEKA from Microsoft Visual studio 
-      will display log in the 'Output' window. [Omar]
-  - Project:
-    - (Win32) Added new targets supporting shared standard libraries. [Omar]
-    - Updated SOURCES.TXT documentation. [Omar]
-  - GUI:
-    - Fixed background picture not loading on startup. [Omar]
-    - Removed closing fadeout since the current implementation is way 
-      inefficient and cannot garantee proper speed. [Omar]
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-          SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
-          SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
-          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
-          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
-          SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
-          SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
-          SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck
-          SMS - 695a9a15 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
-          SMS - 24e97200 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
-          SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)
-          SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
-          SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
-          GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
-          GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
-          GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
-          GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
-          GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
-          GG  - 0117c3df - Land of Illusion (JP)                --> Mickey Mouse no Mahou no Crystal (JP)
-          GG  - 0cd9c20b - Lion King, The                       --> Lion King, The (Disney's) (EU)
-          GG  - 9808d7b3 - Lion King, The (US)                  --> Lion King, The (Disney's) (US)
-          GG  - cc90c723 - Pocket Jong Sou (JP)                 --> Pocket Jansou (JP)
-          GG  - 445d7cd2 - Royal Stone (JP)                     --> Royal Stone ~Hikarishi Toki no Tobira~ (JP)
-          GG  - 95efd52b - Ryu Kyu (JP)                         --> Ryuu Kyuu (JP)
-          GG  - 09f9ed60 - Shadam Crusader (JP)                 --> Shadam Crusader ~Harukanaru Oukoku~ (JP)
-          SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Ashizawa Hachidan no Tsumeshogi (JP)
-          SG1 - 5970a12b - Champion Baseball                    --> Champion Baseball [16k]
-          SG1 - 09196fc5 - N-Sub (1988)                         --> N-Sub [16k] (1988)
-          SC3 - 622010e1 - Sega Music Editor                    --> Music
-          SC3 - b67ea1c4 - Sega Music Editor                    --> Music [BAD]
-          SC3 - 2ec28526 - Sega Music Editor (JP)               --> Music (JP)
-          SC3 - ae4f92cf - Uranai Angel Cuty (JP)               --> Uranai Angel Cutie (JP)
-
- 
- MEKA 0.72 WIP 20051203
- ----------------------
-  - GUI:
-    - Fixed bug with window closing button widget. [Omar]
-    - Fixed bug when quitting using the menu, configuration files were 
-      not saved. Thanks Jacko. [Omar]
-    - (Un*x) Fixed bug where menus would not clear themselves. [Omar]
-      (This was due to Allegro.h defining TRUE as -1 and a 1 value being
-      hardcoded in some part of the code).
-
-
- MEKA 0.72 WIP 20051120
- ----------------------
-  - (Win32) Updated Allegro library from WIP 4.1.18 to 4.2.0, including
-    various fixes/improvements:
-        http://www.talula.demon.co.uk/allegro/onlinedocs/en/changes.html
-  - Video:
+  - Ports:
+    - Preliminary MacOSX port. [Proppy]
+      Compile and run under a x86-based MacOSX system. Missing sound (due 
+      to Seal) and debugger (unknown problem to resolve).
+      Looking for someone who wish to improve and maintain this port.
+  - Video/Blitters:
     - Upgraded everything to hi-color video modes and got rid of old, 
       8-bit indexed video modes. This is a major change in MEKA core.
       Some of the benefits are:
@@ -149,9 +27,53 @@
         and to implement LCD screen persistence (not yet done).
       Some of the features above goes hand to hand with the blitter
       system, which will be improved soon. [Omar]
+    - Fixed HQ2X stretched blitter when target output was not 16-bits. [Omar]
+    - Stretching works on all blitters. [Omar]
+    - Video depth, Vsync, Triple Buffering and Page flipping are now global 
+      video settings, removed from each specific blitter. Greatly simplify 
+      configuration and tweaking. [Omar]
+    - Triple buffering doesn't interfere with the refresh is not supported
+      by the current settings (eg: windowed mode), making it safe and more
+      simple to always leave it enabled. [Omar]
+    - Changed default fullscreen blitter configuration in the hope of getting 
+      something more compatible (640x480 by default), as so many people have 
+      problems with fullscreen modes.
+    - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
+    - Removed "parallel" blitter that displayed both odd and even frame
+      next to each other. Seems useless now. Could be brought back if some
+      four-eyed person request it. [Omar]
   - Sound:
     - Added support for VGM 1.10 header type. [Omar]
+  - Emulation:
+    - Fixed data corruption/overflow in VDP emulation when seeking and
+      writing to an invalid palette address. Thanks Maxim. [Omar]
+    - VDP palette write do not mask out current VDP address, so performing
+      the (unprobable) set address/access palette/access VRAM sequence will
+      keep address in the full 16KB range. [Omar]
+    - Fixed VDP line interrupts not properly running in overscan area in 
+      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
+      BB2K6 demo. [Omar]
+    - CPU:
+      - Z80: Fixed cases were address arithmetic would not wrap in the 
+        16-bit address space, effectively crashing the emulator (those cases
+        were mostly happening on corrupted data, but it also legit Z80 code, 
+        and in any case we don't want the emulator to crash). [Omar]
+      - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
+        Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
+        probably other infrequent cases. [FluBBa, Omar]
+      - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
+        by Sean Young's "The Undocumented Z80 Documented". [Omar]
+    - ColecoVision:
+      - Fixed emulation of pending NMI, pending flag is cleared when
+        reading VDP status. Fixes "Rock 'N Bolt" among other. 
+        Thanks to the anonymous poster on SMS Power! forums. [Omar]
+      - Note that the compatibility list for ColecoVision titles is
+        severly outdated. At some point, James Carter worked on a new,
+        more accurate list, but I lost all contact with him.
   - GUI:
+    - Sorted default themes, removed non Sega 8-bit related themes.
+      Now embedding background pictures in regular binary distribution. 
+      CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
     - KeyPad Enter key now works on input boxes. [Omar]
     - Added shortcut CTRL-F4: closes current window. [Omar]
     - Added shortcut CTRL-TAB: cycles thru windows taking inputs. [Omar]
@@ -163,6 +85,8 @@
       - Using de-facto standard of specifying colors in #RRGGBB format.
       - Rewrote most code since it was all legacy from old MEKA 0.10. 
     - Added link to debugger documentation in HELP menu. [Omar]
+    - Removed closing fadeout since the current hi-color implementation 
+      is way inefficient and cannot garantee proper speed. [Omar]
   - Development:
     - Debugger:
       - Fixed various command-line parsing bugs. [Omar]
@@ -178,6 +102,8 @@
         Useful for debugging line interrupts.
         eg: 
           BREAK line #13                ; break on display line 13
+      - Added "B nopnop" shortcut to break on two successives NOP instructions.
+        This is basically equivalent to "B x =0,0". [Omar]
       - REGS (R) command in debugger now display shadow registers as well. [Omar]
       - Added cursor before current instruction in disassembly. [Omar]
       - Added access to shadow registers in expression evaluator. [Omar]
@@ -188,10 +114,18 @@
           SET BC=$1234    ; set BC register to $1234
           SET DE=HL,HL=0  ; set DE=HL, then zero HL
       - Added MEMEDIT command to spawn a new memory editor. [Omar]
+      - Added CLOCK command, to display/reset a Z80 cycle counter.
+        Very simple but can be helpful to time Z80 routines. [Omar]
+      - (Win32) Forward debugging log to Windows debugging stream via
+        OutputDebugString(), so running MEKA from Microsoft Visual studio 
+        will display log in the 'Output' window. [Omar]
     - Memory Editor:
       - Added viewing and editing of VDP registers (VREG). [Omar]
       - Added configuration file directive for resizing window. [Omar]
       - Fixed cursor position when inputing an address on last page. [Omar]
+      - Added NES PRAM support. [Omar]
+    - Tiles viewer:
+      - Added NES palette switching (8 palettes). [Omar]
     - Tilemap viewer:
       - Added tilemap viewer. [Omar]
         Shows tilemap, hovering or clicking a tile shows specific info 
@@ -208,30 +142,20 @@
       yet all clean. [Omar]
   - Miscellaenous:
     - Various fixes.
+    - Increased max length of directory/filenames. [Musuruan]
+    - Added "Automatically crop and align screen captures" option.
+      This option aligns screen captures on the nearest visible tile, 
+      helping to simplify the process of creating game maps by pasting 
+      captures next to each other. [Omar]
+      Note: May not work properly on game using scanline based effects.
     - Updated various tidbits in the configuration file. [Omar]
     - (Win32) Removed flickering from initialization message console. [Maxim]
     - (UN*X) Renamed main executable to 'meka' (instead of 'meka.exe').
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-      SMS - 0e21e6cf - Astro Flash (JP)                     --> Astro Flash [Hack] (JP)
-      SMS - 5d08e823 - Fushigi no Oshiro Pit Pot (JP)       --> Fushigi no Oshiro Pit Pot [Hack] (JP)
-      SMS - a4ac35d8 - Galaxy Force [50 / 60 Hz]            --> Galaxy Force
-      SMS - 6c827520 - Galaxy Force [60 Hz]                 --> Galaxy Force (US)
-      SMS - dabcc054 - Ghost house (JP)                     --> Ghost House [Hack] (JP)
-      SMS - c1e699db - Great Baseball [JP] (JP)             --> Great Baseball [JP] [Hack] (JP)
-      SMS - 84665648 - Great Soccer (JP)                    --> Great Soccer [Hack] (JP)
-      SMS - 87b9ecb8 - Satellite 7 (JP)                     --> Satellite 7 [Hack] (JP)
-      SMS - bcd91d78 - Seishun Scandal (JP)                 --> Seishun Scandal [Hack] (JP)
-      SMS - a71bc542 - Spy vs Spy (JP)                      --> Spy vs Spy [Hack] (JP)
-      SMS - 95cbf3dd - Super Tennis (JP)                    --> Great Tennis / Super Tennis (JP) (note: this one is tricky. Official game name is "Great Tennis" but title screen says "Super Tennis").
-      SMS - 9dfa67ee - Teddy Boy Blues (JP)                 --> Teddy Boy Blues [Hack] (JP)
-      GG  - f6af4b6b - Dynamite Headdy                      --> Dynamite Headdy (JP) (note: US/EU version is another dump)
-      GG  - 9f64c2bb - Ichidanto-R (JP)                     --> Ichidant~R (Puzzle & Action)
-      GG  - 09151743 - Tanto-R (JP)                         --> Tant~R (Puzzle & Action)
-      GG  - 3d8d0dd6 - World Series Baseball [A]            --> World Series Baseball [v0]
-      GG  - bb38cfd7 - World Series Baseball [B]            --> World Series Baseball [v1]
-
   - Sources/Project
+    - (Win32) Added new targets supporting shared standard libraries. [Omar]
+    - (Win32) Updated Allegro library from WIP 4.1.18 to 4.2.0, including
+       various fixes/improvements:
+         http://www.talula.demon.co.uk/allegro/onlinedocs/en/changes.html
     - (Win32) Now linking to zlib.lib instead of zlibs.lib (name for standard
        static build of ZLIB). [Omar]
     - Removed password encryption from MEKA datafile (became useless). [Omar]
@@ -243,6 +167,79 @@
     - (Win32) Fixed MSVC project to reference LIBPNGDIR.
     - (Win32) Including statically compiled libpng.lib in package. [Omar]
     - (UN*X) No more need to manually edit .ASM files to compile. [Omar]
+    - Updated SOURCES.TXT documentation. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+      SMS - 0e21e6cf - Astro Flash (JP)                     --> Astro Flash [Hack] (JP)
+      SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
+      SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
+      SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
+      SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
+      SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
+      SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
+      SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck
+      SMS - 65d7e4e0 - Fantasy Zone                         --> Fantasy Zone [v2]
+      SMS - 5d08e823 - Fushigi no Oshiro Pit Pot (JP)       --> Fushigi no Oshiro Pit Pot [Hack] (JP)
+      SMS - a4ac35d8 - Galaxy Force [50 / 60 Hz]            --> Galaxy Force
+      SMS - 6c827520 - Galaxy Force [60 Hz]                 --> Galaxy Force (US)
+      SMS - dabcc054 - Ghost house (JP)                     --> Ghost House [Hack] (JP)
+      SMS - c1e699db - Great Baseball [JP] (JP)             --> Great Baseball [JP] [Hack] (JP)
+      SMS - 84665648 - Great Soccer (JP)                    --> Great Soccer [Hack] (JP)
+      SMS - 695a9a15 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+      SMS - 24e97200 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+      SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)
+      SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
+      SMS - 87b9ecb8 - Satellite 7 (JP)                     --> Satellite 7 [Hack] (JP)
+      SMS - bcd91d78 - Seishun Scandal (JP)                 --> Seishun Scandal [Hack] (JP)
+      SMS - a71bc542 - Spy vs Spy (JP)                      --> Spy vs Spy [Hack] (JP)
+      SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
+      SMS - 95cbf3dd - Super Tennis (JP)                    --> Great Tennis / Super Tennis (JP) (note: this one is tricky. Official game name is "Great Tennis" but title screen says "Super Tennis").
+      SMS - 9dfa67ee - Teddy Boy Blues (JP)                 --> Teddy Boy Blues [Hack] (JP)
+      SMS - 60c19645 - Zillion                              --> Zillion [v0]
+      SMS - 5718762c - Zillion (US)                         --> Zillion [v1] (US)
+      GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
+      GG  - 7a41c1dc - Aladdin                              --> Aladdin (Disney's)
+      GG  - 770e95e1 - Aladdin (JP)                         --> Aladdin (Disney's) (JP)
+      GG  - 4457e7c0 - Deep Duck Trouble / Donald Duck no.. --> Donald Duck no Yottsu no Himitsu (JP) (was Japanese dump)
+      GG  - f6af4b6b - Dynamite Headdy                      --> Dynamite Headdy (JP) (note: US/EU version is another dump)
+      GG  - 36aaf536 - Evander Holyfield Boxing             --> Evander Holyfield's "Real Deal" Boxing
+      GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
+      GG  - 9f64c2bb - Ichidanto-R (JP)                     --> Ichidant~R (Puzzle & Action)
+      GG  - 8c048325 - Indiana Jones and the Last Crusade   --> Indiana Jones and the Last Crusade [BAD]
+      GG  - 4a98678b - Joe Montana Football                 --> Joe Montana Football (JP)
+      GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+      GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
+      GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+      GG  - 0117c3df - Land of Illusion (JP)                --> Mickey Mouse no Mahou no Crystal (JP)
+      GG  - 0cd9c20b - Lion King, The                       --> Lion King, The (Disney's) (EU)
+      GG  - 9808d7b3 - Lion King, The (US)                  --> Lion King, The (Disney's) (US)
+      GG  - 00c34d94 - Madou Monogatari I - Mittsu no.. (JP)--> Madoh Monogatari I - Mittsu no Madokyuu (JP)
+      GG  - 12eb2287 - Madou Monogatari II - Aruru 16.. (JP)--> Madou Monogatari II - Aruru 16-sai (JP)
+      GG  - 0a634d79 - Madou Monogatari III - Kyukyok.. (JP)--> Madou Monogatari III - Kyuukyoku Joo-sama [v0] (JP)
+      GG  - 7ec95282 - Madou Monogatari A - Dokidoki-.. (JP)--> Madoh Monogatari A - Dokidoki-Bake Shon
+      GG  - cc90c723 - Pocket Jong Sou (JP)                 --> Pocket Jansou (JP)
+      GG  - afcc7828 - Psychic World                        --> Psychic World (JP)
+      GG  - 445d7cd2 - Royal Stone (JP)                     --> Royal Stone ~Hikarishi Toki no Tobira~ (JP)
+      GG  - 95efd52b - Ryu Kyu (JP)                         --> Ryuu Kyuu (JP)
+      GG  - 09f9ed60 - Shadam Crusader (JP)                 --> Shadam Crusader ~Harukanaru Oukoku~ (JP)
+      GG  - 2ae8c75f - Shanghai 2 (JP)                      --> Shanghai II (JP)
+      GG  - 4d1f4699 - Shining Force Gaiden (JP)            --> Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP)
+      GG  - 30374681 - Shining Force Gaiden II (JP)         --> Shining Force Gaiden II ~Jashin no Mezame~ (JP)
+      GG  - 6019fe5e - Shining Force Gaiden Final Con.. (JP)--> Shining Force Gaiden ~Final Conflict~ (JP)
+      GG  - 742a372b - Spider-Man and the X-Men in Arcade'..--> Spider-Man / X-Men: Arcade's Revenge
+      GG  - f1732ffe - Tale Spin                            --> TaleSpin
+      GG  - 09151743 - Tanto-R (JP)                         --> Tant~R (Puzzle & Action)
+      GG  - 3d8d0dd6 - World Series Baseball [A]            --> World Series Baseball [v0]
+      GG  - bb38cfd7 - World Series Baseball [B]            --> World Series Baseball [v1]
+      SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Serizawa Hachidan no Tsumeshogi (JP)
+      SG1 - 5970a12b - Champion Baseball                    --> Champion Baseball [16k]
+      SG1 - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
+      SG1 - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
+      SG1 - 09196fc5 - N-Sub (1988)                         --> N-Sub [16k] (1988)
+      SC3 - 622010e1 - Sega Music Editor                    --> Music
+      SC3 - b67ea1c4 - Sega Music Editor                    --> Music [BAD]
+      SC3 - 2ec28526 - Sega Music Editor (JP)               --> Music (JP)
+      SC3 - ae4f92cf - Uranai Angel Cuty (JP)               --> Uranai Angel Cutie (JP)
 
 
  MEKA 0.71

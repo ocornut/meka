@@ -9,6 +9,7 @@
 
 //#define DEBUG_IO
 #include "shared.h"
+#include "beam.h"
 #include "bios.h"
 #include "vdp.h"
 #include "commport.h"

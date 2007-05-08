@@ -33,15 +33,8 @@ void        gui_menus_init (void)
 	char	buffer[256];
 
     gui_status.x = 10;
-#if 1
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, MEKA_AUTHORS);
-    Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
-#else
-    // Arnosan lameness
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, "Arnosan fan club");
-    Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, "Arnosan fan club");
-    Msg (MSGT_USER_BOX, " \nThis special edition is dedicated to the grand Arnosan, idol among the idols.\nArnosan had some wonderful comments to pass:\n- He is the best friend of Miyamoto.\n- He loves Famicom.\n- He is the ultimate Nintendo fan.\n- He has all Twins in all colors.\n- Nintendo died in 1996.\n \nEveryday, worship Arnosan!");
-#endif
+    Msg (MSGT_USER_BOX, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
+    Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS_SHORT);
     menus_opt.distance = gui.info.screen.x - 40;
     menus_opt.distance_usable = 20;
     menus_opt.c_menu = -1;

@@ -20,6 +20,7 @@
 #include "inputs_c.h"
 #include "inputs_t.h"
 #include "keyboard.h"
+#include "lightgun.h"
 #include "saves.h"
 #include "tvoekaki.h"
 #include "vdp.h"
@@ -482,11 +483,11 @@ byte    Input_Port_DD (void)
 
     // Light Gun -----------------------------------------------------------------
     if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)
-        LightGun_Sync (PLAYER_1, &v);
+        LightPhaser_Sync(PLAYER_1, &v);
     if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)
-        LightGun_Sync (PLAYER_2, &v);
+        LightPhaser_Sync(PLAYER_2, &v);
     // Nationalisation -----------------------------------------------------------
-    Nationalize (&v);
+    Nationalize(&v);
 
     // Msg (MSGT_DEBUG, "AT PC=%04X: IN 0xDD (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
     return (v);
@@ -499,7 +500,7 @@ void    Inputs_Peripheral_Change_Update (void)
     int Player;
 
     // Update LightGun.Enabled quick access flag
-    LightGun.Enabled = (Inputs.Peripheral [0] == INPUT_LIGHTPHASER || Inputs.Peripheral [1] == INPUT_LIGHTPHASER);
+    LightPhaser.Enabled = (Inputs.Peripheral[0] == INPUT_LIGHTPHASER || Inputs.Peripheral[1] == INPUT_LIGHTPHASER);
 
     if (g_Env.mouse_installed == -1)
         return;
@@ -525,8 +526,8 @@ void    Inputs_Peripheral_Change_Update (void)
         if (Cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER) // Light Phaser
         {
             Set_Mouse_Cursor(Cursor);
-            LightGun_Mouse_Range(Mask_Left_8);
-            position_mouse(LightGun.X [Player], LightGun.Y [Player]);
+            LightPhaser_SetupMouseRange(Mask_Left_8);
+            position_mouse(LightPhaser.X[Player], LightPhaser.Y[Player]);
             show_mouse(screenbuffer);
             opt.Fullscreen_Cursor = TRUE;
         }

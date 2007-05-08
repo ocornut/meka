@@ -8,6 +8,7 @@
 #include "app_game.h"
 #include "debugger.h"
 #include "g_tools.h"
+#include "lightgun.h"
 #include "palette.h"
 #include "video.h"
 #include "video_m2.h"
@@ -167,8 +168,8 @@ void    Tms_VDP_Out (int vdp_register, int value)
      case 0: if ((value & 0x20) != Mask_Left_8)
                 {
                 // FIXME
-                if (Meka_State == MEKA_STATE_FULLSCREEN && LightGun.Enabled)
-                   LightGun_Mouse_Range (value & 0x20);
+                if (Meka_State == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
+                   LightPhaser_SetupMouseRange (value & 0x20);
                 }
              /*
              if ((Value & 0x10) != HBlank_ON)

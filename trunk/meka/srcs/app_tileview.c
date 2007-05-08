@@ -10,6 +10,7 @@
 #include "g_widget.h"
 #include "palette.h"
 #include "nes.h"
+#include "video_c.h"
 #include "video_m2.h"
 #include "video_m5.h"
 

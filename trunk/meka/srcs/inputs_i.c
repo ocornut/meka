@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "inputs_i.h"
 #include "inputs_f.h"
+#include "lightgun.h"
 #include "sportpad.h"
 #include "rapidfir.h"
 
@@ -33,7 +34,7 @@ void    Inputs_Init (void)
 
     // Peripheral
     Inputs.Paddle_X [PLAYER_1] = Inputs.Paddle_X [PLAYER_2] = 0;
-    LightGun_Init ();
+    LightPhaser_Init ();
     SportsPad_Init ();
     RapidFire_Init ();
 
