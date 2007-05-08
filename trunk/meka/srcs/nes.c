@@ -13,15 +13,16 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "mappers.h"
-#include "palette.h"
 #include "debugger.h"
+#include "mappers.h"
+#include "nes.h"
+#include "palette.h"
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-const RGB   NES_Palette [64] =
+const RGB   NES_Palette[64] =
 {
   { 0x80,0x80,0x80,0 }, { 0x00,0x00,0xBB,0 }, { 0x37,0x00,0xBF,0 }, { 0x84,0x00,0xA6,0 },
   { 0xBB,0x00,0x6A,0 }, { 0xB7,0x00,0x1E,0 }, { 0xB3,0x00,0x00,0 }, { 0x91,0x26,0x00,0 },
@@ -58,9 +59,9 @@ const RGB   NES_Palette [64] =
 
 void    NES_Init (void)
 {
- // if (cfg.NES_Enabled == 0)
- //    return;
- nes = Memory_Alloc (sizeof (*nes));
+	// if (cfg.NES_Enabled == 0)
+	//    return;
+	nes = Memory_Alloc (sizeof (*nes));
 }
 
 void    NES_Reset (void)
@@ -265,6 +266,7 @@ byte    Loop6502 (register M6502 *R)
     return (NES_INT_NONE);
 }
 
+// Planar -> Linear
 void    NES_Decode_Tile (int n)
 {
     int x, y;
@@ -308,11 +310,11 @@ void    NES_Decode_Tiles (void)
 //-----------------------------------------------------------------------------
 void    NES_Palette_Set (void)
 {
-    int   i;
+	int   i;
 
-    // Set NES emulation palette
-    for (i = 0; i != 32; i++)
-        Palette_Emulation_SetColor(i, NES_Palette[PRAM[i] & 63]);
+	// Set NES emulation palette
+	for (i = 0; i != 32; i++)
+		Palette_Emulation_SetColor(i, NES_Palette[PRAM[i] & 63]);
 }
 
 //-----------------------------------------------------------------------------

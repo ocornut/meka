@@ -29,6 +29,7 @@
 #include "inputs_f.h"
 #include "inputs_i.h"
 #include "mappers.h"
+#include "nes.h"
 #include "palette.h"
 #include "patch.h"
 #include "setup.h"

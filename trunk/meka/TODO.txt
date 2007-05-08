@@ -1,11 +1,37 @@
+  /------------------\
+/-|  MEKA TODO LIST  |-------------------------------------------------\
+| \------------------/                                                 |
+| Todo:                                                                |
+| - Clean this list, add a bug-priority system.                        |
+|   Maybe switch to an internet bug tracking software?                 |
+|----------------------------------------------------------------------|
+| Note:                                                                |
+| - MEKA IS FULL OF INCORRECT EMULATION BEHAVIOURS.                    |
+|   MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.         |
+|   READ TECHNICAL DOCUMENTATION INSTEAD.                              |
+|   IF YOU ARE DOUBTING OF ANYTHING, PLEASE ASK TO BE SURE.            |
+|----------------------------------------------------------------------|
+| Packager Note: Always make plenty of verifications before packaging. |
+| - Check MEKA.INP                                                     |
+| - Check MEKA.MSG content, WIP, merge updates                         |
+| - Package a default generated .CFG file                              |
+|----------------------------------------------------------------------|
+| Some BIG axis of work:                                               |
+| - fix sound engine (timing problem, ask me, I can explain why)       |
+| - improved video (blitters, stretching, sync, triple buffering)      |
+| - inputs system improvement (analog sources, map all features, etc)  |
+| - full featured debugger/hacking tools                               |
+| - fill new database entries (redump/sort)                            |
+| - tape emulation                                                     |
+| - better SF-7000 disk support (write & save)                         |
+| - new savestate format + better manager (icons, etc)                 |
+\----------------------------------------------------------------------/
+
+-----------------------------------------------------------------------------
+THE YET UNSORTED MESS (this is my notepad basically)
+-----------------------------------------------------------------------------
 
 SMS screenshots always 256x192, not 248x192?
-
-video mode switching prob
-http://www.smspower.org/forums/viewtopic.php?t=9602
-hey guys. been a fan of meka for years. i just recently got .71 because i thought maybe .70 was giving me the problem. 
-the emu loads fine, i can run it in a window but if i press escape to full screen sometimes it works, sometimes not. 
-BUT everytime i press escape to go back to a smaller window i get an error msg saying "Unable to switch to desired video mode (640x480):nUnsupported color depth. 
 
 http://www.smspower.org/forums/viewtopic.php?t=9478
 Now I have a question. In some Master System games (made at 1993 to be exact) such as 
@@ -58,7 +84,7 @@ Also I was playing Shanghai before with the FM Chip enabled and the music slowed
 (like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 
 so it is hard to tell if it was my PC doing something or it was MEKA.
 
-WIP:
+WIP 0.72:
  - Depth
    - Remove color conversion flag in main loop to avoid too many 
      behind-the-scene conversions.
@@ -76,7 +102,6 @@ WIP:
   - Embed small default theme package.
     Remove *Overclocked* and *Amelie* from it (only keep Sega 8-bit related)
   - Tweak flags for proper color now that there's no more palette.
-- NES broken (untested)
 
 Game Recording:
 - Topic
@@ -85,40 +110,6 @@ Game Recording:
   http://bisqwit.iki.fi/nesvideos/VBM.html
 - Desired Features Wiki
   http://bisqwit.iki.fi/nesvideos/DesiredFeatures.html
-
-
-  /------------------\
-/-|  MEKA TODO LIST  |-------------------------------------------------\
-| \------------------/                                                 |
-| Todo:                                                                |
-| - Clean this list, add a bug-priority system.                        |
-|   Maybe switch to an internet bug tracking software?                 |
-|----------------------------------------------------------------------|
-| Note:                                                                |
-| - MEKA IS FULL OF INCORRECT EMULATION BEHAVIOURS.                    |
-|   MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.         |
-|   READ TECHNICAL DOCUMENTATION INSTEAD.                              |
-|   IF YOU ARE DOUBTING OF ANYTHING, PLEASE ASK TO BE SURE.            |
-|----------------------------------------------------------------------|
-| Packager Note: Always make plenty of verifications before packaging. |
-| - Check MEKA.INP                                                     |
-| - Check MEKA.MSG content, WIP, merge updates                         |
-| - Package a default generated .CFG file                              |
-|----------------------------------------------------------------------|
-| Some BIG axis of work:                                               |
-| - fix sound engine (timing problem, ask me, I can explain why)       |
-| - improved video (blitters, stretching, sync, triple buffering)      |
-| - inputs system improvement (analog sources, map all features, etc)  |
-| - full featured debugger/hacking tools                               |
-| - fill new database entries (redump/sort)                            |
-| - tape emulation                                                     |
-| - better SF-7000 disk support (write & save)                         |
-| - new savestate format + better manager (icons, etc)                 |
-\----------------------------------------------------------------------/
-
------------------------------------------------------------------------------
-THE YET UNSORTED MESS (this is my notepad basically)
------------------------------------------------------------------------------
 
 - Compilation
   - AMD64:
@@ -150,7 +141,6 @@ doing them now and some are quick work.
 - Check galaxy force (supposed bug, cannot reproduce)
   http://www.smspower.org/forum/messages/19568.html
 
-- Coleco picture palette is broken when freeing ROM.
 - Add auto SK-1100 enable.
 
 -----------------------------------------------------------------------------

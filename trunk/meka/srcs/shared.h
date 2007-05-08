@@ -84,7 +84,6 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 #include "mainloop.h"       // Main Loop
 #include "message.h"        // Messages system and all messages
 #include "misc.h"           // Miscellaneous
-#include "nes.h"            // NES emulation
 #include "sf7000.h"         // SF-7000 emulation
 #include "sg1ksc3k.h"       // SG-1000/SC-3000 specifics emulation
 #include "skin.h"           // Interface Skins
@@ -151,6 +150,7 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 // #include "keyinfo.h"     // Keyboard keys definitions (name, scancode, etc.)
 // #include "mappers.h"     // Mappers system and mappers emulation
 // #include "memview.h"     // Memory viewer GUI Applet
+// #include "nes.h"         // NES emulation
 // #include "options.h"     // Options applet
 // #include "palette.h"     // Palette system and processing
 // #include "patch.h"       // Patching system

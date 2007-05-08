@@ -26,6 +26,11 @@ They are usually of 2 kinds:
     - Note that the compatibility list for ColecoVision titles is
       severly outdated. At some point, James Carter worked on a new,
       more accurate list, but I lost all contact with him.
+  - NES:
+    - Fixed video rendering, broken when switching to hi-color modes. [Omar]
+    - Added PRAM support in Memory Editor. [Omar]
+    - Added 8 palette switching in Tile Viewer. [Omar]
+    - Note: NES emulation is humor legacy code and won't be supported.
 
 
  MEKA 0.72 WIP 20070426

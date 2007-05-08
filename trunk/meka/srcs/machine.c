@@ -11,6 +11,7 @@
 #include "eeprom.h"
 #include "glasses.h"
 #include "mappers.h"
+#include "nes.h"
 #include "palette.h"
 #include "vdp.h"
 #include "tvoekaki.h"

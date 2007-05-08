@@ -44,6 +44,8 @@ t_nes_mapper    *NES_Mapper;
 void           (*NES_Mapper_Write)(word, byte);
 byte            *NES_VRAM_Banks[16];
 
+extern const RGB NES_Palette[64];
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
