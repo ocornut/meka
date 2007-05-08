@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_game.h"
 #include "keyboard.h"
+#include "lightgun.h"
 #include "rapidfir.h"
 #include "sportpad.h"
 #include "tvoekaki.h"
@@ -163,7 +164,7 @@ void        Inputs_Emulation_Update (bool running)
                 break;
             case INPUT_LIGHTPHASER: //------------------------------- Light Phaser
                 if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
-                    LightGun_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res);
+                    LightPhaser_Update(i, Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res);
                 if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
                 if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;

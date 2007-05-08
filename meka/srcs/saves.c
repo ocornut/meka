@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "bios.h"
 #include "commport.h"
+#include "lightgun.h"
 #include "mappers.h"
 #include "nes.h"
 #include "palette.h"
@@ -94,8 +95,8 @@ void        Load_Game_Misc (void)
 
     // FIXME: Sorry having to do that, but it is because Tms_VDP_Out only
     // react and call LightGun_Mouse_Range() on the flip flop.
-    if (Meka_State == MEKA_STATE_FULLSCREEN && LightGun.Enabled)
-        LightGun_Mouse_Range (Mask_Left_8);
+    if (Meka_State == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
+        LightPhaser_SetupMouseRange (Mask_Left_8);
 
     // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
 }

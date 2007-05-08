@@ -9,6 +9,7 @@
 #include "g_tools.h"
 #include "g_widget.h"
 #include "vdp.h"
+#include "video_c.h"
 #include "video_m5.h"
 #include "palette.h"
 

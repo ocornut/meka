@@ -1,6 +1,6 @@
 
-  MEKA 0.72 (WIP) - Documentation
- ================================
+  MEKA 0.72 - Documentation
+ ===========================
   Multi machine emulator for MS-DOS, MS-Windows and GNU/Linux.
   (c) in 1998-2007 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
@@ -54,7 +54,7 @@
  > Maxim                        Software PSG emulator.
  > Ulrich Cordes                FDC765 emulator for SF-7000. Implemented with modifications in MEKA.
  > Valerie Tching / Kittie      Original Memory Editor.
- > Johan Euphrosine / Proppy    GNU/Linux tweaks.
+ > Johan Euphrosine / Proppy    GNU/Linux tweaks, initial MacOSX port.
  > DJRobX                       Blitters and video improvements, HQ2X interface.
  > Maxim Stephin / MaxSt        HQ2X graphics filter.
  > Dirk Stevens                 Eagle graphics filter.
@@ -389,14 +389,13 @@
     Logging of WAV only works for PSG sound (YM-2413 FM is not yet logged).
 
   - Definable video modes with some nice fullscreen effects available such
-    as TV scanline simulation or Eagle graphic destroyer - ok, Eagle is 
-    actually very nice with a few games, R-Type coming to mind.
-    This part requires tweaking the "MEKA.BLT" file manually or using a tool.
+    as TV scanline simulation or HQ2X graphic enhancer. 
 
   - Debugging features, making MEKA useful for various programming/debugging
     or even cheating purposes:
      - Palette Viewer
      - Tiles Viewer
+     - Tilemap Viewer
      - Memory Editor
      - Technical Information summary
      - Data Dumping features
@@ -729,7 +728,7 @@
                    75019 Paris
                    France
 
- My PayPal account is :  cornut @ noos . fr
+ My PayPal account is :  cornut -AT- noos.fr (replace -AT- by @). 
 
  Finally, if your main pretext for not donating is lazyness, then you
  know yourself it is not a valid pretext :)
@@ -737,12 +736,12 @@
  If you do not agree these terms, then you can delete this software now, as it
  will destroy your computer after a certain amount of time without donating.
  Also, if you have animals living in your house, MEKA will autodetect them 
- and kill them by sending ultra sonic waves through the PC speakers. 
+ and annoy them by sending ultra sonic waves through the PC speakers. 
  Just don't say I made it for the money, please.
 
  Users who donated will get subscribed to a newsletter and be notified of
  new releases. They will also be granted access to SMS Power ROM releases, 
- and more importantly: be granted the warm feeling of shelping a project.
+ and most importantly: feel warm and nice for having helped.
 
  Enjoy!
 
@@ -767,9 +766,7 @@
  Level 9 : I am a freak, tell me everything !
 ----------------------------------------------------------------------------
 
- MEKA was made the open way, in the sense that many of its features
- are user accessible to let everyone do modifications. Here is a quick
- description of the ressource files that comes with MEKA:
+ Here is a quick description of the ressource files that comes with MEKA:
 
  --MEKA.CFG-- or --MEKAW.CFG--
  This is the configuration file where MEKA stores most of the options

@@ -11,7 +11,13 @@ They are usually of 2 kinds:
 - Programmer/hacker centric information.
 
 
- MEKA 0.72 WIP 2007xxxx
+ MEKA 0.72
+ ---------
+  Includes all 0.72 WIP below, minus lines starting with hash characters
+  (those lines refer to fixes relative to changes in a WIP).
+
+
+ MEKA 0.72 WIP 20070508
  ----------------------
   - Ports:
     - Preliminary MacOSX port. [Proppy]
@@ -50,8 +56,8 @@ They are usually of 2 kinds:
     - Note: NES emulation is humor legacy code and won't be supported.
   - GUI:
     - Sorted default themes, removed non Sega 8-bit related themes.
-    - Now embedding background pictures in regular binary distribution. 
-    - CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
+      Now embedding background pictures in regular binary distribution. 
+      CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
 
 
  MEKA 0.72 WIP 20070426
@@ -120,7 +126,7 @@ They are usually of 2 kinds:
       next to each other. Seems useless now. Could be brought back if some
       four-eyed person request it. [Omar]
   - Debugger:
-    - Added "CLOCK" command, to display/reset a Z80 cycle counter.
+    - Added CLOCK command, to display/reset a Z80 cycle counter.
       Very simple but can be helpful to time Z80 routines. [Omar]
     - (Win32) Forward debugging log to Windows debugging stream via
       OutputDebugString(), so running MEKA from Microsoft Visual studio 
@@ -329,7 +335,8 @@ They are usually of 2 kinds:
 
  MEKA 0.71
  ---------
-  Includes all 0.71 WIP below.
+  Includes all 0.71 WIP below, minus lines starting with hash characters
+  (those lines refer to fixes relative to changes in a WIP).
 
 
  MEKA 0.71 WIP 20050625

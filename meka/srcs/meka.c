@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.72 WIP (c) Omar Cornut (Bock) & MEKA team 1998-2007
+// MEKA 0.72 (c) Omar Cornut (Bock) & MEKA team 1998-2007
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -343,9 +343,9 @@ void    Init_GUI (void)
 
     ConsoleInit (); // First thing to do
     #ifdef WIN32
-        ConsolePrintf ("%s\n(c) %s\n--\n", MEKA_NAME_VERSION, MEKA_AUTHORS);
+        ConsolePrintf ("%s\n(c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
     #else
-        ConsolePrintf ("\n%s (c) %s\n--\n", MEKA_NAME_VERSION, MEKA_AUTHORS);
+        ConsolePrintf ("\n%s (c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
     #endif
 
     // Wait for Win32 console signal

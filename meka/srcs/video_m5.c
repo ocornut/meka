@@ -9,6 +9,7 @@
 #include "fskipper.h"
 #include "palette.h"
 #include "vdp.h"
+#include "video_c.h"
 #include "video_m5.h"
 
 //-----------------------------------------------------------------------------
