@@ -17,6 +17,16 @@ They are usually of 2 kinds:
   (those lines refer to fixes relative to changes in a WIP).
 
 
+ MEKA 0.72 WIP 20070512
+ ----------------------
+  - ColecoVision:
+    - Removed detection of supposed 128-bytes headers and 512-bytes footers
+      (from some old soft/copiers?), due to many false detections, particularly
+      on homebrew ROM images (the code was introduced in 2001 when Dig Dug
+      and Pac-Man prototypes were released with such header, but ROM images
+      now circulating are without the header). [Omar]
+      
+
  MEKA 0.72 WIP 20070508
  ----------------------
   - Ports:
