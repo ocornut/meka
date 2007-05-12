@@ -7,6 +7,7 @@
 #include "app_game.h"
 #include "bios.h"
 #include "blitintf.h"
+#include "checksum.h"
 #include "file.h"
 #include "db.h"
 #include "debugger.h"
@@ -354,15 +355,24 @@ void    Load_Header_and_Footer_Remove (int *pstart, long *psize)
         // (both on the same time)
         if (size > 0x1000)
         {
-            if ((size % 0x1000) == 128 + 512)
-            { start += 128; size -= 128 + 512; }
+			/*
+			const int size_mod = size % 0x1000;
+            if (size_mod == 128 + 512)
+            { 
+				start += 128; size -= 128 + 512; 
+			}
             else
             {
-                if ((size % 0x1000) == 128)
-                { start += 128; size -= 128; }
-                if ((size % 0x1000) == 512)
-                { size -= 512; }
+                if (size_mod == 128 || size_mod == (128+512))
+                { 
+					start += 128; size -= 128; 
+				}
+                if (size_mod == 512)
+                { 
+					size -= 512; 
+				}
             }
+			*/
         }
         break;
     case DRV_SF7000: //--- SF-7000
