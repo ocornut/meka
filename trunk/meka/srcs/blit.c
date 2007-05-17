@@ -257,8 +257,11 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 			const u32 color_mod_b = ((color_org >> 11) & 0x1F) * blit_cfg.tv_mode_factor;
 			const u16 color_mod = (color_mod_r) | (color_mod_g << 5) | (color_mod_b << 11);
 			const u32 color_mod_32 = color_mod | (color_mod << 16);
-			*((u32 *)pdst1)++ = color_org_32;
-			*((u32 *)pdst2)++ = color_mod_32;
+			*(u32 *)pdst1 = color_org_32;
+			*(u32 *)pdst2 = color_mod_32;
+			pdst1 += 2;
+			pdst2 += 2;
+			// Note: adding ++ to the above u32 * cast somehow cause problems with GCC
 		}
 	}
 	Blit_Fullscreen_Misc();
