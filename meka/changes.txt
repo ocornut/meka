@@ -70,6 +70,11 @@
       - Note that the compatibility list for ColecoVision titles is
         severly outdated. At some point, James Carter worked on a new,
         more accurate list, but I lost all contact with him.
+      - Removed detection of supposed 128-bytes headers and 512-bytes footers
+        (from some old soft/copiers?), due to many false detections, 
+        particularly on homebrew ROM images (the code was introduced in 2001 
+        when Dig Dug and Pac-Man prototypes were released with such header, 
+        but ROM images now circulating are without the header). [Omar]
   - GUI:
     - Sorted default themes, removed non Sega 8-bit related themes.
       Now embedding background pictures in regular binary distribution. 
