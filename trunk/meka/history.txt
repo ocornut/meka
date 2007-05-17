@@ -21,10 +21,10 @@ They are usually of 2 kinds:
  ----------------------
   - ColecoVision:
     - Removed detection of supposed 128-bytes headers and 512-bytes footers
-      (from some old soft/copiers?), due to many false detections, particularly
-      on homebrew ROM images (the code was introduced in 2001 when Dig Dug
-      and Pac-Man prototypes were released with such header, but ROM images
-      now circulating are without the header). [Omar]
+      (from some old soft/copiers?), due to many false detections, 
+      particularly on homebrew ROM images (the code was introduced in 2001 
+      when Dig Dug and Pac-Man prototypes were released with such header, 
+      but ROM images now circulating are without the header). [Omar]
       
 
  MEKA 0.72 WIP 20070508
