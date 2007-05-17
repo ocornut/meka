@@ -15,13 +15,14 @@
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
-static int     Blitters_Str2Num (const char *s);
+static int     Blitters_Str2Num(const char *s);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-t_blitter *     Blitter_New (char *name)
+// Note: 'name' not const because the string is actually overwritten (could be done without)
+t_blitter *     Blitter_New(char *name)
 {
     t_blitter * b;
     char *      p;
@@ -61,7 +62,7 @@ t_blitter *     Blitter_New (char *name)
     return (b);
 }
 
-void            Blitter_Delete (t_blitter *b)
+void            Blitter_Delete(t_blitter *b)
 {
     free(b->name);
     free(b);
@@ -84,7 +85,7 @@ static const char * Blitters_Def_Variables [] =
     NULL
 };
 
-static int  Blitters_Parse_Line (char *s, char *s_case)
+static int  Blitters_Parse_Line(char *s, char *s_case)
 {
     char    w[256];
     int     i, line_len;
