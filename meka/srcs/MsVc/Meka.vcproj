@@ -52,13 +52,13 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
-				IgnoreDefaultLibraryNames="libcmt"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
 				GenerateMapFile="FALSE"
 				MapFileName="$(IntDir)/mekaw.map"
 				MapExports="TRUE"
-				MapLines="TRUE"
+				MapLines="FALSE"
 				SubSystem="2"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -144,7 +144,7 @@
 				GenerateMapFile="FALSE"
 				MapFileName="$(IntDir)/mekaw.map"
 				MapExports="TRUE"
-				MapLines="TRUE"
+				MapLines="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"/>
 			<Tool
@@ -192,7 +192,7 @@
 				MinimalRebuild="TRUE"
 				ExceptionHandling="FALSE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
+				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=""
 				AssemblerListingLocation=".\Debug/"
@@ -216,13 +216,13 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
-				IgnoreDefaultLibraryNames="msvcrt,msvcrtd"
+				IgnoreDefaultLibraryNames="msvcrt"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
 				GenerateMapFile="FALSE"
 				MapFileName="$(IntDir)/mekaw.map"
 				MapExports="TRUE"
-				MapLines="TRUE"
+				MapLines="FALSE"
 				SubSystem="2"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -308,7 +308,7 @@
 				GenerateMapFile="FALSE"
 				MapFileName="$(IntDir)/mekaw.map"
 				MapExports="TRUE"
-				MapLines="TRUE"
+				MapLines="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"/>
 			<Tool
