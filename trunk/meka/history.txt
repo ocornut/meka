@@ -11,6 +11,14 @@ They are usually of 2 kinds:
 - Programmer/hacker centric information.
 
 
+ MEKA 0.73 WIP xxxxxxxx
+ ----------------------
+##- Added and modified entries in the checksum and compatibility lists. [Omar]
+##  Some particular renaming includes:
+          SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany)
+          SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
+
+
  MEKA 0.72
  ---------
   Includes all 0.72 WIP below, minus lines starting with hash characters

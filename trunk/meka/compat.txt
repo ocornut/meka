@@ -17,8 +17,8 @@
 -----------------------------------------------------------------------------
  20 em 1 (BR)                                   -       Ok
  Ace of Aces                                    -       Ok
- Action Fighter                                 -       Ok
- Action Fighter (JP)                            -       Ok
+ Action Fighter [v1]                            -       Ok
+ Action Fighter [v2]                            -       Ok
  Addams Family, The                             -       Ok
  Aerial Assault                                 -       Ok
  After Burner                                   FM      Ok
