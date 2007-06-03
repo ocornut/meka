@@ -20,6 +20,9 @@ They are usually of 2 kinds:
 ##  Some particular renaming includes:
           SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany)
           SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
+          GG  - ffe4ed47 - Alien Syndrome                       --> Alien Syndrome (JP)
+          GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
+          GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness
 
 
  MEKA 0.72

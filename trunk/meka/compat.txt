@@ -380,6 +380,7 @@
  Summer Games                                   -       Ok
  Summer Games [Proto]                          *-       Ok
  Super Basketball [Demo]                        -       Ok
+ Super Boy II (KR)                             *-       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -466,7 +467,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 448 games tested - 446 are "Ok" - Compatibility rate: 99.54%
+ 449 games tested - 447 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -476,6 +477,7 @@
  emulated. It is not necessary for gaming purpose.
 -----------------------------------------------------------------------------
  Alex Kidd in Miracle World [BIOS]              -       Ok
+ Alex Kidd in Miracle World [BIOS] (KR)        *-       Ok
  Hang On [BIOS]                                 -       Ok
  Hang On / Safari Hunt [BIOS]                   LP      Ok
  Missile Defense 3-D [BIOS]                     LP,3D   Ok
@@ -647,7 +649,8 @@
  Aladdin (Disney's)                                 Ok
  Aladdin (Disney's) (JP)                            Ok
  Alien 3                                            Ok
- Alien Syndrome                                     Ok
+ Alien Syndrome                                    *Ok
+ Alien Syndrome (JP)                                Ok
  Andre Agassi Tennis                                Ok
  Arcade Classics                                    Ok
  Arch Rivals                                        Ok
@@ -745,7 +748,7 @@
  FIFA Soccer 96                                     Ok
  Foreman for Real                                   Ok
  Frank Thomas Big Hurt Baseball                     Ok
- Fray (JP)                                         *Ok
+ Fray ~Shugyou hen~ (JP)                           *Ok
  Fred Couples Golf                                  Ok
  Fred Couples Golf (JP)                             Ok
  Frogger [Proto]                                    Ok
@@ -788,6 +791,7 @@
  Incredible Crash Dummies, The                      Ok
  Incredible Hulk, The                               Ok
  Indiana Jones and the Last Crusade                *Ok
+ In the Wake of Vampire (JP)                        Ok
  Iron Man X-O Manowar in Heavy Metal                Ok
  Itchy & Scratchy                                   Ok
  James Bond 007: The Duel                           Ok
@@ -1031,8 +1035,7 @@
  True Lies                                          Ok
  Ultimate Soccer                                    Ok
  Urban Strike                                       Ok
- Vampire, in the wake of                            Ok
- Vampire: Master of Darkness                        Ok
+ Vampire - Master of Darkness                       Ok
  Virtua Fighter Animation                           Ok
  Virtua Fighter Mini (JP)                           Ok
  VR Troopers                                        Ok
@@ -1068,7 +1071,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 428 games tested - 418 are "Ok" - Compatibility rate: 97.66%
+ 429 games tested - 419 are "Ok" - Compatibility rate: 97.66%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

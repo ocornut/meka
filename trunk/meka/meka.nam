@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2007/05/27
+; Last updated 2007/06/02
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -318,6 +318,7 @@ SMS b13df647 57E32ED9EF14328A   Sukeban Deka II - Shoujo Tekkamen Densetsu/COUNT
 SMS 8da5c93f AF2D01D4A78C8B91   Summer Games/COUNTRY=EU/PRODUCT_NO=5119
 SMS 80eb1fff 420EEF0B240F3152   Summer Games [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
+SMS 67c2f0ff 9FD6C92669F0360D   Super Boy II/COUNTRY=KR/COMMENT=Unlicensed Super Mario Bros clone. 
 SMS 55bf81a0 59B3C79CC4A7DE48   Super Monaco GP/COUNTRY=EU,BR/PRODUCT_NO=7043   ; [EDITOR-NOTE] BR cardboard version has no product_no.
 SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
 SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMENT=This game optionnally support the Paddle Control.
@@ -375,6 +376,7 @@ SMS 7ba54510 8AE29FB6A2DC4B76   Zillion [v2]/COUNTRY=EU/PRODUCT_NO=5075
 
 ; BIOS images
 SMS cf4a09ea E7605A0A2D3939B6   Alex Kidd in Miracle World [BIOS]/FLAGS=BIOS
+SMS 9c5bad91 1CBCFDC2F498BB22   Alex Kidd in Miracle World [BIOS]/FLAGS=BIOS/COUNTRY=KR
 SMS 8edf7ac6 394EDEF5E1094A72   Hang On [BIOS]/FLAGS=BIOS
 SMS 91e93385 E48EA39C2A04D150   Hang On \/ Safari Hunt [BIOS]/FLAGS=BIOS
 SMS e79bb689 0BCFEBA4D00C704B   Missile Defense 3-D [BIOS]/FLAGS=BIOS/EMU_INPUTS=LIGHTPHASER/EMU_3D
@@ -469,6 +471,8 @@ GG  bb4f23ff E66F317D87443101   Adventures of Batman & Robin, The/COUNTRY=US,EU/
 GG  3e549b7a D0CFB9E6942DCC35   Aerial Assault/COUNTRY=JP,US,EU/PRODUCT_NO=G-3219,2320
 GG  7a41c1dc B9E076A223923E5C   Aladdin (Disney's)/COUNTRY=US,EU,BR/PRODUCT_NO=2525,077120
 GG  770e95e1 0FAC122A0F7FFA81   Aladdin (Disney's)/COUNTRY=JP/PRODUCT_NO=G-3336
+GG  ffe4ed47 8E692D2511E6F5CB   Alien Syndrome/COUNTRY=JP/PRODUCT_NO=T-44037
+GG  9d3d41cf 618B76E580A5E3B1   Alien Syndrome/COUNTRY=US,EU/PRODUCT_NO=2324
 GG  46c9fa3e 3F02FDFC275C2F14   Andre Agassi Tennis/COUNTRY=US,EU/PRODUCT_NO=T-101018
 GG  35fa3f68 EDE3ACDDC72A476F   Arliel - Crystal Densetsu/COUNTRY=JP/PRODUCT_NO=G-3403/COMMENT=Japanese version of "Crystal Warriors".
 GG  78208b40 A662E4EF17F3CC4F   Astérix and the Great Rescue/COUNTRY=US/PRODUCT_NO=2520
@@ -506,6 +510,7 @@ GG  449787e2 01B1CB4E2F1E4C9C   Fatal Fury Special/COUNTRY=US,EU/PRODUCT_NO=2582
 GG  e632a3a2 79E80A0C5A985A3D   FIFA International Soccer/COUNTRY=US,EU/PRODUCT_NO=T-50018
 GG  78159325 7ECE281E38B22163   FIFA International Soccer/COUNTRY=JP/PRODUCT_NO=T-106017
 GG  d46d5685 F20EFF6AC22E099E   Foreman for Real/COUNTRY=US,EU,JP/PRODUCT_NO=T-81348,T-81197
+GG  e123d9b8 776593D0265E3FFE   Fray ~Shugyou hen~/COUNTRY=JP/PRODUCT_NO=T-52037
 GG  46f40b9f 6686067B7F5218AA   Fred Couples Golf/COUNTRY=US/PRODUCT_NO=2529    ; released EU?
 GG  b1196cd7 FCB8715AAD21852E   Fred Couples Golf/COUNTRY=JP/PRODUCT_NO=G-3358
 GG  cd53f3af 5434506F49A77C4D   Garfield - Caught in the Act/COUNTRY=US/PRODUCT_NO=2560     ; released EU?
@@ -526,6 +531,7 @@ GG  def5a5d0 1F25824E7BFAA5D2   Halley Wars/COUNTRY=JP/PRODUCT_NO=T-11027
 GG  056cae74 07EAA1CEF2F8BBFB   Hyper Chou Pro Yakyuu '92/COUNTRY=JP/PRODUCT_NO=G-3217
 GG  9f64c2bb 69824C1FDBCFC040   Ichidant~R GG (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G-3359/COMMENT=Proper Japanese transcription is "Ichidanto A~Ru GG". "Ichidant~R" is official romanization of the Arcade version. Note the different position of the tilde. Title screen shows "PUZZLLE & ACTION" with 2 L.
 GG  b875226b 4991B2A2AE8AB8E2   Indiana Jones and the Last Crusade/COUNTRY=US,EU/PRODUCT_NO=79028-50
+GG  dab0f265 67E30F160D0B7FFA   In the Wake of Vampire/COUNTRY=JP/PRODUCT_NO=T-44047/COMMENT=Japanese version of "Vampire - Master of Darkness".
 GG  9fb5c155 50DEECE6BA2DD940   James Pond II - Codename: Robocod/COUNTRY=US,EU             ; missing product_no
 GG  68bb7f71 32FF34928F7D6B92   James Pond 3 - Operation Starfi5h/COUNTRY=EU/PRODUCT_NO=79158-50/EMU_IPERIOD=227/COMMENT=Packaging and in-game screens are inconsistents about the exact name spelling. Packaging, manual and cartridges all says "Operation Starfi5h". In-game screens says "James Pond 3 - Operation Starfish".
 GG  2e01ba6c 79B3C73C524481BA   Joe Montana Football/COUNTRY=US,EU/PRODUCT_NO=2403
@@ -541,9 +547,11 @@ GG  00c34d94 01B64665BDBF978B   Madoh Monogatari I - Mittsu no Madokyuu/COUNTRY=
 GG  12eb2287 3A833A5A08D0F2E5   Madoh Monogatari II - Aruru 16-sai/COUNTRY=JP/PRODUCT_NO=G-3419
 GG  0a634d79 2BAC3EE795F07A05   Madoh Monogatari III - Kyuukyoku Joo-sama [v0]/COUNTRY=JP/PRODUCT_NO=G-3424
 GG  568f4825 2CAB3EE795F07A05   Madoh Monogatari III - Kyuukyoku Joo-sama [v1]/COUNTRY=JP/PRODUCT_NO=G-3424
+GG  7ec95282 4E4D0E995D8F933F   Madoh Monogatari A - Dokidoki-Bake Shon/COUNTRY=JP/PRODUCT_NO=T-66047
 GG  01d2dd2a 2CB25F033DADD204   Mappy/COUNTRY=JP/PRODUCT_NO=T-14027
 GG  9559e339 B424918FF035A83B   Marble Madness/COUNTRY=US,EU/PRODUCT_NO=T-48058,T-48058-50
 GG  2e4ec17b F5296F1E651FF4DD   Megami Tensei Gaiden Last Bible/COUNTRY=JP/PRODUCT_NO=G-3418
+GG  4ec30806 6FA65308EF07702A   Megami Tensei Gaiden Last Bible Special/COUNTRY=JP/PRODUCT_NO=G-3427
 GG  9289dfcc 2D785B7B8B594E53   Mighty Morphin Power Rangers/COUNTRY=US,EU/PRODUCT_NO=2548
 GG  b47c19e5 F02DEF107C75975C   Mighty Morphin Power Rangers - The Movie/COUNTRY=US,EU/PRODUCT_NO=2564
 GG  4b304e0f 607CA3543FEBBE45   Mortal Kombat II/NAME_JP=Mortal Kombat II - Kyukyoku-Shinken/COUNTRY=JP,US,EU/PRODUCT_NO=T-81107
@@ -564,6 +572,7 @@ GG  a942514a 38B4091C24542651   Phantasy Star Gaiden/COUNTRY=JP/PRODUCT_NO=G-340
 GG  281b1c3a F97057A139C5CFD2   Phantom 2040/COUNTRY=US,EU/PRODUCT_NO=T-139028-50
 GG  635c483a 233F62535FB604D0   Pinball Dreams/COUNTRY=US   ; released EU? missing product_no
 GG  cc90c723 5567550DB4B0017D   Pocket Jansou/COUNTRY=JP/PRODUCT_NO=T-14067
+GG  09de1528 580F2481F9E66BAA   Power Strike II/NAME_JP=GG Aleste II/PRODUCT_NO=G-3330
 GG  2a34b5c7 18673C53CC026BB9   Primal Rage/COUNTRY=US,EU/PRODUCT_NO=T-48218,T-48218-50
 GG  afcc7828 B06D9479FA71A7C4   Psychic World/COUNTRY=JP/PRODUCT_NO=G-3203
 GG  73779b22 AF5D95122837E30B   Psychic World/COUNTRY=US,EU,BR/PRODUCT_NO=2306,012090
@@ -613,6 +622,7 @@ GG  09151743 73869AAE809FD1CF   Tant~R (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G
 GG  c029a5fd EFDF88CF8D68A343   Terminator, The/COUNTRY=US,EU/PRODUCT_NO=T-70048
 GG  5bcf9b97 F9471D41510253BC   Torarete Tamaruka!?/COUNTRY=JP/PRODUCT_NO=G-3348
 GG  820965a3 78192012DB30BF73   Ultimate Soccer/COUNTRY=JP,EU,BR/PRODUCT_NO=G-3333,075300
+GG  7ec64025 84C269594C15F3A4   Vampire - Master of Darkness/COUNTRY=US,EU/PRODUCT_NO=2437/COMMENT=Export version of "In the Wake of Vampire".
 GG  d431c452 89865690753E3F19   Virtua Fighter Animation/COUNTRY=US,EU/PRODUCT_NO=2570
 GG  c05657f8 5B5E5A20BC6D6440   Virtua Fighter Mini/COUNTRY=JP/PRODUCT_NO=G-3380
 GG  b0f22745 E4B611A11356D972   VR Troopers/COUNTRY=US,EU
@@ -1009,7 +1019,6 @@ BE14C62C214ED2FB,Yeno Draw [Face 2],AUTHORS=Marc le Douarain
 5DB92D172BF43C4B,5 in 1 Fun Pak,VER=English
 EE39E44E85E0C77B,Addams Family\, The,VER=English
 73C0F3CC1F5A1D78,Alien 3,ID=T-81047,VER=International
-8E692D2511E6F5CB,Alien Syndrome,ID=T-44037,VER=English
 3F02FDFC275C2F14,Andre Agassi Tennis,VER=English
 8E92A6014E129049,Arcade Classics,VER=English
 9A1D6EB1E8A2AAF6,Arch Rivals,VER=English
@@ -1069,7 +1078,6 @@ C32205C4D7835C9C,Factory Panic,VER=English,COMMENT=Export version of 'Ganbare Go
 2C887DCDCA714285,Fantasy Zone Gear,ID=T-44017,VER=English
 B55C08995BA5E26C,FIFA Soccer 96,VER=English
 DA478D64E6018A7D,Frank Thomas Big Hurt Baseball,VER=English
-776593D0265E3FFE,Fray,ID=T-52037,VER=Japanese
 10CC5C366165B616,Frogger [Proto],PROTO,COMMENT=This is a nearly finished prototype of the unreleased game.
 B0541293B90BC5CE,From TV animation - Slam Dunk - Shouri-e no Starting 5,ID=T-133037,VER=Japanese
 905D6D377D1F9D36,Galaga '91,ID=T-14057,VER=English
@@ -1096,7 +1104,6 @@ D0C9FEBE08434B15,House of Tarot,JAPNAME=Tarot no Yakata,ID=G-3208,VER=Japanese
 3F8665D57BA3A043,Hyokkori Hyoutan Jima,ID=G-3218,VER=Japanese
 F1E3947961D3D813,Incredible Crash Dummies\, The,ID=T-81127,VER=English
 C11C2B5FAA24A02B,Incredible Hulk\, The,VER=English
-67E30F160D0B7FFA,In the Wake of Vampire,ID=T-44047,VER=Japanese
 50513CEA88DD577D,Iron Man X-O Manowar,VER=English
 C919CCEF16A7376F,Itchy & Scratchy,VER=English
 499877BC81C4D4D3,James Bond 007: The Duel,VER=English
@@ -1134,7 +1141,6 @@ BC1CE72A38884E09,Magical Puzzle Popils,ID=T-48017,VER=Japanese
 EEF607B16825FADD,Man Overboard!,VER=English,Mapper=3,TVTYPE=PAL/SECAM
 4E62CA7D9E439B8D,Marko's Magic Football,VER=English
 F0B8660AB1883B74,Megaman,VER=English
-6FA65308EF07702A,Megami Tensei Gaiden Last Bible Special,ID=G-3427,VER=Japanese
 6C107B6F23212630,Mickey Mouse no Mahou no Crystal,ID=G-3323,VER=Japanese/COMMENT=Japanese version of "Land of Illusion - Starring Mickey Mouse".
 DE2CEEA5F01F074D,Mickey's Ultimate Challenge,VER=English
 51710931D2A8ED9D,Micro Machines,Mapper=3
@@ -1186,7 +1192,6 @@ D56E2790AD1DEE4E,R.B.I. Baseball '94,VER=USA
 45EF1710B24D079F,Riddick Bowe Boxing,ID=T-22027,VER=International
 C8EC4DEA219A73E7,Rise of the Robots,VER=English,TVTYPE=NTSC,IPERIOD=229
 66C33CFBDC17A706,Ristar,JAPNAME=Ristar the shooting Star,ID=G-3365,VER=International
-4E4D0E995D8F933F,Madoh Monogatari A - Dokidoki-Bake Shon,ID=T-66047,VER=Japanese
 897F02048B132F25,Road Rash,VER=English
 6065615A7606FD07,RoboCop 3,ID=T-81097,VER=English
 E89A7A9BE94BBB7A,RoboCop versus The Terminator,VER=English
@@ -1241,7 +1246,6 @@ C8930333BCD00BD8,The Pro Yakyuu '91,ID=G-3207,VER=Japanese
 DC1F080D96A53D78,Tom and Jerry - The Movie,ID=G-3319,VER=International
 B31BDB3827A8440C,True Lies,ID=T-81167,VER=International
 07D77087D26DD517,Urban Strike,VER=International
-84C269594C15F3A4,Vampire: Master of Darkness,VER=English
 DFBD34655C7A6293,Wagan Land [A],ID=T-14047,VER=Japanese
 C7BD34655C7A62AB,Wagan Land [B],ID=T-14047,VER=Japanese
 533DC337F17121F3,Wheel of Fortune,VER=English
