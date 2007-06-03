@@ -612,16 +612,19 @@ void        FB_Draw_List(void)
                         x_usage += 18 + 18;
                         entry_file_flag = DB_Entry_GetTranslationFlag (entry->db_entry);
                     }
-                    // Country or any of BAD|BIOS|HACK|HOMEBREW|PROTO = +18 as well
                     else 
                     {
                         entry_file_flag = DB_Entry_SelectFlag (entry->db_entry);
-                        if (entry_file_flag != -1 
-                            || (entry->db_entry->flags & (DB_FLAG_BAD|DB_FLAG_BIOS|DB_FLAG_HACK|DB_FLAG_HOMEBREW|DB_FLAG_PROTO)))
+                        if (entry_file_flag != -1)
                         {
                             // Country flag
                             x_usage += 18; 
                         }
+                    }
+                    if (entry->db_entry->flags & (DB_FLAG_BAD|DB_FLAG_BIOS|DB_FLAG_HACK|DB_FLAG_HOMEBREW|DB_FLAG_PROTO))
+                    {
+                        // Any of BAD|BIOS|HACK|HOMEBREW|PROTO = +18 as well
+                        x_usage += 18; 
                     }
                 }
             }
@@ -678,18 +681,27 @@ void        FB_Draw_List(void)
                     }
                     else
                     {
-                        // HomeBrew icon
-                        if (entry->db_entry->flags & DB_FLAG_HOMEBREW)
-                            draw_sprite (FB.bmp, Graphics.Icons.HomeBrew, x + 1, y + 1);
-                        // Proto icon
-                        else if (entry->db_entry->flags & DB_FLAG_PROTO)
-                            draw_sprite (FB.bmp, Graphics.Icons.Prototype, x + 1, y + 1);
-                        // BIOS icon
-                        else if (entry->db_entry->flags & DB_FLAG_BIOS)
-                            draw_sprite (FB.bmp, Graphics.Icons.BIOS, x + 1, y + 1);
+                        // Icons
+                        if (entry->db_entry->flags & (DB_FLAG_HOMEBREW | DB_FLAG_PROTO | DB_FLAG_BIOS))
+                        {
+                            // HomeBrew icon
+                            if (entry->db_entry->flags & DB_FLAG_HOMEBREW)
+                                draw_sprite (FB.bmp, Graphics.Icons.HomeBrew, x + 1, y + 1);
+                            // Proto icon
+                            else if (entry->db_entry->flags & DB_FLAG_PROTO)
+                                draw_sprite (FB.bmp, Graphics.Icons.Prototype, x + 1, y + 1);
+                            // BIOS icon
+                            else if (entry->db_entry->flags & DB_FLAG_BIOS)
+                                draw_sprite (FB.bmp, Graphics.Icons.BIOS, x + 1, y + 1);
+                        }
+
                         // Country Flag
-                        else if (entry_file_flag != -1)
+                        if (entry_file_flag != -1)
+                        {
+                            if (entry->db_entry->flags & (DB_FLAG_HOMEBREW | DB_FLAG_PROTO | DB_FLAG_BIOS))
+                                x += 18;
                             draw_sprite (FB.bmp, Graphics.Flags[entry_file_flag], x + 1, y + 1);
+                        }
                     }
 
                     // Hack overlay
