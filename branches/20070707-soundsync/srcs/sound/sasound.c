@@ -408,18 +408,18 @@ void            saDestroyChannel (int ch)
 /******************************************/
 void    saDestroySound (void)
 {
-  int   i;
+	int   i;
 
 #ifdef INSTALL_SOUND_TIMER
-  saRemoveSoundTimer();
+	saRemoveSoundTimer();
 #endif
-  for (i = 0; i < NUMVOICES; i++)
-      {
-      saDestroyChannel (i);
-      ADestroyAudioVoice (Sound.Voices[i].hVoice);
-      }
-  ACloseVoices();
-  ACloseAudio();
+	for (i = 0; i < NUMVOICES; i++)
+	{
+		saDestroyChannel (i);
+		ADestroyAudioVoice (Sound.Voices[i].hVoice);
+	}
+	ACloseVoices();
+	ACloseAudio();
 }
 
 /******************************************/
@@ -449,32 +449,34 @@ void    saRemoveSound (void)
 /******************************************/
 void    saUpdateSound (int nowclock)
 {
-  int   i;
+	int   i;
 
-  if (audio_sample_rate == 0) return;
-  if (!SndMachine || !SndMachine->first) return; /* not sound initialize end */
+	if (audio_sample_rate == 0) 
+		return;
+	if (!SndMachine || !SndMachine->first) 
+		return; /* not sound initialize end */
 
-  if (nowclock)
-     {
-     if (pause_sound == 0)
-        {
-        // Msg (MSGT_DEBUG, "update");
-        streams_sh_update();
-        for (i = 0; i < SndMachine->control_max; i++)
- 	   if (SndMachine->f_update[i] != NULL)
- 	       SndMachine->f_update[i]();
-        }
-     }
-  else
-     {
-     if (sound_stream_mode == SOUND_STREAM_WAIT) /* MEKA */
-        {
+	if (nowclock)
+	{
+		if (pause_sound == 0)
+		{
+			// Msg (MSGT_DEBUG, "update");
+			streams_sh_update();
+			for (i = 0; i < SndMachine->control_max; i++)
+				if (SndMachine->f_update[i] != NULL)
+					SndMachine->f_update[i]();
+		}
+	}
+	else
+	{
+		if (sound_stream_mode == SOUND_STREAM_WAIT) /* MEKA */
+		{
 #ifndef WIN32
-        AUpdateAudio();
+			AUpdateAudio();
 #endif
-        saCheckPlayStream();
-        }
-     }
+			saCheckPlayStream();
+		}
+	}
 }
 
 /******************************************/
@@ -501,20 +503,7 @@ int         saCheckPlayStream (void)
 
     pause_sound = FALSE;
 
-	// Is there a particular reason we do this here? -- [Djrobx]
-	if (g_Configuration.audio_sync_speed == 0)
-	{
-		// Get current Position
-		for (i = 0; i < NUMVOICES; i++)
-		{
-			Voice = &Sound.Voices[i];
-			if (!Voice->playing)
-				continue;
-			AGetVoicePosition (Voice->hVoice, &pos[i]);
-		}
-	}
-
-    // Check update position
+	// Check update position
     for (i = 0; i < NUMVOICES; i++)
     {
         Voice = &Sound.Voices[i];
@@ -530,7 +519,6 @@ int         saCheckPlayStream (void)
                 Msg (MSGT_DEBUG, "Sound buffer under-run (ve:%08x, vc:%08x, verr:%08x)", Voice->ventry, Voice->vchan, vbunder_err);
             #endif
         }
-
         else // Update
         if ((Voice->vchan - Voice->ventry) > 0)
         {
@@ -540,32 +528,36 @@ int         saCheckPlayStream (void)
             int slens = len * (ve % stream_buffer_max);
             int rlens = len * (ve % buffered_stream_max);
             int rlene = rlens + len;
-            #ifdef MEKA_SOUND
-                #if 0
-                    Msg (MSGT_DEBUG, "%d %d %d", pos[i], rlens, rlene);
-                #endif
-            #endif
-            #if 0
-                printf("%d(%d) %d (%d,%d{%d}) [%d]\n", pos[i] / len, Voice->pos,
-                    (sound_freerun_count - Voice->vruncount) % stream_buffer_max,
-                    rlens, rlene, (rlens - pos[i]) / len, (Voice->vchan - Voice->ventry) );
-            #endif
 
-			if (g_Configuration.audio_sync_speed)
+			// Get buffer position
+			AGetVoicePosition (Voice->hVoice, &pos[i]);
+
+			// Wait for sound buffers to be available
+			// This is effectively our sync waiting code
+			//if (g_Configuration.audio_sync_speed)
+			if (g_Configuration.audio_wait_available_buffers)
 			{
 				const time_t t = time(NULL)+3;
 				do
 				{
-					AGetVoicePosition(Voice->hVoice,&pos[i]);
+					AGetVoicePosition(Voice->hVoice, &pos[i]);
 					if (time(NULL) > t)
 					{
 						//Msg(MSGT_USER, "Waited too long");
 						break;
-					} 
-				} while((int)pos[i] >= rlens && (int)pos[i] < rlene);
+					}
+					// FIXME-SOUND-SYNC: CPU hog?
+				} while ((int)pos[i] >= rlens && (int)pos[i] < rlene);
 			}
 
-            if ((int)pos[i] < rlens || (int)pos[i] >= rlene)
+			#ifdef MEKA_SOUND
+			//Msg (MSGT_DEBUG, "%d %d %d", pos[i], rlens, rlene);
+			#endif
+			//printf("%d(%d) %d (%d,%d{%d}) [%d]\n", pos[i] / len, Voice->pos,
+			//	(sound_freerun_count - Voice->vruncount) % stream_buffer_max,
+			//	rlens, rlene, (rlens - pos[i]) / len, (Voice->vchan - Voice->ventry) );
+
+			if ((int)pos[i] < rlens || (int)pos[i] >= rlene)
             {
                 /**** copy stream buffer -> PCM buffer ****/
                 slens *= Voice->vbits;
@@ -622,7 +614,7 @@ int         saCheckPlayStream (void)
                     vbover_err = vbunder_err = 0;
                     // BOCK Note 07/24/2001:
                     // I'm a bit septic toward this code, since it modify 'i'
-                    // It is intentionnaly done, then to restart the outer loop
+                    // It is intentionally done, then to restart the outer loop
                     // as 'i' ends with zero here ?
                     for (i = NUMVOICES - 1; i >= 0; i--)
                     {
@@ -861,7 +853,7 @@ void    saResetPlayChannels (void)
 /************************************/
 /*    sound timer callback          */
 /************************************/
-int		bSoundIsRunning = 0;	// FIXME-SOUND-SYNC
+bool	bSoundIsRunning = FALSE;	// FIXME-SOUND-SYNC
 void    saSoundTimerCallback (void)
 {
 	if (g_Configuration.audio_sync_speed != 0 && !bSoundIsRunning)
@@ -894,7 +886,7 @@ void    saInitSoundTimer (void)
 {
 	if (g_Configuration.audio_sync_speed != 0)
 	{
-		bSoundIsRunning = 1;
+		bSoundIsRunning = TRUE;
 	}
 	else
 	{
@@ -914,7 +906,11 @@ void    saInitSoundTimer (void)
 /************************************/
 void    saRemoveSoundTimer (void)
 {
-	if (g_Configuration.audio_sync_speed)
+	if (g_Configuration.audio_sync_speed != 0)
+	{
+		bSoundIsRunning = FALSE;
+	}
+	else
 	{
 		remove_int (saSoundTimerCallback);
 	}

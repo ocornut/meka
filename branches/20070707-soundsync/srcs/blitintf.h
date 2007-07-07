@@ -33,7 +33,7 @@ typedef struct
     int                 blitter;
     int                 driver;
     bool                tv_colors;
-    int                 refresh_rate;
+    int                 refresh_rate;		// Reminder: host refresh rate, not emulated refresh rate!
     t_blitter_stretch   stretch;
 } t_blitter;
 

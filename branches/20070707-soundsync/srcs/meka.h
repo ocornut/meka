@@ -258,6 +258,9 @@ t_meka_env  g_Env;
 
 typedef struct
 {
+	// Speed/Sync
+	int		emulation_speed;			// In Hz, shall be 50/60, can be more when speeding up, etc.
+
     // Country
     int     country;                    // Country to use (session)
     int     country_cfg;                // " given by configuration file and saved back
@@ -270,7 +273,6 @@ typedef struct
 
     // Miscellaneous
     int     sprite_flickering;          // Set to emulate sprite flickering.
-    bool    slash_nirv;                 // Increase FPS counter by many. Old private joke for NiRV.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.
     bool    enable_BIOS;
     bool    enable_NES;             
@@ -314,6 +316,7 @@ typedef struct
 
 	// Audio
 	int				audio_sync_speed;
+	bool			audio_wait_available_buffers;
 
 	// Capture
 	const char *	capture_filename_template;

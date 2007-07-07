@@ -368,9 +368,6 @@ void    Refresh_Screen (void)
 {
     // acquire_bitmap(screen);
 
-	if (g_Configuration.audio_sync_speed != 0)
-		saSoundTimerCallback();
-
 //#ifdef WIN32
 //    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
 //#else
@@ -471,17 +468,22 @@ void    Refresh_Screen (void)
 	// We don't want to frameskip with the triple buffer/sound sync system. 
 	// It will cause us to see every other frame when timing gets a little off.
 	// FIXME-SOUND-SYNC
+#if 1
 	if (g_Configuration.audio_sync_speed != 0)
 	{
 		fskipper.Show_Current_Frame = TRUE;
 	}
 	else
+#endif
 	{
 		// Ask frame-skipper weither next frame should be drawn or not
 		fskipper.Show_Current_Frame = Frame_Skipper ();
 		//if (fskipper.Show_Current_Frame == FALSE)
 		//   Msg (MSGT_USER, "Skip frame!");
 	}
+
+	if (g_Configuration.audio_sync_speed != 0)
+		saSoundTimerCallback();
 
     // Update console (under WIN32)
     // #ifdef WIN32

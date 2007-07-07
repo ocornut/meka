@@ -14,10 +14,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-int     Frame_Skipper (void);
-void    Frame_Skipper_Auto_Adjust_Handler (void);
-void    Frame_Skipper_Auto_Install_Handler (void);
-void    Frame_Skipper_Auto_Reinstall_Handler (void);
+bool    Frame_Skipper (void);
 void    Frame_Skipper_Configure (int v);
 void    Frame_Skipper_Switch (void);
 void    Frame_Skipper_Switch_FPS_Counter (void);

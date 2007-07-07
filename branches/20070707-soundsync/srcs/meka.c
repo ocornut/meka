@@ -125,6 +125,9 @@ void    Init_Default_Values (void)
     // Machine
     cur_machine.driver_id = DRV_SMS;
 
+	// Speed
+	g_Configuration.emulation_speed					= 60;
+
     // Country
     g_Configuration.country                       = COUNTRY_EXPORT;
     g_Configuration.country_cfg                   = COUNTRY_EXPORT;
@@ -137,7 +140,6 @@ void    Init_Default_Values (void)
 
     // Miscellaneous
     g_Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
-    g_Configuration.slash_nirv                    = FALSE;
     g_Configuration.enable_BIOS                   = TRUE;
     g_Configuration.show_product_number           = FALSE;
     g_Configuration.show_fullscreen_messages      = TRUE;
@@ -180,15 +182,16 @@ void    Init_Default_Values (void)
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
 	// Audio
-	g_Configuration.audio_sync_speed				= 0;
+	g_Configuration.audio_sync_speed				= 598;
+	g_Configuration.audio_wait_available_buffers	= TRUE;
 
 	// Capture
 #ifdef DOS
-	g_Configuration.capture_filename_template	  = "%.5s-%02d.png"; // Short Filename
+	g_Configuration.capture_filename_template		= "%.5s-%02d.png"; // Short Filename
 #else
-	g_Configuration.capture_filename_template	  = "%s-%02d.png";   // Long Filename (ala SMS Power)
+	g_Configuration.capture_filename_template		= "%s-%02d.png";   // Long Filename (ala SMS Power)
 #endif
-	g_Configuration.capture_automatic_crop_align  = FALSE;
+	g_Configuration.capture_automatic_crop_align	= FALSE;
 
     // Media
     // FIXME: yet not fully used

@@ -46,8 +46,8 @@ void    Frame_Skipper_Auto_Install_Handler (void)
 {
     int   c;
 
-    /*
-    int   c1, c2;
+#if 0
+	int   c1, c2;
     c = 1000 / fskipper.Automatic_Speed;
     c1 = 1000 - (c * fskipper.Automatic_Speed);
     c2 = 1000 - ((c + 1) * fskipper.Automatic_Speed);
@@ -57,14 +57,13 @@ void    Frame_Skipper_Auto_Install_Handler (void)
     if (c2 < 0) c2 = -c2;
     if (c2 < c1) c += 1;
     install_int (Frame_Skipper_Auto_Adjust_Handler, c);
-    */
+#endif
 
     c = TIMERS_PER_SECOND / fskipper.Automatic_Speed;
     install_int_ex (Frame_Skipper_Auto_Adjust_Handler, c);
 
     //TIMERS_PER_SECOND     1193181
     //MSEC_TO_TIMER(x)      ((long)(x) * (TIMERS_PER_SECOND / 1000))
-
 }
 
 void    Frame_Skipper_Auto_Reinstall_Handler (void)
@@ -90,8 +89,12 @@ void    Frame_Skipper_Init (void)
 // Frame Skipper
 // Return FALSE if next frame is to be skipped, else TRUE
 //-----------------------------------------------------------------------------
-int     Frame_Skipper (void)
+bool	Frame_Skipper (void)
 {
+	// FIXME-SOUND-SYNC: Get back to this
+	// FIXME-SOUND-SYNC: 3-D glasses support
+
+#if 1
     //s64 cycle_current = OSD_Timer_GetCyclesCurrent(); 
     //const s64 cycle_per_second = OSD_Timer_GetCyclesPerSecond();
     //OSD_X86CPU_RDTSC();
@@ -102,21 +105,16 @@ int     Frame_Skipper (void)
         // Slow down to skip appropriate frames
         // FIXME: this takes 100% CPU and seems not to work well everywhere :(
 
-		// Sync to audio + This routine = frozen Seal!
-		// FIXME-SOUND-SYNC: It is actually called with sound sync enabled?
-		if (g_Configuration.audio_sync_speed == 0)
+		while (fskipper.Automatic_Frame_Elapsed == 0)
 		{
-			while (fskipper.Automatic_Frame_Elapsed == 0)
-			{
-				#ifdef UNIX
-					// pause (); // Wait for an interrupt
-				#endif
-				//#ifdef WIN32
-				//rest(4);
-				//yield_timeslice();
-				rest(1);
-				//#endif
-			}
+			#ifdef UNIX
+				// pause (); // Wait for an interrupt
+			#endif
+			//#ifdef WIN32
+			//rest(4);
+			//yield_timeslice();
+			rest(1);
+			//#endif
 		}
 
         // If retard is too high, force drawing a frame so it doesn't freeze
@@ -125,15 +123,19 @@ int     Frame_Skipper (void)
         { 
             fskipper.Automatic_Frame_Elapsed = 1;
         }
+		fskipper.Automatic_Frame_Elapsed--;
 
+#if 0	
+		// FIXME-SOUND-SYNC
         // Skip next frame if we have more than one to go (we're late)
         // Else don't skip
-        if (fskipper.Automatic_Frame_Elapsed -- > 1)
+        if (fskipper.Automatic_Frame_Elapsed > 0)
             return FALSE;
 
         // Software 3-D glasses emulation may require to skip this frame
         if (Glasses.Enabled && Glasses_Must_Skip_Frame ())
             return FALSE;
+#endif
     }
     else
     // Standard frame-skipping ------------------------------------------------
@@ -150,6 +152,7 @@ int     Frame_Skipper (void)
         }
         fskipper.Standard_Counter = 1;
     }
+#endif
 
     fskipper.Frame_Rendered++;
 
@@ -169,18 +172,14 @@ int     Frame_Skipper (void)
             //fskipper.FPS_LastComputedTime = cycle_current;
         //else
             //fskipper.FPS_LastComputedTime += cycle_per_second;
-
-        // /NIRV mode :) for Nirv who likes to do benchmarking and once made a scandal about it
-        if (g_Configuration.slash_nirv)
-            fskipper.FPS += 120;
     }
 
     return TRUE; // Will show next frame
 }
 
-// CHANGE FRAMESKIP VALUE -----------------------------------------------------
 void    Frame_Skipper_Switch (void)
 {
+	// FIXME-SOUND-SYNC
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
     {
         fskipper.Standard_Counter = 1;
@@ -196,6 +195,7 @@ void    Frame_Skipper_Switch (void)
 
 void    Frame_Skipper_Configure (int v)
 {
+#if 1
     switch (fskipper.Mode)
     {
     case FRAMESKIP_MODE_AUTO:
@@ -218,15 +218,25 @@ void    Frame_Skipper_Configure (int v)
             break;
         }
     }
+#else
+	g_Configuration.emulation_speed += (v * 10);
+	if (g_Configuration.emulation_speed < 10)
+		g_Configuration.emulation_speed = 10;
+#endif
     Frame_Skipper_Show ();
 }
 
 void    Frame_Skipper_Show (void)
 {
+	// FIXME-SOUND-SYNC
+#if 1
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
         Msg (MSGT_USER, Msg_Get (MSG_Frameskip_Auto), fskipper.Automatic_Speed);
     else
         Msg (MSGT_USER, Msg_Get (MSG_Frameskip_Standard), fskipper.Standard_Frameskip);
+#else
+	Msg(MSGT_USER, "Emulation speed set to %d Hz", g_Configuration.emulation_speed);
+#endif
 }
 
 void    Frame_Skipper_Switch_FPS_Counter (void)

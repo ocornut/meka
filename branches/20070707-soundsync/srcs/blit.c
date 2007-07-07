@@ -65,12 +65,9 @@ static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
 void    Blit_Fullscreen_Misc (void)
 {
     // Wait for VSync if necessary
-    // (not done if speed is higher than 70 hz)
-    // FIXME: 70 should be replaced by actual screen refresh rate ... can we obtain it ?
     if (g_Configuration.video_mode_game_vsync)
 	{
-        if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
-            vsync ();
+		vsync ();
 	}
 
     // Clear Screen if it has been asked
@@ -339,10 +336,8 @@ void    Blit_GUI (void)
     // Wait for VSync if necessary
     if (g_Configuration.video_mode_gui_vsync)
     {
-        // FIXME: see note about line below in Blit_Fullscreen()
-        if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
-            // ^^^ I once commented this line. Was there a reason ?
-            vsync ();
+        vsync ();
+
         // Update 3-D Glasses (if VSync)
         if (Glasses.Enabled)
             Glasses_Update ();
