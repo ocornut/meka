@@ -1,0 +1,35 @@
+> The problem is if I change the intrisinc meaning of the configuration
+file.
+> I'm tempted to scrap everything and change the whole data. For example,
+> blitters should be improved in various ways: vsync/flipping should be
+global
+> (not per blitter), resizing parameter should be added (any value, max,
+maxint),
+> and additionnal effect specified separately (scanlines, eagle, etc).
+> Then I could recode what's behind and especially add resizing code (this
+> is one of the most needed thing now).
+>
+
+1. Global VSync/flipping: not necessarily good. Both are intrinsically
+slower so people with slower computers might want to use them for faster
+modes (320x240) and disable them when using a slower blitter. If changing
+the setting is easily available (eg. an F-key) then it is more acceptable.
+
+
+2. Resizing plus effect: I like the sound of it. It's similar to having a
+multi-stage blitter system, so (for example) you could have the image scaled
+up using Eagle, then stretched to 640x480, then have scanlines applied to
+it. As regards the effect code - I have done a little work on that recently
+(http://www.doc.ic.ac.uk/~mjg103/gens/). If you can switch Meka to work in
+16-bit internally you will have a lot of existing code available to you.
+(Much is under the GNU licence which is not a problem, it merely requires
+you to show any changes you make to the code you use when asked.) Gens has a
+file full of assembler resizing routines, for example, which can be adapted.
+Personally, I hate all those lousy SAI blitters and interpolated stretching;
+I always use integer stretching where possible, but there is code becoming
+available now (hq2x, scale2x) which does not blur the image and gives a good
+feeling of higher resolution. The limited colour palette of the SMS may tend
+to make it less suitable for those, though. Overall, however, it is
+something worth trying...
+
+http://www.doc.ic.ac.uk/~mjg103/gens/

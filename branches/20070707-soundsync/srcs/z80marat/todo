@@ -1,0 +1,14 @@
+
+ Codes.h                                Ok      !! Int stuffs, grep UPGRADE
+ CodesCB.h                              Ok
+ CodesED.h                              Ok      Outd stuff
+ CodesXCB.h                             Ok
+ CodesXX.h                              Ok      !! Int stuffs, grep UPGRADE
+ Debug.c                                Ok
+ Tables.h                               Ok
+ Z80.c                                  ..
+ Z80.h                                  Ok
+
+ verify I flags -> has IFF2 changed ??
+ then need to update savestate format
+
