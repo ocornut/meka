@@ -380,7 +380,7 @@
  Summer Games                                   -       Ok
  Summer Games [Proto]                          *-       Ok
  Super Basketball [Demo]                        -       Ok
- Super Boy II (KR)                             *-       Ok
+ Super Boy II (KR)                              -       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -477,7 +477,7 @@
  emulated. It is not necessary for gaming purpose.
 -----------------------------------------------------------------------------
  Alex Kidd in Miracle World [BIOS]              -       Ok
- Alex Kidd in Miracle World [BIOS] (KR)        *-       Ok
+ Alex Kidd in Miracle World [BIOS] (KR)         -       Ok
  Hang On [BIOS]                                 -       Ok
  Hang On / Safari Hunt [BIOS]                   LP      Ok
  Missile Defense 3-D [BIOS]                     LP,3D   Ok

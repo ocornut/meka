@@ -37,7 +37,6 @@ static void  CFG_Write_StrEscape (const char *name, const char *str)
     else
     {
         fprintf(CFG_File, "%s = %s\n", name, str);
-        free(str_escaped);
     }
 }
 
