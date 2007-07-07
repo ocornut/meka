@@ -13,6 +13,7 @@ They are usually of 2 kinds:
 
  MEKA 0.73 WIP xxxxxxxx
  ----------------------
+  - Updated Dutch localization [Mark van Tilburg]
   - GUI:
     - File browser: country flag now displayed even on BIOS, Prototypes
       or Homebrew images. [Omar]

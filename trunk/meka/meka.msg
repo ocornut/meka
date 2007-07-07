@@ -9,6 +9,7 @@
 ;-----------------------------------------------------------------------------
 ; History
 ;-----------------------------------------------------------------------------
+; MEKA 0.73  : Update language:  Dutch
 ; MEKA 0.72  : Added:            Msg_Inputs_Config_Peripheral_Click     
 ;                                Msg_Inputs_Config_Source_Enabled       
 ;                                Msg_Inputs_Config_Source_Player        
@@ -1681,21 +1682,22 @@ Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List"
 Msg_Menu_Help_Changes                   = "Changes List"
 
 
+
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Dutch]
-WIP
+;WIP
 ; Dutch text door Mark van Tilburg
-; Beheerder: Mark van Tilburg (markvt _@_ home . nl)
-; Laatst bijgewerkt 25-11-2004
+; Beheerder: Mark van Tilburg (markvt _@_ van-tilburg . info)
+; Laatst bijgewerkt 07-07-2007
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Welkom bij %s (c) %s"
-;Msg_Window_Title                        = "MEKA - 8-bit of ga dood!"
+Msg_Window_Title                        = "MEKA - Wij Vertrouwen Op Pixels!"
 Msg_Quit                                = "Slaap lekker, dappere strijder. goede nacht, monsterland...."
 
 ; About ----------------------------------------------------------------------
@@ -1746,6 +1748,7 @@ Msg_Setup_Soundcard_Select              = "A.U.B. kies uw geluidskaart:"
 Msg_Setup_Soundcard_Select_Tips_DOS     = "(als je een AWE 32 hebt, kies Sound Blaster voor een betere emulatie)\n(Als je een recente SB card hebt, kies Sound Blaster of Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X is aanbevolen, als het beschikbaar is)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
+Msg_Setup_Debugger_Enable               = "Z80 debugger en bijbehorende functies inschakelen"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Screenfoto naar %s"
@@ -1771,9 +1774,10 @@ Msg_TVType_Info_Speed                   = "(Originele snelheid is %d Hz)"
 Msg_Blitters_Loading                    = "Laden van MEKA.BLT (video modes / blitters)... "
 Msg_Blitters_Error_Not_Enough           = "niet genoeg blitters gevonden controleer MEKA.BLT herinstalleer"
 Msg_Blitters_Error_Not_Found            = "Blitter niet gevonden!"
-Msg_Blitters_Error_Missing              = "On line %d: Geen blitter naam ingesteld om de waarde te bewaren!"
-Msg_Blitters_Error_Unrecognized         = "On line %d: niet herkende variable!"
-Msg_Blitters_Set                        = "Now using \"%s\" fullscreen blitter."
+Msg_Blitters_Error_Missing              = "Op regel %d: Geen blitter naam ingesteld om de waarde te bewaren!"
+Msg_Blitters_Error_Unrecognized         = "Op regel %d: niet herkende variable!"
+Msg_Blitters_Error_Incorrect_Value      = "Op regel %d: Incorrect value!"
+Msg_Blitters_Set                        = "Gebruikt nu \"%s\" volledig scherm."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Dikke loodgieter mode geactiveerd"
@@ -1790,6 +1794,9 @@ Msg_Debug_Trap_Read                     = "Op PC:%04X - lees van %04X"
 Msg_Debug_Trap_Write                    = "Op PC:%04X - schrijf %02X tot %04X"
 Msg_Debug_Trap_Port_Read                = "Op PC:%04X - Poort [%02X] lees"
 Msg_Debug_Trap_Port_Write               = "Op PC:%04X - Poort [%02X] schrijf %02X"
+Msg_Debug_Symbols_Loaded                = "%d symbolen geladen uit \"%s\"."
+Msg_Debug_Symbols_Error                 = "Error bij het laden van de symbolen uit \"%s\":"
+Msg_Debug_Symbols_Error_Line            = "Op regel %d: niet herkende syntax."
 
 ; Data Dumper ----------------------------------------------------------------
 Msg_DataDump_Mode_Ascii                 = "Data dumps zullen gemaakt worden in ASCII mode"
@@ -1871,10 +1878,10 @@ Msg_Country_JAP                         = "Emulated machine is nu Japans"
 
 ; Patching System ------------------------------------------------------------
 Msg_Patch_Loading                       = "Laden MEKA.PAT (patches)... "
-;Msg_Patch_Missing                       = "On line %d: Geen checksum ingesteld voor de patch!"
-;Msg_Patch_Unrecognized                  = "On line %d: Niet herkende instruktie!"
+Msg_Patch_Missing                       = "On line %d: Geen checksum ingesteld voor de patch!"
+Msg_Patch_Unrecognized                  = "On line %d: Niet herkende instruktie!"
 Msg_Patch_Value_Not_a_Byte              = "On line %d: waarde %s past niet in een unsigned byte!"
-;Msg_Patch_Out_of_Bound                  = "Onder het patchen van de ROM: poging om buiten de grenzen te schrijven $%02X. Afbreken van de patch."
+Msg_Patch_Out_of_Bound                  = "Tijdens het patchen van de ROM: geprobeerd om buiten het bestand te schrijven $%02X. Afbreken van de patch."
 
 ; 3-D Glasses ----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3-D bril emulatie aan"
@@ -1901,10 +1908,17 @@ Msg_Inputs_SportsPad                    = "Input apparaat: Sports Pad"
 Msg_Inputs_TVOekaki                     = "Input apparaat: TV Oekaki Graphic Board"
 Msg_Inputs_Play_Digital                 = "Controle met digitaal input device"
 Msg_Inputs_Play_Mouse                   = "Controle met analoog input device (mouse)"
+Msg_Inputs_Play_Digital_Unrecommended   = "Een dingitaal input apparaat (bv: toetsenbord) is ondersteund maar NIET aanbevolen"
 Msg_Inputs_Play_Pen                     = "Controle pen with mouse\nRight-click simulates removing the pen from the board"
+Msg_Inputs_SK1100_Enabled               = "Sega toetsenbord (SK-1100) emulatie ingeschakeld"
+Msg_Inputs_SK1100_Disabled              = "Sega toetsenbord(SK-1100) emulatie uitgeschakeld"
 
 ; Inputs Configuration -------------------------------------------------------
 Msg_Inputs_Config_BoxTitle              = "Input Configuratie"
+Msg_Inputs_Config_Peripheral_Click      = "Klik om de accesoire te selecteren"
+Msg_Inputs_Config_Source_Enabled        = "Ingeschakeld"
+Msg_Inputs_Config_Source_Player         = "Bestuurd speler %d"
+Msg_Inputs_Config_Source_Emulate_Joypad = "Joypad emuleren"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Laden van MEKA.INP (voegt sources definitions in)... "
@@ -1971,6 +1985,10 @@ Msg_Sound_Volume_Changed                = "Volume gewijzigd naar %d%%."
 Msg_Theme_Loading                       = "Laden van MEKA.THM (interface themes)... "
 Msg_Theme_Error_Not_Enough              = "niet genoeg themes gevonden! bekijk MEKA.THM bestand her installeer"
 Msg_Theme_Error_Missing_Theme_Name      = "On line %d: Geen theme name gespecificeerd om waarde op te slaan!"
+Msg_Theme_Error_Syntax                  = "Op regel %d: syntax error!"
+Msg_Theme_Error_Attribute_Defined       = "Op regel %d: attribuut al gedefinieerd!"
+Msg_Theme_Error_Out_of_Bound            = "Op regel %d: waarde niet toegestaan!"
+Msg_Theme_Error_Theme_Missing_Data      = "Theme \"%s\" is missing data. Will be disabled."
 Msg_Theme_Error_BG_Big                  = "Achtergrond plaatje naar klein om te passen met een integere schaling!"
 Msg_Theme_Error_BG                      = "Error bij het laden van het plaatje wat bij het theme hoort!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
@@ -1993,6 +2011,8 @@ Msg_LoadROM_SDSC_Author                 = "Auteur: %s"
 Msg_LoadROM_SDSC_Release_Note           = "Release Notities: %s"
 Msg_LoadROM_SDSC_Unknown                = "<Onbekend>"
 Msg_LoadROM_SDSC_Error                  = "<Fout>"
+Msg_LoadROM_Reload_Reloaded             = "Rom geladen ROM."
+Msg_LoadROM_Reload_No_ROM               = "Geen ROM om te herladen!"
 
 ; File Browser ---------------------------------------------------------------
 Msg_FileBrowser_BoxTitle                = "Laad ROM"
@@ -2039,11 +2059,13 @@ Msg_Options_DB_Display                  = "Laat namen, vlaggen en iconen zien ui
 Msg_Options_Product_Number              = "Laat product nummer zien uit de database."
 ;Msg_Options_Product_Number              = "laat spel produkt nummer zien als het in de database staat."
 Msg_Options_Bright_Palette              = "helder kleurenpalet voor Master System / Game Gear."
+Msg_Options_Allow_Opposite_Directions   = "Toestaan indrukken van tegenovergestelde joypad richtingen."
 Msg_Options_Load_Close                  = "sluit bestandsselecteerder na openen."
 Msg_Options_Load_FullScreen             = "Schakel over naar fullscreen na een spel te laden."
 ;Msg_Options_VFN_Support                 = "Laat lange bestandsnamen zien en landen vlaggen."
 Msg_Options_FullScreen_Messages         = "laat berichten zien in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wacht for VSync in interface mode."
+Msg_Options_Capture_Automatic_Crop_Align= "Screenshots automatisch vergroten / verkleinen en uitlijnen."
 Msg_Options_NES_Enable                  = "Mario is geen dikke loodgieter."
 
 ; Languages / Localization ---------------------------------------------------
@@ -2071,6 +2093,8 @@ Msg_Menu_Main_Quit                      = "Stoppen"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
+Msg_Menu_Debug_Enabled                  = "Ingeschakeld"
+Msg_Menu_Debug_Reload_ROM               = "Herlaad ROM"
 Msg_Menu_Debug_Dump                     = "Opslaan"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -2150,8 +2174,10 @@ Msg_Menu_Inputs_Configuration           = "Configuratie"
 Msg_Menu_Tools                          = "WERKSET"
 Msg_Menu_Tools_Messages                 = "Berichten"
 Msg_Menu_Tools_Palette                  = "Kleuren Palet"
-Msg_Menu_Tools_TilesViewer              = "Deeltjes bekijker"
+Msg_Menu_Tools_TilesViewer              = "Tegel bekijker"
+Msg_Menu_Tools_TilemapViewer            = "Tegelkaart Viewer"
 Msg_Menu_Tools_TechInfo                 = "Technische Info"
+Msg_Menu_Tools_MemoryEditor             = "Geheugen Editor"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HELP"
@@ -2161,6 +2187,7 @@ Msg_Menu_Help_Documentation_U           = "Documentatie (Unix)"
 Msg_Menu_Help_Compat                    = "Compatibiliteits lijst"
 Msg_Menu_Help_Multiplayer_Games         = "Mp spellen lijst"
 Msg_Menu_Help_Changes                   = "Veranderingen"
+Msg_Menu_Help_Debugger					= "Debugger"
 Msg_Menu_Help_About                     = "Over"
 
 ;-----------------------------------------------------------------------------
