@@ -42,7 +42,7 @@ void    killpath (char *org)
     strcpy (str1, p);
     strcpy (org, str1);
     }
-#ifndef UNIX
+#ifndef ARCH_UNIX
  else
  if ((p = strrchr (org, '\\')))
     {
@@ -58,7 +58,7 @@ void    StrCpyPathRemoved(char *dst, const char *src)
 {
     char *p = strrchr(src, '/');
 
-#ifndef UNIX
+#ifndef ARCH_UNIX
     char *p2 = strrchr(src, '\\');
     if (p2 != NULL && p2 > p)
         p = p2;

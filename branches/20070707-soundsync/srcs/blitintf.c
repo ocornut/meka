@@ -34,14 +34,14 @@ t_blitter *     Blitter_New(char *name)
     p = strstr(name, BLITTER_OS_SEP);
 
     // Ignore blitter if it is not for current system
-#ifdef DOS
+#ifdef ARCH_DOS
     if (p != NULL)
         if (stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_DOS) != 0)
             return (NULL);
-#elif WIN32
+#elif ARCH_WIN32
     if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_WIN) != 0)
         return (NULL);
-#elif UNIX
+#elif ARCH_UNIX
     if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_UNIX) != 0)
         return (NULL);
 #endif

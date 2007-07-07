@@ -172,7 +172,7 @@ typedef struct t_widget     t_widget;           // from G_WIDGET.H
 //-----------------------------------------------------------------------------
 // Ressources
 //-----------------------------------------------------------------------------
-#ifdef WIN32
+#ifdef ARCH_WIN32
 #include "MsVc/resource.h"  // RESOURCE.H   Windows ressources definitions
 #endif
 

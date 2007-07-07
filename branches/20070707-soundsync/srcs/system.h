@@ -9,20 +9,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef MACOSX
+#ifndef ARCH_MACOSX
   #include <malloc.h>
-#endif // MACOSX
+#endif // ARCH_MACOSX
 #include <math.h>
 #include <string.h>
 #include <float.h>
 #include <sys/stat.h>
 #include <ctype.h>
 #include <assert.h>
-#ifndef WIN32
+#ifndef ARCH_WIN32
   #include <dirent.h>
 #endif
-#ifndef UNIX
-  #ifndef WIN32
+#ifndef ARCH_UNIX
+  #ifndef ARCH_WIN32
     #include <dir.h>
     #include <conio.h>
     #include <dos.h>
@@ -33,7 +33,7 @@
     #include <sys/nearptr.h>
   #endif
 #endif
-#ifdef WIN32
+#ifdef ARCH_WIN32
     #define BITMAP WINDOWS_BITMAP
     #include <windows.h>
     #include <crtdbg.h>
@@ -80,7 +80,7 @@ typedef   signed short      s16;
 typedef unsigned int        u32;
 typedef   signed int        s32;
 
-#ifndef WIN32
+#ifndef ARCH_WIN32
     typedef long long       s64;
 #else
     typedef LONGLONG        s64;
@@ -97,7 +97,7 @@ typedef int                 bool;
 //-----------------------------------------------------------------------------
 
 #ifndef INLINE
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         #define INLINE __inline
     #else
         #define INLINE inline
@@ -110,7 +110,7 @@ typedef int                 bool;
 // FIXME: this is for GCC only. Is there an equivalent for Visual C++ ?
 //-----------------------------------------------------------------------------
 
-#ifndef WIN32
+#ifndef ARCH_WIN32
     #define FORMAT_PRINTF(START)  __attribute ((format (printf, START, (START)+1)))
 #else
     #define FORMAT_PRINTF(START)
@@ -120,13 +120,13 @@ typedef int                 bool;
 // Miscellaneous
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
   #define meka_mkdir(a) mkdir(a);
   #define snprintf      _snprintf
 #else
   #define meka_mkdir(a) mkdir(a, 0700);
 #endif
-#ifdef UNIX
+#ifdef ARCH_UNIX
   #define strnicmp strncasecmp
 #endif
 
@@ -146,7 +146,7 @@ typedef int                 bool;
 // Now compiling at warning level 4, so a few can be omitted.
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 #pragma warning (disable: 4100) // 'unreferenced formal parameter'
 #pragma warning (disable: 4127) // 'conditional expression is constant'
 #endif

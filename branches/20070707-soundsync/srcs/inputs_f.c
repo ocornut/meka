@@ -335,7 +335,7 @@ void    Write_Inputs_Src_List (void)
  INP_Write_Line ("; However, any comment you may manually add will be deleted!");
  INP_Write_Line (";-----------------------------------------------------------------------------");
  INP_Write_Line ("");
-#ifdef DOS
+#ifdef ARCH_DOS
  INP_Write_Line (";-----------------------------------------------------------------------------");
  INP_Write_Line ("; (MS-DOS version only) select joypad/joystick driver here:");
  INP_Write_Line (";");

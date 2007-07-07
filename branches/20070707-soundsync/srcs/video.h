@@ -38,7 +38,7 @@ void    Refresh_Screen (void);                                    // redraw scre
 extern INLINE void Screen_Save_to_Next_Buffer (void);
 extern INLINE void Screen_Restore_from_Next_Buffer (void);
 
-#ifdef DOS
+#ifdef ARCH_DOS
 void    Video_VGA_Set_Border_Color (byte idx);
 #endif
 

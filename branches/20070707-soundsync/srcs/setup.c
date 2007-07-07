@@ -18,7 +18,7 @@
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
-#ifdef WIN32
+#ifdef ARCH_WIN32
     static int    Setup_Interactive_Win32 (void);
     AL_FUNC(HWND, win_get_window, (void));
 #else
@@ -49,7 +49,7 @@ void    Setup_Interactive_Init (void)
 int     Setup_Interactive (void)
 {
     // Call appropriate setup
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         // Windows setup
         return (Setup_Interactive_Win32 ());
     #else
@@ -60,7 +60,7 @@ int     Setup_Interactive (void)
 
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 
 extern HINSTANCE      allegro_inst;
 
@@ -219,9 +219,9 @@ static  int     Setup_Interactive_Console (void)
 
     // Print soundcard selection message
     ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
-    #elif DOS
+    #elif ARCH_DOS
         ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_DOS));
     #endif
 
@@ -240,7 +240,7 @@ static  int     Setup_Interactive_Console (void)
 
     // Let user select (using Allegro keyboard handler)
     Sound.SoundCard = SOUND_SOUNDCARD_NONE;
-#ifndef UNIX
+#ifndef ARCH_UNIX
     while (!key[KEY_ESC])
         for (i = 0; i < n; i ++)
             if (key[KEY_0 + i])

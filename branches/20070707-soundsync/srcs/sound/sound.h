@@ -11,7 +11,7 @@
 //-----------------------------------------------------------------------------
 
 // Include SEAL library headers
-#ifndef UNIX
+#ifndef ARCH_UNIX
 #include "audio.h"
 #else
 // Uncomment the appropriate:
@@ -40,7 +40,7 @@
 // OPL Access
 //-----------------------------------------------------------------------------
 
-#ifndef UNIX
+#ifndef ARCH_UNIX
 #define MEKA_OPL
 #endif
 

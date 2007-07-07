@@ -98,7 +98,7 @@ void    Filenames_Init(void)
 
     // Find emulator directory --------------------------------------------------
     strcpy (g_Env.Paths.EmulatorDirectory, g_Env.argv[0]);
-    #ifndef UNIX
+    #ifndef ARCH_UNIX
         StrReplace (g_Env.Paths.EmulatorDirectory, '\\', '/');
     #endif
     p = strrchr (g_Env.Paths.EmulatorDirectory, '/');
@@ -111,7 +111,7 @@ void    Filenames_Init(void)
     // ConsolePrintf ("g_Env.Paths.EmulatorDirectory = %s\n", g_Env.Paths.EmulatorDirectory);
     // ConsolePrintf ("argv[0] = %s\n", g_Env.argv[0]);
 
-#ifdef UNIX
+#ifdef ARCH_UNIX
     {   // ????
         int len;
         char temp[FILENAME_LEN];
@@ -141,9 +141,9 @@ void    Filenames_Init(void)
 
     // Documentations
     sprintf (g_Env.Paths.DocumentationMain,       "%s/meka.txt",      g_Env.Paths.EmulatorDirectory);
-#ifdef WIN32
+#ifdef ARCH_WIN32
     sprintf (g_Env.Paths.DocumentationMainW,      "%s/mekaw.txt",     g_Env.Paths.EmulatorDirectory);
-#elif UNIX
+#elif ARCH_UNIX
     sprintf (g_Env.Paths.DocumentationMainU,      "%s/mekanix.txt",   g_Env.Paths.EmulatorDirectory);
 #endif
     sprintf (g_Env.Paths.DocumentationCompat,     "%s/compat.txt",    g_Env.Paths.EmulatorDirectory);
@@ -152,14 +152,14 @@ void    Filenames_Init(void)
     sprintf (g_Env.Paths.DocumentationDebugger,   "%s/debugger.txt",  g_Env.Paths.EmulatorDirectory);
 
     // Configuration file
-#ifdef WIN32
+#ifdef ARCH_WIN32
     sprintf (g_Env.Paths.ConfigurationFile,       "%s/mekaw.cfg",     g_Env.Paths.EmulatorDirectory);
 #else
     sprintf (g_Env.Paths.ConfigurationFile,       "%s/meka.cfg",      g_Env.Paths.EmulatorDirectory);
 #endif
 
     // Directories
-#ifdef DOS
+#ifdef ARCH_DOS
     sprintf (g_Env.Paths.ScreenshotDirectory,     "%s/Shots",         g_Env.Paths.EmulatorDirectory);
 #else
     sprintf (g_Env.Paths.ScreenshotDirectory,     "%s/Screenshots",   g_Env.Paths.EmulatorDirectory);

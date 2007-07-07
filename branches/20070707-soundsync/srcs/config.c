@@ -448,7 +448,7 @@ void        Configuration_Load (void)
     int        line_cnt;
 
     StrCpyPathRemoved(value, g_Env.Paths.ConfigurationFile);
-#ifndef UNIX
+#ifndef ARCH_UNIX
     strupr(value);
 #endif
     ConsolePrintf (Msg_Get(MSG_Config_Loading), value);
@@ -722,7 +722,7 @@ void    Command_Line_Parse (void)
 	{
 		const char *s = g_Env.argv[i];
 		if (s[0] == '-'
-#ifndef UNIX
+#ifndef ARCH_UNIX
 			|| s[0] == '/'
 #endif
 			)
@@ -788,7 +788,7 @@ void    Command_Line_Help (void)
 {
     // Note: this help screen is not localized.
     Quit_Msg(
-        #ifdef WIN32
+        #ifdef ARCH_WIN32
         "Syntax: MEKAW [rom] [options] ...\n"
         #else
         "Syntax: MEKA [rom] [option1] ...\n"

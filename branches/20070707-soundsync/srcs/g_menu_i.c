@@ -198,10 +198,10 @@ void        gui_menus_init (void)
     // HELP
     //-------------------------------------------------------------------------
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Documentation),  AM_Active | Is_Checked (TextViewer.active), TextViewer_Switch_Doc_Main, NULL);
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         menu_add_item (menus_ID.help,      Msg_Get (MSG_Menu_Help_Documentation_W),AM_Active, TextViewer_Switch_Doc_MainW, NULL);
     #endif
-    #ifdef UNIX
+    #ifdef ARCH_UNIX
         menu_add_item (menus_ID.help,      Msg_Get (MSG_Menu_Help_Documentation_U),AM_Active, TextViewer_Switch_Doc_MainU, NULL);
     #endif
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Compat),         AM_Active, TextViewer_Switch_Doc_Compat, NULL);

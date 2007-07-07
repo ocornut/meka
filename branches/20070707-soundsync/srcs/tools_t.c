@@ -14,10 +14,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-#ifdef DOS
+#ifdef ARCH_DOS
  #include <dos.h>
 #endif
-#ifdef WIN32
+#ifdef ARCH_WIN32
  #include <Windows.h>
  #include <Winbase.h>
 #endif
@@ -40,7 +40,7 @@ int	get_february_len (int year)
 void	meka_get_time_date (int *phour, int *pminute, int *psecond,
 			    int *pday, int *pmonth, int *pyear, int *pday_of_week)
 {
-#ifdef WIN32
+#ifdef ARCH_WIN32
     SYSTEMTIME t;
     GetLocalTime(&t);
     if (phour)      *phour      = t.wHour;
@@ -93,7 +93,7 @@ void	meka_get_time_date (int *phour, int *pminute, int *psecond,
 
 char *  meka_date_getf (void)
 {
-#ifdef UNIX
+#ifdef ARCH_UNIX
     // FIXME
     return ("<NO_DATE>");
 #else
@@ -106,12 +106,12 @@ char *  meka_date_getf (void)
 // WRITE A FORMATTED STRING WITH TIME -----------------------------------------
 char *  meka_time_getf (char *str)
 {
-#ifdef DOS
+#ifdef ARCH_DOS
     struct time t;
     gettime (&t);
     sprintf (str, "%02i:%02i:%02i", t.ti_hour, t.ti_min, t.ti_sec);
 #else
-#ifdef WIN32
+#ifdef ARCH_WIN32
     SYSTEMTIME t;
     GetLocalTime (&t);
     sprintf (str, "%02i:%02i:%02i", t.wHour, t.wMinute, t.wSecond);

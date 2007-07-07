@@ -1,6 +1,6 @@
 #------------------------------------------------------
 # MEKA - Makefile
-# 1998-2006
+# 1998-2007
 # http://www.smspower.org/meka
 # (c) Omar Cornut and contributors
 #     Hiromitsu Shioya (Sound stuff), Started on the 12 February 1999
@@ -63,7 +63,7 @@ RM      = rm
 MV      = ren
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DDOS -DX86_ASM
+DEF_OS  = -DARCH_DOS -DX86_ASM
 INC_OS  = -I../libs/seal/include -I$(LIBPNGDIR) -I$(ZLIBDIR)
 X86_ASM = yes
 #--- Libraries
@@ -87,7 +87,7 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DUNIX -DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
+DEF_OS  = -DARCH_UNIX -DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
 INC_OS  = -Ilibs -I../include		                               # This may require an update
 X86_ASM = yes
 #--- Libraries
@@ -114,7 +114,7 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DMACOSX -DUNIX -DX86_ASM
+DEF_OS  = -DARCH_MACOSX -DUNIX -DX86_ASM
 INC_OS  = -Ilibs -I../include -I../libs/seal/include `pkg-config libpng --cflags` # This may require an update
 X86_ASM = yes
 #--- Libraries
@@ -140,7 +140,7 @@ MKDIR   = md
 RC      = rc
 
 #--- Definitions
-DEF_OS  = -DWIN32 -DX86_ASM
+DEF_OS  = -DARCH_WIN32 -DX86_ASM
 INC_OS  = -I../libs/seal/include -I$(LIBPNGDIR) -I$(ZLIBDIR)
 X86_ASM = yes
 

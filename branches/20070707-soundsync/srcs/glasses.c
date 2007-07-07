@@ -29,7 +29,7 @@ void    Glasses_Init_Values (void)
     // mode, Space Harrier and Maze Walker keep only this side enabled for
     // one or two seconds.
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
     Glasses.ComHandle = INVALID_HANDLE_VALUE;
     Glasses_Set_ComPort (1);
 #else
@@ -98,7 +98,7 @@ void    Glasses_Set_ComPort (int port)
 
 int     Glasses_ComPort_Initialize (void)
 {
-#ifdef DOS
+#ifdef ARCH_DOS
 
     int base = (Glasses.ComPort == 1) ? 0x3F0 : 0x2F0;
 
@@ -117,7 +117,7 @@ int     Glasses_ComPort_Initialize (void)
 
     return (TRUE);
 
-#elif WIN32
+#elif ARCH_WIN32
 
     HANDLE  handle;
     DCB     dcb;
@@ -172,7 +172,7 @@ int     Glasses_ComPort_Initialize (void)
 
 void    Glasses_ComPort_Close (void)
 {
-#ifdef WIN32
+#ifdef ARCH_WIN32
     if (Glasses.ComHandle == INVALID_HANDLE_VALUE)
         return;
     CloseHandle (Glasses.ComHandle);
@@ -182,7 +182,7 @@ void    Glasses_ComPort_Close (void)
 
 void    Glasses_ComPort_Write (int left_enable, int right_enable)
 {
-#ifdef DOS
+#ifdef ARCH_DOS
 
     int address = (Glasses.ComPort == 1) ? 0x3FC : 0x2FC;
     int data;
@@ -197,7 +197,7 @@ void    Glasses_ComPort_Write (int left_enable, int right_enable)
     outportb (address, data);
     asm volatile ("sti");
 
-#elif WIN32
+#elif ARCH_WIN32
 
     DCB dcb;
     if (Glasses.ComHandle == INVALID_HANDLE_VALUE)

@@ -107,10 +107,10 @@ bool	Frame_Skipper (void)
 
 		while (fskipper.Automatic_Frame_Elapsed == 0)
 		{
-			#ifdef UNIX
+			#ifdef ARCH_UNIX
 				// pause (); // Wait for an interrupt
 			#endif
-			//#ifdef WIN32
+			//#ifdef ARCH_WIN32
 			//rest(4);
 			//yield_timeslice();
 			rest(1);

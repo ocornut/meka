@@ -23,7 +23,7 @@ const char *  meka_strerror(void)
 	return (Msg_Get (MSG_Error_Error));
 }
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 static LPVOID   GetWindowsErrorMessage(void)
 {
 	LPVOID lpMsgBuf;

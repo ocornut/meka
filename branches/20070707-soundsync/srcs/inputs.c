@@ -139,7 +139,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             if (!sk1100_pressed && Inputs_KeyPressed (KEY_T, FALSE))
                 Tetris_Start ();
             // Nintendon't - now removed because it is too violent
-            #ifdef DOS
+            #ifdef ARCH_DOS
                 if (!sk1100_pressed && Inputs_KeyPressed (KEY_N, FALSE))     
                     Quit_Msg ("Nintendont.");
             #endif

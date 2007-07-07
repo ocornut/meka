@@ -13,7 +13,7 @@
 // Omar Hack 9/04/2001
 // Should be defined with default types, somewhere in MEKA includes..
 #ifndef INLINE
- #ifdef WIN32
+ #ifdef ARCH_WIN32
   #define INLINE __inline
  #else
   #define INLINE inline

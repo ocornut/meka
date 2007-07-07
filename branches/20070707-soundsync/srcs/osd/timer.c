@@ -30,10 +30,10 @@ s64     (*timer_func_get_cycles_current) (void) = NULL;
 //-----------------------------------------------------------------------------
 
 static s64  OSD_Timer_GetCyclesCurrent_RDTSC                (void);
-#ifdef DOS
+#ifdef ARCH_DOS
 static s64  OSD_Timer_GetCyclesCurrent_DOS_uclock           (void);
 #endif
-#ifdef WIN32
+#ifdef ARCH_WIN32
 static s64  OSD_Timer_GetCyclesCurrent_Win32_timeGetTime    (void);
 #endif
 
@@ -44,7 +44,7 @@ static s64  OSD_Timer_GetCyclesCurrent_Win32_timeGetTime    (void);
 //-----------------------------------------------------------------------------
 // OSD_Timer_Initialize (void)
 //-----------------------------------------------------------------------------
-#ifdef WIN32
+#ifdef ARCH_WIN32
 
 void        OSD_Timer_Initialize (void)
 {
@@ -87,7 +87,7 @@ void        OSD_Timer_Initialize (void)
     SetThreadPriority(GetCurrentThread(), thread_priority);
 }
 
-#elif DOS
+#elif ARCH_DOS
 
 void        OSD_Timer_Initialize (void)
 {
@@ -147,14 +147,14 @@ static s64  OSD_Timer_GetCyclesCurrent_RDTSC (void)
     return OSD_X86CPU_RDTSC();
 }
 
-#ifdef DOS
+#ifdef ARCH_DOS
 static s64  OSD_Timer_GetCyclesCurrent_DOS_uclock (void)
 {
     return uclock();
 }
 #endif
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 static s64  OSD_Timer_GetCyclesCurrent_Win32_timeGetTime (void)
 {
     return (s64)timeGetTime();

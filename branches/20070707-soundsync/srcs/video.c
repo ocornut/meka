@@ -22,7 +22,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-#ifdef DOS
+#ifdef ARCH_DOS
 extern int    _wait_for_vsync;
 #endif
 
@@ -98,7 +98,7 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     fs_page_1 = NULL;
     fs_page_2 = NULL;
 
-#ifdef DOS
+#ifdef ARCH_DOS
     // Set the Allegro vsync flag to that VGA scroll do not automatically vsync
     _wait_for_vsync = FALSE;
 #endif
@@ -172,7 +172,7 @@ void    Video_Setup_State (void)
     case MEKA_STATE_FULLSCREEN: // FullScreen mode ----------------------------
         {
             int driver;
-            //#ifdef WIN32
+            //#ifdef ARCH_WIN32
             //   driver = Blitters.current->driver_win;
             //#else
             driver = Blitters.current->driver;
@@ -189,7 +189,7 @@ void    Video_Setup_State (void)
                 if (Video_Mode_Change(
                         driver,
                         Blitters.current->res_x, Blitters.current->res_y,
-                    #ifdef WIN32
+                    #ifdef ARCH_WIN32
                         0, 0,
                     #else
                         0, Blitters.current->res_y * 2,
@@ -244,7 +244,7 @@ void    Video_Setup_State (void)
             {
                 if (Video_Mode_Change (driver,
                     Blitters.current->res_x, Blitters.current->res_y,
-#ifdef WIN32
+#ifdef ARCH_WIN32
                     0, 0,
 #else
                     0, Blitters.current->res_y * 2,
@@ -311,7 +311,7 @@ void    Video_Setup_State (void)
             {
             case GUI_FB_ACCESS_FLIPPED: //--------------------[ Two video pages ]---
                 {
-                    #ifdef WIN32
+                    #ifdef ARCH_WIN32
                     Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
                     #else
                     Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, g_Configuration.video_mode_gui_res_y * 2, g_Configuration.video_mode_gui_refresh_rate, TRUE);
@@ -344,7 +344,7 @@ void    Video_Setup_State (void)
         break;
     }
 
-    #ifndef DOS
+    #ifndef ARCH_DOS
         set_display_switch_callback (SWITCH_IN,  Switch_In_Callback);
         set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
     #endif
@@ -368,7 +368,7 @@ void    Refresh_Screen (void)
 {
     // acquire_bitmap(screen);
 
-//#ifdef WIN32
+//#ifdef ARCH_WIN32
 //    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
 //#else
 //    Msg (MSGT_DEBUG, "%016llx , %016llx", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
@@ -486,7 +486,7 @@ void    Refresh_Screen (void)
 		saSoundTimerCallback();
 
     // Update console (under WIN32)
-    // #ifdef WIN32
+    // #ifdef ARCH_WIN32
     //  ConsoleUpdate();
     // #endif
 
@@ -494,7 +494,7 @@ void    Refresh_Screen (void)
 }
 
 // SET BORDER COLOR IN VGA MODES ----------------------------------------------
-#ifdef DOS
+#ifdef ARCH_DOS
 void    Video_VGA_Set_Border_Color (u8 idx)
 {
     inp  (0x3DA);

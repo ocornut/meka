@@ -18,7 +18,7 @@
 //-----------------------------------------------------------------------------
 
 static void    Inputs_FixUp_JoypadOppositesDirections (void);
-#ifdef DOS
+#ifdef ARCH_DOS
 static void    Inputs_Update_VoiceRecognition (void);
 #endif
 
@@ -288,7 +288,7 @@ void        Inputs_Emulation_Update (bool running)
     }
 
     // Voice Recognition
-    #ifdef DOS
+    #ifdef ARCH_DOS
         Inputs_Update_VoiceRecognition ();
     #endif
 }
