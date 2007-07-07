@@ -18,6 +18,9 @@
 
 #include "shared.h"
 
+// FIXME-SOUND-SYNC
+int DEF_SOUND_BASE = 600;
+
 /*******************************************************************************************/
 /**** streams control (base:mame 0.34b6)                                                ****/
 /*******************************************************************************************/
@@ -210,10 +213,20 @@ int             stream_init (const char *name, int sample_rate, int sample_bits,
   Stream = &Streams[channel];
 
   strcpy (Stream->name, name);
+  // FIXME-SOUND-SYNC
+#if 1
+  if (g_Configuration.audio_sync_speed != 0) //// I just know someone is going to "enable" it with a 1...
+	  DEF_SOUND_BASE = g_Configuration.audio_sync_speed; 
+  // Buffer is sized for one 1/60th of sound
+  Stream->buffer_len = sample_rate * 10 / DEF_SOUND_BASE;
+  // Re-adjust sample rate to make it a multiple of buffer_len
+  sample_rate = Stream->buffer_len * DEF_SOUND_BASE / 10;
+#else
   // Buffer is sized for one 1/60th of sound
   Stream->buffer_len = sample_rate / DEF_SOUND_BASE;
   // Re-adjust sample rate to make it a multiple of buffer_len
   sample_rate = Stream->buffer_len * DEF_SOUND_BASE;
+#endif
 
   // FIXME: The * 2 is because this lameass code sometimes play after the buffer
   // due to timing problem. This isn't a fix but at least limit noises to gap.
@@ -488,14 +501,18 @@ int         saCheckPlayStream (void)
 
     pause_sound = FALSE;
 
-    // Get current Position
-    for (i = 0; i < NUMVOICES; i++)
-    {
-        Voice = &Sound.Voices[i];
-        if (!Voice->playing)
-            continue;
-        AGetVoicePosition (Voice->hVoice, &pos[i]);
-    }
+	// Is there a particular reason we do this here? -- [Djrobx]
+	if (g_Configuration.audio_sync_speed == 0)
+	{
+		// Get current Position
+		for (i = 0; i < NUMVOICES; i++)
+		{
+			Voice = &Sound.Voices[i];
+			if (!Voice->playing)
+				continue;
+			AGetVoicePosition (Voice->hVoice, &pos[i]);
+		}
+	}
 
     // Check update position
     for (i = 0; i < NUMVOICES; i++)
@@ -505,6 +522,7 @@ int         saCheckPlayStream (void)
             continue;
 
         // Checking if playback has gone too far
+		// Note: I NEVER get this error, even when I forcefully try to underrun the buffer. -- [Djrobx]
         if ((Voice->vchan - Voice->ventry) < 0)
         {
             vbunder_err++;
@@ -532,6 +550,20 @@ int         saCheckPlayStream (void)
                     (sound_freerun_count - Voice->vruncount) % stream_buffer_max,
                     rlens, rlene, (rlens - pos[i]) / len, (Voice->vchan - Voice->ventry) );
             #endif
+
+			if (g_Configuration.audio_sync_speed)
+			{
+				const time_t t = time(NULL)+3;
+				do
+				{
+					AGetVoicePosition(Voice->hVoice,&pos[i]);
+					if (time(NULL) > t)
+					{
+						//Msg(MSGT_USER, "Waited too long");
+						break;
+					} 
+				} while((int)pos[i] >= rlens && (int)pos[i] < rlene);
+			}
 
             if ((int)pos[i] < rlens || (int)pos[i] >= rlene)
             {
@@ -575,7 +607,7 @@ int         saCheckPlayStream (void)
 #if 1
                 vbover_err++;		/* error count */
                 #if 0
-                    Msg (MSGT_DEBUG, "ve:%08x, vc:%08x, verr:%08x", Voice->ventry, Voice->vchan, vbover_err);
+                    Msg (MSGT_DEBUG, "Overrun: ve:%08x, vc:%08x, verr:%08x", Voice->ventry, Voice->vchan, vbover_err);
                 #endif
                 if (vbover_err >= MODEB_ERROR_MAX)
                 {
@@ -829,25 +861,29 @@ void    saResetPlayChannels (void)
 /************************************/
 /*    sound timer callback          */
 /************************************/
+int		bSoundIsRunning = 0;	// FIXME-SOUND-SYNC
 void    saSoundTimerCallback (void)
 {
-  sound_slice++;
-  if (sound_stream_mode == SOUND_STREAM_WAIT)
-     {
-     // Note: DEF_SOUND_SLICE_BASE is currently defined as 1
-     if (sound_slice >= DEF_SOUND_SLICE_BASE)
-        {
-        sound_slice = 0;
-        //sound_icount = 0;		/* sound interval counter clear */
-        saUpdateSound (0);              /* check update stream buffer */
-        sound_freerun_count++;
-        saUpdateSound (60);
-        }
-     }
-  else
-     {
-     saUpdateSound (60);                /* default callback */
-     }
+	if (g_Configuration.audio_sync_speed != 0 && !bSoundIsRunning)
+		return; 
+
+	sound_slice++;
+	if (sound_stream_mode == SOUND_STREAM_WAIT)
+	{
+		// Note: DEF_SOUND_SLICE_BASE is currently defined as 1
+		if (sound_slice >= DEF_SOUND_SLICE_BASE)
+		{
+			sound_slice = 0;
+			//sound_icount = 0;		/* sound interval counter clear */
+			saUpdateSound (0);              /* check update stream buffer */
+			sound_freerun_count++;
+			saUpdateSound (60);
+		}
+	}
+	else
+	{
+		saUpdateSound (60);                /* default callback */
+	}
 }
 END_OF_FUNCTION (saSoundTimerCallback);
 
@@ -856,14 +892,21 @@ END_OF_FUNCTION (saSoundTimerCallback);
 /************************************/
 void    saInitSoundTimer (void)
 {
-  LOCK_VARIABLE (sound_icount);
-  LOCK_VARIABLE (sound_freerun_count);
-  LOCK_VARIABLE (sound_slice);
-  LOCK_FUNCTION (saSoundTimerCallback);
-  install_int_ex (saSoundTimerCallback, BPS_TO_TIMER(DEF_SOUND_SLICE_COUNT));
-  sound_freerun_count = 0;
-  sound_slice = 0;
-  sound_icount = 0;
+	if (g_Configuration.audio_sync_speed != 0)
+	{
+		bSoundIsRunning = 1;
+	}
+	else
+	{
+		LOCK_VARIABLE (sound_icount);
+		LOCK_VARIABLE (sound_freerun_count);
+		LOCK_VARIABLE (sound_slice);
+		LOCK_FUNCTION (saSoundTimerCallback);
+		install_int_ex (saSoundTimerCallback, BPS_TO_TIMER(DEF_SOUND_SLICE_COUNT));
+		sound_freerun_count = 0;
+		sound_slice = 0;
+		sound_icount = 0;
+	}
 }
 
 /************************************/
@@ -871,7 +914,10 @@ void    saInitSoundTimer (void)
 /************************************/
 void    saRemoveSoundTimer (void)
 {
-  remove_int (saSoundTimerCallback);
+	if (g_Configuration.audio_sync_speed)
+	{
+		remove_int (saSoundTimerCallback);
+	}
 }
 
 /*******************************************************************************************/

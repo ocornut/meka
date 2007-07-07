@@ -312,9 +312,12 @@ typedef struct
     int     video_mode_gui_refresh_rate;
     int     video_mode_gui_access_mode;         // Make obsolete
 
+	// Audio
+	int				audio_sync_speed;
+
 	// Capture
-	const char *		capture_filename_template;
-	bool				capture_automatic_crop_align;
+	const char *	capture_filename_template;
+	bool			capture_automatic_crop_align;
 
 
 } t_meka_configuration;

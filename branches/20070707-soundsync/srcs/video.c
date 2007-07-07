@@ -30,6 +30,8 @@ extern int    _wait_for_vsync;
 // Functions
 //-----------------------------------------------------------------------------
 
+extern void		saSoundTimerCallback();
+
 void    Video_Init (void)
 {
     // Allocate buffers
@@ -366,6 +368,9 @@ void    Refresh_Screen (void)
 {
     // acquire_bitmap(screen);
 
+	if (g_Configuration.audio_sync_speed != 0)
+		saSoundTimerCallback();
+
 //#ifdef WIN32
 //    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
 //#else
@@ -463,10 +468,20 @@ void    Refresh_Screen (void)
         #endif
     }
 
-    // Ask frame-skipper weither next frame should be drawn or not
-    fskipper.Show_Current_Frame = Frame_Skipper ();
-    //if (fskipper.Show_Current_Frame == FALSE)
-    //   Msg (MSGT_USER, "Skip frame!");
+	// We don't want to frameskip with the triple buffer/sound sync system. 
+	// It will cause us to see every other frame when timing gets a little off.
+	// FIXME-SOUND-SYNC
+	if (g_Configuration.audio_sync_speed != 0)
+	{
+		fskipper.Show_Current_Frame = TRUE;
+	}
+	else
+	{
+		// Ask frame-skipper weither next frame should be drawn or not
+		fskipper.Show_Current_Frame = Frame_Skipper ();
+		//if (fskipper.Show_Current_Frame == FALSE)
+		//   Msg (MSGT_USER, "Skip frame!");
+	}
 
     // Update console (under WIN32)
     // #ifdef WIN32

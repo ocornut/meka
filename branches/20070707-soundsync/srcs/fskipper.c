@@ -101,17 +101,23 @@ int     Frame_Skipper (void)
     {
         // Slow down to skip appropriate frames
         // FIXME: this takes 100% CPU and seems not to work well everywhere :(
-        while (fskipper.Automatic_Frame_Elapsed == 0)
-        {
-            #ifdef UNIX
-                // pause (); // Wait for an interrupt
-            #endif
-            //#ifdef WIN32
-              //rest(4);
-              //yield_timeslice();
-            rest(1);
-            //#endif
-        }
+
+		// Sync to audio + This routine = frozen Seal!
+		// FIXME-SOUND-SYNC: It is actually called with sound sync enabled?
+		if (g_Configuration.audio_sync_speed == 0)
+		{
+			while (fskipper.Automatic_Frame_Elapsed == 0)
+			{
+				#ifdef UNIX
+					// pause (); // Wait for an interrupt
+				#endif
+				//#ifdef WIN32
+				//rest(4);
+				//yield_timeslice();
+				rest(1);
+				//#endif
+			}
+		}
 
         // If retard is too high, force drawing a frame so it doesn't freeze
         // It is also good since huge delay (+1/4th second) will not be catched

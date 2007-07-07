@@ -118,10 +118,10 @@ const char      *stream_get_name (int channel);
 #define  VOL_PAN_MAX    (MAX_STREAM_CHANNELS)
 
 /**** new!! sound timer system ****/
-#define DEF_SOUND_BASE           (60) /* 1/60 sec */
+//#define DEF_SOUND_BASE           (60) /* 1/60 sec */
 //#define DEF_SOUND_SLICE_BASE   (300)
 #define DEF_SOUND_SLICE_BASE     (1)
-#define DEF_SOUND_SLICE_COUNT    (DEF_SOUND_BASE * DEF_SOUND_SLICE_BASE)
+#define DEF_SOUND_SLICE_COUNT    (DEF_SOUND_BASE * DEF_SOUND_SLICE_BASE / 10)
 
 /**** work ****/
 int     sound_freerun_count;

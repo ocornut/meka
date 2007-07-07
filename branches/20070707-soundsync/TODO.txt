@@ -66,9 +66,6 @@ the width of the scrollbar when scrolling up/down
 <cgfm2> would it be possible to allow the mouse cursor to stray to the left or
 right a little, and still move the bar?
 
-4.
-<cgfm2> add spaces between all commands in log (optional)
-
 Jacko:
 Well, I downloaded last copy 2005-11-20 yesterday and had a few problems!!
 For some strange reason The message window shows:
@@ -84,6 +81,10 @@ Also I was playing Shanghai before with the FM Chip enabled and the music slowed
 (like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 
 so it is hard to tell if it was my PC doing something or it was MEKA.
 
+0.73:
+- Sound Sync patch
+- Make default theme SmsPower!
+
 WIP 0.72:
  - Depth
    - Remove color conversion flag in main loop to avoid too many 
@@ -91,9 +92,6 @@ WIP 0.72:
  - Blitters (lots to do)
    - All blitters, redo, etc
    - Integer stretch
- - Themes:
-   - Convert all themes.
-   - Background pictures switch effect.
  - Sources:
    - Link warning regarding zlib?
    - Include Allegro install package somehow?
@@ -104,6 +102,8 @@ WIP 0.72:
 Game Recording:
 - Topic
   http://bisqwit.iki.fi/nesvideos/forum/viewtopic.php?t=3726
+  http://tasvideos.org/forum/viewtopic.php?t=5710
+  http://tasvideos.org/NewEmulatorConditions.html
 - VBM Format
   http://bisqwit.iki.fi/nesvideos/VBM.html
 - Desired Features Wiki

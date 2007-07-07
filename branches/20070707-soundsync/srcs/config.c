@@ -112,6 +112,8 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	 "video_game_triple_buffering",
 	 "video_game_page_flipping",
 
+	 "audio_sync_speed",
+
      NULL
      };
 
@@ -422,6 +424,11 @@ static void     Configuration_Load_Line (char *variable, char *value)
 		g_Configuration.video_mode_game_page_flipping = (bool)atoi(value);
 		break;
 
+	// audio_sync_speed
+	case 60:
+		g_Configuration.audio_sync_speed = atoi(value);
+		break;
+
     default:
         Quit_Msg("Error #4785");
         break;
@@ -525,7 +532,15 @@ void    Configuration_Save (void)
         CFG_Write_Line  ("frameskip_mode = auto");
     else
         CFG_Write_Line  ("frameskip_mode = normal");
-    CFG_Write_Int  ("frameskip_auto_speed", fskipper.Automatic_Speed);
+
+	CFG_Write_Line ("Synchronize the emulation speed using the sound output, to this frame rate, times ten.");
+	CFG_Write_Line ("For example, I use 598, or  59.8 fps.   If you are using VSync you want to set this just");
+	CFG_Write_Line ("below your monitor's refresh rate. Too high a value and your audio will break up.  Too");
+	CFG_Write_Line ("low and the video will judder slightly.   Using a triple buffering mode is highly recommended.");
+	CFG_Write_Line ("This option disables all other throttling and frameskipping.");
+	CFG_Write_Int  ("audio_sync_speed", g_Configuration.audio_sync_speed);
+
+	CFG_Write_Int  ("frameskip_auto_speed", fskipper.Automatic_Speed);
     CFG_Write_Int  ("frameskip_normal_speed", fskipper.Standard_Frameskip);
 	CFG_Write_Line ("");
 

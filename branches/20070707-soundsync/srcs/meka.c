@@ -179,6 +179,9 @@ void    Init_Default_Values (void)
     g_Configuration.video_mode_gui_access_mode		= GUI_FB_ACCESS_BUFFERED;
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
+	// Audio
+	g_Configuration.audio_sync_speed				= 0;
+
 	// Capture
 #ifdef DOS
 	g_Configuration.capture_filename_template	  = "%.5s-%02d.png"; // Short Filename
