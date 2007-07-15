@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2007/06/02
+; Last updated 2007/07/15
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -57,7 +57,7 @@
 
 SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
 SMS 887d9f6b 9EB1F06967AA8DBA   Ace of Aces/COUNTRY=EU/PRODUCT_NO=7054
-SMS d91b340d 2CCEA6A00321A4F8   Action Fighter [v1]/COUNTRY=JP,DE/PRODUCT_NO=G-1305,41008
+SMS d91b340d 2CCEA6A00321A4F8   Action Fighter [v1]/COUNTRY=JP,DE,IT/PRODUCT_NO=G-1305,41008,5055
 SMS 3658f3e0 2BCDA99F0321A4F8   Action Fighter [v2]/COUNTRY=US,EU,BR/PRODUCT_NO=5055
 SMS 72420f38 40698151916E7D09   Addams Family, The/COUNTRY=EU/PRODUCT_NO=MK-27067-50/EMU_TVTYPE=PAL
 SMS 1c951f8e 69AAC8EBB8D1F6BB   After Burner/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1340,9001
@@ -66,8 +66,8 @@ SMS c8718d40 836571585D162CB0   Aladdin (Disney's)/COUNTRY=EU,BR,AU/PRODUCT_NO=9
 SMS d8c4165b 7AF7BA94F1EB0263   Aleste/COUNTRY=JP/PRODUCT_NO=G-1352/COMMENT=Japanese version of "Power Strike".
 SMS 013c0a94 02B8FA4E6DCA25A2   Alex Kidd: High-Tech World/COUNTRY=US,EU,BR/PRODUCT_NO=5116,023020/COMMENT=Export version of "Anmitsu Hime".
 SMS c13896d5 FCA1E2B346E4B6EE   Alex Kidd: The Lost Stars/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1347,7005/COMMENT=English label has a typo, saying "Alex Kidd: The Lost Star".
-SMS 17a40e29 7D8119AF99740429   Alex Kidd in Miracle World [v0]/COUNTRY=US/PRODUCT_NO=5067/COMMENT=This is the first version released in USA.
-SMS aed9aac4 9E9ACFFA4B7344FD   Alex Kidd in Miracle World [v1]/COUNTRY=US,EU/PRODUCT_NO=5067/COMMENT=This version was released in both Europe and USA.
+SMS 17a40e29 7D8119AF99740429   Alex Kidd in Miracle World [v0]/COUNTRY=US,IT/PRODUCT_NO=5067
+SMS aed9aac4 9E9ACFFA4B7344FD   Alex Kidd in Miracle World [v1]/COUNTRY=US,EU/PRODUCT_NO=5067
 SMS 08c9ec91 8F4496EF846F02B3   Alex Kidd no Miracle World/COUNTRY=JP/PRODUCT_NO=G-1306
 SMS d2417ed7 7ACEE06A678FF583   Alex Kidd in Shinobi World/COUNTRY=US,EU,BR/PRODUCT_NO=7044
 SMS 82038ad4 8C8CBA6269074D0F   Alf/COUNTRY=US,BR/PRODUCT_NO=5111
@@ -161,7 +161,7 @@ SMS b9664ae1 914DC1AEAC3729A7   Fantastic Dizzy/COUNTRY=EU/EMU_MAPPER=3/EMU_TVTY
 SMS c888222b 42A62B8FE6E5DCB7   Fantastic Dizzy [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/EMU_MAPPER=3/EMU_TVTYPE=PAL
 SMS 0ffbcaa3 4EC2794265F92BAC   Fantasy Zone [v0]/COUNTRY=JP/PRODUCT_NO=G-1301
 SMS f46264fe 773B84D6E509778F   Fantasy Zone [v1] [Proto]/FLAGS=PROTO/COMMENT=ROM found in a prototype cartridge, but it might have been used in production cartridges.
-SMS 65d7e4e0 6D3986E0E6097F86   Fantasy Zone [v2]/COUNTRY=JP,US,EU,DE/PRODUCT_NO=G-1301,5052,41002
+SMS 65d7e4e0 6D3986E0E6097F86   Fantasy Zone [v2]/COUNTRY=JP,US,EU,DE,IT/PRODUCT_NO=G-1301,5052,41002
 SMS d29889ad 732FC6FC6BDC0A4B   Fantasy Zone: The Maze/COUNTRY=US,EU,BR/PRODUCT_NO=5108/COMMENT=Export version of "Opa Opa".
 SMS bf6c2e37 5C434F34BA4434AC   Férias Frustradas do Pica Pau/COUNTRY=BR/PRODUCT_NO=028660
 SMS 9bb3b5f9 78A312E98554F41D   FIFA International Soccer/COUNTRY=BR/PRODUCT_NO=028670/COMMENT=This is a port from the Game Gear version.
@@ -247,6 +247,8 @@ SMS 302dc686 BC55ADDD0F5CF901   Mortal Kombat/COUNTRY=EU,BR/PRODUCT_NO=MK-29021-
 SMS 2663bf18 C71D87669810186F   Mortal Kombat II/COUNTRY=EU,BR/PRODUCT_NO=MK-29029-50,028530
 SMS 395ae757 6E91621C296C02EC   Mortal Kombat 3/COUNTRY=BR/PRODUCT_NO=028730/COMMENT=This is a port from the Game Gear version.
 SMS 62f0c23d ED4ACAF1CF794680   My Hero/NAME_BR=Gang's Fighter/COUNTRY=US,EU,BR,PT,DE/PRODUCT_NO=4001,4501,021030,41004/COMMENT=Export version of "Seishun Scandal".
+SMS 320313ec 690DDE10E39C7CA1   Ninja, The/COUNTRY=JP/PRODUCT_NO=G-1308
+SMS 66a15bd9 6E674174DCF99F02   Ninja, The/NAME_IT=I Ninja/COUNTRY=US,EU,IT/PRODUCT_NO=5066
 SMS 1b1d8cc2 9E56B510032E6FA7   Ninja Gaiden/COUNTRY=EU,BR/PRODUCT_NO=7101
 SMS 761e9396 762C4C122E81DD74   Ninja Gaiden [Proto]/FLAGS=PROTO/COUNTRY=EU,BR/COMMENT=Prototype version of the game.
 SMS 6a5a1e39 A6491A91F74F0A16   Olympic Gold/COUNTRY=EU,UK,AU,SP,FR,DE/PRODUCT_NO=MK-27030-50,MK-27030-05,MK-27030-06,MK-27030-09,MK-27030-18
@@ -324,7 +326,6 @@ SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
 SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMENT=This game optionnally support the Paddle Control.
 SMS e0b1aff8 55607A442D170643   Super Smash T.V./COUNTRY=EU/PRODUCT_NO=27044-50/COMMENT=Official game material mentions "Super Smash T.V.", but the game shows a "Smash T.V." title screen.
 SMS 914514e3 F799F9C458560EF7   Super Tennis/COUNTRY=US,EU,DE/PRODUCT_NO=4007,4507,41010
-SMS e2fcb6f3 A9F764062AFED3FB   Super Wonder Boy/COUNTRY=JP/PRODUCT_NO=G-1316/COMMENT=Japanese version of "Wonder Boy".
 SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
 SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
 SMS 7bb81e3d 508B3E02BE909106   Taito Chase H.Q. [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=JP/PRODUCT_NO=T-11017
@@ -355,7 +356,8 @@ SMS a20290b6 B24204297A3B42E8   Winter Olympics/COUNTRY=EU,FR,DE/PRODUCT_NO=2901
 SMS 2fec2b4a F624C8EE78DBDD00   Winter Olympics/COUNTRY=BR/PRODUCT_NO=028350
 SMS 428b1e7c 3086E74963CE9E4B   Where in the World is Carmen Sandiego?/COUNTRY=US/PRODUCT_NO=4350
 SMS 88aa8ca6 EFC7A06831BB0650   Where in the World is Carmen Sandiego?/COUNTRY=BR/PRODUCT_NO=023450
-SMS 73705c02 AFB122C8D3EE7A7B   Wonder Boy/COUNTRY=US,EU,BR/PRODUCT_NO=5068/COMMENT=Export version of "Super Wonder Boy".
+SMS e2fcb6f3 A9F764062AFED3FB   Wonder Boy [v0]/NAME_JP=Super Wonder Boy/COUNTRY=JP,IT/PRODUCT_NO=G-1316,5068
+SMS 73705c02 AFB122C8D3EE7A7B   Wonder Boy [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=5068/COMMENT=Export version of "Super Wonder Boy".
 SMS 8cbef0c1 522ECFED1D0DF8A2   Wonder Boy in Monster Land/COUNTRY=US,EU/PRODUCT_NO=7007/COMMENT=Early production batch of the US version was labelled "Super Wonder Boy Super Monster Land" on the cartridge, but kept showing the "Wonder Boy in Monster Land" title screen.
 SMS 679e1676 9C7847B5CB3F875F   Wonder Boy III: The Dragon's Trap/NAME_JP=Monster World II/COUNTRY=US,EU/PRODUCT_NO=7026
 SMS 315917d4 96069693DD5753B4   Woody Pop - Shinjinrui no Block Kuzushi/COUNTRY=JP/PRODUCT_NO=C-519/EMU_COUNTRY=1/EMU_INPUTS=PADDLE
@@ -401,6 +403,7 @@ SMS c5083000 9F54DCE0F03F170B   Hang On \/ Safari Hunt/COUNTRY=US,KR/FLAGS=BAD/E
 SMS fef68275 0C38C7A1580A24CE   James Pond II - Codename: Robocod/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 68108314 261F3B6965EAC701   Kujakuou/FLAGS=BAD/COUNTRY=JP/COMMENT=1 bad byte.
 SMS fac09af4 BDDCD79E4A141381   Mônica no Castelo do Dragão/FLAGS=BAD/COUNTRY=BR/COMMENT=Hacked version of Wonder Boy in Monster Land by Tec Toy. 58 bad bytes.
+SMS 9fb7d63b 690DDE11E39C7CA0   Ninja, The/FLAGS=BAD/COMMENT=1 bad byte.
 SMS cb42bd33 C95F6AD329B98B2E   WWF Wrestlemania Steel Cage Challenge [SMS-GG]/FLAGS=BAD,SMSGG_MODE/COUNTRY=EU/COMMENT=First 64 Kb from the correct ROM.
 
 ; Hacks
@@ -532,6 +535,7 @@ GG  056cae74 07EAA1CEF2F8BBFB   Hyper Chou Pro Yakyuu '92/COUNTRY=JP/PRODUCT_NO=
 GG  9f64c2bb 69824C1FDBCFC040   Ichidant~R GG (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G-3359/COMMENT=Proper Japanese transcription is "Ichidanto A~Ru GG". "Ichidant~R" is official romanization of the Arcade version. Note the different position of the tilde. Title screen shows "PUZZLLE & ACTION" with 2 L.
 GG  b875226b 4991B2A2AE8AB8E2   Indiana Jones and the Last Crusade/COUNTRY=US,EU/PRODUCT_NO=79028-50
 GG  dab0f265 67E30F160D0B7FFA   In the Wake of Vampire/COUNTRY=JP/PRODUCT_NO=T-44047/COMMENT=Japanese version of "Vampire - Master of Darkness".
+GG  44e7e2da C919CCEF16A7376F   Itchy & Scratchy Game, The/COUNTRY=US,EU/PRODUCT_NO=T-81218-50
 GG  9fb5c155 50DEECE6BA2DD940   James Pond II - Codename: Robocod/COUNTRY=US,EU             ; missing product_no
 GG  68bb7f71 32FF34928F7D6B92   James Pond 3 - Operation Starfi5h/COUNTRY=EU/PRODUCT_NO=79158-50/EMU_IPERIOD=227/COMMENT=Packaging and in-game screens are inconsistents about the exact name spelling. Packaging, manual and cartridges all says "Operation Starfi5h". In-game screens says "James Pond 3 - Operation Starfish".
 GG  2e01ba6c 79B3C73C524481BA   Joe Montana Football/COUNTRY=US,EU/PRODUCT_NO=2403
@@ -901,9 +905,6 @@ BC18F17F4F471214,T2 - The Arcade Game,ID=27061-50
 155B04B46BAEE2DD,Tecmo World Cup '93 [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game. Title screen says "Tecmo World Cup '92".
 798ED2D04A190EE6,Terminator 2 - Judgment Day,ID=27052-50
 C69000F39D02997F,Time Soldiers
-6E674174DCF99F02,The Ninja,ID=5066,VER=Export
-690DDE10E39C7CA1,The Ninja,ID=G-1308,VER=Japanese
-690DDE11E39C7CA0,The Ninja,ID=G-1308,VER=Japanese,COMMENT=This dump will work but has a byte wrong. You might want to get the good dump.
 368FE6B9C92FC4E0,The Pro Yakyuu Pennant Race,VER=Japanese,ID=G-1323
 A896A3A30327D280,Toto World 3,ID=DS-G301,VER=Korean
 8C3364BCB756F81C,Trivial Pursuit - Genus Edition
@@ -1105,7 +1106,6 @@ D0C9FEBE08434B15,House of Tarot,JAPNAME=Tarot no Yakata,ID=G-3208,VER=Japanese
 F1E3947961D3D813,Incredible Crash Dummies\, The,ID=T-81127,VER=English
 C11C2B5FAA24A02B,Incredible Hulk\, The,VER=English
 50513CEA88DD577D,Iron Man X-O Manowar,VER=English
-C919CCEF16A7376F,Itchy & Scratchy,VER=English
 499877BC81C4D4D3,James Bond 007: The Duel,VER=English
 4BB99C103FA92B3D,Jeopardy!,VER=English
 2C18F1F2231B2E6D,Jeopardy! - Sports Edition,VER=English

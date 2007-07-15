@@ -19,8 +19,10 @@ They are usually of 2 kinds:
       or Homebrew images. [Omar]
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
-          SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany)
+          SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)
           SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
+          SMS - e2fcb6f3 - Super Wonder Boy (JP)                --> Wonder Boy [v0] (also released in Italia)
+          SMS - 73705c02 - Wonder Boy                           --> Wonder Boy [v1]
           GG  - ffe4ed47 - Alien Syndrome                       --> Alien Syndrome (JP)
           GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
           GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness

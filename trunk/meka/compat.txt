@@ -264,6 +264,8 @@
  My Hero                                        -       Ok
  Nekyuu Kousien (JP)                            FM      Ok
  NewZealand Story, The                          -       Ok
+ Ninja, The                                     -       Ok
+ Ninja, The (JP)                                -       Ok
  Ninja Gaiden                                   -       Ok
  Ninja Gaiden [Proto]                           -       Ok
  Olympic Gold                                  *-       Ok
@@ -392,7 +394,6 @@
  Super Space Invaders                           -       Ok
  Super Tennis                                   -       Ok
  Super Tetris (KR)                              -       Ok
- Super Wonder Boy (JP)                          -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
  T2 - The Arcade Game                           -       Ok
  Taito Chase H.Q.                               -       Ok
@@ -409,8 +410,6 @@
  Terminator, The                                -       Ok
  Terminator, The (BR)                           -       Ok
  Terminator 2 - Judgment Day                    -       Ok
- The Ninja                                      -       Ok
- The Ninja (JP)                                 -       Ok
  The Pro Yakyuu Pennant Race (JP)               -       Ok
  The Three Dragon Story (KR)                    -       Ok
  Thunder Blade                                  FM      Ok
@@ -438,7 +437,8 @@
  Winter Olympics                                -       Ok
  Winter Olympics (BR)                           -       Ok
  Wolfchild                                      -       Ok
- Wonder Boy                                     -       Ok
+ Wonder Boy [v0]                                -       Ok
+ Wonder Boy [v1]                                -       Ok
  Wonder Boy III: The Dragon's Trap              FM/J    Ok
  Wonder Boy in Monster Land                     FM      Ok
  Wonder Boy in Monster World                    -       Ok
@@ -793,7 +793,7 @@
  Indiana Jones and the Last Crusade                *Ok
  In the Wake of Vampire (JP)                        Ok
  Iron Man X-O Manowar in Heavy Metal                Ok
- Itchy & Scratchy                                   Ok
+ Itchy & Scratchy Game, The                         Ok
  James Bond 007: The Duel                           Ok
  James Pond II - Codename: Robocod                  Ok
  Jang Pung II [SMS-GG] (KR)                         Ok
