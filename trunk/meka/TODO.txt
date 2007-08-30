@@ -31,7 +31,13 @@
 THE YET UNSORTED MESS (this is my notepad basically)
 -----------------------------------------------------------------------------
 
+Reformulate "Automatically crop and align screen captures" because it may looks
+cool and be activated by users.
+
+Inputs Config: right-click goes back
+
 SMS screenshots always 256x192, not 248x192?
+
 
 http://www.smspower.org/forums/viewtopic.php?t=9478
 Now I have a question. In some Master System games (made at 1993 to be exact) such as 

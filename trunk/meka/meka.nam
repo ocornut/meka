@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2007/07/15
+; Last updated 2007/07/29
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -178,6 +178,7 @@ SMS 1ddc3059 DC6545FFFA415CE4   Ghostbusters/COUNTRY=US,EU/PRODUCT_NO=5065
 SMS c0f3ce7e 827C30E5ED689206   Ghost House/COUNTRY=JP/PRODUCT_NO=C-512
 SMS f1f8ff2d 102C54291BD04715   Ghost House/COUNTRY=US,EU,BR/PRODUCT_NO=4002,4502
 SMS c3e7c1ed 1C5A4BE99B9035F6   Ghost House [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS 8b40f6bf 8CE87C3FDC15F4EC   Gaegujangi Ggachi/COUNTRY=KR/PRODUCT_NO=GB-4001
 SMS b746a6f5 A9CF4BEC1F7EF8BC   Global Defense/COUNTRY=US,EU/PRODUCT_NO=5102/COMMENT=Export version of "SDI".
 SMS 91a0fc4e CB2CDBCADF1A610A   Global Defense [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS b67ceb76 DA2CA2C86604B076   Global Gladiators/COUNTRY=EU,BR/PRODUCT_NO=MK-27062-50,027090

@@ -152,6 +152,7 @@
  Flintstones, The                               -       Ok
  Forgotten Worlds                               -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
+ Gaegujangi Ggachi (KR)                         -       Ok
  Gain Ground                                    -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
  Galaxy Force                                   FM      Ok
@@ -467,7 +468,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 449 games tested - 447 are "Ok" - Compatibility rate: 99.54%
+ 450 games tested - 448 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -729,7 +730,7 @@
  Dynamite Headdy (JP)                               Ok
  Earthworm Jim                                      Ok
  Ecco the Dolphin                                   Ok
- Ecco the Dolphin (JP)                             *Ok
+ Ecco the Dolphin (JP)                              Ok
  Ecco - The Tides of Time                           Ok
  Ecco - The Tides of Time / Ecco the Dolphin II (JP)Ok
  Ernie Els Golf                                     Ok
@@ -748,7 +749,7 @@
  FIFA Soccer 96                                     Ok
  Foreman for Real                                   Ok
  Frank Thomas Big Hurt Baseball                     Ok
- Fray ~Shugyou hen~ (JP)                           *Ok
+ Fray ~Shugyou hen~ (JP)                            Ok
  Fred Couples Golf                                  Ok
  Fred Couples Golf (JP)                             Ok
  Frogger [Proto]                                    Ok
