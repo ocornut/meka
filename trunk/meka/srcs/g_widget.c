@@ -172,6 +172,7 @@ t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
     w->mouse_buttons            = 0;
     w->mouse_buttons_previous   = 0;
     w->mouse_buttons_mask       = 0x00;
+	w->mouse_buttons_activation = 0;
     w->dirty                    = TRUE;
     w->redraw                   = NULL;
     w->update                   = NULL;
@@ -348,15 +349,18 @@ void        widget_button_update(t_widget *w)
     // Check if we need to fire the callback
     clicked = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask));
 
-    // Update mouse buttons
-    //w->mouse_buttons_previous = w->mouse_buttons;
-    w->mouse_buttons = 0;
+	// Update mouse buttons
+	// w->mouse_buttons_previous = w->mouse_buttons;
+	w->mouse_buttons_activation = w->mouse_buttons;
+	w->mouse_buttons = 0;
 
-    // Fire the callback. Note that it is done AFTER updating the mouse buttons, this
+	// Fire the callback. Note that it is done AFTER updating the mouse buttons, this
     // is to avoid recursive calls if the callback ask for a GUI update (something
     // which the file browser does when clicking on "Load Names").
     if (clicked)
-        wd->callback (w);
+	{
+        wd->callback(w);
+	}
 }
 
 void        widget_button_redraw(t_widget *w)
@@ -908,6 +912,7 @@ void        widget_inputbox_update(t_widget *w)
 
     // Mouse click set position
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
+	{
         if ((w->mouse_buttons & w->mouse_buttons_mask) && (w->mouse_buttons_previous == 0) && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
         {
             //const int mx = w->mouse_x -= (2 + 3); 
@@ -931,6 +936,7 @@ void        widget_inputbox_update(t_widget *w)
                 widget_inputbox_set_cursor_pos (w, i);
             }
         }
+	}
 
     // Check for printable input keys
     keypress_queue = Inputs.KeyPressedQueue;

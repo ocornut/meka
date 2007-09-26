@@ -13,44 +13,45 @@
 // FIXME: move to libmy
 void    killext (char *org)
 {
- char  *p = strrchr (org, '.');
- if (p != NULL) *p = EOSTR;
+	char *p = strrchr (org, '.');
+	if (p != NULL) 
+		*p = EOSTR;
 }
 
 // KEEP EXTENSION FROM A FILENAME ---------------------------------------------
 // FIXME: move to libmy
 void    keepext (char *org)
 {
- char   s [FILENAME_LEN];
- char  *p = strrchr (org, '.');
+	char s [FILENAME_LEN];
+	char *p = strrchr (org, '.');
 
- if (p == NULL) return;
- strcpy (s, p + 1);
- strcpy (org, s);
+	if (p == NULL) 
+		return;
+	strcpy (s, p + 1);
+	strcpy (org, s);
 }
 
 // KILL PATH FROM A FILENAME --------------------------------------------------
 // FIXME: move to libmy
 void    killpath (char *org)
 {
- char   *p;
- char   str1 [FILENAME_LEN];
+	char   *p;
+	char   str1 [FILENAME_LEN];
 
- if ((p = strrchr (org, '/')))
-    {
-    p ++;
-    strcpy (str1, p);
-    strcpy (org, str1);
-    }
+	if ((p = strrchr (org, '/')))
+	{
+		p ++;
+		strcpy (str1, p);
+		strcpy (org, str1);
+	}
 #ifndef UNIX
- else
- if ((p = strrchr (org, '\\')))
-    {
-    p ++;
-    strcpy (str1, p);
-    strcpy (org, str1);
-    }
- #endif
+	else if ((p = strrchr (org, '\\')))
+	{
+		p ++;
+		strcpy (str1, p);
+		strcpy (org, str1);
+	}
+#endif
 }
 
 // Extract filename from 'src' and copy it to location 'dst'

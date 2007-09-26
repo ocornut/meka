@@ -74,6 +74,7 @@ struct t_widget
     int                     mouse_buttons;
     int                     mouse_buttons_previous;
     int                     mouse_buttons_mask;
+	int                     mouse_buttons_activation;
     t_widget_mouse_action   mouse_action;
 
     // Handlers

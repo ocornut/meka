@@ -87,7 +87,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
         frame.pos.y = 10-Font_Height(F_MIDDLE)/2;
         frame.size.x = INPUTS_CFG_FRAME_X - 5;
         frame.size.y = Font_Height(F_MIDDLE);
-        widget_button_add(app->box, &frame, 1, Inputs_CFG_Current_Source_Change, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &frame, 1|2, Inputs_CFG_Current_Source_Change, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
         // Input map change button
         frame.pos.x = 170 /* + (INPUTS_CFG_FRAME_X / 2)*/;
@@ -231,7 +231,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     // Do the actual display
     {
         char buf[128];
-        sprintf(buf, "%d/%d: %s >>", Inputs_CFG.Current_Source+1, Inputs.Sources_Max, input_src->name);
+        sprintf(buf, "%d/%d: %s >>", app->Current_Source+1, Inputs.Sources_Max, input_src->name);
         gui_rect_titled (bmp, buf, F_MIDDLE, LOOK_THIN,
             x, y, x + frame_x, y + frame_y,
             COLOR_SKIN_WIDGET_GENERIC_BORDER, COLOR_SKIN_WINDOW_BACKGROUND, /*COLOR_SKIN_WINDOW_TEXT*/COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT);
@@ -272,31 +272,45 @@ void    Inputs_CFG_Current_Source_Draw (void)
     y += 7;
 
     // Emulate Digital
-    widget_checkbox_redraw (Inputs_CFG.CheckBox_Emulate_Digital);
+    widget_checkbox_redraw (app->CheckBox_Emulate_Digital);
     Font_Print (-1, bmp, Msg_Get(MSG_Inputs_Config_Source_Emulate_Joypad), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
     y += font_height + GUI_LOOK_LINES_SPACING_Y;
 }
 
 void    Inputs_CFG_Current_Source_Change (t_widget *w)
 {
-    Inputs_CFG.Current_Source = (Inputs_CFG.Current_Source + 1) % Inputs.Sources_Max;
+	t_app_inputs_config *app = &Inputs_CFG;   // Global instance
+
+	if (w->mouse_buttons_activation & 1)
+	{
+		app->Current_Source++;
+		if (app->Current_Source == Inputs.Sources_Max)
+			app->Current_Source = 0;
+	}
+	else if (w->mouse_buttons_activation & 2)
+	{
+		if (app->Current_Source == 0)
+			app->Current_Source = Inputs.Sources_Max;
+		app->Current_Source--;
+	}
+
     Inputs_CFG_Current_Source_Draw ();
-    widget_checkbox_set_pvalue (Inputs_CFG.CheckBox_Enabled, &Inputs.Sources [Inputs_CFG.Current_Source]->enabled);
-    widget_checkbox_redraw (Inputs_CFG.CheckBox_Enabled);
-    if (Inputs_CFG.Current_Map != -1)
+    widget_checkbox_set_pvalue (app->CheckBox_Enabled, &Inputs.Sources [app->Current_Source]->enabled);
+    widget_checkbox_redraw (app->CheckBox_Enabled);
+    if (app->Current_Map != -1)
         Inputs_CFG_Map_Change_End (); // a bit crap...
 
     {
-        t_input_src *input_src = Inputs.Sources [Inputs_CFG.Current_Source];
+        t_input_src *input_src = Inputs.Sources [app->Current_Source];
         if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
         {
-            Inputs_CFG.CheckBox_Emulate_Digital_Value = (input_src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) ? TRUE : FALSE;
-            widget_enable (Inputs_CFG.CheckBox_Emulate_Digital);
-            widget_checkbox_redraw (Inputs_CFG.CheckBox_Emulate_Digital);
+            app->CheckBox_Emulate_Digital_Value = (input_src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) ? TRUE : FALSE;
+            widget_enable (app->CheckBox_Emulate_Digital);
+            widget_checkbox_redraw (app->CheckBox_Emulate_Digital);
         }
         else
         {
-            widget_disable (Inputs_CFG.CheckBox_Emulate_Digital);
+            widget_disable (app->CheckBox_Emulate_Digital);
         }
     }
 }
@@ -379,10 +393,12 @@ void    Inputs_CFG_Peripheral_Change (int Player, int Periph)
 
 void    Inputs_CFG_Map_Change_Handler (t_widget *w)
 {
-    int            MapIdx = (w->mouse_y * 8) / w->frame.size.y;
-    t_input_src *  input_src = Inputs.Sources [Inputs_CFG.Current_Source];
+	t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
-    if (Inputs_CFG.Current_Map != -1)
+	int            MapIdx = (w->mouse_y * 8) / w->frame.size.y;
+    t_input_src *  input_src = Inputs.Sources [app->Current_Source];
+
+    if (app->Current_Map != -1)
         return;
 
     // Note: eating mouse press FIXME
@@ -421,11 +437,11 @@ void    Inputs_CFG_Map_Change_Handler (t_widget *w)
     Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_WAIT);
 
     // Be sure nothing is kept highlighted
-    if (Inputs_CFG.Current_Map != -1)
-        Inputs_CFG_Current_Source_Draw_Map (Inputs_CFG.Current_Map, COLOR_SKIN_WINDOW_TEXT);
+    if (app->Current_Map != -1)
+        Inputs_CFG_Current_Source_Draw_Map (app->Current_Map, COLOR_SKIN_WINDOW_TEXT);
 
     // Set current map, for the updater
-    Inputs_CFG.Current_Map = MapIdx;
+    app->Current_Map = MapIdx;
     Inputs_CFG_Current_Source_Draw_Map (MapIdx, COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT);
 }
 

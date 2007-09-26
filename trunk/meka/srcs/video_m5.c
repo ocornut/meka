@@ -208,7 +208,7 @@ void    VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_hos
         }
     default:
         assert(0);
-        Msg(MSGT_USER, "TileViewer: unsupported color depth!");
+        Msg(MSGT_USER, "TileViewer: unsupported color depth: %d bpp.", dst->vtable->color_depth);
         break;
     }
 

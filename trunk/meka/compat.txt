@@ -136,8 +136,8 @@
  F-16 Fighting Falcon (US)                      -       Ok
  F-16 Fighting Falcon (JP)                      -       Ok
  Fantastic Dizzy                                -       Minor graphic bug when pausing.
- Fantasy Zone [v0] (JP)                         -      *Ok
- Fantasy Zone [v1] [Proto]                      -      *Ok
+ Fantasy Zone [v0] (JP)                         -       Ok
+ Fantasy Zone [v1] [Proto]                      -       Ok
  Fantasy Zone [v2]                              -       Ok
  Fantasy Zone II                                FM      Ok
  Fantasy Zone II (JP)                           FM      Ok
@@ -381,7 +381,7 @@
  Submarine Attack                               -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   -       Ok
- Summer Games [Proto]                          *-       Ok
+ Summer Games [Proto]                           -       Ok
  Super Basketball [Demo]                        -       Ok
  Super Boy II (KR)                              -       Ok
  Superman - The Man of Steel                    -       Ok
