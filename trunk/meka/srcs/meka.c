@@ -154,8 +154,8 @@ void    Init_Default_Values (void)
     g_Configuration.fullscreen_after_load         = FALSE;
 
     // Applet: Debugger
-    g_Configuration.debugger_console_lines        = 22;
-    g_Configuration.debugger_disassembly_lines    = 14;
+    g_Configuration.debugger_console_lines        = 24;
+    g_Configuration.debugger_disassembly_lines    = 15;
     g_Configuration.debugger_disassembly_display_labels = TRUE;
     g_Configuration.debugger_log_enabled          = TRUE;
 
