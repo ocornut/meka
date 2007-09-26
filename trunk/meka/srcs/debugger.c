@@ -531,6 +531,9 @@ void        Debugger_MachineReset(void)
 //-----------------------------------------------------------------------------
 void        Debugger_MediaReload(void)
 {
+	if (!Debugger.enabled)
+		return;
+
     // Reload symbols
     Debugger_Symbols_Load();
 }
@@ -1071,7 +1074,7 @@ int      Debugger_Bus_Read(int bus, int addr)
 
 void     Debugger_Symbols_Load(void)
 {
-    char        symbol_filename[FILENAME_MAX];
+    char        symbol_filename[FILENAME_LEN];
     t_tfile *   symbol_file;
     t_list *    lines;
     int         line_cnt;
@@ -1093,7 +1096,7 @@ void     Debugger_Symbols_Load(void)
             Msg(MSGT_USER, meka_strerror());
 
         // 2. Try "image.ext.sym"
-        snprintf(symbol_filename, FILENAME_MAX, "%s.sym", g_Env.Paths.MediaImageFile);
+        snprintf(symbol_filename, FILENAME_LEN, "%s.sym", g_Env.Paths.MediaImageFile);
         symbol_file = tfile_read(symbol_filename);
         if (symbol_file == NULL)
         {
@@ -1164,7 +1167,7 @@ void     Debugger_Symbols_Load(void)
 void    Debugger_Symbols_Clear(void)
 {
     t_list *symbols;
-    for (symbols = Debugger.symbols; symbols!= NULL; )
+    for (symbols = Debugger.symbols; symbols != NULL; )
     {
         t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
         symbols = symbols->next;

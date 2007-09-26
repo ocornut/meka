@@ -14,6 +14,9 @@ They are usually of 2 kinds:
  MEKA 0.73 WIP xxxxxxxx
  ----------------------
   - Updated Dutch localization [Mark van Tilburg]
+  - Debugger:
+    - Increased default height of the debugger. [Omar]
+    - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
   - GUI:
     - File browser: country flag now displayed even on BIOS, Prototypes
       or Homebrew images. [Omar]
