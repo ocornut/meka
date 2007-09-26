@@ -181,11 +181,12 @@ void    Init_Default_Values (void)
 
 	// Capture
 #ifdef DOS
-	g_Configuration.capture_filename_template	  = "%.5s-%02d.png"; // Short Filename
+	g_Configuration.capture_filename_template		= "%.5s-%02d.png"; // Short Filename
 #else
-	g_Configuration.capture_filename_template	  = "%s-%02d.png";   // Long Filename (ala SMS Power)
+	g_Configuration.capture_filename_template		= "%s-%02d.png";   // Long Filename (ala SMS Power)
 #endif
-	g_Configuration.capture_automatic_crop_align  = FALSE;
+	g_Configuration.capture_crop_scrolling_column	= TRUE;
+	g_Configuration.capture_crop_align_8x8			= FALSE;
 
     // Media
     // FIXME: yet not fully used

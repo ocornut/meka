@@ -314,7 +314,8 @@ typedef struct
 
 	// Capture
 	const char *		capture_filename_template;
-	bool				capture_automatic_crop_align;
+	bool				capture_crop_scrolling_column;
+	bool				capture_crop_align_8x8;
 
 
 } t_meka_configuration;

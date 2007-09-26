@@ -10,6 +10,8 @@
 ; History
 ;-----------------------------------------------------------------------------
 ; MEKA 0.73  : Update language:  Dutch
+;              Updated:          Msg_Options_Capture_Crop_Align
+;              Renamed:          Msg_Options_Capture_Automatic_Crop_Align -> Msg_Options_Capture_Crop_Align
 ; MEKA 0.72  : Added:            Msg_Inputs_Config_Peripheral_Click     
 ;                                Msg_Inputs_Config_Source_Enabled       
 ;                                Msg_Inputs_Config_Source_Player        
@@ -589,7 +591,7 @@ Msg_Options_Load_Close                  = "Close file browser after loading a ga
 Msg_Options_Load_FullScreen             = "Switch to fullscreen mode after loading a game."
 Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wait for VSync in interface mode."
-Msg_Options_Capture_Automatic_Crop_Align= "Automatically crop and align screen captures."
+Msg_Options_Capture_Crop_Align          = "Crop and align screen captures to 8x8 boundaries."
 Msg_Options_NES_Enable                  = "Mario is not a fat plumber."
 
 ; Languages / Localization ---------------------------------------------------
@@ -1687,7 +1689,7 @@ Msg_Menu_Help_Changes                   = "Changes List"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Dutch]
-;WIP
+WIP
 ; Dutch text door Mark van Tilburg
 ; Beheerder: Mark van Tilburg (markvt _@_ van-tilburg . info)
 ; Laatst bijgewerkt 07-07-2007
@@ -2065,7 +2067,7 @@ Msg_Options_Load_FullScreen             = "Schakel over naar fullscreen na een s
 ;Msg_Options_VFN_Support                 = "Laat lange bestandsnamen zien en landen vlaggen."
 Msg_Options_FullScreen_Messages         = "laat berichten zien in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wacht for VSync in interface mode."
-Msg_Options_Capture_Automatic_Crop_Align= "Screenshots automatisch vergroten / verkleinen en uitlijnen."
+;Msg_Options_Capture_Automatic_Crop_Align= "Screenshots automatisch vergroten / verkleinen en uitlijnen."
 Msg_Options_NES_Enable                  = "Mario is geen dikke loodgieter."
 
 ; Languages / Localization ---------------------------------------------------

@@ -84,7 +84,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
 
      "language",
      "screenshots_filename_template",
-	 "screenshots_automatic_crop_align",
+	 "screenshots_crop_align_8x8",
 
      "music_wav_filename_template", "musics_wav_filename_template",
      "music_vgm_filename_template", "musics_vgm_filename_template",
@@ -111,6 +111,8 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	 "video_game_vsync",
 	 "video_game_triple_buffering",
 	 "video_game_page_flipping",
+
+	 "screenshots_crop_scrolling_column",
 
      NULL
      };
@@ -315,8 +317,8 @@ static void     Configuration_Load_Line (char *variable, char *value)
     // screenshots_filename_template
     case 37: g_Configuration.capture_filename_template = strdup(value);
              break;
-	// screenshots_automatic_crop_align
-	case 38: g_Configuration.capture_automatic_crop_align = (bool)atoi(value);
+	// screenshots_crop_align_8x8
+	case 38: g_Configuration.capture_crop_align_8x8 = (bool)atoi(value);
 			 break;
     // music[s]_wav_filename_template
     case 39:
@@ -420,6 +422,10 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	// video_game_page_flipping
 	case 59:
 		g_Configuration.video_mode_game_page_flipping = (bool)atoi(value);
+		break;
+
+	// screenshots_crop_scrolling_column
+	case 60: g_Configuration.capture_crop_scrolling_column = (bool)atoi(value);
 		break;
 
     default:
@@ -628,7 +634,8 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("show_messages_fullscreen", g_Configuration.show_fullscreen_messages);
     CFG_Write_Int  ("allow_opposite_directions", g_Configuration.allow_opposite_directions);
     CFG_Write_StrEscape  ("screenshots_filename_template", g_Configuration.capture_filename_template);
-	CFG_Write_Int  ("screenshots_automatic_crop_align", g_Configuration.capture_automatic_crop_align);
+	CFG_Write_Int  ("screenshots_crop_scrolling_column", g_Configuration.capture_crop_scrolling_column);
+	CFG_Write_Int  ("screenshots_crop_align_8x8", g_Configuration.capture_crop_align_8x8);
     CFG_Write_StrEscape  ("music_wav_filename_template", Sound.LogWav_FileName_Template);
     CFG_Write_StrEscape  ("music_vgm_filename_template", Sound.LogVGM_FileName_Template);
     CFG_Write_Line ("(see documentation for more information about templates)");

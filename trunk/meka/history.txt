@@ -19,6 +19,18 @@ They are usually of 2 kinds:
       or Homebrew images. [Omar]
     - Inputs configuration: right-click on input source selection goes 
       backward, in addition to regular left-click to go forward. [Omar]
+  - Miscellaenous:
+    - Renamed "Automatically crop and align screen captures" option to
+      more explicit "Crop and align screen captures to 8x8 boundaries".
+      Previous name was sounding too "cool" and was sometimes activated
+      by innocent users who then got their capture all cropped. [Omar]
+    - Added "screenshots_crop_scrolling_column" option in configuration
+      file (default to enabled), to disable cropping the empty left-most 
+      column in horizontally scrolling games. 
+      Reason is that some websites requests the full 256x192 pixels for 
+      their screenshots. Note that this column is currently always black 
+      in MEKA. [Omar]
+     
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
           SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)

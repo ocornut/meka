@@ -341,7 +341,7 @@ enum
 	MSG_Options_Load_FullScreen,
 	MSG_Options_FullScreen_Messages,
 	MSG_Options_GUI_VSync,
-	MSG_Options_Capture_Automatic_Crop_Align,
+	MSG_Options_Capture_Crop_Align,
 	MSG_Options_NES_Enable,
 	
 	MSG_Language_Set,
@@ -782,7 +782,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Options_Load_FullScreen),
 	__MSG_ADD(MSG_Options_FullScreen_Messages),
 	__MSG_ADD(MSG_Options_GUI_VSync),
-	__MSG_ADD(MSG_Options_Capture_Automatic_Crop_Align),
+	__MSG_ADD(MSG_Options_Capture_Crop_Align),
 	__MSG_ADD(MSG_Options_NES_Enable),
 
 	__MSG_ADD(MSG_Language_Set),
