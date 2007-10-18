@@ -800,7 +800,7 @@
  Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
  Jeopardy! - Sports Edition                         Ok
- J League GG Pro Striker '94 (JP)                   Ok
+ J League GG Pro Striker '94 (JP)                  *Ok
  J League Soccer - Dream Eleven (JP)                Ok
  Joe Montana Football                              *Ok
  Joe Montana Football (JP)                          Ok
