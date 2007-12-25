@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2007/10/18
+; Last updated 2007/12/25
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -484,6 +484,7 @@ GG  328c5cc8 0676B41642F43153   Astérix and the Great Rescue/COUNTRY=EU/PRODUCT_
 GG  dfcf555f 5FA88D0C551D33BB   Ax Battler - A Legend of Golden Axe [v1.5]/NAME_JP=Ax Battler - Golden Axe Densetsu/COUNTRY=JP/PRODUCT_NO=G-3304
 GG  3435ab54 20D68E092FC9A0DB   Ax Battler - A Legend of Golden Axe [v2.0] [Proto]/COUNTRY=US,EU/FLAGS=PROTO
 GG  663bcf8a C75A6F968FFFD973   Ax Battler - A Legend of Golden Axe [v2.4]/COUNTRY=US,EU/PRODUCT_NO=2405
+GG  03a0ce9e C53AA373B2CC521B   Barbie Super Model [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,US,EU/PRODUCT_NO=G-3314
 GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears', The - Camping Adventure/COUNTRY=US/PRODUCT_NO=2447
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The Berlin Wall/COUNTRY=JP/PRODUCT_NO=T-33017
@@ -609,6 +610,7 @@ GG  3e31cb8c 2D341FEB6A1B46CA   Sonic The Hedgehog [v0]/COUNTRY=JP/PRODUCT_NO=G-
 GG  d163356e 53D934469DC6E116   Sonic The Hedgehog [v1]/COUNTRY=JP,US,EU/PRODUCT_NO=G-3307,?
 GG  95a18ec7 D2612363E352F220   Sonic The Hedgehog 2/COUNTRY=JP,US,EU/PRODUCT_NO=G-3321,2507
 GG  742a372b D307ACC6641167D8   Spider-Man \/ X-Men: Arcade's Revenge/COUNTRY=US/PRODUCT_NO=T-81158
+GG  ab622adc A46DDD4AEBC96CA8   Spirou [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  3d8bcf1d 5AD835BF116EC299   Streets of Rage/NAME_JP=Barryue Knuckle/COUNTRY=JP,US,EU/PRODUCT_NO=G-3313,2417
 GG  0b618409 85CFE82DBD812633   Streets of Rage II/NAME_JP=Bare Knuckle II/COUNTRY=JP,US,EU/PRODUCT_NO=G-3328,2517
 GG  8ba43af3 DAA4C785B7042952   Super Columns/COUNTRY=US/PRODUCT_NO=2449                    ; released EU?

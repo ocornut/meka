@@ -650,7 +650,7 @@
  Aladdin (Disney's)                                 Ok
  Aladdin (Disney's) (JP)                            Ok
  Alien 3                                            Ok
- Alien Syndrome                                    *Ok
+ Alien Syndrome                                     Ok
  Alien Syndrome (JP)                                Ok
  Andre Agassi Tennis                                Ok
  Arcade Classics                                    Ok
@@ -665,6 +665,7 @@
  Ax Battler - A Legend of Golden Axe [v2.4]         Ok
  Baku Baku Animal                                   Ok
  Baku Baku Animal - Sekai Shiikugakari Senshu..(JP) Ok
+ Barbie Super Model [Proto]                         Ok
  Bart vs. The Space Mutants (The Simpsons)          Ok
  Bart vs. The World (The Simpsons) / Bart World     Ok
  Bartman meets Radioactive Man (The Simpsons)       Ok
@@ -800,7 +801,7 @@
  Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
  Jeopardy! - Sports Edition                         Ok
- J League GG Pro Striker '94 (JP)                  *Ok
+ J League GG Pro Striker '94 (JP)                   Ok
  J League Soccer - Dream Eleven (JP)                Ok
  Joe Montana Football                              *Ok
  Joe Montana Football (JP)                          Ok
@@ -984,6 +985,7 @@
  Spider-Man - Return of the Sinister Six            Ok
  Spider-Man - vs. The Kingpin                       Ok
  Spider-Man / X-Men: Arcade's Revenge               Ok
+ Spirou [Proto]                                     Ok
  Sports Illustrated Championship F&B                Ok
  Sports Trivia                                      Ok
  Sports Trivia - Championship Edition               Ok
@@ -1072,7 +1074,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 429 games tested - 419 are "Ok" - Compatibility rate: 97.66%
+ 431 games tested - 421 are "Ok" - Compatibility rate: 97.66%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
