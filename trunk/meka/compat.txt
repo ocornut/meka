@@ -923,8 +923,8 @@
  Primal Rage                                        Ok
  Pro Yakyuu GG League (JP)                         *Ok
  Pro Yakyuu GG League '94 (JP)                      Ok
- Psychic World                                      Ok
- Psychic World (JP)                                *Ok
+ Psychic World                                     *Ok
+ Psychic World (JP)                                 Ok
  Putt & Putter                                      Ok
  Putt & Putter (JP)                                 Ok
  Puyo Puyo 2 (JP)                                   Ok

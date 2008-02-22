@@ -1,3 +1,10 @@
+Define a string in the config file, eg:
+ debug_breakpoint_label_prefix = "break_"
+Then, when loading .sym files, automatically add breakpoints on
+matching labels. This saves me typing "b <label>", and is designed for
+"temporary" breakpoints on lines that normally would not otherwise
+have a label.
+
   /------------------\
 /-|  MEKA TODO LIST  |-------------------------------------------------\
 | \------------------/                                                 |
