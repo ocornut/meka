@@ -43,7 +43,7 @@
  Anmitsu Hime (JP)                              -       Ok
  Arcade Smash Hits                              -       Ok
  Argos no Juujiken (JP)                         -       Ok
- Ariel - The Little Mermaid (BR)                -       Ok
+ Ariel - The Little Mermaid (Disney's) (BR)     -       Ok
  Ashura (JP)                                    -       Ok
  Assault City                                   -       Ok
  Assault City [Light Phaser]                    LP      Ok
@@ -656,7 +656,7 @@
  Arcade Classics                                    Ok
  Arch Rivals                                        Ok
  Arena - Maze of Death                              Ok
- Ariel - The Little Mermaid                         Ok
+ Ariel - The Little Mermaid (Disney's)              Ok
  Arliel - Crystal Densetsu (JP)                     Ok
  Asterix and the Great Rescue                       Ok
  Asterix and the Great Rescue (US)                  Ok
@@ -833,7 +833,7 @@
  Lunar - Sanpo-suru Gakuen (JP)                     Ok
  Mac Donald - Ronald in the Magical World           Ok
  Madden's NFL '95                                   Ok
- Madden' 96                                         Ok
+ Madden 96                                         *Ok
  Madoh Monogatari I - Mittsu no Madokyuu (JP)       Ok
  Madoh Monogatari II - Aruru 16-sai (JP)            Ok
  Madoh Monogatari III - Kyuukyoku Joo-sama [v0] (JP)Ok

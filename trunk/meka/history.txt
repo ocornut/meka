@@ -38,10 +38,13 @@ They are usually of 2 kinds:
 ##  Some particular renaming includes:
           SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)
           SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
+          SMS - f4b3a7bd - Ariel - The Little Mermaid (BR)      --> Ariel - The Little Mermaid (Disney's) (BR)
           SMS - e2fcb6f3 - Super Wonder Boy (JP)                --> Wonder Boy [v0] (also released in Italia)
           SMS - 73705c02 - Wonder Boy                           --> Wonder Boy [v1]
           GG  - ffe4ed47 - Alien Syndrome                       --> Alien Syndrome (JP)
+          GG  - 97e3a18c - Ariel - The Little Mermaid           --> Ariel - The Little Mermaid (Disney's)
           GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
+          GG  - 75e273eb - Madden '96                           --> Madden 96 [BAD]
           GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness
 
 
