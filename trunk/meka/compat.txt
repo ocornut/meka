@@ -861,8 +861,8 @@
  Moldorian (JP)                                     Ok
  Monster Truck Wars                                 Ok
  Monster World II - Dragon no Wana (JP)             Ok
- Mortal Kombat [v2.6]                               Ok
- Mortal Kombat [v3.3]                               Ok
+ Mortal Kombat                                      Ok
+ Mortal Kombat (JP)                                 Ok
  Mortal Kombat II / Mortal Kombat II - Kyukyoku-S.. Ok
  Mortal Kombat 3                                    Ok
  Ms. Pac-Man                                        Ok
@@ -992,7 +992,8 @@
  Star Gate                                          Ok
  Star Trek Generations - Beyond the Nexus           Ok
  Star Trek The Next Generation - The Advanced Hol.. Ok
- Star Wars                                          Ok
+ Star Wars                                         *Ok
+ Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
  Strider Returns                                    Ok
@@ -1019,7 +1020,7 @@
  Taisen Mahjong HaoPai (JP)                         Ok
  Taisen Mahjong HaoPai 2 (JP)                       Ok
  Taito Chase H.Q. [SMS-GG] (JP)                     Ok
- Tale Spin                                          Ok
+ TaleSpin (Disney's)                                Ok
  Tama & Friends - 3chome Koen Tamalympic (JP)       Ok
  Tant~R (Puzzle & Action) (JP)                      Ok
  Tatakae! Pro Yakyuu Twin League (JP)              *Ok
@@ -1074,7 +1075,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 431 games tested - 421 are "Ok" - Compatibility rate: 97.66%
+ 432 games tested - 422 are "Ok" - Compatibility rate: 97.66%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
