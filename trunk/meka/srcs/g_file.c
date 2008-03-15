@@ -214,14 +214,14 @@ void        FB_Free_Memory(void)
     free(FB.files);
 }
 
-#ifndef UNIX
+#ifndef ARCH_UNIX
 
 void            FB_Add_Drives (void)
 {
     int         i;
     char        buf [256];
 
-#ifdef DOS
+#ifdef ARCH_DOS
     int j = getdisk ();         // Save current disk
     for (i = 2; i < 26; i ++)   // C: to Z:
     {
@@ -337,7 +337,7 @@ int                 FB_Ext_In_List (t_list *ext_list, char *ext)
 
 void                FB_Add_Entries (t_list *ext_list, int type)
 {
-#ifdef UNIX
+#ifdef ARCH_UNIX
     DIR *           dir;
     struct dirent * dirent;
     struct stat	    dirent_stat;
@@ -388,13 +388,13 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
     closedir (dir);
 
-#else // DOS & WIN32
+#else // ARCH_DOS & ARCH_WIN32
 
-#ifdef DOS
+#ifdef ARCH_DOS
     struct ffblk f;
     if (findfirst ("*.*", &f, 0xFF) != 0)
         return;
-#elif WIN32
+#elif ARCH_WIN32
     struct _finddata_t info;
     long   handle;
     if ((handle = _findfirst (uconvert_toascii("*.*", NULL), &info)) < 0)
@@ -403,10 +403,10 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
     do
     {
-        #ifdef DOS
+        #ifdef ARCH_DOS
             int     attrib  = f.ff_attrib;
             char *  name    = f.ff_name;
-        #elif WIN32
+        #elif ARCH_WIN32
             int     attrib  = info.attrib;
             char *  name    = info.name;
         #endif
@@ -444,13 +444,13 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         }
     }
 
-#ifdef DOS
+#ifdef ARCH_DOS
     while (findnext (&f) == 0);
-#else // WIN32
+#else // ARCH_WIN32
     while (_findnext (handle, &info) == 0);
 #endif
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
     _findclose (handle);
 #endif
 
@@ -513,7 +513,7 @@ static void     FB_Load_Directory_Internal (void)
     FB_Sort_Files (FB.file_first, FB.file_last);
 
     // Finally add disk drivers
-    #ifndef UNIX
+    #ifndef ARCH_UNIX
         FB_Add_Drives ();
     #endif
     
@@ -923,7 +923,7 @@ void        FB_Open (void)
     case FB_ENTRY_TYPE_DRIVE:
         {
             char *dst = entry->file_name;
-            // #ifdef WIN32
+            // #ifdef ARCH_WIN32
             //  if (strlen(Dst) == 2 && Dst[1] == ':')
             //      _chdrive (Dst[0] - 'A');
             //  else

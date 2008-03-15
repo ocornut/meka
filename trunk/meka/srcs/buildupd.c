@@ -11,10 +11,10 @@
 #include <stdlib.h>
 
 // FIXME: Must be a reason for this related to the include below. Check it out.
-// #ifndef UNIX
-// #undef DOS
-// #undef WIN32
-// #define UNIX
+// #ifndef ARCH_UNIX
+// #undef ARCH_DOS
+// #undef ARCH_WIN32
+// #define ARCH_UNIX
 // #endif
 
 #include "tools_t.c"
@@ -39,13 +39,13 @@ int     main (int argc, char **argv)
     }
 
     // Output strings
-#ifdef DOS
+#ifdef ARCH_DOS
     fprintf (f, "char MEKA_BUILD_SYSTEM[] = \"DOS\";\n");
 #endif
-#ifdef WIN32
+#ifdef ARCH_WIN32
     fprintf (f, "char MEKA_BUILD_SYSTEM[] = \"Win32\";\n");
 #endif
-#ifdef UNIX
+#ifdef ARCH_UNIX
     fprintf (f, "char MEKA_BUILD_SYSTEM[] = \"Un*x\";\n");
 #endif
     fprintf (f, "char MEKA_BUILD_DATE[] = \"%04d/%02d/%02d\";\n", year, month, day);

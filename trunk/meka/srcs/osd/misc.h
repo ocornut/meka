@@ -17,7 +17,7 @@ static INLINE s64  OSD_X86CPU_RDTSC (void)
 {
     s64     result;
 
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
     s64 *   result_addr = &result;
     __asm
     {

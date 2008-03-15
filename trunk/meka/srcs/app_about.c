@@ -28,7 +28,7 @@ static void         AboutBox_Layout(bool setup);
 
 void    AboutBox_Switch (void)
 {
-#ifdef DOS
+#ifdef ARCH_DOS
     int menu_pos = 4;
 #else
     int menu_pos = 5;

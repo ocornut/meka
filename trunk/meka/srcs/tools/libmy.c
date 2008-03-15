@@ -259,7 +259,7 @@ void    Write_Bits_Field (int v, int n_bits, char *field)
 void    Random_Init (void)
 {
 /*
- #ifdef DOS
+ #ifdef ARCH_DOS
    struct time ttmp;
    gettime (&ttmp);
    srand (ttmp.ti_sec + (ttmp.ti_min * ttmp.ti_hour));
@@ -267,7 +267,7 @@ void    Random_Init (void)
  #else
 */
    srand (time (NULL));
-   #ifndef WIN32
+   #ifndef ARCH_WIN32
       srandom (time (NULL));
    #endif
 /*

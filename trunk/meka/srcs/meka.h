@@ -221,9 +221,9 @@ typedef struct
     char    MediaImageFile          [FILENAME_LEN];     // FIXME: abstract media (per type/slot)
 
     char    DocumentationMain       [FILENAME_LEN];
-#ifdef WIN32
+#ifdef ARCH_WIN32
     char    DocumentationMainW      [FILENAME_LEN];
-#elif UNIX
+#elif ARCH_UNIX
     char    DocumentationMainU      [FILENAME_LEN];
 #endif
     char    DocumentationCompat     [FILENAME_LEN];

@@ -51,7 +51,7 @@
 #include "emu2413.h"
 
 // OMAR BEGIN
-#ifdef WIN32
+#ifdef ARCH_WIN32
 #undef INLINE
 #define INLINE __inline
 #endif

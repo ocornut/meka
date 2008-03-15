@@ -44,7 +44,7 @@ int             meka_errno;
 
 const char *    meka_strerror(void);
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 void            ShowWindowsErrorMessage(void);
 #endif
 

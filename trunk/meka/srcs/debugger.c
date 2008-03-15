@@ -1499,7 +1499,7 @@ void        Debugger_Printf(const char *format, ...)
     va_end (param_list);
 
     // Output to debug console
-#ifdef WIN32
+#ifdef ARCH_WIN32
     OutputDebugString(buf);
 #endif
 

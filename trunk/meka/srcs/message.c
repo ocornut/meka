@@ -18,7 +18,7 @@ static void		Lang_Set (t_menu_event *event);
 //-----------------------------------------------------------------------------
 
 // Win32 Console
-#ifdef WIN32
+#ifdef ARCH_WIN32
 
 typedef struct
 {
@@ -57,7 +57,7 @@ AL_FUNC(HWND, win_get_window, (void));
 
 static bool             ConsolePause;
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 static t_console_win32  ConsoleWin32;
 #endif
 
@@ -366,7 +366,7 @@ void            ConsoleInit (void)
     ConsolePause = FALSE;
 
     // Initialize Win32 console
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         ConsoleWin32_Initialize(&ConsoleWin32, allegro_inst, win_get_window());
         // ConsoleWin32_Show(&ConsoleWin32);
     #endif
@@ -379,7 +379,7 @@ void            ConsoleInit (void)
 void            ConsoleClose (void)
 {
     // Close Win32 console
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         ConsoleWin32_Close(&ConsoleWin32);
     #endif
 }
@@ -408,7 +408,7 @@ void            ConsolePrintf (const char *format, ...)
 void            ConsolePrint (const char *msg)
 {
     // FIXME: to do
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         if (ConsoleWin32.hwnd != 0)
             ConsoleWin32_Print(&ConsoleWin32, (char *)msg);
         else
@@ -437,7 +437,7 @@ void            ConsoleEnablePause (void)
 
 bool            ConsoleWaitForAnswer (bool allow_run)
 {
-#ifndef WIN32
+#ifndef ARCH_WIN32
     return TRUE;
 #else
     if (!ConsolePause)
@@ -502,7 +502,7 @@ void            Msg (int attr, const char *format, ...)
 // WINDOWS CONSOLE
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 
 static int     ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hWndParent)
 {
@@ -797,7 +797,7 @@ static void        ConsoleWin32_Print(t_console_win32 *c, char *s)
     free(text);
 }
 
-#endif // WIN32
+#endif // ARCH_WIN32
 
 //-----------------------------------------------------------------------------
 

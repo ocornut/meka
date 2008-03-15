@@ -38,7 +38,7 @@
 #include "vlfn.h"
 #include "osd/timer.h"
 #include "libaddon/png/loadpng.h"
-#ifdef WIN32
+#ifdef ARCH_WIN32
 #include <commctrl.h>
 #endif
 
@@ -47,21 +47,13 @@
 // Note: I'm not even sure it works as expected
 //-----------------------------------------------------------------------------
 
-#ifndef MACOSX
-BEGIN_COLOR_DEPTH_LIST
-   COLOR_DEPTH_8
-   COLOR_DEPTH_15
-   COLOR_DEPTH_16
-   COLOR_DEPTH_24
-   COLOR_DEPTH_32
-END_COLOR_DEPTH_LIST
-
+#ifndef ARCH_MACOSX
 BEGIN_DIGI_DRIVER_LIST
 END_DIGI_DRIVER_LIST
 
 BEGIN_MIDI_DRIVER_LIST
 END_MIDI_DRIVER_LIST
-#endif // MACOSX
+#endif // ARCH_MACOSX
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -180,7 +172,7 @@ void    Init_Default_Values (void)
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
 	// Capture
-#ifdef DOS
+#ifdef ARCH_DOS
 	g_Configuration.capture_filename_template		= "%.5s-%02d.png"; // Short Filename
 #else
 	g_Configuration.capture_filename_template		= "%s-%02d.png";   // Long Filename (ala SMS Power)
@@ -254,7 +246,7 @@ void    Close_Emulator (void)
 // during the shutdown process (which sometimes makes things crash).
 void    Close_Callback (void)
 {
-    #ifndef DOS
+    #ifndef ARCH_DOS
         set_close_button_callback (NULL);
     #endif
 }
@@ -289,7 +281,7 @@ int     Init_Allegro (void)
     // Mouse
     //static char cmd[] = "emulate_three = 0\n";
     //override_config_data(cmd, sizeof (cmd));
-    #ifdef DOS
+    #ifdef ARCH_DOS
         //#ifdef MOUSEDRV_POLLING
         //{
         //extern int _mouse_type;
@@ -306,7 +298,7 @@ int     Init_Allegro (void)
     #endif
 
     // Window title & callback
-    #ifndef DOS
+    #ifndef ARCH_DOS
         set_window_title (Msg_Get (MSG_Window_Title));
         set_close_button_callback (Close_Button_Callback);
     #endif
@@ -325,7 +317,7 @@ void    Init_GUI (void)
 }
 
 // MAIN FUNCTION --------------------------------------------------------------
-//#ifdef WIN32
+//#ifdef ARCH_WIN32
 // int WinMain
 //#else
  int main
@@ -334,17 +326,17 @@ void    Init_GUI (void)
 {
     int i;
 
-    #ifdef DOS
+    #ifdef ARCH_DOS
         clrscr();
     #endif
 
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         // Need for XP manifest stuff
         InitCommonControls();
     #endif
 
     ConsoleInit (); // First thing to do
-    #ifdef WIN32
+    #ifdef ARCH_WIN32
         ConsolePrintf ("%s\n(c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
     #else
         ConsolePrintf ("\n%s (c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
@@ -360,7 +352,7 @@ void    Init_GUI (void)
     for (i = 0; i != g_Env.argc; i++)
     {
         g_Env.argv[i] = strdup(argv [i]);
-        //#ifndef UNIX
+        //#ifndef ARCH_UNIX
         //  strupr(g_Env.argv[i]);
         //#endif
     }
@@ -444,7 +436,7 @@ void    Init_GUI (void)
 
     return (0);
 }
-#ifndef WIN32
+#ifndef ARCH_WIN32
 END_OF_MAIN ();
 #else
 // Allegro define END_OF_MAIN() the same as the above, with HINSTANCE

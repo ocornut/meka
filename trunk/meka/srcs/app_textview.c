@@ -134,14 +134,14 @@ int             TextViewer_Open(t_app_textviewer *tv, const char *title, const c
 
 
 #define DOC_MAIN        (0)
-#ifdef WIN32
+#ifdef ARCH_WIN32
   #define DOC_MAIN_WIN    (1)
   #define DOC_COMPAT      (2)
   #define DOC_MULTI       (3)
   #define DOC_CHANGES     (4)
   #define DOC_DEBUGGER    (5)
   #define DOC_MAX         (6)
-#elif UNIX
+#elif ARCH_UNIX
   #define DOC_MAIN_UNIX   (1)
   #define DOC_COMPAT      (2)
   #define DOC_MULTI       (3)
@@ -161,14 +161,14 @@ void            TextViewer_Switch_Doc_Main(void)
     TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMain, DOC_MAIN); 
 }
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
 void            TextViewer_Switch_Doc_MainW(void)
 { 
     TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMainW, DOC_MAIN_WIN); 
 }
 #endif
 
-#ifdef UNIX
+#ifdef ARCH_UNIX
 void            TextViewer_Switch_Doc_MainU(void)
 { 
     TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMainU, DOC_MAIN_UNIX); 

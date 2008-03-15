@@ -33,7 +33,7 @@ void            Sound_Init_Config(void)
     Sound.Enabled               = TRUE;
     Sound.Initialized           = FALSE;
     Sound.SoundCard             = SOUND_SOUNDCARD_SELECT; // Let user select by default
-#ifdef DOS
+#ifdef ARCH_DOS
     Sound.SampleRate            = 22050;                  // 22050 Hz by default for DOS version
 #else
     Sound.SampleRate            = 44100;                  // 44100 Hz by default for WIN32/UNIX version

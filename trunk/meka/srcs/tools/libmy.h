@@ -12,7 +12,7 @@
 #define Min(c)                  ((c >= 'A' && c <= 'Z') ? (c + 'a' - 'A') : (c))
 #define Limit(a,b)              (((b) > (a)) ? (a) : (b))
 
-#ifndef WIN32
+#ifndef ARCH_WIN32
   #define Random(a)             (random() % (a))
 #else
   #define Random(a)             (rand() % (a))

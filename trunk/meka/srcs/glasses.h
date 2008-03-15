@@ -21,7 +21,7 @@ typedef struct
     int         Enabled;
     int         Mode;
     int         ComPort;
-#ifdef WIN32
+#ifdef ARCH_WIN32
     HANDLE      ComHandle;
 #endif
 } t_glasses;

@@ -43,7 +43,7 @@
 // Setup Port access macros
 //-----------------------------------------------------------------------------
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
     #include <conio.h>
     #define inportb       _inp
     #define outportb      _outp

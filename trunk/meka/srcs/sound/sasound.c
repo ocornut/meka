@@ -456,7 +456,7 @@ void    saUpdateSound (int nowclock)
      {
      if (sound_stream_mode == SOUND_STREAM_WAIT) /* MEKA */
         {
-#ifndef WIN32
+#ifndef ARCH_WIN32
         AUpdateAudio();
 #endif
         saCheckPlayStream();

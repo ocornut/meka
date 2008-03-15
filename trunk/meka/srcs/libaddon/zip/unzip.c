@@ -30,7 +30,7 @@
 
 
 
-#if !defined(UNIX) && !defined(CASESENSITIVITYDEFAULT_YES) && \
+#if !defined(ARCH_UNIX) && !defined(CASESENSITIVITYDEFAULT_YES) && \
                       !defined(CASESENSITIVITYDEFAULT_NO)
 #define CASESENSITIVITYDEFAULT_NO
 #endif

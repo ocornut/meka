@@ -89,7 +89,7 @@ void    Change_Mode_Misc (void)
         break;
     }
     gui_mouse_show (NULL);
-    //#ifdef DOS
+    //#ifdef ARCH_DOS
     //    Video_VGA_Set_Border_Color (Border_Color);
     //#endif
     Inputs_Peripheral_Change_Update ();
@@ -133,7 +133,7 @@ void    Set_Mouse_Cursor(int mouse_cursor)
     }
 }
 
-#ifdef UNIX
+#ifdef ARCH_UNIX
 #define ESC         "\x1b"
 #define FGCOLOR(n)  ESC"[3"#n"m"
 #define BGCOLOR(n)  ESC"[4"#n"m"
@@ -153,7 +153,7 @@ void    Show_End_Message (void)
     //  8: Dark Gray
     // 15: Bright White
 
-#ifdef UNIX
+#ifdef ARCH_UNIX
   printf(" ");
   printf(BGCOLOR(1));
   printf(FGCOLOR(0));
@@ -185,7 +185,7 @@ void    Show_End_Message (void)
   
   printf (RESET);
   printf ("\n");
-#elif DOS
+#elif ARCH_DOS
     // Line 1 ------------------------------------------------------------------
     textbackground (4);     // Red background
     textcolor (0);          // Black text
@@ -257,7 +257,7 @@ void    Quit (void)
     // Return back to starting directory
     chdir (g_Env.Paths.StartingDirectory);
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
     if (Meka_State == MEKA_STATE_INIT)
     {
         ConsoleEnablePause();
@@ -288,7 +288,7 @@ void            Quit_Msg (const char *format, ...)
     // Return back to starting directory
     chdir (g_Env.Paths.StartingDirectory);
 
-#ifdef WIN32
+#ifdef ARCH_WIN32
     {
         // FIXME: should redirect on console
 		char buffer[512];
