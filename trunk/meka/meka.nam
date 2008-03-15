@@ -547,7 +547,7 @@ GG  7e9dea46 400DE4894112C132   Halley Wars/COUNTRY=US,EU/PRODUCT_NO=2318
 GG  def5a5d0 1F25824E7BFAA5D2   Halley Wars/COUNTRY=JP/PRODUCT_NO=T-11027
 GG  056cae74 07EAA1CEF2F8BBFB   Hyper Chou Pro Yakyuu '92/COUNTRY=JP/PRODUCT_NO=G-3217
 GG  9f64c2bb 69824C1FDBCFC040   Ichidant~R GG (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G-3359/COMMENT=Proper Japanese transcription is "Ichidanto A~Ru GG". "Ichidant~R" is official romanization of the Arcade version. Note the different position of the tilde. Title screen shows "PUZZLLE & ACTION" with 2 L.
-GG  087fc247 F1E3947961D3D813   Incredible Crash Dummies, The/COUNTRY=JP,US,EU/PRODUCT=NO=T-81127,T-81138-50/COMMENT=Also referred to as "Crash Dummies".
+GG  087fc247 F1E3947961D3D813   Incredible Crash Dummies, The/COUNTRY=JP,US,EU/PRODUCT_NO=T-81127,T-81138-50/COMMENT=Also referred to as "Crash Dummies".
 GG  b875226b 4991B2A2AE8AB8E2   Indiana Jones and the Last Crusade/COUNTRY=US,EU/PRODUCT_NO=79028-50
 GG  dab0f265 67E30F160D0B7FFA   In the Wake of Vampire/COUNTRY=JP/PRODUCT_NO=T-44047/COMMENT=Japanese version of "Vampire - Master of Darkness".
 GG  44e7e2da C919CCEF16A7376F   Itchy & Scratchy Game, The/COUNTRY=US,EU/PRODUCT_NO=T-81218-50
@@ -650,7 +650,7 @@ GG  f1732ffe 0198EBBE947301B6   TaleSpin (Disney's)/COUNTRY=US,EU/PRODUCT_NO=241
 GG  09151743 73869AAE809FD1CF   Tant~R (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G-3345/COMMENT=Proper Japanese transcription is "Tanto A~Ru". "Tant~R" is official romanization. Note the different position of the tilde.
 GG  c029a5fd EFDF88CF8D68A343   Terminator, The/COUNTRY=US,EU/PRODUCT_NO=T-70048
 GG  bec57602 95202199862FC616   Tatakae! Pro Yakyuu Twin League/COUNTRY=JP/PRODUCT_NO=G-3371
-GG  dd6d2e34 0942170D3CFD87D1   Tengen World Cup Soccer/COUNTRY=US,EN/PRODUCT_NO=T-48118-50
+GG  dd6d2e34 0942170D3CFD87D1   Tengen World Cup Soccer/COUNTRY=US,EU/PRODUCT_NO=T-48118-50
 GG  5bcf9b97 F9471D41510253BC   Torarete Tamaruka!?/COUNTRY=JP/PRODUCT_NO=G-3348
 GG  820965a3 78192012DB30BF73   Ultimate Soccer/COUNTRY=JP,EU,BR/PRODUCT_NO=G-3333,075300
 GG  7ec64025 84C269594C15F3A4   Vampire - Master of Darkness/COUNTRY=US,EU/PRODUCT_NO=2437/COMMENT=Export version of "In the Wake of Vampire".
@@ -881,7 +881,7 @@ A8AB7C128212B8D3,Prince of Persia [SMS-GG] [B],SMSGG_MODE,VER=B
 A3E4BFF29BB8066F,R.C. Grand Prix
 A88B7C7AF6466F2C,R.C. Grand Prix [SMS-GG],SMSGG_MODE,VER=Export
 62359CD87BD76D36,Renegade
-B8840BAF3B2A2C79,Quest for the Shaven Yak Starring Ren HoÅE & Stimpy,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
+B8840BAF3B2A2C79,Quest for the Shaven Yak Starring Ren HoÎk & Stimpy,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
 D1F812706360AE44,RoboCop 3,TVTYPE=PAL/SECAM,ID=27064-50
 5286A12D022F2801,R-Type,ID=G-1364
 49C0303E13D3CBD8,Sangokushi 3,VER=Korean,Mapper=9,ID=GL9411-RP4
@@ -1200,7 +1200,7 @@ E9A50801BEAAFD04,Popeye's Beach Volleyball,ID=T-154017,VER=Japanese
 C6EE3E765A5503E6,Pro Yakyuu GG League '94,ID=G-3353,VER=Japanese
 C0B450E4E8C49C10,Psychic World [B],VER=English,COMMENT=????
 6D6D979B9D368E93,Puzlow Kids,JAPNAME=Puyo Puyo,ID=G-3324,VER=International
-2A50C584823D710D,Quest for the Shaven Yak Starring Ren HoÅE & Stimpy,VER=English
+2A50C584823D710D,Quest for the Shaven Yak Starring Ren HoÎk & Stimpy,VER=English
 D56E2790AD1DEE4E,R.B.I. Baseball '94,VER=USA
 45EF1710B24D079F,Riddick Bowe Boxing,ID=T-22027,VER=International
 C8EC4DEA219A73E7,Rise of the Robots,VER=English,TVTYPE=NTSC,IPERIOD=229

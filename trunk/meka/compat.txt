@@ -1002,7 +1002,7 @@
  Super Golf (JP)                                    Ok
  Super Kick Off [SMS-GG]                            Ok
  Superman - The Man of Steel                        Ok
- Super Momotarou Dentetsu III (JP)                 *Ok
+ Super Momotarou Dentetsu III (JP)                  Ok
  Super Monaco GP                                    Ok
  Super Monaco GP (JP)                               Ok
  Super Monaco GP II (Ayrton Senna's)                Flickering title screen (LCD Persistance).
