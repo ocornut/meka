@@ -165,8 +165,8 @@ void                        Debugger_Switch(void);
 void                        Debugger_Printf(const char *format, ...);
 
 // Symbols
-t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(int addr);
-t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(int addr);
+t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(u32 addr);
+t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(u32 addr);
 
 // Hooks
 int                         Debugger_Hook(Z80 *R);

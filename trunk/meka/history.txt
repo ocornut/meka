@@ -17,6 +17,7 @@ They are usually of 2 kinds:
   - Debugger:
     - Increased default height of the debugger. [Omar]
     - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
+    - Added "SYM @addr" command to search for symbols given an address. [Omar]
   - GUI:
     - File browser: country flag now displayed even on BIOS, Prototypes
       or Homebrew images. [Omar]

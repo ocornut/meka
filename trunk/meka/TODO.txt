@@ -1,9 +1,3 @@
-Define a string in the config file, eg:
- debug_breakpoint_label_prefix = "break_"
-Then, when loading .sym files, automatically add breakpoints on
-matching labels. This saves me typing "b <label>", and is designed for
-"temporary" breakpoints on lines that normally would not otherwise
-have a label.
 
   /------------------\
 /-|  MEKA TODO LIST  |-------------------------------------------------\
@@ -16,7 +10,7 @@ have a label.
 | - MEKA IS FULL OF INCORRECT EMULATION BEHAVIOURS.                    |
 |   MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.         |
 |   READ TECHNICAL DOCUMENTATION INSTEAD.                              |
-|   IF YOU ARE DOUBTING OF ANYTHING, PLEASE ASK TO BE SURE.            |
+|   IF YOU HAVE ANY DOUBT, PLEASE ASK TO BE SURE.                      |
 |----------------------------------------------------------------------|
 | Packager Note: Always make plenty of verifications before packaging. |
 | - Check MEKA.INP                                                     |
@@ -38,12 +32,16 @@ have a label.
 THE YET UNSORTED MESS (this is my notepad basically)
 -----------------------------------------------------------------------------
 
+Define a string in the config file, eg:
+ debug_breakpoint_label_prefix = "break_"
+Then, when loading .sym files, automatically add breakpoints on
+matching labels. This saves me typing "b <label>", and is designed for
+"temporary" breakpoints on lines that normally would not otherwise
+have a label.
+
 > In the new 0.72 I'm getting an error with the tile view and tilemap viewer. 
 > They are both blank showing the error in the message box "Tileviewer: 
 > Unsupported Colour Depth" constantly scrolling in the message box.
-
-Reformulate "Automatically crop and align screen captures" because it may looks
-cool and be activated by users.
 
 http://www.smspower.org/forums/viewtopic.php?t=9478
 Now I have a question. In some Master System games (made at 1993 to be exact) such as 
@@ -406,6 +404,7 @@ doing them now and some are quick work.
  - Print
    - Find a solution to the problem of not being able to print result that are not 16-bits
  - Symbols
+   - Automatically select name/addr symbols find in "SYM" command
    - Different symbol file formats?
    - Keep track of source symbol, by keeping t_debugger_value all along the chain.
    - Figure out a way to keep symbol references and have them updated on ROM reload.

@@ -91,9 +91,10 @@ static bool                     Debugger_BreakPoint_ActivatedVerbose(t_debugger_
 // Symbols
 static void                     Debugger_Symbols_Load(void);
 static void                     Debugger_Symbols_Clear(void);
-static void                     Debugger_Symbols_List(char *search_name);
-t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(int addr);
-t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(int addr);
+static void                     Debugger_Symbols_ListByName(char *search_name);
+static void						Debugger_Symbols_ListByAddr(u32 addr);
+t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(u32 addr);
+t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(u32 addr);
 
 // Symbol
 static t_debugger_symbol *      Debugger_Symbol_Add(u16 addr, int bank, const char *name);
@@ -242,13 +243,18 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
     },
     {
         "SYM", "SYMBOLS",
-        "List symbols",
+        "Find symbols",
         // Description
-        "SYM/SYMBOLS: List symbols\n"
+        "SYM/SYMBOLS: Find symbols\n"
         "Usage:\n"
-        " SYM [name]\n"
+		" SYM [name]\n"
+		" SYM @addr\n"
         "Parameters:\n"
-        " name : symbol name to search for (*)"
+        " name : symbol name to search for\n"
+		" addr : symbol address to search for\n"
+		"Examples:\n"
+		" SYM vdp         ; search for symbol matching 'vdp'\n"
+		" SYM @HL         ; search for symbol at address HL"
     },
 	{
 		NULL, "SET",
@@ -1176,11 +1182,11 @@ void    Debugger_Symbols_Clear(void)
     assert(Debugger.symbols_count == 0);
 }
 
-void    Debugger_Symbols_List(char *search_name)
+void    Debugger_Symbols_ListByName(char *search_name)
 {
     t_list *symbols;
     int count;
-    
+
     if (search_name)
     {
         Debugger_Printf("Symbols matching \"%s\":\n", search_name);
@@ -1219,7 +1225,42 @@ void    Debugger_Symbols_List(char *search_name)
     }
 }
 
-t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(int addr)
+void    Debugger_Symbols_ListByAddr(u32 addr_request)
+{
+	u32 addr_sym;
+	
+	addr_request &= 0xFFFF;
+	addr_sym = addr_request;
+	while (addr_sym != (u32)-1)
+	{
+		if (Debugger.symbols_cpu_space[addr_sym] != NULL)
+			break;
+		addr_sym--;
+	}
+
+	if (addr_sym == addr_request || addr_sym == (u32)-1)
+		Debugger_Printf("Symbols at address \"%04x\":\n", addr_request);
+	else
+		Debugger_Printf("Symbols near address \"%04x\":\n", addr_request);
+	if (addr_sym == (u32)-1)
+	{
+		Debugger_Printf(" <None>\n");
+	}
+	else
+	{
+		t_list *symbols;
+		for (symbols = Debugger.symbols_cpu_space[addr_sym]; symbols != NULL; symbols = symbols->next)
+		{
+			t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
+			if (addr_sym != addr_request)
+				Debugger_Printf(" %04X  %s + %X = %04X\n", symbol->addr, symbol->name, addr_request - addr_sym, addr_request);
+			else
+				Debugger_Printf(" %04X  %s\n", symbol->addr, symbol->name);
+		}
+	}
+}
+
+t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 addr)
 {
     t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
     if (symbols == NULL)
@@ -1230,7 +1271,7 @@ t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(int addr)
 // Note: this function is useful, as there's often cases where the programmer sets 
 // one 'end' symbol and a following 'start' symbol and they are at the same address.
 // In most of those cases, we want the last one.
-t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(int addr)
+t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 addr)
 {
     t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
     if (symbols == NULL)
@@ -1931,7 +1972,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" P expr                 : Print evaluated expression" "\n");
         Debugger_Printf(" M [addr] [len]         : Memory dump at <addr>"      "\n");
         Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
-        Debugger_Printf(" SYM [name]             : List symbols"               "\n");
+        Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
         Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
         Debugger_Printf(" CLOCK [RESET]          : Display Z80 cycle counter"  "\n");
         Debugger_Printf("-- Miscellaenous:\n");
@@ -2775,10 +2816,28 @@ void        Debugger_InputParseCommand(char *line)
     // SYMBOLS - SYMBOLS
     if (!strcmp(cmd, "SYM") || !strcmp(cmd, "SYMBOL") || !strcmp(cmd, "SYMBOLS"))
     {
-        if (!StrNull(line))
-            Debugger_Symbols_List(line);
-        else
-            Debugger_Symbols_List(NULL);
+		Trim(line);
+		if (line[0] == '@')
+		{
+			t_debugger_value value;
+			line++;
+			if (Debugger_Eval_GetExpression(&line, &value) < 0)
+			{
+				Debugger_Printf("Syntax error!\n");
+				return;
+			}
+			else
+			{
+				Debugger_Symbols_ListByAddr(value.data);
+			}
+		}
+		else
+		{
+	        if (!StrNull(line))
+		        Debugger_Symbols_ListByName(line);
+			else
+				Debugger_Symbols_ListByName(NULL);
+		}
         return;
     }
 

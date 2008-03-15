@@ -126,7 +126,8 @@ Debugger commands summary
  P expr                         : Print evaluated expression
  M [addr] [len]                 : Memory dump at <addr>
  D [addr] [cnt]                 : Disassembly at <addr>
- SYM [name]                     : List symbols
+ SYM [name]                     : Find symbols by name
+ SYM @addr                      : Find symbols by address
  SET register=value             : Set Z80 register
  CLOCK [RESET]                  : Display Z80 cycle counter
 -- Miscellaenous:
@@ -258,15 +259,17 @@ Usage:
 
 Debugger command - SYM
 ----------------------
-SYM/SYMBOLS: List symbols
+SYM/SYMBOLS: Fins symbols
 Usage:
  SYM [name]
+ SYM @addr
 Parameters:
- name : symbol name to search for (*)
+ name : symbol name to search for
+ addr : symbol address to search for
 Examples:
- SYM vdp
- SYM obj*update
- 
+ SYM vdp         ; search for symbol matching 'vdp'
+ SYM @HL         ; search for symbol at address of HL
+
     
 Debugger command - M
 --------------------
