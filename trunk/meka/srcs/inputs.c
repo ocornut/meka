@@ -258,7 +258,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
     // Screen capture
     if (Inputs_KeyPressed (KEY_PRTSCR, FALSE))
-        Capture_Request ();
+        Capture_Request();
 
     // SF-7000 Disk 21 Bomber Raid
     // if (Test_Key(KEY_W))

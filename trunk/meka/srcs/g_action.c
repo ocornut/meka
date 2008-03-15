@@ -2,6 +2,8 @@
 // MEKA - g_action.c
 // Miscellaenous GUI action handlers - Code
 //-----------------------------------------------------------------------------
+// FIXME: Make this code/file obsolete eventually.
+//-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "blit.h"

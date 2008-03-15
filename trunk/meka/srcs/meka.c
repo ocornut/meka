@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.72 (c) Omar Cornut (Bock) & MEKA team 1998-2007
+// MEKA 0.72 (c) Omar Cornut (Bock) & MEKA team 1998-2008
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -187,6 +187,7 @@ void    Init_Default_Values (void)
 #endif
 	g_Configuration.capture_crop_scrolling_column	= TRUE;
 	g_Configuration.capture_crop_align_8x8			= FALSE;
+	g_Configuration.capture_include_gui				= TRUE;
 
     // Media
     // FIXME: yet not fully used

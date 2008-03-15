@@ -14,10 +14,14 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Capture_Init                (void);
-void    Capture_Init_Game           (void);
-void    Capture_Request             (void);
-void    Capture_Screen              (void);
+void    Capture_Init					(void);
+void    Capture_Init_Game				(void);
+void    Capture_Request					(void);
+void	Capture_Update					(void);
+
+void	Capture_MenuHandler_Capture		(void);
+void	Capture_MenuHandler_AllFrames	(void);
+void	Capture_MenuHandler_IncludeGui	(void);
 
 //-----------------------------------------------------------------------------
 // Data
@@ -26,6 +30,7 @@ void    Capture_Screen              (void);
 typedef struct
 {
 	int         request;
+	int			request_all_frames;
 	int         id_number;
 }               t_capture;
 

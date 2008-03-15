@@ -10,8 +10,13 @@
 ; History
 ;-----------------------------------------------------------------------------
 ; MEKA 0.73  : Update language:  Dutch
+;              Added:            Msg_Menu_Video_Capture
+;                                Msg_Menu_Video_Capture_CaptureScreen
+;                                Msg_Menu_Video_Capture_CaptureScreenAll
+;                                Msg_Menu_Video_Capture_IncludeGUI
 ;              Updated:          Msg_Options_Capture_Crop_Align
 ;              Renamed:          Msg_Options_Capture_Automatic_Crop_Align -> Msg_Options_Capture_Crop_Align
+;              Removed:          Msg_Menu_Video_Screens*
 ; MEKA 0.72  : Added:            Msg_Inputs_Config_Peripheral_Click     
 ;                                Msg_Inputs_Config_Source_Enabled       
 ;                                Msg_Inputs_Config_Source_Player        
@@ -655,10 +660,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Show both sides"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Show left side"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Show right side"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Uses Glasses on COM Port"
-Msg_Menu_Video_Screens                  = "Screens"
-Msg_Menu_Video_Screens_New              = "New"
-Msg_Menu_Video_Screens_KillLast         = "Kill Last"
-Msg_Menu_Video_Screens_KillAll          = "Kill All"
+Msg_Menu_Video_Capture                  = "Capture"
+Msg_Menu_Video_Capture_CaptureScreen    = "Capture Screen"
+Msg_Menu_Video_Capture_CaptureScreenAll = "Capture Screen (All)"
+Msg_Menu_Video_Capture_IncludeGUI       = "Include GUI"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOUND"
@@ -1152,10 +1157,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Activer les deux côtés"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Activer le côté gauche"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Activer le côté droit"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Lunettes sur le Port COM"
-Msg_Menu_Video_Screens                  = "Ecrans"
-Msg_Menu_Video_Screens_New              = "Nouveau"
-Msg_Menu_Video_Screens_KillLast         = "Eliminer le dernier"
-Msg_Menu_Video_Screens_KillAll          = "Tous les éliminer"
+Msg_Menu_Video_Capture                  = "Capture"
+Msg_Menu_Video_Capture_CaptureScreen    = "Capturer l'écran"
+Msg_Menu_Video_Capture_CaptureScreenAll = "Capturer l'écran (tous)"
+Msg_Menu_Video_Capture_IncludeGUI       = "Inclure l'interface"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SON"
@@ -1625,10 +1630,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Show both sides"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Show lef' side"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Show right side"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Uses Glasses on COM Po't"
-Msg_Menu_Video_Screens                  = "Screens"
-Msg_Menu_Video_Screens_New              = "Noo"
-Msg_Menu_Video_Screens_KillLast         = "Kill Last"
-Msg_Menu_Video_Screens_KillAll          = "Kill All"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOUN'"
@@ -2131,10 +2132,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Laat beide kanten zien"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Laat linkerkant zien"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Laat rechterkant zien"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Gebruik bril op COM Poort"
-Msg_Menu_Video_Screens                  = "Schermen"
-Msg_Menu_Video_Screens_New              = "Nieuw"
-Msg_Menu_Video_Screens_KillLast         = "Sluit laatste"
-Msg_Menu_Video_Screens_KillAll          = "Sluit alle"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "GELUID"
@@ -2594,10 +2591,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Mostrar ambos lados"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Mostrar lado izqdo."
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Mostrar lado dcho."
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Usa gafas en el puerto COM"
-Msg_Menu_Video_Screens                  = "Pantallas"
-Msg_Menu_Video_Screens_New              = "Nuevo"
-Msg_Menu_Video_Screens_KillLast         = "Matar el último"
-Msg_Menu_Video_Screens_KillAll          = "Matar todo"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SONIDO"
@@ -3061,10 +3054,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Mostrar ambos os lados"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Mostrar lado esquerdo"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Mostrar lado direito"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Usar óculos na porta COM"
-Msg_Menu_Video_Screens                  = "Janelas"
-Msg_Menu_Video_Screens_New              = "Nova"
-Msg_Menu_Video_Screens_KillLast         = "Fechar última"
-Msg_Menu_Video_Screens_KillAll          = "Fechar todas"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOM"
@@ -3513,10 +3502,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Mostra entrambi i lati"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Mostra lato sinistro"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Mostra lato destro"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Usa Occhiali su Porta COM"
-Msg_Menu_Video_Screens                  = "Schermate"
-Msg_Menu_Video_Screens_New              = "Nuova"
-Msg_Menu_Video_Screens_KillLast         = "Distruggi ultima"
-Msg_Menu_Video_Screens_KillAll          = "Distruggi tutte"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SONORO"
@@ -3970,10 +3955,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Zeige beide Seiten"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Zeige linke Seite"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Zeige rechte Seite"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Brille an COM-Port"
-Msg_Menu_Video_Screens                  = "Anzeigen"
-Msg_Menu_Video_Screens_New              = "Neu"
-Msg_Menu_Video_Screens_KillLast         = "Schließe letzte"
-Msg_Menu_Video_Screens_KillAll          = "Schließe alle"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOUND"
@@ -4438,10 +4419,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Visa båda sidor"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Visa vänster sida"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Visa höger sida"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Använder glasögon på COM port"
-Msg_Menu_Video_Screens                  = "Skärmar"
-Msg_Menu_Video_Screens_New              = "Ny"
-Msg_Menu_Video_Screens_KillLast         = "Stäng senaste"
-Msg_Menu_Video_Screens_KillAll          = "Stäng alla"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "LJUD"
@@ -4905,10 +4882,6 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Vis begge sider"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Vis venstre side"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Vis højre side"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Benytter briller via COM Port"
-Msg_Menu_Video_Screens                  = "Skærme"
-Msg_Menu_Video_Screens_New              = "Ny"
-Msg_Menu_Video_Screens_KillLast         = "Luk sidste"
-Msg_Menu_Video_Screens_KillAll          = "Luk alle"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "LYD"

@@ -350,19 +350,19 @@ void    Video_Setup_State (void)
     Inputs_Init_Mouse (); // why? I forgot
 }
 
-void    Screen_Save_to_Next_Buffer (void)
+void    Screen_Save_to_Next_Buffer(void)
 {
     blit (screenbuffer, screenbuffer_next, 0, 0, 0, 0, screenbuffer->w, screenbuffer->h);
 }
 
-void    Screen_Restore_from_Next_Buffer (void)
+void    Screen_Restore_from_Next_Buffer(void)
 {
     blit (screenbuffer_next, screenbuffer, 0, 0, 0, 0, screenbuffer_next->w, screenbuffer_next->h);
 }
 
 // REFRESH THE SCREEN ---------------------------------------------------------
 // This is called when line == tsms.VDP_Line_End
-void    Refresh_Screen (void)
+void    Refresh_Screen(void)
 {
     // acquire_bitmap(screen);
 
@@ -374,11 +374,10 @@ void    Refresh_Screen (void)
 
     if (fskipper.Show_Current_Frame)
     {
-        if (Capture.request)
-            Capture_Screen ();
+		Capture_Update();
 
         if (Machine_Pause_Need_To)
-            Machine_Pause ();
+            Machine_Pause();
 
         if (Meka_State == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
         {
@@ -464,7 +463,7 @@ void    Refresh_Screen (void)
     }
 
     // Ask frame-skipper weither next frame should be drawn or not
-    fskipper.Show_Current_Frame = Frame_Skipper ();
+    fskipper.Show_Current_Frame = Frame_Skipper();
     //if (fskipper.Show_Current_Frame == FALSE)
     //   Msg (MSGT_USER, "Skip frame!");
 
@@ -478,11 +477,11 @@ void    Refresh_Screen (void)
 
 // SET BORDER COLOR IN VGA MODES ----------------------------------------------
 #ifdef DOS
-void    Video_VGA_Set_Border_Color (u8 idx)
+void    Video_VGA_Set_Border_Color(u8 idx)
 {
-    inp  (0x3DA);
-    outp (0x3C0, 0x31);
-    outp (0x3C0, idx);
+    inp(0x3DA);
+    outp(0x3C0, 0x31);
+    outp(0x3C0, idx);
 };
 #endif
 

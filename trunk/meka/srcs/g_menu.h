@@ -115,7 +115,7 @@ struct
   int   menu;
   int   file;
   int   machine, power, country, tvtype;
-  int   video, themes, blitters, layers, flickering, glasses, screens;
+  int   video, themes, blitters, layers, flickering, glasses, screenshots;
   int   inputs, rapidfire;
   int   sound, volume, rate, channels, fm, fm_emu;
   int   tools;

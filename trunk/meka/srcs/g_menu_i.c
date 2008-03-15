@@ -13,6 +13,7 @@
 #include "app_textview.h"
 #include "app_tileview.h"
 #include "blitintf.h"
+#include "capture.h"
 #include "datadump.h"
 #include "debugger.h"
 #include "file.h"
@@ -22,6 +23,10 @@
 #include "keyboard.h"
 #include "rapidfir.h"
 #include "saves.h"
+
+//-----------------------------------------------------------------------------
+// FUNCTIONS
+//-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // gui_menus_init ()
@@ -100,7 +105,13 @@ void        gui_menus_init (void)
     // VIDEO
     //-------------------------------------------------------------------------
     menu_add_item     (menus_ID.video,    Msg_Get (MSG_Menu_Video_FullScreen),              AM_Active, Action_Switch_Mode, NULL);
-    // VIDEO -> THEMES
+
+	// VIDEO -> CAPTURE
+	menus_ID.screenshots = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_Capture),  AM_Active);
+	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_CaptureScreen),  AM_Active, Capture_MenuHandler_Capture, NULL);
+	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_CaptureScreenAll), AM_Active, Capture_MenuHandler_AllFrames, NULL);
+	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_IncludeGui),  AM_Active | Is_Checked(g_Configuration.capture_include_gui), Capture_MenuHandler_IncludeGui, NULL);
+	// VIDEO -> THEMES
     menus_ID.themes   = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_Themes),     AM_Active);
     Skins_MenuInit (menus_ID.themes);
     // VIDEO -> BLITTERS
@@ -122,11 +133,6 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.glasses,  Msg_Get (MSG_Menu_Video_3DGlasses_ShowLeftSide),  Is_Active (Glasses.Enabled) | Is_Checked (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT), Glasses_Switch_Mode_Show_Left, NULL);
     menu_add_item     (menus_ID.glasses,  Msg_Get (MSG_Menu_Video_3DGlasses_ShowRightSide), Is_Active (Glasses.Enabled) | Is_Checked (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT), Glasses_Switch_Mode_Show_Right, NULL);
     menu_add_item     (menus_ID.glasses,  Msg_Get (MSG_Menu_Video_3DGlasses_UsesCOMPort),   Is_Active (Glasses.Enabled) | Is_Checked (Glasses.Mode == GLASSES_MODE_COM_PORT), Glasses_Switch_Mode_Com_Port, NULL);
-    // VIDEO -> SCREENS
-    //menus_ID.screens  = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_Screens),    AM_Active);
-    //menu_add_item     (menus_ID.screens,  Msg_Get (MSG_Menu_Video_Screens_New),             AM_Active, gamebox_create_on_mouse_pos, NULL);
-    //menu_add_item     (menus_ID.screens,  Msg_Get (MSG_Menu_Video_Screens_KillLast),        AM_Nothing, gamebox_kill_last, NULL);
-    //menu_add_item     (menus_ID.screens,  Msg_Get (MSG_Menu_Video_Screens_KillAll),         AM_Nothing, gamebox_kill_all, NULL);
 
     //-------------------------------------------------------------------------
     // SOUND

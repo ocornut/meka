@@ -313,9 +313,10 @@ typedef struct
     int     video_mode_gui_access_mode;         // Make obsolete
 
 	// Capture
-	const char *		capture_filename_template;
-	bool				capture_crop_scrolling_column;
-	bool				capture_crop_align_8x8;
+	const char *	capture_filename_template;
+	bool			capture_crop_scrolling_column;
+	bool			capture_crop_align_8x8;
+	bool			capture_include_gui;
 
 
 } t_meka_configuration;

@@ -113,6 +113,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	 "video_game_page_flipping",
 
 	 "screenshots_crop_scrolling_column",
+	 "screenshots_include_gui",
 
      NULL
      };
@@ -428,6 +429,10 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	case 60: g_Configuration.capture_crop_scrolling_column = (bool)atoi(value);
 		break;
 
+	// screenshots_include_gui
+	case 61: g_Configuration.capture_include_gui = (bool)atoi(value);
+		break;
+
     default:
         Quit_Msg("Error #4785");
         break;
@@ -636,6 +641,7 @@ void    Configuration_Save (void)
     CFG_Write_StrEscape  ("screenshots_filename_template", g_Configuration.capture_filename_template);
 	CFG_Write_Int  ("screenshots_crop_scrolling_column", g_Configuration.capture_crop_scrolling_column);
 	CFG_Write_Int  ("screenshots_crop_align_8x8", g_Configuration.capture_crop_align_8x8);
+	CFG_Write_Int  ("screenshots_include_gui", g_Configuration.capture_include_gui);
     CFG_Write_StrEscape  ("music_wav_filename_template", Sound.LogWav_FileName_Template);
     CFG_Write_StrEscape  ("music_vgm_filename_template", Sound.LogVGM_FileName_Template);
     CFG_Write_Line ("(see documentation for more information about templates)");
