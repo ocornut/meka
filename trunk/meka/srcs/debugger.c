@@ -599,12 +599,14 @@ int         Debugger_Hook(Z80 *R)
         {
             t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
             if (breakpoint->enabled)
+			{
                 if (breakpoint->location == BREAKPOINT_LOCATION_CPU && (breakpoint->access_flags & BREAKPOINT_ACCESS_X))
                 {
                     if (Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_X, pc, RdZ80_NoHook(pc)))
                         break_activated = TRUE;
                     cnt--;
                 }
+			}
         }
         assert(cnt == 0);
         if (!break_activated && !R->Trace)
@@ -1860,6 +1862,7 @@ void        Debugger_Applet_Redraw_State(void)
         {
             char buf[256];
             int text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
+			int opcode_size;
 
             if (g_Configuration.debugger_disassembly_display_labels)
             {
@@ -1890,16 +1893,31 @@ void        Debugger_Applet_Redraw_State(void)
             //Debugger_Z80_PC_Log_Queue_Add(pc);
 
             // Disassemble
-            if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
-            {
-                buf[0] = ' ';
-                pc += Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
-            }
-            else
-            {
-                pc += Debugger_Disassemble_Format(buf, pc, pc == sms.R.PC.W);
-            }
+            //if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
+            buf[0] = ' ';
+            opcode_size = Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
+
+			// Breakpoints
+			{
+				t_list *breakpoints;
+				int flags = 0;
+				for (breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
+				{
+					t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
+					if (breakpoint->type == BREAKPOINT_TYPE_BREAK)
+					{
+						flags |= 1;
+					}
+				}
+				if (flags & 1)
+				{
+					buf[0] = '!';
+				}
+			}
+
             Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), text_color);
+
+			pc += opcode_size;
         }
     }
 
@@ -2787,26 +2805,22 @@ void        Debugger_InputParseCommand(char *line)
                 for (i = 0; i < len; i++)
                 {
                     char buf[256];
-                    addr += Debugger_Disassemble_Format(buf, addr, addr == sms.R.PC.W);
+					int opcode_size;
+					t_list *symbols;
 
-                    if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
-                    {
-                        // Display symbols/labels (if any)
-                        t_list *symbols;
-                        for (symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
-                        {
-                            t_debugger_symbol *symbol = symbols->elem;
-                            Debugger_Printf("%s:\n", symbol->name);
-                        }
+					opcode_size = Debugger_Disassemble_Format(buf, addr, addr == sms.R.PC.W);
 
-                        // Display instruction
-                        Debugger_Printf(" %s\n", buf);
-                    }
-                    else
+                    // Display symbols/labels (if any)
+                    for (symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
                     {
-                        // Note the subtle difference: no space before '%s'
-                        Debugger_Printf("%s\n", buf);
+                        t_debugger_symbol *symbol = symbols->elem;
+                        Debugger_Printf("%s:\n", symbol->name);
                     }
+
+                    // Display instruction
+                    Debugger_Printf(" %s\n", buf);
+
+					addr += opcode_size;
                 }
             }
         }
