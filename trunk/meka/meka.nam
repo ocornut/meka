@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/03/09
+; Last updated 2008/03/22
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -670,7 +670,7 @@ GG  65e60dfe 516CF5541BA9E056   Batman Returns/FLAGS=BAD/COUNTRY=JP,US,EU/COMMEN
 GG  fdc8fc18 B33070CAB97B921D   Dynamite Headdy/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte.
 GG  29b1df1a 01B1CB4E2F1E4C9C   Fatal Fury Special/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte.
 GG  808a71c3 F2F739A55BF09757   Kinetic Connection/FLAGS=BAD/COUNTRY=JP/COMMENT=Overdumped ROM.
-GG  6755282d ED553EA2FE167951   Joe Montana Football/FLAGS=BAD/COUNTRY=US,EU,JP/COMMENT=2 bad bytes.
+GG  6755282d ED553EA2FE167951   Joe Montana Football/FLAGS=BAD/COUNTRY=JP/COMMENT=2 bad bytes.
 GG  8c048325 4991B2A2AE8AB9E1   Indiana Jones and the Last Crusade/FLAGS=BAD/COUNTRY=US,EU/COMMENT=1 bad byte. Doesn't affect game-play.
 GG  75e273eb 0C48B8C0E5B82B6C   Madden 96/FLAGS=BAD/COUNTRY=US,EU/COMMENT=27 bad bytes.
 GG  e30e7dc6 7F39562D4299AC3E   Super Monaco GP/FLAGS=BAD/COUNTRY=JP/COMMENT=2 bad bytes.

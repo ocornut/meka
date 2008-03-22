@@ -275,7 +275,7 @@
  Ottifants, The                                 -       Ok
  Out Run                                        FM,(PAD)        In FM mode, wave sound hang at race start.
  Out Run 3-D                                    FM,(3D),(PAD)   Ok
- Out Run Europa                                *-       Ok
+ Out Run Europa                                 -       Ok
  Pacmania                                       -       Ok
  Paperboy                                       -       Ok
  Paperboy (US)                                  -       Ok
@@ -792,7 +792,7 @@
  Ichidant~R GG (Puzzle & Action)                    Ok
  Incredible Crash Dummies, The                      Ok
  Incredible Hulk, The                               Ok
- Indiana Jones and the Last Crusade                *Ok
+ Indiana Jones and the Last Crusade                 Ok
  In the Wake of Vampire (JP)                        Ok
  Iron Man X-O Manowar in Heavy Metal                Ok
  Itchy & Scratchy Game, The                         Ok
@@ -803,7 +803,7 @@
  Jeopardy! - Sports Edition                         Ok
  J League GG Pro Striker '94 (JP)                   Ok
  J League Soccer - Dream Eleven (JP)                Ok
- Joe Montana Football                              *Ok
+ Joe Montana Football                               Ok
  Joe Montana Football (JP)                          Ok
  Judge Dredd                                        Ok
  Junction                                           Ok
@@ -833,7 +833,7 @@
  Lunar - Sanpo-suru Gakuen (JP)                     Ok
  Mac Donald - Ronald in the Magical World           Ok
  Madden's NFL '95                                   Ok
- Madden 96                                         *Ok
+ Madden 96                                          Ok
  Madoh Monogatari I - Mittsu no Madokyuu (JP)       Ok
  Madoh Monogatari II - Aruru 16-sai (JP)            Ok
  Madoh Monogatari III - Kyuukyoku Joo-sama [v0] (JP)Ok
@@ -923,7 +923,7 @@
  Primal Rage                                        Ok
  Pro Yakyuu GG League (JP)                         *Ok
  Pro Yakyuu GG League '94 (JP)                      Ok
- Psychic World                                     *Ok
+ Psychic World                                      Ok
  Psychic World (JP)                                 Ok
  Putt & Putter                                      Ok
  Putt & Putter (JP)                                 Ok
@@ -1023,7 +1023,7 @@
  TaleSpin (Disney's)                                Ok
  Tama & Friends - 3chome Koen Tamalympic (JP)       Ok
  Tant~R (Puzzle & Action) (JP)                      Ok
- Tatakae! Pro Yakyuu Twin League (JP)              *Ok
+ Tatakae! Pro Yakyuu Twin League (JP)               Ok
  Taz in Escape from Mars                            Ok
  Taz-Mania                                          Ok
  Tempo Jr.                                          Ok
