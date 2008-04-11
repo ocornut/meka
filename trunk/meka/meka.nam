@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/03/22
+; Last updated 2008/04/11
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -597,6 +597,7 @@ GG  635c483a 233F62535FB604D0   Pinball Dreams/COUNTRY=US   ; released EU? missi
 GG  cc90c723 5567550DB4B0017D   Pocket Jansou/COUNTRY=JP/PRODUCT_NO=T-14067
 GG  09de1528 580F2481F9E66BAA   Power Strike II/NAME_JP=GG Aleste II/PRODUCT_NO=G-3330,2443
 GG  2a34b5c7 18673C53CC026BB9   Primal Rage/COUNTRY=US,EU/PRODUCT_NO=T-48218,T-48218-50
+GG  2da8e943 50F748597A78081E   Pro Yakyuu GG League/COUNTRY=JP/PRODUCT_NO=G-3407/EMU_MAPPER=4
 GG  afcc7828 B06D9479FA71A7C4   Psychic World/COUNTRY=JP/PRODUCT_NO=G-3203
 GG  73779b22 AF5D95122837E30B   Psychic World/COUNTRY=US,EU,BR/PRODUCT_NO=2306,012090
 GG  ecc301dd AD4D9A4947CE49C5   Putt & Putter/COUNTRY=US,EU/PRODUCT_NO=2307
@@ -1196,7 +1197,6 @@ CEE87887BE4C5BE6,Phantasy Star Adventure,ID=G-3216,VER=Japanese
 75675BCE2FD003F9,Pop Breaker,ID=T-52017,COUNTRY=1,VER=Japanese
 E9A50801BEAAFD04,Popeye's Beach Volleyball,ID=T-154017,VER=Japanese
 580F2481F9E66BAA,Power Strike II,JAPNAME=GG Aleste II,ID=G-3330
-50F748597A78081E,Pro Yakyuu GG League,ID=G-3407,VER=Japanese,Mapper=4
 C6EE3E765A5503E6,Pro Yakyuu GG League '94,ID=G-3353,VER=Japanese
 C0B450E4E8C49C10,Psychic World [B],VER=English,COMMENT=????
 6D6D979B9D368E93,Puzlow Kids,JAPNAME=Puyo Puyo,ID=G-3324,VER=International
