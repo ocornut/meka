@@ -758,6 +758,7 @@
  From TV animation - Slam Dunk - Shouri-e no.. (JP) Ok
  Galaga '91                                         Ok
  Gamble Panic (JP)                                  Ok
+ Garou Densetsu Special (JP)                       *Ok
  Gyuwanburaa Jikochuushin Ha (JP)                   Ok
  Ganbare Gorby! (JP)                                Ok
  Garfield - Caught in the Act                       Ok
@@ -1076,7 +1077,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 432 games tested - 422 are "Ok" - Compatibility rate: 97.66%
+ 433 games tested - 423 are "Ok" - Compatibility rate: 97.69%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
