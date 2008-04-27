@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/04/11
+; Last updated 2008/04/27
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -309,6 +309,7 @@ SMS 11c1bc8a D3A4F10A4B37C04C   Sonic Spinball/COUNTRY=EU,BR/PRODUCT_NO=9034,028
 SMS b519e833 2F2C8E1A0AE456B9   Sonic The Hedgehog/COUNTRY=EU,US,BR/PRODUCT_NO=7076
 SMS 5b3b922c 89244C65041595F4   Sonic The Hedgehog 2 [v0]/COUNTRY=EU,BR/PRODUCT_NO=9015,028120/EMU_TVTYPE=PAL/VERSION=0
 SMS d6f2bfca 9E35369CB6BB509A   Sonic The Hedgehog 2 [v1]/COUNTRY=EU,BR/PRODUCT_NO=9015,028120/EMU_TVTYPE=PAL/VERSION=1
+SMS d9096263 3DC6AEC840CA126B   Sonic's Edusoft [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased educational game software.
 SMS 6bd5c2bf BEFA25D66361C8C1   Space Harrier 3-D/COUNTRY=US,EU,BR/PRODUCT_NO=8004/EMU_3D/COMMENT=The 3-D effect can be removed by doing the following: complete the game with a score that qualifies for a sixth or higher position on the high score screen, then enter THREE as a name on the high score screen with Control Pad 2.
 SMS 156948f9 97FA12D86875C8E0   Space Harrier 3D/COUNTRY=JP/PRODUCT_NO=G-1349/EMU_3D/COMMENT=The 3-D effect can be removed by doing the following: complete the game with a score that qualifies for a sixth or higher position on the high score screen, then enter THREE as a name on the high score screen with Control Pad 2.
 SMS fa8e4ca0 A6E188CF3FB0E053   Special Criminal Investigation - S.C.I./COUNTRY=EU/PRODUCT_NO=7079
@@ -545,6 +546,7 @@ GG  c3c52767 6A66AD66C5D81A66   Gunstar Heroes/COUNTRY=JP/PRODUCT_NO=G-3349
 GG  423803a7 9E7E0CAD62261E85   Gyuwanburaa Jikochuushin Ha/COUNTRY=JP/PRODUCT_NO=G-3309,G-3339
 GG  7e9dea46 400DE4894112C132   Halley Wars/COUNTRY=US,EU/PRODUCT_NO=2318
 GG  def5a5d0 1F25824E7BFAA5D2   Halley Wars/COUNTRY=JP/PRODUCT_NO=T-11027
+GG  beed9150 BFF25E2CEA4F8C00   Heavy weight Champ/COUNTRY=JP/PRODUCT_NO=T-44027
 GG  056cae74 07EAA1CEF2F8BBFB   Hyper Chou Pro Yakyuu '92/COUNTRY=JP/PRODUCT_NO=G-3217
 GG  9f64c2bb 69824C1FDBCFC040   Ichidant~R GG (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G-3359/COMMENT=Proper Japanese transcription is "Ichidanto A~Ru GG". "Ichidant~R" is official romanization of the Arcade version. Note the different position of the tilde. Title screen shows "PUZZLLE & ACTION" with 2 L.
 GG  087fc247 F1E3947961D3D813   Incredible Crash Dummies, The/COUNTRY=JP,US,EU/PRODUCT_NO=T-81127,T-81138-50/COMMENT=Also referred to as "Crash Dummies".
@@ -1116,7 +1118,6 @@ AB28B8AACF008D6F,Godzilla - Kaiju Dai-Shingeki,ID=G-3430,VER=Japanese
 AB0C222F75C0695A,Griffin,ID=T-49017,VER=English
 357F4A30EE2C9A1E,Honoo no Toukyuuji Dodge Danpei,ID=G-3220,VER=Japanese
 90F66A8B1F353DF4,Head Buster,ID=T-25017,VER=Japanese
-BFF25E2CEA4F8C00,Heavyweight Champ,ID=T-44027,Ver=Japanese
 4CB0035708055746,Home Alone,VER=English
 54FCF17485714015,Hook,VER=English,ID=T-93028-50
 D0C9FEBE08434B15,House of Tarot,JAPNAME=Tarot no Yakata,ID=G-3208,VER=Japanese

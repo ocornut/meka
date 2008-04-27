@@ -355,6 +355,7 @@
  Sonic The Hedgehog                             -       Ok
  Sonic The Hedgehog 2 [v0]                      -       Ok
  Sonic The Hedgehog 2 [v1]                      -       Ok
+ Sonic's Edusoft [Proto]                        -       Ok
  Space Gun                                      LP      Ok
  Space Harrier [50 Hz]                          -       Ok
  Space Harrier [50 / 60 Hz]                     -       Ok
@@ -468,7 +469,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 450 games tested - 448 are "Ok" - Compatibility rate: 99.54%
+ 451 games tested - 449 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -782,7 +783,7 @@
  Halley Wars                                        Flickering Status (LCD persistance).
  Halley Wars (JP)                                   Flickering Status (LCD persistance).
  Head Buster (JP)                                   Ok
- Heavyweight Champ                                 *Ok
+ Heavy weight Champ (JP)                           *Ok
  Home Alone                                         Ok
  Hook                                               Ok
  House of Tarot (JP)                                Ok
@@ -921,7 +922,7 @@
  Prince of Persia [SMS-GG] [A]                      Ok
  Prince of Persia [SMS-GG] [B]                     *Ok
  Primal Rage                                        Ok
- Pro Yakyuu GG League (JP)                         *Ok
+ Pro Yakyuu GG League (JP)                          Ok
  Pro Yakyuu GG League '94 (JP)                      Ok
  Psychic World                                      Ok
  Psychic World (JP)                                 Ok
