@@ -270,6 +270,7 @@
  Ninja Gaiden                                   -       Ok
  Ninja Gaiden [Proto]                           -       Ok
  Olympic Gold                                  *-       Ok
+ Olympic Gold (KR)                             *-       Ok
  Opa Opa (JP)                                   FM      Ok
  Operation Wolf                                 (LP)    Ok
  Ottifants, The                                 -       Ok
@@ -469,7 +470,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 451 games tested - 449 are "Ok" - Compatibility rate: 99.54%
+ 452 games tested - 450 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -647,7 +648,8 @@
  Aa Harimanada (JP)                                 Ok
  Addams Family, The                                 Ok
  Adventures of Batman & Robin, The                  Flickering status (LCD persistance).
- Aerial Assault                                     Ok
+ Aerial Assault [v0]                                Ok
+ Aerial Assault [v1] (JP)                          *Ok
  Aladdin (Disney's)                                 Ok
  Aladdin (Disney's) (JP)                            Ok
  Alien 3                                            Ok
@@ -778,7 +780,7 @@
  GP Rider                                           Ok
  GP Rider (JP)                                      Ok
  Greendog                                           Ok
- Griffin                                            Ok
+ Griffin (JP)                                       Ok
  Gunstar Heroes (JP)                                Ok
  Honoo no Toukyuuji Dodge Danpei (JP)               Ok
  Halley Wars                                        Flickering Status (LCD persistance).
@@ -1077,7 +1079,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 433 games tested - 423 are "Ok" - Compatibility rate: 97.69%
+ 434 games tested - 424 are "Ok" - Compatibility rate: 97.69%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
