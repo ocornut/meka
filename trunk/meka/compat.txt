@@ -635,6 +635,7 @@
  Complete Arcade Pack Collection, The (NZ)          Ok
  Crocky (FR)                                        Bad Dump
  Kamikaze  (FR)                                     Ok
+ HuCAL                                              Ok (can't write to disk / cassette)
  Sega Disk Basic v1.0p                              Ok (can't write to disk / cassette)
  Sega Logo v1.0e                                    Ok (can't write to disk / cassette)
  Poseidon Wars / Space Panic / Rambo (FR)           Ok (Rambo isn't finished)
@@ -667,6 +668,7 @@
  Ax Battler - A Legend of Golden Axe [v2.0] [Proto]*Ok
  Ax Battler - A Legend of Golden Axe [v2.4]         Ok
  Baku Baku Animal                                   Ok
+ Baku Baku Animal (US)                             *Ok
  Baku Baku Animal - Sekai Shiikugakari Senshu..(JP) Ok
  Barbie Super Model [Proto]                         Ok
  Bart vs. The Space Mutants (The Simpsons)          Ok
@@ -847,7 +849,7 @@
  Magic Knight Ray Earth 2 ~making of magic k.. (JP) Ok
  Magical Puzzle Popils (JP)                         Ok
  Magical Taruruto-kun (JP)                          Ok
- Majors Pro Baseball                                Ok
+ Majors Pro Baseball, The                           Ok
  Man Overboard!                                     Ok
  Mappy (JP)                                         Ok
  Marble Madness                                     Ok
@@ -929,7 +931,7 @@
  Pro Yakyuu GG League '94 (JP)                      Ok
  Psychic World                                      Ok
  Psychic World (JP)                                 Ok
- Putt & Putter                                      Ok
+ Putt & Putter / Putt & Putter - Miniature Golf     Ok
  Putt & Putter (JP)                                 Ok
  Puyo Puyo 2 (JP)                                   Ok
  Puzlow Kids / Puyo Puyo                            Ok
@@ -941,7 +943,7 @@
  Revenge of Drancon                                 Ok
  Riddick Rowe Boxing                                Ok
  Rise of the Robots                                 Ok
- Ristar / Ristar the shooting Star                  Ok
+ Ristar / Ristar the Shooting Star                  Ok
  Road Rash                                          Ok
  RoboCop 3                                          Ok
  RoboCop versus The Terminator                      Ok
@@ -958,7 +960,7 @@
  Shadam Crusader ~Harukanaru Oukoku~ (JP)           Ok
  Shanghai II (JP)                                   Ok
  Shaq Fu                                            Ok
- Shining Force - The Sword of Hajya                 Reset after some missions (?).
+ Shining Force - The Sword of Hajya                 Ok
  Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP) Ok
  Shining Force Gaiden II ~Jashin no Mezame~ (JP)    Ok
  Shining Force Gaiden ~Final Conflict~ (JP)         Ok
@@ -1001,6 +1003,7 @@
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
  Strider Returns                                    Ok
+ Super Battletank                                  *Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
  Super Golf (JP)                                    Ok
@@ -1050,8 +1053,8 @@
  Wagan Land (JP)                                    Ok
  Wakiyanrando (JP)                                  Ok
  Wheel of Fortune                                   Ok
- Wimbledon                                          Ok
- Winter Olympics                                    Ok
+ Wimbledon / Wimbledon - Tennis                     Ok
+ Winter Olympics / Winter Olympics Games            Ok
  Winter Olympics (JP)                               Ok
  Wizard Pinball                                     Ok
  Wolfchild                                          Ok
@@ -1079,7 +1082,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 434 games tested - 424 are "Ok" - Compatibility rate: 97.69%
+ 436 games tested - 426 are "Ok" - Compatibility rate: 97.70%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

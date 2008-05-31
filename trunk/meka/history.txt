@@ -51,6 +51,7 @@ They are usually of 2 kinds:
           GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
           GG  - a93e8b0f - Griffin                              --> Griffin (JP)
           GG  - 75e273eb - Madden '96                           --> Madden 96 [BAD]
+          GG  - 36ebcd6d - Majors Pro Baseball                  --> Majors Pro Baseball, The
           GG  - f1732ffe - TaleSpin                             --> TaleSpin (Disney's)
           GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness
 
