@@ -650,7 +650,7 @@
  Addams Family, The                                 Ok
  Adventures of Batman & Robin, The                  Flickering status (LCD persistance).
  Aerial Assault [v0]                                Ok
- Aerial Assault [v1] (JP)                          *Ok
+ Aerial Assault [v1] (JP)                           Ok
  Aladdin (Disney's)                                 Ok
  Aladdin (Disney's) (JP)                            Ok
  Alien 3                                            Ok
@@ -762,7 +762,7 @@
  From TV animation - Slam Dunk - Shouri-e no.. (JP) Ok
  Galaga '91                                         Ok
  Gamble Panic (JP)                                  Ok
- Garou Densetsu Special (JP)                       *Ok
+ Garou Densetsu Special (JP)                        Ok
  Gyuwanburaa Jikochuushin Ha (JP)                   Ok
  Ganbare Gorby! (JP)                                Ok
  Garfield - Caught in the Act                       Ok

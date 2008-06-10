@@ -111,7 +111,7 @@ typedef struct
     int   key_sk1100;
 } t_sk1100_map;
 
-#define SK1100_MAPPING_NUM (62+5)
+#define SK1100_MAPPING_NUM (62+7)
 
 static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
 {
@@ -142,7 +142,9 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
     { KEY_C,              21      },
     { KEY_ALTGR,          22      }, // Home Clear
     { KEY_SLASH,          23      },
-    { KEY_COLON,          24      },
+    { KEY_COLON,          24      }, // ;
+	{ KEY_SEMICOLON,      24      }, // ; ++
+	{ KEY_COLON2,         24      }, // ; ++
     { KEY_P,              25      },
     { KEY_0,              26      },
     // Row: 3 -------------------------------------------------------------------
