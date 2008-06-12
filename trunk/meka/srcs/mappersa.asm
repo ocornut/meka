@@ -1,6 +1,10 @@
 ;------------------------------------------------------------------------------
 ; MEKA - mappersa.asm
-; Mappers - Assembly Routines (for memory handlers)
+; Mappers - X86 Assembly Routines (for memory handlers)
+;------------------------------------------------------------------------------
+; FIXME: Now in 2008 let's not provide too much effort maintaining those. 
+; For such simple well defined operation, properly broken down, there's no 
+; reason that a C compiler can't produce the same result.
 ;------------------------------------------------------------------------------
 
 BITS    32
@@ -107,6 +111,7 @@ _Write_Mapper_32kRAM_ASM:
         ; xor   edi, edi
         ; mov   di, word [esp + 20]     ; edi = Addr
         mov     edi, dword [esp + 20]   ; edi = Addr
+        and     edi, 0xFFFF
 
         mov     esi, edi                ; esi = Addr
 

@@ -17,6 +17,8 @@ They are usually of 2 kinds:
   - SC-3000:
     - Fixed the ;/+/RAD key not working on Sega Keyboard emulation under
       certain host keyboard/OS configuration. Thanks Jacko. [Omar]
+    - Fixed crash in the X86 assembly implementation of the 32KB RAM mapper
+      writer when the upper 16 bits were not cleared by the Z80 emulator. [Omar]
   - Debugger:
     - Increased default height of the debugger. [Omar]
     - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
