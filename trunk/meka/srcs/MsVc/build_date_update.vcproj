@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="build_date_update"
 	ProjectGUID="{63B96009-6B50-4D7E-A868-62F22424B2C8}"
+	RootNamespace="build_date_update"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -12,8 +13,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
+			OutputDirectory="..\..\objs\$(ConfigurationName)\build_date_update\"
+			IntermediateDirectory="..\..\objs\$(ConfigurationName)\build_date_update\"
 			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
@@ -63,8 +64,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
-			IntermediateDirectory="Release"
+			OutputDirectory="..\..\objs\$(ConfigurationName)\build_date_update\"
+			IntermediateDirectory="..\..\objs\$(ConfigurationName)\build_date_update\"
 			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
