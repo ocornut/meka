@@ -146,7 +146,7 @@
 				MapExports="TRUE"
 				MapLines="FALSE"
 				SubSystem="2"
-				OptimizeReferences="2"
+				OptimizeReferences="2"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
