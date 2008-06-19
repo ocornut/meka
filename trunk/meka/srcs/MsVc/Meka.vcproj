@@ -216,7 +216,7 @@
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
-				IgnoreDefaultLibraryNames="libcmt msvcrt"
+				IgnoreDefaultLibraryNames="libcmt,msvcrt"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
 				GenerateMapFile="FALSE"
