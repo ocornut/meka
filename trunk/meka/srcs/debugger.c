@@ -24,6 +24,8 @@
 #define DEBUGGER_APP_TITLE              "Debugger"
 #define DEBUGGER_APP_CPUSTATE_LINES     (2)
 
+#define DEBUGGER_WATCH_FLOOD_LIMIT		(50)
+
 //-----------------------------------------------------------------------------
 // External declaration
 //-----------------------------------------------------------------------------
@@ -105,7 +107,7 @@ static int                      Debugger_Symbol_CompareByAddress(t_debugger_symb
 
 // History
 static bool                     Debugger_History_Callback(t_widget *w, int level);
-static void						Debugger_History_AddLine(const char *line);
+static void						Debugger_History_AddLine(const char *line_to_add);
 static void                     Debugger_History_List(const char *search_term_arg);
 
 // Values
@@ -971,10 +973,11 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
     else
     {
         // Watch
-        if (++Debugger.watch_counter >= 100)
+        if (++Debugger.watch_counter >= DEBUGGER_WATCH_FLOOD_LIMIT)
         {
-            if (Debugger.watch_counter == 100)
-                Debugger_Printf("Maximum number of watch triggered this frame (100)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.\n");
+			// Flood?
+            if (Debugger.watch_counter == DEBUGGER_WATCH_FLOOD_LIMIT)
+                Debugger_Printf("Maximum number of watch triggered this frame (%d)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.\n", DEBUGGER_WATCH_FLOOD_LIMIT);
             return (TRUE);
         }
         action = "watch";
@@ -3035,8 +3038,9 @@ void        Debugger_InputBoxCallback(t_widget *w)
         return;
     }
 
-    // Add input to history
-    Debugger_History_AddLine(line_buf);
+	// Add input to history
+	//// Note: add after executing command, so that HISTORY doesn't show itself
+	Debugger_History_AddLine(line_buf);
 
     // Print line to the console, as a user command log
     // Note: passing address of the color because we need a theme switch to be reflected on this
@@ -3732,48 +3736,68 @@ bool        Debugger_CompletionCallback(t_widget *w)
 // FUNCTIONS - HISTORY
 //-----------------------------------------------------------------------------
 
-void	Debugger_History_AddLine(const char *line)
+// FIXME-OPT: Absolutely lame implementation, because we don't have decent data structure libraries.
+void	Debugger_History_AddLine(const char *line_to_add)
 {
 	t_debugger_history_item *item;
+	char *line;
+	char *line_uppercase;
+	bool item_added;
+	int n;
 
-    // Shift all history entries by one, except entry 0 which is fixed
+    // Shift all history entries by one up to matching one which is moved back to front (entry 1).
+	// Entry 0 is current input line and is fixed.
     // 3 bye        3 hello
     // 2 hello  --> 2 sega
     // 1 sega       1 <line>
     // 0            0 
 
-    // Note: this would be faster done with a linked list, but we'd require a
-    // double linked list for other operators. We have no double-linked list yet.
-    int n = Debugger.history_count - 1;
-    if (n >= 1)
-    {
-        // Free last entry
-        if (n == Debugger.history_max - 1)
-		{
-            free(Debugger.history[n].line);
-			free(Debugger.history[n].line_uppercase);
-		}
+	// Duplicate line and convert to uppercase
+	// Even when we find a matching entry, we will replace it by was what typed to keep last character casing.
+	// It's a rather useless detail, meaning it is indispensable.
+	line = strdup(line_to_add);
+	line_uppercase = strupr(strdup(line_to_add));
 
-        // Shift
-        while (n >= 1)
-        {
-            Debugger.history[n + 1] = Debugger.history[n];
-            n--;
-        }
-    }
+	// Search for duplicate entry in history
+	for (n = 1; n < Debugger.history_count; n++)
+	{
+		if (strcmp(Debugger.history[n].line_uppercase, line_uppercase) == 0)
+			break;
+	}
+	
+	//Msg(MSGT_USER, "n = %d, h_count = %d, h_max = %d", n, Debugger.history_count, Debugger.history_max);
+
+	if (n < Debugger.history_count || n == Debugger.history_max - 1)
+	{
+		// Delete last or matching entry
+		free(Debugger.history[n].line);
+		free(Debugger.history[n].line_uppercase);
+		item_added = FALSE;
+	}
+	else
+	{
+		item_added = TRUE;
+	}
+
+	// Shift
+	while (n > 1)
+	{
+		Debugger.history[n] = Debugger.history[n - 1];
+		n--;
+	}
 
     // Duplicate and add new entry
 	item = &Debugger.history[1];
- 	item->line = strdup(line);
-	item->line_uppercase = strdup(line);
+ 	item->line = line;
+	item->line_uppercase = line_uppercase;
 	item->cursor_pos = -1;
-	strupr(item->line_uppercase);
 
-    // Increase counter
-    if (Debugger.history_count < Debugger.history_max)
-        Debugger.history_count++;
+	// Increase counter
+	if (item_added)
+		if (Debugger.history_count < Debugger.history_max)
+			Debugger.history_count++;
 
-	// Reset current index everytime a new line is typed
+	// Reset current index every time a new line is typed
 	Debugger.history_current_index = 0;
 }
 

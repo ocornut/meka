@@ -29,7 +29,10 @@ They are usually of 2 kinds:
         RMAP $E001      ; eg: print 'RAM $C001'
       The feature doesn't work 100% in all mappers & bus mirroring cases, 
       but should be ok with the standard SMS/GG mapper. [Omar]
+    - Duplicate commands are automatically removed from history. [Omar]
     - Increased default height of the debugger. [Omar]
+    - Changed watch point per-frame flood limit from 100 to 50. Will expose in 
+      configuration file if requested. [Omar]
     - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
     - Fixed labels showing one instruction early in "DASM" command. [Omar]
     - Added breakpoint '!' mark in disassembly window. [Omar]
