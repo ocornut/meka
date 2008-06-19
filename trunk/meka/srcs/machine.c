@@ -296,8 +296,8 @@ void    Machine_Set_Mapping (void)
         default:
             RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
             memcpy (Game_ROM_Computed_Page_0, ROM, 0x4000);
-            Mem_Pages [0] = Game_ROM_Computed_Page_0;
-            Mem_Pages [1] = (Mem_Pages [0] + 0x2000) - 0x2000;
+			//Map_16k_Other (0, Game_ROM_Computed_Page_0);
+			Map_16k_ROM (0, 0);	// Mapping may change to Game_ROM_Computed_Page_0 at runtime
             break;
         }
         break;

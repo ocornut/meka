@@ -129,6 +129,7 @@ Debugger commands summary
  SYM [name]                     : Find symbols by name
  SYM @addr                      : Find symbols by address
  SET register=value             : Set Z80 register
+ RMAP addr                      : Reverse map Z80 address
  CLOCK [RESET]                  : Display Z80 cycle counter
 -- Miscellaenous:
  MEMEDIT [lines] [cols]         : Spawn memory editor
@@ -247,6 +248,18 @@ Parameters:
 Examples:
  SET BC=$1234    ; set BC register to $1234
  SET DE=HL,HL=0  ; set DE=HL, then zero HL
+
+
+Debugger command - RMAP
+-----------------------
+RMAP: Reverse map Z80 address
+Usage:
+ RMAP address
+Parameters:
+ address : address in Z80 space
+Examples:
+ RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
+ RMAP $E001      ; eg: print 'RAM $C001'
 
 
 Debugger command - CLOCK

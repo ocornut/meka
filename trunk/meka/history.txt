@@ -13,18 +13,26 @@ They are usually of 2 kinds:
 
  MEKA 0.73 WIP xxxxxxxx
  ----------------------
-  - Updated Dutch localization [Mark van Tilburg]
+  - Localization:
+    - Updated Dutch localization [Mark van Tilburg]
   - SC-3000:
     - Fixed the ;/+/RAD key not working on Sega Keyboard emulation under
       certain host keyboard/OS configuration. Thanks Jacko. [Omar]
     - Fixed crash in the X86 assembly implementation of the 32KB RAM mapper
       writer when the upper 16 bits were not cleared by the Z80 emulator. [Omar]
   - Debugger:
+    - Added "SYM @addr" command to search for symbols given an address. [Omar]
+    - Added "RMAP addr" command to reverse map of a Z80 address and display
+      the source of data based on machine state (mapper registers, etc). 
+      eg:
+        RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
+        RMAP $E001      ; eg: print 'RAM $C001'
+      The feature doesn't work 100% in all mappers & bus mirroring cases, 
+      but should be ok with the standard SMS/GG mapper. [Omar]
     - Increased default height of the debugger. [Omar]
     - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
-    - Added "SYM @addr" command to search for symbols given an address. [Omar]
     - Fixed labels showing one instruction early in "DASM" command. [Omar]
-    - Added breakpoint ! mark in disassembly window. [Omar]
+    - Added breakpoint '!' mark in disassembly window. [Omar]
   - GUI:
     - File browser: country flag now displayed even on BIOS, Prototypes
       or Homebrew images. [Omar]

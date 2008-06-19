@@ -5,9 +5,11 @@
 
 #include "shared.h"
 #include "app_memview.h"
+#include "bios.h"
 #include "debugger.h"
 #include "desktop.h"
 #include "g_widget.h"
+#include "mappers.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 #include <ctype.h>
@@ -108,14 +110,15 @@ static void                     Debugger_History_List(const char *search_term_ar
 
 // Values
 static void                     Debugger_Value_Delete(t_debugger_value *value);
-
 static void                     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name, void *data, int data_size);
 static void                     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol);
 static void                     Debugger_Value_SetComputed(t_debugger_value *value, u32 data, int data_size);
 static void                     Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_size);
-
 static void                     Debugger_Value_Read(t_debugger_value *value);
 static void                     Debugger_Value_Write(t_debugger_value *value, u32 data);
+
+// Reverse Map
+static void						Debugger_ReverseMap(u16 addr);
 
 //-----------------------------------------------------------------------------
 // Data - Command Info/Help
@@ -270,6 +273,19 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 		" SET BC=$1234    ; set BC register to $1234\n"
 		" SET DE=HL,HL=0  ; set DE=HL, then zero HL"
 	},
+	{
+		NULL, "RMAP",
+		"Reverse map Z80 address",
+		// Description
+		"RMAP: Reverse map Z80 address\n"
+		"Usage:\n"
+		" RMAP address\n"
+		"Parameters:\n"
+		" address : address in Z80 space\n"
+		"Examples:\n"
+		" RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'\n"
+		" RMAP $E001      ; eg: print 'RAM $C001'"
+	},
     {
         "M", "MEM",
         "Dump memory",
@@ -296,7 +312,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " cnt     : number of instruction to disassemble (10)"
     },
     {
-        NULL,"MEMEDIT",
+        NULL, "MEMEDIT",
         "Memory Editor",
         // Description
         "MEMEDIT: Spawn memory editor\n"
@@ -1980,7 +1996,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf("-- Breakpoints:\n");
         Debugger_Printf(" B [access] [bus] addr  : Add breakpoint"             "\n");
         Debugger_Printf(" W [access] [bus] addr  : Add watchpoint"             "\n");
-        Debugger_Printf(" B                      : Detailed breakpoint help"   "\n");
+        //Debugger_Printf(" B                      : Detailed breakpoint help"   "\n");
         //Debugger_Printf(" B LIST                 : List breakpoints"          "\n");
         //Debugger_Printf(" B REMOVE n             : Remove breakpoint"         "\n");
         //Debugger_Printf(" B ENABLE/DISABLE n     : Enable/disable breakpoint" "\n");
@@ -1990,6 +2006,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" P expr                 : Print evaluated expression" "\n");
         Debugger_Printf(" M [addr] [len]         : Memory dump at <addr>"      "\n");
         Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
+		Debugger_Printf(" RMAP addr              : Reverse map Z80 address"    "\n");
         Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
         Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
         Debugger_Printf(" CLOCK [RESET]          : Display Z80 cycle counter"  "\n");
@@ -2624,8 +2641,8 @@ void        Debugger_InputParseCommand(char *line)
             char *p = line;
             while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
             {
-                s16 data = value.data;
-                int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
+                const s16 data = value.data;
+                const int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
                 char binary_s[2][9];
                 char char_s[4];
 
@@ -2826,6 +2843,38 @@ void        Debugger_InputParseCommand(char *line)
         }
         return;
     }
+
+	// RMAP
+	if (!strcmp(cmd, "RMAP"))
+	{
+		Trim(line);
+		if (line[0])
+		{
+			if (!(machine & MACHINE_POWER_ON))
+			{
+				Debugger_Printf("Command unavailable while machine is not running!\n");
+			}
+			else
+			{
+				t_debugger_value value;
+				char *p = line;
+				while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
+				{
+					const s16 addr = value.data;
+					Debugger_ReverseMap(addr);
+
+					// Skip comma to get to next expression, if any
+					if (*p == ',')
+						p++;
+				}
+			}
+		}
+		else
+		{
+			Debugger_Help("RMAP");
+		}
+		return;
+	}
 
     // SYMBOLS - SYMBOLS
     if (!strcmp(cmd, "SYM") || !strcmp(cmd, "SYMBOL") || !strcmp(cmd, "SYMBOLS"))
@@ -3805,6 +3854,104 @@ void        Debugger_History_List(const char *search_term_arg)
 	{
 		// Free the uppercase duplicate we made
 		free(search_term);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// FUNCTIONS - REVERSE MAP
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Note: this is completely hard-coded to handle the most common cases.
+// The reason is that this feature was planned since a long time using a more
+// generic approach, but since I could not get myself to code that version, I'd
+// rather code the simple one so it is immediately useful.
+//-----------------------------------------------------------------------------
+// FIXME: Could support mappers registers, although it's not super useful.
+// FIXME: Not great at supporting mirrored ranges.
+//-----------------------------------------------------------------------------
+void		Debugger_ReverseMap(u16 addr)
+{
+	int     ram_len;
+	int		ram_start_addr;
+	int     sram_len;
+	u8 *    sram_buf;
+
+	Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
+	BMemory_Get_Infos((void *)&sram_buf, &sram_len);
+
+	switch (cur_machine.mapper)
+	{
+	//case MAPPER_Standard:
+	//case MAPPER_32kRAM:
+	//case MAPPER_CodeMasters:
+	//case MAPPER_SMS_Korean:
+	//case MAPPER_93c46:
+	default:
+		{
+			//if (addr < 0x400)
+			//	Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %d, Offset %d)", addr, addr, 0, addr & 0x3FFF);
+
+			const int mem_pages_index = (addr >> 13);
+			const u8 *mem_pages_base = Mem_Pages[mem_pages_index] + (mem_pages_index << 13);
+
+			// Pages can be pointing to:
+			// - ROM
+			// - Game_ROM_Computed_Page_0
+			// - RAM
+			// - SRAM
+			// - BIOS_ROM
+			// - BIOS_ROM_Jap
+			// - BIOS_ROM_Coleco
+			// - BIOS_ROM_SF7000
+			// Using direct pointer arithmetic comparisons.
+			int offset;
+
+			// - ROM
+			offset = (mem_pages_base - ROM) + (addr & 0x1FFF);
+			if (offset >= 0 && offset < tsms.Size_ROM)
+				Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
+			
+			// - ROM (special hack for first 1 KB)
+			// FIXME: Report ROM instead of SMS BIOS in those cases. Anyway SMS BIOS is poorly emulated.
+			offset = (mem_pages_base - Game_ROM_Computed_Page_0) + (addr & 0x1FFF);
+			if (offset >= 0 && offset < 0x4000)
+				Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
+
+			// - RAM
+			offset = (mem_pages_base - RAM) + (addr & MIN(0x1fff, ram_len - 1));
+			if (offset >= 0 && offset < ram_len)
+				Debugger_Printf(" Z80 $%04X = RAM $%04X", addr, ram_start_addr + offset);
+				//Debugger_Printf(" Z80 $%04X = RAM $%04X = RAM $%04X", addr, ram_start_addr + offset, ram_start_addr + ram_len + offset);
+
+			// - SRAM
+			offset = (mem_pages_base - SRAM) + (addr & MIN(0x1fff, sram_len - 1));
+			if (offset >= 0 && offset < sram_len)
+				Debugger_Printf(" Z80 $%04X = SRAM $%04X", addr, offset);
+
+			// - BIOSes
+			offset = (mem_pages_base - BIOS_ROM) + (addr & 0x1fff);
+			if (offset >= 0 && offset < 0x2000)
+				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
+			offset = (mem_pages_base - BIOS_ROM_Jap) + (addr & 0x1fff);
+			if (offset >= 0 && offset < 0x2000)
+				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
+			offset = (mem_pages_base - BIOS_ROM_Coleco) + (addr & 0x1fff);
+			if (offset >= 0 && offset < 0x2000)
+				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
+			offset = (mem_pages_base - BIOS_ROM_SF7000) + (addr & 0x1fff);
+			if (offset >= 0 && offset < 0x4000)
+				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
+
+			break;
+		}
+	/*
+	default:
+		{
+			Debugger_Printf("Unsupported Mapper Mode for this functionality!\nPlease contact me to request the feature.\n");
+			break;
+		}
+	*/
 	}
 }
 
