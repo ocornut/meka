@@ -577,8 +577,8 @@ static void MemoryViewer_MediaReload(t_memory_viewer *mv)
 {
     int     z80_memblocks_max, rom_memblocks_max, ram_memblocks_max, pram_memblocks_max, sram_memblocks_max;
     int     ram_len, ram_start_addr;
+	int     pram_len;
     int     sram_len;
-    int     pram_len;
     u8 *    sram_buf;
 
     // Z80
