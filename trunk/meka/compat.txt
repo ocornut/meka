@@ -692,6 +692,7 @@
  Caesars Palace                                     Ok
  Captain America and The Avengers                   Ok
  Car Licence (JP)                                   Ok
+ Casino FunPak                                      Ok
  Castle of Illusion - Starring Mickey Mouse [SMS-GG]Ok
  Castle of Illusion - Starring Mick.. [SMS-GG] (JP) Ok
  Chakan                                             Ok
@@ -737,8 +738,8 @@
  Earthworm Jim                                      Ok
  Ecco the Dolphin                                   Ok
  Ecco the Dolphin (JP)                              Ok
+ Ecco the Dolphin II (JP)                           Ok
  Ecco - The Tides of Time                           Ok
- Ecco - The Tides of Time / Ecco the Dolphin II (JP)Ok
  Ernie Els Golf                                     Ok
  Eternal Legend (JP)                                Ok
  Evander Holyfield's "Real Deal" Boxing             Ok
@@ -760,7 +761,8 @@
  Fred Couples Golf (JP)                             Ok
  Frogger [Proto]                                    Ok
  From TV animation - Slam Dunk - Shouri-e no.. (JP) Ok
- Galaga '91                                         Ok
+ Galaga 2                                          *Ok
+ Galaga '91 (JP)                                    Ok
  Gamble Panic (JP)                                  Ok
  Garou Densetsu Special (JP)                        Ok
  Gyuwanburaa Jikochuushin Ha (JP)                   Ok
@@ -1030,6 +1032,7 @@
  TaleSpin (Disney's)                                Ok
  Tama & Friends - 3chome Koen Tamalympic (JP)       Ok
  Tant~R (Puzzle & Action) (JP)                      Ok
+ Tarzan - Lord of the Jungle                       *Status bar numbers are displayed one line too late.
  Tatakae! Pro Yakyuu Twin League (JP)               Ok
  Taz in Escape from Mars                            Ok
  Taz-Mania                                          Ok
@@ -1082,7 +1085,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 436 games tested - 426 are "Ok" - Compatibility rate: 97.70%
+ 438 games tested - 427 are "Ok" - Compatibility rate: 97.48%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

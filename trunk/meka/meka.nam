@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/05/31
+; Last updated 2008/06/20
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -504,6 +504,7 @@ GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears', The - Camping Adventure/COUNT
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The Berlin Wall/COUNTRY=JP/PRODUCT_NO=T-33017
 GG  5c34d9cd 0A954147D11708E9   Bugs Bunny in Double Trouble/COUNTRY=US,EU/PRODUCT_NO=2569
 GG  f6a697f8 CADE4673E162E27A   Car Licence/COUNTRY=JP/COMMENT=Non-retail Japanese release. The exact story behind this cartridge is yet unknown.
+GG  2b732056 C51E34D54AB1C554   Casino FunPak/COUNTRY=US/PRODUCT_NO=T-125048
 GG  dfc7adc8 A6DB92F52896C476   Chakan/COUNTRY=US,EU/PRODUCT_NO=2414
 GG  da811ba6 340FBB84D6F82B85   Chessmaster, The/COUNTRY=US,EU/PRODUCT_NO=2317
 GG  191b1ed8 D569D43547670605   Chuck Rock/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-3320,2430,016740
@@ -527,6 +528,8 @@ GG  77ed48f5 646BC15AEE70793F   Dunk Kids/COUNTRY=JP/PRODUCT_NO=G-3352
 GG  610ff95c 44C54C81ACC8AC0A   Dynamite Headdy/COUNTRY=US,EU/PRODUCT_NO=2544
 GG  f6af4b6b B33070CAB97B921D   Dynamite Headdy/COUNTRY=JP/PRODUCT_NO=G-3355
 GG  a32eb9d5 26F78FEB7D00EB01   Ecco the Dolphin/COUNTRY=JP/PRODUCT_NO=G-3344
+GG  e2f3b203 21E70CD78EEE2D6C   Ecco - The Tides of Time/COUNTRY=US,EU/PRODUCT_NO=2541/COMMENT=Export version of "Ecco the Dolphin II".
+GG  ba9cef4f AF60C9ACE9E9A406   Ecco the Dolphin II/COUNTRY=JP/PRODUCT_NO=G-3362/COMMENT=Japanese version of "Ecco - The Tides of Time".
 GG  04302bbd E46D03796A96D95A   Eternal Legend/COUNTRY=JP/PRODUCT_NO=G-3402
 GG  36aaf536 970EAA8535666E23   Evander Holyfield's "Real Deal" Boxing/COUNTRY=US,EU/PRODUCT_NO=2419
 GG  449787e2 01B1CB4E2F1E4C9C   Fatal Fury Special/COUNTRY=US,EU/PRODUCT_NO=T-103028,2582/COMMENT=Export version of "Garou Densetsu Special".
@@ -536,11 +539,14 @@ GG  d46d5685 F20EFF6AC22E099E   Foreman for Real/COUNTRY=US,EU,JP/PRODUCT_NO=T-8
 GG  e123d9b8 776593D0265E3FFE   Fray ~Shugyou hen~/COUNTRY=JP/PRODUCT_NO=T-52037
 GG  46f40b9f 6686067B7F5218AA   Fred Couples Golf/COUNTRY=US/PRODUCT_NO=2529    ; released EU?
 GG  b1196cd7 FCB8715AAD21852E   Fred Couples Golf/COUNTRY=JP/PRODUCT_NO=G-3358
+GG  0593ba24 905D6D377D1F9D36   Galaga '91/COUNTRY=JP/PRODUCT_NO=T-14057/COMMENT=Japanese version of "Galaga 2".
+GG  95ecece2 432C080C09AD5275   Galaga 2/COUNTRY=EU/PRODUCT_NO=2322/COMMENT=Export version of "Galaga '91".
 GG  cd53f3af 5434506F49A77C4D   Garfield - Caught in the Act/COUNTRY=US/PRODUCT_NO=2560     ; released EU?
 GG  9afb6f33 CE07E49360532BD6   Garou Densetsu Special/COUNTRY=JP/PRODUCT_NO=T-103017/COMMENT=Japanese version of "Fatal Fury Special".
 GG  0e300223 27BA4F0E3A5DBF6C   Gear Stadium/COUNTRY=JP/PRODUCT_NO=T-14037/COMMENT=Japanese version of "Batter Up".
 GG  e9a2efb4 F9F734AF23CDB28B   Gear Works/COUNTRY=US/PRODUCT_NO=T-93058
 GG  58b44585 C92745E46E995090   George Foreman's KO Boxing/COUNTRY=US,EU/PRODUCT_NO=T-81038
+GG  1b80a75b 682713F64A0AAD67   GG Aleste/COUNTRY=JP/PRODUCT_NO=T-66017
 GG  695cc120 FCC991E880B52D60   GG Portrait - Pai Chan/COUNTRY=JP/PRODUCT_NO=G-3387
 GG  d2b6021e F0E8A87399B7C4F9   Global Gladiators/COUNTRY=US,EU/PRODUCT_NO=T-70058,T-70058-50
 GG  18de59ed 093B5C63C1FA1E24   G-LOC - Air Battle/NAME_BR=G-LOC/COUNTRY=US,EU,BR/PRODUCT_NO=2301,012120
@@ -637,6 +643,7 @@ GG  6019fe5e 87CA29057C33E3EF   Shining Force Gaiden ~Final Conflict~/COUNTRY=JP
 GG  6a603eed 8C280F0037C2ED57   Side Pocket/COUNTRY=US/PRODUCT_NO=T-13018
 GG  4dc6f555 3D9031096A4369E3   Slider/COUNTRY=US,EU/PRODUCT_NO=2315/COMMENT=Export version of "Skweek".
 GG  06f2fc46 FE70EF747ED5B22A   Solitaire Poker/COUNTRY=US,EU/PRODUCT_NO=2316/COMMENT=Export version of "Ryuu Kyuu".
+GG  031b9da9 7B48F7CDDDBD7D62   Sonic Blast/NAME_JP=G-Sonic/COUNTRY=JP,US,EU/PRODUCT_NO=G-3385,2573,2573-50
 GG  663f2abb 2ED7693B07C9BFC8   Sonic Chaos/COUNTRY=US,EU,BR/PRODUCT_NO=1204,2515,077080/COMMENT=Export version of "Sonic & Tails".
 GG  baac1fc0 2B2C712DA26B07F7   Sonic Drift [Demo]/COUNTRY=JP/COMMENT=Sample demo version. CPU plays automatically to demonstrate the game.
 GG  5550173b BEFCEE0501199B9E   Sonic Labyrinth/COUNTRY=JP,US,EU/PRODUCT_NO=G-3374,2584
@@ -669,6 +676,7 @@ GG  5bb6e5d6 134A286D9BE1D8BA   Tails Adventures/COUNTRY=JP,US,EU/PRODUCT_NO=G-3
 GG  7b7717b8 67685BAE2C08E014   Taisen-gata Daisenryaku G/COUNTRY=JP/PRODUCT_NO=T-51017,T-51027
 GG  f1732ffe 0198EBBE947301B6   TaleSpin (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2412
 GG  09151743 73869AAE809FD1CF   Tant~R (Puzzle & Action)/COUNTRY=JP/PRODUCT_NO=G-3345/COMMENT=Proper Japanese transcription is "Tanto A~Ru". "Tant~R" is official romanization. Note the different position of the tilde.
+GG  ef3afe8b D3490F3A10D27346   Tarzan - Lord of the Jungle/COUNTRY=EU/PRODUCT_NO=T-83098-50
 GG  c029a5fd EFDF88CF8D68A343   Terminator, The/COUNTRY=US,EU/PRODUCT_NO=T-70048
 GG  bec57602 95202199862FC616   Tatakae! Pro Yakyuu Twin League/COUNTRY=JP/PRODUCT_NO=G-3371
 GG  dd6d2e34 0942170D3CFD87D1   Tengen World Cup Soccer/COUNTRY=US,EU/PRODUCT_NO=T-48118-50
@@ -1108,8 +1116,6 @@ D522749CF8737519,Dragon Crystal - Tsurani no Meikyu,ID=G-3206,VER=Japanese
 4C605B8937009F9A,Drop Zone,Mapper=3,ID=T-121007,VER=English
 A338FA736E8E1D9F,Earthworm Jim,VER=English
 855EA7962D1B2B6D,Ecco the Dolphin,VER=English,ID=2516
-21E70CD78EEE2D6C,Ecco - The Tides of Time,JAPNAME=Ecco the Dolphin II,ID=2541,VER=English
-AF60C9ACE9E9A406,Ecco - The Tides of Time,JAPNAME=Ecco the Dolphin II,ID=G-3362,VER=Japanese
 658232077A8D8554,Ernie Els Golf,Mapper=3,COMMENT=This cartridge contains a onboard 64 kb RAM chip.
 2B05E6CBE6E79BB7,F1,VER=English
 D340349AE7C03345,F-15 Strike Eagle,VER=English
@@ -1121,12 +1127,10 @@ B55C08995BA5E26C,FIFA Soccer 96,VER=English
 DA478D64E6018A7D,Frank Thomas Big Hurt Baseball,VER=English
 10CC5C366165B616,Frogger [Proto],PROTO,COMMENT=This is a nearly finished prototype of the unreleased game.
 B0541293B90BC5CE,From TV animation - Slam Dunk - Shouri-e no Starting 5,ID=T-133037,VER=Japanese
-905D6D377D1F9D36,Galaga '91,ID=T-14057,VER=English
 45190AB92665163E,Gamble Panic,ID=G-3364,VER=Japanese
 9E7E0CAD62261E85,Gyuwanburaa Jikochuushin Ha,ID=G-3309,VER=Japanese
 F740DD014127ACD7,Ganbare Gorby!,VER=Japanese,COMMENT=Japanese version of 'Factory Panic'.
 08ADE585B8DA024D,Gear Stadium Heiseiban,ID=T-14077,VER=Japanese
-682713F64A0AAD67,GG Aleste,ID=T-66017,VER=Japanese
 5D96967FEE1C49A5,GG Portrait - Yuuki Akira,ID=G-3386,VER=Japanese
 82C3D1CAD4A50C9B,Shinobi,ID=G-3302,VER=English
 7EC1D6C6D2A7119B,GG Shinobi,ID=G-3302,VER=Japanese
@@ -1201,7 +1205,7 @@ C216F5FA17F30926,Ninja Gaiden,JAPNAME=Ninja Ryuukenden,ID=G-3215,VER=English,FLI
 593C7A3470EED58A,Pengo,ID=G-3102,VER=Japanese
 BDC45082B4BFDC5E,Pete Sampras Tennis,Mapper=3,VER=English
 EF9680FBB3E34327,PGA TOUR Golf,VER=English
-ED0CCDB6736CF4B1,PGA TOUR Golf 2,VER=English
+ED0CCDB6736CF4B1,PGA TOUR Golf II,VER=English,ID=T-48198 301088-0161
 CEE87887BE4C5BE6,Phantasy Star Adventure,ID=G-3216,VER=Japanese
 2CE2D57DB5BA46EB,Poker Face Paul's Blackjack,VER=English
 2B4995C63316E305,Poker Face Paul's Gin,VER=English
@@ -1228,7 +1232,6 @@ F58430F7B49CA36D,Skweek,ID=T-60017,VER=Japanese,COMMENT=Japanese version of "Sli
 B34D79D4184F2C20,Smurfs\, The
 4FFC5704FCA43783,Sokoban World,ID=T-53017,VER=Japanese
 8A518DD06AA27646,Solitaire Fun Pak,VER=English
-7B48F7CDDDBD7D62,Sonic Blast,JAPNAME=G-Sonic,ID=G-3385\,2573,VER=International
 1BD056AB87F45643,Sonic Drift,ID=G-3415,VER=Japanese
 0CE1C4FB95A321FB,Sonic Drift 2,ID=G-3366,VER=Japanese
 B4010E08A03EFD5A,Sonic Spinball,VER=English
