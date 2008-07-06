@@ -13,6 +13,13 @@ They are usually of 2 kinds:
 
  MEKA 0.73 WIP xxxxxxxx
  ----------------------
+  - GUI:
+    - File browser: fixed positionning of BAD and HACK icons, which aren't
+      overlays anymore. [Omar]
+
+
+ MEKA 0.73 WIP xxxxxxxx
+ ----------------------
   - Localization:
     - Updated Dutch localization [Mark van Tilburg]
   - SC-3000:

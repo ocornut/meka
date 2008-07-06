@@ -667,6 +667,20 @@ void        FB_Draw_List(void)
                     // Start drawing at x_max
                     int x = x_max;
 
+                    // Hack icon
+                    if (entry->db_entry->flags & DB_FLAG_HACK)
+                    {
+                        draw_sprite (FB.bmp, Graphics.Icons.Hack, x + 1, y + 1);
+                        x += 18;
+                    }
+
+                    // BAD icon
+                    if (entry->db_entry->flags & DB_FLAG_BAD)
+                    {
+                        draw_sprite (FB.bmp, Graphics.Icons.BAD, x + 1+3, y + 1+1);
+                        x += 18;
+                    }
+
                     // Translation icon
                     if (entry->db_entry->flags & DB_FLAG_TRANS)
                     {
@@ -703,14 +717,6 @@ void        FB_Draw_List(void)
                             draw_sprite (FB.bmp, Graphics.Flags[entry_file_flag], x + 1, y + 1);
                         }
                     }
-
-                    // Hack overlay
-                    if (entry->db_entry->flags & DB_FLAG_HACK)
-                        draw_sprite (FB.bmp, Graphics.Icons.Hack, x + 1, y + 1);
-
-                    // BAD overlay
-                    if (entry->db_entry->flags & DB_FLAG_BAD)
-                        draw_sprite (FB.bmp, Graphics.Icons.BAD, x + 1+3, y + 1+1);
                 }
                 break;
             }
