@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/06/20
+; Last updated 2008/07/06
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -254,10 +254,9 @@ SMS 1b1d8cc2 9E56B510032E6FA7   Ninja Gaiden/COUNTRY=EU,BR/PRODUCT_NO=7101
 SMS 761e9396 762C4C122E81DD74   Ninja Gaiden [Proto]/FLAGS=PROTO/COUNTRY=EU,BR/COMMENT=Prototype version of the game.
 SMS 6a5a1e39 A6491A91F74F0A16   Olympic Gold/COUNTRY=EU,UK,AU,SP,FR,DE/PRODUCT_NO=MK-27030-50,MK-27030-05,MK-27030-06,MK-27030-09,MK-27030-18
 SMS d1a7b1aa 17D121A728287888   Olympic Gold/COUNTRY=KR/PRODUCT_NO=GB2023JG
-
-489D35A442E436E6,Olympic Gold [SMS-GG] [A],SMSGG_MODE,VER=International
-972BE85E65BA5A7F,Olympic Gold [SMS-GG] [B],SMSGG_MODE,VER=Export
-
+SMS a2f9c7af 972BE85E65BA5A7F   Olympic Gold [v0] [SMS-GG]/COUNTRY=US,JP/FLAGS=SMSGG_MODE
+SMS 3382d73f 9B2BE85C65BA5A7D   Olympic Gold [v0] [SMS-GG]/COUNTRY=CH/FLAGS=SMSGG_MODE/COMMENT=This small hack of the code enable the game to run on unlicensed cartridges using a slightly incompatible mapper.
+SMS 1d93246e 489D35A442E436E6   Olympic Gold [v1] [SMS-GG]/COUNTRY=EU/FLAGS=SMSGG_MODE
 SMS bea27d5c 7DBE1156242EEE1E   Opa Opa/COUNTRY=JP/PRODUCT_NO=G-1343/COMMENT=Japanese version of "Fantasy Zone: The Maze".
 SMS 82ef2a7d 9C0F1AFF59252A94   Ottifants, The/COUNTRY=EU,BR/PRODUCT_NO=7120,025450
 SMS 5589d8d2 B32F41555F15C94B   Out Run/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1326,7003,024240/COMMENT=This game optionnally support the Paddle Control.
@@ -305,6 +304,8 @@ SMS f0ba2bc6 A2297AFAC9472988   Seishun Scandal/COUNTRY=JP/PRODUCT_NO=C-510/COMM
 SMS f8176918 233B773430937DB7   Sensible Soccer/COUNTRY=EU/PRODUCT_NO=8011,MK-25014-50
 SMS e1fff1bb E3EBF1D8895B9FE6   Shinobi/COUNTRY=JP/PRODUCT_NO=G-1353
 SMS 0c6fac4e DEF9F2C7A058ADCB   Shinobi/COUNTRY=US,EU,BR/PRODUCT_NO=7009
+SMS 97e5bb7d 4F65ACDA08A4B169   Smurfs Travel the World, The/NAME_FR=Les Schtroumpfs Autour du Monde/PRODUCT_NO=MK-27085-50/COMMENT=Also referred to using the french title showing on the box: "Les Schtroumpfs Autour du Monde".
+SMS 7982ae67 5064ACDA08A4B268   Smurfs Travel the World, The [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game, only 2 bytes differs from final version.
 SMS aedf3bdf 724EF423E356618F   Sonic Chaos/COUNTRY=EU,BR/PRODUCT_NO=9021,028120
 SMS 11c1bc8a D3A4F10A4B37C04C   Sonic Spinball/COUNTRY=EU,BR/PRODUCT_NO=9034,028489
 SMS b519e833 2F2C8E1A0AE456B9   Sonic The Hedgehog/COUNTRY=EU,US,BR/PRODUCT_NO=7076
@@ -934,7 +935,6 @@ EC0F9129D095CB1B,Shanghai
 124C00EBBF84E58F,Slap Shot,VER=USA
 EB6998CED0932CB7,Slap Shot [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
 0199AF74006BE2F6,Smurfs\, The,ID=27082-50,COMMENT=Original french title is on top and side of the box: "Les Schtroumpfs".
-4F65ACDA08A4B169,Smurfs Travel the World\, The,ID=27085-50,COMMENT=Original french title is on top and side of the box: "Les Schtroumpfs Autour du Monde".
 146FA8E655225E1A,Solomon no Kagi - Oujo Rihita no Namida,VER=Japanese,ID=Silver-002
 5A989B9EFF10EED8,Sonic Blast,VER=Brazilian,COMMENT=This is a port from the Game Gear version.,TVTYPE=PAL/SECAM
 33FD350EEDE48D2F,Space Gun,INPUT=LIGHTPHASER

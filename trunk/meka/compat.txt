@@ -349,6 +349,7 @@
  Slap Shot [Proto]                             *-       Ok
  Smurfs, The                                    -       Ok
  Smurfs Travel the World, The                   -       Ok
+ Smurfs Travel the World, The [Proto]          *-       Ok
  Solomon no Kagi - Oujo Rihita no Namida (JP)   FM      Ok
  Sonic Blast                                    -       Ok
  Sonic Chaos                                    -       Ok
@@ -470,7 +471,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 452 games tested - 450 are "Ok" - Compatibility rate: 99.54%
+ 453 games tested - 451 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -894,8 +895,9 @@
  Ninku 2 ~Tenkuryu-e no Michi~ (JP)                 Ok
  Ninku Gaiden - Hiroyuki Daikatsugeki (JP)          Ok
  Nomo's World Series Baseball / Nomo Hideo no..(JP) Ok
- Olympic Gold [A] [SMS-GG]                         *Ok
- Olympic Gold [B] [SMS-GG]                          Ok
+ Olympic Gold [v0] [SMS-GG]                         Ok
+ Olympic Gold [v0] [SMS-GG] (TW)                   *Ok
+ Olympic Gold [v1] [SMS-GG]                         Ok
  Operation Starfi5h                                 Ok
  Ottifants, The                                     Ok
  Out Run                                            Ok
@@ -1085,7 +1087,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 438 games tested - 427 are "Ok" - Compatibility rate: 97.48%
+ 439 games tested - 428 are "Ok" - Compatibility rate: 97.48%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

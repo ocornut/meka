@@ -16,6 +16,10 @@ They are usually of 2 kinds:
   - GUI:
     - File browser: fixed positionning of BAD and HACK icons, which aren't
       overlays anymore. [Omar]
+##- Added and modified entries in the checksum and compatibility lists. [Omar]
+##  Some particular renaming includes:
+          GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]
+          GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
 
 
  MEKA 0.73 WIP xxxxxxxx
