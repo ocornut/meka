@@ -10,9 +10,9 @@
 //-----------------------------------------------------------------------------
 
 #define MEKA_NAME               "MEKA"
-#define MEKA_VERSION            "0.72"
+#define MEKA_VERSION            "0.73 WIP"
 #define MEKA_VERSION_HIGH       (0)
-#define MEKA_VERSION_LOW        (72)
+#define MEKA_VERSION_LOW        (73)
 #define MEKA_NAME_VERSION       MEKA_NAME " " MEKA_VERSION
 #define MEKA_HOMEPAGE           "http://www.smspower.org/meka"
 #define MEKA_AUTHORS            "Omar Cornut (Bock) and contributors"

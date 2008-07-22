@@ -269,8 +269,8 @@
  Ninja, The (JP)                                -       Ok
  Ninja Gaiden                                   -       Ok
  Ninja Gaiden [Proto]                           -       Ok
- Olympic Gold                                  *-       Ok
- Olympic Gold (KR)                             *-       Ok
+ Olympic Gold                                   -       Ok
+ Olympic Gold (KR)                              -       Ok
  Opa Opa (JP)                                   FM      Ok
  Operation Wolf                                 (LP)    Ok
  Ottifants, The                                 -       Ok

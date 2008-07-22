@@ -5,6 +5,70 @@
  source code and refer to HISTORY.TXT file.
 -----------------------------------------------------------------------------
 
+ MEKA 0.73 WIP 20080619
+ ----------------------
+  - Localization:
+    - Updated Dutch localization [Mark van Tilburg]
+  - SC-3000:
+    - Fixed the ;/+/RAD key not working on Sega Keyboard emulation under
+      certain host keyboard/OS configuration. Thanks Jacko. [Omar]
+    - Fixed crash in the X86 assembly implementation of the 32KB RAM mapper
+      writer when the upper 16 bits were not cleared by the Z80 emulator. [Omar]
+  - Debugger:
+    - Added "SYM @addr" command to search for symbols given an address. [Omar]
+    - Added "RMAP addr" command to reverse map of a Z80 address and display
+      the source of data based on machine state (mapper registers, etc). 
+      eg:
+        RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
+        RMAP $E001      ; eg: print 'RAM $C001'
+      The feature doesn't work 100% in all mappers & bus mirroring cases, 
+      but should be ok with the standard SMS/GG mapper. [Omar]
+    - Duplicate commands are automatically removed from history. [Omar]
+    - Increased default height of the debugger. [Omar]
+    - Changed watch point per-frame flood limit from 100 to 50. Will expose in 
+      configuration file if requested. [Omar]
+    - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
+    - Fixed labels showing one instruction early in "DASM" command. [Omar]
+    - Added breakpoint '!' mark in disassembly window. [Omar]
+  - GUI:
+    - File browser: country flag now displayed even on BIOS, Prototypes
+      or Homebrew images. [Omar]
+    - Inputs configuration: right-click on input source selection goes 
+      backward, in addition to regular left-click to go forward. [Omar]
+  - Miscellaenous:
+    - Added "Capture" menu with screen capture menu access and options. [Maxim]
+    - Added "Capture All" mode, capturing all emulation frames to disk. [Maxim]
+    - Added "Include GUI" capture option. Disable to only capture game screen 
+      when MEKA GUI is enabled. [Maxim]
+    - Renamed "Automatically crop and align screen captures" option to
+      more explicit "Crop and align screen captures to 8x8 boundaries".
+      Previous name was sounding too "cool" and was sometimes activated
+      by innocent users who then got their capture all cropped. [Omar]
+    - Added "screenshots_crop_scrolling_column" option in configuration
+      file (default to enabled), to disable cropping the empty left-most 
+      column in horizontally scrolling games. [Omar]
+  - Project:
+    - (Win32) Fixed standard libraries used by debug builds (using unusual
+      combination led to various problems). Fixed various link warnings.
+      Fixed shared directories between DLL and No DLL builds. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+          SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)
+          SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
+          SMS - f4b3a7bd - Ariel - The Little Mermaid (BR)      --> Ariel - The Little Mermaid (Disney's) (BR)
+          SMS - e2fcb6f3 - Super Wonder Boy (JP)                --> Wonder Boy [v0] (also released in Italia)
+          SMS - 73705c02 - Wonder Boy                           --> Wonder Boy [v1]
+          GG  - 3e549b7a - Aerial Assault                       --> Aerial Assault [v0]
+          GG  - ffe4ed47 - Alien Syndrome                       --> Alien Syndrome (JP)
+          GG  - 97e3a18c - Ariel - The Little Mermaid           --> Ariel - The Little Mermaid (Disney's)
+          GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
+          GG  - a93e8b0f - Griffin                              --> Griffin (JP)
+          GG  - 75e273eb - Madden '96                           --> Madden 96 [BAD]
+          GG  - 36ebcd6d - Majors Pro Baseball                  --> Majors Pro Baseball, The
+          GG  - f1732ffe - TaleSpin                             --> TaleSpin (Disney's)
+          GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness
+
+
  MEKA 0.72
  ---------
   - Updated k.

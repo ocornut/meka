@@ -22,7 +22,7 @@ They are usually of 2 kinds:
           GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
 
 
- MEKA 0.73 WIP xxxxxxxx
+ MEKA 0.73 WIP 20080619
  ----------------------
   - Localization:
     - Updated Dutch localization [Mark van Tilburg]
@@ -68,9 +68,8 @@ They are usually of 2 kinds:
     - (Win32) Fixed standard libraries used by debug builds (using unusual
       combination led to various problems). Fixed various link warnings.
       Fixed shared directories between DLL and No DLL builds. [Omar]
-     
-##- Added and modified entries in the checksum and compatibility lists. [Omar]
-##  Some particular renaming includes:
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
           SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)
           SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
           SMS - f4b3a7bd - Ariel - The Little Mermaid (BR)      --> Ariel - The Little Mermaid (Disney's) (BR)
