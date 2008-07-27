@@ -13,6 +13,8 @@ They are usually of 2 kinds:
 
  MEKA 0.73 WIP xxxxxxxx
  ----------------------
+  - Updated MEKA license, data are now licensed under the same term as sources.
+    The license for most parts of the software is now BSD-like. [Omar]
   - GUI:
     - File browser: fixed positionning of BAD and HACK icons, which aren't
       overlays anymore. [Omar]

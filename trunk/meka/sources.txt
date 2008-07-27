@@ -2,8 +2,12 @@
  MEKA Sources
  Messy guide to the first-time hacker, and various technical notes
 ----------------------------------------------------------------------------
- Homepage - http://www.smspower.org/meka
- Development Forum - http://www.smspower.org/forums/viewforum.php?f=7
+ Quick links:
+ - Homepage:    http://www.smspower.org/meka
+ - Forum:       http://www.smspower.org/forums/viewforum.php?f=7
+ - SVN:         http://svn.smspower.org/svn/meka
+ - SVN Trunk:   http://svn.smspower.org/svn/meka/trunk/meka
+ - SVN Web:     http://svn.smspower.org
 ----------------------------------------------------------------------------
  Absolutely read the 'TODO.txt' file as well.
 ----------------------------------------------------------------------------
@@ -23,6 +27,7 @@ INDEX
 - Before anything else...
 - Introduction
 - Technology
+- Source repository
 - Communication
 - License
 - How to Compile
@@ -34,40 +39,43 @@ INDEX
 
 This document is only a quick introduction to some aspect of MEKA development.
 For any further discussion, please visit MEKA development forum:
-	
+    
         http://www.smspower.org/forums/viewforum.php?f=7
-	
+    
 I'd be happy to discuss anything over there, answers questions, and see
-how we can all work together in a happy world while holding hands.
+how we can all work together in a happy world while holding hands and
+playing games using another hand.
 
 
 ---------------------------------------
  Introduction
 ---------------------------------------
 
+(Written June 2005)
+
 At some point, I realized that MEKA had all advantage to have its code
 sources opened. Letting people tweak the software, improve it, port it, 
 learn from it. Benefits for everyone. Here we are, finally.
 
-MEKA is my pet project. 
+But here's the problem: MEKA is my pet project. 
 I started writing this software during summer of 1998.
-Doesn't it feel like an eternity now?
+It was developped under closed doors for an eternity, and thus isn't
+great as a shared community project. 
 
 My code is messy. It is hell. Far away from many common coding practices.
-To get you an idea, MEKA was my first real project in C. At that time,
-I was not even familiar with that vague notion called "pointers". 
+To get you an idea, MEKA was my first real project using C.
 Don't freak out yet.
 
-Some parts are better than other, many are bad, some are very bad. 
+Some parts are better than other, many are bad, some very bad. 
 For my defense, and my silly pride, I would say that today my coding habits
 and knowledge evolved. I know that MEKA do not use correct coding practice,
 but I'm just stuck with this software, and rewriting everything from stratch 
 isn't always a viable solution:
 
-	    http://www.joelonsoftware.com/articles/fog0000000069.html
+        http://www.joelonsoftware.com/articles/fog0000000069.html
 
-So well, this code is hell, but it's better than nothing.
-May it serves, may we can work together and improve it.
+So well, this code is unperfect, but it's better than nothing.
+May it serves, may we can work together and improve it bit by bit.
 
 
 ---------------------------------------
@@ -79,10 +87,26 @@ technology and librairies used by MEKA.
 
 
 ---------------------------------------
+ Source repository
+---------------------------------------
+
+MEKA code is hosted on a public Subversion (SVN) repository.
+
+Web viewer      @ http://svn.smspower.org
+SVN repository  @ http://svn.smspower.org/svn/meka
+SVN trunk       @ http://svn.smspower.org/svn/meka/trunk/meka
+
+Anonymous login allows read-only access.
+Write accesses are still limited, but I am to it. You can submit patches
+which will be applied if useful, and once becoming a regular contributor
+we can likely setup your own account with write-access.
+
+
+---------------------------------------
  Communication
 ---------------------------------------
 
-Please communicate on the dedicated MEKA forum on SMS Power.
+Please communicate on the dedicated MEKA forum on SMS Power!.
 
  - Feel free to ask any kind of question. I'll try to help.
  - You can post snippets of code and ask for explanation.
@@ -100,14 +124,9 @@ If you have an idea of some piece of work in mind, again, please communicate:
  - Most important and likely, I may be able to give direction about how to 
    implement certain things given the current constraints in MEKA code.
 
-I haven't setup anything yet, but it is probable that in the future, if
-MEKA gets development interest, I can setup a source tracking system for it.
-In the meanwhile, if you have something to contribute, let's discuss and
-we can always find a way to implement your changes into the tree.
-
 
 ---------------------------------------
- License
+ MEKA License 1.1
 ---------------------------------------
 
 Apply to hq2x.c, hq2x16.asm, hq2x32.asm:
@@ -136,14 +155,11 @@ Apply to everything else:
  #2 Any modification of this software must have this license preserved,
     and source code made available under the same condition.
 
- #3 Reuse of program source code is authorized for any purpose.
-
- #4 Reuse of embedded data (database, graphics) in other projects is 
-    not authorized, unless given specific permission from me.
+ #3 Reuse of program source code and data authorized for any purpose.
 
 I know this doesn't look like a clear licence, and it may scare lawsmen.
 I'll try to work it out to provide a better license in the future.
-Please contact me ( omar AT cornut DOT fr ) for any question.
+Please contact me ( omar AT miracleworld DOT net ) for any question.
 
 
 ---------------------------------------
@@ -248,7 +264,7 @@ III. Compile for UNIX
  Hope
 ---------------------------------------
 
-Don't get too depressed over problems or ugly sources.
+Don't get too depressed over problems or ugly sources! :)
 With the support and continued work of various people, MEKA should
 be able to evolve into the 21st century, get better, get cleaned, and
 have plenty of sexy features for all to enjoy.

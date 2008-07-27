@@ -1,10 +1,11 @@
 
   MEKA 0.72 - Documentation
  ===========================
-  Multi machine emulator for MS-DOS, MS-Windows and GNU/Linux.
+  Multi machine emulator for MS-Windows, MS-DOS and GNU/Linux.
   (c) in 1998-2008 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
+  License in 'sources.txt' file (BSD-like for most parts)
  ==========================================================================
   This documentation is best viewed with a fixed width font.
   Please forgive my sometimes flaky english.
@@ -752,6 +753,8 @@
  As for 2005/04/03, MEKA source code is now available to all users.
  Your input and improvements are welcome.
  Please refer to SOURCES.TXT for more information about developping for MEKA.
+ License is also included in SOURCES.TXT (it is a custom BSD-like license 
+ for most parts).
 
  You can download the source code on MEKA homepage:
     http://www.smspower.org/meka
