@@ -72,27 +72,35 @@ void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr)
 int         Mapper_Autodetect (void)
 {
     int     i;
-    int     c8000, cA000, cFFFF;
+    int     c0002, c8000, cA000, cFFFF;
 
     // If ROM is smaller than 32 kb, autodetected SMS mapper are not needed
     if (tsms.Size_ROM <= 0x8000)
         return (-1);
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
-    c8000 = cA000 = cFFFF = 0;
+    c0002 = c8000 = cA000 = cFFFF = 0;
     for (i = 0; i < 0x8000; i++)
+    {
         if (ROM [i] == 0x32) // Z80 opcode for: LD (xxxx), A
         {
             u16 addr = *(u16 *)&ROM [i + 1];
             if (addr == 0xFFFF)
             { i += 2; cFFFF++; continue; }
+            if (addr == 0x0002 || addr == 0x0003 || addr == 0x0004)
+            { i += 2; c0002++; continue; }
             if (addr == 0x8000)
             { i += 2; c8000++; continue; }
             if (addr == 0xA000)
             { i += 2; cA000++; continue; }
         }
+    }
+
+    //Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cFFFF=%d\n", c0002, c8000, cA000, cFFFF);
 
     // 2 is a security measure, although experience showed if was not needed
+    if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
+        return (MAPPER_SMS_Korean_MSX_Ascii_8);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
@@ -327,9 +335,6 @@ WRITE_FUNC (Write_Mapper_SMS_Korean)
       if (Value > tsms.Pages_Count_16k)
         { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
     #endif
-    // Testing Dodgeball King behavior
-    //  if ((Value >= 11 && Value <= 15) || Value > 27)
-    //    { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
     Value = (Value & tsms.Pages_Mask_16k);
     /* ROM [0xA000] = */ sms.Pages_Reg [2] = Value;
     Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
@@ -344,6 +349,63 @@ WRITE_FUNC (Write_Mapper_SMS_Korean)
     }
 
  Write_Error (Addr, Value);
+}
+
+// [MAPPER: KOREAN] WRITE BYTE ------------------------------------------------
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_Ascii_8)
+{
+    switch (Addr)
+    {
+    case 0x0000:
+        {
+#ifdef DEBUG_PAGES
+            if (Value > tsms.Pages_Count_8k)
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value); }
+#endif
+            Value = (Value & tsms.Pages_Mask_8k);
+            Map_8k_ROM (4, Value);
+            return;
+        }
+    case 0x0001:
+        {
+#ifdef DEBUG_PAGES
+            if (Value > tsms.Pages_Count_8k)
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+#endif
+            Value = (Value & tsms.Pages_Mask_8k);
+            Map_8k_ROM (5, Value);
+            return;
+        }
+    case 0x0002:
+        {
+#ifdef DEBUG_PAGES
+            if (Value > tsms.Pages_Count_8k)
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value); }
+#endif
+            Value = (Value & tsms.Pages_Mask_8k);
+            Map_8k_ROM (2, Value);
+            return;
+        }
+    case 0x0003:
+        {
+#ifdef DEBUG_PAGES
+            if (Value > tsms.Pages_Count_8k)
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+#endif
+            Value = (Value & tsms.Pages_Mask_8k);
+            Map_8k_ROM (3, Value);
+            return;
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages [6] [Addr] = Value; return;
+    case 7: Mem_Pages [7] [Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
 }
 
 // MAPPER: SMS Display Unit - Write Byte

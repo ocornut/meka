@@ -159,6 +159,9 @@ void    Machine_Set_Handler_Write (void)
     case MAPPER_SMS_Korean:              // SMS Korean games
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean;
         break;
+    case MAPPER_SMS_Korean_MSX_Ascii_8:  // SMS Korean games with MSX Ascii/8 mapper
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_Ascii_8;
+        break;
     case MAPPER_SMS_DisplayUnit:         // SMS Display Unit (RAM from 4000-47FF)
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_DisplayUnit;
         break;
@@ -267,6 +270,16 @@ void    Machine_Set_Mapping (void)
         Map_8k_RAM (4, 1);
         Map_8k_RAM (5, 1);
         Map_8k_RAM (6, 0);  // RAM - Standard
+        Map_8k_RAM (7, 0);
+        break;
+    case MAPPER_SMS_Korean_MSX_Ascii_8:
+        Map_8k_ROM (0, 0);
+        Map_8k_ROM (1, 1);
+        Map_8k_ROM (2, 2);
+        Map_8k_ROM (3, 3);
+        Map_8k_ROM (4, 4);
+        Map_8k_ROM (5, 5);
+        Map_8k_RAM (6, 0);
         Map_8k_RAM (7, 0);
         break;
     default: // Other mappers
