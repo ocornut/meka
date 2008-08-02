@@ -278,7 +278,7 @@
  Out Run                                        FM,(PAD)        In FM mode, wave sound hang at race start.
  Out Run 3-D                                    FM,(3D),(PAD)   Ok
  Out Run Europa                                 -       Ok
- Pacmania                                       -       Ok
+ Pac-Mania                                      -       Ok
  Paperboy                                       -       Ok
  Paperboy (US)                                  -       Ok
  Parlour Games                                  FM      Ok
