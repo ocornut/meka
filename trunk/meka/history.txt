@@ -22,9 +22,12 @@ They are usually of 2 kinds:
 ##  Some particular renaming includes:
           SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
           SMS - 46340c41 - Cheese Cat-astrophe                  --> Cheese Cat-Astrophe - Starring Speedy Gonzales
+          SMS - b8b141f9 - Fantasy Zone II                      --> Fantasy Zone II - The Tears of Opa-Opa
+          SMS - c722fb42 - Fantasy Zone II (JP)                 --> Fantasy Zone II - Opa-Opa no Namida (JP)
           SMS - 45c50294 - Jogos de Verão II                    --> California Games II [50-60 Hz] (also found in Korea).
           SMS - 89b79e77 - Dodgeball King (KR)                  --> Dallyeora Pigu-Wang (KR)
           SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
+          SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
           GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]
           GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
 

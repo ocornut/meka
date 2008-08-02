@@ -139,8 +139,8 @@
  Fantasy Zone [v0] (JP)                         -       Ok
  Fantasy Zone [v1] [Proto]                      -       Ok
  Fantasy Zone [v2]                              -       Ok
- Fantasy Zone II                                FM      Ok
- Fantasy Zone II (JP)                           FM      Ok
+ Fantasy Zone II - The Tears of Opa-Opa         FM      Ok
+ Fantasy Zone II - Opa-Opa no Namida (JP)       FM      Ok
  Fantasy Zone: The Maze                         FM      Ok
  Family Games (Party Games) (JP)                FM      Ok
  Férias Frustradas do Pica Pau (BR)             -       Ok
@@ -200,7 +200,7 @@
  Heroes of the Lance                            -       Ok
  High School! Kimengumi (JP)                    -       Ok
  Hokuto no Ken (JP)                             -       Ok
- Hokuto no Ken (CH)                             -       Ok (corrupted dump, last boss is faulty)
+ Hokuto no Ken (CH) [BAD]                       -       Ok (corrupted dump, last boss is faulty)
  Home Alone                                     -       Ok
  Hook [Proto]                                   -       Ok
  Hoshi wo Sagashite... (JP)                     FM      Ok
@@ -243,6 +243,7 @@
  Marksman Shooting & Trap Shooting              LP      Ok
  Marksman Shooting / Trap Shooting / Safari H.. LP      Ok
  Master of Darkness                             -       Ok
+ Master of Darkness / Vampire [Proto]           -       Ok
  Masters of Combat                              -       Ok
  Maou Golvellius (JP)                           FM      Ok
  Maze Hunter 3-D                                FM,3D   Ok
@@ -429,7 +430,6 @@
  Ultima IV                                      FM      Ok
  Ultima IV [Proto]                              FM      Ok
  Ultimate Soccer                                -       Ok
- Vampire                                        -       Ok
  Vigilante                                      FM      Ok
  Virtua Fighter Animation                       -       Ok
  Walter Payton Football                         -       Ok
