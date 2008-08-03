@@ -264,7 +264,7 @@
  Mortal Kombat 3 (BR)                           -       Ok
  Ms. Pac-Man                                    -       Ok
  My Hero                                        -       Ok
- Nekyuu Kousien (JP)                            FM      Ok
+ Nekkyuu Koushien (JP)                          FM      Ok
  NewZealand Story, The                          -       Ok
  Ninja, The                                     -       Ok
  Ninja, The (JP)                                -       Ok
@@ -791,7 +791,7 @@
  Halley Wars                                        Flickering Status (LCD persistance).
  Halley Wars (JP)                                   Flickering Status (LCD persistance).
  Head Buster (JP)                                   Ok
- Heavy weight Champ (JP)                           *Ok
+ Heavy weight Champ (JP)                            Ok
  Home Alone                                         Ok
  Hook                                               Ok
  House of Tarot (JP)                                Ok
@@ -896,7 +896,7 @@
  Ninku Gaiden - Hiroyuki Daikatsugeki (JP)          Ok
  Nomo's World Series Baseball / Nomo Hideo no..(JP) Ok
  Olympic Gold [v0] [SMS-GG]                         Ok
- Olympic Gold [v0] [SMS-GG] (TW)                   *Ok
+ Olympic Gold [v0] [SMS-GG] (TW)                    Ok
  Olympic Gold [v1] [SMS-GG]                         Ok
  Operation Starfi5h                                 Ok
  Ottifants, The                                     Ok
@@ -1002,12 +1002,12 @@
  Star Gate                                          Ok
  Star Trek Generations - Beyond the Nexus           Ok
  Star Trek The Next Generation - The Advanced Hol.. Ok
- Star Wars                                         *Ok
+ Star Wars                                          Ok
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
  Strider Returns                                    Ok
- Super Battletank                                  *Ok
+ Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
  Super Golf (JP)                                    Ok

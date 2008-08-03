@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/08/02
+; Last updated 2008/08/03
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -305,7 +305,7 @@ SMS 2663bf18 C71D87669810186F   Mortal Kombat II/COUNTRY=EU,BR/PRODUCT_NO=MK-290
 SMS 395ae757 6E91621C296C02EC   Mortal Kombat 3/COUNTRY=BR/PRODUCT_NO=028730/COMMENT=This is a port from the Game Gear version.
 SMS 3cd816c6 F78B647E2DECD2B1   Ms. Pac-Man/COUNTRY=EU,BR/PRODUCT_NO=301030-0160
 SMS 62f0c23d ED4ACAF1CF794680   My Hero/NAME_BR=Gang's Fighter/COUNTRY=US,EU,BR,PT,DE/PRODUCT_NO=4001,4501,021030,41004/COMMENT=Export version of "Seishun Scandal".
-SMS 5b5f9106 43FAFA9DD769AB41   Nekyuu Kousien/COUNTRY=JP/PRODUCT_NO=G-1367 ; [EDITOR NOTE] Transcription may be incorrect.
+SMS 5b5f9106 43FAFA9DD769AB41   Nekkyuu Koushien/COUNTRY=JP/PRODUCT_NO=G-1367
 SMS c660ff34 0F4613232FB9602D   NewZealand Story, The/COUNTRY=EU/PRODUCT_NO=27035-50
 SMS 320313ec 690DDE10E39C7CA1   Ninja, The/COUNTRY=JP/PRODUCT_NO=G-1308
 SMS 66a15bd9 6E674174DCF99F02   Ninja, The/NAME_IT=I Ninja/COUNTRY=US,EU,IT/PRODUCT_NO=5066
@@ -314,7 +314,7 @@ SMS 761e9396 762C4C122E81DD74   Ninja Gaiden [Proto]/FLAGS=PROTO/COUNTRY=EU,BR/C
 SMS 6a5a1e39 A6491A91F74F0A16   Olympic Gold/COUNTRY=EU,UK,AU,SP,FR,DE/PRODUCT_NO=MK-27030-50,MK-27030-05,MK-27030-06,MK-27030-09,MK-27030-18
 SMS d1a7b1aa 17D121A728287888   Olympic Gold/COUNTRY=KR/PRODUCT_NO=GB2023JG
 SMS a2f9c7af 972BE85E65BA5A7F   Olympic Gold [v0] [SMS-GG]/COUNTRY=US,JP/FLAGS=SMSGG_MODE
-SMS 3382d73f 9B2BE85C65BA5A7D   Olympic Gold [v0] [SMS-GG]/COUNTRY=CH/FLAGS=SMSGG_MODE/COMMENT=This small hack of the code enable the game to run on unlicensed cartridges using a slightly incompatible mapper.
+SMS 3382d73f 9B2BE85C65BA5A7D   Olympic Gold [v0] [SMS-GG]/COUNTRY=CH/FLAGS=SMSGG_MODE/COMMENT=This minor hack of the code enable the game to run on unlicensed cartridges using a slightly incompatible mapper.
 SMS 1d93246e 489D35A442E436E6   Olympic Gold [v1] [SMS-GG]/COUNTRY=EU/FLAGS=SMSGG_MODE
 SMS bea27d5c 7DBE1156242EEE1E   Opa Opa/COUNTRY=JP/PRODUCT_NO=G-1343/COMMENT=Japanese version of "Fantasy Zone: The Maze".
 SMS 205caae8 0BD7C48F97528F53   Operation Wolf/COUNTRY=EU,BR/PRODUCT_NO=7039/EMU_INPUTS=LIGHTPHASER/EMU_TVTYPE=PAL/COMMENT=This game can also be played using the second Control Pad.

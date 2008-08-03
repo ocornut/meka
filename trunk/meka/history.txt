@@ -26,6 +26,7 @@ They are usually of 2 kinds:
           SMS - b8b141f9 - Fantasy Zone II                      --> Fantasy Zone II - The Tears of Opa-Opa
           SMS - c722fb42 - Fantasy Zone II (JP)                 --> Fantasy Zone II - Opa-Opa no Namida (JP)
           SMS - 45c50294 - Jogos de Verão II                    --> California Games II [50-60 Hz] (also found in Korea).
+          SMS - 5b5f9106 - Nekyuu Kousien (JP)                  --> Nekkyuu Koushien (JP)
           SMS - 0e333b6e - Miracle Warriors - Seal of the Dar.. --> Miracle Warriors - Seal of The Dark Lord (casing on 'The')
           SMS - be57a9a5 - Pacmania                             --> Pac-Mania (the other way, sorry! It seems like the official name of the game)
           SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
