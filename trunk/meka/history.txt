@@ -29,6 +29,8 @@ They are usually of 2 kinds:
           SMS - 5b5f9106 - Nekyuu Kousien (JP)                  --> Nekkyuu Koushien (JP)
           SMS - 0e333b6e - Miracle Warriors - Seal of the Dar.. --> Miracle Warriors - Seal of The Dark Lord (casing on 'The')
           SMS - be57a9a5 - Pacmania                             --> Pac-Mania (the other way, sorry! It seems like the official name of the game)
+          SMS - 294e0759 - Paperboy                             --> Paperboy [v0] (scoring bug)
+          SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (also found in Brasil)
           SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
           SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
           GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]

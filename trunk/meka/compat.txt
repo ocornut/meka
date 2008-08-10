@@ -301,6 +301,7 @@
  Prince of Persia                               -       Ok
  Promocao Especial M.System III Compact         -       Ok 
  Pro Wrestling                                  -       Ok
+ Pro Yakyuu Pennant Race, The (JP)              -       Ok
  Psychic World                                  -       Ok
  Psycho Fox                                     -       Ok
  Putt & Putter                                  -       Ok
@@ -340,6 +341,7 @@
  Shadow Dancer - The Secret Of Shinobi          -       Ok
  Shadow of the Beast                            -       Ok
  Shanghai                                       FM      Ok
+ Shanghai [Proto]                              *FM      Ok
  Shinobi                                        FM      Ok
  Shinobi (JP)                                   FM      Ok
  Shooting Gallery                               LP      Ok
@@ -415,8 +417,7 @@
  Terminator, The                                -       Ok
  Terminator, The (BR)                           -       Ok
  Terminator 2 - Judgment Day                    -       Ok
- The Pro Yakyuu Pennant Race (JP)               -       Ok
- The Three Dragon Story (KR)                    -       Ok
+ Three Dragon Story, The (KR)                   -       Ok
  Thunder Blade                                  FM      Ok
  Thunder Blade (JP)                             FM      Ok
  Time Soldiers                                  FM      Ok
@@ -471,7 +472,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 453 games tested - 451 are "Ok" - Compatibility rate: 99.54%
+ 454 games tested - 452 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
