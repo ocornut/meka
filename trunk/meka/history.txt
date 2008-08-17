@@ -20,6 +20,7 @@ They are usually of 2 kinds:
       overlays anymore. [Omar]
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
+          SMS - 1b10a951 - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
           SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
           SMS - 46340c41 - Cheese Cat-astrophe                  --> Cheese Cat-Astrophe - Starring Speedy Gonzales
           SMS - 89b79e77 - Dodgeball King (KR)                  --> Dallyeora Pigu-Wang (KR)
@@ -32,9 +33,13 @@ They are usually of 2 kinds:
           SMS - 294e0759 - Paperboy                             --> Paperboy [v0] (scoring bug)
           SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (also found in Brasil)
           SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
+          SMS - 93ca8152 - T2 - The Arcade Game                 --> T2: The Arcade Game
+          SMS - ac56104f - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
           SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
           GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]
           GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
+          GG  - 9479c83a - T2 - The Arcade Game                 --> T2: The Arcade Game
+          GG  - 1bd15773 - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
 
 
  MEKA 0.73 WIP 20080619

@@ -21,6 +21,7 @@
  Action Fighter [v2]                            -       Ok
  Addams Family, The                             -       Ok
  Aerial Assault                                 -       Ok
+ Aerial Assault (US)                           *-       Ok
  After Burner                                   FM      Ok
  Air Rescue                                     -       Ok
  Aladdin (Disney's)                             -       Ok
@@ -71,7 +72,6 @@
  Bomber Raid                                    FM      Ok
  Bonanza Bros.                                  -       Ok
  Bonkers Wax Up! (BR)                           -       Ok
- Bram Stoker's Dracula                          -       Ok
  Bubble Bobble                                  -       Ok
  Buggy Run                                      -       Ok
  California Games                               FM      Ok
@@ -93,6 +93,7 @@
  Chuck Rock                                     -       Ok
  Chuck Rock II - Son of Chuck                   -       Ok
  Chuck Rock II - Son of Chuck (BR)              -       Ok
+ Circuit, The (JP)                              -       Ok
  Cloud Master / Chuka Taisen                    FM      Ok
  Color & Switch Test                            -       Ok
  Columns                                        -       Ok
@@ -116,6 +117,7 @@
  Double Dragon                                  FM      Ok
  Double Hawk                                    -       Ok
  Double Target - Cynthia no Nemuri              -       Ok
+ Dracula (Bram Stoker's)                        -       Ok
  Dr. Robotnik's Mean Bean Machine               -       Ok
  Dragon Crystal                                 -       Ok
  Dragon - The Bruce Lee Story                   -       Ok
@@ -402,7 +404,7 @@
  Super Tennis                                   -       Ok
  Super Tetris (KR)                              -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
- T2 - The Arcade Game                           -       Ok
+ T2: The Arcade Game                            -       Ok
  Taito Chase H.Q.                               -       Ok
  Taz in Escape From Mars (BR)                   -       Ok
  Taz-Mania                                      -       Ok
@@ -455,15 +457,14 @@
  World Games                                    -       Ok
  World Games [Proto]                            -       Ok
  World Grand Prix                               -       Ok
- World Grand Prix (JP)                          -       Ok
  World Grand Prix (US)                          -       Ok
  World Soccer                                   (SP)    Ok
  WWF Wrestlemania Steel Cage Challenge          -       Ok
  X-Men - Mojo World (BR)                        -       Ok
  Xenon 2 - Megablast [Image Works]              -       Ok
  Xenon 2 - Megablast [Virgin]                   -       Ok
- Y's - The Vanished Omens                       -       Ok
  Ys (JP)                                        FM      Ok
+ Y's - The Vanished Omens                       -       Ok
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
  Zaxxon 3-D / Zaxxon 3D [Proto]                 FM,(3D) Ok
  Zillion [v0] / Akai Koudan Zillion             -       Ok
@@ -472,7 +473,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 454 games tested - 452 are "Ok" - Compatibility rate: 99.54%
+ 455 games tested - 453 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
