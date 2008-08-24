@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2008/08/17
+; Last updated 2008/08/23
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -346,7 +346,7 @@ SMS abd48ad2 DFAFA4ECD0D02D15   Poseidon Wars 3-D/NAME_BR=Poseidon Wars 3D/COUNT
 SMS 4077efd9 A3A0129B65F27148   Power Strike/COUNTRY=EU,BR,KR/PRODUCT_NO=5109,GB-1004
 SMS a109a6fe 2BC9EC1AC078E1ED   Power Strike II/COUNTRY=EU,BR/PRODUCT_NO=9024
 SMS 0047b615 CCDD81E10B375F54   Predator 2/COUNTRY=EU,BR/PRODUCT_NO=MK-27026-50/EMU_TVTYPE=PAL
-SMS e5f789b9 C5D3A3094BD09F02   Predator 2 [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=US,EU/PRODUCT_NO=T-81068
+SMS e5f789b9 C5D3A3094BD09F02   Predator 2 [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=US,EU/PRODUCT_NO=T-81068,T-81068-50
 SMS 7704287d 2AD78D0B99231992   Prince of Persia/COUNTRY=EU,BR/PRODUCT_NO=27022-50,027270
 SMS 30af0233 6B2F747298C5F330   Promocao Especial M.System III Compact/COUNTRY=BR/COMMENT=Tec Toy cartridge sent to Brasilian shops, promoting the Master System III Super Compact and release of Sonic The Hedgehog 2.
 SMS fbde42d3 FE6C6689595835C1   Pro Wrestling/COUNTRY=US,EU,BR/PRODUCT_NO=5056/COMMENT=Export version of "Gokuaku Doumei Dump Matsumoto".
@@ -638,7 +638,7 @@ GG  03a0ce9e C53AA373B2CC521B   Barbie Super Model [Proto]/FLAGS=PROTO/COMMENT=P
 GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,US,EU/PRODUCT_NO=G-3314
 GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears', The - Camping Adventure/COUNTRY=US/PRODUCT_NO=2447
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The Berlin Wall/COUNTRY=JP/PRODUCT_NO=T-33017
-GG  5c34d9cd 0A954147D11708E9   Bugs Bunny in Double Trouble/COUNTRY=US,EU/PRODUCT_NO=2569
+GG  5c34d9cd 0A954147D11708E9   Bugs Bunny in Double Trouble/COUNTRY=US,EU/PRODUCT_NO=2569,7766-50
 GG  f6a697f8 CADE4673E162E27A   Car Licence/COUNTRY=JP/COMMENT=Non-retail Japanese release. The exact story behind this cartridge is yet unknown.
 GG  2b732056 C51E34D54AB1C554   Casino FunPak/COUNTRY=US/PRODUCT_NO=T-125048
 GG  dfc7adc8 A6DB92F52896C476   Chakan/COUNTRY=US,EU/PRODUCT_NO=2414
@@ -681,7 +681,7 @@ GG  cd53f3af 5434506F49A77C4D   Garfield - Caught in the Act/COUNTRY=US/PRODUCT_
 GG  9afb6f33 CE07E49360532BD6   Garou Densetsu Special/COUNTRY=JP/PRODUCT_NO=T-103017/COMMENT=Japanese version of "Fatal Fury Special".
 GG  0e300223 27BA4F0E3A5DBF6C   Gear Stadium/COUNTRY=JP/PRODUCT_NO=T-14037/COMMENT=Japanese version of "Batter Up".
 GG  e9a2efb4 F9F734AF23CDB28B   Gear Works/COUNTRY=US/PRODUCT_NO=T-93058
-GG  58b44585 C92745E46E995090   George Foreman's KO Boxing/COUNTRY=US,EU/PRODUCT_NO=T-81038
+GG  58b44585 C92745E46E995090   George Foreman's KO Boxing/COUNTRY=US,EU/PRODUCT_NO=T-81038,T-81038-50
 GG  1b80a75b 682713F64A0AAD67   GG Aleste/COUNTRY=JP/PRODUCT_NO=T-66017
 GG  695cc120 FCC991E880B52D60   GG Portrait - Pai Chan/COUNTRY=JP/PRODUCT_NO=G-3387
 GG  d2b6021e F0E8A87399B7C4F9   Global Gladiators/COUNTRY=US,EU/PRODUCT_NO=T-70058,T-70058-50
@@ -819,10 +819,10 @@ GG  dd6d2e34 0942170D3CFD87D1   Tengen World Cup Soccer/COUNTRY=US,EU/PRODUCT_NO
 GG  969cf389 5A5865B5148A5541   Tintin in Tibet/NAME_FR=Tintin au Tibet/COUNTRY=EU/PRODUCT_NO=T-151-038-50/COMMENT=Also referred to using the french title showing on the box: "Tintin au Tibet".
 GG  5bcf9b97 F9471D41510253BC   Torarete Tamaruka!?/COUNTRY=JP/PRODUCT_NO=G-3348
 GG  820965a3 78192012DB30BF73   Ultimate Soccer/COUNTRY=JP,EU,BR/PRODUCT_NO=G-3333,075300
-GG  7ec64025 84C269594C15F3A4   Vampire - Master of Darkness/COUNTRY=US,EU/PRODUCT_NO=2437/COMMENT=Export version of "In the Wake of Vampire".
+GG  7ec64025 84C269594C15F3A4   Vampire - Master of Darkness/NAME_EU=Master of Darkness/COUNTRY=US,EU/PRODUCT_NO=2437/COMMENT=Export version of "In the Wake of Vampire".
 GG  d431c452 89865690753E3F19   Virtua Fighter Animation/COUNTRY=US,EU/PRODUCT_NO=2570
 GG  c05657f8 5B5E5A20BC6D6440   Virtua Fighter Mini/COUNTRY=JP/PRODUCT_NO=G-3380
-GG  b0f22745 E4B611A11356D972   VR Troopers/COUNTRY=US,EU
+GG  b0f22745 E4B611A11356D972   VR Troopers/COUNTRY=US,EU/PRODUCT_NO=2559,2559-50
 GG  ce1108fd 5EF9334D02922E67   Wimbledon/NAME_US=Wimbledon - Tennis/COUNTRY=JP,EU/PRODUCT_NO=G-3221,2323
 GG  d15d335b 8C9DF406D503E322   Winter Olympics/NAME_US=Winter Olympics Games/COUNTRY=US,EU/PRODUCT_NO=T-79088
 GG  d5195a39 5AE30E1DD51AC5E4   Winter Olympics/COUNTRY=JP/PRODUCT_NO=G-3342
@@ -831,7 +831,7 @@ GG  3d8d0dd6 B172FFF90B6B79F6   World Series Baseball [v0]/COUNTRY=US/EMU_MAPPER
 GG  bb38cfd7 82392945686157B7   World Series Baseball [v1]/COUNTRY=US/EMU_MAPPER=4
 GG  578a8a38 1ED4D8EC92EBC10C   World Series Baseball '95/COUNTRY=US/EMU_MAPPER=4
 GG  567a5ee6 4E1CB94E6B30D61E   X-Men/COUNTRY=US/PRODUCT_NO=2505
-GG  c169c344 CD0B39F3B2896859   X-Men - GamesMaster's Legacy/COUNTRY=US,EU/PRODUCT_NO=2531
+GG  c169c344 CD0B39F3B2896859   X-Men - GamesMaster's Legacy/COUNTRY=US,EU/PRODUCT_NO=2531,2531-50
 GG  141aaf96 8CE8B1B8A48E3BB6   Zan Gear/COUNTRY=JP/PRODUCT_NO=T-32017
 
 ; Bad dumps
@@ -1088,7 +1088,7 @@ C201ABFADA677FD8,Batter Up,VER=English,COMMENT=Export version of Gear Stadium.
 82E53FF69611EBD2,Battleship,VER=English
 86AFBDE2C233C176,Battleship,VER=English,COMMENT=This ROM can be safely cut to 65536 bytes.  ; mark as BAD
 EA08216FFAAA5E7C,Battletoads,ID=G-3311,VER=English
-23BF4FE1E01DC42D,Beavis and Butt-head,VER=English
+23BF4FE1E01DC42D,Beavis and Butt-head,ID=T-139018-50,VER=English
 7239ED165A6A8608,Bonkers Wax Up!,VER=English
 A3B7C429356E31E5,Bram Stoker's Dracula,VER=English
 D558C670ED32D2AC,Bubble Bobble,VER=English
@@ -1112,7 +1112,7 @@ AE87403603D0E79B,Desert Strike,VER=English
 4200580F20BADF9E,Doraemon Nora no Suke no Yabou,ID=G-3326,VER=Japanese
 505B00DA3C579A4E,Double Dragon,VER=English
 B247BC4945B611F6,Double Dragon [Proto],PROTO,VER=English,COMMENT=This is an unfinished prototype version of the game.
-77C55F382ABB2325,Dragon Crystal,ID=G-3206,VER=English
+77C55F382ABB2325,Dragon Crystal,VER=English
 D522749CF8737519,Dragon Crystal - Tsurani no Meikyu,ID=G-3206,VER=Japanese
 4C605B8937009F9A,Drop Zone,Mapper=3,ID=T-121007,VER=English
 A338FA736E8E1D9F,Earthworm Jim,VER=English
@@ -1155,7 +1155,7 @@ AE4DC2168F64AF8B,Jungle Book\, The (Walt Disney's Classic),VER=European
 BC411BF2B555F1FB,Jungle Book\, The (Walt Disney's Classic),VER=USA
 2192332A14FC845C,Jurassic Park,ID=G-3229,VER=Japanese
 5B21015F3D470997,Kaitou Saint Tail,ID=G-3382,VER=Japanese
-14860DC4BF4D9CED,Kawasaki Superbike Challenge,VER=English   ; Cartridge says "Kawasaki Superbikes"
+14860DC4BF4D9CED,Kawasaki Superbikes,VER=English,COMMENT=Title screen says "Kawasaki Superbike Challenge".
 73CDFBB9A17B628E,Kishin Douji Zenki,ID=G-3373,VER=Japanese
 B87E281ACCCE2FBF,KLAX,VER=English
 3321E82A25113E26,Krusty's Fun House,VER=English

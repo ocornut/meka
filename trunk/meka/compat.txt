@@ -1053,7 +1053,7 @@
  True Lies                                          Ok
  Ultimate Soccer                                    Ok
  Urban Strike                                       Ok
- Vampire - Master of Darkness                       Ok
+ Vampire - Master of Darkness / Master of Darkness  Ok
  Virtua Fighter Animation                           Ok
  Virtua Fighter Mini (JP)                           Ok
  VR Troopers                                        Ok
