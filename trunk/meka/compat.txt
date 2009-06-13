@@ -21,7 +21,7 @@
  Action Fighter [v2]                            -       Ok
  Addams Family, The                             -       Ok
  Aerial Assault                                 -       Ok
- Aerial Assault (US)                           *-       Ok
+ Aerial Assault (US)                            -       Ok
  After Burner                                   FM      Ok
  Air Rescue                                     -       Ok
  Aladdin (Disney's)                             -       Ok
@@ -68,10 +68,11 @@
  Battle Out Run                                 -       Ok
  Black Belt                                     -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
+ Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
  BMX Trial - Alex Kidd (JP)                     FM,PAD  Ok
  Bomber Raid                                    FM      Ok
  Bonanza Bros.                                  -       Ok
- Bonkers Wax Up! (BR)                           -       Ok
+ Bonkers Wax Up! (Disney's) (BR)                -       Ok
  Bubble Bobble                                  -       Ok
  Buggy Run                                      -       Ok
  California Games                               FM      Ok
@@ -82,10 +83,11 @@
  Castelo Rá-Tim-Bum (BR)                        -       Ok
  Castle of Illusion - Starring Mickey Mouse     -       Ok
  Castle of Illusion - Starring Mickey Mouse (US)-       Ok
+ Castle of Illusion - Starring Mickey.. [Demo]  -       Ok
  Champions of Europe                            -       Ok
  Championship Hockey                            -       Ok
  Chapolim x Drácula - Um Duelo Assustador (BR)  -       Ok
- Cheese Cat-astrophe                            -       Ok
+ Cheese Cat-astrophe - Starring Speedy Gonzales -       Ok
  Choplifter                                     -       Ok
  Choplifter [Proto] (JP)                        -       Ok
  Chouon Senshi Borgman (JP)                     FM      Ok
@@ -116,6 +118,7 @@
  Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM     *Ok
  Double Dragon                                  FM      Ok
  Double Hawk                                    -       Ok
+ Double Hawk [Proto]                            -       Ok
  Double Target - Cynthia no Nemuri              -       Ok
  Dracula (Bram Stoker's)                        -       Ok
  Dr. Robotnik's Mean Bean Machine               -       Ok
@@ -206,10 +209,13 @@
  Home Alone                                     -       Ok
  Hook [Proto]                                   -       Ok
  Hoshi wo Sagashite... (JP)                     FM      Ok
+ Hwarang-ui Geom (KR)                           FM      Ok
  Impossible Mission                             -       Ok
+ Impossible Mission [Proto]                     -       Ok
  Incredible Crash Dummies, The                  -       Ok
  Incredible Hulk, The                           -       Ok
  Indiana Jones and the Last Crusade             -       Ok
+ Indiana Jones and the Last Crusade [Proto]     -       Ok
  James Bond 007: The Duel                       -       Ok
  James Bond 007: The Duel (BR)                  -       Ok
  James "Buster" Douglas Knockout Boxing         -       Ok
@@ -255,12 +261,14 @@
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
  Miracle Warriors - Seal of The Dark Lord       FM      Ok
+ Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
  Mônica no Castelo do Dragão (BR)               FM      Ok
  Monopoly [A]                                   -       Ok
  Monopoly [B]                                   -       Ok
  Montezuma's Revenge - Featuring Panama Joe     -       Ok
  Moonwalker (Michael Jackson's)                 -       Ok
+ Moonwalker (Michael Jackson's) [Proto]         -       Ok
  Mortal Kombat                                  -       Ok
  Mortal Kombat II                               -       Ok
  Mortal Kombat 3 (BR)                           -       Ok
@@ -343,9 +351,9 @@
  Shadow Dancer - The Secret Of Shinobi          -       Ok
  Shadow of the Beast                            -       Ok
  Shanghai                                       FM      Ok
- Shanghai [Proto]                              *FM      Ok
- Shinobi                                        FM      Ok
- Shinobi (JP)                                   FM      Ok
+ Shanghai [Proto]                               FM      Ok
+ Shinobi [v0]                                   FM      Ok
+ Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
  Slap Shot [A]                                  -       Ok
@@ -354,7 +362,7 @@
  Slap Shot [Proto]                             *-       Ok
  Smurfs, The                                    -       Ok
  Smurfs Travel the World, The                   -       Ok
- Smurfs Travel the World, The [Proto]          *-       Ok
+ Smurfs Travel the World, The [Proto]           -       Ok
  Solomon no Kagi - Oujo Rihita no Namida (JP)   FM      Ok
  Sonic Blast                                    -       Ok
  Sonic Chaos                                    -       Ok
@@ -392,10 +400,12 @@
  Summer Games [Proto]                           -       Ok
  Super Basketball [Demo]                        -       Ok
  Super Boy II (KR)                              -       Ok
+ Super Boy 4 (KR)                               -       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
  Super Monaco GP (US)                           -       Ok
+ Super Monaco GP [Proto]                        -      *Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Off Road                                 -       Ok
  Super Racing (JP)                              FM,(PAD)Ok
@@ -473,7 +483,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 455 games tested - 453 are "Ok" - Compatibility rate: 99.54%
+ 465 games tested - 463 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -588,8 +598,8 @@
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- Challenge Derby [16k]                    OM-G005  *Ok
- Challenge Derby [40k]                    OM-G005  *Ok
+ Challenge Derby [16k]                    OM-G005   Ok
+ Challenge Derby [40k]                    OM-G005   Ok
  Guzzler                                  OM-G002   Ok
  James Bond 007                           OM-G008   Ok
  Okamoto Ayako no Match Play Golf [A]     OM-G006  *Ok
@@ -608,21 +618,22 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SC-3000 cartridge software were originally released in Japan.
 -----------------------------------------------------------------------------
- Chuugaku Hissyuu Eitango (JHS 1)           E-103  *Ok
- Chuugaku Hissyuu Eitango (JHS 2)           E-110  *Ok
- Chuugaku Hissyuu Eisakubun (JHS 2)         E-111  *Ok
- Chuugaku Hissyuu Eibunpou (JHS 2)          E-112  *Ok
- Home Basic                                 B-50   *Ok (can't write to tape)
- Kagaku (Gensokigou Master)                 E-107  *Ok
- Nihonshi Nenpyou                           E-108   Ok
- Music                                      E-101   Ok (can't write to tape)
- Music (JP)                                 E-101   Ok (can't write to tape)
- Sega Basic Level 2 (JP)                    B-30    Ok (can't write to tape)
- Sega Basic Level 3 1.0                     B-40    Ok (can't write to tape)
- Sega Basic Level 3 1.1 (JP)                B-41   *Ok (can't write to tape)
- Sekaishi Nenpyou                           E-109  *Ok
- Tanoshii Sansuu                            E-115   Ok
- Uranai Angel Cutie                         E-119  *Ok
+ Basic Level II (JP)                            B-30    Ok (can't write to tape)
+ Basic Level II 1.0                             B-40    Ok (can't write to tape)
+ Basic Level III 1.1 (JP)                       B-41   *Ok (can't write to tape)
+ Home Basic                                     B-50   *Ok (can't write to tape)
+-----------------------------------------------------------------------------
+ Music                                          E-101   Ok (can't write to tape)
+ Music (JP)                                     E-101   Ok (can't write to tape)
+ Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)      E-103  *Ok
+ Kagaku (Genso Kigou Master)                    E-107  *Ok
+ Nihonshi Nenpyou                               E-108   Ok
+ Sekaishi Nenpyou                               E-109  *Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)      E-110  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)    E-111  *Ok
+ Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)     E-112  *Ok
+ Tanoshii Sansuu (Shougaku 6-Nen Ge)            E-115   Ok
+ Uranai Angel Cutie                             E-119  *Ok
 -----------------------------------------------------------------------------
   15 roms tested - 15 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
@@ -657,6 +668,7 @@
  Aladdin (Disney's)                                 Ok
  Aladdin (Disney's) (JP)                            Ok
  Alien 3                                            Ok
+ Alien 3 (JP)                                      *Ok
  Alien Syndrome                                     Ok
  Alien Syndrome (JP)                                Ok
  Andre Agassi Tennis                                Ok
@@ -665,13 +677,14 @@
  Arena - Maze of Death                              Ok
  Ariel - The Little Mermaid (Disney's)              Ok
  Arliel - Crystal Densetsu (JP)                     Ok
- Asterix and the Great Rescue                       Ok
- Asterix and the Great Rescue (US)                  Ok
+ Astérix and the Great Rescue                       Ok
+ Astérix and the Great Rescue (US)                  Ok
+ Astérix and the Secret Mission                     Ok
  Ax Battler - A Legend of Golden Axe [v1.5] (JP)    Ok
  Ax Battler - A Legend of Golden Axe [v2.0] [Proto]*Ok
  Ax Battler - A Legend of Golden Axe [v2.4]         Ok
- Baku Baku Animal                                   Ok
- Baku Baku Animal (US)                             *Ok
+ Baku Baku                                          Ok
+ Baku Baku (US)                                     Ok
  Baku Baku Animal - Sekai Shiikugakari Senshu..(JP) Ok
  Barbie Super Model [Proto]                         Ok
  Bart vs. The Space Mutants (The Simpsons)          Ok
@@ -682,11 +695,12 @@
  Batter Up                                          Ok
  Battleship                                         Ok
  Battletoads                                        Ok
- Beavis and Butt-head                               Ok
+ Beavis and Butt-head (MTV's)                       Ok
+ Beavis and Butt-head (MTV's) (US)                  Ok
  Berenstain Bears', The - Camping Adventure         Ok
- Berlin no Kabe - The Berlin Wall (JP)              Ok
- Bonkers Wax Up!                                    Ok
- Bram Stoker's Dracula                              Ok
+ Berlin no Kabe - The BerlinWall (JP)               Ok
+ Bishoujo Senshi Sailor Moon S (JP)                 Ok
+ Bonkers Wax Up! (Disney's)                         Ok
  Bubble Bobble                                      Ok
  Bugs Bunny in Double Trouble                       Ok
  Bust a Move                                        Ok
@@ -699,6 +713,7 @@
  Castle of Illusion - Starring Mickey Mouse [SMS-GG]Ok
  Castle of Illusion - Starring Mick.. [SMS-GG] (JP) Ok
  Chakan                                             Ok
+ Cheese Cat-astrophe - Starring Speedy Gonzales    *Ok
  Chessmaster                                        Ok
  Chicago Syndicate                                  Ok
  Choplifter III                                     Ok
@@ -709,7 +724,8 @@
  Coca Cola Kid                                      Ok
  Columns                                            Ok
  Columns (JP)                                       Ok
- Cool Spot                                          Ok
+ Cool Spot                                         *Ok
+ Cool Spot (US)                                     Ok
  Cosmic Spacehead                                   Ok
  Crayon Shin Chan - Taiketsu! Tankam Panic!! (JP)   Ok
  Crystal Warriors                                   Ok
@@ -724,22 +740,25 @@
  Devilish (US)                                      Ok
  Devilish (JP)                                      Ok
  Donald Duck no Lucky Dime (JP)                     Ok
- Donald Duck no Yottsu no Himitsu (JP)              Ok
+ Donald Duck no Yottsu no Hihou (JP)                Ok
  Doraemon Nora no Suke no Yabou (JP)                Ok
  Doraemon Waku Waku Pocket Paradise (JP)            Ok
- Double Dragon                                      Ok
+ Double Dragon / Double Dragon - The Revenge of B.. Ok
  Double Dragon [Proto]                              Ok
  Dr. Robotnik's Mean Bean Machine                   Ok
+ Dracula (Bram Stoker's)                            Ok
+ Dracula (Bram Stoker's) (US)                      *Ok
  Dragon Crystal                                     Ok
- Dragon Crystal - Tsurani no Meikyu (JP)            Ok
+ Dragon Crystal - Tsurani no Meikyuu (JP)           Ok
  Dragon - The Bruce Lee Story                       Ok
  Dragon - The Bruce Lee Story (US)                  Ok
- Drop Zone                                          Ok
+ Dropzone (Archer MacLean's)                        Ok
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
  Dynamite Headdy (JP)                               Ok
- Earthworm Jim                                      Ok
- Ecco the Dolphin                                   Ok
+ Earthworm Jim                                     *Ok
+ Earthworm Jim (US)                                 Ok
+ Ecco the Dolphin                                  *Ok
  Ecco the Dolphin (JP)                              Ok
  Ecco the Dolphin II (JP)                           Ok
  Ecco - The Tides of Time                           Ok
@@ -747,13 +766,15 @@
  Eternal Legend (JP)                                Ok
  Evander Holyfield's "Real Deal" Boxing             Ok
  Excellent Dizzy Collection, The [SMS-GG]           Ok
- F1                                                 Ok
+ Formula One / F1                                   Ok
  F-15 Strike Eagle                                  Ok
  Face Ball 2000 (JP)                                Ok
  Factory Panic                                      Ok
  Fantastic Dizzy [SMS-GG]                           Minor graphic bug when pausing.
- Fantasy Zone Gear                                  Ok
- Fatal Fury Special                                 Ok
+ Fantasy Zone / Fantasy Zone Gear - Opa Opa Jr. no..Ok
+ Fantasy Zone (US)                                 *Ok
+ Fatal Fury Special                                *Ok
+ Fatal Fury Special (US)                            Ok
  FIFA International Soccer                          Ok
  FIFA International Soccer (JP)                     Ok
  FIFA Soccer 96                                     Ok
@@ -763,12 +784,11 @@
  Fred Couples Golf                                  Ok
  Fred Couples Golf (JP)                             Ok
  Frogger [Proto]                                    Ok
- From TV animation - Slam Dunk - Shouri-e no.. (JP) Ok
- Galaga 2                                          *Ok
+ Galaga 2                                           Ok
  Galaga '91 (JP)                                    Ok
  Gamble Panic (JP)                                  Ok
+ Gambler Jikochuushin Ha (JP)                       Ok
  Garou Densetsu Special (JP)                        Ok
- Gyuwanburaa Jikochuushin Ha (JP)                   Ok
  Ganbare Gorby! (JP)                                Ok
  Garfield - Caught in the Act                       Ok
  Gear Stadium (JP)                                  Ok
@@ -776,8 +796,8 @@
  Gear Works                                         Ok
  George Foreman's KO Boxing                         Ok
  GG Aleste (JP)                                     Ok
+ GG Portrait - Pai Chen (JP)                        Ok
  GG Portrait - Yuuki Akira (JP)                     Ok
- GG Portrait - Pai Chan (JP)                        Ok
  GG Shinobi, The (JP)                               Ok
  Global Gladiators                                  Ok
  G-LOC - Air Battle                                 Ok
@@ -796,9 +816,9 @@
  Heavy weight Champ (JP)                            Ok
  Home Alone                                         Ok
  Hook                                               Ok
- House of Tarot (JP)                                Ok
+ Tarot no Yakata / House of Tarot (JP)              Ok
  Hurricanes                                         Ok
- Hyokkori Hyoutan Jima (JP)                         Ok
+ Hyokkori Hyoutan Jima - Hyoutan Jima no Dai.. (JP) Ok
  Hyper Chou Pro Yakyuu '92 (JP)                     Ok
  Ichidant~R GG (Puzzle & Action)                    Ok
  Incredible Crash Dummies, The                      Ok
@@ -808,7 +828,8 @@
  Iron Man X-O Manowar in Heavy Metal                Ok
  Itchy & Scratchy Game, The                         Ok
  James Bond 007: The Duel                           Ok
- James Pond II - Codename: Robocod                  Ok
+ James Pond II - Codename: Robocod                 *Ok
+ James Pond II - Codename: Robocod (US)             Ok
  Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
  Jeopardy! - Sports Edition                         Ok
@@ -819,18 +840,19 @@
  Judge Dredd                                        Ok
  Junction                                           Ok
  Jungle Book, The (Walt Disney's Classic)           Ok
- Jungle Book, The (Walt Disney's Classic) (US)      Ok
+ Jungle Book, The (Walt Disney's) (US)              Ok
  Jurassic Park                                      Ok
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
- Kawasaki Superbike Challenge                       Ok
+ Kawasaki Superbike Challenge / Kawasaki Superbikes Ok
+ Kenyuu Densetsu Yaiba (JP)                         Ok
  Kick & Rush (JP)                                   Ok
  Kinetic Connection (JP)                            Ok
  Kishin Douji Zenki (JP)                            Ok
  KLAX                                               Ok
  Krusty's Fun House                                 Ok
- Kuni Chan's Game Paradise (JP)                     Ok
- Kuni Chan's Game Paradise 2 (JP)                   Ok
+ Kuni Chan no Game Tengoku (JP)                     Ok
+ Kuni Chan no Game Tengoku Part 2 (JP)              Ok
  Land of Illusion - Starring Mickey Mouse           Ok
  Last Action Hero                                   Ok
  Legend of Illusion                                 Ok
@@ -839,26 +861,28 @@
  Lemmings [Proto]                                   Ok
  Lion King, The (Disney's) (EU)                     Ok
  Lion King, The (Disney's) (US)                     Ok
+ Lion King, The (Disney's) (JP)                    *Ok
  Lost World, The - Jurassic Park                    Ok
  Lucky Dime Caper, The                              Ok
  Lunar - Sanpo-suru Gakuen (JP)                     Ok
  Mac Donald - Ronald in the Magical World           Ok
- Madden's NFL '95                                   Ok
+ Madden NFL 95                                      Ok
  Madden 96                                          Ok
- Madoh Monogatari I - Mittsu no Madokyuu (JP)       Ok
+ Madoh Monogatari I - Mittsu no Madoukyuu (JP)      Ok
  Madoh Monogatari II - Aruru 16-sai (JP)            Ok
- Madoh Monogatari III - Kyuukyoku Joo-sama [v0] (JP)Ok
- Madoh Monogatari III - Kyuukyoku Joo-sama [v1] (JP)Ok
- Madoh Monogatari A - Dokidoki-Bake Shon (JP)       Ok
+ Madoh Monogatari III - Kyuukyoku Joou-sama [v0](JP)Ok
+ Madoh Monogatari III - Kyuukyoku Joou-sama [v1](JP)Ok
+ Madoh Monogatari A - Doki Doki Bake~shon (JP)      Ok
  Magic Knight Ray Earth (JP)                        Ok
  Magic Knight Ray Earth 2 ~making of magic k.. (JP) Ok
  Magical Puzzle Popils (JP)                         Ok
- Magical Taruruto-kun (JP)                          Ok
+ Magical Taruruuto-kun (JP)                         Ok
  Majors Pro Baseball, The                           Ok
  Man Overboard!                                     Ok
  Mappy (JP)                                         Ok
  Marble Madness                                     Ok
  Marko's Magic Football                             Ok
+ Master of Darkness                                *Ok
  Megaman                                            Ok
  Megami Tensei Gaiden Last Bible (JP)               Ok
  Megami Tensei Gaiden Last Bible Special (JP)       Ok
@@ -869,23 +893,23 @@
  Mighty Morphin Power Rangers                       Ok
  Mighty Morphin Power Rangers - The Movie           Ok
  MLBPA Baseball                                     Flickering Status (LCD Persistance).
- Moldorian (JP)                                     Ok
+ Moldorian ~Hikari to Yami no Shisutaa~ (JP)        Ok
  Monster Truck Wars                                 Ok
  Monster World II - Dragon no Wana (JP)             Ok
  Mortal Kombat                                      Ok
- Mortal Kombat (JP)                                 Ok
- Mortal Kombat II / Mortal Kombat II - Kyukyoku-S.. Ok
+ Mortal Kombat - Shinken Kourin Densetsu (JP)       Ok
+ Mortal Kombat II / Mortal Kombat II - Kyukyoku S.. Ok
  Mortal Kombat 3                                    Ok
  Ms. Pac-Man                                        Ok
  Nazo Puyo (JP)                                     Ok
  Nazo Puyo 2 (JP)                                   Ok
- Nazo Puyo Aruru no Ru (JP)                         Ok
- Nazo Puyo Aruru no Ru [Editor Proto] (JP)          Ok
- NBA Action                                         Ok
+ Nazo Puyo Aruru no Ruu (JP)                        Ok
+ Nazo Puyo Aruru no Ruu [Editor Proto] (JP)         Ok
+ NBA Action - Starring David Robinson               Ok
  NBA JAM                                            Ok
  NBA JAM (JP)                                       Ok
  NBA JAM Tournament Edition                         Ok
- Neko Daisuki! (JP)                                 Ok
+ Neko Dai Suki! (JP)                                Ok
  NFL '95                                            Ok
  NFL Quarterback Club                               Ok
  NFL Quarterback Club '96                           Ok
@@ -893,26 +917,29 @@
  NHL Hockey                                         Ok
  Ninja Gaiden                                       Ok
  Ninja Gaiden (JP)                                  Ok
- Ninku (JP)                                         Ok
- Ninku 2 ~Tenkuryu-e no Michi~ (JP)                 Ok
- Ninku Gaiden - Hiroyuki Daikatsugeki (JP)          Ok
+ Ninkuu (JP)                                        Ok
+ Ninkuu 2 ~Tenkuuryuu-e no Michi~ (JP)              Ok
+ Ninkuu Gaiden - Hiroyuki Daikatsugeki (JP)         Ok
  Nomo's World Series Baseball / Nomo Hideo no..(JP) Ok
  Olympic Gold [v0] [SMS-GG]                         Ok
  Olympic Gold [v0] [SMS-GG] (TW)                    Ok
  Olympic Gold [v1] [SMS-GG]                         Ok
  Operation Starfi5h                                 Ok
  Ottifants, The                                     Ok
- Out Run                                            Ok
- Out Run Europa [SMS-GG]                            Ok
+ Out Run                                           *Ok
+ Out Run (JP)                                       Ok
+ Out Run Europa [SMS-GG]                           *Ok
+ Out Run Europa [SMS-GG] (US)                       Ok
  Pac-Attack                                         Ok
  Pac-In-Time [Proto]                                Ok
- Pac-Man                                            Ok
+ Pac-Man                                           *Ok
+ Pac-Man (JP)                                       Ok
  Panzer Dragoon Mini (JP)                           Ok
  Paperboy                                           Ok
  Paperboy 2                                         Ok
  Pengo                                              Ok
  Pengo (JP)                                         Ok
- Pet Club Inu Daisuki! (JP)                         Ok
+ Pet Club Inu Dai Suki! (JP)                        Ok
  Pete Sampras Tennis                                Ok
  PGA TOUR Golf                                      Ok
  PGA TOUR Golf 2                                    Ok
@@ -933,6 +960,7 @@
  Prince of Persia [SMS-GG] [A]                      Ok
  Prince of Persia [SMS-GG] [B]                     *Ok
  Primal Rage                                        Ok
+ Pro Yakyuu '91, The (JP)                           Ok
  Pro Yakyuu GG League (JP)                          Ok
  Pro Yakyuu GG League '94 (JP)                      Ok
  Psychic World                                      Ok
@@ -950,13 +978,13 @@
  Riddick Rowe Boxing                                Ok
  Rise of the Robots                                 Ok
  Ristar / Ristar the Shooting Star                  Ok
- Road Rash                                          Ok
+ Road Rash                                         *Ok
+ Road Rash (US)                                     Ok
  RoboCop 3                                          Ok
  RoboCop versus The Terminator                      Ok
  R.B.I. Baseball '94                                Ok
- Royal Stone ~Hikarishi Toki no Tobira~ (JP)        Ok
+ Royal Stone ~Hirakareshi Toki no Tobira~ (JP)      Ok
  Ryuu Kyuu (JP)                                     Ok
- Sailor Moon S (JP)                                 Ok
  Samurai Shodown                                    Ok
  Samurai Spirits                                    Ok
  Scratch Golf (JP)                                  Ok
@@ -964,17 +992,19 @@
  Sega Game Pack 4 in 1                              Ok
  Sensible Soccer                                    Ok
  Shadam Crusader ~Harukanaru Oukoku~ (JP)           Ok
- Shanghai II (JP)                                   Ok
+ Shanghai II [v0] (JP)                              Ok
+ Shanghai II [v1] (JP)                             *Ok
  Shaq Fu                                            Ok
  Shining Force - The Sword of Hajya                 Ok
  Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP) Ok
  Shining Force Gaiden II ~Jashin no Mezame~ (JP)    Ok
  Shining Force Gaiden ~Final Conflict~ (JP)         Ok
- Shikinjou (JP)                                     Ok
+ Shikinjo (JP)                                      Ok
  Skweek (JP)                                        Ok
  Shinobi / GG Shinobi, The                          Ok
  Shinobi II - The Silent Fury / GG Shinobi II (JP)  Ok
  Side Pocket (US)                                   Ok
+ Slam Dunk - Shouri-e no Starting 5 (From TV.. (JP) Ok
  Slider                                             Ok
  Sokoban World (JP)                                 Ok
  Solitaire Fun Pak                                  Ok
@@ -992,7 +1022,7 @@
  Sonic The Hedgehog [v1]                            Ok
  Sonic The Hedgehog [Proto]                         Ok
  Sonic The Hedgehog 2                               Ok
- Sonic Triple Trouble                               Ok
+ Sonic The Hedgehog Triple Trouble                  Ok
  Space Harrier                                      Flickering status (LCD persistance).
  Spider-Man - Return of the Sinister Six            Ok
  Spider-Man - vs. The Kingpin                       Ok
@@ -1003,12 +1033,13 @@
  Sports Trivia - Championship Edition               Ok
  Star Gate                                          Ok
  Star Trek Generations - Beyond the Nexus           Ok
- Star Trek The Next Generation - The Advanced Hol.. Ok
+ Star Trek: The Next Generation - The Advanced Ho.. Ok
  Star Wars                                          Ok
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
  Strider Returns                                    Ok
+ Striker                                            Ok
  Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
@@ -1025,35 +1056,37 @@
  Super Smash T.V.                                   Ok
  Super Space Invaders                               Ok
  Surf Ninjas                                        Ok
- Sylvan Tale                                        Ok
- T2 - The Arcade Game                               Ok
+ Sylvan Tale (JP)                                   Ok
+ T2: The Arcade Game                                Ok
  Tails Adventure                                    Ok
  Tails' Sky Patrol                                  Ok
  Taisen-gata Daisenryaku G (JP)                     Ok
- Taisen Mahjong HaoPai (JP)                         Ok
- Taisen Mahjong HaoPai 2 (JP)                       Ok
+ Taisen Mahjong Hao-Pai (JP)                        Ok
+ Taisen Mahjong Hao-Pai 2 (JP)                      Ok
+ Taito Chase H.Q. [SMS-GG]                         *Ok
  Taito Chase H.Q. [SMS-GG] (JP)                     Ok
  TaleSpin (Disney's)                                Ok
- Tama & Friends - 3chome Koen Tamalympic (JP)       Ok
+ Tama & Friends - 3 Choume Kouen Tamalympic (JP)    Ok
  Tant~R (Puzzle & Action) (JP)                      Ok
- Tarzan - Lord of the Jungle                       *Status bar numbers are displayed one line too late.
+ Tarzan - Lord of the Jungle                        Status bar numbers are displayed one line too late.
  Tatakae! Pro Yakyuu Twin League (JP)               Ok
- Taz in Escape from Mars                            Ok
+ Taz in Escape From Mars                            Ok
  Taz-Mania                                          Ok
  Tempo Jr.                                          Ok
  Tengen World Cup Soccer                            Ok
  Terminator, The                                    Ok
  Terminator 2 - Judgment Day                        Ok
  Tesserae                                           Ok
- The Pro Yakyuu '91 (JP)                            Ok
  Smurfs, The                                        Ok
+ Smurfs Travel the World, The                      *Ok
  Tintin in Tibet                                    Ok
  Tom and Jerry - The Movie                          Ok
+ Tom and Jerry - The Movie (JP)                    *Ok
  Torarete Tamaruka!? (JP)                           Ok
  True Lies                                          Ok
  Ultimate Soccer                                    Ok
  Urban Strike                                       Ok
- Vampire - Master of Darkness / Master of Darkness  Ok
+ Vampire - Master of Darkness (US)                  Ok
  Virtua Fighter Animation                           Ok
  Virtua Fighter Mini (JP)                           Ok
  VR Troopers                                        Ok
@@ -1065,7 +1098,8 @@
  Winter Olympics (JP)                               Ok
  Wizard Pinball                                     Ok
  Wolfchild                                          Ok
- Wonder Boy                                         Ok
+ Wonder Boy                                        *Ok
+ Wonder Boy (JP)                                    Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
  Woody Pop [v0]                                     Ok
@@ -1081,15 +1115,16 @@
  X-Men                                              Ok
  X-Men - GamesMaster's Legacy                       Ok
  X-Men - Mojo World                                 Ok
- Yaiba Adventures                                   Ok
  Yogi Bear [Proto]                                  Ok
+ Yuu Yuu Hakusho - Horobishi Mono no Gyakushuu (JP) Ok
+ Yuu Yuu Hakusho II - Gekitou! Nanakyou no T.. (JP) Ok
  Yuu Yuu Hakusho (JP)                               Ok
  Yuu Yuu Hakusho II (JP)                            Ok
  Zan Gear (JP)                                      Ok
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 439 games tested - 428 are "Ok" - Compatibility rate: 97.48%
+ 464 games tested - 454 are "Ok" - Compatibility rate: 97.83%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

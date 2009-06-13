@@ -18,8 +18,10 @@ They are usually of 2 kinds:
   - GUI:
     - File browser: fixed positionning of BAD and HACK icons, which aren't
       overlays anymore. [Omar]
+    - Added Canadian flag (for DB and File Browser). [Omar]
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
+          SMS - b3768a7a - Bonkers Wax Up! (BR)                 --> Bonkers Wax Up! (Disney's) (BR)
           SMS - 1b10a951 - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
           SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
           SMS - 46340c41 - Cheese Cat-astrophe                  --> Cheese Cat-Astrophe - Starring Speedy Gonzales
@@ -33,13 +35,83 @@ They are usually of 2 kinds:
           SMS - 294e0759 - Paperboy                             --> Paperboy [v0] (scoring bug)
           SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (also found in Brasil)
           SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
+          SMS - e1fff1bb - Shinobi (JP)                         --> Shinobi [v0] (also found in Brasil in Game Box Serie Lutas compilation)
+          SMS - 0c6fac4e - Shinobi                              --> Shinobi [v1]
           SMS - 93ca8152 - T2 - The Arcade Game                 --> T2: The Arcade Game
+          SMS - 11ce074c - Taz in Escape From Mars              --> Taz in Escape from Mars
           SMS - ac56104f - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
           SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
+          GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5-in-1 FunPak
+          GG  - 8d8bfdc4 - Baku Baku Animal (US)                --> Baku Baku (US)
+          GG  - 10ac9374 - Baku Baku Animal (EU)                --> Baku Baku (EU)
+          GG  - a6bf865e - Beavis and Butt-head                 --> Beavis and Butt-head (MTV's)
+          GG  - 325b1797 - Berlin no Kabe - The Berlin Wall (JP)--> Berlin no Kabe - The BerlinWall (JP) (clearly spelled without space)
+          GG  - bfceba5f - Bonkers Wax Up!                      --> Bonkers Wax Up! (Disney's)
+          GG  - 69ebe5fa - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
+          GG  - 2c758fc8 - Cool Spot                            --> Cool Spot (US)
+          GG  - 4457e7c0 - Donald Duck no Yottsu no Himitsu (JP)--> Donald Duck no Yottsu no Hihou (JP)
+          GG  - 19e1cf2b - Dragon Crystal - Tsurani no M.. (JP) --> Dragon Crystal - Tsurani no Meikyuu (JP)
+          GG  - 152f0dcc - Drop Zone                            --> Dropzone (Archer MacLean's)
+          GG  - 5d3f23a9 - Earthworm Jim                        --> Earthworm Jim (US)
+          GG  - 2b60873e - Ecco the Dolphin                     --> Ecco the Dolphin [BAD]
+          GG  - d0a93e00 - F1                                   --> Formula One / F1 (alternative names)
+          GG  - d69097e8 - Fantasy Zone Gear                    --> Fantasy Zone / Fantasy Zone Gear - Opa Opa Jr. no Bouken
+          GG  - 449787e2 - Fatal Fury Special                   --> Fatal Fury Special (US)
+          GG  - 751dad4c - From TV animation - Slam Dunk.. (JP) --> Slam Dunk - Shouri-e no Starting 5 (From TV animation) (JP)
+          GG  - 695cc120 - GG Portrait - Pai Chan (JP)          --> GG Portrait - Pai Chen (JP)
+          GG  - 398f2358 - Kuni Chan's Game Paradise (JP)       --> Kuni Chan no Game Tengoku (JP)
+          GG  - f3774c65 - Kuni Chan's Game Paradise 2 (JP)     --> Kuni Chan no Game Tengoku Part 2 (JP)
+          GG  - 42389270 - Hyokkori Hyoutan Jima (JP)           --> Hyokkori Hyoutan Jima - Hyoutan Jima no Daikouka (JP)
+          GG  - 9fb5c155 - James Pond II - Codename: Robocod    --> James Pond II - Codename: Robocod (US)
+          GG  - 30c09f31 - Jungle Book, The (Walt Disney'..(US) --> Jungle Book, The (Walt Disney's) (US) (US version do not mention 'Classic'. Alternate name have only 'Disney's').
+          GG  - 75c71ebf - Madden NFL '95                       --> Madden NFL 95
+          GG  - 00c34d94 - Madoh Monogatari I - Mittsu no..(JP) --> Madoh Monogatari I - Mittsu no Madoukyuu (JP)
+          GG  - 0a634d79 - Madoh Monogatari III - K.. [v0] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v0] (JP)
+          GG  - 568f4825 - Madoh Monogatari III - K.. [v1] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v1] (JP)
+          GG  - 7ec95282 - Madoh Monogatari A - Dokidoki.. (JP) --> Madoh Monogatari A - Doki Doki Bake~shon (JP)
+          GG  - 8f82a6b9 - Magic Knight Ray Earth (JP)          --> Magic Knight Rayearth (JP)
+          GG  - 1c2c2b04 - Magic Knight Ray Earth 2 ~mak.. (JP) --> Magic Knight Rayearth 2 ~making of magic knight~
+          GG  - 6e1cc23c - Magical Taruruto-kun (JP)            --> Magical Taruruuto-kun (JP)
+          GG  - 4d5d15fb - Moldorian (JP)                       --> Moldorian ~Hikari to Yami no Shisutaa~ (JP)
+          GG  - dbff0461 - Mortal Kombat (JP)                   --> Mortal Kombat - Shinken Kourin Densetsu (JP)
+          GG  - 54ab42a4 - Nazo Puyo Aruru no Ru (JP)           --> Nazo Puyo Aruru no Ruu (JP)
+          GG  - 4c874466 - Nazo Puyo Aruru no Ru [Editor.. (JP) --> Nazo Puyo Aruru no Ruu [Editor Proto] (JP)
+          GG  - 3679be80 - Neko Daisuki! (JP)                   --> Neko Dai Suki! (JP)
+          GG  - c3056e15 - Ninku (JP)                           --> Ninkuu (JP)
+          GG  - 06247dd2 - Ninku 2 ~Tenkuryu-e no Michi~ (JP)   --> Ninkuu 2 ~Tenkuuryuu-e no Michi~ (JP)
+          GG  - 9140f239 - Ninku Gaiden - Hiroyuki Daika.. (JP) --> Ninkuu Gaiden - Hiroyuki Daikatsugeki
+          GG  - 19030108 - NBA Action                           --> NBA Action - Starring David Robinson
+          GG  - 4680c7aa - NHL All Stars                        --> NHL All-Star Hockey
           GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]
           GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
+          GG  - d58cb27c - Out Run                              --> Out Run (JP)
+          GG  - f037ec00 - Out Run Europa [SMS-GG]              --> Out Run Europa [SMS-GG] (US)
+          GG  - a16c5e58 - Pac-Man                              --> Pac-Man (JP)
+          GG  - b42d8430 - Pet Club Inu Daisuki! (JP)           --> Pet Club Inu Dai Suki! (JP) (coherent with Neko Dai Suki!)
+          GG  - 3ef66810 - Popeye's Beach Volleyball (JP)       --> Popeye Beach Volley Ball (JP)
+          GG  - 96045f76 - Road Rash                            --> Road Rash (US)
+          GG  - 445d7cd2 - Royal Stone ~Hikarishi Toki n.. (JP) --> Royal Stone ~Hirakareshi Toki no Tobira~ (JP)
+          GG  - fe7374d2 - Sailor Moon S (JP)                   --> Bishoujo Senshi Sailor Moon S (JP)
+          GG  - 2ae8c75f - Shanghai II (JP)                     --> Shanghai II [v0] (JP)
+          GG  - 9c5c7f53 - Shikinjou (JP)                       --> Shikinjo (JP) (official transcription)
+          GG  - 0f3e3840 - Sokoban World (JP)                   --> Soukoban (JP)
+          GG  - d23a2a93 - Sonic Triple Trouble                 --> Sonic The Hedgehog Triple Trouble
+          GG  - 80156323 - Star Trek The Next Generation - Th.. --> Star Trek: The Next Generation - The Advanced Holodeck Tutorial
+          GG  - 1ebfa5ca - Strider Returns                      --> Strider Returns (Journey from Darkness)
+          GG  - 2ea26930 - Surf Ninjas                          --> Surf Ninjas [BAD] (confirmed correct dump)
           GG  - 9479c83a - T2 - The Arcade Game                 --> T2: The Arcade Game
+          GG  - cf9c607c - Taisen Mahjong HaoPai (JP)           --> Taisen Mahjong Hao-Pai (JP)
+          GG  - 20527530 - Taisen Mahjong HaoPai 2 (JP)         --> Taisen Mahjong Hao-Pai 2 (JP)
+          GG  - dd1d2ebf - Tama & Friends - 3chome Koen.. (JP)  --> Tama & Friends - 3 Choume Kouen Tamalympic (JP)
+          GG  - eebad66b - Taz in Escape From Mars              --> Taz in Escape from Mars
           GG  - 1bd15773 - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
+          GG  - a1453efa - Tom and Jerry - The Movie (JP)       --> Tom and Jerry - The Movie
+          GG  - 5cd33ff2 - Tom and Jerry - The Movie            --> Tom and Jerry - The Movie (US)
+          GG  - 7ec64025 - Vampire - Master of Darkness         --> Vampire - Master of Darkness (US)
+          GG  - 9977fcb3 - Wonder Boy                           --> Wonder Boy (JP)
+          GG  - d9ce3f4c - Yaiba Adventures (JP)                --> Kenyuu Densetsu Yaiba (JP)
+          GG  - 88ebbf9e - Yuu Yuu Hakusho (JP)                 --> Yuu Yuu Hakusho - Horobishi Mono no Gyakushuu (JP)
+          GG  - 46ae9159 - Yuu Yuu Hakusho II (JP)              --> Yuu Yuu Hakusho II - Gekitou! Nanakyou no Tatakai (JP)
 
 
  MEKA 0.73 WIP 20080619
@@ -258,7 +330,6 @@ They are usually of 2 kinds:
           SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
           SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
           GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
-          GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
           GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
           GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
           GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
