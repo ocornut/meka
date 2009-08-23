@@ -19,6 +19,7 @@ They are usually of 2 kinds:
     - File browser: fixed positionning of BAD and HACK icons, which aren't
       overlays anymore. [Omar]
     - Added Canadian flag (for DB and File Browser). [Omar]
+    - Fixed crash when empty gradient range are specified in theme file. [Omar]
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
           SMS - b3768a7a - Bonkers Wax Up! (BR)                 --> Bonkers Wax Up! (Disney's) (BR)

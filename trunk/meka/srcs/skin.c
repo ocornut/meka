@@ -770,13 +770,16 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t
         int n;
         if (gradient_pos_start != 0)
             rectfill(bitmap, x1, y1, x1 + gradient_pos_start, y2, gradient->native_color_start);
-        for (n = 0; n <= gradient_size; n++)
-        {
-            const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
-            const int x = x1 + n + gradient_pos_start;
-            const u32 color = gradient->native_color_buffer[gradient_idx];
-            vline(bitmap, x, y1, y2, color);
-        }
+		if ( gradient_size > 0 )
+		{
+			for (n = 0; n <= gradient_size; n++)
+			{
+				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
+				const int x = x1 + n + gradient_pos_start;
+				const u32 color = gradient->native_color_buffer[gradient_idx];
+				vline(bitmap, x, y1, y2, color);
+			}
+		}
         if (gradient_pos_end != frame->size.x)
             rectfill(bitmap, x1 + gradient_pos_end, y1, x2, y2, gradient->native_color_end);
     }
@@ -803,13 +806,16 @@ void    SkinGradient_DrawVertical(t_skin_gradient *gradient, BITMAP *bitmap, t_f
         int n;
         if (gradient_pos_start != 0)
             rectfill(bitmap, x1, y1, x2, y1 + gradient_pos_start, gradient->native_color_start);
-        for (n = 0; n <= gradient_size; n++)
-        {
-            const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
-            const int y = y1 + n + gradient_pos_start;
-            const u32 color = gradient->native_color_buffer[gradient_idx];
-            hline(bitmap, x1, y, x2, color);
-        }
+		if ( gradient_size > 0 )
+		{
+			for (n = 0; n <= gradient_size; n++)
+			{
+				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
+				const int y = y1 + n + gradient_pos_start;
+				const u32 color = gradient->native_color_buffer[gradient_idx];
+				hline(bitmap, x1, y, x2, color);
+			}
+		}
         if (gradient_pos_end != frame->size.y)
             rectfill(bitmap, x1, y1 + gradient_pos_end, x2, y2, gradient->native_color_end);
     }
