@@ -99,6 +99,7 @@
  Cloud Master / Chuka Taisen                    FM      Ok
  Color & Switch Test                            -       Ok
  Columns                                        -       Ok
+ Columns [Proto]                                -       Ok
  Comical Machine Gun Joe (JP)                   -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
@@ -159,6 +160,7 @@
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Gaegujangi Ggachi (KR)                         -       Ok
  Gain Ground                                    -       Ok
+ Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
@@ -219,6 +221,7 @@
  James Bond 007: The Duel                       -       Ok
  James Bond 007: The Duel (BR)                  -       Ok
  James "Buster" Douglas Knockout Boxing         -       Ok
+ James "Buster" Douglas Knockout Boxing [Proto] -       Ok
  James Pond II - Codename: Robocod              -       Ok
  Joe Montana Football                           -       Ok
  Jogos de Verão II (BR)                         -       Ok
@@ -438,6 +441,7 @@
  Toto World 3 (KR)                              -       Ok
  TransBot                                       -       Ok
  Trivial Pursuit - Genus Edition                -       Ok
+ Ttoriui Moheom (KR)                            -       Ok
  Turma da Mônica em: O Resgate (BR)             FM/J    Ok
  TV Colosso (As Aventuras da) (BR)              -       Ok
  Ultima IV                                      FM      Ok
@@ -458,6 +462,7 @@
  Wonder Boy [v1]                                -       Ok
  Wonder Boy III: The Dragon's Trap              FM/J    Ok
  Wonder Boy in Monster Land                     FM      Ok
+ Wonder Boy in Monster Land [Proto]             FM      Ok
  Wonder Boy in Monster World                    -       Ok
  Wonder Boy in Monster World [Proto]            -       Ok
  Woody Pop - Shinjinrui no Block Kuzushi (JP)   PAD     Ok
@@ -483,7 +488,7 @@
  Zillion II - The Tri Formation / Tri Formation FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 465 games tested - 463 are "Ok" - Compatibility rate: 99.54%
+ 470 games tested - 468 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

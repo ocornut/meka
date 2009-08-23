@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2009/05/31
+; Last updated 2009/07/20
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -142,6 +142,7 @@ SMS e7f62e6d BA12C9527CEE0DA2   Cloud Master/NAME_JP=Chuka Taisen/COUNTRY=US,EU,
 SMS 9d549e08 59868AC9BD4815B4   Comical Machine Gun Joe/COUNTRY=JP/PRODUCT_NO=C-511
 SMS 7253c3ec DF1EDD826F58CE0F   Color & Switch Test/FLAGS=PROTO/COMMENT=Official test cartridge. Also referred to as "M4 PAD CHK". The ROM contains a "POWER BASE CHECK" string.
 SMS 665fda92 AA7CEDD6C88CA221   Columns/NAME_BR=Shapes and Columns/COUNTRY=US,EU,BR,KR/PRODUCT_NO=5120,GB-1001
+SMS 3fb40043 8418F6420CFBF035   Columns [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 13ac9023 7269A76D348E66E9   Cool Spot/COUNTRY=EU/PRODUCT_NO=MK-27068-50
 SMS 29822980 AA098A4FE1EB594F   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=MK-27074-50/EMU_MAPPER=3/EMU_TVTYPE=PAL/EMU_SPRITE_FLICKER
 SMS 1350e4f8 54D5553AF5264FDE   Cyber Shinobi, The/COUNTRY=EU,BR/PRODUCT_NO=7050
@@ -203,6 +204,7 @@ SMS 38c53916 4589A9BD05075E62   Forgotten Worlds/COUNTRY=EU,BR,AU/PRODUCT_NO=705
 SMS e6795c53 B637976CB4B28D1D   Fushigi no Oshiro Pit Pot/COUNTRY=JP/PRODUCT_NO=C-507
 SMS 8b40f6bf 8CE87C3FDC15F4EC   Gaegujangi Ggachi/COUNTRY=KR/PRODUCT_NO=GB-4001/COMMENT=Name translate as "Kkachi, a naughty boy".
 SMS 3ec5e627 C00413DAC7946A8A   Gain Ground/COUNTRY=EU,BR/PRODUCT_NO=7045
+SMS d40d03c7 CC0D11E2CB947461   Gain Ground [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS a6fa42d0 A5FA6D631981688F   Galactic Protector/COUNTRY=JP/PRODUCT_NO=G-1348/EMU_INPUTS=PADDLE
 SMS 6c827520 1B819E859D0C3860   Galaxy Force/COUNTRY=US/EMU_TVTYPE=NTSC/PRODUCT_NO=QC-004-02
 SMS a4ac35d8 0B932CEAD9975587   Galaxy Force/COUNTRY=EU,BR/PRODUCT_NO=29001
@@ -263,6 +265,7 @@ SMS acec894d 64EA5CF36D9CD486   Indiana Jones and the Last Crusade [Proto]/FLAGS
 SMS 8d23587f 5CEC5CB49DC68FB6   James Bond 007: The Duel/COUNTRY=EU/PRODUCT_NO=MK 27046-50
 SMS 8feff688 A022B16F114CDAE7   James Bond 007: The Duel/COUNTRY=BR/PRODUCT_NO=027230
 SMS 6a664405 97C27C98AF09FCDF   James "Buster" Douglas Knockout Boxing/COUNTRY=US/PRODUCT_NO=7063/COMMENT=Same game as "George Foreman's KO Boxing" and "Heavyweight Champ".
+SMS cfb4bd7b 92C27B97AF09FBE7   James "Buster" Douglas Knockout Boxing [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Only the ROM header is different from the final version.
 SMS 0a9089e5 3B2C5FDB4270713C   Joe Montana Football/COUNTRY=US,EU,BR/PRODUCT_NO=7062
 SMS 102d5fea 0C38C7A1580A24CE   James Pond II - Codename: Robocod/COUNTRY=EU,BR/PRODUCT_NO=29013-50,028580
 SMS 76c5bdfb F6B47C90D268957B   Jang Pung II [SMS-GG]/COUNTRY=KR/FLAGS=SMSGG_MODE/EMU_MAPPER=3/COMMENT=Unlicensed Street Fighter II clone. Originally distributed as a Game Gear cartridge.
@@ -485,6 +488,7 @@ SMS 0c2fc2de CF198685CF743C8E   Tom and Jerry - The Movie [Proto]/FLAGS=PROTO/CO
 SMS 4f8d75ec A896A3A30327D280   Toto World 3/COUNTRY=KR/PRODUCT_NO=DS-G301
 SMS 4bc42857 DA63DA8BEB8E7C69   TransBot/NAME_BR=Nuclear Creature/COUNTRY=US,EU,DE,BR/PRODUCT_NO=4004,4502,41003,021050/COMMENT=Export version of "Astro Flash".
 SMS e5374022 8C3364BCB756F81C   Trivial Pursuit - Genus Edition/COUNTRY=EU/PRODUCT_NO=MK 29008-50
+SMS 178801d2 DE0E85F3BB491B7D   Ttoriui Moheom/COUNTRY=KR/PRODUCT_NO=G-37/COMMENT=Hacked Korean version of "Seishun Scandal" \/ "My Hero".
 SMS 22cca9bb 0E91C33709612BD2   Turma da Mônica em - O Resgate/COUNTRY=BR/PRODUCT_NO=026260/COMMENT=Brasilian hacked version of "Wonder Boy III: The Dragon's Trap" \/ "Monster World II", released by Tec Toy.
 SMS e1714a88 830DC65B43CD65DA   TV Colosso (As Aventuras da)/COUNTRY=BR/PRODUCT_NO=028650/COMMENT=Brasilian hacked version of "Astérix", released by Tec Toy. Based on local cartoon serie.
 SMS b52d60c8 3EEC41D938FA3456   Ultima IV/COUNTRY=EU,BR/PRODUCT_NO=9501
@@ -504,6 +508,7 @@ SMS 1f8efa1d FBDA82A4AA3C34EB   Wolfchild/COUNTRY=EU,BR/PRODUCT_NO=MK-27060-50
 SMS e2fcb6f3 A9F764062AFED3FB   Wonder Boy [v0]/NAME_JP=Super Wonder Boy/COUNTRY=JP,IT,KR/PRODUCT_NO=G-1316,5068,GB-1003
 SMS 73705c02 AFB122C8D3EE7A7B   Wonder Boy [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=5068/COMMENT=Export version of "Super Wonder Boy".
 SMS 8cbef0c1 522ECFED1D0DF8A2   Wonder Boy in Monster Land/COUNTRY=US,EU/PRODUCT_NO=7007/COMMENT=Early production batch of the US version was labelled "Super Wonder Boy Super Monster Land" on the cartridge, but kept showing the "Wonder Boy in Monster Land" title screen.
+SMS 8312c429 FEE7F612ED897726   Wonder Boy in Monster Land [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7d7ce80b 9ECDFDB1438755C8   Wonder Boy in Monster World/COUNTRY=EU,KR/PRODUCT_NO=9012,9012-50,GB4021JG
 SMS 81bff9bb 2AC27C1DAA5E640F   Wonder Boy in Monster World [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 679e1676 9C7847B5CB3F875F   Wonder Boy III: The Dragon's Trap/NAME_JP=Monster World II/COUNTRY=US,EU,KR/PRODUCT_NO=7026,GB-2004
