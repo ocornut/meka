@@ -22,6 +22,7 @@ They are usually of 2 kinds:
     - Fixed crash when empty gradient range are specified in theme file. [Omar]
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
+FIXME: More, see SVN diff.
           SMS - b3768a7a - Bonkers Wax Up! (BR)                 --> Bonkers Wax Up! (Disney's) (BR)
           SMS - 1b10a951 - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
           SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
@@ -41,6 +42,8 @@ They are usually of 2 kinds:
           SMS - 93ca8152 - T2 - The Arcade Game                 --> T2: The Arcade Game
           SMS - 11ce074c - Taz in Escape From Mars              --> Taz in Escape from Mars
           SMS - ac56104f - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
+          SMS - bf7b7285 - Tom and Jerry - The Movie						--> Tom and Jerry: The Movie
+          SMS - 0c2fc2de - Tom and Jerry - The Movie [Proto]		--> Tom and Jerry: The Movie [Proto]
           SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
           GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5-in-1 FunPak
           GG  - 8d8bfdc4 - Baku Baku Animal (US)                --> Baku Baku (US)
@@ -50,6 +53,7 @@ They are usually of 2 kinds:
           GG  - bfceba5f - Bonkers Wax Up!                      --> Bonkers Wax Up! (Disney's)
           GG  - 69ebe5fa - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
           GG  - 2c758fc8 - Cool Spot                            --> Cool Spot (US)
+          GG  - 03d28eab - Crayon Shin Chan - Taiketsu! T.. (JP)--> Crayon Shin-chan - Taiketsu! Tankam Panic!!
           GG  - 4457e7c0 - Donald Duck no Yottsu no Himitsu (JP)--> Donald Duck no Yottsu no Hihou (JP)
           GG  - 19e1cf2b - Dragon Crystal - Tsurani no M.. (JP) --> Dragon Crystal - Tsurani no Meikyuu (JP)
           GG  - 152f0dcc - Drop Zone                            --> Dropzone (Archer MacLean's)
@@ -60,6 +64,7 @@ They are usually of 2 kinds:
           GG  - 449787e2 - Fatal Fury Special                   --> Fatal Fury Special (US)
           GG  - 751dad4c - From TV animation - Slam Dunk.. (JP) --> Slam Dunk - Shouri-e no Starting 5 (From TV animation) (JP)
           GG  - 695cc120 - GG Portrait - Pai Chan (JP)          --> GG Portrait - Pai Chen (JP)
+          GG  - 4cf97801 - Godzilla - Kaiju Dai-Shingeki (JP)   --> Godzilla - Kaijuu Daishingeki (JP)
           GG  - 398f2358 - Kuni Chan's Game Paradise (JP)       --> Kuni Chan no Game Tengoku (JP)
           GG  - f3774c65 - Kuni Chan's Game Paradise 2 (JP)     --> Kuni Chan no Game Tengoku Part 2 (JP)
           GG  - 42389270 - Hyokkori Hyoutan Jima (JP)           --> Hyokkori Hyoutan Jima - Hyoutan Jima no Daikouka (JP)
@@ -106,13 +111,17 @@ They are usually of 2 kinds:
           GG  - dd1d2ebf - Tama & Friends - 3chome Koen.. (JP)  --> Tama & Friends - 3 Choume Kouen Tamalympic (JP)
           GG  - eebad66b - Taz in Escape From Mars              --> Taz in Escape from Mars
           GG  - 1bd15773 - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
-          GG  - a1453efa - Tom and Jerry - The Movie (JP)       --> Tom and Jerry - The Movie
-          GG  - 5cd33ff2 - Tom and Jerry - The Movie            --> Tom and Jerry - The Movie (US)
+          GG  - a1453efa - Tom and Jerry - The Movie (JP)       --> Tom and Jerry: The Movie
+          GG  - 5cd33ff2 - Tom and Jerry - The Movie            --> Tom and Jerry: The Movie (US)
           GG  - 7ec64025 - Vampire - Master of Darkness         --> Vampire - Master of Darkness (US)
           GG  - 9977fcb3 - Wonder Boy                           --> Wonder Boy (JP)
           GG  - d9ce3f4c - Yaiba Adventures (JP)                --> Kenyuu Densetsu Yaiba (JP)
           GG  - 88ebbf9e - Yuu Yuu Hakusho (JP)                 --> Yuu Yuu Hakusho - Horobishi Mono no Gyakushuu (JP)
           GG  - 46ae9159 - Yuu Yuu Hakusho II (JP)              --> Yuu Yuu Hakusho II - Gekitou! Nanakyou no Tatakai (JP)
+          SG  - 37fca2eb - Pitfall II [A]                       --> Pitfall II ~The Lost Caverns~ [A]
+          SG  - 3db74761 - Pitfall II [B]                       --> Pitfall II ~The Lost Caverns~ [B]
+          SG  - 5a917e06 - Shinnyushain Tooru Kun (Konami no)   --> Shinnyuushain Tooru-Kun (Konami no)
+          OMV - 77db4704 - Q*Bert                               --> Q*bert
 
 
  MEKA 0.73 WIP 20080619
