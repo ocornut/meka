@@ -361,10 +361,10 @@
  Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
- Slap Shot [A]                                  -       Ok
- Slap Shot [B]                                 *-       Ok
- Slap Shot (US)                                *-       Ok
- Slap Shot [Proto]                             *-       Ok
+ Slap Shot [v0]                                 -       Ok
+ Slap Shot [v1]                                 -       Ok
+ Slap Shot [v2] (US)                            -       Ok
+ Slap Shot [Proto]                              -       Ok
  Smurfs, The                                    -       Ok
  Smurfs Travel the World, The                   -       Ok
  Smurfs Travel the World, The [Proto]           -       Ok
@@ -411,14 +411,14 @@
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
  Super Monaco GP (US)                           -       Ok
- Super Monaco GP [Proto]                        -      *Ok
+ Super Monaco GP [Proto]                        -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Off Road                                 -       Ok
  Super Racing (JP)                              FM,(PAD)Ok
  Super Smash T.V.                               -       Ok
  Super Space Invaders                           -       Ok
  Super Tennis                                   -       Ok
- Super Tetris (KR)                              -       Ok
+ Super Tetris                                   -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
  T2: The Arcade Game                            -       Ok
  Taito Chase H.Q.                               -       Ok

@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2010/03/10
+; Last updated 2010/03/09
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -412,6 +412,10 @@ SMS e1fff1bb E3EBF1D8895B9FE6   Shinobi [v0]/COUNTRY=JP,BR/PRODUCT_NO=G-1353,028
 SMS 0c6fac4e DEF9F2C7A058ADCB   Shinobi [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=7009
 SMS 4b051022 034E26895A59CF7E   Shooting Gallery/NAME_BR=Shooting G./COUNTRY=US,EU,BR/PRODUCT_NO=5110/EMU_INPUTS=LIGHTPHASER
 SMS abdf3923 10361067C4C6C7F2   Sítio do Picapau Amarelo/COUNTRY=BR/PRODUCT_NO=028710
+SMS c93bd0e9 594106F8C181ED39   Slap Shot [v0]/COUNTRY=EU/PRODUCT_NO=7035
+SMS d33b296a 094AF2F7B08DE3A4   Slap Shot [v1]/COUNTRY=EU/PRODUCT_NO=7035		; [EDITOR-NOTE] Missing BR one. Some DB label this one "UE" but I have no source for it
+SMS 702c3e98 124C00EBBF84E58F   Slap Shot [v2]/COUNTRY=US/PRODUCT_NO=7035
+SMS fbb0a92a EB6998CED0932CB7   Slap Shot [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Title screen says "Slap Shoot".
 SMS 3e63768a 0199AF74006BE2F6   Smurfs, The/NAME_FR=Les Schtroumpfs/COUNTRY=EU,BR/PRODUCT_NO=MK-27082-50,027380/COMMENT=Also referred to using the french title showing on the cartridge: "Les Schtroumpfs".
 SMS 97e5bb7d 4F65ACDA08A4B169   Smurfs Travel the World, The/NAME_FR=Les Schtroumpfs Autour du Monde/PRODUCT_NO=MK-27085-50/COMMENT=Also referred to using the french title showing on the box: "Les Schtroumpfs Autour du Monde".
 SMS 7982ae67 5064ACDA08A4B268   Smurfs Travel the World, The [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game, only 2 bytes differs from final version.
@@ -466,6 +470,7 @@ SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMEN
 SMS e0b1aff8 55607A442D170643   Super Smash T.V./COUNTRY=EU/PRODUCT_NO=27044-50/COMMENT=Official game material mentions "Super Smash T.V.", but the game shows a "Smash T.V." title screen.
 SMS 1d6244ee A2F23281E94DB5CE   Super Space Invaders/COUNTRY=EU/PRODUCT_NO=MK 27023-50
 SMS 914514e3 F799F9C458560EF7   Super Tennis/COUNTRY=US,EU,DE/PRODUCT_NO=4007,4507,41010
+SMS bd1cc7df 230C5D2B35293BB0   Super Tetris/COMMENT=Unlicensed Tetris clone. 
 SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
 SMS 93ca8152 BC18F17F4F471214   T2: The Arcade Game/COUNTRY=EU/PRODUCT_NO=MK-27061-50
 SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
@@ -1167,11 +1172,6 @@ OMV bbd87d8f DD4EE8250BFB259D   Space Mountain/COUNTRY=JP/PRODUCT_NO=OM-G003,OM-
 A7AF7C148412B4D0,Prince of Persia [SMS-GG] [A],SMSGG_MODE,VER=A
 A8AB7C128212B8D3,Prince of Persia [SMS-GG] [B],SMSGG_MODE,VER=B
 A88B7C7AF6466F2C,R.C. Grand Prix [SMS-GG],SMSGG_MODE,VER=Export
-094AF2F7B08DE3A4,Slap Shot [A]
-594106F8C181ED39,Slap Shot [B]
-124C00EBBF84E58F,Slap Shot,VER=USA
-EB6998CED0932CB7,Slap Shot [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
-230C5D2B35293BB0,Super Tetris,VER=Korean
 
 ---- MASTER SYSTEM BAD DUMPS ----
 9D9AD0FA4B7344FD,Alex Kidd in Miracle World,ID=G-1306,VER=Export,COMMENT=This dump will work but a byte is wrong. You might want to look for the good dump.

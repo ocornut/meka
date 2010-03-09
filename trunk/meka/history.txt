@@ -39,11 +39,14 @@ FIXME: More, see SVN diff.
           SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
           SMS - e1fff1bb - Shinobi (JP)                         --> Shinobi [v0] (also found in Brasil in Game Box Serie Lutas compilation)
           SMS - 0c6fac4e - Shinobi                              --> Shinobi [v1]
+          SMS - c93bd0e9 - Slap Shot [B]                        --> Slap Shot [v0]
+          SMS - d33b296a - Slap Shot [A]                        --> Slap Shot [v1]
+          SMS - 702c3e98 - Slap Shot (US)                       --> Slap Shot [v2] (US)
           SMS - 93ca8152 - T2 - The Arcade Game                 --> T2: The Arcade Game
           SMS - 11ce074c - Taz in Escape From Mars              --> Taz in Escape from Mars
           SMS - ac56104f - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
-          SMS - bf7b7285 - Tom and Jerry - The Movie						--> Tom and Jerry: The Movie
-          SMS - 0c2fc2de - Tom and Jerry - The Movie [Proto]		--> Tom and Jerry: The Movie [Proto]
+          SMS - bf7b7285 - Tom and Jerry - The Movie            --> Tom and Jerry: The Movie
+          SMS - 0c2fc2de - Tom and Jerry - The Movie [Proto]    --> Tom and Jerry: The Movie [Proto]
           SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
           GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5-in-1 FunPak
           GG  - 8d8bfdc4 - Baku Baku Animal (US)                --> Baku Baku (US)
@@ -1069,14 +1072,14 @@ FIXME: More, see SVN diff.
       SMS - World Cup '92 (Tecmo)           --> World Cup '93 (Tecmo) (Proto)
       SMS - Wimbledon 2                     --> Wimbledon II
       SMS - Winter Olympic '94              --> Winter Olympics
-      SMS - Ys: Vanished Omen				--> Y's: The Vanished Omens
-      SMS - Ys: Vanished Omen [Japan]		--> Ys [Japan]
+      SMS - Ys: Vanished Omen               --> Y's: The Vanished Omens
+      SMS - Ys: Vanished Omen [Japan]       --> Ys [Japan]
       SMS - Zaxxon 3D [Export]              --> Zaxxon 3-D
       SMS - Zillion 2 [Export]              --> Zillion II: The Tri Formation
       GG  - Chuck Rock 2                    --> Chuck Rock II: Son of Chuck
       GG  - Desert Speedtrap                --> Desert Speedtrap [USA]
       GG  - Ecco 2: the Tides of Time       --> Ecco: The Tides of Time
-      GG  - Gun Star Heroes [Japan]			--> Gunstar Heroes [Japan]
+      GG  - Gun Star Heroes [Japan]         --> Gunstar Heroes [Japan]
       GG  - Super Monaco GP 2               --> Super Monaco GP II (Ayrton's Senna)
       SG  - Championship Lode Runner [B]    --> Championship Lode Runner
       SG  - Hang On 2                       --> Hang On II
