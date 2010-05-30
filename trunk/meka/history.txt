@@ -73,6 +73,7 @@ FIXME: More, see SVN diff.
           GG  - 42389270 - Hyokkori Hyoutan Jima (JP)           --> Hyokkori Hyoutan Jima - Hyoutan Jima no Daikouka (JP)
           GG  - 9fb5c155 - James Pond II - Codename: Robocod    --> James Pond II - Codename: Robocod (US)
           GG  - 30c09f31 - Jungle Book, The (Walt Disney'..(US) --> Jungle Book, The (Walt Disney's) (US) (US version do not mention 'Classic'. Alternate name have only 'Disney's').
+          GG  - 87b8b612 - McDonald's - Donald no Magical World --> Donald no Magical World (Ronald in the Magical World) (JP) (Japanese only release, Western name is unused)
           GG  - 75c71ebf - Madden NFL '95                       --> Madden NFL 95
           GG  - 00c34d94 - Madoh Monogatari I - Mittsu no..(JP) --> Madoh Monogatari I - Mittsu no Madoukyuu (JP)
           GG  - 0a634d79 - Madoh Monogatari III - K.. [v0] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v0] (JP)
@@ -81,6 +82,8 @@ FIXME: More, see SVN diff.
           GG  - 8f82a6b9 - Magic Knight Ray Earth (JP)          --> Magic Knight Rayearth (JP)
           GG  - 1c2c2b04 - Magic Knight Ray Earth 2 ~mak.. (JP) --> Magic Knight Rayearth 2 ~making of magic knight~
           GG  - 6e1cc23c - Magical Taruruto-kun (JP)            --> Magical Taruruuto-kun (JP)
+          GG  - 2e4ec17b - Megami Tensei Gaiden Last Bible (JP) --> Megami Tensei Gaiden: Last Bible (JP)
+		  GG  - 4ec30806 - Megami Tensei Gaiden Last Bibl..(JP) --> Megami Tensei Gaiden: Last Bible Special (JP)
           GG  - 4d5d15fb - Moldorian (JP)                       --> Moldorian ~Hikari to Yami no Shisutaa~ (JP)
           GG  - dbff0461 - Mortal Kombat (JP)                   --> Mortal Kombat - Shinken Kourin Densetsu (JP)
           GG  - 54ab42a4 - Nazo Puyo Aruru no Ru (JP)           --> Nazo Puyo Aruru no Ruu (JP)
@@ -98,6 +101,7 @@ FIXME: More, see SVN diff.
           GG  - a16c5e58 - Pac-Man                              --> Pac-Man (JP)
           GG  - b42d8430 - Pet Club Inu Daisuki! (JP)           --> Pet Club Inu Dai Suki! (JP) (coherent with Neko Dai Suki!)
           GG  - 3ef66810 - Popeye's Beach Volleyball (JP)       --> Popeye Beach Volley Ball (JP)
+          GG  - d173a06f - Puzlow Kids / Puyo Puyo              --> Puyo Puyo (Puzle Kids) (JP) (Japanese only release, Western name is unused)
           GG  - 96045f76 - Road Rash                            --> Road Rash (US)
           GG  - 445d7cd2 - Royal Stone ~Hikarishi Toki n.. (JP) --> Royal Stone ~Hirakareshi Toki no Tobira~ (JP)
           GG  - fe7374d2 - Sailor Moon S (JP)                   --> Bishoujo Senshi Sailor Moon S (JP)
@@ -119,8 +123,8 @@ FIXME: More, see SVN diff.
           GG  - 7ec64025 - Vampire - Master of Darkness         --> Vampire - Master of Darkness (US)
           GG  - 9977fcb3 - Wonder Boy                           --> Wonder Boy (JP)
           GG  - d9ce3f4c - Yaiba Adventures (JP)                --> Kenyuu Densetsu Yaiba (JP)
-          GG  - 88ebbf9e - Yuu Yuu Hakusho (JP)                 --> Yuu Yuu Hakusho - Horobishi Mono no Gyakushuu (JP)
-          GG  - 46ae9159 - Yuu Yuu Hakusho II (JP)              --> Yuu Yuu Hakusho II - Gekitou! Nanakyou no Tatakai (JP)
+          GG  - 88ebbf9e - Yuu Yuu Hakusho (JP)                 --> Yu Yu Hakusho - Horobishi Mono no Gyakushuu (JP)
+          GG  - 46ae9159 - Yuu Yuu Hakusho II (JP)              --> Yu Yu Hakusho II - Gekitou! Nanakyou no Tatakai (JP)
           SG  - 37fca2eb - Pitfall II [A]                       --> Pitfall II ~The Lost Caverns~ [A]
           SG  - 3db74761 - Pitfall II [B]                       --> Pitfall II ~The Lost Caverns~ [B]
           SG  - 5a917e06 - Shinnyushain Tooru Kun (Konami no)   --> Shinnyuushain Tooru-Kun (Konami no)

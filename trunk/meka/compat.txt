@@ -23,6 +23,7 @@
  Aerial Assault                                 -       Ok
  Aerial Assault (US)                            -       Ok
  After Burner                                   FM      Ok
+ Agigongnyong Dooly (KR)                        -       Ok
  Air Rescue                                     -       Ok
  Aladdin (Disney's)                             -       Ok
  Aleste (JP)                                    FM      Ok
@@ -223,6 +224,7 @@
  James "Buster" Douglas Knockout Boxing         -       Ok
  James "Buster" Douglas Knockout Boxing [Proto] -       Ok
  James Pond II - Codename: Robocod              -       Ok
+ Jang Pung 3                                    -       Ok
  Joe Montana Football                           -       Ok
  Jogos de Verão II (BR)                         -       Ok
  Jungle Book, The (Walt Disney's Classic)       -       Ok
@@ -491,7 +493,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 473 games tested - 471 are "Ok" - Compatibility rate: 99.54%
+ 475 games tested - 473 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -561,8 +563,8 @@
  Hyper Sports (Konami no)            G-1042   Ok
  Lode Runner                         G-1031   Ok
  Mahjong (Sega)                      G-1004   Ok
- Monaco GP                           G-1017   Ok
- Monaco GP (JP)                      G-1017  *Ok
+ Monaco GP [24k]                     G-1017   Ok
+ Monaco GP [32k]                     G-1017   Ok
  N-Sub [16k]                         G-1003  *Ok
  N-Sub [16k] (1988)                  G-1003   Ok
  N-Sub [40k]                         G-1003  *Ok
@@ -612,12 +614,13 @@
  James Bond 007                           OM-G008   Ok
  Okamoto Ayako no Match Play Golf [A]     OM-G006   Ok
  Okamoto Ayako no Match Play Golf [B]     OM-G006   Ok
+ Othello Multivision [BIOS]               N/A       Keyboard not emulated.
  Q*bert                                   OM-G001   Ok
  San-nin Mahjong                          OM-G004  *Ok
  Space Armor                              OM-G007  *Ok
  Space Mountain                           OM-G003   Ok
 -----------------------------------------------------------------------------
-  10 games tested - 10 are "Ok" - Compatibility rate: 100.00%
+  11 games tested - 10 are "Ok" - Compatibility rate: 90.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -749,6 +752,7 @@
  Devilish (JP)                                      Ok
  Donald Duck no Lucky Dime (JP)                     Ok
  Donald Duck no Yottsu no Hihou (JP)                Ok
+ Donald no Magical World (Ronald in the Magic.. (JP)Ok
  Doraemon Nora no Suke no Yabou (JP)                Ok
  Doraemon Waku Waku Pocket Paradise (JP)            Ok
  Double Dragon / Double Dragon - The Revenge of B.. Ok
@@ -864,7 +868,7 @@
  Land of Illusion - Starring Mickey Mouse           Ok
  Last Action Hero                                   Ok
  Legend of Illusion                                 Ok
- Legend of Illusion / Mickey Mouse Densetsu no..(JP)Ok
+ Legend of Illusion / Mickey Mouse Densetsu n.. (JP)Ok
  Lemmings                                           Ok
  Lemmings [Proto]                                   Ok
  Lion King, The (Disney's) (EU)                     Ok
@@ -873,7 +877,6 @@
  Lost World, The - Jurassic Park                    Ok
  Lucky Dime Caper, The                              Ok
  Lunar - Sanpo-suru Gakuen (JP)                     Ok
- Mac Donald - Ronald in the Magical World           Ok
  Madden NFL 95                                      Ok
  Madden 96                                          Ok
  Madoh Monogatari I - Mittsu no Madoukyuu (JP)      Ok
@@ -892,8 +895,8 @@
  Marko's Magic Football                             Ok
  Master of Darkness                                *Ok
  Megaman                                            Ok
- Megami Tensei Gaiden Last Bible (JP)               Ok
- Megami Tensei Gaiden Last Bible Special (JP)       Ok
+ Megami Tensei Gaiden: Last Bible (JP)              Ok
+ Megami Tensei Gaiden: Last Bible Special (JP)      Ok
  Mickey Mouse no Mahou no Crystal (JP)              Ok
  Mickey's Ultimate Challenge                        Ok
  Micro Machines                                     Ok
@@ -975,8 +978,8 @@
  Psychic World (JP)                                 Ok
  Putt & Putter / Putt & Putter - Miniature Golf     Ok
  Putt & Putter (JP)                                 Ok
+ Puyo Puyo (Puzlow Kids) (JP)                       Ok
  Puyo Puyo 2 (JP)                                   Ok
- Puzlow Kids / Puyo Puyo                            Ok
  Puzzle Bobble (JP)                                 Ok
  Quest for the Shaven Yak Starring Ren Hoëk & Sti.. Ok
  Quiz Gear Fight!!, The (JP)                        Ok
