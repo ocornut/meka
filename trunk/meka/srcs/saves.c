@@ -57,6 +57,12 @@ void        Load_Game_Misc (void)
             b = RAM[0x1FFE]; WrZ80_NoHook (0xFFFE, sms.Pages_Reg[1]);     RAM[0x1FFE] = b;
             b = RAM[0x1FFF]; WrZ80_NoHook (0xFFFF, sms.Pages_Reg[2]);     RAM[0x1FFF] = b;
             break;
+		case MAPPER_SMS_Korean_MSX_8KB:
+			WrZ80_NoHook (0x0000, (sms.Pages_Reg[2] & 0x0F));
+			WrZ80_NoHook (0x0001, (sms.Pages_Reg[2] & 0xF0) >> 4);
+			WrZ80_NoHook (0x0002, (sms.Pages_Reg[1] & 0x0F));
+			WrZ80_NoHook (0x0003, (sms.Pages_Reg[1] & 0xF0) >> 4);
+			break;
         case MAPPER_CodeMasters:
             WrZ80_NoHook (0x0000, sms.Pages_Reg[0]);
             WrZ80_NoHook (0x4000, sms.Pages_Reg[1]);
@@ -265,6 +271,7 @@ int     Save_Game_MSV (FILE *f)
             fwrite (RAM, 0x2000, 1, f);
         break;
 	case MAPPER_SMS_NoMapper:
+	case MAPPER_SMS_Korean_MSX_8KB:
     default:                  
         fwrite (RAM, 0x2000, 1, f); // Do not use cur_drv->ram because of cur_drv video mode change
         break;
@@ -409,6 +416,7 @@ int         Load_Game_MSV (FILE *f)
             fread (RAM, 0x2000, 1, f);
         break;
 	case MAPPER_SMS_NoMapper:
+	case MAPPER_SMS_Korean_MSX_8KB:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use cur_drv->ram because of cur_drv video mode change
         break;

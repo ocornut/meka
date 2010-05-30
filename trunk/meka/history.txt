@@ -1,5 +1,5 @@
 
-This is the "private" version of CHANGES.TXT
+This is the "developer" version of CHANGES.TXT
 Not much difference, mainly:
 - Including some source-related comments.
 - Including pre-0.10 changelog.
@@ -15,6 +15,12 @@ They are usually of 2 kinds:
  ----------------------
   - Updated MEKA license, data are now licensed under the same term as sources.
     The license for most parts of the software is now BSD-like. [Omar]
+  - Emulation:
+    - Added support for "no bank switching" mapper. Used by Korean games such 
+      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for 
+      its RAM usage but do not expect bank-switching. [Omar]
+    - Added support for Korean 8KB banks mapper. Used by Korean games ported
+      from MSX such as "Penguin Adventure", "Street Master" or "Won-Si-In". [Omar]
   - GUI:
     - File browser: fixed positionning of BAD and HACK icons, which aren't
       overlays anymore. [Omar]
@@ -83,7 +89,7 @@ FIXME: More, see SVN diff.
           GG  - 1c2c2b04 - Magic Knight Ray Earth 2 ~mak.. (JP) --> Magic Knight Rayearth 2 ~making of magic knight~
           GG  - 6e1cc23c - Magical Taruruto-kun (JP)            --> Magical Taruruuto-kun (JP)
           GG  - 2e4ec17b - Megami Tensei Gaiden Last Bible (JP) --> Megami Tensei Gaiden: Last Bible (JP)
-		  GG  - 4ec30806 - Megami Tensei Gaiden Last Bibl..(JP) --> Megami Tensei Gaiden: Last Bible Special (JP)
+          GG  - 4ec30806 - Megami Tensei Gaiden Last Bibl..(JP) --> Megami Tensei Gaiden: Last Bible Special (JP)
           GG  - 4d5d15fb - Moldorian (JP)                       --> Moldorian ~Hikari to Yami no Shisutaa~ (JP)
           GG  - dbff0461 - Mortal Kombat (JP)                   --> Mortal Kombat - Shinken Kourin Densetsu (JP)
           GG  - 54ab42a4 - Nazo Puyo Aruru no Ru (JP)           --> Nazo Puyo Aruru no Ruu (JP)

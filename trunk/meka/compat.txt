@@ -150,13 +150,14 @@
  Fantasy Zone II - Opa-Opa no Namida (JP)       FM      Ok
  Fantasy Zone: The Maze                         FM      Ok
  Family Games (Party Games) (JP)                FM      Ok
+ FA Tetris (KR)                                *-       Ok
  Férias Frustradas do Pica Pau (BR)             -       Ok
  FIFA International Soccer (BR)                 -       Ok
  Final Bubble Bobble (JP)                       -       Ok
  Fire & Forget II                               -       Ok
  Fire & Ice (BR)                                -       Ok
  Flash, The                                     -       Ok
- FLash Point (KR)                              *-       Ok
+ Flash Point (KR)                              *-       Ok
  Flintstones, The                               -       Ok
  Forgotten Worlds                               -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
@@ -301,6 +302,7 @@
  Paperboy (US)                                  -       Ok
  Parlour Games                                  FM      Ok
  Pat Riley Basketball [Proto]                   -       Ok
+ Penguin Adventure (KR)                        *-       Ok
  Penguin Land                                   FM      Ok
  PGA TOUR Golf                                  -       Ok
  Phantasy Star [v2]                             -       Ok
@@ -398,6 +400,7 @@
  Spy vs Spy (JP)                                -       Ok
  Star Wars                                      -       Ok
  Street Fighter II' (BR)                        -       Ok
+ Street Master (KR)                            *-       Ok
  Streets of Rage                                -       Ok
  Streets of Rage II                             -       Ok
  Strider                                        -       Ok
@@ -471,6 +474,7 @@
  Wonder Boy in Monster Land [Proto]             FM      Ok
  Wonder Boy in Monster World                    -       Ok
  Wonder Boy in Monster World [Proto]            -       Ok
+ Won-Si-In (KR)                                *-       Ok
  Woody Pop - Shinjinrui no Block Kuzushi (JP)   PAD     Ok
  World Class Leader Board                       -       Ok
  World Cup Italia '90                           -       Ok
@@ -494,7 +498,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 476 games tested - 474 are "Ok" - Compatibility rate: 99.54%
+ 480 games tested - 478 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

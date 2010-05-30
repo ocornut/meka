@@ -105,7 +105,7 @@ int         Mapper_Autodetect (void)
 
     // 2 is a security measure, although tests on existing ROM showed it was not needed
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
-        return (MAPPER_SMS_Korean_MSX_Ascii_8);
+        return (MAPPER_SMS_Korean_MSX_8KB);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
@@ -370,7 +370,22 @@ WRITE_FUNC (Write_Mapper_SMS_Korean)
 }
 
 // [MAPPER: KOREAN] WRITE BYTE ------------------------------------------------
-WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_Ascii_8)
+// Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
+// - This mapper requires 4 registers to save bank switching state.
+//   However, all other mappers so far used only 3 registers, stored as 3 bytes.
+//   Because of the current development state of MEKA and to avoid breaking save-state format 
+//   for emulators that import the current MEKA save format (because the 3 mapper bytes are
+//   in the static "SMS_TYPE" structure), I decided to store those 4 registers packed each
+//   into 4-bits of 2 of the available bytes. It's not technically incorrect anyway since 
+//   those variable are just our own representation of the hardware, but its error prone.
+// - Using 4-bits limits number of banks to 16 which is 128 KB, corresponding to the maximum
+//   game size currently known for this mapper.
+// - Using 4-bits chunks in 2 bytes instead of 6-bits chunks in all 3 bytes allows seeing
+//   the values in techinfo.c box in more intuitive way (since the first 2 8KB pages are
+//   not switchable the first register is kept as zero).
+// - If ever it happens that Sega 8-bits mappers gets standardized this whole system will
+//   be reworked and per-mapper state be taken into account in save states.
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
 {
     switch (Addr)
     {
@@ -378,9 +393,10 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_Ascii_8)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 4 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
             Value = (Value & tsms.Pages_Mask_8k);
+			sms.Pages_Reg[2] = ( Value & 0x0F ) | ( sms.Pages_Reg[2] & 0xF0 );
             Map_8k_ROM (4, Value);
             return;
         }
@@ -388,9 +404,10 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_Ascii_8)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 5 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
             Value = (Value & tsms.Pages_Mask_8k);
+			sms.Pages_Reg[2] = ( ( Value & 0x0F ) << 4 ) | ( sms.Pages_Reg[2] & 0x0F );
             Map_8k_ROM (5, Value);
             return;
         }
@@ -398,9 +415,10 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_Ascii_8)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
             Value = (Value & tsms.Pages_Mask_8k);
+			sms.Pages_Reg[1] = ( Value & 0x0F ) | ( sms.Pages_Reg[1] & 0xF0 );
             Map_8k_ROM (2, Value);
             return;
         }
@@ -408,9 +426,10 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_Ascii_8)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 3 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
             Value = (Value & tsms.Pages_Mask_8k);
+			sms.Pages_Reg[1] = ( ( Value & 0x0F ) << 4 ) | ( sms.Pages_Reg[1] & 0x0F );
             Map_8k_ROM (3, Value);
             return;
         }
