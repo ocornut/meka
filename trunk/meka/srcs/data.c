@@ -17,6 +17,12 @@ static DATAFILE *   g_Datafile = NULL;
 static t_list *     g_DatafileBitmapCopy32 = NULL;
 
 //-----------------------------------------------------------------------------
+// Forward declaration
+//-----------------------------------------------------------------------------
+
+static void	Data_UpdateNamedPointers();
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -47,70 +53,12 @@ void            Data_Init(void)
         Quit_Msg (Msg_Get (MSG_Failed));
     ConsolePrint ("\n");
 
-    // Make a copy of ALL bitmaps
+    // Make a copy of ALL bitmaps in their original RGBA 32-bits version
     // This is required to handle successives calls to fixup_datafile()
     g_DatafileBitmapCopy32 = NULL;
 
-    // Assign pointers to data:
-    {
-        // Cursors
-        Graphics.Cursors.Main           = df [DATA_CURSOR_MAIN].dat;
-        Graphics.Cursors.Wait           = df [DATA_CURSOR_WAIT].dat;
-        Graphics.Cursors.LightPhaser    = df [DATA_CURSOR_LIGHTPHASER].dat;
-        Graphics.Cursors.SportsPad      = df [DATA_CURSOR_SPORTSPAD].dat;
-        Graphics.Cursors.TvOekaki       = df [DATA_CURSOR_TVOEKAKI].dat;
-
-        // Miscellaenous
-        Graphics.Misc.Dragon            = df [DATA_GFX_DRAGON].dat;
-        Graphics.Misc.Heart1            = df [DATA_GFX_HEART1].dat;
-        Graphics.Misc.Heart2            = df [DATA_GFX_HEART2].dat;
-
-        // Inputs
-        Graphics.Inputs.InputsBase      = df [DATA_GFX_INPUTS].dat;
-        Graphics.Inputs.Glasses         = df [DATA_GFX_GLASSES].dat;
-        Graphics.Inputs.Joypad          = df [DATA_GFX_JOYPAD].dat;
-        Graphics.Inputs.LightPhaser     = df [DATA_GFX_LIGHTPHASER].dat;
-        Graphics.Inputs.PaddleControl   = df [DATA_GFX_PADDLECONTROL].dat;
-        Graphics.Inputs.SportsPad       = df [DATA_GFX_SPORTSPAD].dat;
-        Graphics.Inputs.SuperHeroPad    = df [DATA_GFX_SUPERHEROPAD].dat;
-        Graphics.Inputs.TvOekaki        = df [DATA_GFX_TVOEKAKI].dat;
-        Graphics.Inputs.SK1100_Keyboard = df [DATA_GFX_KEYBOARD].dat;
-
-        // Machines
-        Graphics.Machines.MasterSystem          = df [DATA_MACHINE_SMS].dat;
-        Graphics.Machines.MasterSystem_Cart     = df [DATA_MACHINE_SMS_CART].dat;
-        Graphics.Machines.MasterSystem_Light    = df [DATA_MACHINE_SMS_LIGHT].dat;
-        Graphics.Machines.ColecoVision          = df [DATA_MACHINE_COLECO].dat;
-
-        // Flags
-        Graphics.Flags [FLAG_UNKNOWN]   = df [DATA_FLAG_UNKNOWN].dat;
-        Graphics.Flags [FLAG_AU]        = df [DATA_FLAG_AU].dat;
-        Graphics.Flags [FLAG_BR]        = df [DATA_FLAG_BR].dat;
-        Graphics.Flags [FLAG_JP]        = df [DATA_FLAG_JP].dat;
-        Graphics.Flags [FLAG_KR]        = df [DATA_FLAG_KR].dat;
-        Graphics.Flags [FLAG_FR]        = df [DATA_FLAG_FR].dat;
-        Graphics.Flags [FLAG_US]        = df [DATA_FLAG_US].dat;
-        Graphics.Flags [FLAG_CH]        = df [DATA_FLAG_CH].dat;
-        Graphics.Flags [FLAG_HK]        = df [DATA_FLAG_HK].dat;
-        Graphics.Flags [FLAG_EU]        = df [DATA_FLAG_EU].dat;
-        Graphics.Flags [FLAG_PT]        = df [DATA_FLAG_PT].dat;
-        Graphics.Flags [FLAG_DE]        = df [DATA_FLAG_DE].dat;
-        Graphics.Flags [FLAG_IT]        = df [DATA_FLAG_IT].dat;
-        Graphics.Flags [FLAG_SP]        = df [DATA_FLAG_SP].dat;
-        Graphics.Flags [FLAG_SW]        = df [DATA_FLAG_SW].dat;
-        Graphics.Flags [FLAG_NZ]        = df [DATA_FLAG_NZ].dat;
-        Graphics.Flags [FLAG_UK]        = df [DATA_FLAG_UK].dat;
-        Graphics.Flags [FLAG_CA]        = df [DATA_FLAG_CA].dat;
-
-        // Icons
-        Graphics.Icons.BAD              = df [DATA_ICON_BAD].dat;
-        Graphics.Icons.BIOS             = df [DATA_ICON_BIOS].dat;
-        Graphics.Icons.Hack             = df [DATA_ICON_HACK].dat;
-        Graphics.Icons.HomeBrew         = df [DATA_ICON_HOMEBREW].dat;
-        Graphics.Icons.Prototype        = df [DATA_ICON_PROTO].dat;
-        Graphics.Icons.Translation_JP   = df [DATA_ICON_TRANS_JP].dat;
-        Graphics.Icons.Translation_JP_US= df [DATA_ICON_TRANS_JP_US].dat;
-    }
+    // Assign pointers to data
+	Data_UpdateNamedPointers();
 
     // BIOS
     // Note: BIOSes are unpacked in a bigger memory area, so they can be mapped
@@ -140,6 +88,69 @@ void    Data_Close(void)
     g_Datafile = NULL;
 }
 
+void	Data_UpdateNamedPointers()
+{
+	DATAFILE * df = g_Datafile;
+
+	// Cursors
+	Graphics.Cursors.Main           = df [DATA_CURSOR_MAIN].dat;
+	Graphics.Cursors.Wait           = df [DATA_CURSOR_WAIT].dat;
+	Graphics.Cursors.LightPhaser    = df [DATA_CURSOR_LIGHTPHASER].dat;
+	Graphics.Cursors.SportsPad      = df [DATA_CURSOR_SPORTSPAD].dat;
+	Graphics.Cursors.TvOekaki       = df [DATA_CURSOR_TVOEKAKI].dat;
+
+	// Miscellaenous
+	Graphics.Misc.Dragon            = df [DATA_GFX_DRAGON].dat;
+	Graphics.Misc.Heart1            = df [DATA_GFX_HEART1].dat;
+	Graphics.Misc.Heart2            = df [DATA_GFX_HEART2].dat;
+
+	// Inputs
+	Graphics.Inputs.InputsBase      = df [DATA_GFX_INPUTS].dat;
+	Graphics.Inputs.Glasses         = df [DATA_GFX_GLASSES].dat;
+	Graphics.Inputs.Joypad          = df [DATA_GFX_JOYPAD].dat;
+	Graphics.Inputs.LightPhaser     = df [DATA_GFX_LIGHTPHASER].dat;
+	Graphics.Inputs.PaddleControl   = df [DATA_GFX_PADDLECONTROL].dat;
+	Graphics.Inputs.SportsPad       = df [DATA_GFX_SPORTSPAD].dat;
+	Graphics.Inputs.SuperHeroPad    = df [DATA_GFX_SUPERHEROPAD].dat;
+	Graphics.Inputs.TvOekaki        = df [DATA_GFX_TVOEKAKI].dat;
+	Graphics.Inputs.SK1100_Keyboard = df [DATA_GFX_KEYBOARD].dat;
+
+	// Machines
+	Graphics.Machines.MasterSystem          = df [DATA_MACHINE_SMS].dat;
+	Graphics.Machines.MasterSystem_Cart     = df [DATA_MACHINE_SMS_CART].dat;
+	Graphics.Machines.MasterSystem_Light    = df [DATA_MACHINE_SMS_LIGHT].dat;
+	Graphics.Machines.ColecoVision          = df [DATA_MACHINE_COLECO].dat;
+
+	// Flags
+	Graphics.Flags [FLAG_UNKNOWN]   = df [DATA_FLAG_UNKNOWN].dat;
+	Graphics.Flags [FLAG_AU]        = df [DATA_FLAG_AU].dat;
+	Graphics.Flags [FLAG_BR]        = df [DATA_FLAG_BR].dat;
+	Graphics.Flags [FLAG_JP]        = df [DATA_FLAG_JP].dat;
+	Graphics.Flags [FLAG_KR]        = df [DATA_FLAG_KR].dat;
+	Graphics.Flags [FLAG_FR]        = df [DATA_FLAG_FR].dat;
+	Graphics.Flags [FLAG_US]        = df [DATA_FLAG_US].dat;
+	Graphics.Flags [FLAG_CH]        = df [DATA_FLAG_CH].dat;
+	Graphics.Flags [FLAG_HK]        = df [DATA_FLAG_HK].dat;
+	Graphics.Flags [FLAG_EU]        = df [DATA_FLAG_EU].dat;
+	Graphics.Flags [FLAG_PT]        = df [DATA_FLAG_PT].dat;
+	Graphics.Flags [FLAG_DE]        = df [DATA_FLAG_DE].dat;
+	Graphics.Flags [FLAG_IT]        = df [DATA_FLAG_IT].dat;
+	Graphics.Flags [FLAG_SP]        = df [DATA_FLAG_SP].dat;
+	Graphics.Flags [FLAG_SW]        = df [DATA_FLAG_SW].dat;
+	Graphics.Flags [FLAG_NZ]        = df [DATA_FLAG_NZ].dat;
+	Graphics.Flags [FLAG_UK]        = df [DATA_FLAG_UK].dat;
+	Graphics.Flags [FLAG_CA]        = df [DATA_FLAG_CA].dat;
+
+	// Icons
+	Graphics.Icons.BAD              = df [DATA_ICON_BAD].dat;
+	Graphics.Icons.BIOS             = df [DATA_ICON_BIOS].dat;
+	Graphics.Icons.Hack             = df [DATA_ICON_HACK].dat;
+	Graphics.Icons.HomeBrew         = df [DATA_ICON_HOMEBREW].dat;
+	Graphics.Icons.Prototype        = df [DATA_ICON_PROTO].dat;
+	Graphics.Icons.Translation_JP   = df [DATA_ICON_TRANS_JP].dat;
+	Graphics.Icons.Translation_JP_US= df [DATA_ICON_TRANS_JP_US].dat;
+}
+
 // Convert truecolor graphics stored in datafile in current native format
 void    Data_UpdateVideoMode()
 {
@@ -151,6 +162,7 @@ void    Data_UpdateVideoMode()
 
     if (bmp_copies == NULL)
     {
+		// First time, copy everything into 32-bits buffers.
         fixup_datafile(g_Datafile);
         for (i = 0; g_Datafile[i].type != DAT_END; i++)
         {
@@ -169,13 +181,17 @@ void    Data_UpdateVideoMode()
     {
         if (g_Datafile[i].type == DAT_BITMAP)
         {
-            BITMAP * dat_bmp = g_Datafile[i].dat;
-            BITMAP * copy_bmp = bmp_copies->elem;
-            blit(copy_bmp, dat_bmp, 0, 0, 0, 0, dat_bmp->w, dat_bmp->h);
+			// Recreate it all
+			BITMAP * src_bmp = bmp_copies->elem;
+			BITMAP * dst_bmp = create_bitmap( src_bmp->w, src_bmp->h );
+			destroy_bitmap( g_Datafile[i].dat );
+			g_Datafile[i].dat = dst_bmp;
+			blit(src_bmp, dst_bmp, 0, 0, 0, 0, src_bmp->w, src_bmp->h);
             bmp_copies = bmp_copies->next;
         }
     }
     //fixup_datafile(g_Datafile);
+	Data_UpdateNamedPointers();
 }
 
 //-----------------------------------------------------------------------------
