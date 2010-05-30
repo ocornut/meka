@@ -1,8 +1,8 @@
 
-  MEKA 0.72 - Documentation
+  MEKA 0.73 - Documentation
  ===========================
   Multi machine emulator for MS-Windows, MS-DOS and GNU/Linux.
-  (c) in 1998-2008 by MEKA team (Omar Cornut and contributors, list below).
+  (c) in 1998-2010 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
   License in 'sources.txt' file (BSD-like for most parts)
@@ -45,7 +45,7 @@
  > Omar Cornut / Bock
    Project manager, machine emulation, tools, graphical user interface, sound
    interface, graphics, miscellaneous stuff.
-   E-mail: omar -AT- miracleworld.net (replace -AT- by @).
+   E-mail: omar AT miracleworld DOT net
 
  And include invaluable contributions from the following handsome people:
 
@@ -642,107 +642,42 @@
  Level 7 : "Man, I still like MEKA !" - How to help
 ----------------------------------------------------------------------------
 
- Thanks. In this case, if you want to help further development and support
- the author, you are welcome to make a donation. Donation are helpful to
- cover a fraction of my insane expenses, in the attempt of gathering all
- Sega 8-bit related items existing on the planet.
+ Thanks. If you want to help further development and support the software 
+ and general Sega 8-bit support, your donations are welcome and helpful.
 
- This can be done by several ways:
- 
   - Donate Sega 8-bit related items:
     I would love that. Software, hardware, cartridges, cards, tapes, posters,
-    magazines, goodies, documents, development kits, all welcome.
-    If you plan to donate anything, be sure to e-mail me beforehand. 
-    And remember it is not because a given item is common that I necessarly
-    already have it or that it doesn't interest me - for whatever reason. 
+    magazines, goodies, documents, source codes, development kits, samples,
+    trivias, prototypes, all welcome.
  
   - Donate money (via PayPal or other means):
-    Money helps me to purchase games related to the SMS Power project, as
+    Money helps me to purchase games related to the SMS Power! project, as
     well as getting weird pieces of related Sega 8-bit hardware/items. 
-    There is no more minimal amount to send. Anything is useful.
-    (Of course the more the better :)
 
- If you don't have an idea on how much you must send, then you are not on
- the right track. What matter is that you are helping a cause, and for that
- reason the more is always the better. Don't stop feeding your children or
- plan to sell your house to donate the money to our cause, though. Just
- think about how much *you* would pay for that software.
+ You can donate the amount of your choice.
+ < This section of the documentation used to contain a detailed equation
+ suggesting how much to donate based on your computer power (supposedly
+ related to your income) but such practice are so 1998 that I removed it. >
  
- Hint: don't think too fast that you are such a poor guy: if you can use a
- computer and have access to the Internet, you are probably not! Haha!
-
- I like to have fun writing documentations, so here is a formula to
- calculate a good price:
-   P = (S / (k * 5)) + (M / k)
-
- Where:
-   P is the price a nice guy would pay (in US$ in this equation).
-   S is the speed of your CPU.
-   M is the amount of memory in your video card.
-   k is defined as 8 * PI for year 2006, and will increase with time.
-     (8 * PI equals approximately 25.1327)
-
- Due to 'k' increasing every year, the result is decreasing along
- with time for a same computer, to compensate with computers getting 
- faster.
-
- And now some exemple,
-
- CPU: 350 Mhz, VRAM: 8 MB (my computer in 2003)
-   P = (350 / (8 * Pi * 5)) + (8 / (8 * Pi)) = $3.09
-
- CPU: 600 Mhz, VRAM: 64 MB (my computer in 2004)
-   P = (600 / (8 * Pi * 5)) + (64 / (8 * Pi)) = $5.00
-
- CPU: 1200 Mhz, VRAM: 128 MB
-   P = (1200 / (8 * Pi * 5)) + (128 / (8 * Pi)) = $14.63
-
- CPU: 3000 Mhz, VRAM: 256 MB
-   P = (3000 / (8 * Pi * 5)) + (256 / (8 * Pi)) = $34.05
-
- With in-between prices for average computers, obviously.
- Isn't that a great idea to accomodate programs prices to the speed of
- your computer ? The rich pay more than the poor. :)
-
- Of course if you end with something like 19.57 or 26.21 don't bother
- sending coins, you can round it up. And of course you can still round
- it up without any specific reason, it you feel it is too much or too
- low to pay. In fact, you are the one who decide!
- 
- - PayPal.com: fast, secure, average cost.
+ Suggestion donation method:
+  
+ - PayPal.com
    Good form of payments for us lazy computer geeks. 
- - Cash: not secure, cheap.
-   Ok but always a little risky, so you don't want to send too much in cash.
- - Bank transfert: secure, cheap or expensive (depending on country).
-   Contact if you want my bank information.
- - Check: secure, free if you leave in France, else a ripoff due to taxing.
- - Money orders: secure, cheap or expensive (depending on your country).
+   PayPal account is linked to my e-mail address (as seen at the top of
+   this documentation).
  
- In both cases, it is not worth wasting a lot of money on a small donation,
- so don't use an international money order for a $1 donation.
- Of course, if you want to donate a million, we can find an arrangement. :)
- If you can't use PayPal, cash in your country currency is generally a good 
- thing. Please e-mail be beforehand if you are unsure about anything.
-
- My address is:    Omar Cornut
-                   45 rue Rebeval
-                   75019 Paris
-                   France
-
- My PayPal account is :  cornut -AT- noos.fr (replace -AT- by @). 
-
+ If you want to use another form of payment or intend to do a material
+ donation, contact me to discuss the details.
+ 
  Finally, if your main pretext for not donating is lazyness, then you
  know yourself it is not a valid pretext :)
+ 
+ < This section of the documentation used to contain funny treats and
+ comments to encourage you to make a donation, but such practice are so
+ 2001 that I removed it. >
 
- If you do not agree these terms, then you can delete this software now, as it
- will destroy your computer after a certain amount of time without donating.
- Also, if you have animals living in your house, MEKA will autodetect them 
- and annoy them by sending ultra sonic waves through the PC speakers. 
- Just don't say I made it for the money, please.
-
- Users who donated will get subscribed to a newsletter and be notified of
- new releases. They will also be granted access to SMS Power ROM releases, 
- and most importantly: feel warm and nice for having helped.
+ Donating users will be granted access to SMS Power! releases area,
+ and most importantly they feel warm and nice inside.
 
  Enjoy!
 

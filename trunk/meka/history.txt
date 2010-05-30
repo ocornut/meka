@@ -13,8 +13,10 @@ They are usually of 2 kinds:
 
  MEKA 0.73 WIP 20100530
  ----------------------
+  - Removed "k" and associated donation rambling from the documentation.
+    Donations are still welcome, at your own discretion.
   - Updated MEKA license, data are now licensed under the same term as sources.
-    The license for most parts of the software is now BSD-like. [Omar]
+    The license is now unrestrictive BSD-like. [Omar]
   - (Win32) Updated Allegro library from WIP 4.1.18 to 4.2.2.
   - Emulation:
     - Added support for "no bank switching" mapper. Used by Korean games such 
@@ -29,9 +31,8 @@ They are usually of 2 kinds:
       overlays anymore. [Omar]
     - Added Canadian flag (for DB and File Browser). [Omar]
     - Fixed crash when empty gradient range are specified in theme file. [Omar]
-##- Added and modified entries in the checksum and compatibility lists. [Omar]
-##  Some particular renaming includes:
-FIXME: More, see SVN diff.
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
           SMS - b3768a7a - Bonkers Wax Up! (BR)                 --> Bonkers Wax Up! (Disney's) (BR)
           SMS - 1b10a951 - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
           SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
