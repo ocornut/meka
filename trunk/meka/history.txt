@@ -13,11 +13,10 @@ They are usually of 2 kinds:
 
  MEKA 0.73 WIP 20100530
  ----------------------
-  - Removed "k" and associated donation rambling from the documentation.
-    Donations are still welcome, at your own discretion.
   - Updated MEKA license, data are now licensed under the same term as sources.
     The license is now unrestrictive BSD-like. [Omar]
-  - (Win32) Updated Allegro library from WIP 4.1.18 to 4.2.2.
+  - Removed "k" and associated donation rambling from the documentation.
+    Donations are still welcome, at your own discretion.
   - Emulation:
     - Added support for "no bank switching" mapper. Used by Korean games such 
       as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for 

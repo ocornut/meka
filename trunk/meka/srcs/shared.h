@@ -10,7 +10,7 @@
 //-----------------------------------------------------------------------------
 
 #define MEKA_NAME               "MEKA"
-#define MEKA_VERSION            "0.73 WIP"
+#define MEKA_VERSION            "0.73"
 #define MEKA_VERSION_HIGH       (0)
 #define MEKA_VERSION_LOW        (73)
 #define MEKA_NAME_VERSION       MEKA_NAME " " MEKA_VERSION
