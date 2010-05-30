@@ -1,23 +1,27 @@
 ----------------------------------------------------------------------------
  MEKA Sources
- Messy guide to the first-time hacker, and various technical notes
+ Short guide to compilation, first-time hacking and various technical notes
 ----------------------------------------------------------------------------
  Quick links:
  - Homepage:    http://www.smspower.org/meka
  - Forum:       http://www.smspower.org/forums/viewforum.php?f=7
- - SVN:         http://svn.smspower.org/svn/meka
- - SVN Trunk:   http://svn.smspower.org/svn/meka/trunk/meka
- - SVN Web:     http://svn.smspower.org
+ - SVN:         svn://svn.smspower.org/svn/meka
+ - SVN Trunk:   svn://svn.smspower.org/svn/meka/trunk/meka
 ----------------------------------------------------------------------------
- Absolutely read the 'TODO.txt' file as well.
+ Read the 'TODO.txt' file for a (messy) list of possible improvements.
+ In short: the number 1 priority would be to scrap and rewrite the whole 
+ sound playback architecture.
 ----------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------
  Note to the knowledge-eager person:
-  MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
-  MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
-  (READ TECHNICAL DOCUMENTATION INSTEAD.)
-  IF YOU ARE DOUBTING OF ANYTHING, PLEASE ASK TO BE SURE.
+ - MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
+ - MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
+ MEKA is an old piece of software, most of which was essentially written
+ pre-2000. Although MEKA is still competitive in term of available features, 
+ newer emulators are generally more accurate emulation-wise.
+ The SMS Power! development Forums and Wiki are generally a good place 
+ for sharing up to date knowledge about hardware and emulation.
 ---------------------------------------------------------------------------
 
 ---------------------------------------
@@ -44,35 +48,25 @@ For any further discussion, please visit MEKA development forum:
     
 I'd be happy to discuss anything over there, answers questions, and see
 how we can all work together in a happy world while holding hands and
-playing games using another hand.
+playing games using yet another hand.
 
 
 ---------------------------------------
  Introduction
 ---------------------------------------
 
-(Written June 2005)
-
 At some point, I realized that MEKA had all advantage to have its code
 sources opened. Letting people tweak the software, improve it, port it, 
 learn from it. Benefits for everyone. Here we are, finally.
 
-But here's the problem: MEKA is my pet project. 
-I started writing this software during summer of 1998.
-It was developped under closed doors for an eternity, and thus isn't
-great as a shared community project. 
+But here's the catch: MEKA is my pet project and was developped under
+closed doors for an eternity (starting summer 1998, my first proper
+project using C). It hasn't grown being a community project, and thus
+the codebase isn't particularly great and suited to today's development
+practices.
 
-My code is messy. It is hell. Far away from many common coding practices.
-To get you an idea, MEKA was my first real project using C.
-Don't freak out yet.
-
-Some parts are better than other, many are bad, some very bad. 
-For my defense, and my silly pride, I would say that today my coding habits
-and knowledge evolved. I know that MEKA do not use correct coding practice,
-but I'm just stuck with this software, and rewriting everything from stratch 
-isn't always a viable solution:
-
-        http://www.joelonsoftware.com/articles/fog0000000069.html
+Had I to rewrite MEKA today it would of course be very different, but 
+here we have this thing today and limited time to make it evolve.
 
 So well, this code is unperfect, but it's better than nothing.
 May it serves, may we can work together and improve it bit by bit.
@@ -83,7 +77,7 @@ May it serves, may we can work together and improve it bit by bit.
 ---------------------------------------
 
 See MEKA.TXT documentation, chapter 11, for a summary of the various
-technology and librairies used by MEKA.
+librairies and technologies used by MEKA.
 
 
 ---------------------------------------
@@ -93,13 +87,13 @@ technology and librairies used by MEKA.
 MEKA code is hosted on a public Subversion (SVN) repository.
 
 Web viewer      @ http://svn.smspower.org
-SVN repository  @ http://svn.smspower.org/svn/meka
-SVN trunk       @ http://svn.smspower.org/svn/meka/trunk/meka
+SVN repository  @ svn://svn.smspower.org/svn/meka
+SVN trunk       @ svn://svn.smspower.org/svn/meka/trunk/meka
 
 Anonymous login allows read-only access.
-Write accesses are still limited, but I am to it. You can submit patches
-which will be applied if useful, and once becoming a regular contributor
-we can likely setup your own account with write-access.
+Write accesses are still limited, but I am open to it. You can submit 
+patches which will be applied if useful, and once becoming a regular 
+contributor we can likely setup your own account with write-access.
 
 
 ---------------------------------------
@@ -112,15 +106,13 @@ Please communicate on the dedicated MEKA forum on SMS Power!.
  - You can post snippets of code and ask for explanation.
  - Some things may seems weird and not properly commented. 
    Show me and I should be able to say if there's a known reason for doing
-   it the way it is done, or if it is just a mistake or unproper coding on 
-   my part.
+   it the way it is done, or if it is just a mistake or unproper coding.
  - Feel free to suggest anything.
  
 If you have an idea of some piece of work in mind, again, please communicate:
 
  - I may be able to help, provides guidelines, or ideas if I already thought
    about the specific feature you're thinking about.
- - May be already in the work.
  - Most important and likely, I may be able to give direction about how to 
    implement certain things given the current constraints in MEKA code.
 
@@ -157,8 +149,6 @@ Apply to everything else:
 
  #3 Reuse of program source code and data authorized for any purpose.
 
-I know this doesn't look like a clear licence, and it may scare lawsmen.
-I'll try to work it out to provide a better license in the future.
 Please contact me ( omar AT miracleworld DOT net ) for any question.
 
 
@@ -239,8 +229,7 @@ II. Compile for MS-DOS compatible systems:
  - Compile !
    - Use provided Makefile.
    
-
-III. Compile for UNIX
+III. Compile for GNU/Linux and other UN*X based systems:
 
  - You are smart guys, you can figure it out!
  - Install Allegro library, latest WIP.
@@ -264,11 +253,7 @@ III. Compile for UNIX
  Hope
 ---------------------------------------
 
-Don't get too depressed over problems or ugly sources! :)
-With the support and continued work of various people, MEKA should
-be able to evolve into the 21st century, get better, get cleaned, and
-have plenty of sexy features for all to enjoy.
-
+Don't get put down over problems or ugly sources! :)
 Let's work and iterate toward the better.
 
 ----------------------------------------------------------------------------
