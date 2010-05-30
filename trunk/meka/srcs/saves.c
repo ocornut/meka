@@ -42,8 +42,11 @@ void        Load_Game_Misc (void)
     // Note: for NES, it is done on Loading
     // FIXME: need to clean all those stuff.. it's messy
     if (cur_machine.driver_id != DRV_NES)
+	{
         switch (cur_machine.mapper)
         {
+		case MAPPER_SMS_NoMapper:
+			break;
         case MAPPER_Standard:
         case MAPPER_93c46:
             // We save previous RAM content, because:
@@ -76,6 +79,7 @@ void        Load_Game_Misc (void)
             SF7000_IPL_Mapping_Update ();
             break;
         }
+	}
 
     // VDP/Graphic related
     tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
@@ -260,6 +264,7 @@ int     Save_Game_MSV (FILE *f)
         else
             fwrite (RAM, 0x2000, 1, f);
         break;
+	case MAPPER_SMS_NoMapper:
     default:                  
         fwrite (RAM, 0x2000, 1, f); // Do not use cur_drv->ram because of cur_drv video mode change
         break;
@@ -403,6 +408,7 @@ int         Load_Game_MSV (FILE *f)
         else
             fread (RAM, 0x2000, 1, f);
         break;
+	case MAPPER_SMS_NoMapper:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use cur_drv->ram because of cur_drv video mode change
         break;

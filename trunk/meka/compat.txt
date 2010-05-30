@@ -156,6 +156,7 @@
  Fire & Forget II                               -       Ok
  Fire & Ice (BR)                                -       Ok
  Flash, The                                     -       Ok
+ FLash Point (KR)                              *-       Ok
  Flintstones, The                               -       Ok
  Forgotten Worlds                               -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
@@ -493,7 +494,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 475 games tested - 473 are "Ok" - Compatibility rate: 99.54%
+ 476 games tested - 474 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

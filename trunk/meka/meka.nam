@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2010/05/24
+; Last updated 2010/05/30
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -202,6 +202,7 @@ SMS 3ebb7457 1812E0F53178AFA9   Final Bubble Bobble/COUNTRY=JP/PRODUCT_NO=G-1362
 SMS f6ad7b1d E356BEF0D3941C96   Fire & Forget II/COUNTRY=EU/PRODUCT_NO=27009-50/COMMENT=Other versions of the game are subtitled "The Death Convoy", but not the Master System version. Note that it is the original version of the game. Amiga and Atari ST versions are actually ports based on the SMS version.
 SMS 8b24a640 C9A68D7C60D1C196   Fire & Ice/COUNTRY=BR/PRODUCT_NO=027360/COMMENT=This game was developped and planned for release in Europe, then was cancelled. Tec Toy later released the game in Brasil.
 SMS be31d63f 087CCA33EB554EF1   Flash, The/COUNTRY=EU,BR/PRODUCT_NO=7506,7506-50
+SMS 61e8806f 0909D2F70850EDE0   Flash Point/COUNTRY=KR/EMU_MAPPER=11/EMU_SPRITE_FLICKER
 SMS ca5c78a5 BD9E05F283723B7E   Flintstones, The/COUNTRY=EU,BR/PRODUCT_NO=MK-27013-50
 SMS 38c53916 4589A9BD05075E62   Forgotten Worlds/COUNTRY=EU,BR,AU/PRODUCT_NO=7056
 SMS e6795c53 B637976CB4B28D1D   Fushigi no Oshiro Pit Pot/COUNTRY=JP/PRODUCT_NO=C-507

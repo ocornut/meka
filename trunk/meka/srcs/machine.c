@@ -128,6 +128,9 @@ void    Machine_Set_Handler_Write (void)
 {
     switch (cur_machine.mapper)
     {
+	case MAPPER_SMS_NoMapper:			 // SMS games with no bank switching
+		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_NoMapper;
+		break;
     case MAPPER_32kRAM:                  // Used by Sega Basic, The Castle, ..
         #ifdef X86_ASM
             WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM_ASM;  // ASM version
@@ -173,8 +176,6 @@ void    Machine_Set_Handler_Write (void)
 
 void        Machine_Set_Mapper (void)
 {
-    int     m;
-
     if (DB_CurrentEntry != NULL && DB_CurrentEntry->emu_mapper != -1)
     {
         cur_machine.mapper = DB_CurrentEntry->emu_mapper;
@@ -204,7 +205,7 @@ void        Machine_Set_Mapper (void)
         cur_machine.mapper = MAPPER_Standard;
         if (DB_CurrentEntry == NULL)    // Detect mapper for unknown ROM
         {
-            m = Mapper_Autodetect ();
+            const int m = Mapper_Autodetect();
             if (m != MAPPER_Auto)
                 cur_machine.mapper = m;
         }
@@ -293,6 +294,8 @@ void    Machine_Set_Mapping (void)
         Map_8k_RAM (7, 0);
         switch (cur_machine.mapper)
         {
+		case MAPPER_SMS_NoMapper:
+			break;
         case MAPPER_CodeMasters:
             // ROM [0x3FFF] = 0; ROM [0x7FFF] = 1; ROM [0xBFFF] = 2;
             break;

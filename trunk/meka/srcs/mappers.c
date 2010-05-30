@@ -2,6 +2,12 @@
 // MEKA - mappers.c
 // Memory Mapper Emulation - Code
 //-----------------------------------------------------------------------------
+// FIXME: Need to refactor this whole file. Some things we want:
+// - Create proper named mapper-id and try to standardize with community.
+// - Gather all infos and code about a mapper in a central place (grep for MAPPER_* 
+//   usage in code, mainly the switches in machine.c and saves.c)
+// - Generally clean up implementation.
+//-----------------------------------------------------------------------------
 
 //#define DEBUG_MEM
 //#define DEBUG_PAGES
@@ -21,9 +27,6 @@ INLINE void Map_16k_Other (int page, void *data)
 
 INLINE void Map_8k_RAM (int page, int ram_page)
 { Mem_Pages [page] = RAM + ((ram_page - page) * 0x2000); }
-
-INLINE void Map_16k_RAM (int page, int ram_page)
-{ Mem_Pages [page] = Mem_Pages [page + 1] = RAM + ((ram_page - page) * 0x2000); }
 
 INLINE void Map_8k_ROM (int page, int rom_page)
 { Mem_Pages [page] = ROM + ((rom_page - page) * 0x2000); }
@@ -58,8 +61,8 @@ void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr)
         case MAPPER_TVOekaki:       len = 0x01000; start_addr = 0xC000; break;
         case MAPPER_SF7000:         len = 0x10000; start_addr = 0x0000; break;
         case MAPPER_SMS_DisplayUnit:len = 0x02800; start_addr = 0x4000; break; // FIXME: Incorrect, due to scattered mapping!
-            // FIXME: ActionReplay!!
-            // default, codemaster, korean..
+        // FIXME: ActionReplay!!
+        // default, codemaster, korean..
         default:                    len = 0x02000; start_addr = 0xC000; break;
     }
     if (plen)
@@ -98,7 +101,9 @@ int         Mapper_Autodetect (void)
 
     //Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cFFFF=%d\n", c0002, c8000, cA000, cFFFF);
 
-    // 2 is a security measure, although experience showed if was not needed
+	// FIXME: Maybe automatically set "no mapper" mode for 32 KB games.
+
+    // 2 is a security measure, although tests on existing ROM showed it was not needed
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_MSX_Ascii_8);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
@@ -207,6 +212,19 @@ WRITE_FUNC (Write_Mapper_32kRAM)
 	case 6: Mem_Pages [6] [Addr] = Value; return;
 	case 7: Mem_Pages [7] [Addr] = Value; return;
 	}
+}
+
+WRITE_FUNC (Write_Mapper_SMS_NoMapper)
+{
+	// RAM -----------------------------------------------------------------------
+	switch (Addr >> 13)
+	{
+		// RAM [0xC000] = [0xE000] ------------------------------------------------
+	case 6: Mem_Pages [6] [Addr] = Value; return;
+	case 7: Mem_Pages [7] [Addr] = Value; return;
+	}
+
+	Write_Error (Addr, Value);
 }
 
 // [MAPPER: SG-1000] WRITE BYTE -----------------------------------------------
