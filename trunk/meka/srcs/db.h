@@ -38,6 +38,7 @@
 #define DB_COUNTRY_CH               (1 << 14)   // Unused now ?
 #define DB_COUNTRY_UK               (1 << 15)   // Used by translation
 #define DB_COUNTRY_CA               (1 << 16)
+#define DB_COUNTRY_TW               (1 << 17)
 
 //-----------------------------------------------------------------------------
 // Data

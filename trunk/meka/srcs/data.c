@@ -140,6 +140,7 @@ void	Data_UpdateNamedPointers()
 	Graphics.Flags [FLAG_NZ]        = df [DATA_FLAG_NZ].dat;
 	Graphics.Flags [FLAG_UK]        = df [DATA_FLAG_UK].dat;
 	Graphics.Flags [FLAG_CA]        = df [DATA_FLAG_CA].dat;
+	Graphics.Flags [FLAG_TW]        = df [DATA_FLAG_TW].dat;
 
 	// Icons
 	Graphics.Icons.BAD              = df [DATA_ICON_BAD].dat;

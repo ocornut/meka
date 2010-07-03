@@ -75,6 +75,7 @@ static struct
     { "CH", DB_COUNTRY_CH   },
     { "UK", DB_COUNTRY_UK   },
     { "CA", DB_COUNTRY_CA   },
+	{ "TW", DB_COUNTRY_TW   },
     { "",   -1              },
 };
 
@@ -783,6 +784,7 @@ int             DB_Entry_SelectFlag  (t_db_entry *entry)
     case DB_COUNTRY_CH : return (FLAG_CH);  // Unused in MEKA DataBase
     case DB_COUNTRY_UK : return (FLAG_UK);  // Unused in MEKA DataBase
     case DB_COUNTRY_CA : return (FLAG_CA);
+	case DB_COUNTRY_TW : return (FLAG_TW);
     case DB_COUNTRY_EU : break;             // No country for Europe only
     }
 

@@ -28,49 +28,45 @@
 #define DATA_FLAG_PT                     17       /* BMP  */
 #define DATA_FLAG_SP                     18       /* BMP  */
 #define DATA_FLAG_SW                     19       /* BMP  */
-#define DATA_FLAG_UK                     20       /* BMP  */
-#define DATA_FLAG_UNKNOWN                21       /* BMP  */
-#define DATA_FLAG_US                     22       /* BMP  */
-#define DATA_FONT_0                      23       /* FONT */
-#define DATA_FONT_1                      24       /* FONT */
-#define DATA_FONT_2                      25       /* FONT */
-#define DATA_GFX_DRAGON                  26       /* BMP  */
-#define DATA_GFX_GLASSES                 27       /* BMP  */
-#define DATA_GFX_HEART1                  28       /* BMP  */
-#define DATA_GFX_HEART2                  29       /* BMP  */
-#define DATA_GFX_INPUTS                  30       /* BMP  */
-#define DATA_GFX_JOYPAD                  31       /* BMP  */
-#define DATA_GFX_KEYBOARD                32       /* BMP  */
-#define DATA_GFX_LIGHTPHASER             33       /* BMP  */
-#define DATA_GFX_PADDLECONTROL           34       /* BMP  */
-#define DATA_GFX_SPORTSPAD               35       /* BMP  */
-#define DATA_GFX_SUPERHEROPAD            36       /* BMP  */
-#define DATA_GFX_TVOEKAKI                37       /* BMP  */
-#define DATA_ICON_BAD                    38       /* BMP  */
-#define DATA_ICON_BIOS                   39       /* BMP  */
-#define DATA_ICON_HACK                   40       /* BMP  */
-#define DATA_ICON_HOMEBREW               41       /* BMP  */
-#define DATA_ICON_PROTO                  42       /* BMP  */
-#define DATA_ICON_TRANS_JP               43       /* BMP  */
-#define DATA_ICON_TRANS_JP_US            44       /* BMP  */
-#define DATA_MACHINE_COLECO              45       /* BMP  */
-#define DATA_MACHINE_SMS                 46       /* BMP  */
-#define DATA_MACHINE_SMS_CART            47       /* BMP  */
-#define DATA_MACHINE_SMS_LIGHT           48       /* BMP  */
-#define DATA_ROM_COLECO                  49       /* DATA */
-#define DATA_ROM_SF7000                  50       /* DATA */
-#define DATA_ROM_SMS                     51       /* DATA */
-#define DATA_ROM_SMS_J                   52       /* DATA */
-#define DATA_COUNT                       53
+#define DATA_FLAG_TW                     20       /* BMP  */
+#define DATA_FLAG_UK                     21       /* BMP  */
+#define DATA_FLAG_UNKNOWN                22       /* BMP  */
+#define DATA_FLAG_US                     23       /* BMP  */
+#define DATA_FONT_0                      24       /* FONT */
+#define DATA_FONT_1                      25       /* FONT */
+#define DATA_FONT_2                      26       /* FONT */
+#define DATA_GFX_DRAGON                  27       /* BMP  */
+#define DATA_GFX_GLASSES                 28       /* BMP  */
+#define DATA_GFX_HEART1                  29       /* BMP  */
+#define DATA_GFX_HEART2                  30       /* BMP  */
+#define DATA_GFX_INPUTS                  31       /* BMP  */
+#define DATA_GFX_JOYPAD                  32       /* BMP  */
+#define DATA_GFX_KEYBOARD                33       /* BMP  */
+#define DATA_GFX_LIGHTPHASER             34       /* BMP  */
+#define DATA_GFX_PADDLECONTROL           35       /* BMP  */
+#define DATA_GFX_SPORTSPAD               36       /* BMP  */
+#define DATA_GFX_SUPERHEROPAD            37       /* BMP  */
+#define DATA_GFX_TVOEKAKI                38       /* BMP  */
+#define DATA_ICON_BAD                    39       /* BMP  */
+#define DATA_ICON_BIOS                   40       /* BMP  */
+#define DATA_ICON_HACK                   41       /* BMP  */
+#define DATA_ICON_HOMEBREW               42       /* BMP  */
+#define DATA_ICON_PROTO                  43       /* BMP  */
+#define DATA_ICON_TRANS_JP               44       /* BMP  */
+#define DATA_ICON_TRANS_JP_US            45       /* BMP  */
+#define DATA_MACHINE_COLECO              46       /* BMP  */
+#define DATA_MACHINE_SMS                 47       /* BMP  */
+#define DATA_MACHINE_SMS_CART            48       /* BMP  */
+#define DATA_MACHINE_SMS_LIGHT           49       /* BMP  */
+#define DATA_ROM_COLECO                  50       /* DATA */
+#define DATA_ROM_SF7000                  51       /* DATA */
+#define DATA_ROM_SMS                     52       /* DATA */
+#define DATA_ROM_SMS_J                   53       /* DATA */
+#define DATA_COUNT                       54
 
 //-----------------------------------------------------------------------------
 
 // Flags id
-// Do NOT reorganize the flags as their value is saved in MEKA.VFN
-// FIXME: the above statement sucks. VLFN should be reoverhauled just to 
-// associate filename with DB entries
-// FIXME: VLFN was now dropped, I think the statement above is not valid
-// anymore.
 #define FLAG_UNKNOWN    (0)
 #define FLAG_AU         (1)     // Australia
 #define FLAG_BR         (2)     // Brazil
@@ -89,7 +85,8 @@
 #define FLAG_NZ         (15)    // New-Zealand
 #define FLAG_UK         (16)    // United-Kingdom
 #define FLAG_CA         (17)    // Canada
-#define FLAG_COUNT      (18)
+#define FLAG_TW         (18)	// Taiwan
+#define FLAG_COUNT      (19)
 
 //-----------------------------------------------------------------------------
 // t_data_graphics Graphics
