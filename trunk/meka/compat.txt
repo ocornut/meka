@@ -56,6 +56,7 @@
  Astro Flash (JP)                               -       Ok
  Astro Warrior                                  -       Ok
  Astro Warrior / Pit Pot                        -       Ok
+ A-Team, The [Music] [Proto]                    -       Ok
  Aztec Adventure / Nazca '88                    FM      Ok
  Back to the Future Part II                     -       Ok
  Back to the Future Part III                    -       Ok
@@ -157,7 +158,7 @@
  Fire & Forget II                               -       Ok
  Fire & Ice (BR)                                -       Ok
  Flash, The                                     -       Ok
- Flash Point (KR)                              *-       Ok
+ Flashpoint (KR)                                -       Ok
  Flintstones, The                               -       Ok
  Forgotten Worlds                               -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
@@ -241,6 +242,7 @@
  Krusty's Fun House                             -       Ok
  Land of Illusion - Starring Mickey Mouse       -       Ok
  Laser Ghost                                    (LP)    Ok
+ Lethal Weapon 3 [Music] [Proto]                -       Ok 
  Legend of Illusion - Starring Mickey Mouse (BR)-       Ok
  Lemmings                                       -       Ok
  Lemmings [Proto]                               -       Ok
@@ -400,7 +402,7 @@
  Spy vs Spy (JP)                                -       Ok
  Star Wars                                      -       Ok
  Street Fighter II' (BR)                        -       Ok
- Street Master (KR)                            *-       Ok
+ Street Master (KR)                             -       Ok
  Streets of Rage                                -       Ok
  Streets of Rage II                             -       Ok
  Strider                                        -       Ok
@@ -409,7 +411,7 @@
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   -       Ok
  Summer Games [Proto]                           FM      Ok
- Suho Cheonsa (KR)                              -       Ok
+ Suho Jeonsa (KR)                                -       Ok
  Super Basketball [Demo]                        -       Ok
  Super Boy II (KR)                              -       Ok
  Super Boy 4 (KR)                               -       Ok
@@ -474,7 +476,7 @@
  Wonder Boy in Monster Land [Proto]             FM      Ok
  Wonder Boy in Monster World                    -       Ok
  Wonder Boy in Monster World [Proto]            -       Ok
- Won-Si-In (KR)                                *-       Ok
+ Wonsiin (KR)                                   -       Ok
  Woody Pop - Shinjinrui no Block Kuzushi (JP)   PAD     Ok
  World Class Leader Board                       -       Ok
  World Cup Italia '90                           -       Ok
@@ -498,7 +500,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 480 games tested - 478 are "Ok" - Compatibility rate: 99.54%
+ 482 games tested - 480 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -546,19 +548,20 @@
  Championship Lode Runner              C-57   Ok (can't write to tape)
  Choplifter                            C-48   Ok
  Choplifter [Proto]                    C-48   Ok
- Congo Bongo                         G-1007   Ok
+ Congo Bongo                         G-1007  *Ok
  Doki Doki Penguin Land                C-50   Ok
- Doki Doki Penguin Land (HK)          R-050   Ok
+ Doki Doki Penguin Land (TW)          R-050   Ok
  Dragon Wang [A]                       C-46   Ok
  Dragon Wang [B]                       C-46   Ok
+ Dragon Wang (TW)                     R-046   Ok
  Drol                                  C-51   Ok
  Elevator Action                       C-55   Ok
  Exerion                             G-1028   Ok
  Flicky                              G-1036   Ok
  Girl's Garden                       G-1037   Ok
  Golgo 13                            G-1014   Ok
- GP World [A]                        G-1040   Ok
- GP World [B]                        G-1040  *Ok
+ GP World [v0]                       G-1040  *Ok
+ GP World [v1]                       G-1040   Ok
  Gulkave                               C-63   Ok
  Hang On II                            C-60   Ok
  H.E.R.O.                              C-58   Ok
@@ -594,20 +597,21 @@
  Soukoban                              C-56   Ok
  Space Invaders                      G-1045   Ok
  Space Slalom                        G-1023   Ok
- Star Force                          G-1043   Ok
+ Star Force                     C-43/G-1043   Ok
+ Star Force (TW)                      B-043   Ok
  Star Jacker [v0] (JP)               G-1010   Ok
  Star Jacker [v1]                    G-1010   Ok
  Star Jacker [v2]                    G-1010   Ok
  Super Tank                            C-66   Ok
  Terebi Oekaki Graphic Software      GB-800   Ok (uses Sega Graphic Board)
- Wonder Boy [A]                        C-69   Ok
- Wonder Boy [B]                        C-69  *Ok
+ Wonder Boy [v0]                       C-69   Ok
+ Wonder Boy [v1]                       C-69  *Ok
  Yamato                              G-1008   Ok
  Zaxxon                              G-1038   Ok
  Zippy Race                          G-1026   Ok
  Zoom 909                              C-47   Ok
 -----------------------------------------------------------------------------
-  82 games tested - 82 are "Ok" - Compatibility rate: 100.00%
+  84 games tested - 84 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -621,7 +625,7 @@
  Okamoto Ayako no Match Play Golf [B]     OM-G006   Ok
  Othello Multivision [BIOS]               N/A       Keyboard not emulated.
  Q*bert                                   OM-G001   Ok
- San-nin Mahjong                          OM-G004  *Ok
+ San-nin Mahjong                          OM-G004   Ok
  Space Armor                              OM-G007  *Ok
  Space Mountain                           OM-G003   Ok
 -----------------------------------------------------------------------------
@@ -851,7 +855,7 @@
  Jeopardy!                                          Ok
  Jeopardy! - Sports Edition                         Ok
  J League GG Pro Striker '94 (JP)                   Ok
- J League Soccer - Dream Eleven (JP)                Ok
+ J League Soccer Dream Eleven (JP)                  Ok
  Joe Montana Football                               Ok
  Joe Montana Football (JP)                          Ok
  Judge Dredd                                        Ok
@@ -873,12 +877,11 @@
  Land of Illusion - Starring Mickey Mouse           Ok
  Last Action Hero                                   Ok
  Legend of Illusion                                 Ok
- Legend of Illusion / Mickey Mouse Densetsu n.. (JP)Ok
  Lemmings                                           Ok
  Lemmings [Proto]                                   Ok
  Lion King, The (Disney's) (EU)                     Ok
  Lion King, The (Disney's) (US)                     Ok
- Lion King, The (Disney's) (JP)                    *Ok
+ Lion King, The (Disney's) (JP)                     Ok
  Lost World, The - Jurassic Park                    Ok
  Lucky Dime Caper, The                              Ok
  Lunar - Sanpo-suru Gakuen (JP)                     Ok
@@ -888,7 +891,7 @@
  Madoh Monogatari II - Aruru 16-sai (JP)            Ok
  Madoh Monogatari III - Kyuukyoku Joou-sama [v0](JP)Ok
  Madoh Monogatari III - Kyuukyoku Joou-sama [v1](JP)Ok
- Madoh Monogatari A - Doki Doki Bake~shon (JP)      Ok
+ Madoh Monogatari A - Doki Doki Vacation (JP)       Ok
  Magic Knight Ray Earth (JP)                        Ok
  Magic Knight Ray Earth 2 ~making of magic k.. (JP) Ok
  Magical Puzzle Popils (JP)                         Ok
@@ -902,6 +905,7 @@
  Megaman                                            Ok
  Megami Tensei Gaiden: Last Bible (JP)              Ok
  Megami Tensei Gaiden: Last Bible Special (JP)      Ok
+ Mickey Mouse Densetsu no Oukoku (JP)               Ok
  Mickey Mouse no Mahou no Crystal (JP)              Ok
  Mickey's Ultimate Challenge                        Ok
  Micro Machines                                     Ok
@@ -1075,7 +1079,7 @@
  Sylvan Tale (JP)                                   Ok
  T2: The Arcade Game                                Ok
  Tails Adventure                                    Ok
- Tails' Sky Patrol                                  Ok
+ Tails' Skypatrol (JP)                              Ok
  Taisen-gata Daisenryaku G (JP)                     Ok
  Taisen Mahjong Hao-Pai (JP)                        Ok
  Taisen Mahjong Hao-Pai 2 (JP)                      Ok
@@ -1097,7 +1101,7 @@
  Smurfs Travel the World, The                      *Ok
  Tintin in Tibet                                    Ok
  Tom and Jerry: The Movie                           Ok
- Tom and Jerry: The Movie (JP)                     *Ok
+ Tom and Jerry: The Movie (JP)                      Ok
  Torarete Tamaruka!? (JP)                           Ok
  True Lies                                          Ok
  Ultimate Soccer                                    Ok

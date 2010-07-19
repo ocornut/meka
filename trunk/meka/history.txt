@@ -16,10 +16,14 @@ They are usually of 2 kinds:
     - Added Taiwanese flag (for DB and File Browser). [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          SMS - 01686d67 - Suho Cheonsa (KR)                    --> Suho Jeonsa (KR)
           SG1 - fdc095bc - Doki Doki Penguin Land (HK)          --> Doki Doki Penguin Land (TW)
+          SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
+          SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]
           SG1 - 160535c5 - Wonder Boy [A]                       --> Wonder Boy [v0]
           GG  - 03d28eab - Crayon Shin-chan - Taiketsu! Tankam..--> Crayon Shin-chan - Taiketsu! Kantamu Panic!! (JP) (embarassing typo)
           GG  - 7ec95282 - Madoh Monogatari A [...] Bake~shon   --> Madoh Monogatari A - Doki Doki Vacation (JP)
+          GG  - 88618afa - Tails' Sky Patrol (JP)               --> Tails' Skypatrol (JP)
           
 
  MEKA 0.73 WIP 20100530
