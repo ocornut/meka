@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2010/07/18
+; Last updated 2010/08/01
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -721,6 +721,7 @@ GG  d43ac6c5 7DFFB63AF302306F   Devilish/COUNTRY=EU,BR/PRODUCT_NO=2321,015340
 GG  c01293b0 A9F32B4C77256DE4   Devilish/COUNTRY=US                                         ; [EDITOR-NOTE] might be a prototype
 GG  2d98bd87 9A5CD4E692C2A854   Donald Duck no Lucky Dime/COUNTRY=JP/PRODUCT_NO=G-3306/COMMENT=Japanese version of "Lucky Dime Caper\, The".
 GG  4457e7c0 FF64CE10F01C7D36   Donald Duck no Yottsu no Hihou/COUNTRY=JP/PRODUCT_NO=G-3332/COMMENT=Japanese version of "Deep Duck Trouble - Starring Donald Duck (Disney's)".
+GG  87b8b612 FFBCED0863554B4D   Donald no Magical World (Ronald in the Magical World)/COUNTRY_JP/PRODUCT_NO=G-3340/COMMENT=The game has an alternate "Ronald in the Magical World" title screen when ran on export system, but it was never released outside of Japan.
 GG  9a8b2c16 4200580F20BADF9E   Doraemon Nora No Suke No Yabou/COUNTRY=JP/PRODUCT_NO=G-3326
 GG  733292a6 1D6B7F6FC8CE6D87   Doraemon Waku Waku Pocket Paradise/COUNTRY=JP/PRODUCT_NO=G-3383
 GG  1307a290 505B00DA3C579A4E   Double Dragon/NAME_EU=Double Dragon - The Revenge of Billy Lee/COUNTRY=US,EU/PRODUCT_NO=T-70038,T-70038-50
@@ -781,6 +782,7 @@ GG  d2b6021e F0E8A87399B7C4F9   Global Gladiators/COUNTRY=US,EU/PRODUCT_NO=T-700
 GG  18de59ed 093B5C63C1FA1E24   G-LOC - Air Battle/NAME_BR=G-LOC/COUNTRY=US,EU,BR/PRODUCT_NO=2301,012120
 GG  2333f615 9B4CDA9945218AB6   G-LOC - Air Battle [v0]/COUNTRY=JP/PRODUCT_NO=G-3204
 GG  33237f50 6949D8B6CE13CD12   G-LOC - Air Battle [v1]/COUNTRY=JP/PRODUCT_NO=G-3204
+GG  4cf97801 AB28B8AACF008D6F   Godzilla - Kaijuu Daishingeki/COUNTRY=JP/PRODUCT_NO=G-3430
 GG  7a26ec6a 6D6E6D3BB3A373B4   GP Rider/COUNTRY=JP/PRODUCT_NO=G-3347
 GG  876e9b72 12D2CD56CAF145F9   GP Rider/COUNTRY=US,EU/PRODUCT_NO=2528
 GG  a93e8b0f AB0C222F75C0695A   Griffin/COUNTRY=JP/PRODUCT_NO=T-49017
@@ -822,6 +824,7 @@ GG  4af7f2aa FAF731A5A0AB9757   Kinetic Connection/COUNTRY=JP/PRODUCT_NO=G-3401
 GG  7d622bdd 73CDFBB9A17B628E   Kishin Douji Zenki/COUNTRY=JP/PRODUCT_NO=G-3373
 GG  9b40fc8e B87E281ACCCE2FBF   KLAX/COUNTRY=US,EU/PRODUCT_NO=301040-0161,T-48048-50
 GG  398f2358 D04392A2150C4850   Kuni Chan no Game Tengoku/COUNTRY=JP/PRODUCT_NO=G-3303
+GG  f3774c65 FFCDA1F1F85CCC82   Kuni Chan no Game Tengoku Part 2/COUNTRY=JP/PRODUCT_NO=G-3322
 GG  d01e784f 3321E82A25113E26   Krusty's Fun House/COUNTRY=US,EU/PRODUCT_NO=T-81078,T-81078-50
 GG  52dbf3e1 B0B04035A468D44B   Land of Illusion - Starring Mickey Mouse/COUNTRY=US,EU/PRODUCT_NO=2509/COMMENT=Export version of "Mickey Mouse no Mahou no Crystal".
 GG  2d367c43 415BEEFFADDCF9F5   Last Action Hero/COUNTRY=US/PRODUCT_NO=T-93048
@@ -1010,8 +1013,8 @@ GG  c029a5fd EFDF88CF8D68A343   Terminator, The/COUNTRY=US,EU/PRODUCT_NO=T-70048
 GG  dd6d2e34 0942170D3CFD87D1   Tengen World Cup Soccer/COUNTRY=US,EU/PRODUCT_NO=T-48118,T-48118-50
 GG  1bd15773 796B2AA0D64851E3   Terminator 2: Judgment Day/COUNTRY=US,EU/PRODUCT_NO=T-81148,T-81148-50
 GG  969cf389 5A5865B5148A5541   Tintin in Tibet/NAME_FR=Tintin au Tibet/COUNTRY=EU/PRODUCT_NO=T-151-038-50/COMMENT=Also referred to using the french title showing on the box: "Tintin au Tibet".
-GG  a1453efa D9F631F59C7933C3   Tom and Jerry: The Movie/COUNTRY=JP,EU/PRODUCT_NO=G-3319,2434
-GG  5cd33ff2 DC1F080D96A53D78   Tom and Jerry: The Movie/COUNTRY=US/PRODUCT_NO=2434
+GG  a1453efa D9F631F59C7933C3   Tom and Jerry: The Movie/COUNTRY=JP/PRODUCT_NO=G-3319
+GG  5cd33ff2 DC1F080D96A53D78   Tom and Jerry: The Movie/COUNTRY=US,EU/PRODUCT_NO=2434
 GG  5bcf9b97 F9471D41510253BC   Torarete Tamaruka!?/COUNTRY=JP/PRODUCT_NO=G-3348
 GG  5173b02a B31BDB3827A8440C   True Lies/COUNTRY=US,EU,JP/PRODUCT_NO=T-81318,T-81318-50,T-81167
 GG  820965a3 78192012DB30BF73   Ultimate Soccer/COUNTRY=JP,EU,BR/PRODUCT_NO=G-3333,075300
@@ -1164,6 +1167,7 @@ SG1 56abc493 BA07B1875BCCF2EE   Omikuji/FLAGS=HOMEBREW/AUTHORS=Maechiko
 ;-----------------------------------------------------------------------------
 
 SC3 6ccb297a ECF917D715120BFB   Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-103/COMMENT=Educational software: Junior High School English Vocabulary (1st year)
+SC3 975106b6 8C043060FC8CF464   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-104/EMU_MAPPER=5/COMMENT=Educational software: Junior High School English Composition (1st year)
 SC3 d4c473b2 577B6DD9FD8F2D2F   Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-112/COMMENT=Educational Software: Junior High School English Grammar (2nd Year)
 SC3 78a37cbc 0C8784F17E89F5FC   Home Basic/COUNTRY=JP/PRODUCT_NO=B-50/EMU_MAPPER=1
 SC3 622010e1 F363D14ADA372658   Music/COUNTRY=AU,NZ,EU/PRODUCT_NO=E-101/EMU_MAPPER=1
@@ -1291,14 +1295,11 @@ C8E8E57E33BC39C5,Chicago Syndicate,VER=English
 10E74B085532032C,Columns,ID=G-3101\,G-3104,VER=Japanese
 C2965F6E8A59A751,Cutthroat Island,ID=T-81338
 AE87403603D0E79B,Desert Strike,VER=English
-FFBCED0863554B4D,Donald no Magical World (Ronald in the Magical World),ID=G-3340,VER=Japanese
-AB28B8AACF008D6F,Godzilla - Kaijuu Daishingeki,ID=G-3430,VER=Japanese
 5184CBDD08EAAEE3,Green Dog,VER=English
 54FCF17485714015,Hook,VER=English,ID=T-93028-50
 50513CEA88DD577D,Iron Man X-O Manowar,VER=English
 2C18F1F2231B2E6D,Jeopardy! - Sports Edition,VER=English
 3D8EFDAAD4168123,Junction,ID=T-22017
-FFCDA1F1F85CCC82,Kuni Chan no Game Tengoku Part 2,ID=G-3322,VER=Japanese
 BC1CE72A38884E09,Magical Puzzle Popils,ID=T-48017\,301200-160\,T-48068-50
 EEF607B16825FADD,Man Overboard!,VER=English,Mapper=3,TVTYPE=PAL/SECAM
 F0B8660AB1883B74,Megaman,VER=English

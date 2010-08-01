@@ -646,6 +646,7 @@
  Music                                          E-101   Ok (can't write to tape)
  Music (JP)                                     E-101   Ok (can't write to tape)
  Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)      E-103  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)    E-104  *Ok
  Kagaku (Genso Kigou Master)                    E-107  *Ok
  Nihonshi Nenpyou                               E-108   Ok
  Sekaishi Nenpyou                               E-109  *Ok
@@ -655,7 +656,7 @@
  Tanoshii Sansuu (Shougaku 6-Nen Ge)            E-115   Ok
  Uranai Angel Cutie                             E-119   Ok
 -----------------------------------------------------------------------------
-  15 roms tested - 15 are "Ok" - Compatibility rate: 100.00%
+  16 roms tested - 16 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
