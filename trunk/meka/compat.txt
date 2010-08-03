@@ -538,8 +538,8 @@
  Champion Billiards                    C-71   Ok
  Champion Boxing [card]                C-33   Ok
  Champion Boxing [cart]              G-1033   Ok
- Champion Golf [A]              C-05/G-1005   Ok
- Champion Golf [B]              C-05/G-1005  *Ok
+ Champion Golf [card]                  C-05   Ok
+ Champion Golf [cart]                G-1005   Ok
  Champion Ice Hockey                   C-59   Ok
  Champion Kendou                       C-67   Ok
  Champion Pro Wrestling              G-1039   Ok
@@ -560,7 +560,7 @@
  Flicky                              G-1036   Ok
  Girl's Garden                       G-1037   Ok
  Golgo 13                            G-1014   Ok
- GP World [v0]                       G-1040  *Ok
+ GP World [v0]                       G-1040   Ok
  GP World [v1]                       G-1040   Ok
  Gulkave                               C-63   Ok
  Hang On II                            C-60   Ok
@@ -605,7 +605,7 @@
  Super Tank                            C-66   Ok
  Terebi Oekaki Graphic Software      GB-800   Ok (uses Sega Graphic Board)
  Wonder Boy [v0]                       C-69   Ok
- Wonder Boy [v1]                       C-69  *Ok
+ Wonder Boy [v1]                       C-69   Ok
  Yamato                              G-1008   Ok
  Zaxxon                              G-1038   Ok
  Zippy Race                          G-1026   Ok

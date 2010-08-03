@@ -17,6 +17,8 @@ They are usually of 2 kinds:
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
           SMS - 01686d67 - Suho Cheonsa (KR)                    --> Suho Jeonsa (KR)
+          SG1 - 868419b5 - Champion Golf [A]                    --> Champion Golf [cart]
+          SG1 - 5a904122 - Champion Golf [B]                    --> Champion Golf [card]
           SG1 - fdc095bc - Doki Doki Penguin Land (HK)          --> Doki Doki Penguin Land (TW)
           SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
           SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]
