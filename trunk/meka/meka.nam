@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2010/08/01
+; Last updated 2010/08/08
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -1105,7 +1105,8 @@ SG1 7c7d4397 AAA1D4DEFE65415F   Dragon Wang/COUNTRY=TW/PRODUCT_NO=R-046/COMMENT=
 SG1 288940cb 546C1EFBFD7F5754   Drol/COUNTRY=JP,AU/PRODUCT_NO=C-51
 SG1 5af8f69d 0DE0E10D161A876E   Elevator Action/COUNTRY=JP,KR/PRODUCT_NO=C-55,G-27
 SG1 a2c45b61 4F4C5CAA21C5A8D1   Exerion/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1028
-SG1 bd24d27b E3234655B4D74292   Flicky/COUNTRY=JP,NZ/PRODUCT_NO=G-1036
+SG1 bd24d27b E3234655B4D74292   Flicky [v0]/COUNTRY=JP,NZ/PRODUCT_NO=G-1036
+SG1 26d2862c FCBF8AD69A8C9A25   Flicky [v1]/COUNTRY=JP/PRODUCT_NO=G-1036
 SG1 1898f274 38DCD62C5EFD0C83   Girl's Garden/COUNTRY=JP/PRODUCT_NO=G-1037
 SG1 0d159ed0 1B5A61BF9994C579   Golgo 13/COUNTRY=JP/PRODUCT_NO=G-1014
 SG1 942adf84 273CD5E6FC69F08D   GP World [v0]/COUNTRY=JP/PRODUCT_NO=G-1040

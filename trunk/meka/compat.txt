@@ -151,7 +151,7 @@
  Fantasy Zone II - Opa-Opa no Namida (JP)       FM      Ok
  Fantasy Zone: The Maze                         FM      Ok
  Family Games (Party Games) (JP)                FM      Ok
- FA Tetris (KR)                                *-       Ok
+ FA Tetris (KR)                                 -       Ok
  Férias Frustradas do Pica Pau (BR)             -       Ok
  FIFA International Soccer (BR)                 -       Ok
  Final Bubble Bobble (JP)                       -       Ok
@@ -304,7 +304,7 @@
  Paperboy (US)                                  -       Ok
  Parlour Games                                  FM      Ok
  Pat Riley Basketball [Proto]                   -       Ok
- Penguin Adventure (KR)                        *-       Ok
+ Penguin Adventure (KR)                         -       Ok
  Penguin Land                                   FM      Ok
  PGA TOUR Golf                                  -       Ok
  Phantasy Star [v2]                             -       Ok
@@ -557,7 +557,8 @@
  Drol                                  C-51   Ok
  Elevator Action                       C-55   Ok
  Exerion                             G-1028   Ok
- Flicky                              G-1036   Ok
+ Flicky [v0]                         G-1036   Ok
+ Flicky [v1]                         G-1036   Ok
  Girl's Garden                       G-1037   Ok
  Golgo 13                            G-1014   Ok
  GP World [v0]                       G-1040   Ok
@@ -611,7 +612,7 @@
  Zippy Race                          G-1026   Ok
  Zoom 909                              C-47   Ok
 -----------------------------------------------------------------------------
-  84 games tested - 84 are "Ok" - Compatibility rate: 100.00%
+  85 games tested - 85 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -734,7 +735,7 @@
  Castle of Illusion - Starring Mickey Mouse [SMS-GG]Ok
  Castle of Illusion - Starring Mick.. [SMS-GG] (JP) Ok
  Chakan                                             Ok
- Cheese Cat-astrophe - Starring Speedy Gonzales    *Ok
+ Cheese Cat-astrophe - Starring Speedy Gonzales     Ok
  Chessmaster                                        Ok
  Chicago Syndicate                                  Ok
  Choplifter III                                     Ok
@@ -794,7 +795,7 @@
  Factory Panic                                      Ok
  Fantastic Dizzy [SMS-GG]                           Minor graphic bug when pausing.
  Fantasy Zone / Fantasy Zone Gear - Opa Opa Jr. no..Ok
- Fantasy Zone (US)                                 *Ok
+ Fantasy Zone (US)                                  Ok
  Fatal Fury Special                                 Ok
  Fatal Fury Special (US)                            Ok
  FIFA International Soccer                          Ok
@@ -850,7 +851,7 @@
  Iron Man X-O Manowar in Heavy Metal                Ok
  Itchy & Scratchy Game, The                         Ok
  James Bond 007: The Duel                           Ok
- James Pond II - Codename: Robocod                 *Ok
+ James Pond II - Codename: Robocod                  Ok
  James Pond II - Codename: Robocod (US)             Ok
  Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
@@ -902,7 +903,7 @@
  Mappy (JP)                                         Ok
  Marble Madness                                     Ok
  Marko's Magic Football                             Ok
- Master of Darkness                                *Ok
+ Master of Darkness                                 Ok
  Megaman                                            Ok
  Megami Tensei Gaiden: Last Bible (JP)              Ok
  Megami Tensei Gaiden: Last Bible Special (JP)      Ok
@@ -953,7 +954,7 @@
  Out Run Europa [SMS-GG] (US)                       Ok
  Pac-Attack                                         Ok
  Pac-In-Time [Proto]                                Ok
- Pac-Man                                           *Ok
+ Pac-Man                                            Ok
  Pac-Man (JP)                                       Ok
  Panzer Dragoon Mini (JP)                           Ok
  Paperboy                                           Ok
@@ -999,7 +1000,7 @@
  Riddick Rowe Boxing                                Ok
  Rise of the Robots                                 Ok
  Ristar / Ristar the Shooting Star                  Ok
- Road Rash                                         *Ok
+ Road Rash                                          Ok
  Road Rash (US)                                     Ok
  RoboCop 3                                          Ok
  RoboCop versus The Terminator                      Ok
@@ -1119,7 +1120,7 @@
  Winter Olympics (JP)                               Ok
  Wizard Pinball                                     Ok
  Wolfchild                                          Ok
- Wonder Boy                                        *Ok
+ Wonder Boy                                         Ok
  Wonder Boy (JP)                                    Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
