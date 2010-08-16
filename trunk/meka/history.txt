@@ -16,6 +16,10 @@ They are usually of 2 kinds:
     - Added Taiwanese flag (for DB and File Browser). [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          SMS - 69538469 - Monopoly [A]                         --> Monopoly (US)
+          SMS - 026d94a4 - Monopoly [B]                         --> Monopoly (EU)
+          SMS - 311d2863 - Prince of Persia [SMS-GG] [A]        --> Prince of Persia [SMS-GG] (US)
+          SMS - 45f058d6 - Prince of Persia [SMS-GG] [B]        --> Prince of Persia [SMS-GG] (EU)
           SMS - 01686d67 - Suho Cheonsa (KR)                    --> Suho Jeonsa (KR)
           SG1 - 868419b5 - Champion Golf [A]                    --> Champion Golf [cart]
           SG1 - 5a904122 - Champion Golf [B]                    --> Champion Golf [card]

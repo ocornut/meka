@@ -178,6 +178,7 @@
  Ghost House [Proto]                            -       Ok
  Ghostbusters                                   -       Ok
  Ghouls'n Ghosts                                -       Ok
+ Ghouls'n Ghosts [Demo]                         -       Ok
  Global Defense                                 FM      Ok
  Global Defense [Proto]                         FM      Ok
  Global Gladiators                              -       Ok
@@ -274,8 +275,9 @@
  Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
  Mônica no Castelo do Dragão (BR)               FM      Ok
- Monopoly [A]                                   -       Ok
- Monopoly [B]                                   -       Ok
+ Monopoly                                       -       Ok
+ Monopoly (US)                                  -       Ok
+ Monopoly [Proto]                               -       Ok
  Montezuma's Revenge - Featuring Panama Joe     -       Ok
  Montezuma's Revenge - Featuring Pana.. [Proto] -       Ok
  Moonwalker (Michael Jackson's)                 -       Ok
@@ -339,6 +341,7 @@
  Rampart                                        -       Ok
  Rastan                                         FM      Ok
  R.C. Grand Prix                                -       Ok
+ R.C. Grand Prix [Proto]                        -       Ok
  Reggie Jackson Baseball                        -       Ok
  Renegade                                       -       Ok
  Rescue Mission                                 FM,LP   Ok
@@ -480,6 +483,7 @@
  Woody Pop - Shinjinrui no Block Kuzushi (JP)   PAD     Ok
  World Class Leader Board                       -       Ok
  World Cup Italia '90                           -       Ok
+ World Cup Italia '90 [Demo]                    -       Ok
  World Cup USA 94                               -       Ok
  World Games                                    -       Ok
  World Games [Proto]                            -       Ok
@@ -500,7 +504,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 482 games tested - 480 are "Ok" - Compatibility rate: 99.54%
+ 486 games tested - 484 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -979,8 +983,8 @@
  Popeye's Beach Volleyball (JP)                     Ok
  Power Strike II / GG Aleste II                     Ok
  Predator 2 [SMS-GG]                                Ok
- Prince of Persia [SMS-GG] [A]                      Ok
- Prince of Persia [SMS-GG] [B]                     *Ok
+ Prince of Persia [SMS-GG]                          Ok
+ Prince of Persia [SMS-GG] (US)                     Ok
  Primal Rage                                        Ok
  Pro Yakyuu '91, The (JP)                           Ok
  Pro Yakyuu GG League (JP)                          Ok
@@ -1100,7 +1104,7 @@
  Terminator 2 - Judgment Day                        Ok
  Tesserae                                           Ok
  Smurfs, The                                        Ok
- Smurfs Travel the World, The                      *Ok
+ Smurfs Travel the World, The                       Ok
  Tintin in Tibet                                    Ok
  Tom and Jerry: The Movie                           Ok
  Tom and Jerry: The Movie (JP)                      Ok
