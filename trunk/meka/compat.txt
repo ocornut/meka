@@ -140,6 +140,7 @@
  Enduro Racer (JP)                              -       Ok
  Excellent Dizzy Collection, The [Proto]        -       Ok (The prototype isn't really playable)
  F1                                             -       Ok
+ F-1 Spirit - The way to Formula-1 (KR)         -       Ok
  F-16 Fighter                                   -       Ok
  F-16 Fighting Falcon (US)                      -       Ok
  F-16 Fighting Falcon (JP)                      -       Ok
@@ -504,7 +505,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 486 games tested - 484 are "Ok" - Compatibility rate: 99.54%
+ 488 games tested - 486 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -537,9 +538,9 @@
  C_So!                                 C-64   Ok (can't write to tape)
  Castle, The                         G-1046   Ok
  Chack'n Pop                           C-52   Ok
- Champion Baseball [16k]             G-1011   Ok
- Champion Baseball [16k] (TW)         W-011   Ok
- Champion Baseball [40k]             G-1011   Ok
+ Champion Baseball                   G-1011   Ok
+ Champion Baseball (TW)               W-011   Ok
+ Champion Baseball [40k map]         G-1011   Ok
  Champion Billiards                    C-71   Ok
  Champion Boxing [card]                C-33   Ok
  Champion Boxing [cart]              G-1033   Ok
@@ -578,11 +579,12 @@
  Lode Runner                         G-1031   Ok
  Mahjong [big 1983]                  G-1004   Ok
  Mahjong [small 1983]                G-1004   Ok
- Monaco GP [24k]                     G-1017   Ok
- Monaco GP [32k]                     G-1017   Ok
- N-Sub [16k]                         G-1003   Ok
- N-Sub [16k] (1988)                  G-1003   Ok
- N-Sub [40k]                         G-1003   Ok
+ Monaco GP [24k] [v0] [40k map]      G-1017   Ok
+ Monaco GP [32k] [v1]                G-1017   Ok
+ Monaco GP [32k] [v2]                G-1017   Ok
+ N-Sub                               G-1003   Ok
+ N-Sub (1988)                        G-1003   Ok
+ N-Sub [40k map]                     G-1003   Ok
  Ninja Princess                        C-65   Ok
  Orguss                              G-1015   Ok
  Othello                             G-1044   Ok
@@ -597,7 +599,8 @@
  Safari Race                         G-1032   Ok
  Safari Race (JP)                    G-1032  *Ok
  Sega Flipper                        G-1018   Ok
- Sega Galaga                         G-1022   Ok
+ Sega Flipper [40k map]              G-1018   Ok
+ Sega-Galaga                         G-1022   Ok
  Serizawa Hachidan no Tsumeshogi     G-1006   Ok
  Shinnyuushain Tooru-Kun (Konami no) G-1041   Ok
  Sindbad Mystery                     G-1012   Ok
@@ -618,14 +621,14 @@
  Zippy Race                          G-1026   Ok
  Zoom 909                              C-47   Ok
 -----------------------------------------------------------------------------
-  87 games tested - 87 are "Ok" - Compatibility rate: 100.00%
+  88 games tested - 88 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- Challenge Derby [16k]                    OM-G005   Ok
- Challenge Derby [40k]                    OM-G005   Ok
+ Challenge Derby                          OM-G005   Ok
+ Challenge Derby [40k map]                OM-G005   Ok
  Guzzler                                  OM-G002   Ok
  James Bond 007                           OM-G008   Ok
  Okamoto Ayako no Match Play Golf [A]     OM-G006   Ok
@@ -653,17 +656,19 @@
  Music                                          E-101   Ok (can't write to tape)
  Music (JP)                                     E-101   Ok (can't write to tape)
  Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)      E-103  *Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)    E-104  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)    E-104   Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Jou)           E-106   Ok
  Kagaku (Genso Kigou Master)                    E-107  *Ok
  Nihonshi Nenpyou                               E-108   Ok
- Sekaishi Nenpyou                               E-109  *Ok
+ Sekaishi Nenpyou                               E-109   Ok
  Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)      E-110  *Ok
  Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)    E-111  *Ok
  Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)     E-112  *Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Ge)            E-113   Ok
  Tanoshii Sansuu (Shougaku 6-Nen Ge)            E-115   Ok
  Uranai Angel Cutie                             E-119   Ok
 -----------------------------------------------------------------------------
-  16 roms tested - 16 are "Ok" - Compatibility rate: 100.00%
+  18 roms tested - 18 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -710,7 +715,7 @@
  Astérix and the Great Rescue (US)                  Ok
  Astérix and the Secret Mission                     Ok
  Ax Battler - A Legend of Golden Axe [v1.5] (JP)    Ok
- Ax Battler - A Legend of Golden Axe [v2.0] [Proto]*Ok
+ Ax Battler - A Legend of Golden Axe [v2.0] [Proto] Ok
  Ax Battler - A Legend of Golden Axe [v2.4]         Ok
  Baku Baku                                          Ok
  Baku Baku (US)                                     Ok
@@ -748,6 +753,7 @@
  Chicago Syndicate                                  Ok
  Choplifter III                                     Ok
  Chuck Rock                                         Ok
+ Chuck Rock [Proto]                                 Ok
  Chuck Rock II - Son of Chuck                       Ok
  Cliffhanger                                        Ok
  Clutch Hitter                                      Ok
@@ -763,6 +769,7 @@
  Daffy Duck in Hollywood                            Ok
  Deep Duck Trouble - Starring Donald Duck           Ok
  Defenders of Oasis                                 Ok
+ Defenders of Oasis [Proto]                         Ok
  Desert Speedtrap - Starring Road Runner and Wile.. Ok
  Desert Speedtrap - Starring Road Runner and.. (US) Ok
  Desert Strike                                      Ok
@@ -873,7 +880,7 @@
  Junction                                           Ok
  Jungle Book, The (Walt Disney's Classic)           Ok
  Jungle Book, The (Walt Disney's) (US)              Ok
- Jungle Strike                                     *Ok
+ Jungle Strike                                      Ok
  Jurassic Park                                      Ok
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
@@ -987,7 +994,7 @@
  Poker Face Paul's Solitaire                        Ok
  Pop Breaker (JP)                                   Ok
  Popeye's Beach Volleyball (JP)                     Ok
- Power Drive                                       *Ok
+ Power Drive                                        Flickering parts (using LCD Persistance).
  Power Strike II / GG Aleste II                     Ok
  Predator 2 [SMS-GG]                                Ok
  Prince of Persia [SMS-GG]                          Ok
@@ -1023,6 +1030,7 @@
  Scratch Golf (JP)                                  Ok
  SD Gundam Winner's History (JP)                    Ok
  Sega Game Pack 4 in 1                              Ok
+ Sega Game Pack 4 in 1 [Proto]                      Ok
  Sensible Soccer                                    Ok
  Shadam Crusader ~Harukanaru Oukoku~ (JP)           Ok
  Shanghai II [v0] (JP)                              Ok
@@ -1084,6 +1092,7 @@
  Super Monaco GP (JP)                               Ok
  Super Monaco GP II (Ayrton Senna's)                Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) (JP)           Flickering title screen (LCD Persistance).
+ Super Monaco GP II (Ayrton Senna's) [Proto]        Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
  Super Return of the Jedi (Star Wars)               Ok
  Super Smash T.V.                                   Ok
@@ -1157,7 +1166,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 469 games tested - 459 are "Ok" - Compatibility rate: 97.83%
+ 473 games tested - 461 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

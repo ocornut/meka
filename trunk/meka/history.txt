@@ -28,6 +28,8 @@ They are usually of 2 kinds:
           SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
           SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]
           SG1 - 6d909857 - Mahjong                              --> Mahjong [small 1983]
+          SG1 - 8572d73a - Monaco GP [24k]                      --> Monaco GP [24k] [v0] [40k map]
+          SG1 - da2d57f3 - Monaco GP [32k]                      --> Monaco GP [32k] [v1] (provision for newly found [v2] build).
           SG1 - 37fca2eb - Pitfall II ~The Lost Caverns~ [A]    --> Pitfall II ~The Lost Caverns~ [v0] (dumps and versionning finally confirmed)
           SG1 - 3db74761 - Pitfall II ~The Lost Caverns~ [B]    --> Pitfall II ~The Lost Caverns~ [v1]
           SG1 - 160535c5 - Wonder Boy [A]                       --> Wonder Boy [v0]
@@ -37,6 +39,7 @@ They are usually of 2 kinds:
           GG  - 03d28eab - Crayon Shin-chan - Taiketsu! Tankam..--> Crayon Shin-chan - Taiketsu! Kantamu Panic!! (JP) (embarassing typo)
           GG  - 7ec95282 - Madoh Monogatari A [...] Bake~shon   --> Madoh Monogatari A - Doki Doki Vacation (JP)
           GG  - 4e279baa - PGA TOUR Golf 2                      --> PGA TOUR Golf II
+          GG  - 786dd67b - Skweek (JP)                          --> Skweek [BAD] (JP)
           GG  - 88618afa - Tails' Sky Patrol (JP)               --> Tails' Skypatrol (JP)
           GG  - e678f264 - Yogi Bear [Proto]                    --> Yogi Bear in Yogi Bears Goldrush [Proto]
     Other smaller changes not recorded, please refer to meka.nam SVN history for exact changes.
