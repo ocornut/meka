@@ -103,6 +103,7 @@
  Columns                                        -       Ok
  Columns [Proto]                                -       Ok
  Comical Machine Gun Joe (JP)                   -       Ok
+ Comical Machine Gun Joe (TW)                   -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
  Cyber Shinobi, The                             -       Ok
@@ -144,10 +145,12 @@
  F-16 Fighter                                   -       Ok
  F-16 Fighting Falcon (US)                      -       Ok
  F-16 Fighting Falcon (JP)                      -       Ok
+ F-16 Fighting Falcon (TW)                      -       Ok
  Fantastic Dizzy                                -       Minor graphic bug when pausing.
  Fantasy Zone [v0] (JP)                         -       Ok
  Fantasy Zone [v1] [Proto]                      -       Ok
  Fantasy Zone [v2]                              -       Ok
+ Fantasy Zone (TW)                              -       Ok
  Fantasy Zone II - The Tears of Opa-Opa         FM      Ok
  Fantasy Zone II - Opa-Opa no Namida (JP)       FM      Ok
  Fantasy Zone: The Maze                         FM      Ok
@@ -201,6 +204,7 @@
  Great Ice Hockey                               SP      Ok
  Great Soccer                                   -       Ok
  Great Soccer (JP)                              -       Ok
+ Great Soccer (TW)                              -       Ok
  Great Tennis / Super Tennis (JP)               -       Ok
  Great Volleyball                               -       Ok
  Great Volleyball (JP)                          -       Ok
@@ -213,7 +217,7 @@
  Heroes of the Lance                            -       Ok
  High School! Kimengumi (JP)                    -       Ok
  Hokuto no Ken (JP)                             -       Ok
- Hokuto no Ken (CH) [BAD]                       -       Ok (corrupted dump, last boss is faulty)
+ Hokuto no Ken (TW)                             -       Ok (note: final boss graphic data is corrupted)
  Home Alone                                     -       Ok
  Hook [Proto]                                   -       Ok
  Hoshi wo Sagashite... (JP)                     FM      Ok
@@ -404,6 +408,7 @@
  Sports Pad Football                            SP      Ok
  Spy vs Spy                                     -       Ok
  Spy vs Spy (JP)                                -       Ok
+ Spy vs Spy (TW)                                -       Ok
  Star Wars                                      -       Ok
  Street Fighter II' (BR)                        -       Ok
  Street Master (KR)                             -       Ok
@@ -505,7 +510,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 488 games tested - 486 are "Ok" - Compatibility rate: 99.54%
+ 493 games tested - 491 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -531,115 +536,139 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
- Bank Panic                            C-53   Ok
- Black Onyx, The                       C-72   Ok
- Bomb Jack                             C-61   Ok
- Borderline                          G-1001   Ok
- C_So!                                 C-64   Ok (can't write to tape)
- Castle, The                         G-1046   Ok
- Chack'n Pop                           C-52   Ok
- Champion Baseball                   G-1011   Ok
- Champion Baseball (TW)               W-011   Ok
- Champion Baseball [40k map]         G-1011   Ok
- Champion Billiards                    C-71   Ok
- Champion Boxing [card]                C-33   Ok
- Champion Boxing [cart]              G-1033   Ok
- Champion Golf [card]                  C-05   Ok
- Champion Golf [cart]                G-1005   Ok
- Champion Ice Hockey                   C-59   Ok
- Champion Kendou                       C-67   Ok
- Champion Pro Wrestling              G-1039   Ok
- Champion Soccer                     G-1034   Ok
- Champion Tennis                     G-1009   Ok
- Championship Lode Runner              C-57   Ok (can't write to tape)
- Choplifter                            C-48   Ok
- Choplifter [Proto]                    C-48   Ok
- Congo Bongo                         G-1007   Ok
- Doki Doki Penguin Land                C-50   Ok
- Doki Doki Penguin Land (TW)          R-050   Ok
- Dragon Wang [A]                       C-46   Ok
- Dragon Wang [B]                       C-46   Ok
- Dragon Wang (TW)                     R-046   Ok
- Drol                                  C-51   Ok
- Elevator Action                       C-55   Ok
- Exerion                             G-1028   Ok
- Flicky [v0]                         G-1036   Ok
- Flicky [v1]                         G-1036   Ok
- Girl's Garden                       G-1037   Ok
- Golgo 13                            G-1014   Ok
- GP World [v0]                       G-1040   Ok
- GP World [v1]                       G-1040   Ok
- Gulkave                               C-63   Ok
- Hang On II                            C-60   Ok
- H.E.R.O.                              C-58   Ok
- Home Mahjong [v0]                   G-1030   Ok
- Home Mahjong [v1]                  G-1030B   Ok
- Hustle Chumy                        G-1035   Ok
- Hyper Sports (Konami no)            G-1042   Ok
- Lode Runner                         G-1031   Ok
- Mahjong [big 1983]                  G-1004   Ok
- Mahjong [small 1983]                G-1004   Ok
- Monaco GP [24k] [v0] [40k map]      G-1017   Ok
- Monaco GP [32k] [v1]                G-1017   Ok
- Monaco GP [32k] [v2]                G-1017   Ok
- N-Sub                               G-1003   Ok
- N-Sub (1988)                        G-1003   Ok
- N-Sub [40k map]                     G-1003   Ok
- Ninja Princess                        C-65   Ok
- Orguss                              G-1015   Ok
- Othello                             G-1044   Ok
- Pacar                               G-1020   Ok
- Pachinko                            G-1027   Ok
- Pachinko II                         G-1029   Ok
- Pitfall II ~The Lost Caverns~ [v0]    C-49   Ok
- Pitfall II ~The Lost Caverns~ [v1]    C-49   Ok
- Pop Flamer                          G-1019   Ok
- Rock n' Bolt                          C-54   Ok
- Safari Hunting                      G-1002   Ok
- Safari Race                         G-1032   Ok
- Safari Race (JP)                    G-1032  *Ok
- Sega Flipper                        G-1018   Ok
- Sega Flipper [40k map]              G-1018   Ok
- Sega-Galaga                         G-1022   Ok
- Serizawa Hachidan no Tsumeshogi     G-1006   Ok
- Shinnyuushain Tooru-Kun (Konami no) G-1041   Ok
- Sindbad Mystery                     G-1012   Ok
- Soukoban                              C-56   Ok
- Space Invaders                      G-1045   Ok
- Space Slalom                        G-1023   Ok
- Star Force                     C-43/G-1043   Ok
- Star Force (TW)                      B-043   Ok
- Star Jacker [v0] (JP)               G-1010   Ok
- Star Jacker [v1]                    G-1010   Ok
- Star Jacker [v2]                    G-1010   Ok
- Super Tank                            C-66   Ok
- Terebi Oekaki Graphic Software      GB-800   Ok (uses Sega Graphic Board)
- Wonder Boy [v0]                       C-69   Ok
- Wonder Boy [v1]                       C-69   Ok
- Yamato                              G-1008   Ok
- Zaxxon                              G-1038   Ok
- Zippy Race                          G-1026   Ok
- Zoom 909                              C-47   Ok
+ Bank Panic                                     Ok
+ Black Onyx, The                                Ok
+ Bomb Jack                                      Ok
+ Borderline                                     Ok
+ C_So!                                          Ok (can't write to tape)
+ Castle, The                                    Ok
+ Chack'n Pop                                    Ok
+ Champion Baseball                              Ok
+ Champion Baseball (TW)                         Ok
+ Champion Baseball [40k map]                    Ok
+ Champion Billiards                             Ok
+ Champion Boxing [card]                         Ok
+ Champion Boxing [cart]                         Ok
+ Champion Golf [card]                           Ok
+ Champion Golf [cart]                           Ok
+ Champion Ice Hockey                            Ok
+ Champion Kendou                                Ok
+ Champion Pro Wrestling                         Ok
+ Champion Soccer                                Ok
+ Champion Tennis                                Ok
+ Championship Lode Runner                       Ok (can't write to tape)
+ Choplifter                                     Ok
+ Choplifter [Proto]                             Ok
+ Congo Bongo                                    Ok
+ Doki Doki Penguin Land                         Ok
+ Doki Doki Penguin Land (TW)                    Ok
+ Dragon Wang [A]                                Ok
+ Dragon Wang [B]                                Ok
+ Dragon Wang (TW)                               Ok
+ Drol                                           Ok
+ Elevator Action                                Ok
+ Exerion                                        Ok
+ Exerion (TW)                                   Ok
+ Flicky [v0]                                    Ok
+ Flicky [v1]                                    Ok
+ Girl's Garden                                  Ok
+ Golgo 13                                       Ok
+ GP World [v0]                                  Ok
+ GP World [v1]                                  Ok
+ Gulkave                                        Ok
+ Hang On II                                     Ok
+ H.E.R.O.                                       Ok
+ Home Mahjong [v0]                              Ok
+ Home Mahjong [v1]                              Ok
+ Home Mahjong [v1] (TW)                         Ok
+ Hustle Chumy                                   Ok
+ Hyper Sports (Konami no)                       Ok
+ Lode Runner                                    Ok
+ Lode Runner (TW)                               Ok
+ Mahjong [big 1983]                             Ok
+ Mahjong [small 1983]                           Ok
+ Mahjong (TW)                                   Ok
+ Monaco GP [24k] [v0] [40k map]                 Ok
+ Monaco GP [32k] [v1]                           Ok
+ Monaco GP [32k] [v1] (TW)                      Ok
+ Monaco GP [32k] [v2]                           Ok
+ N-Sub                                          Ok
+ N-Sub (1988)                                   Ok
+ N-Sub [40k map]                                Ok
+ N-Sub (TW)                                     Ok
+ Ninja Princess                                 Ok
+ Orguss                                         Ok
+ Othello                                        Ok
+ Pacar                                          Ok
+ Pacar (TW)                                     Ok
+ Pachinko                                       Ok
+ Pachinko II                                    Ok
+ Pachinko II (TW)                               Ok
+ Ping Pong (Konami's) (TW)                      Ok
+ Pitfall II ~The Lost Caverns~ [v0]             Ok
+ Pitfall II ~The Lost Caverns~ [v1]             Ok
+ Pop Flamer                                     Ok
+ Pop Flamer (TW)                                Ok
+ Rock n' Bolt                                   Ok
+ Safari Hunting                                 Ok
+ Safari Hunting (TW)                            Ok
+ Safari Race                                    Ok
+ Safari Race (JP)                               Ok
+ Sega Flipper                                   Ok
+ Sega Flipper (TW)                              Ok
+ Sega Flipper [40k map]                         Ok
+ Sega-Galaga                                    Ok
+ Sega-Galaga (TW)                               Ok
+ Serizawa Hachidan no Tsumeshogi                Ok
+ Shinnyuushain Tooru-Kun (Konami no)            Ok
+ Sindbad Mystery                                Ok
+ Sindbad Mystery (TW)                           Ok
+ Soukoban                                       Ok
+ Space Invaders                                 Ok
+ Space Slalom                                   Ok
+ Star Force                                     Ok
+ Star Force (TW)                                Ok
+ Star Jacker [v0] (JP)                          Ok
+ Star Jacker [v1]                               Ok
+ Star Jacker [v1] (TW)                          Ok
+ Star Jacker [v2]                               Ok
+ Super Tank                                     Ok
+ Terebi Oekaki Graphic Software                 Ok (uses Sega Graphic Board)
+ Wonder Boy [v0]                                Ok
+ Wonder Boy [v1]                                Ok
+ Yamato                                         Ok
+ Yamato [40k map]                              *Ok
+ Yamato (TW)                                    Ok
+ Yie Ar Kung-Fu (TW)                            Ok
+ Zaxxon                                         Ok
+ Zippy Race                                     Ok
+ Zippy Race (TW)                                Ok
+ Zoom 909                                       Ok
 -----------------------------------------------------------------------------
-  88 games tested - 88 are "Ok" - Compatibility rate: 100.00%
+ 107 games tested - 107 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- Challenge Derby                          OM-G005   Ok
- Challenge Derby [40k map]                OM-G005   Ok
- Guzzler                                  OM-G002   Ok
- James Bond 007                           OM-G008   Ok
- Okamoto Ayako no Match Play Golf [A]     OM-G006   Ok
- Okamoto Ayako no Match Play Golf [B]     OM-G006   Ok
- Othello Multivision [BIOS]               N/A       Keyboard not emulated.
- Q*bert                                   OM-G001   Ok
- San-nin Mahjong                          OM-G004   Ok
- Space Armor                              OM-G007  *Ok
- Space Mountain                           OM-G003   Ok
+ 007 James Bond                                 Ok
+ 007 James Bond (TW)                            Ok
+ Challenge Derby                                Ok
+ Challenge Derby [40k map]                      Ok
+ Guzzler                                        Ok
+ Guzzler (TW)                                  *Ok
+ Okamoto Ayako no Match Play Golf [A]           Ok
+ Okamoto Ayako no Match Play Golf [B]           Ok
+ Okamoto Ayako no Match Play Golf [B] (TW)      Ok
+ Othello Multivision [BIOS]                     Keyboard not emulated.
+ Q*bert                                         Ok
+ San-nin Mahjong                                Ok
+ San-nin Mahjong (TW)                           Ok
+ Space Armor [v0]                               Ok
+ Space Armor [v1]                               Ok
+ Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  11 games tested - 10 are "Ok" - Compatibility rate: 90.00%
+  16 games tested - 15 are "Ok" - Compatibility rate: 93.75%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -649,15 +678,16 @@
  All SC-3000 cartridge software were originally released in Japan.
 -----------------------------------------------------------------------------
  Basic Level II (JP)                            B-30    Ok (can't write to tape)
- Basic Level II 1.0                             B-40    Ok (can't write to tape)
+ Basic Level III 1.0                            B-40    Ok (can't write to tape)
  Basic Level III 1.1 (JP)                       B-41   *Ok (can't write to tape)
  Home Basic                                     B-50    Ok (can't write to tape)
 -----------------------------------------------------------------------------
  Music                                          E-101   Ok (can't write to tape)
  Music (JP)                                     E-101   Ok (can't write to tape)
  Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)      E-103  *Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)    E-104   Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)..  E-104   Ok
  Tanoshii Sansuu (Shougaku 4-Nen Jou)           E-106   Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map] E-106  *Ok
  Kagaku (Genso Kigou Master)                    E-107  *Ok
  Nihonshi Nenpyou                               E-108   Ok
  Sekaishi Nenpyou                               E-109   Ok
@@ -940,7 +970,8 @@
  Mortal Kombat II / Mortal Kombat II - Kyukyoku S.. Ok
  Mortal Kombat 3                                    Ok
  Ms. Pac-Man                                        Ok
- Nazo Puyo (JP)                                     Ok
+ Nazo Puyo [v0] (JP)                                Ok
+ Nazo Puyo [v1] (JP)                                Ok
  Nazo Puyo 2 (JP)                                   Ok
  Nazo Puyo Aruru no Ruu (JP)                        Ok
  Nazo Puyo Aruru no Ruu [Editor Proto] (JP)         Ok
@@ -1051,6 +1082,7 @@
  Solitaire Fun Pak                                  Ok
  Solitaire Poker                                    Ok
  Sonic & Tails (JP)                                 Ok
+ Sonic & Tails [Demo] (JP)                          Ok
  Sonic & Tails 2 (JP)                               Ok
  Sonic Blast / G-Sonic                              Ok
  Sonic Chaos                                        Ok
@@ -1100,6 +1132,7 @@
  Surf Ninjas                                        Ok
  Sylvan Tale (JP)                                   Ok
  T2: The Arcade Game                                Ok
+ T2: The Arcade Game (JP)                           Ok
  Tails Adventure                                    Ok
  Tails' Skypatrol (JP)                              Ok
  Taisen-gata Daisenryaku G (JP)                     Ok
@@ -1166,7 +1199,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 473 games tested - 461 are "Ok" - Compatibility rate: 97.45%
+ 476 games tested - 464 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

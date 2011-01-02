@@ -16,6 +16,8 @@ They are usually of 2 kinds:
     - Added Taiwanese flag (for DB and File Browser). [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          SMS - 84665648 - Great Soccer (JP) [Hack]             --> Great Soccer (TW)
+          SMS - 656d1a3e - Hokuto no Ken [BAD] (CH)             --> Hokuto no Ken (TW) [Hack] (the "bad" data is on the original cart, but this version has additional modifications)
           SMS - 69538469 - Monopoly [A]                         --> Monopoly (US)
           SMS - 026d94a4 - Monopoly [B]                         --> Monopoly (EU)
           SMS - 311d2863 - Prince of Persia [SMS-GG] [A]        --> Prince of Persia [SMS-GG] (US)
@@ -33,6 +35,7 @@ They are usually of 2 kinds:
           SG1 - 37fca2eb - Pitfall II ~The Lost Caverns~ [A]    --> Pitfall II ~The Lost Caverns~ [v0] (dumps and versionning finally confirmed)
           SG1 - 3db74761 - Pitfall II ~The Lost Caverns~ [B]    --> Pitfall II ~The Lost Caverns~ [v1]
           SG1 - 160535c5 - Wonder Boy [A]                       --> Wonder Boy [v0]
+          OMV - 90160849 - James Bond 007                       --> 007 James Bond
           GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5 in One Fun Pak
           GG  - a6bf865e - Beavis and Butt-Head (MTV's)         --> Beavis and Butt-Head (MTV's)
           GG  - 3858f14f - Beavis and Butt-head (MTV's) (US)    --> Beavis and Butt-head (MTV's) (US)
