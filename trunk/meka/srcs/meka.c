@@ -65,7 +65,7 @@ END_MIDI_DRIVER_LIST
 // FIXME: this function is pretty old and is basically a left-over or
 // everything that was not moved elsewhere.
 //-----------------------------------------------------------------------------
-void    Init_Emulator (void)
+static void Init_Emulator (void)
 {
     Video_Init ();
 
@@ -85,8 +85,7 @@ void    Init_Emulator (void)
     drv_set (cur_machine.driver_id);
 }
 
-// INITALIZE PRE-CALCULATED TABLES --------------------------------------------
-void    Init_Tables (void)
+static void Init_LookUpTables (void)
 {
     Coleco_Init_Table_Inputs ();
     #ifdef X86_ASM
@@ -94,8 +93,8 @@ void    Init_Tables (void)
     #endif
 }
 
-// INITIALIZING DEFAULT VARIABLES VALUES --------------------------------------
-void    Init_Default_Values (void)
+// Initialize default configuration settings
+static void Init_Default_Values (void)
 {
     Debug_Print_Infos = FALSE;
 
@@ -210,8 +209,7 @@ void    Init_Default_Values (void)
     #endif
 }
 
-// FREE ALLOCATED MEMORY ------------------------------------------------------
-void    Free_Memory (void)
+static void Free_Memory (void)
 {
     free (Game_ROM_Computed_Page_0);
     BIOS_Free_Roms ();
@@ -222,8 +220,7 @@ void    Free_Memory (void)
     }
 }
 
-// CLOSE EMULATOR -------------------------------------------------------------
-void    Close_Emulator (void)
+static void Close_Emulator (void)
 {
     Sound_Close          ();
     Desktop_Close        ();
@@ -244,7 +241,7 @@ void    Close_Emulator (void)
 // Remove Allegro installed callback
 // This is the first function to call on shutdown, to avoid getting called
 // during the shutdown process (which sometimes makes things crash).
-void    Close_Callback (void)
+static void Close_Callback (void)
 {
     #ifndef ARCH_DOS
         set_close_button_callback (NULL);
@@ -253,13 +250,12 @@ void    Close_Callback (void)
 
 // Change to starting directory
 // This function is registered in the atexit() table to be called on quit
-void    Close_Emulator_Starting_Dir (void)
+static void Close_Emulator_Starting_Dir (void)
 {
     chdir (g_Env.Paths.StartingDirectory);
 }
 
-// INITIALIZE ALLEGRO ---------------------------------------------------------
-int     Init_Allegro (void)
+static int Init_Allegro (void)
 {
     ConsolePrint (Msg_Get (MSG_Init_Allegro));
 
@@ -309,20 +305,14 @@ int     Init_Allegro (void)
     return (1);
 }
 
-// INITIALIZE GRAPHICAL USER INTERFACE ----------------------------------------
-void    Init_GUI (void)
+static void Init_GUI (void)
 {
     ConsolePrintf ("%s\n", Msg_Get (MSG_Init_GUI));
     gui_init(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
 }
 
 // MAIN FUNCTION --------------------------------------------------------------
-//#ifdef ARCH_WIN32
-// int WinMain
-//#else
- int main
-//#endif
- (int argc, char **argv)
+int main(int argc, char **argv)
 {
     int i;
 
@@ -383,7 +373,7 @@ void    Init_GUI (void)
     Blitters_Init           (); // Load Blitter List
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
     Blit_Init               (); // Initialize Blitter
-    Random_Init             (); // Initialize Pifometer (Random Number Generator)
+    Random_Init             (); // Initialize Random Number Generator
     Fonts_Init              (); // Initialize Fonts system
 	Effects_TV_Init			();	// Initialize TV snow effect
     FDC765_Init             (); // Initialize Floppy Disk emulation
@@ -391,7 +381,7 @@ void    Init_GUI (void)
     Init_Emulator           (); // Initialize Emulation
     Palette_Init            (); // Initialize Palette system
     NES_Init                (); // Initialize NES emulation
-    Init_Tables             (); // Initialize Tables
+    Init_LookUpTables		(); // Initialize Look-up tables
     Machine_Init            (); // Initialize Virtual Machine
     Init_GUI                (); // Initialize Graphical User Interface
     Sound_Init              (); // Initialize Sound

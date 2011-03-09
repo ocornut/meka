@@ -155,8 +155,7 @@ void                VideoDriver_DumpAllDesc(FILE *f)
     t_video_driver *drv = &video_drivers_table[0];
     while (drv->desc != NULL)
     {
-        int len;
-        fprintf(f, "    %s%n", drv->desc, &len);
+        int len = fprintf(f, "    %s", drv->desc);
         if (drv->comment != NULL)
             fprintf(f, "%*s(%s)\n", 20 - len, "", drv->comment);
         else

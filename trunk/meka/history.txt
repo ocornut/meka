@@ -12,6 +12,11 @@ They are usually of 2 kinds:
 
  MEKA 0.74 WIP xxxxxxxx
  ----------------------
+  - (Win32) Updated project file to Visual Studio 2008 format + compilation fixes.
+  - (Win32) Updated Allegro library to 4.2.3 (using precompiled binary from 'allegro-msvc9-4.2.3').
+  - (Win32) Updated LibPNG library to 1.2.8 (precompiled binary package included in repository).
+  - (Win32) Including minimal DirectX 7.0 package (precompiled binary package 'dx70_min' included in repository)
+     because newer DirectX SDK tends to cause problem with 4.2.x Allegro branches.
   - GUI:
     - Added Taiwanese flag (for DB and File Browser). [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]

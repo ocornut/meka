@@ -20,6 +20,8 @@
 #ifdef ARCH_WIN32
  #include <Windows.h>
  #include <Winbase.h>
+ #pragma warning (disable: 4996) // ''_snprintf': This function or variable may be unsafe'
+ // #include "shared.h"
 #endif
 
 //-----------------------------------------------------------------------------

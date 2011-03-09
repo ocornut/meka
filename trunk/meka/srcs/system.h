@@ -34,6 +34,7 @@
   #endif
 #endif
 #ifdef ARCH_WIN32
+	#define stricmp _stricmp
     #define BITMAP WINDOWS_BITMAP
     #include <windows.h>
     #include <crtdbg.h>
@@ -53,6 +54,12 @@
 #define alleg_gui_unused
 #define alleg_math_unused
 #define ALLEGRO_NO_COMPATIBILITY
+
+// FIXME-OPT: Because of bug in 4.2.* branch
+// What we need is to switch to 4.3.* but I cannot find precompiled binaries for that
+// See http://www.allegro.cc/forums/print-thread/598240
+#define ALLEGRO_NO_ASM		
+
 #include <allegro.h>
 #undef MSG_USER             // To avoid mistyping MSG_USER instead of MSGT_USER. We don't use Allegro GUI anyway.
 
@@ -149,6 +156,8 @@ typedef int                 bool;
 #ifdef ARCH_WIN32
 #pragma warning (disable: 4100) // 'unreferenced formal parameter'
 #pragma warning (disable: 4127) // 'conditional expression is constant'
+#pragma warning (disable: 4996) // ''_snprintf': This function or variable may be unsafe'
+//#define _CRT_SECURE_NO_WARNINGS
 #endif
 
 //-----------------------------------------------------------------------------
