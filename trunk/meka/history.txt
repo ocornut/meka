@@ -26,6 +26,9 @@ They are usually of 2 kinds:
           SG1 - 868419b5 - Champion Golf [A]                    --> Champion Golf [cart]
           SG1 - 5a904122 - Champion Golf [B]                    --> Champion Golf [card]
           SG1 - fdc095bc - Doki Doki Penguin Land (HK)          --> Doki Doki Penguin Land (TW)
+          SG1 - 60f30138 - Dragon Wang [B]                      --> Dragon Wang [v0]
+          SG1 - 7c7d4397 - Dragon Wang (TW)                     --> Dragon Wang [v0] [chinese logo] (TW) (because a second Taiwanese version exists)
+          SG1 - 99c3de21 - Dragon Wang [A]                      --> Dragon Wang [v1]
           SG1 - bd24d27b - Flicky                               --> Flicky [v0]
           SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
           SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]

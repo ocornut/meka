@@ -537,6 +537,7 @@
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
  Bank Panic                                     Ok
+ Bank Panic (TW)                               *Ok
  Black Onyx, The                                Ok
  Bomb Jack                                      Ok
  Borderline                                     Ok
@@ -549,29 +550,40 @@
  Champion Billiards                             Ok
  Champion Boxing [card]                         Ok
  Champion Boxing [cart]                         Ok
+ Champion Boxing [cart] (TW)                   *Ok
  Champion Golf [card]                           Ok
  Champion Golf [cart]                           Ok
  Champion Ice Hockey                            Ok
  Champion Kendou                                Ok
  Champion Pro Wrestling                         Ok
  Champion Soccer                                Ok
+ Champion Soccer (TW)                          *Ok
  Champion Tennis                                Ok
  Championship Lode Runner                       Ok (can't write to tape)
  Choplifter                                     Ok
  Choplifter [Proto]                             Ok
- Congo Bongo                                    Ok
+ Choplifter [chinese logo] (TW)                *Ok
+ Choplifter [english logo] (TW)                *Ok
+ Congo Bongo [v0]                               Ok
+ Congo Bongo [v0] (TW)                         *Ok
+ Congo Bongo [v1] (JP)                         *Ok
  Doki Doki Penguin Land                         Ok
  Doki Doki Penguin Land (TW)                    Ok
- Dragon Wang [A]                                Ok
- Dragon Wang [B]                                Ok
- Dragon Wang (TW)                               Ok
+ Dragon Wang [v0]                               Ok
+ Dragon Wang [v0] [chinese logo] (TW)           Ok
+ Dragon Wang [v0] [english logo] (TW)          *Ok
+ Dragon Wang [v1] (JP)                          Ok
  Drol                                           Ok
+ Drol (TW)                                     *Ok
  Elevator Action                                Ok
+ Elevator Action (TW)                          *Ok
  Exerion                                        Ok
  Exerion (TW)                                   Ok
  Flicky [v0]                                    Ok
  Flicky [v1]                                    Ok
+ Flicky [v1] (TW)                              *Ok
  Girl's Garden                                  Ok
+ Girl's Garden (TW)                            *Ok
  Golgo 13                                       Ok
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
@@ -583,6 +595,7 @@
  Home Mahjong [v1] (TW)                         Ok
  Hustle Chumy                                   Ok
  Hyper Sports (Konami no)                       Ok
+ Hyper Sports (Konami no) (TW)                 *Ok
  Lode Runner                                    Ok
  Lode Runner (TW)                               Ok
  Mahjong [big 1983]                             Ok
@@ -599,6 +612,7 @@
  Ninja Princess                                 Ok
  Orguss                                         Ok
  Othello                                        Ok
+ Othello (TW)                                  *Ok
  Pacar                                          Ok
  Pacar (TW)                                     Ok
  Pachinko                                       Ok
@@ -606,14 +620,18 @@
  Pachinko II (TW)                               Ok
  Ping Pong (Konami's) (TW)                      Ok
  Pitfall II ~The Lost Caverns~ [v0]             Ok
+ Pitfall II ~The Lost Caverns~ [v0] [chin..(TW)*Ok
+ Pitfall II ~The Lost Caverns~ [v0] [engl..(TW)*Ok
  Pitfall II ~The Lost Caverns~ [v1]             Ok
  Pop Flamer                                     Ok
  Pop Flamer (TW)                                Ok
  Rock n' Bolt                                   Ok
+ Rock n' Bolt (TW)                             *Ok
  Safari Hunting                                 Ok
  Safari Hunting (TW)                            Ok
  Safari Race                                    Ok
  Safari Race (JP)                               Ok
+ Safari Race (TW)                              *Ok
  Sega Flipper                                   Ok
  Sega Flipper (TW)                              Ok
  Sega Flipper [40k map]                         Ok
@@ -621,13 +639,16 @@
  Sega-Galaga (TW)                               Ok
  Serizawa Hachidan no Tsumeshogi                Ok
  Shinnyuushain Tooru-Kun (Konami no)            Ok
+ Shinnyuushain Tooru-Kun (Konami no) (TW)      *Ok
  Sindbad Mystery                                Ok
  Sindbad Mystery (TW)                           Ok
  Soukoban                                       Ok
  Space Invaders                                 Ok
+ Space Invaders (TW)                           *Ok
  Space Slalom                                   Ok
  Star Force                                     Ok
- Star Force (TW)                                Ok
+ Star Force [A] (TW)                            Ok
+ Star Force [B] (TW)                           *Ok
  Star Jacker [v0] (JP)                          Ok
  Star Jacker [v1]                               Ok
  Star Jacker [v1] (TW)                          Ok
@@ -641,11 +662,13 @@
  Yamato (TW)                                    Ok
  Yie Ar Kung-Fu (TW)                            Ok
  Zaxxon                                         Ok
+ Zaxxon (TW)                                   *Ok
  Zippy Race                                     Ok
  Zippy Race (TW)                                Ok
  Zoom 909                                       Ok
+ Zoom 909 (TW)                                 *Ok
 -----------------------------------------------------------------------------
- 107 games tested - 107 are "Ok" - Compatibility rate: 100.00%
+ 130 games tested - 130 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
