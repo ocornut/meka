@@ -144,7 +144,7 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
     { KEY_SLASH,          23      },
     { KEY_COLON,          24      }, // ;
 	{ KEY_SEMICOLON,      24      }, // ; ++
-	{ KEY_COLON2,         24      }, // ; ++
+	{ KEY_COLON2,         33      }, // :
     { KEY_P,              25      },
     { KEY_0,              26      },
     // Row: 3 -------------------------------------------------------------------
@@ -234,11 +234,13 @@ void    Keyboard_Emulation_Update (void)
     Keyboard_Emulation_Clear();
     for (i = 0; i != SK1100_MAPPING_NUM; i ++)
     {
-        if (key [SK1100_Mapping[i].key_pc])
+		const t_sk1100_map* k = &SK1100_Mapping[i];
+        if (key [k->key_pc])
         {
-            t_sk1100_key *sk1100_key = &SK1100_Keys[SK1100_Mapping[i].key_sk1100];
+            const t_sk1100_key *sk1100_key = &SK1100_Keys[k->key_sk1100];
             tsms.Control [sk1100_key->row] &= (~sk1100_key->bit);
             tsms.Control_Check_GUI = FALSE;
+			//Msg(MSGT_USER, "Pressed %d -> %d", k->key_pc, k->key_sk1100);
         }
     }
 }
