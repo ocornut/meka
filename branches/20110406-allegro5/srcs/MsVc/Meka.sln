@@ -1,0 +1,38 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meka", "Meka.vcproj", "{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{63B96009-6B50-4D7E-A868-62F22424B2C8} = {63B96009-6B50-4D7E-A868-62F22424B2C8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "build_date_update", "build_date_update.vcproj", "{63B96009-6B50-4D7E-A868-62F22424B2C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - No DLL|Win32 = Debug - No DLL|Win32
+		Debug|Win32 = Debug|Win32
+		Release - No DLL|Win32 = Release - No DLL|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug - No DLL|Win32.ActiveCfg = Debug - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug - No DLL|Win32.Build.0 = Debug - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Debug|Win32.Build.0 = Debug|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release - No DLL|Win32.ActiveCfg = Release - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release - No DLL|Win32.Build.0 = Release - No DLL|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release|Win32.ActiveCfg = Release|Win32
+		{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}.Release|Win32.Build.0 = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug - No DLL|Win32.ActiveCfg = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug - No DLL|Win32.Build.0 = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Debug|Win32.Build.0 = Debug|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release - No DLL|Win32.ActiveCfg = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release - No DLL|Win32.Build.0 = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release|Win32.ActiveCfg = Release|Win32
+		{63B96009-6B50-4D7E-A868-62F22424B2C8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
