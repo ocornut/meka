@@ -23,7 +23,6 @@
 #include "fdc765.h"
 #include "file.h"
 #include "fskipper.h"
-#include "games.h"
 #include "g_file.h"
 #include "glasses.h"
 #include "inputs_f.h"
@@ -43,19 +42,6 @@
 #endif
 
 //-----------------------------------------------------------------------------
-// Redefine Allegro list to space executable size
-// Note: I'm not even sure it works as expected
-//-----------------------------------------------------------------------------
-
-#ifndef ARCH_MACOSX
-BEGIN_DIGI_DRIVER_LIST
-END_DIGI_DRIVER_LIST
-
-BEGIN_MIDI_DRIVER_LIST
-END_MIDI_DRIVER_LIST
-#endif // ARCH_MACOSX
-
-//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -67,6 +53,7 @@ END_MIDI_DRIVER_LIST
 //-----------------------------------------------------------------------------
 static void Init_Emulator (void)
 {
+	g_display = NULL;
     Video_Init ();
 
     memset(RAM, 0, 0x10000);        // RAM: 64 Kb (max=SF-7000)
@@ -263,7 +250,7 @@ static int Init_Allegro (void)
     // OSD_Timer_Initialize ();
 
     set_uformat(U_ASCII);
-    allegro_init();
+    al_init();
 
     g_Configuration.video_mode_depth_desktop = desktop_color_depth();
     if (g_Configuration.video_mode_depth_desktop == 0)
@@ -286,7 +273,7 @@ static int Init_Allegro (void)
         //}   
         //#endif
     #endif
-    g_Env.mouse_installed = install_mouse ();
+    g_Env.mouse_installed = al_install_mouse ();
 
     // PNG support
     #ifdef MEKA_PNG
@@ -295,8 +282,8 @@ static int Init_Allegro (void)
 
     // Window title & callback
     #ifndef ARCH_DOS
-        set_window_title (Msg_Get (MSG_Window_Title));
-        set_close_button_callback (Close_Button_Callback);
+        al_set_window_title (Msg_Get (MSG_Window_Title));
+        al_set_close_button_callback (Close_Button_Callback);
     #endif
 
     // text_mode (-1); // now obsolete
@@ -358,7 +345,6 @@ int main(int argc, char **argv)
     Init_Default_Values     (); // Set Defaults Variables
     Command_Line_Parse      (); // Parse Command Line (1)
     Init_Allegro            (); // Initialize Allegro Library
-    Init_Games              (); // Initialize Hidden Games
     Capture_Init            (); // Initialize Screen capture
     Configuration_Load      (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);

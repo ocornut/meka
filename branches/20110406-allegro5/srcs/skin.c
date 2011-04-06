@@ -30,7 +30,7 @@ typedef struct
     t_skin *            skin_fade_from;
     t_skin *            skin_black;
     char *              skin_configuration_name;
-    BITMAP *            background_picture;
+    ALLEGRO_BITMAP *            background_picture;
     bool                quit_after_fade;
 }                       t_skin_manager;
 
@@ -76,7 +76,7 @@ const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
     { "widget_statusbar_text_color",            "menu_text_color"               },
 };
 
-int         SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
+ALLEGRO_COLOR       SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -555,7 +555,7 @@ void        Skins_Select(t_skin *skin, bool fade)
     // Load background picture, if any
     if (Skins.background_picture != NULL)
     {
-        destroy_bitmap(Skins.background_picture);
+        al_destroy_bitmap(Skins.background_picture);
         Skins.background_picture = NULL;
     }
     if (Skins.skin_current->background_picture != NULL)
@@ -735,7 +735,7 @@ t_skin *    Skins_GetCurrentSkin(void)
     return Skins.skin_current;
 }
 
-BITMAP *    Skins_GetBackgroundPicture(void)
+ALLEGRO_BITMAP *    Skins_GetBackgroundPicture(void)
 {
     return Skins.background_picture;
 }
@@ -749,7 +749,7 @@ t_skin *    Skins_GetSystemSkinBlack(void)
 // Functions - Gradients
 //-----------------------------------------------------------------------------
 
-void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame)
+void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame)
 {
     const int x1 = frame->pos.x;
     const int y1 = frame->pos.y;
@@ -759,7 +759,8 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t
     if (!gradient->enabled)
     {
         // Fill with start color
-        rectfill(bitmap, x1, y1, x2, y2, gradient->native_color_start);
+		al_set_target_bitmap(bitmap);
+        al_draw_filled_rectangle(x1, y1, x2+1, y2+1, gradient->native_color_start);
     }
     else
     {
@@ -768,8 +769,9 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t
         const int gradient_pos_end   = ((x2 - x1) * gradient->pos_end)   / 100;
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
         int n;
+		al_set_target_bitmap(bitmap);
         if (gradient_pos_start != 0)
-            rectfill(bitmap, x1, y1, x1 + gradient_pos_start, y2, gradient->native_color_start);
+            al_draw_filled_rectangle(x1, y1, x1 + gradient_pos_start + 1, y2 + 1, gradient->native_color_start);
 		if ( gradient_size > 0 )
 		{
 			for (n = 0; n <= gradient_size; n++)
@@ -777,15 +779,15 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t
 				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
 				const int x = x1 + n + gradient_pos_start;
 				const u32 color = gradient->native_color_buffer[gradient_idx];
-				vline(bitmap, x, y1, y2, color);
+				al_draw_vline(x, y1, y2, color);
 			}
 		}
         if (gradient_pos_end != frame->size.x)
-            rectfill(bitmap, x1 + gradient_pos_end, y1, x2, y2, gradient->native_color_end);
+            al_draw_filled_rectangle(x1 + gradient_pos_end, y1, x2+1, y2+1, gradient->native_color_end);
     }
 }
 
-void    SkinGradient_DrawVertical(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame)
+void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame)
 {
     const int x1 = frame->pos.x;
     const int y1 = frame->pos.y;

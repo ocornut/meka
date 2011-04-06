@@ -58,7 +58,7 @@ static void	Capture_FileName_Get(char *dst)
 
     // Create directory if necessary
     if (!file_exists(g_Env.Paths.ScreenshotDirectory, 0xFF, NULL))
-        meka_mkdir(g_Env.Paths.ScreenshotDirectory);
+        al_make_directory(g_Env.Paths.ScreenshotDirectory);
 
     // Figure out a base filename
     if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
@@ -91,8 +91,8 @@ static void	Capture_FileName_Get(char *dst)
 static void		Capture_Screen(void)
 {
     //PALETTE     pal;
-    BITMAP *    bmp;
-    BITMAP *    source;
+    ALLEGRO_BITMAP *    bmp;
+    ALLEGRO_BITMAP *    source;
     char        s1[FILENAME_LEN];
     int         x_start, x_len;
     int         y_start, y_len;
@@ -165,11 +165,11 @@ static void		Capture_Screen(void)
     if (save_bitmap(s1, bmp, NULL) != 0)
     {
         Msg(MSGT_USER, Msg_Get(MSG_Capture_Error));
-        destroy_bitmap(bmp);
+        al_destroy_bitmap(bmp);
         return;
     }
 
-    destroy_bitmap(bmp);
+    al_destroy_bitmap(bmp);
 
     // Verbose
     killpath(s1);

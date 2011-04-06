@@ -36,8 +36,8 @@ void    TB_Message_Init_Values(void)
 
 static void TB_Message_Layout(t_app_messages *app, bool setup)
 {
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {

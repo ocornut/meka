@@ -8,7 +8,6 @@
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "app_about.h"
-#include "games.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -37,18 +36,15 @@ void    AboutBox_Switch (void)
 	AboutBox.active ^= 1;
 	gui_box_show (AboutBox.box, AboutBox.active, TRUE);
     gui_menu_inverse_check (menus_ID.help, menu_pos);
-
-    // Easter egg: BrainWash
-    if (Inputs_KeyPressed (KEY_LCONTROL, FALSE))
-        BrainWash_Start ();
 }
 
 static void     AboutBox_Layout(bool setup)
 {
     t_app_about_box *app = &AboutBox;	// Global instance
+	const int dragon_h = al_get_bitmap_height(Graphics.Misc.Dragon);
 
-    // Clear
-    clear_to_color(AboutBox.box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
@@ -57,7 +53,7 @@ static void     AboutBox_Layout(bool setup)
     }
 
     // Draw MEKA dragon sprite
-	draw_sprite(app->box->gfx_buffer, Graphics.Misc.Dragon, 10, (app->box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
+	al_draw_bitmap(Graphics.Misc.Dragon, 10, (app->box->frame.size.y - dragon_h) / 2, 0);
 
 	// Print about information lines
 	{
@@ -75,7 +71,7 @@ static void     AboutBox_Layout(bool setup)
 			case 2: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
 			case 3: snprintf(buffer, countof(buffer), "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
 			}
-			x = (( (app->box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, buffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;
+			x = (( (app->box->frame.size.x - dragon_h - 18 - 6) - Font_TextLength (-1, buffer) ) / 2) + dragon_h + 8 + 6;
 			Font_Print(-1, app->box->gfx_buffer, buffer, x, y, COLOR_SKIN_WINDOW_TEXT);
 			y += Font_Height(-1) + 3;
 		}

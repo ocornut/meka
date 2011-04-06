@@ -50,7 +50,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-extern int				SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
+extern ALLEGRO_COLOR	SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
 
 typedef struct
 {
@@ -116,13 +116,13 @@ void                Skins_SetSkinConfiguration      (const char *skin_name);
 
 t_skin *			Skins_GetCurrentSkin			(void);
 t_skin *            Skins_FindSkinByName            (const char *skin_name);
-BITMAP *            Skins_GetBackgroundPicture      (void);
+ALLEGRO_BITMAP *            Skins_GetBackgroundPicture      (void);
 
 t_skin *            Skins_GetSystemSkinBlack        (void);
 
 //-----------------------------------------------------------------------------
 
-void				SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame);
-void				SkinGradient_DrawVertical(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame);
+void				SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame);
+void				SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame);
 
 //-----------------------------------------------------------------------------

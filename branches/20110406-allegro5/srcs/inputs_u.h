@@ -14,5 +14,7 @@ void            Inputs_Sources_Close    (void);
 t_input_src *   Inputs_Sources_Add      (char *name);
 void            Inputs_Sources_Update   (void);
 
+ALLEGRO_KEYBOARD_STATE	keyboard_state;
+
 //-----------------------------------------------------------------------------
 

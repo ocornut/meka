@@ -32,9 +32,9 @@
 #define DATA_FLAG_UK                     21       /* BMP  */
 #define DATA_FLAG_UNKNOWN                22       /* BMP  */
 #define DATA_FLAG_US                     23       /* BMP  */
-#define DATA_FONT_0                      24       /* FONT */
-#define DATA_FONT_1                      25       /* FONT */
-#define DATA_FONT_2                      26       /* FONT */
+#define DATA_FONT_0                      24       /* ALLEGRO_FONT */
+#define DATA_FONT_1                      25       /* ALLEGRO_FONT */
+#define DATA_FONT_2                      26       /* ALLEGRO_FONT */
 #define DATA_GFX_DRAGON                  27       /* BMP  */
 #define DATA_GFX_GLASSES                 28       /* BMP  */
 #define DATA_GFX_HEART1                  29       /* BMP  */
@@ -97,57 +97,57 @@ typedef struct
     // Cursors
     struct
     {
-        BITMAP *    Main;
-        BITMAP *    Wait;
-        BITMAP *    LightPhaser;
-        BITMAP *    SportsPad;
-        BITMAP *    TvOekaki;
+        ALLEGRO_BITMAP *    Main;
+        ALLEGRO_BITMAP *    Wait;
+        ALLEGRO_BITMAP *    LightPhaser;
+        ALLEGRO_BITMAP *    SportsPad;
+        ALLEGRO_BITMAP *    TvOekaki;
     } Cursors;
 
     // Flags
-    BITMAP *        Flags [FLAG_COUNT];
+    ALLEGRO_BITMAP *        Flags [FLAG_COUNT];
 
     // Icons
     struct
     {
-        BITMAP *    BAD;
-        BITMAP *    BIOS;
-        BITMAP *    Hack;
-        BITMAP *    HomeBrew;
-        BITMAP *    Prototype;
-        BITMAP *    Translation_JP;
-        BITMAP *    Translation_JP_US;
+        ALLEGRO_BITMAP *    BAD;
+        ALLEGRO_BITMAP *    BIOS;
+        ALLEGRO_BITMAP *    Hack;
+        ALLEGRO_BITMAP *    HomeBrew;
+        ALLEGRO_BITMAP *    Prototype;
+        ALLEGRO_BITMAP *    Translation_JP;
+        ALLEGRO_BITMAP *    Translation_JP_US;
     } Icons;
 
     // Inputs
     struct
     {
-        BITMAP *    InputsBase;
-        BITMAP *    Glasses;
-        BITMAP *    Joypad;
-        BITMAP *    LightPhaser;
-        BITMAP *    PaddleControl;
-        BITMAP *    SportsPad;
-        BITMAP *    SuperHeroPad;
-        BITMAP *    TvOekaki;
-        BITMAP *    SK1100_Keyboard;
+        ALLEGRO_BITMAP *    InputsBase;
+        ALLEGRO_BITMAP *    Glasses;
+        ALLEGRO_BITMAP *    Joypad;
+        ALLEGRO_BITMAP *    LightPhaser;
+        ALLEGRO_BITMAP *    PaddleControl;
+        ALLEGRO_BITMAP *    SportsPad;
+        ALLEGRO_BITMAP *    SuperHeroPad;
+        ALLEGRO_BITMAP *    TvOekaki;
+        ALLEGRO_BITMAP *    SK1100_Keyboard;
     } Inputs;
 
     // Machines
     struct
     {
-        BITMAP *    MasterSystem;
-        BITMAP *    MasterSystem_Cart;
-        BITMAP *    MasterSystem_Light;
-        BITMAP *    ColecoVision;
+        ALLEGRO_BITMAP *    MasterSystem;
+        ALLEGRO_BITMAP *    MasterSystem_Cart;
+        ALLEGRO_BITMAP *    MasterSystem_Light;
+        ALLEGRO_BITMAP *    ColecoVision;
     } Machines;
 
     // Miscellaenous
     struct
     {
-        BITMAP *    Dragon;
-        BITMAP *    Heart1;
-        BITMAP *    Heart2;
+        ALLEGRO_BITMAP *    Dragon;
+        ALLEGRO_BITMAP *    Heart1;
+        ALLEGRO_BITMAP *    Heart2;
     } Misc;
 
 } t_data_graphics;

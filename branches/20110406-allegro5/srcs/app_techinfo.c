@@ -13,7 +13,6 @@
 #include "g_widget.h"
 #include "nes.h"
 #include "vdp.h"
-#include "games.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -22,22 +21,13 @@
 static void TechInfo_Layout(t_app_tech_info *app, bool setup)
 {
     // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
         // Add closebox widget
         widget_closebox_add(app->box, TechInfo_Switch);
-        
-        // Easter Egg: BreakOut
-        {
-            t_frame frame;
-            frame.pos.x = app->box->frame.size.x - 50;
-            frame.pos.y = 30;
-            frame.size.x = app->box->frame.size.x - 38;
-            frame.size.y = 40;
-            widget_button_add(app->box, &frame, 1, BreakOut_Start, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
-        }
     }
 }
 
@@ -80,7 +70,8 @@ static void TechInfo_Redraw(t_app_tech_info *app)
             const int h = Font_Height (F_MIDDLE);
             const int y = (h * i);
 
-            rectfill(app->box->gfx_buffer, 0, y, app->box->frame.size.x, y + h - 1, COLOR_SKIN_WINDOW_BACKGROUND);
+			al_set_target_bitmap(app->box->gfx_buffer);
+            al_draw_filled_rectangle(0, y, app->box->frame.size.x+1, y + h, COLOR_SKIN_WINDOW_BACKGROUND);
             Font_Print(F_MIDDLE, app->box->gfx_buffer, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
 
             app->lines_dirty[i] = FALSE;

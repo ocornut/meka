@@ -24,7 +24,8 @@ void    LightPhaser_SetupMouseRange(bool left_most_column_masked)
 {
     const int m = (left_most_column_masked ? 8 : 0);
     // Msg(MSGT_DEBUG, "ReRange %02X", ML8);
-    set_mouse_range(m, 0, cur_drv->x_res - 1, cur_drv->y_res - 1);
+	// FIXME-ALLEGRO5
+    //set_mouse_range(m, 0, cur_drv->x_res - 1, cur_drv->y_res - 1);
 }
 
 u8		LightPhaser_GetX(void)

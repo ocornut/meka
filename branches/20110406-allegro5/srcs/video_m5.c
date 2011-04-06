@@ -41,7 +41,7 @@ int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 //-----------------------------------------------------------------------------
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip)
+void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip)
 {
     // FIXME-DEPTH
     switch (dst->vtable->color_depth)

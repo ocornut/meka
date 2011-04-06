@@ -32,7 +32,7 @@ static void flush_data(png_structp png_ptr) { (void)png_ptr; }
 /* save_hicolour:
  *  Core save routine for 15/16 bpp images, by Martijn Versteegh.
  */
-static int save_hicolour(png_structp png_ptr, BITMAP *bmp, int depth)
+static int save_hicolour(png_structp png_ptr, ALLEGRO_BITMAP *bmp, int depth)
 {
     unsigned char *row, *p;
     int i, j, c;
@@ -70,7 +70,7 @@ static int save_hicolour(png_structp png_ptr, BITMAP *bmp, int depth)
 /* save_truecolour:
  *  Core save routine for 32 bpp images.
  */
-static int save_truecolour(png_structp png_ptr, BITMAP *bmp)
+static int save_truecolour(png_structp png_ptr, ALLEGRO_BITMAP *bmp)
 {
     unsigned char *row, *p;
     int i, j, c;
@@ -106,7 +106,7 @@ static int save_truecolour(png_structp png_ptr, BITMAP *bmp)
  *  Writes a non-interlaced, no-frills PNG, taking the usual save_xyz
  *  parameters.  Returns non-zero on error.
  */
-int save_png(AL_CONST char *filename, BITMAP *bmp, AL_CONST RGB *pal)
+int save_png(AL_CONST char *filename, ALLEGRO_BITMAP *bmp, AL_CONST RGB *pal)
 {
     PACKFILE *fp;
     png_structp png_ptr;

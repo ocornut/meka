@@ -27,7 +27,7 @@ static void     Skins_Background_Redraw_Grid(void)
     }
 }
 
-static void     Skins_Background_Draw_Tile(BITMAP *bmp)
+static void     Skins_Background_Draw_Tile(ALLEGRO_BITMAP *bmp)
 {
     int     sx, sy;
     int     cx, cy;
@@ -48,7 +48,7 @@ static void     Skins_Background_Draw_Tile(BITMAP *bmp)
     }
 }
 
-static void     Skins_Background_Draw_Stretch(BITMAP *bmp)
+static void     Skins_Background_Draw_Stretch(ALLEGRO_BITMAP *bmp)
 {
     stretch_blit(bmp, gui_background,
         0, 0,
@@ -57,7 +57,7 @@ static void     Skins_Background_Draw_Stretch(BITMAP *bmp)
         gui.info.screen.x, gui.info.screen.y - 2 * (gui.info.bars_height + 2));
 }
 
-static void     Skins_Background_Draw_StretchInteger(BITMAP *bmp)
+static void     Skins_Background_Draw_StretchInteger(ALLEGRO_BITMAP *bmp)
 {
     int         size_x;
     int         size_y;
@@ -94,7 +94,7 @@ static void     Skins_Background_Draw_StretchInteger(BITMAP *bmp)
     }
 }
 
-static void     Skins_Background_Draw_Center(BITMAP *bmp)
+static void     Skins_Background_Draw_Center(ALLEGRO_BITMAP *bmp)
 {
     const int   pos_x = (gui.info.screen.x - bmp->w) >> 1;
     const int   pos_y = (gui.info.screen.y - bmp->h) >> 1;
@@ -106,7 +106,7 @@ static void     Skins_Background_Draw_Center(BITMAP *bmp)
 void    Skins_Background_Redraw(void)
 {
     t_skin *skin;
-    BITMAP *background;
+    ALLEGRO_BITMAP *background;
 
 #ifdef DEBUG_WHOLE
 	Msg (MSGT_DEBUG, "Skins_Background_Redraw();");
@@ -147,7 +147,7 @@ void    Skins_Background_Redraw(void)
     // Draw SK-1100 centered on bottom
     if (Inputs.Keyboard_Enabled)
 	{
-		BITMAP *bmp = Graphics.Inputs.SK1100_Keyboard;
+		ALLEGRO_BITMAP *bmp = Graphics.Inputs.SK1100_Keyboard;
 		draw_sprite(gui_background, bmp,
 			(gui.info.screen.x - bmp->w) / 2,
 			(gui.info.screen.y - bmp->h - 40));

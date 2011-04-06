@@ -76,10 +76,10 @@ void    gui_set_video_mode(int res_x, int res_y, int color_depth)
     // Destroy existing buffers (if any)
     if (gui_buffer != NULL)
     {
-        destroy_bitmap(gui_buffer);
+        al_destroy_bitmap(gui_buffer);
         gui_buffer = NULL;
         assert(gui_background != NULL);
-        destroy_bitmap(gui_background);
+        al_destroy_bitmap(gui_background);
         gui_background = NULL;
     }
 

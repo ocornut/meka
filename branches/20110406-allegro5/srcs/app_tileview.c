@@ -97,7 +97,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     int     tile_current;
     bool    tile_current_refresh;
     int     tile_current_addr;
-    BITMAP *bmp = app->box->gfx_buffer;
+    ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
 
     // Skip update if not active
     if (!app->active)

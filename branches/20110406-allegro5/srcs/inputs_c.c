@@ -203,7 +203,7 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, int Color)
 void    Inputs_CFG_Current_Source_Draw (void)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
-    BITMAP *bmp = app->box->gfx_buffer;
+    ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
 
     int             i;
     int             x = 165;
@@ -318,10 +318,10 @@ void    Inputs_CFG_Current_Source_Change (t_widget *w)
 void        Inputs_CFG_Peripherals_Draw (void)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
-    BITMAP *bmp = app->box->gfx_buffer;
+    ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
 
     int     i;
-    BITMAP *sprite = NULL;
+    ALLEGRO_BITMAP *sprite = NULL;
 
     // Set update flag
     app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
@@ -370,7 +370,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     if (Glasses.Enabled)
     {
         int x, y;
-        BITMAP *b = Graphics.Inputs.Glasses;
+        ALLEGRO_BITMAP *b = Graphics.Inputs.Glasses;
         x = 10 + 11 + 64 + (58 - b->w) / 2;
         y = 58 + sprite->h + 5;
         // rectfill (bmp, x, y, x + b->w, y + b->h, COLOR_SKIN_WINDOW_BACKGROUND);

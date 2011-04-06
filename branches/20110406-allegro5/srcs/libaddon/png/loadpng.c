@@ -7,7 +7,7 @@
 
 #include <png.h>
 #include "system.h" // allegro.h, because of STATICLINK stuff...
-#include <allegro/internal/aintern.h>
+//#include <allegro/internal/aintern.h>
 #include "loadpng.h"
 
 /* We need internals _color_load_depth and _fixup_loaded_bitmap.  The
@@ -49,7 +49,7 @@ static double get_gamma(void)
  */
 static void read_data(png_structp png_ptr, png_bytep data, png_uint_32 length)
 {
-    PACKFILE *f = png_get_io_ptr(png_ptr);
+    ALLEGRO_PACKFILE *f = png_get_io_ptr(png_ptr);
     if ((png_uint_32)pack_fread(data, length, f) != length)
 	png_error(png_ptr, "read error (loadpng calling pack_fread)");
 }
@@ -76,9 +76,9 @@ static int check_if_png(PACKFILE *fp)
 /* really_load_png:
  *  Worker routine, used by load_png and load_memory_png.
  */
-static BITMAP *really_load_png(png_structp png_ptr, png_infop info_ptr, RGB *pal)
+static ALLEGRO_BITMAP *really_load_png(png_structp png_ptr, png_infop info_ptr, RGB *pal)
 {
-    BITMAP *bmp;
+    ALLEGRO_BITMAP *bmp;
     PALETTE tmppal;
     png_uint_32 width, height, rowbytes;
     int bit_depth, color_type, interlace_type;
@@ -246,10 +246,10 @@ static BITMAP *really_load_png(png_structp png_ptr, png_infop info_ptr, RGB *pal
 /* load_png:
  *  Load a PNG file from disk, doing colour coversion if required.
  */
-BITMAP *load_png(AL_CONST char *filename, RGB *pal)
+ALLEGRO_BITMAP *load_png(const char *filename, ALLEGRO_COLOR *pal)
 {
     PACKFILE *fp;
-    BITMAP *bmp;
+    ALLEGRO_BITMAP *bmp;
     png_structp png_ptr;
     png_infop info_ptr;
 
@@ -351,10 +351,10 @@ static int check_if_png_memory(AL_CONST void *buffer)
 /* load_memory_png:
  *  Load a PNG file from memory, doing colour coversion if required.
  */
-BITMAP *load_memory_png(AL_CONST void *buffer, int bufsize, RGB *pal)
+ALLEGRO_BITMAP *load_memory_png(const void *buffer, int bufsize, ALLEGRO_COLOR *pal)
 {
     MEMORY_READER_STATE memory_reader_state;
-    BITMAP *bmp;
+    ALLEGRO_BITMAP *bmp;
     png_structp png_ptr;
     png_infop info_ptr;
 

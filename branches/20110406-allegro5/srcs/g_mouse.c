@@ -9,7 +9,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_mouse_show (BITMAP *bitmap)
+void    gui_mouse_show (ALLEGRO_BITMAP *bitmap)
 {
     if (g_Env.mouse_installed == -1)
         return;

@@ -551,6 +551,14 @@
 			Name="Srcs"
 			>
 			<File
+				RelativePath="..\allegro4to5.c"
+				>
+			</File>
+			<File
+				RelativePath="..\allegro4to5.h"
+				>
+			</File>
+			<File
 				RelativePath="..\bmemory.c"
 				>
 			</File>
@@ -700,14 +708,6 @@
 			</File>
 			<File
 				RelativePath="..\fskipper.h"
-				>
-			</File>
-			<File
-				RelativePath="..\games.c"
-				>
-			</File>
-			<File
-				RelativePath="..\games.h"
 				>
 			</File>
 			<File

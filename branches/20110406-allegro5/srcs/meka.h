@@ -25,9 +25,9 @@
 #define MAX_TILES               (512)
 
 // Fixed colors
-//// FIXME: Currently call makecol(), should refer to a precomputed table
-#define COLOR_BLACK				(0x00000000)	//makecol(0,0,0)
-#define COLOR_WHITE             (0xFFFFFFFF)	//makecol(255,255,255)
+// FIXME-ALLEGRO5: cache value
+#define COLOR_BLACK					al_map_rgb_f(0.0f,0.0f,0.0f)	//(0x00000000)	//makecol(0,0,0)
+#define COLOR_WHITE					al_map_rgb_f(1.0f,1.0f,1.0f)	//(0xFFFFFFFF)	//makecol(255,255,255)
 
 u8      RAM[0x10000];               // RAM
 u8      SRAM[0x8000];               // Save RAM
@@ -366,15 +366,17 @@ bool    Debug_Print_Infos;
 // Data (video buffers)
 //-----------------------------------------------------------------------------
 
+ALLEGRO_DISPLAY* g_display;	// FIXME-ALLEGRO5
+
 // Emulated Screen ------------------------------------------------------------
-BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
-BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
+ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
+ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
 // FullScreen / Video Memory --------------------------------------------------
-BITMAP *fs_out;                            // Fullscreen video buffer
-BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
+ALLEGRO_BITMAP *fs_out;                            // Fullscreen video buffer
+ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
 // GUI ------------------------------------------------------------------------
-BITMAP *gui_buffer;                        // GUI memory buffer
-BITMAP *gui_page_0, *gui_page_1;           // GUI video buffers when using page flipping
-BITMAP *gui_background;                    // GUI Background
+ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
+ALLEGRO_BITMAP *gui_page_0, *gui_page_1;           // GUI video buffers when using page flipping
+ALLEGRO_BITMAP *gui_background;                    // GUI Background
 
 //-----------------------------------------------------------------------------

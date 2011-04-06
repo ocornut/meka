@@ -42,7 +42,7 @@ typedef struct
 typedef struct
 {
     t_gui_box *         box;
-    BITMAP *            bmp;
+    ALLEGRO_BITMAP *            bmp;
     bool                active;
     t_filebrowser_entry **  files;
     int                 files_max;

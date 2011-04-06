@@ -18,8 +18,6 @@
 // FIXME-DEPTH: Ressources (machines, icons) not faded out
 void    Action_Quit (void)
 {
-    int depth = bitmap_color_depth(gui_buffer);
-
     Msg (MSGT_USER_INFOLINE, Msg_Get(MSG_Quit));
 
     // Shut up sound while fading
@@ -31,6 +29,7 @@ void    Action_Quit (void)
     /*
     // Software, naive, slow fade
     // Only 32-bits supported
+    int depth = bitmap_color_depth(gui_buffer);
     switch (depth)
     {
     case 32:

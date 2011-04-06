@@ -69,7 +69,7 @@ void    TMS9918_Palette_Set (void)
 }
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode0123_DrawTile(BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor, int bgcolor)
+void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor, int bgcolor)
 {
     // FIXME-DEPTH
     switch (dst->vtable->color_depth)

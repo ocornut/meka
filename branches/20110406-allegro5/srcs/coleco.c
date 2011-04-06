@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "debugger.h"
 #include "fskipper.h"
+#include "inputs_t.h"
 #include "mappers.h"
 #include "patch.h"
 #include "vdp.h"
@@ -96,18 +97,18 @@ byte    Coleco_Keypad_1 (void)
 {
     int    v;
 
-    if (key[KEY_0])             v = 10; // 0
-    else if (key[KEY_1])        v = 13; // 1
-    else if (key[KEY_2])        v =  7; // 2
-    else if (key[KEY_3])        v = 12; // 3
-    else if (key[KEY_4])        v =  2; // 4
-    else if (key[KEY_5])        v =  3; // 5
-    else if (key[KEY_6])        v = 14; // 6
-    else if (key[KEY_7])        v =  5; // 7
-    else if (key[KEY_8])        v =  1; // 8
-    else if (key[KEY_9])        v = 11; // 9
-    else if (key[KEY_MINUS])    v =  9; // *
-    else if (key[KEY_EQUALS])   v =  6; // #
+         if (Inputs_KeyDown(ALLEGRO_KEY_0))        v = 10; // 0
+    else if (Inputs_KeyDown(ALLEGRO_KEY_1))        v = 13; // 1
+    else if (Inputs_KeyDown(ALLEGRO_KEY_2))        v =  7; // 2
+    else if (Inputs_KeyDown(ALLEGRO_KEY_3))        v = 12; // 3
+    else if (Inputs_KeyDown(ALLEGRO_KEY_4))        v =  2; // 4
+    else if (Inputs_KeyDown(ALLEGRO_KEY_5))        v =  3; // 5
+    else if (Inputs_KeyDown(ALLEGRO_KEY_6))        v = 14; // 6
+    else if (Inputs_KeyDown(ALLEGRO_KEY_7))        v =  5; // 7
+    else if (Inputs_KeyDown(ALLEGRO_KEY_8))        v =  1; // 8
+    else if (Inputs_KeyDown(ALLEGRO_KEY_9))        v = 11; // 9
+    else if (Inputs_KeyDown(ALLEGRO_KEY_MINUS))    v =  9; // *
+    else if (Inputs_KeyDown(ALLEGRO_KEY_EQUALS))   v =  6; // #
     else v = 0x0F;
     if (tsms.Control[7] & 0x20)
         v |= 0x40;

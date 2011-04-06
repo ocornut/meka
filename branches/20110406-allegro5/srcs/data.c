@@ -83,7 +83,7 @@ void            Data_Init(void)
 void    Data_Close(void)
 {
     assert(g_Datafile != NULL);
-    list_free_custom(&g_DatafileBitmapCopy32, destroy_bitmap);
+    list_free_custom(&g_DatafileBitmapCopy32, al_destroy_bitmap);
     unload_datafile(g_Datafile);
     g_Datafile = NULL;
 }
@@ -169,8 +169,8 @@ void    Data_UpdateVideoMode()
         {
             if (g_Datafile[i].type == DAT_BITMAP)
             {
-                BITMAP * dat_bmp = g_Datafile[i].dat;
-                BITMAP * copy_bmp = create_bitmap_ex(32, dat_bmp->w, dat_bmp->h);
+                ALLEGRO_BITMAP * dat_bmp = g_Datafile[i].dat;
+                ALLEGRO_BITMAP * copy_bmp = create_bitmap_ex(32, dat_bmp->w, dat_bmp->h);
                 blit(dat_bmp, copy_bmp, 0, 0, 0, 0, dat_bmp->w, dat_bmp->h);
                 list_add_to_end(&g_DatafileBitmapCopy32, copy_bmp);
             }
@@ -183,9 +183,9 @@ void    Data_UpdateVideoMode()
         if (g_Datafile[i].type == DAT_BITMAP)
         {
 			// Recreate it all
-			BITMAP * src_bmp = bmp_copies->elem;
-			BITMAP * dst_bmp = create_bitmap( src_bmp->w, src_bmp->h );
-			destroy_bitmap( g_Datafile[i].dat );
+			ALLEGRO_BITMAP * src_bmp = bmp_copies->elem;
+			ALLEGRO_BITMAP * dst_bmp = al_create_bitmap( src_bmp->w, src_bmp->h );
+			al_destroy_bitmap( g_Datafile[i].dat );
 			g_Datafile[i].dat = dst_bmp;
 			blit(src_bmp, dst_bmp, 0, 0, 0, 0, src_bmp->w, src_bmp->h);
             bmp_copies = bmp_copies->next;

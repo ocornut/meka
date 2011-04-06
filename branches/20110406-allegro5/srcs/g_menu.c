@@ -15,9 +15,10 @@ void        gui_redraw_bars (void)
 {
     char    s[16];
 
-    // Redraw status bar ------------------------------------------------------
-    rectfill (gui_buffer, 0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height,     g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
-    rectfill (gui_buffer, 0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 1, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
+    // Redraw status bar
+	al_set_target_bitmap(gui_buffer);
+    al_draw_filled_rectangle(0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height,     g_Configuration.video_mode_gui_res_x+1, g_Configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    al_draw_filled_rectangle(0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_Configuration.video_mode_gui_res_x+1, g_Configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
     Font_SetCurrent (F_LARGE);
 
@@ -137,7 +138,8 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 {
     int            i;
     int            x, y;
-    int            color, ln;
+    ALLEGRO_COLOR  color;
+	int			   ln;
     gui_type_menu  *menu = menus [n_menu];
 
     Font_SetCurrent (GUI_MENUS_FONT);
@@ -145,8 +147,9 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     if (n_menu == MENU_ID_MAIN) // Main menu (horizontal) ------------------------
     {
         // Draw menu background
-        rectfill (gui_buffer, 0, 0, g_Configuration.video_mode_gui_res_x, gui.info.bars_height, COLOR_SKIN_MENU_BACKGROUND);
-        rectfill (gui_buffer, 0, gui.info.bars_height + 1, g_Configuration.video_mode_gui_res_x, gui.info.bars_height + 2, COLOR_SKIN_MENU_BORDER);
+		al_set_target_bitmap(gui_buffer);
+        al_draw_filled_rectangle(0, 0, g_Configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
+        al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_Configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
 
         // Draw menu entrys
         x = menus_opt.distance;
@@ -188,8 +191,9 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         // DRAW MENU BORDER -------------------------------------------------------
         // rectfill (gui_buffer, menu->sx - 2, menu->sy - 2, menu->sx + menu->lx + 2, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
         // rect (gui_buffer, menu->sx - 1, menu->sy - 1, menu->sx + menu->lx + 1, menu->sy + menu->ly + 1, COLOR_SKIN_MENU_BORDER);
-        rect (gui_buffer, menu->sx - 2, menu->sy - 1, menu->sx + menu->lx + 2, menu->sy + menu->ly + 1, COLOR_SKIN_MENU_BORDER);
-        rect (gui_buffer, menu->sx - 1, menu->sy - 2, menu->sx + menu->lx + 1, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
+		al_set_target_bitmap(gui_buffer);
+        al_draw_rectangle(menu->sx - 1.5f, menu->sy - 0.5f, menu->sx + menu->lx + 2.5f, menu->sy + menu->ly + 1.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
+        al_draw_rectangle(menu->sx - 0.5f, menu->sy - 1.5f, menu->sx + menu->lx + 1.5f, menu->sy + menu->ly + 2.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
 
         // DRAW MENU BACKGROUND WITH/WITHOUT GRADIENTS ----------------------------
         {

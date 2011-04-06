@@ -33,7 +33,7 @@ void    Redraw_Background (void) // gui_blit() ?
 void            gui_redraw (void)
 {
     int         i, j;
-    int         color;
+    ALLEGRO_COLOR color;
     t_gui_box * b;
     t_frame     b_frame;
 

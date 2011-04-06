@@ -13,8 +13,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-extern RGB      Palette_Emulation[PALETTE_EMU_GAME_SIZE];
-extern int      Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
+extern ALLEGRO_COLOR Palette_Emulation[PALETTE_EMU_GAME_SIZE];
+extern int		Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
 extern int      Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
 extern int      Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
 extern bool     Palette_EmulationDirtyAny;
@@ -34,10 +34,10 @@ void    Palette_UpdateAfterRedraw();
 
 void    Palette_Emulation_Reset();
 void    Palette_Emulation_Reload();
-void    Palette_Emulation_SetColor(int idx, RGB color);
+void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color);
 
-void    Palette_Compute_RGB_SMS (RGB *color, int i);
-void    Palette_Compute_RGB_GG  (RGB *color, int i);
+void    Palette_Compute_RGB_SMS (ALLEGRO_COLOR *color, int i);
+void    Palette_Compute_RGB_GG  (ALLEGRO_COLOR *color, int i);
 
 //-----------------------------------------------------------------------------
 

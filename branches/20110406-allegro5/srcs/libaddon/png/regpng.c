@@ -24,7 +24,7 @@ void register_png_file_type(void)
 
 static void *load_datafile_png(PACKFILE *f, long size)
 {
-    BITMAP *bmp;
+    ALLEGRO_BITMAP *bmp;
     char *buffer;
 
     buffer = malloc(size);
@@ -46,7 +46,7 @@ static void *load_datafile_png(PACKFILE *f, long size)
 static void destroy_datafile_png(void *data)
 {
     if (data)
-	destroy_bitmap(data);
+	al_destroy_bitmap(data);
 }
 
 void register_png_datafile_object(int id)

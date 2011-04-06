@@ -33,9 +33,9 @@
 // Data
 //-----------------------------------------------------------------------------
 
-BITMAP *         Blit_Buffer_LineScratch;	// Line buffer scratch pad, 16-bits
-BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
-BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color format
+ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;	// Line buffer scratch pad, 16-bits
+ALLEGRO_BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
+ALLEGRO_BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color format
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -43,8 +43,10 @@ BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color 
 
 void    Blit_Init (void)
 {
-    Blit_Buffer_LineScratch = create_bitmap_ex(16, MAX_RES_X * 2, 1);   // FIXME-DEPTH
-    Blit_Buffer_Double      = create_bitmap_ex(16, (MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
+	al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGB_565);
+    Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
+    Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
     Blit_Buffer_NativeTemp  = NULL;
     blit_cfg.tv_mode_factor = 0.700f;	// FIXME-TUNING
 
@@ -70,7 +72,7 @@ void    Blit_Fullscreen_Misc (void)
     if (g_Configuration.video_mode_game_vsync)
 	{
         if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
-            vsync ();
+            al_wait_for_vsync();
 	}
 
     // Clear Screen if it has been asked
@@ -341,11 +343,10 @@ void    Blit_GUI (void)
     {
         // FIXME: see note about line below in Blit_Fullscreen()
         if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
-            // ^^^ I once commented this line. Was there a reason ?
-            vsync ();
+            al_wait_for_vsync();
         // Update 3-D Glasses (if VSync)
         if (Glasses.Enabled)
-            Glasses_Update ();
+            Glasses_Update();
     }
 
     // Update palette if necessary

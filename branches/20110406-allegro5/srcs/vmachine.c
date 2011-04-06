@@ -8,7 +8,6 @@
 #include "bios.h"
 #include "db.h"
 #include "file.h"
-#include "games.h"
 #include "effects.h"
 #include "skin_bg.h"
 
@@ -26,24 +25,25 @@ void    VMachine_Draw (void)
 
     x = gui.info.screen.x;
     y = 0;
+	al_set_target_bitmap(gui_background);
     switch (cur_drv->id)
     {
     case DRV_COLECO: //-------------- Draw a Colecovision ---------------------
         x += VMACHINE_COLECO_POS_X;
         y += VMACHINE_COLECO_POS_Y;
-        draw_sprite (gui_background, Graphics.Machines.ColecoVision, x, y);
+        al_draw_bitmap(Graphics.Machines.ColecoVision, x, y, 0);
         break;
     default: //---------------------- Draw a Master System --------------------
         x += VMACHINE_SMS_POS_X;
         y += VMACHINE_SMS_POS_Y;
-        draw_sprite (gui_background, Graphics.Machines.MasterSystem, x, y);
+        al_draw_bitmap(Graphics.Machines.MasterSystem, x, y, 0);
         if (machine & MACHINE_POWER_ON)
         {
-            draw_sprite (gui_background, Graphics.Machines.MasterSystem_Light, x + VMACHINE_SMS_LIGHT_POS_X, y + VMACHINE_SMS_LIGHT_POS_Y);
+            al_draw_bitmap(Graphics.Machines.MasterSystem_Light, x + VMACHINE_SMS_LIGHT_POS_X, y + VMACHINE_SMS_LIGHT_POS_Y, 0);
         }
         if (machine & MACHINE_CART_INSERTED)
         {
-            draw_sprite (gui_background, Graphics.Machines.MasterSystem_Cart, x + VMACHINE_SMS_CART_POS_X, y + VMACHINE_SMS_CART_POS_Y);
+            al_draw_bitmap(Graphics.Machines.MasterSystem_Cart, x + VMACHINE_SMS_CART_POS_X, y + VMACHINE_SMS_CART_POS_Y, 0);
         }
         break;
     }
@@ -81,7 +81,6 @@ void    Machine_OFF (void)
     if (machine & MACHINE_POWER_ON)
     {
         BMemory_Save ();                    // Write Backed Memory if necessary
-        game_running = GAME_RUNNING_NONE;   // No internal game is playing
         machine &= ~MACHINE_POWER_ON;       // Switch power Off
         CPU_Loop_Stop = TRUE;                // Setup flag to stop Z80 emulation
         Machine_Reset ();                   // Reset machine

@@ -27,7 +27,7 @@
 typedef struct
 {
     int         id;
-    FONT *      library_data;
+    ALLEGRO_FONT *      library_data;
     int         height;
 }               t_meka_font;
 
@@ -40,13 +40,13 @@ t_meka_font *   FontCurrent;
 
 void    Fonts_Init          (void);
 void    Fonts_Close         (void);
-void    Fonts_AddFont       (int font_id, FONT *library_data);
+void    Fonts_AddFont       (int font_id, ALLEGRO_FONT *library_data);
 
 //-----------------------------------------------------------------------------
 
 void    Font_SetCurrent     (int font_id);
-void    Font_Print          (int font_id, BITMAP *dst, const char *text, int x, int y, int color);
-void    Font_PrintCentered  (int font_id, BITMAP *dst, const char *text, int x_center, int y, int color);
+void    Font_Print          (int font_id, ALLEGRO_BITMAP *dst, const char *text, int x, int y, ALLEGRO_COLOR color);
+void    Font_PrintCentered  (int font_id, ALLEGRO_BITMAP *dst, const char *text, int x, int y, ALLEGRO_COLOR color);
 int     Font_Height         (int font_id);
 int     Font_TextLength     (int font_id, const char *text);
 

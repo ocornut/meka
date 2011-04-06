@@ -15,7 +15,6 @@
 #include "debugger.h"
 #include "fskipper.h"
 #include "g_file.h"
-#include "games.h"
 #include "glasses.h"
 #include "inputs_c.h"
 #include "inputs_t.h"
@@ -66,20 +65,29 @@ void    Inputs_Peripheral_Next (int Player)
 //-----------------------------------------------------------------------------
 void        Inputs_Check_GUI (bool sk1100_pressed)
 {
+	int key_shifts;
+
     // Update INPUTS configuration in priority, since it eat some keys
     Inputs_CFG_Update(&Inputs_CFG);
     //Inputs_CFG_Map_Change_Update();
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update ();
 
-    switch (key_shifts & (KB_CTRL_FLAG | KB_ALT_FLAG | KB_SHIFT_FLAG))
+	key_shifts = 0;
+	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
+		key_shifts |= ALLEGRO_KEYMOD_CTRL;
+	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
+		key_shifts |= ALLEGRO_KEYMOD_ALT;
+	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
+		key_shifts |= ALLEGRO_KEYMOD_SHIFT;
+    switch (key_shifts & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
     {
     case 0: // No modifiers
         {
             // State save/load
-            if (Inputs_KeyPressed (KEY_F5, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F5, FALSE))
                 Save_Game ();
-            if (Inputs_KeyPressed (KEY_F7, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F7, FALSE))
                 Load_Game ();
 
             // State change slot
@@ -87,57 +95,54 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             if (cur_drv->id != DRV_COLECO)
                 if (!gui.box_z_ordered[0]->focus_inputs_exclusive) // check note in inputs_u.c::Inputs_Emulation_Update()
                 {
-                    if (Inputs_KeyPressed (KEY_0, FALSE))  Save_Set_Slot (0);
-                    if (Inputs_KeyPressed (KEY_1, FALSE))  Save_Set_Slot (1);
-                    if (Inputs_KeyPressed (KEY_2, FALSE))  Save_Set_Slot (2);
-                    if (Inputs_KeyPressed (KEY_3, FALSE))  Save_Set_Slot (3);
-                    if (Inputs_KeyPressed (KEY_4, FALSE))  Save_Set_Slot (4);
-                    if (Inputs_KeyPressed (KEY_5, FALSE))  Save_Set_Slot (5);
-                    if (Inputs_KeyPressed (KEY_6, FALSE))  Save_Set_Slot (6);
-                    if (Inputs_KeyPressed (KEY_7, FALSE))  Save_Set_Slot (7);
-                    if (Inputs_KeyPressed (KEY_8, FALSE))  Save_Set_Slot (8);
-                    if (Inputs_KeyPressed (KEY_9, FALSE))  Save_Set_Slot (9);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_0, FALSE))  Save_Set_Slot (0);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_1, FALSE))  Save_Set_Slot (1);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_2, FALSE))  Save_Set_Slot (2);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_3, FALSE))  Save_Set_Slot (3);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_4, FALSE))  Save_Set_Slot (4);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_5, FALSE))  Save_Set_Slot (5);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_6, FALSE))  Save_Set_Slot (6);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_7, FALSE))  Save_Set_Slot (7);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_8, FALSE))  Save_Set_Slot (8);
+                    if (Inputs_KeyPressed (ALLEGRO_KEY_9, FALSE))  Save_Set_Slot (9);
                 }
             */
-            if (Inputs_KeyPressed_Repeat (KEY_F6, FALSE, 30, 3)) 
+            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F6, FALSE, 30, 3)) 
                 Save_Set_Slot (opt.State_Current - 1);
-            if (Inputs_KeyPressed_Repeat (KEY_F8, FALSE, 30, 3)) 
+            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F8, FALSE, 30, 3)) 
                 Save_Set_Slot (opt.State_Current + 1);
 
             // Blitters switch
-            if (Inputs_KeyPressed (KEY_F1, FALSE))    
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F1, FALSE))    
                 Blitters_SwitchNext();
 
             // Speed & Frame skip 
-            if (Inputs_KeyPressed (KEY_F2, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F2, FALSE))
                 Frame_Skipper_Switch ();
-            if (Inputs_KeyPressed (KEY_F3, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F3, FALSE))
                 Frame_Skipper_Configure (-1);
-            if (Inputs_KeyPressed (KEY_F4, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F4, FALSE))
                 Frame_Skipper_Configure (1);
 
             // Input peripheral
-            if (Inputs_KeyPressed (KEY_F9, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))
                 Inputs_Peripheral_Next (PLAYER_1);
 
             // Switch mode (Fullscreen <-> GUI)
-            if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? KEY_F10 : KEY_ESC, FALSE))
+            if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? ALLEGRO_KEY_F10 : ALLEGRO_KEY_ESCAPE, FALSE))
                 Action_Switch_Mode ();
 
             // Sprites Refresh switch
-            if (Inputs_KeyPressed (KEY_F11, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
                 Action_Switch_Layer_Sprites ();
 
             // Hard Pause
-            if (Inputs_KeyPressed (KEY_F12, FALSE))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
                 Machine_Pause_Need_To = TRUE;
         }
         break;
-    case KB_CTRL_FLAG:
+    case ALLEGRO_KEYMOD_CTRL:
         {
-            // Easter egg: Tetris
-            if (!sk1100_pressed && Inputs_KeyPressed (KEY_T, FALSE))
-                Tetris_Start ();
             // Nintendon't - now removed because it is too violent
             #ifdef ARCH_DOS
                 if (!sk1100_pressed && Inputs_KeyPressed (KEY_N, FALSE))     
@@ -145,14 +150,14 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             #endif
 
             // Hard Pause
-            if (Inputs_KeyPressed (KEY_F12, FALSE) || (!sk1100_pressed && Inputs_KeyPressed (KEY_P, FALSE)))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE) || (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)))
                 Machine_Pause_Need_To = TRUE;
             // Hard Reset
-            if (!sk1100_pressed && Inputs_KeyPressed (KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
+            if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
                 Machine_Reset ();
 
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
-            if (Inputs_KeyPressed(KEY_TAB, FALSE))
+            if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
             {
                 int n;
 
@@ -163,7 +168,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                 {
                     t_key_press *keypress = keypresses->elem;
                     keypresses = keypresses->next;
-                    if (keypress->scancode == KEY_TAB)
+                    if (keypress->scancode == ALLEGRO_KEY_TAB)
                         list_remove(&Inputs.KeyPressedQueue, keypress);
                 }
 
@@ -181,39 +186,39 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
         }
         break;
-   case KB_ALT_FLAG:
+   case ALLEGRO_KEYMOD_ALT:
        {
            // SK-1100 Keyboard switch
-           if (Inputs_KeyPressed (KEY_F9, FALSE))        
+           if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))        
                Keyboard_Switch ();
            // Background Refresh switch
-           if (Inputs_KeyPressed (KEY_F11, FALSE)) 
+           if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE)) 
                Action_Switch_Layer_Background ();
            // Next frame (pause hack)
-           if (Inputs_KeyPressed (KEY_F12, FALSE))
+           if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
                Machine_Pause_Need_To = (machine & MACHINE_PAUSED) ? 2 : 1;
 
            if (!sk1100_pressed)
            {
                // FPS Counter switch
-               if (Inputs_KeyPressed (KEY_F, FALSE))         
+               if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))         
                    Frame_Skipper_Switch_FPS_Counter ();
                // Applets hotkeys
-               if (Inputs_KeyPressed (KEY_L, FALSE))         FB_Switch ();
-               if (Inputs_KeyPressed (KEY_O, FALSE))         Options_Switch ();
-               if (Inputs_KeyPressed (KEY_M, FALSE))         TB_Message_Switch ();
-               if (Inputs_KeyPressed (KEY_P, FALSE))         PaletteViewer_Switch();
-               if (Inputs_KeyPressed (KEY_T, FALSE))         TileViewer_Switch ();
-               if (Inputs_KeyPressed (KEY_I, FALSE))         TechInfo_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE))         FB_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE))         Options_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE))         TB_Message_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE))         PaletteViewer_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE))         TileViewer_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE))         TechInfo_Switch ();
                // Quit emulator
-               if (Inputs_KeyPressed (KEY_X, FALSE))         
+               if (Inputs_KeyPressed (ALLEGRO_KEY_X, FALSE))         
                    opt.Force_Quit = TRUE;
                // Hard Reset
-               if (Inputs_KeyPressed (KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
+               if (Inputs_KeyPressed (ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
                    Machine_Reset ();
 
                // GUI fullscreen/windowed
-                if (Inputs_KeyPressed (KEY_ENTER, FALSE))
+                if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
                 {
                     if (Meka_State == MEKA_STATE_FULLSCREEN)
                     {
@@ -244,20 +249,20 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     }
 
     // Quit emulator
-    if (key [Inputs.Cabinet_Mode ? KEY_ESC : KEY_F10]) 
+    if (Inputs_KeyDown(Inputs.Cabinet_Mode ? ALLEGRO_KEY_ESCAPE : ALLEGRO_KEY_F10))
         opt.Force_Quit = TRUE;
 
     // Debugger switch
     #ifdef MEKA_Z80_DEBUGGER
         // Disabled when SK-1100 is emulated because of collision in usage of ScrollLock key
         // Actually on SC-3000 it is hardwired to NMI
-        if (!Inputs.Keyboard_Enabled && Inputs_KeyPressed (KEY_SCRLOCK, TRUE))
-        //if (!sk1100_pressed && Inputs_KeyPressed (KEY_SCRLOCK, TRUE))
+        if (!Inputs.Keyboard_Enabled && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
+        //if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
             Debugger_Switch ();
     #endif
 
     // Screen capture
-    if (Inputs_KeyPressed (KEY_PRTSCR, FALSE))
+    if (Inputs_KeyPressed (ALLEGRO_KEY_PRINTSCREEN, FALSE))
         Capture_Request();
 
     // SF-7000 Disk 21 Bomber Raid
@@ -303,9 +308,6 @@ void    Inputs_Switch_LightPhaser (void)
 void    Inputs_Switch_PaddleControl (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_PADDLECONTROL);
-    // Easter egg: Pong
-    if (Inputs_KeyPressed (KEY_P, FALSE)) 
-        Pong_Start ();
     Msg (MSGT_USER, Msg_Get (MSG_Inputs_PaddleControl));
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Mouse));
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Digital_Unrecommended));
@@ -527,8 +529,8 @@ void    Inputs_Peripheral_Change_Update (void)
         {
             Set_Mouse_Cursor(Cursor);
             LightPhaser_SetupMouseRange(Mask_Left_8);
-            position_mouse(LightPhaser.X[Player], LightPhaser.Y[Player]);
-            show_mouse(screenbuffer);
+            al_set_mouse_xy(g_display, LightPhaser.X[Player], LightPhaser.Y[Player]);
+            al_show_mouse_cursor(g_display);//screenbuffer
             opt.Fullscreen_Cursor = TRUE;
         }
         else
@@ -536,13 +538,13 @@ void    Inputs_Peripheral_Change_Update (void)
             {
                 Set_Mouse_Cursor(Cursor);
                 TVOekaki_Mouse_Range();
-                show_mouse(screenbuffer);
+                al_show_mouse_cursor(g_display);//screenbuffer
                 opt.Fullscreen_Cursor = TRUE;
             }
             else
             {
                 Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_NONE);
-                show_mouse(NULL);
+                al_hide_mouse_cursor(g_display);
             }
             break;
     case MEKA_STATE_GUI:
@@ -556,7 +558,7 @@ void    Inputs_Peripheral_Change_Update (void)
             Set_Mouse_Cursor(Cursor);
         else
             Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_STANDARD);
-        show_mouse (gui_buffer);
+        al_show_mouse_cursor(g_display);//gui_buffer);
         break;
     }
 }

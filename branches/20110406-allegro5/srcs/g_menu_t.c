@@ -16,7 +16,8 @@ void    gui_menu_highlight (int menu_id, int entry_id)
     int    y1, y2;
 
     gui_menu_return_entry_pos (menu_id, entry_id, &x1, &y1, &x2, &y2);
-    rectfill (gui_buffer, x1 - 2, y1, x2 + 2, y2, COLOR_SKIN_MENU_SELECTION);
+	al_set_target_bitmap(gui_buffer);
+    al_draw_filled_rectangle(x1 - 2, y1, x2 + 2+1, y2+1, COLOR_SKIN_MENU_SELECTION);
 }
 
 // RETURN COORDINATE OF CHILDREN MENU -----------------------------------------

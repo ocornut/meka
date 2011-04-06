@@ -63,7 +63,7 @@ typedef struct
     int                         columns_max;
     t_widget_data_textbox_line *lines;
     int                         font_idx;
-    int *                       pcurrent_color;
+    const ALLEGRO_COLOR *       pcurrent_color;
 } t_widget_data_textbox;
 
 // FIXME: add focus parameters: update inputs on box OR widget focus
@@ -635,7 +635,7 @@ void        widget_textbox_redraw(t_widget *w)
     int x = w->frame.pos.x;
     int y = w->frame.pos.y + w->frame.size.y - fh;
     int i;
-	BITMAP *bmp = w->box->gfx_buffer;
+	ALLEGRO_BITMAP *bmp = w->box->gfx_buffer;
 
     /*
     {
@@ -668,7 +668,7 @@ void        widget_textbox_clear(t_widget *w)
     w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
-void        widget_textbox_set_current_color(t_widget *w, int *pcurrent_color)
+void        widget_textbox_set_current_color(t_widget *w, const ALLEGRO_COLOR *pcurrent_color)
 {
     t_widget_data_textbox *wd = w->data;
     wd->pcurrent_color = pcurrent_color;
@@ -1062,7 +1062,7 @@ void        widget_inputbox_update(t_widget *w)
 
 void        widget_inputbox_redraw(t_widget *w)
 {
-	BITMAP *gfx_buffer = w->box->gfx_buffer;
+	ALLEGRO_BITMAP *gfx_buffer = w->box->gfx_buffer;
     t_widget_data_inputbox *wd = w->data;
     const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR);
     const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR);

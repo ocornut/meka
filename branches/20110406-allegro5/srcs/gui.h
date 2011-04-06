@@ -97,7 +97,7 @@ void    Redraw_Background (void);
 
 void    gui_relayout(void);
 
-int     gui_box_image (byte is, int which, BITMAP *bitmap);
+int     gui_box_image (byte is, int which, ALLEGRO_BITMAP *bitmap);
 
 //-----------------------------------------------------------------------------
 // Data
@@ -109,7 +109,7 @@ struct s_gui_box
     char *          title;						// Title
     t_gui_box_type  type;                       // Type
     t_gui_box_flags flags;                      // Flags/Attributes
-    BITMAP *		gfx_buffer;					// Graphics buffer holding content render
+    ALLEGRO_BITMAP *		gfx_buffer;					// Graphics buffer holding content render
     t_list *        widgets;                    // Widgets
 
     // Handlers

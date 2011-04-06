@@ -57,8 +57,8 @@ struct
 } blit_cfg;
 
 // Buffers
-extern BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
-extern BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
-extern BITMAP *         Blit_Buffer_NativeTemp;
+extern ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
+extern ALLEGRO_BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
+extern ALLEGRO_BITMAP *         Blit_Buffer_NativeTemp;
 
 //-----------------------------------------------------------------------------

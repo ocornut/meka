@@ -81,7 +81,7 @@ void        BMemory_Save (void)
 	default:                    return;
 	}
 	if (!file_exists(g_Env.Paths.SavegameDirectory, 0xFF, NULL))
-		meka_mkdir(g_Env.Paths.SavegameDirectory);
+		al_make_directory(g_Env.Paths.SavegameDirectory);
 	f = fopen(g_Env.Paths.BatteryBackedMemoryFile, "wb");
 	switch (cur_machine.mapper)
 	{

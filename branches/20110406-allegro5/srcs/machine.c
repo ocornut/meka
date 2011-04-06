@@ -477,8 +477,10 @@ void        Machine_Reset (void)
 
     VDP_UpdateLineLimits();
 
-    clear_bitmap (screenbuffer_1);
-    clear_bitmap (screenbuffer_2);
+	al_set_target_bitmap(screenbuffer_1);
+    al_clear_to_color(al_map_rgb(0,0,0));
+	al_set_target_bitmap(screenbuffer_2);
+    al_clear_to_color(al_map_rgb(0,0,0));
     screenbuffer = screenbuffer_1;
     screenbuffer_next = screenbuffer_2;
 

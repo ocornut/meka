@@ -20,7 +20,8 @@ void    TVOekaki_Init (void)
 // Set mouse range - called in fullscreen mode only
 void    TVOekaki_Mouse_Range (void)
 {
-    set_mouse_range (0, 0, cur_drv->x_res - 1 + 16, cur_drv->y_res - 1);
+	// FIXME-ALLEGRO5
+    //set_mouse_range (0, 0, cur_drv->x_res - 1 + 16, cur_drv->y_res - 1);
 }
 
 // Terebi Oekaki update function

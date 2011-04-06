@@ -20,7 +20,7 @@ t_gui_box *  gamebox_instance;
 // Functions
 //-----------------------------------------------------------------------------
 
-void        gamebox_draw (t_gui_box *box, BITMAP *game_buffer)
+void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 {
     int     x_start = cur_drv->x_start;
     int     y_start = cur_drv->y_show_start;

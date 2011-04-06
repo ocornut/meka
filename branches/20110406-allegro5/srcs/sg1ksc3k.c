@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "fskipper.h"
+#include "inputs_t.h"
 #include "patch.h"
 #include "vdp.h"
 #include "video.h"

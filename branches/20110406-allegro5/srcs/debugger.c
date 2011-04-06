@@ -365,7 +365,7 @@ static t_debugger_bus_info  DebuggerBusInfos[BREAKPOINT_LOCATION_MAX_] =
 typedef struct
 {
     t_gui_box *         box;
-    BITMAP *            box_gfx;
+    ALLEGRO_BITMAP *            box_gfx;
     t_widget *          console;
     t_widget *          input_box;
     int                 font_id;
@@ -470,8 +470,8 @@ static void Debugger_Init_LogFile(void)
     if (g_Configuration.debugger_log_enabled && Debugger.log_file == NULL)
     {
         char filename[FILENAME_LEN];
-        if (!file_exists(g_Env.Paths.DebugDirectory, 0xFF, NULL))
-            meka_mkdir(g_Env.Paths.DebugDirectory);
+        if (!al_filename_exists(g_Env.Paths.DebugDirectory))
+            al_make_directory(g_Env.Paths.DebugDirectory);
         sprintf(filename, "%s/%s", g_Env.Paths.DebugDirectory, Debugger.log_filename);
         Debugger.log_file = fopen(filename, "a+t");
         if (Debugger.log_file != NULL)
@@ -1625,7 +1625,8 @@ static void     Debugger_Applet_Layout(bool setup)
     t_frame     frame;
 
     // Clear
-    clear_to_color(DebuggerApp.box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(DebuggerApp.box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
@@ -1641,7 +1642,8 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.y += frame.size.y;
 
     // Add line
-    hline (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
+	al_set_target_bitmap(DebuggerApp.box_gfx);
+    al_draw_hline(frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
     frame.pos.y += DebuggerApp.font_height;
 
     // Setup disassembly frame
@@ -1652,7 +1654,8 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.y += DebuggerApp.frame_disassembly.size.y;
 
     // Add line
-    hline (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
+	al_set_target_bitmap(DebuggerApp.box_gfx);
+    al_draw_hline(frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
     frame.pos.y += DebuggerApp.font_height;
 
     // Setup CPU state frame
@@ -1786,7 +1789,8 @@ void        Debugger_Applet_Redraw_State(void)
         // Max = 10
 
         // Clear disassembly buffer
-        rectfill (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
+		al_set_target_bitmap(DebuggerApp.box_gfx);
+        al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x+frame.size.x+1, frame.pos.y+frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
 
         // Figure out where to start disassembly
         // This is tricky code due to the trackback feature.
@@ -1880,7 +1884,7 @@ void        Debugger_Applet_Redraw_State(void)
         for (i = 0; i < g_Configuration.debugger_disassembly_lines; i++)
         {
             char buf[256];
-            int text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
+            const ALLEGRO_COLOR text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
 			int opcode_size;
 
             if (g_Configuration.debugger_disassembly_display_labels)
@@ -1948,7 +1952,8 @@ void        Debugger_Applet_Redraw_State(void)
 
         // Clear CPU state buffer
         t_frame frame = DebuggerApp.frame_cpustate;
-        rectfill (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
+		al_set_target_bitmap(DebuggerApp.box_gfx);
+        al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x+1, frame.pos.y + frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
         y = frame.pos.y;
 
         // Print Z80 summary lines

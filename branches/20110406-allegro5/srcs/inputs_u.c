@@ -305,6 +305,9 @@ void        Inputs_Sources_Update (void)
     int     Joy_Polled = FALSE;
 #endif
 
+	// Poll keyboard
+	al_get_keyboard_state(&keyboard_state);
+
     // Poll mouse
     poll_mouse ();
     get_mouse_mickeys (&mouse_mx, &mouse_my);

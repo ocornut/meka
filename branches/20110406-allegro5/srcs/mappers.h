@@ -33,6 +33,7 @@
 #define MAPPER_SMS_DisplayUnit          (10)
 #define MAPPER_SMS_NoMapper				(11)		// 0x0000->0xBFFF map to ROM. No mapper register.
 #define MAPPER_SMS_Korean_MSX_8KB       (12)		// 8KB bank-switching (4 banks)
+#define MAPPER_SMS_Korean_Janggun		(13)		// 8KB bank-switching (4 banks) mixed with 16KB bank-switching
 
 #ifdef MAME_Z80
  #define READ_FUNC(a)   int  a  (int Addr)

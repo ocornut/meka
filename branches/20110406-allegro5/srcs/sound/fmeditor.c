@@ -9,7 +9,7 @@
 /*
 struct type_apps_bitmap
 {
-  BITMAP *FM_Editor;
+  ALLEGRO_BITMAP *FM_Editor;
 };
 
 struct type_apps
@@ -229,7 +229,7 @@ void        FM_Editor_Init (void)
 
     apps.id.FM_Editor = gui_box_create (300, 80, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, Msg_Get (MSG_FM_Editor_BoxTitle));
     FM_Editor.box = gui.box[apps.id.FM_Editor];
-    apps.gfx.FM_Editor = create_bitmap (FM_EDITOR_SIZE_X, FM_EDITOR_SIZE_Y);
+    apps.gfx.FM_Editor = al_create_bitmap (FM_EDITOR_SIZE_X, FM_EDITOR_SIZE_Y);
     gui_set_image_box (apps.id.FM_Editor, apps.gfx.FM_Editor);
     FM_Editor.box->update = FM_Editor_Redraw;
     Desktop_Register_Box ("FMEDITOR", apps.id.FM_Editor, 0, &apps.active.FM_Editor);

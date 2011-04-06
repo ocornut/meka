@@ -216,7 +216,7 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     box->title      = strdup(title);
     box->type       = GUI_BOX_TYPE_STANDARD;
     box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
-	box->gfx_buffer = create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
+	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
     box->widgets    = NULL;
     box->user_data  = NULL;
     box->update     = NULL;
@@ -262,7 +262,7 @@ void    gui_box_delete(t_gui_box *box)
 
     // Delete
     // FIXME: Delete widgets, memory leak here
-    destroy_bitmap(box->gfx_buffer);
+    al_destroy_bitmap(box->gfx_buffer);
     box->gfx_buffer = NULL;
     free(box->title);
     box->title = NULL;

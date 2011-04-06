@@ -94,7 +94,7 @@ int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the S
     Interrupt_Loop_Misc_Common;                                             \
     if (Inputs.Keyboard_Enabled)                                            \
        {                                                                    \
-       if (key [KEY_SCRLOCK])                                               \
+       if (Inputs_KeyDown(ALLEGRO_KEY_SCROLLLOCK))                          \
           Interrupt = INT_NMI;                                              \
        }                                                                    \
     else                                                                    \

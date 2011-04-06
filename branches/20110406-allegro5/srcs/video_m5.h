@@ -30,6 +30,6 @@ void            Refresh_Sprites_5 (bool draw);
 
 //-----------------------------------------------------------------------------
 
-void            VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip);
+void            VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip);
 
 //-----------------------------------------------------------------------------

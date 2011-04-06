@@ -73,8 +73,8 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     // We must create the larger buffers in the current depth
     // FIXME-BLIT
     if (Blit_Buffer_NativeTemp != NULL)
-        destroy_bitmap(Blit_Buffer_NativeTemp);
-    Blit_Buffer_NativeTemp = create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
+        al_destroy_bitmap(Blit_Buffer_NativeTemp);
+    Blit_Buffer_NativeTemp = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
 
     previous_mode.driver = driver;
     previous_mode.w = w;
@@ -201,17 +201,17 @@ void    Video_Setup_State (void)
                 }
 				if (fs_page_0)
 				{
-					destroy_bitmap (fs_page_0);
+					al_destroy_bitmap (fs_page_0);
 					fs_page_0 = NULL;
 				}
 				if (fs_page_1)
 				{
-					destroy_bitmap (fs_page_1);
+					al_destroy_bitmap (fs_page_1);
 					fs_page_1 = NULL;
 				}
 				if (fs_page_2)
 				{
-					destroy_bitmap (fs_page_2);
+					al_destroy_bitmap (fs_page_2);
 					fs_page_2 = NULL;
 				}
 
@@ -257,17 +257,17 @@ void    Video_Setup_State (void)
                 }
                 if (fs_page_0)
 				{
-                    destroy_bitmap (fs_page_0);
+                    al_destroy_bitmap (fs_page_0);
 					fs_page_0 = NULL;
 				}
                 if (fs_page_1)
 				{
-                    destroy_bitmap (fs_page_1);
+                    al_destroy_bitmap (fs_page_1);
 					fs_page_1 = NULL;
 				}
                 if (fs_page_2)
                 {
-                    destroy_bitmap (fs_page_1);
+                    al_destroy_bitmap (fs_page_1);
                     fs_page_2 = NULL;
                 }
 

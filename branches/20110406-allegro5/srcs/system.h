@@ -35,10 +35,10 @@
 #endif
 #ifdef ARCH_WIN32
 	#define stricmp _stricmp
-    #define BITMAP WINDOWS_BITMAP
+    #define ALLEGRO_BITMAP WINDOWS_BITMAP
     #include <windows.h>
     #include <crtdbg.h>
-    #undef BITMAP
+    #undef ALLEGRO_BITMAP
     #undef RGB
 #endif
 
@@ -46,9 +46,9 @@
 // Allegro Library
 //-----------------------------------------------------------------------------
 
-#ifndef ALLEGRO_STATICLINK
-    #define ALLEGRO_STATICLINK
-#endif
+//#ifndef ALLEGRO_STATICLINK
+//    #define ALLEGRO_STATICLINK
+//#endif
 #define alleg_flic_unused
 #define alleg_sound_unused
 #define alleg_gui_unused
@@ -60,8 +60,15 @@
 // See http://www.allegro.cc/forums/print-thread/598240
 #define ALLEGRO_NO_ASM		
 
-#include <allegro.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_primitives.h>
+#include "allegro4to5.h"
+
 #undef MSG_USER             // To avoid mistyping MSG_USER instead of MSGT_USER. We don't use Allegro GUI anyway.
+
+#define MIN(x,y)     (((x) < (y)) ? (x) : (y))
+#define MAX(x,y)     (((x) > (y)) ? (x) : (y))
 
 //-----------------------------------------------------------------------------
 // Basic Types
@@ -93,9 +100,11 @@ typedef   signed int        s32;
     typedef LONGLONG        s64;
 #endif
 
+/*
 // FIXME: It is the right way to define 'bool' ? 
 // Remove when switching to C++
 typedef int                 bool;
+*/
 
 #endif /* #ifndef _BASE_TYPES */
 
@@ -128,10 +137,8 @@ typedef int                 bool;
 //-----------------------------------------------------------------------------
 
 #ifdef ARCH_WIN32
-  #define meka_mkdir(a) mkdir(a);
   #define snprintf      _snprintf
 #else
-  #define meka_mkdir(a) mkdir(a, 0700);
 #endif
 #ifdef ARCH_UNIX
   #define strnicmp strncasecmp

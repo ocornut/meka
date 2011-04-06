@@ -22,7 +22,7 @@ typedef struct
   int   save;
 } t_effect_blood_drop;
 
-static BITMAP *				hearts_save [MAX_HEARTS];
+static ALLEGRO_BITMAP *				hearts_save [MAX_HEARTS];
 static t_effect_blood_drop	blood [MAX_BLOOD_DROP];
 static t_effect_blood_drop	snow [MAX_SNOW_FLAKES];
 
@@ -36,7 +36,7 @@ static void	SkinEffect_Blood_Update(void)
 {
 	int i;
 	t_gui_box *b;
-	const u32 blood_colors[4] =
+	const ALLEGRO_COLOR blood_colors[4] =
 	{
 		// This is the colors originally used when MEKA was working in palette mode
 		// Nowadays, I guess the logic should be changed to take a single base color and create altered variations of it
@@ -98,21 +98,27 @@ void    special_effects_update_after (void)
          break;
     // FLOATING HEARTS ---------------------------------------------------------
     case SKIN_EFFECT_HEARTS:
-         // Create a new heart -------------------------------------------------
+         // Create a new heart
          if (Random(60) == 0)
             gui_applet_blood_create (Random(2), Random(gui.info.screen.x), gui.info.screen.y - gui.info.bars_height);
-         // Make hearts floating -----------------------------------------------
+         // Make hearts floating
          for (i = 0; i < MAX_HEARTS; i ++)
              {
              blood [i].y --;
              if (Random(2)) blood [i].x --; else blood [i].x ++;
              }
-         // Save old graphics --------------------------------------------------
+         // Save old graphics
          for (i = 0; i < MAX_HEARTS; i ++)
-             blit (gui_buffer, hearts_save [i], blood [i].x, blood [i].y, 0, 0, Graphics.Misc.Heart1->w, Graphics.Misc.Heart1->h);
-         // Draw hearts --------------------------------------------------------
+		 {
+			 const int w = al_get_bitmap_width(Graphics.Misc.Heart1);
+			 const int h = al_get_bitmap_height(Graphics.Misc.Heart1);
+             blit (gui_buffer, hearts_save [i], blood [i].x, blood [i].y, 0, 0, w, h);
+		 }
+
+		 // Draw hearts
+		 al_set_target_bitmap(gui_buffer);
          for (i = 0; i < MAX_HEARTS; i ++)
-             draw_sprite (gui_buffer, blood[i].v ? Graphics.Misc.Heart1 : Graphics.Misc.Heart2, blood[i].x, blood[i].y);
+             al_draw_bitmap(blood[i].v ? Graphics.Misc.Heart1 : Graphics.Misc.Heart2, blood[i].x, blood[i].y, 0);
          break;
     // SNOW FLAKES -------------------------------------------------------------
     case SKIN_EFFECT_SNOW:
@@ -195,7 +201,11 @@ void    special_effects_update_before (void)
     case SKIN_EFFECT_HEARTS:
          // Save old graphics --------------------------------------------------
          for (i = 0; i < MAX_HEARTS; i ++)
-             blit (hearts_save [i], gui_buffer, 0, 0, blood [i].x, blood [i].y, Graphics.Misc.Heart1->w, Graphics.Misc.Heart1->h);
+		 {
+			 const int w = al_get_bitmap_width(Graphics.Misc.Heart1);
+			 const int h = al_get_bitmap_height(Graphics.Misc.Heart1);
+             blit (hearts_save [i], gui_buffer, 0, 0, blood [i].x, blood [i].y, w, h);
+		 }
          break;
     }
 }
@@ -252,7 +262,7 @@ void    special_effects_init (void)
     }
     for (i = 0; i != MAX_HEARTS; i ++)
     {
-        hearts_save [i] = create_bitmap (Graphics.Misc.Heart1->w, Graphics.Misc.Heart1->h);
+        hearts_save [i] = al_create_bitmap(al_get_bitmap_width(Graphics.Misc.Heart1), al_get_bitmap_height(Graphics.Misc.Heart1));
     }
 }
 

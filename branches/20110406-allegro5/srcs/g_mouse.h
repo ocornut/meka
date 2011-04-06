@@ -31,7 +31,7 @@ typedef enum
 void    gui_init_mouse          (void);
 void    gui_update_mouse        (void);
 
-void    gui_mouse_show          (BITMAP *bitmap);
+void    gui_mouse_show          (ALLEGRO_BITMAP *bitmap);
 
 int     gui_mouse_area          (int x1, int y1, int x2, int y2);
 int     gui_mouse_test_area     (byte b, int x1, int y1, int x2, int y2);

@@ -116,81 +116,81 @@ typedef struct
 static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
 {
     // Row: 0 -------------------------------------------------------------------
-    { KEY_1,               0      },
-    { KEY_Q,               1      },
-    { KEY_A,               2      },
-    { KEY_Z,               3      },
-    { KEY_ALT,             4      }, // Eng Dier's
-    { KEY_COMMA,           5      },
-    { KEY_K,               6      },
-    { KEY_I,               7      },
-    { KEY_8,               8      },
+    { ALLEGRO_KEY_1,               0      },
+    { ALLEGRO_KEY_Q,               1      },
+    { ALLEGRO_KEY_A,               2      },
+    { ALLEGRO_KEY_Z,               3      },
+    { ALLEGRO_KEY_ALT,             4      }, // Eng Dier's
+    { ALLEGRO_KEY_COMMA,           5      },
+    { ALLEGRO_KEY_K,               6      },
+    { ALLEGRO_KEY_I,               7      },
+    { ALLEGRO_KEY_8,               8      },
     // Row: 1 -------------------------------------------------------------------
-    { KEY_2,               9      },
-    { KEY_W,              10      },
-    { KEY_S,              11      },
-    { KEY_X,              12      },
-    { KEY_SPACE,          13      },
-    { KEY_STOP,           14      }, // .
-    { KEY_L,              15      },
-    { KEY_O,              16      },
-    { KEY_9,              17      },
+    { ALLEGRO_KEY_2,               9      },
+    { ALLEGRO_KEY_W,              10      },
+    { ALLEGRO_KEY_S,              11      },
+    { ALLEGRO_KEY_X,              12      },
+    { ALLEGRO_KEY_SPACE,          13      },
+    { ALLEGRO_KEY_FULLSTOP,       14      }, // .
+    { ALLEGRO_KEY_L,              15      },
+    { ALLEGRO_KEY_O,              16      },
+    { ALLEGRO_KEY_9,              17      },
     // Row: 2 -------------------------------------------------------------------
-    { KEY_3,              18      },
-    { KEY_E,              19      },
-    { KEY_D,              20      },
-    { KEY_C,              21      },
-    { KEY_ALTGR,          22      }, // Home Clear
-    { KEY_SLASH,          23      },
-    { KEY_COLON,          24      }, // ;
-	{ KEY_SEMICOLON,      24      }, // ; ++
-	{ KEY_COLON2,         33      }, // :
-    { KEY_P,              25      },
-    { KEY_0,              26      },
+    { ALLEGRO_KEY_3,              18      },
+    { ALLEGRO_KEY_E,              19      },
+    { ALLEGRO_KEY_D,              20      },
+    { ALLEGRO_KEY_C,              21      },
+    { ALLEGRO_KEY_ALTGR,          22      }, // Home Clear
+    { ALLEGRO_KEY_SLASH,          23      },
+    { ALLEGRO_KEY_SEMICOLON,      24      }, // ;
+	{ ALLEGRO_KEY_SEMICOLON2,     24      }, // ; ++
+	{ ALLEGRO_KEY_COLON2,         33      }, // :
+    { ALLEGRO_KEY_P,              25      },
+    { ALLEGRO_KEY_0,              26      },
     // Row: 3 -------------------------------------------------------------------
-    { KEY_4,              27      },
-    { KEY_R,              28      },
-    { KEY_F,              29      },
-    { KEY_V,              30      },
-    { KEY_RCONTROL,       31      }, // Insert/Delete
-    { KEY_BACKSPACE,      31      }, // Insert/Delete ++
-    { KEY_ABNT_C1,        32      }, // Pi
-    { KEY_SLASH_PAD,      32      }, // Pi ++
-    { KEY_BACKSLASH2,     32      }, // Pi ++
-    { KEY_QUOTE,          33      }, // :
-    { KEY_OPENBRACE,      34,     }, // @
-    { KEY_MINUS,          35      },
+    { ALLEGRO_KEY_4,              27      },
+    { ALLEGRO_KEY_R,              28      },
+    { ALLEGRO_KEY_F,              29      },
+    { ALLEGRO_KEY_V,              30      },
+    { ALLEGRO_KEY_RCTRL,		  31      }, // Insert/Delete
+    { ALLEGRO_KEY_BACKSPACE,      31      }, // Insert/Delete ++
+    { ALLEGRO_KEY_ABNT_C1,        32      }, // Pi
+    { ALLEGRO_KEY_PAD_SLASH,      32      }, // Pi ++
+    { ALLEGRO_KEY_BACKSLASH2,     32      }, // Pi ++
+    { ALLEGRO_KEY_QUOTE,          33      }, // :
+    { ALLEGRO_KEY_OPENBRACE,      34,     }, // @
+    { ALLEGRO_KEY_MINUS,          35      },
     // Row: 4 -------------------------------------------------------------------
-    { KEY_5,              36      },
-    { KEY_T,              37      },
-    { KEY_G,              38      },
-    { KEY_B,              39      },
-    { KEY_DOWN,           40      }, // Down Arrow
-    { KEY_BACKSLASH,      41      }, // ]
-    { KEY_CLOSEBRACE,     42      }, // [
-    { KEY_EQUALS,         43      }, // ^
+    { ALLEGRO_KEY_5,              36      },
+    { ALLEGRO_KEY_T,              37      },
+    { ALLEGRO_KEY_G,              38      },
+    { ALLEGRO_KEY_B,              39      },
+    { ALLEGRO_KEY_DOWN,           40      }, // Down Arrow
+    { ALLEGRO_KEY_BACKSLASH,      41      }, // ]
+    { ALLEGRO_KEY_CLOSEBRACE,     42      }, // [
+    { ALLEGRO_KEY_EQUALS,         43      }, // ^
     // Row: 5 -------------------------------------------------------------------
-    { KEY_6,              44      },
-    { KEY_Y,              45      },
-    { KEY_H,              46      },
-    { KEY_N,              47      },
-    { KEY_LEFT,           48      }, // Left Arrow
-    { KEY_ENTER,          49      }, // Return
-    { KEY_YEN,            50,     }, // Yen
-    { KEY_TILDE,          50,     }, // Yen ++
-    { KEY_TAB,            51      }, // Func
+    { ALLEGRO_KEY_6,              44      },
+    { ALLEGRO_KEY_Y,              45      },
+    { ALLEGRO_KEY_H,              46      },
+    { ALLEGRO_KEY_N,			  47      },
+    { ALLEGRO_KEY_LEFT,           48      }, // Left Arrow
+    { ALLEGRO_KEY_ENTER,          49      }, // Return
+    { ALLEGRO_KEY_YEN,            50,     }, // Yen
+    { ALLEGRO_KEY_TILDE,          50,     }, // Yen ++
+    { ALLEGRO_KEY_TAB,            51      }, // Func
     // Row: 6 -------------------------------------------------------------------
-    { KEY_7,              52      },
-    { KEY_U,              53      },
-    { KEY_J,              54      },
-    { KEY_M,              55      },
-    { KEY_RIGHT,          56      }, // Right Arrow
-    { KEY_UP,             57      }, // Up Arrow
-    { KEY_END,            58      }, // Break             (!!?)
-    { KEY_LCONTROL,       59      }, // Graph
-    { KEY_CAPSLOCK,       60      }, // Ctrl
-    { KEY_LSHIFT,         61      }, // Shift
-    { KEY_RSHIFT,         61      }, // Shift ++
+    { ALLEGRO_KEY_7,              52      },
+    { ALLEGRO_KEY_U,              53      },
+    { ALLEGRO_KEY_J,              54      },
+    { ALLEGRO_KEY_M,              55      },
+    { ALLEGRO_KEY_RIGHT,          56      }, // Right Arrow
+    { ALLEGRO_KEY_UP,             57      }, // Up Arrow
+    { ALLEGRO_KEY_END,            58      }, // Break             (!!?)
+    { ALLEGRO_KEY_LCTRL,          59      }, // Graph
+    { ALLEGRO_KEY_CAPSLOCK,       60      }, // Ctrl
+    { ALLEGRO_KEY_LSHIFT,         61      }, // Shift
+    { ALLEGRO_KEY_RSHIFT,         61      }, // Shift ++
 };
 
 //-----------------------------------------------------------------------------
@@ -235,7 +235,7 @@ void    Keyboard_Emulation_Update (void)
     for (i = 0; i != SK1100_MAPPING_NUM; i ++)
     {
 		const t_sk1100_map* k = &SK1100_Mapping[i];
-        if (key [k->key_pc])
+        if (al_key_down(&keyboard_state, k->key_pc))
         {
             const t_sk1100_key *sk1100_key = &SK1100_Keys[k->key_sk1100];
             tsms.Control [sk1100_key->row] &= (~sk1100_key->bit);

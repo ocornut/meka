@@ -10,6 +10,10 @@ They are usually of 2 kinds:
 - Fixes or addition to things changed during WIP.
 - Programmer/hacker centric information.
 
+ MEKA 0.74 WIP Allegro 5
+ -----------------------
+  - Removed the old mini-game easter games. [Omar]
+
  MEKA 0.74 WIP xxxxxxxx
  ----------------------
   - (Win32) Updated project file to Visual Studio 2008 format + compilation fixes.

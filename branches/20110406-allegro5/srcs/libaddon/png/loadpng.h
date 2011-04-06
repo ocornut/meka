@@ -29,13 +29,13 @@ extern int _png_compression_level;
 
 
 /* Load a PNG from disk. */
-BITMAP *load_png(AL_CONST char *filename, RGB *pal);
+ALLEGRO_BITMAP *load_png(const char *filename, ALLEGRO_COLOR *pal);
 
 /* Load a PNG from memory. */
-BITMAP *load_memory_png(AL_CONST void *buffer, int buffer_size, RGB *pal);
+ALLEGRO_BITMAP *load_memory_png(const void *buffer, int buffer_size, ALLEGRO_COLOR *pal);
 
 /* Save a bitmap to disk in PNG format. */
-int save_png(AL_CONST char *filename, BITMAP *bmp, AL_CONST RGB *pal);
+int save_png(AL_CONST char *filename, ALLEGRO_BITMAP *bmp, const ALLEGRO_COLOR *pal);
 
 /* Adds `PNG' to Allegro's internal file type table.
  * You can then just use load_bitmap and save_bitmap as usual.

@@ -72,8 +72,8 @@ void    DataDump_Mode_Raw (void)
 
 static void     DataDump_Write_Filename (char *s, const char *name)
 {
-    if (!file_exists (g_Env.Paths.DebugDirectory, 0xFF, NULL))
-        meka_mkdir (g_Env.Paths.DebugDirectory);
+    if (!al_filename_exists (g_Env.Paths.DebugDirectory))
+        al_make_directory (g_Env.Paths.DebugDirectory);
     sprintf (s, "%s/%s", g_Env.Paths.DebugDirectory, name);
 }
 

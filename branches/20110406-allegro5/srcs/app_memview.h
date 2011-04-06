@@ -44,7 +44,7 @@ typedef struct
     // Interface
     bool                active;
     t_gui_box *         box;
-    BITMAP *            box_gfx;
+    ALLEGRO_BITMAP *            box_gfx;
     t_widget *          widget_scrollbar;
 
     // Interface - Top (values)
