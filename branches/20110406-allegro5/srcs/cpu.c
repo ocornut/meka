@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "inputs_t.h"
 #include "patch.h"
 #include "vdp.h"
 #include "video.h"

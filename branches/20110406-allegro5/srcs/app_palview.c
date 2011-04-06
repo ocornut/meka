@@ -64,8 +64,8 @@ void    PaletteViewer_Init(t_app_palette_viewer *pv)
 
 void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
 {
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
@@ -74,7 +74,8 @@ void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
     }
 
     // Draw line
-    line(app->box_gfx, app->frame_info.pos.x, app->frame_info.pos.y, app->frame_info.pos.x + app->frame_info.size.x, app->frame_info.pos.y, COLOR_SKIN_WINDOW_SEPARATORS);
+	// FIXME-ALLEGRO5: Line coordinates
+    al_draw_line(app->frame_info.pos.x, app->frame_info.pos.y, app->frame_info.pos.x + app->frame_info.size.x, app->frame_info.pos.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Draw current color square
     gui_rect(app->box_gfx, LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
@@ -129,13 +130,14 @@ void    PaletteViewer_Update(void)
     color_current_refresh = /*(color_current == -1) ? TRUE :*/ ((color_current != pv->color_displayed) ? TRUE : FALSE);
 
     // Draw palette
+	al_set_target_bitmap(pv->box_gfx);
     for (i = 0; i != pv->palette_size; i++)
     {
         if (pv->dirty || Palette_EmulationFlags[i] & PALETTE_EMULATION_FLAGS_DIRTY)
         {
-            rectfill (pv->box_gfx, 
+            al_draw_filled_rectangle(
                 (i * color_box_size), 0, 
-                (i * color_box_size) + color_box_size - 1, 49,
+                (i * color_box_size) + color_box_size, 49+1,
                 Palette_EmulationToHost[i]);
             Palette_EmulationFlags[i] &= ~PALETTE_EMULATION_FLAGS_DIRTY;
             dirty = TRUE;
@@ -146,7 +148,7 @@ void    PaletteViewer_Update(void)
 
     if (pv->dirty || color_current_refresh)
     {
-        rectfill(pv->box_gfx, 16, pv->frame_info.pos.y + 1, pv->frame_info.pos.x + pv->frame_info.size.x, pv->frame_info.pos.y + pv->frame_info.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
+        al_draw_filled_rectangle(16, pv->frame_info.pos.y + 1, pv->frame_info.pos.x + pv->frame_info.size.x + 1, pv->frame_info.pos.y + pv->frame_info.size.y + 1, COLOR_SKIN_WINDOW_BACKGROUND);
         dirty = TRUE;
 
         if (color_current != -1)

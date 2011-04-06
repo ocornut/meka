@@ -65,22 +65,13 @@ void    Inputs_Peripheral_Next (int Player)
 //-----------------------------------------------------------------------------
 void        Inputs_Check_GUI (bool sk1100_pressed)
 {
-	int key_shifts;
-
     // Update INPUTS configuration in priority, since it eat some keys
     Inputs_CFG_Update(&Inputs_CFG);
     //Inputs_CFG_Map_Change_Update();
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update ();
 
-	key_shifts = 0;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
-		key_shifts |= ALLEGRO_KEYMOD_CTRL;
-	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
-		key_shifts |= ALLEGRO_KEYMOD_ALT;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
-		key_shifts |= ALLEGRO_KEYMOD_SHIFT;
-    switch (key_shifts & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
+    switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
     {
     case 0: // No modifiers
         {

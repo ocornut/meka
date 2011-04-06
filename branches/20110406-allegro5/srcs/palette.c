@@ -19,9 +19,9 @@
 // Data
 //-----------------------------------------------------------------------------
 
-RGB     Palette_Emulation[PALETTE_EMU_GAME_SIZE];
-int     Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
-int     Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
+ALLEGRO_COLOR   Palette_Emulation[PALETTE_EMU_GAME_SIZE];
+ALLEGRO_COLOR   Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
+u16				Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
 int     Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
 bool    Palette_EmulationDirtyAny;
 
@@ -92,9 +92,9 @@ void    Palette_Emulation_Reset()
     int i;
     for (i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
     {
-        Palette_Emulation[i].r = Palette_Emulation[i].g = Palette_Emulation[i].b = Palette_Emulation[i].filler = 0;
+        Palette_Emulation[i] = COLOR_BLACK;
         Palette_EmulationToHost[i] = COLOR_BLACK;
-        Palette_EmulationToHost16[i] = COLOR_BLACK;
+        Palette_EmulationToHost16[i] = 0x0000;
         Palette_EmulationFlags[i] = PALETTE_EMULATION_FLAGS_DIRTY;
     }
     Palette_EmulationDirtyAny = TRUE;
@@ -106,7 +106,7 @@ void    Palette_Emulation_Reset()
 void    Palette_Emulation_Reload (void)
 {
     int   i;
-    RGB   color;
+    ALLEGRO_COLOR color;
 
     switch (cur_drv->vdp)
     {
@@ -143,12 +143,12 @@ void    Palette_Emulation_Reload (void)
     }
 }
 
-void    Palette_Emulation_SetColor(int idx, RGB color)
+void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color)
 {
     assert(idx >= 0 && idx < 32);
     Palette_Emulation[idx] = color;
-    Palette_EmulationToHost[idx] = makecol(color.r, color.g, color.b);
-    Palette_EmulationToHost16[idx] = makecol16(color.r, color.g, color.b);
+    Palette_EmulationToHost[idx] = color;
+    Palette_EmulationToHost16[idx] = 0x1234;//FIXME-ALLEGRO5: 565 color //makecol16(color.r, color.g, color.b);
     Palette_EmulationFlags[idx] |= PALETTE_EMULATION_FLAGS_DIRTY;
     Palette_EmulationDirtyAny = TRUE;
 }
@@ -157,48 +157,42 @@ void    Palette_Emulation_SetColor(int idx, RGB color)
 
 // FIXME: Use tables instead of the functions below?
 
-void    Palette_Compute_RGB_SMS (RGB *out_color, int i)
+void    Palette_Compute_RGB_SMS (ALLEGRO_COLOR *out_color, int i)
 {
-	RGB tmp;
     int v;
+	int r, g, b;
 
     v = PRAM[i] & 0x03;
-    tmp.r = (v) | (v << 2) | (v << 4) | (v << 6);
+    r = (v) | (v << 2) | (v << 4) | (v << 6);
 
     v = (PRAM[i] >> 2) & 0x03;
-    tmp.g = (v) | (v << 2) | (v << 4) | (v << 6);
+    g = (v) | (v << 2) | (v << 4) | (v << 6);
 
     v = (PRAM[i] >> 4) & 0x03;
-    tmp.b = (v) | (v << 2) | (v << 4) | (v << 6);
-
-    // FIXME: Is this still needed?
-    tmp.filler = 0;
+    b = (v) | (v << 2) | (v << 4) | (v << 6);
 
     // Save output
-	*out_color = tmp;
+	*out_color = al_map_rgb(r, g, b);
 }
 
 // Note: if changing the meaning of 'i', please update datadump.c which uses it
-void    Palette_Compute_RGB_GG (RGB *out_color, int i)
+void    Palette_Compute_RGB_GG (ALLEGRO_COLOR *out_color, int i)
 {
-	RGB tmp;
     int v;
+	int r, g, b;
 
     // ----bbbb ggggrrrr (GG) -> --rrrrrr --gggggg --bbbbbb (RGB)
 	v = PRAM[i] & 0x0F;
-	tmp.r = (v) | (v << 4);
+	r = (v) | (v << 4);
 
 	v = PRAM[i] & 0xF0;
-	tmp.g = (v >> 4) | (v);
+	g = (v >> 4) | (v);
 
 	v = PRAM[i + 1] & 0x0F;
-	tmp.b = (v) | (v << 4);
-
-    // FIXME: Is this still needed?
-    tmp.filler = 0;
+	b = (v) | (v << 4);
 
     // Save output
-	*out_color = tmp;
+	*out_color = al_map_rgb(r, g, b);
 }
 
 //-----------------------------------------------------------------------------

@@ -29,12 +29,13 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
     int     x_dst   = box->frame.pos.x;
     int     y_dst   = box->frame.pos.y;
 
+	al_set_target_bitmap(gui_buffer);
     if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
     {
         // Center screen when 8 left columns are masked
         // This not logical but looks good
-        rectfill (gui_buffer, x_dst, y_dst, x_dst + 3, y_dst + y_len - 1, COLOR_BLACK);
-        rectfill (gui_buffer, x_dst + x_len - 4, y_dst, x_dst + x_len - 1, y_dst + y_len - 1, COLOR_BLACK);
+        al_draw_filled_rectangle(x_dst, y_dst, x_dst + 4, y_dst + y_len, COLOR_BLACK);
+        al_draw_filled_rectangle(x_dst + x_len - 4, y_dst, x_dst + x_len, y_dst + y_len, COLOR_BLACK);
         x_len -= 8;
         x_start += 8;
         x_dst += 4;
@@ -45,7 +46,7 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
         //cur_drv->x_res, cur_drv->y_res,
         //0,0, Video.res_x, Video.res_y);
 
-    blit (game_buffer, gui_buffer, x_start, y_start, x_dst, y_dst, x_len, y_len);
+    al_draw_bitmap_region(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, 0);
 }
 
 void        gamebox_compute_size(int *x, int *y)

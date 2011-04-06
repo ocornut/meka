@@ -305,7 +305,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
 
 void    Tms_VDP_Palette_Write(int addr, int value)
 {
-    RGB color;
+    ALLEGRO_COLOR color;
 
     // Write to CRAM (currently named PRAM)
     PRAM [addr] = value;

@@ -8,12 +8,6 @@
 #include "g_widget.h"
 
 //-----------------------------------------------------------------------------
-// Macros (useless)
-//-----------------------------------------------------------------------------
-
-#define qblit(b1, b2, sx, sy, lx, ly) blit(b1, b2, sx, sy, sx, sy, lx, ly);
-
-//-----------------------------------------------------------------------------
 // Functions (crap, horrible, painful)
 //-----------------------------------------------------------------------------
 
@@ -173,11 +167,11 @@ void        gui_update_boxes(void)
             }
         }
 
-        qblit(gui_background, gui_buffer, ax1, ay1, ax2 - ax1, ay2 - ay1);
-        qblit(gui_background, gui_buffer, bx1, by1, bx2 - bx1, by2 - by1);
-        // qblit (color_buffer, gui_buffer, ax1, ay1, ax2 - ax1, ay2 - ay1);
-        // qblit (color2_buffer, gui_buffer, bx1, by1, bx2 - bx1, by2 - by1);
-        // qblit (gui_buffer, screen, 0, 0, 640, 480);
+        blit(gui_background, gui_buffer, ax1, ay1, ax1, ay1, ax2 - ax1, ay2 - ay1);
+        blit(gui_background, gui_buffer, bx1, by1,  bx1, by1, bx2 - bx1, by2 - by1);
+        // blit (color_buffer, gui_buffer, ax1, ay1, ax1, ay1, ax2 - ax1, ay2 - ay1);
+        // blit (color2_buffer, gui_buffer, bx1, by1, bx1, by1, bx2 - bx1, by2 - by1);
+        // blit (gui_buffer, screen, 0, 0, 0, 0, 640, 480);
 
         // Update 'must_redraw' flag for other boxes
         {
@@ -223,8 +217,9 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     box->destroy    = NULL;
 
     // Clear GFX buffer
+	al_set_target_bitmap(box->gfx_buffer);
     //clear_to_color(box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
-    clear_to_color(box->gfx_buffer, makecol(0xFF, 0x00, 0xFF));
+    al_clear_to_color(al_map_rgb_f(1.0f, 0.0f, 1.0f));
 
     // Setup GUI global data
     list_add(&gui.boxes, box);

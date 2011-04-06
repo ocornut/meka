@@ -13,6 +13,9 @@
 
 // #define DEBUG_JOY
 
+ALLEGRO_KEYBOARD_STATE	g_keyboard_state;
+int						g_keyboard_modifiers = 0;
+
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
@@ -306,7 +309,14 @@ void        Inputs_Sources_Update (void)
 #endif
 
 	// Poll keyboard
-	al_get_keyboard_state(&keyboard_state);
+	al_get_keyboard_state(&g_keyboard_state);
+	g_keyboard_modifiers = 0;
+	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
+		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
+	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
+		g_keyboard_modifiers |= ALLEGRO_KEYMOD_ALT;
+	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
+		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
     // Poll mouse
     poll_mouse ();

@@ -116,8 +116,8 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
 {
     t_frame frame;
 
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
@@ -128,10 +128,12 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
         app->frame_tilemap_zone = widget_button_add(app->box, &app->frame_tilemap, 1, TilemapViewer_CallbackTilemapClick, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
     // Vertical line
-    line(app->box->gfx_buffer, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+	// FIXME-ALLEGRO5: Line coordinate
+    al_draw_line(app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Horizontal line
-    line(app->box->gfx_buffer, app->frame_tilemap_addr.pos.x, app->frame_tilemap_addr.pos.y, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y, COLOR_SKIN_WINDOW_SEPARATORS);
+	// FIXME-ALLEGRO5: Line coordinate
+    al_draw_line(app->frame_tilemap_addr.pos.x, app->frame_tilemap_addr.pos.y, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Options
     frame.size.x = 10;
@@ -195,7 +197,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
         app->widget_tilemap_addr_scrollbar_per_page = 1;
         app->widget_tilemap_addr_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_HORIZONTAL, &frame, &app->widget_tilemap_addr_scrollbar_max, &app->widget_tilemap_addr_scrollbar_cur, &app->widget_tilemap_addr_scrollbar_per_page, TilemapViewer_CallbackTilemapAddressScroll);
     }
-    rect(app->box->gfx_buffer, frame.pos.x - 1, frame.pos.y - 1, frame.pos.x + frame.size.x + 1, frame.pos.y + frame.size.y + 1, COLOR_SKIN_WINDOW_SEPARATORS);
+    al_draw_rectangle(frame.pos.x - 0.5f, frame.pos.y - 0.5f, frame.pos.x + frame.size.x + 1.5f, frame.pos.y + frame.size.y + 1.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Tilemap Address - Auto Button
     frame.pos.x += frame.size.x + 8;
@@ -341,6 +343,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     }
 
     // Update tilemap
+	al_set_target_bitmap(app->box->gfx_buffer);
     if (tsms.VDP_VideoMode < 4) // FIXME: Video mode numbers
     {
         char text[64];
@@ -372,7 +375,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
                 if ((!app->config_bg && !(map_item & 0x1000)) || (!app->config_fg && (map_item & 0x1000)))
                 {
-                    rectfill(app->box->gfx_buffer, x, y, x + 8-1, y + 8-1, makecol(222,222,101)); // FIXME-COLOR
+                    al_draw_filled_rectangle(x, y, x + 8, y + 8, al_map_rgb(222,222,101));
                 }
                 else
                 {
@@ -391,10 +394,10 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     }
 
     // Tilemap rectangle
-    rect(app->box->gfx_buffer, 
-        app->frame_tilemap.pos.x - 1, app->frame_tilemap.pos.y - 1, 
-        app->frame_tilemap.pos.x + app->frame_tilemap.size.x, app->frame_tilemap.pos.y + app->frame_tilemap.size.y,
-        COLOR_SKIN_WIDGET_GENERIC_BORDER);
+    al_draw_rectangle(
+        app->frame_tilemap.pos.x - 0.5f, app->frame_tilemap.pos.y - 0.5f, 
+        app->frame_tilemap.pos.x + app->frame_tilemap.size.x + 0.5f, app->frame_tilemap.pos.y + app->frame_tilemap.size.y + 0.5f,
+        COLOR_SKIN_WIDGET_GENERIC_BORDER, 1.0f);
 
     // Update hovered index
     {
@@ -429,6 +432,7 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     Write_Bits_Field((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
     Write_Bits_Field(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);
 
+	al_set_target_bitmap(app->box->gfx_buffer);
     gui_frame_clear(app->box->gfx_buffer, &app->frame_infos, COLOR_SKIN_WINDOW_BACKGROUND);
 
     snprintf(line, sizeof(line), "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
@@ -474,14 +478,14 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     snprintf(line, sizeof(line), "Priority: %s", (tile_map_item & 0x1000) ? "FG" : "BG");
     Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
-    rect(app->box->gfx_buffer, 
-        app->frame_tilemap.pos.x+tile_current_x*8-1, app->frame_tilemap.pos.y+tile_current_y*8-1, 
-        app->frame_tilemap.pos.x+tile_current_x*8+8, app->frame_tilemap.pos.y+tile_current_y*8+8, COLOR_WHITE);
+    al_draw_rectangle(
+        app->frame_tilemap.pos.x+tile_current_x*8-0.5f, app->frame_tilemap.pos.y+tile_current_y*8-0.5f, 
+        app->frame_tilemap.pos.x+tile_current_x*8+8.5f, app->frame_tilemap.pos.y+tile_current_y*8+8.5f, COLOR_WHITE, 1.0f);
 
     // Tilemap Address
-    rectfill(app->box->gfx_buffer, 
+    al_draw_filled_rectangle(
         app->frame_tilemap_addr.pos.x + 1, app->frame_tilemap_addr.pos.y + 1,
-        app->frame_tilemap_addr.pos.x + 128, app->frame_tilemap_addr.pos.y + app->frame_tilemap_addr.size.x,
+        app->frame_tilemap_addr.pos.x + 128 + 1, app->frame_tilemap_addr.pos.y + app->frame_tilemap_addr.size.x + 1,
         COLOR_SKIN_WINDOW_BACKGROUND);
     pos.x = app->frame_tilemap_addr.pos.x + 2;
     pos.y = app->frame_tilemap_addr.pos.y + 3;
@@ -489,7 +493,7 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x, pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
 
-static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, int y, int x1, int x2, int color)
+static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, int y, int x1, int x2, ALLEGRO_COLOR color)
 {
     x1 &= 255;
     x2 &= 255;
@@ -509,8 +513,7 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
     }
     if (x1 < x2)
     {
-        hline(
-            app->box->gfx_buffer, 
+        al_draw_hline(
             app->frame_tilemap.pos.x + x1,
             app->frame_tilemap.pos.y + y,
             app->frame_tilemap.pos.x + x2,
@@ -518,14 +521,12 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
     }
     else if (x1 > x2)
     {
-        hline(
-            app->box->gfx_buffer, 
+        al_draw_hline(
             app->frame_tilemap.pos.x + x1,
             app->frame_tilemap.pos.y + y,
             app->frame_tilemap.pos.x + 255,
             color);
-        hline(
-            app->box->gfx_buffer, 
+        al_draw_hline(
             app->frame_tilemap.pos.x + 0,
             app->frame_tilemap.pos.y + y,
             app->frame_tilemap.pos.x + x2,
@@ -533,7 +534,7 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
     }
     else
     {
-        putpixel(app->box->gfx_buffer,
+        al_draw_pixel(
             app->frame_tilemap.pos.x + x1,
             app->frame_tilemap.pos.y + y,
             color);
@@ -542,8 +543,8 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
 
 static void     TilemapViewer_UpdateScroll(t_tilemap_viewer *app)
 {
-    const int color_1 = COLOR_BLACK;//makecol(0x20, 0xFF, 0x40);
-    const int color_2 = COLOR_WHITE;//makecol(0x00, 0xC0, 0x00);
+    const ALLEGRO_COLOR color_1 = COLOR_BLACK;//makecol(0x20, 0xFF, 0x40);
+    const ALLEGRO_COLOR color_2 = COLOR_WHITE;//makecol(0x00, 0xC0, 0x00);
     const int drv_x1  = cur_drv->x_start + ((cur_drv->id == DRV_SMS && Mask_Left_8) ? 8 : 0);
     const int drv_x2  = cur_drv->x_end;
     const int drv_y1  = cur_drv->y_show_start;
@@ -551,6 +552,7 @@ static void     TilemapViewer_UpdateScroll(t_tilemap_viewer *app)
     const int y_start = cur_machine.VDP.scroll_y_latched;// + (Wide_Screen_28 ? -32 : 0);
     int i;
 
+	al_set_target_bitmap(app->box->gfx_buffer);
     if (app->config_scroll_raster)
     {
         TilemapViewer_UpdateScrollDrawLineWrap(app, y_start + drv_y1,     -cur_machine.VDP.scroll_x_latched_table[drv_y1] + drv_x1, -cur_machine.VDP.scroll_x_latched_table[drv_y1] + drv_x2, color_1);

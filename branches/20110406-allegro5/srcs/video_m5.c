@@ -251,14 +251,15 @@ void    Refresh_Line_5 (void)
 		if (Mask_Left_8)
 		{
 			// FIXME-BORDER
-			GFX_Line16[0] = COLOR_BLACK;
-			GFX_Line16[1] = COLOR_BLACK;
-			GFX_Line16[2] = COLOR_BLACK;
-			GFX_Line16[3] = COLOR_BLACK;
-			GFX_Line16[4] = COLOR_BLACK;
-			GFX_Line16[5] = COLOR_BLACK;
-			GFX_Line16[6] = COLOR_BLACK;
-			GFX_Line16[7] = COLOR_BLACK;
+			const u16 color_black = 0x0000;
+			GFX_Line16[0] = color_black;
+			GFX_Line16[1] = color_black;
+			GFX_Line16[2] = color_black;
+			GFX_Line16[3] = color_black;
+			GFX_Line16[4] = color_black;
+			GFX_Line16[5] = color_black;
+			GFX_Line16[6] = color_black;
+			GFX_Line16[7] = color_black;
 		}
 	}
 	else

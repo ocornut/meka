@@ -70,8 +70,8 @@ void    TileViewer_Init (void)
 
 void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
 {
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
@@ -84,7 +84,8 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
     }
 
     // Separation line
-    line(app->box->gfx_buffer, 0, app->tiles_display_frame.size.y, app->tiles_display_frame.size.x - 1, app->tiles_display_frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+	// FIXME-ALLEGRO5: Line coordinates
+    al_draw_line(0, app->tiles_display_frame.size.y, app->tiles_display_frame.size.x - 1, app->tiles_display_frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
     // Rectangle enclosing current/selected tile
     gui_rect(app->box->gfx_buffer, LOOK_THIN, 2, app->tiles_display_frame.size.y + 1, 2 + 11, app->tiles_display_frame.size.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
@@ -207,7 +208,9 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     if (dirty_all || tile_current_refresh)
     {
         const int y = (app->tiles_height * 8);
-        rectfill(bmp, 16, y + 1, 127, y + 11, COLOR_SKIN_WINDOW_BACKGROUND);
+
+		al_set_target_bitmap(bmp);
+        al_draw_filled_rectangle(16, y + 1, 127+1, y + 11+1, COLOR_SKIN_WINDOW_BACKGROUND);
         dirty = TRUE;
 
         if (tile_current != -1)
@@ -230,7 +233,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         else
         {
             // Fill tile with black
-            rectfill(bmp, 4, app->tiles_height * 8 + 3, 4+7, app->tiles_height * 8 + 3+7, COLOR_BLACK);
+            al_draw_filled_rectangle(4, app->tiles_height * 8 + 3, 4+7+1, app->tiles_height * 8 + 3+7+1, COLOR_BLACK);
         }
     }
 

@@ -66,8 +66,8 @@ void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
 {
     t_frame frame;
 
-    // Clear
-    clear_to_color(tv->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(tv->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
@@ -82,7 +82,8 @@ void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
         tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, &tv->text_size_per_page, TextViewer_ScrollbarCallback);
 
     // Draw separator between text and scrollbar
-    line(tv->box->gfx_buffer, frame.pos.x - 1, frame.pos.y, frame.pos.x - 1, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+	// FIXME-ALLEGRO5: Line coordinates
+    al_draw_line(frame.pos.x - 1, frame.pos.y, frame.pos.x - 1, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
     //gui_rect (TV->ID_BoxGfx, LOOK_ROUND, x1 - 2, y1 - 2, x1 + x2 + 2, y1 + y2 + 2, COLOR_SKIN_WINDOW_SEPARATORS);
 }
 
@@ -298,11 +299,12 @@ void            TextViewer_Update(t_app_textviewer *tv)
         int i;
 
         // Uses Allegro clipping functionnality as a helper
-        set_clip_rect(tv->box->gfx_buffer, tv->text_frame.pos.x, tv->text_frame.pos.y, tv->text_frame.pos.x + tv->text_frame.size.x, tv->text_frame.pos.y + tv->text_frame.size.y);
+		al_set_target_bitmap(tv->box->gfx_buffer);
+		al_set_clipping_rectangle(tv->text_frame.pos.x, tv->text_frame.pos.y, tv->text_frame.pos.x + tv->text_frame.size.x, tv->text_frame.pos.y + tv->text_frame.size.y);
 
         // Clear
-        rectfill(tv->box->gfx_buffer, 
-            tv->text_frame.pos.x, tv->text_frame.pos.y, tv->text_frame.pos.x + tv->text_frame.size.x, tv->text_frame.pos.y + tv->text_frame.size.y,
+        al_draw_filled_rectangle(
+            tv->text_frame.pos.x, tv->text_frame.pos.y, tv->text_frame.pos.x + tv->text_frame.size.x + 1, tv->text_frame.pos.y + tv->text_frame.size.y + 1,
             COLOR_SKIN_WINDOW_BACKGROUND);
 
         // Draw lines
@@ -313,7 +315,7 @@ void            TextViewer_Update(t_app_textviewer *tv)
         }
 
         // Disable clipping
-        set_clip_rect(tv->box->gfx_buffer, 0, 0, tv->box->gfx_buffer->w, tv->box->gfx_buffer->h);
+        al_set_clipping_rectangle(0, 0, al_get_bitmap_width(tv->box->gfx_buffer), al_get_bitmap_height(tv->box->gfx_buffer));
 
         //rectfill (TV->BoxGfx, TV->Pad_X, 0, TV->BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->Pad_Y, COLOR_SKIN_WINDOW_BACKGROUND);
         //rectfill (TV->BoxGfx, TV->Pad_X, TV->BoxGfx->h - TV->Pad_Y, TV->BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->BoxGfx->h, COLOR_SKIN_WINDOW_BACKGROUND);
@@ -337,34 +339,34 @@ static void     TextViewer_Update_Inputs(t_app_textviewer *tv)
     }
 
     // Update keyboard inputs
-    if (Inputs_KeyPressed (KEY_HOME, FALSE))
+    if (Inputs_KeyPressed (ALLEGRO_KEY_HOME, FALSE))
     {
         tv->scroll_position_y = 0;
         tv->scroll_velocity_y = 0;
         tv->dirty = TRUE;
     }
-    else if (Inputs_KeyPressed (KEY_END, FALSE))
+    else if (Inputs_KeyPressed (ALLEGRO_KEY_END, FALSE))
     {
         tv->scroll_position_y = tv->scroll_position_y_max;
         tv->scroll_velocity_y = 0;
         tv->dirty = TRUE;
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 25, 14))
+    else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PGDN, FALSE, 25, 14))
     {
         tv->scroll_velocity_y += TEXTVIEWER_SCROLL_VELOCITY_BASE * 5.5f;
         tv->dirty = TRUE;
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 25, 14))
+    else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PGUP, FALSE, 25, 14))
     {
         tv->scroll_velocity_y -= TEXTVIEWER_SCROLL_VELOCITY_BASE * 5.5f;
         tv->dirty = TRUE;
     }
-    else if (Inputs_KeyPressed_Repeat(KEY_DOWN, FALSE, 2, 1))
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DOWN, FALSE, 2, 1))
     {
         tv->scroll_velocity_y += TEXTVIEWER_SCROLL_VELOCITY_BASE;
         tv->dirty = TRUE;
     }
-    else if (Inputs_KeyPressed_Repeat(KEY_UP, FALSE, 2, 1))
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_UP, FALSE, 2, 1))
     {
         tv->scroll_velocity_y -= TEXTVIEWER_SCROLL_VELOCITY_BASE;
         tv->dirty = TRUE;

@@ -52,7 +52,7 @@ typedef struct
 
 typedef struct
 {
-    int *                       pcolor;
+    const ALLEGRO_COLOR *       pcolor;
     char *                      text;
 } t_widget_data_textbox_line;
 
@@ -261,7 +261,7 @@ t_widget *  widget_closebox_add(t_gui_box *box, void (*callback)())
 
 void        widget_closebox_redraw(t_widget *w)
 {
-    u32     color;
+    ALLEGRO_COLOR color;
     t_widget_data_closebox *wd = w->data;
 
     // Get appropriate color
@@ -309,7 +309,7 @@ void        widget_closebox_update(t_widget *w)
     // CTRL-F4 close window
     if (gui_box_has_focus(w->box))
     {
-        if ((key_shifts & KB_CTRL_FLAG) && Inputs_KeyPressed(KEY_F4, FALSE))
+        if ((g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) && Inputs_KeyPressed(ALLEGRO_KEY_F4, FALSE))
             wd->callback(w);
     }
 
@@ -367,8 +367,9 @@ void        widget_button_redraw(t_widget *w)
 {
     t_widget_data_button *wd = w->data;
     
-    const int bg_color = wd->selected ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
+    const ALLEGRO_COLOR bg_color = wd->selected ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
 
+	al_set_target_bitmap(w->box->gfx_buffer);
     switch (wd->style)
     {
     case WIDGET_BUTTON_STYLE_INVISIBLE:
@@ -377,7 +378,7 @@ void        widget_button_redraw(t_widget *w)
         {
             const t_frame *frame = &w->frame;
             const int font_idx = F_SMALL;
-	        rectfill(w->box->gfx_buffer, frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, bg_color);
+	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
             gui_rect(w->box->gfx_buffer, LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
             Font_Print(font_idx, w->box->gfx_buffer, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_idx, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_idx)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
             break;
@@ -386,7 +387,7 @@ void        widget_button_redraw(t_widget *w)
         {
             const t_frame *frame = &w->frame;
             const int font_idx = F_LARGE;
-	        rectfill(w->box->gfx_buffer, frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 2, frame->pos.y + frame->size.y - 2, bg_color);
+	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
             gui_rect(w->box->gfx_buffer, LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
             Font_Print(font_idx, w->box->gfx_buffer, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_idx, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_idx)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
             break;
@@ -501,7 +502,8 @@ void        widget_scrollbar_redraw(t_widget *w)
     t_widget_data_scrollbar *wd = w->data;
 
 	// Clear bar
-	rectfill(w->box->gfx_buffer, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_SCROLLBAR_BACKGROUND);
+	al_set_target_bitmap(w->box->gfx_buffer);
+	al_draw_filled_rectangle(w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WIDGET_SCROLLBAR_BACKGROUND);
 
     // Draw position box
     max = *wd->v_max;
@@ -514,14 +516,14 @@ void        widget_scrollbar_redraw(t_widget *w)
         {
             pos = w->frame.pos.y + ((*wd->v_start * w->frame.size.y) / max);
             size = (*wd->v_per_page * w->frame.size.y) / max;
-            rectfill(w->box->gfx_buffer, w->frame.pos.x, pos, w->frame.pos.x + w->frame.size.x, pos + size, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
+            al_draw_filled_rectangle(w->frame.pos.x, pos, w->frame.pos.x + w->frame.size.x + 1, pos + size + 1, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
             break;
         }
     case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
         {
             pos = w->frame.pos.x + ((*wd->v_start * w->frame.size.x) / max);
             size = (*wd->v_per_page * w->frame.size.x) / max;
-            rectfill(w->box->gfx_buffer, pos, w->frame.pos.y, pos + size, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
+            al_draw_filled_rectangle(pos, w->frame.pos.y, pos + size + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
             break;
         }
     }
@@ -573,13 +575,15 @@ void        widget_checkbox_redraw(t_widget *w)
 {
     t_widget_data_checkbox *wd = w->data;
 
-	rect(w->box->gfx_buffer, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-    rectfill(w->box->gfx_buffer, w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+	al_set_target_bitmap(w->box->gfx_buffer);
+	al_draw_rectangle(w->frame.pos.x + 0.5f, w->frame.pos.y + 0.5f, w->frame.pos.x + w->frame.size.x + 0.5f, w->frame.pos.y + w->frame.size.y + 0.5f, COLOR_SKIN_WIDGET_GENERIC_BORDER, 1.0f);
+    al_draw_filled_rectangle(w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
     if (wd->pvalue && *(wd->pvalue))
     {
         // Note: using widget generic text color to display the cross
-        line(w->box->gfx_buffer, w->frame.pos.x + 2, w->frame.pos.y + 2, w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
-        line(w->box->gfx_buffer, w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + 2, w->frame.pos.x + 2, w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+		// FIXME-ALLEGRO5: coordinates (2 lines)
+        al_draw_line(w->frame.pos.x + 2, w->frame.pos.y + 2, w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WIDGET_GENERIC_TEXT, 1.0f);
+        al_draw_line(w->frame.pos.x + w->frame.size.x - 2, w->frame.pos.y + 2, w->frame.pos.x + 2, w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WIDGET_GENERIC_TEXT, 1.0f);
     }
 }
 
@@ -645,7 +649,8 @@ void        widget_textbox_redraw(t_widget *w)
     // rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_BORDER);
     */
 
-    rectfill (bmp, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(bmp);
+    al_draw_filled_rectangle(w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     for (i = 0; i < wd->lines_num; i++)
     {
         if (wd->lines[i].text[0] != EOSTR)
@@ -949,7 +954,7 @@ void        widget_inputbox_update(t_widget *w)
 
         //if (ki != NULL)
         {
-            if (keypress->scancode == KEY_TAB && (wd->flags & WIDGET_INPUTBOX_FLAGS_COMPLETION))
+            if (keypress->scancode == ALLEGRO_KEY_TAB && (wd->flags & WIDGET_INPUTBOX_FLAGS_COMPLETION))
             {
                 // Completion
                 assert(wd->callback_completion != NULL);
@@ -957,7 +962,7 @@ void        widget_inputbox_update(t_widget *w)
                 Inputs_KeyPressQueue_Remove(keypress);
             }
             else 
-            if (keypress->scancode == KEY_UP && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
+            if (keypress->scancode == ALLEGRO_KEY_UP && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
             {
                 // History Up
                 assert(wd->callback_history != NULL);
@@ -965,7 +970,7 @@ void        widget_inputbox_update(t_widget *w)
                 Inputs_KeyPressQueue_Remove(keypress);
             }
             else
-            if (keypress->scancode == KEY_DOWN && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
+            if (keypress->scancode == ALLEGRO_KEY_DOWN && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
             {
                 // History Down
                 assert(wd->callback_history != NULL);
@@ -1002,7 +1007,8 @@ void        widget_inputbox_update(t_widget *w)
 
     // Backspace, Delete
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_DELETE))
-        if (Inputs_KeyPressed_Repeat (KEY_BACKSPACE, FALSE, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat (KEY_DEL, TRUE, tm_delay, tm_rate))
+	{
+        if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat (ALLEGRO_KEY_DELETE, TRUE, tm_delay, tm_rate))
         {
             if (wd->cursor_pos > 0)
             {
@@ -1015,17 +1021,18 @@ void        widget_inputbox_update(t_widget *w)
             // if (key[KEY_BACKSPACE])
             ///    Inputs_Key_Eat(KEY_BACKSPACE);
         }
+	}
 
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
     {
         // Left/Right arrows: move cursor
-        if (Inputs_KeyPressed_Repeat (KEY_LEFT, FALSE, tm_delay, tm_rate))
+        if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_LEFT, FALSE, tm_delay, tm_rate))
             if (wd->cursor_pos > 0)
             {
                 wd->cursor_pos--;
                 w->dirty = TRUE;
             }
-        if (Inputs_KeyPressed_Repeat (KEY_RIGHT, FALSE, tm_delay, tm_rate))
+        if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_RIGHT, FALSE, tm_delay, tm_rate))
             if (wd->cursor_pos < wd->length)
             {
                 wd->cursor_pos++;
@@ -1033,12 +1040,12 @@ void        widget_inputbox_update(t_widget *w)
             }
 
         // Home/End: set cursor to beginning/end of input box
-        if (Inputs_KeyPressed (KEY_HOME, FALSE))
+        if (Inputs_KeyPressed (ALLEGRO_KEY_HOME, FALSE))
         {
             wd->cursor_pos = 0;
             w->dirty = TRUE;
         }
-        if (Inputs_KeyPressed (KEY_END, FALSE))
+        if (Inputs_KeyPressed (ALLEGRO_KEY_END, FALSE))
         {
             wd->cursor_pos = wd->length;
             w->dirty = TRUE;
@@ -1050,7 +1057,7 @@ void        widget_inputbox_update(t_widget *w)
         wd->callback_edit(w);
 
     // Enter: validate
-    if (Inputs_KeyPressed_Repeat (KEY_ENTER, FALSE, 30, 3) || Inputs_KeyPressed_Repeat (KEY_ENTER_PAD, FALSE, 30, 3))
+    if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_ENTER, FALSE, 30, 3) || Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PAD_ENTER, FALSE, 30, 3))
         if (wd->callback_enter)
             wd->callback_enter(w);
 
@@ -1068,8 +1075,9 @@ void        widget_inputbox_redraw(t_widget *w)
     const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR);
 
     // Draw border & fill text area
-    rect(gfx_buffer, w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-    rectfill(gfx_buffer, w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+	al_set_target_bitmap(gfx_buffer);
+    al_draw_rectangle(w->frame.pos.x + 0.5f, w->frame.pos.y + 0.5f, w->frame.pos.x + w->frame.size.x + 0.5f, w->frame.pos.y + w->frame.size.y + 0.5f, COLOR_SKIN_WIDGET_GENERIC_BORDER, 1.0f);
+    al_draw_filled_rectangle(w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
 
     // Draw text & cursor
     {
@@ -1083,12 +1091,12 @@ void        widget_inputbox_redraw(t_widget *w)
                 // Draw cursor line
                 int cursor_y1 = w->frame.pos.y + 2;
                 int cursor_y2 = cursor_y1 + w->frame.size.y - 2*2;
-                vline(gfx_buffer, x, cursor_y1, cursor_y2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+                al_draw_vline(x, cursor_y1, cursor_y2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
             }
             if (i < wd->length)
             {
                 // Draw one character
-                u32 color = (highlight_all || i == wd->cursor_pos) ? COLOR_SKIN_WIDGET_GENERIC_TEXT : COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE;
+                const ALLEGRO_COLOR color = (highlight_all || i == wd->cursor_pos) ? COLOR_SKIN_WIDGET_GENERIC_TEXT : COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE;
                 char ch[2];
                 ch[0] = wd->value[i];
                 ch[1] = '\0';
