@@ -17,6 +17,8 @@ They are usually of 2 kinds:
   - (Win32) Updated LibPNG library to 1.2.8 (precompiled binary package included in repository).
   - (Win32) Including minimal DirectX 7.0 package (precompiled binary package 'dx70_min' included in repository)
      because newer DirectX SDK tends to cause problem with 4.2.x Allegro branches.
+  - SC-3000:
+    - Fixed the ':' (colon) key not working on Sega Keyboard emulation under certain host keyboard/OS configuration. [Omar]
   - GUI:
     - Added Taiwanese flag (for DB and File Browser). [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]

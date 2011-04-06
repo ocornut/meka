@@ -718,7 +718,7 @@
  Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)    E-111  *Ok
  Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)     E-112  *Ok
  Tanoshii Sansuu (Shougaku 4-Nen Ge)            E-113   Ok
- Tanoshii Sansuu (Shougaku 6-Nen Ge)            E-115   Ok
+ Tanoshii Sansuu (Shougaku 5-Nen Ge)            E-114   Ok
  Uranai Angel Cutie                             E-119   Ok
 -----------------------------------------------------------------------------
   18 roms tested - 18 are "Ok" - Compatibility rate: 100.00%

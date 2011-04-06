@@ -91,8 +91,8 @@ SMS f4b3a7bd A7AF89DB1688A107   Ariel - The Little Mermaid (Disney's)/COUNTRY=BR
 SMS ae705699 8A53E8116C3E95EB   Ashura/COUNTRY=JP/PRODUCT_NO=G-1307/COMMENT=Japanese version of "Secret Command" (Europe) and "Rambo - First Blood Part II" (USA).
 SMS 0bd8da96 61A53B8B8924BFC8   Assault City/COUNTRY=EU/PRODUCT_NO=7034/COMMENT=A Light Phaser version also exists.
 SMS 861b6e79 3192D86747C4C62D   Assault City [Light Phaser]/COUNTRY=EU,BR/PRODUCT_NO=7040/EMU_INPUTS=LIGHTPHASER/COMMENT=A Joypad version also exists.
-SMS 147e02fa B6F98801021AA804   Astérix [v0]/COUNTRY=EU,BR/PRODUCT_NO=9008
-SMS 8c9d5be8 C3FA970F111DBEB1   Astérix [v1]/COUNTRY=EU/PRODUCT_NO=9008
+SMS 147e02fa B6F98801021AA804   Astérix [v0]/COUNTRY=EU/PRODUCT_NO=9008
+SMS 8c9d5be8 C3FA970F111DBEB1   Astérix [v1]/COUNTRY=EU,BR/PRODUCT_NO=9008
 SMS f9b7d26b B3825A1E4E13AD45   Astérix and the Great Rescue/COUNTRY=EU,BR,PT/PRODUCT_NO=9032,028490
 SMS def9b14e 5861B70BCC1B2A74   Astérix and the Secret Mission/COUNTRY=EU/PRODUCT_NO=9023
 SMS c795182d 041B1627D5288324   Astro Flash/COUNTRY=JP/PRODUCT_NO=C-503/COMMENT=Japanese version of "TransBot".
@@ -435,7 +435,7 @@ SMS 4b051022 034E26895A59CF7E   Shooting Gallery/NAME_BR=Shooting G./COUNTRY=US,
 SMS abdf3923 10361067C4C6C7F2   Sítio do Picapau Amarelo/COUNTRY=BR/PRODUCT_NO=028710
 SMS c93bd0e9 594106F8C181ED39   Slap Shot [v0]/COUNTRY=EU/PRODUCT_NO=7035
 SMS d33b296a 094AF2F7B08DE3A4   Slap Shot [v1]/COUNTRY=EU/PRODUCT_NO=7035		; [EDITOR-NOTE] Missing BR one. Some DB label this one "UE" but I have no source for it
-SMS 702c3e98 124C00EBBF84E58F   Slap Shot [v2]/COUNTRY=US/PRODUCT_NO=7035
+SMS 702c3e98 124C00EBBF84E58F   Slap Shot [v2]/COUNTRY=US,BR/PRODUCT_NO=7035,024430
 SMS fbb0a92a EB6998CED0932CB7   Slap Shot [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Title screen says "Slap Shoot".
 SMS 3e63768a 0199AF74006BE2F6   Smurfs, The/NAME_FR=Les Schtroumpfs/COUNTRY=EU,BR/PRODUCT_NO=MK-27082-50,027380/COMMENT=Also referred to using the french title showing on the cartridge: "Les Schtroumpfs".
 SMS 97e5bb7d 4F65ACDA08A4B169   Smurfs Travel the World, The/NAME_FR=Les Schtroumpfs Autour du Monde/PRODUCT_NO=MK-27085-50/COMMENT=Also referred to using the french title showing on the box: "Les Schtroumpfs Autour du Monde".
@@ -484,7 +484,7 @@ SMS b995b4f0 EE7A46299269111D   Super Boy 4/COUNTRY=KR/COMMENT=Unlicensed Super 
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
 SMS 6f9ac98f 8F53B08718544338   Superman - The Man of Steel/COUNTRY=EU,BR/PRODUCT_NO=MK-27050-50,027190
-SMS 55bf81a0 59B3C79CC4A7DE48   Super Monaco GP/COUNTRY=EU,BR/PRODUCT_NO=7043   ; [EDITOR-NOTE] BR cardboard version has no product_no.
+SMS 55bf81a0 59B3C79CC4A7DE48   Super Monaco GP/COUNTRY=EU,BR/PRODUCT_NO=7043,025310
 SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
 SMS a1d6d963 CA2E38E7805970A0   Super Monaco GP [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e890331d 0EE799CB6D17E43F   Super Monaco GP II (Ayrton Senna's)/COUNTRY=EU,BR,KR/PRODUCT_NO=9011
@@ -562,7 +562,7 @@ SMS 5c205ee1 148D13D956C94E06   Xenon 2: Megablast [Image Works]/COUNTRY=EU/PROD
 SMS ec726c0d 949238322F74AC21   Xenon 2: Megablast [Virgin]/COUNTRY=EU/PRODUCT_NO=27038-50
 SMS 3e1387f6 5817A60154C0D7FF   X-Men: Mojo World/COUNTRY=BR/PRODUCT_NO=028740/COMMENT=This is a port from the Game Gear version.
 SMS 32759751 13C43FBEE6B25341   Ys/COUNTRY=JP/PRODUCT_NO=G-1370/EMU_VDP=315-5124/COMMENT=Japanese version of "Y's: The Vanished Omens".
-SMS b33e2827 6C4C3C65EF39ADD2   Y's: The Vanished Omens/COUNTRY=US,EU,BR/PRODUCT_NO=7501/COMMENT=Export version of "Ys".
+SMS b33e2827 6C4C3C65EF39ADD2   Y's: The Vanished Omens/NAME_BR=Y's/COUNTRY=US,EU,BR/PRODUCT_NO=7501/COMMENT=Export version of "Ys".
 SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
 SMS bba74147 2D689EA985B828BF   Zaxxon 3-D [Proto]/NAME_JP=Zaxxon 3D/FLAGS=PROTO/EMU_3D/COMMENT=Unfinished prototype version of the game.
 SMS 60c19645 39A919D7DA6933B8   Zillion [v0]/NAME_JP=Akai Koudan Zillion/COUNTRY=JP,EU/PRODUCT_NO=G-1325,5075
@@ -1305,11 +1305,11 @@ OMV 547dd7fd 250D4ABC368057BB   Okamoto Ayako no Match Play Golf [A]/COUNTRY=JP/
 OMV 49d3db2c 25724877DA819DB2   Okamoto Ayako no Match Play Golf [B]/COUNTRY=JP/PRODUCT_NO=OM-G006
 OMV b60492d5 26714877DA819DB2   Okamoto Ayako no Match Play Golf [B]/COUNTRY=TW/PRODUCT_NO=B-021
 OMV 77db4704 5B068CAB72E35CB7   Q*bert/COUNTRY=JP/PRODUCT_NO=OM-G001
-OMV 885fa64d 32C4026057CD592B   San-nin Mahjong/COUNTRY=JP/PRODUCT_NO=OM-G004
+OMV 885fa64d 32C4026057CD592B   San-nin Mahjong/COUNTRY=JP/PRODUCT_NO=OM-G004,OM-G004A
 OMV 6fd17655 14C2FF9659CC5C14   San-nin Mahjong/COUNTRY=TW/PRODUCT_NO=W-013
 OMV d5fdb4a3 838699F2C256CA8A   Space Armor [v0]/COUNTRY=JP,TW/PRODUCT_NO=OM-G007,W-016
 OMV ac4f0a5c 4CA7AF13C260F633   Space Armor [v1]/COUNTRY=JP/PRODUCT_NO=OM-G007
-OMV bbd87d8f DD4EE8250BFB259D   Space Mountain/COUNTRY=JP/PRODUCT_NO=OM-G003,OM-G003A
+OMV bbd87d8f DD4EE8250BFB259D   Space Mountain/COUNTRY=JP/PRODUCT_NO=OM-G003A,OM-G004
 OMV c5a67b95 5B5A6A24D5CE0B0F   Othello Multivision [BIOS]/COUNTRY=JP/FLAGS=BIOS
 
 ;-----------------------------------------------------------------------------
@@ -1356,7 +1356,7 @@ F2544D2C76A5988E,Kagaku (Genso Kigou Master),VER=Japanese,ID=E-107,COMMENT=Educa
 BB95690B9391EC2C,Nihonshi Nenpyou,VER=Japanese,ID=E-108,COMMENT=Educational Software: Japanese History
 86502CA2E84C8E9A,Chuugaku Hisshuu Eitango (Chuugaku 2-Nen),VER=Japanese,ID=E-110,COMMENT=Educational Software: Junior High School English Vocabulary (2nd Year)
 F4F5FC7EF064F356,Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen),VER=Japanese,ID=E-111,COMMENT=Educational Software: Junior High School English Compositions (2nd Year)
-933EBD35FDA0326E,Tanoshii Sansuu (Shougaku 6-Nen Ge),VER=Japanese,ID=E-115,COMMENT=Educational Software: Elementary School Mathematics (6th Year\, Vol. 2)
+933EBD35FDA0326E,Tanoshii Sansuu (Shougaku 5-Nen Ge),VER=Japanese,ID=E-114,COMMENT=Educational Software: Elementary School Mathematics (5th Year\, Vol. 2)
 
 ---- SF-7000 ----
 8AFD7D1C2386B087,Crocky,BAD,VER=French,COMMENT=Floppy disk file allocation table is missing entrys for the game program.
