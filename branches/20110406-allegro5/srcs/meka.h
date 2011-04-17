@@ -28,6 +28,8 @@
 // FIXME-ALLEGRO5: cache value
 #define COLOR_BLACK					al_map_rgb_f(0.0f,0.0f,0.0f)	//(0x00000000)	//makecol(0,0,0)
 #define COLOR_WHITE					al_map_rgb_f(1.0f,1.0f,1.0f)	//(0xFFFFFFFF)	//makecol(255,255,255)
+#define COLOR_BLACK16				0x0000
+#define COLOR_WHITE16				0xFFFF
 
 u8      RAM[0x10000];               // RAM
 u8      SRAM[0x8000];               // Save RAM

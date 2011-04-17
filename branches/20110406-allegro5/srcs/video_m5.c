@@ -1,4 +1,4 @@
-//-----------------------------------------------------------------------------
+
 // Meka - video_m5.c
 // SMS/GG Video Mode Rendering - Code
 //-----------------------------------------------------------------------------
@@ -16,7 +16,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-static u16 *    GFX_Line16;
+static ALLEGRO_LOCKED_REGION*	GFX_LineRegion = NULL;
+static u16*						GFX_LineRegionData = NULL;
 
        int      Sprites_on_Line;
        int      Do_Collision;
@@ -33,7 +34,7 @@ int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 //-----------------------------------------------------------------------------
 
 #define PIXEL_TYPE              u16
-#define PIXEL_LINE_DST          GFX_Line16
+#define PIXEL_LINE_DST          GFX_LineRegionData
 #define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
 
 //-----------------------------------------------------------------------------
@@ -43,11 +44,14 @@ int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 // Note: this is used by tools only (not actual emulation refresh)
 void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip)
 {
-    // FIXME-DEPTH
-    switch (dst->vtable->color_depth)
+	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
+	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+    switch (color_format)
     {
-    case 16:
+    case ALLEGRO_PIXEL_FORMAT_RGB_565:
         {
+			u16* dst_data = (u16*)dst_region->data;
+			const int dst_pitch = dst_region->pitch >> 1;
             int i;
             if (flip & 0x0400)
             {
@@ -57,7 +61,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0600 : HV Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = (u16 *)dst->line[y] + x;
+                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -74,7 +78,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0400 : V flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = (u16 *)dst->line[y] + x;
+                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -94,7 +98,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0200 : H Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = (u16 *)dst->line[y] + x;
+                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -111,7 +115,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0000 : No flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = (u16 *)dst->line[y] + x;
+                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -126,8 +130,10 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
             }
             break;
         }
-    case 32:
+    case ALLEGRO_PIXEL_FORMAT_RGBA_8888:
         {
+			u32* dst_data = (u32*)dst_region->data;
+			const int dst_pitch = dst_region->pitch >> 2;
             int i;
             if (flip & 0x0400)
             {
@@ -137,7 +143,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0600 : HV Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = (u32 *)dst->line[y] + x;
+                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -154,7 +160,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0400 : V flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = (u32 *)dst->line[y] + x;
+                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -174,7 +180,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0200 : H Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = (u32 *)dst->line[y] + x;
+                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -191,7 +197,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
                     // 0x0000 : No flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = (u32 *)dst->line[y] + x;
+                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -208,17 +214,18 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
         }
     default:
         assert(0);
-        Msg(MSGT_USER, "TileViewer: unsupported color depth: %d bpp.", dst->vtable->color_depth);
+		Msg(MSGT_USER, "video_m5: Unsupported color format: %x.", color_format);
         break;
     }
-
+	al_unlock_bitmap(dst);
 }
 
 // REDRAW A SCREEN LINE -------------------------------------------------------
 void    Refresh_Line_5 (void)
 {
 	// Point to current video line
-	GFX_Line16 = (u16 *)screenbuffer->line[tsms.VDP_Line];
+	GFX_LineRegion = al_lock_bitmap_region(screenbuffer, 0, tsms.VDP_Line, al_get_bitmap_width(screenbuffer), 1, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+	GFX_LineRegionData = GFX_LineRegion->data;
 
 	if (fskipper.Show_Current_Frame == TRUE)
 	{
@@ -235,9 +242,9 @@ void    Refresh_Line_5 (void)
 		{
 			// Display is off
 			// Select SMS/GG backdrop color, unless background layer display was disabled by user, then use custom color for easier sprite extraction
-			const u16 backdrop_color = (opt.Layer_Mask & LAYER_BACKGROUND) ? Palette_EmulationToHost16[16 | (sms.VDP[7] & 15)] : makecol16(222,222,101);
+			const u16 backdrop_color = (opt.Layer_Mask & LAYER_BACKGROUND) ? Palette_EmulationToHost16[16 | (sms.VDP[7] & 15)] : al_makecol16(222,222,101);
 			int n;
-			u16 *p = GFX_Line16;
+			u16 *p = GFX_LineRegionData;
 			for (n = 256; n != 0; n--)
 				*p++ = backdrop_color;
 
@@ -251,15 +258,16 @@ void    Refresh_Line_5 (void)
 		if (Mask_Left_8)
 		{
 			// FIXME-BORDER
-			const u16 color_black = 0x0000;
-			GFX_Line16[0] = color_black;
-			GFX_Line16[1] = color_black;
-			GFX_Line16[2] = color_black;
-			GFX_Line16[3] = color_black;
-			GFX_Line16[4] = color_black;
-			GFX_Line16[5] = color_black;
-			GFX_Line16[6] = color_black;
-			GFX_Line16[7] = color_black;
+			const u16 color_black = COLOR_BLACK16;
+			u16* p = GFX_LineRegionData;
+			p[0] = color_black;
+			p[1] = color_black;
+			p[2] = color_black;
+			p[3] = color_black;
+			p[4] = color_black;
+			p[5] = color_black;
+			p[6] = color_black;
+			p[7] = color_black;
 		}
 	}
 	else
@@ -267,6 +275,7 @@ void    Refresh_Line_5 (void)
 		// Only update collision if frame is being skipped
 		Refresh_Sprites_5 (FALSE);
 	}
+	al_unlock_bitmap(screenbuffer);
 }
 
 // DISPLAY A BACKGROUND LINE --------------------------------------------------
@@ -345,7 +354,7 @@ void    Display_BackGround_Line_5_C (void)
         {
             int      tile_n;
             u8       tile_attr;
-            int *    tile_palette;
+            u16 *    tile_palette;
             u8 *     tile_pixels;
 
             // Draw tile line

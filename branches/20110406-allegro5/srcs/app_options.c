@@ -78,8 +78,8 @@ static void     Options_Layout(t_app_options *app, bool setup)
 {
     t_frame frame;
 
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(app->box->gfx_buffer);
+	al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {

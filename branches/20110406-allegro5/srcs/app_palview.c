@@ -100,7 +100,7 @@ void    PaletteViewer_Update(void)
 
     int         i;
     bool        dirty = FALSE;
-    const int   color_box_size = pv->box_gfx->w / pv->palette_size;
+    const int   color_box_size = al_get_bitmap_width(pv->box_gfx) / pv->palette_size;
     int         color_current;
     bool        color_current_refresh;
 
@@ -138,7 +138,7 @@ void    PaletteViewer_Update(void)
             al_draw_filled_rectangle(
                 (i * color_box_size), 0, 
                 (i * color_box_size) + color_box_size, 49+1,
-                Palette_EmulationToHost[i]);
+                Palette_Emulation[i]);
             Palette_EmulationFlags[i] &= ~PALETTE_EMULATION_FLAGS_DIRTY;
             dirty = TRUE;
             if (i == color_current)
@@ -157,7 +157,8 @@ void    PaletteViewer_Update(void)
             char color_bits[20];
 
             // Color square
-            rectfill(pv->box_gfx, 4, pv->frame_info.pos.y + 3, 4 + 7, pv->frame_info.pos.y + 3 + 7, Palette_EmulationToHost[color_current]);
+			al_set_target_bitmap(pv->box_gfx);
+			al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, Palette_Emulation[color_current]);
     
             // Description
             sprintf(buf, "Color %d ($%02X)", color_current, color_current);
@@ -186,7 +187,8 @@ void    PaletteViewer_Update(void)
         else
         {
             // Fill with black
-            rectfill(pv->box_gfx, 4, pv->frame_info.pos.y + 3, 4 + 7, pv->frame_info.pos.y + 3 + 7, COLOR_BLACK);
+			al_set_target_bitmap(pv->box_gfx);
+            al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, COLOR_BLACK);
         }
     }
 
@@ -205,7 +207,7 @@ void    PaletteViewer_SetPaletteSize(t_app_palette_viewer *pv, int palette_size)
 void    PaletteViewer_CallbackSelectColor(t_widget *w)
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
-    const int color_box_size = pv->box_gfx->w / pv->palette_size;
+    const int color_box_size = al_get_bitmap_width(pv->box_gfx) / pv->palette_size;
 
     if (w->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
         pv->color_selected = (w->mouse_x / color_box_size);

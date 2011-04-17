@@ -11,12 +11,12 @@
 
 //-----------------------------------------------------------------------------
 // Color configuration
-// (Note: absolutely uses those define, so it willl be easier to switch to direct
+// (Note: absolutely uses those define, so it will be easier to switch to direct
 //  24/32 output someday)
 //-----------------------------------------------------------------------------
 
 #define PIXEL_TYPE              u16
-#define PIXEL_LINE_DST          GFX_Line16
+#define PIXEL_LINE_DST          ((u16*)GFX_LineRegion->data)
 #define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
 
 //-----------------------------------------------------------------------------
@@ -35,7 +35,7 @@ static int		NES_NameTables[4][4] =
    {      0,      1,      2,      3 }, // Four Screens (need 2kb+ of VRAM)
  };
 
-static u16 *    GFX_Line16;
+static ALLEGRO_LOCKED_REGION* GFX_LineRegion = NULL;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -182,35 +182,36 @@ void    NES_PPU_Refresh (int Line)
 	if (fskipper.Show_Current_Frame)
 	{
 		// Point to current video line
-		GFX_Line16 = (u16 *)screenbuffer->line[Line];
+		GFX_LineRegion = al_lock_bitmap_region(screenbuffer, 0, Line, al_get_bitmap_width(screenbuffer), 1, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
 
-		// Blank line if necessary ---------------------------------------------------
+		// Blank line if necessary
 		if (!(NES_Display_BG))
 		{
-			const u16 backdrop_color = COLOR_BLACK;
+			const u16 backdrop_color = COLOR_BLACK16;
 			int n;
-			u16 *p = GFX_Line16;
+			u16* p = (u16*)GFX_LineRegion->data;
 			for (n = NES_RES_X; n != 0; n--)
 				*p++ = backdrop_color;
+			al_unlock_bitmap(screenbuffer);
 			return;
 		}
 
-		// Draw background -----------------------------------------------------------
+		// Draw background
 		if (opt.Layer_Mask & LAYER_BACKGROUND)
 		{
 			NES_PPU_Refresh_BgFg (Line);
 		}
 		else
 		{
-			const u16 backdrop_color = makecol16(222,222,101);
+			const u16 backdrop_color = al_makecol16(222,222,101);
 			int n;
-			u16 *p = GFX_Line16;
+			u16* p = (u16*)GFX_LineRegion->data;
 			for (n = NES_RES_X; n != 0; n--)
 				*p++ = backdrop_color;
 			memset(NES_Spr_Mask, 0, NES_RES_X);
 		}
 
-		// Draw sprites --------------------------------------------------------------
+		// Draw sprites
 		// FIXME: emulates S0HIT even if sprites are disabled
 		if (opt.Layer_Mask & LAYER_SPRITES)
 		{
@@ -222,21 +223,23 @@ void    NES_PPU_Refresh (int Line)
 			NES_PPU_Refresh_Sprites_S0Hit (Line);
 		}
 
-		// Blank the leftmost column if necessary ------------------------------------
+		// Blank the leftmost column if necessary
 		if (NES_Mask_Left_BG)
 		{
 			// FIXME-BORDER
 			//const u16 backdrop_color = COLOR_BLACK;
 			const u16 backdrop_color = PIXEL_PALETTE_TABLE[0];
-			GFX_Line16[0] = backdrop_color;
-			GFX_Line16[1] = backdrop_color;
-			GFX_Line16[2] = backdrop_color;
-			GFX_Line16[3] = backdrop_color;
-			GFX_Line16[4] = backdrop_color;
-			GFX_Line16[5] = backdrop_color;
-			GFX_Line16[6] = backdrop_color;
-			GFX_Line16[7] = backdrop_color;
+			u16* p = (u16*)GFX_LineRegion->data;
+			p[0] = backdrop_color;
+			p[1] = backdrop_color;
+			p[2] = backdrop_color;
+			p[3] = backdrop_color;
+			p[4] = backdrop_color;
+			p[5] = backdrop_color;
+			p[6] = backdrop_color;
+			p[7] = backdrop_color;
 		}
+		al_unlock_bitmap(screenbuffer);
 	}
 	else
 	{
@@ -255,7 +258,7 @@ void    NES_PPU_Refresh_BgFg (int Line)
   int   src_tile_i;     // Tile index
   // For DRAWING --------------------------------------------------------------
   u8    src_color;      // Color
-  int *	pal;            // Palette
+  u16 *	pal;            // Palette
   int   pal_i;          // Palette index
   u8 *	src;            // Source buffer (decoded tile)
   PIXEL_TYPE *dst;      // Destination buffer (video/memory bitmap)
@@ -340,9 +343,9 @@ void    NES_PPU_Refresh_BgFg (int Line)
 void    NES_PPU_Refresh_Sprites (int Line)
 {
 	int   		c, i;
-	int *		Pal;
+	PIXEL_TYPE* Pal;
 	u8 *		Src;
-	PIXEL_TYPE *Dst;
+	PIXEL_TYPE* Dst;
 	int			obj_x, obj_y, obj_a, obj_i, obj_l, obj_h;
 	byte *		Spr_Mask;
 

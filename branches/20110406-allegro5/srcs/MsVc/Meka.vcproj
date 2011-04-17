@@ -607,14 +607,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\config_j.c"
-				>
-			</File>
-			<File
-				RelativePath="..\config_j.h"
-				>
-			</File>
-			<File
 				RelativePath="..\config_v.c"
 				>
 			</File>

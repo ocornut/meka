@@ -88,7 +88,8 @@ void    Blit_Fullscreen_Misc (void)
         }
         else
         {
-            clear_to_color (screen, Border_Color);
+			al_set_target_bitmap(screen);
+            al_clear_to_color(Border_Color);
         }
         // cpu_capabilities = cpu_capabilities_backup;
     }

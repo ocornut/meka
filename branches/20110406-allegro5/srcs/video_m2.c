@@ -13,7 +13,8 @@
 
 static u8    Sprites_On_Line [192 + 32];
 
-const RGB    TMS9918_Palette [16] =
+// FIXME-ALLEGRO5: Palette is in float format, must be converted
+const ALLEGRO_COLOR TMS9918_Palette [16] =
  {
      // FIXME: Proper palette
    /* 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0xC0, 0x20,
@@ -22,22 +23,22 @@ const RGB    TMS9918_Palette [16] =
    0xE0, 0x60, 0x60, 0xC0, 0xC0, 0x20, 0xC0, 0xC0, 0x80,
    0x20, 0x80, 0x20, 0xC0, 0x40, 0xA0, 0xA0, 0xA0, 0xA0,
    0xE0, 0xE0, 0xE0, */
-   { 4*0x00, 4*0x00, 4*0x00, 0 }, /*  0: Transparent   */
-   { 4*0x00, 4*0x00, 4*0x00, 0 }, /*  1: Black         */
-   { 4*0x08, 4*0x30, 4*0x08, 0 }, /*  2: Medium Green  */
-   { 4*0x18, 4*0x38, 4*0x18, 0 }, /*  3: Light Green   */
-   { 4*0x08, 4*0x08, 4*0x38, 0 }, /*  4: Dark Blue     */
-   { 4*0x10, 4*0x18, 4*0x38, 0 }, /*  5: Light Blue    */
-   { 4*0x28, 4*0x08, 4*0x08, 0 }, /*  6: Dark Red      */
-   { 4*0x10, 4*0x30, 4*0x38, 0 }, /*  7: Cyan          */
-   { 4*0x38, 4*0x08, 4*0x08, 0 }, /*  8: Medium Red    */
-   { 4*0x38, 4*0x18, 4*0x18, 0 }, /*  9: Light Red     */
-   { 4*0x30, 4*0x30, 4*0x08, 0 }, /* 10: Dark Yellow   */
-   { 4*0x30, 4*0x30, 4*0x20, 0 }, /* 11: Light Yellow  */
-   { 4*0x08, 4*0x20, 4*0x08, 0 }, /* 12: Dark Green    */
-   { 4*0x30, 4*0x10, 4*0x28, 0 }, /* 13: Magenta       */
-   { 4*0x28, 4*0x28, 4*0x28, 0 }, /* 14: Grey          */
-   { 4*0x38, 4*0x38, 4*0x38, 0 }  /* 15: White         */
+   { (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  0: Transparent   */
+   { (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  1: Black         */
+   { (4*0x08)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  2: Medium Green  */
+   { (4*0x18)/255.0f, (4*0x38)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  3: Light Green   */
+   { (4*0x08)/255.0f, (4*0x08)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  4: Dark Blue     */
+   { (4*0x10)/255.0f, (4*0x18)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  5: Light Blue    */
+   { (4*0x28)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  6: Dark Red      */
+   { (4*0x10)/255.0f, (4*0x30)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  7: Cyan          */
+   { (4*0x38)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  8: Medium Red    */
+   { (4*0x38)/255.0f, (4*0x18)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  9: Light Red     */
+   { (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 10: Dark Yellow   */
+   { (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x20)/255.0f, 1.0f }, /* 11: Light Yellow  */
+   { (4*0x08)/255.0f, (4*0x20)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 12: Dark Green    */
+   { (4*0x30)/255.0f, (4*0x10)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 13: Magenta       */
+   { (4*0x28)/255.0f, (4*0x28)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 14: Grey          */
+   { (4*0x38)/255.0f, (4*0x38)/255.0f, (4*0x38)/255.0f, 1.0f }  /* 15: White         */
  };
 
 //-----------------------------------------------------------------------------
@@ -46,8 +47,11 @@ const RGB    TMS9918_Palette [16] =
 //  24/32 output someday)
 //-----------------------------------------------------------------------------
 
+static ALLEGRO_LOCKED_REGION*	GFX_ScreenRegion = NULL;
+static u16*						GFX_ScreenData = NULL;
+static int						GFX_ScreenPitch = 0;
+
 #define PIXEL_TYPE              u16
-#define PIXEL_LINE_DST          GFX_Line16
 #define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
 
 //-----------------------------------------------------------------------------
@@ -71,16 +75,19 @@ void    TMS9918_Palette_Set (void)
 // Note: this is used by tools only (not actual emulation refresh)
 void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor, int bgcolor)
 {
-    // FIXME-DEPTH
-    switch (dst->vtable->color_depth)
+	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
+	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+    switch (color_format)
     {
-    case 16:
+    case ALLEGRO_PIXEL_FORMAT_RGB_565:
         {
+			u16* dst_data = (u16*)dst_region->data;
+			const int dst_pitch = dst_region->pitch >> 1;
             int i;
             for (i = 0; i != 8; i++)
             {
                 const u8 cc = *pixels++;
-                u16 *dst8 = (u16 *)dst->line[y] + x;
+                u16 *dst8 = dst_data + (dst_pitch*y) + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
                 dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
@@ -93,13 +100,15 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int 
             }
             break;
         }
-    case 32:
+    case ALLEGRO_PIXEL_FORMAT_RGBA_8888:
         {
+			u32* dst_data = (u32*)dst_region->data;
+			const int dst_pitch = dst_region->pitch >> 2;
             int i;
             for (i = 0; i != 8; i++)
             {
                 const u8 cc = *pixels++;
-                u32 *dst8 = (u32 *)dst->line[y] + x;
+                u32 *dst8 = dst_data + (dst_pitch*y) + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
                 dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
@@ -114,9 +123,10 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int 
         }
     default:
         assert(0);
-        Msg(MSGT_USER, "TileViewer: unsupported color depth!");
+        Msg(MSGT_USER, "video_m2: unsupported color format!");
         break;
     }
+	al_unlock_bitmap(dst);
 }
 
 // DISPLAY TEXT MODE 0 SCREEN -------------------------------------------------
@@ -131,11 +141,11 @@ void    Display_Text_0 (void)
         int k;
         for (k = 0; k != 8; k ++)
         {
-            PIXEL_TYPE *dst = (PIXEL_TYPE *)screenbuffer->line[j + k];
+            PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch*(j + k);
             const u8 *tile_n = BACK_AREA + (j * 5);
 
             // 8 left pixels are black
-            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK;    // FIXME-BORDER
+            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK16;    // FIXME-BORDER
             dst += 8;
 
             for (i = 8; i != (40 * 6) + 8; i += 6)
@@ -153,7 +163,7 @@ void    Display_Text_0 (void)
             }
 
             // 8 right pixels are black
-            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK;    // FIXME-BORDER
+            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK16;    // FIXME-BORDER
         }
     }
 }
@@ -179,7 +189,7 @@ void    Display_Background_1 (void)
             for (j2 = 0; j2 != 8; j2++)
             {
                 const u8    src8 = *p1++;
-                PIXEL_TYPE *dst8 = (PIXEL_TYPE *)screenbuffer->line[y + j2] + x;
+                PIXEL_TYPE *dst8 = GFX_ScreenData + GFX_ScreenPitch*(y + j2) + x;
                 dst8[0] = (src8 & 0x80) ? color1 : color2;
                 dst8[1] = (src8 & 0x40) ? color1 : color2;
                 dst8[2] = (src8 & 0x20) ? color1 : color2;
@@ -228,7 +238,7 @@ void    Display_Background_2 (void)
                 // Draw one tile
                 for (j2 = 0; j2 < 8; j2 ++, p2++)
                 {
-                    PIXEL_TYPE *dst = ((PIXEL_TYPE *)screenbuffer->line [y + j2]) + x;
+                    PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y + j2) + x;
                     const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*p2 >> 4];
                     const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[(*p2) & 0x0F];
                     const u8 cc = (*p1++);
@@ -265,16 +275,16 @@ void    Display_Background_3 (void)
                 const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*tiles_data >> 4];
                 const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[*tiles_data & 0x0F];
                 
-                dst = (PIXEL_TYPE *)screenbuffer->line[y + 0] + x;
+                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 0) + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
-                dst = (PIXEL_TYPE *)screenbuffer->line[y + 1] + x;
+                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 1) + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
-                dst = (PIXEL_TYPE *)screenbuffer->line[y + 2] + x;
+                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 2) + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
-                dst = (PIXEL_TYPE *)screenbuffer->line[y + 3] + x;
+                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 3) + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
                 y += 4;
@@ -311,7 +321,7 @@ void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
             const u8 src8 = *src;
             if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
-                PIXEL_TYPE * dst8 = (PIXEL_TYPE *)screenbuffer->line [y] + x;
+                PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
                 if  (src8 & 0x40) { dst8[2]  = dst8[3]  = fcolor; }
                 if  (src8 & 0x20) { dst8[4]  = dst8[5]  = fcolor; }
@@ -325,7 +335,7 @@ void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
             y++;
             if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
-                PIXEL_TYPE * dst8 = (PIXEL_TYPE *)screenbuffer->line [y] + x;
+                PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
                 if  (src8 & 0x40) { dst8[2]  = dst8[3]  = fcolor; }
                 if  (src8 & 0x20) { dst8[4]  = dst8[5]  = fcolor; }
@@ -361,7 +371,7 @@ void    Draw_Sprite_Mono (u8 *src, int x, int y, int fcolor_idx)
         if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
         {
             const u8     src8 = *src;
-            PIXEL_TYPE * dst8 = (PIXEL_TYPE *)screenbuffer->line[y] + x;
+            PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
             if  (src8 & 0x80) dst8[0] = fcolor; 
             if  (src8 & 0x40) dst8[1] = fcolor; 
             if  (src8 & 0x20) dst8[2] = fcolor; 
@@ -454,7 +464,11 @@ void    Display_Sprites_1_2_3 (void)
 
 void    Refresh_Modes_0_1_2_3 (void)
 {
-    // Display Background
+	GFX_ScreenRegion = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+	GFX_ScreenData = GFX_ScreenRegion->data;
+	GFX_ScreenPitch = GFX_ScreenRegion->pitch;
+
+	// Display Background
     if (opt.Layer_Mask & LAYER_BACKGROUND)
     {
         if (Display_ON)
@@ -470,19 +484,25 @@ void    Refresh_Modes_0_1_2_3 (void)
         else
         {
             // Clear screen
-            clear_to_color (screenbuffer, Border_Color);
+			al_set_target_bitmap(screenbuffer);
+            al_clear_to_color(Border_Color);
         }
     }
     else
     {
         // Clear screen with yellow-ish color
-        clear_to_color (screenbuffer, 95);  // see video_m5.c [20050403] For sprite ripping
+		// FIXME-ALLEGRO5: color value
+		al_set_target_bitmap(screenbuffer);
+		al_clear_to_color(al_map_rgb(200,200,0));
+        //clear_to_color (screenbuffer, 95);  // see video_m5.c [20050403] For sprite ripping
     }
     // Display Sprites
     if ((opt.Layer_Mask & LAYER_SPRITES) && Display_ON)
     {
         Display_Sprites_1_2_3 ();
     }
+
+	al_unlock_bitmap(screenbuffer);
 }
 
 /*

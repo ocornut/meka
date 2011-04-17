@@ -352,12 +352,14 @@ void    Video_Setup_State (void)
 
 void    Screen_Save_to_Next_Buffer(void)
 {
-    blit (screenbuffer, screenbuffer_next, 0, 0, 0, 0, screenbuffer->w, screenbuffer->h);
+	al_set_target_bitmap(screenbuffer_next);
+	al_draw_bitmap(screenbuffer, 0, 0, 0);
 }
 
 void    Screen_Restore_from_Next_Buffer(void)
 {
-    blit (screenbuffer_next, screenbuffer, 0, 0, 0, 0, screenbuffer_next->w, screenbuffer_next->h);
+	al_set_target_bitmap(screenbuffer);
+	al_draw_bitmap(screenbuffer_next, 0, 0, 0);
 }
 
 // REFRESH THE SCREEN ---------------------------------------------------------

@@ -155,8 +155,8 @@ void    FB_Init_2 (void)
 
 void        FB_Layout(t_filebrowser *app, bool setup)
 {
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Setup widgets
     if (setup)
@@ -397,7 +397,9 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 #elif ARCH_WIN32
     struct _finddata_t info;
     long   handle;
-    if ((handle = _findfirst (uconvert_toascii("*.*", NULL), &info)) < 0)
+    // FIXME-ALLEGRO5
+	//if ((handle = _findfirst (uconvert_toascii("*.*", NULL), &info)) < 0)
+	if ((handle = _findfirst ("*.*", &info)) < 0)
         return;
 #endif
 
@@ -527,9 +529,10 @@ void        FB_Draw_Infos (void)
 
     sprintf (s, "%d/%d", FB.file_pos + 1, FB.files_max);
     Font_SetCurrent (F_MIDDLE);
-    rectfill (FB.bmp,
-        FB_TEXT_PAD_X, FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2,
-        88, FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2/*+ 6*/ + Font_Height(-1),
+	al_set_target_bitmap(FB.bmp);
+    al_draw_filled_rectangle(
+        FB_TEXT_PAD_X, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
+        88+1, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2+1/*+ 6*/ + Font_Height(-1),
         COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print (-1, FB.bmp, s,
         (110 - Font_TextLength (-1, s)) / 2,
@@ -558,9 +561,10 @@ void        FB_Draw_List(void)
     // Ask scrollbar to refresh
     widget_set_dirty(FB.widget_scrollbar);
 
-    //
-    rectfill (FB.bmp, FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X - 1, FB_PAD_Y + FB_Return_File_Area_Y () - 2, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
-    line (FB.bmp, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y () - 2, COLOR_SKIN_WINDOW_SEPARATORS);
+	al_set_target_bitmap(FB.bmp);
+    al_draw_filled_rectangle(FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
+    // FIXME-ALLEGRO5: line coordinates
+	al_draw_line(FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y () - 2, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     Font_SetCurrent (F_LARGE);
     for (n = FB.file_display_first; n < lines_max; n++)
@@ -572,7 +576,7 @@ void        FB_Draw_List(void)
 
         // Highlight the current file
         if (n == FB.file_pos)
-            rectfill (FB.bmp, FB_PAD_X + 2, y /*- 1*/, FB.res_x - FB_SCROLL_X - FB_PAD_X - 2, y + Font_Height(-1) - 2, COLOR_SKIN_WIDGET_LISTBOX_SELECTION);
+            al_draw_filled_rectangle(FB_PAD_X + 2, y, FB.res_x - FB_SCROLL_X - FB_PAD_X - 1, y + Font_Height(-1) - 1, COLOR_SKIN_WIDGET_LISTBOX_SELECTION);
 
         // Get the name to print and additionnal width usage (icons, etc...)
         switch (entry->type)
@@ -670,14 +674,14 @@ void        FB_Draw_List(void)
                     // Hack icon
                     if (entry->db_entry->flags & DB_FLAG_HACK)
                     {
-                        draw_sprite (FB.bmp, Graphics.Icons.Hack, x + 1, y + 1);
+						al_draw_bitmap(Graphics.Icons.Hack, x + 1, y + 1, 0);
                         x += 18;
                     }
 
                     // BAD icon
                     if (entry->db_entry->flags & DB_FLAG_BAD)
                     {
-                        draw_sprite (FB.bmp, Graphics.Icons.BAD, x + 1+3, y + 1+1);
+                        al_draw_bitmap(Graphics.Icons.BAD, x + 1+3, y + 1+1, 0);
                         x += 18;
                     }
 
@@ -685,13 +689,13 @@ void        FB_Draw_List(void)
                     if (entry->db_entry->flags & DB_FLAG_TRANS)
                     {
                         if (entry_file_flag == FLAG_UK || entry_file_flag == FLAG_US)
-                            draw_sprite (FB.bmp, Graphics.Icons.Translation_JP, x + 1, y + 1);
+                            al_draw_bitmap(Graphics.Icons.Translation_JP, x + 1, y + 1, 0);
                         else
-                            draw_sprite (FB.bmp, Graphics.Icons.Translation_JP_US, x + 1, y + 1);
+                            al_draw_bitmap(Graphics.Icons.Translation_JP_US, x + 1, y + 1, 0);
                         x += 18;
                         if (entry_file_flag == -1)
                             entry_file_flag = FLAG_UNKNOWN;
-                        draw_sprite (FB.bmp, Graphics.Flags[entry_file_flag], x + 1, y + 1);
+                        al_draw_bitmap(Graphics.Flags[entry_file_flag], x + 1, y + 1, 0);
                     }
                     else
                     {
@@ -700,13 +704,13 @@ void        FB_Draw_List(void)
                         {
                             // HomeBrew icon
                             if (entry->db_entry->flags & DB_FLAG_HOMEBREW)
-                                draw_sprite (FB.bmp, Graphics.Icons.HomeBrew, x + 1, y + 1);
+                                al_draw_bitmap(Graphics.Icons.HomeBrew, x + 1, y + 1, 0);
                             // Proto icon
                             else if (entry->db_entry->flags & DB_FLAG_PROTO)
-                                draw_sprite (FB.bmp, Graphics.Icons.Prototype, x + 1, y + 1);
+                                al_draw_bitmap(Graphics.Icons.Prototype, x + 1, y + 1, 0);
                             // BIOS icon
                             else if (entry->db_entry->flags & DB_FLAG_BIOS)
-                                draw_sprite (FB.bmp, Graphics.Icons.BIOS, x + 1, y + 1);
+                                al_draw_bitmap(Graphics.Icons.BIOS, x + 1, y + 1, 0);
                         }
 
                         // Country Flag
@@ -714,7 +718,7 @@ void        FB_Draw_List(void)
                         {
                             if (entry->db_entry->flags & (DB_FLAG_HOMEBREW | DB_FLAG_PROTO | DB_FLAG_BIOS))
                                 x += 18;
-                            draw_sprite (FB.bmp, Graphics.Flags[entry_file_flag], x + 1, y + 1);
+                            al_draw_bitmap(Graphics.Flags[entry_file_flag], x + 1, y + 1, 0);
                         }
                     }
                 }
@@ -769,44 +773,44 @@ void            FB_Update(void)
     if (gui_box_has_focus(FB.box))
     {
         // Update keyboard inputs
-        if (Inputs_KeyPressed (KEY_ENTER, TRUE) || Inputs_KeyPressed (KEY_ENTER_PAD, TRUE))
+        if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, TRUE) || Inputs_KeyPressed (ALLEGRO_KEY_PAD_ENTER, TRUE))
         {
             FB_Open ();
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed (KEY_HOME, FALSE))
+        else if (Inputs_KeyPressed (ALLEGRO_KEY_HOME, FALSE))
         {
             FB.file_pos = 0;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed (KEY_END, FALSE))
+        else if (Inputs_KeyPressed (ALLEGRO_KEY_END, FALSE))
         {
             FB.file_pos = FB.files_max - 1;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (KEY_DOWN, FALSE, 15, 1))
+        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_DOWN, FALSE, 15, 1))
         {
             FB.file_pos ++;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (KEY_UP, FALSE, 15, 1))
+        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_UP, FALSE, 15, 1))
         {
             FB.file_pos --;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 30, 4))
+        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PGDN, FALSE, 30, 4))
         {
             FB.file_pos += FB.file_y;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 30, 4))
+        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PGUP, FALSE, 30, 4))
         {
             FB.file_pos -= FB.file_y;
             dirty = TRUE;
         }
         // Note: we check for no key modifiers to be pressed
         // Eg: we don't want ALT-L to jump on 'L' games
-        else if ((key_shifts & (KB_CTRL_FLAG | KB_ALT_FLAG | KB_SHIFT_FLAG)) == 0)
+        else if ((g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT)) == 0)
         {
             // FIXME: this function may need a rewrite. Also, avoid using strupr()!
             // FIXME: could use allegro feature of keycode->ascii conversion

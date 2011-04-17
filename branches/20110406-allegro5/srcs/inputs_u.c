@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_game.h"
 #include "keyboard.h"
+#include "inputs_t.h"
 #include "lightgun.h"
 #include "rapidfir.h"
 #include "sportpad.h"
@@ -33,7 +34,6 @@ void        Inputs_Sources_Init (void)
 {
     Inputs.Sources = NULL;
     Inputs.Sources_Max = 0;
-    Inputs.Sources_Joy_Driver = JOY_TYPE_AUTODETECT;
 
     Inputs.Peripheral [0] = INPUT_JOYPAD;
     Inputs.Peripheral [1] = INPUT_JOYPAD;

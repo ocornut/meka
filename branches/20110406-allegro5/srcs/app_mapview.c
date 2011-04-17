@@ -534,7 +534,7 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
     }
     else
     {
-        al_draw_pixel(
+        al_put_pixel(
             app->frame_tilemap.pos.x + x1,
             app->frame_tilemap.pos.y + y,
             color);

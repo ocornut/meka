@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------
 
 ALLEGRO_COLOR   Palette_Emulation[PALETTE_EMU_GAME_SIZE];
-ALLEGRO_COLOR   Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
+int				Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];			// pixel format (eg: u16/u32) depending on video buffer types
 u16				Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
 int     Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
 bool    Palette_EmulationDirtyAny;
@@ -93,7 +93,7 @@ void    Palette_Emulation_Reset()
     for (i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
     {
         Palette_Emulation[i] = COLOR_BLACK;
-        Palette_EmulationToHost[i] = COLOR_BLACK;
+        Palette_EmulationToHost[i] = 0x0000;
         Palette_EmulationToHost16[i] = 0x0000;
         Palette_EmulationFlags[i] = PALETTE_EMULATION_FLAGS_DIRTY;
     }
@@ -147,7 +147,7 @@ void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color)
 {
     assert(idx >= 0 && idx < 32);
     Palette_Emulation[idx] = color;
-    Palette_EmulationToHost[idx] = color;
+    Palette_EmulationToHost[idx] = al_makecol(color.r*255, color.g*255, color.b*255);
     Palette_EmulationToHost16[idx] = 0x1234;//FIXME-ALLEGRO5: 565 color //makecol16(color.r, color.g, color.b);
     Palette_EmulationFlags[idx] |= PALETTE_EMULATION_FLAGS_DIRTY;
     Palette_EmulationDirtyAny = TRUE;
