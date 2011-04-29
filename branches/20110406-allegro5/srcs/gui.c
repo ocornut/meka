@@ -23,7 +23,8 @@ void    gui_redraw_everything_now_once (void)
 // REDRAW GUI BACKGROUND ------------------------------------------------------
 void    Redraw_Background (void) // gui_blit() ?
 {
-    blit (gui_background, gui_buffer, 0, 0, 0, 0, gui.info.screen.x, gui.info.screen.y);
+	al_set_target_bitmap(gui_buffer);
+	al_draw_bitmap(gui_background, 0, 0, 0x0000);
 }
 
 //-----------------------------------------------------------------------------
@@ -86,8 +87,10 @@ void            gui_redraw (void)
 
         // Draw borders
         gui_rect (gui_buffer, LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
-        line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 1, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 1, COLOR_SKIN_WINDOW_BORDER);
-        line (gui_buffer, b_frame.pos.x, b_frame.pos.y - 2, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 2, COLOR_SKIN_WINDOW_BORDER);
+		al_set_target_bitmap(gui_buffer);
+		// FIXME-ALLEGRO5: line coordinates
+        al_draw_line(b_frame.pos.x, b_frame.pos.y - 1, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 1, COLOR_SKIN_WINDOW_BORDER, 1.0f);
+        al_draw_line(b_frame.pos.x, b_frame.pos.y - 2, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 2, COLOR_SKIN_WINDOW_BORDER, 1.0f);
 
         // Draw title bar.
 		{
@@ -140,7 +143,8 @@ void            gui_redraw (void)
         switch (b->type)
         {
         case GUI_BOX_TYPE_STANDARD: 
-			blit (b->gfx_buffer, gui_buffer, 0, 0, b_frame.pos.x, b_frame.pos.y, b_frame.size.x + 1, b_frame.size.y + 1);
+			al_set_target_bitmap(gui_buffer);
+			al_draw_bitmap_region(b->gfx_buffer, 0, 0, b_frame.size.x + 1, b_frame.size.y + 1, b_frame.pos.x, b_frame.pos.y, 0x0000);
             break;
         case GUI_BOX_TYPE_GAME : 
             gamebox_draw(b, screenbuffer);

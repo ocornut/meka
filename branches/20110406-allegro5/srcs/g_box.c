@@ -167,8 +167,9 @@ void        gui_update_boxes(void)
             }
         }
 
-        blit(gui_background, gui_buffer, ax1, ay1, ax1, ay1, ax2 - ax1, ay2 - ay1);
-        blit(gui_background, gui_buffer, bx1, by1,  bx1, by1, bx2 - bx1, by2 - by1);
+		al_set_target_bitmap(gui_buffer);
+		al_draw_bitmap_region(gui_background, ax1, ay1, ax2 - ax1, ay2 - ay1, ax1, ay1, 0x0000);
+		al_draw_bitmap_region(gui_background, bx1, by1, bx2 - bx1, by2 - by1, bx1, by1, 0x0000);
         // blit (color_buffer, gui_buffer, ax1, ay1, ax1, ay1, ax2 - ax1, ay2 - ay1);
         // blit (color2_buffer, gui_buffer, bx1, by1, bx1, by1, bx2 - bx1, by2 - by1);
         // blit (gui_buffer, screen, 0, 0, 0, 0, 640, 480);

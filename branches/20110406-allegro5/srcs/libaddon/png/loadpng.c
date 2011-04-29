@@ -1,3 +1,4 @@
+#if 0	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
 /* loadpng, Allegro wrapper routines for libpng
  * by Peter Wang (tjaden@users.sf.net).
  *
@@ -412,3 +413,4 @@ ALLEGRO_BITMAP *load_memory_png(const void *buffer, int bufsize, ALLEGRO_COLOR *
     
     return bmp;
 }
+#endif

@@ -80,7 +80,7 @@ void        BMemory_Save (void)
 	case MAPPER_93c46:          break;
 	default:                    return;
 	}
-	if (!file_exists(g_Env.Paths.SavegameDirectory, 0xFF, NULL))
+	if (!al_filename_exists(g_Env.Paths.SavegameDirectory))
 		al_make_directory(g_Env.Paths.SavegameDirectory);
 	f = fopen(g_Env.Paths.BatteryBackedMemoryFile, "wb");
 	switch (cur_machine.mapper)

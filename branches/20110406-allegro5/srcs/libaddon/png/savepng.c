@@ -1,3 +1,5 @@
+#if 0	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
+
 /* loadpng, Allegro wrapper routines for libpng
  * by Peter Wang (tjaden@users.sf.net).
  *
@@ -64,8 +66,6 @@ static int save_hicolour(png_structp png_ptr, ALLEGRO_BITMAP *bmp, int depth)
 
     return 1;
 }
-
-
 
 /* save_truecolour:
  *  Core save routine for 32 bpp images.
@@ -230,3 +230,4 @@ int save_png(AL_CONST char *filename, ALLEGRO_BITMAP *bmp, AL_CONST RGB *pal)
 
     return 0;
 }
+#endif

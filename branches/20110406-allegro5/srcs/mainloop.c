@@ -115,24 +115,6 @@ void    Main_Loop_No_Emulation (void)
         if ((fskipper.Show_Current_Frame) && (!(machine & MACHINE_POWER_ON)))
         {
             sms.VDP[0] &= ~0x20; // no mask left 8 (for GUI windows) // FIXME: blah
-            switch (game_running)
-            {
-            case GAME_RUNNING_NONE:
-                Effects_TV_Update();
-                break;
-            case GAME_RUNNING_BREAKOUT:
-                BreakOut_Update ();
-                break;
-            case GAME_RUNNING_TETRIS:
-                Tetris_Update ();
-                break;
-            case GAME_RUNNING_BRAINWASH:
-                BrainWash_Update ();
-                break;
-            case GAME_RUNNING_PONG:
-                Pong_Update ();
-                break;
-            }
         }
         // Refresh GUI screen
         Refresh_Screen ();

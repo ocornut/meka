@@ -1,3 +1,4 @@
+#if 0	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
 /* loadpng.h */
 /* This file is hereby placed in the public domain. */
 #ifndef _included_loadpng_h_
@@ -62,3 +63,4 @@ int loadpng_init(void);
 #endif
 
 #endif /* _included_loadpng_h */
+#endif
