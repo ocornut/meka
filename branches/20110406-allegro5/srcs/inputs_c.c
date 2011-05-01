@@ -67,8 +67,8 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
 {
     t_frame frame;
 
-    // Clear
-    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(app->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
@@ -488,11 +488,11 @@ void    Inputs_CFG_Map_Change_Update (void)
     input_src = Inputs.Sources[Inputs_CFG.Current_Source];
 
     // Pressing ESC cancel map change
-    if (key[KEY_ESC])
+	// Eat the keypress to avoid it having side effect of switching to fullscreen mode
+    if (Inputs_KeyPressed(KEY_ESC, true))
     {
         found = TRUE;
         input_src->Map [Inputs_CFG.Current_Map].Idx = -1;
-        key[KEY_ESC] = 0; // Disable the key to avoid it to have an effect now
         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Cancelled));
         Inputs_CFG_Map_Change_End ();
         return;

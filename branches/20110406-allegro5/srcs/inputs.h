@@ -129,7 +129,6 @@ typedef struct
     byte            Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
     float           Analog_to_Digital_FallOff;  // Default: 0.8f
     byte            Connected_and_Ready;        // No/Yes
-    int             Driver;                     // Driver (NOW UNUSED)
     t_input_map     Map[INPUT_MAP_MAX];
     int             Map_Counters[INPUT_MAP_MAX];
 } t_input_src;
@@ -154,9 +153,7 @@ typedef struct
     // Mouse
     int             MouseSpeed_X;                   // Mouse speed
     int             MouseSpeed_Y;                   //
-    int             MouseMickeys_X;                 // Mouse movement in mickeys for this frame
-    int             MouseMickeys_Y;                 //
-    // Keyboard
+   // Keyboard
     t_list *        KeyPressedQueue;                // Queued keypresses
     // GUI
     int             Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)

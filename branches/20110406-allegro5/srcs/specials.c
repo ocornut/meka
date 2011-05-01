@@ -19,13 +19,12 @@ typedef struct
 {
   int   v;    // 0: not active, 1->4: active
   int   x, y;
-  int   save;
+  ALLEGRO_COLOR	save;
 } t_effect_blood_drop;
 
-static ALLEGRO_BITMAP *				hearts_save [MAX_HEARTS];
-static t_effect_blood_drop	blood [MAX_BLOOD_DROP];
-static t_effect_blood_drop	snow [MAX_SNOW_FLAKES];
-
+static ALLEGRO_BITMAP *		hearts_save[MAX_HEARTS];
+static t_effect_blood_drop	blood[MAX_BLOOD_DROP];
+static t_effect_blood_drop	snow[MAX_SNOW_FLAKES];
 static int                  blood_current_drop_idx;
 
 //-----------------------------------------------------------------------------
@@ -36,15 +35,14 @@ static void	SkinEffect_Blood_Update(void)
 {
 	int i;
 	t_gui_box *b;
-	const ALLEGRO_COLOR blood_colors[4] =
-	{
-		// This is the colors originally used when MEKA was working in palette mode
-		// Nowadays, I guess the logic should be changed to take a single base color and create altered variations of it
-		COLOR_SKIN_WINDOW_BACKGROUND,
-		COLOR_SKIN_WINDOW_BORDER,
-		COLOR_SKIN_MENU_SELECTION,
-		COLOR_SKIN_MENU_BACKGROUND,
-	};
+	ALLEGRO_COLOR blood_colors[4];
+	
+	// This is the colors originally used when MEKA was working in palette mode
+	// Nowadays, I guess the logic should be changed to take a single base color and create altered variations of it
+	blood_colors[0] = COLOR_SKIN_WINDOW_BACKGROUND;
+	blood_colors[1] = COLOR_SKIN_WINDOW_BORDER;
+	blood_colors[2] = COLOR_SKIN_MENU_SELECTION;
+	blood_colors[3] = COLOR_SKIN_MENU_BACKGROUND;
 
 	// Create new drops around cursor
 	for (i = 0; i < 6; i ++)
@@ -72,15 +70,21 @@ static void	SkinEffect_Blood_Update(void)
 			|| blood[i].y < 0 || blood[i].y >= gui.info.screen.y)
 			blood[i].v = 0;
 	}
+
+	al_lock_bitmap(gui_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+	al_set_target_bitmap(gui_buffer);
+
 	// Save old colors
 	for (i = 0; i < MAX_BLOOD_DROP; i ++)
 		if (blood[i].v)
-			blood[i].save = getpixel(gui_buffer, blood[i].x, blood[i].y);
+			blood[i].save = al_get_pixel(gui_buffer, blood[i].x, blood[i].y);
 
 	// Draw blood drops
 	for (i = 0; i < MAX_BLOOD_DROP; i ++)
 		if (blood[i].v)
-			putpixel(gui_buffer, blood[i].x, blood[i].y, blood_colors[blood[i].v]);
+			al_put_pixel(blood[i].x, blood[i].y, blood_colors[blood[i].v]);
+
+	al_unlock_bitmap(gui_buffer);
 }
 
 // UPDATE BLOOD [AFTER] -------------------------------------------------------
@@ -112,7 +116,8 @@ void    special_effects_update_after (void)
 		 {
 			 const int w = al_get_bitmap_width(Graphics.Misc.Heart1);
 			 const int h = al_get_bitmap_height(Graphics.Misc.Heart1);
-             blit (gui_buffer, hearts_save [i], blood [i].x, blood [i].y, 0, 0, w, h);
+			 al_set_target_bitmap(hearts_save[i]);
+			 al_draw_bitmap_region(gui_buffer, blood [i].x, blood [i].y, w, h, 0, 0, 0x0000);
 		 }
 
 		 // Draw hearts
@@ -157,20 +162,21 @@ void    special_effects_update_after (void)
              }
          // Save old colors ----------------------------------------------------
          for (i = 0; i < MAX_SNOW_FLAKES; i ++)
-             snow[i].save = getpixel(gui_buffer, snow[i].x, snow[i].y);
+             snow[i].save = al_get_pixel(gui_buffer, snow[i].x, snow[i].y);
          // Draw snow flakes ---------------------------------------------------
+		 al_set_target_bitmap(gui_buffer);
          for (i = 0; i < MAX_SNOW_FLAKES; i ++)
-             putpixel (gui_buffer, snow[i].x, snow[i].y, COLOR_WHITE);
+             al_put_pixel(snow[i].x, snow[i].y, COLOR_WHITE);
          break;
     }
 }
 
-// INITIALIZE SNOW FLAKES POSITIONS -------------------------------------------
+// INITIALIZE SNOW FLAKES POSITIONS
 void    special_effects_snow_init (int i)
 {
     snow [i].x = Random(gui.info.screen.x);
     snow [i].y = gui.info.bars_height + Random(gui.info.screen.y - 2 * (gui.info.bars_height + 2));
-    snow [i].save = -1;
+    snow [i].save = al_map_rgba(0, 0, 0, 0); // zero alpha for disable
 }
 
 // UPDATE BLOOD [BEFORE] ------------------------------------------------------
@@ -179,23 +185,20 @@ void    special_effects_update_before (void)
   int   i;
   t_skin *skin = Skins_GetCurrentSkin();
 
+  al_set_target_bitmap(gui_buffer);
   switch (skin->effect)
     {
     // BLOOD DROPS -------------------------------------------------------------
     case SKIN_EFFECT_BLOOD:
          for (i = 0; i < MAX_BLOOD_DROP; i ++)
-             {
-             if ((blood[i].v) && (blood[i].save != -1))
-                {
-                putpixel (gui_buffer, blood[i].x, blood[i].y, blood[i].save);
-                }
-             }
+             if ((blood[i].v) && (blood[i].save.a != 0))
+                al_put_pixel(blood[i].x, blood[i].y, blood[i].save);
          break;
     // SNOW FLAKES -------------------------------------------------------------
     case SKIN_EFFECT_SNOW:
          for (i = 0; i < MAX_SNOW_FLAKES; i ++)
-             if (snow[i].save != -1)
-                putpixel (gui_buffer, snow[i].x, snow[i].y, snow[i].save);
+             if (snow[i].save.a != 0)
+                al_put_pixel(snow[i].x, snow[i].y, snow[i].save);
          break;
     // FLOATING HEARTS ---------------------------------------------------------
     case SKIN_EFFECT_HEARTS:
@@ -204,7 +207,7 @@ void    special_effects_update_before (void)
 		 {
 			 const int w = al_get_bitmap_width(Graphics.Misc.Heart1);
 			 const int h = al_get_bitmap_height(Graphics.Misc.Heart1);
-             blit (hearts_save [i], gui_buffer, 0, 0, blood [i].x, blood [i].y, w, h);
+			 al_draw_bitmap_region(hearts_save[i], 0, 0, w, h, blood [i].x, blood [i].y, 0x0000);
 		 }
          break;
     }
@@ -237,7 +240,7 @@ void    gui_applet_blood_create (int v, int x, int y)
      blood [blood_current_drop_idx].v = v;
      blood [blood_current_drop_idx].x = x;
      blood [blood_current_drop_idx].y = y;
-     blood [blood_current_drop_idx].save = -1;
+     blood [blood_current_drop_idx].save = al_map_rgba(0,0,0,0);
      }
   blood_current_drop_idx ++;
   if (blood_current_drop_idx >= max)

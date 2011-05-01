@@ -23,8 +23,6 @@ void    Inputs_Init (void)
     // Mouse
     Inputs.MouseSpeed_X = 2;
     Inputs.MouseSpeed_Y = 2;
-    Inputs.MouseMickeys_X = 0;
-    Inputs.MouseMickeys_Y = 0;
 
     // Keyboard
     Inputs.KeyPressedQueue = NULL;
@@ -47,7 +45,8 @@ void    Inputs_Init (void)
 
 void    Inputs_Init_Mouse (void)
 {
-    set_mouse_speed (Inputs.MouseSpeed_X, Inputs.MouseSpeed_Y);
+	// FIXME-ALLEGRO5: Feature missing?
+    //set_mouse_speed (Inputs.MouseSpeed_X, Inputs.MouseSpeed_Y);
 }
 
 #ifdef MEKA_JOY
@@ -55,11 +54,9 @@ void    Inputs_Init_Mouse (void)
 void    Inputs_Joystick_Init(void)
 {
     int     i;
-    int     NumJoy;
+    int     num_joy;
     bool    found = FALSE;
 
-    if (Inputs.Sources_Joy_Driver == JOY_TYPE_NONE)
-        return;
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *src = Inputs.Sources[i];
@@ -75,51 +72,28 @@ void    Inputs_Joystick_Init(void)
     // There is at least one joypad so we'll launch initialization
     ConsolePrint (Msg_Get (MSG_Inputs_Joy_Init));
 
-    if (install_joystick (Inputs.Sources_Joy_Driver)
-        || ((NumJoy = num_joysticks) == 0))
+    if (!al_install_joystick() || ((num_joy = al_get_num_joysticks()) == 0))
     {
         ConsolePrint (Msg_Get (MSG_Inputs_Joy_Init_None));
 		ConsolePrint ("\n");
         return;
     }
-    ConsolePrintf (Msg_Get (MSG_Inputs_Joy_Init_Found), NumJoy);
+    ConsolePrintf (Msg_Get (MSG_Inputs_Joy_Init_Found), num_joy);
     ConsolePrint ("\n");
-
-    for (i = 0; i < NumJoy; i++)
-    {
-        int first = FALSE;
-        JOYSTICK_INFO *joystick = &joy[i];
-        // Msg (MSGT_DEBUG, "joystick %d flags %04X", i, joystick->flags);
-        while (joystick->flags & JOYFLAG_CALIB_DIGITAL)
-        {
-            char *msg = (char *)calibrate_joystick_name(i);
-            if (first == FALSE)
-            {
-                ConsolePrintf (" - Calibrating joystick %d:\n", i);
-                first = TRUE;
-            }
-            ConsolePrintf ("   - %s, and press a key\n", msg);
-            readkey ();
-            if (calibrate_joystick(i) != 0)
-            {
-                Quit_Msg (Msg_Get (MSG_Inputs_Joy_Calibrate_Error));
-            }
-        }
-    }
 
     // Flag available devices "connected and ready"
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *src = Inputs.Sources[i];
         if (src->type == INPUT_SRC_TYPE_JOYPAD)
-            if (src->Connection_Port < NumJoy)
+            if (src->Connection_Port < num_joy)
                 src->Connected_and_Ready = TRUE;
     }
 }
 
 void    Inputs_Joystick_Close(void)
 {
-    remove_joystick();
+    al_uninstall_joystick();
 }
 
 #endif // MEKA_JOY

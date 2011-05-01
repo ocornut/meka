@@ -87,9 +87,10 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     request_refresh_rate (refresh_rate);
     if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
     {
+		const char* error = "Unknown error";	// FIXME-ALLEGRO5: was 'allegro_error'
         if (fatal)
-            Quit_Msg (Msg_Get (MSG_Error_Video_Mode), w, h, allegro_error);
-        Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h, allegro_error);
+            Quit_Msg (Msg_Get (MSG_Error_Video_Mode), w, h, error);
+        Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h, error);
         return (MEKA_ERR_FAIL);
     }
     fs_page_0 = NULL;
@@ -224,9 +225,12 @@ void    Video_Setup_State (void)
 					fs_out = fs_page_1;
 					enable_triple_buffer();
 					Video.page_flipflop = 0;
-					clear_to_color (fs_page_0, Border_Color);
-					clear_to_color (fs_page_1, Border_Color);
-					clear_to_color (fs_page_2, Border_Color);
+					al_set_target_bitmap(fs_page_0);
+					al_clear_to_color(Border_Color);
+					al_set_target_bitmap(fs_page_1);
+					al_clear_to_color(Border_Color);
+					al_set_target_bitmap(fs_page_2);
+					al_clear_to_color(Border_Color);
 					request_video_bitmap(fs_page_0);
 					Video.triple_buffering_activated = TRUE;
 				}
@@ -314,11 +318,15 @@ void    Video_Setup_State (void)
                     #else
                     Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, g_Configuration.video_mode_gui_res_y * 2, g_Configuration.video_mode_gui_refresh_rate, TRUE);
                     #endif
+					assert(0);
+					// FIXME-ALLEGRO5: Feature disabled
+					/*
                     gui_page_0 = create_sub_bitmap (screen, 0, 0,                                   g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
                     gui_page_1 = create_sub_bitmap (screen, 0, g_Configuration.video_mode_gui_res_y,  g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
                     opt.GUI_Current_Page = 1;
                     gui_buffer = gui_page_1;
                     scroll_screen (0, g_Configuration.video_mode_gui_res_y);
+					*/
                     break;
                 }
             default: //---------------------------------[ One video page ]---
@@ -385,11 +393,15 @@ void    Refresh_Screen(void)
         {
             if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_FLIPPED)
             {
+				// FIXME-ALLEGRO5: Obsolete feature
+				assert(0);
+				/*
                 opt.GUI_Current_Page ^= 1;
                 if (opt.GUI_Current_Page == 0)
                 { gui_buffer = gui_page_0; scroll_screen (0, 0); }
                 else
                 { gui_buffer = gui_page_1; scroll_screen (0, g_Configuration.video_mode_gui_res_y); }
+				*/
             }
 
             gui_update ();

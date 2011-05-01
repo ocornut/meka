@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "config_j.h"
 #include "keyinfo.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
@@ -27,7 +26,6 @@ static const char *Inputs_Src_List_KeyWords [] =
     "player_up", "player_down", "player_left", "player_right",
     "player_button1", "player_button2", "player_start_pause", "player_reset",
     "player_x_axis", "player_y_axis",
-    "joy_driver",    // particular case
     "mouse_speed_x", // particular case
     "mouse_speed_y", // particular case
     "cabinet_mode",  // particular case
@@ -81,8 +79,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
         return MEKA_ERR_OK;
 
     case  3: // driver ---------------------------------------------------------
-        if (input_src->type == INPUT_SRC_TYPE_JOYPAD)
-            input_src->Driver = Config_Driver_Joy_Str_to_Int(w);
+		// FIXME-ALLEGRO5: Obsolete
         return MEKA_ERR_OK;
 
     case  4: // connection -----------------------------------------------------
@@ -205,25 +202,19 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
             return MEKA_ERR_SYNTAX;
         }
 
-    case 18: // joy_driver -----------------------------------------------------
-        {
-            Inputs.Sources_Joy_Driver = Config_Driver_Joy_Str_to_Int (w);
-            return MEKA_ERR_OK;
-        }
-
-    case 19: // mouse_speed_x --------------------------------------------------
+    case 18: // mouse_speed_x --------------------------------------------------
         {
             Inputs.MouseSpeed_X = atoi (w);
             return MEKA_ERR_OK;
         }
 
-    case 20: // mouse_speed_y --------------------------------------------------
+    case 19: // mouse_speed_y --------------------------------------------------
         {
             Inputs.MouseSpeed_Y = atoi (w);
             return MEKA_ERR_OK;
         }
 
-    case 21: // cabinet_mode ---------------------------------------------------
+    case 20: // cabinet_mode ---------------------------------------------------
         {
             Inputs.Cabinet_Mode = atoi (w);
             return MEKA_ERR_OK;
@@ -277,7 +268,7 @@ void            Load_Inputs_Src_List (void)
             if (strcmp(w, Inputs_Src_List_KeyWords[i]) == 0)
             {
                 // FIXME: this is ugly
-                if (input_src == NULL && strcmp (w, "joy_driver") != 0
+                if (input_src == NULL
                     && strcmp (w, "mouse_speed_x") != 0
                     && strcmp (w, "mouse_speed_y") != 0
                     && strcmp (w, "cabinet_mode")  != 0)
@@ -335,36 +326,7 @@ void    Write_Inputs_Src_List (void)
  INP_Write_Line ("; However, any comment you may manually add will be deleted!");
  INP_Write_Line (";-----------------------------------------------------------------------------");
  INP_Write_Line ("");
-#ifdef ARCH_DOS
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; (MS-DOS version only) select joypad/joystick driver here:");
- INP_Write_Line (";");
- INP_Write_Str  ("joy_driver         ", Config_Driver_Joy_Int_to_Str (Inputs.Sources_Joy_Driver));
- INP_Write_Line (";");
- INP_Write_Line ("; Available joypad/joystick drivers:");
- INP_Write_Line (";   none,                 (No controller)");
- INP_Write_Line (";   auto,                 (Autodetect)");
- INP_Write_Line (";   2b, 4b, 6b, 8b,       (Standard 2/4/6/8 buttons controllers)");
- INP_Write_Line (";   dual,                 (Two 2 buttons controllers)");
- INP_Write_Line (";   sidewinder,           (Microsoft Sidewinder)");
- INP_Write_Line (";   fspro,                (CH Flightstick Pro)");
- INP_Write_Line (";   wingex,               (Logitech Wingman Extreme / Trustmaster Mk. I compatible)");
- INP_Write_Line (";   wingwar,              (Logitech Wingman Warrior)");
- INP_Write_Line (";   gamepadpro,           (Gravis GamePad Pro)");
- INP_Write_Line (";   grip,                 (Gravis GrIP)");
- INP_Write_Line (";   grip4,                (Gravis GrIP / 4 axis only)");
- INP_Write_Line (";");
- INP_Write_Line ("; If you have an adapter for console controllers:");
- INP_Write_Line (";   db9lpt1  -> db9ltp3,  (DB-9 controllers: SMS/Megadrive/Atari/...)");
- INP_Write_Line (";   necltp1  -> neclpt3,  (PC Engine / Turbo Grafx controllers)");
- INP_Write_Line (";   psxlpt1  -> psxlpt3,  (Playstation controllers)");
- INP_Write_Line (";   sneslpt1 -> sneslpt3, (Super Famicom / Nintendo controllers)");
- INP_Write_Line (";   n64lpt1  -> n64lpt3,  (Nintendo 64 controllers)");
- INP_Write_Line (";   ifsegaisa,            (Sega Saturn ISA interface cards)");
- INP_Write_Line (";   ifsegapci, ifsegapci2 (Sega Saturn PCI interface cards)");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("");
-#endif
+
  INP_Write_Line (";-----------------------------------------------------------------------------");
  INP_Write_Line ("; Links:");
  INP_Write_Line ("; Using a SMS/DB-9 controller on your computer:");

@@ -9,6 +9,11 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
+// FIXME-ALLEGRO5: WIP, disabled joystick
+#ifdef MEKA_JOY
+#undef MEKA_JOY
+#endif
+
 #define MEKA_NAME               "MEKA"
 #define MEKA_VERSION            "0.73"
 #define MEKA_VERSION_HIGH       (0)

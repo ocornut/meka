@@ -16,6 +16,7 @@
 
 ALLEGRO_KEYBOARD_STATE	g_keyboard_state;
 int						g_keyboard_modifiers = 0;
+ALLEGRO_MOUSE_STATE		g_mouse_state;
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -50,7 +51,6 @@ t_input_src *       Inputs_Sources_Add (char *name)
     Src->flags                     = INPUT_SRC_FLAGS_DIGITAL;
     Src->player                    = PLAYER_1;
     Src->Connection_Port           = 0;
-    Src->Driver                    = 0;
     Src->Analog_to_Digital_FallOff = 0.8f;
     Src->Connected_and_Ready       = FALSE; // by default. need to be flagged for use
 
@@ -302,7 +302,6 @@ void        Inputs_Emulation_Update (bool running)
 void        Inputs_Sources_Update (void)
 {
     int     i, j;
-    int     mouse_mx, mouse_my;
 
 #ifdef MEKA_JOY
     int     Joy_Polled = FALSE;
@@ -319,18 +318,18 @@ void        Inputs_Sources_Update (void)
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
     // Poll mouse
-    poll_mouse ();
-    get_mouse_mickeys (&mouse_mx, &mouse_my);
-    Inputs.MouseMickeys_X = mouse_mx;
-    Inputs.MouseMickeys_Y = mouse_my;
+	al_get_mouse_state(&g_mouse_state);
 
     // Add pressed keys to keypress queue
-    if (keypressed ())
+    // FIXME-ALLEGRO5: Scan for all possible keypresses?
+#if 0
+	if (keypressed ())
     {
         t_key_press *key_press = malloc(sizeof(*key_press));
         key_press->ascii = ureadkey (&key_press->scancode);
         list_add_to_end(&Inputs.KeyPressedQueue, key_press);
     }
+#endif
 
     for (i = 0; i < Inputs.Sources_Max; i++)
     {
@@ -346,7 +345,7 @@ void        Inputs_Sources_Update (void)
                 {
                     t_input_map *map = &Src->Map[j];
                     int old_res = map->Res;
-                    map->Res = (map->Idx != -1 && key [map->Idx]);
+                    map->Res = (map->Idx != -1 && Inputs_KeyDown(map->Idx));
                     if (old_res && map->Res)
                         Src->Map_Counters[j]++;
                     else

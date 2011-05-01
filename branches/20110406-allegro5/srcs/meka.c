@@ -215,7 +215,9 @@ static void Close_Emulator (void)
     FDC765_Close         ();
     Palette_Close        ();
     Inputs_Sources_Close ();
-    Inputs_Joystick_Close();
+#ifdef MEKA_JOY
+	Inputs_Joystick_Close();
+#endif
     gui_close            ();
     Free_Memory          ();
     FB_Free_Memory       ();
@@ -231,7 +233,7 @@ static void Close_Emulator (void)
 static void Close_Callback (void)
 {
     #ifndef ARCH_DOS
-        set_close_button_callback (NULL);
+        al_set_close_button_callback(NULL);
     #endif
 }
 
@@ -249,17 +251,19 @@ static int Init_Allegro (void)
     // Initialize timer BEFORE allegro
     // OSD_Timer_Initialize ();
 
-    set_uformat(U_ASCII);
+    //set_uformat(U_ASCII);	// FIXME-ALLEGRO5: need an equivalent?
     al_init();
 
-    g_Configuration.video_mode_depth_desktop = desktop_color_depth();
+	// FIXME-ALLEGRO5: Default display format/depth?
+    //g_Configuration.video_mode_depth_desktop = desktop_color_depth();
+	g_Configuration.video_mode_depth_desktop = 0;
     if (g_Configuration.video_mode_depth_desktop == 0)
         g_Configuration.video_mode_depth_desktop = 16;	// Default
 
-    install_timer();
+    //install_timer();
 
     // Keyboard
-    install_keyboard();
+    al_install_keyboard();
 
     // Mouse
     //static char cmd[] = "emulate_three = 0\n";
@@ -273,17 +277,17 @@ static int Init_Allegro (void)
         //}   
         //#endif
     #endif
-    g_Env.mouse_installed = al_install_mouse ();
+    g_Env.mouse_installed = al_install_mouse();
 
     // PNG support
     #ifdef MEKA_PNG
-        loadpng_init ();
+        //loadpng_init ();	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
     #endif
 
     // Window title & callback
     #ifndef ARCH_DOS
-        al_set_window_title (Msg_Get (MSG_Window_Title));
-        al_set_close_button_callback (Close_Button_Callback);
+        al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
+        al_set_close_button_callback(Close_Button_Callback);
     #endif
 
     // text_mode (-1); // now obsolete
@@ -371,8 +375,10 @@ int main(int argc, char **argv)
     Machine_Init            (); // Initialize Virtual Machine
     Init_GUI                (); // Initialize Graphical User Interface
     Sound_Init              (); // Initialize Sound
+#ifdef MEKA_JOY
     Inputs_Joystick_Init    (); // Initialize Joysticks. 
-    Machine_Reset           (); // Reset Emulated Machine (set default values)
+#endif
+	Machine_Reset           (); // Reset Emulated Machine (set default values)
 
     // Initialization complete
     ConsolePrintf ("%s\n--\n", Msg_Get (MSG_Init_Completed));
