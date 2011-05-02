@@ -47,6 +47,7 @@ static ALLEGRO_BITMAP*	Data_LoadBitmap(const char* name)
 	sprintf(filename_buf, "datafiles/%s", name);
 
 	// Even when loaded from a file the system use the format specified by manually (good!)
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGBA_8888);
 	bitmap = al_load_bitmap(filename_buf);
 	if (!bitmap)

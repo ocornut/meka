@@ -43,7 +43,7 @@ ALLEGRO_BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in nativ
 
 void    Blit_Init (void)
 {
-	al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGB_565);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);

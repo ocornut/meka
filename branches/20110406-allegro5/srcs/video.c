@@ -33,7 +33,7 @@ extern int    _wait_for_vsync;
 void    Video_Init (void)
 {
     // Allocate buffers
-	al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGB_565);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
@@ -89,6 +89,8 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     //request_refresh_rate (refresh_rate);
 	if (g_display != NULL)
 		al_destroy_display(g_display);
+
+	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
 	g_display = al_create_display(w, h);
 	if (!g_display)
     //if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
