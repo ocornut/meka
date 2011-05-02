@@ -45,6 +45,9 @@ static ALLEGRO_BITMAP*	Data_LoadBitmap(const char* name)
 	ALLEGRO_BITMAP* bitmap;
 
 	sprintf(filename_buf, "datafiles/%s", name);
+
+	// Even when loaded from a file the system use the format specified by manually (good!)
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGBA_8888);
 	bitmap = al_load_bitmap(filename_buf);
 	if (!bitmap)
 	{
@@ -52,6 +55,9 @@ static ALLEGRO_BITMAP*	Data_LoadBitmap(const char* name)
 		Quit_Msg (Msg_Get (MSG_Failed));
 		return NULL;
 	}
+
+	// We use ff00ff pink as alpha mask for practical purpose
+	al_convert_mask_to_alpha(bitmap, al_map_rgb(0xFF,0x00,0xFF));
 	return bitmap;
 }
 
