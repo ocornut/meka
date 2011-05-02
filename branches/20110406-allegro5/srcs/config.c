@@ -200,20 +200,10 @@ static void     Configuration_Load_Line (char *variable, char *value)
             break;
         }
     // gui_video_driver
-    case 11: 
-        g_Configuration.video_mode_gui_driver = VideoDriver_FindByDesc(value)->drv_id; 
+    case 11:
+		// FIXME-ALLEGRO5: no video driver
+        //g_Configuration.video_mode_gui_driver = VideoDriver_FindByDesc(value)->drv_id; 
         break;
-    /*
-    // gui_access_mode
-    case 11: if (!strcmp (value, "direct"))
-                { g_Configuration.video_mode_gui_access_mode = GUI_FB_ACCESS_DIRECT; }
-             else
-             if (!strcmp(value, "flipped"))
-                { g_Configuration.video_mode_gui_access_mode = GUI_FB_ACCESS_FLIPPED; }
-             else
-                { g_Configuration.video_mode_gui_access_mode = GUI_FB_ACCESS_BUFFERED; }
-             break;
-    */
     // gui_vsync
     case 12: g_Configuration.video_mode_gui_vsync = (bool)atoi(value);
              break;
@@ -502,9 +492,12 @@ void    Configuration_Load_PostProcess (void)
 	if (g_Configuration.video_mode_gui_depth == 0)
 		g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_depth_desktop;
 
+	// FIXME-ALLEGRO5: Commented all that out
+#if 0
 	set_color_depth(g_Configuration.video_mode_gui_depth); // FIXME-DEPTH
 	set_color_conversion(COLORCONV_TOTAL);	// FIXME-DEPTH: SHOULD REMOVE IN THE END
 	//set_color_conversion(COLORCONV_NONE);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -523,11 +516,13 @@ void    Configuration_Save (void)
     CFG_Write_Line (";");
     CFG_Write_Line ("");
 
+#if 0 // FIXME-ALLEGRO5: No video driver
     CFG_Write_Line ( "-----< VIDEO DRIVERS >------------------------------------------------------");
     CFG_Write_Line ( "This is a list of video/graphic card drivers available in this version");
     CFG_Write_Line ( "of Meka. Those are needed to create video modes in the MEKA.BLT file and");
     CFG_Write_Line ( "if you want to set a custom driver for the graphical user interface.");
     VideoDriver_DumpAllDesc(CFG_File);
+#endif
     // CFG_Write_Int  ("video_depth", cfg.Video_Depth);
     CFG_Write_Line ("");
 
@@ -586,9 +581,11 @@ void    Configuration_Save (void)
 		CFG_Write_Str ("gui_video_depth", "auto");
 	else
 		CFG_Write_Int ("gui_video_depth", g_Configuration.video_mode_gui_depth_cfg);
-    CFG_Write_Str  ("gui_video_driver", VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver)->desc);
+#if 0 // FIXME-ALLEGRO5: no video driver
+	CFG_Write_Str  ("gui_video_driver", VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver)->desc);
     CFG_Write_Line ("(Available video drivers are marked at the top of this file.");
     CFG_Write_Line (" Please note that 'auto' does not always choose the fastest mode!)");
+#endif
     if (g_Configuration.video_mode_gui_refresh_rate == 0)
         CFG_Write_Str ("gui_refresh_rate", "auto");
     else

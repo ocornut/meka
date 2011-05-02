@@ -136,6 +136,7 @@ void        Blit_Fullscreen_Message (void)
 
 void	Blit_Fullscreen_CopyStretch(void *src_buffer, int src_scale_x, int src_scale_y)
 {
+#if 0 // FIXME-ALLEGRO5: blit
 	if (!Blitters.current->stretch)
 	{
 		// Note: 'blit' converts 16 to native format
@@ -167,6 +168,7 @@ void	Blit_Fullscreen_CopyStretch(void *src_buffer, int src_scale_x, int src_scal
 				0,0, Video.res_x, Video.res_y);
 		}
 	}
+#endif
 }
 
 void    Blit_Fullscreen_Normal (void)
@@ -178,6 +180,7 @@ void    Blit_Fullscreen_Normal (void)
 // FIXME-OPT: Obviously stupid, potentially doing 2 successive stretchs
 void    Blit_Fullscreen_Double (void)
 {
+#if 0 // FIXME-ALLEGRO5: blit
     // x1 -> x2
     stretch_blit(screenbuffer, Blit_Buffer_Double, 
         blit_cfg.src_sx, blit_cfg.src_sy,
@@ -185,12 +188,15 @@ void    Blit_Fullscreen_Double (void)
         blit_cfg.src_sx * 2, blit_cfg.src_sy * 2, 
         cur_drv->x_res*2, cur_drv->y_res*2
         );
+#endif
     Blit_Fullscreen_Misc ();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 void    Blit_Fullscreen_Eagle (void)
 {
+	assert(0);
+#if 0 // FIXME-ALLEGRO5: blit
 	// Eagle, x1 -> x2
 	int i;
 	for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + cur_drv->y_res; i ++)
@@ -203,24 +209,28 @@ void    Blit_Fullscreen_Eagle (void)
 			(u16 *)Blit_Buffer_Double->line[i * 2] + (blit_cfg.src_sx * 2),
 			(u16 *)Blit_Buffer_Double->line[i * 2 + 1] + (blit_cfg.src_sx * 2));
 	}
+#endif
 	Blit_Fullscreen_Misc ();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 void    Blit_Fullscreen_HQ2X (void)
 {
+#if 0 // FIXME-ALLEGRO5: blit
     // Perform HQ2X into double buffer
 	// FIXME-OPT: Apply on full width.
     hq2x_16(
 		(unsigned char *)((u16 *)screenbuffer->line[blit_cfg.src_sy] + 0), 
 		(unsigned char *)((u16 *)Blit_Buffer_Double->line[blit_cfg.src_sy * 2] + 0), 
 		MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
+#endif
     Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
 
 void    Blit_Fullscreen_TV_Mode (void)
 {
+#if 0	// FIXME-ALLEGRO5: blit
 	int i;
 	for (i = 0; i < cur_drv->y_res; i ++)
 	{
@@ -239,6 +249,7 @@ void    Blit_Fullscreen_TV_Mode (void)
 			*((u16 *)pdst2)++ = color_mod;
 		}
 	}
+#endif
 	Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 1, 2);
 }
@@ -246,6 +257,7 @@ void    Blit_Fullscreen_TV_Mode (void)
 // FIXME-OPT: Obviously this is very slow. Just trying to get something working for 0.72. Later shall work better solution (generating inline assembly, etc).
 void    Blit_Fullscreen_TV_Mode_Double (void)
 {
+#if 0 // FIXME-ALLEGRO5: blit
 	int i;
 	for (i = 0; i < cur_drv->y_res; i ++)
 	{
@@ -269,6 +281,7 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 			// Note: adding ++ to the above u32 * cast somehow cause problems with GCC
 		}
 	}
+#endif 0
 	Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
 }
@@ -304,7 +317,10 @@ void    Blit_Fullscreen (void)
 
     if (Video.triple_buffering_activated)
     {
-        while (poll_scroll())
+		// FIXME-ALLEGRO5: Triple buffering
+		assert(0);
+#if 0
+		while (poll_scroll())
             rest(0); // was: yield_timeslice(), deprecated in Allegro in favor of rest(0)
 
         request_video_bitmap(fs_out);
@@ -321,16 +337,21 @@ void    Blit_Fullscreen (void)
             fs_out = fs_page_2;
             break;
         }
+#endif
     } 
     else if (g_Configuration.video_mode_game_page_flipping)
     {
+		// FIXME-ALLEGRO5: Page flipping
+		assert(0);
+#if 0
         show_video_bitmap(fs_out);
         Video.page_flipflop ^= 1;
         if (Video.page_flipflop == 0)
             fs_out = fs_page_0;
         else
             fs_out = fs_page_1;
-    }
+#endif
+	}
 }
 
 void    Blitters_Get_Factors(int *x, int *y)
@@ -356,18 +377,9 @@ void    Blit_GUI (void)
     //Palette_Sync ();
 
     // Blit
-    switch (g_Configuration.video_mode_gui_access_mode)
-    {
-    case GUI_FB_ACCESS_DIRECT:
-        // Nothing to do
-        break;
-    case GUI_FB_ACCESS_BUFFERED:
-        blit (gui_buffer, screen, 0, 0, 0, 0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
-        break;
-    case GUI_FB_ACCESS_FLIPPED:
-        // Nothing to do
-        break;
-    }
+	al_set_target_bitmap(al_get_backbuffer(g_display));
+	al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
+    //blit (gui_buffer, screen, 0, 0, 0, 0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
 
     // Update 3-D Glasses (if no VSync)
     if (!g_Configuration.video_mode_gui_vsync)

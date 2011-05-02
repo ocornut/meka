@@ -13,7 +13,9 @@ void    gui_mouse_show (ALLEGRO_BITMAP *bitmap)
 {
     if (g_Env.mouse_installed == -1)
         return;
-    show_mouse(bitmap);
+    // FIXME-ALLEGRO5: This behavior changed
+	//show_mouse(bitmap);
+	al_show_mouse_cursor(g_display);
 }
 
 // CHECK IF THE MOUSE IS IN A CERTAIN AREA ------------------------------------
@@ -45,13 +47,13 @@ void    gui_update_mouse (void)
     gui.mouse.y_prev = gui.mouse.y;
     gui.mouse.buttons_prev = gui.mouse.buttons;
 
-    gui.mouse.x = mouse_x;
-    gui.mouse.y = mouse_y;
-    gui.mouse.buttons = mouse_b;
+    gui.mouse.x = g_mouse_state.x;
+    gui.mouse.y = g_mouse_state.y;
+	gui.mouse.buttons = g_mouse_state.buttons;
     // Msg (MSGT_DEBUG, "gui_mouse_button = %d", mouse_b);
 
     gui.mouse.z_prev = gui.mouse.z_current;
-    gui.mouse.z_current = mouse_z;
+	gui.mouse.z_current = g_mouse_state.z;
     gui.mouse.z_rel = gui.mouse.z_current - gui.mouse.z_prev;
 
     // Uncomment to bypass Allegro 3 button emulation

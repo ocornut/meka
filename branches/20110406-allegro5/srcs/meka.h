@@ -307,12 +307,11 @@ typedef struct
 	bool	video_mode_game_page_flipping;
 	int     video_mode_gui_depth;
     int     video_mode_gui_depth_cfg;
-    long    video_mode_gui_driver;
+    //long    video_mode_gui_driver;
     int     video_mode_gui_res_x;
     int     video_mode_gui_res_y;
     bool    video_mode_gui_vsync;
     int     video_mode_gui_refresh_rate;
-    int     video_mode_gui_access_mode;         // Make obsolete
 
 	// Capture
 	const char *	capture_filename_template;

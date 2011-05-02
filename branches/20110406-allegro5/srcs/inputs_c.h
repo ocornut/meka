@@ -31,7 +31,7 @@ void    Inputs_CFG_Init_Applet                  (void);
 void    Inputs_CFG_Update                       (t_app_inputs_config *app);
 
 void    Inputs_CFG_Current_Source_Draw          (void);
-byte    Inputs_CFG_Current_Source_Draw_Map      (int i, int Color);
+byte    Inputs_CFG_Current_Source_Draw_Map      (int i, ALLEGRO_COLOR Color);
 void    Inputs_CFG_Current_Source_Change        (t_widget *w);
 
 void    Inputs_CFG_Peripherals_Draw             (void);

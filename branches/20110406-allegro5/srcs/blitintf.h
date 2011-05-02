@@ -31,7 +31,7 @@ typedef struct
     int                 res_x;
     int                 res_y;
     int                 blitter;
-    int                 driver;
+    //int                 driver;
     bool                tv_colors;
     int                 refresh_rate;
     t_blitter_stretch   stretch;

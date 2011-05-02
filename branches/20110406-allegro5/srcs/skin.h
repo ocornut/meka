@@ -59,9 +59,9 @@ typedef struct
 	int					pos_end;			// 0-100%, >= pos_start
 	u32 				color_start;
 	u32 				color_end;
-	u32 				native_color_start;
-	u32 				native_color_end;
-	u32					native_color_buffer[SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE];
+	ALLEGRO_COLOR 		native_color_start;
+	ALLEGRO_COLOR		native_color_end;
+	ALLEGRO_COLOR		native_color_buffer[SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE];
 } t_skin_gradient;
 
 typedef enum
@@ -116,9 +116,7 @@ void                Skins_SetSkinConfiguration      (const char *skin_name);
 
 t_skin *			Skins_GetCurrentSkin			(void);
 t_skin *            Skins_FindSkinByName            (const char *skin_name);
-ALLEGRO_BITMAP *            Skins_GetBackgroundPicture      (void);
-
-t_skin *            Skins_GetSystemSkinBlack        (void);
+ALLEGRO_BITMAP *    Skins_GetBackgroundPicture      (void);
 
 //-----------------------------------------------------------------------------
 

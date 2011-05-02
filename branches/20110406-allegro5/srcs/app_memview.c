@@ -157,15 +157,15 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 {
     t_frame frame;
 
-    // Clear
-    clear_to_color(mv->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(mv->box->gfx_buffer);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
         widget_closebox_add(mv->box, MemoryViewer_Switch);
         
     // Horizontal line to separate buttons from memory
-    line (mv->box_gfx, 0, mv->frame_view.size.y, mv->box->frame.size.x, mv->frame_view.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+    al_draw_hline(0, mv->frame_view.size.y, mv->box->frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Setup Memory sections
     if (setup)
@@ -265,7 +265,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     frame.pos.y = mv->frame_view.size.y + 1;
     frame.size.y = Font_Height (F_SMALL) + 3;
     Font_Print (F_MIDDLE, mv->box_gfx, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
-    line(mv->box_gfx, 92, frame.pos.y, 92, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+    al_draw_vline(92, frame.pos.y, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Goto Address input box
     Font_Print (F_MIDDLE, mv->box_gfx, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
@@ -294,7 +294,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     frame.size.y = mv->frame_view.size.y - 1;
     if (setup)
         mv->widget_scrollbar = widget_scrollbar_add(mv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &mv->memblocks_max, &mv->memblock_first, &mv->size_lines, NULL);
-    line(mv->box_gfx, frame.pos.x - 1, 0, frame.pos.x - 1, frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+    al_draw_vline(frame.pos.x - 1, 0, frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Input box for memory values
     if (setup)
@@ -337,6 +337,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         return;
 
     // If skin has changed, redraw everything
+	al_set_target_bitmap(mv->box_gfx);
     if (mv->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
     {
         MemoryViewer_Layout(mv, FALSE);
@@ -345,7 +346,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     else
     {
         // Clear anyway
-        rectfill (mv->box_gfx, 0, 0, mv->frame_view.size.x - 2, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_BACKGROUND);
+        al_draw_filled_rectangle(0, 0, mv->frame_view.size.x - 1, mv->frame_view.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
     }
 
     // Always dirty (FIXME?)
@@ -382,16 +383,16 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     {
         int x;
         x = 4 + font_height * 6 - 7 - 7;
-        line (mv->box_gfx, x, 0, x, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_SEPARATORS);
+        al_draw_vline(x, 0, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_SEPARATORS);
         //x = 4 + font_height * 6 - 7 + (mv->size_columns * (font_height * 2 - 1) + font_height - 3) + font_height - 3 - 4;
         x = mv->frame_ascii.pos.x - 4;//MEMVIEW_COLUMNS_8_PADDING/2;
-        line (mv->box_gfx, x, 0, x, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_SEPARATORS);
+        al_draw_vline(x, 0, mv->frame_view.size.y - 1, COLOR_SKIN_WINDOW_SEPARATORS);
     }
 
     // Print current address
     // FIXME: Could create a label widget for this purpose.
     sprintf(buf, "%0*X", addr_length, addr_start + (mv->memblock_first * 16) + mv->values_edit_position);
-    rectfill (mv->box_gfx, 56, mv->frame_view.size.y + 1 + 4, 91, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id), COLOR_SKIN_WINDOW_BACKGROUND);
+    al_draw_filled_rectangle(56, mv->frame_view.size.y + 1 + 4, 91+1, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print (font_id, mv->box_gfx, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
 
     x = 4 + font_height * 6 - 7;
@@ -422,7 +423,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
 
             for (col = 0; col != mv->size_columns; col++, x += font_height * (2) - 1, asciix += font_height - 2)
             {
-                int color;
+                ALLEGRO_COLOR color;
 
                 // Space each 8 columns (for readability)
                 if (col != 0 && ((col & 7) == 0))
@@ -938,14 +939,14 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
     if (!gui_box_has_focus (mv->box))
         return;
 
-    if (Inputs_KeyPressed (KEY_HOME, FALSE))
+    if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
     {
         mv->memblock_first = 0;
         mv->values_edit_position = 0;
         mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed (KEY_END, FALSE))
+    else if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
     {
         mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
         mv->values_edit_position = MIN(mv->size_lines * mv->size_columns, mv->section_current->size - mv->memblock_first * mv->size_columns);
@@ -954,7 +955,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGUP, FALSE, 30, 3) || gui.mouse.z_rel > 0)
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGUP, FALSE, 30, 3) || gui.mouse.z_rel > 0)
     {
         mv->memblock_first -= mv->size_lines;
         if (mv->memblock_first < 0)
@@ -965,7 +966,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         }
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_PGDN, FALSE, 30, 3) || gui.mouse.z_rel < 0)
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGDN, FALSE, 30, 3) || gui.mouse.z_rel < 0)
     {
         mv->memblock_first += mv->size_lines;
         if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
@@ -976,7 +977,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         }
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_UP, FALSE, 30, 3))
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_UP, FALSE, 30, 3))
     {
         if (mv->size_lines > 1 && mv->values_edit_position >= (mv->size_lines/2) * mv->size_columns)
             mv->values_edit_position -= mv->size_columns;
@@ -993,7 +994,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat (KEY_DOWN, FALSE, 30, 3))
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DOWN, FALSE, 30, 3))
     {
         if (mv->values_edit_position < (mv->size_lines/2-1) * mv->size_columns)
         {
@@ -1014,7 +1015,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat (KEY_LEFT, FALSE, 30, 3))
+    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat(ALLEGRO_KEY_LEFT, FALSE, 30, 3))
     {
         if (mv->values_edit_position > 1 * mv->size_columns)
             mv->values_edit_position--;
@@ -1028,7 +1029,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         // mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat (KEY_RIGHT, FALSE, 30, 3))
+    else if (mv->values_edit_active && Inputs_KeyPressed_Repeat(ALLEGRO_KEY_RIGHT, FALSE, 30, 3))
     {
         if (mv->values_edit_position < (mv->size_lines-1) * mv->size_columns - 1)
         {

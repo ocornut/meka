@@ -7,6 +7,7 @@
 // DATA
 //-----------------------------------------------------------------------------
 
+#if 0	// FIXME-ALLEGRO5: no video driver
 typedef struct
 {
     char *      desc;
@@ -14,13 +15,16 @@ typedef struct
     int         drv_id_switch_fs_win;       // Note: this is a helper for usage by ALT-ENTER. Eventually we'll have a better way to switch mode.
     char *      comment;
 } t_video_driver;
+#endif
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
+#if 0 	// FIXME-ALLEGRO5: no video driver
 t_video_driver *    VideoDriver_FindByDesc(char *s);
 t_video_driver *    VideoDriver_FindByDriverId(int drv_id);
 void                VideoDriver_DumpAllDesc(FILE *f);
+#endif
 
 //-----------------------------------------------------------------------------

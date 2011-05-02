@@ -20,18 +20,23 @@
 // Close_Button_Callback ()
 // Close button hook, called by Allegro
 //-----------------------------------------------------------------------------
+// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_CLOSE event
+/*
 void    Close_Button_Callback (void)
 {
     if (Meka_State == MEKA_STATE_INIT || Meka_State == MEKA_STATE_SHUTDOWN)
         return;
     opt.Force_Quit = TRUE;
 }
+*/
 
 //-----------------------------------------------------------------------------
 // Switch_In_Callback ()
 // Application switch-in hook, called by Allegro
 // This is fired when the application screen reappear (eg: after an ALT-TAB)
 //-----------------------------------------------------------------------------
+// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_SWITCH_IN, ALLEGRO_EVENT_DISPLAY_SWITCH_OUT
+/*
 void    Switch_In_Callback (void)
 {
     if (Meka_State == MEKA_STATE_INIT || Meka_State == MEKA_STATE_SHUTDOWN)
@@ -54,6 +59,7 @@ void    Switch_Out_Callback (void)
     // Msg (MSGT_USER, "Switch_Out_Callback()");
     Sound_Playback_Mute ();
 }
+*/
 
 //-----------------------------------------------------------------------------
 // Change_System_Misc ()
@@ -108,27 +114,23 @@ void    Set_Mouse_Cursor(int mouse_cursor)
     switch (mouse_cursor)
     {
     case MEKA_MOUSE_CURSOR_NONE: 
-        set_mouse_sprite (NULL);
+		// FIXME-ALLEGRO5: What to do?
+        //set_mouse_sprite (NULL);
         break;
     case MEKA_MOUSE_CURSOR_STANDARD: 
-        set_mouse_sprite (Graphics.Cursors.Main);
-        set_mouse_sprite_focus (0, 0);
+		al_set_mouse_cursor(g_display, Graphics.Cursors.Main);
         break;
     case MEKA_MOUSE_CURSOR_LIGHT_PHASER: 
-        set_mouse_sprite (Graphics.Cursors.LightPhaser);
-        set_mouse_sprite_focus (7, 7);
+		al_set_mouse_cursor(g_display, Graphics.Cursors.LightPhaser);
         break;
     case MEKA_MOUSE_CURSOR_SPORTS_PAD: 
-        set_mouse_sprite (Graphics.Cursors.SportsPad);
-        set_mouse_sprite_focus (7, 7);
+		al_set_mouse_cursor(g_display, Graphics.Cursors.SportsPad);
         break;
     case MEKA_MOUSE_CURSOR_TV_OEKAKI: 
-        set_mouse_sprite (Graphics.Cursors.TvOekaki);
-        set_mouse_sprite_focus (3, 12);
+		al_set_mouse_cursor(g_display, Graphics.Cursors.TvOekaki);
         break;
     case MEKA_MOUSE_CURSOR_WAIT: 
-        set_mouse_sprite (Graphics.Cursors.Wait);
-        set_mouse_sprite_focus (6, 2);
+		al_set_mouse_cursor(g_display, Graphics.Cursors.Wait);
         break;
     }
 }
@@ -249,7 +251,9 @@ void    Quit (void)
     // Set text mode if we're not already in
     if (Meka_State != MEKA_STATE_INIT && Meka_State != MEKA_STATE_SHUTDOWN)
     {
-        set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
+		al_destroy_display(g_display);
+		g_display = NULL;
+        //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
         // Meka_State = MEKA_STATE_SHUTDOWN;
         // Video_Setup_State ();
     }
@@ -280,7 +284,9 @@ void            Quit_Msg (const char *format, ...)
     // Set text mode if we're not already in
     if (Meka_State != MEKA_STATE_INIT && Meka_State != MEKA_STATE_SHUTDOWN)
     {
-        set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
+		al_destroy_display(g_display);
+		g_display = NULL;
+        //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
         // Meka_State = MEKA_STATE_SHUTDOWN;
         // Video_Setup_State ();
     }

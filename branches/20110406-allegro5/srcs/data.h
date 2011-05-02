@@ -38,11 +38,19 @@ typedef struct
     // Cursors
     struct
     {
-        ALLEGRO_BITMAP *    Main;
-        ALLEGRO_BITMAP *    Wait;
-        ALLEGRO_BITMAP *    LightPhaser;
-        ALLEGRO_BITMAP *    SportsPad;
-        ALLEGRO_BITMAP *    TvOekaki;
+		struct
+		{
+			ALLEGRO_BITMAP *    Main;
+			ALLEGRO_BITMAP *    Wait;
+			ALLEGRO_BITMAP *    LightPhaser;
+			ALLEGRO_BITMAP *    SportsPad;
+			ALLEGRO_BITMAP *    TvOekaki;
+		} Bitmaps;
+		ALLEGRO_MOUSE_CURSOR *	Main;
+		ALLEGRO_MOUSE_CURSOR *	Wait;
+		ALLEGRO_MOUSE_CURSOR *	LightPhaser;
+		ALLEGRO_MOUSE_CURSOR *	SportsPad;
+		ALLEGRO_MOUSE_CURSOR *	TvOekaki;
     } Cursors;
 
     // Flags

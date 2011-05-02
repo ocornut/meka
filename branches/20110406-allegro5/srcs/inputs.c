@@ -211,6 +211,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                // GUI fullscreen/windowed
                 if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
                 {
+#if 0	// FIXME-ALLEGRO5: fullscreen/windowed switch
                     if (Meka_State == MEKA_STATE_FULLSCREEN)
                     {
                         t_video_driver *driver = VideoDriver_FindByDriverId(Blitters.current->driver);
@@ -231,6 +232,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                             Video_GUI_ChangeVideoMode(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
                         }
                     }
+#endif
                     return;
                 }
 

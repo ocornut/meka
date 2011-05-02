@@ -57,7 +57,7 @@ static void	Capture_FileName_Get(char *dst)
     char    s2 [FILENAME_LEN];
 
     // Create directory if necessary
-    if (!file_exists(g_Env.Paths.ScreenshotDirectory, 0xFF, NULL))
+    if (!al_filename_exists(g_Env.Paths.ScreenshotDirectory))
         al_make_directory(g_Env.Paths.ScreenshotDirectory);
 
     // Figure out a base filename
@@ -81,7 +81,7 @@ static void	Capture_FileName_Get(char *dst)
         sprintf(dst, s2, g_Env.Paths.ScreenshotDirectory, game_name, Capture.id_number);
         Capture.id_number++;
     }
-    while (file_exists(dst, 0xFF, NULL) != 0 && Capture.id_number < CAPTURE_ID_MAX);
+    while (al_filename_exists(dst) != 0 && Capture.id_number < CAPTURE_ID_MAX);
 }
 
 //-----------------------------------------------------------------------------
@@ -152,6 +152,8 @@ static void		Capture_Screen(void)
 		return;
 	}
 
+	assert(0);
+#if 0 // FIXME-ALLEGRO5: screenshot capture
     acquire_bitmap(source);
     bmp = create_sub_bitmap(source, x_start, y_start, x_len, y_len);
     if (bmp == NULL)
@@ -160,9 +162,10 @@ static void		Capture_Screen(void)
         return;
     }
     release_bitmap(source);
+#endif
 
     //get_palette(pal);
-    if (save_bitmap(s1, bmp, NULL) != 0)
+    if (al_save_bitmap(s1, bmp) != 0)
     {
         Msg(MSGT_USER, Msg_Get(MSG_Capture_Error));
         al_destroy_bitmap(bmp);

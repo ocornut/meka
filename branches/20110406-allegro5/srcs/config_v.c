@@ -8,9 +8,9 @@
 
 //-----------------------------------------------------------------------------
 
+#if 0	// FIXME-ALLEGRO5: no video driver
 t_video_driver  video_drivers_table[] =
 {
-
     //-----------------------------------------------------------------------------
     // Global
     //-----------------------------------------------------------------------------
@@ -119,9 +119,11 @@ t_video_driver  video_drivers_table[] =
 #endif
     { NULL,       0           }
 };
+#endif
 
 //-----------------------------------------------------------------------------
 
+#if 0 	// FIXME-ALLEGRO5: no video driver
 t_video_driver *    VideoDriver_FindByDesc(char *s)
 {
     t_video_driver *drv = &video_drivers_table[0];
@@ -163,6 +165,7 @@ void                VideoDriver_DumpAllDesc(FILE *f)
         drv++;
     }
 }
+#endif
 
 //-----------------------------------------------------------------------------
 

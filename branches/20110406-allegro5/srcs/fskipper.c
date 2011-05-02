@@ -59,8 +59,10 @@ void    Frame_Skipper_Auto_Install_Handler (void)
     install_int (Frame_Skipper_Auto_Adjust_Handler, c);
     */
 
+#if 0	// FIXME-ALLEGRO5: auto frame skipper
     c = TIMERS_PER_SECOND / fskipper.Automatic_Speed;
     install_int_ex (Frame_Skipper_Auto_Adjust_Handler, c);
+#endif
 
     //TIMERS_PER_SECOND     1193181
     //MSEC_TO_TIMER(x)      ((long)(x) * (TIMERS_PER_SECOND / 1000))
@@ -69,21 +71,27 @@ void    Frame_Skipper_Auto_Install_Handler (void)
 
 void    Frame_Skipper_Auto_Reinstall_Handler (void)
 {
+#if 0	// FIXME-ALLEGRO5: auto frame skipper
     remove_int (Frame_Skipper_Auto_Adjust_Handler);
-    Frame_Skipper_Auto_Install_Handler ();
+#endif
+	Frame_Skipper_Auto_Install_Handler ();
 }
 
 void    Frame_Skipper_Init (void)
 {
     // Auto Frame Skipper
+#if 0	// FIXME-ALLEGRO5: auto frame skipper
     LOCK_VARIABLE (fskipper.Automatic_Frame_Elapsed);
     LOCK_FUNCTION (Frame_Skipper_Auto_Adjust_Handler);
     Frame_Skipper_Auto_Install_Handler ();
+#endif
     // FPS Counter
-    LOCK_VARIABLE (fskipper.New_Second);
+#if 0	// FIXME-ALLEGRO5: FPS
+	LOCK_VARIABLE (fskipper.New_Second);
     LOCK_FUNCTION (Frame_Skipper_New_Second_Handler);
     Frame_Skipper_New_Second_Handler ();
     install_int_ex (Frame_Skipper_New_Second_Handler, TIMERS_PER_SECOND);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -109,7 +117,9 @@ int     Frame_Skipper (void)
             //#ifdef ARCH_WIN32
               //rest(4);
               //yield_timeslice();
-            rest(1);
+            // FIXME-ALLEGRO5
+			//rest(1);
+			al_rest(0.01f);
             //#endif
         }
 

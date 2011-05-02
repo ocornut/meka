@@ -33,8 +33,10 @@ extern int    _wait_for_vsync;
 void    Video_Init (void)
 {
     // Allocate buffers
-    screenbuffer_1      = create_bitmap_ex(16, MAX_RES_X + 32, MAX_RES_Y + 32);
-    screenbuffer_2      = create_bitmap_ex(16, MAX_RES_X + 32, MAX_RES_Y + 32);
+	al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGB_565);
+    screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
+    screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
     screenbuffer_next   = screenbuffer_2;
 
@@ -48,7 +50,6 @@ void    Video_Init (void)
 	Video.game_area_y1				= 0;
 	Video.game_area_y2				= 0;
     Video.driver					= 1;
-    Video.refresh_rate_real			= 0;
 	Video.refresh_rate_requested	= 0;
 	Video.triple_buffering_activated= FALSE;
     fs_page_0 = fs_page_1 = fs_out	= NULL;
@@ -84,8 +85,13 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     previous_mode.refresh_rate = refresh_rate;
 
     // Set new mode
-    request_refresh_rate (refresh_rate);
-    if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
+	// FIXME-ALLEGRO5: Use al_set_new_display_refresh_rate()
+    //request_refresh_rate (refresh_rate);
+	if (g_display != NULL)
+		al_destroy_display(g_display);
+	g_display = al_create_display(w, h);
+	if (!g_display)
+    //if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
     {
 		const char* error = "Unknown error";	// FIXME-ALLEGRO5: was 'allegro_error'
         if (fatal)
@@ -105,13 +111,12 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     Video.res_x = w;
     Video.res_y = h;
     Video.refresh_rate_requested = refresh_rate;
-    Video.refresh_rate_real = get_refresh_rate();
-    Video_Mode_Update_Size ();
+	Video_Mode_Update_Size ();
 
     // Update true-color data
     Data_UpdateVideoMode();
 
-    rest(100);
+    al_rest(100);	// FIXME-ALLEGRO5: What was that line for?
 
     return (MEKA_ERR_OK);
 }
@@ -164,8 +169,9 @@ void    Video_Setup_State (void)
     {
     case MEKA_STATE_SHUTDOWN:
         {
-            // ...
-            set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
+			al_destroy_display(g_display);
+			g_display = NULL;
+            //set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
             break;
         }
     case MEKA_STATE_FULLSCREEN: // FullScreen mode ----------------------------
@@ -174,17 +180,20 @@ void    Video_Setup_State (void)
             //#ifdef ARCH_WIN32
             //   driver = Blitters.current->driver_win;
             //#else
-            driver = Blitters.current->driver;
+			// FIXME-ALLEGRO5: no video driver
+            driver = 0;//Blitters.current->driver;
             //#endif
 	
             // FIXME-BLIT
 
             // Set color depth
-            set_color_depth(g_Configuration.video_mode_game_depth);
+			// FIXME-ALLEGRO5: removed call
+            //set_color_depth(g_Configuration.video_mode_game_depth);
 
 			Video.triple_buffering_activated = FALSE;
 			if (g_Configuration.video_mode_game_triple_buffering)
             {
+				assert(0);	// FIXME-ALLEGRO5
                 if (Video_Mode_Change(
                         driver,
                         Blitters.current->res_x, Blitters.current->res_y,
@@ -216,6 +225,8 @@ void    Video_Setup_State (void)
 					fs_page_2 = NULL;
 				}
 
+					assert(0);
+#if 0 // FIXME-ALLEGRO5
 				if (gfx_capabilities & GFX_CAN_TRIPLE_BUFFER)
 				{
 					// Enable triple buffering
@@ -238,12 +249,16 @@ void    Video_Setup_State (void)
 				{
 					// No triple buffering
 					// FIXME: We allocated too much VRAM...
-					fs_out = screen;
-					clear_to_color(fs_out, Border_Color);
+					fs_out = al_get_backbuffer(g_display);
+					al_set_target_bitmap(fs_out);
+					al_clear_to_color(Border_Color);
 				}
+#endif
             }
 			else if (g_Configuration.video_mode_game_page_flipping)
             {
+				assert(0);
+#if 0 // FIXME-ALLEGRO5: page flipping
                 if (Video_Mode_Change (driver,
                     Blitters.current->res_x, Blitters.current->res_y,
 #ifdef ARCH_WIN32
@@ -282,6 +297,7 @@ void    Video_Setup_State (void)
                 clear_to_color (fs_page_0, Border_Color);
                 clear_to_color (fs_page_1, Border_Color);
                 show_video_bitmap (fs_page_0);
+#endif // page flipping
             }
             else
             {
@@ -296,7 +312,7 @@ void    Video_Setup_State (void)
                     Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                     return;
                 }
-                fs_out = screen;
+                fs_out = al_get_backbuffer(g_display);
             }
             Change_Mode_Misc ();
             //Palette_Sync_All ();
@@ -307,53 +323,27 @@ void    Video_Setup_State (void)
         {
             // Revert to GUI color depth
             // FIXME-DEPTH
-	        set_color_depth(g_Configuration.video_mode_gui_depth);
+	        //set_color_depth(g_Configuration.video_mode_gui_depth);
+            //Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
 
-            switch (g_Configuration.video_mode_gui_access_mode)
-            {
-            case GUI_FB_ACCESS_FLIPPED: //--------------------[ Two video pages ]---
-                {
-                    #ifdef ARCH_WIN32
-                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
-                    #else
-                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, g_Configuration.video_mode_gui_res_y * 2, g_Configuration.video_mode_gui_refresh_rate, TRUE);
-                    #endif
-					assert(0);
-					// FIXME-ALLEGRO5: Feature disabled
-					/*
-                    gui_page_0 = create_sub_bitmap (screen, 0, 0,                                   g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
-                    gui_page_1 = create_sub_bitmap (screen, 0, g_Configuration.video_mode_gui_res_y,  g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
-                    opt.GUI_Current_Page = 1;
-                    gui_buffer = gui_page_1;
-                    scroll_screen (0, g_Configuration.video_mode_gui_res_y);
-					*/
-                    break;
-                }
-            default: //---------------------------------[ One video page ]---
-                {
-                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
-                    if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_DIRECT)
-                        gui_buffer = screen;
-                    break;
-                }
-            }
-            gui_init_again ();
-            Change_Mode_Misc ();
+			// FIXME-ALLEGRO5
+			Video_Mode_Change (0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+
+			gui_init_again();
+            Change_Mode_Misc();
             //Palette_Sync_All ();
 
-            gui_redraw_everything_now_once ();
-            if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_BUFFERED)
-            {
-                gui_mouse_show (gui_buffer);
-            }
+            gui_redraw_everything_now_once();
+            gui_mouse_show (gui_buffer);
         }
         break;
     }
 
-    #ifndef ARCH_DOS
+	// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_SWITCH_IN, ALLEGRO_EVENT_DISPLAY_SWITCH_OUT
+    /*#ifndef ARCH_DOS
         set_display_switch_callback (SWITCH_IN,  Switch_In_Callback);
         set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
-    #endif
+    #endif*/
 
     Inputs_Init_Mouse (); // why? I forgot
 }
@@ -391,19 +381,6 @@ void    Refresh_Screen(void)
 
         if (Meka_State == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
         {
-            if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_FLIPPED)
-            {
-				// FIXME-ALLEGRO5: Obsolete feature
-				assert(0);
-				/*
-                opt.GUI_Current_Page ^= 1;
-                if (opt.GUI_Current_Page == 0)
-                { gui_buffer = gui_page_0; scroll_screen (0, 0); }
-                else
-                { gui_buffer = gui_page_1; scroll_screen (0, g_Configuration.video_mode_gui_res_y); }
-				*/
-            }
-
             gui_update ();
 
             // Check if we're switching GUI off now

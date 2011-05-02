@@ -80,11 +80,17 @@ void            Data_Init(void)
 	// FIXME-ALLEGRO5: No error handling.
 
 	// Cursors
-	Graphics.Cursors.Main           = Data_LoadBitmap("cursor_main.tga");
-	Graphics.Cursors.Wait           = Data_LoadBitmap("cursor_wait.tga");
-	Graphics.Cursors.LightPhaser    = Data_LoadBitmap("cursor_lightphaser.tga");
-	Graphics.Cursors.SportsPad      = Data_LoadBitmap("cursor_sportspad.tga");
-	Graphics.Cursors.TvOekaki       = Data_LoadBitmap("cursor_tvoekaki.tga");
+	Graphics.Cursors.Bitmaps.Main		= Data_LoadBitmap("cursor_main.tga");
+	Graphics.Cursors.Bitmaps.Wait		= Data_LoadBitmap("cursor_wait.tga");
+	Graphics.Cursors.Bitmaps.LightPhaser= Data_LoadBitmap("cursor_lightphaser.tga");
+	Graphics.Cursors.Bitmaps.SportsPad	= Data_LoadBitmap("cursor_sportspad.tga");
+	Graphics.Cursors.Bitmaps.TvOekaki   = Data_LoadBitmap("cursor_tvoekaki.tga");
+
+	Graphics.Cursors.Main			= al_create_mouse_cursor(Graphics.Cursors.Bitmaps.Main, 0, 0);
+	Graphics.Cursors.Wait			= al_create_mouse_cursor(Graphics.Cursors.Bitmaps.Wait, 6, 2);
+	Graphics.Cursors.LightPhaser	= al_create_mouse_cursor(Graphics.Cursors.Bitmaps.LightPhaser, 7, 7);
+	Graphics.Cursors.SportsPad		= al_create_mouse_cursor(Graphics.Cursors.Bitmaps.SportsPad, 7, 7);
+	Graphics.Cursors.TvOekaki		= al_create_mouse_cursor(Graphics.Cursors.Bitmaps.TvOekaki, 3, 12);
 
 	// Miscellaenous
 	Graphics.Misc.Dragon            = Data_LoadBitmap("gfx_dragon.tga");

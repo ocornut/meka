@@ -9,6 +9,7 @@
 #include "g_widget.h"
 #include "keyinfo.h"
 #include "inputs_c.h"
+#include "inputs_t.h"
 #include "glasses.h"
 
 //-----------------------------------------------------------------------------
@@ -78,7 +79,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
         // Peripheral change button
         frame.pos.x = 10;
         frame.pos.y = 18;
-        frame.size.x = Graphics.Inputs.InputsBase->w;
+        frame.size.x = al_get_bitmap_width(Graphics.Inputs.InputsBase);
         frame.size.y = 80-2;
         widget_button_add(app->box, &frame, 1, Inputs_CFG_Peripheral_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
@@ -115,7 +116,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
     }
 
     // Draw input base
-    draw_sprite(app->box->gfx_buffer, Graphics.Inputs.InputsBase, 10, 34);
+	al_draw_bitmap(Graphics.Inputs.InputsBase, 10, 34, 0x0000);
 
     // Draw current peripheral
     Inputs_CFG_Peripherals_Draw();
@@ -124,7 +125,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
     Inputs_CFG_Current_Source_Draw ();
 }
 
-byte        Inputs_CFG_Current_Source_Draw_Map (int i, int Color)
+byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
@@ -224,8 +225,9 @@ void    Inputs_CFG_Current_Source_Draw (void)
     font_height = Font_Height (-1);
 
     // Clear area to display on
-    rectfill (app->box->gfx_buffer, x, y - font_height / 2,
-        x + frame_x, y - font_height / 2 + frame_y,
+	al_set_target_bitmap(bmp);
+    al_draw_filled_rectangle(x, y - font_height / 2,
+        x + frame_x + 1, y - font_height / 2 + frame_y + 1,
         COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Do the actual display
@@ -255,7 +257,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     }
 
     // Horizontal Separator
-    line (bmp, x + 4, y + 3, x + frame_x - 4, y + 3, COLOR_SKIN_WINDOW_SEPARATORS);
+    al_draw_line(x + 4, y + 3 + 0.5f, x + frame_x - 4, y + 3 + 0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
     y += 7;
 
     // Mapping
@@ -268,7 +270,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
         return;
 
     // Horizontal Separator
-    line (bmp, x + 4, y + 3, x + frame_x - 4, y + 3, COLOR_SKIN_WINDOW_SEPARATORS);
+    al_draw_line(x + 4, y + 3 + 0.5f, x + frame_x - 4, y + 3 + 0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
     y += 7;
 
     // Emulate Digital
@@ -330,8 +332,8 @@ void        Inputs_CFG_Peripherals_Draw (void)
     Font_SetCurrent (F_SMALL);
 
     // Clear area to display on
-    rectfill(bmp, 10, 20, 10 + Graphics.Inputs.InputsBase->w, 20 + Font_Height(-1), COLOR_SKIN_WINDOW_BACKGROUND);
-    rectfill(bmp, 10, 58, 10 + Graphics.Inputs.InputsBase->w, 121, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_draw_filled_rectangle(10, 20, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 20 + Font_Height(-1) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
+    al_draw_filled_rectangle(10, 58, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 121 + 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Print 'click to select peripheral' message
     Font_PrintCentered(-1, bmp, Msg_Get(MSG_Inputs_Config_Peripheral_Click), 
@@ -359,9 +361,9 @@ void        Inputs_CFG_Peripherals_Draw (void)
         }
         if (sprite != NULL)
         {
-            draw_sprite (bmp, sprite,
-            10 + 11 + (i ? 64 : 0) + (58 - sprite->w) / 2, // X
-            58); // Y
+            al_draw_bitmap(sprite,
+				10 + 11 + (i ? 64 : 0) + (58 - al_get_bitmap_width(sprite)) / 2, // X
+				58, 0x0000);
         }
     }
 
@@ -369,12 +371,11 @@ void        Inputs_CFG_Peripherals_Draw (void)
     // Draw below player 2 peripheral
     if (Glasses.Enabled)
     {
-        int x, y;
         ALLEGRO_BITMAP *b = Graphics.Inputs.Glasses;
-        x = 10 + 11 + 64 + (58 - b->w) / 2;
-        y = 58 + sprite->h + 5;
+        const int x = 10 + 11 + 64 + (58 - al_get_bitmap_width(b)) / 2;
+        const int y = 58 + al_get_bitmap_height(sprite) + 5;
         // rectfill (bmp, x, y, x + b->w, y + b->h, COLOR_SKIN_WINDOW_BACKGROUND);
-        draw_sprite (bmp, b, x, y);
+        al_draw_bitmap(b, x, y, 0x0000);
     }
 }
 
@@ -477,7 +478,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
-    int           i, j;
+    int           i;
     bool          found;
     t_input_src * input_src;
 
@@ -489,7 +490,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 
     // Pressing ESC cancel map change
 	// Eat the keypress to avoid it having side effect of switching to fullscreen mode
-    if (Inputs_KeyPressed(KEY_ESC, true))
+    if (Inputs_KeyPressed(ALLEGRO_KEY_ESCAPE, true))
     {
         found = TRUE;
         input_src->Map [Inputs_CFG.Current_Map].Idx = -1;
@@ -504,15 +505,16 @@ void    Inputs_CFG_Map_Change_Update (void)
         // Keyboard ----------------------------------------------------------------
     case INPUT_SRC_TYPE_KEYBOARD:
         {
-            for (i = 0; i < KEY_MAX; i++)
-                if (key [i])
+            for (i = 0; i < ALLEGRO_KEY_MAX; i++)
+			{
+				// Eat keypresses to avoid them having a side effect with the GUI or game
+                if (Inputs_KeyPressed(i, true))
                 {
                     const t_key_info *key_info = KeyInfo_FindByScancode(i);
                     if (key_info)
                     {
                         input_src->Map [Inputs_CFG.Current_Map].Idx = i;
                         input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_KEY;
-                        key[i] = 0; // Disable the key to avoid it to have an effect now
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Keyboard_Ok), key_info->name);
                     }
@@ -522,7 +524,8 @@ void    Inputs_CFG_Map_Change_Update (void)
                     }
                     break;
                 }
-                break;
+			}
+            break;
         }
 #ifdef MEKA_JOY
         // Digital Joypad/Joystick -------------------------------------------------
@@ -549,6 +552,7 @@ void    Inputs_CFG_Map_Change_Update (void)
                 // Check axis
                 for (i = 0; i < joystick->num_sticks; i++)
                 {
+					int j;
                     JOYSTICK_STICK_INFO *stick = &joystick->stick[i];
                     // Msg (MSGT_DEBUG, "stick %d, flags=%04X", i, stick->flags);
                     for (j = 0; j < stick->num_axis; j++)

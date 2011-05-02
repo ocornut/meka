@@ -152,9 +152,9 @@ static void Init_Default_Values (void)
     g_Configuration.video_mode_gui_depth_cfg		= 0;    // Auto
     g_Configuration.video_mode_gui_res_x			= 640;
     g_Configuration.video_mode_gui_res_y			= 480;
-    g_Configuration.video_mode_gui_driver			= GFX_AUTODETECT_FULLSCREEN;
+    // FIXME-ALLEGRO5: no video driver
+	//g_Configuration.video_mode_gui_driver			= GFX_AUTODETECT_FULLSCREEN;
     g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
-    g_Configuration.video_mode_gui_access_mode		= GUI_FB_ACCESS_BUFFERED;
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
 	// Capture
@@ -230,12 +230,14 @@ static void Close_Emulator (void)
 // Remove Allegro installed callback
 // This is the first function to call on shutdown, to avoid getting called
 // during the shutdown process (which sometimes makes things crash).
+/*
 static void Close_Callback (void)
 {
     #ifndef ARCH_DOS
         al_set_close_button_callback(NULL);
     #endif
 }
+*/
 
 // Change to starting directory
 // This function is registered in the atexit() table to be called on quit
@@ -287,7 +289,7 @@ static int Init_Allegro (void)
     // Window title & callback
     #ifndef ARCH_DOS
         al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
-        al_set_close_button_callback(Close_Button_Callback);
+        //al_set_close_button_callback(Close_Button_Callback);
     #endif
 
     // text_mode (-1); // now obsolete
@@ -418,6 +420,9 @@ int main(int argc, char **argv)
 
     return (0);
 }
+
+// FIXME-ALLEGRO5
+#if 0
 #ifndef ARCH_WIN32
 END_OF_MAIN ();
 #else
@@ -428,6 +433,7 @@ int __stdcall WinMain(HINSTANCE hInst, HINSTANCE hPrev, char *Cmd, int nShow)
     return _WinMain((void *)_mangled_main, hInst, hPrev, Cmd, nShow);   
 }
 #endif
+#endif // FIXME-ALLEGRO5
 
 //-----------------------------------------------------------------------------
 

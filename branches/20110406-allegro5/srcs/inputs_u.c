@@ -38,6 +38,8 @@ void        Inputs_Sources_Init (void)
 
     Inputs.Peripheral [0] = INPUT_JOYPAD;
     Inputs.Peripheral [1] = INPUT_JOYPAD;
+
+	memset(&g_mouse_state, 0, sizeof(g_mouse_state));
 }
 
 t_input_src *       Inputs_Sources_Add (char *name)
@@ -307,6 +309,9 @@ void        Inputs_Sources_Update (void)
     int     Joy_Polled = FALSE;
 #endif
 
+	int	mouse_x_prev, mouse_y_prev;
+	int mouse_mx, mouse_my;
+
 	// Poll keyboard
 	al_get_keyboard_state(&g_keyboard_state);
 	g_keyboard_modifiers = 0;
@@ -318,7 +323,13 @@ void        Inputs_Sources_Update (void)
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
     // Poll mouse
+	mouse_x_prev = g_mouse_state.x;
+	mouse_y_prev = g_mouse_state.y;
 	al_get_mouse_state(&g_mouse_state);
+
+	// FIXME-ALLEGRO5: Not use of the kind of value we retrieven from mouse_mx, mouse_my (mickeys?) - check SVN log
+	mouse_mx = g_mouse_state.x - mouse_x_prev;
+	mouse_my = g_mouse_state.y - mouse_y_prev;
 
     // Add pressed keys to keypress queue
     // FIXME-ALLEGRO5: Scan for all possible keypresses?
@@ -422,15 +433,15 @@ void        Inputs_Sources_Update (void)
 
                 if (Meka_State == MEKA_STATE_FULLSCREEN)
                 {
-                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = mouse_x;
-                    Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = mouse_y;
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = g_mouse_state.x;
+					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = g_mouse_state.y;
                 }
                 else
                 {
                     // Compute distance to first GUI game box
                     // FIXME: this sucks
-                    x = mouse_x - gamebox_instance->frame.pos.x;
-                    y = mouse_y - gamebox_instance->frame.pos.y;
+                    x = g_mouse_state.x - gamebox_instance->frame.pos.x;
+                    y = g_mouse_state.y - gamebox_instance->frame.pos.y;
                     if (x < 0 || y < 0 || x >= gamebox_instance->frame.size.x || y >= gamebox_instance->frame.size.y)
                         disable_mouse_button = TRUE;
                     if (x < 0) x = 0; 
@@ -473,7 +484,7 @@ void        Inputs_Sources_Update (void)
                     if (disable_mouse_button)
                         Src->Map[j].Res = 0;
                     else
-                        Src->Map[j].Res = (Src->Map[j].Idx != -1 && (mouse_b & button_mask));
+						Src->Map[j].Res = (Src->Map[j].Idx != -1 && (g_mouse_state.buttons & button_mask));
                     if (old_res && map->Res)
                         Src->Map_Counters[j]++;
                     else
