@@ -116,7 +116,7 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     // Update true-color data
     Data_UpdateVideoMode();
 
-    al_rest(100);	// FIXME-ALLEGRO5: What was that line for?
+    al_rest(0.1f);	// FIXME-ALLEGRO5: What was that line for?
 
     return (MEKA_ERR_OK);
 }

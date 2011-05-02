@@ -107,6 +107,7 @@ int     Frame_Skipper (void)
     // Auto frame-skipping ----------------------------------------------------
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
     {
+#if 0   // FIXME-ALLEGRO5
         // Slow down to skip appropriate frames
         // FIXME: this takes 100% CPU and seems not to work well everywhere :(
         while (fskipper.Automatic_Frame_Elapsed == 0)
@@ -117,11 +118,12 @@ int     Frame_Skipper (void)
             //#ifdef ARCH_WIN32
               //rest(4);
               //yield_timeslice();
-            // FIXME-ALLEGRO5
-			//rest(1);
-			al_rest(0.01f);
+			rest(1);
             //#endif
         }
+#else
+		al_rest(0.01f);
+#endif
 
         // If retard is too high, force drawing a frame so it doesn't freeze
         // It is also good since huge delay (+1/4th second) will not be catched
