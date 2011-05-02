@@ -48,7 +48,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include;../../libs/libpng/include;../../libs/dx70_min/include;&quot;$(ZLIBDIR)&quot;"
+				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
 				PreprocessorDefinitions="ARCH_WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80;ALLEGRO_STATICLINK"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -86,7 +86,7 @@
 				Version=""
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;../../libs/dx70_min/lib;&quot;$(ZLIBDIR)&quot;"
+				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib/;../../libs/dx70_min/lib/;../../libs/zlib/"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames="libcmt, msvcrt"
 				GenerateDebugInformation="true"
@@ -158,7 +158,7 @@
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include;../../libs/libpng/include;../../libs/dx70_min/include;&quot;$(ZLIBDIR)&quot;"
+				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
 				PreprocessorDefinitions="ARCH_WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -197,227 +197,9 @@
 				Version=""
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;../../libs/dx70_min/lib;&quot;$(ZLIBDIR)&quot;"
+				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib/;../../libs/dx70_min/lib/;../../libs/zlib/"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames="libcmt"
-				ModuleDefinitionFile=""
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
-				GenerateMapFile="false"
-				MapFileName="$(IntDir)/mekaw.map"
-				MapExports="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug - No DLL|Win32"
-			OutputDirectory="../../objs/$(ConfigurationName)"
-			IntermediateDirectory="../../objs/$(ConfigurationName)"
-			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/Meka.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include;../../libs/libpng/include;&quot;$(ZLIBDIR)&quot;"
-				PreprocessorDefinitions="ARCH_WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80;ALLEGRO_STATICLINK"
-				StringPooling="false"
-				MinimalRebuild="true"
-				ExceptionHandling="0"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=""
-				AssemblerListingLocation="./$(IntDir)/"
-				ObjectFile="./$(IntDir)/"
-				ProgramDataBaseFileName="./$(IntDir)/"
-				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				CompileAs="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="0"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="alleg_s.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib"
-				OutputFile="../../mekaw.exe"
-				Version=""
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
-				IgnoreAllDefaultLibraries="false"
-				IgnoreDefaultLibraryNames="libcmt,msvcrt"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
-				GenerateMapFile="false"
-				MapFileName="$(IntDir)/mekaw.map"
-				MapExports="true"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release - No DLL|Win32"
-			OutputDirectory="../../objs/$(ConfigurationName)"
-			IntermediateDirectory="../../objs/$(ConfigurationName)"
-			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			UseOfATL="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG"
-				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
-				TargetEnvironment="1"
-				TypeLibraryName=".\Release/Meka.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="3"
-				InlineFunctionExpansion="1"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include;../../libs/libpng/include;&quot;$(ZLIBDIR)&quot;"
-				PreprocessorDefinitions="ARCH_WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
-				StringPooling="true"
-				MinimalRebuild="false"
-				ExceptionHandling="0"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=""
-				AssemblerListingLocation="./$(IntDir)/"
-				ObjectFile="./$(IntDir)/"
-				ProgramDataBaseFileName="./$(IntDir)/"
-				BrowseInformation="1"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
-				CompileAs="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="0"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="alleg_s.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dinput8.lib dxguid.lib"
-				ShowProgress="0"
-				OutputFile="../../mekaw.exe"
-				Version=""
-				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../libs/seal/lib/win32/;../../libs/libpng/lib;&quot;$(ZLIBDIR)&quot;"
-				IgnoreAllDefaultLibraries="false"
-				IgnoreDefaultLibraryNames="msvcrt"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
@@ -785,26 +567,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)/$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug - No DLL|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)/$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release - No DLL|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
@@ -1348,14 +1110,6 @@
 							AdditionalIncludeDirectories=""
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\specials.h"
@@ -1412,26 +1166,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)/$(InputName).obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)/$(InputName).obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release - No DLL|Win32"
 						>
 						<Tool
 							Name="VCCustomBuildTool"
@@ -1516,26 +1250,6 @@
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)/$(InputName).obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-							Outputs="$(OutDir)/$(InputName).obj"
-						/>
-					</FileConfiguration>
 				</File>
 				<Filter
 					Name="HQ2X"
@@ -1573,28 +1287,6 @@
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
 						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug - No DLL|Win32"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-								AdditionalDependencies=""
-								Outputs="$(OutDir)/$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release - No DLL|Win32"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-								AdditionalDependencies=""
-								Outputs="$(OutDir)/$(InputName).obj"
-							/>
-						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\hq2x32.asm"
@@ -1612,28 +1304,6 @@
 						</FileConfiguration>
 						<FileConfiguration
 							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-								AdditionalDependencies=""
-								Outputs="$(OutDir)/$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Debug - No DLL|Win32"
-							>
-							<Tool
-								Name="VCCustomBuildTool"
-								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-								AdditionalDependencies=""
-								Outputs="$(OutDir)/$(InputName).obj"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release - No DLL|Win32"
 							>
 							<Tool
 								Name="VCCustomBuildTool"
@@ -1824,22 +1494,6 @@
 							ObjectFile="$(IntDir)/$(InputName)1.obj"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)/$(InputName)1.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)/$(InputName)1.obj"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\osd\misc.h"
@@ -1894,22 +1548,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							WarningLevel="4"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug - No DLL|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							WarningLevel="4"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release - No DLL|Win32"
 						>
 						<Tool
 							Name="VCCLCompilerTool"

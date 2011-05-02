@@ -164,11 +164,12 @@ executables may be bigger than the ones provided on MEKA homepage.
 
 I. Compile for Microsoft Windows:
 
- - Requires Microsoft Visual Studio 7.1 with C++ compiler.
+ - Requires Microsoft Visual Studio 2008 (9.0) C++ compiler.
    (it's absolutly possible to make it compiles with older version,
     but you'll have to recreate the project or convert it)
    Note: Some version of Allegro may require Visual Studio to be installed
    in a pathname accessible without spacing.
+// FIXME-ALLEGRO5: Update this section for Allegro 5
  - Install Allegro library, latest WIP:
    - You can either download a precompiled Win32, or compile Allegro yourself.
    - Download: http://www.talula.demon.co.uk/allegro/wip.html#unstable
@@ -192,16 +193,11 @@ I. Compile for Microsoft Windows:
      - This will compile Allegro using static standard librairies (/MT).
        This is the preferred choice to build official MEKA releases.
      - Compile MEKA using "Debug - No DLL" or "Release - No DLL" targets.
- - Install zlib
-   - Download: http://www.gzip.org/zlib/
-   - $ nmake -f win32\Makefile.msc
-   - Add ZLIBDIR environment variable, set to ZLIB root directory.
  - Install NASM
    - http://sourceforge.net/projects/nasm/
    - Add NASM environment variable, set to executable path.
  - Compile !
-   - MEKA project is in MsVc\Meka.sln , for MS Visual 7.1.
-     (MsVc\Meka.dsw is for 6.0, but outdated. Some tools can convert 7.1 -> 6.0)
+   - MEKA project is in srcs\MsVc\Meka.sln , for MS Visual 2008 (9.0).
    - May require adding some paths to your Visual Studio configuration,
      such as DirectX path, etc.
    - Provided Makefile is outdated but may work if worked to be up to date.   

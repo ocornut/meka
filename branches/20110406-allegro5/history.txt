@@ -12,7 +12,8 @@ They are usually of 2 kinds:
 
  MEKA 0.74 WIP Allegro 5
  -----------------------
-  - Removed the old mini-game easter games. [Omar]
+  - Removed the old mini-game easter eggs. [Omar]
+  - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
 
  MEKA 0.74 WIP xxxxxxxx
  ----------------------
