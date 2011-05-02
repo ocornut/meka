@@ -94,8 +94,8 @@ void            Data_Init(void)
 
 	// Miscellaenous
 	Graphics.Misc.Dragon            = Data_LoadBitmap("gfx_dragon.tga");
-	Graphics.Misc.Heart1            = Data_LoadBitmap("heart1.tga");
-	Graphics.Misc.Heart2            = Data_LoadBitmap("heart2.tga");
+	Graphics.Misc.Heart1            = Data_LoadBitmap("gfx_heart1.tga");
+	Graphics.Misc.Heart2            = Data_LoadBitmap("gfx_heart2.tga");
 
 	// Inputs
 	Graphics.Inputs.InputsBase      = Data_LoadBitmap("gfx_inputs.tga");

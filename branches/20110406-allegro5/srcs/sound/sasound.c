@@ -856,11 +856,13 @@ END_OF_FUNCTION (saSoundTimerCallback);
 /************************************/
 void    saInitSoundTimer (void)
 {
+#if 0 // FIXME-ALLEGRO5: sound timers
   LOCK_VARIABLE (sound_icount);
   LOCK_VARIABLE (sound_freerun_count);
   LOCK_VARIABLE (sound_slice);
   LOCK_FUNCTION (saSoundTimerCallback);
   install_int_ex (saSoundTimerCallback, BPS_TO_TIMER(DEF_SOUND_SLICE_COUNT));
+#endif
   sound_freerun_count = 0;
   sound_slice = 0;
   sound_icount = 0;
@@ -871,7 +873,9 @@ void    saInitSoundTimer (void)
 /************************************/
 void    saRemoveSoundTimer (void)
 {
+#if 0 // FIXME-ALLEGRO5: sound timers
   remove_int (saSoundTimerCallback);
+#endif
 }
 
 /*******************************************************************************************/

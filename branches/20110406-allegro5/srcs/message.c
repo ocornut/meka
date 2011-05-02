@@ -46,8 +46,8 @@ static int CALLBACK ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wPar
 static DWORD WINAPI ConsoleWin32_Thread(LPVOID data);
 
 // Allegro stuff
-extern HINSTANCE    allegro_inst;
-AL_FUNC(HWND, win_get_window, (void));
+//extern HINSTANCE    allegro_inst;
+//AL_FUNC(HWND, win_get_window, (void));
 
 #endif
 
@@ -367,7 +367,9 @@ void            ConsoleInit (void)
 
     // Initialize Win32 console
     #ifdef ARCH_WIN32
-        ConsoleWin32_Initialize(&ConsoleWin32, allegro_inst, win_get_window());
+		// FIXME-ALLEGRO5
+        //ConsoleWin32_Initialize(&ConsoleWin32, allegro_inst, win_get_window());
+		ConsoleWin32_Initialize(&ConsoleWin32, 0, 0);
         // ConsoleWin32_Show(&ConsoleWin32);
     #endif
 }

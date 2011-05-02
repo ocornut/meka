@@ -162,6 +162,8 @@ static void		Capture_Screen(void)
         return;
     }
     release_bitmap(source);
+#else
+	bmp = NULL;
 #endif
 
     //get_palette(pal);

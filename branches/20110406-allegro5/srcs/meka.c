@@ -40,6 +40,7 @@
 #ifdef ARCH_WIN32
 #include <commctrl.h>
 #endif
+#include <allegro5/allegro_image.h>
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -255,6 +256,9 @@ static int Init_Allegro (void)
 
     //set_uformat(U_ASCII);	// FIXME-ALLEGRO5: need an equivalent?
     al_init();
+	al_init_font_addon();
+	al_init_image_addon();
+	al_init_primitives_addon();
 
 	// FIXME-ALLEGRO5: Default display format/depth?
     //g_Configuration.video_mode_depth_desktop = desktop_color_depth();

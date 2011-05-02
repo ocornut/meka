@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="alleg_s.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib"
+				AdditionalDependencies="allegro.lib allegro_font.lib allegro_primitives.lib allegro_image.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib"
 				OutputFile="../../mekaw.exe"
 				Version=""
 				LinkIncremental="1"
@@ -191,7 +191,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="alleg_s.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="allegro.lib allegro_font.lib allegro_primitives.lib allegro_image.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dinput8.lib dxguid.lib"
 				ShowProgress="0"
 				OutputFile="../../mekaw.exe"
 				Version=""

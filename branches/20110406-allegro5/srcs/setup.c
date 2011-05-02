@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------
 #ifdef ARCH_WIN32
     static int    Setup_Interactive_Win32 (void);
-    AL_FUNC(HWND, win_get_window, (void));
+    //AL_FUNC(HWND, win_get_window, (void));
 #else
     static int    Setup_Interactive_Console (void);
 #endif
@@ -62,7 +62,7 @@ int     Setup_Interactive (void)
 
 #ifdef ARCH_WIN32
 
-extern HINSTANCE      allegro_inst;
+//extern HINSTANCE      allegro_inst;
 
 // Win32 Dialog Procedure for interactive setup -------------------------------
 static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -197,7 +197,9 @@ static  int     Setup_Interactive_Win32 (void)
 {
     int         ret;
 
-    ret = DialogBox(allegro_inst, MAKEINTRESOURCE(IDD_SETUP), win_get_window(), Setup_Interactive_Win32_DialogProc);
+	// FIXME-ALLEGRO5: hwnd,etc.
+    //ret = DialogBox(allegro_inst, MAKEINTRESOURCE(IDD_SETUP), win_get_window(), Setup_Interactive_Win32_DialogProc);
+	ret = DialogBox(0, MAKEINTRESOURCE(IDD_SETUP), 0, Setup_Interactive_Win32_DialogProc);
     if (ret == -1)
         return (MEKA_ERR_FAIL);
     if (ret == 2)

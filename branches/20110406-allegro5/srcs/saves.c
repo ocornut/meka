@@ -598,8 +598,8 @@ void    Save_Get_Filename (char *str)
     char buf [FILENAME_LEN];
 
     // Create save state directory if it doesn't exist already
-    if (!al_filename_exists (g_Env.Paths.SavegameDirectory, 0xFF, NULL))
-        al_make_directory (g_Env.Paths.SavegameDirectory);
+    if (!al_filename_exists(g_Env.Paths.SavegameDirectory))
+        al_make_directory(g_Env.Paths.SavegameDirectory);
 
     // Compute save state filename
     strcpy (buf, g_Env.Paths.MediaImageFile);

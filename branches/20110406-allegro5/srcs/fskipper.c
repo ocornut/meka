@@ -44,6 +44,7 @@ END_OF_FUNCTION (Frame_Skipper_New_Second_Handler);
 // skipper timed interrupt.
 void    Frame_Skipper_Auto_Install_Handler (void)
 {
+#if 0	// FIXME-ALLEGRO5: auto frame skipper
     int   c;
 
     /*
@@ -59,7 +60,6 @@ void    Frame_Skipper_Auto_Install_Handler (void)
     install_int (Frame_Skipper_Auto_Adjust_Handler, c);
     */
 
-#if 0	// FIXME-ALLEGRO5: auto frame skipper
     c = TIMERS_PER_SECOND / fskipper.Automatic_Speed;
     install_int_ex (Frame_Skipper_Auto_Adjust_Handler, c);
 #endif
