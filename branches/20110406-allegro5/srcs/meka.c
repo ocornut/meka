@@ -43,6 +43,12 @@
 #include <allegro5/allegro_image.h>
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+ALLEGRO_DISPLAY* g_display = NULL;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -54,7 +60,6 @@
 //-----------------------------------------------------------------------------
 static void Init_Emulator (void)
 {
-	g_display = NULL;
     Video_Init ();
 
     memset(RAM, 0, 0x10000);        // RAM: 64 Kb (max=SF-7000)
@@ -368,6 +373,10 @@ int main(int argc, char **argv)
     Skins_Init              (); // Load Skin List
     Blitters_Init           (); // Load Blitter List
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
+
+	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
+	g_display = al_create_display(800, 600);
+	
     Blit_Init               (); // Initialize Blitter
     Random_Init             (); // Initialize Random Number Generator
     Fonts_Init              (); // Initialize Fonts system

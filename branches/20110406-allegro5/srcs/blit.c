@@ -379,8 +379,11 @@ void    Blit_GUI (void)
     //Palette_Sync ();
 
     // Blit
-	al_set_target_bitmap(al_get_backbuffer(g_display));
-	al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
+	{
+		ALLEGRO_BITMAP* backbuffer = al_get_backbuffer(g_display);
+		al_set_target_bitmap(backbuffer);
+		al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
+	}
     //blit (gui_buffer, screen, 0, 0, 0, 0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
 	al_flip_display();
 
