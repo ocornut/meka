@@ -165,44 +165,25 @@ executables may be bigger than the ones provided on MEKA homepage.
 I. Compile for Microsoft Windows:
 
  - Requires Microsoft Visual Studio 2008 (9.0) C++ compiler.
-   (it's absolutly possible to make it compiles with older version,
-    but you'll have to recreate the project or convert it)
-   Note: Some version of Allegro may require Visual Studio to be installed
-   in a pathname accessible without spacing.
-// FIXME-ALLEGRO5: Update this section for Allegro 5
- - Install Allegro library, latest WIP:
-   - You can either download a precompiled Win32, or compile Allegro yourself.
-   - Download: http://www.talula.demon.co.uk/allegro/wip.html#unstable
-   - If using precompiled Win32 package:
-     - Download from "Allegro binary package" link.
-     - Read 'readme.txt'.
-     - Provided binaries are compiled using DLL standard libraries (/MD).
-     - Compile MEKA using "Debug" or "Release" targets.
-     - This is not fully testing. Seems to work in "Debug" target, but certain
-       standard library stuff such as the stdout stream accessed by printf()
-       seems to be broken in "Release" target.
-   - If compiling yourself:
-     - Download "Source code" package.
-     - Read 'docs/build/msvc.txt'.
-     - Compiling Allegro requires a GCC-based compiler (Mingw, Cygwin, DJGPP).
-     - $ set STATICLINK=1
-     - $ set STATICRUNTIME=1
-     - $ fix.bat msvc
-     - $ make
-     - $ make install
-     - This will compile Allegro using static standard librairies (/MT).
-       This is the preferred choice to build official MEKA releases.
-     - Compile MEKA using "Debug - No DLL" or "Release - No DLL" targets.
+ - Install Allegro 5.0 library.
+   - You can download precompiled Win32 binaries at: http://www.allegro.cc/files/
+   - I used the package: allegro-5.0.2-1-msvc-9.0.zip
+     But you can use another package matching your version of Visual Studio.
+   - If you want to compile Allegro by yourself follow the instructions in Allegro package.
+ - Setup Visual Studio directories for Allegro:
+   - Go to Tools->Options->Projects and Solutions->VC++ Directories
+   - In 'Include files' add your Allegro include/ directory.
+   - In 'Library files' add your Allegro lib/ directory.
  - Install NASM
    - http://sourceforge.net/projects/nasm/
-   - Add NASM environment variable, set to executable path.
+   - Add NASM environment variable, set to executable path (eg: NASM=c:\nasm\nasmw.exe)
  - Compile !
-   - MEKA project is in srcs\MsVc\Meka.sln , for MS Visual 2008 (9.0).
+   - MEKA project is in srcs\MsVc\Meka.sln
    - May require adding some paths to your Visual Studio configuration,
      such as DirectX path, etc.
-   - Provided Makefile is outdated but may work if worked to be up to date.   
 
 II. Compile for MS-DOS compatible systems:
+(outdated)
 
  - Install DJGPP compiler and related tools.
    - http://www.delorie.com/djgpp/
@@ -246,10 +227,9 @@ III. Compile for GNU/Linux and other UN*X based systems:
 
 
 ---------------------------------------
- Hope
+ Just getting started!
 ---------------------------------------
 
-Don't get put down over problems or ugly sources! :)
-Let's work and iterate toward the better.
+Have fun!
 
 ----------------------------------------------------------------------------

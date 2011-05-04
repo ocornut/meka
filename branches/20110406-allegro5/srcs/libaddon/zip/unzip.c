@@ -9,6 +9,9 @@
 #include <string.h>
 #include "zlib.h"
 #include "unzip.h"
+#ifdef ARCH_WIN32
+#pragma warning (disable: 4996) // ''_snprintf': This function or variable may be unsafe'
+#endif
 
 #ifdef STDC
 //#  include <stddef.h>

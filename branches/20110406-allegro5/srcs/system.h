@@ -54,6 +54,9 @@
 #define alleg_gui_unused
 #define alleg_math_unused
 #define ALLEGRO_NO_COMPATIBILITY
+#ifdef ARCH_WIN32
+#define ALLEGRO_STATICLINK			// Unix users probably don't want static linking?
+#endif
 
 // FIXME-OPT: Because of bug in 4.2.* branch
 // What we need is to switch to 4.3.* but I cannot find precompiled binaries for that

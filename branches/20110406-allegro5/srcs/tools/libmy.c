@@ -266,7 +266,7 @@ void    Random_Init (void)
    srandom (ttmp.ti_sec + (ttmp.ti_min * ttmp.ti_hour));
  #else
 */
-   srand (time (NULL));
+   srand ((unsigned int)time (NULL));
    #ifndef ARCH_WIN32
       srandom (time (NULL));
    #endif

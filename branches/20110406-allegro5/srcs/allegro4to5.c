@@ -1,4 +1,4 @@
-#include <allegro5/allegro_primitives.h>
+#include "shared.h"
 
 int al_makecol(int r, int g, int b)
 {

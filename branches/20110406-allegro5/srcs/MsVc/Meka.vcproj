@@ -49,7 +49,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
-				PreprocessorDefinitions="ARCH_WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80;ALLEGRO_STATICLINK"
+				PreprocessorDefinitions="ARCH_WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="false"
 				MinimalRebuild="true"
 				ExceptionHandling="0"
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="allegro.lib allegro_font.lib allegro_primitives.lib allegro_image.lib audw32vc.lib zlib.lib libpng.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib"
+				AdditionalDependencies="allegro-5.0.2-static-md-debug.lib allegro_font-5.0.2-static-md-debug.lib allegro_primitives-5.0.2-static-md-debug.lib allegro_image-5.0.2-static-md-debug.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib psapi.lib opengl32.lib dxguid.lib dinput8.lib d3d9.lib"
 				OutputFile="../../mekaw.exe"
 				Version=""
 				LinkIncremental="1"
@@ -191,7 +191,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="allegro.lib allegro_font.lib allegro_primitives.lib allegro_image.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib comdlg32.lib ComCtl32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dinput8.lib dxguid.lib"
+				AdditionalDependencies="allegro-5.0.2-static-md.lib allegro_font-5.0.2-static-md.lib allegro_primitives-5.0.2-static-md.lib allegro_image-5.0.2-static-md.lib audw32vc.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib psapi.lib opengl32.lib dxguid.lib dinput8.lib d3d9.lib"
 				ShowProgress="0"
 				OutputFile="../../mekaw.exe"
 				Version=""
