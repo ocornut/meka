@@ -295,12 +295,6 @@ static int Init_Allegro (void)
         //loadpng_init ();	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
     #endif
 
-    // Window title & callback
-    #ifndef ARCH_DOS
-        al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
-        //al_set_close_button_callback(Close_Button_Callback);
-    #endif
-
     // text_mode (-1); // now obsolete
     ConsolePrint ("\n");
 
@@ -376,7 +370,11 @@ int main(int argc, char **argv)
 
 	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
 	g_display = al_create_display(800, 600);
-	
+
+    // Window title & callback
+    al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
+    //al_set_close_button_callback(Close_Button_Callback);
+
     Blit_Init               (); // Initialize Blitter
     Random_Init             (); // Initialize Random Number Generator
     Fonts_Init              (); // Initialize Fonts system

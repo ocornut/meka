@@ -218,9 +218,10 @@ void    TileViewer_Update(t_app_tile_viewer *app)
             char s[128];
             char addr[16];
 
-            // Tile 
-			al_set_target_bitmap(bmp);
-			al_draw_bitmap_region(bmp, (tile_current % 16) * 8, (tile_current / 16) * 8, 8, 8, 4, app->tiles_height * 8 + 3, 0);
+            // Tile
+			// FIXME-ALLEGRO5: Cannot have same bitmap be source and destination anymore
+			//al_set_target_bitmap(bmp);
+			//al_draw_bitmap_region(bmp, (tile_current % 16) * 8, (tile_current / 16) * 8, 8, 8, 4, app->tiles_height * 8 + 3, 0);
 
             // Description
             if (tile_current_addr != -1)
