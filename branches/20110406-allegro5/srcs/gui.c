@@ -88,9 +88,9 @@ void            gui_redraw (void)
         // Draw borders
         gui_rect (gui_buffer, LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
 		al_set_target_bitmap(gui_buffer);
-		// FIXME-ALLEGRO5: line coordinates
-        al_draw_line(b_frame.pos.x, b_frame.pos.y - 1, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 1, COLOR_SKIN_WINDOW_BORDER, 1.0f);
-        al_draw_line(b_frame.pos.x, b_frame.pos.y - 2, b_frame.pos.x + b_frame.size.x, b_frame.pos.y - 2, COLOR_SKIN_WINDOW_BORDER, 1.0f);
+		// FIXME-ALLEGRO5: line coordinate
+        al_draw_line(b_frame.pos.x, b_frame.pos.y - 1.5f, b_frame.pos.x + b_frame.size.x + 1, b_frame.pos.y - 1.5f, COLOR_SKIN_WINDOW_BORDER, 1.0f);
+        al_draw_line(b_frame.pos.x, b_frame.pos.y - 0.5f, b_frame.pos.x + b_frame.size.x + 1, b_frame.pos.y - 0.5f, COLOR_SKIN_WINDOW_BORDER, 1.0f);
 
         // Draw title bar.
 		{

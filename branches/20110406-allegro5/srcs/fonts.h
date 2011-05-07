@@ -12,13 +12,9 @@
 #define         F_SMALL                 (2)
 #define         MEKA_FONT_MAX           (3)
 
-#define         MEKA_FONT_STR_STAR      "€"
-#define         MEKA_FONT_STR_CHECKED   ""
-#define         MEKA_FONT_STR_ARROW     ">" // "‚"
-
-#define         MEKA_FONT_CHAR_STAR     (128)
-#define         MEKA_FONT_CHAR_CHECKED  (129)
-#define         MEKA_FONT_CHAR_ARROW    (130)
+#define         MEKA_FONT_STR_STAR      "\xC2\x80"	// 128 in UTF8
+#define         MEKA_FONT_STR_CHECKED   "\xC2\x81"	// 129 in UTF8
+#define         MEKA_FONT_STR_ARROW     ">"			// (not using the one stored at 130)
 
 //-----------------------------------------------------------------------------
 // Data

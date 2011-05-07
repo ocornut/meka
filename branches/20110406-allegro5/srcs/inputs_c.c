@@ -257,7 +257,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     }
 
     // Horizontal Separator
-    al_draw_line(x + 4, y + 3 + 0.5f, x + frame_x - 4, y + 3 + 0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
+    al_draw_line(x + 4, y + 3 + 0.5f, x + frame_x - 4 + 1, y + 3 + 0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
     y += 7;
 
     // Mapping

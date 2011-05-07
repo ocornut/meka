@@ -27,10 +27,12 @@ static void         AboutBox_Layout(bool setup);
 
 void    AboutBox_Switch (void)
 {
-#ifdef ARCH_DOS
-    int menu_pos = 4;
-#else
     int menu_pos = 5;
+#ifdef ARCH_DOS
+    menu_pos -= 1;
+#endif
+#ifdef MEKA_Z80_DEBUGGER
+	menu_pos += 1;
 #endif
 
 	AboutBox.active ^= 1;

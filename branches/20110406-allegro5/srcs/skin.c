@@ -763,7 +763,7 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *b
 				al_draw_vline(x, y1, y2, color);
 			}
 		}
-        if (gradient_pos_end != frame->size.x)
+        if (gradient_pos_end < frame->size.x+1)
             al_draw_filled_rectangle(x1 + gradient_pos_end, y1, x2+1, y2+1, gradient->native_color_end);
     }
 }
@@ -800,7 +800,7 @@ void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bit
 				al_draw_hline(x1, y, x2, color);
 			}
 		}
-        if (gradient_pos_end != frame->size.y)
+        if (gradient_pos_end < frame->size.y+1)
             al_draw_filled_rectangle(x1, y1 + gradient_pos_end, x2 + 1, y2 + 1, gradient->native_color_end);
     }
 }
