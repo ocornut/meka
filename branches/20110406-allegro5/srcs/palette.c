@@ -148,7 +148,7 @@ void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color)
     assert(idx >= 0 && idx < 32);
     Palette_Emulation[idx] = color;
     Palette_EmulationToHost[idx] = al_makecol(color.r*255, color.g*255, color.b*255);
-    Palette_EmulationToHost16[idx] = 0x1234;//FIXME-ALLEGRO5: 565 color //makecol16(color.r, color.g, color.b);
+    Palette_EmulationToHost16[idx] = al_makecol16(color.r*255, color.g*255, color.b*255);
     Palette_EmulationFlags[idx] |= PALETTE_EMULATION_FLAGS_DIRTY;
     Palette_EmulationDirtyAny = TRUE;
 }

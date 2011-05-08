@@ -236,7 +236,7 @@ void    Refresh_Line_5 (void)
         // Display Background & Foreground
 		if ((opt.Layer_Mask & LAYER_BACKGROUND) && Display_ON)
 		{
-			Display_BackGround_Line_5 ();
+			Display_BackGround_Line_5();
 		}
 		else
 		{

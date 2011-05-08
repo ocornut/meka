@@ -6,13 +6,13 @@ int al_makecol(int r, int g, int b)
 	return r | (g << 8) | (b << 16) | (0xff << 24);
 }
 
-int al_makecol16(int r, int g, int b)
+unsigned short al_makecol16(int r, int g, int b)
 {
 	// FIXME-ALLEGRO5: untested
 	r = (r & 255) >> 3;
 	g = (g & 255) >> 2;
 	b = (b & 255) >> 3;
-	return r | (g<<5) || (b<<11);
+	return r | (g<<5) | (b<<11);
 }
 
 void al_draw_hline(int x1, int y, int x2, ALLEGRO_COLOR c)
