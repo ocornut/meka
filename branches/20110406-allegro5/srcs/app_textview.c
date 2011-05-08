@@ -82,8 +82,7 @@ void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
         tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, &tv->text_size_per_page, TextViewer_ScrollbarCallback);
 
     // Draw separator between text and scrollbar
-	// FIXME-ALLEGRO5: Line coordinates
-    al_draw_line(frame.pos.x - 1, frame.pos.y, frame.pos.x - 1, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
+    al_draw_line(frame.pos.x, frame.pos.y, frame.pos.x, frame.pos.y + frame.size.y + 1, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
     //gui_rect (TV->ID_BoxGfx, LOOK_ROUND, x1 - 2, y1 - 2, x1 + x2 + 2, y1 + y2 + 2, COLOR_SKIN_WINDOW_SEPARATORS);
 }
 

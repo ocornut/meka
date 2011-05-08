@@ -128,12 +128,10 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
         app->frame_tilemap_zone = widget_button_add(app->box, &app->frame_tilemap, 1, TilemapViewer_CallbackTilemapClick, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
     // Vertical line
-	// FIXME-ALLEGRO5: Line coordinate
-    al_draw_line(app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
+    al_draw_line(app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Horizontal line
-	// FIXME-ALLEGRO5: Line coordinate
-    al_draw_line(app->frame_tilemap_addr.pos.x, app->frame_tilemap_addr.pos.y, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
+    al_draw_line(0, app->frame_tilemap_addr.pos.y, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Options
     frame.size.x = 10;

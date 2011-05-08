@@ -581,7 +581,6 @@ void        widget_checkbox_redraw(t_widget *w)
     if (wd->pvalue && *(wd->pvalue))
     {
         // Note: using widget generic text color to display the cross
-		// FIXME-ALLEGRO5: coordinates (2 lines)
         al_draw_line(w->frame.pos.x + 2, w->frame.pos.y + 2, w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + w->frame.size.y - 1, COLOR_SKIN_WIDGET_GENERIC_TEXT, 1.0f);
         al_draw_line(w->frame.pos.x + w->frame.size.x - 1, w->frame.pos.y + 2, w->frame.pos.x + 2, w->frame.pos.y + w->frame.size.y - 1, COLOR_SKIN_WIDGET_GENERIC_TEXT, 1.0f);
     }

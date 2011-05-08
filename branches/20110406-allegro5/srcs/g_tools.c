@@ -44,7 +44,6 @@ void    gui_rect_titled (ALLEGRO_BITMAP *bmp, char *Text, int FontIdx,
 
 	al_set_target_bitmap(bmp);
     al_draw_filled_rectangle(x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 - ly, x1 + GUI_LOOK_FRAME_PAD_HEAD1_X + lx + 1, y1 + ly + 1, c_bg);
-	// FIXME-ALLEGRO5: Coordinates [2 lines]
     al_draw_line(x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 - ly + 1, x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 + ly, c_fg, 1.0f);
     al_draw_line(x1 + lx + GUI_LOOK_FRAME_PAD_HEAD1_X + 1, y1 - ly + 1, x1 + lx + GUI_LOOK_FRAME_PAD_HEAD1_X + 1, y1 + ly, c_fg, 1.0f);
     Font_Print (FontIdx, bmp, Text, 2 + x1 + GUI_LOOK_FRAME_PAD_HEAD1_X + GUI_LOOK_FRAME_PAD_HEAD2_X, y1 - ly, c_text);
