@@ -79,7 +79,7 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int 
 	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     switch (color_format)
     {
-    case ALLEGRO_PIXEL_FORMAT_RGB_565:
+    case ALLEGRO_PIXEL_FORMAT_BGR_565:
         {
 			u16* dst_data = (u16*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 1;

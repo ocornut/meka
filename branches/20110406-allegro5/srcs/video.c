@@ -34,7 +34,7 @@ void    Video_Init (void)
 {
     // Allocate buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_RGB_565);
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;

@@ -22,8 +22,8 @@
 ALLEGRO_COLOR   Palette_Emulation[PALETTE_EMU_GAME_SIZE];
 int				Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];			// pixel format (eg: u16/u32) depending on video buffer types
 u16				Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
-int     Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
-bool    Palette_EmulationDirtyAny;
+int				Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
+bool			Palette_EmulationDirtyAny;
 
 //-----------------------------------------------------------------------------
 // Functions
