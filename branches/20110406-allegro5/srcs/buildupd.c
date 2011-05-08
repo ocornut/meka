@@ -39,15 +39,6 @@ int     main (int argc, char **argv)
     }
 
     // Output strings
-#ifdef ARCH_DOS
-    fprintf (f, "char MEKA_BUILD_SYSTEM[] = \"DOS\";\n");
-#endif
-#ifdef ARCH_WIN32
-    fprintf (f, "char MEKA_BUILD_SYSTEM[] = \"Win32\";\n");
-#endif
-#ifdef ARCH_UNIX
-    fprintf (f, "char MEKA_BUILD_SYSTEM[] = \"Un*x\";\n");
-#endif
     fprintf (f, "char MEKA_BUILD_DATE[] = \"%04d/%02d/%02d\";\n", year, month, day);
     fprintf (f, "char MEKA_BUILD_TIME[] = \"%02i:%02i:%02i\";\n", hour, minute, second);
 

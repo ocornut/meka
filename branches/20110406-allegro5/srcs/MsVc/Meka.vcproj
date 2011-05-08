@@ -353,10 +353,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\build.h"
-				>
-			</File>
-			<File
 				RelativePath="..\capture.c"
 				>
 			</File>
