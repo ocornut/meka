@@ -269,7 +269,7 @@ static int Init_Allegro (void)
     //g_Configuration.video_mode_depth_desktop = desktop_color_depth();
 	g_Configuration.video_mode_depth_desktop = 0;
     if (g_Configuration.video_mode_depth_desktop == 0)
-        g_Configuration.video_mode_depth_desktop = 16;	// Default
+        g_Configuration.video_mode_depth_desktop = 32;	// Default
 
     //install_timer();
 

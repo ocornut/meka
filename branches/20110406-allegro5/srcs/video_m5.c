@@ -42,7 +42,7 @@ int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 //-----------------------------------------------------------------------------
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip)
+void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
 {
 	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
 	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
@@ -130,7 +130,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const int *pal
             }
             break;
         }
-    case ALLEGRO_PIXEL_FORMAT_RGBA_8888:
+    case ALLEGRO_PIXEL_FORMAT_ABGR_8888:
         {
 			u32* dst_data = (u32*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 2;

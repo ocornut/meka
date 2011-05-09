@@ -25,10 +25,7 @@ static int  typematic_repeat_counter = 0;
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Inputs_Key_Eat (int keycode)
 // Eat given key by removing the corresponding flag in the global key[] table
-//-----------------------------------------------------------------------------
 void    Inputs_Key_Eat(int keycode)
 {
 	// FIXME-ALLEGRO5

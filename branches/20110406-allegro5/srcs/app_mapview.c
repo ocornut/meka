@@ -362,7 +362,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
                 const int   x               = app->frame_tilemap.pos.x + (i << 3);
                 const u16   map_item        = *map++;
                 const int   tile_index      = (map_item & 0x01FF);
-                const int * tile_palette    = (map_item & 0x0800) ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
+                const u32 * tile_palette    = (map_item & 0x0800) ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
                 const u8 *  tile_pixels     = (u8 *)&tgfx.Tile_Decoded[tile_index];
                 int         tile_flip       = (map_item & 0x0600);
 

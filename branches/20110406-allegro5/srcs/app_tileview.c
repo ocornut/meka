@@ -138,7 +138,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         {
             int     n = 0;
             u8 *    nd = &tgfx.Tile_Decoded[0][0];
-            int *   palette_host = app->palette ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
+            u32 *   palette_host = app->palette ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
             for (y = 0; y != app->tiles_height; y++)
                 for (x = 0; x != app->tiles_width; x++)
                 {
@@ -183,7 +183,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         {
             int     n = 0;
             u8 *    nd = &tgfx.Tile_Decoded[0][0];
-            int *   palette_host = &Palette_EmulationToHost[app->palette*4];
+            u32 *   palette_host = &Palette_EmulationToHost[app->palette*4];
             for (y = 0; y != app->tiles_height; y ++)
                 for (x = 0; x != app->tiles_width; x ++)
                 {

@@ -1,6 +1,6 @@
 #include "shared.h"
 
-int al_makecol(int r, int g, int b)
+unsigned int al_makecol32(int r, int g, int b)
 {
 	// FIXME-ALLEGRO5: originally this function used the current video mode so we'll want to use that as well.
 	return r | (g << 8) | (b << 16) | (0xff << 24);
@@ -8,7 +8,6 @@ int al_makecol(int r, int g, int b)
 
 unsigned short al_makecol16(int r, int g, int b)
 {
-	// FIXME-ALLEGRO5: untested
 	r = (r & 255) >> 3;
 	g = (g & 255) >> 2;
 	b = (b & 255) >> 3;

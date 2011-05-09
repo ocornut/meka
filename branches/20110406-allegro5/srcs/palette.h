@@ -14,7 +14,7 @@
 //-----------------------------------------------------------------------------
 
 extern ALLEGRO_COLOR Palette_Emulation[PALETTE_EMU_GAME_SIZE];
-extern int			 Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
+extern u32			 Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
 extern u16			 Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
 extern int			 Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
 extern bool			 Palette_EmulationDirtyAny;

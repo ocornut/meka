@@ -73,7 +73,7 @@ void    TMS9918_Palette_Set (void)
 }
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor, int bgcolor)
+void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor_host, int bgcolor_host)
 {
 	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
 	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
@@ -83,6 +83,8 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int 
         {
 			u16* dst_data = (u16*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 1;
+			const u16 fgcolor = fgcolor_host;
+			const u16 bgcolor = bgcolor_host;
             int i;
             for (i = 0; i != 8; i++)
             {
@@ -100,10 +102,12 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int 
             }
             break;
         }
-    case ALLEGRO_PIXEL_FORMAT_RGBA_8888:
+    case ALLEGRO_PIXEL_FORMAT_ABGR_8888:
         {
 			u32* dst_data = (u32*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 2;
+			const u32 fgcolor = fgcolor_host;
+			const u32 bgcolor = bgcolor_host;
             int i;
             for (i = 0; i != 8; i++)
             {

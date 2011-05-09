@@ -211,6 +211,7 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     box->title      = strdup(title);
     box->type       = GUI_BOX_TYPE_STANDARD;
     box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+	al_set_new_bitmap_format((g_Configuration.video_mode_gui_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
 	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
     box->widgets    = NULL;
     box->user_data  = NULL;

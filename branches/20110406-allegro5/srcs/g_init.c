@@ -85,13 +85,13 @@ void    gui_set_video_mode(int res_x, int res_y, int color_depth)
 
     // Setup buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_RGBA_8888);
+	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
     gui_buffer = al_create_bitmap(res_x, res_y);
     al_set_target_bitmap(gui_buffer);
 	al_clear_to_color(COLOR_BLACK);
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_RGBA_8888);
+	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
     gui_background = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
 }
 
