@@ -323,7 +323,7 @@ int main(int argc, char **argv)
 
     ConsoleInit (); // First thing to do
     #ifdef ARCH_WIN32
-        ConsolePrintf ("%s\n(c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
+        ConsolePrintf ("%s (built %s %s)\n(c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME, MEKA_DATE, MEKA_AUTHORS);
     #else
         ConsolePrintf ("\n%s (c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_DATE, MEKA_AUTHORS);
     #endif
@@ -354,6 +354,19 @@ int main(int argc, char **argv)
     Init_Default_Values     (); // Set Defaults Variables
     Command_Line_Parse      (); // Parse Command Line (1)
     Init_Allegro            (); // Initialize Allegro Library
+	
+	// Get Allegro version and print it in console
+	{
+		const unsigned int allegro_version = al_get_allegro_version();
+		char buf[256];
+		sprintf(allegro_version_str, "%d.%d.%d (release %d)\n", 
+				(allegro_version >> 24),
+				(allegro_version >> 16) & 0xFF,
+				(allegro_version >> 8) & 0xFF,
+				(allegro_version & 0xFF));
+		ConsolePrintf("Allegro version %s\n", buf);
+	}
+
     Capture_Init            (); // Initialize Screen capture
     Configuration_Load      (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);

@@ -49,6 +49,10 @@ static ALLEGRO_BITMAP*	Data_LoadBitmap(const char* name)
 	// Even when loaded from a file the system use the format specified by manually (good!)
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ABGR_8888);
+
+	// FIXME-ALLEGRO5: Probably a good thing to try but it makes direct accesses tricky..
+	//al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ANY_32_WITH_ALPHA);
+
 	bitmap = al_load_bitmap(filename_buf);
 	if (!bitmap)
 	{

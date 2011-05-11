@@ -531,7 +531,7 @@ void    Inputs_CFG_Map_Change_Update (void)
         // Digital Joypad/Joystick -------------------------------------------------
     case INPUT_SRC_TYPE_JOYPAD:
         {
-            JOYSTICK_INFO *joystick;
+            ALLEGRO_JOYSTICK *joystick;
             poll_joystick(); // It is necessary ?
             joystick = &joy[input_src->Connection_Port];
 

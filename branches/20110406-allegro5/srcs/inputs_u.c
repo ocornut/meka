@@ -368,7 +368,7 @@ void        Inputs_Sources_Update (void)
             // Digital Joypad/Joystick ----------------------------------------------
         case INPUT_SRC_TYPE_JOYPAD:
             {
-                JOYSTICK_INFO *joystick = &joy[Src->Connection_Port];
+                ALLEGRO_JOYSTICK *joystick = &joy[Src->Connection_Port];
                 if (!Joy_Polled) 
                 { 
                     poll_joystick(); 
