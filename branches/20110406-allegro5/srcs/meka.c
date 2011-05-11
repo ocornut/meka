@@ -296,7 +296,19 @@ static int Init_Allegro (void)
     #endif
 
     // text_mode (-1); // now obsolete
-    ConsolePrint ("\n");
+    //ConsolePrint ("\n");
+
+	// Get Allegro version and print it in console
+	{
+		const unsigned int allegro_version = al_get_allegro_version();
+		char buf[256];
+		sprintf(buf, "%d.%d.%d (release %d)", 
+				(allegro_version >> 24),
+				(allegro_version >> 16) & 0xFF,
+				(allegro_version >> 8) & 0xFF,
+				(allegro_version & 0xFF));
+		ConsolePrintf(" version %s\n", buf);
+	}
 
     return (1);
 }
@@ -354,20 +366,7 @@ int main(int argc, char **argv)
     Init_Default_Values     (); // Set Defaults Variables
     Command_Line_Parse      (); // Parse Command Line (1)
     Init_Allegro            (); // Initialize Allegro Library
-	
-	// Get Allegro version and print it in console
-	{
-		const unsigned int allegro_version = al_get_allegro_version();
-		char buf[256];
-		sprintf(allegro_version_str, "%d.%d.%d (release %d)\n", 
-				(allegro_version >> 24),
-				(allegro_version >> 16) & 0xFF,
-				(allegro_version >> 8) & 0xFF,
-				(allegro_version & 0xFF));
-		ConsolePrintf("Allegro version %s\n", buf);
-	}
-
-    Capture_Init            (); // Initialize Screen capture
+	Capture_Init            (); // Initialize Screen capture
     Configuration_Load      (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);
     Setup_Interactive_Init  (); // Show Interactive Setup if asked to

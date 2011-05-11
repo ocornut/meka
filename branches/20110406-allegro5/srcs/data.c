@@ -173,6 +173,8 @@ void            Data_Init(void)
     Fonts_AddFont(F_LARGE,	Data_LoadFontA4("font_0.tga"));  // Font Large Sized
     Fonts_AddFont(F_MIDDLE, Data_LoadFontA4("font_1.tga"));  // Font Middle Sized
     Fonts_AddFont(F_SMALL,  Data_LoadFontA4("font_2.tga"));  // Font Small Sized
+
+	ConsolePrint("\n");
 }
 
 void    Data_Close(void)
