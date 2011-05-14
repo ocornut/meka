@@ -367,7 +367,8 @@ bool    Debug_Print_Infos;
 // Data (video buffers)
 //-----------------------------------------------------------------------------
 
-ALLEGRO_DISPLAY* g_display;	// FIXME-ALLEGRO5
+extern ALLEGRO_DISPLAY* g_display;
+extern ALLEGRO_LOCKED_REGION* g_screenbuffer_locked_region;
 
 // Emulated Screen ------------------------------------------------------------
 ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers

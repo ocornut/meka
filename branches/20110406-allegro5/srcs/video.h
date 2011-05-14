@@ -34,6 +34,9 @@ void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth);
 
 void    Refresh_Screen (void);                                    // redraw screen
 
+void	Screenbuffer_AcquireLock(void);
+void	Screenbuffer_ReleaseLock(void);
+
 extern INLINE void Screen_Save_to_Next_Buffer (void);
 extern INLINE void Screen_Restore_from_Next_Buffer (void);
 

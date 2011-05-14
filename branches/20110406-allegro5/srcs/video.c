@@ -39,6 +39,7 @@ void    Video_Init (void)
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
     screenbuffer_next   = screenbuffer_2;
+	Screenbuffer_AcquireLock();
 
     // Clear variables
     Video.res_x						= 0;
@@ -365,11 +366,24 @@ void    Screen_Restore_from_Next_Buffer(void)
 	al_draw_bitmap(screenbuffer_next, 0, 0, 0);
 }
 
+void	Screenbuffer_AcquireLock(void)
+{
+	assert(g_screenbuffer_locked_region == NULL);
+	g_screenbuffer_locked_region = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+}
+
+void	Screenbuffer_ReleaseLock(void)
+{
+	assert(g_screenbuffer_locked_region != NULL);
+	al_unlock_bitmap(screenbuffer);
+	g_screenbuffer_locked_region = NULL;
+}
+
 // REFRESH THE SCREEN ---------------------------------------------------------
 // This is called when line == tsms.VDP_Line_End
 void    Refresh_Screen(void)
 {
-    // acquire_bitmap(screen);
+	Screenbuffer_ReleaseLock();
 
 //#ifdef ARCH_WIN32
 //    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
@@ -460,15 +474,8 @@ void    Refresh_Screen(void)
 
     // Ask frame-skipper weither next frame should be drawn or not
     fskipper.Show_Current_Frame = Frame_Skipper();
-    //if (fskipper.Show_Current_Frame == FALSE)
-    //   Msg (MSGT_USER, "Skip frame!");
 
-    // Update console (under WIN32)
-    // #ifdef ARCH_WIN32
-    //  ConsoleUpdate();
-    // #endif
-
-    // release_bitmap(screen);
+	Screenbuffer_AcquireLock();
 }
 
 // SET BORDER COLOR IN VGA MODES ----------------------------------------------

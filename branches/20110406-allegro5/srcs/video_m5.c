@@ -16,8 +16,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-static ALLEGRO_LOCKED_REGION*	GFX_LineRegion = NULL;
-static u16*						GFX_LineRegionData = NULL;
+static u16*		GFX_LineRegionData = NULL;
 
        int      Sprites_on_Line;
        int      Do_Collision;
@@ -222,8 +221,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
 void    Refresh_Line_5 (void)
 {
 	// Point to current video line
-	GFX_LineRegion = al_lock_bitmap_region(screenbuffer, 0, tsms.VDP_Line, al_get_bitmap_width(screenbuffer), 1, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
-	GFX_LineRegionData = GFX_LineRegion->data;
+	GFX_LineRegionData = (u16*)( (u8*)g_screenbuffer_locked_region->data + g_screenbuffer_locked_region->pitch * tsms.VDP_Line );
 
 	if (fskipper.Show_Current_Frame == TRUE)
 	{
@@ -273,7 +271,6 @@ void    Refresh_Line_5 (void)
 		// Only update collision if frame is being skipped
 		Refresh_Sprites_5 (FALSE);
 	}
-	al_unlock_bitmap(screenbuffer);
 }
 
 // DISPLAY A BACKGROUND LINE --------------------------------------------------

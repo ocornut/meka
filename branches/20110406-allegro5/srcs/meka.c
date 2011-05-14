@@ -47,6 +47,7 @@
 //-----------------------------------------------------------------------------
 
 ALLEGRO_DISPLAY* g_display = NULL;
+ALLEGRO_LOCKED_REGION* g_screenbuffer_locked_region = NULL;
 
 //-----------------------------------------------------------------------------
 // Functions
