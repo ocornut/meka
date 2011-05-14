@@ -42,10 +42,9 @@ int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 //-----------------------------------------------------------------------------
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
+void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
 {
 	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
-	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     switch (color_format)
     {
     case ALLEGRO_PIXEL_FORMAT_BGR_565:
@@ -217,7 +216,6 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, const u32 *pal
 		Msg(MSGT_USER, "video_m5: Unsupported color format: %x.", color_format);
         break;
     }
-	al_unlock_bitmap(dst);
 }
 
 // REDRAW A SCREEN LINE -------------------------------------------------------

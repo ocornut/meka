@@ -16,12 +16,12 @@ unsigned short al_makecol16(int r, int g, int b)
 
 void al_draw_hline(int x1, int y, int x2, ALLEGRO_COLOR c)
 {
-   al_draw_line(x1, y+0.5f, x2+1, y+0.5f, c, 1.0f);
+   al_draw_line(x1, y+0.5f, x2+1, y+0.5f, c, 0);
 }
 
 void al_draw_vline(int x, int y1, int y2, ALLEGRO_COLOR c)
 {
-   al_draw_line(x+0.5f, y1, x+0.5f, y2+1, c, 1.0f);
+   al_draw_line(x+0.5f, y1, x+0.5f, y2+1, c, 0);
 }
 
 /*

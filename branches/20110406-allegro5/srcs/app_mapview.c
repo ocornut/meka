@@ -280,6 +280,8 @@ void         TilemapViewer_SwitchMainInstance(void)
 
 void         TilemapViewer_Update(t_tilemap_viewer *app)
 {
+	ALLEGRO_LOCKED_REGION* locked_region;
+
     // Skip update if not active
     if (!app->active)
         return;
@@ -342,6 +344,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
     // Update tilemap
 	al_set_target_bitmap(app->box->gfx_buffer);
+	locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     if (tsms.VDP_VideoMode < 4) // FIXME: Video mode numbers
     {
         char text[64];
@@ -385,11 +388,12 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
                     }
 
                     // Draw
-                    VDP_Mode4_DrawTile(app->box->gfx_buffer, tile_pixels, tile_palette, x, app->frame_tilemap.pos.y + (j << 3), tile_flip);
+                    VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, tile_pixels, tile_palette, x, app->frame_tilemap.pos.y + (j << 3), tile_flip);
                 }
             }
         }
     }
+	al_unlock_bitmap(app->box->gfx_buffer);
 
     // Tilemap rectangle
     al_draw_rectangle(
@@ -532,10 +536,8 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
     }
     else
     {
-        al_put_pixel(
-            app->frame_tilemap.pos.x + x1,
-            app->frame_tilemap.pos.y + y,
-            color);
+		// draw pixel is actually pixel than putpixel on a video memory buffer (no need to lock in/out)
+        al_draw_pixel(app->frame_tilemap.pos.x + x1 + 0.5f, app->frame_tilemap.pos.y + y + 0.5f, color);
     }
 }
 

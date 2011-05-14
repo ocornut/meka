@@ -99,6 +99,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     bool    tile_current_refresh;
     int     tile_current_addr;
     ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
+	ALLEGRO_LOCKED_REGION* locked_region;
 
     // Skip update if not active
     if (!app->active)
@@ -132,6 +133,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     tile_current_addr = -1;
 
     // Then redraw all tiles
+	locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     switch (cur_drv->vdp)
     {
     case VDP_SMSGG:
@@ -146,7 +148,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                         Decode_Tile (n);
                     if (dirty_all || tgfx.Tile_Dirty [n])
                     {
-                        VDP_Mode4_DrawTile(app->box->gfx_buffer, nd, palette_host, (x * 8), (y * 8), 0);
+                        VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, (x * 8), (y * 8), 0);
                         tgfx.Tile_Dirty [n] = 0;
                         dirty = TRUE;
                     }
@@ -191,7 +193,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                         NES_Decode_Tile (n);
                     if (dirty_all || tgfx.Tile_Dirty [n])
                     {
-                        VDP_Mode4_DrawTile(app->box->gfx_buffer, nd, palette_host, (x * 8), (y * 8), 0);
+                        VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, (x * 8), (y * 8), 0);
                         tgfx.Tile_Dirty [n] = 0;
                         dirty = TRUE;
                     }
@@ -203,6 +205,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                 break;
         }
     }
+	al_unlock_bitmap(app->box->gfx_buffer);
 
     // First refresh bottom tile info
     if (dirty_all || tile_current_refresh)
