@@ -116,9 +116,10 @@ void    Main_Loop_No_Emulation (void)
         if ((fskipper.Show_Current_Frame) && (!(machine & MACHINE_POWER_ON)))
         {
             sms.VDP[0] &= ~0x20; // no mask left 8 (for GUI windows) // FIXME: blah
+			Effects_TV_Update();
         }
         // Refresh GUI screen
-        Refresh_Screen ();
+        Refresh_Screen();
     }
 }
 

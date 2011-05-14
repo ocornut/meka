@@ -10,6 +10,7 @@
 #include "shared.h"
 #include "palette.h"
 #include "effects.h"
+#include "video.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -48,14 +49,11 @@ void    Effects_TV_Reset(void)
     tv_effect.start_line = SMS_RES_Y / 2;
 }
 
-//-----------------------------------------------------------------------------
-// Effects_TV_Update (void)
-// Update TV Effect
-//-----------------------------------------------------------------------------
 void    Effects_TV_Update (void)
 {
-	// FIXME-ALLEGRO5: missing feature
-#if 0
+	u16* screen_data;
+	int screen_pitch16;
+
     int    i, j, k;
     u16 *  p1, *p2, *p3, *p4;
 
@@ -64,14 +62,20 @@ void    Effects_TV_Update (void)
     const int rx_d2 = rx / 2;
     const int ry_d2 = ry / 2;
 
-    int start_offset = (cur_drv->y_show_start * (screenbuffer->line[1] - screenbuffer->line[0])) + (cur_drv->x_start * sizeof(u16));
+    int start_offset;
+
+	assert(Screenbuffer_IsLocked());
+	screen_data = g_screenbuffer_locked_region->data;
+	screen_pitch16 = g_screenbuffer_locked_region->pitch / sizeof(u16);
+
+	start_offset = (cur_drv->y_show_start * screen_pitch16) + cur_drv->x_start;
 
 	// Fill with random pixels
 	// Same data in the four quarters (to reduce number of calls to Random().. this was somewhat an issue back on old 486).
     for (j = 0; j != ry_d2; j ++)
     {
-        p1 = (u16 *)(screenbuffer->line [j] + start_offset);
-        p2 = (u16 *)(screenbuffer->line [j + ry_d2] + start_offset);
+        p1 = (u16 *)(screen_data + j*screen_pitch16 + start_offset);
+        p2 = (u16 *)(screen_data + (j+ry_d2)*screen_pitch16 + start_offset);
         p3 = p1 + rx_d2;
         p4 = p2 + rx_d2;
         for (i = 0; i != rx_d2; i ++)
@@ -92,7 +96,7 @@ void    Effects_TV_Update (void)
         j -= len;
         if (j < 0) 
 			j = 0;
-        p1 = (u16 *)(screenbuffer->line [k] + (j * sizeof(u16)) + start_offset);
+        p1 = (u16 *)(screen_data + k*screen_pitch16 + j + start_offset);
         while (len-- != 0)
             *p1++ = color;
     }
@@ -100,7 +104,7 @@ void    Effects_TV_Update (void)
     j = Random(ry);
     k = Random(16) + (rx - 16);
     i = Random(16);
-    p1 = (u16 *)(screenbuffer->line [j] + (i * sizeof(u16)) + start_offset);
+    p1 = (u16 *)(screen_data + j*screen_pitch16 + i + start_offset);
     for (; i < k; i ++)
     {
 		int r = Random(16);
@@ -113,7 +117,7 @@ void    Effects_TV_Update (void)
     {
         for (j = 0; j != tv_effect.start_line; j++)
         {
-            p1 = (u16 *)(screenbuffer->line[j] + start_offset);
+            p1 = (u16 *)(screen_data + j*screen_pitch16 + start_offset);
             for (i = 0; i != rx; i++)
             {
                 if (Random(tv_effect.start_line) != 0)
@@ -125,7 +129,7 @@ void    Effects_TV_Update (void)
         }
         for (j = ry - 1; j > (ry - tv_effect.start_line); j --)
         {
-            p1 = (u16 *)(screenbuffer->line[j] + start_offset);
+            p1 = (u16 *)(screen_data + j*screen_pitch16 + start_offset);
             for (i = 0; i < rx; i ++)
             {
                 if (Random(tv_effect.start_line) != 0)
@@ -137,7 +141,6 @@ void    Effects_TV_Update (void)
         }
         tv_effect.start_line -= 24;
     }
-#endif
 }
 
 //-----------------------------------------------------------------------------
