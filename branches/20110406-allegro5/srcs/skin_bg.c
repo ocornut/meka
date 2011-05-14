@@ -19,11 +19,10 @@ static void     Skins_Background_Redraw_Grid(void)
     {
         int i;
         const ALLEGRO_COLOR color = COLOR_SKIN_BACKGROUND_GRID;
-		// FIXME-ALLEGRO5: line coordinates
         for (i = gui.info.grid_distance; i < gui.info.screen.y; i += gui.info.grid_distance)
-            al_draw_line(0, i, gui.info.screen.x, i, color, 1.0f);
+            al_draw_line(0, i, gui.info.screen.x, i, color, 0);
         for (i = gui.info.grid_distance; i < gui.info.screen.x; i += gui.info.grid_distance)
-            al_draw_line(i, 0, i, gui.info.screen.y, color, 1.0f);
+            al_draw_line(i, 0, i, gui.info.screen.y, color, 0);
     }
 }
 

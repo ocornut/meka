@@ -84,7 +84,7 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
     }
 
     // Separator
-    al_draw_line(0, app->tiles_display_frame.size.y+1, app->tiles_display_frame.size.x, app->tiles_display_frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
+    al_draw_line(0, app->tiles_display_frame.size.y+1, app->tiles_display_frame.size.x, app->tiles_display_frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
 	// Rectangle enclosing current/selected tile
     gui_rect(app->box->gfx_buffer, LOOK_THIN, 2, app->tiles_display_frame.size.y + 1, 2 + 11, app->tiles_display_frame.size.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
