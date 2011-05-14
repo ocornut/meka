@@ -332,6 +332,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     Font_SetCurrent (F_SMALL);
 
     // Clear area to display on
+	al_set_target_bitmap(app->box->gfx_buffer);
     al_draw_filled_rectangle(10, 20, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 20 + Font_Height(-1) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     al_draw_filled_rectangle(10, 58, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 121 + 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
