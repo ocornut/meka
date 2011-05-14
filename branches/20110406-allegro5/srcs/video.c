@@ -379,6 +379,12 @@ void	Screenbuffer_ReleaseLock(void)
 	g_screenbuffer_locked_region = NULL;
 }
 
+bool	Screenbuffer_IsLocked(void)
+{
+	return g_screenbuffer_locked_region != NULL;
+}
+
+
 // REFRESH THE SCREEN ---------------------------------------------------------
 // This is called when line == tsms.VDP_Line_End
 void    Refresh_Screen(void)
