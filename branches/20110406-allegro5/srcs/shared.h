@@ -9,15 +9,10 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-// FIXME-ALLEGRO5: WIP, disabled joystick
-#ifdef MEKA_JOY
-#undef MEKA_JOY
-#endif
-
 #define MEKA_NAME               "MEKA"
-#define MEKA_VERSION            "0.73"
+#define MEKA_VERSION            "0.74"
 #define MEKA_VERSION_HIGH       (0)
-#define MEKA_VERSION_LOW        (73)
+#define MEKA_VERSION_LOW        (74)
 #define MEKA_NAME_VERSION       MEKA_NAME " " MEKA_VERSION
 #define MEKA_HOMEPAGE           "http://www.smspower.org/meka"
 #define MEKA_AUTHORS            "Omar Cornut (Bock) and contributors"
@@ -26,8 +21,6 @@
 
 extern char MEKA_BUILD_DATE[];
 extern char MEKA_BUILD_TIME[];
-
-#define __MEKA_SOUND__
 
 //-----------------------------------------------------------------------------
 // Tools / Library Includes

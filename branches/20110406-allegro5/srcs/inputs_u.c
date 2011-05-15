@@ -296,7 +296,7 @@ void        Inputs_Emulation_Update (bool running)
 //-----------------------------------------------------------------------------
 void        Inputs_Sources_Update (void)
 {
-    int     i, j;
+    int     i;
 
 #ifdef MEKA_JOY
     int     Joy_Polled = FALSE;
@@ -345,7 +345,7 @@ void        Inputs_Sources_Update (void)
             // Keyboard -------------------------------------------------------------
         case INPUT_SRC_TYPE_KEYBOARD:
             {
-                for (j = 0; j != INPUT_MAP_MAX; j++)
+                for (int j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
                     int old_res = map->Res;
@@ -361,36 +361,40 @@ void        Inputs_Sources_Update (void)
             // Digital Joypad/Joystick ----------------------------------------------
         case INPUT_SRC_TYPE_JOYPAD:
             {
-                ALLEGRO_JOYSTICK *joystick = &joy[Src->Connection_Port];
-                if (!Joy_Polled) 
-                { 
-                    poll_joystick(); 
+       			ALLEGRO_JOYSTICK *joystick = al_get_joystick(Src->Connection_Port);
+				ALLEGRO_JOYSTICK_STATE state;
+
+				if (!Joy_Polled) 
+				{ 
+					al_get_joystick_state(joystick, &state);
                     Joy_Polled = TRUE; 
                 }
 
+				const int num_sticks = al_get_joystick_num_sticks(joystick);
+				const int num_buttons = al_get_joystick_num_buttons(joystick);
+
 #ifdef DEBUG_JOY
                 {
-                    int i, j;
-                    char buf[512];
                     Msg (MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
-                    for (i = 0; i < joystick->num_sticks; i++)
+                    for (int i = 0; i < num_sticks; i++)
                     {
-                        JOYSTICK_STICK_INFO *stick = &joystick->stick[i];
-                        Msg (MSGT_DEBUG, "- Stick %d (flags = %04x)\n", i, stick->flags);
-                        for (j = 0; j < stick->num_axis; j++)
+                        const int num_axes = al_get_joystick_num_axes(joystick, i);
+						Msg (MSGT_DEBUG, "- Stick %d\n", i);
+                        for (int j = 0; j < num_axes; j++)
                         {
-                            JOYSTICK_AXIS_INFO *axis = &stick->axis[j];
-                            Msg (MSGT_DEBUG, "   - Axis %d (pos = %d, d1 = %d, d2 = %d)\n", j, axis->pos, axis->d1, axis->d2);
+							Msg (MSGT_DEBUG, "   - Axis %d (pos = %f)\n", j, state.stick[i].axis[j]);
                         }
                     }
+
+                    char buf[512];
                     strcpy(buf, "- Buttons ");
-                    for (i = 0; i < joystick->num_buttons; i++)
-                        sprintf(buf + strlen(buf), "%d ", joystick->button[i].b);
+                    for (int i = 0; i < num_buttons; i++)
+						sprintf(buf + strlen(buf), "%d ", state.button[i]);
                     Msg (MSGT_DEBUG, buf);
                 }
 #endif
 
-                for (j = 0; j != INPUT_MAP_MAX; j++)
+                for (int j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
                     int old_res = map->Res;
@@ -398,15 +402,15 @@ void        Inputs_Sources_Update (void)
                     {
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
-                            JOYSTICK_AXIS_INFO *axis = &joystick->stick [INPUT_MAP_GET_STICK (map->Idx)].axis [INPUT_MAP_GET_AXIS (map->Idx)];
-                            map->Res = (INPUT_MAP_GET_DIR_LR (map->Idx) ? axis->d2 : axis->d1);
+							const int dir = ( state.stick[INPUT_MAP_GET_STICK(map->Idx)].axis[INPUT_MAP_GET_AXIS(map->Idx)] > 0.0f ? 1 : 0 );							
+							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? dir : 0);
                             break;
                         }
                         // FIXME: to do.. support analogue axis
                         // case INPUT_MAP_TYPE_JOY_AXIS_ANAL:
                     case INPUT_MAP_TYPE_JOY_BUTTON:
                         {
-                            map->Res = (map->Idx != -1 && joystick->button [map->Idx].b);
+							map->Res = (map->Idx != (-1) && state.button[map->Idx]);
                             break;
                         }
                     }
@@ -469,7 +473,7 @@ void        Inputs_Sources_Update (void)
                 Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_Y_REL] = 0;
 
                 // Buttons ---------------------------------------------------------
-                for (j = 4; j < INPUT_MAP_MAX; j++)
+                for (int j = 4; j < INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
                     int old_res = map->Res;
