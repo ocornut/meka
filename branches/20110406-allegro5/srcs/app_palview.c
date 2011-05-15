@@ -11,6 +11,12 @@
 #include "palette.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_palette_viewer    PaletteViewer;
+
+//-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
@@ -70,7 +76,7 @@ void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(app->box, PaletteViewer_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)PaletteViewer_Switch);
     }
 
     // Draw line

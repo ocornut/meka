@@ -13,6 +13,12 @@
 #include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_vlfn_db VLFN_DataBase;
+
+//-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
@@ -40,7 +46,7 @@ void            VLFN_Close (void)
 static t_vlfn_entry *   VLFN_Entry_New (const char *file_name, t_db_entry *db_entry)
 {
     t_vlfn_entry *entry;
-    entry = malloc(sizeof (t_vlfn_entry));
+    entry = (t_vlfn_entry *)malloc(sizeof (t_vlfn_entry));
     entry->filename = (char *)file_name;
     entry->db_entry = db_entry;
     return (entry);
@@ -85,12 +91,10 @@ void            VLFN_DataBase_Load (void)
     line_cnt = 0;
     for (lines = tf->data_lines; lines; lines = lines->next)
     {
-        char *  w;
-
         line_cnt += 1;
-        line = lines->elem;
+        line = (char*)lines->elem;
 
-        w = parse_getword(NULL, 0, &line, "/", ';', 0);
+        char* w = parse_getword(NULL, 0, &line, "/", ';', PARSE_FLAGS_NONE);
         if (w == NULL)
             continue;
         else
@@ -106,7 +110,7 @@ void            VLFN_DataBase_Load (void)
             // Get CRCs
             crc_crc32 = 0;
             crc_mekacrc.v[0] = crc_mekacrc.v[1] = 0;
-            while ((w = parse_getword(buf, 1024, &line, "/", ';', 0)) != NULL)
+            while ((w = parse_getword(buf, 1024, &line, "/", ';', PARSE_FLAGS_NONE)) != NULL)
             {
                 if (!strncmp(w, "MEKACRC:", 8))
                 {
@@ -169,8 +173,8 @@ void        VLFN_DataBase_Save (void)
     // Write all entries
     for (list = VLFN_DataBase.entries; list != NULL; list = list->next)
     {
-        t_vlfn_entry *entry     = list->elem;
-        t_db_entry *db_entry    = entry->db_entry;
+        t_vlfn_entry* entry     = (t_vlfn_entry*)list->elem;
+        t_db_entry* db_entry    = entry->db_entry;
         fprintf (f, "%s", entry->filename);
         if (db_entry->crc_crc32 != 0)
             fprintf (f, "/CRC32:%08x", db_entry->crc_crc32);
@@ -184,7 +188,7 @@ void        VLFN_DataBase_Save (void)
     fclose (f);
 
     // Free all entries
-    list_free_custom (&VLFN_DataBase.entries, VLFN_Entry_Delete);
+    list_free_custom (&VLFN_DataBase.entries, (t_list_free_handler)VLFN_Entry_Delete);
 }
 
 //-----------------------------------------------------------------------------
@@ -193,12 +197,10 @@ void        VLFN_DataBase_Save (void)
 //-----------------------------------------------------------------------------
 t_vlfn_entry *  VLFN_FindByFileName (const char *file_name)
 {
-    t_list *    list;
-
     // Linear find
-    for (list = VLFN_DataBase.entries; list != NULL; list = list->next)
+    for (t_list* list = VLFN_DataBase.entries; list != NULL; list = list->next)
     {
-        t_vlfn_entry *entry = list->elem;
+        t_vlfn_entry* entry = (t_vlfn_entry*)list->elem;
         if (!stricmp (file_name, entry->filename))
             return (entry);
     }

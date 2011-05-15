@@ -29,7 +29,7 @@ void    Frame_Skipper_Init_Values (void);
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_fskipper
 {
     // Frame skipper    
     int             Mode;                   // Automatic (sync) or standard
@@ -45,9 +45,9 @@ typedef struct
     //s64           FPS_LastComputedTime;
     volatile bool   New_Second;
     int             Frame_Rendered;         // Number of frames rendered (this second)
-}                   t_fskipper;
+};
 
-volatile t_fskipper fskipper;
+extern volatile t_fskipper fskipper;
 
 //-----------------------------------------------------------------------------
 

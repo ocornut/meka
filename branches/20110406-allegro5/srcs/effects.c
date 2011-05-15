@@ -24,13 +24,13 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_tv_effect
 {
 	int		start_line;
 	u16		colors[TV_EFFECT_COLORS_MAX];
-} t_tv_effect;
+};
 
-t_tv_effect	tv_effect;
+static t_tv_effect	tv_effect;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -65,7 +65,7 @@ void    Effects_TV_Update (void)
     int start_offset;
 
 	assert(Screenbuffer_IsLocked());
-	screen_data = g_screenbuffer_locked_region->data;
+	screen_data = (u16*)g_screenbuffer_locked_region->data;
 	screen_pitch16 = g_screenbuffer_locked_region->pitch / sizeof(u16);
 
 	start_offset = (cur_drv->y_show_start * screen_pitch16) + cur_drv->x_start;

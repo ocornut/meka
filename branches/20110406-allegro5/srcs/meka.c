@@ -43,11 +43,50 @@
 #include <allegro5/allegro_image.h>
 
 //-----------------------------------------------------------------------------
-// Data
+// Globals
 //-----------------------------------------------------------------------------
 
-ALLEGRO_DISPLAY* g_display = NULL;
-ALLEGRO_LOCKED_REGION* g_screenbuffer_locked_region = NULL;
+extern "C" // C-style mangling for ASM linkage
+{
+OPT_TYPE				opt;
+TGFX_TYPE				tgfx;
+SMS_TYPE				sms;
+TSMS_TYPE				tsms;
+}
+
+t_machine				cur_machine;
+t_meka_env				g_env;
+t_media_image			media_ROM;
+t_meka_configuration	g_Configuration;
+
+extern "C"	// C-style mangling for ASM linkage
+{
+u8      RAM[0x10000];               // RAM
+u8      SRAM[0x8000];               // Save RAM
+u8      VRAM[0x4000];               // Video RAM
+u8 *    PRAM;
+u8      PRAM_Static[0x40];          // Palette RAM
+u8 *    ROM;                        // Emulated ROM
+u8 *    Game_ROM;                   // Cartridge ROM
+u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
+u8 *    Mem_Pages [8];              // Pointer to memory pages
+u8 *	sprite_attribute_table;
+}
+
+u8 *    BACK_AREA;
+u8 *    SG_BACK_TILE;
+u8 *    SG_BACK_COLOR;
+
+ALLEGRO_DISPLAY*		g_display = NULL;
+ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region = NULL;
+
+ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;
+ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;
+ALLEGRO_BITMAP *fs_out;
+ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2;
+ALLEGRO_BITMAP *gui_buffer;
+ALLEGRO_BITMAP *gui_page_0, *gui_page_1;
+ALLEGRO_BITMAP *gui_background;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -68,7 +107,7 @@ static void Init_Emulator (void)
     memset(VRAM, 0, 0x4000);        // VRAM: 16 Kb
     PRAM = PRAM_Static;
     memset(PRAM, 0, 0x0040);        // PRAM: 64 bytes
-    ROM = Game_ROM_Computed_Page_0 = Memory_Alloc (0x4000); // 16 kbytes (one page)
+    ROM = Game_ROM_Computed_Page_0 = (u8*)Memory_Alloc(0x4000); // 16 kbytes (one page)
     memset(Game_ROM_Computed_Page_0, 0, 0x4000);
     Game_ROM = NULL;
 
@@ -90,7 +129,7 @@ static void Init_LookUpTables (void)
 // Initialize default configuration settings
 static void Init_Default_Values (void)
 {
-    Debug_Print_Infos = FALSE;
+    g_env.debug_dump_infos = FALSE;
 
     // IPeriod
     opt.IPeriod = opt.Cur_IPeriod = 228;
@@ -165,11 +204,7 @@ static void Init_Default_Values (void)
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
 	// Capture
-#ifdef ARCH_DOS
-	g_Configuration.capture_filename_template		= "%.5s-%02d.png"; // Short Filename
-#else
-	g_Configuration.capture_filename_template		= "%s-%02d.png";   // Long Filename (ala SMS Power)
-#endif
+	g_Configuration.capture_filename_template		= "%s-%02d.png";
 	g_Configuration.capture_crop_scrolling_column	= TRUE;
 	g_Configuration.capture_crop_align_8x8			= FALSE;
 	g_Configuration.capture_include_gui				= TRUE;
@@ -240,9 +275,7 @@ static void Close_Emulator (void)
 /*
 static void Close_Callback (void)
 {
-    #ifndef ARCH_DOS
-        al_set_close_button_callback(NULL);
-    #endif
+    al_set_close_button_callback(NULL);
 }
 */
 
@@ -250,7 +283,7 @@ static void Close_Callback (void)
 // This function is registered in the atexit() table to be called on quit
 static void Close_Emulator_Starting_Dir (void)
 {
-    chdir (g_Env.Paths.StartingDirectory);
+    chdir (g_env.Paths.StartingDirectory);
 }
 
 static int Init_Allegro (void)
@@ -274,22 +307,9 @@ static int Init_Allegro (void)
 
     //install_timer();
 
-    // Keyboard
+    // Keyboard, mouse
     al_install_keyboard();
-
-    // Mouse
-    //static char cmd[] = "emulate_three = 0\n";
-    //override_config_data(cmd, sizeof (cmd));
-    #ifdef ARCH_DOS
-        //#ifdef MOUSEDRV_POLLING
-        //{
-        //extern int _mouse_type;
-        //if (os_type == OSTYPE_WINNT)
-        //    _mouse_type = MOUSEDRV_WINNT;
-        //}   
-        //#endif
-    #endif
-    g_Env.mouse_installed = al_install_mouse();
+    g_env.mouse_installed = al_install_mouse();
 
     // PNG support
     #ifdef MEKA_PNG
@@ -323,12 +343,6 @@ static void Init_GUI (void)
 // MAIN FUNCTION --------------------------------------------------------------
 int main(int argc, char **argv)
 {
-    int i;
-
-    #ifdef ARCH_DOS
-        clrscr();
-    #endif
-
     #ifdef ARCH_WIN32
         // Need for XP manifest stuff
         InitCommonControls();
@@ -346,21 +360,22 @@ int main(int argc, char **argv)
         return (0);
 
     // Save command line parameters
-    g_Env.argc = argc;
-    g_Env.argv = malloc (sizeof (char *) * (g_Env.argc + 1));
-    for (i = 0; i != g_Env.argc; i++)
+    g_env.argc = argc;
+    g_env.argv = (char**)malloc (sizeof(char *) * (g_env.argc + 1));
+	int i;
+    for (i = 0; i != g_env.argc; i++)
     {
-        g_Env.argv[i] = strdup(argv [i]);
+        g_env.argv[i] = strdup(argv[i]);
         //#ifndef ARCH_UNIX
-        //  strupr(g_Env.argv[i]);
+        //  strupr(g_env.argv[i]);
         //#endif
     }
-    g_Env.argv[i] = NULL;
+    g_env.argv[i] = NULL;
 
     // FIXME: add 'init system' here
 
     // Initializations
-    Meka_State = MEKA_STATE_INIT;
+    g_env.state = MEKA_STATE_INIT;
     Filenames_Init          (); // Set Filenames Values
     Messages_Init           (); // Load MEKA.MSG and init messaging system
     //Register_Init         (); // Check Registered User Key
@@ -382,7 +397,7 @@ int main(int argc, char **argv)
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
 
 	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
-	g_display = al_create_display(800, 600);
+	g_display = al_create_display(800, 600);	// FIXME-ALLEGRO5: fixed size
 
     // Window title & callback
     al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
@@ -421,9 +436,9 @@ int main(int argc, char **argv)
 
     // Setup initial state (fullscreen/GUI)
     if ((machine & MACHINE_RUN) == MACHINE_RUN && !g_Configuration.start_in_gui)
-        Meka_State = MEKA_STATE_FULLSCREEN;
+        g_env.state = MEKA_STATE_FULLSCREEN;
     else
-        Meka_State = MEKA_STATE_GUI;
+        g_env.state = MEKA_STATE_GUI;
     Video_Setup_State ();
 
     // Start main program loop
@@ -433,7 +448,7 @@ int main(int argc, char **argv)
     // Z80_Opcodes_Usage_Print ();
 
     // Shutting down emulator...
-    Meka_State = MEKA_STATE_SHUTDOWN;
+    g_env.state = MEKA_STATE_SHUTDOWN;
     Video_Setup_State       (); // Switch back to text mode
     BMemory_Save            (); // Write Backed Memory if necessary
     Configuration_Save      (); // Write Configuration File

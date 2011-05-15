@@ -35,13 +35,13 @@ int     FM_Digital_Init (void *userdata /* unused */)
 {
     ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_YM2413_Digital));
 
-    opll = OPLL_new (Z80_DEFAULT_CPU_CLOCK, audio_sample_rate);
+    opll = OPLL_new (Z80_DEFAULT_CPU_CLOCK, g_sasound.audio_sample_rate);
     if (opll == NULL)
     {
         ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
         return (MEKA_ERR_FAIL);
     }
-    FM_Digital_saChannel = stream_init ("YM-2413 #0", audio_sample_rate, 16, 0, FM_Digital_Update);
+    FM_Digital_saChannel = stream_init ("YM-2413 #0", g_sasound.audio_sample_rate, 16, 0, FM_Digital_Update);
     if (FM_Digital_saChannel == -1)
     {
         ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
@@ -134,7 +134,7 @@ void    FM_Digital_Update       (int chip, void *buffer, int length)
 
     if (Sound.FM_Emulator_Current == FM_EMULATOR_EMU2413 && FM_Used > 0)
     {
-        s16 *buf = buffer;
+        s16* buf = (s16*)buffer;
         while (length--)
         {
             int val = OPLL_calc(opll) * 2;

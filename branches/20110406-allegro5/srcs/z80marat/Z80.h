@@ -120,13 +120,13 @@ word    RunZ80_Debugging(Z80 *R); /* MEKA */
 /** These functions are called when access to RAM occurs.   **/
 /** They allow to control memory access.                    **/
 /************************************ TO BE WRITTEN BY USER **/
-void    (*WrZ80)(register word Addr, register byte Value);
-byte    (*RdZ80)(register word Addr);
+extern void    (*WrZ80)(register word Addr, register byte Value);
+extern byte    (*RdZ80)(register word Addr);
 
 // Those are no-hook version to be used by tools.
 // The Z80 emulator still use the normal version, which may be hooked by the debugger.
-void    (*WrZ80_NoHook)(register word Addr, register byte Value);
-byte    (*RdZ80_NoHook)(register word Addr);
+extern void    (*WrZ80_NoHook)(register word Addr, register byte Value);
+extern byte    (*RdZ80_NoHook)(register word Addr);
 
 /** InZ80()/OutZ80() *****************************************/
 /** Z80 emulation calls these functions to read/write from  **/
@@ -134,13 +134,13 @@ byte    (*RdZ80_NoHook)(register word Addr);
 /** 256 are usually used                                    **/
 /************************************ TO BE WRITTEN BY USER **/
 
-void    (*OutZ80)(register word Port, register byte Value);
-byte    (*InZ80)(register word Port);
+extern void    (*OutZ80)(register word Port, register byte Value);
+extern byte    (*InZ80)(register word Port);
 
 // Those are no-hook version to be used by tools.
 // The Z80 emulator still use the normal version, which may be hooked by the debugger.
-void    (*OutZ80_NoHook)(register word Port, register byte Value);
-byte    (*InZ80_NoHook)(register word Port);
+extern void    (*OutZ80_NoHook)(register word Port, register byte Value);
+extern byte    (*InZ80_NoHook)(register word Port);
 
 /** PatchZ80() ***********************************************/
 /** Z80 emulation calls this function when it encounters a  **/
@@ -168,7 +168,7 @@ byte    DebugZ80(register Z80 *R);
 /** (0x0038, 0x0066, etc.) or INT_NONE for no interrupt.    **/
 /** Return INT_QUIT to exit the emulation loop.             **/
 /************************************ TO BE WRITTEN BY USER **/
-word    (*LoopZ80)(/*register Z80 *R*/ void);
+extern word    (*LoopZ80)(/*register Z80 *R*/ void);
 
 /**** Opcode usage statistics ********************************/
 void    Z80_Opcodes_Usage_Print (void);

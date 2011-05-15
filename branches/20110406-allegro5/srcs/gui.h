@@ -7,26 +7,25 @@
 // Basic type
 //-----------------------------------------------------------------------------
 
-typedef struct s_gui_box    t_gui_box;
+struct t_gui_box;
 
-typedef struct
+struct t_xy
 {
     int   x;
     int   y;
-} t_xy;
+};
 
-typedef struct
+struct t_frame
 {
     t_xy  pos;
     t_xy  size;
-} t_frame;
+};
 
 //-----------------------------------------------------------------------------
 // Includes other GUI files
 //-----------------------------------------------------------------------------
 
 #include "g_action.h"
-#include "g_applet.h"
 #include "g_box.h"
 #include "g_action.h"
 #include "g_mouse.h"
@@ -71,13 +70,13 @@ typedef struct
 #define GUI_FB_ACCESS_BUFFERED      (1)
 #define GUI_FB_ACCESS_FLIPPED       (2)
 
-typedef enum
+enum t_gui_box_type
 {
     GUI_BOX_TYPE_STANDARD           = 0,
     GUI_BOX_TYPE_GAME               = 1,
-} t_gui_box_type;
+};
 
-typedef enum
+enum t_gui_box_flags
 {
     GUI_BOX_FLAGS_ACTIVE                    = 0x0001,
     GUI_BOX_FLAGS_DIRTY_REDRAW              = 0x0002,
@@ -85,7 +84,7 @@ typedef enum
     GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE    = 0x0008,   // When set and the box has focus, inputs are exclusive to this box
     GUI_BOX_FLAGS_DELETE                    = 0x0010,
     GUI_BOX_FLAGS_TAB_STOP                  = 0x0020,
-} t_gui_box_flags;
+};
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -103,13 +102,16 @@ int     gui_box_image (byte is, int which, ALLEGRO_BITMAP *bitmap);
 // Data
 //-----------------------------------------------------------------------------
 
-struct s_gui_box
+typedef void (*t_gui_box_update_handler)();
+typedef void (*t_gui_box_destroy_handler)(void *);
+
+struct t_gui_box
 {
     t_frame         frame;						// Frame (position & size)
     char *          title;						// Title
     t_gui_box_type  type;                       // Type
-    t_gui_box_flags flags;                      // Flags/Attributes
-    ALLEGRO_BITMAP *		gfx_buffer;					// Graphics buffer holding content render
+    int				flags;                      // Flags (t_gui_box_flags) // FIXME-ENUM
+    ALLEGRO_BITMAP *gfx_buffer;					// Graphics buffer holding content render
     t_list *        widgets;                    // Widgets
 
     // Handlers
@@ -118,9 +120,9 @@ struct s_gui_box
 
     // User data
     void *          user_data;
-}; // t_gui_box
+};
 
-typedef struct
+struct t_gui_info
 {
   bool              must_redraw;
   int               bars_height;
@@ -128,9 +130,9 @@ typedef struct
   int               dirty_x, dirty_y;
   t_xy              screen;
   t_xy              screen_pad;
-} t_gui_info;
+};
 
-typedef struct
+struct t_gui_mouse
 {
     int             x;
     int             x_prev;
@@ -147,17 +149,17 @@ typedef struct
     int             z_rel;      // Z Relative
     int             z_current;  // Z Current
     int             z_prev;     // Z Previous
-} t_gui_mouse;
+};
 
-typedef struct
+struct t_gui
 {
     t_list *        boxes;
     t_gui_box *     boxes_z_ordered[GUI_BOX_MAX];
     int             boxes_count;
     t_gui_info      info;
     t_gui_mouse     mouse;
-} t_gui;
+};
 
-t_gui           gui;
+extern t_gui        gui;
 
 //-----------------------------------------------------------------------------

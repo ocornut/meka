@@ -13,6 +13,12 @@
 #include "glasses.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_inputs_config     Inputs_CFG;
+
+//-----------------------------------------------------------------------------
 // Forward Declarations
 //-----------------------------------------------------------------------------
 
@@ -74,28 +80,28 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(app->box, Inputs_CFG_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)Inputs_CFG_Switch);
 
         // Peripheral change button
         frame.pos.x = 10;
         frame.pos.y = 18;
         frame.size.x = al_get_bitmap_width(Graphics.Inputs.InputsBase);
         frame.size.y = 80-2;
-        widget_button_add(app->box, &frame, 1, Inputs_CFG_Peripheral_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &frame, 1, (t_widget_callback)Inputs_CFG_Peripheral_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
         // Input source change button
         frame.pos.x = 170;
         frame.pos.y = 10-Font_Height(F_MIDDLE)/2;
         frame.size.x = INPUTS_CFG_FRAME_X - 5;
         frame.size.y = Font_Height(F_MIDDLE);
-        widget_button_add(app->box, &frame, 1|2, Inputs_CFG_Current_Source_Change, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &frame, 1|2, (t_widget_callback)Inputs_CFG_Current_Source_Change, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
         // Input map change button
         frame.pos.x = 170 /* + (INPUTS_CFG_FRAME_X / 2)*/;
         frame.pos.y = 48;
         frame.size.x = (INPUTS_CFG_FRAME_X /* / 2 */) - 10;
         frame.size.y = INPUT_MAP_MAX * (Font_Height(F_SMALL) + GUI_LOOK_LINES_SPACING_Y);
-        widget_button_add(app->box, &frame, 1, Inputs_CFG_Map_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &frame, 1, (t_widget_callback)Inputs_CFG_Map_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
         // 'Enabled' checkbox
         frame.pos.x = 170;
@@ -111,7 +117,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
         frame.pos.y = 19 + (7 * 2) + (2 + 6) * (Font_Height(F_SMALL) + GUI_LOOK_LINES_SPACING_Y);
         frame.size.x = INPUTS_CFG_CHECK_X;
         frame.size.y = INPUTS_CFG_CHECK_Y;
-        app->CheckBox_Emulate_Digital = widget_checkbox_add(app->box, &frame, &app->CheckBox_Emulate_Digital_Value, Inputs_CFG_Emulate_Digital_Handler);
+        app->CheckBox_Emulate_Digital = widget_checkbox_add(app->box, &frame, &app->CheckBox_Emulate_Digital_Value, (t_widget_callback)Inputs_CFG_Emulate_Digital_Handler);
         widget_disable(app->CheckBox_Emulate_Digital);
     }
 

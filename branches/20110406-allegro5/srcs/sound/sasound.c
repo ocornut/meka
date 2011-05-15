@@ -18,6 +18,22 @@
 
 #include "shared.h"
 
+t_sasound g_sasound;
+
+int     sound_freerun_count;
+int     sound_slice;
+
+int  pause_sound;
+
+SoundRec       *SndMachine, snd_entry, *nowSndRec;
+
+int             vbover_err, vbunder_err;
+
+/*static*/ int  reserved_channel;       // voice/channel allocator
+int             sound_stream_mode;
+int             stream_buffer_max;
+int             buffered_stream_max;
+
 /*******************************************************************************************/
 /**** streams control (base:mame 0.34b6)                                                ****/
 /*******************************************************************************************/
@@ -148,7 +164,7 @@ void    streams_sh_update (void)
 {
     int   channel;
 
-    if (audio_sample_rate == 0)
+    if (g_sasound.audio_sample_rate == 0)
         return;
 
 // OLD
@@ -184,7 +200,7 @@ void    streams_sh_update (void)
     // Msg (MSGT_DEBUG, "CycleCounter: %d", Sound_CycleCounter);
 
     // Reset sound cycle counter
-    Sound_CycleCounter = 0;
+    Sound.CycleCounter = 0;
 
     for (channel = 0; channel < MAX_STREAM_CHANNELS; channel ++)
     {
@@ -272,7 +288,7 @@ INLINE const char *stream_get_name(int channel)
 /******************************************/
 int     saGetSoundRate (void)
 {
-    return (audio_sample_rate);
+    return (g_sasound.audio_sample_rate);
 }
 
 /*********************************************************************/
@@ -438,7 +454,7 @@ void    saUpdateSound (int nowclock)
 {
   int   i;
 
-  if (audio_sample_rate == 0) return;
+  if (g_sasound.audio_sample_rate == 0) return;
   if (!SndMachine || !SndMachine->first) return; /* not sound initialize end */
 
   if (nowclock)
@@ -494,7 +510,7 @@ int         saCheckPlayStream (void)
         Voice = &Sound.Voices[i];
         if (!Voice->playing)
             continue;
-        AGetVoicePosition (Voice->hVoice, &pos[i]);
+        AGetVoicePosition (Voice->hVoice, (LPLONG)&pos[i]);
     }
 
     // Check update position
@@ -580,7 +596,7 @@ int         saCheckPlayStream (void)
                 if (vbover_err >= MODEB_ERROR_MAX)
                 {
                     #ifdef MEKA_SOUND
-                    if (Meka_State == MEKA_STATE_INIT)
+                    if (g_env.state == MEKA_STATE_INIT)
                         printf ("%s\n", Msg_Get (MSG_Sound_Stream_Error));
                     else
                         Msg (MSGT_DEBUG, Msg_Get (MSG_Sound_Stream_Error));
@@ -623,7 +639,7 @@ void            saPlayBufferedStreamedSampleBase (int channel, signed char *data
     int         i;
     t_voice *   voice;
 
-    if (audio_sample_rate == 0 || channel >= NUMVOICES || SndMachine == NULL)
+    if (g_sasound.audio_sample_rate == 0 || channel >= NUMVOICES || SndMachine == NULL)
         return;
 
     voice = &Sound.Voices[channel];
@@ -634,7 +650,7 @@ void            saPlayBufferedStreamedSampleBase (int channel, signed char *data
         memcpy (voice->vstreambuf + (len * s_pos), data, len);  // Copying samples data
         voice->vpan[s_pos] = pan | WRITE_PAN;
         voice->vstreambuf_chunk_ready[s_pos] = 1;               // Set ready flag
-        //if (Meka_State != MEKA_STATE_INIT)
+        //if (g_env.state != MEKA_STATE_INIT)
         //Msg (MSGT_DEBUG, "chunk_ready %d", s_pos);
         voice->vchan++;
     }
@@ -663,7 +679,7 @@ void            saPlayBufferedStreamedSampleBase (int channel, signed char *data
             return;
         }
         voice->lpWave->wFormat     = AUDIO_FORMAT_16BITS | AUDIO_FORMAT_STEREO | AUDIO_FORMAT_LOOP;
-        voice->lpWave->nSampleRate = nominal_sample_rate;
+        voice->lpWave->nSampleRate = g_sasound.nominal_sample_rate;
         voice->lpWave->dwLength    = buffered_stream_max*len;
         voice->lpWave->dwLoopStart = 0;
         voice->lpWave->dwLoopEnd   = voice->lpWave->dwLength;
@@ -681,7 +697,7 @@ void            saPlayBufferedStreamedSampleBase (int channel, signed char *data
         memset (voice->lpWave->lpData, 0, voice->lpWave->dwLength);
         memset (voice->vstreambuf, 0, stream_buffer_max * len);
         APrimeVoice (voice->hVoice, voice->lpWave);
-        ASetVoiceFrequency (voice->hVoice, (int)((double)freq * nominal_sample_rate / audio_sample_rate));
+        ASetVoiceFrequency (voice->hVoice, (int)((double)freq * g_sasound.nominal_sample_rate / g_sasound.audio_sample_rate));
         ASetVoiceVolume (voice->hVoice, (Sound.MasterVolume * volume) / 512);
         ASetVoicePanning (voice->hVoice, (UINT)pan);
         voice->playing = TRUE;      /* use front surface */
@@ -719,7 +735,7 @@ void            saPlayStreamedSampleBase (int channel, signed char *data, int le
     t_voice *   voice;
 
     Msg (MSGT_DEBUG, "saPlayStreamedSampleBase()");
-    if (audio_sample_rate == 0 || channel >= NUMVOICES || SndMachine == NULL)
+    if (g_sasound.audio_sample_rate == 0 || channel >= NUMVOICES || SndMachine == NULL)
         return;
 
     voice = &Sound.Voices[channel];
@@ -752,7 +768,7 @@ void            saPlayStreamedSampleBase (int channel, signed char *data, int le
             */
         }
 #else
-        AGetVoicePosition(voice->hVoice, &pos);
+        AGetVoicePosition(voice->hVoice, (LPLONG)&pos);
         // AUpdateAudio();
 #endif
 
@@ -771,7 +787,7 @@ void            saPlayStreamedSampleBase (int channel, signed char *data, int le
             return;
 
         voice->lpWave->wFormat = AUDIO_FORMAT_16BITS | AUDIO_FORMAT_STEREO | AUDIO_FORMAT_LOOP;
-        voice->lpWave->nSampleRate = nominal_sample_rate;
+        voice->lpWave->nSampleRate = g_sasound.nominal_sample_rate;
         voice->lpWave->dwLength = stream_buffer_max * len;
         voice->lpWave->dwLoopStart = 0;
         voice->lpWave->dwLoopEnd = stream_buffer_max * len;
@@ -785,7 +801,7 @@ void            saPlayStreamedSampleBase (int channel, signed char *data, int le
         memcpy(voice->lpWave->lpData, data, len);
         /* upload the data to the audio DRAM local memory */
         APrimeVoice(voice->hVoice, voice->lpWave);
-        ASetVoiceFrequency(voice->hVoice, (int)((double)freq * nominal_sample_rate / audio_sample_rate));
+        ASetVoiceFrequency(voice->hVoice, (int)((double)freq * g_sasound.nominal_sample_rate / g_sasound.audio_sample_rate));
         ASetVoiceVolume(voice->hVoice, (Sound.MasterVolume * volume) / 512);
         ASetVoicePanning(voice->hVoice, (UINT)pan);
         voice->playing = TRUE;      /* use front surface */
@@ -849,7 +865,7 @@ void    saSoundTimerCallback (void)
      saUpdateSound (60);                /* default callback */
      }
 }
-END_OF_FUNCTION (saSoundTimerCallback);
+//END_OF_FUNCTION (saSoundTimerCallback);
 
 /************************************/
 /*    install timer                 */

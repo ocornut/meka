@@ -3,6 +3,7 @@
 // by Omar Cornut in 2000-2004
 //-----------------------------------------------------------------------------
 
+#include "shared.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -86,7 +87,7 @@ char *      parse_getword(char *dst, int dst_len, char **src, char *separators, 
         if (dst_len == 0 && (*p == EOSTR || *p == comment_char))
             return (NULL);
         dst_len++; // for \0 storage
-        dst = malloc(sizeof (char) * dst_len);
+        dst = (char*)malloc(sizeof (char) * dst_len);
     }
 
     // Copy word until separator or end-of-string is found. Handle \ inhibitor.
@@ -160,7 +161,7 @@ char *      parse_escape_string(const char *src, const char *escape_chars)
     if (count == 0)
         return NULL;
 
-    dst = malloc(sizeof(char) * (src_length + count + 1));
+    dst = (char*)malloc(sizeof(char) * (src_length + count + 1));
     p = dst;
     while ((c = *src++) != '\0')
     {
@@ -189,7 +190,7 @@ char *      parse_unescape_string(const char *src, const char *escape_chars)
 
     // Make it easier, allocate same as source length
     src_length = strlen(src);
-    dst = malloc(sizeof(char) * (src_length + 1));
+    dst = (char*)malloc(sizeof(char) * (src_length + 1));
     p = dst;
 
     // Copy

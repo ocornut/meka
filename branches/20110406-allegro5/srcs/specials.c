@@ -15,12 +15,12 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_effect_blood_drop
 {
   int   v;    // 0: not active, 1->4: active
   int   x, y;
   ALLEGRO_COLOR	save;
-} t_effect_blood_drop;
+};
 
 static ALLEGRO_BITMAP *		hearts_save[MAX_HEARTS];
 static t_effect_blood_drop	blood[MAX_BLOOD_DROP];

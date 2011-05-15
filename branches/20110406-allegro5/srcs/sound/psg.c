@@ -55,7 +55,7 @@ int         PSG_Init (void *user_data /* unused */)
 
     ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_SN76496));
 
-    PSG_saChannel = stream_init ("SN76496 #0", audio_sample_rate, 16, 0, PSG_Update);
+    PSG_saChannel = stream_init ("SN76496 #0", g_sasound.audio_sample_rate, 16, 0, PSG_Update);
     if (PSG_saChannel == -1)
     {
         ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
@@ -65,7 +65,7 @@ int         PSG_Init (void *user_data /* unused */)
 
     for (i = 0; i < 4; i++)               // FIXME: to be done in sound.c ?
         PSG.Channels[i].Active = TRUE;
-    SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, audio_sample_rate);
+    SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, g_sasound.audio_sample_rate);
 
     ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));
     return (MEKA_ERR_OK);
@@ -78,10 +78,8 @@ int         PSG_Init (void *user_data /* unused */)
 //-----------------------------------------------------------------------------
 void        PSG_Update (int chip, void *buffer, int length)
 {
-    short * buf = buffer;
-    int     length_left;
-
-    for (length_left = length; length_left > 0; length_left--)
+    s16* buf = (s16*)buffer;
+    for (int length_left = length; length_left > 0; length_left--)
     {
         int left;
 

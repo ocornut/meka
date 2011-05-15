@@ -44,16 +44,16 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct      s_db_name
+struct t_db_name
 {
     // 16 bytes + name data
     char *          name;                   // UTF-8
     int             country     : 31;       // In this field, only specific LANGUAGE fields are specified (JP,BR,KR,HK) or if the name is different
     int             non_latin   : 1;        // Set if non-latin UTF-8 data. If not set, name is romanized.
-    struct s_db_name * next;
-}                   t_db_name;
+    t_db_name *		next;
+};
 
-typedef struct      s_db_entry
+struct t_db_entry
 {
     // Basic fields (x bytes + names data + version + comment)
     int             system;                 // Parsed to DRV_* definitions, -1 if unknown
@@ -76,19 +76,17 @@ typedef struct      s_db_entry
     s8              emu_tvtype;             // -1 if auto
     s8              emu_vdp_model;          // -1 if auto
     s16             emu_iperiod;            // -1 if auto
-}                   t_db_entry;
+};
 
-typedef struct
+struct t_db
 {
     t_list *        entries;
     int             entries_counter_format_old;
     int             entries_counter_format_new;
-}                   t_db;
+	t_db_entry *	current_entry;
+};
 
-//-----------------------------------------------------------------------------
-
-t_db                DB;
-t_db_entry *        DB_CurrentEntry;
+extern t_db                DB;
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -105,7 +105,7 @@ void        Load_Game_Misc (void)
 
     // FIXME: Sorry having to do that, but it is because Tms_VDP_Out only
     // react and call LightGun_Mouse_Range() on the flip flop.
-    if (Meka_State == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
+    if (g_env.state == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
         LightPhaser_SetupMouseRange (Mask_Left_8);
 
     // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
@@ -598,14 +598,14 @@ void    Save_Get_Filename (char *str)
     char buf [FILENAME_LEN];
 
     // Create save state directory if it doesn't exist already
-    if (!al_filename_exists(g_Env.Paths.SavegameDirectory))
-        al_make_directory(g_Env.Paths.SavegameDirectory);
+    if (!al_filename_exists(g_env.Paths.SavegameDirectory))
+        al_make_directory(g_env.Paths.SavegameDirectory);
 
     // Compute save state filename
-    strcpy (buf, g_Env.Paths.MediaImageFile);
+    strcpy (buf, g_env.Paths.MediaImageFile);
     killext (buf);
     killpath (buf);
-    sprintf (str, "%s/%s.S%02d", g_Env.Paths.SavegameDirectory, buf, opt.State_Current);
+    sprintf (str, "%s/%s.S%02d", g_env.Paths.SavegameDirectory, buf, opt.State_Current);
 }
 
 //-----------------------------------------------------------------------------

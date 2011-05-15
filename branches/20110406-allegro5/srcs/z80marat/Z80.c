@@ -51,6 +51,16 @@
 
 #include "Z80Call.c"
 
+void    (*WrZ80)(register word Addr, register byte Value);
+byte    (*RdZ80)(register word Addr);
+void    (*WrZ80_NoHook)(register word Addr, register byte Value);
+byte    (*RdZ80_NoHook)(register word Addr);
+void    (*OutZ80)(register word Port, register byte Value);
+byte    (*InZ80)(register word Port);
+void    (*OutZ80_NoHook)(register word Port, register byte Value);
+byte    (*InZ80_NoHook)(register word Port);
+word    (*LoopZ80)(/*register Z80 *R*/ void);
+
 //-----------------------------------------------------------------------------
 // External declaration
 //-----------------------------------------------------------------------------

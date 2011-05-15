@@ -13,6 +13,8 @@
 // used by the FM Editor.
 //-----------------------------------------------------------------------------
 
+byte    FM_OPL_Regs [YM2413_REGISTERS];
+
 FM_OPL_Patch    FM_OPL_Patchs[YM2413_INSTRUMENTS] =
 {
   /*KSL | MUL | AR  | SL  | EG  | DR  | RR  | TL  | KSR | WAVE| FB/CN  */
@@ -65,17 +67,17 @@ t_fm_unit_interface     FM_OPL_Interface =
 #define DELAY_BUFFER_MAX        (60*3) /* max 3second */
 #define DELAY_STOCK_MAX         (DELAY_BUFFER_MAX * 64)
 
-typedef struct delay_rec
+typedef struct
 {
   BYTE  reg;
   BYTE  data;
 } DelayRec;
 
-unsigned int    fm_delay_size = 6;
-unsigned int    fm_write_d, fm_update_d;
-unsigned int    delay_point[DELAY_BUFFER_MAX];
-unsigned int    w_delay;
-DelayRec        delay_chip[DELAY_STOCK_MAX];
+static unsigned int    fm_delay_size = 6;
+static unsigned int    fm_write_d, fm_update_d;
+static unsigned int    delay_point[DELAY_BUFFER_MAX];
+static unsigned int    w_delay;
+static DelayRec        delay_chip[DELAY_STOCK_MAX];
 
 int     fmVol[YM2413_VOLUME_STEPS] =
 {

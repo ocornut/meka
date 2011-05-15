@@ -3,7 +3,6 @@
 // Messaging System, Languages, Console - Code
 //-----------------------------------------------------------------------------
 
-#define __MESSAGE_C__ // Needed to include table in Message.h
 #include "shared.h"
 #include "app_game.h"
 #include "tools/libparse.h"
@@ -16,11 +15,462 @@
 static void		Lang_Set (t_menu_event *event);
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_messages Messages;
+
+struct S2I_TYPE
+{
+    char *  name;
+    int     value;
+};
+
+#define __MSG_ADD(ID)   { #ID, ID }
+static const S2I_TYPE Msg_Translation_Table [] =
+{
+	__MSG_ADD(MSG_Welcome),
+	__MSG_ADD(MSG_Window_Title),
+	__MSG_ADD(MSG_Quit),
+
+	__MSG_ADD(MSG_About_BoxTitle),
+	__MSG_ADD(MSG_About_Line_Meka_Date),
+	__MSG_ADD(MSG_About_Line_Authors),
+	__MSG_ADD(MSG_About_Line_Homepage),
+
+	__MSG_ADD(MSG_Ok),
+	__MSG_ADD(MSG_Failed),
+	__MSG_ADD(MSG_Error_Base),
+	__MSG_ADD(MSG_Error_Error),
+	__MSG_ADD(MSG_Error_Memory),
+	__MSG_ADD(MSG_Error_Param),
+	__MSG_ADD(MSG_Error_Syntax),
+
+	__MSG_ADD(MSG_Error_Video_Mode),
+	__MSG_ADD(MSG_Error_Video_Mode_Back_To_GUI),
+
+	__MSG_ADD(MSG_Error_File_Not_Found),
+	__MSG_ADD(MSG_Error_File_Read),
+	__MSG_ADD(MSG_Error_File_Empty),
+
+	__MSG_ADD(MSG_Error_ZIP_Not_Supported),
+	__MSG_ADD(MSG_Error_ZIP_Loading),
+	__MSG_ADD(MSG_Error_ZIP_Internal),
+
+	__MSG_ADD(MSG_Error_Directory_Open),
+
+	__MSG_ADD(MSG_Must_Reset),
+	__MSG_ADD(MSG_No_ROM),
+
+	__MSG_ADD(MSG_Init_Allegro),
+	__MSG_ADD(MSG_Init_GUI),
+	__MSG_ADD(MSG_Init_Completed),
+
+	__MSG_ADD(MSG_Setup_Running),
+	__MSG_ADD(MSG_Setup_Setup),
+	__MSG_ADD(MSG_Setup_Soundcard_Select),
+	__MSG_ADD(MSG_Setup_Soundcard_Select_Tips_Win32),
+	__MSG_ADD(MSG_Setup_SampleRate_Select),
+	__MSG_ADD(MSG_Setup_Debugger_Enable),
+
+	__MSG_ADD(MSG_Capture_Done),
+	__MSG_ADD(MSG_Capture_Error),
+	__MSG_ADD(MSG_Capture_Error_File),
+
+	__MSG_ADD(MSG_SRAM_Loaded),
+	__MSG_ADD(MSG_SRAM_Load_Unable),
+	__MSG_ADD(MSG_SRAM_Wrote),
+	__MSG_ADD(MSG_SRAM_Write_Unable),
+
+	__MSG_ADD(MSG_93c46_Reset),
+	__MSG_ADD(MSG_93c46_Loaded),
+	__MSG_ADD(MSG_93c46_Load_Unable),
+	__MSG_ADD(MSG_93c46_Wrote),
+	__MSG_ADD(MSG_93c46_Write_Unable),
+
+	__MSG_ADD(MSG_TVType_Set),
+	__MSG_ADD(MSG_TVType_Info_Speed),
+
+	__MSG_ADD(MSG_Blitters_Loading),
+	__MSG_ADD(MSG_Blitters_Error_Not_Enough),
+	__MSG_ADD(MSG_Blitters_Error_Not_Found),
+	__MSG_ADD(MSG_Blitters_Error_Missing),
+	__MSG_ADD(MSG_Blitters_Error_Unrecognized),
+	__MSG_ADD(MSG_Blitters_Error_Incorrect_Value),
+	__MSG_ADD(MSG_Blitters_Set),
+
+	__MSG_ADD(MSG_NES_Activate),
+	__MSG_ADD(MSG_NES_Sucks),
+	__MSG_ADD(MSG_NES_Mapper_Unknown),
+	__MSG_ADD(MSG_NES_Deny_Facts),
+
+	__MSG_ADD(MSG_Debug_Init),
+	__MSG_ADD(MSG_Debug_Welcome),
+	__MSG_ADD(MSG_Debug_Not_Available),
+	__MSG_ADD(MSG_Debug_Brk_Need_Param),
+	__MSG_ADD(MSG_Debug_Trap_Read),
+	__MSG_ADD(MSG_Debug_Trap_Write),
+	__MSG_ADD(MSG_Debug_Trap_Port_Read),
+	__MSG_ADD(MSG_Debug_Trap_Port_Write),
+	__MSG_ADD(MSG_Debug_Symbols_Loaded),
+	__MSG_ADD(MSG_Debug_Symbols_Error),
+	__MSG_ADD(MSG_Debug_Symbols_Error_Line),
+
+	__MSG_ADD(MSG_DataDump_Mode_Ascii),
+	__MSG_ADD(MSG_DataDump_Mode_Raw),
+	__MSG_ADD(MSG_DataDump_Error),
+	__MSG_ADD(MSG_DataDump_Error_OB_Memory),
+	__MSG_ADD(MSG_DataDump_Error_Palette),
+	__MSG_ADD(MSG_DataDump_Error_Sprites),
+	__MSG_ADD(MSG_DataDump_Main),
+
+	__MSG_ADD(MSG_Doc_BoxTitle),
+	__MSG_ADD(MSG_Doc_File_Error),
+	__MSG_ADD(MSG_Doc_Enabled),
+	__MSG_ADD(MSG_Doc_Disabled),
+
+	__MSG_ADD(MSG_Flickering_Auto),
+	__MSG_ADD(MSG_Flickering_Yes),
+	__MSG_ADD(MSG_Flickering_No),
+
+	__MSG_ADD(MSG_Layer_BG_Disabled),
+	__MSG_ADD(MSG_Layer_BG_Enabled),
+	__MSG_ADD(MSG_Layer_Spr_Disabled),
+	__MSG_ADD(MSG_Layer_Spr_Enabled),
+
+	__MSG_ADD(MSG_FDC765_Unknown_Read),
+	__MSG_ADD(MSG_FDC765_Unknown_Write),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Large1),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Large2),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Small1),
+	__MSG_ADD(MSG_FDC765_Disk_Too_Small2),
+
+	__MSG_ADD(MSG_TVOekaki_Pen_Touch),
+	__MSG_ADD(MSG_TVOekaki_Pen_Away),
+
+	__MSG_ADD(MSG_Palette_BoxTitle),
+	__MSG_ADD(MSG_Palette_Disabled),
+	__MSG_ADD(MSG_Palette_Enabled),
+
+	__MSG_ADD(MSG_Message_BoxTitle),
+	__MSG_ADD(MSG_Message_Disabled),
+	__MSG_ADD(MSG_Message_Enabled),
+
+	__MSG_ADD(MSG_TechInfo_BoxTitle),
+	__MSG_ADD(MSG_TechInfo_Disabled),
+	__MSG_ADD(MSG_TechInfo_Enabled),
+
+	__MSG_ADD(MSG_TilesViewer_BoxTitle),
+	__MSG_ADD(MSG_TilesViewer_Disabled),
+	__MSG_ADD(MSG_TilesViewer_Enabled),
+	__MSG_ADD(MSG_TilesViewer_Tile),
+
+	__MSG_ADD(MSG_MemoryEditor_BoxTitle),
+	__MSG_ADD(MSG_MemoryEditor_Disabled),
+	__MSG_ADD(MSG_MemoryEditor_Enabled),
+	__MSG_ADD(MSG_MemoryEditor_WriteZ80_Unable),
+	__MSG_ADD(MSG_MemoryEditor_Address_Out_of_Bound),
+
+	__MSG_ADD(MSG_RapidFire_JxBx_On),
+	__MSG_ADD(MSG_RapidFire_JxBx_Off),
+
+	__MSG_ADD(MSG_FM_Enabled),
+	__MSG_ADD(MSG_FM_Disabled),
+
+	__MSG_ADD(MSG_Country_European_US),
+	__MSG_ADD(MSG_Country_JAP),
+
+	__MSG_ADD(MSG_Patch_Loading),
+	__MSG_ADD(MSG_Patch_Missing),
+	__MSG_ADD(MSG_Patch_Unrecognized),
+	__MSG_ADD(MSG_Patch_Value_Not_a_Byte),
+	__MSG_ADD(MSG_Patch_Out_of_Bound),
+
+	__MSG_ADD(MSG_Glasses_Enabled),
+	__MSG_ADD(MSG_Glasses_Disabled),
+	__MSG_ADD(MSG_Glasses_Show_Both),
+	__MSG_ADD(MSG_Glasses_Show_Left),
+	__MSG_ADD(MSG_Glasses_Show_Right),
+	__MSG_ADD(MSG_Glasses_Com_Port),
+	__MSG_ADD(MSG_Glasses_Com_Port2),
+	__MSG_ADD(MSG_Glasses_Com_Port_Open_Error),
+	__MSG_ADD(MSG_Glasses_Unsupported),
+
+	__MSG_ADD(MSG_Inputs_Joy_Init),
+	__MSG_ADD(MSG_Inputs_Joy_Init_None),
+	__MSG_ADD(MSG_Inputs_Joy_Init_Found),
+	__MSG_ADD(MSG_Inputs_Joy_Calibrate_Error),
+
+	__MSG_ADD(MSG_Inputs_Joypad),
+	__MSG_ADD(MSG_Inputs_LightPhaser),
+	__MSG_ADD(MSG_Inputs_PaddleControl),
+	__MSG_ADD(MSG_Inputs_SportsPad),
+	__MSG_ADD(MSG_Inputs_TVOekaki),
+	__MSG_ADD(MSG_Inputs_Play_Digital),
+	__MSG_ADD(MSG_Inputs_Play_Mouse),
+	__MSG_ADD(MSG_Inputs_Play_Digital_Unrecommended),
+	__MSG_ADD(MSG_Inputs_Play_Pen),
+	__MSG_ADD(MSG_Inputs_SK1100_Enabled),
+	__MSG_ADD(MSG_Inputs_SK1100_Disabled),
+
+	__MSG_ADD(MSG_Inputs_Config_BoxTitle),
+	__MSG_ADD(MSG_Inputs_Config_Peripheral_Click),
+	__MSG_ADD(MSG_Inputs_Config_Source_Enabled),
+	__MSG_ADD(MSG_Inputs_Config_Source_Player),
+	__MSG_ADD(MSG_Inputs_Config_Source_Emulate_Joypad),
+
+	__MSG_ADD(MSG_Inputs_Src_Loading),
+	__MSG_ADD(MSG_Inputs_Src_Not_Enough),
+	__MSG_ADD(MSG_Inputs_Src_Missing),
+	__MSG_ADD(MSG_Inputs_Src_Equal),
+	__MSG_ADD(MSG_Inputs_Src_Unrecognized),
+	__MSG_ADD(MSG_Inputs_Src_Syntax_Param),
+	__MSG_ADD(MSG_Inputs_Src_Inconsistency),
+	__MSG_ADD(MSG_Inputs_Src_Map_Keyboard),
+	__MSG_ADD(MSG_Inputs_Src_Map_Keyboard_Ok),
+	__MSG_ADD(MSG_Inputs_Src_Map_Joypad),
+	__MSG_ADD(MSG_Inputs_Src_Map_Joypad_Ok_A),
+	__MSG_ADD(MSG_Inputs_Src_Map_Joypad_Ok_B),
+	__MSG_ADD(MSG_Inputs_Src_Map_Mouse),
+	__MSG_ADD(MSG_Inputs_Src_Map_Mouse_Ok_B),
+	__MSG_ADD(MSG_Inputs_Src_Map_Mouse_No_A),
+	__MSG_ADD(MSG_Inputs_Src_Map_Cancelled),
+
+	__MSG_ADD(MSG_Machine_Pause),
+	__MSG_ADD(MSG_Machine_Resume),
+	__MSG_ADD(MSG_Machine_Reset),
+
+	__MSG_ADD(MSG_FDB_Loading),
+
+	__MSG_ADD(MSG_DB_Loading),
+	__MSG_ADD(MSG_DB_Name_Default),
+	__MSG_ADD(MSG_DB_Name_NoCartridge),
+	__MSG_ADD(MSG_DB_SyntaxError),
+
+	__MSG_ADD(MSG_Config_Loading),
+
+	__MSG_ADD(MSG_Datafile_Loading),
+
+	__MSG_ADD(MSG_Driver_Unknown),
+
+	__MSG_ADD(MSG_OverDump),
+
+	__MSG_ADD(MSG_Sound_Init),
+	__MSG_ADD(MSG_Sound_Init_Error_SEAL),
+	__MSG_ADD(MSG_Sound_Init_Error_Audio),
+	__MSG_ADD(MSG_Sound_Init_Error_Blaster),
+	__MSG_ADD(MSG_Sound_Init_Error_Blaster_A),
+	__MSG_ADD(MSG_Sound_Init_Error_Voices),
+	__MSG_ADD(MSG_Sound_Init_Error_Voice_N),
+	__MSG_ADD(MSG_Sound_Init_Soundcard),
+	__MSG_ADD(MSG_Sound_Init_Soundcard_No),
+	__MSG_ADD(MSG_Sound_Init_SN76496),
+	__MSG_ADD(MSG_Sound_Init_YM2413_OPL),
+	__MSG_ADD(MSG_Sound_Init_YM2413_Digital),
+	__MSG_ADD(MSG_Sound_Rate_Changed),
+	__MSG_ADD(MSG_Sound_Stream_Error),
+	__MSG_ADD(MSG_Sound_Volume_Changed),
+
+	__MSG_ADD(MSG_Theme_Loading),
+	__MSG_ADD(MSG_Theme_Error_Not_Enough),
+	__MSG_ADD(MSG_Theme_Error_Missing_Theme_Name),
+	__MSG_ADD(MSG_Theme_Error_Syntax),
+	__MSG_ADD(MSG_Theme_Error_Attribute_Defined),
+	__MSG_ADD(MSG_Theme_Error_Out_of_Bound),
+	__MSG_ADD(MSG_Theme_Error_Theme_Missing_Data),
+	__MSG_ADD(MSG_Theme_Error_BG_Big),
+	__MSG_ADD(MSG_Theme_Error_BG),
+	__MSG_ADD(MSG_Theme_Error_BG_FileName),
+
+	__MSG_ADD(MSG_LoadROM_Loading),
+	__MSG_ADD(MSG_LoadROM_Success),
+	__MSG_ADD(MSG_LoadDisk_Success),
+	__MSG_ADD(MSG_LoadROM_Comment),
+	__MSG_ADD(MSG_LoadROM_SMSGG_Mode_Comment),
+	__MSG_ADD(MSG_LoadROM_Warning),
+	__MSG_ADD(MSG_LoadROM_Bad_Dump_Long),
+	__MSG_ADD(MSG_LoadROM_Bad_Dump_Short),
+	__MSG_ADD(MSG_LoadROM_Product_Num),
+	__MSG_ADD(MSG_LoadROM_SDSC),
+	__MSG_ADD(MSG_LoadROM_SDSC_Name),
+	__MSG_ADD(MSG_LoadROM_SDSC_Version),
+	__MSG_ADD(MSG_LoadROM_SDSC_Date),
+	__MSG_ADD(MSG_LoadROM_SDSC_Author),
+	__MSG_ADD(MSG_LoadROM_SDSC_Release_Note),
+	__MSG_ADD(MSG_LoadROM_SDSC_Unknown),
+	__MSG_ADD(MSG_LoadROM_SDSC_Error),
+	__MSG_ADD(MSG_LoadROM_Reload_Reloaded),
+	__MSG_ADD(MSG_LoadROM_Reload_No_ROM),
+
+	__MSG_ADD(MSG_FileBrowser_BoxTitle),
+	__MSG_ADD(MSG_FileBrowser_Drive),
+	__MSG_ADD(MSG_FileBrowser_Load),
+	__MSG_ADD(MSG_FileBrowser_Close),
+	__MSG_ADD(MSG_FileBrowser_LoadNames),
+	__MSG_ADD(MSG_FileBrowser_ReloadDir),
+
+	__MSG_ADD(MSG_FM_Editor_BoxTitle),
+	__MSG_ADD(MSG_FM_Editor_Enabled),
+	__MSG_ADD(MSG_FM_Editor_Disabled),
+
+	__MSG_ADD(MSG_Frameskip_Auto),
+	__MSG_ADD(MSG_Frameskip_Standard),
+	__MSG_ADD(MSG_FPS_Counter_Enabled),
+	__MSG_ADD(MSG_FPS_Counter_Disabled),
+
+	__MSG_ADD(MSG_Log_Need_Param),
+	__MSG_ADD(MSG_Log_Session_Start),
+
+	__MSG_ADD(MSG_Load_Need_Param),
+	__MSG_ADD(MSG_Load_Error),
+	__MSG_ADD(MSG_Load_Not_Valid),
+	__MSG_ADD(MSG_Load_Success),
+	__MSG_ADD(MSG_Load_Version),
+	__MSG_ADD(MSG_Load_Wrong_System),
+	__MSG_ADD(MSG_Load_Massage),
+	__MSG_ADD(MSG_Save_Not_in_BIOS),
+	__MSG_ADD(MSG_Save_Error),
+	__MSG_ADD(MSG_Save_Success),
+	__MSG_ADD(MSG_Save_Slot),
+
+	__MSG_ADD(MSG_Options_BoxTitle),
+	__MSG_ADD(MSG_Options_Close),
+	__MSG_ADD(MSG_Options_BIOS_Enable),
+	__MSG_ADD(MSG_Options_DB_Display),
+	__MSG_ADD(MSG_Options_Product_Number),
+	__MSG_ADD(MSG_Options_Bright_Palette),
+	__MSG_ADD(MSG_Options_Allow_Opposite_Directions),
+	__MSG_ADD(MSG_Options_Load_Close),
+	__MSG_ADD(MSG_Options_Load_FullScreen),
+	__MSG_ADD(MSG_Options_FullScreen_Messages),
+	__MSG_ADD(MSG_Options_GUI_VSync),
+	__MSG_ADD(MSG_Options_Capture_Crop_Align),
+	__MSG_ADD(MSG_Options_NES_Enable),
+
+	__MSG_ADD(MSG_Language_Set),
+	__MSG_ADD(MSG_Language_Set_Warning),
+
+	__MSG_ADD(MSG_Sound_Dumping_Start),
+	__MSG_ADD(MSG_Sound_Dumping_Stop),
+	__MSG_ADD(MSG_Sound_Dumping_Error_File_1),
+	__MSG_ADD(MSG_Sound_Dumping_Error_File_2),
+	__MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Frame),
+	__MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Sample),
+	__MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Change),
+
+	__MSG_ADD(MSG_Menu_Main),
+	__MSG_ADD(MSG_Menu_Main_LoadROM),
+	__MSG_ADD(MSG_Menu_Main_FreeROM),
+	__MSG_ADD(MSG_Menu_Main_SaveState),
+	__MSG_ADD(MSG_Menu_Main_LoadState),
+	__MSG_ADD(MSG_Menu_Main_Options),
+	__MSG_ADD(MSG_Menu_Main_Language),
+	__MSG_ADD(MSG_Menu_Main_Quit),
+
+	__MSG_ADD(MSG_Menu_Debug),
+	__MSG_ADD(MSG_Menu_Debug_Enabled),
+	__MSG_ADD(MSG_Menu_Debug_Reload_ROM),
+	__MSG_ADD(MSG_Menu_Debug_Dump),
+
+	__MSG_ADD(MSG_Menu_Machine),
+	__MSG_ADD(MSG_Menu_Machine_Power),
+	__MSG_ADD(MSG_Menu_Machine_Power_On),
+	__MSG_ADD(MSG_Menu_Machine_Power_Off),
+	__MSG_ADD(MSG_Menu_Machine_Country),
+	__MSG_ADD(MSG_Menu_Machine_Country_EU),
+	__MSG_ADD(MSG_Menu_Machine_Country_Jap),
+	__MSG_ADD(MSG_Menu_Machine_TVType),
+	__MSG_ADD(MSG_Menu_Machine_TVType_NTSC),
+	__MSG_ADD(MSG_Menu_Machine_TVType_PALSECAM),
+	__MSG_ADD(MSG_Menu_Machine_HardPause),
+	__MSG_ADD(MSG_Menu_Machine_HardReset),
+
+	__MSG_ADD(MSG_Menu_Video),
+	__MSG_ADD(MSG_Menu_Video_FullScreen),
+	__MSG_ADD(MSG_Menu_Video_Themes),
+	__MSG_ADD(MSG_Menu_Video_Blitters),
+	__MSG_ADD(MSG_Menu_Video_Layers),
+	__MSG_ADD(MSG_Menu_Video_Layers_Sprites),
+	__MSG_ADD(MSG_Menu_Video_Layers_Background),
+	__MSG_ADD(MSG_Menu_Video_Flickering),
+	__MSG_ADD(MSG_Menu_Video_Flickering_Auto),
+	__MSG_ADD(MSG_Menu_Video_Flickering_Yes),
+	__MSG_ADD(MSG_Menu_Video_Flickering_No),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_Enabled),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_ShowBothSides),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_ShowLeftSide),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_ShowRightSide),
+	__MSG_ADD(MSG_Menu_Video_3DGlasses_UsesCOMPort),
+	__MSG_ADD(MSG_Menu_Video_Capture),
+	__MSG_ADD(MSG_Menu_Video_Capture_CaptureScreen),
+	__MSG_ADD(MSG_Menu_Video_Capture_CaptureScreenAll),
+	__MSG_ADD(MSG_Menu_Video_Capture_IncludeGui),
+
+	__MSG_ADD(MSG_Menu_Sound),
+	__MSG_ADD(MSG_Menu_Sound_FM),
+	__MSG_ADD(MSG_Menu_Sound_FM_Enabled),
+	__MSG_ADD(MSG_Menu_Sound_FM_Disabled),
+	__MSG_ADD(MSG_Menu_Sound_FM_Emulator),
+	__MSG_ADD(MSG_Menu_Sound_FM_Emulator_OPL),
+	__MSG_ADD(MSG_Menu_Sound_FM_Emulator_Digital),
+	__MSG_ADD(MSG_Menu_Sound_FM_Editor),
+	__MSG_ADD(MSG_Menu_Sound_Volume),
+	__MSG_ADD(MSG_Menu_Sound_Volume_Mute),
+	__MSG_ADD(MSG_Menu_Sound_Volume_Value),
+	__MSG_ADD(MSG_Menu_Sound_Rate),
+	__MSG_ADD(MSG_Menu_Sound_Rate_Hz),
+	__MSG_ADD(MSG_Menu_Sound_Channels),
+	__MSG_ADD(MSG_Menu_Sound_Channels_Tone),
+	__MSG_ADD(MSG_Menu_Sound_Channels_Noises),
+	__MSG_ADD(MSG_Menu_Sound_Dump),
+	__MSG_ADD(MSG_Menu_Sound_Dump_WAV_Start),
+	__MSG_ADD(MSG_Menu_Sound_Dump_WAV_Stop),
+	__MSG_ADD(MSG_Menu_Sound_Dump_VGM_Start),
+	__MSG_ADD(MSG_Menu_Sound_Dump_VGM_Stop),
+	__MSG_ADD(MSG_Menu_Sound_Dump_VGM_SampleAccurate),
+
+	__MSG_ADD(MSG_Menu_Inputs),
+	__MSG_ADD(MSG_Menu_Inputs_Joypad),
+	__MSG_ADD(MSG_Menu_Inputs_LightPhaser),
+	__MSG_ADD(MSG_Menu_Inputs_PaddleControl),
+	__MSG_ADD(MSG_Menu_Inputs_SportsPad),
+	__MSG_ADD(MSG_Menu_Inputs_GraphicBoard),
+	__MSG_ADD(MSG_Menu_Inputs_SK1100),
+	__MSG_ADD(MSG_Menu_Inputs_RapidFire),
+	__MSG_ADD(MSG_Menu_Inputs_RapidFire_PxBx),
+	__MSG_ADD(MSG_Menu_Inputs_Configuration),
+
+	__MSG_ADD(MSG_Menu_Tools),
+	__MSG_ADD(MSG_Menu_Tools_Messages),
+	__MSG_ADD(MSG_Menu_Tools_Palette),
+	__MSG_ADD(MSG_Menu_Tools_TilesViewer),
+	__MSG_ADD(MSG_Menu_Tools_TilemapViewer),
+	__MSG_ADD(MSG_Menu_Tools_TechInfo),
+	__MSG_ADD(MSG_Menu_Tools_MemoryEditor),
+
+	__MSG_ADD(MSG_Menu_Help),
+	__MSG_ADD(MSG_Menu_Help_Documentation),
+	__MSG_ADD(MSG_Menu_Help_Documentation_W),
+	__MSG_ADD(MSG_Menu_Help_Documentation_U),
+	__MSG_ADD(MSG_Menu_Help_Compat),
+	__MSG_ADD(MSG_Menu_Help_Multiplayer_Games),
+	__MSG_ADD(MSG_Menu_Help_Changes),
+	__MSG_ADD(MSG_Menu_Help_Debugger),
+	__MSG_ADD(MSG_Menu_Help_About),
+
+	{ NULL, MSG_NULL }
+};
+#undef __MSG_ADD
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 // Win32 Console
 #ifdef ARCH_WIN32
 
-typedef struct
+struct t_console_win32
 {
     HINSTANCE   hinstance;
     HWND        hwnd_parent;
@@ -32,7 +482,7 @@ typedef struct
     HANDLE      semaphore_wait;
     bool        waiting_for_answer;
     bool        quit;
-} t_console_win32;
+};
 
 static int          ConsoleWin32_Initialize(t_console_win32 *c, HINSTANCE hInstance, HWND hWndParent);
 static void         ConsoleWin32_Close(t_console_win32 *c);
@@ -67,16 +517,16 @@ static t_console_win32  ConsoleWin32;
 
 t_lang *        Lang_New (char *name)
 {
-    int         i;
-    t_lang *    lang;
-    t_list *    langs;
+    for (t_list* langs = Messages.Langs; langs; langs = langs->next)
+	{
+		t_lang* lang = (t_lang*)langs->elem;
+        if (stricmp (name, lang->Name) == 0)
+            return lang;
+	}
 
-    for (langs = Messages.Langs; langs; langs = langs->next)
-        if (stricmp (name, ((t_lang *)langs->elem)->Name) == 0)
-            return (langs->elem);
-    lang = malloc(sizeof (t_lang));
+    t_lang* lang = (t_lang*)malloc(sizeof (t_lang));
     lang->Name = strdup (name);
-    for (i = 0; i < MSG_MAX; i++)
+    for (int i = 0; i < MSG_MAX; i++)
         lang->Messages[i] = NULL;
     lang->WIP = FALSE;
     list_add_to_end (&Messages.Langs, lang);
@@ -155,7 +605,7 @@ int             Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
 
     // Replace_Backslash_N (msg);
     // lang->Messages [n] = strdup (msg);
-    lang->Messages[n] = parse_getword(NULL, 0, &msg, "\"", 0, 0);
+    lang->Messages[n] = parse_getword(NULL, 0, &msg, "\"", 0);
 
     // Verify that there's nothing after this line
     parse_skip_spaces(&msg);
@@ -181,12 +631,9 @@ static void		Lang_Set (t_menu_event *event)
 
 void            Lang_Set_by_Name (char *name)
 {
-    t_list *      langs;
-    t_lang *      lang;
-
-    for (langs = Messages.Langs; langs; langs = langs->next)
+    for (t_list* langs = Messages.Langs; langs; langs = langs->next)
     {
-        lang = langs->elem;
+        t_lang* lang = (t_lang*)langs->elem;
         if (stricmp (lang->Name, name) == 0)
         {
             Messages.Lang_Cur = lang;
@@ -197,18 +644,14 @@ void            Lang_Set_by_Name (char *name)
 
 void            Langs_Menu_Add (int menu_id)
 {
-    int         s;
-    t_list *    langs;
-    t_lang *    lang;
-
-    s = list_size(Messages.Langs);
+    const int s = list_size(Messages.Langs);
     if (s > 1)
     {
         menus_ID.languages = menu_add_menu (menu_id, Msg_Get(MSG_Menu_Main_Language), AM_Active);
-        for (langs = Messages.Langs; langs; langs = langs->next)
+        for (t_list* langs = Messages.Langs; langs; langs = langs->next)
         {
-            lang = langs->elem;
-            menu_add_item (menus_ID.languages, lang->Name, AM_Active | Is_Checked (lang == Messages.Lang_Cur), Lang_Set, lang);
+            t_lang* lang = (t_lang*)langs->elem;
+            menu_add_item(menus_ID.languages, lang->Name, AM_Active | Is_Checked (lang == Messages.Lang_Cur), (t_menu_callback)Lang_Set, lang);
         }
     }
 }
@@ -294,7 +737,7 @@ int             Messages_Init (void)
     line_cnt = 0;
     for (lines = tf->data_lines; lines; lines = lines->next)
     {
-        char *line = lines->elem;
+        char *line = (char*)lines->elem;
         line_cnt += 1;
 
         // Cut Comments
@@ -333,15 +776,12 @@ int             Messages_Init (void)
 
     // Verify language completion
     {
-        t_list        *langs;
-        t_lang        *lang;
-
         if (Messages.Lang_Cur == NULL)
             Quit_Msg ("No language defined. Try re-installing your version of Meka.");
         Messages.Lang_Cur = Messages.Lang_Default;
-        for (langs = Messages.Langs; langs; langs = langs->next)
+        for (t_list* langs = Messages.Langs; langs; langs = langs->next)
         {
-            lang = langs->elem;
+            t_lang* lang = (t_lang*)langs->elem;
             if (Lang_Post_Check (lang) != MEKA_ERR_OK)
                 if (lang == Messages.Lang_Default)
                     Quit_Msg ("This is the default language, so we need to abort.");
@@ -605,7 +1045,7 @@ static DWORD WINAPI ConsoleWin32_Thread(LPVOID data)
 {
     MSG             msg;
     BOOL            bRet;
-    t_console_win32 *c = data;
+    t_console_win32* c = (t_console_win32*)data;
 
     // Create window
     c->hwnd = CreateDialog(c->hinstance, MAKEINTRESOURCE(IDD_CONSOLE), c->hwnd_parent, ConsoleWin32_DialogProc);
@@ -778,9 +1218,9 @@ static void        ConsoleWin32_Print(t_console_win32 *c, char *s)
 
     // Fill text buffer
     // Replace all occurences single "\n" by "\r\n" since windows edit box wants that
-    text = Memory_Alloc(strlen(s) + (newlines_counter * sizeof(char)) + 2 + 1);
+    text = (char*)Memory_Alloc(strlen(s) + (newlines_counter * sizeof(char)) + 2 + 1);
     {
-        char *dst = text;
+        char* dst = text;
         while (*s != EOSTR)
         {
             if (*s == '\n')

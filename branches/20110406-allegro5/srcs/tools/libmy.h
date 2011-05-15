@@ -8,10 +8,6 @@
 #define OK                      (0)
 #define ERR                     (1)
 
-#define Maj(c)                  ((c >= 'a' && c <= 'z') ? (c + 'A' - 'a') : (c))
-#define Min(c)                  ((c >= 'A' && c <= 'Z') ? (c + 'a' - 'A') : (c))
-#define Limit(a,b)              (((b) > (a)) ? (a) : (b))
-
 #ifndef ARCH_WIN32
   #define Random(a)             (random() % (a))
 #else

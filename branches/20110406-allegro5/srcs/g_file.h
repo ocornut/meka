@@ -29,20 +29,20 @@ void    FB_Reload_Names         (void);
 // Data
 //-----------------------------------------------------------------------------
 
-struct s_db_entry;
+struct t_db_entry;
 
-typedef struct
+struct t_filebrowser_entry
 {
     s16                 type;
     char *              file_name;
-    struct s_db_entry * db_entry;
+    t_db_entry *		db_entry;
     char *              db_entry_name;
-} t_filebrowser_entry;
+};
 
-typedef struct
+struct t_filebrowser
 {
     t_gui_box *         box;
-    ALLEGRO_BITMAP *            bmp;
+    ALLEGRO_BITMAP *    bmp;
     bool                active;
     t_filebrowser_entry **  files;
     int                 files_max;
@@ -54,9 +54,9 @@ typedef struct
     int                 res_x, file_y;
 
     t_widget *          widget_scrollbar;
-} t_filebrowser;
+};
 
-t_filebrowser   FB;
+extern t_filebrowser    FB;
 
 //-----------------------------------------------------------------------------
 

@@ -10,6 +10,12 @@
 #include "bios.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_data_graphics     Graphics;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -159,10 +165,10 @@ void            Data_Init(void)
     // Note: BIOSes are unpacked in a bigger memory area, so they can be mapped
     // without having to handle memory accesses outside their allocated range.
     // The same trick is done on loading < 48 KB Sega 8-bits ROM images.
-    BIOS_ROM            = Data_CopyInBiggerArea(Data_LoadBinary("rom_sms.rom"),     0x2000, 0xC000);
-    BIOS_ROM_Jap        = Data_CopyInBiggerArea(Data_LoadBinary("rom_smsj.rom"),	0x2000, 0xC000);
-    BIOS_ROM_Coleco     = Data_CopyInBiggerArea(Data_LoadBinary("rom_coleco.rom"),  0x2000, 0x2000);
-    BIOS_ROM_SF7000     = Data_CopyInBiggerArea(Data_LoadBinary("rom_sf7000.rom"),  0x2000, 0x4000);
+    BIOS_ROM            = (u8*)Data_CopyInBiggerArea(Data_LoadBinary("rom_sms.rom"),     0x2000, 0xC000);
+    BIOS_ROM_Jap        = (u8*)Data_CopyInBiggerArea(Data_LoadBinary("rom_smsj.rom"),	0x2000, 0xC000);
+    BIOS_ROM_Coleco     = (u8*)Data_CopyInBiggerArea(Data_LoadBinary("rom_coleco.rom"),  0x2000, 0x2000);
+    BIOS_ROM_SF7000     = (u8*)Data_CopyInBiggerArea(Data_LoadBinary("rom_sf7000.rom"),  0x2000, 0x4000);
 
     // Patch SF-7000 BIOS (FIXME: move to sf7000.c)
     // Bios_ROM_SF7000[0x112] = Bios_ROM_SF7000[0x113] = Bios_ROM_SF7000[0x114] = 0x00;

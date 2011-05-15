@@ -9,8 +9,8 @@
 
 // FIXME: rename/clean/remove/...
 #define NUM_ALPHA_KEYS  (26)
-int     Key_Alpha_Table [NUM_ALPHA_KEYS];
-char    Alpha_Table [NUM_ALPHA_KEYS];
+extern int     Key_Alpha_Table [NUM_ALPHA_KEYS];
+extern char    Alpha_Table [NUM_ALPHA_KEYS];
 
 //-----------------------------------------------------------------------------
 // Functions

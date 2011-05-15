@@ -6,11 +6,11 @@
 #ifndef __LIST_H__
 #define __LIST_H__
 
-typedef struct	    s_list
+struct t_list
 {
-  struct s_list	*   next;
-  void *            elem;
-}                   t_list;
+  t_list *   next;
+  void *     elem;
+};
 
 /* Add an element to the beginning of the given list */
 void   	list_add(t_list **list, void *elem);
@@ -24,8 +24,11 @@ void   	list_free(t_list **list);
 /* Free a list, do not free elements (should be done by the program) */
 void   	list_free_no_elem(t_list **list);
 
+typedef void (*t_list_free_handler)(void*);
+typedef int (*t_list_cmp_handler)(void *, void *);
+
 /* Free a list, call given function on all elements */
-void    list_free_custom(t_list **list, void (*custom_free)());
+void    list_free_custom(t_list **list, void (*custom_free)(void*));
 
 /* Remove a given element from a list. */
 void    list_remove(t_list **list, void *elem);

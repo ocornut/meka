@@ -7,7 +7,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_app_inputs_config
 {
     t_gui_box * box;
     bool        active;
@@ -18,9 +18,9 @@ typedef struct
     t_widget *  CheckBox_Enabled;
     t_widget *  CheckBox_Emulate_Digital;
     bool        CheckBox_Emulate_Digital_Value;
-} t_app_inputs_config;
+};
 
-t_app_inputs_config     Inputs_CFG;
+extern t_app_inputs_config     Inputs_CFG;
 
 //-----------------------------------------------------------------------------
 // Functions

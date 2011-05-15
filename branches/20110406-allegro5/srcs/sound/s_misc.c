@@ -25,7 +25,7 @@ int		Sound_Rate_Default_Table[4] =
 };
 
 // Global
-int		sound_vcount, sound_icount;
+int		sound_vcount = -1, sound_icount = -1;
 int		Sound_Update_Count;
 
 //-----------------------------------------------------------------------------
@@ -144,7 +144,7 @@ void    Sound_Volume_Menu_Init (int menu_id)
         else
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Value), i);
         menu_add_item(menu_id, buffer, AM_Nothing | Is_Checked (i - 9 < master_volume_100 && i + 9 > master_volume_100), 
-			Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
+			(t_menu_callback)Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
     }
 }
 
@@ -168,7 +168,7 @@ void    Sound_Rate_Menu_Init (int menu_id)
 	for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
     {
         sprintf(buffer, Msg_Get(MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table [i]);
-        menu_add_item(menus_ID.rate, buffer, AM_Active, Sound_Rate_Menu_Handler, (void *)Sound_Rate_Default_Table[i]);
+        menu_add_item(menus_ID.rate, buffer, AM_Active, (t_menu_callback)Sound_Rate_Menu_Handler, (void *)Sound_Rate_Default_Table[i]);
     }
     Sound_Rate_Set(Sound.SampleRate, FALSE);
 }

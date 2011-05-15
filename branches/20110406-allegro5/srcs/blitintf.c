@@ -12,6 +12,12 @@
 #include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_blitters Blitters;
+
+//-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
@@ -34,11 +40,7 @@ t_blitter *     Blitter_New(char *name)
     p = strstr(name, BLITTER_OS_SEP);
 
     // Ignore blitter if it is not for current system
-#ifdef ARCH_DOS
-    if (p != NULL)
-        if (stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_DOS) != 0)
-            return (NULL);
-#elif ARCH_WIN32
+#ifdef ARCH_WIN32
     if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_WIN) != 0)
         return (NULL);
 #elif ARCH_UNIX
@@ -49,7 +51,7 @@ t_blitter *     Blitter_New(char *name)
         *p = EOSTR;
 
     // Allocate a blitter and set it with name and default values
-    b = malloc(sizeof (t_blitter));
+    b = (t_blitter*)malloc(sizeof (t_blitter));
     b->name             = strdup(name);
     b->index            = Blitters.count;
     b->res_x            = 320;
@@ -72,7 +74,7 @@ void            Blitter_Delete(t_blitter *b)
 
 void            Blitters_Close(void)
 {
-    list_free_custom(&Blitters.list, Blitter_Delete);
+    list_free_custom(&Blitters.list, (t_list_free_handler)Blitter_Delete);
 }
 
 static const char * Blitters_Def_Variables [] =
@@ -166,7 +168,6 @@ void    Blitters_Init_Values (void)
 void            Blitters_Init (void)
 {
     t_tfile *   tf;
-    t_list *    lines;
     int         line_cnt;
 
     ConsolePrint (Msg_Get(MSG_Blitters_Loading));
@@ -181,15 +182,13 @@ void            Blitters_Init (void)
 
     // Parse each line
     line_cnt = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
-        char *line;
-        char s1 [256], s2 [256];
-        int i, j;
-
+        char* line = (char*)lines->elem;
         line_cnt += 1;
-        line = lines->elem;
 
+		int i, j;
+        char s1 [256], s2 [256];
         for (i = 0, j = 0; line [i] != 0 && line [i] != ';'; i ++)
             if ((line [0] == '[') || (line [i] != ' ' && line [i] != '\t'))
                 s2 [j ++] = line [i];
@@ -219,16 +218,14 @@ void            Blitters_Init (void)
     if (Blitters.blitter_configuration_name != NULL)
         Blitters.current = Blitters_FindBlitterByName(Blitters.blitter_configuration_name);
     if (Blitters.current == NULL)
-        Blitters.current = Blitters.list->elem; // first
+        Blitters.current = (t_blitter*)Blitters.list->elem; // first
 }
 
 t_blitter * Blitters_FindBlitterByName(const char *name)
 {
-    t_list *blitters;
-    
-    for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
+    for (t_list* blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
     {
-        t_blitter *blitter = blitters->elem;
+        t_blitter* blitter = (t_blitter*)blitters->elem;
         if (stricmp(blitter->name, name) == 0)
             return (blitter);
     }
@@ -262,7 +259,7 @@ static int     Blitters_Str2Num (const char *s)
 
 void    Blitters_Switch_Common (void)
 {
-    if (Meka_State == MEKA_STATE_FULLSCREEN)
+    if (g_env.state == MEKA_STATE_FULLSCREEN)
         Video_Setup_State ();
     Msg (MSGT_USER, Msg_Get (MSG_Blitters_Set), Blitters.current->name);
     gui_menu_un_check (menus_ID.blitters);
@@ -271,15 +268,13 @@ void    Blitters_Switch_Common (void)
 
 void    Blitters_SwitchNext(void)
 {
-    int index;
-    t_list *blitters;
-  
-    index = (Blitters.current->index + 1) % Blitters.count;
+    int index = (Blitters.current->index + 1) % Blitters.count;
+	t_list* blitters;
     for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
         if (index-- == 0)
             break;
     assert(blitters != NULL);
-    Blitters.current = blitters->elem;
+    Blitters.current = (t_blitter*)blitters->elem;
     Blitters_Switch_Common();
 }
 
@@ -291,14 +286,13 @@ static void    Blitters_Switch_Handler (t_menu_event *event)
 
 void    Blitters_Menu_Init (int menu_id)
 {
-    t_list *blitters;
-    for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
+    for (t_list* blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
     {
-        t_blitter *blitter = blitters->elem;
+        t_blitter* blitter = (t_blitter*)blitters->elem;
         menu_add_item(menu_id,
             blitter->name,
             AM_Active | ((blitter == Blitters.current) ? AM_Checked : 0),
-            Blitters_Switch_Handler, blitter);
+            (t_menu_callback)Blitters_Switch_Handler, blitter);
     }
 }
 

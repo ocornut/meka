@@ -10,6 +10,12 @@
 #include "osd/timer.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+volatile t_fskipper fskipper;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -32,13 +38,13 @@ void    Frame_Skipper_Auto_Adjust_Handler (void)
 {
     fskipper.Automatic_Frame_Elapsed ++;
 }
-END_OF_FUNCTION (Frame_Skipper_Auto_Adjust_Handler);
+//END_OF_FUNCTION (Frame_Skipper_Auto_Adjust_Handler);
 
 void    Frame_Skipper_New_Second_Handler (void)
 {
     fskipper.New_Second = TRUE;
 }
-END_OF_FUNCTION (Frame_Skipper_New_Second_Handler);
+//END_OF_FUNCTION (Frame_Skipper_New_Second_Handler);
 
 // Calculate the nearest and most appropriate value for the auto frame
 // skipper timed interrupt.
@@ -52,7 +58,7 @@ void    Frame_Skipper_Auto_Install_Handler (void)
     c = 1000 / fskipper.Automatic_Speed;
     c1 = 1000 - (c * fskipper.Automatic_Speed);
     c2 = 1000 - ((c + 1) * fskipper.Automatic_Speed);
-    //if (Meka_State == MEKA_STATE_GUI)
+    //if (g_env.state == MEKA_STATE_GUI)
     //    Msg (MSGT_DEBUG, "%d hz : c1=%d | c2=%d", fskipper.Automatic_Speed, c1, c2);
     if (c1 < 0) c1 = -c1;
     if (c2 < 0) c2 = -c2;

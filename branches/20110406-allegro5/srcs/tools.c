@@ -57,10 +57,10 @@ void    killpath (char *org)
 // Extract filename from 'src' and copy it to location 'dst'
 void    StrCpyPathRemoved(char *dst, const char *src)
 {
-    char *p = strrchr(src, '/');
+    const char* p = strrchr(src, '/');
 
 #ifndef ARCH_UNIX
-    char *p2 = strrchr(src, '\\');
+    const char *p2 = strrchr(src, '\\');
     if (p2 != NULL && p2 > p)
         p = p2;
 #endif

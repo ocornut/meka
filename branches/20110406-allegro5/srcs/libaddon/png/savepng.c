@@ -1,3 +1,5 @@
+#include "shared.h"
+
 #if 0	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
 
 /* loadpng, Allegro wrapper routines for libpng

@@ -100,7 +100,7 @@ void    gui_update (void)
     // Process box deletion
     for (boxes = gui.boxes; boxes != NULL; )
     {
-        t_gui_box *box = boxes->elem;
+        t_gui_box* box = (t_gui_box*)boxes->elem;
         boxes = boxes->next;
         if (box->flags & GUI_BOX_FLAGS_DELETE)
             gui_box_delete(box);

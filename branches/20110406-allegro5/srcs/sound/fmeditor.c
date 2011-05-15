@@ -1,8 +1,9 @@
-
 // Outdated
 // - Based on OPL wrapper
 // - Use widget 'id' (made obsolete)
 // Could be worked out to be up to date, if someone has the motivation...
+
+#include "shared.h"
 
 #if 0
 
@@ -51,13 +52,13 @@ struct type_apps
 
 static int  fontx, fonty;
 
-typedef struct
+struct t_fmeditor_app
 {
   t_gui_box *   box;
   int           current_voice_number;
-} t_fmeditor_app;
+};
 
-t_fmeditor_app  FM_Editor;
+extern t_fmeditor_app  FM_Editor;
 
 enum {
   SEL_FMNUM = 0,

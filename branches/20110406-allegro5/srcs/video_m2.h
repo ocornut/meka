@@ -18,7 +18,7 @@ void    Refresh_Modes_0_1_2_3      (void);
 void    Check_Sprites_Collision_Modes_1_2_3_Line (int line);
 
 void						TMS9918_Palette_Set        (void);
-extern const ALLEGRO_COLOR  TMS9918_Palette [16];
+extern ALLEGRO_COLOR	    TMS9918_Palette [16];
 
 //-----------------------------------------------------------------------------
 

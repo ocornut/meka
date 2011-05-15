@@ -7,14 +7,14 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_gear_to_gear
 {
  byte           Config;
  byte           Data_01;
  byte           Data_Direction_NMIe;
-}               t_gear_to_gear;
+};
 
-t_gear_to_gear  Gear_to_Gear;
+extern t_gear_to_gear  Gear_to_Gear;
 
 //-----------------------------------------------------------------------------
 // Functions

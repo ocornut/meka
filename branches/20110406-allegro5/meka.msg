@@ -45,123 +45,6 @@
 ;              Updated:          Msg_Window_Title
 ;                                Msg_Inputs_Joy_Init_None
 ;                                Msg_Inputs_Joy_Init_Found
-; MEKA 0.71  : Added:            Msg_Setup_Debugger_Enable              
-;                                Msg_Menu_Debug_Reload_ROM
-;                                Msg_LoadROM_Reload_Reloaded
-;                                Msg_LoadROM_Reload_No_ROM
-;                                Msg_Debug_Symbols_Loaded
-;                                Msg_Debug_Symbols_Error
-;                                Msg_Debug_Symbols_Error_Line
-;              Removed:          Msg_Menu_Debug_Watch
-; MEKA 0.70  : Renamed:          Msg_Options_Allows_Opposite_Directions -> Msg_Options_Allow_Opposite_Directions
-; MEKA 0.69b : Added:            Msg_Options_Allows_Opposite_Directions
-;                                Msg_Inputs_SK1100_Enabled
-;                                Msg_Inputs_SK1100_Disabled
-;              Updated language: Dutch, Swedish
-; MEKA 0.69  : Added:            Msg_Setup_Running
-;                                Msg_MemoryEditor_BoxTitle
-;                                Msg_MemoryEditor_Disabled
-;                                Msg_MemoryEditor_Enablehid
-;                                Msg_MemoryEditor_WriteZ80_Unable
-;							     Msg_MemoryEditor_Address_Out_of_Bound
-;                                Msg_Menu_Tools_MemoryEditor
-;                                Msg_FDB_Loading
-;              Modified:         Msg_Machine_Reset
-;                                Changed all ".." to "..."
-;              Removed:          Msg_VFN_Loading
-; MEKA 0.68  : Added:            Msg_DB_SyntaxError
-;                                Msg_Options_DB_Display
-;                                Msg_LoadROM_SMSGG_Mode_Comment
-;              Renamed:          Msg_Names_Loading -> Msg_DB_Loading
-;                                Msg_Names_Default -> Msg_DB_Name_Default
-;                                Msg_Names_No_Cartridge -> Msg_DB_Name_NoCartridge
-;              Removed:          Msg_Options_VFN_Support
-;              Modified:         Msg_Options_BIOS_Enable
-;                                Msg_Options_Product_Number
-;                                Msg_Options_Bright_Palette
-; MEKA 0.67  : Updated language: Dutch
-;              Added:            Msg_Patch_Value_Not_a_Byte
-;                                Msg_Menu_Debug_Enabled
-;                                Msg_Inputs_Play_Digital_Unrecommended
-;              Modified:         Msg_Patch_Missing
-;                                Msg_Patch_Unrecognized
-;                                Msg_Patch_Address_Out_of_Bound
-;              Renamed:          Msg_Inputs_SportPad -> Msg_Inputs_SportsPad
-;                                Msg_Inputs_Play_Normal -> Msg_Inputs_Play_Digital
-;                                Msg_Menu_Inputs_SportPad -> Msg_Menu_Inputs_SportsPad
-;              Removed:          Msg_Debug_Brk_Enable
-;                                Msg_Patch_Maximum
-; MEKA 0.66  : Updated language: Danish
-;              Added:            Msg_Glasses_Com_Port_Open_Error
-;              Modified:         Msg_OverDump
-;              Modified:         Msg_LoadROM_Bad_Dump_Long
-;              Modified:         Msg_Glasses_Com_Port2
-;              Modified:         Msg_LoadROM_Comment
-; MEKA 0.65c : Updated language: Swedish
-; MEKA 0.65b : Added:            Msg_Setup_Setup
-;              Renamed:          Msg_Sound_Init_Soundcard_Select -> Msg_Setup_Soundcard_Select
-;                                Msg_Sound_Init_Soundcard_Tips_D -> Msg_Setup_Soundcard_Select_Tips_DOS
-;                                Msg_Sound_Init_Soundcard_Tips_W -> Msg_Setup_Soundcard_Select_Tips_Win32
-;                                Msg_Sound_Init_SampleRate_Select -> Msg_Setup_SampleRate_Select
-;              Modified:         Msg_Config_Loading
-;              Updated language: French
-; MEKA 0.65  : Added:            Msg_Menu_Help_Documentation_U
-;              Renamed:          Msg_Sound_Init_Soundcard_Tips -> Msg_Sound_Init_Soundcard_Tips_D
-; MEKA 0.64c : Updated language: Danish
-;              Added:            Msg_Error_Video_Mode_Back_To_GUI
-; MEKA 0.64b : Added language:   Danish
-; MEKA 0.63c : Updated language: French
-;              Removed:          Msg_Sound_Init_SN76496_Ok
-;                                Msg_Sound_Init_YM2413_Ok
-;              Added:            Msg_Ok
-;                                Msg_Sound_Init_SN76496
-;                                Msg_Sound_Init_YM2413_OPL
-;                                Msg_Sound_Init_YM2413_Digital
-;                                Msg_Sound_Volume_Changed
-;                                Msg_Menu_Sound_FM_Emulator
-;                                Msg_Menu_Sound_FM_Emulator_OPL
-;                                Msg_Menu_Sound_FM_Emulator_Digital
-; MEKA 0.63b : Updated language: Dutch, Deutsch, French, Italian, Spanish, Swedish
-; MEKA 0.63  : Updated language: Swedish, Dutch
-;              Added:            Msg_FPS_Counter_*
-;              Added:            Msg_Menu_Help_Multiplayer_Games
-; MEKA 0.62c : Renamed:          Msg_Menu_Help_Help -> Msg_Menu_Help_Documentation
-;              Added:            Msg_Menu_Help_Documentation_W
-;                                Msg_Menu_Help_Compat
-;                                Msg_Menu_Help_Changes
-; MEKA 0.62b : Updated language: Spanish
-; MEKA 0.62  : Added language:   French, Swedish
-;              Updated language: Italian
-;              Added:            Msg_Capture_Error
-; MEKA 0.61  : Added:            Msg_FDC765_Disk_Too_Small*
-;                                Msg_Menus_*
-;                                Msg_VoiceRecognition_*
-;                                Msg_FileBrowser_*
-;                                Msg_LoadROM_SDSC_Author
-;                                Msg_TilesViewer_BoxTitle, Msg_TilesViewer_Tile
-;                                Msg_Options_BoxTitle, Msg_Options_Close
-;                                Msg_Inputs_Configuration_BoxTitle
-;                                Msg_Message_BoxTitle
-;                                Msg_TechInfo_BoxTitle
-;                                Msg_Doc_BoxTitle
-;                                Msg_About_BoxTitle
-;                                Msg_Palette_BoxTitle
-;                                Msg_FM_Editor_BoxTitle
-;              Updated language: Deutsch, Redneck, Dutch, Portuguese, Spanish
-; MEKA 0.60  : Updated language: Spanish
-; MEKA 0.59  : Added language:   Italian
-;              Updated language: Portuguese
-;              Added:            Msg_Save_Not_in_BIOS
-;                                Msg_Sound_Dumping_VGM_*
-; MEKA 0.58c : Added languages:  Portuguese, Spanish
-;              Added:            Msg_LoadROM_SDSC*
-; MEKA 0.58b : Added languages:  Dutch, Redneck
-;              Added:            Msg_Load_Need_Param
-;              Modified:         Msg_NES_Sucks
-;                                Msg_Sound_Init_Soundcard
-;              Removed:          Msg_Sound_Init_Rate
-;              Renamed:          Msg_Log_Need_Params -> Msg_Log_Need_Param
-; MEKA 0.58  : Introduction of MEKA.MSG file
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -279,7 +162,6 @@ Msg_Init_Completed                      = "[READY]"
 Msg_Setup_Running                       = "Running setup..."
 Msg_Setup_Setup                         = "Setup"
 Msg_Setup_Soundcard_Select              = "Please select your audio device:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(if you have an AWE 32, choose Sound Blaster for a more faithful emulation)\n(if you have a recent SB card, choose Sound Blaster or Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound is highly recommended, if available)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Debugger_Enable               = "Enable Z80 debugger and associated features"
@@ -784,7 +666,6 @@ Msg_Init_Completed                      = "[PRET]"
 Msg_Setup_Running                       = "Execution du programme de configuration..."
 Msg_Setup_Setup                         = "Configuration"
 Msg_Setup_Soundcard_Select              = "Choisissez votre carte son:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(Si vous avez une AWE 32, choisissez Sound Blaster pour une ‚mulation fidŠle)\n(si vous avez une carte Sound Blaster r‚cente, choisissez Sound Blaster ou Ensoniq Soundscape"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound est trŠs recommand‚, si disponible)"
 Msg_Setup_SampleRate_Select             = "Fréquence d'échantillonage:"
 Msg_Setup_Debugger_Enable               = "Active le debuggeur Z80 et autres fonctionnalites associees"
@@ -1277,7 +1158,6 @@ Msg_Init_Completed                      = "[READY]"
 Msg_Setup_Setup                         = "Setup"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Soundcard_Select              = "Please seleck yer audio device:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(if yo' haf an AWE 32, choose Soun' Blaster fo' a mo'e faifful emulashun)\n(if yo' haf a recent SB card, choose Soun' Blaster o' Ensoniq Soun'scape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direck X is highly recommended, eff'n available)"
 
 ; Screenshots Capture --------------------------------------------------------
@@ -1748,7 +1628,6 @@ Msg_Init_Completed                      = "[klaar]"
 Msg_Setup_Running                       = "Setup wordt uitgevoerd..."
 Msg_Setup_Setup                         = "Setup"
 Msg_Setup_Soundcard_Select              = "A.U.B. kies uw geluidskaart:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(als je een AWE 32 hebt, kies Sound Blaster voor een betere emulatie)\n(Als je een recente SB card hebt, kies Sound Blaster of Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X is aanbevolen, als het beschikbaar is)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Debugger_Enable               = "Z80 debugger en bijbehorende functies inschakelen"
@@ -2246,7 +2125,6 @@ Msg_Init_Completed                      = "[PREPARADO]"
 
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Soundcard_Select              = "Por favor seleccione su dispositivo de audio:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(si tiene una AWE 32, elija Sound Blaster para una emulacion mas fiel)\n(si tiene una tarjeta SB reciente, elija Sound Blaster o Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X es altamente recomendado, si esta disponible)"
 
 ; Screenshots Capture --------------------------------------------------------
@@ -2710,7 +2588,6 @@ Msg_Init_Completed                      = "[PRONTO!]"
 
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Soundcard_Select              = "Por favor, selecione sua placa de som:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(se vocˆ possui uma AWE 32, escolha Sound Blaster para uma emula‡Æo mais fiel)\n(se vocˆ tiver uma placa de som SB recente, escolha Sound Blaster ou Ensoniq\nSoundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X ‚ altamente recomendado, se dispon¡vel)"
 
 ; Screenshots Capture --------------------------------------------------------
@@ -3157,7 +3034,6 @@ Msg_Init_Completed                      = "[PRONTO]"
 
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Soundcard_Select              = "Per favore scegliere dispositivo audio:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(se hai una AWE 32, scegliere Sound Blaster per una migliore emulazione)\n(se si ha una scheda SB recente, scegliere Sound Blaster o Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound e' altamente raccomandato, se disponibile)"
 
 ; Screenshots Capture --------------------------------------------------------
@@ -3610,7 +3486,6 @@ Msg_Init_Completed                      = "[BEREIT]"
 
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Soundcard_Select              = "Bitte waehlen Sie ihre Soundkarte:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(AWE 32 Benutzer sollten fuer beste Qualitaet Sound Blaster waehlen)\n(Neue SBs können als Sound Blaster oder Ensoniq Soundscape benutzt werden)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound wird empfohlen)"
 
 ; Screenshots Capture ---------------------------------------------------------
@@ -4065,7 +3940,6 @@ Msg_Init_Completed                      = "[REDO]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Setup                         = "Inställningar"
 Msg_Setup_Soundcard_Select              = "Välj ljudenhet:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(om du har ett AWE 32, välj Sound Blaster för mer verklighetstrogen emulering)\n(om du har ett nytt SB kort, välj Sound Blaster eller Ensoniq Soundscape)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound är rekommenderat, om tillgängligt)"
 Msg_Setup_SampleRate_Select             = "Samplingshastighet:"
 
@@ -4534,7 +4408,6 @@ Msg_Init_Completed                      = "[KLAR]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Setup                         = "Opsætning"
 Msg_Setup_Soundcard_Select              = "Vaelg venligst dit lydkort:"
-Msg_Setup_Soundcard_Select_Tips_DOS     = "(vaelg Sound Blaster for for en bedre emulering, hvis du har et AWE 32 kort)\n(vaelg Sound Blaster eller Ensoniq Soundscape, hvis du har et nyere SB kort)"
 Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound er, om muligt, hoejest anbefalelsesvaerdigt)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 

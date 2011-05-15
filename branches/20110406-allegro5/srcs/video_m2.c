@@ -14,7 +14,7 @@
 static u8    Sprites_On_Line [192 + 32];
 
 // FIXME-ALLEGRO5: Palette is in float format, must be converted
-const ALLEGRO_COLOR TMS9918_Palette [16] =
+ALLEGRO_COLOR TMS9918_Palette [16] =
  {
      // FIXME: Proper palette
    /* 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0xC0, 0x20,
@@ -75,7 +75,7 @@ void    TMS9918_Palette_Set (void)
 // Note: this is used by tools only (not actual emulation refresh)
 void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor_host, int bgcolor_host)
 {
-	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
+	const int color_format = al_get_bitmap_format(dst);
 	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     switch (color_format)
     {
@@ -469,7 +469,7 @@ void    Display_Sprites_1_2_3 (void)
 void    Refresh_Modes_0_1_2_3 (void)
 {
 	GFX_ScreenRegion = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
-	GFX_ScreenData = GFX_ScreenRegion->data;
+	GFX_ScreenData = (u16*)GFX_ScreenRegion->data;
 	GFX_ScreenPitch = GFX_ScreenRegion->pitch;
 
 	// Display Background

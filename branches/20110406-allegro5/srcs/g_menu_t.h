@@ -9,7 +9,7 @@
 
 // new names
 int     menu_new (void);
-int     menu_add_item (int n_menu, const char *label, int attr, void (*event_handler)(), void *user_data);
+int     menu_add_item (int n_menu, const char *label, int attr, t_menu_callback callback, void *user_data);
 int     menu_add_menu (int n_menu, const char *label, int attr);
 
 // old names

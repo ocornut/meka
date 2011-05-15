@@ -36,7 +36,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct s_driver
+struct ts_driver
 {
   byte  id;
   char *short_name;
@@ -54,15 +54,15 @@ typedef struct s_driver
   int   y_int;        // Working variable
   int   colors;
   int   ram;
-} ts_driver;
+};
 
-ts_driver *     cur_drv;
+extern ts_driver * cur_drv;
 
-typedef struct
+struct ts_driver_filename_extension
 {
     char *  filename_extension;
     int     driver;
-} ts_driver_filename_extension;
+};
 
 //-----------------------------------------------------------------------------
 // Functions

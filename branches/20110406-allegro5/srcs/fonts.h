@@ -20,15 +20,15 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_font
 {
-    int         id;
-    ALLEGRO_FONT *      library_data;
-    int         height;
-}               t_meka_font;
+    int				id;
+    ALLEGRO_FONT *	library_data;
+    int				height;
+};
 
-t_meka_font     Fonts[MEKA_FONT_MAX];
-t_meka_font *   FontCurrent;
+extern t_font		Fonts[MEKA_FONT_MAX];
+extern t_font *		FontCurrent;
 
 //-----------------------------------------------------------------------------
 // Functions

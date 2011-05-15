@@ -21,42 +21,42 @@
 // Private Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_widget_data_closebox
 {
     int                         lighted;
-    void                        (*callback)();
-} t_widget_data_closebox;
+    void                        (*callback)(t_widget*);
+};
 
-typedef struct
+struct t_widget_data_button
 {
     const char *                label;
     t_widget_button_style       style;
     bool                        selected;
-    void                        (*callback)();
-} t_widget_data_button;
+    void                        (*callback)(t_widget*);
+};
 
-typedef struct
+struct t_widget_data_scrollbar
 {
     t_widget_scrollbar_type     scrollbar_type;
     int *                       v_max;
     int *                       v_start;
     int *                       v_per_page;
-    void                        (*callback)();
-} t_widget_data_scrollbar;
+    void                        (*callback)(t_widget*);
+};
 
-typedef struct
+struct t_widget_data_checkbox
 {
     bool *                      pvalue;
-    void                        (*callback)();
-} t_widget_data_checkbox;
+    void                        (*callback)(t_widget*);
+} ;
 
-typedef struct
+struct t_widget_data_textbox_line
 {
     const ALLEGRO_COLOR *       pcolor;
     char *                      text;
-} t_widget_data_textbox_line;
+};
 
-typedef struct
+struct t_widget_data_textbox
 {
     int                         lines_num;
     int                         lines_max;
@@ -64,13 +64,13 @@ typedef struct
     t_widget_data_textbox_line *lines;
     int                         font_idx;
     const ALLEGRO_COLOR *       pcurrent_color;
-} t_widget_data_textbox;
+};
 
 // FIXME: add focus parameters: update inputs on box OR widget focus
 // FIXME: Do not show cursor without focus ?
-typedef struct
+struct t_widget_data_inputbox
 {
-    t_widget_inputbox_flags     flags;
+    int							flags;			// enum t_widget_inputbox_flags // FIXME-ENUM
     t_widget_content_type       content_type;
     int                         insert_mode;    // Boolean
     char *                      value;
@@ -82,7 +82,7 @@ typedef struct
     void                        (*callback_enter)(t_widget *inputbox);
     bool                        (*callback_completion)(t_widget *inputbox);
     bool                        (*callback_history)(t_widget *inputbox, int level);
-} t_widget_data_inputbox;
+};
 
 //-----------------------------------------------------------------------------
 // Forward Declaration
@@ -136,14 +136,12 @@ int         widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
 
 void    widgets_call_update(void)
 {
-    t_list *boxes;
-    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *b = boxes->elem;
-        t_list *widgets;
-        for (widgets = b->widgets; widgets != NULL; widgets = widgets->next)
+        t_gui_box* b = (t_gui_box*)boxes->elem;
+        for (t_list* widgets = b->widgets; widgets != NULL; widgets = widgets->next)
         {
-            t_widget *w = (t_widget *)widgets->elem;
+            t_widget* w = (t_widget *)widgets->elem;
             if (w->enabled && w->update != NULL)
                 w->update (w);
         }
@@ -234,7 +232,7 @@ void        widget_set_user_data(t_widget *w, void *user_data)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_closebox_add(t_gui_box *box, void (*callback)())
+t_widget *  widget_closebox_add(t_gui_box *box, t_widget_callback callback)
 {
     t_widget *w;
     t_widget_data_closebox *wd;
@@ -252,7 +250,7 @@ t_widget *  widget_closebox_add(t_gui_box *box, void (*callback)())
     w->update = widget_closebox_update;
 
     w->data = malloc(sizeof (t_widget_data_closebox));
-    wd = w->data;
+    wd = (t_widget_data_closebox*)w->data;
     wd->lighted = FALSE;
     wd->callback = callback;
 
@@ -261,8 +259,9 @@ t_widget *  widget_closebox_add(t_gui_box *box, void (*callback)())
 
 void        widget_closebox_redraw(t_widget *w)
 {
-    ALLEGRO_COLOR color;
-    t_widget_data_closebox *wd = w->data;
+    t_widget_data_closebox* wd = (t_widget_data_closebox*)w->data;
+
+	ALLEGRO_COLOR color;
 
     // Get appropriate color
     // Note: using titlebar text active/unactive color to display the closebox star
@@ -277,7 +276,7 @@ void        widget_closebox_redraw(t_widget *w)
 
 void        widget_closebox_update(t_widget *w)
 {
-    t_widget_data_closebox *wd = w->data;
+    t_widget_data_closebox* wd = (t_widget_data_closebox*)w->data;
 
     // Mouse handling
     if (!wd->lighted)
@@ -320,7 +319,7 @@ void        widget_closebox_update(t_widget *w)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, void (*callback)(), t_widget_button_style style, const char *label)
+t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char *label)
 {
     t_widget *w;
     t_widget_data_button *wd;
@@ -332,7 +331,7 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     w->update = widget_button_update;
 
     w->data = malloc(sizeof (t_widget_data_button));
-    wd = w->data;
+    wd = (t_widget_data_button*)w->data;
     wd->label = label ? strdup(label) : NULL;
     wd->style = style;
     wd->selected = FALSE;
@@ -343,8 +342,9 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
 
 void        widget_button_update(t_widget *w)
 {
-    bool    clicked;
-    t_widget_data_button *wd = w->data;
+    t_widget_data_button* wd = (t_widget_data_button*)w->data;
+
+	bool    clicked;
 
     // Check if we need to fire the callback
     clicked = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask));
@@ -365,7 +365,7 @@ void        widget_button_update(t_widget *w)
 
 void        widget_button_redraw(t_widget *w)
 {
-    t_widget_data_button *wd = w->data;
+    t_widget_data_button* wd = (t_widget_data_button*)w->data;
     
     const ALLEGRO_COLOR bg_color = wd->selected ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
 
@@ -397,14 +397,14 @@ void        widget_button_redraw(t_widget *w)
 
 void        widget_button_set_selected(t_widget *w, bool selected)
 {
-    t_widget_data_button *wd = w->data;
+    t_widget_data_button* wd = (t_widget_data_button*)w->data;
     wd->selected = selected;
     w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, int *v_max, int *v_start, int *v_per_page, void (*callback)())
+t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, int *v_max, int *v_start, int *v_per_page, t_widget_callback callback)
 {
     t_widget *w;
     t_widget_data_scrollbar *wd;
@@ -416,7 +416,7 @@ t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollb
     w->update = widget_scrollbar_update;
 
     w->data = (t_widget_data_scrollbar *)malloc (sizeof (t_widget_data_scrollbar));
-    wd = w->data;
+    wd = (t_widget_data_scrollbar*)w->data;
     wd->scrollbar_type = scrollbar_type;
     wd->v_max = v_max;
     wd->v_start = v_start;
@@ -428,7 +428,8 @@ t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollb
 
 void        widget_scrollbar_update(t_widget *w)
 {
-    t_widget_data_scrollbar *wd = w->data;
+    t_widget_data_scrollbar* wd = (t_widget_data_scrollbar*)w->data;
+
     int mx = w->mouse_x;
     int my = w->mouse_y;
 
@@ -498,15 +499,14 @@ void        widget_scrollbar_update(t_widget *w)
 
 void        widget_scrollbar_redraw(t_widget *w)
 {
-    float	pos, size, max;
-    t_widget_data_scrollbar *wd = w->data;
+    t_widget_data_scrollbar* wd = (t_widget_data_scrollbar*)w->data;
 
 	// Clear bar
 	al_set_target_bitmap(w->box->gfx_buffer);
 	al_draw_filled_rectangle(w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WIDGET_SCROLLBAR_BACKGROUND);
 
     // Draw position box
-    max = *wd->v_max;
+    float max = *wd->v_max;
     if (max < *wd->v_per_page) 
         max = *wd->v_per_page;
 
@@ -514,15 +514,15 @@ void        widget_scrollbar_redraw(t_widget *w)
     {
     case WIDGET_SCROLLBAR_TYPE_VERTICAL:
         {
-            pos = w->frame.pos.y + ((*wd->v_start * w->frame.size.y) / max);
-            size = (*wd->v_per_page * w->frame.size.y) / max;
+            const float pos = w->frame.pos.y + ((*wd->v_start * w->frame.size.y) / max);
+            const float size = (*wd->v_per_page * w->frame.size.y) / max;
             al_draw_filled_rectangle(w->frame.pos.x, pos, w->frame.pos.x + w->frame.size.x + 1, pos + size + 1, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
             break;
         }
     case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
         {
-            pos = w->frame.pos.x + ((*wd->v_start * w->frame.size.x) / max);
-            size = (*wd->v_per_page * w->frame.size.x) / max;
+            const float pos = w->frame.pos.x + ((*wd->v_start * w->frame.size.x) / max);
+            const float size = (*wd->v_per_page * w->frame.size.x) / max;
             al_draw_filled_rectangle(pos, w->frame.pos.y, pos + size + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
             break;
         }
@@ -532,7 +532,7 @@ void        widget_scrollbar_redraw(t_widget *w)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pvalue, void (*callback)())
+t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pvalue, t_widget_callback callback)
 {
     t_widget *w;
     t_widget_data_checkbox *wd;
@@ -543,8 +543,8 @@ t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pval
     w->redraw = widget_checkbox_redraw;
     w->update = widget_checkbox_update;
 
-    w->data = (t_widget_data_checkbox *)malloc(sizeof (t_widget_data_checkbox));
-    wd = w->data;
+    w->data = malloc(sizeof (t_widget_data_checkbox));
+    wd = (t_widget_data_checkbox*)w->data;
     //wd->pvalue = NULL;
     //widget_checkbox_redraw(w);
     wd->pvalue = pvalue;
@@ -557,14 +557,13 @@ t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pval
 // FIXME: potential bug there, if wd->pvalue is NULL..
 void        widget_checkbox_update(t_widget *w)
 {
-    t_widget_data_checkbox *wd;
+    t_widget_data_checkbox *wd = (t_widget_data_checkbox*)w->data;
 
     if ((w->mouse_buttons & w->mouse_buttons_mask) && (w->mouse_buttons_previous == 0) && (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK))
     {
-        wd = w->data;
         *(wd->pvalue) ^= 1; // inverse flag
         if (wd->callback != NULL)
-            wd->callback ();
+            wd->callback(w);
         w->dirty = TRUE;
     }
     //w->mouse_buttons_previous = w->mouse_buttons;
@@ -573,7 +572,7 @@ void        widget_checkbox_update(t_widget *w)
 
 void        widget_checkbox_redraw(t_widget *w)
 {
-    t_widget_data_checkbox *wd = w->data;
+    t_widget_data_checkbox* wd = (t_widget_data_checkbox*)w->data;
 
 	al_set_target_bitmap(w->box->gfx_buffer);
 	al_draw_rectangle(w->frame.pos.x + 0.5f, w->frame.pos.y + 0.5f, w->frame.pos.x + w->frame.size.x + 0.5f, w->frame.pos.y + w->frame.size.y + 0.5f, COLOR_SKIN_WIDGET_GENERIC_BORDER, 1.0f);
@@ -588,7 +587,7 @@ void        widget_checkbox_redraw(t_widget *w)
 
 void        widget_checkbox_set_pvalue(t_widget *w, bool *pvalue)
 {
-    t_widget_data_checkbox *wd = w->data;
+    t_widget_data_checkbox* wd = (t_widget_data_checkbox*)w->data;
     wd->pvalue = pvalue;
     w->dirty = TRUE;
 }
@@ -609,7 +608,7 @@ t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lin
 
     // Setup values & parameters
     w->data = malloc(sizeof (t_widget_data_textbox));
-    wd = w->data;
+    wd = (t_widget_data_textbox*)w->data;
     wd->lines_num       = 0;
     wd->lines_max       = lines_max;
     wd->font_idx        = font_idx;
@@ -618,11 +617,11 @@ t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lin
     // FIXME: To compute 'columns_max', we assume that 'M' is the widest character 
     // of a font. Which may or may not be true, and should be fixed. 
     wd->columns_max = w->frame.size.x / Font_TextLength (font_idx, "M");
-    wd->lines       = malloc (sizeof (t_widget_data_textbox_line) * lines_max);
+    wd->lines       = (t_widget_data_textbox_line*)malloc(sizeof (t_widget_data_textbox_line) * lines_max);
     for (i = 0; i < lines_max; i++)
     {
         wd->lines[i].pcolor = wd->pcurrent_color;
-        wd->lines[i].text = malloc (sizeof (char) * (wd->columns_max + 1));
+        wd->lines[i].text = (char*)malloc (sizeof (char) * (wd->columns_max + 1));
         wd->lines[i].text[0] = EOSTR;
     }
 
@@ -632,7 +631,7 @@ t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lin
 
 void        widget_textbox_redraw(t_widget *w)
 {
-    t_widget_data_textbox *wd = w->data;
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
 
     int fh = Font_Height (wd->font_idx);
     int x = w->frame.pos.x;
@@ -660,9 +659,9 @@ void        widget_textbox_redraw(t_widget *w)
 
 void        widget_textbox_clear(t_widget *w)
 {
-    t_widget_data_textbox *wd = w->data;
-    int i;
-    for (i = 0; i < wd->lines_num; i++)
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
+
+	for (int i = 0; i < wd->lines_num; i++)
         wd->lines[i].text[0] = EOSTR;
     wd->lines_num = 0;
 
@@ -674,13 +673,13 @@ void        widget_textbox_clear(t_widget *w)
 
 void        widget_textbox_set_current_color(t_widget *w, const ALLEGRO_COLOR *pcurrent_color)
 {
-    t_widget_data_textbox *wd = w->data;
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
     wd->pcurrent_color = pcurrent_color;
 }
 
 static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
 {
-    t_widget_data_textbox *wd = w->data;
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
 
     // Shift all lines by one position
     // FIXME: should replace this by a circular queue
@@ -709,7 +708,8 @@ static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
 
 void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
 {
-    t_widget_data_textbox *wd = w->data;
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
+
     int     pos;
     char    buf [MSG_MAX_LEN];
     const char *    src;
@@ -792,13 +792,13 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
 
     // Setup values & parameters
     w->data = malloc(sizeof (t_widget_data_inputbox));
-    wd = w->data;
+    wd = (t_widget_data_inputbox*)w->data;
     wd->flags               = WIDGET_INPUTBOX_FLAGS_DEFAULT;
     wd->content_type        = WIDGET_CONTENT_TYPE_TEXT;
     wd->insert_mode         = FALSE;
     wd->length_max          = length_max;
     assert(length_max != -1); // Currently, length must be fixed
-    wd->value               = malloc (sizeof (char) * (length_max + 1));
+    wd->value               = (char*)malloc (sizeof (char) * (length_max + 1));
     strcpy (wd->value, "");
     wd->cursor_pos          = wd->length = 0;
     wd->font_idx            = font_idx;
@@ -813,7 +813,7 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
 
 bool    widget_inputbox_insert_char(t_widget *w, char c)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
     if (wd->insert_mode == FALSE)
     {
@@ -861,7 +861,7 @@ bool    widget_inputbox_insert_string(t_widget *w, const char *str)
 
 bool    widget_inputbox_delete_current_char(t_widget *w)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
     if (wd->cursor_pos == 0)
     {
@@ -896,8 +896,9 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
 //-----------------------------------------------------------------------------
 void        widget_inputbox_update(t_widget *w)
 {
-    t_widget_data_inputbox *wd;
-    const int tm_delay = 15;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+
+	const int tm_delay = 15;
     const int tm_rate = 1;
     bool edited = FALSE;
     t_list *keypress_queue;
@@ -908,9 +909,6 @@ void        widget_inputbox_update(t_widget *w)
     // box, currently both will be updated.
     if (!gui_box_has_focus (w->box))
         return;
-
-    // Get pointer to inputbox specific data
-    wd = w->data;
 
     // Msg (MSGT_DEBUG, "cascii = %c, cscan = %04x", Inputs.KeyPressed.ascii, Inputs.KeyPressed.scancode);
 
@@ -947,7 +945,7 @@ void        widget_inputbox_update(t_widget *w)
     while (((wd->length < wd->length_max) || (wd->insert_mode == TRUE && wd->cursor_pos < wd->length)) && 
         (keypress_queue != NULL))
     {
-        t_key_press *keypress = keypress_queue->elem;
+        t_key_press* keypress = (t_key_press*)keypress_queue->elem;
         //const t_key_info *ki = KeyInfo_FindByScancode(keypress->scancode);
         keypress_queue = keypress_queue->next;
 
@@ -1068,8 +1066,9 @@ void        widget_inputbox_update(t_widget *w)
 
 void        widget_inputbox_redraw(t_widget *w)
 {
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+
 	ALLEGRO_BITMAP *gfx_buffer = w->box->gfx_buffer;
-    t_widget_data_inputbox *wd = w->data;
     const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR);
     const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR);
 
@@ -1108,19 +1107,19 @@ void        widget_inputbox_redraw(t_widget *w)
 
 const char *widget_inputbox_get_value(t_widget *w)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     return (wd->value);
 }
 
 int         widget_inputbox_get_value_length(t_widget *w)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     return (wd->length);
 }
 
 void        widget_inputbox_set_value(t_widget *w, const char *value)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     int     len;
     
     // Copy new value
@@ -1151,13 +1150,13 @@ void        widget_inputbox_set_value(t_widget *w, const char *value)
 
 int         widget_inputbox_get_cursor_pos(t_widget *w)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     return (wd->cursor_pos);
 }
 
 void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
     if (cursor_pos < 0)
         return;
@@ -1178,19 +1177,19 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
 
 void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)(t_widget *))
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     wd->callback_enter = callback_enter;
 }
 
 void        widget_inputbox_set_callback_edit(t_widget *w, void (*callback_edit)(t_widget *))
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     wd->callback_edit = callback_edit;
 }
 
-void        widget_inputbox_set_flags(t_widget *w, t_widget_inputbox_flags flags, bool enable)
+void        widget_inputbox_set_flags(t_widget *w, int/*t_widget_inputbox_flags*/ flags, bool enable)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     if (enable)
         wd->flags |= flags;
     else
@@ -1200,26 +1199,26 @@ void        widget_inputbox_set_flags(t_widget *w, t_widget_inputbox_flags flags
 
 void        widget_inputbox_set_content_type(t_widget *w, t_widget_content_type content_type)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     wd->content_type = content_type;
 }
 
 void        widget_inputbox_set_insert_mode(t_widget *w, int insert_mode)
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     wd->insert_mode = insert_mode;
 }
 
 void        widget_inputbox_set_callback_completion(t_widget *w, bool (*callback_completion)(t_widget *widget))
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     assert(callback_completion != NULL);
     wd->callback_completion = callback_completion;
 }
 
 void        widget_inputbox_set_callback_history(t_widget *w, bool (*callback_history)(t_widget *widget, int level))
 {
-    t_widget_data_inputbox *wd = w->data;
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
     assert(callback_history != NULL);
     wd->callback_history = callback_history;
 }

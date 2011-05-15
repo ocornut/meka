@@ -17,7 +17,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_wav_format
 {
  word           Category;
  word           Channels;
@@ -25,9 +25,9 @@ typedef struct
  dword          Avg_Bytes_per_Second;
  word           Block_Align;
  word           Bits_per_Sample; // PCM only
-}               t_wav_format;
+};
 
-typedef struct
+struct t_wav_header
 {
  char           RIFF_Tag[4];
  dword          RIFF_Len;
@@ -37,7 +37,7 @@ typedef struct
  t_wav_format   Format;
  char           Data_Tag[4];
  int            Data_Len;
-}               t_wav_header;
+};
 
 //-----------------------------------------------------------------------------
 // Functions

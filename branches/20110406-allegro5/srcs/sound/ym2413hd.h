@@ -14,7 +14,7 @@
 // used by the FM Editor.
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct FM_OPL_Patch
 {
   unsigned char MKS, CKS;       /* KSL                   */
   unsigned char MML, CML;       /* MULTIPLE              */
@@ -27,7 +27,7 @@ typedef struct
   unsigned char MEV, CEV;       /* KSR                   */
   unsigned char MW,  CW;        /* WAVE FORM             */
   unsigned char FB,  CON;       /* FEEDBACK / Connection */
-} FM_OPL_Patch;
+};
 
 //-----------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ typedef struct
 //-----------------------------------------------------------------------------
 
 // Registers
-byte    FM_OPL_Regs [YM2413_REGISTERS];
+extern byte    FM_OPL_Regs [YM2413_REGISTERS];
 #define FM_OPL_Rhythm_Mode (FM_OPL_Regs [0x0E] & 0x20)
 
 // Functions
@@ -60,7 +60,7 @@ void    FM_OPL_Regenerate       (void);
 
 // A fake set of registers is created as sound/fmunit.c reference it.
 // FIXME: This sucks.
-byte    FM_OPL_Regs [YM2413_REGISTERS];
+extern byte    FM_OPL_Regs [YM2413_REGISTERS];
 
 #endif
 

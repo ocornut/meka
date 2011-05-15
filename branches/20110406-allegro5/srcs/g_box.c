@@ -11,6 +11,9 @@
 // Functions (crap, horrible, painful)
 //-----------------------------------------------------------------------------
 
+// FIXME: That was a stupid macro!
+#define Limit(a,b)              (((b) > (a)) ? (a) : (b))
+
 // CHECK IF USER DO SOMETHING TO A BOX ----------------------------------------
 void        gui_update_boxes(void)
 {

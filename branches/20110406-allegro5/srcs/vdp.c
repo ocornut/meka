@@ -99,7 +99,7 @@ void    VDP_VideoMode_Change (void)
             gamebox_resize_all();
             VDP_UpdateLineLimits();
             Video_Mode_Update_Size();
-            if (Meka_State == MEKA_STATE_FULLSCREEN)
+            if (g_env.state == MEKA_STATE_FULLSCREEN)
             {
                 Video_Clear();
             }
@@ -168,7 +168,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
      case 0: if ((value & 0x20) != Mask_Left_8)
                 {
                 // FIXME
-                if (Meka_State == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
+                if (g_env.state == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
                    LightPhaser_SetupMouseRange (value & 0x20);
                 }
              /*

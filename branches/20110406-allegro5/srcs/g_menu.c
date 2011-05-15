@@ -9,6 +9,17 @@
 #include "fskipper.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_gui_status		gui_status;
+t_gui_menus_id		menus_ID;
+gui_type_menus_opt	menus_opt;
+gui_type_menu *		menus[MAX_MENUS];
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
 
 // REDRAW MENU AND STATUS BARS ------------------------------------------------
 void        gui_redraw_bars (void)
@@ -85,7 +96,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                     gui_menu_un_mouse_over (menus_ID.menu);
 
                     // Call event handler
-                    menu_entry->event_handler(&event);
+                    menu_entry->callback(&event);
                 }
             }
             if (gui.mouse.buttons & 1)

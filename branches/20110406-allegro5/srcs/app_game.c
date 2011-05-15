@@ -79,10 +79,9 @@ t_gui_box * gamebox_create(int x, int y)
 
 void        gamebox_resize_all (void)
 {
-    t_list *boxes;
-    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = boxes->elem;
+        t_gui_box* box = (t_gui_box*)boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
         {
             gamebox_compute_size(&box->frame.size.x, &box->frame.size.y);
@@ -94,11 +93,12 @@ void        gamebox_resize_all (void)
 
 void        gamebox_rename_all (void)
 {
-    t_list *boxes;
     const char *new_name;
     
-    if (DB_CurrentEntry)
-        new_name = DB_Entry_GetCurrentName(DB_CurrentEntry);
+	if (DB.current_entry)
+	{
+        new_name = DB_Entry_GetCurrentName(DB.current_entry);
+	}
     else
     {
         if (machine & MACHINE_CART_INSERTED)
@@ -107,9 +107,9 @@ void        gamebox_rename_all (void)
             new_name = Msg_Get (MSG_DB_Name_NoCartridge);
     }
 
-    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = boxes->elem;
+        t_gui_box* box = (t_gui_box*)boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
             gui_box_set_title (box, new_name);
     }

@@ -20,7 +20,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_skin_manager
 {
     t_list *            skins;
     t_skin *            skin_current;
@@ -31,15 +31,15 @@ typedef struct
     char *              skin_configuration_name;
     ALLEGRO_BITMAP *    background_picture;
     bool                quit_after_fade;
-}                       t_skin_manager;
+};
 
 static t_skin_manager   Skins;
 
-typedef struct
+struct t_skin_color
 {
     const char *        identifier;
     const char *        default_identifier;
-} t_skin_color;
+};
 
 // Table associating skin color definitions to name
 const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
@@ -100,7 +100,7 @@ t_skin *    Skin_New(const char *name)
     assert(name != NULL);
 
     // Create and setup empty skin
-    skin = malloc(sizeof(t_skin));
+    skin = (t_skin*)malloc(sizeof(t_skin));
     skin->enabled = FALSE;
     skin->name = strdup(name);
     skin->authors = NULL;
@@ -218,14 +218,14 @@ void        Skins_Init(void)
     Skins.quit_after_fade       = FALSE;
 
     // Load skins from MEKA.THM file
-    Skins_Load(g_Env.Paths.SkinFile);
+    Skins_Load(g_env.Paths.SkinFile);
 
     // Post process skins and verify skin validity (all colors sets, etc)
     {
         t_list *skins;
         for (skins = Skins.skins; skins != NULL; skins = skins->next)
         {
-            t_skin *skin = skins->elem;
+            t_skin* skin = (t_skin*)skins->elem;
             Skin_PostProcess(skin);
             if (Skin_IsValid(skin))
             {
@@ -420,15 +420,11 @@ static int  Skins_ParseLine(char *line)
 //-----------------------------------------------------------------------------
 void        Skins_Load(const char *filename)
 {
-    t_tfile *   tf;
-    t_list *    lines;
-    char *      line;
-    int         line_cnt;
-
     ConsolePrint (Msg_Get (MSG_Theme_Loading));
 
     // Open and read file
-    tf = tfile_read (filename);
+    t_tfile* tf;
+	tf = tfile_read(filename);
     if (tf == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
@@ -439,11 +435,11 @@ void        Skins_Load(const char *filename)
     ConsolePrint ("\n");
 
     // Parse each line
-    line_cnt = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    int line_cnt = 0;
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
+        char* line = (char*)lines->elem;
         line_cnt += 1;
-        line = lines->elem;
         switch (Skins_ParseLine(line))
         {
         case MEKA_ERR_SYNTAX:
@@ -476,7 +472,7 @@ void        Skins_Load(const char *filename)
 void        Skins_Close(void)
 {
     // Free all strings
-    list_free_custom (&Skins.skins, Skin_Delete);
+    list_free_custom (&Skins.skins, (t_list_free_handler)Skin_Delete);
     free(Skins.skin_configuration_name);
     Skins.skins = NULL;
     Skins.skin_current = NULL;
@@ -491,10 +487,9 @@ void        Skins_SetSkinConfiguration(const char *skin_name)
 
 t_skin *    Skins_FindSkinByName(const char *skin_name)
 {
-    t_list *skins;
-    for (skins = Skins.skins; skins != NULL; skins = skins->next)
+    for (t_list* skins = Skins.skins; skins != NULL; skins = skins->next)
     {
-        t_skin *skin = skins->elem;
+        t_skin* skin = (t_skin*)skins->elem;
         if (skin->enabled && stricmp(skin_name, skin->name) == 0)
             return (skin);
     }
@@ -547,7 +542,7 @@ void        Skins_Select(t_skin *skin, bool fade)
     if (Skins.skin_current->background_picture != NULL)
     {
         char filename[FILENAME_LEN];
-        sprintf(filename, "%s/%s", g_Env.Paths.EmulatorDirectory, Skins.skin_current->background_picture);
+        sprintf(filename, "%s/%s", g_env.Paths.EmulatorDirectory, Skins.skin_current->background_picture);
         Skins.background_picture = al_load_bitmap(filename);
         if (Skins.background_picture == NULL)
         {
@@ -686,7 +681,7 @@ static void Skins_SetupBackground(t_skin *skin)
 static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
 {
     // Switch smoothly to new theme
-    t_skin *skin = event->user_data;
+    t_skin* skin = (t_skin*)event->user_data;
     Skins_Select(skin, TRUE);
     Skins_Apply();
 
@@ -697,16 +692,15 @@ static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
 
 void        Skins_MenuInit(int menu_id)
 {
-    t_list *skins;
-    for (skins = Skins.skins; skins != NULL; skins = skins->next)
+    for (t_list* skins = Skins.skins; skins != NULL; skins = skins->next)
     {
-        t_skin *skin = skins->elem;
+        t_skin* skin = (t_skin*)skins->elem;
         if (skin->enabled)
         {
             menu_add_item(menu_id,
                 skin->name,
                 AM_Active | ((Skins.skin_current == skin) ? AM_Checked : 0),
-                Skins_MenuHandlerSelectSkin, skin);
+                (t_menu_callback)Skins_MenuHandlerSelectSkin, skin);
         }
     }
 }

@@ -67,7 +67,7 @@ static void		MemoryViewer_SetupEditValueBox(t_memory_viewer *mv);
 //-----------------------------------------------------------------------------
 t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, int size_lines)
 {
-    t_memory_viewer *mv = malloc(sizeof(t_memory_viewer));
+    t_memory_viewer* mv = (t_memory_viewer*)malloc(sizeof(t_memory_viewer));
     t_frame frame;
 
     // Check parameters
@@ -113,7 +113,7 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     mv->box = gui_box_new(&frame, Msg_Get(MSG_MemoryEditor_BoxTitle));
     mv->box->user_data = mv;
     mv->box_gfx = mv->box->gfx_buffer;
-    mv->box->destroy = MemoryViewer_Delete;
+    mv->box->destroy = (t_gui_box_destroy_handler)MemoryViewer_Delete;
     mv->box->flags |= GUI_BOX_FLAGS_TAB_STOP;
 
     // Set exclusive inputs flag to avoid messing with emulation
@@ -370,7 +370,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     case MEMTYPE_SRAM:
         {
             int dummy_len;
-            BMemory_Get_Infos((void *)&memory, &dummy_len);
+            BMemory_Get_Infos((void **)&memory, &dummy_len);
             break;
         }
     default:
@@ -619,7 +619,7 @@ static void MemoryViewer_MediaReload(t_memory_viewer *mv)
         mv->sections[MEMTYPE_PRAM].memblock_first = MAX(pram_memblocks_max - mv->size_lines, 0);
 
     // SRAM
-    BMemory_Get_Infos((void *)&sram_buf, &sram_len);
+    BMemory_Get_Infos((void **)&sram_buf, &sram_len);
     mv->sections[MEMTYPE_SRAM].size = sram_len;
     sram_memblocks_max = sram_len / mv->size_columns;
     if (mv->sections[MEMTYPE_SRAM].memblock_first + mv->size_lines > sram_memblocks_max)
@@ -901,7 +901,7 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
                     {
                         int dummy_len;
                         u8 *SRAM;
-                        BMemory_Get_Infos((void *)&SRAM, &dummy_len);
+                        BMemory_Get_Infos((void **)&SRAM, &dummy_len);
                         value = SRAM ? SRAM[addr] : 0x00;
                         break;
                     }

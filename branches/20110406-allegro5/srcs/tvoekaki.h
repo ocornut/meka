@@ -30,13 +30,13 @@ void    TVOekaki_Mouse_Range (void);
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_tvoekaki
 {
  int            X, Y;
  byte           Infos;
-}               t_tvoekaki;
+};
 
-t_tvoekaki      TVOekaki;
+extern t_tvoekaki  TVOekaki;
 
 //-----------------------------------------------------------------------------
 

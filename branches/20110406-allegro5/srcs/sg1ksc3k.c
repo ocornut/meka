@@ -22,7 +22,7 @@ word    Loop_SG1000_SC3000 (void)
 
     // Update sound cycle counter
     Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
-    Sound_CycleCounter += opt.Cur_IPeriod;
+    Sound.CycleCounter += opt.Cur_IPeriod;
 
     tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
 

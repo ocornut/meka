@@ -7,19 +7,19 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_vlfn_entry
 {
     char *      filename;
     t_db_entry *db_entry;
-} t_vlfn_entry;
+};
 
-typedef struct
+struct t_vlfn_db
 {
     char        filename [FILENAME_LEN];
     t_list *    entries;
-} t_vlfn_db;
+};
 
-t_vlfn_db       VLFN_DataBase;
+extern t_vlfn_db VLFN_DataBase;
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -16,8 +16,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-int     RapidFire;
-int     RapidFire_Count;
+extern int RapidFire;
+extern int RapidFire_Count;
 
 //-----------------------------------------------------------------------------
 // Functions

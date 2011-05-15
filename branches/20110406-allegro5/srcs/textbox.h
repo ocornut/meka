@@ -10,7 +10,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_app_messages
 {
     bool        active;
     char *      log_filename;
@@ -18,9 +18,9 @@ typedef struct
     t_gui_box * box;
     ALLEGRO_BITMAP *    box_gfx;
     t_widget *  widget_textbox;
-} t_app_messages;
+};
 
-t_app_messages  TB_Message;
+extern t_app_messages  TB_Message;
 
 //-----------------------------------------------------------------------------
 // Functions

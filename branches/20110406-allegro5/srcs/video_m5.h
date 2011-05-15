@@ -8,22 +8,28 @@
 //-----------------------------------------------------------------------------
 
 #ifdef X86_ASM
- extern int     Decode_Tile_ASM (int, byte *);
- extern int     Decode_Tile_ASM_Init (void);
- extern int     Find_Last_Sprite_ASM (int Height, int VDP_Line);
- extern int     Find_Last_Sprite_ASM_Wide (int Height, int VDP_Line);
- extern void    Sprite_Collide_Line_ASM (byte *p_src, int x);
+extern "C"
+{
+ int     Decode_Tile_ASM (int, byte *);
+ int     Decode_Tile_ASM_Init (void);
+ int     Find_Last_Sprite_ASM (int Height, int VDP_Line);
+ int     Find_Last_Sprite_ASM_Wide (int Height, int VDP_Line);
+ void    Sprite_Collide_Line_ASM (byte *p_src, int x);
+}
 #else
- void           Decode_Tile_C (int, byte *);
- void           Find_Last_Sprite_C (int Height, int VDP_Line);
- void           Find_Last_Sprite_C_Wide (int Height, int VDP_Line);
- void           Sprite_Collide_Line_C (byte *p_src, int x);
+ void    Decode_Tile_C (int, byte *);
+ void    Find_Last_Sprite_C (int Height, int VDP_Line);
+ void    Find_Last_Sprite_C_Wide (int Height, int VDP_Line);
+ void    Sprite_Collide_Line_C (byte *p_src, int x);
 #endif
 
 void            Display_BackGround_Line_5_C (void);
 
-int             Sprite_Last;
-int             Sprites_on_Line;
+extern "C"
+{
+extern int      Sprite_Last;
+extern int      Sprites_on_Line;
+}
 
 void            Refresh_Line_5 (void);
 void            Refresh_Sprites_5 (bool draw);

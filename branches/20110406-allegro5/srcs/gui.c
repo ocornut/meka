@@ -10,6 +10,12 @@
 #include "g_widget.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_gui gui;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -33,10 +39,7 @@ void    Redraw_Background (void) // gui_blit() ?
 //-----------------------------------------------------------------------------
 void            gui_redraw (void)
 {
-    int         i, j;
     ALLEGRO_COLOR color;
-    t_gui_box * b;
-    t_frame     b_frame;
 
     // Makes mouse disappear
     gui_mouse_show (NULL);
@@ -46,10 +49,10 @@ void            gui_redraw (void)
         Redraw_Background ();
 
     // For each box...
-    for (i = gui.boxes_count - 1; i >= 0; i--)
+    for (int i = gui.boxes_count - 1; i >= 0; i--)
     {
-        b = gui.boxes_z_ordered[i];
-        b_frame = b->frame;
+        t_gui_box* b = gui.boxes_z_ordered[i];
+        t_frame b_frame = b->frame;
 
         // Check if it's showing
         if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
@@ -72,7 +75,7 @@ void            gui_redraw (void)
 
             // Check if it overlaps by other windows
             // FIXME: why isn't this check done for the active window ??
-            for (j = i - 1; j >= 0; j --)
+            for (int j = i - 1; j >= 0; j --)
             {
                 t_gui_box *b2 = gui.boxes_z_ordered[j];
                 if ((b2->frame.pos.x + b2->frame.size.x + 2  >=  b_frame.pos.x - 2)
@@ -122,8 +125,7 @@ void            gui_redraw (void)
         // Redraw widgets
         if (b->widgets != NULL)
         {
-            t_list *widgets;
-            for (widgets = b->widgets; widgets != NULL; widgets = widgets->next)
+            for (t_list* widgets = b->widgets; widgets != NULL; widgets = widgets->next)
             {
                 t_widget *w = (t_widget *)widgets->elem;
                 if (w->enabled)
@@ -167,10 +169,9 @@ void            gui_redraw (void)
 
 void    gui_relayout(void)
 {
-    t_list *boxes;
-    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = boxes->elem;
+        t_gui_box* box = (t_gui_box*)boxes->elem;
         box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
         gui_box_set_dirty(box);
     }

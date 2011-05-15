@@ -8,13 +8,13 @@
 //-----------------------------------------------------------------------------
 
 #if 0	// FIXME-ALLEGRO5: no video driver
-typedef struct
+struct t_video_driver
 {
     char *      desc;
     int         drv_id;
     int         drv_id_switch_fs_win;       // Note: this is a helper for usage by ALT-ENTER. Eventually we'll have a better way to switch mode.
     char *      comment;
-} t_video_driver;
+};
 #endif
 
 //-----------------------------------------------------------------------------

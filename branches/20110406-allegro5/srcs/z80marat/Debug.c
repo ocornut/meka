@@ -14,9 +14,10 @@
 
 // #define DEBUG
 // define changed from "DEBUG" to "MEKA_Z80_DEBUGGER"
+#include "shared.h"
+
 #ifdef MEKA_Z80_DEBUGGER
 
-#include "shared.h"
 #include "Z80.h"
 #include "debugger.h"
 

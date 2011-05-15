@@ -12,6 +12,12 @@
 #include "skin_bg.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+int		machine = 0;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -120,7 +126,7 @@ void    Free_ROM (void)
         free (Game_ROM);
         Game_ROM = NULL;
         tsms.Size_ROM = 0;
-        DB_CurrentEntry = NULL;
+        DB.current_entry = NULL;
         BIOS_Load ();
     }
     if (cur_machine.driver_id != DRV_COLECO && cur_machine.driver_id != DRV_NES)
@@ -130,7 +136,7 @@ void    Free_ROM (void)
     Change_System_Misc ();
 
 	// Clear filename data
-    strcpy(g_Env.Paths.MediaImageFile, "");
+    strcpy(g_env.Paths.MediaImageFile, "");
     Filenames_Init_ROM();
 }
 

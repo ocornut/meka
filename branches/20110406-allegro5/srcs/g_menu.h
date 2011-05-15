@@ -50,26 +50,26 @@ void    gui_update_menus (void);
 
 // WIP
 /*
-typedef struct
+struct t_menu
 {
     t_list *            items;
     // FIXME
-} t_menu;
+};
 
-typedef enum
+enum t_menu_item_type
 {
     MENU_ITEM_TYPE_SINGLE       = 1,
     MENU_ITEM_TYPE_MENU         = 2,
     MENU_ITEM_TYPE_SEPARATOR    = 3
-} t_menu_item_type;
+};
 
-typedef enum
+enum t_menu_item_attr
 {
     MENU_ITEM_ATTR_ACTIVE       = 0x0001,
     MENU_ITEM_ATTR_CHECKED      = 0x0002,
-} t_menu_item_attr;
+};
 
-typedef struct t_menu_item
+struct t_menu_item
 {
     char *              label;                                      // Menu item label
     int                 label_msg_ref;                              // Reference to MSG ID For localization purpose	// FIXME: How to handle dynamic message with format strings?
@@ -88,85 +88,94 @@ typedef struct t_menu_item
         } data_menu;
     };
     void *              user_data;
-} t_menu_item;
+};
 
-typedef struct
+struct t_menu_event
 {
 	t_menu *			menu;
 	t_menu_item *		menu_item;
 	int					menu_item_idx;		// FIXME: Make obsolete only menu API doesn't need this crap anymore
 	void *				user_data;
-} t_menu_event;
+};
 */
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct  gui_type_status
- {
-  char  message [MSG_MAX_LEN];
-  int   x;
-  int   timeleft;
- } gui_status;
+struct t_gui_status
+{
+	char  message [MSG_MAX_LEN];
+	int   x;
+	int   timeleft;
+};
 
-struct
- {
-  int   menu;
-  int   file;
-  int   machine, power, country, tvtype;
-  int   video, themes, blitters, layers, flickering, glasses, screenshots;
-  int   inputs, rapidfire;
-  int   sound, volume, rate, channels, fm, fm_emu;
-  int   tools;
-  int   debug, dump, dump_cfg, watch;
-  int   help;
-  int   languages;
-  int   sound_log;
- } menus_ID;
+extern t_gui_status gui_status;
+
+struct t_gui_menus_id
+{
+	int   menu;
+	int   file;
+	int   machine, power, country, tvtype;
+	int   video, themes, blitters, layers, flickering, glasses, screenshots;
+	int   inputs, rapidfire;
+	int   sound, volume, rate, channels, fm, fm_emu;
+	int   tools;
+	int   debug, dump, dump_cfg, watch;
+	int   help;
+	int   languages;
+	int   sound_log;
+};
+
+extern t_gui_menus_id menus_ID;
 
 // gui_type_menu_id menus_ID;
 
-typedef struct
- {
-  char  *label;
-  char  *hotkey;
-  byte  type;           // 0: nothing - 1: sub-menu - 2: execute
-  byte  attr;
-  byte  mouse_over;
-  byte  submenu_id;     // id of submenu if (action == 1)
-  void  (*event_handler)();      // pointer to function to execute if (action == 2)
-  void  *user_data;
- } gui_type_menu_entry;
+struct t_menu_event;
 
-typedef struct
- {
-  gui_type_menu_entry   *entry[MAX_MENUS_ENTRY];
-  byte                  id;
-  byte                  n_entry;
-  int                   generation;
-  int                   sx, sy, lx, ly;
- } gui_type_menu;
+typedef void (*t_menu_callback)(t_menu_event*);
+
+struct gui_type_menu_entry
+{
+	char *				label;
+	char *				hotkey;
+	byte				type;				// 0: nothing - 1: sub-menu - 2: execute
+	byte				attr;
+	byte				mouse_over;
+	byte				submenu_id;			// id of submenu if (action == 1)
+	t_menu_callback		callback;			// pointer to function to execute if (action == 2)
+	void *				user_data;
+};
+
+struct gui_type_menu
+{
+	gui_type_menu_entry * entry[MAX_MENUS_ENTRY];
+	byte                  id;
+	byte                  n_entry;
+	int                   generation;
+	int                   sx, sy, lx, ly;
+};
 
 struct  gui_type_menus_opt
- {
-  int   distance;
-  int   distance_usable;
-  int   c_menu, c_entry;
-  int   c_somewhere;
-  int   c_generation;
- } menus_opt;
+{
+	int   distance;
+	int   distance_usable;
+	int   c_menu, c_entry;
+	int   c_somewhere;
+	int   c_generation;
+};
 
-gui_type_menu *menus[MAX_MENUS];
+extern gui_type_menus_opt menus_opt;
+extern gui_type_menu *menus[MAX_MENUS];
 
-typedef struct
+struct t_menu_event
 {
 	gui_type_menu *			menu;
 	int						menu_idx;			// FIXME: Make obsolete once menu API doesn't need this crap anymore
 	gui_type_menu_entry *	menu_item;
 	int						menu_item_idx;		// FIXME: Make obsolete once menu API doesn't need this crap anymore
 	void *					user_data;
-} t_menu_event;
+};
 
 //-----------------------------------------------------------------------------
 

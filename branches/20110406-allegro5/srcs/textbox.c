@@ -19,6 +19,12 @@
 #define TB_MESSAGE_COLUMNS      (40)
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_messages  TB_Message;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -44,7 +50,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
         t_frame frame;
 
         // Add closebox widget
-        widget_closebox_add(app->box, TB_Message_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)TB_Message_Switch);
 
         // Create textbox widget
         frame.pos.x = 4;

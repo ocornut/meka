@@ -7,7 +7,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_app_palette_viewer
 {
     // Interface
     bool                active;
@@ -24,9 +24,9 @@ typedef struct
     int                 color_hovered;   // -1 if none, else 0 to palette_size-1
     int                 color_selected;  // -1 if none, else 0 to palette_size-1
 
-} t_app_palette_viewer;
+};
 
-t_app_palette_viewer    PaletteViewer;
+extern t_app_palette_viewer    PaletteViewer;
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -23,9 +23,6 @@ ALLEGRO_MOUSE_STATE		g_mouse_state;
 //-----------------------------------------------------------------------------
 
 static void    Inputs_FixUp_JoypadOppositesDirections (void);
-#ifdef ARCH_DOS
-static void    Inputs_Update_VoiceRecognition (void);
-#endif
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -44,8 +41,7 @@ void        Inputs_Sources_Init (void)
 
 t_input_src *       Inputs_Sources_Add (char *name)
 {
-    int             i;
-    t_input_src *   Src = malloc (sizeof (t_input_src));
+	t_input_src* Src = (t_input_src*)malloc (sizeof (t_input_src));
 
     Src->name                      = name;
     Src->type                      = INPUT_SRC_TYPE_KEYBOARD;
@@ -56,7 +52,7 @@ t_input_src *       Inputs_Sources_Add (char *name)
     Src->Analog_to_Digital_FallOff = 0.8f;
     Src->Connected_and_Ready       = FALSE; // by default. need to be flagged for use
 
-    for (i = 0; i < INPUT_MAP_MAX; i++)
+    for (int i = 0; i < INPUT_MAP_MAX; i++)
     {
         Src->Map[i].Type = 0; // key,button,..
         Src->Map[i].Idx = -1;
@@ -64,7 +60,7 @@ t_input_src *       Inputs_Sources_Add (char *name)
         Src->Map_Counters[i] = 0;
     }
 
-    Inputs.Sources = realloc (Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
+	Inputs.Sources = (t_input_src**)realloc(Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
     Inputs.Sources [Inputs.Sources_Max] = Src;
     Inputs.Sources_Max ++;
 
@@ -116,8 +112,9 @@ void        Inputs_Emulation_Update (bool running)
     // for emulation should run for all frames (including skipped ones).
     // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
     // and I use an easy path, that is until rewriting the GUI.
-    if (Meka_State == MEKA_STATE_GUI && !(machine & MACHINE_PAUSED))
-        if (gui.boxes_z_ordered[0] && gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE)
+    if (g_env.state == MEKA_STATE_GUI && !(machine & MACHINE_PAUSED))
+	{
+        if (gui.boxes_z_ordered[0] && (gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE) != 0)
         {
             // Returning from the emulation inputs update requires to take care
             // of a few variables...
@@ -129,6 +126,7 @@ void        Inputs_Emulation_Update (bool running)
                 Keyboard_Emulation_Clear();
             return;
         }
+	}
 
     // Convert input sources data to emulation inputs data
     players = ((cur_drv->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
@@ -291,11 +289,6 @@ void        Inputs_Emulation_Update (bool running)
         if (RapidFire != 0)
             RapidFire_Update ();
     }
-
-    // Voice Recognition
-    #ifdef ARCH_DOS
-        Inputs_Update_VoiceRecognition ();
-    #endif
 }
 
 //-----------------------------------------------------------------------------
@@ -431,7 +424,7 @@ void        Inputs_Sources_Update (void)
                 int x, y;
                 bool disable_mouse_button = FALSE;
 
-                if (Meka_State == MEKA_STATE_FULLSCREEN)
+                if (g_env.state == MEKA_STATE_FULLSCREEN)
                 {
                     Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = g_mouse_state.x;
 					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = g_mouse_state.y;

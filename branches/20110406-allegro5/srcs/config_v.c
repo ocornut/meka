@@ -15,9 +15,7 @@ t_video_driver  video_drivers_table[] =
     // Global
     //-----------------------------------------------------------------------------
     { "auto",               GFX_AUTODETECT_FULLSCREEN,              GFX_AUTODETECT_WINDOWED,        "Default / Fullscreen"  },
-#ifndef ARCH_DOS
     { "auto_win",           GFX_AUTODETECT_WINDOWED,                GFX_AUTODETECT_FULLSCREEN,      "Default / Windowed"    },
-#endif
     { "safe",		    GFX_SAFE,                               0,                              "Find any working mode" },
 
     //-----------------------------------------------------------------------------

@@ -15,6 +15,12 @@
 #include "video_m5.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_tile_viewer   TileViewer;
+
+//-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
@@ -76,11 +82,11 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(app->box, TileViewer_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)TileViewer_Switch);
 
         // Create invisible buttons for hovering/selecting palette
         app->tiles_display_zone = widget_button_add(app->box, &app->tiles_display_frame, 1, TileViewer_SelectedTile_Select, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
-        widget_button_add(app->box, &app->tiles_display_frame, 2, TileViewer_Change_Palette, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &app->tiles_display_frame, 2, (t_widget_callback)TileViewer_Change_Palette, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
     }
 
     // Separator

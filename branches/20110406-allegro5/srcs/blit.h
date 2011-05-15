@@ -38,23 +38,25 @@ void	Blit_Fullscreen_CopyStretch		(void *src_buffer, int src_scale_x, int src_sc
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct          s_blitters_table_entry
+struct t_blitters_table_entry
 {
 	void	(*func)();
 	int		x_fact;
 	int		y_fact;
-}                       t_blitters_table_entry;
+};
 
 void        Blitters_Get_Factors(int *, int *);
 
-struct
+struct t_blit_cfg
 {
 	int		src_sx;
 	int		dst_sx;
 	int		src_sy;
 	int		dst_sy;
 	float	tv_mode_factor;
-} blit_cfg;
+};
+
+extern t_blit_cfg blit_cfg;
 
 // Buffers
 extern ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad

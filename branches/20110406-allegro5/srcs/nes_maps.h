@@ -7,16 +7,16 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct  s_nes_mapper
+struct t_nes_mapper
 {
   int           id;
   void          (*Init)(void);
   void          (*Write)(word, byte);
   void          (*Load)(FILE *);
   void          (*Save)(FILE *);
-}               t_nes_mapper;
+};
 
-extern  t_nes_mapper            NES_Mappers [];
+extern t_nes_mapper NES_Mappers[];
 
 //-----------------------------------------------------------------------------
 // Functions

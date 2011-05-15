@@ -16,17 +16,17 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_glasses
 {
-    int         Enabled;
+    bool        Enabled;
     int         Mode;
     int         ComPort;
 #ifdef ARCH_WIN32
     HANDLE      ComHandle;
 #endif
-} t_glasses;
+};
 
-t_glasses   Glasses;
+extern t_glasses   Glasses;
 
 //-----------------------------------------------------------------------------
 // Functions

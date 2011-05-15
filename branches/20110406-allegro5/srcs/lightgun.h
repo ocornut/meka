@@ -17,15 +17,15 @@ void    LightPhaser_SetupMouseRange(bool left_most_column_masked);
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_light_phaser
 {
 	bool	Enabled;		// Set if has least one Light Phaser is now enabled
 	int		LastSync;
 	u8		X[2];
 	u8		Y[2];
-} t_light_phaser;
+};
 
-t_light_phaser  LightPhaser;
+extern t_light_phaser  LightPhaser;
 
 //-----------------------------------------------------------------------------
 

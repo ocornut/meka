@@ -60,14 +60,14 @@ void            Checksum_Perform(const u8 *data, int data_size)
     // Msg (MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", media_ROM.mekacrc.v[0], media_ROM.mekacrc.v[1], media_ROM.crc32);
 
     // Find DB entry
-    DB_CurrentEntry = DB_Entry_Find(media_ROM.crc32, &media_ROM.mekacrc);
+    DB.current_entry = DB_Entry_Find(media_ROM.crc32, &media_ROM.mekacrc);
 
     // Update VLFN
     {
 		char media_path[FILENAME_LEN];
-        StrCpyPathRemoved(media_path, g_Env.Paths.MediaImageFile);
-        if (DB_CurrentEntry)
-            VLFN_AddEntry(media_path, DB_CurrentEntry);
+        StrCpyPathRemoved(media_path, g_env.Paths.MediaImageFile);
+        if (DB.current_entry)
+            VLFN_AddEntry(media_path, DB.current_entry);
         else
             VLFN_RemoveEntry(media_path);
     }

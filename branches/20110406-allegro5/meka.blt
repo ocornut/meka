@@ -16,7 +16,6 @@
 ;   driver = auto | another driver
 ;
 ; The configuration name must be postfixed by a mark of the appliable operating system:
-;   ::DOS   for the DOS version of MEKA.
 ;   ::WIN   for the Windows version of MEKA.
 ;   ::UNIX  for the UNIX version of MEKA.
 ; See MEKA.CFG/MEKAW.CFG for a list of available graphics drivers.
@@ -34,11 +33,6 @@
 ; emulation will be perfectly synchronized to 60 Hz.
 ; Note all video card / drivers support setting a refresh rate other
 ; than the default one, however.
-;
-; FOR MAXIMUM PERFORMANCE
-; - Under DOS, set the higher VESA mode if possible as it's not always
-;   selected by default when using the "auto" driver.
-; - Under Windows, try DirectX modes in priority.
 ;
 ; Blitters description:
 ;  "normal"         default one, nothing special
@@ -120,25 +114,6 @@ driver = auto
 [Windowed Double::UNIX]
 res = 512x400
 blitter = double
-driver = auto
-
-;-----------------------------------------------------------------------------
-; DOS - Default Modes
-;-----------------------------------------------------------------------------
-
-[Normal::DOS]
-res = 320x200
-driver = auto
-refresh_rate = 60
-
-[PAL Screen::DOS]
-res = 320x240
-driver = auto
-;refresh_rate = 50
-
-[TV Mode::DOS]
-res = 320x400
-blitter = tvmode
 driver = auto
 
 ;-----------------------------------------------------------------------------

@@ -62,7 +62,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
         {
             input_src->type = INPUT_SRC_TYPE_MOUSE;
             input_src->flags = INPUT_SRC_FLAGS_ANALOG;
-            input_src->Connected_and_Ready = (g_Env.mouse_installed ? TRUE : FALSE);
+            input_src->Connected_and_Ready = (g_env.mouse_installed ? TRUE : FALSE);
             return MEKA_ERR_OK;
         }
         return MEKA_ERR_SYNTAX;
@@ -245,10 +245,8 @@ void            Load_Inputs_Src_List (void)
     line_cnt = 0;
     for (lines = tf->data_lines; lines; lines = lines->next)
     {
-        char *line;
-
+        char* line = (char*) lines->elem;
         line_cnt += 1;
-        line = lines->elem;
 
         if (StrNull(line))
             continue;

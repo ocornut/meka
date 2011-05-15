@@ -151,7 +151,7 @@ int                     menu_add_menu (int menu_id, const char *label, int attr)
 }
 
 // ADD A MENU SUBMENU ---------------------------------------------------------
-int                     menu_add_item (int menu_id, const char *label, int attr, void (*event_handler)(), void *user_data)
+int                     menu_add_item (int menu_id, const char *label, int attr, t_menu_callback callback, void *user_data)
 {
  gui_type_menu *		menu;
  gui_type_menu_entry *	entry;
@@ -168,7 +168,7 @@ int                     menu_add_item (int menu_id, const char *label, int attr,
  entry->type = ITEM_EXECUTE;
  entry->attr = attr;
  entry->mouse_over = 0;
- entry->event_handler = event_handler;
+ entry->callback = (t_menu_callback)callback;
  entry->user_data = user_data;
  return (menu->n_entry ++);
 }

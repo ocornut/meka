@@ -8,8 +8,8 @@
 //-----------------------------------------------------------------------------
 
 // Handlers pointers for the Z80 emulator
-byte    (*InZ80)   (register word Port);
-void    (*OutZ80)  (register word Port, register byte Value);
+extern byte    (*InZ80)   (register word Port);
+extern void    (*OutZ80)  (register word Port, register byte Value);
 
 //-----------------------------------------------------------------------------
 // Functions

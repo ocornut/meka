@@ -13,6 +13,13 @@
 #include "debugger.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+int     CPU_Loop_Stop;  // Set to break from CPU emulation and return to mainloop()
+int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the SG-1000/SC-3000 loop handlers)
+
+//-----------------------------------------------------------------------------
 // Note: only MARAT_Z80 is functional/compiles now.
 //-----------------------------------------------------------------------------
 
@@ -30,7 +37,7 @@ word    Loop_SMS (void)
 
     // Update sound cycle counter
     Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
-    Sound_CycleCounter += 1;//opt.Cur_IPeriod;
+    Sound.CycleCounter += 1;//opt.Cur_IPeriod;
 
     if (tsms.VDP_Line == 0)
     {

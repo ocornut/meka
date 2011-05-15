@@ -15,6 +15,12 @@
 #include "vdp.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_tech_info TechInfo;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -27,7 +33,7 @@ static void TechInfo_Layout(t_app_tech_info *app, bool setup)
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(app->box, TechInfo_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)TechInfo_Switch);
     }
 }
 

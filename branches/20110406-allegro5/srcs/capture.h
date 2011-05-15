@@ -27,14 +27,14 @@ void	Capture_MenuHandler_IncludeGui	(void);
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_capture
 {
 	int         request;
 	int			request_all_frames;
 	int         id_number;
-}               t_capture;
+};
 
-t_capture       Capture;
+extern t_capture	Capture;
 
 //-----------------------------------------------------------------------------
 

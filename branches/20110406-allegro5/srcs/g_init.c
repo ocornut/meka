@@ -135,7 +135,7 @@ void    gui_init_applets (void)
     // Text Viewer
     TextViewer_Init(&TextViewer);
     // FIXME: save current file in meka.cfg
-    if (TextViewer_Open(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMain) != MEKA_ERR_OK)
+    if (TextViewer_Open(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain) != MEKA_ERR_OK)
         Msg (MSGT_USER, Msg_Get(MSG_Doc_File_Error));
     TextViewer.current_file = 0; // FIXME: Remove this field
 

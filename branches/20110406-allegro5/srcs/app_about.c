@@ -28,9 +28,6 @@ static void         AboutBox_Layout(bool setup);
 void    AboutBox_Switch (void)
 {
     int menu_pos = 5;
-#ifdef ARCH_DOS
-    menu_pos -= 1;
-#endif
 #ifdef MEKA_Z80_DEBUGGER
 	menu_pos += 1;
 #endif
@@ -51,7 +48,7 @@ static void     AboutBox_Layout(bool setup)
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(app->box, AboutBox_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)AboutBox_Switch);
     }
 
     // Draw MEKA dragon sprite

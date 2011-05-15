@@ -18,7 +18,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_app_textviewer
 {
     bool        active;
     bool        dirty;
@@ -43,9 +43,9 @@ typedef struct
 
     t_widget *  widget_scrollbar;
 
-} t_app_textviewer;
+};
 
-t_app_textviewer   TextViewer;
+extern t_app_textviewer   TextViewer;
 
 //-----------------------------------------------------------------------------
 // Functions

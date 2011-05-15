@@ -7,7 +7,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_app_tile_viewer
 {
     bool        active;
     bool        dirty;
@@ -22,9 +22,9 @@ typedef struct
     int         tiles_height;
     t_frame     tiles_display_frame;
     t_widget *  tiles_display_zone;
-} t_app_tile_viewer;
+};
 
-t_app_tile_viewer   TileViewer;
+extern t_app_tile_viewer   TileViewer;
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -23,30 +23,30 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_patch_action
 {
     int         address;
     int         data_length;
     u8 *        data;
-}               t_patch_action;
+};
 
-typedef struct
+struct t_patch
 {
     int         crc_type;
     t_meka_crc  crc_mekacrc;
     u32         crc_crc32;
     t_list *    rom_patches;
     t_list *    mem_patches;
-}               t_patch;
+};
 
-typedef struct
+struct t_patches
 {
     char        filename [FILENAME_LEN];
     t_list *    patches;
     t_patch *   patch_current;
-}               t_patches;
+};
 
-t_patches       Patches;
+extern t_patches Patches;
 
 //-----------------------------------------------------------------------------
 // Functions

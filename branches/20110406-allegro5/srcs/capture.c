@@ -12,6 +12,12 @@
 //Capture.request = FALSE;
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_capture	Capture;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -57,13 +63,13 @@ static void	Capture_FileName_Get(char *dst)
     char    s2 [FILENAME_LEN];
 
     // Create directory if necessary
-    if (!al_filename_exists(g_Env.Paths.ScreenshotDirectory))
-        al_make_directory(g_Env.Paths.ScreenshotDirectory);
+    if (!al_filename_exists(g_env.Paths.ScreenshotDirectory))
+        al_make_directory(g_env.Paths.ScreenshotDirectory);
 
     // Figure out a base filename
     if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
     {
-        strcpy(s1, g_Env.Paths.MediaImageFile);
+        strcpy(s1, g_env.Paths.MediaImageFile);
         killpath(s1);
         killext(s1);
         game_name = s1;
@@ -78,7 +84,7 @@ static void	Capture_FileName_Get(char *dst)
 	// Note: CAPTURE_ID_MAX is 9999, for all capturing this gives us 2mn46s worth of frames at 60 FPS.
     do
     {
-        sprintf(dst, s2, g_Env.Paths.ScreenshotDirectory, game_name, Capture.id_number);
+        sprintf(dst, s2, g_env.Paths.ScreenshotDirectory, game_name, Capture.id_number);
         Capture.id_number++;
     }
     while (al_filename_exists(dst) != 0 && Capture.id_number < CAPTURE_ID_MAX);
@@ -105,7 +111,7 @@ static void		Capture_Screen(void)
         return;
     }
 
-	if ((Meka_State == MEKA_STATE_FULLSCREEN) || (!g_Configuration.capture_include_gui)) 
+	if ((g_env.state == MEKA_STATE_FULLSCREEN) || (!g_Configuration.capture_include_gui)) 
 	{
 		// Fullscreen
 		source = screenbuffer;
@@ -136,7 +142,7 @@ static void		Capture_Screen(void)
 			y_len -= 8;
 		}
 	}
-	else if (Meka_State == MEKA_STATE_GUI)
+	else if (g_env.state == MEKA_STATE_GUI)
 	{
 		// GUI mode
 		x_start = 0;
@@ -206,7 +212,9 @@ void	Capture_MenuHandler_AllFrames(void)
 	Capture.request_all_frames = !Capture.request_all_frames;
 	gui_menu_inverse_check(menus_ID.screenshots, 1);
 	if (Capture.request_all_frames)
-		;// FIXME-CAPTURE
+	{
+		// FIXME-CAPTURE
+	}
 }
 
 void	Capture_MenuHandler_IncludeGui(void)

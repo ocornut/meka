@@ -4,6 +4,8 @@
 ** Read unzip.h for more info
 */
 
+#include "shared.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

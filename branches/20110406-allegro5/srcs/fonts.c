@@ -6,38 +6,34 @@
 #include "shared.h"
 
 //-----------------------------------------------------------------------------
-// Fonts_Init (void)
-// Initialize fonts system
+// Data
 //-----------------------------------------------------------------------------
+
+t_font		Fonts[MEKA_FONT_MAX];
+t_font *	FontCurrent;
+
+//-----------------------------------------------------------------------------
+// Functions
+//-----------------------------------------------------------------------------
+
 void    Fonts_Init (void)
 {
     // See DATA.C
 }
 
-//-----------------------------------------------------------------------------
-// Fonts_Close (void)
-// Close fonts system
-//-----------------------------------------------------------------------------
 void    Fonts_Close (void)
 {
 }
 
-//-----------------------------------------------------------------------------
-// Fonts_AddFont (int font_id, ALLEGRO_FONT *library_data)
 // Register font to the fonts system
-//-----------------------------------------------------------------------------
 void    Fonts_AddFont (int font_id, ALLEGRO_FONT *library_data)
 {
-    t_meka_font *font   = &Fonts[font_id];
+    t_font *font		= &Fonts[font_id];
     font->id            = font_id;
     font->library_data  = library_data;
     font->height        = al_get_font_line_height(library_data);
 }
 
-//-----------------------------------------------------------------------------
-// Font_SetCurrent (int font_id)
-// Set current font
-//-----------------------------------------------------------------------------
 void    Font_SetCurrent (int font_id)
 {
     FontCurrent = &Fonts[font_id];
@@ -61,10 +57,7 @@ void    Font_PrintCentered (int font_id, ALLEGRO_BITMAP *dst, const char *text, 
     al_draw_text(Fonts[font_id].library_data, color, x, y, ALLEGRO_ALIGN_CENTRE, text);
 }
 
-//-----------------------------------------------------------------------------
-// Font_Height (int font_id)
 // Return height of given font
-//-----------------------------------------------------------------------------
 int     Font_Height (int font_id)
 {
     if (font_id == -1)

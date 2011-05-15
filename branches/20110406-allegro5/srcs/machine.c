@@ -18,6 +18,12 @@
 #include "tvoekaki.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+int Machine_Pause_Need_To = false;
+
+//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -93,7 +99,11 @@ void    Machine_Set_Handler_IO (void)
 }
 
 #ifdef X86_ASM
-    extern READ_FUNC (Read_Default_ASM);
+extern "C"
+{	
+	READ_FUNC (Read_Default_ASM);
+    WRITE_FUNC (Write_Mapper_32kRAM_ASM);
+}
 #endif
 
 void    Machine_Set_Handler_Read (void)
@@ -119,10 +129,6 @@ void    Machine_Set_Handler_Read (void)
         break;
     }
 }
-
-#ifdef X86_ASM
-    extern WRITE_FUNC (Write_Mapper_32kRAM_ASM);
-#endif
 
 void    Machine_Set_Handler_Write (void)
 {
@@ -176,9 +182,9 @@ void    Machine_Set_Handler_Write (void)
 
 void        Machine_Set_Mapper (void)
 {
-    if (DB_CurrentEntry != NULL && DB_CurrentEntry->emu_mapper != -1)
+    if (DB.current_entry != NULL && DB.current_entry->emu_mapper != -1)
     {
-        cur_machine.mapper = DB_CurrentEntry->emu_mapper;
+        cur_machine.mapper = DB.current_entry->emu_mapper;
         return;
     }
 
@@ -203,7 +209,7 @@ void        Machine_Set_Mapper (void)
     case DRV_SMS:
     case DRV_GG:
         cur_machine.mapper = MAPPER_Standard;
-        if (DB_CurrentEntry == NULL)    // Detect mapper for unknown ROM
+        if (DB.current_entry == NULL)    // Detect mapper for unknown ROM
         {
             const int m = Mapper_Autodetect();
             if (m != MAPPER_Auto)
@@ -322,17 +328,17 @@ void    Machine_Set_Mapping (void)
 
 void    Machine_Set_Country (void)
 {
-    if (DB_CurrentEntry && DB_CurrentEntry->emu_country != -1)
-        sms.Country = DB_CurrentEntry->emu_country;
+    if (DB.current_entry && DB.current_entry->emu_country != -1)
+        sms.Country = DB.current_entry->emu_country;
     else
         sms.Country = g_Configuration.country;
 }
 
 void    Machine_Set_IPeriod (void)
 {
-    if (DB_CurrentEntry && DB_CurrentEntry->emu_iperiod != -1)
+    if (DB.current_entry && DB.current_entry->emu_iperiod != -1)
     {
-        opt.Cur_IPeriod = DB_CurrentEntry->emu_iperiod;
+        opt.Cur_IPeriod = DB.current_entry->emu_iperiod;
         return;
     }
 
@@ -358,8 +364,8 @@ void    Machine_Set_IPeriod (void)
 // FIXME: rename function
 void    Machine_Set_TV_Lines (void)
 {
-    if (DB_CurrentEntry && DB_CurrentEntry->emu_tvtype != -1)
-        cur_machine.TV = &TV_Type_Table [DB_CurrentEntry->emu_tvtype];
+    if (DB.current_entry && DB.current_entry->emu_tvtype != -1)
+        cur_machine.TV = &TV_Type_Table [DB.current_entry->emu_tvtype];
     else
         cur_machine.TV = TV_Type_User;
     cur_machine.TV_lines = cur_machine.TV->screen_lines;
@@ -402,8 +408,10 @@ void        Machine_Reset (void)
     Machine_Set_TV_Lines        ();
 
     // VDP MODEL --------------------------------------------------------------
-    if (DB_CurrentEntry && DB_CurrentEntry->emu_vdp_model != -1)
-        cur_machine.VDP.model = DB_CurrentEntry->emu_vdp_model;
+    if (DB.current_entry && DB.current_entry->emu_vdp_model != -1)
+	{
+        cur_machine.VDP.model = DB.current_entry->emu_vdp_model;
+	}
     else
     {
         if (cur_drv->id == DRV_GG)
@@ -494,7 +502,7 @@ void        Machine_Reset (void)
     // GRAPHICS: SPRITE FLICKERING --------------------------------------------
     if (g_Configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
     {
-        if (DB_CurrentEntry && (DB_CurrentEntry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
+        if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
             g_Configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
         else
             g_Configuration.sprite_flickering &= ~SPRITE_FLICKERING_ENABLED;
@@ -530,13 +538,13 @@ void        Machine_Reset (void)
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm ();
     FM_Reset ();
-    SN76489_Reset (cur_machine.TV->CPU_clock, audio_sample_rate);
+    SN76489_Reset (cur_machine.TV->CPU_clock, g_sasound.audio_sample_rate);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 
     // Reset sound cycle counter
     Sound_Update_Count = 0;
-    Sound_CycleCounter = 0;
+    Sound.CycleCounter = 0;
 
     // FIXME: add a reset handler per driver, instead of the code below...
 

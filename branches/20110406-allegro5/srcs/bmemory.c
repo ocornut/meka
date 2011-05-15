@@ -58,7 +58,7 @@ void        BMemory_Load (void)
     if (cur_machine.mapper == MAPPER_93c46)
         EEPROM_93c46_Clear ();
 
-    f = fopen(g_Env.Paths.BatteryBackedMemoryFile, "rb");
+    f = fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
     if (f == NULL)
         return;
     switch (cur_machine.mapper)
@@ -80,9 +80,9 @@ void        BMemory_Save (void)
 	case MAPPER_93c46:          break;
 	default:                    return;
 	}
-	if (!al_filename_exists(g_Env.Paths.SavegameDirectory))
-		al_make_directory(g_Env.Paths.SavegameDirectory);
-	f = fopen(g_Env.Paths.BatteryBackedMemoryFile, "wb");
+	if (!al_filename_exists(g_env.Paths.SavegameDirectory))
+		al_make_directory(g_env.Paths.SavegameDirectory);
+	f = fopen(g_env.Paths.BatteryBackedMemoryFile, "wb");
 	switch (cur_machine.mapper)
 	{
 	case MAPPER_Standard:       BMemory_SRAM_Save (f); break;

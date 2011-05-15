@@ -8,23 +8,22 @@
 //-----------------------------------------------------------------------------
 
 #define BLITTER_OS_SEP              "::"
-#define BLITTER_OS_DOS              "DOS"
 #define BLITTER_OS_WIN              "WIN"
 #define BLITTER_OS_UNIX             "UNIX"
 
-typedef enum
+enum t_blitter_stretch
 {
     BLITTER_STRETCH_NONE        = 0,
     BLITETR_STRETCH_MAX_INT     = 1,     // Default
     BLITTER_STRETCH_MAX_RATIO   = 2,
     BLITTER_STRETCH_MAX         = 3,
-} t_blitter_stretch;
+};
 
 //-----------------------------------------------------------------------------
 // Blitter Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_blitter
 {
     char *              name;
     int                 index;
@@ -35,7 +34,7 @@ typedef struct
     bool                tv_colors;
     int                 refresh_rate;
     t_blitter_stretch   stretch;
-} t_blitter;
+};
 
 //-----------------------------------------------------------------------------
 // Blitter Functions
@@ -48,16 +47,16 @@ void            Blitter_Delete(t_blitter *b);
 // Blitters Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_blitters
 {
     int         count;
     t_blitter * current;
     t_list *    list;
     char        filename[FILENAME_LEN];
     char *      blitter_configuration_name;
-}               t_blitters;
+};
 
-t_blitters      Blitters;
+extern t_blitters Blitters;
 
 //-----------------------------------------------------------------------------
 // Blitters Functions

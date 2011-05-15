@@ -12,12 +12,12 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_sk1100_key
 {
     int     row;
     int     bit;
     char    desc[16];
-} t_sk1100_key;
+};
 
 #define SK1100_KEYS_NUM (62)
 
@@ -105,11 +105,11 @@ static t_sk1100_key SK1100_Keys [SK1100_KEYS_NUM] =
 
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_sk1100_map
 {
     int   key_pc;
     int   key_sk1100;
-} t_sk1100_map;
+};
 
 #define SK1100_MAPPING_NUM (62+7)
 

@@ -37,6 +37,8 @@ ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;	// Line buffer scratch pad, 16
 ALLEGRO_BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
 ALLEGRO_BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color format
 
+t_blit_cfg blit_cfg;
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------

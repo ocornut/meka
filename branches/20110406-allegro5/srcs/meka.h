@@ -31,30 +31,35 @@
 #define COLOR_BLACK16				0x0000
 #define COLOR_WHITE16				0xFFFF
 
-u8      RAM[0x10000];               // RAM
-u8      SRAM[0x8000];               // Save RAM
-u8      VRAM[0x4000];               // Video RAM
-u8 *    PRAM;
-u8      PRAM_Static[0x40];          // Palette RAM
-u8 *    ROM;                        // Emulated ROM
-u8 *    Game_ROM;                   // Cartridge ROM
-u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
-u8 *    Mem_Pages [8];              // Pointer to memory pages
+extern "C"	// C-style mangling
+{
+extern u8      RAM[0x10000];               // RAM
+extern u8      SRAM[0x8000];               // Save RAM
+extern u8      VRAM[0x4000];               // Video RAM
+extern u8 *    PRAM;
+extern u8      PRAM_Static[0x40];          // Palette RAM
+extern u8 *    ROM;                        // Emulated ROM
+extern u8 *    Game_ROM;                   // Cartridge ROM
+extern u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
+extern u8 *    Mem_Pages [8];              // Pointer to memory pages
+};
 
-u8 *    BACK_AREA;
-u8 *    SG_BACK_TILE;
-u8 *    SG_BACK_COLOR;
+extern u8 *    BACK_AREA;
+extern u8 *    SG_BACK_TILE;
+extern u8 *    SG_BACK_COLOR;
 
 // Flags for layer handling ---------------------------------------------------
 #define LAYER_BACKGROUND            (0x01)
 #define LAYER_SPRITES               (0x02)
 
 // Main MEKA state ------------------------------------------------------------
-int     Meka_State;
-#define MEKA_STATE_INIT             (0)
-#define MEKA_STATE_FULLSCREEN       (1)
-#define MEKA_STATE_GUI              (2)
-#define MEKA_STATE_SHUTDOWN         (3)
+enum t_meka_state
+{
+	MEKA_STATE_INIT,
+	MEKA_STATE_FULLSCREEN,
+	MEKA_STATE_GUI,
+	MEKA_STATE_SHUTDOWN,
+};
 
 // Battery Backed RAM Macros --------------------------------------------------
 #define SRAM_Active             (sms.Mapping_Register & 0x08)
@@ -123,13 +128,13 @@ struct TSMS_TYPE
 #define TILE_DIRTY_REDRAW       (0x02)
 
 // Variables related to graphics - not saved in savestate
-typedef struct
+struct TGFX_TYPE
 {
  byte    Tile_Dirty [MAX_TILES];
  byte    Tile_Decoded [MAX_TILES] [64];
-} TGFX_TYPE;
+};
 
-typedef struct
+struct OPT_TYPE
 {
     bool        GUI_Inited;
     bool        Fullscreen_Cursor;
@@ -142,7 +147,7 @@ typedef struct
     int         State_Load;                         // Set to != 1 to set and load a state on Machine_Reset();
     bool        Setup_Interactive_Execute;          // Set to TRUE to execute an interactive setup on startup
     int         GUI_Current_Page;
-} OPT_TYPE;
+};
 
 // Max path length
 // FIXME: Portable way to obtain this at compilation stage?
@@ -150,18 +155,13 @@ typedef struct
 //#define FILENAME_LEN	MAXPATHLEN
 //#define FILENAME_LEN	PATH_MAX
 
-OPT_TYPE          opt;
-TGFX_TYPE         tgfx;
-
-// Declare one 'sms' and one 'tsms'
-struct SMS_TYPE   sms;
-struct TSMS_TYPE  tsms;
-
-typedef struct
+extern "C"
 {
-    char *  name;
-    int     value;
-} S2I_TYPE;
+extern OPT_TYPE   opt;
+extern TGFX_TYPE  tgfx;
+extern SMS_TYPE   sms;
+extern TSMS_TYPE  tsms;
+}
 
 //-----------------------------------------------------------------------------
 // NEW STRUCTURES
@@ -174,7 +174,7 @@ typedef struct
 // Emulated machine
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_machine_vdp_smsgg
 {
     int                     model;
     int                     sprite_shift_x;						// 0 or 8
@@ -185,28 +185,31 @@ typedef struct
     u8                      scroll_x_latched;
     u8                      scroll_y_latched;
     u8                      scroll_x_latched_table[MAX_RES_Y];
-} t_machine_vdp_smsgg;
+};
 
 // FIXME: Global because accessed by videoasm.asm
 // Figure out a proper way to deal with this (export structure members offsets as definitions, etc)
-u8 *						sprite_attribute_table;
+extern "C"
+{
+extern u8 *					sprite_attribute_table;
+}
 
-typedef struct
+struct t_machine
 {
     int                     driver_id;
     int                     mapper;
     t_machine_vdp_smsgg     VDP;
     struct t_tv_type *      TV;
     int                     TV_lines;   // Copy of TV->screen_lines
-} t_machine;
+};
 
-t_machine   cur_machine;
+extern t_machine   cur_machine;
 
 //-----------------------------------------------------------------------------
 // Runtime environment
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_meka_env_paths
 {
     char    EmulatorDirectory       [FILENAME_LEN];
     char    StartingDirectory       [FILENAME_LEN];
@@ -233,17 +236,20 @@ typedef struct
     char    DocumentationChanges    [FILENAME_LEN];
     char    DocumentationDebugger   [FILENAME_LEN];
     // FIXME: add and use TECH.TXT ?
-} t_meka_env_paths;
+};
 
-typedef struct
+struct t_meka_env
 {
     t_meka_env_paths    Paths;
     int                 mouse_installed;
 	int					argc;
 	char **				argv;
-} t_meka_env;
 
-t_meka_env  g_Env;
+	t_meka_state		state;
+	bool				debug_dump_infos;
+};
+
+extern t_meka_env  g_env;
 
 //-----------------------------------------------------------------------------
 // Configuration
@@ -258,7 +264,7 @@ t_meka_env  g_Env;
 #define SPRITE_FLICKERING_ENABLED   (1)
 #define SPRITE_FLICKERING_AUTO      (2) // Default
 
-typedef struct
+struct t_meka_configuration
 {
     // Country
     int     country;                    // Country to use (session)
@@ -319,24 +325,23 @@ typedef struct
 	bool			capture_crop_align_8x8;
 	bool			capture_include_gui;
 
+};
 
-} t_meka_configuration;
-
-t_meka_configuration    g_Configuration;
+extern t_meka_configuration    g_Configuration;
 
 //-----------------------------------------------------------------------------
 // Media image
 // Old image of a loaded media (ROM, disk, etc...).
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_meka_crc
 {
     u32         v[2];
-} t_meka_crc;
+};
 
 #define MEDIA_IMAGE_ROM     (0)
 
-typedef struct
+struct t_media_image
 {
     int         type;
     u8 *        data;
@@ -344,12 +349,12 @@ typedef struct
     t_meka_crc  mekacrc;
     u32         crc32;
     // char *   filename ?
-} t_media_image;
+};
 
 // Currently a global to hold ROM infos.
 // Note that the structure is currently only half used and supported.
 // We only use the 'meka_checksum' and 'crc32' fields yet.
-t_media_image   media_ROM;
+extern t_media_image   media_ROM;
 
 //-----------------------------------------------------------------------------
 // Macros
@@ -360,9 +365,6 @@ t_media_image   media_ROM;
 #define Border_Color                    (COLOR_BLACK) /*((sms.VDP[7] & 15) + 16)*/
 #define Border_Color_x4                 (Border_Color) | (Border_Color << 8) | (Border_Color << 16) | (Border_Color << 24)
 
-// Debugging
-bool    Debug_Print_Infos;
-
 //-----------------------------------------------------------------------------
 // Data (video buffers)
 //-----------------------------------------------------------------------------
@@ -371,14 +373,14 @@ extern ALLEGRO_DISPLAY* g_display;
 extern ALLEGRO_LOCKED_REGION* g_screenbuffer_locked_region;
 
 // Emulated Screen ------------------------------------------------------------
-ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
-ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
+extern ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
+extern ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
 // FullScreen / Video Memory --------------------------------------------------
-ALLEGRO_BITMAP *fs_out;                            // Fullscreen video buffer
-ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
+extern ALLEGRO_BITMAP *fs_out;                            // Fullscreen video buffer
+extern ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
 // GUI ------------------------------------------------------------------------
-ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
-ALLEGRO_BITMAP *gui_page_0, *gui_page_1;           // GUI video buffers when using page flipping
-ALLEGRO_BITMAP *gui_background;                    // GUI Background
+extern ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
+extern ALLEGRO_BITMAP *gui_page_0, *gui_page_1;           // GUI video buffers when using page flipping
+extern ALLEGRO_BITMAP *gui_background;                    // GUI Background
 
 //-----------------------------------------------------------------------------

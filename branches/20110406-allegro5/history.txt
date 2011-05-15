@@ -12,8 +12,14 @@ They are usually of 2 kinds:
 
  MEKA 0.74 WIP Allegro 5
  -----------------------
-  - Removed the old mini-game easter eggs. [Omar]
+  - Updated to Allegro 5.0.x (major update) with OpenGL/DirectX backends. [Omar]
+  - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
+    We can now freely take advantage of all C++ compiler features! [Omar]
+  - (Win32) Using precompiled header for blazing fast compilation (MSVC). [Omar]
+  - (Win32) Using precompiled Allegro binaries. [Omar]
   - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
+  - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
+  - Removed old mini-game easter eggs and various very obsolete features. [Omar]
 
  MEKA 0.74 WIP xxxxxxxx
  ----------------------

@@ -20,6 +20,19 @@ static  int     Sound_Init_Engine (int buffer_mode);
 static  void    Sound_Init_Emulators (void);
 
 //-----------------------------------------------------------------------------
+// DATA
+//-----------------------------------------------------------------------------
+
+t_sound		Sound;
+
+int STREAM_BUFFER_MAXA;
+int STREAM_BUFFER_MAXB;
+int MODEB_UPDATE_COUNT;
+int MODEB_FRAME_SIZE;
+int MODEB_ERROR_MAX;
+int MODEB_MASK;
+
+//-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
@@ -33,11 +46,7 @@ void            Sound_Init_Config(void)
     Sound.Enabled               = TRUE;
     Sound.Initialized           = FALSE;
     Sound.SoundCard             = SOUND_SOUNDCARD_SELECT; // Let user select by default
-#ifdef ARCH_DOS
-    Sound.SampleRate            = 22050;                  // 22050 Hz by default for DOS version
-#else
-    Sound.SampleRate            = 44100;                  // 44100 Hz by default for WIN32/UNIX version
-#endif
+    Sound.SampleRate            = 44100;                  // 44100 Hz by default
     Sound.Paused                = FALSE; // 0
     Sound.MasterVolume          = 128;
 
@@ -59,7 +68,7 @@ void            Sound_Init_Config(void)
     sound_stream_mode   = SOUND_STREAM_WAIT;
 
     // Cycle counter
-    Sound_CycleCounter = 0;
+    Sound.CycleCounter = 0;
 
     // Sound Logging
     Sound_Log_Init ();
@@ -188,7 +197,7 @@ static  int     Sound_Init_SoundCard (void)
 
   Audio_Infos.nDeviceId = Sound.SoundCard;
   Audio_Infos.wFormat = AUDIO_FORMAT_16BITS | AUDIO_FORMAT_STEREO; // FIXME: Stereo ?
-  Audio_Infos.nSampleRate = audio_sample_rate = Sound.SampleRate;
+  Audio_Infos.nSampleRate = g_sasound.audio_sample_rate = Sound.SampleRate;
 
   if (AOpenAudio(&Audio_Infos) != AUDIO_ERROR_NONE)
      {
@@ -211,7 +220,7 @@ static  int     Sound_Init_SoundCard (void)
   ASetAudioMixerValue (AUDIO_MIXER_MASTER_VOLUME, 256);
 
   // Allocate voices and waveforms
-  Sound.Voices = Memory_Alloc (sizeof (t_voice) * Sound.Voices_Max);
+  Sound.Voices = (t_voice*)Memory_Alloc(sizeof (t_voice) * Sound.Voices_Max);
   for (i = 0; i < Sound.Voices_Max; i++)
      {
      if (ACreateAudioVoice(&Sound.Voices[i].hVoice) != AUDIO_ERROR_NONE)
@@ -225,11 +234,11 @@ static  int     Sound_Init_SoundCard (void)
      }
 
   // FIXME: is this needed ?
-  AUpdateAudio ();
+  AUpdateAudio();
 
   // FIXME: is this needed ?
   // Check frame sample rate
-  audio_sample_rate = nominal_sample_rate = Audio_Infos.nSampleRate;
+  g_sasound.audio_sample_rate = g_sasound.nominal_sample_rate = Audio_Infos.nSampleRate;
 
   return (MEKA_ERR_OK);
 }
@@ -289,9 +298,10 @@ static  int     Sound_Init_Engine (int buffer_mode)
     sound_freerun_count = 0;
     sound_slice = 0;
 
-    if (change_sample_rate)
-    { // Sample rate has changed, so all emulators must be restarted!
-        change_sample_rate = FALSE;
+    if (g_sasound.change_sample_rate)
+    { 
+		// Sample rate has changed, so all emulators must be restarted!
+        g_sasound.change_sample_rate = FALSE;
         saStopSoundEmulators();
     }
     ConsolePrint (" - SEAL: Ok\n"); // FIXME: should be a message ?

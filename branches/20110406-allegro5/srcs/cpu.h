@@ -7,8 +7,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-int     CPU_Loop_Stop;  // Set to break from CPU emulation and return to mainloop()
-int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the SG-1000/SC-3000 loop handlers)
+extern int     CPU_Loop_Stop;  // Set to break from CPU emulation and return to mainloop()
+extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the SG-1000/SC-3000 loop handlers)
 
 //-----------------------------------------------------------------------------
 // Macros and declarations, per Z80 emulator
@@ -18,7 +18,7 @@ int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the S
 //-----------------------------------------------------------------------------
 
 #ifdef MARAT_Z80
-  word Loop_SMS (void);
+  u16 Loop_SMS (void);
   #define Macro_Stop_CPU    { return (INT_QUIT); }
   #define CPU_GetPC()       (sms.R.PC.W)
   #define CPU_GetICount()   (sms.R.ICount)

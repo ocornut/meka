@@ -32,7 +32,7 @@
 #define BREAKPOINT_TYPE_BREAK                   (0)
 #define BREAKPOINT_TYPE_WATCH                   (1)
 
-typedef struct
+struct t_debugger_breakpoint
 {
     int         enabled;
     int         id;
@@ -44,9 +44,9 @@ typedef struct
     int         data_compare_length;
     u8          data_compare_bytes[DEBUGGER_DATA_COMPARE_LENGTH_MAX];
     char *      desc;
-} t_debugger_breakpoint;
+};
 
-typedef struct
+struct t_debugger_bus_info
 {
     int                 location;
     char *              name;
@@ -55,58 +55,58 @@ typedef struct
     int                 addr_max;
     int                 access;
     int                 data_compare_length_max;
-} t_debugger_bus_info;
+};
 
-typedef struct
+struct t_debugger_symbol
 {
     u16         addr;
     int         bank;                           // Currently unsupported, set to -1
     char *      name;
     char *      name_uppercase;					// For grep
-} t_debugger_symbol;
+};
 
-typedef struct
+struct t_debugger_history_item
 {
 	char *		line;
 	char *		line_uppercase;					// For grep
 	int			cursor_pos;						// -1 = end
-} t_debugger_history_item;
+};
 
-typedef enum
+enum t_debugger_value_flags
 {
 	DEBUGGER_VALUE_FLAGS_ACCESS_READ	= 0x01,
 	DEBUGGER_VALUE_FLAGS_ACCESS_WRITE	= 0x02,
-} t_debugger_value_flags;
+};
 
-typedef enum
+enum t_debugger_value_source
 {
     DEBUGGER_VALUE_SOURCE_COMPUTED,             // Computed
     DEBUGGER_VALUE_SOURCE_DIRECT,               // Direct input value
     DEBUGGER_VALUE_SOURCE_CPU_REG,              // From CPU
     DEBUGGER_VALUE_SOURCE_SYMBOL,               // From symbol
-} t_debugger_value_source;
+};
 
 // 'value' also refered as 'variables'
-typedef struct
+struct t_debugger_value
 {
     u32						data;               // Value data
     u16						data_size;          // Value size in bits
-	t_debugger_value_flags	flags;				// Value flags
+	int						flags;				// Value flags (enum t_debugger_value_flags) // FIXME-ENUM
     t_debugger_value_source source;             // Value source type
     void *					source_data;        // Value source (if applicable)
     const char *            name;               // Value name
-} t_debugger_value;
+};
 
-typedef enum
+enum t_debugger_eval_value_format
 {
     DEBUGGER_EVAL_VALUE_FORMAT_UNKNOWN,
     DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX,
     DEBUGGER_EVAL_VALUE_FORMAT_INT_BIN,
     DEBUGGER_EVAL_VALUE_FORMAT_INT_DEC,
     DEBUGGER_EVAL_VALUE_FORMAT_STRING,
-} t_debugger_eval_value_format;
+};
 
-typedef struct
+struct t_debugger
 {
     int         enabled;                        // Enabled and initialized
     bool        active;                         // Currently showing on GUI
@@ -132,20 +132,20 @@ typedef struct
     char *		log_filename;
     int			watch_counter;                  // For current frame
     long long   cycle_counter;					// Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80(). 
-} t_debugger;
+};
 
-t_debugger      Debugger;
+extern t_debugger   Debugger;
 
 // This is like with breakpoints_cpu_space but with direct access to merged CPU read breakpoints. 
 // The Z80 emulator use that to trap CPU read of first opcode byte *BEFORE* execution started.
 // Otherwise, breakpoints works by stopping CPU after the event happened.
-int             Debugger_CPU_Exec_Traps[0x10000];
+extern int          Debugger_CPU_Exec_Traps[0x10000];
 
 // PC log queue (for trackback feature)
-u16             Debugger_Z80_PC_Last;
-u16             Debugger_Z80_PC_Log_Queue[256];
-int             Debugger_Z80_PC_Log_Queue_Write;
-int             Debugger_Z80_PC_Log_Queue_First;
+extern u16          Debugger_Z80_PC_Last;
+extern u16          Debugger_Z80_PC_Log_Queue[256];
+extern int          Debugger_Z80_PC_Log_Queue_Write;
+extern int			Debugger_Z80_PC_Log_Queue_First;
 
 //-----------------------------------------------------------------------------
 // Functions

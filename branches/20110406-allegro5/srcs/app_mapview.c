@@ -45,7 +45,7 @@ static void         TilemapViewer_CallbackTilemapAddressScroll(t_widget *w);
 
 t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
 {
-    t_tilemap_viewer *app = malloc(sizeof(t_tilemap_viewer));
+    t_tilemap_viewer* app = (t_tilemap_viewer*)malloc(sizeof(t_tilemap_viewer));
 
     // Add to global list
     list_add(&TilemapViewers, app);
@@ -90,7 +90,7 @@ t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
     app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
     app->box = gui_box_new(&app->frame_box, "Tilemap Viewer");  // FIXME-LOCAL
     app->box->user_data = app;
-    app->box->destroy = TilemapViewer_Delete;
+    app->box->destroy = (t_gui_box_destroy_handler)TilemapViewer_Delete;
 
     // Register to desktop (applet is disabled by default)
     if (register_desktop)

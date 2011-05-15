@@ -22,9 +22,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-#ifdef ARCH_DOS
-extern int    _wait_for_vsync;
-#endif
+t_video	Video;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -109,11 +107,6 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     fs_page_1 = NULL;
     fs_page_2 = NULL;
 
-#ifdef ARCH_DOS
-    // Set the Allegro vsync flag to that VGA scroll do not automatically vsync
-    _wait_for_vsync = FALSE;
-#endif
-
     Video.res_x = w;
     Video.res_y = h;
     Video.refresh_rate_requested = refresh_rate;
@@ -148,21 +141,19 @@ void    Video_Clear (void)
 
 void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
 {
-    t_list *boxes;
-
     gui_mouse_show(NULL);
     g_Configuration.video_mode_gui_res_x = res_x;
     g_Configuration.video_mode_gui_res_y = res_y;
     g_Configuration.video_mode_gui_depth = depth;
     gui_set_video_mode(res_x, res_y, depth);
-    if (Meka_State == MEKA_STATE_GUI)
+    if (g_env.state == MEKA_STATE_GUI)
         Video_Setup_State();
     Skins_Background_Redraw();
 
     // Fix position
-    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
-        t_gui_box *box = boxes->elem;;
+        t_gui_box* box = (t_gui_box*)boxes->elem;;
         gui_box_clip_position(box);
         box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     }
@@ -171,7 +162,7 @@ void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
 // SWITCH FROM VIDEO MODES ----------------------------------------------------
 void    Video_Setup_State (void)
 {
-    switch (Meka_State)
+    switch (g_env.state)
     {
     case MEKA_STATE_SHUTDOWN:
         {
@@ -210,7 +201,7 @@ void    Video_Setup_State (void)
                     #endif
                         Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
-                    Meka_State = MEKA_STATE_GUI;
+                    g_env.state = MEKA_STATE_GUI;
                     Video_Setup_State ();
                     Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                     return;
@@ -275,7 +266,7 @@ void    Video_Setup_State (void)
                     Blitters.current->refresh_rate,
                     FALSE) != MEKA_ERR_OK)
                 {
-                    Meka_State = MEKA_STATE_GUI;
+                    g_env.state = MEKA_STATE_GUI;
                     Video_Setup_State ();
                     Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                     return;
@@ -313,7 +304,7 @@ void    Video_Setup_State (void)
                     Blitters.current->refresh_rate,
                     FALSE) != MEKA_ERR_OK)
                 {
-                    Meka_State = MEKA_STATE_GUI;
+                    g_env.state = MEKA_STATE_GUI;
                     Video_Setup_State ();
                     Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                     return;
@@ -346,10 +337,10 @@ void    Video_Setup_State (void)
     }
 
 	// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_SWITCH_IN, ALLEGRO_EVENT_DISPLAY_SWITCH_OUT
-    /*#ifndef ARCH_DOS
+    /*
         set_display_switch_callback (SWITCH_IN,  Switch_In_Callback);
         set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
-    #endif*/
+    */
 
     Inputs_Init_Mouse (); // why? I forgot
 }
@@ -404,12 +395,12 @@ void    Refresh_Screen(void)
         if (Machine_Pause_Need_To)
             Machine_Pause();
 
-        if (Meka_State == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
+        if (g_env.state == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
         {
             gui_update ();
 
             // Check if we're switching GUI off now
-            if (Meka_State != MEKA_STATE_GUI)
+            if (g_env.state != MEKA_STATE_GUI)
             {
                 // release_bitmap(screen);
                 return;
@@ -425,7 +416,7 @@ void    Refresh_Screen(void)
             gui_mouse_show (NULL);
         }
 
-        if (Meka_State == MEKA_STATE_FULLSCREEN) // FULLSCREEN ---------------------
+        if (g_env.state == MEKA_STATE_FULLSCREEN) // FULLSCREEN ---------------------
         {
             if (opt.Fullscreen_Cursor)
                 gui_mouse_show (screenbuffer);
@@ -465,7 +456,7 @@ void    Refresh_Screen(void)
     else
     {
         // Swap buffers
-        void *tmp = screenbuffer;
+        ALLEGRO_BITMAP *tmp = screenbuffer;
         screenbuffer = screenbuffer_next;
         screenbuffer_next = tmp;
         // Msg (MSGT_DEBUG, "Swap buffer. screenbuffer=%d", screenbuffer==screenbuffer_1?1:2);
@@ -483,16 +474,6 @@ void    Refresh_Screen(void)
 
 	Screenbuffer_AcquireLock();
 }
-
-// SET BORDER COLOR IN VGA MODES ----------------------------------------------
-#ifdef ARCH_DOS
-void    Video_VGA_Set_Border_Color(u8 idx)
-{
-    inp(0x3DA);
-    outp(0x3C0, 0x31);
-    outp(0x3C0, idx);
-};
-#endif
 
 //-----------------------------------------------------------------------------
 

@@ -52,7 +52,7 @@
 
 extern ALLEGRO_COLOR	SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
 
-typedef struct
+struct t_skin_gradient
 {
 	bool				enabled;			// if not enabled, fill with native_gradient_start[0]
 	int					pos_start;			// 0-100%
@@ -62,26 +62,26 @@ typedef struct
 	ALLEGRO_COLOR 		native_color_start;
 	ALLEGRO_COLOR		native_color_end;
 	ALLEGRO_COLOR		native_color_buffer[SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE];
-} t_skin_gradient;
+};
 
-typedef enum
+enum t_skin_effect
 {
 	SKIN_EFFECT_NONE	= 0,
 	SKIN_EFFECT_BLOOD	= 1,
 	SKIN_EFFECT_HEARTS	= 2,
 	SKIN_EFFECT_SNOW	= 3,
-} t_skin_effect;
+};
 
-typedef enum
+enum t_skin_background_picture_mode
 {
     SKIN_BACKGROUND_PICTURE_MODE_CENTER         = 0,
     SKIN_BACKGROUND_PICTURE_MODE_STRETCH        = 1,
     SKIN_BACKGROUND_PICTURE_MODE_STRETCH_INT    = 2,
     SKIN_BACKGROUND_PICTURE_MODE_TILE           = 3,
     SKIN_BACKGROUND_PICTURE_MODE_DEFAULT        = SKIN_BACKGROUND_PICTURE_MODE_STRETCH,
-} t_skin_background_picture_mode;
+};
 
-typedef struct
+struct t_skin
 {
     bool                            enabled;
     char *                          name;
@@ -93,7 +93,7 @@ typedef struct
 	t_skin_effect		            effect;
     char *                          background_picture;
     t_skin_background_picture_mode  background_picture_mode;
-} t_skin;
+};
 
 //-----------------------------------------------------------------------------
 // Functions

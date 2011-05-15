@@ -20,7 +20,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_memory_section
 {
     int                 memtype;
     int                 memblock_first;
@@ -29,9 +29,9 @@ typedef struct
     int                 addr_length;
     const char *        name;
     t_widget *          button;
-} t_memory_section;
+};
 
-typedef struct
+struct t_memory_viewer
 {
     // Logic
     int                 size_columns;
@@ -61,7 +61,7 @@ typedef struct
     t_widget *          bottom_box;
     t_widget *          address_edit_inputbox;
 
-} t_memory_viewer;
+};
 
 extern t_memory_viewer *MemoryViewer_MainInstance;
 extern t_list *         MemoryViewers;

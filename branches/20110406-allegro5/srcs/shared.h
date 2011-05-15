@@ -60,8 +60,8 @@ extern char MEKA_BUILD_TIME[];
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-typedef struct t_tv_type    t_tv_type;          // from TVTYPE.H
-typedef struct t_widget     t_widget;           // from G_WIDGET.H
+struct t_tv_type;
+struct t_widget;
 
 //-----------------------------------------------------------------------------
 // MEKA shared components includes

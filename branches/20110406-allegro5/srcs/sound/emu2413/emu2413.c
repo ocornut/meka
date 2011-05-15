@@ -44,6 +44,7 @@
     YM2143 data sheet
 
 **************************************************************************************/
+#include "shared.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -219,6 +220,7 @@ static e_uint32 dphaseTable[512][8][16];
                   Create tables
 
 ****************************************************/
+
 INLINE static e_int32
 Min (e_int32 i, e_int32 j)
 {
@@ -236,7 +238,7 @@ makeAdjustTable (void)
 
   AR_ADJUST_TABLE[0] = (1 << EG_BITS);
   for (i = 1; i < 128; i++)
-    AR_ADJUST_TABLE[i] = (e_uint16) ((double) (1 << EG_BITS) - 1 - (1 << EG_BITS) * log (i) / log (128));
+    AR_ADJUST_TABLE[i] = (e_uint16) ((double) (1 << EG_BITS) - 1 - (1 << EG_BITS) * log ((double)i) / log ((double)128));
 }
 
 

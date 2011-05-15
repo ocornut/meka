@@ -27,7 +27,7 @@
 // VGM buffer (unused as of yet)
 // #define VGM_BUFFER_SIZE              (131072) // 128 Kb
 
-typedef struct
+struct t_vgm_header
 {
     char        magic[4];
     int         eof_offset;
@@ -47,7 +47,7 @@ typedef struct
     u32         ym2612_clock;               // VGM 1.10
     u32         ym2151_clock;               // VGM 1.10
     char        _padding[VGM_PADDING_SIZE];
-}               t_vgm_header;
+};
 
 // GD3 1.00 -------------------------------------------------------------------
 #define GD3_MAGIC                       "Gd3 "
@@ -66,15 +66,15 @@ typedef struct
 #define GD3_S_NOTES                     (10)
 #define GD3_S_MAX                       (11)
 
-typedef struct
+struct t_gd3_header
 {
     char            magic[4];
     int             version;
     int             data_length;
     u16 *           strings[GD3_S_MAX];
-} t_gd3_header;
+};
 
-typedef struct
+struct t_vgm
 {
     int             Logging;                // Currently logging / & type
     FILE *          File;                   // File
@@ -87,7 +87,7 @@ typedef struct
     int             Cycles_Counter;         //
     double          Samples_per_Cycle;      //
     double          Cycles_per_Sample;      //
-} t_vgm;
+};
 
 int             VGM_Start(t_vgm *VGM, const char *filename, int logging_accuracy);
 void            VGM_Close(t_vgm *VGM);

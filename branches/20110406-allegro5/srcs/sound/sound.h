@@ -60,7 +60,7 @@
 //-----------------------------------------------------------------------------
 
 // SaSound voice (legacy)
-typedef struct
+struct t_voice
 {
     HAC         hVoice;         // SEAL voice handler
     LPAUDIOWAVE lpWave;
@@ -75,10 +75,10 @@ typedef struct
     int         vruncount;      // use bufferedstream mode : stock "sound_freerun_count"
     int *       vpan;           // Pan buffer
     int         vrestart;       // Error restart flag
-}               t_voice;
+};
 
 // t_sound, hold all variables/configurations stuff for the sound part
-typedef struct
+struct t_sound
 {
     // General
     int         Enabled;
@@ -112,10 +112,11 @@ typedef struct
     int         LogVGM_Logging_Accuracy;
     char *      LogVGM_FileName_Template;
     int         LogVGM_ID;
-}               t_sound;
 
-t_sound         Sound;
-int             Sound_CycleCounter;         // Number of cycle elapsed since last sound sync.
+	int			CycleCounter;				// Number of cycle elapsed since last sound sync.
+};
+
+extern t_sound  Sound;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -149,14 +150,12 @@ void    Sound_MasterVolume_Set  (int v);    // Change Master Volume
 #define DEF_STREAM_BUFFER_MAXB          ((DEF_FRAME_SIZE / DEF_MODEB_UPDATE_COUNT))
 #define DEF_STREAM_UPDATE_ERROR_MAX     (16) // error wait is 16 seconds.
 
-int     STREAM_BUFFER_MAXA;
-int     STREAM_BUFFER_MAXB;
-int     MODEB_UPDATE_COUNT;
-int     MODEB_FRAME_SIZE;
-int     MODEB_MASK;
-int     MODEB_ERROR_MAX;
-
-int     sound_stream_mode;
+extern int STREAM_BUFFER_MAXA;
+extern int STREAM_BUFFER_MAXB;
+extern int MODEB_UPDATE_COUNT;
+extern int MODEB_FRAME_SIZE;
+extern int MODEB_ERROR_MAX;
+extern int MODEB_MASK;
 
 #define SOUND_STREAM_NORMAL             (0)
 #define SOUND_STREAM_WAIT               (1)

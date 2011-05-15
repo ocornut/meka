@@ -36,9 +36,9 @@ t_tfile *       tfile_read(const char *filename)
     }
 
     // Allocate the t_tfile and read file data into to
-    tf = malloc(sizeof (t_tfile));
+    tf = (t_tfile*)malloc(sizeof (t_tfile));
     tf->size = size;
-    tf->data_raw = malloc(sizeof (char) * size + 1);
+    tf->data_raw = (char*)malloc(sizeof (char) * size + 1);
 	tf->data_lines = NULL;
 
     if (fread(tf->data_raw, sizeof (char), size, f) < (unsigned int)size)

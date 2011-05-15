@@ -40,7 +40,7 @@ void    Setup_Interactive_Init (void)
         if (Setup_Interactive () == MEKA_ERR_CANCEL)
         {
             // Note: the only reason for setting the state to SHUTDOWN is so that Quit() doesn't pause on the console.
-            Meka_State = MEKA_STATE_SHUTDOWN;   
+            g_env.state = MEKA_STATE_SHUTDOWN;   
             Quit ();
         }
     }
@@ -121,11 +121,10 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 
 			// Fill language combo box
 			{
-				t_list *langs;
 				combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_LANGUAGE);
-				for (langs = Messages.Langs; langs; langs = langs->next)
+				for (t_list* langs = Messages.Langs; langs; langs = langs->next)
 				{
-					t_lang *lang = langs->elem;
+					t_lang* lang = (t_lang*)langs->elem;
 					combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)lang->Name);
 					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)lang);
 					// printf("lang %s %i\n", lang->Name, combo_idx);
@@ -223,8 +222,6 @@ static  int     Setup_Interactive_Console (void)
     ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
     #ifdef ARCH_WIN32
         ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
-    #elif ARCH_DOS
-        ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_DOS));
     #endif
 
     // Print soundcard listing

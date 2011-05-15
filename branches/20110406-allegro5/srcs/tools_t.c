@@ -10,13 +10,12 @@
 // FIXME: UNIX code missing.
 //-----------------------------------------------------------------------------
 
+#include "shared.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-#ifdef ARCH_DOS
- #include <dos.h>
-#endif
 #ifdef ARCH_WIN32
  #include <Windows.h>
  #include <Winbase.h>
@@ -108,11 +107,6 @@ char *  meka_date_getf (void)
 // WRITE A FORMATTED STRING WITH TIME -----------------------------------------
 char *  meka_time_getf (char *str)
 {
-#ifdef ARCH_DOS
-    struct time t;
-    gettime (&t);
-    sprintf (str, "%02i:%02i:%02i", t.ti_hour, t.ti_min, t.ti_sec);
-#else
 #ifdef ARCH_WIN32
     SYSTEMTIME t;
     GetLocalTime (&t);
@@ -121,7 +115,6 @@ char *  meka_time_getf (char *str)
     int hour, minute, second;
     meka_get_time_date(&hour, &minute, &second, 0, 0, 0, 0);
     sprintf (str, "%02i:%02i:%02i", hour, minute, second);
-#endif
 #endif
     return (str);
 }

@@ -9,7 +9,7 @@
 
 //-----------------------------------------------------------------------------
 
-t_nes_mapper    NES_Mappers [] =
+t_nes_mapper    NES_Mappers[] =
 {
   {  0,  NES_Mapper_0_Init,     NES_Mapper_0_Write,    NULL,                   NULL                     },
   {  1,  NES_Mapper_1_Init,     NES_Mapper_1_Write,    NES_Mapper_1_Load,      NES_Mapper_1_Save        },

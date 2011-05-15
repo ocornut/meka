@@ -41,11 +41,11 @@
 //-----------------------------------------------------------------------------
 
 /*
-typedef struct
+struct t_mekastate_header
 {
     char    magic[4];               // "MEKA-State"
     char    content_creator[32];    // eg: "MEKA 0.69/W"
-} t_mekastate_header;
+};
 */
 
 //-----------------------------------------------------------------------------

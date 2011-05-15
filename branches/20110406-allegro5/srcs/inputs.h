@@ -30,21 +30,21 @@
 //-----------------------------------------------------------------------------
 
 // Input Sources Types
-typedef enum
+enum t_input_src_type
 {
     INPUT_SRC_TYPE_KEYBOARD = 0,
     INPUT_SRC_TYPE_JOYPAD   = 1,    // Digital only (yet)
     INPUT_SRC_TYPE_MOUSE    = 2,
-} t_input_src_type;
+};
 
 // Input Sources Flags
-typedef enum
+enum t_input_src_flags
 {
     INPUT_SRC_FLAGS_DIGITAL         = 0x0001,
     INPUT_SRC_FLAGS_EMULATE_DIGITAL = 0x0002,
     INPUT_SRC_FLAGS_ANALOG          = 0x0004,
     INPUT_SRC_FLAGS_EMULATE_ANALOG  = 0x0008,
-} t_input_src_flags;
+};
 
 // Players Definitions
 #define  PLAYER_NO      (-1)
@@ -63,10 +63,10 @@ typedef enum
 #define  INPUT_MAP_TYPE_MOUSE_AXIS      (1)
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_input_peripheral_info
 {
     char   *name;
-} t_input_peripheral_info;
+};
 extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX];
 
 //-----------------------------------------------------------------------------
@@ -105,23 +105,23 @@ extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_key_press
 {
     int     scancode;
     int     ascii;
-} t_key_press;
+};
 
-typedef struct
+struct t_input_map
 {
     byte    Type;               // Axis, Button, Wheel, etc..
     int     Idx;                // Index of Axis/Stick/Button/Wheel, etc..
     int     Res;                // Result, For buttons: 1 if pressed, for axis: contains value
-} t_input_map;
+};
 
-typedef struct
+struct t_input_src
 {
     char *              name;                  
-    t_input_src_flags   flags;                 
+    int					flags;					// enum t_input_src_flags // FIXME-ENUM               
     t_input_src_type    type;
     bool                enabled;
     int                 player;                 // PLAYER_1 or PLAYER_2
@@ -131,15 +131,15 @@ typedef struct
     byte            Connected_and_Ready;        // No/Yes
     t_input_map     Map[INPUT_MAP_MAX];
     int             Map_Counters[INPUT_MAP_MAX];
-} t_input_src;
+};
 
 // FIXME: yet unused
-typedef struct
+struct t_peripheral_paddlecontrol
 {
     u8              x;
-} t_peripheral_paddlecontrol;
+};
 
-typedef struct
+struct t_inputs
 {
     char            FileName [FILENAME_LEN];        // Path to the MEKA.INP file
     // Emulation
@@ -157,9 +157,9 @@ typedef struct
     t_list *        KeyPressedQueue;                // Queued keypresses
     // GUI
     int             Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
-} t_inputs;
+};
 
-t_inputs        Inputs;
+extern t_inputs Inputs;
 
 char *          Inputs_Get_MapName (int Type, int MapIdx);
 void            Inputs_Peripheral_Next (int Player);

@@ -23,6 +23,18 @@
 // Data
 //-----------------------------------------------------------------------------
 
+t_nes*			 nes;
+byte            *NES_Header;
+byte            *NES_Prg;
+int              NES_Prg_Cnt;
+int              NES_Prg_Mask;
+byte            *NES_Chr;
+int              NES_Chr_Cnt;
+int              NES_Chr_Mask;
+t_nes_mapper    *NES_Mapper;
+void           (*NES_Mapper_Write)(word, byte);
+byte            *NES_VRAM_Banks[16];
+
 // FIXME-ALLEGRO5: Palette is in float format, must be converted
 const ALLEGRO_COLOR NES_Palette[64] =
 {
@@ -63,7 +75,7 @@ void    NES_Init (void)
 {
 	// if (cfg.NES_Enabled == 0)
 	//    return;
-	nes = Memory_Alloc (sizeof (*nes));
+	nes = (t_nes*)Memory_Alloc (sizeof (*nes));
 }
 
 void    NES_Reset (void)
@@ -221,7 +233,7 @@ byte    Loop6502 (register M6502 *R)
 
     // Update sound cycle counter
     Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
-    Sound_CycleCounter += opt.Cur_IPeriod;
+    Sound.CycleCounter += opt.Cur_IPeriod;
 
     // Screen refreshing
     if (tsms.VDP_Line < 240)

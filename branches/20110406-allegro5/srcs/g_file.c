@@ -14,6 +14,12 @@
 #include "vlfn.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_filebrowser    FB;
+
+//-----------------------------------------------------------------------------
 // Definitions (private)
 //-----------------------------------------------------------------------------
 
@@ -61,8 +67,8 @@ void                    FB_Entry_Delete     (t_filebrowser_entry *entry);
 //-----------------------------------------------------------------------------
 t_filebrowser_entry *       FB_Entry_New (int type, char *file_name)
 {
-    t_filebrowser_entry *   entry;
-    entry = malloc (sizeof (t_filebrowser_entry));
+    t_filebrowser_entry* entry;
+	entry = (t_filebrowser_entry*)malloc(sizeof(t_filebrowser_entry));
     entry->type             = type;
     entry->file_name        = file_name;
     entry->db_entry         = NULL;
@@ -141,7 +147,7 @@ void            FB_Init (void)
     FB.box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
 
     // Add close box widget
-    widget_closebox_add(FB.box, FB_Switch);
+    widget_closebox_add(FB.box, (t_widget_callback)FB_Switch);
 
     // Layout
     FB_Layout(&FB, TRUE);
@@ -168,7 +174,7 @@ void        FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_PAD_Y + 2;
         frame.size.x = FB_SCROLL_X - 3;
         frame.size.y = FB_Return_File_Area_Y () - 4;
-        app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, &FB.file_y, FB_Draw_List);
+        app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, &FB.file_y, (t_widget_callback)FB_Draw_List);
 
         // Add an invisible 'button' to catch click on the list
         // (currently the GUI doesn't handle list/combo)
@@ -176,7 +182,7 @@ void        FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_PAD_Y + 2;
         frame.size.x = FB.res_x - (2 * FB_PAD_X) - FB_SCROLL_X - 4;
         frame.size.y = FB_Return_File_Area_Y () - 6;
-        widget_button_add(FB.box, &frame, 1, FB_Click_List, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Click_List, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
         // Add 'CLOSE' button
         //frame.pos.x = FB_BUTTON_X + 10;
@@ -184,22 +190,22 @@ void        FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y);
         frame.size.x = FB_BUTTON_X;
         frame.size.y = FB_BUTTON_Y;
-        widget_button_add(FB.box, &frame, 1, FB_Switch, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Close));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Close));
 
         // Add 'LOAD' button
         frame.pos.x -= FB_BUTTON_X + 10;
-        widget_button_add(FB.box, &frame, 1, FB_Open, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Load));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Open, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Load));
 
         // Add small 'LOAD NAMES' button
         frame.pos.x = FB_PAD_X;
         frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MIDDLE) + 6;
         frame.size.x = 54;
         frame.size.y = Font_Height (F_SMALL) + 3;
-        widget_button_add(FB.box, &frame, 1, FB_Load_All_Names, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_All_Names, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
 
         // Add small 'RELOAD DIR' button
         frame.pos.x += frame.size.x + 1;
-        widget_button_add(FB.box, &frame, 1, FB_Load_Directory, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
     }
 
     // Additionnal drawing
@@ -221,26 +227,6 @@ void            FB_Add_Drives (void)
     int         i;
     char        buf [256];
 
-#ifdef ARCH_DOS
-    int j = getdisk ();         // Save current disk
-    for (i = 2; i < 26; i ++)   // C: to Z:
-    {
-        setdisk (i);
-        if (getdisk () == i)
-        {
-            // Create a new file browser entry of disk type
-            t_filebrowser_entry *entry;
-            sprintf (buf, "%c:", 'A' + i);
-            entry = FB_Entry_New (FB_ENTRY_TYPE_DRIVE, strdup (buf));
-
-            // Add to list (FIXME: argh)
-            FB.files [FB.files_max] = entry;
-            FB.files_max ++;
-            FB.files = realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
-        }
-    }
-    setdisk (j); // Restore current disk
-#else
     for (i = 2; i < 26; i ++)   // C: to Z:
     {
         if (GetLogicalDrives () & (1 << i))
@@ -253,10 +239,9 @@ void            FB_Add_Drives (void)
             // Add to list (FIXME: argh)
             FB.files [FB.files_max] = entry;
             FB.files_max ++;
-            FB.files = realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
+			FB.files = (t_filebrowser_entry**)realloc(FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
         }
     }
-#endif
 }
 
 #endif
@@ -328,7 +313,7 @@ int                 FB_Ext_In_List (t_list *ext_list, char *ext)
 {
     while (ext_list)
     {
-        if (stricmp (ext_list->elem, ext) == 0)
+        if (stricmp ((char*)ext_list->elem, ext) == 0)
             return (1);
         ext_list = ext_list->next;
     }
@@ -388,13 +373,9 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
     closedir (dir);
 
-#else // ARCH_DOS & ARCH_WIN32
+#else // ARCH_WIN32
 
-#ifdef ARCH_DOS
-    struct ffblk f;
-    if (findfirst ("*.*", &f, 0xFF) != 0)
-        return;
-#elif ARCH_WIN32
+#ifdef ARCH_WIN32
     struct _finddata_t info;
     long   handle;
 	if ((handle = _findfirst ("*.*", &info)) < 0)
@@ -403,10 +384,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
     do
     {
-        #ifdef ARCH_DOS
-            int     attrib  = f.ff_attrib;
-            char *  name    = f.ff_name;
-        #elif ARCH_WIN32
+        #ifdef ARCH_WIN32
             int     attrib  = info.attrib;
             char *  name    = info.name;
         #endif
@@ -440,15 +418,10 @@ void                FB_Add_Entries (t_list *ext_list, int type)
             // Add to list (FIXME: argh)
             FB.files[FB.files_max] = entry;
             FB.files_max ++;
-            FB.files = realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
+            FB.files = (t_filebrowser_entry**)realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
         }
     }
-
-#ifdef ARCH_DOS
-    while (findnext (&f) == 0);
-#else // ARCH_WIN32
     while (_findnext (handle, &info) == 0);
-#endif
 
 #ifdef ARCH_WIN32
     _findclose (handle);
@@ -468,7 +441,7 @@ static void     FB_Load_Directory_Internal (void)
     FB.file_pos = 0;
     FB.file_display_first = 0;
     FB.last_click = -1;
-    FB.files = malloc (sizeof (t_filebrowser_entry *));
+	FB.files = (t_filebrowser_entry**)malloc (sizeof (t_filebrowser_entry *));
 
     // First add directories and sort them
     FB_Add_Entries (NULL, FB_ENTRY_TYPE_DIRECTORY);
@@ -896,7 +869,7 @@ void        FB_Load_All_Names (void)
         t_filebrowser_entry *entry = FB.files[i];
         if (entry->type == FB_ENTRY_TYPE_FILE)
         {
-            strncpy(g_Env.Paths.MediaImageFile, entry->file_name, sizeof(g_Env.Paths.MediaImageFile));
+            strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
             // Msg (MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
             FB.file_pos = i;
             FB_Check_and_Repos ();
@@ -943,7 +916,7 @@ void        FB_Open (void)
         }
     case FB_ENTRY_TYPE_FILE:
         {
-            strncpy(g_Env.Paths.MediaImageFile, entry->file_name, sizeof(g_Env.Paths.MediaImageFile));
+            strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
             Load_ROM (LOAD_INTERFACE, TRUE);
             FB_Reload_Names ();
             if (g_Configuration.fb_close_after_load)

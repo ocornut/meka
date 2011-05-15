@@ -13,7 +13,7 @@
 
 // #define NEW_S0HIT
 
-typedef struct  s_nes
+struct t_nes
  {
    M6502        Regs;
    byte         Joy_Strobe;
@@ -30,19 +30,19 @@ typedef struct  s_nes
    #ifdef NEW_S0HIT
       int       Sprite_0_Hit;
    #endif
- }              t_nes;
+};
 
-t_nes           *nes;
-byte            *NES_Header;
-byte            *NES_Prg;
-int              NES_Prg_Cnt;
-int              NES_Prg_Mask;
-byte            *NES_Chr;
-int              NES_Chr_Cnt;
-int              NES_Chr_Mask;
-t_nes_mapper    *NES_Mapper;
-void           (*NES_Mapper_Write)(word, byte);
-byte            *NES_VRAM_Banks[16];
+extern t_nes *			nes;
+extern byte            *NES_Header;
+extern byte            *NES_Prg;
+extern int              NES_Prg_Cnt;
+extern int              NES_Prg_Mask;
+extern byte            *NES_Chr;
+extern int              NES_Chr_Cnt;
+extern int              NES_Chr_Mask;
+extern t_nes_mapper    *NES_Mapper;
+extern void           (*NES_Mapper_Write)(word, byte);
+extern byte            *NES_VRAM_Banks[16];
 
 extern const ALLEGRO_COLOR NES_Palette[64];
 

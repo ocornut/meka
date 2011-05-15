@@ -11,7 +11,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_tilemap_viewer
 {
     bool                    active;
     t_gui_box *             box;
@@ -39,7 +39,7 @@ typedef struct
     int                     tile_hovered;
     int                     tile_selected;
 
-} t_tilemap_viewer;
+};
 
 extern t_tilemap_viewer *	TilemapViewer_MainInstance;
 extern t_list *				TilemapViewers;

@@ -11,6 +11,12 @@
 #include "palette.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_options Options;
+
+//-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
 
@@ -68,7 +74,7 @@ static void     Options_Layout_AddLine(bool setup, t_frame *frame, const char *t
 
     frame->pos.x = OPTIONS_PAD_X;
     if (setup)
-        widget_checkbox_add(Options.box, frame, v, func); // FIXME: Cast
+        widget_checkbox_add(Options.box, frame, v, (t_widget_callback)func); // FIXME: Cast
     frame->pos.x += OPTIONS_CHECK_X + 8;
     Font_Print(F_MIDDLE, Options.box->gfx_buffer, text, frame->pos.x, frame->pos.y + shift_y, COLOR_SKIN_WINDOW_TEXT);
     frame->pos.y += OPTIONS_CHECK_Y + 4;
@@ -84,14 +90,14 @@ static void     Options_Layout(t_app_options *app, bool setup)
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(Options.box, Options_Switch);
+        widget_closebox_add(Options.box, (t_widget_callback)Options_Switch);
 
         // Add close button
         frame.pos.x = Options.box->frame.size.x - OPTIONS_BUTTON_X - OPTIONS_PAD_X;
         frame.pos.y = Options.box->frame.size.y - OPTIONS_BUTTON_Y - OPTIONS_PAD_Y;
         frame.size.x = OPTIONS_BUTTON_X;
         frame.size.y = OPTIONS_BUTTON_Y;
-        widget_button_add(Options.box, &frame, 1, Options_Switch, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_Options_Close));
+        widget_button_add(Options.box, &frame, 1, (t_widget_callback)Options_Switch, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_Options_Close));
     }
 
     // Draw option lines

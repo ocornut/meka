@@ -7,14 +7,14 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-typedef enum
+enum t_gui_focus
 {
     GUI_FOCUS_NONE          = 0,
     GUI_FOCUS_DESKTOP       = 1,
     GUI_FOCUS_BOX           = 2,
     GUI_FOCUS_MENUS         = 3,
     GUI_FOCUS_WIDGET        = 4,
-} t_gui_focus;
+};
 
 /*
 #define  PRESSED_ON_NOTHING   (-1)

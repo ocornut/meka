@@ -12,7 +12,8 @@
 
 extern int		Sound_Rate_Default_Table[4];
 
-extern int		sound_vcount, sound_icount;
+extern int		sound_vcount;
+extern int		sound_icount;
 extern int		Sound_Update_Count;
 
 //-----------------------------------------------------------------------------

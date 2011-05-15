@@ -5,10 +5,7 @@
 // FIXME: many of those functions are now useless, outdated or not efficient
 //-----------------------------------------------------------------------------
 
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
-#include "libmy.h"
+#include "shared.h"
 
 //-----------------------------------------------------------------------------
 
@@ -38,7 +35,7 @@ char   *StrNDup(const char *src, int n)
  n2 = strlen (src);
  if (n2 < n)
     n = n2;
- ret = dst = malloc (sizeof (char) * (n + 1));
+ ret = dst = (char*)malloc (sizeof (char) * (n + 1));
  while (*src && n --)
     *dst++ = *src++;
  *dst = EOSTR;
@@ -47,9 +44,8 @@ char   *StrNDup(const char *src, int n)
 
 unsigned short   *StrDupToUnicode(const char *src)
 {
- unsigned short  *ret, *dst;
-
- ret = dst = malloc (sizeof (unsigned short) * (strlen (src) + 1));
+ u16* ret = (u16*)malloc (sizeof (unsigned short) * (strlen (src) + 1));
+ u16* dst = ret;
  while (*src)
     {
     *dst++ = *src++;
@@ -60,13 +56,11 @@ unsigned short   *StrDupToUnicode(const char *src)
 
 unsigned short   *StrNDupToUnicode (const char *src, int n)
 {
- int    n2;
- unsigned short  *ret, *dst;
-
- n2 = strlen (src);
+ int n2 = strlen (src);
  if (n2 < n)
     n = n2;
- ret = dst = malloc (sizeof (unsigned short) * (n + 1));
+ u16* ret = (u16*)malloc (sizeof (unsigned short) * (n + 1));
+ u16* dst = ret;
  while (*src && n --)
     {
     *dst++ = *src++;
@@ -258,39 +252,28 @@ void    Write_Bits_Field (int v, int n_bits, char *field)
 // (Random Number Generators)
 void    Random_Init (void)
 {
-/*
- #ifdef ARCH_DOS
-   struct time ttmp;
-   gettime (&ttmp);
-   srand (ttmp.ti_sec + (ttmp.ti_min * ttmp.ti_hour));
-   srandom (ttmp.ti_sec + (ttmp.ti_min * ttmp.ti_hour));
- #else
-*/
-   srand ((unsigned int)time (NULL));
-   #ifndef ARCH_WIN32
-      srandom (time (NULL));
-   #endif
-/*
- #endif
-*/
+	srand ((unsigned int)time (NULL));
+#ifndef ARCH_WIN32
+	srandom (time (NULL));
+#endif
 }
 
 // Convert a BCD number to decimal
 // Note: no error handling is done, if using A-F values
-int     BCD_to_Dec (int bcd)
+int     BCD_to_Dec(int bcd)
 {
- int    ret;
- int    pow;
+	int    ret;
+	int    pow;
 
- ret = 0;
- pow = 1;
- while (bcd > 0)
-   {
-   ret += (bcd & 0xF) * pow;
-   bcd >>= 4;
-   pow *= 10;
-   }
+	ret = 0;
+	pow = 1;
+	while (bcd > 0)
+	{
+		ret += (bcd & 0xF) * pow;
+		bcd >>= 4;
+		pow *= 10;
+	}
 
- return (ret);
+	return (ret);
 }
 

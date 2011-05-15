@@ -110,7 +110,7 @@ void    Action_Switch_Layer_Background (void)
 void    Action_Switch_Flickering_Auto (void)
 {
     g_Configuration.sprite_flickering = SPRITE_FLICKERING_AUTO;
-    if (DB_CurrentEntry && (DB_CurrentEntry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
+    if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
         g_Configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
     gui_menu_un_check (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 0);
@@ -138,10 +138,10 @@ void    Action_Switch_Flickering_No (void)
 // ACTION: SWITCH BETWEEN FULLSCREEN AND INTERFACE MODES ----------------------
 void    Action_Switch_Mode (void)
 {
-    switch (Meka_State)
+    switch (g_env.state)
     {
-    case MEKA_STATE_FULLSCREEN: Meka_State = MEKA_STATE_GUI;        break;
-    case MEKA_STATE_GUI:        Meka_State = MEKA_STATE_FULLSCREEN; break;
+    case MEKA_STATE_FULLSCREEN: g_env.state = MEKA_STATE_GUI;        break;
+    case MEKA_STATE_GUI:        g_env.state = MEKA_STATE_FULLSCREEN; break;
     default:
         // FIXME: Should not happen
         break;

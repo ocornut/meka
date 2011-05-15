@@ -55,8 +55,9 @@
 				ExceptionHandling="0"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=""
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="shared.h"
+				PrecompiledHeaderFile="$(IntDir)\shared.pch"
 				AssemblerListingLocation="./$(IntDir)/"
 				ObjectFile="./$(IntDir)/"
 				ProgramDataBaseFileName="./$(IntDir)/"
@@ -65,7 +66,7 @@
 				SuppressStartupBanner="true"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
-				CompileAs="1"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -166,8 +167,9 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				EnableEnhancedInstructionSet="0"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=""
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="shared.h"
+				PrecompiledHeaderFile="$(IntDir)\shared.pch"
 				AssemblerListingLocation="./$(IntDir)/"
 				ObjectFile="./$(IntDir)/"
 				ProgramDataBaseFileName="./$(IntDir)/"
@@ -175,7 +177,7 @@
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="3"
-				CompileAs="1"
+				CompileAs="2"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -641,6 +643,26 @@
 				>
 			</File>
 			<File
+				RelativePath="..\shared.c"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\shared.h"
 				>
 			</File>
@@ -713,10 +735,6 @@
 				</File>
 				<File
 					RelativePath="..\sound\fmunit.h"
-					>
-				</File>
-				<File
-					RelativePath="..\sound\s_init.c"
 					>
 				</File>
 				<File
@@ -913,6 +931,22 @@
 					<File
 						RelativePath="..\m6502\m6502.c"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\m6502\m6502.h"
@@ -957,6 +991,22 @@
 					<File
 						RelativePath="..\z80marat\Z80.c"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath="..\z80marat\Z80.h"
@@ -965,6 +1015,22 @@
 					<File
 						RelativePath="..\z80marat\Z80Call.c"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
@@ -1534,22 +1600,6 @@
 				<File
 					RelativePath="..\app_memview.c"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							WarningLevel="4"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							WarningLevel="4"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\app_memview.h"

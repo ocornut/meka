@@ -16,16 +16,16 @@ void    PSG_Mute        (void);
 
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_psg_channel
 {
     signed short int    ToneFreqVal;            // Frequency register values (counters)
     signed       char   ToneFreqPos;            // Frequency channel flip-flops
     signed long  int    IntermediatePos;        // Intermediate values used at boundaries between + and -
   unsigned short int	Volume;                 // Current channel volume (0-900+...)
                  int    Active;                 // Set to 0 to mute
-}                       t_psg_channel;
+};
 
-typedef struct
+struct t_psg
 {
   t_psg_channel         Channels[4];            //
   unsigned short int	Registers[8];           //
@@ -37,7 +37,7 @@ typedef struct
                  float  dClock;
   unsigned       int    NumClocksForSample;
                  int    SamplingRate;           // fixed
-}                       t_psg;
+};
 
 extern t_psg            PSG;
 

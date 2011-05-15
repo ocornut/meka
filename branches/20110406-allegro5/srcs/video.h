@@ -7,7 +7,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_video
 {
     int		driver;							// Current driver
     int		res_x, res_y;					// Current resolution
@@ -17,9 +17,9 @@ typedef struct
     int		game_area_x1, game_area_y1;		// Game area frame
     int		game_area_x2, game_area_y2;
 	bool	triple_buffering_activated;		// Enabled in configuration and supported by driver (eg: fullscreen)
-} t_video;
+};
 
-t_video	Video;
+extern t_video	Video;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -40,10 +40,6 @@ bool	Screenbuffer_IsLocked(void);
 
 extern INLINE void Screen_Save_to_Next_Buffer (void);
 extern INLINE void Screen_Restore_from_Next_Buffer (void);
-
-#ifdef ARCH_DOS
-void    Video_VGA_Set_Border_Color (byte idx);
-#endif
 
 //-----------------------------------------------------------------------------
 

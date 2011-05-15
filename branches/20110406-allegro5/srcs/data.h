@@ -33,7 +33,7 @@
 // t_data_graphics Graphics
 // Hold handler to all graphics data
 //-----------------------------------------------------------------------------
-typedef struct
+struct t_data_graphics
 {
     // Cursors
     struct
@@ -99,9 +99,9 @@ typedef struct
         ALLEGRO_BITMAP *    Heart2;
     } Misc;
 
-} t_data_graphics;
+};
 
-t_data_graphics     Graphics;
+extern t_data_graphics     Graphics;
 
 //-----------------------------------------------------------------------------
 // Functions

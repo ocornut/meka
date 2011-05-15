@@ -7,13 +7,13 @@
 // Data
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_tfile
 {
   int           size;
   char *        data_raw;
   t_list *      data_lines;
   int           data_lines_count;
-}               t_tfile;
+};
 
 //-----------------------------------------------------------------------------
 // Methods

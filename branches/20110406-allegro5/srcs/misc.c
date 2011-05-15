@@ -24,7 +24,7 @@
 /*
 void    Close_Button_Callback (void)
 {
-    if (Meka_State == MEKA_STATE_INIT || Meka_State == MEKA_STATE_SHUTDOWN)
+    if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
         return;
     opt.Force_Quit = TRUE;
 }
@@ -39,7 +39,7 @@ void    Close_Button_Callback (void)
 /*
 void    Switch_In_Callback (void)
 {
-    if (Meka_State == MEKA_STATE_INIT || Meka_State == MEKA_STATE_SHUTDOWN)
+    if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
         return;
     // Msg (MSGT_USER, "Switch_In_Callback()");
     // clear_to_color (screen, Border_Color);
@@ -54,7 +54,7 @@ void    Switch_In_Callback (void)
 //-----------------------------------------------------------------------------
 void    Switch_Out_Callback (void)
 {
-    if (Meka_State == MEKA_STATE_INIT || Meka_State == MEKA_STATE_SHUTDOWN)
+    if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
         return;
     // Msg (MSGT_USER, "Switch_Out_Callback()");
     Sound_Playback_Mute ();
@@ -82,7 +82,7 @@ void    Change_System_Misc (void)
 //-----------------------------------------------------------------------------
 void    Change_Mode_Misc (void)
 {
-    switch (Meka_State)
+    switch (g_env.state)
     {
     case MEKA_STATE_FULLSCREEN: // Fullscreen
         {
@@ -95,9 +95,6 @@ void    Change_Mode_Misc (void)
         break;
     }
     gui_mouse_show (NULL);
-    //#ifdef ARCH_DOS
-    //    Video_VGA_Set_Border_Color (Border_Color);
-    //#endif
     Inputs_Peripheral_Change_Update ();
 }
 
@@ -109,7 +106,7 @@ void    Change_Mode_Misc (void)
 //-----------------------------------------------------------------------------
 void    Set_Mouse_Cursor(int mouse_cursor)
 {
-    if (g_Env.mouse_installed == -1)
+    if (g_env.mouse_installed == -1)
         return;
     switch (mouse_cursor)
     {
@@ -148,98 +145,54 @@ void    Set_Mouse_Cursor(int mouse_cursor)
 //-----------------------------------------------------------------------------
 void    Show_End_Message (void)
 {
-    // ANSI colors codes reminder:
-    //  0: Black
-    //  4: Red
-    //  7: White
-    //  8: Dark Gray
-    // 15: Bright White
+	// ANSI colors codes reminder:
+	//  0: Black
+	//  4: Red
+	//  7: White
+	//  8: Dark Gray
+	// 15: Bright White
 
 #ifdef ARCH_UNIX
-  printf(" ");
-  printf(BGCOLOR(1));
-  printf(FGCOLOR(0));
-  printf ("                           ");  
-  printf (RESET "  %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
-  
-  printf (" ");
-  printf(BGCOLOR(1));
-  printf(FGCOLOR(0));
-  printf (FGCOLOR(0) " ");
-  printf (FGCOLOR(7) "WONDER");
-  printf (FGCOLOR(0) " ");
-  printf (FGCOLOR(7) "BOY");
-  printf (FGCOLOR(0) " ");
-  printf (FGCOLOR(7) "III");
-  printf (FGCOLOR(0) "            ");
-  printf (RESET"  Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+	printf(" ");
+	printf(BGCOLOR(1));
+	printf(FGCOLOR(0));
+	printf ("                           ");  
+	printf (RESET "  %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
 
-  printf (" ");
-  printf(BGCOLOR(1));
-  printf(FGCOLOR(0));
-  printf ("                      ");
-  printf (FGCOLOR(7) "SEGA");
-  printf (FGCOLOR(0) " ");
-  printf (RESET "  " MEKA_HOMEPAGE "\n");
+	printf (" ");
+	printf(BGCOLOR(1));
+	printf(FGCOLOR(0));
+	printf (FGCOLOR(0) " ");
+	printf (FGCOLOR(7) "WONDER");
+	printf (FGCOLOR(0) " ");
+	printf (FGCOLOR(7) "BOY");
+	printf (FGCOLOR(0) " ");
+	printf (FGCOLOR(7) "III");
+	printf (FGCOLOR(0) "            ");
+	printf (RESET"  Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
 
-  printf (" ");
-  printf ("===========================");
-  
-  printf (RESET);
-  printf ("\n");
-#elif ARCH_DOS
-    // Line 1 ------------------------------------------------------------------
-    textbackground (4);     // Red background
-    textcolor (0);          // Black text
-    printf (" ");
-    cprintf ("еееееееееееееееееееееееееее");
-    printf ("  %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
-    // Line 2 ------------------------------------------------------------------
-    printf (" ");
-    cprintf ("е");
-    textcolor (15); cprintf ("WONDER");
-    textcolor (0);  cprintf ("е");
-    textcolor (15); cprintf ("BOY");
-    textcolor (0);  cprintf ("е");
-    textcolor (15); cprintf ("III");
-    textcolor (0);  cprintf ("ееееееееееее");
-    printf ("  Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
-    // Line 3 ------------------------------------------------------------------
-    printf (" ");
-    cprintf ("ееееееееееееееееееееее");
-    textcolor (15); cprintf ("SEGA");
-    textcolor (0);  cprintf ("е");
-    printf ("  " MEKA_HOMEPAGE "\n");
-    // Line 4 ------------------------------------------------------------------
-    textbackground (0); // Black background
-    textcolor (8);      // Dark Gray text
-    printf (" ");
-    cprintf ("ммммммммммммммммммммммммммм");
-    textcolor (7);      // Standard gray text
-    /*
-    if (!registered.is)
-    {
-        int i;
-        char message [] = "  *Unregistered Version*";
-        for (i = 0; i < strlen (message); i ++)
-        {
-            // FIXME: code a special case for Windows
-            printf ("%c", message [i]);
-            fflush (stdout);
-            rest (60);
-        }
-    }
-    */
-    printf ("\n");
+	printf (" ");
+	printf(BGCOLOR(1));
+	printf(FGCOLOR(0));
+	printf ("                      ");
+	printf (FGCOLOR(7) "SEGA");
+	printf (FGCOLOR(0) " ");
+	printf (RESET "  " MEKA_HOMEPAGE "\n");
+
+	printf (" ");
+	printf ("===========================");
+
+	printf (RESET);
+	printf ("\n");
 #else
-    ConsolePrintf (" %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
-    ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
-    ConsolePrintf (" " MEKA_HOMEPAGE "\n");
+	ConsolePrintf (" %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
+	ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+	ConsolePrintf (" " MEKA_HOMEPAGE "\n");
 #endif
 
-    // Print registered info line
-    // if (registered.is)
-    //     ConsolePrintf ("This program is registered to:\n%s\n", registered.user_name);
+	// Print registered info line
+	// if (registered.is)
+	//     ConsolePrintf ("This program is registered to:\n%s\n", registered.user_name);
 }
 
 //-----------------------------------------------------------------------------
@@ -249,20 +202,20 @@ void    Show_End_Message (void)
 void    Quit (void)
 {
     // Set text mode if we're not already in
-    if (Meka_State != MEKA_STATE_INIT && Meka_State != MEKA_STATE_SHUTDOWN)
+    if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
     {
 		al_destroy_display(g_display);
 		g_display = NULL;
         //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
-        // Meka_State = MEKA_STATE_SHUTDOWN;
+        // g_env.state = MEKA_STATE_SHUTDOWN;
         // Video_Setup_State ();
     }
 
     // Return back to starting directory
-    chdir (g_Env.Paths.StartingDirectory);
+    chdir (g_env.Paths.StartingDirectory);
 
 #ifdef ARCH_WIN32
-    if (Meka_State == MEKA_STATE_INIT)
+    if (g_env.state == MEKA_STATE_INIT)
     {
         ConsoleEnablePause();
         ConsoleWaitForAnswer(FALSE);
@@ -282,17 +235,17 @@ void            Quit_Msg (const char *format, ...)
     va_list       params;
 
     // Set text mode if we're not already in
-    if (Meka_State != MEKA_STATE_INIT && Meka_State != MEKA_STATE_SHUTDOWN)
+    if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
     {
 		al_destroy_display(g_display);
 		g_display = NULL;
         //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
-        // Meka_State = MEKA_STATE_SHUTDOWN;
+        // g_env.state = MEKA_STATE_SHUTDOWN;
         // Video_Setup_State ();
     }
 
     // Return back to starting directory
-    chdir (g_Env.Paths.StartingDirectory);
+    chdir (g_env.Paths.StartingDirectory);
 
 #ifdef ARCH_WIN32
     {
@@ -305,7 +258,7 @@ void            Quit_Msg (const char *format, ...)
         ConsolePrint(buffer);
         ConsoleEnablePause();
 
-        if (Meka_State == MEKA_STATE_INIT)
+        if (g_env.state == MEKA_STATE_INIT)
             ConsoleWaitForAnswer(FALSE);
         else
         {

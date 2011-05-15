@@ -11,11 +11,11 @@
 //-----------------------------------------------------------------------------
 
 // Registers (pointer to current FM emulator register)
-byte *                  FM_Regs;
+extern byte *           FM_Regs;
 
 // Counter telling weither seems to be used or not
 // It is decremented on each frame
-int                     FM_Used;
+extern int              FM_Used;
 
 // Instruments Name (strings)
 extern const char *     FM_Instruments_Name [YM2413_INSTRUMENTS];
@@ -27,7 +27,7 @@ extern const byte       FM_Regs_SavingFlags [YM2413_REGISTERS];
 // Interface
 //-----------------------------------------------------------------------------
 
-typedef struct
+struct t_fm_unit_interface
 {
  char    *Desc;
  char    *Author;
@@ -36,11 +36,12 @@ typedef struct
  void   (*f_mute)       (void);
  void   (*f_resume)     (void);
  void   (*f_regenerate) (void);
-}       t_fm_unit_interface;
+};
 
-t_fm_unit_interface      *FM_Unit_Current;
 void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs);
 void    FM_Null_Active   (void);
+
+extern t_fm_unit_interface* FM_Unit_Current;
 
 //-----------------------------------------------------------------------------
 // Interface Functions Accesses macros

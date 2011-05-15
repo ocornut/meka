@@ -11,6 +11,12 @@
 #include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+t_app_textviewer   TextViewer;
+
+//-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
@@ -71,7 +77,7 @@ void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
 
     // Add closebox widget
     if (setup)
-        widget_closebox_add(tv->box, TextViewer_Switch_Close);
+        widget_closebox_add(tv->box, (t_widget_callback)TextViewer_Switch_Close);
 
     // Add scrollbar
     frame.pos.x = tv->box->frame.size.x - TEXTVIEWER_SCROLLBAR_SIZE_X;
@@ -79,7 +85,7 @@ void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
     frame.size.x = TEXTVIEWER_SCROLLBAR_SIZE_X;
     frame.size.y = tv->box->frame.size.y;
     if (setup)
-        tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, &tv->text_size_per_page, TextViewer_ScrollbarCallback);
+        tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, &tv->text_size_per_page, (t_widget_callback)TextViewer_ScrollbarCallback);
 
     // Draw separator between text and scrollbar
     al_draw_line(frame.pos.x, frame.pos.y, frame.pos.x, frame.pos.y + frame.size.y + 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
@@ -107,7 +113,7 @@ int             TextViewer_Open(t_app_textviewer *tv, const char *title, const c
     }
 
     // Allocate and copy new lines
-    tv->text_lines = malloc(sizeof(char *) * tf->data_lines_count);
+    tv->text_lines = (char**)malloc(sizeof(char *) * tf->data_lines_count);
     tv->text_lines_count = tf->data_lines_count;
     i = 0;
     for (lines = tf->data_lines; lines; lines = lines->next)
@@ -158,41 +164,41 @@ int             TextViewer_Open(t_app_textviewer *tv, const char *title, const c
 
 void            TextViewer_Switch_Doc_Main(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMain, DOC_MAIN); 
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain, DOC_MAIN); 
 }
 
 #ifdef ARCH_WIN32
 void            TextViewer_Switch_Doc_MainW(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMainW, DOC_MAIN_WIN); 
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMainW, DOC_MAIN_WIN); 
 }
 #endif
 
 #ifdef ARCH_UNIX
 void            TextViewer_Switch_Doc_MainU(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMainU, DOC_MAIN_UNIX); 
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMainU, DOC_MAIN_UNIX); 
 }
 #endif
 
 void            TextViewer_Switch_Doc_Compat(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationCompat, DOC_COMPAT);
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationCompat, DOC_COMPAT);
 }
 
 void            TextViewer_Switch_Doc_Multiplayer_Games(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationMulti, DOC_MULTI); 
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMulti, DOC_MULTI); 
 }
 
 void            TextViewer_Switch_Doc_Changes(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationChanges, DOC_CHANGES); 
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationChanges, DOC_CHANGES); 
 }
 
 void            TextViewer_Switch_Doc_Debugger(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_Env.Paths.DocumentationDebugger, DOC_DEBUGGER); 
+    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationDebugger, DOC_DEBUGGER); 
 }
 
 void            TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file)

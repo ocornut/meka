@@ -9,8 +9,7 @@
 
 #define TVTYPE_NTSC       (0)
 #define TVTYPE_PAL_SECAM  (1)
-#define TVTYPE_AUTO       (2) // AUTO must not be 0 or 1 because the values
-                              // are used for menu ticks positionning
+#define TVTYPE_AUTO       (2) // AUTO must not be 0 or 1 because the values are used for menu ticks positionning
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -36,8 +35,8 @@ struct t_tv_type
     int     CPU_clock;
 };
 
-extern  t_tv_type       TV_Type_Table [];
-t_tv_type *             TV_Type_User;
+extern t_tv_type        TV_Type_Table[];
+extern t_tv_type *      TV_Type_User;
 // Note: TV Type for emulation is pointed by 'cur_machine.TV_Type'
 
 //-----------------------------------------------------------------------------

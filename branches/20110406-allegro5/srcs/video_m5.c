@@ -16,15 +16,19 @@
 // Data
 //-----------------------------------------------------------------------------
 
-static u16*		GFX_LineRegionData = NULL;
+static u16*	GFX_LineRegionData = NULL;
 
-       int      Sprites_on_Line;
-       int      Do_Collision;
-static byte     Sprites_Draw_Mask [SMS_RES_X + 16];
+extern "C"
+{
+int			Sprite_Last;
+int			Sprites_on_Line;
+int			Do_Collision;
 
-#define         Sprites_Collision_Table_Len (SMS_RES_X + 32)
-int             Sprites_Collision_Table_Start[Sprites_Collision_Table_Len + 32];
-int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
+#define     Sprites_Collision_Table_Len (SMS_RES_X + 32)
+int         Sprites_Collision_Table_Start[Sprites_Collision_Table_Len + 32];
+int *       Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
+}
+static byte Sprites_Draw_Mask [SMS_RES_X + 16];
 
 //-----------------------------------------------------------------------------
 // Color configuration
@@ -43,7 +47,7 @@ int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 // Note: this is used by tools only (not actual emulation refresh)
 void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
 {
-	const ALLEGRO_PIXEL_FORMAT color_format = al_get_bitmap_format(dst);
+	const int color_format = al_get_bitmap_format(dst);
     switch (color_format)
     {
     case ALLEGRO_PIXEL_FORMAT_BGR_565:

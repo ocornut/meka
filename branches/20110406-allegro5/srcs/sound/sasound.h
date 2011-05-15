@@ -20,21 +20,24 @@
  #endif
 #endif
 
-/* audio related stuff */
 #define MAX_STREAM_CHANNELS           (16)
 #define NUMVOICES                     (MAX_STREAM_CHANNELS)
 
 #define VOLUME_MAX                    (255)
 
-int             audio_sample_rate;
-int             nominal_sample_rate;
-int             change_sample_rate;
+struct t_sasound
+{
+	int         audio_sample_rate;
+	int         nominal_sample_rate;
+	int         change_sample_rate;
+	int			vbover_err, vbunder_err;
+};
 
-extern int      vbover_err, vbunder_err;
+extern t_sasound g_sasound;
 
 #define SND_CONTROL_MAX   (3)
 
-typedef struct
+struct SoundRec
 {
   int  first;
   int  sound_timing;		/* 60 / sound_timing Hz */
@@ -46,9 +49,9 @@ typedef struct
   void (*f_stop  [SND_CONTROL_MAX]) (void);
   void *userdata [SND_CONTROL_MAX];
   int  control_max;
-} SoundRec;
+};
 
-typedef struct
+struct SoundRecEntry
 {
   int           sync;
   int           count;
@@ -57,9 +60,9 @@ typedef struct
   void          (*f_update) (void);
   void          (*f_stop)   (void);
   void          *userdata;
-} SoundRecEntry;
+};
 
-extern SoundRec      *SndMachine, snd_entry, *nowSndRec;
+extern SoundRec *SndMachine, snd_entry, *nowSndRec;
 
 /**** prototype ****/
 
@@ -124,9 +127,9 @@ const char      *stream_get_name (int channel);
 #define DEF_SOUND_SLICE_COUNT    (DEF_SOUND_BASE * DEF_SOUND_SLICE_BASE)
 
 /**** work ****/
-int     sound_freerun_count;
-int     sound_slice;
-int     sound_icount;
+extern int     sound_freerun_count;
+extern int     sound_slice;
+extern int     sound_icount;
 
 /**** prototype ****/
         void    saInitSoundTimer   (void);
@@ -137,18 +140,16 @@ int     sound_icount;
 /****************************************************************/
 /****************************************************************/
 
-/*static*/ int  pause_sound;
+extern int  pause_sound;
 
-SoundRec       *SndMachine, snd_entry, *nowSndRec;
+extern SoundRec       *SndMachine, snd_entry, *nowSndRec;
 
-/* Audio related stuff */
+extern int             vbover_err, vbunder_err;
 
-int             vbover_err, vbunder_err;
-
-/*static*/ int  reserved_channel;       // voice/channel allocator
-int             sound_stream_mode;
-int             stream_buffer_max;
-int             buffered_stream_max;
+extern /*static*/ int  reserved_channel;       // voice/channel allocator
+extern int             sound_stream_mode;
+extern int             stream_buffer_max;
+extern int             buffered_stream_max;
 
 int     saCheckPlayStream (void);
 

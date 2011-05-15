@@ -27,21 +27,17 @@
 //-----------------------------------------------------------------------------
 char *  SDSC_String_Get (int offset, int verbose_error)
 {
-    int    len;
-    char * src;
-    char * result;
-
     if (offset == 0x0000 || offset == 0xFFFF)
         return (verbose_error ? strdup (Msg_Get (MSG_LoadROM_SDSC_Unknown)) : NULL);
     if (offset >= tsms.Size_ROM)
         return (verbose_error ? strdup (Msg_Get (MSG_LoadROM_SDSC_Error)) : NULL);
 
-    len = 0;
-    src = (char *)(Game_ROM + offset);
+    int len = 0;
+    char* src = (char *)(Game_ROM + offset);
     while (src[len] != EOSTR && offset + len < tsms.Size_ROM)
         len++;
     // Note: we are not relying on StrNDup there, since it relies on strlen
-    result = malloc(sizeof (char) * (len + 1));
+    char* result = (char*)malloc(sizeof (char) * (len + 1));
     strncpy (result, src, len);
     result[len] = EOSTR;
     return (result);

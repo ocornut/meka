@@ -11,14 +11,13 @@
 //-----------------------------------------------------------------------------
 void    *Memory_Alloc (int size)
 {
- byte   *p;
-
- if ((p = malloc (size)) == NULL)
-    {
-    meka_errno = MEKA_ERR_MEMORY;
-    Quit_Msg (meka_strerror());
-    }
- return (p);
+	u8* p = (u8*)malloc(size);
+	if (p == NULL)
+	{
+		meka_errno = MEKA_ERR_MEMORY;
+		Quit_Msg (meka_strerror());
+	}
+	return (p);
 }
 
 //-----------------------------------------------------------------------------

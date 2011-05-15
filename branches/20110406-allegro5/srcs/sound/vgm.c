@@ -257,13 +257,13 @@ void            GD3_Header_Init(t_gd3_header *h)
     h->strings[GD3_S_NAME_TRACK_JAP]  = StrDupToUnicode ("");
 
     // English name
-    name = DB_CurrentEntry ? DB_Entry_GetCurrentName (DB_CurrentEntry) : "";
+    name = DB.current_entry ? DB_Entry_GetCurrentName (DB.current_entry) : "";
     h->strings[GD3_S_NAME_GAME_ENG]   = StrDupToUnicode (name);
 
     // Japanese name
-    if (DB_CurrentEntry)
+    if (DB.current_entry)
     {
-        t_db_name *dbname = DB_Entry_GetNameByCountry (DB_CurrentEntry, DB_COUNTRY_JP);
+        t_db_name *dbname = DB_Entry_GetNameByCountry (DB.current_entry, DB_COUNTRY_JP);
         name = dbname ? dbname->name : "";
     }
     else
@@ -292,19 +292,16 @@ void            GD3_Header_Close(t_gd3_header *h)
 int             GD3_Header_Write(t_gd3_header *h, FILE *f)
 {
     int         i;
-    int         Len;
-    int         Pos;
-    char *      Buf;
 
     // Calculate Data Length
-    Len = 0;
+    int Len = 0;
     for (i = 0; i != GD3_S_MAX; i++)
         Len += (StrLenUnicode (h->strings[i]) + 1) * 2;
     h->data_length = Len;
 
     // Create buffer with all strings
-    Buf = Memory_Alloc (Len);
-    Pos = 0;
+    char* Buf = (char*)Memory_Alloc (Len);
+    int Pos = 0;
     for (i = 0; i < GD3_S_MAX; i++)
     {
         StrCpyUnicode ((word *)(Buf + Pos), h->strings[i]);

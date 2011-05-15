@@ -3,18 +3,14 @@
 // Omar Cornut, 1999-2001
 //
 
+#include "shared.h"
 #include "liblist.h"
-
-void *  malloc(int);
-void    free(void *);
 
 // LIST_ADD.C ---------------------------------------------------------------
 
 void		list_add(t_list **list, void *elem)
 {
-    t_list *    item;
-
-    item = malloc(sizeof (t_list));
+    t_list* item = (t_list*)malloc(sizeof (t_list));
     item->elem = elem;
     item->next = *list;
     *list = item;
@@ -22,9 +18,7 @@ void		list_add(t_list **list, void *elem)
 
 void		list_add_to_end(t_list **list, void *elem)
 {
-    t_list *      item;
-
-    item = malloc(sizeof (t_list));
+    t_list* item = (t_list*)malloc(sizeof (t_list));
     item->elem = elem;
     item->next = 0;
     if (*list == 0)
@@ -68,7 +62,7 @@ void		list_free_no_elem(t_list **list)
     }
 }
 
-void            list_free_custom(t_list **list, void (*custom_free)())
+void            list_free_custom(t_list **list, void (*custom_free)(void *))
 {
     t_list	*next;
 
@@ -154,7 +148,6 @@ void		list_sort(t_list **list, int (*fct)(void *elem1, void *elem2))
 {
   t_list	*i;
   t_list	*j;
-  t_list	*temp;
 
   i = *list;
   while (i)
@@ -164,7 +157,7 @@ void		list_sort(t_list **list, int (*fct)(void *elem1, void *elem2))
 	{
 	  if (fct(i->elem, j->elem) >= 0)
 	    {
-	      temp = i->elem;
+	      void* temp = i->elem;
 	      i->elem = j->elem;
 	      j->elem = temp;
 	    }
@@ -178,12 +171,9 @@ void		list_sort(t_list **list, int (*fct)(void *elem1, void *elem2))
 
 void	*list_to_tab(t_list *list)
 {
-  int	i;
-  void	**table;
-  int	size;
-
-  size = list_size(list);
-  table = malloc(sizeof (void *) * (size + 1));
+  int size = list_size(list);
+  void** table = (void**)malloc(sizeof (void *) * (size + 1));
+  int i;
   for (i = 0; i < size; i++)
     {
       table[i] = list->elem;

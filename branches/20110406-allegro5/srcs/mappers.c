@@ -20,10 +20,10 @@
 //-----------------------------------------------------------------------------
 
 INLINE void Map_8k_Other (int page, void *data)
-{ Mem_Pages [page] = (void *)((char *)data - (page * 0x2000)); }
+{ Mem_Pages [page] = (u8 *)data - (page * 0x2000); }
 
 INLINE void Map_16k_Other (int page, void *data)
-{ Mem_Pages [page] = Mem_Pages [page + 1] = (void *)((char *)data - (page * 0x2000)); }
+{ Mem_Pages [page] = Mem_Pages [page + 1] = (u8*)data - (page * 0x2000); }
 
 INLINE void Map_8k_RAM (int page, int ram_page)
 { Mem_Pages [page] = RAM + ((ram_page - page) * 0x2000); }

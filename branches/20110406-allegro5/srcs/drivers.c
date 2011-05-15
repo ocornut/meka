@@ -9,6 +9,8 @@
 
 //-----------------------------------------------------------------------------
 
+ts_driver * cur_drv = NULL;
+
 static ts_driver drivers [DRV_MAX] =
 {
   // Note: the "colors" field is the number of colors to be shown in the Palette applet                                      (work)
