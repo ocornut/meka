@@ -73,9 +73,10 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     {
         int driver;
         int w, h, v_w, v_h;
+		int fullscreen;
         int refresh_rate;
-    } previous_mode = { -1, -1, -1, -1, -1, -1 };
-    if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && v_w == previous_mode.v_w && v_h == previous_mode.v_h && refresh_rate == previous_mode.refresh_rate)
+    } previous_mode = { -1, -1, -1, -1, -1, -1, -1 };
+    if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && v_w == previous_mode.v_w && v_h == previous_mode.v_h && (int)fullscreen == previous_mode.fullscreen && refresh_rate == previous_mode.refresh_rate)
     {
         Video_Mode_Update_Size ();
         return (MEKA_ERR_OK);
@@ -86,6 +87,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     previous_mode.h = h;
     previous_mode.v_w = v_w;
     previous_mode.v_h = v_h;
+	previous_mode.fullscreen = fullscreen;
     previous_mode.refresh_rate = refresh_rate;
 
     // Set new mode
@@ -121,6 +123,10 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     Video.res_y = h;
     Video.refresh_rate_requested = refresh_rate;
 	Video_Mode_Update_Size();
+
+	// Window title & callback
+    al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
+    //al_set_close_button_callback(Close_Button_Callback);
 
 	// Recreate all video buffers
 	Blit_CreateVideoBuffers();
@@ -326,7 +332,7 @@ void    Video_Setup_State (void)
             //Palette_Sync_All ();
 
             gui_redraw_everything_now_once();
-            gui_mouse_show (gui_buffer);
+            gui_mouse_show(gui_buffer);
         }
         break;
     }
@@ -337,7 +343,7 @@ void    Video_Setup_State (void)
         set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
     */
 
-    Inputs_Init_Mouse (); // why? I forgot
+    Inputs_Init_Mouse(); // why? I forgot
 }
 
 void    Screen_Save_to_Next_Buffer(void)

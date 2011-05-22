@@ -390,11 +390,7 @@ int main(int argc, char **argv)
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
 
 	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
-	g_display = al_create_display(800, 600);	// FIXME-ALLEGRO5: fixed size
-
-    // Window title & callback
-    al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
-    //al_set_close_button_callback(Close_Button_Callback);
+	g_display = al_create_display(100, 100);	// FIXME-ALLEGRO5: fixed size
 
     Blit_Init               (); // Initialize Blitter
     Random_Init             (); // Initialize Random Number Generator
