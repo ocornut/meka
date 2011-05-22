@@ -36,9 +36,6 @@ void    Main_Loop (void)
         Msg (MSGT_DEBUG, "joystick = %d", al_get_num_joysticks());
         Msg (MSGT_DEBUG, "sound = { enable:%d, init:%d, soundcard:%d }", Sound.Enabled, Sound.Initialized, Sound.SoundCard);
         Msg (MSGT_DEBUG, "saGetSoundRate() = %d", saGetSoundRate());
-        #ifdef MEKA_OPL
-            Msg (MSGT_DEBUG, "sound.opl = { address: %d }", Sound.OPL_Address);
-        #endif
         Msg (MSGT_DEBUG, "### Debugging information ###");
     }
 

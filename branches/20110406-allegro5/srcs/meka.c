@@ -460,19 +460,5 @@ int main(int argc, char **argv)
     return (0);
 }
 
-// FIXME-ALLEGRO5
-#if 0
-#ifndef ARCH_WIN32
-END_OF_MAIN ();
-#else
-// Allegro define END_OF_MAIN() the same as the above, with HINSTANCE
-// types replaced by void *, which cause two warnings in /W3 mode.
-int __stdcall WinMain(HINSTANCE hInst, HINSTANCE hPrev, char *Cmd, int nShow)  
-{                                                                      
-    return _WinMain((void *)_mangled_main, hInst, hPrev, Cmd, nShow);   
-}
-#endif
-#endif // FIXME-ALLEGRO5
-
 //-----------------------------------------------------------------------------
 

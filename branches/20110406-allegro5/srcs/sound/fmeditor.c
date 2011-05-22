@@ -207,9 +207,6 @@ void    FM_Editor_CallBack (t_widget *w)
           if (((FM_Regs[0x30 + i] >> 4) & 0x0f) == FM_Editor.current_voice_number)
              {
              vcref[i] = -1;
-             #ifdef MEKA_OPL
-               FM_OPL_Set_Voice (i, FM_Editor.current_voice_number, fmVol[FM_Regs[0x30 + i] & 0x0f]);
-             #endif
              }
           }
        break;

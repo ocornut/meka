@@ -32,22 +32,6 @@
 #define SOUND_MACHINE_YM2413HD  (1)
 #define SOUND_MACHINE_EMU2413   (2)
 
-#define FM_EMULATOR_NONE        (0x00)
-#define FM_EMULATOR_YM2413HD    (0x01)  // Hiromitsu Shioya / through OPL
-#define FM_EMULATOR_EMU2413     (0x02)  // Mitsutaka Okazaki / digital
-
-//-----------------------------------------------------------------------------
-// OPL Access
-//-----------------------------------------------------------------------------
-
-#ifndef ARCH_UNIX
-#define MEKA_OPL
-#endif
-
-#ifdef MEKA_OPL
-#include "s_opl.h"                      // S_OPL.H      OPL
-#endif
-
 //-----------------------------------------------------------------------------
 // INCLUDES (more. note the unordered mess)
 //-----------------------------------------------------------------------------
@@ -90,14 +74,6 @@ struct t_sound
 
     // FM Emulation
     int         FM_Enabled;                     // FM Emulation enabled (emulated machine)
-    int         FM_Emulator_Current;            // FM Emulators, currently used (host machine)
-    int         FM_Emulator_Available;          // FM Emulators, mask of available type(s), zero if none
-
-    // OPL
-#ifdef MEKA_OPL
-    int         OPL_Speed;
-    int         OPL_Address;                    // 220h, 230h, etc... 0 if none
-#endif
 
     // Voices (SaSound legacy...)
     t_voice *   Voices;
@@ -171,7 +147,6 @@ extern int MODEB_MASK;
 
 #include "fmunit.h"                     // FMUNIT.H     FM Unit wrapper to emulators
 #include "fmeditor.h"	                // FMEDITOR.H   FM instrument editor applet
-#include "ym2413hd.h"                   // YM2413HD.H   FM emulator / OPL
 #include "emu2413/mekaintf.h"           // EMU2413.H... FM emulator / Digital
 #include "sasound.h"                    // SASOUND.H    Sound system (by Hiroshi)
 

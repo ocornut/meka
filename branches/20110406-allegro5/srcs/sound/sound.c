@@ -13,9 +13,6 @@
 //-----------------------------------------------------------------------------
 
 static  int     Sound_Init_SoundCard (void);
-#ifdef MEKA_OPL
-static  int     Sound_Init_OPL (void);
-#endif
 static  int     Sound_Init_Engine (int buffer_mode);
 static  void    Sound_Init_Emulators (void);
 
@@ -49,16 +46,6 @@ void            Sound_Init_Config(void)
     Sound.SampleRate            = 44100;                  // 44100 Hz by default
     Sound.Paused                = FALSE; // 0
     Sound.MasterVolume          = 128;
-
-    // FM Emulation
-    Sound.FM_Emulator_Current   = FM_EMULATOR_NONE;
-    Sound.FM_Emulator_Available = FM_EMULATOR_NONE;
-
-    // OPL
-#ifdef MEKA_OPL
-    Sound.OPL_Speed             = 4;
-    Sound.OPL_Address           = 0x000;
-#endif
 
     // Voices & and other legacy stuff
     Sound.Voices        = NULL;
@@ -112,11 +99,6 @@ int             Sound_Init (void)
     Sound.Paused = TRUE;
     Sound_Init_SoundCard();
 
-    // Initialize OPL (if available)
-#ifdef MEKA_OPL
-    Sound_Init_OPL();
-#endif
-
     // Initialize Sound emulators
     Sound_Init_Emulators();
 
@@ -130,45 +112,6 @@ int             Sound_Init (void)
     Sound_Update_Count = 0;
     saSetSoundCPUClock (Sound_Calc_CPU_Time);
     // fm_delay_size = 6; // 0
-
-    // Setup checks in GUI
-    // Note: this GUI sucks :(
-    Sound.FM_Emulator_Current &= Sound.FM_Emulator_Available;
-    gui_menu_un_check_area (menus_ID.fm_emu, 0, 1);
-    gui_menu_active_area (FALSE, menus_ID.fm_emu, 0, 1);
-
-    // Select FM emulator
-    if (Sound.FM_Emulator_Available & FM_EMULATOR_YM2413HD)
-    {
-        gui_menu_active (AM_Active, menus_ID.fm_emu, 0);
-        gui_menu_active (AM_Active, menus_ID.fm, 3);
-        if (Sound.FM_Emulator_Current == FM_EMULATOR_NONE)
-            Sound.FM_Emulator_Current = FM_EMULATOR_YM2413HD;
-    }
-    if (Sound.FM_Emulator_Available & FM_EMULATOR_EMU2413)
-    {
-        gui_menu_active (AM_Active, menus_ID.fm_emu, 1);
-        if (Sound.FM_Emulator_Current == FM_EMULATOR_NONE)
-            Sound.FM_Emulator_Current = FM_EMULATOR_EMU2413;
-    }
-
-    // Activate current FM emulator
-    switch (Sound.FM_Emulator_Current)
-    {
-    #ifdef MEKA_OPL
-     case FM_EMULATOR_YM2413HD:
-         FM_OPL_Active ();
-         gui_menu_check (menus_ID.fm_emu, 0);
-         break;
-    #endif
-     case FM_EMULATOR_EMU2413:
-         FM_Digital_Active ();
-         gui_menu_check (menus_ID.fm_emu, 1);
-         break;
-     default:
-         FM_Null_Active ();
-         break;
-    }
 
     // Ok
     Sound.Initialized = TRUE;
@@ -242,34 +185,6 @@ static  int     Sound_Init_SoundCard (void)
 
   return (MEKA_ERR_OK);
 }
-
-// Find and Initialize OPL if needed ------------------------------------------
-#ifdef MEKA_OPL
-static  int     Sound_Init_OPL (void)
-{
-    // OPL is used whenever a "BLASTER Axxx" environment variable is found
-    // This allows using OPL emulators (eg: VDMS) under NT based systems.
-    /*
-    // Attempt to find OPL only on systems supporting direct port accesses
-    // FIXME: Should let the user force OPL enabling, because of potential OPL
-    // emulators for recent Windows platforms.
-    if (os_type == OSTYPE_UNKNOWN || os_type == OSTYPE_WIN3
-        || os_type == OSTYPE_WIN95   || os_type == OSTYPE_WIN98
-        || os_type == OSTYPE_WINME)
-    {
-        Sound_OPL_Init_Config ();
-    }
-    */
-
-    if (Sound.OPL_Address != 0x000)
-    {
-        if (Sound_OPL_Init () == MEKA_ERR_OK)
-            return (MEKA_ERR_OK);
-        Sound.OPL_Address = 0x000;
-    }
-    return (MEKA_ERR_FAIL);
-}
-#endif
 
 // Initialize Sound Engine ----------------------------------------------------
 // FIXME: This is mostly legacy stuff :(
@@ -350,20 +265,6 @@ static  void    Sound_Init_Emulators (void)
     rec.userdata   = NULL;
     saSetupSound   (&rec);
 
-    // Add YM-2413HD (FM) emulator if we have an OPL
-#ifdef MEKA_OPL
-    if (Sound.OPL_Address)
-    {
-        rec.type     = SOUND_MACHINE_YM2413HD;
-        rec.f_init   = FM_OPL_Init;
-        rec.f_update = FM_OPL_Update;
-        rec.f_stop   = FM_OPL_Close;
-        rec.userdata = NULL;
-        saAddSound     (&rec);
-        Sound.FM_Emulator_Available |= FM_EMULATOR_YM2413HD;
-    }
-#endif
-
     // Add EMU2413 (FM) emulator
     rec.type       = SOUND_MACHINE_EMU2413;
     rec.f_init     = FM_Digital_Init;
@@ -371,7 +272,6 @@ static  void    Sound_Init_Emulators (void)
     rec.f_stop     = FM_Digital_Close;
     rec.userdata   = NULL;
     saAddSound       (&rec);
-    Sound.FM_Emulator_Available |= FM_EMULATOR_EMU2413;
 }
 
 //-----------------------------------------------------------------------------
@@ -383,10 +283,6 @@ void            Sound_Close (void)
     if (Sound.Initialized == TRUE)
     {
         saRemoveSound ();
-        #ifdef MEKA_OPL
-            if (Sound.OPL_Address)
-                Sound_OPL_Close ();
-        #endif
         Sound_Log_Close ();
         Sound.Initialized = FALSE;
     }

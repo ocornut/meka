@@ -754,14 +754,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\sound\s_opl.c"
-					>
-				</File>
-				<File
-					RelativePath="..\sound\s_opl.h"
-					>
-				</File>
-				<File
 					RelativePath="..\sound\sasound.c"
 					>
 				</File>
@@ -830,18 +822,6 @@
 					</File>
 					<File
 						RelativePath="..\sound\emu2413\mekaintf.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Ym2413hd"
-					>
-					<File
-						RelativePath="..\sound\ym2413hd.c"
-						>
-					</File>
-					<File
-						RelativePath="..\sound\ym2413hd.h"
 						>
 					</File>
 				</Filter>

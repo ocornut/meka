@@ -141,11 +141,7 @@ void        gui_menus_init (void)
     menus_ID.fm       = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_FM),        AM_Active);
     menu_add_item     (menus_ID.fm,       Msg_Get (MSG_Menu_Sound_FM_Enabled),             AM_Active | Is_Checked (Sound.FM_Enabled == TRUE),     (t_menu_callback)FM_Enable, NULL);
     menu_add_item     (menus_ID.fm,       Msg_Get (MSG_Menu_Sound_FM_Disabled),            AM_Active | Is_Checked (Sound.FM_Enabled == FALSE ),   (t_menu_callback)FM_Disable, NULL);
-    menus_ID.fm_emu   = menu_add_menu (menus_ID.fm, Msg_Get (MSG_Menu_Sound_FM_Emulator),  AM_Active);
     // menu_add_item     (menus_ID.fm,       Msg_Get (MSG_Menu_Sound_FM_Editor),              AM_Active | Is_Checked (apps.active.FM_Editor),     (t_menu_callback)FM_Editor_Switch, NULL);
-    // SOUND -> FM -> EMULATOR
-    menu_add_item     (menus_ID.fm_emu,   Msg_Get (MSG_Menu_Sound_FM_Emulator_OPL),        Is_Checked (Sound.FM_Emulator_Current == FM_EMULATOR_YM2413HD), (t_menu_callback)FM_Emulator_OPL, NULL);
-    menu_add_item     (menus_ID.fm_emu,   Msg_Get (MSG_Menu_Sound_FM_Emulator_Digital),    Is_Checked (Sound.FM_Emulator_Current == FM_EMULATOR_EMU2413),  (t_menu_callback)FM_Emulator_Digital, NULL);
     // SOUND -> VOLUME
     menus_ID.volume   = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_Volume),    AM_Active);
     Sound_Volume_Menu_Init (menus_ID.volume);

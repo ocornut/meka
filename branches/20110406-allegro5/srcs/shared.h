@@ -97,9 +97,7 @@ struct t_widget;
 //#include "sasound.h"      // Sound system (by Hiroshi)
 //#include "s_log.h"        // Sound logging
 //#include "s_misc.h"       // Miscellaenous
-//#include "s_opl.h"        // OPL
 //#include "vgm.h"          // VGM file creation
-//#include "ym2413hd.h"     // FM emulator / OPL
 //#include "wav.h"          // WAV file creation
 //#include "emu2413.h"      // FM emulator / Digital
 

@@ -24,8 +24,6 @@ double  Sound_Calc_CPU_Time (void);
 
 void    FM_Disable                      (void);
 void    FM_Enable                       (void);
-void    FM_Emulator_OPL                 (void);
-void    FM_Emulator_Digital             (void);
 
 void    Sound_Volume_Menu_Init          (int menu_id);
 

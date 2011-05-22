@@ -132,27 +132,20 @@ void    FM_Digital_Update       (int chip, void *buffer, int length)
 
     // printf("\n[%s]\n", __FUNCTION__);
 
-    if (Sound.FM_Emulator_Current == FM_EMULATOR_EMU2413 && FM_Used > 0)
-    {
-        s16* buf = (s16*)buffer;
-        while (length--)
-        {
-            int val = OPLL_calc(opll) * 2;
-            if (val < -0x8000)
-                *buf = -0x8000;
-            else
-                if (val > 0x7FFF)
-                    *buf = 0x7FFF;
-                else
-                    *buf =  val;
-            buf++;
-            // printf("%d, ", buf[-1]);
-            // printf("%d, ", val);
-        }
-    }
-    else
-    {
-        memset (buffer, 0x00, length * sizeof (s16));
-    }
+	s16* buf = (s16*)buffer;
+	while (length--)
+	{
+		int val = OPLL_calc(opll) * 2;
+		if (val < -0x8000)
+			*buf = -0x8000;
+		else
+			if (val > 0x7FFF)
+				*buf = 0x7FFF;
+			else
+				*buf =  val;
+		buf++;
+		// printf("%d, ", buf[-1]);
+		// printf("%d, ", val);
+	}
 }
 

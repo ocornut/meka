@@ -106,28 +106,6 @@ void    FM_Enable (void)
     gui_menu_check (menus_ID.fm, 0);
 }
 
-void    FM_Emulator_OPL (void)
-{
-#ifdef MEKA_OPL
-    Sound.FM_Emulator_Current = FM_EMULATOR_YM2413HD;
-    FM_OPL_Active ();
-    // FIXME: message
-    gui_menu_un_check_area (menus_ID.fm_emu, 0, 1);
-    gui_menu_check (menus_ID.fm_emu, 0);
-#else
-    Msg (MSGT_DEBUG, "FM_Emulator_OPL() called while MEKA_OPL is not defined!");
-#endif
-}
-
-void    FM_Emulator_Digital (void)
-{
-    Sound.FM_Emulator_Current = FM_EMULATOR_EMU2413;
-    FM_Digital_Active ();
-    // FIXME: message
-    gui_menu_un_check_area (menus_ID.fm_emu, 0, 1);
-    gui_menu_check (menus_ID.fm_emu, 1);
-}
-
 // SOUND->VOLUME menu ---------------------------------------------------------
 
 void    Sound_Volume_Menu_Init (int menu_id)

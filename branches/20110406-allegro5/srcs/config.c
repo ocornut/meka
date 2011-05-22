@@ -160,24 +160,10 @@ static void     Configuration_Load_Line (char *variable, char *value)
                 Sound.SampleRate = atoi(value);
              break;
     // fm_emulator
-    case 7:  if (!strcmp(value, "none"))
-                Sound.FM_Emulator_Current = FM_EMULATOR_NONE;
-             else
-             if (!strcmp(value, "opl"))
-                Sound.FM_Emulator_Current = FM_EMULATOR_YM2413HD;
-             else
-             if (!strcmp(value, "digital"))
-                Sound.FM_Emulator_Current = FM_EMULATOR_EMU2413;
-             break;
+    case 7: // Obsolete
     // opl_speed
-    case 8:  
-#ifdef MEKA_OPL
-             n = atoi(value);
-             if (n < 0)
-                 n = 0;
-             Sound.OPL_Speed = n;
-#endif // MEKA_OPL
-             break;
+    case 8: // Obsolete
+		break;
     //-------------------------------------------------------------------------
     // gui_video_mode
     case 9:  
@@ -557,21 +543,6 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("sound_rate", Sound.SampleRate);
     CFG_Write_Line ("(Set sound_card to -1 to be prompted to choose your soundcard again)");
     CFG_Write_Str  ("fm_enabled", (Sound.FM_Enabled) ? "yes" : "no");
-    switch (Sound.FM_Emulator_Current)
-    {
-    case FM_EMULATOR_NONE:       CFG_Write_Str  ("fm_emulator", "none");        break;
-    case FM_EMULATOR_YM2413HD:   CFG_Write_Str  ("fm_emulator", "opl");         break;
-    case FM_EMULATOR_EMU2413:    CFG_Write_Str  ("fm_emulator", "digital");     break;
-    }
-    CFG_Write_Line ("(Available settings are 'none', 'opl' and 'digital'.");
-    CFG_Write_Line (" OPL is only available under DOS and Windows 95/98/ME if your soundcard");
-    CFG_Write_Line (" has an OPL chip. Digital emulator is slower but works everywhere.)");
-#ifdef MEKA_OPL
-    CFG_Write_Int  ("opl_speed", Sound.OPL_Speed);
-    CFG_Write_Line ("(Increase opl_speed when using opl if you feel that FM music are partly skipped)");
-    CFG_Write_Line ("(Decrease opl_speed when using opl if you feel that FM music make things slow)");
-#endif
-    CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE VIDEO MODE >---------------------------------");
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");

@@ -106,9 +106,13 @@ void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs)
 //-----------------------------------------------------------------------------
 void    FM_Null_Active (void)
 {
-  // FIXME: currently using FM_OPL_Regs as a buffer to avoid crashing in
-  // access to the registers (by applet, etc...).
-  FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
+	// FIXME: currently using FM_OPL_Regs as a buffer to avoid crashing in
+	// access to the registers (by applet, etc...).
+	// A fake set of registers is created as sound/fmunit.c reference it.
+	// FIXME: This sucks.
+	static u8 FM_OPL_Regs [YM2413_REGISTERS];
+
+	FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
 }
 
 //-----------------------------------------------------------------------------
