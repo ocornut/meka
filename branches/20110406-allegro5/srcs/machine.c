@@ -465,7 +465,6 @@ void        Machine_Reset (void)
     // MEMORY -----------------------------------------------------------------
     memset (RAM,  0, 0x10000);      // Clear all RAM
     memset (VRAM, 0, 0x04000);      // Clear all VRAM
-    PRAM = PRAM_Static;
     memset (PRAM, 0, 0x00040);      // Clear all PRAM (palette)
 
     // Unload BIOS if...

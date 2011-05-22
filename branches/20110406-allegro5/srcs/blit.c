@@ -35,7 +35,6 @@
 
 ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;	// Line buffer scratch pad, 16-bits
 ALLEGRO_BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
-ALLEGRO_BITMAP *         Blit_Buffer_NativeTemp;	// Double-sized buffer in native color format
 
 t_blit_cfg blit_cfg;
 
@@ -49,7 +48,6 @@ void    Blit_Init (void)
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
-    Blit_Buffer_NativeTemp  = NULL;
     blit_cfg.tv_mode_factor = 0.700f;	// FIXME-TUNING
 
     // Initialize HQ2X filters
@@ -136,63 +134,49 @@ void        Blit_Fullscreen_Message (void)
     Font_Print (-1, screenbuffer, gui_status.message, x,     y,     COLOR_WHITE);
 }
 
-void	Blit_Fullscreen_CopyStretch(void *src_buffer, int src_scale_x, int src_scale_y)
+static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer, int input_res_sx, int input_res_sy, int dst_scale)
 {
-#if 0 // FIXME-ALLEGRO5: blit
+	al_set_target_bitmap(fs_out);
 	if (!Blitters.current->stretch)
 	{
-		// Note: 'blit' converts 16 to native format
-		blit (src_buffer, fs_out,
-			blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
-			blit_cfg.dst_sx, blit_cfg.dst_sy,
-			cur_drv->x_res * src_scale_x,  cur_drv->y_res * src_scale_y);
-	}
-	else
-	{
-		// Note: 'stretch_blit' doesn't convert!
-		if (g_Configuration.video_mode_game_depth != 16)
+		if (dst_scale == 1)
 		{
-			// Need this for conversion
-			blit (src_buffer, Blit_Buffer_NativeTemp,
-				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
-				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
-				cur_drv->x_res  * src_scale_x, cur_drv->y_res  * src_scale_y);
-			stretch_blit(Blit_Buffer_NativeTemp, fs_out, 
-				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
-				cur_drv->x_res  * src_scale_x, cur_drv->y_res  * src_scale_y,
-				0,0, Video.res_x, Video.res_y);
+			al_draw_bitmap_region(src_buffer, 
+				blit_cfg.src_sx * input_res_sx, blit_cfg.src_sy * input_res_sy,
+				cur_drv->x_res * input_res_sx, cur_drv->y_res * input_res_sy,
+				blit_cfg.dst_sx, blit_cfg.dst_sy,
+				0x0000);
 		}
 		else
 		{
-			stretch_blit(src_buffer, fs_out, 
-				blit_cfg.src_sx * src_scale_x, blit_cfg.src_sy * src_scale_y,
-				cur_drv->x_res  * src_scale_x, cur_drv->y_res  * src_scale_y,
-				0,0, Video.res_x, Video.res_y);
+			al_draw_scaled_bitmap(src_buffer,
+				blit_cfg.src_sx * input_res_sx, blit_cfg.src_sy * input_res_sy,
+				cur_drv->x_res  * input_res_sx, cur_drv->y_res  * input_res_sy,
+				blit_cfg.dst_sx, blit_cfg.dst_sy,
+				cur_drv->x_res  * input_res_sx * dst_scale, cur_drv->y_res  * input_res_sy * dst_scale,
+				0x0000);
 		}
 	}
-#endif
+	else
+	{
+		al_draw_scaled_bitmap(src_buffer,
+			blit_cfg.src_sx * input_res_sx, blit_cfg.src_sy * input_res_sy,
+			cur_drv->x_res  * input_res_sx, cur_drv->y_res  * input_res_sy,
+			0, 0, Video.res_x, Video.res_y,
+			0x0000);
+	}
 }
 
 void    Blit_Fullscreen_Normal (void)
 {
     Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1);
+	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1, 1);
 }
 
-// FIXME-OPT: Obviously stupid, potentially doing 2 successive stretchs
 void    Blit_Fullscreen_Double (void)
 {
-#if 0 // FIXME-ALLEGRO5: blit
-    // x1 -> x2
-    stretch_blit(screenbuffer, Blit_Buffer_Double, 
-        blit_cfg.src_sx, blit_cfg.src_sy,
-        cur_drv->x_res, cur_drv->y_res,
-        blit_cfg.src_sx * 2, blit_cfg.src_sy * 2, 
-        cur_drv->x_res*2, cur_drv->y_res*2
-        );
-#endif
     Blit_Fullscreen_Misc ();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
+	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1, 2);
 }
 
 void    Blit_Fullscreen_Eagle (void)
@@ -213,7 +197,7 @@ void    Blit_Fullscreen_Eagle (void)
 	}
 #endif
 	Blit_Fullscreen_Misc ();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
 }
 
 void    Blit_Fullscreen_HQ2X (void)
@@ -227,7 +211,7 @@ void    Blit_Fullscreen_HQ2X (void)
 		MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
 #endif
     Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
 }
 
 void    Blit_Fullscreen_TV_Mode (void)
@@ -253,7 +237,7 @@ void    Blit_Fullscreen_TV_Mode (void)
 	}
 #endif
 	Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 1, 2);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 1, 2, 1);
 }
 
 // FIXME-OPT: Obviously this is very slow. Just trying to get something working for 0.72. Later shall work better solution (generating inline assembly, etc).
@@ -285,7 +269,7 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 	}
 #endif 0
 	Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
 }
 
 // Blit screenbuffer to video memory in fullscreen mode

@@ -55,7 +55,8 @@ static void     Configuration_Load_Line (char *variable, char *value)
      "video_game_blitter",
 
      "sound_card", "sound_enabled", "sound_rate",
-     "fm_emulator", "opl_speed",
+     "fm_emulator",	// OBSOLETE 
+	 "opl_speed",	// OBSOLETE
 
      "gui_video_mode", "gui_video_depth", "gui_video_driver", "gui_vsync",
 
@@ -114,6 +115,9 @@ static void     Configuration_Load_Line (char *variable, char *value)
 
 	 "screenshots_crop_scrolling_column",
 	 "screenshots_include_gui",
+
+	 "video_game_fullscreen",
+	 "video_gui_fullscreen",
 
      NULL
      };
@@ -409,7 +413,15 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	case 61: g_Configuration.capture_include_gui = (bool)atoi(value);
 		break;
 
-    default:
+	// video_game_fullscreen
+	case 62: g_Configuration.video_mode_game_fullscreen = (bool)atoi(value);
+		break;
+
+	// video_gui_fullscreen
+	case 63: g_Configuration.video_mode_gui_fullscreen = (bool)atoi(value);
+		break;
+
+	default:
         Quit_Msg("Error #4785");
         break;
     }
@@ -510,7 +522,6 @@ void    Configuration_Save (void)
     VideoDriver_DumpAllDesc(CFG_File);
 #endif
     // CFG_Write_Int  ("video_depth", cfg.Video_Depth);
-    CFG_Write_Line ("");
 
     CFG_Write_Line ( "-----< FRAME SKIPPING >-----------------------------------------------------");
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
@@ -521,7 +532,8 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("frameskip_normal_speed", fskipper.Standard_Frameskip);
 	CFG_Write_Line ("");
 
-	CFG_Write_Line ( "-----< VIDEO >--------------------------------------------------------------");
+	CFG_Write_Line ( "-----< VIDEO (GAME MODE) >--------------------------------------------------");
+	CFG_Write_Int  ("video_game_fullscreen", g_Configuration.video_mode_game_fullscreen);
 	if (g_Configuration.video_mode_game_depth_cfg == 0)
 		CFG_Write_Str ("video_game_depth", "auto");
 	else
@@ -533,19 +545,9 @@ void    Configuration_Save (void)
 	CFG_Write_Int  ("video_game_page_flipping", g_Configuration.video_mode_game_page_flipping);
     CFG_Write_Line ("");
 
-    CFG_Write_Line ("-----< INPUTS >--------------------------------------------------------------");
-    CFG_Write_Line ("(See MEKA.INP file to configure inputs sources)");
-    CFG_Write_Line ("");
+    CFG_Write_Line ("-----< VIDEO (GUI MODE) >----------------------------------------------------");
+	CFG_Write_Int  ("video_gui_fullscreen", g_Configuration.video_mode_gui_fullscreen);
 
-    CFG_Write_Line ("-----< SOUND AND MUSIC >-----------------------------------------------------");
-    CFG_Write_Int  ("sound_enabled", Sound.Enabled);
-    CFG_Write_Int  ("sound_card", Sound.SoundCard);
-    CFG_Write_Int  ("sound_rate", Sound.SampleRate);
-    CFG_Write_Line ("(Set sound_card to -1 to be prompted to choose your soundcard again)");
-    CFG_Write_Str  ("fm_enabled", (Sound.FM_Enabled) ? "yes" : "no");
-
-    CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE VIDEO MODE >---------------------------------");
-    CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
     sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
     CFG_Write_Str  ("gui_video_mode", s1);
 	if (g_Configuration.video_mode_gui_depth_cfg == 0)
@@ -568,6 +570,18 @@ void    Configuration_Save (void)
     CFG_Write_Line (" the emulated systems.)");
     CFG_Write_Int  ("gui_vsync", g_Configuration.video_mode_gui_vsync);
     CFG_Write_Line ("(enable vertical synchronisation for fast computers)");
+    CFG_Write_Line ("");
+
+    CFG_Write_Line ("-----< INPUTS >--------------------------------------------------------------");
+    CFG_Write_Line ("(See MEKA.INP file to configure inputs sources)");
+    CFG_Write_Line ("");
+
+    CFG_Write_Line ("-----< SOUND AND MUSIC >-----------------------------------------------------");
+    CFG_Write_Int  ("sound_enabled", Sound.Enabled);
+    CFG_Write_Int  ("sound_card", Sound.SoundCard);
+    CFG_Write_Int  ("sound_rate", Sound.SampleRate);
+    CFG_Write_Line ("(Set sound_card to -1 to be prompted to choose your soundcard again)");
+    CFG_Write_Str  ("fm_enabled", (Sound.FM_Enabled) ? "yes" : "no");
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");

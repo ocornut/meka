@@ -32,8 +32,6 @@ void    Blit_Fullscreen_TV_Mode_Double  (void);
 void    Blit_Fullscreen_Eagle           (void);
 void    Blit_Fullscreen_HQ2X            (void);
 
-void	Blit_Fullscreen_CopyStretch		(void *src_buffer, int src_scale_x, int src_scale_y);
-
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -61,6 +59,5 @@ extern t_blit_cfg blit_cfg;
 // Buffers
 extern ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
 extern ALLEGRO_BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
-extern ALLEGRO_BITMAP *         Blit_Buffer_NativeTemp;
 
 //-----------------------------------------------------------------------------

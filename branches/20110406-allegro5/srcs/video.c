@@ -70,12 +70,6 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
         return (MEKA_ERR_OK);
     }
 
-    // We must create the larger buffers in the current depth
-    // FIXME-BLIT
-    if (Blit_Buffer_NativeTemp != NULL)
-        al_destroy_bitmap(Blit_Buffer_NativeTemp);
-    Blit_Buffer_NativeTemp = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
-
     previous_mode.driver = driver;
     previous_mode.w = w;
     previous_mode.h = h;

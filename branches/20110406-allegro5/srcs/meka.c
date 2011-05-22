@@ -64,8 +64,7 @@ extern "C"	// C-style mangling for ASM linkage
 u8      RAM[0x10000];               // RAM
 u8      SRAM[0x8000];               // Save RAM
 u8      VRAM[0x4000];               // Video RAM
-u8 *    PRAM;
-u8      PRAM_Static[0x40];          // Palette RAM
+u8      PRAM[0x40];                 // Palette RAM
 u8 *    ROM;                        // Emulated ROM
 u8 *    Game_ROM;                   // Cartridge ROM
 u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
@@ -73,20 +72,19 @@ u8 *    Mem_Pages [8];              // Pointer to memory pages
 u8 *	sprite_attribute_table;
 }
 
-u8 *    BACK_AREA;
-u8 *    SG_BACK_TILE;
-u8 *    SG_BACK_COLOR;
+u8 *    BACK_AREA = NULL;
+u8 *    SG_BACK_TILE = NULL;
+u8 *    SG_BACK_COLOR = NULL;
 
 ALLEGRO_DISPLAY*		g_display = NULL;
 ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region = NULL;
 
-ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;
-ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;
-ALLEGRO_BITMAP *fs_out;
-ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2;
-ALLEGRO_BITMAP *gui_buffer;
-ALLEGRO_BITMAP *gui_page_0, *gui_page_1;
-ALLEGRO_BITMAP *gui_background;
+ALLEGRO_BITMAP *screenbuffer = NULL, *screenbuffer_next = NULL;
+ALLEGRO_BITMAP *screenbuffer_1 = NULL, *screenbuffer_2 = NULL;
+ALLEGRO_BITMAP *fs_out = NULL;
+ALLEGRO_BITMAP *fs_page_0 = NULL, *fs_page_1 = NULL, *fs_page_2 = NULL;
+ALLEGRO_BITMAP *gui_buffer = NULL;
+ALLEGRO_BITMAP *gui_background = NULL;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -105,7 +103,6 @@ static void Init_Emulator (void)
     memset(RAM, 0, 0x10000);        // RAM: 64 Kb (max=SF-7000)
     memset(SRAM, 0, 0x8000);        // SRAM: 32 Kb (max)
     memset(VRAM, 0, 0x4000);        // VRAM: 16 Kb
-    PRAM = PRAM_Static;
     memset(PRAM, 0, 0x0040);        // PRAM: 64 bytes
     ROM = Game_ROM_Computed_Page_0 = (u8*)Memory_Alloc(0x4000); // 16 kbytes (one page)
     memset(Game_ROM_Computed_Page_0, 0, 0x4000);
@@ -189,11 +186,13 @@ static void Init_Default_Values (void)
 
     // Video
     g_Configuration.video_mode_depth_desktop		= 0;    // Unknown yet
+	g_Configuration.video_mode_game_fullscreen		= FALSE;
 	g_Configuration.video_mode_game_depth			= 16;   // 16-bits
 	g_Configuration.video_mode_game_depth_cfg		= 16;   // 16-bits
 	g_Configuration.video_mode_game_vsync			= FALSE;
 	g_Configuration.video_mode_game_triple_buffering= TRUE;
 	g_Configuration.video_mode_game_page_flipping	= FALSE;
+	g_Configuration.video_mode_gui_fullscreen		= FALSE;
     g_Configuration.video_mode_gui_depth			= 0;    // Auto
     g_Configuration.video_mode_gui_depth_cfg		= 0;    // Auto
     g_Configuration.video_mode_gui_res_x			= 640;

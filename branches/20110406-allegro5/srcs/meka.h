@@ -36,8 +36,7 @@ extern "C"	// C-style mangling
 extern u8      RAM[0x10000];               // RAM
 extern u8      SRAM[0x8000];               // Save RAM
 extern u8      VRAM[0x4000];               // Video RAM
-extern u8 *    PRAM;
-extern u8      PRAM_Static[0x40];          // Palette RAM
+extern u8      PRAM[0x40];				   // Palette RAM
 extern u8 *    ROM;                        // Emulated ROM
 extern u8 *    Game_ROM;                   // Cartridge ROM
 extern u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
@@ -306,11 +305,13 @@ struct t_meka_configuration
 
     // Video
     int     video_mode_depth_desktop;
+	bool	video_mode_game_fullscreen;
 	int		video_mode_game_depth;
 	int		video_mode_game_depth_cfg;
 	bool	video_mode_game_vsync;
 	bool	video_mode_game_triple_buffering;	// Note: fullscreen only.
 	bool	video_mode_game_page_flipping;
+	bool	video_mode_gui_fullscreen;
 	int     video_mode_gui_depth;
     int     video_mode_gui_depth_cfg;
     //long    video_mode_gui_driver;
@@ -380,7 +381,6 @@ extern ALLEGRO_BITMAP *fs_out;                            // Fullscreen video bu
 extern ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
 // GUI ------------------------------------------------------------------------
 extern ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
-extern ALLEGRO_BITMAP *gui_page_0, *gui_page_1;           // GUI video buffers when using page flipping
 extern ALLEGRO_BITMAP *gui_background;                    // GUI Background
 
 //-----------------------------------------------------------------------------

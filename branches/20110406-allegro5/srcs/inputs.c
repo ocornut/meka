@@ -210,28 +210,18 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                // GUI fullscreen/windowed
                 if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
                 {
-#if 0	// FIXME-ALLEGRO5: fullscreen/windowed switch
                     if (g_env.state == MEKA_STATE_FULLSCREEN)
                     {
-                        t_video_driver *driver = VideoDriver_FindByDriverId(Blitters.current->driver);
-                        if (driver && driver->drv_id_switch_fs_win)
-                        {
-                            // FIXME: Put that properly in blitter interface
-                            // FIXME: Not saved anywhere... better than nothing anyway.
-                            Blitters.current->driver = driver->drv_id_switch_fs_win;
-                            Video_Setup_State();
-                        }
+						g_Configuration.video_mode_game_fullscreen ^= 1;
+						al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_game_fullscreen);
+                        //Video_Setup_State();
                     }
                     else if (g_env.state == MEKA_STATE_GUI)
                     {
-                        t_video_driver *driver = VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver);
-                        if (driver && driver->drv_id_switch_fs_win)
-                        {
-                            g_Configuration.video_mode_gui_driver = driver->drv_id_switch_fs_win;
-                            Video_GUI_ChangeVideoMode(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
-                        }
+						g_Configuration.video_mode_gui_fullscreen ^= 1;
+						al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_gui_fullscreen);
+						//Video_GUI_ChangeVideoMode(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
                     }
-#endif
                     return;
                 }
 
