@@ -25,14 +25,14 @@ extern t_video	Video;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Video_Init (void);
-void    Video_Mode_Update_Size (void);
-void    Video_Clear (void);
-void    Video_Setup_State (void);
+void    Video_Init(void);
+void	Video_CreateVideoBuffers();
 
-void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth);
+void    Video_Mode_Update_Size(void);
+void    Video_Clear(void);
+void    Video_Setup_State(void);
 
-void    Refresh_Screen (void);                                    // redraw screen
+void    Refresh_Screen(void);                                    // redraw screen
 
 void	Screenbuffer_AcquireLock(void);
 void	Screenbuffer_ReleaseLock(void);

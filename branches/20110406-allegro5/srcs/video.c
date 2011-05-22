@@ -30,14 +30,7 @@ t_video	Video;
 
 void    Video_Init (void)
 {
-    // Allocate buffers
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
-    screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
-    screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
-    screenbuffer        = screenbuffer_1;
-    screenbuffer_next   = screenbuffer_2;
-	Screenbuffer_AcquireLock();
+	Video_CreateVideoBuffers();
 
     // Clear variables
     Video.res_x						= 0;
@@ -54,8 +47,26 @@ void    Video_Init (void)
     fs_page_0 = fs_page_1 = fs_out	= NULL;
 }
 
-// CHANGE GRAPHIC MODE AND UPDATE NECESSARY VARIABLES -------------------------
-static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, int refresh_rate, int fatal)
+void Video_CreateVideoBuffers()
+{
+	if (Screenbuffer_IsLocked())
+		Screenbuffer_ReleaseLock();
+	if (screenbuffer_1)
+		al_destroy_bitmap(screenbuffer_1);
+	if (screenbuffer_2)
+		al_destroy_bitmap(screenbuffer_2);
+
+	// Allocate buffers
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
+    screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
+    screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
+    screenbuffer        = screenbuffer_1;
+    screenbuffer_next   = screenbuffer_2;
+	Screenbuffer_AcquireLock();
+}
+
+static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fullscreen, int refresh_rate, bool fatal)
 {
     // Attempt to avoid unnecessary resolution change (on blitter change)
     static struct
@@ -82,11 +93,16 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     //request_refresh_rate (refresh_rate);
 
 	// FIXME-ALLEGRO5: Create display a single time
-	/*if (g_display != NULL)
+	if (g_display != NULL)
 		al_destroy_display(g_display);
 
-	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
-	g_display = al_create_display(w, h);*/
+	int display_flags = ALLEGRO_OPENGL;
+	if (fullscreen)
+		display_flags |= ALLEGRO_FULLSCREEN;
+	else
+		display_flags |= ALLEGRO_WINDOWED;
+	al_set_new_display_flags(display_flags);
+	g_display = al_create_display(w, h);
 
 	if (!g_display)
     //if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
@@ -104,17 +120,21 @@ static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, in
     Video.res_x = w;
     Video.res_y = h;
     Video.refresh_rate_requested = refresh_rate;
-	Video_Mode_Update_Size ();
+	Video_Mode_Update_Size();
 
-    // Update true-color data
-    Data_UpdateVideoMode();
+	// Recreate all video buffers
+	Blit_CreateVideoBuffers();
+	Video_CreateVideoBuffers();
+	Data_CreateVideoBuffers();
+	if (g_env.state == MEKA_STATE_GUI)
+		GUI_SetupNewVideoMode();
 
-    al_rest(0.1f);	// FIXME-ALLEGRO5: What was that line for?
+    //al_rest(0.1f);	// FIXME-ALLEGRO5: What was that line for?
 
     return (MEKA_ERR_OK);
 }
 
-void    Video_Mode_Update_Size (void)
+void    Video_Mode_Update_Size(void)
 {
     int   x_fact, y_fact;
 
@@ -127,30 +147,10 @@ void    Video_Mode_Update_Size (void)
     Video.game_area_y2 = (Video.res_y - Video.game_area_y1);
 }
 
-void    Video_Clear (void)
+void    Video_Clear(void)
 {
     // Note: actual clearing will be done in blit.c
     Video.clear_request = TRUE;
-}
-
-void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
-{
-    gui_mouse_show(NULL);
-    g_Configuration.video_mode_gui_res_x = res_x;
-    g_Configuration.video_mode_gui_res_y = res_y;
-    g_Configuration.video_mode_gui_depth = depth;
-    gui_set_video_mode(res_x, res_y, depth);
-    if (g_env.state == MEKA_STATE_GUI)
-        Video_Setup_State();
-    Skins_Background_Redraw();
-
-    // Fix position
-    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
-    {
-        t_gui_box* box = (t_gui_box*)boxes->elem;;
-        gui_box_clip_position(box);
-        box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-    }
 }
 
 // SWITCH FROM VIDEO MODES ----------------------------------------------------
@@ -193,6 +193,7 @@ void    Video_Setup_State (void)
                     #else
                         0, Blitters.current->res_y * 2,
                     #endif
+						g_Configuration.video_mode_game_fullscreen,
                         Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
                     g_env.state = MEKA_STATE_GUI;
@@ -295,6 +296,7 @@ void    Video_Setup_State (void)
                 if (Video_Mode_Change (driver,
                     Blitters.current->res_x, Blitters.current->res_y,
                     0, 0,
+					g_Configuration.video_mode_game_fullscreen,
                     Blitters.current->refresh_rate,
                     FALSE) != MEKA_ERR_OK)
                 {
@@ -318,9 +320,8 @@ void    Video_Setup_State (void)
             //Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
 
 			// FIXME-ALLEGRO5
-			Video_Mode_Change (0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+			Video_Mode_Change (0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
 
-			gui_init_again();
             Change_Mode_Misc();
             //Palette_Sync_All ();
 

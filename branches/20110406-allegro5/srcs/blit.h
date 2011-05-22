@@ -20,9 +20,12 @@
 //-----------------------------------------------------------------------------
 
 void    Blit_Init (void);
+void	Blit_CreateVideoBuffers();
+
 void    Blit_Fullscreen (void);
 void    Blit_Fullscreen_Misc (void);
 void    Blit_Fullscreen_Message (void);
+
 void    Blit_GUI (void);
 
 void    Blit_Fullscreen_Normal          (void);

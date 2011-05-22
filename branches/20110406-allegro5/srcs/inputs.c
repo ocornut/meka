@@ -213,14 +213,14 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                     if (g_env.state == MEKA_STATE_FULLSCREEN)
                     {
 						g_Configuration.video_mode_game_fullscreen ^= 1;
-						al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_game_fullscreen);
-                        //Video_Setup_State();
+						//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_game_fullscreen);
+                        Video_Setup_State();
                     }
                     else if (g_env.state == MEKA_STATE_GUI)
                     {
 						g_Configuration.video_mode_gui_fullscreen ^= 1;
-						al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_gui_fullscreen);
-						//Video_GUI_ChangeVideoMode(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
+						//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_gui_fullscreen);
+						Video_Setup_State();
                     }
                     return;
                 }

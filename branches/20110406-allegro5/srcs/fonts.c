@@ -26,7 +26,7 @@ void    Fonts_Close (void)
 }
 
 // Register font to the fonts system
-void    Fonts_AddFont (int font_id, ALLEGRO_FONT *library_data)
+void    Fonts_DeclareFont (int font_id, ALLEGRO_FONT *library_data)
 {
     t_font *font		= &Fonts[font_id];
     font->id            = font_id;

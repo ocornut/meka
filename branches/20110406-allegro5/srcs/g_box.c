@@ -214,9 +214,8 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     box->title      = strdup(title);
     box->type       = GUI_BOX_TYPE_STANDARD;
     box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format((g_Configuration.video_mode_gui_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
-	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
+	box->gfx_buffer = NULL;
+	gui_box_create_video_buffer(box);
     box->widgets    = NULL;
     box->user_data  = NULL;
     box->update     = NULL;
@@ -239,6 +238,19 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     gui_box_clip_position(box);
 
     return (box);
+}
+
+void	gui_box_create_video_buffer(t_gui_box *box)
+{
+	if (box->gfx_buffer)
+		al_destroy_bitmap(box->gfx_buffer);
+
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+	al_set_new_bitmap_format((g_Configuration.video_mode_gui_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
+	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
+
+	// Redraw and layout all
+	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 }
 
 void    gui_box_delete(t_gui_box *box)

@@ -258,7 +258,7 @@ static void Close_Emulator (void)
 #ifdef MEKA_JOY
 	Inputs_Joystick_Close();
 #endif
-    gui_close            ();
+    GUI_Close            ();
     Free_Memory          ();
     FB_Free_Memory       ();
     DB_Close             ();
@@ -279,9 +279,9 @@ static void Close_Callback (void)
 
 // Change to starting directory
 // This function is registered in the atexit() table to be called on quit
-static void Close_Emulator_Starting_Dir (void)
+static void Close_Emulator_Starting_Dir(void)
 {
-    chdir (g_env.Paths.StartingDirectory);
+    chdir(g_env.Paths.StartingDirectory);
 }
 
 static int Init_Allegro (void)
@@ -330,7 +330,7 @@ static int Init_Allegro (void)
 static void Init_GUI (void)
 {
     ConsolePrintf ("%s\n", Msg_Get (MSG_Init_GUI));
-    gui_init(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
+    GUI_Init();
 }
 
 // MAIN FUNCTION --------------------------------------------------------------

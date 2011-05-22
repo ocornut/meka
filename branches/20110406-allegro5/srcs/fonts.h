@@ -36,7 +36,7 @@ extern t_font *		FontCurrent;
 
 void    Fonts_Init          (void);
 void    Fonts_Close         (void);
-void    Fonts_AddFont       (int font_id, ALLEGRO_FONT *library_data);
+void    Fonts_DeclareFont   (int font_id, ALLEGRO_FONT *library_data);
 
 //-----------------------------------------------------------------------------
 

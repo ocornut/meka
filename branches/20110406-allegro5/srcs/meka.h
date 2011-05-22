@@ -149,7 +149,7 @@ struct OPT_TYPE
 };
 
 // Max path length
-// FIXME: Portable way to obtain this at compilation stage?
+// FIXME: Portable way to obtain this at compile time?
 #define FILENAME_LEN	(512)
 //#define FILENAME_LEN	MAXPATHLEN
 //#define FILENAME_LEN	PATH_MAX

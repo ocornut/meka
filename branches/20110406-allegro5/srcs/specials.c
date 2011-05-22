@@ -249,7 +249,6 @@ void    gui_applet_blood_create (int v, int x, int y)
      }
 }
 
-// INIT BLOOD -----------------------------------------------------------------
 void    special_effects_init (void)
 {
     int i;

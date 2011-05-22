@@ -33,8 +33,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;	// Line buffer scratch pad, 16-bits
-ALLEGRO_BITMAP *         Blit_Buffer_Double;		// Double-sized buffer, 16-bits
+ALLEGRO_BITMAP * Blit_Buffer_LineScratch = NULL;	// Line buffer scratch pad, 16-bits
+ALLEGRO_BITMAP * Blit_Buffer_Double = NULL;			// Double-sized buffer, 16-bits
 
 t_blit_cfg blit_cfg;
 
@@ -44,14 +44,24 @@ t_blit_cfg blit_cfg;
 
 void    Blit_Init (void)
 {
+    blit_cfg.tv_mode_factor = 0.700f;	// FIXME-TUNING
+	Blit_CreateVideoBuffers();
+
+    // Initialize HQ2X filters
+    HQ2X_Init();
+}
+
+void	Blit_CreateVideoBuffers()
+{
+	if (Blit_Buffer_LineScratch)
+		al_destroy_bitmap(Blit_Buffer_LineScratch);
+	if (Blit_Buffer_Double)
+		al_destroy_bitmap(Blit_Buffer_Double);
+
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
-    blit_cfg.tv_mode_factor = 0.700f;	// FIXME-TUNING
-
-    // Initialize HQ2X filters
-    HQ2X_Init();
 }
 
 static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
@@ -365,12 +375,9 @@ void    Blit_GUI (void)
     //Palette_Sync ();
 
     // Blit
-	{
-		ALLEGRO_BITMAP* backbuffer = al_get_backbuffer(g_display);
-		al_set_target_bitmap(backbuffer);
-		al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
-	}
-    //blit (gui_buffer, screen, 0, 0, 0, 0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
+	ALLEGRO_BITMAP* backbuffer = al_get_backbuffer(g_display);
+	al_set_target_bitmap(backbuffer);
+	al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
 	al_flip_display();
 
     // Update 3-D Glasses (if no VSync)

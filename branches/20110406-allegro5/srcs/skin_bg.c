@@ -101,9 +101,6 @@ static void     Skins_Background_Draw_Center(ALLEGRO_BITMAP *bmp)
 
 void    Skins_Background_Redraw(void)
 {
-    t_skin *skin;
-    ALLEGRO_BITMAP *background;
-
 #ifdef DEBUG_WHOLE
 	Msg (MSGT_DEBUG, "Skins_Background_Redraw();");
 #endif
@@ -112,8 +109,8 @@ void    Skins_Background_Redraw(void)
 	
     al_set_target_bitmap(gui_background);
 
-    skin = Skins_GetCurrentSkin();
-    background = Skins_GetBackgroundPicture();
+    t_skin* skin = Skins_GetCurrentSkin();
+    ALLEGRO_BITMAP* background = Skins_GetBackgroundPicture();
 	if (background != NULL)
 	{
         switch (skin->background_picture_mode)

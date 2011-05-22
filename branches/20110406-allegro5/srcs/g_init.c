@@ -18,24 +18,24 @@
 #include "desktop.h"
 #include "g_file.h"
 #include "inputs_c.h"
+#include "skin_bg.h"
 
 //-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
-static void    gui_init_applets(void);
+static void    GUI_InitApplets(void);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_init(int res_x, int res_y, int color_depth)
+void    GUI_Init()
 {
     opt.GUI_Inited = TRUE;
 
     gui_buffer = NULL;
     gui_background = NULL;
-    gui_set_video_mode(res_x, res_y, color_depth);
 
     gui.info.screen_pad.x = 2;
     gui.info.screen_pad.y = 2;
@@ -44,8 +44,13 @@ void    gui_init(int res_x, int res_y, int color_depth)
 
     gui.boxes = NULL;
     gui.boxes_count = 0;
-    Desktop_Init ();
-    gui_init_applets ();
+
+	gui.info.screen.x = g_Configuration.video_mode_gui_res_x;
+    gui.info.screen.y = g_Configuration.video_mode_gui_res_y;
+	GUI_CreateVideoBuffers();
+
+    Desktop_Init();
+    GUI_InitApplets();
     special_effects_init ();
 
     // Create game box
@@ -60,19 +65,29 @@ void    gui_init(int res_x, int res_y, int color_depth)
     gui_init_mouse ();
 }
 
-//-----------------------------------------------------------------------------
-// gui_set_video_mode(int res_x, int res_y, int color_depth)
-// Set GUI desktop resolution and color depth
-//-----------------------------------------------------------------------------
-// Note: this cannot be naively called from anywhere. 
-// Some things needs to be updated accordingly: background redrawn, 
-// actual video mode changed, etc.
-//-----------------------------------------------------------------------------
-void    gui_set_video_mode(int res_x, int res_y, int color_depth)
+void	GUI_SetupNewVideoMode()
 {
-    gui.info.screen.x = res_x;
-    gui.info.screen.y = res_y;
+    gui_mouse_show(NULL);
 
+	gui.info.must_redraw = TRUE;
+	gui.info.screen.x = g_Configuration.video_mode_gui_res_x;
+    gui.info.screen.y = g_Configuration.video_mode_gui_res_y;
+	GUI_CreateVideoBuffers();
+
+    Skins_Background_Redraw();
+    Skins_StartupFadeIn();
+
+    // Fix windows position
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    {
+        t_gui_box* box = (t_gui_box*)boxes->elem;;
+        gui_box_clip_position(box);
+        box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    }
+}
+
+void	GUI_CreateVideoBuffers()
+{
     // Destroy existing buffers (if any)
     if (gui_buffer != NULL)
     {
@@ -83,42 +98,33 @@ void    gui_set_video_mode(int res_x, int res_y, int color_depth)
         gui_background = NULL;
     }
 
+	const int color_depth = g_Configuration.video_mode_gui_depth;
+
     // Setup buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
-    gui_buffer = al_create_bitmap(res_x, res_y);
+    gui_buffer = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
     al_set_target_bitmap(gui_buffer);
 	al_clear_to_color(COLOR_BLACK);
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
     gui_background = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
+
+    // Recreate existing windows buffers
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    {
+        t_gui_box* box = (t_gui_box*)boxes->elem;;
+		gui_box_create_video_buffer(box);
+	}
 }
 
-void    gui_init_again (void)
+void	GUI_Close(void)
 {
-    // Set theme colors
-    Skins_StartupFadeIn();
-
-	// Set dirty flag
-	gui.info.must_redraw = TRUE;
+    // FIXME: Nice.
 }
 
-// CLOSE GUI / FREE (SOME) ALLOCATED MEMORY -----------------------------------
-// FIXME: Old crap
-void        gui_close (void)
-{
-    // FIXME: freeing only that and nothing else is admitting the pure lameness of this code.
-    //int i;
-    //for (i = 0; i < gui.box_last; i ++)
-    //    free (gui.box [i]);
-}
-
-//-----------------------------------------------------------------------------
-// gui_init_applets (void)
-// Initialize default GUI applets
-//-----------------------------------------------------------------------------
-void    gui_init_applets (void)
+void    GUI_InitApplets(void)
 {
     // About box
     AboutBox_Init();
