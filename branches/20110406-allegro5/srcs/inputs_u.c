@@ -296,12 +296,6 @@ void        Inputs_Emulation_Update (bool running)
 //-----------------------------------------------------------------------------
 void        Inputs_Sources_Update (void)
 {
-    int     i;
-
-#ifdef MEKA_JOY
-    int     Joy_Polled = FALSE;
-#endif
-
 	int	mouse_x_prev, mouse_y_prev;
 	int mouse_mx, mouse_my;
 
@@ -335,7 +329,7 @@ void        Inputs_Sources_Update (void)
     }
 #endif
 
-    for (i = 0; i < Inputs.Sources_Max; i++)
+    for (int i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *Src = Inputs.Sources[i];
         if (!Src->enabled || Src->Connected_and_Ready == FALSE)
@@ -363,12 +357,7 @@ void        Inputs_Sources_Update (void)
             {
        			ALLEGRO_JOYSTICK *joystick = al_get_joystick(Src->Connection_Port);
 				ALLEGRO_JOYSTICK_STATE state;
-
-				if (!Joy_Polled) 
-				{ 
-					al_get_joystick_state(joystick, &state);
-                    Joy_Polled = TRUE; 
-                }
+				al_get_joystick_state(joystick, &state);
 
 				const int num_sticks = al_get_joystick_num_sticks(joystick);
 				const int num_buttons = al_get_joystick_num_buttons(joystick);
