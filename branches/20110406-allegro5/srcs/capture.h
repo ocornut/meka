@@ -7,7 +7,7 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define CAPTURE_ID_MAX          (9999)       // Security measure for not going in infinite loop with short file name.
+#define CAPTURE_ID_MAX          (99999)      // Security measure for not going in infinite loop with short file name.
 #define CAPTURE_DEFAULT_PREFIX  "meka"
 
 //-----------------------------------------------------------------------------

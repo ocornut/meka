@@ -97,20 +97,19 @@ static void	Capture_FileName_Get(char *dst)
 static void		Capture_Screen(void)
 {
     //PALETTE     pal;
-    ALLEGRO_BITMAP *    bmp;
-    ALLEGRO_BITMAP *    source;
-    char        s1[FILENAME_LEN];
-    int         x_start, x_len;
-    int         y_start, y_len;
 
     // Get a filename
-    Capture_FileName_Get(s1);
+    char filename[FILENAME_LEN];
+    Capture_FileName_Get(filename);
     if (Capture.id_number >= CAPTURE_ID_MAX)
     {
         Msg(MSGT_USER, Msg_Get(MSG_Capture_Error_File));
         return;
     }
 
+    int x_start, x_len;
+    int y_start, y_len;
+	ALLEGRO_BITMAP* source = NULL;
 	if ((g_env.state == MEKA_STATE_FULLSCREEN) || (!g_Configuration.capture_include_gui)) 
 	{
 		// Fullscreen
@@ -158,22 +157,15 @@ static void		Capture_Screen(void)
 		return;
 	}
 
-	assert(0);
-#if 0 // FIXME-ALLEGRO5: screenshot capture
-    acquire_bitmap(source);
-    bmp = create_sub_bitmap(source, x_start, y_start, x_len, y_len);
+    ALLEGRO_BITMAP* bmp = al_create_sub_bitmap(source, x_start, y_start, x_len, y_len);
     if (bmp == NULL)
     {
         Msg(MSGT_USER, Msg_Get(MSG_Capture_Error));
         return;
     }
-    release_bitmap(source);
-#else
-	bmp = NULL;
-#endif
 
     //get_palette(pal);
-    if (al_save_bitmap(s1, bmp) != 0)
+    if (!al_save_bitmap(filename, bmp))
     {
         Msg(MSGT_USER, Msg_Get(MSG_Capture_Error));
         al_destroy_bitmap(bmp);
@@ -183,8 +175,8 @@ static void		Capture_Screen(void)
     al_destroy_bitmap(bmp);
 
     // Verbose
-    killpath(s1);
-    Msg(MSGT_USER, Msg_Get(MSG_Capture_Done), s1);
+    killpath(filename);
+    Msg(MSGT_USER, Msg_Get(MSG_Capture_Done), filename);
 }
 
 void	Capture_Update(void)

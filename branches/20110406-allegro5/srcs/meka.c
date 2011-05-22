@@ -36,7 +36,6 @@
 #include "video_m5.h"
 #include "vlfn.h"
 #include "osd/timer.h"
-#include "libaddon/png/loadpng.h"
 #ifdef ARCH_WIN32
 #include <commctrl.h>
 #endif
@@ -309,11 +308,6 @@ static int Init_Allegro (void)
     // Keyboard, mouse
     al_install_keyboard();
     g_env.mouse_installed = al_install_mouse();
-
-    // PNG support
-    #ifdef MEKA_PNG
-        //loadpng_init ();	// FIXME-ALLEGRO5: Disabled, I assume Allegro support it now
-    #endif
 
     // text_mode (-1); // now obsolete
     //ConsolePrint ("\n");

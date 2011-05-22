@@ -49,7 +49,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
-				PreprocessorDefinitions="ARCH_WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
+				PreprocessorDefinitions="ARCH_WIN32;_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="false"
 				MinimalRebuild="true"
 				ExceptionHandling="0"
@@ -160,7 +160,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..;../tools;../sound;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
-				PreprocessorDefinitions="ARCH_WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_PNG;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
+				PreprocessorDefinitions="ARCH_WIN32;NDEBUG;_WINDOWS;X86_ASM;MEKA_SOUND;MEKA_ZIP;MEKA_JOY;MEKA_Z80_DEBUGGER;MARAT_Z80"
 				StringPooling="true"
 				MinimalRebuild="false"
 				ExceptionHandling="0"
@@ -873,26 +873,6 @@
 						</File>
 						<File
 							RelativePath="..\libaddon\zip\unzip.h"
-							>
-						</File>
-					</Filter>
-					<Filter
-						Name="png"
-						>
-						<File
-							RelativePath="..\libaddon\png\loadpng.c"
-							>
-						</File>
-						<File
-							RelativePath="..\libaddon\png\loadpng.h"
-							>
-						</File>
-						<File
-							RelativePath="..\libaddon\png\regpng.c"
-							>
-						</File>
-						<File
-							RelativePath="..\libaddon\png\savepng.c"
 							>
 						</File>
 					</Filter>
