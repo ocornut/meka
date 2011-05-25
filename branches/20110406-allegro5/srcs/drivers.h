@@ -14,23 +14,20 @@
 #define DRV_SC3000      (3)
 #define DRV_COLECO      (4)
 #define DRV_MSX         (5)
-#define DRV_NES         (6)
+#define DRV_NES___		(6)
 #define DRV_SF7000      (7)
 #define DRV_MAX         (8)
 
 // CPU Type
 #define CPU_Z80         (0)
-#define CPU_6502        (1)
 
 // VDP Type
 #define VDP_SMSGG       (0)
 #define VDP_TMS9918     (1)
-#define VDP_NES         (2)
 
 // Sound Type
 #define SND_SN76489AN   (0)
 #define SND_SN76489     (1)
-#define SND_NES         (2)
 
 //-----------------------------------------------------------------------------
 // Data

@@ -21,7 +21,7 @@ static ts_driver drivers [DRV_MAX] =
   {  DRV_SC3000, "SC-3000",  "Sega Computer 3000",    CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x08000 },
   {  DRV_COLECO, "COLECO",   "Coleco Vision",         CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x00400 },
   {  DRV_MSX,    "MSX",      "MSX-1",                 CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0 /*?*/ },
-  {  DRV_NES,    "NES",      "Nintendo",              CPU_6502, VDP_NES,     SND_NES,        256, 240,  0,  0,   255, 0,  0,  0,  32,  0x00800 },
+  {  DRV_NES___, "NES",      "Nintendo",              0,		0,			 0,				 256, 240,  0,  0,   255, 0,  0,  0,  32,  0x00800 },
   {  DRV_SF7000, "SF-7000",  "Super Control Station", CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x10000 }
   // Driver ----- Name ------- Full Name ------------ CPU ----- VDP Chip --- SND Chip ------ X -- Y -- XS - YS - XE - YSS/SE/INT - C - RAM -----
 };
@@ -40,7 +40,6 @@ static const ts_driver_filename_extension   drivers_ext [] =
     { "COL",      DRV_COLECO      },
     { "ROM",      DRV_COLECO      },
     { "BIN",      DRV_COLECO      },
-    { "NES",      DRV_NES         },
     { 0,          DRV_SMS         }
 };
 
@@ -67,7 +66,6 @@ void    drv_set (int num)
             {
                 case VDP_SMSGG:     palette_max = 2;  break;
                 case VDP_TMS9918:   palette_max = 15; break;
-                case VDP_NES:       palette_max = 8;  break;
             }
             TileViewer_Configure_PaletteMax(palette_max);
             PaletteViewer_SetPaletteSize(&PaletteViewer, cur_drv->colors);
@@ -102,7 +100,6 @@ int     drv_id_to_mode (int id)
     case DRV_SC3000:    return (2 | 8);
     case DRV_COLECO:    return (2 | 4);
     case DRV_MSX:       return (2 | 16);
-    case DRV_NES:       return (3);
     case DRV_SF7000:    return (-1); // Was not existing, then
     }
   return (0);

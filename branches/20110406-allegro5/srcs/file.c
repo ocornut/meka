@@ -373,8 +373,6 @@ void    Load_Header_and_Footer_Remove (int *pstart, long *psize)
         break;
     case DRV_SF7000: //--- SF-7000
         break;
-    case DRV_NES:    //--- Nintendo
-        break;
     default:         //--- Master System, Game Gear, SG-1000, SC-3000...
         // Skip 512 bytes header if necessary
         if (size > 0x4000 && (size % 0x4000) == 512)

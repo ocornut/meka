@@ -137,7 +137,7 @@ struct OPT_TYPE
 {
     bool        GUI_Inited;
     bool        Fullscreen_Cursor;
-    int         IPeriod, IPeriod_Coleco, IPeriod_Sg1000_Sc3000, IPeriod_NES, Cur_IPeriod;
+    int         IPeriod, IPeriod_Coleco, IPeriod_Sg1000_Sc3000, Cur_IPeriod;
     int         Layer_Mask;
     int         Current_Key_Pressed;
     //----

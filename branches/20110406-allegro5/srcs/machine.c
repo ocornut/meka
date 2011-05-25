@@ -11,7 +11,6 @@
 #include "eeprom.h"
 #include "glasses.h"
 #include "mappers.h"
-#include "nes.h"
 #include "palette.h"
 #include "vdp.h"
 #include "video.h"
@@ -352,9 +351,6 @@ void    Machine_Set_IPeriod (void)
     case DRV_SF7000:
         opt.Cur_IPeriod = opt.IPeriod_Sg1000_Sc3000;
         break;
-    case DRV_NES:
-        opt.Cur_IPeriod = opt.IPeriod_NES;
-        break;
     default:
         opt.Cur_IPeriod = opt.IPeriod;
         break;
@@ -397,7 +393,7 @@ void        Machine_Reset (void)
     drv_set (cur_machine.driver_id);
 
     Machine_Set_Mapper          ();
-    if ((machine & MACHINE_RUN) != 0 /*== MACHINE_RUN */ && (cur_drv->id != DRV_NES))
+    if ((machine & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
         Machine_Set_Mapping      (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
     Machine_Set_Handler_IO      ();
     Machine_Set_Handler_Read    ();
@@ -557,13 +553,6 @@ void        Machine_Reset (void)
     if (cur_machine.driver_id == DRV_SF7000)
     {
         SF7000_Reset ();
-    }
-
-    // NINTENDO CRAP
-    if (cur_machine.driver_id == DRV_NES /* && cfg.NES_Enabled */)
-    {
-        ROM = Game_ROM;
-        NES_Reset ();
     }
 
     // DEBUGGER ---------------------------------------------------------------

@@ -98,6 +98,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	if (g_display != NULL)
 		al_destroy_display(g_display);
 
+	// Create new display
 	int display_flags = ALLEGRO_OPENGL;
 	if (fullscreen)
 		display_flags |= ALLEGRO_FULLSCREEN;
@@ -107,7 +108,6 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	g_display = al_create_display(w, h);
 
 	if (!g_display)
-    //if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
     {
 		const char* error = "Unknown error";	// FIXME-ALLEGRO5: was 'allegro_error'
         if (fatal)
@@ -143,7 +143,6 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 void    Video_Mode_Update_Size(void)
 {
     int   x_fact, y_fact;
-
     Blitters_Get_Factors (&x_fact, &y_fact);
 
     // Compute game area position to be centered on the screen

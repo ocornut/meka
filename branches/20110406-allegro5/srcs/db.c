@@ -44,7 +44,6 @@ static struct
     { "SF7",    DRV_SF7000 },
     { "OMV",    DRV_SG1000 },
     { "COL",    DRV_COLECO },
-    { "NES",    DRV_NES    },
     { "",       -1         },
 };
 

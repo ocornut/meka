@@ -882,42 +882,6 @@
 				Name="CPU"
 				>
 				<Filter
-					Name="M6502"
-					>
-					<File
-						RelativePath="..\m6502\codes.h"
-						>
-					</File>
-					<File
-						RelativePath="..\m6502\m6502.c"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="0"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="0"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\m6502\m6502.h"
-						>
-					</File>
-					<File
-						RelativePath="..\m6502\tables.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="Z80marat"
 					>
 					<File
@@ -1465,34 +1429,6 @@
 					RelativePath="..\sg1ksc3k.h"
 					>
 				</File>
-				<Filter
-					Name="NES"
-					>
-					<File
-						RelativePath="..\nes.c"
-						>
-					</File>
-					<File
-						RelativePath="..\nes.h"
-						>
-					</File>
-					<File
-						RelativePath="..\nes_maps.c"
-						>
-					</File>
-					<File
-						RelativePath="..\nes_maps.h"
-						>
-					</File>
-					<File
-						RelativePath="..\nes_ppu.c"
-						>
-					</File>
-					<File
-						RelativePath="..\nes_ppu.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="OSD"

@@ -28,7 +28,6 @@
 #include "inputs_f.h"
 #include "inputs_i.h"
 #include "mappers.h"
-#include "nes.h"
 #include "palette.h"
 #include "patch.h"
 #include "setup.h"
@@ -131,7 +130,6 @@ static void Init_Default_Values (void)
     opt.IPeriod = opt.Cur_IPeriod = 228;
     opt.IPeriod_Coleco = 228; // 215
     opt.IPeriod_Sg1000_Sc3000 = 228;
-    opt.IPeriod_NES = 114;
 
     opt.Layer_Mask = LAYER_BACKGROUND | LAYER_SPRITES;
 
@@ -400,7 +398,6 @@ int main(int argc, char **argv)
     Data_Init               (); // Load datafile
     Init_Emulator           (); // Initialize Emulation
     Palette_Init            (); // Initialize Palette system
-    NES_Init                (); // Initialize NES emulation
     Init_LookUpTables		(); // Initialize Look-up tables
     Machine_Init            (); // Initialize Virtual Machine
     Init_GUI                (); // Initialize Graphical User Interface

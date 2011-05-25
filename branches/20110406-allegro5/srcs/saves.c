@@ -8,7 +8,6 @@
 #include "commport.h"
 #include "lightgun.h"
 #include "mappers.h"
-#include "nes.h"
 #include "palette.h"
 #include "saves.h"
 #include "tvoekaki.h"
@@ -39,9 +38,8 @@ void        Load_Game_Misc (void)
     #endif
 
     // Memory
-    // Note: for NES, it is done on Loading
     // FIXME: need to clean all those stuff.. it's messy
-    if (cur_machine.driver_id != DRV_NES)
+    //if (cur_machine.driver_id != DRV_NES)
 	{
         switch (cur_machine.mapper)
         {
@@ -290,11 +288,6 @@ int     Save_Game_MSV (FILE *f)
         fwrite (PRAM, 64, 1, f);
         fwrite (&Gear_to_Gear, sizeof (t_gear_to_gear), 1, f);
         break;
-    case DRV_NES:
-        fwrite (nes, sizeof (t_nes), 1, f);
-        fwrite (PRAM, 32, 1, f); // See comments in Load
-        NES_Mapper_Save (f);
-        break;
     }
 
     // Write PSG & FM state
@@ -436,11 +429,6 @@ int         Load_Game_MSV (FILE *f)
     case DRV_GG:
         fread (PRAM, 64, 1, f);
         fread (&Gear_to_Gear, sizeof (t_gear_to_gear), 1, f);
-        break;
-    case DRV_NES:
-        fread (nes, sizeof (t_nes), 1, f);
-        fread (PRAM, 32, 1, f); // Isn't that pointing to VRAM ?!
-        NES_Mapper_Load (f);
         break;
     }
 

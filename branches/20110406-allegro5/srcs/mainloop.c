@@ -7,7 +7,6 @@
 #include "debugger.h"
 #include "effects.h"
 #include "fskipper.h"
-#include "nes.h"
 #include "video.h"
 #include "osd/misc.h"
 
@@ -48,11 +47,6 @@ void    Main_Loop (void)
         if ((machine & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON)
         {
             Sound_Playback_Start ();
-            if (cur_drv->id == DRV_NES)
-            {
-                Run6502 (&nes->Regs);
-            }
-            else
             {
                 #ifdef MARAT_Z80
                     #ifdef MEKA_Z80_DEBUGGER

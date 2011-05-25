@@ -9,7 +9,6 @@
 #include "g_tools.h"
 #include "g_widget.h"
 #include "palette.h"
-#include "nes.h"
 #include "video_c.h"
 #include "video_m2.h"
 #include "video_m5.h"
@@ -185,29 +184,6 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                     addr += 8;
                 }
                 dirty = TRUE; // to be replaced later
-                break;
-        }
-    case VDP_NES:
-        {
-            int     n = 0;
-            u8 *    nd = &tgfx.Tile_Decoded[0][0];
-            u32 *   palette_host = &Palette_EmulationToHost[app->palette*4];
-            for (y = 0; y != app->tiles_height; y ++)
-                for (x = 0; x != app->tiles_width; x ++)
-                {
-                    if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
-                        NES_Decode_Tile (n);
-                    if (dirty_all || tgfx.Tile_Dirty [n])
-                    {
-                        VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, (x * 8), (y * 8), 0);
-                        tgfx.Tile_Dirty [n] = 0;
-                        dirty = TRUE;
-                    }
-                    if (n == tile_current)
-                        tile_current_addr = 0x0000 + (n * 32);
-                    n += 1;
-                    nd += 64;
-                }
                 break;
         }
     }

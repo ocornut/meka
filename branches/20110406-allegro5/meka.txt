@@ -37,9 +37,6 @@
   - ColecoVision          / COLECO   / America, Europe
   - Othello Multivision   / OMV      / Japan
 
- You can play other systems on it only if you are smart enough to figure how.
- And if you are, I doubt you will want to play Nintendo games. So forget it.
-
  MEKA is developped and coordinated by:
 
  > Omar Cornut / Bock

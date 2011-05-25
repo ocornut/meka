@@ -462,8 +462,6 @@ static void     FB_Load_Directory_Internal (void)
     list_add (&ext_list, "COL");
     list_add (&ext_list, "BIN");
     list_add (&ext_list, "ROM");
-    if (g_Configuration.enable_NES)
-        list_add (&ext_list, "NES");
     #ifdef MEKA_ZIP
         list_add (&ext_list, "ZIP");
     #endif

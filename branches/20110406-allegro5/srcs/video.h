@@ -12,7 +12,7 @@ struct t_video
     int		driver;							// Current driver
     int		res_x, res_y;					// Current resolution
     int		refresh_rate_requested;			// Requested refresh rate
-    int		clear_request;					// Set to 1 when a clear is requested
+    bool	clear_request;					// Set to 1 when a clear is requested
     int		page_flipflop;					// 0-1
     int		game_area_x1, game_area_y1;		// Game area frame
     int		game_area_x2, game_area_y2;

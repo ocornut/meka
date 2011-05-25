@@ -10,7 +10,6 @@
 #include "blit.h"
 #include "blitintf.h"
 #include "palette.h"
-#include "nes.h"
 #include "video_m2.h"
 
 // #define DEBUG_PALETTE
@@ -112,9 +111,6 @@ void    Palette_Emulation_Reload (void)
     {
     case VDP_TMS9918:  
         TMS9918_Palette_Set();
-        return;
-    case VDP_NES:
-        NES_Palette_Set();
         return;
     }
 

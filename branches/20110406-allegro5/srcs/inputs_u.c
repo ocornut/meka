@@ -309,6 +309,10 @@ void        Inputs_Sources_Update (void)
 	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
+	/*for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
+		if (al_key_down(&g_keyboard_state, i))
+			Msg( MSGT_DEBUG, "Pressed key %d\n", i);*/
+
     // Poll mouse
 	mouse_x_prev = g_mouse_state.x;
 	mouse_y_prev = g_mouse_state.y;

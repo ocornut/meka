@@ -79,7 +79,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
      "iperiod", "iperiod_coleco", "iperiod_sg1000_sc3000",
 
      "nes_sucks",
-     "mario_is_a_fat_plumber",
+     "mario_is_a_fat_plumber",//OBSOLETE
 
      "sprite_flickering",
 
@@ -279,7 +279,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
                 }
              break;
     // mario_is_a_fat_plumber
-    case 34: g_Configuration.enable_NES = (bool)atoi (value);
+    case 34: //
              break;
     //-------------------------------------------------------------------------
     // sprite_flickering
@@ -665,8 +665,6 @@ void    Configuration_Save (void)
 
     CFG_Write_Line ("-----< FACTS >---------------------------------------------------------------");
     CFG_Write_Line ("nes_sucks = 1");
-    if (g_Configuration.enable_NES)
-        CFG_Write_Line ("mario_is_a_fat_plumber = 1");
 
     fclose (CFG_File);
 }
