@@ -310,13 +310,21 @@ void        Inputs_Sources_Update (void)
 	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
+	// Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
+#ifdef ARCH_WIN32
+	if (GetAsyncKeyState(VK_SNAPSHOT))
+		g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
+#endif
+
 #if 0
 	u8 win32_keyboard_state[256];
 	memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
 	bool ret = GetKeyboardState(&win32_keyboard_state[0]);
 	for (int i = 0; i != 256; i++)
-		if (GetAsyncKeyState(i))
-			Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d, %08x", ret, i, GetAsyncKeyState(i));
+		if (win32_keyboard_state[i])
+			Msg(MSGT_DEBUG, "[%d Win32 pressed %d\n", ret, i);
+		//if (GetAsyncKeyState(i))
+		//	Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d, %08x", ret, i, GetAsyncKeyState(i));
 
 	//for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
 	//	if (al_key_down(&g_keyboard_state, i))
@@ -324,14 +332,14 @@ void        Inputs_Sources_Update (void)
 #endif
 
     // Poll mouse
-	int mouse_x_prev = g_mouse_state.x;
-	int mouse_y_prev = g_mouse_state.y;
+	const int mouse_x_prev = g_mouse_state.x;
+	const int mouse_y_prev = g_mouse_state.y;
 	al_get_mouse_state(&g_mouse_state);
 	Inputs_UpdateMouseRange();
 
 	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
-	int mouse_mx = g_mouse_state.x - mouse_x_prev;
-	int mouse_my = g_mouse_state.y - mouse_y_prev;
+	const int mouse_mx = g_mouse_state.x - mouse_x_prev;
+	const int mouse_my = g_mouse_state.y - mouse_y_prev;
 
     // Add pressed keys to keypress queue
     // FIXME-ALLEGRO5: Scan for all possible keypresses?
