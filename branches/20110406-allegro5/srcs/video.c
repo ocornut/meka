@@ -96,7 +96,13 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 
 	// FIXME-ALLEGRO5: Create display a single time
 	if (g_display != NULL)
+	{
+#ifdef ARCH_WIN32
+		// Allegro is missing keyboard events when there's no display, so as a workaround we clear the key states.
+		Inputs_KeyClearAllState();
+#endif
 		al_destroy_display(g_display);
+	}
 
 	// Create new display
 	int display_flags = ALLEGRO_OPENGL;

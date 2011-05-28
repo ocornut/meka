@@ -16,7 +16,8 @@ extern char    Alpha_Table [NUM_ALPHA_KEYS];
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Inputs_Key_Eat                  (int keycode);
+void	Inputs_KeyClearAllState			(void);
+void    Inputs_KeyEat                   (int keycode);
 
 void    Inputs_KeyPressQueue_Remove     (t_key_press *keypress);
 void    Inputs_KeyPressQueue_Clear      (void);

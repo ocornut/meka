@@ -16,7 +16,7 @@
 
 // #define DEBUG_JOY
 
-ALLEGRO_KEYBOARD_STATE	g_keyboard_state;
+bool					g_keyboard_state[ALLEGRO_KEY_MAX];
 int						g_keyboard_modifiers = 0;
 ALLEGRO_EVENT_QUEUE *	g_keyboard_event_queue = NULL;
 ALLEGRO_MOUSE_STATE		g_mouse_state;
@@ -303,33 +303,22 @@ void        Inputs_Emulation_Update (bool running)
 //-----------------------------------------------------------------------------
 void        Inputs_Sources_Update (void)
 {
-	// Poll keyboard
- 	al_get_keyboard_state(&g_keyboard_state);
-	//memset(&g_keyboard_state,0,sizeof(g_keyboard_state));
-	g_keyboard_modifiers = 0;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
-	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_ALT;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
-
-	// Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
-#ifdef ARCH_WIN32
-	if (GetAsyncKeyState(VK_SNAPSHOT))
-		g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
-#endif
-
-	// Process 'character' keypresses
-	// Those are transformed (given keyboard state & locale) into printable character
-	// Equivalent to using ToUnicode() in the Win32 API.
-    // FIXME-ALLEGRO5: Scan for all possible keypresses?
+	// Process keyboard events
 	ALLEGRO_EVENT key_event;
 	while (al_get_next_event(g_keyboard_event_queue, &key_event))
 	{
 		switch (key_event.type)
 		{
+		case ALLEGRO_EVENT_KEY_DOWN:
+			g_keyboard_state[key_event.keyboard.keycode] = true;
+			break;
+		case ALLEGRO_EVENT_KEY_UP:
+			g_keyboard_state[key_event.keyboard.keycode] = false;
+			break;
 		case ALLEGRO_EVENT_KEY_CHAR:
+			// Process 'character' keypresses
+			// Those are transformed (given keyboard state & locale) into printable character
+			// Equivalent to using ToUnicode() in the Win32 API.
 			// Note: Allegro is handling repeat for us here.
 			if (key_event.keyboard.unichar > 0 && (key_event.keyboard.unichar & ~0xFF) == 0)
 			{
@@ -342,6 +331,21 @@ void        Inputs_Sources_Update (void)
 			break;
 		}
 	}
+	
+	// Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
+#ifdef ARCH_WIN32
+	g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = (GetAsyncKeyState(VK_SNAPSHOT) != 0);
+	// g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
+#endif
+
+	// Update keyboard modifiers flags
+	g_keyboard_modifiers = 0;
+	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
+		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
+	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
+		g_keyboard_modifiers |= ALLEGRO_KEYMOD_ALT;
+	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
+		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
 	// Keyboard debugging
 #if 0

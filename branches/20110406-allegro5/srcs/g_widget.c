@@ -1016,7 +1016,7 @@ void        widget_inputbox_update(t_widget *w)
 
             // HACK: This avoid resetting while backspacing in the widget
             // if (key[KEY_BACKSPACE])
-            ///    Inputs_Key_Eat(KEY_BACKSPACE);
+            ///    Inputs_KeyEat(KEY_BACKSPACE);
         }
 	}
 

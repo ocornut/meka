@@ -25,16 +25,14 @@ static int  typematic_repeat_counter = 0;
 // Functions
 //-----------------------------------------------------------------------------
 
-// Eat given key by removing the corresponding flag in the global key[] table
-void    Inputs_Key_Eat(int keycode)
+void	Inputs_KeyClearAllState()
 {
-	// FIXME-ALLEGRO5: eat keypresses
-    //key[keycode] = 0;
+	memset(g_keyboard_state, 0, sizeof(g_keyboard_state));
 }
 
 void    Inputs_KeyPressQueue_Remove(t_key_press *keypress)
 {
-    Inputs_Key_Eat(keypress->scancode); // FIXME
+    Inputs_KeyEat(keypress->scancode); // FIXME
 
     list_remove(&Inputs.KeyPressedQueue, keypress);
     free(keypress);
@@ -47,7 +45,15 @@ void    Inputs_KeyPressQueue_Clear(void)
 
 bool	Inputs_KeyDown(int keycode)
 {
-	return al_key_down(&g_keyboard_state, keycode);
+	return g_keyboard_state[keycode];
+	//return al_key_down(&g_keyboard_state, keycode);
+}
+
+// Eat given key by removing the corresponding flag in the global key[] table
+void    Inputs_KeyEat(int keycode)
+{
+	g_keyboard_state[keycode] = false;
+	//g_keyboard_state.__key_down__internal__[keycode / 32] &= ~(1 << (keycode & 31));
 }
 
 //-----------------------------------------------------------------------------
@@ -63,7 +69,7 @@ bool    Inputs_KeyPressed(int keycode, bool eat)
         typematic_repeating = FALSE;
         typematic_repeat_counter = 0;
         if (eat)
-			Inputs_Key_Eat(keycode);
+			Inputs_KeyEat(keycode);
         return (TRUE);
     }
     // Check if previously pressed key was released

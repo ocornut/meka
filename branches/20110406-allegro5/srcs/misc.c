@@ -153,11 +153,8 @@ void    Show_End_Message (void)
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Quit ()
 // Quit the application immediately
-//-----------------------------------------------------------------------------
-void    Quit (void)
+void    Quit(void)
 {
     // Set text mode if we're not already in
     if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
@@ -184,14 +181,9 @@ void    Quit (void)
     exit (1);
 }
 
-//-----------------------------------------------------------------------------
-// Quit_Msg ()
 // Display an error message then quit the application
-//-----------------------------------------------------------------------------
-void            Quit_Msg (const char *format, ...)
+void	Quit_Msg (const char *format, ...)
 {
-    va_list       params;
-
     // Set text mode if we're not already in
     if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
     {
@@ -209,6 +201,7 @@ void            Quit_Msg (const char *format, ...)
     {
         // FIXME: should redirect on console
 		char buffer[512];
+		va_list params;
         va_start (params, format);
         vsprintf (buffer, format, params);
         va_end   (params);
@@ -226,6 +219,7 @@ void            Quit_Msg (const char *format, ...)
     }
 #else
     {
+		va_list params;
         va_start (params, format);
         vprintf  (format, params); // FIXME: use Console*
         va_end   (params);
