@@ -84,6 +84,9 @@ ALLEGRO_BITMAP *fs_page_0 = NULL, *fs_page_1 = NULL, *fs_page_2 = NULL;
 ALLEGRO_BITMAP *gui_buffer = NULL;
 ALLEGRO_BITMAP *gui_background = NULL;
 
+ALLEGRO_COLOR COLOR_BLACK = al_map_rgb_f(0.0f,0.0f,0.0f);
+ALLEGRO_COLOR COLOR_WHITE = al_map_rgb_f(1.0f,1.0f,1.0f);
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------

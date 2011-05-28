@@ -110,7 +110,7 @@ void    Palette_Emulation_Reload (void)
     switch (cur_drv->vdp)
     {
     case VDP_TMS9918:  
-        TMS9918_Palette_Set();
+        TMS9918_Palette_Setup();
         return;
     }
 

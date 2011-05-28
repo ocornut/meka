@@ -89,7 +89,7 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
     }
 
     // Separator
-    al_draw_line(0, app->tiles_display_frame.size.y+1, app->tiles_display_frame.size.x, app->tiles_display_frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+    al_draw_line(0, app->tiles_display_frame.size.y, app->tiles_display_frame.size.x, app->tiles_display_frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
 	// Rectangle enclosing current/selected tile
     gui_rect(app->box->gfx_buffer, LOOK_THIN, 2, app->tiles_display_frame.size.y + 1, 2 + 11, app->tiles_display_frame.size.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
@@ -97,14 +97,7 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
 
 void    TileViewer_Update(t_app_tile_viewer *app)
 {
-    int     x, y;
-    bool    dirty;
-    bool    dirty_all;
-    int     tile_current;
-    bool    tile_current_refresh;
-    int     tile_current_addr;
     ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
-	ALLEGRO_LOCKED_REGION* locked_region;
 
     // Skip update if not active
     if (!app->active)
@@ -118,8 +111,8 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         app->dirty = TRUE;
     }
 
-    dirty_all = app->dirty || Palette_EmulationDirtyAny;
-    dirty = dirty_all;
+    bool dirty_all = app->dirty || Palette_EmulationDirtyAny;
+    bool dirty = dirty_all;
 
     // Update hovered tile index
     {
@@ -133,12 +126,12 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     }
 
     // Compute the tile that is to display in the bottom info line
-    tile_current = (app->tile_hovered != -1) ? app->tile_hovered : app->tile_selected;
-    tile_current_refresh = /*(tile_current == -1) ? FALSE : */ (((tile_current != app->tile_displayed) || dirty_all || tgfx.Tile_Dirty [tile_current]));
-    tile_current_addr = -1;
+    int tile_current = (app->tile_hovered != -1) ? app->tile_hovered : app->tile_selected;
+    bool tile_current_refresh = /*(tile_current == -1) ? FALSE : */ (((tile_current != app->tile_displayed) || dirty_all || tgfx.Tile_Dirty [tile_current]));
+    int tile_current_addr = -1;
 
     // Then redraw all tiles
-	locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+	ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     switch (cur_drv->vdp)
     {
     case VDP_SMSGG:
@@ -146,8 +139,9 @@ void    TileViewer_Update(t_app_tile_viewer *app)
             int     n = 0;
             u8 *    nd = &tgfx.Tile_Decoded[0][0];
             u32 *   palette_host = app->palette ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
-            for (y = 0; y != app->tiles_height; y++)
-                for (x = 0; x != app->tiles_width; x++)
+            for (int y = 0; y != app->tiles_height; y++)
+			{
+                for (int x = 0; x != app->tiles_width; x++)
                 {
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
                         Decode_Tile (n);
@@ -162,7 +156,8 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                     n ++;
                     nd += 64;
                 }
-                break;
+			}
+            break;
         }
     case VDP_TMS9918:
         {
@@ -172,8 +167,9 @@ void    TileViewer_Update(t_app_tile_viewer *app)
             // addr = &VRAM[apps.opt.Tiles_Base];
             // addr = VRAM;
             int n = 0;
-            for (y = 0; y != app->tiles_height; y ++)
-                for (x = 0; x != app->tiles_width; x ++)
+            for (int y = 0; y != app->tiles_height; y ++)
+			{
+                for (int x = 0; x != app->tiles_width; x ++)
                 {
                     if ((addr - VRAM) > 0x4000)
                         break;
@@ -183,8 +179,9 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                     n++;
                     addr += 8;
                 }
-                dirty = TRUE; // to be replaced later
-                break;
+			}
+            dirty = TRUE; // to be replaced later
+            break;
         }
     }
 	al_unlock_bitmap(app->box->gfx_buffer);
@@ -200,19 +197,19 @@ void    TileViewer_Update(t_app_tile_viewer *app)
 
         if (tile_current != -1)
         {
-            char s[128];
-            char addr[16];
-
             // Tile
 			// FIXME-ALLEGRO5: Cannot have same bitmap be source and destination anymore
 			//al_set_target_bitmap(bmp);
 			//al_draw_bitmap_region(bmp, (tile_current % 16) * 8, (tile_current / 16) * 8, 8, 8, 4, app->tiles_height * 8 + 3, 0);
 
             // Description
+            char addr[16];
             if (tile_current_addr != -1)
                 sprintf(addr, "$%04X", tile_current_addr);
             else
                 sprintf(addr, "????");
+
+			char s[128];
             sprintf (s, Msg_Get(MSG_TilesViewer_Tile), tile_current, tile_current, addr);
             Font_Print (F_SMALL, bmp, s, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
             app->tile_displayed = tile_current;
@@ -243,7 +240,6 @@ void    TileViewer_Change_Palette (void)
 
 void        TileViewer_Configure_PaletteMax (int palette_max)
 {
-    //int     i;
     if (palette_max == TileViewer.palette_max)
         return;
     TileViewer.palette_max = palette_max;

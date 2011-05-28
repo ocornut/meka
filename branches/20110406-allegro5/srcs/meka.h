@@ -13,10 +13,8 @@
 #define SMS_RES_Y_TOTAL         (224)
 #define GG_RES_X                (160)
 #define GG_RES_Y                (144)
-#define NES_RES_X               (256)
-#define NES_RES_Y               (240)
-#define MAX_RES_X               (256)   // SMS/NES_RES_X
-#define MAX_RES_Y               (240)   // NES_RES_Y
+#define MAX_RES_X               SMS_RES_X
+#define MAX_RES_Y               SMS_RES_Y_TOTAL
 
 // Max length of a message ----------------------------------------------------
 #define MSG_MAX_LEN             (16384)
@@ -25,11 +23,10 @@
 #define MAX_TILES               (512)
 
 // Fixed colors
-// FIXME-ALLEGRO5: cache value
-#define COLOR_BLACK					al_map_rgb_f(0.0f,0.0f,0.0f)	//(0x00000000)	//makecol(0,0,0)
-#define COLOR_WHITE					al_map_rgb_f(1.0f,1.0f,1.0f)	//(0xFFFFFFFF)	//makecol(255,255,255)
-#define COLOR_BLACK16				0x0000
-#define COLOR_WHITE16				0xFFFF
+extern ALLEGRO_COLOR COLOR_BLACK;
+extern ALLEGRO_COLOR COLOR_WHITE;
+#define COLOR_BLACK16			0x0000
+#define COLOR_WHITE16			0xFFFF
 
 extern "C"	// C-style mangling
 {
@@ -48,8 +45,8 @@ extern u8 *    SG_BACK_TILE;
 extern u8 *    SG_BACK_COLOR;
 
 // Flags for layer handling ---------------------------------------------------
-#define LAYER_BACKGROUND            (0x01)
-#define LAYER_SPRITES               (0x02)
+#define LAYER_BACKGROUND		(0x01)
+#define LAYER_SPRITES           (0x02)
 
 // Main MEKA state ------------------------------------------------------------
 enum t_meka_state
