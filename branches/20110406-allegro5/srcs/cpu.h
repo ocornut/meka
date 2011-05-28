@@ -92,7 +92,7 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 #define Interrupt_Loop_Misc                                                 \
     {                                                                       \
     Interrupt_Loop_Misc_Common;                                             \
-    if (Inputs.Keyboard_Enabled)                                            \
+    if (Inputs.SK1100_Enabled)                                              \
        {                                                                    \
        if (Inputs_KeyDown(ALLEGRO_KEY_SCROLLLOCK))                          \
           Interrupt = INT_NMI;                                              \

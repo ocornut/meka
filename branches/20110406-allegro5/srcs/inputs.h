@@ -157,7 +157,7 @@ struct t_inputs
     byte            Peripheral [PLAYER_MAX];        // 2 inputs ports on emulated machines
     t_input_src **  Sources;
     int             Sources_Max;
-    int             Keyboard_Enabled;               // Boolean. Set when SK-1100 enabled.
+    int             SK1100_Enabled;					// Boolean. Set when SK-1100 enabled.
     u8              Paddle_X [PLAYER_MAX];
     char            SportsPad_XY [PLAYER_MAX] [2];
     u8              SportsPad_Latch [PLAYER_MAX];

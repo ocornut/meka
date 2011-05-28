@@ -20,9 +20,9 @@
 #include "g_file.h"
 #include "glasses.h"
 #include "inputs_c.h"
-#include "keyboard.h"
 #include "rapidfir.h"
 #include "saves.h"
+#include "sk1100.h"
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -172,7 +172,7 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.inputs,   Msg_Get (MSG_Menu_Inputs_PaddleControl), AM_Active, (t_menu_callback)Inputs_Switch_PaddleControl, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get (MSG_Menu_Inputs_SportsPad),     AM_Active, (t_menu_callback)Inputs_Switch_SportsPad, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get (MSG_Menu_Inputs_GraphicBoard),  AM_Active, (t_menu_callback)Inputs_Switch_TVOekaki, NULL);
-    menu_add_item     (menus_ID.inputs,   Msg_Get (MSG_Menu_Inputs_SK1100),        AM_Active, (t_menu_callback)Keyboard_Switch, NULL);
+    menu_add_item     (menus_ID.inputs,   Msg_Get (MSG_Menu_Inputs_SK1100),        AM_Active, (t_menu_callback)SK1100_Switch, NULL);
     // INPUTS -> RAPID FIRE
     menus_ID.rapidfire = menu_add_menu (menus_ID.inputs, Msg_Get (MSG_Menu_Inputs_RapidFire), AM_Active);
     snprintf          (buffer, countof(buffer), Msg_Get (MSG_Menu_Inputs_RapidFire_PxBx), 1, 1);

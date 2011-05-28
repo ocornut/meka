@@ -1,11 +1,11 @@
 //-----------------------------------------------------------------------------
-// MEKA - keyboard.c
+// MEKA - sk1100.c
 // SK-1100 (Sega Keyboard) / SC-3000 Keyboard Emulation - Code
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "inputs_t.h"
-#include "keyboard.h"
+#include "sk1100.h"
 #include "skin_bg.h"
 
 //-----------------------------------------------------------------------------
@@ -197,41 +197,32 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Keyboard_Switch ()
 // Enable/disable SK-1100 emulation
-//-----------------------------------------------------------------------------
-void    Keyboard_Switch (void)
+void    SK1100_Switch(void)
 {
-    Inputs.Keyboard_Enabled ^= 1;
+    Inputs.SK1100_Enabled ^= 1;
     gui_menu_inverse_check (menus_ID.inputs, 5);
     Skins_Background_Redraw();
     gui.info.must_redraw = TRUE;
-    if (Inputs.Keyboard_Enabled)
+    if (Inputs.SK1100_Enabled)
         Msg (MSGT_USER, Msg_Get (MSG_Inputs_SK1100_Enabled));
     else
         Msg (MSGT_USER, Msg_Get (MSG_Inputs_SK1100_Disabled));
 }
 
-//-----------------------------------------------------------------------------
-// Keyboard_Emulation_Clear ()
 // Clear SK-1100 data for emulation
-//-----------------------------------------------------------------------------
-void    Keyboard_Emulation_Clear (void)
+void    SK1100_Clear(void)
 {
     int i;
     for (i = 0; i < 7; i ++)
         tsms.Control [i] = 0xFFFF;
 }
 
-//-----------------------------------------------------------------------------
-// Keyboard_Emulation_Update ()
 // Update SK-1100 data for emulation
-//-----------------------------------------------------------------------------
-void    Keyboard_Emulation_Update (void)
+void    SK1100_Update (void)
 {
     int i;
-    Keyboard_Emulation_Clear();
+    SK1100_Clear();
     for (i = 0; i != SK1100_MAPPING_NUM; i ++)
     {
 		const t_sk1100_map* k = &SK1100_Mapping[i];

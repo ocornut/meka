@@ -1322,14 +1322,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\keyboard.c"
-					>
-				</File>
-				<File
-					RelativePath="..\keyboard.h"
-					>
-				</File>
-				<File
 					RelativePath="..\keyinfo.c"
 					>
 				</File>
@@ -1351,6 +1343,14 @@
 				</File>
 				<File
 					RelativePath="..\rapidfir.h"
+					>
+				</File>
+				<File
+					RelativePath="..\sk1100.c"
+					>
+				</File>
+				<File
+					RelativePath="..\sk1100.h"
 					>
 				</File>
 				<File

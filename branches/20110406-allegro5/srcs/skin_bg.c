@@ -140,7 +140,7 @@ void    Skins_Background_Redraw(void)
 	}
 
     // Draw SK-1100 centered on bottom
-    if (Inputs.Keyboard_Enabled)
+    if (Inputs.SK1100_Enabled)
 	{
 		ALLEGRO_BITMAP *bmp = Graphics.Inputs.SK1100_Keyboard;
 		al_draw_bitmap(bmp,

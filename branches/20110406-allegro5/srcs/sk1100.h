@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA - keyboard.h
+// MEKA - sk1100.h
 // SK-1100 (Sega Keyboard) / SC-3000 Keyboard Emulation - Headers
 //-----------------------------------------------------------------------------
 
@@ -7,10 +7,9 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Keyboard_Switch (void);
-
-void    Keyboard_Emulation_Clear (void);
-void    Keyboard_Emulation_Update (void);
+void    SK1100_Switch(void);
+void    SK1100_Clear(void);
+void    SK1100_Update(void);
 
 //-----------------------------------------------------------------------------
 

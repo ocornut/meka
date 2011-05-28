@@ -162,7 +162,7 @@ u8		In_SMS (u16 Port)
 
         // Keyboard scan / printer / cassette
     case 0xDE: 
-        if (Inputs.Keyboard_Enabled)
+        if (Inputs.SK1100_Enabled)
             return (sms.Input_Mode);
         return (0xFF);
 

@@ -18,9 +18,9 @@
 #include "glasses.h"
 #include "inputs_c.h"
 #include "inputs_t.h"
-#include "keyboard.h"
 #include "lightgun.h"
 #include "saves.h"
+#include "sk1100.h"
 #include "tvoekaki.h"
 #include "vdp.h"
 #include "video.h"
@@ -180,10 +180,10 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
        {
            // SK-1100 Keyboard switch
            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))        
-               Keyboard_Switch ();
+               SK1100_Switch();
            // Background Refresh switch
            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE)) 
-               Action_Switch_Layer_Background ();
+               Action_Switch_Layer_Background();
            // Next frame (pause hack)
            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
                Machine_Pause_Need_To = (machine & MACHINE_PAUSED) ? 2 : 1;
@@ -238,7 +238,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     #ifdef MEKA_Z80_DEBUGGER
         // Disabled when SK-1100 is emulated because of collision in usage of ScrollLock key
         // Actually on SC-3000 it is hardwired to NMI
-        if (!Inputs.Keyboard_Enabled && Inputs_KeyPressed(ALLEGRO_KEY_SCROLLLOCK, TRUE))
+        if (!Inputs.SK1100_Enabled && Inputs_KeyPressed(ALLEGRO_KEY_SCROLLLOCK, TRUE))
         //if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
             Debugger_Switch();
     #endif
@@ -342,7 +342,7 @@ byte    Input_Port_DC (void)
     byte   v;
     static int paddle_flip_flop = 0;
 
-    if (Inputs.Keyboard_Enabled && (sms.Input_Mode & 7) != 7)
+    if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
     {
         // Msg (MSGT_USER, "Keyboard read %d", sms.Input_Mode & 7);
         return (tsms.Control [sms.Input_Mode & 7] & 0xFF);
@@ -414,7 +414,7 @@ byte    Input_Port_DD (void)
     static int paddle_flip_flop = 0;
 
     // SK-1100
-    if (Inputs.Keyboard_Enabled && (sms.Input_Mode & 7) != 7)
+    if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
         return (tsms.Control [sms.Input_Mode & 7]  >> 8);
 
     // Controllers

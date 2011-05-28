@@ -5,10 +5,10 @@
 
 #include "shared.h"
 #include "app_game.h"
-#include "keyboard.h"
 #include "inputs_t.h"
 #include "lightgun.h"
 #include "rapidfir.h"
+#include "sk1100.h"
 #include "sportpad.h"
 #include "tvoekaki.h"
 #include "video.h"
@@ -125,8 +125,8 @@ void        Inputs_Emulation_Update (bool running)
                 tsms.Control_Start_Pause = 0;
             if (cur_drv->id == DRV_GG)
                 tsms.Control_GG |= (0x80);
-            if (Inputs.Keyboard_Enabled)
-                Keyboard_Emulation_Clear();
+            if (Inputs.SK1100_Enabled)
+                SK1100_Clear();
             return;
         }
 	}
@@ -246,8 +246,8 @@ void        Inputs_Emulation_Update (bool running)
         }
 
     // SK-1100 Keyboard update
-    if (Inputs.Keyboard_Enabled)
-        Keyboard_Emulation_Update ();
+    if (Inputs.SK1100_Enabled)
+        SK1100_Update();
 
     // Handle reset and clear pause latch if necessary
     if (Reset_Pressed == TRUE)
@@ -264,7 +264,7 @@ void        Inputs_Emulation_Update (bool running)
             {
                 // If SK-1100 is not emulated then process with an hardware Reset
                 // Note: this test is invalid in case Reset was pressed from a pad, it will cancel pressing reset from the pad
-                if (Inputs.Keyboard_Enabled == FALSE)
+                if (Inputs.SK1100_Enabled == FALSE)
                     Machine_Reset();
             }
         }
