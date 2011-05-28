@@ -311,20 +311,9 @@ static int Init_Allegro (void)
     al_install_keyboard();
     g_env.mouse_installed = al_install_mouse();
 
-    // text_mode (-1); // now obsolete
-    //ConsolePrint ("\n");
-
 	// Get Allegro version and print it in console
-	{
-		const unsigned int allegro_version = al_get_allegro_version();
-		char buf[256];
-		sprintf(buf, "%d.%d.%d (release %d)", 
-				(allegro_version >> 24),
-				(allegro_version >> 16) & 0xFF,
-				(allegro_version >> 8) & 0xFF,
-				(allegro_version & 0xFF));
-		ConsolePrintf(" version %s\n", buf);
-	}
+	const unsigned int allegro_version = al_get_allegro_version();
+	ConsolePrintf(" version %d.%d.%d (release %d)\n", (allegro_version >> 24), (allegro_version >> 16) & 0xFF, (allegro_version >> 8) & 0xFF, (allegro_version & 0xFF));
 
     return (1);
 }

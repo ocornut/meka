@@ -18,6 +18,7 @@
 
 ALLEGRO_KEYBOARD_STATE	g_keyboard_state;
 int						g_keyboard_modifiers = 0;
+ALLEGRO_EVENT_QUEUE *	g_keyboard_event_queue = NULL;
 ALLEGRO_MOUSE_STATE		g_mouse_state;
 
 //-----------------------------------------------------------------------------
@@ -39,7 +40,10 @@ void        Inputs_Sources_Init (void)
     Inputs.Peripheral [0] = INPUT_JOYPAD;
     Inputs.Peripheral [1] = INPUT_JOYPAD;
 
+	memset(&g_keyboard_state, 0, sizeof(g_keyboard_state));
 	memset(&g_mouse_state, 0, sizeof(g_mouse_state));
+	g_keyboard_event_queue = al_create_event_queue();
+	al_register_event_source(g_keyboard_event_queue, al_get_keyboard_event_source());
 }
 
 t_input_src *       Inputs_Sources_Add (char *name)
@@ -316,6 +320,30 @@ void        Inputs_Sources_Update (void)
 		g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
 #endif
 
+	// Process 'character' keypresses
+	// Those are transformed (given keyboard state & locale) into printable character
+	// Equivalent to using ToUnicode() in the Win32 API.
+    // FIXME-ALLEGRO5: Scan for all possible keypresses?
+	ALLEGRO_EVENT key_event;
+	while (al_get_next_event(g_keyboard_event_queue, &key_event))
+	{
+		switch (key_event.type)
+		{
+		case ALLEGRO_EVENT_KEY_CHAR:
+			// Note: Allegro is handling repeat for us here.
+			if (key_event.keyboard.unichar > 0 && (key_event.keyboard.unichar & ~0xFF) == 0)
+			{
+				//Msg(MSGT_DEBUG, "%i %04x", key_event.keyboard.keycode, key_event.keyboard.unichar);
+				t_key_press* key_press = (t_key_press*)malloc(sizeof(*key_press));
+				key_press->scancode = key_event.keyboard.keycode;
+				key_press->ascii = key_event.keyboard.unichar & 0xFF;
+				list_add_to_end(&Inputs.KeyPressedQueue, key_press);
+			}
+			break;
+		}
+	}
+
+	// Keyboard debugging
 #if 0
 	u8 win32_keyboard_state[256];
 	memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
@@ -340,17 +368,6 @@ void        Inputs_Sources_Update (void)
 	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
 	const int mouse_mx = g_mouse_state.x - mouse_x_prev;
 	const int mouse_my = g_mouse_state.y - mouse_y_prev;
-
-    // Add pressed keys to keypress queue
-    // FIXME-ALLEGRO5: Scan for all possible keypresses?
-#if 0
-	if (keypressed ())
-    {
-        t_key_press *key_press = malloc(sizeof(*key_press));
-        key_press->ascii = ureadkey (&key_press->scancode);
-        list_add_to_end(&Inputs.KeyPressedQueue, key_press);
-    }
-#endif
 
     for (int i = 0; i < Inputs.Sources_Max; i++)
     {

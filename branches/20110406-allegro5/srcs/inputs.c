@@ -244,7 +244,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     #endif
 
     // Screen capture
-    if (Inputs_KeyPressed(ALLEGRO_KEY_PRINTSCREEN, FALSE))	// FIXME-ALLEGRO5: shortcut seems broken?
+    if (Inputs_KeyPressed(ALLEGRO_KEY_PRINTSCREEN, FALSE))
         Capture_Request();
 
     // SF-7000 Disk 21 Bomber Raid
