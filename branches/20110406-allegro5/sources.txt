@@ -174,39 +174,12 @@ I. Compile for Microsoft Windows:
    - Go to Tools->Options->Projects and Solutions->VC++ Directories
    - In 'Include files' add your Allegro include/ directory.
    - In 'Library files' add your Allegro lib/ directory.
- - Install NASM
-   - http://sourceforge.net/projects/nasm/
-   - Add NASM environment variable, set to executable path (eg: NASM=c:\nasm\nasmw.exe)
  - Compile !
    - MEKA project is in srcs\MsVc\Meka.sln
    - May require adding some paths to your Visual Studio configuration,
      such as DirectX path, etc.
 
-II. Compile for MS-DOS compatible systems:
-(outdated)
-
- - Install DJGPP compiler and related tools.
-   - http://www.delorie.com/djgpp/
-   - Add DJGPP bin/ directory to PATH.
- - Install Allegro, latest WIP
-   - http://www.talula.demon.co.uk/allegro/wip.html#unstable
-   - Apply patches from libs/allegro-msdos-patchs/
-   - $ set STATICLINK=1
-   - $ fix.bat djgpp
-   - $ make
-   - $ make install
- - Install zlib
-   -> see I. Windows
- - Install libpng
-   - http://www.libpng.org/pub/png/libpng.html
-   - Compile static
-   - Add LIBPNGDIR environment variable, set to libpng root directory.
- - Install NASM
-   -> see I. Windows
- - Compile !
-   - Use provided Makefile.
-   
-III. Compile for GNU/Linux and other UN*X based systems:
+II. Compile for GNU/Linux and other UN*X based systems:
 
  - You are smart guys, you can figure it out!
  - Install Allegro library, latest WIP.

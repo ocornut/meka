@@ -1,7 +1,7 @@
 
   MEKA 0.73 - Documentation
  ===========================
-  Multi machine emulator for MS-Windows, MS-DOS and GNU/Linux.
+  Multi machine emulator for MS-Windows, GNU/Linux, etc.
   (c) in 1998-2011 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
@@ -15,8 +15,7 @@
 ----------------------------------------------------------------------------
  If you are looking for how to donate to the MEKA project, press Up, Down, 
  Right, Left and start directly at Level 7. However I strongly recommend 
- reading the whole documentation, if only to make me think I haven't wrote 
- it for nothing.
+ reading the whole documentation, because documentation are cool.
 ----------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------
@@ -24,8 +23,8 @@
 ----------------------------------------------------------------------------
 
  MEKA is a multi machine emulator, originally started as a Sega Master System
- emulator, and generally very oriented toward Z80-based Sega 8-bit systems.
- MEKA officially emulates the following systems:
+ emulator, and generally oriented toward Z80-based Sega 8-bit systems.
+ MEKA emulates the following systems:
 
   - Sega Game 1000        / SG-1000  / Japan, Oceania
   - Sega Computer 3000    / SC-3000  / Japan, Oceania, Europe
@@ -40,97 +39,98 @@
  MEKA is developped and coordinated by:
 
  > Omar Cornut / Bock
-   Project manager, machine emulation, tools, graphical user interface, sound
-   interface, graphics, miscellaneous stuff.
    E-mail: omar AT miracleworld DOT net
 
  And include invaluable contributions from the following handsome people:
 
- > Hiromitsu Shioya / Hiro-shi  Original sound engine. OPL-based Yamaha 2413 emulator.
- > Marat Fayzullin / RST38H     Zilog Z80 CPU emulation core. Implemented with modifications/fixes in MEKA.
+ > Hiromitsu Shioya / Hiro-shi  Original sound engine. 
+ > Marat Fayzullin / RST38H     Zilog Z80 CPU emulation core. Implemented with modifications in MEKA.
  > Mitsutaka Okazaki            Software Yamaha 2413 emulator (EMU2413).
  > Maxim                        Software PSG emulator.
  > Ulrich Cordes                FDC765 emulator for SF-7000. Implemented with modifications in MEKA.
- > Valerie Tching / Kittie      Original Memory Editor.
- > Johan Euphrosine / Proppy    GNU/Linux tweaks, initial MacOSX port.
+ > Valerie Tching / Kittie      Original version of the Memory Editor.
+ > Johan Euphrosine / Proppy    GNU/Linux tweaks.
  > DJRobX                       Blitters and video improvements, HQ2X interface.
  > Maxim Stephin / MaxSt        HQ2X graphics filter.
  > Dirk Stevens                 Eagle graphics filter.
 
- MEKA in its original flavor, is for MS-DOS and compatible systems.
+ Please Google individual people listed above if you want to get in contact
+ with them. Out of privacy/spam concerns I can't list their e-mail address here.
+
+ MEKA in its original flavor was a program for MS-DOS and compatible systems.
  MEKAW is the codename for the MS-Windows version of MEKA.
  MEKANIX is the codename for the GNU/Linux version of MEKA.
 
- Generally speaking, people mentionned above are not directly involved in
- MEKA and may or may not want to be contacted about it. That is why I did 
- not include their e-mail addresses. Please refer to credits at the end of 
- this document to find web sites, or feel free to contact me if you're 
- interested in obtaining someone's e-mail address.
-
- Now let me tell you more about the cool systems that MEKA emulates:
+ The MS-DOS version has been discontinued after version 0.70 (April 2005).
+ You can still grab older versions from the official site.
+ 
+ Now let me tell you more about the cool systems that MEKA emulates!
 
  -- on the Sega side --
 
  The SG-1000, for "Sega Game 1000", was released in Japan in July 1983.
- Heavily based on the MSX hardware, it is the first known Sega home console
- system. It was later distributed by Grandstand in New Zealand.
+ Bbased on the same components as the MSX1 hardware, it is the first known 
+ Sega home console system. It was later distributed by Grandstand in New Zealand.
 
- The SC-3000, for "Sega Computer 3000", is a variation of the SG-1000 (still
- compatible with it) with a keyboard, and some optional peripherals such as
- a printer (SP-400), a tape recorder (SR-1000), or that big extension called
- the Super Control Station (SF-7000), providing a 3" floppy disk drive, a
- Centronics printer port, and more available memory. The SC-3000 was released
- in November 1983 in Japan, and then was sold in certain countries around the
- world (Oceania and Europe), usually shipped with a BASIC programming cart.
+ The SC-3000, for "Sega Computer 3000", is a variation of the SG-1000 extending
+ it with a keyboard and the possibility to plug various peripherals. 
+ Such peripherals include a tape recorder (SR-1000) for reading data in and out
+ from the computer, a printer (SP-400), a modem (John Sands' Micromodem 3) and
+ giant extension called the Super Control Station (SF-7000) that extend the
+ SC-3000 with a 3" floppy disk drive, a Centronics printer port, and additional 
+ memory. The SC-3000 was released in November 1983 in Japan, and then was sold 
+ in various countries around the world (mostly Oceania and Europe), usually 
+ coming packaged with a BASIC programming cart.
 
  Later, Sega released some updates to these systems, including, but not
  limited to the SC-3000h (a re-release of the SC-3000 with a hard keyboard),
- and the SG-1000-II (also called Mark II). The SK-1100, for "Sega Keyboard"
+ and the SG-1000 II (also called Mark II). The SK-1100, for "Sega Keyboard"
  was an upgrade to the SG-1000 and SG-1000-II to be able to use keyboard
  software such as the BASIC or the Music Editor.
 
  The Mark III, released in 1985, is the first Master System compatible system.
- It still have the necessary ports to plug the keyboard. A FM extension was
- made available later, providing with a better sound hardware. FM sound is 
- supported by most games released in Japan between 1986 and 1988, Out Run
- being the first game featuring FM.
+ It still have the necessary ports to plug the keyboard. A FM Unit extension 
+ was available at the release of the Master System, providing the system with
+ a YM2413 chip for FM synthesis. The FM Unit is supported by most games
+ released in Japan between 1986 and 1988 and a few games later developped by
+ Japanese teams. Out Run is the first game featuring support for the FM Unit.
 
- The Mark III is backward compatible with SG-1000/SC-3000 games, although it
- has a darker, slighty incorrect palette (compared to an original SG-1000 or
- SC-3000).
+ The Mark III is backward compatible with SG-1000/SC-3000 games, although its
+ video chip implement a darker, slighty incorrect color palette (compared to 
+ an original SG-1000 or SC-3000).
 
  In 1986 came the Sega Master System, two years after Nintendo released their
  crappy gray box. It was sold just about everywhere, but the Japanese version
- had the FM extension embedded and profited from it because of better music.
+ embedded the YM2413 FM extension.
  Other differences with the Mark III are the 3-D Glasses mini jack port and
  the embedded rapid fire unit, none of them being available on non-Japanese
  units. The Master System is also backward compatible with the older systems,
- with the same palette problem as the Mark III.
+ although it has the same palette issue as the Mark III when emulating old
+ video modes.
 
  The Master System had an interesting success in Brazil, where Tec Toy, the
  official distributor, released plenty of ports from Game Gear, unreleased
- games and sometimes even original games of their own, up to 1997. Tec Toy 
- released a Master System 3 for the Brazilian market, although it is in fact 
- just a renamed Master System 2.
- They then later released the Master System Super Compact, and a pink colored
- version called the Master System Girl. Both fits in hands and allows playing
- a few meters away from the TV, with no direct connection.
-
- Tec Toy is still around and continuing its work on Sega systems. In early
- December 2002, a new and surprising package was released in Brazil, called 
- the "Master System 3 Collection". It contains about fifty games emddedded 
- in a white colored, SMS 2 shaped console.
+ games and sometimes even original games of their own, up to 1997. 
+ The Master System II was rebranded "Master System 3" in Brasil and got
+ released countless times under different packaging variants.
+ The Master System Super Compact series of systems are handheld systems
+ connecting to a TV thru an antenna receptor. It also got released in pink
+ color and renamed the Master System Girl.
  
- In July 2004, Tec Toy released its latest variation of the Master System,
- called the "Master System Handy". This Dreamcast controller alike shaped
- console fits in hands (like the Super Compact models) and embed 8 games.
-
+ Tec Toy is still around and continuing to release Sega systems.
+ From December 2002 and practically every year until 2009 (more to come?),
+ Tec Toy released new variants of "Master System 3 Collection" packaged
+ with dozens/hundreds of games.
+ 
+ In July 2004, Tec Toy released the "Master System Handy" in the form of
+ a controller (similarly to the Super Compact models) and embedding 8 games.
+ 
  The Sega Game Gear was released in 1991. It is basically a portable Master
  System with a smaller screen, a communication port (for dual player gaming) 
  and a bigger palette (4096 colors available instead of 64). Although old
  SG-1000/SC-3000 video modes are still supported, their default palette 
  was removed so most SG-1000/SC-3000 software have wrong colors on a 
- Game Gear (software modification is possible to fix that).
+ Game Gear (software modification allows fixing that).
 
  -- on the other side --
 
@@ -643,35 +643,29 @@
  and general Sega 8-bit support, your donations are welcome and helpful.
 
   - Donate Sega 8-bit related items:
-    I would love that. Software, hardware, cartridges, cards, tapes, posters,
+    I love it! Software, hardware, cartridges, cards, tapes, posters,
     magazines, goodies, documents, source codes, development kits, samples,
-    trivias, prototypes, all welcome.
- 
-  - Donate money (via PayPal or other means):
+    trivias, prototypes, all welcome!
+     
+  - Donate money:
     Money helps me to purchase games related to the SMS Power! project, as
-    well as getting weird pieces of related Sega 8-bit hardware/items. 
+    well as getting weird pieces of related Sega 8-bit hardware/items.
 
  You can donate the amount of your choice.
  < This section of the documentation used to contain a detailed equation
  suggesting how much to donate based on your computer power (supposedly
- related to your income) but such practice are so 1998 that I removed it. >
+ related to your income) but such practice are so 1998, so I deleted it. >
  
- Suggestion donation method:
-  
- - PayPal.com
-   Good form of payments for us lazy computer geeks. 
-   PayPal account is linked to my e-mail address (as seen at the top of
-   this documentation).
+ It is suggested to donate via PayPal.com because it is more convenient.
+ My PayPal account is linked to my e-mail address (as seen at the top of
+ this documentation).
  
- If you want to use another form of payment or intend to do a material
- donation, contact me to discuss the details.
- 
- Finally, if your main pretext for not donating is lazyness, then you
- know yourself it is not a valid pretext :)
+ If you want to use another form of payment or considering an unusual
+ type of donation, please contact me to discuss details.
  
  < This section of the documentation used to contain funny treats and
  comments to encourage you to make a donation, but such practice are so
- 2001 that I removed it. >
+ 2001, so I deleted it. >
 
  Donating users will be granted access to SMS Power! releases area,
  and most importantly they feel warm and nice inside.
@@ -876,10 +870,10 @@
 ----------------------------------------------------------------------------
 
   Compilers/assemblers:
+  - Microsoft Visual C++ 6.0 to 2008 by Microsoft.
+    www.microsoft.com/VisualStudio
   - GCC/DJGPP (DOS version) suite, by DJ Delorie and contributors, based on GCC.
     http://www.delorie.com/djgpp/
-  - Microsoft Visual C++ (Windows version), by Microsoft.
-    http://msdn.microsoft.com/visualc/
   - GCC (UN*X versions) and development suite by a bunch of happy GNU people.
     http://gcc.gnu.org/
     http://www.gnu.org/software/make/
@@ -887,7 +881,7 @@
     http://nasm.sourceforge.net/
 
   Librairies:
-  - Allegro (video and inputs features), by the Allegro team.
+  - Allegro 5 (video and inputs features), by the Allegro team.
     http://www.talula.demon.co.uk/allegro/
   - SEAL (sound playback library), by Carlos Hassan.
   - zlib (compression library), by Jean-loup Gailly and Mark Adler.
@@ -895,11 +889,6 @@
   - libpng (PNG file format manipulation), by Guy Eric Schalnat, 
     Andreas Dilger, Glenn Randers-Pehrson and others.
     http://www.libpng.org/pub/png/libpng.html
-    
-  - Librairies above may take advantage of various other librairies, 
-    depending on the target system, including, but not limited to: 
-    DirectX, Xlib, SVGAlib, ALSA, etc. 
-    Please consult their respective documentation for more information.
 
   Tools:
   - UPX (executable compressor), by Markus Oberhumer and Laszlo Molnar.
@@ -1178,4 +1167,3 @@
       .  |    |   | |   .     .       .     .                .
   .      |    |   | |             .                .                .   .
 ----------------------------------------------------------------------------
-             
