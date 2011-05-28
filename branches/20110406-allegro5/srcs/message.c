@@ -491,10 +491,6 @@ static bool         ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_ru
 static int CALLBACK ConsoleWin32_DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 static DWORD WINAPI ConsoleWin32_Thread(LPVOID data);
 
-// Allegro stuff
-//extern HINSTANCE    allegro_inst;
-//AL_FUNC(HWND, win_get_window, (void));
-
 #endif
 
 //-----------------------------------------------------------------------------
@@ -532,11 +528,10 @@ t_lang *        Lang_New (char *name)
 int             Lang_Post_Check (t_lang *lang)
 {
     int         i, j;
-    int         cnt;
 
     // Count available messages (skipping MSG_NULL)
     // and set default for when one is missing
-    cnt = 0;
+    int cnt = 0;
     for (i = 1; i < MSG_MAX; i++)
         if (lang->Messages[i])
             cnt++;
@@ -578,16 +573,18 @@ int             Lang_Post_Check (t_lang *lang)
 
 int             Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
 {
-    int           i, n;
+    int           i;
 
     // Find message number (#define) by name
-    n = -1;
+    int n = -1;
     for (i = 0; Msg_Translation_Table[i].name; i++)
+	{
         if (stricmp (msg_id, Msg_Translation_Table[i].name) == 0)
         {
             n = Msg_Translation_Table[i].value;
             break;
         }
+	}
     if (n == -1)
         return (MEKA_ERR_UNKNOWN);
 
@@ -803,9 +800,9 @@ void            ConsoleInit (void)
 
     // Initialize Win32 console
     #ifdef ARCH_WIN32
-		// FIXME-ALLEGRO5
-        //ConsoleWin32_Initialize(&ConsoleWin32, allegro_inst, win_get_window());
-		ConsoleWin32_Initialize(&ConsoleWin32, 0, 0);
+		const HINSTANCE hInstance = GetModuleHandle(NULL);
+		const HWND hWndParent = 0; // win_get_window()
+		ConsoleWin32_Initialize(&ConsoleWin32, hInstance, hWndParent);
         // ConsoleWin32_Show(&ConsoleWin32);
     #endif
 }

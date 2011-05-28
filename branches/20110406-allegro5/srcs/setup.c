@@ -146,6 +146,9 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			// Fill debugger enable box
 			CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_Configuration.debug_mode_cfg);
 
+			// Move to foreground, seems to be needed
+			SetForegroundWindow(hDlg);
+
 			return FALSE;
 		}
 	case WM_COMMAND:
@@ -194,11 +197,9 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 // Let user choose his sound card driver, sound rate and language
 static  int     Setup_Interactive_Win32 (void)
 {
-    int         ret;
-
-	// FIXME-ALLEGRO5: hwnd,etc.
-    //ret = DialogBox(allegro_inst, MAKEINTRESOURCE(IDD_SETUP), win_get_window(), Setup_Interactive_Win32_DialogProc);
-	ret = DialogBox(0, MAKEINTRESOURCE(IDD_SETUP), 0, Setup_Interactive_Win32_DialogProc);
+	const HINSTANCE hInstance = GetModuleHandle(NULL);
+	const HWND hWndParent = 0; // win_get_window()
+	const int ret = DialogBox(hInstance, MAKEINTRESOURCE(IDD_SETUP), hWndParent, Setup_Interactive_Win32_DialogProc);
     if (ret == -1)
         return (MEKA_ERR_FAIL);
     if (ret == 2)
