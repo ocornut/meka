@@ -94,7 +94,6 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	// FIXME-ALLEGRO5: Use al_set_new_display_refresh_rate()
     //request_refresh_rate (refresh_rate);
 
-	// FIXME-ALLEGRO5: Create display a single time
 	if (g_display != NULL)
 	{
 #ifdef ARCH_WIN32
@@ -143,8 +142,6 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	Data_CreateVideoBuffers();
 	if (g_env.state == MEKA_STATE_GUI)
 		GUI_SetupNewVideoMode();
-
-    //al_rest(0.1f);	// FIXME-ALLEGRO5: What was that line for?
 
     return (MEKA_ERR_OK);
 }
@@ -234,7 +231,7 @@ void    Video_Setup_State (void)
 			Video.triple_buffering_activated = FALSE;
 			if (g_Configuration.video_mode_game_triple_buffering)
             {
-				assert(0);	// FIXME-ALLEGRO5
+				assert(0);	// FIXME-ALLEGRO5: triple buffering
                 if (Video_Mode_Change(
                         driver,
                         Blitters.current->res_x, Blitters.current->res_y,
@@ -373,7 +370,7 @@ void    Video_Setup_State (void)
 			Video_Mode_Change (0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
 
             Change_Mode_Misc();
-            //Palette_Sync_All ();
+            //Palette_Sync_All();
 
             gui_redraw_everything_now_once();
         }

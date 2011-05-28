@@ -551,7 +551,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Assembling $(InputPath)"
-						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 						Outputs="$(OutDir)/$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -561,7 +561,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="Assembling $(InputPath)"
-						CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+						CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 						Outputs="$(OutDir)/$(InputName).obj"
 					/>
 				</FileConfiguration>
@@ -1138,7 +1138,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1148,7 +1148,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1214,7 +1214,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1224,7 +1224,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;$(NASM)&quot; -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1249,7 +1249,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
@@ -1260,7 +1260,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
@@ -1275,7 +1275,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
@@ -1286,7 +1286,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;$(NASM)&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
