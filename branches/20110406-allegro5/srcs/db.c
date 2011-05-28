@@ -631,14 +631,10 @@ static int      DB_Load_Line (char *line)
 //-----------------------------------------------------------------------------
 void            DB_Load (const char *filename)
 {
-    t_tfile *   tf;
-    t_list *    lines;
-    int         line_cnt;
-
     ConsolePrint (Msg_Get (MSG_DB_Loading));
 
     // Open and read file
-    tf = tfile_read (filename);
+    t_tfile* tf = tfile_read (filename);
     if (tf == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
@@ -649,8 +645,8 @@ void            DB_Load (const char *filename)
     ConsolePrint ("\n");
 
     // Parse each line
-    line_cnt = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    int line_cnt = 0;
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
         line_cnt += 1;
         char* line = (char*)lines->elem;

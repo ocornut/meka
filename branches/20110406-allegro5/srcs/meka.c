@@ -294,7 +294,6 @@ static int Init_Allegro (void)
     // Initialize timer BEFORE allegro
     // OSD_Timer_Initialize ();
 
-    //set_uformat(U_ASCII);	// FIXME-ALLEGRO5: need an equivalent?
     al_init();
 	al_init_font_addon();
 	al_init_image_addon();

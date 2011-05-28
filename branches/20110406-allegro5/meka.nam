@@ -1,4 +1,4 @@
-;-----------------------------------------------------------------------------
+ï»¿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
 ; Last updated 2011/02/05
 ;-----------------------------------------------------------------------------
@@ -91,10 +91,10 @@ SMS f4b3a7bd A7AF89DB1688A107   Ariel - The Little Mermaid (Disney's)/COUNTRY=BR
 SMS ae705699 8A53E8116C3E95EB   Ashura/COUNTRY=JP/PRODUCT_NO=G-1307/COMMENT=Japanese version of "Secret Command" (Europe) and "Rambo - First Blood Part II" (USA).
 SMS 0bd8da96 61A53B8B8924BFC8   Assault City/COUNTRY=EU/PRODUCT_NO=7034/COMMENT=A Light Phaser version also exists.
 SMS 861b6e79 3192D86747C4C62D   Assault City [Light Phaser]/COUNTRY=EU,BR/PRODUCT_NO=7040/EMU_INPUTS=LIGHTPHASER/COMMENT=A Joypad version also exists.
-SMS 147e02fa B6F98801021AA804   Astérix [v0]/COUNTRY=EU/PRODUCT_NO=9008
-SMS 8c9d5be8 C3FA970F111DBEB1   Astérix [v1]/COUNTRY=EU,BR/PRODUCT_NO=9008
-SMS f9b7d26b B3825A1E4E13AD45   Astérix and the Great Rescue/COUNTRY=EU,BR,PT/PRODUCT_NO=9032,028490
-SMS def9b14e 5861B70BCC1B2A74   Astérix and the Secret Mission/COUNTRY=EU/PRODUCT_NO=9023
+SMS 147e02fa B6F98801021AA804   AstÃ©rix [v0]/COUNTRY=EU/PRODUCT_NO=9008
+SMS 8c9d5be8 C3FA970F111DBEB1   AstÃ©rix [v1]/COUNTRY=EU,BR/PRODUCT_NO=9008
+SMS f9b7d26b B3825A1E4E13AD45   AstÃ©rix and the Great Rescue/COUNTRY=EU,BR,PT/PRODUCT_NO=9032,028490
+SMS def9b14e 5861B70BCC1B2A74   AstÃ©rix and the Secret Mission/COUNTRY=EU/PRODUCT_NO=9023
 SMS c795182d 041B1627D5288324   Astro Flash/COUNTRY=JP/PRODUCT_NO=C-503/COMMENT=Japanese version of "TransBot".
 SMS 299cbb74 E41681744EF7FAD2   Astro Warrior/COUNTRY=JP,US,BR/PRODUCT_NO=G-1312,5069
 SMS 69efd483 35006A2A22FE0710   Astro Warrior \/ Pit Pot/COUNTRY=EU,DE/PRODUCT_NO=6081,41011
@@ -119,13 +119,13 @@ SMS b3768a7a 1A817AD5D227C35A   Bonkers Wax Up!/COUNTRY=BR/PRODUCT_NO=028600/COM
 SMS 3084cf11 BD3F8777A78138A6   Bomber Raid/COUNTRY=JP,US,EU/PRODUCT_NO=G-1373,QC-003,27006
 SMS e843ba7e 9DCEFDF112FC2D6C   Bubble Bobble/NAME_BR=Dragon Maze/COUNTRY=EU,BR/PRODUCT_NO=7077/COMMENT=Export version of "Final Bubble Bobble".
 SMS b0fc4577 C10FA02711E01C5C   Buggy Run/COUNTRY=EU,BR/PRODUCT_NO=9025,028340
-SMS ac6009a7 CF790CF50722A0EE   California Games/NAME_BR=Jogos de Verão/COUNTRY=US,EU,BR/PRODUCT_NO=7014
+SMS ac6009a7 CF790CF50722A0EE   California Games/NAME_BR=Jogos de VerÃ£o/COUNTRY=US,EU,BR/PRODUCT_NO=7014
 SMS c0e25d62 53E11D9FBBD9FB81   California Games II [50 Hz]/COUNTRY=EU/PRODUCT_NO=7105/EMU_TVTYPE=PAL
-SMS 45c50294 CE99027ABB34D757   California Games II [50-60 Hz]/NAME_BR=Jogos de Verão II/COUNTRY=BR,KR/PRODUCT_NO=025190,GB93006JG
+SMS 45c50294 CE99027ABB34D757   California Games II [50-60 Hz]/NAME_BR=Jogos de VerÃ£o II/COUNTRY=BR,KR/PRODUCT_NO=025190,GB93006JG
 SMS a4852757 DE36EE3D634864B2   Captain Silver/COUNTRY=JP,EU/PRODUCT_NO=G-1356,7008/COMMENT=This is the full 256 KB original version of the game as released in Japan and Europe (6 levels).
 SMS b81f6fa5 ED86FC925D8967B2   Captain Silver/COUNTRY=US/PRODUCT_NO=5117/COMMENT=This is the stripped out 128 KB version of the game as released in USA (4 levels out of 6).
 SMS 3cff6e80 CA4954F3D05891ED   Casino Games/COUNTRY=US,EU/PRODUCT_NO=7021
-SMS 31ffd7c3 FC9BB664160566CE   Castelo Rá-Tim-Bum/COUNTRY=BR/PRODUCT_NO=028720
+SMS 31ffd7c3 FC9BB664160566CE   Castelo RÃ¡-Tim-Bum/COUNTRY=BR/PRODUCT_NO=028720
 SMS 953f42e1 6A279D3154CF1D61   Castle of Illusion - Starring Mickey Mouse/COUNTRY=EU,BR/PRODUCT_NO=7053
 SMS b9db4282 DA621A73F5D66606   Castle of Illusion - Starring Mickey Mouse/COUNTRY=US/PRODUCT_NO=7053
 SMS bd610939 32DB3D9E840A6D1D   Castle of Illusion - Starring Mickey Mouse [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise the game.
@@ -133,7 +133,7 @@ SMS 59840fd6 CCD28DCAC9AC7C1A   Castle of Illusion - Starring Mickey Mouse [SMS-
 SMS 9942b69b 98C6E58711A96715   Castle of Illusion - Starring Mickey Mouse [SMS-GG]/NAME_JP=Mickey Mouse no Castle Illusion/FLAGS=SMSGG_MODE/COUNTRY=JP/PRODUCT_NO=G-3301
 SMS 23163a12 F15F4C92401D6312   Champions of Europe/COUNTRY=EU,BR/PRODUCT_NO=27034-50,025430
 SMS 7e5839a0 C7A7D1085D01ABB0   Championship Hockey/COUNTRY=EU/PRODUCT_NO=27084-50
-SMS 492c7c6e 2F6E3B854AD2C1C6   Chapolim x Drácula - Um Duelo Assustador/COUNTRY=BR/PRODUCT_NO=023430/COMMENT=Brasilian hacked version of "Ghost House", released by Tec Toy.
+SMS 492c7c6e 2F6E3B854AD2C1C6   Chapolim x DrÃ¡cula - Um Duelo Assustador/COUNTRY=BR/PRODUCT_NO=023430/COMMENT=Brasilian hacked version of "Ghost House", released by Tec Toy.
 SMS 46340c41 5F5124D60E874C75   Cheese Cat-Astrophe - Starring Speedy Gonzales/COUNTRY=EU,BR/PRODUCT_NO=9033-50,028550
 SMS 4a21c15f BA03F66F1CEFB221   Choplifter/COUNTRY=US,EU,DE,BR/PRODUCT_NO=5051,41001
 SMS 16ec3575 59B7B528A8C7DFC5   Choplifter [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMENT=Prototype version of the game, found on a Japanese-format cartridge.
@@ -186,7 +186,7 @@ SMS c4bb1676 C12FD315320E1CCC   E-SWAT [A]/COUNTRY=US,EU/PRODUCT_NO=7042
 SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [B]/COUNTRY=US,EU,BR/PRODUCT_NO=7042
 SMS aa140c9c 0E423CDBCAD3E01C   Excellent Dizzy Collection, The [SMS-GG]/COUNTRY=EU/FLAGS=SMSGG_MODE/EMU_TVTYPE=PAL/EMU_MAPPER=3
 SMS 8813514b B7049344859B9CB2   Excellent Dizzy Collection, The [Proto]/FLAGS=PROTO/EMU_TVTYPE=PAL/EMU_MAPPER=3/COMMENT=Prototype version of the game. Seems incomplete. The prototype was submitted as a 256 KB EPROM, while the full Game Gear version is twice as big. It's possible to run this version a bit further by appending the second half from the Game Gear version, but it'll eventually crash.
-SMS ec788661 066B34EF6BEC0411   F1/NAME_BR=Fórmula-1/COUNTRY=EU,BR/PRODUCT_NO=MK-27072-50,026330
+SMS ec788661 066B34EF6BEC0411   F1/NAME_BR=FÃ³rmula-1/COUNTRY=EU,BR/PRODUCT_NO=MK-27072-50,026330
 SMS 06965ed9 0942E34E2B1B46F8   F-1 Spirit - The way to Formula-1/COUNTRY=KR/EMU_MAPPER=12
 SMS eaebf323 A14F71C94A96B145   F-16 Fighter/COUNTRY=US,EU,DE/PRODUCT_NO=4005M,4081,4581,41005/COMMENT=US version is sometimes labelled "F-16 Fighting Falcon" but has a "F-16 Fighter" title screen.
 SMS 7ce06fce 41BC24AC74DB9252   F-16 Fighting Falcon/COUNTRY=JP/PRODUCT_NO=C-508
@@ -203,7 +203,7 @@ SMS b8b141f9 822C747C6F162BB2   Fantasy Zone II - The Tears of Opa-Opa/COUNTRY=U
 SMS c722fb42 670E9195613A25A5   Fantasy Zone II - Opa-Opa no Namida/COUNTRY=JP/PRODUCT_NO=G-1329
 SMS d29889ad 732FC6FC6BDC0A4B   Fantasy Zone: The Maze/COUNTRY=US,EU,BR/PRODUCT_NO=5108/COMMENT=Export version of "Opa Opa".
 SMS 17ab6883 866A225E7803D045   FA Tetris/COUNTRY=KR/EMU_MAPPER=11
-SMS bf6c2e37 5C434F34BA4434AC   Férias Frustradas do Pica Pau/COUNTRY=BR/PRODUCT_NO=028660
+SMS bf6c2e37 5C434F34BA4434AC   FÃ©rias Frustradas do Pica Pau/COUNTRY=BR/PRODUCT_NO=028660
 SMS 9bb3b5f9 78A312E98554F41D   FIFA International Soccer/COUNTRY=BR/PRODUCT_NO=028670/COMMENT=This is a port from the Game Gear version.
 SMS 3ebb7457 1812E0F53178AFA9   Final Bubble Bobble/COUNTRY=JP/PRODUCT_NO=G-1362/COMMENT=Japanese version of "Bubble Bobble".
 SMS f6ad7b1d E356BEF0D3941C96   Fire & Forget II/COUNTRY=EU/PRODUCT_NO=27009-50/COMMENT=Other versions of the game are subtitled "The Death Convoy", but not the Master System version. Note that it is the original version of the game. Amiga and Atari ST versions are actually ports based on the SMS version.
@@ -220,7 +220,7 @@ SMS a6fa42d0 A5FA6D631981688F   Galactic Protector/COUNTRY=JP/PRODUCT_NO=G-1348/
 SMS 6c827520 1B819E859D0C3860   Galaxy Force/COUNTRY=US/EMU_TVTYPE=NTSC/PRODUCT_NO=QC-004-02
 SMS a4ac35d8 0B932CEAD9975587   Galaxy Force/COUNTRY=EU,BR/PRODUCT_NO=29001
 SMS 5fc74d2a 1EE251A5D9687455   Gangster Town/COUNTRY=US,EU,BR/EMU_INPUTS=LIGHTPHASER/EMU_IPERIOD=258/PRODUCT_NO=5074,023120   ; [EDITOR-NOTE] BR blue box version is 023120. BR cardboard version has no product_no.
-SMS 1890f407 EF924BC5AE023A85   Game Box Série Esportes Radicais/COUNTRY=BR/PRODUCT_NO=023480/COMMENT=Hacked version of "California Games" with only two events left. Released by Tec Toy.
+SMS 1890f407 EF924BC5AE023A85   Game Box SÃ©rie Esportes Radicais/COUNTRY=BR/PRODUCT_NO=023480/COMMENT=Hacked version of "California Games" with only two events left. Released by Tec Toy.
 SMS d9190956 0DD3230F6E789E6A   Gauntlet/COUNTRY=EU,BR/PRODUCT_NO=25006-50
 SMS a64898ce E466186F844A540D   George Foreman's KO Boxing/COUNTRY=EU,BR/PRODUCT_NO=MK-27041-50,026180
 SMS 956c416b 25ABB2B6FC7AD67C   Geraldinho/COUNTRY=BR/PRODUCT_NO=021080/COMMENT=Brasilian hacked version of "Teddy Boy", released by Tec Toy.
@@ -273,7 +273,7 @@ SMS 64d6af3b C4B805DCD752A8D2   Impossible Mission/COUNTRY=EU,BR/PRODUCT_NO=2500
 SMS 71c4ca8f 1F41F02BC293A789   Impossible Mission [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS b4584dde 1C154AA5EFE3EF1F   Incredible Crash Dummies, The/COUNTRY=EU,BR/PRODUCT_NO=MK 27057-50/COMMENT=Also referred to as "Crash Dummies".
 SMS be9a7071 19CC267376518536   Incredible Hulk, The/COUNTRY=EU,BR/PRODUCT_NO=29016-50
-SMS 8aeb574b 17779413DD492085   Indiana Jones and the Last Crusade/NAME_BR=Indiana Jones e a Última Cruzada/PRODUCT_NO=27008-50,027079
+SMS 8aeb574b 17779413DD492085   Indiana Jones and the Last Crusade/NAME_BR=Indiana Jones e a Ãšltima Cruzada/PRODUCT_NO=27008-50,027079
 SMS acec894d 64EA5CF36D9CD486   Indiana Jones and the Last Crusade [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS 8d23587f 5CEC5CB49DC68FB6   James Bond 007: The Duel/COUNTRY=EU/PRODUCT_NO=MK 27046-50
 SMS 8feff688 A022B16F114CDAE7   James Bond 007: The Duel/COUNTRY=BR/PRODUCT_NO=027230
@@ -300,7 +300,7 @@ SMS 6350e649 EBBA1A5F14B6D543   Legend of Illusion - Starring Mickey Mouse/COUNT
 SMS f369b2d8 C3A7D6B47AE01C96   Lemmings/COUNTRY=EU,BR,KR/PRODUCT_NO=7108,025204,GB2032JG
 SMS 2c61ed88 9841AB54F8EB0441   Lemmings/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS cb09f355 9C076464A46F730F   Line of Fire/COUNTRY=EU,BR,KR/PRODUCT_NO=9006,GB-4011JG/COMMENT=This game has an hidden 3-D Glasses mode. To enable this feature, press both Control Pad buttons during reset.
-SMS c352c7eb DC4FD0C90A6F5E65   Lion King, The (Disney's)/NAME_SP=El Rey León (Disney's)/NAME_FR=Le Roi Lion (Disney's)/NAME_DE=Der König Der Löwen (Disney's)/COUNTRY=EU,SP,FR,DE,BR/PRODUCT_NO=MK-27081-50,MK-27081-06,MK-27081-09,MK-27081-18,028450
+SMS c352c7eb DC4FD0C90A6F5E65   Lion King, The (Disney's)/NAME_SP=El Rey LeÃ³n (Disney's)/NAME_FR=Le Roi Lion (Disney's)/NAME_DE=Der KÃ¶nig Der LÃ¶wen (Disney's)/COUNTRY=EU,SP,FR,DE,BR/PRODUCT_NO=MK-27081-50,MK-27081-06,MK-27081-09,MK-27081-18,028450
 SMS aa7d6f45 572DF98CDFB5D98A   Lord of Sword/COUNTRY=JP/PRODUCT_NO=G-1361/COMMENT=Japanese version of "Lord of The Sword".
 SMS e8511b08 92362CB89D5572F0   Lord of The Sword/COUNTRY=US,EU,BR/PRODUCT_NO=7016/COMMENT=Export version of "Lord of Sword".
 SMS 323f357f 10BBC3D7919A561A   Loretta no Shouzou/COUNTRY=JP/PRODUCT_NO=G-1315
@@ -326,7 +326,7 @@ SMS a577ce46 8264C47AA02D1CF3   Micro Machines/COUNTRY=EU/PRODUCT_NO=19001/EMU_M
 SMS 0e333b6e 5DF944A13D3573E0   Miracle Warriors - Seal of The Dark Lord/COUNTRY=US,EU,BR/PRODUCT_NO=7500/COMMENT=Export version of "Haja no Fuuin".
 SMS 301a59aa C6AE142A815DF27E   Miracle Warriors - Seal of The Dark Lord [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS fbe5cfbb 32DAD3B36F53F7B5   Missile Defense 3-D/NAME_BR=Missile Defense 3D/COUNTRY=US,EU,BR/PRODUCT_NO=8001,023230/EMU_INPUTS=LIGHTPHASER/EMU_3D
-SMS 01d67c0b 78D6D79A391713DE   Mônica no Castelo do Dragão/COUNTRY=BR/COMMENT=Brasilian hacked version of "Wonder Boy in Monster Land", released by Tec Toy.
+SMS 01d67c0b 78D6D79A391713DE   MÃ´nica no Castelo do DragÃ£o/COUNTRY=BR/COMMENT=Brasilian hacked version of "Wonder Boy in Monster Land", released by Tec Toy.
 SMS 026d94a4 486A3C3EC40B37CE   Monopoly/COUNTRY=EU
 SMS 69538469 4D632D43B6FE42EA   Monopoly/COUNTRY=US
 SMS 7e9d87fc BFD80824BC3567E5   Monopoly [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
@@ -391,7 +391,7 @@ SMS 97993479 51C5A27AE5C1A97F   Psycho Fox/COUNTRY=US,EU,BR/PRODUCT_NO=7032
 SMS 357d4f78 F8FBE39B6B9A7A10   Putt & Putter/NAME_BR=Minigolf/COUNTRY=EU,BR/PRODUCT_NO=5122
 SMS 8167ccc4 57D2E5AF6CF007E0   Putt & Putter [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e0f34fa6 7B806045EC630110   Quartet/COUNTRY=US,EU/PRODUCT_NO=5073/COMMENT=Export version of "Double Target - Cynthia no Nemuri".
-SMS f42e145c B8840BAF3B2A2C79   Quest for the Shaven Yak Starring Ren Hoëk & Stimpy/COUNTRY=BR/PRODUCT_NO=028540/EMU_TVTYPE=PAL/COMMENT=This is a port from the Game Gear version.
+SMS f42e145c B8840BAF3B2A2C79   Quest for the Shaven Yak Starring Ren HoÃ«k & Stimpy/COUNTRY=BR/PRODUCT_NO=028540/EMU_TVTYPE=PAL/COMMENT=This is a port from the Game Gear version.
 SMS c172a22c 7BCD35D3A8365C76   Rainbow Islands/COUNTRY=EU/PRODUCT_NO=7117
 SMS 00ec173a 60C74DD2B1355C78   Rainbow Islands/COUNTRY=BR/PRODUCT_NO=026360/COMMENT=This version is an earlier build than the European version. It has different copyright information.
 SMS bbda65f0 35A0597C0B263AEB   Rambo - First Blood Part II/COUNTRY=US/PRODUCT_NO=5064/COMMENT=Same game as "Ashura" (Japan) and "Secret Command" (Europe). Also referred to as "Rambo".
@@ -414,9 +414,9 @@ SMS bb54b6b0 5286A12D022F2801   R-Type/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1364,900
 SMS 1fdae719 9815A90C29BA6556   Running Battle/COUNTRY=EU,BR/PRODUCT_NO=7037,024300
 SMS 66388128 D28E2F698C014338   Sagaia/COUNTRY=EU,BR/PRODUCT_NO=7078
 SMS 97d03541 49C0303E13D3CBD8   Samgukji III/NAME_JP=Sangokushi III/COUNTRY=KR/EMU_MAPPER=9
-SMS 0e7a5f9f A98E33A9C7FDAC7D   Sapo Xulé O Mestre do Kung Fu/COUNTRY=BR/PRODUCT_NO=023500/COMMENT=Hacked version of "Kung Fu Kid", released by Tec Toy.
-SMS 7ab2946a 137517DF00728D83   Sapo Xulé S.O.S. Lagoa Poluída/COUNTRY=BR/PRODUCT_NO=023510/COMMENT=Hacked version of "Astro Warrior" by Tec Toy.
-SMS 9a608327 A55A9508345B7560   Sapo Xulé Vs Os Invasores do Brejo/COUNTRY=BR/PRODUCT_NO=026340/COMMENT=Hacked version of "Psycho Fox", released by Tec Toy.
+SMS 0e7a5f9f A98E33A9C7FDAC7D   Sapo XulÃ© O Mestre do Kung Fu/COUNTRY=BR/PRODUCT_NO=023500/COMMENT=Hacked version of "Kung Fu Kid", released by Tec Toy.
+SMS 7ab2946a 137517DF00728D83   Sapo XulÃ© S.O.S. Lagoa PoluÃ­da/COUNTRY=BR/PRODUCT_NO=023510/COMMENT=Hacked version of "Astro Warrior" by Tec Toy.
+SMS 9a608327 A55A9508345B7560   Sapo XulÃ© Vs Os Invasores do Brejo/COUNTRY=BR/PRODUCT_NO=026340/COMMENT=Hacked version of "Psycho Fox", released by Tec Toy.
 SMS 16249e19 ABFBCE1810529280   Satellite 7/COUNTRY=JP/PRODUCT_NO=C-506
 SMS 1de2c2d0 FD39BA27B96F853C   SDI/COUNTRY=JP/PRODUCT_NO=G-1338/COMMENT=Means "Strategic Defense Initiative". Japanese version of "Global Defense".
 SMS 9a8b28ec 8C879DB38E98096E   Scramble Spirits/COUNTRY=EU,BR/PRODUCT_NO=7031
@@ -432,7 +432,7 @@ SMS d5d25156 CBF272B7DA6BC90C   Shanghai [Proto]/FLAGS=PROTO/COMMENT=Prototype v
 SMS e1fff1bb E3EBF1D8895B9FE6   Shinobi [v0]/COUNTRY=JP,BR/PRODUCT_NO=G-1353,028380
 SMS 0c6fac4e DEF9F2C7A058ADCB   Shinobi [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=7009
 SMS 4b051022 034E26895A59CF7E   Shooting Gallery/NAME_BR=Shooting G./COUNTRY=US,EU,BR/PRODUCT_NO=5110/EMU_INPUTS=LIGHTPHASER
-SMS abdf3923 10361067C4C6C7F2   Sítio do Picapau Amarelo/COUNTRY=BR/PRODUCT_NO=028710
+SMS abdf3923 10361067C4C6C7F2   SÃ­tio do Picapau Amarelo/COUNTRY=BR/PRODUCT_NO=028710
 SMS c93bd0e9 594106F8C181ED39   Slap Shot [v0]/COUNTRY=EU/PRODUCT_NO=7035
 SMS d33b296a 094AF2F7B08DE3A4   Slap Shot [v1]/COUNTRY=EU/PRODUCT_NO=7035		; [EDITOR-NOTE] Missing BR one. Some DB label this one "UE" but I have no source for it
 SMS 702c3e98 124C00EBBF84E58F   Slap Shot [v2]/COUNTRY=US,BR/PRODUCT_NO=7035,024430
@@ -522,8 +522,8 @@ SMS 4f8d75ec A896A3A30327D280   Toto World 3/COUNTRY=KR/PRODUCT_NO=DS-G301
 SMS 4bc42857 DA63DA8BEB8E7C69   TransBot/NAME_BR=Nuclear Creature/COUNTRY=US,EU,DE,BR/PRODUCT_NO=4004,4502,41003,021050/COMMENT=Export version of "Astro Flash".
 SMS e5374022 8C3364BCB756F81C   Trivial Pursuit - Genus Edition/COUNTRY=EU/PRODUCT_NO=MK 29008-50
 SMS 178801d2 DE0E85F3BB491B7D   Ttoriui Moheom/COUNTRY=KR/PRODUCT_NO=G-37/COMMENT=Hacked Korean version of "Seishun Scandal" \/ "My Hero".
-SMS 22cca9bb 0E91C33709612BD2   Turma da Mônica em - O Resgate/COUNTRY=BR/PRODUCT_NO=026260/COMMENT=Brasilian hacked version of "Wonder Boy III: The Dragon's Trap" \/ "Monster World II", released by Tec Toy.
-SMS e1714a88 830DC65B43CD65DA   TV Colosso (As Aventuras da)/COUNTRY=BR/PRODUCT_NO=028650/COMMENT=Brasilian hacked version of "Astérix and the Secret Mission", released by Tec Toy. Based on local cartoon serie.
+SMS 22cca9bb 0E91C33709612BD2   Turma da MÃ´nica em - O Resgate/COUNTRY=BR/PRODUCT_NO=026260/COMMENT=Brasilian hacked version of "Wonder Boy III: The Dragon's Trap" \/ "Monster World II", released by Tec Toy.
+SMS e1714a88 830DC65B43CD65DA   TV Colosso (As Aventuras da)/COUNTRY=BR/PRODUCT_NO=028650/COMMENT=Brasilian hacked version of "AstÃ©rix and the Secret Mission", released by Tec Toy. Based on local cartoon serie.
 SMS b52d60c8 3EEC41D938FA3456   Ultima IV/COUNTRY=EU,BR/PRODUCT_NO=9501
 SMS de9f8517 A9FD5B95131658E9   Ultima IV [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 15668ca4 7638A4C78062F114   Ultimate Soccer/COUNTRY=EU,BR/PRODUCT_NO=7119,024440
@@ -599,7 +599,7 @@ SMS fef68275 0C38C7A1580A24CE   James Pond II - Codename: RoboCod/FLAGS=BAD/COMM
 SMS bb351118 97D1E5EB0E6663F1   KLAX/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 68108314 261F3B6965EAC701   Kujakuou/FLAGS=BAD/COUNTRY=JP/COMMENT=1 bad byte.
 SMS 94fee07b EFA3373E2142D1C5   Marble Madness/FLAGS=BAD/COMMENT=1 bad byte.
-SMS fac09af4 BDDCD79E4A141381   Mônica no Castelo do Dragão/FLAGS=BAD/COUNTRY=BR/COMMENT=Hacked version of Wonder Boy in Monster Land by Tec Toy. 58 bad bytes.
+SMS fac09af4 BDDCD79E4A141381   MÃ´nica no Castelo do DragÃ£o/FLAGS=BAD/COUNTRY=BR/COMMENT=Hacked version of Wonder Boy in Monster Land by Tec Toy. 58 bad bytes.
 SMS 9fb7d63b 690DDE11E39C7CA0   Ninja, The/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 283712a9 97682219F73E573A   Pit-Fighter/COUNTRY=EU/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 4902b7a2 A88B7C7AF6466F2C   R.C. Grand Prix [SMS-GG]/COUNTRY=US/FLAGS=BAD/COMMENT=1 bad byte.
@@ -655,7 +655,7 @@ SMS a3e97d04 89D423D3A6865130   Tetracycline [v1]/FLAGS=HOMEBREW/VERSION=1/AUTHO
 SMS 983e17e4 D8DB27E4A88354C3   Tetracycline [v2]/FLAGS=HOMEBREW/VERSION=2/AUTHORS=Heliophobe
 SMS fd603aea A19CB1789551FCB8   Tetracycline [v3]/FLAGS=HOMEBREW/VERSION=3/AUTHORS=Heliophobe
 SMS a0bf829b 2D816184804F9806   Tetracycline [v4]/FLAGS=HOMEBREW/VERSION=4/AUTHORS=Heliophobe
-SMS 046ebc1b 795067F611200B9E   Unité Centrale de Huit Bits/FLAGS=HOMEBREW/AUTHORS=Comic Bakery/COMMENT=SMS Demo for Mainframe03.
+SMS 046ebc1b 795067F611200B9E   UnitÃ© Centrale de Huit Bits/FLAGS=HOMEBREW/AUTHORS=Comic Bakery/COMMENT=SMS Demo for Mainframe03.
 SMS ad300bd9 8147C138C1003E40   VIK 01/FLAGS=HOMEBREW/AUTHORS=L.i.N.
 SMS a463ddfa 1DE693E241DE4D1C   Zoom Effect #1/FLAGS=HOMEBREW/AUTHORS=Charles MacDonald/COMMENT=Doesn't run properly in MEKA.
 
@@ -692,9 +692,9 @@ GG  f0204191 9A1D6EB1E8A2AAF6   Arch Rivals/COUNTRY=US/PRODUCT_NO=T-81118
 GG  7cb3facf 3556E4BEA15709D2   Arena - Maze of Death/NAME_EU=Arena/COUNTRY=US,EU/PRODUCT_NO=2565,2565-50
 GG  97e3a18c F70090C4366C52C1   Ariel - The Little Mermaid (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2411
 GG  35fa3f68 EDE3ACDDC72A476F   Arliel - Crystal Densetsu/COUNTRY=JP/PRODUCT_NO=G-3403/COMMENT=Japanese version of "Crystal Warriors".
-GG  78208b40 A662E4EF17F3CC4F   Astérix and the Great Rescue/COUNTRY=US/PRODUCT_NO=2520
-GG  328c5cc8 0676B41642F43153   Astérix and the Great Rescue/COUNTRY=EU/PRODUCT_NO=2520
-GG  c01a8051 4EC17BDFA523F1DE   Astérix and the Secret Mission/COUNTRY=EU/PRODUCT_NO=2513
+GG  78208b40 A662E4EF17F3CC4F   AstÃ©rix and the Great Rescue/COUNTRY=US/PRODUCT_NO=2520
+GG  328c5cc8 0676B41642F43153   AstÃ©rix and the Great Rescue/COUNTRY=EU/PRODUCT_NO=2520
+GG  c01a8051 4EC17BDFA523F1DE   AstÃ©rix and the Secret Mission/COUNTRY=EU/PRODUCT_NO=2513
 GG  dfcf555f 5FA88D0C551D33BB   Ax Battler - A Legend of Golden Axe [v1.5]/NAME_JP=Ax Battler - Golden Axe Densetsu/COUNTRY=JP/PRODUCT_NO=G-3304
 GG  3435ab54 20D68E092FC9A0DB   Ax Battler - A Legend of Golden Axe [v2.0] [Proto]/COUNTRY=US,EU/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  663bcf8a C75A6F968FFFD973   Ax Battler - A Legend of Golden Axe [v2.4]/COUNTRY=US,EU/PRODUCT_NO=2405
@@ -768,7 +768,7 @@ GG  5d3f23a9 A338FA736E8E1D9F   Earthworm Jim/COUNTRY=US/PRODUCT_NO=T-132028
 GG  691ae339 4E2E597F60A504A3   Earthworm Jim/COUNTRY=EU/PRODUCT_NO=T-70178-50
 GG  a32eb9d5 26F78FEB7D00EB01   Ecco the Dolphin/COUNTRY=JP/PRODUCT_NO=G-3344
 GG  866c7113 855EA7962D1C2B6C   Ecco the Dolphin/COUNTRY=US,EU/PRODUCT_NO=2516
-GG  e2f3b203 21E70CD78EEE2D6C   Ecco - The Tides of Time/NAME_FR=Ecco - Les Marées du Temps/COUNTRY=US,EU,FR/PRODUCT_NO=2541,2541-50,02541F/COMMENT=Export version of "Ecco the Dolphin II".
+GG  e2f3b203 21E70CD78EEE2D6C   Ecco - The Tides of Time/NAME_FR=Ecco - Les MarÃ©es du Temps/COUNTRY=US,EU,FR/PRODUCT_NO=2541,2541-50,02541F/COMMENT=Export version of "Ecco the Dolphin II".
 GG  ba9cef4f AF60C9ACE9E9A406   Ecco the Dolphin II/COUNTRY=JP/PRODUCT_NO=G-3362/COMMENT=Japanese version of "Ecco - The Tides of Time".
 GG  5e53c7f7 658232077A8D8554   Ernie Els Golf/COUNTRY=EU/PRODUCT_NO=T-120098-50/EMU_MAPPER=3/COMMENT=This cartridge contains an onboard 64 KBit RAM chip.
 GG  04302bbd E46D03796A96D95A   Eternal Legend/COUNTRY=JP/PRODUCT_NO=G-3402,G-3412
@@ -915,7 +915,7 @@ GG  06247dd2 C6F0B20D1690598C   Ninkuu 2 ~Tenkuuryuu-e no Michi~/COUNTRY=JP/PROD
 GG  9140f239 7DB3E5B919ED36F6   Ninkuu Gaiden - Hiroyuki Daikatsugeki/COUNTRY=JP/PRODUCT_NO=G-3377
 GG  20ef017a 491A5BE482A63303   Ninja Gaiden/COUNTRY=JP/PRODUCT_NO=G-3215/EMU_SPRITE_FLICKER
 GG  c578756b C216F5FA17F30926   Ninja Gaiden/COUNTRY=US,EU/PRODUCT_NO=2312/EMU_SPRITE_FLICKER
-GG  4680c7aa 743D647340B4FC88   NHL All-Star Hockey/NAME_CA=NHL All-Star Match Des Étoiles Hockey 95/COUNTRY=US,CA/PRODUCT_NO=2534
+GG  4680c7aa 743D647340B4FC88   NHL All-Star Hockey/NAME_CA=NHL All-Star Match Des Ã‰toiles Hockey 95/COUNTRY=US,CA/PRODUCT_NO=2534
 GG  658713a5 1521D014975325D7   NHL Hockey/COUNTRY=US,EU/PRODUCT_NO=T-50048,T-50048-50
 GG  4ed45bda DE60DCC646F22CBC   Nomo's World Series Baseball/NAME_JP=Nomo Hideo no World Series Baseball/COUNTRY=JP/PRODUCT_NO=G-3432/EMU_MAPPER=4
 GG  1e673168 76A0E0E382CF8254   Ottifants, The/COUNTRY=EU/PRODUCT_NO=2444,2444-50
@@ -953,7 +953,7 @@ GG  407ac070 ECCE2FC29C7E1526   Putt & Putter/COUNTRY=JP/PRODUCT_NO=G-3209
 GG  d173a06f 6D6D979B9D368E93   Puyo Puyo (Puzlow Kids)/COUNTRY=JP/PRODUCT_NO=G-3324/COMMENT=The game has an alternate "Puzlow Kids" title screen when ran on export system, but it was never released outside of Japan.
 GG  3ab2393b A3111B362AD924D4   Puyo Puyo 2/COUNTRY=JP/PRODUCT_NO=T-66037
 GG  8e54ee04 E463A36AE4D522D1   Puzzle Bobble/COUNTRY=JP/PRODUCT_NO=T-11047
-GG  6c451ee1 2A50C584823D710D   Quest for the Shaven Yak Starring Ren Hoëk & Stimpy/COUNTRY=US,EU/PRODUCT_NO=2519
+GG  6c451ee1 2A50C584823D710D   Quest for the Shaven Yak Starring Ren HoÃ«k & Stimpy/COUNTRY=US,EU/PRODUCT_NO=2519
 GG  736cdb76 70BA6E9D99C81B4F   Quiz Gear Fight!!, The/COUNTRY=JP/PRODUCT_NO=G-3367
 GG  6dc3295e D56E2790AD1DEE4E   R.B.I. Baseball '94/COUNTRY=US/PRODUCT_NO=T-48168 301073-0161
 GG  03e9c607 EACA76A0EF9F1D8B   Revenge of Drancon/NAME_BR=Wonder Boy/COUNTRY=US,BR/PRODUCT_NO=2302,012080/COMMENT=US version of "Wonder Boy", with a different title.
@@ -1027,7 +1027,7 @@ GG  2a100717 E7260408CEC8EE63   Super Columns/COUNTRY=JP/PRODUCT_NO=G-3226
 GG  528cbbce FAE75543A7740E5E   Super Golf/COUNTRY=JP/PRODUCT_NO=T-26017,T-26027
 GG  73df5a15 43574420E8CF212A   Superman - The Man of Steel/COUNTRY=EU/PRODUCT_NO=T-70068
 GG  b731bb80 A220C02C0082E6EA   Super Momotarou Dentetsu III/COUNTRY=JP/PRODUCT_NO=T-143017
-GG  fcf12547 E7834B512CBEB35D   Super Monaco GP/NAME_BR=GP Mônaco/COUNTRY=US,EU,BR/PRODUCT_NO=2304,012140
+GG  fcf12547 E7834B512CBEB35D   Super Monaco GP/NAME_BR=GP MÃ´naco/COUNTRY=US,EU,BR/PRODUCT_NO=2304,012140
 GG  4f686c4a 7F39562D4299AE3C   Super Monaco GP/COUNTRY=JP/PRODUCT_NO=G-3201
 GG  1d1b1dd3 8E89AE12C88F29A9   Super Monaco GP II (Ayrton Senna's)/COUNTRY=US,EU/PRODUCT_NO=2423
 GG  661faeff 16D6ADD4B37ACB9B   Super Monaco GP II (Ayrton Senna's)/COUNTRY=JP/PRODUCT_NO=G-3312,G-3337
@@ -1323,7 +1323,7 @@ OMV c5a67b95 5B5A6A24D5CE0B0F   Othello Multivision [BIOS]/COUNTRY=JP/FLAGS=BIOS
 7ACEE06A678FF682,Alex Kidd in Shinobi World,BAD,COMMENT=This dump will work but a byte is wrong. You might want to look for the good dump.
 E71464BFE1BB77CF,Alex Kidd: The Lost Stars,ID=G-1347,BAD
 EC1883774FF7FDBF,Astro Warrior,ID=G-1312,BAD
-FD9CB764170567C9,Castelo Rá-Tim-Bum,VER=Brazilian,BAD
+FD9CB764170567C9,Castelo RÃ¡-Tim-Bum,VER=Brazilian,BAD
 58AE94E16F8DD5B4,Enduro Racer,ID=G-1322,BAD
 914DC1AEAB372AA7,Fantastic Dizzy,Mapper=3,BAD,TVTYPE=PAL/SECAM
 CEDEE0CC40083030,Gokuaku Doumei Dump Matsumoto,VER=Japanese,ID=G-1302,COMMENT=Japanese version of Pro Wrestling. This dump is slighty incorrect.,BAD
@@ -1729,12 +1729,12 @@ B99B1B5D6A932F08,Rodrigo em: O Resgate,HACK,AUTHORS=Yuski the Dog
 185F21C461686576,Rodrigo 2 em: Mate o Leonardo,HACK,AUTHORS=Yuski the Dog
 25EBADCAC9736BD2,Pokemon Amarelo,HACK,AUTHORS=Yuski the Dog
 26ED9FCCC4701D31,Pokemon Azul,HACK,AUTHORS=Yuski the Dog
-83C09599CA531161,Felipe em Ação,HACK,AUTHORS=Yuski the Dog
+83C09599CA531161,Felipe em AÃ§Ã£o,HACK,AUTHORS=Yuski the Dog
 6ECA835AED978DDA,Treinamento do Guerreiro Lobo I,HACK,AUTHORS=Yuski the Dog
 9A3C67F3438C5AA7,Treinamento do Guerreiro Lobo II,HACK,AUTHORS=Yuski the Dog
 399A792FAD110FB8,Guerreiro Lobo,HACK,AUTHORS=Yuski the Dog
 B22597E52D095621,Sonic vs. Os Mauniks,HACK,AUTHORS=Yuski the Dog
-B827A32E86B8838F,Magali no Castelo do Dragão,HACK,AUTHORS=Yuski the Dog
+B827A32E86B8838F,Magali no Castelo do DragÃ£o,HACK,AUTHORS=Yuski the Dog
 26A4CCB6449BE5F0,Master Mega Man,HACK,AUTHORS=EmuBoarding
 418AB9F7117FCD28,Jornada do Mymo,HACK,AUTHORS=Yuski the Dog
 F3DEFC7C14AE20D5,Jornada do Mymo II,HACK,AUTHORS=Yuski the Dog
@@ -1746,19 +1746,19 @@ F2E1A2E9FA6D9C9F,Teddy Boy & Geraldinho,HACK,AUTHORS=Yuski the Dog
 B14AEAA29C79F272,Master Smash Brothers,HACK,AUTHORS=EmuBoarding
 B16033737A9347F5,Pokemon Legend,HACK,AUTHORS=EmuBoarding
 B881C3B91A5EFFD4,Master Mario Bros,HACK,AUTHORS=Yuski the Dog
-E99105D877617C55,Rodrigo 2 em: Mate o Papai Noel - Versão de Natal,HACK,AUTHORS=Yuski the Dog
+E99105D877617C55,Rodrigo 2 em: Mate o Papai Noel - VersÃ£o de Natal,HACK,AUTHORS=Yuski the Dog
 D88C705C6BB4D5DC,Rodrigo O Resgate,HACK,COMMENT=Hacked version of Wonder Boy,AUTHORS=Yuski the Dog
 71988B4470C047B1,Sonicboy 4,VER=A,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
 8199554D6AC34CCB,Sonicboy 4,VER=B,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
 2833EE67174B8A64,R.H.W. 2000,HACK,COMMENT=Hacked version of Psycho Fox,AUTHORS=Yuski the Dog
 AAAD7B0A23CBB77F,Wonder Boy III DC,HACK,COMMENT=Hacked version of Wonder Boy III: The Dragon's Trap,AUTHORS=Yuski the Dog
 9592610A1DB0D4CD,Xaropinho,HACK,COMMENT=Hacked version of Mappi,AUTHORS=Yuski the Dog
-3BFC388B71CD1BAD,Mônica 3,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
+3BFC388B71CD1BAD,MÃ´nica 3,HACK,COMMENT=Hacked version of Wonder Boy in Monster World,AUTHORS=Yuski the Dog
 553652BFEAA1EFEA,Sonic RPG,HACK,COMMENT=Hacked version of Phantasy Star,AUTHORS=Yuski the Dog
 5DB5943F04B770F0,Jornada do Krazy,HACK,AUTHORS=Yuski the Dog
 50C9BC3D97E07106,Treinamento do Mymo [B],HACK,AUTHORS=Yuski the Dog
 FE4FDAA6EA7A8847,Jornada do Mymo [B],HACK,AUTHORS=Yuski the Dog
-82A5838252DB1C8B,Mônica 3,HACK,AUTHORS=Yuski the Dog
+82A5838252DB1C8B,MÃ´nica 3,HACK,AUTHORS=Yuski the Dog
 
 ---- MISCELLANEOUS ----
 2A26B6AA93E2F7E4,Super Magic Drive BIOS 3.0,VER=3,BIOS,AUTHORS=JSI / CCL / Front Far East,COMMENT=This program is used and running in SMS mode on a Megadrive.
