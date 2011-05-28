@@ -489,13 +489,6 @@ void    Configuration_Load_PostProcess (void)
 	g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_gui_depth_cfg;
 	if (g_Configuration.video_mode_gui_depth == 0)
 		g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_depth_desktop;
-
-	// FIXME-ALLEGRO5: Commented all that out
-#if 0
-	set_color_depth(g_Configuration.video_mode_gui_depth); // FIXME-DEPTH
-	set_color_conversion(COLORCONV_TOTAL);	// FIXME-DEPTH: SHOULD REMOVE IN THE END
-	//set_color_conversion(COLORCONV_NONE);
-#endif
 }
 
 //-----------------------------------------------------------------------------

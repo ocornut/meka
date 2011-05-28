@@ -109,10 +109,9 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 
 	if (!g_display)
     {
-		const char* error = "Unknown error";	// FIXME-ALLEGRO5: was 'allegro_error'
         if (fatal)
-            Quit_Msg (Msg_Get (MSG_Error_Video_Mode), w, h, error);
-        Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h, error);
+            Quit_Msg (Msg_Get (MSG_Error_Video_Mode), w, h);
+        Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h);
         return (MEKA_ERR_FAIL);
     }
     fs_page_0 = NULL;

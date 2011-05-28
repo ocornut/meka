@@ -92,7 +92,7 @@ void    Frame_Skipper_Init (void)
     Frame_Skipper_Auto_Install_Handler ();
 #endif
     // FPS Counter
-#if 0	// FIXME-ALLEGRO5: FPS
+#if 0	// FIXME-ALLEGRO5: FPS counter
 	LOCK_VARIABLE (fskipper.New_Second);
     LOCK_FUNCTION (Frame_Skipper_New_Second_Handler);
     Frame_Skipper_New_Second_Handler ();

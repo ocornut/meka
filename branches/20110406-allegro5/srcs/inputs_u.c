@@ -299,11 +299,8 @@ void        Inputs_Emulation_Update (bool running)
 //-----------------------------------------------------------------------------
 void        Inputs_Sources_Update (void)
 {
-	int	mouse_x_prev, mouse_y_prev;
-	int mouse_mx, mouse_my;
-
 	// Poll keyboard
-	al_get_keyboard_state(&g_keyboard_state);
+ 	al_get_keyboard_state(&g_keyboard_state);
 	g_keyboard_modifiers = 0;
 	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
@@ -312,19 +309,28 @@ void        Inputs_Sources_Update (void)
 	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
-	/*for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
-		if (al_key_down(&g_keyboard_state, i))
-			Msg( MSGT_DEBUG, "Pressed key %d\n", i);*/
+	/*
+	u8 win32_keyboard_state[256];
+	memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
+	bool ret = GetKeyboardState(&win32_keyboard_state[0]);
+	for (int i = 0; i != 256; i++)
+		if (win32_keyboard_state[i])
+			Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d", ret, i);
+	*/
+
+	//for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
+	//	if (al_key_down(&g_keyboard_state, i))
+	//		Msg( MSGT_DEBUG, "Pressed key %d", i);
 
     // Poll mouse
-	mouse_x_prev = g_mouse_state.x;
-	mouse_y_prev = g_mouse_state.y;
+	int mouse_x_prev = g_mouse_state.x;
+	int mouse_y_prev = g_mouse_state.y;
 	al_get_mouse_state(&g_mouse_state);
 	Inputs_UpdateMouseRange();
 
 	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
-	mouse_mx = g_mouse_state.x - mouse_x_prev;
-	mouse_my = g_mouse_state.y - mouse_y_prev;
+	int mouse_mx = g_mouse_state.x - mouse_x_prev;
+	int mouse_my = g_mouse_state.y - mouse_y_prev;
 
     // Add pressed keys to keypress queue
     // FIXME-ALLEGRO5: Scan for all possible keypresses?

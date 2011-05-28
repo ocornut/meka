@@ -8,7 +8,7 @@
 
 ;-----------------------------------------------------------------------------
 ; History
-;-----------------------------------------------------------------------------
+;----------------------------------------	-------------------------------------
 ; MEKA 0.73  : Update language:  Dutch
 ;              Added:            Msg_Menu_Video_Capture
 ;                                Msg_Menu_Video_Capture_CaptureScreen
@@ -133,7 +133,7 @@ Msg_Error_Param                         = "Parameter \"%s\" is invalid!\n"
 Msg_Error_Syntax                        = "Syntax error!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Unable to switch to desired video mode (%dx%d):\n%s."
+Msg_Error_Video_Mode                    = "Unable to switch to desired video mode (%dx%d)."
 Msg_Error_Video_Mode_Back_To_GUI        = "Switching back to graphical user interface."
 
 ; Errors: File ---------------------------------------------------------------
@@ -633,7 +633,7 @@ Msg_Error_Param                         = "Le paramètre \"%s\" est invalide!\n"
 Msg_Error_Syntax                        = "Erreur de syntaxe!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Impossible de basculer vers le mode vidéo souhait‚ (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Impossible de basculer vers le mode vidéo souhait‚ (%dx%d)."
 Msg_Error_Video_Mode_Back_To_GUI        = "Passage en mode interface."
 
 ; Errors: File ---------------------------------------------------------------
@@ -1122,7 +1122,7 @@ Msg_Error_Syntax                        = "Syntax erro'! Fry mah hide!"
 Msg_Error_Video_Mode_Back_To_GUI        = "Switchin' back t'graphical user interface."
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Unable t'switch t'desuhed video mode (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Unable t'switch t'desuhed video mode (%dx%d)."
 
 ; Errors: File ---------------------------------------------------------------
 Msg_Error_File_Not_Found                = "File not foun'! Fry mah hide!"
@@ -1587,7 +1587,7 @@ Msg_Error_Param                         = "Parameter \"%s\" is invalide!\n"
 Msg_Error_Syntax                        = "Syntax fout!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Niet mogelijk naar de gewenste video mode te switchen (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Niet mogelijk naar de gewenste video mode te switchen (%dx%d)."
 Msg_Error_Video_Mode_Back_To_GUI        = "Terugschakelen naar de grafische user interface."
 
 ; Errors: File ---------------------------------------------------------------
@@ -2083,7 +2083,7 @@ Msg_Error_Param                         = "¡El parametro \"%s\" es invalido!\n"
 Msg_Error_Syntax                        = "¡Error de sintaxis!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Inhabilitado el modo de video deseado (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Inhabilitado el modo de video deseado (%dx%d)."
 
 ; Errors: File ---------------------------------------------------------------
 Msg_Error_File_Not_Found                = "Archivo no encontrado"
@@ -2546,7 +2546,7 @@ Msg_Error_Param                         = "Parƒmetro \"%s\" ‚ inv lido!\n"
 Msg_Error_Syntax                        = "Erro de sintaxe!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Imposs¡vel alternar para o modo de v¡deo desejado (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Imposs¡vel alternar para o modo de v¡deo desejado (%dx%d)."
 
 ; Errors: File ---------------------------------------------------------------
 Msg_Error_File_Not_Found                = "Arquivo nÆo encontrado!"
@@ -2992,7 +2992,7 @@ Msg_Error_Param                         = "Parametero \"%s\" non valido!\n"
 Msg_Error_Syntax                        = "Comando non valido!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Impossibile settare il modo video desiderato (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Impossibile settare il modo video desiderato (%dx%d)."
 
 ; Errors: File ---------------------------------------------------------------
 Msg_Error_File_Not_Found                = "File non trovato!"
@@ -3444,7 +3444,7 @@ Msg_Error_Param                         = "Parameter \"%s\" nicht erlaubt!\n"
 Msg_Error_Syntax                        = "Syntaxfehler!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Kann gewuenschten Videomodus nicht aktivieren (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Kann gewuenschten Videomodus nicht aktivieren (%dx%d)."
 
 ; Errors: File ----------------------------------------------------------------
 Msg_Error_File_Not_Found                = "Datei nicht gefunden!"
@@ -3896,7 +3896,7 @@ Msg_Error_Param                         = "Parameter \"%s\" är ogiltig!\n"
 Msg_Error_Syntax                        = "Syntaxfel!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Kan ej byta till önskat videoläge (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Kan ej byta till önskat videoläge (%dx%d)."
 Msg_Error_Video_Mode_Back_To_GUI        = "Växlar tillbaka till grafiskt användargränssnitt."
 
 ; Errors: File ---------------------------------------------------------------
@@ -4360,7 +4360,7 @@ Msg_Error_Param                         = "Parameter \"%s\" er ugyldig\n"
 Msg_Error_Syntax                        = "Syntaksfejl!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Ikke i stand til at skifte til den oenskede oploesning (%dx%d):\n%s"
+Msg_Error_Video_Mode                    = "Ikke i stand til at skifte til den oenskede oploesning (%dx%d)."
 Msg_Error_Video_Mode_Back_To_GUI        = "Skifter tilbage til den grafiske brugergraenseflade."
 
 ; Errors: File ---------------------------------------------------------------

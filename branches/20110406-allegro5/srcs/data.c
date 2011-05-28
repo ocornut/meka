@@ -152,9 +152,7 @@ void Data_Init(void)
     // Print loading message to console
     ConsolePrint (Msg_Get (MSG_Datafile_Loading));
 
-	// FIXME-ALLEGRO5: Load from an archive file.
-	// FIXME-ALLEGRO5: No error handling.
-
+	// FIXME-ALLEGRO5: Load from an archive file + minimal error handling.
 	DataProcessFlags = DATA_PROCESS_NULLIFY | DATA_PROCESS_FREE | DATA_PROCESS_LOAD;
 	Data_ProcessVideoBitmaps();
 	Data_LoadBinaries();

@@ -238,13 +238,13 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     #ifdef MEKA_Z80_DEBUGGER
         // Disabled when SK-1100 is emulated because of collision in usage of ScrollLock key
         // Actually on SC-3000 it is hardwired to NMI
-        if (!Inputs.Keyboard_Enabled && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
+        if (!Inputs.Keyboard_Enabled && Inputs_KeyPressed(ALLEGRO_KEY_SCROLLLOCK, TRUE))
         //if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
-            Debugger_Switch ();
+            Debugger_Switch();
     #endif
 
     // Screen capture
-    if (Inputs_KeyPressed (ALLEGRO_KEY_PRINTSCREEN, FALSE))	// FIXME-ALLEGRO5: shortcut seems broken?
+    if (Inputs_KeyPressed(ALLEGRO_KEY_PRINTSCREEN, FALSE))	// FIXME-ALLEGRO5: shortcut seems broken?
         Capture_Request();
 
     // SF-7000 Disk 21 Bomber Raid
@@ -506,7 +506,9 @@ void    Inputs_Peripheral_Change_Update (void)
 		if (cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
 		{
 			Inputs_SetMouseCursor(cursor);
-			al_set_mouse_xy(g_display, LightPhaser.X[player], LightPhaser.Y[player]);	// FIXME-ALLEGRO5: Mouse scale
+			int sx, sy;
+			Video_GameMode_EmulatedPosToScreenPos(LightPhaser.X[player], LightPhaser.Y[player], &sx, &sy, false);
+			al_set_mouse_xy(g_display, sx, sy);
 		}
 		else if (cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
 		{
