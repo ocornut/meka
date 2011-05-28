@@ -6,7 +6,6 @@
 #include "shared.h"
 #include "blit.h"
 #include "blitintf.h"
-#include "config_v.h"
 #include "video.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"

@@ -8,7 +8,6 @@
 #include "blitintf.h"
 #include "capture.h"
 #include "config.h"
-#include "config_v.h"
 #include "debugger.h"
 #include "fskipper.h"
 #include "g_file.h"

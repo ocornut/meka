@@ -101,6 +101,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 		// Allegro is missing keyboard events when there's no display, so as a workaround we clear the key states.
 		Inputs_KeyClearAllState();
 #endif
+		al_unregister_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 		al_destroy_display(g_display);
 	}
 
@@ -120,7 +121,10 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
         Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h);
         return (MEKA_ERR_FAIL);
     }
-    fs_page_0 = NULL;
+
+	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
+	
+	fs_page_0 = NULL;
     fs_page_1 = NULL;
     fs_page_2 = NULL;
 
@@ -375,12 +379,6 @@ void    Video_Setup_State (void)
         }
         break;
     }
-
-	// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_SWITCH_IN, ALLEGRO_EVENT_DISPLAY_SWITCH_OUT
-    /*
-        set_display_switch_callback (SWITCH_IN,  Switch_In_Callback);
-        set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
-    */
 }
 
 void    Screen_Save_to_Next_Buffer(void)
@@ -413,12 +411,42 @@ bool	Screenbuffer_IsLocked(void)
 	return g_screenbuffer_locked_region != NULL;
 }
 
+void	Video_UpdateEvents()
+{
+	ALLEGRO_EVENT key_event;
+	while (al_get_next_event(g_display_event_queue, &key_event))
+	{
+		switch (key_event.type)
+		{
+		case ALLEGRO_EVENT_DISPLAY_CLOSE:
+			if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
+				break;
+			opt.Force_Quit = TRUE;
+			break;
+		case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
+			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
+			//	return;
+			//// Msg (MSGT_USER, "Switch_In_Callback()");
+			//// clear_to_color (screen, BORDER_COLOR);
+			//Video_Clear ();
+			//Sound_Playback_Resume ();
+			break;
+		case ALLEGRO_EVENT_DISPLAY_SWITCH_OUT:
+			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
+			//	break;
+			//// Msg (MSGT_USER, "Switch_Out_Callback()");
+			//Sound_Playback_Mute ();
+			break;
+		}
+	}
+}
 
-// REFRESH THE SCREEN ---------------------------------------------------------
 // This is called when line == tsms.VDP_Line_End
 void    Refresh_Screen(void)
 {
 	Screenbuffer_ReleaseLock();
+
+	Video_UpdateEvents();
 
 //#ifdef ARCH_WIN32
 //    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());

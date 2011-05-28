@@ -7,10 +7,6 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Close_Button_Callback   (void);
-void    Switch_In_Callback      (void);
-void    Switch_Out_Callback     (void);
-
 void    Change_System_Misc      (void);
 void    Change_Mode_Misc        (void); // Do various things when changing mode
 

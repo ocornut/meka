@@ -366,6 +366,7 @@ extern t_media_image   media_ROM;
 //-----------------------------------------------------------------------------
 
 extern ALLEGRO_DISPLAY* g_display;
+extern ALLEGRO_EVENT_QUEUE*	g_display_event_queue;
 extern ALLEGRO_LOCKED_REGION* g_screenbuffer_locked_region;
 
 // Emulated Screen ------------------------------------------------------------

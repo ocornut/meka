@@ -17,51 +17,6 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Close_Button_Callback ()
-// Close button hook, called by Allegro
-//-----------------------------------------------------------------------------
-// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_CLOSE event
-/*
-void    Close_Button_Callback (void)
-{
-    if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-        return;
-    opt.Force_Quit = TRUE;
-}
-*/
-
-//-----------------------------------------------------------------------------
-// Switch_In_Callback ()
-// Application switch-in hook, called by Allegro
-// This is fired when the application screen reappear (eg: after an ALT-TAB)
-//-----------------------------------------------------------------------------
-// FIXME-ALLEGRO5: Use ALLEGRO_EVENT_DISPLAY_SWITCH_IN, ALLEGRO_EVENT_DISPLAY_SWITCH_OUT
-/*
-void    Switch_In_Callback (void)
-{
-    if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-        return;
-    // Msg (MSGT_USER, "Switch_In_Callback()");
-    // clear_to_color (screen, BORDER_COLOR);
-    Video_Clear ();
-    Sound_Playback_Resume ();
-}
-
-//-----------------------------------------------------------------------------
-// Switch_Out_Callback ()
-// Application switch-out hook, called by Allegro
-// This is fired when the application screen disappear (eg: using ALT-TAB)
-//-----------------------------------------------------------------------------
-void    Switch_Out_Callback (void)
-{
-    if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-        return;
-    // Msg (MSGT_USER, "Switch_Out_Callback()");
-    Sound_Playback_Mute ();
-}
-*/
-
-//-----------------------------------------------------------------------------
 // Change_System_Misc ()
 // Called when media (ROM) changes - updates various things
 //-----------------------------------------------------------------------------

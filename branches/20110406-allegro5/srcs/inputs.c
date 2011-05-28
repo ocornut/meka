@@ -10,7 +10,6 @@
 #include "app_tileview.h"
 #include "blitintf.h"
 #include "capture.h"
-#include "config_v.h"
 #include "db.h"
 #include "debugger.h"
 #include "fskipper.h"

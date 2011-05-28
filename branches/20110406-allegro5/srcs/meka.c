@@ -75,6 +75,7 @@ u8 *    SG_BACK_TILE = NULL;
 u8 *    SG_BACK_COLOR = NULL;
 
 ALLEGRO_DISPLAY*		g_display = NULL;
+ALLEGRO_EVENT_QUEUE*	g_display_event_queue = NULL;
 ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region = NULL;
 
 ALLEGRO_BITMAP *screenbuffer = NULL, *screenbuffer_next = NULL;
@@ -311,6 +312,9 @@ static int Init_Allegro (void)
     al_install_keyboard();
     g_env.mouse_installed = al_install_mouse();
 
+	// Create event queues
+	g_display_event_queue = al_create_event_queue();
+
 	// Get Allegro version and print it in console
 	const unsigned int allegro_version = al_get_allegro_version();
 	ConsolePrintf(" version %d.%d.%d (release %d)\n", (allegro_version >> 24), (allegro_version >> 16) & 0xFF, (allegro_version >> 8) & 0xFF, (allegro_version & 0xFF));
@@ -381,6 +385,7 @@ int main(int argc, char **argv)
 
 	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
 	g_display = al_create_display(100, 100);	// FIXME-ALLEGRO5: fixed size
+	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 
     Blit_Init               (); // Initialize Blitter
     Random_Init             (); // Initialize Random Number Generator
