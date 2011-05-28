@@ -133,8 +133,6 @@ void    Filenames_Init(void)
     sprintf (Patches.filename,			"%s/meka.pat",    g_env.Paths.EmulatorDirectory);
     sprintf (VLFN_DataBase.filename,    "%s/meka.fdb",    g_env.Paths.EmulatorDirectory);
     sprintf (Blitters.filename,			"%s/meka.blt",    g_env.Paths.EmulatorDirectory);
-    //sprintf (registered.filename [0], "%s/meka.reg",    g_env.Paths.EmulatorDirectory);
-    //sprintf (registered.filename [1], "%s/meka.key",    g_env.Paths.EmulatorDirectory);
     sprintf (Desktop.filename,			"%s/meka.dsk",    g_env.Paths.EmulatorDirectory);
     sprintf (Inputs.FileName,			"%s/meka.inp",    g_env.Paths.EmulatorDirectory);
     sprintf (Messages.FileName,			"%s/meka.msg",    g_env.Paths.EmulatorDirectory);

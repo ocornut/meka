@@ -78,7 +78,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     } previous_mode = { -1, -1, -1, -1, -1, -1, -1 };
     if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && v_w == previous_mode.v_w && v_h == previous_mode.v_h && (int)fullscreen == previous_mode.fullscreen && refresh_rate == previous_mode.refresh_rate)
     {
-        Video_Mode_Update_Size ();
+        Video_GameMode_UpdateBounds();
         return (MEKA_ERR_OK);
     }
 
@@ -122,7 +122,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     Video.res_x = w;
     Video.res_y = h;
     Video.refresh_rate_requested = refresh_rate;
-	Video_Mode_Update_Size();
+	Video_GameMode_UpdateBounds();
 
 	// Window title & callback
     al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
@@ -140,16 +140,52 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     return (MEKA_ERR_OK);
 }
 
-void    Video_Mode_Update_Size(void)
+void    Video_GameMode_UpdateBounds(void)
 {
     int   x_fact, y_fact;
-    Blitters_Get_Factors (&x_fact, &y_fact);
+    Blitters_Get_Factors(&x_fact, &y_fact);
 
     // Compute game area position to be centered on the screen
     Video.game_area_x1 = (Video.res_x - cur_drv->x_res * x_fact) / 2;
     Video.game_area_y1 = (Video.res_y - cur_drv->y_res * y_fact) / 2;
     Video.game_area_x2 = (Video.res_x - Video.game_area_x1);
     Video.game_area_y2 = (Video.res_y - Video.game_area_y1);
+}
+
+void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp)
+{
+	if (clamp)
+	{
+		const int rx = LinearRemapClamp(screen_x, Video.game_area_x1, Video.game_area_x2, 0, cur_drv->x_res);
+		const int ry = LinearRemapClamp(screen_y, Video.game_area_y1, Video.game_area_y2, 0, cur_drv->y_res);
+		*pemu_x = rx;
+		*pemu_y = ry;
+	}
+	else
+	{
+		const int rx = LinearRemap(screen_x, Video.game_area_x1, Video.game_area_x2, 0, cur_drv->x_res);
+		const int ry = LinearRemap(screen_y, Video.game_area_y1, Video.game_area_y2, 0, cur_drv->y_res);
+		*pemu_x = rx;
+		*pemu_y = ry;
+	}
+}
+
+void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp)
+{
+	if (clamp)
+	{
+		const int rx = LinearRemapClamp(emu_x, 0, cur_drv->x_res, Video.game_area_x1, Video.game_area_x2);
+		const int ry = LinearRemapClamp(emu_y, 0, cur_drv->y_res, Video.game_area_y1, Video.game_area_y2);
+		*pscreen_x = rx;
+		*pscreen_y = ry;
+	}
+	else
+	{
+		const int rx = LinearRemap(emu_x, 0, cur_drv->x_res, Video.game_area_x1, Video.game_area_x2);
+		const int ry = LinearRemap(emu_y, 0, cur_drv->y_res, Video.game_area_y1, Video.game_area_y2);
+		*pscreen_x = rx;
+		*pscreen_y = ry;
+	}
 }
 
 void    Video_Clear(void)

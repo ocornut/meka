@@ -480,64 +480,92 @@ byte    Input_Port_DD (void)
 // UPDATE WHAT IS NECESSARY AFTER A PERIPHERAL CHANGE -------------------------
 void    Inputs_Peripheral_Change_Update (void)
 {
-    int Cursor;
-    int Player;
-
     // Update LightGun.Enabled quick access flag
     LightPhaser.Enabled = (Inputs.Peripheral[0] == INPUT_LIGHTPHASER || Inputs.Peripheral[1] == INPUT_LIGHTPHASER);
 
     if (g_env.mouse_installed == -1)
         return;
 
-    Cursor = MEKA_MOUSE_CURSOR_STANDARD; 
-    Player = PLAYER_1;
+    t_mouse_cursor cursor = MEKA_MOUSE_CURSOR_STANDARD; 
+    int player = PLAYER_1;
 
     // Note: Player 1 has priority over Player 2 for cursor
-    if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)    { Cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; Player = PLAYER_2; }
-    else if (Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD) { Cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; Player = PLAYER_2; }
-    else if (Inputs.Peripheral [PLAYER_2] == INPUT_TVOEKAKI)  { Cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; Player = PLAYER_2; }
+    if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)    { cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_2; }
+    else if (Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD) { cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_2; }
+    else if (Inputs.Peripheral [PLAYER_2] == INPUT_TVOEKAKI)  { cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_2; }
 
-    if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)    { Cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; Player = PLAYER_1; }
-    else if (Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD) { Cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; Player = PLAYER_1; }
-    else if (Inputs.Peripheral [PLAYER_1] == INPUT_TVOEKAKI)  { Cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; Player = PLAYER_1; }
+    if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)    { cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_1; }
+    else if (Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD) { cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_1; }
+    else if (Inputs.Peripheral [PLAYER_1] == INPUT_TVOEKAKI)  { cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_1; }
 
     // Msg(MSGT_DEBUG, "g_env.state=%d, Cursor=%d, Mask_Left=%d", g_env.state, Cursor, Mask_Left_8);
 
     switch (g_env.state)
     {
     case MEKA_STATE_FULLSCREEN:
-        if (Cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER) // Light Phaser
-        {
-            Set_Mouse_Cursor(Cursor);
-            LightPhaser_SetupMouseRange(Mask_Left_8);
-            al_set_mouse_xy(g_display, LightPhaser.X[Player], LightPhaser.Y[Player]);
-            al_show_mouse_cursor(g_display);
-        }
-        else
-            if (Cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI) // Terebi Oekaki
-            {
-                Set_Mouse_Cursor(Cursor);
-                TVOekaki_Mouse_Range();
-                al_show_mouse_cursor(g_display);
-            }
-            else
-            {
-                Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_NONE);
-                al_hide_mouse_cursor(g_display);
-            }
-            break;
+		if (cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
+		{
+			Inputs_SetMouseCursor(cursor);
+			al_set_mouse_xy(g_display, LightPhaser.X[player], LightPhaser.Y[player]);	// FIXME-ALLEGRO5: Mouse scale
+		}
+		else if (cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
+		{
+			Inputs_SetMouseCursor(cursor);
+		}
+		else
+		{
+			Inputs_SetMouseCursor(MEKA_MOUSE_CURSOR_NONE);
+		}
+		break;
     case MEKA_STATE_GUI:
-        if (Cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
+        if (cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
         {
-            Set_Mouse_Cursor(Cursor);
+            Inputs_SetMouseCursor(cursor);
             // Note: do not reposition mouse in GUI, this is annoying!
             // position_mouse (LightGun.X [Player] + gamebox_instance->frame.pos.x, LightGun.Y [Player] + gamebox_instance->frame.pos.y);
         }
-        else if (Cursor == MEKA_MOUSE_CURSOR_SPORTS_PAD || Cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
-            Set_Mouse_Cursor(Cursor);
+        else if (cursor == MEKA_MOUSE_CURSOR_SPORTS_PAD || cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
+		{
+            Inputs_SetMouseCursor(cursor);
+		}
         else
-            Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_STANDARD);
-        al_show_mouse_cursor(g_display);//gui_buffer);
+		{
+            Inputs_SetMouseCursor(MEKA_MOUSE_CURSOR_STANDARD);
+		}
+        break;
+    }
+}
+
+// FIXME: Merge with Inputs_Peripheral_Change_Update() ?
+void    Inputs_SetMouseCursor(t_mouse_cursor mouse_cursor)
+{
+	Inputs.mouse_cursor = mouse_cursor;
+    if (g_env.mouse_installed == -1)
+        return;
+    switch (mouse_cursor)
+    {
+    case MEKA_MOUSE_CURSOR_NONE: 
+		al_hide_mouse_cursor(g_display);
+        break;
+    case MEKA_MOUSE_CURSOR_STANDARD: 
+		al_set_mouse_cursor(g_display, Graphics.Cursors.Main);
+		al_show_mouse_cursor(g_display);
+        break;
+    case MEKA_MOUSE_CURSOR_LIGHT_PHASER: 
+		al_set_mouse_cursor(g_display, Graphics.Cursors.LightPhaser);
+		al_show_mouse_cursor(g_display);
+        break;
+    case MEKA_MOUSE_CURSOR_SPORTS_PAD: 
+		al_set_mouse_cursor(g_display, Graphics.Cursors.SportsPad);
+		al_show_mouse_cursor(g_display);
+        break;
+    case MEKA_MOUSE_CURSOR_TV_OEKAKI: 
+		al_set_mouse_cursor(g_display, Graphics.Cursors.TvOekaki);
+		al_show_mouse_cursor(g_display);
+        break;
+    case MEKA_MOUSE_CURSOR_WAIT: 
+		al_set_mouse_cursor(g_display, Graphics.Cursors.Wait);
+		al_show_mouse_cursor(g_display);
         break;
     }
 }

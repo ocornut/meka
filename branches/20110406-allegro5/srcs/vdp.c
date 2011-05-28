@@ -98,7 +98,7 @@ void    VDP_VideoMode_Change (void)
             cur_drv->y_res = ((Wide_Screen_28) ? 224 : 192);
             gamebox_resize_all();
             VDP_UpdateLineLimits();
-            Video_Mode_Update_Size();
+            Video_GameMode_UpdateBounds();
             if (g_env.state == MEKA_STATE_FULLSCREEN)
             {
                 Video_Clear();
@@ -165,13 +165,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
   switch (vdp_register)
     {
      // VDP Configuration 0 ---------------------------------------------------
-     case 0: if ((value & 0x20) != Mask_Left_8)
-                {
-                // FIXME
-                if (g_env.state == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
-                   LightPhaser_SetupMouseRange (value & 0x20);
-                }
-             /*
+     case 0: /*
              if ((Value & 0x10) != HBlank_ON)
                 {
                 Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, HBlank %s, IRequest = %02X", CPU_GetPC, tsms.VDP_Line, (Value & 0x10) ? "Enable" : "Disable", sms.R.IRequest);

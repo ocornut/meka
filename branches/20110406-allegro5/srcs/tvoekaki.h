@@ -7,9 +7,8 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TVOekaki_Init (void);
-void    TVOekaki_Update (int device_x, int device_y, int device_b_field);
-void    TVOekaki_Mouse_Range (void);
+void    TVOekaki_Init(void);
+void    TVOekaki_Update(int device_x, int device_y, int device_b_field);
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -32,11 +31,10 @@ void    TVOekaki_Mouse_Range (void);
 
 struct t_tvoekaki
 {
- int            X, Y;
- byte           Infos;
+	int		X, Y;
+	u8		Infos;
 };
 
 extern t_tvoekaki  TVOekaki;
 
 //-----------------------------------------------------------------------------
-

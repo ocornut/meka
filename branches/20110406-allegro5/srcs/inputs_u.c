@@ -11,6 +11,8 @@
 #include "rapidfir.h"
 #include "sportpad.h"
 #include "tvoekaki.h"
+#include "video.h"
+#include "vdp.h"
 
 // #define DEBUG_JOY
 
@@ -22,7 +24,8 @@ ALLEGRO_MOUSE_STATE		g_mouse_state;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void    Inputs_FixUp_JoypadOppositesDirections (void);
+static void Inputs_FixUpJoypadOppositesDirections(void);
+static void	Inputs_UpdateMouseRange(void);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -281,7 +284,7 @@ void        Inputs_Emulation_Update (bool running)
 
     // Correct the cases where opposite directions are pressed
     if (!g_Configuration.allow_opposite_directions)
-        Inputs_FixUp_JoypadOppositesDirections ();
+        Inputs_FixUpJoypadOppositesDirections ();
 
     // Simulate Rapid Fire
     if (running)
@@ -317,8 +320,9 @@ void        Inputs_Sources_Update (void)
 	mouse_x_prev = g_mouse_state.x;
 	mouse_y_prev = g_mouse_state.y;
 	al_get_mouse_state(&g_mouse_state);
+	Inputs_UpdateMouseRange();
 
-	// FIXME-ALLEGRO5: Not use of the kind of value we retrieven from mouse_mx, mouse_my (mickeys?) - check SVN log
+	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
 	mouse_mx = g_mouse_state.x - mouse_x_prev;
 	mouse_my = g_mouse_state.y - mouse_y_prev;
 
@@ -418,20 +422,21 @@ void        Inputs_Sources_Update (void)
             // Mouse ----------------------------------------------------------------
         case INPUT_SRC_TYPE_MOUSE:
             {
-                int x, y;
                 bool disable_mouse_button = FALSE;
 
                 if (g_env.state == MEKA_STATE_FULLSCREEN)
                 {
-                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = g_mouse_state.x;
-					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = g_mouse_state.y;
+					int mx, my;
+					Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &mx, &my, true);
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = mx;
+					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = my;
                 }
                 else
                 {
                     // Compute distance to first GUI game box
                     // FIXME: this sucks
-                    x = g_mouse_state.x - gamebox_instance->frame.pos.x;
-                    y = g_mouse_state.y - gamebox_instance->frame.pos.y;
+                    int x = g_mouse_state.x - gamebox_instance->frame.pos.x;
+                    int y = g_mouse_state.y - gamebox_instance->frame.pos.y;
                     if (x < 0 || y < 0 || x >= gamebox_instance->frame.size.x || y >= gamebox_instance->frame.size.y)
                         disable_mouse_button = TRUE;
                     if (x < 0) x = 0; 
@@ -441,7 +446,7 @@ void        Inputs_Sources_Update (void)
                     Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = y;
                 }
 
-                x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
+                int x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
                 if (x > 0 && mouse_mx < x)
                 { if (mouse_mx < 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
                 else if (x < 0 && mouse_mx > x)
@@ -450,7 +455,7 @@ void        Inputs_Sources_Update (void)
                     x = mouse_mx;
                 Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res = x;
 
-                y = Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res;
+                int y = Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res;
                 if (y > 0 && mouse_my < y)
                 { if (mouse_my < 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
                 else if (y < 0 && mouse_my > y)
@@ -487,11 +492,35 @@ void        Inputs_Sources_Update (void)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Inputs_FixUp_JoypadOppositesDirections()
+void Inputs_UpdateMouseRange()
+{
+	if (g_env.state != MEKA_STATE_FULLSCREEN)
+		return;
+
+	int sx_org;
+	int sy_org;
+	Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &sx_org, &sy_org, false);
+	int sx = sx_org;
+	int sy = sy_org;
+
+	if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
+	{ 
+		sx = Clamp<int>(sx, (Mask_Left_8) ? 8 : 0, cur_drv->x_res);
+		sy = Clamp<int>(sy, 0, cur_drv->y_res);
+	}
+
+	//Msg(MSGT_USER, "xy %d %d -> %d %d", sx_org, sy_org, sx, sy);
+
+	if (sx != sx_org || sy != sy_org)
+	{
+		Video_GameMode_EmulatedPosToScreenPos(sx, sy, &g_mouse_state.x, &g_mouse_state.y, false);
+		al_set_mouse_xy(g_display, g_mouse_state.x, g_mouse_state.y);
+		//Msg(MSGT_USER, "%d", ret);
+	}
+}
+
 // Fix up/down & left/right cases
-//-----------------------------------------------------------------------------
-static void    Inputs_FixUp_JoypadOppositesDirections (void)
+static void    Inputs_FixUpJoypadOppositesDirections (void)
 {
     u16        joy = tsms.Control[7];
     if (!(joy & (0x0001 | 0x0002))) { joy |= (0x0001 | 0x0002); } // P1 Up & Down

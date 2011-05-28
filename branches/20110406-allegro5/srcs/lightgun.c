@@ -25,15 +25,6 @@ void    LightPhaser_Init(void)
     LightPhaser.Y [PLAYER_1] = LightPhaser.Y [PLAYER_2] = 96;//cur_drv->y_res / 2;
 }
 
-// Set mouse range - called in fullscreen mode only
-void    LightPhaser_SetupMouseRange(bool left_most_column_masked)
-{
-    const int m = (left_most_column_masked ? 8 : 0);
-    // Msg(MSGT_DEBUG, "ReRange %02X", ML8);
-	// FIXME-ALLEGRO5
-    //set_mouse_range(m, 0, cur_drv->x_res - 1, cur_drv->y_res - 1);
-}
-
 u8		LightPhaser_GetX(void)
 {
     const int r = LightPhaser.X [LightPhaser.LastSync] ; // + ((Mask_Left_8) ? 8 : 0);

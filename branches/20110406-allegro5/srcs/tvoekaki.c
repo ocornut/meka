@@ -23,13 +23,6 @@ void    TVOekaki_Init (void)
     TVOekaki.Infos = TVOEKAKI_BIT_AXIS | TVOEKAKI_BIT_ON_BOARD;
 }
 
-// Set mouse range - called in fullscreen mode only
-void    TVOekaki_Mouse_Range (void)
-{
-	// FIXME-ALLEGRO5
-    //set_mouse_range (0, 0, cur_drv->x_res - 1 + 16, cur_drv->y_res - 1);
-}
-
 // Terebi Oekaki update function
 // This is supposed to work with an analog mouse
 // Fullscreen mode should be enabled to work properly

@@ -101,11 +101,6 @@ void        Load_Game_Misc (void)
     // Reload palette
     Palette_Emulation_Reload ();
 
-    // FIXME: Sorry having to do that, but it is because Tms_VDP_Out only
-    // react and call LightGun_Mouse_Range() on the flip flop.
-    if (g_env.state == MEKA_STATE_FULLSCREEN && LightPhaser.Enabled)
-        LightPhaser_SetupMouseRange (Mask_Left_8);
-
     // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
 }
 

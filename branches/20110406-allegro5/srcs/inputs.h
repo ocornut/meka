@@ -7,6 +7,16 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
+enum t_mouse_cursor
+{
+	MEKA_MOUSE_CURSOR_NONE,
+	MEKA_MOUSE_CURSOR_STANDARD,
+	MEKA_MOUSE_CURSOR_LIGHT_PHASER,
+	MEKA_MOUSE_CURSOR_SPORTS_PAD,
+	MEKA_MOUSE_CURSOR_TV_OEKAKI,
+	MEKA_MOUSE_CURSOR_WAIT,
+};
+
 // Peripherals
 #define  INPUT_JOYPAD           (0)
 #define  INPUT_LIGHTPHASER      (1)
@@ -142,6 +152,7 @@ struct t_peripheral_paddlecontrol
 struct t_inputs
 {
     char            FileName [FILENAME_LEN];        // Path to the MEKA.INP file
+	t_mouse_cursor	mouse_cursor;
     // Emulation
     byte            Peripheral [PLAYER_MAX];        // 2 inputs ports on emulated machines
     t_input_src **  Sources;
@@ -168,6 +179,8 @@ void            Inputs_Peripheral_Change_Update (void);
 //-----------------------------------------------------------------------------
 
 void    Input_ROM_Change            (void);
+
+void    Inputs_SetMouseCursor		(t_mouse_cursor mouse_cursor);
 
 void    Inputs_Check_GUI            (bool sk1100_pressed);
 

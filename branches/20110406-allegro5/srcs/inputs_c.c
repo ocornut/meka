@@ -442,7 +442,7 @@ void    Inputs_CFG_Map_Change_Handler (t_widget *w)
     }
 
     // Change cursor to the '...' one
-    Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_WAIT);
+    Inputs_SetMouseCursor(MEKA_MOUSE_CURSOR_WAIT);
 
     // Be sure nothing is kept highlighted
     if (app->Current_Map != -1)

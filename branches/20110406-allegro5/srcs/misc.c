@@ -94,41 +94,7 @@ void    Change_Mode_Misc (void)
         // .. nothing to do ..
         break;
 	}
-    Inputs_Peripheral_Change_Update ();
-}
-
-//-----------------------------------------------------------------------------
-// Set_Mouse_Cursor(int mouse_cursor)
-// Set current mouse cursor
-//-----------------------------------------------------------------------------
-// FIXME: Merge with Inputs_Peripheral_Change_Update() ?
-//-----------------------------------------------------------------------------
-void    Set_Mouse_Cursor(int mouse_cursor)
-{
-    if (g_env.mouse_installed == -1)
-        return;
-    switch (mouse_cursor)
-    {
-    case MEKA_MOUSE_CURSOR_NONE: 
-		// FIXME-ALLEGRO5: What to do?
-        //set_mouse_sprite (NULL);
-        break;
-    case MEKA_MOUSE_CURSOR_STANDARD: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.Main);
-        break;
-    case MEKA_MOUSE_CURSOR_LIGHT_PHASER: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.LightPhaser);
-        break;
-    case MEKA_MOUSE_CURSOR_SPORTS_PAD: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.SportsPad);
-        break;
-    case MEKA_MOUSE_CURSOR_TV_OEKAKI: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.TvOekaki);
-        break;
-    case MEKA_MOUSE_CURSOR_WAIT: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.Wait);
-        break;
-    }
+    Inputs_Peripheral_Change_Update();
 }
 
 #ifdef ARCH_UNIX
@@ -138,10 +104,7 @@ void    Set_Mouse_Cursor(int mouse_cursor)
 #define RESET       ESC"[0m"
 #endif
 
-//-----------------------------------------------------------------------------
-// Show_End_Message ()
 // Show the ending ASCII message
-//-----------------------------------------------------------------------------
 void    Show_End_Message (void)
 {
 	// ANSI colors codes reminder:
@@ -188,10 +151,6 @@ void    Show_End_Message (void)
 	ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
 	ConsolePrintf (" " MEKA_HOMEPAGE "\n");
 #endif
-
-	// Print registered info line
-	// if (registered.is)
-	//     ConsolePrintf ("This program is registered to:\n%s\n", registered.user_name);
 }
 
 //-----------------------------------------------------------------------------

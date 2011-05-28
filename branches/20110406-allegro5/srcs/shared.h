@@ -149,7 +149,6 @@ struct t_widget;
 // #include "palette.h"     // Palette system and processing
 // #include "patch.h"       // Patching system
 // #include "rapidfir.h"    // Rapid Fire emulation
-// #include "register.h"    // Registered version check
 // #include "saves.h"       // Savestates loading/saving
 // #include "sdsc.h"        // SDSC ROM Tag (designed by S8-Dev)
 // #include "setup.h"       // Interactive Setup

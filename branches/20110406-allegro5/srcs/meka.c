@@ -373,7 +373,6 @@ int main(int argc, char **argv)
     g_env.state = MEKA_STATE_INIT;
     Filenames_Init          (); // Set Filenames Values
     Messages_Init           (); // Load MEKA.MSG and init messaging system
-    //Register_Init         (); // Check Registered User Key
     Init_Default_Values     (); // Set Defaults Variables
     Command_Line_Parse      (); // Parse Command Line (1)
     Init_Allegro            (); // Initialize Allegro Library

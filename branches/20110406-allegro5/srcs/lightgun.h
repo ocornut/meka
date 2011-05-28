@@ -11,7 +11,6 @@ void    LightPhaser_Init(void);
 void    LightPhaser_Sync(int player, byte *);
 void    LightPhaser_Update(int player, int device_x, int device_y);
 u8		LightPhaser_GetX(void);
-void    LightPhaser_SetupMouseRange(bool left_most_column_masked);
 
 //-----------------------------------------------------------------------------
 // Data

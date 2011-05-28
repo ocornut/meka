@@ -28,9 +28,12 @@ extern t_video	Video;
 void    Video_Init(void);
 void	Video_CreateVideoBuffers();
 
-void    Video_Mode_Update_Size(void);
 void    Video_Clear(void);
 void    Video_Setup_State(void);
+
+void    Video_GameMode_UpdateBounds(void);
+void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp);
+void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp);
 
 void    Refresh_Screen(void);                                    // redraw screen
 

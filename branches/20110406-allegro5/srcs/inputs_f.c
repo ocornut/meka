@@ -79,7 +79,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
         return MEKA_ERR_OK;
 
     case  3: // driver ---------------------------------------------------------
-		// FIXME-ALLEGRO5: Obsolete
+		// FIXME-OBSOLETE
         return MEKA_ERR_OK;
 
     case  4: // connection -----------------------------------------------------

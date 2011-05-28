@@ -113,7 +113,7 @@ int     Frame_Skipper (void)
     // Auto frame-skipping ----------------------------------------------------
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
     {
-#if 0   // FIXME-ALLEGRO5
+#if 0   // FIXME-ALLEGRO5: auto frame skipper
         // Slow down to skip appropriate frames
         // FIXME: this takes 100% CPU and seems not to work well everywhere :(
         while (fskipper.Automatic_Frame_Elapsed == 0)
