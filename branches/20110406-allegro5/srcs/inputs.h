@@ -150,9 +150,6 @@ struct t_inputs
     u8              Paddle_X [PLAYER_MAX];
     char            SportsPad_XY [PLAYER_MAX] [2];
     u8              SportsPad_Latch [PLAYER_MAX];
-    // Mouse
-    int             MouseSpeed_X;                   // Mouse speed
-    int             MouseSpeed_Y;                   //
    // Keyboard
     t_list *        KeyPressedQueue;                // Queued keypresses
     // GUI

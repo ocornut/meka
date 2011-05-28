@@ -19,16 +19,6 @@
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
-; Configure mouse speed here:
-;
-mouse_speed_x        = 2
-mouse_speed_y        = 2
-;
-; The higher the value is, the slower the axis will be.
-; 2 is the default for both axis. Use 1 for a fastest mouse movement.
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
 ; Miscellaenous features:
 ;
 ; Invert ESC (switch screens) and F10 (quit) keys. Arcade cabinet owners

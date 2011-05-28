@@ -340,8 +340,6 @@ void    Video_Setup_State (void)
         set_display_switch_callback (SWITCH_IN,  Switch_In_Callback);
         set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
     */
-
-    Inputs_Init_Mouse(); // why? I forgot
 }
 
 void    Screen_Save_to_Next_Buffer(void)

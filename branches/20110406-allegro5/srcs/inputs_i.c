@@ -20,10 +20,6 @@
 
 void    Inputs_Init (void)
 {
-    // Mouse
-    Inputs.MouseSpeed_X = 2;
-    Inputs.MouseSpeed_Y = 2;
-
     // Keyboard
     Inputs.KeyPressedQueue = NULL;
 
@@ -38,15 +34,6 @@ void    Inputs_Init (void)
 
     // Load Inputs Sources List
     Load_Inputs_Src_List ();
-
-    // Update Mouse speed
-    Inputs_Init_Mouse ();
-}
-
-void    Inputs_Init_Mouse (void)
-{
-	// FIXME-ALLEGRO5: Feature missing?
-    //set_mouse_speed (Inputs.MouseSpeed_X, Inputs.MouseSpeed_Y);
 }
 
 #ifdef MEKA_JOY

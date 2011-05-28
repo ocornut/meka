@@ -8,7 +8,6 @@
 //-----------------------------------------------------------------------------
 
 void    Inputs_Init             (void);
-void    Inputs_Init_Mouse       (void);
 void    Inputs_Close            (void);
 
 #ifdef MEKA_JOY

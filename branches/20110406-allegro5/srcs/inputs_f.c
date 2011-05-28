@@ -26,8 +26,8 @@ static const char *Inputs_Src_List_KeyWords [] =
     "player_up", "player_down", "player_left", "player_right",
     "player_button1", "player_button2", "player_start_pause", "player_reset",
     "player_x_axis", "player_y_axis",
-    "mouse_speed_x", // particular case
-    "mouse_speed_y", // particular case
+    "mouse_speed_x", // OBSOLETE
+    "mouse_speed_y", // OBSOLETE
     "cabinet_mode",  // particular case
     NULL
 };
@@ -203,16 +203,8 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
         }
 
     case 18: // mouse_speed_x --------------------------------------------------
-        {
-            Inputs.MouseSpeed_X = atoi (w);
-            return MEKA_ERR_OK;
-        }
-
     case 19: // mouse_speed_y --------------------------------------------------
-        {
-            Inputs.MouseSpeed_Y = atoi (w);
-            return MEKA_ERR_OK;
-        }
+        return MEKA_ERR_OK;
 
     case 20: // cabinet_mode ---------------------------------------------------
         {
@@ -336,16 +328,6 @@ void    Write_Inputs_Src_List (void)
  INP_Write_Line ("; Schematics and drivers for various console controllers adapters:");
  INP_Write_Line (";  - Direct Pad Pro");
  INP_Write_Line (";    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; Configure mouse speed here:");
- INP_Write_Line (";");
- INP_Write_Int  ("mouse_speed_x       ", Inputs.MouseSpeed_X);
- INP_Write_Int  ("mouse_speed_y       ", Inputs.MouseSpeed_Y);
- INP_Write_Line (";");
- INP_Write_Line ("; The higher the value is, the slower the axis will be.");
- INP_Write_Line ("; 2 is the default for both axis. Use 1 for a fastest mouse movement.");
  INP_Write_Line (";-----------------------------------------------------------------------------");
  INP_Write_Line ("");
  INP_Write_Line (";-----------------------------------------------------------------------------");
