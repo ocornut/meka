@@ -214,8 +214,7 @@ void        FB_Layout(t_filebrowser *app, bool setup)
 
 void        FB_Free_Memory(void)
 {
-    int     i;
-    for (i = 0; i < FB.files_max; i ++)
+    for (int i = 0; i < FB.files_max; i ++)
         FB_Entry_Delete(FB.files[i]);
     free(FB.files);
 }
@@ -224,15 +223,14 @@ void        FB_Free_Memory(void)
 
 void            FB_Add_Drives (void)
 {
-    int         i;
-    char        buf [256];
 
-    for (i = 2; i < 26; i ++)   // C: to Z:
+    for (int i = 2; i < 26; i ++)   // C: to Z:
     {
         if (GetLogicalDrives () & (1 << i))
         {
             // Create a new file browser entry of disk type
             t_filebrowser_entry *entry;
+		    char buf[16];
             sprintf (buf, "%c:", 'A' + i);
             entry = FB_Entry_New (FB_ENTRY_TYPE_DRIVE, strdup (buf));
 
@@ -248,8 +246,6 @@ void            FB_Add_Drives (void)
 
 static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
 {
-    int             p;
-
     t_db_entry *    db_entry = entry->db_entry;
     if (!db_entry)
         return (-1);
@@ -262,7 +258,7 @@ static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
     // - translation
     // - hacks
     // - bad
-    p = DB_Entry_SelectFlag (db_entry);
+    int p = DB_Entry_SelectFlag (db_entry);
     if (db_entry->flags & DB_FLAG_BIOS)
         p += 500;
     if (db_entry->flags & DB_FLAG_PROTO)
@@ -276,13 +272,12 @@ static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
     return (p);
 }
 
-// FIXME: bubble sort is slow!
+// FIXME-OPT: bubble sort is slow
 void        FB_Sort_Files (int start, int end)
 {
-    int     i;
-
     for (; start < end - 1; start ++)
-        for (i = end - 1; i > start; i --)
+	{
+        for (int i = end - 1; i > start; i --)
         {
             t_filebrowser_entry *e1 = FB.files[i];
             t_filebrowser_entry *e2 = FB.files[i - 1];
@@ -307,6 +302,7 @@ void        FB_Sort_Files (int start, int end)
                 FB.files [i - 1] = e1;
             }
         }
+	}
 }
 
 int                 FB_Ext_In_List (t_list *ext_list, char *ext)
@@ -356,19 +352,19 @@ void                FB_Add_Entries (t_list *ext_list, int type)
                 continue;
         }
         else
+		{
             continue;
+		}
 
-        {
-            // Create a new file browser entry of given type
-            t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-            if (g_Configuration.fb_uses_DB)
-                FB_Entry_FindVLFN (entry);
+        // Create a new file browser entry of given type
+        t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
+        if (g_Configuration.fb_uses_DB)
+            FB_Entry_FindVLFN (entry);
 
-            // Add to list (FIXME: argh)
+        // Add to list (FIXME: argh)
 	    FB.files[FB.files_max] = entry;
-            FB.files_max ++;
-            FB.files = realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
-        }
+        FB.files_max ++;
+        FB.files = realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
     }
 
     closedir (dir);
@@ -407,19 +403,19 @@ void                FB_Add_Entries (t_list *ext_list, int type)
                 continue;
         }
         else
+		{
             continue;
+		}
 
-        {
-            // Create a new file browser entry of given type
-            t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-            if (g_Configuration.fb_uses_DB)
-                FB_Entry_FindVLFN (entry);
+        // Create a new file browser entry of given type
+        t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
+        if (g_Configuration.fb_uses_DB)
+            FB_Entry_FindVLFN (entry);
 
-            // Add to list (FIXME: argh)
-            FB.files[FB.files_max] = entry;
-            FB.files_max ++;
-            FB.files = (t_filebrowser_entry**)realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
-        }
+        // Add to list (FIXME: argh)
+        FB.files[FB.files_max] = entry;
+        FB.files_max ++;
+        FB.files = (t_filebrowser_entry**)realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
     }
     while (_findnext (handle, &info) == 0);
 
@@ -432,9 +428,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
 static void     FB_Load_Directory_Internal (void)
 {
-    int         i;
     static int  no_files = 0;
-    t_list *    ext_list = 0;
 
     // Clear out
     FB.files_max = 0;
@@ -445,7 +439,7 @@ static void     FB_Load_Directory_Internal (void)
 
     // First add directories and sort them
     FB_Add_Entries (NULL, FB_ENTRY_TYPE_DIRECTORY);
-    i = FB.files_max;
+    int i = FB.files_max;
     if (FB.files_max > 0 && (strcmp (FB.files [0]->file_name, "..") == 0))
         FB_Sort_Files (1, i);
     else
@@ -453,6 +447,7 @@ static void     FB_Load_Directory_Internal (void)
 
     // Then add files
     // FIXME: get the list from Drivers.[ch]
+    t_list* ext_list = NULL;
     list_add (&ext_list, "SMS");
     list_add (&ext_list, "GG");
     list_add (&ext_list, "SG");
@@ -517,7 +512,7 @@ void        FB_Draw_List(void)
 {
     int     x = FB_TEXT_PAD_X;
     int     y = FB_TEXT_PAD_Y;
-    int     n, lines_max;
+    int     lines_max;
     char    name_buffer [256];
 
     // Set window redraw flag
@@ -535,7 +530,7 @@ void        FB_Draw_List(void)
 	al_draw_line(FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     Font_SetCurrent (F_LARGE);
-    for (n = FB.file_display_first; n < lines_max; n++)
+    for (int n = FB.file_display_first; n < lines_max; n++)
     {
         t_filebrowser_entry *entry = FB.files[n];
         int     x_max;
@@ -698,7 +693,7 @@ void        FB_Draw_List(void)
         y += Font_Height(-1);
     }
 
-    FB_Draw_Infos ();
+    FB_Draw_Infos();
 }
 
 // ???
@@ -723,13 +718,12 @@ void            FB_Check_and_Repos (void)
 
 void            FB_Update(void)
 {
-    int         dirty = FALSE;
-
     // Skip update if not active
     if (!FB.active)
         return;
 
     // If skin has changed, redraw everything
+    int dirty = FALSE;
     if (FB.box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
     {
         FB_Layout(&FB, FALSE);
@@ -782,10 +776,12 @@ void            FB_Update(void)
         {
             // FIXME: this function may need a rewrite. Also, avoid using strupr()!
             // FIXME: could use allegro feature of keycode->ascii conversion
-            int i, j;
+			int i;
             for (i = 0; i < NUM_ALPHA_KEYS; i ++)
+			{
                 if (Inputs_KeyPressed_Repeat (Key_Alpha_Table [i], FALSE, 20, 2))
                 {
+					int j;
                     for (j = FB.file_pos + 1; j < FB.files_max; j ++)
                     {
                         t_filebrowser_entry *entry = FB.files[j];
@@ -797,6 +793,7 @@ void            FB_Update(void)
                         }
                     }
                     if (j == FB.files_max)
+					{
                         for (j = 0; j < FB.file_pos; j ++)
                         {
                             t_filebrowser_entry *entry = FB.files[j];
@@ -807,8 +804,10 @@ void            FB_Update(void)
                                 break; 
                             }
                         }
-                        break;
+					}
+                    break;
                 }
+			}
             if (i != NUM_ALPHA_KEYS) 
                 dirty = TRUE;
         }
@@ -836,13 +835,11 @@ void            FB_Update(void)
 
 void        FB_Load_Directory (void)
 {
-    int     i, j, k;
-
     // Msg (MSGT_DEBUG, "FB_Load_Directory()");
 
-    i = FB.files_max;
-    j = FB.file_pos;
-    k = FB.file_display_first;
+    int i = FB.files_max;
+    int j = FB.file_pos;
+    int k = FB.file_display_first;
     FB_Free_Memory ();
     FB_Load_Directory_Internal ();
     if (i == FB.files_max) // nothing has changed in directory // FIXME: argh
@@ -855,14 +852,12 @@ void        FB_Load_Directory (void)
 
 void        FB_Load_All_Names (void)
 {
-    int     i;
-
     // Save current battery backed memory if there's one
     // Because Load_ROM with no verbosing doesn't save it
-    BMemory_Save ();
+    BMemory_Save();
 
     // Msg (MSGT_DEBUG, "FB_Load_All_Names()");
-    for (i = 0; i < FB.files_max; i++)
+    for (int i = 0; i < FB.files_max; i++)
     {
         t_filebrowser_entry *entry = FB.files[i];
         if (entry->type == FB_ENTRY_TYPE_FILE)
@@ -878,22 +873,22 @@ void        FB_Load_All_Names (void)
     }
 
     // Free last loaded ROM
-    Free_ROM ();
+    Free_ROM();
 
     // Reload directory and position us to first entry
     FB.file_pos = 0;
     FB.file_display_first = 0;
-    FB_Load_Directory ();
-    FB_Draw_List ();
+    FB_Load_Directory();
+    FB_Draw_List();
 }
 
-void        FB_Open (void)
+void        FB_Open(void)
 {
     t_filebrowser_entry *entry = FB.files [FB.file_pos];
 
     // Mute sound while processing loading or changing directory,
     // which may take time
-    Sound_Playback_Mute ();
+    Sound_Playback_Mute();
 
     switch (entry->type)
     {
@@ -906,43 +901,41 @@ void        FB_Open (void)
             //      _chdrive (Dst[0] - 'A');
             //  else
             // #endif
-            chdir (dst);
-            getcwd (FB.current_directory, FILENAME_LEN);
-            FB_Free_Memory ();
-            FB_Load_Directory_Internal ();
+            chdir(dst);
+            getcwd(FB.current_directory, FILENAME_LEN);
+            FB_Free_Memory();
+            FB_Load_Directory_Internal();
             break;
         }
     case FB_ENTRY_TYPE_FILE:
         {
             strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
-            Load_ROM (LOAD_INTERFACE, TRUE);
-            FB_Reload_Names ();
+            Load_ROM(LOAD_INTERFACE, TRUE);
+            FB_Reload_Names();
             if (g_Configuration.fb_close_after_load)
             {
-                FB_Switch ();
+                FB_Switch();
             }
             if (g_Configuration.fullscreen_after_load)
             {
-                Action_Switch_Mode ();
+                Action_Switch_Mode();
             }
             break;
         }
     default:
         {
-            Quit_Msg ("Error #1452: FB_Open() - Please send a report.");
+            Quit_Msg("Error #1452: FB_Open() - Please send a report.");
             break;
         }
     }
 
     // Resume sound
-    Sound_Playback_Resume ();
+    Sound_Playback_Resume();
 }
 
 void    FB_Click_List (t_widget *w)
 {
-    int    i;
-
-    i = FB.file_display_first + (w->mouse_y / Font_Height (F_LARGE));
+    const int i = FB.file_display_first + (w->mouse_y / Font_Height (F_LARGE));
     if ((i == FB.last_click) && (gui.mouse.time_since_last_click < DOUBLE_CLICK_SPEED))
     {
         // FIXME: double-clicks should be generically handled by GUI and supports frameskipping
@@ -966,13 +959,11 @@ void    FB_Click_List (t_widget *w)
 //-----------------------------------------------------------------------------
 void    FB_Reload_Names (void)
 {
-    int i;
-
     if (!g_Configuration.fb_uses_DB)
         return;
 
-    // Reget all names
-    for (i = 0; i < FB.files_max; i++)
+    // Get all names
+    for (int i = 0; i < FB.files_max; i++)
     {
         t_filebrowser_entry *entry = FB.files[i];
         if (entry->type == FB_ENTRY_TYPE_FILE)

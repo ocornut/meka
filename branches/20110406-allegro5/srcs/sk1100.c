@@ -226,7 +226,7 @@ void    SK1100_Update (void)
     for (i = 0; i != SK1100_MAPPING_NUM; i ++)
     {
 		const t_sk1100_map* k = &SK1100_Mapping[i];
-        if (al_key_down(&g_keyboard_state, k->key_pc))
+        if (Inputs_KeyDown(k->key_pc))
         {
             const t_sk1100_key *sk1100_key = &SK1100_Keys[k->key_sk1100];
             tsms.Control [sk1100_key->row] &= (~sk1100_key->bit);

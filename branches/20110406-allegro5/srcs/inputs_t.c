@@ -57,7 +57,7 @@ bool	Inputs_KeyDown(int keycode)
 bool    Inputs_KeyPressed(int keycode, bool eat)
 {
     // Check if requested key was just pressed
-    if (al_key_down(&g_keyboard_state, keycode) && opt.Current_Key_Pressed == 0)
+    if (Inputs_KeyDown(keycode) && opt.Current_Key_Pressed == 0)
     {
         opt.Current_Key_Pressed = keycode;
         typematic_repeating = FALSE;
@@ -67,8 +67,8 @@ bool    Inputs_KeyPressed(int keycode, bool eat)
         return (TRUE);
     }
     // Check if previously pressed key was released
-    // FIXME: should be done in this function, but rather in a single inputs-update
-    if (opt.Current_Key_Pressed != 0 && al_key_down(&g_keyboard_state, opt.Current_Key_Pressed) == false)
+    // FIXME: shouldn't be done in this function, but rather in a single inputs-update
+    if (opt.Current_Key_Pressed != 0 && Inputs_KeyDown(opt.Current_Key_Pressed) == false)
         opt.Current_Key_Pressed = 0;
     return (FALSE);
 }

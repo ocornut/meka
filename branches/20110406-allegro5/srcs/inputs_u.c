@@ -301,6 +301,7 @@ void        Inputs_Sources_Update (void)
 {
 	// Poll keyboard
  	al_get_keyboard_state(&g_keyboard_state);
+	//memset(&g_keyboard_state,0,sizeof(g_keyboard_state));
 	g_keyboard_modifiers = 0;
 	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
@@ -309,18 +310,18 @@ void        Inputs_Sources_Update (void)
 	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
 		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
-	/*
+#if 0
 	u8 win32_keyboard_state[256];
 	memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
 	bool ret = GetKeyboardState(&win32_keyboard_state[0]);
 	for (int i = 0; i != 256; i++)
-		if (win32_keyboard_state[i])
-			Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d", ret, i);
-	*/
+		if (GetAsyncKeyState(i))
+			Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d, %08x", ret, i, GetAsyncKeyState(i));
 
 	//for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
 	//	if (al_key_down(&g_keyboard_state, i))
 	//		Msg( MSGT_DEBUG, "Pressed key %d", i);
+#endif
 
     // Poll mouse
 	int mouse_x_prev = g_mouse_state.x;
