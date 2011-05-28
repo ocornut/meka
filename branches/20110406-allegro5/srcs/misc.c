@@ -93,8 +93,7 @@ void    Change_Mode_Misc (void)
     case MEKA_STATE_GUI:
         // .. nothing to do ..
         break;
-    }
-    gui_mouse_show (NULL);
+	}
     Inputs_Peripheral_Change_Update ();
 }
 

@@ -491,7 +491,6 @@ void    Inputs_Peripheral_Change_Update (void)
 
     Cursor = MEKA_MOUSE_CURSOR_STANDARD; 
     Player = PLAYER_1;
-    opt.Fullscreen_Cursor = FALSE;
 
     // Note: Player 1 has priority over Player 2 for cursor
     if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)    { Cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; Player = PLAYER_2; }
@@ -512,16 +511,14 @@ void    Inputs_Peripheral_Change_Update (void)
             Set_Mouse_Cursor(Cursor);
             LightPhaser_SetupMouseRange(Mask_Left_8);
             al_set_mouse_xy(g_display, LightPhaser.X[Player], LightPhaser.Y[Player]);
-            al_show_mouse_cursor(g_display);//screenbuffer
-            opt.Fullscreen_Cursor = TRUE;
+            al_show_mouse_cursor(g_display);
         }
         else
             if (Cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI) // Terebi Oekaki
             {
                 Set_Mouse_Cursor(Cursor);
                 TVOekaki_Mouse_Range();
-                al_show_mouse_cursor(g_display);//screenbuffer
-                opt.Fullscreen_Cursor = TRUE;
+                al_show_mouse_cursor(g_display);
             }
             else
             {

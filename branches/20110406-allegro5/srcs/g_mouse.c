@@ -9,33 +9,28 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_mouse_show (ALLEGRO_BITMAP *bitmap)
+void    gui_init_mouse (void)
 {
-    if (g_env.mouse_installed == -1)
-        return;
-    // FIXME-ALLEGRO5: This behavior changed
-	//show_mouse(bitmap);
-	al_show_mouse_cursor(g_display);
+    gui.mouse.x = 0;
+    gui.mouse.y = 0;
+    gui.mouse.x_prev = 0;
+    gui.mouse.y_prev = 0;
+    gui.mouse.buttons = 0;
+    gui.mouse.buttons_prev = 0;
+    gui.mouse.z_rel = 0;
+    gui.mouse.z_current = 0;
+    gui.mouse.z_prev = 0;
+    gui.mouse.focus = GUI_FOCUS_NONE;
+    gui.mouse.focus_item = NULL;
+    gui.mouse.reset_timer = TRUE;
+    gui.mouse.time_since_last_click = 0;
 }
 
-// CHECK IF THE MOUSE IS IN A CERTAIN AREA ------------------------------------
-int     gui_mouse_area (int x1, int y1, int x2, int y2)
+bool	gui_is_mouse_hovering_area (int x1, int y1, int x2, int y2)
 {
-    if ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2))
-        return (1);
-    return (0);
+    return ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2));
 }
 
-// CHECK IF A MOUSE BUTTON WAS PRESSED IN A CERTAIN AREA ----------------------
-int     gui_mouse_test_area (byte b, int x1, int y1, int x2, int y2)
-{
-    if (gui.mouse.buttons & b)
-        if ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2))
-            return (1);
-    return (0);
-}
-
-// UPDATE MOUSE VARIABLES -----------------------------------------------------
 void    gui_update_mouse (void)
 {
     if (g_env.mouse_installed == -1)
@@ -79,24 +74,6 @@ void    gui_update_mouse (void)
     {
         gui.mouse.reset_timer = TRUE;
     }
-}
-
-// INITIALIZE MOUSE VARIABLES -------------------------------------------------
-void    gui_init_mouse (void)
-{
-    gui.mouse.x = 0;
-    gui.mouse.y = 0;
-    gui.mouse.x_prev = 0;
-    gui.mouse.y_prev = 0;
-    gui.mouse.buttons = 0;
-    gui.mouse.buttons_prev = 0;
-    gui.mouse.z_rel = 0;
-    gui.mouse.z_current = 0;
-    gui.mouse.z_prev = 0;
-    gui.mouse.focus = GUI_FOCUS_NONE;
-    gui.mouse.focus_item = NULL;
-    gui.mouse.reset_timer = TRUE;
-    gui.mouse.time_since_last_click = 0;
 }
 
 //-----------------------------------------------------------------------------

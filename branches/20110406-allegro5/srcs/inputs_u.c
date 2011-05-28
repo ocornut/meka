@@ -223,7 +223,7 @@ void        Inputs_Emulation_Update (bool running)
                 if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
                 {
                     // Create button field (this is due to old code legacy)
-                    int b_field = (Src->Map[INPUT_MAP_BUTTON1].Res ? 1 : 0) | (Src->Map[INPUT_MAP_BUTTON2].Res ? 2 : 0);
+                    const int b_field = (Src->Map[INPUT_MAP_BUTTON1].Res ? 1 : 0) | (Src->Map[INPUT_MAP_BUTTON2].Res ? 2 : 0);
                     TVOekaki_Update (Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res, b_field);
                 }
                 else // Support standard controller with digital inputs, because the

@@ -39,11 +39,6 @@ void    Redraw_Background (void) // gui_blit() ?
 //-----------------------------------------------------------------------------
 void            gui_redraw (void)
 {
-    ALLEGRO_COLOR color;
-
-    // Makes mouse disappear
-    gui_mouse_show (NULL);
-
     // If we were asked to redraw everything, redraw the background as well
     if (gui.info.must_redraw == TRUE)
         Redraw_Background ();
@@ -63,6 +58,7 @@ void            gui_redraw (void)
             continue;
         b->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW;
 
+	    ALLEGRO_COLOR color;
         if (i == 0)
         {
             // Active/focused box
@@ -164,7 +160,6 @@ void            gui_redraw (void)
 
     // Clear global redrawing flag and makes mouse reappear
     gui.info.must_redraw = FALSE;
-    gui_mouse_show (gui_buffer);
 }
 
 void    gui_relayout(void)

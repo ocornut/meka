@@ -67,8 +67,6 @@ void    GUI_Init()
 
 void	GUI_SetupNewVideoMode()
 {
-    gui_mouse_show(NULL);
-
 	gui.info.must_redraw = TRUE;
 	gui.info.screen.x = g_Configuration.video_mode_gui_res_x;
     gui.info.screen.y = g_Configuration.video_mode_gui_res_y;

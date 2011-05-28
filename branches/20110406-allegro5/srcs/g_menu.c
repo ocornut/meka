@@ -79,7 +79,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
         gui_menu_return_entry_pos (n_menu, i, &x1, &y1, &x2, &y2);
 
         // ---
-        if (gui_mouse_area (x1, y1, x2, y2))
+        if (gui_is_mouse_hovering_area(x1, y1, x2, y2))
         {
             if ((!gui.mouse.buttons) && (gui.mouse.buttons_prev & 1))
             {

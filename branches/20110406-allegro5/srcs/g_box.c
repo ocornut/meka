@@ -43,7 +43,7 @@ void        gui_update_boxes(void)
 
         if (b_hover == NULL)
         {
-            if ((gui_mouse_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2))
+            if ((gui_is_mouse_hovering_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2))
                 ||
                 // FIXME-FOCUS
                 ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1)))
@@ -94,8 +94,6 @@ void        gui_update_boxes(void)
         int mx, my;
         int ax1, ay1, ax2, ay2;
         int bx1, by1, bx2, by2;
-
-        gui_mouse_show (NULL);
 
         // FIXME-FOCUS
         //if (gui_mouse.pressed_on != PRESSED_ON_BOX)
@@ -196,8 +194,6 @@ void        gui_update_boxes(void)
         b->frame.pos.x += mx;
         b->frame.pos.y += my;
         gui_box_clip_position (b);
-
-        gui_mouse_show (gui_buffer);
     } // Move Box -------------------------------------------------------------
 }
 

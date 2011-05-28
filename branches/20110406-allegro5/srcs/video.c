@@ -331,7 +331,6 @@ void    Video_Setup_State (void)
             //Palette_Sync_All ();
 
             gui_redraw_everything_now_once();
-            gui_mouse_show(gui_buffer);
         }
         break;
     }
@@ -408,19 +407,14 @@ void    Refresh_Screen(void)
 
             // Msg (MSGT_DEBUG, "calling gui_redraw(), screenbuffer=%d", (screenbuffer==screenbuffer_1)?1:2);
 
-            gui_redraw ();
+            gui_redraw();
 
-            // Blit GUI screen ------------------------------------------------------
-            Blit_GUI ();
-
-            gui_mouse_show (NULL);
+            // Blit GUI screen
+            Blit_GUI();
         }
 
         if (g_env.state == MEKA_STATE_FULLSCREEN) // FULLSCREEN ---------------------
         {
-            if (opt.Fullscreen_Cursor)
-                gui_mouse_show (screenbuffer);
-
             // Show current FPS -----------------------------------------------------
             if (fskipper.FPS_Display)
             {
@@ -434,10 +428,6 @@ void    Refresh_Screen(void)
 
             // Blit emulated screen in fullscreen mode ------------------------------
             Blit_Fullscreen ();
-
-            // Disable LightGun cursor until next screen refresh --------------------
-            if (opt.Fullscreen_Cursor)
-                gui_mouse_show (NULL);
         }
 
         // Palette update after redraw

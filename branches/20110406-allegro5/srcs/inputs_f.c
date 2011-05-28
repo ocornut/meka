@@ -183,7 +183,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
     case 16: // player_x_axis --------------------------------------------------
     case 17: // player_y_axis --------------------------------------------------
         {
-            int MapIdx = INPUT_MAP_ANALOG_AXIS_X + VarIdx - 16;
+            const int MapIdx = INPUT_MAP_ANALOG_AXIS_X + VarIdx - 16;
 
             if (!(input_src->flags & INPUT_SRC_FLAGS_ANALOG))
                 return MEKA_ERR_INCOHERENT;
