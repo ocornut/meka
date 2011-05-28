@@ -84,8 +84,10 @@ ALLEGRO_BITMAP *fs_page_0 = NULL, *fs_page_1 = NULL, *fs_page_2 = NULL;
 ALLEGRO_BITMAP *gui_buffer = NULL;
 ALLEGRO_BITMAP *gui_background = NULL;
 
+// Note: non floating-point constructors seems to fail at static construction.
 ALLEGRO_COLOR COLOR_BLACK = al_map_rgb_f(0.0f,0.0f,0.0f);
 ALLEGRO_COLOR COLOR_WHITE = al_map_rgb_f(1.0f,1.0f,1.0f);
+ALLEGRO_COLOR COLOR_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,101.0f/255.0f);
 
 //-----------------------------------------------------------------------------
 // Functions

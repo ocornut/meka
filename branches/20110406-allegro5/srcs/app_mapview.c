@@ -376,7 +376,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
                 if ((!app->config_bg && !(map_item & 0x1000)) || (!app->config_fg && (map_item & 0x1000)))
                 {
-                    al_draw_filled_rectangle(x, y, x + 8, y + 8, al_map_rgb(222,222,101));
+                    al_draw_filled_rectangle(x, y, x + 8, y + 8, COLOR_BACKDROP);
                 }
                 else
                 {

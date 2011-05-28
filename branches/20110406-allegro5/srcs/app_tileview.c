@@ -129,6 +129,9 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     int tile_current = (app->tile_hovered != -1) ? app->tile_hovered : app->tile_selected;
     bool tile_current_refresh = /*(tile_current == -1) ? FALSE : */ (((tile_current != app->tile_displayed) || dirty_all || tgfx.Tile_Dirty [tile_current]));
     int tile_current_addr = -1;
+	
+	const int tile_current_x = 4;
+	const int tile_current_y = app->tiles_height * 8 + 3;
 
     // Then redraw all tiles
 	ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
@@ -152,7 +155,10 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                         dirty = TRUE;
                     }
                     if (n == tile_current)
+					{
                         tile_current_addr = 0x0000 + (n * 32);
+						VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, tile_current_x, tile_current_y, 0);
+					}
                     n ++;
                     nd += 64;
                 }
@@ -175,7 +181,11 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                         break;
                     VDP_Mode0123_DrawTile(bmp, locked_region, addr, (x * 8), (y * 8), fg_color, bg_color);
                     if (n == tile_current)
+					{
                         tile_current_addr = 0x0000 + (n * 8);
+						VDP_Mode0123_DrawTile(bmp, locked_region, addr, tile_current_x, tile_current_y, fg_color, bg_color);
+					}
+
                     n++;
                     addr += 8;
                 }
@@ -197,11 +207,6 @@ void    TileViewer_Update(t_app_tile_viewer *app)
 
         if (tile_current != -1)
         {
-            // Tile
-			// FIXME-ALLEGRO5: Cannot have same bitmap be source and destination anymore
-			//al_set_target_bitmap(bmp);
-			//al_draw_bitmap_region(bmp, (tile_current % 16) * 8, (tile_current / 16) * 8, 8, 8, 4, app->tiles_height * 8 + 3, 0);
-
             // Description
             char addr[16];
             if (tile_current_addr != -1)
@@ -228,7 +233,6 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     }
 }
 
-// CHANGE THE PALETTE USED IN THE TILE VIEWER ---------------------------------
 void    TileViewer_Change_Palette (void)
 {
     //int   i;
@@ -254,7 +258,6 @@ void    TileViewer_SelectedTile_Select (t_widget *w)
         TileViewer.tile_selected = ((w->mouse_y / 8) * 16) + (w->mouse_x / 8);
 }
 
-// ACTION: ENABLE OR DISABLE TILES VIEWER -------------------------------------
 void    TileViewer_Switch (void)
 {
     if (TileViewer.active ^= 1)

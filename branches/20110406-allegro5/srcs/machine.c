@@ -482,9 +482,9 @@ void        Machine_Reset (void)
 
 	//assert(!Screenbuffer_IsLocked());
 	al_set_target_bitmap(screenbuffer_1);
-    al_clear_to_color(al_map_rgb(0,0,0));
+    al_clear_to_color(COLOR_BLACK);
 	al_set_target_bitmap(screenbuffer_2);
-    al_clear_to_color(al_map_rgb(0,0,0));
+    al_clear_to_color(COLOR_BLACK);
     screenbuffer = screenbuffer_1;
     screenbuffer_next = screenbuffer_2;
 

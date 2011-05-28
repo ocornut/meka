@@ -242,7 +242,7 @@ void    Refresh_Line_5 (void)
 		{
 			// Display is off
 			// Select SMS/GG backdrop color, unless background layer display was disabled by user, then use custom color for easier sprite extraction
-			const u16 backdrop_color = (opt.Layer_Mask & LAYER_BACKGROUND) ? Palette_EmulationToHost16[16 | (sms.VDP[7] & 15)] : al_makecol16(222,222,101);
+			const u16 backdrop_color = (opt.Layer_Mask & LAYER_BACKGROUND) ? Palette_EmulationToHost16[16 | (sms.VDP[7] & 15)] : COLOR_BACKDROP16;
 			int n;
 			u16 *p = GFX_LineRegionData;
 			for (n = 256; n != 0; n--)

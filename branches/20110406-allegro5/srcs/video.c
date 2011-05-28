@@ -234,11 +234,11 @@ void    Video_Setup_State (void)
 					enable_triple_buffer();
 					Video.page_flipflop = 0;
 					al_set_target_bitmap(fs_page_0);
-					al_clear_to_color(Border_Color);
+					al_clear_to_color(BORDER_COLOR);
 					al_set_target_bitmap(fs_page_1);
-					al_clear_to_color(Border_Color);
+					al_clear_to_color(BORDER_COLOR);
 					al_set_target_bitmap(fs_page_2);
-					al_clear_to_color(Border_Color);
+					al_clear_to_color(BORDER_COLOR);
 					request_video_bitmap(fs_page_0);
 					Video.triple_buffering_activated = TRUE;
 				}
@@ -248,7 +248,7 @@ void    Video_Setup_State (void)
 					// FIXME: We allocated too much VRAM...
 					fs_out = al_get_backbuffer(g_display);
 					al_set_target_bitmap(fs_out);
-					al_clear_to_color(Border_Color);
+					al_clear_to_color(BORDER_COLOR);
 				}
 #endif
             }
@@ -291,8 +291,8 @@ void    Video_Setup_State (void)
                 fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
                 Video.page_flipflop = 0;
                 fs_out = fs_page_1;
-                clear_to_color (fs_page_0, Border_Color);
-                clear_to_color (fs_page_1, Border_Color);
+                clear_to_color (fs_page_0, BORDER_COLOR);
+                clear_to_color (fs_page_1, BORDER_COLOR);
                 show_video_bitmap (fs_page_0);
 #endif // page flipping
             }

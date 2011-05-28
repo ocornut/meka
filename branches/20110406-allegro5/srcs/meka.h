@@ -23,10 +23,18 @@
 #define MAX_TILES               (512)
 
 // Fixed colors
-extern ALLEGRO_COLOR COLOR_BLACK;
-extern ALLEGRO_COLOR COLOR_WHITE;
+extern ALLEGRO_COLOR			COLOR_BLACK;
+extern ALLEGRO_COLOR			COLOR_WHITE;
+extern ALLEGRO_COLOR			COLOR_BACKDROP;	// When background render is disabled
+
 #define COLOR_BLACK16			0x0000
 #define COLOR_WHITE16			0xFFFF
+#define COLOR_BACKDROP16		al_makecol16(222,222,101)
+
+// Border Color
+// FIXME: Unsupported
+#define BORDER_COLOR            COLOR_BLACK		//((sms.VDP[7] & 15) + 16)
+#define BORDER_COLOR16			COLOR_BLACK16
 
 extern "C"	// C-style mangling
 {
@@ -353,15 +361,6 @@ struct t_media_image
 // Note that the structure is currently only half used and supported.
 // We only use the 'meka_checksum' and 'crc32' fields yet.
 extern t_media_image   media_ROM;
-
-//-----------------------------------------------------------------------------
-// Macros
-//-----------------------------------------------------------------------------
-
-// Border Color
-// FIXME
-#define Border_Color                    (COLOR_BLACK) /*((sms.VDP[7] & 15) + 16)*/
-#define Border_Color_x4                 (Border_Color) | (Border_Color << 8) | (Border_Color << 16) | (Border_Color << 24)
 
 //-----------------------------------------------------------------------------
 // Data (video buffers)

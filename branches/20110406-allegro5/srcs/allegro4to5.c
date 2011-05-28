@@ -2,7 +2,6 @@
 
 unsigned int al_makecol32(int r, int g, int b)
 {
-	// FIXME-ALLEGRO5: originally this function used the current video mode so we'll want to use that as well.
 	return r | (g << 8) | (b << 16) | (0xff << 24);
 }
 
@@ -36,3 +35,4 @@ bool al_color_equals(const ALLEGRO_COLOR* c1, const ALLEGRO_COLOR* c2)
 	const float f = fabs(c1->r - c2->r) + fabs(c1->g - c2->g) + fabs(c1->b - c2->b) + fabs(c1->a - c2->a);
 	return f < 1/255.0f;
 }
+

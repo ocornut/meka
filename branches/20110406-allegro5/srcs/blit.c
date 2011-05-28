@@ -94,14 +94,14 @@ void    Blit_Fullscreen_Misc (void)
         if (g_Configuration.video_mode_game_page_flipping)
         {
 			al_set_target_bitmap(fs_page_0);
-            al_clear_to_color(Border_Color);
+            al_clear_to_color(BORDER_COLOR);
 			al_set_target_bitmap(fs_page_1);
-            al_clear_to_color(Border_Color);
+            al_clear_to_color(BORDER_COLOR);
         }
         else
         {
 			al_set_target_bitmap(al_get_backbuffer(g_display));
-            al_clear_to_color(Border_Color);
+            al_clear_to_color(BORDER_COLOR);
         }
         // cpu_capabilities = cpu_capabilities_backup;
     }

@@ -463,26 +463,24 @@ void    Refresh_Modes_0_1_2_3 (void)
         {
             switch (tsms.VDP_VideoMode)
             {
-            case 0: Display_Text_0 (); break;
-            case 1: Display_Background_1 (); break;
-            case 2: Display_Background_2 (); break;
-            case 3: Display_Background_3 (); break;
+            case 0: Display_Text_0(); break;
+            case 1: Display_Background_1(); break;
+            case 2: Display_Background_2(); break;
+            case 3: Display_Background_3(); break;
             }
         }
         else
         {
             // Clear screen
 			al_set_target_bitmap(screenbuffer);
-            al_clear_to_color(Border_Color);
+			al_draw_filled_rectangle(0, 0, SMS_RES_X, SMS_RES_Y, BORDER_COLOR);
         }
     }
     else
     {
         // Clear screen with yellow-ish color
-		// FIXME-ALLEGRO5: color value
 		al_set_target_bitmap(screenbuffer);
-		al_clear_to_color(al_map_rgb(200,200,0));
-        //clear_to_color (screenbuffer, 95);  // see video_m5.c [20050403] For sprite ripping
+		al_draw_filled_rectangle(0, 0, SMS_RES_X, SMS_RES_Y, COLOR_BACKDROP);
     }
     // Display Sprites
     if ((opt.Layer_Mask & LAYER_SPRITES) && Display_ON)

@@ -42,7 +42,7 @@ void    Switch_In_Callback (void)
     if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
         return;
     // Msg (MSGT_USER, "Switch_In_Callback()");
-    // clear_to_color (screen, Border_Color);
+    // clear_to_color (screen, BORDER_COLOR);
     Video_Clear ();
     Sound_Playback_Resume ();
 }
