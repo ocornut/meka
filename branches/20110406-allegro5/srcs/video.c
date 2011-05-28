@@ -223,7 +223,7 @@ void    Video_Setup_State (void)
 				}
 
 					assert(0);
-#if 0 // FIXME-ALLEGRO5
+#if 0 // FIXME-ALLEGRO5: triple buffering
 				if (gfx_capabilities & GFX_CAN_TRIPLE_BUFFER)
 				{
 					// Enable triple buffering

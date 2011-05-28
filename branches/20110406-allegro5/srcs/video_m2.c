@@ -47,9 +47,8 @@ ALLEGRO_COLOR TMS9918_Palette [16] =
 //  24/32 output someday)
 //-----------------------------------------------------------------------------
 
-static ALLEGRO_LOCKED_REGION*	GFX_ScreenRegion = NULL;
-static u16*						GFX_ScreenData = NULL;
-static int						GFX_ScreenPitch = 0;
+static u16*	GFX_ScreenData = NULL;
+static int	GFX_ScreenPitch = 0;
 
 #define PIXEL_TYPE              u16
 #define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
@@ -73,10 +72,9 @@ void    TMS9918_Palette_Set (void)
 }
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor_host, int bgcolor_host)
+void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, int x, int y, int fgcolor_host, int bgcolor_host)
 {
 	const int color_format = al_get_bitmap_format(dst);
-	ALLEGRO_LOCKED_REGION* dst_region = al_lock_bitmap(dst, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     switch (color_format)
     {
     case ALLEGRO_PIXEL_FORMAT_BGR_565:
@@ -130,7 +128,6 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, const u8 *pixels, int x, int 
         Msg(MSGT_USER, "video_m2: unsupported color format!");
         break;
     }
-	al_unlock_bitmap(dst);
 }
 
 // DISPLAY TEXT MODE 0 SCREEN -------------------------------------------------
@@ -468,9 +465,8 @@ void    Display_Sprites_1_2_3 (void)
 
 void    Refresh_Modes_0_1_2_3 (void)
 {
-	GFX_ScreenRegion = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
-	GFX_ScreenData = (u16*)GFX_ScreenRegion->data;
-	GFX_ScreenPitch = GFX_ScreenRegion->pitch;
+	GFX_ScreenData = (u16*)g_screenbuffer_locked_region->data;
+	GFX_ScreenPitch = g_screenbuffer_locked_region->pitch / sizeof(u16);	// Pitch in u16 pixel unit to ease pointer manipulations
 
 	// Display Background
     if (opt.Layer_Mask & LAYER_BACKGROUND)
@@ -505,8 +501,6 @@ void    Refresh_Modes_0_1_2_3 (void)
     {
         Display_Sprites_1_2_3 ();
     }
-
-	al_unlock_bitmap(screenbuffer);
 }
 
 /*

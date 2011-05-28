@@ -177,7 +177,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                 {
                     if ((addr - VRAM) > 0x4000)
                         break;
-                    VDP_Mode0123_DrawTile(bmp, addr, (x * 8), (y * 8), fg_color, bg_color);
+                    VDP_Mode0123_DrawTile(bmp, locked_region, addr, (x * 8), (y * 8), fg_color, bg_color);
                     if (n == tile_current)
                         tile_current_addr = 0x0000 + (n * 8);
                     n++;
