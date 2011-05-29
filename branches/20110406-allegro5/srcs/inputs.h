@@ -67,7 +67,6 @@ enum t_input_src_flags
 //-----------------------------------------------------------------------------
 #define  INPUT_MAP_TYPE_JOY_BUTTON      (0)
 #define  INPUT_MAP_TYPE_JOY_AXIS        (1)
-#define  INPUT_MAP_TYPE_JOY_AXIS_ANAL   (2)
 //-----------------------------------------------------------------------------
 #define  INPUT_MAP_TYPE_MOUSE_BUTTON    (0)
 #define  INPUT_MAP_TYPE_MOUSE_AXIS      (1)

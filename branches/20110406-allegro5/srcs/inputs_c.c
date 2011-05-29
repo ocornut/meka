@@ -175,7 +175,6 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
                     INPUT_MAP_GET_AXIS(Map->Idx),
                     INPUT_MAP_GET_DIR_LR(Map->Idx) ? '+' : '-');
                 break;
-                // case INPUT_MAP_TYPE_JOY_AXIS_ANAL:
             case INPUT_MAP_TYPE_JOY_BUTTON:
                 sprintf (MapValue, "Button %d", Map->Idx);
                 break;
@@ -551,7 +550,6 @@ void    Inputs_CFG_Map_Change_Update (void)
                 {
                     input_src->Map [Inputs_CFG.Current_Map].Idx = i;
                     input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_BUTTON;
-                    //joystick->button[i].b = 0; // Consume the button // FIXME-ALLEGRO5
 					found = TRUE;
                     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_B), i);
                     break;
@@ -568,14 +566,13 @@ void    Inputs_CFG_Map_Change_Update (void)
                 for (int j = 0; j < num_axes; j++)
                 {
                     const float axis_pos = state.stick[i].axis[j];
-                    //Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
+					//Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
 					if ( axis_pos > 0.0f || axis_pos < 0.0f)
                     {
                         input_src->Map [Inputs_CFG.Current_Map].Idx = MAKE_STICK_AXIS_DIR (i, j, (axis_pos > 0.0f ? 1 : 0));
                         input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_AXIS;
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
-                        //axis->d1 = axis->d2 = 0; // Need to be done on last line	// FIXME-ALLEGRO5
                         break;
                     }
                 }

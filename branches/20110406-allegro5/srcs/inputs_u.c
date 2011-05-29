@@ -439,8 +439,6 @@ void        Inputs_Sources_Update (void)
 							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? axis >= 0.0f : axis <= 0.0f);
                             break;
                         }
-                        // FIXME: to do.. support analogue axis
-                        // case INPUT_MAP_TYPE_JOY_AXIS_ANAL:
                     case INPUT_MAP_TYPE_JOY_BUTTON:
                         {
 							map->Res = (map->Idx != (-1) && state.button[map->Idx]);

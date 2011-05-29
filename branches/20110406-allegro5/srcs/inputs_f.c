@@ -435,9 +435,6 @@ void    Write_Inputs_Src_List (void)
                case INPUT_MAP_TYPE_JOY_AXIS:
                   sprintf (s2, "joy stick %i axis %i dir %i", INPUT_MAP_GET_STICK(n), INPUT_MAP_GET_AXIS(n), INPUT_MAP_GET_DIR_LR(n) ? 1 : 0);
                   break;
-               // Not implemented
-               // case INPUT_MAP_TYPE_JOY_AXIS_ANAL:
-               //    break;
                }
              break;
         // Mouse --------------------------------------------------------------

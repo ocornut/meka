@@ -76,14 +76,14 @@ type                = joypad
 connection          = 1
 enabled             = yes
 player              = 1
-player_up           = joy stick 0 axis 1 dir 0
-player_down         = joy stick 0 axis 1 dir 1
-player_left         = joy stick 0 axis 0 dir 0
-player_right        = joy stick 0 axis 0 dir 1
-player_button1      = joy_button 2
+player_up           = joy stick 2 axis 1 dir 0
+player_down         = joy stick 2 axis 1 dir 1
+player_left         = joy stick 2 axis 0 dir 0
+player_right        = joy stick 2 axis 0 dir 1
+player_button1      = joy_button 0
 player_button2      = joy_button 1
-player_start_pause  = joy_button 9
-player_reset        = joy_button 8
+player_start_pause  = joy_button 7
+player_reset        = joy_button 6
 
 [Joypad 2]
 type                = joypad
@@ -96,7 +96,7 @@ player_left         = joy stick 0 axis 0 dir 0
 player_right        = joy stick 0 axis 0 dir 1
 player_button1      = joy_button 0
 player_button2      = joy_button 1
-player_start_pause  = joy_button 2
+player_start_pause  = joy_button 7
 
 [Mouse 1]
 type                = mouse
