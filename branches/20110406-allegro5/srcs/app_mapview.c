@@ -107,8 +107,6 @@ void         TilemapViewer_Delete(t_tilemap_viewer *app)
 {
     // Remove from global list
     list_remove(&TilemapViewers, app);
-
-    // Delete
     free(app);
 }
 
@@ -280,8 +278,6 @@ void         TilemapViewer_SwitchMainInstance(void)
 
 void         TilemapViewer_Update(t_tilemap_viewer *app)
 {
-	ALLEGRO_LOCKED_REGION* locked_region;
-
     // Skip update if not active
     if (!app->active)
         return;
@@ -344,7 +340,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
     // Update tilemap
 	al_set_target_bitmap(app->box->gfx_buffer);
-	locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+	ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     if (tsms.VDP_VideoMode < 4) // FIXME: Video mode numbers
     {
         char text[64];
@@ -376,6 +372,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
                 if ((!app->config_bg && !(map_item & 0x1000)) || (!app->config_fg && (map_item & 0x1000)))
                 {
+					// FIXME-OPT: Revert to soft rendering for locked buffer
                     al_draw_filled_rectangle(x, y, x + 8, y + 8, COLOR_BACKDROP);
                 }
                 else
@@ -393,7 +390,6 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
             }
         }
     }
-	al_unlock_bitmap(app->box->gfx_buffer);
 
     // Tilemap rectangle
     al_draw_rectangle(
@@ -418,6 +414,8 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
             TilemapViewer_UpdateScroll(app);
     }
     TilemapViewer_UpdateInfos(app);
+
+	al_unlock_bitmap(app->box->gfx_buffer);
 }
 
 static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
