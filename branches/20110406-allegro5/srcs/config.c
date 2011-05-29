@@ -60,7 +60,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "sound_card"))						{ Sound.SoundCard = atoi(value); return; }
 	if (!strcmp(var, "sound_enabled"))					{ Sound.Enabled = (bool)atoi(value); return; }
 	if (!strcmp(var, "sound_rate"))						{ const int n = atoi(value); if (n > 0) Sound.SampleRate = atoi(value); return; }
-	if (!strcmp(var, "gui_video_mode"))
+	if (!strcmp(var, "video_gui_resolution"))
 	{
 		int x, y;
 		if (sscanf(value, "%dx%d", &x, &y) == 2)
@@ -70,7 +70,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 		}
 		return;
 	}
-	if (!strcmp(var, "gui_vsync"))						{ g_Configuration.video_mode_gui_vsync = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_gui_vsync"))				{ g_Configuration.video_mode_gui_vsync = (bool)atoi(value); return; }
 	if (!strcmp(var, "start_in_gui"))					{ g_Configuration.start_in_gui = (bool)atoi(value); return; }
 	if (!strcmp(var, "theme"))							{ Skins_SetSkinConfiguration(value); return; }
 	if (!strcmp(var, "fb_width"))						{ FB.res_x = atoi(value); return; }
@@ -131,7 +131,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 		return;
 	}
 	if (!strcmp(var, "fm_enabled"))						{ Sound.FM_Enabled = (bool)atoi(value); return; }
-	if (!strcmp(var, "gui_refresh_rate"))
+	if (!strcmp(var, "video_gui_refresh_rate"))
 	{
 		if (!strcmp(value, "auto"))
 			g_Configuration.video_mode_gui_refresh_rate = 0;
@@ -263,17 +263,16 @@ void    Configuration_Save (void)
 	CFG_Write_Int  ("video_gui_fullscreen", g_Configuration.video_mode_gui_fullscreen);
 
     sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
-    CFG_Write_Str  ("gui_video_mode", s1);
+    CFG_Write_Str  ("video_gui_resolution", s1);
     if (g_Configuration.video_mode_gui_refresh_rate == 0)
-        CFG_Write_Str ("gui_refresh_rate", "auto");
+        CFG_Write_Str ("video_gui_refresh_rate", "auto");
     else
-        CFG_Write_Int ("gui_refresh_rate", g_Configuration.video_mode_gui_refresh_rate);
-    CFG_Write_Line ("(Video mode refresh rate. Set 'auto' for default rate. Not all");
-    CFG_Write_Line (" drivers support non-default rate. Customized values then depends");
-    CFG_Write_Line (" on your video card and screen. Setting to 60 (Hz) is usually a");
-    CFG_Write_Line (" good thing as the screen will be refreshed at the same time as");
-    CFG_Write_Line (" the emulated systems.)");
-    CFG_Write_Int  ("gui_vsync", g_Configuration.video_mode_gui_vsync);
+		CFG_Write_Int ("video_gui_refresh_rate", g_Configuration.video_mode_gui_refresh_rate);
+    CFG_Write_Line ("(Video mode refresh rate. Set 'auto' for default rate. Not all drivers");
+    CFG_Write_Line (" support non-default rate. Customized values then depends on your video");
+    CFG_Write_Line (" card and monitor. Setting to 60 (Hz) is usually a good thing as the screen");
+    CFG_Write_Line (" will be refreshed at the same time as the emulated systems.)");
+    CFG_Write_Int  ("video_gui_vsync", g_Configuration.video_mode_gui_vsync);
     CFG_Write_Line ("(enable vertical synchronisation for fast computers)");
     CFG_Write_Line ("");
 
@@ -305,7 +304,6 @@ void    Configuration_Save (void)
     CFG_Write_Line ("-----< MISCELLANEOUS OPTIONS >-----------------------------------------------");
     CFG_Write_StrEscape  ("language", Messages.Lang_Cur->Name);
     CFG_Write_Int  ("bios_logo", g_Configuration.enable_BIOS);
-    CFG_Write_Line ("(set to '0' to skip the Master System logo when loading a game)");
     CFG_Write_Int  ("rapidfire", RapidFire);
     CFG_Write_Str  ("country", (g_Configuration.country_cfg == COUNTRY_EXPORT) ? "us/eu" : "jp");
     CFG_Write_Line ("(emulated machine country, either 'us/eu' or 'jp'");

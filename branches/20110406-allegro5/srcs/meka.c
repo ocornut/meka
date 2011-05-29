@@ -198,8 +198,8 @@ static void Init_Default_Values (void)
 	g_Configuration.video_mode_game_triple_buffering= TRUE;
 	g_Configuration.video_mode_game_page_flipping	= FALSE;
 	g_Configuration.video_mode_gui_fullscreen		= FALSE;
-    g_Configuration.video_mode_gui_res_x			= 640;
-    g_Configuration.video_mode_gui_res_y			= 480;
+    g_Configuration.video_mode_gui_res_x			= 800;
+    g_Configuration.video_mode_gui_res_y			= 600;
     g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
