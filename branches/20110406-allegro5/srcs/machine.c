@@ -485,8 +485,8 @@ void        Machine_Reset (void)
     al_clear_to_color(COLOR_BLACK);
 	al_set_target_bitmap(screenbuffer_2);
     al_clear_to_color(COLOR_BLACK);
-    screenbuffer = screenbuffer_1;
-    screenbuffer_next = screenbuffer_2;
+    //screenbuffer = screenbuffer_1;
+    //screenbuffer_next = screenbuffer_2;
 
     cur_machine.VDP.sprite_shift_x = 0;
     cur_machine.VDP.scroll_x_latched = 0;
