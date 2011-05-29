@@ -573,9 +573,8 @@ void        Skins_Update(void)
     }
 
     // Quit after fade
-    if (Skins.quit_after_fade)
-        if (!Skins.skin_fade)
-            opt.Force_Quit = TRUE;
+    if (Skins.quit_after_fade && !Skins.skin_fade)
+        opt.Force_Quit = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -624,10 +623,9 @@ static ALLEGRO_COLOR Skins_ColorToNative(u32 color)
 
 static void Skins_UpdateNativeGradient(t_skin_gradient *gradient, u32 color_start, u32 color_end)
 {
-    int i;
     gradient->native_color_start    = Skins_ColorToNative(color_start);
     gradient->native_color_end      = Skins_ColorToNative(color_end);
-    for (i = 0; i < SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE; i++)
+    for (int i = 0; i < SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE; i++)
     {
         const float fact2 = (float)i / (float)(SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1);
         const float fact1 = 1.0f - fact2;
@@ -697,8 +695,7 @@ void        Skins_MenuInit(int menu_id)
         t_skin* skin = (t_skin*)skins->elem;
         if (skin->enabled)
         {
-            menu_add_item(menu_id,
-                skin->name,
+            menu_add_item(menu_id, skin->name,
                 AM_Active | ((Skins.skin_current == skin) ? AM_Checked : 0),
                 (t_menu_callback)Skins_MenuHandlerSelectSkin, skin);
         }
@@ -743,22 +740,21 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *b
         const int gradient_pos_start = ((x2 - x1) * gradient->pos_start) / 100;
         const int gradient_pos_end   = ((x2 - x1) * gradient->pos_end)   / 100;
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
-        int n;
 		al_set_target_bitmap(bitmap);
         if (gradient_pos_start != 0)
-            al_draw_filled_rectangle(x1, y1, x1 + gradient_pos_start + 1, y2 + 1, gradient->native_color_start);
+            al_draw_filled_rectangle(x1, y1+0.5f, x1 + gradient_pos_start + 1, y2+1.5f, gradient->native_color_start);
 		if ( gradient_size > 0 )
 		{
-			for (n = 0; n <= gradient_size; n++)
+			for (int n = 0; n <= gradient_size; n++)
 			{
 				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
 				const int x = x1 + n + gradient_pos_start;
 				const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
-				al_draw_vline(x, y1, y2, color);
+				al_draw_line(x+0.5f, y1+0.5f, x+0.5f, y2+1.5f, color, 0.0f);
 			}
 		}
         if (gradient_pos_end < frame->size.x+1)
-            al_draw_filled_rectangle(x1 + gradient_pos_end, y1, x2+1, y2+1, gradient->native_color_end);
+            al_draw_filled_rectangle(x1 + gradient_pos_end, y1+0.5f, x2+1, y2+1.5f, gradient->native_color_end);
     }
 }
 
@@ -781,12 +777,11 @@ void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bit
         const int gradient_pos_start = ((y2 - y1) * gradient->pos_start) / 100;
         const int gradient_pos_end   = ((y2 - y1) * gradient->pos_end)   / 100;
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
-        int n;
         if (gradient_pos_start != 0)
             al_draw_filled_rectangle(x1, y1, x2 + 1, y1 + gradient_pos_start + 1, gradient->native_color_start);
 		if ( gradient_size > 0 )
 		{
-			for (n = 0; n <= gradient_size; n++)
+			for (int n = 0; n <= gradient_size; n++)
 			{
 				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
 				const int y = y1 + n + gradient_pos_start;
