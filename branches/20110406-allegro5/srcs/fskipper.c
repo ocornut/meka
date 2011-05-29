@@ -185,10 +185,6 @@ bool    Frame_Skipper(void)
         fskipper.FPS = (float)fskipper.FPS_FrameCountAccumulator / (float)fskipper.FPS_SecondsElapsed;
         fskipper.FPS_SecondsElapsed = 0;
         fskipper.FPS_FrameCountAccumulator = 0;
-
-        // /NIRV mode :) for Nirv who likes to do benchmarking and once made a scandal about it
-        if (g_Configuration.slash_nirv)
-            fskipper.FPS += 120.0f;
     }
 
     return TRUE; // Will show next frame

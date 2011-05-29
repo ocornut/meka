@@ -161,7 +161,6 @@ static void Init_Default_Values (void)
 
     // Miscellaneous
     g_Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
-    g_Configuration.slash_nirv                    = FALSE;
     g_Configuration.enable_BIOS                   = TRUE;
     g_Configuration.show_product_number           = FALSE;
     g_Configuration.show_fullscreen_messages      = TRUE;

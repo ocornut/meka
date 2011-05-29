@@ -676,7 +676,7 @@ void    Command_Line_Parse (void)
 	int    i, j;
 	char  *Params[] =
 	{
-		"EURO", "US", "JAP", "JP", "JPN", "NIRV", "HELP", "?",
+		"EURO", "US", "JAP", "JP", "JPN", "HELP", "?",
 		"SOUND", "NOELEPHANT", "DEBUG", "LOG", "LOAD",
 		"SETUP",
 		"_DEBUG_INFOS",
@@ -703,35 +703,32 @@ void    Command_Line_Parse (void)
 			case 2: case 3: case 4: // JAP
 				g_Configuration.country_cl = COUNTRY_JAPAN;
 				break;
-			case 5: // SLASH_NIRV
-				g_Configuration.slash_nirv = TRUE;
+			case 5: // HELP
+			case 6: Command_Line_Help ();
 				break;
-			case 6: // HELP
-			case 7: Command_Line_Help ();
+			case 7: // SOUND
+			case 8: // NOELEPHANT
 				break;
-			case 8: // SOUND
-			case 9: // NOELEPHANT
-				break;
-			case 10: // DEBUG
+			case 9: // DEBUG
 #ifndef MEKA_Z80_DEBUGGER
 				Quit_Msg (Msg_Get (MSG_Debug_Not_Available));
 #else
 				g_Configuration.debug_mode_cl = TRUE;
 #endif
 				break;
-			case 11: // LOG
+			case 10: // LOG
 				Param_Check (&i, Msg_Get (MSG_Log_Need_Param));
 				TB_Message.log_filename = strdup(g_env.argv[i]);
 				break;
-			case 12: // LOAD
+			case 11: // LOAD
 				Param_Check (&i, Msg_Get (MSG_Load_Need_Param));
 				opt.State_Load = atoi(g_env.argv[i]);
 				break;
-			case 13: // SETUP
+			case 12: // SETUP
 				opt.Setup_Interactive_Execute = TRUE;
 				break;
 				// Private Usage
-			case 14: // _DEBUG_INFOS
+			case 13: // _DEBUG_INFOS
 				g_env.debug_dump_infos = TRUE;
 				if (TB_Message.log_filename == NULL)
 					TB_Message.log_filename = strdup("debuglog.txt");

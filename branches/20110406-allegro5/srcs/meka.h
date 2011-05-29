@@ -281,7 +281,6 @@ struct t_meka_configuration
 
     // Miscellaneous
     int     sprite_flickering;          // Set to emulate sprite flickering.
-    bool    slash_nirv;                 // Increase FPS counter by many. Old private joke for NiRV.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.
     bool    enable_BIOS;
     bool    enable_NES;             
