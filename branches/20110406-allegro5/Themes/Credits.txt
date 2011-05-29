@@ -13,8 +13,6 @@
 Default package:
 
  AlexKidd.png                   Myau of Algol
- DragonsRage.png                Myau of Algol
- MarioMustDie.png               Vincent Cochet
  NinjaGaiden.png                Kurt Roliz
  PhantasyStar.png               Myau of Algol
  PsychoFox.png                  Barry McLarnon

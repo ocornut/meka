@@ -251,29 +251,6 @@ menu_text_unactive_color            = #FFDFDF
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
-[Wonder Boy III]
-authors                             = Andrea Ballandino
-background_color                    = #000000
-background_grid_color               = #000000
-background_picture                  = "Themes/WonderBoyIII.png" stretch_int
-window_border_color                 = #5A5A5A
-window_background_color             = #B3B3B3
-window_titlebar_color               = #000000
-window_titlebar_text_color          = #FF0000
-window_titlebar_text_unactive_color = #820000
-window_titlebar_gradient            = 09%-100% #000000
-window_text_color                   = #FFFFFF
-window_text_highlight_color         = #FF0000
-window_separators_color             = #5A5A5A
-menu_background_color               = #000000
-menu_border_color                   = #5A5A5A
-menu_selection_color                = #006AD3
-menu_text_color                     = #FF0000
-menu_text_unactive_color            = #820000
-menu_gradient                       = 00%-100% #000000
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
 [Ninja Gaiden]
 authors                             = Excremedies, Kurt Roliz
 background_color                    = #000000
@@ -334,49 +311,4 @@ menu_border_color                   = #000000
 menu_selection_color                = #FF8A00
 menu_text_color                     = #0051B3
 menu_text_unactive_color            = #000000
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
-[Mario Must Die]
-authors                             = Vincent Cochet, Omar Cornut, Sandro Filippi
-comments                            = Based on Sandro Filippi's "Mastercast" theme.
-background_color                    = #FFFFFF
-background_grid_color               = #FFFFFF
-background_picture                  = "Themes/MarioMustDie.png" tile
-window_border_color                 = #151D72
-window_background_color             = #293992
-window_titlebar_color               = #313982
-window_titlebar_text_color          = #FFFFFF
-window_titlebar_text_unactive_color = #FFFFFF
-window_titlebar_gradient            = 33%-100% #09115A
-window_text_color                   = #769EFF
-window_text_highlight_color         = #FFFFFF
-window_separators_color             = #151D72
-menu_background_color               = #313982
-menu_border_color                   = #151D72
-menu_selection_color                = #3D5582
-menu_text_color                     = #FFFFFF
-menu_text_unactive_color            = #FFFFFF
-menu_gradient                       = 50%-100% #19216A
-
-;-----------------------------------------------------------------------------
-[Dragon's Rage]
-authors                             = Myau of Algol
-background_color                    = #414041
-background_picture                  = "Themes/DragonsRage.png" stretch_int
-window_border_color                 = #000055
-window_background_color             = #003D62
-window_titlebar_color               = #003D6E
-window_titlebar_text_color          = #FFFFFF
-window_titlebar_text_unactive_color = #F3F3F3
-window_titlebar_gradient            = 23%-100% #00002E
-window_text_color                   = #FFFFDB
-window_text_highlight_color         = #FFFFFF
-window_separators_color             = #000055
-menu_background_color               = #003D6E
-menu_border_color                   = #000055
-menu_selection_color                = #5EA29E
-menu_text_color                     = #FFFFFF
-menu_text_unactive_color            = #F3F3F3
-menu_gradient                       = 58%-100% #00002E
 ;-----------------------------------------------------------------------------
