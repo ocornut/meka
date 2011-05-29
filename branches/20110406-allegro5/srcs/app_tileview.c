@@ -41,7 +41,7 @@ void    TileViewer_Init_Values (void)
     TileViewer.tile_displayed       = -1;
     TileViewer.tile_hovered         = -1;
     TileViewer.tile_selected        = -1;
-    TileViewer.tiles_count          = 512;  // 448
+    TileViewer.tiles_count          = 512;
     TileViewer.tiles_width          = -1;
     TileViewer.tiles_height         = -1;
     TileViewer.tiles_display_zone   = NULL;

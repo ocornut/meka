@@ -44,384 +44,125 @@ static void  CFG_Write_StrEscape (const char *name, const char *str)
 // Configuration_Load_Line (char *variable, char *value)
 // Handle a variable assignment during configuration file loading
 //-----------------------------------------------------------------------------
-static void     Configuration_Load_Line (char *variable, char *value)
+static void     Configuration_Load_Line (char *var, char *value)
 {
- int            var_num;
- int            n;
+	strlwr(var);
 
- static char  *Config_File_Variables [] =
-     {
-     "frameskip_mode", "frameskip_auto_speed", "frameskip_normal_speed",
-     "video_game_blitter",
+	// All input is changed to lower case for easier compare (apart from 'last_directory')
+	if (!strcmp(var, "last_directory"))
+		strlwr(value);
 
-     "sound_card", "sound_enabled", "sound_rate",
-     "fm_emulator",	// OBSOLETE 
-	 "opl_speed",	// OBSOLETE
+	// Select
+	if (!strcmp(var, "frameskip_mode"))					{ fskipper.Mode = !strcmp(value, "normal") ? FRAMESKIP_MODE_STANDARD : FRAMESKIP_MODE_AUTO; return; }
+	if (!strcmp(var, "frameskip_auto_speed"))			{ fskipper.Automatic_Speed = atoi(value); return; }
+	if (!strcmp(var, "frameskip_normal_speed"))			{ fskipper.Standard_Frameskip = atoi(value); return; }
+	if (!strcmp(var, "video_game_blitter"))				{ Blitters.blitter_configuration_name = strdup(value); return; }
+	if (!strcmp(var, "sound_card"))						{ Sound.SoundCard = atoi(value); return; }
+	if (!strcmp(var, "sound_enabled"))					{ Sound.Enabled = (bool)atoi(value); return; }
+	if (!strcmp(var, "sound_rate"))						{ const int n = atoi(value); if (n > 0) Sound.SampleRate = atoi(value); return; }
+	if (!strcmp(var, "gui_video_mode"))
+	{
+		int x, y;
+		if (sscanf(value, "%dx%d", &x, &y) == 2)
+		{
+			g_Configuration.video_mode_gui_res_x = x;
+			g_Configuration.video_mode_gui_res_y = y;
+		}
+		return;
+	}
+	if (!strcmp(var, "gui_vsync"))						{ g_Configuration.video_mode_gui_vsync = (bool)atoi(value); return; }
+	if (!strcmp(var, "start_in_gui"))					{ g_Configuration.start_in_gui = (bool)atoi(value); return; }
+	if (!strcmp(var, "theme"))							{ Skins_SetSkinConfiguration(value); return; }
+	if (!strcmp(var, "fb_width"))						{ FB.res_x = atoi(value); return; }
+	if (!strcmp(var, "fb_height"))						{ FB.file_y = atoi(value); return; }
+	if (!strcmp(var, "fb_uses_db"))						{ g_Configuration.fb_uses_DB = (bool)atoi(value); return; }
+	if (!strcmp(var, "fb_close_after_load"))			{ g_Configuration.fb_close_after_load = (bool)atoi(value); return; }
+	if (!strcmp(var, "fb_fullscreen_after_load"))		{ g_Configuration.fullscreen_after_load = (bool)atoi(value); return; }
+	if (!strcmp(var, "last_directory"))					{ snprintf(FB.current_directory, FILENAME_LEN, "%s", value); return; }
+	if (!strcmp(var, "bios_logo"))						{ g_Configuration.enable_BIOS = (bool)atoi(value); return; }
+	if (!strcmp(var, "rapidfire"))						{ RapidFire = atoi(value); return; }
+	if (!strcmp(var, "country"))						{ if (!strcmp(value, "jp")) g_Configuration.country_cfg = COUNTRY_JAPAN; else g_Configuration.country_cfg = COUNTRY_EXPORT; return; }
+	if (!strcmp(var, "tv_type"))
+	{
+		if (strcmp(value, "ntsc") == 0)
+			TV_Type_User = &TV_Type_Table[TVTYPE_NTSC];
+		else
+			if (strcmp(value, "pal") == 0 || strcmp(value, "secam") || strcmp(value, "pal/secam"))
+				TV_Type_User = &TV_Type_Table[TVTYPE_PAL_SECAM];
+		TVType_Update_Values();
+		return;
+	}
+	if (!strcmp(var, "show_product_number"))			{ g_Configuration.show_product_number = (bool)atoi(value); return; }
+	if (!strcmp(var, "show_messages_fullscreen"))		{ g_Configuration.show_fullscreen_messages = (bool)atoi(value); return; }
+	if (!strcmp(var, "screenshot_template"))
+	{ 
+		// Note: Obsolete variable name, see below
+		StrReplace(value, '*', ' ');
+        g_Configuration.capture_filename_template = strdup(value);
+		return;
+	}
+	if (!strcmp(var, "screenshots_filename_template"))	{ g_Configuration.capture_filename_template = strdup(value); return; }
+	if (!strcmp(var, "screenshots_crop_align_8x8"))		{ g_Configuration.capture_crop_align_8x8 = (bool)atoi(value); return; }
+	if (!strcmp(var, "3dglasses_mode"))					{ Glasses_Set_Mode(atoi(value)); return; }
+	if (!strcmp(var, "3dglasses_com_port"))				{ Glasses_Set_ComPort(atoi(value)); return; }
+	if (!strcmp(var, "iperiod"))						{ opt.IPeriod = atoi(value); return; }
+	if (!strcmp(var, "iperiod_coleco"))					{ opt.IPeriod_Coleco = atoi(value); return; }
+	if (!strcmp(var, "iperiod_sg1000_sc3000"))			{ opt.IPeriod_Sg1000_Sc3000 = atoi(value); return; }
+	if (!strcmp(var, "nes_sucks"))						{ if (atoi(value) < 1) Quit_Msg("\n%s", Msg_Get(MSG_NES_Sucks)); return; }
+	if (!strcmp(var, "sprite_flickering"))
+	{
+		if (strcmp(value, "auto") == 0)
+			g_Configuration.sprite_flickering = SPRITE_FLICKERING_AUTO;
+		else if (strcmp(value, "yes") == 0)
+			g_Configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
+		else if (strcmp(value, "no") == 0)
+			g_Configuration.sprite_flickering = SPRITE_FLICKERING_NO;
+		return;
+	}
+	if (!strcmp(var, "language"))						{ Lang_Set_by_Name(value); return; }
+	if (!strcmp(var, "music_wav_filename_template"))	{ Sound.LogWav_FileName_Template = strdup(value); return; }
+	if (!strcmp(var, "music_vgm_filename_template"))	{ Sound.LogVGM_FileName_Template = strdup(value); return; }
+	if (!strcmp(var, "music_vgm_log_accuracy"))
+	{
+		if (strcmp(value, "frame") == 0)
+			Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_FRAME;
+		else if (strcmp(value, "sample") == 0)
+			Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_SAMPLE;
+		return;
+	}
+	if (!strcmp(var, "fm_enabled"))						{ Sound.FM_Enabled = (bool)atoi(value); return; }
+	if (!strcmp(var, "gui_refresh_rate"))
+	{
+		if (!strcmp(value, "auto"))
+			g_Configuration.video_mode_gui_refresh_rate = 0;
+		else
+			g_Configuration.video_mode_gui_refresh_rate = atoi (value);
+		return;
+	}
+	if (!strcmp(var, "debug_mode"))						{ g_Configuration.debug_mode_cfg = (bool)atoi(value); return; }
+	if (!strcmp(var, "allow_opposite_directions"))		{ g_Configuration.allow_opposite_directions = (bool)atoi(value); return; }
+	if (!strcmp(var, "debugger_console_lines"))			{ g_Configuration.debugger_console_lines = MIN(1, atoi(value)); return; }
+	if (!strcmp(var, "debugger_disassembly_lines"))		{ g_Configuration.debugger_disassembly_lines = MIN(1, atoi(value)); return; }
+	if (!strcmp(var, "debugger_disassembly_display_labels")) { g_Configuration.debugger_disassembly_display_labels = (bool)atoi(value); return; }
+	if (!strcmp(var, "debugger_log"))					{ g_Configuration.debugger_log_enabled = (bool)atoi(value); return; }
+	if (!strcmp(var, "memory_editor_lines"))			{ g_Configuration.memory_editor_lines = MIN(1, atoi(value)); return; }
+	if (!strcmp(var, "memory_editor_columns"))			{ g_Configuration.memory_editor_columns = MIN(1, atoi(value)); return; }
+	if (!strcmp(var, "video_game_vsync"))				{ g_Configuration.video_mode_game_vsync = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_game_triple_buffering"))	{ g_Configuration.video_mode_game_triple_buffering = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_game_page_flipping"))		{ g_Configuration.video_mode_game_page_flipping = (bool)atoi(value); return; }
+	if (!strcmp(var, "screenshots_crop_scrolling_column")) { g_Configuration.capture_crop_scrolling_column = (bool)atoi(value); return; }
+	if (!strcmp(var, "screenshots_include_gui"))		{ g_Configuration.capture_include_gui = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_game_fullscreen"))			{ g_Configuration.video_mode_game_fullscreen = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_gui_fullscreen"))			{ g_Configuration.video_mode_gui_fullscreen = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_driver"))					{ g_Configuration.video_driver = VideoDriver_FindByName(value); return; }
 
-     "gui_video_mode", 
-	 "gui_video_depth", // OBSOLETE 
-	 "gui_video_driver", // OBSOLETE
-	 "gui_vsync",
-
-     "start_in_gui", "theme",
-     "fb_width", "fb_height",
-     "fb_uses_db", "fb_close_after_load", "fb_fullscreen_after_load",
-     "last_directory",
-
-     "bios_logo",
-     "rapidfire",
-     "country",
-     "tv_type",
-
-     "show_product_number",
-     "show_messages_fullscreen",
-     "screenshot_template",
-
-     "3dglasses_mode", "3dglasses_com_port",
-
-     "iperiod", "iperiod_coleco", "iperiod_sg1000_sc3000",
-
-     "nes_sucks",
-     "mario_is_a_fat_plumber",//OBSOLETE
-
-     "sprite_flickering",
-
-     "language",
-     "screenshots_filename_template",
-	 "screenshots_crop_align_8x8",
-
-     "music_wav_filename_template", "musics_wav_filename_template",
-     "music_vgm_filename_template", "musics_vgm_filename_template",
-     "music_vgm_log_accuracy",      "musics_vgm_log_accuracy",
-
-     "fm_enabled",
-
-     "gui_refresh_rate",
-
-     "tile_viewer_displayed_tiles",
-
-     "debug_mode",
-     "allow_opposite_directions",
-
-     "debugger_console_lines",
-     "debugger_disassembly_lines",
-     "debugger_disassembly_display_labels",
-     "debugger_log",
-
-     "memory_editor_lines",
-     "memory_editor_columns",
-
-	 "video_game_depth",
-	 "video_game_vsync",
-	 "video_game_triple_buffering",
-	 "video_game_page_flipping",
-
-	 "screenshots_crop_scrolling_column",
-	 "screenshots_include_gui",
-
-	 "video_game_fullscreen",
-	 "video_gui_fullscreen",
-	 "video_driver",
-
-     NULL
-     };
-
- strlwr (variable);
- for (var_num = 0; Config_File_Variables [var_num]; var_num++)
-     if (!strcmp (variable, Config_File_Variables [var_num]))
-        break;
-
- if (!Config_File_Variables[var_num])
-   return;
-
- if (strcmp (Config_File_Variables[var_num], "last_directory") != 0)
-   strlwr (value);
-
- // FIXME: parameter setting isn't done well
- // We should set limits values, and if the new value isn't in bound, the
- // variable is not modified, etc..
- switch (var_num)
-    {
-    //-------------------------------------------------------------------------
-    // frameskip_mode
-    case 0:  if (strcmp(value, "normal") == 0 || strcmp(value, "standard") == 0)
-                fskipper.Mode = FRAMESKIP_MODE_STANDARD;
-             else
-                fskipper.Mode = FRAMESKIP_MODE_AUTO;
-             break;
-    // frameskip_speed
-    case 1:  fskipper.Automatic_Speed = atoi(value); break;
-    // frameskip_value
-    case 2:  fskipper.Standard_Frameskip = atoi(value); break;
-    // video_game_blitter
-    case 3:  Blitters.blitter_configuration_name = strdup(value); break;
-    //-------------------------------------------------------------------------
-    // sound_card
-    case 4:  Sound.SoundCard = atoi(value);
-             break;
-    // sound_enabled
-    case 5:  Sound.Enabled = (bool)atoi(value);
-             break;
-    // sound_rate
-    case 6:  n = atoi(value);
-             if (n > 0)
-                Sound.SampleRate = atoi(value);
-             break;
-    // fm_emulator
-    case 7: // Obsolete
-    // opl_speed
-    case 8: // Obsolete
-		break;
-    //-------------------------------------------------------------------------
-    // gui_video_mode
-    case 9:  
-        {
-            int x, y;
-            if (sscanf(value, "%dx%d", &x, &y) == 2)
-            {
-                g_Configuration.video_mode_gui_res_x = x;
-                g_Configuration.video_mode_gui_res_y = y;
-            }
-            break;
-        }
-    // gui_video_depth
-    case 10: // OBSOLETE
-		break;
-    // gui_video_driver
-    case 11: // OBSOLETE
-        break;
-    // gui_vsync
-    case 12: g_Configuration.video_mode_gui_vsync = (bool)atoi(value);
-             break;
-    //-------------------------------------------------------------------------
-    // start_in_gui
-    case 13: g_Configuration.start_in_gui = (bool)atoi(value);
-             break;
-    // theme
-    case 14: Skins_SetSkinConfiguration(value);
-             break;
-    // fb_width
-    case 15: FB.res_x = atoi(value);
-             break;
-    // fb_height
-    case 16: FB.file_y = atoi(value);
-             break;
-    // fb_uses_db
-    case 17: g_Configuration.fb_uses_DB = (bool)atoi(value);
-             break;
-    // fb_close_after_load
-    case 18: g_Configuration.fb_close_after_load = (bool)atoi(value);
-             break;
-    // fb_fullscreen_after_load
-    case 19: g_Configuration.fullscreen_after_load = (bool)atoi(value);
-             break;
-    // last_directory
-    case 20: 
-            strncpy(FB.current_directory, value, FILENAME_LEN);
-            break;
-    //-------------------------------------------------------------------------
-    // bios_logo
-    case 21: g_Configuration.enable_BIOS = (bool)atoi(value);
-             break;
-    // rapidfire
-    case 22: RapidFire = atoi(value);
-             break;
-    // country
-    case 23: if (strcmp(value, "jap") == 0)
-                 g_Configuration.country_cfg = COUNTRY_JAPAN;
-             else
-                 g_Configuration.country_cfg = COUNTRY_EXPORT;
-             break;
-    // tv_type
-    case 24: if (strcmp(value, "ntsc") == 0)
-                TV_Type_User = &TV_Type_Table[TVTYPE_NTSC];
-             else
-             if (strcmp(value, "pal") == 0 || strcmp(value, "secam") || strcmp(value, "pal/secam"))
-                TV_Type_User = &TV_Type_Table[TVTYPE_PAL_SECAM];
-             TVType_Update_Values();
-             break;
-    // show_product_number
-    case 25: g_Configuration.show_product_number = (bool)atoi(value);
-             break;
-    // show_messages_fullscreen
-    case 26: g_Configuration.show_fullscreen_messages = (bool)atoi(value);
-             break;
-    // screenshot_template (OBSOLETE variable name, see below)
-    case 27: StrReplace (value, '*', ' ');
-             g_Configuration.capture_filename_template = strdup(value);
-             break;
-    //-------------------------------------------------------------------------
-    // 3dglasses_mode
-    case 28: Glasses_Set_Mode(atoi(value));
-             break;
-    // 3dglasses_com_port
-    case 29: Glasses_Set_ComPort(atoi(value));
-             break;
-    //-------------------------------------------------------------------------
-    // iperiod
-    case 30: opt.IPeriod = atoi(value);
-             break;
-    // iperiod_coleco
-    case 31: opt.IPeriod_Coleco = atoi(value);
-             break;
-    // iperiod_sg1000_sc3000
-    case 32: opt.IPeriod_Sg1000_Sc3000 = atoi(value);
-             break;
-    //-------------------------------------------------------------------------
-    // nes_sucks
-    case 33: if (atoi(value) < 1)
-                {
-                Quit_Msg("\n%s", Msg_Get(MSG_NES_Sucks));
-                }
-             break;
-    // mario_is_a_fat_plumber
-    case 34: //
-             break;
-    //-------------------------------------------------------------------------
-    // sprite_flickering
-    case 35: if (strcmp(value, "auto") == 0)
-                 g_Configuration.sprite_flickering = SPRITE_FLICKERING_AUTO;
-             else
-             if (strcmp(value, "yes") == 0)
-                 g_Configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
-             else
-             if (strcmp(value, "no") == 0)
-                 g_Configuration.sprite_flickering = SPRITE_FLICKERING_NO;
-             break;
-    // language
-    case 36: Lang_Set_by_Name(value);
-             break;
-    // screenshots_filename_template
-    case 37: g_Configuration.capture_filename_template = strdup(value);
-             break;
-	// screenshots_crop_align_8x8
-	case 38: g_Configuration.capture_crop_align_8x8 = (bool)atoi(value);
-			 break;
-    // music[s]_wav_filename_template
-    case 39:
-    case 40: 
-             Sound.LogWav_FileName_Template = strdup(value);
-             break;
-    // music[s]_vgm_filename_template
-    case 41:
-    case 42: Sound.LogVGM_FileName_Template = strdup(value);
-             break;
-    // music[s]_vgm_log_accuracy
-    case 43:
-    case 44: if (strcmp(value, "frame") == 0)
-                Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_FRAME;
-             else
-             if (strcmp(value, "sample") == 0)
-                Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_SAMPLE;
-             break;
-    // fm_enabled
-    case 45: if (!strcmp(value, "yes"))
-                Sound.FM_Enabled = TRUE;
-             else
-             if (!strcmp(value, "no"))
-                Sound.FM_Enabled = FALSE;
-             break;
-    // gui_refresh_rate
-    case 46: if (!strcmp(value, "auto"))
-                 g_Configuration.video_mode_gui_refresh_rate = 0;
-             else
-                 g_Configuration.video_mode_gui_refresh_rate = atoi (value);
-             break;
-    // tile_viewer_displayed_tiles
-    case 47: n = atoi(value);
-             if (n == 448 || n == 512)
-                 TileViewer.tiles_count = n;
-             break;
-    // debug_mode
-    case 48: g_Configuration.debug_mode_cfg = (bool)atoi(value);
-             break;
-
-    // allow_opposite_directions
-    case 49: g_Configuration.allow_opposite_directions = (bool)atoi(value);
-             break;
-
-    // debugger_console_lines
-    case 50:
-        n = atoi(value);
-        if (n >= 1)
-            g_Configuration.debugger_console_lines = n;
-        break;
-
-    // debugger_disassembly_lines
-    case 51:
-        n = atoi(value);
-        if (n >= 1)
-            g_Configuration.debugger_disassembly_lines = n;
-        break;
-
-    // debugger_disassembly_display_labels
-    case 52:
-        g_Configuration.debugger_disassembly_display_labels = (bool)atoi(value);
-        break;
-
-    // debugger_log
-    case 53:
-        g_Configuration.debugger_log_enabled = (bool)atoi(value);
-        break;
-    
-    // memory_editor_lines
-    case 54:
-        n = atoi(value);
-        if (n >= 1)
-            g_Configuration.memory_editor_lines = n;
-        break;
-
-    // memory_editor_columns
-    case 55:
-        n = atoi(value);
-        if (n >= 1)
-            g_Configuration.memory_editor_columns = n;
-        break;
-
-	// video_game_depth
-	case 56: // OBSOLETE
-		break;
-
-	// video_game_vsync
-	case 57:
-		g_Configuration.video_mode_game_vsync = (bool)atoi(value);
-		break;
-
-	// video_game_triple_buffering
-	case 58:
-		g_Configuration.video_mode_game_triple_buffering = (bool)atoi(value);
-		break;
-
-	// video_game_page_flipping
-	case 59:
-		g_Configuration.video_mode_game_page_flipping = (bool)atoi(value);
-		break;
-
-	// screenshots_crop_scrolling_column
-	case 60: g_Configuration.capture_crop_scrolling_column = (bool)atoi(value);
-		break;
-
-	// screenshots_include_gui
-	case 61: g_Configuration.capture_include_gui = (bool)atoi(value);
-		break;
-
-	// video_game_fullscreen
-	case 62: g_Configuration.video_mode_game_fullscreen = (bool)atoi(value);
-		break;
-
-	// video_gui_fullscreen
-	case 63: g_Configuration.video_mode_gui_fullscreen = (bool)atoi(value);
-		break;
-
-	// video_driver
-	case 64:
-        g_Configuration.video_driver = VideoDriver_FindByName(value); 
-		break;
-
-	default:
-        Quit_Msg("Error #4785");
-        break;
-    }
+	// Obsolete variables
+	if (!strcmp(var, "fm_emulator"))			{}
+	if (!strcmp(var, "opl_speed"))				{}
+	if (!strcmp(var, "gui_video_depth"))		{}
+	if (!strcmp(var, "gui_video_driver"))		{}
+	if (!strcmp(var, "mario_is_a_fat_plumber"))	{}
+	if (!strcmp(var, "video_game_depth"))		{}
 }
 
 //-----------------------------------------------------------------------------
@@ -545,7 +286,7 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("sound_card", Sound.SoundCard);
     CFG_Write_Int  ("sound_rate", Sound.SampleRate);
     CFG_Write_Line ("(Set sound_card to -1 to be prompted to choose your soundcard again)");
-    CFG_Write_Str  ("fm_enabled", (Sound.FM_Enabled) ? "yes" : "no");
+    CFG_Write_Int  ("fm_enabled", Sound.FM_Enabled);
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");
@@ -559,9 +300,6 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("fb_close_after_load", g_Configuration.fb_close_after_load);
     CFG_Write_Int  ("fb_fullscreen_after_load", g_Configuration.fullscreen_after_load);
     CFG_Write_StrEscape  ("last_directory", FB.current_directory);
-    CFG_Write_Int  ("tile_viewer_displayed_tiles", TileViewer.tiles_count);
-    CFG_Write_Line ("(Number of tiles displayed in tile viewer, 448 or 512. Usually, displaying");
-    CFG_Write_Line (" tiles over 448 shows garbage on SMS and GG, so the default is 448)");
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< MISCELLANEOUS OPTIONS >-----------------------------------------------");
@@ -569,13 +307,13 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("bios_logo", g_Configuration.enable_BIOS);
     CFG_Write_Line ("(set to '0' to skip the Master System logo when loading a game)");
     CFG_Write_Int  ("rapidfire", RapidFire);
-    CFG_Write_Str  ("country", (g_Configuration.country_cfg == COUNTRY_EXPORT) ? "us/eur" : "jap");
-    CFG_Write_Line ("(emulated machine country, either 'us/eur' or 'jap'");
+    CFG_Write_Str  ("country", (g_Configuration.country_cfg == COUNTRY_EXPORT) ? "us/eu" : "jp");
+    CFG_Write_Line ("(emulated machine country, either 'us/eu' or 'jp'");
     if (g_Configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
         CFG_Write_Line ("sprite_flickering = auto");
     else
         CFG_Write_Str ("sprite_flickering", (g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) ? "yes" : "no");
-    CFG_Write_Line ("(hardware sprite flickering emulator, either 'yes', 'no', or 'automatic'");
+    CFG_Write_Line ("(hardware sprite flickering emulator, either 'yes', 'no', or 'auto'");
     CFG_Write_Str  ("tv_type", (TV_Type_User->id == TVTYPE_NTSC) ? "ntsc" : "pal/secam");
     CFG_Write_Line ("(emulated TV type, either 'ntsc' or 'pal/secam'");
     //CFG_Write_Int  ("tv_snow_effect", effects.TV_Enabled);
