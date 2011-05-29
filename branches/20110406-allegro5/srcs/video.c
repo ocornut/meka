@@ -111,6 +111,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	else
 		display_flags |= ALLEGRO_WINDOWED;
 	al_set_new_display_flags(display_flags);
+	al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST);
 	g_display = al_create_display(w, h);
 
 	if (!g_display)
@@ -484,7 +485,7 @@ void    Refresh_Screen(void)
             {
                 int x, y;
                 char s [16];
-                sprintf (s, "%d FPS", fskipper.FPS);
+                sprintf (s, "%.1f FPS", fskipper.FPS);
                 if (cur_drv->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
                 Font_Print (F_MIDDLE, screenbuffer, s, x, y, COLOR_WHITE); // In white
                 gui_status.timeleft = 0; // Force disabling the current message

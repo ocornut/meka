@@ -306,8 +306,6 @@ static int Init_Allegro (void)
     if (g_Configuration.video_mode_depth_desktop == 0)
         g_Configuration.video_mode_depth_desktop = 32;	// Default
 
-    //install_timer();
-
     // Keyboard, mouse
     al_install_keyboard();
     g_env.mouse_installed = al_install_mouse();

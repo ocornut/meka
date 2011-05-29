@@ -43,7 +43,7 @@ void        gui_redraw_bars (void)
     // Show FPS counter
     if (fskipper.FPS_Display)
     {
-        sprintf (s, "%d FPS", fskipper.FPS);
+        sprintf (s, "%.1f FPS", fskipper.FPS);
         Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 

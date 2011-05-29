@@ -13,7 +13,9 @@
 // Data
 //-----------------------------------------------------------------------------
 
-volatile t_fskipper fskipper;
+t_fskipper				fskipper;
+ALLEGRO_EVENT_QUEUE*	g_timer_event_queue = NULL;
+ALLEGRO_TIMER*			g_timer_seconds = NULL;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -29,9 +31,8 @@ void    Frame_Skipper_Init_Values (void)
     fskipper.Show_Current_Frame         = TRUE;
     fskipper.FPS                        = 0.0f;
     fskipper.FPS_Display                = FALSE;
-    //fskipper.FPS_LastComputedTime       = 0;
-    fskipper.New_Second                 = FALSE;
-    fskipper.Frame_Rendered             = 0;
+	fskipper.FPS_SecondsElapsed			= 0;
+	fskipper.FPS_FrameCountAccumulator	= 0;
 }
 
 void    Frame_Skipper_Auto_Adjust_Handler (void)
@@ -39,12 +40,6 @@ void    Frame_Skipper_Auto_Adjust_Handler (void)
     fskipper.Automatic_Frame_Elapsed ++;
 }
 //END_OF_FUNCTION (Frame_Skipper_Auto_Adjust_Handler);
-
-void    Frame_Skipper_New_Second_Handler (void)
-{
-    fskipper.New_Second = TRUE;
-}
-//END_OF_FUNCTION (Frame_Skipper_New_Second_Handler);
 
 // Calculate the nearest and most appropriate value for the auto frame
 // skipper timed interrupt.
@@ -85,30 +80,45 @@ void    Frame_Skipper_Auto_Reinstall_Handler (void)
 
 void    Frame_Skipper_Init (void)
 {
+	g_timer_event_queue = al_create_event_queue();
+
     // Auto Frame Skipper
 #if 0	// FIXME-ALLEGRO5: auto frame skipper
     LOCK_VARIABLE (fskipper.Automatic_Frame_Elapsed);
     LOCK_FUNCTION (Frame_Skipper_Auto_Adjust_Handler);
     Frame_Skipper_Auto_Install_Handler ();
 #endif
+
     // FPS Counter
-#if 0	// FIXME-ALLEGRO5: FPS counter
-	LOCK_VARIABLE (fskipper.New_Second);
-    LOCK_FUNCTION (Frame_Skipper_New_Second_Handler);
-    Frame_Skipper_New_Second_Handler ();
-    install_int_ex (Frame_Skipper_New_Second_Handler, TIMERS_PER_SECOND);
-#endif
+	g_timer_seconds = al_create_timer(1.0f);
+	al_register_event_source(g_timer_event_queue, al_get_timer_event_source(g_timer_seconds));
+	al_start_timer(g_timer_seconds);
 }
 
 //-----------------------------------------------------------------------------
 // Frame Skipper
 // Return FALSE if next frame is to be skipped, else TRUE
 //-----------------------------------------------------------------------------
-int     Frame_Skipper (void)
+bool    Frame_Skipper(void)
 {
     //s64 cycle_current = OSD_Timer_GetCyclesCurrent(); 
     //const s64 cycle_per_second = OSD_Timer_GetCyclesPerSecond();
     //OSD_X86CPU_RDTSC();
+
+	ALLEGRO_EVENT timer_event;
+	while (al_get_next_event(g_timer_event_queue, &timer_event))
+	{
+		switch (timer_event.type)
+		{
+		case ALLEGRO_EVENT_TIMER:
+			if (timer_event.timer.source == g_timer_seconds)
+			{
+				fskipper.FPS_SecondsElapsed ++;
+				break;
+			}
+			break;
+		}
+	}
 
     // Auto frame-skipping ----------------------------------------------------
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
@@ -163,28 +173,22 @@ int     Frame_Skipper (void)
         fskipper.Standard_Counter = 1;
     }
 
-    fskipper.Frame_Rendered++;
+    fskipper.FPS_FrameCountAccumulator++;
 
     // Compute FPS if a new second has elapsed
-    //Msg (MSGT_DEBUG, "%d, %016I64x, %016I64x, %016I64x", fskipper.Frame_Rendered, fskipper.FPS_LastComputedTime, cycle_per_second, cycle_current);
-    //if (fskipper.FPS_LastComputedTime == 0 || (cycle_current >= fskipper.FPS_LastComputedTime + cycle_per_second))
-    if (fskipper.New_Second)
+	if (fskipper.FPS_SecondsElapsed > 0)
     {
         //int elapsed = (int)(cycle_current - fskipper.FPS_LastComputedTime);
         //int fps = (fskipper.Frame_Rendered * cycle_per_second + (cycle_per_second / 2)) / elapsed;
         //fskipper.FPS = fps;
         //Msg (MSGT_DEBUG, "Frame_Rendered = %d, FPS = %d", fskipper.Frame_Rendered, fskipper.FPS);
-        fskipper.New_Second = FALSE;
-        fskipper.FPS = fskipper.Frame_Rendered;
-        fskipper.Frame_Rendered = 0;
-        //if (fskipper.FPS_LastComputedTime == 0)
-            //fskipper.FPS_LastComputedTime = cycle_current;
-        //else
-            //fskipper.FPS_LastComputedTime += cycle_per_second;
+        fskipper.FPS = (float)fskipper.FPS_FrameCountAccumulator / (float)fskipper.FPS_SecondsElapsed;
+        fskipper.FPS_SecondsElapsed = 0;
+        fskipper.FPS_FrameCountAccumulator = 0;
 
         // /NIRV mode :) for Nirv who likes to do benchmarking and once made a scandal about it
         if (g_Configuration.slash_nirv)
-            fskipper.FPS += 120;
+            fskipper.FPS += 120.0f;
     }
 
     return TRUE; // Will show next frame

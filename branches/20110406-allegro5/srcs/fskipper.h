@@ -14,7 +14,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-int     Frame_Skipper (void);
+bool    Frame_Skipper (void);
 void    Frame_Skipper_Auto_Adjust_Handler (void);
 void    Frame_Skipper_Auto_Install_Handler (void);
 void    Frame_Skipper_Auto_Reinstall_Handler (void);
@@ -32,7 +32,7 @@ void    Frame_Skipper_Init_Values (void);
 struct t_fskipper
 {
     // Frame skipper    
-    int             Mode;                   // Automatic (sync) or standard
+    int             Mode;						// Automatic (sync) or standard
     int             Automatic_Speed;
     volatile int    Automatic_Frame_Elapsed;
     int             Standard_Frameskip;
@@ -40,14 +40,13 @@ struct t_fskipper
     bool            Show_Current_Frame;
 
     // FPS Counter
-    int             FPS;
+    float			FPS;
     bool            FPS_Display;
-    //s64           FPS_LastComputedTime;
-    volatile bool   New_Second;
-    int             Frame_Rendered;         // Number of frames rendered (this second)
+	int				FPS_SecondsElapsed;
+    int             FPS_FrameCountAccumulator;	// Number of frames rendered (this second)
 };
 
-extern volatile t_fskipper fskipper;
+extern t_fskipper	fskipper;
 
 //-----------------------------------------------------------------------------
 
