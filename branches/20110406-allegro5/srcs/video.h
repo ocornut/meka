@@ -42,8 +42,8 @@ void	Screenbuffer_AcquireLock(void);
 void	Screenbuffer_ReleaseLock(void);
 bool	Screenbuffer_IsLocked(void);
 
-extern INLINE void Screen_Save_to_Next_Buffer (void);
-extern INLINE void Screen_Restore_from_Next_Buffer (void);
+void	Screen_Save_to_Next_Buffer (void);
+void	Screen_Restore_from_Next_Buffer (void);
 
 //-----------------------------------------------------------------------------
 

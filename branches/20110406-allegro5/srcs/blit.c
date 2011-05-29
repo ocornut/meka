@@ -59,7 +59,7 @@ void	Blit_CreateVideoBuffers()
 		al_destroy_bitmap(Blit_Buffer_Double);
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
 }

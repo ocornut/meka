@@ -242,7 +242,7 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 		al_destroy_bitmap(box->gfx_buffer);
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format((g_Configuration.video_mode_gui_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
+	al_set_new_bitmap_format((g_Configuration.video_mode_gui_depth == 16) ? ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA : ALLEGRO_PIXEL_FORMAT_ANY_32_WITH_ALPHA);
 	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
 
 	// Redraw and layout all

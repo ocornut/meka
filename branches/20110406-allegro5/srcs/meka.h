@@ -29,7 +29,9 @@ extern ALLEGRO_COLOR			COLOR_BACKDROP;	// When background render is disabled
 
 #define COLOR_BLACK16			0x0000
 #define COLOR_WHITE16			0xFFFF
-#define COLOR_BACKDROP16		al_makecol16(222,222,101)
+#define COLOR_BACKDROP_R		222
+#define COLOR_BACKDROP_G		222
+#define COLOR_BACKDROP_B		101
 
 // Border Color
 // FIXME: Unsupported
@@ -364,9 +366,11 @@ extern t_media_image   media_ROM;
 // Data (video buffers)
 //-----------------------------------------------------------------------------
 
-extern ALLEGRO_DISPLAY* g_display;
-extern ALLEGRO_EVENT_QUEUE*	g_display_event_queue;
-extern ALLEGRO_LOCKED_REGION* g_screenbuffer_locked_region;
+extern ALLEGRO_DISPLAY*			g_display;
+extern ALLEGRO_EVENT_QUEUE*		g_display_event_queue;
+extern ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region;
+extern int						g_screenbuffer_format;
+extern int						g_gui_buffer_format;
 
 // Emulated Screen ------------------------------------------------------------
 extern ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers

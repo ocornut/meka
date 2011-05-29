@@ -43,7 +43,7 @@ static u16*	GFX_ScreenData = NULL;
 static int	GFX_ScreenPitch = 0;
 
 #define PIXEL_TYPE              u16
-#define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
+#define PIXEL_PALETTE_TABLE     Palette_EmulationToHostGame
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -63,9 +63,9 @@ void    TMS9918_Palette_Setup(void)
 void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, int x, int y, int fgcolor_host, int bgcolor_host)
 {
 	const int color_format = al_get_bitmap_format(dst);
-    switch (color_format)
+    switch (al_get_pixel_format_bits(color_format))
     {
-    case ALLEGRO_PIXEL_FORMAT_BGR_565:
+    case 16:
         {
 			u16* dst_data = (u16*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 1;
@@ -88,7 +88,7 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
             }
             break;
         }
-    case ALLEGRO_PIXEL_FORMAT_ABGR_8888:
+    case 32:
         {
 			u32* dst_data = (u32*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 2;
@@ -112,8 +112,7 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
             break;
         }
     default:
-        assert(0);
-        Msg(MSGT_USER, "video_m2: unsupported color format!");
+		Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
         break;
     }
 }

@@ -77,6 +77,8 @@ u8 *    SG_BACK_COLOR = NULL;
 ALLEGRO_DISPLAY*		g_display = NULL;
 ALLEGRO_EVENT_QUEUE*	g_display_event_queue = NULL;
 ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region = NULL;
+int						g_screenbuffer_format = 0;
+int						g_gui_buffer_format = 0;
 
 ALLEGRO_BITMAP *screenbuffer = NULL, *screenbuffer_next = NULL;
 ALLEGRO_BITMAP *screenbuffer_1 = NULL, *screenbuffer_2 = NULL;
@@ -380,7 +382,7 @@ int main(int argc, char **argv)
     Blitters_Init           (); // Load Blitter List
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
 
-	al_set_new_display_flags(ALLEGRO_WINDOWED | ALLEGRO_OPENGL);
+	al_set_new_display_flags(ALLEGRO_WINDOWED);
 	g_display = al_create_display(100, 100);	// FIXME-ALLEGRO5: fixed size
 	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 

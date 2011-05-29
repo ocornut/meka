@@ -1,18 +1,5 @@
 #include "shared.h"
 
-unsigned int al_makecol32(int r, int g, int b)
-{
-	return r | (g << 8) | (b << 16) | (0xff << 24);
-}
-
-unsigned short al_makecol16(int r, int g, int b)
-{
-	r = (r & 255) >> 3;
-	g = (g & 255) >> 2;
-	b = (b & 255) >> 3;
-	return r | (g<<5) | (b<<11);
-}
-
 void al_draw_hline(int x1, int y, int x2, ALLEGRO_COLOR c)
 {
    al_draw_line(x1, y+0.5f, x2+1, y+0.5f, c, 0);

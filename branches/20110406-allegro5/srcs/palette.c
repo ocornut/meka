@@ -10,6 +10,7 @@
 #include "blit.h"
 #include "blitintf.h"
 #include "palette.h"
+#include "video.h"
 #include "video_m2.h"
 
 // #define DEBUG_PALETTE
@@ -19,8 +20,8 @@
 //-----------------------------------------------------------------------------
 
 ALLEGRO_COLOR   Palette_Emulation[PALETTE_EMU_GAME_SIZE];
-u32				Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];			// pixel format (eg: u16/u32) depending on video buffer types
-u16				Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
+u32				Palette_EmulationToHostGui[PALETTE_EMU_GAME_SIZE];
+u16				Palette_EmulationToHostGame[PALETTE_EMU_GAME_SIZE];
 int				Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
 bool			Palette_EmulationDirtyAny;
 
@@ -92,8 +93,8 @@ void    Palette_Emulation_Reset()
     for (i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
     {
         Palette_Emulation[i] = COLOR_BLACK;
-        Palette_EmulationToHost[i] = 0x0000;
-        Palette_EmulationToHost16[i] = 0x0000;
+        Palette_EmulationToHostGui[i] = 0;
+        Palette_EmulationToHostGame[i] = 0;
         Palette_EmulationFlags[i] = PALETTE_EMULATION_FLAGS_DIRTY;
     }
     Palette_EmulationDirtyAny = TRUE;
@@ -139,15 +140,51 @@ void    Palette_Emulation_Reload (void)
     }
 }
 
+u32		Palette_MakeHostColor(int color_format, int r, int g, int b)
+{
+	assert( (r&~0xFF)==0 && (g&~0xFF)==0 && (b&~0xFF)==0 );
+
+	switch (color_format)
+	{
+	case ALLEGRO_PIXEL_FORMAT_RGB_565:
+		r >>= 3;
+		g >>= 2;
+		b >>= 3;
+		return (r << 11) | (g << 5) | (b);
+	case ALLEGRO_PIXEL_FORMAT_RGB_555:
+		r >>= 3;
+		g >>= 3;
+		b >>= 3;
+		return (r << 10) | (g << 5) | (b);
+	case ALLEGRO_PIXEL_FORMAT_BGR_565:
+		r >>= 3;
+		g >>= 2;
+		b >>= 3;
+		return (b << 11) | (g << 5) | (r);
+	case ALLEGRO_PIXEL_FORMAT_BGR_555:
+		r >>= 3;
+		g >>= 3;
+		b >>= 3;
+		return (b << 10) | (g << 5) | (b);
+	case ALLEGRO_PIXEL_FORMAT_ARGB_8888:
+		return (0xFF << 24) | (r << 16) | (g << 8) | (b);
+	case ALLEGRO_PIXEL_FORMAT_RGBA_8888:
+		return    (r << 24) | (g << 16) | (b << 8) | (0xFF);
+	case ALLEGRO_PIXEL_FORMAT_ABGR_8888:
+		return (0xFF << 24) | (b << 16) | (g << 8) | (r);
+	}
+
+	if (color_format != 0)	// During init
+		Msg(MSGT_DEBUG, "Palette_MakeHostColor() failed, unknown format: %d", color_format);
+	return 0;
+}
+
 void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color)
 {
     assert(idx >= 0 && idx < 32);
     Palette_Emulation[idx] = color;
-	if (g_Configuration.video_mode_gui_depth == 16)	// FIXME-ALLEGRO5: GUI color format
-		Palette_EmulationToHost[idx] = al_makecol16(color.r*255, color.g*255, color.b*255);
-	else
-		Palette_EmulationToHost[idx] = al_makecol32(color.r*255, color.g*255, color.b*255);
-    Palette_EmulationToHost16[idx] = al_makecol16(color.r*255, color.g*255, color.b*255);
+	Palette_EmulationToHostGui[idx] = Palette_MakeHostColor(g_gui_buffer_format, color.r*255, color.g*255, color.b*255);
+    Palette_EmulationToHostGame[idx] = Palette_MakeHostColor(g_screenbuffer_format, color.r*255, color.g*255, color.b*255);
     Palette_EmulationFlags[idx] |= PALETTE_EMULATION_FLAGS_DIRTY;
     Palette_EmulationDirtyAny = TRUE;
 }

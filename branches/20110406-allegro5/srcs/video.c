@@ -44,7 +44,7 @@ void    Video_Init (void)
     Video.driver					= 1;
 	Video.refresh_rate_requested	= 0;
 	Video.triple_buffering_activated= FALSE;
-    fs_page_0 = fs_page_1 = fs_out	= NULL;
+	fs_page_0 = fs_page_1 = fs_out	= NULL;
 }
 
 void Video_CreateVideoBuffers()
@@ -58,11 +58,15 @@ void Video_CreateVideoBuffers()
 
 	// Allocate buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_BGR_565);
+	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
     screenbuffer_next   = screenbuffer_2;
+
+	// Retrieve actual video format. This will be used to compute color values.
+	g_screenbuffer_format = al_get_bitmap_format(screenbuffer_1);
+
 	Screenbuffer_AcquireLock();
 }
 
@@ -105,7 +109,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	}
 
 	// Create new display
-	int display_flags = ALLEGRO_OPENGL;
+	int display_flags = 0;//ALLEGRO_OPENGL;//0;
 	if (fullscreen)
 		display_flags |= ALLEGRO_FULLSCREEN;
 	else

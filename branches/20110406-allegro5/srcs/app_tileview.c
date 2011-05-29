@@ -141,7 +141,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         {
             int     n = 0;
             u8 *    nd = &tgfx.Tile_Decoded[0][0];
-            u32 *   palette_host = app->palette ? &Palette_EmulationToHost[16] : &Palette_EmulationToHost[0];
+            u32 *   palette_host = app->palette ? &Palette_EmulationToHostGui[16] : &Palette_EmulationToHostGui[0];
             for (int y = 0; y != app->tiles_height; y++)
 			{
                 for (int x = 0; x != app->tiles_width; x++)
@@ -167,8 +167,8 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         }
     case VDP_TMS9918:
         {
-            const int fg_color = Palette_EmulationToHost[app->palette + 1];
-            const int bg_color = Palette_EmulationToHost[(app->palette != 0) ? 1 : 15];
+            const int fg_color = Palette_EmulationToHostGui[app->palette + 1];
+            const int bg_color = Palette_EmulationToHostGui[(app->palette != 0) ? 1 : 15];
             u8 * addr = SG_BACK_TILE;
             // addr = &VRAM[apps.opt.Tiles_Base];
             // addr = VRAM;

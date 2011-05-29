@@ -100,13 +100,14 @@ void	GUI_CreateVideoBuffers()
 
     // Setup buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
+	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA : ALLEGRO_PIXEL_FORMAT_ANY_32_WITH_ALPHA);
     gui_buffer = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
     al_set_target_bitmap(gui_buffer);
 	al_clear_to_color(COLOR_BLACK);
+	g_gui_buffer_format = al_get_bitmap_format(gui_buffer);
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_BGR_565 : ALLEGRO_PIXEL_FORMAT_ABGR_8888);
+	al_set_new_bitmap_format((color_depth == 16) ? ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA : ALLEGRO_PIXEL_FORMAT_ANY_32_WITH_ALPHA);
     gui_background = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
 
     // Recreate existing windows buffers

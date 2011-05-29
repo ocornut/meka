@@ -38,7 +38,7 @@ static byte Sprites_Draw_Mask [SMS_RES_X + 16];
 
 #define PIXEL_TYPE              u16
 #define PIXEL_LINE_DST          GFX_LineRegionData
-#define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
+#define PIXEL_PALETTE_TABLE     Palette_EmulationToHostGame
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -48,9 +48,9 @@ static byte Sprites_Draw_Mask [SMS_RES_X + 16];
 void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
 {
 	const int color_format = al_get_bitmap_format(dst);
-    switch (color_format)
+    switch (al_get_pixel_format_bits(color_format))
     {
-    case ALLEGRO_PIXEL_FORMAT_BGR_565:
+    case 16:
         {
 			u16* dst_data = (u16*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 1;
@@ -132,7 +132,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
             }
             break;
         }
-    case ALLEGRO_PIXEL_FORMAT_ABGR_8888:
+    case 32:
         {
 			u32* dst_data = (u32*)dst_region->data;
 			const int dst_pitch = dst_region->pitch >> 2;
@@ -215,8 +215,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
             break;
         }
     default:
-        assert(0);
-		Msg(MSGT_USER, "video_m5: Unsupported color format: %x.", color_format);
+		Msg(MSGT_USER, "video_m5: Unsupported color format: %d.", color_format);
         break;
     }
 }
@@ -242,7 +241,11 @@ void    Refresh_Line_5 (void)
 		{
 			// Display is off
 			// Select SMS/GG backdrop color, unless background layer display was disabled by user, then use custom color for easier sprite extraction
-			const u16 backdrop_color = (opt.Layer_Mask & LAYER_BACKGROUND) ? Palette_EmulationToHost16[16 | (sms.VDP[7] & 15)] : COLOR_BACKDROP16;
+			u16 backdrop_color;
+			if (opt.Layer_Mask & LAYER_BACKGROUND)
+				backdrop_color = Palette_EmulationToHostGame[16 | (sms.VDP[7] & 15)];
+			else
+				backdrop_color = Palette_MakeHostColor(g_screenbuffer_format, COLOR_BACKDROP_R, COLOR_BACKDROP_G, COLOR_BACKDROP_B);
 			int n;
 			u16 *p = GFX_LineRegionData;
 			for (n = 256; n != 0; n--)
