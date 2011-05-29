@@ -129,7 +129,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     al_draw_line(app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     // Horizontal line
-    al_draw_line(0, app->frame_tilemap_addr.pos.y, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+    al_draw_line(0, app->frame_tilemap_addr.pos.y+0.5f, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     // Options
     frame.size.x = 10;
@@ -390,7 +390,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
             }
         }
     }
-
+	al_unlock_bitmap(app->box->gfx_buffer);
     // Tilemap rectangle
     al_draw_rectangle(
         app->frame_tilemap.pos.x - 0.5f, app->frame_tilemap.pos.y - 0.5f, 
@@ -414,8 +414,6 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
             TilemapViewer_UpdateScroll(app);
     }
     TilemapViewer_UpdateInfos(app);
-
-	al_unlock_bitmap(app->box->gfx_buffer);
 }
 
 static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)

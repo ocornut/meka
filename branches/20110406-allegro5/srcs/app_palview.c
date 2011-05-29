@@ -80,7 +80,7 @@ void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
     }
 
     // Draw line
-    al_draw_line(app->frame_info.pos.x, app->frame_info.pos.y+1, app->frame_info.pos.x + app->frame_info.size.x+1, app->frame_info.pos.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+    al_draw_line(app->frame_info.pos.x, app->frame_info.pos.y+0.5f, app->frame_info.pos.x + app->frame_info.size.x+1, app->frame_info.pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     // Draw current color square
     gui_rect(app->box_gfx, LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
