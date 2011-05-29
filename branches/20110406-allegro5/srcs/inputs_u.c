@@ -435,8 +435,8 @@ void        Inputs_Sources_Update (void)
                     {
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
-							const int dir = ( state.stick[INPUT_MAP_GET_STICK(map->Idx)].axis[INPUT_MAP_GET_AXIS(map->Idx)] > 0.0f ? 1 : 0 );							
-							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? dir : 0);
+							const float axis = state.stick[INPUT_MAP_GET_STICK(map->Idx)].axis[INPUT_MAP_GET_AXIS(map->Idx)];
+							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? axis >= 0.0f : axis <= 0.0f);
                             break;
                         }
                         // FIXME: to do.. support analogue axis

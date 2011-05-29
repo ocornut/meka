@@ -551,37 +551,38 @@ void    Inputs_CFG_Map_Change_Update (void)
                 {
                     input_src->Map [Inputs_CFG.Current_Map].Idx = i;
                     input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_BUTTON;
-                    //joystick->button[i].b = 0; // Consume the button // FIXME-ALLEGRO5                    found = TRUE;
+                    //joystick->button[i].b = 0; // Consume the button // FIXME-ALLEGRO5
+					found = TRUE;
                     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_B), i);
                     break;
                 }
+			}
+			if (found)
+				break;
+
+            // Check axis
+			const int num_sticks = al_get_joystick_num_sticks(joystick);
+            for (i = 0; i < num_sticks; i++)
+            {
+				const int num_axes = al_get_joystick_num_axes(joystick, i);
+                for (int j = 0; j < num_axes; j++)
+                {
+                    const float axis_pos = state.stick[i].axis[j];
+                    //Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
+					if ( axis_pos > 0.0f || axis_pos < 0.0f)
+                    {
+                        input_src->Map [Inputs_CFG.Current_Map].Idx = MAKE_STICK_AXIS_DIR (i, j, (axis_pos > 0.0f ? 1 : 0));
+                        input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_AXIS;
+                        found = TRUE;
+                        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
+                        //axis->d1 = axis->d2 = 0; // Need to be done on last line	// FIXME-ALLEGRO5
+                        break;
+                    }
+                }
                 if (found)
                     break;
-
-                // Check axis
-				const int num_sticks = al_get_joystick_num_sticks(joystick);
-                for (i = 0; i < num_sticks; i++)
-                {
-					const int num_axes = al_get_joystick_num_axes(joystick, i);
-                    for (int j = 0; j < num_axes; j++)
-                    {
-                        const float axis_pos = state.stick[i].axis[j];
-                        Msg (MSGT_DEBUG, "- axis %d - pos %f\n", j, axis_pos);
-						if ( axis_pos > 0.0f || axis_pos < 0.0f)
-                        {
-                            input_src->Map [Inputs_CFG.Current_Map].Idx = MAKE_STICK_AXIS_DIR (i, j, (axis_pos > 0.0f ? 1 : 0));
-                            input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_AXIS;
-                            found = TRUE;
-                            Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
-                            //axis->d1 = axis->d2 = 0; // Need to be done on last line	// FIXME-ALLEGRO5
-                            break;
-                        }
-                    }
-                    if (found)
-                        break;
-                }
-                break;
-			}
+            }
+            break;
         }
 #endif // #ifdef MEKA_JOY
         // Mouse -------------------------------------------------------------------
