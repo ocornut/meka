@@ -58,7 +58,7 @@ void Video_CreateVideoBuffers()
 
 	// Allocate buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA);
+	al_set_new_bitmap_format(g_Configuration.video_game_format_request);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
@@ -121,8 +121,8 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	if (!g_display)
     {
         if (fatal)
-            Quit_Msg (Msg_Get (MSG_Error_Video_Mode), w, h);
-        Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h);
+            Quit_Msg(Msg_Get(MSG_Error_Video_Mode), w, h);
+        Msg(MSGT_USER, Msg_Get(MSG_Error_Video_Mode), w, h);
         return (MEKA_ERR_FAIL);
     }
 
@@ -137,9 +137,8 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
     Video.refresh_rate_requested = refresh_rate;
 	Video_GameMode_UpdateBounds();
 
-	// Window title & callback
+	// Window title
     al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
-    //al_set_close_button_callback(Close_Button_Callback);
 
 	// Recreate all video buffers
 	Blit_CreateVideoBuffers();
@@ -249,23 +248,23 @@ void    Video_Setup_State (void)
                         Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
                     g_env.state = MEKA_STATE_GUI;
-                    Video_Setup_State ();
-                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                    Video_Setup_State();
+                    Msg(MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                     return;
                 }
 				if (fs_page_0)
 				{
-					al_destroy_bitmap (fs_page_0);
+					al_destroy_bitmap(fs_page_0);
 					fs_page_0 = NULL;
 				}
 				if (fs_page_1)
 				{
-					al_destroy_bitmap (fs_page_1);
+					al_destroy_bitmap(fs_page_1);
 					fs_page_1 = NULL;
 				}
 				if (fs_page_2)
 				{
-					al_destroy_bitmap (fs_page_2);
+					al_destroy_bitmap(fs_page_2);
 					fs_page_2 = NULL;
 				}
 

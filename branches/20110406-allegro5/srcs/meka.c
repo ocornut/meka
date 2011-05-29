@@ -189,16 +189,14 @@ static void Init_Default_Values (void)
     g_Configuration.memory_editor_columns         = 16;
 
     // Video
-    g_Configuration.video_mode_depth_desktop		= 0;    // Unknown yet
+	g_Configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
+	g_Configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;//ALLEGRO_PIXEL_FORMAT_ANY_32_NO_ALPHA;
+
 	g_Configuration.video_mode_game_fullscreen		= FALSE;
-	g_Configuration.video_mode_game_depth			= 16;   // 16-bits
-	g_Configuration.video_mode_game_depth_cfg		= 16;   // 16-bits
 	g_Configuration.video_mode_game_vsync			= FALSE;
 	g_Configuration.video_mode_game_triple_buffering= TRUE;
 	g_Configuration.video_mode_game_page_flipping	= FALSE;
 	g_Configuration.video_mode_gui_fullscreen		= FALSE;
-    g_Configuration.video_mode_gui_depth			= 0;    // Auto
-    g_Configuration.video_mode_gui_depth_cfg		= 0;    // Auto
     g_Configuration.video_mode_gui_res_x			= 640;
     g_Configuration.video_mode_gui_res_y			= 480;
     // FIXME-ALLEGRO5: no video driver
@@ -300,12 +298,6 @@ static int Init_Allegro (void)
 	al_init_font_addon();
 	al_init_image_addon();
 	al_init_primitives_addon();
-
-	// FIXME-ALLEGRO5: Default display format/depth?
-    //g_Configuration.video_mode_depth_desktop = desktop_color_depth();
-	g_Configuration.video_mode_depth_desktop = 0;
-    if (g_Configuration.video_mode_depth_desktop == 0)
-        g_Configuration.video_mode_depth_desktop = 32;	// Default
 
     // Keyboard, mouse
     al_install_keyboard();

@@ -309,16 +309,14 @@ struct t_meka_configuration
     int     memory_editor_columns;
 
     // Video
-    int     video_mode_depth_desktop;
+	int		video_game_format_request;
+	int		video_gui_format_request;
+
 	bool	video_mode_game_fullscreen;
-	int		video_mode_game_depth;
-	int		video_mode_game_depth_cfg;
 	bool	video_mode_game_vsync;
 	bool	video_mode_game_triple_buffering;	// Note: fullscreen only.
 	bool	video_mode_game_page_flipping;
 	bool	video_mode_gui_fullscreen;
-	int     video_mode_gui_depth;
-    int     video_mode_gui_depth_cfg;
     //long    video_mode_gui_driver;
     int     video_mode_gui_res_x;
     int     video_mode_gui_res_y;

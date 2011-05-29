@@ -180,14 +180,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
             break;
         }
     // gui_video_depth
-    case 10:
-        {
-            if (!stricmp(value, "auto"))
-                g_Configuration.video_mode_gui_depth_cfg = 0;
-            else
-                g_Configuration.video_mode_gui_depth_cfg = atoi(value);
-            break;
-        }
+    case 10: // OBSOLETE
     // gui_video_driver
     case 11:
 		// FIXME-ALLEGRO5: no video driver
@@ -382,11 +375,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
         break;
 
 	// video_game_depth
-	case 56:
-		if (!stricmp(value, "auto"))
-			g_Configuration.video_mode_game_depth_cfg = 0;
-		else
-			g_Configuration.video_mode_game_depth_cfg = atoi(value);
+	case 56: // OBSOLETE
 		break;
 
 	// video_game_vsync
@@ -481,13 +470,6 @@ void        Configuration_Load (void)
 void    Configuration_Load_PostProcess (void)
 {
     g_Configuration.debug_mode = (g_Configuration.debug_mode_cfg || g_Configuration.debug_mode_cl);
-
-	g_Configuration.video_mode_game_depth = g_Configuration.video_mode_game_depth_cfg;
-	if (g_Configuration.video_mode_game_depth == 0)
-		g_Configuration.video_mode_game_depth = g_Configuration.video_mode_depth_desktop;
-	g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_gui_depth_cfg;
-	if (g_Configuration.video_mode_gui_depth == 0)
-		g_Configuration.video_mode_gui_depth = g_Configuration.video_mode_depth_desktop;
 }
 
 //-----------------------------------------------------------------------------
@@ -526,10 +508,6 @@ void    Configuration_Save (void)
 
 	CFG_Write_Line ( "-----< VIDEO (GAME MODE) >--------------------------------------------------");
 	CFG_Write_Int  ("video_game_fullscreen", g_Configuration.video_mode_game_fullscreen);
-	if (g_Configuration.video_mode_game_depth_cfg == 0)
-		CFG_Write_Str ("video_game_depth", "auto");
-	else
-		CFG_Write_Int ("video_game_depth", g_Configuration.video_mode_game_depth_cfg);
 	CFG_Write_StrEscape("video_game_blitter", Blitters.current->name);
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
 	CFG_Write_Int  ("video_game_vsync", g_Configuration.video_mode_game_vsync);
@@ -542,10 +520,6 @@ void    Configuration_Save (void)
 
     sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
     CFG_Write_Str  ("gui_video_mode", s1);
-	if (g_Configuration.video_mode_gui_depth_cfg == 0)
-		CFG_Write_Str ("gui_video_depth", "auto");
-	else
-		CFG_Write_Int ("gui_video_depth", g_Configuration.video_mode_gui_depth_cfg);
 #if 0 // FIXME-ALLEGRO5: no video driver
 	CFG_Write_Str  ("gui_video_driver", VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver)->desc);
     CFG_Write_Line ("(Available video drivers are marked at the top of this file.");
