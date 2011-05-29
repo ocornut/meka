@@ -53,9 +53,9 @@ static void     Configuration_Load_Line (char *var, char *value)
 		strlwr(value);
 
 	// Select
-	if (!strcmp(var, "frameskip_mode"))					{ fskipper.Mode = !strcmp(value, "normal") ? FRAMESKIP_MODE_STANDARD : FRAMESKIP_MODE_AUTO; return; }
-	if (!strcmp(var, "frameskip_auto_speed"))			{ fskipper.Automatic_Speed = atoi(value); return; }
-	if (!strcmp(var, "frameskip_normal_speed"))			{ fskipper.Standard_Frameskip = atoi(value); return; }
+	if (!strcmp(var, "frameskip_mode"))					{ fskipper.Mode = !strcmp(value, "unthrottled") ? FRAMESKIP_MODE_UNTHROTTLED : FRAMESKIP_MODE_THROTTLED; return; }
+	if (!strcmp(var, "frameskip_throttle_speed"))		{ fskipper.Throttled_Speed = atoi(value); return; }
+	if (!strcmp(var, "frameskip_unthrottled_frameskip")){ fskipper.Unthrottled_Frameskip = atoi(value); return; }
 	if (!strcmp(var, "video_game_blitter"))				{ Blitters.blitter_configuration_name = strdup(value); return; }
 	if (!strcmp(var, "sound_card"))						{ Sound.SoundCard = atoi(value); return; }
 	if (!strcmp(var, "sound_enabled"))					{ Sound.Enabled = (bool)atoi(value); return; }
@@ -163,6 +163,8 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "gui_video_driver"))		{}
 	if (!strcmp(var, "mario_is_a_fat_plumber"))	{}
 	if (!strcmp(var, "video_game_depth"))		{}
+	if (!strcmp(var, "frameskip_auto_speed"))	{}
+	if (!strcmp(var, "frameskip_normal_speed"))	{}
 }
 
 //-----------------------------------------------------------------------------
@@ -239,12 +241,12 @@ void    Configuration_Save (void)
     CFG_Write_Line ("");
 
     CFG_Write_Line ( "-----< FRAME SKIPPING >-----------------------------------------------------");
-    if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
-        CFG_Write_Line  ("frameskip_mode = auto");
+    if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
+        CFG_Write_Line  ("frameskip_mode = throttled");
     else
-        CFG_Write_Line  ("frameskip_mode = normal");
-    CFG_Write_Int  ("frameskip_auto_speed", fskipper.Automatic_Speed);
-    CFG_Write_Int  ("frameskip_normal_speed", fskipper.Standard_Frameskip);
+        CFG_Write_Line  ("frameskip_mode = unthrottled");
+    CFG_Write_Int  ("frameskip_throttle_speed", fskipper.Throttled_Speed);
+    CFG_Write_Int  ("frameskip_unthrottled_frameskip", fskipper.Unthrottled_Frameskip);
 	CFG_Write_Line ("");
 
 	CFG_Write_Line ( "-----< VIDEO >--------------------------------------------------------------");

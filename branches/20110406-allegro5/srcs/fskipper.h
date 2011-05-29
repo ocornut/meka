@@ -7,17 +7,14 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define FRAMESKIP_MODE_AUTO     (0)
-#define FRAMESKIP_MODE_STANDARD (1)
+#define FRAMESKIP_MODE_THROTTLED	(0)
+#define FRAMESKIP_MODE_UNTHROTTLED	(1)
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 bool    Frame_Skipper (void);
-void    Frame_Skipper_Auto_Adjust_Handler (void);
-void    Frame_Skipper_Auto_Install_Handler (void);
-void    Frame_Skipper_Auto_Reinstall_Handler (void);
 void    Frame_Skipper_Configure (int v);
 void    Frame_Skipper_Switch (void);
 void    Frame_Skipper_Switch_FPS_Counter (void);
@@ -33,10 +30,10 @@ struct t_fskipper
 {
     // Frame skipper    
     int             Mode;						// Automatic (sync) or standard
-    int             Automatic_Speed;
-    volatile int    Automatic_Frame_Elapsed;
-    int             Standard_Frameskip;
-    int             Standard_Counter;
+    int             Throttled_Speed;
+    volatile int    Throttled_Frame_Elapsed;
+    int             Unthrottled_Frameskip;
+    int             Unthrottled_Counter;
     bool            Show_Current_Frame;
 
     // FPS Counter

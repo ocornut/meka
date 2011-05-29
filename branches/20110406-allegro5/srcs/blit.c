@@ -81,7 +81,7 @@ void    Blit_Fullscreen_Misc (void)
     // FIXME: 70 should be replaced by actual screen refresh rate ... can we obtain it ?
     if (g_Configuration.video_mode_game_vsync)
 	{
-        if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
+        if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
             al_wait_for_vsync();
 	}
 
@@ -364,7 +364,7 @@ void    Blit_GUI (void)
     if (g_Configuration.video_mode_gui_vsync)
     {
         // FIXME: see note about line below in Blit_Fullscreen()
-        if (!(fskipper.Mode == FRAMESKIP_MODE_AUTO && fskipper.Automatic_Speed > 70))
+        if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
             al_wait_for_vsync();
         // Update 3-D Glasses (if VSync)
         if (Glasses.Enabled)
