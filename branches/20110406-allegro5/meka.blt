@@ -13,12 +13,10 @@
 ;   [name]
 ;   res = XRESOLUTIONxYRESOLUTION
 ;   blitter = normal | double | tvmode | tvmode_double | eagle | hq2x
-;   driver = auto | another driver
 ;
 ; The configuration name must be postfixed by a mark of the appliable operating system:
 ;   ::WIN   for the Windows version of MEKA.
 ;   ::UNIX  for the UNIX version of MEKA.
-; See MEKA.CFG/MEKAW.CFG for a list of available graphics drivers.
 ;
 ; Optional settings:
 ;   refresh_rate = auto | 60 | 70 | ... (video refresh rate - prefer 60 Hz)
@@ -31,7 +29,7 @@
 ; A great setting in most cases is to setting refresh_rate to 60,
 ; enable vsync and disable the autoframeskipper in MEKA. This way,
 ; emulation will be perfectly synchronized to 60 Hz.
-; Note all video card / drivers support setting a refresh rate other
+; Not all video card / drivers support setting a refresh rate other
 ; than the default one, however.
 ;
 ; Blitters description:
@@ -55,45 +53,37 @@
 
 ;[Normal::WIN]
 ;res = 320x200
-;driver = directx
 ;refresh_rate = auto
 
 ;[PAL Screen::WIN]
 ;res = 320x240
-;driver = directx
 ;refresh_rate = auto ; 50
 
 [Fullscreen::WIN]
 res = 640x480
-driver = auto
 blitter = double
 refresh_rate = 60
 
 [TV Mode::WIN]
 res = 640x480
-driver = auto
 blitter = tvmode_double
 ;refresh_rate = 60
 
 ;[Windowed::WIN]
 ;res = 256x200
-;driver = directx_win
 
 [Windowed::WIN]
 res = 512x384
 blitter = double
-driver = directx_win
 
 [HQ2X::WIN]
 res = 1024x768
-driver = directx
 refresh_rate = 60
 blitter = hq2x
 stretch
 
 ;[Eagle::WIN]
 ;res = 1024x768
-;driver = directx
 ;refresh_rate = 60
 ;blitter = eagle
 ;stretch
@@ -105,16 +95,13 @@ stretch
 [Fullscreen::UNIX]
 res = 640x480
 blitter = double
-driver = auto
 
 [Windowed::UNIX]
 res = 256x200
-driver = auto
 
 [Windowed Double::UNIX]
 res = 512x400
 blitter = double
-driver = auto
 
 ;-----------------------------------------------------------------------------
 ; OBSOLETE - Other modes you can enable or toy with
@@ -123,18 +110,15 @@ driver = auto
 ;[Normal 256x192]
 ;res = 256x192
 ;blitter = normal
-;driver = auto
 
 ;[Doubled]
 ;res = 512x384
 ;blitter = double
-;driver = auto
 
 ;[Doubled Game Gear]
 ;;res = 400x300
 ;;res = 376x308
 ;;blitter = double
-;;driver = auto
 ;;; res = 320x350
 ;;; res = 376x282
 ;;; res = 360x360
@@ -142,22 +126,18 @@ driver = auto
 ;[TV Mode Doubled]
 ;res = 512x384
 ;blitter = tvmode_double
-;driver = auto
 
 ;[Eagle]
 ;res = 640x480
 ;blitter = eagle
-;driver = auto
 
 ;[Perfect]
 ;res = 512x384
 ;blitter = tvmode_double
-;driver = auto
 
 ;[Perfect 2]
 ;res = 320x400
 ;blitter = tvmode
-;driver = auto
 ;; Use this one if "Perfect" gives you wrong colors
 
 ;-----------------------------------------------------------------------------

@@ -56,7 +56,6 @@ t_blitter *     Blitter_New(char *name)
     b->res_x            = 320;
     b->res_y            = 240;
     b->blitter          = BLITTER_NORMAL;
-    //b->driver           = GFX_AUTODETECT_FULLSCREEN;
     b->tv_colors        = FALSE;
     b->refresh_rate     = 0;                                        // Default
     b->stretch          = BLITTER_STRETCH_NONE; // BLITTER_STRETCH_MAX_INT;
@@ -80,7 +79,6 @@ static const char * Blitters_Def_Variables [] =
 {
     "res",
     "blitter",
-    "driver",
     "refresh_rate",
     "stretch",
     NULL
@@ -137,19 +135,14 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
         else
             Blitters.current->tv_colors = FALSE;
         return MEKA_ERR_OK;
-        // Driver
     case 2:
-		// FIXME-ALLEGRO5: no video driver
-        //Blitters.current->driver = VideoDriver_FindByDesc(s)->drv_id;
-        return MEKA_ERR_OK;
-    case 3:
         if (!strcmp(w, "auto"))
             Blitters.current->refresh_rate = 0;
         else
             Blitters.current->refresh_rate = atoi(s);
         return MEKA_ERR_OK;
         // Stretch
-    case 4:
+    case 3:
         Blitters.current->stretch = BLITETR_STRETCH_MAX_INT;
         return MEKA_ERR_OK;
     default:
