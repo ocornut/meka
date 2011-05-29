@@ -19,6 +19,7 @@ They are usually of 2 kinds:
   - (Win32) Using precompiled Allegro binaries. [Omar]
   - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
   - (Win32) Now including NASM assembler in the repository. [Omar]
+  - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
   - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
   - Removed code for the old OPL3 based YM2413 emulator. [Omar]
   - Removed easter egg code for emulating the NES. [Omar]

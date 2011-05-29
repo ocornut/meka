@@ -18,7 +18,28 @@
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
-[Default]
+[Ocean]
+authors                             = Puyolin, Omar Cornut
+background_color                    = #9AC7C7
+background_grid_color               = #9AC7C7
+window_border_color                 = #052D2D
+window_background_color             = #005A5A
+window_titlebar_color               = #008282
+window_titlebar_text_color          = #FFFFFF
+window_titlebar_text_unactive_color = #9AC7C7
+window_text_color                   = #9AC7C7
+window_text_highlight_color         = #FFFFFF
+window_separators_color             = #052D2D
+menu_background_color               = #008282
+menu_border_color                   = #052D2D
+menu_selection_color                = #009A9A
+menu_text_color                     = #FFFFFF
+menu_text_unactive_color            = #9AC7C7
+menu_gradient                       = 16%-100% #005656
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+[Classic]
 authors                             = Omar Cornut
 background_color                    = #FFFFFF
 background_grid_color               = #C0C0C9   ; default: background_color
@@ -74,27 +95,6 @@ menu_text_color                     = #F7DFDF
 menu_text_unactive_color            = #D38E8E
 menu_gradient                       = 16%-100% #7F0000
 effect								= blood
-;-----------------------------------------------------------------------------
-
-;-----------------------------------------------------------------------------
-[Ocean]
-authors                             = Puyolin, Omar Cornut
-background_color                    = #9AC7C7
-background_grid_color               = #9AC7C7
-window_border_color                 = #052D2D
-window_background_color             = #005A5A
-window_titlebar_color               = #008282
-window_titlebar_text_color          = #FFFFFF
-window_titlebar_text_unactive_color = #9AC7C7
-window_text_color                   = #9AC7C7
-window_text_highlight_color         = #FFFFFF
-window_separators_color             = #052D2D
-menu_background_color               = #008282
-menu_border_color                   = #052D2D
-menu_selection_color                = #009A9A
-menu_text_color                     = #FFFFFF
-menu_text_unactive_color            = #9AC7C7
-menu_gradient                       = 16%-100% #005656
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
