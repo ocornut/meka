@@ -60,8 +60,8 @@ word    Loop_SMS (void)
         {
             //if (cur_drv->vdp == VDP_TMS)
             //   Check_Sprites_Collision_Modes_1_2_3 ();
-            // Msg (MSGT_DEBUG, "Loop_SMS: Refresh_Screen()");
-            Refresh_Screen ();
+            // Msg (MSGT_DEBUG, "Loop_SMS: Video_RefreshScreen()");
+            Video_RefreshScreen();
             if ((opt.Force_Quit) || (CPU_Loop_Stop))
                 Macro_Stop_CPU;
         }

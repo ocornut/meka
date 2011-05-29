@@ -24,6 +24,18 @@
 
 t_video	Video;
 
+t_video_driver	g_video_drivers[] =
+{
+#ifdef ARCH_WIN32
+	{ "directx",	0,					},	// Allegro for Win32 wants a zero here because it is "default".
+#endif
+	{ "opengl",		ALLEGRO_OPENGL,		},
+	{ "opengl30",	ALLEGRO_OPENGL_3_0, },
+	{ NULL, }
+};
+
+t_video_driver*	g_video_driver_default = &g_video_drivers[0];
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
@@ -70,16 +82,16 @@ void Video_CreateVideoBuffers()
 	Screenbuffer_AcquireLock();
 }
 
-static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fullscreen, int refresh_rate, bool fatal)
+static int Video_Mode_Change(t_video_driver* driver, int w, int h, int v_w, int v_h, bool fullscreen, int refresh_rate, bool fatal)
 {
     // Attempt to avoid unnecessary resolution change (on blitter change)
     static struct
     {
-        int driver;
+        t_video_driver* driver;
         int w, h, v_w, v_h;
 		int fullscreen;
         int refresh_rate;
-    } previous_mode = { -1, -1, -1, -1, -1, -1, -1 };
+    } previous_mode = { NULL, -1, -1, -1, -1, -1, -1 };
     if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && v_w == previous_mode.v_w && v_h == previous_mode.v_h && (int)fullscreen == previous_mode.fullscreen && refresh_rate == previous_mode.refresh_rate)
     {
         Video_GameMode_UpdateBounds();
@@ -109,7 +121,7 @@ static int Video_Mode_Change(int driver, int w, int h, int v_w, int v_h, bool fu
 	}
 
 	// Create new display
-	int display_flags = 0;//ALLEGRO_OPENGL;//0;
+	int display_flags = driver->flags;
 	if (fullscreen)
 		display_flags |= ALLEGRO_FULLSCREEN;
 	else
@@ -218,26 +230,12 @@ void    Video_Setup_State (void)
         }
     case MEKA_STATE_FULLSCREEN: // FullScreen mode ----------------------------
         {
-            int driver;
-            //#ifdef ARCH_WIN32
-            //   driver = Blitters.current->driver_win;
-            //#else
-			// FIXME-ALLEGRO5: no video driver
-            driver = 0;//Blitters.current->driver;
-            //#endif
-	
-            // FIXME-BLIT
-
-            // Set color depth
-			// FIXME-ALLEGRO5: removed call
-            //set_color_depth(g_Configuration.video_mode_game_depth);
-
 			Video.triple_buffering_activated = FALSE;
 			if (g_Configuration.video_mode_game_triple_buffering)
             {
 				assert(0);	// FIXME-ALLEGRO5: triple buffering
                 if (Video_Mode_Change(
-                        driver,
+						g_Configuration.video_driver,
                         Blitters.current->res_x, Blitters.current->res_y,
                     #ifdef ARCH_WIN32
                         0, 0,
@@ -344,7 +342,8 @@ void    Video_Setup_State (void)
             }
             else
             {
-                if (Video_Mode_Change (driver,
+                if (Video_Mode_Change (
+					g_Configuration.video_driver,
                     Blitters.current->res_x, Blitters.current->res_y,
                     0, 0,
 					g_Configuration.video_mode_game_fullscreen,
@@ -365,17 +364,9 @@ void    Video_Setup_State (void)
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
-            // Revert to GUI color depth
-            // FIXME-DEPTH
-	        //set_color_depth(g_Configuration.video_mode_gui_depth);
-            //Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
-
-			// FIXME-ALLEGRO5
-			Video_Mode_Change (0, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
-
+			Video_Mode_Change (g_Configuration.video_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
             Change_Mode_Misc();
             //Palette_Sync_All();
-
             gui_redraw_everything_now_once();
         }
         break;
@@ -443,7 +434,7 @@ void	Video_UpdateEvents()
 }
 
 // This is called when line == tsms.VDP_Line_End
-void    Refresh_Screen(void)
+void    Video_RefreshScreen(void)
 {
 	Screenbuffer_ReleaseLock();
 
@@ -532,6 +523,21 @@ void    Refresh_Screen(void)
 
 	Screenbuffer_AcquireLock();
 }
+
+t_video_driver*	VideoDriver_FindByName(const char* name)
+{
+	t_video_driver* driver = &g_video_drivers[0];
+	while (driver->name)
+	{
+		if (stricmp(name, driver->name) == 0)
+			return driver;
+		driver++;
+	}
+
+	// Silently return default
+	return g_video_driver_default;
+}
+
 
 //-----------------------------------------------------------------------------
 

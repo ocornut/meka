@@ -13,6 +13,7 @@
 #include "g_file.h"
 #include "glasses.h"
 #include "rapidfir.h"
+#include "video.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 
@@ -57,7 +58,10 @@ static void     Configuration_Load_Line (char *variable, char *value)
      "fm_emulator",	// OBSOLETE 
 	 "opl_speed",	// OBSOLETE
 
-     "gui_video_mode", "gui_video_depth", "gui_video_driver", "gui_vsync",
+     "gui_video_mode", 
+	 "gui_video_depth", // OBSOLETE 
+	 "gui_video_driver", // OBSOLETE
+	 "gui_vsync",
 
      "start_in_gui", "theme",
      "fb_width", "fb_height",
@@ -117,6 +121,7 @@ static void     Configuration_Load_Line (char *variable, char *value)
 
 	 "video_game_fullscreen",
 	 "video_gui_fullscreen",
+	 "video_driver",
 
      NULL
      };
@@ -181,10 +186,9 @@ static void     Configuration_Load_Line (char *variable, char *value)
         }
     // gui_video_depth
     case 10: // OBSOLETE
+		break;
     // gui_video_driver
-    case 11:
-		// FIXME-ALLEGRO5: no video driver
-        //g_Configuration.video_mode_gui_driver = VideoDriver_FindByDesc(value)->drv_id; 
+    case 11: // OBSOLETE
         break;
     // gui_vsync
     case 12: g_Configuration.video_mode_gui_vsync = (bool)atoi(value);
@@ -409,6 +413,11 @@ static void     Configuration_Load_Line (char *variable, char *value)
 	case 63: g_Configuration.video_mode_gui_fullscreen = (bool)atoi(value);
 		break;
 
+	// video_driver
+	case 64:
+        g_Configuration.video_driver = VideoDriver_FindByName(value); 
+		break;
+
 	default:
         Quit_Msg("Error #4785");
         break;
@@ -488,15 +497,6 @@ void    Configuration_Save (void)
     CFG_Write_Line (";");
     CFG_Write_Line ("");
 
-#if 0 // FIXME-ALLEGRO5: No video driver
-    CFG_Write_Line ( "-----< VIDEO DRIVERS >------------------------------------------------------");
-    CFG_Write_Line ( "This is a list of video/graphic card drivers available in this version");
-    CFG_Write_Line ( "of Meka. Those are needed to create video modes in the MEKA.BLT file and");
-    CFG_Write_Line ( "if you want to set a custom driver for the graphical user interface.");
-    VideoDriver_DumpAllDesc(CFG_File);
-#endif
-    // CFG_Write_Int  ("video_depth", cfg.Video_Depth);
-
     CFG_Write_Line ( "-----< FRAME SKIPPING >-----------------------------------------------------");
     if (fskipper.Mode == FRAMESKIP_MODE_AUTO)
         CFG_Write_Line  ("frameskip_mode = auto");
@@ -506,7 +506,10 @@ void    Configuration_Save (void)
     CFG_Write_Int  ("frameskip_normal_speed", fskipper.Standard_Frameskip);
 	CFG_Write_Line ("");
 
-	CFG_Write_Line ( "-----< VIDEO (GAME MODE) >--------------------------------------------------");
+	CFG_Write_Line ( "-----< VIDEO >--------------------------------------------------------------");
+	CFG_Write_Str  ("video_driver", g_Configuration.video_driver->name);
+	CFG_Write_Line ("(Available video drivers: opengl, directx)");
+
 	CFG_Write_Int  ("video_game_fullscreen", g_Configuration.video_mode_game_fullscreen);
 	CFG_Write_StrEscape("video_game_blitter", Blitters.current->name);
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
@@ -520,11 +523,6 @@ void    Configuration_Save (void)
 
     sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
     CFG_Write_Str  ("gui_video_mode", s1);
-#if 0 // FIXME-ALLEGRO5: no video driver
-	CFG_Write_Str  ("gui_video_driver", VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver)->desc);
-    CFG_Write_Line ("(Available video drivers are marked at the top of this file.");
-    CFG_Write_Line (" Please note that 'auto' does not always choose the fastest mode!)");
-#endif
     if (g_Configuration.video_mode_gui_refresh_rate == 0)
         CFG_Write_Str ("gui_refresh_rate", "auto");
     else

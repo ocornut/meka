@@ -21,6 +21,15 @@ struct t_video
 
 extern t_video	Video;
 
+struct t_video_driver
+{
+	const char* name;
+	int			flags;
+};
+
+extern t_video_driver	g_video_drivers[];
+extern t_video_driver*	g_video_driver_default;
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
@@ -35,7 +44,7 @@ void    Video_GameMode_UpdateBounds(void);
 void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp);
 void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp);
 
-void    Refresh_Screen(void);
+void    Video_RefreshScreen(void);
 void	Video_UpdateEvents();
 
 void	Screenbuffer_AcquireLock(void);
@@ -44,6 +53,8 @@ bool	Screenbuffer_IsLocked(void);
 
 void	Screen_Save_to_Next_Buffer (void);
 void	Screen_Restore_from_Next_Buffer (void);
+
+t_video_driver*	VideoDriver_FindByName(const char* name);
 
 //-----------------------------------------------------------------------------
 

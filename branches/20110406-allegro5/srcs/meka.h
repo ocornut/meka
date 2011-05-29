@@ -269,6 +269,8 @@ extern t_meka_env  g_env;
 #define SPRITE_FLICKERING_ENABLED   (1)
 #define SPRITE_FLICKERING_AUTO      (2) // Default
 
+struct t_video_driver;
+
 struct t_meka_configuration
 {
     // Country
@@ -305,23 +307,23 @@ struct t_meka_configuration
     bool    debugger_log_enabled;
 
     // Applet: Memory Editor
-    int     memory_editor_lines;
-    int     memory_editor_columns;
+    int				memory_editor_lines;
+    int				memory_editor_columns;
 
     // Video
-	int		video_game_format_request;
-	int		video_gui_format_request;
+	t_video_driver*	video_driver;
+	int				video_game_format_request;
+	int				video_gui_format_request;
 
-	bool	video_mode_game_fullscreen;
-	bool	video_mode_game_vsync;
-	bool	video_mode_game_triple_buffering;	// Note: fullscreen only.
-	bool	video_mode_game_page_flipping;
-	bool	video_mode_gui_fullscreen;
-    //long    video_mode_gui_driver;
-    int     video_mode_gui_res_x;
-    int     video_mode_gui_res_y;
-    bool    video_mode_gui_vsync;
-    int     video_mode_gui_refresh_rate;
+	bool			video_mode_game_fullscreen;
+	bool			video_mode_game_vsync;
+	bool			video_mode_game_triple_buffering;	// Note: fullscreen only.
+	bool			video_mode_game_page_flipping;
+	bool			video_mode_gui_fullscreen;
+    int				video_mode_gui_res_x;
+    int				video_mode_gui_res_y;
+    bool			video_mode_gui_vsync;
+    int				video_mode_gui_refresh_rate;
 
 	// Capture
 	const char *	capture_filename_template;

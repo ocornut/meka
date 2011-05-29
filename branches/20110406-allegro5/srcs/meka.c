@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA 0.72 (c) Omar Cornut (Bock) & MEKA team 1998-2008
+// MEKA (c) Omar Cornut (Bock) & MEKA team 1998-2011
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -189,6 +189,7 @@ static void Init_Default_Values (void)
     g_Configuration.memory_editor_columns         = 16;
 
     // Video
+	g_Configuration.video_driver					= g_video_driver_default;
 	g_Configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
 	g_Configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;//ALLEGRO_PIXEL_FORMAT_ANY_32_NO_ALPHA;
 
@@ -199,8 +200,6 @@ static void Init_Default_Values (void)
 	g_Configuration.video_mode_gui_fullscreen		= FALSE;
     g_Configuration.video_mode_gui_res_x			= 640;
     g_Configuration.video_mode_gui_res_y			= 480;
-    // FIXME-ALLEGRO5: no video driver
-	//g_Configuration.video_mode_gui_driver			= GFX_AUTODETECT_FULLSCREEN;
     g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
     g_Configuration.video_mode_gui_vsync			= FALSE;
 

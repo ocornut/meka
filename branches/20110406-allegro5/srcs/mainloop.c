@@ -108,7 +108,7 @@ void    Main_Loop_No_Emulation (void)
 			Effects_TV_Update();
         }
         // Refresh GUI screen
-        Refresh_Screen();
+        Video_RefreshScreen();
     }
 }
 
