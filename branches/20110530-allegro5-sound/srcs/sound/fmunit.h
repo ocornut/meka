@@ -11,11 +11,7 @@
 //-----------------------------------------------------------------------------
 
 // Registers (pointer to current FM emulator register)
-extern byte *           FM_Regs;
-
-// Counter telling weither seems to be used or not
-// It is decremented on each frame
-extern int              FM_Used;
+extern u8 *				FM_Regs;
 
 // Instruments Name (strings)
 extern const char *     FM_Instruments_Name [YM2413_INSTRUMENTS];
@@ -47,17 +43,16 @@ extern t_fm_unit_interface* FM_Unit_Current;
 // Interface Functions Accesses macros
 //-----------------------------------------------------------------------------
 
-#define FM_Reset()      do { FM_Used = FALSE; FM_Unit_Current->f_reset(); } while (0)
-#define FM_Write(R,V)   do { if (V != 0) { /* Msg (MSGT_DEBUG, "Use FM.. Reg[%02X] = %02X", R, V); */ FM_Used = 60; } FM_Unit_Current->f_write(R, V); } while (0)
+#define FM_Reset()      do { FM_Unit_Current->f_reset(); } while (0)
+#define FM_Write(R,V)   do { FM_Unit_Current->f_write(R, V); } while (0)
 #define FM_Mute         FM_Unit_Current->f_mute
 #define FM_Resume       FM_Unit_Current->f_resume
 #define FM_Regenerate   FM_Unit_Current->f_regenerate
 
 //-----------------------------------------------------------------------------
 
-void    FM_Used_Check   (void);
-void    FM_Save         (FILE *f);
-void    FM_Load         (FILE *f);
+void    FM_Save(FILE *f);
+void    FM_Load(FILE *f);
 
 //-----------------------------------------------------------------------------
 

@@ -131,6 +131,7 @@ void Sound_DestroyStream(t_sound_stream* stream)
 {
 	al_destroy_audio_stream(stream->audio_stream);
 	delete [] stream->audio_buffer;
+	al_destroy_event_queue(stream->event_queue);
 	delete stream;
 }
 
@@ -146,22 +147,24 @@ void Sound_UpdateStream(t_sound_stream* stream, void (*sample_writer)(void*,int)
 				continue;
 
 			sample_writer(buf, SOUND_BUFFERS_SIZE);
-			/*
-			static int val = 0;
-			static int pitch = 0x10000;
-			for (int i = 0; i < 4096; i++) 
-			{
-				buf[i] = ((val >> 16) & 0xff)*100;
-				val += pitch;
-				pitch++;
-			}
-			*/
 
 			if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
 				Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
         }
 	}
 }
+
+/* static void SawSampleWrite(s16* buf, int len)
+{
+	static int val = 0;
+	static int pitch = 0x10000;
+	for (int i = 0; i < ken; i++) 
+	{
+		buf[i] = ((val >> 16) & 0xff)*100;
+		val += pitch;
+		pitch++;
+	}
+}*/
 
 static bool	Sound_InitEmulators(void)
 {
@@ -193,14 +196,8 @@ void	Sound_Close (void)
     Sound.Initialized = FALSE;
 }
 
-void	Sound_Update_Frame (void)
+void	Sound_Update(void)
 {
-    // Decrement FM usage counter
-    // To save CPU, FM emulation is disabled when it reach zero
-    // Msg (MSGT_DEBUG, "FM_Used = %d\n", FM_Used);
-    if (FM_Used > 0)
-        FM_Used --;
-
 	Sound_UpdateStream(g_psg_stream, PSG_WriteSamples);
 	Sound_UpdateStream(g_ym2413_stream, FM_Digital_WriteSamples);
 }

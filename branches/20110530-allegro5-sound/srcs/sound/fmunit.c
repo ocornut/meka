@@ -8,10 +8,7 @@
 //-----------------------------------------------------------------------------
 
 // Registers (pointer to current FM emulator register)
-byte *                  FM_Regs = NULL;
-
-// Flag telling weither seems to be used or not
-int                     FM_Used = 0;
+u8 *					FM_Regs = NULL;
 
 // Interface
 void                    FM_Null_Interface_Function(void) { }
@@ -113,24 +110,6 @@ void    FM_Null_Active (void)
 }
 
 //-----------------------------------------------------------------------------
-// FM_Used_Check()
-// Compute weither the FM Unit seems to be used or not
-//-----------------------------------------------------------------------------
-void    FM_Used_Check (void)
-{
-  int   i;
-
-  if (FM_Regs)
-     for (i = 0; i < YM2413_REGISTERS; i++)
-        if (FM_Regs[i] != 0x00)
-           {
-           FM_Used = 60;
-           return;
-           }
-  FM_Used = FALSE;
-}
-
-//-----------------------------------------------------------------------------
 // FM_Save()
 // Save FM register to given file pointer
 //-----------------------------------------------------------------------------
@@ -148,9 +127,8 @@ void    FM_Save (FILE *f)
 //-----------------------------------------------------------------------------
 void    FM_Load (FILE *f)
 {
-  fread (FM_Regs, YM2413_REGISTERS, 1, f);
-  FM_Used_Check ();
-  FM_Regenerate ();
+	fread (FM_Regs, YM2413_REGISTERS, 1, f);
+	FM_Regenerate();
 }
 
 //-----------------------------------------------------------------------------

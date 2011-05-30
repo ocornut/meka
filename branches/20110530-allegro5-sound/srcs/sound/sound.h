@@ -60,7 +60,7 @@ void    Sound_Init_Config       (void);     // Initialize sound structure with i
 int     Sound_Init              (void);     // Initialize sound engine
 void    Sound_Close             (void);     // Close sound engine
 
-void    Sound_Update_Frame      (void);     // Miscellaneous things to do on each frame
+void    Sound_Update			(void);
 
 void    Sound_Playback_Start    (void);     // Start sound playback
 void    Sound_Playback_Stop     (void);     // Stop sound playback

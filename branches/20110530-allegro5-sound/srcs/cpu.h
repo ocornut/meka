@@ -75,8 +75,8 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 
 #define Interrupt_Loop_Misc_Common                                          \
     {                                                                       \
-    Sound_Update_Frame ();                                                  \
-    tsms.Control_Check_GUI = TRUE;                                           \
+    Sound_Update();                                                         \
+    tsms.Control_Check_GUI = TRUE;                                          \
     Inputs_Sources_Update ();   /* Poll input sources */                    \
     Inputs_Emulation_Update (TRUE); /* Might disable Control_Check_GUI */   \
     Inputs_Check_GUI (!tsms.Control_Check_GUI);                             \
