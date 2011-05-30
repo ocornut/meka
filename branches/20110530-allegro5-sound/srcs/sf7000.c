@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "mappers.h"
 #include "bios.h"
+#include "sf7000.h"
 
 //-----------------------------------------------------------------------------
 // The SF-7000 is an addon to the SC-3000. It provides the later one with:

@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "app_about.h"
+#include "app_filebrowser.h"
 #include "app_game.h"
 #include "app_mapview.h"
 #include "app_memview.h"
@@ -16,9 +17,9 @@
 #include "datadump.h"
 #include "debugger.h"
 #include "desktop.h"
-#include "g_file.h"
 #include "inputs_c.h"
 #include "skin_bg.h"
+#include "skin_fx.h"
 
 //-----------------------------------------------------------------------------
 // Forward Declaration
@@ -51,12 +52,12 @@ void    GUI_Init()
 
     Desktop_Init();
     GUI_InitApplets();
-    special_effects_init ();
+    special_effects_init();
 
     // Create game box
     {
         static bool active_dummy = TRUE;
-        gamebox_instance = gamebox_create (35, 132);
+        gamebox_instance = gamebox_create(163, 151);
         Desktop_Register_Box ("GAME", gamebox_instance, 1, &active_dummy);
     }
 
@@ -123,16 +124,9 @@ void	GUI_Close(void)
 
 void    GUI_InitApplets(void)
 {
-    // About box
     AboutBox_Init();
-
-    // Message Log
     TB_Message_Init();
-
-    // Memory Viewer
     MemoryViewer_MainInstance = MemoryViewer_New(TRUE, -1, -1);
-
-    // Tilemap Viewer
     TilemapViewer_MainInstance = TilemapViewer_New(TRUE);
 
     // Text Viewer
@@ -142,26 +136,17 @@ void    GUI_InitApplets(void)
         Msg (MSGT_USER, Msg_Get(MSG_Doc_File_Error));
     TextViewer.current_file = 0; // FIXME: Remove this field
 
-    // Technical Information
-    TechInfo_Init ();
+    TechInfo_Init();
+    TileViewer_Init();
+    PaletteViewer_Init();
+    // FM_Editor_Init();
+    FB_Init();
+    Options_Init_Applet();
+    Inputs_CFG_Init_Applet();
 
-    // Tiles Viewer
-    TileViewer_Init ();
-
-    // Palette Viewer
-    PaletteViewer_Init(&PaletteViewer);
-
-    // FM Instruments Editor
-    // FM_Editor_Init ();
-
-    // File Browser
-    FB_Init ();
-
-    // Options
-    Options_Init_Applet ();
-
-    // Inputs Configuration
-    Inputs_CFG_Init_Applet ();
+#ifdef SOUND_DEBUG_APPLET
+	SoundDebugApp_Init();
+#endif
 
     // Debugger
     #ifdef MEKA_Z80_DEBUGGER

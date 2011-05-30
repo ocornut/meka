@@ -84,9 +84,9 @@ t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
     app->frame_tilemap_addr.size.y  = 16;
 
     // Create box
-    app->frame_box.pos.x        = 16;   // FIXME
-    app->frame_box.pos.y        = 52;   // FIXME
-    app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
+    app->frame_box.pos.x        = 524;
+    app->frame_box.pos.y        = 52;
+	app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
     app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
     app->box = gui_box_new(&app->frame_box, "Tilemap Viewer");  // FIXME-LOCAL
     app->box->user_data = app;

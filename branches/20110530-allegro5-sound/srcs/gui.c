@@ -26,22 +26,18 @@ void    gui_redraw_everything_now_once (void)
     Blit_GUI ();
 }
 
-// REDRAW GUI BACKGROUND ------------------------------------------------------
-void    Redraw_Background (void) // gui_blit() ?
+void    GUI_DrawBackground(void)
 {
 	al_set_target_bitmap(gui_buffer);
 	al_draw_bitmap(gui_background, 0, 0, 0x0000);
 }
 
-//-----------------------------------------------------------------------------
-// gui_redraw ()
 // Redraw the screen for this frame
-//-----------------------------------------------------------------------------
-void            gui_redraw (void)
+void	gui_redraw(void)
 {
     // If we were asked to redraw everything, redraw the background as well
     if (gui.info.must_redraw == TRUE)
-        Redraw_Background ();
+        GUI_DrawBackground();
 
     // For each box...
     for (int i = gui.boxes_count - 1; i >= 0; i--)
@@ -152,17 +148,17 @@ void            gui_redraw (void)
     }
 
     // Redraw menus on top of the desktop
-    gui_redraw_menus ();
+    gui_redraw_menus();
 
     // Update applets that comes after the redraw
     // FIXME: ...
-    gui_update_applets_after_redraw ();
+    gui_update_applets_after_redraw();
 
     // Clear global redrawing flag and makes mouse reappear
     gui.info.must_redraw = FALSE;
 }
 
-void    gui_relayout(void)
+void    GUI_RelayoutAll(void)
 {
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {

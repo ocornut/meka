@@ -6,9 +6,9 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_filebrowser.h"
 #include "db.h"
 #include "vlfn.h"
-#include "g_file.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 

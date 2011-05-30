@@ -4,15 +4,14 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include <stdarg.h>
 #include "db.h"
+#include "fmunit.h"
+#include "psg.h"
 
 //-----------------------------------------------------------------------------
 
 void            VGM_Header_Init(t_vgm_header *h)
 {
-    int         i;
-
     assert(sizeof(t_vgm_header) == 64);
     memcpy(h->magic, VGM_MAGIC, sizeof (h->magic));
     h->eof_offset           = 0;                            // Unknown as of yet
@@ -44,7 +43,7 @@ void            VGM_Header_Init(t_vgm_header *h)
     h->_reserved            = 0;
     h->ym2612_clock         = 0;
     h->ym2151_clock         = 0;
-    for (i = 0; i != VGM_PADDING_SIZE; i++)
+    for (int i = 0; i != VGM_PADDING_SIZE; i++)
         h->_padding[i] = 0;
 }
 

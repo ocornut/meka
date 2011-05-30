@@ -44,7 +44,6 @@ struct t_memory_viewer
     // Interface
     bool                active;
     t_gui_box *         box;
-    ALLEGRO_BITMAP *            box_gfx;
     t_widget *          widget_scrollbar;
 
     // Interface - Top (values)

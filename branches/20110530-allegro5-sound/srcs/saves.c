@@ -6,10 +6,13 @@
 #include "shared.h"
 #include "bios.h"
 #include "commport.h"
+#include "fmunit.h"
 #include "lightgun.h"
 #include "mappers.h"
 #include "palette.h"
+#include "psg.h"
 #include "saves.h"
+#include "sf7000.h"
 #include "tvoekaki.h"
 #include "vdp.h"
 

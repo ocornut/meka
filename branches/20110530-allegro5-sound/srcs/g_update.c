@@ -7,6 +7,7 @@
 
 #include "shared.h"
 #include "app_about.h"
+#include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_palview.h"
@@ -15,9 +16,9 @@
 #include "app_tileview.h"
 #include "app_options.h"
 #include "debugger.h"
-#include "g_file.h"
 #include "g_widget.h"
 #include "inputs_t.h"
+#include "skin_fx.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -37,14 +38,10 @@ void    gui_update_applets (void)
     // because it allows changing tile data/palette so we want that to be reflected 
     // (especially since dirty flags are being cleared each frame)
     MemoryViewers_Update();
-
-    // Tilemap Viewer
     TilemapViewers_Update();
 
-    // Tile Viewer : flag appropriate decoded VRAM tiles before emulation run
+    // Tile Viewer flag appropriate decoded VRAM tiles before emulation run
     TileViewer_Update(&TileViewer);
-
-    // Palette Viewer
     PaletteViewer_Update();
 
     //if (TB_Message.Active)
@@ -58,6 +55,10 @@ void    gui_update_applets (void)
     AboutBox_Update();
     TB_Message_Update();
     TextViewer_Update(&TextViewer);
+
+	#ifdef SOUND_DEBUG_APPLET
+		SoundDebugApp_Update();
+	#endif
 
     #ifdef MEKA_Z80_DEBUGGER
         Debugger_Update();

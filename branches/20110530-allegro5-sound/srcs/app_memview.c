@@ -11,6 +11,7 @@
 #include "shared.h"
 #include "app_memview.h"
 #include "bmemory.h"
+#include "coleco.h"
 #include "desktop.h"
 #include "g_widget.h"
 #include "mappers.h"
@@ -93,8 +94,8 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     mv->frame_ascii.size.y = mv->size_lines * Font_Height(F_MIDDLE);
 
     // Create box
-    mv->frame_view.pos.x = 226;
-    mv->frame_view.pos.y  = 53;
+    mv->frame_view.pos.x = 10;
+    mv->frame_view.pos.y  = 395;
     // A column is made with 2 figures plus a space (except the last one)
     mv->frame_view.size.x = 4;
     // Start of the line: "XXXXX:" (6 characters)
@@ -112,7 +113,6 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
 
     mv->box = gui_box_new(&frame, Msg_Get(MSG_MemoryEditor_BoxTitle));
     mv->box->user_data = mv;
-    mv->box_gfx = mv->box->gfx_buffer;
     mv->box->destroy = (t_gui_box_destroy_handler)MemoryViewer_Delete;
     mv->box->flags |= GUI_BOX_FLAGS_TAB_STOP;
 
@@ -157,7 +157,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 {
     t_frame frame;
 
-	mv->box_gfx = mv->box->gfx_buffer;
+	ALLEGRO_BITMAP* box_gfx = mv->box->gfx_buffer;
 	al_set_target_bitmap(mv->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
@@ -265,11 +265,11 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     // Address text
     frame.pos.y = mv->frame_view.size.y + 1;
     frame.size.y = Font_Height (F_SMALL) + 3;
-    Font_Print (F_MIDDLE, mv->box_gfx, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print (F_MIDDLE, box_gfx, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     al_draw_vline(92, frame.pos.y, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Goto Address input box
-    Font_Print (F_MIDDLE, mv->box_gfx, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print (F_MIDDLE, box_gfx, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     if (setup)
     {
         frame.pos.x = 128;
@@ -338,7 +338,8 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         return;
 
     // If skin has changed, redraw everything
-	al_set_target_bitmap(mv->box_gfx);
+	ALLEGRO_BITMAP* box_gfx = mv->box->gfx_buffer;
+	al_set_target_bitmap(box_gfx);
     if (mv->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
     {
         MemoryViewer_Layout(mv, FALSE);
@@ -394,7 +395,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     // FIXME: Could create a label widget for this purpose.
     sprintf(buf, "%0*X", addr_length, addr_start + (mv->memblock_first * 16) + mv->values_edit_position);
     al_draw_filled_rectangle(56, mv->frame_view.size.y + 1 + 4, 91+1, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
-    Font_Print (font_id, mv->box_gfx, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print (font_id, box_gfx, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
 
     x = 4 + font_height * 6 - 7;
     y = 4;
@@ -403,7 +404,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         char *text = "None";
         if (mv->section_current->memtype == MEMTYPE_Z80 && cur_drv->cpu != CPU_Z80)
             text = "You wish!";
-        Font_Print (font_id, mv->box_gfx, text, x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print (font_id, box_gfx, text, x, y, COLOR_SKIN_WINDOW_TEXT);
     }
     else 
     {
@@ -416,7 +417,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
             // Print address
             sprintf(buf, "%0*X", addr_length, addr + addr_start);
             x = 4;
-            Font_Print (font_id, mv->box_gfx, buf, x + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print (font_id, mv->box->gfx_buffer, buf, x + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
 
             // Print 16-bytes in both hexadecimal and ASCII
             x = mv->frame_hex.pos.x;
@@ -439,14 +440,14 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
                 // Print hexadecimal
                 color = COLOR_SKIN_WINDOW_TEXT;
                 sprintf(buf, "%02X", value);
-                Font_Print (font_id, mv->box_gfx, buf, x, y, color);
+                Font_Print (font_id, mv->box->gfx_buffer, buf, x, y, color);
 
                 // Print ASCII
                 if (mv->values_edit_active && (mv->values_edit_position == col + (row * mv->size_columns)))
                     color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
                 buf[0] = isprint(value) ? value : '.';
                 buf[1] = 0;
-                Font_Print (font_id, mv->box_gfx, buf, asciix, y, color);
+                Font_Print (font_id, mv->box->gfx_buffer, buf, asciix, y, color);
 
                 addr++;
                 if (addr >= section->size)

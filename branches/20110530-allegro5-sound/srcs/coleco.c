@@ -4,11 +4,13 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "coleco.h"
 #include "debugger.h"
 #include "fskipper.h"
 #include "inputs_t.h"
 #include "mappers.h"
 #include "patch.h"
+#include "psg.h"
 #include "vdp.h"
 #include "video.h"
 #include "video_m2.h"
@@ -51,7 +53,7 @@ void    Coleco_Port_Out (word Port, byte Value)
         if (Port & 1) Tms_VDP_Out_Address (Value);
         else Tms_VDP_Out_Data (Value); return;
     case 0xE0: // Sound
-        SN76489_Write (Value); /* PSG_0_Write (Value); */ return;
+        SN76489_Write(Value); /* PSG_0_Write (Value); */ return;
     case 0x80: // Change Input Mode
         sms.Input_Mode = 0; return;
     case 0xC0: // Change Input Mode

@@ -45,8 +45,10 @@ void    TVType_Set (int tv_type, bool verbose)
     // 262 * 228 = 59736, * 60 = 3584160
     // 313 * 228 = 71364, * 50 = 3568200
 
-    // SN76489_ClockSet (opt.TV_Lines_Current * opt.Cur_IPeriod); // 59736 for NTSC
-    SN76489_ClockSet (cur_machine.TV->CPU_clock);
+    // SN76489_SetClock(opt.TV_Lines_Current * opt.Cur_IPeriod); // 59736 for NTSC
+    // SN76489_SetClock(cur_machine.TV->CPU_clock);
+	Sound_UpdateClockSpeed();
+
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 

@@ -51,7 +51,6 @@ void    TileViewer_Init_Values (void)
 void    TileViewer_Init (void)
 {
     t_app_tile_viewer *app = &TileViewer; // Global instance
-    t_frame frame;
 
     // Setup members
     app->tiles_width  = 16;
@@ -62,12 +61,13 @@ void    TileViewer_Init (void)
     app->tiles_display_frame.size.y = app->tiles_height * 8;
 
     // Create box
-    frame.pos.x     = 503;
-    frame.pos.y     = 48;
+    t_frame frame;
+    frame.pos.x     = 16;
+    frame.pos.y     = 65;
     frame.size.x    = app->tiles_display_frame.size.x - 1;
     frame.size.y    = app->tiles_display_frame.size.y + 13 - 1;
     app->box = gui_box_new(&frame, Msg_Get(MSG_TilesViewer_BoxTitle));
-    Desktop_Register_Box ("TILES", app->box, FALSE, &app->active);
+    Desktop_Register_Box ("TILES", app->box, true, &app->active);
 
     // Layout
     TileViewer_Layout(&TileViewer, TRUE);

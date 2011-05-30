@@ -1,10 +1,7 @@
 //
-// Meka - S_LOG.H
+// Meka - sound_logging.h
 // Sound Logging
 //
-
-#ifndef __S_LOG_H__
-#define __S_LOG_H__
 
 void    Sound_Log_Init (void);
 void    Sound_Log_Close (void);
@@ -18,6 +15,3 @@ void    Sound_LogWAV_Stop (void);
 void    Sound_LogVGM_Start (void);
 void    Sound_LogVGM_Stop (void);
 void    Sound_LogVGM_Accuracy_Switch (void);
-
-#endif /* __S_LOG_H__ */
-

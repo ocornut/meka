@@ -31,7 +31,7 @@ extern t_app_palette_viewer    PaletteViewer;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    PaletteViewer_Init              (t_app_palette_viewer *pv);
+void    PaletteViewer_Init              (void);
 void    PaletteViewer_Switch            (void);
 void    PaletteViewer_Update            (void);
 void    PaletteViewer_SetPaletteSize    (t_app_palette_viewer *pv, int palette_size);

@@ -726,14 +726,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\sound\s_log.c"
-					>
-				</File>
-				<File
-					RelativePath="..\sound\s_log.h"
-					>
-				</File>
-				<File
 					RelativePath="..\sound\s_misc.c"
 					>
 				</File>
@@ -747,6 +739,14 @@
 				</File>
 				<File
 					RelativePath="..\sound\sound.h"
+					>
+				</File>
+				<File
+					RelativePath="..\sound\sound_logging.c"
+					>
+				</File>
+				<File
+					RelativePath="..\sound\sound_logging.h"
 					>
 				</File>
 				<File
@@ -958,23 +958,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\g_applet.h"
-					>
-				</File>
-				<File
 					RelativePath="..\g_box.c"
 					>
 				</File>
 				<File
 					RelativePath="..\g_box.h"
-					>
-				</File>
-				<File
-					RelativePath="..\g_file.c"
-					>
-				</File>
-				<File
-					RelativePath="..\g_file.h"
 					>
 				</File>
 				<File
@@ -1066,19 +1054,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\specials.c"
+					RelativePath="..\skin_fx.c"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							AdditionalIncludeDirectories=""
-						/>
-					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\specials.h"
+					RelativePath="..\skin_fx.h"
 					>
 				</File>
 			</Filter>
@@ -1455,6 +1435,14 @@
 				</File>
 				<File
 					RelativePath="..\app_about.h"
+					>
+				</File>
+				<File
+					RelativePath="..\app_filebrowser.c"
+					>
+				</File>
+				<File
+					RelativePath="..\app_filebrowser.h"
 					>
 				</File>
 				<File

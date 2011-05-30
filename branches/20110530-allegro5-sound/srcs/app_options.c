@@ -6,7 +6,7 @@
 #include "shared.h"
 #include "desktop.h"
 #include "app_options.h"
-#include "g_file.h"
+#include "app_filebrowser.h"
 #include "g_widget.h"
 #include "palette.h"
 
@@ -54,8 +54,8 @@ void    Options_Init_Applet(void)
     t_frame frame;
 
     // Create box
-    frame.pos.x     = 252;
-    frame.pos.y     = 66;
+    frame.pos.x     = 437;
+    frame.pos.y     = 102;
     frame.size.x    = 330;
     frame.size.y    = 200;
     Options.box = gui_box_new(&frame, Msg_Get (MSG_Options_BoxTitle));

@@ -14,6 +14,7 @@
 
 #include "shared.h"
 #include "setup.h"
+#include "s_misc.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration

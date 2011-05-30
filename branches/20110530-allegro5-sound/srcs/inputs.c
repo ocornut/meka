@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_filebrowser.h"
 #include "app_options.h"
 #include "app_palview.h"
 #include "app_techinfo.h"
@@ -13,7 +14,6 @@
 #include "db.h"
 #include "debugger.h"
 #include "fskipper.h"
-#include "g_file.h"
 #include "glasses.h"
 #include "inputs_c.h"
 #include "inputs_t.h"
@@ -115,9 +115,9 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             // Speed & Frame skip 
             if (Inputs_KeyPressed (ALLEGRO_KEY_F2, FALSE))
                 Frame_Skipper_Switch ();
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F3, FALSE))
+            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F3, FALSE, 30, 3))
                 Frame_Skipper_Configure (-1);
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F4, FALSE))
+            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F4, FALSE, 30, 3))
                 Frame_Skipper_Configure (1);
 
             // Input peripheral

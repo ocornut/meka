@@ -16,7 +16,7 @@
 //-----------------------------------------------------------------------------
 
 #define TB_MESSAGE_LINES        (22) // 50
-#define TB_MESSAGE_COLUMNS      (40)
+#define TB_MESSAGE_COLUMNS      (46)
 
 //-----------------------------------------------------------------------------
 // Data
@@ -69,8 +69,8 @@ void        TB_Message_Init(void)
     app->active = TRUE;
 
     // Create box
-    frame.pos.x  = 10;
-    frame.pos.y  = 270;
+    frame.pos.x  = 16;
+    frame.pos.y  = 378;
     frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (F_MIDDLE)) + (4*2); // 4*2=padding
     frame.size.y = (TB_MESSAGE_LINES   * Font_Height (F_MIDDLE)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));

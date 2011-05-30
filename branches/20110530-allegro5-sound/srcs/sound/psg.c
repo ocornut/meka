@@ -5,6 +5,8 @@
 //
 
 #include "shared.h"
+#include "fskipper.h"
+#include "psg.h"
 #include <limits.h>
 
 // #define DEBUG_PSG
@@ -203,10 +205,7 @@ void        PSG_Regenerate (void)
     PSG.NoiseFreq = 0x10 << (PSG.Registers[6] & 0x3);
 }
 
-//-----------------------------------------------------------------------------
-// PSG_Mute()
 // Mute PSG by setting all Volumes to 15
-//-----------------------------------------------------------------------------
 void        PSG_Mute (void)
 {
     SN76489_Write (0x9F); // Channel 0 Volume 15
@@ -215,10 +214,7 @@ void        PSG_Mute (void)
     SN76489_Write (0xFF); // Channel 3 Volume 15
 }
 
-//------------------------------------------------------------------------------
-// SN76489_Reset()
 // Initialise and reset emulated PSG, given clock and sampling rate
-//------------------------------------------------------------------------------
 void        SN76489_Reset(const unsigned long PSGClockValue, const unsigned long SamplingRate)
 {
 	// Probably unnecessarily verbose
@@ -255,12 +251,8 @@ void        SN76489_Reset(const unsigned long PSGClockValue, const unsigned long
 	PSG.NoiseShiftRegister = NoiseInitialState;
 }
 
-//------------------------------------------------------------------------------
-// SN76489_ClockSet()
 // Set PSG clock based on master CPU clock
-// FIXME: it is correct ?
-//------------------------------------------------------------------------------
-void        SN76489_ClockSet(const unsigned long PSGClockValue)
+void    SN76489_SetClock(const unsigned long PSGClockValue)
 {
     PSG.dClock = (float)PSGClockValue / (16 * PSG.SamplingRate);
 }
@@ -287,8 +279,7 @@ void        SN76489_Write(const unsigned char data)
     #endif
 
     // Update the output buffer before changing the registers
-	// FIXME-NEWSOUND
-    // stream_update (PSG_saChannel, 0);
+	SoundStream_RenderUpToCurrentTime(g_psg_stream);
 
     if (data & 0x80)
     {

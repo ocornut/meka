@@ -70,9 +70,8 @@ void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_activ
             // ConsolePrintf ("found old %s\n", name);
             item->box = box;
             item->active_org = active_org;
-            // Set will be set later
-            //b->frame.pos.x = item->pos_x;
-            //b->frame.pos.y = item->pos_y;
+            box->frame.pos.x = item->pos_x;
+            box->frame.pos.y = item->pos_y;
             *(item->active_org) = item->active;
             //gui_box_clip_position (b);
             //gui_box_show (b, item->active, FALSE); // FIXME: Focus
@@ -120,8 +119,8 @@ void                Desktop_SetStateToBoxes (void)
         {
             // Set state for this box
             t_gui_box *b = item->box;
-            b->frame.pos.x = item->pos_x;
-            b->frame.pos.y = item->pos_y;
+            //b->frame.pos.x = item->pos_x;
+            //b->frame.pos.y = item->pos_y;
             *item->active_org = item->active;
             gui_box_clip_position (b);
             gui_box_show (b, item->active, FALSE); // FIXME: Focus

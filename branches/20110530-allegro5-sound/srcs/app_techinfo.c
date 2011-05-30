@@ -11,6 +11,7 @@
 #include "desktop.h"
 #include "debugger.h"
 #include "g_widget.h"
+#include "psg.h"
 #include "vdp.h"
 
 //-----------------------------------------------------------------------------
@@ -41,8 +42,8 @@ void        TechInfo_Init (void)
     int    i;
     t_frame frame;
 
-    frame.pos.x = 150;
-    frame.pos.y = 382;
+    frame.pos.x = 306;
+    frame.pos.y = 482;
     frame.size.x = TECHINFO_COLUMNS * Font_TextLength(F_MIDDLE, " ");
     frame.size.y = TECHINFO_LINES * Font_Height(F_MIDDLE);
     

@@ -9,6 +9,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_filebrowser.h"
 #include "app_options.h"
 #include "app_tileview.h"
 #include "bios.h"
@@ -16,6 +17,7 @@
 #include "blitintf.h"
 #include "capture.h"
 #include "config.h"
+#include "coleco.h"
 #include "db.h"
 #include "debugger.h"
 #include "desktop.h"
@@ -23,7 +25,6 @@
 #include "fdc765.h"
 #include "file.h"
 #include "fskipper.h"
-#include "g_file.h"
 #include "glasses.h"
 #include "inputs_f.h"
 #include "inputs_i.h"
@@ -180,7 +181,7 @@ static void Init_Default_Values (void)
 
     // Applet: Debugger
     g_Configuration.debugger_console_lines        = 24;
-    g_Configuration.debugger_disassembly_lines    = 15;
+    g_Configuration.debugger_disassembly_lines    = 20;
     g_Configuration.debugger_disassembly_display_labels = TRUE;
     g_Configuration.debugger_log_enabled          = TRUE;
 

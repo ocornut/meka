@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "psg.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
 static void		Sound_Volume_Menu_Handler(t_menu_event *event);
-static void		Sound_Rate_Menu_Handler(t_menu_event *event);
 
 //-----------------------------------------------------------------------------
 // Data
@@ -27,44 +27,6 @@ int		Sound_Rate_Default_Table[4] =
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
-
-double  Sound_Calc_CPU_Time(void)
-{
-  const int CPU_ICount = CPU_GetICount(); // - Sound_Update_Count;
-  const int CPU_IPeriod = CPU_GetIPeriod();
-
-  // IPeriod : 228
-  // ICount  : 228.. 227.. 226.. [..] .. 3.. 2.. 1.. 0..
-  // Cycle elapsed in the period : IPeriod-ICount
-  // Cycle left in the period    : ICount
-
-/*
-    {
-    int now;
-    sound_vcount = opt.Cur_IPeriod * opt.Cur_TV_Lines; //CPU_CLOCK/60;
-    now = ((tsms.VDP_Line + 1) * CPU_IPeriod - CPU_ICount);
-    now %= sound_vcount;
-    return ((double)now / (double)sound_vcount);
-    }
-*/
-
-  // FIXME-NEWSOUND: CPU clock
-  return 0.0;
-  /*
-  {
-	  int ic = CPU_IPeriod - CPU_ICount; // + Sound_Update_Count;
-
-	  // Number of cycle for a vertical refresh
-	  // sound_vcount = opt.TV_Lines_Current * opt.Cur_IPeriod;
-	  sound_vcount = 262 * opt.Cur_IPeriod; // FIXME
-	  // sound_vcount = opt.CPU_Clock_Current / 60;
-	  sound_icount = sound_icount + ic + Sound_Update_Count;
-	  sound_icount %= sound_vcount;
-	  Sound_Update_Count = -ic;
-	  return ((double)sound_icount / (double)sound_vcount);
-  }
-  */
-}
 
 void    FM_Disable (void)
 {
@@ -105,7 +67,7 @@ void    Sound_Volume_Menu_Handler (t_menu_event *event)
 {
 	const int volume = (int)event->user_data;
 
-	Sound_MasterVolume_Set(volume);
+	Sound_SetMasterVolume(volume);
     Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Volume_Changed), volume);
     gui_menu_un_check (menus_ID.volume);
 	gui_menu_check (menus_ID.volume, event->menu_item_idx);

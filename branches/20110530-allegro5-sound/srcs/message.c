@@ -505,7 +505,7 @@ static t_console_win32  ConsoleWin32;
 // LANGUAGES
 //-----------------------------------------------------------------------------
 
-t_lang *        Lang_New (char *name)
+t_lang *	Lang_New(char *name)
 {
     for (t_list* langs = Messages.Langs; langs; langs = langs->next)
 	{
@@ -523,14 +523,12 @@ t_lang *        Lang_New (char *name)
     return (lang);
 }
 
-int             Lang_Post_Check (t_lang *lang)
+int		Lang_Post_Check (t_lang *lang)
 {
-    int         i, j;
-
     // Count available messages (skipping MSG_NULL)
     // and set default for when one is missing
     int cnt = 0;
-    for (i = 1; i < MSG_MAX; i++)
+    for (int i = 1; i < MSG_MAX; i++)
         if (lang->Messages[i])
             cnt++;
     if (cnt < MSG_MAX - 1)
@@ -546,21 +544,23 @@ int             Lang_Post_Check (t_lang *lang)
         if (lang->WIP == FALSE)
         {
             ConsolePrintf ("The following messages are missing:\n");
-            for (i = 1; i < MSG_MAX; i++)
+            for (int i = 1; i < MSG_MAX; i++)
+			{
                 if (lang->Messages[i] == NULL)
                 {
-                    for (j = 0; Msg_Translation_Table[j].name; j++)
+                    for (int j = 0; Msg_Translation_Table[j].name; j++)
                         if (Msg_Translation_Table[j].value == i)
                             ConsolePrintf ("  %s\n", Msg_Translation_Table[j].name);
                     if (lang != Messages.Lang_Default)
                         lang->Messages[i] = Messages.Lang_Default->Messages[i];
                 }
-            ConsoleEnablePause ();
+			}
+            ConsoleEnablePause();
         }
         else
         {
             if (lang != Messages.Lang_Default)
-                for (i = 1; i < MSG_MAX; i++)
+                for (int i = 1; i < MSG_MAX; i++)
                     if (lang->Messages[i] == NULL)
                         lang->Messages[i] = Messages.Lang_Default->Messages[i];
         }
@@ -569,13 +569,11 @@ int             Lang_Post_Check (t_lang *lang)
     return (MEKA_ERR_OK);
 }
 
-int             Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
+int		Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
 {
-    int           i;
-
     // Find message number (#define) by name
     int n = -1;
-    for (i = 0; Msg_Translation_Table[i].name; i++)
+    for (int i = 0; Msg_Translation_Table[i].name; i++)
 	{
         if (stricmp (msg_id, Msg_Translation_Table[i].name) == 0)
         {
@@ -617,7 +615,7 @@ static void		Lang_Set (t_menu_event *event)
     // Post-process
     // FIXME: Rebuild menus
     gamebox_rename_all();
-    gui_relayout();
+    GUI_RelayoutAll();
 }
 
 void            Lang_Set_by_Name (char *name)
@@ -882,11 +880,8 @@ bool            ConsoleWaitForAnswer (bool allow_run)
 #endif
 }
 
-//-----------------------------------------------------------------------------
-// Msg ()
 // Send a message to the user and/or debugging message
-//-----------------------------------------------------------------------------
-void            Msg (int attr, const char *format, ...)
+void            Msg(int attr, const char *format, ...)
 {
     va_list     params;
     char *      src;
@@ -926,7 +921,15 @@ void            Msg (int attr, const char *format, ...)
 
         // Add to user text box
         if (attr & MSGT_USER_BOX)
-            TB_Message_Print (src);
+            TB_Message_Print(src);
+
+#ifdef WIN32
+		if (attr & MSGT_ATTR_DEBUG)
+		{
+			OutputDebugString(src);
+			OutputDebugString("\n");
+		}
+#endif
     }
     while (p != NULL);
 }

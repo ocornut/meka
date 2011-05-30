@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA - specials.c
+// MEKA - skin_fx.c
 // Special effects - Code
 // was: Bloodlust theme                                          B.elieve
 //-----------------------------------------------------------------------------
@@ -10,6 +10,7 @@
 // FIXME: optimize colors/palette stuff, which are handled horribly
 
 #include "shared.h"
+#include "skin_fx.h"
 
 //-----------------------------------------------------------------------------
 // Data

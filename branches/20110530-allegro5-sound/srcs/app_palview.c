@@ -27,9 +27,9 @@ static void    PaletteViewer_CallbackSelectColor(t_widget *w);
 // Functions
 //-----------------------------------------------------------------------------
 
-void    PaletteViewer_Init(t_app_palette_viewer *pv)
+void    PaletteViewer_Init()
 {
-    t_frame frame;
+	t_app_palette_viewer *pv = &PaletteViewer;
 
     // Setup
     pv->active          = TRUE;
@@ -40,7 +40,8 @@ void    PaletteViewer_Init(t_app_palette_viewer *pv)
     pv->color_selected  = -1;
 
     // Create box
-    frame.pos.x     = 15;
+    t_frame frame;
+    frame.pos.x     = 163;
     frame.pos.y     = 53;
     frame.size.x    = 191;
     frame.size.y    = 49+13;
@@ -103,15 +104,15 @@ void    PaletteViewer_Update(void)
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
 	ALLEGRO_BITMAP* box_gfx = pv->box->gfx_buffer;
 
-    int         i;
+    // Skip update if not active
+    if (!pv->active)
+        return;
+
+	int         i;
     bool        dirty = FALSE;
     const int   color_box_size = al_get_bitmap_width(box_gfx) / pv->palette_size;
     int         color_current;
     bool        color_current_refresh;
-
-    // Skip update if not active
-    if (!pv->active)
-        return;
 
     // If skin has changed, redraw everything
     if (pv->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)

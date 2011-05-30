@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "app_about.h"
+#include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_options.h"
@@ -17,12 +18,14 @@
 #include "datadump.h"
 #include "debugger.h"
 #include "file.h"
-#include "g_file.h"
+#include "fmunit.h"
 #include "glasses.h"
 #include "inputs_c.h"
 #include "rapidfir.h"
 #include "saves.h"
 #include "sk1100.h"
+#include "s_misc.h"
+#include "sound_logging.h"
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS

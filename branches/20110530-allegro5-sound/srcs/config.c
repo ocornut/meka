@@ -4,13 +4,13 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_filebrowser.h"
 #include "app_tileview.h"
 #include "blitintf.h"
 #include "capture.h"
 #include "config.h"
 #include "debugger.h"
 #include "fskipper.h"
-#include "g_file.h"
 #include "glasses.h"
 #include "rapidfir.h"
 #include "video.h"
@@ -141,12 +141,12 @@ static void     Configuration_Load_Line (char *var, char *value)
 	}
 	if (!strcmp(var, "debug_mode"))						{ g_Configuration.debug_mode_cfg = (bool)atoi(value); return; }
 	if (!strcmp(var, "allow_opposite_directions"))		{ g_Configuration.allow_opposite_directions = (bool)atoi(value); return; }
-	if (!strcmp(var, "debugger_console_lines"))			{ g_Configuration.debugger_console_lines = MIN(1, atoi(value)); return; }
-	if (!strcmp(var, "debugger_disassembly_lines"))		{ g_Configuration.debugger_disassembly_lines = MIN(1, atoi(value)); return; }
+	if (!strcmp(var, "debugger_console_lines"))			{ g_Configuration.debugger_console_lines = MAX(1, atoi(value)); return; }
+	if (!strcmp(var, "debugger_disassembly_lines"))		{ g_Configuration.debugger_disassembly_lines = MAX(1, atoi(value)); return; }
 	if (!strcmp(var, "debugger_disassembly_display_labels")) { g_Configuration.debugger_disassembly_display_labels = (bool)atoi(value); return; }
 	if (!strcmp(var, "debugger_log"))					{ g_Configuration.debugger_log_enabled = (bool)atoi(value); return; }
-	if (!strcmp(var, "memory_editor_lines"))			{ g_Configuration.memory_editor_lines = MIN(1, atoi(value)); return; }
-	if (!strcmp(var, "memory_editor_columns"))			{ g_Configuration.memory_editor_columns = MIN(1, atoi(value)); return; }
+	if (!strcmp(var, "memory_editor_lines"))			{ g_Configuration.memory_editor_lines = MAX(1, atoi(value)); return; }
+	if (!strcmp(var, "memory_editor_columns"))			{ g_Configuration.memory_editor_columns = MAX(1, atoi(value)); return; }
 	if (!strcmp(var, "video_game_vsync"))				{ g_Configuration.video_mode_game_vsync = (bool)atoi(value); return; }
 	if (!strcmp(var, "video_game_triple_buffering"))	{ g_Configuration.video_mode_game_triple_buffering = (bool)atoi(value); return; }
 	if (!strcmp(var, "video_game_page_flipping"))		{ g_Configuration.video_mode_game_page_flipping = (bool)atoi(value); return; }

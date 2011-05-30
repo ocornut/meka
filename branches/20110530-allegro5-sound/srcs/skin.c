@@ -506,7 +506,7 @@ void        Skins_Apply(void)
     Skins_Background_Redraw();
 
     // Layout all boxes
-    gui_relayout();
+    GUI_RelayoutAll();
 }
 
 void        Skins_StartupFadeIn(void)

@@ -1,17 +1,22 @@
-//-----------------------------------------------------------------------------
+
 // MEKA - machine.c
 // Emulated Machines Initialization - Code
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "bios.h"
+#include "coleco.h"
 #include "commport.h"
 #include "db.h"
 #include "debugger.h"
 #include "eeprom.h"
+#include "fmunit.h"
 #include "glasses.h"
 #include "mappers.h"
 #include "palette.h"
+#include "psg.h"
+#include "sf7000.h"
+#include "sg1ksc3k.h"
 #include "vdp.h"
 #include "video.h"
 #include "tvoekaki.h"
@@ -532,27 +537,22 @@ void        Machine_Reset (void)
     sms.FM_Magic = 0;
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm ();
-    FM_Reset ();
+    FM_Reset();
 	SN76489_Reset (cur_machine.TV->CPU_clock, Sound.SampleRate);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 
-    // Reset sound cycle counter
-    Sound.CycleCounter = 0;
+	Sound_ResetCycleCounter();
 
     // FIXME: add a reset handler per driver, instead of the code below...
 
     // GAME GEAR COMMUNICATION PORT
     if (cur_machine.driver_id == DRV_GG)
-    {
-        Comm_Reset ();
-    }
+        Comm_Reset();
 
     // SF-7000
     if (cur_machine.driver_id == DRV_SF7000)
-    {
-        SF7000_Reset ();
-    }
+        SF7000_Reset();
 
     // DEBUGGER ---------------------------------------------------------------
     #ifdef MEKA_Z80_DEBUGGER

@@ -37,15 +37,6 @@ struct t_frame
 #include "g_menu_t.h"
 
 //-----------------------------------------------------------------------------
-// GUI non-shared includes
-// Those are listed here for reference purposes, but should be included
-// manually by each file using them.
-//-----------------------------------------------------------------------------
-
-// #include "g_file.h"      // G_FILE.H     File Browser
-// #include "g_widget.h"    // G_WIDGET.H   Widgets
-
-//-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
 
@@ -65,10 +56,6 @@ struct t_frame
 //-----------------------------------------------------------------------------
 
 #define GUI_BOX_MAX                 (128)
-
-#define GUI_FB_ACCESS_DIRECT        (0)
-#define GUI_FB_ACCESS_BUFFERED      (1)
-#define GUI_FB_ACCESS_FLIPPED       (2)
 
 enum t_gui_box_type
 {
@@ -92,9 +79,9 @@ enum t_gui_box_flags
 
 void    gui_redraw (void);
 void    gui_redraw_everything_now_once (void);
-void    Redraw_Background (void);
 
-void    gui_relayout(void);
+void    GUI_DrawBackground(void);
+void    GUI_RelayoutAll(void);
 
 int     gui_box_image (byte is, int which, ALLEGRO_BITMAP *bitmap);
 

@@ -4,8 +4,8 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "app_filebrowser.h"
 #include "desktop.h"
-#include "g_file.h"
 #include "g_tools.h"
 #include "g_widget.h"
 #include "db.h"
@@ -135,8 +135,8 @@ void            FB_Init (void)
 {
     t_frame     frame;
 
-    frame.pos.x     = 310;
-    frame.pos.y     = 50;
+    frame.pos.x     = 446;
+    frame.pos.y     = 100;
     frame.size.x    = FB.res_x;
     frame.size.y    = FB_Return_Res_Y();
     FB.box = gui_box_new(&frame, Msg_Get (MSG_FileBrowser_BoxTitle));
@@ -815,12 +815,11 @@ void            FB_Update(void)
         // Update mouse inputs (wheel)
         if (gui.mouse.z_rel != 0)
         {
+			const int wheel_speed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) ? 10 : 1;
             if (gui.mouse.z_rel < 0)
-                //FB.file_display_first++;
-                FB.file_pos++;
+                FB.file_pos += wheel_speed;
             if (gui.mouse.z_rel > 0)
-                //FB.file_display_first--;
-                FB.file_pos--;
+                FB.file_pos -= wheel_speed;
             dirty = TRUE;
         }
     }

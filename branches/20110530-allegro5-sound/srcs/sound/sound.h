@@ -11,14 +11,15 @@
 #define SOUND_SOUNDCARD_NONE    (0)
 
 #define SOUND_BUFFERS_COUNT		(4)
-#define SOUND_BUFFERS_SIZE		(2048)
+#define SOUND_BUFFERS_SIZE		(1024)
+
+#define SOUND_DEBUG_APPLET		(1)
 
 //-----------------------------------------------------------------------------
 // INCLUDES
 //-----------------------------------------------------------------------------
 
-#include "vgm.h"                // VGM.H : for VGM file creation
-#include "wav.h"                // WAV.H : for WAV file creation
+#include "vgm.h"
 
 //-----------------------------------------------------------------------------
 // DATA
@@ -27,15 +28,15 @@
 struct t_sound
 {
     // General
-    int         Enabled;
-    int         Initialized;
-    int         SoundCard;                      // Soundcard driver
-    int         SampleRate;                     // In Hz
-    int         Paused;                         // Paused stack. Sounds play only when this is zero
-    int         MasterVolume;                   // Master Volume (0-128)
+    bool        Enabled;
+    bool        Initialized;
+    int         SoundCard;                  // Soundcard driver
+    int         SampleRate;                 // In Hz
+    int         Paused;                     // Paused stack. Sounds play only when this is zero
+    int         MasterVolume;               // Master Volume (0-128)
 
     // FM Emulation
-    int         FM_Enabled;                     // FM Emulation enabled (emulated machine)
+    bool        FM_Enabled;					// FM Emulation enabled (emulated machine)
 
     // Logging
     FILE *      LogWav;
@@ -47,42 +48,47 @@ struct t_sound
     char *      LogVGM_FileName_Template;
     int         LogVGM_ID;
 
-	int			CycleCounter;				// Number of cycle elapsed since last sound sync.
+	int			CpuClock;
+	s64			CycleCounter;				// Number of cycle elapsed since last sound sync.
 };
 
-extern t_sound  Sound;
+struct t_sound_stream;
+
+extern t_sound			Sound;
+extern t_sound_stream*	g_psg_stream;
+extern t_sound_stream*	g_ym2413_stream;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-void    Sound_Init_Config       (void);     // Initialize sound structure with its default values
-int     Sound_Init              (void);     // Initialize sound engine
-void    Sound_Close             (void);     // Close sound engine
+void			Sound_Init_Config();
+int				Sound_Init();
+void			Sound_Close();
+void			Sound_UpdateClockSpeed();
+void			Sound_Update();
+void			Sound_SetMasterVolume(int volume);
+void			Sound_ResetCycleCounter();
 
-void    Sound_Update			(void);
+s64				Sound_GetElapsedCycleCounter();
+double			Sound_ConvertSamplesToCycles(double samples_count);
 
-void    Sound_Playback_Start    (void);     // Start sound playback
-void    Sound_Playback_Stop     (void);     // Stop sound playback
+void			Sound_Playback_Start();
+void			Sound_Playback_Stop();
+void			Sound_Playback_Mute();
+void			Sound_Playback_Resume();
 
-void    Sound_Playback_Mute     (void);     // Mute sound playback
-void    Sound_Playback_Resume   (void);     // Resume sound playback
+t_sound_stream*	SoundStream_Create(void (*sample_writer)(void*,int));
+void			SoundStream_Destroy(t_sound_stream* stream);
+void			SoundStream_Update(t_sound_stream* stream);
+void			SoundStream_RenderSamples(t_sound_stream* stream, int samples_count);
+void			SoundStream_RenderUpToCurrentTime(t_sound_stream* stream);
+int				SoundStream_CountReadableSamples(const t_sound_stream* stream);
+int				SoundStream_CountWritableSamples(const t_sound_stream* stream);
+bool			SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_count, s16** wbuf1, int* wbuf1_len, s16** buf2, int* wbuf2_len);
+int				SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted);
 
-void    Sound_MasterVolume_Set  (int v);    // Change Master Volume
+void			SoundDebugApp_Init();
+void			SoundDebugApp_Update();
 
 //-----------------------------------------------------------------------------
-// INCLUDES (even more. note the unordered mess)
-//-----------------------------------------------------------------------------
-
-#include "s_log.h"                      // S_LOG.H      Sound logging
-#include "s_misc.h"                     // S_MISC.H     Miscellaenous
-
-#include "psg.h"                        // PSG.H        PSG SN-76496 emulator
-
-#include "fmunit.h"                     // FMUNIT.H     FM Unit wrapper to emulators
-#include "fmeditor.h"	                // FMEDITOR.H   FM instrument editor applet
-#include "emu2413/mekaintf.h"           // EMU2413.H... FM emulator / Digital
-
-//-----------------------------------------------------------------------------
-
-

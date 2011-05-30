@@ -162,6 +162,7 @@ void    Frame_Skipper_Configure (int v)
             fskipper.Throttled_Speed += (v * 10);
 			fskipper.Throttled_Speed = Clamp(fskipper.Throttled_Speed, 10, 400);			// Range 10->400 Hz
 			al_set_timer_speed(g_timer_throttle, 1.0f/(float)fskipper.Throttled_Speed);
+			Sound_UpdateClockSpeed();
             break;
         }
     case FRAMESKIP_MODE_UNTHROTTLED:

@@ -1602,7 +1602,7 @@ static void Debugger_Applet_Init (void)
     // Create box
     DebuggerApp.font_id = F_MIDDLE;
     DebuggerApp.font_height = Font_Height(DebuggerApp.font_id);
-    frame.pos.x     = 280;
+    frame.pos.x     = 428;
     frame.pos.y     = 50;
     frame.size.x    = 360;
     frame.size.y    = ((g_Configuration.debugger_console_lines + 1 + g_Configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding

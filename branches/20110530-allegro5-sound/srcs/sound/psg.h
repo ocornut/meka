@@ -44,7 +44,7 @@ extern t_psg            PSG;
 //-----------------------------------------------------------------------------
 
 void    SN76489_Reset           (const unsigned long PSGClockValue, const unsigned long SamplingRate);
-void    SN76489_ClockSet        (const unsigned long PSGClockValue);
+void    SN76489_SetClock        (const unsigned long PSGClockValue);
 void    SN76489_Write           (const unsigned char data);
 void    SN76489_StereoWrite     (const unsigned char data);
 void    SN76489_GetValues       (int *left, int *right);

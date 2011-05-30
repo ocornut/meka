@@ -31,23 +31,23 @@ static void                 TextViewer_Update_Inputs(t_app_textviewer *tv);
 
 void            TextViewer_Init(t_app_textviewer *tv)
 {
-    t_frame frame;
     assert(tv == &TextViewer); // WIP multiple instanciation not supported
 
     // Setup members
-    tv->active          = FALSE;
-    tv->dirty           = TRUE;
-    tv->current_file    = -1;
-    tv->font            = F_MIDDLE;
-    tv->font_height     = Font_Height(tv->font);
-    tv->size_x          = TEXTVIEWER_COLUMNS;
-    tv->size_y          = TEXTVIEWER_LINES;
+    tv->active      = FALSE;
+    tv->dirty       = TRUE;
+    tv->current_file= -1;
+    tv->font        = F_MIDDLE;
+    tv->font_height = Font_Height(tv->font);
+    tv->size_x		= TEXTVIEWER_COLUMNS;
+    tv->size_y      = TEXTVIEWER_LINES;
 
     // Create box
-    frame.pos.x    = 22;
-    frame.pos.y    = 54;
-    frame.size.x   = (tv->size_x * tv->font_height) + TEXTVIEWER_PADDING_X - 1; // FIXME
-    frame.size.y   = ((tv->size_y + 2) * tv->font_height) - 1;                  // +2 for vertical padding
+    t_frame frame;
+    frame.pos.x		= 290;
+    frame.pos.y		= 65;
+    frame.size.x	= (tv->size_x * tv->font_height) + TEXTVIEWER_PADDING_X - 1; // FIXME
+    frame.size.y	= ((tv->size_y + 2) * tv->font_height) - 1;                  // +2 for vertical padding
     tv->box = gui_box_new(&frame, "Text Viewer");
     Desktop_Register_Box("TEXTVIEW", tv->box, FALSE, &tv->active);
 

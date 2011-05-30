@@ -10,6 +10,9 @@
 #include "shared.h"
 #include "beam.h"
 #include "bios.h"
+#include "fmunit.h"
+#include "psg.h"
+#include "sf7000.h"
 #include "vdp.h"
 #include "commport.h"
 #include "fdc765.h"
@@ -66,7 +69,7 @@ switch (Port /* & 0xFF*/)
          {
          VGM_Data_Add_FM (&Sound.LogVGM, (Value << 8) | sms.FM_Register);
          }
-      FM_Write (sms.FM_Register, Value);
+      FM_Write(sms.FM_Register, Value);
       }
    return;
 

@@ -82,8 +82,8 @@ void            AboutBox_Init (void)
     t_app_about_box *app = &AboutBox;	// Global instance
 
     t_frame frame;
-	frame.pos.x = 285;
-	frame.pos.y = 60;
+	frame.pos.x = 440;
+	frame.pos.y = 62;
 	frame.size.x = 346;
 	frame.size.y = 93;
     app->box = gui_box_new(&frame, Msg_Get(MSG_About_BoxTitle));

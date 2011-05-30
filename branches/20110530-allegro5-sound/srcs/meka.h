@@ -5,7 +5,7 @@
 
 // Z80 CPU Clock (3.579540 MHz) -----------------------------------------------
 // FIXME: this should be obsoleted by what is in TVTYPE.C/.H
-#define Z80_DEFAULT_CPU_CLOCK   (3579540 /*3579545*/)
+#define Z80_DEFAULT_CPU_CLOCK   (3579540 /*3579545*/) // Emu use 60*262*228 = 3584160?
 
 // Emulated screen resolutions ------------------------------------------------
 #define SMS_RES_X               (256)

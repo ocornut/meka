@@ -16,8 +16,6 @@ extern int		Sound_Rate_Default_Table[4];
 // Functions
 //-----------------------------------------------------------------------------
 
-double  Sound_Calc_CPU_Time (void);
-
 void    FM_Disable                      (void);
 void    FM_Enable                       (void);
 
