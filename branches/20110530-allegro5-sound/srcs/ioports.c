@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 // FIXME: Old, crappy, incorrect mess.
 // FIXME: Implement proper port map, mirroring, etc. Per system.
-// FIXME: I did not write this! I'm innocent! My evil twin programmer did! *cough*
 //-----------------------------------------------------------------------------
 
 //#define DEBUG_IO

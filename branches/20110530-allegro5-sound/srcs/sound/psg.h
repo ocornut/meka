@@ -6,13 +6,13 @@
 
 //-----------------------------------------------------------------------------
 
-int     PSG_Init        (void *user_data /* unused */);
-void    PSG_Update      (int chip, void *buffer, int length);
-void    PSG_Reset       (void);
-void    PSG_Save        (FILE *f);
-void    PSG_Load        (FILE *f, int version);
-void    PSG_Regenerate  (void);
-void    PSG_Mute        (void);
+int     PSG_Init();
+void    PSG_UpdateSamples(void *buffer, int length);
+void    PSG_Reset(void);
+void    PSG_Save(FILE *f);
+void    PSG_Load(FILE *f, int version);
+void    PSG_Regenerate(void);
+void    PSG_Mute(void);
 
 //-----------------------------------------------------------------------------
 

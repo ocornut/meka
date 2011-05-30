@@ -10,8 +10,8 @@
 #define SOUND_SOUNDCARD_SELECT  (-1)
 #define SOUND_SOUNDCARD_NONE    (0)
 
-#define SOUND_MACHINE_SN76496   (0)
-#define SOUND_MACHINE_EMU2413   (1)
+#define SOUND_BUFFERS_COUNT		(4)
+#define SONUD_BUFFERS_SIZE		(2048)
 
 //-----------------------------------------------------------------------------
 // INCLUDES

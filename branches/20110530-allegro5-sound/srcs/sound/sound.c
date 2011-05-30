@@ -98,7 +98,8 @@ static bool	Sound_InitEmulators(void)
 
 	g_sound_event_queue = al_create_event_queue();
 
-	g_psg_audio_stream = al_create_audio_stream(4, 4096, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_1);
+	PSG_Init();
+	g_psg_audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SONUD_BUFFERS_SIZE, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_1);
 	if (!g_psg_audio_stream)
 		return false;
 	if (!al_attach_audio_stream_to_mixer(g_psg_audio_stream, al_get_default_mixer()))
@@ -159,6 +160,8 @@ void	Sound_Update_Frame (void)
 			if (!buf)
 				continue;
 
+			PSG_UpdateSamples(buf, SONUD_BUFFERS_SIZE);
+			/*
 			static int val = 0;
 			static int pitch = 0x10000;
 			for (int i = 0; i < 4096; i++) 
@@ -167,6 +170,7 @@ void	Sound_Update_Frame (void)
 				val += pitch;
 				pitch++;
 			}
+			*/
 
 			if (!al_set_audio_stream_fragment(g_psg_audio_stream, buf))
 				Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
