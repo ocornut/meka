@@ -11,7 +11,7 @@
 #define SOUND_SOUNDCARD_NONE    (0)
 
 #define SOUND_BUFFERS_COUNT		(4)
-#define SONUD_BUFFERS_SIZE		(2048)
+#define SOUND_BUFFERS_SIZE		(2048)
 
 //-----------------------------------------------------------------------------
 // INCLUDES

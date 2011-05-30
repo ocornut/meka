@@ -27,22 +27,18 @@ t_fm_unit_interface     FM_Digital_Interface =
     FM_Digital_Regenerate
 };
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Init ()
-// Initialize emulation
-//-----------------------------------------------------------------------------
-int     FM_Digital_Init (void *userdata /* unused */)
+int     FM_Digital_Init()
 {
     ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_YM2413_Digital));
 
-	// FIXME-NEWSOUND: FM init
-	/*
-    opll = OPLL_new (Z80_DEFAULT_CPU_CLOCK, g_sasound.audio_sample_rate);
+	opll = OPLL_new (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
     if (opll == NULL)
     {
         ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
         return (MEKA_ERR_FAIL);
     }
+	// FIXME-NEWSOUND: FM init
+	/*
     FM_Digital_saChannel = stream_init ("YM-2413 #0", g_sasound.audio_sample_rate, 16, 0, FM_Digital_Update);
     if (FM_Digital_saChannel == -1)
     {
@@ -115,24 +111,19 @@ void    FM_Digital_Resume       (void)
 //-----------------------------------------------------------------------------
 void    FM_Digital_Regenerate (void)
 {
-    int    i;
-
     // Msg (MSGT_DEBUG, __FUNCTION__);
-    for (i = 0; i < YM2413_REGISTERS; i++)
+    for (int i = 0; i < YM2413_REGISTERS; i++)
     {
         FM_Digital_Write (i, FM_Regs[i]);
     }
     OPLL_forceRefresh (opll);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Update()
 // Update audio stream
 // This is periodically called by the sound engine
-//-----------------------------------------------------------------------------
-void    FM_Digital_Update       (int chip, void *buffer, int length)
+void    FM_Digital_WriteSamples(void *buffer, int length)
 {
-    // Msg (MSGT_USER, "FM_Digital_Update(%d, %p, %d)", chip, buffer, length);
+    // Msg (MSGT_USER, "FM_Digital_WriteSamples(%p, %d)", buffer, length);
 
     // printf("\n[%s]\n", __FUNCTION__);
 

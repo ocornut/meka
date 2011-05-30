@@ -18,9 +18,19 @@ static bool	Sound_InitEmulators(void);
 // DATA
 //-----------------------------------------------------------------------------
 
-t_sound	Sound;
-ALLEGRO_AUDIO_STREAM *	g_psg_audio_stream = NULL;
-ALLEGRO_EVENT_QUEUE *	g_sound_event_queue = NULL;
+struct t_sound_stream
+{
+	ALLEGRO_EVENT_QUEUE	*	event_queue;
+	ALLEGRO_AUDIO_STREAM *	audio_stream;
+	s16	*					audio_buffer;
+	int						audio_buffer_size;
+	int						audio_buffer_wpos;	// write position for chip emulator 
+	int						audio_buffer_rpos;	// read position for audio system
+};
+
+t_sound				Sound;
+t_sound_stream*		g_psg_stream;
+t_sound_stream*		g_ym2413_stream;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -47,7 +57,7 @@ void	Sound_Init_Config(void)
 // Initialize actual sound engine ---------------------------------------------
 int		Sound_Init (void)
 {
-    // Set fake/null FM interface by default
+    // Temporarily set fake/null FM interface
     // This is to avoid crashing when using FM registers (savestates...) if sound is disabled.
     FM_Null_Active();
 
@@ -92,53 +102,93 @@ int		Sound_Init (void)
     return (MEKA_ERR_OK);
 }
 
+t_sound_stream*	Sound_CreateStream()
+{
+	t_sound_stream* stream = new t_sound_stream();
+	stream->event_queue = al_create_event_queue();
+	stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_SIZE, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_1);
+	if (!stream->audio_stream)
+	{
+		delete stream;
+		return NULL;
+	}
+	if (!al_attach_audio_stream_to_mixer(stream->audio_stream, al_get_default_mixer()))
+	{
+		delete stream;
+		return NULL;
+	}
+	al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->audio_stream));
+
+	stream->audio_buffer_size = SOUND_BUFFERS_COUNT*SOUND_BUFFERS_SIZE;
+	stream->audio_buffer = new s16[stream->audio_buffer_size];
+	stream->audio_buffer_wpos = 0;
+	stream->audio_buffer_rpos = 0;
+
+	return stream;
+}
+
+void Sound_DestroyStream(t_sound_stream* stream)
+{
+	al_destroy_audio_stream(stream->audio_stream);
+	delete [] stream->audio_buffer;
+	delete stream;
+}
+
+void Sound_UpdateStream(t_sound_stream* stream, void (*sample_writer)(void*,int))
+{
+	ALLEGRO_EVENT sound_event;
+	while (al_get_next_event(stream->event_queue, &sound_event))
+	{
+		if (sound_event.type == ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT)
+		{
+			s16* buf = (s16*)al_get_audio_stream_fragment(stream->audio_stream);
+			if (!buf)
+				continue;
+
+			sample_writer(buf, SOUND_BUFFERS_SIZE);
+			/*
+			static int val = 0;
+			static int pitch = 0x10000;
+			for (int i = 0; i < 4096; i++) 
+			{
+				buf[i] = ((val >> 16) & 0xff)*100;
+				val += pitch;
+				pitch++;
+			}
+			*/
+
+			if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
+				Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
+        }
+	}
+}
+
 static bool	Sound_InitEmulators(void)
 {
-	// FIXME-NEWSOUND: Register chipsets
-
-	g_sound_event_queue = al_create_event_queue();
-
 	PSG_Init();
-	g_psg_audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SONUD_BUFFERS_SIZE, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_1);
-	if (!g_psg_audio_stream)
+	g_psg_stream = Sound_CreateStream();
+	if (!g_psg_stream)
 		return false;
-	if (!al_attach_audio_stream_to_mixer(g_psg_audio_stream, al_get_default_mixer()))
+
+	FM_Digital_Init();
+	FM_Digital_Active();
+	g_ym2413_stream = Sound_CreateStream();
+	if (!g_ym2413_stream)
 		return false;
-	al_register_event_source(g_sound_event_queue, al_get_audio_stream_event_source(g_psg_audio_stream));
 
 	return true;
-
-	/*
-    SoundRecEntry  rec;
-
-    // Add SN76496 (PSG) emulator
-    rec.sync       = 60;
-    rec.count      = 1;
-    rec.type       = SOUND_MACHINE_SN76496;
-    rec.f_init     = PSG_Init;
-    rec.f_update   = NULL; // PSG_Update_16 // Will be registered on initialisation
-    rec.f_stop     = NULL;
-    rec.userdata   = NULL;
-    saSetupSound   (&rec);
-
-    // Add EMU2413 (FM) emulator
-    rec.type       = SOUND_MACHINE_EMU2413;
-    rec.f_init     = FM_Digital_Init;
-    rec.f_update   = NULL; // FM_Digital_Update; // will be registered on initialisation
-    rec.f_stop     = FM_Digital_Close;
-    rec.userdata   = NULL;
-    saAddSound       (&rec);
-	*/
 }
 
 void	Sound_Close (void)
 {
+	FM_Digital_Close();
+
     if (!Sound.Initialized)
 		return;
 
     Sound_Log_Close();
-	if (g_psg_audio_stream)
-		al_destroy_audio_stream(g_psg_audio_stream);
+	Sound_DestroyStream(g_psg_stream);
+	Sound_DestroyStream(g_ym2413_stream);
 	al_uninstall_audio();
     Sound.Initialized = FALSE;
 }
@@ -151,31 +201,8 @@ void	Sound_Update_Frame (void)
     if (FM_Used > 0)
         FM_Used --;
 
-	ALLEGRO_EVENT sound_event;
-	while (al_get_next_event(g_sound_event_queue, &sound_event))
-	{
-		if (sound_event.type == ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT)
-		{
-			s16* buf = (s16*)al_get_audio_stream_fragment(g_psg_audio_stream);
-			if (!buf)
-				continue;
-
-			PSG_UpdateSamples(buf, SONUD_BUFFERS_SIZE);
-			/*
-			static int val = 0;
-			static int pitch = 0x10000;
-			for (int i = 0; i < 4096; i++) 
-			{
-				buf[i] = ((val >> 16) & 0xff)*100;
-				val += pitch;
-				pitch++;
-			}
-			*/
-
-			if (!al_set_audio_stream_fragment(g_psg_audio_stream, buf))
-				Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
-        }
-	}
+	Sound_UpdateStream(g_psg_stream, PSG_WriteSamples);
+	Sound_UpdateStream(g_ym2413_stream, FM_Digital_WriteSamples);
 }
 
 void    Sound_Playback_Start (void)

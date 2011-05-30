@@ -79,24 +79,21 @@ const byte      FM_Regs_SavingFlags [YM2413_REGISTERS] =
   0
 };
 
-//-----------------------------------------------------------------------------
-// FM_Set_Interface()
 // Active given interface
-//-----------------------------------------------------------------------------
 void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs)
 {
-  if (FM_Unit_Current)
-     FM_Mute ();
+	if (FM_Unit_Current)
+		FM_Mute ();
 
-  if ((new_fm_regs != FM_Regs) && FM_Regs)
-     {
-     // Msg (MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
-     memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
-     }
+	if ((new_fm_regs != FM_Regs) && FM_Regs)
+	{
+		// Msg (MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
+		memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
+	}
 
-  FM_Unit_Current = intf;
-  FM_Regs = new_fm_regs;
-  FM_Regenerate ();
+	FM_Unit_Current = intf;
+	FM_Regs = new_fm_regs;
+	FM_Regenerate ();
 }
 
 //-----------------------------------------------------------------------------

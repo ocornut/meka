@@ -76,7 +76,7 @@ int         PSG_Init()
 // Update audio stream
 // This is periodically called by the sound engine
 //-----------------------------------------------------------------------------
-void        PSG_UpdateSamples(void *buffer, int length)
+void        PSG_WriteSamples(void *buffer, int length)
 {
     s16* buf = (s16*)buffer;
     for (int length_left = length; length_left > 0; length_left--)

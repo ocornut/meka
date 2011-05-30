@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------------
 
 int     PSG_Init();
-void    PSG_UpdateSamples(void *buffer, int length);
+void    PSG_WriteSamples(void *buffer, int length);
 void    PSG_Reset(void);
 void    PSG_Save(FILE *f);
 void    PSG_Load(FILE *f, int version);
