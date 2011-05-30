@@ -145,9 +145,6 @@ void        gui_menus_init (void)
     // SOUND -> VOLUME
     menus_ID.volume   = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_Volume),    AM_Active);
     Sound_Volume_Menu_Init (menus_ID.volume);
-    // SOUND -> RATE
-    menus_ID.rate     = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_Rate),      AM_Active);
-    Sound_Rate_Menu_Init (menus_ID.rate);
     // SOUND -> CHANNELS
     menus_ID.channels = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_Channels), AM_Active);
     for (i = 1; i <= 3; i += 1)

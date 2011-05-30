@@ -42,7 +42,6 @@ static const unsigned short int PSGVolumeValues[16] =
 
 // Variables
 t_psg           PSG;
-static int      PSG_saChannel;
 static int      Active = 0;     // Set to true by SN76489_Init(), if false then all procedures exit immediately
 
 //------------------------------------------------------------------------------
@@ -198,10 +197,8 @@ void        PSG_Load (FILE *f, int version)
 //-----------------------------------------------------------------------------
 void        PSG_Regenerate (void)
 {
-    int     i;
-
     // Set channels volume
-    for (i = 0; i < 4; i++)
+    for (int i = 0; i < 4; i++)
         PSG.Channels[i].Volume = PSGVolumeValues[PSG.Registers[i*2+1] & 0x0F];
 
     // Set noise signal generator frequency

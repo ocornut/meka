@@ -88,13 +88,10 @@ void    FM_Enable (void)
 
 void    Sound_Volume_Menu_Init (int menu_id)
 {
-    int    i;
-    int    master_volume_100;
-	char   buffer[256];
-
-    master_volume_100 = (float)Sound.MasterVolume * ((float)100 / 128);
-    for (i = 0; i <= 100; i += 20)
+    const int master_volume_100 = (float)Sound.MasterVolume * ((float)100 / 128);
+    for (int i = 0; i <= 100; i += 20)
     {
+		char buffer[256];
         if (i == 0)
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Mute));
         else
@@ -112,45 +109,6 @@ void    Sound_Volume_Menu_Handler (t_menu_event *event)
     Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Volume_Changed), volume);
     gui_menu_un_check (menus_ID.volume);
 	gui_menu_check (menus_ID.volume, event->menu_item_idx);
-}
-
-// SOUND->RATE menu -----------------------------------------------------------
-
-void    Sound_Rate_Menu_Init (int menu_id)
-{
-    int		i;
-	char	buffer[256];
-
-	for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
-    {
-        sprintf(buffer, Msg_Get(MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table [i]);
-        menu_add_item(menus_ID.rate, buffer, AM_Active, (t_menu_callback)Sound_Rate_Menu_Handler, (void *)Sound_Rate_Default_Table[i]);
-    }
-    Sound_Rate_Set(Sound.SampleRate, FALSE);
-}
-
-void    Sound_Rate_Set (int value, int reinit_hardware)
-{
-    int    i;
-
-    if (reinit_hardware)
-    {
-        Sound.SampleRate = value;
-        Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Rate_Changed), Sound.SampleRate);
-    }
-    gui_menu_un_check(menus_ID.rate);
-    for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
-        if (value == Sound_Rate_Default_Table[i])
-        {
-            gui_menu_check (menus_ID.rate, i);
-            break;
-        }
-}
-
-void    Sound_Rate_Menu_Handler (t_menu_event *event)
-{
-	const int sound_rate = (int)event->user_data;
-    Sound_Rate_Set (sound_rate, TRUE);
 }
 
 // SOUND->CHANNELS menu -------------------------------------------------------

@@ -265,7 +265,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Sound_Init_Soundcard_No),
 	__MSG_ADD(MSG_Sound_Init_SN76496),
 	__MSG_ADD(MSG_Sound_Init_YM2413_Digital),
-	__MSG_ADD(MSG_Sound_Rate_Changed),
 	__MSG_ADD(MSG_Sound_Stream_Error),
 	__MSG_ADD(MSG_Sound_Volume_Changed),
 

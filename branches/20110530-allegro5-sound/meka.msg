@@ -391,7 +391,6 @@ Msg_Sound_Init_Soundcard                = " - Initializing sound card @ %d Hz"
 Msg_Sound_Init_Soundcard_No             = "Can't initialize audio: no sound card selected!"
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
-Msg_Sound_Rate_Changed                  = "Sound rate changed to %i Hz.\nPlease restart MEKA for the changes to take effect."
 Msg_Sound_Stream_Error                  = "Sound buffer stop. Restarting stream."
 Msg_Sound_Volume_Changed                = "Volume changed to %d%%."
 
@@ -886,7 +885,6 @@ Msg_Sound_Init_Soundcard                = " - Initialisation de la carte son … %
 Msg_Sound_Init_Soundcard_No             = "Impossible d'initialiser l'audio: aucune carte son s‚lectionn‚e!"
 Msg_Sound_Init_SN76496                  = " - Emulateur SN76496 digital:"
 Msg_Sound_Init_YM2413_Digital           = " - Emulateur YM2413 digital:"
-Msg_Sound_Rate_Changed                  = "Fréquence du son changée pour %i Hz.\nRedémarrez MEKA pour que les changements prennent effet."
 Msg_Sound_Stream_Error                  = "Arrêt du tampon son. Redémarrage du flux."
 Msg_Sound_Volume_Changed                = "Volume changé à %d%%."
 
@@ -1357,7 +1355,6 @@ Msg_Sound_Init_Error_Voice_N            = " - Voice #%d creashun failed, cuss it
 Msg_Sound_Init_Soundcard                = " - Initializin' soun' card @ %d Hz, cuss it all t' tarnation.."
 Msg_Sound_Init_Soundcard_No             = "Cain't initialize audio: no soun' card selecked! Fry mah hide!"
 Msg_Sound_Volume_Changed                = "Voloom changed t'%d%%."
-Msg_Sound_Rate_Changed                  = "Soun' rate changed t'%i Hz.\nPlease restart MEKA fo' th' changes t'take effeck."
 Msg_Sound_Stream_Error                  = "Soun' buffer stop. Restartin' stream, dawgone it."
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulato':"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulato':"
@@ -1842,7 +1839,6 @@ Msg_Sound_Init_Soundcard                = " - Initialiseren geluidskaart @ %d Hz
 Msg_Sound_Init_Soundcard_No             = "Kan audio niet initialiseren: geen geluidskaart geselecteerd!"
 Msg_Sound_Init_SN76496                  = " - SN76496 digitale emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digitale emulator:"
-Msg_Sound_Rate_Changed                  = "Sound rate verandert naar %i Hz.\nherstart MEKA om de wijzigingen te gebruiken."
 Msg_Sound_Stream_Error                  = "Sound buffer stop. herstarten van stream."
 Msg_Sound_Volume_Changed                = "Volume gewijzigd naar %d%%."
 
@@ -2311,7 +2307,6 @@ Msg_Sound_Init_Soundcard                = " - Iniciando tarjeta de sonido @ %d H
 Msg_Sound_Init_Soundcard_No             = "No se pudo iniciar el audio: no hay tarjeta de sonido seleccionada!"
 ;Msg_Sound_Init_SN76496_Ok               = " - SN76496 emulador: OK"
 ;Msg_Sound_Init_YM2413_Ok                = " - YM2413 emulador: OK"
-Msg_Sound_Rate_Changed                  = "Ratio de sonido cambiado a %i Hz.\nPor favor reinicie MEKA para que los cambios tengan efecto."
 Msg_Sound_Stream_Error                  = "Buffer de sonido detenido. Reempezando stream."
 
 ; Theme ----------------------------------------------------------------------
@@ -2773,7 +2768,6 @@ Msg_Sound_Init_Soundcard                = " - Inicializando placa de som @ %d Hz
 Msg_Sound_Init_Soundcard_No             = "Imposs¡vel iniciar  udio: nÆo foi selecionada uma placa de som!"
 ;Msg_Sound_Init_SN76496_Ok               = " - Emulador do SN76496: Ok"
 ;Msg_Sound_Init_YM2413_Ok                = " - Emulador do YM2413: Ok"
-Msg_Sound_Rate_Changed                  = "Taxa de amostragem do som mudada para %i Hz.\nPor favor, reinicie MEKA para que as mudanças façam efeito."
 Msg_Sound_Stream_Error                  = "Cache de som parado. Reiniciando sequência"
 
 ; Theme ----------------------------------------------------------------------
@@ -3218,7 +3212,6 @@ Msg_Sound_Init_Soundcard                = " - Inizializzazione scheda sonora @ %
 Msg_Sound_Init_Soundcard_No             = "Impossibile inizializzare audio: nessuna scheda sonora scelta!"
 ;Msg_Sound_Init_SN76496_Ok               = " - emulatore SN76496 : Ok"
 ;Msg_Sound_Init_YM2413_Ok                = " - emulatore YM2413  : Ok"
-Msg_Sound_Rate_Changed                  = "Rate sonoro modificato in %i Hz.\nRiavviare MEKA per avere gli effetti desiderati."
 Msg_Sound_Stream_Error                  = "Buffer sonoro fermato. Ricomincio il flusso."
 
 ; Theme ----------------------------------------------------------------------
@@ -3669,7 +3662,6 @@ Msg_Sound_Init_Soundcard                = " - Initialisiere Soundkarte @ %d Hz"
 Msg_Sound_Init_Soundcard_No             = "Audio kann nicht initialisiert werden: Es wurde keine Soundkarte gewaehlt!"
 ;Msg_Sound_Init_SN76496_Ok               = " - SN76496 Emulator: Ok"
 ;Msg_Sound_Init_YM2413_Ok                = " - YM2413 Emulator: Ok"
-Msg_Sound_Rate_Changed                  = "Samplerate auf %i Hz geändert.\nDie Änderung wird erst nach einen Neustart wirksam."
 Msg_Sound_Stream_Error                  = "Klangpuffer angehalten. Stream wird neu gestartet."
 
 ; Theme -----------------------------------------------------------------------
@@ -4127,7 +4119,6 @@ Msg_Sound_Init_Soundcard                = " - Initialiserar ljudkort @ %d Hz"
 Msg_Sound_Init_Soundcard_No             = "Kan ej initialisera ljud: inget ljudkort valt!"
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
-Msg_Sound_Rate_Changed                  = "Ljudkvalitet ändrad till %i Hz.\nStarta om MEKA för att verkställa ändringarna."
 Msg_Sound_Stream_Error                  = "Ljudbuffer stop. Startar om strömmen."
 Msg_Sound_Volume_Changed                = "Volym ändrad till %d%%."
 
@@ -4586,7 +4577,6 @@ Msg_Sound_Init_Soundcard                = " - Initialiserer lydkort ved %d Hz"
 Msg_Sound_Init_Soundcard_No             = "Kan ikke initialisere lyd: intet lydkort valgt!"
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
-Msg_Sound_Rate_Changed                  = "Lydkvalitet ændret til %i Hz.\nGenstart venligst MEKA for, at ændringerne skal tage effekt."
 Msg_Sound_Stream_Error                  = "Lyd buffer stop. Genstarter datastrømmen."
 Msg_Sound_Volume_Changed                = "Volumen ændret til %d%%."
 

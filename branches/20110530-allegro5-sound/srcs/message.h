@@ -261,7 +261,6 @@ enum
 	MSG_Sound_Init_Soundcard_No,
 	MSG_Sound_Init_SN76496,
 	MSG_Sound_Init_YM2413_Digital,
-	MSG_Sound_Rate_Changed,
 	MSG_Sound_Stream_Error,
 	MSG_Sound_Volume_Changed,
 	
