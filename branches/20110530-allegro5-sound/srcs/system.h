@@ -66,6 +66,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_audio.h>
 #include "allegro4to5.h"
 
 #undef MSG_USER             // To avoid mistyping MSG_USER instead of MSGT_USER. We don't use Allegro GUI anyway.

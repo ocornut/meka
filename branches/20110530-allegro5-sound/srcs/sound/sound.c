@@ -25,10 +25,7 @@ t_sound		Sound;
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Sound_Init_Config(void)
-// Initialize sound structure with its default values
-//-----------------------------------------------------------------------------
+// Initialize sound structure with its default settings
 void	Sound_Init_Config(void)
 {
     // General
@@ -43,20 +40,18 @@ void	Sound_Init_Config(void)
     Sound.CycleCounter = 0;
 
     // Sound Logging
-    Sound_Log_Init ();
+    Sound_Log_Init();
 }
 
 // Initialize actual sound engine ---------------------------------------------
-int             Sound_Init (void)
+int		Sound_Init (void)
 {
     // Set fake/null FM interface by default
-    // This is to avoid crashing when using FM registers (savestates...)
-    // if sound is disabled.
+    // This is to avoid crashing when using FM registers (savestates...) if sound is disabled.
     FM_Null_Active();
 
     // Skip if there is no need to initialize sound now
-    // FIXME: will MEKA work properly with now soundcard ?
-    // Are emulators functionning properly and saving good savestates ?
+    // FIXME: Does MEKA works properly with no soundcard, is the machine updating registters properly and saving good savestates ?
     if (Sound.Enabled == FALSE)
         return (MEKA_ERR_OK);
     if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
@@ -68,18 +63,22 @@ int             Sound_Init (void)
 
     // Print Sound initialization message
     ConsolePrintf ("%s\n", Msg_Get (MSG_Sound_Init));
+	ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
 
-    // Disable sound if user selected 'no soundcard'
-    if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
-    {
-        // Sound.Enabled = FALSE;
-        return (MEKA_ERR_OK);
-    }
+	if (!al_install_audio())
+	{
+		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
+		return (MEKA_ERR_FAIL);
+	}
+	if (!al_reserve_samples(0))
+	{
+		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
+		return (MEKA_ERR_FAIL);
+	}
 
     // Initialize Sound card
     // Start in pause mode, to avoid sound update on startup (could crash, before everything is initialized)
     Sound.Paused = TRUE;
-    Sound_Init_SoundCard();
 
     // Initialize Sound emulators
     Sound_Init_Emulators();
@@ -88,18 +87,6 @@ int             Sound_Init (void)
     return (MEKA_ERR_OK);
 }
 
-static  int     Sound_Init_SoundCard (void)
-{
-	ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
-	ConsolePrint ("\n");
-
-	// FIXME-NEWSOUND
-	// Quit_Msg (Msg_Get (MSG_Sound_Init_Error_Voice_N), i);
-
-	return (MEKA_ERR_OK);
-}
-
-// Initialize Sound Emulators -------------------------------------------------
 static  void    Sound_Init_Emulators (void)
 {
 	// FIXME-NEWSOUND: Register chipsets
@@ -132,6 +119,7 @@ void	Sound_Close (void)
     if (Sound.Initialized)
     {
         Sound_Log_Close();
+		al_uninstall_audio();
         Sound.Initialized = FALSE;
     }
 }
