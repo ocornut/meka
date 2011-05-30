@@ -45,7 +45,6 @@ void    PaletteViewer_Init(t_app_palette_viewer *pv)
     frame.size.x    = 191;
     frame.size.y    = 49+13;
     pv->box = gui_box_new(&frame, Msg_Get(MSG_Palette_BoxTitle));
-    pv->box_gfx = pv->box->gfx_buffer;
 
     // Register to desktop (applet is enabled by default)
     Desktop_Register_Box ("PALETTE", pv->box, TRUE, &pv->active);
@@ -83,7 +82,7 @@ void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
     al_draw_line(app->frame_info.pos.x, app->frame_info.pos.y+0.5f, app->frame_info.pos.x + app->frame_info.size.x+1, app->frame_info.pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     // Draw current color square
-    gui_rect(app->box_gfx, LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+	gui_rect(app->box->gfx_buffer, LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
 
 void    PaletteViewer_Switch(void)
@@ -102,10 +101,11 @@ void    PaletteViewer_Switch(void)
 void    PaletteViewer_Update(void)
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
+	ALLEGRO_BITMAP* box_gfx = pv->box->gfx_buffer;
 
     int         i;
     bool        dirty = FALSE;
-    const int   color_box_size = al_get_bitmap_width(pv->box_gfx) / pv->palette_size;
+    const int   color_box_size = al_get_bitmap_width(box_gfx) / pv->palette_size;
     int         color_current;
     bool        color_current_refresh;
 
@@ -135,7 +135,7 @@ void    PaletteViewer_Update(void)
     color_current_refresh = /*(color_current == -1) ? TRUE :*/ ((color_current != pv->color_displayed) ? TRUE : FALSE);
 
     // Draw palette
-	al_set_target_bitmap(pv->box_gfx);
+	al_set_target_bitmap(box_gfx);
     for (i = 0; i != pv->palette_size; i++)
     {
         if (pv->dirty || Palette_EmulationFlags[i] & PALETTE_EMULATION_FLAGS_DIRTY)
@@ -162,7 +162,7 @@ void    PaletteViewer_Update(void)
             char color_bits[20];
 
             // Color square
-			al_set_target_bitmap(pv->box_gfx);
+			al_set_target_bitmap(box_gfx);
 			al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, Palette_Emulation[color_current]);
     
             // Description
@@ -185,14 +185,14 @@ void    PaletteViewer_Update(void)
                     color_bits[0] = 0;
                     break;
             }
-            Font_Print(F_SMALL, pv->box_gfx, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(F_SMALL, box_gfx, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
             dirty = TRUE;
             pv->color_displayed = color_current;
         }
         else
         {
             // Fill with black
-			al_set_target_bitmap(pv->box_gfx);
+			al_set_target_bitmap(box_gfx);
             al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, COLOR_BLACK);
         }
     }
@@ -212,7 +212,7 @@ void    PaletteViewer_SetPaletteSize(t_app_palette_viewer *pv, int palette_size)
 void    PaletteViewer_CallbackSelectColor(t_widget *w)
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
-    const int color_box_size = al_get_bitmap_width(pv->box_gfx) / pv->palette_size;
+    const int color_box_size = al_get_bitmap_width(pv->box->gfx_buffer) / pv->palette_size;
 
     if (w->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
         pv->color_selected = (w->mouse_x / color_box_size);

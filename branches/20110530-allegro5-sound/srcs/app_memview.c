@@ -157,6 +157,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 {
     t_frame frame;
 
+	mv->box_gfx = mv->box->gfx_buffer;
 	al_set_target_bitmap(mv->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 

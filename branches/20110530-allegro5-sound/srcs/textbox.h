@@ -16,7 +16,6 @@ struct t_app_messages
     char *      log_filename;
     FILE *      log_file;
     t_gui_box * box;
-    ALLEGRO_BITMAP *    box_gfx;
     t_widget *  widget_textbox;
 };
 

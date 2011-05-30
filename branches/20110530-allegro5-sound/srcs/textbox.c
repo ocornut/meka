@@ -36,7 +36,6 @@ void    TB_Message_Init_Values(void)
     app->log_file         = NULL;
     app->log_filename     = NULL;
     app->box              = NULL;
-    app->box_gfx          = NULL;
     app->widget_textbox   = NULL;
 }
 

@@ -13,7 +13,6 @@ struct t_app_palette_viewer
     bool                active;
     bool                dirty;
     t_gui_box *         box;
-    ALLEGRO_BITMAP *            box_gfx;
     t_frame             frame_palette;
     t_frame             frame_info;
     t_widget *          frame_palette_zone;

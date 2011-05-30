@@ -1628,6 +1628,7 @@ static void     Debugger_Applet_Layout(bool setup)
     t_frame     frame;
 
     // Clear
+	DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
 	al_set_target_bitmap(DebuggerApp.box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
