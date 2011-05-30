@@ -110,7 +110,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
     case 14: // player_start_pause ---------------------------------------------
     case 15: // player_reset ---------------------------------------------------
         {
-            int MapIdx = INPUT_MAP_DIGITAL_UP + VarIdx - 8;
+            const int MapIdx = INPUT_MAP_DIGITAL_UP + VarIdx - 8;
 
             // FIXME: ???
             //if (MapIdx >= INPUT_MAP_DIGITAL_UP && MapIdx <= INPUT_MAP_DOWN && !(input_src->Result_Type & DIGITAL))

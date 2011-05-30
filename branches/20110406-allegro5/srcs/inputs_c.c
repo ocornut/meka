@@ -567,7 +567,7 @@ void    Inputs_CFG_Map_Change_Update (void)
                 {
                     const float axis_pos = state.stick[i].axis[j];
 					//Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
-					if ( axis_pos > 0.0f || axis_pos < 0.0f)
+					if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < INPUT_JOY_DEADZONE)
                     {
                         input_src->Map [Inputs_CFG.Current_Map].Idx = MAKE_STICK_AXIS_DIR (i, j, (axis_pos > 0.0f ? 1 : 0));
                         input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_AXIS;

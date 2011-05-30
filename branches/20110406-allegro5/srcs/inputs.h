@@ -62,19 +62,21 @@ enum t_input_src_flags
 #define  PLAYER_2       (1)
 #define  PLAYER_MAX     (2)
 
-// Input Mapping Types --------------------------------------------------------
-#define  INPUT_MAP_TYPE_KEY             (0)
-//-----------------------------------------------------------------------------
-#define  INPUT_MAP_TYPE_JOY_BUTTON      (0)
-#define  INPUT_MAP_TYPE_JOY_AXIS        (1)
-//-----------------------------------------------------------------------------
-#define  INPUT_MAP_TYPE_MOUSE_BUTTON    (0)
-#define  INPUT_MAP_TYPE_MOUSE_AXIS      (1)
-//-----------------------------------------------------------------------------
+// Input Mapping Types
+enum t_input_map_type
+{
+	INPUT_MAP_TYPE_KEY = 0,
+	INPUT_MAP_TYPE_JOY_BUTTON = 1,
+	INPUT_MAP_TYPE_JOY_AXIS = 2,
+	INPUT_MAP_TYPE_MOUSE_BUTTON = 3,
+	INPUT_MAP_TYPE_MOUSE_AXIS = 4,
+};
+
+#define INPUT_JOY_DEADZONE		(0.1f)			// -0.1f to 0.1f is neutral
 
 struct t_input_peripheral_info
 {
-    char   *name;
+    char*	name;
 };
 extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX];
 
@@ -122,7 +124,7 @@ struct t_key_press
 
 struct t_input_map
 {
-    byte    Type;               // Axis, Button, Wheel, etc..
+    int		Type;               // Axis, Button, Wheel, etc..
     int     Idx;                // Index of Axis/Stick/Button/Wheel, etc..
     int     Res;                // Result, For buttons: 1 if pressed, for axis: contains value
 };

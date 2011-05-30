@@ -76,9 +76,7 @@ t_input_src *       Inputs_Sources_Add (char *name)
 
 void       Inputs_Sources_Close (void)
 {
-    int    i;
-
-    for (i = 0; i < Inputs.Sources_Max; i++)
+    for (int i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *input_src = Inputs.Sources[i];
         free(input_src->name);
@@ -98,16 +96,10 @@ void       Inputs_Sources_Close (void)
 //-----------------------------------------------------------------------------
 void        Inputs_Emulation_Update (bool running)
 {
-    int     i, j;
-    u16 *   c;
-    int     Pause_Pressed = FALSE, Reset_Pressed = FALSE;
-    int     players;
-
-    //----------------------------------------------------------------------------
     // Control[7] is the following:
     // LG2.LG1.Unused.Reset.P2B.P2A.P2R.P2L - P2D.P2U.P1B.P1A.P1R.P1L.P1D.P1U
     // Now setting all bits (active logic)
-    c = &tsms.Control[7];
+    u16* c = &tsms.Control[7];
     *c |= 0x1FFF;
 
     // Now this is tricky... if we are in GUI mode, check if the focused box
@@ -123,8 +115,7 @@ void        Inputs_Emulation_Update (bool running)
 	{
         if (gui.boxes_z_ordered[0] && (gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE) != 0)
         {
-            // Returning from the emulation inputs update requires to take care
-            // of a few variables...
+            // Returning from the emulation inputs update requires to take care of a few variables...
             if (tsms.Control_Start_Pause == 1) // Leave it if it is == 2
                 tsms.Control_Start_Pause = 0;
             if (cur_drv->id == DRV_GG)
@@ -135,15 +126,19 @@ void        Inputs_Emulation_Update (bool running)
         }
 	}
 
+    bool pause_pressed = false;
+	bool reset_pressed = false;
+
     // Convert input sources data to emulation inputs data
-    players = ((cur_drv->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
-    for (i = 0; i < players; i++)
-        for (j = 0; j < Inputs.Sources_Max; j++)
+    const int players = ((cur_drv->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
+    for (int i = 0; i < players; i++)
+	{
+        for (int source_index = 0; source_index < Inputs.Sources_Max; source_index++)
         {
-            t_input_src *Src = Inputs.Sources[j];
-            if (Src->enabled == FALSE || Src->player != i)
+            const t_input_src *src = Inputs.Sources[source_index];
+            if (src->enabled == FALSE || src->player != i)
                 continue;
-            // Starting from here, source 'j' apply to player 'i' ------------------
+
             // If current peripheral is digital, skip analog only inputs sources
             // If current peripheral is analog, skip digital only inputs sources
             // k = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].result_type;
@@ -153,39 +148,40 @@ void        Inputs_Emulation_Update (bool running)
             switch (Inputs.Peripheral [i])
             {
             case INPUT_JOYPAD: //---------------------------- Joypad/Control Stick
-                if (Src->flags & INPUT_SRC_FLAGS_DIGITAL)
+                if (src->flags & INPUT_SRC_FLAGS_DIGITAL)
                 {
-                    if (Src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
-                    if (Src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
-                    if (Src->Map[INPUT_MAP_DIGITAL_LEFT].Res)   *c &= (!i? ~0x0004 : ~0x0100);
-                    if (Src->Map[INPUT_MAP_DIGITAL_RIGHT].Res)  *c &= (!i? ~0x0008 : ~0x0200);
-                    if (Src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
-                    if (Src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
+					//Msg(MSGT_DEBUG, "Player %d Src %d LEFT=%d", i, source_index, src->Map[INPUT_MAP_DIGITAL_LEFT].Res);
+                    if (src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
+                    if (src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
+                    if (src->Map[INPUT_MAP_DIGITAL_LEFT].Res)   *c &= (!i? ~0x0004 : ~0x0100);
+                    if (src->Map[INPUT_MAP_DIGITAL_RIGHT].Res)  *c &= (!i? ~0x0008 : ~0x0200);
+                    if (src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
+                    if (src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
-                else if (Src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) // ANALOG
+                else if (src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) // ANALOG
                 {
-                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res < 0)  *c &= (!i? ~0x0001 : ~0x0040);
-                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res > 0)  *c &= (!i? ~0x0002 : ~0x0080);
-                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res < 0)  *c &= (!i? ~0x0004 : ~0x0100);
-                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res > 0)  *c &= (!i? ~0x0008 : ~0x0200);
-                    if (Src->Map[INPUT_MAP_BUTTON1].Res)                *c &= (!i? ~0x0010 : ~0x0400);
-                    if (Src->Map[INPUT_MAP_BUTTON2].Res)                *c &= (!i? ~0x0020 : ~0x0800);
+                    if (src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res < 0)  *c &= (!i? ~0x0001 : ~0x0040);
+                    if (src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res > 0)  *c &= (!i? ~0x0002 : ~0x0080);
+                    if (src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res < 0)  *c &= (!i? ~0x0004 : ~0x0100);
+                    if (src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res > 0)  *c &= (!i? ~0x0008 : ~0x0200);
+                    if (src->Map[INPUT_MAP_BUTTON1].Res)                *c &= (!i? ~0x0010 : ~0x0400);
+                    if (src->Map[INPUT_MAP_BUTTON2].Res)                *c &= (!i? ~0x0020 : ~0x0800);
                 }
                 break;
             case INPUT_LIGHTPHASER: //------------------------------- Light Phaser
-                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
-                    LightPhaser_Update(i, Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res);
-                if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
-                if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
+                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    LightPhaser_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res);
+                if (src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
+                if (src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;
             case INPUT_PADDLECONTROL: //------------------------ Paddle Controller
                 {
                     int x = Inputs.Paddle_X[i];
                     int dx = 0;
-                    if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    if (src->flags & INPUT_SRC_FLAGS_ANALOG)
                     {
                         // Using analogic relative movement
-                        dx = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
+                        dx = src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
                         if (dx > 0)
                             dx = (dx + 4) / 5;
                         else if (dx < 0)
@@ -198,15 +194,15 @@ void        Inputs_Emulation_Update (bool running)
                         const int dx_table[1+5] = 
                         { 0, 1, 2, 3, 5, 7 };
                         //0  1  2  3  4  5, 6
-                        //Msg (MSGT_DEBUG, "Map_Counters[DIGITAL_LEFT] = %d, [DIGITAL_RIGHT] = %d", Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT], Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT]);
-                        if (Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT] && !Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT])
+                        //Msg (MSGT_DEBUG, "Map_Counters[DIGITAL_LEFT] = %d, [DIGITAL_RIGHT] = %d", src->Map_Counters[INPUT_MAP_DIGITAL_LEFT], src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT]);
+                        if (src->Map_Counters[INPUT_MAP_DIGITAL_LEFT] && !src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT])
                         {
-                            dx = Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT];
+                            dx = src->Map_Counters[INPUT_MAP_DIGITAL_LEFT];
                             dx = -dx_table[(dx > 5) ? 5 : dx];
                         }
-                        if (Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT] && !Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT])
+                        if (src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT] && !src->Map_Counters[INPUT_MAP_DIGITAL_LEFT])
                         {
-                            dx = Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT];
+                            dx = src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT];
                             dx = dx_table[(dx > 5) ? 5 : dx];
                         }
                     }
@@ -217,44 +213,45 @@ void        Inputs_Emulation_Update (bool running)
                         Inputs.Paddle_X [i] = x;
                     }
                     // Button 1 (only one button on Paddle Control)
-                    if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
+                    if (src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
                     break;
                 }
             case INPUT_SPORTSPAD: //--------------------------------- Sports Pads
-                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
-                    SportsPad_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res);
-                if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
-                if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
+                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    SportsPad_Update (i, src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res, src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res);
+                if (src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
+                if (src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;
             case INPUT_TVOEKAKI: //--------------------------------- Terebi Oekaki
-                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
+                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
                 {
                     // Create button field (this is due to old code legacy)
-                    const int b_field = (Src->Map[INPUT_MAP_BUTTON1].Res ? 1 : 0) | (Src->Map[INPUT_MAP_BUTTON2].Res ? 2 : 0);
-                    TVOekaki_Update (Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res, b_field);
+                    const int b_field = (src->Map[INPUT_MAP_BUTTON1].Res ? 1 : 0) | (src->Map[INPUT_MAP_BUTTON2].Res ? 2 : 0);
+                    TVOekaki_Update (src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res, b_field);
                 }
                 else // Support standard controller with digital inputs, because the
                 {    // Terebi Oekaki is not connected to the controller port, it is free to use !
-                    if (Src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
-                    if (Src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
-                    if (Src->Map[INPUT_MAP_DIGITAL_LEFT].Res)   *c &= (!i? ~0x0004 : ~0x0100);
-                    if (Src->Map[INPUT_MAP_DIGITAL_RIGHT].Res)  *c &= (!i? ~0x0008 : ~0x0200);
-                    if (Src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
-                    if (Src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
+                    if (src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
+                    if (src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
+                    if (src->Map[INPUT_MAP_DIGITAL_LEFT].Res)   *c &= (!i? ~0x0004 : ~0x0100);
+                    if (src->Map[INPUT_MAP_DIGITAL_RIGHT].Res)  *c &= (!i? ~0x0008 : ~0x0200);
+                    if (src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
+                    if (src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
                 break;
             }
             // Process RESET and PAUSE/START buttons
-            if (Src->Map[INPUT_MAP_PAUSE_START].Res) { Pause_Pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
-            if (Src->Map[INPUT_MAP_RESET].Res)       { Reset_Pressed = TRUE; }
+            if (src->Map[INPUT_MAP_PAUSE_START].Res) { pause_pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
+            if (src->Map[INPUT_MAP_RESET].Res)       { reset_pressed = TRUE; }
         }
+	}
 
     // SK-1100 Keyboard update
     if (Inputs.SK1100_Enabled)
         SK1100_Update();
 
     // Handle reset and clear pause latch if necessary
-    if (Reset_Pressed == TRUE)
+    if (reset_pressed == TRUE)
     {
         if (cur_drv->id == DRV_SMS)
         {
@@ -274,7 +271,7 @@ void        Inputs_Emulation_Update (bool running)
         }
     }
 
-    if (Pause_Pressed == FALSE)
+    if (pause_pressed == FALSE)
         tsms.Control_Start_Pause = 0;
 
     // Game Gear Start button
@@ -386,12 +383,17 @@ void        Inputs_Sources_Update (void)
                 for (int j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
-                    int old_res = map->Res;
+                    const int old_res = map->Res;
                     map->Res = (map->Idx != -1 && Inputs_KeyDown(map->Idx));
                     if (old_res && map->Res)
+					{
                         Src->Map_Counters[j]++;
+						//Msg(MSGT_DEBUG, "Map %d on", j);
+					}
                     else
+					{
                         Src->Map_Counters[j] = 0;
+					}
                 }
                 break;
             }
@@ -436,7 +438,7 @@ void        Inputs_Sources_Update (void)
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
 							const float axis = state.stick[INPUT_MAP_GET_STICK(map->Idx)].axis[INPUT_MAP_GET_AXIS(map->Idx)];
-							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? axis >= 0.0f : axis <= 0.0f);
+							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? axis > INPUT_JOY_DEADZONE : axis < -INPUT_JOY_DEADZONE);
                             break;
                         }
                     case INPUT_MAP_TYPE_JOY_BUTTON:
