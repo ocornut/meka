@@ -307,14 +307,15 @@ void SoundStream_Update(t_sound_stream* stream)
 			// Need to catch up?
 			if (SoundStream_CountReadableSamples(stream) < SOUND_BUFFERS_SIZE)
 			{
-				Msg(MSGT_DEBUG, "Sound catchup by %d samples", SOUND_BUFFERS_SIZE);
 				SoundStream_RenderSamples(stream, SOUND_BUFFERS_SIZE);
+				/*Msg(MSGT_DEBUG, "Sound catchup by %d samples", SOUND_BUFFERS_SIZE);
 				Msg(MSGT_DEBUG, "%lld -> %lld, %lld + %.2f = %lld",
 					stream->last_rendered_cycle_counter, Sound_GetElapsedCycleCounter(),
 					stream->last_rendered_cycle_counter, (float)Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE),
 					(s64)(stream->last_rendered_cycle_counter + (float)Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE)) );
-				//stream->last_rendered_cycle_counter = Sound_GetElapsedCycleCounter();
-				stream->last_rendered_cycle_counter += Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE);
+					*/
+				stream->last_rendered_cycle_counter = Sound_GetElapsedCycleCounter();
+				//stream->last_rendered_cycle_counter += Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE);
 			}
 
 			SoundStream_PopSamples(stream, buf, SOUND_BUFFERS_SIZE);
