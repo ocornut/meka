@@ -49,12 +49,12 @@ static int      Active = 0;     // Set to true by SN76489_Init(), if false then 
 // PSG_Init()
 // Initialize audio system for PSG emulation
 //-----------------------------------------------------------------------------
-int         PSG_Init (void *user_data /* unused */)
+int         PSG_Init(void *user_data /* unused */)
 {
-    int     i;
-
     ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_SN76496));
 
+	// FIXME-NEWSOUND: PSG
+	/*
     PSG_saChannel = stream_init ("SN76496 #0", g_sasound.audio_sample_rate, 16, 0, PSG_Update);
     if (PSG_saChannel == -1)
     {
@@ -63,9 +63,10 @@ int         PSG_Init (void *user_data /* unused */)
     }
     stream_set_volume (PSG_saChannel, VOLUME_MAX);
 
-    for (i = 0; i < 4; i++)               // FIXME: to be done in sound.c ?
+    for (int i = 0; i < 4; i++)               // FIXME: to be done in sound.c ?
         PSG.Channels[i].Active = TRUE;
     SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, g_sasound.audio_sample_rate);
+	*/
 
     ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));
     return (MEKA_ERR_OK);
@@ -86,7 +87,7 @@ void        PSG_Update (int chip, void *buffer, int length)
         // Get 1 sample from emulator
         SN76489_GetValues (&left, NULL);
 
-        // Pad to limits and rewrite to SEAL buffer
+        // Pad to limits and rewrite to buffer
         // printf("%d, ", left);
         left *= 2;
         if (left < -0x8000)
@@ -294,7 +295,8 @@ void        SN76489_Write(const unsigned char data)
     #endif
 
     // Update the output buffer before changing the registers
-    stream_update (PSG_saChannel, 0);
+	// FIXME-NEWSOUND
+    // stream_update (PSG_saChannel, 0);
 
     if (data & 0x80)
     {

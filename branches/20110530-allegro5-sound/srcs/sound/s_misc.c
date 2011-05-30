@@ -24,38 +24,11 @@ int		Sound_Rate_Default_Table[4] =
 	-1
 };
 
-// Global
-int		sound_vcount = -1, sound_icount = -1;
-int		Sound_Update_Count;
-
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-// OLD STUFFS -----------------------------------------------------------------
-
-//
-// Note from OMAR:
-// IPeriod is added to Sound_Update_Count every line
-// --------------------------------------------
-// Some games using voices...
-// --------------------------------------------
-// AFTBURNR.SMS : After Burner
-// AKIDD-LS.SMS : Alex Kidd The Lost Stars
-// ARCADHIT.SMS : Arcade Smash Hit
-// IMPOMISS.SMS : Impossible Mission
-// MK2     .SMS : Mortal Kombat 2
-// SAILORM .GG  : Sailor Moon S
-// SEGACHES.SMS : Sega Chess
-// SONICBLA.GG  : Sonic Blast
-// SONICCHA.GG  : Sonic Chaos
-// SHARRIER.SMS : Space Harrier
-// SFIGHTR2.SMS : Street Fighter 2'
-// TENNISAC.SMS : Tennis Ace
-// --------------------------------------------
-//
-
-double  Sound_Calc_CPU_Time (void)
+double  Sound_Calc_CPU_Time(void)
 {
   const int CPU_ICount = CPU_GetICount(); // - Sound_Update_Count;
   const int CPU_IPeriod = CPU_GetIPeriod();
@@ -74,18 +47,23 @@ double  Sound_Calc_CPU_Time (void)
     return ((double)now / (double)sound_vcount);
     }
 */
-    {
-    int ic = CPU_IPeriod - CPU_ICount; // + Sound_Update_Count;
 
-    // Number of cycle for a vertical refresh
-    // sound_vcount = opt.TV_Lines_Current * opt.Cur_IPeriod;
-    sound_vcount = 262 * opt.Cur_IPeriod; // FIXME
-    // sound_vcount = opt.CPU_Clock_Current / 60;
-    sound_icount = sound_icount + ic + Sound_Update_Count;
-    sound_icount %= sound_vcount;
-    Sound_Update_Count = -ic;
-    return ((double)sound_icount / (double)sound_vcount);
-    }
+  // FIXME-NEWSOUND: CPU clock
+  return 0.0;
+  /*
+  {
+	  int ic = CPU_IPeriod - CPU_ICount; // + Sound_Update_Count;
+
+	  // Number of cycle for a vertical refresh
+	  // sound_vcount = opt.TV_Lines_Current * opt.Cur_IPeriod;
+	  sound_vcount = 262 * opt.Cur_IPeriod; // FIXME
+	  // sound_vcount = opt.CPU_Clock_Current / 60;
+	  sound_icount = sound_icount + ic + Sound_Update_Count;
+	  sound_icount %= sound_vcount;
+	  Sound_Update_Count = -ic;
+	  return ((double)sound_icount / (double)sound_vcount);
+  }
+  */
 }
 
 void    FM_Disable (void)

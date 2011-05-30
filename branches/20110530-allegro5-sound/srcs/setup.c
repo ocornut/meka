@@ -31,17 +31,15 @@
 
 void    Setup_Interactive_Init (void)
 {
-    if ((opt.Setup_Interactive_Execute)
-        || (Sound.Enabled && Sound.SoundCard == SOUND_SOUNDCARD_SELECT))
+    if (opt.Setup_Interactive_Execute || (Sound.Enabled && Sound.SoundCard == SOUND_SOUNDCARD_SELECT))
     {
         ConsolePrintf ("%s\n", Msg_Get(MSG_Setup_Running));
         opt.Setup_Interactive_Execute = FALSE;
-        Sound_Init_SEAL (); // FIXME: this is needed to enumerate sound cards
-        if (Setup_Interactive () == MEKA_ERR_CANCEL)
+        if (Setup_Interactive() == MEKA_ERR_CANCEL)
         {
             // Note: the only reason for setting the state to SHUTDOWN is so that Quit() doesn't pause on the console.
             g_env.state = MEKA_STATE_SHUTDOWN;   
-            Quit ();
+            Quit();
         }
     }
 }
@@ -71,12 +69,6 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 	{
 	case WM_INITDIALOG:
 		{
-			int i, n;
-			int default_selection;
-			AUDIOCAPS Audio_Caps;
-			HWND combo_hwnd;
-			int  combo_idx;
-
 			// Set various localized text
 			char buffer[256];
 			snprintf(buffer, countof(buffer), "MEKA - %s", Msg_Get (MSG_Setup_Setup));
@@ -86,7 +78,12 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_3), Msg_Get (MSG_Setup_SampleRate_Select));
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get (MSG_Setup_Debugger_Enable));
 
+			HWND combo_hwnd;
+			int default_selection;
+
 			// Fill soundcards combo box
+			// FIXME-NEWSOUND
+			/*
 			n = AGetAudioNumDevs();
 			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS);
 			default_selection = Sound.SoundCard;
@@ -94,7 +91,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			{
 				if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
 				{
-					combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)Audio_Caps.szProductName);
+					int combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)Audio_Caps.szProductName);
 					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
 					if (default_selection == SOUND_SOUNDCARD_SELECT)
 						if (strcmp (Audio_Caps.szProductName, "DirectSound") == 0)
@@ -103,15 +100,16 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			}
 			if (default_selection != SOUND_SOUNDCARD_SELECT)
 				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
+			*/
 
 			// Fill soundrates combo box
 			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE);
 			default_selection = 2; // FIXME: 2= 44100 KH
-			for (i = 0; Sound_Rate_Default_Table[i] != -1; i++)
+			for (int i = 0; Sound_Rate_Default_Table[i] != -1; i++)
 			{
 				char buffer[256];
 				snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Rate_Hz), Sound_Rate_Default_Table[i]);
-				combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)buffer);
+				const int combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)buffer);
 				SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
 				if (Sound_Rate_Default_Table[i] == Sound.SampleRate)
 					default_selection = i;
@@ -125,14 +123,14 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 				for (t_list* langs = Messages.Langs; langs; langs = langs->next)
 				{
 					t_lang* lang = (t_lang*)langs->elem;
-					combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)lang->Name);
+					const int combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)lang->Name);
 					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)lang);
 					// printf("lang %s %i\n", lang->Name, combo_idx);
 				}
-				n = SendMessage(combo_hwnd, CB_GETCOUNT, 0, 0);
+				int n = SendMessage(combo_hwnd, CB_GETCOUNT, 0, 0);
 				// Now set default selection
 				// Note: we have to do it that way because the combo box is sorted!
-				for (i = 0; i < n; i++)
+				for (int i = 0; i < n; i++)
 				{
 					t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, i, 0);
 					if (lang == Messages.Lang_Cur)

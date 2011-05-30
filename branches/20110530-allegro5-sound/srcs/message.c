@@ -256,7 +256,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_OverDump),
 
 	__MSG_ADD(MSG_Sound_Init),
-	__MSG_ADD(MSG_Sound_Init_Error_SEAL),
 	__MSG_ADD(MSG_Sound_Init_Error_Audio),
 	__MSG_ADD(MSG_Sound_Init_Error_Blaster),
 	__MSG_ADD(MSG_Sound_Init_Error_Blaster_A),

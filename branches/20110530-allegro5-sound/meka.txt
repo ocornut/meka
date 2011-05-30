@@ -242,11 +242,6 @@
      
  Sound should work natively with MEKAW throught DirectSound (DirectX).
  
- It is important to note that although PSG/FM emulation is excellent,
- sound playback using the SEAL library and some incorrect timing code is 
- a big flaw and can damage sound on some Windows configuration. 
- This problem is being addressed.
-
 
  Peripherals
  -----------
@@ -883,7 +878,6 @@
   Librairies:
   - Allegro 5 (video and inputs features), by the Allegro team.
     http://www.talula.demon.co.uk/allegro/
-  - SEAL (sound playback library), by Carlos Hassan.
   - zlib (compression library), by Jean-loup Gailly and Mark Adler.
     http://www.gzip.org/zlib/
   - libpng (PNG file format manipulation), by Guy Eric Schalnat, 

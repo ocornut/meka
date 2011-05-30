@@ -35,9 +35,8 @@ word    Loop_SMS (void)
 			Debugger_RasterLine_Hook(tsms.VDP_Line);
 	#endif
 
-    // Update sound cycle counter
-    Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
-    Sound.CycleCounter += 1;//opt.Cur_IPeriod;
+    // Update sound cycle counter0
+    Sound.CycleCounter += opt.Cur_IPeriod;
 
     if (tsms.VDP_Line == 0)
     {

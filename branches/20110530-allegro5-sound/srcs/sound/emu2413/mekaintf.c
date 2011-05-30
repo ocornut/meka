@@ -35,6 +35,8 @@ int     FM_Digital_Init (void *userdata /* unused */)
 {
     ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_YM2413_Digital));
 
+	// FIXME-NEWSOUND: FM init
+	/*
     opll = OPLL_new (Z80_DEFAULT_CPU_CLOCK, g_sasound.audio_sample_rate);
     if (opll == NULL)
     {
@@ -48,6 +50,8 @@ int     FM_Digital_Init (void *userdata /* unused */)
         return (MEKA_ERR_FAIL); // FIXME: Error in channel creation
     }
     stream_set_volume (FM_Digital_saChannel, VOLUME_MAX);
+	*/
+
     OPLL_reset (opll);
 
     ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));

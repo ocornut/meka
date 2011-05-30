@@ -382,7 +382,6 @@ Msg_OverDump                            = "This ROM contains %d times the necess
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initializing sound system..."
-Msg_Sound_Init_Error_SEAL               = " - Error initializing SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Error opening Audio system. Try a different card and/or sample rate."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variable not found, disabling FM sound!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variable does not contain address (A=xxx), disabling FM sound!"
@@ -878,7 +877,6 @@ Msg_OverDump                            = "Cette ROM contient %d fois les donnée
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialisation du son..."
-Msg_Sound_Init_Error_SEAL               = " - Erreur en initialisant SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Erreur en ouvrant le systˆme audio. Essayez une carte et/ou une fr‚quence diff‚rente."
 Msg_Sound_Init_Error_Blaster            = " - Variable BLASTER introuvable, son FM d‚sactiv‚!"
 Msg_Sound_Init_Error_Blaster_A          = " - La variable BLASTER ne contient l'adresse (A=xxx), son FM d‚sactiv‚!"
@@ -1351,7 +1349,6 @@ Msg_OverDump                            = "This hyar ROM corntains %d times th' 
 
 ; Soun' ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initializin' soun' system, dawgone it.."
-Msg_Sound_Init_Error_SEAL               = " - Erro' initializin' SEAL! Fry mah hide!"
 Msg_Sound_Init_Error_Audio              = " - Erro' openin' Audio system, dawgone it. Try a diffrunt card an'/o' sample rate."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variable not foun', disablin' FM soun'! Fry mah hide!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variable does not corntain address (A=xxx), disablin' FM soun'! Fry mah hide!"
@@ -1836,7 +1833,6 @@ Msg_OverDump                            = "Deze ROM bevat %d keer de noodzakelij
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiseren geluids systeem.."
-Msg_Sound_Init_Error_SEAL               = " - Error bij het initialiseren van SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Error opening Audio systeem. probeer een andere kaart of sample rate."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variable niet gevonden, uitzetten van FM sound!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variable bevat het adres (A=xxx) niet, uitzetten van FM sound!"
@@ -2306,7 +2302,6 @@ Msg_OverDump                            = "Esta ROM contiene %d veces los datos 
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Iniciando sistema de sonido..."
-Msg_Sound_Init_Error_SEAL               = " - Error iniciando SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Error abriendo sistema de audio. Intente una tarjeta diferente y/o ratio de frecuencia."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variable no encontrada, desactivando sonido FM!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variable no cuenta con direccion (A=xxx), desactivando sonido FM!"
@@ -2769,7 +2764,6 @@ Msg_Driver_Unknown                      = "Fatal: Driver de m quina desconhecido
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Inicializando dispositivo de som..."
-Msg_Sound_Init_Error_SEAL               = " - Erro inicializando SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Erro ao acessar dispositivo de  udio. Tente outra placa de som ou taxa de\namostragem."
 Msg_Sound_Init_Error_Blaster            = " - vari vel de ambiente BLASTER nÆo encontrada. Desabilitando som FM!"
 Msg_Sound_Init_Error_Blaster_A          = " - vari vel de ambiente BLASTER nÆo possui o endere‡o (A=xxx). Desabilitando som FM!"
@@ -3215,7 +3209,6 @@ Msg_Driver_Unknown                      = "Fatale: Driver sistema sconosciuto!"
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Inizializzo emulazione sonora.."
-Msg_Sound_Init_Error_SEAL               = " - Errore inizializzazione SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Errore apertura sistema Audio. Prova una scheda/campione diversi."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variable non trovata, disabilito suono FM sound!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variabile non contiene indirizzi (A=xxx), disabilito suono FM!"
@@ -3667,7 +3660,6 @@ Msg_OverDump                            = "Das ROM enthält die benötigten Daten 
 
 ; Sound -----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialisiere Soundsystem.."
-Msg_Sound_Init_Error_SEAL               = " - Fehler beim Initializieren von SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Fehler beim Ansprechen der Soundkarte. Bitte eine andere Karte und/oder Samplerate waehlen."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER Variable nicht gefunden, FM kann nicht benutzt werden!"
 Msg_Sound_Init_Error_Blaster_A          = " - Eintrag (A=xxx) fehlt in BLASTER, FM kann nicht benutzt werden!"
@@ -4126,7 +4118,6 @@ Msg_Driver_Unknown                      = "Allvarligt fel: Okänd maskindrivrutin
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiserar ljudsystem.."
-Msg_Sound_Init_Error_SEAL               = " - Fel vid initialisering av SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Fel vid öppning av ljudsystem. Försök med ett annat kort och/eller samplingsfrekvens."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variabel hittades ej, FM ljud av!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variabel innehåller ej adress (A=xxx), FM ljud av!"
@@ -4586,7 +4577,6 @@ Msg_Driver_Unknown                      = "Fatalt: Ukendt maskinedriver!"
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiserer lydsystem.."
-Msg_Sound_Init_Error_SEAL               = " - Fejl under initialisering af SEAL!"
 Msg_Sound_Init_Error_Audio              = " - Fejl under aabning af lydsystem. Proev et andet kort og/eller en anden sample rate."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variabel ikke fundet, slaar FM lyd fra!"
 Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variabel indeholder ikke adresse (A=xxx), slaar FM lyd fra!"

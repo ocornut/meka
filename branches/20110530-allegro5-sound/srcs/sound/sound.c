@@ -12,22 +12,14 @@
 // FORWARD DECLARATIONS
 //-----------------------------------------------------------------------------
 
-static  int     Sound_Init_SoundCard (void);
-static  int     Sound_Init_Engine (int buffer_mode);
-static  void    Sound_Init_Emulators (void);
+static  int     Sound_Init_SoundCard(void);
+static  void    Sound_Init_Emulators(void);
 
 //-----------------------------------------------------------------------------
 // DATA
 //-----------------------------------------------------------------------------
 
 t_sound		Sound;
-
-int STREAM_BUFFER_MAXA;
-int STREAM_BUFFER_MAXB;
-int MODEB_UPDATE_COUNT;
-int MODEB_FRAME_SIZE;
-int MODEB_ERROR_MAX;
-int MODEB_MASK;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
@@ -37,7 +29,7 @@ int MODEB_MASK;
 // Sound_Init_Config(void)
 // Initialize sound structure with its default values
 //-----------------------------------------------------------------------------
-void            Sound_Init_Config(void)
+void	Sound_Init_Config(void)
 {
     // General
     Sound.Enabled               = TRUE;
@@ -46,13 +38,6 @@ void            Sound_Init_Config(void)
     Sound.SampleRate            = 44100;                  // 44100 Hz by default
     Sound.Paused                = FALSE; // 0
     Sound.MasterVolume          = 128;
-
-    // Voices & and other legacy stuff
-    Sound.Voices        = NULL;
-    Sound.Voices_Max    = SOUND_VOICES_MAX;
-    SndMachine          = NULL;
-    reserved_channel    = 0;
-    sound_stream_mode   = SOUND_STREAM_WAIT;
 
     // Cycle counter
     Sound.CycleCounter = 0;
@@ -84,9 +69,6 @@ int             Sound_Init (void)
     // Print Sound initialization message
     ConsolePrintf ("%s\n", Msg_Get (MSG_Sound_Init));
 
-    // Initialize SEAL
-    Sound_Init_SEAL();
-
     // Disable sound if user selected 'no soundcard'
     if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
     {
@@ -94,7 +76,7 @@ int             Sound_Init (void)
         return (MEKA_ERR_OK);
     }
 
-    // Initialize Sound Card, SEAL side
+    // Initialize Sound card
     // Start in pause mode, to avoid sound update on startup (could crash, before everything is initialized)
     Sound.Paused = TRUE;
     Sound_Init_SoundCard();
@@ -102,157 +84,26 @@ int             Sound_Init (void)
     // Initialize Sound emulators
     Sound_Init_Emulators();
 
-    // Initialize Sound Engine (SEAL)
-    if (Sound_Init_Engine(SOUND_STREAM_WAIT) != MEKA_ERR_OK)
-        Quit ();
-
-    // FIXME: CRAP! Legacy stuff again
-    Sound.SampleRate = saGetSoundRate ();
-    sound_icount = 0;
-    Sound_Update_Count = 0;
-    saSetSoundCPUClock (Sound_Calc_CPU_Time);
-    // fm_delay_size = 6; // 0
-
-    // Ok
     Sound.Initialized = TRUE;
     return (MEKA_ERR_OK);
 }
 
-// Initialize SEAL library ----------------------------------------------------
-int     Sound_Init_SEAL (void)
-{
-    if (AInitialize() != AUDIO_ERROR_NONE)
-    {
-        Quit_Msg (Msg_Get (MSG_Sound_Init_Error_SEAL));
-        return (MEKA_ERR_FAIL);
-    }
-    return (MEKA_ERR_OK);
-}
-
-// Initialize Sound Card ------------------------------------------------------
 static  int     Sound_Init_SoundCard (void)
 {
-  int            i;
-  AUDIOINFO      Audio_Infos;
+	ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
+	ConsolePrint ("\n");
 
-  ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
-  ConsolePrint ("\n");
+	// FIXME-NEWSOUND
+	// Quit_Msg (Msg_Get (MSG_Sound_Init_Error_Voice_N), i);
 
-  Audio_Infos.nDeviceId = Sound.SoundCard;
-  Audio_Infos.wFormat = AUDIO_FORMAT_16BITS | AUDIO_FORMAT_STEREO; // FIXME: Stereo ?
-  Audio_Infos.nSampleRate = g_sasound.audio_sample_rate = Sound.SampleRate;
-
-  if (AOpenAudio(&Audio_Infos) != AUDIO_ERROR_NONE)
-     {
-     Quit_Msg ("%s", Msg_Get (MSG_Sound_Init_Error_Audio));
-     return (MEKA_ERR_FAIL);
-     }
-  // FIXME: original sound engine was trying different sample rate on failure
-
-  // Unused
-  // Maybe it was intended to check out number of channels there ?
-  // AGetAudioCaps (Audio_Infos.nDeviceId, &Audio_Caps);
-
-  // Open voices
-  if (AOpenVoices(Sound.Voices_Max) != AUDIO_ERROR_NONE)
-     {
-     Quit_Msg ("%s", Msg_Get (MSG_Sound_Init_Error_Voices));
-     return (MEKA_ERR_FAIL);
-     }
-
-  ASetAudioMixerValue (AUDIO_MIXER_MASTER_VOLUME, 256);
-
-  // Allocate voices and waveforms
-  Sound.Voices = (t_voice*)Memory_Alloc(sizeof (t_voice) * Sound.Voices_Max);
-  for (i = 0; i < Sound.Voices_Max; i++)
-     {
-     if (ACreateAudioVoice(&Sound.Voices[i].hVoice) != AUDIO_ERROR_NONE)
-        {
-        Quit_Msg (Msg_Get (MSG_Sound_Init_Error_Voice_N), i);
-        return (MEKA_ERR_FAIL);
-        }
-     ASetVoicePanning(Sound.Voices[i].hVoice, 128); // Center voice
-     Sound.Voices[i].lpWave  = NULL;
-     Sound.Voices[i].playing = FALSE;
-     }
-
-  // FIXME: is this needed ?
-  AUpdateAudio();
-
-  // FIXME: is this needed ?
-  // Check frame sample rate
-  g_sasound.audio_sample_rate = g_sasound.nominal_sample_rate = Audio_Infos.nSampleRate;
-
-  return (MEKA_ERR_OK);
-}
-
-// Initialize Sound Engine ----------------------------------------------------
-// FIXME: This is mostly legacy stuff :(
-static  int     Sound_Init_Engine (int buffer_mode)
-{
-    // Stream Buffer Mode
-    //STREAM_BUFFER_MAXA = DEF_STREAM_BUFFER_MAXA;
-    MODEB_FRAME_SIZE   = DEF_MODEB_FRAME_SIZE;
-    MODEB_UPDATE_COUNT = DEF_MODEB_UPDATE_COUNT;
-    MODEB_ERROR_MAX    = DEF_STREAM_UPDATE_ERROR_MAX;
-    STREAM_BUFFER_MAXB = MODEB_FRAME_SIZE;
-    MODEB_MASK         = MODEB_FRAME_SIZE / MODEB_UPDATE_COUNT;
-
-    sound_stream_mode  = buffer_mode; /* SOUND_STREAM_WAIT in MEKA */
-    //stream_buffer_max  = (sound_stream_mode == SOUND_STREAM_NORMAL) ? STREAM_BUFFER_MAXA : STREAM_BUFFER_MAXB;
-#ifdef INSTALL_SOUND_TIMER
-    buffered_stream_max = stream_buffer_max = 3; // audio_buffer_max_size
-    MODEB_UPDATE_COUNT = 1;
-#else
-    stream_buffer_max = ((stream_buffer_max / 6) / MODEB_UPDATE_COUNT) * MODEB_UPDATE_COUNT;
-    // buffered_stream_max = stream_buffer_max;   // audio_buffer_max_size
-    buffered_stream_max = MODEB_UPDATE_COUNT * 2; // audio_buffer_max_size
-#endif
-
-    /**** timer work init ****/
-    sound_freerun_count = 0;
-    sound_slice = 0;
-
-    if (g_sasound.change_sample_rate)
-    { 
-		// Sample rate has changed, so all emulators must be restarted!
-        g_sasound.change_sample_rate = FALSE;
-        saStopSoundEmulators();
-    }
-    ConsolePrint (" - SEAL: Ok\n"); // FIXME: should be a message ?
-
-#ifdef INSTALL_SOUND_TIMER
-    saInitSoundTimer();
-#endif
-
-    if (SndMachine != NULL)
-    {
-        if (!SndMachine->first)
-        {
-            int i;
-            SndMachine->first = 1;           /* first flag clear */
-            streams_sh_start();              /* streaming system initialize & start */
-            pause_sound = 0;                 /* pause flag off */
-            vbover_err = vbunder_err = 0;    /* error initial */
-            for (i = 0; i < SndMachine->control_max; i++)
-            {
-                if (SndMachine->f_init[i])
-                {
-                    if (SndMachine->f_init[i] (SndMachine->userdata[i]) != MEKA_ERR_OK)
-                    {
-                        SndMachine = NULL;
-                        return (MEKA_ERR_FAIL);
-                    }
-                }
-            }
-        }
-    }
-    return (MEKA_ERR_OK);
+	return (MEKA_ERR_OK);
 }
 
 // Initialize Sound Emulators -------------------------------------------------
 static  void    Sound_Init_Emulators (void)
 {
+	// FIXME-NEWSOUND: Register chipsets
+	/*
     SoundRecEntry  rec;
 
     // Add SN76496 (PSG) emulator
@@ -272,18 +123,15 @@ static  void    Sound_Init_Emulators (void)
     rec.f_stop     = FM_Digital_Close;
     rec.userdata   = NULL;
     saAddSound       (&rec);
+	*/
 }
 
-//-----------------------------------------------------------------------------
-// Sound_Close ()
 // Close sound engine
-//-----------------------------------------------------------------------------
-void            Sound_Close (void)
+void	Sound_Close (void)
 {
-    if (Sound.Initialized == TRUE)
+    if (Sound.Initialized)
     {
-        saRemoveSound ();
-        Sound_Log_Close ();
+        Sound_Log_Close();
         Sound.Initialized = FALSE;
     }
 }
@@ -292,16 +140,13 @@ void            Sound_Close (void)
 // Sound_Update_Frame ()
 // Miscellaneous things to do on each frame
 //-----------------------------------------------------------------------------
-void            Sound_Update_Frame (void)
+void	Sound_Update_Frame (void)
 {
     // Decrement FM usage counter
     // To save CPU, FM emulation is disabled if it gets to zero
     // Msg (MSGT_DEBUG, "FM_Used = %d\n", FM_Used);
     if (FM_Used > 0)
         FM_Used --;
-
-    //saSoundTimerCallback();
-    //streams_sh_update();
 }
 
 //-----------------------------------------------------------------------------
@@ -352,18 +197,9 @@ void    Sound_Playback_Resume (void)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Sound_MasterVolume_Set ()
 // Change Master Volume (0-128)
-//-----------------------------------------------------------------------------
 void    Sound_MasterVolume_Set (int v)
 {
-    int   i;
-
     Sound.MasterVolume = v;
-    for (i = 0; i < Sound.Voices_Max; i++)
-    {
-        // FIXME: need volume
-        // ASetVoiceVolume (Sound.Voices[i].hVoice, (Sound.MasterVolume * volume) / 512);
-    }
+	// FIXME-NEWSOUND: Master volume
 }

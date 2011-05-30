@@ -93,14 +93,14 @@ void    Sound_LogWAV_Start (void)
 
 void    Sound_LogWAV_Stop (void)
 {
- if (Sound.LogWav != NULL)
-    { // Stop Logging
-    WAV_Close(Sound.LogWav, Sound.LogWav_SizeData);
-    Sound.LogWav = NULL;
-    Msg (MSGT_USER, Msg_Get (MSG_Sound_Dumping_Stop),
-        (double)Sound.LogWav_SizeData / ((16 / 8) * 1 * saGetSoundRate()));
-    gui_menu_active_area (FALSE, menus_ID.sound_log, 4, 4);
-    }
+	if (Sound.LogWav != NULL)
+	{ // Stop Logging
+		WAV_Close(Sound.LogWav, Sound.LogWav_SizeData);
+		Sound.LogWav = NULL;
+		Msg (MSGT_USER, Msg_Get (MSG_Sound_Dumping_Stop),
+			(double)Sound.LogWav_SizeData / ((16 / 8) * 1 * Sound.SampleRate));
+		gui_menu_active_area (FALSE, menus_ID.sound_log, 4, 4);
+	}
 }
 
 void    Sound_LogVGM_Start (void)

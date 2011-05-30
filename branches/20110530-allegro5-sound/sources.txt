@@ -189,13 +189,8 @@ II. Compile for GNU/Linux and other UN*X based systems:
    - $ make install
  - Install NASM
    - Get a package, or http://nasm.sourceforge.net
- - Install SEAL
-   - Get a package, or http://www.sonicspot.com/sealsdk/sealsdk.html
  - Compile !
    - Use provided Makefile.
-   - May have to edit some source code (unsure, will need to be worked out)
-     - In sound/sound.h, may need to change <seal.h> by <audio.h>.
-     - In Makefile, may need to change -lseal by -laudio.
  - Contact me thru the forum for any help. :)
 
 

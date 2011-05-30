@@ -162,7 +162,6 @@ void        Coleco_Init_Table_Inputs (void)
 word    Loop_Coleco (void)
 {
     // Update sound cycle counter
-    Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
     Sound.CycleCounter += opt.Cur_IPeriod;
 
     tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;

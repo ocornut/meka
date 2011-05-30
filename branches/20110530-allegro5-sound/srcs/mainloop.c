@@ -33,7 +33,6 @@ void    Main_Loop (void)
         Msg (MSGT_DEBUG, "mouse = %d", g_env.mouse_installed);
         Msg (MSGT_DEBUG, "joystick = %d", al_get_num_joysticks());
         Msg (MSGT_DEBUG, "sound = { enable:%d, init:%d, soundcard:%d }", Sound.Enabled, Sound.Initialized, Sound.SoundCard);
-        Msg (MSGT_DEBUG, "saGetSoundRate() = %d", saGetSoundRate());
         Msg (MSGT_DEBUG, "### Debugging information ###");
     }
 

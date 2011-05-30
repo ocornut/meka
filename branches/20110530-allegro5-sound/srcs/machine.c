@@ -533,12 +533,11 @@ void        Machine_Reset (void)
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm ();
     FM_Reset ();
-    SN76489_Reset (cur_machine.TV->CPU_clock, g_sasound.audio_sample_rate);
+	SN76489_Reset (cur_machine.TV->CPU_clock, Sound.SampleRate);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 
     // Reset sound cycle counter
-    Sound_Update_Count = 0;
     Sound.CycleCounter = 0;
 
     // FIXME: add a reset handler per driver, instead of the code below...

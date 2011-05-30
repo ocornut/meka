@@ -252,7 +252,6 @@ enum
 	MSG_OverDump,
 	
 	MSG_Sound_Init,
-	MSG_Sound_Init_Error_SEAL,
 	MSG_Sound_Init_Error_Audio,
 	MSG_Sound_Init_Error_Blaster,
 	MSG_Sound_Init_Error_Blaster_A,
