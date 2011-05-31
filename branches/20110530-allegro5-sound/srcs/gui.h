@@ -81,6 +81,7 @@ void    gui_redraw (void);
 void    gui_redraw_everything_now_once (void);
 
 void    GUI_DrawBackground(void);
+void	GUI_SetDirtyAll(void);
 void    GUI_RelayoutAll(void);
 
 int     gui_box_image (byte is, int which, ALLEGRO_BITMAP *bitmap);

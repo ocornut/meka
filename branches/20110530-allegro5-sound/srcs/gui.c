@@ -158,6 +158,15 @@ void	gui_redraw(void)
     gui.info.must_redraw = FALSE;
 }
 
+void	GUI_SetDirtyAll(void)
+{
+	for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+	{
+		t_gui_box* box = (t_gui_box*)boxes->elem;
+		gui_box_set_dirty(box);
+	}
+}
+
 void    GUI_RelayoutAll(void)
 {
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)

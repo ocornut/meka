@@ -32,11 +32,8 @@ void    Change_System_Misc (void)
 #endif // MEKA_Z80_DEBUGGER
 }
 
-//-----------------------------------------------------------------------------
-// Change_Mode_Misc ()
 // Called when the MEKA mode changes - updates various things
-//-----------------------------------------------------------------------------
-void    Change_Mode_Misc (void)
+void    Change_Mode_Misc(void)
 {
     switch (g_env.state)
     {

@@ -2,8 +2,8 @@
 // MEKA - palette.c
 // Palette management - Code
 //-----------------------------------------------------------------------------
-// Dynamic palette management which reference count and attempting to
-// minimize hardware palette change.
+// (This used to be a quite fancy dynamic palette management system to attempt
+// to minimize hardware palette change, but its mostly meaningless today)
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
@@ -29,68 +29,29 @@ bool			Palette_EmulationDirtyAny;
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Palette_Init ()
 // Initialize palette engine
-//-----------------------------------------------------------------------------
 void    Palette_Init (void)
 {
 
     Palette_Emulation_Reset();
-
-#if 0
-    int   i;
-    // Clear hardware palette
-    Palette_Dirty_All = TRUE;
-    for (i = 0; i < 256; i++)
-    {
-        RGB *c = &Palette_Current[i];
-        c->r = c->g = c->b = c->filler = 0;
-    }
-
-    // Clear emulation palette
-    Palette_Emu_Cycle_Start = 0;
-    Palette_Emu_Dirty_Any = FALSE;
-    for (i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
-    {
-        t_color_infos *ci = &Palette_Emu_Infos[i];
-        ci->idx   = i;  // Palette_Infos[] cover first 64 colors linearly
-        ci->refs  = 0;  // No references yet
-        ci->dirty = FALSE; // Not changed
-        ci->lock  = FALSE; // Not locked
-    }
-
-    // Clear emulation references
-    Palette_Refs_Dirty_Any = FALSE;
-    for (i = 0; i < PALETTE_EMU_GAME_SIZE ; i++)
-    {
-        Palette_Refs [i] = 0;
-        Palette_Refs_Dirty [i] = FALSE;
-    }
-#endif
 }
 
-//-----------------------------------------------------------------------------
-// Palette_Close ()
 // Close palette engine
-//-----------------------------------------------------------------------------
-void    Palette_Close (void)
+void    Palette_Close(void)
 {
 }
 
 void    Palette_UpdateAfterRedraw()
 {
     // Clear dirty flags
-    int i;
-    for (i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
+    for (int i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
         Palette_EmulationFlags[i] &= ~PALETTE_EMULATION_FLAGS_DIRTY;
     Palette_EmulationDirtyAny = FALSE;
 }
 
 void    Palette_Emulation_Reset()
 {
-    int i;
-    for (i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
+    for (int i = 0; i != PALETTE_EMU_GAME_SIZE; i++)
     {
         Palette_Emulation[i] = COLOR_BLACK;
         Palette_EmulationToHostGui[i] = 0;
@@ -101,13 +62,10 @@ void    Palette_Emulation_Reset()
     Palette_Emulation_Reload();
 }
 
-// Reload palette data (fixed or from PRAM) -----------------------------------
-// Called when changing video mode on the fly ---------------------------------
+// Reload palette data (fixed or from PRAM)
+// Called when changing video mode on the fly
 void    Palette_Emulation_Reload (void)
 {
-    int   i;
-    ALLEGRO_COLOR color;
-
     switch (cur_drv->vdp)
     {
     case VDP_TMS9918:  
@@ -124,15 +82,17 @@ void    Palette_Emulation_Reload (void)
     switch (cur_drv->id)
     {
     case DRV_SMS:
-        for (i = 0; i != 32; i++)
+        for (int i = 0; i != 32; i++)
         {
+			ALLEGRO_COLOR color;
             Palette_Compute_RGB_SMS(&color, i);
             Palette_Emulation_SetColor(i, color);
         }
         break;
     case DRV_GG:
-        for (i = 0; i != 32; i++)
+        for (int i = 0; i != 32; i++)
         {
+			ALLEGRO_COLOR color;
             Palette_Compute_RGB_GG(&color, i * 2);
             Palette_Emulation_SetColor(i, color);
         }
@@ -194,9 +154,7 @@ void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color)
 
 //-----------------------------------------------------------------------------
 
-// FIXME: Use tables instead of the functions below?
-
-void    Palette_Compute_RGB_SMS (ALLEGRO_COLOR *out_color, int i)
+void    Palette_Compute_RGB_SMS(ALLEGRO_COLOR *out_color, int i)
 {
     int v;
 	int r, g, b;
@@ -215,7 +173,7 @@ void    Palette_Compute_RGB_SMS (ALLEGRO_COLOR *out_color, int i)
 }
 
 // Note: if changing the meaning of 'i', please update datadump.c which uses it
-void    Palette_Compute_RGB_GG (ALLEGRO_COLOR *out_color, int i)
+void    Palette_Compute_RGB_GG(ALLEGRO_COLOR *out_color, int i)
 {
     int v;
 	int r, g, b;

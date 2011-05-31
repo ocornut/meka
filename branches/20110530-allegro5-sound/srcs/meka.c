@@ -159,7 +159,7 @@ static void Init_Default_Values (void)
 
     // Debug Mode
     g_Configuration.debug_mode                    = FALSE;
-    g_Configuration.debug_mode_cfg                = FALSE;
+    g_Configuration.debug_mode_cfg                = TRUE;
     g_Configuration.debug_mode_cl                 = FALSE;
 
     // Miscellaneous
@@ -199,8 +199,8 @@ static void Init_Default_Values (void)
 	g_Configuration.video_mode_game_triple_buffering= FALSE;//FIXME-ALLEGRO5 off by default
 	g_Configuration.video_mode_game_page_flipping	= FALSE;
 	g_Configuration.video_mode_gui_fullscreen		= FALSE;
-    g_Configuration.video_mode_gui_res_x			= 800;
-    g_Configuration.video_mode_gui_res_y			= 600;
+    g_Configuration.video_mode_gui_res_x			= 1024;
+    g_Configuration.video_mode_gui_res_y			= 768;
     g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
     g_Configuration.video_mode_gui_vsync			= FALSE;
 

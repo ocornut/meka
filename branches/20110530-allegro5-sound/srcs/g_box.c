@@ -14,7 +14,6 @@
 // FIXME: That was a stupid macro!
 #define Limit(a,b)              (((b) > (a)) ? (a) : (b))
 
-// CHECK IF USER DO SOMETHING TO A BOX ----------------------------------------
 void        gui_update_boxes(void)
 {
     int         i;
@@ -199,10 +198,8 @@ void        gui_update_boxes(void)
 
 t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
 {
-	t_gui_box * box;
-
 	// Allocate new box
-	box = (t_gui_box *)malloc(sizeof (t_gui_box));
+	t_gui_box* box = (t_gui_box *)malloc(sizeof (t_gui_box));
 	assert(box != NULL);
 
     // Setup members
@@ -251,21 +248,21 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 
 void    gui_box_delete(t_gui_box *box)
 {
-    int i;
-
     // Destroy applet callback
     if (box->destroy != NULL)
         box->destroy(box->user_data);
 
     // Remove from lists
     list_remove(&gui.boxes, box);
-    for (i = 0; i < gui.boxes_count; i++)
+    for (int i = 0; i < gui.boxes_count; i++)
+	{
         if (gui.boxes_z_ordered[i] == box)
         {
             for (; i < gui.boxes_count - 1; i++)
                 gui.boxes_z_ordered[i] = gui.boxes_z_ordered[i + 1];
             break;
         }
+	}
     gui.boxes_z_ordered[gui.boxes_count - 1] = NULL;
     gui.boxes_count--;
 
@@ -284,13 +281,10 @@ void    gui_box_set_dirty(t_gui_box *box)
     box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
     // Set all widgets as dirty
+    for (t_list* widgets = box->widgets; widgets != NULL; widgets = widgets->next)
     {
-        t_list *widgets;
-        for (widgets = box->widgets; widgets != NULL; widgets = widgets->next)
-        {
-            t_widget *w = (t_widget *)widgets->elem;
-            w->dirty = TRUE;
-        }
+        t_widget *w = (t_widget *)widgets->elem;
+        w->dirty = TRUE;
     }
 }
 
@@ -320,8 +314,7 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
         // If this box had the focus, let give focus to the following one
         if (focus && gui_box_has_focus(box))
         {
-            int n;
-            for (n = 1; n < gui.boxes_count; n++)
+            for (int n = 1; n < gui.boxes_count; n++)
             {
                 t_gui_box * box_behind = gui.boxes_z_ordered[n];
                 if (box_behind->flags & GUI_BOX_FLAGS_ACTIVE)
@@ -345,9 +338,6 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
 //-----------------------------------------------------------------------------
 void            gui_box_set_focus (t_gui_box *box)
 {
-    int         i;
-    t_gui_box * box_prev;
-
     if (gui_box_has_focus(box))
         return;
 
@@ -355,8 +345,8 @@ void            gui_box_set_focus (t_gui_box *box)
     gui_box_set_dirty(gui.boxes_z_ordered[0]);
 
     // Shift
-    box_prev = box;
-    for (i = 0; i != gui.boxes_count; i++)
+    t_gui_box* box_prev = box;
+    for (int i = 0; i != gui.boxes_count; i++)
     {
         t_gui_box *box_curr = gui.boxes_z_ordered[i];
         gui.boxes_z_ordered[i] = box_prev;
@@ -393,29 +383,20 @@ void            gui_box_set_focus (t_gui_box *box)
     */
 }
 
-//-----------------------------------------------------------------------------
-// gui_box_has_focus(t_gui_box *)
-// Return wether given box has the focus
-//-----------------------------------------------------------------------------
+// Return weither given box has the focus
 int     gui_box_has_focus(t_gui_box *box)
 {
     return (gui.boxes_z_ordered[0] == box);
 }
 
-//-----------------------------------------------------------------------------
-// gui_box_set_title(t_gui_box *, char *)
 // Set title of given box
-//-----------------------------------------------------------------------------
 void    gui_box_set_title(t_gui_box *box, const char *title)
 {
     free(box->title);
     box->title = strdup(title);
 }
 
-//-----------------------------------------------------------------------------
-// gui_box_clip_position (t_gui_box *box)
 // Clip position of given box so that it shows on desktop.
-//-----------------------------------------------------------------------------
 void    gui_box_clip_position (t_gui_box *box)
 {
     if (box->frame.pos.x < gui.info.screen_pad.x - box->frame.size.x)
