@@ -19,14 +19,13 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Blit_Init (void);
+void    Blit_Init();
 void	Blit_CreateVideoBuffers();
 
-void    Blit_Fullscreen (void);
-void    Blit_Fullscreen_Misc (void);
-void    Blit_Fullscreen_Message (void);
+void    Blit_Fullscreen();
+void    Blit_Fullscreen_Misc();
 
-void    Blit_GUI (void);
+void    Blit_GUI();
 
 void    Blit_Fullscreen_Normal          (void);
 void    Blit_Fullscreen_Double          (void);

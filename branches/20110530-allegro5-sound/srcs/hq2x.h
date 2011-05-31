@@ -17,8 +17,11 @@ extern unsigned int   HQ2X_RGBtoYUV[65536];
 // Functions
 //-----------------------------------------------------------------------------
 
+extern "C"
+{
 void    hq2x_16(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
 void    hq2x_32(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
+}
 
 void    HQ2X_Init(void);
 

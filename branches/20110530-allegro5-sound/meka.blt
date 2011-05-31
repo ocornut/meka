@@ -59,6 +59,12 @@
 ;res = 320x240
 ;refresh_rate = auto ; 50
 
+[Allegro5::WIN]
+res = 768x576
+;res = 1024x768
+blitter = normal
+stretch
+
 [Fullscreen::WIN]
 res = 640x480
 blitter = double
@@ -73,14 +79,15 @@ blitter = tvmode_double
 ;res = 256x200
 
 [Windowed::WIN]
-res = 512x384
+res = 800x600
+;512x384
 blitter = double
 
-[HQ2X::WIN]
-res = 1024x768
-refresh_rate = 60
-blitter = hq2x
-stretch
+;[HQ2X::WIN]
+;res = 1024x768
+;refresh_rate = 60
+;blitter = hq2x
+;stretch
 
 ;[Eagle::WIN]
 ;res = 1024x768
@@ -102,42 +109,5 @@ res = 256x200
 [Windowed Double::UNIX]
 res = 512x400
 blitter = double
-
-;-----------------------------------------------------------------------------
-; OBSOLETE - Other modes you can enable or toy with
-;-----------------------------------------------------------------------------
-
-;[Normal 256x192]
-;res = 256x192
-;blitter = normal
-
-;[Doubled]
-;res = 512x384
-;blitter = double
-
-;[Doubled Game Gear]
-;;res = 400x300
-;;res = 376x308
-;;blitter = double
-;;; res = 320x350
-;;; res = 376x282
-;;; res = 360x360
-
-;[TV Mode Doubled]
-;res = 512x384
-;blitter = tvmode_double
-
-;[Eagle]
-;res = 640x480
-;blitter = eagle
-
-;[Perfect]
-;res = 512x384
-;blitter = tvmode_double
-
-;[Perfect 2]
-;res = 320x400
-;blitter = tvmode
-;; Use this one if "Perfect" gives you wrong colors
 
 ;-----------------------------------------------------------------------------

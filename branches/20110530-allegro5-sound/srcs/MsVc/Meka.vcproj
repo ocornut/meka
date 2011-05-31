@@ -295,10 +295,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.cfg"
-				>
-			</File>
-			<File
 				RelativePath="..\..\meka.dsk"
 				>
 			</File>

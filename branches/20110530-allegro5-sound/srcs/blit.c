@@ -74,7 +74,7 @@ static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
     { Blit_Fullscreen_HQ2X,             2,      2 },
 };
 
-void    Blit_Fullscreen_Misc (void)
+void    Blit_Fullscreen_Misc(void)
 {
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
@@ -108,33 +108,42 @@ void    Blit_Fullscreen_Misc (void)
         Glasses_Update ();
 }
 
-// FIXME: if blitting will be done outside of screen (because of y) wrap accordingly
-void        Blit_Fullscreen_Message (void)
+static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
 {
     int     x, y;
-    int     fy;
 
-    x = blit_cfg.src_sx + 8;
-    if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
-        x += 8;
+	if (dst == screenbuffer)
+	{
+		x = blit_cfg.src_sx + 8;
+		if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
+			x += 8;
 
-    fy = Blitters_Table[Blitters.current->blitter].y_fact;
-    y = blit_cfg.src_sy + cur_drv->y_res;
-    if (y * fy > Video.res_y)
-        y -= ((y * fy) - Video.res_y) / (fy * 2);
-    y -= 14;
+		int fy = Blitters_Table[Blitters.current->blitter].y_fact;
+		y = blit_cfg.src_sy + cur_drv->y_res;
+		if (y * fy > Video.res_y)
+			y -= ((y * fy) - Video.res_y) / (fy * 2);
+		y -= 14;
+	}
+	else
+	{
+		x = 10;
+		y = al_get_bitmap_height(dst) - 16;
+		if (time_left < 20)
+			y += (20 - time_left);
+		al_draw_filled_rectangle(0, y-6, al_get_bitmap_width(dst), al_get_bitmap_height(dst), al_map_rgba(0,0,0,128));
+	}
 
-    Font_SetCurrent (F_SMALL);
-    // FIXME: use a dedicated font. This is slow as hell!!
-    Font_Print (-1, screenbuffer, gui_status.message, x - 1, y - 1, COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x,     y - 1, COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x + 1, y - 1, COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x - 1, y + 1, COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x,     y + 1, COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x + 1, y + 1, COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x - 1, y,     COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x + 1, y,     COLOR_BLACK);
-    Font_Print (-1, screenbuffer, gui_status.message, x,     y,     COLOR_WHITE);
+	// FIXME-OPT: use a dedicated font. This is slow as hell!!
+    Font_SetCurrent(F_LARGE);
+    Font_Print (-1, dst, gui_status.message, x - 1, y - 1, COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x,     y - 1, COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x + 1, y - 1, COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x - 1, y + 1, COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x,     y + 1, COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x + 1, y + 1, COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x - 1, y,     COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x + 1, y,     COLOR_BLACK);
+    Font_Print (-1, dst, gui_status.message, x,     y,     COLOR_WHITE);
 }
 
 static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer, int input_res_sx, int input_res_sy, int dst_scale)
@@ -178,7 +187,7 @@ void    Blit_Fullscreen_Normal (void)
 
 void    Blit_Fullscreen_Double (void)
 {
-    Blit_Fullscreen_Misc ();
+    Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1, 2);
 }
 
@@ -199,7 +208,7 @@ void    Blit_Fullscreen_Eagle (void)
 			(u16 *)Blit_Buffer_Double->line[i * 2 + 1] + (blit_cfg.src_sx * 2));
 	}
 #endif
-	Blit_Fullscreen_Misc ();
+	Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
 }
 
@@ -208,10 +217,14 @@ void    Blit_Fullscreen_HQ2X (void)
     // Perform HQ2X into double buffer
 	// FIXME-OPT: Applied on full width.
 #if 0 // FIXME-ALLEGRO5: blit
-	hq2x_16(
-		(unsigned char *)((u16 *)screenbuffer->line[blit_cfg.src_sy] + 0), 
-		(unsigned char *)((u16 *)Blit_Buffer_Double->line[blit_cfg.src_sy * 2] + 0), 
-		MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
+	ALLEGRO_LOCKED_REGION* lr_src = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READONLY);
+	ALLEGRO_LOCKED_REGION* lr_dst = al_lock_bitmap(Blit_Buffer_Double, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
+
+	u8* addr_src = ((u8*)lr_src->data + (lr_src->pitch * blit_cfg.src_sy * 1) + (0 * sizeof(u16)));
+	u8* addr_dst = ((u8*)lr_dst->data + (lr_dst->pitch * blit_cfg.src_sy * 2) + (0 * sizeof(u16)));
+	hq2x_16(addr_src, addr_dst, MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
+	al_unlock_bitmap(screenbuffer);
+	al_unlock_bitmap(Blit_Buffer_Double);
 #endif
     Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
@@ -276,18 +289,12 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 }
 
 // Blit screenbuffer to video memory in fullscreen mode
-void    Blit_Fullscreen (void)
+void    Blit_Fullscreen(void)
 {
     blit_cfg.src_sx = cur_drv->x_start;
     blit_cfg.src_sy = cur_drv->y_show_start;
     blit_cfg.dst_sx = Video.game_area_x1;
     blit_cfg.dst_sy = Video.game_area_y1;
-
-    if (gui_status.timeleft && g_Configuration.show_fullscreen_messages)
-    {
-        Blit_Fullscreen_Message ();
-        gui_status.timeleft --;
-    }
 
 #if 0
     {
@@ -303,6 +310,13 @@ void    Blit_Fullscreen (void)
 #endif
 
     Blitters_Table [Blitters.current->blitter].func();
+
+	if (gui_status.timeleft && g_Configuration.show_fullscreen_messages)
+	{
+		al_set_target_bitmap(fs_out);
+		Blit_Fullscreen_Message(fs_out, gui_status.timeleft);
+		gui_status.timeleft --;
+	}
 
 	al_flip_display();
 

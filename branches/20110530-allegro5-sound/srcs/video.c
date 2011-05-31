@@ -118,6 +118,7 @@ static int Video_Mode_Change(t_video_driver* driver, int w, int h, int v_w, int 
 #endif
 		al_unregister_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 		al_destroy_display(g_display);
+		g_display = NULL;
 	}
 
 	// Create new display
@@ -137,6 +138,18 @@ static int Video_Mode_Change(t_video_driver* driver, int w, int h, int v_w, int 
         Msg(MSGT_USER, Msg_Get(MSG_Error_Video_Mode), w, h);
         return (MEKA_ERR_FAIL);
     }
+
+	/*{
+		const int modes = al_get_num_display_modes();
+		for (int i = 0; i != modes; i++)
+		{
+			ALLEGRO_DISPLAY_MODE display_mode;
+			if (al_get_display_mode(i, &display_mode))
+			{
+				Msg(MSGT_DEBUG, "Display Mode: %dx%d @ %d Hz, format %d", display_mode.width, display_mode.height, display_mode.refresh_rate, display_mode.format);
+			}
+		}
+	}*/
 
 	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 	
@@ -357,16 +370,14 @@ void    Video_Setup_State (void)
                 }
                 fs_out = al_get_backbuffer(g_display);
             }
-            Change_Mode_Misc ();
-            //Palette_Sync_All ();
-            // set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
+            Change_Mode_Misc();
+            // set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
         }
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
 			Video_Mode_Change (g_Configuration.video_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
             Change_Mode_Misc();
-            //Palette_Sync_All();
             gui_redraw_everything_now_once();
         }
         break;

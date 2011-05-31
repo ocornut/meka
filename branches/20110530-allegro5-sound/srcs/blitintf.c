@@ -143,7 +143,7 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
         return MEKA_ERR_OK;
         // Stretch
     case 3:
-        Blitters.current->stretch = BLITETR_STRETCH_MAX_INT;
+        Blitters.current->stretch = BLITTER_STRETCH_MAX_INT;
         return MEKA_ERR_OK;
     default:
         return MEKA_ERR_UNKNOWN;
