@@ -167,10 +167,13 @@ u32		Palette_MakeHostColor(int color_format, int r, int g, int b)
 		b >>= 3;
 		return (b << 10) | (g << 5) | (b);
 	case ALLEGRO_PIXEL_FORMAT_ARGB_8888:
+	case ALLEGRO_PIXEL_FORMAT_XRGB_8888:
 		return (0xFF << 24) | (r << 16) | (g << 8) | (b);
 	case ALLEGRO_PIXEL_FORMAT_RGBA_8888:
+	case ALLEGRO_PIXEL_FORMAT_RGBX_8888:
 		return    (r << 24) | (g << 16) | (b << 8) | (0xFF);
 	case ALLEGRO_PIXEL_FORMAT_ABGR_8888:
+	case ALLEGRO_PIXEL_FORMAT_XBGR_8888:
 		return (0xFF << 24) | (b << 16) | (g << 8) | (r);
 	}
 

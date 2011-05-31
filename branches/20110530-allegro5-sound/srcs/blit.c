@@ -88,8 +88,6 @@ void    Blit_Fullscreen_Misc (void)
     // Clear Screen if it has been asked
     if (Video.clear_request)
     {
-        // int cpu_capabilities_backup = cpu_capabilities;
-        // cpu_capabilities &= ~CPU_MMX;
         Video.clear_request = FALSE;
         if (g_Configuration.video_mode_game_page_flipping)
         {
@@ -103,19 +101,14 @@ void    Blit_Fullscreen_Misc (void)
 			al_set_target_bitmap(al_get_backbuffer(g_display));
             al_clear_to_color(BORDER_COLOR);
         }
-        // cpu_capabilities = cpu_capabilities_backup;
     }
 
     // Update 3-D Glasses
     if (Glasses.Enabled)
         Glasses_Update ();
-
-    // Update palette if necessary
-    //Palette_Sync ();
 }
 
-// FIXME: if blitting will be done outside of screen (because of y)
-// wrap accordingly
+// FIXME: if blitting will be done outside of screen (because of y) wrap accordingly
 void        Blit_Fullscreen_Message (void)
 {
     int     x, y;
@@ -212,10 +205,10 @@ void    Blit_Fullscreen_Eagle (void)
 
 void    Blit_Fullscreen_HQ2X (void)
 {
-#if 0 // FIXME-ALLEGRO5: blit
     // Perform HQ2X into double buffer
-	// FIXME-OPT: Apply on full width.
-    hq2x_16(
+	// FIXME-OPT: Applied on full width.
+#if 0 // FIXME-ALLEGRO5: blit
+	hq2x_16(
 		(unsigned char *)((u16 *)screenbuffer->line[blit_cfg.src_sy] + 0), 
 		(unsigned char *)((u16 *)Blit_Buffer_Double->line[blit_cfg.src_sy * 2] + 0), 
 		MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
@@ -226,7 +219,7 @@ void    Blit_Fullscreen_HQ2X (void)
 
 void    Blit_Fullscreen_TV_Mode (void)
 {
-#if 0	// FIXME-ALLEGRO5: blit
+#if 0 // FIXME-ALLEGRO5: blit
 	int i;
 	for (i = 0; i < cur_drv->y_res; i ++)
 	{
@@ -370,9 +363,6 @@ void    Blit_GUI (void)
         if (Glasses.Enabled)
             Glasses_Update();
     }
-
-    // Update palette if necessary
-    //Palette_Sync ();
 
     // Blit
 	ALLEGRO_BITMAP* backbuffer = al_get_backbuffer(g_display);
