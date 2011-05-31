@@ -32,7 +32,7 @@
 
 void    Setup_Interactive_Init (void)
 {
-    if (opt.Setup_Interactive_Execute || (Sound.Enabled && Sound.SoundCard == SOUND_SOUNDCARD_SELECT))
+    if (opt.Setup_Interactive_Execute)
     {
         ConsolePrintf ("%s\n", Msg_Get(MSG_Setup_Running));
         opt.Setup_Interactive_Execute = FALSE;
@@ -162,11 +162,16 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 						HWND combo_hwnd;
 
 						// Sound Card
+						// FIXME-NEWSOUND: Removed sound card setting
+						/*
 						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS), CB_GETCURSEL, 0, 0)) != CB_ERR)
 							Sound.SoundCard = n;
+						*/
+
 						// Sample Rate
 						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE), CB_GETCURSEL, 0, 0)) != CB_ERR)
 							Sound.SampleRate = Sound_Rate_Default_Table[n];
+
 						// Language
 						combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_LANGUAGE);
 						if ((n = SendMessage(combo_hwnd, CB_GETCURSEL, 0, 0)) != CB_ERR)
@@ -174,6 +179,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 							t_lang *lang = (t_lang *)SendMessage(combo_hwnd, CB_GETITEMDATA, n, 0);
 							Messages.Lang_Cur = lang; // FIXME
 						}
+
 						// Debugger enable
 						g_Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
 						EndDialog(hDlg, 0);

@@ -32,7 +32,6 @@ void    Main_Loop (void)
         //Msg (MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_refresh_rate, g_Configuration.video_mode_gui_depth_cfg);
         Msg (MSGT_DEBUG, "mouse = %d", g_env.mouse_installed);
         Msg (MSGT_DEBUG, "joystick = %d", al_get_num_joysticks());
-        Msg (MSGT_DEBUG, "sound = { enable:%d, init:%d, soundcard:%d }", Sound.Enabled, Sound.Initialized, Sound.SoundCard);
         Msg (MSGT_DEBUG, "### Debugging information ###");
     }
 

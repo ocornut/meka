@@ -57,7 +57,6 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "frameskip_throttle_speed"))		{ fskipper.Throttled_Speed = atoi(value); return; }
 	if (!strcmp(var, "frameskip_unthrottled_frameskip")){ fskipper.Unthrottled_Frameskip = atoi(value); return; }
 	if (!strcmp(var, "video_game_blitter"))				{ Blitters.blitter_configuration_name = strdup(value); return; }
-	if (!strcmp(var, "sound_card"))						{ Sound.SoundCard = atoi(value); return; }
 	if (!strcmp(var, "sound_enabled"))					{ Sound.Enabled = (bool)atoi(value); return; }
 	if (!strcmp(var, "sound_rate"))						{ const int n = atoi(value); if (n > 0) Sound.SampleRate = atoi(value); return; }
 	if (!strcmp(var, "video_gui_resolution"))
@@ -165,6 +164,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "video_game_depth"))		{}
 	if (!strcmp(var, "frameskip_auto_speed"))	{}
 	if (!strcmp(var, "frameskip_normal_speed"))	{}
+	if (!strcmp(var, "sound_card"))				{}
 }
 
 //-----------------------------------------------------------------------------
@@ -284,9 +284,7 @@ void    Configuration_Save (void)
 
     CFG_Write_Line ("-----< SOUND AND MUSIC >-----------------------------------------------------");
     CFG_Write_Int  ("sound_enabled", Sound.Enabled);
-    CFG_Write_Int  ("sound_card", Sound.SoundCard);
     CFG_Write_Int  ("sound_rate", Sound.SampleRate);
-    CFG_Write_Line ("(Set sound_card to -1 to be prompted to choose your soundcard again)");
     CFG_Write_Int  ("fm_enabled", Sound.FM_Enabled);
     CFG_Write_Line ("");
 

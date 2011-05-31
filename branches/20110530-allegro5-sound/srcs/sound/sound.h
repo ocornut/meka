@@ -7,9 +7,6 @@
 // DEFINITIONS
 //-----------------------------------------------------------------------------
 
-#define SOUND_SOUNDCARD_SELECT  (-1)
-#define SOUND_SOUNDCARD_NONE    (0)
-
 #define SOUND_BUFFERS_COUNT		(4)
 #define SOUND_BUFFERS_SIZE		(1024)
 
@@ -30,7 +27,6 @@ struct t_sound
     // General
     bool        Enabled;
     bool        Initialized;
-    int         SoundCard;                  // Soundcard driver
     int         SampleRate;                 // In Hz
     int         Paused;                     // Paused stack. Sounds play only when this is zero
     int         MasterVolume;               // Master Volume (0-128)

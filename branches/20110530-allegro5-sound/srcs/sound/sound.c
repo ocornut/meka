@@ -59,7 +59,6 @@ void	Sound_Init_Config(void)
     // General
     Sound.Enabled       = TRUE;
     Sound.Initialized   = FALSE;
-    Sound.SoundCard     = SOUND_SOUNDCARD_SELECT; // Let user select by default
     Sound.SampleRate    = 44100;                  // 44100 Hz by default
     Sound.Paused        = 0;
     Sound.MasterVolume  = 128;
@@ -80,12 +79,6 @@ int		Sound_Init(void)
     // FIXME: Does MEKA works properly with no soundcard, is the machine updating registters properly and saving good savestates ?
     if (Sound.Enabled == FALSE)
         return (MEKA_ERR_OK);
-    if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
-    {
-        // Quit_Msg ("%s", Msg_Get (MSG_Sound_Init_Soundcard_No));
-        // return (MEKA_ERR_FAIL);
-        return (MEKA_ERR_OK);
-    }
 
     // Print Sound initialization message
     ConsolePrintf ("%s\n", Msg_Get (MSG_Sound_Init));
