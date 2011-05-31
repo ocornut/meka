@@ -196,7 +196,7 @@ static void Init_Default_Values (void)
 
 	g_Configuration.video_mode_game_fullscreen		= FALSE;
 	g_Configuration.video_mode_game_vsync			= FALSE;
-	g_Configuration.video_mode_game_triple_buffering= TRUE;
+	g_Configuration.video_mode_game_triple_buffering= FALSE;//FIXME-ALLEGRO5 off by default
 	g_Configuration.video_mode_game_page_flipping	= FALSE;
 	g_Configuration.video_mode_gui_fullscreen		= FALSE;
     g_Configuration.video_mode_gui_res_x			= 800;
