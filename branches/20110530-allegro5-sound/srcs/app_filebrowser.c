@@ -135,8 +135,8 @@ void            FB_Init (void)
 {
     t_frame     frame;
 
-    frame.pos.x     = 446;
-    frame.pos.y     = 100;
+    frame.pos.x     = 466;
+    frame.pos.y     = 54;
     frame.size.x    = FB.res_x;
     frame.size.y    = FB_Return_Res_Y();
     FB.box = gui_box_new(&frame, Msg_Get (MSG_FileBrowser_BoxTitle));

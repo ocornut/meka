@@ -12,13 +12,11 @@ They are usually of 2 kinds:
 
  MEKA 0.74 WIP Allegro 5
  -----------------------
-  - Updated to Allegro 5.0.x with OpenGL/DirectX backends. [Omar]
+  - Updated to Allegro 5.0.2 with OpenGL/DirectX backends. [Omar]
+  - Rewrote sound engine and hopefully fixed audio issues that many computers had 
+    under Windows. Also completely got rid of SEAL audio library. [Omar]
   - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
-    We can now freely take advantage of all C++ compiler features! [Omar]
-  - (Win32) Using precompiled header for blazing fast compilation (MSVC). [Omar]
-  - (Win32) Using precompiled Allegro binaries. [Omar]
-  - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
-  - (Win32) Now including NASM assembler in the repository. [Omar]
+    Codebase can now freely take advantage of all C++ compiler features. [Omar]
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
   - FileBrowser: holding CTRL while using the mouse wheel fasten scrolling. [Omar]
@@ -26,6 +24,10 @@ They are usually of 2 kinds:
   - Removed code for the old OPL3 based YM2413 emulator. [Omar]
   - Removed easter egg code for emulating the NES. [Omar]
   - Removed easter egg mini-games and various other obsolete features. [Omar]
+  - (Win32) Using precompiled header for blazing fast compilation (MSVC). [Omar]
+  - (Win32) Using precompiled Allegro binaries. [Omar]
+  - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
+  - (Win32) Now including NASM assembler in the repository. [Omar]
 
  MEKA 0.74 WIP xxxxxxxx
  ----------------------

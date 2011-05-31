@@ -500,9 +500,9 @@ void SoundDebugApp_Init()
 
 	t_frame frame;
     frame.pos.x = 150;
-    frame.pos.y = 382;
+    frame.pos.y = 500;
     frame.size.x = 350;
-    frame.size.y = 150;
+    frame.size.y = 70;
 	app->active = true;
 	app->box = gui_box_new(&frame, "Sound Debug");
 	app->box->update = SoundDebugApp_Update;
