@@ -1936,3 +1936,6 @@ FuncTable2
     dd ..@cross8, ..@flag0,  ..@flag0,  ..@flag0,
     dd ..@flag0,  ..@flag0,  ..@flag0,  ..@flag0
 
+%ifidn __OUTPUT_FORMAT__,elf
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif

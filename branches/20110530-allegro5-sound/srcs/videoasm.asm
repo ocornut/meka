@@ -495,3 +495,6 @@ _Sprite_Collide_Line_ASM:
 
 ;------------------------------------------------------------------------------
 
+%ifidn __OUTPUT_FORMAT__,elf
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif

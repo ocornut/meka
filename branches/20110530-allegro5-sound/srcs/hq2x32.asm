@@ -1934,3 +1934,6 @@ FuncTable2
     dd ..@cross8, ..@crossN, ..@crossN, ..@crossN,
     dd ..@crossN, ..@crossN, ..@crossN, ..@crossN
 
+%ifidn __OUTPUT_FORMAT__,elf
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif

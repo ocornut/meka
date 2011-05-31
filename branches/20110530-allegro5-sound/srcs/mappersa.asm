@@ -173,3 +173,6 @@ _Write_Mapper_32kRAM_ASM:
 
 END
 
+%ifidn __OUTPUT_FORMAT__,elf
+section .note.GNU-stack noalloc noexec nowrite progbits
+%endif
