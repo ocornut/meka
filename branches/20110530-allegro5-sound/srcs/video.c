@@ -84,17 +84,17 @@ void Video_CreateVideoBuffers()
 	Screenbuffer_AcquireLock();
 }
 
-static int Video_Mode_Change(t_video_driver* driver, int w, int h, int v_w, int v_h, bool fullscreen, int refresh_rate, bool fatal)
+static int Video_Mode_Change(t_video_driver* driver, int w, int h, bool fullscreen, int refresh_rate, bool fatal)
 {
     // Attempt to avoid unnecessary resolution change (on blitter change)
     static struct
     {
         t_video_driver* driver;
-        int w, h, v_w, v_h;
+        int w, h;
 		int fullscreen;
         int refresh_rate;
-    } previous_mode = { NULL, -1, -1, -1, -1, -1, -1 };
-    if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && v_w == previous_mode.v_w && v_h == previous_mode.v_h && (int)fullscreen == previous_mode.fullscreen && refresh_rate == previous_mode.refresh_rate)
+    } previous_mode = { NULL, -1, -1, -1, -1 };
+    if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && (int)fullscreen == previous_mode.fullscreen && refresh_rate == previous_mode.refresh_rate)
     {
         Video_GameMode_UpdateBounds();
         return (MEKA_ERR_OK);
@@ -103,8 +103,6 @@ static int Video_Mode_Change(t_video_driver* driver, int w, int h, int v_w, int 
     previous_mode.driver = driver;
     previous_mode.w = w;
     previous_mode.h = h;
-    previous_mode.v_w = v_w;
-    previous_mode.v_h = v_h;
 	previous_mode.fullscreen = fullscreen;
     previous_mode.refresh_rate = refresh_rate;
 
@@ -245,20 +243,17 @@ void    Video_Setup_State (void)
         }
     case MEKA_STATE_FULLSCREEN: // FullScreen mode ----------------------------
         {
+			//const int game_res_x = Blitters.current->res_x;
+			//const int game_res_y = Blitters.current->res_y;
+			const int game_res_x = g_Configuration.video_mode_gui_res_x;
+			const int game_res_y = g_Configuration.video_mode_gui_res_y;
+			const bool game_fullscreen = g_Configuration.video_mode_game_fullscreen;
+
 			Video.triple_buffering_activated = FALSE;
 			if (g_Configuration.video_mode_game_triple_buffering)
             {
 				assert(0);	// FIXME-ALLEGRO5: triple buffering
-                if (Video_Mode_Change(
-						g_Configuration.video_driver,
-                        Blitters.current->res_x, Blitters.current->res_y,
-                    #ifdef ARCH_WIN32
-                        0, 0,
-                    #else
-                        0, Blitters.current->res_y * 2,
-                    #endif
-						g_Configuration.video_mode_game_fullscreen,
-                        Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
+                if (Video_Mode_Change(g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
                     g_env.state = MEKA_STATE_GUI;
                     Video_Setup_State();
@@ -286,9 +281,9 @@ void    Video_Setup_State (void)
 				if (gfx_capabilities & GFX_CAN_TRIPLE_BUFFER)
 				{
 					// Enable triple buffering
-					fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
-					fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
-					fs_page_2 = create_video_bitmap (Video.res_x, Video.res_y);
+					fs_page_0 = create_video_bitmap(Video.res_x, Video.res_y);
+					fs_page_1 = create_video_bitmap(Video.res_x, Video.res_y);
+					fs_page_2 = create_video_bitmap(Video.res_x, Video.res_y);
 					fs_out = fs_page_1;
 					enable_triple_buffer();
 					Video.page_flipflop = 0;
@@ -315,15 +310,7 @@ void    Video_Setup_State (void)
             {
 				assert(0);
 #if 0 // FIXME-ALLEGRO5: page flipping
-                if (Video_Mode_Change (driver,
-                    Blitters.current->res_x, Blitters.current->res_y,
-#ifdef ARCH_WIN32
-                    0, 0,
-#else
-                    0, Blitters.current->res_y * 2,
-#endif
-                    Blitters.current->refresh_rate,
-                    FALSE) != MEKA_ERR_OK)
+                if (Video_Mode_Change (driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
                     g_env.state = MEKA_STATE_GUI;
                     Video_Setup_State ();
@@ -357,13 +344,7 @@ void    Video_Setup_State (void)
             }
             else
             {
-                if (Video_Mode_Change (
-					g_Configuration.video_driver,
-                    Blitters.current->res_x, Blitters.current->res_y,
-                    0, 0,
-					g_Configuration.video_mode_game_fullscreen,
-                    Blitters.current->refresh_rate,
-                    FALSE) != MEKA_ERR_OK)
+                if (Video_Mode_Change (g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
                 {
                     g_env.state = MEKA_STATE_GUI;
                     Video_Setup_State ();
@@ -378,7 +359,9 @@ void    Video_Setup_State (void)
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
-			Video_Mode_Change (g_Configuration.video_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+			const int gui_res_x = g_Configuration.video_mode_gui_res_x;
+			const int gui_res_y = g_Configuration.video_mode_gui_res_y;
+			Video_Mode_Change(g_Configuration.video_driver, gui_res_x, gui_res_y, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
             Change_Mode_Misc();
             gui_redraw_everything_now_once();
         }

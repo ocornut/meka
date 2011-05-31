@@ -149,32 +149,54 @@ static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
 static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer, int input_res_sx, int input_res_sy, int dst_scale)
 {
 	al_set_target_bitmap(fs_out);
-	if (!Blitters.current->stretch)
+	
+	const int src_px = blit_cfg.src_sx * input_res_sx;
+	const int src_py = blit_cfg.src_sy * input_res_sy;
+	const int src_sx = cur_drv->x_res * input_res_sx;
+	const int src_sy = cur_drv->y_res * input_res_sy;
+
+	const t_blitter_stretch stretch = Blitters.current->stretch;
+	if (stretch == BLITTER_STRETCH_NONE)
 	{
 		if (dst_scale == 1)
 		{
 			al_draw_bitmap_region(src_buffer, 
-				blit_cfg.src_sx * input_res_sx, blit_cfg.src_sy * input_res_sy,
-				cur_drv->x_res * input_res_sx, cur_drv->y_res * input_res_sy,
+				src_px, src_py,
+				src_sx, src_sy,
 				blit_cfg.dst_sx, blit_cfg.dst_sy,
 				0x0000);
 		}
 		else
 		{
 			al_draw_scaled_bitmap(src_buffer,
-				blit_cfg.src_sx * input_res_sx, blit_cfg.src_sy * input_res_sy,
-				cur_drv->x_res  * input_res_sx, cur_drv->y_res  * input_res_sy,
+				src_px, src_py,
+				src_sx, src_sy,
 				blit_cfg.dst_sx, blit_cfg.dst_sy,
 				cur_drv->x_res  * input_res_sx * dst_scale, cur_drv->y_res  * input_res_sy * dst_scale,
 				0x0000);
 		}
 	}
+	else if (stretch == BLITTER_STRETCH_MAX_INT)
+	{
+		// Integer scale
+		const int scale_x = (int)Video.res_x / src_sx;
+		const int scale_y = (int)Video.res_y / src_sy;
+		const int scale = MIN(scale_x, scale_y);
+		al_draw_scaled_bitmap(src_buffer,
+			src_px, src_py,
+			src_sx, src_sy,
+			(Video.res_x/2)-(src_sx*scale)/2, (Video.res_y/2)-(src_sy*scale)/2,
+			src_sx*scale, src_sy*scale,
+			0x0000);
+	}
 	else
 	{
+		// FIXME: MAX_RATIO vs MAX
 		al_draw_scaled_bitmap(src_buffer,
-			blit_cfg.src_sx * input_res_sx, blit_cfg.src_sy * input_res_sy,
-			cur_drv->x_res  * input_res_sx, cur_drv->y_res  * input_res_sy,
-			0, 0, Video.res_x, Video.res_y,
+			src_px, src_py,
+			src_sx, src_sy,
+			0, 0, 
+			Video.res_x, Video.res_y,
 			0x0000);
 	}
 }

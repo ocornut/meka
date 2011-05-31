@@ -59,7 +59,7 @@
 ;res = 320x240
 ;refresh_rate = auto ; 50
 
-[Allegro5::WIN]
+[Stretch::WIN]
 res = 768x576
 ;res = 1024x768
 blitter = normal
