@@ -65,23 +65,23 @@ res = 768x576
 blitter = normal
 stretch
 
-[Fullscreen::WIN]
-res = 640x480
-blitter = double
-refresh_rate = 60
-
-[TV Mode::WIN]
-res = 640x480
-blitter = tvmode_double
+;[Fullscreen::WIN]
+;res = 640x480
+;blitter = double
 ;refresh_rate = 60
+
+;[TV Mode::WIN]
+;res = 640x480
+;blitter = tvmode_double
+;;refresh_rate = 60
 
 ;[Windowed::WIN]
 ;res = 256x200
 
-[Windowed::WIN]
-res = 800x600
-;512x384
-blitter = double
+;[Windowed::WIN]
+;res = 800x600
+;;512x384
+;blitter = double
 
 ;[HQ2X::WIN]
 ;res = 1024x768

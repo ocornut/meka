@@ -63,6 +63,7 @@ void Video_CreateVideoBuffers()
 {
 	if (Screenbuffer_IsLocked())
 		Screenbuffer_ReleaseLock();
+
 	if (screenbuffer_1)
 		al_destroy_bitmap(screenbuffer_1);
 	if (screenbuffer_2)
@@ -451,12 +452,6 @@ void    Video_RefreshScreen(void)
 
 	Video_UpdateEvents();
 
-//#ifdef ARCH_WIN32
-//    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
-//#else
-//    Msg (MSGT_DEBUG, "%016llx , %016llx", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
-//#endif
-
     if (fskipper.Show_Current_Frame)
     {
 		Capture_Update();
@@ -464,22 +459,18 @@ void    Video_RefreshScreen(void)
         if (Machine_Pause_Need_To)
             Machine_Pause();
 
-        if (g_env.state == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
+        if (g_env.state == MEKA_STATE_GUI)
         {
             gui_update ();
 
             // Check if we're switching GUI off now
             if (g_env.state != MEKA_STATE_GUI)
             {
-                // release_bitmap(screen);
+				Screenbuffer_AcquireLock();
                 return;
             }
 
-            // Msg (MSGT_DEBUG, "calling gui_redraw(), screenbuffer=%d", (screenbuffer==screenbuffer_1)?1:2);
-
             gui_redraw();
-
-            // Blit GUI screen
             Blit_GUI();
         }
 
@@ -496,7 +487,7 @@ void    Video_RefreshScreen(void)
                 gui_status.timeleft = 0; // Force disabling the current message
             }
 
-            // Blit emulated screen in fullscreen mode ------------------------------
+            // Blit emulated screen in fullscreen mode
             Blit_Fullscreen ();
         }
 
@@ -511,7 +502,7 @@ void    Video_RefreshScreen(void)
     // Draw next image in other buffer --------------------------------------------
     if (machine & MACHINE_PAUSED)
     {
-        Screen_Restore_from_Next_Buffer ();
+        Screen_Restore_from_Next_Buffer();
     }
     else
     {
@@ -529,7 +520,7 @@ void    Video_RefreshScreen(void)
         #endif
     }
 
-    // Ask frame-skipper weither next frame should be drawn or not
+    // Ask frame-skipper whether next frame should be drawn or not
     fskipper.Show_Current_Frame = Frame_Skipper();
 
 	Screenbuffer_AcquireLock();

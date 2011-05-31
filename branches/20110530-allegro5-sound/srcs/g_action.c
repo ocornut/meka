@@ -136,7 +136,7 @@ void    Action_Switch_Flickering_No (void)
 }
 
 // ACTION: SWITCH BETWEEN FULLSCREEN AND INTERFACE MODES ----------------------
-void    Action_Switch_Mode (void)
+void    Action_Switch_Mode(void)
 {
     switch (g_env.state)
     {
@@ -147,9 +147,9 @@ void    Action_Switch_Mode (void)
         break;
     }
 
-    Sound_Playback_Mute ();
-    Video_Setup_State ();
-    Sound_Playback_Resume ();
+    Sound_Playback_Mute();
+    Video_Setup_State();
+    Sound_Playback_Resume();
 }
 
 //-----------------------------------------------------------------------------
