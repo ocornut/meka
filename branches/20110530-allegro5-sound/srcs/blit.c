@@ -86,9 +86,9 @@ void    Blit_Fullscreen_Misc(void)
 	}
 
     // Clear Screen if it has been asked
-    if (Video.clear_request)
+    if (Video.clear_requests > 0)
     {
-        Video.clear_request = FALSE;
+        Video.clear_requests--;
 		al_set_target_bitmap(al_get_backbuffer(g_display));
         al_clear_to_color(BORDER_COLOR);
 	}
@@ -139,7 +139,7 @@ static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
 static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer, int input_res_sx, int input_res_sy, int dst_scale)
 {
 	al_set_target_bitmap(fs_out);
-	
+
 	const int src_px = blit_cfg.src_sx * input_res_sx;
 	const int src_py = blit_cfg.src_sy * input_res_sy;
 	const int src_sx = cur_drv->x_res * input_res_sx;
