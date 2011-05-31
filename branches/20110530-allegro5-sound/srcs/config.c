@@ -147,12 +147,9 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "memory_editor_lines"))			{ g_Configuration.memory_editor_lines = MAX(1, atoi(value)); return; }
 	if (!strcmp(var, "memory_editor_columns"))			{ g_Configuration.memory_editor_columns = MAX(1, atoi(value)); return; }
 	if (!strcmp(var, "video_game_vsync"))				{ g_Configuration.video_mode_game_vsync = (bool)atoi(value); return; }
-	if (!strcmp(var, "video_game_triple_buffering"))	{ g_Configuration.video_mode_game_triple_buffering = (bool)atoi(value); return; }
-	if (!strcmp(var, "video_game_page_flipping"))		{ g_Configuration.video_mode_game_page_flipping = (bool)atoi(value); return; }
 	if (!strcmp(var, "screenshots_crop_scrolling_column")) { g_Configuration.capture_crop_scrolling_column = (bool)atoi(value); return; }
 	if (!strcmp(var, "screenshots_include_gui"))		{ g_Configuration.capture_include_gui = (bool)atoi(value); return; }
-	if (!strcmp(var, "video_game_fullscreen"))			{ g_Configuration.video_mode_game_fullscreen = (bool)atoi(value); return; }
-	if (!strcmp(var, "video_gui_fullscreen"))			{ g_Configuration.video_mode_gui_fullscreen = (bool)atoi(value); return; }
+	if (!strcmp(var, "video_fullscreen"))				{ g_Configuration.video_fullscreen = (bool)atoi(value); return; }
 	if (!strcmp(var, "video_driver"))					{ g_Configuration.video_driver = VideoDriver_FindByName(value); return; }
 
 	// Obsolete variables
@@ -165,6 +162,8 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "frameskip_auto_speed"))	{}
 	if (!strcmp(var, "frameskip_normal_speed"))	{}
 	if (!strcmp(var, "sound_card"))				{}
+	if (!strcmp(var, "video_game_triple_buffering"))	{}
+	if (!strcmp(var, "video_game_page_flipping"))		{}
 }
 
 //-----------------------------------------------------------------------------
@@ -252,19 +251,13 @@ void    Configuration_Save (void)
 	CFG_Write_Line ( "-----< VIDEO >--------------------------------------------------------------");
 	CFG_Write_Str  ("video_driver", g_Configuration.video_driver->name);
 	CFG_Write_Line ("(Available video drivers: opengl, directx)");
+	CFG_Write_Int  ("video_fullscreen", g_Configuration.video_fullscreen);
 
-	CFG_Write_Int  ("video_game_fullscreen", g_Configuration.video_mode_game_fullscreen);
 	CFG_Write_StrEscape("video_game_blitter", Blitters.current->name);
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
 	CFG_Write_Int  ("video_game_vsync", g_Configuration.video_mode_game_vsync);
-	CFG_Write_Int  ("video_game_triple_buffering", g_Configuration.video_mode_game_triple_buffering);
-	CFG_Write_Int  ("video_game_page_flipping", g_Configuration.video_mode_game_page_flipping);
-    CFG_Write_Line ("");
 
-    CFG_Write_Line ("-----< VIDEO (GUI MODE) >----------------------------------------------------");
-	CFG_Write_Int  ("video_gui_fullscreen", g_Configuration.video_mode_gui_fullscreen);
-
-    sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
+	sprintf        (s1, "%dx%d", g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
     CFG_Write_Str  ("video_gui_resolution", s1);
     if (g_Configuration.video_mode_gui_refresh_rate == 0)
         CFG_Write_Str ("video_gui_refresh_rate", "auto");

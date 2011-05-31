@@ -460,7 +460,7 @@ void        Inputs_Sources_Update (void)
             {
                 bool disable_mouse_button = FALSE;
 
-                if (g_env.state == MEKA_STATE_FULLSCREEN)
+                if (g_env.state == MEKA_STATE_GAME)
                 {
 					int mx, my;
 					Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &mx, &my, true);
@@ -530,7 +530,7 @@ void        Inputs_Sources_Update (void)
 
 void Inputs_UpdateMouseRange()
 {
-	if (g_env.state != MEKA_STATE_FULLSCREEN)
+	if (g_env.state != MEKA_STATE_GAME)
 		return;
 
 	int sx_org;

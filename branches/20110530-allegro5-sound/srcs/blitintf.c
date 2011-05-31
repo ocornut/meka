@@ -251,7 +251,7 @@ static int     Blitters_Str2Num (const char *s)
 
 void    Blitters_Switch_Common (void)
 {
-    if (g_env.state == MEKA_STATE_FULLSCREEN)
+    if (g_env.state == MEKA_STATE_GAME)
         Video_Setup_State ();
     Msg (MSGT_USER, Msg_Get (MSG_Blitters_Set), Blitters.current->name);
     gui_menu_un_check (menus_ID.blitters);

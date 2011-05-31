@@ -16,7 +16,6 @@ struct t_video
     int		page_flipflop;					// 0-1
     int		game_area_x1, game_area_y1;		// Game area frame
     int		game_area_x2, game_area_y2;
-	bool	triple_buffering_activated;		// Enabled in configuration and supported by driver (eg: fullscreen)
 };
 
 extern t_video	Video;

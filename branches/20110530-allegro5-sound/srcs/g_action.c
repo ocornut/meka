@@ -140,8 +140,8 @@ void    Action_Switch_Mode(void)
 {
     switch (g_env.state)
     {
-    case MEKA_STATE_FULLSCREEN: g_env.state = MEKA_STATE_GUI;        break;
-    case MEKA_STATE_GUI:        g_env.state = MEKA_STATE_FULLSCREEN; break;
+    case MEKA_STATE_GAME: g_env.state = MEKA_STATE_GUI;  break;
+    case MEKA_STATE_GUI:  g_env.state = MEKA_STATE_GAME; break;
     default:
         // FIXME: Should not happen
         break;

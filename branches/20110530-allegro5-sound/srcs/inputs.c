@@ -209,18 +209,9 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                // GUI fullscreen/windowed
                 if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
                 {
-                    if (g_env.state == MEKA_STATE_FULLSCREEN)
-                    {
-						g_Configuration.video_mode_game_fullscreen ^= 1;
-						//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_game_fullscreen);
-                        Video_Setup_State();
-                    }
-                    else if (g_env.state == MEKA_STATE_GUI)
-                    {
-						g_Configuration.video_mode_gui_fullscreen ^= 1;
-						//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_mode_gui_fullscreen);
-						Video_Setup_State();
-                    }
+					g_Configuration.video_fullscreen ^= 1;
+					//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_fullscreen);
+                    Video_Setup_State();
                     return;
                 }
 
@@ -501,7 +492,7 @@ void    Inputs_Peripheral_Change_Update (void)
 
     switch (g_env.state)
     {
-    case MEKA_STATE_FULLSCREEN:
+    case MEKA_STATE_GAME:
 		if (cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
 		{
 			Inputs_SetMouseCursor(cursor);

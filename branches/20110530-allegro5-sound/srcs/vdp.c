@@ -99,7 +99,7 @@ void    VDP_VideoMode_Change (void)
             gamebox_resize_all();
             VDP_UpdateLineLimits();
             Video_GameMode_UpdateBounds();
-            if (g_env.state == MEKA_STATE_FULLSCREEN)
+            if (g_env.state == MEKA_STATE_GAME)
             {
                 Video_Clear();
             }

@@ -37,10 +37,10 @@ void    Change_Mode_Misc(void)
 {
     switch (g_env.state)
     {
-    case MEKA_STATE_FULLSCREEN: // Fullscreen
+    case MEKA_STATE_GAME:
         {
             Palette_Emulation_Reload();
-            Video_Clear ();
+            Video_Clear();
             break;
         }
     case MEKA_STATE_GUI:

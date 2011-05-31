@@ -89,23 +89,13 @@ void    Blit_Fullscreen_Misc(void)
     if (Video.clear_request)
     {
         Video.clear_request = FALSE;
-        if (g_Configuration.video_mode_game_page_flipping)
-        {
-			al_set_target_bitmap(fs_page_0);
-            al_clear_to_color(BORDER_COLOR);
-			al_set_target_bitmap(fs_page_1);
-            al_clear_to_color(BORDER_COLOR);
-        }
-        else
-        {
-			al_set_target_bitmap(al_get_backbuffer(g_display));
-            al_clear_to_color(BORDER_COLOR);
-        }
-    }
+		al_set_target_bitmap(al_get_backbuffer(g_display));
+        al_clear_to_color(BORDER_COLOR);
+	}
 
     // Update 3-D Glasses
     if (Glasses.Enabled)
-        Glasses_Update ();
+        Glasses_Update();
 }
 
 static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
@@ -341,44 +331,6 @@ void    Blit_Fullscreen(void)
 	}
 
 	al_flip_display();
-
-    if (Video.triple_buffering_activated)
-    {
-		// FIXME-ALLEGRO5: Triple buffering
-		assert(0);
-#if 0
-		while (poll_scroll())
-            rest(0); // was: yield_timeslice(), deprecated in Allegro in favor of rest(0)
-
-        request_video_bitmap(fs_out);
-        Video.page_flipflop = (Video.page_flipflop + 1) % 3;
-        switch (Video.page_flipflop)
-        {
-        case 0:
-            fs_out = fs_page_0;
-            break;
-        case 1:
-            fs_out = fs_page_1;
-            break;
-        case 2:
-            fs_out = fs_page_2;
-            break;
-        }
-#endif
-    } 
-    else if (g_Configuration.video_mode_game_page_flipping)
-    {
-		// FIXME-ALLEGRO5: Page flipping
-		assert(0);
-#if 0
-        show_video_bitmap(fs_out);
-        Video.page_flipflop ^= 1;
-        if (Video.page_flipflop == 0)
-            fs_out = fs_page_0;
-        else
-            fs_out = fs_page_1;
-#endif
-	}
 }
 
 void    Blitters_Get_Factors(int *x, int *y)

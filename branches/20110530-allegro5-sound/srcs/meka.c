@@ -175,9 +175,9 @@ static void Init_Default_Values (void)
     g_Configuration.game_screen_scale             = 1;// 2
 
     // Applet: File Browser
-    g_Configuration.fb_close_after_load           = TRUE;
+    g_Configuration.fb_close_after_load           = FALSE;
     g_Configuration.fb_uses_DB                    = TRUE;
-    g_Configuration.fullscreen_after_load         = FALSE;
+    g_Configuration.fullscreen_after_load         = TRUE;
 
     // Applet: Debugger
     g_Configuration.debugger_console_lines        = 24;
@@ -191,16 +191,13 @@ static void Init_Default_Values (void)
 
     // Video
 	g_Configuration.video_driver					= g_video_driver_default;
+	g_Configuration.video_fullscreen				= FALSE;
 	g_Configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
 	g_Configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;//ALLEGRO_PIXEL_FORMAT_ANY_32_NO_ALPHA;
 
-	g_Configuration.video_mode_game_fullscreen		= FALSE;
 	g_Configuration.video_mode_game_vsync			= FALSE;
-	g_Configuration.video_mode_game_triple_buffering= FALSE;//FIXME-ALLEGRO5 off by default
-	g_Configuration.video_mode_game_page_flipping	= FALSE;
-	g_Configuration.video_mode_gui_fullscreen		= FALSE;
-    g_Configuration.video_mode_gui_res_x			= 1024;
-    g_Configuration.video_mode_gui_res_y			= 768;
+    g_Configuration.video_mode_gui_res_x			= 800;
+    g_Configuration.video_mode_gui_res_y			= 600;
     g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
     g_Configuration.video_mode_gui_vsync			= FALSE;
 
@@ -420,7 +417,7 @@ int main(int argc, char **argv)
 
     // Setup initial state (fullscreen/GUI)
     if ((machine & MACHINE_RUN) == MACHINE_RUN && !g_Configuration.start_in_gui)
-        g_env.state = MEKA_STATE_FULLSCREEN;
+        g_env.state = MEKA_STATE_GAME;
     else
         g_env.state = MEKA_STATE_GUI;
     Video_Setup_State ();

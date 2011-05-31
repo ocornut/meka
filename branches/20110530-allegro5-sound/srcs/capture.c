@@ -110,7 +110,7 @@ static void		Capture_Screen(void)
     int x_start, x_len;
     int y_start, y_len;
 	ALLEGRO_BITMAP* source = NULL;
-	if ((g_env.state == MEKA_STATE_FULLSCREEN) || (!g_Configuration.capture_include_gui)) 
+	if ((g_env.state == MEKA_STATE_GAME) || (!g_Configuration.capture_include_gui)) 
 	{
 		// Fullscreen
 		source = screenbuffer;

@@ -56,7 +56,6 @@ void    Video_Init (void)
 	Video.game_area_y2				= 0;
     Video.driver					= 1;
 	Video.refresh_rate_requested	= 0;
-	Video.triple_buffering_activated= FALSE;
 	fs_page_0 = fs_page_1 = fs_out	= NULL;
 }
 
@@ -242,118 +241,22 @@ void    Video_Setup_State(void)
             //set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
             break;
         }
-    case MEKA_STATE_FULLSCREEN: // FullScreen mode ----------------------------
+    case MEKA_STATE_GAME: // FullScreen mode ----------------------------
         {
 			//const int game_res_x = Blitters.current->res_x;
 			//const int game_res_y = Blitters.current->res_y;
 			const int game_res_x = g_Configuration.video_mode_gui_res_x;
 			const int game_res_y = g_Configuration.video_mode_gui_res_y;
-			const bool game_fullscreen = g_Configuration.video_mode_game_fullscreen;
+			const bool game_fullscreen = g_Configuration.video_fullscreen;
 
-			Video.triple_buffering_activated = FALSE;
-			if (g_Configuration.video_mode_game_triple_buffering)
+            if (Video_ChangeVideoMode(g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
             {
-				assert(0);	// FIXME-ALLEGRO5: triple buffering
-                if (Video_ChangeVideoMode(g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
-                {
-                    g_env.state = MEKA_STATE_GUI;
-                    Video_Setup_State();
-                    Msg(MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
-                    return;
-                }
-				if (fs_page_0)
-				{
-					al_destroy_bitmap(fs_page_0);
-					fs_page_0 = NULL;
-				}
-				if (fs_page_1)
-				{
-					al_destroy_bitmap(fs_page_1);
-					fs_page_1 = NULL;
-				}
-				if (fs_page_2)
-				{
-					al_destroy_bitmap(fs_page_2);
-					fs_page_2 = NULL;
-				}
-
-					assert(0);
-#if 0 // FIXME-ALLEGRO5: triple buffering
-				if (gfx_capabilities & GFX_CAN_TRIPLE_BUFFER)
-				{
-					// Enable triple buffering
-					fs_page_0 = create_video_bitmap(Video.res_x, Video.res_y);
-					fs_page_1 = create_video_bitmap(Video.res_x, Video.res_y);
-					fs_page_2 = create_video_bitmap(Video.res_x, Video.res_y);
-					fs_out = fs_page_1;
-					enable_triple_buffer();
-					Video.page_flipflop = 0;
-					al_set_target_bitmap(fs_page_0);
-					al_clear_to_color(BORDER_COLOR);
-					al_set_target_bitmap(fs_page_1);
-					al_clear_to_color(BORDER_COLOR);
-					al_set_target_bitmap(fs_page_2);
-					al_clear_to_color(BORDER_COLOR);
-					request_video_bitmap(fs_page_0);
-					Video.triple_buffering_activated = TRUE;
-				}
-				else
-				{
-					// No triple buffering
-					// FIXME: We allocated too much VRAM...
-					fs_out = al_get_backbuffer(g_display);
-					al_set_target_bitmap(fs_out);
-					al_clear_to_color(BORDER_COLOR);
-				}
-#endif
+                g_env.state = MEKA_STATE_GUI;
+                Video_Setup_State ();
+                Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                return;
             }
-			else if (g_Configuration.video_mode_game_page_flipping)
-            {
-				assert(0);
-#if 0 // FIXME-ALLEGRO5: page flipping
-                if (Video_ChangeVideoMode(driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
-                {
-                    g_env.state = MEKA_STATE_GUI;
-                    Video_Setup_State ();
-                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
-                    return;
-                }
-                if (fs_page_0)
-				{
-                    al_destroy_bitmap (fs_page_0);
-					fs_page_0 = NULL;
-				}
-                if (fs_page_1)
-				{
-                    al_destroy_bitmap (fs_page_1);
-					fs_page_1 = NULL;
-				}
-                if (fs_page_2)
-                {
-                    al_destroy_bitmap (fs_page_1);
-                    fs_page_2 = NULL;
-                }
-
-                fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
-                fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
-                Video.page_flipflop = 0;
-                fs_out = fs_page_1;
-                clear_to_color (fs_page_0, BORDER_COLOR);
-                clear_to_color (fs_page_1, BORDER_COLOR);
-                show_video_bitmap (fs_page_0);
-#endif // page flipping
-            }
-            else
-            {
-                if (Video_ChangeVideoMode(g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
-                {
-                    g_env.state = MEKA_STATE_GUI;
-                    Video_Setup_State ();
-                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
-                    return;
-                }
-                fs_out = al_get_backbuffer(g_display);
-            }
+            fs_out = al_get_backbuffer(g_display);
             Change_Mode_Misc();
             // set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
         }
@@ -362,7 +265,7 @@ void    Video_Setup_State(void)
         {
 			const int gui_res_x = g_Configuration.video_mode_gui_res_x;
 			const int gui_res_y = g_Configuration.video_mode_gui_res_y;
-			Video_ChangeVideoMode(g_Configuration.video_driver, gui_res_x, gui_res_y, g_Configuration.video_mode_gui_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+			Video_ChangeVideoMode(g_Configuration.video_driver, gui_res_x, gui_res_y, g_Configuration.video_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
             Change_Mode_Misc();
             gui_redraw_everything_now_once();
         }
@@ -463,9 +366,9 @@ void    Video_RefreshScreen(void)
             Blit_GUI();
         }
 
-        if (g_env.state == MEKA_STATE_FULLSCREEN) // FULLSCREEN ---------------------
+        if (g_env.state == MEKA_STATE_GAME)
         {
-            // Show current FPS -----------------------------------------------------
+            // Show current FPS
             if (fskipper.FPS_Display)
             {
                 char s[16];

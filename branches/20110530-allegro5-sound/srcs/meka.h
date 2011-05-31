@@ -62,7 +62,7 @@ extern u8 *    SG_BACK_COLOR;
 enum t_meka_state
 {
 	MEKA_STATE_INIT,
-	MEKA_STATE_FULLSCREEN,
+	MEKA_STATE_GAME,
 	MEKA_STATE_GUI,
 	MEKA_STATE_SHUTDOWN,
 };
@@ -312,14 +312,11 @@ struct t_meka_configuration
 
     // Video
 	t_video_driver*	video_driver;
+	bool			video_fullscreen;
 	int				video_game_format_request;
 	int				video_gui_format_request;
 
-	bool			video_mode_game_fullscreen;
 	bool			video_mode_game_vsync;
-	bool			video_mode_game_triple_buffering;	// Note: fullscreen only.
-	bool			video_mode_game_page_flipping;
-	bool			video_mode_gui_fullscreen;
     int				video_mode_gui_res_x;
     int				video_mode_gui_res_y;
     bool			video_mode_gui_vsync;
