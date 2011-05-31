@@ -137,49 +137,49 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
 
     frame.pos.x = app->frame_config.pos.x + 2;
     frame.pos.y = app->frame_config.pos.y + 3;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "Display", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "Display", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     frame.pos.x  = app->frame_config.pos.x;
     frame.pos.y += frame.size.y + 3;
     if (setup)
         widget_checkbox_add(app->box, &frame, &app->config_bg, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "BG", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "BG", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     frame.pos.x  = app->frame_config.pos.x;
     frame.pos.y += frame.size.y + 3;
     if (setup)
         widget_checkbox_add(app->box, &frame, &app->config_fg, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "FG", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "FG", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     frame.pos.x  = app->frame_config.pos.x;
     frame.pos.y += frame.size.y + 3;
     if (setup)
         widget_checkbox_add(app->box, &frame, &app->config_hflip, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "H Flip", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "H Flip", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     frame.pos.x  = app->frame_config.pos.x;
     frame.pos.y += frame.size.y + 3;
     if (setup)
         widget_checkbox_add(app->box, &frame, &app->config_vflip, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "V Flip", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "V Flip", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     frame.pos.x  = app->frame_config.pos.x;
     frame.pos.y += frame.size.y + 3;
     if (setup)
         widget_checkbox_add(app->box, &frame, &app->config_scroll, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "Scroll", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "Scroll", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     frame.pos.x  = app->frame_config.pos.x;
     frame.pos.y += frame.size.y + 3;
     if (setup)
         widget_checkbox_add(app->box, &frame, &app->config_scroll_raster, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "Raster", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "Raster", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
     // Tilemap Address - Scrollbar
     frame.pos.x  = app->frame_tilemap_addr.pos.x + 136;
@@ -203,7 +203,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     if (setup)
         app->widget_tilemap_addr_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL); 
     frame.pos.x += frame.size.x + 6;
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, "Auto", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "Auto", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
 
 void         TilemapViewer_CallbackTilemapClick(t_widget *w)
@@ -346,7 +346,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
         char text[64];
         gui_frame_clear(app->box->gfx_buffer, &app->frame_tilemap, COLOR_SKIN_WINDOW_BACKGROUND);
         sprintf(text, "Unsupported video mode: %d", tsms.VDP_VideoMode);
-        Font_Print(F_MIDDLE, app->box->gfx_buffer, text, app->frame_tilemap.pos.x + TILEMAP_VIEWER_PADDING, app->frame_tilemap.pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print(F_MIDDLE, text, app->frame_tilemap.pos.x + TILEMAP_VIEWER_PADDING, app->frame_tilemap.pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
     }
     else
     {
@@ -434,47 +434,47 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     gui_frame_clear(app->box->gfx_buffer, &app->frame_infos, COLOR_SKIN_WINDOW_BACKGROUND);
 
     snprintf(line, sizeof(line), "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "X:        %d", tile_current_x);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "Y:        %d", tile_current_y);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "Data:     $%04X", tile_map_item);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "          %%%s.%s", tile_map_items_bits[1], tile_map_items_bits[0]);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     //pos.y += Font_Height(F_MIDDLE) + 2;
     //snprintf(line, sizeof(line), "           ___pcvhn.nnnnnnnn");
-    //Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + 1 + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    //Font_Print(F_MIDDLE, line, pos.x + 1 + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "Pattern:  $%03X", tile_map_item & 0x1FF);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "H Flip:   %d", (tile_map_item & 0x200) ? 1 : 0);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "V Flip:   %d", (tile_map_item & 0x400) ? 1 : 0);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "Palette:  %d", (tile_map_item & 0x800) ? 1 : 0);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     pos.y += Font_Height(F_MIDDLE) + 2;
     snprintf(line, sizeof(line), "Priority: %s", (tile_map_item & 0x1000) ? "FG" : "BG");
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
 
     al_draw_rectangle(
         app->frame_tilemap.pos.x+tile_current_x*8-0.5f, app->frame_tilemap.pos.y+tile_current_y*8-0.5f, 
@@ -488,7 +488,7 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     pos.x = app->frame_tilemap_addr.pos.x + 2;
     pos.y = app->frame_tilemap_addr.pos.y + 3;
     snprintf(line, sizeof(line), "Tilemap @ VRAM $%04X", app->config_tilemap_addr);
-    Font_Print(F_MIDDLE, app->box->gfx_buffer, line, pos.x, pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, line, pos.x, pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
 
 static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, int y, int x1, int x2, ALLEGRO_COLOR color)

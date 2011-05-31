@@ -132,7 +132,7 @@ void        widget_checkbox_set_pvalue              (t_widget *w, bool *pvalue);
 //-----------------------------------------------------------------------------
 
 // Widget: text box -----------------------------------------------------------
-t_widget *  widget_textbox_add                      (t_gui_box *box, const t_frame *frame, int lines_max, int font_idx);
+t_widget *  widget_textbox_add                      (t_gui_box *box, const t_frame *frame, int lines_max, t_font_id font_id);
 void        widget_textbox_redraw                   (t_widget *w);
 void        widget_textbox_clear                    (t_widget *w);
 void        widget_textbox_set_current_color        (t_widget *w, const ALLEGRO_COLOR *pcurrent_color);
@@ -141,7 +141,7 @@ void        widget_textbox_printf_scroll            (t_widget *w, int wrap, cons
 //-----------------------------------------------------------------------------
 
 // Widget: input box ----------------------------------------------------------
-t_widget *  widget_inputbox_add                     (t_gui_box *box, const t_frame *frame, int length_max, int font_idx, t_widget_callback callback_enter);
+t_widget *  widget_inputbox_add                     (t_gui_box *box, const t_frame *frame, int length_max, t_font_id font_id, t_widget_callback callback_enter);
 void        widget_inputbox_update                  (t_widget *w);
 void        widget_inputbox_redraw                  (t_widget *w);
 const char *widget_inputbox_get_value               (t_widget *w);

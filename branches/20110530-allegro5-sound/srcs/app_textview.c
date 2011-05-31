@@ -315,7 +315,7 @@ void            TextViewer_Update(t_app_textviewer *tv)
         // Draw lines
         for (i = line_y; i < line_y + tv->size_y + 1 && i < tv->text_lines_count; i++)
         {
-            Font_Print(tv->font, tv->box->gfx_buffer, tv->text_lines[i], tv->text_frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(tv->font, tv->text_lines[i], tv->text_frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
             y += tv->font_height;
         }
 

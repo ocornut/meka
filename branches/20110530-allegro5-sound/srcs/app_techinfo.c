@@ -69,6 +69,7 @@ static void TechInfo_Redraw(t_app_tech_info *app)
     int i;
     bool dirty = FALSE;
 
+	al_set_target_bitmap(app->box->gfx_buffer);
     for (i = 0; i != TECHINFO_LINES; i++)
     {
         if (app->lines_dirty[i])
@@ -78,7 +79,7 @@ static void TechInfo_Redraw(t_app_tech_info *app)
 
 			al_set_target_bitmap(app->box->gfx_buffer);
             al_draw_filled_rectangle(0, y, app->box->frame.size.x+1, y + h, COLOR_SKIN_WINDOW_BACKGROUND);
-            Font_Print(F_MIDDLE, app->box->gfx_buffer, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(F_MIDDLE, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
 
             app->lines_dirty[i] = FALSE;
             dirty = TRUE;

@@ -33,20 +33,20 @@ void    gui_rect (ALLEGRO_BITMAP *bmp, int look, int x1, int y1, int x2, int y2,
     }
 }
 
-void    gui_rect_titled (ALLEGRO_BITMAP *bmp, char *Text, int FontIdx,
+void    gui_rect_titled (ALLEGRO_BITMAP *bmp, char *Text, t_font_id font_id,
                          int look, int x1, int y1, int x2, int y2,
                          ALLEGRO_COLOR c_fg, ALLEGRO_COLOR c_bg, ALLEGRO_COLOR c_text)
 {
     int lx, ly;
     gui_rect (bmp, look, x1, y1, x2, y2, c_fg);
-    lx = Font_TextLength (FontIdx, Text) + (2 * GUI_LOOK_FRAME_PAD_HEAD2_X) + 3;
-    ly = Font_Height (FontIdx) / 2;
+    lx = Font_TextLength(font_id, Text) + (2 * GUI_LOOK_FRAME_PAD_HEAD2_X) + 3;
+    ly = Font_Height(font_id) / 2;
 
 	al_set_target_bitmap(bmp);
     al_draw_filled_rectangle(x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 - ly, x1 + GUI_LOOK_FRAME_PAD_HEAD1_X + lx + 1, y1 + ly + 1, c_bg);
     al_draw_line(x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 - ly + 1, x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 + ly, c_fg, 0);
     al_draw_line(x1 + lx + GUI_LOOK_FRAME_PAD_HEAD1_X + 1, y1 - ly + 1, x1 + lx + GUI_LOOK_FRAME_PAD_HEAD1_X + 1, y1 + ly, c_fg, 0);
-    Font_Print (FontIdx, bmp, Text, 2 + x1 + GUI_LOOK_FRAME_PAD_HEAD1_X + GUI_LOOK_FRAME_PAD_HEAD2_X, y1 - ly, c_text);
+    Font_Print(font_id, Text, 2 + x1 + GUI_LOOK_FRAME_PAD_HEAD1_X + GUI_LOOK_FRAME_PAD_HEAD2_X, y1 - ly, c_text);
 }
 
 //-----------------------------------------------------------------------------

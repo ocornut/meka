@@ -25,7 +25,7 @@ struct t_app_textviewer
     int         current_file;           // FIXME: REMOVE OUT OF APPLET
 
     t_gui_box * box;
-    int         font;
+    t_font_id   font;
     int         font_height;
 
     int         size_x;                 // in columns

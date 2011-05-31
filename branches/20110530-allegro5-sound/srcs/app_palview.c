@@ -163,7 +163,6 @@ void    PaletteViewer_Update(void)
             char color_bits[20];
 
             // Color square
-			al_set_target_bitmap(box_gfx);
 			al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, Palette_Emulation[color_current]);
     
             // Description
@@ -186,14 +185,13 @@ void    PaletteViewer_Update(void)
                     color_bits[0] = 0;
                     break;
             }
-            Font_Print(F_SMALL, box_gfx, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(F_SMALL, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
             dirty = TRUE;
             pv->color_displayed = color_current;
         }
         else
         {
             // Fill with black
-			al_set_target_bitmap(box_gfx);
             al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, COLOR_BLACK);
         }
     }

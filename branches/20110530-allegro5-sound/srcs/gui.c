@@ -98,20 +98,20 @@ void	gui_redraw(void)
 
         // Draw title bar text, with wrapping
         // FIXME: again, the algorythm below sucks. Drawn label should be precomputed anyway.
-        Font_SetCurrent (F_LARGE);
-        if (Font_TextLength (-1, b->title) <= (b_frame.size.x - 8))
+        Font_SetCurrent(F_LARGE);
+        if (Font_TextLength(F_CURRENT, b->title) <= (b_frame.size.x - 8))
         {
-            Font_Print (-1, gui_buffer, b->title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
+            Font_Print (F_CURRENT, b->title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
         }
         else
         {
             char title[256];
             int  len = strlen (b->title);
             strcpy (title, b->title);
-            while (Font_TextLength (-1, title) > (b_frame.size.x - 17))
+            while (Font_TextLength(F_CURRENT, title) > (b_frame.size.x - 17))
                 title[--len] = EOSTR;
             strcat (title, "..");
-            Font_Print (-1, gui_buffer, title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
+            Font_Print(F_CURRENT, title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
         }
 
         // Redraw widgets

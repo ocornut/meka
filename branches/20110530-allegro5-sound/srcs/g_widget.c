@@ -62,7 +62,7 @@ struct t_widget_data_textbox
     int                         lines_max;
     int                         columns_max;
     t_widget_data_textbox_line *lines;
-    int                         font_idx;
+    t_font_id                   font_id;
     const ALLEGRO_COLOR *       pcurrent_color;
 };
 
@@ -77,7 +77,7 @@ struct t_widget_data_inputbox
     int                         length;
     int                         length_max;
     int                         cursor_pos;
-    int                         font_idx;
+    t_font_id                   font_id;
     void                        (*callback_edit)(t_widget *inputbox);
     void                        (*callback_enter)(t_widget *inputbox);
     bool                        (*callback_completion)(t_widget *inputbox);
@@ -269,9 +269,9 @@ void        widget_closebox_redraw(t_widget *w)
 
     // Draw box-closing star using the LARGE font
     // MEKA_FONT_STR_STAR correspond to a string holding the * picture in the font
-    Font_Print (F_LARGE, gui_buffer, MEKA_FONT_STR_STAR, 
-        w->box->frame.pos.x + w->frame.pos.x, w->box->frame.pos.y + w->frame.pos.y - 4, 
-        color);
+	al_set_target_bitmap(gui_buffer);
+    Font_Print (F_LARGE, MEKA_FONT_STR_STAR, 
+        w->box->frame.pos.x + w->frame.pos.x, w->box->frame.pos.y + w->frame.pos.y - 4, color);
 }
 
 void        widget_closebox_update(t_widget *w)
@@ -377,19 +377,19 @@ void        widget_button_redraw(t_widget *w)
     case WIDGET_BUTTON_STYLE_SMALL:
         {
             const t_frame *frame = &w->frame;
-            const int font_idx = F_SMALL;
+            const t_font_id font_id = F_SMALL;
 	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
             gui_rect(w->box->gfx_buffer, LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-            Font_Print(font_idx, w->box->gfx_buffer, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_idx, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_idx)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
             break;
         }
     case WIDGET_BUTTON_STYLE_BIG:
         {
             const t_frame *frame = &w->frame;
-            const int font_idx = F_LARGE;
+            const t_font_id font_id = F_LARGE;
 	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
             gui_rect(w->box->gfx_buffer, LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-            Font_Print(font_idx, w->box->gfx_buffer, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_idx, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_idx)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
             break;
         }
     }
@@ -594,7 +594,7 @@ void        widget_checkbox_set_pvalue(t_widget *w, bool *pvalue)
 
 //-----------------------------------------------------------------------------
 
-t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lines_max, int font_idx)
+t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lines_max, t_font_id font_id)
 {
     int         i;
     t_widget *  w;
@@ -611,12 +611,12 @@ t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lin
     wd = (t_widget_data_textbox*)w->data;
     wd->lines_num       = 0;
     wd->lines_max       = lines_max;
-    wd->font_idx        = font_idx;
+    wd->font_id         = font_id;
     wd->pcurrent_color  = &COLOR_SKIN_WINDOW_TEXT;
 
     // FIXME: To compute 'columns_max', we assume that 'M' is the widest character 
     // of a font. Which may or may not be true, and should be fixed. 
-    wd->columns_max = w->frame.size.x / Font_TextLength (font_idx, "M");
+    wd->columns_max = w->frame.size.x / Font_TextLength(font_id, "M");
     wd->lines       = (t_widget_data_textbox_line*)malloc(sizeof (t_widget_data_textbox_line) * lines_max);
     for (i = 0; i < lines_max; i++)
     {
@@ -633,7 +633,7 @@ void        widget_textbox_redraw(t_widget *w)
 {
     t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
 
-    int fh = Font_Height (wd->font_idx);
+    const int fh = Font_Height (wd->font_id);
     int x = w->frame.pos.x;
     int y = w->frame.pos.y + w->frame.size.y - fh;
     int i;
@@ -652,7 +652,7 @@ void        widget_textbox_redraw(t_widget *w)
     for (i = 0; i < wd->lines_num; i++)
     {
         if (wd->lines[i].text[0] != EOSTR)
-            Font_Print (wd->font_idx, bmp, wd->lines[i].text, x, y, *wd->lines[i].pcolor);
+            Font_Print (wd->font_id, wd->lines[i].text, x, y, *wd->lines[i].pcolor);
         y -= fh;
     }
 }
@@ -714,7 +714,7 @@ void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
     char    buf [MSG_MAX_LEN];
     const char *    src;
 
-    if (!wrap || line[0] == EOSTR || Font_TextLength (wd->font_idx, line) <= w->frame.size.x)
+    if (!wrap || line[0] == EOSTR || Font_TextLength(wd->font_id, line) <= w->frame.size.x)
     {
         widget_textbox_print_scroll_nowrap(w, line);
         return;
@@ -730,7 +730,7 @@ void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
 
         // Compute length
         // FIXME: this algorythm sucks
-        if (Font_TextLength (wd->font_idx, buf) > w->frame.size.x)
+        if (Font_TextLength(wd->font_id, buf) > w->frame.size.x)
         {
             char *blank = strrchr (buf, ' ');
             if (blank != NULL)
@@ -770,7 +770,7 @@ void        widget_textbox_printf_scroll(t_widget *w, int wrap, const char *form
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length_max, int font_idx, void (*callback_enter)(t_widget *))
+t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length_max, t_font_id font_id, void (*callback_enter)(t_widget *))
 {
     t_widget *w;
     t_widget_data_inputbox *wd;
@@ -780,7 +780,7 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
     int size_y = frame->size.y;
     assert(size_x != -1);
     if (size_y == -1)
-       size_y = Font_Height(font_idx) + 4;
+       size_y = Font_Height(font_id) + 4;
 
     // Create widget
     w = widget_new(box, WIDGET_TYPE_INPUTBOX, frame);
@@ -801,7 +801,7 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
     wd->value               = (char*)malloc (sizeof (char) * (length_max + 1));
     strcpy (wd->value, "");
     wd->cursor_pos          = wd->length = 0;
-    wd->font_idx            = font_idx;
+    wd->font_id             = font_id;
     wd->callback_enter      = callback_enter;
     wd->callback_edit       = NULL;
     wd->callback_completion = NULL;
@@ -931,7 +931,7 @@ void        widget_inputbox_update(t_widget *w)
                 for (i = 0; i < wd->length; i++)
                 {
                     s[0] = wd->value[i];
-                    mx -= Font_TextLength (wd->font_idx, s);
+                    mx -= Font_TextLength(wd->font_id, s);
                     if (mx <= 0)
                         break;
                 }
@@ -1080,7 +1080,7 @@ void        widget_inputbox_redraw(t_widget *w)
     // Draw text & cursor
     {
         int x = w->frame.pos.x + 2 + 3; // Note: +3 to center font
-        int y = w->frame.pos.y + (w->frame.size.y - Font_Height (wd->font_idx)) / 2 + 1;
+        int y = w->frame.pos.y + (w->frame.size.y - Font_Height(wd->font_id)) / 2 + 1;
         int i;
         for (i = 0; i < wd->length + 1; i++)
         {
@@ -1098,8 +1098,8 @@ void        widget_inputbox_redraw(t_widget *w)
                 char ch[2];
                 ch[0] = wd->value[i];
                 ch[1] = '\0';
-				Font_Print(wd->font_idx, gfx_buffer, ch, x, y, color);
-                x += Font_TextLength(wd->font_idx, ch); // A bit slow
+				Font_Print(wd->font_id, ch, x, y, color);
+                x += Font_TextLength(wd->font_id, ch); // A bit slow
             }
         }
     }

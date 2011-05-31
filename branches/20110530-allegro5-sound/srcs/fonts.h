@@ -7,9 +7,14 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define         F_LARGE                 (0)
-#define         F_MIDDLE                (1)
-#define         F_SMALL                 (2)
+enum t_font_id
+{
+	F_CURRENT	= -1,
+	F_LARGE		= 0,
+	F_MIDDLE	= 1,
+	F_SMALL		= 2,
+};
+
 #define         MEKA_FONT_MAX           (3)
 
 #define         MEKA_FONT_STR_STAR      "\xC2\x80"	// 128 in UTF8
@@ -22,7 +27,7 @@
 
 struct t_font
 {
-    int				id;
+    t_font_id		id;
     ALLEGRO_FONT *	library_data;
     int				height;
 };
@@ -36,15 +41,15 @@ extern t_font *		FontCurrent;
 
 void    Fonts_Init          (void);
 void    Fonts_Close         (void);
-void    Fonts_DeclareFont   (int font_id, ALLEGRO_FONT *library_data);
+void    Fonts_DeclareFont   (t_font_id font_id, ALLEGRO_FONT *library_data);
 
 //-----------------------------------------------------------------------------
 
-void    Font_SetCurrent     (int font_id);
-void    Font_Print          (int font_id, ALLEGRO_BITMAP *dst, const char *text, int x, int y, ALLEGRO_COLOR color);
-void    Font_PrintCentered  (int font_id, ALLEGRO_BITMAP *dst, const char *text, int x, int y, ALLEGRO_COLOR color);
-int     Font_Height         (int font_id);
-int     Font_TextLength     (int font_id, const char *text);
+void    Font_SetCurrent     (t_font_id font_id);
+void    Font_Print          (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
+void    Font_PrintCentered  (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
+int     Font_Height         (t_font_id font_id = F_CURRENT);
+int     Font_TextLength     (t_font_id font_id, const char *text);
 
 //-----------------------------------------------------------------------------
 

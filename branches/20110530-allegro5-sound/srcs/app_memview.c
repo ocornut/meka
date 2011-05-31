@@ -265,11 +265,11 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     // Address text
     frame.pos.y = mv->frame_view.size.y + 1;
     frame.size.y = Font_Height (F_SMALL) + 3;
-    Font_Print (F_MIDDLE, box_gfx, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print (F_MIDDLE, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     al_draw_vline(92, frame.pos.y, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Goto Address input box
-    Font_Print (F_MIDDLE, box_gfx, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print (F_MIDDLE, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     if (setup)
     {
         frame.pos.x = 128;
@@ -326,7 +326,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     int             x, y, asciix;
     int             addr;
     char            buf[9];
-    const int       font_id = F_MIDDLE;
+    const t_font_id	font_id = F_MIDDLE;
     const int       font_height = Font_Height(font_id);
     u8 *            memory;
     u8              value;
@@ -395,7 +395,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     // FIXME: Could create a label widget for this purpose.
     sprintf(buf, "%0*X", addr_length, addr_start + (mv->memblock_first * 16) + mv->values_edit_position);
     al_draw_filled_rectangle(56, mv->frame_view.size.y + 1 + 4, 91+1, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
-    Font_Print (font_id, box_gfx, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(font_id, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
 
     x = 4 + font_height * 6 - 7;
     y = 4;
@@ -404,7 +404,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         char *text = "None";
         if (mv->section_current->memtype == MEMTYPE_Z80 && cur_drv->cpu != CPU_Z80)
             text = "You wish!";
-        Font_Print (font_id, box_gfx, text, x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print(font_id, text, x, y, COLOR_SKIN_WINDOW_TEXT);
     }
     else 
     {
@@ -417,7 +417,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
             // Print address
             sprintf(buf, "%0*X", addr_length, addr + addr_start);
             x = 4;
-            Font_Print (font_id, mv->box->gfx_buffer, buf, x + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(font_id, buf, x + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
 
             // Print 16-bytes in both hexadecimal and ASCII
             x = mv->frame_hex.pos.x;
@@ -440,14 +440,14 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
                 // Print hexadecimal
                 color = COLOR_SKIN_WINDOW_TEXT;
                 sprintf(buf, "%02X", value);
-                Font_Print (font_id, mv->box->gfx_buffer, buf, x, y, color);
+                Font_Print (font_id, buf, x, y, color);
 
                 // Print ASCII
                 if (mv->values_edit_active && (mv->values_edit_position == col + (row * mv->size_columns)))
                     color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
                 buf[0] = isprint(value) ? value : '.';
                 buf[1] = 0;
-                Font_Print (font_id, mv->box->gfx_buffer, buf, asciix, y, color);
+                Font_Print (font_id, buf, asciix, y, color);
 
                 addr++;
                 if (addr >= section->size)

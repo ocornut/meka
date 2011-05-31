@@ -76,7 +76,7 @@ static void     Options_Layout_AddLine(bool setup, t_frame *frame, const char *t
     if (setup)
         widget_checkbox_add(Options.box, frame, v, (t_widget_callback)func); // FIXME: Cast
     frame->pos.x += OPTIONS_CHECK_X + 8;
-    Font_Print(F_MIDDLE, Options.box->gfx_buffer, text, frame->pos.x, frame->pos.y + shift_y, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, text, frame->pos.x, frame->pos.y + shift_y, COLOR_SKIN_WINDOW_TEXT);
     frame->pos.y += OPTIONS_CHECK_Y + 4;
 }
 

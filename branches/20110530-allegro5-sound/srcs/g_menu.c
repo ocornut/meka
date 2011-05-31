@@ -36,7 +36,7 @@ void        gui_redraw_bars (void)
     // Show status bar message
     if (gui_status.timeleft)
     {
-        Font_Print (-1, gui_buffer, gui_status.message, gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(F_CURRENT, gui_status.message, gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
         gui_status.timeleft --;
     }
 
@@ -44,12 +44,12 @@ void        gui_redraw_bars (void)
     if (fskipper.FPS_Display)
     {
         sprintf (s, "%.1f FPS", fskipper.FPS);
-        Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(F_CURRENT, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     meka_time_getf (s);
-    Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 10 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print(F_CURRENT, s, g_Configuration.video_mode_gui_res_x - 10 - Font_TextLength(F_CURRENT, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 // UPDATE ALL MENUS -----------------------------------------------------------
@@ -150,7 +150,6 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     int            i;
     int            x, y;
     ALLEGRO_COLOR  color;
-	int			   ln;
     gui_type_menu  *menu = menus [n_menu];
 
     Font_SetCurrent (GUI_MENUS_FONT);
@@ -167,7 +166,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         y = 3;
         for (i = 0; i < menu->n_entry; i ++)
         {
-            ln = Font_TextLength (-1, menu->entry[i]->label);
+            const int ln = Font_TextLength(F_CURRENT, menu->entry[i]->label);
             if (x + ln > g_Configuration.video_mode_gui_res_x)
             {
                 break;
@@ -188,7 +187,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
             }
-            Font_Print (-1, gui_buffer, menu->entry[i]->label, x, y, color);
+            Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
             x += ln + menus_opt.distance;
         }
     }
@@ -196,8 +195,8 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     {
         // Miscellaneous
         // gui.info.must_redraw = TRUE;
-        ln = Font_Height (-1);
-        gui_menu_return_children_pos (n_parent, n_parent_entry, &menu->sx, &menu->sy);
+        const int ln = Font_Height();
+        gui_menu_return_children_pos(n_parent, n_parent_entry, &menu->sx, &menu->sy);
 
         // DRAW MENU BORDER -------------------------------------------------------
         // rectfill (gui_buffer, menu->sx - 2, menu->sy - 2, menu->sx + menu->lx + 2, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
@@ -246,16 +245,16 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
             }
-            Font_Print (-1, gui_buffer, menu->entry[i]->label, x, y, color);
+            Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
             switch (menu->entry[i]->type)
             {
             case ITEM_SUB_MENU:
-                Font_Print (-1, gui_buffer, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
+                Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
                 break;
             case ITEM_EXECUTE:
                 if (menu->entry[i]->attr & AM_Checked)
                 {
-                    Font_Print (-1, gui_buffer, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
+                    Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
                 }
                 break;
             }

@@ -379,7 +379,7 @@ struct t_debugger_app
     ALLEGRO_BITMAP *            box_gfx;
     t_widget *          console;
     t_widget *          input_box;
-    int                 font_id;
+    t_font_id			font_id;
     int                 font_height;
     t_frame             frame_disassembly;
     t_frame             frame_cpustate;
@@ -1905,7 +1905,7 @@ void        Debugger_Applet_Redraw_State(void)
                             continue;
                         }
                         sprintf(buf, "%s:", symbol->name);
-                        Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
+                        Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
                         i++;
                         if (i >= g_Configuration.debugger_disassembly_lines)
                             break;
@@ -1941,7 +1941,7 @@ void        Debugger_Applet_Redraw_State(void)
 				}
 			}
 
-            Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), text_color);
+            Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), text_color);
 
 			pc += opcode_size;
         }
@@ -1962,9 +1962,9 @@ void        Debugger_Applet_Redraw_State(void)
         // Print Z80 summary lines
         lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
         assert(lines_count >= DEBUGGER_APP_CPUSTATE_LINES); // Display first 2 lines
-        Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print (DebuggerApp.font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         y += DebuggerApp.font_height;
-        Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print (DebuggerApp.font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         
         // Print Z80 running state with nifty ASCII rotating animation
         if (!(machine & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
@@ -1978,7 +1978,7 @@ void        Debugger_Applet_Redraw_State(void)
                 case 2: running_string = "RUNNING -";  break;
                 case 3: running_string = "RUNNING \\"; break;
             }
-            Font_Print(DebuggerApp.font_id, DebuggerApp.box_gfx, running_string, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(DebuggerApp.font_id, running_string, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
             running_counter = (running_counter + 1) % 8;
         }
 

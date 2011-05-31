@@ -519,7 +519,8 @@ static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
 	vsnprintf(buf, countof(buf), format, args);
 	va_end(args);
 	
-	Font_Print(F_MIDDLE, app->box->gfx_buffer, buf, *px, *py, COLOR_SKIN_WINDOW_TEXT);
+	al_set_target_bitmap(app->box->gfx_buffer);
+	Font_Print(F_MIDDLE, buf, *px, *py, COLOR_SKIN_WINDOW_TEXT);
 	*py += Font_Height(F_MIDDLE);
 }
 

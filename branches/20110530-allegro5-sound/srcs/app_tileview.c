@@ -214,9 +214,9 @@ void    TileViewer_Update(t_app_tile_viewer *app)
             else
                 sprintf(addr, "????");
 
-			char s[128];
-            sprintf (s, Msg_Get(MSG_TilesViewer_Tile), tile_current, tile_current, addr);
-            Font_Print (F_SMALL, bmp, s, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
+			char buf[128];
+            sprintf(buf, Msg_Get(MSG_TilesViewer_Tile), tile_current, tile_current, addr);
+            Font_Print(F_SMALL, buf, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
             app->tile_displayed = tile_current;
         }
         else

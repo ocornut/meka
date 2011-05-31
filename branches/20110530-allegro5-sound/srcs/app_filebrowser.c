@@ -491,17 +491,17 @@ void        FB_Draw_Infos (void)
 	t_filebrowser *app = &FB;
 	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
 
-	char    s[32];
-    sprintf (s, "%d/%d", FB.file_pos + 1, FB.files_max);
-    Font_SetCurrent (F_MIDDLE);
+	char buf[32];
+    sprintf(buf, "%d/%d", FB.file_pos + 1, FB.files_max);
+    Font_SetCurrent(F_MIDDLE);
 	al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(
         FB_TEXT_PAD_X, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
-        88+1, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2+1/*+ 6*/ + Font_Height(-1),
+        88+1, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2+1/*+ 6*/ + Font_Height(),
         COLOR_SKIN_WINDOW_BACKGROUND);
-    Font_Print (-1, box_gfx, s,
-        (110 - Font_TextLength (-1, s)) / 2,
-        FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2,
+    Font_Print(F_CURRENT, buf,
+        (110 - Font_TextLength(F_CURRENT, buf)) / 2,
+        FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
         COLOR_SKIN_WINDOW_TEXT);
 }
 
@@ -543,7 +543,7 @@ void        FB_Draw_List(void)
 
         // Highlight the current file
         if (n == FB.file_pos)
-            al_draw_filled_rectangle(FB_PAD_X + 2, y, FB.res_x - FB_SCROLL_X - FB_PAD_X - 1, y + Font_Height(-1) - 1, COLOR_SKIN_WIDGET_LISTBOX_SELECTION);
+            al_draw_filled_rectangle(FB_PAD_X + 2, y, FB.res_x - FB_SCROLL_X - FB_PAD_X - 1, y + Font_Height() - 1, COLOR_SKIN_WIDGET_LISTBOX_SELECTION);
 
         // Get the name to print and additionnal width usage (icons, etc...)
         switch (entry->type)
@@ -606,11 +606,11 @@ void        FB_Draw_List(void)
         x_max -= x_usage;
 
         // If name doesn't fit in x_max, we have to cut it
-        if (x + Font_TextLength (-1, name_buffer) > x_max)
+        if (x + Font_TextLength(F_CURRENT, name_buffer) > x_max)
         {
             int name_buffer_len = strlen(name_buffer);
-            int x_usage_ellipse = Font_TextLength (-1, "..");
-            while (x + Font_TextLength (-1, name_buffer) + x_usage_ellipse > x_max)
+            int x_usage_ellipse = Font_TextLength(F_CURRENT, "..");
+            while (x + Font_TextLength(F_CURRENT, name_buffer) + x_usage_ellipse > x_max)
             {
                 name_buffer_len--;
                 name_buffer [name_buffer_len] = EOSTR;
@@ -619,7 +619,7 @@ void        FB_Draw_List(void)
         }
 
         // Print name
-        Font_Print (-1, box_gfx, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
+        Font_Print(F_CURRENT, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
 
         // Print additionnal infos/icons
         switch (entry->type)
@@ -628,7 +628,7 @@ void        FB_Draw_List(void)
         case FB_ENTRY_TYPE_DRIVE:
             {
                 // Directory/Drive '>' marker
-                Font_Print (-1, box_gfx, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
+                Font_Print(F_CURRENT, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
                 break;
             }
         case FB_ENTRY_TYPE_FILE:
@@ -694,7 +694,7 @@ void        FB_Draw_List(void)
         }
 
         // Increment Y position
-        y += Font_Height(-1);
+        y += Font_Height();
     }
 
     FB_Draw_Infos();

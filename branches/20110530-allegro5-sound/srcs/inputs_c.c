@@ -146,16 +146,18 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
         return FALSE;
 
     // Set default font
-    Font_SetCurrent (F_SMALL);
+    Font_SetCurrent(F_SMALL);
 
     x = 165;
     // Shift Y position by 2 steps for analog devices
     if (input_src->flags & INPUT_SRC_FLAGS_ANALOG && i > INPUT_MAP_ANALOG_AXIS_Y_REL)
         i -= 2;
-    y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(-1) + GUI_LOOK_LINES_SPACING_Y) + 7;
+    y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(F_CURRENT) + GUI_LOOK_LINES_SPACING_Y) + 7;
 
     if (Map->Idx == -1)
+	{
         sprintf (MapValue, "<Null>");
+	}
     else
     {
         switch (input_src->type)
@@ -195,8 +197,10 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
             break;
         }
     }
-    Font_Print (-1, app->box->gfx_buffer, MapName, x + GUI_LOOK_FRAME_PAD_X, y, Color);
-    Font_Print (-1, app->box->gfx_buffer, MapValue, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
+
+	al_set_target_bitmap(app->box->gfx_buffer);
+    Font_Print(F_CURRENT, MapName, x + GUI_LOOK_FRAME_PAD_X, y, Color);
+    Font_Print(F_CURRENT, MapValue, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
     // y += Font_Height() + GUI_LOOK_LINES_SPACING_Y;
 
     // Set both checkbox widgets as dirty (because we drawn over them during the clear)
@@ -211,7 +215,6 @@ void    Inputs_CFG_Current_Source_Draw (void)
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
     ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
 
-    int             i;
     int             x = 165;
     int             y = 10;
     int             font_height;
@@ -226,8 +229,8 @@ void    Inputs_CFG_Current_Source_Draw (void)
     app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
     // Set font to use
-    Font_SetCurrent (F_MIDDLE);
-    font_height = Font_Height (-1);
+    Font_SetCurrent(F_MIDDLE);
+    font_height = Font_Height();
 
     // Clear area to display on
 	al_set_target_bitmap(bmp);
@@ -246,27 +249,25 @@ void    Inputs_CFG_Current_Source_Draw (void)
 
     // Set font to use
     Font_SetCurrent (F_SMALL);
-    font_height = Font_Height (-1);
+    font_height = Font_Height();
     y += GUI_LOOK_FRAME_PAD1_Y;
 
     // Enable Check
-    Font_Print (-1, bmp, Msg_Get(MSG_Inputs_Config_Source_Enabled), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_CURRENT, Msg_Get(MSG_Inputs_Config_Source_Enabled), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
     y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
     // Player
-    {
-        char buf[64];
-        snprintf(buf, sizeof(buf), Msg_Get(MSG_Inputs_Config_Source_Player), input_src->player + 1);
-        Font_Print(-1, bmp, buf, x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
-        y += font_height + GUI_LOOK_LINES_SPACING_Y;
-    }
+    char buf[64];
+	snprintf(buf, sizeof(buf), Msg_Get(MSG_Inputs_Config_Source_Player), input_src->player + 1);
+	Font_Print(F_CURRENT, buf, x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+	y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
     // Horizontal Separator
     al_draw_line(x + 4, y + 3 + 0.5f, x + frame_x - 4 + 1, y + 3 + 0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
     y += 7;
 
     // Mapping
-    for (i = 0; i < INPUT_MAP_MAX; i++)
+    for (int i = 0; i < INPUT_MAP_MAX; i++)
         if (Inputs_CFG_Current_Source_Draw_Map (i, COLOR_SKIN_WINDOW_TEXT))
             y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
@@ -280,7 +281,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
 
     // Emulate Digital
     widget_checkbox_redraw (app->CheckBox_Emulate_Digital);
-    Font_Print (-1, bmp, Msg_Get(MSG_Inputs_Config_Source_Emulate_Joypad), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_CURRENT, Msg_Get(MSG_Inputs_Config_Source_Emulate_Joypad), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
     y += font_height + GUI_LOOK_LINES_SPACING_Y;
 }
 
@@ -337,12 +338,12 @@ void        Inputs_CFG_Peripherals_Draw (void)
     Font_SetCurrent (F_SMALL);
 
     // Clear area to display on
-	al_set_target_bitmap(app->box->gfx_buffer);
-    al_draw_filled_rectangle(10, 20, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 20 + Font_Height(-1) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
+	al_set_target_bitmap(bmp);
+    al_draw_filled_rectangle(10, 20, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 20 + Font_Height() + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     al_draw_filled_rectangle(10, 58, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 121 + 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Print 'click to select peripheral' message
-    Font_PrintCentered(-1, bmp, Msg_Get(MSG_Inputs_Config_Peripheral_Click), 
+    Font_PrintCentered(F_CURRENT, Msg_Get(MSG_Inputs_Config_Peripheral_Click), 
         10 + 11 + (64 / 2) + (58 / 2),
         4, COLOR_SKIN_WINDOW_TEXT);
 
@@ -351,7 +352,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     {
         // Print name
         const char *name = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].name;
-        Font_PrintCentered(-1, bmp, name, 
+        Font_PrintCentered(F_CURRENT, name, 
             10 + 11 + (i ? 64 : 0) + (58 / 2), // X
             20, // Y
             COLOR_SKIN_WINDOW_TEXT);
