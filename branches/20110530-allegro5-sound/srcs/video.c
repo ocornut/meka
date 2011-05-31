@@ -9,6 +9,7 @@
 #include "capture.h"
 #include "debugger.h"
 #include "fskipper.h"
+#include "glasses.h"
 #include "inputs_i.h"
 #include "inputs_t.h"
 #include "palette.h"
@@ -452,6 +453,10 @@ void    Video_RefreshScreen(void)
 
 	Video_UpdateEvents();
 
+	// 3-D glasses emulation cancel out one render out of two
+	if (Glasses.Enabled && Glasses_Must_Skip_Frame())
+		Screen_Restore_from_Next_Buffer();
+
     if (fskipper.Show_Current_Frame)
     {
 		Capture_Update();
@@ -488,7 +493,7 @@ void    Video_RefreshScreen(void)
             }
 
             // Blit emulated screen in fullscreen mode
-            Blit_Fullscreen ();
+            Blit_Fullscreen();
         }
 
         // Palette update after redraw

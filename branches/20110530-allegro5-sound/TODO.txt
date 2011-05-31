@@ -178,10 +178,6 @@ just that I noted them at the top of the file, thinking it would be worth
 doing them now and some are quick work.
 -----------------------------------------------------------------------------
 
-- 3-D Glasses:
-  - When hard-pausing a 3D game, Meka reports "this game seems not to support 3D glasses" 
-    and disables 3D glasses emulation. 
-
 - Check galaxy force (supposed bug, cannot reproduce)
   http://www.smspower.org/forum/messages/19568.html
 

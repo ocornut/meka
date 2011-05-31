@@ -5,7 +5,6 @@
 
 #include "shared.h"
 #include "fskipper.h"
-#include "glasses.h"
 #include "osd/misc.h"
 #include "osd/timer.h"
 
@@ -85,18 +84,10 @@ bool    Frame_Skipper(void)
         // Else don't skip
         if (fskipper.Throttled_Frame_Elapsed -- > 1)
             return FALSE;
-
-        // Software 3-D glasses emulation may require to skip this frame
-        if (Glasses.Enabled && Glasses_Must_Skip_Frame())
-            return FALSE;
     }
     else
     // Standard frame-skipping ------------------------------------------------
     {
-        // Software 3-D glasses emulation may require to skip this frame
-        if (Glasses.Enabled && Glasses_Must_Skip_Frame())
-            return FALSE;
-
         // Skip Standard_Counter-1 frames every Standard_Counter frames
         if (fskipper.Unthrottled_Counter < fskipper.Unthrottled_Frameskip)
         {

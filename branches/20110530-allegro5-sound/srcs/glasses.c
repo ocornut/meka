@@ -53,16 +53,13 @@ void    Glasses_Close (void)
     }
 }
 
-int     Glasses_Must_Skip_Frame (void)
+int     Glasses_Must_Skip_Frame(void)
 {
-    int    ret, side;
     static int security_cnt = 0;
     // Msg (MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
 
-    side = sms.Glasses_Register & 1;
-    ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side)
-        ||
-        (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT && side);
+    const int side = (sms.Glasses_Register & 1);
+    const bool ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side) || (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT && side);
     if (ret == FALSE)
     {
         security_cnt = 0;
@@ -74,7 +71,7 @@ int     Glasses_Must_Skip_Frame (void)
             security_cnt = 0;
             Msg (MSGT_USER, Msg_Get (MSG_Glasses_Unsupported));
             // Msg (MSGT_USER_BOX, Msg_Get (MSG_Glasses_Unsupported2));
-            Glasses_Switch_Enable ();
+            Glasses_Switch_Enable();
         }
     }
     return (ret);

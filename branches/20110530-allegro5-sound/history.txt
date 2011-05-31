@@ -19,6 +19,7 @@ They are usually of 2 kinds:
   - (Win32) Using precompiled Allegro binaries. [Omar]
   - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
   - (Win32) Now including NASM assembler in the repository. [Omar]
+  - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
   - FileBrowser: holding CTRL while using the mouse wheel fasten scrolling. [Omar]
   - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
