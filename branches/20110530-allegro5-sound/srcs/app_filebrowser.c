@@ -39,7 +39,7 @@ t_filebrowser    FB;
 
 void    FB_Layout               (t_filebrowser *app, bool setup);
 
-//
+//...
 
 int     FB_Return_File_Area_X   (void);
 int     FB_Return_File_Area_Y   (void);
@@ -140,7 +140,6 @@ void            FB_Init (void)
     frame.size.x    = FB.res_x;
     frame.size.y    = FB_Return_Res_Y();
     FB.box = gui_box_new(&frame, Msg_Get (MSG_FileBrowser_BoxTitle));
-    FB.bmp = FB.box->gfx_buffer;
     Desktop_Register_Box("LOAD", FB.box, 0, &FB.active);
 
     // Set exclusive inputs flag to avoid messing with emulation
@@ -209,7 +208,7 @@ void        FB_Layout(t_filebrowser *app, bool setup)
     }
 
     // Additionnal drawing
-    gui_rect (FB.bmp, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
+	gui_rect(app->box->gfx_buffer, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
 }
 
 void        FB_Free_Memory(void)
@@ -489,16 +488,18 @@ static void     FB_Load_Directory_Internal (void)
 
 void        FB_Draw_Infos (void)
 {
-    char    s[32];
+	t_filebrowser *app = &FB;
+	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
 
+	char    s[32];
     sprintf (s, "%d/%d", FB.file_pos + 1, FB.files_max);
     Font_SetCurrent (F_MIDDLE);
-	al_set_target_bitmap(FB.bmp);
+	al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(
         FB_TEXT_PAD_X, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
         88+1, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2+1/*+ 6*/ + Font_Height(-1),
         COLOR_SKIN_WINDOW_BACKGROUND);
-    Font_Print (-1, FB.bmp, s,
+    Font_Print (-1, box_gfx, s,
         (110 - Font_TextLength (-1, s)) / 2,
         FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + 2,
         COLOR_SKIN_WINDOW_TEXT);
@@ -510,6 +511,9 @@ void        FB_Draw_Infos (void)
 //-----------------------------------------------------------------------------
 void        FB_Draw_List(void)
 {
+	t_filebrowser *app = &FB;
+	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
+
     int     x = FB_TEXT_PAD_X;
     int     y = FB_TEXT_PAD_Y;
     int     lines_max;
@@ -525,7 +529,7 @@ void        FB_Draw_List(void)
     // Ask scrollbar to refresh
     widget_set_dirty(FB.widget_scrollbar);
 
-	al_set_target_bitmap(FB.bmp);
+	al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
 	al_draw_line(FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
@@ -615,7 +619,7 @@ void        FB_Draw_List(void)
         }
 
         // Print name
-        Font_Print (-1, FB.bmp, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
+        Font_Print (-1, box_gfx, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
 
         // Print additionnal infos/icons
         switch (entry->type)
@@ -624,7 +628,7 @@ void        FB_Draw_List(void)
         case FB_ENTRY_TYPE_DRIVE:
             {
                 // Directory/Drive '>' marker
-                Font_Print (-1, FB.bmp, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
+                Font_Print (-1, box_gfx, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
                 break;
             }
         case FB_ENTRY_TYPE_FILE:

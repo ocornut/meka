@@ -380,11 +380,6 @@ int main(int argc, char **argv)
     Skins_Init              (); // Load Skin List
     Blitters_Init           (); // Load Blitter List
     Inputs_Init             (); // Initialize Inputs and load inputs sources list
-
-	al_set_new_display_flags(ALLEGRO_WINDOWED);
-	g_display = al_create_display(100, 100);	// FIXME-ALLEGRO5: fixed size
-	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
-
     Blit_Init               (); // Initialize Blitter
     Random_Init             (); // Initialize Random Number Generator
     Fonts_Init              (); // Initialize Fonts system

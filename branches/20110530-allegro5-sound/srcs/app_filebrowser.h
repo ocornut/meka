@@ -42,7 +42,6 @@ struct t_filebrowser_entry
 struct t_filebrowser
 {
     t_gui_box *         box;
-    ALLEGRO_BITMAP *    bmp;
     bool                active;
     t_filebrowser_entry **  files;
     int                 files_max;
