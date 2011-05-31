@@ -479,12 +479,12 @@ void    Video_RefreshScreen(void)
             // Show current FPS -----------------------------------------------------
             if (fskipper.FPS_Display)
             {
-                int x, y;
-                char s [16];
-                sprintf (s, "%.1f FPS", fskipper.FPS);
+                char s[16];
+                sprintf(s, "%.1f FPS", fskipper.FPS);
+				int x, y;
                 if (cur_drv->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
                 Font_Print (F_MIDDLE, screenbuffer, s, x, y, COLOR_WHITE); // In white
-                gui_status.timeleft = 0; // Force disabling the current message
+                //gui_status.timeleft = 0; // Force disabling the current message because it is slow to display
             }
 
             // Blit emulated screen in fullscreen mode
