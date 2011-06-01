@@ -460,8 +460,9 @@ dist_src :
 	-$(MKDIR) Dist
 	-$(RM) srcs/buildupd.exe
 	zip -9 Dist/meka-src.zip meka.blt meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip audiow32.dll setup.bat
+	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip setup.bat
 	zip -9 -r Dist/meka-src.zip data/*.*
+	zip -9 -r Dist/meka-src.zip datafiles/*.*
 	zip -9 -r Dist/meka-src.zip libs/*.*
 	zip -9 -D Dist/meka-src.zip srcs/*.*
 	zip -9 -r Dist/meka-src.zip srcs/docs/*.*
@@ -493,6 +494,7 @@ dist_bin_dos :
 	zip -9 Dist/meka.zip icons.zip
 	zip -9 Dist/meka.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt 
 	zip -9 Dist/meka.zip -r Themes/*.png Themes/Credits.txt
+	zip -9 Dist/meka.zip -r datafiles/*.*
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
@@ -505,9 +507,10 @@ dist_bin_win32 :
 	-upx -9 mekaw.exe
 	@echo Packaging
 	zip -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/mekaw.zip icons.zip audiow32.dll setup.bat
+	zip -9 Dist/mekaw.zip icons.zip setup.bat
 	zip -9 Dist/mekaw.zip meka.txt mekaw.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
 	zip -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
+	zip -9 Dist/mekaw.zip -r datafiles/*.*
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
@@ -524,6 +527,7 @@ dist_bin_unix :
 	cp meka meka.blt meka.cfg meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
 	cp meka.txt mekanix.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
 	cp -R Themes ./mekanix/
+	cp -R datafiles ./mekanix/
 	tar cvzf Dist/mekanix.tgz ./mekanix
 	rm -fR ./mekanix/
 	@echo Done!

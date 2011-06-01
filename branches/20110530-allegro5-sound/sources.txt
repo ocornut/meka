@@ -35,6 +35,7 @@ INDEX
 - Communication
 - License
 - How to Compile
+- How to create distribution packages
 - Hope
 
 ---------------------------------------
@@ -193,6 +194,16 @@ II. Compile for GNU/Linux and other UN*X based systems:
    - Use provided Makefile.
  - Contact me thru the forum for any help. :)
 
+
+---------------------------------------
+ How to create distribution packages
+---------------------------------------
+
+Note: require 'make', 'zip' and 'upx'
+
+# make -f srcs/Makefile dist_src
+# make -f srcs/Makefile dist_bin_win32
+# make -f srcs/Makefile dist_bin_unix
 
 ---------------------------------------
  Just getting started!
