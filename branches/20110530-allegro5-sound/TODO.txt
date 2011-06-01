@@ -1,4 +1,17 @@
 
+Meka 0.80 check list
+- fixed sound
+- game gear stereo
+- add setup with resolution and dx/opengl selection
+- solve vsync and refresh rate issues, at least be able to enable vsync?
+- have a pass at checking all features
+- new feature: tilemap for mode 2?
+- new feature: sprite viewer?
+- new feature: audio channel disable? (psg & fm)
+- maintain windows order in meka.dsk
+
+----------
+
 Super Boy II (KR).sms is 48 KB with duplicated 16 KB
 
 5 GG dumps
@@ -80,17 +93,11 @@ matching labels. This saves me typing "b <label>", and is designed for
 "temporary" breakpoints on lines that normally would not otherwise
 have a label.
 
-> In the new 0.72 I'm getting an error with the tile view and tilemap viewer. 
-> They are both blank showing the error in the message box "Tileviewer: 
-> Unsupported Colour Depth" constantly scrolling in the message box.
-
 http://www.smspower.org/forums/viewtopic.php?t=9478
 Now I have a question. In some Master System games (made at 1993 to be exact) such as 
 Sonic Chaos, Deep Duck Trouble have problems. Sometimes they are fine, other times the 
 games crash after they get to the title card(Level Name) as these problems have been 
 in previous releases. 
-
-- Revert to _SAFE video driver if startup driver cannot be used.
 
 Proppy session debugger notes:
 - 'breakpoint' window list
@@ -155,13 +162,6 @@ Game Recording:
 - Desired Features Wiki
   http://bisqwit.iki.fi/nesvideos/DesiredFeatures.html
 
-- Compilation
-  - AMD64:
-    - gcc parameter: -mpentium
-    - NASM output format may be different
-
-- Allows MEKA updating/running without focus.
-
 - Add PAL/SECAM/NTSC (Auto) mode to be more clear
   See http://www.smspower.org/forums/viewtopic.php?t=6656 
 
@@ -169,6 +169,7 @@ Game Recording:
  if you load a rom manualy form the filebrowser but if you startup meka
  from the command line with a rom name it loads the rom but doesnt go
  full screen."
+ --> add a separate option for both cases.
 
 -----------------------------------------------------------------------------
 PRIORITY / FOR UPCOMING NEXT VERSIONS
@@ -202,11 +203,7 @@ doing them now and some are quick work.
 -----------------------------
  CODE
 -----------------------------
- - Check and clean variable size (switch to 'int' when worthful, etc...)
- - Start to renormalize code (write a MEKA coding style documentation).
- - Update file loader/parser with the newer functions.
-   Most parsers are currently very very ugly. They could be a little less.
- - Start thinking about the big picture. Take over the world.
+ - Write a MEKA coding style documentation.
 
 -----------------------------
  WEBSITE
@@ -235,8 +232,6 @@ doing them now and some are quick work.
 -----------------------------
  NAMES / DATABASE
 -----------------------------
- - Switch to UTF-8 !
- - Add Canada (CA) flag/country (what for?)
  - Add media type (cartridge, card, disk, etc...)
  - Add Pirate flag ?
  - Better syntax error verbosing (currently there's none).
@@ -281,10 +276,7 @@ doing them now and some are quick work.
  - Added both buttons & combo inputs
  - Be able to configure Rapid Fire speed.
  - Cursor is repositionned when enabling light phaser within GUI
- - Support for more than 1 mouse
-   - See optimouse for DOS
-   - I'm sure it is possible under Windows (need to find out).
- - MEKA.INP joy_driver value for DOS is lost by mekaw.exe
+ - Support for more than one mouse (for light phaser game)
 
 -----------------------------
  SEGA KEYBOARD (SK-1100)
@@ -306,19 +298,12 @@ doing them now and some are quick work.
  BLITTERS
 -----------------------------
  - Fallback to safe mode
- - GUI video modes should be in MEKA.BLT (just all any blitter, but with
-   less features - no filtering, etc).
- - Replace video_clear() by a future clearing on blit
- - Be able to print on-screen infos outside of the blitter area (FPS, messages) 
-   and clear them properly (especially for GG).
  - Completely revamp the blitter systems.
    - See my paper note for lots of things.
    - Be able to handle blitter per system (SMS, GG..) and mode.
    - Add x3, x4 blitters, separate X and Y (be able to do a 2x3 blit, etc..).
      All combinations should be working.
    - Add stretching blitters (especially for windows version)
-   - Integer stretch
-   - What would ALT-ENTER do?
    - Lots of info in mind or on paper. Need to sort out, and maybe write
      a short specification document.
  - Selection of GUI video mode in interaction configuration window.
@@ -337,36 +322,11 @@ doing them now and some are quick work.
    - Need Allegro support of that feature (I think it's in the work).
    - Easy to do for GUI.
    - Support for fullscreen blitter (hmm..?)
- - Old (don't remember what it is for, check e-mail archive))
-   - Check video drivers stuff (9016/9021) : http://www.ati.com/support/products/pc/radeon/win98/radeonwin98drivers.html?cboOS=Windows+98&cboProducts=RADEON+64MB+DDR+VIVO&cmdNext=GO%21.
  - [Win32] Support OS resolution change.
-
------------------------------
- AUTO FRAME SKIPPER / SYNC
------------------------------
- - Rewrite autoframeskipper.
-    - Remove asynchronous event. 
-    - Poll timer (using uclock()/timestamp/whatever)
-    - Synced 60 Hz should be the same as 1/1 60 Hz vsync
- THIS IS THE MAIN THING MEKA NEEDS NOW
 
 -----------------------------
  VIDEO
 -----------------------------
- - Add triple buffering (seems easy and very useful)
- - Support 16/24/32 bits.
-    - Strip out 8-bit modes
-    - Palette system hold value of color in current mode.
-    - First introduce support in GUI
-    - Need to rewrite video emulation drawers (use hacky #define/#include or template?)
-    - Theme switching and fading will require full redraw.
-    - Once done, do a pass on GUI theme to rename and reselect colors appropriately
- - Fix page flipping waiting for VSync.
- - Find a solution to the fact color raster effects in GUI sucks so much. [8bpp]
- - MS-DOS:
-   - Colors broken on Permedia 2 ?
-   - Colors 512x384 video mode, etc
-   - Mode Q (check ZSnes)
  - 3D glasses:
    - red/green mode (blending)
    - http://www.edimensional.com/products/edglasses.htm
@@ -591,7 +551,6 @@ doing them now and some are quick work.
    Then you can even imagine SMS Power! producing URL/links/datafile read
    by MEKA to run a given game from its museum page entry.
  - Mouse wheel handling should not set selection, just scroll.
- - Add an option to make A & B drives appears.
  - Directory change notification:
    - [WIN] There's something, I know.
    - [LINUX] See SIGIO, linux/documentations/dnotify.txt
@@ -607,7 +566,6 @@ doing them now and some are quick work.
    (currently multiple draw pass are done, which is hell slow)
  - Leaks:
    - gui_box_delete() doesn't delete widgets
- - Optimize (dirty rectangles...) // doesn't require much optimization anymore
  - Documentation viewer
    - Add generic text viewer applet (that user can use to load his stuff).
    - Fix bouncing with pageup/pagedown
@@ -643,14 +601,6 @@ doing them now and some are quick work.
 -----------------------------
  - Show everything in modes 0->3.
  - Zoom tile.
-
------------------------------
- UNIX/LINUX PORT
------------------------------
- - Sources fixes (may be obsolete):
-   - in zip/unzip.h -> #define OF(P) P
-   - if sound/{s_opl,...} -> #ifdef MEKA_OPL, ...
-   - add %define in *.asm
 
 -----------------------------
  SC-3000
@@ -987,24 +937,6 @@ doing them now and some are quick work.
  - [16/24/32bpp] Allows to show machine even with theme picture.
 
 -----------------------------
- PALETTE HANDLING
------------------------------
- - Keep color 0 as black, cause some cards/mode won't change border color.
- - Update whole palette at once (set_palette)
- - Check out RAINE palette tricks under Windows.
- - '**Palette Overflow**' message is still in Sonic 1 (GG), fourth level
- - Palette viewer:
-   - Should maintain its own dirty list, since the Refs_Dirty flags are
-     only useful for the palette viewer & tile viewer ?
- - Following games have Error 5617 (commented out)
-  --- Moldorian, Bram's Stoker Dracula, Fifa, Sonic & Tails 2, Devilish,
-  --- Putt & putter, Bugs Bunny GG, Shaq Fu, Poker Gin, Desert Strike GG,
-  --- NFL 95 GG, sspace invaders GG, terminator GG, cutthroat island GG
-  --- Earthworm Jim GG, Sonic Blast GG, Sonic 1 GG
- - Check out palette change in F16 Fighter / Fighting Falcon
- - Check out snow (still ?)
-
------------------------------
  CONSOLE
 -----------------------------
  - Error on first video init (init -> GUI|Fullscreen) should show in console.
@@ -1026,24 +958,10 @@ doing them now and some are quick work.
  - Sort machine_reset stuff, too many are done ?
  - Add pointer to reset for each drivers.
  - Improve the whole driver system.
- - Playing NES after SMS should not be causing problems, and vice versa.
-   (it is still happening ?)
 
 -----------------------------
  SOUND
 -----------------------------
- - Screwed sound.
-   That is the WORSE problem ever. 
-   The problem is that buffer is filled asynchneously, called by an Allegro
-   timer. The buffer-filler looks for the current cycle to know where to stop
-   filling, but this is running in emulation which is not in sync with the
-   timer. As a result, depending on luck/computer, sometimes the buffer gets
-   overflowed, and sometimes it doesn't fill up to the end! That's the cause
-   of sound scratches.
-   Can be fixed by 'merging' sound/video sync timers but that would require
-   removing unthrotled emulation. MAME supports sonud while unthrottled but
-   it requires lots of work.
-   It's actually not a lot of work to do the standard thing... Must do it...
  - Volume Control
  - Disabling sound:
    - Be able to disable sound within the program.
@@ -1071,12 +989,7 @@ doing them now and some are quick work.
    > the author's website) and compare to a real system? I'm sure you're
    > interested in having the latest version for Meka :) Otherwise I can
    > send some in_vgm.dlls with the 0.55 and 0.60 cores.
- OPL:
- //- Should let the user force OPL enabling, because of potential OPL
- //  emulators for recent Windows platforms. // WIP
  - Support CPU speed change.
- DOS:
- - See why SEAL DOS build crash under Win2k/XP (not a priority, but I wonder..)
  Notes:
  - Panning: possibility to support Game Gear stereo easily ?
    (without major performance hit)
