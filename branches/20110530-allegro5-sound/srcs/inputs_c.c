@@ -538,9 +538,11 @@ void    Inputs_CFG_Map_Change_Update (void)
         // Digital Joypad/Joystick -------------------------------------------------
     case INPUT_SRC_TYPE_JOYPAD:
         {
-			ALLEGRO_JOYSTICK *joystick;
+			ALLEGRO_JOYSTICK *joystick = al_get_joystick(input_src->Connection_Port);
+			if (!joystick)
+				break;
+
 			ALLEGRO_JOYSTICK_STATE state;
-            joystick = al_get_joystick(input_src->Connection_Port);
 			al_get_joystick_state(joystick, &state);
 
             // Check buttons

@@ -8,6 +8,7 @@ Meka 0.80 check list
 - new feature: tilemap for mode 2?
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
+- reorganize inputs configuration panel?
 - maintain windows order in meka.dsk
 
 ----------
