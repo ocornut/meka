@@ -7,7 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "libmy.h"
 #include "libparse.h"
 
 #ifndef FALSE

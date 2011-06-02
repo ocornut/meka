@@ -69,7 +69,6 @@ enum t_skin_effect
 	SKIN_EFFECT_NONE	= 0,
 	SKIN_EFFECT_BLOOD	= 1,
 	SKIN_EFFECT_HEARTS	= 2,
-	SKIN_EFFECT_SNOW	= 3,
 };
 
 enum t_skin_background_picture_mode

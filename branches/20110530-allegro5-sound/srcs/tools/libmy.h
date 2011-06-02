@@ -8,11 +8,9 @@
 #define OK                      (0)
 #define ERR                     (1)
 
-#ifndef ARCH_WIN32
-  #define Random(a)             (random() % (a))
-#else
-  #define Random(a)             (rand() % (a))
-#endif
+int		Random(int max);
+float	RandomFloat(float max = 1.0f);
+float	RandomFloat(float min, float max);
 
 char   *StrNDup                 (const char *src, int n);
 

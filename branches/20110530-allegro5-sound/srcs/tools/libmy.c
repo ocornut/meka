@@ -248,14 +248,31 @@ void    Write_Bits_Field (int v, int n_bits, char *field)
     }
 }
 
-// INITIALIZE PIFOMETER -------------------------------------------------------
-// (Random Number Generators)
 void    Random_Init (void)
 {
 	srand ((unsigned int)time (NULL));
 #ifndef ARCH_WIN32
 	srandom (time (NULL));
 #endif
+}
+
+int		Random(int max)
+{
+#ifndef ARCH_WIN32
+	return random() % max;
+#else
+	return rand() % max;
+#endif
+}
+
+float	RandomFloat(float max)
+{
+	return max * ((float)Random(65535) / 65535.0f);
+}
+
+float	RandomFloat(float min, float max)
+{
+	return min + (max - min) * ((float)Random(65535) / 65535.0f);
 }
 
 // Convert a BCD number to decimal

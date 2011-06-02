@@ -14,6 +14,7 @@
 #include "inputs_t.h"
 #include "palette.h"
 #include "skin_bg.h"
+#include "skin_fx.h"
 #include "vdp.h"
 #include "video.h"
 #include "osd/misc.h"
@@ -169,6 +170,7 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 	Blit_CreateVideoBuffers();
 	Video_CreateVideoBuffers();
 	Data_CreateVideoBuffers();
+	SkinFx_CreateVideoBuffers();
 	if (g_env.state == MEKA_STATE_GUI)
 		GUI_SetupNewVideoMode();
 

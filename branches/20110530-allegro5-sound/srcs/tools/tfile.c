@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "libmy.h"
 #include "liblist.h"
 #include "tfile.h"
 

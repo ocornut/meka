@@ -401,8 +401,6 @@ static int  Skins_ParseLine(char *line)
                 skin->effect = SKIN_EFFECT_BLOOD;
             else if (!strcmp(value, "hearts"))
                 skin->effect = SKIN_EFFECT_HEARTS;
-            else if (!strcmp(value, "snow"))
-                skin->effect = SKIN_EFFECT_SNOW;
             else
                 return MEKA_ERR_SYNTAX;
             return MEKA_ERR_OK;

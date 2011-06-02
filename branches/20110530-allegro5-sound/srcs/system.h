@@ -85,7 +85,6 @@
 #define WORD_TYPE_DEFINED // for z80marat/z80.h
 
 // Obsolete. Avoid use
-typedef unsigned char       UC;
 typedef unsigned char       byte;
 typedef unsigned short      word;
 typedef unsigned long       dword;
@@ -103,12 +102,6 @@ typedef   signed int        s32;
 #else
     typedef LONGLONG        s64;
 #endif
-
-/*
-// FIXME: It is the right way to define 'bool' ? 
-// Remove when switching to C++
-typedef int                 bool;
-*/
 
 #endif /* #ifndef _BASE_TYPES */
 
@@ -157,6 +150,8 @@ typedef int                 bool;
 //char (&_ArraySizeHelper(T (&array)[N])) [N];
 //#define countof(array) (sizeof(_ArraySizeHelper(array)))
 #define countof(array)	(sizeof(array) / sizeof(array[0]))
+
+#define MATH_PI		(3.14159265f)
 
 //-----------------------------------------------------------------------------
 // Warning Disable

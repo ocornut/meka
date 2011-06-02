@@ -52,7 +52,7 @@ void    GUI_Init()
 
     Desktop_Init();
     GUI_InitApplets();
-    special_effects_init();
+    SkinFx_Init();
 
     // Create game box
     {
