@@ -631,7 +631,7 @@
  Or erase MEKA.
 
 ----------------------------------------------------------------------------
- Level 7 : "Man, I still like MEKA !" - How to help
+ Level 7 : "I still like MEKA !" - How to help
 ----------------------------------------------------------------------------
 
  Thanks. If you want to help further development and support the software 

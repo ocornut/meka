@@ -8,11 +8,11 @@
 //-----------------------------------------------------------------------------
 
 #define TEXTVIEWER_LINES                (44)
-#define TEXTVIEWER_COLUMNS              (60)
-#define TEXTVIEWER_PADDING_X            (4)
+#define TEXTVIEWER_COLUMNS              (62)
+#define TEXTVIEWER_PADDING              (4)
 #define TEXTVIEWER_SCROLLBAR_SIZE_X     (7)
-#define TEXTVIEWER_SCROLL_VELOCITY_BASE (6)         // 8
-#define TEXTVIEWER_SCROLL_VELOCITY_MAX  (5678)      // ???
+#define TEXTVIEWER_SCROLL_VELOCITY_BASE (2.5f)
+#define TEXTVIEWER_SCROLL_VELOCITY_MAX  (20.0f)
 
 //-----------------------------------------------------------------------------
 // Data
@@ -39,7 +39,7 @@ struct t_app_textviewer
 
     int         scroll_position_y;
     int         scroll_position_y_max;  // text_size_y - (text_lines_per_page * font_height)
-    int         scroll_velocity_y;
+    float       scroll_velocity_y;
 
     t_widget *  widget_scrollbar;
 
