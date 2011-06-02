@@ -79,7 +79,7 @@
           SMS - 89b79e77 - Dodgeball King (KR)                  --> Dallyeora Pigu-Wang (KR)
           SMS - b8b141f9 - Fantasy Zone II                      --> Fantasy Zone II - The Tears of Opa-Opa
           SMS - c722fb42 - Fantasy Zone II (JP)                 --> Fantasy Zone II - Opa-Opa no Namida (JP)
-          SMS - 45c50294 - Jogos de Ver縊 II                    --> California Games II [50-60 Hz] (also found in Korea).
+          SMS - 45c50294 - Jogos de Verﾃ｣o II                    --> California Games II [50-60 Hz] (also found in Korea).
           SMS - 5b5f9106 - Nekyuu Kousien (JP)                  --> Nekkyuu Koushien (JP)
           SMS - 0e333b6e - Miracle Warriors - Seal of the Dar.. --> Miracle Warriors - Seal of The Dark Lord (casing on 'The')
           SMS - be57a9a5 - Pacmania                             --> Pac-Mania (the other way, sorry! It seems like the official name of the game)
@@ -663,7 +663,7 @@
 
   - Added and modified entries in the checksum and compatibility lists.
     Some particular renaming includes:
-      SMS - 31ffd7c3 - Castelo R・Tim Bum (BR)              --> Castelo R・Tim-Bum (BR)
+      SMS - 31ffd7c3 - Castelo Rﾂ・Tim Bum (BR)              --> Castelo Rﾂ・Tim-Bum (BR)
       SMS - b137007a - Desert Speedtrap                     --> Desert Speedtrap - Starring Road Runner and Wile E. Coyote
       SMS - 7abc70e9 - Party Games / Family Games (JP)      --> Family Games (Party Games) (JP)
       GG  - 7174b802 - Baku Baku Animal (JP)                --> Baku Baku Animal - Sekai Shiikugakari Senshu-ken (JP)
@@ -901,7 +901,7 @@
       SMS - Fantasy Zone 3: the Maze        --> Fantasy Zone: The Maze
       SMS - Golvellius                      --> Golvellius: Valley of Doom
       SMS - High School Kimengumi           --> High School! Kimengumi
-      SMS - Jogos de Verao 2                --> Jogos de Ver縊 II
+      SMS - Jogos de Verao 2                --> Jogos de Verﾃ｣o II
       SMS - Maze Hunter 3D                  --> Maze Hunter 3-D
       SMS - Missile Defense 3D              --> Missile Defense 3-D
       SMS - Out Run 3D                      --> Out Run 3-D
@@ -913,7 +913,7 @@
       SMS - Sport Pad Football              --> Sports Pad Football
       SMS - Sport Pad Soccer                --> Sports Pad Soccer
       SMS - Super Monaco GP 2               --> Super Monaco GP II (Ayrton's Senna)
-      SMS - Turma da Mica em o Resgate    --> Turma da Mica em: O Resgate
+      SMS - Turma da Mﾃｴnica em o Resgate    --> Turma da Mﾃｴnica em: O Resgate
       SMS - Wonder Boy in Monster Land [A]  --> Wonder Boy in Monster Land
       SMS - Wonder Boy in Monster Land [B]  --> Wonder Boy in Monster Land [Hack]
       SMS - Wonder Boy in Monster Land [C]  --> Super Wonder Boy Monster Land / World [Japan]
@@ -1417,7 +1417,7 @@
   - Added Korean mapper (9) emulation, as used by Dodgeball King.
   - Added Italian messages translations (by Andrea Ballandino).
   - Added German messages translations (by Tilman Hesse).
-  - Fixed some Portugu・ messages.
+  - Fixed some Portuguﾂ・ messages.
   - Fixed/added accentued characters in some Brazilian game names.
   - Added new "Mario Must Die" theme, with a nice handdrawn picture :-)
   - Added new entrys to the checksum and compatibility lists.
@@ -1434,7 +1434,7 @@
     Accents are now usable everywhere in MEKA. Be sure to use accents from
     the Latin-Extended table (usually used by Windows programs, not DOS ones).
   - Added Spanish messages translations (by Antonio J. Bazalo).
-  - Added Portugu・ messages translations (by Rodrigo C. Rubio).
+  - Added Portuguﾂ・ messages translations (by Rodrigo C. Rubio).
   - Added "WIP" (Work In Progress) parameter in language definition, to
     disable warnings and informations when the language is uncomplete.
   - Squashed one very minor flag bug in the browser when a ROM had an
@@ -1453,7 +1453,7 @@
   - Added several new entrys to the checksum and compatibility lists, and
     fixed some existing ones. Added an USA flag and set the flag to all
     SMS games only released in USA (Alf, King's Quest, Montezuma's Revenge).
-  - Added one new happy theme from the french movie "AmＭie Poulain".
+  - Added one new happy theme from the french movie "Am窶嗟ie Poulain".
 
 
  MEKA 0.58

@@ -82,13 +82,13 @@
  Captain Silver                                 FM      Ok
  Captain Silver (US)                            FM      Ok
  Casino Games                                   FM      Ok
- Castelo R·-Tim-Bum (BR)                        -       Ok
+ Castelo R√°-Tim-Bum (BR)                        -       Ok
  Castle of Illusion - Starring Mickey Mouse     -       Ok
  Castle of Illusion - Starring Mickey Mouse (US)-       Ok
  Castle of Illusion - Starring Mickey.. [Demo]  -       Ok
  Champions of Europe                            -       Ok
  Championship Hockey                            -       Ok
- Chapolim x Dr·cula - Um Duelo Assustador (BR)  -       Ok
+ Chapolim x Dr√°cula - Um Duelo Assustador (BR)  -       Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales -       Ok
  Choplifter                                     -       Ok
  Choplifter [Proto] (JP)                        -       Ok
@@ -156,7 +156,7 @@
  Fantasy Zone: The Maze                         FM      Ok
  Family Games (Party Games) (JP)                FM      Ok
  FA Tetris (KR)                                 -       Ok
- FÈrias Frustradas do Pica Pau (BR)             -       Ok
+ F√©rias Frustradas do Pica Pau (BR)             -       Ok
  FIFA International Soccer (BR)                 -       Ok
  Final Bubble Bobble (JP)                       -       Ok
  Fire & Forget II                               -       Ok
@@ -172,7 +172,7 @@
  Galactic Protector (JP)                        FM,PAD  Ok
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
- Game Box SÈrie Esportes Radicais (BR)          FM      Ok
+ Game Box S√©rie Esportes Radicais (BR)          FM      Ok
  Gangster Town                                  LP      Ok
  Gauntlet                                       -       Ok
  George Foreman's KO Boxing                     -       Ok
@@ -235,7 +235,7 @@
  James Pond II - Codename: RoboCod              -       Ok
  Jang Pung 3                                    -       Ok
  Joe Montana Football                           -       Ok
- Jogos de Ver„o II (BR)                         -       Ok
+ Jogos de Ver√£o II (BR)                         -       Ok
  Jungle Book, The (Walt Disney's Classic)       -       Ok
  Jurassic Park                                  -       Ok
  Kenseiden                                      FM      Ok
@@ -279,7 +279,7 @@
  Miracle Warriors - Seal of The Dark Lord       FM      Ok
  Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
- MÙnica no Castelo do Drag„o (BR)               FM      Ok
+ M√¥nica no Castelo do Drag√£o (BR)               FM      Ok
  Monopoly                                       -       Ok
  Monopoly (US)                                  -       Ok
  Monopoly [Proto]                               -       Ok
@@ -358,9 +358,9 @@
  SDI (JP)                                       FM      Ok
  Sagaia                                         -       Ok
  Sangokushi 3 (KR)                              -       Ok
- Sapo XulÈ O Mestre do Kung Fu (BR)             -       Ok
- Sapo XulÈ S.O.S. Lagoa PoluÌda (BR)            -       Ok
- Sapo XulÈ Vs Os Invasores do Brejo (BR)        -       Ok
+ Sapo Xul√© O Mestre do Kung Fu (BR)             -       Ok
+ Sapo Xul√© S.O.S. Lagoa Polu√≠da (BR)            -       Ok
+ Sapo Xul√© Vs Os Invasores do Brejo (BR)        -       Ok
  Satellite 7 (JP)                               -       Ok
  Scramble Spirits                               FM      Ok
  Secret Command                                 -       Ok
@@ -375,7 +375,7 @@
  Shinobi [v0]                                   FM      Ok
  Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
- SÌtio do Picapau Amarelo (BR)                  -       Ok
+ S√≠tio do Picapau Amarelo (BR)                  -       Ok
  Slap Shot [v0]                                 -       Ok
  Slap Shot [v1]                                 -       Ok
  Slap Shot [v2] (US)                            -       Ok
@@ -462,7 +462,7 @@
  TransBot                                       -       Ok
  Trivial Pursuit - Genus Edition                -       Ok
  Ttoriui Moheom (KR)                            -       Ok
- Turma da MÙnica em: O Resgate (BR)             FM/J    Ok
+ Turma da M√¥nica em: O Resgate (BR)             FM/J    Ok
  TV Colosso (As Aventuras da) (BR)              -       Ok
  Ultima IV                                      FM      Ok
  Ultima IV [Proto]                              FM      Ok
@@ -764,9 +764,9 @@
  Arena - Maze of Death / Arena                      Ok
  Ariel - The Little Mermaid (Disney's)              Ok
  Arliel - Crystal Densetsu (JP)                     Ok
- AstÈrix and the Great Rescue                       Ok
- AstÈrix and the Great Rescue (US)                  Ok
- AstÈrix and the Secret Mission                     Ok
+ Ast√©rix and the Great Rescue                       Ok
+ Ast√©rix and the Great Rescue (US)                  Ok
+ Ast√©rix and the Secret Mission                     Ok
  Ax Battler - A Legend of Golden Axe [v1.5] (JP)    Ok
  Ax Battler - A Legend of Golden Axe [v2.0] [Proto] Ok
  Ax Battler - A Legend of Golden Axe [v2.4]         Ok
@@ -1064,7 +1064,7 @@
  Puyo Puyo (Puzlow Kids) (JP)                       Ok
  Puyo Puyo 2 (JP)                                   Ok
  Puzzle Bobble (JP)                                 Ok
- Quest for the Shaven Yak Starring Ren HoÎk & Sti.. Ok
+ Quest for the Shaven Yak Starring Ren Ho√´k & Sti.. Ok
  Quiz Gear Fight!!, The (JP)                        Ok
  Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
