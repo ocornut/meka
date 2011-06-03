@@ -18,6 +18,8 @@ void			gui_box_create_video_buffer(t_gui_box *box);
 
 void            gui_box_set_dirty(t_gui_box *box);
 
+int				gui_box_find_z(const t_gui_box* box);
+
 //-----------------------------------------------------------------------------
 // Functions / Make obsolete
 //-----------------------------------------------------------------------------

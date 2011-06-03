@@ -1,6 +1,6 @@
 //
 // Linked List Library
-// Omar Cornut, 1999-2001
+// 1999-2001
 //
 
 #ifndef __LIST_H__
@@ -8,8 +8,8 @@
 
 struct t_list
 {
-  t_list *   next;
-  void *     elem;
+	t_list *	next;
+	void *		elem;
 };
 
 /* Add an element to the beginning of the given list */
@@ -37,13 +37,13 @@ void    list_remove(t_list **list, void *elem);
 void   	list_reverse(t_list **list);
 
 /* Return number of elements of the given list */
-int	list_size(t_list *list);
+int		list_size(const t_list *list);
 
 /* Sort a list using the given comparing strcmp-sslike function */
 void   	list_sort(t_list **list, int (*fct)(void *elem1, void *elem2));
 
 /* Convert given list to a table */
-void *  list_to_tab(t_list *list);
+void *  list_to_table(const t_list *list);
 
 #endif
 

@@ -176,8 +176,7 @@ void        gui_update_boxes(void)
 
         // Update 'must_redraw' flag for other boxes
         {
-            int j;
-            for (j = i + 1; j < gui.boxes_count; j++)
+            for (int j = i + 1; j < gui.boxes_count; j++)
             {
                 t_gui_box *b2 = gui.boxes_z_ordered[j];
                 if (((b2->frame.pos.x + b2->frame.size.x + 2 >= ax1) && (b2->frame.pos.x - 2 <= ax2) && (b2->frame.pos.y + b2->frame.size.y + 2 >= ay1) && (b2->frame.pos.y - 20 <= ay2))
@@ -330,13 +329,19 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
     gui.info.must_redraw = TRUE;
 }
 
-//-----------------------------------------------------------------------------
-// gui_box_set_focus (t_gui_box *)
+int		gui_box_find_z(const t_gui_box* box)
+{
+    for (int i = 0; i < gui.boxes_count; i++)
+	{
+        if (gui.boxes_z_ordered[i] == box)
+			return i;
+	}
+	return -1;
+}
+
 // Set focus to given box
-//-----------------------------------------------------------------------------
 // FIXME: ARGH!
-//-----------------------------------------------------------------------------
-void            gui_box_set_focus (t_gui_box *box)
+void	gui_box_set_focus(t_gui_box *box)
 {
     if (gui_box_has_focus(box))
         return;

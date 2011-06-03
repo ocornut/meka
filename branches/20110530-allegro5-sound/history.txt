@@ -20,6 +20,7 @@ They are usually of 2 kinds:
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
   - FileBrowser: holding CTRL while using the mouse wheel fasten scrolling. [Omar]
+  - GUI: Depth order of windows is saved when quitting the application. [Omar]
   - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
   - Removed code for the old OPL3 based YM2413 emulator. [Omar]
   - Removed easter egg code for emulating the NES. [Omar]

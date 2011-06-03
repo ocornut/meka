@@ -9,7 +9,12 @@ Meka 0.80 check list
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
 - reorganize inputs configuration panel?
-- maintain windows order in meka.dsk
+
+- bug reports:
+  - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. " 
+  - "Sometimes the mouse freezes for a couple of seconds. (I got this 3 times in about a 20 minute play). "
+  - "The Deep Duck Trouble/ Sonic Chaos bug might be fixed but it is very hard to trigger the bug due to it being random."
+  - "I plugged in a USB-PSX converter before starting again and it did not crash then but any input instantly went Stick 0 Axis 0 -"
 
 ----------
 
@@ -917,7 +922,6 @@ doing them now and some are quick work.
 -----------------------------
  DESKTOP
 -----------------------------
- - Maintains Z order of windows in MEKA.DSK.
  - Save theme by name (not by id).
  - Add a warning when backgronud pictures use unauthorized colors. [8bpp]
  - Update the ALEX KIDD theme (see Myau of Algo e-mail & alex3.pcx)

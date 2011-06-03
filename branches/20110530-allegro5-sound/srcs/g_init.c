@@ -51,15 +51,14 @@ void    GUI_Init()
 	GUI_CreateVideoBuffers();
 
     Desktop_Init();
-    GUI_InitApplets();
-    SkinFx_Init();
 
-    // Create game box
-    {
-        static bool active_dummy = TRUE;
-        gamebox_instance = gamebox_create(163, 151);
-        Desktop_Register_Box ("GAME", gamebox_instance, 1, &active_dummy);
-    }
+	// Create game box (create before applets so it gets focus by default when there's no .dsk file)
+    static bool active_dummy = TRUE;
+    gamebox_instance = gamebox_create(163, 151);
+    Desktop_Register_Box("GAME", gamebox_instance, 1, &active_dummy);
+
+	GUI_InitApplets();
+    SkinFx_Init();
 
     Desktop_SetStateToBoxes ();     // Set all boxes state based on MEKA.DSK data
     gui_menus_init ();              // Create menus (Note: need to be done after Desktop_SetStateToBoxes because it uses the 'active' flags to check items)
