@@ -34,13 +34,13 @@ int Machine_Pause_Need_To = false;
 // HARD PAUSE EMULATED MACHINE ------------------------------------------------
 void    Machine_Pause (void)
 {
-    machine ^= MACHINE_PAUSED;
+    g_machine_flags ^= MACHINE_PAUSED;
     CPU_Loop_Stop = TRUE;
     if (Machine_Pause_Need_To > 0)
         Machine_Pause_Need_To --;
 
     // Verbose
-    if (machine & MACHINE_PAUSED)
+    if (g_machine_flags & MACHINE_PAUSED)
     {
         Msg (MSGT_USER, Msg_Get (MSG_Machine_Pause));
         // gui_menu_check (menus_ID.machine, 2);
@@ -56,7 +56,7 @@ void    Machine_Pause (void)
 void    Machine_Debug_Start (void)
 {
     // Msg (MSGT_DEBUG, "Machine_Debug_Start()");
-    machine |= MACHINE_PAUSED | MACHINE_DEBUGGING;
+    g_machine_flags |= MACHINE_PAUSED | MACHINE_DEBUGGING;
     CPU_Loop_Stop = TRUE;
     Screen_Save_to_Next_Buffer ();
 }
@@ -64,7 +64,7 @@ void    Machine_Debug_Start (void)
 void    Machine_Debug_Stop (void)
 {
     // Msg (MSGT_DEBUG, "Machine_Debug_Stop()");
-    machine &= ~(MACHINE_PAUSED | MACHINE_DEBUGGING);
+    g_machine_flags &= ~(MACHINE_PAUSED | MACHINE_DEBUGGING);
     // next pass in MainLoop() will restart CPU emulation
     // We however set the flag in case this function is called with emulation
     // is already running (eg: setting a breakpoint while running)
@@ -102,14 +102,6 @@ void    Machine_Set_Handler_IO (void)
     }
 }
 
-#ifdef X86_ASM
-extern "C"
-{	
-	READ_FUNC (Read_Default_ASM);
-    WRITE_FUNC (Write_Mapper_32kRAM_ASM);
-}
-#endif
-
 void    Machine_Set_Handler_Read (void)
 {
     switch (cur_machine.mapper)
@@ -124,12 +116,7 @@ void    Machine_Set_Handler_Read (void)
         RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_DisplayUnit;
         break;
     default:
-        #ifdef X86_ASM
-            RdZ80 = RdZ80_NoHook = Read_Default_ASM;
-            // RdZ80 = RdZ80_NoHook = Read_Default;
-        #else
-            RdZ80 = RdZ80_NoHook = Read_Default;
-        #endif
+        RdZ80 = RdZ80_NoHook = Read_Default;
         break;
     }
 }
@@ -142,11 +129,7 @@ void    Machine_Set_Handler_Write (void)
 		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_NoMapper;
 		break;
     case MAPPER_32kRAM:                  // Used by Sega Basic, The Castle, ..
-        #ifdef X86_ASM
-            WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM_ASM;  // ASM version
-        #else
-            WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM;
-        #endif
+        WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM;
         break;
     case MAPPER_ColecoVision:            // Colecovision
         WrZ80 = WrZ80_NoHook = Write_Mapper_Coleco;
@@ -391,14 +374,14 @@ void        Machine_Reset (void)
     #endif
 
     // Unpause machine if necessary
-    if (machine & MACHINE_PAUSED)
+    if (g_machine_flags & MACHINE_PAUSED)
         Machine_Pause ();
 
     // Set driver & machine stuff
     drv_set (cur_machine.driver_id);
 
     Machine_Set_Mapper          ();
-    if ((machine & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
+    if ((g_machine_flags & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
         Machine_Set_Mapping      (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
     Machine_Set_Handler_IO      ();
     Machine_Set_Handler_Read    ();
@@ -469,7 +452,7 @@ void        Machine_Reset (void)
     memset (PRAM, 0, 0x00040);      // Clear all PRAM (palette)
 
     // Unload BIOS if...
-    if ((cur_drv->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (machine & MACHINE_ROM_LOADED))
+    if ((cur_drv->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (g_machine_flags & MACHINE_ROM_LOADED))
     {
         #ifdef DEBUG_WHOLE
             Msg (MSGT_DEBUG, "Machine_Reset(): BIOS_Unload()");

@@ -1079,7 +1079,7 @@ int      Debugger_Bus_Read(int bus, int addr)
     case BREAKPOINT_LOCATION_CPU:
         {
             addr &= 0xFFFF;
-            return (machine & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
+            return (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
         }
     case BREAKPOINT_LOCATION_VRAM:
         {
@@ -1773,7 +1773,7 @@ void        Debugger_Applet_Redraw_State(void)
 {
     int     i;
 
-    if (!(machine & MACHINE_POWER_ON))
+    if (!(g_machine_flags & MACHINE_POWER_ON))
         return;
     if (cur_drv->cpu != CPU_Z80)    // Unsupported
         return;
@@ -1967,7 +1967,7 @@ void        Debugger_Applet_Redraw_State(void)
         Font_Print (DebuggerApp.font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         
         // Print Z80 running state with nifty ASCII rotating animation
-        if (!(machine & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
+        if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
         {
             static int running_counter = 0;
             char *running_string;
@@ -2556,13 +2556,13 @@ void        Debugger_InputParseCommand(char *line)
     if (!strcmp(cmd, "C") || !strcmp(cmd, "CONT") || !strcmp(cmd, "CONTINUE"))
     {
         t_debugger_value value;
-        if (!(machine & MACHINE_POWER_ON))
+        if (!(g_machine_flags & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running\n");
             return;
         }
 
-        if (!(machine & MACHINE_DEBUGGING))
+        if (!(g_machine_flags & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
             Machine_Debug_Start();
@@ -2598,12 +2598,12 @@ void        Debugger_InputParseCommand(char *line)
     if (!strcmp(cmd, "J") || !strcmp(cmd, "JP") || !strcmp(cmd, "JUMP"))
     {
         t_debugger_value value;
-        if (!(machine & MACHINE_POWER_ON))
+        if (!(g_machine_flags & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
             return;
         }
-        if (!(machine & MACHINE_DEBUGGING))
+        if (!(g_machine_flags & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
             Machine_Debug_Start ();
@@ -2624,7 +2624,7 @@ void        Debugger_InputParseCommand(char *line)
     // S - STEP OVER
     if (!strcmp(cmd, "S") || !strcmp(cmd, "STEP"))
     {
-        if (!(machine & MACHINE_POWER_ON))
+        if (!(g_machine_flags & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
         }
@@ -2704,7 +2704,7 @@ void        Debugger_InputParseCommand(char *line)
     // SET
     if (!strcmp(cmd, "SET"))
     {
-        if (!(machine & MACHINE_DEBUGGING))
+        if (!(g_machine_flags & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
             Machine_Debug_Start ();
@@ -2796,7 +2796,7 @@ void        Debugger_InputParseCommand(char *line)
     // D - DISASSEMBLE
     if (!strcmp(cmd, "D") || !strcmp(cmd, "DASM"))
     {
-        if (!(machine & MACHINE_POWER_ON))
+        if (!(g_machine_flags & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
         }
@@ -2856,7 +2856,7 @@ void        Debugger_InputParseCommand(char *line)
 		Trim(line);
 		if (line[0])
 		{
-			if (!(machine & MACHINE_POWER_ON))
+			if (!(g_machine_flags & MACHINE_POWER_ON))
 			{
 				Debugger_Printf("Command unavailable while machine is not running!\n");
 			}
@@ -2913,7 +2913,7 @@ void        Debugger_InputParseCommand(char *line)
     // M - MEMORY DUMP
     if (!strcmp(cmd, "M") || !strcmp(cmd, "MEM"))
     {
-        if (!(machine & MACHINE_POWER_ON))
+        if (!(g_machine_flags & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
         }
@@ -3016,11 +3016,11 @@ void        Debugger_InputBoxCallback(t_widget *w)
     // An empty line means step into or activate debugging
     if (line_buf[0] == EOSTR)
     {
-        if (machine & MACHINE_POWER_ON)
+        if (g_machine_flags & MACHINE_POWER_ON)
         {
             // If machine is in PAUSE state, consider is the same as in DEBUGGING state
             // (Allows step during pause)
-            if ((machine & MACHINE_DEBUGGING) || (machine & MACHINE_PAUSED))
+            if ((g_machine_flags & MACHINE_DEBUGGING) || (g_machine_flags & MACHINE_PAUSED))
             {
                 // Step into
                 Debugger.stepping = 1;

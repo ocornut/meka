@@ -70,12 +70,10 @@ enum t_meka_state
 // Battery Backed RAM Macros --------------------------------------------------
 #define SRAM_Active             (sms.Mapping_Register & 0x08)
 #define SRAM_Page               (sms.Mapping_Register & 0x04)
-//-----------------------------------------------------------------------------
 
 // On Board RAM Macros (currently only for Ernie Els Golf)
 #define ONBOARD_RAM_EXIST       (0x20)
 #define ONBOARD_RAM_ACTIVE      (0x40)
-//-----------------------------------------------------------------------------
 
 // Variables needed by one emulated SMS
 // FIXME: reconceptualize those stuff, this is pure, old crap
@@ -136,8 +134,8 @@ struct TSMS_TYPE
 // Variables related to graphics - not saved in savestate
 struct TGFX_TYPE
 {
- byte    Tile_Dirty [MAX_TILES];
- byte    Tile_Decoded [MAX_TILES] [64];
+	u8	Tile_Dirty [MAX_TILES];
+	u8	Tile_Decoded [MAX_TILES] [64];
 };
 
 struct OPT_TYPE
@@ -170,7 +168,7 @@ extern TSMS_TYPE  tsms;
 
 //-----------------------------------------------------------------------------
 // NEW STRUCTURES
-// Below are new structures which should one day obsolete everything above.
+// Below are new structures which should hopefully obsolete everything above.
 // Right now they are quite empty but new members can be added here, or old 
 // members moved from time to time.
 //-----------------------------------------------------------------------------
@@ -185,19 +183,13 @@ struct t_machine_vdp_smsgg
     int                     sprite_shift_x;						// 0 or 8
 	int						sprite_pattern_base_index;			// 0 or 256, SMS/GG only
 	u8 *					sprite_pattern_base_address;
+	u8 *					sprite_attribute_table;
 
     // Scrolling latches
     u8                      scroll_x_latched;
     u8                      scroll_y_latched;
     u8                      scroll_x_latched_table[MAX_RES_Y];
 };
-
-// FIXME: Global because accessed by videoasm.asm
-// Figure out a proper way to deal with this (export structure members offsets as definitions, etc)
-extern "C"
-{
-extern u8 *					sprite_attribute_table;
-}
 
 struct t_machine
 {

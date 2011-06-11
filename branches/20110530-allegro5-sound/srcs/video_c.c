@@ -3,8 +3,6 @@
 // Video / C Functions - Code
 //-----------------------------------------------------------------------------
 
-//#ifndef X86_ASM
-
 #include "shared.h"
 #include "video_m5.h"
 
@@ -17,44 +15,50 @@ void    Decode_Tile_C (int tile_n, byte *start)
     ConsolePrint ("video_c.c::Decode_Tile_C() is empty,\ntiles will not be showing.\n");
 }
 
-void    Find_Last_Sprite_C (int Height, int VDP_Line)
+void    Find_Last_Sprite(int sprites_height, int VDP_Line)
 {
-    int y;
-    int line;
+	int sprites_count = 0;
+	int sprites_on_line = 0;
 
-    Sprite_Last = 0;
-    Sprites_on_Line = 0;
-    while (Sprite_Last < 64)
+	const u8* sat = cur_machine.VDP.sprite_attribute_table;
+    while (sprites_count < 64)
     {
-        if ((y = sprite_attribute_table[Sprite_Last]) == 208)
+		int y;
+        if ((y = sat[sprites_count]) == 208)
             break;
-        Sprite_Last ++;
-        if (y > 224) y -= 256;
-        line = VDP_Line - y - 1;
-        if (line >= 0 && line < Height)
-            Sprites_on_Line ++;
+        sprites_count++;
+        if (y > 224)
+			y -= 256;
+        const int line = VDP_Line - y - 1;
+        if (line >= 0 && line < sprites_height)
+            sprites_on_line++;
     }
-    Sprite_Last --;
+
+	// Assign to globals
+    Sprite_Last = sprites_count - 1;
+	Sprites_on_Line = sprites_on_line;
 }
 
-void    Find_Last_Sprite_C_Wide (int Height, int VDP_Line)
+// FIXME-EMU: Not sure if this behavior is correct but it served us well so far.
+void    Find_Last_Sprite_Wide(int sprites_height, int VDP_Line)
 {
-    int y;
-    int line;
+	int sprites_count = 0;
+	int sprites_on_line = 0;
 
-    Sprite_Last = 0;
-    Sprites_on_Line = 0;
-    while (Sprite_Last < 64)
+	const u8* sat = cur_machine.VDP.sprite_attribute_table;
+	while (sprites_count < 64)
     {
-        if ((y = sprite_attribute_table[Sprite_Last++]) > 224)
+		int y;
+        if ((y = sat[sprites_count++]) > 224)
             y -= 256;
-        line = VDP_Line - y - 1;
-        if (line >= 0 && line < Height)
-            Sprites_on_Line ++;
+        const int line = VDP_Line - y - 1;
+        if (line >= 0 && line < sprites_height)
+            sprites_on_line++;
     }
-    Sprite_Last --;
-}
 
-//#endif
+	// Assign to globals
+    Sprite_Last = sprites_count - 1;
+	Sprites_on_Line = sprites_on_line;
+}
 
 //-----------------------------------------------------------------------------

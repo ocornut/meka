@@ -67,7 +67,7 @@ static void	Capture_FileName_Get(char *dst)
         al_make_directory(g_env.Paths.ScreenshotDirectory);
 
     // Figure out a base filename
-    if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
+    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
     {
         strcpy(s1, g_env.Paths.MediaImageFile);
         killpath(s1);
@@ -186,7 +186,7 @@ void	Capture_Update(void)
 		Capture_Screen();
 		Capture.request = FALSE;
 	}
-	if (Capture.request_all_frames && !(machine & MACHINE_PAUSED))
+	if (Capture.request_all_frames && !(g_machine_flags & MACHINE_PAUSED))
 	{
 		Capture_Screen();
 	}

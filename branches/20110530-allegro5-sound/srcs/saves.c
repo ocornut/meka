@@ -118,7 +118,7 @@ void        Save_Game (void)
     char    buf[FILENAME_LEN+1];
 
     // Do not allow saving if machine is not running
-    if ((machine & MACHINE_RUN) != MACHINE_RUN)
+    if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
         Msg (MSGT_USER, Msg_Get (MSG_No_ROM));
         return;
@@ -126,7 +126,7 @@ void        Save_Game (void)
 
     // Do not allow saving in BIOS
     // This would be messy with file handling currently
-    if ((machine & MACHINE_NOT_IN_BIOS) == 0)
+    if ((g_machine_flags & MACHINE_NOT_IN_BIOS) == 0)
     {
         Msg (MSGT_USER, Msg_Get (MSG_Save_Not_in_BIOS));
         return;
@@ -162,14 +162,14 @@ void        Load_Game (void)
     char    buf[FILENAME_LEN+1];
 
     // Do not allow loading if machine is not running
-    if ((machine & MACHINE_RUN) != MACHINE_RUN)
+    if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
         Msg (MSGT_USER, Msg_Get (MSG_No_ROM));
         return;
     }
 
     // If loading while in BIOS, disable BIOS and switch to game
-    if ((machine & MACHINE_NOT_IN_BIOS) == 0)
+    if ((g_machine_flags & MACHINE_NOT_IN_BIOS) == 0)
     {
         // Note: I'm not sure why I saved the current VDP line here...
         int Line = tsms.VDP_Line;

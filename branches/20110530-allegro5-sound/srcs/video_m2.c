@@ -393,9 +393,10 @@ void    Display_Sprites_1_2_3 (void)
     memset (Sprites_On_Line, 0, 192 + 32);
 
     // Find last sprite
+	const u8* sat = cur_machine.VDP.sprite_attribute_table;
     for (i = 0; i < 32 * 4; i += 4)
     {
-        y = sprite_attribute_table[i];
+        y = sat[i];
         if ((y ++) == 0xD0) 
             break;
         if (y > 0xD0) y -= 0xFF;
@@ -409,37 +410,37 @@ void    Display_Sprites_1_2_3 (void)
     while (i >= 0)
     {
         // Calculate vertical position and handle special meanings ----------------
-        y = sprite_attribute_table[i];
+        y = sat[i];
         if ((y ++) == 0xD0) 
             break;
         if (y > 0xD0) 
             y -= 0x100;
         // Calculate horizontal position ------------------------------------------
-        x = sprite_attribute_table[i + 1];
+        x = sat[i + 1];
         // Calculate tile starting address in VRAM --------------------------------
-        k = (u8 *)((int)((sprite_attribute_table[i + 2] & Mask) << 3) + (int)cur_machine.VDP.sprite_pattern_base_address);
+        k = (u8 *)((int)((sat[i + 2] & Mask) << 3) + (int)cur_machine.VDP.sprite_pattern_base_address);
         switch (Sprite_Mode)
         {
             // 8x8 (used in: Sokouban)
         case 0: //----------- address -- x position -- y position -- color
-            Draw_Sprite_Mono (k, x, y, sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono (k, x, y, sat[i + 3]);
             break;
             // 16x16 - 8x8 Doubled (used in: ?)
         case 1: //----------- address -- x position -- y position -- color
-            Draw_Sprite_Mono_Double (k, x, y, sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono_Double (k, x, y, sat[i + 3]);
             break;
             // 16x16 (used in most games)
         case 2: //----------- address -- x position --- y position --- color -----
-            Draw_Sprite_Mono (k,      x,     y,     sprite_attribute_table[i + 3]);
-            Draw_Sprite_Mono (k + 8,  x,     y + 8, sprite_attribute_table[i + 3]);
-            Draw_Sprite_Mono (k + 16, x + 8, y,     sprite_attribute_table[i + 3]);
-            Draw_Sprite_Mono (k + 24, x + 8, y + 8, sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono (k,      x,     y,     sat[i + 3]);
+            Draw_Sprite_Mono (k + 8,  x,     y + 8, sat[i + 3]);
+            Draw_Sprite_Mono (k + 16, x + 8, y,     sat[i + 3]);
+            Draw_Sprite_Mono (k + 24, x + 8, y + 8, sat[i + 3]);
             break;
         case 3: //------------------ address ---- x position ---- y position --- color ----
-            Draw_Sprite_Mono_Double (k,      x,      y,      sprite_attribute_table[i + 3]);
-            Draw_Sprite_Mono_Double (k + 8,  x,      y + 16, sprite_attribute_table[i + 3]);
-            Draw_Sprite_Mono_Double (k + 16, x + 16, y,      sprite_attribute_table[i + 3]);
-            Draw_Sprite_Mono_Double (k + 24, x + 16, y + 16, sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono_Double (k,      x,      y,      sat[i + 3]);
+            Draw_Sprite_Mono_Double (k + 8,  x,      y + 16, sat[i + 3]);
+            Draw_Sprite_Mono_Double (k + 16, x + 16, y,      sat[i + 3]);
+            Draw_Sprite_Mono_Double (k + 24, x + 16, y + 16, sat[i + 3]);
             break;
         }
         i -= 4;
@@ -587,19 +588,21 @@ void    Check_Sprites_Collision_Modes_1_2_3 (void)
 // FIXME: Zoomed sprites are actually not handled well in the collision tests
 void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 {
-  int   mask = Table_Mask [Sprites_Double | Sprites_16x16];
-  int   size = Table_Height [Sprites_Double | Sprites_16x16];
+  const int   mask = Table_Mask [Sprites_Double | Sprites_16x16];
+  const int   size = Table_Height [Sprites_Double | Sprites_16x16];
 
   int   src_n,     dst_n;
   int   src_y,     dst_y;
-  u8 *	src_spr,  *dst_spr;
-  u8 *	src_tile, *dst_tile;
+  const u8 * src_spr;
+  const u8 * src_tile;
+  const u8 * dst_spr;
+  const u8 * dst_tile;
 
   int   delta_x;
   int   delta_y;
 
-  for (src_n = 0, src_spr = sprite_attribute_table, src_y = src_spr[0];
-       src_n < 31 && src_y != 208;
+  const u8* sat = cur_machine.VDP.sprite_attribute_table;
+  for (src_n = 0, src_spr = sat, src_y = src_spr[0]; src_n < 31 && src_y != 208;
        src_n++, src_spr += 4, src_y = src_spr[0])
      {
      // Skip if this sprite does not cover current line
@@ -649,12 +652,12 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 
         // Inverse sprites if delta_x < 0 for the purpose of the comparaison
         if (delta_x < 0)
-           {
-           byte *tmp = src_tile;
-           src_tile  = dst_tile;
-           dst_tile  = tmp;
-           delta_x = -delta_x;
-           }
+		{
+			const u8* tmp = src_tile;
+			src_tile  = dst_tile;
+			dst_tile  = tmp;
+			delta_x = -delta_x;
+		}
 
         // Finally compare actual sprites pixels
         if (size == 8)

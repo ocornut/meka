@@ -539,30 +539,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\mappersa.asm"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)/$(InputName).obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Assembling $(InputPath)"
-						CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
-						Outputs="$(OutDir)/$(InputName).obj"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\meka.c"
 				>
 			</File>

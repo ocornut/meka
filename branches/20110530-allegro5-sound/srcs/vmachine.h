@@ -29,7 +29,7 @@ void    VMachine_Draw (void);
 void    VMachine_Init_Colors (void);
 //-----------------------------------------------------------------------------
 
-extern int machine;
+extern int g_machine_flags;
 
 #define MACHINE_POWER_ON        (1 << 0)
 #define MACHINE_CART_INSERTED   (1 << 1)

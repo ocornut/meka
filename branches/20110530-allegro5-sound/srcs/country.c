@@ -23,7 +23,7 @@
 void    Set_Country_European_US (void)
 {
     Msg (MSGT_USER, Msg_Get (MSG_Country_European_US));
-    if (machine & MACHINE_POWER_ON)
+    if (g_machine_flags & MACHINE_POWER_ON)
         Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
     g_Configuration.country = g_Configuration.country_cfg = COUNTRY_EXPORT;
     gui_menu_un_check (menus_ID.country);
@@ -40,7 +40,7 @@ void    Set_Country_European_US (void)
 void    Set_Country_JP (void)
 {
     Msg (MSGT_USER, Msg_Get (MSG_Country_JAP));
-    if (machine & MACHINE_POWER_ON)
+    if (g_machine_flags & MACHINE_POWER_ON)
         Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
     g_Configuration.country = g_Configuration.country_cfg = COUNTRY_JAPAN;
     gui_menu_un_check (menus_ID.country);

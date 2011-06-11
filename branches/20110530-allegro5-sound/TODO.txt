@@ -1,6 +1,7 @@
 
 Meka 0.80 check list
 - fixed sound
+- load meka.dat from .exe directory
 - game gear stereo
 - add setup with resolution and dx/opengl selection
 - solve vsync and refresh rate issues, at least be able to enable vsync?

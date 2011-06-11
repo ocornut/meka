@@ -41,7 +41,7 @@ void    Main_Loop (void)
             Msg (MSGT_DEBUG, "Main_Loop(), Loop;");
         #endif
         CPU_Loop_Stop = FALSE;
-        if ((machine & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON)
+        if ((g_machine_flags & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON)
         {
             Sound_Playback_Start ();
             {
@@ -94,13 +94,13 @@ void    Main_Loop_No_Emulation (void)
         Inputs_Sources_Update ();
         Inputs_Emulation_Update (FALSE); // [Omar-20050327] Allows changing inputs data from the debugger.// FIXME: but the debugger has exclusive inputs.
         Inputs_Check_GUI (FALSE);
-        if ((opt.Force_Quit) || ((machine & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON))
+        if ((opt.Force_Quit) || ((g_machine_flags & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON))
         {
             return;
         }
         // FIXME: debugger there
         // Update TV effect or Games
-        if ((fskipper.Show_Current_Frame) && (!(machine & MACHINE_POWER_ON)))
+        if ((fskipper.Show_Current_Frame) && (!(g_machine_flags & MACHINE_POWER_ON)))
         {
             sms.VDP[0] &= ~0x20; // no mask left 8 (for GUI windows) // FIXME: blah
 			Effects_TV_Update();

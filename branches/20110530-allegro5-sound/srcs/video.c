@@ -394,7 +394,7 @@ void    Video_RefreshScreen(void)
     } // of: if (fskipper.Show_Current_Frame)
 
     // Draw next image in other buffer --------------------------------------------
-    if (machine & MACHINE_PAUSED)
+    if (g_machine_flags & MACHINE_PAUSED)
     {
         Screen_Restore_from_Next_Buffer();
     }

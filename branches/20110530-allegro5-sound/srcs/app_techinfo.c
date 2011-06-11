@@ -159,7 +159,7 @@ void        TechInfo_Update(void)
     // - Sprites
     {
         sprintf (line, "[SPRITES] Size:%s - Double:%d - EarlyClock:%d - SAT:$%04X - SPG:$%04X",
-            (Sprites_8x16?"8x16":"8x8"), (Sprites_Double?1:0), (Sprites_Left_8?1:0), (int)(sprite_attribute_table - VRAM), (int)(cur_machine.VDP.sprite_pattern_base_address - VRAM));
+            (Sprites_8x16?"8x16":"8x8"), (Sprites_Double?1:0), (Sprites_Left_8?1:0), (int)(cur_machine.VDP.sprite_attribute_table - VRAM), (int)(cur_machine.VDP.sprite_pattern_base_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
 

@@ -385,9 +385,9 @@ void    DataDump_Sprites (void)
     }
 
     if (DataDump.Mode == DATADUMP_MODE_RAW)
-        DataDump_Main_Raw   ("Sprites", sprite_attribute_table, n_sprites * 4);
+        DataDump_Main_Raw   ("Sprites", cur_machine.VDP.sprite_attribute_table, n_sprites * 4);
     else
-        DataDump_Main_Ascii ("Sprites", sprite_attribute_table, n_sprites * 4, /* Unused */ 0, DataDump_Handler_Ascii_Sprite);
+        DataDump_Main_Ascii ("Sprites", cur_machine.VDP.sprite_attribute_table, n_sprites * 4, /* Unused */ 0, DataDump_Handler_Ascii_Sprite);
 }
 
 //-----------------------------------------------------------------------------

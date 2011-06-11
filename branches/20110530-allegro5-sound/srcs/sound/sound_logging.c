@@ -43,7 +43,7 @@ void    Sound_Log_FileName_Get(char *result, char *filename_template, int *id)
 
     // Create second template ----------------------------------------------------
     char * game_name;
-    if ((machine & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & runnnig
+    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & runnnig
     {
         strcpy (s1, g_env.Paths.MediaImageFile);
         killpath (s1);

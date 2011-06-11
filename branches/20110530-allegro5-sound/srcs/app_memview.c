@@ -433,7 +433,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
 
                 // Get value
                 if (section->memtype == MEMTYPE_Z80)
-                    value = (machine & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
+                    value = (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
                 else
                     value = memory ? memory[addr] : 0x00;
 
@@ -463,7 +463,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         {
             const int addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
             if (section->memtype == MEMTYPE_Z80)
-                value = (machine & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
+                value = (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
             else
                 value = memory ? memory[addr] : 0x00;
             sprintf(buf, "%02X", value);
@@ -746,7 +746,7 @@ static void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
     {
     case MEMTYPE_Z80:
         {
-            if (machine & MACHINE_POWER_ON)
+            if (g_machine_flags & MACHINE_POWER_ON)
                 WrZ80_NoHook(addr, value);
             else
                 Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_WriteZ80_Unable));
@@ -893,7 +893,7 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
             char buf[3];
             switch (mv->section_current->memtype)
             {
-                case MEMTYPE_Z80:   value = (machine & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00; break;
+                case MEMTYPE_Z80:   value = (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00; break;
                 case MEMTYPE_ROM:   value = ROM[addr];      break;
                 case MEMTYPE_RAM:   value = RAM[addr];      break;
                 case MEMTYPE_VRAM:  value = VRAM[addr];     break;

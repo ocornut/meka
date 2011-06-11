@@ -101,7 +101,7 @@ void        gamebox_rename_all (void)
 	}
     else
     {
-        if (machine & MACHINE_CART_INSERTED)
+        if (g_machine_flags & MACHINE_CART_INSERTED)
             new_name = Msg_Get (MSG_DB_Name_Default);
         else
             new_name = Msg_Get (MSG_DB_Name_NoCartridge);

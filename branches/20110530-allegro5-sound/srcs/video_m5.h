@@ -12,18 +12,17 @@ extern "C"
 {
  int     Decode_Tile_ASM (int, byte *);
  int     Decode_Tile_ASM_Init (void);
- int     Find_Last_Sprite_ASM (int Height, int VDP_Line);
- int     Find_Last_Sprite_ASM_Wide (int Height, int VDP_Line);
  void    Sprite_Collide_Line_ASM (byte *p_src, int x);
 }
 #else
  void    Decode_Tile_C (int, byte *);
- void    Find_Last_Sprite_C (int Height, int VDP_Line);
- void    Find_Last_Sprite_C_Wide (int Height, int VDP_Line);
  void    Sprite_Collide_Line_C (byte *p_src, int x);
 #endif
 
-void            Display_BackGround_Line_5_C (void);
+void	Find_Last_Sprite(int sprites_height, int VDP_Line);
+void    Find_Last_Sprite_Wide(int sprites_height, int VDP_Line);
+
+void    Display_BackGround_Line_5(void);
 
 extern "C"
 {

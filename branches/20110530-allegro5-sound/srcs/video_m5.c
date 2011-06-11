@@ -281,24 +281,18 @@ void    Refresh_Line_5 (void)
 }
 
 // DISPLAY A BACKGROUND LINE --------------------------------------------------
-void    Display_BackGround_Line_5_C (void)
+void    Display_BackGround_Line_5(void)
 {
-    PIXEL_TYPE *dst_buf;
-    u8 *        src_map;
-    u8 *        sprite_mask;
-    int         x, x_scroll, x_ignore_vscroll, y;
-    int         tile_x, tile_line;
-
     // X scrolling computations
-    x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : cur_machine.VDP.scroll_x_latched;
-    x = x_scroll & 7;  // x = x_scroll % 8
+    int x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : cur_machine.VDP.scroll_x_latched;
+    int x = x_scroll & 7;  // x = x_scroll % 8
     x_scroll >>= 3;    // x_scroll /= 8
     if (x_scroll == 0)
         x_scroll = 32;
 
     // Set destination address
-    dst_buf = PIXEL_LINE_DST;
-    sprite_mask = Sprites_Draw_Mask;
+    PIXEL_TYPE* dst_buf = PIXEL_LINE_DST;
+    u8* sprite_mask = Sprites_Draw_Mask;
 
     // Fill first 'non existents' pixels
     // (see SMS "Scrolling Test" for exemple of this)
@@ -313,9 +307,8 @@ void    Display_BackGround_Line_5_C (void)
         }
         else
         {
-            PIXEL_TYPE color = PIXEL_PALETTE_TABLE[0];
-            int i;
-            for (i = x; i != 0; i--)
+            const PIXEL_TYPE color = PIXEL_PALETTE_TABLE[0];
+            for (int i = x; i != 0; i--)
             {
                 *dst_buf++ = color;
                 *sprite_mask++ = 0;
@@ -324,7 +317,7 @@ void    Display_BackGround_Line_5_C (void)
     }
 
     // Y scrolling computations
-    y = tsms.VDP_Line + cur_machine.VDP.scroll_y_latched;
+    int y = tsms.VDP_Line + cur_machine.VDP.scroll_y_latched;
     if (Wide_Screen_28)
     {
         y &= 255; // y %= 256, Wrap at 256
@@ -341,35 +334,30 @@ void    Display_BackGround_Line_5_C (void)
             y &= 127;
 
     // Calculate source address & line in tile
-    src_map = BACK_AREA + ((y & 0xFFFFFFF8) * 8) + (2 * (32 - x_scroll));
-    tile_line = (y & 0x07) * 8;
+    const u8* src_map = BACK_AREA + ((y & 0xFFFFFFF8) * 8) + (2 * (32 - x_scroll));
+    int tile_line = (y & 0x07) * 8;
 
     // Calculate position where vertical scrolling will be ignored
-    x_ignore_vscroll = (Right_No_Scroll) ? 23 : -1;
+    const int x_ignore_vscroll = (Right_No_Scroll) ? 23 : -1;
 
     // Drawing loop
-    tile_x = 0;
+    int tile_x = 0;
     while (tile_x < 32)
     {
         // Part of Horizontal Line not refreshed in Game Gear mode
         if ((cur_drv->id != DRV_GG) || ((tile_x > 4) && (tile_x < 26)))
         {
-            int      tile_n;
-            u8       tile_attr;
-            u16 *    tile_palette;
-            u8 *     tile_pixels;
-
             // Draw tile line
-            tile_attr = src_map[1];
-            tile_n = *((u16 *)src_map) & 511;
+            const u8 tile_attr = src_map[1];
+            const int tile_n = *((u16 *)src_map) & 511;
             if (tgfx.Tile_Dirty [tile_n] & TILE_DIRTY_DECODE)
             {
                 Decode_Tile(tile_n);
                 tgfx.Tile_Dirty [tile_n] = TILE_DIRTY_REDRAW;
             }
 
-            tile_palette = (tile_attr & 0x08) ? &PIXEL_PALETTE_TABLE[16] : &PIXEL_PALETTE_TABLE[0];
-            tile_pixels = tgfx.Tile_Decoded[tile_n] + ((tile_attr & 0x04) ? (7 * 8) - tile_line : tile_line);
+            const u16* tile_palette = (tile_attr & 0x08) ? &PIXEL_PALETTE_TABLE[16] : &PIXEL_PALETTE_TABLE[0];
+            const u8* tile_pixels = tgfx.Tile_Decoded[tile_n] + ((tile_attr & 0x04) ? (7 * 8) - tile_line : tile_line);
 
             switch (tile_attr & 0x12)
             {
@@ -562,7 +550,10 @@ void        Refresh_Sprites_5 (bool draw)
 
         Sprite_Last = 0;
         Sprites_on_Line = 0;
-        Find_Last_Sprite (Wide_Screen_28, height, tsms.VDP_Line);
+        if (Wide_Screen_28)
+			Find_Last_Sprite_Wide(height, tsms.VDP_Line);
+		else
+			Find_Last_Sprite(height, tsms.VDP_Line);
 
         // Return if there's no sprite on this line
         if (Sprites_on_Line == 0)
@@ -602,7 +593,8 @@ void        Refresh_Sprites_5 (bool draw)
         int     x, y, n;
         byte *  p_src;
         int     j;
-        byte *  spr_map_xn = &sprite_attribute_table[0x80];
+		const u8 * spr_map = cur_machine.VDP.sprite_attribute_table;
+        const u8 * spr_map_xn = &spr_map[0x80];
         int     spr_map_xn_offset;
         int     spr_map_n_mask = 0x01FF;
 
@@ -610,7 +602,7 @@ void        Refresh_Sprites_5 (bool draw)
         if (cur_machine.VDP.model == VDP_MODEL_315_5124)
         {
             if ((sms.VDP[5] & 1) == 0)
-                spr_map_xn = &sprite_attribute_table[0x00];
+                spr_map_xn = &spr_map[0x00];
             if ((sms.VDP[6] & 1) == 0)
                 spr_map_n_mask &= ~0x0080;
             if ((sms.VDP[6] & 2) == 0)
@@ -627,7 +619,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = sprite_attribute_table[j];
+                    y = spr_map[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -657,7 +649,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = sprite_attribute_table[j];
+                    y = spr_map[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -688,7 +680,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = sprite_attribute_table[j];
+                    y = spr_map[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -725,7 +717,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = sprite_attribute_table[j];
+                    y = spr_map[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 

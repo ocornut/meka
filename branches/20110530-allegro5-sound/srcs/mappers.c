@@ -199,12 +199,10 @@ WRITE_FUNC (Write_Default)
 // [MAPPER: 32K RAM/SC-3000] WRITE BYTE ---------------------------------------
 WRITE_FUNC (Write_Mapper_32kRAM)
 {
-	switch (Addr >> 13)
+	const unsigned int page = (Addr >> 13);
+	if (page >= 4)
 	{
-	case 4: Mem_Pages [4] [Addr] = Value; return;
-	case 5: Mem_Pages [5] [Addr] = Value; return;
-	case 6: Mem_Pages [6] [Addr] = Value; return;
-	case 7: Mem_Pages [7] [Addr] = Value; return;
+		Mem_Pages[page][Addr] = Value; return;
 	}
 }
 
@@ -533,9 +531,10 @@ WRITE_FUNC (Write_Mapper_SMS_ActionReplay)
 // [MAPPER: DEFAULT] READ BYTE ------------------------------------------------
 READ_FUNC (Read_Default)
 {
- //if (Addr == 0x68F8)
- //   Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), CPU_GetPC, Addr);
- return (Mem_Pages [Addr >> 13] [Addr]);
+	//if (Addr == 0x68F8)
+	//   Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), CPU_GetPC, Addr);
+	const unsigned int page = (Addr >> 13);
+	return (Mem_Pages [page] [Addr]);
 }
 
 // [MAPPER: 93c46 EEPROM] READ BYTE -------------------------------------------

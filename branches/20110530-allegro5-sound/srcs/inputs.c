@@ -185,7 +185,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                Action_Switch_Layer_Background();
            // Next frame (pause hack)
            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-               Machine_Pause_Need_To = (machine & MACHINE_PAUSED) ? 2 : 1;
+               Machine_Pause_Need_To = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
 
            if (!sk1100_pressed)
            {

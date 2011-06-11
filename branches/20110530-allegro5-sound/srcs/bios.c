@@ -32,7 +32,7 @@ void    BIOS_Switch_to_Game (void)
 void    BIOS_Unload (void)
 {
 	ROM = Game_ROM;
-	machine |= MACHINE_NOT_IN_BIOS;
+	g_machine_flags |= MACHINE_NOT_IN_BIOS;
 }
 
 //-----------------------------------------------------------------------------

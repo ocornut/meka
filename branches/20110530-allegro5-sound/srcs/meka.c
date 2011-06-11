@@ -68,7 +68,6 @@ u8 *    ROM;                        // Emulated ROM
 u8 *    Game_ROM;                   // Cartridge ROM
 u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
 u8 *    Mem_Pages [8];              // Pointer to memory pages
-u8 *	sprite_attribute_table;
 }
 
 u8 *    BACK_AREA = NULL;
@@ -411,7 +410,7 @@ int main(int argc, char **argv)
     FB_Init_2               (); // Finish initializing the file browser
 
     // Setup initial state (fullscreen/GUI)
-    if ((machine & MACHINE_RUN) == MACHINE_RUN && !g_Configuration.start_in_gui)
+    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_Configuration.start_in_gui)
         g_env.state = MEKA_STATE_GAME;
     else
         g_env.state = MEKA_STATE_GUI;

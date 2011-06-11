@@ -111,7 +111,7 @@ void        Inputs_Emulation_Update (bool running)
     // for emulation should run for all frames (including skipped ones).
     // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
     // and I use an easy path, that is until rewriting the GUI.
-    if (g_env.state == MEKA_STATE_GUI && !(machine & MACHINE_PAUSED))
+    if (g_env.state == MEKA_STATE_GUI && !(g_machine_flags & MACHINE_PAUSED))
 	{
         if (gui.boxes_z_ordered[0] && (gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE) != 0)
         {

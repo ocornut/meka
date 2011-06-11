@@ -242,10 +242,10 @@ void    Tms_VDP_Out (int vdp_register, int value)
      case 5: switch (cur_drv->vdp)
                 {
                 case VDP_SMSGG:
-                     sprite_attribute_table = VRAM + (((int)value << 7) & 0x3F00);
+                     cur_machine.VDP.sprite_attribute_table = VRAM + (((int)value << 7) & 0x3F00);
                      break;
                 case VDP_TMS9918:
-                     sprite_attribute_table = VRAM + ((int)(value & 0x7F) << 7);
+                     cur_machine.VDP.sprite_attribute_table = VRAM + ((int)(value & 0x7F) << 7);
                      break;
                 }
              break;

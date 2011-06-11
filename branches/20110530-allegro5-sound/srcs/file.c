@@ -616,7 +616,7 @@ void    Load_ROM_Misc (int reset)
     if (reset || cur_machine.driver_id != DRV_SF7000)
     {
         Machine_Init ();
-        machine |= MACHINE_ROM_LOADED;
+        g_machine_flags |= MACHINE_ROM_LOADED;
         Machine_Insert_Cartridge ();
         Machine_ON ();
     }

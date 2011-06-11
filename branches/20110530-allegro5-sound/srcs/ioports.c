@@ -116,7 +116,7 @@ switch (Port /* & 0xFF*/)
 
  // 0xFF/255: Switch from BIOS to Cartridge -----------------------------------
  // FIXME: This is awful! If anyone sees this, say goodbye to my honor.
- case 0xFF: if ((machine & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
+ case 0xFF: if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
 			{
 				BIOS_Switch_to_Game ();
 			}
