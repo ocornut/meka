@@ -94,6 +94,7 @@ int		Sound_Init(void)
 		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
 		return (MEKA_ERR_FAIL);
 	}
+	ConsolePrintf ("\n");
 
     // Initialize Sound card
     // Start in pause mode, to avoid sound update on startup (could crash, before everything is initialized)

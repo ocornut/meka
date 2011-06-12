@@ -223,11 +223,6 @@ struct t_meka_env_paths
     char    MediaImageFile          [FILENAME_LEN];     // FIXME: abstract media (per type/slot)
 
     char    DocumentationMain       [FILENAME_LEN];
-#ifdef ARCH_WIN32
-    char    DocumentationMainW      [FILENAME_LEN];
-#elif ARCH_UNIX
-    char    DocumentationMainU      [FILENAME_LEN];
-#endif
     char    DocumentationCompat     [FILENAME_LEN];
     char    DocumentationMulti      [FILENAME_LEN];
     char    DocumentationChanges    [FILENAME_LEN];

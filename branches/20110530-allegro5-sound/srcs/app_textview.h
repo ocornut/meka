@@ -57,12 +57,6 @@ void                TextViewer_Update(t_app_textviewer *tv);
 void                TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file);
 
 void                TextViewer_Switch_Doc_Main(void);
-#ifdef ARCH_WIN32
-void                TextViewer_Switch_Doc_MainW(void);
-#endif
-#ifdef ARCH_UNIX
-void                TextViewer_Switch_Doc_MainU(void);
-#endif
 void                TextViewer_Switch_Doc_Compat(void);
 void                TextViewer_Switch_Doc_Multiplayer_Games(void);
 void                TextViewer_Switch_Doc_Changes(void);

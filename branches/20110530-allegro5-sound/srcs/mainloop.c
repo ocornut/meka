@@ -43,7 +43,7 @@ void    Main_Loop (void)
         CPU_Loop_Stop = FALSE;
         if ((g_machine_flags & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON)
         {
-            Sound_Playback_Start ();
+            Sound_Playback_Start();
             {
                 #ifdef MARAT_Z80
                     #ifdef MEKA_Z80_DEBUGGER
@@ -59,14 +59,14 @@ void    Main_Loop (void)
                             RunZ80 (&sms.R);
                         }
                 #else
-                    CPU_Loop ();
+                    CPU_Loop();
                 #endif
             }
         }
         else // Machine is powered off or paused
         {
-            Sound_Playback_Stop ();
-            Main_Loop_No_Emulation ();
+            Sound_Playback_Stop();
+            Main_Loop_No_Emulation();
         }
         if (opt.Force_Quit)
         {

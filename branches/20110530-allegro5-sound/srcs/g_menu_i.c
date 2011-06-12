@@ -200,12 +200,6 @@ void        gui_menus_init (void)
     // HELP
     //-------------------------------------------------------------------------
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Documentation),  AM_Active | Is_Checked (TextViewer.active), (t_menu_callback)TextViewer_Switch_Doc_Main, NULL);
-    #ifdef ARCH_WIN32
-        menu_add_item (menus_ID.help,      Msg_Get (MSG_Menu_Help_Documentation_W),AM_Active, (t_menu_callback)TextViewer_Switch_Doc_MainW, NULL);
-    #endif
-    #ifdef ARCH_UNIX
-        menu_add_item (menus_ID.help,      Msg_Get (MSG_Menu_Help_Documentation_U),AM_Active, (t_menu_callback)TextViewer_Switch_Doc_MainU, NULL);
-    #endif
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Compat),         AM_Active, (t_menu_callback)TextViewer_Switch_Doc_Compat, NULL);
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Multiplayer_Games),AM_Active, (t_menu_callback)TextViewer_Switch_Doc_Multiplayer_Games, NULL);
     menu_add_item     (menus_ID.help,      Msg_Get (MSG_Menu_Help_Changes),        AM_Active, (t_menu_callback)TextViewer_Switch_Doc_Changes, NULL);

@@ -253,7 +253,7 @@ void    Video_Setup_State(void)
             if (Video_ChangeVideoMode(g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
             {
                 g_env.state = MEKA_STATE_GUI;
-                Video_Setup_State ();
+                Video_Setup_State();
                 Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
                 return;
             }

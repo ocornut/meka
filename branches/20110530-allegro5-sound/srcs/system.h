@@ -46,30 +46,18 @@
 // Allegro Library
 //-----------------------------------------------------------------------------
 
-//#ifndef ALLEGRO_STATICLINK
-//    #define ALLEGRO_STATICLINK
-//#endif
-#define alleg_flic_unused
-#define alleg_sound_unused
-#define alleg_gui_unused
-#define alleg_math_unused
-#define ALLEGRO_NO_COMPATIBILITY
 #ifdef ARCH_WIN32
 #define ALLEGRO_STATICLINK			// Unix users probably don't want static linking?
-#endif
-
-// FIXME-OPT: Because of bug in 4.2.* branch
-// What we need is to switch to 4.3.* but I cannot find precompiled binaries for that
-// See http://www.allegro.cc/forums/print-thread/598240
-#define ALLEGRO_NO_ASM		
+#endif	
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
+#ifdef ARCH_WIN32
+#include <allegro5/allegro_windows.h>
+#endif
 #include "allegro4to5.h"
-
-#undef MSG_USER             // To avoid mistyping MSG_USER instead of MSGT_USER. We don't use Allegro GUI anyway.
 
 #define MIN(x,y)     (((x) < (y)) ? (x) : (y))
 #define MAX(x,y)     (((x) > (y)) ? (x) : (y))

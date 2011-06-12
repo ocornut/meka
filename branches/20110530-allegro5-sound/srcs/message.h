@@ -441,8 +441,6 @@ enum
 	
 	MSG_Menu_Help,
 	MSG_Menu_Help_Documentation,
-	MSG_Menu_Help_Documentation_W,
-	MSG_Menu_Help_Documentation_U,
 	MSG_Menu_Help_Compat,
 	MSG_Menu_Help_Multiplayer_Games,
 	MSG_Menu_Help_Changes,
@@ -510,9 +508,5 @@ void    ConsolePrintf       (const char *format, ...) FORMAT_PRINTF (1);
 void    ConsolePrint        (const char *msg);
 void    ConsoleEnablePause  (void);
 bool    ConsoleWaitForAnswer(bool allow_run);
-
-//-- Old Messages (friends versions) ------------------------------------------
-// #define Message_Welcome_Joseph   "Joyeux Anniversaire Joseph !! ^_^"
-// #define Message_Welcome_Arnaud   "Que demander de mieux qu'un entourage de personnes a la fois passionnantes et talentueuses ? .. Donc voila une superbe version dedicacee de Mekarno, et tout et tout. Tu pourras meme prendre des captures avec F12 et les accrocher sur tes murs - j'en suis sur que tu le feras d'abord, hein avoues! Finissons donc cette dedicace avec des mots offrant le plus doux tes spectacles a ton ame talentueuse. Que le bonheur t'ennivre milles et une fois et que chaque moment puisse t'etre unique et jouissif a sa facon. Mine de rien je pourrais faire poete si je ne suis pas programmeur. Hehehe. Amuse toi bien! (PS: je passes chercher les cartons de jeux SMS quand tu veux! :) (PS2: et je te prend a n'importe quel jeu!)"
 
 //-----------------------------------------------------------------------------

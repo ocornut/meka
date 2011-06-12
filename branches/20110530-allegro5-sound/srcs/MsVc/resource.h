@@ -19,6 +19,8 @@
 #define IDC_CHECK1                      1010
 #define IDC_SETUP_DEBUGGER_ENABLE       1010
 #define IDC_SETUP_LANGUAGE              1011
+#define IDC_SETUP_RESOLUTION            1012
+#define IDC_SETUP_RESOLUTION_TEXT       1013
 
 // Next default values for new objects
 // 

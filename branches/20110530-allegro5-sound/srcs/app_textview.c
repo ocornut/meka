@@ -138,48 +138,17 @@ int             TextViewer_Open(t_app_textviewer *tv, const char *title, const c
     return (MEKA_ERR_OK);
 }
 
-
 #define DOC_MAIN        (0)
-#ifdef ARCH_WIN32
-  #define DOC_MAIN_WIN    (1)
-  #define DOC_COMPAT      (2)
-  #define DOC_MULTI       (3)
-  #define DOC_CHANGES     (4)
-  #define DOC_DEBUGGER    (5)
-  #define DOC_MAX         (6)
-#elif ARCH_UNIX
-  #define DOC_MAIN_UNIX   (1)
-  #define DOC_COMPAT      (2)
-  #define DOC_MULTI       (3)
-  #define DOC_CHANGES     (4)
-  #define DOC_DEBUGGER    (5)
-  #define DOC_MAX         (6)
-#else
-  #define DOC_COMPAT      (1)
-  #define DOC_MULTI       (2)
-  #define DOC_CHANGES     (3)
-  #define DOC_DEBUGGER    (4)
-  #define DOC_MAX         (5)
-#endif
+#define DOC_COMPAT      (1)
+#define DOC_MULTI       (2)
+#define DOC_CHANGES     (3)
+#define DOC_DEBUGGER    (4)
+#define DOC_MAX         (5)
 
 void            TextViewer_Switch_Doc_Main(void)
 { 
     TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain, DOC_MAIN); 
 }
-
-#ifdef ARCH_WIN32
-void            TextViewer_Switch_Doc_MainW(void)
-{ 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMainW, DOC_MAIN_WIN); 
-}
-#endif
-
-#ifdef ARCH_UNIX
-void            TextViewer_Switch_Doc_MainU(void)
-{ 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMainU, DOC_MAIN_UNIX); 
-}
-#endif
 
 void            TextViewer_Switch_Doc_Compat(void)
 { 

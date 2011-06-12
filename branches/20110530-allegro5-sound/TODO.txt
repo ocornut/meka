@@ -1,8 +1,8 @@
 
 Meka 0.80 check list
 - fixed sound
-- load meka.dat from .exe directory
 - game gear stereo
+- start window in foreground
 - add setup with resolution and dx/opengl selection
 - solve vsync and refresh rate issues, at least be able to enable vsync?
 - have a pass at checking all features
@@ -10,6 +10,7 @@ Meka 0.80 check list
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
 - reorganize inputs configuration panel?
+- end-user timing (message time, double click) shouldn't be measured in emulated frames
 
 - bug reports:
   - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. " 

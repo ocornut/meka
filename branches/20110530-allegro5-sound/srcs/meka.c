@@ -414,12 +414,12 @@ int main(int argc, char **argv)
         g_env.state = MEKA_STATE_GAME;
     else
         g_env.state = MEKA_STATE_GUI;
-    Video_Setup_State ();
+    Video_Setup_State();
 
     // Start main program loop
     // Everything runs from there.
     // Z80_Opcodes_Usage_Reset ();
-    Main_Loop               (); 
+    Main_Loop(); 
     // Z80_Opcodes_Usage_Print ();
 
     // Shutting down emulator...

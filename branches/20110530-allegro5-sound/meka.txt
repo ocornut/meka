@@ -1,5 +1,5 @@
 
-  MEKA 0.73 - Documentation
+  MEKA 0.74 - Documentation
  ===========================
   Multi machine emulator for MS-Windows, GNU/Linux, etc.
   (c) in 1998-2011 by MEKA team (Omar Cornut and contributors, list below).
@@ -63,6 +63,11 @@
 
  The MS-DOS version has been discontinued after version 0.70 (April 2005).
  You can still grab older versions from the official site.
+ 
+ The Windows version is the main development version.
+ 
+ The GNU/Linux version should be working but needs a maintainer.
+ Could this be you?
  
  Now let me tell you more about the cool systems that MEKA emulates!
 

@@ -91,8 +91,6 @@ static void     Check_OverDump (void)
 //-----------------------------------------------------------------------------
 void    Filenames_Init(void)
 {
-    char *p;
-
     // Get and save current directory
     getcwd (g_env.Paths.StartingDirectory, countof(g_env.Paths.StartingDirectory));
 
@@ -101,7 +99,7 @@ void    Filenames_Init(void)
     #ifndef ARCH_UNIX
         StrReplace (g_env.Paths.EmulatorDirectory, '\\', '/');
     #endif
-    p = strrchr (g_env.Paths.EmulatorDirectory, '/');
+    char* p = strrchr (g_env.Paths.EmulatorDirectory, '/');
     if (p)
         *p = EOSTR;
     else
@@ -122,7 +120,7 @@ void    Filenames_Init(void)
         g_env.Paths.EmulatorDirectory [len + 1] = EOSTR;
     }
 #else
-    strlwr (g_env.Paths.EmulatorDirectory);
+    //strlwr (g_env.Paths.EmulatorDirectory);
 #endif
 
     // Datafiles
@@ -139,11 +137,6 @@ void    Filenames_Init(void)
 
     // Documentations
     sprintf (g_env.Paths.DocumentationMain,       "%s/meka.txt",      g_env.Paths.EmulatorDirectory);
-#ifdef ARCH_WIN32
-    sprintf (g_env.Paths.DocumentationMainW,      "%s/mekaw.txt",     g_env.Paths.EmulatorDirectory);
-#elif ARCH_UNIX
-    sprintf (g_env.Paths.DocumentationMainU,      "%s/mekanix.txt",   g_env.Paths.EmulatorDirectory);
-#endif
     sprintf (g_env.Paths.DocumentationCompat,     "%s/compat.txt",    g_env.Paths.EmulatorDirectory);
     sprintf (g_env.Paths.DocumentationMulti,      "%s/multi.txt",     g_env.Paths.EmulatorDirectory);
     sprintf (g_env.Paths.DocumentationChanges,    "%s/changes.txt",   g_env.Paths.EmulatorDirectory);
@@ -221,8 +214,6 @@ bool    Reload_ROM (void)
 //-----------------------------------------------------------------------------
 bool    Load_ROM (int mode, int user_verbose)
 {
-    int   reset;
-
     // Set file global flag
     Loading_UserVerbose = user_verbose;
 
@@ -256,11 +247,8 @@ bool    Load_ROM (int mode, int user_verbose)
         }
     }
 
-    // If we are already in SF-7000 mode, do not reset ---------------------------
-    if (cur_drv->id == DRV_SF7000)
-        reset = FALSE;
-    else
-        reset = TRUE;
+    // If we are already in SF-7000 mode, do not reset (allows hot switching disks)
+	const bool reset = (cur_drv->id != DRV_SF7000);
 
     // Miscellaenous stuff (including reset)
     Load_ROM_Misc (reset);

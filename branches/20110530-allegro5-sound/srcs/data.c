@@ -37,7 +37,7 @@ static void* Data_CopyInBiggerArea(void *src, int src_size, int dst_size)
 static void* Data_LoadBinary(const char* name)
 {
 	char filename_buf[FILENAME_LEN];
-	sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.StartingDirectory, name);
+	sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.EmulatorDirectory, name);
 
 	FILE* f = fopen(filename_buf, "rb");
 	fseek(f, 0, SEEK_END);
@@ -66,7 +66,7 @@ static bool Data_LoadBitmap(ALLEGRO_BITMAP** pbitmap, const char* name)
 	if (DataProcessFlags & DATA_PROCESS_LOAD)
 	{
 		char filename_buf[FILENAME_LEN];
-		sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.StartingDirectory, name);
+		sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.EmulatorDirectory, name);
 
 		// Even when loaded from a file the system use the format specified by manually (good!)
 		al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
@@ -127,7 +127,7 @@ static bool Data_LoadFontA4(ALLEGRO_FONT** pfont, const char* name)
 	if (DataProcessFlags & DATA_PROCESS_LOAD)
 	{
 		char filename_buf[FILENAME_LEN];
-		sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.StartingDirectory, name);
+		sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.EmulatorDirectory, name);
 
 		*pfont = al_load_bitmap_font(filename_buf);
 		if (!*pfont)

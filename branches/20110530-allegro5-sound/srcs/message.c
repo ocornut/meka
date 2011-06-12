@@ -445,8 +445,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
 
 	__MSG_ADD(MSG_Menu_Help),
 	__MSG_ADD(MSG_Menu_Help_Documentation),
-	__MSG_ADD(MSG_Menu_Help_Documentation_W),
-	__MSG_ADD(MSG_Menu_Help_Documentation_U),
 	__MSG_ADD(MSG_Menu_Help_Compat),
 	__MSG_ADD(MSG_Menu_Help_Multiplayer_Games),
 	__MSG_ADD(MSG_Menu_Help_Changes),
