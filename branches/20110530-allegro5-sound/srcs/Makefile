@@ -1,10 +1,7 @@
 #------------------------------------------------------
 # MEKA - Makefile
-# 1998-2008
+# 1998-2011
 # http://www.smspower.org/meka
-# (c) Omar Cornut and contributors
-#     Hiromitsu Shioya (Sound stuff), Started on the 12 February 1999
-#     Marat Faizullin (Z80Marat/*), 1994-1998
 # Refer to MEKA.TXT file for full credits information.
 #------------------------------------------------------
 # Best viewed with TAB=8
@@ -64,7 +61,7 @@ MV      = ren
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_DOS -DX86_ASM
-INC_OS  = -I../libs/seal/include -I$(LIBPNGDIR) -I$(ZLIBDIR)
+INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
 X86_ASM = yes
 #--- Libraries
 LIB_OS  = -lm -L$(LIBPNGDIR)
@@ -94,7 +91,6 @@ X86_ASM = yes
 LIB_OS  = -Llibs -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread -L../lib  # This may require an update
 LIB_OS += -lXcursor -lXpm
 LIB_OS += -lXxf86dga -lXxf86vm
-# -lossaudio
 endif
 
 #---[ MACOSX/GCC ]---------------------------------------
@@ -115,7 +111,7 @@ MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_MACOSX -DUNIX -DX86_ASM
-INC_OS  = -Ilibs -I../include -I../libs/seal/include `pkg-config libpng --cflags` # This may require an update
+INC_OS  = -Ilibs -I../include `pkg-config libpng --cflags` # This may require an update
 X86_ASM = yes
 #--- Libraries
 LIB_OS  = `pkg-config libpng --libs`
@@ -141,7 +137,7 @@ RC      = rc
 
 #--- Definitions
 DEF_OS  = -DARCH_WIN32 -DX86_ASM
-INC_OS  = -I../libs/seal/include -I$(LIBPNGDIR) -I$(ZLIBDIR)
+INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
 X86_ASM = yes
 
 #--- Librairies
@@ -177,23 +173,8 @@ CPU_CORE = marat
 #-----------------------------------------------------
 ifeq ($(OPT_SOUND), yes)
 DEF_SOUND = -DMEKA_SOUND
-OBJ_SOUND = $(OD)/sound/sound.o $(OD)/sound/s_misc.o $(OD)/sound/s_opl.o $(OD)/sound/s_log.o $(OD)/sound/sasound.o $(OD)/sound/psg.o $(OD)/sound/fmeditor.o $(OD)/sound/wav.o $(OD)/sound/vgm.o $(OD)/sound/fmunit.o $(OD)/sound/ym2413hd.o 
+OBJ_SOUND = $(OD)/sound/sound.o $(OD)/sound/s_misc.o $(OD)/sound/sound_logging.o $(OD)/sound/psg.o $(OD)/sound/fmeditor.o $(OD)/sound/wav.o $(OD)/sound/vgm.o $(OD)/sound/fmunit.o
 OBJ_SOUND += $(OD)/sound/emu2413/emu2413.o $(OD)/sound/emu2413/mekaintf.o
-ifeq ($(SYSTEM), dos)
-LIB_SOUND = -L../libs/seal/lib -laudio
-endif
-
-ifeq ($(SYSTEM), unix)
-LIB_SOUND = -lseal
-endif
-
-ifeq ($(SYSTEM), macosx)
-OBJ_SOUND += $(OD)/sound/null_seal.o
-endif
-
-ifeq ($(SYSTEM), win32)
-LIB_SOUND = ../libs/seal/lib/win32/audw32vc.lib
-endif
 endif
 
 #-----------------------------------------------------
@@ -268,7 +249,7 @@ OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/games.o
 OBJ_CFG   = $(OD)/config.o $(OD)/config_v.o $(OD)/config_j.o
 OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/tools_t.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
-OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o $(OD)/m6502.a
+OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/nes.o $(OD)/nes_maps.o $(OD)/nes_ppu.o $(OD)/coleco.o $(OD)/fdc765.o
 OBJ_TOOLS = $(OD)/memory.o $(OD)/tools/libmy.o $(OD)/tools/liblist.o $(OD)/tools/libparse.o $(OD)/tools/tfile.o $(OD)/osd/misc.o $(OD)/osd/timer.o
@@ -356,7 +337,7 @@ OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT
 # Linking Rule
 #-----------------------------------------------------
 
-exe	: makedir buildupd.exe $(EXE)
+exe	: makedir $(EXE)
 
 $(EXE)	: $(OBJ_MEKA)
 ifneq ($(SYSTEM), win32)
@@ -368,11 +349,6 @@ endif
 #-----------------------------------------------------
 # Compiling Rules
 #-----------------------------------------------------
-
-# Compiling MEKA.C call buildupd.exe first to get build time
-$(OD)/meka.o : meka.c meka.h shared.h
-	./buildupd.exe
-	$(CC) $(CFLAGS) -c meka.c $(CC_OUT)$@
 
 # Custom Dependencies
 $(OD)/gui.o : gui.c gui.h shared.h meka.h
@@ -386,9 +362,6 @@ $(OD)/g_menu_t.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
 # $(OD)/data.o : data.c data.h g_colors.h
 
 # CPU emulators related compilation
-$(OD)/m6502.a : m6502/m6502.c m6502/m6502.h m6502/tables.h m6502/codes.h
-	$(CC) $(CFLAGS) -c m6502/m6502.c $(CC_OUT)$@
-
 $(OD)/z80marat.a : z80marat/Z80.c z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.c z80marat/Z80Call.c
 	$(CC) $(CFLAGS) -c z80marat/Z80.c $(CC_OUT)$@
 
@@ -438,13 +411,6 @@ help :
 	@echo "  makedir         - Create output directories"
 
 #-----------------------------------------------------
-# Tools
-#-----------------------------------------------------
-
-buildupd.exe : buildupd.c
-	gcc buildupd.c -o buildupd.exe -s $(DEF_OS) -Wall
-
-#-----------------------------------------------------
 # Distribution
 #-----------------------------------------------------
 
@@ -458,7 +424,6 @@ dist_src :
 	@echo Creating Dist/meka-src.zip
 	cd ..
 	-$(MKDIR) Dist
-	-$(RM) srcs/buildupd.exe
 	zip -9 Dist/meka-src.zip meka.blt meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm
 	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip setup.bat
 	zip -9 -r Dist/meka-src.zip data/*.*
@@ -467,7 +432,6 @@ dist_src :
 	zip -9 -D Dist/meka-src.zip srcs/*.*
 	zip -9 -r Dist/meka-src.zip srcs/docs/*.*
 	zip -9 -r Dist/meka-src.zip srcs/libaddon/*.*
-	zip -9 -r Dist/meka-src.zip srcs/m6502/*.*
 	zip -9 -r Dist/meka-src.zip srcs/osd/*.h srcs/osd/*.c
 	zip -9 -r Dist/meka-src.zip srcs/sound/*.h srcs/sound/*.c
 	zip -9 -r Dist/meka-src.zip srcs/sound/emu2413/*.h srcs/sound/emu2413/*.c
@@ -537,7 +501,6 @@ endif
 
 # Cleaning rules -------------------------------------
 clean :		clean_backup
-	$(RM) -f buildupd.exe
 	$(RM) -f $(OD)/*.o
 	$(RM) -f $(OD)/osd/*.o
 	$(RM) -f $(OD)/tools/*.o

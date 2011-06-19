@@ -132,6 +132,7 @@ typedef   signed int        s32;
 #else
 #endif
 #ifdef ARCH_UNIX
+  #define stricmp strcasecmp
   #define strnicmp strncasecmp
 #endif
 
