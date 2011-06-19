@@ -121,6 +121,12 @@ typedef   signed int        s32;
 // Miscellaneous
 //-----------------------------------------------------------------------------
 
+#undef FALSE
+#define FALSE (0)
+
+#undef TRUE
+#define TRUE (1)
+
 #ifdef ARCH_WIN32
   #define snprintf      _snprintf
 #else
