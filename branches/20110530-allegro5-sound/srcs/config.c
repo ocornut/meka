@@ -180,7 +180,7 @@ void        Configuration_Load (void)
 
     StrCpyPathRemoved(value, g_env.Paths.ConfigurationFile);
 #ifndef ARCH_UNIX
-    strupr(value);
+    StrUpper(value);
 #endif
     ConsolePrintf (Msg_Get(MSG_Config_Loading), value);
 

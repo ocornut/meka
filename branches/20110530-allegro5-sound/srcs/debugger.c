@@ -1222,7 +1222,7 @@ void    Debugger_Symbols_ListByName(char *search_name)
     {
         Debugger_Printf("Symbols matching \"%s\":\n", search_name);
         search_name = strdup(search_name);
-        strupr(search_name);
+        StrUpper(search_name);
     }
     else
     {
@@ -1329,7 +1329,7 @@ t_debugger_symbol *     Debugger_Symbol_Add(u16 addr, int bank, const char *name
     symbol->bank = bank;
     symbol->name = (char *)name;
     symbol->name_uppercase = strdup(name);
-    strupr(symbol->name_uppercase);
+    StrUpper(symbol->name_uppercase);
 
     // Add to global symbol list and CPU space list
     list_add(&Debugger.symbols, symbol);
@@ -2518,7 +2518,7 @@ void        Debugger_InputParseCommand(char *line)
 
     // Process command
     parse_getword(cmd, sizeof(cmd), &line, " ", 0, PARSE_FLAGS_NONE);
-    strupr(cmd);
+    StrUpper(cmd);
 
     // H - HELP
     if (!strcmp(cmd, "H") || !strcmp(cmd, "?") || !strcmp(cmd, "HELP"))
@@ -3759,7 +3759,8 @@ void	Debugger_History_AddLine(const char *line_to_add)
 	// Even when we find a matching entry, we will replace it by was what typed to keep last character casing.
 	// It's a rather useless detail, meaning it is indispensable.
 	line = strdup(line_to_add);
-	line_uppercase = strupr(strdup(line_to_add));
+	line_uppercase = strdup(line_to_add);
+	StrUpper(line_uppercase);
 
 	// Search for duplicate entry in history
 	for (n = 1; n < Debugger.history_count; n++)
@@ -3828,7 +3829,7 @@ bool        Debugger_History_Callback(t_widget *w, int level)
 		Debugger.history[0].line = strdup(widget_inputbox_get_value(w));
 		Debugger.history[0].line_uppercase = strdup(Debugger.history[0].line);
 		Debugger.history[0].cursor_pos = widget_inputbox_get_cursor_pos(w);
-		strupr(Debugger.history[0].line_uppercase);
+		StrUpper(Debugger.history[0].line_uppercase);
 	}
 
 	// Restore new item
@@ -3849,7 +3850,7 @@ void        Debugger_History_List(const char *search_term_arg)
 	{
 	    Debugger_Printf("History lines matching \"%s\":\n", search_term_arg);
 		search_term = strdup(search_term_arg);
-		strupr(search_term);
+		StrUpper(search_term);
 	}
 	else
 	{

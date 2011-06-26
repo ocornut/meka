@@ -249,7 +249,7 @@ static int      DB_Load_Entry (char *line)
     // Parse optional parameters
     while ((w = parse_getword(buf, 1024, &line, "=/", ';')) != NULL)
     {
-        strupr (w);
+        StrUpper(w);
         // printf ("field '%s'\n", w);
 
         if (!strncmp (w, "NAME_", 5))
@@ -428,7 +428,7 @@ static int      DB_Load_EntryOldFormat (char *line)
     // Parse optional parameters
     while ((w = parse_getword(buf, 1024, &line, "=,", ';')) != NULL)
     {
-        strupr (w);
+        StrUpper(w);
         // printf ("field '%s'\n", w);
         if (!strcmp (w, "JAPNAME"))
         {

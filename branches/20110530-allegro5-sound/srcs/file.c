@@ -401,7 +401,7 @@ int             Load_ROM_Zipped (void)
     // Setting driver ------------------------------------------------------------
     // Must be done there because we don't have the filename before..
     keepext(temp);
-    strupr(temp);
+    StrUpper(temp);
     cur_machine.driver_id = drv_get_from_filename_extension(temp);
 
     // Remove Header & Footer
@@ -548,7 +548,7 @@ int             Load_ROM_Main ()
     // Check extension ----------------------------------------------------------
     strcpy(filename_ext, g_env.Paths.MediaImageFile);
     keepext(filename_ext);
-    strupr(filename_ext);
+    StrUpper(filename_ext);
     if (strcmp(filename_ext, "ZIP") == 0)
     {
 #ifdef MEKA_ZIP

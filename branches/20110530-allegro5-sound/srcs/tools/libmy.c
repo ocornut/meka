@@ -76,6 +76,20 @@ int     StrNull (char *s)
  return (0);
 }
 
+void	StrUpper(char *s)
+{
+	char c;
+	while ((c = *s) != 0)
+	{
+		if (c >= 'a' && c <= 'z')
+		{
+			c = c - 'a' + 'A';
+			*s = c;
+		}
+		s++;
+	}
+}
+
 void    StrReplace (char *s, char c1, char c2)
 {
  while (*s)

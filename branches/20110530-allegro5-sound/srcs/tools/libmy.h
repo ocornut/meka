@@ -21,6 +21,7 @@ int             StrLenUnicode   (const unsigned short *s);
 
 int     StrNull                 (char *s);
 void    StrReplace              (char *s, char c1, char c2);
+void	StrUpper				(char *s);
 int     GetNbrHex               (const char *s);
 
 int     Power                   (int base, int power);

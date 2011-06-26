@@ -352,7 +352,7 @@ int main(int argc, char **argv)
     {
         g_env.argv[i] = strdup(argv[i]);
         //#ifndef ARCH_UNIX
-        //  strupr(g_env.argv[i]);
+        //  StrUpper(g_env.argv[i]);
         //#endif
     }
     g_env.argv[i] = NULL;

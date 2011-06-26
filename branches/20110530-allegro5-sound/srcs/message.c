@@ -682,7 +682,7 @@ int             Messages_Init_Parse_Line (char *line)
     }
     *p = EOSTR;
     Trim (line);
-    strupr (line);
+    StrUpper(line);
     Trim (p + 1);
     if ((p = strchr (p + 1, '\"')) == NULL)
     {
