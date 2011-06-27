@@ -109,7 +109,8 @@ static const t_key_info  KeyInfo_Table [] =
 
     { ALLEGRO_KEY_PAD_MINUS,    "Minus (Pad)",   KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PAD_PLUS,     "Plus (Pad)",    KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
-    { ALLEGRO_KEY_PAD_DELETE,   "Delete (Pad)",                       KEY_INFO_ALLOW_USE     },
+    { ALLEGRO_KEY_PAD_DELETE,   ". (Pad)",							  KEY_INFO_ALLOW_USE     },
+	{ 123,						". (Pad)",                            KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PAD_ENTER,    "Enter (Pad)",                        KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PRINTSCREEN,  "Print Screen",                       KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PAUSE,        "Pause",         0                                           },
