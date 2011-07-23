@@ -1,6 +1,8 @@
 
 Meka 0.80 check list
-- fixed sound
+- fix sound: latency, 50 hz, other modes?
+- fix inputs
+- remove sound debug window
 - game gear stereo
 - start window in foreground
 - add setup with resolution and dx/opengl selection
@@ -10,6 +12,7 @@ Meka 0.80 check list
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
 - reorganize inputs configuration panel?
+- pro action replay 
 - end-user timing (message time, double click) shouldn't be measured in emulated frames
 
 - bug reports:

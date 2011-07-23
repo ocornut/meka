@@ -38,6 +38,7 @@
  Alien Storm                                    -       Ok
  Alien Syndrome                                 FM      Ok
  Alien Syndrome (JP)                            FM      Ok
+ Alien Syndrome [Proto]                         FM     *Ok
  Altered Beast                                  FM      Ok
  American Baseball                              -       Ok
  American Pro Football                          -       Ok
@@ -501,7 +502,8 @@
  Xenon 2 - Megablast [Image Works]              -       Ok
  Xenon 2 - Megablast [Virgin]                   -       Ok
  Ys (JP)                                        FM      Ok
- Y's: The Vanished Omens                        3-       Ok
+ Y's: The Vanished Omens                        -       Ok
+ Y's: The Vanished Omens [Demo]                 FM     *Ok
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
  Zaxxon 3-D / Zaxxon 3D [Proto]                 (3D)		Ok
  Zillion [v0] / Akai Koudan Zillion             -       Ok
@@ -510,7 +512,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 493 games tested - 491 are "Ok" - Compatibility rate: 99.54%
+ 495 games tested - 493 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -537,7 +539,7 @@
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
  Bank Panic                                     Ok
- Bank Panic (TW)                               *Ok
+ Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
  Bomb Jack                                      Ok
  Borderline                                     Ok
@@ -550,40 +552,40 @@
  Champion Billiards                             Ok
  Champion Boxing [card]                         Ok
  Champion Boxing [cart]                         Ok
- Champion Boxing [cart] (TW)                   *Ok
+ Champion Boxing [cart] (TW)                    Ok
  Champion Golf [card]                           Ok
  Champion Golf [cart]                           Ok
  Champion Ice Hockey                            Ok
  Champion Kendou                                Ok
  Champion Pro Wrestling                         Ok
  Champion Soccer                                Ok
- Champion Soccer (TW)                          *Ok
+ Champion Soccer (TW)                           Ok
  Champion Tennis                                Ok
  Championship Lode Runner                       Ok (can't write to tape)
  Choplifter                                     Ok
  Choplifter [Proto]                             Ok
- Choplifter [chinese logo] (TW)                *Ok
- Choplifter [english logo] (TW)                *Ok
- Congo Bongo [v0]                               Ok
- Congo Bongo [v0] (TW)                         *Ok
- Congo Bongo [v1] (JP)                         *Ok
+ Choplifter [chinese logo] (TW)                 Ok
+ Choplifter [english logo] (TW)                 Ok
+ Congo Bongo [v0] (JP)                          Ok
+ Congo Bongo [v1]                               Ok
+ Congo Bongo [v1] (TW)                          Ok
  Doki Doki Penguin Land                         Ok
  Doki Doki Penguin Land (TW)                    Ok
  Dragon Wang [v0]                               Ok
  Dragon Wang [v0] [chinese logo] (TW)           Ok
- Dragon Wang [v0] [english logo] (TW)          *Ok
+ Dragon Wang [v0] [english logo] (TW)           Ok
  Dragon Wang [v1] (JP)                          Ok
  Drol                                           Ok
- Drol (TW)                                     *Ok
+ Drol (TW)                                      Ok
  Elevator Action                                Ok
- Elevator Action (TW)                          *Ok
+ Elevator Action (TW)                           Ok
  Exerion                                        Ok
  Exerion (TW)                                   Ok
  Flicky [v0]                                    Ok
  Flicky [v1]                                    Ok
- Flicky [v1] (TW)                              *Ok
+ Flicky [v1] (TW)                               Ok
  Girl's Garden                                  Ok
- Girl's Garden (TW)                            *Ok
+ Girl's Garden (TW)                             Ok
  Golgo 13                                       Ok
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
@@ -595,7 +597,7 @@
  Home Mahjong [v1] (TW)                         Ok
  Hustle Chumy                                   Ok
  Hyper Sports (Konami no)                       Ok
- Hyper Sports (Konami no) (TW)                 *Ok
+ Hyper Sports (Konami no) (TW)                  Ok
  Lode Runner                                    Ok
  Lode Runner (TW)                               Ok
  Mahjong [big 1983]                             Ok
@@ -612,7 +614,7 @@
  Ninja Princess                                 Ok
  Orguss                                         Ok
  Othello                                        Ok
- Othello (TW)                                  *Ok
+ Othello (TW)                                   Ok
  Pacar                                          Ok
  Pacar (TW)                                     Ok
  Pachinko                                       Ok
@@ -620,35 +622,36 @@
  Pachinko II (TW)                               Ok
  Ping Pong (Konami's) (TW)                      Ok
  Pitfall II ~The Lost Caverns~ [v0]             Ok
- Pitfall II ~The Lost Caverns~ [v0] [chin..(TW)*Ok
- Pitfall II ~The Lost Caverns~ [v0] [engl..(TW)*Ok
+ Pitfall II ~The Lost Caverns~ [v0] [chin..(TW) Ok
+ Pitfall II ~The Lost Caverns~ [v0] [engl..(TW) Ok
  Pitfall II ~The Lost Caverns~ [v1]             Ok
  Pop Flamer                                     Ok
  Pop Flamer (TW)                                Ok
  Rock n' Bolt                                   Ok
- Rock n' Bolt (TW)                             *Ok
+ Rock n' Bolt (TW)                              Ok
  Safari Hunting                                 Ok
  Safari Hunting (TW)                            Ok
  Safari Race                                    Ok
  Safari Race (JP)                               Ok
- Safari Race (TW)                              *Ok
+ Safari Race (TW)                               Ok
  Sega Flipper                                   Ok
  Sega Flipper (TW)                              Ok
  Sega Flipper [40k map]                         Ok
  Sega-Galaga                                    Ok
  Sega-Galaga (TW)                               Ok
  Serizawa Hachidan no Tsumeshogi                Ok
+ SG-1000 M2 Check Program                      *Ok
  Shinnyuushain Tooru-Kun (Konami no)            Ok
- Shinnyuushain Tooru-Kun (Konami no) (TW)      *Ok
+ Shinnyuushain Tooru-Kun (Konami no) (TW)       Ok
  Sindbad Mystery                                Ok
  Sindbad Mystery (TW)                           Ok
  Soukoban                                       Ok
  Space Invaders                                 Ok
- Space Invaders (TW)                           *Ok
+ Space Invaders (TW)                            Ok
  Space Slalom                                   Ok
  Star Force                                     Ok
  Star Force [A] (TW)                            Ok
- Star Force [B] (TW)                           *Ok
+ Star Force [B] (TW)                            Ok
  Star Jacker [v0] (JP)                          Ok
  Star Jacker [v1]                               Ok
  Star Jacker [v1] (TW)                          Ok
@@ -662,24 +665,25 @@
  Yamato (TW)                                    Ok
  Yie Ar Kung-Fu (TW)                            Ok
  Zaxxon                                         Ok
- Zaxxon (TW)                                   *Ok
+ Zaxxon (TW)                                    Ok
  Zippy Race                                     Ok
  Zippy Race (TW)                                Ok
  Zoom 909                                       Ok
- Zoom 909 (TW)                                 *Ok
+ Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 130 games tested - 130 are "Ok" - Compatibility rate: 100.00%
+ 131 games tested - 131 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- 007 James Bond                                 Ok
- 007 James Bond (TW)                            Ok
+ 007 James Bond [v2.6] [40k map]               *Ok
+ 007 James Bond [v2.7]                          Ok
+ 007 James Bond [v2.7] (TW)                     Ok
  Challenge Derby                                Ok
  Challenge Derby [40k map]                      Ok
  Guzzler                                        Ok
- Guzzler (TW)                                  *Ok
+ Guzzler (TW)                                   Ok
  Okamoto Ayako no Match Play Golf [A]           Ok
  Okamoto Ayako no Match Play Golf [B]           Ok
  Okamoto Ayako no Match Play Golf [B] (TW)      Ok
@@ -687,11 +691,12 @@
  Q*bert                                         Ok
  San-nin Mahjong                                Ok
  San-nin Mahjong (TW)                           Ok
- Space Armor [v0]                               Ok
+ Space Armor [v0] [40k map]                    *Ok
  Space Armor [v1]                               Ok
+ Space Armor [v2]                               Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  16 games tested - 15 are "Ok" - Compatibility rate: 93.75%
+  18 games tested - 17 are "Ok" - Compatibility rate: 94.44%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -712,7 +717,7 @@
  Tanoshii Sansuu (Shougaku 4-Nen Jou)           E-106   Ok
  Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map] E-106  *Ok
  Kagaku (Genso Kigou Master)                    E-107  *Ok
- Nihonshi Nenpyou                               E-108   Ok
+ Nihonshi Nenpyou                               E-108  *Ok
  Sekaishi Nenpyou                               E-109   Ok
  Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)      E-110  *Ok
  Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)    E-111  *Ok
@@ -836,6 +841,7 @@
  Doraemon Waku Waku Pocket Paradise (JP)            Ok
  Double Dragon / Double Dragon - The Revenge of B.. Ok
  Double Dragon [Proto]                              Ok
+ Dr. Franken [Demo]																	Ok
  Dr. Robotnik's Mean Bean Machine                   Ok
  Dracula (Bram Stoker's)                            Ok
  Dracula (Bram Stoker's) (US)                       Ok
@@ -1142,6 +1148,7 @@
  Super Golf (JP)                                    Ok
  Super Kick Off [SMS-GG]                            Ok
  Superman - The Man of Steel                        Ok
+ Superman - The Man of Steel [Proto]                Ok
  Super Momotarou Dentetsu III (JP)                  Ok
  Super Monaco GP                                    Ok
  Super Monaco GP (JP)                               Ok
@@ -1222,7 +1229,7 @@
  Zool                                               Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 476 games tested - 464 are "Ok" - Compatibility rate: 97.45%
+ 478 games tested - 466 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
