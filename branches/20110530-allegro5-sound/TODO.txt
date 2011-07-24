@@ -1,5 +1,6 @@
 
 Meka 0.80 check list
+- debug version leaves allegro.log is current directory
 - fix sound: latency, 50 hz, other modes?
 - fix inputs
 - game gear stereo

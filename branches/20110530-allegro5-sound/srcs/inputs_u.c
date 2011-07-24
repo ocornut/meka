@@ -437,8 +437,8 @@ void        Inputs_Sources_Update (void)
                     {
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
-							const float axis = state.stick[INPUT_MAP_GET_STICK(map->Idx)].axis[INPUT_MAP_GET_AXIS(map->Idx)];
-							map->Res = (INPUT_MAP_GET_DIR_LR(map->Idx) ? axis > INPUT_JOY_DEADZONE : axis < -INPUT_JOY_DEADZONE);
+							const float axis = state.stick[INPUT_MAP_UNPACK_STICK(map->Idx)].axis[INPUT_MAP_UNPACK_AXIS(map->Idx)];
+							map->Res = (INPUT_MAP_UNPACK_DIR_LR(map->Idx) ? axis > INPUT_JOY_DEADZONE : axis < -INPUT_JOY_DEADZONE);
                             break;
                         }
                     case INPUT_MAP_TYPE_JOY_BUTTON:

@@ -135,28 +135,26 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
-    int         x, y;
-    char *      MapName;
-    char        MapValue[128];
     t_input_src *input_src = Inputs.Sources [Inputs_CFG.Current_Source];
     t_input_map *Map = &input_src->Map[i];
 
-    MapName = Inputs_Get_MapName (input_src->type, i);
-    if (MapName == NULL)
+    const char* map_name = Inputs_Get_MapName (input_src->type, i);
+    if (map_name == NULL)
         return FALSE;
 
     // Set default font
     Font_SetCurrent(F_SMALL);
 
-    x = 165;
     // Shift Y position by 2 steps for analog devices
     if (input_src->flags & INPUT_SRC_FLAGS_ANALOG && i > INPUT_MAP_ANALOG_AXIS_Y_REL)
         i -= 2;
-    y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(F_CURRENT) + GUI_LOOK_LINES_SPACING_Y) + 7;
+    int x = 165;
+    int y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(F_CURRENT) + GUI_LOOK_LINES_SPACING_Y) + 7;
 
+    char map_value[128];
     if (Map->Idx == -1)
 	{
-        sprintf (MapValue, "<Null>");
+        sprintf (map_value, "<Null>");
 	}
     else
     {
@@ -165,20 +163,20 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
         case INPUT_SRC_TYPE_KEYBOARD:
             {
                 const t_key_info *key_info = KeyInfo_FindByScancode (Map->Idx);
-                strcpy (MapValue, key_info ? key_info->name : "error");
+                strcpy (map_value, key_info ? key_info->name : "error");
                 break;
             }
         case INPUT_SRC_TYPE_JOYPAD:
             switch (Map->Type)
             {
             case INPUT_MAP_TYPE_JOY_AXIS:
-                sprintf (MapValue, "Stick %d, Axis %d, %c",
-                    INPUT_MAP_GET_STICK(Map->Idx),
-                    INPUT_MAP_GET_AXIS(Map->Idx),
-                    INPUT_MAP_GET_DIR_LR(Map->Idx) ? '+' : '-');
+                sprintf (map_value, "Stick %d, Axis %d, %c",
+                    INPUT_MAP_UNPACK_STICK(Map->Idx),
+                    INPUT_MAP_UNPACK_AXIS(Map->Idx),
+                    INPUT_MAP_UNPACK_DIR_LR(Map->Idx) ? '+' : '-');
                 break;
             case INPUT_MAP_TYPE_JOY_BUTTON:
-                sprintf (MapValue, "Button %d", Map->Idx);
+                sprintf (map_value, "Button %d", Map->Idx);
                 break;
             }
             break;
@@ -186,12 +184,12 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
             switch (Map->Type)
             {
             case INPUT_MAP_TYPE_MOUSE_AXIS:
-                sprintf (MapValue, "Axis %d (%c)",
-                    INPUT_MAP_GET_AXIS(Map->Idx),
-                    'X' + INPUT_MAP_GET_AXIS(Map->Idx));
+                sprintf (map_value, "Axis %d (%c)",
+                    INPUT_MAP_UNPACK_AXIS(Map->Idx),
+                    'X' + INPUT_MAP_UNPACK_AXIS(Map->Idx));
                 break;
             case INPUT_MAP_TYPE_MOUSE_BUTTON:
-                sprintf (MapValue, "Button %d", Map->Idx+1);
+                sprintf (map_value, "Button %d", Map->Idx+1);
                 break;
             }
             break;
@@ -199,8 +197,8 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
     }
 
 	al_set_target_bitmap(app->box->gfx_buffer);
-    Font_Print(F_CURRENT, MapName, x + GUI_LOOK_FRAME_PAD_X, y, Color);
-    Font_Print(F_CURRENT, MapValue, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
+    Font_Print(F_CURRENT, map_name, x + GUI_LOOK_FRAME_PAD_X, y, Color);
+    Font_Print(F_CURRENT, map_value, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
     // y += Font_Height() + GUI_LOOK_LINES_SPACING_Y;
 
     // Set both checkbox widgets as dirty (because we drawn over them during the clear)
@@ -392,7 +390,7 @@ void    Inputs_CFG_Peripheral_Change_Handler (t_widget *w)
     Inputs_Peripheral_Next (player);
 }
 
-void    Inputs_CFG_Peripheral_Change (int Player, int Periph)
+void    Inputs_CFG_Peripheral_Change (int Player, t_input_peripheral Periph)
 {
     Inputs.Peripheral [Player] = Periph;
     Inputs_CFG_Peripherals_Draw ();
@@ -561,7 +559,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 			if (found)
 				break;
 
-            // Check axis
+            // Check axises
 			const int num_sticks = al_get_joystick_num_sticks(joystick);
             for (i = 0; i < num_sticks; i++)
             {
@@ -572,7 +570,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 					//Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
 					if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < -INPUT_JOY_DEADZONE)
                     {
-                        input_src->Map [Inputs_CFG.Current_Map].Idx = MAKE_STICK_AXIS_DIR (i, j, (axis_pos > 0.0f ? 1 : 0));
+                        input_src->Map [Inputs_CFG.Current_Map].Idx = INPUT_MAP_PACK_STICK_AXIS_DIR(i, j, (axis_pos > 0.0f ? 1 : 0));
                         input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_AXIS;
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));

@@ -54,7 +54,7 @@ void    Inputs_Peripheral_Next (int Player)
     if (Inputs.Peripheral [Player] == INPUT_SPORTSPAD) // Skip TV Oekaki
         Inputs.Peripheral [Player] = INPUT_JOYPAD;
     else
-        Inputs.Peripheral [Player] = (Inputs.Peripheral [Player] + 1) % INPUT_PERIPHERAL_MAX;
+		Inputs.Peripheral [Player] = (t_input_peripheral)((Inputs.Peripheral [Player] + 1) % INPUT_PERIPHERAL_MAX);
     if (Player == PLAYER_1)
         Inputs_Switch_Current ();
     else
@@ -305,29 +305,29 @@ void    Inputs_Switch_TVOekaki (void)
 
 void    Input_ROM_Change (void)
 {
-    int     input = INPUT_JOYPAD;
-    bool    glasses = FALSE;
-    if (DB.current_entry)
+    bool glasses = FALSE;
+    t_input_peripheral peripheral = INPUT_JOYPAD;
+
+	if (DB.current_entry)
     {
         if (DB.current_entry->emu_inputs != -1)
-            input = DB.current_entry->emu_inputs;
+            peripheral = (t_input_peripheral)DB.current_entry->emu_inputs;
         if (DB.current_entry->flags & DB_FLAG_EMU_3D)
             glasses = TRUE;
     }
-    if (Inputs.Peripheral [PLAYER_1] != input)
+    if (Inputs.Peripheral [PLAYER_1] != peripheral)
     {
-        Inputs.Peripheral [PLAYER_1] = input;
-        Inputs_Switch_Current ();
+        Inputs.Peripheral [PLAYER_1] = peripheral;
+        Inputs_Switch_Current();
     }
     if (Glasses.Enabled != glasses)
     {
-        Glasses_Switch_Enable ();
+        Glasses_Switch_Enable();
     }
 }
 
-byte    Input_Port_DC (void)
+u8	Input_Port_DC (void)
 {
-    byte   v;
     static int paddle_flip_flop = 0;
 
     if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
@@ -335,7 +335,7 @@ byte    Input_Port_DC (void)
         // Msg (MSGT_USER, "Keyboard read %d", sms.Input_Mode & 7);
         return (tsms.Control [sms.Input_Mode & 7] & 0xFF);
     }
-    v = tsms.Control[7] & 0xFF;
+    u8 v = tsms.Control[7] & 0xFF;
 
     if (Inputs.Peripheral [PLAYER_1] == INPUT_PADDLECONTROL
         || Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD
@@ -396,17 +396,16 @@ byte    Input_Port_DC (void)
     return (v);
 }
 
-byte    Input_Port_DD (void)
+u8	Input_Port_DD (void)
 {
-    byte   v;
-    static int paddle_flip_flop = 0;
+    static int paddle_flip_flop = 0;	// FIXME
 
     // SK-1100
     if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
         return (tsms.Control [sms.Input_Mode & 7]  >> 8);
 
     // Controllers
-    v = (tsms.Control[7]) >> 8;
+    u8 v = (tsms.Control[7]) >> 8;
 
     if (Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL
         || Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD)
@@ -571,7 +570,7 @@ const t_input_peripheral_info   Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX] =
     { "Terebi Oekaki"   }
 };
 
-char    *Inputs_Get_MapName (int Type, int MapIdx)
+const char*	Inputs_Get_MapName (int Type, int MapIdx)
 {
     switch (Type)
     {

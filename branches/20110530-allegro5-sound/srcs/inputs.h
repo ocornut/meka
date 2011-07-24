@@ -17,13 +17,17 @@ enum t_mouse_cursor
 	MEKA_MOUSE_CURSOR_WAIT,
 };
 
-// Peripherals
-#define  INPUT_JOYPAD           (0)
-#define  INPUT_LIGHTPHASER      (1)
-#define  INPUT_PADDLECONTROL    (2)
-#define  INPUT_SPORTSPAD        (3)
-#define  INPUT_TVOEKAKI         (4)
-#define  INPUT_PERIPHERAL_MAX   (5)
+// Note: casted to s8 in DB storage so make sure it fits.
+// Note: input configuration does a +1%max so we need consecutive integers.
+enum t_input_peripheral
+{
+	INPUT_JOYPAD			= 0,
+	INPUT_LIGHTPHASER		= 1,
+	INPUT_PADDLECONTROL		= 2,
+	INPUT_SPORTSPAD			= 3,
+	INPUT_TVOEKAKI			= 4,
+	INPUT_PERIPHERAL_MAX	= 5,
+};
 
 // Input Connection Possibilities ---------------------------------------------
 //
@@ -72,11 +76,11 @@ enum t_input_map_type
 	INPUT_MAP_TYPE_MOUSE_AXIS = 4,
 };
 
-#define INPUT_JOY_DEADZONE		(0.1f)			// -0.1f to 0.1f is neutral
+#define INPUT_JOY_DEADZONE		(0.2f)			// -0.2f to 0.2f is neutral
 
 struct t_input_peripheral_info
 {
-    char*	name;
+    const char*	name;
 };
 extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX];
 
@@ -105,11 +109,11 @@ extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_
 // Axis Index Coding ----------------------------------------------------------
 // Joypad: 00000000.0000000d.ssssssss.aaaaaaaa (Direction, Stick, Axis)
 // Mouse:  00000000.00000000.00000000.aaaaaaaa (Axis)
-#define      INPUT_MAP_GET_AXIS(m)         (m & 0x0000FF)
-#define      INPUT_MAP_GET_STICK(m)        ((m & 0x00FF00) >> 8)
-#define      INPUT_MAP_GET_DIR_LR(m)       (m & 0x010000)
-#define      MAKE_AXIS(a)                  (a)
-#define      MAKE_STICK_AXIS_DIR(s,a,d)    ((a & 0xFF) | ((s & 0xFF) << 8) | ((d & 0x01) << 16))
+#define INPUT_MAP_UNPACK_AXIS(m)				(m & 0x0000FF)
+#define INPUT_MAP_UNPACK_STICK(m)				((m & 0x00FF00) >> 8)
+#define INPUT_MAP_UNPACK_DIR_LR(m)				(m & 0x010000)
+#define INPUT_MAP_PACK_AXIS(a)					(a)
+#define	INPUT_MAP_PACK_STICK_AXIS_DIR(s,a,d)    ((a & 0xFF) | ((s & 0xFF) << 8) | ((d & 0x01) << 16))
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
@@ -132,16 +136,16 @@ struct t_input_map
 struct t_input_src
 {
     char *              name;                  
-    int					flags;					// enum t_input_src_flags // FIXME-ENUM               
+    int					flags;						// enum t_input_src_flags // FIXME-ENUM               
     t_input_src_type    type;
     bool                enabled;
-    int                 player;                 // PLAYER_1 or PLAYER_2
+    int                 player;						// PLAYER_1 or PLAYER_2
 
-    byte            Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
-    float           Analog_to_Digital_FallOff;  // Default: 0.8f
-    byte            Connected_and_Ready;        // No/Yes
-    t_input_map     Map[INPUT_MAP_MAX];
-    int             Map_Counters[INPUT_MAP_MAX];
+    int					Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
+    float				Analog_to_Digital_FallOff;  // Default: 0.8f
+    bool				Connected_and_Ready;        // No/Yes
+    t_input_map			Map[INPUT_MAP_MAX];
+    int					Map_Counters[INPUT_MAP_MAX];
 };
 
 // FIXME: yet unused
@@ -152,10 +156,10 @@ struct t_peripheral_paddlecontrol
 
 struct t_inputs
 {
-    char            FileName [FILENAME_LEN];        // Path to the MEKA.INP file
+    char            FileName[FILENAME_LEN];        // Path to the MEKA.INP file
 	t_mouse_cursor	mouse_cursor;
     // Emulation
-    byte            Peripheral [PLAYER_MAX];        // 2 inputs ports on emulated machines
+    t_input_peripheral	Peripheral[PLAYER_MAX];        // 2 inputs ports on emulated machines
     t_input_src **  Sources;
     int             Sources_Max;
     int             SK1100_Enabled;					// Boolean. Set when SK-1100 enabled.
@@ -165,15 +169,15 @@ struct t_inputs
    // Keyboard
     t_list *        KeyPressedQueue;                // Queued keypresses
     // GUI
-    int             Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
+    bool            Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
 };
 
 extern t_inputs Inputs;
 
-char *          Inputs_Get_MapName (int Type, int MapIdx);
-void            Inputs_Peripheral_Next (int Player);
-int             Inputs_Peripheral_Result_Type (int Periph);
-void            Inputs_Peripheral_Change_Update (void);
+const char *    Inputs_Get_MapName(int Type, int MapIdx);
+void            Inputs_Peripheral_Next(int Player);
+int             Inputs_Peripheral_Result_Type(int Periph);
+void            Inputs_Peripheral_Change_Update(void);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -192,8 +196,8 @@ void    Inputs_Switch_PaddleControl (void);
 void    Inputs_Switch_SportsPad     (void);
 void    Inputs_Switch_TVOekaki      (void);
 
-byte    Input_Port_DC               (void);
-byte    Input_Port_DD               (void);
+u8		Input_Port_DC               (void);
+u8		Input_Port_DD               (void);
 
 //-----------------------------------------------------------------------------
 

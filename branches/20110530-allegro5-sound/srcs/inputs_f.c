@@ -151,7 +151,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                     return MEKA_ERR_SYNTAX;
                 dir = atoi(w);
                 input_src->Map [MapIdx].Type = INPUT_MAP_TYPE_JOY_AXIS;
-                input_src->Map [MapIdx].Idx = MAKE_STICK_AXIS_DIR (stick, axis, dir);
+                input_src->Map [MapIdx].Idx = INPUT_MAP_PACK_STICK_AXIS_DIR(stick, axis, dir);
                 return MEKA_ERR_OK;
             }
 
@@ -195,7 +195,7 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                 if (!parse_getword(w, sizeof(w), &s, " \t", ';', PARSE_FLAGS_NONE))
                     return MEKA_ERR_SYNTAX;
                 input_src->Map [MapIdx].Type = input_src->Map [MapIdx + 2].Type = INPUT_MAP_TYPE_MOUSE_AXIS;
-                input_src->Map [MapIdx].Idx = input_src->Map [MapIdx + 2].Idx = MAKE_AXIS(atoi(w));
+                input_src->Map [MapIdx].Idx = input_src->Map [MapIdx + 2].Idx = INPUT_MAP_PACK_AXIS(atoi(w));
                 return MEKA_ERR_OK;
             }
 
@@ -304,168 +304,174 @@ void            Load_Inputs_Src_List (void)
 
 void    Write_Inputs_Src_List (void)
 {
- int    i, j;
+	if (!(INP_File = fopen (Inputs.FileName, "wt")))
+		return;
 
- if (!(INP_File = fopen (Inputs.FileName, "wt")))
-    return;
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("; " MEKA_NAME " " MEKA_VERSION " - Inputs Configuration");
+	INP_Write_Line ("; This file is automatically updated and rewritten when quitting");
+	INP_Write_Line ("; Feel free to edit this file manually if you feel the need to.");
+	INP_Write_Line ("; However, any comment you may manually add will be deleted!");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("");
 
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; " MEKA_NAME " " MEKA_VERSION " - Inputs Configuration");
- INP_Write_Line ("; This file is automatically updated and rewritten when quitting");
- INP_Write_Line ("; Feel free to edit this file manually if you feel the need to.");
- INP_Write_Line ("; However, any comment you may manually add will be deleted!");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("; Links:");
+	INP_Write_Line ("; Using a SMS/DB-9 controller on your computer:");
+	INP_Write_Line (";  - Read the TECH.TXT file at first!");
+	INP_Write_Line (";  - SmsCardPad");
+	INP_Write_Line (";    http://www.smspower.org/smscartpad/");
+	INP_Write_Line (";  - PPJoy joystick driver for Windows 2000/XP");
+	INP_Write_Line (";    http://www.geocities.com/deonvdw/");
+	INP_Write_Line ("; Schematics and drivers for various console controllers adapters:");
+	INP_Write_Line (";  - Direct Pad Pro");
+	INP_Write_Line (";    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("; Miscellaenous features:");
+	INP_Write_Line (";");
+	INP_Write_Line ("; Invert ESC (switch screens) and F10 (quit) keys. Arcade cabinet owners");
+	INP_Write_Line ("; often have the ESC key mapped to a certain button they want to quit with.");
+	INP_Write_Int  ("cabinet_mode        ", Inputs.Cabinet_Mode);
+	INP_Write_Line (";");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("; Template for creating new input sources:");
+	INP_Write_Line (";");
+	INP_Write_Line ("; [Name]");
+	INP_Write_Line ("; type = keyboard (digital) | joypad (digital) | mouse (analog)");
+	INP_Write_Line (";   Select the type of input device");
+	INP_Write_Line ("; enabled = yes | no");
+	INP_Write_Line (";   Set to no in order to tell Meka to ignore input from this device");
+	INP_Write_Line ("; player = 1 | 2");
+	INP_Write_Line (";   Player on which inputs are applicated");
+	INP_Write_Line ("; connection = <number>");
+	INP_Write_Line (";   Joypad only. Select connection to use: 1 = first pad, 2 = second pad..");
+	INP_Write_Line ("; emulate_digital");
+	INP_Write_Line (";   Mouse only. Enable support for digital devices (such as SMS joypad),");
+	INP_Write_Line (";   to play games with the mouse. Recommended with shooters mainly.");
+	INP_Write_Line ("; digital_falloff (between 0 and 1, default being 0.8)");
+	INP_Write_Line (";   Mouse only, when digital emulation is enabled. Reduce to increase");
+	INP_Write_Line (";   precision, but most games will be harder to play.");
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	INP_Write_Line ("");
 
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; Links:");
- INP_Write_Line ("; Using a SMS/DB-9 controller on your computer:");
- INP_Write_Line (";  - Read the TECH.TXT file at first!");
- INP_Write_Line (";  - SmsCardPad");
- INP_Write_Line (";    http://www.smspower.org/smscartpad/");
- INP_Write_Line (";  - PPJoy joystick driver for Windows 2000/XP");
- INP_Write_Line (";    http://www.geocities.com/deonvdw/");
- INP_Write_Line ("; Schematics and drivers for various console controllers adapters:");
- INP_Write_Line (";  - Direct Pad Pro");
- INP_Write_Line (";    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; Miscellaenous features:");
- INP_Write_Line (";");
- INP_Write_Line ("; Invert ESC (switch screens) and F10 (quit) keys. Arcade cabinet owners");
- INP_Write_Line ("; often have the ESC key mapped to a certain button they want to quit with.");
- INP_Write_Int  ("cabinet_mode        ", Inputs.Cabinet_Mode);
- INP_Write_Line (";");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("; Template for creating new input sources:");
- INP_Write_Line (";");
- INP_Write_Line ("; [Name]");
- INP_Write_Line ("; type = keyboard (digital) | joypad (digital) | mouse (analog)");
- INP_Write_Line (";   Select the type of input device");
- INP_Write_Line ("; enabled = yes | no");
- INP_Write_Line (";   Set to no in order to tell Meka to ignore input from this device");
- INP_Write_Line ("; player = 1 | 2");
- INP_Write_Line (";   Player on which inputs are applicated");
- INP_Write_Line ("; connection = <number>");
- INP_Write_Line (";   Joypad only. Select connection to use: 1 = first pad, 2 = second pad..");
- INP_Write_Line ("; emulate_digital");
- INP_Write_Line (";   Mouse only. Enable support for digital devices (such as SMS joypad),");
- INP_Write_Line (";   to play games with the mouse. Recommended with shooters mainly.");
- INP_Write_Line ("; digital_falloff (between 0 and 1, default being 0.8)");
- INP_Write_Line (";   Mouse only, when digital emulation is enabled. Reduce to increase");
- INP_Write_Line (";   precision, but most games will be harder to play.");
- INP_Write_Line (";-----------------------------------------------------------------------------");
- INP_Write_Line ("");
+	for (int i = 0; i < Inputs.Sources_Max; i++)
+	{
+		char s [256], s2 [256];
+		t_input_src *input_src = Inputs.Sources[i];
+		sprintf (s, "[%s]", input_src->name);
+		INP_Write_Line(s);
 
- for (i = 0; i < Inputs.Sources_Max; i++)
-   {
-   char s [256], s2 [256];
-   t_input_src *input_src = Inputs.Sources[i];
-   sprintf (s, "[%s]", input_src->name);
-   INP_Write_Line (s);
-   switch (input_src->type)
-     {
-     case INPUT_SRC_TYPE_KEYBOARD: sprintf (s, "keyboard");  break;
-     case INPUT_SRC_TYPE_JOYPAD:   sprintf (s, "joypad");    break;
-     case INPUT_SRC_TYPE_MOUSE:    sprintf (s, "mouse");     break;
-     }
-   INP_Write_Str ("type               ", s);
-   if (input_src->type == INPUT_SRC_TYPE_JOYPAD)
-      INP_Write_Int  ("connection         ", input_src->Connection_Port + 1);
-   INP_Write_Str ("enabled            ", input_src->enabled ? "yes" : "no");
-   INP_Write_Int ("player             ", input_src->player + 1);
-   for (j = 0; j < INPUT_MAP_MAX; j++)
-      {
-      int n = input_src->Map [j].Idx;
-      if (n == -1)
-         continue;
-      s[0] = EOSTR;
-      if (input_src->flags & INPUT_SRC_FLAGS_DIGITAL)
-        switch (j)
-          {
-          case INPUT_MAP_DIGITAL_UP:    strcpy (s, "player_up          "); break;
-          case INPUT_MAP_DIGITAL_DOWN:  strcpy (s, "player_down        "); break;
-          case INPUT_MAP_DIGITAL_LEFT:  strcpy (s, "player_left        "); break;
-          case INPUT_MAP_DIGITAL_RIGHT: strcpy (s, "player_right       "); break;
-          }
-      if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
-        switch (j)
-          {
-          case INPUT_MAP_ANALOG_AXIS_X: strcpy (s, "player_x_axis      "); break;
-          case INPUT_MAP_ANALOG_AXIS_Y: strcpy (s, "player_y_axis      "); break;
-          }
-      if (StrNull(s))
-        switch (j)
-          {
-          case INPUT_MAP_BUTTON1:     strcpy (s, "player_button1     "); break;
-          case INPUT_MAP_BUTTON2:     strcpy (s, "player_button2     "); break;
-          case INPUT_MAP_PAUSE_START: strcpy (s, "player_start_pause "); break;
-          case INPUT_MAP_RESET:       strcpy (s, "player_reset       "); break;
-          }
-      if (StrNull(s))
-         continue;
-      switch (input_src->type)
-        {
-        // Keyboard -----------------------------------------------------------
-        case INPUT_SRC_TYPE_KEYBOARD:
-            {
-                // Handle special case of the ; key that has to be backslashed
-                // Removed because... colon is actually ':', not ';' :)
-                // if (n == KEY_COLON)
-                //    sprintf (s2, "key \\;");
-                //else
-                {
-                    const t_key_info *key_info = KeyInfo_FindByScancode(n);
-                    char *key_name = key_info ? key_info->name : "error";
-                    char *key_name_escaped = parse_escape_string(key_name, NULL);
-                    sprintf(s2, "key %s", key_name_escaped ? key_name_escaped : key_name);
-                }
-                break;
-            }
-        // Joypad -------------------------------------------------------------
-        case INPUT_SRC_TYPE_JOYPAD:
-             switch (input_src->Map [j].Type)
-               {
-               case INPUT_MAP_TYPE_JOY_BUTTON:
-                  sprintf (s2, "joy_button %i", n);
-                  break;
-               case INPUT_MAP_TYPE_JOY_AXIS:
-                  sprintf (s2, "joy stick %i axis %i dir %i", INPUT_MAP_GET_STICK(n), INPUT_MAP_GET_AXIS(n), INPUT_MAP_GET_DIR_LR(n) ? 1 : 0);
-                  break;
-               }
-             break;
-        // Mouse --------------------------------------------------------------
-        case INPUT_SRC_TYPE_MOUSE:
-             switch (input_src->Map [j].Type)
-               {
-               case INPUT_MAP_TYPE_MOUSE_BUTTON:
-                  sprintf (s2, "mouse_button %i", n);
-                  break;
-               case INPUT_MAP_TYPE_MOUSE_AXIS:
-                  sprintf (s2, "mouse_axis %i", INPUT_MAP_GET_AXIS(n));
-                  break;
-               }
-             break;
-        }
-      if (!StrNull(s2))
-         INP_Write_Str(s, s2);
-      }
-   // Not yet implemented
-   // if (input_src->Result_Type == DIGITAL)
-   //   INP_Write_Str ("emulate_analog     ", (input_src->flags & INPUT_SRC_FLAGS_EMULATE_ANALOG) ? "yes" : "no");
-   if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
-      {
-      INP_Write_Str   ("emulate_digital    ", (input_src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) ? "yes" : "no");
-      INP_Write_Float ("digital_falloff    ", input_src->Analog_to_Digital_FallOff);
-      }
-   INP_Write_Line ("");
-   }
+		switch (input_src->type)
+		{
+		case INPUT_SRC_TYPE_KEYBOARD: sprintf (s, "keyboard");  break;
+		case INPUT_SRC_TYPE_JOYPAD:   sprintf (s, "joypad");    break;
+		case INPUT_SRC_TYPE_MOUSE:    sprintf (s, "mouse");     break;
+		}
+		INP_Write_Str ("type               ", s);
+		if (input_src->type == INPUT_SRC_TYPE_JOYPAD)
+			INP_Write_Int  ("connection         ", input_src->Connection_Port + 1);
+		INP_Write_Str ("enabled            ", input_src->enabled ? "yes" : "no");
+		INP_Write_Int ("player             ", input_src->player + 1);
 
- INP_Write_Line (";-----------------------------------------------------------------------------");
- fclose (INP_File);
+		for (int j = 0; j < INPUT_MAP_MAX; j++)
+		{
+			const int n = input_src->Map [j].Idx;
+			if (n == -1)
+				continue;
+			s[0] = EOSTR;
+			if (input_src->flags & INPUT_SRC_FLAGS_DIGITAL)
+			{
+				switch (j)
+				{
+				case INPUT_MAP_DIGITAL_UP:    strcpy (s, "player_up          "); break;
+				case INPUT_MAP_DIGITAL_DOWN:  strcpy (s, "player_down        "); break;
+				case INPUT_MAP_DIGITAL_LEFT:  strcpy (s, "player_left        "); break;
+				case INPUT_MAP_DIGITAL_RIGHT: strcpy (s, "player_right       "); break;
+				}
+			}
+			if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
+			{
+				switch (j)
+				{
+				case INPUT_MAP_ANALOG_AXIS_X: strcpy (s, "player_x_axis      "); break;
+				case INPUT_MAP_ANALOG_AXIS_Y: strcpy (s, "player_y_axis      "); break;
+				}
+			}
+			if (StrNull(s))
+			{
+				switch (j)
+				{
+				case INPUT_MAP_BUTTON1:     strcpy (s, "player_button1     "); break;
+				case INPUT_MAP_BUTTON2:     strcpy (s, "player_button2     "); break;
+				case INPUT_MAP_PAUSE_START: strcpy (s, "player_start_pause "); break;
+				case INPUT_MAP_RESET:       strcpy (s, "player_reset       "); break;
+				}
+			}
+			if (StrNull(s))
+				continue;
+			switch (input_src->type)
+			{
+				// Keyboard -----------------------------------------------------------
+			case INPUT_SRC_TYPE_KEYBOARD:
+				{
+					// Handle special case of the ; key that has to be backslashed
+					// Removed because... colon is actually ':', not ';' :)
+					// if (n == KEY_COLON)
+					//    sprintf (s2, "key \\;");
+					//else
+					{
+						const t_key_info *key_info = KeyInfo_FindByScancode(n);
+						char *key_name = key_info ? key_info->name : "error";
+						char *key_name_escaped = parse_escape_string(key_name, NULL);
+						sprintf(s2, "key %s", key_name_escaped ? key_name_escaped : key_name);
+					}
+					break;
+				}
+				// Joypad -------------------------------------------------------------
+			case INPUT_SRC_TYPE_JOYPAD:
+				switch (input_src->Map [j].Type)
+				{
+				case INPUT_MAP_TYPE_JOY_BUTTON:
+					sprintf (s2, "joy_button %i", n);
+					break;
+				case INPUT_MAP_TYPE_JOY_AXIS:
+					sprintf (s2, "joy stick %i axis %i dir %i", INPUT_MAP_UNPACK_STICK(n), INPUT_MAP_UNPACK_AXIS(n), INPUT_MAP_UNPACK_DIR_LR(n) ? 1 : 0);
+					break;
+				}
+				break;
+				// Mouse --------------------------------------------------------------
+			case INPUT_SRC_TYPE_MOUSE:
+				switch (input_src->Map [j].Type)
+				{
+				case INPUT_MAP_TYPE_MOUSE_BUTTON:
+					sprintf (s2, "mouse_button %i", n);
+					break;
+				case INPUT_MAP_TYPE_MOUSE_AXIS:
+					sprintf (s2, "mouse_axis %i", INPUT_MAP_UNPACK_AXIS(n));
+					break;
+				}
+				break;
+			}
+			if (!StrNull(s2))
+				INP_Write_Str(s, s2);
+		}
+		// Not yet implemented
+		// if (input_src->Result_Type == DIGITAL)
+		//   INP_Write_Str ("emulate_analog     ", (input_src->flags & INPUT_SRC_FLAGS_EMULATE_ANALOG) ? "yes" : "no");
+		if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
+		{
+			INP_Write_Str   ("emulate_digital    ", (input_src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) ? "yes" : "no");
+			INP_Write_Float ("digital_falloff    ", input_src->Analog_to_Digital_FallOff);
+		}
+		INP_Write_Line ("");
+	}
+
+	INP_Write_Line (";-----------------------------------------------------------------------------");
+	fclose (INP_File);
 }
 
 //-----------------------------------------------------------------------------
