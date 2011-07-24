@@ -4,12 +4,13 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "desktop.h"
 #include "fmunit.h"
 #include "fskipper.h"
 #include "psg.h"
 #include "emu2413/mekaintf.h"
 #include "sound_logging.h"
+#include "desktop.h"
+#include "g_widget.h"
 
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
@@ -506,8 +507,16 @@ void SoundDebugApp_Init()
     frame.size.y = 70;
 	app->active = true;
 	app->box = gui_box_new(&frame, "Sound Debug");
+	app->box->user_data = app;
 	app->box->update = SoundDebugApp_Update;
+	widget_closebox_add(app->box, (t_widget_callback)SoundDebugApp_Switch);
     Desktop_Register_Box("SOUND_DEBUG", app->box, 1, &app->active);
+}
+
+void SoundDebugApp_InstallMenuItems(int menu_parent)
+{
+	t_app_sound_debug* app = &SoundDebugApp;
+	menu_add_item(menu_parent, "Sound Debug", AM_Active | Is_Checked(app->active), (t_menu_callback)SoundDebugApp_Switch, app);
 }
 
 static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
@@ -550,6 +559,15 @@ void SoundDebugApp_Update()
 
     // Set redraw dirty flag
     app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+}
+
+// Called from closebox widget and menu handler
+void SoundDebugApp_Switch()
+{
+	t_app_sound_debug *app = &SoundDebugApp;
+	app->active ^= 1;
+	gui_box_show(app->box, app->active, TRUE);
+	gui_menu_inverse_check (menus_ID.sound, 4);	// FIXME-UGLY
 }
 
 //-----------------------------------------------------------------------------

@@ -18,19 +18,18 @@
 #define MENUS_PADDING_X     (8)
 #define MENUS_PADDING_Y     (4)
 
-#define ITEM_NOTHING        (0)
-#define ITEM_SUB_MENU       (1)
-#define ITEM_EXECUTE        (2)
-#define ITEM_BAR            (3)
+enum
+{
+	ITEM_NOTHING        = 0,
+	ITEM_SUB_MENU		= 1,
+	ITEM_EXECUTE		= 2,
+	ITEM_BAR			= 3,
+};
 
 // Definitions for Menus Attributes
 #define AM_Nothing          (0)
-#define AM_Active           (1)
-#define AM_Checked          (2)
-
-#define LOOK_UNKNOWN_       (-1)
-#define LOOK_THIN           (0)
-#define LOOK_ROUND          (1)
+#define AM_Active           (0x01)
+#define AM_Checked          (0x02)
 
 //-----------------------------------------------------------------------------
 // Functions

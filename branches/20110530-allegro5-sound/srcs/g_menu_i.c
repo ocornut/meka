@@ -164,6 +164,8 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.sound_log, Msg_Get (MSG_Menu_Sound_Dump_WAV_Start),        AM_Active, (t_menu_callback)Sound_LogWAV_Start, NULL);
     menu_add_item     (menus_ID.sound_log, Msg_Get (MSG_Menu_Sound_Dump_WAV_Stop),         AM_Nothing, (t_menu_callback)Sound_LogWAV_Stop, NULL);
 
+	SoundDebugApp_InstallMenuItems(menus_ID.sound);
+
     //-------------------------------------------------------------------------
     // INPUTS
     //-------------------------------------------------------------------------
