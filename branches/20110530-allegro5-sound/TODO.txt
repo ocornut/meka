@@ -117,12 +117,7 @@ Proppy session debugger notes:
 - want to set breakpoints on ROM addresses... b r $30000 
 - 'M hl-1' doesn't work
 
-3.
 <cgfm2> can I increase the SMS display window size in GUI mode?
-<cgfm2> at a high resolution, it's hard to keep the mouse cursor exactly within
-the width of the scrollbar when scrolling up/down
-<cgfm2> would it be possible to allow the mouse cursor to stray to the left or
-right a little, and still move the bar?
 
 Jacko: Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually 
 (like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 

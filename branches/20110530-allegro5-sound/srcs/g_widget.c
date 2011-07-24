@@ -15,7 +15,7 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define WIDGET_SCROLLBAR_MOUSE_TOLERANCE        (6)
+#define WIDGET_SCROLLBAR_MOUSE_TOLERANCE        (20)		// In pixels
 
 //-----------------------------------------------------------------------------
 // Private Data
