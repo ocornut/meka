@@ -376,7 +376,7 @@ static t_debugger_bus_info  DebuggerBusInfos[BREAKPOINT_LOCATION_MAX_] =
 struct t_debugger_app
 {
     t_gui_box *         box;
-    ALLEGRO_BITMAP *            box_gfx;
+    ALLEGRO_BITMAP *    box_gfx;
     t_widget *          console;
     t_widget *          input_box;
     t_font_id			font_id;
@@ -2707,7 +2707,7 @@ void        Debugger_InputParseCommand(char *line)
         if (!(g_machine_flags & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
-            Machine_Debug_Start ();
+            Machine_Debug_Start();
         }
 
         Trim(line);

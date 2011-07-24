@@ -107,7 +107,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Debug_Init),
 	__MSG_ADD(MSG_Debug_Welcome),
 	__MSG_ADD(MSG_Debug_Not_Available),
-	__MSG_ADD(MSG_Debug_Brk_Need_Param),
 	__MSG_ADD(MSG_Debug_Trap_Read),
 	__MSG_ADD(MSG_Debug_Trap_Write),
 	__MSG_ADD(MSG_Debug_Trap_Port_Read),

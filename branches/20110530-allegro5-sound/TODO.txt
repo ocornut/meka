@@ -20,7 +20,6 @@ Meka 0.80 check list
 - bug reports:
   - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. " 
   - "Sometimes the mouse freezes for a couple of seconds. (I got this 3 times in about a 20 minute play). "
-  - "The Deep Duck Trouble/ Sonic Chaos bug might be fixed but it is very hard to trigger the bug due to it being random."
   - "I plugged in a USB-PSX converter before starting again and it did not crash then but any input instantly went Stick 0 Axis 0 -"
 
 ----------
@@ -47,22 +46,15 @@ The CLOCK command seems to be rendering the cycle counter (I seem to remember it
 
 (Actually, some way to enter a super-turbo-fast-forward mode (more than 1/9 frameskip) might be nice, especially if it can still hit a breakpoint directly. Debugger seems generally weird at 1/9 frameskip, stepping instructions when not expected?)
 
-SPORTS PAD ICON IS BROKEN
-
 Fix default .sc mapper (eigo sakubun)
 Namely if ROM is bigger than 32 KB don't stupidely ignore the rest of the data!!
 
-- colour screwed switching between fullscreen snd GUI
-- audio
-
 File Browser: Backspace key, select child directory
 
-Add librairies (zlib, etc.?) in trunk?
+.thm parsing crash (see forum - where??)
 
-.thm parsing crash (see forum)
-
-Debugger: Many mails from Maxim!
-Add support for F in SET command
+Debugger: Many interesting mails from Maxim!
+Add support for F register in SET command
 
 Command line file not found = Win32 console crash
 
@@ -76,15 +68,15 @@ Command line file not found = Win32 console crash
 | Note:                                                                |
 | - MEKA IS FULL OF INCORRECT EMULATION BEHAVIOURS.                    |
 |   MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.         |
-|   READ TECHNICAL DOCUMENTATION INSTEAD.                              |
-|   IF YOU HAVE ANY DOUBT, PLEASE ASK TO BE SURE.                      |
+|   CONSULT TECHNICAL DOCUMENTATION INSTEAD (eg: SMS Power! dev wiki). |
+|   IF YOU HAVE ANY DOUBT, FEEL FREE TO ASK.                           |
 |----------------------------------------------------------------------|
 | Packager Note: Always make plenty of verifications before packaging. |
 | - Check MEKA.INP                                                     |
 | - Check MEKA.MSG content, WIP, merge updates                         |
 | - Package a default generated .CFG file                              |
 |----------------------------------------------------------------------|
-| Some BIG axis of work:                                               |
+| Main axises of work:                                                 |
 | - fix sound engine (timing problem, ask me, I can explain why)       |
 | - improved video (blitters, stretching, sync, triple buffering)      |
 | - inputs system improvement (analog sources, map all features, etc)  |
@@ -132,37 +124,16 @@ the width of the scrollbar when scrolling up/down
 <cgfm2> would it be possible to allow the mouse cursor to stray to the left or
 right a little, and still move the bar?
 
-4.
-<cgfm2> add spaces between all commands in log (optional)
-
-Jacko:
-Well, I downloaded last copy 2005-11-20 yesterday and had a few problems!!
-For some strange reason The message window shows:
- Current save game slot is 0
- Current save game slot is 1
- ...
- Current save game slot is 99
-In this midtime, the debug command textbox freeze :(
-It seems to occur when I press backspace key, which sometimes don't work the right way.
-If I change window and then set focus again in meka (window-mode) I can use backspace again, but once again the current save message appears... (???)
-
-Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually 
+Jacko: Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually 
 (like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 
 so it is hard to tell if it was my PC doing something or it was MEKA.
 
 WIP 0.72:
- - Depth
-   - Remove color conversion flag in main loop to avoid too many 
-     behind-the-scene conversions.
  - Blitters (lots to do)
    - All blitters, redo, etc
    - Integer stretch
  - Themes:
-   - Convert all themes.
    - Background pictures switch effect.
- - Sources:
-   - Link warning regarding zlib?
-   - Include Allegro install package somehow?
 - Data
   - Update/remove Themes section from web page.
   - Tweak country flags for proper color now that there's no more palette.
@@ -192,7 +163,7 @@ just that I noted them at the top of the file, thinking it would be worth
 doing them now and some are quick work.
 -----------------------------------------------------------------------------
 
-- Check galaxy force (supposed bug, cannot reproduce)
+- Check galaxy force (supposed bug, couldn't reproduce)
   http://www.smspower.org/forum/messages/19568.html
 
 - Add auto SK-1100 enable.
@@ -204,11 +175,6 @@ doing them now and some are quick work.
 -----------------------------
  - THE AUTO FRAME SKIPPER SUCKS
  - SOUND SUCKS
- - Screen flashing (see PatrickP e-mails) - screen/buffer data written 
-   to by some other applet (apparently DirectX cannot prevent this), and
-   screen is never cleared by MEKA.
-   - Use set_display_switch_callback() ?
-     I think I already did that, it doesn't work.
  - Windowed mode should fit the actual game screen size instead of having
    a screen-resolution based size (320x240)
    - This is a problem with how the blitter system works now.
@@ -240,19 +206,17 @@ doing them now and some are quick work.
 -----------------------------
  ROM INFORMATION
 -----------------------------
- - Add an applet showing ROM information (checksum, country, version, etc.)
+ - Add an applet showing ROM+DB information (checksum, country, version, etc.)
 
 -----------------------------
  NAMES / DATABASE
 -----------------------------
- - Add media type (cartridge, card, disk, etc...)
  - Add Pirate flag ?
  - Better syntax error verbosing (currently there's none).
  - Generally:
    - Check Maxim's old & new e-mails.
    - Check Kevin Chase e-mails.
    - Fixes missing "the". 
-   - Pay attention to complicated licensed titles (eg: "Disney's Aladdin".
 
 -----------------------------
  PERIPHERALS/INPUTS EMULATION
@@ -264,7 +228,8 @@ doing them now and some are quick work.
      Warn for them? What else could be done?
  - Test Handle Controller / Bike Controller for SG-1000/SC-3000.
    How does they actually works? Why do they mention only a few games
-   on the box, it is actually different?
+   on the box, are they actually any different or it is just because
+   one is left/right and other is up/down only?
  - SDI might supports Sports Pad, figure out hardware detection if so
  - Proper/better Light Phaser emulation.
    - Again, implementation is a joke. / but, it works.
@@ -285,7 +250,6 @@ doing them now and some are quick work.
  - Interface mouse driver (who cares anymore).
  - Keyboard not qwerty
  - Player 2 default inputs on right side of the keyboard ?
- - Mouse_speed configurable under the interface
  - Added both buttons & combo inputs
  - Be able to configure Rapid Fire speed.
  - Cursor is repositionned when enabling light phaser within GUI
@@ -312,7 +276,6 @@ doing them now and some are quick work.
 -----------------------------
  - Fallback to safe mode
  - Completely revamp the blitter systems.
-   - See my paper note for lots of things.
    - Be able to handle blitter per system (SMS, GG..) and mode.
    - Add x3, x4 blitters, separate X and Y (be able to do a 2x3 blit, etc..).
      All combinations should be working.
@@ -325,7 +288,6 @@ doing them now and some are quick work.
  - For Game Gear:
     H*2/Y*3 in 320*480, H*4/Y*3 in 640x480..
  - Filters:
-   - Probably a lot to do.
    - Implement 2xSai filter.
    - Implement Scale2x filter (scale2x.sourceforge.net)
    - HQ filters
@@ -347,7 +309,8 @@ doing them now and some are quick work.
 -----------------------------
  VDP/VIDEO EMULATION
 -----------------------------
- - 224/240 lines mode should only be activated if both bits are set (see Charles's doc)
+ - SMS VDP Tester http://smspower.org/forums/viewtopic.php?t=10695
+- 224/240 lines mode should only be activated if both bits are set (see Charles's doc)
  - VDP Model differences
    - Add VDP Model selection somewhere in GUI (useful for programmers).
    - VDP Model 315-5124: Doubled sprites bug (see Earthworm Jim)
@@ -438,12 +401,10 @@ doing them now and some are quick work.
       to set breakpoints and watch those values manually using memory dumps or the register
       display.
       Letter v is for "variable", since I can't think of a better letter to use. "
-    - Could be this feature or something possibly more generic.
+    - "wv" (watch variables) ?
  - Tilemap viewer:
    - Support vertical lock (gauntlet, golvellius...).
    - Proper support for extended modes requires resizing window (tilemap becomes 256*256).
- - UNMAP command:
-   - eg: Z80 $A123 -> ROM $18123
  - SOURCE command:
    Load commands from a text file. Useful for storing per-project breakpoints.
  - Expression evaluator:
@@ -486,11 +447,9 @@ doing them now and some are quick work.
  - Input locker
    - Set input bits manually using check boxes, being able to set inputs 
      at any point.
- - Meka scripting
-    - Primitive function with accesses to standardized syntax.
-      - A breakpoint can trigger a call.
-    - Support for debug configuration file/script per ROM.
-    - How can we work out a "project based" setup?
+ - Scripting
+    - A breakpoint can trigger a call.
+    - Support for debug configuration file/script per ROM/project.
  - Call Stack
    - Keep a call stack updated (using a modified Z80 core)
    - "often I find myself having to manually dump the stack memory to find 
@@ -621,8 +580,7 @@ doing them now and some are quick work.
  - Printer emulation
  - Tape drive emulation
    - Find out if encoding used in Music/Lode Runner/C_So! is standard
-   - Common, do it.
-   - Common, do it. The world (and Aaron Wheeler) deserve it.
+   - Common, do it. The world (and A.Wheeler) deserve it.
 
 -----------------------------
  SF-7000
@@ -644,10 +602,6 @@ doing them now and some are quick work.
  COLECOVISION
 -----------------------------
  - May want to drop ColecoVision? Why adding more weight...
- - Includes MyColeco list. (Martin Caballero list as well ?)
-   http://people.we.mediaone.net/jscarter2/coleco/emulate.htm
-   Site is down... that's very unfortunate, he did a great job. Find him back!
-   (last google search was a failure)
  - ROMs:
    - New Roms from MyColeco (gamepack + space invaders)
    - Sort out homebrewn coleco Roms
@@ -680,8 +634,7 @@ doing them now and some are quick work.
    > In 3rd act there are some flickering (windows on skyscraper).
    > In 2nd act, a strange "flying" & flickering sprite may appear (gunman).
    > Will there be more...? ;)
- - Gear-to-gear emulation (goes with network or at least being able to
-   emulate different hosts on the same MEKA, which isn't a small change).
+ - Gear-to-gear emulation.
 
 -----------------------------
  ARCADE
@@ -695,7 +648,6 @@ doing them now and some are quick work.
    - Separare OPCODE read and DATA read in Z80 emulator (for encryption).
      That's useful anyway for debugger trapping.
  - Interface coin insertion.
- - Emulation SYSTEM-A (so many great games! but it's a different system)
 
 -----------------------------
  BIOS
@@ -710,12 +662,11 @@ doing them now and some are quick work.
    I certainly don't want to make it "MesaDX complicated" for a gamer.
    Automatically select cartridge slot (or cart is ROM < 32 kb), and
    maybe allow a manual setup.
- - I have a scary thought:
-   How would old savestate works once this is properly emulated?
+ - How would old savestate works once this is properly emulated?
    - Can we assert that games keep value stored in C000?
-   - Should get in a special "autodetect" mode, retrieving first
-     slot setting written to port 3E as being where the media is loaded.
- - Check Super Racing interesting boot code (hmm? it is an obsolete thought?).
+     - Replace the value?
+   - Should maintain legacy emulation?
+\ - Check Super Racing interesting boot code (hmm? it is an obsolete thought?).
  - Sort BIOS dumps.
  - Allow to boot up other machines (Colecovision/GG) without ROM.
    - Need to be able to select machine.
@@ -751,8 +702,7 @@ doing them now and some are quick work.
 -----------------------------
  SMS TESTS
 -----------------------------
- - Write a program that print out at which line/cycle NMI trigger.
-   Does that sentence goes to the opposite of what a NMI is meant to be? :)
+ - Write a program that print out at which line/cycle NMI "trigger".
    Can the bug I have in Fantastic Dizzy be reproduced on a real SMS with
    some bad luck, that is what I want to know. (Otherwise, seems like a Z80 bug.)
  - Write a program to be able to find out at which cycle/h-pos the h-scroll
@@ -801,8 +751,6 @@ doing them now and some are quick work.
  - Support for other compression format:
    - GZ
    - RAR
- - MEKA doesn't work from a directory with '#' because of datafile loading
-   There is a patch on Allegro mailing list. See "Chris" post "[AD] file.c # patch" 2004/07/26
  - /_SYS_INFOS doesn't show correct OS version since Allegro is not yet installed
  - Remove SPACE problem in MEKA.CFG (and other files, maybe)
    - Can use new tools used by MEKA.NAM parser and add quotes to the sentences
@@ -820,15 +768,14 @@ doing them now and some are quick work.
 -----------------------------
  - Standard 2 player gaae.
  - Gear-to-gear with 1 GG on each side.
- - Sharing games, multi-games, SMS party project:
-   - A machine emulation should fit into a clearly delimited object,
-     to be able emulate several instances on the same time.
-   - a lot more...
+ - Sharing games, multi-games, SMS party project.
+   - Need to cleanup a lot of side-effects, globals, determinism issues.
 
 -----------------------------
  SAVESTATES
 -----------------------------
- - Savestates slots showing ala bloodlust with filled/empty boxes.
+ - Savestates slots showing with filled/empty boxes.
+ - Thumbnails?
  - Press Fx and select slot. Much easier. Reuse that for blitter!
    - Generally, allow some kind of GUI widgets in fullscreen mode.
  - Format: add MEKA version field (text?)
@@ -845,17 +792,11 @@ doing them now and some are quick work.
 -----------------------------
  MESSAGES / LOCALIZATION
 -----------------------------
- - meka.msg
-   - Remove Msg_Debug_Brk_Need_Param (little annoying to remove something 
-     from the define list now)
-   - Switch all accents from old DOS codepage to Windows one
  - Add code to verify sync/order of message definitions & tables.
  - Switching to full multi languages:
-   1. Switch to UTF-8 (accents, etc...). That include updating existing 
-      DB but also verifying the part where strings are hand manipulated.
+   1. Switch to using TTF font.
    2. Cleanup fontsize dependant things / GUI code
-   3. Implement non european language support (Japanese!)
-      - Require proper fonts.
+   3. Implement non european language support (Japanese!) and add proper fonts.
 
 -----------------------------
  GAMES NOTES
@@ -897,10 +838,9 @@ doing them now and some are quick work.
  - Advanced capture:
    - Set transparency png_set_tRNS().
    - Separate layers
-   - Preserve palette (complicated...)
  - Be able to map Screenshot to the pad, for opi and others.
  - Keep a way to use windows printscreen
- - Document printscreen weirdness in docs
+ - Document PrintScreen weirdness in docs (NB-what weirdness?)
  - Add applet to configure everything (template/counter/automatic capture..)
 
 -----------------------------
@@ -911,9 +851,6 @@ doing them now and some are quick work.
  - Do a big cleaning/renaming/sorting of configuration variables.
    Some includes:
    - Current soundcard should be stored in meka.cfg as an ID string
-   -  Current theme should be stored in meka.cfg as its ID string
-   - "color_theme" -> "theme"
-   - Current blitter should be stored in meka.cfg as its ID string
 
 -----------------------------
  NICE STUFF
@@ -921,24 +858,16 @@ doing them now and some are quick work.
  - TV snow noise
  - Black & white TV mode
  - Screensaver
- - Easters eggs
-   - More
-   - BreakOut seems broken (ball doesn't always bounce)
  - Blood layer have priorities over menus
 
 -----------------------------
  DESKTOP
 -----------------------------
- - Save theme by name (not by id).
- - Add a warning when backgronud pictures use unauthorized colors. [8bpp]
  - Update the ALEX KIDD theme (see Myau of Algo e-mail & alex3.pcx)
  - Background filename should be case sensitive (especially for Mekanix)
- - As a link to smspower.org/meka/themes when unable to load pictures.
  - Add ratio background stretch.
  - Unable to load pictures error only on start or theme switch (not when
    switching back to the GUI, everytime).
- //- i didn't test it that much, but changing values of coordinates of windows to
- //  big negative numbers (eg >1000), meka will crash right away. (really??)
 
 -----------------------------
  VIRTUAL MACHINE
@@ -946,7 +875,7 @@ doing them now and some are quick work.
  - Clean up virtual machine handling.
  - Power light should be on on Sega Keyboard picture.
  - Find someone to draw nice looking systems.
- - [16/24/32bpp] Allows to show machine even with theme picture.
+ - Allows to show machine even with theme picture.
 
 -----------------------------
  CONSOLE
@@ -962,7 +891,7 @@ doing them now and some are quick work.
    - All media icons from MEKA (SMS/GG/SG/SC games, etc)
    - Maxim's icon
    - Casiopea's icon
-   - Golden Axe Warrior (amibe.ico) from the french guy
+   - Golden Axe Warrior (amibe.ico in my e-mails)
 
 -----------------------------
  SOURCES

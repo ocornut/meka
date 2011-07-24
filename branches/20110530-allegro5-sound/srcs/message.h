@@ -103,7 +103,6 @@ enum
 	MSG_Debug_Init,
 	MSG_Debug_Welcome,
 	MSG_Debug_Not_Available,
-	MSG_Debug_Brk_Need_Param,
 	MSG_Debug_Trap_Read,
 	MSG_Debug_Trap_Write,
 	MSG_Debug_Trap_Port_Read,
