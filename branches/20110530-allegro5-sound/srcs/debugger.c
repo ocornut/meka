@@ -3811,13 +3811,11 @@ void	Debugger_History_AddLine(const char *line_to_add)
 //-----------------------------------------------------------------------------
 bool        Debugger_History_Callback(t_widget *w, int level)
 {
-	int		new_index;
-
 	if (level != -1 && level != 1)
         return (FALSE);
 
 	// Bound check
-    new_index = Debugger.history_current_index + level;
+    const int new_index = Debugger.history_current_index + level;
 	if (new_index < 0 || new_index >= Debugger.history_count)
 		return (FALSE);
 

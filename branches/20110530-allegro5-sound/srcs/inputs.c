@@ -149,8 +149,6 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
             if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
             {
-                int n;
-
                 // Remove keypress
                 // FIXME-KEYPRESS
                 for (t_list* keypresses = Inputs.KeyPressedQueue; keypresses != NULL; )
@@ -162,7 +160,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                 }
 
                 // Cycle focus
-                for (n = gui.boxes_count - 1; n >= 0; n--)
+                for (int n = gui.boxes_count - 1; n >= 0; n--)
                 {
                     t_gui_box* b = gui.boxes_z_ordered[n];
                     if ((b->flags & GUI_BOX_FLAGS_TAB_STOP) && (b->flags & GUI_BOX_FLAGS_ACTIVE))

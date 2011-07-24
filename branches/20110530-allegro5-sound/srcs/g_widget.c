@@ -901,7 +901,6 @@ void        widget_inputbox_update(t_widget *w)
 	const int tm_delay = 15;
     const int tm_rate = 1;
     bool edited = FALSE;
-    t_list *keypress_queue;
 
     // Check if we have focus
     // FIXME: This is completely a hack since it checks BOX focus (and not Widget focus,
@@ -941,65 +940,36 @@ void        widget_inputbox_update(t_widget *w)
 	}
 
     // Check for printable input keys
-    keypress_queue = Inputs.KeyPressedQueue;
+    t_list *keypress_queue = Inputs.KeyPressedQueue;
     while (((wd->length < wd->length_max) || (wd->insert_mode == TRUE && wd->cursor_pos < wd->length)) && 
         (keypress_queue != NULL))
     {
         t_key_press* keypress = (t_key_press*)keypress_queue->elem;
-        //const t_key_info *ki = KeyInfo_FindByScancode(keypress->scancode);
         keypress_queue = keypress_queue->next;
 
-        //if (ki != NULL)
-        {
-            if (keypress->scancode == ALLEGRO_KEY_TAB && (wd->flags & WIDGET_INPUTBOX_FLAGS_COMPLETION))
-            {
-                // Completion
-                assert(wd->callback_completion != NULL);
-                wd->callback_completion(w);
-                Inputs_KeyPressQueue_Remove(keypress);
-            }
-            else 
-            if (keypress->scancode == ALLEGRO_KEY_UP && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
-            {
-                // History Up
-                assert(wd->callback_history != NULL);
-                wd->callback_history(w, +1);
-                Inputs_KeyPressQueue_Remove(keypress);
-            }
-            else
-            if (keypress->scancode == ALLEGRO_KEY_DOWN && (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY))
-            {
-                // History Down
-                assert(wd->callback_history != NULL);
-                wd->callback_history(w, -1);
-                Inputs_KeyPressQueue_Remove(keypress);
-            }
-            else
-            //if (ki->flags & KEY_INFO_PRINTABLE)
-            if (isprint(keypress->ascii))
-            {
-                char c = keypress->ascii;
-                if (wd->content_type == WIDGET_CONTENT_TYPE_DECIMAL)
-                {
-                    if (!(c >= '0' && c <= '9'))
-                        c = 0;
-                }
-                else if (wd->content_type == WIDGET_CONTENT_TYPE_HEXADECIMAL)
-                {
-                    if (c >= 'a' && c <= 'f')
-                        c += 'A' - 'a';
-                    if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
-                        c = 0;
-                }
-                if (c != 0)
-                {
-                    // Insert character
-                    widget_inputbox_insert_char(w, c);
-                    Inputs_KeyPressQueue_Remove(keypress);
-                    return;
-                }
-            }
-        }
+		if (isprint(keypress->ascii))
+		{
+			char c = keypress->ascii;
+			if (wd->content_type == WIDGET_CONTENT_TYPE_DECIMAL)
+			{
+				if (!(c >= '0' && c <= '9'))
+					c = 0;
+			}
+			else if (wd->content_type == WIDGET_CONTENT_TYPE_HEXADECIMAL)
+			{
+				if (c >= 'a' && c <= 'f')
+					c += 'A' - 'a';
+				if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
+					c = 0;
+			}
+			if (c != 0)
+			{
+				// Insert character
+				widget_inputbox_insert_char(w, c);
+				Inputs_KeyPressQueue_Remove(keypress);
+				return;
+			}
+		}
     }
 
     // Backspace, Delete
@@ -1037,24 +1007,52 @@ void        widget_inputbox_update(t_widget *w)
             }
 
         // Home/End: set cursor to beginning/end of input box
-        if (Inputs_KeyPressed (ALLEGRO_KEY_HOME, FALSE))
+        if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
         {
             wd->cursor_pos = 0;
             w->dirty = TRUE;
         }
-        if (Inputs_KeyPressed (ALLEGRO_KEY_END, FALSE))
+        if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
         {
             wd->cursor_pos = wd->length;
             w->dirty = TRUE;
         }
     }
 
+	// Completion callback
+	if (wd->flags & WIDGET_INPUTBOX_FLAGS_COMPLETION)
+	{
+		if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, false))
+		{
+			// Completion
+			assert(wd->callback_completion != NULL);
+			wd->callback_completion(w);
+		}
+	}
+
+	// History callback
+	if (wd->flags & WIDGET_INPUTBOX_FLAGS_HISTORY)
+	{
+		if (Inputs_KeyPressed(ALLEGRO_KEY_UP, false))
+		{
+			// History Up
+			assert(wd->callback_history != NULL);
+			wd->callback_history(w, +1);
+		}
+		if (Inputs_KeyPressed(ALLEGRO_KEY_DOWN, false))
+		{
+			// History Down
+			assert(wd->callback_history != NULL);
+			wd->callback_history(w, -1);
+		}
+	}
+
     // Edit callback
     if (edited && wd->callback_edit)
         wd->callback_edit(w);
 
     // Enter: validate
-    if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_ENTER, FALSE, 30, 3) || Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PAD_ENTER, FALSE, 30, 3))
+    if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_ENTER, FALSE, 30, 3) || Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PAD_ENTER, FALSE, 30, 3))
         if (wd->callback_enter)
             wd->callback_enter(w);
 
