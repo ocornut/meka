@@ -913,8 +913,8 @@ void            Msg(int attr, const char *format, ...)
         // Set status line
         if (attr & MSGT_USER_INFOLINE)
         {
-            strcpy (gui_status.message, src);
-            gui_status.timeleft = 120;
+            strcpy (g_gui_status.message, src);
+            g_gui_status.timeleft = 120;
         }
 
         // Add to user text box

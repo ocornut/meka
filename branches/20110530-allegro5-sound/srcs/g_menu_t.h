@@ -21,8 +21,8 @@ void    gui_menus_update_size           (void);
 
 void    gui_menu_un_check               (int menu_id);
 void    gui_menu_un_check_area          (int menu_id, int start, int end);
-#define gui_menu_check(menu_id,n_entry)         do { menus[(menu_id)]->entry[(n_entry)]->attr |= AM_Checked; } while (0)
-#define gui_menu_un_check_one(menu_id,n_entry)  do { menus[(menu_id)]->entry[(n_entry)]->attr &= ~AM_Checked; } while (0)
+#define gui_menu_check(menu_id,n_entry)         do { menus[(menu_id)]->entry[(n_entry)]->flags |= AM_Checked; } while (0)
+#define gui_menu_un_check_one(menu_id,n_entry)  do { menus[(menu_id)]->entry[(n_entry)]->flags &= ~AM_Checked; } while (0)
 void    gui_menu_inverse_check          (int menu_id, int n_entry);
 
 void    gui_menu_active                 (int active, int menu_id, int menu_item);

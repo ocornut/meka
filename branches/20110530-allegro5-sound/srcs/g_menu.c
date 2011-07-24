@@ -12,20 +12,17 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_gui_status		gui_status;
+t_gui_status_bar	g_gui_status;
 t_gui_menus_id		menus_ID;
 gui_type_menus_opt	menus_opt;
-gui_type_menu *		menus[MAX_MENUS];
+t_menu *		menus[MAX_MENUS];
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-// REDRAW MENU AND STATUS BARS ------------------------------------------------
 void        gui_redraw_bars (void)
 {
-    char    s[16];
-
     // Redraw status bar
 	al_set_target_bitmap(gui_buffer);
     al_draw_filled_rectangle(0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height,     g_Configuration.video_mode_gui_res_x+1, g_Configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
@@ -34,30 +31,31 @@ void        gui_redraw_bars (void)
     Font_SetCurrent (F_LARGE);
 
     // Show status bar message
-    if (gui_status.timeleft)
+    if (g_gui_status.timeleft)
     {
-        Font_Print(F_CURRENT, gui_status.message, gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
-        gui_status.timeleft --;
+        Font_Print(F_CURRENT, g_gui_status.message, g_gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        g_gui_status.timeleft --;
     }
 
     // Show FPS counter
     if (fskipper.FPS_Display)
     {
+	    char s[16];
         sprintf (s, "%.1f FPS", fskipper.FPS);
         Font_Print(F_CURRENT, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
-    meka_time_getf (s);
+    char s[16];
+    meka_time_getf(s);
     Font_Print(F_CURRENT, s, g_Configuration.video_mode_gui_res_x - 10 - Font_TextLength(F_CURRENT, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
-// UPDATE ALL MENUS -----------------------------------------------------------
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
 {
     int            i;
     int            x1, y1, x2, y2;
-    gui_type_menu * menu = menus[n_menu];
+    t_menu * menu = menus[n_menu];
 
     //if ((gui_mouse.pressed_on != PRESSED_ON_NOTHING) && (gui_mouse.pressed_on != PRESSED_ON_MENUS))
     // FIXME-FOCUS
@@ -68,11 +66,10 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
 
     menu->generation = generation;
 
-    // Update each menus ---------------------------------------------------------
     for (i = 0; i < menu->n_entry; i ++)
     {
-        gui_type_menu_entry *menu_entry = menu->entry[i];
-        if (!(menu_entry->attr & AM_Active))
+        t_menu_item *menu_entry = menu->entry[i];
+        if (!(menu_entry->flags & AM_Active))
         {
             continue;
         }
@@ -105,16 +102,16 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                 {
                     if (menus_opt.c_generation > generation)
                     {
-                        menu_entry->mouse_over = 0;
+                        menu_entry->mouse_over = false;
                     }
                     menus_opt.c_menu = n_menu;
                     menus_opt.c_entry = i;
                     menus_opt.c_somewhere = 1;
                     menus_opt.c_generation = generation;
-                    if (menu_entry->mouse_over == 0)
+                    if (menu_entry->mouse_over == false)
                     {
                         gui_menu_un_mouse_over (n_menu);
-                        menu_entry->mouse_over = 1;
+                        menu_entry->mouse_over = true;
                     }
                     else
                     {
@@ -122,7 +119,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                         {
                             gui_menu_un_mouse_over (menu->entry[i]->submenu_id);
                         }
-                        menu_entry->mouse_over = 0;
+                        menu_entry->mouse_over = false;
                         gui.info.must_redraw = TRUE;
                     }
 
@@ -144,13 +141,12 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
     }
 }
 
-// REDRAW A MENU AND HIS CHILDREN ---------------------------------------------
 void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 {
     int            i;
     int            x, y;
     ALLEGRO_COLOR  color;
-    gui_type_menu  *menu = menus [n_menu];
+    t_menu  *menu = menus [n_menu];
 
     Font_SetCurrent (GUI_MENUS_FONT);
 
@@ -171,7 +167,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->attr & AM_Active))
+            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & AM_Active))
             {
                 gui_menu_highlight (n_menu, i);
                 if (menu->entry[i]->type == ITEM_SUB_MENU)
@@ -179,7 +175,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
                     gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
                 }
             }
-            if (menu->entry[i]->attr & AM_Active)
+            if (menu->entry[i]->flags & AM_Active)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -229,7 +225,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->attr & AM_Active))
+            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & AM_Active))
             {
                 gui_menu_highlight (n_menu, i);
                 if (menu->entry[i]->type == ITEM_SUB_MENU)
@@ -237,7 +233,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
                     gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
                 }
             }
-            if (menu->entry[i]->attr & AM_Active)
+            if (menu->entry[i]->flags & AM_Active)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -252,7 +248,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
                 Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
                 break;
             case ITEM_EXECUTE:
-                if (menu->entry[i]->attr & AM_Checked)
+                if (menu->entry[i]->flags & AM_Checked)
                 {
                     Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
                 }
@@ -263,10 +259,11 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     }
 }
 
-// REDRAW ALL MENUS -----------------------------------------------------------
 void    gui_redraw_menus (void)
 {
     gui_redraw_bars ();
+
+	// initial panning animation
     if (menus_opt.distance > MENUS_DISTANCE)
     {
         menus_opt.distance -= 14;
@@ -274,10 +271,10 @@ void    gui_redraw_menus (void)
             menus_opt.distance = MENUS_DISTANCE;
         gui.info.must_redraw = TRUE;
     }
+
     gui_draw_menu (menus_ID.menu, -1, -1);
 }
 
-// UPDATE ALL MENUS -----------------------------------------------------------
 void    gui_update_menus (void)
 {
     menus_opt.c_somewhere = 0;

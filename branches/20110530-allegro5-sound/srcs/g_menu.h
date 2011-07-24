@@ -18,7 +18,7 @@
 #define MENUS_PADDING_X     (8)
 #define MENUS_PADDING_Y     (4)
 
-enum
+enum t_menu_item_type
 {
 	ITEM_NOTHING        = 0,
 	ITEM_SUB_MENU		= 1,
@@ -27,9 +27,12 @@ enum
 };
 
 // Definitions for Menus Attributes
-#define AM_Nothing          (0)
-#define AM_Active           (0x01)
-#define AM_Checked          (0x02)
+enum t_menu_item_flags
+{
+	AM_Nothing			= 0,
+	AM_Active			= 1<<0,
+	AM_Checked			= 1<<1,
+};
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -102,14 +105,14 @@ struct t_menu_event
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_gui_status
+struct t_gui_status_bar
 {
 	char  message [MSG_MAX_LEN];
 	int   x;
 	int   timeleft;
 };
 
-extern t_gui_status gui_status;
+extern t_gui_status_bar g_gui_status;
 
 struct t_gui_menus_id
 {
@@ -118,7 +121,7 @@ struct t_gui_menus_id
 	int   machine, power, country, tvtype;
 	int   video, themes, blitters, layers, flickering, glasses, screenshots;
 	int   inputs, rapidfire;
-	int   sound, volume, rate, channels, fm, fm_emu;
+	int   sound, volume, rate, channels, fm;
 	int   tools;
 	int   debug, dump, dump_cfg, watch;
 	int   help;
@@ -128,31 +131,29 @@ struct t_gui_menus_id
 
 extern t_gui_menus_id menus_ID;
 
-// gui_type_menu_id menus_ID;
-
 struct t_menu_event;
 
 typedef void (*t_menu_callback)(t_menu_event*);
 
-struct gui_type_menu_entry
+struct t_menu_item
 {
 	char *				label;
 	char *				hotkey;
-	byte				type;				// 0: nothing - 1: sub-menu - 2: execute
-	byte				attr;
-	byte				mouse_over;
-	byte				submenu_id;			// id of submenu if (action == 1)
+	t_menu_item_type	type;
+	unsigned int		flags;
+	bool				mouse_over;
+	int					submenu_id;			// id of submenu if (action == 1)
 	t_menu_callback		callback;			// pointer to function to execute if (action == 2)
 	void *				user_data;
 };
 
-struct gui_type_menu
+struct t_menu
 {
-	gui_type_menu_entry * entry[MAX_MENUS_ENTRY];
-	byte                  id;
-	byte                  n_entry;
-	int                   generation;
-	int                   sx, sy, lx, ly;
+	int					id;
+	t_menu_item *		entry[MAX_MENUS_ENTRY];
+	int					n_entry;
+	int                 generation;
+	int                 sx, sy, lx, ly;
 };
 
 struct  gui_type_menus_opt
@@ -165,15 +166,15 @@ struct  gui_type_menus_opt
 };
 
 extern gui_type_menus_opt menus_opt;
-extern gui_type_menu *menus[MAX_MENUS];
+extern t_menu *menus[MAX_MENUS];
 
 struct t_menu_event
 {
-	gui_type_menu *			menu;
-	int						menu_idx;			// FIXME: Make obsolete once menu API doesn't need this crap anymore
-	gui_type_menu_entry *	menu_item;
-	int						menu_item_idx;		// FIXME: Make obsolete once menu API doesn't need this crap anymore
-	void *					user_data;
+	t_menu *		menu;
+	int				menu_idx;			// FIXME: Make obsolete once menu API doesn't need this crap anymore
+	t_menu_item *	menu_item;
+	int				menu_item_idx;		// FIXME: Make obsolete once menu API doesn't need this crap anymore
+	void *			user_data;
 };
 
 //-----------------------------------------------------------------------------

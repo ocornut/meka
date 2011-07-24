@@ -378,7 +378,7 @@ void    Video_RefreshScreen(void)
                 if (cur_drv->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
 				al_set_target_bitmap(screenbuffer);
                 Font_Print(F_MIDDLE, buf, x, y, COLOR_WHITE); // In white
-                //gui_status.timeleft = 0; // Force disabling the current message because it is slow to display
+                //g_gui_status.timeleft = 0; // Force disabling the current message because it is slow to display
             }
 
             // Blit emulated screen in fullscreen mode

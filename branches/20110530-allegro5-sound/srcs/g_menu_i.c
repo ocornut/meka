@@ -40,7 +40,7 @@ void        gui_menus_init (void)
     int     i;
 	char	buffer[256];
 
-    gui_status.x = 10;
+    g_gui_status.x = 10;
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS_SHORT);
     menus_opt.distance = gui.info.screen.x - 40;

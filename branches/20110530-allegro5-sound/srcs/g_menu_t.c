@@ -68,14 +68,11 @@ void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, i
 // UPDATE THE SIZE OF A MENU --------------------------------------------------
 void    gui_menu_update_size (int menu_id)
 {
-	int    i, j;
-	int    lx_max;
-
-	lx_max = 0;
+	int lx_max = 0;
 	Font_SetCurrent(GUI_MENUS_FONT);
-	for (i = 0; i < menus[menu_id]->n_entry; i ++)
+	for (int i = 0; i < menus[menu_id]->n_entry; i ++)
 	{
-		j = Font_TextLength(F_CURRENT, menus[menu_id]->entry[i]->label);
+		const int j = Font_TextLength(F_CURRENT, menus[menu_id]->entry[i]->label);
 		if (j > lx_max)
 		{
 			lx_max = j;
@@ -85,7 +82,6 @@ void    gui_menu_update_size (int menu_id)
 	menus [menu_id]->ly = ((Font_Height() + MENUS_PADDING_Y) * menus[menu_id]->n_entry);
 }
 
-// UPDATE THE SIZE OF ALL MENUS -----------------------------------------------
 void gui_menus_update_size (void)
 {
 	for (int i = 0; i < MAX_MENUS; i++)
@@ -100,9 +96,8 @@ void gui_menus_update_size (void)
 // CREATE A NEW MENU ----------------------------------------------------------
 int     menu_new (void)
 {
-	int    menu_id;
-
 	// Look for next un-allocated menu
+	int    menu_id;
 	for (menu_id = 0; menu_id < MAX_MENUS; menu_id ++)
 		if (menus[menu_id] == NULL)
 			break;
@@ -110,7 +105,7 @@ int     menu_new (void)
 		return (0);
 
 	// Allocate new menu and initialize it with default values
-	menus[menu_id] = (gui_type_menu *)malloc(sizeof (gui_type_menu));
+	menus[menu_id] = (t_menu *)malloc(sizeof (t_menu));
 	menus[menu_id]->id = menu_id;
 	menus[menu_id]->sx = menus[menu_id]->sy = 0;
 	menus[menu_id]->lx = menus[menu_id]->ly = 0;
@@ -120,27 +115,22 @@ int     menu_new (void)
 	return (menu_id);
 }
 
-// ADD A MENU ITEM ------------------------------------------------------------
-int                     menu_add_menu (int menu_id, const char *label, int attr)
+int                     menu_add_menu (int menu_id, const char *label, int flags)
 {
-	gui_type_menu          *menu;
-	gui_type_menu_entry    *entry;
-	int                    submenu_id;
-
-	menu = menus[menu_id];
+	t_menu* menu = menus[menu_id];
 	if (menu->n_entry >= MAX_MENUS_ENTRY)
 	{
 		return (0);
 	}
 
-	submenu_id = menu_new ();
-	entry = menu->entry[menu->n_entry] = (gui_type_menu_entry *)malloc(sizeof (gui_type_menu_entry));
+	const int submenu_id = menu_new ();
+	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
 
 	entry->label = strdup(label);
 	entry->hotkey = NULL;
 	entry->type = ITEM_SUB_MENU;
-	entry->attr = attr;
-	entry->mouse_over = 0;
+	entry->flags = flags;
+	entry->mouse_over = false;
 	entry->submenu_id = submenu_id;
 
 	menu->n_entry++;
@@ -148,115 +138,104 @@ int                     menu_add_menu (int menu_id, const char *label, int attr)
 }
 
 // ADD A MENU SUBMENU ---------------------------------------------------------
-int                     menu_add_item (int menu_id, const char *label, int attr, t_menu_callback callback, void *user_data)
+int                     menu_add_item (int menu_id, const char *label, int flags, t_menu_callback callback, void *user_data)
 {
- gui_type_menu *		menu;
- gui_type_menu_entry *	entry;
+	t_menu* menu = menus [menu_id];
+	if (menu->n_entry >= MAX_MENUS_ENTRY)
+	{
+		return (0);
+	}
 
- menu = menus [menu_id];
- if (menu->n_entry >= MAX_MENUS_ENTRY)
-    {
-    return (0);
-    }
-
- entry = menu->entry[menu->n_entry] = (gui_type_menu_entry *)malloc(sizeof (gui_type_menu_entry));
- entry->label = strdup(label);
- entry->hotkey = NULL;
- entry->type = ITEM_EXECUTE;
- entry->attr = attr;
- entry->mouse_over = 0;
- entry->callback = (t_menu_callback)callback;
- entry->user_data = user_data;
- return (menu->n_entry ++);
+	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
+	entry->label = strdup(label);
+	entry->hotkey = NULL;
+	entry->type = ITEM_EXECUTE;
+	entry->flags = flags;
+	entry->mouse_over = false;
+	entry->callback = (t_menu_callback)callback;
+	entry->user_data = user_data;
+	return (menu->n_entry ++);
 }
 
 // SET ALL "MOUSE_OVER" VARIABLE TO ZERO, RECURSIVELY -------------------------
 // FIXME: Make obsolete
 void            gui_menu_un_mouse_over (int menu_id)
 {
- int            i;
- gui_type_menu  *menu = menus [menu_id];
-
- for (i = 0; i < menu->n_entry; i ++)
-     {
-     if (menu->entry[i]->mouse_over)
-        {
-        gui.info.must_redraw = TRUE;
-        menu->entry[i]->mouse_over = 0;
-        if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->attr & AM_Active))
-           {
-           gui_menu_un_mouse_over (menu->entry[i]->submenu_id);
-           }
-        }
-     }
+	t_menu  *menu = menus [menu_id];
+	for (int i = 0; i < menu->n_entry; i ++)
+	{
+		if (menu->entry[i]->mouse_over)
+		{
+			gui.info.must_redraw = TRUE;
+			menu->entry[i]->mouse_over = false;
+			if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->flags & AM_Active))
+			{
+				gui_menu_un_mouse_over (menu->entry[i]->submenu_id);
+			}
+		}
+	}
 }
 
 // SET ALL "CHECKED" ATTRIBUTES TO ZERO, RECURSIVELY --------------------------
 // FIXME: Make obsolete
 void            gui_menu_un_check (int menu_id)
 {
- int            i;
- gui_type_menu  *menu = menus [menu_id];
-
- for (i = 0; i < menu->n_entry; i ++)
-     {
-     menu->entry[i]->attr &= (~AM_Checked);
-     if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->attr & AM_Active))
-        {
-        gui_menu_un_check (menu->entry[i]->submenu_id);
-        }
-     }
+	t_menu  *menu = menus [menu_id];
+	for (int i = 0; i < menu->n_entry; i ++)
+	{
+		menu->entry[i]->flags &= (~AM_Checked);
+		if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->flags & AM_Active))
+		{
+			gui_menu_un_check (menu->entry[i]->submenu_id);
+		}
+	}
 }
 
 // SET ALL "CHECKED" ATTRIBUTES TO ZERO, RECURSIVELY --------------------------
 // FIXME: Make obsolete
 void            gui_menu_un_check_area (int menu_id, int start, int end)
 {
- int            i;
- gui_type_menu  *menu = menus [menu_id];
-
- for (i = start; i <= end; i ++)
-     {
-     menu->entry[i]->attr &= (~AM_Checked);
-     if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->attr & AM_Active))
-        {
-        gui_menu_un_check (menu->entry[i]->submenu_id);
-        }
-     }
+	t_menu  *menu = menus [menu_id];
+	for (int i = start; i <= end; i ++)
+	{
+		menu->entry[i]->flags &= (~AM_Checked);
+		if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->flags & AM_Active))
+		{
+			gui_menu_un_check (menu->entry[i]->submenu_id);
+		}
+	}
 }
 
 // FIXME: Make obsolete
 void            gui_menu_active (int active, int menu_id, int menu_item)
 {
-    gui_type_menu  *menu = menus [menu_id];
+    t_menu  *menu = menus [menu_id];
 
     assert(menu_item >= 0 && menu_item < menu->n_entry);
     if (active)
-        menu->entry[menu_item]->attr |= (AM_Active);
+        menu->entry[menu_item]->flags |= (AM_Active);
     else
-        menu->entry[menu_item]->attr &= (~AM_Active);
+        menu->entry[menu_item]->flags &= (~AM_Active);
 }
 
 // FIXME: Make obsolete
 void            gui_menu_active_area (int active, int menu_id, int start, int end)
 {
- int            i;
- gui_type_menu  *menu = menus [menu_id];
-
- for (i = start; i <= end; i ++)
-     {
-     if (active)
-        menu->entry[i]->attr |= (AM_Active);
-     else
-        menu->entry[i]->attr &= (~AM_Active);
-     }
+	t_menu  *menu = menus [menu_id];
+	for (int i = start; i <= end; i ++)
+	{
+		if (active)
+			menu->entry[i]->flags |= (AM_Active);
+		else
+			menu->entry[i]->flags &= (~AM_Active);
+	}
 }
 
 // FIXME: Make obsolete
 // INVERSE CHECK ATTRIBUTE OF A CERTAIN ENTRY ---------------------------------
 void    gui_menu_inverse_check (int menu_id, int n_entry)
 {
- menus [menu_id]->entry [n_entry]->attr ^= AM_Checked;
+	menus [menu_id]->entry [n_entry]->flags ^= AM_Checked;
 }
 
 //-----------------------------------------------------------------------------

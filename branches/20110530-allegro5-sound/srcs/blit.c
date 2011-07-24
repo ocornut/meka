@@ -126,15 +126,15 @@ static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
 
 	// FIXME-OPT: use a dedicated font. This is slow as hell!!
     Font_SetCurrent(F_LARGE);
-    Font_Print(F_CURRENT, gui_status.message, x - 1, y - 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x,     y - 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x + 1, y - 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x - 1, y + 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x,     y + 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x + 1, y + 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x - 1, y,     COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x + 1, y,     COLOR_BLACK);
-    Font_Print(F_CURRENT, gui_status.message, x,     y,     COLOR_WHITE);
+    Font_Print(F_CURRENT, g_gui_status.message, x - 1, y - 1, COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x,     y - 1, COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x + 1, y - 1, COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x - 1, y + 1, COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x,     y + 1, COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x + 1, y + 1, COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x - 1, y,     COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x + 1, y,     COLOR_BLACK);
+    Font_Print(F_CURRENT, g_gui_status.message, x,     y,     COLOR_WHITE);
 }
 
 static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer, int input_res_sx, int input_res_sy, int dst_scale)
@@ -324,10 +324,10 @@ void    Blit_Fullscreen(void)
 
     Blitters_Table [Blitters.current->blitter].func();
 
-	if (gui_status.timeleft && g_Configuration.show_fullscreen_messages)
+	if (g_gui_status.timeleft && g_Configuration.show_fullscreen_messages)
 	{
-		Blit_Fullscreen_Message(fs_out, gui_status.timeleft);
-		gui_status.timeleft --;
+		Blit_Fullscreen_Message(fs_out, g_gui_status.timeleft);
+		g_gui_status.timeleft --;
 	}
 
 	al_flip_display();
