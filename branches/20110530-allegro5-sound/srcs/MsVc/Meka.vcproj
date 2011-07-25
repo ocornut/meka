@@ -635,14 +635,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\tools_t.c"
-				>
-			</File>
-			<File
-				RelativePath="..\tools_t.h"
-				>
-			</File>
-			<File
 				RelativePath="..\tvtype.c"
 				>
 			</File>
