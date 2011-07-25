@@ -46,8 +46,8 @@ void    Sound_Log_FileName_Get(char *result, char *filename_template, int *id)
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & runnnig
     {
         strcpy (s1, g_env.Paths.MediaImageFile);
-        killpath (s1);
-        killext (s1);
+        StrPath_RemoveDirectory (s1);
+        StrPath_RemoveExtension (s1);
         game_name = s1;
     }
     else
@@ -78,7 +78,7 @@ void    Sound_LogWAV_Start(void)
 			return;
 		}
 		Sound.LogWav = WAV_Start(FileName);
-		killpath (FileName);
+		StrPath_RemoveDirectory (FileName);
 		if (Sound.LogWav == NULL)
 		{
 			Msg (MSGT_USER, Msg_Get (MSG_Sound_Dumping_Error_File_2), FileName);
@@ -121,13 +121,13 @@ void    Sound_LogVGM_Start(void)
 	}
 	if (VGM_Start(&Sound.LogVGM, FileName, Sound.LogVGM_Logging_Accuracy) != MEKA_ERR_OK)
 	{
-		killpath (FileName);
+		StrPath_RemoveDirectory (FileName);
 		Msg (MSGT_USER, Msg_Get (MSG_Sound_Dumping_Error_File_2), FileName);
 		return;
 	}
 	else
 	{
-		killpath (FileName);
+		StrPath_RemoveDirectory (FileName);
 		Msg (MSGT_USER, Msg_Get (MSG_Sound_Dumping_Start), FileName);
 		gui_menu_active_area (TRUE, menus_ID.sound_log, 1, 1);
 	}

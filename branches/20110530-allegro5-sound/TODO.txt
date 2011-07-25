@@ -12,7 +12,6 @@ Meka 0.80 check list
 - new feature: tilemap for mode 2?
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
-- file browser: browsing directory up keep cursor on the last directory
 - reorganize inputs configuration panel?
 - pro action replay 
 - end-user timing (message time, double click) shouldn't be measured in emulated frames
@@ -52,8 +51,6 @@ The CLOCK command seems to be rendering the cycle counter (I seem to remember it
 
 Fix default .sc mapper (eigo sakubun)
 Namely if ROM is bigger than 32 KB don't stupidely ignore the rest of the data!!
-
-File Browser: Backspace key, select child directory
 
 .thm parsing crash (see forum - where??)
 

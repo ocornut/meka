@@ -65,7 +65,7 @@ void            Checksum_Perform(const u8 *data, int data_size)
     // Update VLFN
     {
 		char media_path[FILENAME_LEN];
-        StrCpyPathRemoved(media_path, g_env.Paths.MediaImageFile);
+        StrPath_RemoveDirectory(media_path, g_env.Paths.MediaImageFile);
         if (DB.current_entry)
             VLFN_AddEntry(media_path, DB.current_entry);
         else

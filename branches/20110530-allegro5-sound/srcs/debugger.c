@@ -1124,7 +1124,7 @@ void     Debugger_Symbols_Load(void)
     // Load symbol file
     // 1. Try "image.sym"
     strcpy(symbol_filename, g_env.Paths.MediaImageFile);
-    killext(symbol_filename);
+    StrPath_RemoveExtension(symbol_filename);
     strcat(symbol_filename, ".sym");
     symbol_file = tfile_read(symbol_filename);
     if (symbol_file == NULL)
@@ -1143,7 +1143,7 @@ void     Debugger_Symbols_Load(void)
             return;
         }
     }
-    killpath(symbol_filename);
+    StrPath_RemoveDirectory(symbol_filename);
 
     line_cnt = 0;
     for (lines = symbol_file->data_lines; lines; lines = lines->next)

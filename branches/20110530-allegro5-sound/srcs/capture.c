@@ -70,8 +70,8 @@ static void	Capture_FileName_Get(char *dst)
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
     {
         strcpy(s1, g_env.Paths.MediaImageFile);
-        killpath(s1);
-        killext(s1);
+        StrPath_RemoveDirectory(s1);
+        StrPath_RemoveExtension(s1);
         game_name = s1;
     }
     else
@@ -175,7 +175,7 @@ static void		Capture_Screen(void)
     al_destroy_bitmap(bmp);
 
     // Verbose
-    killpath(filename);
+    StrPath_RemoveDirectory(filename);
     Msg(MSGT_USER, Msg_Get(MSG_Capture_Done), filename);
 }
 

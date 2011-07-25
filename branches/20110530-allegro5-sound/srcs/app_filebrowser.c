@@ -51,8 +51,11 @@ static void    FB_Click_List           (t_widget *w);
 static void    FB_Sort_Files           (int start, int end);
 static void    FB_Check_and_Repos      (void);
 
-static void    FB_Open                 (void);
-static void    FB_Load_All_Names       (void);
+static bool		FB_SelectEntryByFileName	(const char* name);
+static void		FB_OpenSelectedEntry		(void);
+static void		FB_OpenDirectory			(const char* name);
+static void		FB_OpenFile					(const char* name);
+static void		FB_LoadAllNames				(void);
 
 static t_filebrowser_entry *   FB_Entry_New        (int type, char *file_name);
 static void                    FB_Entry_Delete     (t_filebrowser_entry *entry);
@@ -80,7 +83,7 @@ t_filebrowser_entry *       FB_Entry_New (int type, char *file_name)
 // FB_Entry_Delete (t_filebrowser_entry *entry)
 // Delete given file browser entry
 //-----------------------------------------------------------------------------
-void    FB_Entry_Delete (t_filebrowser_entry *entry)
+void    FB_Entry_Delete(t_filebrowser_entry *entry)
 {
     free (entry->file_name);
     free (entry);
@@ -90,7 +93,7 @@ void    FB_Entry_Delete (t_filebrowser_entry *entry)
 // FB_Entry_FindVLFN (t_filebrowser_entry *entry)
 // Find VLFN data associated to given entry file name, and associate data
 //-----------------------------------------------------------------------------
-void                FB_Entry_FindVLFN (t_filebrowser_entry *entry)
+void                FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 {
     t_vlfn_entry *  vlfn_entry;
     vlfn_entry = VLFN_FindByFileName(entry->file_name);
@@ -103,17 +106,17 @@ void                FB_Entry_FindVLFN (t_filebrowser_entry *entry)
 
 //-----------------------------------------------------------------------------
 
-INLINE int     FB_Return_File_Area_X (void)
+int     FB_Return_File_Area_X (void)
 {
     return (FB.res_x - (2 * FB_PAD_X));
 }
 
-INLINE int     FB_Return_File_Area_Y (void)
+int     FB_Return_File_Area_Y (void)
 {
     return ((FB.file_y * Font_Height (F_LARGE)) + 5);
 }
 
-INLINE int     FB_Return_Res_Y (void)
+int     FB_Return_Res_Y (void)
 {
     return (FB_Return_File_Area_Y () + (3 * FB_PAD_Y) + FB_BUTTON_Y);
 }
@@ -140,7 +143,7 @@ void            FB_Init (void)
     frame.size.x    = FB.res_x;
     frame.size.y    = FB_Return_Res_Y();
     FB.box = gui_box_new(&frame, Msg_Get (MSG_FileBrowser_BoxTitle));
-    Desktop_Register_Box("LOAD", FB.box, 0, &FB.active);
+    Desktop_Register_Box("FILEBROWSER", FB.box, 0, &FB.active);
 
     // Set exclusive inputs flag to avoid messing with emulation
     FB.box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
@@ -158,7 +161,7 @@ void    FB_Init_2 (void)
     FB_Load_Directory();
 }
 
-void        FB_Layout(t_filebrowser *app, bool setup)
+void	FB_Layout(t_filebrowser *app, bool setup)
 {
     al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
@@ -193,14 +196,14 @@ void        FB_Layout(t_filebrowser *app, bool setup)
 
         // Add 'LOAD' button
         frame.pos.x -= FB_BUTTON_X + 10;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Open, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Load));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Load));
 
         // Add small 'LOAD NAMES' button
         frame.pos.x = FB_PAD_X;
         frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MIDDLE) + 6;
         frame.size.x = 54;
         frame.size.y = Font_Height (F_SMALL) + 3;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_All_Names, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
 
         // Add small 'RELOAD DIR' button
         frame.pos.x += frame.size.x + 1;
@@ -712,11 +715,10 @@ void            FB_Check_and_Repos (void)
 
     if (FB.file_pos < (FB.file_y >> 1)) 
         FB.file_display_first = 0;
-    else
-        if (FB.file_pos >= FB.files_max - (FB.file_y / 2)) 
-            FB.file_display_first = FB.files_max - FB.file_y;
-        else
-            FB.file_display_first = FB.file_pos - (FB.file_y / 2);
+    else if (FB.file_pos >= FB.files_max - (FB.file_y / 2)) 
+		FB.file_display_first = FB.files_max - FB.file_y;
+	else
+		FB.file_display_first = FB.file_pos - (FB.file_y / 2);
 
     if (FB.file_display_first < 0) 
         FB.file_display_first = 0;
@@ -743,7 +745,7 @@ void            FB_Update(void)
         // Update keyboard inputs
         if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, TRUE) || Inputs_KeyPressed (ALLEGRO_KEY_PAD_ENTER, TRUE))
         {
-            FB_Open ();
+            FB_OpenSelectedEntry();
             dirty = TRUE;
         }
         else if (Inputs_KeyPressed (ALLEGRO_KEY_HOME, FALSE))
@@ -775,6 +777,11 @@ void            FB_Update(void)
         {
             FB.file_pos -= FB.file_y;
             dirty = TRUE;
+        }
+        else if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, false))
+        {
+			FB_OpenDirectory("..");
+			dirty = true;
         }
         // Note: we check for no key modifiers to be pressed
         // Eg: we don't want ALT-L to jump on 'L' games
@@ -855,13 +862,13 @@ void        FB_Load_Directory (void)
     }
 }
 
-void        FB_Load_All_Names (void)
+void        FB_LoadAllNames(void)
 {
     // Save current battery backed memory if there's one
     // Because Load_ROM with no verbosing doesn't save it
     BMemory_Save();
 
-    // Msg (MSGT_DEBUG, "FB_Load_All_Names()");
+    // Msg (MSGT_DEBUG, "FB_LoadAllNames()");
     for (int i = 0; i < FB.files_max; i++)
     {
         t_filebrowser_entry *entry = FB.files[i];
@@ -870,8 +877,8 @@ void        FB_Load_All_Names (void)
             strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
             // Msg (MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
             FB.file_pos = i;
-            FB_Check_and_Repos ();
-            FB_Draw_List ();
+            FB_Check_and_Repos();
+            FB_Draw_List();
             Load_ROM (LOAD_INTERFACE, FALSE);
             gui_redraw_everything_now_once ();
         }
@@ -887,42 +894,20 @@ void        FB_Load_All_Names (void)
     FB_Draw_List();
 }
 
-void        FB_Open(void)
+void        FB_OpenSelectedEntry(void)
 {
-    // Mute sound while processing loading or changing directory, which may take time
-    Sound_Playback_Mute();
-
     t_filebrowser_entry *entry = FB.files [FB.file_pos];
     switch (entry->type)
     {
     case FB_ENTRY_TYPE_DIRECTORY:
     case FB_ENTRY_TYPE_DRIVE:
         {
-            const char *dst = entry->file_name;
-            chdir(dst);
-			if (!strcmp(dst, ".."))
-			{
-				// If going up the hierarchy we want to position cursor on the orevious directory
-			}
-
-            getcwd(FB.current_directory, FILENAME_LEN);
-            FB_Free_Memory();
-            FB_Load_Directory_Internal();
+			FB_OpenDirectory(entry->file_name);
             break;
         }
     case FB_ENTRY_TYPE_FILE:
         {
-            strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
-            Load_ROM(LOAD_INTERFACE, TRUE);
-            FB_Reload_Names();
-            if (g_Configuration.fb_close_after_load)
-            {
-                FB_Switch();
-            }
-            if (g_Configuration.fullscreen_after_load)
-            {
-                Action_Switch_Mode();
-            }
+			FB_OpenFile(entry->file_name);
             break;
         }
     default:
@@ -931,9 +916,75 @@ void        FB_Open(void)
             break;
         }
     }
+}
 
-    // Resume sound
+void	FB_OpenDirectory(const char* name)
+{
+    // Mute sound while processing loading or changing directory, which may take time
+    Sound_Playback_Mute();
+
+	// Change directory
+	chdir(name);
+
+	char previous_directory[FILENAME_LEN];
+	if (!strcmp(name, ".."))
+	{
+		// If going up the hierarchy we want to position cursor on the orevious directory
+		// Abusively use StrPath_RemoveDirectory() since we know current_directory doesn't end with /
+		StrPath_RemoveDirectory(previous_directory, FB.current_directory);
+	}
+	else
+	{
+		previous_directory[0] = EOSTR;
+	}
+
+	getcwd(FB.current_directory, FILENAME_LEN);
+	FB_Free_Memory();
+	FB_Load_Directory_Internal();
+
+	if (previous_directory[0] != EOSTR)
+	{
+		FB_SelectEntryByFileName(previous_directory);
+	}
+
+	// Resume sound
     Sound_Playback_Resume();
+}
+
+void	FB_OpenFile(const char* name)
+{
+    // Mute sound while processing loading or changing directory, which may take time
+    Sound_Playback_Mute();
+
+	strncpy(g_env.Paths.MediaImageFile, name, sizeof(g_env.Paths.MediaImageFile));
+	Load_ROM(LOAD_INTERFACE, TRUE);
+	FB_Reload_Names();
+	if (g_Configuration.fb_close_after_load)
+	{
+		FB_Switch();
+	}
+	if (g_Configuration.fullscreen_after_load)
+	{
+		Action_Switch_Mode();
+	}
+
+	// Resume sound
+    Sound_Playback_Resume();
+}
+
+bool    FB_SelectEntryByFileName(const char* file_name)
+{
+    for (int i = 0; i < FB.files_max; i++)
+    {
+        const t_filebrowser_entry *entry = FB.files[i];
+		if (strcmp(entry->file_name, file_name) == 0)
+		{
+            FB.file_pos = i;
+            FB_Check_and_Repos();
+			return true;
+		}
+	}
+	return false;
 }
 
 void    FB_Click_List (t_widget *w)
@@ -944,7 +995,7 @@ void    FB_Click_List (t_widget *w)
         // FIXME: double-clicks should be generically handled by GUI and supports frameskipping
         gui.mouse.reset_timer = TRUE;
         gui.mouse.time_since_last_click = DOUBLE_CLICK_SPEED + 1;
-        FB_Open ();
+        FB_OpenSelectedEntry();
     }
     else
     {

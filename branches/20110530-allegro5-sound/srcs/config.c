@@ -49,7 +49,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 	strlwr(var);
 
 	// All input is changed to lower case for easier compare (apart from 'last_directory')
-	if (!strcmp(var, "last_directory"))
+	if (strcmp(var, "last_directory"))
 		strlwr(value);
 
 	// Select
@@ -178,7 +178,7 @@ void        Configuration_Load (void)
     char *     line;
     int        line_cnt;
 
-    StrCpyPathRemoved(value, g_env.Paths.ConfigurationFile);
+    StrPath_RemoveDirectory(value, g_env.Paths.ConfigurationFile);
 #ifndef ARCH_UNIX
     StrUpper(value);
 #endif

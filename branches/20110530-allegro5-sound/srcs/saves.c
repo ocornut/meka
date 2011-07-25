@@ -141,7 +141,7 @@ void        Save_Game (void)
         fclose (f);
     }
 
-    killpath (buf);
+    StrPath_RemoveDirectory (buf);
     switch (result)
     {
     case 1: Msg (MSGT_USER, Msg_Get (MSG_Save_Success), buf);
@@ -193,7 +193,7 @@ void        Load_Game (void)
         fclose (f);
     }
 
-    killpath (buf);
+    StrPath_RemoveDirectory (buf);
     switch (result)
     {
     case 1: Msg (MSGT_USER, Msg_Get (MSG_Load_Success), buf);
@@ -589,8 +589,8 @@ void    Save_Get_Filename (char *str)
 
     // Compute save state filename
     strcpy (buf, g_env.Paths.MediaImageFile);
-    killext (buf);
-    killpath (buf);
+    StrPath_RemoveExtension (buf);
+    StrPath_RemoveDirectory (buf);
     sprintf (str, "%s/%s.S%02d", g_env.Paths.SavegameDirectory, buf, opt.State_Current);
 }
 

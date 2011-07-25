@@ -173,8 +173,8 @@ void    Filenames_Init_ROM (void)
     {
         char temp[FILENAME_LEN];
         strcpy   (temp, g_env.Paths.MediaImageFile);
-        killext  (temp);
-        killpath (temp);
+        StrPath_RemoveExtension  (temp);
+        StrPath_RemoveDirectory (temp);
         sprintf  (g_env.Paths.BatteryBackedMemoryFile, "%s/%s.sav", g_env.Paths.SavegameDirectory, temp);
     }
 }
@@ -270,7 +270,7 @@ bool    Load_ROM (int mode, int user_verbose)
     {
         // Display success message
 		char filename[FILENAME_LEN];
-        StrCpyPathRemoved(filename, g_env.Paths.MediaImageFile);
+        StrPath_RemoveDirectory(filename, g_env.Paths.MediaImageFile);
         if (cur_drv->id != DRV_SF7000)
             Msg(MSGT_USER, Msg_Get(MSG_LoadROM_Success), filename);
         else
@@ -400,7 +400,7 @@ int             Load_ROM_Zipped (void)
 
     // Setting driver ------------------------------------------------------------
     // Must be done there because we don't have the filename before..
-    keepext(temp);
+    StrPath_GetExtension(temp);
     StrUpper(temp);
     cur_machine.driver_id = drv_get_from_filename_extension(temp);
 
@@ -547,7 +547,7 @@ int             Load_ROM_Main ()
 
     // Check extension ----------------------------------------------------------
     strcpy(filename_ext, g_env.Paths.MediaImageFile);
-    keepext(filename_ext);
+    StrPath_GetExtension(filename_ext);
     StrUpper(filename_ext);
     if (strcmp(filename_ext, "ZIP") == 0)
     {

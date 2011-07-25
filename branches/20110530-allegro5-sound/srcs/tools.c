@@ -9,53 +9,47 @@
 
 //-----------------------------------------------------------------------------
 
-// KILL EXTENSION FROM A FILENAME ---------------------------------------------
-// FIXME: move to libmy
-void    killext (char *org)
+void    StrPath_RemoveExtension(char* buf)
 {
-	char *p = strrchr (org, '.');
+	// Assume single dotted extension
+	char *p = strrchr(buf, '.');
 	if (p != NULL) 
 		*p = EOSTR;
 }
 
-// KEEP EXTENSION FROM A FILENAME ---------------------------------------------
-// FIXME: move to libmy
-void    keepext (char *org)
+void    StrPath_GetExtension(char* buf)
 {
-	char s [FILENAME_LEN];
-	char *p = strrchr (org, '.');
-
+	const char *p = strrchr (buf, '.');
 	if (p == NULL) 
 		return;
-	strcpy (s, p + 1);
-	strcpy (org, s);
+
+	char tmp[FILENAME_LEN];
+	strcpy(tmp, p + 1);
+	strcpy(buf, tmp);
 }
 
-// KILL PATH FROM A FILENAME --------------------------------------------------
-// FIXME: move to libmy
-void    killpath (char *org)
+void    StrPath_RemoveDirectory(char* buf)
 {
-	char   *p;
-	char   str1 [FILENAME_LEN];
+	char tmp[FILENAME_LEN];
 
-	if ((p = strrchr (org, '/')))
-	{
-		p ++;
-		strcpy (str1, p);
-		strcpy (org, str1);
-	}
+	const char* p = strrchr(buf, '/');
+
 #ifndef ARCH_UNIX
-	else if ((p = strrchr (org, '\\')))
-	{
-		p ++;
-		strcpy (str1, p);
-		strcpy (org, str1);
-	}
+    const char *p2 = strrchr(buf, '\\');
+    if (p2 != NULL && p2 > p)
+        p = p2;
 #endif
+
+	if (p != NULL)
+	{
+		p++;
+		strcpy (tmp, p);
+		strcpy (buf, tmp);
+	}
 }
 
 // Extract filename from 'src' and copy it to location 'dst'
-void    StrCpyPathRemoved(char *dst, const char *src)
+void    StrPath_RemoveDirectory(char *dst, const char *src)
 {
     const char* p = strrchr(src, '/');
 
