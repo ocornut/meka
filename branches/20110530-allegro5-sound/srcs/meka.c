@@ -259,7 +259,7 @@ static void Close_Emulator (void)
 #endif
     GUI_Close            ();
     Free_Memory          ();
-    FB_Free_Memory       ();
+    FB_Close             ();
     DB_Close             ();
     Blitters_Close       ();
     Glasses_Close        ();

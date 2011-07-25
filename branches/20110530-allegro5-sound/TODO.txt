@@ -1,5 +1,6 @@
 
 Meka 0.80 check list
+- GUI HOVERING SCROLL BAR BROKEN
 - debug version leaves allegro.log is current directory
 - fix sound: latency, 50 hz, other modes?
 - fix inputs
@@ -32,11 +33,14 @@ http://smspower.org/forums/viewtopic.php?p=64723#64723
 I would like Meka v0.74 to contain a Extra Debug mode called ''Sprite/OAM Viewer'' as seen by some modern emulators such as
 BGB/No$GMB/NO$C64/Etc.
 
-Not only that, SG1000/SC3000/Ect. and compatible Sprite and Name Table viewer. Can be used as a reference to gain more programmers for older SEGA systems
+Not only that, SG1000/SC3000/Ect. and compatible Sprite and Name Table viewer. Can be used as a reference to
+gain more programmers for older SEGA systems
 
-But the only SEGA console emulators with Sprite viewer capability is a few 16bit Genesis/Mega Drive, Which I could not find a modern one yet besides NES/GB(Color) stuff.
+But the only SEGA console emulators with Sprite viewer capability is a few 16bit Genesis/Mega Drive, Which I could not
+find a modern one yet besides NES/GB(Color) stuff.
 
-So I think it will be more helpful to debuggers for doing Sprites, if there is one for MEKA, It will become superior to the other Z80+VDP emulators. Beating MSX(2/+) Somehow
+So I think it will be more helpful to debuggers for doing Sprites, if there is one for MEKA, It will become superior to 
+the other Z80+VDP emulators. Beating MSX(2/+) Somehow
 
 
 - Speed above 1/9 (for zexall)

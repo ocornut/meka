@@ -37,25 +37,25 @@ t_filebrowser    FB;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-void    FB_Layout               (t_filebrowser *app, bool setup);
+static void    FB_Layout               (t_filebrowser *app, bool setup);
 
 //...
 
-int     FB_Return_File_Area_X   (void);
-int     FB_Return_File_Area_Y   (void);
-int     FB_Return_Res_Y         (void);
+static int     FB_Return_File_Area_X   (void);
+static int     FB_Return_File_Area_Y   (void);
+static int     FB_Return_Res_Y         (void);
 
-void    FB_Draw_List            (void);
-void    FB_Draw_Infos           (void);
-void    FB_Click_List           (t_widget *w);
-void    FB_Sort_Files           (int start, int end);
-void    FB_Check_and_Repos      (void);
+static void    FB_Draw_List            (void);
+static void    FB_Draw_Infos           (void);
+static void    FB_Click_List           (t_widget *w);
+static void    FB_Sort_Files           (int start, int end);
+static void    FB_Check_and_Repos      (void);
 
-void    FB_Open                 (void);
-void    FB_Load_All_Names       (void);
+static void    FB_Open                 (void);
+static void    FB_Load_All_Names       (void);
 
-t_filebrowser_entry *   FB_Entry_New        (int type, char *file_name);
-void                    FB_Entry_Delete     (t_filebrowser_entry *entry);
+static t_filebrowser_entry *   FB_Entry_New        (int type, char *file_name);
+static void                    FB_Entry_Delete     (t_filebrowser_entry *entry);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -218,11 +218,15 @@ void        FB_Free_Memory(void)
     free(FB.files);
 }
 
-#ifndef ARCH_UNIX
-
-void            FB_Add_Drives (void)
+void		FB_Close()
 {
+	FB_Free_Memory();
+}
 
+#ifdef ARCH_WIN32
+
+void		FB_Add_DiskDrives(void)
+{
     for (int i = 2; i < 26; i ++)   // C: to Z:
     {
         if (GetLogicalDrives () & (1 << i))
@@ -245,7 +249,7 @@ void            FB_Add_Drives (void)
 
 static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
 {
-    t_db_entry *    db_entry = entry->db_entry;
+    const t_db_entry *    db_entry = entry->db_entry;
     if (!db_entry)
         return (-1);
 
@@ -280,10 +284,10 @@ void        FB_Sort_Files (int start, int end)
         {
             t_filebrowser_entry *e1 = FB.files[i];
             t_filebrowser_entry *e2 = FB.files[i - 1];
-            char *e1_name = e1->db_entry_name ? e1->db_entry_name : e1->file_name;
-            char *e2_name = e2->db_entry_name ? e2->db_entry_name : e2->file_name;
 
             // Compare
+            const char *e1_name = e1->db_entry_name ? e1->db_entry_name : e1->file_name;
+            const char *e2_name = e2->db_entry_name ? e2->db_entry_name : e2->file_name;
             int d = stricmp (e1_name, e2_name);
 
             // Only if names are equal, sorting order depends on DB data (flags/bad marker, etc...)
@@ -427,7 +431,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
 static void     FB_Load_Directory_Internal (void)
 {
-    static int  no_files = 0;
+    static bool no_files_hack = false;
 
     // Clear out
     FB.files_max = 0;
@@ -437,12 +441,10 @@ static void     FB_Load_Directory_Internal (void)
 	FB.files = (t_filebrowser_entry**)malloc (sizeof (t_filebrowser_entry *));
 
     // First add directories and sort them
-    FB_Add_Entries (NULL, FB_ENTRY_TYPE_DIRECTORY);
-    int i = FB.files_max;
-    if (FB.files_max > 0 && (strcmp (FB.files [0]->file_name, "..") == 0))
-        FB_Sort_Files (1, i);
-    else
-        FB_Sort_Files (0, i);
+    FB_Add_Entries(NULL, FB_ENTRY_TYPE_DIRECTORY);
+	const int sort_dir_last = FB.files_max;
+	const int sort_dir_first = (sort_dir_last > 0 && (strcmp(FB.files [0]->file_name, "..") == 0)) ? 1 : 0;
+    FB_Sort_Files(sort_dir_first, sort_dir_last);
 
     // Then add files
     // FIXME: get the list from Drivers.[ch]
@@ -459,31 +461,31 @@ static void     FB_Load_Directory_Internal (void)
     #ifdef MEKA_ZIP
         list_add (&ext_list, "ZIP");
     #endif
-    FB_Add_Entries (ext_list, FB_ENTRY_TYPE_FILE);
+    FB_Add_Entries(ext_list, FB_ENTRY_TYPE_FILE);
 
-    // If no file was found, attempt to chdir to root and try again
+    // If nothing was found, attempt to chdir to root and try again
     // FIXME: using a static there...
-    if (FB.files_max == 0 && no_files == 0)
-    {
+    if (FB.files_max == 0 && !no_files_hack)
+	{
         chdir("\\");
-        no_files = 1;
-        FB_Load_Directory_Internal ();
+        no_files_hack = true;
+        FB_Load_Directory_Internal();
         return;
     }
-    no_files = 0;
+    no_files_hack = false;
 
     // Sort files
-    FB.file_first = i;
+    FB.file_first = sort_dir_last;
     FB.file_last = FB.files_max;
-    FB_Sort_Files (FB.file_first, FB.file_last);
+    FB_Sort_Files(FB.file_first, FB.file_last);
 
-    // Finally add disk drivers
-    #ifndef ARCH_UNIX
-        FB_Add_Drives ();
+    // Finally add disk drives
+    #ifdef ARCH_WIN32
+        FB_Add_DiskDrives();
     #endif
     
     // Display
-    FB_Draw_List ();
+    FB_Draw_List();
 }
 
 void        FB_Draw_Infos (void)
@@ -608,8 +610,8 @@ void        FB_Draw_List(void)
         // If name doesn't fit in x_max, we have to cut it
         if (x + Font_TextLength(F_CURRENT, name_buffer) > x_max)
         {
+            const int x_usage_ellipse = Font_TextLength(F_CURRENT, "..");
             int name_buffer_len = strlen(name_buffer);
-            int x_usage_ellipse = Font_TextLength(F_CURRENT, "..");
             while (x + Font_TextLength(F_CURRENT, name_buffer) + x_usage_ellipse > x_max)
             {
                 name_buffer_len--;
@@ -843,7 +845,7 @@ void        FB_Load_Directory (void)
     int i = FB.files_max;
     int j = FB.file_pos;
     int k = FB.file_display_first;
-    FB_Free_Memory ();
+    FB_Free_Memory();
     FB_Load_Directory_Internal ();
     if (i == FB.files_max) // nothing has changed in directory // FIXME: argh
     {
@@ -887,24 +889,22 @@ void        FB_Load_All_Names (void)
 
 void        FB_Open(void)
 {
-    t_filebrowser_entry *entry = FB.files [FB.file_pos];
-
-    // Mute sound while processing loading or changing directory,
-    // which may take time
+    // Mute sound while processing loading or changing directory, which may take time
     Sound_Playback_Mute();
 
+    t_filebrowser_entry *entry = FB.files [FB.file_pos];
     switch (entry->type)
     {
     case FB_ENTRY_TYPE_DIRECTORY:
     case FB_ENTRY_TYPE_DRIVE:
         {
-            char *dst = entry->file_name;
-            // #ifdef ARCH_WIN32
-            //  if (strlen(Dst) == 2 && Dst[1] == ':')
-            //      _chdrive (Dst[0] - 'A');
-            //  else
-            // #endif
+            const char *dst = entry->file_name;
             chdir(dst);
+			if (!strcmp(dst, ".."))
+			{
+				// If going up the hierarchy we want to position cursor on the orevious directory
+			}
+
             getcwd(FB.current_directory, FILENAME_LEN);
             FB_Free_Memory();
             FB_Load_Directory_Internal();

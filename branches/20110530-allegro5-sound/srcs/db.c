@@ -694,7 +694,7 @@ void            DB_Close (void)
 // FIXME: Once all DB entries will be converted to new format, MekaCRC could
 //        be dropped.
 //-----------------------------------------------------------------------------
-t_db_entry *    DB_Entry_Find (u32 crc32, t_meka_crc *mekacrc)
+t_db_entry *    DB_Entry_Find(u32 crc32, const t_meka_crc *mekacrc)
 {
     // All given CRC should not be null
     if (!crc32 && !mekacrc->v[0] && !mekacrc->v[1])
@@ -715,17 +715,14 @@ t_db_entry *    DB_Entry_Find (u32 crc32, t_meka_crc *mekacrc)
     return (NULL);
 }
 
-//-----------------------------------------------------------------------------
-// DB_Entry_GetCurrentName (t_db_entry *entry)
 // Get current name for current DB entry
-// Handle MEKA setting of the current country 
-//-----------------------------------------------------------------------------
-char *          DB_Entry_GetCurrentName (t_db_entry *entry)
+// Handle MEKA setting of the current country.
+const char *	DB_Entry_GetCurrentName (const t_db_entry *entry)
 {
     // In Japanese country mode, search for a Japanese name
     if (g_Configuration.country == COUNTRY_JAPAN)
     {
-        t_db_name *name = DB_Entry_GetNameByCountry (entry, DB_COUNTRY_JP);
+        const t_db_name *name = DB_Entry_GetNameByCountry (entry, DB_COUNTRY_JP);
         if (name)
             return (name->name);
     }
@@ -734,11 +731,8 @@ char *          DB_Entry_GetCurrentName (t_db_entry *entry)
     return (entry->names->name);
 }
 
-//-----------------------------------------------------------------------------
-// DB_Entry_GetNameByCountry (t_db_entry *entry, int country)
 // Find an entry name for given country. May return NULL if not found.
-//-----------------------------------------------------------------------------
-t_db_name *     DB_Entry_GetNameByCountry (t_db_entry *entry, int country)
+const t_db_name *	DB_Entry_GetNameByCountry (const t_db_entry *entry, int country)
 {
     t_db_name * name = entry->names;
     while (name)
@@ -750,14 +744,10 @@ t_db_name *     DB_Entry_GetNameByCountry (t_db_entry *entry, int country)
     return (NULL);
 }
 
-//-----------------------------------------------------------------------------
-// DB_Entry_SelectFlag  (t_db_entry *entry)
 // Select flag to display for given DB entry
-//-----------------------------------------------------------------------------
 // Note: this is named 'Select' as it may return nothing, and cannot return
 // multiple flags. This is used by the file browser / vlfn system.
-//-----------------------------------------------------------------------------
-int             DB_Entry_SelectFlag  (t_db_entry *entry)
+int             DB_Entry_SelectFlag  (const t_db_entry *entry)
 {
     int         country = entry->country;
 
@@ -791,11 +781,8 @@ int             DB_Entry_SelectFlag  (t_db_entry *entry)
     return (-1);
 }
 
-//-----------------------------------------------------------------------------
-// DB_Entry_GetTranslationFlag  (t_db_entry *entry)
 // Get translation flag for given DB entry
-//-----------------------------------------------------------------------------
-int             DB_Entry_GetTranslationFlag  (t_db_entry *entry)
+int             DB_Entry_GetTranslationFlag  (const t_db_entry *entry)
 {
     switch (entry->trans_country)
     {
