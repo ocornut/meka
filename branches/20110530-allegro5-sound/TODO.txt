@@ -569,6 +569,7 @@ doing them now and some are quick work.
  TILE VIEWER
 -----------------------------
  - Show everything in modes 0->3.
+ - Mini bg/fg palette selectors in modes 0->3.
  - Zoom tile.
 
 -----------------------------

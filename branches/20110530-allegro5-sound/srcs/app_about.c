@@ -27,7 +27,7 @@ static void         AboutBox_Layout(bool setup);
 
 void    AboutBox_Switch (void)
 {
-    int menu_pos = 5;
+    int menu_pos = 4;
 #ifdef MEKA_Z80_DEBUGGER
 	menu_pos += 1;
 #endif
