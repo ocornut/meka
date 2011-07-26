@@ -1,6 +1,5 @@
 
 Meka 0.80 check list
-- GUI HOVERING SCROLL BAR BROKEN
 - debug version leaves allegro.log is current directory
 - fix sound: latency, 50 hz, other modes?
 - fix inputs
@@ -15,7 +14,9 @@ Meka 0.80 check list
 - reorganize inputs configuration panel?
 - pro action replay 
 - end-user timing (message time, double click) shouldn't be measured in emulated frames
+- expose game screen scaling parameter (at least in configuration file!)
 - incorrect rom on command-line leaves a zombie thread? (sometimes?)
+- GUI HOVERING SCROLL BAR BROKEN
 
 - bug reports:
   - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. " 

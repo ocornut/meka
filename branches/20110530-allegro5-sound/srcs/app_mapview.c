@@ -31,6 +31,7 @@ t_list *            TilemapViewers;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
+static void			TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app);
 static void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup);
 static void         TilemapViewer_Update(t_tilemap_viewer *app);
 static void         TilemapViewer_UpdateInfos(t_tilemap_viewer *app);
@@ -64,31 +65,13 @@ t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
     app->tile_hovered               = -1;
     app->tile_selected              = 0;
 
-    app->frame_tilemap.pos.x        = TILEMAP_VIEWER_PADDING;
-    app->frame_tilemap.pos.y        = TILEMAP_VIEWER_PADDING;
-    app->frame_tilemap.size.x       = 256;
-    app->frame_tilemap.size.y       = 224;
+	// Start with SMS/GG layout because it is the biggest and we can't resize a gui box above its initial size
+	app->layout	= TILEMAP_VIEWER_LAYOUT_SMSGG;
+	TilemapViewer_SetupLayoutSizes(app);
 
-    app->frame_infos.pos.x          = TILEMAP_VIEWER_PADDING;
-    app->frame_infos.pos.y          = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
-    app->frame_infos.size.x         = 180 - TILEMAP_VIEWER_PADDING / 2;
-    app->frame_infos.size.y         = 104;
-
-    app->frame_config.pos.x         = app->frame_infos.pos.x + app->frame_infos.size.x + (TILEMAP_VIEWER_PADDING * 2);
-    app->frame_config.pos.y         = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
-    app->frame_config.size.x        = 76;
-    app->frame_config.size.y        = 104;
-
-    app->frame_tilemap_addr.pos.x   = TILEMAP_VIEWER_PADDING;
-    app->frame_tilemap_addr.pos.y   = app->frame_infos.pos.y + app->frame_infos.size.y + TILEMAP_VIEWER_PADDING;
-    app->frame_tilemap_addr.size.x  = 256;
-    app->frame_tilemap_addr.size.y  = 16;
-
-    // Create box
+	// Create box
     app->frame_box.pos.x        = 524;
     app->frame_box.pos.y        = 52;
-	app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
-    app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
     app->box = gui_box_new(&app->frame_box, "Tilemap Viewer");  // FIXME-LOCAL
     app->box->user_data = app;
     app->box->destroy = (t_gui_box_destroy_handler)TilemapViewer_Delete;
@@ -104,11 +87,83 @@ t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
     return (app);
 }
 
-void         TilemapViewer_Delete(t_tilemap_viewer *app)
+void	TilemapViewer_Delete(t_tilemap_viewer *app)
 {
     // Remove from global list
     list_remove(&TilemapViewers, app);
     free(app);
+}
+
+void	TilemapViewer_ChangeLayout(t_tilemap_viewer *app, t_tilemap_viewer_layout layout)
+{
+	app->layout = layout;
+	list_free_custom(&app->box->widgets, (t_list_free_handler)widget_destroy);
+	TilemapViewer_SetupLayoutSizes(app);
+	gui_box_resize(app->box, app->frame_box.size.x, app->frame_box.size.y);
+	TilemapViewer_Layout(app, true);
+}
+
+void	TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app)
+{
+	switch (app->layout)
+	{
+	case TILEMAP_VIEWER_LAYOUT_SMSGG:
+		{
+			app->frame_tilemap.pos.x        = TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap.pos.y        = TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap.size.x       = 256;
+			app->frame_tilemap.size.y       = 224;
+
+			app->frame_infos.pos.x          = TILEMAP_VIEWER_PADDING;
+			app->frame_infos.pos.y          = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
+			app->frame_infos.size.x         = 180 - TILEMAP_VIEWER_PADDING / 2;
+			app->frame_infos.size.y         = 104;
+
+			app->frame_config.pos.x         = app->frame_infos.pos.x + app->frame_infos.size.x + (TILEMAP_VIEWER_PADDING * 2);
+			app->frame_config.pos.y         = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
+			app->frame_config.size.x        = 76;
+			app->frame_config.size.y        = 104;
+
+			app->frame_tilemap_addr.pos.x   = TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap_addr.pos.y   = app->frame_infos.pos.y + app->frame_infos.size.y + TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap_addr.size.x  = 256;
+			app->frame_tilemap_addr.size.y  = 16;
+
+			// Box size (note that we don't touch pos here)
+			app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
+			app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
+			break;
+		}
+	case TILEMAP_VIEWER_LAYOUT_SGSC:
+		{
+			app->frame_tilemap.pos.x        = TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap.pos.y        = TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap.size.x       = 256;
+			app->frame_tilemap.size.y       = 192;
+
+			app->frame_infos.pos.x          = TILEMAP_VIEWER_PADDING;
+			app->frame_infos.pos.y          = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
+			app->frame_infos.size.x         = 180 - TILEMAP_VIEWER_PADDING / 2;
+			app->frame_infos.size.y         = 104;
+
+			app->frame_config.pos.x         = app->frame_infos.pos.x + app->frame_infos.size.x + (TILEMAP_VIEWER_PADDING * 2);
+			app->frame_config.pos.y         = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
+			app->frame_config.size.x        = 76;
+			app->frame_config.size.y        = 104;
+
+			app->frame_tilemap_addr.pos.x   = TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap_addr.pos.y   = app->frame_infos.pos.y + app->frame_infos.size.y + TILEMAP_VIEWER_PADDING;
+			app->frame_tilemap_addr.size.x  = 256;
+			app->frame_tilemap_addr.size.y  = 16;
+
+			// Box size (note that we don't touch pos here)
+			app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
+			app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
+			break;
+		}
+	default:
+		assert(0);
+	}
 }
 
 void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
@@ -221,7 +276,6 @@ void        TilemapViewer_CallbackTilemapAddressScroll(t_widget *w)
     t_tilemap_viewer *app = (t_tilemap_viewer *)w->box->user_data; // Get instance
 
     int new_addr;
-    int cur_addr;
     if (Wide_Screen_28)
     {
         // Extended resolution screen mapping (eg: used by CodeMasters games)
@@ -233,7 +287,7 @@ void        TilemapViewer_CallbackTilemapAddressScroll(t_widget *w)
         // Regular screen mapping
         new_addr = (app->widget_tilemap_addr_scrollbar_cur) * 0x0800;
     }
-    cur_addr = (app->config_tilemap_addr);
+    const int cur_addr = (app->config_tilemap_addr);
 
     if (new_addr != cur_addr)
     {
@@ -282,6 +336,15 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     // Skip update if not active
     if (!app->active)
         return;
+
+	// Full relayout when changing video mode
+	t_tilemap_viewer_layout required_layout;
+	if (tsms.VDP_VideoMode >= 4)
+		required_layout = TILEMAP_VIEWER_LAYOUT_SMSGG;
+	else
+		required_layout = TILEMAP_VIEWER_LAYOUT_SGSC;
+	if (app->layout != required_layout)
+		TilemapViewer_ChangeLayout(app, required_layout);
 
     // If skin has changed, redraw everything
     if (app->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
@@ -349,6 +412,11 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 		ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
 
 		// Draw tilemap
+		// TODO: pattern name addr slider, 0x0000 -> 0x3C00, 0x0400 increments
+		// TODO: vsection mask (use proper name)
+		// TODO: pattern data base addr
+		// TODO: color table base addr
+		// TODO: show info per tile: Index, X,Y, pattern_name
 		const u8* pattern_name_table = BACK_AREA;
 		const int vsection_mask = sms.VDP[4] & 3;
 		int y = 0;

@@ -309,7 +309,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
         widget_inputbox_set_flags(mv->values_edit_inputbox, WIDGET_INPUTBOX_FLAGS_NO_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_DELETE | WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR, TRUE);
         widget_inputbox_set_content_type(mv->values_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
         widget_inputbox_set_insert_mode(mv->values_edit_inputbox, TRUE);
-        mv->values_edit_inputbox->update = NULL;
+        mv->values_edit_inputbox->update_func = NULL;
         widget_disable(mv->values_edit_inputbox);
     }
 }
@@ -880,11 +880,11 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
         }
 
         // Show input box if not already active
-        if (mv->values_edit_inputbox->update == NULL)
+        if (mv->values_edit_inputbox->update_func == NULL)
         {
-            mv->values_edit_inputbox->update = widget_inputbox_update;
+            mv->values_edit_inputbox->update_func = widget_inputbox_update;
             widget_enable(mv->values_edit_inputbox);
-            mv->address_edit_inputbox->update = NULL;
+            mv->address_edit_inputbox->update_func = NULL;
         }
 
         // Setup input box default content
@@ -919,10 +919,10 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
     else
     {
         // Hide input box if active
-        if (mv->values_edit_inputbox->update != NULL)
+        if (mv->values_edit_inputbox->update_func != NULL)
         {
-            mv->address_edit_inputbox->update = widget_inputbox_update;
-            mv->values_edit_inputbox->update = NULL;
+            mv->address_edit_inputbox->update_func = widget_inputbox_update;
+            mv->values_edit_inputbox->update_func = NULL;
             widget_disable(mv->values_edit_inputbox);
         }
     }

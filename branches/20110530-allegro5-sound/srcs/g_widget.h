@@ -64,7 +64,7 @@ typedef void (*t_widget_callback)(t_widget*);
 struct t_widget
 {
     t_widget_type           type;
-    int                     enabled;
+    bool                    enabled;
     t_gui_box *             box;
     t_frame                 frame;
     bool                    dirty;
@@ -80,8 +80,9 @@ struct t_widget
     int						mouse_action;				// (enum t_widget_mouse_action) // FIXME-ENUM
 
     // Handlers
-    void                    (*redraw)(t_widget* w);
-    void                    (*update)(t_widget* w);
+	void					(*destroy_func)(t_widget *w);
+    void                    (*redraw_func)(t_widget* w);
+    void                    (*update_func)(t_widget* w);
 
     // User data
     void *                  user_data;
@@ -96,7 +97,7 @@ int         widgets_update_box              (t_gui_box *box, int cx, int cy);
 void        widgets_call_update             (void);
 
 // Widget: generics -----------------------------------------------------------
-void        widget_delete                   (t_widget *w);
+void        widget_destroy                  (t_widget *w);
 void        widget_enable                   (t_widget *w);
 void        widget_disable                  (t_widget *w);
 void        widget_set_dirty                (t_widget *w);

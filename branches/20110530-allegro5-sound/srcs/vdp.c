@@ -225,7 +225,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
                          BACK_AREA  = VRAM + (int)((value & 0xE) << 10); // 0x0000 -> 0x3800, 0x0800 increments
                      break;
                 case VDP_TMS9918:
-                     BACK_AREA = VRAM + (int)((value & 0xF) << 10);
+                     BACK_AREA = VRAM + (int)((value & 0xF) << 10); // 0x0000 -> 0x3C00, 0x0400 increments
                      break;
                 }
              break;

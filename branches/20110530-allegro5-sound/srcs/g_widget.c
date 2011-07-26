@@ -142,17 +142,13 @@ void    widgets_call_update(void)
         for (t_list* widgets = b->widgets; widgets != NULL; widgets = widgets->next)
         {
             t_widget* w = (t_widget *)widgets->elem;
-            if (w->enabled && w->update != NULL)
-                w->update (w);
+            if (w->enabled && w->update_func != NULL)
+                w->update_func(w);
         }
     }
 }
 
-//-----------------------------------------------------------------------------
-// widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
 // Create a new widget in given box
-// FIXME: additionnal widget data should be allocated on the same time...
-//-----------------------------------------------------------------------------
 t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
 {
     t_widget *w;
@@ -172,8 +168,9 @@ t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
     w->mouse_buttons_mask       = 0x00;
 	w->mouse_buttons_activation = 0;
     w->dirty                    = TRUE;
-    w->redraw                   = NULL;
-    w->update                   = NULL;
+	w->destroy_func				= NULL;
+    w->redraw_func              = NULL;
+    w->update_func              = NULL;
     w->data                     = NULL;
     w->user_data                = NULL;
 
@@ -183,10 +180,11 @@ t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
     return (w);
 }
 
-void        widget_delete(t_widget *w)
+// Note: caller is responsible for removing from list
+void        widget_destroy(t_widget *w)
 {
-    // FIXME: Untested, uncalled
-    assert(0);
+	if (w->destroy_func != NULL)
+		w->destroy_func(w);
     if (w->data != NULL)
         free(w->data);
     free(w);
@@ -244,10 +242,10 @@ t_widget *  widget_closebox_add(t_gui_box *box, t_widget_callback callback)
     frame.size.y = 6;
 
     w = widget_new(box, WIDGET_TYPE_CLOSEBOX, &frame);
-
     widget_set_mouse_buttons_mask(w, 1);
-    w->redraw = widget_closebox_redraw;
-    w->update = widget_closebox_update;
+
+    w->redraw_func = widget_closebox_redraw;
+    w->update_func = widget_closebox_update;
 
     w->data = malloc(sizeof (t_widget_data_closebox));
     wd = (t_widget_data_closebox*)w->data;
@@ -327,8 +325,8 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     w = widget_new(box, WIDGET_TYPE_BUTTON, frame);
     widget_set_mouse_buttons_mask(w, mouse_buttons_mask);
 
-    w->redraw = widget_button_redraw;
-    w->update = widget_button_update;
+    w->redraw_func = widget_button_redraw;
+    w->update_func = widget_button_update;
 
     w->data = malloc(sizeof (t_widget_data_button));
     wd = (t_widget_data_button*)w->data;
@@ -412,8 +410,8 @@ t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollb
     w = widget_new(box, WIDGET_TYPE_SCROLLBAR, frame);
     widget_set_mouse_buttons_mask(w, 1);
 
-    w->redraw = widget_scrollbar_redraw;
-    w->update = widget_scrollbar_update;
+    w->redraw_func = widget_scrollbar_redraw;
+    w->update_func = widget_scrollbar_update;
 
     w->data = (t_widget_data_scrollbar *)malloc (sizeof (t_widget_data_scrollbar));
     wd = (t_widget_data_scrollbar*)w->data;
@@ -540,15 +538,12 @@ t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pval
     w = widget_new(box, WIDGET_TYPE_CHECKBOX, frame);
     widget_set_mouse_buttons_mask(w, 1);
 
-    w->redraw = widget_checkbox_redraw;
-    w->update = widget_checkbox_update;
+    w->redraw_func = widget_checkbox_redraw;
+    w->update_func = widget_checkbox_update;
 
     w->data = malloc(sizeof (t_widget_data_checkbox));
     wd = (t_widget_data_checkbox*)w->data;
-    //wd->pvalue = NULL;
-    //widget_checkbox_redraw(w);
     wd->pvalue = pvalue;
-    //widget_checkbox_redraw(w);
     wd->callback = callback;
 
     return w;
@@ -594,17 +589,19 @@ void        widget_checkbox_set_pvalue(t_widget *w, bool *pvalue)
 
 //-----------------------------------------------------------------------------
 
+void		widget_textbox_destroy(t_widget *w);
+
 t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lines_max, t_font_id font_id)
 {
-    int         i;
     t_widget *  w;
     t_widget_data_textbox *wd;
 
     // Create widget
     w = widget_new(box, WIDGET_TYPE_TEXTBOX, frame);
 
-    w->redraw = widget_textbox_redraw;
-    w->update = NULL;
+	w->destroy_func = widget_textbox_destroy;
+    w->redraw_func = widget_textbox_redraw;
+    w->update_func = NULL;
 
     // Setup values & parameters
     w->data = malloc(sizeof (t_widget_data_textbox));
@@ -618,7 +615,7 @@ t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lin
     // of a font. Which may or may not be true, and should be fixed. 
     wd->columns_max = w->frame.size.x / Font_TextLength(font_id, "M");
     wd->lines       = (t_widget_data_textbox_line*)malloc(sizeof (t_widget_data_textbox_line) * lines_max);
-    for (i = 0; i < lines_max; i++)
+    for (int i = 0; i < lines_max; i++)
     {
         wd->lines[i].pcolor = wd->pcurrent_color;
         wd->lines[i].text = (char*)malloc (sizeof (char) * (wd->columns_max + 1));
@@ -627,6 +624,14 @@ t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lin
 
     // Return newly created widget
     return (w);
+}
+
+void		widget_textbox_destroy(t_widget *w)
+{
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
+    for (int i = 0; i < wd->lines_max; i++)
+		free(wd->lines[i].text);
+	free(wd->lines);
 }
 
 void        widget_textbox_redraw(t_widget *w)
@@ -770,6 +775,8 @@ void        widget_textbox_printf_scroll(t_widget *w, int wrap, const char *form
 
 //-----------------------------------------------------------------------------
 
+void	widget_inputbox_destroy(t_widget *w);
+
 t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length_max, t_font_id font_id, void (*callback_enter)(t_widget *))
 {
     t_widget *w;
@@ -787,8 +794,9 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
     w->frame.size.y = size_y;
     widget_set_mouse_buttons_mask(w, 1);
 
-    w->redraw = widget_inputbox_redraw;
-    w->update = widget_inputbox_update;
+	w->destroy_func = widget_inputbox_destroy;
+    w->redraw_func = widget_inputbox_redraw;
+    w->update_func = widget_inputbox_update;
 
     // Setup values & parameters
     w->data = malloc(sizeof (t_widget_data_inputbox));
@@ -809,6 +817,12 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
 
     // Return newly created widget
     return (w);
+}
+
+void	widget_inputbox_destroy(t_widget *w)
+{
+    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+	free(wd->value);
 }
 
 bool    widget_inputbox_insert_char(t_widget *w, char c)

@@ -22,7 +22,9 @@ t_gui_box *  gamebox_instance;
 
 void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 {
-    int     x_start = cur_drv->x_start;
+	const float scale = g_Configuration.game_screen_scale;
+
+	int     x_start = cur_drv->x_start;
     int     y_start = cur_drv->y_show_start;
     int     x_len   = cur_drv->x_res;
     int     y_len   = cur_drv->y_res;
@@ -34,11 +36,11 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
     {
         // Center screen when 8 left columns are masked
         // This not logical but looks good
-        al_draw_filled_rectangle(x_dst, y_dst, x_dst + 4, y_dst + y_len, COLOR_BLACK);
-        al_draw_filled_rectangle(x_dst + x_len - 4, y_dst, x_dst + x_len, y_dst + y_len, COLOR_BLACK);
+        al_draw_filled_rectangle(x_dst, y_dst, x_dst + 4*scale, y_dst + y_len*scale, COLOR_BLACK);
+        al_draw_filled_rectangle(x_dst + (x_len - 4)*scale, y_dst, x_dst + x_len*scale, y_dst + y_len*scale, COLOR_BLACK);
         x_len -= 8;
         x_start += 8;
-        x_dst += 4;
+        x_dst += 4*scale;
     }
 
     //stretch_blit(screenbuffer, fs_out, 
@@ -46,7 +48,14 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
         //cur_drv->x_res, cur_drv->y_res,
         //0,0, Video.res_x, Video.res_y);
 
-    al_draw_bitmap_region(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, 0);
+	if (fabs(scale-1.0f) < 0.001f)
+	{
+	    al_draw_bitmap_region(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, 0x0000);
+	}
+	else
+	{
+		al_draw_scaled_bitmap(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, x_len*scale, y_len*scale, 0x0000);
+	}
 }
 
 void        gamebox_compute_size(int *x, int *y)
@@ -84,8 +93,9 @@ void        gamebox_resize_all (void)
         t_gui_box* box = (t_gui_box*)boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
         {
-            gamebox_compute_size(&box->frame.size.x, &box->frame.size.y);
-            box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+			int sx, sy;
+            gamebox_compute_size(&sx, &sy);
+			gui_box_resize(box, sx, sy);
         }
     }
     gui.info.must_redraw = TRUE;

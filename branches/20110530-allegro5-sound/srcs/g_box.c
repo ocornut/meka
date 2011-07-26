@@ -265,8 +265,10 @@ void    gui_box_delete(t_gui_box *box)
     gui.boxes_z_ordered[gui.boxes_count - 1] = NULL;
     gui.boxes_count--;
 
-    // Delete
-    // FIXME: Delete widgets, memory leak here
+	// Delete widgets
+	list_free_custom(&box->widgets, (t_list_free_handler)widget_destroy);
+
+	// Delete
     al_destroy_bitmap(box->gfx_buffer);
     box->gfx_buffer = NULL;
     free(box->title);
@@ -399,6 +401,14 @@ void    gui_box_set_title(t_gui_box *box, const char *title)
 {
     free(box->title);
     box->title = strdup(title);
+}
+
+void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
+{
+	box->frame.size.x = size_x;
+	box->frame.size.y = size_y;
+	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+	gui.info.must_redraw = TRUE;
 }
 
 // Clip position of given box so that it shows on desktop.

@@ -11,10 +11,17 @@
 // Data
 //-----------------------------------------------------------------------------
 
+enum t_tilemap_viewer_layout
+{
+	TILEMAP_VIEWER_LAYOUT_SMSGG,
+	TILEMAP_VIEWER_LAYOUT_SGSC,
+};
+
 struct t_tilemap_viewer
 {
     bool                    active;
     t_gui_box *             box;
+	t_tilemap_viewer_layout	layout;
     t_frame                 frame_box;
     t_frame                 frame_tilemap;
     t_frame                 frame_infos;

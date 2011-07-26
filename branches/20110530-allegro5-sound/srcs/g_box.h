@@ -30,6 +30,7 @@ void    gui_box_show            (t_gui_box *box, bool enable, bool focus);
 void    gui_box_set_focus       (t_gui_box *box);
 int     gui_box_has_focus       (t_gui_box *box);
 void    gui_box_set_title       (t_gui_box *box, const char *title);
+void	gui_box_resize			(t_gui_box *box, int size_x, int size_y);
 
 void    gui_box_clip_position   (t_gui_box *box);
 

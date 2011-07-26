@@ -125,8 +125,8 @@ void	gui_redraw(void)
                     if (w->dirty)
                     {
                         w->dirty = FALSE;
-                        if (w->redraw != NULL)
-                            w->redraw(w);
+                        if (w->redraw_func != NULL)
+                            w->redraw_func(w);
                     }
                 }
             }
