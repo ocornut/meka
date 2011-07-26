@@ -608,7 +608,7 @@ static void MemoryViewer_MediaReload(t_memory_viewer *mv)
         mv->sections[MEMTYPE_RAM].memblock_first = MAX(ram_memblocks_max - mv->size_lines, 0);
 
     // PRAM
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SMS:   pram_len = 32;  break;
     case DRV_GG:    pram_len = 64;  break;

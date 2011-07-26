@@ -166,7 +166,7 @@ word    Loop_Coleco (void)
     // Update sound cycle counter
     Sound.CycleCounter += opt.Cur_IPeriod;
 
-    tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
+    tsms.VDP_Line = (tsms.VDP_Line + 1) % g_machine.TV_lines;
 
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER

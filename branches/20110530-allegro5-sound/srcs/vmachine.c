@@ -129,8 +129,8 @@ void    Free_ROM (void)
         DB.current_entry = NULL;
         BIOS_Load ();
     }
-    if (cur_machine.driver_id != DRV_COLECO)
-        cur_machine.driver_id = DRV_SMS;
+    if (g_machine.driver_id != DRV_COLECO)
+        g_machine.driver_id = DRV_SMS;
     Machine_Reset ();
     gamebox_rename_all ();
     Change_System_Misc ();

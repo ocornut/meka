@@ -1088,7 +1088,7 @@ int      Debugger_Bus_Read(int bus, int addr)
         }
     case BREAKPOINT_LOCATION_PRAM:
         {
-            switch (cur_machine.driver_id)
+            switch (g_machine.driver_id)
             {
             case DRV_SMS:   addr &= 31;  break;
             case DRV_GG:    addr &= 63;  break;
@@ -3906,7 +3906,7 @@ void		Debugger_ReverseMap(u16 addr)
 	Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
 	BMemory_Get_Infos((void**)&sram_buf, &sram_len);
 
-	//switch (cur_machine.mapper)
+	//switch (g_machine.mapper)
 	{
 	//case MAPPER_Standard:
 	//case MAPPER_32kRAM:

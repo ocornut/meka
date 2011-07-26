@@ -158,9 +158,9 @@ void	Sound_Close(void)
 
 void	Sound_UpdateClockSpeed(void)
 {
-	const double throttle_scale = 1.0f;//(double)fskipper.Throttled_Speed / (double)cur_machine.TV->screen_frequency;
-	//Sound.CpuClock = cur_machine.TV->CPU_clock;
-	Sound.CpuClock = CPU_GetIPeriod() * cur_machine.TV->screen_lines * cur_machine.TV->screen_frequency;
+	const double throttle_scale = 1.0f;//(double)fskipper.Throttled_Speed / (double)g_machine.TV->screen_frequency;
+	//Sound.CpuClock = g_machine.TV->CPU_clock;
+	Sound.CpuClock = CPU_GetIPeriod() * g_machine.TV->screen_lines * g_machine.TV->screen_frequency;
 	SN76489_SetClock((double)Sound.CpuClock * throttle_scale);
 	// FIXME-NEWSOUND: FM?
 }

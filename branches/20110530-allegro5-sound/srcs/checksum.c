@@ -50,17 +50,17 @@ void            Checksum_Perform(const u8 *data, int data_size)
 
     // Compute and store MekaCRC
     mekacrc(&crc_mekacrc, data, data_size);
-    media_ROM.mekacrc.v[0] = crc_mekacrc.v[0];
-    media_ROM.mekacrc.v[1] = crc_mekacrc.v[1];
+    g_media_rom.mekacrc.v[0] = crc_mekacrc.v[0];
+    g_media_rom.mekacrc.v[1] = crc_mekacrc.v[1];
 
     // Compute and store CRC32
-    media_ROM.crc32 = crc32(0, data, data_size);
+    g_media_rom.crc32 = crc32(0, data, data_size);
 
     // Print out checksums (debugging)
-    // Msg (MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", media_ROM.mekacrc.v[0], media_ROM.mekacrc.v[1], media_ROM.crc32);
+    // Msg (MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", g_media_rom.mekacrc.v[0], g_media_rom.mekacrc.v[1], g_media_rom.crc32);
 
     // Find DB entry
-    DB.current_entry = DB_Entry_Find(media_ROM.crc32, &media_ROM.mekacrc);
+    DB.current_entry = DB_Entry_Find(g_media_rom.crc32, &g_media_rom.mekacrc);
 
     // Update VLFN
     {

@@ -242,16 +242,6 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     // Wonder Boy III, Current Song
     //if (key[KEY_J])
     //   Msg (0, "RAM[0xFF9] = %02X", RAM[0xFF9]);
-
-    // Old video modes debugging
-    // if (Test_Key(KEY_J)) BACK_AREA -= 0x100;
-    // if (Test_Key(KEY_K)) BACK_AREA += 0x100;
-    // if (Test_Key(KEY_U)) BACK_AREA -= 0x1;
-    // if (Test_Key(KEY_I)) BACK_AREA += 0x1;
-    // SG-1000 stuff
-    // if (Test_Key(KEY_U)) SG_BACK_TILE -= 0x100;
-    // if (Test_Key(KEY_I)) SG_BACK_TILE += 0x100;
-    // if (Test_Key(KEY_O)) SG_BACK_TILE -= 0x2000;
 }
 
 // ACTION: SET INPUT TO STANDARD JOYPADS --------------------------------------

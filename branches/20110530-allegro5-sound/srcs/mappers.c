@@ -47,7 +47,7 @@ void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr)
 {
     int len, start_addr;
 
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
         case MAPPER_32kRAM:         len = 0x08000; start_addr = 0x8000; break;
         case MAPPER_ColecoVision:   len = 0x00400; start_addr = 0x6000; break;

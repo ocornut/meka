@@ -133,8 +133,8 @@ static void		Capture_Screen(void)
 		// In total, remove 8 pixels from each axis
 		if (g_Configuration.capture_crop_align_8x8)
 		{
-			const int scroll_x = cur_machine.VDP.scroll_x_latched;
-			const int scroll_y = cur_machine.VDP.scroll_y_latched;
+			const int scroll_x = g_machine.VDP.scroll_x_latched;
+			const int scroll_y = g_machine.VDP.scroll_y_latched;
 			x_start += scroll_x & 7;
 			y_start += 8 - (scroll_y & 7);
 			x_len -= 8;

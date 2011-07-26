@@ -42,9 +42,9 @@ void        Load_Game_Misc (void)
 
     // Memory
     // FIXME: need to clean all those stuff.. it's messy
-    //if (cur_machine.driver_id != DRV_NES)
+    //if (g_machine.driver_id != DRV_NES)
 	{
-        switch (cur_machine.mapper)
+        switch (g_machine.mapper)
         {
 		case MAPPER_SMS_NoMapper:
 			break;
@@ -226,11 +226,11 @@ int     Save_Game_MSV (FILE *f)
     fwrite (&b, 1, 1, f);
     b = MSV_VERSION;
     fwrite (&b, 1, 1, f);
-    b = cur_machine.driver_id;  // Do NOT save cur_drv->id, as it may change with legacy video mode in the current code
+    b = g_machine.driver_id;  // Do NOT save cur_drv->id, as it may change with legacy video mode in the current code
     fwrite (&b, 1, 1, f);
 
     // Write CRC32, introduced in version 0x0C
-    fwrite (&media_ROM.crc32, sizeof (u32), 1, f);
+    fwrite (&g_media_rom.crc32, sizeof (u32), 1, f);
 
     // Write 'sms' structure (misc stuff)
     fwrite (&sms, sizeof (struct SMS_TYPE), 1, f);
@@ -241,7 +241,7 @@ int     Save_Game_MSV (FILE *f)
 
     // Write RAM & mapper specific data
     // FIXME: RAM size should be based on value got from current driver
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
     case MAPPER_32kRAM:
         fwrite (RAM, 0x08000, 1, f);
@@ -277,7 +277,7 @@ int     Save_Game_MSV (FILE *f)
     fwrite (VRAM, 0x4000, 1, f);
     
     // Write Palette
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SMS:
         fwrite (PRAM, 32, 1, f);
@@ -333,13 +333,13 @@ int         Load_Game_MSV (FILE *f)
     if (version >= 0x05)
     {
         // Check if we are running on the same machine
-        if (b != cur_machine.driver_id)
+        if (b != g_machine.driver_id)
             return (5);
     }
     else
     {
         // Old kind of machine identification
-        if (b != drv_id_to_mode (cur_machine.driver_id))
+        if (b != drv_id_to_mode (g_machine.driver_id))
             return (5); // not the same machine
     }
 
@@ -375,7 +375,7 @@ int         Load_Game_MSV (FILE *f)
 
     // Read RAM & mapper specific data
     // FIXME: RAM size should be based on value got from current driver
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
     case MAPPER_32kRAM:
         fread (RAM, 0x08000, 1, f);
@@ -417,9 +417,9 @@ int         Load_Game_MSV (FILE *f)
     fread (VRAM, 0x4000, 1, f);
 
     // Read Palette
-    // This depend on cur_machine.driver_id and NOT on cur_drv->id
+    // This depend on g_machine.driver_id and NOT on cur_drv->id
     // Eg: even if palette is unused due to legacy mode set, we save CRAM/PRAM on a SMS
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SMS:
         fread (PRAM, 32, 1, f);
@@ -456,7 +456,7 @@ int         Load_Game_MSV (FILE *f)
         sms.SRAM_Pages *= 2;
 
     // Read backed memory unless version<0x09 & emulation 93c46
-    if (!(version < 0x09 && cur_machine.mapper == MAPPER_93c46))
+    if (!(version < 0x09 && g_machine.mapper == MAPPER_93c46))
         BMemory_Load_State (f);
 
     // Fix up CPU registers
@@ -483,7 +483,7 @@ int     Load_Game_MSD (FILE *f)
     // Massage 0: SMS, 1: GG, which map to our define
     if (i != 0 && i != 1)
         return (4); // We only know about SMS/GG massage savestates
-    if (i != cur_machine.driver_id)
+    if (i != g_machine.driver_id)
         return (5); // not the same machine
     fread (&sms.Country, 1, 1, f);
     /* Skipping FM enable/disable */
@@ -509,7 +509,7 @@ int     Load_Game_MSD (FILE *f)
     fread (&sms.Pages_Reg [0], 3, 1, f);
     fread (RAM, 0x2000, 1, f);
     fread (VRAM, 0x4000, 1, f);
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SMS:
         fread (PRAM, 32, 1, f);

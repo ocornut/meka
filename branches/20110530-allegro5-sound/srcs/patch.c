@@ -272,7 +272,7 @@ t_patch *   Patch_Find (t_media_image *media_image)
 void        Patches_ROM_Initialize (void)
 {
     // Find patch for current ROM
-    Patches.patch_current = Patch_Find (&media_ROM);
+    Patches.patch_current = Patch_Find (&g_media_rom);
 }
 
 //-----------------------------------------------------------------------------

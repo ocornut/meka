@@ -20,7 +20,7 @@ void    Find_Last_Sprite(int sprites_height, int VDP_Line)
 	int sprites_count = 0;
 	int sprites_on_line = 0;
 
-	const u8* sat = cur_machine.VDP.sprite_attribute_table;
+	const u8* sat = g_machine.VDP.sprite_attribute_table;
     while (sprites_count < 64)
     {
 		int y;
@@ -45,7 +45,7 @@ void    Find_Last_Sprite_Wide(int sprites_height, int VDP_Line)
 	int sprites_count = 0;
 	int sprites_on_line = 0;
 
-	const u8* sat = cur_machine.VDP.sprite_attribute_table;
+	const u8* sat = g_machine.VDP.sprite_attribute_table;
 	while (sprites_count < 64)
     {
 		int y;

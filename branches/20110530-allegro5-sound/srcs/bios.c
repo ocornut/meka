@@ -49,7 +49,7 @@ void    BIOS_Load (void)
     {
         ROM = BIOS_ROM;
     }
-    cur_machine.driver_id = DRV_SMS;
+    g_machine.driver_id = DRV_SMS;
     Machine_Reset ();
 }
 

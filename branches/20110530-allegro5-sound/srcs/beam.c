@@ -59,14 +59,14 @@ INLINE int  Beam_Calc_Y (void)
 {
     int c = tsms.VDP_Line;
     if (CPU_GetICount() < 8)
-        c = (c + 1) % cur_machine.TV_lines;
+        c = (c + 1) % g_machine.TV_lines;
 
     // Msg (MSGT_USER, "At PC=%04X, Read Beam Y%s", sms.R.PC.W, (CPU_GetICount() < 8) ? " (Affected)" : "");
     // Msg (MSGT_USER, "At PC=%04X, Read Beam Y, returning %d", sms.R.PC.W, (c < 256) ? c : 255);
 
     // return ((c < 255) ? c : 255);
 
-    switch (cur_machine.TV->id)
+    switch (g_machine.TV->id)
     {
     case TVTYPE_NTSC:
         {

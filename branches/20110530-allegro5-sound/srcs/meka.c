@@ -53,9 +53,9 @@ SMS_TYPE				sms;
 TSMS_TYPE				tsms;
 }
 
-t_machine				cur_machine;
+t_machine				g_machine;
 t_meka_env				g_env;
-t_media_image			media_ROM;
+t_media_image			g_media_rom;			// FIXME-WIP: Not fully used
 t_meka_configuration	g_Configuration;
 
 extern "C"	// C-style mangling for ASM linkage
@@ -69,10 +69,6 @@ u8 *    Game_ROM;                   // Cartridge ROM
 u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
 u8 *    Mem_Pages [8];              // Pointer to memory pages
 }
-
-u8 *    BACK_AREA = NULL;
-u8 *    SG_BACK_TILE = NULL;
-u8 *    SG_BACK_COLOR = NULL;
 
 ALLEGRO_DISPLAY*		g_display = NULL;
 ALLEGRO_EVENT_QUEUE*	g_display_event_queue = NULL;
@@ -118,7 +114,7 @@ static void Init_Emulator (void)
     tsms.Pages_Count_16k = 1;
 
     RdZ80 = RdZ80_NoHook = Read_Default;
-    drv_set (cur_machine.driver_id);
+    drv_set (g_machine.driver_id);
 }
 
 static void Init_LookUpTables (void)
@@ -149,7 +145,7 @@ static void Init_Default_Values (void)
     opt.Force_Quit = FALSE;
 
     // Machine
-    cur_machine.driver_id = DRV_SMS;
+    g_machine.driver_id = DRV_SMS;
 
     // Country
     g_Configuration.country                       = COUNTRY_EXPORT;
@@ -208,12 +204,12 @@ static void Init_Default_Values (void)
 
     // Media
     // FIXME: yet not fully used
-    media_ROM.type        = MEDIA_IMAGE_ROM;
-    media_ROM.data        = NULL;
-    media_ROM.data_size   = 0;
-    media_ROM.mekacrc.v[0]= 0;
-    media_ROM.mekacrc.v[1]= 0;
-    media_ROM.crc32       = 0;
+    g_media_rom.type        = MEDIA_IMAGE_ROM;
+    g_media_rom.data        = NULL;
+    g_media_rom.data_size   = 0;
+    g_media_rom.mekacrc.v[0]= 0;
+    g_media_rom.mekacrc.v[1]= 0;
+    g_media_rom.crc32       = 0;
 
     Machine_Pause_Need_To = FALSE;
 

@@ -330,7 +330,7 @@ void    Load_Header_and_Footer_Remove (int *pstart, long *psize)
     int start = 0;
     int size = *psize;
     
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_COLECO: //--- Coleco Vision
         // Skip 128 bytes header + 512 bytes footer if necessary
@@ -402,7 +402,7 @@ int             Load_ROM_Zipped (void)
     // Must be done there because we don't have the filename before..
     StrPath_GetExtension(temp);
     StrUpper(temp);
-    cur_machine.driver_id = drv_get_from_filename_extension(temp);
+    g_machine.driver_id = drv_get_from_filename_extension(temp);
 
     // Remove Header & Footer
     Load_Header_and_Footer_Remove(&start_at, &tsms.Size_ROM);
@@ -448,7 +448,7 @@ int             Load_ROM_File(const char *filename_ext)
 
     // Setting driver -----------------------------------------------------------
     // Must be done there because Load_ROM_Zip
-    cur_machine.driver_id = drv_get_from_filename_extension(filename_ext);
+    g_machine.driver_id = drv_get_from_filename_extension(filename_ext);
 
     // Open file ----------------------------------------------------------------
     if (!(f = fopen (g_env.Paths.MediaImageFile, "rb")))
@@ -476,7 +476,7 @@ int             Load_ROM_File(const char *filename_ext)
     fclose (f);
 
     // Copy data for Colecovision mirroring -------------------------------------
-    if (cur_machine.driver_id == DRV_COLECO)
+    if (g_machine.driver_id == DRV_COLECO)
     {
         // FIXME
     }
@@ -567,7 +567,7 @@ int             Load_ROM_Main ()
         err = Load_ROM_File(filename_ext);
 
     // Now done in Load_ROM_xxx()
-    // cur_machine.driver_id = drv_get_from_ext (file.temp);
+    // g_machine.driver_id = drv_get_from_ext (file.temp);
 
     return (meka_errno = err);
 }
@@ -589,8 +589,8 @@ void    Load_ROM_Misc (int reset)
         // Of course, in the future, MEKA may could force ALL driver based on DB entry.
         // But this will cause a problem for Pit Pot secret screen in SG-1000 mode (and Hang On, etc...)
         // Then this will require advanced-user selectable machine.
-        if (cur_machine.driver_id == DRV_GG)
-            cur_machine.driver_id = DRV_SMS;
+        if (g_machine.driver_id == DRV_GG)
+            g_machine.driver_id = DRV_SMS;
     }
 
     // Initialize patching system for this ROM and apply
@@ -598,10 +598,10 @@ void    Load_ROM_Misc (int reset)
     Patches_ROM_Apply ();
 
     // Set driver
-    drv_set (cur_machine.driver_id);
+    drv_set (g_machine.driver_id);
 
     // Do not system if old AND new driver is SF7000 (for disk change, this is slighty hacky)
-    if (reset || cur_machine.driver_id != DRV_SF7000)
+    if (reset || g_machine.driver_id != DRV_SF7000)
     {
         Machine_Init ();
         g_machine_flags |= MACHINE_ROM_LOADED;
@@ -609,7 +609,7 @@ void    Load_ROM_Misc (int reset)
         Machine_ON ();
     }
 
-    if (cur_machine.driver_id == DRV_SF7000)
+    if (g_machine.driver_id == DRV_SF7000)
         FDC765_Disk_Insert (0, ROM, tsms.Size_ROM);
 
     // FIXME: do not save Backed Memory in non-verbose mode
@@ -625,7 +625,7 @@ void    Load_ROM_Misc (int reset)
 
     // BIOS load/unload
     // FIXME: this is a mess
-    if ((g_Configuration.enable_BIOS) && (cur_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
+    if ((g_Configuration.enable_BIOS) && (g_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
         BIOS_Load ();
     else
         BIOS_Unload ();

@@ -239,7 +239,7 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
 {
     char    bitfields[2][9];
 
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SMS:
         {
@@ -277,8 +277,8 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
 			fprintf (f_dump,
 				"Sprite pattern base: $%04x\n"
 				"Sprite shift X (early clock): %d pixels\n\n",
-				cur_machine.VDP.sprite_pattern_base_address - VRAM,
-				cur_machine.VDP.sprite_shift_x);
+				g_machine.VDP.sprite_pattern_gen_address - VRAM,
+				g_machine.VDP.sprite_shift_x);
 			fprintf (f_dump,
 				"            Raw Data      |    X     Y     T     ?\n"
 				"---------- --------------- ------------------------\n");
@@ -294,7 +294,7 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
 		{
 			fprintf (f_dump,
 				"Sprite pattern base: $%04x\n\n",
-				cur_machine.VDP.sprite_pattern_base_address - VRAM);
+				g_machine.VDP.sprite_pattern_gen_address - VRAM);
 			fprintf (f_dump,
 				"            Raw Data    |    X     Y     T    C/A\n"
 				"----------- ------------ ------------------------\n");
@@ -345,7 +345,7 @@ void        DataDump_Palette (void)
 {
     int     len;
 
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SMS:      len = 32;       break;
     case DRV_GG:       len = 64;       break;
@@ -385,9 +385,9 @@ void    DataDump_Sprites (void)
     }
 
     if (DataDump.Mode == DATADUMP_MODE_RAW)
-        DataDump_Main_Raw   ("Sprites", cur_machine.VDP.sprite_attribute_table, n_sprites * 4);
+        DataDump_Main_Raw   ("Sprites", g_machine.VDP.sprite_attribute_table, n_sprites * 4);
     else
-        DataDump_Main_Ascii ("Sprites", cur_machine.VDP.sprite_attribute_table, n_sprites * 4, /* Unused */ 0, DataDump_Handler_Ascii_Sprite);
+        DataDump_Main_Ascii ("Sprites", g_machine.VDP.sprite_attribute_table, n_sprites * 4, /* Unused */ 0, DataDump_Handler_Ascii_Sprite);
 }
 
 //-----------------------------------------------------------------------------

@@ -132,7 +132,7 @@ void        TechInfo_Update(void)
     // - VDP
     {
         char model_str[9];
-        switch (cur_machine.VDP.model)
+        switch (g_machine.VDP.model)
         {
         case VDP_MODEL_315_5124: sprintf(model_str, "315-5124"); break;
         case VDP_MODEL_315_5226: sprintf(model_str, "315-5226"); break;
@@ -159,7 +159,7 @@ void        TechInfo_Update(void)
     // - Sprites
     {
         sprintf (line, "[SPRITES] Size:%s - Double:%d - EarlyClock:%d - SAT:$%04X - SPG:$%04X",
-            (Sprites_8x16?"8x16":"8x8"), (Sprites_Double?1:0), (Sprites_Left_8?1:0), (int)(cur_machine.VDP.sprite_attribute_table - VRAM), (int)(cur_machine.VDP.sprite_pattern_base_address - VRAM));
+            (Sprites_8x16?"8x16":"8x8"), (Sprites_Double?1:0), (Sprites_Left_8?1:0), (int)(g_machine.VDP.sprite_attribute_table - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
 
@@ -175,18 +175,18 @@ void        TechInfo_Update(void)
 #ifdef MEKA_Z80_DEBUGGER
         if (Debugger.enabled && Debugger.active)
             sprintf (line, "[VARIOUS] Country:%s - Border:%d - IPeriod:%d/%d - Lines:%d/%d",
-            (sms.Country==COUNTRY_EXPORT)?"Export":"Japan", (sms.VDP[7] & 15), CPU_GetICount(), CPU_GetIPeriod(), tsms.VDP_Line, cur_machine.TV_lines);
+            (sms.Country==COUNTRY_EXPORT)?"Export":"Japan", (sms.VDP[7] & 15), CPU_GetICount(), CPU_GetIPeriod(), tsms.VDP_Line, g_machine.TV_lines);
         else
 #endif
             sprintf (line, "[VARIOUS] Country:%s - Border:%d - IPeriod:%d - Lines:%d",
-            (sms.Country==COUNTRY_EXPORT)?"Export":"Japan", (sms.VDP[7] & 15), CPU_GetIPeriod(), cur_machine.TV_lines);
+            (sms.Country==COUNTRY_EXPORT)?"Export":"Japan", (sms.VDP[7] & 15), CPU_GetIPeriod(), g_machine.TV_lines);
         TechInfo_SetLine(app, line, line_idx++);
     }
 
     // - TMS9918
     {
         sprintf(line, "[TMS9918] Name:%04X - Color:%04X - Pattern:%04X - SPG:%04X", 
-		    (int)(BACK_AREA - VRAM), (int)(SG_BACK_COLOR - VRAM), (int)(SG_BACK_TILE - VRAM), (int)(cur_machine.VDP.sprite_pattern_base_address - VRAM));
+		    (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
 
@@ -203,7 +203,7 @@ void        TechInfo_Update(void)
     // - Memory
     {
         sprintf (line, " [MEMORY] Mapper:%d - Control:$%02X - F0:%02X - F1:%02X - F2:%02X - Pages:[%d/%d][%d/%d]",
-            (cur_machine.mapper), (sms.Mapping_Register), (sms.Pages_Reg[0]), (sms.Pages_Reg[1]), (sms.Pages_Reg[2]), (tsms.Pages_Count_8k), (tsms.Pages_Mask_8k), (tsms.Pages_Count_16k), (tsms.Pages_Mask_16k));
+            (g_machine.mapper), (sms.Mapping_Register), (sms.Pages_Reg[0]), (sms.Pages_Reg[1]), (sms.Pages_Reg[2]), (tsms.Pages_Count_8k), (tsms.Pages_Mask_8k), (tsms.Pages_Count_16k), (tsms.Pages_Mask_16k));
         TechInfo_SetLine(app, line, line_idx++);
     }
 

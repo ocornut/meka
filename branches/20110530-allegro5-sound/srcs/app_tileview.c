@@ -169,7 +169,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         {
             const int fg_color = Palette_EmulationToHostGui[app->palette + 1];
             const int bg_color = Palette_EmulationToHostGui[(app->palette != 0) ? 1 : 15];
-            u8 * addr = SG_BACK_TILE;
+            u8 * addr = g_machine.VDP.sg_pattern_gen_address;
             // addr = &VRAM[apps.opt.Tiles_Base];
             // addr = VRAM;
             int n = 0;

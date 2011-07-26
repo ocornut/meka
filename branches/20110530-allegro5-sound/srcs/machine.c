@@ -104,7 +104,7 @@ void    Machine_Set_Handler_IO (void)
 
 void    Machine_Set_Handler_Read (void)
 {
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
     case MAPPER_93c46: // Used by Game Gear baseball games
         RdZ80 = RdZ80_NoHook = Read_Mapper_93c46;
@@ -123,7 +123,7 @@ void    Machine_Set_Handler_Read (void)
 
 void    Machine_Set_Handler_Write (void)
 {
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
 	case MAPPER_SMS_NoMapper:			 // SMS games with no bank switching
 		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_NoMapper;
@@ -171,40 +171,37 @@ void        Machine_Set_Mapper (void)
 {
     if (DB.current_entry != NULL && DB.current_entry->emu_mapper != -1)
     {
-        cur_machine.mapper = DB.current_entry->emu_mapper;
+        g_machine.mapper = DB.current_entry->emu_mapper;
         return;
     }
 
     // Select default mapper per driver
-    switch (cur_machine.driver_id)
+    switch (g_machine.driver_id)
     {
     case DRV_SC3000:
-        cur_machine.mapper = MAPPER_32kRAM;
+        g_machine.mapper = MAPPER_32kRAM;
         return;
     case DRV_COLECO:
-        cur_machine.mapper = MAPPER_ColecoVision;
+        g_machine.mapper = MAPPER_ColecoVision;
         return;
     case DRV_SG1000:
-        cur_machine.mapper = MAPPER_SG1000;
+        g_machine.mapper = MAPPER_SG1000;
         return;
     case DRV_SF7000:
-        cur_machine.mapper = MAPPER_SF7000;
+        g_machine.mapper = MAPPER_SF7000;
         return;
-        // case DRV_MSX:
-        //     cur_machine.mapper = MAPPER_Msx;
-        //     return;
     case DRV_SMS:
     case DRV_GG:
-        cur_machine.mapper = MAPPER_Standard;
+        g_machine.mapper = MAPPER_Standard;
         if (DB.current_entry == NULL)    // Detect mapper for unknown ROM
         {
             const int m = Mapper_Autodetect();
             if (m != MAPPER_Auto)
-                cur_machine.mapper = m;
+                g_machine.mapper = m;
         }
         return;
     default: // All Others (which ?)
-        cur_machine.mapper = MAPPER_Standard;
+        g_machine.mapper = MAPPER_Standard;
         return;
     }
 }
@@ -215,7 +212,7 @@ void    Machine_Set_Mapping (void)
     sms.SRAM_Pages = 0;
     sms.Pages_Reg [0] = 0; sms.Pages_Reg [1] = 1; sms.Pages_Reg [2] = 2;
 
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
     case MAPPER_32kRAM: // 32k RAM MAPPER --------------------------------------
         Map_8k_ROM (0, 0);
@@ -285,7 +282,7 @@ void    Machine_Set_Mapping (void)
         Map_8k_ROM (5, 5);
         Map_8k_RAM (6, 0);
         Map_8k_RAM (7, 0);
-        switch (cur_machine.mapper)
+        switch (g_machine.mapper)
         {
 		case MAPPER_SMS_NoMapper:
 			break;
@@ -349,10 +346,10 @@ void    Machine_Set_IPeriod (void)
 void    Machine_Set_TV_Lines (void)
 {
     if (DB.current_entry && DB.current_entry->emu_tvtype != -1)
-        cur_machine.TV = &TV_Type_Table [DB.current_entry->emu_tvtype];
+        g_machine.TV = &TV_Type_Table [DB.current_entry->emu_tvtype];
     else
-        cur_machine.TV = TV_Type_User;
-    cur_machine.TV_lines = cur_machine.TV->screen_lines;
+        g_machine.TV = TV_Type_User;
+    g_machine.TV_lines = g_machine.TV->screen_lines;
 }
 
 // RESET EMULATED MACHINE -----------------------------------------------------
@@ -378,7 +375,7 @@ void        Machine_Reset (void)
         Machine_Pause ();
 
     // Set driver & machine stuff
-    drv_set (cur_machine.driver_id);
+    drv_set (g_machine.driver_id);
 
     Machine_Set_Mapper          ();
     if ((g_machine_flags & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
@@ -394,14 +391,14 @@ void        Machine_Reset (void)
     // VDP MODEL --------------------------------------------------------------
     if (DB.current_entry && DB.current_entry->emu_vdp_model != -1)
 	{
-        cur_machine.VDP.model = DB.current_entry->emu_vdp_model;
+        g_machine.VDP.model = DB.current_entry->emu_vdp_model;
 	}
     else
     {
         if (cur_drv->id == DRV_GG)
-            cur_machine.VDP.model = VDP_MODEL_315_5378;
+            g_machine.VDP.model = VDP_MODEL_315_5378;
         else
-            cur_machine.VDP.model = VDP_MODEL_315_5226;
+            g_machine.VDP.model = VDP_MODEL_315_5226;
     }
 
     // 3-D GLASSES ------------------------------------------------------------
@@ -476,10 +473,10 @@ void        Machine_Reset (void)
     //screenbuffer = screenbuffer_1;
     //screenbuffer_next = screenbuffer_2;
 
-    cur_machine.VDP.sprite_shift_x = 0;
-    cur_machine.VDP.scroll_x_latched = 0;
-    cur_machine.VDP.scroll_y_latched = 0;
-    memset(cur_machine.VDP.scroll_x_latched_table, 0, sizeof(cur_machine.VDP.scroll_x_latched_table));
+    g_machine.VDP.sprite_shift_x = 0;
+    g_machine.VDP.scroll_x_latched = 0;
+    g_machine.VDP.scroll_y_latched = 0;
+    memset(g_machine.VDP.scroll_x_latched_table, 0, sizeof(g_machine.VDP.scroll_x_latched_table));
     tsms.VDP_Video_Change = VDP_VIDEO_CHANGE_ALL;
 
     // GRAPHICS: SPRITE FLICKERING --------------------------------------------
@@ -521,7 +518,7 @@ void        Machine_Reset (void)
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm ();
     FM_Reset();
-	SN76489_Reset (cur_machine.TV->CPU_clock, Sound.SampleRate);
+	SN76489_Reset (g_machine.TV->CPU_clock, Sound.SampleRate);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 
@@ -530,11 +527,11 @@ void        Machine_Reset (void)
     // FIXME: add a reset handler per driver, instead of the code below...
 
     // GAME GEAR COMMUNICATION PORT
-    if (cur_machine.driver_id == DRV_GG)
+    if (g_machine.driver_id == DRV_GG)
         Comm_Reset();
 
     // SF-7000
-    if (cur_machine.driver_id == DRV_SF7000)
+    if (g_machine.driver_id == DRV_SF7000)
         SF7000_Reset();
 
     // DEBUGGER ---------------------------------------------------------------

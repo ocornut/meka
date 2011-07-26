@@ -7,16 +7,19 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-// Machines
-#define DRV_SMS         (0)
-#define DRV_GG          (1)
-#define DRV_SG1000      (2)
-#define DRV_SC3000      (3)
-#define DRV_COLECO      (4)
-#define DRV_MSX         (5)
-#define DRV_NES___		(6)
-#define DRV_SF7000      (7)
-#define DRV_MAX         (8)
+// Note: this field is saved into savestate so we have to maintain its binary compatibility.
+enum t_machine_driver
+{
+	DRV_SMS		= 0,
+	DRV_GG      = 1,
+	DRV_SG1000	= 2,
+	DRV_SC3000	= 3,
+	DRV_COLECO	= 4,
+	DRV_MSX___	= 5,
+	DRV_NES___	= 6,
+	DRV_SF7000	= 7,
+	DRV_MAX		= 8,
+};
 
 // CPU Type
 #define CPU_Z80         (0)

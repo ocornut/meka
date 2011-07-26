@@ -185,7 +185,7 @@ void    Display_Text_0 (void)
         for (k = 0; k != 8; k ++)
         {
             PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch*(j + k);
-            const u8 *tile_n = BACK_AREA + (j * 5);
+            const u8 *tile_n = g_machine.VDP.name_table_address + (j * 5);
 
             // 8 left pixels are black
             dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK16;    // FIXME-BORDER
@@ -193,7 +193,7 @@ void    Display_Text_0 (void)
 
             for (i = 8; i != (40 * 6) + 8; i += 6)
             {
-                const u8 *p2  = SG_BACK_TILE + (*tile_n << 3) + k;
+                const u8 *p2  = g_machine.VDP.sg_pattern_gen_address + (*tile_n << 3) + k;
                 const u8 src6 = *p2;
                 dst[0] = (src6 & 0x80) ? fgcolor : bgcolor;
                 dst[1] = (src6 & 0x40) ? fgcolor : bgcolor;
@@ -216,7 +216,7 @@ void    Display_Background_1 (void)
 {
     int    i, j, j2;
     int    x, y = 0;
-    const u8 *tile_n = BACK_AREA;           //-- Tile Table --------//
+    const u8 *tile_n = g_machine.VDP.name_table_address;           //-- Tile Table --------//
 
     // DRAW ALL TILES ------------------------------------------------------------
     for (i = 0; i != 24; i++)
@@ -225,8 +225,8 @@ void    Display_Background_1 (void)
         for (j = 0; j != 32; j++)
         {
             // Draw one tile
-            const u8 * p1 = SG_BACK_TILE  + (*tile_n << 3);
-            const u8 * p2 = SG_BACK_COLOR + (*tile_n >> 3);
+            const u8 * p1 = g_machine.VDP.sg_pattern_gen_address  + (*tile_n << 3);
+            const u8 * p2 = g_machine.VDP.sg_color_table_address + (*tile_n >> 3);
             const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*p2 >> 4];
             const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[(*p2) & 0x0F];
             for (j2 = 0; j2 != 8; j2++)
@@ -252,14 +252,14 @@ void    Display_Background_1 (void)
 // DISPLAY BACKGROUND VIDEO MODE 2 --------------------------------------------
 void    Display_Background_2 (void)
 {
-    const u8* pattern_name_table = BACK_AREA;
+    const u8* pattern_name_table = g_machine.VDP.name_table_address;
     const int vsection_mask = sms.VDP[4] & 3;
 
     int y = 0;
     for (int vsection_idx = 0; vsection_idx < 3; vsection_idx++) // screen in 3 parts
     {
-        const u8* tile_base = SG_BACK_TILE + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
-        const u8* col_base = SG_BACK_COLOR + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
+        const u8* tile_base = g_machine.VDP.sg_pattern_gen_address + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
+        const u8* col_base = g_machine.VDP.sg_color_table_address + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
         for (int ty = 0; ty < 8; ty++)
         {
             int x = 0;
@@ -297,13 +297,13 @@ void    Display_Background_2 (void)
 void    Display_Background_3 (void)
 {
     int         x, y, z;
-    const u8 *  pattern = BACK_AREA;
+    const u8 *  pattern = g_machine.VDP.name_table_address;
 
     for (y = 0; y != 192; y += 32)
     {
         for (x = 0; x != 256; x += 8)
         {
-            const u8 *tiles_data = SG_BACK_TILE + (*pattern++ * 8);
+            const u8 *tiles_data = g_machine.VDP.sg_pattern_gen_address + (*pattern++ * 8);
             for (z = 0; z != 8; z ++)
             {
                 PIXEL_TYPE *dst;
@@ -440,7 +440,7 @@ void    Display_Sprites_1_2_3 (void)
     memset (Sprites_On_Line, 0, 192 + 32);
 
     // Find last sprite
-	const u8* sat = cur_machine.VDP.sprite_attribute_table;
+	const u8* sat = g_machine.VDP.sprite_attribute_table;
     for (i = 0; i < 32 * 4; i += 4)
     {
         y = sat[i];
@@ -465,7 +465,7 @@ void    Display_Sprites_1_2_3 (void)
         // Calculate horizontal position ------------------------------------------
         x = sat[i + 1];
         // Calculate tile starting address in VRAM --------------------------------
-        k = (u8 *)((int)((sat[i + 2] & Mask) << 3) + (int)cur_machine.VDP.sprite_pattern_base_address);
+        k = (u8 *)((int)((sat[i + 2] & Mask) << 3) + (int)g_machine.VDP.sprite_pattern_gen_address);
         switch (Sprite_Mode)
         {
             // 8x8 (used in: Sokouban)
@@ -584,8 +584,8 @@ void    Check_Sprites_Collision_Modes_1_2_3 (void)
            continue;
 
         // Prepare pointers to the first tile line of each sprite
-        TileSrc = cur_machine.VDP.sprite_pattern_base_address | ((long)(SprSrc[2] & Mask) << 3);
-        TileDst = cur_machine.VDP.sprite_pattern_base_address | ((long)(SprDst[2] & Mask) << 3);
+        TileSrc = g_machine.VDP.sprite_pattern_gen_address | ((long)(SprSrc[2] & Mask) << 3);
+        TileDst = g_machine.VDP.sprite_pattern_gen_address | ((long)(SprDst[2] & Mask) << 3);
 
         if (dy < Size)
            {
@@ -648,7 +648,7 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
   int   delta_x;
   int   delta_y;
 
-  const u8* sat = cur_machine.VDP.sprite_attribute_table;
+  const u8* sat = g_machine.VDP.sprite_attribute_table;
   for (src_n = 0, src_spr = sat, src_y = src_spr[0]; src_n < 31 && src_y != 208;
        src_n++, src_spr += 4, src_y = src_spr[0])
      {
@@ -684,8 +684,8 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
            continue;
 
         // Prepare pointers to the first tile of each sprite
-        src_tile = (u8 *)((int)cur_machine.VDP.sprite_pattern_base_address | ((int)(src_spr[2] & mask) << 3));
-        dst_tile = (u8 *)((int)cur_machine.VDP.sprite_pattern_base_address | ((int)(dst_spr[2] & mask) << 3));
+        src_tile = (u8 *)((int)g_machine.VDP.sprite_pattern_gen_address | ((int)(src_spr[2] & mask) << 3));
+        dst_tile = (u8 *)((int)g_machine.VDP.sprite_pattern_gen_address | ((int)(dst_spr[2] & mask) << 3));
 
         // Offset those pointers to the first tile line
         if (delta_y > 0)

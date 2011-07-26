@@ -28,7 +28,7 @@ word    Loop_SMS (void)
 {
     int Interrupt = INT_NONE;
 
-    tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
+    tsms.VDP_Line = (tsms.VDP_Line + 1) % g_machine.TV_lines;
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER
 		if (Debugger.active)
@@ -41,18 +41,18 @@ word    Loop_SMS (void)
     if (tsms.VDP_Line == 0)
     {
         Interrupt_Loop_Misc_Line_Zero ();
-        cur_machine.VDP.scroll_x_latched = sms.VDP[8];
-        cur_machine.VDP.scroll_y_latched = sms.VDP[9];
+        g_machine.VDP.scroll_x_latched = sms.VDP[8];
+        g_machine.VDP.scroll_y_latched = sms.VDP[9];
         sms.Lines_Left = sms.VDP [10];
     }
 
     // Screen Refresh
     if (tsms.VDP_Line >= cur_drv->y_show_start && tsms.VDP_Line <= cur_drv->y_show_end)
     {
-        cur_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = cur_machine.VDP.scroll_x_latched;
+        g_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = g_machine.VDP.scroll_x_latched;
         if (tsms.VDP_VideoMode > 3)
             Refresh_Line_5();
-        cur_machine.VDP.scroll_x_latched = sms.VDP[8];
+        g_machine.VDP.scroll_x_latched = sms.VDP[8];
         if (cur_drv->vdp == VDP_TMS9918)
             Check_Sprites_Collision_Modes_1_2_3_Line (tsms.VDP_Line);
         if (tsms.VDP_Line == cur_drv->y_show_end)

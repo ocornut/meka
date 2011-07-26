@@ -230,7 +230,7 @@ void    Refresh_Line_5 (void)
 	{
         // Scroll lock, update in X latch table (for tilemap viewer)
         if (Top_No_Scroll && tsms.VDP_Line < 16)
-            cur_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = 0;
+            g_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = 0;
 
         // Display Background & Foreground
 		if ((opt.Layer_Mask & LAYER_BACKGROUND) && Display_ON)
@@ -284,7 +284,7 @@ void    Refresh_Line_5 (void)
 void    Display_BackGround_Line_5(void)
 {
     // X scrolling computations
-    int x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : cur_machine.VDP.scroll_x_latched;
+    int x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : g_machine.VDP.scroll_x_latched;
     int x = x_scroll & 7;  // x = x_scroll % 8
     x_scroll >>= 3;    // x_scroll /= 8
     if (x_scroll == 0)
@@ -317,7 +317,7 @@ void    Display_BackGround_Line_5(void)
     }
 
     // Y scrolling computations
-    int y = tsms.VDP_Line + cur_machine.VDP.scroll_y_latched;
+    int y = tsms.VDP_Line + g_machine.VDP.scroll_y_latched;
     if (Wide_Screen_28)
     {
         y &= 255; // y %= 256, Wrap at 256
@@ -329,12 +329,12 @@ void    Display_BackGround_Line_5(void)
     }
 
     // Bit 0 of Register 2 act as a mask on the 315-5124
-    if (cur_machine.VDP.model == VDP_MODEL_315_5124)
+    if (g_machine.VDP.model == VDP_MODEL_315_5124)
         if ((sms.VDP[2] & 1) == 0)
             y &= 127;
 
     // Calculate source address & line in tile
-    const u8* src_map = BACK_AREA + ((y & 0xFFFFFFF8) * 8) + (2 * (32 - x_scroll));
+    const u8* src_map = g_machine.VDP.name_table_address + ((y & 0xFFFFFFF8) * 8) + (2 * (32 - x_scroll));
     int tile_line = (y & 0x07) * 8;
 
     // Calculate position where vertical scrolling will be ignored
@@ -426,12 +426,12 @@ void    Display_BackGround_Line_5(void)
         {
             //if (Wide_Screen_28)
             //{
-            //    src_map = BACK_AREA + (((tsms.VDP_Line - 32) & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
+            //    src_map = g_machine.VDP.name_table_address + (((tsms.VDP_Line - 32) & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
             //    tile_line = ((tsms.VDP_Line - 32) & 0x07) * 8;
             //}
             //else
             //{
-                src_map = BACK_AREA + ((tsms.VDP_Line & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
+                src_map = g_machine.VDP.name_table_address + ((tsms.VDP_Line & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
                 tile_line = (tsms.VDP_Line & 0x07) * 8;
             //}
         }
@@ -593,13 +593,13 @@ void        Refresh_Sprites_5 (bool draw)
         int     x, y, n;
         byte *  p_src;
         int     j;
-		const u8 * spr_map = cur_machine.VDP.sprite_attribute_table;
+		const u8 * spr_map = g_machine.VDP.sprite_attribute_table;
         const u8 * spr_map_xn = &spr_map[0x80];
         int     spr_map_xn_offset;
         int     spr_map_n_mask = 0x01FF;
 
         // Bit 0 of Register 5 and Bits 0-1 of Register 6 act as masks on the 315-5124
-        if (cur_machine.VDP.model == VDP_MODEL_315_5124)
+        if (g_machine.VDP.model == VDP_MODEL_315_5124)
         {
             if ((sms.VDP[5] & 1) == 0)
                 spr_map_xn = &spr_map[0x00];
@@ -629,8 +629,8 @@ void        Refresh_Sprites_5 (bool draw)
 
                     // Fetch N & X
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
-                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
+                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
@@ -659,8 +659,8 @@ void        Refresh_Sprites_5 (bool draw)
 
                     // Fetch N & X
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
-                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
+                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
@@ -691,13 +691,13 @@ void        Refresh_Sprites_5 (bool draw)
                     // Fetch N & X
                     // Increase N on the sprite second tile
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
                     if (y & 8) // >= 8
                     {
                         n ++;
                         y &= 7;
                     }
-                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
+                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
@@ -728,13 +728,13 @@ void        Refresh_Sprites_5 (bool draw)
                     // Fetch N & X
                     // Increase N on the sprite second tile
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
                     if (y & 16) // >= 16
                     {
                         n ++;
                         y &= 15;
                     }
-                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
+                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)

@@ -17,13 +17,13 @@ void            VGM_Header_Init(t_vgm_header *h)
     h->eof_offset           = 0;                            // Unknown as of yet
     h->version_number       = VGM_VERSION;                  // VGM Version
     // FIXME: PSG?
-    h->sn76489_clock        = cur_machine.TV->CPU_clock;    // CPU Clock
+    h->sn76489_clock        = g_machine.TV->CPU_clock;    // CPU Clock
     h->ym2413_clock         = 0;                            // Will be set back if VGM_FM_Used==TRUE
     h->gd3_offset           = 0;                            // Unknown as of yet
     h->total_samples        = 0;
     h->loop_offset          = 0;
     h->loop_samples         = 0;
-    h->rate                 = cur_machine.TV->screen_frequency;
+    h->rate                 = g_machine.TV->screen_frequency;
     if (cur_drv->snd == SND_SN76489)
     {
         h->sn76489_feedback     = 0x0009;
@@ -129,8 +129,8 @@ void            VGM_Close(t_vgm *VGM)
 
 void            VGM_Update_Timing (t_vgm *VGM)
 {
-    VGM->Samples_per_Frame = (cur_machine.TV->id == TVTYPE_NTSC) ? 735 : 882;
-    VGM->Cycles_per_Frame  = /*VGM->Header.PSG_Speed / 60*/ cur_machine.TV_lines * opt.Cur_IPeriod;
+    VGM->Samples_per_Frame = (g_machine.TV->id == TVTYPE_NTSC) ? 735 : 882;
+    VGM->Cycles_per_Frame  = /*VGM->Header.PSG_Speed / 60*/ g_machine.TV_lines * opt.Cur_IPeriod;
     VGM->Samples_per_Cycle = (double)VGM->Samples_per_Frame / VGM->Cycles_per_Frame;
     VGM->Cycles_per_Sample = (double)VGM->Cycles_per_Frame / VGM->Samples_per_Frame;
 }
@@ -141,7 +141,7 @@ void            VGM_NewFrame(t_vgm *VGM)
     {
         byte b;
 
-        if (cur_machine.TV->id == TVTYPE_NTSC)
+        if (g_machine.TV->id == TVTYPE_NTSC)
         {
             b = VGM_CMD_WAIT_735;
             VGM->vgm_header.total_samples += 735;

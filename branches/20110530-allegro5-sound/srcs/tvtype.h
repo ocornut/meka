@@ -37,7 +37,7 @@ struct t_tv_type
 
 extern t_tv_type        TV_Type_Table[];
 extern t_tv_type *      TV_Type_User;
-// Note: TV Type for emulation is pointed by 'cur_machine.TV_Type'
+// Note: TV Type for emulation is pointed by 'g_machine.TV_Type'
 
 //-----------------------------------------------------------------------------
 

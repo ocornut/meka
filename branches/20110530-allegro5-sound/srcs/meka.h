@@ -50,10 +50,6 @@ extern u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
 extern u8 *    Mem_Pages [8];              // Pointer to memory pages
 };
 
-extern u8 *    BACK_AREA;
-extern u8 *    SG_BACK_TILE;
-extern u8 *    SG_BACK_COLOR;
-
 // Flags for layer handling ---------------------------------------------------
 #define LAYER_BACKGROUND		(0x01)
 #define LAYER_SPRITES           (0x02)
@@ -169,38 +165,43 @@ extern TSMS_TYPE  tsms;
 //-----------------------------------------------------------------------------
 // NEW STRUCTURES
 // Below are new structures which should hopefully obsolete everything above.
-// Right now they are quite empty but new members can be added here, or old 
-// members moved from time to time.
+// Members can eventually be moved out of old structure to those new ones.
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Emulated machine
 //-----------------------------------------------------------------------------
 
+// 'STATE' denote fields that should be saved in a savestate
+// 'CACHE' denote fields that directly derive from emulated machine data (eg: vdp register)
+// 'CONFIG' denote fields that derive from emulator configuration
 struct t_machine_vdp_smsgg
 {
-    int                     model;
-    int                     sprite_shift_x;						// 0 or 8
-	int						sprite_pattern_base_index;			// 0 or 256, SMS/GG only
-	u8 *					sprite_pattern_base_address;
-	u8 *					sprite_attribute_table;
+    int                     model;								// CONFIG
+    int                     sprite_shift_x;						// CACHE	// 0 or 8
+	u8 *					name_table_address;					// CACHE
+	u8 *					sg_color_table_address;				// CACHE	// Was g_machine.VDP.sg_color_table_address
+	u8 *					sg_pattern_gen_address;				// CACHE	// Was g_machine.VDP.pattern_gen_address
+	int						sprite_pattern_gen_index;			// CACHE	// 0 or 256, SMS/GG only
+	u8 *					sprite_pattern_gen_address;			// CACHE
+	u8 *					sprite_attribute_table;				// CACHE
 
     // Scrolling latches
-    u8                      scroll_x_latched;
-    u8                      scroll_y_latched;
-    u8                      scroll_x_latched_table[MAX_RES_Y];
+    u8                      scroll_x_latched;					// STATE
+    u8                      scroll_y_latched;					// STATE
+    u8                      scroll_x_latched_table[MAX_RES_Y];	// CACHE	// For tools
 };
 
 struct t_machine
 {
-    int                     driver_id;
-    int                     mapper;
+    int                     driver_id;							// STATE	// t_machine_driver
+    int                     mapper;								// STATE
     t_machine_vdp_smsgg     VDP;
-    struct t_tv_type *      TV;
-    int                     TV_lines;   // Copy of TV->screen_lines
+    struct t_tv_type *      TV;									// CONFIG
+    int                     TV_lines;							// CONFIG	// Copy of TV->screen_lines
 };
 
-extern t_machine   cur_machine;
+extern t_machine   g_machine;
 
 //-----------------------------------------------------------------------------
 // Runtime environment
@@ -344,7 +345,7 @@ struct t_media_image
 // Currently a global to hold ROM infos.
 // Note that the structure is currently only half used and supported.
 // We only use the 'meka_checksum' and 'crc32' fields yet.
-extern t_media_image   media_ROM;
+extern t_media_image   g_media_rom;
 
 //-----------------------------------------------------------------------------
 // Data (video buffers)

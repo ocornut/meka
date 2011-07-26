@@ -31,7 +31,7 @@ void    BMemory_Verify_Usage (void)
 
 void    BMemory_Get_Infos (void **data, int *len)
 {
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
     case MAPPER_Standard:
         BMemory_SRAM_Get_Infos (data, len);
@@ -55,13 +55,13 @@ void        BMemory_Load (void)
     // FIXME: Clear() handler
     // May want to totally move BMemory stuff to a driver based system
     memset (SRAM, 0, 0x8000);
-    if (cur_machine.mapper == MAPPER_93c46)
+    if (g_machine.mapper == MAPPER_93c46)
         EEPROM_93c46_Clear ();
 
     f = fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
     if (f == NULL)
         return;
-    switch (cur_machine.mapper)
+    switch (g_machine.mapper)
     {
     case MAPPER_Standard:       BMemory_SRAM_Load (f);  break;
     case MAPPER_93c46:          BMemory_93c46_Load (f); break;
@@ -74,7 +74,7 @@ void        BMemory_Save (void)
 	FILE *  f;
 
 	BMemory_Verify_Usage ();
-	switch (cur_machine.mapper)
+	switch (g_machine.mapper)
 	{
 	case MAPPER_Standard:       if (sms.SRAM_Pages == 0) return; break;
 	case MAPPER_93c46:          break;
@@ -83,7 +83,7 @@ void        BMemory_Save (void)
 	if (!al_filename_exists(g_env.Paths.SavegameDirectory))
 		al_make_directory(g_env.Paths.SavegameDirectory);
 	f = fopen(g_env.Paths.BatteryBackedMemoryFile, "wb");
-	switch (cur_machine.mapper)
+	switch (g_machine.mapper)
 	{
 	case MAPPER_Standard:       BMemory_SRAM_Save (f); break;
 	case MAPPER_93c46:          BMemory_93c46_Save (f); break;
@@ -94,7 +94,7 @@ void        BMemory_Save (void)
 
 void    BMemory_Load_State (FILE *f)
 {
-	switch (cur_machine.mapper)
+	switch (g_machine.mapper)
 	{
 	case MAPPER_Standard:       BMemory_SRAM_Load_State (f);  break;
 	case MAPPER_93c46:          BMemory_93c46_Load_State (f); break;
@@ -103,7 +103,7 @@ void    BMemory_Load_State (FILE *f)
 
 void    BMemory_Save_State (FILE *f)
 {
-	switch (cur_machine.mapper)
+	switch (g_machine.mapper)
 	{
 	case MAPPER_Standard:       BMemory_SRAM_Save_State (f);  break;
 	case MAPPER_93c46:          BMemory_93c46_Save_State (f); break;
