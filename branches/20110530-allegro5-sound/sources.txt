@@ -201,6 +201,8 @@ II. Compile for GNU/Linux and other UN*X based systems:
 
 Note: require 'make', 'zip' and 'upx'
 
+In trunk/ directory (the directory containing the executable):
+
 # make -f srcs/Makefile dist_src
 # make -f srcs/Makefile dist_bin_win32
 # make -f srcs/Makefile dist_bin_unix

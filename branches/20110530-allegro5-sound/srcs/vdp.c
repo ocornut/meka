@@ -225,7 +225,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
                          BACK_AREA  = VRAM + (int)((value & 0xE) << 10); // 0x0000 -> 0x3800, 0x0800 increments
                      break;
                 case VDP_TMS9918:
-                     BACK_AREA = VRAM + (int)((value & /*0x7F*/ 0xF /*7*/) << 10);
+                     BACK_AREA = VRAM + (int)((value & 0xF) << 10);
                      break;
                 }
              break;
@@ -235,6 +235,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // TMS9918 register: address of tile data --------------------------------
+	 // This is either $0000 or $2000 in VRAM
      case 4: SG_BACK_TILE = VRAM + ((int)(value & VDP_Mask[tsms.VDP_VideoMode][1]) << 11);
              break;
 

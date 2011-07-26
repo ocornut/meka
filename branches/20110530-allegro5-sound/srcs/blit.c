@@ -207,7 +207,7 @@ void    Blit_Fullscreen_Double (void)
 void    Blit_Fullscreen_Eagle (void)
 {
 	assert(0);
-#if 0 // FIXME-ALLEGRO5: blit
+#if 0 // FIXME-ALLEGRO5: blitter eagle
 	// Eagle, x1 -> x2
 	int i;
 	for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + cur_drv->y_res; i ++)
@@ -229,7 +229,7 @@ void    Blit_Fullscreen_HQ2X (void)
 {
     // Perform HQ2X into double buffer
 	// FIXME-OPT: Applied on full width.
-#if 0 // FIXME-ALLEGRO5: blit
+#if 0 // FIXME-ALLEGRO5: blitter hq2x
 	ALLEGRO_LOCKED_REGION* lr_src = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READONLY);
 	ALLEGRO_LOCKED_REGION* lr_dst = al_lock_bitmap(Blit_Buffer_Double, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_WRITEONLY);
 
@@ -245,7 +245,7 @@ void    Blit_Fullscreen_HQ2X (void)
 
 void    Blit_Fullscreen_TV_Mode (void)
 {
-#if 0 // FIXME-ALLEGRO5: blit
+#if 0 // FIXME-ALLEGRO5: blitter tv mode
 	int i;
 	for (i = 0; i < cur_drv->y_res; i ++)
 	{
@@ -272,7 +272,7 @@ void    Blit_Fullscreen_TV_Mode (void)
 // FIXME-OPT: Obviously this is very slow. Just trying to get something working for 0.72. Later shall work better solution (generating inline assembly, etc).
 void    Blit_Fullscreen_TV_Mode_Double (void)
 {
-#if 0 // FIXME-ALLEGRO5: blit
+#if 0 // FIXME-ALLEGRO5: blitter tv mode double
 	int i;
 	for (i = 0; i < cur_drv->y_res; i ++)
 	{

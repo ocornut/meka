@@ -60,7 +60,7 @@ void    TMS9918_Palette_Setup(void)
 }
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, int x, int y, int fgcolor_host, int bgcolor_host)
+void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, int fgcolor_host, int bgcolor_host)
 {
 	const int color_format = al_get_bitmap_format(dst);
     switch (al_get_pixel_format_bits(color_format))
@@ -71,10 +71,9 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
 			const int dst_pitch = dst_region->pitch >> 1;
 			const u16 fgcolor = fgcolor_host;
 			const u16 bgcolor = bgcolor_host;
-            int i;
-            for (i = 0; i != 8; i++)
+            for (int i = 0; i != 8; i++)
             {
-                const u8 cc = *pixels++;
+                const u8 cc = *pixels_data++;
                 u16 *dst8 = dst_data + (dst_pitch*y) + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
@@ -94,10 +93,66 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
 			const int dst_pitch = dst_region->pitch >> 2;
 			const u32 fgcolor = fgcolor_host;
 			const u32 bgcolor = bgcolor_host;
-            int i;
-            for (i = 0; i != 8; i++)
+            for (int i = 0; i != 8; i++)
             {
-                const u8 cc = *pixels++;
+                const u8 cc = *pixels_data++;
+                u32 *dst8 = dst_data + (dst_pitch*y) + x;
+                dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
+                dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
+                dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
+                dst8[3] = (cc & 0x10) ? fgcolor : bgcolor;
+                dst8[4] = (cc & 0x08) ? fgcolor : bgcolor;
+                dst8[5] = (cc & 0x04) ? fgcolor : bgcolor;
+                dst8[6] = (cc & 0x02) ? fgcolor : bgcolor;
+                dst8[7] = (cc & 0x01) ? fgcolor : bgcolor;
+                y++;
+            }
+            break;
+        }
+    default:
+		Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
+        break;
+    }
+}
+
+void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, const u8 *colors_data)
+{
+	const int color_format = al_get_bitmap_format(dst);
+    switch (al_get_pixel_format_bits(color_format))
+    {
+    case 16:
+        {
+			u16* dst_data = (u16*)dst_region->data;
+			const int dst_pitch = dst_region->pitch >> 1;
+            for (int i = 0; i != 8; i++)
+            {
+                const u8 cc = *pixels_data++;
+				const u8 color_indexes = *colors_data++;
+				const u16 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
+				const u16 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
+                u16 *dst8 = dst_data + (dst_pitch*y) + x;
+                dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
+                dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
+                dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
+                dst8[3] = (cc & 0x10) ? fgcolor : bgcolor;
+                dst8[4] = (cc & 0x08) ? fgcolor : bgcolor;
+                dst8[5] = (cc & 0x04) ? fgcolor : bgcolor;
+                dst8[6] = (cc & 0x02) ? fgcolor : bgcolor;
+                dst8[7] = (cc & 0x01) ? fgcolor : bgcolor;
+                y++;
+            }
+            break;
+        }
+    case 32:
+        {
+			u32* dst_data = (u32*)dst_region->data;
+			const int dst_pitch = dst_region->pitch >> 2;
+            for (int i = 0; i != 8; i++)
+            {
+                const u8 cc = *pixels_data++;
+				const u8 color_indexes = *colors_data++;
+				const u32 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
+				const u32 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
                 u32 *dst8 = dst_data + (dst_pitch*y) + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
@@ -197,39 +252,31 @@ void    Display_Background_1 (void)
 // DISPLAY BACKGROUND VIDEO MODE 2 --------------------------------------------
 void    Display_Background_2 (void)
 {
-    int    i, j, j2, k;
+    const u8* pattern_name_table = BACK_AREA;
+    const int vsection_mask = sms.VDP[4] & 3;
 
-    byte   *col_base;                     //-- Color Table Base --//
-    byte   *tile_base;                    //-- Tile Data Base ----//
-    byte   *p1,                           //-- Tile Data ---------//
-           *p2,                           //-- Color Table -------//
-           *p4 = BACK_AREA;               //-- Tile Table --------//
-
-    register int x, y;
-
-    int mask = sms.VDP [4] & 3;
-
-    // DRAW ALL TILES ------------------------------------------------------------
-    y = 0;
-    for (k = 0; k < 3; k ++)
+    int y = 0;
+    for (int vsection_idx = 0; vsection_idx < 3; vsection_idx++) // screen in 3 parts
     {
-        col_base = SG_BACK_COLOR + ((k & mask) * 0x800);
-        tile_base = SG_BACK_TILE + ((k & mask) * 0x800);
-        for (i = 0; i < 8; i++)
+        const u8* tile_base = SG_BACK_TILE + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
+        const u8* col_base = SG_BACK_COLOR + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
+        for (int ty = 0; ty < 8; ty++)
         {
-            x = 0;
-            for (j = 0; j < 32; j++)
+            int x = 0;
+            for (int tx = 0; tx < 32; tx++)
             {
-                p1 = tile_base + (*p4 * 8);
-                p2 = col_base  + (*p4++ * 8);
+				const u32 pattern_name = (*pattern_name_table++) * 8;
+                const u8* p1 = tile_base + pattern_name;		// Pattern data
+                const u8* p2 = col_base  + pattern_name;		// Color table
 
                 // Draw one tile
-                for (j2 = 0; j2 < 8; j2 ++, p2++)
+                for (int j2 = 0; j2 < 8; j2 ++)
                 {
-                    PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y + j2) + x;
-                    const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*p2 >> 4];
-                    const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[(*p2) & 0x0F];
+					PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y+j2) + x;
                     const u8 cc = (*p1++);
+					const u8 color_indexes = (*p2++);
+                    const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[color_indexes >> 4];
+                    const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[color_indexes & 0x0F];
                     dst[0] = (cc & 0x80) ? color1 : color2;
                     dst[1] = (cc & 0x40) ? color1 : color2;
                     dst[2] = (cc & 0x20) ? color1 : color2;

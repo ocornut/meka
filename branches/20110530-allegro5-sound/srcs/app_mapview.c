@@ -10,6 +10,7 @@
 #include "g_widget.h"
 #include "vdp.h"
 #include "video_c.h"
+#include "video_m2.h"
 #include "video_m5.h"
 #include "palette.h"
 
@@ -340,25 +341,57 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
     // Update tilemap
 	al_set_target_bitmap(app->box->gfx_buffer);
-	ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
-    if (tsms.VDP_VideoMode < 4) // FIXME: Video mode numbers
-    {
-        char text[64];
+
+	// FIXME: Video mode numbers
+	if (tsms.VDP_VideoMode == 2)
+	{
         gui_frame_clear(app->box->gfx_buffer, &app->frame_tilemap, COLOR_SKIN_WINDOW_BACKGROUND);
-        sprintf(text, "Unsupported video mode: %d", tsms.VDP_VideoMode);
-        Font_Print(F_MIDDLE, text, app->frame_tilemap.pos.x + TILEMAP_VIEWER_PADDING, app->frame_tilemap.pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-    }
-    else
+		ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+
+		// Draw tilemap
+		const u8* pattern_name_table = BACK_AREA;
+		const int vsection_mask = sms.VDP[4] & 3;
+		int y = 0;
+		for (int vsection_idx = 0; vsection_idx < 3; vsection_idx++) // screen in 3 parts
+		{
+			const u8* tile_base = SG_BACK_TILE + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
+			const u8* col_base = SG_BACK_COLOR + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
+			for (int ty = 0; ty < 8; ty++)
+			{
+				int x = 0;
+				for (int tx = 0; tx < 32; tx++)
+				{
+					const u32 pattern_name = (*pattern_name_table++) * 8;
+					const u8* p1 = tile_base + pattern_name;		// Pattern data
+					const u8* p2 = col_base  + pattern_name;		// Color table
+
+					// Draw one tile
+					const int dst_x = app->frame_tilemap.pos.x + x;
+					const int dst_y = app->frame_tilemap.pos.y + y;
+					VDP_Mode0123_DrawTile(app->box->gfx_buffer, locked_region, dst_x, dst_y, p1, p2);
+					p1 += 8;
+					p2 += 8;
+					x += 8;
+				}
+				y += 8;
+			}
+		}
+
+		al_unlock_bitmap(app->box->gfx_buffer);
+	}
+    else if (tsms.VDP_VideoMode >= 4)
     {
-        // Draw tilemap
+		ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+
+		// Draw tilemap
         const u16 *map = (u16 *)(VRAM + app->config_tilemap_addr);
         int i, j;
         for (j = 0; j != 224/8; j++)
         {
-            const int y = app->frame_tilemap.pos.y + (j << 3);
+            const int dst_y = app->frame_tilemap.pos.y + (j << 3);
             for (i = 0; i != 256/8; i++)
             {
-                const int   x               = app->frame_tilemap.pos.x + (i << 3);
+                const int   dst_x           = app->frame_tilemap.pos.x + (i << 3);
                 const u16   map_item        = *map++;
                 const int   tile_index      = (map_item & 0x01FF);
                 const u32 * tile_palette    = (map_item & 0x0800) ? &Palette_EmulationToHostGui[16] : &Palette_EmulationToHostGui[0];
@@ -373,7 +406,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
                 if ((!app->config_bg && !(map_item & 0x1000)) || (!app->config_fg && (map_item & 0x1000)))
                 {
 					// FIXME-OPT: Revert to soft rendering for locked buffer
-                    al_draw_filled_rectangle(x, y, x + 8, y + 8, COLOR_BACKDROP);
+                    al_draw_filled_rectangle(dst_x, dst_y, dst_x + 8, dst_y + 8, COLOR_BACKDROP);
                 }
                 else
                 {
@@ -385,12 +418,20 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
                     }
 
                     // Draw
-                    VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, tile_pixels, tile_palette, x, app->frame_tilemap.pos.y + (j << 3), tile_flip);
+                    VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, tile_pixels, tile_palette, dst_x, dst_y, tile_flip);
                 }
             }
         }
+		al_unlock_bitmap(app->box->gfx_buffer);
     }
-	al_unlock_bitmap(app->box->gfx_buffer);
+	else
+	{
+        gui_frame_clear(app->box->gfx_buffer, &app->frame_tilemap, COLOR_SKIN_WINDOW_BACKGROUND);
+        char text[64];
+        sprintf(text, "Unsupported video mode: %d", tsms.VDP_VideoMode);
+        Font_Print(F_MIDDLE, text, app->frame_tilemap.pos.x + TILEMAP_VIEWER_PADDING, app->frame_tilemap.pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+	}
+
     // Tilemap rectangle
     al_draw_rectangle(
         app->frame_tilemap.pos.x - 0.5f, app->frame_tilemap.pos.y - 0.5f, 

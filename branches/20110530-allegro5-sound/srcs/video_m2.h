@@ -22,7 +22,8 @@ extern ALLEGRO_COLOR	TMS9918_Palette[16];
 
 //-----------------------------------------------------------------------------
 
-void     VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, int x, int y, int fgcolor, int bgcolor);
+void     VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, int fgcolor, int bgcolor);
+void     VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, const u8 *colors_data);
 
 //-----------------------------------------------------------------------------
 
