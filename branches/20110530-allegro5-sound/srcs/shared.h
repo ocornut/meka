@@ -82,7 +82,6 @@ struct t_widget;
 #include "sound.h"          // Sound Engine (include other files)
 #include "textbox.h"        // Text box GUI Applet
 #include "tools.h"          // Various tools
-#include "tools_t.h"        // Various time related tools
 #include "tvtype.h"         // TV Types interfacing and data table
 #include "vmachine.h"       // Virtual machine system
 
