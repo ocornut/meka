@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/07/20
+; Last updated 2011/07/26
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -154,6 +154,7 @@ SMS 13ac9023 7269A76D348E66E9   Cool Spot/COUNTRY=EU/PRODUCT_NO=MK-27068-50
 SMS 29822980 AA098A4FE1EB594F   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=MK-27074-50/EMU_MAPPER=3/EMU_TVTYPE=PAL/EMU_SPRITE_FLICKER
 SMS 1350e4f8 54D5553AF5264FDE   Cyber Shinobi, The/COUNTRY=EU,BR/PRODUCT_NO=7050
 SMS 908e7524 48CF176FE2E9692F   Cyborg Hunter/COUNTRY=US,EU,BR/PRODUCT_NO=QC-002,25003/COMMENT=Export version of "Chouon Senshi Borgman".
+SMS 77efe84a 38F62FF22B9B34B7   Cyborg Z/COUNTRY=KR/EMU_MAPPER=12
 SMS 71abef27 8C16E13E120E48D7   Daffy Duck in Hollywood/COUNTRY=EU,BR/PRODUCT_NO=9031,028360/EMU_TVTYPE=NTSC
 SMS 89b79e77 E3D53E738DD294A4   Dallyeora Pigu-Wang/COUNTRY=KR/PRODUCT_NO=G9511-RP4/EMU_MAPPER=9/COMMENT=Name translate as "Run Dodgeball King"
 SMS ae4a28d7 573DC782B785EDFA   Danan: The Jungle Fighter/NAME_BR=Danan/COUNTRY=EU,BR/PRODUCT_NO=7049

@@ -109,6 +109,7 @@
  Cosmic Spacehead                               -       Ok
  Cyber Shinobi, The                             -       Ok
  Cyborg Hunter                                  FM      Ok
+ Cyborg Z (KR)                                  -      *Ok
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
  Dead Angle                                     -       Ok
@@ -512,7 +513,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 495 games tested - 493 are "Ok" - Compatibility rate: 99.54%
+ 496 games tested - 494 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
