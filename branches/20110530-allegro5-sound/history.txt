@@ -18,10 +18,11 @@ They are usually of 2 kinds:
   - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
     Codebase can now freely take advantage of all C++ compiler features. [Omar]
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
-  - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
+  - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
+  - GUI: Made "Ocean" the default theme and increased default GUI resolution. [Omar]
   - GUI: depth order of windows is saved when quitting the application. [Omar]
   - GUI: increased mouse horizontal range when using scrollbars. [Omar]
   - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]

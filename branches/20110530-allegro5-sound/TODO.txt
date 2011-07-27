@@ -8,7 +8,7 @@ Meka 0.80 check list
 - add setup with resolution and dx/opengl selection
 - solve vsync and refresh rate issues, at least be able to enable vsync?
 - have a pass at checking all features
-- new feature: tilemap for mode 2?
+- tilemap viewer: mode 2: print more infos. add more addr settings.
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
 - reorganize inputs configuration panel?

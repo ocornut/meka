@@ -34,6 +34,7 @@ t_list *            TilemapViewers;
 static void			TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app);
 static void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup);
 static void         TilemapViewer_Update(t_tilemap_viewer *app);
+static void			TilemapViewer_UpdateAddresses(t_tilemap_viewer *app);
 static void         TilemapViewer_UpdateInfos(t_tilemap_viewer *app);
 static void         TilemapViewer_UpdateScroll(t_tilemap_viewer *app);
 
@@ -62,6 +63,9 @@ t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
     app->config_scroll_raster       = TRUE;
     app->config_tilemap_addr        = 0x3800;
     app->config_tilemap_addr_auto   = TRUE;
+	app->config_tilemap_addr_manual_base_addr	= 0x0000;
+	app->config_tilemap_addr_manual_step_size	= 0x0800;
+	app->config_tilemap_addr_manual_step_count	= 8;
     app->tile_hovered               = -1;
     app->tile_selected              = 0;
 
@@ -144,17 +148,17 @@ void	TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app)
 			app->frame_infos.pos.x          = TILEMAP_VIEWER_PADDING;
 			app->frame_infos.pos.y          = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
 			app->frame_infos.size.x         = 180 - TILEMAP_VIEWER_PADDING / 2;
-			app->frame_infos.size.y         = 52;
+			app->frame_infos.size.y         = 26;
 
 			app->frame_config.pos.x         = app->frame_infos.pos.x + app->frame_infos.size.x + (TILEMAP_VIEWER_PADDING * 2);
 			app->frame_config.pos.y         = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
 			app->frame_config.size.x        = 76;
-			app->frame_config.size.y        = 52;
+			app->frame_config.size.y        = 26;
 
 			app->frame_tilemap_addr.pos.x   = TILEMAP_VIEWER_PADDING;
 			app->frame_tilemap_addr.pos.y   = app->frame_infos.pos.y + app->frame_infos.size.y + TILEMAP_VIEWER_PADDING;
 			app->frame_tilemap_addr.size.x  = 256;
-			app->frame_tilemap_addr.size.y  = 16*4;
+			app->frame_tilemap_addr.size.y  = 16*1;
 
 			// Box size (note that we don't touch pos here)
 			app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
@@ -247,10 +251,9 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     frame.size.x = 8 * 8;
     if (setup)
     {
-        app->widget_tilemap_addr_scrollbar_max = 8;
-        app->widget_tilemap_addr_scrollbar_cur = 0;
-        app->widget_tilemap_addr_scrollbar_per_page = 1;
-        app->widget_tilemap_addr_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_HORIZONTAL, &frame, &app->widget_tilemap_addr_scrollbar_max, &app->widget_tilemap_addr_scrollbar_cur, &app->widget_tilemap_addr_scrollbar_per_page, TilemapViewer_CallbackTilemapAddressScroll);
+        app->widget_tilemap_addr_scrollbar_slot_cur = 0;
+		static int step = 1;
+        app->widget_tilemap_addr_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_HORIZONTAL, &frame, &app->config_tilemap_addr_manual_step_count, &app->widget_tilemap_addr_scrollbar_slot_cur, &step, TilemapViewer_CallbackTilemapAddressScroll);
     }
     al_draw_rectangle(frame.pos.x - 0.5f, frame.pos.y - 0.5f, frame.pos.x + frame.size.x + 1.5f, frame.pos.y + frame.size.y + 1.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
@@ -260,7 +263,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     frame.size.x = 10;
     frame.size.y = 10;
     if (setup)
-        app->widget_tilemap_addr_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL); 
+        app->widget_tilemap_addr_auto_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL); 
     frame.pos.x += frame.size.x + 6;
     Font_Print(F_MIDDLE, "Auto", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
@@ -278,25 +281,14 @@ void        TilemapViewer_CallbackTilemapAddressScroll(t_widget *w)
 {
     t_tilemap_viewer *app = (t_tilemap_viewer *)w->box->user_data; // Get instance
 
-    int new_addr;
-    if (Wide_Screen_28)
-    {
-        // Extended resolution screen mapping (eg: used by CodeMasters games)
-        // FIXME: Should display the whole 256x224 screen.
-        new_addr = 0x0700 + (app->widget_tilemap_addr_scrollbar_cur) * 0x1000;
-    }
-    else
-    {
-        // Regular screen mapping
-        new_addr = (app->widget_tilemap_addr_scrollbar_cur) * 0x0800;
-    }
-    const int cur_addr = (app->config_tilemap_addr);
+    const int new_addr = app->config_tilemap_addr_manual_base_addr + (app->widget_tilemap_addr_scrollbar_slot_cur * app->config_tilemap_addr_manual_step_size);
+    const int cur_addr = app->config_tilemap_addr;
 
     if (new_addr != cur_addr)
     {
         app->config_tilemap_addr = new_addr;
         app->config_tilemap_addr_auto = FALSE;
-        widget_set_dirty(app->widget_tilemap_addr_checkbox);
+        widget_set_dirty(app->widget_tilemap_addr_auto_checkbox);
     }
 
 }
@@ -359,51 +351,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     // Always dirty (ok for a developer tool)
     app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
-    // Update tilemap address slot
-    // - Automatic
-    if (app->config_tilemap_addr_auto)
-    {
-        if (Wide_Screen_28)
-        {
-            app->widget_tilemap_addr_scrollbar_cur = (sms.VDP[2] & 0x0C) >> 2;
-        }
-        else
-        {
-            app->widget_tilemap_addr_scrollbar_cur = (sms.VDP[2] & 0x0E) >> 1;
-        }
-        widget_set_dirty(app->widget_tilemap_addr_scrollbar);
-    }
-    else
-    {
-        // - Manual
-        if (Wide_Screen_28)
-        {
-            if (app->widget_tilemap_addr_scrollbar_max == 8)
-            {
-                app->widget_tilemap_addr_scrollbar_cur /= 2;
-                widget_set_dirty(app->widget_tilemap_addr_scrollbar);
-            }
-        }
-        else
-        {
-            if (app->widget_tilemap_addr_scrollbar_max == 4)
-            {
-                app->widget_tilemap_addr_scrollbar_cur *= 2;
-                widget_set_dirty(app->widget_tilemap_addr_scrollbar);
-            }
-        }
-    }
-    app->widget_tilemap_addr_scrollbar_max = (Wide_Screen_28) ? 4 : 8;
-
-    // Update tilemap address
-    if (Wide_Screen_28)
-    {
-        app->config_tilemap_addr = 0x0700 + (app->widget_tilemap_addr_scrollbar_cur * 0x1000);
-    }
-    else
-    {
-        app->config_tilemap_addr = (app->widget_tilemap_addr_scrollbar_cur * 0x0800);
-    }
+	TilemapViewer_UpdateAddresses(app);
 
     // Update tilemap
 	al_set_target_bitmap(app->box->gfx_buffer);
@@ -420,7 +368,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 		// TODO: pattern data base addr
 		// TODO: color table base addr
 		// TODO: show info per tile: Index, X,Y, pattern_name
-		const u8* pattern_name_table = g_machine.VDP.name_table_address;
+		const u8* pattern_name_table = VRAM + app->config_tilemap_addr;
 		const int vsection_mask = sms.VDP[4] & 3;
 		int y = 0;
 		for (int vsection_idx = 0; vsection_idx < 3; vsection_idx++) // screen in 3 parts
@@ -528,8 +476,57 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     TilemapViewer_UpdateInfos(app);
 }
 
+static void		TilemapViewer_UpdateAddresses(t_tilemap_viewer *app)
+{
+    // Update tilemap address slot
+	const int old_tilemap_addr_step_count = app->config_tilemap_addr_manual_step_count;
+	if (tsms.VDP_VideoMode >= 4)
+	{
+		if (Wide_Screen_28)
+		{
+			app->config_tilemap_addr_manual_base_addr = 0x0700;
+			app->config_tilemap_addr_manual_step_size = 0x1000;
+			app->config_tilemap_addr_manual_step_count = 4;
+			if (app->config_tilemap_addr_auto)
+				app->widget_tilemap_addr_scrollbar_slot_cur = (sms.VDP[2] & 0x0C) >> 2;
+		}
+		else
+		{
+			app->config_tilemap_addr_manual_base_addr = 0x0000;
+			app->config_tilemap_addr_manual_step_size = 0x0800;
+			app->config_tilemap_addr_manual_step_count = 8;
+			if (app->config_tilemap_addr_auto)
+				app->widget_tilemap_addr_scrollbar_slot_cur = (sms.VDP[2] & 0x0E) >> 1;
+		}
+	}
+	else
+	{
+		app->config_tilemap_addr_manual_base_addr = 0x0000;
+		app->config_tilemap_addr_manual_step_size = 0x400;
+		app->config_tilemap_addr_manual_step_count = 16;
+		if (app->config_tilemap_addr_auto)
+			app->widget_tilemap_addr_scrollbar_slot_cur = (sms.VDP[2] & 0x0F);
+	}
+
+	if (old_tilemap_addr_step_count != app->config_tilemap_addr_manual_step_count)
+	{
+		// Approximately remap selector
+		app->widget_tilemap_addr_scrollbar_slot_cur = LinearRemapClamp(app->widget_tilemap_addr_scrollbar_slot_cur, 0, old_tilemap_addr_step_count-1, 0, app->config_tilemap_addr_manual_step_count-1);
+		widget_set_dirty(app->widget_tilemap_addr_scrollbar);
+	}
+	if (app->config_tilemap_addr_auto)
+		widget_set_dirty(app->widget_tilemap_addr_scrollbar);
+
+    // Update tilemap address
+    app->config_tilemap_addr = app->config_tilemap_addr_manual_base_addr + (app->widget_tilemap_addr_scrollbar_slot_cur * app->config_tilemap_addr_manual_step_size);
+}
+
 static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 {
+	const int  tile_count = (app->frame_tilemap.size.x / 8) * (app->frame_tilemap.size.y / 8);
+	if (app->tile_selected >= tile_count)
+		app->tile_selected = 0;
+
     const int  tile_current = (app->tile_hovered == -1) ? app->tile_selected : app->tile_hovered;
     const int  tile_current_x = tile_current & 31;
     const int  tile_current_y = tile_current >> 5;
@@ -597,18 +594,21 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 		// FIXME-WIP
 		snprintf(line, sizeof(line), "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
 		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-
 		pos.y += Font_Height(F_MIDDLE) + 2;
+		*/
+
 		snprintf(line, sizeof(line), "X:        %d", tile_current_x);
 		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-
 		pos.y += Font_Height(F_MIDDLE) + 2;
+
 		snprintf(line, sizeof(line), "Y:        %d", tile_current_y);
 		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-
 		pos.y += Font_Height(F_MIDDLE) + 2;
+
+		/*
 		snprintf(line, sizeof(line), "Pattern:  $%03X", tile_map_item & 0x1FF);
 		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		pos.y += Font_Height(F_MIDDLE) + 2;
 		*/
 	}
 

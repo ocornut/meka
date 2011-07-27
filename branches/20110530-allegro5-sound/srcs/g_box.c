@@ -234,8 +234,21 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
 
 void	gui_box_create_video_buffer(t_gui_box *box)
 {
+	int sx, sy;
 	if (box->gfx_buffer)
+	{
+		// Reuse previous bitmap size over the size stored in box.
+		// Because current resizing system keeps largest size gfx_buffer so size stored in box may be smaller
+		// (as used by Tilemap Viewer, but we may switch to properly recreating the video buffer)
+		sx = al_get_bitmap_width(box->gfx_buffer);
+		sy = al_get_bitmap_height(box->gfx_buffer);
 		al_destroy_bitmap(box->gfx_buffer);
+	}
+	else
+	{
+		sx = box->frame.size.x+1;
+		sy = box->frame.size.y+1;
+	}
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
 	al_set_new_bitmap_format(g_Configuration.video_gui_format_request);
