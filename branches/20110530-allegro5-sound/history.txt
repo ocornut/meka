@@ -41,8 +41,8 @@ They are usually of 2 kinds:
           SG1 - f7eb94c5 - Congo Bongo [v0] (TW)                --> Congo Bongo [v1] (TW)
           OMV - 90160849 - 007 James Bond                       --> 007 James Bond [v2.7] (version v2.6 found)
           OMV - 76d6c64d - 007 James Bond (TW)                  --> 007 James Bond [v2.7] (TW)
-          OMV - d5fdb4a3 - Space Armor [v0]                     --> Space Armor [v20] [v1] (earlier build found replacing [v0], v20 is found on title screen but doesn't differenciate both v20 builds)
-          OMV - ac4f0a5c - Space Armor [v1]                     --> Space Armor [v20] [v2]
+          OMV - d5fdb4a3 - Space Armor [v0]                     --> Space Armor [v2.0] [v1] (earlier build found replacing [v0], v2.0 is found on title screen but doesn't differenciate both v20 builds)
+          OMV - ac4f0a5c - Space Armor [v1]                     --> Space Armor [v2.0] [v2]
           SC3 - 22f4f92a - Nihonshi Nenpyou (JP)                --> Nihonshi Nenpyou [BAD] (JP) (was bad dump, correct dump confirmed multiple times)
           
 

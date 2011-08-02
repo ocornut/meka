@@ -2,7 +2,7 @@
 Meka 0.80 check list
 - debug version leaves allegro.log is current directory
 - fix sound: latency, 50 hz, other modes?
-- fix inputs
+- defaut <40k roms to have no mapper
 - game gear stereo
 - start window is in background when running from explorer
 - add setup with resolution and dx/opengl selection
@@ -16,6 +16,7 @@ Meka 0.80 check list
 - end-user timing (message time, double click) shouldn't be measured in emulated frames
 - expose game screen scaling parameter (at least in configuration file!)
 - incorrect rom on command-line leaves a zombie thread? (sometimes?)
+- gui: show shortcuts
 - GUI HOVERING SCROLL BAR BROKEN
 
 - bug reports:

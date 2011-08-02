@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/07/26
+; Last updated 2011/08/02
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -147,6 +147,7 @@ SMS 8fb75994 2AB04A10D714A23F   Circuit, The/COUNTRY=JP/PRODUCT_NO=G-1304/COMMEN
 SMS e7f62e6d BA12C9527CEE0DA2   Cloud Master/NAME_JP=Chuka Taisen/COUNTRY=US,EU,BR/PRODUCT_NO=7027
 SMS 9d549e08 59868AC9BD4815B4   Comical Machine Gun Joe/COUNTRY=JP/PRODUCT_NO=C-511
 SMS 84ad5ae4 A9567EC5B94513AD   Comical Machine Gun Joe/COUNTRY=TW/PRODUCT_NO=K-317
+SMS 643f6bfc 937293CB9A4A16A3   Comical Machine Gun Joe/COUNTRY=KR/PRODUCT_NO=G-40
 SMS 7253c3ec DF1EDD826F58CE0F   Color & Switch Test/FLAGS=PROTO/COMMENT=Official test cartridge. Also referred to as "M4 PAD CHK". The ROM contains a "POWER BASE CHECK" string.
 SMS 665fda92 AA7CEDD6C88CA221   Columns/NAME_BR=Shapes and Columns/COUNTRY=US,EU,BR,KR/PRODUCT_NO=5120,GB-1001,GB-1002JG
 SMS 3fb40043 8418F6420CFBF035   Columns [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -168,6 +169,7 @@ SMS 32f4b791 AEC0BB10E75FCFB2   Dinosaur Dooley, The/COUNTRY=KR/COMMENT=English 
 SMS 2bcdb8fa 9A7D6603682DA249   Doki Doki Penguin Land - Uchuu Daibouken/COUNTRY=JP/PRODUCT_NO=G-1334/COMMENT=Japanese version of "Penguin Land".
 SMS 56bd2455 BF5D696ADE34916E   Doki Doki Penguin Land - Uchuu Daibouken [Proto]/FLAGS=PROTO/COUNTRY=JP/COMMENT=Prototype version of the game.
 SMS a55d89f3 3488F258EC375C7B   Double Dragon/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1369,7012
+SMS aeacfca7 E846E84DC813566C   Double Dragon/COUNTRY=KR/COMMENT=Only differ from original version by a blanked out Sega logo.
 SMS 8370f6cd 128E2488C291E978   Double Hawk/COUNTRY=EU/PRODUCT_NO=7036
 SMS f76d5cee 932160B3D0411315   Double Hawk [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 52b83072 06C09D75451032A1   Double Target - Cynthia no Nemuri/COUNTRY=JP/PRODUCT_NO=G-1314/COMMENT=Japanese version of "Quartet".
@@ -229,6 +231,7 @@ SMS 956c416b 25ABB2B6FC7AD67C   Geraldinho/COUNTRY=BR/PRODUCT_NO=021080/COMMENT=
 SMS 1ddc3059 DC6545FFFA415CE4   Ghostbusters/COUNTRY=US,EU,KR/PRODUCT_NO=5065,GB1024JG
 SMS c0f3ce7e 827C30E5ED689206   Ghost House/COUNTRY=JP/PRODUCT_NO=C-512
 SMS f1f8ff2d 102C54291BD04715   Ghost House/COUNTRY=US,EU,BR/PRODUCT_NO=4002,4502
+SMS 1203afc9 C65D33D6DF6C90F9   Ghost House/COUNTRY=KR
 SMS c3e7c1ed 1C5A4BE99B9035F6   Ghost House [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS b746a6f5 A9CF4BEC1F7EF8BC   Global Defense/COUNTRY=US,EU/PRODUCT_NO=5102/COMMENT=Export version of "SDI".
 SMS 91a0fc4e CB2CDBCADF1A610A   Global Defense [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -292,6 +295,7 @@ SMS 05ea5353 C248674DC457190E   Kenseiden/COUNTRY=JP/PRODUCT_NO=G-1358
 SMS f8d33bc4 7A69F7D063546D32   King's Quest - Quest for the Crown/COUNTRY=US/PRODUCT_NO=4360
 SMS b7fe0a9d A7EF2C74C4AA61FB   King's Quest - Quest for the Crown [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS 2b435fd6 97D1E5EB0E6664F0   KLAX/COUNTRY=EU/PRODUCT_NO=301040-0160
+SMS f89af3cc 1E40D12DA16EB3E2   Knightmare II: The Maze of Galious/COUNTRY=KR/EMU_MAPPER=12
 SMS 64a585eb 6328C143CB001393   Krusty's Fun House/COUNTRY=EU,BR/PRODUCT_NO=MK 27056-50,026280
 SMS d11d32e4 261F3B6965EAC701   Kujakuou/COUNTRY=JP/PRODUCT_NO=G-1366/COMMENT=Japanese version of SpellCaster.
 SMS 1e949d1f 50C0B42AE27D4D66   Kung Fu Kid/COUNTRY=US,EU,BR/PRODUCT_NO=5078/COMMENT=Export version of "Makai Retsuden".
@@ -404,7 +408,7 @@ SMS c547eb1b 1DA1B2C2A17604B3   Rastan/COUNTRY=US,EU,BR/PRODUCT_NO=7022
 SMS 9c76fb3a D5F5307E4C80328A   Rastan Saga [SMS-GG]/COUNTRY=JP/FLAGS=SMSGG_MODE/PRODUCT_NO=T-11037
 SMS 54316fea A3E4BFF29BB8066F   R.C. Grand Prix/COUNTRY=US,EU,BR/PRODUCT_NO=27007
 SMS 767f11b8 5EDFCCBA77EF03D4   R.C. Grand Prix [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
-SMS 56201996 A88B7C7AF6466F2C   R.C. Grand Prix [SMS-GG]/COUNTRY=US                 ; [EDITOR-NOTE] Missing product number
+SMS 56201996 A88B7C7AF6466F2C   R.C. Grand Prix [SMS-GG]/COUNTRY=US/PRODUCT_NO=T-86018
 SMS 6d94bb0e 4D23BD40BBC8C14F   Reggie Jackson Baseball/COUNTRY=US/PRODUCT_NO=7019
 SMS 3be7f641 62359CD87BD76D36   Renegade/COUNTRY=EU,BR/PRODUCT_NO=7116
 SMS 79ac8e7f 3913D462E83B4912   Rescue Mission/COUNTRY=US,EU,BR/PRODUCT_NO=5106/EMU_INPUTS=LIGHTPHASER
@@ -413,6 +417,7 @@ SMS 9f951756 D1F812706360AE44   RoboCop 3/COUNTRY=EU,BR/PRODUCT_NO=MK-27064-50,0
 SMS 8212b754 7C3D8387CD52CB53   RoboCop versus The Terminator/COUNTRY=EU,BR/PRODUCT_NO=MK-29022-50,29022-50,028520
 SMS 1bcc7be3 6510DE9EFF33617C   Rocky/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1319,7002
 SMS bb54b6b0 5286A12D022F2801   R-Type/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1364,9002
+SMS 0d0840d5 BB28E74692B7DBCC   R-Type [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Data layout is different from final build but otherwise content is the same.
 SMS 1fdae719 9815A90C29BA6556   Running Battle/COUNTRY=EU,BR/PRODUCT_NO=7037,024300
 SMS 66388128 D28E2F698C014338   Sagaia/COUNTRY=EU,BR/PRODUCT_NO=7078
 SMS 97d03541 49C0303E13D3CBD8   Samgukji III/NAME_JP=Sangokushi III/COUNTRY=KR/EMU_MAPPER=9
@@ -565,7 +570,7 @@ SMS ec726c0d 949238322F74AC21   Xenon 2: Megablast [Virgin]/COUNTRY=EU/PRODUCT_N
 SMS 3e1387f6 5817A60154C0D7FF   X-Men: Mojo World/COUNTRY=BR/PRODUCT_NO=028740/COMMENT=This is a port from the Game Gear version.
 SMS 32759751 13C43FBEE6B25341   Ys/COUNTRY=JP/PRODUCT_NO=G-1370/EMU_VDP=315-5124/COMMENT=Japanese version of "Y's: The Vanished Omens".
 SMS b33e2827 6C4C3C65EF39ADD2   Y's: The Vanished Omens/NAME_BR=Y's/COUNTRY=US,EU,BR/PRODUCT_NO=7501/COMMENT=Export version of "Ys".
-SMS e8b82066 06806D7C60FB9C9A   Y's: The Vanished Omens [Demo]/COUNTRY=US/FLAGS=PROTO/COMMENT=Rolling non-interactive demo to advertise the game. Text in Japanese although this is an US demo cartridge.
+SMS e8b82066 06806D7C60FB9C9A   Y's: The Vanished Omens [Demo]/COUNTRY=US/FLAGS=PROTO//EMU_VDP=315-5124/COMMENT=Rolling non-interactive demo to advertise the game. Text in Japanese although this is an US demo cartridge.
 SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
 SMS bba74147 2D689EA985B828BF   Zaxxon 3-D [Proto]/NAME_JP=Zaxxon 3D/FLAGS=PROTO/EMU_3D/COMMENT=Unfinished prototype version of the game.
 SMS 60c19645 39A919D7DA6933B8   Zillion [v0]/NAME_JP=Akai Koudan Zillion/COUNTRY=JP,EU/PRODUCT_NO=G-1325,5075
@@ -584,6 +589,10 @@ SMS 81c3476b 21346172A6AAF296   Sonic The Hedgehog [BIOS]/FLAGS=BIOS
 SMS 48d44a13 312C856A6F60479E   SMS Japanese (v2.1) [BIOS]/COUNTRY=JP/FLAGS=BIOS
 SMS 1a15dfcc AEA4E4E75C18620D   SMS Prototype (M404) [BIOS]/FLAGS=BIOS
 SMS ee2c29ba D96A4E58E20A9794   SMS Store Display Unit [BIOS]/EMU_MAPPER=10/COUNTRY=US/FLAGS=BIOS/COMMENT=This is not properly emulated.
+SMS 90bfd088 2A26B6AA93E2F7E4   Super Magic Drive (v3.0) [BIOS]/FLAGS=BIOS/COMMENT=This is not properly emulated.
+SMS e08173ba 11D194A8DEFE0402   Super Magic Drive (v3.1g) [BIOS]/FLAGS=BIOS/COMMENT=This is not properly emulated.
+SMS 07402a75 804BCF87BAFFE145   Super Magic Drive (v4.1a) [BIOS]/FLAGS=BIOS/COMMENT=This is not properly emulated.
+
 
 ; Bad dumps
 SMS 8b4ca9e4 8CFC7A4DECE2BC27   Air Rescue/FLAGS=BAD
@@ -1076,6 +1085,7 @@ GG  e91cdb2a 533DC337F17121F3   Wheel of Fortune/COUNTRY=US/PRODUCT_NO=T-83018
 GG  ce1108fd 5EF9334D02922E67   Wimbledon/NAME_US=Wimbledon Tennis/COUNTRY=JP,EU,US/PRODUCT_NO=G-3221,2323
 GG  d15d335b 8C9DF406D503E322   Winter Olympics/NAME_US=Winter Olympics Games/COUNTRY=US,EU/PRODUCT_NO=T-79088
 GG  d5195a39 5AE30E1DD51AC5E4   Winter Olympics/COUNTRY=JP/PRODUCT_NO=G-3342
+GG  9e03f96c C2DB65453292985D   Wizard Pinball/COUNTRY=EU/PRODUCT_NO=T-88088-50
 GG  840a8f8e 9C35260DA7367AA5   Wolfchild/COUNTRY=EU/PRODUCT_NO=T-70078-50
 GG  9977fcb3 9FF4810003787DF4   Wonder Boy/COUNTRY=JP/PRODUCT_NO=G-3205/COMMENT=Japanese version of "Revenge of Drancon" (US).
 GG  ea2dd3a7 F6D1E367A83FFA0E   Wonder Boy/COUNTRY=EU/PRODUCT_NO=2302/COMMENT=European version of "Revenge of Drancon" (US).
@@ -1143,6 +1153,7 @@ SG1 26f947d1 1FB7BB8E1123BAF3   Champion Boxing [cart]/COUNTRY=JP,NZ/PRODUCT_NO=
 SG1 15d2ce33 17BBBB8C1022BAFB   Champion Boxing [cart]/COUNTRY=TW/PRODUCT_NO=B-033
 SG1 5a904122 A11DC05FF929AD54   Champion Golf [card]/COUNTRY=JP/PRODUCT_NO=C-05
 SG1 868419b5 522DCE76FD2DC053   Champion Golf [cart]/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1005
+SG1 35af42ad 532DCE75FD2DC152   Champion Golf [cart]/COUNTRY=KR/PRODUCT_NO=G-35/COMMENT=Differ from original version by only 2 bytes which are likely an error in duplication.
 SG1 bdc05652 7D6DE53955B78D5F   Champion Ice Hockey/COUNTRY=JP/PRODUCT_NO=C-59
 SG1 10cdebce 070357A3254C1774   Champion Kendou/COUNTRY=JP/PRODUCT_NO=C-67
 SG1 372fe6bc A765C6DF45AA223E   Champion Pro Wrestling/COUNTRY=JP/PRODUCT_NO=G-1039
@@ -1157,6 +1168,7 @@ SG1 7c603987 8698F9446FC25321   Choplifter [english logo]/COUNTRY=TW/PRODUCT_NO=
 SG1 5eb48a20 330FD0ED616A41F5   Congo Bongo [v0]/COUNTRY=JP/PRODUCT_NO=G-1007
 SG1 5a24c7cf 5BF7BDD18D354618   Congo Bongo [v1]/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1007
 SG1 f7eb94c5 63F9B8CE8D344617   Congo Bongo [v1]/COUNTRY=TW/PRODUCT_NO=B-007,A103
+SG1 f1506565 8E4A6C26BE92EA5C   Congo Bongo [v1] [40k map]/COUNTRY=JP/PRODUCT_NO=G-1007
 SG1 be7ed0eb F6C4074F8EB7307B   C_So!/COUNTRY=JP/PRODUCT_NO=C-64
 SG1 346556b9 211D1B015A77D203   Doki Doki Penguin Land/COUNTRY=JP/PRODUCT_NO=C-50
 SG1 fdc095bc 987616376C42CC2B   Doki Doki Penguin Land/COUNTRY=TW/PRODUCT_NO=R-50
@@ -1281,6 +1293,7 @@ SC3 975106b6 8C043060FC8CF464   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen) [40k
 SC3 d4c473b2 577B6DD9FD8F2D2F   Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-112/COMMENT=Educational Software: Junior High School English Grammar (2nd year)
 SC3 78a37cbc 0C8784F17E89F5FC   Home Basic/COUNTRY=JP/PRODUCT_NO=B-50/EMU_MAPPER=1
 SC3 129d6359 DE9469099090EC10   Nihonshi Nenpyou/COUNTRY=JP/PRODUCT_NO=E-108/COMMENT=COMMENT=Educational Software: Japanese History.
+SC3 2ec28526 92CFAC110866B4C0   Music/COUNTRY=JP/PRODUCT_NO=E-101/EMU_MAPPER=1
 SC3 622010e1 F363D14ADA372658   Music/COUNTRY=AU,NZ,EU/PRODUCT_NO=E-101/EMU_MAPPER=1
 SC3 3274ee48 3EA1F4B0ED61240B   Sekaishi Nenpyou/COUNTRY=JP/PRODUCT_NO=E-109/COMMENT=Educational Software: World History Chronology
 SC3 573e04dd 5CE3033D4B895855   Tanoshii Sansuu (Shougaku 4-Nen Jou)/COUNTRY=JP/PRODUCT_NO=E-106/COMMENT=Educational Software: Elementary School Arithmetic (4th year Vol. 1)
@@ -1361,7 +1374,6 @@ A9EF65B1A5C8F7EE,Safari Race [A],ID=G-1032,VER=A
 242CE123F9157D21,Basic Level III,VER=Export 1.0,ID=B-40,MAPPER=1
 242CE122F9157C23,Basic Level III,VER=Export 1.0,ID=B-40,MAPPER=1
 0261FB18D318752A,Basic Level III Ver 1.1,VER=Japanese 1.1,ID=B-41,MAPPER=1
-92CFAC110866B4C0,Music,MAPPER=1,VER=Japanese,ID=E-101
 F2544D2C76A5988E,Kagaku (Genso Kigou Master),VER=Japanese,ID=E-107,COMMENT=Educational Software: Chemical Symbols
 86502CA2E84C8E9A,Chuugaku Hisshuu Eitango (Chuugaku 2-Nen),VER=Japanese,ID=E-110,COMMENT=Educational Software: Junior High School English Vocabulary (2nd Year)
 F4F5FC7EF064F356,Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen),VER=Japanese,ID=E-111,COMMENT=Educational Software: Junior High School English Compositions (2nd Year)
@@ -1410,7 +1422,6 @@ D7713EC45DD6B5CE,Tesserae,VER=USA
 07D77087D26DD517,Urban Strike,VER=USA
 DFBD34655C7A6293,Wagan Land [A],ID=T-14047,VER=Japanese
 C7BD34655C7A62AB,Wagan Land [B],ID=T-14047,VER=Japanese
-C2DB65453292985D,Wizard Pinball,VER=English
 902D4CDEE014FD28,Woody Pop [v0],ID=G-3103\,2203\,013530,VER=International 0
 ED6C5F01DA350830,Woody Pop [v1],ID=G-3103\,2203\,013530,VER=International 1
 BAC9E98F228F95BF,X-Men: Mojo World,ID=2561,VER=USA
@@ -1725,7 +1736,7 @@ E9D8EABD927B7912,Wonder Boy III: The Dragon's Trap,TRANS=FR,COMMENT=Translated b
 53B9652C0D44DC36,Yu Yu Hakusho II,ID=G-3354,TRANS=EN,COMMENT=Hacked and translated by Dave and Joe of Gaijin Production.
 
 ---- HACKED ROMS ----
----- This part is a big mess. To be claned.
+---- This part is a big mess. To be cleaned.
 8CBC70EA0E4351BC,Phantasy Star [HK01],HACK,ID=G-1341,VER=English,COMMENT=This version was hacked with changed characters and objects names to match better the Japanese version.
 ADD146F3F43B57C3,Phantasy Star [Pat Johnson],HACK,ID=G-1341,VER=English,COMMENT=This version has some minor changes compared to the original version.
 8EF38073E8EABEFC,Sonicboy in Monsterland,HACK,AUTHORS=Yuski the Dog
@@ -1768,8 +1779,4 @@ AAAD7B0A23CBB77F,Wonder Boy III DC,HACK,COMMENT=Hacked version of Wonder Boy III
 50C9BC3D97E07106,Treinamento do Mymo [B],HACK,AUTHORS=Yuski the Dog
 FE4FDAA6EA7A8847,Jornada do Mymo [B],HACK,AUTHORS=Yuski the Dog
 82A5838252DB1C8B,Mônica 3,HACK,AUTHORS=Yuski the Dog
-
----- MISCELLANEOUS ----
-2A26B6AA93E2F7E4,Super Magic Drive BIOS 3.0,VER=3,BIOS,AUTHORS=JSI / CCL / Front Far East,COMMENT=This program is used and running in SMS mode on a Megadrive.
-804BCF87BAFFE145,Super Magic Drive BIOS 4.1a,VER=4.1A,BIOS,AUTHORS=JSI / CCL / Front Far East,COMMENT=This program is used and running in SMS mode on a Megadrive.
 

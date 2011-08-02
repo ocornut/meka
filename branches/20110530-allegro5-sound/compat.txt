@@ -38,7 +38,7 @@
  Alien Storm                                    -       Ok
  Alien Syndrome                                 FM      Ok
  Alien Syndrome (JP)                            FM      Ok
- Alien Syndrome [Proto]                         FM     *Ok
+ Alien Syndrome [Proto]                         FM      Ok
  Altered Beast                                  FM      Ok
  American Baseball                              -       Ok
  American Pro Football                          -       Ok
@@ -104,12 +104,13 @@
  Columns                                        -       Ok
  Columns [Proto]                                -       Ok
  Comical Machine Gun Joe (JP)                   -       Ok
+ Comical Machine Gun Joe (KR)                   -      *Ok
  Comical Machine Gun Joe (TW)                   -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
  Cyber Shinobi, The                             -       Ok
  Cyborg Hunter                                  FM      Ok
- Cyborg Z (KR)                                  -      *Ok
+ Cyborg Z (KR)                                  -       Ok
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
  Dead Angle                                     -       Ok
@@ -123,6 +124,7 @@
  Doki Doki Penguin Land - Uchuu Daibouken (JP)  FM      Ok
  Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM      Ok
  Double Dragon                                  FM      Ok
+ Double Dragon (KR)                             FM     *Ok
  Double Hawk                                    -       Ok
  Double Hawk [Proto]                            -       Ok
  Double Target - Cynthia no Nemuri              -       Ok
@@ -180,6 +182,7 @@
  George Foreman's KO Boxing                     -       Ok
  Geraldinho (BR)                                -       Ok
  Ghost House                                    -       Ok
+ Ghost House (KR)                               -      *Ok
  Ghost House (JP)                               -       Ok
  Ghost House [Proto]                            -       Ok
  Ghostbusters                                   -       Ok
@@ -245,6 +248,7 @@
  King's Quest - Quest for the Crown             -       Ok
  King's Quest - Quest for the Crown [Proto]     -       Ok
  KLAX                                           -       Ok
+ Knightmare II: The Maze of Galious (KR)        -      *Ok
  Kujakuou (JP)                                  FM      Ok
  Kung Fu Kid                                    -       Ok
  Krusty's Fun House                             -       Ok
@@ -340,6 +344,7 @@
  Quartet                                        -       Ok
  Quest for the Shaven Yak Starring Ren Ho..(BR) -       Ok
  R-Type                                         FM      Ok
+ R-Type [Proto]                                 FM     *Ok
  Rainbow Islands                                -       Ok
  Rainbow Islands (BR)                           -       Ok
  Rambo - First Blood Part II                    -       Ok
@@ -513,7 +518,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 496 games tested - 494 are "Ok" - Compatibility rate: 99.54%
+ 501 games tested - 499 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -556,6 +561,7 @@
  Champion Boxing [cart] (TW)                    Ok
  Champion Golf [card]                           Ok
  Champion Golf [cart]                           Ok
+ Champion Golf [cart] (KR)                     *Ok
  Champion Ice Hockey                            Ok
  Champion Kendou                                Ok
  Champion Pro Wrestling                         Ok
@@ -570,6 +576,7 @@
  Congo Bongo [v0] (JP)                          Ok
  Congo Bongo [v1]                               Ok
  Congo Bongo [v1] (TW)                          Ok
+ Congo Bongo [v1] [40k map]                     Ok
  Doki Doki Penguin Land                         Ok
  Doki Doki Penguin Land (TW)                    Ok
  Dragon Wang [v0]                               Ok
@@ -662,7 +669,7 @@
  Wonder Boy [v0]                                Ok
  Wonder Boy [v1]                                Ok
  Yamato                                         Ok
- Yamato [40k map]                              *Ok
+ Yamato [40k map]                               Ok
  Yamato (TW)                                    Ok
  Yie Ar Kung-Fu (TW)                            Ok
  Zaxxon                                         Ok
@@ -672,13 +679,13 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 131 games tested - 131 are "Ok" - Compatibility rate: 100.00%
+ 133 games tested - 133 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  OTHELLO MULTIVISION COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- 007 James Bond [v2.6] [40k map]               *Ok
+ 007 James Bond [v2.6] [40k map]                Ok
  007 James Bond [v2.7]                          Ok
  007 James Bond [v2.7] (TW)                     Ok
  Challenge Derby                                Ok
@@ -692,9 +699,9 @@
  Q*bert                                         Ok
  San-nin Mahjong                                Ok
  San-nin Mahjong (TW)                           Ok
- Space Armor [v0] [40k map]                    *Ok
- Space Armor [v1]                               Ok
- Space Armor [v2]                               Ok
+ Space Armor [v1.0] [v0] [40k map]              Ok
+ Space Armor [v2.0] [v1]                        Ok
+ Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
   18 games tested - 17 are "Ok" - Compatibility rate: 94.44%
