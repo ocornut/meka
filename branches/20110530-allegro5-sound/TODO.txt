@@ -1,7 +1,9 @@
 
 Meka 0.80 check list
+- light phaser hit position is incorrect in game mode
 - debug version leaves allegro.log is current directory
 - fix sound: latency, 50 hz, other modes?
+- CTRL-Backspace Reseting on SG-1000 roms shows a weird on-screen flicker
 - defaut <40k roms to have no mapper
 - game gear stereo
 - start window is in background when running from explorer
@@ -19,6 +21,10 @@ Meka 0.80 check list
 - gui: show shortcuts
 - GUI HOVERING SCROLL BAR BROKEN
 
+In Hang-On (Safari Hunt) 
+I've noticed that part of the track shows in the background where it shouldn't (shown in screen shot with a highlighted red square box), also in regards to the track itself when it turns left or right, the track kind of looks like it judders.
+
+Other than that not noticed any other problems and nice work on the sound :), works fine with my Creative X-Fi Xtreme Gamer, also forgot to mention I'm using the latest 0.80 build.
 - bug reports:
   - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. " 
   - "Sometimes the mouse freezes for a couple of seconds. (I got this 3 times in about a 20 minute play). "

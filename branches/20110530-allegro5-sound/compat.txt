@@ -104,7 +104,7 @@
  Columns                                        -       Ok
  Columns [Proto]                                -       Ok
  Comical Machine Gun Joe (JP)                   -       Ok
- Comical Machine Gun Joe (KR)                   -      *Ok
+ Comical Machine Gun Joe (KR)                   -       Ok
  Comical Machine Gun Joe (TW)                   -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
@@ -124,7 +124,7 @@
  Doki Doki Penguin Land - Uchuu Daibouken (JP)  FM      Ok
  Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM      Ok
  Double Dragon                                  FM      Ok
- Double Dragon (KR)                             FM     *Ok
+ Double Dragon (KR)                             FM      Ok
  Double Hawk                                    -       Ok
  Double Hawk [Proto]                            -       Ok
  Double Target - Cynthia no Nemuri              -       Ok
@@ -182,7 +182,7 @@
  George Foreman's KO Boxing                     -       Ok
  Geraldinho (BR)                                -       Ok
  Ghost House                                    -       Ok
- Ghost House (KR)                               -      *Ok
+ Ghost House (KR)                               -       Ok
  Ghost House (JP)                               -       Ok
  Ghost House [Proto]                            -       Ok
  Ghostbusters                                   -       Ok
@@ -333,6 +333,7 @@
  Power Strike                                   FM      Ok
  Power Strike II                                -       Ok
  Predator 2                                     -       Ok
+ Predator 2 (BR)                                -       Ok
  Prince of Persia                               -       Ok
  Promocao Especial M.System III Compact         -       Ok 
  Pro Wrestling                                  -       Ok
@@ -344,7 +345,7 @@
  Quartet                                        -       Ok
  Quest for the Shaven Yak Starring Ren Ho..(BR) -       Ok
  R-Type                                         FM      Ok
- R-Type [Proto]                                 FM     *Ok
+ R-Type [Proto]                                 FM      Ok
  Rainbow Islands                                -       Ok
  Rainbow Islands (BR)                           -       Ok
  Rambo - First Blood Part II                    -       Ok
@@ -364,7 +365,7 @@
  Running Battle                                 -       Ok
  SDI (JP)                                       FM      Ok
  Sagaia                                         -       Ok
- Sangokushi 3 (KR)                              -       Ok
+ Samgukji III (KR)                              -       Ok
  Sapo Xulé O Mestre do Kung Fu (BR)             -       Ok
  Sapo Xulé S.O.S. Lagoa Poluída (BR)            -       Ok
  Sapo Xulé Vs Os Invasores do Brejo (BR)        -       Ok
@@ -518,7 +519,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 501 games tested - 499 are "Ok" - Compatibility rate: 99.54%
+ 502 games tested - 500 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -548,6 +549,8 @@
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
  Bomb Jack                                      Ok
+ Bomb Jack (KR)                                *Ok
+ Bomb Jack [korean logo] (KR)                  *Ok
  Borderline                                     Ok
  C_So!                                          Ok (can't write to tape)
  Castle, The                                    Ok
@@ -561,8 +564,9 @@
  Champion Boxing [cart] (TW)                    Ok
  Champion Golf [card]                           Ok
  Champion Golf [cart]                           Ok
- Champion Golf [cart] (KR)                     *Ok
+ Champion Golf [cart] (KR)                      Ok
  Champion Ice Hockey                            Ok
+ Champion Ice Hockey (KR)                       Ok
  Champion Kendou                                Ok
  Champion Pro Wrestling                         Ok
  Champion Soccer                                Ok
@@ -584,10 +588,12 @@
  Dragon Wang [v0] [english logo] (TW)           Ok
  Dragon Wang [v1] (JP)                          Ok
  Drol                                           Ok
+ Drol (KR)                                      Ok
  Drol (TW)                                      Ok
  Elevator Action                                Ok
  Elevator Action (TW)                           Ok
  Exerion                                        Ok
+ Exerion (KR)                                   Ok
  Exerion (TW)                                   Ok
  Flicky [v0]                                    Ok
  Flicky [v1]                                    Ok
@@ -605,8 +611,10 @@
  Home Mahjong [v1] (TW)                         Ok
  Hustle Chumy                                   Ok
  Hyper Sports (Konami no)                       Ok
+ Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
  Lode Runner                                    Ok
+ Lode Runner (KR)                              *Ok
  Lode Runner (TW)                               Ok
  Mahjong [big 1983]                             Ok
  Mahjong [small 1983]                           Ok
@@ -647,6 +655,7 @@
  Sega Flipper [40k map]                         Ok
  Sega-Galaga                                    Ok
  Sega-Galaga (TW)                               Ok
+ Sega-Galaga [40k map]                          Ok
  Serizawa Hachidan no Tsumeshogi                Ok
  SG-1000 M2 Check Program                      *Ok
  Shinnyuushain Tooru-Kun (Konami no)            Ok
@@ -679,7 +688,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 133 games tested - 133 are "Ok" - Compatibility rate: 100.00%
+ 141 games tested - 141 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -821,6 +830,7 @@
  Chuck Rock                                         Ok
  Chuck Rock [Proto]                                 Ok
  Chuck Rock II - Son of Chuck                       Ok
+ Chuck Rock II - Son of Chuck (US)                  Ok
  Cliffhanger                                        Ok
  Clutch Hitter                                      Ok
  Coca Cola Kid                                      Ok
@@ -1234,10 +1244,12 @@
  Yuu Yuu Hakusho (JP)                               Ok
  Yuu Yuu Hakusho II (JP)                            Ok
  Zan Gear (JP)                                      Ok
- Zool                                               Ok
+ Zool: Ninja of the Nth Dimension									 *Ok
+ Zool: Ninja of the Nth Dimension (US)						 *Ok
+ Zool - Zool no Yume Bouken (JP)                    Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 478 games tested - 466 are "Ok" - Compatibility rate: 97.45%
+ 481 games tested - 469 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
