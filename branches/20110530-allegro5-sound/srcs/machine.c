@@ -10,16 +10,16 @@
 #include "db.h"
 #include "debugger.h"
 #include "eeprom.h"
-#include "fmunit.h"
 #include "glasses.h"
 #include "mappers.h"
 #include "palette.h"
-#include "psg.h"
 #include "sf7000.h"
 #include "sg1ksc3k.h"
 #include "vdp.h"
 #include "video.h"
 #include "tvoekaki.h"
+#include "sound/fmunit.h"
+#include "sound/psg.h"
 
 //-----------------------------------------------------------------------------
 // Data

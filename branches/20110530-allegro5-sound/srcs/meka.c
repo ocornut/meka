@@ -369,7 +369,7 @@ int main(int argc, char **argv)
     Configuration_Load_PostProcess  ();
     Frame_Skipper_Init      (); // Initialize Auto Frame Skipper
     Country_Init            (); // Initialize Country
-    DB_Init                 (); // Initialize and load DataBase file
+    DB_Init                 (g_env.Paths.DataBaseFile); // Initialize and load DataBase file
     Patches_List_Init       (); // Load Patches List
     VLFN_Init               (); // Load Virtual Long Filename List
     Skins_Init              (); // Load Skin List

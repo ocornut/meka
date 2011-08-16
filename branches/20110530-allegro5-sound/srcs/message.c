@@ -877,6 +877,11 @@ bool            ConsoleWaitForAnswer (bool allow_run)
 #endif
 }
 
+const char*		Msg_Get(int n)
+{
+    return Messages.Lang_Cur->Messages[n];
+}
+
 // Send a message to the user and/or debugging message
 void            Msg(int attr, const char *format, ...)
 {

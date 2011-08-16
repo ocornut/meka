@@ -5,8 +5,8 @@
 
 #include "shared.h"
 #include "emu2413.h"
-#include "fmunit.h"
 #include "mekaintf.h"
+#include "sound/fmunit.h"
 
 //-----------------------------------------------------------------------------
 // Variables

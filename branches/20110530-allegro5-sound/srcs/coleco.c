@@ -10,10 +10,10 @@
 #include "inputs_t.h"
 #include "mappers.h"
 #include "patch.h"
-#include "psg.h"
 #include "vdp.h"
 #include "video.h"
 #include "video_m2.h"
+#include "sound/psg.h"
 
 //-----------------------------------------------------------------------------
 // Data

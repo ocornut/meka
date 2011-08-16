@@ -489,13 +489,10 @@ extern t_messages Messages;
 int     Messages_Init (void);
 
 // Get specified message string
-static INLINE const char *    Msg_Get(int n)
-{
-    return Messages.Lang_Cur->Messages[n];
-}
+const char*	Msg_Get(int n);
 
 // Send a message to the user and/or debugging message
-void    Msg (int attr, const char *format, ...) FORMAT_PRINTF (2);
+void		Msg(int attr, const char *format, ...) FORMAT_PRINTF (2);
 
 //-----------------------------------------------------------------------------
 // Functions - Console

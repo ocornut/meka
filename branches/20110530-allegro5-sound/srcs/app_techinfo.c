@@ -11,7 +11,7 @@
 #include "desktop.h"
 #include "debugger.h"
 #include "g_widget.h"
-#include "psg.h"
+#include "sound/psg.h"
 #include "vdp.h"
 
 //-----------------------------------------------------------------------------

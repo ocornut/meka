@@ -154,12 +154,6 @@ endif
 #-----------------------------------------------------
 # Note: As for the Z80 CPU core, only Marat's core is maintained.
 #-----------------------------------------------------
-OPT_SOUND = yes
-OPT_DEBUGGER = yes
-ifeq ($(SYSTEM), macosx)
-OPT_DEBUGGER = no
-endif
-OPT_JOY = yes
 # CPU_CORE = raze
 CPU_CORE = marat
 # CPU_CORE = mame
@@ -168,26 +162,12 @@ CPU_CORE = marat
 #-----------------------------------------------------
 # Option : Sound emulation and output
 #-----------------------------------------------------
-# Note: I don't think this can be safely disabled anymore,
-# so let's pretend it's not an option, it is mandatory.
-#-----------------------------------------------------
-ifeq ($(OPT_SOUND), yes)
-DEF_SOUND = -DMEKA_SOUND
 OBJ_SOUND = $(OD)/sound/sound.o $(OD)/sound/s_misc.o $(OD)/sound/sound_logging.o $(OD)/sound/psg.o $(OD)/sound/fmeditor.o $(OD)/sound/wav.o $(OD)/sound/vgm.o $(OD)/sound/fmunit.o
 OBJ_SOUND += $(OD)/sound/emu2413/emu2413.o $(OD)/sound/emu2413/mekaintf.o
-endif
-
-#-----------------------------------------------------
-# Option : Joypad/joystick support
-#-----------------------------------------------------
-ifeq ($(OPT_JOY), yes)
-DEF_JOY = -DMEKA_JOY
-endif
 
 #-----------------------------------------------------
 # Option : ZIP support
 #-----------------------------------------------------
-DEF_ZIP = -DMEKA_ZIP
 OBJ_ZIP = $(OD)/libaddon/zip/unzip.o
 ifneq ($(SYSTEM), win32)
 LIB_ZIP = -lz
@@ -199,7 +179,6 @@ endif
 #-----------------------------------------------------
 # Option : PNG Support
 #-----------------------------------------------------
-DEF_PNG = -DMEKA_PNG
 OBJ_PNG = $(OD)/libaddon/png/loadpng.o $(OD)/libaddon/png/savepng.o $(OD)/libaddon/png/regpng.o
 ifneq ($(SYSTEM), win32)
 LIB_PNG = -lpng
@@ -262,12 +241,12 @@ endif
 #-----------------------------------------------------
 # Includes directory
 #-----------------------------------------------------
-INCLUDES = -I. -I./tools -I./sound $(INC_OS)
+INCLUDES = -I. $(INC_OS)
 
 #-----------------------------------------------------
 # Preprocessor Definitions
 #-----------------------------------------------------
-DEFINES = $(DEF_OS) $(DEF_SOUND) $(DEF_ZIP) $(DEF_PNG) $(DEF_JOY)
+DEFINES = $(DEF_OS)
 # DEFINES += -DDEBUG_WHOLE
 # DEFINES += -DDEBUG_IO
 # DEFINES += -DDEBUG_PAGES
@@ -278,10 +257,7 @@ DEFINES = $(DEF_OS) $(DEF_SOUND) $(DEF_ZIP) $(DEF_PNG) $(DEF_JOY)
 #-----------------------------------------------------
 # Option : Debugger
 #-----------------------------------------------------
-ifeq ($(OPT_DEBUGGER), yes)
-DEFINES += -DMEKA_Z80_DEBUGGER
 OBJ_CPU += $(OD)/debug.o $(OD)/debugger.o $(OD)/datadump.o
-endif
 
 #-----------------------------------------------------
 # Compiler Flags

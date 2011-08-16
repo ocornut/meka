@@ -10,12 +10,12 @@
 #include "shared.h"
 #include "beam.h"
 #include "bios.h"
-#include "fmunit.h"
-#include "psg.h"
 #include "sf7000.h"
 #include "vdp.h"
 #include "commport.h"
 #include "fdc765.h"
+#include "sound/fmunit.h"
+#include "sound/psg.h"
 
 //-----------------------------------------------------------------------------
 // Functions

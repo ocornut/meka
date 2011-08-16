@@ -39,6 +39,7 @@
 #define DB_COUNTRY_UK               (1 << 15)   // Used by translation
 #define DB_COUNTRY_CA               (1 << 16)
 #define DB_COUNTRY_TW               (1 << 17)
+#define DB_COUNTRY_COUNT_			18
 
 //-----------------------------------------------------------------------------
 // Data
@@ -60,7 +61,7 @@ struct t_db_entry
     u32             crc_crc32;              // CRC32
     t_meka_crc      crc_mekacrc;            // MekaCRC
     t_db_name *     names;                  // Names (1st is default name)
-    int             country;                // Country flags
+    int             country;				// Country flags
     int             flags;                  // Flags (see definitions above)
     char *          product_no;             // Product Number
     char *          version;                // Version note
@@ -86,21 +87,27 @@ struct t_db
 	t_db_entry *	current_entry;
 };
 
-extern t_db                DB;
+extern t_db         DB;
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void                DB_Init                     (void);
-void                DB_Load                     (const char *filename);
+bool                DB_Init                     (const char* filename, bool verbose = true);
 void                DB_Close                    (void);
 
-t_db_entry *        DB_Entry_Find               (u32 crc32, const t_meka_crc *mekacrc);
+t_db_entry *        DB_Entry_Find               (u32 crc32, const t_meka_crc *mekacrc = NULL);
 
+//void				DB_Entry_Print				(const t_db_entry *entry);
 int                 DB_Entry_SelectFlag         (const t_db_entry *entry);
 const char *        DB_Entry_GetCurrentName     (const t_db_entry *entry);
 const t_db_name *   DB_Entry_GetNameByCountry   (const t_db_entry *entry, int country);
 int                 DB_Entry_GetTranslationFlag (const t_db_entry *entry);
+
+int					DB_FindDriverIdByName		(const char* name);
+const char*			DB_FindDriverNameById		(int driver_id);
+
+int					DB_FindCountryFlagByName	(const char* name);
+const char*			DB_FindCountryNameByFlag	(int country_flag);
 
 //-----------------------------------------------------------------------------

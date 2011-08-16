@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include <zlib.h>
 #include "db.h"
 #include "vdp.h"
 #include "tools/libparse.h"
@@ -20,6 +19,8 @@ t_db DB;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
+static bool		DB_Load			(const char *filename, bool verbose);
+
 t_db_entry *    DB_Entry_New    (int system, u32 crc32, t_meka_crc *mekacrc);
 void            DB_Entry_Delete (t_db_entry *entry);
 
@@ -33,9 +34,9 @@ void            DB_Name_Delete  (t_db_name *dbname);
 // Note: this is not exactly the same as the extension in the drivers.c table
 static struct
 {
-    char code[4];
-    int  system;
-} DB_CodeToSystemTable[] =
+    char name[4];
+    int  driver_id;
+} DB_SystemTable[] =
 {
     { "SMS",    DRV_SMS    },
     { "GG\0",   DRV_GG     },
@@ -47,21 +48,27 @@ static struct
     { "",       -1         },
 };
 
-// FIXME: linear research with strcmp. Could be int compared, or even hashed.
-INLINE int  DB_CodeToSystemTable_Find(char *code)
+int			DB_FindDriverIdByName(const char* name)
 {
-    int     i; 
-    for (i = 0; DB_CodeToSystemTable[i].system != -1; i++)
-        if (!strcmp(code, DB_CodeToSystemTable[i].code))
-            return (DB_CodeToSystemTable[i].system);
+    for (int i = 0; DB_SystemTable[i].driver_id != -1; i++)
+        if (!strcmp(name, DB_SystemTable[i].name))
+            return (DB_SystemTable[i].driver_id);
     return (-1);
+}
+
+const char*  DB_FindDriverNameById(int id)
+{
+    for (int i = 0; DB_SystemTable[i].driver_id != -1; i++)
+        if (DB_SystemTable[i].driver_id == id)
+            return (DB_SystemTable[i].name);
+    return NULL;
 }
 
 static struct
 {
-    char code[3];
-    int  country;
-} DB_CodeToCountryTable[] = 
+    char	name[3];
+    int		country_flag;
+} DB_CountryTable[] = 
 {
     { "EU", DB_COUNTRY_EU   },
     { "US", DB_COUNTRY_US   },
@@ -84,14 +91,20 @@ static struct
     { "",   -1              },
 };
 
-// FIXME: linear research with strcmp. Could be int compared, or even hashed.
-INLINE int  DB_CodeToCountryTable_Find(char *code)
+int  DB_FindCountryFlagByName(const char* name)
 {
-    int     i; 
-    for (i = 0; DB_CodeToCountryTable[i].country != -1; i++)
-        if (!strcmp(code, DB_CodeToCountryTable[i].code))
-            return (DB_CodeToCountryTable[i].country);
+    for (int i = 0; DB_CountryTable[i].country_flag != -1; i++)
+        if (!strcmp(name, DB_CountryTable[i].name))
+            return (DB_CountryTable[i].country_flag);
     return (-1);
+}
+
+const char* DB_FindCountryNameByFlag(int country_flag)
+{
+    for (int i = 0; DB_CountryTable[i].country_flag != -1; i++)
+        if (country_flag == DB_CountryTable[i].country_flag)
+            return (DB_CountryTable[i].name);
+    return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -111,7 +124,7 @@ t_db_entry *    DB_Entry_New (int system, u32 crc32, t_meka_crc *mekacrc)
     entry->crc_crc32    = crc32;
     entry->crc_mekacrc  = *mekacrc;
     entry->names        = NULL;
-    entry->country      = 0;
+    entry->country		= 0;
     entry->flags        = 0;
     entry->product_no   = NULL;
     entry->version      = NULL;
@@ -193,18 +206,15 @@ void            DB_Name_Delete (t_db_name *dbname)
     free (dbname);
 }
 
-//-----------------------------------------------------------------------------
-// DB_Init (void)
-// Initialize Meka DB system
-//-----------------------------------------------------------------------------
-void            DB_Init (void)
+// Initialize and load Meka database
+bool			DB_Init(const char* filename, bool verbose)
 {
     DB.entries                      = NULL;
     DB.entries_counter_format_old   = 0;
     DB.entries_counter_format_new   = 0;
 
     DB.current_entry = NULL;
-    DB_Load (g_env.Paths.DataBaseFile);
+    return DB_Load(filename, verbose);
 }
 
 //-----------------------------------------------------------------------------
@@ -223,7 +233,7 @@ static int      DB_Load_Entry (char *line)
     // Get system
     // FIXME: linear research with strcmp. Could be int compared, or even hashed.
     parse_getword(buf, 4, &line, " \t", ';');
-    value = DB_CodeToSystemTable_Find(buf);
+    value = DB_FindDriverIdByName(buf);
     if (value == -1)
         return (1); // Silent return if there's anything else than a system
 
@@ -255,7 +265,7 @@ static int      DB_Load_Entry (char *line)
         if (!strncmp (w, "NAME_", 5))
         {
             w += 5;
-            if ((value = DB_CodeToCountryTable_Find(w)) == -1)
+            if ((value = DB_FindCountryFlagByName(w)) == -1)
                 return (0);
             if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
                 break;
@@ -268,7 +278,7 @@ static int      DB_Load_Entry (char *line)
             {
                 if (!(w = parse_getword(buf, 3, &line, ",/", ';')))
                     return (0);
-                if ((value = DB_CodeToCountryTable_Find(w)) == -1)
+                if ((value = DB_FindCountryFlagByName(w)) == -1)
                     return (0);
                 entry->country |= value;
             }
@@ -367,9 +377,8 @@ static int      DB_Load_Entry (char *line)
             // In TRANS field only, 'EN' can be specified. It currently gets the UK flag.
             if (!strcmp (w, "EN"))
                 value = DB_COUNTRY_UK;
-            else
-                if ((value = DB_CodeToCountryTable_Find(w)) == -1)
-                    return (0);
+            else if ((value = DB_FindCountryFlagByName(w)) == -1)
+				return (0);
             entry->trans_country = value;
         }
         else if (!strcmp (w, "AUTHORS"))
@@ -525,7 +534,7 @@ static int      DB_Load_EntryOldFormat (char *line)
             if (!strcmp (w, "EN"))
                 value = DB_COUNTRY_UK;
             else
-                if ((value = DB_CodeToCountryTable_Find(w)) == -1)
+                if ((value = DB_FindCountryFlagByName(w)) == -1)
                     return (0);
             entry->trans_country = value;
             entry->flags |= DB_FLAG_TRANS;
@@ -552,16 +561,8 @@ static int      DB_Load_EntryOldFormat (char *line)
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
-            if (!strcmp(w, "315-5124"))
-                entry->emu_vdp_model = VDP_MODEL_315_5124;
-            else if (!strcmp(w, "315-5226"))
-                entry->emu_vdp_model = VDP_MODEL_315_5226;
-            else if (!strcmp(w, "315-5378"))
-                entry->emu_vdp_model = VDP_MODEL_315_5378;
-            else if (!strcmp(w, "315-5313"))
-                entry->emu_vdp_model = VDP_MODEL_315_5313;
-            else
-                return (0);
+			if ((entry->emu_vdp_model = VDP_Model_FindByName(w)) == -1)
+				return (0);
         }
         else if (!strcmp (w, "INPUT"))
         {
@@ -626,23 +627,24 @@ static int      DB_Load_Line (char *line)
 }
 
 //-----------------------------------------------------------------------------
-// DB_Load (const char *filename)
 // Initialize and load given Meka DB file
 //-----------------------------------------------------------------------------
-void            DB_Load (const char *filename)
+static bool		DB_Load (const char *filename, bool verbose)
 {
-    ConsolePrint (Msg_Get (MSG_DB_Loading));
+	if (verbose)
+		ConsolePrint (Msg_Get (MSG_DB_Loading));
 
     // Open and read file
     t_tfile* tf = tfile_read (filename);
     if (tf == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
-        return;
+        return false;
     }
 
     // Ok
-    ConsolePrint ("\n");
+    if (verbose)
+		ConsolePrint ("\n");
 
     // Parse each line
     int line_cnt = 0;
@@ -672,10 +674,11 @@ void            DB_Load (const char *filename)
     // FIXME - Uncomment for counting progress of DB transition
     //ConsolePrintf ("ENTRIES NEW = %d, OLD = %d\n", DB.entries_counter_format_new, DB.entries_counter_format_old);
     //Quit();
+
+	return true;
 }
 
 //-----------------------------------------------------------------------------
-// DB_Close (void)
 // Release all Meka DB data
 //-----------------------------------------------------------------------------
 void            DB_Close (void)
@@ -686,30 +689,31 @@ void            DB_Close (void)
 }
 
 //-----------------------------------------------------------------------------
-// DB_Entry_Find (u32 crc32, t_meka_crc *mekacrc)
 // Find DB entry matching given crc32 and/or mekacrc
 // Set any parameter to zero for no comparaison
 //-----------------------------------------------------------------------------
 // FIXME: Could use a map/hash to find data back
-// FIXME: Once all DB entries will be converted to new format, MekaCRC could
-//        be dropped.
+// FIXME: Once all DB entries will be converted to new format, MekaCRC should be dropped.
 //-----------------------------------------------------------------------------
 t_db_entry *    DB_Entry_Find(u32 crc32, const t_meka_crc *mekacrc)
 {
     // All given CRC should not be null
-    if (!crc32 && !mekacrc->v[0] && !mekacrc->v[1])
+    if (!crc32 && (!mekacrc || (!mekacrc->v[0] && !mekacrc->v[1])))
         return (NULL);
 
     // Linear find
     for (t_list* list = DB.entries; list != NULL; list = list->next)
     {
         t_db_entry* entry = (t_db_entry*)list->elem;
-        if ((!entry->crc_crc32 || entry->crc_crc32 == crc32)
-            && 
-            (entry->crc_mekacrc.v[0] == mekacrc->v[0] && entry->crc_mekacrc.v[1] == mekacrc->v[1]))
-            return (entry);
-        // Note: zero MekaCRC are NOT YET supported!!
-        // (!entry->crc_mekacrc.v[0] && !entry->crc_mekacrc.v[1])
+        if ((!entry->crc_crc32 && mekacrc) || entry->crc_crc32 == crc32)
+		{
+			if (mekacrc)
+			{
+				if (entry->crc_mekacrc.v[0] != mekacrc->v[0] || entry->crc_mekacrc.v[1] != mekacrc->v[1])
+					continue;
+			}
+			return (entry);
+		}
     }
 
     return (NULL);
@@ -747,7 +751,7 @@ const t_db_name *	DB_Entry_GetNameByCountry (const t_db_entry *entry, int countr
 // Select flag to display for given DB entry
 // Note: this is named 'Select' as it may return nothing, and cannot return
 // multiple flags. This is used by the file browser / vlfn system.
-int             DB_Entry_SelectFlag  (const t_db_entry *entry)
+int             DB_Entry_SelectFlag(const t_db_entry *entry)
 {
     int         country = entry->country;
 

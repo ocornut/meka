@@ -18,14 +18,14 @@
 #include "datadump.h"
 #include "debugger.h"
 #include "file.h"
-#include "fmunit.h"
+#include "sound/fmunit.h"
 #include "glasses.h"
 #include "inputs_c.h"
 #include "rapidfir.h"
 #include "saves.h"
 #include "sk1100.h"
-#include "s_misc.h"
-#include "sound_logging.h"
+#include "sound/s_misc.h"
+#include "sound/sound_logging.h"
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS

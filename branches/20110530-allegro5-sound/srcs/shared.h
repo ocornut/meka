@@ -3,11 +3,15 @@
 // Shared headers, includes, variables and constants
 //-----------------------------------------------------------------------------
 
-#include "system.h"
+//-----------------------------------------------------------------------------
+// Configuration
+//-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Definitions
-//-----------------------------------------------------------------------------
+#define MEKA_SOUND				// Enable sound
+#define MEKA_ZIP				// Enable ZIP file support
+#define MEKA_JOY				// Enable joypad support
+#define MEKA_Z80_DEBUGGER		// Enable Z80 debugger
+#define MARAT_Z80				// Z80 emulator to use
 
 #define MEKA_NAME               "MEKA"
 #define MEKA_VERSION            "0.74"
@@ -23,14 +27,20 @@ extern char MEKA_BUILD_DATE[];
 extern char MEKA_BUILD_TIME[];
 
 //-----------------------------------------------------------------------------
+// System Includes
+//-----------------------------------------------------------------------------
+
+#include "system.h"
+
+//-----------------------------------------------------------------------------
 // Tools / Library Includes
 //-----------------------------------------------------------------------------
 // Those should be compiling without MEKA
 //-----------------------------------------------------------------------------
 
-#include "libmy.h"        // LIBMY.H     Own replacements for some LibC functions
-#include "liblist.h"      // LIBLIST.H   Chained list functionnalities
-#include "memory.h"       // MEMORY.H    Stupid Malloc/Realloc/Free wrappers
+#include "tools/libmy.h"    // Various libc like functions
+#include "tools/liblist.h"	// Linked-list
+#include "memory.h"			// Pointless malloc/realloc/free wrappers
 
 //-----------------------------------------------------------------------------
 // Z80 CPU cores
@@ -79,7 +89,7 @@ struct t_widget;
 #include "message.h"        // Messages system and all messages
 #include "misc.h"           // Miscellaneous
 #include "skin.h"           // Interface Skins
-#include "sound.h"          // Sound Engine (include other files)
+#include "sound/sound.h"    // Sound Engine (include other files)
 #include "textbox.h"        // Text box GUI Applet
 #include "tools.h"          // Various tools
 #include "tvtype.h"         // TV Types interfacing and data table
