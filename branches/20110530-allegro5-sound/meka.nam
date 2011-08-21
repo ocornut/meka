@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/08/06
+; Last updated 2011/08/21
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -347,6 +347,7 @@ SMS 395ae757 6E91621C296C02EC   Mortal Kombat 3/COUNTRY=BR/PRODUCT_NO=028730/COM
 SMS 3cd816c6 F78B647E2DECD2B1   Ms. Pac-Man/COUNTRY=EU,BR/PRODUCT_NO=301030-0160
 SMS 62f0c23d ED4ACAF1CF794680   My Hero/NAME_BR=Gang's Fighter/COUNTRY=US,EU,BR,PT,DE/PRODUCT_NO=4001,4501,021030,41004/COMMENT=Export version of "Seishun Scandal".
 SMS 5b5f9106 43FAFA9DD769AB41   Nekkyuu Koushien/COUNTRY=JP/PRODUCT_NO=G-1367
+SMS e316c06d E8185C6373EE5090   Nemesis/COUNTRY=KR
 SMS c660ff34 0F4613232FB9602D   NewZealand Story, The/COUNTRY=EU/PRODUCT_NO=27035-50
 SMS 320313ec 690DDE10E39C7CA1   Ninja, The/COUNTRY=JP/PRODUCT_NO=G-1308
 SMS 66a15bd9 6E674174DCF99F02   Ninja, The/NAME_IT=I Ninja/COUNTRY=US,EU,IT/PRODUCT_NO=5066

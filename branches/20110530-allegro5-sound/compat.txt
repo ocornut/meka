@@ -300,6 +300,7 @@
  Ms. Pac-Man                                    -       Ok
  My Hero                                        -       Ok
  Nekkyuu Koushien (JP)                          FM      Ok
+ Nemesis (KR)                                   -      *Ok
  NewZealand Story, The                          -       Ok
  Ninja, The                                     -       Ok
  Ninja, The (JP)                                -       Ok
@@ -520,7 +521,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 503 games tested - 501 are "Ok" - Compatibility rate: 99.54%
+ 504 games tested - 502 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

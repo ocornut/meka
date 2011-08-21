@@ -272,6 +272,13 @@ void    Machine_Set_Mapping (void)
         Map_8k_ROM (5, 5);
         Map_8k_RAM (6, 0);
         Map_8k_RAM (7, 0);
+
+		// Nemesis has boot code on page 0x0F which seems to be auto-mapped at 0x0000-0x1fff on boot
+		// I'm not sure what is really "correct" but this work and doesn't trigger on other Zemina games for now.
+		if (tsms.Size_ROM == 16*0x2000 && ROM[0] == 0x00 && ROM[1] == 0x00 && ROM[2] == 0x00 && ROM[15*0x2000+0] == 0xF3 && ROM[15*0x2000+1] == 0xED && ROM[15*0x2000+2] == 0x56)
+		{
+			Map_8k_ROM (0, 0x0F);
+		}
         break;
     default: // Other mappers
         Map_8k_ROM (0, 0);
