@@ -131,7 +131,7 @@ void    FB_Switch(void)
 void    FB_Init_Values(void)
 {
     FB.res_x    = 320;
-    FB.file_y   = 17;
+    FB.file_y   = 19;
 }
 
 void            FB_Init (void)

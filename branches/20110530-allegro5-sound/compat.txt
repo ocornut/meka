@@ -197,6 +197,7 @@
  Golden Axe Warrior                             -       Ok
  Golfamania                                     FM      Ok
  Golfamania [Proto]                             FM      Ok
+ Golfamania (Super Golf) [Proto]                FM     *Ok
  Golvellius - Valley of Doom                    FM      Ok
  GP Rider                                       -       Ok
  Great Baseball                                 -       Ok
@@ -519,7 +520,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 502 games tested - 500 are "Ok" - Compatibility rate: 99.54%
+ 503 games tested - 501 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -549,7 +550,7 @@
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
  Bomb Jack                                      Ok
- Bomb Jack (KR)                                *Ok
+ Bomb Jack [english logo] (KR)                 *Ok
  Bomb Jack [korean logo] (KR)                  *Ok
  Borderline                                     Ok
  C_So!                                          Ok (can't write to tape)
