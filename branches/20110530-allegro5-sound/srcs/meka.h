@@ -281,7 +281,7 @@ struct t_meka_configuration
     bool    start_in_gui;
 
     // Applet: Game Screen
-    float   game_screen_scale;
+    float   game_window_scale;
 
     // Applet: File Browser
     bool    fb_close_after_load;

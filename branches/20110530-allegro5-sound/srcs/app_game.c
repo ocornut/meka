@@ -22,7 +22,7 @@ t_gui_box *  gamebox_instance;
 
 void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 {
-	const float scale = g_Configuration.game_screen_scale;
+	const float scale = g_Configuration.game_window_scale;
 
 	int     x_start = cur_drv->x_start;
     int     y_start = cur_drv->y_show_start;
@@ -55,20 +55,18 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 
 void        gamebox_compute_size(int *x, int *y)
 {
-    *x = (cur_drv->x_res * g_Configuration.game_screen_scale) - 1;
-    *y = (cur_drv->y_res * g_Configuration.game_screen_scale) - 1;
+    *x = (cur_drv->x_res * g_Configuration.game_window_scale) - 1;
+    *y = (cur_drv->y_res * g_Configuration.game_window_scale) - 1;
 }
 
-// CREATE A GAME BOX ----------------------------------------------------------
 t_gui_box * gamebox_create(int x, int y)
 {
-    t_gui_box *box;
     t_frame frame;
-
     frame.pos.x = x;
     frame.pos.y = y;
     gamebox_compute_size(&frame.size.x, &frame.size.y);
-    box = gui_box_new(&frame, "--");
+
+	t_gui_box *box = gui_box_new(&frame, "--");
     if (box == NULL)
         return (NULL);
 
@@ -81,7 +79,7 @@ t_gui_box * gamebox_create(int x, int y)
     return (box);
 }
 
-void        gamebox_resize_all (void)
+void	gamebox_resize_all (void)
 {
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
@@ -107,9 +105,9 @@ void        gamebox_rename_all (void)
     else
     {
         if (g_machine_flags & MACHINE_CART_INSERTED)
-            new_name = Msg_Get (MSG_DB_Name_Default);
+            new_name = Msg_Get(MSG_DB_Name_Default);
         else
-            new_name = Msg_Get (MSG_DB_Name_NoCartridge);
+            new_name = Msg_Get(MSG_DB_Name_NoCartridge);
     }
 
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)

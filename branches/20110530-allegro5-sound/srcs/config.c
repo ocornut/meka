@@ -72,6 +72,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "video_gui_vsync"))				{ g_Configuration.video_mode_gui_vsync = (bool)atoi(value); return; }
 	if (!strcmp(var, "start_in_gui"))					{ g_Configuration.start_in_gui = (bool)atoi(value); return; }
 	if (!strcmp(var, "theme"))							{ Skins_SetSkinConfiguration(value); return; }
+	if (!strcmp(var, "game_window_scale"))				{ g_Configuration.game_window_scale = atof(value); if (g_Configuration.game_window_scale < 0) g_Configuration.game_window_scale = 1.0f; return; }
 	if (!strcmp(var, "fb_width"))						{ FB.res_x = atoi(value); return; }
 	if (!strcmp(var, "fb_height"))						{ FB.file_y = atoi(value); return; }
 	if (!strcmp(var, "fb_uses_db"))						{ g_Configuration.fb_uses_DB = (bool)atoi(value); return; }
@@ -284,7 +285,8 @@ void    Configuration_Save (void)
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");
     CFG_Write_Int  ("start_in_gui", g_Configuration.start_in_gui);
     CFG_Write_StrEscape("theme", Skins_GetCurrentSkin()->name);
-    CFG_Write_Int  ("fb_width", FB.res_x);
+	fprintf (CFG_File, "game_window_scale = %.2f\n", g_Configuration.game_window_scale); 
+	CFG_Write_Int  ("fb_width", FB.res_x);
     CFG_Write_Line ("(File browser width, in pixel)");
     CFG_Write_Int  ("fb_height", FB.file_y);
     CFG_Write_Line ("(File browser height, in number of files shown)");

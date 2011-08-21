@@ -167,7 +167,7 @@ static void Init_Default_Values (void)
     g_Configuration.start_in_gui                  = TRUE;
 
     // Applet: Game Screen
-    g_Configuration.game_screen_scale             = 1.0f;
+    g_Configuration.game_window_scale             = 1.0f;
 
     // Applet: File Browser
     g_Configuration.fb_close_after_load           = FALSE;
