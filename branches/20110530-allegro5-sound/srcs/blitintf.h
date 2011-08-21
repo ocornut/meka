@@ -15,8 +15,7 @@ enum t_blitter_stretch
 {
     BLITTER_STRETCH_NONE        = 0,
     BLITTER_STRETCH_MAX_INT     = 1,     // Default
-    BLITTER_STRETCH_MAX_RATIO   = 2,
-    BLITTER_STRETCH_MAX         = 3,
+    BLITTER_STRETCH_MAX         = 2,
 };
 
 //-----------------------------------------------------------------------------

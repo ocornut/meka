@@ -35,19 +35,19 @@ u8		LightPhaser_GetX(void)
 // emulated using TH bit correctly and horizontal latch.
 void    LightPhaser_Sync(int player, byte *v)
 {
-    int dx;
-	int dy;
-
     *v |= ((player == PLAYER_1) ? 0x40 : 0x80);
-    dx = LightPhaser.X[player] - Beam_Calc_X();
-    dy = LightPhaser.Y[player] - tsms.VDP_Line;
+    const int dx = LightPhaser.X[player] - Beam_Calc_X();
+    const int dy = LightPhaser.Y[player] - tsms.VDP_Line;
 
-    if (dy > -4 && dy < 4)                 // Arbitrary values found after
-        if (dx > -48 && dx < 48)            // trying differents settings
+    if (dy > -4 && dy < 4)
+	{
+		// Arbitrary values found after trying differents settings
+        if (dx > -48 && dx < 48)
         {
             *v &= (player == PLAYER_1) ? ~0x40 : ~0x80;
             LightPhaser.LastSync = player;
         }
+	}
 }
 
 // Light Phaser update function

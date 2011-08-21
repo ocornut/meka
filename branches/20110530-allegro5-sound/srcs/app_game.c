@@ -43,11 +43,6 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
         x_dst += 4*scale;
     }
 
-    //stretch_blit(screenbuffer, fs_out, 
-      //  blit_cfg.src_sx, blit_cfg.src_sy,
-        //cur_drv->x_res, cur_drv->y_res,
-        //0,0, Video.res_x, Video.res_y);
-
 	if (fabs(scale-1.0f) < 0.001f)
 	{
 	    al_draw_bitmap_region(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, 0x0000);

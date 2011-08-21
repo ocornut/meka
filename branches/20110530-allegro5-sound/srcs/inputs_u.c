@@ -464,6 +464,7 @@ void        Inputs_Sources_Update (void)
                 {
 					int mx, my;
 					Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &mx, &my, true);
+					//Msg(MSGT_USER, "%d %d", mx, my);
                     Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = mx;
 					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = my;
                 }

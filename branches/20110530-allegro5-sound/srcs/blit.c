@@ -2,12 +2,12 @@
 // MEKA - blit.c
 // Blitters - Code
 //-----------------------------------------------------------------------------
-// FIXME: many room for optimization in the copying functions.
+// FIXME: lots of room for optimization in the copying functions.
 // FIXME: need a full rewrite/rethinking. Now that hi-color modes are well
 // supported, this will be more straightforward than before.
 //-----------------------------------------------------------------------------
 //
-// WIP notes
+// Typical resolutions:
 //
 // SMS      256x192     512x384     768x576     1024x768
 // SMS-EXT  256x224     512x448     768x672     1024x896
@@ -36,7 +36,24 @@
 ALLEGRO_BITMAP * Blit_Buffer_LineScratch = NULL;	// Line buffer scratch pad, 16-bits
 ALLEGRO_BITMAP * Blit_Buffer_Double = NULL;			// Double-sized buffer, 16-bits
 
-t_blit_cfg blit_cfg;
+struct t_blitters_table_entry
+{
+	void	(*blit_func)();
+	int		x_fact;
+	int		y_fact;
+};
+
+struct t_blit_cfg
+{
+	int		src_pos_x;
+	int		src_pos_y;
+	int		src_size_x;
+	int		src_size_y;
+	int		dst_scale;
+	float	tv_mode_factor;
+};
+
+t_blit_cfg	g_blit;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -44,7 +61,12 @@ t_blit_cfg blit_cfg;
 
 void    Blit_Init (void)
 {
-    blit_cfg.tv_mode_factor = 0.700f;	// FIXME-TUNING
+	g_blit.src_pos_x = 0;
+	g_blit.src_pos_y = 0;
+	g_blit.src_size_x = 0;
+	g_blit.src_size_y = 0;
+	g_blit.dst_scale = 0;
+    g_blit.tv_mode_factor = 0.700f;	// FIXME-TUNING
 	Blit_CreateVideoBuffers();
 
     // Initialize HQ2X filters
@@ -67,18 +89,17 @@ void	Blit_CreateVideoBuffers()
 static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
 {
     { Blit_Fullscreen_Normal,           1,      1 },
-    { Blit_Fullscreen_Double,           2,      2 },
     { Blit_Fullscreen_TV_Mode,          1,      2 },
     { Blit_Fullscreen_TV_Mode_Double,   2,      2 },
     { Blit_Fullscreen_Eagle,            2,      2 },
     { Blit_Fullscreen_HQ2X,             2,      2 },
 };
 
-void    Blit_Fullscreen_Misc(void)
+static void Blit_Fullscreen_Misc(void)
 {
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
-    // FIXME: 70 should be replaced by actual screen refresh rate ... can we obtain it ?
+    // FIXME: 70 should be replaced by actual screen refresh rate ... how can we obtain it ?
     if (g_Configuration.video_mode_game_vsync)
 	{
         if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
@@ -102,27 +123,11 @@ static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
 {
 	al_set_target_bitmap(dst);
 
-    int x, y;
-	if (dst == screenbuffer)
-	{
-		x = blit_cfg.src_sx + 8;
-		if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
-			x += 8;
-
-		int fy = Blitters_Table[Blitters.current->blitter].y_fact;
-		y = blit_cfg.src_sy + cur_drv->y_res;
-		if (y * fy > Video.res_y)
-			y -= ((y * fy) - Video.res_y) / (fy * 2);
-		y -= 14;
-	}
-	else
-	{
-		x = 10;
-		y = al_get_bitmap_height(dst) - 16;
-		if (time_left < 20)
-			y += (20 - time_left);
-		al_draw_filled_rectangle(0, y-6, al_get_bitmap_width(dst), al_get_bitmap_height(dst), al_map_rgba(0,0,0,128));
-	}
+	int x = 10;
+	int y = al_get_bitmap_height(dst) - 16;
+	if (time_left < 20)
+		y += (20 - time_left);
+	al_draw_filled_rectangle(0, y-6, al_get_bitmap_width(dst), al_get_bitmap_height(dst), al_map_rgba(0,0,0,128));
 
 	// FIXME-OPT: use a dedicated font. This is slow as hell!!
     Font_SetCurrent(F_LARGE);
@@ -137,74 +142,76 @@ static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
     Font_Print(F_CURRENT, g_gui_status.message, x,     y,     COLOR_WHITE);
 }
 
-static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer, int input_res_sx, int input_res_sy, int dst_scale)
+void Blit_Fullscreen_UpdateBounds()
 {
-	al_set_target_bitmap(fs_out);
+	// Scale implied by the blitter effect (eg: HQ2X double the resolution)
+    const int blit_scale_x = Blitters_Table[Blitters.current->blitter].x_fact;
+    const int blit_scale_y = Blitters_Table[Blitters.current->blitter].y_fact;
 
-	const int src_px = blit_cfg.src_sx * input_res_sx;
-	const int src_py = blit_cfg.src_sy * input_res_sy;
-	const int src_sx = cur_drv->x_res * input_res_sx;
-	const int src_sy = cur_drv->y_res * input_res_sy;
+	g_blit.src_pos_x = blit_scale_x * cur_drv->x_start;
+	g_blit.src_pos_y = blit_scale_y * cur_drv->y_show_start;
+	g_blit.src_size_x = blit_scale_x * cur_drv->x_res;
+	g_blit.src_size_y = blit_scale_y * cur_drv->y_res;
+	g_blit.dst_scale = 1;
 
-	const t_blitter_stretch stretch = Blitters.current->stretch;
-	if (stretch == BLITTER_STRETCH_NONE)
+	const t_blitter_stretch stretch_mode = Blitters.current->stretch;
+	if (stretch_mode == BLITTER_STRETCH_MAX_INT)
 	{
-		if (dst_scale == 1)
-		{
-			al_draw_bitmap_region(src_buffer, 
-				src_px, src_py,
-				src_sx, src_sy,
-				blit_cfg.dst_sx, blit_cfg.dst_sy,
-				0x0000);
-		}
-		else
-		{
-			al_draw_scaled_bitmap(src_buffer,
-				src_px, src_py,
-				src_sx, src_sy,
-				blit_cfg.dst_sx, blit_cfg.dst_sy,
-				cur_drv->x_res  * input_res_sx * dst_scale, cur_drv->y_res  * input_res_sy * dst_scale,
-				0x0000);
-		}
+		// Automatic integer scale
+		const int scale_x = (int)Video.res_x / g_blit.src_size_x;
+		const int scale_y = (int)Video.res_y / g_blit.src_size_y;
+		g_blit.dst_scale = MIN(scale_x, scale_y);
 	}
-	else if (stretch == BLITTER_STRETCH_MAX_INT)
+
+	if (stretch_mode == BLITTER_STRETCH_MAX)
+	{
+		// Cover all screen
+		Video.game_area_x1 = 0;
+		Video.game_area_y1 = 0;
+		Video.game_area_x2 = Video.res_x;
+		Video.game_area_y2 = Video.res_y;
+		g_blit.dst_scale = 0;
+	}
+	else
 	{
 		// Integer scale
-		const int scale_x = (int)Video.res_x / src_sx;
-		const int scale_y = (int)Video.res_y / src_sy;
-		const int scale = MIN(scale_x, scale_y);
-		al_draw_scaled_bitmap(src_buffer,
-			src_px, src_py,
-			src_sx, src_sy,
-			(Video.res_x/2)-(src_sx*scale)/2, (Video.res_y/2)-(src_sy*scale)/2,
-			src_sx*scale, src_sy*scale,
+		Video.game_area_x1 = (Video.res_x - g_blit.src_size_x*g_blit.dst_scale) / 2;
+		Video.game_area_y1 = (Video.res_y - g_blit.src_size_y*g_blit.dst_scale) / 2;
+		Video.game_area_x2 = Video.game_area_x1 + g_blit.src_size_x*g_blit.dst_scale;
+		Video.game_area_y2 = Video.game_area_y1 + g_blit.src_size_y*g_blit.dst_scale;
+	}
+}
+
+// This is the actual final blitting function.
+static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer)
+{
+	al_set_target_bitmap(fs_out);
+	if (g_blit.dst_scale == 1)
+	{
+		al_draw_bitmap_region(src_buffer, 
+			g_blit.src_pos_x, g_blit.src_pos_y,
+			g_blit.src_size_x, g_blit.src_size_y,
+			Video.game_area_x1, Video.game_area_y1,
 			0x0000);
 	}
 	else
 	{
-		// FIXME: MAX_RATIO vs MAX
 		al_draw_scaled_bitmap(src_buffer,
-			src_px, src_py,
-			src_sx, src_sy,
-			0, 0, 
-			Video.res_x, Video.res_y,
+			g_blit.src_pos_x, g_blit.src_pos_y,
+			g_blit.src_size_x, g_blit.src_size_y,
+			Video.game_area_x1, Video.game_area_y1,
+			Video.game_area_x2 - Video.game_area_x1, Video.game_area_y2 - Video.game_area_y1,
 			0x0000);
 	}
 }
 
-void    Blit_Fullscreen_Normal (void)
+void    Blit_Fullscreen_Normal(void)
 {
     Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1, 1);
+	Blit_Fullscreen_CopyStretch(screenbuffer);
 }
 
-void    Blit_Fullscreen_Double (void)
-{
-    Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(screenbuffer, 1, 1, 2);
-}
-
-void    Blit_Fullscreen_Eagle (void)
+void    Blit_Fullscreen_Eagle(void)
 {
 	assert(0);
 #if 0 // FIXME-ALLEGRO5: blitter eagle
@@ -222,7 +229,7 @@ void    Blit_Fullscreen_Eagle (void)
 	}
 #endif
 	Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
 void    Blit_Fullscreen_HQ2X (void)
@@ -240,7 +247,7 @@ void    Blit_Fullscreen_HQ2X (void)
 	al_unlock_bitmap(Blit_Buffer_Double);
 #endif
     Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
 void    Blit_Fullscreen_TV_Mode (void)
@@ -266,7 +273,7 @@ void    Blit_Fullscreen_TV_Mode (void)
 	}
 #endif
 	Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 1, 2, 1);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
 // FIXME-OPT: Obviously this is very slow. Just trying to get something working for 0.72. Later shall work better solution (generating inline assembly, etc).
@@ -298,16 +305,13 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 	}
 #endif 0
 	Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double, 2, 2, 1);
+	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
 // Blit screenbuffer to video memory in fullscreen mode
 void    Blit_Fullscreen(void)
 {
-    blit_cfg.src_sx = cur_drv->x_start;
-    blit_cfg.src_sy = cur_drv->y_show_start;
-    blit_cfg.dst_sx = Video.game_area_x1;
-    blit_cfg.dst_sy = Video.game_area_y1;
+	Blit_Fullscreen_UpdateBounds();
 
 #if 0
     {
@@ -322,7 +326,7 @@ void    Blit_Fullscreen(void)
     }
 #endif
 
-    Blitters_Table [Blitters.current->blitter].func();
+    Blitters_Table[Blitters.current->blitter].blit_func();
 
 	if (g_gui_status.timeleft && g_Configuration.show_fullscreen_messages)
 	{
@@ -333,13 +337,7 @@ void    Blit_Fullscreen(void)
 	al_flip_display();
 }
 
-void    Blitters_Get_Factors(int *x, int *y)
-{
-    *x = Blitters_Table[Blitters.current->blitter].x_fact;
-    *y = Blitters_Table[Blitters.current->blitter].y_fact;
-}
-
-void    Blit_GUI (void)
+void    Blit_GUI(void)
 {
     // Wait for VSync if necessary
     if (g_Configuration.video_mode_gui_vsync)
@@ -365,4 +363,3 @@ void    Blit_GUI (void)
 }
 
 //-----------------------------------------------------------------------------
-

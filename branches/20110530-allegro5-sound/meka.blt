@@ -12,7 +12,7 @@
 ;
 ;   [name]
 ;   res = XRESOLUTIONxYRESOLUTION
-;   blitter = normal | double | tvmode | tvmode_double | eagle | hq2x
+;   blitter = normal | tvmode | tvmode_double | eagle | hq2x
 ;
 ; The configuration name must be postfixed by a mark of the appliable operating system:
 ;   ::WIN   for the Windows version of MEKA.
@@ -33,11 +33,7 @@
 ; than the default one, however.
 ;
 ; Blitters description:
-;  "normal"         default one, nothing special
-;  "double"         double the size of each pixel (need a high resolution
-;                   such as 640x480). It is useful if your video card/driver
-;                   cannot support low resolution modes, or if you can get
-;                   a fullscreen coverage in certain mode (eg: 512x384).
+;  "normal"         default blitter
 ;  "tvmode"         simulates TV scanlines, a bit slower but very nice
 ;                   looking. lines are vertically doubled so you need a
 ;                   suitable resolution (eg: 320x400).
@@ -51,6 +47,12 @@
 ; WINDOWS - Default Modes
 ;-----------------------------------------------------------------------------
 
+[Default::WIN]
+res = 768x576
+;res = 1024x768
+blitter = normal
+stretch
+
 ;[Normal::WIN]
 ;res = 320x200
 ;refresh_rate = auto
@@ -59,29 +61,10 @@
 ;res = 320x240
 ;refresh_rate = auto ; 50
 
-[Stretch::WIN]
-res = 768x576
-;res = 1024x768
-blitter = normal
-stretch
-
-;[Fullscreen::WIN]
-;res = 640x480
-;blitter = double
-;refresh_rate = 60
-
 ;[TV Mode::WIN]
 ;res = 640x480
 ;blitter = tvmode_double
 ;;refresh_rate = 60
-
-;[Windowed::WIN]
-;res = 256x200
-
-;[Windowed::WIN]
-;res = 800x600
-;;512x384
-;blitter = double
 
 ;[HQ2X::WIN]
 ;res = 1024x768
@@ -99,15 +82,10 @@ stretch
 ; UNIX - Default Modes
 ;-----------------------------------------------------------------------------
 
-[Fullscreen::UNIX]
-res = 640x480
-blitter = double
-
-[Windowed::UNIX]
-res = 256x200
-
-[Windowed Double::UNIX]
-res = 512x400
-blitter = double
+[Default::UNIX]
+res = 768x576
+;res = 1024x768
+blitter = normal
+stretch
 
 ;-----------------------------------------------------------------------------

@@ -50,7 +50,7 @@ void    Video_Init (void)
     Video.res_x						= 0;
     Video.res_y						= 0;
     Video.clear_requests			= 0;
-    Video.game_area_x1				= 0;
+	Video.game_area_x1				= 0;
 	Video.game_area_x2				= 0;
 	Video.game_area_y1				= 0;
 	Video.game_area_y2				= 0;
@@ -179,14 +179,8 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 
 void    Video_GameMode_UpdateBounds(void)
 {
-    int   x_fact, y_fact;
-    Blitters_Get_Factors(&x_fact, &y_fact);
-
     // Compute game area position to be centered on the screen
-    Video.game_area_x1 = (Video.res_x - cur_drv->x_res * x_fact) / 2;
-    Video.game_area_y1 = (Video.res_y - cur_drv->y_res * y_fact) / 2;
-    Video.game_area_x2 = (Video.res_x - Video.game_area_x1);
-    Video.game_area_y2 = (Video.res_y - Video.game_area_y1);
+	Blit_Fullscreen_UpdateBounds();
 }
 
 void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp)

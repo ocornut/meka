@@ -29,11 +29,8 @@ static int     Blitters_Str2Num(const char *s);
 // Note: 'name' not const because the string is actually overwritten (could be done without)
 t_blitter *     Blitter_New(char *name)
 {
-    t_blitter * b;
-    char *      p;
-
     // Look for system identifier
-    p = name + strlen(name) - 1;
+    char * p = name + strlen(name) - 1;
     if (*p == ']')
         *p = EOSTR;
     p = strstr(name, BLITTER_OS_SEP);
@@ -50,7 +47,7 @@ t_blitter *     Blitter_New(char *name)
         *p = EOSTR;
 
     // Allocate a blitter and set it with name and default values
-    b = (t_blitter*)malloc(sizeof (t_blitter));
+    t_blitter * b = (t_blitter*)malloc(sizeof (t_blitter));
     b->name             = strdup(name);
     b->index            = Blitters.count;
     b->res_x            = 320;
@@ -86,10 +83,7 @@ static const char * Blitters_Def_Variables [] =
 
 static int  Blitters_Parse_Line(char *s, char *s_case)
 {
-    char    w[256];
-    int     i, line_len;
-
-    line_len = strlen(s);
+    const int line_len = strlen(s);
     if (s[0] == '[')
     {
         Blitters.current = Blitter_New(&s_case[1]);
@@ -106,8 +100,9 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
         return (MEKA_ERR_OK);
 
     // Set attributes
-    // FIXME: use libparse
+    char w[256];
     parse_getword(w, sizeof(w), &s, "=", ';', PARSE_FLAGS_NONE);
+	int i;
     for (i = 0; Blitters_Def_Variables [i]; i++)
         if (!strcmp (w, Blitters_Def_Variables [i]))
             break;
@@ -157,26 +152,24 @@ void    Blitters_Init_Values (void)
     Blitters.blitter_configuration_name = NULL;
 }
 
-void            Blitters_Init (void)
+void	Blitters_Init (void)
 {
-    t_tfile *   tf;
-    int         line_cnt;
-
     ConsolePrint (Msg_Get(MSG_Blitters_Loading));
 
     Blitters.list = NULL;
     Blitters.current = NULL;
 
     // Open and read file
+    t_tfile * tf;
     if ((tf = tfile_read (Blitters.filename)) == NULL)
         Quit_Msg (meka_strerror());
     ConsolePrint ("\n");
 
     // Parse each line
-    line_cnt = 0;
+    int line_cnt = 0;
     for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
-        char* line = (char*)lines->elem;
+        const char* line = (char*)lines->elem;
         line_cnt += 1;
 
 		int i, j;
@@ -227,11 +220,10 @@ t_blitter * Blitters_FindBlitterByName(const char *name)
 const static struct
 {
     int value;
-    char *name;
+    const char *name;
 } Blitters_Str2Num_Table [] =
 {
     { BLITTER_NORMAL,        "normal"        },
-    { BLITTER_DOUBLE,        "double"        },
     { BLITTER_TVMODE,        "tv"            },
     { BLITTER_TVMODE,        "tvmode"        },
     { BLITTER_TVMODE_DOUBLE, "tvmode_double" },
@@ -242,8 +234,7 @@ const static struct
 
 static int     Blitters_Str2Num (const char *s)
 {
-    int   i;
-    for (i = 0; Blitters_Str2Num_Table[i].name; i ++)
+    for (int i = 0; Blitters_Str2Num_Table[i].name; i ++)
         if (strcmp (s, Blitters_Str2Num_Table [i].name) == 0)
             return (Blitters_Str2Num_Table [i].value);
     return (BLITTER_NORMAL);
