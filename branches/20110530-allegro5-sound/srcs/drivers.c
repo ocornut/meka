@@ -9,7 +9,7 @@
 
 //-----------------------------------------------------------------------------
 
-ts_driver * cur_drv = NULL;
+ts_driver * g_driver = NULL;
 
 static ts_driver drivers [DRV_MAX] =
 {
@@ -58,30 +58,29 @@ void    drv_set (int num)
     }
     else
     {
-        cur_drv = &drivers[num];
+        g_driver = &drivers[num];
         if (opt.GUI_Inited == TRUE)
         {
             int palette_max = 2;
-            switch (cur_drv->vdp)
+            switch (g_driver->vdp)
             {
                 case VDP_SMSGG:     palette_max = 2;  break;
                 case VDP_TMS9918:   palette_max = 15; break;
             }
             TileViewer_Configure_PaletteMax(palette_max);
-            PaletteViewer_SetPaletteSize(&PaletteViewer, cur_drv->colors);
+            PaletteViewer_SetPaletteSize(&PaletteViewer, g_driver->colors);
         }
     }
 }
 
 int         drv_get_from_filename_extension(const char *filename_extension)
 {
-    int     i = 0;
-
+	int i = 0;
     while (drivers_ext [i].filename_extension != NULL)
     {
         if (stricmp(filename_extension, drivers_ext [i].filename_extension) == 0)
             return (drivers_ext [i].driver);
-        i ++;
+        i++;
     }
     return (drivers_ext [i].driver);
 }
@@ -91,18 +90,17 @@ int         drv_get_from_filename_extension(const char *filename_extension)
 // Convert driver ID to the old kind of ID
 // (used by the savestate loader, when MSV version is < 0x05
 //-----------------------------------------------------------------------------
-int     drv_id_to_mode (int id)
+int     drv_id_to_mode(int id)
 {
-  switch (id)
-    {
-    case DRV_GG:        return (1);
-    case DRV_SG1000:    return (2);
-    case DRV_SC3000:    return (2 | 8);
-    case DRV_COLECO:    return (2 | 4);
+	switch (id)
+	{
+	case DRV_GG:        return (1);
+	case DRV_SG1000:    return (2);
+	case DRV_SC3000:    return (2 | 8);
+	case DRV_COLECO:    return (2 | 4);
 	case DRV_SF7000:    return (-1); // Was not existing, then
-    }
-  return (0);
+	}
+	return (0);
 }
 
 //-----------------------------------------------------------------------------
-

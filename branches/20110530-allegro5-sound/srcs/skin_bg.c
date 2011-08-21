@@ -15,7 +15,7 @@ static void     Skins_Background_Redraw_Grid(void)
     al_clear_to_color(COLOR_SKIN_BACKGROUND);
 
     // Draw grid
-    if (!al_color_equals(&COLOR_SKIN_BACKGROUND_GRID, &COLOR_SKIN_BACKGROUND))
+    if (!alx_color_equals(&COLOR_SKIN_BACKGROUND_GRID, &COLOR_SKIN_BACKGROUND))
     {
         int i;
         const ALLEGRO_COLOR color = COLOR_SKIN_BACKGROUND_GRID;

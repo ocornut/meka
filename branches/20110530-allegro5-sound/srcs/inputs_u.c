@@ -118,7 +118,7 @@ void        Inputs_Emulation_Update (bool running)
             // Returning from the emulation inputs update requires to take care of a few variables...
             if (tsms.Control_Start_Pause == 1) // Leave it if it is == 2
                 tsms.Control_Start_Pause = 0;
-            if (cur_drv->id == DRV_GG)
+            if (g_driver->id == DRV_GG)
                 tsms.Control_GG |= (0x80);
             if (Inputs.SK1100_Enabled)
                 SK1100_Clear();
@@ -130,7 +130,7 @@ void        Inputs_Emulation_Update (bool running)
 	bool reset_pressed = false;
 
     // Convert input sources data to emulation inputs data
-    const int players = ((cur_drv->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
+    const int players = ((g_driver->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
     for (int i = 0; i < players; i++)
 	{
         for (int source_index = 0; source_index < Inputs.Sources_Max; source_index++)
@@ -253,7 +253,7 @@ void        Inputs_Emulation_Update (bool running)
     // Handle reset and clear pause latch if necessary
     if (reset_pressed == TRUE)
     {
-        if (cur_drv->id == DRV_SMS)
+        if (g_driver->id == DRV_SMS)
         {
             // Set the reset bit on SMS
             // FIXME: What about always setting it? (not only on SMS)
@@ -275,7 +275,7 @@ void        Inputs_Emulation_Update (bool running)
         tsms.Control_Start_Pause = 0;
 
     // Game Gear Start button
-    if (cur_drv->id == DRV_GG)
+    if (g_driver->id == DRV_GG)
     {
         if (tsms.Control_Start_Pause == 1)
             tsms.Control_GG &= (~0x80);
@@ -284,7 +284,7 @@ void        Inputs_Emulation_Update (bool running)
     }
 
     // Correct the cases where opposite directions are pressed
-    if (!g_Configuration.allow_opposite_directions)
+    if (!g_configuration.allow_opposite_directions)
         Inputs_FixUpJoypadOppositesDirections ();
 
     // Simulate Rapid Fire
@@ -542,8 +542,8 @@ void Inputs_UpdateMouseRange()
 
 	if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
 	{ 
-		sx = Clamp<int>(sx, (Mask_Left_8) ? 8 : 0, cur_drv->x_res);
-		sy = Clamp<int>(sy, 0, cur_drv->y_res);
+		sx = Clamp<int>(sx, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
+		sy = Clamp<int>(sy, 0, g_driver->y_res);
 	}
 
 	//Msg(MSGT_USER, "xy %d %d -> %d %d", sx_org, sy_org, sx, sy);

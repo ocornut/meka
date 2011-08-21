@@ -364,7 +364,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
         // Create a new file browser entry of given type
         t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-        if (g_Configuration.fb_uses_DB)
+        if (g_configuration.fb_uses_DB)
             FB_Entry_FindVLFN (entry);
 
         // Add to list (FIXME: argh)
@@ -415,7 +415,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
         // Create a new file browser entry of given type
         t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-        if (g_Configuration.fb_uses_DB)
+        if (g_configuration.fb_uses_DB)
             FB_Entry_FindVLFN (entry);
 
         // Add to list (FIXME: argh)
@@ -954,11 +954,11 @@ void	FB_OpenFile(const char* name)
 	strncpy(g_env.Paths.MediaImageFile, name, sizeof(g_env.Paths.MediaImageFile));
 	Load_ROM(LOAD_INTERFACE, TRUE);
 	FB_Reload_Names();
-	if (g_Configuration.fb_close_after_load)
+	if (g_configuration.fb_close_after_load)
 	{
 		FB_Switch();
 	}
-	if (g_Configuration.fullscreen_after_load)
+	if (g_configuration.fullscreen_after_load)
 	{
 		Action_Switch_Mode();
 	}
@@ -1008,7 +1008,7 @@ void    FB_Click_List (t_widget *w)
 //-----------------------------------------------------------------------------
 void    FB_Reload_Names (void)
 {
-    if (!g_Configuration.fb_uses_DB)
+    if (!g_configuration.fb_uses_DB)
         return;
 
     // Get all names

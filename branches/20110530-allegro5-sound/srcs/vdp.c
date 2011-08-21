@@ -77,7 +77,7 @@ void    VDP_VideoMode_Change (void)
         tsms.VDP_VideoMode = tsms.VDP_New_VideoMode;
         if (tsms.VDP_VideoMode <= 3)
         {
-            if (cur_drv->id == DRV_SMS)
+            if (g_driver->id == DRV_SMS)
                 drv_set (DRV_SG1000);
         }
         else
@@ -93,9 +93,9 @@ void    VDP_VideoMode_Change (void)
 
     if (tsms.VDP_Video_Change & VDP_VIDEO_CHANGE_SIZE)
     {
-        if (cur_drv->id == DRV_SMS)
+        if (g_driver->id == DRV_SMS)
         {
-            cur_drv->y_res = ((Wide_Screen_28) ? 224 : 192);
+            g_driver->y_res = ((Wide_Screen_28) ? 224 : 192);
             gamebox_resize_all();
             VDP_UpdateLineLimits();
             Video_GameMode_UpdateBounds();
@@ -144,15 +144,15 @@ void    VDP_VideoMode_Update (void)
 
 void	VDP_UpdateLineLimits(void)
 {
-	if (cur_drv->id == DRV_GG && Wide_Screen_28)
-		cur_drv->y_show_start = cur_drv->y_start + 16;
+	if (g_driver->id == DRV_GG && Wide_Screen_28)
+		g_driver->y_show_start = g_driver->y_start + 16;
 	else
-		cur_drv->y_show_start = cur_drv->y_start;
-	cur_drv->y_show_end = cur_drv->y_show_start + cur_drv->y_res - 1;
+		g_driver->y_show_start = g_driver->y_start;
+	g_driver->y_show_end = g_driver->y_show_start + g_driver->y_res - 1;
 	if (Wide_Screen_28)
-		cur_drv->y_int = 224;
+		g_driver->y_int = 224;
 	else
-		cur_drv->y_int = 192;
+		g_driver->y_int = 192;
 }
 
 // WRITE A VALUE TO A VDP REGISTER --------------------------------------------
@@ -201,12 +201,12 @@ void    Tms_VDP_Out (int vdp_register, int value)
                 } */
              sms.VDP [1] = value;
              // Sprite_Shift_Y = 0; // ((Wide_Screen_28) ? -16 : 0);
-             // Sprite_Shift_Y = ((Wide_Screen_28 && cur_drv->id == DRV_GG) ? -16 : 0);
+             // Sprite_Shift_Y = ((Wide_Screen_28 && g_driver->id == DRV_GG) ? -16 : 0);
              VDP_VideoMode_Update ();
              // Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, VDP[1] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
 
              // Update tilemap/name table address accordingly
-             if (cur_drv->vdp == VDP_SMSGG)
+             if (g_driver->vdp == VDP_SMSGG)
              {
                 if (Wide_Screen_28)
                     g_machine.VDP.name_table_address  = VRAM + 0x700 + (int)((sms.VDP[2] & 0xC) << 10); // 0x0700 -> 0x3700, 0x1000 increments
@@ -216,7 +216,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              return;
 
      // Background/Foreground map address -------------------------------------
-     case 2: switch (cur_drv->vdp)
+     case 2: switch (g_driver->vdp)
                 {
                 case VDP_SMSGG:
                      if (Wide_Screen_28)
@@ -240,7 +240,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // Sprite Attribute Table (SAT) address
-     case 5: switch (cur_drv->vdp)
+     case 5: switch (g_driver->vdp)
                 {
                 case VDP_SMSGG:
                      g_machine.VDP.sprite_attribute_table = VRAM + (((int)value << 7) & 0x3F00);
@@ -254,7 +254,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
      // Sprite tile data address ----------------------------------------------
      case 6: 
          {
-			 switch (cur_drv->vdp)
+			 switch (g_driver->vdp)
                 {
                 case VDP_SMSGG:
 					g_machine.VDP.sprite_pattern_gen_index = (value & 4) ? 256 : 0;
@@ -268,7 +268,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
          }
 
      // Border Color ----------------------------------------------------------
-     case 7: if (cur_drv->vdp == VDP_TMS9918)
+     case 7: if (g_driver->vdp == VDP_TMS9918)
                 Palette_Emulation_SetColor(0, TMS9918_Palette[value & 15]);
              break;
 
@@ -305,7 +305,7 @@ void    Tms_VDP_Palette_Write(int addr, int value)
     // Write to CRAM (currently named PRAM)
     PRAM [addr] = value;
 
-    switch (cur_drv->id)
+    switch (g_driver->id)
     {
     case DRV_GG:
         {
@@ -362,7 +362,7 @@ void    Tms_VDP_Out_Data (int value)
         // Note: not masking sms.VDP_Address itself, based on the idea that higher bits are lost
         // when passing thru PRAM bus.
         int address_mask;
-        if (cur_drv->id == DRV_GG)
+        if (g_driver->id == DRV_GG)
             address_mask = 0x3F;
         else
             address_mask = 0x1F;
@@ -425,7 +425,7 @@ void    Tms_VDP_Out_Address (int value)
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     if ((value & 0xC0) == 0xC0)
     {
-        switch (cur_drv->id)
+        switch (g_driver->id)
         {
         case DRV_GG:
             sms.VDP_Pal = TRUE;

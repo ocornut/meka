@@ -81,7 +81,7 @@ void	Blit_CreateVideoBuffers()
 		al_destroy_bitmap(Blit_Buffer_Double);
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(g_Configuration.video_game_format_request);
+	al_set_new_bitmap_format(g_configuration.video_game_format_request);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
 }
@@ -100,7 +100,7 @@ static void Blit_Fullscreen_Misc(void)
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
     // FIXME: 70 should be replaced by actual screen refresh rate ... how can we obtain it ?
-    if (g_Configuration.video_mode_game_vsync)
+    if (g_configuration.video_mode_game_vsync)
 	{
         if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
             al_wait_for_vsync();
@@ -148,10 +148,10 @@ void Blit_Fullscreen_UpdateBounds()
     const int blit_scale_x = Blitters_Table[Blitters.current->blitter].x_fact;
     const int blit_scale_y = Blitters_Table[Blitters.current->blitter].y_fact;
 
-	g_blit.src_pos_x = blit_scale_x * cur_drv->x_start;
-	g_blit.src_pos_y = blit_scale_y * cur_drv->y_show_start;
-	g_blit.src_size_x = blit_scale_x * cur_drv->x_res;
-	g_blit.src_size_y = blit_scale_y * cur_drv->y_res;
+	g_blit.src_pos_x = blit_scale_x * g_driver->x_start;
+	g_blit.src_pos_y = blit_scale_y * g_driver->y_show_start;
+	g_blit.src_size_x = blit_scale_x * g_driver->x_res;
+	g_blit.src_size_y = blit_scale_y * g_driver->y_res;
 	g_blit.dst_scale = 1;
 
 	const t_blitter_stretch stretch_mode = Blitters.current->stretch;
@@ -217,12 +217,12 @@ void    Blit_Fullscreen_Eagle(void)
 #if 0 // FIXME-ALLEGRO5: blitter eagle
 	// Eagle, x1 -> x2
 	int i;
-	for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + cur_drv->y_res; i ++)
+	for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + g_driver->y_res; i ++)
 	{
 		eagle_mmx16(
 			(unsigned long *)((u16 *)screenbuffer->line[i] + blit_cfg.src_sx),
 			(unsigned long *)((u16 *)screenbuffer->line[i + 1] + blit_cfg.src_sx),
-			(short)cur_drv->x_res * 2,
+			(short)g_driver->x_res * 2,
 			screenbuffer->seg,
 			(u16 *)Blit_Buffer_Double->line[i * 2] + (blit_cfg.src_sx * 2),
 			(u16 *)Blit_Buffer_Double->line[i * 2 + 1] + (blit_cfg.src_sx * 2));
@@ -242,7 +242,7 @@ void    Blit_Fullscreen_HQ2X (void)
 
 	u8* addr_src = ((u8*)lr_src->data + (lr_src->pitch * blit_cfg.src_sy * 1) + (0 * sizeof(u16)));
 	u8* addr_dst = ((u8*)lr_dst->data + (lr_dst->pitch * blit_cfg.src_sy * 2) + (0 * sizeof(u16)));
-	hq2x_16(addr_src, addr_dst, MAX_RES_X+32, cur_drv->y_res, (MAX_RES_X+32)*4);
+	hq2x_16(addr_src, addr_dst, MAX_RES_X+32, g_driver->y_res, (MAX_RES_X+32)*4);
 	al_unlock_bitmap(screenbuffer);
 	al_unlock_bitmap(Blit_Buffer_Double);
 #endif
@@ -254,12 +254,12 @@ void    Blit_Fullscreen_TV_Mode (void)
 {
 #if 0 // FIXME-ALLEGRO5: blitter tv mode
 	int i;
-	for (i = 0; i < cur_drv->y_res; i ++)
+	for (i = 0; i < g_driver->y_res; i ++)
 	{
 		const u16 *psrc  = (u16 *)screenbuffer->line[blit_cfg.src_sy + i] + blit_cfg.src_sx;
 		u16 *pdst1 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2] + (blit_cfg.src_sx * 1);
 		u16 *pdst2 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2 + 1] + (blit_cfg.src_sx * 1);
-		int j = cur_drv->x_res;
+		int j = g_driver->x_res;
 		while (j-- != 0)
 		{
 			const u16 color_org = *psrc++;
@@ -281,12 +281,12 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 {
 #if 0 // FIXME-ALLEGRO5: blitter tv mode double
 	int i;
-	for (i = 0; i < cur_drv->y_res; i ++)
+	for (i = 0; i < g_driver->y_res; i ++)
 	{
 		const u16 *psrc  = (u16 *)screenbuffer->line[blit_cfg.src_sy + i] + blit_cfg.src_sx;
 		u16 *pdst1 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2] + (blit_cfg.src_sx * 2);
 		u16 *pdst2 = (u16 *)Blit_Buffer_Double->line[(blit_cfg.src_sy + i) * 2 + 1] + (blit_cfg.src_sx * 2);
-		int j = cur_drv->x_res;
+		int j = g_driver->x_res;
 		while (j-- != 0)
 		{
 			const u16 color_org = *psrc++;
@@ -328,7 +328,7 @@ void    Blit_Fullscreen(void)
 
     Blitters_Table[Blitters.current->blitter].blit_func();
 
-	if (g_gui_status.timeleft && g_Configuration.show_fullscreen_messages)
+	if (g_gui_status.timeleft && g_configuration.show_fullscreen_messages)
 	{
 		Blit_Fullscreen_Message(fs_out, g_gui_status.timeleft);
 		g_gui_status.timeleft --;
@@ -340,7 +340,7 @@ void    Blit_Fullscreen(void)
 void    Blit_GUI(void)
 {
     // Wait for VSync if necessary
-    if (g_Configuration.video_mode_gui_vsync)
+    if (g_configuration.video_mode_gui_vsync)
     {
         // FIXME: see note about line below in Blit_Fullscreen()
         if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
@@ -357,7 +357,7 @@ void    Blit_GUI(void)
 	al_flip_display();
 
     // Update 3-D Glasses (if no VSync)
-    if (!g_Configuration.video_mode_gui_vsync)
+    if (!g_configuration.video_mode_gui_vsync)
         if (Glasses.Enabled)
             Glasses_Update ();
 }

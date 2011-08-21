@@ -251,7 +251,7 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 	}
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(g_Configuration.video_gui_format_request);
+	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
 	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
 
 	// Redraw and layout all

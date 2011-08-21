@@ -22,17 +22,17 @@ t_gui_box *  gamebox_instance;
 
 void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 {
-	const float scale = g_Configuration.game_window_scale;
+	const float scale = g_configuration.game_window_scale;
 
-	int     x_start = cur_drv->x_start;
-    int     y_start = cur_drv->y_show_start;
-    int     x_len   = cur_drv->x_res;
-    int     y_len   = cur_drv->y_res;
+	int     x_start = g_driver->x_start;
+    int     y_start = g_driver->y_show_start;
+    int     x_len   = g_driver->x_res;
+    int     y_len   = g_driver->y_res;
     int     x_dst   = box->frame.pos.x;
     int     y_dst   = box->frame.pos.y;
 
 	al_set_target_bitmap(gui_buffer);
-    if ((cur_drv->id == DRV_SMS) && (Mask_Left_8))
+    if ((g_driver->id == DRV_SMS) && (Mask_Left_8))
     {
         // Center screen when 8 left columns are masked
         // This not logical but looks good
@@ -55,8 +55,8 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 
 void        gamebox_compute_size(int *x, int *y)
 {
-    *x = (cur_drv->x_res * g_Configuration.game_window_scale) - 1;
-    *y = (cur_drv->y_res * g_Configuration.game_window_scale) - 1;
+    *x = (g_driver->x_res * g_configuration.game_window_scale) - 1;
+    *y = (g_driver->y_res * g_configuration.game_window_scale) - 1;
 }
 
 t_gui_box * gamebox_create(int x, int y)

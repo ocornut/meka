@@ -47,17 +47,17 @@ word    Loop_SMS (void)
     }
 
     // Screen Refresh
-    if (tsms.VDP_Line >= cur_drv->y_show_start && tsms.VDP_Line <= cur_drv->y_show_end)
+    if (tsms.VDP_Line >= g_driver->y_show_start && tsms.VDP_Line <= g_driver->y_show_end)
     {
         g_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = g_machine.VDP.scroll_x_latched;
         if (tsms.VDP_VideoMode > 3)
             Refresh_Line_5();
         g_machine.VDP.scroll_x_latched = sms.VDP[8];
-        if (cur_drv->vdp == VDP_TMS9918)
+        if (g_driver->vdp == VDP_TMS9918)
             Check_Sprites_Collision_Modes_1_2_3_Line (tsms.VDP_Line);
-        if (tsms.VDP_Line == cur_drv->y_show_end)
+        if (tsms.VDP_Line == g_driver->y_show_end)
         {
-            //if (cur_drv->vdp == VDP_TMS)
+            //if (g_driver->vdp == VDP_TMS)
             //   Check_Sprites_Collision_Modes_1_2_3 ();
             // Msg (MSGT_DEBUG, "Loop_SMS: Video_RefreshScreen()");
             Video_RefreshScreen();
@@ -66,7 +66,7 @@ word    Loop_SMS (void)
         }
     }
 
-    if (tsms.VDP_Line <= cur_drv->y_int)
+    if (tsms.VDP_Line <= g_driver->y_int)
     {
         if (sms.Lines_Left -- <= 0)
         {
@@ -88,13 +88,13 @@ word    Loop_SMS (void)
         // FIXME: Needless to say, this is vastly incorrect but has given pretty
         // good result so far.
         // --------------------------------------------------------------------------
-        if (tsms.VDP_Line == cur_drv->y_int + 1)
+        if (tsms.VDP_Line == g_driver->y_int + 1)
             sms.VDP_Status |= VDP_STATUS_VBlank;
         else
-            if (tsms.VDP_Line > cur_drv->y_int && tsms.VDP_Line <= (cur_drv->y_int + 32) && (sms.VDP_Status & VDP_STATUS_VBlank) && (VBlank_ON))
+            if (tsms.VDP_Line > g_driver->y_int && tsms.VDP_Line <= (g_driver->y_int + 32) && (sms.VDP_Status & VDP_STATUS_VBlank) && (VBlank_ON))
                 Interrupt = INT_IRQ;
             else
-                if (tsms.VDP_Line == cur_drv->y_int + 33)   // Interruption duration. Isn't that scary-lame?
+                if (tsms.VDP_Line == g_driver->y_int + 33)   // Interruption duration. Isn't that scary-lame?
                     Interrupt_Loop_Misc;
     }
 #else

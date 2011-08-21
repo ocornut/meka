@@ -7,7 +7,7 @@
 #if 1
 
 // from meka.c
-t_meka_configuration	g_Configuration;
+t_meka_configuration	g_configuration;
 
 // from memory.c
 void* Memory_Alloc(int size)

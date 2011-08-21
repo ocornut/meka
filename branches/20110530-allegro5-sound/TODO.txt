@@ -3,7 +3,6 @@ Meka 0.80 check list
 - obsolete/hide blitter interface
 - debug version leaves allegro.log is current directory
 - fix sound: latency, 50 hz, other modes?
-- CTRL-Backspace Reseting on SG-1000 roms shows a weird on-screen flicker
 - game gear stereo
 - start window is in background when running from explorer
 - add setup with resolution and dx/opengl selection

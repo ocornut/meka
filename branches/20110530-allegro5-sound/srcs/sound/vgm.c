@@ -24,12 +24,12 @@ void            VGM_Header_Init(t_vgm_header *h)
     h->loop_offset          = 0;
     h->loop_samples         = 0;
     h->rate                 = g_machine.TV->screen_frequency;
-    if (cur_drv->snd == SND_SN76489)
+    if (g_driver->snd == SND_SN76489)
     {
         h->sn76489_feedback     = 0x0009;
         h->sn76489_shift_width  = 16;
     }
-    else if (cur_drv->snd == SND_SN76489AN)
+    else if (g_driver->snd == SND_SN76489AN)
     {
         h->sn76489_feedback     = 0x0003;   // 2005/11/12: VGM specs are incorrect, says 0x0006
         h->sn76489_shift_width  = 15;
@@ -272,7 +272,7 @@ void            GD3_Header_Init(t_gd3_header *h)
     h->strings[GD3_S_NAME_GAME_JAP]   = StrDupToU16 (name);
 
     // System, Author, Date, File author (filled if MEKA is registered), Notes
-    h->strings[GD3_S_NAME_SYSTEM_ENG] = StrDupToU16 (cur_drv->full_name);
+    h->strings[GD3_S_NAME_SYSTEM_ENG] = StrDupToU16 (g_driver->full_name);
     h->strings[GD3_S_NAME_SYSTEM_JAP] = StrDupToU16 ("");
     h->strings[GD3_S_NAME_AUTHOR_ENG] = StrDupToU16 ("");
     h->strings[GD3_S_NAME_AUTHOR_JAP] = StrDupToU16 ("");

@@ -226,7 +226,7 @@ int     Save_Game_MSV (FILE *f)
     fwrite (&b, 1, 1, f);
     b = MSV_VERSION;
     fwrite (&b, 1, 1, f);
-    b = g_machine.driver_id;  // Do NOT save cur_drv->id, as it may change with legacy video mode in the current code
+    b = g_machine.driver_id;  // Do NOT save g_driver->id, as it may change with legacy video mode in the current code
     fwrite (&b, 1, 1, f);
 
     // Write CRC32, introduced in version 0x0C
@@ -269,7 +269,7 @@ int     Save_Game_MSV (FILE *f)
 	case MAPPER_SMS_NoMapper:
 	case MAPPER_SMS_Korean_MSX_8KB:
     default:                  
-        fwrite (RAM, 0x2000, 1, f); // Do not use cur_drv->ram because of cur_drv video mode change
+        fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
     }
     
@@ -409,7 +409,7 @@ int         Load_Game_MSV (FILE *f)
 	case MAPPER_SMS_NoMapper:
 	case MAPPER_SMS_Korean_MSX_8KB:
     default:
-        fread (RAM, 0x2000, 1, f); // Do not use cur_drv->ram because of cur_drv video mode change
+        fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
     }
 
@@ -417,7 +417,7 @@ int         Load_Game_MSV (FILE *f)
     fread (VRAM, 0x4000, 1, f);
 
     // Read Palette
-    // This depend on g_machine.driver_id and NOT on cur_drv->id
+    // This depend on g_machine.driver_id and NOT on g_driver->id
     // Eg: even if palette is unused due to legacy mode set, we save CRAM/PRAM on a SMS
     switch (g_machine.driver_id)
     {

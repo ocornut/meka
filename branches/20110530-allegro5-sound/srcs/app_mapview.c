@@ -424,8 +424,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
                 if ((!app->config_bg && !(map_item & 0x1000)) || (!app->config_fg && (map_item & 0x1000)))
                 {
-					// FIXME-OPT: Revert to soft rendering for locked buffer
-                    al_draw_filled_rectangle(dst_x, dst_y, dst_x + 8, dst_y + 8, COLOR_BACKDROP);
+                    alx_locked_draw_filled_rectangle(locked_region, dst_x, dst_y, dst_x + 8, dst_y + 8, COLOR_DEBUG_BACKDROP);
                 }
                 else
                 {
@@ -677,10 +676,10 @@ static void     TilemapViewer_UpdateScroll(t_tilemap_viewer *app)
 {
     const ALLEGRO_COLOR color_1 = COLOR_BLACK;//makecol(0x20, 0xFF, 0x40);
     const ALLEGRO_COLOR color_2 = COLOR_WHITE;//makecol(0x00, 0xC0, 0x00);
-    const int drv_x1  = cur_drv->x_start + ((cur_drv->id == DRV_SMS && Mask_Left_8) ? 8 : 0);
-    const int drv_x2  = cur_drv->x_end;
-    const int drv_y1  = cur_drv->y_show_start;
-    const int drv_y2  = cur_drv->y_show_end;
+    const int drv_x1  = g_driver->x_start + ((g_driver->id == DRV_SMS && Mask_Left_8) ? 8 : 0);
+    const int drv_x2  = g_driver->x_end;
+    const int drv_y1  = g_driver->y_show_start;
+    const int drv_y2  = g_driver->y_show_end;
     const int y_start = g_machine.VDP.scroll_y_latched;// + (Wide_Screen_28 ? -32 : 0);
     int i;
 

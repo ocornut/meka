@@ -172,7 +172,6 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
     }
 }
 
-// DISPLAY TEXT MODE 0 SCREEN -------------------------------------------------
 void    Display_Text_0 (void)
 {
     int         i, j;
@@ -211,7 +210,6 @@ void    Display_Text_0 (void)
     }
 }
 
-// DISPLAY BACKGROUND VIDEO MODE 1 --------------------------------------------
 void    Display_Background_1 (void)
 {
     int    i, j, j2;
@@ -249,7 +247,6 @@ void    Display_Background_1 (void)
     }
 }
 
-// DISPLAY BACKGROUND VIDEO MODE 2 --------------------------------------------
 void    Display_Background_2 (void)
 {
     const u8* pattern_name_table = g_machine.VDP.name_table_address;
@@ -293,7 +290,6 @@ void    Display_Background_2 (void)
     }
 }
 
-// DISPLAY BACKGROUND VIDEO MODE 3 --------------------------------------------
 void    Display_Background_3 (void)
 {
     int         x, y, z;
@@ -332,19 +328,16 @@ void    Display_Background_3 (void)
 }
 
 // DRAW A MAGNIFIED MONOCHROME SPRITE TILE ------------------------------------
-void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
+void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
 {
-    int         j;
-    PIXEL_TYPE  fcolor;
-
     if (fcolor_idx & 0x80) 
         x -= 32;
     fcolor_idx &= 0x0F;
     if (fcolor_idx == 0)
         return;
-    fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
+    const PIXEL_TYPE fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
 
-    for (j = 0; j != 8; j++, src++)
+    for (int j = 0; j != 8; j++, src++)
     {
         if (y < 0 || y > 190)
         {
@@ -354,7 +347,7 @@ void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
         else
         {
             const u8 src8 = *src;
-            if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+            if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
                 PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
@@ -368,7 +361,7 @@ void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
             }
             // if (Sprites_On_Line [y] == 5) { }
             y++;
-            if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+            if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
                 PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
@@ -387,23 +380,20 @@ void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
 }
 
 // DRAW A MONOCHROME SPRITE TILE ----------------------------------------------
-void    Draw_Sprite_Mono (u8 *src, int x, int y, int fcolor_idx)
+void    Draw_Sprite_Mono (const u8 *src, int x, int y, int fcolor_idx)
 {
-    int         j;
-    PIXEL_TYPE  fcolor;
-
     if (fcolor_idx & 0x80) 
         x -= 32;
     fcolor_idx &= 0x0F;
     if (fcolor_idx == 0)
         return;
-    fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
+    PIXEL_TYPE fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
 
-    for (j = 0; j != 8; j++, y++, src++)
+    for (int j = 0; j != 8; j++, y++, src++)
     {
         if (y < 0 || y > 191)
             continue;
-        if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+        if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
         {
             const u8     src8 = *src;
             PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
@@ -426,9 +416,6 @@ static const int Table_Mask [4] =   { 0xFF, 0xFF, 0xFC, 0xFC };
 // DISPLAY SPRITES IN VIDEO MODE 1/2/3 ----------------------------------------
 void    Display_Sprites_1_2_3 (void)
 {
-    u8 *    k;
-    int     i, j;
-    int     x, y;
     const int Sprite_Mode = Sprites_Double | Sprites_16x16;
     const int Mask = Table_Mask [Sprite_Mode];
     const int sprites_height = Table_Height [Sprite_Mode];
@@ -441,13 +428,14 @@ void    Display_Sprites_1_2_3 (void)
 
     // Find last sprite
 	const u8* sat = g_machine.VDP.sprite_attribute_table;
+	int i;
     for (i = 0; i < 32 * 4; i += 4)
     {
-        y = sat[i];
+        int y = sat[i];
         if ((y ++) == 0xD0) 
             break;
         if (y > 0xD0) y -= 0xFF;
-        for (j = y; j < y + sprites_height; j++)
+        for (int j = y; j < y + sprites_height; j++)
             if (j >= 0)
                 Sprites_On_Line [j]++;
     }
@@ -457,15 +445,15 @@ void    Display_Sprites_1_2_3 (void)
     while (i >= 0)
     {
         // Calculate vertical position and handle special meanings ----------------
-        y = sat[i];
+        int y = sat[i];
         if ((y ++) == 0xD0) 
             break;
         if (y > 0xD0) 
             y -= 0x100;
         // Calculate horizontal position ------------------------------------------
-        x = sat[i + 1];
+        int x = sat[i + 1];
         // Calculate tile starting address in VRAM --------------------------------
-        k = (u8 *)((int)((sat[i + 2] & Mask) << 3) + (int)g_machine.VDP.sprite_pattern_gen_address);
+        const u8* k = (u8 *)((int)((sat[i + 2] & Mask) << 3) + (int)g_machine.VDP.sprite_pattern_gen_address);
         switch (Sprite_Mode)
         {
             // 8x8 (used in: Sokouban)
@@ -492,13 +480,13 @@ void    Display_Sprites_1_2_3 (void)
         }
         i -= 4;
         // Decrease Sprites_On_Line values ----------------------------------------
-        for (j = y; j < y + sprites_height; j++) 
+        for (int j = y; j < y + sprites_height; j++) 
             if (j >= 0) 
                 Sprites_On_Line [j]--;
     }
 }
 
-void    Refresh_Modes_0_1_2_3 (void)
+void    Refresh_Modes_0_1_2_3(void)
 {
 	GFX_ScreenData = (u16*)g_screenbuffer_locked_region->data;
 	GFX_ScreenPitch = g_screenbuffer_locked_region->pitch / sizeof(u16);	// Pitch in u16 pixel unit to ease pointer manipulations
@@ -520,19 +508,19 @@ void    Refresh_Modes_0_1_2_3 (void)
         {
             // Clear screen
 			al_set_target_bitmap(screenbuffer);
-			al_draw_filled_rectangle(0, 0, SMS_RES_X, SMS_RES_Y, BORDER_COLOR);
+			alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, BORDER_COLOR);
         }
     }
     else
     {
         // Clear screen with yellow-ish color
 		al_set_target_bitmap(screenbuffer);
-		al_draw_filled_rectangle(0, 0, SMS_RES_X, SMS_RES_Y, COLOR_BACKDROP);
+		alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, COLOR_DEBUG_BACKDROP);
     }
     // Display Sprites
     if ((opt.Layer_Mask & LAYER_SPRITES) && Display_ON)
     {
-        Display_Sprites_1_2_3 ();
+        Display_Sprites_1_2_3();
     }
 }
 

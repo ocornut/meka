@@ -478,7 +478,7 @@ void        Debugger_Init_Values (void)
 static void Debugger_Init_LogFile(void)
 {
     // Open log file if not already open
-    if (g_Configuration.debugger_log_enabled && Debugger.log_file == NULL)
+    if (g_configuration.debugger_log_enabled && Debugger.log_file == NULL)
     {
         char filename[FILENAME_LEN];
         if (!al_filename_exists(g_env.Paths.DebugDirectory))
@@ -551,7 +551,7 @@ void        Debugger_MachineReset(void)
     Debugger_Hooks_Install();
 
     // Set PRAM size
-    if (cur_drv->id == DRV_GG)
+    if (g_driver->id == DRV_GG)
 		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x3F;
     else
 		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x1F;
@@ -1605,7 +1605,7 @@ static void Debugger_Applet_Init (void)
     frame.pos.x     = 428;
     frame.pos.y     = 50;
     frame.size.x    = 360;
-    frame.size.y    = ((g_Configuration.debugger_console_lines + 1 + g_Configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
+    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + g_configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
 
     DebuggerApp.box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
@@ -1640,9 +1640,9 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.x = 6;
     frame.pos.y = 2;
     frame.size.x = DebuggerApp.box->frame.size.x - (6*2);
-    frame.size.y = g_Configuration.debugger_console_lines * DebuggerApp.font_height;
+    frame.size.y = g_configuration.debugger_console_lines * DebuggerApp.font_height;
     if (setup)
-        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, g_Configuration.debugger_console_lines, DebuggerApp.font_id);
+        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, g_configuration.debugger_console_lines, DebuggerApp.font_id);
     frame.pos.y += frame.size.y;
 
     // Add line
@@ -1654,7 +1654,7 @@ static void     Debugger_Applet_Layout(bool setup)
     DebuggerApp.frame_disassembly.pos.x   = frame.pos.x;
     DebuggerApp.frame_disassembly.pos.y   = frame.pos.y;
     DebuggerApp.frame_disassembly.size.x  = frame.size.x;
-    DebuggerApp.frame_disassembly.size.y  = g_Configuration.debugger_disassembly_lines * DebuggerApp.font_height;
+    DebuggerApp.frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * DebuggerApp.font_height;
     frame.pos.y += DebuggerApp.frame_disassembly.size.y;
 
     // Add line
@@ -1775,7 +1775,7 @@ void        Debugger_Applet_Redraw_State(void)
 
     if (!(g_machine_flags & MACHINE_POWER_ON))
         return;
-    if (cur_drv->cpu != CPU_Z80)    // Unsupported
+    if (g_driver->cpu != CPU_Z80)    // Unsupported
         return;
 
     // Redraw Disassembly
@@ -1784,7 +1784,7 @@ void        Debugger_Applet_Redraw_State(void)
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines = ((g_Configuration.debugger_disassembly_lines - 1) / 4) + 1; 
+        int     trackback_lines = ((g_configuration.debugger_disassembly_lines - 1) / 4) + 1; 
         trackback_lines = MIN(trackback_lines, 10); // Max 10
         //  1 -> 1
         //  5 -> 2
@@ -1885,13 +1885,13 @@ void        Debugger_Applet_Redraw_State(void)
         //  JR NZ
 
         // Disassemble instructions starting at 'PC'
-        for (i = 0; i < g_Configuration.debugger_disassembly_lines; i++)
+        for (i = 0; i < g_configuration.debugger_disassembly_lines; i++)
         {
             char buf[256];
             const ALLEGRO_COLOR text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
 			int opcode_size;
 
-            if (g_Configuration.debugger_disassembly_display_labels)
+            if (g_configuration.debugger_disassembly_display_labels)
             {
                 // Display symbols/labels
                 if (Debugger.symbols_cpu_space[pc] != NULL)
@@ -1907,10 +1907,10 @@ void        Debugger_Applet_Redraw_State(void)
                         sprintf(buf, "%s:", symbol->name);
                         Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
                         i++;
-                        if (i >= g_Configuration.debugger_disassembly_lines)
+                        if (i >= g_configuration.debugger_disassembly_lines)
                             break;
                     }
-                    if (i >= g_Configuration.debugger_disassembly_lines)
+                    if (i >= g_configuration.debugger_disassembly_lines)
                         break;
                 }
             }
@@ -1919,7 +1919,7 @@ void        Debugger_Applet_Redraw_State(void)
             //Debugger_Z80_PC_Log_Queue_Add(pc);
 
             // Disassemble
-            //if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
+            //if (g_configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
             buf[0] = ' ';
             opcode_size = Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
 

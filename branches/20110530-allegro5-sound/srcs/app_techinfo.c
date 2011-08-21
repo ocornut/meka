@@ -124,7 +124,7 @@ void        TechInfo_Update(void)
             TechInfo.lines_dirty[i] = TRUE;
     }
 
-    sprintf (line, "   [MODE] %s (%s)", cur_drv->full_name, cur_drv->short_name);
+    sprintf (line, "   [MODE] %s (%s)", g_driver->full_name, g_driver->short_name);
     TechInfo_SetLine(app, line, line_idx++);
 
     // Sega 8-bit

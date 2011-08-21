@@ -40,11 +40,11 @@ void    TVOekaki_Update (int device_x, int device_y, int device_b_field)
 
     TVOekaki.X -= 5;
     if (TVOekaki.X < 0) TVOekaki.X = 0;
-    if (TVOekaki.X > (cur_drv->x_res - 1) - 4) TVOekaki.X = (cur_drv->x_res - 1) - 4;
+    if (TVOekaki.X > (g_driver->x_res - 1) - 4) TVOekaki.X = (g_driver->x_res - 1) - 4;
 
     TVOekaki.Y -= 4;
     if (TVOekaki.Y < 0) TVOekaki.Y = 0;
-    if (TVOekaki.Y > (cur_drv->y_res - 1)) TVOekaki.Y = (cur_drv->y_res - 1);
+    if (TVOekaki.Y > (g_driver->y_res - 1)) TVOekaki.Y = (g_driver->y_res - 1);
     TVOekaki.Y += 8 * 4;
 
     if (nmouse_b & 1)

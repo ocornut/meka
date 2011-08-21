@@ -220,7 +220,6 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
     }
 }
 
-// REDRAW A SCREEN LINE -------------------------------------------------------
 void    Refresh_Line_5 (void)
 {
 	// Point to current video line
@@ -245,10 +244,10 @@ void    Refresh_Line_5 (void)
 			if (opt.Layer_Mask & LAYER_BACKGROUND)
 				backdrop_color = Palette_EmulationToHostGame[16 | (sms.VDP[7] & 15)];
 			else
-				backdrop_color = Palette_MakeHostColor(g_screenbuffer_format, COLOR_BACKDROP_R, COLOR_BACKDROP_G, COLOR_BACKDROP_B);
-			int n;
+				backdrop_color = Palette_MakeHostColor(g_screenbuffer_format, COLOR_DEBUG_BACKDROP);
+
 			u16 *p = GFX_LineRegionData;
-			for (n = 256; n != 0; n--)
+			for (int n = 256; n != 0; n--)
 				*p++ = backdrop_color;
 
 			// Clear sprite draw mask, so that all sprite will be displayed
@@ -345,7 +344,7 @@ void    Display_BackGround_Line_5(void)
     while (tile_x < 32)
     {
         // Part of Horizontal Line not refreshed in Game Gear mode
-        if ((cur_drv->id != DRV_GG) || ((tile_x > 4) && (tile_x < 26)))
+        if ((g_driver->id != DRV_GG) || ((tile_x > 4) && (tile_x < 26)))
         {
             // Draw tile line
             const u8 tile_attr = src_map[1];
@@ -575,7 +574,7 @@ void        Refresh_Sprites_5 (bool draw)
         Sprites_on_Line = 64 + 9;
     }
     // Draw all sprites on line if flickering is not enabled
-    else if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED))
+    else if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED))
     {
         Sprites_on_Line = 0;
     }

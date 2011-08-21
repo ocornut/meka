@@ -80,8 +80,8 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
 
     // Setup members
     mv->active = TRUE;
-    mv->size_columns    = (size_columns != -1) ? size_columns : g_Configuration.memory_editor_columns;
-    mv->size_lines      = (size_lines != -1)   ? size_lines   : g_Configuration.memory_editor_lines;
+    mv->size_columns    = (size_columns != -1) ? size_columns : g_configuration.memory_editor_columns;
+    mv->size_lines      = (size_lines != -1)   ? size_lines   : g_configuration.memory_editor_lines;
 
     mv->frame_hex.pos.x  = 4 + (Font_Height(F_MIDDLE) * 6) - 7;
     mv->frame_hex.pos.y  = 4;
@@ -402,7 +402,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     if (mv->section_current->size == 0)
     {
         char *text = "None";
-        if (mv->section_current->memtype == MEMTYPE_Z80 && cur_drv->cpu != CPU_Z80)
+        if (mv->section_current->memtype == MEMTYPE_Z80 && g_driver->cpu != CPU_Z80)
             text = "You wish!";
         Font_Print(font_id, text, x, y, COLOR_SKIN_WINDOW_TEXT);
     }
@@ -585,7 +585,7 @@ static void MemoryViewer_MediaReload(t_memory_viewer *mv)
     u8 *    sram_buf;
 
     // Z80
-    if (cur_drv->cpu == CPU_Z80)
+    if (g_driver->cpu == CPU_Z80)
         mv->sections[MEMTYPE_Z80].size = 0x10000;
     else
         mv->sections[MEMTYPE_Z80].size = 0;
@@ -764,7 +764,7 @@ static void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
         }
     case MEMTYPE_RAM:
         {
-            if (cur_drv->id == DRV_COLECO)
+            if (g_driver->id == DRV_COLECO)
                 Write_Mapper_Coleco(0x6000 + addr, value);  // special case for Colecovision
             else
                 RAM[addr] = value;

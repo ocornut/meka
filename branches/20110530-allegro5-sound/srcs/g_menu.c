@@ -25,15 +25,15 @@ void        gui_redraw_bars (void)
 {
     // Redraw status bar
 	al_set_target_bitmap(gui_buffer);
-    al_draw_filled_rectangle(0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height,     g_Configuration.video_mode_gui_res_x+1, g_Configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
-    al_draw_filled_rectangle(0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_Configuration.video_mode_gui_res_x+1, g_Configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
+    al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height,     g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
     Font_SetCurrent (F_LARGE);
 
     // Show status bar message
     if (g_gui_status.timeleft)
     {
-        Font_Print(F_CURRENT, g_gui_status.message, g_gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(F_CURRENT, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
         g_gui_status.timeleft --;
     }
 
@@ -42,13 +42,13 @@ void        gui_redraw_bars (void)
     {
 	    char s[16];
         sprintf (s, "%.1f FPS", fskipper.FPS);
-        Font_Print(F_CURRENT, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     char s[16];
     meka_time_getf(s);
-    Font_Print(F_CURRENT, s, g_Configuration.video_mode_gui_res_x - 10 - Font_TextLength(F_CURRENT, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
@@ -154,8 +154,8 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     {
         // Draw menu background
 		al_set_target_bitmap(gui_buffer);
-        al_draw_filled_rectangle(0, 0, g_Configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
-        al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_Configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
+        al_draw_filled_rectangle(0, 0, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
+        al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
 
         // Draw menu entrys
         x = menus_opt.distance;
@@ -163,7 +163,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         for (i = 0; i < menu->n_entry; i ++)
         {
             const int ln = Font_TextLength(F_CURRENT, menu->entry[i]->label);
-            if (x + ln > g_Configuration.video_mode_gui_res_x)
+            if (x + ln > g_configuration.video_mode_gui_res_x)
             {
                 break;
             }
@@ -221,7 +221,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         y = menu->sy + MENUS_PADDING_Y;
         for (i = 0; i < menu->n_entry; i ++)
         {
-            if (y + ln > g_Configuration.video_mode_gui_res_y)
+            if (y + ln > g_configuration.video_mode_gui_res_y)
             {
                 break;
             }

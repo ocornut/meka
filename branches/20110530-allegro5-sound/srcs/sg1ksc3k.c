@@ -49,7 +49,7 @@ word    Loop_SG1000_SC3000 (void)
         if (fskipper.Show_Current_Frame)
         {
             // Msg (MSGT_DEBUG, "Loop_SG1000_SC3000: Refresh_Modes_0_1_2_3()");
-            Refresh_Modes_0_1_2_3 ();
+            Refresh_Modes_0_1_2_3();
         }
 
         sms.VDP_Status |= VDP_STATUS_VBlank;

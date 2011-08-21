@@ -98,7 +98,7 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
           Interrupt = INT_NMI;                                              \
        }                                                                    \
     else                                                                    \
-    if ((tsms.Control_Start_Pause == 1) && (cur_drv->id != DRV_GG))         \
+    if ((tsms.Control_Start_Pause == 1) && (g_driver->id != DRV_GG))         \
        { tsms.Control_Start_Pause = 2; Interrupt = INT_NMI; }               \
     }
 

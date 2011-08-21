@@ -32,7 +32,7 @@ void    VMachine_Draw (void)
     x = gui.info.screen.x;
     y = 0;
 	al_set_target_bitmap(gui_background);
-    switch (cur_drv->id)
+    switch (g_driver->id)
     {
     case DRV_COLECO: //-------------- Draw a Colecovision ---------------------
         x += VMACHINE_COLECO_POS_X;

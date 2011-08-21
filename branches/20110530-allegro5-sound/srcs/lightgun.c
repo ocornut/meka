@@ -21,8 +21,8 @@ void    LightPhaser_Init(void)
 {
     LightPhaser.Enabled = FALSE;
     LightPhaser.LastSync = 0;
-    LightPhaser.X [PLAYER_1] = LightPhaser.X [PLAYER_2] = 128;//cur_drv->x_res / 2;
-    LightPhaser.Y [PLAYER_1] = LightPhaser.Y [PLAYER_2] = 96;//cur_drv->y_res / 2;
+    LightPhaser.X [PLAYER_1] = LightPhaser.X [PLAYER_2] = 128;//g_driver->x_res / 2;
+    LightPhaser.Y [PLAYER_1] = LightPhaser.Y [PLAYER_2] = 96;//g_driver->y_res / 2;
 }
 
 u8		LightPhaser_GetX(void)

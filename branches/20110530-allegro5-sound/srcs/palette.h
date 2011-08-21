@@ -40,6 +40,7 @@ void    Palette_Compute_RGB_SMS (ALLEGRO_COLOR *color, int i);
 void    Palette_Compute_RGB_GG  (ALLEGRO_COLOR *color, int i);
 
 u32		Palette_MakeHostColor(int format, int r, int g, int b);
+u32		Palette_MakeHostColor(int format, ALLEGRO_COLOR color);
 
 //-----------------------------------------------------------------------------
 

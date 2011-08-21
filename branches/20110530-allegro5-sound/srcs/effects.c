@@ -50,8 +50,8 @@ void    Effects_TV_Update (void)
 	for (int i = 0; i != TV_EFFECT_COLORS_MAX; i++)
 		tv_effect.colors[i] = Palette_MakeHostColor(g_screenbuffer_format, i * 16, i * 16, i * 16);
 
-    const int rx = cur_drv->x_res;
-    const int ry = cur_drv->y_res;
+    const int rx = g_driver->x_res;
+    const int ry = g_driver->y_res;
     const int rx_d2 = rx / 2;
     const int ry_d2 = ry / 2;
 
@@ -59,7 +59,7 @@ void    Effects_TV_Update (void)
 	u16* screen_data = (u16*)g_screenbuffer_locked_region->data;
 	const int screen_pitch16 = g_screenbuffer_locked_region->pitch / sizeof(u16);
 
-	const int start_offset = (cur_drv->y_show_start * screen_pitch16) + cur_drv->x_start;
+	const int start_offset = (g_driver->y_show_start * screen_pitch16) + g_driver->x_start;
 
 	int i, j, k;
 

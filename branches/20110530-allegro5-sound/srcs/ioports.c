@@ -102,7 +102,7 @@ switch (Port /* & 0xFF*/)
 
  // Game Gear Stereo ----------------------------------------------------------
  // FIXME: emulate stereo!
- case 0x06: if (cur_drv->id == DRV_GG)
+ case 0x06: if (g_driver->id == DRV_GG)
                {
                SN76489_StereoWrite (Value);
                if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
@@ -170,7 +170,7 @@ u8		In_SMS (u16 Port)
 
         // Joystick 3 Port (Game Gear)
     case 0x00: 
-        if (cur_drv->id == DRV_GG)
+        if (g_driver->id == DRV_GG)
         {
             switch (sms.Country)
             {

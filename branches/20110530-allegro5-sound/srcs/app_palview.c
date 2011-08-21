@@ -65,7 +65,7 @@ void    PaletteViewer_Init()
     PaletteViewer_Layout(pv, TRUE);
 
     // Configuration
-    PaletteViewer_SetPaletteSize(pv, cur_drv->colors);
+    PaletteViewer_SetPaletteSize(pv, g_driver->colors);
 }
 
 void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
@@ -167,7 +167,7 @@ void    PaletteViewer_Update(void)
     
             // Description
             sprintf(buf, "Color %d ($%02X)", color_current, color_current);
-            switch (cur_drv->id)
+            switch (g_driver->id)
             {
                 case DRV_SMS:
                     color_bits[0] = '%';

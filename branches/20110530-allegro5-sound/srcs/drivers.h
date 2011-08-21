@@ -56,7 +56,7 @@ struct ts_driver
   int   ram;
 };
 
-extern ts_driver * cur_drv;
+extern ts_driver * g_driver;
 
 struct ts_driver_filename_extension
 {

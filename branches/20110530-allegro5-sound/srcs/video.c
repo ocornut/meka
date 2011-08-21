@@ -56,7 +56,7 @@ void    Video_Init (void)
 	Video.game_area_y2				= 0;
     Video.driver					= 1;
 	Video.refresh_rate_requested	= 0;
-	fs_page_0 = fs_page_1 = fs_out	= NULL;
+	fs_out							= NULL;
 }
 
 void Video_CreateVideoBuffers()
@@ -71,7 +71,7 @@ void Video_CreateVideoBuffers()
 
 	// Allocate buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-	al_set_new_bitmap_format(g_Configuration.video_game_format_request);
+	al_set_new_bitmap_format(g_configuration.video_game_format_request);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
@@ -153,10 +153,6 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 	}*/
 
 	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
-	
-	fs_page_0 = NULL;
-    fs_page_1 = NULL;
-    fs_page_2 = NULL;
 
     Video.res_x = w;
     Video.res_y = h;
@@ -187,15 +183,15 @@ void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu
 {
 	if (clamp)
 	{
-		const int rx = LinearRemapClamp(screen_x, Video.game_area_x1, Video.game_area_x2, 0, cur_drv->x_res);
-		const int ry = LinearRemapClamp(screen_y, Video.game_area_y1, Video.game_area_y2, 0, cur_drv->y_res);
+		const int rx = LinearRemapClamp(screen_x, Video.game_area_x1, Video.game_area_x2, 0, g_driver->x_res);
+		const int ry = LinearRemapClamp(screen_y, Video.game_area_y1, Video.game_area_y2, 0, g_driver->y_res);
 		*pemu_x = rx;
 		*pemu_y = ry;
 	}
 	else
 	{
-		const int rx = LinearRemap(screen_x, Video.game_area_x1, Video.game_area_x2, 0, cur_drv->x_res);
-		const int ry = LinearRemap(screen_y, Video.game_area_y1, Video.game_area_y2, 0, cur_drv->y_res);
+		const int rx = LinearRemap(screen_x, Video.game_area_x1, Video.game_area_x2, 0, g_driver->x_res);
+		const int ry = LinearRemap(screen_y, Video.game_area_y1, Video.game_area_y2, 0, g_driver->y_res);
 		*pemu_x = rx;
 		*pemu_y = ry;
 	}
@@ -205,15 +201,15 @@ void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x,
 {
 	if (clamp)
 	{
-		const int rx = LinearRemapClamp(emu_x, 0, cur_drv->x_res, Video.game_area_x1, Video.game_area_x2);
-		const int ry = LinearRemapClamp(emu_y, 0, cur_drv->y_res, Video.game_area_y1, Video.game_area_y2);
+		const int rx = LinearRemapClamp(emu_x, 0, g_driver->x_res, Video.game_area_x1, Video.game_area_x2);
+		const int ry = LinearRemapClamp(emu_y, 0, g_driver->y_res, Video.game_area_y1, Video.game_area_y2);
 		*pscreen_x = rx;
 		*pscreen_y = ry;
 	}
 	else
 	{
-		const int rx = LinearRemap(emu_x, 0, cur_drv->x_res, Video.game_area_x1, Video.game_area_x2);
-		const int ry = LinearRemap(emu_y, 0, cur_drv->y_res, Video.game_area_y1, Video.game_area_y2);
+		const int rx = LinearRemap(emu_x, 0, g_driver->x_res, Video.game_area_x1, Video.game_area_x2);
+		const int ry = LinearRemap(emu_y, 0, g_driver->y_res, Video.game_area_y1, Video.game_area_y2);
 		*pscreen_x = rx;
 		*pscreen_y = ry;
 	}
@@ -240,11 +236,11 @@ void    Video_Setup_State(void)
         {
 			//const int game_res_x = Blitters.current->res_x;
 			//const int game_res_y = Blitters.current->res_y;
-			const int game_res_x = g_Configuration.video_mode_gui_res_x;
-			const int game_res_y = g_Configuration.video_mode_gui_res_y;
-			const bool game_fullscreen = g_Configuration.video_fullscreen;
+			const int game_res_x = g_configuration.video_mode_gui_res_x;
+			const int game_res_y = g_configuration.video_mode_gui_res_y;
+			const bool game_fullscreen = g_configuration.video_fullscreen;
 
-            if (Video_ChangeVideoMode(g_Configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
+            if (Video_ChangeVideoMode(g_configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
             {
                 g_env.state = MEKA_STATE_GUI;
                 Video_Setup_State();
@@ -258,9 +254,9 @@ void    Video_Setup_State(void)
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
-			const int gui_res_x = g_Configuration.video_mode_gui_res_x;
-			const int gui_res_y = g_Configuration.video_mode_gui_res_y;
-			Video_ChangeVideoMode(g_Configuration.video_driver, gui_res_x, gui_res_y, g_Configuration.video_fullscreen, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+			const int gui_res_x = g_configuration.video_mode_gui_res_x;
+			const int gui_res_y = g_configuration.video_mode_gui_res_y;
+			Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, g_configuration.video_mode_gui_refresh_rate, TRUE);
             Change_Mode_Misc();
             gui_redraw_everything_now_once();
         }
@@ -343,7 +339,7 @@ void    Video_RefreshScreen(void)
     {
 		Capture_Update();
 
-        if (Machine_Pause_Need_To)
+        if (g_machine_pause_requests > 0)
             Machine_Pause();
 
         if (g_env.state == MEKA_STATE_GUI)
@@ -369,7 +365,7 @@ void    Video_RefreshScreen(void)
                 char buf[16];
                 sprintf(buf, "%.1f FPS", fskipper.FPS);
 				int x, y;
-                if (cur_drv->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
+                if (g_driver->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
 				al_set_target_bitmap(screenbuffer);
                 Font_Print(F_MIDDLE, buf, x, y, COLOR_WHITE); // In white
                 //g_gui_status.timeleft = 0; // Force disabling the current message because it is slow to display

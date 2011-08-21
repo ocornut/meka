@@ -248,7 +248,7 @@ bool    Load_ROM (int mode, int user_verbose)
     }
 
     // If we are already in SF-7000 mode, do not reset (allows hot switching disks)
-	const bool reset = (cur_drv->id != DRV_SF7000);
+	const bool reset = (g_driver->id != DRV_SF7000);
 
     // Miscellaenous stuff (including reset)
     Load_ROM_Misc (reset);
@@ -271,7 +271,7 @@ bool    Load_ROM (int mode, int user_verbose)
         // Display success message
 		char filename[FILENAME_LEN];
         StrPath_RemoveDirectory(filename, g_env.Paths.MediaImageFile);
-        if (cur_drv->id != DRV_SF7000)
+        if (g_driver->id != DRV_SF7000)
             Msg(MSGT_USER, Msg_Get(MSG_LoadROM_Success), filename);
         else
             Msg(MSGT_USER, Msg_Get(MSG_LoadDisk_Success), filename);
@@ -305,7 +305,7 @@ bool    Load_ROM (int mode, int user_verbose)
             }
 
             // Show Product Number
-            if (DB.current_entry->product_no && g_Configuration.show_product_number)
+            if (DB.current_entry->product_no && g_configuration.show_product_number)
                 Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_Product_Num), DB.current_entry->product_no);
         }
 
@@ -625,7 +625,7 @@ void    Load_ROM_Misc (int reset)
 
     // BIOS load/unload
     // FIXME: this is a mess
-    if ((g_Configuration.enable_BIOS) && (g_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
+    if ((g_configuration.enable_BIOS) && (g_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
         BIOS_Load ();
     else
         BIOS_Unload ();

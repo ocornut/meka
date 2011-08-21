@@ -25,13 +25,10 @@
 // Fixed colors
 extern ALLEGRO_COLOR			COLOR_BLACK;
 extern ALLEGRO_COLOR			COLOR_WHITE;
-extern ALLEGRO_COLOR			COLOR_BACKDROP;	// When background render is disabled
+extern ALLEGRO_COLOR			COLOR_DEBUG_BACKDROP;	// When background render is disabled
 
 #define COLOR_BLACK16			0x0000
 #define COLOR_WHITE16			0xFFFF
-#define COLOR_BACKDROP_R		222
-#define COLOR_BACKDROP_G		222
-#define COLOR_BACKDROP_B		101
 
 // Border Color
 // FIXME: Unsupported
@@ -149,10 +146,7 @@ struct OPT_TYPE
 };
 
 // Max path length
-// FIXME: Portable way to obtain this at compile time?
 #define FILENAME_LEN	(512)
-//#define FILENAME_LEN	MAXPATHLEN
-//#define FILENAME_LEN	PATH_MAX
 
 extern "C"
 {
@@ -252,7 +246,7 @@ extern t_meka_env  g_env;
 // This structure should basically reflect the content of MEKA.CFG
 //-----------------------------------------------------------------------------
 
-// Values for g_Configuration.sprite_flickering
+// Values for g_configuration.sprite_flickering
 #define SPRITE_FLICKERING_NO        (0)
 #define SPRITE_FLICKERING_ENABLED   (1)
 #define SPRITE_FLICKERING_AUTO      (2) // Default
@@ -318,7 +312,7 @@ struct t_meka_configuration
 
 };
 
-extern t_meka_configuration    g_Configuration;
+extern t_meka_configuration    g_configuration;
 
 //-----------------------------------------------------------------------------
 // Media image
@@ -357,13 +351,10 @@ extern ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region;
 extern int						g_screenbuffer_format;
 extern int						g_gui_buffer_format;
 
-// Emulated Screen ------------------------------------------------------------
+// Video buffers
 extern ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
 extern ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
-// FullScreen / Video Memory --------------------------------------------------
 extern ALLEGRO_BITMAP *fs_out;                            // Fullscreen video buffer
-extern ALLEGRO_BITMAP *fs_page_0, *fs_page_1, *fs_page_2; // Fullscreen video buffer pointers (for page flipping & triple buffering)
-// GUI ------------------------------------------------------------------------
 extern ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
 extern ALLEGRO_BITMAP *gui_background;                    // GUI Background
 

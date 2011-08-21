@@ -135,7 +135,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
 
     // Then redraw all tiles
 	ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
-    switch (cur_drv->vdp)
+    switch (g_driver->vdp)
     {
     case VDP_SMSGG:
         {

@@ -25,7 +25,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-int Machine_Pause_Need_To = false;
+int g_machine_pause_requests = 0;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -36,8 +36,8 @@ void    Machine_Pause (void)
 {
     g_machine_flags ^= MACHINE_PAUSED;
     CPU_Loop_Stop = TRUE;
-    if (Machine_Pause_Need_To > 0)
-        Machine_Pause_Need_To --;
+    if (g_machine_pause_requests > 0)
+        g_machine_pause_requests--;
 
     // Verbose
     if (g_machine_flags & MACHINE_PAUSED)
@@ -71,9 +71,10 @@ void    Machine_Debug_Stop (void)
     CPU_Loop_Stop = TRUE;
 }
 
-void    Machine_Set_Handler_Loop (void)
+// Note: called everytime we change video mode.
+void    Machine_Set_Handler_Loop(void)
 {
-    switch (cur_drv->id)
+    switch (g_driver->id)
     {
     case DRV_COLECO:                   LoopZ80 = Loop_Coleco;          return;
     case DRV_SG1000: case DRV_SC3000:  LoopZ80 = Loop_SG1000_SC3000;   return;
@@ -82,9 +83,9 @@ void    Machine_Set_Handler_Loop (void)
     }
 }
 
-void    Machine_Set_Handler_IO (void)
+void    Machine_Set_Handler_IO(void)
 {
-    switch (cur_drv->id)
+    switch (g_driver->id)
     {
     case DRV_COLECO:
         InZ80 = InZ80_NoHook = Coleco_Port_In;
@@ -102,7 +103,7 @@ void    Machine_Set_Handler_IO (void)
     }
 }
 
-void    Machine_Set_Handler_Read (void)
+void    Machine_Set_Handler_Read(void)
 {
     switch (g_machine.mapper)
     {
@@ -121,7 +122,7 @@ void    Machine_Set_Handler_Read (void)
     }
 }
 
-void    Machine_Set_Handler_Write (void)
+void    Machine_Set_Handler_Write(void)
 {
     switch (g_machine.mapper)
     {
@@ -167,7 +168,7 @@ void    Machine_Set_Handler_Write (void)
     }
 }
 
-void        Machine_Set_Mapper (void)
+void        Machine_Set_Mapper(void)
 {
     if (DB.current_entry != NULL && DB.current_entry->emu_mapper != -1)
     {
@@ -328,7 +329,7 @@ void    Machine_Set_Country (void)
     if (DB.current_entry && DB.current_entry->emu_country != -1)
         sms.Country = DB.current_entry->emu_country;
     else
-        sms.Country = g_Configuration.country;
+        sms.Country = g_configuration.country;
 }
 
 void    Machine_Set_IPeriod (void)
@@ -339,7 +340,7 @@ void    Machine_Set_IPeriod (void)
         return;
     }
 
-    switch (cur_drv->id)
+    switch (g_driver->id)
     {
     case DRV_COLECO:
         opt.Cur_IPeriod = opt.IPeriod_Coleco;
@@ -392,7 +393,7 @@ void        Machine_Reset (void)
 
     Machine_Set_Mapper          ();
     if ((g_machine_flags & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
-        Machine_Set_Mapping      (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
+        Machine_Set_Mapping     (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
     Machine_Set_Handler_IO      ();
     Machine_Set_Handler_Read    ();
     Machine_Set_Handler_Write   ();
@@ -408,7 +409,7 @@ void        Machine_Reset (void)
 	}
     else
     {
-        if (cur_drv->id == DRV_GG)
+        if (g_driver->id == DRV_GG)
             g_machine.VDP.model = VDP_MODEL_315_5378;
         else
             g_machine.VDP.model = VDP_MODEL_315_5226;
@@ -462,7 +463,7 @@ void        Machine_Reset (void)
     memset (PRAM, 0, 0x00040);      // Clear all PRAM (palette)
 
     // Unload BIOS if...
-    if ((cur_drv->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (g_machine_flags & MACHINE_ROM_LOADED))
+    if ((g_driver->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (g_machine_flags & MACHINE_ROM_LOADED))
     {
         #ifdef DEBUG_WHOLE
             Msg (MSGT_DEBUG, "Machine_Reset(): BIOS_Unload()");
@@ -472,7 +473,7 @@ void        Machine_Reset (void)
 
     // GRAPHICS ---------------------------------------------------------------
     for (i = 0; i < 16; i++)
-        Tms_VDP_Out (i, ((i == 1 && cur_drv->id == DRV_COLECO) ? 0x00 : VDPInit [i]));
+        Tms_VDP_Out (i, ((i == 1 && g_driver->id == DRV_COLECO) ? 0x00 : VDPInit [i]));
     for (i = 0; i < MAX_TILES; i++)
         tgfx.Tile_Dirty [i] = TILE_DIRTY_DECODE | TILE_DIRTY_REDRAW;
 
@@ -493,12 +494,12 @@ void        Machine_Reset (void)
     tsms.VDP_Video_Change = VDP_VIDEO_CHANGE_ALL;
 
     // GRAPHICS: SPRITE FLICKERING --------------------------------------------
-    if (g_Configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
+    if (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
     {
         if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
-            g_Configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
+            g_configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
         else
-            g_Configuration.sprite_flickering &= ~SPRITE_FLICKERING_ENABLED;
+            g_configuration.sprite_flickering &= ~SPRITE_FLICKERING_ENABLED;
     }
 
     // PALETTE ----------------------------------------------------------------

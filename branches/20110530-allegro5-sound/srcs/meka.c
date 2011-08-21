@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // MEKA (c) Omar Cornut (Bock) & MEKA team 1998-2011
-// Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision / Famicom emulator
+// Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
 //-----------------------------------------------------------------------------
@@ -56,7 +56,7 @@ TSMS_TYPE				tsms;
 t_machine				g_machine;
 t_meka_env				g_env;
 t_media_image			g_media_rom;			// FIXME-WIP: Not fully used
-t_meka_configuration	g_Configuration;
+t_meka_configuration	g_configuration;
 
 extern "C"	// C-style mangling for ASM linkage
 {
@@ -79,14 +79,13 @@ int						g_gui_buffer_format = 0;
 ALLEGRO_BITMAP *screenbuffer = NULL, *screenbuffer_next = NULL;
 ALLEGRO_BITMAP *screenbuffer_1 = NULL, *screenbuffer_2 = NULL;
 ALLEGRO_BITMAP *fs_out = NULL;
-ALLEGRO_BITMAP *fs_page_0 = NULL, *fs_page_1 = NULL, *fs_page_2 = NULL;
 ALLEGRO_BITMAP *gui_buffer = NULL;
 ALLEGRO_BITMAP *gui_background = NULL;
 
 // Note: non floating-point constructors seems to fail at static construction.
 ALLEGRO_COLOR COLOR_BLACK = al_map_rgb_f(0.0f,0.0f,0.0f);
 ALLEGRO_COLOR COLOR_WHITE = al_map_rgb_f(1.0f,1.0f,1.0f);
-ALLEGRO_COLOR COLOR_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,101.0f/255.0f);
+ALLEGRO_COLOR COLOR_DEBUG_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,101.0f/255.0f);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -100,7 +99,7 @@ ALLEGRO_COLOR COLOR_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,101.0f/2
 //-----------------------------------------------------------------------------
 static void Init_Emulator (void)
 {
-    Video_Init ();
+    Video_Init();
 
     memset(RAM, 0, 0x10000);        // RAM: 64 Kb (max=SF-7000)
     memset(SRAM, 0, 0x8000);        // SRAM: 32 Kb (max)
@@ -119,9 +118,9 @@ static void Init_Emulator (void)
 
 static void Init_LookUpTables (void)
 {
-    Coleco_Init_Table_Inputs ();
+    Coleco_Init_Table_Inputs();
     #ifdef X86_ASM
-        Decode_Tile_ASM_Init ();
+        Decode_Tile_ASM_Init();
     #endif
 }
 
@@ -148,59 +147,59 @@ static void Init_Default_Values (void)
     g_machine.driver_id = DRV_SMS;
 
     // Country
-    g_Configuration.country                       = COUNTRY_EXPORT;
-    g_Configuration.country_cfg                   = COUNTRY_EXPORT;
-    g_Configuration.country_cl                    = COUNTRY_AUTO;
+    g_configuration.country                       = COUNTRY_EXPORT;
+    g_configuration.country_cfg                   = COUNTRY_EXPORT;
+    g_configuration.country_cl                    = COUNTRY_AUTO;
 
     // Debug Mode
-    g_Configuration.debug_mode                    = FALSE;
-    g_Configuration.debug_mode_cfg                = TRUE;
-    g_Configuration.debug_mode_cl                 = FALSE;
+    g_configuration.debug_mode                    = FALSE;
+    g_configuration.debug_mode_cfg                = TRUE;
+    g_configuration.debug_mode_cl                 = FALSE;
 
     // Miscellaneous
-    g_Configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
-    g_Configuration.enable_BIOS                   = TRUE;
-    g_Configuration.show_product_number           = FALSE;
-    g_Configuration.show_fullscreen_messages      = TRUE;
-    g_Configuration.enable_NES                    = FALSE;
-    g_Configuration.allow_opposite_directions     = FALSE;
-    g_Configuration.start_in_gui                  = TRUE;
+    g_configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
+    g_configuration.enable_BIOS                   = TRUE;
+    g_configuration.show_product_number           = FALSE;
+    g_configuration.show_fullscreen_messages      = TRUE;
+    g_configuration.enable_NES                    = FALSE;
+    g_configuration.allow_opposite_directions     = FALSE;
+    g_configuration.start_in_gui                  = TRUE;
 
     // Applet: Game Screen
-    g_Configuration.game_window_scale             = 1.0f;
+    g_configuration.game_window_scale             = 1.0f;
 
     // Applet: File Browser
-    g_Configuration.fb_close_after_load           = FALSE;
-    g_Configuration.fb_uses_DB                    = TRUE;
-    g_Configuration.fullscreen_after_load         = TRUE;
+    g_configuration.fb_close_after_load           = FALSE;
+    g_configuration.fb_uses_DB                    = TRUE;
+    g_configuration.fullscreen_after_load         = TRUE;
 
     // Applet: Debugger
-    g_Configuration.debugger_console_lines        = 24;
-    g_Configuration.debugger_disassembly_lines    = 20;
-    g_Configuration.debugger_disassembly_display_labels = TRUE;
-    g_Configuration.debugger_log_enabled          = TRUE;
+    g_configuration.debugger_console_lines        = 24;
+    g_configuration.debugger_disassembly_lines    = 20;
+    g_configuration.debugger_disassembly_display_labels = TRUE;
+    g_configuration.debugger_log_enabled          = TRUE;
 
     // Applet: Memory Editor
-    g_Configuration.memory_editor_lines           = 16;
-    g_Configuration.memory_editor_columns         = 16;
+    g_configuration.memory_editor_lines           = 16;
+    g_configuration.memory_editor_columns         = 16;
 
     // Video
-	g_Configuration.video_driver					= g_video_driver_default;
-	g_Configuration.video_fullscreen				= FALSE;
-	g_Configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
-	g_Configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;//ALLEGRO_PIXEL_FORMAT_ANY_32_NO_ALPHA;
+	g_configuration.video_driver					= g_video_driver_default;
+	g_configuration.video_fullscreen				= FALSE;
+	g_configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
+	g_configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;//ALLEGRO_PIXEL_FORMAT_ANY_32_NO_ALPHA;
 
-	g_Configuration.video_mode_game_vsync			= FALSE;
-    g_Configuration.video_mode_gui_res_x			= 800;
-    g_Configuration.video_mode_gui_res_y			= 600;
-    g_Configuration.video_mode_gui_refresh_rate		= 0;    // Auto
-    g_Configuration.video_mode_gui_vsync			= FALSE;
+	g_configuration.video_mode_game_vsync			= FALSE;
+    g_configuration.video_mode_gui_res_x			= 800;
+    g_configuration.video_mode_gui_res_y			= 600;
+    g_configuration.video_mode_gui_refresh_rate		= 0;    // Auto
+    g_configuration.video_mode_gui_vsync			= FALSE;
 
 	// Capture
-	g_Configuration.capture_filename_template		= "%s-%02d.png";
-	g_Configuration.capture_crop_scrolling_column	= TRUE;
-	g_Configuration.capture_crop_align_8x8			= FALSE;
-	g_Configuration.capture_include_gui				= TRUE;
+	g_configuration.capture_filename_template		= "%s-%02d.png";
+	g_configuration.capture_crop_scrolling_column	= TRUE;
+	g_configuration.capture_crop_align_8x8			= FALSE;
+	g_configuration.capture_include_gui				= TRUE;
 
     // Media
     // FIXME: yet not fully used
@@ -211,33 +210,33 @@ static void Init_Default_Values (void)
     g_media_rom.mekacrc.v[1]= 0;
     g_media_rom.crc32       = 0;
 
-    Machine_Pause_Need_To = FALSE;
+    g_machine_pause_requests = 0;
 
-    Blitters_Init_Values ();
-    Frame_Skipper_Init_Values ();
+    Blitters_Init_Values();
+    Frame_Skipper_Init_Values();
 
-    strcpy (FB.current_directory, ".");
-    FB_Init_Values ();
+    strcpy(FB.current_directory, ".");
+    FB_Init_Values();
 
-    TB_Message_Init_Values ();
-    Sound_Init_Config ();
-    TVType_Init_Values ();
-    Glasses_Init_Values ();
-    TileViewer_Init_Values ();
+    TB_Message_Init_Values();
+    Sound_Init_Config();
+    TVType_Init_Values();
+    Glasses_Init_Values();
+    TileViewer_Init_Values();
     Skins_Init_Values();
 
     #ifdef MEKA_Z80_DEBUGGER
-        Debugger_Init_Values ();
+        Debugger_Init_Values();
     #endif
 }
 
 static void Free_Memory (void)
 {
-    free (Game_ROM_Computed_Page_0);
-    BIOS_Free_Roms ();
+    free(Game_ROM_Computed_Page_0);
+    BIOS_Free_Roms();
     if (Game_ROM)
     {
-        free (Game_ROM);
+        free(Game_ROM);
         Game_ROM = NULL;
     }
 }
@@ -406,7 +405,7 @@ int main(int argc, char **argv)
     FB_Init_2               (); // Finish initializing the file browser
 
     // Setup initial state (fullscreen/GUI)
-    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_Configuration.start_in_gui)
+    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
         g_env.state = MEKA_STATE_GAME;
     else
         g_env.state = MEKA_STATE_GUI;

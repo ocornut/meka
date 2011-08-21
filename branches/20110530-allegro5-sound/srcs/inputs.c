@@ -76,6 +76,12 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update ();
 
+	if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_K, TRUE)) // Note: eat backspace to avoid triggering software reset as well
+	{
+		Machine_Reset();
+		return;
+	}
+
     switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
     {
     case 0: // No modifiers
@@ -88,7 +94,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
             // State change slot
             /*
-            if (cur_drv->id != DRV_COLECO)
+            if (g_driver->id != DRV_COLECO)
                 if (!gui.box_z_ordered[0]->focus_inputs_exclusive) // check note in inputs_u.c::Inputs_Emulation_Update()
                 {
                     if (Inputs_KeyPressed (ALLEGRO_KEY_0, FALSE))  Save_Set_Slot (0);
@@ -134,17 +140,17 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
             // Hard Pause
             if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-                Machine_Pause_Need_To = TRUE;
+                g_machine_pause_requests = 1;
         }
         break;
     case ALLEGRO_KEYMOD_CTRL:
         {
             // Hard Pause
             if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE) || (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)))
-                Machine_Pause_Need_To = TRUE;
+                g_machine_pause_requests = 1;
             // Hard Reset
-            if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
-                Machine_Reset ();
+            if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
+                Machine_Reset();
 
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
             if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
@@ -183,7 +189,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                Action_Switch_Layer_Background();
            // Next frame (pause hack)
            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-               Machine_Pause_Need_To = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+               g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
 
            if (!sk1100_pressed)
            {
@@ -201,14 +207,14 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                if (Inputs_KeyPressed (ALLEGRO_KEY_X, FALSE))         
                    opt.Force_Quit = TRUE;
                // Hard Reset
-               if (Inputs_KeyPressed (ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
-                   Machine_Reset ();
+               if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
+                   Machine_Reset();
 
                // GUI fullscreen/windowed
                 if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
                 {
-					g_Configuration.video_fullscreen ^= 1;
-					//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_Configuration.video_fullscreen);
+					g_configuration.video_fullscreen ^= 1;
+					//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_configuration.video_fullscreen);
                     Video_Setup_State();
                     return;
                 }

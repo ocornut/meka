@@ -53,7 +53,7 @@ void        gui_menus_init (void)
     //-------------------------------------------------------------------------
     menus_ID.menu     = menu_new ();
     menus_ID.file     = menu_add_menu (menus_ID.menu, Msg_Get(MSG_Menu_Main),    AM_Active);
-    if (g_Configuration.debug_mode)
+    if (g_configuration.debug_mode)
        menus_ID.debug = menu_add_menu (menus_ID.menu, Msg_Get(MSG_Menu_Debug),   AM_Active);
     menus_ID.machine  = menu_add_menu (menus_ID.menu, Msg_Get(MSG_Menu_Machine), AM_Active);
     menus_ID.video    = menu_add_menu (menus_ID.menu, Msg_Get(MSG_Menu_Video),   AM_Active);
@@ -77,7 +77,7 @@ void        gui_menus_init (void)
     // DEBUG
     //-------------------------------------------------------------------------
 #ifdef MEKA_Z80_DEBUGGER
-    if (g_Configuration.debug_mode)
+    if (g_configuration.debug_mode)
     {
         menu_add_item (menus_ID.debug,  Msg_Get (MSG_Menu_Debug_Enabled), AM_Active | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
         menu_add_item (menus_ID.debug,  Msg_Get (MSG_Menu_Debug_Reload_ROM), AM_Active, (t_menu_callback)Reload_ROM, NULL);
@@ -98,8 +98,8 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.power,    Msg_Get (MSG_Menu_Machine_Power_On),              AM_Active, (t_menu_callback)Machine_ON, NULL);
     menu_add_item     (menus_ID.power,    Msg_Get (MSG_Menu_Machine_Power_Off),             AM_Active /* | AM_Checked */, (t_menu_callback)Machine_OFF, NULL);
     // MACHINE -> COUNTRY
-    menu_add_item     (menus_ID.country,  Msg_Get (MSG_Menu_Machine_Country_EU),            AM_Active | Is_Checked (g_Configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_European_US, NULL);
-    menu_add_item     (menus_ID.country,  Msg_Get (MSG_Menu_Machine_Country_Jap),           AM_Active | Is_Checked (g_Configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_JP, NULL);
+    menu_add_item     (menus_ID.country,  Msg_Get (MSG_Menu_Machine_Country_EU),            AM_Active | Is_Checked (g_configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_European_US, NULL);
+    menu_add_item     (menus_ID.country,  Msg_Get (MSG_Menu_Machine_Country_Jap),           AM_Active | Is_Checked (g_configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_JP, NULL);
     // MACHINE -> TV TYPE
     menu_add_item     (menus_ID.tvtype,   Msg_Get (MSG_Menu_Machine_TVType_NTSC),           AM_Active | Is_Checked (TV_Type_User->id == TVTYPE_NTSC), (t_menu_callback)TVType_Set_NTSC, NULL);
     menu_add_item     (menus_ID.tvtype,   Msg_Get (MSG_Menu_Machine_TVType_PALSECAM),       AM_Active | Is_Checked (TV_Type_User->id == TVTYPE_PAL_SECAM), (t_menu_callback)TVType_Set_PAL_SECAM, NULL);
@@ -113,7 +113,7 @@ void        gui_menus_init (void)
 	menus_ID.screenshots = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_Capture),	AM_Active);
 	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_CaptureScreen),		AM_Active, (t_menu_callback)Capture_MenuHandler_Capture, NULL);
 	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_CaptureScreenAll),	AM_Active, (t_menu_callback)Capture_MenuHandler_AllFrames, NULL);
-	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_IncludeGui),		AM_Active | Is_Checked(g_Configuration.capture_include_gui), (t_menu_callback)Capture_MenuHandler_IncludeGui, NULL);
+	menu_add_item(menus_ID.screenshots, Msg_Get (MSG_Menu_Video_Capture_IncludeGui),		AM_Active | Is_Checked(g_configuration.capture_include_gui), (t_menu_callback)Capture_MenuHandler_IncludeGui, NULL);
 	// VIDEO -> THEMES
     menus_ID.themes   = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_Themes),     AM_Active);
     Skins_MenuInit (menus_ID.themes);
@@ -126,9 +126,9 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.layers,   Msg_Get (MSG_Menu_Video_Layers_Background),       AM_Active | AM_Checked, (t_menu_callback)Action_Switch_Layer_Background, NULL);
     // VIDEO -> FLICKERING
     menus_ID.flickering = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_Flickering), AM_Active);
-    menu_add_item     (menus_ID.flickering, Msg_Get (MSG_Menu_Video_Flickering_Auto),       AM_Active | Is_Checked (g_Configuration.sprite_flickering & SPRITE_FLICKERING_AUTO), (t_menu_callback)Action_Switch_Flickering_Auto, NULL);
-    menu_add_item     (menus_ID.flickering, Msg_Get (MSG_Menu_Video_Flickering_Yes),        AM_Active | Is_Checked (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_AUTO) && (g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_Yes, NULL);
-    menu_add_item     (menus_ID.flickering, Msg_Get (MSG_Menu_Video_Flickering_No),         AM_Active | Is_Checked (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_AUTO) && !(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_No, NULL);
+    menu_add_item     (menus_ID.flickering, Msg_Get (MSG_Menu_Video_Flickering_Auto),       AM_Active | Is_Checked (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO), (t_menu_callback)Action_Switch_Flickering_Auto, NULL);
+    menu_add_item     (menus_ID.flickering, Msg_Get (MSG_Menu_Video_Flickering_Yes),        AM_Active | Is_Checked (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO) && (g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_Yes, NULL);
+    menu_add_item     (menus_ID.flickering, Msg_Get (MSG_Menu_Video_Flickering_No),         AM_Active | Is_Checked (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO) && !(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_No, NULL);
     // VIDEO -> GLASSES (3-D)
     menus_ID.glasses  = menu_add_menu (menus_ID.video, Msg_Get (MSG_Menu_Video_3DGlasses),  AM_Active);
     menu_add_item     (menus_ID.glasses,  Msg_Get (MSG_Menu_Video_3DGlasses_Enabled),       AM_Active | Is_Checked (Glasses.Enabled), (t_menu_callback)Glasses_Switch_Enable, NULL);

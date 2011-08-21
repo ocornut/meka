@@ -66,20 +66,20 @@ void    Palette_Emulation_Reset()
 // Called when changing video mode on the fly
 void    Palette_Emulation_Reload (void)
 {
-    switch (cur_drv->vdp)
+    switch (g_driver->vdp)
     {
     case VDP_TMS9918:  
         TMS9918_Palette_Setup();
         return;
     }
 
-    // cur_drv->vdp == VDP_SMSGG
+    // g_driver->vdp == VDP_SMSGG
     // SMS/GG Palette will be reloaded
 #ifdef DEBUG_PALETTE
     Msg (MSGT_DEBUG, "Palette_Emulation_Reload() SMS/GG");
 #endif
 
-    switch (cur_drv->id)
+    switch (g_driver->id)
     {
     case DRV_SMS:
         for (int i = 0; i != 32; i++)
@@ -142,12 +142,17 @@ u32		Palette_MakeHostColor(int color_format, int r, int g, int b)
 	return 0;
 }
 
+u32		Palette_MakeHostColor(int format, ALLEGRO_COLOR color)
+{
+	return Palette_MakeHostColor(format, color.r*255, color.g*255, color.b*255);
+}
+
 void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color)
 {
     assert(idx >= 0 && idx < 32);
     Palette_Emulation[idx] = color;
-	Palette_EmulationToHostGui[idx] = Palette_MakeHostColor(g_gui_buffer_format, color.r*255, color.g*255, color.b*255);
-    Palette_EmulationToHostGame[idx] = Palette_MakeHostColor(g_screenbuffer_format, color.r*255, color.g*255, color.b*255);
+	Palette_EmulationToHostGui[idx] = Palette_MakeHostColor(g_gui_buffer_format, color);
+    Palette_EmulationToHostGame[idx] = Palette_MakeHostColor(g_screenbuffer_format, color);
     Palette_EmulationFlags[idx] |= PALETTE_EMULATION_FLAGS_DIRTY;
     Palette_EmulationDirtyAny = TRUE;
 }

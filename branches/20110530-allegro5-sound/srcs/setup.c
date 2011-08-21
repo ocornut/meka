@@ -143,7 +143,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			}
 
 			// Fill debugger enable box
-			CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_Configuration.debug_mode_cfg);
+			CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_configuration.debug_mode_cfg);
 
 			// Move to foreground, seems to be needed
 			SetForegroundWindow(hDlg);
@@ -181,7 +181,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 						}
 
 						// Debugger enable
-						g_Configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
+						g_configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
 						EndDialog(hDlg, 0);
 					}
 					return TRUE;
