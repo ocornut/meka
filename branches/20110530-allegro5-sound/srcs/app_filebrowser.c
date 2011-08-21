@@ -37,19 +37,19 @@ t_filebrowser    FB;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void    FB_Layout               (t_filebrowser *app, bool setup);
+static void		FB_Layout               (t_filebrowser *app, bool setup);
 
 //...
 
-static int     FB_Return_File_Area_X   (void);
-static int     FB_Return_File_Area_Y   (void);
-static int     FB_Return_Res_Y         (void);
+static int		FB_Return_File_Area_X   (void);
+static int		FB_Return_File_Area_Y   (void);
+static int		FB_Return_Res_Y         (void);
 
-static void    FB_Draw_List            (void);
-static void    FB_Draw_Infos           (void);
-static void    FB_Click_List           (t_widget *w);
-static void    FB_Sort_Files           (int start, int end);
-static void    FB_Check_and_Repos      (void);
+static void		FB_Draw_List            (void);
+static void		FB_Draw_Infos           (void);
+static void		FB_Click_List           (t_widget *w);
+static void		FB_Sort_Files           (int start, int end);
+static void		FB_Check_and_Repos      (void);
 
 static bool		FB_SelectEntryByFileName	(const char* name);
 static void		FB_OpenSelectedEntry		(void);
@@ -118,7 +118,7 @@ int     FB_Return_File_Area_Y (void)
 
 int     FB_Return_Res_Y (void)
 {
-    return (FB_Return_File_Area_Y () + (3 * FB_PAD_Y) + FB_BUTTON_Y);
+    return (FB_Return_File_Area_Y() + (3 * FB_PAD_Y) + FB_BUTTON_Y);
 }
 
 void    FB_Switch(void)
@@ -134,7 +134,7 @@ void    FB_Init_Values(void)
     FB.file_y   = 19;
 }
 
-void            FB_Init (void)
+void	FB_Init (void)
 {
     t_frame     frame;
 
@@ -155,7 +155,7 @@ void            FB_Init (void)
     FB_Layout(&FB, TRUE);
 }
 
-void    FB_Init_2 (void)
+void    FB_Init_2(void)
 {
     chdir(FB.current_directory);
     FB_Load_Directory();
@@ -432,7 +432,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 #endif
 }
 
-static void     FB_Load_Directory_Internal (void)
+static void     FB_Load_Directory_Internal(void)
 {
     static bool no_files_hack = false;
 
@@ -486,9 +486,6 @@ static void     FB_Load_Directory_Internal (void)
     #ifdef ARCH_WIN32
         FB_Add_DiskDrives();
     #endif
-    
-    // Display
-    FB_Draw_List();
 }
 
 void        FB_Draw_Infos (void)
@@ -510,11 +507,8 @@ void        FB_Draw_Infos (void)
         COLOR_SKIN_WINDOW_TEXT);
 }
 
-//-----------------------------------------------------------------------------
-// FB_Draw_List ()
 // Redraw file listing
-//-----------------------------------------------------------------------------
-void        FB_Draw_List(void)
+void	FB_Draw_List(void)
 {
 	t_filebrowser *app = &FB;
 	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
@@ -705,8 +699,7 @@ void        FB_Draw_List(void)
     FB_Draw_Infos();
 }
 
-// ???
-void            FB_Check_and_Repos (void)
+void	FB_Check_and_Repos(void)
 {
     if (FB.file_pos >= FB.files_max) 
         FB.file_pos = FB.files_max - 1;
@@ -845,24 +838,24 @@ void            FB_Update(void)
     }
 }
 
-void        FB_Load_Directory (void)
+void	FB_Load_Directory(void)
 {
     // Msg (MSGT_DEBUG, "FB_Load_Directory()");
 
-    int i = FB.files_max;
-    int j = FB.file_pos;
-    int k = FB.file_display_first;
+    const int old_files_max = FB.files_max;
+    const int old_file_pos = FB.file_pos;
+    const int old_file_display_first = FB.file_display_first;
     FB_Free_Memory();
-    FB_Load_Directory_Internal ();
-    if (i == FB.files_max) // nothing has changed in directory // FIXME: argh
+    FB_Load_Directory_Internal();
+    if (old_files_max == FB.files_max) // nothing has changed in directory // FIXME: argh
     {
-        FB.file_pos = j;
-        FB.file_display_first = k;
-        FB_Draw_List ();
+        FB.file_pos = old_file_pos;
+        FB.file_display_first = old_file_display_first;
     }
+	FB_Draw_List();
 }
 
-void        FB_LoadAllNames(void)
+void	FB_LoadAllNames(void)
 {
     // Save current battery backed memory if there's one
     // Because Load_ROM with no verbosing doesn't save it
@@ -894,7 +887,7 @@ void        FB_LoadAllNames(void)
     FB_Draw_List();
 }
 
-void        FB_OpenSelectedEntry(void)
+void	FB_OpenSelectedEntry(void)
 {
     t_filebrowser_entry *entry = FB.files [FB.file_pos];
     switch (entry->type)
@@ -946,6 +939,8 @@ void	FB_OpenDirectory(const char* name)
 	{
 		FB_SelectEntryByFileName(previous_directory);
 	}
+
+	FB_Draw_List();
 
 	// Resume sound
     Sound_Playback_Resume();
