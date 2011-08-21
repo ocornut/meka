@@ -179,7 +179,10 @@ void        Machine_Set_Mapper (void)
     switch (g_machine.driver_id)
     {
     case DRV_SC3000:
-        g_machine.mapper = MAPPER_32kRAM;
+		if (tsms.Size_ROM <= 32*1024)
+			g_machine.mapper = MAPPER_32kRAM;		// FIXME: Not technically correct. Should be enabled for BASIC.
+		else
+			g_machine.mapper = MAPPER_SG1000;
         return;
     case DRV_COLECO:
         g_machine.mapper = MAPPER_ColecoVision;
@@ -192,7 +195,10 @@ void        Machine_Set_Mapper (void)
         return;
     case DRV_SMS:
     case DRV_GG:
-        g_machine.mapper = MAPPER_Standard;
+		if (tsms.Size_ROM <= 48*1024)
+			g_machine.mapper = MAPPER_SMS_NoMapper;
+        else 
+			g_machine.mapper = MAPPER_Standard;
         if (DB.current_entry == NULL)    // Detect mapper for unknown ROM
         {
             const int m = Mapper_Autodetect();

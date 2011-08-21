@@ -68,20 +68,17 @@ void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr)
 // Return -1 if can't tell, else a mapper number
 int         Mapper_Autodetect (void)
 {
-    int     i;
-    int     c0002, c8000, cA000, cFFFF;
-
     // If ROM is smaller than 32 kb, autodetected SMS mapper are not needed
     if (tsms.Size_ROM <= 0x8000)
         return (-1);
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
-    c0002 = c8000 = cA000 = cFFFF = 0;
-    for (i = 0; i < 0x8000; i++)
+    int c0002 = 0, c8000 = 0, cA000 = 0, cFFFF = 0;
+    for (int i = 0; i < 0x8000; i++)
     {
-        if (ROM [i] == 0x32) // Z80 opcode for: LD (xxxx), A
+        if (ROM[i] == 0x32) // Z80 opcode for: LD (xxxx), A
         {
-            u16 addr = *(u16 *)&ROM [i + 1];
+            const u16 addr = *(u16 *)&ROM [i + 1];
             if (addr == 0xFFFF)
             { i += 2; cFFFF++; continue; }
             if (addr == 0x0002 || addr == 0x0003 || addr == 0x0004)

@@ -21,6 +21,7 @@ They are usually of 2 kinds:
   - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by Nemesis. [Omar]
+    - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]

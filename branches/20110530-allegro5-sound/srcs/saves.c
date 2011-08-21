@@ -457,7 +457,7 @@ int         Load_Game_MSV (FILE *f)
 
     // Read backed memory unless version<0x09 & emulation 93c46
     if (!(version < 0x09 && g_machine.mapper == MAPPER_93c46))
-        BMemory_Load_State (f);
+        BMemory_Load_State(f);
 
     // Fix up CPU registers
     // Copy IFF2 bit for old Z80 Registers structure
