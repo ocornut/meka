@@ -76,12 +76,6 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update ();
 
-	if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_K, TRUE)) // Note: eat backspace to avoid triggering software reset as well
-	{
-		Machine_Reset();
-		return;
-	}
-
     switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
     {
     case 0: // No modifiers

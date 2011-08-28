@@ -18,7 +18,7 @@ Meka 0.80 check list
 - gui: show shortcuts
 - GUI HOVERING SCROLL BAR BROKEN
 
-In Hang-On (Safari Hunt) 
+In Hang-On (Safari Hunt) -> glitch even in PAL mode
 I've noticed that part of the track shows in the background where it shouldn't (shown in screen shot with a highlighted red square box), also in regards to the track itself when it turns left or right, the track kind of looks like it judders.
 
 Other than that not noticed any other problems and nice work on the sound :), works fine with my Creative X-Fi Xtreme Gamer, also forgot to mention I'm using the latest 0.80 build.
