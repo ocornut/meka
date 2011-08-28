@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/08/21
+; Last updated 2011/08/28
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -596,7 +596,6 @@ SMS 90bfd088 2A26B6AA93E2F7E4   Super Magic Drive (v3.0) [BIOS]/FLAGS=BIOS/COMME
 SMS e08173ba 11D194A8DEFE0402   Super Magic Drive (v3.1g) [BIOS]/FLAGS=BIOS/COMMENT=This is not properly emulated.
 SMS 07402a75 804BCF87BAFFE145   Super Magic Drive (v4.1a) [BIOS]/FLAGS=BIOS/COMMENT=This is not properly emulated.
 
-
 ; Bad dumps
 SMS 8b4ca9e4 8CFC7A4DECE2BC27   Air Rescue/FLAGS=BAD
 SMS 6a9eaef7 6A00D45444FC0E20   Astro Warrior \/ Pit Pot/FLAGS=BAD/COMMENT=Overdumped ROM with 1 bad byte.
@@ -609,10 +608,13 @@ SMS e730bb27 3488F258EC375B7C   Double Dragon/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 3b79d63e E857D8017B03EA80   Double Dragon/FLAGS=BAD
 SMS 6cc2e967 090BDB10B329FD28   Double Dragon/FLAGS=BAD
 SMS 7c2e6c5a 8060A048D88038A8   Ghost House/FLAGS=BAD/COMMENT=Overdump with bad bytes.
+SMS 1eec7abc 07A18B1093D71B38   Golden Axe/FLAGS=BAD/COMMENT=2 bad bytes.
 SMS c5083000 9F54DCE0F03F170B   Hang On \/ Safari Hunt/COUNTRY=US,KR/FLAGS=BAD/EMU_INPUTS=LIGHTPHASER/COMMENT=This dump has the first 16 Kb duplicated on an unused location of the ROM. Thus the game is working but checksum is failing.
+SMS 2b7f7447 A222B16F114CDAE5   James Bond 007 - The Duel/COUNTRY=BR/FLAGS=BAD/COMMENT=1 bad byte.
 SMS fef68275 0C38C7A1580A24CE   James Pond II - Codename: RoboCod/FLAGS=BAD/COMMENT=1 bad byte.
 SMS bb351118 97D1E5EB0E6663F1   KLAX/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 68108314 261F3B6965EAC701   Kujakuou/FLAGS=BAD/COUNTRY=JP/COMMENT=1 bad byte.
+SMS d70bbd06 B32F41555F15C84C   Out Run/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 94fee07b EFA3373E2142D1C5   Marble Madness/FLAGS=BAD/COMMENT=1 bad byte.
 SMS fac09af4 BDDCD79E4A141381   Mônica no Castelo do Dragão/FLAGS=BAD/COUNTRY=BR/COMMENT=Hacked version of Wonder Boy in Monster Land by Tec Toy. 58 bad bytes.
 SMS 9fb7d63b 690DDE11E39C7CA0   Ninja, The/FLAGS=BAD/COMMENT=1 bad byte.
@@ -1305,21 +1307,32 @@ SG1 56abc493 BA07B1875BCCF2EE   Omikuji/FLAGS=HOMEBREW/AUTHORS=Maechiko
 ;-----------------------------------------------------------------------------
 
 SC3 f691f9c7 A498D750D50A8638   Basic Level II A/COUNTRY=JP/PRODUCT_NO=B-10/EMU_MAPPER=1
-SC3 6ccb297a ECF917D715120BFB   Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-103/COMMENT=Educational software: Junior High School English Vocabulary (1st year)
-SC3 975106b6 8C043060FC8CF464   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen) [40k map]/COUNTRY=JP/PRODUCT_NO=E-104/EMU_MAPPER=5/COMMENT=Educational software: Junior High School English Composition (1st year)
-SC3 d4c473b2 577B6DD9FD8F2D2F   Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-112/COMMENT=Educational Software: Junior High School English Grammar (2nd year)
+SC3 345c8bc8 CD315B439CEE36A4   Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-105/COMMENT=Educational Software: English Grammar (Junior High School 1st year)
+SC3 d4c473b2 577B6DD9FD8F2D2F   Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-112/COMMENT=Educational Software: English Grammar (Junior High School 2nd year)
+SC3 9bafd9e9 F9010E587DA5BFBF   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-104/EMU_MAPPER=5/COMMENT=Educational software: English Composition (Junior High School 1st year)
+SC3 975106b6 8C043060FC8CF464   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen) [40k map]/COUNTRY=JP/PRODUCT_NO=E-104/EMU_MAPPER=5/COMMENT=Educational software: English Composition (Junior High School 1st year)
+SC3 581dce41 F4F5FC7EF064F356   Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-111/COMMENT=Educational Software: English Composition (Junior High School 2nd year)
+SC3 3657b285 DAD462F244A8040E   Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen) [40k map]/COUNTRY=JP/PRODUCT_NO=E-111/COMMENT=Educational Software: English Composition (Junior High School 2nd year)
+SC3 6ccb297a ECF917D715120BFB   Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-103/COMMENT=Educational software: English Vocabulary (Junior High School 1st year)
+SC3 8507216b 86502CA2E84C8E9A   Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-110/COMMENT=Educational Software: English Vocabulary (Junior High School 2nd year)
+SC3 4f599483 3E22B4565C6E1EAE   Chuugaku Hisshuu Eitango (Chuugaku 2-Nen) [40k map]/COUNTRY=JP/PRODUCT_NO=E-110/COMMENT=Educational Software: English Vocabulary (Junior High School 2nd year)
 SC3 78a37cbc 0C8784F17E89F5FC   Home Basic/COUNTRY=JP/PRODUCT_NO=B-50/EMU_MAPPER=1
-SC3 129d6359 DE9469099090EC10   Nihonshi Nenpyou/COUNTRY=JP/PRODUCT_NO=E-108/COMMENT=COMMENT=Educational Software: Japanese History.
+SC3 f9c81fe1 F2544D2C76A5988E   Kagaku (Gensokigou Master)/COUNTRY=JP/PRODUCT_NO=E-107/COMMENT=Educational Software: Chemistry (Chemical Symbols Master)
+SC3 129d6359 DE9469099090EC10   Nihonshi Nenpyou/COUNTRY=JP/PRODUCT_NO=E-108/COMMENT=COMMENT=Educational Software: Japanese History Chronology
 SC3 2ec28526 92CFAC110866B4C0   Music/COUNTRY=JP/PRODUCT_NO=E-101/EMU_MAPPER=1
 SC3 622010e1 F363D14ADA372658   Music/COUNTRY=AU,NZ,EU/PRODUCT_NO=E-101/EMU_MAPPER=1
 SC3 3274ee48 3EA1F4B0ED61240B   Sekaishi Nenpyou/COUNTRY=JP/PRODUCT_NO=E-109/COMMENT=Educational Software: World History Chronology
-SC3 573e04dd 5CE3033D4B895855   Tanoshii Sansuu (Shougaku 4-Nen Jou)/COUNTRY=JP/PRODUCT_NO=E-106/COMMENT=Educational Software: Elementary School Arithmetic (4th year Vol. 1)
-SC3 7c400e3b AA10A654A612E6AE   Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map]/COUNTRY=JP/PRODUCT_NO=E-106/COMMENT=Educational Software: Elementary School Arithmetic (4th year Vol. 1)
-SC3 5fde25bb 268DB0683B8EBBB1   Tanoshii Sansuu (Shougaku 4-Nen Ge)/COUNTRY=JP/PRODUCT_NO=E-113/COMMENT=Educational Software: Elementary School Arithmetic (4th year Vol. 2)
+SC3 5fde25bb 268DB0683B8EBBB1   Tanoshii Sansuu (Shougaku 4-Nen Ge)/COUNTRY=JP/PRODUCT_NO=E-113/COMMENT=Educational Software: Arithmetic (Elementary School 4th year Vol. 2)
+SC3 573e04dd 5CE3033D4B895855   Tanoshii Sansuu (Shougaku 4-Nen Jou)/COUNTRY=JP/PRODUCT_NO=E-106/COMMENT=Educational Software: Arithmetic (Elementary School 4th year Vol. 1)
+SC3 7c400e3b AA10A654A612E6AE   Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map]/COUNTRY=JP/PRODUCT_NO=E-106/COMMENT=Educational Software: Arithmetic (Elementary School 4th year Vol. 1)
+SC3 6a96978d 933EBD35FDA0326E   Tanoshii Sansuu (Shougaku 5-Nen Ge)/COUNTRY=JP/PRODUCT_NO=E-114/COMMENT=Educational Software: Arithmetic (Elementary School 5th year Vol. 2)
+SC3 419d75d5 84E40A994C53C492   Tanoshii Sansuu (Shougaku 5-Nen Jou)/COUNTRY=JP/PRODUCT_NO=E-116/COMMENT=Educational Software: Arithmetic (Elementary School 6th year Vol. 1)
+SC3 d0d18e70 27D1FABE8F6A87D0   Tanoshii Sansuu (Shougaku 6-Nen Ge)/COUNTRY=JP/PRODUCT_NO=E-115/COMMENT=Educational Software: Arithmetic (Elementary School 6th year Vol. 2)
+SC3 8b5e6e1b 46397F7619AA3990   Tanoshii Sansuu (Shougaku 6-Nen Jou)/COUNTRY=JP/PRODUCT_NO=E-117/COMMENT=Educational Software: Arithmetic (Elementary School 6th year Vol. 1)
 SC3 ae4f92cf 1916AF8D8DF9E52A   Uranai Angel Cutie/COUNTRY=JP/PRODUCT_NO=E-119
 
 ; Bad Dumps
-SC3 22f4f92a BB95690B9391EC2C   Nihonshi Nenpyou/FLAGS=BAD/PRODUCT_NO=E-108/COMMENT=COMMENT=Educational Software: Japanese History.
+SC3 22f4f92a BB95690B9391EC2C   Nihonshi Nenpyou/FLAGS=BAD/PRODUCT_NO=E-108/COMMENT=COMMENT=Educational Software: Japanese History Chronology
 SC3 b67ea1c4 F563D149DA372558   Music/COUNTRY=AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=E-101/EMU_MAPPER=1/COMMENT=1 bad byte. Fixed.
 
 ;-----------------------------------------------------------------------------
@@ -1368,13 +1381,10 @@ FD9CB764170567C9,Castelo Rá-Tim-Bum,VER=Brazilian,BAD
 58AE94E16F8DD5B4,Enduro Racer,ID=G-1322,BAD
 914DC1AEAB372AA7,Fantastic Dizzy,Mapper=3,BAD,TVTYPE=PAL/SECAM
 CEDEE0CC40083030,Gokuaku Doumei Dump Matsumoto,VER=Japanese,ID=G-1302,COMMENT=Japanese version of Pro Wrestling. This dump is slighty incorrect.,BAD
-07A18B1093D71B38,Golden Axe,BAD,COMMENT=This dump contains two bad bytes. It will work but you might want to look for the good dump.
 75BA56063B17C95A,Great Volleyball,ID=G-1317,VER=Export,BAD
-A222B16F114CDAE5,James Bond 007: The Duel,VER=Brazilian,BAD,COMMENT=This dump contains one bad byte. It will work but you might want to look for the good dump.
 6E32F08336B0FA0D,Masters of Combat,BAD
 8363C47AA02D1DF2,Micro Machines,Mapper=3,BAD,TVTYPE=PAL/SECAM
 5EF11842A570D86A,Monopoly [A],COMMENT=The second half of this ROM is useless and can be safely removed.
-B32F41555F15C84C,Out Run,ID=G-1326,BAD,COMMENT=This dump contains one bad byte. It will work but you might want to look for the good dump.
 E11345F078025D00,Penguin Land,JAPNAME=Doki Doki Penguin Land,VER=Export,ID=G-1334,BAD
 910728C9B9AC1CF6,Pro Wrestling,BAD
 312F9C13C82FBE3C,Shadow Dancer,BAD
@@ -1391,10 +1401,6 @@ A9EF65B1A5C8F7EE,Safari Race [A],ID=G-1032,VER=A
 242CE123F9157D21,Basic Level III,VER=Export 1.0,ID=B-40,MAPPER=1
 242CE122F9157C23,Basic Level III,VER=Export 1.0,ID=B-40,MAPPER=1
 0261FB18D318752A,Basic Level III Ver 1.1,VER=Japanese 1.1,ID=B-41,MAPPER=1
-F2544D2C76A5988E,Kagaku (Genso Kigou Master),VER=Japanese,ID=E-107,COMMENT=Educational Software: Chemical Symbols
-86502CA2E84C8E9A,Chuugaku Hisshuu Eitango (Chuugaku 2-Nen),VER=Japanese,ID=E-110,COMMENT=Educational Software: Junior High School English Vocabulary (2nd Year)
-F4F5FC7EF064F356,Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen),VER=Japanese,ID=E-111,COMMENT=Educational Software: Junior High School English Compositions (2nd Year)
-933EBD35FDA0326E,Tanoshii Sansuu (Shougaku 5-Nen Ge),VER=Japanese,ID=E-114,COMMENT=Educational Software: Elementary School Mathematics (5th Year\, Vol. 2)
 
 ---- SF-7000 ----
 8AFD7D1C2386B087,Crocky,BAD,VER=French,COMMENT=Floppy disk file allocation table is missing entrys for the game program.

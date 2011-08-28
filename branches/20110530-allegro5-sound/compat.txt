@@ -724,28 +724,35 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SC-3000 cartridge software were originally released in Japan.
 -----------------------------------------------------------------------------
- Basic Level II (JP)                            B-30    Ok (can't write to tape)
- Basic Level III 1.0                            B-40    Ok (can't write to tape)
- Basic Level III 1.1 (JP)                       B-41   *Ok (can't write to tape)
- Home Basic                                     B-50    Ok (can't write to tape)
+ Basic Level II (JP)                                    B-30    Ok (can't write to tape)
+ Basic Level III 1.0                                    B-40    Ok (can't write to tape)
+ Basic Level III 1.1 (JP)                               B-41   *Ok (can't write to tape)
+ Home Basic                                             B-50    Ok (can't write to tape)
 -----------------------------------------------------------------------------
- Music                                          E-101   Ok (can't write to tape)
- Music (JP)                                     E-101   Ok (can't write to tape)
- Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)      E-103  *Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)..  E-104   Ok
- Tanoshii Sansuu (Shougaku 4-Nen Jou)           E-106   Ok
- Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map] E-106  *Ok
- Kagaku (Genso Kigou Master)                    E-107  *Ok
- Nihonshi Nenpyou                               E-108  *Ok
- Sekaishi Nenpyou                               E-109   Ok
- Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)      E-110  *Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)    E-111  *Ok
- Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)     E-112  *Ok
- Tanoshii Sansuu (Shougaku 4-Nen Ge)            E-113   Ok
- Tanoshii Sansuu (Shougaku 5-Nen Ge)            E-114   Ok
- Uranai Angel Cutie                             E-119   Ok
+ Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)             E-105  *Ok
+ Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)             E-112  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)            E-104  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen) [40k map]  E-104   Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)            E-111  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen) [40k map]  E-111  *Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)              E-103  *Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)              E-110  *Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 2-Nen) [40k map]    E-110  *Ok
+ Kagaku (Gensokigou Master)                             E-107  *Ok
+ Music                                                  E-101   Ok (can't write to tape)
+ Music (JP)                                             E-101   Ok (can't write to tape)
+ Nihonshi Nenpyou                                       E-108  *Ok
+ Sekaishi Nenpyou                                       E-109   Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Ge)                    E-113   Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Jou)                   E-106   Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map]         E-106  *Ok
+ Tanoshii Sansuu (Shougaku 5-Nen Ge)                    E-114   Ok
+ Tanoshii Sansuu (Shougaku 5-Nen Jou)                   E-116  *Ok
+ Tanoshii Sansuu (Shougaku 6-Nen Ge)                    E-115  *Ok
+ Tanoshii Sansuu (Shougaku 6-Nen Jou)                   E-117  *Ok
+ Uranai Angel Cutie                                     E-119   Ok
 -----------------------------------------------------------------------------
-  18 roms tested - 18 are "Ok" - Compatibility rate: 100.00%
+  26 roms tested - 26 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
