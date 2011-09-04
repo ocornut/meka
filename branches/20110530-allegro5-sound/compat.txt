@@ -170,10 +170,11 @@
  Flintstones, The                               -       Ok
  Forgotten Worlds                               -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
- Gaegujangi Ggachi (KR)                         -       Ok
+ Gaegujangi Kkachi (KR)                         -       Ok
  Gain Ground                                    -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
+ Galaxian (KR)                                  -       Ok
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
@@ -197,7 +198,7 @@
  Golden Axe Warrior                             -       Ok
  Golfamania                                     FM      Ok
  Golfamania [Proto]                             FM      Ok
- Golfamania (Super Golf) [Proto]                FM     *Ok
+ Golfamania (Super Golf) [Proto]                FM      Ok
  Golvellius - Valley of Doom                    FM      Ok
  GP Rider                                       -       Ok
  Great Baseball                                 -       Ok
@@ -249,7 +250,7 @@
  King's Quest - Quest for the Crown             -       Ok
  King's Quest - Quest for the Crown [Proto]     -       Ok
  KLAX                                           -       Ok
- Knightmare II: The Maze of Galious (KR)        -      *Ok
+ Knightmare II: The Maze of Galious (KR)        -       Ok
  Kujakuou (JP)                                  FM      Ok
  Kung Fu Kid                                    -       Ok
  Krusty's Fun House                             -       Ok
@@ -430,9 +431,12 @@
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   -       Ok
  Summer Games [Proto]                           FM      Ok
- Suho Jeonsa (KR)                                -       Ok
+ Suho Jeonsa (KR)                               -       Ok
  Super Basketball [Demo]                        -       Ok
+ Super Bioman I (KR)                            -       Ok
+ Super Boy I (KR)                               -       Ok
  Super Boy II (KR)                              -       Ok
+ Super Boy 3 (KR)                               -       Ok
  Super Boy 4 (KR)                               -       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
@@ -497,6 +501,7 @@
  Wonder Boy in Monster World [Proto]            -       Ok
  Wonsiin (KR)                                   -       Ok
  Woody Pop - Shinjinrui no Block Kuzushi (JP)   PAD     Ok
+ Woody Pop (Super Arkanoid) (KR)                -       Ok
  World Class Leader Board                       -       Ok
  World Cup Italia '90                           -       Ok
  World Cup Italia '90 [Demo]                    -       Ok
@@ -521,7 +526,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 504 games tested - 502 are "Ok" - Compatibility rate: 99.54%
+ 509 games tested - 507 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -551,8 +556,8 @@
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
  Bomb Jack                                      Ok
- Bomb Jack [english logo] (KR)                 *Ok
- Bomb Jack [korean logo] (KR)                  *Ok
+ Bomb Jack [english logo] (KR)                  Ok
+ Bomb Jack [korean logo] (KR)                   Ok
  Borderline                                     Ok
  C_So!                                          Ok (can't write to tape)
  Castle, The                                    Ok
@@ -616,7 +621,7 @@
  Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
  Lode Runner                                    Ok
- Lode Runner (KR)                              *Ok
+ Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
  Mahjong [big 1983]                             Ok
  Mahjong [small 1983]                           Ok
@@ -729,27 +734,27 @@
  Basic Level III 1.1 (JP)                               B-41   *Ok (can't write to tape)
  Home Basic                                             B-50    Ok (can't write to tape)
 -----------------------------------------------------------------------------
- Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)             E-105  *Ok
- Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)             E-112  *Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)            E-104  *Ok
+ Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)             E-105   Ok
+ Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)             E-112   Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)            E-104   Ok
  Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen) [40k map]  E-104   Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)            E-111  *Ok
- Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen) [40k map]  E-111  *Ok
- Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)              E-103  *Ok
- Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)              E-110  *Ok
- Chuugaku Hisshuu Eitango (Chuugaku 2-Nen) [40k map]    E-110  *Ok
- Kagaku (Gensokigou Master)                             E-107  *Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen)            E-111   Ok
+ Chuugaku Hisshuu Eisakubun (Chuugaku 2-Nen) [40k map]  E-111   Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 1-Nen)              E-103   Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 2-Nen)              E-110   Ok
+ Chuugaku Hisshuu Eitango (Chuugaku 2-Nen) [40k map]    E-110   Ok
+ Kagaku (Gensokigou Master)                             E-107   Ok
  Music                                                  E-101   Ok (can't write to tape)
  Music (JP)                                             E-101   Ok (can't write to tape)
- Nihonshi Nenpyou                                       E-108  *Ok
+ Nihonshi Nenpyou                                       E-108   Ok
  Sekaishi Nenpyou                                       E-109   Ok
  Tanoshii Sansuu (Shougaku 4-Nen Ge)                    E-113   Ok
  Tanoshii Sansuu (Shougaku 4-Nen Jou)                   E-106   Ok
- Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map]         E-106  *Ok
+ Tanoshii Sansuu (Shougaku 4-Nen Jou) [40k map]         E-106   Ok
  Tanoshii Sansuu (Shougaku 5-Nen Ge)                    E-114   Ok
- Tanoshii Sansuu (Shougaku 5-Nen Jou)                   E-116  *Ok
- Tanoshii Sansuu (Shougaku 6-Nen Ge)                    E-115  *Ok
- Tanoshii Sansuu (Shougaku 6-Nen Jou)                   E-117  *Ok
+ Tanoshii Sansuu (Shougaku 5-Nen Jou)                   E-116   Ok
+ Tanoshii Sansuu (Shougaku 6-Nen Ge)                    E-115   Ok
+ Tanoshii Sansuu (Shougaku 6-Nen Jou)                   E-117   Ok
  Uranai Angel Cutie                                     E-119   Ok
 -----------------------------------------------------------------------------
   26 roms tested - 26 are "Ok" - Compatibility rate: 100.00%
