@@ -300,6 +300,7 @@
  Mortal Kombat 3 (BR)                           -       Ok
  Ms. Pac-Man                                    -       Ok
  My Hero                                        -       Ok
+ NBA JAM [Proto]                                -      *Ok
  Nekkyuu Koushien (JP)                          FM      Ok
  Nemesis (KR)                                   -      *Ok
  NewZealand Story, The                          -       Ok
@@ -519,7 +520,7 @@
  Y's: The Vanished Omens                        -       Ok
  Y's: The Vanished Omens [Demo]                 FM     *Ok
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
- Zaxxon 3-D / Zaxxon 3D [Proto]                 (3D)		Ok
+ Zaxxon 3-D / Zaxxon 3D [Proto]                 (3D)    Ok
  Zillion [v0] / Akai Koudan Zillion             -       Ok
  Zillion [v1]                                   -       Ok
  Zillion [v2]                                   -       Ok
@@ -556,16 +557,21 @@
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
  Bomb Jack                                      Ok
+ Bomb Jack [chinese logo] (TW)                  Ok
+ Bomb Jack [english logo] (TW)                  Ok
  Bomb Jack [english logo] (KR)                  Ok
  Bomb Jack [korean logo] (KR)                   Ok
  Borderline                                     Ok
  C_So!                                          Ok (can't write to tape)
+ C_So! (TW)                                     Ok (can't write to tape)
  Castle, The                                    Ok
  Chack'n Pop                                    Ok
+ Chack'n Pop (TW)                               Ok
  Champion Baseball                              Ok
  Champion Baseball (TW)                         Ok
  Champion Baseball [40k map]                    Ok
  Champion Billiards                             Ok
+ Champion Billiards (TW)                        Ok
  Champion Boxing [card]                         Ok
  Champion Boxing [cart]                         Ok
  Champion Boxing [cart] (TW)                    Ok
@@ -574,16 +580,20 @@
  Champion Golf [cart] (KR)                      Ok
  Champion Ice Hockey                            Ok
  Champion Ice Hockey (KR)                       Ok
+ Champion Ice Hockey (TW)                       Ok
  Champion Kendou                                Ok
+ Champion Kendou (TW)                           Ok
  Champion Pro Wrestling                         Ok
  Champion Soccer                                Ok
  Champion Soccer (TW)                           Ok
  Champion Tennis                                Ok
  Championship Lode Runner                       Ok (can't write to tape)
+ Championship Lode Runner (TW)                  Ok (can't write to tape)
  Choplifter                                     Ok
  Choplifter [Proto]                             Ok
  Choplifter [chinese logo] (TW)                 Ok
  Choplifter [english logo] (TW)                 Ok
+ Choplifter [no logo] (TW)                      Ok
  Congo Bongo [v0] (JP)                          Ok
  Congo Bongo [v1]                               Ok
  Congo Bongo [v1] (TW)                          Ok
@@ -612,7 +622,10 @@
  GP World [v1]                                  Ok
  Gulkave                                        Ok
  Hang On II                                     Ok
+ Hang On II [chinese logo] (TW)                 Ok
+ Hang On II [english logo] (TW)                 Ok
  H.E.R.O.                                       Ok
+ H.E.R.O. (TW)                                  Ok
  Home Mahjong [v0]                              Ok
  Home Mahjong [v1]                              Ok
  Home Mahjong [v1] (TW)                         Ok
@@ -620,6 +633,7 @@
  Hyper Sports (Konami no)                       Ok
  Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
+ Hyper Sports 2 (TW)                           *Ok
  Lode Runner                                    Ok
  Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
@@ -635,6 +649,7 @@
  N-Sub [40k map]                                Ok
  N-Sub (TW)                                     Ok
  Ninja Princess                                 Ok
+ Ninja Princess (TW)                            Ok
  Orguss                                         Ok
  Othello                                        Ok
  Othello (TW)                                   Ok
@@ -670,6 +685,7 @@
  Sindbad Mystery                                Ok
  Sindbad Mystery (TW)                           Ok
  Soukoban                                       Ok
+ Soukoban (TW)                                  Ok
  Space Invaders                                 Ok
  Space Invaders (TW)                            Ok
  Space Slalom                                   Ok
@@ -681,9 +697,11 @@
  Star Jacker [v1] (TW)                          Ok
  Star Jacker [v2]                               Ok
  Super Tank                                     Ok
+ Super Tank (TW)                                Ok
  Terebi Oekaki Graphic Software                 Ok (uses Sega Graphic Board)
  Wonder Boy [v0]                                Ok
  Wonder Boy [v1]                                Ok
+ Wonder Boy [v1] (TW)                           Ok
  Yamato                                         Ok
  Yamato [40k map]                               Ok
  Yamato (TW)                                    Ok
@@ -695,7 +713,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 141 games tested - 141 are "Ok" - Compatibility rate: 100.00%
+ 158 games tested - 158 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -704,8 +722,9 @@
  007 James Bond [v2.6] [40k map]                Ok
  007 James Bond [v2.7]                          Ok
  007 James Bond [v2.7] (TW)                     Ok
- Challenge Derby                                Ok
- Challenge Derby [40k map]                      Ok
+ Challenge Derby [A]                            Ok
+ Challenge Derby [A] [40k map]                 *Ok
+ Challenge Derby [B] [40k map]                  Ok
  Guzzler                                        Ok
  Guzzler (TW)                                   Ok
  Okamoto Ayako no Match Play Golf [A]           Ok
@@ -720,7 +739,7 @@
  Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  18 games tested - 17 are "Ok" - Compatibility rate: 94.44%
+  19 games tested - 18 are "Ok" - Compatibility rate: 94.44%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -873,7 +892,7 @@
  Doraemon Waku Waku Pocket Paradise (JP)            Ok
  Double Dragon / Double Dragon - The Revenge of B.. Ok
  Double Dragon [Proto]                              Ok
- Dr. Franken [Demo]																	Ok
+ Dr. Franken [Demo]                                 Ok
  Dr. Robotnik's Mean Bean Machine                   Ok
  Dracula (Bram Stoker's)                            Ok
  Dracula (Bram Stoker's) (US)                       Ok
@@ -1043,7 +1062,7 @@
  Neko Dai Suki! (JP)                                Ok
  NFL '95                                            Ok
  NFL Quarterback Club                               Ok
- NFL Quarterback Club '96                           Ok
+ NFL Quarterback Club 96                            Ok
  NHL All Star Hockey                                Ok
  NHL Hockey                                         Ok
  Ninja Gaiden                                       Ok
@@ -1258,8 +1277,8 @@
  Yuu Yuu Hakusho (JP)                               Ok
  Yuu Yuu Hakusho II (JP)                            Ok
  Zan Gear (JP)                                      Ok
- Zool: Ninja of the Nth Dimension									 *Ok
- Zool: Ninja of the Nth Dimension (US)						 *Ok
+ Zool: Ninja of the Nth Dimension                  *Ok
+ Zool: Ninja of the Nth Dimension (US)             *Ok
  Zool - Zool no Yume Bouken (JP)                    Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
