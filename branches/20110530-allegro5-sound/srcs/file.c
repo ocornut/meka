@@ -96,7 +96,7 @@ void    Filenames_Init(void)
 
     // Find emulator directory --------------------------------------------------
     strcpy (g_env.Paths.EmulatorDirectory, g_env.argv[0]);
-    #ifndef ARCH_UNIX
+    #ifdef ARCH_WIN32
         StrReplace (g_env.Paths.EmulatorDirectory, '\\', '/');
     #endif
     char* p = strrchr (g_env.Paths.EmulatorDirectory, '/');
@@ -105,17 +105,16 @@ void    Filenames_Init(void)
     else
         strcpy (g_env.Paths.EmulatorDirectory, g_env.Paths.StartingDirectory);
 
-    // ConsolePrintf ("g_env.Paths.StartingDirectory = %s\n", g_env.Paths.StartingDirectory);
-    // ConsolePrintf ("g_env.Paths.EmulatorDirectory = %s\n", g_env.Paths.EmulatorDirectory);
-    // ConsolePrintf ("argv[0] = %s\n", g_env.argv[0]);
+    ConsolePrintf ("g_env.Paths.StartingDirectory = %s\n", g_env.Paths.StartingDirectory);
+    ConsolePrintf ("g_env.Paths.EmulatorDirectory = %s\n", g_env.Paths.EmulatorDirectory);
+    ConsolePrintf ("argv[0] = %s\n", g_env.argv[0]);
 
-#ifdef ARCH_UNIX
-    {   // ????
-        int len;
+#if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
+    {
         char temp[FILENAME_LEN];
         strcpy (temp, g_env.Paths.EmulatorDirectory);
         realpath (temp, g_env.Paths.EmulatorDirectory);
-        len = strlen (g_env.Paths.EmulatorDirectory);
+        const int len = strlen (g_env.Paths.EmulatorDirectory);
         g_env.Paths.EmulatorDirectory [len] = '/';
         g_env.Paths.EmulatorDirectory [len + 1] = EOSTR;
     }

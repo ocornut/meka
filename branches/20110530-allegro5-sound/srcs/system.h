@@ -137,13 +137,9 @@ typedef   signed int        s32;
   #define snprintf      _snprintf
 #else
 #endif
-#ifdef ARCH_UNIX
+#if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
   #define stricmp strcasecmp
   #define strnicmp strncasecmp
-#endif
-#ifdef ARCH_MACOSX
-#define stricmp strcasecmp
-#define strnicmp strncasecmp
 #endif
 
 // countof(): provide number of elements in an array

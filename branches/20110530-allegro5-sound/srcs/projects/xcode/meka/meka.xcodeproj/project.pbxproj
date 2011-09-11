@@ -45,7 +45,6 @@
 		07D7B3DC141D59EC00B5EB2A /* bmemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bmemory.h; sourceTree = "<group>"; };
 		07D7B3DD141D59EC00B5EB2A /* build.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = build.c; sourceTree = "<group>"; };
 		07D7B3DE141D59EC00B5EB2A /* build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = build.h; sourceTree = "<group>"; };
-		07D7B3DF141D59EC00B5EB2A /* buildupd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = buildupd.c; sourceTree = "<group>"; };
 		07D7B3E0141D59EC00B5EB2A /* capture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = capture.c; sourceTree = "<group>"; };
 		07D7B3E1141D59EC00B5EB2A /* capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = capture.h; sourceTree = "<group>"; };
 		07D7B3E2141D59EC00B5EB2A /* checksum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = checksum.c; sourceTree = "<group>"; };
@@ -225,8 +224,6 @@
 		07D7B4A6141D59EC00B5EB2A /* fmunit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmunit.h; sourceTree = "<group>"; };
 		07D7B4A7141D59EC00B5EB2A /* psg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = psg.c; sourceTree = "<group>"; };
 		07D7B4A8141D59EC00B5EB2A /* psg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = psg.h; sourceTree = "<group>"; };
-		07D7B4A9141D59EC00B5EB2A /* psg_old.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = psg_old.c; sourceTree = "<group>"; };
-		07D7B4AA141D59EC00B5EB2A /* psg_old.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = psg_old.h; sourceTree = "<group>"; };
 		07D7B4AB141D59EC00B5EB2A /* s_misc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s_misc.c; sourceTree = "<group>"; };
 		07D7B4AC141D59EC00B5EB2A /* s_misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = s_misc.h; sourceTree = "<group>"; };
 		07D7B4AD141D59EC00B5EB2A /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
@@ -337,7 +334,6 @@
 				07D7B3DC141D59EC00B5EB2A /* bmemory.h */,
 				07D7B3DD141D59EC00B5EB2A /* build.c */,
 				07D7B3DE141D59EC00B5EB2A /* build.h */,
-				07D7B3DF141D59EC00B5EB2A /* buildupd.c */,
 				07D7B3E0141D59EC00B5EB2A /* capture.c */,
 				07D7B3E1141D59EC00B5EB2A /* capture.h */,
 				07D7B3E2141D59EC00B5EB2A /* checksum.c */,
@@ -699,8 +695,6 @@
 				07D7B4A6141D59EC00B5EB2A /* fmunit.h */,
 				07D7B4A7141D59EC00B5EB2A /* psg.c */,
 				07D7B4A8141D59EC00B5EB2A /* psg.h */,
-				07D7B4A9141D59EC00B5EB2A /* psg_old.c */,
-				07D7B4AA141D59EC00B5EB2A /* psg_old.h */,
 				07D7B4AB141D59EC00B5EB2A /* s_misc.c */,
 				07D7B4AC141D59EC00B5EB2A /* s_misc.h */,
 				07D7B4AD141D59EC00B5EB2A /* sound.c */,
@@ -894,6 +888,7 @@
 				07D7B3B7141D591600B5EB2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

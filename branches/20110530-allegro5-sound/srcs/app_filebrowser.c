@@ -920,6 +920,7 @@ void	FB_OpenDirectory(const char* name)
 	}
 
 	getcwd(FB.current_directory, FILENAME_LEN);
+	//printf("curdir %s¥n", FB.current_directory);
 	FB_Free_Memory();
 	FB_Load_Directory_Internal();
 

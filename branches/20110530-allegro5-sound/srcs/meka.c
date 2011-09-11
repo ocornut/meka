@@ -344,12 +344,7 @@ int main(int argc, char **argv)
     g_env.argv = (char**)malloc (sizeof(char *) * (g_env.argc + 1));
 	int i;
     for (i = 0; i != g_env.argc; i++)
-    {
         g_env.argv[i] = strdup(argv[i]);
-        //#ifndef ARCH_UNIX
-        //  StrUpper(g_env.argv[i]);
-        //#endif
-    }
     g_env.argv[i] = NULL;
 
     // FIXME: add 'init system' here
