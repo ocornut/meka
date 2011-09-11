@@ -76,7 +76,7 @@ OD      = obj
 #--- Compilation
 CC      = g++
 CC_OUT  = -o
-LINKER  = gcc
+LINKER  = g++
 ASM     = nasm
 OTYPE   = elf
 #--- Tools
@@ -102,7 +102,7 @@ OD      = obj
 #--- Compilation
 CC      = g++
 CC_OUT  = -o
-LINKER  = gcc
+LINKER  = g++
 ASM     = nasm
 OTYPE   = macho
 #--- Tools
@@ -110,7 +110,7 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DARCH_MACOSX -DUNIX -DX86_ASM
+DEF_OS  = -DARCH_MACOSX -DUNIX
 INC_OS  = -Ilibs -I../include
 X86_ASM = no
 #--- Libraries
@@ -191,7 +191,7 @@ LIB_ALLEG = `allegro-config --libs`
 endif
 
 ifeq ($(SYSTEM), macosx)
-LIB_ALLEG = `allegro-config --libs`
+LIB_ALLEG = -lallegro -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_main -lallegro_image
 endif
 
 ifeq ($(SYSTEM), win32)
@@ -210,13 +210,13 @@ endif
 # Objects to create and link
 #-----------------------------------------------------
 
-OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/desktop.o $(OD)/skin.o $(OD)/skin_bg.o
+OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/desktop.o $(OD)/skin.o $(OD)/skin_bg.o $(OD)/skin_fx.o
 OBJ_GAPPS = $(OD)/app_filebrowser.o $(OD)/app_game.o $(OD)/app_options.o $(OD)/textbox.o $(OD)/app_mapview.o $(OD)/app_tileview.o $(OD)/app_textview.o $(OD)/app_techinfo.o $(OD)/app_memview.o $(OD)/app_palview.o $(OD)/app_about.o
 OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $(OD)/bios.o $(OD)/country.o $(OD)/bmemory.o $(OD)/mappers.o $(OD)/eeprom.o $(OD)/beam.o $(OD)/tvtype.o
-OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o
+OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o $(OD)/sk1100.o
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o
-OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
+OBJ_MISC  = $(OD)/allegro4to5.o	 $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
