@@ -299,7 +299,7 @@ static int      DB_Load_Entry (char *line)
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
-            strlwr (w);
+            StrLower(w);
             if (!strcmp(w, "joypad"))
                 entry->emu_inputs = INPUT_JOYPAD;
             else if (!strcmp(w, "lightphaser"))
@@ -336,7 +336,7 @@ static int      DB_Load_Entry (char *line)
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
-            strlwr (w);
+            StrLower(w);
             if (!strcmp(w, "pal"))
                 entry->emu_tvtype = TVTYPE_PAL_SECAM;
             else if (!strcmp(w, "ntsc"))
@@ -549,7 +549,7 @@ static int      DB_Load_EntryOldFormat (char *line)
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
-            strlwr (w);
+            StrLower(w);
             if (!strcmp(w, "pal") || !strcmp(w, "secam") || !strcmp(w, "pal/secam"))
                 entry->emu_tvtype = TVTYPE_PAL_SECAM;
             else if (!strcmp(w, "ntsc"))
@@ -568,7 +568,7 @@ static int      DB_Load_EntryOldFormat (char *line)
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
-            strlwr (w);
+            StrLower(w);
             if (!strcmp(w, "joypad"))
                 entry->emu_inputs = INPUT_JOYPAD;
             else if (!strcmp(w, "lightphaser"))

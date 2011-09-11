@@ -669,11 +669,6 @@ static void Skins_UpdateNativeColorTable(void)
     }
 }
 
-static void Skins_SetupBackground(t_skin *skin)
-{
-    // FIXME
-}
-
 static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
 {
     // Switch smoothly to new theme

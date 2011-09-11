@@ -49,7 +49,7 @@ struct t_debugger_breakpoint
 struct t_debugger_bus_info
 {
     int                 location;
-    char *              name;
+    const char *        name;
     int                 bus_addr_size;  // in bytes
     int                 addr_min;
     int                 addr_max;
@@ -129,7 +129,7 @@ struct t_debugger
 	int			history_current_index;			// 0: new/current edit line, 1+: history lines items
     t_list *	variables_cpu_registers;
     FILE *		log_file;
-    char *		log_filename;
+    const char *log_filename;
     int			watch_counter;                  // For current frame
     long long   cycle_counter;					// Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80(). 
 };

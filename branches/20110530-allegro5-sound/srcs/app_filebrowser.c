@@ -41,7 +41,6 @@ static void		FB_Layout               (t_filebrowser *app, bool setup);
 
 //...
 
-static int		FB_Return_File_Area_X   (void);
 static int		FB_Return_File_Area_Y   (void);
 static int		FB_Return_Res_Y         (void);
 
@@ -105,11 +104,6 @@ void                FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 }
 
 //-----------------------------------------------------------------------------
-
-int     FB_Return_File_Area_X (void)
-{
-    return (FB.res_x - (2 * FB_PAD_X));
-}
 
 int     FB_Return_File_Area_Y (void)
 {
@@ -311,7 +305,7 @@ void        FB_Sort_Files (int start, int end)
 	}
 }
 
-int                 FB_Ext_In_List (t_list *ext_list, char *ext)
+int                 FB_Ext_In_List (const t_list *ext_list, const char *ext)
 {
     while (ext_list)
     {
@@ -324,7 +318,7 @@ int                 FB_Ext_In_List (t_list *ext_list, char *ext)
 
 void                FB_Add_Entries (t_list *ext_list, int type)
 {
-#ifdef ARCH_UNIX
+#if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
     DIR *           dir;
     struct dirent * dirent;
     struct stat	    dirent_stat;
@@ -351,7 +345,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         }
         else if (type == FB_ENTRY_TYPE_FILE && (dirent_stat.st_mode & S_IFMT) == S_IFREG)
         {
-            char *ext = strrchr (name, '.');
+            const char *ext = strrchr (name, '.');
             if (ext == NULL) 
                 ext = "";
             if (!FB_Ext_In_List (ext_list, ext + 1))
@@ -370,26 +364,22 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         // Add to list (FIXME: argh)
 	    FB.files[FB.files_max] = entry;
         FB.files_max ++;
-        FB.files = realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
+        FB.files = (t_filebrowser_entry**)realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
     }
 
     closedir (dir);
 
 #else // ARCH_WIN32
 
-#ifdef ARCH_WIN32
     struct _finddata_t info;
     long   handle;
 	if ((handle = _findfirst ("*.*", &info)) < 0)
         return;
-#endif
 
     do
     {
-        #ifdef ARCH_WIN32
-            int     attrib  = info.attrib;
-            char *  name    = info.name;
-        #endif
+        int     attrib  = info.attrib;
+        char *  name    = info.name;
 
         if (attrib & FA_LABEL /* 8 */)
             continue;
@@ -402,7 +392,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
         }
         else if (type == FB_ENTRY_TYPE_FILE && (attrib & FA_DIREC) == 0)
         {
-            char *ext = strrchr (name, '.');
+            const char *ext = strrchr (name, '.');
             if (ext == NULL)
                 ext = "";
             if (!FB_Ext_In_List (ext_list, ext + 1))
@@ -425,9 +415,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
     }
     while (_findnext (handle, &info) == 0);
 
-#ifdef ARCH_WIN32
     _findclose (handle);
-#endif
 
 #endif
 }
@@ -452,17 +440,17 @@ static void     FB_Load_Directory_Internal(void)
     // Then add files
     // FIXME: get the list from Drivers.[ch]
     t_list* ext_list = NULL;
-    list_add (&ext_list, "SMS");
-    list_add (&ext_list, "GG");
-    list_add (&ext_list, "SG");
-    list_add (&ext_list, "SC");
-    list_add (&ext_list, "SF7");
-    list_add (&ext_list, "OMV");
-    list_add (&ext_list, "COL");
-    list_add (&ext_list, "BIN");
-    list_add (&ext_list, "ROM");
+    list_add (&ext_list, (void*)"SMS");
+    list_add (&ext_list, (void*)"GG");
+    list_add (&ext_list, (void*)"SG");
+    list_add (&ext_list, (void*)"SC");
+    list_add (&ext_list, (void*)"SF7");
+    list_add (&ext_list, (void*)"OMV");
+    list_add (&ext_list, (void*)"COL");
+    list_add (&ext_list, (void*)"BIN");
+    list_add (&ext_list, (void*)"ROM");
     #ifdef MEKA_ZIP
-        list_add (&ext_list, "ZIP");
+        list_add (&ext_list, (void*)"ZIP");
     #endif
     FB_Add_Entries(ext_list, FB_ENTRY_TYPE_FILE);
 

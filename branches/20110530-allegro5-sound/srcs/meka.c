@@ -426,6 +426,7 @@ int main(int argc, char **argv)
     VLFN_Close              (); // Write Virtual Long Filename List
     Close_Emulator          (); // Close Emulator
     Show_End_Message        (); // Show End Message
+	Close_Allegro			();
 
     return (0);
 }

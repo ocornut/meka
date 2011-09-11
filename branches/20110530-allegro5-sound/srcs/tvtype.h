@@ -29,7 +29,7 @@ void    TVType_Set_PAL_SECAM    (void);
 struct t_tv_type
 {
     int     id;
-    char *  name;
+    const char *  name;
     int     screen_lines;      
     int     screen_frequency;  // in Hz
     int     CPU_clock;

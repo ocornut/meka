@@ -218,54 +218,16 @@ static  int     Setup_Interactive_Win32 (void)
 // Let user choose his sound card driver
 static  int     Setup_Interactive_Console (void)
 {
-    int         i, n;
-    AUDIOCAPS   Audio_Caps;
-
     // Print setup message
     ConsolePrintf ("[%s]\n", Msg_Get (MSG_Setup_Setup));
 
     // Print soundcard selection message
-    ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
-    #ifdef ARCH_WIN32
-        ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
-    #endif
-
-    // Print soundcard listing
-    n = AGetAudioNumDevs();
-    if (n == 0)
-    {
-        Sound.SoundCard = SOUND_SOUNDCARD_NONE;
-        return (MEKA_ERR_OK);
-    }
-    for (i = 0; i < n; i++)
-    {
-        if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
-            ConsolePrintf ("  %2d. %s\n", i, Audio_Caps.szProductName);
-    }
-
-    // Let user select (using Allegro keyboard handler)
-    Sound.SoundCard = SOUND_SOUNDCARD_NONE;
-#ifndef ARCH_UNIX
-    while (!key[KEY_ESC])
-        for (i = 0; i < n; i ++)
-            if (key[KEY_0 + i])
-            {
-                Sound.SoundCard = i;
-                return (MEKA_ERR_OK);
-            }
-#else
-    while (1)
-    {
-        int k = getc(stdin);
-        if (k >= '0' && k <= '9' && (k - '0') < n)
-        {
-            Sound.SoundCard = (k - '0');
-            return (MEKA_ERR_OK);
-        }
-    }
-#endif
-
-    return (MEKA_ERR_CANCEL);
+//    ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
+//#ifdef ARCH_WIN32
+//	ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
+//#endif
+	
+	return MEKA_ERR_OK;
 }
 
 #endif

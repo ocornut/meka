@@ -22,7 +22,7 @@ typedef enum
 
 void        parse_trim_trailing_spaces  (char *s);
 void        parse_skip_spaces           (char **src);
-char *      parse_getword               (char *dst, int dst_len, char **src, char *separators, char comment_char, t_parse_flags flags = PARSE_FLAGS_NONE);
+char *      parse_getword               (char *dst, int dst_len, char **src, const char *separators, char comment_char, t_parse_flags flags = PARSE_FLAGS_NONE);
 
 char *      parse_escape_string         (const char *src, const char *escape_chars);
 char *      parse_unescape_string       (const char *src, const char *escape_chars);

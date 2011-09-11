@@ -11,10 +11,10 @@
 //-----------------------------------------------------------------------------
 
 FILE   *INP_File;
-INLINE  void INP_Write_Line     (char *s)                   { fprintf (INP_File, "%s\n", s); }
-INLINE  void INP_Write_Str      (char *name, char *s)       { fprintf (INP_File, "%s = %s\n", name, s); }
-INLINE  void INP_Write_Int      (char *name, int value)     { fprintf (INP_File, "%s = %d\n", name, value); }
-INLINE  void INP_Write_Float    (char *name, float value)   { fprintf (INP_File, "%s = %.2f\n", name, value); }
+INLINE  void INP_Write_Line     (const char *s)                   { fprintf (INP_File, "%s\n", s); }
+INLINE  void INP_Write_Str      (const char *name, const char *s) { fprintf (INP_File, "%s = %s\n", name, s); }
+INLINE  void INP_Write_Int      (const char *name, int value)     { fprintf (INP_File, "%s = %d\n", name, value); }
+INLINE  void INP_Write_Float    (const char *name, float value)   { fprintf (INP_File, "%s = %.2f\n", name, value); }
 
 //-----------------------------------------------------------------------------
 
@@ -250,7 +250,7 @@ void            Load_Inputs_Src_List (void)
             continue;
         }
 
-        strlwr(line);
+        StrLower(line);
         if (!parse_getword(w, sizeof(w), &line, "=", ';', PARSE_FLAGS_NONE))
             continue;
 
@@ -425,7 +425,7 @@ void    Write_Inputs_Src_List (void)
 					//else
 					{
 						const t_key_info *key_info = KeyInfo_FindByScancode(n);
-						char *key_name = key_info ? key_info->name : "error";
+						const char *key_name = key_info ? key_info->name : "error";
 						char *key_name_escaped = parse_escape_string(key_name, NULL);
 						sprintf(s2, "key %s", key_name_escaped ? key_name_escaped : key_name);
 					}

@@ -120,7 +120,7 @@ void    Filenames_Init(void)
         g_env.Paths.EmulatorDirectory [len + 1] = EOSTR;
     }
 #else
-    //strlwr (g_env.Paths.EmulatorDirectory);
+    //StrLower(g_env.Paths.EmulatorDirectory);
 #endif
 
     // Datafiles

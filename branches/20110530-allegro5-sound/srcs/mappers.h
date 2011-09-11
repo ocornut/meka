@@ -70,11 +70,11 @@ WRITE_FUNC (Write_Mapper_SMS_NoMapper);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB);
 //-----------------------------------------------------------------------------
 
-extern INLINE void Map_8k_RAM    (int page, int ram_page);
-extern INLINE void Map_8k_ROM    (int page, int rom_page);
-extern INLINE void Map_8k_Other  (int page, void *);
+extern void Map_8k_RAM    (int page, int ram_page);
+extern void Map_8k_ROM    (int page, int rom_page);
+extern void Map_8k_Other  (int page, void *);
 
-extern INLINE void Map_16k_ROM   (int page, int rom_page);
-extern INLINE void Map_16k_Other (int page, void *);
+extern void Map_16k_ROM   (int page, int rom_page);
+extern void Map_16k_Other (int page, void *);
 
 //-----------------------------------------------------------------------------

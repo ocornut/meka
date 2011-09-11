@@ -90,6 +90,20 @@ void	StrUpper(char *s)
 	}
 }
 
+void	StrLower(char *s)
+{
+	char c;
+	while ((c = *s) != 0)
+	{
+		if (c >= 'A' && c <= 'Z')
+		{
+			c = c - 'A' + 'a';
+			*s = c;
+		}
+		s++;
+	}
+}
+
 void    StrReplace (char *s, char c1, char c2)
 {
 	while (*s)

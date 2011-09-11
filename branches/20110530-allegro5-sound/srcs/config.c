@@ -46,11 +46,11 @@ static void  CFG_Write_StrEscape (const char *name, const char *str)
 //-----------------------------------------------------------------------------
 static void     Configuration_Load_Line (char *var, char *value)
 {
-	strlwr(var);
+	StrLower(var);
 
 	// All input is changed to lower case for easier compare (apart from 'last_directory')
 	if (strcmp(var, "last_directory"))
-		strlwr(value);
+		StrLower(value);
 
 	// Select
 	if (!strcmp(var, "frameskip_mode"))					{ fskipper.Mode = !strcmp(value, "unthrottled") ? FRAMESKIP_MODE_UNTHROTTLED : FRAMESKIP_MODE_THROTTLED; return; }
@@ -376,8 +376,7 @@ static void     Param_Check (int *current, const char *msg)
 // PARSE COMMAND LINE ---------------------------------------------------------
 void    Command_Line_Parse (void)
 {
-	int    i, j;
-	char  *Params[] =
+	const char  *Params[] =
 	{
 		"EURO", "US", "JAP", "JP", "JPN", "HELP", "?",
 		"SOUND", "NOELEPHANT", "DEBUG", "LOG", "LOAD",
@@ -386,7 +385,7 @@ void    Command_Line_Parse (void)
 		NULL
 	};
 
-	for (i = 1; i != g_env.argc; i++)
+	for (int i = 1; i != g_env.argc; i++)
 	{
 		const char *s = g_env.argv[i];
 		if (s[0] == '-'
@@ -395,6 +394,7 @@ void    Command_Line_Parse (void)
 #endif
 			)
 		{
+			int j;
 			for (j = 0; Params[j]; j++)
 				if (!stricmp (s + 1, Params[j]))
 					break;

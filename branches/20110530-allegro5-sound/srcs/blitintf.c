@@ -182,7 +182,7 @@ void	Blitters_Init (void)
             continue;
 
         strcpy (s1, s2);
-        strlwr (s1);
+        StrLower(s1);
 
         switch (Blitters_Parse_Line (s1, s2))
         {

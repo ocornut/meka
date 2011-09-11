@@ -405,11 +405,11 @@ void        Inputs_Sources_Update (void)
 				ALLEGRO_JOYSTICK_STATE state;
 				al_get_joystick_state(joystick, &state);
 
-				const int num_sticks = al_get_joystick_num_sticks(joystick);
-				const int num_buttons = al_get_joystick_num_buttons(joystick);
-
 #ifdef DEBUG_JOY
                 {
+					const int num_sticks = al_get_joystick_num_sticks(joystick);
+					const int num_buttons = al_get_joystick_num_buttons(joystick);
+					
                     Msg (MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
                     for (int i = 0; i < num_sticks; i++)
                     {

@@ -44,8 +44,6 @@ void        parse_skip_spaces(char **src)
 }
 
 //-----------------------------------------------------------------------------
-// parse_getword(char *dst, int dst_len, char **src, char *separators)
-//-----------------------------------------------------------------------------
 // Retrieve next word, as delimited by the given set of separators,
 // into given location, with maximum length, starting at given pointed string.
 // Increase pointed string source.
@@ -54,7 +52,7 @@ void        parse_skip_spaces(char **src)
 // Note: In case of repeated separators (eg: ",,,,", it doesn't return NULL 
 // but empty strings. NULL is returned at end of source pointed string.
 //-----------------------------------------------------------------------------
-char *      parse_getword(char *dst, int dst_len, char **src, char *separators, char comment_char, t_parse_flags flags)
+char *      parse_getword(char *dst, int dst_len, char **src, const char *separators, char comment_char, t_parse_flags flags)
 {
     char *  p;
     int     inhibit;

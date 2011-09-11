@@ -29,8 +29,7 @@
 #ifndef ARCH_WIN32
   #include <dirent.h>
 #endif
-#ifndef ARCH_UNIX
-  #ifndef ARCH_WIN32
+#ifdef ARCH_DOS
     #include <dir.h>
     #include <conio.h>
     #include <dos.h>
@@ -39,7 +38,6 @@
     #include <io.h>
     #include <sys/segments.h>
     #include <sys/nearptr.h>
-  #endif
 #endif
 #ifdef ARCH_WIN32
 	#define stricmp _stricmp
@@ -119,7 +117,7 @@ typedef   signed int        s32;
 // FIXME: this is for GCC only. Is there an equivalent for Visual C++ ?
 //-----------------------------------------------------------------------------
 
-#ifndef ARCH_WIN32
+#if !defined(ARCH_WIN32) && !defined(ARCH_MACOSX)
     #define FORMAT_PRINTF(START)  __attribute ((format (printf, START, (START)+1)))
 #else
     #define FORMAT_PRINTF(START)
@@ -142,6 +140,10 @@ typedef   signed int        s32;
 #ifdef ARCH_UNIX
   #define stricmp strcasecmp
   #define strnicmp strncasecmp
+#endif
+#ifdef ARCH_MACOSX
+#define stricmp strcasecmp
+#define strnicmp strncasecmp
 #endif
 
 // countof(): provide number of elements in an array

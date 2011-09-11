@@ -78,7 +78,8 @@ void    StrPath_RemoveDirectory(char *dst, const char *src)
 // Time Functions
 //-----------------------------------------------------------------------------
 
-static const int month_len_table[12] =
+// nb- not const because we overwrite the month of february
+static int month_len_table[12] =
 { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 // return february length depending weither the year is Leap or not

@@ -202,7 +202,7 @@ void            Patches_List_Init (void)
         char* line = (char*)lines->elem;
         line_cnt += 1;
 
-        strlwr (line);
+        StrLower(line);
 
         // Remove comments and space
 		char* p;

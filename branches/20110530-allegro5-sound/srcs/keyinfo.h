@@ -16,9 +16,9 @@
 
 struct t_key_info
 {
-    int     scancode;
-    char *  name;
-    int     flags;
+    int			scancode;
+    const char *name;
+    int			flags;
 };
 
 //-----------------------------------------------------------------------------

@@ -36,8 +36,8 @@
 #------------------------------------------------------
 # SYSTEM = dos
 # SYSTEM = win32
-SYSTEM = unix
-# SYSTEM = macosx
+# SYSTEM = unix
+SYSTEM = macosx
 #------------------------------------------------------
 BUILD = release
 # BUILD = debug
@@ -48,7 +48,7 @@ ifeq ($(SYSTEM), dos)
 #--- Executable name
 EXE     = ../meka.exe
 #--- Output directory
-OD      = obj
+OD		= obj
 #--- Compilation
 CC      = gcc -Werror
 CC_OUT  = -o
@@ -74,7 +74,7 @@ EXE     = ../meka
 #--- Output directory
 OD      = obj
 #--- Compilation
-CC      = gcc
+CC      = g++
 CC_OUT  = -o
 LINKER  = gcc
 ASM     = nasm
@@ -85,7 +85,7 @@ MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_UNIX -DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
-INC_OS  = -Ilibs -I../include		                               # This may require an update
+INC_OS  = -Ilibs -I../include
 X86_ASM = yes
 #--- Libraries
 LIB_OS  = -Llibs -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread -L../lib  # This may require an update
@@ -100,7 +100,7 @@ EXE     = ../meka
 #--- Output directory
 OD      = obj
 #--- Compilation
-CC      = gcc
+CC      = g++
 CC_OUT  = -o
 LINKER  = gcc
 ASM     = nasm
@@ -111,10 +111,10 @@ MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_MACOSX -DUNIX -DX86_ASM
-INC_OS  = -Ilibs -I../include `pkg-config libpng --cflags` # This may require an update
-X86_ASM = yes
+INC_OS  = -Ilibs -I../include
+X86_ASM = no
 #--- Libraries
-LIB_OS  = `pkg-config libpng --libs`
+LIB_OS  = 
 endif
 
 #---[ WINDOWS/MSVC ]-----------------------------------
@@ -148,16 +148,6 @@ LIB_PATHS       = -libpath:$(MSVCDIR)/lib/ -libpath:$(MSVCDIR)/PlatformSDK/lib/ 
 RESSOURCES = mekaw.res
 
 endif
-
-#-----------------------------------------------------
-# Settings
-#-----------------------------------------------------
-# Note: As for the Z80 CPU core, only Marat's core is maintained.
-#-----------------------------------------------------
-# CPU_CORE = raze
-CPU_CORE = marat
-# CPU_CORE = mame
-#-----------------------------------------------------
 
 #-----------------------------------------------------
 # Option : Sound emulation and output
@@ -220,12 +210,12 @@ endif
 # Objects to create and link
 #-----------------------------------------------------
 
-OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/specials.o $(OD)/desktop.o $(OD)/skin.o $(OD)/skin_bg.o
-OBJ_GAPPS = $(OD)/g_file.o $(OD)/app_game.o $(OD)/app_options.o $(OD)/textbox.o $(OD)/app_mapview.o $(OD)/app_tileview.o $(OD)/app_textview.o $(OD)/app_techinfo.o $(OD)/app_memview.o $(OD)/app_palview.o $(OD)/app_about.o
+OBJ_GUI   = $(OD)/gui.o $(OD)/g_action.o $(OD)/g_box.o $(OD)/g_menu.o $(OD)/g_menu_i.o $(OD)/g_menu_t.o $(OD)/g_mouse.o $(OD)/g_init.o $(OD)/g_tools.o $(OD)/g_widget.o $(OD)/g_update.o $(OD)/desktop.o $(OD)/skin.o $(OD)/skin_bg.o
+OBJ_GAPPS = $(OD)/app_filebrowser.o $(OD)/app_game.o $(OD)/app_options.o $(OD)/textbox.o $(OD)/app_mapview.o $(OD)/app_tileview.o $(OD)/app_textview.o $(OD)/app_techinfo.o $(OD)/app_memview.o $(OD)/app_palview.o $(OD)/app_about.o
 OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $(OD)/bios.o $(OD)/country.o $(OD)/bmemory.o $(OD)/mappers.o $(OD)/eeprom.o $(OD)/beam.o $(OD)/tvtype.o
-OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/keyboard.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o
-OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/games.o $(OD)/saves.o
-OBJ_CFG   = $(OD)/config.o $(OD)/config_v.o $(OD)/config_j.o
+OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/sportpad.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o
+OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/saves.o
+OBJ_CFG   = $(OD)/config.o
 OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
@@ -270,10 +260,10 @@ ifeq ($(SYSTEM), win32)
 CFLAGS += -W2 -Gd -Ox -GB -MT
 else
 
-# UNIX/MS-DOS
+# UNIX/MS-DOS/MAC
 # RELEASE build
 ifeq ($(BUILD), release)
-CFLAGS += -Wall -march=pentium -O6 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
+CFLAGS += -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
 endif
 # DEBUG build
 ifeq ($(BUILD), debug)
@@ -286,23 +276,7 @@ endif
 # Z80 CPU Cores
 #-----------------------------------------------------
 
-# Marat Faizullin's Z80 Core
-ifeq ($(CPU_CORE), marat)
-CFLAGS += -DMARAT_Z80
 OBJ_CPU += $(OD)/z80marat.a
-endif
-
-# Richard Mitton's RAZE Z80 Core (obsolete)
-ifeq ($(CPU_CORE), raze)
-CFLAGS += -DRAZE_Z80
-OBJ_CPU += z80raze/raze.o
-endif
-
-# MAME Z80 Core (obsolete)
-ifeq ($(CPU_CORE), mame)
-CFLAGS += -DMAME_Z80
-OBJ_CPU += z80mame/z80.o
-endif
 
 #-----------------------------------------------------
 # Complete Objects List

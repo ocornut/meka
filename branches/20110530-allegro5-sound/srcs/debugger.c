@@ -1970,7 +1970,7 @@ void        Debugger_Applet_Redraw_State(void)
         if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
         {
             static int running_counter = 0;
-            char *running_string;
+            const char *running_string;
             switch (running_counter >> 1)
             {
                 case 0: running_string = "RUNNING |";  break;
