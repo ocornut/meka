@@ -373,7 +373,6 @@ static void     Param_Check (int *current, const char *msg)
     (*current)++;
 }
 
-// PARSE COMMAND LINE ---------------------------------------------------------
 void    Command_Line_Parse (void)
 {
 	const char  *Params[] =
@@ -389,7 +388,7 @@ void    Command_Line_Parse (void)
 	{
 		const char *s = g_env.argv[i];
 		if (s[0] == '-'
-#ifndef ARCH_UNIX
+#if defined(ARCH_DOS) || defined(ARCH_WIN32)
 			|| s[0] == '/'
 #endif
 			)
@@ -407,7 +406,7 @@ void    Command_Line_Parse (void)
 				g_configuration.country_cl = COUNTRY_JAPAN;
 				break;
 			case 5: // HELP
-			case 6: Command_Line_Help ();
+			case 6: Command_Line_Help();
 				break;
 			case 7: // SOUND
 			case 8: // NOELEPHANT
@@ -438,8 +437,8 @@ void    Command_Line_Parse (void)
 				break;
 			default:
 				ConsolePrintf (Msg_Get (MSG_Error_Param), s);
-				ConsolePrint ("--\n");
-				Command_Line_Help ();
+				ConsolePrint ("\n--\n");
+				Command_Line_Help();
 				return;
 			}
 		}

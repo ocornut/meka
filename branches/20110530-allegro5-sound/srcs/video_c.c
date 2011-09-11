@@ -10,9 +10,25 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Decode_Tile_C (int tile_n, byte *start)
+void    Decode_Tile_C (int tile_n, u8* dst)
 {
-    ConsolePrint ("video_c.c::Decode_Tile_C() is empty,\ntiles will not be showing.\n");
+	const u8* src = &VRAM[tile_n << 5];
+	
+	// byte 0->3: bitplane x for line 0
+	int lines = 8;
+	while (lines-- != 0)
+	{
+		dst[0] = ((src[0]&0x80)>>7) | ((src[1]&0x80)>>6) | ((src[2]&0x80)>>5) | ((src[3]&0x80)>>4);
+		dst[1] = ((src[0]&0x40)>>6) | ((src[1]&0x40)>>5) | ((src[2]&0x40)>>4) | ((src[3]&0x40)>>3);
+		dst[2] = ((src[0]&0x20)>>5) | ((src[1]&0x20)>>4) | ((src[2]&0x20)>>3) | ((src[3]&0x20)>>2);
+		dst[3] = ((src[0]&0x10)>>4) | ((src[1]&0x10)>>3) | ((src[2]&0x10)>>2) | ((src[3]&0x10)>>1);
+		dst[4] = ((src[0]&0x08)>>3) | ((src[1]&0x08)>>2) | ((src[2]&0x08)>>1) | ((src[3]&0x08)   );
+		dst[5] = ((src[0]&0x04)>>2) | ((src[1]&0x04)>>1) | ((src[2]&0x04)   ) | ((src[3]&0x04)<<1);
+		dst[6] = ((src[0]&0x02)>>1) | ((src[1]&0x02)   ) | ((src[2]&0x02)<<1) | ((src[3]&0x02)<<2);
+		dst[7] = ((src[0]&0x01)   ) | ((src[1]&0x01)<<1) | ((src[2]&0x01)<<2) | ((src[3]&0x01)<<3);
+		src += 4;
+		dst += 8;
+	}
 }
 
 void    Find_Last_Sprite(int sprites_height, int VDP_Line)
