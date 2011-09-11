@@ -275,7 +275,7 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
 		if (pos == 0)
 		{
 			fprintf (f_dump,
-				"Sprite pattern base: $%04x\n"
+				"Sprite pattern base: $%04lx\n"
 				"Sprite shift X (early clock): %d pixels\n\n",
 				g_machine.VDP.sprite_pattern_gen_address - VRAM,
 				g_machine.VDP.sprite_shift_x);
@@ -293,7 +293,7 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
         if (pos == 0)
 		{
 			fprintf (f_dump,
-				"Sprite pattern base: $%04x\n\n",
+				"Sprite pattern base: $%04lx\n\n",
 				g_machine.VDP.sprite_pattern_gen_address - VRAM);
 			fprintf (f_dump,
 				"            Raw Data    |    X     Y     T    C/A\n"

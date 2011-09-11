@@ -169,7 +169,7 @@ endif
 #-----------------------------------------------------
 # Option : PNG Support
 #-----------------------------------------------------
-OBJ_PNG = $(OD)/libaddon/png/loadpng.o $(OD)/libaddon/png/savepng.o $(OD)/libaddon/png/regpng.o
+OBJ_PNG = 
 ifneq ($(SYSTEM), win32)
 LIB_PNG = -lpng
 else
@@ -220,7 +220,7 @@ OBJ_MISC  = $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
-OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/nes.o $(OD)/nes_maps.o $(OD)/nes_ppu.o $(OD)/coleco.o $(OD)/fdc765.o
+OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/coleco.o $(OD)/fdc765.o
 OBJ_TOOLS = $(OD)/memory.o $(OD)/tools/libmy.o $(OD)/tools/liblist.o $(OD)/tools/libparse.o $(OD)/tools/tfile.o $(OD)/osd/misc.o $(OD)/osd/timer.o
 
 ifeq ($(X86_ASM), yes)

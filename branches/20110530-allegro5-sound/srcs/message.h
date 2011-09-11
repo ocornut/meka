@@ -492,11 +492,7 @@ int     Messages_Init (void);
 const char*	Msg_Get(int n);
 
 // Send a message to the user and/or debugging message
-#ifdef ARCH_MACOSX
-void		Msg(int attr, const char *format, ...);
-#else
 void		Msg(int attr, const char *format, ...) FORMAT_PRINTF (2);
-#endif
 
 //-----------------------------------------------------------------------------
 // Functions - Console

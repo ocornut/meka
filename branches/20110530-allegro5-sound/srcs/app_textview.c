@@ -20,7 +20,6 @@ t_app_textviewer   TextViewer;
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
-static t_app_textviewer *   TextViewer_New(const char *, int, int, int, int, int, int);
 static void                 TextViewer_Layout(t_app_textviewer *tv, bool setup);
 static void                 TextViewer_ScrollbarCallback();
 static void                 TextViewer_Update_Inputs(t_app_textviewer *tv);

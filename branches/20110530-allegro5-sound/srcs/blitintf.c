@@ -83,7 +83,6 @@ static const char * Blitters_Def_Variables [] =
 
 static int  Blitters_Parse_Line(char *s, char *s_case)
 {
-    const int line_len = strlen(s);
     if (s[0] == '[')
     {
         Blitters.current = Blitter_New(&s_case[1]);

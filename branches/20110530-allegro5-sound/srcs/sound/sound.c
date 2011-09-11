@@ -546,7 +546,7 @@ void SoundDebugApp_Update()
 	int x = 4;
 	int y = 0;
 
-	static char* stars64 = "****************************************************************";
+	static const char* stars64 = "****************************************************************";
 
 	t_sound_stream* stream = g_psg_stream;
 	int samples;

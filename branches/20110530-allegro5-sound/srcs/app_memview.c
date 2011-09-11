@@ -401,7 +401,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     y = 4;
     if (mv->section_current->size == 0)
     {
-        char *text = "None";
+        const char *text = "None";
         if (mv->section_current->memtype == MEMTYPE_Z80 && g_driver->cpu != CPU_Z80)
             text = "You wish!";
         Font_Print(font_id, text, x, y, COLOR_SKIN_WINDOW_TEXT);

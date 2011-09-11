@@ -25,8 +25,8 @@ extern const byte       FM_Regs_SavingFlags [YM2413_REGISTERS];
 
 struct t_fm_unit_interface
 {
- char    *Desc;
- char    *Author;
+ const char    *Desc;
+ const char    *Author;
  void   (*f_reset)      (void);
  void   (*f_write)      (int Register, int Value);
  void   (*f_mute)       (void);

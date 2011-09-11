@@ -39,8 +39,8 @@ enum t_machine_driver
 struct ts_driver
 {
   byte  id;
-  char *short_name;
-  char *full_name;
+  const char *short_name;
+  const char *full_name;
   int   cpu;
   int   vdp;
   int   snd;

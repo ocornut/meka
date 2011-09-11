@@ -65,7 +65,7 @@ void    Sound_Volume_Menu_Init (int menu_id)
 
 void    Sound_Volume_Menu_Handler (t_menu_event *event)
 {
-	const int volume = (int)event->user_data;
+	const int volume = (long int)event->user_data;
 
 	Sound_SetMasterVolume(volume);
     Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Volume_Changed), volume);
@@ -77,7 +77,7 @@ void    Sound_Volume_Menu_Handler (t_menu_event *event)
 
 void    Sound_Channels_Menu_Handler(t_menu_event *event)
 {
-	const int channel_idx = (int)event->user_data;
+	const int channel_idx = (long int)event->user_data;
 
     PSG.Channels[channel_idx].Active ^= 1;
     gui_menu_inverse_check (menus_ID.channels, channel_idx);

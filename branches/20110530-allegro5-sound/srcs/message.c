@@ -22,8 +22,8 @@ t_messages Messages;
 
 struct S2I_TYPE
 {
-    char *  name;
-    int     value;
+    const char *	name;
+    int				value;
 };
 
 #define __MSG_ADD(ID)   { #ID, ID }

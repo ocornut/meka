@@ -247,7 +247,7 @@ void            VGM_Data_Add_Wait(t_vgm *VGM, int Samples)
 
 void            GD3_Header_Init(t_gd3_header *h)
 {
-    char *      name;
+    const char *name;
 
     memcpy(h->magic, GD3_MAGIC, 4);
     h->version = GD3_VERSION;
