@@ -15,6 +15,8 @@
   #define Write_Error(a,v)
 #endif
 
+//#define DEBUG_UNINITIALIZED_RAM_ACCESSES
+
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
@@ -76,5 +78,11 @@ extern void Map_8k_Other  (int page, void *);
 
 extern void Map_16k_ROM   (int page, int rom_page);
 extern void Map_16k_Other (int page, void *);
+
+//-----------------------------------------------------------------------------
+
+#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+extern u8 RAM_IsUninitialized[0x2000];
+#endif
 
 //-----------------------------------------------------------------------------

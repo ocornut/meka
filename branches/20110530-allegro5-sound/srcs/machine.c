@@ -307,14 +307,14 @@ void    Machine_Set_Mapping (void)
             // ROM [0xA000] = 0;
             break;
         case MAPPER_93c46:
-            RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
+            // RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
             EEPROM_93c46_Init (EEPROM_93C46_INIT_ALL);
             break;
         case MAPPER_TVOekaki:
             TVOekaki_Init ();
             break;
         default:
-            RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
+            // RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
             memcpy (Game_ROM_Computed_Page_0, ROM, 0x4000);
 			//Map_16k_Other (0, Game_ROM_Computed_Page_0);
 			Map_16k_ROM (0, 0);	// Mapping may change to Game_ROM_Computed_Page_0 at runtime
@@ -458,9 +458,31 @@ void        Machine_Reset (void)
 #endif
 
     // MEMORY -----------------------------------------------------------------
-    memset (RAM,  0, 0x10000);      // Clear all RAM
+
+	// Clear RAM
+	if (g_driver->id == DRV_SMS && sms.Country == COUNTRY_JAPAN)
+	{
+		// On Japanese SMS clear RAM with 0xF0 patterns
+		// I am not sure how reliable is that pattern but this is what I'm seeing on my JSMS
+		// In theory this should be applied to all drivers, all countries, etc. but the exact
+		// behavior of other systems and bioses should be inspected more in details before
+		// generalizing that.
+		// The game "Ali Baba" require a non-00 and non-FF memory pattern to run to a bug
+		// in the code which makes it execute uninitialized memory from 0xFF07 onward.
+		// An F0 pattern correspond to RET P which happens to fix the game.
+
+		memset (RAM, 0xF0, 0x10000);
+	}
+	else
+	{
+		memset (RAM, 0x00, 0x10000);
+	}
     memset (VRAM, 0, 0x04000);      // Clear all VRAM
     memset (PRAM, 0, 0x00040);      // Clear all PRAM (palette)
+
+	#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+		memset (RAM_IsUninitialized, 1, 0x2000);
+	#endif
 
     // Unload BIOS if...
     if ((g_driver->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (g_machine_flags & MACHINE_ROM_LOADED))
@@ -468,7 +490,7 @@ void        Machine_Reset (void)
         #ifdef DEBUG_WHOLE
             Msg (MSGT_DEBUG, "Machine_Reset(): BIOS_Unload()");
         #endif
-        BIOS_Unload ();
+        BIOS_Unload();
     }
 
     // GRAPHICS ---------------------------------------------------------------

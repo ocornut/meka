@@ -16,6 +16,14 @@
 #include "eeprom.h"
 
 //-----------------------------------------------------------------------------
+// Data
+//-----------------------------------------------------------------------------
+
+#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+u8 RAM_IsUninitialized[0x2000];
+#endif
+
+//-----------------------------------------------------------------------------
 // Macros / Inline functions
 //-----------------------------------------------------------------------------
 
@@ -189,6 +197,11 @@ WRITE_FUNC (Write_Default)
 		}
 	}
 
+#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+	if (Addr >= 0xC000 && Addr <= 0xFFFF)
+		RAM_IsUninitialized[Addr&0x1FFF] = 0;
+#endif
+
 	// RAM -----------------------------------------------------------------------
 	switch (Addr >> 13)
 	{
@@ -215,6 +228,11 @@ WRITE_FUNC (Write_Mapper_32kRAM)
 
 WRITE_FUNC (Write_Mapper_SMS_NoMapper)
 {
+#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+	if (Addr >= 0xC000 && Addr <= 0xFFFF)
+		RAM_IsUninitialized[Addr&0x1FFF] = 0;
+#endif
+
 	// RAM -----------------------------------------------------------------------
 	switch (Addr >> 13)
 	{
@@ -268,6 +286,11 @@ WRITE_FUNC (Write_Mapper_SG1000)
 		Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
 		return;
 	}
+
+#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+	if (Addr >= 0xC000 && Addr <= 0xFFFF)
+		RAM_IsUninitialized[Addr&0x1FFF] = 0;
+#endif
 
 	switch (Addr >> 13)
 	{
@@ -540,6 +563,18 @@ READ_FUNC (Read_Default)
 {
 	//if (Addr == 0x68F8)
 	//   Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), CPU_GetPC, Addr);
+
+	#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+	if (Addr >= 0xC000 && Addr <= 0xFFFF)
+	{
+		if (RAM_IsUninitialized[Addr&0x1FFF])
+		{
+			Msg(MSGT_DEBUG, "At PC=$%04x, Read uninitialized RAM[$%04x]", sms.R.PC.W, Addr);
+			//sms.R.Trace = 1;
+		}
+	}
+	#endif
+
 	const unsigned int page = (Addr >> 13);
 	return (Mem_Pages [page] [Addr]);
 }

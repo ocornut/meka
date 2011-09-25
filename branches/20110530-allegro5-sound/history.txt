@@ -22,6 +22,9 @@ They are usually of 2 kinds:
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by Nemesis. [Omar]
     - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
+    - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
+      This allow 'Ali Baba' to run properly. Better clearing pattern could be 
+      implemented for other systems/countries after we've done more research. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
@@ -40,6 +43,7 @@ They are usually of 2 kinds:
   - (Win32) Now including NASM assembler in the repository. [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           SG1 - 5eb48a20 - Congo Bongo [v1]                     --> Congo Bongo [v0] (made a mistake originally ordering the versions. see thread on SMS Power! forum)
           SG1 - 5a24c7cf - Congo Bongo [v0]                     --> Congo Bongo [v1] 
           SG1 - f7eb94c5 - Congo Bongo [v0] (TW)                --> Congo Bongo [v1] (TW)
