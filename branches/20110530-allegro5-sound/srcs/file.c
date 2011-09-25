@@ -105,9 +105,9 @@ void    Filenames_Init(void)
     else
         strcpy (g_env.Paths.EmulatorDirectory, g_env.Paths.StartingDirectory);
 
-    ConsolePrintf ("g_env.Paths.StartingDirectory = %s\n", g_env.Paths.StartingDirectory);
-    ConsolePrintf ("g_env.Paths.EmulatorDirectory = %s\n", g_env.Paths.EmulatorDirectory);
-    ConsolePrintf ("argv[0] = %s\n", g_env.argv[0]);
+    //ConsolePrintf ("g_env.Paths.StartingDirectory = %s\n", g_env.Paths.StartingDirectory);
+    //ConsolePrintf ("g_env.Paths.EmulatorDirectory = %s\n", g_env.Paths.EmulatorDirectory);
+    //ConsolePrintf ("argv[0] = %s\n", g_env.argv[0]);
 
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
     {
