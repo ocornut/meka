@@ -50,6 +50,14 @@ t_sound			Sound;
 t_sound_stream*	g_psg_stream = NULL;
 t_sound_stream*	g_ym2413_stream = NULL;
 
+struct t_app_sound_debug
+{
+	t_gui_box*	box;
+	bool		active;
+};
+
+static t_app_sound_debug	SoundDebugApp;
+
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
@@ -170,7 +178,8 @@ void	Sound_Update(void)
 	static int frame_count = 0;
 	if ((frame_count++ % 60) == 0)
 	{
-		Msg(MSGT_DEBUG, "Tick, samples rendered %d %d", g_psg_stream->samples_rendered0, g_psg_stream->samples_rendered1);
+		if (SoundDebugApp.active)
+			Msg(MSGT_DEBUG, "Tick, samples rendered %d %d", g_psg_stream->samples_rendered0, g_psg_stream->samples_rendered1);
 		g_psg_stream->samples_rendered0 = 0;
 		g_psg_stream->samples_rendered1 = 0;
 	}
@@ -487,14 +496,6 @@ int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
 }
 
 //-----------------------------------------------------------------------------
-
-struct t_app_sound_debug
-{
-	t_gui_box*	box;
-	bool		active;
-};
-
-static t_app_sound_debug	SoundDebugApp;
 
 void SoundDebugApp_Init()
 {

@@ -254,8 +254,6 @@ static const char *MnemonicsXCB[256] =
 int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indirect_offsets)
 {
     char  R[256], H[256], C;
-	const char*T;
-	char *P;
     byte  J, Offset = 0;
     word  B;
     int   relative_offset_base = 0;  // 0 : from PC, 1 : from IX, 2 : from IY
@@ -264,27 +262,31 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
     C = '\0';
     J = 0;
 
+	const char *T_const = NULL;
     switch (RdZ80_NoHook(B))
     {
-    case 0xCB: B++;T=MnemonicsCB[RdZ80_NoHook(B++&0xFFFF)];break;
-    case 0xED: B++;T=MnemonicsED[RdZ80_NoHook(B++&0xFFFF)];break;
+    case 0xCB: B++;T_const=MnemonicsCB[RdZ80_NoHook(B++&0xFFFF)];break;
+    case 0xED: B++;T_const=MnemonicsED[RdZ80_NoHook(B++&0xFFFF)];break;
     case 0xDD: B++;C='X';
         if (RdZ80_NoHook(B&0xFFFF)!=0xCB) 
-            T=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
+            T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
-        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
+        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
     case 0xFD: B++;C='Y';
         if(RdZ80_NoHook(B&0xFFFF)!=0xCB) 
-            T=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
+            T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
-        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
+        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
     default:   
-        T=Mnemonics[RdZ80_NoHook(B++&0xFFFF)];
+        T_const=Mnemonics[RdZ80_NoHook(B++&0xFFFF)];
         break;
     }
+	char T[32];
+	strcpy(T, T_const);
 
+	char *P;
     if ((P=strchr(T,'^')) != NULL)
     {
         strncpy(R,T,P-T);R[P-T]='\0';
@@ -317,6 +319,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
         }
     }
     else
+	{
         if ((P=strchr(R,'@')) != NULL)
         {
             if (S != NULL)
@@ -372,6 +375,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                 if (S != NULL)
                     strcpy(S, R);
             }
+	}
 
     // MEKA-START: needed so it works properly when the instruction wrap at 0xffff
     if (B < A)
