@@ -34,6 +34,7 @@
  Alex Kidd in Shinobi World                     -       Ok
  Alex Kidd: The Lost Stars                      FM      Ok
  Alf                                            -       Ok
+ Alibaba and 40 Thieves (KR)                    -      *Ok
  Alien 3                                        -       Ok
  Alien Storm                                    -       Ok
  Alien Syndrome                                 FM      Ok
@@ -300,7 +301,7 @@
  Mortal Kombat 3 (BR)                           -       Ok
  Ms. Pac-Man                                    -       Ok
  My Hero                                        -       Ok
- NBA JAM [Proto]                                -      *Ok
+ NBA Jam [Proto]                                -       Ok
  Nekkyuu Koushien (JP)                          FM      Ok
  Nemesis (KR)                                   -      *Ok
  NewZealand Story, The                          -       Ok
@@ -527,7 +528,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 509 games tested - 507 are "Ok" - Compatibility rate: 99.54%
+ 510 games tested - 508 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1056,9 +1057,9 @@
  Nazo Puyo Aruru no Ruu (JP)                        Ok
  Nazo Puyo Aruru no Ruu [Editor Proto] (JP)         Ok
  NBA Action - Starring David Robinson               Ok
- NBA JAM                                            Ok
- NBA JAM (JP)                                       Ok
- NBA JAM Tournament Edition                         Ok
+ NBA Jam                                            Ok
+ NBA Jam (JP)                                       Ok
+ NBA Jam Tournament Edition                         Ok
  Neko Dai Suki! (JP)                                Ok
  NFL '95                                            Ok
  NFL Quarterback Club                               Ok
@@ -1126,7 +1127,8 @@
  Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
  Revenge of Drancon                                 Ok
- Riddick Rowe Boxing                                Ok
+ Riddick Rowe Boxing                               *Ok
+ Riddick Rowe Boxing (JP)                           Ok
  Rise of the Robots                                 Ok
  Ristar / Ristar the Shooting Star                  Ok
  Road Rash                                          Ok
@@ -1282,7 +1284,7 @@
  Zool - Zool no Yume Bouken (JP)                    Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 481 games tested - 469 are "Ok" - Compatibility rate: 97.45%
+ 482 games tested - 470 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
