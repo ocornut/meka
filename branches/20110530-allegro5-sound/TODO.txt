@@ -1,4 +1,6 @@
 
+continue to RET instruction
+
 Meka 0.80 check list
 - obsolete/hide blitter interface
 - debug version leaves allegro.log is current directory

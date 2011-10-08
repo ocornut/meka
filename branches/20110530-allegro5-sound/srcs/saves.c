@@ -69,6 +69,11 @@ void        Load_Game_Misc (void)
             WrZ80_NoHook (0x4000, sms.Pages_Reg[1]);
             WrZ80_NoHook (0x8000, sms.Pages_Reg[2]);
             break;
+		case MAPPER_SMS_4PakAllAction:
+            WrZ80_NoHook (0x3FFE, sms.Pages_Reg[0]);
+            WrZ80_NoHook (0x7FFF, sms.Pages_Reg[1]);
+            WrZ80_NoHook (0xBFFF, sms.Pages_Reg[2]);
+            break;
         case MAPPER_SMS_Korean:
             WrZ80_NoHook (0xA000, sms.Pages_Reg[2]);
             break;

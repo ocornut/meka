@@ -21,6 +21,7 @@ They are usually of 2 kinds:
   - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by Nemesis. [Omar]
+    - Added support for 4 PAK All Action mapper. [Omar]
     - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
     - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
       This allow 'Ali Baba' to run properly. Better clearing pattern could be 

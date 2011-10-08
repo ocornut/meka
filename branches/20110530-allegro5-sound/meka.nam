@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/09/24
+; Last updated 2011/10/08
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -56,6 +56,7 @@
 ; DATA - SEGA MASTER SYSTEM (SMS)
 ;-----------------------------------------------------------------------------
 
+SMS a67f2a5c 4EB5F14E8488C9E9   4 PAK All Action/COUNTRY=AU/EMU_MAPPER=14
 SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
 SMS 887d9f6b 9EB1F06967AA8DBA   Ace of Aces/COUNTRY=EU/PRODUCT_NO=7054
 SMS d91b340d 2CCEA6A00321A4F8   Action Fighter [v1]/COUNTRY=JP,DE,IT/PRODUCT_NO=G-1305,41008,5055

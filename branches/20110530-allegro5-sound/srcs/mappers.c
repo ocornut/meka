@@ -84,14 +84,14 @@ void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr)
 }
 
 // Return -1 if can't tell, else a mapper number
-int         Mapper_Autodetect (void)
+int         Mapper_Autodetect(void)
 {
     // If ROM is smaller than 32 kb, autodetected SMS mapper are not needed
     if (tsms.Size_ROM <= 0x8000)
         return (-1);
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
-    int c0002 = 0, c8000 = 0, cA000 = 0, cFFFF = 0;
+    int c0002 = 0, c8000 = 0, cA000 = 0, cBFFF = 0, cFFFF = 0;
     for (int i = 0; i < 0x8000; i++)
     {
         if (ROM[i] == 0x32) // Z80 opcode for: LD (xxxx), A
@@ -105,14 +105,20 @@ int         Mapper_Autodetect (void)
             { i += 2; c8000++; continue; }
             if (addr == 0xA000)
             { i += 2; cA000++; continue; }
+            if (addr == 0xBFFF)
+            { i += 2; cBFFF++; continue; }
         }
     }
 
-    //Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cFFFF=%d\n", c0002, c8000, cA000, cFFFF);
+    Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cBFFF=%d, cFFFF=%d\n", c0002, c8000, cA000, cBFFF, cFFFF);
 
-	// FIXME: Maybe automatically set "no mapper" mode for 32 KB games.
+	// 4 Pak All Action "games"
+	// this is not stricly necessary, since the full 4 Pak All Action is in meka.nam, but this allows extracted games to run standalone
+	// NB: twin mouse has a false 0x0002 matching so it must be tested before
+	if (cBFFF > 0 && /*c0002 == 0 &&*/ c8000 == 0 && cA000 == 0 && cFFFF == 0)
+		return (MAPPER_SMS_4PakAllAction);
 
-    // 2 is a security measure, although tests on existing ROM showed it was not needed
+	// 2 is a security measure, although tests on existing ROM showed it was not needed
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_MSX_8KB);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
@@ -361,6 +367,43 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 		// SaveRAM [0x8000]->[0xC000] ---------------------------------------------
 		// case 4: if (SRAM_Active) Mem_Pages [4] [Addr] = Value; return;
 		// case 5: if (SRAM_Active) Mem_Pages [5] [Addr] = Value; return;
+	}
+
+	Write_Error (Addr, Value);
+}
+
+WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
+{
+	switch (Addr)
+	{
+	case 0x3FFE: // Frame 0 ----------------------------------------------------
+		{
+			sms.Pages_Reg[0] = Value;
+			const int page_8 = (sms.Pages_Reg[0]) & tsms.Pages_Mask_16k;
+			Map_16k_ROM (0, page_8 * 2);
+			return;
+		}
+	case 0x7FFF: // Frame 1 ----------------------------------------------------
+		{
+			sms.Pages_Reg[1] = Value;
+			const int page_8 = (sms.Pages_Reg[1]) & tsms.Pages_Mask_16k;
+			Map_16k_ROM (2, page_8 * 2);
+			return;
+		}
+	case 0xBFFF: // Frame 2 ----------------------------------------------------
+		{
+			sms.Pages_Reg[2] = Value;
+			const int page_8 = ((sms.Pages_Reg[0]&0x30) + (sms.Pages_Reg[2])) & tsms.Pages_Mask_16k;
+			Map_16k_ROM (4, page_8 * 2);
+			return;
+		}
+	}
+
+	switch (Addr >> 13)
+	{
+		// RAM [0xC000] = [0xE000] ------------------------------------------------
+	case 6: Mem_Pages [6] [Addr] = Value; return;
+	case 7: Mem_Pages [7] [Addr] = Value; return;
 	}
 
 	Write_Error (Addr, Value);
