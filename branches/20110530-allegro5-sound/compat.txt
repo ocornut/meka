@@ -567,7 +567,7 @@
  Bomb Jack [english logo] (KR)                  Ok
  Bomb Jack [korean logo] (KR)                   Ok
  Borderline                                     Ok
- Cabbage Patch Kids (TW)                       *Ok
+ Cabbage Patch Kids (TW)                        Ok
  Castle, The                                    Ok
  Chack'n Pop                                    Ok
  Chack'n Pop (TW)                               Ok
@@ -598,8 +598,8 @@
  Choplifter [chinese logo] (TW)                 Ok
  Choplifter [english logo] (TW)                 Ok
  Choplifter [no logo] (TW)                      Ok
- Circus Charlie (KR)                           *Ok
- Circus Charlie (TW)                           *Ok
+ Circus Charlie (KR)                            Ok
+ Circus Charlie (TW)                            Ok
  Congo Bongo [v0] (JP)                          Ok
  Congo Bongo [v1]                               Ok
  Congo Bongo [v1] (TW)                          Ok
@@ -629,7 +629,7 @@
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
  Gulkave                                        Ok
- Gulkave (KR)                                  *Ok
+ Gulkave (KR)                                   Ok
  Hang On II                                     Ok
  Hang On II [chinese logo] (TW)                 Ok
  Hang On II [english logo] (TW)                 Ok
@@ -642,11 +642,11 @@
  Hyper Sports (Konami no)                       Ok
  Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
- Hyper Sports 2 (TW)                           *Ok
+ Hyper Sports 2 (TW)                            Ok
  Lode Runner                                    Ok
  Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
- Magical Tree (TW)                             *Ok
+ Magical Tree (TW)                              Ok
  Mahjong [big 1983]                             Ok
  Mahjong [small 1983]                           Ok
  Mahjong (TW)                                   Ok
@@ -707,7 +707,7 @@
  Star Jacker [v1] (TW)                          Ok
  Star Jacker [v2]                               Ok
  Super Tank                                     Ok
- Super Tank (KR)                               *Ok
+ Super Tank (KR)                                Ok
  Super Tank (TW)                                Ok
  Terebi Oekaki Graphic Software                 Ok (uses Sega Graphic Board)
  Wonder Boy [v0]                                Ok
