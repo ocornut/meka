@@ -34,7 +34,7 @@
 t_debugger   Debugger;
 int          Debugger_CPU_Exec_Traps[0x10000];
 u16          Debugger_Z80_PC_Last;
-u16          Debugger_Z80_PC_Log_Queue[256];
+u16          Debugger_Z80_PC_Log_Queue[128];
 int          Debugger_Z80_PC_Log_Queue_Back;
 int			 Debugger_Z80_PC_Log_Queue_Front;
 
@@ -1819,7 +1819,7 @@ void        Debugger_Applet_Redraw_State(void)
         {
             int pc_temp = pc;
             int pc_history[10*4+1] = { 0 };
-            int pc_history_size = trackback_lines*4;
+            const int pc_history_size = trackback_lines*4;
             int i;
 
             // Find in PC log all values between PC-trackback_lines*4 and PC-1
@@ -1828,9 +1828,10 @@ void        Debugger_Applet_Redraw_State(void)
             // If it happens that a previous instruction is more than trackback_lines*4 bytes before PC, 
             // then the trackback feature won't find the previous instruction. This is not a big problem
             // and it's extreme rare anyway (multi prefixes, etc).
-            for (i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & 255)
+			//Msg(MSGT_DEBUG, "front =%d, back=%d",Debugger_Z80_PC_Log_Queue_Front,Debugger_Z80_PC_Log_Queue_Back);
+            for (i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
             {
-                int delta = pc - Debugger_Z80_PC_Log_Queue[i];
+                const int delta = pc - Debugger_Z80_PC_Log_Queue[i];
                 if (delta > 0 && delta <= pc_history_size)
                     pc_history[delta] = Z80_Disassemble(NULL, Debugger_Z80_PC_Log_Queue[i], FALSE, FALSE);
             }

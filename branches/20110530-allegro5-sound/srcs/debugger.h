@@ -144,9 +144,11 @@ extern int          Debugger_CPU_Exec_Traps[0x10000];
 
 // PC log queue (for trackback feature)
 extern u16          Debugger_Z80_PC_Last;
-extern u16          Debugger_Z80_PC_Log_Queue[256];
+extern u16          Debugger_Z80_PC_Log_Queue[128];
 extern int          Debugger_Z80_PC_Log_Queue_Back;
 extern int			Debugger_Z80_PC_Log_Queue_Front;
+
+#define DEBUGGER_Z80_PC_LOG_QUEUE_MASK		127
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -186,10 +188,16 @@ int                         Debugger_Bus_Read(int bus, int addr);
 static INLINE
 void  Debugger_Z80_PC_Log_Queue_Add(unsigned short pc)
 {
+	// This break the constant-time property and make this way slower but gives us
+	for (int i = Debugger_Z80_PC_Log_Queue_Back; i != Debugger_Z80_PC_Log_Queue_Front; i = (i - 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
+		if (Debugger_Z80_PC_Log_Queue[i] == pc)
+			return;
+
+	// NB- constant time version
     Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Back] = pc;
-    Debugger_Z80_PC_Log_Queue_Back = (Debugger_Z80_PC_Log_Queue_Back + 1) & 255;
+    Debugger_Z80_PC_Log_Queue_Back = (Debugger_Z80_PC_Log_Queue_Back + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK;
     if (Debugger_Z80_PC_Log_Queue_Back == Debugger_Z80_PC_Log_Queue_Front)
-        Debugger_Z80_PC_Log_Queue_Front = (Debugger_Z80_PC_Log_Queue_Front + 1) & 255;
+        Debugger_Z80_PC_Log_Queue_Front = (Debugger_Z80_PC_Log_Queue_Front + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK;
 }
 
 //-----------------------------------------------------------------------------

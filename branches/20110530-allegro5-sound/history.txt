@@ -26,6 +26,9 @@ They are usually of 2 kinds:
     - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
       This allow 'Ali Baba' to run properly. Better clearing pattern could be 
       implemented for other systems/countries after we've done more research. [Omar]
+  - Debugger:
+    - Added CR command ("Continue to next RET* instruction"). [Omar]
+    - Improved the range of disassembly before PC cursor when running loops. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]

@@ -70,7 +70,7 @@ extern void    Msg(int attr, const char *format, ...);
 extern int              Debugger_Hook(Z80 *R);
 extern int              Debugger_CPU_Exec_Traps[0x10000];
 extern unsigned short   Debugger_Z80_PC_Last;
-extern unsigned short   Debugger_Z80_PC_Log_Queue[256];
+extern unsigned short   Debugger_Z80_PC_Log_Queue[128];
 extern int              Debugger_Z80_PC_Log_Queue_Back;
 extern int              Debugger_Z80_PC_Log_Queue_Front;
 

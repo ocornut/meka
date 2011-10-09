@@ -1,5 +1,5 @@
 
-continue to RET instruction
+Z80 PC history command (great to figure out caller)
 
 Meka 0.80 check list
 - obsolete/hide blitter interface
