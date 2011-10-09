@@ -64,7 +64,7 @@ void    StrPath_RemoveDirectory(char *dst, const char *src)
 {
     const char* p = strrchr(src, '/');
 
-#ifndef ARCH_WIN32
+#ifdef ARCH_WIN32
     const char *p2 = strrchr(src, '\\');
     if (p2 != NULL && p2 > p)
         p = p2;
