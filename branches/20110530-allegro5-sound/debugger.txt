@@ -112,6 +112,7 @@ Debugger commands summary
  S                              : Step over
  C                              : Continue
  C addr                         : Continue up to <addr>
+ CR                             : Continue up to next RET
  J addr                         : Jump to <addr>
 -- Breakpoints:
  B [access] [bus] addr [=value] : Add breakpoint
@@ -162,6 +163,11 @@ C/CONT: Continue execution
 Usage:
  C             ; Continue
  C address     ; Continue up to reaching <address>
+
+
+Debugger command - CR
+---------------------
+CR/CONTRET: Continue to next RET instruction
 
 
 Debugger command - J

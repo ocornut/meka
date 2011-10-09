@@ -114,6 +114,7 @@ struct t_debugger
     u16         trap_address;
     int         stepping;                       // Set when we are doing a single step
     int         stepping_trace_after;
+	bool		continuing_to_next_ret;
     t_list *    breakpoints;
     t_list *    breakpoints_cpu_space[0x10000]; // 0000-FFFF : each Z80 address has its list of appliable breakpoints
     t_list *    breakpoints_io_space[0x100];

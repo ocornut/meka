@@ -12,6 +12,7 @@
 #include "mappers.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
+#include "z80marat/Z80DebugHelpers.h"
 #include <ctype.h>
 #include <string.h>
 
@@ -168,6 +169,12 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " C             ; Continue\n"
         " C address     ; Continue up to reaching <address>"
     },
+	{
+		"CR", "CONTRET",
+		"Continue to next RET instruction",
+		// Description
+		"CR/CONTRET: Continue to next RET* instruction",
+	},
     {
         NULL, "CLOCK",
         "Display Z80 cycle accumulator",
@@ -399,6 +406,7 @@ void        Debugger_Init_Values (void)
     Debugger.trap_address = (u16)-1;
     Debugger.stepping = 0;
     Debugger.stepping_trace_after = 0;
+	Debugger.continuing_to_next_ret = false;
     Debugger.breakpoints = NULL;
     memset(Debugger.breakpoints_cpu_space,  0, sizeof(Debugger.breakpoints_cpu_space));
     memset(Debugger.breakpoints_io_space,   0, sizeof(Debugger.breakpoints_io_space));
@@ -490,7 +498,7 @@ static void Debugger_Init_LogFile(void)
     }
 }
 
-void        Debugger_Init (void)
+void        Debugger_Init(void)
 {
     ConsolePrintf("%s\n", Msg_Get (MSG_Debug_Init));
     Debugger_Applet_Init();
@@ -505,7 +513,7 @@ void        Debugger_Init (void)
     Debugger_Printf("Press TAB for completion.\n");
 }
 
-void        Debugger_Close (void)
+void        Debugger_Close(void)
 {
     if (Debugger.log_file != NULL)
     {
@@ -517,7 +525,7 @@ void        Debugger_Close (void)
     Debugger.history = NULL;
 }
 
-void        Debugger_Enable (void)
+void        Debugger_Enable(void)
 {
     Debugger.enabled = TRUE;
     Debugger.active  = FALSE;
@@ -594,7 +602,7 @@ void        Debugger_Update(void)
     Debugger.watch_counter = 0;
 }
 
-int         Debugger_Hook(Z80 *R)
+int		Debugger_Hook(Z80 *R)
 {
     const u16 pc = R->PC.W;
     // Debugger_Printf("hook, pc=%04X\n", pc);
@@ -644,6 +652,13 @@ int         Debugger_Hook(Z80 *R)
             return (1);
         }
     }
+
+	if (Debugger.continuing_to_next_ret)
+	{
+		if (!Z80DebugHelper_IsRetExecuting(R))
+			return (1);
+		Debugger.continuing_to_next_ret = false;
+	}
 
     // Update state
     Debugger_Applet_Redraw_State();
@@ -979,6 +994,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
     {
         // Break
         sms.R.Trace = 1;
+		Debugger.continuing_to_next_ret = false;
         action = "break";
     }
     else
@@ -2003,6 +2019,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" <CR>                   : Step into"                  "\n");
         Debugger_Printf(" S                      : Step over"                  "\n");
         Debugger_Printf(" C [addr]               : Continue (up to <addr>)"    "\n");
+		Debugger_Printf(" CR                     : Continue up to next RET"    "\n");
         Debugger_Printf(" J addr                 : Jump to <addr>"             "\n");
         Debugger_Printf("-- Breakpoints:\n");
         Debugger_Printf(" B [access] [bus] addr  : Add breakpoint"             "\n");
@@ -2555,7 +2572,6 @@ void        Debugger_InputParseCommand(char *line)
     // C - CONTINUE
     if (!strcmp(cmd, "C") || !strcmp(cmd, "CONT") || !strcmp(cmd, "CONTINUE"))
     {
-        t_debugger_value value;
         if (!(g_machine_flags & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running\n");
@@ -2568,6 +2584,7 @@ void        Debugger_InputParseCommand(char *line)
             Machine_Debug_Start();
         }
 
+        t_debugger_value value;
         if (Debugger_Eval_GetExpression(&line, &value) > 0)
         {
             // Continue up to...
@@ -2584,7 +2601,7 @@ void        Debugger_InputParseCommand(char *line)
 
         // Stop tracing
         sms.R.Trace = 0;
-        Machine_Debug_Stop ();
+        Machine_Debug_Stop();
 
         // Setup a single stepping so that the CPU emulator won't break
         // on the same address right now.
@@ -2593,6 +2610,32 @@ void        Debugger_InputParseCommand(char *line)
 
         return;
     }
+
+    // CR - CONTRET
+    if (!strcmp(cmd, "CR") || !strcmp(cmd, "CONTRET"))
+    {
+        if (!(g_machine_flags & MACHINE_POWER_ON))
+        {
+            Debugger_Printf("Command unavailable while machine is not running\n");
+            return;
+        }
+
+        if (!(g_machine_flags & MACHINE_DEBUGGING))
+        {
+            // If running, stop and entering into debugging state
+            Machine_Debug_Start();
+        }
+
+        // Start tracing
+        sms.R.Trace = 1;
+		Debugger.continuing_to_next_ret = true;
+		Debugger.stepping = 1;	// to avoid breaking again on current RET instruction
+        Debugger.stepping_trace_after = 1;
+        Machine_Debug_Stop();
+        Debugger_SetTrap(-1);
+
+		return;
+	}
 
     // J - JUMP
     if (!strcmp(cmd, "J") || !strcmp(cmd, "JP") || !strcmp(cmd, "JUMP"))
@@ -3025,12 +3068,14 @@ void        Debugger_InputBoxCallback(t_widget *w)
                 // Step into
                 Debugger.stepping = 1;
                 Debugger.stepping_trace_after = sms.R.Trace = 1;
-                Machine_Debug_Stop ();
+				Debugger.continuing_to_next_ret = false;
+                Machine_Debug_Stop();
             }
             else
             {
                 // Activate debugging
                 Debugger.stepping = 0;
+				Debugger.continuing_to_next_ret = false;
                 Debugger_Printf("Breaking at $%04X\n", sms.R.PC.W);
                 Debugger_Applet_Redraw_State();
                 Machine_Debug_Start();

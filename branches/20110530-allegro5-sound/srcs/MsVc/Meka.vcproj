@@ -892,6 +892,18 @@
 							/>
 						</FileConfiguration>
 					</File>
+					<File
+						RelativePath="..\z80marat\Z80DebugHelpers.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\z80marat\Z80DebugHelpers.h"
+						>
+					</File>
+					<File
+						RelativePath="..\z80marat\Z80OpcodeEnums.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
