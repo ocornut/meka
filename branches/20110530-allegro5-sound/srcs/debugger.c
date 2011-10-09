@@ -35,8 +35,8 @@ t_debugger   Debugger;
 int          Debugger_CPU_Exec_Traps[0x10000];
 u16          Debugger_Z80_PC_Last;
 u16          Debugger_Z80_PC_Log_Queue[256];
-int          Debugger_Z80_PC_Log_Queue_Write;
-int			 Debugger_Z80_PC_Log_Queue_First;
+int          Debugger_Z80_PC_Log_Queue_Back;
+int			 Debugger_Z80_PC_Log_Queue_Front;
 
 //-----------------------------------------------------------------------------
 // External declaration
@@ -552,8 +552,8 @@ void        Debugger_MachineReset(void)
 
     // Clear Z80 PC log queue
     memset(Debugger_Z80_PC_Log_Queue, 0, sizeof(Debugger_Z80_PC_Log_Queue));
-    Debugger_Z80_PC_Log_Queue_Write = 0;
-    Debugger_Z80_PC_Log_Queue_First = 0;
+    Debugger_Z80_PC_Log_Queue_Back = 0;
+    Debugger_Z80_PC_Log_Queue_Front = 0;
 
     // Hook Z80 read/write and I/O
     Debugger_Hooks_Install();
@@ -1828,7 +1828,7 @@ void        Debugger_Applet_Redraw_State(void)
             // If it happens that a previous instruction is more than trackback_lines*4 bytes before PC, 
             // then the trackback feature won't find the previous instruction. This is not a big problem
             // and it's extreme rare anyway (multi prefixes, etc).
-            for (i = Debugger_Z80_PC_Log_Queue_First; i != Debugger_Z80_PC_Log_Queue_Write; i = (i + 1) & 255)
+            for (i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & 255)
             {
                 int delta = pc - Debugger_Z80_PC_Log_Queue[i];
                 if (delta > 0 && delta <= pc_history_size)

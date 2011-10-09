@@ -71,8 +71,8 @@ extern int              Debugger_Hook(Z80 *R);
 extern int              Debugger_CPU_Exec_Traps[0x10000];
 extern unsigned short   Debugger_Z80_PC_Last;
 extern unsigned short   Debugger_Z80_PC_Log_Queue[256];
-extern int              Debugger_Z80_PC_Log_Queue_Write;
-extern int              Debugger_Z80_PC_Log_Queue_First;
+extern int              Debugger_Z80_PC_Log_Queue_Back;
+extern int              Debugger_Z80_PC_Log_Queue_Front;
 
 //*** MEKA-END ***
 
@@ -611,11 +611,7 @@ word    RunZ80_Debugging(Z80 *R)
 		// May be worth (not too slow?) looking back in the queue for duplicate to avoid polluting the buffer
 #ifdef MEKA_Z80_DEBUGGER
         Debugger_Z80_PC_Last = R->PC.W;
-        Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Write] = R->PC.W;
-        Debugger_Z80_PC_Log_Queue_Write = (Debugger_Z80_PC_Log_Queue_Write + 1) & 255;
-        if (Debugger_Z80_PC_Log_Queue_Write == Debugger_Z80_PC_Log_Queue_First)
-            Debugger_Z80_PC_Log_Queue_First = (Debugger_Z80_PC_Log_Queue_First + 1) & 255;
-        // Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
+        Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
 #endif // MEKA_Z80_DEBUGGER
 
         // Turn tracing on when reached trap address

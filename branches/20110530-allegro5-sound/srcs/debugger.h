@@ -145,8 +145,8 @@ extern int          Debugger_CPU_Exec_Traps[0x10000];
 // PC log queue (for trackback feature)
 extern u16          Debugger_Z80_PC_Last;
 extern u16          Debugger_Z80_PC_Log_Queue[256];
-extern int          Debugger_Z80_PC_Log_Queue_Write;
-extern int			Debugger_Z80_PC_Log_Queue_First;
+extern int          Debugger_Z80_PC_Log_Queue_Back;
+extern int			Debugger_Z80_PC_Log_Queue_Front;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -180,16 +180,16 @@ void                        Debugger_WrPRAM_Hook(register int addr, register u8 
 int                         Debugger_Bus_Read(int bus, int addr);
 
 //-----------------------------------------------------------------------------
-// Functions - Line
+// Functions - Inline
 //-----------------------------------------------------------------------------
 
-static INLINE 
+static INLINE
 void  Debugger_Z80_PC_Log_Queue_Add(unsigned short pc)
 {
-    Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Write] = pc;
-    Debugger_Z80_PC_Log_Queue_Write = (Debugger_Z80_PC_Log_Queue_Write + 1) & 255;
-    if (Debugger_Z80_PC_Log_Queue_Write == Debugger_Z80_PC_Log_Queue_First)
-        Debugger_Z80_PC_Log_Queue_First = (Debugger_Z80_PC_Log_Queue_First + 1) & 255;
+    Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Back] = pc;
+    Debugger_Z80_PC_Log_Queue_Back = (Debugger_Z80_PC_Log_Queue_Back + 1) & 255;
+    if (Debugger_Z80_PC_Log_Queue_Back == Debugger_Z80_PC_Log_Queue_Front)
+        Debugger_Z80_PC_Log_Queue_Front = (Debugger_Z80_PC_Log_Queue_Front + 1) & 255;
 }
 
 //-----------------------------------------------------------------------------
