@@ -16,6 +16,8 @@
  SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  20 em 1 (BR)                                   -       Ok
+ 4 PAK All Action (AU)                          -      *Ok
+ 94 World Cup Soccer (KR)                       -      *Ok
  Ace of Aces                                    -       Ok
  Action Fighter [v1]                            -       Ok
  Action Fighter [v2]                            -       Ok
@@ -109,6 +111,7 @@
  Comical Machine Gun Joe (TW)                   -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
+ C_So! [Joy soft] (KR)                          -       Ok
  Cyber Shinobi, The                             -       Ok
  Cyborg Hunter                                  FM      Ok
  Cyborg Z (KR)                                  -       Ok
@@ -137,6 +140,7 @@
  Dynamite Duke                                  -       Ok
  Dynamite Dux                                   -       Ok
  Dynamite Headdy (BR)                           -       Ok
+ Eagles 5 (KR)                                  -      *Ok
  Earthworm Jim (BR)                             -       Ok
  E-SWAT [A]                                     -       Ok
  E-SWAT [B]                                     -       Ok
@@ -528,7 +532,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 510 games tested - 508 are "Ok" - Compatibility rate: 99.54%
+ 514 games tested - 512 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -563,8 +567,7 @@
  Bomb Jack [english logo] (KR)                  Ok
  Bomb Jack [korean logo] (KR)                   Ok
  Borderline                                     Ok
- C_So!                                          Ok (can't write to tape)
- C_So! (TW)                                     Ok (can't write to tape)
+ Cabbage Patch Kids (TW)                       *Ok
  Castle, The                                    Ok
  Chack'n Pop                                    Ok
  Chack'n Pop (TW)                               Ok
@@ -595,10 +598,14 @@
  Choplifter [chinese logo] (TW)                 Ok
  Choplifter [english logo] (TW)                 Ok
  Choplifter [no logo] (TW)                      Ok
+ Circus Charlie (KR)                           *Ok
+ Circus Charlie (TW)                           *Ok
  Congo Bongo [v0] (JP)                          Ok
  Congo Bongo [v1]                               Ok
  Congo Bongo [v1] (TW)                          Ok
  Congo Bongo [v1] [40k map]                     Ok
+ C_So!                                          Ok (can't write to tape)
+ C_So! (TW)                                     Ok (can't write to tape)
  Doki Doki Penguin Land                         Ok
  Doki Doki Penguin Land (TW)                    Ok
  Dragon Wang [v0]                               Ok
@@ -622,6 +629,7 @@
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
  Gulkave                                        Ok
+ Gulkave (KR)                                  *Ok
  Hang On II                                     Ok
  Hang On II [chinese logo] (TW)                 Ok
  Hang On II [english logo] (TW)                 Ok
@@ -638,6 +646,7 @@
  Lode Runner                                    Ok
  Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
+ Magical Tree (TW)                             *Ok
  Mahjong [big 1983]                             Ok
  Mahjong [small 1983]                           Ok
  Mahjong (TW)                                   Ok
@@ -698,6 +707,7 @@
  Star Jacker [v1] (TW)                          Ok
  Star Jacker [v2]                               Ok
  Super Tank                                     Ok
+ Super Tank (KR)                               *Ok
  Super Tank (TW)                                Ok
  Terebi Oekaki Graphic Software                 Ok (uses Sega Graphic Board)
  Wonder Boy [v0]                                Ok
@@ -714,7 +724,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 158 games tested - 158 are "Ok" - Compatibility rate: 100.00%
+ 164 games tested - 164 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1193,6 +1203,8 @@
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
+ Street Hero [Proto] [SMS-GG]                      *Ok
+ Street Hero [Proto, Earlier] [SMS-GG]             *Ok
  Strider Returns                                    Ok
  Striker                                            Ok
  Super Battletank                                   Ok
@@ -1284,7 +1296,7 @@
  Zool - Zool no Yume Bouken (JP)                    Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 482 games tested - 470 are "Ok" - Compatibility rate: 97.45%
+ 484 games tested - 472 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

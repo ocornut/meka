@@ -110,7 +110,7 @@ int         Mapper_Autodetect(void)
         }
     }
 
-    Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cBFFF=%d, cFFFF=%d\n", c0002, c8000, cA000, cBFFF, cFFFF);
+    //Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cBFFF=%d, cFFFF=%d\n", c0002, c8000, cA000, cBFFF, cFFFF);
 
 	// 4 Pak All Action "games"
 	// this is not stricly necessary, since the full 4 Pak All Action is in meka.nam, but this allows extracted games to run standalone
