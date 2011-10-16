@@ -33,11 +33,12 @@
 # - unix  : UN*X system. Makefile up to date. May require system/library tweaking.
 # - win32 : Windows 32-bits. Makefile NOT up to date (can be updated). Hardcoded paths. Prefer using MsVc\Meka.sln (MSVC++ 7.1)
 # - dos   : MS-DOS or compatible. Could work. Not maintened anymore.
+# TODO: Add command-line parameter to select this
 #------------------------------------------------------
 # SYSTEM = dos
 # SYSTEM = win32
-# SYSTEM = unix
-SYSTEM = macosx
+SYSTEM = unix
+# SYSTEM = macosx
 #------------------------------------------------------
 BUILD = release
 # BUILD = debug
@@ -84,9 +85,9 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DARCH_UNIX -DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
+DEF_OS  = -DARCH_UNIX #-DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
 INC_OS  = -Ilibs -I../include
-X86_ASM = yes
+X86_ASM = no
 #--- Libraries
 LIB_OS  = -Llibs -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread -L../lib  # This may require an update
 LIB_OS += -lXcursor -lXpm
@@ -187,7 +188,7 @@ LIB_ALLEG = -lalleg
 endif
 
 ifeq ($(SYSTEM), unix)
-LIB_ALLEG = `allegro-config --libs`
+LIB_ALLEG = -lallegro -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_main -lallegro_image
 endif
 
 ifeq ($(SYSTEM), macosx)
@@ -217,7 +218,8 @@ OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o
 OBJ_MISC  = $(OD)/allegro4to5.o	 $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
-OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
+#OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
+OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/coleco.o $(OD)/fdc765.o
