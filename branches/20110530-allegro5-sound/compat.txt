@@ -95,6 +95,7 @@
  Chapolim x Drácula - Um Duelo Assustador (BR)  -       Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales -       Ok
  Choplifter                                     -       Ok
+ Choplifter [Proto]                             -      *Ok
  Choplifter [Proto] (JP)                        -       Ok
  Chouon Senshi Borgman (JP)                     FM      Ok
  Chouon Senshi Borgman [Proto] (JP)             FM      Ok
@@ -225,6 +226,7 @@
  Hang On (JP)                                   -       Ok
  Hang On / Astro Warrior                        -       Ok
  Hang On / Safari Hunt                          LP      Ok
+ Hang On / Safari Hunt [Proto]                  LP     *Ok
  Heavyweight Champ                              -       Ok
  Heroes of the Lance                            -       Ok
  High School! Kimengumi (JP)                    -       Ok
@@ -480,6 +482,7 @@
  Tom and Jerry: The Movie [Proto]               -       Ok
  Toto World 3 (KR)                              -       Ok
  TransBot                                       -       Ok
+ TransBot [Proto]                               -      *Ok
  Trivial Pursuit - Genus Edition                -       Ok
  Ttoriui Moheom (KR)                            -       Ok
  Turma da Mônica em: O Resgate (BR)             FM/J    Ok
@@ -516,6 +519,7 @@
  World Games [Proto]                            -       Ok
  World Grand Prix                               -       Ok
  World Grand Prix (US)                          -       Ok
+ World Grand Prix [Proto]                       -      *Ok
  World Soccer                                   (SP)    Ok
  WWF Wrestlemania Steel Cage Challenge          -       Ok
  X-Men: Mojo World (BR)                         -       Ok
@@ -532,7 +536,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 514 games tested - 512 are "Ok" - Compatibility rate: 99.54%
+ 518 games tested - 516 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -547,9 +551,11 @@
  Hang On / Safari Hunt [BIOS]                   LP      Ok
  Missile Defense 3-D [BIOS]                     LP,3D   Ok
  Sonic The Hedgehog [BIOS]                      -       Ok
+ SMS (v1.3) [BIOS]                              -       Ok
  SMS Japanese (v2.1) [BIOS]                     FM      Ok
  SMS Prototype (M404) [BIOS]                    -       Ok
- SMS Store Display Unit [BIOS]                  KIOSK   Kiosk not emulated (no purpose).
+ SMS Prototype (v1.0) [BIOS]                    -      *Ok
+ SMS Store Display Unit [BIOS]                  KIOSK   Kiosk not emulated.
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -892,7 +898,8 @@
  Defenders of Oasis [Proto]                         Ok
  Desert Speedtrap - Starring Road Runner and Wile.. Ok
  Desert Speedtrap - Starring Road Runner and.. (US) Ok
- Desert Strike                                      Ok
+ Desert Strike                                     *Ok
+ Desert Strike: Return to the Gulf (US)             Ok
  Devilish                                           Ok
  Devilish (US)                                      Ok
  Devilish (JP)                                      Ok
@@ -975,7 +982,8 @@
  Head Buster (JP)                                   Ok
  Heavy weight Champ (JP)                            Ok
  Home Alone                                         Ok
- Hook                                               Ok
+ Hook                                              *Ok
+ Hook (US)                                          Ok
  Tarot no Yakata / House of Tarot (JP)              Ok
  Hurricanes                                         Ok
  Hyokkori Hyoutan Jima - Hyoutan Jima no Dai.. (JP) Ok
@@ -998,7 +1006,8 @@
  Joe Montana Football                               Ok
  Joe Montana Football (JP)                          Ok
  Judge Dredd                                        Ok
- Junction                                           Ok
+ Junction (JP)                                      Ok
+ Junction (US)                                     *Ok
  Jungle Book, The (Walt Disney's Classic)           Ok
  Jungle Book, The (Walt Disney's) (US)              Ok
  Jungle Strike                                      Ok
@@ -1296,7 +1305,7 @@
  Zool - Zool no Yume Bouken (JP)                    Ok
  Zoop                                               Ok
 -----------------------------------------------------------------------------
- 484 games tested - 472 are "Ok" - Compatibility rate: 97.45%
+ 487 games tested - 475 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
