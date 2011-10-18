@@ -16,9 +16,8 @@ static void		Sound_Volume_Menu_Handler(t_menu_event *event);
 // Data
 //-----------------------------------------------------------------------------
 
-int		Sound_Rate_Default_Table[4] =
+int		Sound_Rate_Default_Table[] =
 { 
-	11025, 
 	22050, 
 	44100, 
 	-1

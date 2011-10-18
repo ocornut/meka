@@ -1,5 +1,5 @@
 
-  MEKA 0.74 - Documentation
+  MEKA 0.8x - Documentation
  ===========================
   Multi machine emulator for MS-Windows, GNU/Linux, etc.
   (c) in 1998-2011 by MEKA team (Omar Cornut and contributors, list below).
@@ -14,7 +14,7 @@
  Level 0 : I am a busy guy
 ----------------------------------------------------------------------------
  If you are looking for how to donate to the MEKA project, press Up, Down, 
- Right, Left and start directly at Level 7. However I strongly recommend 
+ Right, Left and start directly at Level 6. However I strongly recommend 
  reading the whole documentation, because documentation are cool.
 ----------------------------------------------------------------------------
 
@@ -217,36 +217,6 @@
  and 1 user definable instrument. 3 channels can be used for percussions, 
  and the chipset provides hardware vibrato and amplitude modulation.
 
- Two different YM-2413 emulators are provided in MEKA:
-
-  - Mitsutaka Okazaki's EMU2413 emulator.
-    This emulate the YM-2413 accurately by generating samples.
-    It is a bit slow, but sounds very accurate. It works on all systems.
-    This emulator was written by Mitsutaka Okazaki.
-
-  - Hiromitsu Shioya's OPL wrapper.
-    Requires an OPL chipset on your soundcard (old Soundblaster/Adlib
-    have that). Newer soundcard may not works well with it.
-    It is fast, and sounds very cool (cool as in: not fully faithful). 
-    However, it does only works under DOS and Windows 95/98/ME due to 
-    technical restrictions. It might works under Windows XP under certain 
-    conditions (enabling compatibility mode) and assuming that you have a 
-    soundcard with an OPL chipset and a BLASTER environment variable set. 
-    Using software such as DOSBox or VDMSound may allow to use it.
-
- If for some tragic reason you want or have to use the DOS version of
- MEKA under a Windows NT/2000/XP system, you may want to use one of the
- following program:
- 
-  - VDMSound, sound support in DOS boxes
-    https://sourceforge.net/projects/vdmsound/
-     
-  - DOSBox, a x86 emulator with DOS
-    http://dosbox.sourceforge.net/
-    (MEKA was reported to work properly with it)
-     
- Sound should work natively with MEKAW throught DirectSound (DirectX).
- 
 
  Peripherals
  -----------
@@ -510,52 +480,37 @@
 
  Miscellaneous keys
  ------------------
+  Switch between GUI and Game mode... Escape
+  Switch fullscreen/windowed......... ALT+Enter
+
   Switch to next fullscreen blitter ....................... F1
   Switch between automatic and standard frameskipping ..... F2
   Decrease speed (automatic) or frameskip (standard) ...... F3
   Increase speed (automatic) or frameskip (standard) ...... F4
 
-  Save Game State ................. F5
-  Load Game State ................. F7
-  Previous State Slot ............. F6
-  Next State Slot ................. F8
+  Save Game State ................... F5
+  Load Game State ................... F7
+  Previous State Slot ............... F6
+  Next State Slot ................... F8
 
-  Show FPS counter ................ ALT+F
+  Show FPS counter .................. ALT+F
 
-  Change emulated peripheral ...... F9
-  Enable/Disable Sega keyboard .... ALT+F9
+  Change emulated peripheral ........ F9
+  Enable/Disable Sega keyboard ...... ALT+F9
 
-  Enable/Disable sprites .......... F11
-  Enable/Disable background ....... ALT+F11
+  Enable/Disable sprites ............ F11
+  Enable/Disable background ......... ALT+F11
 
-  Enable/Disable debugger ......... Scroll Lock (*1)
+  Enable/Disable debugger ........... Scroll Lock (*1)
   
-  Close current window ............ CTRL+F4
-  Cycle thru inputs windows ....... CTRL+TAB
+  Close current window .............. CTRL+F4
+  Cycle thru inputs windows ......... CTRL+TAB
 
-  Quit emulator ................... F10
-  Save screen to a file ........... PrintScreen (*2)
-  Switch fullscreen/windowed....... ALT+Enter
+  Quit emulator ..................... F10
+  Save screen to a file ............. PrintScreen
 
   (*1) Debugger must be activated. See "How to use the debugger".
 
-  (*2) To use the PrintScreen key with MEKA/DOS under a Windows environnement,
-       you have to tell Windows to stop intercepting the event. There is a 
-       checkbox in the properties panel.
-       If PrintScreen doesn't work for you, please contact me.
-
- Notes
- -----
-  [DOS version]
-  To use a mouse (for the graphical user interface, and Light Phaser / Paddle
-  emulation), be sure to have an appropriate driver loaded in DOS mode. Some
-  drivers or system are known to cause problems. Try another driver in this
-  case, such as "Cute Mouse Driver", and be sure to report if you are having
-  such problem.
-
-  [All versions]
-  I am interested in implementing analog support for certain peripherals.
-  This is one of the obvious MEKA lack. It will be done whenever possible.
 
  How to use SC-3000 and SF-7000 Software
  ---------------------------------------
@@ -587,56 +542,9 @@
  -----------------------
   Please read to the "DEBUGGER.TXT" documentation file.
 
-----------------------------------------------------------------------------
- Level 6 : "It is slooooooooow !!"
-----------------------------------------------------------------------------
-
- MEKA was mostly programmed by me, in C language, with few parts in x86 
- assembly. It is being hand optimized since a long time, but some things 
- still aren't very fast.
- 
- One of the biggest flaw, that is well known and unfortunately not yet fixed,
- is that its synchronization to target speed (eg: 60 Hz) isn't perfect and
- video refresh are not always optimal. It can be improved in various ways,
- look in the "MEKA.BLT" file for more information about it. But the real
- problem lies in the code, and is begging to be fixed.
-
- Otherwise, MEKA's fairly accurate emulation may be a reason why it is slower 
- than some older emulators. Eg: Graphic refresh, palette and collision 
- detection are all handled on a scanline-by-scanline basis. Of course it 
- includes other features not helping to make emulation faster, either.
- 
- Other emulators may or not include those features or use different coding
- practices, so that you may want to try them if MEKA doesn't run properly
- for you. Of course, being worried of doing my best, I am always interested
- in your feedback if you have to use MEKA over another emulator.
- 
- And now, for some tricks:
- 
- [DOS version]
- Try running MEKA in pure DOS mode (not under Windows 95/98/ME).
- Use VESA video modes if possible (see "MEKA.BLT").
- 
- [Windows version]
- Use DirectX video modes if possible (see "MEKA.BLT").
- Try upgrading your DirectX drivers.
- Try begging me so I finally fix timing problems.
- 
- [UN*X version]
- You are smart guys, you can figure it out!
- 
- [All versions]
- Close all unused boxes in the interface. For exemple, palette and tiles 
- viewer may slow things down, depending on the game.
-
- Disable YM-2413 FM emulation for games that supports it.
- The digital YM-2413 emulator slows down emulation dramatically.
- Or disable whole sound emulation.
- 
- Or erase MEKA.
 
 ----------------------------------------------------------------------------
- Level 7 : "I still like MEKA !" - How to help
+ Level 6 : "I still like MEKA !" - How to help
 ----------------------------------------------------------------------------
 
  Thanks. If you want to help further development and support the software 
@@ -673,7 +581,7 @@
  Enjoy!
 
 ----------------------------------------------------------------------------
- Level 8 : Source code and development
+ Level 7 : Source code and development
 ----------------------------------------------------------------------------
 
  As for 2005/04/03, MEKA source code is now available to all users.
@@ -692,7 +600,7 @@
     http://www.smspower.org/forums/viewforum.php?f=7
 
 ----------------------------------------------------------------------------
- Level 9 : I am a freak, tell me everything !
+ Level 8 : I am a freak, tell me everything !
 ----------------------------------------------------------------------------
 
  Here is a quick description of the ressource files that comes with MEKA:
@@ -796,7 +704,7 @@
  it will shows you a bunch of garbage so it is not a really good idea.
 
 ----------------------------------------------------------------------------
- Level 10 : Cool things to do when playing games is not enough
+ Level 9 : Cool things to do when playing games is not enough
 ----------------------------------------------------------------------------
 
  Connect to an Efnet IRC server and join #smspower and/or #meka to meet
@@ -866,7 +774,7 @@
  Enjoy!
 
 ----------------------------------------------------------------------------
- Level 11 : MEKA was made using...
+ Level 10 : MEKA was made using...
 ----------------------------------------------------------------------------
 
   Compilers/assemblers:
@@ -899,7 +807,7 @@
   - MS-DOS 7.1, Windows 98, Windows XP, GNU/Linux, NetBSD, etc.
 
 ----------------------------------------------------------------------------
- Level 12 : Last Boss
+ Level 11 : Last Boss
 ----------------------------------------------------------------------------
 
  To defeat the Vampire Dragon, stay at the bottom middle of the screen
@@ -911,7 +819,7 @@
  (Written by Clint Dyer, for Sega of America)
 
 ----------------------------------------------------------------------------
- Level 13 : End Credits
+ Level 12 : End Credits
 ----------------------------------------------------------------------------
 
  In addition to people already listed as "Contributors" at the top of this

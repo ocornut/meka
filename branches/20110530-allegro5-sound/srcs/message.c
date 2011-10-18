@@ -7,6 +7,9 @@
 #include "app_game.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
+#ifdef ARCH_WIN32
+#include "MsVc/resource.h"
+#endif
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -68,8 +71,8 @@ static const S2I_TYPE Msg_Translation_Table [] =
 
 	__MSG_ADD(MSG_Setup_Running),
 	__MSG_ADD(MSG_Setup_Setup),
-	__MSG_ADD(MSG_Setup_Soundcard_Select),
-	__MSG_ADD(MSG_Setup_Soundcard_Select_Tips_Win32),
+	__MSG_ADD(MSG_Setup_Video_Driver),
+	__MSG_ADD(MSG_Setup_Video_Resolution),
 	__MSG_ADD(MSG_Setup_SampleRate_Select),
 	__MSG_ADD(MSG_Setup_Debugger_Enable),
 

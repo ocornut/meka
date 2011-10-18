@@ -161,8 +161,8 @@ Msg_Init_Completed                      = "[READY]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Running                       = "Running setup..."
 Msg_Setup_Setup                         = "Setup"
-Msg_Setup_Soundcard_Select              = "Please select your audio device:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound is highly recommended, if available)"
+Msg_Setup_Video_Driver                  = "Display driver:"
+Msg_Setup_Video_Resolution              = "Resolution:"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Debugger_Enable               = "Enable Z80 debugger and associated features"
 
@@ -656,8 +656,6 @@ Msg_Init_Completed                      = "[PRET]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Running                       = "Execution du programme de configuration..."
 Msg_Setup_Setup                         = "Configuration"
-Msg_Setup_Soundcard_Select              = "Choisissez votre carte son:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound est trŠs recommand‚, si disponible)"
 Msg_Setup_SampleRate_Select             = "Fréquence d'échantillonage:"
 Msg_Setup_Debugger_Enable               = "Active le debuggeur Z80 et autres fonctionnalites associees"
 
@@ -1139,8 +1137,6 @@ Msg_Init_Completed                      = "[READY]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Setup                         = "Setup"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
-Msg_Setup_Soundcard_Select              = "Please seleck yer audio device:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direck X is highly recommended, eff'n available)"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Screen cappured t'%s"
@@ -1600,8 +1596,6 @@ Msg_Init_Completed                      = "[klaar]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Running                       = "Setup wordt uitgevoerd..."
 Msg_Setup_Setup                         = "Setup"
-Msg_Setup_Soundcard_Select              = "A.U.B. kies uw geluidskaart:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X is aanbevolen, als het beschikbaar is)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Debugger_Enable               = "Z80 debugger en bijbehorende functies inschakelen"
 
@@ -2088,8 +2082,6 @@ Msg_Init_GUI                            = "Iniciando GUI.."
 Msg_Init_Completed                      = "[PREPARADO]"
 
 ; Setup ----------------------------------------------------------------------
-Msg_Setup_Soundcard_Select              = "Por favor seleccione su dispositivo de audio:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X es altamente recomendado, si esta disponible)"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Pantalla capturada a %s"
@@ -2547,8 +2539,6 @@ Msg_Init_GUI                            = "Inicializando interface gr fica com o
 Msg_Init_Completed                      = "[PRONTO!]"
 
 ; Setup ----------------------------------------------------------------------
-Msg_Setup_Soundcard_Select              = "Por favor, selecione sua placa de som:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(Direct X ‚ altamente recomendado, se dispon¡vel)"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Imagem gravada como %s"
@@ -2990,8 +2980,6 @@ Msg_Init_GUI                            = "Initializzo parti grafiche.."
 Msg_Init_Completed                      = "[PRONTO]"
 
 ; Setup ----------------------------------------------------------------------
-Msg_Setup_Soundcard_Select              = "Per favore scegliere dispositivo audio:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound e' altamente raccomandato, se disponibile)"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Schermata salvata come %s"
@@ -3438,8 +3426,6 @@ Msg_Init_GUI                            = "Initialisiere grafische Benutzeroberf
 Msg_Init_Completed                      = "[BEREIT]"
 
 ; Setup ----------------------------------------------------------------------
-Msg_Setup_Soundcard_Select              = "Bitte waehlen Sie ihre Soundkarte:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound wird empfohlen)"
 
 ; Screenshots Capture ---------------------------------------------------------
 Msg_Capture_Done                        = "Screenshot abgelegt in %s"
@@ -3888,8 +3874,6 @@ Msg_Init_Completed                      = "[REDO]"
 
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Setup                         = "Inställningar"
-Msg_Setup_Soundcard_Select              = "Välj ljudenhet:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound är rekommenderat, om tillgängligt)"
 Msg_Setup_SampleRate_Select             = "Samplingshastighet:"
 
 ; Screenshots Capture --------------------------------------------------------
@@ -4347,8 +4331,6 @@ Msg_Init_Completed                      = "[KLAR]"
 
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Setup                         = "Opsætning"
-Msg_Setup_Soundcard_Select              = "Vaelg venligst dit lydkort:"
-Msg_Setup_Soundcard_Select_Tips_Win32   = "(DirectSound er, om muligt, hoejest anbefalelsesvaerdigt)"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 
 ; Screenshots Capture --------------------------------------------------------

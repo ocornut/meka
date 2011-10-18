@@ -29,10 +29,10 @@ t_video	Video;
 t_video_driver	g_video_drivers[] =
 {
 #ifdef ARCH_WIN32
-	{ "directx",	0,					},	// Allegro for Win32 wants a zero here because it is "default".
+	{ "directx",	"DirectX",		0,					},	// Allegro for Win32 wants a zero here because it is "default".
 #endif
-	{ "opengl",		ALLEGRO_OPENGL,		},
-	{ "opengl30",	ALLEGRO_OPENGL_3_0, },
+	{ "opengl",		"OpenGL",		ALLEGRO_OPENGL,		},
+	{ "opengl30",	"OpenGL 3.0",	ALLEGRO_OPENGL_3_0, },
 	{ NULL, }
 };
 

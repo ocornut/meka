@@ -22,6 +22,7 @@ extern t_video	Video;
 struct t_video_driver
 {
 	const char* name;
+	const char* desc;
 	int			flags;
 };
 

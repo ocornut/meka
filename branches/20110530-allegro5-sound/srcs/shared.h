@@ -96,10 +96,3 @@ struct t_widget;
 #include "vmachine.h"       // Virtual machine system
 
 //-----------------------------------------------------------------------------
-// Ressources
-//-----------------------------------------------------------------------------
-#ifdef ARCH_WIN32
-#include "MsVc/resource.h"  // RESOURCE.H   Windows ressources definitions
-#endif
-
-//-----------------------------------------------------------------------------

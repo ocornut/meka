@@ -8,22 +8,22 @@
 // - DOS, UNIX: Text mode. Soundcard setup.
 // - WIN32:     Win32 applet. Soundcard, soundrate, language, debugger enable setup.
 //-----------------------------------------------------------------------------
-// Note: the Win32 code, especially initialization, is boring and messy.
-// This may be improved in the future if we need more Win32 stuff.
-//-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "setup.h"
+#include "video.h"
 #include "sound/s_misc.h"
+#ifdef ARCH_WIN32
+#include "MsVc/resource.h"
+#endif
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 #ifdef ARCH_WIN32
-    static int    Setup_Interactive_Win32 (void);
-    //AL_FUNC(HWND, win_get_window, (void));
+    static int    Setup_Interactive_Win32(void);
 #else
-    static int    Setup_Interactive_Console (void);
+    static int    Setup_Interactive_Console(void);
 #endif
 
 //-----------------------------------------------------------------------------
@@ -50,10 +50,10 @@ int     Setup_Interactive (void)
     // Call appropriate setup
     #ifdef ARCH_WIN32
         // Windows setup
-        return (Setup_Interactive_Win32 ());
+        return (Setup_Interactive_Win32());
     #else
         // Console setup (DOS & UNIX)
-        return (Setup_Interactive_Console ());
+        return (Setup_Interactive_Console());
     #endif
 }
 
@@ -72,15 +72,29 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 		{
 			// Set various localized text
 			char buffer[256];
-			snprintf(buffer, countof(buffer), "MEKA - %s", Msg_Get (MSG_Setup_Setup));
+			snprintf(buffer, countof(buffer), "MEKA - %s", Msg_Get(MSG_Setup_Setup));
 			SetWindowText(hDlg, buffer);
-			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_1), Msg_Get (MSG_Setup_Soundcard_Select));
-			// SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_2), Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
-			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_TEXT_3), Msg_Get (MSG_Setup_SampleRate_Select));
-			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get (MSG_Setup_Debugger_Enable));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER_TEXT), Msg_Get(MSG_Setup_Video_Driver));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_RESOLUTION_TEXT), Msg_Get(MSG_Setup_Video_Resolution));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE_TEXT), Msg_Get(MSG_Setup_SampleRate_Select));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get(MSG_Setup_Debugger_Enable));
 
 			HWND combo_hwnd;
 			int default_selection;
+
+			// Fill video driver combo box
+			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER);
+			default_selection = g_configuration.video_driver - &g_video_drivers[0];
+			t_video_driver* driver = &g_video_drivers[0];
+			while (driver->name)
+			{
+				int driver_idx = driver - &g_video_drivers[0];
+				const int combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)driver->desc);
+				SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)driver_idx);
+				driver++;
+			}
+			if (default_selection != -1)
+				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
 
 			// Fill soundcards combo box
 			// FIXME-NEWSOUND
@@ -103,9 +117,9 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
 			*/
 
-			// Fill soundrates combo box
-			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE);
-			default_selection = 2; // FIXME: 2= 44100 KH
+			// Fill sound rate combo box
+			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE);
+			default_selection = 1; // FIXME: 1= 44100 KH
 			for (int i = 0; Sound_Rate_Default_Table[i] != -1; i++)
 			{
 				char buffer[256];
@@ -168,8 +182,12 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 							Sound.SoundCard = n;
 						*/
 
+						// Video Driver
+						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER), CB_GETCURSEL, 0, 0)) != CB_ERR)
+							g_configuration.video_driver = &g_video_drivers[n];
+
 						// Sample Rate
-						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDRATE), CB_GETCURSEL, 0, 0)) != CB_ERR)
+						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE), CB_GETCURSEL, 0, 0)) != CB_ERR)
 							Sound.SampleRate = Sound_Rate_Default_Table[n];
 
 						// Language
