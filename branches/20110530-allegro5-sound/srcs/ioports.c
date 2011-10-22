@@ -29,121 +29,134 @@
 
 //-----------------------------------------------------------------------------
 
-// OUTPUT - CALLED BY THE EMULATED Z80 ----------------------------------------
-//-----------------------------------------------------------------------------
-void	Out_SMS (word Port, byte Value)
+// OUTPUT - CALLED BY THE EMULATED Z80
+void	Out_SMS (u16 Port, u8 Value)
 {
-switch (Port /* & 0xFF*/)
- {
- // 0xBE/190 : VDP Data Port --------------------------------------------------
- case 0xBE: Tms_VDP_Out_Data (Value);
-            return;
+	// 0x80..0xBF : VDP
+	if ((Port & 0xC0) == 0x80)
+	{
+		if (Port & 0x01)
+		{
+			// 0xBD,0xBF and odd addresses: VDP Address
+			Tms_VDP_Out_Address(Value);
+			return;
+		}
+		else
+		{
+			// 0xBE and even addresses: VDP Data
+			Tms_VDP_Out_Data(Value);
+			return;
+		}
+	}
 
- // 0xBD/189 - 0xBF/191 : VDP Address Port ------------------------------------
- case 0xBD: case 0xBF: Tms_VDP_Out_Address (Value);
-            return;
+	switch (Port)
+	{
+		// 0x3F/63 : LightGun & Nationalisation Port ---------------------------------
+	case 0x3F: if ((tsms.Periph_Nat & 0xF) != (Value & 0xF))
+			   {
+				   Inputs.SportsPad_Latch [0] = Inputs.SportsPad_Latch [1] = 1;
+			   }
+			   tsms.Periph_Nat = Value;
+			   if (tsms.Periph_Nat == 0x0D) 
+				   Inputs.SportsPad_Latch [0] ^= 1;
+			   if (tsms.Periph_Nat == 0x07) 
+				   Inputs.SportsPad_Latch [1] ^= 1;
+			   // IO_LOG_WRITE;
+			   return;
 
- // 0x3F/63 : LightGun & Nationalisation Port ---------------------------------
- case 0x3F: if ((tsms.Periph_Nat & 0xF) != (Value & 0xF))
-               {
-               Inputs.SportsPad_Latch [0] = Inputs.SportsPad_Latch [1] = 1;
-               }
-            tsms.Periph_Nat = Value;
-            if (tsms.Periph_Nat == 0x0D) 
-                Inputs.SportsPad_Latch [0] ^= 1;
-            if (tsms.Periph_Nat == 0x07) 
-                Inputs.SportsPad_Latch [1] ^= 1;
-            // IO_LOG_WRITE;
-            return;
-
- // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
- case 0xF0:
-   sms.FM_Register = Value & 0x3F;
-   return;
- case 0xF1:
-   // Here we are not testing if FM Unit is enabled
-   // Because SMS Japanese BIOS always use FM Unit (as well as PSG).
-   // if (Sound.FM_Enabled)
-      {
-      if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
-         {
-         VGM_Data_Add_FM (&Sound.LogVGM, (Value << 8) | sms.FM_Register);
-         }
-      FM_Write(sms.FM_Register, Value);
-      }
-   return;
-
- // 0xF2/242: FM Chipset Detection --------------------------------------------
- case 0xF2: if (Sound.FM_Enabled)
-               {
-               sms.FM_Magic = Value;
-               }
-            //IO_LOG_WRITE;
-            return;
-
- // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
- // At least Cosmic Spacehead uses 0x7E for writing.
- case 0x7E: case 0x7F:
-            // Msg (MSGT_DEBUG, "At %04Xh @ %d: PSG = %02Xh", sms.R.PC.W, sms.Pages_Reg [2], Value);
-            // PSG_0_Write (Value);
-            SN76489_Write (Value);
-            return;
-
- // 0xDE/221 : Keyboard Raster Port -------------------------------------------
- case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
-            // Msg (MSGT_DEBUG, "At %04Xh: Port 0xDE = %02Xh", sms.R.PC.W, Value);
-            return;
-
- // Gear-to-gear Emulation ----------------------------------------------------
- case 0x01: Comm_Write_01 (Value); return;
- case 0x02: Comm_Write_02 (Value); return;
- case 0x03: Comm_Write_03 (Value); return;
- case 0x05: Comm_Write_05 (Value); return;
-
- // Game Gear Stereo ----------------------------------------------------------
- // FIXME: emulate stereo!
- case 0x06: if (g_driver->id == DRV_GG)
-               {
-               SN76489_StereoWrite (Value);
-               if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
-                  VGM_Data_Add_GG_Stereo (&Sound.LogVGM, Value);
-               }
-            return;
-
- case 0x3E: // RAM [0] = Value & 7;
-            // Msgt (MSGT_DEBUG, "At %04Xh: [%02Xh] = %02Xh", sms.R.PC.W, Port, Value);
-            return;
-
- // 0xFF/255: Switch from BIOS to Cartridge -----------------------------------
- // FIXME: This is awful! If anyone sees this, say goodbye to my honor.
- case 0xFF: if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
+			   // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
+	case 0xF0:
+		sms.FM_Register = Value & 0x3F;
+		return;
+	case 0xF1:
+		// Here we are not testing if FM Unit is enabled
+		// Because SMS Japanese BIOS always use FM Unit (as well as PSG).
+		// if (Sound.FM_Enabled)
+		{
+			if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
 			{
-				BIOS_Switch_to_Game ();
+				VGM_Data_Add_FM (&Sound.LogVGM, (Value << 8) | sms.FM_Register);
 			}
-            return;
- }
+			FM_Write(sms.FM_Register, Value);
+		}
+		return;
+
+		// 0xF2/242: FM Chipset Detection --------------------------------------------
+	case 0xF2: if (Sound.FM_Enabled)
+			   {
+				   sms.FM_Magic = Value;
+			   }
+			   //IO_LOG_WRITE;
+			   return;
+
+			   // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
+			   // At least Cosmic Spacehead uses 0x7E for writing.
+	case 0x7E: case 0x7F:
+		// Msg (MSGT_DEBUG, "At %04Xh @ %d: PSG = %02Xh", sms.R.PC.W, sms.Pages_Reg [2], Value);
+		// PSG_0_Write (Value);
+		SN76489_Write (Value);
+		return;
+
+		// 0xDE/221 : Keyboard Raster Port -------------------------------------------
+	case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
+		// Msg (MSGT_DEBUG, "At %04Xh: Port 0xDE = %02Xh", sms.R.PC.W, Value);
+		return;
+
+		// Gear-to-gear Emulation ----------------------------------------------------
+	case 0x01: Comm_Write_01 (Value); return;
+	case 0x02: Comm_Write_02 (Value); return;
+	case 0x03: Comm_Write_03 (Value); return;
+	case 0x05: Comm_Write_05 (Value); return;
+
+		// Game Gear Stereo ----------------------------------------------------------
+		// FIXME: emulate stereo!
+	case 0x06: if (g_driver->id == DRV_GG)
+			   {
+				   SN76489_StereoWrite (Value);
+				   if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
+					   VGM_Data_Add_GG_Stereo (&Sound.LogVGM, Value);
+			   }
+			   return;
+
+	case 0x3E: // RAM [0] = Value & 7;
+		// Msgt (MSGT_DEBUG, "At %04Xh: [%02Xh] = %02Xh", sms.R.PC.W, Port, Value);
+		return;
+
+		// 0xFF/255: Switch from BIOS to Cartridge -----------------------------------
+		// FIXME: This is awful! If anyone sees this, say goodbye to my honor.
+	case 0xFF: if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
+			   {
+				   BIOS_Switch_to_Game ();
+			   }
+			   return;
+	}
 
 #ifdef DEBUG_IO
- IO_LOG_WRITE;
+	IO_LOG_WRITE;
 #endif
 }
 
 // INPUT - CALLED BY THE EMULATED Z80 -----------------------------------------
 u8		In_SMS (u16 Port)
 {
-    // FIXME: Proper mirroring/port mapping is not emulated.
-    // Note how this is dependant of the SMS/GG revision.
-    switch (Port /*& 0xFF*/)
+	// 0x80..0xBF : VDP
+	if ((Port & 0xC0) == 0x80)
+	{
+		if (Port & 0x01)
+		{
+			// 0xBD,0xBF and odd addresses: VDP Status
+			return Tms_VDP_In_Status();
+		}
+		else
+		{
+			// 0xBE and even addresses: VDP Data
+			return Tms_VDP_In_Data();
+		}
+	}
+
+	// FIXME: Proper mirroring/port mapping is not emulated.
+    switch (Port)
     {
-        // VDP Status
-    case 0xBD: 
-    case 0xBF: 
-        return Tms_VDP_In_Status ();
-
-        // VDP Data Port
-    case 0xBE: 
-        return Tms_VDP_In_Data ();
-
         // Scanline
     case 0x7E: 
         return Beam_Y ();
@@ -239,135 +252,153 @@ u8		In_SMS (u16 Port)
 }
 
 // OUTPUT - CALLED BY THE EMULATED Z80 ----------------------------------------
-void Out_SF7000 (word Port, byte Value)
+void Out_SF7000 (u16 Port, u8 Value)
 {
-switch (Port)
- {
- // 0xBE/190 : VDP Data Port --------------------------------------------------
- case 0xBE: Tms_VDP_Out_Data (Value);
-            return;
+	// 0x80..0xBF : VDP
+	if ((Port & 0xC0) == 0x80)
+	{
+		if (Port & 0x01)
+		{
+			// 0xBD,0xBF and odd addresses: VDP Address
+			Tms_VDP_Out_Address(Value);
+			return;
+		}
+		else
+		{
+			// 0xBE and even addresses: VDP Data
+			Tms_VDP_Out_Data(Value);
+			return;
+		}
+	}
 
- // 0xBD/189 - 0xBF/191 : VDP Address Port ------------------------------------
- case 0xBD: case 0xBF: Tms_VDP_Out_Address (Value);
-            return;
+	switch (Port)
+	{
+		// 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
+	case 0x7E: case 0x7F: SN76489_Write (Value); /* PSG_0_Write (Value); */ return;
 
- // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
- case 0x7E: case 0x7F: SN76489_Write (Value); /* PSG_0_Write (Value); */ return;
+		// 0xDE/221 : Keyboard Raster Port -------------------------------------------
+	case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
+		return;
 
- // 0xDE/221 : Keyboard Raster Port -------------------------------------------
- case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
-            return;
+		// SF-7000 Stuff -------------------------------------------------------------
+		//--[ FDC ]-------------------------------------------------------------------
+		// case 0xE0: /* Status */ return;
+	case 0xE1: FDC765_Data_Write (Value); return;
+		//--[ P.P.I. ]----------------------------------------------------------------
+		//case 0xE4: // FDC/Printer check
+		//    IO_LOG_WRITE; SF7000.Port_E4 = Value;
+		//    return;
+	case 0xE5: // Printer data output (parallel)
+		//IO_LOG_WRITE; SF7000.Port_E5 = Value;
+		return;
+	case 0xE6: // FDC/Printer control
+		//IO_LOG_WRITE;
+		SF7000.Port_E6 = Value;
+		SF7000_IPL_Mapping_Update ();
+		if ((SF7000.Port_E6 & 0x03) == 0x03) // ???
+		{
+			// Reset Floppy Disk
+			FDC765_Reset ();
+			// Need to trigger a NMI there ?
+			CPU_ForceNMI = TRUE;
+		}
+		return;
+	case 0xE7: // Control Register
+		//IO_LOG_WRITE;
+		SF7000.Port_E7 = Value;
+		if (!(Value & 0x80))
+		{
+			byte Mask = 1 << ((Value >> 1) & 0x07);
+			if (Value & 0x01)
+				SF7000.Port_E6 |= Mask;
+			else
+				SF7000.Port_E6 &= ~Mask;
 
- // SF-7000 Stuff -------------------------------------------------------------
- //--[ FDC ]-------------------------------------------------------------------
- // case 0xE0: /* Status */ return;
- case 0xE1: FDC765_Data_Write (Value); return;
- //--[ P.P.I. ]----------------------------------------------------------------
- //case 0xE4: // FDC/Printer check
- //    IO_LOG_WRITE; SF7000.Port_E4 = Value;
- //    return;
- case 0xE5: // Printer data output (parallel)
-      //IO_LOG_WRITE; SF7000.Port_E5 = Value;
-      return;
- case 0xE6: // FDC/Printer control
-      //IO_LOG_WRITE;
-      SF7000.Port_E6 = Value;
-      SF7000_IPL_Mapping_Update ();
-      if ((SF7000.Port_E6 & 0x03) == 0x03) // ???
-         {
-         // Reset Floppy Disk
-         FDC765_Reset ();
-         // Need to trigger a NMI there ?
-         CPU_ForceNMI = TRUE;
-         }
-      return;
- case 0xE7: // Control Register
-      //IO_LOG_WRITE;
-      SF7000.Port_E7 = Value;
-      if (!(Value & 0x80))
-         {
-         byte Mask = 1 << ((Value >> 1) & 0x07);
-         if (Value & 0x01)
-            SF7000.Port_E6 |= Mask;
-         else
-            SF7000.Port_E6 &= ~Mask;
+			if (Value & 0x04)
+			{
+				FDC765_Reset ();
+				FDC765_Cmd_For_SF7000 = TRUE;
+			}
+		}
 
-         if (Value & 0x04)
-            {
-            FDC765_Reset ();
-            FDC765_Cmd_For_SF7000 = TRUE;
-            }
-         }
-
-      SF7000_IPL_Mapping_Update ();
-      return;
- //--[ USART 8251 ]------------------------------------------------------------
- case 0xE8: /* IO_LOG_WRITE; */ SF7000.Port_E8 = Value; return;
- case 0xE9: /* IO_LOG_WRITE; */ SF7000.Port_E9 = Value; return;
- }
+		SF7000_IPL_Mapping_Update ();
+		return;
+		//--[ USART 8251 ]------------------------------------------------------------
+	case 0xE8: /* IO_LOG_WRITE; */ SF7000.Port_E8 = Value; return;
+	case 0xE9: /* IO_LOG_WRITE; */ SF7000.Port_E9 = Value; return;
+	}
 
 #ifdef DEBUG_IO
- IO_LOG_WRITE;
+	IO_LOG_WRITE;
 #endif
 }
 
 // INPUT - CALLED BY THE EMULATED Z80 -----------------------------------------
-byte In_SF7000 (word Port)
+u8 In_SF7000 (word Port)
 {
- switch (Port /*& 0xFF*/)
- {
- // 0xBD/189 - 0xBF/191 : VDP Status ------------------------------------------
- case 0xBD: case 0xBF: return (Tms_VDP_In_Status ());
+	// 0x80..0xBF : VDP
+	if ((Port & 0xC0) == 0x80)
+	{
+		if (Port & 0x01)
+		{
+			// 0xBD,0xBF and odd addresses: VDP Status
+			return Tms_VDP_In_Status();
+		}
+		else
+		{
+			// 0xBE and even addresses: VDP Data
+			return Tms_VDP_In_Data();
+		}
+	}
 
- // 0xBE/190 : VDP Data Port --------------------------------------------------
- case 0xBE: return (Tms_VDP_In_Data ());
+	switch (Port /*& 0xFF*/)
+	{
+		// 0xC0/192 - 0xDC/220 : Joystick 1 Port -------------------------------------
+	case 0xC0:
+	case 0xDC: return (Input_Port_DC ());
 
- // 0xC0/192 - 0xDC/220 : Joystick 1 Port -------------------------------------
- case 0xC0:
- case 0xDC: return (Input_Port_DC ());
+		// 0xC1/193 - 0xDD/221 : Joystick 2 & LightGun Latch Port --------------------
+	case 0xC1:
+	case 0xDD: return (Input_Port_DD ());
 
- // 0xC1/193 - 0xDD/221 : Joystick 2 & LightGun Latch Port --------------------
- case 0xC1:
- case 0xDD: return (Input_Port_DD ());
+		// 0xDE: Keyboard scan / printer / cassette ----------------------------------
+	case 0xDE: return sms.Input_Mode;
 
- // 0xDE: Keyboard scan / printer / cassette ----------------------------------
- case 0xDE: return sms.Input_Mode;
-
- // SF-7000 Stuff -------------------------------------------------------------
- //--[ FDC ]-------------------------------------------------------------------
- case 0xE0: return FDC765_Status_Read ();
- case 0xE1: return FDC765_Data_Read ();
- //--[ P.P.I. ]----------------------------------------------------------------
- case 0xE4: // FDC/Printer control
- {
-      static int MysteriousTime = 0x3200;
-      //IO_LOG_READ;
-      if (--MysteriousTime <= 0)
-         {
-         MysteriousTime = 0x3200;
-         SF7000.Port_E4 ^= 4;
-         }
-      return FDC765_Cmd_For_SF7000 | SF7000.Port_E4 /* & 4 */;
- }
- case 0xE5: // Printer data output (parallel)
-      //IO_LOG_READ;
-      return SF7000.Port_E5;
- case 0xE6: // FDC/Printer control
-      //IO_LOG_READ;
-      return SF7000.Port_E6;
- case 0xE7: /// Control Register
-      //IO_LOG_READ;
-      return SF7000.Port_E7;
- //--[ USART ]-----------------------------------------------------------------
- case 0xE8: /* IO_LOG_READ; */ return SF7000.Port_E8;
- case 0xE9: /* IO_LOG_READ; */ return SF7000.Port_E9;
- }
+		// SF-7000 Stuff -------------------------------------------------------------
+		//--[ FDC ]-------------------------------------------------------------------
+	case 0xE0: return FDC765_Status_Read ();
+	case 0xE1: return FDC765_Data_Read ();
+		//--[ P.P.I. ]----------------------------------------------------------------
+	case 0xE4: // FDC/Printer control
+		{
+			static int MysteriousTime = 0x3200;
+			//IO_LOG_READ;
+			if (--MysteriousTime <= 0)
+			{
+				MysteriousTime = 0x3200;
+				SF7000.Port_E4 ^= 4;
+			}
+			return FDC765_Cmd_For_SF7000 | SF7000.Port_E4 /* & 4 */;
+		}
+	case 0xE5: // Printer data output (parallel)
+		//IO_LOG_READ;
+		return SF7000.Port_E5;
+	case 0xE6: // FDC/Printer control
+		//IO_LOG_READ;
+		return SF7000.Port_E6;
+	case 0xE7: /// Control Register
+		//IO_LOG_READ;
+		return SF7000.Port_E7;
+		//--[ USART ]-----------------------------------------------------------------
+	case 0xE8: /* IO_LOG_READ; */ return SF7000.Port_E8;
+	case 0xE9: /* IO_LOG_READ; */ return SF7000.Port_E9;
+	}
 
 #ifdef DEBUG_IO
- IO_LOG_READ;
+	IO_LOG_READ;
 #endif
 
-return (0xFF);
+	return (0xFF);
 }
 
 //-----------------------------------------------------------------------------

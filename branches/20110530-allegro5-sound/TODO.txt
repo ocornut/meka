@@ -1,4 +1,6 @@
 
+SF-7000: write always access to RAM (even when ROM is mapped) dixit honestbob
+
 Z80 PC history command (great to figure out caller)
 Z80 branch history command
 

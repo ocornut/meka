@@ -26,6 +26,8 @@ They are usually of 2 kinds:
     - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
       This allow 'Ali Baba' to run properly. Better clearing pattern could be 
       implemented for other systems/countries after we've done more research. [Omar]
+    - Added support for mirrored VDP ports in $80..$BF range, as required by some 
+      Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
   - Debugger:
     - Added CR command ("Continue to next RET* instruction"). [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]

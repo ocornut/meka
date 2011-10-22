@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/10/13
+; Last updated 2011/10/22
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -357,6 +357,7 @@ SMS 62f0c23d ED4ACAF1CF794680   My Hero/NAME_BR=Gang's Fighter/COUNTRY=US,EU,BR,
 SMS 332a847d 59A05C7FBF656A9E   NBA Jam [Proto]/FLAGS=PROTO/EMU_TVTYPE=PAL/COMMENT=Prototype version of the unreleased game.
 SMS 5b5f9106 43FAFA9DD769AB41   Nekkyuu Koushien/COUNTRY=JP/PRODUCT_NO=G-1367
 SMS e316c06d E8185C6373EE5090   Nemesis/COUNTRY=KR/EMU_MAPPER=12
+SMS 0a77fa5e D9A608B8110F2B76   Nemesis 2/COUNTRY=KR/EMU_MAPPER=12
 SMS c660ff34 0F4613232FB9602D   NewZealand Story, The/COUNTRY=EU/PRODUCT_NO=27035-50
 SMS 320313ec 690DDE10E39C7CA1   Ninja, The/COUNTRY=JP/PRODUCT_NO=G-1308
 SMS 66a15bd9 6E674174DCF99F02   Ninja, The/NAME_IT=I Ninja/COUNTRY=US,EU,IT/PRODUCT_NO=5066
@@ -1315,6 +1316,8 @@ SG1 01932df9 39B539F98CD283FF   Sindbad Mystery/COUNTRY=JP,AU,NZ,EU,KR/PRODUCT_N
 SG1 945f7847 96A819F06AD081FE   Sindbad Mystery/COUNTRY=TW/PRODUCT_NO=B-012
 SG1 922c5468 37CC1C413181F4FA   Soukoban/NAME_AU=Thinking Rabbit/COUNTRY=JP,AU/PRODUCT_NO=C-56/COMMENT=Also known as "Thinking Rabbit" in bootleg form. Pirates mistakenly choose this name because it is the only latin-readable text shown on the title screen, but it is the developer's name.
 SG1 a2c3fc97 64CB012C4C6EF4F6   Soukoban/COUNTRY=TW/PRODUCT_NO=R-056
+SG1 148ea752 3ACB0F392B6B31EC   Soukoban/COUNTRY=KR
+SG1 89bafec5 81457EFD7250906D   Soukoban [IQ logo]/COUNTRY=KR/PRODUCT_NO=G-36
 SG1 6ad5cb3d 832D295F5C58E72D   Space Invaders/COUNTRY=JP/PRODUCT_NO=G-1045
 SG1 0760ea93 832D29605C57E72D   Space Invaders/COUNTRY=TW/PRODUCT_NO=W-045
 SG1 b8b58b30 8E2F02DC58C51E2A   Space Slalom/COUNTRY=JP/PRODUCT_NO=G-1023
