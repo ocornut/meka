@@ -21,10 +21,10 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-#define IO_LOG_WRITE      \
+#define IO_LOG_WRITE()      \
         { Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Port_Write), CPU_GetPC, Port, Value); }
 
-#define IO_LOG_READ       \
+#define IO_LOG_READ()       \
         { Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Port_Read), CPU_GetPC, Port); }
 
 //-----------------------------------------------------------------------------
@@ -61,7 +61,7 @@ void	Out_SMS (u16 Port, u8 Value)
 				   Inputs.SportsPad_Latch [0] ^= 1;
 			   if (tsms.Periph_Nat == 0x07) 
 				   Inputs.SportsPad_Latch [1] ^= 1;
-			   // IO_LOG_WRITE;
+			   // IO_LOG_WRITE();
 			   return;
 
 			   // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
@@ -86,7 +86,7 @@ void	Out_SMS (u16 Port, u8 Value)
 			   {
 				   sms.FM_Magic = Value;
 			   }
-			   //IO_LOG_WRITE;
+			   //IO_LOG_WRITE();
 			   return;
 
 			   // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
@@ -132,7 +132,7 @@ void	Out_SMS (u16 Port, u8 Value)
 	}
 
 #ifdef DEBUG_IO
-	IO_LOG_WRITE;
+	IO_LOG_WRITE();
 #endif
 }
 
@@ -214,7 +214,7 @@ u8		In_SMS (u16 Port)
     case 0xE0:
         {
             u8 v = 0xFF;
-            //IO_LOG_READ;
+            //IO_LOG_READ();
             if (key[KEY_1]) v &= ~0x80;
             if (key[KEY_2]) v &= ~0x40;
             if (key[KEY_3]) v &= ~0x20;
@@ -229,7 +229,7 @@ u8		In_SMS (u16 Port)
     case 0x50:
         {
             u8 v = 0xFF;
-            IO_LOG_READ;
+            IO_LOG_READ();
             if (key[KEY_Q]) v &= ~0x80;
             if (key[KEY_W]) v &= ~0x40;
             if (key[KEY_E]) v &= ~0x20;
@@ -245,7 +245,7 @@ u8		In_SMS (u16 Port)
     }
 
 #ifdef DEBUG_IO
-    IO_LOG_READ;
+    IO_LOG_READ();
 #endif
 
     return (0xFF);
@@ -286,13 +286,13 @@ void Out_SF7000 (u16 Port, u8 Value)
 	case 0xE1: FDC765_Data_Write (Value); return;
 		//--[ P.P.I. ]----------------------------------------------------------------
 		//case 0xE4: // FDC/Printer check
-		//    IO_LOG_WRITE; SF7000.Port_E4 = Value;
+		//    IO_LOG_WRITE(); SF7000.Port_E4 = Value;
 		//    return;
 	case 0xE5: // Printer data output (parallel)
-		//IO_LOG_WRITE; SF7000.Port_E5 = Value;
+		//IO_LOG_WRITE(); SF7000.Port_E5 = Value;
 		return;
 	case 0xE6: // FDC/Printer control
-		//IO_LOG_WRITE;
+		//IO_LOG_WRITE();
 		SF7000.Port_E6 = Value;
 		SF7000_IPL_Mapping_Update ();
 		if ((SF7000.Port_E6 & 0x03) == 0x03) // ???
@@ -304,7 +304,7 @@ void Out_SF7000 (u16 Port, u8 Value)
 		}
 		return;
 	case 0xE7: // Control Register
-		//IO_LOG_WRITE;
+		//IO_LOG_WRITE();
 		SF7000.Port_E7 = Value;
 		if (!(Value & 0x80))
 		{
@@ -324,12 +324,12 @@ void Out_SF7000 (u16 Port, u8 Value)
 		SF7000_IPL_Mapping_Update ();
 		return;
 		//--[ USART 8251 ]------------------------------------------------------------
-	case 0xE8: /* IO_LOG_WRITE; */ SF7000.Port_E8 = Value; return;
-	case 0xE9: /* IO_LOG_WRITE; */ SF7000.Port_E9 = Value; return;
+	case 0xE8: /* IO_LOG_WRITE(); */ SF7000.Port_E8 = Value; return;
+	case 0xE9: /* IO_LOG_WRITE(); */ SF7000.Port_E9 = Value; return;
 	}
 
 #ifdef DEBUG_IO
-	IO_LOG_WRITE;
+	IO_LOG_WRITE();
 #endif
 }
 
@@ -372,7 +372,7 @@ u8 In_SF7000 (word Port)
 	case 0xE4: // FDC/Printer control
 		{
 			static int MysteriousTime = 0x3200;
-			//IO_LOG_READ;
+			//IO_LOG_READ();
 			if (--MysteriousTime <= 0)
 			{
 				MysteriousTime = 0x3200;
@@ -381,21 +381,21 @@ u8 In_SF7000 (word Port)
 			return FDC765_Cmd_For_SF7000 | SF7000.Port_E4 /* & 4 */;
 		}
 	case 0xE5: // Printer data output (parallel)
-		//IO_LOG_READ;
+		//IO_LOG_READ();
 		return SF7000.Port_E5;
 	case 0xE6: // FDC/Printer control
-		//IO_LOG_READ;
+		//IO_LOG_READ();
 		return SF7000.Port_E6;
 	case 0xE7: /// Control Register
-		//IO_LOG_READ;
+		//IO_LOG_READ();
 		return SF7000.Port_E7;
 		//--[ USART ]-----------------------------------------------------------------
-	case 0xE8: /* IO_LOG_READ; */ return SF7000.Port_E8;
-	case 0xE9: /* IO_LOG_READ; */ return SF7000.Port_E9;
+	case 0xE8: /* IO_LOG_READ(); */ return SF7000.Port_E8;
+	case 0xE9: /* IO_LOG_READ(); */ return SF7000.Port_E9;
 	}
 
 #ifdef DEBUG_IO
-	IO_LOG_READ;
+	IO_LOG_READ();
 #endif
 
 	return (0xFF);

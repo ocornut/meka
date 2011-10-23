@@ -262,7 +262,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         // Description
         "R/REGS: Dump Z80 registers\n"
         "Usage:\n"
-        " R\n"
+        " R"
     },
     {
         "SYM", "SYMBOLS",

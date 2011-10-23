@@ -38,9 +38,9 @@ struct t_widget_data_button
 struct t_widget_data_scrollbar
 {
     t_widget_scrollbar_type     scrollbar_type;
-    int *                       v_max;
+    const int *                 v_max;
     int *                       v_start;
-    int *                       v_per_page;
+    int                         v_step_per_page;
     void                        (*callback)(t_widget*);
 };
 
@@ -402,7 +402,7 @@ void        widget_button_set_selected(t_widget *w, bool selected)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, int *v_max, int *v_start, int *v_per_page, t_widget_callback callback)
+t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, const int *v_max, int *v_start, int v_step_per_page, t_widget_callback callback)
 {
     t_widget *w;
     t_widget_data_scrollbar *wd;
@@ -418,7 +418,7 @@ t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollb
     wd->scrollbar_type = scrollbar_type;
     wd->v_max = v_max;
     wd->v_start = v_start;
-    wd->v_per_page = v_per_page;
+    wd->v_step_per_page = v_step_per_page;
     wd->callback = callback;
 
     return w;
@@ -471,16 +471,16 @@ void        widget_scrollbar_update(t_widget *w)
         switch (wd->scrollbar_type)
         {
         case WIDGET_SCROLLBAR_TYPE_VERTICAL:
-            v_start = ((my * *wd->v_max) / w->frame.size.y) - (*wd->v_per_page / 2);
+            v_start = ((my * *wd->v_max) / w->frame.size.y) - (wd->v_step_per_page / 2);
             break;
         case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
-            v_start = ((mx * *wd->v_max) / w->frame.size.x) - (*wd->v_per_page / 2);
+            v_start = ((mx * *wd->v_max) / w->frame.size.x) - (wd->v_step_per_page / 2);
             break;
         }
 
 		// Clamp
-		if (v_start > *wd->v_max - *wd->v_per_page) 
-			v_start = *wd->v_max - *wd->v_per_page;
+		if (v_start > *wd->v_max - wd->v_step_per_page) 
+			v_start = *wd->v_max - wd->v_step_per_page;
 		if (v_start < 0) 
 			v_start = 0;
 
@@ -502,25 +502,26 @@ void        widget_scrollbar_redraw(t_widget *w)
 	// Clear bar
 	al_set_target_bitmap(w->box->gfx_buffer);
 	al_draw_filled_rectangle(w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WIDGET_SCROLLBAR_BACKGROUND);
+	al_draw_rectangle(w->frame.pos.x - 0.5f, w->frame.pos.y - 0.5f, w->frame.pos.x + w->frame.size.x + 1.5f, w->frame.pos.y + w->frame.size.y + 1.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Draw position box
     float max = *wd->v_max;
-    if (max < *wd->v_per_page) 
-        max = *wd->v_per_page;
+    if (max < wd->v_step_per_page) 
+        max = wd->v_step_per_page;
 
     switch (wd->scrollbar_type)
     {
     case WIDGET_SCROLLBAR_TYPE_VERTICAL:
         {
             const float pos = w->frame.pos.y + ((*wd->v_start * w->frame.size.y) / max);
-            const float size = (*wd->v_per_page * w->frame.size.y) / max;
+            const float size = (wd->v_step_per_page * w->frame.size.y) / max;
             al_draw_filled_rectangle(w->frame.pos.x, pos, w->frame.pos.x + w->frame.size.x + 1, pos + size + 1, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
             break;
         }
     case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
         {
             const float pos = w->frame.pos.x + ((*wd->v_start * w->frame.size.x) / max);
-            const float size = (*wd->v_per_page * w->frame.size.x) / max;
+            const float size = (wd->v_step_per_page * w->frame.size.x) / max;
             al_draw_filled_rectangle(pos, w->frame.pos.y, pos + size + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WIDGET_SCROLLBAR_SCROLLER);
             break;
         }

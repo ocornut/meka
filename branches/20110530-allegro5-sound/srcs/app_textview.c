@@ -84,11 +84,7 @@ void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
     frame.size.x = TEXTVIEWER_SCROLLBAR_SIZE_X;
     frame.size.y = tv->box->frame.size.y;
     if (setup)
-        tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, &tv->text_size_per_page, (t_widget_callback)TextViewer_ScrollbarCallback);
-
-    // Draw separator between text and scrollbar
-    al_draw_line(frame.pos.x, frame.pos.y, frame.pos.x, frame.pos.y + frame.size.y + 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
-    //gui_rect (TV->ID_BoxGfx, LOOK_ROUND, x1 - 2, y1 - 2, x1 + x2 + 2, y1 + y2 + 2, COLOR_SKIN_WINDOW_SEPARATORS);
+        tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, tv->text_size_per_page, (t_widget_callback)TextViewer_ScrollbarCallback);
 }
 
 int             TextViewer_Open(t_app_textviewer *tv, const char *title, const char *filename)

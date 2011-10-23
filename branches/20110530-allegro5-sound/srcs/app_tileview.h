@@ -17,11 +17,15 @@ struct t_app_tile_viewer
     int         tile_displayed; // -1 if none, else 0 to tiles_max-1
     int         tile_hovered;   // -1 if none, else 0 to tiles_max-1
     int         tile_selected;  // -1 if none, else 0 to tiles_max-1
-    int         tiles_count;    // 448 or 512
+    int         tiles_per_page;
     int         tiles_width;
     int         tiles_height;
     t_frame     tiles_display_frame;
+	t_frame		tile_selected_frame;
     t_widget *  tiles_display_zone;
+
+	t_widget *	vram_addr_tms9918_scrollbar;
+	int			vram_addr_tms9918_current;
 };
 
 extern t_app_tile_viewer   TileViewer;

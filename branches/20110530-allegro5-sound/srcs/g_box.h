@@ -13,6 +13,7 @@
 //-----------------------------------------------------------------------------
 
 t_gui_box *		gui_box_new(const t_frame *frame, const char *title);
+void			gui_box_destroy_widgets(t_gui_box* box);
 void            gui_box_delete(t_gui_box *box);
 void			gui_box_create_video_buffer(t_gui_box *box);
 

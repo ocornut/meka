@@ -101,7 +101,7 @@ void	TilemapViewer_Delete(t_tilemap_viewer *app)
 void	TilemapViewer_ChangeLayout(t_tilemap_viewer *app, t_tilemap_viewer_layout layout)
 {
 	app->layout = layout;
-	list_free_custom(&app->box->widgets, (t_list_free_handler)widget_destroy);
+	gui_box_destroy_widgets(app->box);
 	TilemapViewer_SetupLayoutSizes(app);
 	gui_box_resize(app->box, app->frame_box.size.x, app->frame_box.size.y);
 	TilemapViewer_Layout(app, true);
@@ -134,8 +134,8 @@ void	TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app)
 			app->frame_tilemap_addr.size.y  = 16;
 
 			// Box size (note that we don't touch pos here)
-			app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
-			app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
+			app->frame_box.size.x			= app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
+			app->frame_box.size.y			= app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
 			break;
 		}
 	case TILEMAP_VIEWER_LAYOUT_SGSC:
@@ -161,8 +161,8 @@ void	TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app)
 			app->frame_tilemap_addr.size.y  = 16*1;
 
 			// Box size (note that we don't touch pos here)
-			app->frame_box.size.x       = app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
-			app->frame_box.size.y       = app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
+			app->frame_box.size.x			= app->frame_tilemap.size.x + (TILEMAP_VIEWER_PADDING * 2) - 1;
+			app->frame_box.size.y			= app->frame_tilemap.size.y + app->frame_infos.size.y + app->frame_tilemap_addr.size.y + (TILEMAP_VIEWER_PADDING * 3) - 1;
 			break;
 		}
 	default:
@@ -194,8 +194,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
 		al_draw_line(app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
 		// Config/Options
-		frame.size.x = 10;
-		frame.size.y = 10;
+		frame.SetSize(10, 10);
 
 		frame.pos.x = app->frame_config.pos.x + 2;
 		frame.pos.y = app->frame_config.pos.y + 3;
@@ -245,23 +244,18 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
 	}
 
     // Tilemap Address - Scrollbar
-    frame.pos.x  = app->frame_tilemap_addr.pos.x + 136;
-    frame.pos.y  = app->frame_tilemap_addr.pos.y + 3 + 1;
-    frame.size.y = 8;
-    frame.size.x = 8 * 8;
+    frame.SetPos(app->frame_tilemap_addr.pos.x + 136, app->frame_tilemap_addr.pos.y + 3 + 1);
+    frame.SetSize(8 * 8, 8);
     if (setup)
     {
         app->widget_tilemap_addr_scrollbar_slot_cur = 0;
-		static int step = 1;
-        app->widget_tilemap_addr_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_HORIZONTAL, &frame, &app->config_tilemap_addr_manual_step_count, &app->widget_tilemap_addr_scrollbar_slot_cur, &step, TilemapViewer_CallbackTilemapAddressScroll);
+        app->widget_tilemap_addr_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_HORIZONTAL, &frame, &app->config_tilemap_addr_manual_step_count, &app->widget_tilemap_addr_scrollbar_slot_cur, 1, TilemapViewer_CallbackTilemapAddressScroll);
     }
-    al_draw_rectangle(frame.pos.x - 0.5f, frame.pos.y - 0.5f, frame.pos.x + frame.size.x + 1.5f, frame.pos.y + frame.size.y + 1.5f, COLOR_SKIN_WINDOW_SEPARATORS, 1.0f);
 
     // Tilemap Address - Auto Button
     frame.pos.x += frame.size.x + 8;
     frame.pos.y  = app->frame_tilemap_addr.pos.y + 3;
-    frame.size.x = 10;
-    frame.size.y = 10;
+    frame.SetPos(10, 10);
     if (setup)
         app->widget_tilemap_addr_auto_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL); 
     frame.pos.x += frame.size.x + 6;
@@ -290,7 +284,6 @@ void        TilemapViewer_CallbackTilemapAddressScroll(t_widget *w)
         app->config_tilemap_addr_auto = FALSE;
         widget_set_dirty(app->widget_tilemap_addr_auto_checkbox);
     }
-
 }
 
 void         TilemapViewer_Switch(t_widget *w)
@@ -533,7 +526,7 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     const u16  tile_map_item = tile_map[tile_current];
     char       tile_map_items_bits[2][9];
     char       line[256];
-    t_xy       pos = app->frame_infos.pos;
+    v2i       pos = app->frame_infos.pos;
 
     Write_Bits_Field((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
     Write_Bits_Field(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);

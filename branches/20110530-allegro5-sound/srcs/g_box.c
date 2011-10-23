@@ -258,6 +258,11 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 }
 
+void	gui_box_destroy_widgets(t_gui_box* box)
+{
+	list_free_custom(&box->widgets, (t_list_free_handler)widget_destroy);
+}
+
 void    gui_box_delete(t_gui_box *box)
 {
     // Destroy applet callback

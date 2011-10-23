@@ -294,8 +294,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     frame.size.x = 7;
     frame.size.y = mv->frame_view.size.y - 1;
     if (setup)
-        mv->widget_scrollbar = widget_scrollbar_add(mv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &mv->memblocks_max, &mv->memblock_first, &mv->size_lines, NULL);
-    al_draw_vline(frame.pos.x - 1, 0, frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
+        mv->widget_scrollbar = widget_scrollbar_add(mv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &mv->memblocks_max, &mv->memblock_first, mv->size_lines, NULL);
 
     // Input box for memory values
     if (setup)

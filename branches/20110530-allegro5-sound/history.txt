@@ -13,12 +13,15 @@ They are usually of 2 kinds:
  MEKA 0.74 WIP Allegro 5
  -----------------------
   - Updated to Allegro 5.0.2 with OpenGL/DirectX backends. [Omar]
-  - Rewrote sound engine and hopefully fixed audio issues that many computers had 
-    under Windows. Also completely got rid of SEAL audio library. [Omar]
+    This required a lot of changes and rewrite in the codebase. It probably added new bugs,
+    and performances seems to vary depending on computer settings and video drivers.
+    Please do report if you have any issue/slowdown so we can fix them!
+  - Preliminary MacOSX port. [Omar]
+  - Rewrote sound engine and fixed audio issues that many users had. [Omar]
+    The sound is also now functional under Linux and MacOS. [Omar]  
   - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
     Codebase can now freely take advantage of all C++ compiler features. [Omar]
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
-  - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by Nemesis. [Omar]
     - Added support for 4 PAK All Action mapper. [Omar]
@@ -31,6 +34,9 @@ They are usually of 2 kinds:
   - Debugger:
     - Added CR command ("Continue to next RET* instruction"). [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
+  - Tools:
+    - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
+    - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]

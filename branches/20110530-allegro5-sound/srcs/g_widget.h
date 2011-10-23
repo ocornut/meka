@@ -120,7 +120,7 @@ void        widget_button_set_selected      (t_widget *w, bool selected);
 //-----------------------------------------------------------------------------
 
 // Widget: scroll bar ---------------------------------------------------------
-t_widget *  widget_scrollbar_add            (t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, int *v_max, int *v_start, int *v_per_page, t_widget_callback callback);
+t_widget *  widget_scrollbar_add            (t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, const int *v_max, int *v_start, int v_step, t_widget_callback callback);
 void        widget_scrollbar_update         (t_widget *w);
 void        widget_scrollbar_redraw			(t_widget *w);
 //-----------------------------------------------------------------------------

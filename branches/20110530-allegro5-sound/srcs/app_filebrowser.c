@@ -170,7 +170,7 @@ void	FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_PAD_Y + 2;
         frame.size.x = FB_SCROLL_X - 3;
         frame.size.y = FB_Return_File_Area_Y () - 4;
-        app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, &FB.file_y, (t_widget_callback)FB_Draw_List);
+        app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, FB.file_y, (t_widget_callback)FB_Draw_List);
 
         // Add an invisible 'button' to catch click on the list
         // (currently the GUI doesn't handle list/combo)
@@ -204,7 +204,7 @@ void	FB_Layout(t_filebrowser *app, bool setup)
         widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
     }
 
-    // Additionnal drawing
+    // Outer frame
 	gui_rect(app->box->gfx_buffer, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
 }
 

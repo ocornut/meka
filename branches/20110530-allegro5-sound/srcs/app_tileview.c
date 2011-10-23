@@ -41,7 +41,7 @@ void    TileViewer_Init_Values (void)
     TileViewer.tile_displayed       = -1;
     TileViewer.tile_hovered         = -1;
     TileViewer.tile_selected        = -1;
-    TileViewer.tiles_count          = 512;
+    TileViewer.tiles_per_page       = 512;
     TileViewer.tiles_width          = -1;
     TileViewer.tiles_height         = -1;
     TileViewer.tiles_display_zone   = NULL;
@@ -54,18 +54,21 @@ void    TileViewer_Init (void)
 
     // Setup members
     app->tiles_width  = 16;
-    app->tiles_height = app->tiles_count / app->tiles_width;
-    app->tiles_display_frame.pos.x = 0;
-    app->tiles_display_frame.pos.y = 0;
-    app->tiles_display_frame.size.x = app->tiles_width  * 8;
-    app->tiles_display_frame.size.y = app->tiles_height * 8;
+    app->tiles_height = app->tiles_per_page / app->tiles_width;
+    app->tiles_display_frame.SetPos(0, 13);
+    app->tiles_display_frame.SetSize(app->tiles_width * 8, app->tiles_height * 8);
+
+	app->tile_selected_frame.SetPos(2, app->tiles_display_frame.GetPosEnd().y+1);
+	app->tile_selected_frame.SetSize(8,8);
+
+	app->vram_addr_tms9918_current = 0;
 
     // Create box
     t_frame frame;
     frame.pos.x     = 16;
     frame.pos.y     = 65;
     frame.size.x    = app->tiles_display_frame.size.x - 1;
-    frame.size.y    = app->tiles_display_frame.size.y + 13 - 1;
+    frame.size.y    = app->tiles_display_frame.size.y + 13 + 13 - 1;
     app->box = gui_box_new(&frame, Msg_Get(MSG_TilesViewer_BoxTitle));
     Desktop_Register_Box ("TILES", app->box, true, &app->active);
 
@@ -88,11 +91,22 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
         widget_button_add(app->box, &app->tiles_display_frame, 2, (t_widget_callback)TileViewer_Change_Palette, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
     }
 
-    // Separator
-    al_draw_line(0, app->tiles_display_frame.size.y+0.5f, app->tiles_display_frame.size.x, app->tiles_display_frame.size.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+	if (setup)
+	{
+		t_frame frame;
+		frame.SetPos(100, 2);
+		frame.SetSize(4*6, 7);
+		static const int step_count = 4;
+		app->vram_addr_tms9918_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_HORIZONTAL, &frame, &step_count, &app->vram_addr_tms9918_current, 1, NULL);
+	}
+
+    // Separators
+    al_draw_line(0, app->tiles_display_frame.pos.y-1+0.5f, app->tiles_display_frame.size.x, app->tiles_display_frame.pos.y-1+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+    al_draw_line(0, 13+app->tiles_display_frame.size.y+0.5f, app->tiles_display_frame.size.x, 13+app->tiles_display_frame.size.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
 	// Rectangle enclosing current/selected tile
-    gui_rect(app->box->gfx_buffer, LOOK_THIN, 2, app->tiles_display_frame.size.y + 1, 2 + 11, app->tiles_display_frame.size.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+	const t_frame* fr = &app->tile_selected_frame;
+    gui_rect(app->box->gfx_buffer, LOOK_THIN, fr->pos.x, fr->pos.y, fr->pos.x + 11, fr->pos.y + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
 
 void    TileViewer_Update(t_app_tile_viewer *app)
@@ -130,8 +144,12 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     bool tile_current_refresh = /*(tile_current == -1) ? FALSE : */ (((tile_current != app->tile_displayed) || dirty_all || tgfx.Tile_Dirty [tile_current]));
     int tile_current_addr = -1;
 	
-	const int tile_current_x = 4;
-	const int tile_current_y = app->tiles_height * 8 + 3;
+	const v2i tiles_frame_pos = app->tiles_display_frame.pos;
+	const v2i tile_selected_pos = v2i(app->tile_selected_frame.pos.x + 2, app->tile_selected_frame.pos.y + 2);
+
+	int vram_addr_min = 0x0000;
+	int vram_addr_size = 0;
+	int vram_tile_size = 1;
 
     // Then redraw all tiles
 	ALLEGRO_LOCKED_REGION* locked_region = al_lock_bitmap(app->box->gfx_buffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
@@ -139,9 +157,14 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     {
     case VDP_SMSGG:
         {
-            int     n = 0;
-            u8 *    nd = &tgfx.Tile_Decoded[0][0];
-            u32 *   palette_host = app->palette ? &Palette_EmulationToHostGui[16] : &Palette_EmulationToHostGui[0];
+			widget_disable(app->vram_addr_tms9918_scrollbar);
+			vram_addr_min = 0;
+			vram_addr_size = 0x4000;
+			vram_tile_size = 32;
+
+            int n = 0;
+            const u8 *    nd = &tgfx.Tile_Decoded[0][0];
+            const u32 *   palette_host = app->palette ? &Palette_EmulationToHostGui[16] : &Palette_EmulationToHostGui[0];
             for (int y = 0; y != app->tiles_height; y++)
 			{
                 for (int x = 0; x != app->tiles_width; x++)
@@ -150,14 +173,14 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                         Decode_Tile (n);
                     if (dirty_all || tgfx.Tile_Dirty [n])
                     {
-                        VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, (x * 8), (y * 8), 0);
+                        VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, tiles_frame_pos.x+(x * 8), tiles_frame_pos.y+(y * 8), 0);
                         tgfx.Tile_Dirty [n] = 0;
                         dirty = TRUE;
                     }
                     if (n == tile_current)
 					{
-                        tile_current_addr = 0x0000 + (n * 32);
-						VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, tile_current_x, tile_current_y, 0);
+                        tile_current_addr = vram_addr_min + (n * 32);
+						VDP_Mode4_DrawTile(app->box->gfx_buffer, locked_region, nd, palette_host, tile_selected_pos.x, tile_selected_pos.y, 0);
 					}
                     n ++;
                     nd += 64;
@@ -167,11 +190,19 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         }
     case VDP_TMS9918:
         {
-            const int fg_color = Palette_EmulationToHostGui[app->palette + 1];
+			if (!app->vram_addr_tms9918_scrollbar->enabled)
+				app->vram_addr_tms9918_scrollbar->dirty = true;
+			widget_enable(app->vram_addr_tms9918_scrollbar);
+			vram_addr_min = 0x0000 + app->vram_addr_tms9918_current*0x1000;
+			vram_addr_size = 0x1000;
+			vram_tile_size = 8;
+
+			const int fg_color = Palette_EmulationToHostGui[app->palette + 1];
             const int bg_color = Palette_EmulationToHostGui[(app->palette != 0) ? 1 : 15];
-            u8 * addr = g_machine.VDP.sg_pattern_gen_address;
+            const u8 * addr = VRAM + vram_addr_min;
+			//VRAM = g_machine.VDP.sg_pattern_gen_address;
             // addr = &VRAM[apps.opt.Tiles_Base];
-            // addr = VRAM;
+           
             int n = 0;
             for (int y = 0; y != app->tiles_height; y ++)
 			{
@@ -179,11 +210,11 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                 {
                     if ((addr - VRAM) > 0x4000)
                         break;
-                    VDP_Mode0123_DrawTile(bmp, locked_region, (x * 8), (y * 8), addr, fg_color, bg_color);
+                    VDP_Mode0123_DrawTile(bmp, locked_region, tiles_frame_pos.x+(x * 8), tiles_frame_pos.y+(y * 8), addr, fg_color, bg_color);
                     if (n == tile_current)
 					{
-                        tile_current_addr = 0x0000 + (n * 8);
-						VDP_Mode0123_DrawTile(bmp, locked_region, tile_current_x, tile_current_y, addr, fg_color, bg_color);
+                        tile_current_addr = vram_addr_min + (n * 8);
+						VDP_Mode0123_DrawTile(bmp, locked_region, tile_selected_pos.x, tile_selected_pos.y, addr, fg_color, bg_color);
 					}
 
                     n++;
@@ -196,12 +227,24 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     }
 	al_unlock_bitmap(app->box->gfx_buffer);
 
-    // First refresh bottom tile info
+	// Refresh top status line (address range)
+	al_set_target_bitmap(bmp);
+	{
+		// FIXME-OPT
+		const int y = -1;
+		al_draw_filled_rectangle(0, y + 1, app->vram_addr_tms9918_scrollbar->enabled ? app->vram_addr_tms9918_scrollbar->frame.pos.x-1 : 128-1, y + 11+1, COLOR_SKIN_WINDOW_BACKGROUND);
+
+		char buf[64];
+		sprintf(buf, "Range: $%04X-$%04X", vram_addr_min, vram_addr_min+vram_addr_size-1);
+		Font_Print(F_SMALL, buf, 0, y + 1, COLOR_SKIN_WINDOW_TEXT);
+		dirty = true;
+	}
+
+    // Refresh bottom status line (selected tile)
     if (dirty_all || tile_current_refresh)
     {
-        const int y = (app->tiles_height * 8);
+		const int y = app->tiles_display_frame.GetPosEnd().y;
 
-		al_set_target_bitmap(bmp);
         al_draw_filled_rectangle(16, y + 1, 127+1, y + 11+1, COLOR_SKIN_WINDOW_BACKGROUND);
         dirty = TRUE;
 
@@ -215,14 +258,16 @@ void    TileViewer_Update(t_app_tile_viewer *app)
                 sprintf(addr, "????");
 
 			char buf[128];
-            sprintf(buf, Msg_Get(MSG_TilesViewer_Tile), tile_current, tile_current, addr);
+			const int tile_index = tile_current_addr / vram_tile_size;
+            sprintf(buf, Msg_Get(MSG_TilesViewer_Tile), tile_index, tile_index, addr);
             Font_Print(F_SMALL, buf, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
             app->tile_displayed = tile_current;
         }
         else
         {
             // Fill tile with black
-            al_draw_filled_rectangle(4, app->tiles_height * 8 + 3, 4+7+1, app->tiles_height * 8 + 3+7+1, COLOR_BLACK);
+			const t_frame* fr = &app->tile_selected_frame;
+            al_draw_filled_rectangle(fr->pos.x+2, fr->pos.y+2, fr->pos.x+2+8, fr->pos.y+2+8, COLOR_BLACK);
         }
     }
 

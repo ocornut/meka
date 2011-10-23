@@ -9,16 +9,44 @@
 
 struct t_gui_box;
 
-struct t_xy
+struct v2i
 {
     int   x;
     int   y;
+
+	v2i()
+	{
+		x = y = -1;
+	}
+	v2i(int _x, int _y)
+	{
+		x = _x;
+		y = _y;
+	}
 };
 
 struct t_frame
 {
-    t_xy  pos;
-    t_xy  size;
+    v2i  pos;
+    v2i  size;
+
+	void SetPos(int x, int y)
+	{
+		pos.x = x;
+		pos.y = y;
+	}
+	void SetSize(int x, int y)
+	{
+		size.x = x;
+		size.y = y;
+	}
+	v2i  GetPosEnd() const
+	{
+		v2i pe;
+		pe.x = pos.x+size.x;
+		pe.y = pos.y+size.y;
+		return pe;
+	}
 };
 
 //-----------------------------------------------------------------------------
@@ -114,8 +142,8 @@ struct t_gui_info
   int               bars_height;
   int               grid_distance;
   int               dirty_x, dirty_y;
-  t_xy              screen;
-  t_xy              screen_pad;
+  v2i              screen;
+  v2i              screen_pad;
 };
 
 struct t_gui_mouse
