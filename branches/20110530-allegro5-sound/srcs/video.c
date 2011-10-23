@@ -24,7 +24,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_video	Video;
+t_video	g_video;
 
 t_video_driver	g_video_drivers[] =
 {
@@ -42,21 +42,23 @@ t_video_driver*	g_video_driver_default = &g_video_drivers[0];
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Video_Init (void)
+void    Video_Init()
 {
 	Video_CreateVideoBuffers();
+	Video_EnumerateDisplayModes();
 
     // Clear variables
-    Video.res_x						= 0;
-    Video.res_y						= 0;
-    Video.clear_requests			= 0;
-	Video.game_area_x1				= 0;
-	Video.game_area_x2				= 0;
-	Video.game_area_y1				= 0;
-	Video.game_area_y2				= 0;
-    Video.driver					= 1;
-	Video.refresh_rate_requested	= 0;
-	fs_out							= NULL;
+    g_video.res_x						= 0;
+    g_video.res_y						= 0;
+    g_video.clear_requests				= 0;
+	g_video.game_area_x1				= 0;
+	g_video.game_area_x2				= 0;
+	g_video.game_area_y1				= 0;
+	g_video.game_area_y2				= 0;
+    g_video.driver						= 1;
+	g_video.refresh_rate_requested		= 0;
+	g_video.display_mode_current_index	= 0;
+	fs_out								= NULL;
 }
 
 void Video_CreateVideoBuffers()
@@ -108,9 +110,6 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
     previous_mode.refresh_rate = refresh_rate;
 
     // Set new mode
-	// FIXME-ALLEGRO5: Use al_set_new_display_refresh_rate()
-    //request_refresh_rate (refresh_rate);
-
 	if (g_display != NULL)
 	{
 #ifdef ARCH_WIN32
@@ -130,6 +129,7 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 		display_flags |= ALLEGRO_WINDOWED;
 	al_set_new_display_flags(display_flags);
 	al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST);
+	al_set_new_display_refresh_rate(g_configuration.video_mode_gui_refresh_rate);
 	g_display = al_create_display(w, h);
 
 	if (!g_display)
@@ -140,23 +140,11 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
         return (MEKA_ERR_FAIL);
     }
 
-	/*{
-		const int modes = al_get_num_display_modes();
-		for (int i = 0; i != modes; i++)
-		{
-			ALLEGRO_DISPLAY_MODE display_mode;
-			if (al_get_display_mode(i, &display_mode))
-			{
-				Msg(MSGT_DEBUG, "Display Mode: %dx%d @ %d Hz, format %d", display_mode.width, display_mode.height, display_mode.refresh_rate, display_mode.format);
-			}
-		}
-	}*/
-
 	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 
-    Video.res_x = w;
-    Video.res_y = h;
-    Video.refresh_rate_requested = refresh_rate;
+    g_video.res_x = w;
+    g_video.res_y = h;
+    g_video.refresh_rate_requested = refresh_rate;
 	Video_GameMode_UpdateBounds();
 
 	// Window title
@@ -183,15 +171,15 @@ void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu
 {
 	if (clamp)
 	{
-		const int rx = LinearRemapClamp(screen_x, Video.game_area_x1, Video.game_area_x2, 0, g_driver->x_res);
-		const int ry = LinearRemapClamp(screen_y, Video.game_area_y1, Video.game_area_y2, 0, g_driver->y_res);
+		const int rx = LinearRemapClamp(screen_x, g_video.game_area_x1, g_video.game_area_x2, 0, g_driver->x_res);
+		const int ry = LinearRemapClamp(screen_y, g_video.game_area_y1, g_video.game_area_y2, 0, g_driver->y_res);
 		*pemu_x = rx;
 		*pemu_y = ry;
 	}
 	else
 	{
-		const int rx = LinearRemap(screen_x, Video.game_area_x1, Video.game_area_x2, 0, g_driver->x_res);
-		const int ry = LinearRemap(screen_y, Video.game_area_y1, Video.game_area_y2, 0, g_driver->y_res);
+		const int rx = LinearRemap(screen_x, g_video.game_area_x1, g_video.game_area_x2, 0, g_driver->x_res);
+		const int ry = LinearRemap(screen_y, g_video.game_area_y1, g_video.game_area_y2, 0, g_driver->y_res);
 		*pemu_x = rx;
 		*pemu_y = ry;
 	}
@@ -201,24 +189,89 @@ void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x,
 {
 	if (clamp)
 	{
-		const int rx = LinearRemapClamp(emu_x, 0, g_driver->x_res, Video.game_area_x1, Video.game_area_x2);
-		const int ry = LinearRemapClamp(emu_y, 0, g_driver->y_res, Video.game_area_y1, Video.game_area_y2);
+		const int rx = LinearRemapClamp(emu_x, 0, g_driver->x_res, g_video.game_area_x1, g_video.game_area_x2);
+		const int ry = LinearRemapClamp(emu_y, 0, g_driver->y_res, g_video.game_area_y1, g_video.game_area_y2);
 		*pscreen_x = rx;
 		*pscreen_y = ry;
 	}
 	else
 	{
-		const int rx = LinearRemap(emu_x, 0, g_driver->x_res, Video.game_area_x1, Video.game_area_x2);
-		const int ry = LinearRemap(emu_y, 0, g_driver->y_res, Video.game_area_y1, Video.game_area_y2);
+		const int rx = LinearRemap(emu_x, 0, g_driver->x_res, g_video.game_area_x1, g_video.game_area_x2);
+		const int ry = LinearRemap(emu_y, 0, g_driver->y_res, g_video.game_area_y1, g_video.game_area_y2);
 		*pscreen_x = rx;
 		*pscreen_y = ry;
 	}
 }
 
-void    Video_Clear(void)
+void    Video_ClearScreenBackBuffer()
 {
     // Note: actual clearing will be done in blit.c
-    Video.clear_requests = 3;
+    g_video.clear_requests = 3;
+}
+
+void	Video_EnumerateDisplayModes()
+{
+	std::vector<t_video_mode>& display_modes = g_video.display_modes;
+	display_modes.clear();
+
+	const int modes = al_get_num_display_modes();
+	for (int i = 0; i != modes; i++)
+	{
+		ALLEGRO_DISPLAY_MODE al_display_mode;
+		if (al_get_display_mode(i, &al_display_mode))
+		{
+			//Msg(MSGT_DEBUG, "Display Mode: %dx%d @ %d Hz, format %d", display_mode.width, display_mode.height, display_mode.refresh_rate, display_mode.format);
+			display_modes.resize(display_modes.size()+1);
+
+			t_video_mode* video_mode = &display_modes.back();
+			video_mode->w = al_display_mode.width;
+			video_mode->h = al_display_mode.height;
+			//video_mode->color_format = al_display_mode.format;
+			video_mode->refresh_rate = al_display_mode.refresh_rate;
+		}
+	}
+
+	// filter out color_format duplicates because we ignore it for now
+	for (size_t i = 0; i < display_modes.size(); i++)
+	{
+		t_video_mode* video_mode = &display_modes[i];
+		for (size_t j = i + 1; j < display_modes.size(); j++)
+		{
+			t_video_mode* video_mode_2 = &display_modes[j];
+			if (video_mode->w == video_mode_2->w && video_mode->h == video_mode_2->h)
+			{
+				 if (video_mode->refresh_rate == video_mode_2->refresh_rate)
+				 {
+					 display_modes.erase(display_modes.begin()+j);
+					 j--;
+				 }
+			}
+		}
+	}
+
+	// find mode closest to current setting
+	g_video.display_mode_current_index = 0;
+	int closest_index = -1;
+	float closest_d2 = FLT_MAX;
+	for (size_t i = 0; i < display_modes.size(); i++)
+	{
+		t_video_mode* video_mode = &display_modes[i];
+
+		int dx = (video_mode->w - g_configuration.video_mode_gui_res_x);
+		int dy = (video_mode->h - g_configuration.video_mode_gui_res_y);
+		float d2 = dx*dx + dy*dy;
+
+		if (closest_d2 > d2)
+		{
+			if (closest_index != -1)
+				if (video_mode->refresh_rate != 0 && g_configuration.video_mode_gui_refresh_rate != 0 && video_mode->refresh_rate != g_configuration.video_mode_gui_refresh_rate)
+					continue;
+			closest_d2 = d2;
+			closest_index = i;
+		}
+	}
+	if (closest_index != -1)
+		g_video.display_mode_current_index = closest_index;
 }
 
 void    Video_Setup_State(void)
@@ -236,11 +289,12 @@ void    Video_Setup_State(void)
         {
 			//const int game_res_x = Blitters.current->res_x;
 			//const int game_res_y = Blitters.current->res_y;
+			const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
 			const int game_res_x = g_configuration.video_mode_gui_res_x;
 			const int game_res_y = g_configuration.video_mode_gui_res_y;
 			const bool game_fullscreen = g_configuration.video_fullscreen;
 
-            if (Video_ChangeVideoMode(g_configuration.video_driver, game_res_x, game_res_y, game_fullscreen, Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
+            if (Video_ChangeVideoMode(g_configuration.video_driver, game_res_x, game_res_y, game_fullscreen, refresh_rate, FALSE) != MEKA_ERR_OK)
             {
                 g_env.state = MEKA_STATE_GUI;
                 Video_Setup_State();
@@ -254,9 +308,10 @@ void    Video_Setup_State(void)
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
+			const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
 			const int gui_res_x = g_configuration.video_mode_gui_res_x;
 			const int gui_res_y = g_configuration.video_mode_gui_res_y;
-			Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, g_configuration.video_mode_gui_refresh_rate, TRUE);
+			Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, refresh_rate, TRUE);
             Change_Mode_Misc();
             gui_redraw_everything_now_once();
         }

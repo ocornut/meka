@@ -162,7 +162,7 @@ Msg_Init_Completed                      = "[READY]"
 Msg_Setup_Running                       = "Running setup..."
 Msg_Setup_Setup                         = "Setup"
 Msg_Setup_Video_Driver                  = "Display driver:"
-Msg_Setup_Video_Resolution              = "Resolution:"
+Msg_Setup_Video_DisplayMode             = "Display mode:"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Debugger_Enable               = "Enable Z80 debugger and associated features"
 

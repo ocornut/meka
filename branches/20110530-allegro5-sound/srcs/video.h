@@ -7,6 +7,14 @@
 // Data
 //-----------------------------------------------------------------------------
 
+struct t_video_mode
+{
+	int			w;
+	int			h;
+	//int		color_format;
+	int			refresh_rate;
+};
+
 struct t_video
 {
     int		driver;							// Current driver
@@ -15,9 +23,9 @@ struct t_video
     int		clear_requests;					// Set to a value to request successive clears
     int		game_area_x1, game_area_y1;		// Game area frame
     int		game_area_x2, game_area_y2;
+	std::vector<t_video_mode>	display_modes;
+	int							display_mode_current_index;
 };
-
-extern t_video	Video;
 
 struct t_video_driver
 {
@@ -25,7 +33,7 @@ struct t_video_driver
 	const char* desc;
 	int			flags;
 };
-
+extern t_video			g_video;
 extern t_video_driver	g_video_drivers[];
 extern t_video_driver*	g_video_driver_default;
 
@@ -33,11 +41,13 @@ extern t_video_driver*	g_video_driver_default;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Video_Init(void);
+void    Video_Init();
 void	Video_CreateVideoBuffers();
 
-void    Video_Clear(void);
-void    Video_Setup_State(void);
+void    Video_ClearScreenBackBuffer();
+void    Video_Setup_State();
+void	Video_EnumerateDisplayModes();
+int		Video_FindClosestDisplayMode(int w, int h, int refresh_rate);
 
 void    Video_GameMode_UpdateBounds(void);
 void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp);

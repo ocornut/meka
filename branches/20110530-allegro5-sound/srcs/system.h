@@ -12,6 +12,14 @@
 #endif
 
 //-----------------------------------------------------------------------------
+// STL
+//-----------------------------------------------------------------------------
+
+#define _HAS_EXCEPTIONS 0
+#define _STATIC_CPPLIB
+#include <vector>
+
+//-----------------------------------------------------------------------------
 // System Includes
 //-----------------------------------------------------------------------------
 
@@ -28,16 +36,6 @@
 #include <assert.h>
 #ifndef ARCH_WIN32
   #include <dirent.h>
-#endif
-#ifdef ARCH_DOS
-    #include <dir.h>
-    #include <conio.h>
-    #include <dos.h>
-    #include <dir.h>
-    #include <dpmi.h>
-    #include <io.h>
-    #include <sys/segments.h>
-    #include <sys/nearptr.h>
 #endif
 #ifdef ARCH_WIN32
 	#define stricmp _stricmp

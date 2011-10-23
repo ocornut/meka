@@ -532,7 +532,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 			}
             break;
         }
-#ifdef MEKA_JOY
+#ifdef MEKA_JOYPAD
         // Digital Joypad/Joystick -------------------------------------------------
     case INPUT_SRC_TYPE_JOYPAD:
         {
@@ -582,7 +582,7 @@ void    Inputs_CFG_Map_Change_Update (void)
             }
             break;
         }
-#endif // #ifdef MEKA_JOY
+#endif // #ifdef MEKA_JOYPAD
         // Mouse -------------------------------------------------------------------
     case INPUT_SRC_TYPE_MOUSE:
         {

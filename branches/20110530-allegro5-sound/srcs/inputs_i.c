@@ -36,7 +36,7 @@ void    Inputs_Init (void)
     Load_Inputs_Src_List ();
 }
 
-#ifdef MEKA_JOY
+#ifdef MEKA_JOYPAD
 
 void    Inputs_Joystick_Init(void)
 {
@@ -83,7 +83,7 @@ void    Inputs_Joystick_Close(void)
     al_uninstall_joystick();
 }
 
-#endif // MEKA_JOY
+#endif // MEKA_JOYPAD
 
 //-----------------------------------------------------------------------------
 

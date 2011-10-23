@@ -40,7 +40,7 @@ void    Change_Mode_Misc(void)
     case MEKA_STATE_GAME:
         {
             Palette_Emulation_Reload();
-            Video_Clear();
+            Video_ClearScreenBackBuffer();
             break;
         }
     case MEKA_STATE_GUI:

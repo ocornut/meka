@@ -101,7 +101,7 @@ void    VDP_VideoMode_Change (void)
             Video_GameMode_UpdateBounds();
             if (g_env.state == MEKA_STATE_GAME)
             {
-                Video_Clear();
+                Video_ClearScreenBackBuffer();
             }
         }
         else

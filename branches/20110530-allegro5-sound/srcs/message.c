@@ -72,7 +72,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Setup_Running),
 	__MSG_ADD(MSG_Setup_Setup),
 	__MSG_ADD(MSG_Setup_Video_Driver),
-	__MSG_ADD(MSG_Setup_Video_Resolution),
+	__MSG_ADD(MSG_Setup_Video_DisplayMode),
 	__MSG_ADD(MSG_Setup_SampleRate_Select),
 	__MSG_ADD(MSG_Setup_Debugger_Enable),
 

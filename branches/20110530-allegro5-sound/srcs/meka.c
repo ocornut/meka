@@ -180,14 +180,14 @@ static void Init_Default_Values (void)
     g_configuration.debugger_log_enabled          = TRUE;
 
     // Applet: Memory Editor
-    g_configuration.memory_editor_lines           = 16;
-    g_configuration.memory_editor_columns         = 16;
+    g_configuration.memory_editor_lines				= 16;
+    g_configuration.memory_editor_columns			= 16;
 
     // Video
 	g_configuration.video_driver					= g_video_driver_default;
 	g_configuration.video_fullscreen				= FALSE;
 	g_configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
-	g_configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;//ALLEGRO_PIXEL_FORMAT_ANY_32_NO_ALPHA;
+	g_configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_NO_ALPHA;
 
 	g_configuration.video_mode_game_vsync			= FALSE;
     g_configuration.video_mode_gui_res_x			= 800;
@@ -249,7 +249,7 @@ static void Close_Emulator (void)
     FDC765_Close         ();
     Palette_Close        ();
     Inputs_Sources_Close ();
-#ifdef MEKA_JOY
+#ifdef MEKA_JOYPAD
 	Inputs_Joystick_Close();
 #endif
     GUI_Close            ();
@@ -381,7 +381,7 @@ int main(int argc, char **argv)
     Machine_Init            (); // Initialize Virtual Machine
     Init_GUI                (); // Initialize Graphical User Interface
     Sound_Init              (); // Initialize Sound
-#ifdef MEKA_JOY
+#ifdef MEKA_JOYPAD
     Inputs_Joystick_Init    (); // Initialize Joysticks. 
 #endif
 	Machine_Reset           (); // Reset Emulated Machine (set default values)

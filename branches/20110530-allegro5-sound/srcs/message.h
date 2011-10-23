@@ -65,7 +65,7 @@ enum
 	MSG_Setup_Running,
 	MSG_Setup_Setup,
 	MSG_Setup_Video_Driver,
-	MSG_Setup_Video_Resolution,
+	MSG_Setup_Video_DisplayMode,
 	MSG_Setup_SampleRate_Select,
 	MSG_Setup_Debugger_Enable,
 

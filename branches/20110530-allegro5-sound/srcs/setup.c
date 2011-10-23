@@ -75,7 +75,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			snprintf(buffer, countof(buffer), "MEKA - %s", Msg_Get(MSG_Setup_Setup));
 			SetWindowText(hDlg, buffer);
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER_TEXT), Msg_Get(MSG_Setup_Video_Driver));
-			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_RESOLUTION_TEXT), Msg_Get(MSG_Setup_Video_Resolution));
+			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_RESOLUTION_TEXT), Msg_Get(MSG_Setup_Video_DisplayMode));
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE_TEXT), Msg_Get(MSG_Setup_SampleRate_Select));
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get(MSG_Setup_Debugger_Enable));
 
@@ -96,26 +96,24 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			if (default_selection != -1)
 				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
 
-			// Fill soundcards combo box
-			// FIXME-NEWSOUND
-			/*
-			n = AGetAudioNumDevs();
-			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS);
-			default_selection = Sound.SoundCard;
-			for (i = 0; i < n; i++)
+			// Fill screen format/resolution box
 			{
-				if (AGetAudioDevCaps (i, &Audio_Caps) == AUDIO_ERROR_NONE)
+				Video_EnumerateDisplayModes();
+				combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_VIDEO_DISPLAY_MODE);
+				std::vector<t_video_mode>& display_modes = g_video.display_modes;
+				for (int i = 0; i != display_modes.size(); i++)
 				{
-					int combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)Audio_Caps.szProductName);
-					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)i);
-					if (default_selection == SOUND_SOUNDCARD_SELECT)
-						if (strcmp (Audio_Caps.szProductName, "DirectSound") == 0)
-							default_selection = i;
+					t_video_mode* display_mode = &display_modes[i];
+					char buf[256];
+					sprintf(buf, "%dx%d, %d Hz", display_mode->w, display_mode->h, /*al_get_pixel_format_bits(display_mode->color_format),*/ display_mode->refresh_rate);
+
+					const int combo_idx = SendMessage(combo_hwnd, CB_ADDSTRING, 0, (LPARAM)buf);
+					SendMessage(combo_hwnd, CB_SETITEMDATA, combo_idx, (LPARAM)display_mode);
 				}
+				default_selection = g_video.display_mode_current_index;
+				if (default_selection != -1)
+					SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
 			}
-			if (default_selection != SOUND_SOUNDCARD_SELECT)
-				SendMessage(combo_hwnd, CB_SETCURSEL, default_selection, 0);
-			*/
 
 			// Fill sound rate combo box
 			combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE);
@@ -175,16 +173,19 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 						int  n;
 						HWND combo_hwnd;
 
-						// Sound Card
-						// FIXME-NEWSOUND: Removed sound card setting
-						/*
-						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUNDCARDS), CB_GETCURSEL, 0, 0)) != CB_ERR)
-							Sound.SoundCard = n;
-						*/
-
 						// Video Driver
 						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER), CB_GETCURSEL, 0, 0)) != CB_ERR)
 							g_configuration.video_driver = &g_video_drivers[n];
+
+						// Video Display Mode
+						combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_VIDEO_DISPLAY_MODE);
+						if ((n = SendMessage(combo_hwnd, CB_GETCURSEL, 0, 0)) != CB_ERR)
+						{
+							t_video_mode* display_mode = (t_video_mode*)SendMessage(combo_hwnd, CB_GETITEMDATA, n, 0);
+							g_configuration.video_mode_gui_res_x = display_mode->w;
+							g_configuration.video_mode_gui_res_y = display_mode->h;
+							g_configuration.video_mode_gui_refresh_rate = display_mode->refresh_rate;
+						}
 
 						// Sample Rate
 						if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE), CB_GETCURSEL, 0, 0)) != CB_ERR)

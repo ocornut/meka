@@ -10,7 +10,7 @@
 void    Inputs_Init             (void);
 void    Inputs_Close            (void);
 
-#ifdef MEKA_JOY
+#ifdef MEKA_JOYPAD
 void    Inputs_Joystick_Init    (void);
 void    Inputs_Joystick_Close   (void);
 #endif

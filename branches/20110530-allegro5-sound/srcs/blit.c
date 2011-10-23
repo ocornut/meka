@@ -107,9 +107,9 @@ static void Blit_Fullscreen_Misc(void)
 	}
 
     // Clear Screen if it has been asked
-    if (Video.clear_requests > 0)
+    if (g_video.clear_requests > 0)
     {
-        Video.clear_requests--;
+        g_video.clear_requests--;
 		al_set_target_bitmap(al_get_backbuffer(g_display));
         al_clear_to_color(BORDER_COLOR);
 	}
@@ -158,27 +158,27 @@ void Blit_Fullscreen_UpdateBounds()
 	if (stretch_mode == BLITTER_STRETCH_MAX_INT)
 	{
 		// Automatic integer scale
-		const int scale_x = (int)Video.res_x / g_blit.src_size_x;
-		const int scale_y = (int)Video.res_y / g_blit.src_size_y;
+		const int scale_x = (int)g_video.res_x / g_blit.src_size_x;
+		const int scale_y = (int)g_video.res_y / g_blit.src_size_y;
 		g_blit.dst_scale = MIN(scale_x, scale_y);
 	}
 
 	if (stretch_mode == BLITTER_STRETCH_MAX)
 	{
 		// Cover all screen
-		Video.game_area_x1 = 0;
-		Video.game_area_y1 = 0;
-		Video.game_area_x2 = Video.res_x;
-		Video.game_area_y2 = Video.res_y;
+		g_video.game_area_x1 = 0;
+		g_video.game_area_y1 = 0;
+		g_video.game_area_x2 = g_video.res_x;
+		g_video.game_area_y2 = g_video.res_y;
 		g_blit.dst_scale = 0;
 	}
 	else
 	{
 		// Integer scale
-		Video.game_area_x1 = (Video.res_x - g_blit.src_size_x*g_blit.dst_scale) / 2;
-		Video.game_area_y1 = (Video.res_y - g_blit.src_size_y*g_blit.dst_scale) / 2;
-		Video.game_area_x2 = Video.game_area_x1 + g_blit.src_size_x*g_blit.dst_scale;
-		Video.game_area_y2 = Video.game_area_y1 + g_blit.src_size_y*g_blit.dst_scale;
+		g_video.game_area_x1 = (g_video.res_x - g_blit.src_size_x*g_blit.dst_scale) / 2;
+		g_video.game_area_y1 = (g_video.res_y - g_blit.src_size_y*g_blit.dst_scale) / 2;
+		g_video.game_area_x2 = g_video.game_area_x1 + g_blit.src_size_x*g_blit.dst_scale;
+		g_video.game_area_y2 = g_video.game_area_y1 + g_blit.src_size_y*g_blit.dst_scale;
 	}
 }
 
@@ -191,7 +191,7 @@ static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer)
 		al_draw_bitmap_region(src_buffer, 
 			g_blit.src_pos_x, g_blit.src_pos_y,
 			g_blit.src_size_x, g_blit.src_size_y,
-			Video.game_area_x1, Video.game_area_y1,
+			g_video.game_area_x1, g_video.game_area_y1,
 			0x0000);
 	}
 	else
@@ -199,8 +199,8 @@ static void	Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer)
 		al_draw_scaled_bitmap(src_buffer,
 			g_blit.src_pos_x, g_blit.src_pos_y,
 			g_blit.src_size_x, g_blit.src_size_y,
-			Video.game_area_x1, Video.game_area_y1,
-			Video.game_area_x2 - Video.game_area_x1, Video.game_area_y2 - Video.game_area_y1,
+			g_video.game_area_x1, g_video.game_area_y1,
+			g_video.game_area_x2 - g_video.game_area_x1, g_video.game_area_y2 - g_video.game_area_y1,
 			0x0000);
 	}
 }

@@ -136,7 +136,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 		if (!strcmp(value, "auto"))
 			g_configuration.video_mode_gui_refresh_rate = 0;
 		else
-			g_configuration.video_mode_gui_refresh_rate = atoi (value);
+			g_configuration.video_mode_gui_refresh_rate = atoi(value);
 		return;
 	}
 	if (!strcmp(var, "debug_mode"))						{ g_configuration.debug_mode_cfg = (bool)atoi(value); return; }
@@ -168,7 +168,6 @@ static void     Configuration_Load_Line (char *var, char *value)
 }
 
 //-----------------------------------------------------------------------------
-// Configuration_Load ()
 // Load configuration file data from MEKA.CFG
 //-----------------------------------------------------------------------------
 void        Configuration_Load (void)
@@ -186,9 +185,10 @@ void        Configuration_Load (void)
     ConsolePrintf (Msg_Get(MSG_Config_Loading), value);
 
     // Open and read file
-    if ((tf = tfile_read (g_env.Paths.ConfigurationFile)) == NULL)
+    if ((tf = tfile_read(g_env.Paths.ConfigurationFile)) == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
+		opt.Setup_Interactive_Execute = true;
         return;
     }
     ConsolePrint ("\n");
@@ -388,7 +388,7 @@ void    Command_Line_Parse (void)
 	{
 		const char *s = g_env.argv[i];
 		if (s[0] == '-'
-#if defined(ARCH_DOS) || defined(ARCH_WIN32)
+#if defined(ARCH_WIN32)
 			|| s[0] == '/'
 #endif
 			)
