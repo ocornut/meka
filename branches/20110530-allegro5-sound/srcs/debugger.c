@@ -2728,7 +2728,7 @@ void        Debugger_InputParseCommand(char *line)
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
             // Display clock
-            Debugger_Printf("Clock: %d cycles\n", Debugger.cycle_counter);
+            Debugger_Printf("Clock: %lld cycles\n", Debugger.cycle_counter);
             return;
         }
 
@@ -2737,7 +2737,7 @@ void        Debugger_InputParseCommand(char *line)
             // Reset clock
             Debugger.cycle_counter = 0;
             Debugger_Printf("Clock reset\n");
-            Debugger_Printf("Clock: %d cycles\n", Debugger.cycle_counter);
+            Debugger_Printf("Clock: %lld cycles\n", Debugger.cycle_counter);
             return;
         }
 

@@ -20,7 +20,6 @@ Meka 0.80 check list
 - fix sound: latency, 50 hz, other modes?
 - game gear stereo
 - start window is in background when running from explorer
-- add setup with resolution and dx/opengl selection
 - solve vsync and refresh rate issues, at least be able to enable vsync?
 - have a pass at checking all features
 - tilemap viewer: mode 2: print more infos. add more addr settings.
@@ -64,8 +63,6 @@ the other Z80+VDP emulators. Beating MSX(2/+) Somehow
 
 - Speed above 1/9 (for zexall)
 - Debugger: Count point. or full memmap count points.
-
-The CLOCK command seems to be rendering the cycle counter (I seem to remember it's a long long, so 64 bits) as signed 32-bit. That makes it annoying to measure times longer than about 10 minutes. I think you want %llu instead of %d. (I am trying to measure the runtime of ZEXALL but of course I am doing it on "fast forward".)
 
 (Actually, some way to enter a super-turbo-fast-forward mode (more than 1/9 frameskip) might be nice, especially if it can still hit a breakpoint directly. Debugger seems generally weird at 1/9 frameskip, stepping instructions when not expected?)
 
