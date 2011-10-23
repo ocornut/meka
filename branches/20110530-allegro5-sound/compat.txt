@@ -75,6 +75,7 @@
  Black Belt                                     -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
  Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
+ Block Hole (KR)                                -      *Ok
  BMX Trial - Alex Kidd (JP)                     FM,PAD  Ok
  Bomber Raid                                    FM      Ok
  Bonanza Bros.                                  -       Ok
@@ -143,12 +144,13 @@
  Dynamite Headdy (BR)                           -       Ok
  Eagles 5 (KR)                                  -      *Ok
  Earthworm Jim (BR)                             -       Ok
- E-SWAT [A]                                     -       Ok
- E-SWAT [B]                                     -       Ok
  Ecco the Dolphin                               -       Ok
  Ecco - The Tides of Time (BR)                  -       Ok
+ E.I. - Exa Innova (KR)                         -      *Ok
  Enduro Racer                                   -       Ok
  Enduro Racer (JP)                              -       Ok
+ E-SWAT [A]                                     -       Ok
+ E-SWAT [B]                                     -       Ok
  Excellent Dizzy Collection, The [Proto]        -       Ok (The prototype isn't really playable)
  F1                                             -       Ok
  F-1 Spirit - The way to Formula-1 (KR)         -       Ok
@@ -254,6 +256,7 @@
  Jurassic Park                                  -       Ok
  Kenseiden                                      FM      Ok
  Kenseiden (JP)                                 FM      Ok
+ King & Balloon (KR)                            -      *Ok
  King's Quest - Quest for the Crown             -       Ok
  King's Quest - Quest for the Crown [Proto]     -       Ok
  KLAX                                           -       Ok
@@ -291,6 +294,7 @@
  Mercs                                          -       Ok
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
+ Micro Xevious, The (KR)                        -      *Ok
  Miracle Warriors - Seal of The Dark Lord       FM      Ok
  Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
@@ -341,6 +345,7 @@
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
+ Pooyan (KR)                                    -      *Ok
  Poseidon Wars 3-D                              FM,(3D) Ok
  Power Strike                                   FM      Ok
  Power Strike II                                -       Ok
@@ -354,6 +359,7 @@
  Psycho Fox                                     -       Ok
  Putt & Putter                                  -       Ok
  Putt & Putter [Proto]                          -       Ok
+ Puznic (KR)                                    -      *Ok
  Quartet                                        -       Ok
  Quest for the Shaven Yak Starring Ren Ho..(BR) -       Ok
  R-Type                                         FM      Ok
@@ -526,6 +532,7 @@
  X-Men: Mojo World (BR)                         -       Ok
  Xenon 2 - Megablast [Image Works]              -       Ok
  Xenon 2 - Megablast [Virgin]                   -       Ok
+ Xyxolog (KR)                                   -      *Ok
  Ys (JP)                                        FM      Ok
  Y's: The Vanished Omens                        -       Ok
  Y's: The Vanished Omens [Demo]                 FM     *Ok
@@ -537,7 +544,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 519 games tested - 517 are "Ok" - Compatibility rate: 99.54%
+ 526 games tested - 524 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

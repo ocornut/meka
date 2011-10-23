@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/10/22
+; Last updated 2011/10/23
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -78,7 +78,7 @@ SMS 08c9ec91 8F4496EF846F02B3   Alex Kidd no Miracle World/COUNTRY=JP/PRODUCT_NO
 SMS 6f8e46cf B20081B6495EBAB6   Alex Kidd in Miracle World [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-10/COMMENT=Box says "Alex Kido".
 SMS d2417ed7 7ACEE06A678FF583   Alex Kidd in Shinobi World/COUNTRY=US,EU,BR/PRODUCT_NO=7044
 SMS 82038ad4 8C8CBA6269074D0F   Alf/COUNTRY=US,BR/PRODUCT_NO=5111
-SMS 08bf3de3 99C9E641B75585E6   Alibaba and 40 Thieves/COUNTRY=KR/EMU_COUNTRY=1   ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game require a non-zero RAM clearing pattern.
+SMS 08bf3de3 99C9E641B75585E6   Alibaba and 40 Thieves/COUNTRY=KR/EMU_COUNTRY=1   ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern.
 SMS b618b144 2C339F1D709F32A4   Alien 3/COUNTRY=EU,BR/PRODUCT_NO=MK-27043-50
 SMS 7f30f793 122165765570939A   Alien Storm/COUNTRY=EU,BR/PRODUCT_NO=7075
 SMS 5cbfe997 468211BFBE1EC3C9   Alien Syndrome/COUNTRY=US,EU,BR/PRODUCT_NO=7006
@@ -117,6 +117,7 @@ SMS c19430ce 2063D1C61FABFC20   Battle Out Run/COUNTRY=EU,BR/PRODUCT_NO=7033
 SMS da3a2f57 23DA1C4AC46CB8B5   Black Belt/COUNTRY=US,EU/PRODUCT_NO=5054/COMMENT=Export adaptation of "Hokuto no Ken". The original Japanese game is based on the "Fist of the North Star" manga. Characters and levels were replaced for the export version.
 SMS 8ecd201c 95A173467C000C89   Blade Eagle 3-D/NAME_JP=Blade Eagle/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1351,8005/EMU_3D
 SMS 58d5fc48 C1001AE980334148   Blade Eagle 3-D [Proto]/FLAGS=PROTO/COUNTRY=US/EMU_3D/COMMENT=Prototype version of the game. Title screen says "Blade Eagle", same as Japanese version. Level differences are very clear from the beginning.
+SMS 643b6b76 97766D7F4D91D752   Block Hole/COUNTRY=KR/EMU_COUNTRY=1               ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern.
 SMS f9dbb533 7F77195ABBCB050C   BMX Trial - Alex Kidd/COUNTRY=JP/PRODUCT_NO=G-1330/EMU_INPUTS=PADDLE
 SMS caea8002 DC830766ED4115F1   Bonanza Bros./COUNTRY=EU,BR/PRODUCT_NO=7073/COMMENT=Also referred to as "Bonanza Brothers".
 SMS b3768a7a 1A817AD5D227C35A   Bonkers Wax Up!/COUNTRY=BR/PRODUCT_NO=028600/COMMENT=This is a port from the Game Gear version.
@@ -190,6 +191,7 @@ SMS f06f2ccb BBFF73681C587186   Eagles 5/COUNTRY=KR
 SMS c4d5efc5 65DF0FAE9B9BD8F1   Earthworm Jim/COUNTRY=BR/PRODUCT_NO=028690/EMU_TVTYPE=NTSC/COMMENT=This is a port from the Game Gear version. It has a status bar display bug on early Master System 1.
 SMS 6687fab9 83074B5C0E7C3A0B   Ecco the Dolphin/COUNTRY=EU,BR/PRODUCT_NO=9029
 SMS 7c28703a B26E818E12334547   Ecco - The Tides of Time/COUNTRY=BR/PRODUCT_NO=028630/COMMENT=The in-game demonstration has timing problems making it buggy.
+SMS dd74bcf1 1D8FA00A8C616558   E.I. - Exa Innova/COUNTRY=KR
 SMS 00e73541 93D3417EE009757D   Enduro Racer/NAME_BR=Super Cross/COUNTRY=US,EU,BR/PRODUCT_NO=5077/COMMENT=This is the limited 128 KB version of the game as released outside of Japan (5 differents level layout instead of 10 in the Japanese version).
 SMS 5d5c50b3 6038C2516F841949   Enduro Racer/COUNTRY=JP/PRODUCT_NO=G-1322/COMMENT=This is the full original 256 KB version of the game as released in Japan (10 differents level layout).
 SMS c4bb1676 C12FD315320E1CCC   E-SWAT [A]/COUNTRY=US,EU/PRODUCT_NO=7042
@@ -301,6 +303,7 @@ SMS 695a9a15 C723308C422E8664   Jungle Book, The (Walt Disney's Classic)/NAME_FR
 SMS 0667ed9f 9E66E0AB50B7A4C6   Jurassic Park/COUNTRY=EU,BR/PRODUCT_NO=9030,028335
 SMS 516ed32e 841BF3EB6EAF3E28   Kenseiden/COUNTRY=US,EU,BR/PRODUCT_NO=7013
 SMS 05ea5353 C248674DC457190E   Kenseiden/COUNTRY=JP/PRODUCT_NO=G-1358
+SMS 0ae470e5 212FE2656C8EE887   King & Balloon/COUNTRY=KR
 SMS f8d33bc4 7A69F7D063546D32   King's Quest - Quest for the Crown/COUNTRY=US/PRODUCT_NO=4360
 SMS b7fe0a9d A7EF2C74C4AA61FB   King's Quest - Quest for the Crown [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS 2b435fd6 97D1E5EB0E6664F0   KLAX/COUNTRY=EU/PRODUCT_NO=301040-0160
@@ -338,6 +341,7 @@ SMS 29bc7fad 9AE49900AF32A95F   Megumi Rescue/COUNTRY=JP/PRODUCT_NO=G-1359/EMU_I
 SMS d7416b83 0C2287D260615D5B   Mercs/COUNTRY=EU,BR/PRODUCT_NO=9007
 SMS 25051dd5 61223A2720C539FE   Mickey's Ultimate Challenge/COUNTRY=BR/PRODUCT_NO=028700/COMMENT=This is a port from the Game Gear version.
 SMS a577ce46 8264C47AA02D1CF3   Micro Machines/COUNTRY=EU/PRODUCT_NO=19001/EMU_MAPPER=3/EMU_TVTYPE=PAL
+SMS 41cc2ade 2197A343DD55D25E   Micro Xevious, The/COUNTRY=KR
 SMS 0e333b6e 5DF944A13D3573E0   Miracle Warriors - Seal of The Dark Lord/COUNTRY=US,EU,BR/PRODUCT_NO=7500/COMMENT=Export version of "Haja no Fuuin".
 SMS 301a59aa C6AE142A815DF27E   Miracle Warriors - Seal of The Dark Lord [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS fbe5cfbb 32DAD3B36F53F7B5   Missile Defense 3-D/NAME_BR=Missile Defense 3D/COUNTRY=US,EU,BR/PRODUCT_NO=8001,023230/EMU_INPUTS=LIGHTPHASER/EMU_3D
@@ -392,6 +396,7 @@ SMS 75971bef 1B751562EAF667B2   Phantasy Star/COUNTRY=BR/PRODUCT_NO=029010
 SMS 747e83b5 4CB57E6A76C6CF0C   Phantasy Star/COUNTRY=KR/PRODUCT_NO=GB 4014KS
 SMS b840a446 99682219F73E5738   Pit-Fighter/COUNTRY=EU/PRODUCT_NO=MK 29009-50
 SMS aa4d4b5a B0EEC623306A5986   Pit-Fighter/COUNTRY=BR/PRODUCT_NO=028250
+SMS ca082218 CC2A2FBFE47BE4D9   Pooyan/COUNTRY=KR
 SMS c7a1fdef E9FF01CC584A7A2F   Populous/COUNTRY=EU,BR/PRODUCT_NO=27014
 SMS abd48ad2 DFAFA4ECD0D02D15   Poseidon Wars 3-D/NAME_BR=Poseidon Wars 3D/COUNTRY=US,EU,BR/PRODUCT_NO=8006/EMU_3D/COMMENT=The 3-D effect can be disabled by pressing Control Pad 2 Button 1 on title screen.
 SMS 4077efd9 A3A0129B65F27148   Power Strike/COUNTRY=EU,BR,KR/PRODUCT_NO=5109,GB-1004
@@ -409,6 +414,7 @@ SMS 5c0b1f0f 106D424E827F1FD3   Psychic World/COUNTRY=EU,BR/PRODUCT_NO=7066
 SMS 97993479 51C5A27AE5C1A97F   Psycho Fox/COUNTRY=US,EU,BR/PRODUCT_NO=7032
 SMS 357d4f78 F8FBE39B6B9A7A10   Putt & Putter/NAME_BR=Minigolf/COUNTRY=EU,BR/PRODUCT_NO=5122
 SMS 8167ccc4 57D2E5AF6CF007E0   Putt & Putter [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS 76e8265f 22792EA4280C8FD0   Puznic/COUNTRY=KR
 SMS e0f34fa6 7B806045EC630110   Quartet/COUNTRY=US,EU/PRODUCT_NO=5073/COMMENT=Export version of "Double Target - Cynthia no Nemuri".
 SMS f42e145c B8840BAF3B2A2C79   Quest for the Shaven Yak Starring Ren Hoëk & Stimpy/COUNTRY=BR/PRODUCT_NO=028540/EMU_TVTYPE=PAL/COMMENT=This is a port from the Game Gear version.
 SMS c172a22c 7BCD35D3A8365C76   Rainbow Islands/COUNTRY=EU/PRODUCT_NO=7117
@@ -589,6 +595,7 @@ SMS da8e95a9 1C2E45C0C47B0E64   WWF Wrestlemania Steel Cage Challenge [SMS-GG]/F
 SMS 5c205ee1 148D13D956C94E06   Xenon 2: Megablast [Image Works]/COUNTRY=EU/PRODUCT_NO=27012-50
 SMS ec726c0d 949238322F74AC21   Xenon 2: Megablast [Virgin]/COUNTRY=EU/PRODUCT_NO=27038-50
 SMS 3e1387f6 5817A60154C0D7FF   X-Men: Mojo World/COUNTRY=BR/PRODUCT_NO=028740/COMMENT=This is a port from the Game Gear version.
+SMS 565c799f 3E57DDC184F4D481   Xyxolog/COUNTRY=KR/PRODUCT_NO=G-91
 SMS 32759751 13C43FBEE6B25341   Ys/COUNTRY=JP/PRODUCT_NO=G-1370/EMU_VDP=315-5124/COMMENT=Japanese version of "Y's: The Vanished Omens".
 SMS b33e2827 6C4C3C65EF39ADD2   Y's: The Vanished Omens/NAME_BR=Y's/COUNTRY=US,EU,BR/PRODUCT_NO=7501/COMMENT=Export version of "Ys".
 SMS e8b82066 06806D7C60FB9C9A   Y's: The Vanished Omens [Demo]/COUNTRY=US/FLAGS=PROTO//EMU_VDP=315-5124/COMMENT=Rolling non-interactive demo to advertise the game. Text in Japanese although this is an US demo cartridge.
