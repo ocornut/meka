@@ -55,8 +55,8 @@ player_up           = key Up
 player_down         = key Down
 player_left         = key Left
 player_right        = key Right
-player_button1      = key Left Control
-player_button2      = key Alt
+player_button1      = key Z
+player_button2      = key X
 player_start_pause  = key Space
 player_reset        = key Backspace
 

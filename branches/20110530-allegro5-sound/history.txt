@@ -10,7 +10,7 @@ They are usually of 2 kinds:
 - Fixes or addition to things changed during WIP.
 - Programmer/hacker centric information.
 
- MEKA 0.74 WIP Allegro 5
+ MEKA 0.8x WIP Allegro 5
  -----------------------
   - Updated to Allegro 5.0.2 with OpenGL/DirectX backends. [Omar]
     This required a lot of changes and rewrite in the codebase. It probably added new bugs,
@@ -21,6 +21,7 @@ They are usually of 2 kinds:
     The sound is also now functional under Linux and MacOS. [Omar]  
   - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
     Codebase can now freely take advantage of all C++ compiler features. [Omar]
+  - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by Nemesis. [Omar]
@@ -41,7 +42,7 @@ They are usually of 2 kinds:
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
   - GUI: Made "Ocean" the default theme and increased default GUI resolution. [Omar]
-  - GUI: depth order of windows is saved when quitting the application. [Omar]
+  - GUI: depth order of windows is saved and restored between runs. [Omar]
   - GUI: increased mouse horizontal range when using scrollbars. [Omar]
   - GUI: added 'game_window_scale' directive on configuration file to resize game window. [Omar]
   - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
