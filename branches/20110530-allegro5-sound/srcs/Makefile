@@ -424,7 +424,7 @@ dist_bin_win32 :
 	@echo Packaging
 	zip -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
 	zip -9 Dist/mekaw.zip icons.zip setup.bat
-	zip -9 Dist/mekaw.zip meka.txt mekaw.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
+	zip -9 Dist/mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
 	zip -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
 	zip -9 Dist/mekaw.zip -r datafiles/*.*
 	@echo Done!
@@ -441,7 +441,7 @@ dist_bin_unix :
 	-mkdir ./Dist/
 	-mkdir ./Dist/mekanix/
 	cp meka meka.blt meka.cfg meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
-	cp meka.txt mekanix.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
+	cp meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
 	cp -R Themes ./mekanix/
 	cp -R datafiles ./mekanix/
 	tar cvzf Dist/mekanix.tgz ./mekanix
