@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/10/23
+; Last updated 2011/10/26
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -58,7 +58,7 @@
 
 SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
 SMS a67f2a5c 4EB5F14E8488C9E9   4 PAK All Action/COUNTRY=AU/EMU_MAPPER=14
-SMS 060d6a7c 89A31578AA7C44DD   94 World Cup Soccer/COUNTRY=KR/PRODUCT_NO=DS-G403
+SMS 060d6a7c 89A31578AA7C44DD   94 Super World Cup Soccer/COUNTRY=KR/PRODUCT_NO=DS-G403
 SMS 887d9f6b 9EB1F06967AA8DBA   Ace of Aces/COUNTRY=EU/PRODUCT_NO=7054
 SMS d91b340d 2CCEA6A00321A4F8   Action Fighter [v1]/COUNTRY=JP,DE,IT/PRODUCT_NO=G-1305,41008,5055
 SMS 3658f3e0 2BCDA99F0321A4F8   Action Fighter [v2]/COUNTRY=US,EU,BR/PRODUCT_NO=5055

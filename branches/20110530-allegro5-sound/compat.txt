@@ -17,7 +17,7 @@
 -----------------------------------------------------------------------------
  20 em 1 (BR)                                   -       Ok
  4 PAK All Action (AU)                          -      *Ok
- 94 World Cup Soccer (KR)                       -      *Ok
+ 94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
  Action Fighter [v1]                            -       Ok
  Action Fighter [v2]                            -       Ok
@@ -142,7 +142,7 @@
  Dynamite Duke                                  -       Ok
  Dynamite Dux                                   -       Ok
  Dynamite Headdy (BR)                           -       Ok
- Eagles 5 (KR)                                  -      *Ok
+ Eagles 5 (KR)                                  -       Ok
  Earthworm Jim (BR)                             -       Ok
  Ecco the Dolphin                               -       Ok
  Ecco - The Tides of Time (BR)                  -       Ok
