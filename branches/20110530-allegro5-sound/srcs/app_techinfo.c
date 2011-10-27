@@ -90,7 +90,6 @@ static void TechInfo_Redraw(t_app_tech_info *app)
         app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
-// UPDATE ONE LINE ------------------------------------------------------------
 static void TechInfo_SetLine(t_app_tech_info *app, const char *line, int line_idx)
 {
     // If line hasn't changed, ignore the update
@@ -102,7 +101,6 @@ static void TechInfo_SetLine(t_app_tech_info *app, const char *line, int line_id
     TechInfo.lines_dirty[line_idx] = TRUE;
 }
 
-// UPDATE TECHNICAL INFORMATIONS APPLET ---------------------------------------
 void        TechInfo_Update(void)
 {
     t_app_tech_info *app = &TechInfo;   // Global instance
@@ -222,7 +220,7 @@ void    TechInfo_Switch (void)
     else
         Msg (MSGT_USER, Msg_Get(MSG_TechInfo_Disabled));
     gui_box_show(TechInfo.box, TechInfo.active, TRUE);
-    gui_menu_inverse_check(menus_ID.tools, 5);
+    gui_menu_inverse_check(menus_ID.tools, 6);
 }
 
 //-----------------------------------------------------------------------------

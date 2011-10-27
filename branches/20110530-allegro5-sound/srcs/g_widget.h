@@ -80,7 +80,7 @@ struct t_widget
     int						mouse_action;				// (enum t_widget_mouse_action) // FIXME-ENUM
 
     // Handlers
-	void					(*destroy_func)(t_widget *w);
+	void					(*destroy_func)(t_widget* w);
     void                    (*redraw_func)(t_widget* w);
     void                    (*update_func)(t_widget* w);
 
@@ -97,67 +97,67 @@ int         widgets_update_box              (t_gui_box *box, int cx, int cy);
 void        widgets_call_update             (void);
 
 // Widget: generics -----------------------------------------------------------
-void        widget_destroy                  (t_widget *w);
-void        widget_enable                   (t_widget *w);
-void        widget_disable                  (t_widget *w);
-void        widget_set_dirty                (t_widget *w);
-void        widget_set_mouse_buttons_mask   (t_widget *w, int mouse_buttons_mask);
-void *      widget_get_user_data            (t_widget *w);
-void        widget_set_user_data            (t_widget *w, void *user_data);
+void        widget_destroy                  (t_widget* w);
+void        widget_enable                   (t_widget* w);
+void        widget_disable                  (t_widget* w);
+void        widget_set_dirty                (t_widget* w);
+void        widget_set_mouse_buttons_mask   (t_widget* w, int mouse_buttons_mask);
+void *      widget_get_user_data            (t_widget* w);
+void        widget_set_user_data            (t_widget* w, void *user_data);
 //-----------------------------------------------------------------------------
 
 // Widget: star button at the top right of a box ------------------------------
 t_widget *  widget_closebox_add             (t_gui_box *box, t_widget_callback callback);
-void        widget_closebox_update          (t_widget *w);
-void        widget_closebox_redraw          (t_widget *w);
+void        widget_closebox_update          (t_widget* w);
+void        widget_closebox_redraw          (t_widget* w);
 //-----------------------------------------------------------------------------
 
 // Widget: button -------------------------------------------------------------
-t_widget *  widget_button_add               (t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char *label);
-void        widget_button_update            (t_widget *w);
-void        widget_button_redraw            (t_widget *w);
-void        widget_button_set_selected      (t_widget *w, bool selected);
+t_widget *  widget_button_add               (t_gui_box* box, const t_frame* frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char* label, void* user_data = NULL);
+void        widget_button_update            (t_widget* w);
+void        widget_button_redraw            (t_widget* w);
+void        widget_button_set_selected      (t_widget* w, bool selected);
 //-----------------------------------------------------------------------------
 
 // Widget: scroll bar ---------------------------------------------------------
 t_widget *  widget_scrollbar_add            (t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, const int *v_max, int *v_start, int v_step, t_widget_callback callback);
-void        widget_scrollbar_update         (t_widget *w);
-void        widget_scrollbar_redraw			(t_widget *w);
+void        widget_scrollbar_update         (t_widget* w);
+void        widget_scrollbar_redraw			(t_widget* w);
 //-----------------------------------------------------------------------------
 
 // Widget: check box ----------------------------------------------------------
 t_widget *  widget_checkbox_add                     (t_gui_box *box, const t_frame *frame, bool *pvalue, t_widget_callback callback);
-void        widget_checkbox_update                  (t_widget *w);
-void        widget_checkbox_redraw                  (t_widget *w);
-void        widget_checkbox_set_pvalue              (t_widget *w, bool *pvalue);
+void        widget_checkbox_update                  (t_widget* w);
+void        widget_checkbox_redraw                  (t_widget* w);
+void        widget_checkbox_set_pvalue              (t_widget* w, bool *pvalue);
 //-----------------------------------------------------------------------------
 
 // Widget: text box -----------------------------------------------------------
 t_widget *  widget_textbox_add                      (t_gui_box *box, const t_frame *frame, int lines_max, t_font_id font_id);
-void        widget_textbox_redraw                   (t_widget *w);
-void        widget_textbox_clear                    (t_widget *w);
-void        widget_textbox_set_current_color        (t_widget *w, const ALLEGRO_COLOR *pcurrent_color);
-void        widget_textbox_print_scroll             (t_widget *w, int wrap, const char *line);
-void        widget_textbox_printf_scroll            (t_widget *w, int wrap, const char *format, ...);
+void        widget_textbox_redraw                   (t_widget* w);
+void        widget_textbox_clear                    (t_widget* w);
+void        widget_textbox_set_current_color        (t_widget* w, const ALLEGRO_COLOR *pcurrent_color);
+void        widget_textbox_print_scroll             (t_widget* w, int wrap, const char *line);
+void        widget_textbox_printf_scroll            (t_widget* w, int wrap, const char *format, ...);
 //-----------------------------------------------------------------------------
 
 // Widget: input box ----------------------------------------------------------
 t_widget *  widget_inputbox_add                     (t_gui_box *box, const t_frame *frame, int length_max, t_font_id font_id, t_widget_callback callback_enter);
-void        widget_inputbox_update                  (t_widget *w);
-void        widget_inputbox_redraw                  (t_widget *w);
-const char *widget_inputbox_get_value               (t_widget *w);
-int         widget_inputbox_get_value_length        (t_widget *w);
-void        widget_inputbox_set_value               (t_widget *w, const char *value);
-int         widget_inputbox_get_cursor_pos          (t_widget *w);
-void        widget_inputbox_set_cursor_pos          (t_widget *w, int cursor_pos);
-void        widget_inputbox_set_callback_enter      (t_widget *w, void (*callback_enter)(t_widget *));
-void        widget_inputbox_set_callback_edit       (t_widget *w, void (*callback_edit)(t_widget *));
-void        widget_inputbox_set_flags               (t_widget *w, int /*t_widget_inputbox_flags*/ flags, bool enable);	// FIXME-ENUM
-void        widget_inputbox_set_content_type        (t_widget *w, t_widget_content_type content_type);
-void        widget_inputbox_set_insert_mode         (t_widget *w, int insert_mode);
-void        widget_inputbox_set_callback_completion (t_widget *w, bool (*callback_completion)(t_widget *));
-void        widget_inputbox_set_callback_history    (t_widget *w, bool (*callback_history)(t_widget *, int level));
-bool        widget_inputbox_insert_char             (t_widget *w, char c);
-bool        widget_inputbox_insert_string           (t_widget *w, const char *str);
-bool        widget_inputbox_delete_current_char     (t_widget *w);
+void        widget_inputbox_update                  (t_widget* w);
+void        widget_inputbox_redraw                  (t_widget* w);
+const char *widget_inputbox_get_value               (t_widget* w);
+int         widget_inputbox_get_value_length        (t_widget* w);
+void        widget_inputbox_set_value               (t_widget* w, const char *value);
+int         widget_inputbox_get_cursor_pos          (t_widget* w);
+void        widget_inputbox_set_cursor_pos          (t_widget* w, int cursor_pos);
+void        widget_inputbox_set_callback_enter      (t_widget* w, void (*callback_enter)(t_widget *));
+void        widget_inputbox_set_callback_edit       (t_widget* w, void (*callback_edit)(t_widget *));
+void        widget_inputbox_set_flags               (t_widget* w, int /*t_widget_inputbox_flags*/ flags, bool enable);	// FIXME-ENUM
+void        widget_inputbox_set_content_type        (t_widget* w, t_widget_content_type content_type);
+void        widget_inputbox_set_insert_mode         (t_widget* w, int insert_mode);
+void        widget_inputbox_set_callback_completion (t_widget* w, bool (*callback_completion)(t_widget *));
+void        widget_inputbox_set_callback_history    (t_widget* w, bool (*callback_history)(t_widget *, int level));
+bool        widget_inputbox_insert_char             (t_widget* w, char c);
+bool        widget_inputbox_insert_string           (t_widget* w, const char *str);
+bool        widget_inputbox_delete_current_char     (t_widget* w);
 //-----------------------------------------------------------------------------

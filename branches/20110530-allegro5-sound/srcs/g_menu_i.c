@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "app_about.h"
+#include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
@@ -196,6 +197,7 @@ void        gui_menus_init (void)
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_TilesViewer),   AM_Active | Is_Checked (TileViewer.active),                  (t_menu_callback)TileViewer_Switch,                  NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_TilemapViewer), AM_Active | Is_Checked (TilemapViewer_MainInstance->active), (t_menu_callback)TilemapViewer_SwitchMainInstance,   NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_MemoryEditor),  AM_Active | Is_Checked (MemoryViewer_MainInstance->active),  (t_menu_callback)MemoryViewer_SwitchMainInstance,    NULL);
+	menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_CheatFinder),   AM_Active | Is_Checked (g_CheatFinder_MainInstance->active), (t_menu_callback)CheatFinder_SwitchMainInstance,	 NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get (MSG_Menu_Tools_TechInfo),      AM_Active | Is_Checked (TechInfo.active),                    (t_menu_callback)TechInfo_Switch,                    NULL);
 
     //-------------------------------------------------------------------------

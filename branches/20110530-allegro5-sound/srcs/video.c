@@ -302,8 +302,8 @@ void    Video_Setup_State(void)
                 return;
             }
             fs_out = al_get_backbuffer(g_display);
-            Change_Mode_Misc();
-            // set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
+			Palette_Emulation_Reload();
+			Video_ClearScreenBackBuffer();
         }
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
@@ -312,11 +312,11 @@ void    Video_Setup_State(void)
 			const int gui_res_x = g_configuration.video_mode_gui_res_x;
 			const int gui_res_y = g_configuration.video_mode_gui_res_y;
 			Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, refresh_rate, TRUE);
-            Change_Mode_Misc();
             gui_redraw_everything_now_once();
         }
         break;
     }
+	Inputs_Peripheral_Change_Update();
 }
 
 void    Screen_Save_to_Next_Buffer(void)

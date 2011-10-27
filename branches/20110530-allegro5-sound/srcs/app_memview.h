@@ -7,27 +7,39 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define MEMTYPE_Z80   (0)
-#define MEMTYPE_ROM   (1)
-#define MEMTYPE_RAM   (2)
-#define MEMTYPE_VRAM  (3)
-#define MEMTYPE_PRAM  (4)
-#define MEMTYPE_SRAM  (5)
-#define MEMTYPE_VREG  (6)
-#define MEMTYPE_MAX   (7)
+enum t_memory_type
+{
+	MEMTYPE_Z80   = 0,
+	MEMTYPE_ROM   = 1,
+	MEMTYPE_RAM   = 2,
+	MEMTYPE_VRAM  = 3,
+	MEMTYPE_PRAM  = 4,
+	MEMTYPE_SRAM  = 5,
+	MEMTYPE_VREG  = 6,
+	MEMTYPE_MAX_  = 7,
+};
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_memory_section
+struct t_memory_range
 {
-    int                 memtype;
+	t_memory_type		memtype;
+	const char *		name;
+	int					size;
+	int					addr_start;
+	int					addr_hex_length;
+	u8 *				data;
+
+	u8					ReadByte(int addr) const;
+	bool				WriteByte(int addr, u8 v);
+};
+
+struct t_memory_pane
+{
+	t_memory_range		memrange;
     int                 memblock_first;
-    int                 size;
-    int                 addr_start;
-    int                 addr_length;
-    const char *        name;
     t_widget *          button;
 };
 
@@ -38,8 +50,8 @@ struct t_memory_viewer
     int                 size_lines;
     int                 memblocks_max;
     int                 memblock_first;
-    t_memory_section    sections[MEMTYPE_MAX];
-    t_memory_section *  section_current;
+    t_memory_pane		panes[MEMTYPE_MAX_];
+    t_memory_pane *		pane_current;
 
     // Interface
     bool                active;
@@ -75,5 +87,7 @@ void                    MemoryViewer_SwitchMainInstance(void);
 
 void                    MemoryViewers_Update(void);
 void                    MemoryViewers_MediaReload(void);
+
+void					MemoryRange_GetDetails(t_memory_type memtype, t_memory_range* out);
 
 //-----------------------------------------------------------------------------

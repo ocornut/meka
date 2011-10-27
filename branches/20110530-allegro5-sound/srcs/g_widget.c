@@ -24,7 +24,7 @@
 struct t_widget_data_closebox
 {
     int                         lighted;
-    void                        (*callback)(t_widget*);
+	t_widget_callback			callback;
 };
 
 struct t_widget_data_button
@@ -32,7 +32,7 @@ struct t_widget_data_button
     const char *                label;
     t_widget_button_style       style;
     bool                        selected;
-    void                        (*callback)(t_widget*);
+	t_widget_callback			callback;
 };
 
 struct t_widget_data_scrollbar
@@ -317,7 +317,7 @@ void        widget_closebox_update(t_widget *w)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char *label)
+t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char *label, void* user_data)
 {
     t_widget *w;
     t_widget_data_button *wd;
@@ -335,6 +335,9 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     wd->selected = FALSE;
     wd->callback = callback;
 
+	if (user_data != NULL)
+		w->user_data = user_data;
+	
     return w;
 }
 
@@ -356,9 +359,7 @@ void        widget_button_update(t_widget *w)
     // is to avoid recursive calls if the callback ask for a GUI update (something
     // which the file browser does when clicking on "Load Names").
     if (clicked)
-	{
         wd->callback(w);
-	}
 }
 
 void        widget_button_redraw(t_widget *w)

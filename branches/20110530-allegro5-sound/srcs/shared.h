@@ -38,9 +38,8 @@ extern char MEKA_BUILD_TIME[];
 // Those should be compiling without MEKA
 //-----------------------------------------------------------------------------
 
-#include "tools/libmy.h"    // Various libc like functions
-#include "tools/liblist.h"	// Linked-list
-#include "memory.h"			// Pointless malloc/realloc/free wrappers
+#include "tools/libmy.h"			// Various libc like functions
+#include "tools/liblist.h"			// Linked-list
 
 //-----------------------------------------------------------------------------
 // Z80 CPU cores

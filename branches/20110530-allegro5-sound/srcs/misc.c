@@ -17,11 +17,20 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Change_System_Misc ()
-// Called when media (ROM) changes - updates various things
-//-----------------------------------------------------------------------------
-void    Change_System_Misc (void)
+// Allocate memory using malloc(), abort if unavailable
+void *	Memory_Alloc(size_t size)
+{
+	u8* p = (u8*)malloc(size);
+	if (p == NULL)
+	{
+		meka_errno = MEKA_ERR_MEMORY;
+		Quit_Msg (meka_strerror());
+	}
+	return (p);
+}
+
+// Called when media (ROM) changes
+void    Change_System_Misc()
 {
     gamebox_resize_all();
     Capture_Init_Game();
@@ -30,24 +39,6 @@ void    Change_System_Misc (void)
 #ifdef MEKA_Z80_DEBUGGER
     Debugger_MediaReload();
 #endif // MEKA_Z80_DEBUGGER
-}
-
-// Called when the MEKA mode changes - updates various things
-void    Change_Mode_Misc(void)
-{
-    switch (g_env.state)
-    {
-    case MEKA_STATE_GAME:
-        {
-            Palette_Emulation_Reload();
-            Video_ClearScreenBackBuffer();
-            break;
-        }
-    case MEKA_STATE_GUI:
-        // .. nothing to do ..
-        break;
-	}
-    Inputs_Peripheral_Change_Update();
 }
 
 #ifdef ARCH_UNIX

@@ -2,10 +2,7 @@
 // MEKA - app_memview.c
 // Memory Viewer - Code
 //-----------------------------------------------------------------------------
-// Based on code by Valerie Tching.
-//-----------------------------------------------------------------------------
-// Note: currently referred as "Memory Viewer" in the code,
-// but always as "Memory Editor" to the user.
+// Note: currently referred as "Memory Viewer" in the code, but always as "Memory Editor" to the user.
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
@@ -37,18 +34,14 @@ t_list *            MemoryViewers;
 
 static void     MemoryViewer_Layout(t_memory_viewer *mv, bool setup);
 static void     MemoryViewer_Update(t_memory_viewer *mv);
-static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv);
+static void     MemoryViewer_UpdateInputs(t_memory_viewer *mv);
 static void     MemoryViewer_MediaReload(t_memory_viewer *mv);
+static void		MemoryViewer_UpdateAllMemoryRanges(t_memory_viewer *mv);
 
 static void     MemoryViewer_Switch(t_widget *w);
 
-static void     MemoryViewer_ViewZ80(t_widget *w);
-static void     MemoryViewer_ViewROM(t_widget *w);
-static void     MemoryViewer_ViewRAM(t_widget *w);
-static void     MemoryViewer_ViewVRAM(t_widget *w);
-static void     MemoryViewer_ViewPRAM(t_widget *w);
-static void     MemoryViewer_ViewSRAM(t_widget *w);
-static void     MemoryViewer_ViewVREG(t_widget *w);
+static void		MemoryViewer_ViewPane(t_memory_viewer *mv, t_memory_type memtype);
+static void     MemoryViewer_ViewPaneCallback(t_widget *w);
 
 static void		MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w);
 static void		MemoryViewer_InputBoxValue_EditCallback(t_widget *w);
@@ -62,6 +55,169 @@ static void		MemoryViewer_SetupEditValueBox(t_memory_viewer *mv);
 // Functions
 //-----------------------------------------------------------------------------
 
+void	MemoryRange_GetDetails(t_memory_type memtype, t_memory_range* mr)
+{
+	mr->memtype = memtype;
+	switch (memtype)
+	{
+	case MEMTYPE_Z80:
+		{
+			mr->name			= "Z80";
+			mr->size			= 0x10000;
+			mr->addr_start		= 0x0000;
+			mr->addr_hex_length	= 4;
+			mr->data			= NULL;
+			break;
+		}
+	case MEMTYPE_ROM:
+		{
+			mr->name			= "ROM";
+			mr->size			= tsms.Size_ROM;
+			mr->addr_start		= 0x00000;
+			mr->addr_hex_length	= 5;
+			mr->data			= ROM;
+			break;
+		}
+	case MEMTYPE_RAM:
+		{
+			int ram_len, ram_start_addr;
+			Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
+			mr->name			= "RAM";
+			mr->size			= ram_len;
+			mr->addr_start		= ram_start_addr;
+			mr->addr_hex_length	= 4;
+			mr->data			= RAM;
+			break;
+		}
+	case MEMTYPE_VRAM:
+		{
+			mr->name			= "VRAM";
+			mr->size			= 0x4000;
+			mr->addr_start		= 0x0000;
+			mr->addr_hex_length	= 4;
+			mr->data			= VRAM;
+			break;
+		}
+	case MEMTYPE_PRAM:
+		{
+			int pram_size = 0;
+			switch (g_machine.driver_id)
+			{
+			case DRV_SMS:   pram_size = 32;  break;
+			case DRV_GG:    pram_size = 64;  break;
+			}
+			mr->name			= "PAL";	// FIXME: "PRAM" ?
+			mr->size			= pram_size;
+			mr->addr_start		= 0x00;
+			mr->addr_hex_length	= 2;
+			mr->data			= PRAM;
+			break;
+		}
+	case MEMTYPE_SRAM:
+		{
+			void* sram_data;
+			int sram_size;
+			BMemory_Get_Infos((void **)&sram_data, &sram_size);
+			mr->name			= "Save";	// FIXME: "SRAM"?
+			mr->size			= sram_size;
+			mr->addr_start		= 0x0000;
+			mr->addr_hex_length	= 4;
+			mr->data			= (u8*)sram_data;
+			break;
+		}
+	case MEMTYPE_VREG:
+		{
+			mr->name			= "VREG";
+			mr->size			= 11;
+			mr->addr_start		= 0x0000;
+			mr->addr_hex_length	= 1;
+			mr->data			= &sms.VDP[0];
+			break;
+		}
+	default:
+		assert(0);
+	}
+}
+
+u8		t_memory_range::ReadByte(int addr) const
+{
+	assert(addr >= 0 && addr < this->size);
+	switch (this->memtype)
+	{
+		case MEMTYPE_Z80: 
+			if (!(g_machine_flags & MACHINE_POWER_ON))
+				return 0x00;
+			return RdZ80_NoHook(addr);
+		case MEMTYPE_ROM: 
+		case MEMTYPE_RAM: 
+		case MEMTYPE_VRAM: 
+		case MEMTYPE_PRAM:
+		case MEMTYPE_SRAM:
+		case MEMTYPE_VREG:
+			return this->data[addr];
+	}
+	assert(0);
+	return 0x00;
+}
+
+bool	t_memory_range::WriteByte(int addr, u8 v)
+{
+	assert(addr >= 0 && addr < this->size);
+	switch (this->memtype)
+	{
+	case MEMTYPE_Z80:
+		{
+			if (!(g_machine_flags & MACHINE_POWER_ON))
+				return false;
+			WrZ80_NoHook(addr, v);
+			return true;
+		}
+	case MEMTYPE_ROM:     
+		{
+			this->data[addr] = v;
+			// We have a special handling there, because SMS/GG mapper emulation is using a 
+			// different memory area for addresses between 0x0000 and 0x0400
+			if (addr < 0x4000)
+				if (Mem_Pages[0] == Game_ROM_Computed_Page_0)
+					Game_ROM_Computed_Page_0[addr] = v;
+			return true;
+		}
+	case MEMTYPE_RAM:
+		{
+			if (g_driver->id == DRV_COLECO)
+				Write_Mapper_Coleco(0x6000 + addr, v);  // special case for ColecoVision crazy mirroring
+			else
+				this->data[addr] = v;
+			return true;
+		}
+	case MEMTYPE_VRAM:    
+		{
+			// Mark corresponding tile as dirty
+			this->data[addr] = v;     
+			tgfx.Tile_Dirty[addr >> 5] |= TILE_DIRTY_DECODE;
+			return true;
+		}
+	case MEMTYPE_PRAM:
+		{
+			Tms_VDP_Palette_Write(addr, v);
+			return true;
+		}
+	case MEMTYPE_SRAM:
+		{
+			this->data[addr] = v;
+			return true;
+		}
+	case MEMTYPE_VREG:
+		{
+			Tms_VDP_Out(addr, v);
+			return true;
+		}
+	}
+	assert(0);
+	return false;
+}
+
+
 //-----------------------------------------------------------------------------
 // MemoryViewer_New(bool register_desktop, int size_columns, int size_lines)
 // Create and initialize Memory Editor applet
@@ -69,7 +225,6 @@ static void		MemoryViewer_SetupEditValueBox(t_memory_viewer *mv);
 t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, int size_lines)
 {
     t_memory_viewer* mv = (t_memory_viewer*)malloc(sizeof(t_memory_viewer));
-    t_frame frame;
 
     // Check parameters
     assert(size_columns >= -1);
@@ -105,6 +260,8 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     mv->frame_view.size.x += mv->frame_ascii.size.x;            // ASCII
     mv->frame_view.size.x += 4;                                 // Padding
     mv->frame_view.size.y = 4 + mv->frame_hex.size.y + 3;
+
+	t_frame frame;
     frame = mv->frame_view;
     // Scrollbar
     frame.size.x += 7;
@@ -131,10 +288,10 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     mv->memblocks_max = 0;
     mv->values_edit_active = FALSE;
     mv->values_edit_position = 0;
-    mv->section_current = &mv->sections[MEMTYPE_ROM];   // anything but RAM (see below)
+    mv->pane_current = &mv->panes[MEMTYPE_ROM];   // anything but RAM (see below)
 
     // Start by viewing RAM
-    MemoryViewer_ViewRAM(mv->sections[MEMTYPE_RAM].button);
+	MemoryViewer_ViewPane(mv, MEMTYPE_RAM);
 
     // Simulate a ROM load, so that default mapping setting are applied
     // (this is for when checking the Memory Editor on startup before loading a ROM)
@@ -171,92 +328,25 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     // Setup Memory sections
     if (setup)
     {
-        t_memory_section *section;
         frame.pos.x = 179;
         frame.pos.y = mv->frame_view.size.y + 1;
         frame.size.x = 30;
         frame.size.y = Font_Height (F_SMALL) + 3;
 
-        // Z80
-        section = &mv->sections[MEMTYPE_Z80];
-        section->memtype        = MEMTYPE_Z80;
-        section->memblock_first = 0;
-        section->size           = 0x10000;
-        section->addr_start     = 0x0000;
-        section->addr_length    = 4;
-        section->name           = "Z80";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewZ80, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
+		for (int i = 0; i != MEMTYPE_MAX_; i++)
+		{
+			t_memory_pane* pane = &mv->panes[i];
+			t_memory_type memtype = (t_memory_type)i;
+			MemoryRange_GetDetails(memtype, &pane->memrange);
+			pane->memblock_first = 0;
+			pane->button = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewPaneCallback, WIDGET_BUTTON_STYLE_SMALL, (char *)pane->memrange.name, (void*)memtype);
 
-        // ROM
-        frame.pos.x += frame.size.x + 2;
-        section = &mv->sections[MEMTYPE_ROM];
-        section->memtype        = MEMTYPE_ROM;
-        section->memblock_first = 0;
-        section->size           = 0;    // Unknown as of yet
-        section->addr_start     = 0x00000;
-        section->addr_length    = 5;
-        section->name           = "ROM";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewROM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
-
-        // RAM
-        frame.pos.x += frame.size.x + 2;
-        section = &mv->sections[MEMTYPE_RAM];
-        section->memtype        = MEMTYPE_RAM;
-        section->memblock_first = 0;
-        section->size           = 0;    // Unknown as of yet
-        section->addr_start     = 0;    // Unknown as of yet
-        section->addr_length    = 4;
-        section->name           = "RAM";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
-
-        // VRAM
-        frame.pos.x += frame.size.x + 2;
-        section = &mv->sections[MEMTYPE_VRAM];
-        section->memtype        = MEMTYPE_VRAM;
-        section->memblock_first = 0;
-        section->size           = 0x4000;
-        section->addr_start     = 0x0000;
-        section->addr_length    = 4;
-        section->name           = "VRAM";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewVRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
-
-        // VREG
-        frame.pos.x += frame.size.x + 2;
-        section = &mv->sections[MEMTYPE_VREG];
-        section->memtype        = MEMTYPE_VREG;
-        section->memblock_first = 0;
-        section->size           = 11;
-        section->addr_start     = 0x0000;
-        section->addr_length    = 1;
-        section->name           = "VREG";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewVREG, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
-
-        // PRAM
-        frame.pos.x += frame.size.x + 2;
-        section = &mv->sections[MEMTYPE_PRAM];
-        section->memtype        = MEMTYPE_PRAM;
-        section->memblock_first = 0;
-        section->size           = 0x20; // Unknown as of yet
-        section->addr_start     = 0x00;
-        section->addr_length    = 2;
-        section->name           = "PAL";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewPRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
-
-        // SRAM
-        frame.pos.x += frame.size.x + 2;
-        section = &mv->sections[MEMTYPE_SRAM];
-        section->memtype        = MEMTYPE_SRAM;
-        section->memblock_first = 0;
-        section->size           = 0;    // Unknown as of yet
-        section->addr_start     = 0;
-        section->addr_length    = 4;
-        section->name           = "Save";
-        section->button         = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewSRAM, WIDGET_BUTTON_STYLE_SMALL, (char *)section->name);
+			frame.pos.x += frame.size.x + 2;
+		}
     }
 
     // Invisible Button to catch click on bottom (to cancel editing)
-    frame.pos.x = 0;
-    frame.pos.y = mv->frame_view.size.y;
+    frame.SetPos(0, mv->frame_view.size.y);
     frame.size.x = mv->box->frame.size.x;
     frame.size.y = mv->box->frame.size.y - mv->frame_view.size.y;
     if (setup)
@@ -319,22 +409,19 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 //-----------------------------------------------------------------------------
 static void        MemoryViewer_Update(t_memory_viewer *mv)
 {
-    t_memory_section *section = mv->section_current;
+    t_memory_pane *pane = mv->pane_current;
 
-    int             row, col;
-    int             x, y, asciix;
-    int             addr;
     char            buf[9];
     const t_font_id	font_id = F_MIDDLE;
     const int       font_height = Font_Height(font_id);
-    u8 *            memory;
-    u8              value;
-    const int       addr_length = section->addr_length;
-    const int       addr_start  = section->addr_start;
+    const int       addr_length = pane->memrange.addr_hex_length;
+    const int       addr_start  = pane->memrange.addr_start;
 
     // Skip update if not active
     if (!mv->active)
         return;
+
+	MemoryViewer_UpdateAllMemoryRanges(mv);
 
     // If skin has changed, redraw everything
 	ALLEGRO_BITMAP* box_gfx = mv->box->gfx_buffer;
@@ -355,29 +442,12 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     widget_set_dirty(mv->widget_scrollbar);
 
     // Update inputs
-    MemoryViewer_Update_Inputs(mv);
+    MemoryViewer_UpdateInputs(mv);
 
-    y = 4;
-    addr = mv->memblock_first * mv->size_columns;
-    // FIXME: See with debugger or other tools if this can be abstracted and made generic
-    switch (mv->section_current->memtype)
-    {
-    case MEMTYPE_Z80:   memory = NULL;      break;
-    case MEMTYPE_ROM:   memory = ROM;       break;
-    case MEMTYPE_RAM:   memory = RAM;       break;
-    case MEMTYPE_VRAM:  memory = VRAM;      break;
-    case MEMTYPE_VREG:  memory = sms.VDP;   break;
-    case MEMTYPE_PRAM:  memory = PRAM;      break;
-    case MEMTYPE_SRAM:
-        {
-            int dummy_len;
-            BMemory_Get_Infos((void **)&memory, &dummy_len);
-            break;
-        }
-    default:
-        assert(0); 
-        memory = NULL;
-    }
+    int y = 4;
+    int addr = mv->memblock_first * mv->size_columns;
+    
+	const u8* memory = mv->pane_current->memrange.data;
 
     // Lines to separate address/hex/ascii
     // FIXME-SIZE
@@ -396,19 +466,19 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     al_draw_filled_rectangle(56, mv->frame_view.size.y + 1 + 4, 91+1, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print(font_id, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
 
-    x = 4 + font_height * 6 - 7;
+    int x = 4 + font_height * 6 - 7;
     y = 4;
-    if (mv->section_current->size == 0)
+    if (mv->pane_current->memrange.size == 0)
     {
         const char *text = "None";
-        if (mv->section_current->memtype == MEMTYPE_Z80 && g_driver->cpu != CPU_Z80)
+        if (mv->pane_current->memrange.memtype == MEMTYPE_Z80 && g_driver->cpu != CPU_Z80)
             text = "You wish!";
         Font_Print(font_id, text, x, y, COLOR_SKIN_WINDOW_TEXT);
     }
     else 
     {
         // Display all memory content lines
-        for (row = 0; row != mv->size_lines; row++, y += font_height)
+        for (int row = 0; row != mv->size_lines; row++, y += font_height)
         {
             if (mv->memblock_first + row >= mv->memblocks_max)
                 continue;
@@ -420,36 +490,31 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
 
             // Print 16-bytes in both hexadecimal and ASCII
             x = mv->frame_hex.pos.x;
-            asciix = mv->frame_ascii.pos.x;
+            int asciix = mv->frame_ascii.pos.x;
 
-            for (col = 0; col != mv->size_columns; col++, x += font_height * (2) - 1, asciix += font_height - 2)
+			for (int col = 0; col != mv->size_columns; col++, x += font_height * (2) - 1, asciix += font_height - 2)
             {
-                ALLEGRO_COLOR color;
-
                 // Space each 8 columns (for readability)
                 if (col != 0 && ((col & 7) == 0))
                     x += MEMVIEW_COLUMNS_8_PADDING;
 
                 // Get value
-                if (section->memtype == MEMTYPE_Z80)
-                    value = (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
-                else
-                    value = memory ? memory[addr] : 0x00;
+				const u8 v = pane->memrange.ReadByte(addr);
 
                 // Print hexadecimal
-                color = COLOR_SKIN_WINDOW_TEXT;
-                sprintf(buf, "%02X", value);
-                Font_Print (font_id, buf, x, y, color);
+                ALLEGRO_COLOR color = COLOR_SKIN_WINDOW_TEXT;
+                sprintf(buf, "%02X", v);
+                Font_Print(font_id, buf, x, y, color);
 
                 // Print ASCII
                 if (mv->values_edit_active && (mv->values_edit_position == col + (row * mv->size_columns)))
                     color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
-                buf[0] = isprint(value) ? value : '.';
+                buf[0] = isprint(v) ? v : '.';
                 buf[1] = 0;
-                Font_Print (font_id, buf, asciix, y, color);
+                Font_Print(font_id, buf, asciix, y, color);
 
                 addr++;
-                if (addr >= section->size)
+                if (addr >= (int)pane->memrange.size)
                     break;
             }
         }
@@ -461,11 +526,8 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         if (widget_inputbox_get_cursor_pos(mv->values_edit_inputbox) == 0)
         {
             const int addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
-            if (section->memtype == MEMTYPE_Z80)
-                value = (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
-            else
-                value = memory ? memory[addr] : 0x00;
-            sprintf(buf, "%02X", value);
+			const u8 v = pane->memrange.ReadByte(addr);
+            sprintf(buf, "%02X", v);
             widget_inputbox_set_value(mv->values_edit_inputbox, buf);
             widget_inputbox_set_cursor_pos(mv->values_edit_inputbox, 0);
         }
@@ -477,7 +539,6 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     }
 }
 
-// ACTION: ENABLE OR DISABLE MEMORY VIEWER -------------------------------------
 static void MemoryViewer_Switch(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
@@ -509,135 +570,56 @@ void    MemoryViewer_SwitchMainInstance()
     gui_menu_inverse_check(menus_ID.tools, 4);
 }
 
-// ACTION: SWITCH TO THE DIFFERENT MEMORIES VIEWS -------------------------------
-
-static void MemoryViewer_ViewSection(t_memory_viewer *mv, t_memory_section *section)
+static void MemoryViewer_ViewPane(t_memory_viewer *mv, t_memory_type memtype)
 {
-    if (mv->section_current == section)
+	t_memory_pane* pane = &mv->panes[memtype];
+    if (mv->pane_current == pane)
         return;
 
     // Save bookmark
-    mv->section_current->memblock_first = mv->memblock_first;
+    mv->pane_current->memblock_first = mv->memblock_first;
 
     // Update interface button
-    widget_button_set_selected(mv->section_current->button, FALSE);
-    widget_button_set_selected(section->button, TRUE);
+    widget_button_set_selected(mv->pane_current->button, FALSE);
+    widget_button_set_selected(pane->button, TRUE);
 
     // Switch section
-    mv->section_current    = section;
-    mv->memblock_first     = section->memblock_first;
-    mv->memblocks_max      = (section->size + mv->size_columns - 1) / mv->size_columns;
-    assert(section->size >= 0);
+    mv->pane_current    = pane;
+    mv->memblock_first	= pane->memblock_first;
+    mv->memblocks_max   = (pane->memrange.size + mv->size_columns - 1) / mv->size_columns;
+    assert(pane->memrange.size >= 0);
     //if (mv->memblocks_max < mv->size_lines)
     //    mv->memblocks_max = mv->size_lines;
     MemoryViewer_SetupEditValueBox(mv);
 }
 
-static void      MemoryViewer_ViewZ80(t_widget *w)
+static void MemoryViewer_ViewPaneCallback(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_Z80]);
+	t_memory_type memtype = (t_memory_type)(int)w->user_data;
+    MemoryViewer_ViewPane(mv, memtype);
 }
 
-static void      MemoryViewer_ViewROM(t_widget *w)
+static void MemoryViewer_UpdateAllMemoryRanges(t_memory_viewer *mv)
 {
-    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_ROM]);
-}
+	for (int i = 0; i != MEMTYPE_MAX_; i++)
+	{
+		t_memory_pane* pane = &mv->panes[i];
+		MemoryRange_GetDetails((t_memory_type)i, &pane->memrange);
 
-static void      MemoryViewer_ViewRAM(t_widget *w)
-{
-    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_RAM]);
-}
+		const int memblocks_max = (pane->memrange.size + mv->size_columns - 1) / mv->size_columns;
+		if (pane->memblock_first + mv->size_lines > memblocks_max)
+			pane->memblock_first = MAX(memblocks_max - mv->size_lines, 0);
 
-static void      MemoryViewer_ViewVRAM(t_widget *w)
-{
-    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_VRAM]);
-}
-
-static void      MemoryViewer_ViewPRAM(t_widget *w)
-{
-    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_PRAM]);
-}
-
-static void      MemoryViewer_ViewSRAM(t_widget *w)
-{
-    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_SRAM]);
-}
-
-static void      MemoryViewer_ViewVREG(t_widget *w)
-{
-    t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-    MemoryViewer_ViewSection(mv, &mv->sections[MEMTYPE_VREG]);
+		if (mv->pane_current == pane)
+			mv->memblocks_max = memblocks_max;
+	}
 }
 
 static void MemoryViewer_MediaReload(t_memory_viewer *mv)
 {
-    int     z80_memblocks_max, rom_memblocks_max, ram_memblocks_max, pram_memblocks_max, sram_memblocks_max;
-    int     ram_len, ram_start_addr;
-	int     pram_len;
-    int     sram_len;
-    u8 *    sram_buf;
-
-    // Z80
-    if (g_driver->cpu == CPU_Z80)
-        mv->sections[MEMTYPE_Z80].size = 0x10000;
-    else
-        mv->sections[MEMTYPE_Z80].size = 0;
-    z80_memblocks_max = mv->sections[MEMTYPE_Z80].size / mv->size_columns;
-    if (mv->sections[MEMTYPE_Z80].memblock_first + mv->size_lines > z80_memblocks_max)
-        mv->sections[MEMTYPE_Z80].memblock_first = MAX(z80_memblocks_max - mv->size_lines, 0);
-
-    // ROM
-    rom_memblocks_max = tsms.Size_ROM / mv->size_columns;
-    mv->sections[MEMTYPE_ROM].size = tsms.Size_ROM;
-    if (mv->sections[MEMTYPE_ROM].memblock_first + mv->size_lines > rom_memblocks_max)
-        mv->sections[MEMTYPE_ROM].memblock_first = MAX(rom_memblocks_max - mv->size_lines, 0);
-
-    // RAM
-    Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
-    mv->sections[MEMTYPE_RAM].size = ram_len;
-    mv->sections[MEMTYPE_RAM].addr_start = ram_start_addr;
-    ram_memblocks_max = ram_len / mv->size_columns;
-    if (mv->sections[MEMTYPE_RAM].memblock_first + mv->size_lines > ram_memblocks_max)
-        mv->sections[MEMTYPE_RAM].memblock_first = MAX(ram_memblocks_max - mv->size_lines, 0);
-
-    // PRAM
-    switch (g_machine.driver_id)
-    {
-    case DRV_SMS:   pram_len = 32;  break;
-    case DRV_GG:    pram_len = 64;  break;
-    default:        pram_len = 0;   break;
-    }
-    mv->sections[MEMTYPE_PRAM].size = pram_len;
-    pram_memblocks_max = pram_len / mv->size_columns;
-    if (mv->sections[MEMTYPE_PRAM].memblock_first + mv->size_lines > pram_memblocks_max)
-        mv->sections[MEMTYPE_PRAM].memblock_first = MAX(pram_memblocks_max - mv->size_lines, 0);
-
-    // SRAM
-    BMemory_Get_Infos((void **)&sram_buf, &sram_len);
-    mv->sections[MEMTYPE_SRAM].size = sram_len;
-    sram_memblocks_max = sram_len / mv->size_columns;
-    if (mv->sections[MEMTYPE_SRAM].memblock_first + mv->size_lines > sram_memblocks_max)
-        mv->sections[MEMTYPE_SRAM].memblock_first = MAX(sram_memblocks_max - mv->size_lines, 0);
-
-    // Adjust current positions
-    mv->memblock_first = mv->section_current->memblock_first;
-    switch (mv->section_current->memtype)
-    {
-    case MEMTYPE_Z80:   mv->memblocks_max = z80_memblocks_max;  break;
-    case MEMTYPE_ROM:   mv->memblocks_max = rom_memblocks_max;  break;
-    case MEMTYPE_RAM:   mv->memblocks_max = ram_memblocks_max;  break;
-    case MEMTYPE_PRAM:  mv->memblocks_max = pram_memblocks_max; break;
-    case MEMTYPE_SRAM:  mv->memblocks_max = sram_memblocks_max; break;
-    }
-
+	MemoryViewer_UpdateAllMemoryRanges(mv);
     MemoryViewer_SetupEditValueBox(mv);
-    // MemoryViewer_Update();
 }
 
 //-----------------------------------------------------------------------------
@@ -657,16 +639,18 @@ void      MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
     sscanf(text, "%X", &addr);
 
     // Check boundaries
-    if (addr < mv->section_current->addr_start || addr >= mv->section_current->addr_start + mv->section_current->size)
+	t_memory_pane* pane = mv->pane_current;
+	const t_memory_range* memrange = &pane->memrange;
+    if (addr < memrange->addr_start || addr >= memrange->addr_start + (int)memrange->size)
     {
         char buf[12];
-        sprintf(buf, "%0*X", mv->section_current->addr_length, addr);
-        Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, mv->section_current->name);
+        sprintf(buf, "%0*X", memrange->addr_hex_length, addr);
+        Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, memrange->name);
         return;
     }
 
     // Jump to given address
-    addr -= mv->section_current->addr_start;
+    addr -= memrange->addr_start;
     mv->memblock_first = (addr / mv->size_columns) - (mv->size_lines/2);
 	if (mv->memblock_first < 0)
 		mv->memblock_first = 0;
@@ -706,7 +690,7 @@ static void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
         if (mv->values_edit_position < (mv->size_lines-1) * mv->size_columns - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->pane_current->memrange.size)
                 mv->values_edit_position --;
         }
         else if (((mv->values_edit_position % mv->size_columns) == (mv->size_columns - 1)) && mv->memblock_first + mv->size_lines < mv->memblocks_max)
@@ -717,7 +701,7 @@ static void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
         else if (mv->values_edit_position < mv->size_lines * mv->size_columns - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->pane_current->memrange.size)
                 mv->values_edit_position --;
         }
         MemoryViewer_SetupEditValueBox(mv);
@@ -741,57 +725,12 @@ static void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
     text = widget_inputbox_get_value(mv->values_edit_inputbox);
     addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
     sscanf(text, "%X", &value);
-    switch (mv->section_current->memtype)
-    {
-    case MEMTYPE_Z80:
-        {
-            if (g_machine_flags & MACHINE_POWER_ON)
-                WrZ80_NoHook(addr, value);
-            else
-                Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_WriteZ80_Unable));
-            break;
-        }
-    case MEMTYPE_ROM:     
-        {
-            ROM[addr] = value;
-            // We have a special handling there, because SMS/GG mapper emulation is using a 
-            // different memory area for addresses between 0x0000 and 0x0400
-            if (addr < 0x4000)
-                if (Mem_Pages [0] == Game_ROM_Computed_Page_0)
-                    Game_ROM_Computed_Page_0[addr] = value;
-            break;
-        }
-    case MEMTYPE_RAM:
-        {
-            if (g_driver->id == DRV_COLECO)
-                Write_Mapper_Coleco(0x6000 + addr, value);  // special case for Colecovision
-            else
-                RAM[addr] = value;
-            break;
-        }
-    case MEMTYPE_VRAM:    
-        {
-            VRAM[addr] = value;     
-            // Mark corresponding tile as dirty
-            tgfx.Tile_Dirty [addr >> 5] |= TILE_DIRTY_DECODE;
-            break;
-        }
-    case MEMTYPE_PRAM:
-        {
-            Tms_VDP_Palette_Write(addr, value);
-            break;
-        }
-    case MEMTYPE_SRAM:
-        {
-            SRAM[addr] = value;
-            break;
-        }
-    case MEMTYPE_VREG:
-        {
-            Tms_VDP_Out(addr, value);
-            break;
-        }
-    }
+	const bool ok = mv->pane_current->memrange.WriteByte(addr, (u8)value);
+	if (!ok)
+	{
+		assert(mv->pane_current->memrange.memtype == MEMTYPE_Z80);
+		Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_WriteZ80_Unable));
+	}
     mv->values_edit_active = FALSE;
     MemoryViewer_SetupEditValueBox(mv);
 }
@@ -858,7 +797,7 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
 {
     // Disable if out of boundaries
     int addr = mv->memblock_first * mv->size_columns + mv->values_edit_position;
-    if (addr < 0 || addr >= mv->section_current->size)
+    if (addr < 0 || addr >= mv->pane_current->memrange.size)
     {
         mv->values_edit_active = FALSE;
         mv->values_edit_position = 0;
@@ -887,33 +826,11 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
         }
 
         // Setup input box default content
-        {
-            int value;
-            char buf[3];
-            switch (mv->section_current->memtype)
-            {
-                case MEMTYPE_Z80:   value = (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00; break;
-                case MEMTYPE_ROM:   value = ROM[addr];      break;
-                case MEMTYPE_RAM:   value = RAM[addr];      break;
-                case MEMTYPE_VRAM:  value = VRAM[addr];     break;
-                case MEMTYPE_PRAM:  value = PRAM[addr];     break;
-                case MEMTYPE_SRAM:
-                    {
-                        int dummy_len;
-                        u8 *SRAM;
-                        BMemory_Get_Infos((void **)&SRAM, &dummy_len);
-                        value = SRAM ? SRAM[addr] : 0x00;
-                        break;
-                    }
-                case MEMTYPE_VREG:  value = sms.VDP[addr];  break;
-                default:
-                    assert(0);
-                    return;
-            }
-            sprintf(buf, "%02X", value);
-            widget_inputbox_set_value(mv->values_edit_inputbox, buf);
-            widget_inputbox_set_cursor_pos(mv->values_edit_inputbox, 0);
-        }
+        u8 value = mv->pane_current->memrange.ReadByte(addr);
+        char buf[3];
+        sprintf(buf, "%02X", value);
+        widget_inputbox_set_value(mv->values_edit_inputbox, buf);
+        widget_inputbox_set_cursor_pos(mv->values_edit_inputbox, 0);
     }
     else
     {
@@ -927,13 +844,9 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
     }
 }
 
-//-----------------------------------------------------------------------------
-// MemoryViewer_Update_Inputs (t_memory_viewer *mv)
 // Poll and update user inputs.
-//-----------------------------------------------------------------------------
 // FIXME: This function is probably unnecessary big.
-//-----------------------------------------------------------------------------
-static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
+static void     MemoryViewer_UpdateInputs(t_memory_viewer *mv)
 {
     // Check for focus
     if (!gui_box_has_focus (mv->box))
@@ -949,7 +862,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
     else if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
     {
         mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
-        mv->values_edit_position = MIN(mv->size_lines * mv->size_columns, mv->section_current->size - mv->memblock_first * mv->size_columns);
+        mv->values_edit_position = MIN(mv->size_lines * mv->size_columns, mv->pane_current->memrange.size - mv->memblock_first * mv->size_columns);
         if (mv->values_edit_position > 0)
             mv->values_edit_position--;
         mv->values_edit_active = TRUE;
@@ -999,7 +912,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         if (mv->values_edit_position < (mv->size_lines/2-1) * mv->size_columns)
         {
             mv->values_edit_position += mv->size_columns;
-            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->pane_current->memrange.size)
                 mv->values_edit_position -= mv->size_columns;
         }
         else
@@ -1034,7 +947,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         if (mv->values_edit_position < (mv->size_lines-1) * mv->size_columns - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->pane_current->memrange.size)
                 mv->values_edit_position --;
         }
         else if (((mv->values_edit_position % mv->size_columns) == (mv->size_columns - 1)) && mv->memblock_first + mv->size_lines < mv->memblocks_max)
@@ -1045,7 +958,7 @@ static void     MemoryViewer_Update_Inputs(t_memory_viewer *mv)
         else if (mv->values_edit_position < (mv->size_lines * mv->size_columns) - 1)
         {
             mv->values_edit_position++;
-            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->section_current->size)
+            if (mv->memblock_first * mv->size_columns + mv->values_edit_position >= mv->pane_current->memrange.size)
                 mv->values_edit_position --;
         }
         // mv->values_edit_active = TRUE;

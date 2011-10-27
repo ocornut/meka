@@ -7,6 +7,7 @@
 
 #include "shared.h"
 #include "app_about.h"
+#include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
@@ -39,6 +40,7 @@ void    gui_update_applets (void)
     // (especially since dirty flags are being cleared each frame)
     MemoryViewers_Update();
     TilemapViewers_Update();
+	CheatFinders_Update();
 
     // Tile Viewer flag appropriate decoded VRAM tiles before emulation run
     TileViewer_Update(&TileViewer);

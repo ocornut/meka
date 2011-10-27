@@ -51,9 +51,8 @@ static void    Option_Switch_NES_Crap(void)
 
 void    Options_Init_Applet(void)
 {
-    t_frame frame;
-
     // Create box
+	t_frame frame;
     frame.pos.x     = 437;
     frame.pos.y     = 102;
     frame.size.x    = 330;

@@ -539,14 +539,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\memory.c"
-				>
-			</File>
-			<File
-				RelativePath="..\memory.h"
-				>
-			</File>
-			<File
 				RelativePath="..\message.c"
 				>
 			</File>
@@ -1403,6 +1395,14 @@
 				</File>
 				<File
 					RelativePath="..\app_about.h"
+					>
+				</File>
+				<File
+					RelativePath="..\app_cheatfinder.c"
+					>
+				</File>
+				<File
+					RelativePath="..\app_cheatfinder.h"
 					>
 				</File>
 				<File

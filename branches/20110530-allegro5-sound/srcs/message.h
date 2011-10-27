@@ -435,6 +435,7 @@ enum
 	MSG_Menu_Tools_Palette,
 	MSG_Menu_Tools_TilesViewer,
 	MSG_Menu_Tools_TilemapViewer,
+	MSG_Menu_Tools_CheatFinder,
 	MSG_Menu_Tools_TechInfo,
 	MSG_Menu_Tools_MemoryEditor,
 	

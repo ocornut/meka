@@ -442,6 +442,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Menu_Tools_Palette),
 	__MSG_ADD(MSG_Menu_Tools_TilesViewer),
 	__MSG_ADD(MSG_Menu_Tools_TilemapViewer),
+	__MSG_ADD(MSG_Menu_Tools_CheatFinder),
 	__MSG_ADD(MSG_Menu_Tools_TechInfo),
 	__MSG_ADD(MSG_Menu_Tools_MemoryEditor),
 

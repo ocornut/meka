@@ -9,8 +9,8 @@
 // from meka.c
 t_meka_configuration	g_configuration;
 
-// from memory.c
-void* Memory_Alloc(int size)
+// from misc.c
+void* Memory_Alloc(size_t size)
 {
 	return malloc(size);
 }

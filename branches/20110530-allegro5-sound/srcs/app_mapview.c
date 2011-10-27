@@ -76,7 +76,7 @@ t_tilemap_viewer *  TilemapViewer_New(bool register_desktop)
 	// Create box
     app->frame_box.pos.x        = 524;
     app->frame_box.pos.y        = 52;
-    app->box = gui_box_new(&app->frame_box, "Tilemap Viewer");  // FIXME-LOCAL
+    app->box = gui_box_new(&app->frame_box, "Tilemap Viewer");  // FIXME-LOCALIZATION
     app->box->user_data = app;
     app->box->destroy = (t_gui_box_destroy_handler)TilemapViewer_Delete;
 
@@ -321,7 +321,6 @@ void         TilemapViewer_SwitchMainInstance(void)
 
 void         TilemapViewer_Update(t_tilemap_viewer *app)
 {
-    // Skip update if not active
     if (!app->active)
         return;
 
@@ -723,13 +722,13 @@ static void     TilemapViewer_UpdateScroll(t_tilemap_viewer *app)
 
 //-----------------------------------------------------------------------------
 
-void            TilemapViewers_Update(void)
+void	TilemapViewers_Update(void)
 {
     t_list *apps;
     for (apps = TilemapViewers; apps != NULL; apps = apps->next)
     {
-        t_tilemap_viewer *apt = (t_tilemap_viewer *)apps->elem;
-        TilemapViewer_Update(apt);
+        t_tilemap_viewer *app = (t_tilemap_viewer *)apps->elem;
+        TilemapViewer_Update(app);
     }
 }
 

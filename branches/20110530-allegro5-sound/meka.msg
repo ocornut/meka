@@ -582,6 +582,7 @@ Msg_Menu_Tools_Messages                 = "Messages"
 Msg_Menu_Tools_Palette                  = "Palette"
 Msg_Menu_Tools_TilesViewer              = "Tiles Viewer"
 Msg_Menu_Tools_TilemapViewer            = "Tilemap Viewer"
+Msg_Menu_Tools_CheatFinder              = "Cheat Finder"
 Msg_Menu_Tools_TechInfo                 = "Tech Info"
 Msg_Menu_Tools_MemoryEditor             = "Memory Editor"
 

@@ -7,13 +7,13 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Change_System_Misc      (void);
-void    Change_Mode_Misc        (void); // Do various things when changing mode
+void    Change_System_Misc();
+void    Show_End_Message();
 
-void    Show_End_Message        (void);
+void    Quit();
+void    Quit_Msg(const char *format, ...)      FORMAT_PRINTF (1);
 
-void    Quit (void);
-void    Quit_Msg (const char *format, ...)      FORMAT_PRINTF (1);
+void *  Memory_Alloc(size_t size);
 
 template<typename T>
 static inline T Clamp(T v, T mn, T mx)
