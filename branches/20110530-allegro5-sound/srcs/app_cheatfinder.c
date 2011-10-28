@@ -182,7 +182,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	{
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
 		app->w_undo_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackUndoReduce, WIDGET_BUTTON_STYLE_SMALL, "UNDO REDUCE");		// FIXME-LOCALIZATION
-		widget_set_enabled(app->w_undo_reduce_search, false);
+		//widget_button_set_grayed_out(app->w_undo_reduce_search, false);
 	}
 }
 
@@ -201,13 +201,19 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	}
 
 	for (int i = 0; i != MEMTYPE_MAX_; i++)
+	{
 		widget_button_set_selected(app->w_memtype_buttons[i], app->memtype == i);
+		widget_button_set_grayed_out(app->w_memtype_buttons[i], !app->reset_state);
+	}
 
 	for (int i = 0; i != CHEAT_FINDER_VALUE_TYPE_MAX_; i++)
+	{
 		widget_button_set_selected(app->w_valuetype_buttons[i], app->valuetype == i);
+		widget_button_set_grayed_out(app->w_valuetype_buttons[i], !app->reset_state);
+	}
 
 	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
-	widget_set_enabled(app->w_undo_reduce_search, !app->matches_undo.empty());
+	widget_button_set_grayed_out(app->w_undo_reduce_search, app->matches_undo.empty());
 
 	// Always dirty (ok for a developer tool)
 	app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
@@ -262,14 +268,35 @@ static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, t_cheat_finder_match* ma
 static u32 CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* memrange, t_cheat_finder_match* match)
 {
 	u32 addr = CheatFinder_IndexToAddr(app, match);
-	u32 v = (u32)memrange->ReadByte(addr);
+	
+	u32 v;
 
-	if (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG)
+	switch (match->type)
 	{
-		if (v & (1 << (match->index & 7)))
-			v = 1;
-		else
-			v = 0;
+	case CHEAT_FINDER_VALUE_TYPE_8:
+		{
+			v = (u32)memrange->ReadByte(addr);
+			break;
+		}
+	case CHEAT_FINDER_VALUE_TYPE_16:
+		{
+			v = ((u32)memrange->ReadByte(addr) << 0) | ((u32)memrange->ReadByte(addr+1) << 8);
+			break;
+		}
+	case CHEAT_FINDER_VALUE_TYPE_24:
+		{
+			v = ((u32)memrange->ReadByte(addr) << 0) | ((u32)memrange->ReadByte(addr+1) << 8) | ((u32)memrange->ReadByte(addr+2) << 16);
+			break;
+		}
+	case CHEAT_FINDER_VALUE_TYPE_FLAG:
+		{
+			v = (u32)memrange->ReadByte(addr);
+			if (v & (1 << (match->index & 7)))
+				v = 1;
+			else
+				v = 0;
+			break;
+		}
 	}
 
 	return v;
@@ -282,7 +309,11 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 
 	if (app->reset_state)
 	{
-		const int value_max = memrange.size * (app->valuetype == CHEAT_FINDER_VALUE_TYPE_FLAG ? 8 : 1);
+		int value_max = memrange.size * (app->valuetype == CHEAT_FINDER_VALUE_TYPE_FLAG ? 8 : 1);
+		if (app->valuetype == CHEAT_FINDER_VALUE_TYPE_16)
+			value_max -= 1;
+		if (app->valuetype == CHEAT_FINDER_VALUE_TYPE_24)
+			value_max -= 2;
 		app->matches.resize(value_max);
 		for (int index = 0; index != value_max; index++)
 		{

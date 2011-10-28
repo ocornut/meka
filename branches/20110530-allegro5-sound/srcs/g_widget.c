@@ -199,7 +199,7 @@ void        widget_set_enabled(t_widget *w, bool v)
 	if (w->enabled != v)
 	{
 	    w->enabled = v;
-		gui_box_set_dirty(w->box);
+		w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 	}
 }
 
