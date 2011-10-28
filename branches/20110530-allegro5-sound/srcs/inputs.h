@@ -128,14 +128,14 @@ struct t_key_press
 
 struct t_input_map
 {
-    int		Type;               // Axis, Button, Wheel, etc..
-    int     Idx;                // Index of Axis/Stick/Button/Wheel, etc..
-    int     Res;                // Result, For buttons: 1 if pressed, for axis: contains value
+    t_input_map_type	type;						// Axis, Button, Wheel, etc..
+    int					idx;						// Index of Axis/Stick/Button/Wheel, etc..
+    int					current_value;              // Result, For buttons: 1 if pressed, for axis: contains value
 };
 
 struct t_input_src
 {
-    char *              name;                  
+    char *				name;                  
     int					flags;						// enum t_input_src_flags // FIXME-ENUM               
     t_input_src_type    type;
     bool                enabled;

@@ -91,9 +91,9 @@ void    Main_Loop_No_Emulation (void)
 
     for (;;)
     {
-        Inputs_Sources_Update ();
-        Inputs_Emulation_Update (FALSE); // [Omar-20050327] Allows changing inputs data from the debugger.// FIXME: but the debugger has exclusive inputs.
-        Inputs_Check_GUI (FALSE);
+        Inputs_Sources_Update();
+        Inputs_Emulation_Update(FALSE); // [Omar-20050327] Allows changing inputs data from the debugger.// FIXME: but the debugger has exclusive inputs.
+        Inputs_Check_GUI(FALSE);
         if ((opt.Force_Quit) || ((g_machine_flags & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON))
         {
             return;

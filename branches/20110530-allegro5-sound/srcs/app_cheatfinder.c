@@ -74,6 +74,12 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 	if (register_desktop)
 		Desktop_Register_Box("CHEAT_FINDER", app->box, FALSE, &app->active);
 
+	// Set exclusive inputs flag to avoid messing with emulation
+	app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
+
+	// Set tab stop
+	app->box->flags |= GUI_BOX_FLAGS_TAB_STOP;
+
 	// Layout
 	CheatFinder_Layout(app, TRUE);
 
@@ -197,6 +203,28 @@ void	CheatFinder_Update(t_cheat_finder* app)
 
 	fp.Printf(dc.pos, (app->matches.size()>1) ? "%d matches" : "%d match", app->matches.size());
 	dc.NewLine();
+
+	if (!app->matches.empty())
+	{
+		const int MAX_MATCHES_TO_DISPLAY = 20;
+
+		t_memory_range memrange;
+		MemoryRange_GetDetails(app->memtype, &memrange);
+		int matches_count = app->matches.size();
+		if (matches_count < MAX_MATCHES_TO_DISPLAY)
+		{
+			for (std::map<int,u32>::const_iterator it = app->matches.begin(); it != app->matches.end(); it++)
+			{
+				const int addr = it->first;
+				fp.Printf(dc.pos, " %s $%0*X", memrange.name, memrange.addr_hex_length, memrange.addr_start+addr);
+				dc.NewLine();
+			}
+		}
+		else
+		{
+			fp.Printf(dc.pos, "Too many matches to display!");
+		}
+	}
 }
 
 void CheatFinder_ResetMatches(t_cheat_finder* app)
@@ -212,13 +240,35 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 
 	if (app->reset_state)
 	{
+		app->matches.clear();
 		for (int i = 0; i != memrange.size; i++)
 		{
 			u8 v = memrange.ReadByte(i);
 			app->matches[i] = v;
 		}
+		app->reset_state = false;
 	}
-	app->reset_state = false;
+
+	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
+	int custom_value;
+	if (sscanf(custom_value_text, "%d", &custom_value) != 1)
+		return;
+
+	// Reduce
+	for (std::map<int,u32>::iterator it = app->matches.begin(); it != app->matches.end(); )
+	{
+		const int addr = it->first;
+		const u32 v_old = it->second;
+
+		u32 v_cur = (u32)memrange.ReadByte(addr);
+		if (v_cur != custom_value)
+		{
+			it = app->matches.erase(it);
+			continue;
+		}
+
+		it++;
+	}
 }
 
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)

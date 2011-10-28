@@ -1035,7 +1035,7 @@ void        widget_inputbox_update(t_widget *w)
     // Backspace, Delete
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_DELETE))
 	{
-        if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat (ALLEGRO_KEY_DELETE, TRUE, tm_delay, tm_rate))
+        if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DELETE, TRUE, tm_delay, tm_rate))
         {
             if (wd->cursor_pos > 0)
             {
@@ -1045,8 +1045,8 @@ void        widget_inputbox_update(t_widget *w)
             }
 
             // HACK: This avoid resetting while backspacing in the widget
-            // if (key[KEY_BACKSPACE])
-            ///    Inputs_KeyEat(KEY_BACKSPACE);
+            if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, FALSE))
+                Inputs_KeyEat(ALLEGRO_KEY_BACKSPACE);
         }
 	}
 

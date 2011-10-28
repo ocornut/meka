@@ -631,11 +631,9 @@ void      MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    int     addr;
-    const char *  text;
-
     // Read address
-    text = widget_inputbox_get_value(mv->address_edit_inputbox);
+    const char* text = widget_inputbox_get_value(mv->address_edit_inputbox);
+	int addr;
     sscanf(text, "%X", &addr);
 
     // Check boundaries
@@ -674,10 +672,8 @@ static void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    int     cursor;
-
     // When cursor reach 2, switch to next byte
-    cursor = widget_inputbox_get_cursor_pos(mv->values_edit_inputbox);
+    const int cursor = widget_inputbox_get_cursor_pos(mv->values_edit_inputbox);
     // Msg (MSGT_DEBUG, "Edit, cursor at %d", cursor);
     if (cursor == 2)
     {
@@ -718,12 +714,9 @@ static void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    int     addr;
-    int     value;
-    const char *  text;
-
-    text = widget_inputbox_get_value(mv->values_edit_inputbox);
-    addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
+    const char* text = widget_inputbox_get_value(mv->values_edit_inputbox);
+    const int addr = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
+	int value;
     sscanf(text, "%X", &value);
 	const bool ok = mv->pane_current->memrange.WriteByte(addr, (u8)value);
 	if (!ok)
@@ -747,13 +740,10 @@ static void        MemoryViewer_ClickMemoryHex(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    int     x, y;
-    int     i;
-
     // Msg (MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
 
     // Clicking in empty columns disable edition
-    for (i = 0; i < (mv->size_columns - 1) / 8; i++)
+    for (int i = 0; i < (mv->size_columns - 1) / 8; i++)
     {
         const int max_x = (i + 1) * (8 * (Font_Height(F_MIDDLE) * (2) - 1) + MEMVIEW_COLUMNS_8_PADDING);
         const int min_x = max_x - MEMVIEW_COLUMNS_8_PADDING;
@@ -768,6 +758,7 @@ static void        MemoryViewer_ClickMemoryHex(t_widget *w)
 
     // Inside
     // FIXME-SIZE
+	int x, y;
     x = w->mouse_x / (Font_Height(F_MIDDLE) * (2) - 1);
     x = (w->mouse_x - (x / 8) * MEMVIEW_COLUMNS_8_PADDING) / (Font_Height(F_MIDDLE) * (2) - 1);
     y = (w->mouse_y / Font_Height(F_MIDDLE));
@@ -781,10 +772,8 @@ static void        MemoryViewer_ClickMemoryAscii(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    int     x, y;
-
-    x = w->mouse_x / (Font_Height(F_MIDDLE) - 2);
-    y = w->mouse_y / Font_Height(F_MIDDLE);
+    int x = w->mouse_x / (Font_Height(F_MIDDLE) - 2);
+    int y = w->mouse_y / Font_Height(F_MIDDLE);
     // Msg (MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
     // Msg (MSGT_DEBUG, "x = %d, y = %d\n", x, y);
 

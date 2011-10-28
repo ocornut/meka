@@ -129,8 +129,8 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                 key_info = KeyInfo_FindByName(s);
                 if (key_info != NULL)
                 {
-                    input_src->Map [MapIdx].Type = INPUT_MAP_TYPE_KEY;
-                    input_src->Map [MapIdx].Idx = key_info->scancode;
+                    input_src->Map [MapIdx].type = INPUT_MAP_TYPE_KEY;
+                    input_src->Map [MapIdx].idx = key_info->scancode;
                 }
                 return MEKA_ERR_OK;
             }
@@ -150,8 +150,8 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                 if (!parse_getword(w, sizeof(w), &s, " \t", ';', PARSE_FLAGS_NONE) || strcmp(w, "dir") || !parse_getword(w, sizeof(w), &s, " \t", ';', PARSE_FLAGS_NONE))
                     return MEKA_ERR_SYNTAX;
                 dir = atoi(w);
-                input_src->Map [MapIdx].Type = INPUT_MAP_TYPE_JOY_AXIS;
-                input_src->Map [MapIdx].Idx = INPUT_MAP_PACK_STICK_AXIS_DIR(stick, axis, dir);
+                input_src->Map [MapIdx].type = INPUT_MAP_TYPE_JOY_AXIS;
+                input_src->Map [MapIdx].idx = INPUT_MAP_PACK_STICK_AXIS_DIR(stick, axis, dir);
                 return MEKA_ERR_OK;
             }
 
@@ -161,8 +161,8 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                     return MEKA_ERR_INCOHERENT;
                 if (!parse_getword(w, sizeof(w), &s, " \t", ';', PARSE_FLAGS_NONE))
                     return MEKA_ERR_SYNTAX;
-                input_src->Map [MapIdx].Type = INPUT_MAP_TYPE_JOY_BUTTON;
-                input_src->Map [MapIdx].Idx = atoi(w);
+                input_src->Map [MapIdx].type = INPUT_MAP_TYPE_JOY_BUTTON;
+                input_src->Map [MapIdx].idx = atoi(w);
                 return MEKA_ERR_OK;
             }
 
@@ -172,8 +172,8 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                     return MEKA_ERR_INCOHERENT;
                 if (!parse_getword(w, sizeof(w), &s, " \t", ';', PARSE_FLAGS_NONE))
                     return MEKA_ERR_SYNTAX;
-                input_src->Map [MapIdx].Type = INPUT_MAP_TYPE_MOUSE_BUTTON;
-                input_src->Map [MapIdx].Idx = atoi(w);
+                input_src->Map [MapIdx].type = INPUT_MAP_TYPE_MOUSE_BUTTON;
+                input_src->Map [MapIdx].idx = atoi(w);
                 return MEKA_ERR_OK;
             }
 
@@ -194,8 +194,8 @@ static int  Load_Inputs_Src_Parse_Var (int VarIdx, char *s, t_input_src *input_s
                     return MEKA_ERR_INCOHERENT;
                 if (!parse_getword(w, sizeof(w), &s, " \t", ';', PARSE_FLAGS_NONE))
                     return MEKA_ERR_SYNTAX;
-                input_src->Map [MapIdx].Type = input_src->Map [MapIdx + 2].Type = INPUT_MAP_TYPE_MOUSE_AXIS;
-                input_src->Map [MapIdx].Idx = input_src->Map [MapIdx + 2].Idx = INPUT_MAP_PACK_AXIS(atoi(w));
+                input_src->Map [MapIdx].type = input_src->Map [MapIdx + 2].type = INPUT_MAP_TYPE_MOUSE_AXIS;
+                input_src->Map [MapIdx].idx = input_src->Map [MapIdx + 2].idx = INPUT_MAP_PACK_AXIS(atoi(w));
                 return MEKA_ERR_OK;
             }
 
@@ -245,7 +245,7 @@ void            Load_Inputs_Src_List (void)
 
         if (line[0] == '[' && line[strlen(line) - 1] == ']')
         {
-            input_src = Inputs_Sources_Add (StrNDup (line + 1, strlen(line) - 2));
+            input_src = Inputs_Sources_Add(StrNDup (line + 1, strlen(line) - 2));
             // ConsolePrintf ("new source --> %s <--\n", CurSrc->Name);
             continue;
         }
@@ -379,7 +379,7 @@ void    Write_Inputs_Src_List (void)
 
 		for (int j = 0; j < INPUT_MAP_MAX; j++)
 		{
-			const int n = input_src->Map [j].Idx;
+			const int n = input_src->Map [j].idx;
 			if (n == -1)
 				continue;
 			s[0] = EOSTR;
@@ -433,7 +433,7 @@ void    Write_Inputs_Src_List (void)
 				}
 				// Joypad -------------------------------------------------------------
 			case INPUT_SRC_TYPE_JOYPAD:
-				switch (input_src->Map [j].Type)
+				switch (input_src->Map [j].type)
 				{
 				case INPUT_MAP_TYPE_JOY_BUTTON:
 					sprintf (s2, "joy_button %i", n);
@@ -445,7 +445,7 @@ void    Write_Inputs_Src_List (void)
 				break;
 				// Mouse --------------------------------------------------------------
 			case INPUT_SRC_TYPE_MOUSE:
-				switch (input_src->Map [j].Type)
+				switch (input_src->Map [j].type)
 				{
 				case INPUT_MAP_TYPE_MOUSE_BUTTON:
 					sprintf (s2, "mouse_button %i", n);

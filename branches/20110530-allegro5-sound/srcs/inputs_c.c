@@ -152,7 +152,7 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
     int y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(F_CURRENT) + GUI_LOOK_LINES_SPACING_Y) + 7;
 
     char map_value[128];
-    if (Map->Idx == -1)
+    if (Map->idx == -1)
 	{
         sprintf (map_value, "<Null>");
 	}
@@ -162,34 +162,34 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
         {
         case INPUT_SRC_TYPE_KEYBOARD:
             {
-                const t_key_info *key_info = KeyInfo_FindByScancode (Map->Idx);
+                const t_key_info *key_info = KeyInfo_FindByScancode (Map->idx);
                 strcpy (map_value, key_info ? key_info->name : "error");
                 break;
             }
         case INPUT_SRC_TYPE_JOYPAD:
-            switch (Map->Type)
+            switch (Map->type)
             {
             case INPUT_MAP_TYPE_JOY_AXIS:
                 sprintf (map_value, "Stick %d, Axis %d, %c",
-                    INPUT_MAP_UNPACK_STICK(Map->Idx),
-                    INPUT_MAP_UNPACK_AXIS(Map->Idx),
-                    INPUT_MAP_UNPACK_DIR_LR(Map->Idx) ? '+' : '-');
+                    INPUT_MAP_UNPACK_STICK(Map->idx),
+                    INPUT_MAP_UNPACK_AXIS(Map->idx),
+                    INPUT_MAP_UNPACK_DIR_LR(Map->idx) ? '+' : '-');
                 break;
             case INPUT_MAP_TYPE_JOY_BUTTON:
-                sprintf (map_value, "Button %d", Map->Idx);
+                sprintf (map_value, "Button %d", Map->idx);
                 break;
             }
             break;
         case INPUT_SRC_TYPE_MOUSE:
-            switch (Map->Type)
+            switch (Map->type)
             {
             case INPUT_MAP_TYPE_MOUSE_AXIS:
                 sprintf (map_value, "Axis %d (%c)",
-                    INPUT_MAP_UNPACK_AXIS(Map->Idx),
-                    'X' + INPUT_MAP_UNPACK_AXIS(Map->Idx));
+                    INPUT_MAP_UNPACK_AXIS(Map->idx),
+                    'X' + INPUT_MAP_UNPACK_AXIS(Map->idx));
                 break;
             case INPUT_MAP_TYPE_MOUSE_BUTTON:
-                sprintf (map_value, "Button %d", Map->Idx+1);
+                sprintf (map_value, "Button %d", Map->idx+1);
                 break;
             }
             break;
@@ -498,7 +498,7 @@ void    Inputs_CFG_Map_Change_Update (void)
     if (Inputs_KeyPressed(ALLEGRO_KEY_ESCAPE, true))
     {
         found = TRUE;
-        input_src->Map [Inputs_CFG.Current_Map].Idx = -1;
+        input_src->Map [Inputs_CFG.Current_Map].idx = -1;
         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Cancelled));
         Inputs_CFG_Map_Change_End ();
         return;
@@ -518,8 +518,8 @@ void    Inputs_CFG_Map_Change_Update (void)
                     const t_key_info *key_info = KeyInfo_FindByScancode(i);
                     if (key_info)
                     {
-                        input_src->Map [Inputs_CFG.Current_Map].Idx = i;
-                        input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_KEY;
+                        input_src->Map [Inputs_CFG.Current_Map].idx = i;
+                        input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_KEY;
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Keyboard_Ok), key_info->name);
                     }
@@ -549,8 +549,8 @@ void    Inputs_CFG_Map_Change_Update (void)
 			{
 				if (state.button[i])
                 {
-                    input_src->Map [Inputs_CFG.Current_Map].Idx = i;
-                    input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_BUTTON;
+                    input_src->Map [Inputs_CFG.Current_Map].idx = i;
+                    input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_JOY_BUTTON;
 					found = TRUE;
                     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_B), i);
                     break;
@@ -570,8 +570,8 @@ void    Inputs_CFG_Map_Change_Update (void)
 					//Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
 					if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < -INPUT_JOY_DEADZONE)
                     {
-                        input_src->Map [Inputs_CFG.Current_Map].Idx = INPUT_MAP_PACK_STICK_AXIS_DIR(i, j, (axis_pos > 0.0f ? 1 : 0));
-                        input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_JOY_AXIS;
+                        input_src->Map [Inputs_CFG.Current_Map].idx = INPUT_MAP_PACK_STICK_AXIS_DIR(i, j, (axis_pos > 0.0f ? 1 : 0));
+                        input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_JOY_AXIS;
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
                         break;
@@ -598,8 +598,8 @@ void    Inputs_CFG_Map_Change_Update (void)
                     n = 2;
                 if (n != -1)
                 {
-                    input_src->Map [Inputs_CFG.Current_Map].Idx = n;
-                    input_src->Map [Inputs_CFG.Current_Map].Type = INPUT_MAP_TYPE_MOUSE_BUTTON;
+                    input_src->Map [Inputs_CFG.Current_Map].idx = n;
+                    input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_MOUSE_BUTTON;
                     gui.mouse.buttons_prev = gui.mouse.buttons; // Note: eating mouse press FIXME
                     found = TRUE;
                     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Mouse_Ok_B), n+1);
