@@ -182,6 +182,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	{
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
 		app->w_undo_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackUndoReduce, WIDGET_BUTTON_STYLE_SMALL, "UNDO REDUCE");		// FIXME-LOCALIZATION
+		widget_set_enabled(app->w_undo_reduce_search, false);
 	}
 }
 
@@ -327,8 +328,11 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 
 static void	CheatFinder_UndoReduce(t_cheat_finder* app)
 {
-	app->matches.swap(app->matches_undo);
-	app->matches_undo.clear();
+	if (!app->matches_undo.empty())
+	{
+		app->matches.swap(app->matches_undo);
+		app->matches_undo.clear();
+	}
 }
 
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)

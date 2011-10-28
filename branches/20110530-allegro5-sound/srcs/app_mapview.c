@@ -255,7 +255,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     // Tilemap Address - Auto Button
     frame.pos.x += frame.size.x + 8;
     frame.pos.y  = app->frame_tilemap_addr.pos.y + 3;
-    frame.SetPos(10, 10);
+    frame.SetSize(10, 10);
     if (setup)
         app->widget_tilemap_addr_auto_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL); 
     frame.pos.x += frame.size.x + 6;
@@ -282,7 +282,6 @@ void        TilemapViewer_CallbackTilemapAddressScroll(t_widget *w)
     {
         app->config_tilemap_addr = new_addr;
         app->config_tilemap_addr_auto = FALSE;
-        widget_set_dirty(app->widget_tilemap_addr_auto_checkbox);
     }
 }
 
@@ -503,10 +502,7 @@ static void		TilemapViewer_UpdateAddresses(t_tilemap_viewer *app)
 	{
 		// Approximately remap selector
 		app->widget_tilemap_addr_scrollbar_slot_cur = LinearRemapClamp(app->widget_tilemap_addr_scrollbar_slot_cur, 0, old_tilemap_addr_step_count-1, 0, app->config_tilemap_addr_manual_step_count-1);
-		widget_set_dirty(app->widget_tilemap_addr_scrollbar);
 	}
-	if (app->config_tilemap_addr_auto)
-		widget_set_dirty(app->widget_tilemap_addr_scrollbar);
 
     // Update tilemap address
     app->config_tilemap_addr = app->config_tilemap_addr_manual_base_addr + (app->widget_tilemap_addr_scrollbar_slot_cur * app->config_tilemap_addr_manual_step_size);

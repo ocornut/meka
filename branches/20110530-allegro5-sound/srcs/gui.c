@@ -139,12 +139,8 @@ void	gui_redraw(void)
                 t_widget *w = (t_widget *)widgets->elem;
                 if (w->enabled)
                 {
-                    if (w->dirty)
-                    {
-                        w->dirty = FALSE;
-                        if (w->redraw_func != NULL)
-                            w->redraw_func(w);
-                    }
+                    if (w->redraw_func != NULL)
+                        w->redraw_func(w);
                 }
             }
         }

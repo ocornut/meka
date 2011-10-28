@@ -248,7 +248,6 @@ void            TextViewer_Update(t_app_textviewer *tv)
         return;
 
     // Redraw
-    widget_set_dirty(tv->widget_scrollbar);
     tv->dirty = FALSE;
     tv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     {

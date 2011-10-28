@@ -514,8 +514,6 @@ void	FB_Draw_List(void)
         lines_max = FB.files_max;
 
     // Ask scrollbar to refresh
-    widget_set_dirty(FB.widget_scrollbar);
-
 	al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
 	al_draw_line(FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);

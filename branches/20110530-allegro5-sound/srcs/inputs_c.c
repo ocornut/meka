@@ -201,10 +201,6 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
     Font_Print(F_CURRENT, map_value, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
     // y += Font_Height() + GUI_LOOK_LINES_SPACING_Y;
 
-    // Set both checkbox widgets as dirty (because we drawn over them during the clear)
-    widget_set_dirty(app->CheckBox_Enabled);
-    widget_set_dirty(app->CheckBox_Emulate_Digital);
-
     return TRUE;
 }
 

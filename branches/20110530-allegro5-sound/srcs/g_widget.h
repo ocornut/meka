@@ -67,7 +67,6 @@ struct t_widget
     bool                    enabled;
     t_gui_box *             box;
     t_frame                 frame;
-    bool                    dirty;
     void *                  data;
 
     // Mouse data
@@ -99,7 +98,6 @@ void        widgets_call_update             (void);
 // Widget: generics -----------------------------------------------------------
 void        widget_destroy                  (t_widget* w);
 void        widget_set_enabled              (t_widget* w, bool v);
-void        widget_set_dirty                (t_widget* w);
 void        widget_set_mouse_buttons_mask   (t_widget* w, int mouse_buttons_mask);
 void *      widget_get_user_data            (t_widget* w);
 void        widget_set_user_data            (t_widget* w, void *user_data);

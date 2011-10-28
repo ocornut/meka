@@ -439,7 +439,6 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
 
     // Always dirty (FIXME?)
     mv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-    widget_set_dirty(mv->widget_scrollbar);
 
     // Update inputs
     MemoryViewer_UpdateInputs(mv);
@@ -531,11 +530,6 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
             widget_inputbox_set_value(mv->values_edit_inputbox, buf);
             widget_inputbox_set_cursor_pos(mv->values_edit_inputbox, 0);
         }
-        
-        // Always set dirty
-        // This is a workaround to make sure that the widget is always rendered,
-        // because we always clear the box manually
-        widget_set_dirty(mv->values_edit_inputbox);
     }
 }
 

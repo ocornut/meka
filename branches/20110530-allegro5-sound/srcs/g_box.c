@@ -298,13 +298,6 @@ void    gui_box_set_dirty(t_gui_box *box)
 {
     // Set main dirty flag
     box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
-    // Set all widgets as dirty
-    for (t_list* widgets = box->widgets; widgets != NULL; widgets = widgets->next)
-    {
-        t_widget *w = (t_widget *)widgets->elem;
-        w->dirty = TRUE;
-    }
 }
 
 //-----------------------------------------------------------------------------

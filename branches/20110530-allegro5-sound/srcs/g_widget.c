@@ -172,7 +172,6 @@ t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
     w->mouse_buttons_previous   = 0;
     w->mouse_buttons_mask       = 0x00;
 	w->mouse_buttons_activation = 0;
-    w->dirty                    = TRUE;
 	w->destroy_func				= NULL;
     w->redraw_func              = NULL;
     w->update_func              = NULL;
@@ -200,14 +199,8 @@ void        widget_set_enabled(t_widget *w, bool v)
 	if (w->enabled != v)
 	{
 	    w->enabled = v;
-		w->dirty = true;
 		gui_box_set_dirty(w->box);
 	}
-}
-
-void        widget_set_dirty(t_widget *w)
-{
-    w->dirty = TRUE;
 }
 
 void        widget_set_mouse_buttons_mask(t_widget *w, int mouse_buttons_mask)
@@ -314,10 +307,6 @@ void        widget_closebox_update(t_widget *w)
         if ((g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) && Inputs_KeyPressed(ALLEGRO_KEY_F4, FALSE))
             wd->callback(w);
     }
-
-    // Always set dirty flag
-    // This is a hack to get always redrawn, because closebox is over titlebar which is always redrawn by GUI system now
-    w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -391,8 +380,6 @@ void        widget_button_redraw(t_widget *w)
 	if (wd->style == WIDGET_BUTTON_STYLE_INVISIBLE)
 		return;
 
-	w->dirty = TRUE;
-
 	const ALLEGRO_COLOR bg_color = (wd->selected || wd->selected_on_click>0) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
 	const ALLEGRO_COLOR text_color = wd->grayed_out ? COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE : COLOR_SKIN_WIDGET_GENERIC_TEXT;
 	const t_frame *frame = &w->frame;
@@ -425,7 +412,6 @@ void    widget_button_set_selected(t_widget *w, bool selected)
 	if (wd->selected != selected)
 	{
 	    wd->selected = selected;
-		w->dirty = TRUE;
 	}
 }
 
@@ -435,7 +421,6 @@ void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
 	if (wd->grayed_out != grayed_out)
 	{
 		wd->grayed_out = grayed_out;
-		w->dirty = TRUE;
 	}
 }
 
@@ -445,7 +430,6 @@ void	widget_button_set_label(t_widget *w, const char* label)
 	if (wd->label)
 		free(wd->label);
 	wd->label = label ? strdup(label) : NULL;
-	w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -535,9 +519,6 @@ void        widget_scrollbar_update(t_widget *w)
         *wd->v_start = v_start;
     }
 
-    // Moved, set dirty flag
-	w->dirty = TRUE;
-
     // Callback
 	if (wd->callback != NULL)
 		wd->callback(w);
@@ -608,7 +589,6 @@ void        widget_checkbox_update(t_widget *w)
         *(wd->pvalue) ^= 1; // inverse flag
         if (wd->callback != NULL)
             wd->callback(w);
-        w->dirty = TRUE;
     }
     //w->mouse_buttons_previous = w->mouse_buttons;
     //w->mouse_buttons = 0;
@@ -633,7 +613,6 @@ void        widget_checkbox_set_pvalue(t_widget *w, bool *pvalue)
 {
     t_widget_data_checkbox* wd = (t_widget_data_checkbox*)w->data;
     wd->pvalue = pvalue;
-    w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -721,7 +700,6 @@ void        widget_textbox_clear(t_widget *w)
 
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
-    w->dirty = TRUE;
     w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
@@ -757,7 +735,6 @@ static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
     w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-    w->dirty = TRUE;
 }
 
 void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
@@ -908,7 +885,7 @@ bool    widget_inputbox_insert_char(t_widget *w, char c)
         wd->callback_edit(w);
 
     // Set dirty flag
-    w->dirty = TRUE;
+	wd->cursor_blink_timer = 0;
     w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
     return (TRUE);
@@ -927,6 +904,7 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
+	wd->cursor_blink_timer = 0;
     if (wd->cursor_pos == 0)
     {
         return (FALSE);
@@ -940,9 +918,6 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
         wd->cursor_pos--;
         wd->length--;
         wd->value[wd->length] = '\0';
-
-        // Set dirty flag
-        w->dirty = TRUE;
 
         return (TRUE);
     }
@@ -960,14 +935,16 @@ void        widget_inputbox_update(t_widget *w)
     const int tm_rate = 1;
     bool edited = FALSE;
 
-	wd->cursor_blink_timer = (wd->cursor_blink_timer + 1) % 30;
-
     // Check if we have focus
     // FIXME: This is completely a hack since it checks BOX focus (and not Widget focus,
     // which is not possible right now). So if there's more than one inputbox in the same
     // box, currently both will be updated.
     if (!gui_box_has_focus(w->box))
+	{
+		wd->cursor_blink_timer = 0;
         return;
+	}
+	wd->cursor_blink_timer = (wd->cursor_blink_timer + 1) % 70;
 
     // Msg (MSGT_DEBUG, "cascii = %c, cscan = %04x", Inputs.KeyPressed.ascii, Inputs.KeyPressed.scancode);
 
@@ -980,7 +957,7 @@ void        widget_inputbox_update(t_widget *w)
             int mx = w->mouse_x - (2 + 3); // 2+3=start of text entry, see _Redraw() // FIXME
             if (mx <= 0)
             {
-                widget_inputbox_set_cursor_pos (w, 0);
+                widget_inputbox_set_cursor_pos(w, 0);
             }
             else
             {
@@ -994,7 +971,7 @@ void        widget_inputbox_update(t_widget *w)
                     if (mx <= 0)
                         break;
                 }
-                widget_inputbox_set_cursor_pos (w, i);
+                widget_inputbox_set_cursor_pos(w, i);
             }
         }
 	}
@@ -1054,29 +1031,15 @@ void        widget_inputbox_update(t_widget *w)
     {
         // Left/Right arrows: move cursor
         if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_LEFT, FALSE, tm_delay, tm_rate))
-            if (wd->cursor_pos > 0)
-            {
-                wd->cursor_pos--;
-                w->dirty = TRUE;
-            }
+			widget_inputbox_set_cursor_pos(w, wd->cursor_pos - 1);
         if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_RIGHT, FALSE, tm_delay, tm_rate))
-            if (wd->cursor_pos < wd->length)
-            {
-                wd->cursor_pos++;
-                w->dirty = TRUE;
-            }
+			widget_inputbox_set_cursor_pos(w, wd->cursor_pos + 1);
 
         // Home/End: set cursor to beginning/end of input box
         if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
-        {
-            wd->cursor_pos = 0;
-            w->dirty = TRUE;
-        }
+            widget_inputbox_set_cursor_pos(w, 0);
         if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
-        {
-            wd->cursor_pos = wd->length;
-            w->dirty = TRUE;
-        }
+            widget_inputbox_set_cursor_pos(w, wd->length);
     }
 
 	// Completion callback
@@ -1118,8 +1081,8 @@ void        widget_inputbox_update(t_widget *w)
 
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
-    if (w->dirty)
-        w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    //if (w->dirty)
+    //    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 void        widget_inputbox_redraw(t_widget *w)
@@ -1127,7 +1090,8 @@ void        widget_inputbox_redraw(t_widget *w)
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
 	ALLEGRO_BITMAP *gfx_buffer = w->box->gfx_buffer;
-    const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR);// && (wd->cursor_blink_timer < 20);
+
+    const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR) && (wd->cursor_blink_timer < 50);
     const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR);
 
     // Draw border & fill text area
@@ -1201,9 +1165,6 @@ void        widget_inputbox_set_value(t_widget *w, const char *value)
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
     //w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
-    // Set dirty flag
-    w->dirty = TRUE;
 }
 
 int         widget_inputbox_get_cursor_pos(t_widget *w)
@@ -1216,7 +1177,10 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
-    if (cursor_pos < 0)
+	// Reset blinking so cursor shows immediately
+	wd->cursor_blink_timer = 0;
+
+	if (cursor_pos < 0)
         return;
     if (cursor_pos > wd->length_max)
         return;
@@ -1224,13 +1188,10 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
     // Set cursor position to given position
     // Eventually we'll add some parameters to avoid or tweak that behavior...
     wd->cursor_pos = cursor_pos;
-    
+   
     // Tells GUI that the containing box should be redrawn
     // FIXME: ideally, only the widget should be redrawn
     // w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
-    // Set dirty flag
-    w->dirty = TRUE;
 }
 
 void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)(t_widget *))
