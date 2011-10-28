@@ -9,7 +9,7 @@
 
 enum t_font_id
 {
-	F_CURRENT	= -1,
+	F_CURRENT	= -1,		// Note: Code tends to write -1 directly as an abbrevation
 	F_LARGE		= 0,
 	F_MIDDLE	= 1,
 	F_SMALL		= 2,
@@ -50,6 +50,17 @@ void    Font_Print          (t_font_id font_id, const char *text, int x, int y, 
 void    Font_PrintCentered  (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
 int     Font_Height         (t_font_id font_id = F_CURRENT);
 int     Font_TextLength     (t_font_id font_id, const char *text);
+
+struct FontPrinter
+{
+	t_font_id		font_id;
+	ALLEGRO_COLOR	color;
+	
+	FontPrinter(t_font_id _font_id);
+	FontPrinter(t_font_id _font_id, ALLEGRO_COLOR _color);
+
+	void	Printf(v2i pos, const char* format, ...) const;
+};
 
 //-----------------------------------------------------------------------------
 

@@ -29,9 +29,11 @@ struct t_widget_data_closebox
 
 struct t_widget_data_button
 {
-    const char *                label;
+    char *						label;
     t_widget_button_style       style;
     bool                        selected;
+	int							selected_on_click;
+	bool						grayed_out;
 	t_widget_callback			callback;
 };
 
@@ -78,6 +80,7 @@ struct t_widget_data_inputbox
     int                         length_max;
     int                         cursor_pos;
     t_font_id                   font_id;
+	int							cursor_blink_timer;
     void                        (*callback_edit)(t_widget *inputbox);
     void                        (*callback_enter)(t_widget *inputbox);
     bool                        (*callback_completion)(t_widget *inputbox);
@@ -89,6 +92,8 @@ struct t_widget_data_inputbox
 //-----------------------------------------------------------------------------
 
 static t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame);
+
+void	widget_button_destroy(t_widget* w);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -325,6 +330,7 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     w = widget_new(box, WIDGET_TYPE_BUTTON, frame);
     widget_set_mouse_buttons_mask(w, mouse_buttons_mask);
 
+	w->destroy_func = widget_button_destroy;
     w->redraw_func = widget_button_redraw;
     w->update_func = widget_button_update;
 
@@ -333,6 +339,8 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     wd->label = label ? strdup(label) : NULL;
     wd->style = style;
     wd->selected = FALSE;
+	wd->selected_on_click = 0;
+	wd->grayed_out = FALSE;
     wd->callback = callback;
 
 	if (user_data != NULL)
@@ -341,64 +349,103 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     return w;
 }
 
-void        widget_button_update(t_widget *w)
+void	widget_button_destroy(t_widget* w)
+{
+	t_widget_data_button* wd = (t_widget_data_button*)w->data;
+	if (wd->label)
+		free(wd->label);
+}
+
+void	widget_button_update(t_widget *w)
 {
     t_widget_data_button* wd = (t_widget_data_button*)w->data;
 
-	bool    clicked;
-
     // Check if we need to fire the callback
-    clicked = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask));
+    const bool clicked = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask));
 
 	// Update mouse buttons
 	// w->mouse_buttons_previous = w->mouse_buttons;
 	w->mouse_buttons_activation = w->mouse_buttons;
 	w->mouse_buttons = 0;
+	if (wd->selected_on_click > 0)
+		wd->selected_on_click--;
 
 	// Fire the callback. Note that it is done AFTER updating the mouse buttons, this
     // is to avoid recursive calls if the callback ask for a GUI update (something
     // which the file browser does when clicking on "Load Names").
     if (clicked)
-        wd->callback(w);
+		widget_button_trigger(w);
+}
+
+void	widget_button_trigger(t_widget* w)
+{
+	t_widget_data_button* wd = (t_widget_data_button*)w->data;
+	wd->selected_on_click = 6;
+	wd->callback(w);
 }
 
 void        widget_button_redraw(t_widget *w)
 {
     t_widget_data_button* wd = (t_widget_data_button*)w->data;
     
-    const ALLEGRO_COLOR bg_color = wd->selected ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
+	if (wd->style == WIDGET_BUTTON_STYLE_INVISIBLE)
+		return;
+
+	w->dirty = TRUE;
+
+	const ALLEGRO_COLOR bg_color = (wd->selected || wd->selected_on_click>0) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
+	const ALLEGRO_COLOR text_color = wd->grayed_out ? COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE : COLOR_SKIN_WIDGET_GENERIC_TEXT;
+	const t_frame *frame = &w->frame;
 
 	al_set_target_bitmap(w->box->gfx_buffer);
     switch (wd->style)
     {
-    case WIDGET_BUTTON_STYLE_INVISIBLE:
-        break;
     case WIDGET_BUTTON_STYLE_SMALL:
         {
-            const t_frame *frame = &w->frame;
             const t_font_id font_id = F_SMALL;
 	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
-            gui_rect(w->box->gfx_buffer, LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+            gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
             break;
         }
     case WIDGET_BUTTON_STYLE_BIG:
         {
-            const t_frame *frame = &w->frame;
             const t_font_id font_id = F_LARGE;
 	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
-            gui_rect(w->box->gfx_buffer, LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+            gui_rect(LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
             break;
         }
     }
 }
 
-void        widget_button_set_selected(t_widget *w, bool selected)
+void    widget_button_set_selected(t_widget *w, bool selected)
 {
     t_widget_data_button* wd = (t_widget_data_button*)w->data;
-    wd->selected = selected;
-    w->dirty = TRUE;
+	if (wd->selected != selected)
+	{
+	    wd->selected = selected;
+		w->dirty = TRUE;
+	}
+}
+
+void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
+{
+	t_widget_data_button* wd = (t_widget_data_button*)w->data;
+	if (wd->grayed_out != grayed_out)
+	{
+		wd->grayed_out = grayed_out;
+		w->dirty = TRUE;
+	}
+}
+
+void	widget_button_set_label(t_widget *w, const char* label)
+{
+	t_widget_data_button* wd = (t_widget_data_button*)w->data;
+	if (wd->label)
+		free(wd->label);
+	wd->label = label ? strdup(label) : NULL;
+	w->dirty = TRUE;
 }
 
 //-----------------------------------------------------------------------------
@@ -812,6 +859,7 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
     strcpy (wd->value, "");
     wd->cursor_pos          = wd->length = 0;
     wd->font_id             = font_id;
+	wd->cursor_blink_timer	= 0;
     wd->callback_enter      = callback_enter;
     wd->callback_edit       = NULL;
     wd->callback_completion = NULL;
@@ -904,12 +952,6 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
 // widget_inputbox_update (t_widget *)
 // Update input box based on user keyboard inputs
 //-----------------------------------------------------------------------------
-// // Note: the global key[] table is altered whenever a key is read here.
-// // The reason is to avoid savestate change/reseting or other tricky side-effects
-// // of having the typed keys handled elsewhere. 
-// // Of course, this way of doing things isn't correct, and we'll have to switch
-// // to correct focus and input handling later.
-//-----------------------------------------------------------------------------
 void        widget_inputbox_update(t_widget *w)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
@@ -918,11 +960,13 @@ void        widget_inputbox_update(t_widget *w)
     const int tm_rate = 1;
     bool edited = FALSE;
 
+	wd->cursor_blink_timer = (wd->cursor_blink_timer + 1) % 30;
+
     // Check if we have focus
     // FIXME: This is completely a hack since it checks BOX focus (and not Widget focus,
     // which is not possible right now). So if there's more than one inputbox in the same
     // box, currently both will be updated.
-    if (!gui_box_has_focus (w->box))
+    if (!gui_box_has_focus(w->box))
         return;
 
     // Msg (MSGT_DEBUG, "cascii = %c, cscan = %04x", Inputs.KeyPressed.ascii, Inputs.KeyPressed.scancode);
@@ -1083,7 +1127,7 @@ void        widget_inputbox_redraw(t_widget *w)
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
 	ALLEGRO_BITMAP *gfx_buffer = w->box->gfx_buffer;
-    const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR);
+    const bool draw_cursor = !(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_CURSOR);// && (wd->cursor_blink_timer < 20);
     const bool highlight_all = !(wd->flags & WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR);
 
     // Draw border & fill text area

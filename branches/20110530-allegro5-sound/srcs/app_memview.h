@@ -3,20 +3,23 @@
 // Memory Viewer - Headers
 //-----------------------------------------------------------------------------
 
+#pragma once
+
 //-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
 
 enum t_memory_type
 {
-	MEMTYPE_Z80   = 0,
-	MEMTYPE_ROM   = 1,
-	MEMTYPE_RAM   = 2,
-	MEMTYPE_VRAM  = 3,
-	MEMTYPE_PRAM  = 4,
-	MEMTYPE_SRAM  = 5,
-	MEMTYPE_VREG  = 6,
-	MEMTYPE_MAX_  = 7,
+	MEMTYPE_UNKNOWN	= -1,
+	MEMTYPE_Z80		= 0,
+	MEMTYPE_ROM		= 1,
+	MEMTYPE_RAM		= 2,
+	MEMTYPE_VRAM	= 3,
+	MEMTYPE_PRAM	= 4,
+	MEMTYPE_SRAM	= 5,
+	MEMTYPE_VREG	= 6,
+	MEMTYPE_MAX_	= 7,
 };
 
 //-----------------------------------------------------------------------------

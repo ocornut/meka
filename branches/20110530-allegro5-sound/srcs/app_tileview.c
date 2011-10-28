@@ -106,7 +106,7 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
 
 	// Rectangle enclosing current/selected tile
 	const t_frame* fr = &app->tile_selected_frame;
-    gui_rect(app->box->gfx_buffer, LOOK_THIN, fr->pos.x, fr->pos.y, fr->pos.x + 11, fr->pos.y + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+    gui_rect(LOOK_THIN, fr->pos.x, fr->pos.y, fr->pos.x + 11, fr->pos.y + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
 
 void    TileViewer_Update(t_app_tile_viewer *app)

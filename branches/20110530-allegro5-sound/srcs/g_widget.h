@@ -117,6 +117,9 @@ t_widget *  widget_button_add               (t_gui_box* box, const t_frame* fram
 void        widget_button_update            (t_widget* w);
 void        widget_button_redraw            (t_widget* w);
 void        widget_button_set_selected      (t_widget* w, bool selected);
+void        widget_button_set_grayed_out    (t_widget* w, bool grayed_out);
+void		widget_button_set_label			(t_widget* w, const char* label);
+void		widget_button_trigger			(t_widget* w);
 //-----------------------------------------------------------------------------
 
 // Widget: scroll bar ---------------------------------------------------------

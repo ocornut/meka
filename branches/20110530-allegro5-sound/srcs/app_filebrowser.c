@@ -205,7 +205,7 @@ void	FB_Layout(t_filebrowser *app, bool setup)
     }
 
     // Outer frame
-	gui_rect(app->box->gfx_buffer, LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
+	gui_rect(LOOK_ROUND, FB_PAD_X, FB_PAD_Y, FB.res_x - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y (), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
 }
 
 void        FB_Free_Memory(void)

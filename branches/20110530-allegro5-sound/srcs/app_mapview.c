@@ -524,8 +524,6 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     const u16 *tile_map = (u16 *)(VRAM + app->config_tilemap_addr);
     const u16  tile_map_item = tile_map[tile_current];
     char       tile_map_items_bits[2][9];
-    char       line[256];
-    v2i       pos = app->frame_infos.pos;
 
     Write_Bits_Field((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
     Write_Bits_Field(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);
@@ -533,73 +531,70 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 	al_set_target_bitmap(app->box->gfx_buffer);
     gui_frame_clear(app->box->gfx_buffer, &app->frame_infos, COLOR_SKIN_WINDOW_BACKGROUND);
 
+	FontPrinter fp(F_MIDDLE);
 	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG)
 	{
-		snprintf(line, sizeof(line), "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		v2i pos = app->frame_infos.pos;
+		pos.x += TILEMAP_VIEWER_PADDING;
+		pos.y += TILEMAP_VIEWER_PADDING;
+		const v2i vh = v2i(0, Font_Height(F_MIDDLE)+2);
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "X:        %d", tile_current_x);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "Y:        %d", tile_current_y);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "X:        %d", tile_current_x);
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "Data:     $%04X", tile_map_item);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "Y:        %d", tile_current_y);
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "          %%%s.%s", tile_map_items_bits[1], tile_map_items_bits[0]);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "Data:     $%04X", tile_map_item);
+		pos += vh;
 
-		//pos.y += Font_Height(F_MIDDLE) + 2;
-		//snprintf(line, sizeof(line), "           ___pcvhn.nnnnnnnn");
-		//Font_Print(F_MIDDLE, line, pos.x + 1 + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "          %%%s.%s", tile_map_items_bits[1], tile_map_items_bits[0]);
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "Pattern:  $%03X", tile_map_item & 0x1FF);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		//fp.Printf(&pos, "           ___pcvhn.nnnnnnnn");
+		//pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "H Flip:   %d", (tile_map_item & 0x200) ? 1 : 0);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "Pattern:  $%03X", tile_map_item & 0x1FF);
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "V Flip:   %d", (tile_map_item & 0x400) ? 1 : 0);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "H Flip:   %d", (tile_map_item & 0x200) ? 1 : 0);
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "Palette:  %d", (tile_map_item & 0x800) ? 1 : 0);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "V Flip:   %d", (tile_map_item & 0x400) ? 1 : 0);
+		pos += vh;
 
-		pos.y += Font_Height(F_MIDDLE) + 2;
-		snprintf(line, sizeof(line), "Priority: %s", (tile_map_item & 0x1000) ? "FG" : "BG");
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
+		fp.Printf(pos, "Palette:  %d", (tile_map_item & 0x800) ? 1 : 0);
+		pos += vh;
+
+		fp.Printf(pos, "Priority: %s", (tile_map_item & 0x1000) ? "FG" : "BG");
+		pos += vh;
 	}
 
 	if (app->layout == TILEMAP_VIEWER_LAYOUT_SGSC)
 	{
+		v2i pos = app->frame_infos.pos;
+		pos.x += TILEMAP_VIEWER_PADDING;
+		pos.y += TILEMAP_VIEWER_PADDING;
+		const v2i vh = v2i(0, Font_Height(F_MIDDLE)+2);
+
 		/*
 		// FIXME-WIP
-		snprintf(line, sizeof(line), "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-		pos.y += Font_Height(F_MIDDLE) + 2;
+		fp.Printf(pos, "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
+		pos += vh;
 		*/
 
-		snprintf(line, sizeof(line), "X:        %d", tile_current_x);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-		pos.y += Font_Height(F_MIDDLE) + 2;
+		fp.Printf(pos, "X:        %d", tile_current_x);
+		pos += vh;
 
-		snprintf(line, sizeof(line), "Y:        %d", tile_current_y);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-		pos.y += Font_Height(F_MIDDLE) + 2;
+		fp.Printf(pos, "Y:        %d", tile_current_y);
+		pos += vh;
 
 		/*
-		snprintf(line, sizeof(line), "Pattern:  $%03X", tile_map_item & 0x1FF);
-		Font_Print(F_MIDDLE, line, pos.x + TILEMAP_VIEWER_PADDING, pos.y + TILEMAP_VIEWER_PADDING, COLOR_SKIN_WINDOW_TEXT);
-		pos.y += Font_Height(F_MIDDLE) + 2;
+		fp.Printf(pos, "Pattern:  $%03X", tile_map_item & 0x1FF);
+		pos += vh;
 		*/
 	}
 
@@ -612,10 +607,9 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
         app->frame_tilemap_addr.pos.x + 1, app->frame_tilemap_addr.pos.y + 1,
         app->frame_tilemap_addr.pos.x + 128 + 1, app->frame_tilemap_addr.pos.y + app->frame_tilemap_addr.size.x + 1,
         COLOR_SKIN_WINDOW_BACKGROUND);
-    pos.x = app->frame_tilemap_addr.pos.x + 2;
-    pos.y = app->frame_tilemap_addr.pos.y + 3;
-    snprintf(line, sizeof(line), "Tilemap @ VRAM $%04X", app->config_tilemap_addr);
-    Font_Print(F_MIDDLE, line, pos.x, pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
+
+	v2i pos = app->frame_tilemap_addr.pos + v2i(2,3+2);
+    fp.Printf(pos, "Tilemap @ VRAM $%04X", app->config_tilemap_addr);
 }
 
 static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, int y, int x1, int x2, ALLEGRO_COLOR color)

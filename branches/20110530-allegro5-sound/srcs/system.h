@@ -18,6 +18,7 @@
 #define _HAS_EXCEPTIONS 0
 #define _STATIC_CPPLIB
 #include <vector>
+#include <map>
 
 //-----------------------------------------------------------------------------
 // System Includes

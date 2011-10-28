@@ -354,12 +354,12 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 
     // Address text
     frame.pos.y = mv->frame_view.size.y + 1;
-    frame.size.y = Font_Height (F_SMALL) + 3;
-    Font_Print (F_MIDDLE, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    frame.size.y = Font_Height(F_SMALL) + 3;
+    Font_Print(F_MIDDLE, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     al_draw_vline(92, frame.pos.y, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Goto Address input box
-    Font_Print (F_MIDDLE, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(F_MIDDLE, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     if (setup)
     {
         frame.pos.x = 128;

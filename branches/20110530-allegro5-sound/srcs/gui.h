@@ -23,6 +23,11 @@ struct v2i
 		x = _x;
 		y = _y;
 	}
+
+	v2i operator+(const v2i& rhs) const		{ return v2i(x+rhs.x,y+rhs.y); }
+	v2i operator-(const v2i& rhs) const		{ return v2i(x-rhs.x,y-rhs.y); }
+
+	const v2i& operator+=(const v2i& rhs)	{ x+=rhs.x; y+=rhs.y; return *this; }
 };
 
 struct t_frame
@@ -30,10 +35,27 @@ struct t_frame
     v2i  pos;
     v2i  size;
 
+	t_frame()
+	{
+	}
+
+	t_frame(v2i _pos, v2i _size)
+	{
+		Set(_pos, _size);
+	}
+	void Set(v2i _pos, v2i _size)
+	{
+		pos = _pos;
+		size = _size;
+	}
 	void SetPos(int x, int y)
 	{
 		pos.x = x;
 		pos.y = y;
+	}
+	void SetSize(v2i _size)
+	{
+		size = _size;
 	}
 	void SetSize(int x, int y)
 	{
@@ -47,6 +69,22 @@ struct t_frame
 		pe.y = pos.y+size.y;
 		return pe;
 	}
+};
+
+struct DrawCursor
+{
+	v2i	pos;
+	int x_base;
+	int y_spacing;
+
+	DrawCursor(v2i _pos, int font_id = -1);
+
+	void NewLine()
+	{
+		pos.x = x_base;
+		pos.y += y_spacing;
+	}
+	void HorizontalSeparator();
 };
 
 //-----------------------------------------------------------------------------

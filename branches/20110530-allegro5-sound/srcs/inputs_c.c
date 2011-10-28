@@ -240,7 +240,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     {
         char buf[128];
         sprintf(buf, "%d/%d: %s >>", app->Current_Source+1, Inputs.Sources_Max, input_src->name);
-        gui_rect_titled (bmp, buf, F_MIDDLE, LOOK_THIN,
+        gui_rect_titled(buf, F_MIDDLE, LOOK_THIN,
             x, y, x + frame_x, y + frame_y,
             COLOR_SKIN_WIDGET_GENERIC_BORDER, COLOR_SKIN_WINDOW_BACKGROUND, /*COLOR_SKIN_WINDOW_TEXT*/COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT);
     }

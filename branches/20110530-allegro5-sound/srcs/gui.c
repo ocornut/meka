@@ -19,6 +19,23 @@ t_gui gui;
 // Functions
 //-----------------------------------------------------------------------------
 
+DrawCursor::DrawCursor(v2i _pos, int font_id)
+{
+	this->pos = _pos;
+	this->x_base = this->pos.x;
+	this->y_spacing = Font_Height((t_font_id)font_id)+2;
+}
+
+void	DrawCursor::HorizontalSeparator()
+{
+	const int w = al_get_bitmap_width(al_get_target_bitmap());
+	this->pos.y += 2;
+	al_draw_line(0, this->pos.y+0.5f, w, this->pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+	this->pos.y += 2;
+}
+
+//-----------------------------------------------------------------------------
+
 void    gui_redraw_everything_now_once (void)
 {
     gui_update ();
@@ -81,8 +98,8 @@ void	gui_redraw(void)
         }
 
         // Draw borders
-        gui_rect (gui_buffer, LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
 		al_set_target_bitmap(gui_buffer);
+        gui_rect(LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
         al_draw_line(b_frame.pos.x, b_frame.pos.y - 1.5f, b_frame.pos.x + b_frame.size.x + 1, b_frame.pos.y - 1.5f, COLOR_SKIN_WINDOW_BORDER, 0);
         al_draw_line(b_frame.pos.x, b_frame.pos.y - 0.5f, b_frame.pos.x + b_frame.size.x + 1, b_frame.pos.y - 0.5f, COLOR_SKIN_WINDOW_BORDER, 0);
 
