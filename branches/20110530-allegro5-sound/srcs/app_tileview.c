@@ -157,7 +157,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     {
     case VDP_SMSGG:
         {
-			widget_disable(app->vram_addr_tms9918_scrollbar);
+			widget_set_enabled(app->vram_addr_tms9918_scrollbar, false);
 			vram_addr_min = 0;
 			vram_addr_size = 0x4000;
 			vram_tile_size = 32;
@@ -192,7 +192,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         {
 			if (!app->vram_addr_tms9918_scrollbar->enabled)
 				app->vram_addr_tms9918_scrollbar->dirty = true;
-			widget_enable(app->vram_addr_tms9918_scrollbar);
+			widget_set_enabled(app->vram_addr_tms9918_scrollbar, true);
 			vram_addr_min = 0x0000 + app->vram_addr_tms9918_current*0x1000;
 			vram_addr_size = 0x1000;
 			vram_tile_size = 8;

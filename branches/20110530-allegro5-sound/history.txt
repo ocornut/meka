@@ -40,6 +40,7 @@ They are usually of 2 kinds:
   - Tools:
     - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
     - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
+    - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]

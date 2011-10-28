@@ -22,8 +22,10 @@ t_list *			g_CheatFinders;
 
 static const char*	s_value_type_names[] =
 {
-	"U8",
-	"S8",
+	"8",
+	"16",
+	"24",
+	"FLAG",
 };
 
 //-----------------------------------------------------------------------------
@@ -35,11 +37,16 @@ static void			CheatFinder_Update(t_cheat_finder* app);
 
 static void			CheatFinder_ResetMatches(t_cheat_finder* app);
 static void			CheatFinder_ReduceMatches(t_cheat_finder* app);
+static void			CheatFinder_UndoReduce(t_cheat_finder* app);
+
+static u32			CheatFinder_IndexToAddr(t_cheat_finder* app, u32 index);
+static u32			CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* mem_range, int value_index);
 
 static void			CheatFinder_CallbackMemtypeSelect(t_widget* w);
 static void			CheatFinder_CallbackValuetypeSelect(t_widget* w);
 static void			CheatFinder_CallbackReset(t_widget* w);
 static void			CheatFinder_CallbackReduce(t_widget* w);
+static void			CheatFinder_CallbackUndoReduce(t_widget* w);
 static void			CheatFinder_CallbackClose(t_widget* w);
 
 //-----------------------------------------------------------------------------
@@ -65,7 +72,7 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 	app->box->destroy = (t_gui_box_destroy_handler)CheatFinder_Delete;
 
 	app->memtype		= MEMTYPE_RAM;
-	app->valuetype		= CHEAT_FINDER_VALUE_TYPE_U8;
+	app->valuetype		= CHEAT_FINDER_VALUE_TYPE_8;
 
 	app->matches.clear();
 	app->reset_state	= true;
@@ -169,6 +176,13 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
 		app->w_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackReduce, WIDGET_BUTTON_STYLE_SMALL, "START");		// FIXME-LOCALIZATION
 	}
+	dc.NewLine();
+	dc.pos.y += 2;
+	if (setup)
+	{
+		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
+		app->w_undo_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackUndoReduce, WIDGET_BUTTON_STYLE_SMALL, "UNDO REDUCE");		// FIXME-LOCALIZATION
+	}
 }
 
 void	CheatFinder_Update(t_cheat_finder* app)
@@ -192,6 +206,7 @@ void	CheatFinder_Update(t_cheat_finder* app)
 		widget_button_set_selected(app->w_valuetype_buttons[i], app->valuetype == i);
 
 	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
+	widget_set_enabled(app->w_undo_reduce_search, !app->matches_undo.empty());
 
 	// Always dirty (ok for a developer tool)
 	app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
@@ -204,19 +219,21 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	fp.Printf(dc.pos, (app->matches.size()>1) ? "%d matches" : "%d match", app->matches.size());
 	dc.NewLine();
 
-	if (!app->matches.empty())
+	if (app->matches.size() > 0)
 	{
-		const int MAX_MATCHES_TO_DISPLAY = 20;
+		const int MAX_MATCHES_TO_DISPLAY = 15;
 
 		t_memory_range memrange;
 		MemoryRange_GetDetails(app->memtype, &memrange);
-		int matches_count = app->matches.size();
-		if (matches_count < MAX_MATCHES_TO_DISPLAY)
+		if (app->matches.size() < MAX_MATCHES_TO_DISPLAY)
 		{
-			for (std::map<int,u32>::const_iterator it = app->matches.begin(); it != app->matches.end(); it++)
+			const t_cheat_finder_match* match = &app->matches[0];
+			for (int i = 0; i != app->matches.size(); i++, match++)
 			{
-				const int addr = it->first;
-				fp.Printf(dc.pos, " %s $%0*X", memrange.name, memrange.addr_hex_length, memrange.addr_start+addr);
+				if (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG)
+					fp.Printf(dc.pos, " %s $%0*X bit %d", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->index>>3), match->index&7);
+				else
+					fp.Printf(dc.pos, " %s $%0*X", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->index);
 				dc.NewLine();
 			}
 		}
@@ -231,6 +248,30 @@ void CheatFinder_ResetMatches(t_cheat_finder* app)
 {
 	app->reset_state = true;
 	app->matches.clear();
+	app->matches_undo.clear();
+}
+
+static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, t_cheat_finder_match* match)
+{
+	u32 index = match->index;
+	u32 addr = (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG) ? (index >> 3) : index;
+	return addr;
+}
+
+static u32 CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* memrange, t_cheat_finder_match* match)
+{
+	u32 addr = CheatFinder_IndexToAddr(app, match);
+	u32 v = (u32)memrange->ReadByte(addr);
+
+	if (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG)
+	{
+		if (v & (1 << (match->index & 7)))
+			v = 1;
+		else
+			v = 0;
+	}
+
+	return v;
 }
 
 void CheatFinder_ReduceMatches(t_cheat_finder* app)
@@ -240,11 +281,14 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 
 	if (app->reset_state)
 	{
-		app->matches.clear();
-		for (int i = 0; i != memrange.size; i++)
+		const int value_max = memrange.size * (app->valuetype == CHEAT_FINDER_VALUE_TYPE_FLAG ? 8 : 1);
+		app->matches.resize(value_max);
+		for (int index = 0; index != value_max; index++)
 		{
-			u8 v = memrange.ReadByte(i);
-			app->matches[i] = v;
+			t_cheat_finder_match* match = &app->matches[index];
+			match->type = app->valuetype;
+			match->index = index;
+			match->last_value = CheatFinder_ReadValue(app,&memrange,match);
 		}
 		app->reset_state = false;
 	}
@@ -254,21 +298,37 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 	if (sscanf(custom_value_text, "%d", &custom_value) != 1)
 		return;
 
-	// Reduce
-	for (std::map<int,u32>::iterator it = app->matches.begin(); it != app->matches.end(); )
-	{
-		const int addr = it->first;
-		const u32 v_old = it->second;
+	if (app->matches.empty())
+		return;
 
-		u32 v_cur = (u32)memrange.ReadByte(addr);
+	// Reduce
+	t_cheat_finder_match* match = &app->matches[0];
+
+	std::vector<t_cheat_finder_match> matches_reduced;
+	matches_reduced.reserve(app->matches.size());
+	for (size_t i = 0; i != app->matches.size(); i++, match++)
+	{
+		const u32 v_old = match->last_value;
+		const u32 v_cur = CheatFinder_ReadValue(app, &memrange, match);
 		if (v_cur != custom_value)
 		{
-			it = app->matches.erase(it);
+			// Discard
 			continue;
 		}
-
-		it++;
+		match->last_value = v_cur;
+		matches_reduced.push_back(*match);
 	}
+	if (app->matches.size() != matches_reduced.size())
+	{
+		app->matches_undo.swap(app->matches);
+		app->matches.swap(matches_reduced);
+	}
+}
+
+static void	CheatFinder_UndoReduce(t_cheat_finder* app)
+{
+	app->matches.swap(app->matches_undo);
+	app->matches_undo.clear();
 }
 
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)
@@ -296,6 +356,12 @@ static void CheatFinder_CallbackReduce(t_widget* w)
 		widget_button_trigger(app->w_reduce_search);
 	else
 		CheatFinder_ReduceMatches(app);
+}
+
+static void CheatFinder_CallbackUndoReduce(t_widget* w)
+{
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data; // Get instance
+	CheatFinder_UndoReduce(app);
 }
 
 static void	CheatFinder_CallbackClose(t_widget* w)

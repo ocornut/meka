@@ -195,14 +195,14 @@ void        widget_destroy(t_widget *w)
     free(w);
 }
 
-void        widget_enable(t_widget *w)
+void        widget_set_enabled(t_widget *w, bool v)
 {
-    w->enabled = TRUE;
-}
-
-void        widget_disable(t_widget *w)
-{
-    w->enabled = FALSE;
+	if (w->enabled != v)
+	{
+	    w->enabled = v;
+		w->dirty = true;
+		gui_box_set_dirty(w->box);
+	}
 }
 
 void        widget_set_dirty(t_widget *w)

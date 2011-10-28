@@ -15,9 +15,18 @@
 
 enum t_cheat_finder_value_type
 {
-	CHEAT_FINDER_VALUE_TYPE_S8,
-	CHEAT_FINDER_VALUE_TYPE_U8,
+	CHEAT_FINDER_VALUE_TYPE_8,
+	CHEAT_FINDER_VALUE_TYPE_16,
+	CHEAT_FINDER_VALUE_TYPE_24,
+	CHEAT_FINDER_VALUE_TYPE_FLAG,
 	CHEAT_FINDER_VALUE_TYPE_MAX_,
+};
+
+struct t_cheat_finder_match
+{
+	u8		type;				// t_cheat_finder_value_type
+	u16		index;				// index of value in memory range, typically address offset, but *8 in the case of matching 1-bit flags
+	u32		last_value;
 };
 
 struct t_cheat_finder
@@ -32,9 +41,11 @@ struct t_cheat_finder
 	t_widget*					w_valuetype_buttons[CHEAT_FINDER_VALUE_TYPE_MAX_];
 	t_widget*					w_custom_value;
 	t_widget*					w_reduce_search;
+	t_widget*					w_undo_reduce_search;
 
 	bool						reset_state;
-	std::map<int,u32>			matches;
+	std::vector<t_cheat_finder_match>	matches;
+	std::vector<t_cheat_finder_match>	matches_undo;
 
 	t_frame						matches_frame;
 };

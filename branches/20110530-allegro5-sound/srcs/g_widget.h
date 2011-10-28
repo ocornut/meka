@@ -98,8 +98,7 @@ void        widgets_call_update             (void);
 
 // Widget: generics -----------------------------------------------------------
 void        widget_destroy                  (t_widget* w);
-void        widget_enable                   (t_widget* w);
-void        widget_disable                  (t_widget* w);
+void        widget_set_enabled              (t_widget* w, bool v);
 void        widget_set_dirty                (t_widget* w);
 void        widget_set_mouse_buttons_mask   (t_widget* w, int mouse_buttons_mask);
 void *      widget_get_user_data            (t_widget* w);

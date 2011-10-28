@@ -399,7 +399,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
         widget_inputbox_set_content_type(mv->values_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
         widget_inputbox_set_insert_mode(mv->values_edit_inputbox, TRUE);
         mv->values_edit_inputbox->update_func = NULL;
-        widget_disable(mv->values_edit_inputbox);
+        widget_set_enabled(mv->values_edit_inputbox, false);
     }
 }
 
@@ -810,7 +810,7 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
         if (mv->values_edit_inputbox->update_func == NULL)
         {
             mv->values_edit_inputbox->update_func = widget_inputbox_update;
-            widget_enable(mv->values_edit_inputbox);
+            widget_set_enabled(mv->values_edit_inputbox, true);
             mv->address_edit_inputbox->update_func = NULL;
         }
 
@@ -828,7 +828,7 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
         {
             mv->address_edit_inputbox->update_func = widget_inputbox_update;
             mv->values_edit_inputbox->update_func = NULL;
-            widget_disable(mv->values_edit_inputbox);
+            widget_set_enabled(mv->values_edit_inputbox, false);
         }
     }
 }

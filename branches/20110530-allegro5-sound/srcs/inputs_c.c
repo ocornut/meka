@@ -118,7 +118,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
         frame.size.x = INPUTS_CFG_CHECK_X;
         frame.size.y = INPUTS_CFG_CHECK_Y;
         app->CheckBox_Emulate_Digital = widget_checkbox_add(app->box, &frame, &app->CheckBox_Emulate_Digital_Value, (t_widget_callback)Inputs_CFG_Emulate_Digital_Handler);
-        widget_disable(app->CheckBox_Emulate_Digital);
+        widget_set_enabled(app->CheckBox_Emulate_Digital, false);
     }
 
     // Draw input base
@@ -304,19 +304,19 @@ void    Inputs_CFG_Current_Source_Change (t_widget *w)
     widget_checkbox_set_pvalue (app->CheckBox_Enabled, &Inputs.Sources [app->Current_Source]->enabled);
     widget_checkbox_redraw (app->CheckBox_Enabled);
     if (app->Current_Map != -1)
-        Inputs_CFG_Map_Change_End (); // a bit crap...
+        Inputs_CFG_Map_Change_End(); // a bit crap...
 
     {
         t_input_src *input_src = Inputs.Sources [app->Current_Source];
         if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
         {
             app->CheckBox_Emulate_Digital_Value = (input_src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) ? TRUE : FALSE;
-            widget_enable (app->CheckBox_Emulate_Digital);
-            widget_checkbox_redraw (app->CheckBox_Emulate_Digital);
+            widget_set_enabled(app->CheckBox_Emulate_Digital, true);
+            widget_checkbox_redraw(app->CheckBox_Emulate_Digital);
         }
         else
         {
-            widget_disable (app->CheckBox_Emulate_Digital);
+            widget_set_enabled(app->CheckBox_Emulate_Digital, false);
         }
     }
 }
