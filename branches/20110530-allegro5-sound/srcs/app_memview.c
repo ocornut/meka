@@ -7,6 +7,7 @@
 
 #include "shared.h"
 #include "app_memview.h"
+#include "app_cheatfinder.h"
 #include "bmemory.h"
 #include "coleco.h"
 #include "desktop.h"
@@ -403,6 +404,21 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     }
 }
 
+static const std::vector<u32>* MemoryViewer_GetHighlightList(t_memory_viewer* mv)
+{
+	const t_cheat_finder* cheat_finder = g_CheatFinder_MainInstance; 
+	if (cheat_finder && cheat_finder->active && !cheat_finder->addresses_to_highlight_in_memory_editor.empty() && cheat_finder->memtype == mv->pane_current->memrange.memtype)
+		return &cheat_finder->addresses_to_highlight_in_memory_editor;
+	return NULL;
+}
+
+static bool	MemoryViewer_IsAddressHighlighted(const std::vector<u32>* highlight_list, u32 addr)
+{
+	if (!highlight_list)
+		return false;
+	return std::find(highlight_list->begin(), highlight_list->end(), addr) != highlight_list->end();
+}
+
 //-----------------------------------------------------------------------------
 // MemoryViewer_Update(t_memory_viewer *mv)
 // Refresh Memory Editor
@@ -461,56 +477,69 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
 
     // Print current address
     // FIXME: Could create a label widget for this purpose.
-    sprintf(buf, "%0*X", addr_length, addr_start + (mv->memblock_first * 16) + mv->values_edit_position);
+	const int addr_offset = (mv->memblock_first * 16) + mv->values_edit_position;
+	const int addr_abs = addr_start + addr_offset;
+    sprintf(buf, "%0*X", addr_length, addr_abs);
     al_draw_filled_rectangle(56, mv->frame_view.size.y + 1 + 4, 91+1, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print(font_id, buf, 56, mv->frame_view.size.y + 1 + 4, COLOR_SKIN_WINDOW_TEXT);
 
-    int x = 4 + font_height * 6 - 7;
     y = 4;
     if (mv->pane_current->memrange.size == 0)
     {
         const char *text = "None";
         if (mv->pane_current->memrange.memtype == MEMTYPE_Z80 && g_driver->cpu != CPU_Z80)
             text = "You wish!";
+		int x = 4 + font_height * 6 - 7;
         Font_Print(font_id, text, x, y, COLOR_SKIN_WINDOW_TEXT);
     }
     else 
     {
+		// Highlight request
+		const std::vector<u32>* highlight_list = MemoryViewer_GetHighlightList(mv);
+		widget_set_highlight(mv->values_edit_inputbox, MemoryViewer_IsAddressHighlighted(highlight_list, addr_offset));
+
+		const int y_size = font_height;
+		const int x_hex_size = font_height * (2) - 1;
+		const int x_asc_size = font_height - 2;
+
         // Display all memory content lines
-        for (int row = 0; row != mv->size_lines; row++, y += font_height)
+        for (int row = 0; row != mv->size_lines; row++, y += y_size)
         {
             if (mv->memblock_first + row >= mv->memblocks_max)
                 continue;
 
-            // Print address
+            // Print address on every new line
             sprintf(buf, "%0*X", addr_length, addr + addr_start);
-            x = 4;
-            Font_Print(font_id, buf, x + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(font_id, buf, 4 + (5 - addr_length) * (font_height - 2), y, COLOR_SKIN_WINDOW_TEXT);
 
             // Print 16-bytes in both hexadecimal and ASCII
-            x = mv->frame_hex.pos.x;
-            int asciix = mv->frame_ascii.pos.x;
+            int x_hex = mv->frame_hex.pos.x;
+            int x_asc = mv->frame_ascii.pos.x;
 
-			for (int col = 0; col != mv->size_columns; col++, x += font_height * (2) - 1, asciix += font_height - 2)
+			for (int col = 0; col != mv->size_columns; col++, x_hex += x_hex_size, x_asc += x_asc_size)
             {
                 // Space each 8 columns (for readability)
                 if (col != 0 && ((col & 7) == 0))
-                    x += MEMVIEW_COLUMNS_8_PADDING;
+                    x_hex += MEMVIEW_COLUMNS_8_PADDING;
 
-                // Get value
+				// Highlight?
+				if (MemoryViewer_IsAddressHighlighted(highlight_list, addr))
+					al_draw_filled_rectangle(x_hex-2,y-1,x_hex+x_hex_size-2,y+y_size, COLOR_SKIN_WIDGET_GENERIC_SELECTION);
+
+				// Get value
 				const u8 v = pane->memrange.ReadByte(addr);
 
                 // Print hexadecimal
                 ALLEGRO_COLOR color = COLOR_SKIN_WINDOW_TEXT;
                 sprintf(buf, "%02X", v);
-                Font_Print(font_id, buf, x, y, color);
+                Font_Print(font_id, buf, x_hex, y, color);
 
                 // Print ASCII
                 if (mv->values_edit_active && (mv->values_edit_position == col + (row * mv->size_columns)))
                     color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
                 buf[0] = isprint(v) ? v : '.';
                 buf[1] = 0;
-                Font_Print(font_id, buf, asciix, y, color);
+                Font_Print(font_id, buf, x_asc, y, color);
 
                 addr++;
                 if (addr >= (int)pane->memrange.size)
@@ -533,24 +562,29 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     }
 }
 
+static void MemoryViewer_Switch(t_memory_viewer* mv)
+{
+	if (mv == MemoryViewer_MainInstance)
+	{
+		MemoryViewer_SwitchMainInstance();
+	}
+	else
+	{
+		mv->active ^= 1;
+		gui_box_show(mv->box, mv->active, TRUE);
+		if (!mv->active)
+		{
+			// Flag GUI box for deletion
+			mv->box->flags |= GUI_BOX_FLAGS_DELETE;
+			return;
+		}
+	}
+}
+
 static void MemoryViewer_Switch(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
-    if (mv == MemoryViewer_MainInstance)
-    {
-        MemoryViewer_SwitchMainInstance();
-    }
-    else
-    {
-        mv->active ^= 1;
-        gui_box_show(mv->box, mv->active, TRUE);
-        if (!mv->active)
-        {
-            // Flag GUI box for deletion
-            mv->box->flags |= GUI_BOX_FLAGS_DELETE;
-            return;
-        }
-    }
+	MemoryViewer_Switch(mv);
 }
 
 void    MemoryViewer_SwitchMainInstance()
@@ -574,8 +608,8 @@ static void MemoryViewer_ViewPane(t_memory_viewer *mv, t_memory_type memtype)
     mv->pane_current->memblock_first = mv->memblock_first;
 
     // Update interface button
-    widget_button_set_selected(mv->pane_current->button, FALSE);
-    widget_button_set_selected(pane->button, TRUE);
+    widget_set_highlight(mv->pane_current->button, FALSE);
+    widget_set_highlight(pane->button, TRUE);
 
     // Switch section
     mv->pane_current    = pane;
@@ -616,8 +650,41 @@ static void MemoryViewer_MediaReload(t_memory_viewer *mv)
     MemoryViewer_SetupEditValueBox(mv);
 }
 
+void	MemoryViewer_GotoAddress(t_memory_viewer* mv, t_memory_type memtype, u32 offset)
+{
+	if (!mv->active)
+		MemoryViewer_Switch(mv);
+
+	// Switch pane if requested
+	if (memtype != MEMTYPE_UNKNOWN)
+		MemoryViewer_ViewPane(mv, memtype);
+
+	// Check boundaries
+	t_memory_pane* pane = mv->pane_current;
+	const t_memory_range* memrange = &pane->memrange;
+	if (offset < 0 || offset >= (u32)memrange->size)
+	{
+		char buf[16];
+		sprintf(buf, "%0*X", memrange->addr_hex_length, offset+memrange->addr_start+offset);
+		Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, memrange->name);
+		return;
+	}
+
+	// Jump to given address
+	mv->memblock_first = (offset / mv->size_columns) - (mv->size_lines/2);
+	if (mv->memblock_first < 0)
+		mv->memblock_first = 0;
+	if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
+		mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
+	mv->values_edit_active = TRUE;
+	mv->values_edit_position = offset - (mv->memblock_first * mv->size_columns);
+	MemoryViewer_SetupEditValueBox(mv);
+
+	// Clear address box
+	widget_inputbox_set_value(mv->address_edit_inputbox, "");
+}
+
 //-----------------------------------------------------------------------------
-// MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
 // Enter callback handler on 'address' input box.
 // Set current cursor position to given address (if valid)
 //-----------------------------------------------------------------------------
@@ -630,30 +697,8 @@ void      MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
 	int addr;
     sscanf(text, "%X", &addr);
 
-    // Check boundaries
-	t_memory_pane* pane = mv->pane_current;
-	const t_memory_range* memrange = &pane->memrange;
-    if (addr < memrange->addr_start || addr >= memrange->addr_start + (int)memrange->size)
-    {
-        char buf[12];
-        sprintf(buf, "%0*X", memrange->addr_hex_length, addr);
-        Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, memrange->name);
-        return;
-    }
-
-    // Jump to given address
-    addr -= memrange->addr_start;
-    mv->memblock_first = (addr / mv->size_columns) - (mv->size_lines/2);
-	if (mv->memblock_first < 0)
-		mv->memblock_first = 0;
-    if (mv->memblock_first + mv->size_lines > mv->memblocks_max)
-        mv->memblock_first = MAX(mv->memblocks_max - mv->size_lines, 0);
-    mv->values_edit_active = TRUE;
-	mv->values_edit_position = addr - (mv->memblock_first * mv->size_columns);
-    MemoryViewer_SetupEditValueBox(mv);
-
-	// Clear address box
-	widget_inputbox_set_value(mv->address_edit_inputbox, "");
+	int offset = addr - mv->pane_current->memrange.addr_start;
+	MemoryViewer_GotoAddress(mv, mv->pane_current->memrange.memtype, offset);
 }
 
 //-----------------------------------------------------------------------------

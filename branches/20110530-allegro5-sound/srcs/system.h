@@ -19,6 +19,7 @@
 #define _STATIC_CPPLIB
 #include <vector>
 #include <map>
+#include <algorithm>
 
 //-----------------------------------------------------------------------------
 // System Includes

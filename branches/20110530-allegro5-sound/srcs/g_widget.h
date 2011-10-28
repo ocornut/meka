@@ -65,6 +65,7 @@ struct t_widget
 {
     t_widget_type           type;
     bool                    enabled;
+	bool					highlight;
     t_gui_box *             box;
     t_frame                 frame;
     void *                  data;
@@ -98,6 +99,7 @@ void        widgets_call_update             (void);
 // Widget: generics -----------------------------------------------------------
 void        widget_destroy                  (t_widget* w);
 void        widget_set_enabled              (t_widget* w, bool v);
+void        widget_set_highlight            (t_widget* w, bool v);
 void        widget_set_mouse_buttons_mask   (t_widget* w, int mouse_buttons_mask);
 void *      widget_get_user_data            (t_widget* w);
 void        widget_set_user_data            (t_widget* w, void *user_data);
@@ -113,7 +115,6 @@ void        widget_closebox_redraw          (t_widget* w);
 t_widget *  widget_button_add               (t_gui_box* box, const t_frame* frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char* label, void* user_data = NULL);
 void        widget_button_update            (t_widget* w);
 void        widget_button_redraw            (t_widget* w);
-void        widget_button_set_selected      (t_widget* w, bool selected);
 void        widget_button_set_grayed_out    (t_widget* w, bool grayed_out);
 void		widget_button_set_label			(t_widget* w, const char* label);
 void		widget_button_trigger			(t_widget* w);

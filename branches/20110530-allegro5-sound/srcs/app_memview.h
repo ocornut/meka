@@ -66,7 +66,7 @@ struct t_memory_viewer
     t_frame             frame_hex;
     t_frame             frame_ascii;
     t_widget *          values_hex_box;
-    t_widget *          values_ascii_box;
+    t_widget *			values_ascii_box;
     bool                values_edit_active;
     int                 values_edit_position;
     t_widget *          values_edit_inputbox;
@@ -85,7 +85,8 @@ extern t_list *         MemoryViewers;
 //-----------------------------------------------------------------------------
 
 t_memory_viewer *       MemoryViewer_New(bool register_desktop, int size_columns, int size_lines);
-void                    MemoryViewer_Delete(t_memory_viewer *mv);
+void                    MemoryViewer_Delete(t_memory_viewer* mv);
+void					MemoryViewer_GotoAddress(t_memory_viewer* mv, t_memory_type memtype, u32 offset);
 void                    MemoryViewer_SwitchMainInstance(void);
 
 void                    MemoryViewers_Update(void);

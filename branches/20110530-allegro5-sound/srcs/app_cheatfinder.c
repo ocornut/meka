@@ -27,6 +27,13 @@ static const char*	s_value_type_names[] =
 	"24",
 	"FLAG",
 };
+static int			s_value_type_bit_length[] =
+{
+	8,
+	16,
+	24,
+	1,
+};
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -38,8 +45,9 @@ static void			CheatFinder_Update(t_cheat_finder* app);
 static void			CheatFinder_ResetMatches(t_cheat_finder* app);
 static void			CheatFinder_ReduceMatches(t_cheat_finder* app);
 static void			CheatFinder_UndoReduce(t_cheat_finder* app);
+static void			CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index);
 
-static u32			CheatFinder_IndexToAddr(t_cheat_finder* app, u32 index);
+static u32			CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_match* match);
 static u32			CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* mem_range, int value_index);
 
 static void			CheatFinder_CallbackMemtypeSelect(t_widget* w);
@@ -47,6 +55,7 @@ static void			CheatFinder_CallbackValuetypeSelect(t_widget* w);
 static void			CheatFinder_CallbackReset(t_widget* w);
 static void			CheatFinder_CallbackReduce(t_widget* w);
 static void			CheatFinder_CallbackUndoReduce(t_widget* w);
+static void			CheatFinder_CallbackSelectOneMatch(t_widget* w);
 static void			CheatFinder_CallbackClose(t_widget* w);
 
 //-----------------------------------------------------------------------------
@@ -71,11 +80,9 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 	app->box->user_data = app;
 	app->box->destroy = (t_gui_box_destroy_handler)CheatFinder_Delete;
 
-	app->memtype		= MEMTYPE_RAM;
-	app->valuetype		= CHEAT_FINDER_VALUE_TYPE_8;
-
-	app->matches.clear();
-	app->reset_state	= true;
+	app->memtype			= MEMTYPE_RAM;
+	app->valuetype			= CHEAT_FINDER_VALUE_TYPE_8;
+	app->reset_state		= true;
 
 	// Register to desktop (applet is disabled by default)
 	if (register_desktop)
@@ -156,15 +163,27 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	app->matches_frame.SetPos(92,dc.pos.y);
 	app->matches_frame.SetSize(app->box->frame.size - app->matches_frame.pos);
 	al_draw_line(91+0.5f,dc.pos.y-2,91+0.5f,app->box->frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+	if (setup)
+	{
+		DrawCursor dc2(v2i(92+5,dc.pos.y+3),F_MIDDLE);
+		dc2.NewLine();
+		int h = Font_Height(F_SMALL)-2;
+		for (int i = 0; i != CHEAT_FINDER_MATCHES_MAX; i++)
+		{
+			t_frame frame(dc2.pos, v2i(h,h));
+			app->w_matches_memedit_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackSelectOneMatch, WIDGET_BUTTON_STYLE_SMALL, "", (void*)i);
+			dc2.NewLine();
+		}
+	}
 
 	dc.NewLine();
 	dc.NewLine();
 
 	fp.Printf(dc.pos+v2i(0,4), "Value:");
-	dc.pos.x = 46;
+	dc.pos.x = 44;
 	if (setup)
 	{
-		t_frame frame(dc.pos, v2i(40,Font_Height(F_SMALL)+3));
+		t_frame frame(dc.pos, v2i(42,Font_Height(F_SMALL)+3));
 		app->w_custom_value = widget_inputbox_add(app->box, &frame, 6, F_MIDDLE, CheatFinder_CallbackReduce);
 		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DECIMAL);
 	}
@@ -202,17 +221,18 @@ void	CheatFinder_Update(t_cheat_finder* app)
 
 	for (int i = 0; i != MEMTYPE_MAX_; i++)
 	{
-		widget_button_set_selected(app->w_memtype_buttons[i], app->memtype == i);
+		widget_set_highlight(app->w_memtype_buttons[i], app->memtype == i);
 		widget_button_set_grayed_out(app->w_memtype_buttons[i], !app->reset_state);
 	}
 
 	for (int i = 0; i != CHEAT_FINDER_VALUE_TYPE_MAX_; i++)
 	{
-		widget_button_set_selected(app->w_valuetype_buttons[i], app->valuetype == i);
+		widget_set_highlight(app->w_valuetype_buttons[i], app->valuetype == i);
 		widget_button_set_grayed_out(app->w_valuetype_buttons[i], !app->reset_state);
 	}
 
 	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
+	widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && app->matches.empty());
 	widget_button_set_grayed_out(app->w_undo_reduce_search, app->matches_undo.empty());
 
 	// Always dirty (ok for a developer tool)
@@ -226,28 +246,50 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	fp.Printf(dc.pos, (app->matches.size()>1) ? "%d matches" : "%d match", app->matches.size());
 	dc.NewLine();
 
+	bool displaying_matches = false;
 	if (app->matches.size() > 0)
 	{
-		const int MAX_MATCHES_TO_DISPLAY = 15;
-
 		t_memory_range memrange;
 		MemoryRange_GetDetails(app->memtype, &memrange);
-		if (app->matches.size() < MAX_MATCHES_TO_DISPLAY)
+		if (app->matches.size() < CHEAT_FINDER_MATCHES_MAX)
 		{
 			const t_cheat_finder_match* match = &app->matches[0];
 			for (int i = 0; i != app->matches.size(); i++, match++)
 			{
 				if (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG)
-					fp.Printf(dc.pos, " %s $%0*X bit %d", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->index>>3), match->index&7);
+					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X bit %d ($%02X)", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->value_index>>3), match->value_index&7, 1<<(match->value_index&7));
 				else
-					fp.Printf(dc.pos, " %s $%0*X", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->index);
+					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->value_index);
 				dc.NewLine();
 			}
+			displaying_matches = true;
 		}
 		else
 		{
 			fp.Printf(dc.pos, "Too many matches to display!");
 		}
+	}
+	for (int i = 0; i != CHEAT_FINDER_MATCHES_MAX; i++)
+	{
+		widget_set_enabled(app->w_matches_memedit_buttons[i], displaying_matches && ((int)app->matches.size()>i));
+	}
+
+	// Request memory editor highlight?
+	if (displaying_matches)
+	{
+		app->addresses_to_highlight_in_memory_editor.reserve(app->matches.size());
+		for (int i = 0; i != app->matches.size(); i++)
+		{
+			const t_cheat_finder_match* match = &app->matches[i];
+			u32 addr_min = CheatFinder_IndexToAddr(app, match);
+			u32 addr_max = addr_min + (s_value_type_bit_length[match->type]+7)/8;
+			for (u32 addr = addr_min; addr < addr_max; addr++)
+				app->addresses_to_highlight_in_memory_editor.push_back(addr);
+		}
+	}
+	else
+	{
+		app->addresses_to_highlight_in_memory_editor.clear();
 	}
 }
 
@@ -258,9 +300,9 @@ void CheatFinder_ResetMatches(t_cheat_finder* app)
 	app->matches_undo.clear();
 }
 
-static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, t_cheat_finder_match* match)
+static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_match* match)
 {
-	u32 index = match->index;
+	u32 index = match->value_index;
 	u32 addr = (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG) ? (index >> 3) : index;
 	return addr;
 }
@@ -291,7 +333,7 @@ static u32 CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* memrange, 
 	case CHEAT_FINDER_VALUE_TYPE_FLAG:
 		{
 			v = (u32)memrange->ReadByte(addr);
-			if (v & (1 << (match->index & 7)))
+			if (v & (1 << (match->value_index & 7)))
 				v = 1;
 			else
 				v = 0;
@@ -319,7 +361,7 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 		{
 			t_cheat_finder_match* match = &app->matches[index];
 			match->type = app->valuetype;
-			match->index = index;
+			match->value_index = index;
 			match->last_value = CheatFinder_ReadValue(app,&memrange,match);
 		}
 		app->reset_state = false;
@@ -366,27 +408,37 @@ static void	CheatFinder_UndoReduce(t_cheat_finder* app)
 	}
 }
 
+static void CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index)
+{
+	assert(match_index < (int)app->matches.size());
+
+	const t_cheat_finder_match* match = &app->matches[match_index];
+	u32 addr = CheatFinder_IndexToAddr(app, match);
+
+	MemoryViewer_GotoAddress(MemoryViewer_MainInstance, app->memtype, addr);
+}
+
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)
 {
-	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data; // Get instance
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	app->memtype = (t_memory_type)(int)w->user_data;
 }
 
 static void CheatFinder_CallbackValuetypeSelect(t_widget* w)
 {
-	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data; // Get instance
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	app->valuetype = (t_cheat_finder_value_type)(int)w->user_data;
 }
 
 static void CheatFinder_CallbackReset(t_widget* w)
 {
-	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data; // Get instance
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	CheatFinder_ResetMatches(app);
 }
 
 static void CheatFinder_CallbackReduce(t_widget* w)
 {
-	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data; // Get instance
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	if (w != app->w_reduce_search)
 		widget_button_trigger(app->w_reduce_search);
 	else
@@ -395,8 +447,15 @@ static void CheatFinder_CallbackReduce(t_widget* w)
 
 static void CheatFinder_CallbackUndoReduce(t_widget* w)
 {
-	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data; // Get instance
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	CheatFinder_UndoReduce(app);
+}
+
+static void CheatFinder_CallbackSelectOneMatch(t_widget *w)
+{
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
+	const int match_index = (int)w->user_data;
+	CheatFinder_SelectOneMatch(app, match_index);
 }
 
 static void	CheatFinder_CallbackClose(t_widget* w)

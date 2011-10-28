@@ -31,8 +31,7 @@ struct t_widget_data_button
 {
     char *						label;
     t_widget_button_style       style;
-    bool                        selected;
-	int							selected_on_click;
+	int							highlight_on_click;
 	bool						grayed_out;
 	t_widget_callback			callback;
 };
@@ -163,7 +162,8 @@ t_widget *  widget_new(t_gui_box *box, t_widget_type type, const t_frame *frame)
 
     // Setup base members and clear all others
     w->type                     = type;
-    w->enabled                  = TRUE;     // Enabled by default
+    w->enabled                  = true;
+	w->highlight				= false;
     w->box                      = box;
     w->frame                    = *frame;
     w->mouse_x                  = -1;
@@ -201,6 +201,11 @@ void        widget_set_enabled(t_widget *w, bool v)
 	    w->enabled = v;
 		w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 	}
+}
+
+void        widget_set_highlight(t_widget *w, bool v)
+{
+	w->highlight = v;
 }
 
 void        widget_set_mouse_buttons_mask(t_widget *w, int mouse_buttons_mask)
@@ -327,8 +332,7 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     wd = (t_widget_data_button*)w->data;
     wd->label = label ? strdup(label) : NULL;
     wd->style = style;
-    wd->selected = FALSE;
-	wd->selected_on_click = 0;
+	wd->highlight_on_click = 0;
 	wd->grayed_out = FALSE;
     wd->callback = callback;
 
@@ -356,8 +360,8 @@ void	widget_button_update(t_widget *w)
 	// w->mouse_buttons_previous = w->mouse_buttons;
 	w->mouse_buttons_activation = w->mouse_buttons;
 	w->mouse_buttons = 0;
-	if (wd->selected_on_click > 0)
-		wd->selected_on_click--;
+	if (wd->highlight_on_click > 0)
+		wd->highlight_on_click--;
 
 	// Fire the callback. Note that it is done AFTER updating the mouse buttons, this
     // is to avoid recursive calls if the callback ask for a GUI update (something
@@ -369,7 +373,7 @@ void	widget_button_update(t_widget *w)
 void	widget_button_trigger(t_widget* w)
 {
 	t_widget_data_button* wd = (t_widget_data_button*)w->data;
-	wd->selected_on_click = 6;
+	wd->highlight_on_click = 6;
 	wd->callback(w);
 }
 
@@ -380,7 +384,7 @@ void        widget_button_redraw(t_widget *w)
 	if (wd->style == WIDGET_BUTTON_STYLE_INVISIBLE)
 		return;
 
-	const ALLEGRO_COLOR bg_color = (wd->selected || wd->selected_on_click>0) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
+	const ALLEGRO_COLOR bg_color = (w->highlight || wd->highlight_on_click>0) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
 	const ALLEGRO_COLOR text_color = wd->grayed_out ? COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE : COLOR_SKIN_WIDGET_GENERIC_TEXT;
 	const t_frame *frame = &w->frame;
 
@@ -404,15 +408,6 @@ void        widget_button_redraw(t_widget *w)
             break;
         }
     }
-}
-
-void    widget_button_set_selected(t_widget *w, bool selected)
-{
-    t_widget_data_button* wd = (t_widget_data_button*)w->data;
-	if (wd->selected != selected)
-	{
-	    wd->selected = selected;
-	}
 }
 
 void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
@@ -1097,7 +1092,9 @@ void        widget_inputbox_redraw(t_widget *w)
     // Draw border & fill text area
 	al_set_target_bitmap(gfx_buffer);
     al_draw_rectangle(w->frame.pos.x + 0.5f, w->frame.pos.y + 0.5f, w->frame.pos.x + w->frame.size.x + 0.5f, w->frame.pos.y + w->frame.size.y + 0.5f, COLOR_SKIN_WIDGET_GENERIC_BORDER, 1.0f);
-    al_draw_filled_rectangle(w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+
+	const ALLEGRO_COLOR bg_color = (w->highlight) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
+    al_draw_filled_rectangle(w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, bg_color);
 
     // Draw text & cursor
     {
