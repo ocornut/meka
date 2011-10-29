@@ -354,7 +354,10 @@ void	widget_button_update(t_widget *w)
     t_widget_data_button* wd = (t_widget_data_button*)w->data;
 
     // Check if we need to fire the callback
-    const bool clicked = ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask));
+    bool clicked = false;
+	if (!wd->grayed_out)
+		if ((w->mouse_action & WIDGET_MOUSE_ACTION_CLICK) && (w->mouse_buttons & w->mouse_buttons_mask) && !(w->mouse_buttons_previous & w->mouse_buttons_mask))
+			clicked = true;
 
 	// Update mouse buttons
 	// w->mouse_buttons_previous = w->mouse_buttons;

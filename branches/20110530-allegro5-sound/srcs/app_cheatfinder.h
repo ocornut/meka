@@ -57,6 +57,8 @@ struct t_cheat_finder
 	t_cheat_finder_value_type	valuetype;
 	t_cheat_finder_comparer		comparer;
 	t_cheat_finder_compare_to	compare_to;
+	int							custom_value;
+	bool						custom_value_valid;
 
 	t_widget*							w_memtype_buttons[MEMTYPE_MAX_];
 	t_widget*							w_valuetype_buttons[CHEAT_FINDER_VALUE_TYPE_MAX_];

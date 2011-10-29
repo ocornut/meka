@@ -95,6 +95,8 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 	app->valuetype			= CHEAT_FINDER_VALUE_TYPE_8;
 	app->comparer			= CHEAT_FINDER_COMPARER_EQUAL;
 	app->compare_to			= CHEAT_FINDER_COMPARE_TO_CONSTANT;
+	app->custom_value		= 0;
+	app->custom_value_valid	= false;
 	app->reset_state		= true;
 
 	// Register to desktop (applet is disabled by default)
@@ -285,8 +287,11 @@ void	CheatFinder_Update(t_cheat_finder* app)
 		widget_set_highlight(app->w_comparer_buttons[i], app->comparer == i);
 	}
 
+	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
+	app->custom_value_valid = (sscanf(custom_value_text, "%d", &app->custom_value) == 1);
+
 	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
-	widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && app->matches.empty());
+	widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && (app->matches.empty() || (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid)));
 	widget_button_set_grayed_out(app->w_undo_reduce_search, app->matches_undo.empty());
 
 	// Always dirty (ok for a developer tool)
@@ -311,9 +316,9 @@ void	CheatFinder_Update(t_cheat_finder* app)
 			for (int i = 0; i != app->matches.size(); i++, match++)
 			{
 				if (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG)
-					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X bit %d ($%02X)", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->value_index>>3), match->value_index&7, 1<<(match->value_index&7));
+					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X bit %d (mask $%02X): %d", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->value_index>>3), match->value_index&7, 1<<(match->value_index&7), match->last_value);
 				else
-					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->value_index);
+					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X: %d ($%0*X)", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->value_index, match->last_value, (s_value_type_bit_length[match->type]/8)*2, match->last_value);
 				dc.NewLine();
 			}
 			displaying_matches = true;
@@ -423,19 +428,19 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 			match->last_value = CheatFinder_ReadValue(app,&memrange,match);
 		}
 		app->reset_state = false;
-		return;
+		if (app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE)
+			return;
 	}
 
 	if (app->matches.empty())
 		return;
 
-	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
-	int custom_value = 0;
-	if (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && sscanf(custom_value_text, "%d", &custom_value) != 1)
+	if (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid)
 		return;
 
 	// Reduce
 	t_cheat_finder_match* match = &app->matches[0];
+	int custom_value = app->custom_value;
 
 	std::vector<t_cheat_finder_match> matches_reduced;
 	matches_reduced.reserve(app->matches.size());
