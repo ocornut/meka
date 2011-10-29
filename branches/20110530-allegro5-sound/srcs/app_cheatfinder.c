@@ -22,17 +22,19 @@ t_list *			g_CheatFinders;
 
 static const char*	s_value_type_names[] =
 {
+	"1",
 	"8",
 	"16",
 	"24",
-	"FLAG",
+	"ANY",
 };
 static int			s_value_type_bit_length[] =
 {
+	1,
 	8,
 	16,
 	24,
-	1,
+	-1,
 };
 static const char*	s_comparer_names[] =
 {
@@ -57,7 +59,7 @@ static void			CheatFinder_UndoReduce(t_cheat_finder* app);
 static void			CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index);
 
 static u32			CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_match* match);
-static u32			CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* mem_range, int value_index);
+static u32			CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* mem_range, int value_index);
 
 static void			CheatFinder_CallbackMemtypeSelect(t_widget* w);
 static void			CheatFinder_CallbackValuetypeSelect(t_widget* w);
@@ -155,7 +157,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	dc.NewLine();
 	dc.HorizontalSeparator();
 
-	fp.Printf(dc.pos+v2i(0,4), "Variable type:");
+	fp.Printf(dc.pos+v2i(0,4), "Variable size:");
 	dc.pos.x += 90;
 	if (setup)
 	{
@@ -315,10 +317,10 @@ void	CheatFinder_Update(t_cheat_finder* app)
 			const t_cheat_finder_match* match = &app->matches[0];
 			for (int i = 0; i != app->matches.size(); i++, match++)
 			{
-				if (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG)
+				if (match->type == CHEAT_FINDER_VALUE_TYPE_1)
 					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X bit %d (mask $%02X): %d", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->value_index>>3), match->value_index&7, 1<<(match->value_index&7), match->last_value);
 				else
-					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X: %d ($%0*X)", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->value_index, match->last_value, (s_value_type_bit_length[match->type]/8)*2, match->last_value);
+					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X: $%0*X (%d)", memrange.name, memrange.addr_hex_length, memrange.addr_start+match->value_index, (s_value_type_bit_length[match->type]/8)*2, match->last_value, match->last_value);
 				dc.NewLine();
 			}
 			displaying_matches = true;
@@ -366,11 +368,11 @@ void CheatFinder_ResetMatches(t_cheat_finder* app)
 static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_match* match)
 {
 	u32 index = match->value_index;
-	u32 addr = (match->type == CHEAT_FINDER_VALUE_TYPE_FLAG) ? (index >> 3) : index;
+	u32 addr = (match->type == CHEAT_FINDER_VALUE_TYPE_1) ? (index >> 3) : index;
 	return addr;
 }
 
-static u32 CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* memrange, t_cheat_finder_match* match)
+static u32 CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* memrange, t_cheat_finder_match* match)
 {
 	u32 addr = CheatFinder_IndexToAddr(app, match);
 	
@@ -378,6 +380,15 @@ static u32 CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* memrange, 
 
 	switch (match->type)
 	{
+	case CHEAT_FINDER_VALUE_TYPE_1:
+		{
+			v = (u32)memrange->ReadByte(addr);
+			if (v & (1 << (match->value_index & 7)))
+				v = 1;
+			else
+				v = 0;
+			break;
+		}
 	case CHEAT_FINDER_VALUE_TYPE_8:
 		{
 			v = (u32)memrange->ReadByte(addr);
@@ -393,18 +404,28 @@ static u32 CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* memrange, 
 			v = ((u32)memrange->ReadByte(addr) << 0) | ((u32)memrange->ReadByte(addr+1) << 8) | ((u32)memrange->ReadByte(addr+2) << 16);
 			break;
 		}
-	case CHEAT_FINDER_VALUE_TYPE_FLAG:
-		{
-			v = (u32)memrange->ReadByte(addr);
-			if (v & (1 << (match->value_index & 7)))
-				v = 1;
-			else
-				v = 0;
-			break;
-		}
 	}
 
 	return v;
+}
+
+void CheatFinder_AddNewMatches(t_cheat_finder* app, const t_memory_range* memrange, t_cheat_finder_value_type value_type)
+{
+	int value_count = memrange->size * (value_type == CHEAT_FINDER_VALUE_TYPE_1 ? 8 : 1);
+	if (value_type == CHEAT_FINDER_VALUE_TYPE_16)
+		value_count -= 1;
+	if (value_type == CHEAT_FINDER_VALUE_TYPE_24)
+		value_count -= 2;
+
+	int insert_pos = app->matches.size();
+	app->matches.resize(insert_pos + value_count);
+	for (int index = 0; index != value_count; index++)
+	{
+		t_cheat_finder_match* match = &app->matches[insert_pos + index];
+		match->type = value_type;
+		match->value_index = index;
+		match->last_value = CheatFinder_ReadValue(app, memrange, match);
+	}
 }
 
 void CheatFinder_ReduceMatches(t_cheat_finder* app)
@@ -414,19 +435,20 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 
 	if (app->reset_state)
 	{
-		int value_max = memrange.size * (app->valuetype == CHEAT_FINDER_VALUE_TYPE_FLAG ? 8 : 1);
-		if (app->valuetype == CHEAT_FINDER_VALUE_TYPE_16)
-			value_max -= 1;
-		if (app->valuetype == CHEAT_FINDER_VALUE_TYPE_24)
-			value_max -= 2;
-		app->matches.resize(value_max);
-		for (int index = 0; index != value_max; index++)
+		t_cheat_finder_value_type value_type = app->valuetype;
+
+		if (value_type == CHEAT_FINDER_VALUE_TYPE_ANY_SIZE)
 		{
-			t_cheat_finder_match* match = &app->matches[index];
-			match->type = app->valuetype;
-			match->value_index = index;
-			match->last_value = CheatFinder_ReadValue(app,&memrange,match);
+			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_1);
+			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_8);
+			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_16);
+			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_24);
 		}
+		else
+		{
+			CheatFinder_AddNewMatches(app, &memrange, value_type);
+		}
+
 		app->reset_state = false;
 		if (app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE)
 			return;
