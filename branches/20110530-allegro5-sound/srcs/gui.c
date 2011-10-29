@@ -24,14 +24,24 @@ DrawCursor::DrawCursor(v2i _pos, int font_id)
 	this->pos = _pos;
 	this->x_base = this->pos.x;
 	this->y_spacing = Font_Height((t_font_id)font_id)+2;
+
+	ALLEGRO_BITMAP* bitmap = al_get_target_bitmap();
+	this->viewport_min.Set(0,0);
+	this->viewport_max.Set(al_get_bitmap_width(bitmap),al_get_bitmap_height(bitmap));
 }
 
 void	DrawCursor::HorizontalSeparator()
 {
-	const int w = al_get_bitmap_width(al_get_target_bitmap());
 	this->pos.y += 2;
-	al_draw_line(0, this->pos.y+0.5f, w, this->pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+	al_draw_line(viewport_min.x, this->pos.y+0.5f, viewport_max.x, this->pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 	this->pos.y += 2;
+}
+
+void	DrawCursor::VerticalSeparator()
+{
+	this->pos.x += 2;
+	al_draw_line(this->pos.x+0.5f, viewport_min.y, this->pos.x+0.5f, viewport_max.y, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+	this->pos.x += 2;
 }
 
 //-----------------------------------------------------------------------------

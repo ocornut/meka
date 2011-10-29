@@ -13,6 +13,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
+#define CHEAT_FINDER_MATCHES_MAX	(15)
+
 enum t_cheat_finder_value_type
 {
 	CHEAT_FINDER_VALUE_TYPE_8,
@@ -22,7 +24,22 @@ enum t_cheat_finder_value_type
 	CHEAT_FINDER_VALUE_TYPE_MAX_,
 };
 
-#define CHEAT_FINDER_MATCHES_MAX	(15)
+enum t_cheat_finder_comparer
+{
+	CHEAT_FINDER_COMPARER_EQUAL,
+	CHEAT_FINDER_COMPARER_NOT_EQUAL,
+	CHEAT_FINDER_COMPARER_LESS,
+	CHEAT_FINDER_COMPARER_GREATER,
+	CHEAT_FINDER_COMPARER_LESS_OR_EQUAL,
+	CHEAT_FINDER_COMPARER_GREATER_OR_EQUAL,
+	CHEAT_FINDER_COMPARER_MAX_,
+};
+
+enum t_cheat_finder_compare_to
+{
+	CHEAT_FINDER_COMPARE_TO_OLD_VALUE,
+	CHEAT_FINDER_COMPARE_TO_CONSTANT,
+};
 
 struct t_cheat_finder_match
 {
@@ -38,13 +55,17 @@ struct t_cheat_finder
 
 	t_memory_type				memtype;
 	t_cheat_finder_value_type	valuetype;
+	t_cheat_finder_comparer		comparer;
+	t_cheat_finder_compare_to	compare_to;
 
-	t_widget*					w_memtype_buttons[MEMTYPE_MAX_];
-	t_widget*					w_valuetype_buttons[CHEAT_FINDER_VALUE_TYPE_MAX_];
-	t_widget*					w_custom_value;
-	t_widget*					w_reduce_search;
-	t_widget*					w_undo_reduce_search;
-	t_widget*					w_matches_memedit_buttons[CHEAT_FINDER_MATCHES_MAX];
+	t_widget*							w_memtype_buttons[MEMTYPE_MAX_];
+	t_widget*							w_valuetype_buttons[CHEAT_FINDER_VALUE_TYPE_MAX_];
+	t_widget*							w_comparer_buttons[CHEAT_FINDER_COMPARER_MAX_];
+	t_widget*							w_compare_to_buttons[2];
+	t_widget*							w_custom_value;
+	t_widget*							w_reduce_search;
+	t_widget*							w_undo_reduce_search;
+	t_widget*							w_matches_memedit_buttons[CHEAT_FINDER_MATCHES_MAX];
 
 	bool								reset_state;
 	std::vector<t_cheat_finder_match>	matches;

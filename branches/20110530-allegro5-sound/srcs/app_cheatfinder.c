@@ -34,6 +34,15 @@ static int			s_value_type_bit_length[] =
 	24,
 	1,
 };
+static const char*	s_comparer_names[] =
+{
+	"==",
+	"!=",
+	"<",
+	">",
+	"<=",
+	">="
+};
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -52,6 +61,8 @@ static u32			CheatFinder_ReadValue(t_cheat_finder* app, t_memory_range* mem_rang
 
 static void			CheatFinder_CallbackMemtypeSelect(t_widget* w);
 static void			CheatFinder_CallbackValuetypeSelect(t_widget* w);
+static void			CheatFinder_CallbackComparerSelect(t_widget* w);
+static void			CheatFinder_CallbackCompareToSelect(t_widget* w);
 static void			CheatFinder_CallbackReset(t_widget* w);
 static void			CheatFinder_CallbackReduce(t_widget* w);
 static void			CheatFinder_CallbackUndoReduce(t_widget* w);
@@ -75,13 +86,15 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 	frame.pos.x     = 437;
 	frame.pos.y     = 102;
 	frame.size.x    = 330;
-	frame.size.y    = 200;
+	frame.size.y    = 208;
 	app->box = gui_box_new(&frame, "Cheat Finder");	// FIXME-LOCALIZATION
 	app->box->user_data = app;
 	app->box->destroy = (t_gui_box_destroy_handler)CheatFinder_Delete;
 
 	app->memtype			= MEMTYPE_RAM;
 	app->valuetype			= CHEAT_FINDER_VALUE_TYPE_8;
+	app->comparer			= CHEAT_FINDER_COMPARER_EQUAL;
+	app->compare_to			= CHEAT_FINDER_COMPARE_TO_CONSTANT;
 	app->reset_state		= true;
 
 	// Register to desktop (applet is disabled by default)
@@ -162,11 +175,12 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 
 	app->matches_frame.SetPos(92,dc.pos.y);
 	app->matches_frame.SetSize(app->box->frame.size - app->matches_frame.pos);
+
+	DrawCursor dc2(v2i(92+5,dc.pos.y+3),F_MIDDLE);
+	dc2.NewLine();
 	al_draw_line(91+0.5f,dc.pos.y-2,91+0.5f,app->box->frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 	if (setup)
 	{
-		DrawCursor dc2(v2i(92+5,dc.pos.y+3),F_MIDDLE);
-		dc2.NewLine();
 		int h = Font_Height(F_SMALL)-2;
 		for (int i = 0; i != CHEAT_FINDER_MATCHES_MAX; i++)
 		{
@@ -175,21 +189,56 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 			dc2.NewLine();
 		}
 	}
-
 	dc.NewLine();
-	dc.NewLine();
+	dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
 
-	fp.Printf(dc.pos+v2i(0,4), "Value:");
-	dc.pos.x = 44;
+	fp.Printf(dc.pos+v2i(0,4), "Comparer:");
+	dc.NewLine();
+	//if (setup)
+	{
+		for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
+		{
+			t_frame frame(dc.pos, v2i(30,Font_Height(F_SMALL)+3));
+			if (setup)
+				app->w_comparer_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackComparerSelect, WIDGET_BUTTON_STYLE_SMALL, (const char *)s_comparer_names[i], (void*)i);
+			if ((i & 1) == 0)
+				dc.pos.x += frame.size.x + 2;
+			else
+				dc.NewLine();
+				//dc.pos.y += frame.size.y + 2;
+		}
+	}
+	//dc.NewLine();
+	dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
+
+	fp.Printf(dc.pos+v2i(0,4), "Compare to:");
+	dc.NewLine();
+	{
+		t_frame frame(dc.pos, v2i(50,Font_Height(F_SMALL)+3));
+		if (setup)
+			app->w_compare_to_buttons[CHEAT_FINDER_COMPARE_TO_OLD_VALUE] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackCompareToSelect, WIDGET_BUTTON_STYLE_SMALL, "Old Value", (void*)0);
+		dc.NewLine();
+		frame.SetPos(dc.pos);
+		if (setup)
+			app->w_compare_to_buttons[CHEAT_FINDER_COMPARE_TO_CONSTANT] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackCompareToSelect, WIDGET_BUTTON_STYLE_SMALL, "Constant", (void*)1);
+		dc.NewLine();
+	}
+
+	//fp.Printf(dc.pos+v2i(0,4), "Value:");
+	dc.pos.x = 24;
+	dc.pos.y += 2;
 	if (setup)
 	{
-		t_frame frame(dc.pos, v2i(42,Font_Height(F_SMALL)+3));
+		t_frame frame(dc.pos, v2i(60,Font_Height(F_SMALL)+3));
 		app->w_custom_value = widget_inputbox_add(app->box, &frame, 6, F_MIDDLE, CheatFinder_CallbackReduce);
 		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DECIMAL);
 	}
+	dc.pos.y += 1;
 
 	dc.NewLine();
-	dc.pos.y += 2;
+	dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
+
+	//dc.pos.y += 2;
 	if (setup)
 	{
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
@@ -229,6 +278,11 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	{
 		widget_set_highlight(app->w_valuetype_buttons[i], app->valuetype == i);
 		widget_button_set_grayed_out(app->w_valuetype_buttons[i], !app->reset_state);
+	}
+
+	for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
+	{
+		widget_set_highlight(app->w_comparer_buttons[i], app->comparer == i);
 	}
 
 	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
@@ -273,11 +327,15 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	{
 		widget_set_enabled(app->w_matches_memedit_buttons[i], displaying_matches && ((int)app->matches.size()>i));
 	}
+	
+	widget_set_highlight(app->w_compare_to_buttons[0], app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE);
+	widget_set_highlight(app->w_compare_to_buttons[1], app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT);
 
 	// Request memory editor highlight?
 	if (displaying_matches)
 	{
 		app->addresses_to_highlight_in_memory_editor.reserve(app->matches.size());
+		app->addresses_to_highlight_in_memory_editor.resize(0);
 		for (int i = 0; i != app->matches.size(); i++)
 		{
 			const t_cheat_finder_match* match = &app->matches[i];
@@ -365,14 +423,15 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 			match->last_value = CheatFinder_ReadValue(app,&memrange,match);
 		}
 		app->reset_state = false;
+		return;
 	}
 
-	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
-	int custom_value;
-	if (sscanf(custom_value_text, "%d", &custom_value) != 1)
+	if (app->matches.empty())
 		return;
 
-	if (app->matches.empty())
+	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
+	int custom_value = 0;
+	if (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && sscanf(custom_value_text, "%d", &custom_value) != 1)
 		return;
 
 	// Reduce
@@ -384,11 +443,36 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 	{
 		const u32 v_old = match->last_value;
 		const u32 v_cur = CheatFinder_ReadValue(app, &memrange, match);
-		if (v_cur != custom_value)
+		const u32 v_to_compare = (app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE) ? v_old : custom_value;
+
+		bool compare_success = false;
+		switch (app->comparer)
 		{
-			// Discard
-			continue;
+		case CHEAT_FINDER_COMPARER_EQUAL:
+			compare_success = (v_cur == v_to_compare);
+			break;
+		case CHEAT_FINDER_COMPARER_NOT_EQUAL:
+			compare_success = (v_cur != v_to_compare);
+			break;
+		case CHEAT_FINDER_COMPARER_LESS:
+			compare_success = (v_cur < v_to_compare);
+			break;
+		case CHEAT_FINDER_COMPARER_GREATER:
+			compare_success = (v_cur > v_to_compare);
+			break;
+		case CHEAT_FINDER_COMPARER_LESS_OR_EQUAL:
+			compare_success = (v_cur <= v_to_compare);
+			break;
+		case CHEAT_FINDER_COMPARER_GREATER_OR_EQUAL:
+			compare_success = (v_cur >= v_to_compare);
+			break;
 		}
+
+		// Discard?
+		if (!compare_success)
+			continue;
+
+		// Keep and update value
 		match->last_value = v_cur;
 		matches_reduced.push_back(*match);
 	}
@@ -419,7 +503,7 @@ static void CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index)
 }
 
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)
-{
+{	
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	app->memtype = (t_memory_type)(int)w->user_data;
 }
@@ -428,6 +512,18 @@ static void CheatFinder_CallbackValuetypeSelect(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	app->valuetype = (t_cheat_finder_value_type)(int)w->user_data;
+}
+
+static void CheatFinder_CallbackComparerSelect(t_widget* w)
+{
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
+	app->comparer = (t_cheat_finder_comparer)(int)w->user_data;
+}
+
+static void CheatFinder_CallbackCompareToSelect(t_widget* w)
+{
+	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
+	app->compare_to = (t_cheat_finder_compare_to)(int)w->user_data;
 }
 
 static void CheatFinder_CallbackReset(t_widget* w)

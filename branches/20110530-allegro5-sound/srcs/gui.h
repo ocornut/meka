@@ -20,6 +20,11 @@ struct v2i
 	}
 	v2i(int _x, int _y)
 	{
+		Set(_x, _y);
+	}
+
+	void Set(int _x, int _y)
+	{
 		x = _x;
 		y = _y;
 	}
@@ -47,6 +52,10 @@ struct t_frame
 	{
 		pos = _pos;
 		size = _size;
+	}
+	void SetPos(v2i _pos)
+	{
+		pos = _pos;
 	}
 	void SetPos(int x, int y)
 	{
@@ -76,6 +85,8 @@ struct DrawCursor
 	v2i	pos;
 	int x_base;
 	int y_spacing;
+	v2i viewport_min;
+	v2i viewport_max;
 
 	DrawCursor(v2i _pos, int font_id = -1);
 
@@ -85,6 +96,7 @@ struct DrawCursor
 		pos.y += y_spacing;
 	}
 	void HorizontalSeparator();
+	void VerticalSeparator();
 };
 
 //-----------------------------------------------------------------------------
