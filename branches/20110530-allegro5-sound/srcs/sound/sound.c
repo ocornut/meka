@@ -175,6 +175,9 @@ void	Sound_UpdateClockSpeed(void)
 
 void	Sound_Update(void)
 {
+	if (!Sound.Enabled)
+		return;
+
 	static int frame_count = 0;
 	if ((frame_count++ % 60) == 0)
 	{
@@ -357,6 +360,9 @@ void SoundStream_RenderSamples(t_sound_stream* stream, int samples_count)
 
 void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
 {
+	if (!Sound.Enabled)
+		return;
+
 	s64 current_cycle = Sound_GetElapsedCycleCounter();
 	s64 elapsed_cycles = current_cycle - stream->last_rendered_cycle_counter;
 

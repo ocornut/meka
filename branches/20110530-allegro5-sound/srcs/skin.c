@@ -44,7 +44,7 @@ struct t_skin_color
 // Table associating skin color definitions to name
 const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
 {
-    { "background_color",                       NULL                            },
+    { "background_color",                       NULL                            }, // 0
     { "background_grid_color",                  "background_color"              },
     { "window_border_color",                    NULL                            },
     { "window_background_color",                NULL                            },
@@ -54,7 +54,7 @@ const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
     { "window_text_color",                      NULL                            },
     { "window_text_highlight_color",            NULL                            },
     { "window_separators_color",                "window_border_color"           },
-    { "menu_background_color",                  NULL                            },
+    { "menu_background_color",                  NULL                            }, // 10
     { "menu_border_color",                      NULL                            },
     { "menu_selection_color",                   NULL                            },
     { "menu_text_color",                        NULL                            },
@@ -64,7 +64,7 @@ const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
     { "widget_generic_border_color",            "window_border_color"           },
     { "widget_generic_text_color",              "window_text_highlight_color"   },
     { "widget_generic_text_unactive_color",     "window_text_color"             },
-    { "widget_listbox_background_color",        "menu_background_color"         },
+    { "widget_listbox_background_color",        "menu_background_color"         }, // 20
     { "widget_listbox_border_color",            "menu_border_color"             },
     { "widget_listbox_selection_color",         "menu_selection_color"          },
     { "widget_listbox_text_color",              "menu_text_color"               },
