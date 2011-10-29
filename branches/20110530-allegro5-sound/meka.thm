@@ -159,8 +159,9 @@ menu_background_color               = #0080B0
 menu_border_color                   = #003566
 menu_selection_color                = #1B9BCC
 menu_text_color                     = #FFFFFF
-menu_text_unactive_color            = #D0D0D0
+menu_text_unactive_color            = #B0B0B0
 menu_gradient                       = 33%-100% #004273
+widget_generic_text_unactive_color  = #C0C0C0
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
