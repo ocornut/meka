@@ -435,7 +435,9 @@ doing them now and some are quick work.
    - Lock a writing value
    - Show modified/written values. 
      How do I do that? Modified since when? Could be useful when stepping in code.
-   - Find feature
+     - Use debugger hooks + highlight feature to show read/written values.
+ - Memory find:
+   - MEMFIND command.
  - Access to machine data in a standardized way (code/library for programmer,
    standardized syntax for end-user functionnalities)
    - 8/16-bits differenciation:
@@ -503,16 +505,14 @@ doing them now and some are quick work.
 -----------------------------
  CHEATING
 -----------------------------
+ - Cheat entry database (equivalent to live .pat)
  - Action Replay SMS/GG
  - Game Genie GG
- - Implement cheat engine
- - Introduce cheat database
+ - Persistant cheat database?
  - Cheat masters:
    - MugUK
    - Sweater Fish Deluxe
    - rouken (rouken AT bol.com.br)
-   - ...
- - Work in the global picture along with debug/patch (see above)
 
 -----------------------------
  KEYBOARD MAPPING

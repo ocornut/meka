@@ -38,6 +38,14 @@ They are usually of 2 kinds:
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
   - Tools:
+    - CheatFinder: added a new cheat finder application. [Omar]
+      - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.
+      - Can search in RAM,ROM,VRAM,VREG,PRAM,SRAM,Z80 spaces for maximum flexibility,
+        although for actual cheat-finding purpose RAM is likely to be more searched for.
+      - Reduce the match set by using ==,!=,<,>,<=,>= operators, compare with a constant 
+        or the old value stored in each match memory location.
+      - Highlight matches in the memory editor for easier visibility.
+      - Undo button.
     - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
     - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
     - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]

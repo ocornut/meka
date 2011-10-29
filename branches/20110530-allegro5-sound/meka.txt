@@ -43,7 +43,6 @@
 
  And include invaluable contributions from the following handsome people:
 
- > Hiromitsu Shioya / Hiro-shi  Original sound engine. 
  > Marat Fayzullin / RST38H     Zilog Z80 CPU emulation core. Implemented with modifications in MEKA.
  > Mitsutaka Okazaki            Software Yamaha 2413 emulator (EMU2413).
  > Maxim                        Software PSG emulator.
@@ -53,6 +52,7 @@
  > DJRobX                       Blitters and video improvements, HQ2X interface.
  > Maxim Stephin / MaxSt        HQ2X graphics filter.
  > Dirk Stevens                 Eagle graphics filter.
+ > Hiromitsu Shioya / Hiro-shi  Original sound engine (now obsolete).
 
  Please Google individual people listed above if you want to get in contact
  with them. Out of privacy/spam concerns I can't list their e-mail address here.
@@ -608,28 +608,21 @@
  --MEKA.CFG-- or --MEKAW.CFG--
  This is the configuration file where MEKA stores most of the options
  and user definable parameters. Some are accessible from the interface,
- but some, more complex ones, are only available by manually editing this
- file. It should be self explanatory, but here are some comments:
+ but some are only available by manually editing this file. 
+ Most of it should be self explanatory, but here are some comments:
 
- Common sample rate values are 11025, 22050 and 44100, the highest being the
- best quality but also the slowest. 
- Today's computers being fast, MEKA defaults to 44100.
-
- Screenshots and music dump filename templates are configurable for those
- who have websites and likely would like to avoid renaming a hundred of file,
- or generally if you want to share the produced files. Templates uses LibC's
- printf() formatting rules, which am I going to explain quickly, and for use
- in that context. printf() gurus will pardon me.
- (In an ideal world, I would write code to avoid using printf() formats, but
-  I barely have time for more important things now.)
-
- The syntax of the string used by MEKA must be in that form:
+ Screenshots and music dump filename templates are configurable using the
+ following syntax:
+ 
     ...%[.name_max_length]s...%[0number_padding]d.file_format
+    
  Where things inside brackets are optional and '...' is anything you want.
  When I say "anything you want", you can truly put anything you want, with
  two exceptions:
   - if you want to use spaces, replace them with asterix (*) characters.
   - if you want to use %, double them - or be prepared for a crash.
+
+ Some examples should make it easier to grasp:
 
  screenshots_filename_template =
 
@@ -678,9 +671,7 @@
 
  --MEKA.NAM--
  This file contains the name, product numbers and comments database that
- are used by MEKA. If you are curious you can edit it. And if ever you have
- comments to add about any games in it, send them to me for future inclusion
- in the distribution version.
+ are used by MEKA. 
 
  --MEKA.PAT--
  This file allows you to tell MEKA to apply simple patches to a ROM on
@@ -707,9 +698,6 @@
  Level 9 : Cool things to do when playing games is not enough
 ----------------------------------------------------------------------------
 
- Connect to an Efnet IRC server and join #smspower and/or #meka to meet
- happy and strange people. 
-
  Check out http://www.smspower.org and participate to the healthy debates
  on the forum. Also check out the developer section and see some great
  homemade programs and projects in the work.
@@ -717,14 +705,12 @@
  Check out http://www.smspower.org/music for a great Sega 8-bit music
  archive, informations, tools and a forum.
  
- If you are a musician, use your skills to make us some great remixes of
- Sega Master System music.
+ Musician friends, use your skills to make us some great covers of SMS songs!
 
  Check out http://www.smspower.org/meka/wip for latest work-in-progress
  versions of MEKA, with new great features you never dreamed of.
 
- Buy games you like, buy (or register) software you like.
- Avoid piracy of new games.
+ Buy games you like, buy (or register) software you like!
  Support the video game industry. 
  Support creative games.
  Support indy and home developpers. 
@@ -767,10 +753,6 @@
     - Y's - The Vanished Omens (Ys)
     - Zillion
 
- And I could name a hundred of other :)
- A full list of all existing Sega Master System games is available there:
-    http://www.smspower.org/museum/lists
-
  Enjoy!
 
 ----------------------------------------------------------------------------
@@ -778,10 +760,8 @@
 ----------------------------------------------------------------------------
 
   Compilers/assemblers:
-  - Microsoft Visual C++ 6.0 to 2008 by Microsoft.
-    www.microsoft.com/VisualStudio
-  - GCC/DJGPP (DOS version) suite, by DJ Delorie and contributors, based on GCC.
-    http://www.delorie.com/djgpp/
+  - Microsoft Visual C++
+    http://www.microsoft.com/VisualStudio
   - GCC (UN*X versions) and development suite by a bunch of happy GNU people.
     http://gcc.gnu.org/
     http://www.gnu.org/software/make/
@@ -802,9 +782,6 @@
     http://upx.sourceforge.net/
   - Paint Shop Pro 4, to draw icons and graphics, by Jasc Software.
     http://www.jasc.com/products/
-  
-  System:
-  - MS-DOS 7.1, Windows 98, Windows XP, GNU/Linux, NetBSD, etc.
 
 ----------------------------------------------------------------------------
  Level 11 : Last Boss
@@ -825,240 +802,122 @@
  In addition to people already listed as "Contributors" at the top of this
  document, I would like to thank the following persons:
 
- Hiromitsu Shioya (Hiro-Shi):
-  for having done the basic work on sound/music emulation in MEKA. Without
-  him, you may be still using the emulator with crap and buggy sound!
-
- Mitsutaka Okazaki:
-  he wrote a software YM-2413 emulator that he available in MEKA.
-  http://www.angel.ne.jp/~okazaki/ym2413/
-
- Phillip Smith:
-  for being a cool guy, having shared a lot of things together and being
-  one of the kickstart behind SMS Power as a dump-maniac site :)
-
- Mike Gordon:
-  another nice guy who like toying with hardware stuff. He also brought
-  some very interesting things to the growing Sega 8-bit emulation scene,
-  including his SMS Reader design, and work on development cartridges.
-  Generally has been very helpful to me.
-  http://www.smspower.org/smsreader
-
- Maxim:
-  for general support, various work, and being a nice guy.
-  Maxim is the author of countless programs related to MEKA and the SMS.
-  His work includes the first and probably always best VGM player as a
-  plugin for WinAMP, a VGM player running on the SMS, various other VGM
-  tools, a CHIP8 emulator also on SMS, SMS Checker, MEKA Configurator,
-  a SMS Tile Decoder, working on a Phantasy Star retranslation project,
-  and various demos, including embarrassing Bock's Birthday demos.
-  He also studied the PSG chipset used on Sega 8-bit systems and his 
-  implementation is used in MEKA, although screwed up by my poor playback
-  code.
+ Maxim,
+  restless support on countless Sega 8-bit projects and the SMS Power! site.
+  can't list all of them! too many goodness! you used it? he made it.
   http://www.smspower.org/maxim
 
- Nicolas Warren (Heliophobe):
-  for general support, various work, and being a nice guy. 
-  Nicolas is the author of SMEG, the great SMS emulator for Dreamcast,
-  and as made various contributions to the SMS development scenes, with
-  homemade programs (such as the world famous Tetracycline game, and
-  Damiana - with sources to be released very soon).
-  http://www.smspower.org/heliophobe
-  http://www.kenseiden.com
-  http://www.kenseiden.com/smeg
+ Phillip Smith,
+  hardware hacker extraordinary. Designed custom SMS readers and led me
+  to dumping in my early days :)
 
- Charles Mac Donald:
-  for SMS Plus, sharing lot of things together - nice chats, and being one
-  of the most productive hardware tester and hacker. Impressive person.
-  He studied and documented obscure aspect of many SEGA console systems.
+ Mike Gordon,
+  hardware hacker extraordinary. Designed SMS Reader among other stuff.
+  http://www.smspower.org/smsreader
+
+ Andrew Lindsay:
+  hardware hacker extraordinary. Funded The SMS Preservation Society (1996-1997)
+  an inspiring and so prolific website. Designed MKI reader.
+
+ Nicolas Warren (Heliophobe),
+  Nicolas is the author of SMEG, SMS emulator for Dreamcast, and has made 
+  various contributions to the SMS development scenes such as Tetracycline, 
+  Damiana or the Nine Pixels demo. He was a cheery longtime contributor to 
+  SMS Power! forums and to be missed. RIP.
+
+ Charles Mac Donald,
+  proficient hardware and software hacker, he reverse engineered and
+  documented countless video game hardware.
   http://cgfm2.emuviews.com
 
- Casiopea, Masato, RedS, Sankichi, Skyhigh, Toshi, Yakmo, Yoneda, Yujiro:
-  doumo arigatou to my all Japanese friends,
-  for being friendly, shared lots of information, brought help, support,
-  dumps, fun, and helping to improve my collection ^_^
+ Casiopea, Masato, RedS, Sankichi, Skyhigh, Toshi, Yakmo, Yoneda, Yujiro,
+  japanese friends and protector of Sega 8-bit love on the archipel.
+  lots of invaluable support, dumps, fun, game trading and friendlyness.
   http://bto8.smspower.org (Casiopea)
   http://www.loose-logic.com (Masato)
   http://bto8.smspower.org/segapower (Toshi)
   http://village.infoweb.ne.jp/~fwik0826/ (Yoneda Mitsunori)
   http://www.geocities.co.jp/Playtown-Denei/8588/ (Yujiro)
 
- David Michel (Rony):
-  for Magic Engine, support, advice, help and being my second hard drive,
-  all back in good old days. 
-  http://www.magicengine.com
+ David Michel,
+ Nicolas Hamel,
+ Richard Bush,
+ Nicolas Lannier,
+  invaluable help and inspiration in my early emulation/programming days.
 
- Nicolas Hamel (Gouky):
-  for the invaluable help at the very beginning. A while ago.
-  http://www.multimania.fr/gouky
+ James McKay,
+  for the Massage emulator (which got me interested again in SMS!), and 
+  coping with my ignorance and harassing.
 
- James McKay:
-  for Massage (which got me interested again in SMS!), and because when
-  I asked him plenty of crap questions, back in the days, he kindly answered
-  me with details. Very nice guy.
-  http://www.enterspace.org/world/massage.htm
+ Eric Quinn,
+  http://www.smspower.org/seganotebook/
 
- Eric Quinn:
-  for being there a long time ago already, dumping a few ROM, and managing
-  an excellent SMS site (The Sega Notebook). Eric is also an active member
-  of the S8-Dev research community, author of a promising development-oriented
-  emulator (MesaDX), and released some early SMS code.
-  http://shell0.elnet.com/~gm-quinn/sms/
-
- Marc Le Douarain:
+ Marc Le Douarain,
   for help with SF-7000 emulation and dumps of his old disks.
+  http://membres.multimania.fr/mavati/sf7000/
 
- Ulrich Cordes:
-  for providing the base source code of the FDC-765 (floppy disk controller),
-  as used for SF-7000 emulation. 
-  
- Gary Pierce (Youltar):
+ Gary Pierce (Youltar),
   for his general support, SmsCartPad adapters, 3-D glasses and rapid fire 
   schematics, artworks.
   http://www.smspower.org/smscartpad
 
- Mr Lee, Billy Jr:
-  for being impressive hardware hackers and doing a lot for the "scene".
-  http://www.billyjr.com
-
- Marat Fayzullin:
-  for Master Gear, for being one elder all emulation users and authors should 
-  respect, for having released the sources of most of his old emulators and 
-  CPU cores. Also because he wrote an early technical document about the 
-  Master System. Marat is one of the father of console emulation.
+ Marat Fayzullin,
+  for Master Gear and being such a pioneer with console emulation.
   http://fms.komkon.org
 
- Ricardo Bittencourt:
-  for BrSMS and BrMSX (great emulators), and various SMS software.
+ Ricardo Bittencourt,
+ Martin Konrad,
   http://www.lsi.usp.br/~ricardo/brsms.htm
-  
- Martin Konrad:
-  martin is one of those young genius who will someday take over the world,
-  and put me to despair and shame, if I'm not working for him by then.
-  he just need to learn about proper strategy and marketting :)
   http://emukon.kontechs.de
   http://www.smspower.org/martin
 
- Jon (the unknown one):
-  this guy is the one who wrote the (old) document with all the knowledge
-  on which the first emulators were based. I am also pretty sure the first
-  dumps came from him. Although I doubt he's still on the internet, I would
-  love to be in contact with him. Jon, if you're reading, e-mail me :)
-
- Super Majik Spiral Crew (the):
-  for having written a technical documentation about the SMS.
-
+ Anonymous Jon:
+ Super Majik Spiral Crew,
  Richard Talbot Watkins:
-  for having written some technical documentation about the SMS.
-  He is also the author of Miracle, an old SMS emulator for Acorn machines.
-  http://www.willothewisp.demon.co.uk/SMS/
-
- Richard Bush (Antiriad):
-  for Raine, support, advice and help. Also for some patches on Allegro.
-  http://www.rainemu.com
+  wrote technical documents about the Master System.
 
  Sean Young:
-  for writing great technical documentation about the TMS9918a and Z80.
+  wrote technical documents about the TMS9918a and Z80 chips.
   http://www.msxnet.org
 
- Andrew Lindsay:
-  for The SMS Preservation Society (1996-1997)
-  for having dumped tons of ROM, and made the original MKI reader design. 
-  If you don't know him and his site, then I'm afraid you missed the 
-  golden age of emulation.
-  http://members.aol.com/smsstuff
-
- Leonard Silva de Oliveira and Flavio Morsoletto:
-  for their help with hardware hacking and precious reports:
-   "It eats +5 and GND (duh!). One line reports trigger activity. The last
-    line goes (theoretically) low when the phototransistor is lit."
-
- Dump Masters (ViperZ and Omega):
-  for having dumped a few ROM (including some crappy Brazilian hacks ;)
-  http://www.emucamp.com/dump_masters
-
- Charles Doty:
-  this guy contributed a lot to the console development scene. He also wrote
-  an old text demo for Game Gear, which is from where I started learning Z80.
-  http://www.pcisys.net/~cdoty/console
-
- Lasse Reinikainen & Image/Helsinki/Finland:
-  for beta testing and tons of ROM dumps, including the old and original
-  Master System BIOS. Before getting it, me and Martin Skog spent a lot of
-  time recreating it from stratch. Then a few days before the release, Lasse
-  sent me the ROM. Believe it or not, there was only one different pixel
-  between the original Sega logo and the one I drew by looking at my TV :)
-
- Dirk Stevens:
-  for having released the sources of his Eagle graphic filter, supported
-  in MEKA if you enable the corresponding blitter.
-
- Leonardo Pires (s0rcerer):
-  for great support, advice and help in various things.
-  http://emucity.unae.com
-
- Nicolas Lannier (Archeide):
-  for SNEmul, support, advice and help.
-  http://www.epita.fr/~lannie_n/english.html
-
- Richard Mitton (Nodrog):
-  for TNZS-Emu, RAZE, support, advice and help.
-  http://www.emucamp.com/tnzs
-
- Mxs:
-  for having done the old GG compatibility list and some smart beta testing.
-
+ MrLee, 
+ Billy Jr,
+ Richard Mitton,
+ Leonard Silva de Oliveira,
+ Flavio Morsoletto,
+ Charles Doty,
+ Leonardo Pires,
  Christopher Coleman:
-  he is such a coolman - even if for some reasons he dared saying
-  Castelo Ra Tim Bum graphics were nice.
-  http://members.iinet.net.au/~coleman
+ MXS,
+ Sam Pettus,
+ Chris White,
+ Jonathan Griffith,
+ Puyolin,
+  various contributions, technical stuff, moral support.
 
- Sam Pettus:
-  for your Sega 8-bit Compatibility Chart, others amazing documents,
-  and being the most strangest, paranoid and serious guy I ever met on
-  the internet. Take it easy :)
+ Lasse Reinikainen & Image/Helsinki/Finland,
+  for beta testing and countless dumps, including the old and original
+  Master System BIOS. Before getting hold of it, we spent a lot of time
+  recreating a pretend copy of the Master System bootup animation from 
+  stratch. Only few days before the release, Lasse sent me the BIOS dump. 
+  Believe it or not, there was only one different pixel between the original 
+  Sega logo and the one I drew by looking at my TV :)
 
- Chris White:
-  4 ur great hlp , support& terreeble whay of typinng mails ;-)
-  Yogi Bear power !
+ Emilie Skog (MoonTrip),
+  great and inspirational music. we'll finish that Wonder Boy game someday :)
 
- Martin Skog (MoonTrip):
-  for the Wonder Boy III music he made (dadada dada dadada) and the very good
-  work on the Sega sound reproduction (the one that was about to be used
-  in the reprogrammed boot ROM, before Lasse sent the original one).
-
- Jonathan Griffith (Lilac):
-  alright, I had to put you somewhere :)
-  for all his suggestions, and WonderTheme (a MEKA theme editor)
-  I shared some years with Lilac doing Emulation Camp... memories.
-  http://www.emucamp.com
-
- Larry M (Ellum):
-  for the Wonder Boy III music he made. This game definitively rocks !
-  http://sega-zone.com/sega_haven
-
- Olivier Aichelbaum (ACBM) and Dominique Toussaint:
+ Olivier Aichelbaum (ACBM),
+ Dominique Toussaint,
   for my first owned SC-3000h, the BASIC cartridge and the documentation.
   http://www.acbm.com
 
- An unknown guy:
-  for the rendered Master System picture used on the interface.
-  no one knows who you are but you are getting famous. I love you.
-
- Puyolin:
-  for the excellent "Ocean" interface color theme (and some other), and
-  for correcting(corrected) mistake/s? in/on? (the?) first documentation/s?
-                 ~~~              ~~~~          xx                     ~~~
- Westone (including Shinichi Sakamoto and Ryuichi Nishizawa):
+ Westone team,
   for making Wonder Boy III, the best game ever... in 1989. :~)
   if anybody wants to hire me to work on a proper remake/sequel, I'm there!
   http://www.westone.co.jp
   
- All my friends for their support.
-
- *All people* who bothered donating to MEKA and supporting SMS Power.
- You know who you are and your support is greatly and always appreciated.
- Everyday MEKA lives, it is thanks to you.
+ Friends and family for their support,
+ Everybody who supported MEKA and SMS Power or ever played a SMS game.
 
  And of course thanks to SEGA, for such a cool system and great games !
 
