@@ -66,20 +66,14 @@ void	gui_redraw(void)
     if (gui.info.must_redraw == TRUE)
         GUI_DrawBackground();
 
-    // For each box...
+	al_set_target_bitmap(gui_buffer);
     for (int i = gui.boxes_count - 1; i >= 0; i--)
     {
         t_gui_box* b = gui.boxes_z_ordered[i];
         t_frame b_frame = b->frame;
 
-        // Check if it's showing
         if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
-
-        // Check if it should be redrawn
-        if (!(b->flags & GUI_BOX_FLAGS_DIRTY_REDRAW) && (!gui.info.must_redraw))
-            continue;
-        b->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW;
 
 	    ALLEGRO_COLOR color;
         if (i == 0)
@@ -91,20 +85,6 @@ void	gui_redraw(void)
         {
             // Non-active/focused box
             color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
-
-            // Check if it overlaps by other windows
-            // FIXME: why isn't this check done for the active window ??
-            for (int j = i - 1; j >= 0; j --)
-            {
-                t_gui_box *b2 = gui.boxes_z_ordered[j];
-                if ((b2->frame.pos.x + b2->frame.size.x + 2  >=  b_frame.pos.x - 2)
-                    && (b2->frame.pos.x - 2                     <=  b_frame.pos.x + b->frame.size.x + 2)
-                    && (b2->frame.pos.y + b2->frame.size.y + 2  >=  b_frame.pos.y - 20)
-                    && (b2->frame.pos.y - 20                    <=  b_frame.pos.y + b->frame.size.y + 2))
-                {
-                    b2->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-                }
-            }
         }
 
         // Draw borders
@@ -164,8 +144,6 @@ void	gui_redraw(void)
             break;
         case GUI_BOX_TYPE_GAME : 
             gamebox_draw(b, screenbuffer);
-            // Always set dirty redraw flag
-            b->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
             break;
         }
     }
@@ -174,20 +152,10 @@ void	gui_redraw(void)
     gui_redraw_menus();
 
     // Update applets that comes after the redraw
-    // FIXME: ...
     gui_update_applets_after_redraw();
 
     // Clear global redrawing flag and makes mouse reappear
     gui.info.must_redraw = FALSE;
-}
-
-void	GUI_SetDirtyAll(void)
-{
-	for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
-	{
-		t_gui_box* box = (t_gui_box*)boxes->elem;
-		gui_box_set_dirty(box);
-	}
 }
 
 void    GUI_RelayoutAll(void)
@@ -196,7 +164,6 @@ void    GUI_RelayoutAll(void)
     {
         t_gui_box* box = (t_gui_box*)boxes->elem;
         box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
-        gui_box_set_dirty(box);
     }
 }
 

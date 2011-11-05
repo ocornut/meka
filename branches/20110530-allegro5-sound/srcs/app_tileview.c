@@ -270,10 +270,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     }
 
     if (dirty_all || dirty)
-    {
         app->dirty = FALSE;
-        app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-    }
 }
 
 void    TileViewer_Change_Palette (void)

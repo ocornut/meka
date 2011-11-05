@@ -66,11 +66,8 @@ void        TechInfo_Init (void)
 
 static void TechInfo_Redraw(t_app_tech_info *app)
 {
-    int i;
-    bool dirty = FALSE;
-
 	al_set_target_bitmap(app->box->gfx_buffer);
-    for (i = 0; i != TECHINFO_LINES; i++)
+    for (int i = 0; i != TECHINFO_LINES; i++)
     {
         if (app->lines_dirty[i])
         {
@@ -82,12 +79,8 @@ static void TechInfo_Redraw(t_app_tech_info *app)
             Font_Print(F_MIDDLE, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
 
             app->lines_dirty[i] = FALSE;
-            dirty = TRUE;
         }
     }
-
-    if (dirty)
-        app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 static void TechInfo_SetLine(t_app_tech_info *app, const char *line, int line_idx)

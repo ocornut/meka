@@ -219,9 +219,6 @@ void    Inputs_CFG_Current_Source_Draw (void)
     // x = 165 + (i / 2) * (frame_sx + GUI_LOOK_FRAME_SPACING_X);
     // y = 10 + (i % 2) * (frame_sy + GUI_LOOK_FRAME_SPACING_Y);
 
-    // Set update flag
-    app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
     // Set font to use
     Font_SetCurrent(F_MIDDLE);
     font_height = Font_Height();
@@ -322,11 +319,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
     ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
 
-    int     i;
     ALLEGRO_BITMAP *sprite = NULL;
-
-    // Set update flag
-    app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
     // Set font to use
     Font_SetCurrent (F_SMALL);
@@ -342,7 +335,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
         4, COLOR_SKIN_WINDOW_TEXT);
 
     // Do the actual display
-    for (i = 0; i < PLAYER_MAX; i++)
+    for (int i = 0; i < PLAYER_MAX; i++)
     {
         // Print name
         const char *name = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].name;
@@ -470,9 +463,6 @@ void    Inputs_CFG_Update(t_app_inputs_config *app)
 
     // Redraw
     app->dirty = FALSE;
-    app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
-    // ...
 }
 
 void    Inputs_CFG_Map_Change_Update (void)

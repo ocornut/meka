@@ -2000,9 +2000,6 @@ void        Debugger_Applet_Redraw_State(void)
         }
 
     }
-
-    // Set redraw dirty flag
-    DebuggerApp.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 //-----------------------------------------------------------------------------

@@ -72,7 +72,7 @@ void Video_CreateVideoBuffers()
 		al_destroy_bitmap(screenbuffer_2);
 
 	// Allocate buffers
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_game_format_request);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
@@ -382,9 +382,13 @@ void	Video_UpdateEvents()
 // This is called when line == tsms.VDP_Line_End
 void    Video_RefreshScreen(void)
 {
+	PROFILE_STEP("Video_RefreshScreen()");
+
 	Screenbuffer_ReleaseLock();
+	PROFILE_STEP("Screenbuffer_ReleaseLock()");
 
 	Video_UpdateEvents();
+	PROFILE_STEP("Video_UpdateEvents()");
 
 	// 3-D glasses emulation cancel out one render out of two
 	if (Glasses.Enabled && Glasses_Must_Skip_Frame())
@@ -399,7 +403,8 @@ void    Video_RefreshScreen(void)
 
         if (g_env.state == MEKA_STATE_GUI)
         {
-            gui_update ();
+            gui_update();
+			PROFILE_STEP("gui_update()");
 
             // Check if we're switching GUI off now
             if (g_env.state != MEKA_STATE_GUI)
@@ -409,7 +414,10 @@ void    Video_RefreshScreen(void)
             }
 
             gui_redraw();
-            Blit_GUI();
+			PROFILE_STEP("gui_redraw()");
+
+			Blit_GUI();
+			PROFILE_STEP("Blit_GUI()");
         }
 
         if (g_env.state == MEKA_STATE_GAME)
@@ -438,7 +446,7 @@ void    Video_RefreshScreen(void)
 
     } // of: if (fskipper.Show_Current_Frame)
 
-    // Draw next image in other buffer --------------------------------------------
+    // Draw next image in other buffer
     if (g_machine_flags & MACHINE_PAUSED)
     {
         Screen_Restore_from_Next_Buffer();
@@ -461,8 +469,10 @@ void    Video_RefreshScreen(void)
 
     // Ask frame-skipper whether next frame should be drawn or not
     fskipper.Show_Current_Frame = Frame_Skipper();
+	PROFILE_STEP("Frame_Skipper()");
 
 	Screenbuffer_AcquireLock();
+	PROFILE_STEP("Screenbuffer_AcquireLock()");
 }
 
 t_video_driver*	VideoDriver_FindByName(const char* name)

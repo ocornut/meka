@@ -249,7 +249,6 @@ void            TextViewer_Update(t_app_textviewer *tv)
 
     // Redraw
     tv->dirty = FALSE;
-    tv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     {
         // Uses Allegro clipping functionnality as a helper
 		al_set_target_bitmap(tv->box->gfx_buffer);

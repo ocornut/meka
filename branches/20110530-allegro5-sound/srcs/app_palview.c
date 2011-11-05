@@ -197,10 +197,7 @@ void    PaletteViewer_Update(void)
     }
 
     if (pv->dirty || dirty)
-    {
         pv->dirty = FALSE;
-        pv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-    }
 }
 
 void    PaletteViewer_SetPaletteSize(t_app_palette_viewer *pv, int palette_size)

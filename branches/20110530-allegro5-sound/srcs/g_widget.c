@@ -199,7 +199,7 @@ void        widget_set_enabled(t_widget *w, bool v)
 	if (w->enabled != v)
 	{
 	    w->enabled = v;
-		w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+		w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 	}
 }
 
@@ -695,10 +695,6 @@ void        widget_textbox_clear(t_widget *w)
 	for (int i = 0; i < wd->lines_num; i++)
         wd->lines[i].text[0] = EOSTR;
     wd->lines_num = 0;
-
-    // Tells GUI that the containing box should be redrawn
-    // FIXME: ideally, only the widget should be redrawn
-    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 void        widget_textbox_set_current_color(t_widget *w, const ALLEGRO_COLOR *pcurrent_color)
@@ -729,10 +725,6 @@ static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
     // Copy new line
     strcpy (wd->lines[0].text, line);
     wd->lines[0].pcolor = wd->pcurrent_color;
-  
-    // Tells GUI that the containing box should be redrawn
-    // FIXME: ideally, only the widget should be redrawn
-    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
@@ -884,7 +876,6 @@ bool    widget_inputbox_insert_char(t_widget *w, char c)
 
     // Set dirty flag
 	wd->cursor_blink_timer = 0;
-    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 
     return (TRUE);
 }
@@ -1076,11 +1067,6 @@ void        widget_inputbox_update(t_widget *w)
     if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_ENTER, FALSE, 30, 3) || Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PAD_ENTER, FALSE, 30, 3))
         if (wd->callback_enter)
             wd->callback_enter(w);
-
-    // Tells GUI that the containing box should be redrawn
-    // FIXME: ideally, only the widget should be redrawn
-    //if (w->dirty)
-    //    w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 void        widget_inputbox_redraw(t_widget *w)
@@ -1161,10 +1147,6 @@ void        widget_inputbox_set_value(t_widget *w, const char *value)
     // Set cursor to end of text
     // Eventually we'll add some parameters to avoid or tweak that behavior...
     wd->cursor_pos = wd->length;
-    
-    // Tells GUI that the containing box should be redrawn
-    // FIXME: ideally, only the widget should be redrawn
-    //w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 int         widget_inputbox_get_cursor_pos(t_widget *w)
@@ -1188,10 +1170,6 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
     // Set cursor position to given position
     // Eventually we'll add some parameters to avoid or tweak that behavior...
     wd->cursor_pos = cursor_pos;
-   
-    // Tells GUI that the containing box should be redrawn
-    // FIXME: ideally, only the widget should be redrawn
-    // w->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)(t_widget *))

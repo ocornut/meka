@@ -453,9 +453,6 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
         al_draw_filled_rectangle(0, 0, mv->frame_view.size.x - 1, mv->frame_view.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
     }
 
-    // Always dirty (FIXME?)
-    mv->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
     // Update inputs
     MemoryViewer_UpdateInputs(mv);
 
@@ -1002,20 +999,18 @@ static void     MemoryViewer_UpdateInputs(t_memory_viewer *mv)
 
 //-----------------------------------------------------------------------------
 
-void      MemoryViewers_Update(void)
+void      MemoryViewers_Update()
 {
-    t_list *mvs;
-    for (mvs = MemoryViewers; mvs != NULL; mvs = mvs->next)
+    for (t_list* mvs = MemoryViewers; mvs != NULL; mvs = mvs->next)
     {
         t_memory_viewer *mv = (t_memory_viewer *)mvs->elem;
         MemoryViewer_Update(mv);
     }
 }
 
-void      MemoryViewers_MediaReload(void)
+void      MemoryViewers_MediaReload()
 {
-    t_list *mvs;
-    for (mvs = MemoryViewers; mvs != NULL; mvs = mvs->next)
+    for (t_list* mvs = MemoryViewers; mvs != NULL; mvs = mvs->next)
     {
         t_memory_viewer *mv = (t_memory_viewer *)mvs->elem;
         MemoryViewer_MediaReload(mv);

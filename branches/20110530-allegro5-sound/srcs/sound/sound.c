@@ -563,9 +563,6 @@ void SoundDebugApp_Update()
 
 	samples = SoundStream_CountWritableSamples(stream);
 	SoundDebugApp_Printf(&x, &y, "WritableSamples: %-6d [%-32s]", samples, stars64+(64-MIN(32,samples/1024)));
-
-    // Set redraw dirty flag
-    app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 // Called from closebox widget and menu handler

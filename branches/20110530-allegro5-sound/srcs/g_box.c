@@ -82,7 +82,6 @@ void        gui_update_boxes(void)
     // FIXME-FOCUS
     //gui_mouse.on_box = b;
     gui_box_set_focus(b);
-    b->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     // gui.info.must_redraw = TRUE;
 
     //Msg(MSGT_DEBUG, "will_move=%d", will_move);
@@ -174,20 +173,6 @@ void        gui_update_boxes(void)
         // blit (color2_buffer, gui_buffer, bx1, by1, bx1, by1, bx2 - bx1, by2 - by1);
         // blit (gui_buffer, screen, 0, 0, 0, 0, 640, 480);
 
-        // Update 'must_redraw' flag for other boxes
-        {
-            for (int j = i + 1; j < gui.boxes_count; j++)
-            {
-                t_gui_box *b2 = gui.boxes_z_ordered[j];
-                if (((b2->frame.pos.x + b2->frame.size.x + 2 >= ax1) && (b2->frame.pos.x - 2 <= ax2) && (b2->frame.pos.y + b2->frame.size.y + 2 >= ay1) && (b2->frame.pos.y - 20 <= ay2))
-                    ||
-                    ((b2->frame.pos.x + b2->frame.size.x + 2 >= bx1) && (b2->frame.pos.x - 2 <= bx2) && (b2->frame.pos.y + b2->frame.size.y + 2 >= by1) && (b2->frame.pos.y - 20 <= by2)))
-                {
-                    b2->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-                }
-            }
-        }
-
         // Update position
         b->frame.pos.x += mx;
         b->frame.pos.y += my;
@@ -205,7 +190,7 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     box->frame      = *frame;
     box->title      = strdup(title);
     box->type       = GUI_BOX_TYPE_STANDARD;
-    box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+    box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 	box->gfx_buffer = NULL;
 	gui_box_create_video_buffer(box);
     box->widgets    = NULL;
@@ -250,12 +235,12 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 		sy = box->frame.size.y+1;
 	}
 
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
 	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
 
 	// Redraw and layout all
-	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
 }
 
 void	gui_box_destroy_widgets(t_gui_box* box)
@@ -294,12 +279,6 @@ void    gui_box_delete(t_gui_box *box)
     free(box);
 }
 
-void    gui_box_set_dirty(t_gui_box *box)
-{
-    // Set main dirty flag
-    box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-}
-
 //-----------------------------------------------------------------------------
 // gui_box_show (t_gui_box *box, bool enable, bool focus)
 // Enable/disable given box
@@ -310,9 +289,6 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
     {
         // Show box
         box->flags |= GUI_BOX_FLAGS_ACTIVE;
-
-        // Set dirty
-        gui_box_set_dirty(box);
 
         // Set focus
         if (focus)
@@ -359,9 +335,6 @@ void	gui_box_set_focus(t_gui_box *box)
     if (gui_box_has_focus(box))
         return;
 
-    gui_box_set_dirty(box);
-    gui_box_set_dirty(gui.boxes_z_ordered[0]);
-
     // Shift
     t_gui_box* box_prev = box;
     for (int i = 0; i != gui.boxes_count; i++)
@@ -391,9 +364,6 @@ void	gui_box_set_focus(t_gui_box *box)
     if (box_current_focus == box)
         return;
 
-    // Set redraw flag for old focused box
-    box_current_focus->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
     // Shift plan/z buffer by one
     for (i = box_plan; i > 0; i--)
         gui.box_plan[i] = gui.box_plan[i - 1];
@@ -418,7 +388,6 @@ void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
 {
 	box->frame.size.x = size_x;
 	box->frame.size.y = size_y;
-	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 	gui.info.must_redraw = TRUE;
 }
 

@@ -17,7 +17,6 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-// Allocate memory using malloc(), abort if unavailable
 void *	Memory_Alloc(size_t size)
 {
 	u8* p = (u8*)malloc(size);
@@ -41,6 +40,18 @@ void    Change_System_Misc()
 #endif // MEKA_Z80_DEBUGGER
 }
 
+void	Profile_Step(const char* name)
+{
+	static double last_time = 0.0;
+	double current_time = al_get_time();
+
+	float delta_ms = (float)(current_time-last_time) * 1000.0f;
+
+	Msg(MSGT_DEBUG, "PROF %6.2f - %s", delta_ms, name);
+
+	last_time = current_time;
+}
+
 #ifdef ARCH_UNIX
 #define ESC         "\x1b"
 #define FGCOLOR(n)  ESC"[3"#n"m"
@@ -49,7 +60,7 @@ void    Change_System_Misc()
 #endif
 
 // Show the ending ASCII message
-void    Show_End_Message (void)
+void    Show_End_Message()
 {
 	// ANSI colors codes reminder:
 	//  0: Black

@@ -296,9 +296,6 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && (app->matches.empty() || (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid)));
 	widget_button_set_grayed_out(app->w_undo_reduce_search, app->matches_undo.empty());
 
-	// Always dirty (ok for a developer tool)
-	app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
 	al_draw_filled_rectangle(app->matches_frame.pos.x, app->matches_frame.pos.y, app->matches_frame.pos.x+app->matches_frame.size.x, app->matches_frame.pos.y+app->matches_frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
 
 	FontPrinter fp(F_MIDDLE);

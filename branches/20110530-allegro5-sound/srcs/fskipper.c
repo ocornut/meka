@@ -36,7 +36,7 @@ void    Frame_Skipper_Init_Values (void)
 	fskipper.FPS_FrameCountAccumulator	= 0;
 }
 
-void    Frame_Skipper_Init (void)
+void    Frame_Skipper_Init()
 {
     // Throttle
 	g_timer_throttle = al_create_timer(1.0f/(float)fskipper.Throttled_Speed);
@@ -51,15 +51,11 @@ void    Frame_Skipper_Init (void)
 	al_start_timer(g_timer_seconds);
 }
 
-//-----------------------------------------------------------------------------
-// Frame Skipper
-// Return FALSE if next frame is to be skipped, else TRUE
-//-----------------------------------------------------------------------------
-bool    Frame_Skipper(void)
+bool Frame_Skipper()
 {
-    // Auto frame-skipping ----------------------------------------------------
     if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
     {
+		// Auto frame-skipping
 		ALLEGRO_EVENT timer_event;
 		while (al_get_next_event(g_timer_throttle_event_queue, &timer_event))
 			if (timer_event.type == ALLEGRO_EVENT_TIMER)
@@ -86,7 +82,6 @@ bool    Frame_Skipper(void)
             return FALSE;
     }
     else
-    // Standard frame-skipping ------------------------------------------------
     {
         // Skip Standard_Counter-1 frames every Standard_Counter frames
         if (fskipper.Unthrottled_Counter < fskipper.Unthrottled_Frameskip)
@@ -126,10 +121,11 @@ bool    Frame_Skipper(void)
         fskipper.FPS_FrameCountAccumulator = 0;
     }
 
-    return TRUE; // Will show next frame
+	// Will show next frame
+    return TRUE;
 }
 
-void    Frame_Skipper_Switch (void)
+void Frame_Skipper_Switch()
 {
     if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
     {
@@ -141,10 +137,10 @@ void    Frame_Skipper_Switch (void)
         fskipper.Mode = FRAMESKIP_MODE_THROTTLED;
         fskipper.Throttled_Frame_Elapsed = 0;
     }
-    Frame_Skipper_Show ();
+    Frame_Skipper_Show();
 }
 
-void    Frame_Skipper_Configure (int v)
+void Frame_Skipper_Configure (int v)
 {
     switch (fskipper.Mode)
     {
@@ -163,10 +159,10 @@ void    Frame_Skipper_Configure (int v)
             break;
         }
     }
-    Frame_Skipper_Show ();
+    Frame_Skipper_Show();
 }
 
-void    Frame_Skipper_Show (void)
+void    Frame_Skipper_Show()
 {
     if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
         Msg (MSGT_USER, Msg_Get (MSG_Frameskip_Auto), fskipper.Throttled_Speed);
@@ -174,7 +170,7 @@ void    Frame_Skipper_Show (void)
         Msg (MSGT_USER, Msg_Get (MSG_Frameskip_Standard), fskipper.Unthrottled_Frameskip);
 }
 
-void    Frame_Skipper_Switch_FPS_Counter (void)
+void    Frame_Skipper_Switch_FPS_Counter()
 {
     fskipper.FPS_Display = !fskipper.FPS_Display;
     if (fskipper.FPS_Display)

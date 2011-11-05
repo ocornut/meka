@@ -339,9 +339,6 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
         app->box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
     }
 
-    // Always dirty (ok for a developer tool)
-    app->box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
 	TilemapViewer_UpdateAddresses(app);
 
     // Update tilemap

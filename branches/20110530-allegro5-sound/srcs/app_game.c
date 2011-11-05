@@ -31,7 +31,6 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
     int     x_dst   = box->frame.pos.x;
     int     y_dst   = box->frame.pos.y;
 
-	al_set_target_bitmap(gui_buffer);
     if ((g_driver->id == DRV_SMS) && (Mask_Left_8))
     {
         // Center screen when 8 left columns are masked

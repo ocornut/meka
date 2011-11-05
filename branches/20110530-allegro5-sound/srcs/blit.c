@@ -80,7 +80,7 @@ void	Blit_CreateVideoBuffers()
 	if (Blit_Buffer_Double)
 		al_destroy_bitmap(Blit_Buffer_Double);
 
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_game_format_request);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
@@ -348,13 +348,17 @@ void    Blit_GUI(void)
         // Update 3-D Glasses (if VSync)
         if (Glasses.Enabled)
             Glasses_Update();
+		PROFILE_STEP("gui_vsync");
     }
 
     // Blit
 	ALLEGRO_BITMAP* backbuffer = al_get_backbuffer(g_display);
 	al_set_target_bitmap(backbuffer);
 	al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
+	PROFILE_STEP("al_draw_bitmap()");
+
 	al_flip_display();
+	PROFILE_STEP("al_flip_display");
 
     // Update 3-D Glasses (if no VSync)
     if (!g_configuration.video_mode_gui_vsync)

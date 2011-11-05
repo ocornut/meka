@@ -144,7 +144,6 @@ enum t_gui_box_type
 enum t_gui_box_flags
 {
     GUI_BOX_FLAGS_ACTIVE                    = 0x0001,
-    GUI_BOX_FLAGS_DIRTY_REDRAW              = 0x0002,
     GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT   = 0x0004,
     GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE    = 0x0008,   // When set and the box has focus, inputs are exclusive to this box
     GUI_BOX_FLAGS_DELETE                    = 0x0010,
@@ -159,7 +158,6 @@ void    gui_redraw (void);
 void    gui_redraw_everything_now_once (void);
 
 void    GUI_DrawBackground(void);
-void	GUI_SetDirtyAll(void);
 void    GUI_RelayoutAll(void);
 
 //-----------------------------------------------------------------------------

@@ -174,8 +174,6 @@ void    FM_Editor_Redraw (void)
      Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      }
-
-  FM_Editor.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 /************************************************/

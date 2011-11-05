@@ -58,7 +58,6 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
         frame.size.y = app->box->frame.size.y - (2*2);
         app->widget_textbox = widget_textbox_add(app->box, &frame, TB_MESSAGE_LINES, F_MIDDLE);
     }
-    //gui_box_set_dirty(app->box);
 }
 
 void        TB_Message_Init(void)

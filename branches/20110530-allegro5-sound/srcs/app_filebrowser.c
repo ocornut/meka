@@ -506,9 +506,6 @@ void	FB_Draw_List(void)
     int     lines_max;
     char    name_buffer [256];
 
-    // Set window redraw flag
-    FB.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
-
     lines_max = FB.file_display_first + FB.file_y;
     if (lines_max > FB.files_max)
         lines_max = FB.files_max;
