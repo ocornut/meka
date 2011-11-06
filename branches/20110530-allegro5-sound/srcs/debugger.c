@@ -2990,9 +2990,7 @@ void        Debugger_InputParseCommand(char *line)
                     }
                     if (i < 8)
                     {
-                        int n;
-                        sprintf(p, "%-*s%n", (8 - line_len) * 3, "", &n);
-                        p += n;
+                        p += sprintf(p, "%-*s", (8 - line_len) * 3, "");
                     }
                     sprintf(p, "| ");
                     p += 2;
