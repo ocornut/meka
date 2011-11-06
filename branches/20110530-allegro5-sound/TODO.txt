@@ -1,9 +1,10 @@
+Debugger: option to auto-start on ROM load (one can always do a RESET)
+Debugger: make always available
 
 SF-7000: write always access to RAM (even when ROM is mapped) dixit honestbob
 
 Z80 PC history command (great to figure out caller)
 Z80 branch history command
-
 
   callee address
   loop 1

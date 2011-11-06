@@ -13,7 +13,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-#define CHEAT_FINDER_MATCHES_MAX	(15)
+#define CHEAT_FINDER_MATCHES_MAX	(16)
 
 enum t_cheat_finder_value_type
 {

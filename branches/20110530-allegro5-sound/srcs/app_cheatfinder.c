@@ -113,6 +113,7 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 
 	// Layout
 	CheatFinder_Layout(app, TRUE);
+	CheatFinder_ResetMatches(app);
 
 	// Return new instance
 	return (app);
@@ -309,7 +310,7 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	{
 		t_memory_range memrange;
 		MemoryRange_GetDetails(app->memtype, &memrange);
-		if (app->matches.size() < CHEAT_FINDER_MATCHES_MAX)
+		if (app->matches.size() <= CHEAT_FINDER_MATCHES_MAX)
 		{
 			const t_cheat_finder_match* match = &app->matches[0];
 			for (int i = 0; i != app->matches.size(); i++, match++)
@@ -353,13 +354,6 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	{
 		app->addresses_to_highlight_in_memory_editor.clear();
 	}
-}
-
-void CheatFinder_ResetMatches(t_cheat_finder* app)
-{
-	app->reset_state = true;
-	app->matches.clear();
-	app->matches_undo.clear();
 }
 
 static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_match* match)
@@ -414,6 +408,10 @@ void CheatFinder_AddNewMatches(t_cheat_finder* app, const t_memory_range* memran
 	if (value_type == CHEAT_FINDER_VALUE_TYPE_24)
 		value_count -= 2;
 
+	// Disabled memory region may be empty
+	if (value_count <= 0)
+		return;
+
 	int insert_pos = app->matches.size();
 	app->matches.resize(insert_pos + value_count);
 	for (int index = 0; index != value_count; index++)
@@ -425,6 +423,30 @@ void CheatFinder_AddNewMatches(t_cheat_finder* app, const t_memory_range* memran
 	}
 }
 
+void CheatFinder_ResetMatches(t_cheat_finder* app)
+{
+	app->reset_state = true;
+	app->matches.clear();
+	app->matches_undo.clear();
+
+	t_cheat_finder_value_type value_type = app->valuetype;
+
+	t_memory_range memrange;
+	MemoryRange_GetDetails(app->memtype, &memrange);
+
+	if (value_type == CHEAT_FINDER_VALUE_TYPE_ANY_SIZE)
+	{
+		CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_1);
+		CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_8);
+		CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_16);
+		CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_24);
+	}
+	else
+	{
+		CheatFinder_AddNewMatches(app, &memrange, value_type);
+	}
+}
+
 void CheatFinder_ReduceMatches(t_cheat_finder* app)
 {
 	t_memory_range memrange;
@@ -432,20 +454,7 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 
 	if (app->reset_state)
 	{
-		t_cheat_finder_value_type value_type = app->valuetype;
-
-		if (value_type == CHEAT_FINDER_VALUE_TYPE_ANY_SIZE)
-		{
-			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_1);
-			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_8);
-			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_16);
-			CheatFinder_AddNewMatches(app, &memrange, CHEAT_FINDER_VALUE_TYPE_24);
-		}
-		else
-		{
-			CheatFinder_AddNewMatches(app, &memrange, value_type);
-		}
-
+		CheatFinder_ResetMatches(app);
 		app->reset_state = false;
 		if (app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE)
 			return;
@@ -530,12 +539,14 @@ static void CheatFinder_CallbackMemtypeSelect(t_widget* w)
 {	
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	app->memtype = (t_memory_type)(int)w->user_data;
+	CheatFinder_ResetMatches(app);
 }
 
 static void CheatFinder_CallbackValuetypeSelect(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	app->valuetype = (t_cheat_finder_value_type)(int)w->user_data;
+	CheatFinder_ResetMatches(app);
 }
 
 static void CheatFinder_CallbackComparerSelect(t_widget* w)
