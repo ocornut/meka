@@ -512,12 +512,12 @@ void SoundDebugApp_Init()
     frame.pos.y = 500;
     frame.size.x = 350;
     frame.size.y = 70;
-	app->active = true;
+	app->active = false;
 	app->box = gui_box_new(&frame, "Sound Debug");
 	app->box->user_data = app;
 	app->box->update = SoundDebugApp_Update;
 	widget_closebox_add(app->box, (t_widget_callback)SoundDebugApp_Switch);
-    Desktop_Register_Box("SOUND_DEBUG", app->box, 1, &app->active);
+    Desktop_Register_Box("SOUND_DEBUG", app->box, 0, &app->active);
 }
 
 void SoundDebugApp_InstallMenuItems(int menu_parent)
@@ -549,6 +549,9 @@ void SoundDebugApp_Update()
 
 	al_set_target_bitmap(app->box->gfx_buffer);
 	al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
+
+	if (!Sound.Enabled)
+		return;
 
 	int x = 4;
 	int y = 0;
