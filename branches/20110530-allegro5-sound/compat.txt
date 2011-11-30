@@ -96,7 +96,7 @@
  Chapolim x Drácula - Um Duelo Assustador (BR)  -       Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales -       Ok
  Choplifter                                     -       Ok
- Choplifter [Proto]                             -      *Ok
+ Choplifter [Proto]                             -       Ok
  Choplifter [Proto] (JP)                        -       Ok
  Chouon Senshi Borgman (JP)                     FM      Ok
  Chouon Senshi Borgman [Proto] (JP)             FM      Ok
@@ -214,6 +214,7 @@
  Great Basketball                               -       Ok
  Great Football                                 -       Ok
  Great Golf / Masters Golf                      FM      Ok
+ Great Golf / Masters Golf [Mega-Tech]          FM      Ok
  Great Golf / Masters Golf [Proto] (JP)         FM      Ok
  Great Golf [JP] (JP)                           -       Ok
  Great Ice Hockey                               SP      Ok
@@ -228,7 +229,7 @@
  Hang On (JP)                                   -       Ok
  Hang On / Astro Warrior                        -       Ok
  Hang On / Safari Hunt                          LP      Ok
- Hang On / Safari Hunt [Proto]                  LP     *Ok
+ Hang On / Safari Hunt [Proto]                  LP      Ok
  Heavyweight Champ                              -       Ok
  Heroes of the Lance                            -       Ok
  High School! Kimengumi (JP)                    -       Ok
@@ -489,7 +490,7 @@
  Tom and Jerry: The Movie [Proto]               -       Ok
  Toto World 3 (KR)                              -       Ok
  TransBot                                       -       Ok
- TransBot [Proto]                               -      *Ok
+ TransBot [Proto]                               -       Ok
  Trivial Pursuit - Genus Edition                -       Ok
  Ttoriui Moheom (KR)                            -       Ok
  Turma da Mônica em: O Resgate (BR)             FM/J    Ok
@@ -526,7 +527,7 @@
  World Games [Proto]                            -       Ok
  World Grand Prix                               -       Ok
  World Grand Prix (US)                          -       Ok
- World Grand Prix [Proto]                       -      *Ok
+ World Grand Prix [Proto]                       -       Ok
  World Soccer                                   (SP)    Ok
  WWF Wrestlemania Steel Cage Challenge          -       Ok
  X-Men: Mojo World (BR)                         -       Ok
@@ -544,7 +545,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 526 games tested - 524 are "Ok" - Compatibility rate: 99.54%
+ 527 games tested - 525 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -562,7 +563,7 @@
  SMS (v1.3) [BIOS]                              -       Ok
  SMS Japanese (v2.1) [BIOS]                     FM      Ok
  SMS Prototype (M404) [BIOS]                    -       Ok
- SMS Prototype (v1.0) [BIOS]                    -      *Ok
+ SMS Prototype (v1.0) [BIOS]                    -       Ok
  SMS Store Display Unit [BIOS]                  KIOSK   Kiosk not emulated.
 -----------------------------------------------------------------------------
 
@@ -703,7 +704,7 @@
  Sega-Galaga (TW)                               Ok
  Sega-Galaga [40k map]                          Ok
  Serizawa Hachidan no Tsumeshogi                Ok
- SG-1000 M2 Check Program                      *Ok
+ SG-1000 M2 Check Program [Proto]               Ok
  Shinnyuushain Tooru-Kun (Konami no)            Ok
  Shinnyuushain Tooru-Kun (Konami no) (TW)       Ok
  Sindbad Mystery                                Ok
