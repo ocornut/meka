@@ -89,9 +89,7 @@ DEF_OS  = -DARCH_UNIX #-DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
 INC_OS  = -Ilibs -I../include
 X86_ASM = no
 #--- Libraries
-LIB_OS  = -Llibs -L/usr/X11R6/lib -lX11 -lXext -lm -lpthread -L../lib  # This may require an update
-LIB_OS += -lXcursor -lXpm
-LIB_OS += -lXxf86dga -lXxf86vm
+LIB_OS  = 
 endif
 
 #---[ MACOSX/GCC ]---------------------------------------
@@ -188,7 +186,7 @@ LIB_ALLEG = -lalleg
 endif
 
 ifeq ($(SYSTEM), unix)
-LIB_ALLEG = -lallegro -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_main -lallegro_image
+LIB_ALLEG = `pkg-config --cflags --libs allegro-5.0 allegro_image-5.0 allegro_audio-5.0 allegro_font-5.0 allegro_primitives-5.0`
 endif
 
 ifeq ($(SYSTEM), macosx)
@@ -249,7 +247,7 @@ DEFINES = $(DEF_OS)
 #-----------------------------------------------------
 # Option : Debugger
 #-----------------------------------------------------
-OBJ_CPU += $(OD)/debug.o $(OD)/debugger.o $(OD)/datadump.o
+OBJ_CPU += $(OD)/debug.o $(OD)/debugger.o $(OD)/debughelper.o $(OD)/datadump.o
 
 #-----------------------------------------------------
 # Compiler Flags
@@ -319,6 +317,9 @@ $(OD)/z80marat.a : z80marat/Z80.c z80marat/Z80.h z80marat/Codes.h z80marat/Codes
 
 $(OD)/debug.o : z80marat/Debug.c z80marat/Z80.h
 	$(CC) $(CFLAGS) -c z80marat/Debug.c $(CC_OUT)$@
+
+$(OD)/debughelper.o : z80marat/Z80DebugHelpers.c z80marat/Z80.h
+	$(CC) $(CFLAGS) -c z80marat/Z80DebugHelpers.c $(CC_OUT)$@ 
 
 # Generic Rules
 

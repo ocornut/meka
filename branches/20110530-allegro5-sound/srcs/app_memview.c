@@ -621,7 +621,7 @@ static void MemoryViewer_ViewPane(t_memory_viewer *mv, t_memory_type memtype)
 static void MemoryViewer_ViewPaneCallback(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data;
-	t_memory_type memtype = (t_memory_type)(int)w->user_data;
+	t_memory_type memtype = (t_memory_type)(long)w->user_data;
     MemoryViewer_ViewPane(mv, memtype);
 }
 

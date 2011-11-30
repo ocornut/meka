@@ -538,27 +538,27 @@ static void CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index)
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)
 {	
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	app->memtype = (t_memory_type)(int)w->user_data;
+	app->memtype = (t_memory_type)(long)w->user_data;
 	CheatFinder_ResetMatches(app);
 }
 
 static void CheatFinder_CallbackValuetypeSelect(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	app->valuetype = (t_cheat_finder_value_type)(int)w->user_data;
+	app->valuetype = (t_cheat_finder_value_type)(long)w->user_data;
 	CheatFinder_ResetMatches(app);
 }
 
 static void CheatFinder_CallbackComparerSelect(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	app->comparer = (t_cheat_finder_comparer)(int)w->user_data;
+	app->comparer = (t_cheat_finder_comparer)(long)w->user_data;
 }
 
 static void CheatFinder_CallbackCompareToSelect(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	app->compare_to = (t_cheat_finder_compare_to)(int)w->user_data;
+	app->compare_to = (t_cheat_finder_compare_to)(long)w->user_data;
 }
 
 static void CheatFinder_CallbackReset(t_widget* w)
@@ -585,7 +585,7 @@ static void CheatFinder_CallbackUndoReduce(t_widget* w)
 static void CheatFinder_CallbackSelectOneMatch(t_widget *w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	const int match_index = (int)w->user_data;
+	const int match_index = (long)w->user_data;
 	CheatFinder_SelectOneMatch(app, match_index);
 }
 
