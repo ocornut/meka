@@ -598,10 +598,10 @@ Msg_Menu_Help_About                     = "About"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
-[Français]
+[FranÃ§ais]
 ; Maintainer: Omar Cornut (omar AT miracleworld.net)
 ; Original text by Overture 1928 (alissalde AT aol.fr)
-; Merci à Eric pour ses lumières techniques!
+; Merci Ã  Eric pour ses lumiÃ¨res techniques!
 WIP
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -624,12 +624,12 @@ Msg_Ok                                  = "Ok"
 Msg_Failed                              = "Echec!"
 Msg_Error_Base                          = "Erreur: %s"
 Msg_Error_Error                         = "Fatal: l'erreur a fait une erreur. Quelque chose ne va pas."
-Msg_Error_Memory                        = "Mémoire insuffisante!"
-Msg_Error_Param                         = "Le paramètre \"%s\" est invalide!\n"
+Msg_Error_Memory                        = "MÃ©moire insuffisante!"
+Msg_Error_Param                         = "Le paramÃ¨tre \"%s\" est invalide!\n"
 Msg_Error_Syntax                        = "Erreur de syntaxe!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Impossible de basculer vers le mode vidéo souhait‚ (%dx%d)."
+Msg_Error_Video_Mode                    = "Impossible de basculer vers le mode vidÃ©o souhaitâ€š (%dx%d)."
 Msg_Error_Video_Mode_Back_To_GUI        = "Passage en mode interface."
 
 ; Errors: File ---------------------------------------------------------------
@@ -646,8 +646,8 @@ Msg_Error_ZIP_Internal                  = "Erreur interne lors du chargement du 
 Msg_Error_Directory_Open                = "Erreur en ouvrant le dossier!"
 
 ; Miscellaneous --------------------------------------------------------------
-Msg_Must_Reset                          = "Réinitialiser le jeu pour que les changements prennent effet"
-Msg_No_ROM                              = "Aucune ROM chargée!"
+Msg_Must_Reset                          = "RÃ©initialiser le jeu pour que les changements prennent effet"
+Msg_No_ROM                              = "Aucune ROM chargÃ©e!"
 
 ; Initialization -------------------------------------------------------------
 Msg_Init_Allegro                        = "Initialisation d'Allegro..."
@@ -657,85 +657,85 @@ Msg_Init_Completed                      = "[PRET]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Running                       = "Execution du programme de configuration..."
 Msg_Setup_Setup                         = "Configuration"
-Msg_Setup_SampleRate_Select             = "Fréquence d'échantillonage:"
+Msg_Setup_SampleRate_Select             = "FrÃ©quence d'Ã©chantillonage:"
 Msg_Setup_Debugger_Enable               = "Active le debuggeur Z80 et autres fonctionnalites associees"
 
 ; Screenshots Capture --------------------------------------------------------
-Msg_Capture_Done                        = "Ecran capturé dans %s"
-Msg_Capture_Error                       = "Impossible de sauvegarder la capture d'écran!"
-Msg_Capture_Error_File                  = "Impossible de trouver un nom de fichier valide pour sauvegarder la capture d'écran!"
+Msg_Capture_Done                        = "Ecran capturÃ© dans %s"
+Msg_Capture_Error                       = "Impossible de sauvegarder la capture d'Ã©cran!"
+Msg_Capture_Error_File                  = "Impossible de trouver un nom de fichier valide pour sauvegarder la capture d'Ã©cran!"
 
 ; On-Board Memory ------------------------------------------------------------
-Msg_SRAM_Loaded                         = "SaveRAM chargée depuis le disque (%d Kb)"
+Msg_SRAM_Loaded                         = "SaveRAM chargÃ©e depuis le disque (%d Kb)"
 Msg_SRAM_Load_Unable                    = "Impossible de charger la SaveRAM depuis le disque"
-Msg_SRAM_Wrote                          = "SaveRAM écrite sur le disque (%d Kb)"
-Msg_SRAM_Write_Unable                   = "Impossible d'écrire la SaveRAM sur le disque (%d Kb)"
-Msg_93c46_Reset                         = "Réinitialisation du 93c46"
-Msg_93c46_Loaded                        = "Données EEPROM 93c46 chargées depuis le disque (%d bytes)"
-Msg_93c46_Load_Unable                   = "Impossible de charger les données EEPROM 93c46 depuis le disque"
-Msg_93c46_Wrote                         = "Données EEPROM 93c46 écrites sur le disque (%d bytes)"
-Msg_93c46_Write_Unable                  = "Impossible d'écrire les données EEPROM 93c46 sur le disque (%d bytes)"
+Msg_SRAM_Wrote                          = "SaveRAM Ã©crite sur le disque (%d Kb)"
+Msg_SRAM_Write_Unable                   = "Impossible d'Ã©crire la SaveRAM sur le disque (%d Kb)"
+Msg_93c46_Reset                         = "RÃ©initialisation du 93c46"
+Msg_93c46_Loaded                        = "DonnÃ©es EEPROM 93c46 chargÃ©es depuis le disque (%d bytes)"
+Msg_93c46_Load_Unable                   = "Impossible de charger les donnÃ©es EEPROM 93c46 depuis le disque"
+Msg_93c46_Wrote                         = "DonnÃ©es EEPROM 93c46 Ã©crites sur le disque (%d bytes)"
+Msg_93c46_Write_Unable                  = "Impossible d'Ã©crire les donnÃ©es EEPROM 93c46 sur le disque (%d bytes)"
 
 ; TV Type --------------------------------------------------------------------
 Msg_TVType_Set                          = "Le type de TV est maintenant %s"
 Msg_TVType_Info_Speed                   = "(La vitesse originale est %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
-Msg_Blitters_Loading                    = "Chargement de MEKA.BLT (modes vid‚o / paramˆtres)... "
-Msg_Blitters_Error_Not_Enough           = "Il manque des paramˆtres! V‚rifiez le fichier MEKA.BLT ou essayez de r‚-installer."
-Msg_Blitters_Error_Not_Found            = "Paramˆtres introuvables!"
-Msg_Blitters_Error_Missing              = "Ligne %d: Aucun nom de paramˆtre d‚fini pour la valeur en mˆmoire!"
+Msg_Blitters_Loading                    = "Chargement de MEKA.BLT (modes vidâ€šo / paramË†tres)... "
+Msg_Blitters_Error_Not_Enough           = "Il manque des paramË†tres! Vâ€šrifiez le fichier MEKA.BLT ou essayez de râ€š-installer."
+Msg_Blitters_Error_Not_Found            = "ParamË†tres introuvables!"
+Msg_Blitters_Error_Missing              = "Ligne %d: Aucun nom de paramË†tre dâ€šfini pour la valeur en mË†moire!"
 Msg_Blitters_Error_Unrecognized         = "Ligne %d: Variable inconnue!"
-Msg_Blitters_Set                        = "Paramêtre plein écran actuel \"%s\"."
+Msg_Blitters_Set                        = "ParamÃªtre plein Ã©cran actuel \"%s\"."
 
 ; Nintendo -------------------------------------------------------------------
-Msg_NES_Activate                        = "Mode gros plombier activé"
+Msg_NES_Activate                        = "Mode gros plombier activÃ©"
 Msg_NES_Sucks                           = "Erreur fatale: l'utilisateur aime Nintendo!"
-Msg_NES_Mapper_Unknown                  = "Mapper non supporté: %d. Le jeu ne devrait pas fonctionner."
+Msg_NES_Mapper_Unknown                  = "Mapper non supportÃ©: %d. Le jeu ne devrait pas fonctionner."
 Msg_NES_Deny_Facts                      = "Un fait est un fait."
 
 ; Debugger -------------------------------------------------------------------
-Msg_Debug_Init                          = "Initialisation du débuggueur... "
-Msg_Debug_Welcome                       = "Bienvenue dans le débuggueur de Meka!"
-Msg_Debug_Not_Available                 = "Le débuggueur n'est pas disponible dans cette version!"
+Msg_Debug_Init                          = "Initialisation du dÃ©buggueur... "
+Msg_Debug_Welcome                       = "Bienvenue dans le dÃ©buggueur de Meka!"
+Msg_Debug_Not_Available                 = "Le dÃ©buggueur n'est pas disponible dans cette version!"
 Msg_Debug_Trap_Read                     = "A PC:%04X - Lecture depuis %04X"
 Msg_Debug_Trap_Write                    = "A PC:%04X - Ecriture de %02X dans %04X"
 Msg_Debug_Trap_Port_Read                = "A PC:%04X - Lecture Port [%02X] "
 Msg_Debug_Trap_Port_Write               = "A PC:%04X - Ecriture %02X Port [%02X] "
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "L'acquisition des données sera maintenant faite en mode ASCII."
-Msg_DataDump_Mode_Raw                   = "L'acquisition des données sera maintenant faite en mode Raw."
-Msg_DataDump_Error                      = "Erreur en créant le fichier d'acquisition %s!"
-Msg_DataDump_Error_OB_Memory            = "Pas de mémoire sur carte à acquérir!"
-Msg_DataDump_Error_Palette              = "Pas de palette à acquérir!"
-Msg_DataDump_Error_Sprites              = "Pas de sprites à acquérir!"
+Msg_DataDump_Mode_Ascii                 = "L'acquisition des donnÃ©es sera maintenant faite en mode ASCII."
+Msg_DataDump_Mode_Raw                   = "L'acquisition des donnÃ©es sera maintenant faite en mode Raw."
+Msg_DataDump_Error                      = "Erreur en crÃ©ant le fichier d'acquisition %s!"
+Msg_DataDump_Error_OB_Memory            = "Pas de mÃ©moire sur carte Ã  acquÃ©rir!"
+Msg_DataDump_Error_Palette              = "Pas de palette Ã  acquÃ©rir!"
+Msg_DataDump_Error_Sprites              = "Pas de sprites Ã  acquÃ©rir!"
 Msg_DataDump_Main                       = "Acquisition %s (%d %s) en mode %s"
 
 ; Documentation --------------------------------------------------------------
 Msg_Doc_BoxTitle                        = "Documentation"
 Msg_Doc_File_Error                      = "Impossible d'ouvrir la documentation!"
 Msg_Doc_Enabled                         = "Documentation ouverte."
-Msg_Doc_Disabled                        = "Documentation fermée."
+Msg_Doc_Disabled                        = "Documentation fermÃ©e."
 
 ; Sprite Flickering ----------------------------------------------------------
-Msg_Flickering_Auto                     = "Le clignotement des sprites sera géré automatiquement."
-Msg_Flickering_Yes                      = "L'émulation du clignotement des sprite est maintenant activée."
-Msg_Flickering_No                       = "L'émulation du clignotement des sprites n'est plus activée."
+Msg_Flickering_Auto                     = "Le clignotement des sprites sera gÃ©rÃ© automatiquement."
+Msg_Flickering_Yes                      = "L'Ã©mulation du clignotement des sprite est maintenant activÃ©e."
+Msg_Flickering_No                       = "L'Ã©mulation du clignotement des sprites n'est plus activÃ©e."
 
 ; Layers ---------------------------------------------------------------------
-Msg_Layer_BG_Disabled                   = "Rafraichissement du fond d'écran désactivé"
-Msg_Layer_BG_Enabled                    = "Rafraichissement du fond d'écran activé"
-Msg_Layer_Spr_Disabled                  = "Rafraichissement des sprites désactivé"
-Msg_Layer_Spr_Enabled                   = "Rafraichissement des sprites activé"
+Msg_Layer_BG_Disabled                   = "Rafraichissement du fond d'Ã©cran dÃ©sactivÃ©"
+Msg_Layer_BG_Enabled                    = "Rafraichissement du fond d'Ã©cran activÃ©"
+Msg_Layer_Spr_Disabled                  = "Rafraichissement des sprites dÃ©sactivÃ©"
+Msg_Layer_Spr_Enabled                   = "Rafraichissement des sprites activÃ©"
 
 ; Floppy Disk (FDC-765) ------------------------------------------------------
 Msg_FDC765_Unknown_Read                 = "FDC765: Commande %3i de lecture de disque inconnue"
-Msg_FDC765_Unknown_Write                = "FDC765: Commande %3i d'écriture de disque inconnue"
-Msg_FDC765_Disk_Too_Large1              = "L'image du disque est plus grande que prévue (%i > %i)"
-Msg_FDC765_Disk_Too_Large2              = "Les données supplémentaires seront ignorées"
-Msg_FDC765_Disk_Too_Small1              = "L'image du disque est plus petite que prévue (%i < %i)"
-Msg_FDC765_Disk_Too_Small2              = "Les données manquantes seront considérées comme vides"
+Msg_FDC765_Unknown_Write                = "FDC765: Commande %3i d'Ã©criture de disque inconnue"
+Msg_FDC765_Disk_Too_Large1              = "L'image du disque est plus grande que prÃ©vue (%i > %i)"
+Msg_FDC765_Disk_Too_Large2              = "Les donnÃ©es supplÃ©mentaires seront ignorÃ©es"
+Msg_FDC765_Disk_Too_Small1              = "L'image du disque est plus petite que prÃ©vue (%i < %i)"
+Msg_FDC765_Disk_Too_Small2              = "Les donnÃ©es manquantes seront considÃ©rÃ©es comme vides"
 
 ; Terebi Oekaki (Graphic Board) ----------------------------------------------
 Msg_TVOekaki_Pen_Touch                  = "Le stylo touche la table graphique"
@@ -743,113 +743,113 @@ Msg_TVOekaki_Pen_Away                   = "Le stylo ne touche pas la table graph
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Visualisateur de palette désactivé"
-Msg_Palette_Enabled                     = "Visualisateur de palette activé"
+Msg_Palette_Disabled                    = "Visualisateur de palette dÃ©sactivÃ©"
+Msg_Palette_Enabled                     = "Visualisateur de palette activÃ©"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messages"
-Msg_Message_Disabled                    = "Fenêtre des messages désactivée"
-Msg_Message_Enabled                     = "Fenêtre des messages activée"
+Msg_Message_Disabled                    = "FenÃªtre des messages dÃ©sactivÃ©e"
+Msg_Message_Enabled                     = "FenÃªtre des messages activÃ©e"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Informations Techniques"
-Msg_TechInfo_Disabled                   = "Fenêtre d'informations techniques désactivée"
-Msg_TechInfo_Enabled                    = "Fenêtre d'informations techniques activée"
+Msg_TechInfo_Disabled                   = "FenÃªtre d'informations techniques dÃ©sactivÃ©e"
+Msg_TechInfo_Enabled                    = "FenÃªtre d'informations techniques activÃ©e"
 
 ; Tile Viewer ----------------------------------------------------------------
 Msg_TilesViewer_BoxTitle                = "Visionneur de tiles"
-Msg_TilesViewer_Disabled                = "Visionneur de tiles désactivé"
-Msg_TilesViewer_Enabled                 = "Visionneur de tiles activé"
+Msg_TilesViewer_Disabled                = "Visionneur de tiles dÃ©sactivÃ©"
+Msg_TilesViewer_Enabled                 = "Visionneur de tiles activÃ©"
 Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Memory Editor --------------------------------------------------------------
-Msg_MemoryEditor_BoxTitle				= "Editeur mémoire"
-Msg_MemoryEditor_Disabled				= "Editeur mémoire désactivé"
-Msg_MemoryEditor_Enabled				= "Editeur mémoire activé"
-Msg_MemoryEditor_WriteZ80_Unable		= "Impossible d'écrire dans l'espace d'addressage Z80 à cet instant!"
+Msg_MemoryEditor_BoxTitle				= "Editeur mÃ©moire"
+Msg_MemoryEditor_Disabled				= "Editeur mÃ©moire dÃ©sactivÃ©"
+Msg_MemoryEditor_Enabled				= "Editeur mÃ©moire activÃ©"
+Msg_MemoryEditor_WriteZ80_Unable		= "Impossible d'Ã©crire dans l'espace d'addressage Z80 Ã  cet instant!"
 Msg_MemoryEditor_Address_Out_of_Bound	= "L'addresse %s est hors de la zone %s!"
 
 ; Rapid Fire -----------------------------------------------------------------
-Msg_RapidFire_JxBx_On                   = "Tir Automatique activé pour le joueur %d, bouton %d"
-Msg_RapidFire_JxBx_Off                  = "Tir Automatique désactivé pour le joueur %d, bouton %d"
+Msg_RapidFire_JxBx_On                   = "Tir Automatique activÃ© pour le joueur %d, bouton %d"
+Msg_RapidFire_JxBx_Off                  = "Tir Automatique dÃ©sactivÃ© pour le joueur %d, bouton %d"
 
 ; FM Unit (YM-2413 chipset) --------------------------------------------------
-Msg_FM_Enabled                          = "Emulation de l'unité FM (chipset YM-2413) activée"
-Msg_FM_Disabled                         = "Emulation de l'unité FM (chipset YM-2413) désactivée"
+Msg_FM_Enabled                          = "Emulation de l'unitÃ© FM (chipset YM-2413) activÃ©e"
+Msg_FM_Disabled                         = "Emulation de l'unitÃ© FM (chipset YM-2413) dÃ©sactivÃ©e"
 
 ; Country --------------------------------------------------------------------
-Msg_Country_European_US                 = "La machine émulée est maintenant Européenne/US"
-Msg_Country_JAP                         = "La machine émulée est maintenant Japonaise"
+Msg_Country_European_US                 = "La machine Ã©mulÃ©e est maintenant EuropÃ©enne/US"
+Msg_Country_JAP                         = "La machine Ã©mulÃ©e est maintenant Japonaise"
 
 ; Patching System ------------------------------------------------------------
 Msg_Patch_Loading                       = "Chargement de MEKA.PAT (patches)... "
-Msg_Patch_Missing                       = "Ligne %d: Checksum non d‚finit pour appliquer la commande!"
+Msg_Patch_Missing                       = "Ligne %d: Checksum non dâ€šfinit pour appliquer la commande!"
 Msg_Patch_Unrecognized                  = "Ligne %d: Erreur de syntaxe ou commande inconnue!"
-Msg_Patch_Value_Not_a_Byte              = "Ligne %d: La valeur %s ne tient pas sur un octet non signé!"
-Msg_Patch_Out_of_Bound                  = "Lors du patch de %s: la position $%04X est hors des limites. Patch non appliqué."
+Msg_Patch_Value_Not_a_Byte              = "Ligne %d: La valeur %s ne tient pas sur un octet non signÃ©!"
+Msg_Patch_Out_of_Bound                  = "Lors du patch de %s: la position $%04X est hors des limites. Patch non appliquÃ©."
 
 ; 3-D Glasses ----------------------------------------------------------------
-Msg_Glasses_Enabled                     = "Emulation des lunettes 3-D activée"
-Msg_Glasses_Disabled                    = "Emulation des lunettes 3-D désactivée"
+Msg_Glasses_Enabled                     = "Emulation des lunettes 3-D activÃ©e"
+Msg_Glasses_Disabled                    = "Emulation des lunettes 3-D dÃ©sactivÃ©e"
 Msg_Glasses_Show_Both                   = "Effet 3-D complet."
-Msg_Glasses_Show_Left                   = "Effet 3-D désactivé en ne gardant que le côté gauche."
-Msg_Glasses_Show_Right                  = "Effet 3-D désactivé en ne gardant que le côté droit."
-Msg_Glasses_Com_Port                    = "Support des lunettes 3-D activé sur le port COM %d."
-Msg_Glasses_Com_Port2                   = "(éditer MEKA.CFG pour sélectionner le port COM à utiliser)"
-Msg_Glasses_Com_Port_Open_Error			= "Erreur à l'ouverture du port COM %d. Le support des lunettes 3-D ne fonctionnera pas."
+Msg_Glasses_Show_Left                   = "Effet 3-D dÃ©sactivÃ© en ne gardant que le cÃ´tÃ© gauche."
+Msg_Glasses_Show_Right                  = "Effet 3-D dÃ©sactivÃ© en ne gardant que le cÃ´tÃ© droit."
+Msg_Glasses_Com_Port                    = "Support des lunettes 3-D activÃ© sur le port COM %d."
+Msg_Glasses_Com_Port2                   = "(Ã©diter MEKA.CFG pour sÃ©lectionner le port COM Ã  utiliser)"
+Msg_Glasses_Com_Port_Open_Error			= "Erreur Ã  l'ouverture du port COM %d. Le support des lunettes 3-D ne fonctionnera pas."
 Msg_Glasses_Unsupported                 = "Ce jeu ne supporte pas les lunettes 3-D."
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialisation des joysticks... "
-Msg_Inputs_Joy_Init_None                = "aucun joystick trouv‚."
-Msg_Inputs_Joy_Init_Found               = "%d trouv‚(s)."
-Msg_Inputs_Joy_Calibrate_Error          = "Arrˆt : Erreur de calibrage de joystick."
+Msg_Inputs_Joy_Init_None                = "aucun joystick trouvâ€š."
+Msg_Inputs_Joy_Init_Found               = "%d trouvâ€š(s)."
+Msg_Inputs_Joy_Calibrate_Error          = "ArrË†t : Erreur de calibrage de joystick."
 
 ; Inputs ---------------------------------------------------------------------
-Msg_Inputs_Joypad                       = "Périphérique de contrôle: Joypad"
-Msg_Inputs_LightPhaser                  = "Périphérique de contrôle: Light Phaser"
-Msg_Inputs_PaddleControl                = "Périphérique de contrôle: Paddle Control"
-Msg_Inputs_SportsPad                    = "Périphérique de contrôle: Sports Pad"
-Msg_Inputs_TVOekaki                     = "Périphérique de contrôle: Tablette Graphique"
-Msg_Inputs_Play_Digital                 = "Contrôle avec périphérique d'entrée digital"
-Msg_Inputs_Play_Mouse                   = "Contrôle avec périphérique d'entrée analogique (souris)"
-Msg_Inputs_Play_Digital_Unrecommended   = "Un périphérique d'entrée digital (ex: clavier) est supporté mais NON conseillé"
-Msg_Inputs_Play_Pen                     = "Contrôle du stylo avec la souris\nLe click-droit simule la levée du stylo de la tablette"
-Msg_Inputs_SK1100_Enabled               = "Emulation du Sega Keyboard (SK-1100) activée"
-Msg_Inputs_SK1100_Disabled              = "Emulation du Sega Keyboard (SK-1100) désactivée"
+Msg_Inputs_Joypad                       = "PÃ©riphÃ©rique de contrÃ´le: Joypad"
+Msg_Inputs_LightPhaser                  = "PÃ©riphÃ©rique de contrÃ´le: Light Phaser"
+Msg_Inputs_PaddleControl                = "PÃ©riphÃ©rique de contrÃ´le: Paddle Control"
+Msg_Inputs_SportsPad                    = "PÃ©riphÃ©rique de contrÃ´le: Sports Pad"
+Msg_Inputs_TVOekaki                     = "PÃ©riphÃ©rique de contrÃ´le: Tablette Graphique"
+Msg_Inputs_Play_Digital                 = "ContrÃ´le avec pÃ©riphÃ©rique d'entrÃ©e digital"
+Msg_Inputs_Play_Mouse                   = "ContrÃ´le avec pÃ©riphÃ©rique d'entrÃ©e analogique (souris)"
+Msg_Inputs_Play_Digital_Unrecommended   = "Un pÃ©riphÃ©rique d'entrÃ©e digital (ex: clavier) est supportÃ© mais NON conseillÃ©"
+Msg_Inputs_Play_Pen                     = "ContrÃ´le du stylo avec la souris\nLe click-droit simule la levÃ©e du stylo de la tablette"
+Msg_Inputs_SK1100_Enabled               = "Emulation du Sega Keyboard (SK-1100) activÃ©e"
+Msg_Inputs_SK1100_Disabled              = "Emulation du Sega Keyboard (SK-1100) dÃ©sactivÃ©e"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Config_BoxTitle              = "Configuration des contrôles"
-Msg_Inputs_Config_Peripheral_Click      = "Clic pour sélectionner périphérique"
+Msg_Inputs_Config_BoxTitle              = "Configuration des contrÃ´les"
+Msg_Inputs_Config_Peripheral_Click      = "Clic pour sÃ©lectionner pÃ©riphÃ©rique"
 Msg_Inputs_Config_Source_Enabled        = "Actif"
-Msg_Inputs_Config_Source_Player         = "Contrôle joueur %d"
+Msg_Inputs_Config_Source_Player         = "ContrÃ´le joueur %d"
 Msg_Inputs_Config_Source_Emulate_Joypad = "Emule le joypad"
 
 ; Inputs Sources -------------------------------------------------------------
-Msg_Inputs_Src_Loading                  = "Chargement de MEKA.INP (d‚finition des sources de contr“le)... "
-Msg_Inputs_Src_Not_Enough               = "Il manque des sources de contr“le! V‚rifiez le fichier MEKA.INP ou essayez de r‚-installer."
-Msg_Inputs_Src_Missing                  = "Ligne %d: Aucune source de contr“le d‚finie pour la valeur en m‚moire!"
-Msg_Inputs_Src_Equal                    = "Ligne %d: Signe ‚gal manquant pour l'attribution de la variable!"
+Msg_Inputs_Src_Loading                  = "Chargement de MEKA.INP (dâ€šfinition des sources de contrâ€œle)... "
+Msg_Inputs_Src_Not_Enough               = "Il manque des sources de contrâ€œle! Vâ€šrifiez le fichier MEKA.INP ou essayez de râ€š-installer."
+Msg_Inputs_Src_Missing                  = "Ligne %d: Aucune source de contrâ€œle dâ€šfinie pour la valeur en mâ€šmoire!"
+Msg_Inputs_Src_Equal                    = "Ligne %d: Signe â€šgal manquant pour l'attribution de la variable!"
 Msg_Inputs_Src_Unrecognized             = "Ligne %d: Variable \"%s\" non reconnue!"
-Msg_Inputs_Src_Syntax_Param             = "Ligne %d: Erreur de syntaxe sur paramˆtre variable!"
-Msg_Inputs_Src_Inconsistency            = "Ligne %d: Ne correspond pas aux r‚glages pr‚c‚dents!"
-Msg_Inputs_Src_Map_Keyboard             = "Appuyez sur la touche souhaitée pour y attribuer cette action"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Action attribuée à la touche \"%s\"."
-Msg_Inputs_Src_Map_Joypad               = "Appuyez sur le bouton ou la direction souhaité pour y attribuer cette action"
-Msg_Inputs_Src_Map_Joypad_Ok_A          = "Action attribuée au stick %i, axe %i, %c du joypad."
-Msg_Inputs_Src_Map_Joypad_Ok_B          = "Action attribuée au bouton %i du joypad."
-Msg_Inputs_Src_Map_Mouse                = "Appuyez sur le bouton souhaité pour y attribuer cette action"
-Msg_Inputs_Src_Map_Mouse_Ok_B           = "Action attribuée au bouton %i de la souris."
-Msg_Inputs_Src_Map_Mouse_No_A           = "Désolé - L'axe de la souris ne peut pas être changé"
-Msg_Inputs_Src_Map_Cancelled            = "Attribution annulée!"
+Msg_Inputs_Src_Syntax_Param             = "Ligne %d: Erreur de syntaxe sur paramË†tre variable!"
+Msg_Inputs_Src_Inconsistency            = "Ligne %d: Ne correspond pas aux râ€šglages prâ€šcâ€šdents!"
+Msg_Inputs_Src_Map_Keyboard             = "Appuyez sur la touche souhaitÃ©e pour y attribuer cette action"
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Action attribuÃ©e Ã  la touche \"%s\"."
+Msg_Inputs_Src_Map_Joypad               = "Appuyez sur le bouton ou la direction souhaitÃ© pour y attribuer cette action"
+Msg_Inputs_Src_Map_Joypad_Ok_A          = "Action attribuÃ©e au stick %i, axe %i, %c du joypad."
+Msg_Inputs_Src_Map_Joypad_Ok_B          = "Action attribuÃ©e au bouton %i du joypad."
+Msg_Inputs_Src_Map_Mouse                = "Appuyez sur le bouton souhaitÃ© pour y attribuer cette action"
+Msg_Inputs_Src_Map_Mouse_Ok_B           = "Action attribuÃ©e au bouton %i de la souris."
+Msg_Inputs_Src_Map_Mouse_No_A           = "DÃ©solÃ© - L'axe de la souris ne peut pas Ãªtre changÃ©"
+Msg_Inputs_Src_Map_Cancelled            = "Attribution annulÃ©e!"
 
 ; Machine --------------------------------------------------------------------
 Msg_Machine_Pause                       = "Emulation en pause"
-Msg_Machine_Resume                      = "Emulation rétablie"
-Msg_Machine_Reset                       = "Réinitialisation de la machine"
+Msg_Machine_Resume                      = "Emulation rÃ©tablie"
+Msg_Machine_Reset                       = "RÃ©initialisation de la machine"
 
 ; Filenames Database ---------------------------------------------------------
-Msg_FDB_Loading                         = "Chargement de MEKA.FDB (base de donnée fichiers)... "
+Msg_FDB_Loading                         = "Chargement de MEKA.FDB (base de donnÃ©e fichiers)... "
 
 ; DataBase / Names -----------------------------------------------------------
 Msg_DB_Loading                          = "Chargement de MEKA.NAM (noms des jeux)... "
@@ -867,45 +867,45 @@ Msg_Datafile_Loading                    = "Chargement de MEKA.DAT (ressources)..
 Msg_Driver_Unknown                      = "Fatal: Pilote Machine Inconnu!"
 
 ; Overdump detection ---------------------------------------------------------
-Msg_OverDump                            = "Cette ROM contient %d fois les données nécessaires.\nTéléchargez SMS Checker pour la vérifier (http://www.smspower.org/maxim/smschecker/)."
+Msg_OverDump                            = "Cette ROM contient %d fois les donnÃ©es nÃ©cessaires.\nTÃ©lÃ©chargez SMS Checker pour la vÃ©rifier (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialisation du son..."
-Msg_Sound_Init_Error_Audio              = " - Erreur en ouvrant le systˆme audio. Essayez une carte et/ou une fr‚quence diff‚rente."
-Msg_Sound_Init_Error_Blaster            = " - Variable BLASTER introuvable, son FM d‚sactiv‚!"
-Msg_Sound_Init_Error_Blaster_A          = " - La variable BLASTER ne contient l'adresse (A=xxx), son FM d‚sactiv‚!"
+Msg_Sound_Init_Error_Audio              = " - Erreur en ouvrant le systË†me audio. Essayez une carte et/ou une frâ€šquence diffâ€šrente."
+Msg_Sound_Init_Error_Blaster            = " - Variable BLASTER introuvable, son FM dâ€šsactivâ€š!"
+Msg_Sound_Init_Error_Blaster_A          = " - La variable BLASTER ne contient l'adresse (A=xxx), son FM dâ€šsactivâ€š!"
 Msg_Sound_Init_Error_Voices             = " - Echec de l'initialisation des voies."
-Msg_Sound_Init_Error_Voice_N            = " - Echec dans la cr‚ation de la voie #%d."
-Msg_Sound_Init_Soundcard                = " - Initialisation de la carte son … %d Hz"
-Msg_Sound_Init_Soundcard_No             = "Impossible d'initialiser l'audio: aucune carte son s‚lectionn‚e!"
+Msg_Sound_Init_Error_Voice_N            = " - Echec dans la crâ€šation de la voie #%d."
+Msg_Sound_Init_Soundcard                = " - Initialisation de la carte son â€¦ %d Hz"
+Msg_Sound_Init_Soundcard_No             = "Impossible d'initialiser l'audio: aucune carte son sâ€šlectionnâ€še!"
 Msg_Sound_Init_SN76496                  = " - Emulateur SN76496 digital:"
 Msg_Sound_Init_YM2413_Digital           = " - Emulateur YM2413 digital:"
-Msg_Sound_Stream_Error                  = "Arrêt du tampon son. Redémarrage du flux."
-Msg_Sound_Volume_Changed                = "Volume changé à %d%%."
+Msg_Sound_Stream_Error                  = "ArrÃªt du tampon son. RedÃ©marrage du flux."
+Msg_Sound_Volume_Changed                = "Volume changÃ© Ã  %d%%."
 
 ; Theme ----------------------------------------------------------------------
-Msg_Theme_Loading                       = "Chargement de MEKA.THM (thêmes de l'interface)... "
-Msg_Theme_Error_Not_Enough              = "Il manque des thêmes! Vérifiez le fichier MEKA.THM ou essayez de réinstaller."
-Msg_Theme_Error_Missing_Theme_Name      = "Ligne %d: Aucun nom de thême défini pour stocker l'attribut!"
+Msg_Theme_Loading                       = "Chargement de MEKA.THM (thÃªmes de l'interface)... "
+Msg_Theme_Error_Not_Enough              = "Il manque des thÃªmes! VÃ©rifiez le fichier MEKA.THM ou essayez de rÃ©installer."
+Msg_Theme_Error_Missing_Theme_Name      = "Ligne %d: Aucun nom de thÃªme dÃ©fini pour stocker l'attribut!"
 Msg_Theme_Error_Syntax                  = "Ligne %d: Erreur de syntaxe!"
-Msg_Theme_Error_Attribute_Defined       = "Ligne %d: Attribute déja défini!"
+Msg_Theme_Error_Attribute_Defined       = "Ligne %d: Attribute dÃ©ja dÃ©fini!"
 Msg_Theme_Error_Out_of_Bound            = "Ligne %d: Valeur hors limites!"
-Msg_Theme_Error_Theme_Missing_Data      = "Le thême \"%s\" est incomplet. Il sera désactivé."
-Msg_Theme_Error_BG_Big                  = "Image d'arrière-plan trop petite pour l'ajuster complètement!"
-Msg_Theme_Error_BG                      = "Erreur de chargement de l'image associée au thème!"
+Msg_Theme_Error_Theme_Missing_Data      = "Le thÃªme \"%s\" est incomplet. Il sera dÃ©sactivÃ©."
+Msg_Theme_Error_BG_Big                  = "Image d'arriÃ¨re-plan trop petite pour l'ajuster complÃ¨tement!"
+Msg_Theme_Error_BG                      = "Erreur de chargement de l'image associÃ©e au thÃ¨me!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
 
 ; Loading ROM / Disk ---------------------------------------------------------
 Msg_LoadROM_Loading                     = "Chargement de la ROM.. "
-Msg_LoadROM_Success                     = "Chargement de %s réussi"
-Msg_LoadDisk_Success                    = "Chargement de %s réussi depuis la disquette"
+Msg_LoadROM_Success                     = "Chargement de %s rÃ©ussi"
+Msg_LoadDisk_Success                    = "Chargement de %s rÃ©ussi depuis la disquette"
 Msg_LoadROM_Comment                     = "Commentaire: %s"
-Msg_LoadROM_SMSGG_Mode_Comment          = "Ceci est une ROM Game Gear fonctionnant en mode de compatibilité Master System."
+Msg_LoadROM_SMSGG_Mode_Comment          = "Ceci est une ROM Game Gear fonctionnant en mode de compatibilitÃ© Master System."
 Msg_LoadROM_Warning                     = "-Avertissement-"
-Msg_LoadROM_Bad_Dump_Long               = "Cette ROM est connue comme étant un mauvais dump.\nIl se peut qu'elle ne fonctionne pas correctement. Téléchargez SMS Checker pour la vérifier (http://www.smspower.org/maxim/smschecker/)."
-Msg_LoadROM_Bad_Dump_Short              = "Avertissement - Cette ROM est connue comme étant un mauvais dump."
-Msg_LoadROM_Product_Num                 = "Numéro de produit: %s"
-Msg_LoadROM_SDSC                        = "-En-tête SDSC-"
+Msg_LoadROM_Bad_Dump_Long               = "Cette ROM est connue comme Ã©tant un mauvais dump.\nIl se peut qu'elle ne fonctionne pas correctement. TÃ©lÃ©chargez SMS Checker pour la vÃ©rifier (http://www.smspower.org/maxim/smschecker/)."
+Msg_LoadROM_Bad_Dump_Short              = "Avertissement - Cette ROM est connue comme Ã©tant un mauvais dump."
+Msg_LoadROM_Product_Num                 = "NumÃ©ro de produit: %s"
+Msg_LoadROM_SDSC                        = "-En-tÃªte SDSC-"
 Msg_LoadROM_SDSC_Name                   = "Nom: %s"
 Msg_LoadROM_SDSC_Version                = "Version: %d.%02d"
 Msg_LoadROM_SDSC_Date                   = "Date: %04d.%02d.%02d"
@@ -924,81 +924,81 @@ Msg_FileBrowser_ReloadDir               = "Relire dossier"
 
 ; FM Instruments Editor ------------------------------------------------------
 Msg_FM_Editor_BoxTitle                  = "Editeur d'instruments FM"
-Msg_FM_Editor_Enabled                   = "Editeur d'instruments FM activé"
-Msg_FM_Editor_Disabled                  = "Editeur d'instruments FM désactivé"
+Msg_FM_Editor_Enabled                   = "Editeur d'instruments FM activÃ©"
+Msg_FM_Editor_Disabled                  = "Editeur d'instruments FM dÃ©sactivÃ©"
 
 ; Video Options --------------------------------------------------------------
-Msg_Frameskip_Auto                      = "Saut d'image automatique (à %d Hz)"
-Msg_Frameskip_Standard                  = "Saut d'image fixé à: 1/%d images"
-Msg_FPS_Counter_Enabled                 = "Compteur d'image par seconde activé"
-Msg_FPS_Counter_Disabled                = "Compteur d'image par seconde désactivé"
+Msg_Frameskip_Auto                      = "Saut d'image automatique (Ã  %d Hz)"
+Msg_Frameskip_Standard                  = "Saut d'image fixÃ© Ã : 1/%d images"
+Msg_FPS_Counter_Enabled                 = "Compteur d'image par seconde activÃ©"
+Msg_FPS_Counter_Disabled                = "Compteur d'image par seconde dÃ©sactivÃ©"
 
 ; Logging --------------------------------------------------------------------
-Msg_Log_Need_Param                      = "Le paramêtre LOG nécessite un nom de fichier!"
-Msg_Log_Session_Start                   = "-- Rapport de session débuté le %s"
+Msg_Log_Need_Param                      = "Le paramÃªtre LOG nÃ©cessite un nom de fichier!"
+Msg_Log_Session_Start                   = "-- Rapport de session dÃ©butÃ© le %s"
 
 ; Save States ----------------------------------------------------------------
-Msg_Load_Need_Param                     = "Le paramêtre LOAD nécessite un numéro de sauvegarde!"
+Msg_Load_Need_Param                     = "Le paramÃªtre LOAD nÃ©cessite un numÃ©ro de sauvegarde!"
 Msg_Load_Error                          = "Erreur en ouvrant %s!"
 Msg_Load_Not_Valid                      = "Le fichier %s n'est pas une sauvegarde valide de %s!"
-Msg_Load_Success                        = "Etat chargé depuis %s"
-Msg_Load_Version                        = "%s n'est pas une version de sauvegarde supportée!"
-Msg_Load_Wrong_System                   = "%s n'est pas une sauvegarde pour ce système!"
+Msg_Load_Success                        = "Etat chargÃ© depuis %s"
+Msg_Load_Version                        = "%s n'est pas une version de sauvegarde supportÃ©e!"
+Msg_Load_Wrong_System                   = "%s n'est pas une sauvegarde pour ce systÃ¨me!"
 Msg_Load_Massage                        = "Le fichier est au format MSD - conversion en cours"
 Msg_Save_Not_in_BIOS                    = "Impossible de sauver pendant le BIOS!"
-Msg_Save_Error                          = "Erreur d'écriture dans %s!"
-Msg_Save_Success                        = "Etat sauvegardé dans %s"
+Msg_Save_Error                          = "Erreur d'Ã©criture dans %s!"
+Msg_Save_Success                        = "Etat sauvegardÃ© dans %s"
 Msg_Save_Slot                           = "Emplacement actuel de sauvegarde: %d"
 
 ; Options --------------------------------------------------------------------
 Msg_Options_BoxTitle                    = "Options"
 Msg_Options_Close                       = "Fermer"
 Msg_Options_BIOS_Enable                 = "Afficher le logo du BIOS."
-Msg_Options_DB_Display                  = "Afficher noms, drapeaux et icônes de la base."
-Msg_Options_Product_Number              = "Afficher numéros de produit de la base."
+Msg_Options_DB_Display                  = "Afficher noms, drapeaux et icÃ´nes de la base."
+Msg_Options_Product_Number              = "Afficher numÃ©ros de produit de la base."
 Msg_Options_Bright_Palette              = "Activer palette vive pour SMS et GG."
-Msg_Options_Allow_Opposite_Directions   = "Permettre l'appui de directions opposées."
-Msg_Options_Load_Close                  = "Fermer l'explorateur après chargement d'un jeu."
-Msg_Options_Load_FullScreen             = "Mode plein écran auto après chargement d'un jeu."
-Msg_Options_FullScreen_Messages         = "Afficher les messages en mode plein écran."
+Msg_Options_Allow_Opposite_Directions   = "Permettre l'appui de directions opposÃ©es."
+Msg_Options_Load_Close                  = "Fermer l'explorateur aprÃ¨s chargement d'un jeu."
+Msg_Options_Load_FullScreen             = "Mode plein Ã©cran auto aprÃ¨s chargement d'un jeu."
+Msg_Options_FullScreen_Messages         = "Afficher les messages en mode plein Ã©cran."
 Msg_Options_GUI_VSync                   = "Attendre la VSync en mode interface."
 Msg_Options_NES_Enable                  = "Mario n'est pas un gros plombier."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "La langue est maintenant le %s"
-Msg_Language_Set_Warning                = "Note: il est recommandé de redémarrer MEKA afin d'avoir tous les textes mis à jour."
+Msg_Language_Set_Warning                = "Note: il est recommandÃ© de redÃ©marrer MEKA afin d'avoir tous les textes mis Ã  jour."
 
 ; Sound Dumping --------------------------------------------------------------
 Msg_Sound_Dumping_Start                 = "Acquisition de la sortie sonore dans %s"
-Msg_Sound_Dumping_Stop                  = "Acquisition de la sortie sonore arrêtée (%2.02f secondes enregistrées)"
+Msg_Sound_Dumping_Stop                  = "Acquisition de la sortie sonore arrÃªtÃ©e (%2.02f secondes enregistrÃ©es)"
 Msg_Sound_Dumping_Error_File_1          = "Impossible de trouver un nom de fichier valide pour extraire la sortie sonore!"
 Msg_Sound_Dumping_Error_File_2          = "Erreur d'ouverture du fichier %s pour l'acquisition!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "L'acquisition VGM sera maintenant fidèle à la trame (fichiers plus petits, voies sautées)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "L'acquisition VGM sera maintenant fidèle à l'échantillon (fichiers plus importants, acquisition des voies)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(l'acquisition VGM devra être redémarrée pour tenir en compte du changement de paramètre)"
+Msg_Sound_Dumping_VGM_Acc_Frame         = "L'acquisition VGM sera maintenant fidÃ¨le Ã  la trame (fichiers plus petits, voies sautÃ©es)"
+Msg_Sound_Dumping_VGM_Acc_Sample        = "L'acquisition VGM sera maintenant fidÃ¨le Ã  l'Ã©chantillon (fichiers plus importants, acquisition des voies)"
+Msg_Sound_Dumping_VGM_Acc_Change        = "(l'acquisition VGM devra Ãªtre redÃ©marrÃ©e pour tenir en compte du changement de paramÃ¨tre)"
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
 Msg_Menu_Main_LoadROM                   = "Charger ROM"
-Msg_Menu_Main_FreeROM                   = "Libérer ROM"
-Msg_Menu_Main_SaveState                 = "Sauver état"
-Msg_Menu_Main_LoadState                 = "Charger état"
+Msg_Menu_Main_FreeROM                   = "LibÃ©rer ROM"
+Msg_Menu_Main_SaveState                 = "Sauver Ã©tat"
+Msg_Menu_Main_LoadState                 = "Charger Ã©tat"
 Msg_Menu_Main_Options                   = "Options"
 Msg_Menu_Main_Language                  = "Langue"
 Msg_Menu_Main_Quit                      = "Quitter"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Activé"
+Msg_Menu_Debug_Enabled                  = "ActivÃ©"
 Msg_Menu_Debug_Dump                     = "Acquisition"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MACHINE"
-Msg_Menu_Machine_Power                  = "Marche/Arrêt"
+Msg_Menu_Machine_Power                  = "Marche/ArrÃªt"
 Msg_Menu_Machine_Power_On               = "Allumer"
 Msg_Menu_Machine_Power_Off              = "Eteindre"
 Msg_Menu_Machine_Country                = "Pays"
-Msg_Menu_Machine_Country_EU             = "Européenne/US"
+Msg_Menu_Machine_Country_EU             = "EuropÃ©enne/US"
 Msg_Menu_Machine_Country_Jap            = "Japonaise"
 Msg_Menu_Machine_TVType                 = "Type de TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
@@ -1008,47 +1008,47 @@ Msg_Menu_Machine_HardReset              = "Reset hard"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
-Msg_Menu_Video_FullScreen               = "Plein écran"
-Msg_Menu_Video_Themes                   = "Thèmes"
-Msg_Menu_Video_Blitters                 = "Paramètres"
+Msg_Menu_Video_FullScreen               = "Plein Ã©cran"
+Msg_Menu_Video_Themes                   = "ThÃ¨mes"
+Msg_Menu_Video_Blitters                 = "ParamÃ¨tres"
 Msg_Menu_Video_Layers                   = "Plans"
 Msg_Menu_Video_Layers_Sprites           = "Sprites"
-Msg_Menu_Video_Layers_Background        = "Arrière plan"
+Msg_Menu_Video_Layers_Background        = "ArriÃ¨re plan"
 Msg_Menu_Video_Flickering               = "Clignotement"
 Msg_Menu_Video_Flickering_Auto          = "Automatique"
-Msg_Menu_Video_Flickering_Yes           = "Activé"
-Msg_Menu_Video_Flickering_No            = "Désactivé"
+Msg_Menu_Video_Flickering_Yes           = "ActivÃ©"
+Msg_Menu_Video_Flickering_No            = "DÃ©sactivÃ©"
 Msg_Menu_Video_3DGlasses                = "Lunettes 3-D"
-Msg_Menu_Video_3DGlasses_Enabled        = "Activées"
-Msg_Menu_Video_3DGlasses_ShowBothSides  = "Activer les deux côtés"
-Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Activer le côté gauche"
-Msg_Menu_Video_3DGlasses_ShowRightSide  = "Activer le côté droit"
+Msg_Menu_Video_3DGlasses_Enabled        = "ActivÃ©es"
+Msg_Menu_Video_3DGlasses_ShowBothSides  = "Activer les deux cÃ´tÃ©s"
+Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Activer le cÃ´tÃ© gauche"
+Msg_Menu_Video_3DGlasses_ShowRightSide  = "Activer le cÃ´tÃ© droit"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Lunettes sur le Port COM"
 Msg_Menu_Video_Capture                  = "Capture"
-Msg_Menu_Video_Capture_CaptureScreen    = "Capturer l'écran"
-Msg_Menu_Video_Capture_CaptureScreenAll = "Capturer l'écran (tous)"
+Msg_Menu_Video_Capture_CaptureScreen    = "Capturer l'Ã©cran"
+Msg_Menu_Video_Capture_CaptureScreenAll = "Capturer l'Ã©cran (tous)"
 Msg_Menu_Video_Capture_IncludeGUI       = "Inclure l'interface"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SON"
 Msg_Menu_Sound_FM                       = "Module FM"
-Msg_Menu_Sound_FM_Enabled               = "Activé"
-Msg_Menu_Sound_FM_Disabled              = "Désactivé"
+Msg_Menu_Sound_FM_Enabled               = "ActivÃ©"
+Msg_Menu_Sound_FM_Disabled              = "DÃ©sactivÃ©"
 Msg_Menu_Sound_FM_Editor                = "Editeur d'instruments"
 Msg_Menu_Sound_Volume                   = "Volume"
 Msg_Menu_Sound_Volume_Mute              = "Muet"
 Msg_Menu_Sound_Volume_Value             = "%d%%"
-Msg_Menu_Sound_Rate                     = "Fréquence"
+Msg_Menu_Sound_Rate                     = "FrÃ©quence"
 Msg_Menu_Sound_Rate_Hz                  = "%d Hz"
 Msg_Menu_Sound_Channels                 = "Canaux"
 Msg_Menu_Sound_Channels_Tone            = "Ton %d"
 Msg_Menu_Sound_Channels_Noises          = "Bruits"
 Msg_Menu_Sound_Dump                     = "Acquisition"
-Msg_Menu_Sound_Dump_WAV_Start           = "Démarrer en WAV"
-Msg_Menu_Sound_Dump_WAV_Stop            = "Arrêter en WAV"
-Msg_Menu_Sound_Dump_VGM_Start           = "Démarrer en VGM"
-Msg_Menu_Sound_Dump_VGM_Stop            = "Arrêter en VGM"
-Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "Haute précision VGM"
+Msg_Menu_Sound_Dump_WAV_Start           = "DÃ©marrer en WAV"
+Msg_Menu_Sound_Dump_WAV_Stop            = "ArrÃªter en WAV"
+Msg_Menu_Sound_Dump_VGM_Start           = "DÃ©marrer en VGM"
+Msg_Menu_Sound_Dump_VGM_Stop            = "ArrÃªter en VGM"
+Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "Haute prÃ©cision VGM"
 
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "CONTROLE"
@@ -1068,14 +1068,14 @@ Msg_Menu_Tools_Messages                 = "Messages"
 Msg_Menu_Tools_Palette                  = "Palette"
 Msg_Menu_Tools_TilesViewer              = "Visionneur de tiles"
 Msg_Menu_Tools_TechInfo                 = "Informations techniques"
-Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire"
+Msg_Menu_Tools_MemoryEditor				= "Editeur mÃ©moire"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AIDE"
 Msg_Menu_Help_Documentation             = "Documentation"
-Msg_Menu_Help_Compat                    = "Compatibilité"
+Msg_Menu_Help_Compat                    = "CompatibilitÃ©"
 Msg_Menu_Help_Multiplayer_Games         = "Jeux Multijoueurs"
-Msg_Menu_Help_Changes                   = "Mises à jour"
+Msg_Menu_Help_Changes                   = "Mises Ã  jour"
 Msg_Menu_Help_About                     = "A propos"
 
 ;-----------------------------------------------------------------------------
@@ -2030,7 +2030,7 @@ Msg_Menu_Help_About                     = "Over"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
-[Español]
+[EspaÃ±ol]
 WIP
 ; Translation by Antonio Bazalo (Bazathlon)
 ; Maintainer: Antonio Bazalo (bazathlon AT wanadoo.es)
@@ -2040,7 +2040,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Bienvenido a %s (c) %s"
-;Msg_Window_Title                        = "MEKA - ¡8-bit o muere!"
+;Msg_Window_Title                        = "MEKA - Â¡8-bit o muere!"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -2050,12 +2050,12 @@ Msg_About_Line_Authors                  = "por %s"
 Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
-Msg_Failed                              = "¡Fallo!"
+Msg_Failed                              = "Â¡Fallo!"
 Msg_Error_Base                          = "Error: %s"
 Msg_Error_Error                         = "Error fatal: algo debe ir mal."
 Msg_Error_Memory                        = "No hay suficiente memoria"
-Msg_Error_Param                         = "¡El parametro \"%s\" es invalido!\n"
-Msg_Error_Syntax                        = "¡Error de sintaxis!"
+Msg_Error_Param                         = "Â¡El parametro \"%s\" es invalido!\n"
+Msg_Error_Syntax                        = "Â¡Error de sintaxis!"
 
 ; Errors: Video --------------------------------------------------------------
 Msg_Error_Video_Mode                    = "Inhabilitado el modo de video deseado (%dx%d)."
@@ -2137,7 +2137,7 @@ Msg_DataDump_Error_Sprites              = "Sin sprites para dumpear!"
 Msg_DataDump_Main                       = "Dumpeo %s (%d %s) en %s modo"
 
 ; Documentation --------------------------------------------------------------
-Msg_Doc_BoxTitle                        = "Documentación"
+Msg_Doc_BoxTitle                        = "DocumentaciÃ³n"
 Msg_Doc_File_Error                      = "Incapaz de abrir documentacion."
 Msg_Doc_Enabled                         = "Documentacion mostrandose."
 Msg_Doc_Disabled                        = "No hay mas documentacion."
@@ -2158,8 +2158,8 @@ Msg_FDC765_Unknown_Read                 = "FDC765: Comando de lectura de disco d
 Msg_FDC765_Unknown_Write                = "FDC765: Comando de escritura en disco desconocido %3i"
 Msg_FDC765_Disk_Too_Large1              = "Imagen de disco es mas grande de lo esperado (%i > %i)"
 Msg_FDC765_Disk_Too_Large2              = "Datos adicionales seran ignorados"
-Msg_FDC765_Disk_Too_Small1              = "La imagen del disco es más pequeña de lo esperado (%i < %i)"
-Msg_FDC765_Disk_Too_Small2              = "Datos perdidos serán asumidos como vacíos"
+Msg_FDC765_Disk_Too_Small1              = "La imagen del disco es mÃ¡s pequeÃ±a de lo esperado (%i < %i)"
+Msg_FDC765_Disk_Too_Small2              = "Datos perdidos serÃ¡n asumidos como vacÃ­os"
 
 ; Terebi Oekaki (Graphic Board) ----------------------------------------------
 Msg_TVOekaki_Pen_Touch                  = "La pluma esta tocando la tableta grafica"
@@ -2176,7 +2176,7 @@ Msg_Message_Disabled                    = "Caja de mensajes desactivada"
 Msg_Message_Enabled                     = "Caja de mensajes activada"
 
 ; Technical Information box --------------------------------------------------
-Msg_TechInfo_BoxTitle                   = "Información técnica"
+Msg_TechInfo_BoxTitle                   = "InformaciÃ³n tÃ©cnica"
 Msg_TechInfo_Disabled                   = "Caja de informacion tecnica desativada"
 Msg_TechInfo_Enabled                    = "Caja de informacion tecnica activada"
 
@@ -2231,13 +2231,13 @@ Msg_Inputs_Play_Mouse                   = "Control con dispositivo de entrada an
 Msg_Inputs_Play_Pen                     = "Control de pluma con raton\nboton derecho simula quitando la pluma de la tableta"
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Config_BoxTitle              = "Configuración de entrada"
+Msg_Inputs_Config_BoxTitle              = "ConfiguraciÃ³n de entrada"
 
 ; Inputs Sources -------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Cargando MEKA.INP (definicion de rutas de entrada)... "
 Msg_Inputs_Src_Not_Enough               = "Insuficientes caminos de entrada encontrados! Comprueba el archivo MEKA.INP o reinstala MEKA"
 Msg_Inputs_Src_Missing                  = "On line %d: Sin camino de entrada definido para almacenar valores"
-Msg_Inputs_Src_Equal                    = "On line %d: Señal de equilibrio perdida para asignamiento de variable"
+Msg_Inputs_Src_Equal                    = "On line %d: SeÃ±al de equilibrio perdida para asignamiento de variable"
 Msg_Inputs_Src_Unrecognized             = "On line %d: Variable irreconocible \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "On line %d: Error de sintaxis en parametro de variable!"
 Msg_Inputs_Src_Inconsistency            = "On line %d: Inconsistencia con la configuracion previa!"
@@ -2293,7 +2293,7 @@ Msg_Sound_Stream_Error                  = "Buffer de sonido detenido. Reempezand
 Msg_Theme_Loading                       = "Cargando MEKA.THM (temas de interfaz)... "
 Msg_Theme_Error_Not_Enough              = "No hay suficientes temas encontrados! Comprueba el archivo MEKA.THM o intenta reinstalando MEKA."
 Msg_Theme_Error_Missing_Theme_Name      = "On line %d: Sin nombre de tema definido para almacenar valores!"
-Msg_Theme_Error_BG_Big                  = "Dibujo de fondo demasiado pequeño para agrandar con scaling integrado!"
+Msg_Theme_Error_BG_Big                  = "Dibujo de fondo demasiado pequeÃ±o para agrandar con scaling integrado!"
 Msg_Theme_Error_BG                      = "Error cargando dibujo asociado con juego!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
 
@@ -2373,9 +2373,9 @@ Msg_Sound_Dumping_Start                 = "Empezado salida de sonido dumeado a %
 Msg_Sound_Dumping_Stop                  = "Detenido salida de sonido dumpeado (%2.02f segundos grabados)"
 Msg_Sound_Dumping_Error_File_1          = "Incapaz de encontrar un nombre de fichero valido para salida de sonido dumpeado!"
 Msg_Sound_Dumping_Error_File_2          = "Error abriendo archivo de entrada %s para dumpeo!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "El dumpeo VGM estará ahora con los frames precisos (archivos mas pequeños, voces excluidas)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "El dumpeo VGM estará ahora con el sample preciso (archivos mas grandes, voces dumpeadas)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(El dumpeo VGM tendrá que reempezar para tener en cuenta la nueva precisión)"
+Msg_Sound_Dumping_VGM_Acc_Frame         = "El dumpeo VGM estarÃ¡ ahora con los frames precisos (archivos mas pequeÃ±os, voces excluidas)"
+Msg_Sound_Dumping_VGM_Acc_Sample        = "El dumpeo VGM estarÃ¡ ahora con el sample preciso (archivos mas grandes, voces dumpeadas)"
+Msg_Sound_Dumping_VGM_Acc_Change        = "(El dumpeo VGM tendrÃ¡ que reempezar para tener en cuenta la nueva precisiÃ³n)"
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
@@ -2398,7 +2398,7 @@ Msg_Menu_Machine_Power_On               = "On"
 Msg_Menu_Machine_Power_Off              = "Off"
 Msg_Menu_Machine_Country                = "Pais"
 Msg_Menu_Machine_Country_EU             = "Europeo/USA"
-Msg_Menu_Machine_Country_Jap            = "Japonés"
+Msg_Menu_Machine_Country_Jap            = "JaponÃ©s"
 Msg_Menu_Machine_TVType                 = "Tipo TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
@@ -2451,11 +2451,11 @@ Msg_Menu_Inputs_Joypad                  = "Joypad"
 Msg_Menu_Inputs_LightPhaser             = "Light Phaser"
 Msg_Menu_Inputs_PaddleControl           = "Pad de control"
 Msg_Menu_Inputs_SportsPad               = "Sports Pad"
-Msg_Menu_Inputs_GraphicBoard            = "Tableta gráfica"
+Msg_Menu_Inputs_GraphicBoard            = "Tableta grÃ¡fica"
 Msg_Menu_Inputs_SK1100                  = "TEclado Sega"
-Msg_Menu_Inputs_RapidFire               = "Fuego rápido"
-Msg_Menu_Inputs_RapidFire_PxBx          = "Jugador %d Botón %d"
-Msg_Menu_Inputs_Configuration           = "Configuración"
+Msg_Menu_Inputs_RapidFire               = "Fuego rÃ¡pido"
+Msg_Menu_Inputs_RapidFire_PxBx          = "Jugador %d BotÃ³n %d"
+Msg_Menu_Inputs_Configuration           = "ConfiguraciÃ³n"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "UTILES"
@@ -2466,7 +2466,7 @@ Msg_Menu_Tools_TechInfo                 = "Tech Info"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AYUDA"
-Msg_Menu_Help_Documentation             = "Documentación"
+Msg_Menu_Help_Documentation             = "DocumentaciÃ³n"
 Msg_Menu_Help_Compat                    = "Lista de compatibilidad"
 Msg_Menu_Help_Multiplayer_Games         = "Lista de juegos multijugador"
 Msg_Menu_Help_Changes                   = "Lista de cambios"
@@ -2475,20 +2475,20 @@ Msg_Menu_Help_About                     = "Acerca de"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
-[Português]
+[PortuguÃªs]
 WIP
 ; (Portuguese accentued text - UTF Support)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
-; Tradução realizada por (Translation done by):
+; TraduÃ§Ã£o realizada por (Translation done by):
 ; Rodrigo Campanini Rubio (Elsydeon_Sword) - elsydeon_swrd _@_ hotmail . com
 ; http://rubiopage.tripod.com
 ;
-; Atenção: Alguns caracteres poderão ser exibidos incorretamente no DOS ou na
-; interface devido à problemas de incompatibilidade entre os formatos de
+; AtenÃ§Ã£o: Alguns caracteres poderÃ£o ser exibidos incorretamente no DOS ou na
+; interface devido Ã  problemas de incompatibilidade entre os formatos de
 ; acentos DOS ANSI e UTF text format. Reporte qualquer erro para
-; elsydeon_swrd _@_ hotmail . com indicando a linha de texto exibido de forma errônea.
+; elsydeon_swrd _@_ hotmail . com indicando a linha de texto exibido de forma errÃ´nea.
 ;
 ; Warning: Some accentued characters may appear in incorrect form due to incompatibility
 ; between UTF and ANSI-DOS accentued characters table positions. If you found any
@@ -2510,28 +2510,28 @@ Msg_About_Line_Homepage                 = "%s"
 Msg_Failed                              = "Falhou!"
 Msg_Error_Base                          = "Erro: %s"
 Msg_Error_Error                         = "Fatal: erro obtendo tipo do erro. Alguma coisa deve estar errada."
-Msg_Error_Memory                        = "Mem¢ria insuficiente!"
-Msg_Error_Param                         = "Parƒmetro \"%s\" ‚ inv lido!\n"
+Msg_Error_Memory                        = "MemÂ¢ria insuficiente!"
+Msg_Error_Param                         = "ParÆ’metro \"%s\" â€š inv lido!\n"
 Msg_Error_Syntax                        = "Erro de sintaxe!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Imposs¡vel alternar para o modo de v¡deo desejado (%dx%d)."
+Msg_Error_Video_Mode                    = "ImpossÂ¡vel alternar para o modo de vÂ¡deo desejado (%dx%d)."
 
 ; Errors: File ---------------------------------------------------------------
-Msg_Error_File_Not_Found                = "Arquivo nÆo encontrado!"
-Msg_Error_File_Read                     = "Imposs¡vel ler do arquivo!"
+Msg_Error_File_Not_Found                = "Arquivo nÃ†o encontrado!"
+Msg_Error_File_Read                     = "ImpossÂ¡vel ler do arquivo!"
 Msg_Error_File_Empty                    = "O arquivo est  vazio!"
 
 ; Errors: ZIP File -----------------------------------------------------------
-Msg_Error_ZIP_Not_Supported             = "Esta versÆo nÆo suporta arquivos tipo ZIP!"
-Msg_Error_ZIP_Loading                   = "Impossível ler arquivo ZIP!"
+Msg_Error_ZIP_Not_Supported             = "Esta versÃ†o nÃ†o suporta arquivos tipo ZIP!"
+Msg_Error_ZIP_Loading                   = "ImpossÃ­vel ler arquivo ZIP!"
 Msg_Error_ZIP_Internal                  = "Erro interno enquanto carregando o arquivo ZIP!"
 
 ; Errors: Directory ----------------------------------------------------------
-Msg_Error_Directory_Open                = "Erro abrindo diretório!"
+Msg_Error_Directory_Open                = "Erro abrindo diretÃ³rio!"
 
 ; Miscellaneous --------------------------------------------------------------
-Msg_Must_Reset                          = "Reinicie o jogo para que as mudanças façam efeito"
+Msg_Must_Reset                          = "Reinicie o jogo para que as mudanÃ§as faÃ§am efeito"
 Msg_No_ROM                              = "Nenhuma ROM foi carregada!"
 
 ; Initialization -------------------------------------------------------------
@@ -2543,37 +2543,37 @@ Msg_Init_Completed                      = "[PRONTO!]"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Imagem gravada como %s"
-Msg_Capture_Error                       = "Imposs¡vel capturar imagem!"
-Msg_Capture_Error_File                  = "Não foi possível encontrar um nome válido para gravar a imagem capturada!"
+Msg_Capture_Error                       = "ImpossÂ¡vel capturar imagem!"
+Msg_Capture_Error_File                  = "NÃ£o foi possÃ­vel encontrar um nome vÃ¡lido para gravar a imagem capturada!"
 
 ; On-Board Memory ------------------------------------------------------------
 Msg_SRAM_Loaded                         = "SaveRAM carregada do disco (%d Kb)"
-Msg_SRAM_Load_Unable                    = "Impossível carregar a SaveRAM do disco"
+Msg_SRAM_Load_Unable                    = "ImpossÃ­vel carregar a SaveRAM do disco"
 Msg_SRAM_Wrote                          = "SaveRAM gravada no disco (%d Kb)"
-Msg_SRAM_Write_Unable                   = "Impossível gravar a SaveRAM no disco (%d Kb)"
+Msg_SRAM_Write_Unable                   = "ImpossÃ­vel gravar a SaveRAM no disco (%d Kb)"
 Msg_93c46_Reset                         = "Reiniciando 93c46"
 Msg_93c46_Loaded                        = "EEPROM de dados 93c46 carregada do disco (%d bytes)"
-Msg_93c46_Load_Unable                   = "Impossível carregar EEPROM de dados 93c46 do disco"
+Msg_93c46_Load_Unable                   = "ImpossÃ­vel carregar EEPROM de dados 93c46 do disco"
 Msg_93c46_Wrote                         = "EEPROM de dados 93c46 gravada no disco (%d bytes)"
-Msg_93c46_Write_Unable                  = "Impossível escrever EEPROM de dados 93c46 no disco (%d bytes)"
+Msg_93c46_Write_Unable                  = "ImpossÃ­vel escrever EEPROM de dados 93c46 no disco (%d bytes)"
 
 ; TV Type --------------------------------------------------------------------
-Msg_TVType_Set                          = "Agora o tipo de TV é %s"
+Msg_TVType_Set                          = "Agora o tipo de TV Ã© %s"
 Msg_TVType_Info_Speed                   = "(Velocidade original: %dhz)"
 
 ; Blitters -------------------------------------------------------------------
-Msg_Blitters_Loading                    = "Carregando MEKA.BLT (modos de v¡deo / padräes)... "
-Msg_Blitters_Error_Not_Enough           = "NÆo foram encontrados padräes suficientes! Verifique o arquivo MEKA.BLT ou tente reinstal -lo."
-Msg_Blitters_Error_Not_Found            = "PadrÆo nÆo encontrado!"
-Msg_Blitters_Error_Missing              = "Linha %d: Sem defini‡Æo de nome do padrÆo para armazenamento!"
+Msg_Blitters_Loading                    = "Carregando MEKA.BLT (modos de vÂ¡deo / padrÃ¤es)... "
+Msg_Blitters_Error_Not_Enough           = "NÃ†o foram encontrados padrÃ¤es suficientes! Verifique o arquivo MEKA.BLT ou tente reinstal -lo."
+Msg_Blitters_Error_Not_Found            = "PadrÃ†o nÃ†o encontrado!"
+Msg_Blitters_Error_Missing              = "Linha %d: Sem definiâ€¡Ã†o de nome do padrÃ†o para armazenamento!"
 Msg_Blitters_Error_Unrecognized         = "Linha %d: Vari vel desconhecida!"
-Msg_Blitters_Set                        = "Usando '%s' exibição em tela inteira."
+Msg_Blitters_Set                        = "Usando '%s' exibiÃ§Ã£o em tela inteira."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Ativado modo 'Encanador Gorducho'"
 Msg_NES_Sucks                           = "Erro fatal: o usu rio gosta de Nintendo!"
-Msg_NES_Mapper_Unknown                  = "Mapeador não suportado: %d. O jogo pode não funcionar."
-Msg_NES_Deny_Facts                      = "Você não pode negar fatos!"
+Msg_NES_Mapper_Unknown                  = "Mapeador nÃ£o suportado: %d. O jogo pode nÃ£o funcionar."
+Msg_NES_Deny_Facts                      = "VocÃª nÃ£o pode negar fatos!"
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Inicializando depurador."
@@ -2585,47 +2585,47 @@ Msg_Debug_Trap_Port_Read                = "Em PC:%04X - Porta [%02X] leitura"
 Msg_Debug_Trap_Port_Write               = "Em PC:%04X - Porta [%02X] escrita %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Cópia de dados será agora feitas em modo ASCII."
-Msg_DataDump_Mode_Raw                   = "Cópia de dados será agora feitas em modo RAW."
-Msg_DataDump_Error                      = "Erro ao criar arquivo de cópia %s!"
-Msg_DataDump_Error_OB_Memory            = "Não há memória para cópia!"
-Msg_DataDump_Error_Palette              = "Não há paleta para copiar!"
-Msg_DataDump_Error_Sprites              = "Não há sprites para copiar!"
+Msg_DataDump_Mode_Ascii                 = "CÃ³pia de dados serÃ¡ agora feitas em modo ASCII."
+Msg_DataDump_Mode_Raw                   = "CÃ³pia de dados serÃ¡ agora feitas em modo RAW."
+Msg_DataDump_Error                      = "Erro ao criar arquivo de cÃ³pia %s!"
+Msg_DataDump_Error_OB_Memory            = "NÃ£o hÃ¡ memÃ³ria para cÃ³pia!"
+Msg_DataDump_Error_Palette              = "NÃ£o hÃ¡ paleta para copiar!"
+Msg_DataDump_Error_Sprites              = "NÃ£o hÃ¡ sprites para copiar!"
 Msg_DataDump_Main                       = "Copiado(s) %s (%d %s) em modo %s."
 
 ; Documentation --------------------------------------------------------------
-Msg_Doc_BoxTitle                        = "Documentação"
-Msg_Doc_File_Error                      = "Não foi possível abrir a documentação!"
-Msg_Doc_Enabled                         = "Exibindo documentação."
-Msg_Doc_Disabled                        = "Documentação recolhida."
+Msg_Doc_BoxTitle                        = "DocumentaÃ§Ã£o"
+Msg_Doc_File_Error                      = "NÃ£o foi possÃ­vel abrir a documentaÃ§Ã£o!"
+Msg_Doc_Enabled                         = "Exibindo documentaÃ§Ã£o."
+Msg_Doc_Disabled                        = "DocumentaÃ§Ã£o recolhida."
 
 ; Sprite Flickering ----------------------------------------------------------
-Msg_Flickering_Auto                     = "Tremulação do vídeo será evitada automaticamente."
-Msg_Flickering_Yes                      = "Controle de tremulação do vídeo ligado."
-Msg_Flickering_No                       = "Controle de tremulação do vídeo desligado."
+Msg_Flickering_Auto                     = "TremulaÃ§Ã£o do vÃ­deo serÃ¡ evitada automaticamente."
+Msg_Flickering_Yes                      = "Controle de tremulaÃ§Ã£o do vÃ­deo ligado."
+Msg_Flickering_No                       = "Controle de tremulaÃ§Ã£o do vÃ­deo desligado."
 
 ; Layers ---------------------------------------------------------------------
-Msg_Layer_BG_Disabled                   = "Atualização do segundo plano desligada"
-Msg_Layer_BG_Enabled                    = "Atualização do segundo plano ligada"
-Msg_Layer_Spr_Disabled                  = "Atualização da imagem desligada"
-Msg_Layer_Spr_Enabled                   = "Atualização da imagem ligada"
+Msg_Layer_BG_Disabled                   = "AtualizaÃ§Ã£o do segundo plano desligada"
+Msg_Layer_BG_Enabled                    = "AtualizaÃ§Ã£o do segundo plano ligada"
+Msg_Layer_Spr_Disabled                  = "AtualizaÃ§Ã£o da imagem desligada"
+Msg_Layer_Spr_Enabled                   = "AtualizaÃ§Ã£o da imagem ligada"
 
 ; Floppy Disk (FDC-765) ------------------------------------------------------
 Msg_FDC765_Unknown_Read                 = "FDC765: Comando desconhecido de leitura do disco %3i"
 Msg_FDC765_Unknown_Write                = "FDC765: Comando desconhecido de escrita em disco %3i"
-Msg_FDC765_Disk_Too_Large1              = "Imagem de disco é maior que o esperado (%i > %i)"
-Msg_FDC765_Disk_Too_Large2              = "Dados adicionais serão ignorados."
-Msg_FDC765_Disk_Too_Small1              = "Imagem de disco é menor que o esperado(%i < %i)"
-Msg_FDC765_Disk_Too_Small2              = "Dados faltantes serão tratados como vazios"
+Msg_FDC765_Disk_Too_Large1              = "Imagem de disco Ã© maior que o esperado (%i > %i)"
+Msg_FDC765_Disk_Too_Large2              = "Dados adicionais serÃ£o ignorados."
+Msg_FDC765_Disk_Too_Small1              = "Imagem de disco Ã© menor que o esperado(%i < %i)"
+Msg_FDC765_Disk_Too_Small2              = "Dados faltantes serÃ£o tratados como vazios"
 
 ; Terebi Oekaki (Graphic Board) ----------------------------------------------
-Msg_TVOekaki_Pen_Touch                  = "A caneta está tocando a prancheta gráfica"
-Msg_TVOekaki_Pen_Away                   = "A caneta não está mais tocando a prancheta gráfica"
+Msg_TVOekaki_Pen_Touch                  = "A caneta estÃ¡ tocando a prancheta grÃ¡fica"
+Msg_TVOekaki_Pen_Away                   = "A caneta nÃ£o estÃ¡ mais tocando a prancheta grÃ¡fica"
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Paleta"
-Msg_Palette_Disabled                    = "Visualização de paleta desativada"
-Msg_Palette_Enabled                     = "Visualização de paleta ativa"
+Msg_Palette_Disabled                    = "VisualizaÃ§Ã£o de paleta desativada"
+Msg_Palette_Enabled                     = "VisualizaÃ§Ã£o de paleta ativa"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Mensagens"
@@ -2633,46 +2633,46 @@ Msg_Message_Disabled                    = "Caixa de mensagem desativada"
 Msg_Message_Enabled                     = "Caixa de mensagem ativa"
 
 ; Technical Information box --------------------------------------------------
-Msg_TechInfo_BoxTitle                   = "Informações Técnicas"
-Msg_TechInfo_Disabled                   = "Informações técnicas desabilitadas"
-Msg_TechInfo_Enabled                    = "Informações técnicas ativas"
+Msg_TechInfo_BoxTitle                   = "InformaÃ§Ãµes TÃ©cnicas"
+Msg_TechInfo_Disabled                   = "InformaÃ§Ãµes tÃ©cnicas desabilitadas"
+Msg_TechInfo_Enabled                    = "InformaÃ§Ãµes tÃ©cnicas ativas"
 
 ; Tile Viewer ----------------------------------------------------------------
 Msg_TilesViewer_BoxTitle                = "Visualizador de Tiles"
-Msg_TilesViewer_Disabled                = "Visualização de tiles desativada"
-Msg_TilesViewer_Enabled                 = "Visualização de tiles ativa"
+Msg_TilesViewer_Disabled                = "VisualizaÃ§Ã£o de tiles desativada"
+Msg_TilesViewer_Enabled                 = "VisualizaÃ§Ã£o de tiles ativa"
 Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
-Msg_RapidFire_JxBx_On                   = "Rapid Fire ativado para o jogador %d, botão %d"
-Msg_RapidFire_JxBx_Off                  = "Rapid Fire desativado para o jogador %d, botão %d"
+Msg_RapidFire_JxBx_On                   = "Rapid Fire ativado para o jogador %d, botÃ£o %d"
+Msg_RapidFire_JxBx_Off                  = "Rapid Fire desativado para o jogador %d, botÃ£o %d"
 
 ; FM Unit (YM-2413 chipset) --------------------------------------------------
-Msg_FM_Enabled                          = "Emulação da unidade de FM (chip YM-2413) ligada"
-Msg_FM_Disabled                         = "Emulação da unidade de FM (chip YM-2413) desligada"
+Msg_FM_Enabled                          = "EmulaÃ§Ã£o da unidade de FM (chip YM-2413) ligada"
+Msg_FM_Disabled                         = "EmulaÃ§Ã£o da unidade de FM (chip YM-2413) desligada"
 
 ; Country --------------------------------------------------------------------
-Msg_Country_European_US                 = "Máquina emulada é Brasileira/Européia/Estados Unidos"
-Msg_Country_JAP                         = "Máquina emulada é Japonesa"
+Msg_Country_European_US                 = "MÃ¡quina emulada Ã© Brasileira/EuropÃ©ia/Estados Unidos"
+Msg_Country_JAP                         = "MÃ¡quina emulada Ã© Japonesa"
 
 ; Patching System ------------------------------------------------------------
-Msg_Patch_Loading                       = "Carregando MEKA.PAT (altera‡äes/patches)... "
-;Msg_Patch_Missing                       = "Linha %d: Nenhuma checagem (checksum) definido para esta instru‡Æo!"
-;Msg_Patch_Unrecognized                  = "Linha %d: Instru‡Æo desconhecida!"
-;Msg_Patch_Out_of_Bound                  = "Enquanto modificando ROM: tentativa de escrita fora da área permitida, posição $%02X. Cancelando modificações."
+Msg_Patch_Loading                       = "Carregando MEKA.PAT (alteraâ€¡Ã¤es/patches)... "
+;Msg_Patch_Missing                       = "Linha %d: Nenhuma checagem (checksum) definido para esta instruâ€¡Ã†o!"
+;Msg_Patch_Unrecognized                  = "Linha %d: Instruâ€¡Ã†o desconhecida!"
+;Msg_Patch_Out_of_Bound                  = "Enquanto modificando ROM: tentativa de escrita fora da Ã¡rea permitida, posiÃ§Ã£o $%02X. Cancelando modificaÃ§Ãµes."
 
 ; 3-D Glasses ----------------------------------------------------------------
-Msg_Glasses_Enabled                     = "Emulação de óculos 3-D ativa"
-Msg_Glasses_Disabled                    = "Emulação de óculos 3-D desativada"
+Msg_Glasses_Enabled                     = "EmulaÃ§Ã£o de Ã³culos 3-D ativa"
+Msg_Glasses_Disabled                    = "EmulaÃ§Ã£o de Ã³culos 3-D desativada"
 Msg_Glasses_Show_Both                   = "Efeito 3-D mantido original (duas imagens)."
 Msg_Glasses_Show_Left                   = "Efeito 3-D desabilitado mostrando apenas lado esquerdo."
 Msg_Glasses_Show_Right                  = "Efeito 3-D desabilitado mostrando apenas lado direito."
-Msg_Glasses_Com_Port                    = "Emulação de óculos 3-D habilitado através da porta COM %d."
-;Msg_Glasses_Com_Port2                   = "(edite MEKA.CFG para mudar a porta de comunicações COM)."
-Msg_Glasses_Unsupported                 = "Este jogo parece não utilizar óculos 3-D."
+Msg_Glasses_Com_Port                    = "EmulaÃ§Ã£o de Ã³culos 3-D habilitado atravÃ©s da porta COM %d."
+;Msg_Glasses_Com_Port2                   = "(edite MEKA.CFG para mudar a porta de comunicaÃ§Ãµes COM)."
+Msg_Glasses_Unsupported                 = "Este jogo parece nÃ£o utilizar Ã³culos 3-D."
 
 ; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Config_BoxTitle              = "Configuração de entradas"
+Msg_Inputs_Config_BoxTitle              = "ConfiguraÃ§Ã£o de entradas"
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Inicializando joystick... "
@@ -2681,36 +2681,36 @@ Msg_Inputs_Joy_Init_Found               = "encontrado(s) %d joystick(s)."
 Msg_Inputs_Joy_Calibrate_Error          = "Erro ao calibrar o joystick. Cancelado."
 
 ; Inputs ---------------------------------------------------------------------
-Msg_Inputs_Joypad                       = "Periférico de entrada: Controle"
-Msg_Inputs_LightPhaser                  = "Periférico de entrada: Pistola Light Phaser"
-Msg_Inputs_PaddleControl                = "Periférico de entrada: Controle com leme"
-Msg_Inputs_SportsPad                    = "Periférico de entrada: Sports Pad"
-Msg_Inputs_TVOekaki                     = "Periférico de entrada: Prancheta Gráfica TV Oekaki "
+Msg_Inputs_Joypad                       = "PerifÃ©rico de entrada: Controle"
+Msg_Inputs_LightPhaser                  = "PerifÃ©rico de entrada: Pistola Light Phaser"
+Msg_Inputs_PaddleControl                = "PerifÃ©rico de entrada: Controle com leme"
+Msg_Inputs_SportsPad                    = "PerifÃ©rico de entrada: Sports Pad"
+Msg_Inputs_TVOekaki                     = "PerifÃ©rico de entrada: Prancheta GrÃ¡fica TV Oekaki "
 Msg_Inputs_Play_Digital                 = "Dispositivo de controle com entrada digital"
-Msg_Inputs_Play_Mouse                   = "Mouse ou outro dispositivo de controle com entrada analógica"
-Msg_Inputs_Play_Pen                     = "Controlar caneta com o mouse\nBotão_direito simula remover a caneta da prancheta"
+Msg_Inputs_Play_Mouse                   = "Mouse ou outro dispositivo de controle com entrada analÃ³gica"
+Msg_Inputs_Play_Pen                     = "Controlar caneta com o mouse\nBotÃ£o_direito simula remover a caneta da prancheta"
 
 ; Inputs Sources -------------------------------------------------------------
-Msg_Inputs_Src_Loading                  = "Carregando MEKA.INP (defini‡äes de dispositivos de entrada)... "
+Msg_Inputs_Src_Loading                  = "Carregando MEKA.INP (definiâ€¡Ã¤es de dispositivos de entrada)... "
 Msg_Inputs_Src_Not_Enough               = "Dispositivos de entrada insuficientes! Verifique o arquivo MEKA.INP ou tente reinstal -lo."
-Msg_Inputs_Src_Missing                  = "Linha %d: NÆo h  dispositivo definido para armazenamento!"
-Msg_Inputs_Src_Equal                    = "Linha %d: Faltando sinal de igual para declara‡Æo da vari vel!"
+Msg_Inputs_Src_Missing                  = "Linha %d: NÃ†o h  dispositivo definido para armazenamento!"
+Msg_Inputs_Src_Equal                    = "Linha %d: Faltando sinal de igual para declaraâ€¡Ã†o da vari vel!"
 Msg_Inputs_Src_Unrecognized             = "Linha %d: Vari vel desconhecida \"%s\"!"
-Msg_Inputs_Src_Syntax_Param             = "Linha %d: Erro de sintaxe no parƒmetro da vari vel!"
-Msg_Inputs_Src_Inconsistency            = "Linha %d: Inconsistˆncia em rela‡Æo … declara‡Æo anterior!"
-Msg_Inputs_Src_Map_Keyboard             = "Agora pressione a tecla que você deseja atribuir a esta ação"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Ação designada à tecla \"%s\"."
-Msg_Inputs_Src_Map_Joypad               = "Agora pressione o botão/eixo a que você deseja atribuir esta ação"
-Msg_Inputs_Src_Map_Joypad_Ok_A          = "Ação designada ao joypad stick %i, eixo %i, %c."
-Msg_Inputs_Src_Map_Joypad_Ok_B          = "Ação designada ao botão %i."
-Msg_Inputs_Src_Map_Mouse                = "Agora aperte o botão a que você deseja atribuir esta ação"
-Msg_Inputs_Src_Map_Mouse_Ok_B           = "Ação designada ao botão %i do mouse."
-Msg_Inputs_Src_Map_Mouse_No_A           = "Desculpe, mas o eixo do mouse não pode ser alterado"
-Msg_Inputs_Src_Map_Cancelled            = "Atribuição cancelada"
+Msg_Inputs_Src_Syntax_Param             = "Linha %d: Erro de sintaxe no parÆ’metro da vari vel!"
+Msg_Inputs_Src_Inconsistency            = "Linha %d: InconsistË†ncia em relaâ€¡Ã†o â€¦ declaraâ€¡Ã†o anterior!"
+Msg_Inputs_Src_Map_Keyboard             = "Agora pressione a tecla que vocÃª deseja atribuir a esta aÃ§Ã£o"
+Msg_Inputs_Src_Map_Keyboard_Ok          = "AÃ§Ã£o designada Ã  tecla \"%s\"."
+Msg_Inputs_Src_Map_Joypad               = "Agora pressione o botÃ£o/eixo a que vocÃª deseja atribuir esta aÃ§Ã£o"
+Msg_Inputs_Src_Map_Joypad_Ok_A          = "AÃ§Ã£o designada ao joypad stick %i, eixo %i, %c."
+Msg_Inputs_Src_Map_Joypad_Ok_B          = "AÃ§Ã£o designada ao botÃ£o %i."
+Msg_Inputs_Src_Map_Mouse                = "Agora aperte o botÃ£o a que vocÃª deseja atribuir esta aÃ§Ã£o"
+Msg_Inputs_Src_Map_Mouse_Ok_B           = "AÃ§Ã£o designada ao botÃ£o %i do mouse."
+Msg_Inputs_Src_Map_Mouse_No_A           = "Desculpe, mas o eixo do mouse nÃ£o pode ser alterado"
+Msg_Inputs_Src_Map_Cancelled            = "AtribuiÃ§Ã£o cancelada"
 
 ; Machine --------------------------------------------------------------------
-Msg_Machine_Pause                       = "Emulação pausada"
-Msg_Machine_Resume                      = "Continuando emulação"
+Msg_Machine_Pause                       = "EmulaÃ§Ã£o pausada"
+Msg_Machine_Resume                      = "Continuando emulaÃ§Ã£o"
 Msg_Machine_Reset                       = "Reiniciando sistema"
 
 ; Filenames Database ---------------------------------------------------------
@@ -2722,7 +2722,7 @@ Msg_DB_Name_Default                     = "Imagem do jogo"
 Msg_DB_Name_NoCartridge                 = "Sem cartucho"
 
 ; Configuration File ---------------------------------------------------------
-Msg_Config_Loading                      = "Carregando %s (configura‡Æo)... "
+Msg_Config_Loading                      = "Carregando %s (configuraâ€¡Ã†o)... "
 
 ; Datafile -------------------------------------------------------------------
 Msg_Datafile_Loading                    = "Carregando MEKA.DAT (recursos)... "
@@ -2731,20 +2731,20 @@ Msg_Datafile_Loading                    = "Carregando MEKA.DAT (recursos)... "
 Msg_Driver_Unknown                      = "Fatal: Driver de m quina desconhecido!"
 
 ; Overdump detection ---------------------------------------------------------
-;Msg_OverDump                            = "Esta ROM possui %d vezes o tamanho necessário de dados.\nPegue o "SMS Checker" para resolver este problema."
+;Msg_OverDump                            = "Esta ROM possui %d vezes o tamanho necessÃ¡rio de dados.\nPegue o "SMS Checker" para resolver este problema."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Inicializando dispositivo de som..."
 Msg_Sound_Init_Error_Audio              = " - Erro ao acessar dispositivo de  udio. Tente outra placa de som ou taxa de\namostragem."
-Msg_Sound_Init_Error_Blaster            = " - vari vel de ambiente BLASTER nÆo encontrada. Desabilitando som FM!"
-Msg_Sound_Init_Error_Blaster_A          = " - vari vel de ambiente BLASTER nÆo possui o endere‡o (A=xxx). Desabilitando som FM!"
-Msg_Sound_Init_Error_Voices             = " - Inicializa‡Æo das vozes falhou."
-Msg_Sound_Init_Error_Voice_N            = " - Falha na cria‡Æo da voz n£mero %d."
+Msg_Sound_Init_Error_Blaster            = " - vari vel de ambiente BLASTER nÃ†o encontrada. Desabilitando som FM!"
+Msg_Sound_Init_Error_Blaster_A          = " - vari vel de ambiente BLASTER nÃ†o possui o endereâ€¡o (A=xxx). Desabilitando som FM!"
+Msg_Sound_Init_Error_Voices             = " - Inicializaâ€¡Ã†o das vozes falhou."
+Msg_Sound_Init_Error_Voice_N            = " - Falha na criaâ€¡Ã†o da voz nÂ£mero %d."
 Msg_Sound_Init_Soundcard                = " - Inicializando placa de som @ %d Hz..."
-Msg_Sound_Init_Soundcard_No             = "Imposs¡vel iniciar  udio: nÆo foi selecionada uma placa de som!"
+Msg_Sound_Init_Soundcard_No             = "ImpossÂ¡vel iniciar  udio: nÃ†o foi selecionada uma placa de som!"
 ;Msg_Sound_Init_SN76496_Ok               = " - Emulador do SN76496: Ok"
 ;Msg_Sound_Init_YM2413_Ok                = " - Emulador do YM2413: Ok"
-Msg_Sound_Stream_Error                  = "Cache de som parado. Reiniciando sequência"
+Msg_Sound_Stream_Error                  = "Cache de som parado. Reiniciando sequÃªncia"
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Carregando MEKA.THM (temas da interface)... "
@@ -2757,18 +2757,18 @@ Msg_Theme_Error_BG_FileName             = "(%s)"
 ; Loading ROM / Disk ---------------------------------------------------------
 Msg_LoadROM_Loading                     = "Carregando ROM... "
 Msg_LoadROM_Success                     = "Carregada com sucesso %s"
-Msg_LoadDisk_Success                    = "carregado %s com sucesso como um disco flexível"
-Msg_LoadROM_Comment                     = "Comentário: %s"
+Msg_LoadDisk_Success                    = "carregado %s com sucesso como um disco flexÃ­vel"
+Msg_LoadROM_Comment                     = "ComentÃ¡rio: %s"
 Msg_LoadROM_Warning                     = "-Avisos-"
-;Msg_LoadROM_Bad_Dump_Long               = "Esta ROM é conhecida como sendo uma cópia com defeito.\nHá grandes chances de que ela não funcione corretamente."
-Msg_LoadROM_Bad_Dump_Short              = "Atenção - Esta ROM é conhecida como uma cópia com defeito."
-Msg_LoadROM_Product_Num                 = "Número do produto: %s"
+;Msg_LoadROM_Bad_Dump_Long               = "Esta ROM Ã© conhecida como sendo uma cÃ³pia com defeito.\nHÃ¡ grandes chances de que ela nÃ£o funcione corretamente."
+Msg_LoadROM_Bad_Dump_Short              = "AtenÃ§Ã£o - Esta ROM Ã© conhecida como uma cÃ³pia com defeito."
+Msg_LoadROM_Product_Num                 = "NÃºmero do produto: %s"
 Msg_LoadROM_SDSC_Author                 = "Autor: %s"
-Msg_LoadROM_SDSC                        = "-Cabeçalho SDSC-"
+Msg_LoadROM_SDSC                        = "-CabeÃ§alho SDSC-"
 Msg_LoadROM_SDSC_Name                   = "Nome: %s"
-Msg_LoadROM_SDSC_Version                = "Versão: %d.%02d"
+Msg_LoadROM_SDSC_Version                = "VersÃ£o: %d.%02d"
 Msg_LoadROM_SDSC_Date                   = "Data: %04d.%02d.%02d"
-Msg_LoadROM_SDSC_Release_Note           = "Nota de Lançamento: %s"
+Msg_LoadROM_SDSC_Release_Note           = "Nota de LanÃ§amento: %s"
 Msg_LoadROM_SDSC_Unknown                = "<Desconhecido>"
 Msg_LoadROM_SDSC_Error                  = "<Erro>"
 
@@ -2786,51 +2786,51 @@ Msg_FM_Editor_Enabled                   = "Editor de voz FM ligado"
 Msg_FM_Editor_Disabled                  = "Editor de voz FM desligado"
 
 ; Video Options --------------------------------------------------------------
-Msg_Frameskip_Auto                      = "Taxa de quadros : Automática (%d Hz)"
+Msg_Frameskip_Auto                      = "Taxa de quadros : AutomÃ¡tica (%d Hz)"
 Msg_Frameskip_Standard                  = "Taxa de quadros ajustada para: 1/%d"
 
 ; Logging --------------------------------------------------------------------
-Msg_Log_Need_Param                      = "Op‡Æo LOG precisa de um nome de arquivo!"
-Msg_Log_Session_Start                   = "-- Registrando sessÆo iniciada em %s"
+Msg_Log_Need_Param                      = "Opâ€¡Ã†o LOG precisa de um nome de arquivo!"
+Msg_Log_Session_Start                   = "-- Registrando sessÃ†o iniciada em %s"
 
 ; Save States ----------------------------------------------------------------
-Msg_Load_Need_Param                     = "A op‡Æo LOAD precisa de um n£mero de estado gravado"
+Msg_Load_Need_Param                     = "A opâ€¡Ã†o LOAD precisa de um nÂ£mero de estado gravado"
 Msg_Load_Error                          = "Erro abrindo %s!"
-Msg_Load_Not_Valid                      = "Arquivo %s não é uma gravação de estado válida!"
+Msg_Load_Not_Valid                      = "Arquivo %s nÃ£o Ã© uma gravaÃ§Ã£o de estado vÃ¡lida!"
 Msg_Load_Success                        = "Estado carregado de %s"
-Msg_Load_Version                        = "%s é uma gravação de estado não suportada!"
-Msg_Load_Wrong_System                   = "%s não é uma gravação de estado para este sistema!"
+Msg_Load_Version                        = "%s Ã© uma gravaÃ§Ã£o de estado nÃ£o suportada!"
+Msg_Load_Wrong_System                   = "%s nÃ£o Ã© uma gravaÃ§Ã£o de estado para este sistema!"
 Msg_Load_Massage                        = "Arquivo em formato MSD - convertendo"
-Msg_Save_Not_in_BIOS                    = "Não é possível gravar enquanto estiver rodando a BIOS!"
+Msg_Save_Not_in_BIOS                    = "NÃ£o Ã© possÃ­vel gravar enquanto estiver rodando a BIOS!"
 Msg_Save_Error                          = "Erro gravando em %s!"
 Msg_Save_Success                        = "Estado gravado em %s"
-Msg_Save_Slot                           = "Área para gravação de estado atual: %d"
+Msg_Save_Slot                           = "Ãrea para gravaÃ§Ã£o de estado atual: %d"
 
 ; Options --------------------------------------------------------------------
-Msg_Options_BoxTitle                    = "Opções"
+Msg_Options_BoxTitle                    = "OpÃ§Ãµes"
 Msg_Options_Close                       = "Fechar"
-;Msg_Options_BIOS_Enable                 = "Mostrar logotipo da BIOS, se disponível no sistema."
-;Msg_Options_Product_Number              = "Mostrar número de produto do jogo, se disponível."
+;Msg_Options_BIOS_Enable                 = "Mostrar logotipo da BIOS, se disponÃ­vel no sistema."
+;Msg_Options_Product_Number              = "Mostrar nÃºmero de produto do jogo, se disponÃ­vel."
 ;Msg_Options_Bright_Palette              = "Paleta brilhante para o Master System/Game Gear."
-Msg_Options_Load_Close                  = "Fechar janela dos arquivos após carregar um jogo."
-Msg_Options_Load_FullScreen             = "Alternar para tela inteira após carregar um jogo."
-;Msg_Options_VFN_Support                 = "Mostrar nomes longos (Win9X) e bandeira dos países."
+Msg_Options_Load_Close                  = "Fechar janela dos arquivos apÃ³s carregar um jogo."
+Msg_Options_Load_FullScreen             = "Alternar para tela inteira apÃ³s carregar um jogo."
+;Msg_Options_VFN_Support                 = "Mostrar nomes longos (Win9X) e bandeira dos paÃ­ses."
 Msg_Options_FullScreen_Messages         = "Mostrar mensagem em tela inteira."
 Msg_Options_GUI_VSync                   = "Aguardar sincronismo vertical no modo interface."
-Msg_Options_NES_Enable                  = "Mario não é um encanador gorducho."
+Msg_Options_NES_Enable                  = "Mario nÃ£o Ã© um encanador gorducho."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Idioma mudado para %s"
-Msg_Language_Set_Warning                = "Nota: É recomendado que você reinicie MEKA para ter certeza que todo o texto será atualizado."
+Msg_Language_Set_Warning                = "Nota: Ã‰ recomendado que vocÃª reinicie MEKA para ter certeza que todo o texto serÃ¡ atualizado."
 
 ; Sound Dumping --------------------------------------------------------------
-Msg_Sound_Dumping_Start                 = "Iniciada cópia de dados do som para o arquivo %s"
-Msg_Sound_Dumping_Stop                  = "Término da cópia de dados do som (%2.02f segundos gravados)"
-Msg_Sound_Dumping_Error_File_1          = "Impossível encontrar um nome válido de arquivo para copiar dados do som!"
-Msg_Sound_Dumping_Error_File_2          = "Erro abrindo arquivo de saída %s para cópia de dados!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "Cópia de VGM terá precisão de quadros (arquivos menores, vozes ignoradas)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "Cópia de VGM será fiel ao 'sample' (arquivos maiores, vozes copiadas)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(A cópia de VGM deverá ser reiniciada para vigorar a nova precisão)"
+Msg_Sound_Dumping_Start                 = "Iniciada cÃ³pia de dados do som para o arquivo %s"
+Msg_Sound_Dumping_Stop                  = "TÃ©rmino da cÃ³pia de dados do som (%2.02f segundos gravados)"
+Msg_Sound_Dumping_Error_File_1          = "ImpossÃ­vel encontrar um nome vÃ¡lido de arquivo para copiar dados do som!"
+Msg_Sound_Dumping_Error_File_2          = "Erro abrindo arquivo de saÃ­da %s para cÃ³pia de dados!"
+Msg_Sound_Dumping_VGM_Acc_Frame         = "CÃ³pia de VGM terÃ¡ precisÃ£o de quadros (arquivos menores, vozes ignoradas)"
+Msg_Sound_Dumping_VGM_Acc_Sample        = "CÃ³pia de VGM serÃ¡ fiel ao 'sample' (arquivos maiores, vozes copiadas)"
+Msg_Sound_Dumping_VGM_Acc_Change        = "(A cÃ³pia de VGM deverÃ¡ ser reiniciada para vigorar a nova precisÃ£o)"
 ;-----------------------------------------------------------------------------
 
 ; Menu: Main -----------------------------------------------------------------
@@ -2839,7 +2839,7 @@ Msg_Menu_Main_LoadROM                   = "Abre ROM"
 Msg_Menu_Main_FreeROM                   = "Fecha ROM"
 Msg_Menu_Main_SaveState                 = "Gravar Estado"
 Msg_Menu_Main_LoadState                 = "Carregar Estado"
-Msg_Menu_Main_Options                   = "Opções"
+Msg_Menu_Main_Options                   = "OpÃ§Ãµes"
 Msg_Menu_Main_Language                  = "Idioma"
 Msg_Menu_Main_Quit                      = "Sair"
 
@@ -2852,9 +2852,9 @@ Msg_Menu_Machine                        = "CONSOLE"
 Msg_Menu_Machine_Power                  = "Liga/Desliga"
 Msg_Menu_Machine_Power_On               = "Ligado"
 Msg_Menu_Machine_Power_Off              = "Desligado"
-Msg_Menu_Machine_Country                = "País"
+Msg_Menu_Machine_Country                = "PaÃ­s"
 Msg_Menu_Machine_Country_EU             = "Europa/EUA/Brasil"
-Msg_Menu_Machine_Country_Jap            = "Japão"
+Msg_Menu_Machine_Country_Jap            = "JapÃ£o"
 Msg_Menu_Machine_TVType                 = "Tipo de TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
@@ -2862,23 +2862,23 @@ Msg_Menu_Machine_HardPause              = "Pausar"
 Msg_Menu_Machine_HardReset              = "Reiniciar"
 
 ; Menu: Video ----------------------------------------------------------------
-Msg_Menu_Video                          = "VÍDEO"
+Msg_Menu_Video                          = "VÃDEO"
 Msg_Menu_Video_FullScreen               = "Tela Inteira"
 Msg_Menu_Video_Themes                   = "Temas"
-Msg_Menu_Video_Blitters                 = "Padrões"
+Msg_Menu_Video_Blitters                 = "PadrÃµes"
 Msg_Menu_Video_Layers                   = "Camadas"
 Msg_Menu_Video_Layers_Sprites           = "Sprites"
 Msg_Menu_Video_Layers_Background        = "Imagem de fundo"
-Msg_Menu_Video_Flickering               = "Tremulação"
-Msg_Menu_Video_Flickering_Auto          = "Automático"
+Msg_Menu_Video_Flickering               = "TremulaÃ§Ã£o"
+Msg_Menu_Video_Flickering_Auto          = "AutomÃ¡tico"
 Msg_Menu_Video_Flickering_Yes           = "Sim"
-Msg_Menu_Video_Flickering_No            = "Não"
-Msg_Menu_Video_3DGlasses                = "Óculos 3-D"
+Msg_Menu_Video_Flickering_No            = "NÃ£o"
+Msg_Menu_Video_3DGlasses                = "Ã“culos 3-D"
 Msg_Menu_Video_3DGlasses_Enabled        = "Ligado"
 Msg_Menu_Video_3DGlasses_ShowBothSides  = "Mostrar ambos os lados"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Mostrar lado esquerdo"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Mostrar lado direito"
-Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Usar óculos na porta COM"
+Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Usar Ã³culos na porta COM"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOM"
@@ -2893,12 +2893,12 @@ Msg_Menu_Sound_Rate                     = "Taxa"
 Msg_Menu_Sound_Rate_Hz                  = "%d Hz"
 Msg_Menu_Sound_Channels                 = "Canais"
 Msg_Menu_Sound_Channels_Tone            = "Tom %d"
-Msg_Menu_Sound_Channels_Noises          = "Ruídos"
+Msg_Menu_Sound_Channels_Noises          = "RuÃ­dos"
 Msg_Menu_Sound_Dump                     = "Gravar"
 Msg_Menu_Sound_Dump_WAV_Start           = "Inicia WAV"
-Msg_Menu_Sound_Dump_WAV_Stop            = "Pára WAV"
+Msg_Menu_Sound_Dump_WAV_Stop            = "PÃ¡ra WAV"
 Msg_Menu_Sound_Dump_VGM_Start           = "Inicia VGM"
-Msg_Menu_Sound_Dump_VGM_Stop            = "Pára VGM"
+Msg_Menu_Sound_Dump_VGM_Stop            = "PÃ¡ra VGM"
 Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM com sample preciso"
 
 ; Menu: Inputs ---------------------------------------------------------------
@@ -2907,18 +2907,18 @@ Msg_Menu_Inputs_Joypad                  = "Controle"
 Msg_Menu_Inputs_LightPhaser             = "Pistola Light Phaser"
 Msg_Menu_Inputs_PaddleControl           = "Controle Paddle"
 Msg_Menu_Inputs_SportsPad               = "Sports Pad"
-Msg_Menu_Inputs_GraphicBoard            = "Prancheta gráfica"
+Msg_Menu_Inputs_GraphicBoard            = "Prancheta grÃ¡fica"
 Msg_Menu_Inputs_SK1100                  = "Teclado Sega"
 Msg_Menu_Inputs_RapidFire               = "Turbo"
-Msg_Menu_Inputs_RapidFire_PxBx          = "Jogador %d Botão %d"
-Msg_Menu_Inputs_Configuration           = "Configuração"
+Msg_Menu_Inputs_RapidFire_PxBx          = "Jogador %d BotÃ£o %d"
+Msg_Menu_Inputs_Configuration           = "ConfiguraÃ§Ã£o"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "FERRAMENTAS"
 Msg_Menu_Tools_Messages                 = "Mensagens"
 Msg_Menu_Tools_Palette                  = "Paleta"
 Msg_Menu_Tools_TilesViewer              = "Visualizador de Tiles"
-Msg_Menu_Tools_TechInfo                 = "Informações Técnicas"
+Msg_Menu_Tools_TechInfo                 = "InformaÃ§Ãµes TÃ©cnicas"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AJUDA"
@@ -3239,7 +3239,7 @@ Msg_Log_Session_Start                   = "-- Logging sessione partito %s"
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "All'opzione LOAD serve un numero di file di stato!"
 Msg_Load_Error                          = "Errore di apertura %s!"
-Msg_Load_Not_Valid                      = "File %s non Š %s un salvataggio di Stato!"
+Msg_Load_Not_Valid                      = "File %s non Å  %s un salvataggio di Stato!"
 Msg_Load_Success                        = "Stato caricato da %s"
 Msg_Load_Version                        = "%s non e' un salvataggio supportato!"
 Msg_Load_Wrong_System                   = "%s non un salvataggio per questo sistema!"
@@ -3375,9 +3375,9 @@ Msg_Menu_Help_About                     = "About"
 ;-----------------------------------------------------------------------------
 [Deutsch]
 WIP
-; Übersetzung / translation to German: Tilman Hesse
+; Ãœbersetzung / translation to German: Tilman Hesse
 ; Maintainer: Tilman Hesse (tilman_h AT yahoo.de)
-; Used accents: äöüÄÖÜß
+; Used accents: Ã¤Ã¶Ã¼Ã„Ã–ÃœÃŸ
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3388,7 +3388,7 @@ Msg_Welcome                             = "Willkommen in %s (c) %s"
 Msg_Quit                                = "Gute Nacht, mutiger Krieger. Gute Nacht, Monsterland..."
 
 ; About -----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Über Meka.."
+Msg_About_BoxTitle                      = "Ãœber Meka.."
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "von %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -3410,7 +3410,7 @@ Msg_Error_File_Read                     = "Datei kann nicht gelesen werden!"
 Msg_Error_File_Empty                    = "Datei ist leer!"
 
 ; Errors: ZIP File ------------------------------------------------------------
-Msg_Error_ZIP_Not_Supported             = "Diese Version von MEKA unterstützt keine gezippten Dateien!"
+Msg_Error_ZIP_Not_Supported             = "Diese Version von MEKA unterstÃ¼tzt keine gezippten Dateien!"
 Msg_Error_ZIP_Loading                   = "Kann ZIP-Datei nicht lesen!"
 Msg_Error_ZIP_Internal                  = "Interner Fehler beim Laden der ZIP-Datei!"
 
@@ -3418,7 +3418,7 @@ Msg_Error_ZIP_Internal                  = "Interner Fehler beim Laden der ZIP-Da
 Msg_Error_Directory_Open                = "Fehler beim Anzeigen des Verzeichnisses!"
 
 ; Miscellaneous ---------------------------------------------------------------
-Msg_Must_Reset                          = "Die Änderungen werden erst nach einem Reset aktiv."
+Msg_Must_Reset                          = "Die Ã„nderungen werden erst nach einem Reset aktiv."
 Msg_No_ROM                              = "Kein ROM geladen!"
 
 ; Initialization --------------------------------------------------------------
@@ -3431,7 +3431,7 @@ Msg_Init_Completed                      = "[BEREIT]"
 ; Screenshots Capture ---------------------------------------------------------
 Msg_Capture_Done                        = "Screenshot abgelegt in %s"
 Msg_Capture_Error                       = "Kann Screenshot nicht erzeugen!"
-Msg_Capture_Error_File                  = "Konnte keinen gültigen Dateinamen für das Screenshot erzeugen!"
+Msg_Capture_Error_File                  = "Konnte keinen gÃ¼ltigen Dateinamen fÃ¼r das Screenshot erzeugen!"
 
 ; On-Board Memory -------------------------------------------------------------
 Msg_SRAM_Loaded                         = "SaveRAM wurde geladen (%d Kb)"
@@ -3452,20 +3452,20 @@ Msg_TVType_Info_Speed                   = "(Geschwindigkeit %d Hz)"
 Msg_Blitters_Loading                    = "Lade MEKA.BLT (Videomodi / Blitter)... "
 Msg_Blitters_Error_Not_Enough           = "Nicht genug Blitter gefunden! (Fehler in MEKA.BLT)"
 Msg_Blitters_Error_Not_Found            = "Blitter nicht gefunden!"
-Msg_Blitters_Error_Missing              = "Zeile %d: Name für Blitter nicht definiert!"
+Msg_Blitters_Error_Missing              = "Zeile %d: Name fÃ¼r Blitter nicht definiert!"
 Msg_Blitters_Error_Unrecognized         = "Zeile %d: Unbekannte Variable!"
 Msg_Blitters_Set                        = "Benutze \"%s\" Vollbild-Blitter."
 
 ; Nintendo --------------------------------------------------------------------
 Msg_NES_Activate                        = "Fetter-Klempner-Modus wurde aktiviert."
 Msg_NES_Sucks                           = "Abbruch: der Benutzer mag Nintendo!"
-Msg_NES_Mapper_Unknown                  = "Mapper nicht unterstützt: %d. Spiel funktioniert nicht."
+Msg_NES_Mapper_Unknown                  = "Mapper nicht unterstÃ¼tzt: %d. Spiel funktioniert nicht."
 Msg_NES_Deny_Facts                      = "Die Fakten sind unbestreitbar!"
 
 ; Debugger --------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialisiere debugger.. "
 Msg_Debug_Welcome                       = "Willkommen im Meka Debugger!"
-Msg_Debug_Not_Available                 = "Debugger in dieser Version nicht möglich!"
+Msg_Debug_Not_Available                 = "Debugger in dieser Version nicht mÃ¶glich!"
 Msg_Debug_Trap_Read                     = "Bei PC:%04X - Lese von %04X"
 Msg_Debug_Trap_Write                    = "Bei PC:%04X - Schreibe %02X nach %04X"
 Msg_Debug_Trap_Port_Read                = "Bei PC:%04X - Port [%02X] Lesen"
@@ -3482,7 +3482,7 @@ Msg_DataDump_Main                       = "Dumped %s (%d %s) als %s"
 
 ; Documentation ---------------------------------------------------------------
 Msg_Doc_BoxTitle                        = "Dokumentation"
-Msg_Doc_File_Error                      = "Dokumentation kann nicht geöffnet werden!"
+Msg_Doc_File_Error                      = "Dokumentation kann nicht geÃ¶ffnet werden!"
 Msg_Doc_Enabled                         = "Dokumentation wird angezeigt."
 Msg_Doc_Disabled                        = "Dokumentation geschlossen."
 
@@ -3500,14 +3500,14 @@ Msg_Layer_Spr_Enabled                   = "Sprites an"
 ; Floppy Disk (FDC-765) -------------------------------------------------------
 Msg_FDC765_Unknown_Read                 = "FDC765: Unbekannter Lesezugriff %3i"
 Msg_FDC765_Unknown_Write                = "FDC765: Unbekannter Schreibzugriff %3i"
-Msg_FDC765_Disk_Too_Large1              = "Datei größer als erwartet (%i > %i)"
+Msg_FDC765_Disk_Too_Large1              = "Datei grÃ¶ÃŸer als erwartet (%i > %i)"
 Msg_FDC765_Disk_Too_Large2              = "Weitere Daten werden ignoriert"
 Msg_FDC765_Disk_Too_Small1              = "Disk Image ist kleiner als erwartet (%i < %i)"
 Msg_FDC765_Disk_Too_Small2              = "Fehlende Daten werden als 0 gelesen"
 
 ; Terebi Oekaki (Graphic Board) -----------------------------------------------
-Msg_TVOekaki_Pen_Touch                  = "Stift berührt Zeichenbrett"
-Msg_TVOekaki_Pen_Away                   = "Stift berührt Zeichenbrett nicht"
+Msg_TVOekaki_Pen_Touch                  = "Stift berÃ¼hrt Zeichenbrett"
+Msg_TVOekaki_Pen_Away                   = "Stift berÃ¼hrt Zeichenbrett nicht"
 
 ; Palette Viewer --------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
@@ -3516,8 +3516,8 @@ Msg_Palette_Enabled                     = "Palettenbetrachter aktiviert"
 
 ; Message box -----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Meldungen"
-Msg_Message_Disabled                    = "Fenster für Meldungen geschlossen"
-Msg_Message_Enabled                     = "Fenster für Meldungen aktiviert"
+Msg_Message_Disabled                    = "Fenster fÃ¼r Meldungen geschlossen"
+Msg_Message_Enabled                     = "Fenster fÃ¼r Meldungen aktiviert"
 
 ; Technical Information box ---------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Technische Infos"
@@ -3531,22 +3531,22 @@ Msg_TilesViewer_Enabled                 = "Kachelbetrachter aktiviert"
 Msg_TilesViewer_Tile                    = "Kachel %d ($%X) @ %s"
 
 ; Rapid Fire ------------------------------------------------------------------
-Msg_RapidFire_JxBx_On                   = "Dauerfeuer für Spieler %d Knopf %d eingeschaltet"
-Msg_RapidFire_JxBx_Off                  = "Dauerfeuer für Spieler %d Knopf %d ausgeschaltet"
+Msg_RapidFire_JxBx_On                   = "Dauerfeuer fÃ¼r Spieler %d Knopf %d eingeschaltet"
+Msg_RapidFire_JxBx_Off                  = "Dauerfeuer fÃ¼r Spieler %d Knopf %d ausgeschaltet"
 
 ; FM Unit (YM-2413 chipset) ---------------------------------------------------
 Msg_FM_Enabled                          = "FM Einheit (YM-2413 chipset) Emulation aktiviert"
 Msg_FM_Disabled                         = "FM Einheit (YM-2413 chipset) Emulation deaktiviert"
 
 ; Country ---------------------------------------------------------------------
-Msg_Country_European_US                 = "Emuliere europäisches/US Gerät"
-Msg_Country_JAP                         = "Emuliere japanisches Gerät"
+Msg_Country_European_US                 = "Emuliere europÃ¤isches/US GerÃ¤t"
+Msg_Country_JAP                         = "Emuliere japanisches GerÃ¤t"
 
 ; Patching System -------------------------------------------------------------
 Msg_Patch_Loading                       = "Lade MEKA.PAT (Patches)... "
-;Msg_Patch_Missing                       = "Zeile %d: Keine Prüfsumme für Befehl definiert!"
+;Msg_Patch_Missing                       = "Zeile %d: Keine PrÃ¼fsumme fÃ¼r Befehl definiert!"
 ;Msg_Patch_Unrecognized                  = "Zeile %d: Unbekannter Befehl!"
-;Msg_Patch_Out_of_Bound                  = "Der Patch versuchte einen ungültigen Zugriff an Position $%02X. Abbruch."
+;Msg_Patch_Out_of_Bound                  = "Der Patch versuchte einen ungÃ¼ltigen Zugriff an Position $%02X. Abbruch."
 
 ; 3-D Glasses -----------------------------------------------------------------
 Msg_Glasses_Enabled                     = "3D-Brille: Emulation ein"
@@ -3555,24 +3555,24 @@ Msg_Glasses_Show_Both                   = "3D-Effekt beibehalten."
 Msg_Glasses_Show_Left                   = "3D-Effekt deaktiviert, zeige nur linke Seite."
 Msg_Glasses_Show_Right                  = "3D-Effekt deaktiviert, zeige nur rechte Seite."
 Msg_Glasses_Com_Port                    = "3D-Brille an COM Port %d aktiviert"
-;Msg_Glasses_Com_Port2                   = "(Anschluß kann in MEKA.CFG geändert werden)"
-Msg_Glasses_Unsupported                 = "Dieses Spiel unterstützt keine 3D-Brille."
+;Msg_Glasses_Com_Port2                   = "(AnschluÃŸ kann in MEKA.CFG geÃ¤ndert werden)"
+Msg_Glasses_Unsupported                 = "Dieses Spiel unterstÃ¼tzt keine 3D-Brille."
 
 ; Inputs Initialization -------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialisiere Joystick.. "
 Msg_Inputs_Joy_Init_None                = "nicht gefunden."
 Msg_Inputs_Joy_Init_Found               = "%d gefunden."
-Msg_Inputs_Joy_Calibrate_Error          = "Fehler während der Kalibrierung. Abbruch."
+Msg_Inputs_Joy_Calibrate_Error          = "Fehler wÃ¤hrend der Kalibrierung. Abbruch."
 
 ; Inputs ----------------------------------------------------------------------
-Msg_Inputs_Joypad                       = "Eingabegerät: Gamepad"
-Msg_Inputs_LightPhaser                  = "Eingabegerät: Light Phaser"
-Msg_Inputs_PaddleControl                = "Eingabegerät: Paddle Control"
-Msg_Inputs_SportsPad                    = "Eingabegerät: Sports Pad"
-Msg_Inputs_TVOekaki                     = "Eingabegerät: TV Oekaki Graphic Board"
-Msg_Inputs_Play_Digital                 = "Kontrolle über digitales Eingabegerät"
-Msg_Inputs_Play_Mouse                   = "Kontrolle über analoges Gerät (Maus)"
-Msg_Inputs_Play_Pen                     = "Kontrolle über Pen mit Maus\nRechtsklick simuliert Anheben des Stifts."
+Msg_Inputs_Joypad                       = "EingabegerÃ¤t: Gamepad"
+Msg_Inputs_LightPhaser                  = "EingabegerÃ¤t: Light Phaser"
+Msg_Inputs_PaddleControl                = "EingabegerÃ¤t: Paddle Control"
+Msg_Inputs_SportsPad                    = "EingabegerÃ¤t: Sports Pad"
+Msg_Inputs_TVOekaki                     = "EingabegerÃ¤t: TV Oekaki Graphic Board"
+Msg_Inputs_Play_Digital                 = "Kontrolle Ã¼ber digitales EingabegerÃ¤t"
+Msg_Inputs_Play_Mouse                   = "Kontrolle Ã¼ber analoges GerÃ¤t (Maus)"
+Msg_Inputs_Play_Pen                     = "Kontrolle Ã¼ber Pen mit Maus\nRechtsklick simuliert Anheben des Stifts."
 
 ; Inputs Sources --------------------------------------------------------------
 Msg_Inputs_Src_Loading                  = "Lade MEKA.INP (Eingabegeraete)... "
@@ -3582,14 +3582,14 @@ Msg_Inputs_Src_Equal                    = "Zeile %d: Fehlendes Gleichheitszeiche
 Msg_Inputs_Src_Unrecognized             = "Zeile %d: Unbekannte Variable \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "Zeile %d: Syntaxfehler!"
 Msg_Inputs_Src_Inconsistency            = "Zeile %d: Konflikt mit vorherigen Einstellungen!"
-Msg_Inputs_Src_Map_Keyboard             = "Bitte drücken Sie die Taste für diesen Befehl"
+Msg_Inputs_Src_Map_Keyboard             = "Bitte drÃ¼cken Sie die Taste fÃ¼r diesen Befehl"
 Msg_Inputs_Src_Map_Keyboard_Ok          = "Befehl wurde Taste \"%s\" zugewiesen."
-Msg_Inputs_Src_Map_Joypad               = "Bitte drücken Sie Knopf oder Achse für diesen Befehl"
+Msg_Inputs_Src_Map_Joypad               = "Bitte drÃ¼cken Sie Knopf oder Achse fÃ¼r diesen Befehl"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Befehl wurde Gamepad %i, Achse %i, %c zugewiesen."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Befehl wurde Gamepadknopf %i. zugewiesen"
-Msg_Inputs_Src_Map_Mouse                = "Bitte drücken Sie die Taste für diesen Befehl"
+Msg_Inputs_Src_Map_Mouse                = "Bitte drÃ¼cken Sie die Taste fÃ¼r diesen Befehl"
 Msg_Inputs_Src_Map_Mouse_Ok_B           = "Befehl wurde Mausknopf %i zugewiesen."
-Msg_Inputs_Src_Map_Mouse_No_A           = "Die Mausachse kann leider nicht geändert werden"
+Msg_Inputs_Src_Map_Mouse_No_A           = "Die Mausachse kann leider nicht geÃ¤ndert werden"
 Msg_Inputs_Src_Map_Cancelled            = "Zuweisung abgebrochen!"
 
 ; Inputs Configuration -------------------------------------------------------
@@ -3618,7 +3618,7 @@ Msg_Datafile_Loading                    = "Lade MEKA.DAT (Ressourcen)... "
 Msg_Driver_Unknown                      = "Abbruch: Unbekannter Treiber!"
 
 ; Overdump detection ----------------------------------------------------------
-Msg_OverDump                            = "Das ROM enthält die benötigten Daten %d -fach.\n Der Fehler kann mit dem \"SMS Checker\" korrigiert werden."
+Msg_OverDump                            = "Das ROM enthÃ¤lt die benÃ¶tigten Daten %d -fach.\n Der Fehler kann mit dem \"SMS Checker\" korrigiert werden."
 
 ; Sound -----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialisiere Soundsystem.."
@@ -3637,7 +3637,7 @@ Msg_Sound_Stream_Error                  = "Klangpuffer angehalten. Stream wird n
 Msg_Theme_Loading                       = "Lade MEKA.THM (Themen)... "
 Msg_Theme_Error_Not_Enough              = "Nicht genug Themen gefunden! (Fehler in MEKA.THM)"
 Msg_Theme_Error_Missing_Theme_Name      = "Zeile %d: Variable kann keinem Thema zugeordnet werden!"
-Msg_Theme_Error_BG_Big                  = "Hintergrundbild zu klein, um korrekt vergrößert zu werden!"
+Msg_Theme_Error_BG_Big                  = "Hintergrundbild zu klein, um korrekt vergrÃ¶ÃŸert zu werden!"
 Msg_Theme_Error_BG                      = "Fehler beim Laden des Hintergrundbilds!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
 
@@ -3679,52 +3679,52 @@ Msg_FPS_Counter_Enabled                 = "FPS-Anzeige ein"
 Msg_FPS_Counter_Disabled                = "FPS-Anzeige aus"
 
 ; Logging ---------------------------------------------------------------------
-Msg_Log_Need_Param                      = "LOG benötigt einen Dateinamen!"
+Msg_Log_Need_Param                      = "LOG benÃ¶tigt einen Dateinamen!"
 Msg_Log_Session_Start                   = "-- Logging gestartet um %s"
 
 ; Save States -----------------------------------------------------------------
-Msg_Load_Need_Param                     = "Laden benötigt Nummer des Slots!"
-Msg_Load_Error                          = "Fehler beim Öffnen von %s!"
-Msg_Load_Not_Valid                      = "Datei %s ist kein gültiges Savegame für %s!"
+Msg_Load_Need_Param                     = "Laden benÃ¶tigt Nummer des Slots!"
+Msg_Load_Error                          = "Fehler beim Ã–ffnen von %s!"
+Msg_Load_Not_Valid                      = "Datei %s ist kein gÃ¼ltiges Savegame fÃ¼r %s!"
 Msg_Load_Success                        = "Status geladen aus %s"
-Msg_Load_Version                        = "Die Dateiversion von %s wird nicht unterstützt!"
-Msg_Load_Wrong_System                   = "%s ist kein Savegame für dieses System!"
+Msg_Load_Version                        = "Die Dateiversion von %s wird nicht unterstÃ¼tzt!"
+Msg_Load_Wrong_System                   = "%s ist kein Savegame fÃ¼r dieses System!"
 Msg_Load_Massage                        = "Datei entspricht dem MSD Format - Konvertiere"
 Msg_Save_Error                          = "Fehler beim Schreiben von %s!"
 Msg_Save_Success                        = "Spiel gespeichert in %s"
 Msg_Save_Slot                           = "Slot zum Speichern: %d"
-Msg_Save_Not_in_BIOS                    = "Speichern im BIOS nicht möglich!"
+Msg_Save_Not_in_BIOS                    = "Speichern im BIOS nicht mÃ¶glich!"
 
 ; Options ---------------------------------------------------------------------
 Msg_Options_BoxTitle                    = "Optionen"
 Msg_Options_Close                       = "OK"
-;Msg_Options_BIOS_Enable                 = "Zeige BIOS-Logo, wenn vom System unterstützt."
+;Msg_Options_BIOS_Enable                 = "Zeige BIOS-Logo, wenn vom System unterstÃ¼tzt."
 ;Msg_Options_Product_Number              = "Zeige Produktnummer des Spiels, wenn bekannt."
-;Msg_Options_Bright_Palette              = "Helle Palette für Master System / Game Gear."
-Msg_Options_Load_Close                  = "Schließe Dateifenster, nachdem Spiel geladen wurde."
+;Msg_Options_Bright_Palette              = "Helle Palette fÃ¼r Master System / Game Gear."
+Msg_Options_Load_Close                  = "SchlieÃŸe Dateifenster, nachdem Spiel geladen wurde."
 Msg_Options_Load_FullScreen             = "Nach Laden automatisch Vollbild aktivieren."
-;Msg_Options_VFN_Support                 = "Lange Dateinamen, sowie Länderfahnen anzeigen."
+;Msg_Options_VFN_Support                 = "Lange Dateinamen, sowie LÃ¤nderfahnen anzeigen."
 Msg_Options_FullScreen_Messages         = "Meldungen im Vollbildmodus anzeigen."
 Msg_Options_GUI_VSync                   = "Auf VSync im Interfacemodus warten."
 Msg_Options_NES_Enable                  = "Mario ist kein fetter Klempner."
 
 ; Languages / Localization ----------------------------------------------------
-Msg_Language_Set                        = "Sprache für Meldungen ist jetzt %s"
+Msg_Language_Set                        = "Sprache fÃ¼r Meldungen ist jetzt %s"
 Msg_Language_Set_Warning                = "Hinweis: Zum Aktualisieren aller Nachrichten bitte MEKA neu starten."
 
 ; Sound Dumping ---------------------------------------------------------------
 Msg_Sound_Dumping_Start                 = "Sound-Dump in Datei %s wurde begonnen"
 Msg_Sound_Dumping_Stop                  = "Sound-Dump angehalten. (%2.02f Sekunden gespeichert)"
-Msg_Sound_Dumping_Error_File_1          = "Es konnte kein gültiger Dateiname für den Sound-Dump erzeugt werden!"
-Msg_Sound_Dumping_Error_File_2          = "Fehler beim Öffnen von Datei %s!"
+Msg_Sound_Dumping_Error_File_1          = "Es konnte kein gÃ¼ltiger Dateiname fÃ¼r den Sound-Dump erzeugt werden!"
+Msg_Sound_Dumping_Error_File_2          = "Fehler beim Ã–ffnen von Datei %s!"
 Msg_Sound_Dumping_VGM_Acc_Frame         = "Frame-genaue Sicherung der VGM-Daten (kleinere Dateien, ohne Stimmen)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "Sample-genaue Sicherung der VGM-Daten (größere Dateien, mit Stimmen)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(Der VGM-Dump muß neu gestartet werden, um die geänderte Genauigkeit zu übernehmen)"
+Msg_Sound_Dumping_VGM_Acc_Sample        = "Sample-genaue Sicherung der VGM-Daten (grÃ¶ÃŸere Dateien, mit Stimmen)"
+Msg_Sound_Dumping_VGM_Acc_Change        = "(Der VGM-Dump muÃŸ neu gestartet werden, um die geÃ¤nderte Genauigkeit zu Ã¼bernehmen)"
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "DATEI"
 Msg_Menu_Main_LoadROM                   = "ROM laden"
-Msg_Menu_Main_FreeROM                   = "ROM schließen"
+Msg_Menu_Main_FreeROM                   = "ROM schlieÃŸen"
 Msg_Menu_Main_SaveState                 = "Status sichern"
 Msg_Menu_Main_LoadState                 = "Status laden"
 Msg_Menu_Main_Options                   = "Optionen"
@@ -3774,12 +3774,12 @@ Msg_Menu_Sound_FM                       = "FM-Chip"
 Msg_Menu_Sound_FM_Enabled               = "Aktiviert"
 Msg_Menu_Sound_FM_Disabled              = "Deaktiviert"
 Msg_Menu_Sound_FM_Editor                = "Instrumente.."
-Msg_Menu_Sound_Volume                   = "Lautstärke"
+Msg_Menu_Sound_Volume                   = "LautstÃ¤rke"
 Msg_Menu_Sound_Volume_Mute              = "Stumm"
 Msg_Menu_Sound_Volume_Value             = "%d%%"
 Msg_Menu_Sound_Rate                     = "Rate"
 Msg_Menu_Sound_Rate_Hz                  = "%d Hz"
-Msg_Menu_Sound_Channels                 = "Kanäle"
+Msg_Menu_Sound_Channels                 = "KanÃ¤le"
 Msg_Menu_Sound_Channels_Tone            = "Ton %d"
 Msg_Menu_Sound_Channels_Noises          = "Rauschen"
 Msg_Menu_Sound_Dump                     = "Speichern"
@@ -3811,10 +3811,10 @@ Msg_Menu_Tools_TechInfo                 = "Technische Infos"
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HILFE"
 Msg_Menu_Help_Documentation             = "Dokumentation"
-Msg_Menu_Help_Compat                    = "Unterstützte Spiele"
+Msg_Menu_Help_Compat                    = "UnterstÃ¼tzte Spiele"
 Msg_Menu_Help_Multiplayer_Games         = "Multiplayer"
 Msg_Menu_Help_Changes                   = "Was ist neu?"
-Msg_Menu_Help_About                     = "Über"
+Msg_Menu_Help_About                     = "Ãœber"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3828,8 +3828,8 @@ WIP
 ;-----------------------------------------------------------------------------
 
 ; Main -----------------------------------------------------------------------
-Msg_Welcome                             = "Välkommen till %s (c) %s"
-;Msg_Window_Title                        = "MEKA - 8-bitar eller dö!"
+Msg_Welcome                             = "VÃ¤lkommen till %s (c) %s"
+;Msg_Window_Title                        = "MEKA - 8-bitar eller dÃ¶!"
 Msg_Quit                                = "God natt, modiga krigare. God natt, monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -3842,172 +3842,172 @@ Msg_About_Line_Homepage                 = "%s"
 Msg_Ok                                  = "Ok"
 Msg_Failed                              = "Misslyckades!"
 Msg_Error_Base                          = "Fel: %s"
-Msg_Error_Error                         = "Allvarligt fel: Fel vid hämtning av feltyp. Något måste vara fel."
-Msg_Error_Memory                        = "Ej tillräckligt med minne!"
-Msg_Error_Param                         = "Parameter \"%s\" är ogiltig!\n"
+Msg_Error_Error                         = "Allvarligt fel: Fel vid hÃ¤mtning av feltyp. NÃ¥got mÃ¥ste vara fel."
+Msg_Error_Memory                        = "Ej tillrÃ¤ckligt med minne!"
+Msg_Error_Param                         = "Parameter \"%s\" Ã¤r ogiltig!\n"
 Msg_Error_Syntax                        = "Syntaxfel!"
 
 ; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Kan ej byta till önskat videoläge (%dx%d)."
-Msg_Error_Video_Mode_Back_To_GUI        = "Växlar tillbaka till grafiskt användargränssnitt."
+Msg_Error_Video_Mode                    = "Kan ej byta till Ã¶nskat videolÃ¤ge (%dx%d)."
+Msg_Error_Video_Mode_Back_To_GUI        = "VÃ¤xlar tillbaka till grafiskt anvÃ¤ndargrÃ¤nssnitt."
 
 ; Errors: File ---------------------------------------------------------------
 Msg_Error_File_Not_Found                = "Kan ej hitta fil!"
-Msg_Error_File_Read                     = "Kan ej läsa från fil!"
-Msg_Error_File_Empty                    = "Filen är tom!"
+Msg_Error_File_Read                     = "Kan ej lÃ¤sa frÃ¥n fil!"
+Msg_Error_File_Empty                    = "Filen Ã¤r tom!"
 
 ; Errors: ZIP File -----------------------------------------------------------
 Msg_Error_ZIP_Not_Supported             = "Denna version kan ej hantera ZIP filer!"
-Msg_Error_ZIP_Loading                   = "Kan ej läsa ZIP fil!"
+Msg_Error_ZIP_Loading                   = "Kan ej lÃ¤sa ZIP fil!"
 Msg_Error_ZIP_Internal                  = "Internt fel vid laddning av ZIP fil!"
 
 ; Errors: Directory ----------------------------------------------------------
-Msg_Error_Directory_Open                = "Fel vid öppning av katalog!"
+Msg_Error_Directory_Open                = "Fel vid Ã¶ppning av katalog!"
 
 ; Miscellaneous --------------------------------------------------------------
-Msg_Must_Reset                          = "Resetta spelet för att verkställa ändringarna"
+Msg_Must_Reset                          = "Resetta spelet fÃ¶r att verkstÃ¤lla Ã¤ndringarna"
 Msg_No_ROM                              = "Ingen ROM laddades!"
 
 ; Initialization -------------------------------------------------------------
 Msg_Init_Allegro                        = "Initialiserar Allegro.."
-Msg_Init_GUI                            = "Initialiserar grafiskt användargränssitt.."
+Msg_Init_GUI                            = "Initialiserar grafiskt anvÃ¤ndargrÃ¤nssitt.."
 Msg_Init_Completed                      = "[REDO]"
 
 ; Setup ----------------------------------------------------------------------
-Msg_Setup_Setup                         = "Inställningar"
+Msg_Setup_Setup                         = "InstÃ¤llningar"
 Msg_Setup_SampleRate_Select             = "Samplingshastighet:"
 
 ; Screenshots Capture --------------------------------------------------------
-Msg_Capture_Done                        = "Skärmdump sparad till %s"
-Msg_Capture_Error                       = "Kan ej skapa skärmdump!"
-Msg_Capture_Error_File                  = "Kan ej hitta giltigt filnamn för sparande av skärmdump!"
+Msg_Capture_Done                        = "SkÃ¤rmdump sparad till %s"
+Msg_Capture_Error                       = "Kan ej skapa skÃ¤rmdump!"
+Msg_Capture_Error_File                  = "Kan ej hitta giltigt filnamn fÃ¶r sparande av skÃ¤rmdump!"
 
 ; On-Board Memory ------------------------------------------------------------
-Msg_SRAM_Loaded                         = "Laddade SaveRAM från disk (%d Kb)"
-Msg_SRAM_Load_Unable                    = "Kan ej ladda SaveRAM från disk"
+Msg_SRAM_Loaded                         = "Laddade SaveRAM frÃ¥n disk (%d Kb)"
+Msg_SRAM_Load_Unable                    = "Kan ej ladda SaveRAM frÃ¥n disk"
 Msg_SRAM_Wrote                          = "Sparade SaveRAM till disk (%d Kb)"
 Msg_SRAM_Write_Unable                   = "Kan ej spara SaveRAM till disk (%d Kb)"
 Msg_93c46_Reset                         = "Resettar 93c46"
-Msg_93c46_Loaded                        = "Laddade 93c46 EEPROM data från disk (%d byte)"
-Msg_93c46_Load_Unable                   = "Kan ej ladda 93c46 EEPROM data från disk"
+Msg_93c46_Loaded                        = "Laddade 93c46 EEPROM data frÃ¥n disk (%d byte)"
+Msg_93c46_Load_Unable                   = "Kan ej ladda 93c46 EEPROM data frÃ¥n disk"
 Msg_93c46_Wrote                         = "Sparade 93c46 EEPROM data till disk (%d bytes)"
 Msg_93c46_Write_Unable                  = "Kan ej spara 93c46 EEPROM data till disk (%d bytes)"
 
 ; TV Type --------------------------------------------------------------------
-Msg_TVType_Set                          = "TV typ är nu %s"
-Msg_TVType_Info_Speed                   = "(Ursprunglig hastighet är %d Hz)"
+Msg_TVType_Set                          = "TV typ Ã¤r nu %s"
+Msg_TVType_Info_Speed                   = "(Ursprunglig hastighet Ã¤r %d Hz)"
 
 ; Blitters -------------------------------------------------------------------
-Msg_Blitters_Loading                    = "Laddar MEKA.BLT (video lägen / blitters).. "
-Msg_Blitters_Error_Not_Enough           = "Kunde ej hitta tillräckligt med Blitters! Kontrollera filen MEKA.BLT eller försök installera om."
+Msg_Blitters_Loading                    = "Laddar MEKA.BLT (video lÃ¤gen / blitters).. "
+Msg_Blitters_Error_Not_Enough           = "Kunde ej hitta tillrÃ¤ckligt med Blitters! Kontrollera filen MEKA.BLT eller fÃ¶rsÃ¶k installera om."
 Msg_Blitters_Error_Not_Found            = "Kunde ej hitta Blitter!"
-Msg_Blitters_Error_Missing              = "På rad %d: Inget blitternamn definierat för lagrande av värde!"
-Msg_Blitters_Error_Unrecognized         = "På rad %d: Okänd variabel!"
-Msg_Blitters_Set                        = "Använder nu \"%s\" fullskärmsblitter."
+Msg_Blitters_Error_Missing              = "PÃ¥ rad %d: Inget blitternamn definierat fÃ¶r lagrande av vÃ¤rde!"
+Msg_Blitters_Error_Unrecognized         = "PÃ¥ rad %d: OkÃ¤nd variabel!"
+Msg_Blitters_Set                        = "AnvÃ¤nder nu \"%s\" fullskÃ¤rmsblitter."
 
 ; Nintendo -------------------------------------------------------------------
-Msg_NES_Activate                        = "Fet rörmokare läge aktiverat"
-Msg_NES_Sucks                           = "Allvarligt fel: Användaren gillar Nintendo!"
-Msg_NES_Mapper_Unknown                  = "Ostödd mapper: %d. Spelet kommer ej att fungera."
-Msg_NES_Deny_Facts                      = "Du kan inte förneka fakta."
+Msg_NES_Activate                        = "Fet rÃ¶rmokare lÃ¤ge aktiverat"
+Msg_NES_Sucks                           = "Allvarligt fel: AnvÃ¤ndaren gillar Nintendo!"
+Msg_NES_Mapper_Unknown                  = "OstÃ¶dd mapper: %d. Spelet kommer ej att fungera."
+Msg_NES_Deny_Facts                      = "Du kan inte fÃ¶rneka fakta."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialiserar debugger.. "
-Msg_Debug_Welcome                       = "Välkommen till Meka Debugger!"
-Msg_Debug_Not_Available                 = "Debugger ej tillgänglig i denna version!"
-Msg_Debug_Trap_Read                     = "Vid PC:%04X - Läsning från %04X"
+Msg_Debug_Welcome                       = "VÃ¤lkommen till Meka Debugger!"
+Msg_Debug_Not_Available                 = "Debugger ej tillgÃ¤nglig i denna version!"
+Msg_Debug_Trap_Read                     = "Vid PC:%04X - LÃ¤sning frÃ¥n %04X"
 Msg_Debug_Trap_Write                    = "Vid PC:%04X - Skrivning %02X till %04X"
-Msg_Debug_Trap_Port_Read                = "Vid PC:%04X - Port [%02X] Läsning"
+Msg_Debug_Trap_Port_Read                = "Vid PC:%04X - Port [%02X] LÃ¤sning"
 Msg_Debug_Trap_Port_Write               = "Vid PC:%04X - Port [%02X] Skrivning %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Data dumpar kommer nu att göras i ASCII läge."
-Msg_DataDump_Mode_Raw                   = "Data dumpar kommer nu att göras i Raw läge."
+Msg_DataDump_Mode_Ascii                 = "Data dumpar kommer nu att gÃ¶ras i ASCII lÃ¤ge."
+Msg_DataDump_Mode_Raw                   = "Data dumpar kommer nu att gÃ¶ras i Raw lÃ¤ge."
 Msg_DataDump_Error                      = "Fel vid skapande av fil att dumpa %s till!"
 Msg_DataDump_Error_OB_Memory            = "Inget on-board minne att dumpa!"
 Msg_DataDump_Error_Palette              = "Ingen palett att dumpa!"
 Msg_DataDump_Error_Sprites              = "Inga sprites att dumpa!"
-Msg_DataDump_Main                       = "Dumpade %s (%d %s) i %s läge"
+Msg_DataDump_Main                       = "Dumpade %s (%d %s) i %s lÃ¤ge"
 
 ; Documentation --------------------------------------------------------------
 Msg_Doc_BoxTitle                        = "Dokumentation"
-Msg_Doc_File_Error                      = "Kan ej öppna dokumentation!"
+Msg_Doc_File_Error                      = "Kan ej Ã¶ppna dokumentation!"
 Msg_Doc_Enabled                         = "Dokumentation visas."
-Msg_Doc_Disabled                        = "Dokumentation stängd."
+Msg_Doc_Disabled                        = "Dokumentation stÃ¤ngd."
 
 ; Sprite Flickering ----------------------------------------------------------
 Msg_Flickering_Auto                     = "Sprite flimmer kommer att hanteras automatiskt."
-Msg_Flickering_Yes                      = "Sprite flimmer emulering är nu på."
-Msg_Flickering_No                       = "Sprite flimmer emulering är nu av."
+Msg_Flickering_Yes                      = "Sprite flimmer emulering Ã¤r nu pÃ¥."
+Msg_Flickering_No                       = "Sprite flimmer emulering Ã¤r nu av."
 
 ; Layers ---------------------------------------------------------------------
 Msg_Layer_BG_Disabled                   = "Bakgrundsuppdatering av"
-Msg_Layer_BG_Enabled                    = "Bakgrundsuppdatering på"
+Msg_Layer_BG_Enabled                    = "Bakgrundsuppdatering pÃ¥"
 Msg_Layer_Spr_Disabled                  = "Spriteuppdatering av"
-Msg_Layer_Spr_Enabled                   = "Spriteuppdatering på"
+Msg_Layer_Spr_Enabled                   = "Spriteuppdatering pÃ¥"
 
 ; Floppy Disk (FDC-765) ------------------------------------------------------
-Msg_FDC765_Unknown_Read                 = "FDC765: Okänt diskläsningskommando %3i"
-Msg_FDC765_Unknown_Write                = "FDC765: Okänt diskskrivningskommando %3i"
-Msg_FDC765_Disk_Too_Large1              = "Disk bilden är större än väntat (%i > %i)"
+Msg_FDC765_Unknown_Read                 = "FDC765: OkÃ¤nt disklÃ¤sningskommando %3i"
+Msg_FDC765_Unknown_Write                = "FDC765: OkÃ¤nt diskskrivningskommando %3i"
+Msg_FDC765_Disk_Too_Large1              = "Disk bilden Ã¤r stÃ¶rre Ã¤n vÃ¤ntat (%i > %i)"
 Msg_FDC765_Disk_Too_Large2              = "Ytterligare data kommer att ignoreras"
-Msg_FDC765_Disk_Too_Small1              = "Disk bilden är mindre än väntat (%i < %i)"
+Msg_FDC765_Disk_Too_Small1              = "Disk bilden Ã¤r mindre Ã¤n vÃ¤ntat (%i < %i)"
 Msg_FDC765_Disk_Too_Small2              = "Saknad data kommer att antas vara tomt"
 
 ; Terebi Oekaki (Graphic Board) ----------------------------------------------
-Msg_TVOekaki_Pen_Touch                  = "Pennan rör vid grafikbordet"
-Msg_TVOekaki_Pen_Away                   = "Pennan rör ej vid grafikbordet"
+Msg_TVOekaki_Pen_Touch                  = "Pennan rÃ¶r vid grafikbordet"
+Msg_TVOekaki_Pen_Away                   = "Pennan rÃ¶r ej vid grafikbordet"
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palett"
 Msg_Palette_Disabled                    = "Palettgranskare av"
-Msg_Palette_Enabled                     = "Palettgranskare på"
+Msg_Palette_Enabled                     = "Palettgranskare pÃ¥"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Meddelanden"
-Msg_Message_Disabled                    = "Meddelandefönster av"
-Msg_Message_Enabled                     = "Meddelandefönster på"
+Msg_Message_Disabled                    = "MeddelandefÃ¶nster av"
+Msg_Message_Enabled                     = "MeddelandefÃ¶nster pÃ¥"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Teknisk information"
-Msg_TechInfo_Disabled                   = "Fönster för Teknisk information av"
-Msg_TechInfo_Enabled                    = "Fönster för Teknisk information på"
+Msg_TechInfo_Disabled                   = "FÃ¶nster fÃ¶r Teknisk information av"
+Msg_TechInfo_Enabled                    = "FÃ¶nster fÃ¶r Teknisk information pÃ¥"
 
 ; Tile Viewer ----------------------------------------------------------------
 Msg_TilesViewer_BoxTitle                = "Tilegranskare"
 Msg_TilesViewer_Disabled                = "Tilegranskare av"
-Msg_TilesViewer_Enabled                 = "Tilegranskare på"
+Msg_TilesViewer_Enabled                 = "Tilegranskare pÃ¥"
 Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
-Msg_RapidFire_JxBx_On                   = "Automateld är nu aktiverat för spelare %d knapp %d"
-Msg_RapidFire_JxBx_Off                  = "Automateld är nu avaktiverat för spelare %d knapp %d"
+Msg_RapidFire_JxBx_On                   = "Automateld Ã¤r nu aktiverat fÃ¶r spelare %d knapp %d"
+Msg_RapidFire_JxBx_Off                  = "Automateld Ã¤r nu avaktiverat fÃ¶r spelare %d knapp %d"
 
 ; FM Unit (YM-2413 chipset) --------------------------------------------------
-Msg_FM_Enabled                          = "Emulering av FM enhet (YM-2413 chipset) på"
+Msg_FM_Enabled                          = "Emulering av FM enhet (YM-2413 chipset) pÃ¥"
 Msg_FM_Disabled                         = "Emulering av FM enhet (YM-2413 chipset) av"
 
 ; Country --------------------------------------------------------------------
-Msg_Country_European_US                 = "Den emulerade maskinen är nu Europeisk/Amerikansk"
-Msg_Country_JAP                         = "Den emulerade maskinen är nu Japansk"
+Msg_Country_European_US                 = "Den emulerade maskinen Ã¤r nu Europeisk/Amerikansk"
+Msg_Country_JAP                         = "Den emulerade maskinen Ã¤r nu Japansk"
 
 ; Patching System ------------------------------------------------------------
 Msg_Patch_Loading                       = "Laddar MEKA.PAT (patchar).. "
-Msg_Patch_Missing                       = "På rad %d: Ingen checksum definierad för att köra kommando på!"
-Msg_Patch_Unrecognized                  = "På rad %d: Syntaxfel eller okänt kommando!"
-Msg_Patch_Value_Not_a_Byte              = "På rad %d: Värdet %s rymms inte i en unsigned byte!"
-Msg_Patch_Out_of_Bound                  = "Under patchning %s: Address $%04X är utanför gränserna. Patch ej applicerad."
+Msg_Patch_Missing                       = "PÃ¥ rad %d: Ingen checksum definierad fÃ¶r att kÃ¶ra kommando pÃ¥!"
+Msg_Patch_Unrecognized                  = "PÃ¥ rad %d: Syntaxfel eller okÃ¤nt kommando!"
+Msg_Patch_Value_Not_a_Byte              = "PÃ¥ rad %d: VÃ¤rdet %s rymms inte i en unsigned byte!"
+Msg_Patch_Out_of_Bound                  = "Under patchning %s: Address $%04X Ã¤r utanfÃ¶r grÃ¤nserna. Patch ej applicerad."
 
 ; 3-D Glasses ----------------------------------------------------------------
-Msg_Glasses_Enabled                     = "Emulering av 3D glasögon på"
-Msg_Glasses_Disabled                    = "Emulering av 3D glasögon av"
-Msg_Glasses_Show_Both                   = "3D effekter oförändrade."
-Msg_Glasses_Show_Left                   = "3D effekter av genom att visa endast vänster sida."
-Msg_Glasses_Show_Right                  = "3D effekter av genom att visa endast höger sida."
-Msg_Glasses_Com_Port                    = "Emulering av 3D glasögon genom COM port %d."
-Msg_Glasses_Com_Port2                   = "(Redigera MEKA.CFG för att välja COM port)"
-Msg_Glasses_Com_Port_Open_Error         = "Fel vid öppnande av COM port %d. 3-D glasögonen kommer ej att fungera."
-Msg_Glasses_Unsupported                 = "Detta spel verkar inte stödja 3D glasögon."
+Msg_Glasses_Enabled                     = "Emulering av 3D glasÃ¶gon pÃ¥"
+Msg_Glasses_Disabled                    = "Emulering av 3D glasÃ¶gon av"
+Msg_Glasses_Show_Both                   = "3D effekter ofÃ¶rÃ¤ndrade."
+Msg_Glasses_Show_Left                   = "3D effekter av genom att visa endast vÃ¤nster sida."
+Msg_Glasses_Show_Right                  = "3D effekter av genom att visa endast hÃ¶ger sida."
+Msg_Glasses_Com_Port                    = "Emulering av 3D glasÃ¶gon genom COM port %d."
+Msg_Glasses_Com_Port2                   = "(Redigera MEKA.CFG fÃ¶r att vÃ¤lja COM port)"
+Msg_Glasses_Com_Port_Open_Error         = "Fel vid Ã¶ppnande av COM port %d. 3-D glasÃ¶gonen kommer ej att fungera."
+Msg_Glasses_Unsupported                 = "Detta spel verkar inte stÃ¶dja 3D glasÃ¶gon."
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialiserar joystick.. "
@@ -4023,33 +4023,33 @@ Msg_Inputs_SportsPad                    = "Styrenhet: Sports Pad"
 Msg_Inputs_TVOekaki                     = "Styrenhet: TV Oekaki Grafikbord"
 Msg_Inputs_Play_Digital                 = "Kontrollera med digital styrenhet"
 Msg_Inputs_Play_Mouse                   = "Kontrollera med analog styrenhet (mus)"
-Msg_Inputs_Play_Digital_Unrecommended   = "Digitala styrenheter (t.ex: tangentbord) stöds men rekommenderas EJ"
-Msg_Inputs_Play_Pen                     = "Kontrollera penna med mus\nHöger-klick simulerar att pennan avlägsnas från bordet"
+Msg_Inputs_Play_Digital_Unrecommended   = "Digitala styrenheter (t.ex: tangentbord) stÃ¶ds men rekommenderas EJ"
+Msg_Inputs_Play_Pen                     = "Kontrollera penna med mus\nHÃ¶ger-klick simulerar att pennan avlÃ¤gsnas frÃ¥n bordet"
 
 ; Inputs Configuration -------------------------------------------------------
 Msg_Inputs_Config_BoxTitle              = "Konfigurering av styrenheter"
 
 ; Inputs Sources -------------------------------------------------------------
-Msg_Inputs_Src_Loading                  = "Laddar MEKA.INP (definition av källor för styrenheter).. "
-Msg_Inputs_Src_Not_Enough               = "Kunde ej hitta tillräckligt med styrenhetskällor! Kontrollera filen MEKA.INP eller försök installera om."
-Msg_Inputs_Src_Missing                  = "På rad %d: Ingen källa definierad för lagring av värde!"
-Msg_Inputs_Src_Equal                    = "På rad %d: Likhetstecken saknas för variabeltilldelning!"
-Msg_Inputs_Src_Unrecognized             = "På rad %d: Okänd variabel \"%s\"!"
-Msg_Inputs_Src_Syntax_Param             = "På rad %d: Syntaxfel på variabelparameter!"
-Msg_Inputs_Src_Inconsistency            = "På rad %d: Oförenlighet med föregående inställningar!"
-Msg_Inputs_Src_Map_Keyboard             = "Tryck nu på den tangent du vill tilldela denna åtgärd till"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Åtgärden tilldelad till tangent \"%s\"."
-Msg_Inputs_Src_Map_Joypad               = "Tryck nu på den knapp/axel du vill tilldela denna åtgärd till"
-Msg_Inputs_Src_Map_Joypad_Ok_A          = "Åtgärden tilldelad till joypad spak %i, axel %i, %c."
-Msg_Inputs_Src_Map_Joypad_Ok_B          = "Åtgärden tilldelad till joypad knapp %i."
-Msg_Inputs_Src_Map_Mouse                = "Tryck nu på den knapp du vill tilldela denna åtgärd"
-Msg_Inputs_Src_Map_Mouse_Ok_B           = "Åtgärden tilldelad till musknapp %i."
-Msg_Inputs_Src_Map_Mouse_No_A           = "Tyvärr - Mus axlarna kan ej ändras"
+Msg_Inputs_Src_Loading                  = "Laddar MEKA.INP (definition av kÃ¤llor fÃ¶r styrenheter).. "
+Msg_Inputs_Src_Not_Enough               = "Kunde ej hitta tillrÃ¤ckligt med styrenhetskÃ¤llor! Kontrollera filen MEKA.INP eller fÃ¶rsÃ¶k installera om."
+Msg_Inputs_Src_Missing                  = "PÃ¥ rad %d: Ingen kÃ¤lla definierad fÃ¶r lagring av vÃ¤rde!"
+Msg_Inputs_Src_Equal                    = "PÃ¥ rad %d: Likhetstecken saknas fÃ¶r variabeltilldelning!"
+Msg_Inputs_Src_Unrecognized             = "PÃ¥ rad %d: OkÃ¤nd variabel \"%s\"!"
+Msg_Inputs_Src_Syntax_Param             = "PÃ¥ rad %d: Syntaxfel pÃ¥ variabelparameter!"
+Msg_Inputs_Src_Inconsistency            = "PÃ¥ rad %d: OfÃ¶renlighet med fÃ¶regÃ¥ende instÃ¤llningar!"
+Msg_Inputs_Src_Map_Keyboard             = "Tryck nu pÃ¥ den tangent du vill tilldela denna Ã¥tgÃ¤rd till"
+Msg_Inputs_Src_Map_Keyboard_Ok          = "Ã…tgÃ¤rden tilldelad till tangent \"%s\"."
+Msg_Inputs_Src_Map_Joypad               = "Tryck nu pÃ¥ den knapp/axel du vill tilldela denna Ã¥tgÃ¤rd till"
+Msg_Inputs_Src_Map_Joypad_Ok_A          = "Ã…tgÃ¤rden tilldelad till joypad spak %i, axel %i, %c."
+Msg_Inputs_Src_Map_Joypad_Ok_B          = "Ã…tgÃ¤rden tilldelad till joypad knapp %i."
+Msg_Inputs_Src_Map_Mouse                = "Tryck nu pÃ¥ den knapp du vill tilldela denna Ã¥tgÃ¤rd"
+Msg_Inputs_Src_Map_Mouse_Ok_B           = "Ã…tgÃ¤rden tilldelad till musknapp %i."
+Msg_Inputs_Src_Map_Mouse_No_A           = "TyvÃ¤rr - Mus axlarna kan ej Ã¤ndras"
 Msg_Inputs_Src_Map_Cancelled            = "Tilldelning avbruten!"
 
 ; Machine --------------------------------------------------------------------
 Msg_Machine_Pause                       = "Maskinemulering pausad"
-Msg_Machine_Resume                      = "Maskinemulering återupptagen"
+Msg_Machine_Resume                      = "Maskinemulering Ã¥terupptagen"
 Msg_Machine_Reset                       = "Maskinen resettad"
 
 ; Virtual File Names ---------------------------------------------------------
@@ -4057,9 +4057,9 @@ Msg_Machine_Reset                       = "Maskinen resettad"
 
 ; DataBase / Names -----------------------------------------------------------
 Msg_DB_Loading                          = "Laddar MEKA.NAM (spelnamn).. "
-Msg_DB_Name_Default                     = "Spelskärm"
+Msg_DB_Name_Default                     = "SpelskÃ¤rm"
 Msg_DB_Name_NoCartridge                 = "Ingen spelkassett"
-Msg_DB_SyntaxError                      = "På rad %d: Syntaxfel!"
+Msg_DB_SyntaxError                      = "PÃ¥ rad %d: Syntaxfel!"
 
 ; Configuration File ---------------------------------------------------------
 Msg_Config_Loading                      = "Laddar MEKA.CFG (konfiguration).. "
@@ -4068,30 +4068,30 @@ Msg_Config_Loading                      = "Laddar MEKA.CFG (konfiguration).. "
 Msg_Datafile_Loading                    = "Laddar MEKA.DAT (resurser).. "
 
 ; Drivers --------------------------------------------------------------------
-Msg_Driver_Unknown                      = "Allvarligt fel: Okänd maskindrivrutin!"
+Msg_Driver_Unknown                      = "Allvarligt fel: OkÃ¤nd maskindrivrutin!"
 
 ; Overdump detection ---------------------------------------------------------
-;Msg_OverDump                            = "Denna ROM innehåller %d gånger mer data än nödvändigt.\nLadda hem \"SMS Checker\" för att fixa den (http://www.smspower.org/maxim/smschecker/)."
+;Msg_OverDump                            = "Denna ROM innehÃ¥ller %d gÃ¥nger mer data Ã¤n nÃ¶dvÃ¤ndigt.\nLadda hem \"SMS Checker\" fÃ¶r att fixa den (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiserar ljudsystem.."
-Msg_Sound_Init_Error_Audio              = " - Fel vid öppning av ljudsystem. Försök med ett annat kort och/eller samplingsfrekvens."
+Msg_Sound_Init_Error_Audio              = " - Fel vid Ã¶ppning av ljudsystem. FÃ¶rsÃ¶k med ett annat kort och/eller samplingsfrekvens."
 Msg_Sound_Init_Error_Blaster            = " - BLASTER variabel hittades ej, FM ljud av!"
-Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variabel innehåller ej adress (A=xxx), FM ljud av!"
-Msg_Sound_Init_Error_Voices             = " - Röstinitialisering misslyckades."
-Msg_Sound_Init_Error_Voice_N            = " - Skapande av röst #%d misslyckades."
+Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variabel innehÃ¥ller ej adress (A=xxx), FM ljud av!"
+Msg_Sound_Init_Error_Voices             = " - RÃ¶stinitialisering misslyckades."
+Msg_Sound_Init_Error_Voice_N            = " - Skapande av rÃ¶st #%d misslyckades."
 Msg_Sound_Init_Soundcard                = " - Initialiserar ljudkort @ %d Hz"
 Msg_Sound_Init_Soundcard_No             = "Kan ej initialisera ljud: inget ljudkort valt!"
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
-Msg_Sound_Stream_Error                  = "Ljudbuffer stop. Startar om strömmen."
-Msg_Sound_Volume_Changed                = "Volym ändrad till %d%%."
+Msg_Sound_Stream_Error                  = "Ljudbuffer stop. Startar om strÃ¶mmen."
+Msg_Sound_Volume_Changed                = "Volym Ã¤ndrad till %d%%."
 
 ; Theme ----------------------------------------------------------------------
-Msg_Theme_Loading                       = "Laddar MEKA.THM (gränssnittsteman).. "
-Msg_Theme_Error_Not_Enough              = "Kunde ej hitta tillräckligt med teman! Kontrollera filen MEKA.THM eller försök installera om."
-Msg_Theme_Error_Missing_Theme_Name      = "På rad %d: Inget temanamn definierat för lagring av värde!"
-Msg_Theme_Error_BG_Big                  = "Bakgrundsbild för liten för att passa med heltals skalning!"
+Msg_Theme_Loading                       = "Laddar MEKA.THM (grÃ¤nssnittsteman).. "
+Msg_Theme_Error_Not_Enough              = "Kunde ej hitta tillrÃ¤ckligt med teman! Kontrollera filen MEKA.THM eller fÃ¶rsÃ¶k installera om."
+Msg_Theme_Error_Missing_Theme_Name      = "PÃ¥ rad %d: Inget temanamn definierat fÃ¶r lagring av vÃ¤rde!"
+Msg_Theme_Error_BG_Big                  = "Bakgrundsbild fÃ¶r liten fÃ¶r att passa med heltals skalning!"
 Msg_Theme_Error_BG                      = "Fel vid laddning av bild associerad med temat!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
 
@@ -4100,90 +4100,90 @@ Msg_LoadROM_Loading                     = "Laddar ROM.. "
 Msg_LoadROM_Success                     = "Laddade %s"
 Msg_LoadDisk_Success                    = "Laddade %s som en diskett"
 Msg_LoadROM_Comment                     = "Kommentar: %s"
-Msg_LoadROM_SMSGG_Mode_Comment          = "Detta är en Game Gear ROM som körs i Master System-kompatabilitetsläge."
+Msg_LoadROM_SMSGG_Mode_Comment          = "Detta Ã¤r en Game Gear ROM som kÃ¶rs i Master System-kompatabilitetslÃ¤ge."
 Msg_LoadROM_Warning                     = "-Varning-"
-Msg_LoadROM_Bad_Dump_Long               = "Denna ROM är en känd dålig dump.\nDen kan komma att fungera otillfredsställande. Ladda hem SMS Checker för att kontrollera den (http://www.smspower.org/maxim/smschecker/)"
-Msg_LoadROM_Bad_Dump_Short              = "Varning - Denna ROM är felaktigt dumpad."
+Msg_LoadROM_Bad_Dump_Long               = "Denna ROM Ã¤r en kÃ¤nd dÃ¥lig dump.\nDen kan komma att fungera otillfredsstÃ¤llande. Ladda hem SMS Checker fÃ¶r att kontrollera den (http://www.smspower.org/maxim/smschecker/)"
+Msg_LoadROM_Bad_Dump_Short              = "Varning - Denna ROM Ã¤r felaktigt dumpad."
 Msg_LoadROM_Product_Num                 = "Produktnummer: %s"
 Msg_LoadROM_SDSC                        = "-SDSC Header-"
 Msg_LoadROM_SDSC_Name                   = "Namn: %s"
 Msg_LoadROM_SDSC_Version                = "Version: %d.%02d"
 Msg_LoadROM_SDSC_Date                   = "Datum: %04d.%02d.%02d"
-Msg_LoadROM_SDSC_Author                 = "Författare: %s"
+Msg_LoadROM_SDSC_Author                 = "FÃ¶rfattare: %s"
 Msg_LoadROM_SDSC_Release_Note           = "Information: %s"
-Msg_LoadROM_SDSC_Unknown                = "<Okänt>"
+Msg_LoadROM_SDSC_Unknown                = "<OkÃ¤nt>"
 Msg_LoadROM_SDSC_Error                  = "<Fel>"
 
 ; File Browser ---------------------------------------------------------------
 Msg_FileBrowser_BoxTitle                = "Ladda ROM"
 Msg_FileBrowser_Drive                   = "[Enhet %c]"
 Msg_FileBrowser_Load                    = "Ladda"
-Msg_FileBrowser_Close                   = "Stäng"
+Msg_FileBrowser_Close                   = "StÃ¤ng"
 Msg_FileBrowser_LoadNames               = "Ladda namn"
 Msg_FileBrowser_ReloadDir               = "Uppdatera"
 
 ; FM Instruments Editor ------------------------------------------------------
 Msg_FM_Editor_BoxTitle                  = "FM Instrumentediterare"
-Msg_FM_Editor_Enabled                   = "FM Instrumentediterare på"
+Msg_FM_Editor_Enabled                   = "FM Instrumentediterare pÃ¥"
 Msg_FM_Editor_Disabled                  = "FM Instrumentediterare av"
 
 ; Video Options --------------------------------------------------------------
-Msg_Frameskip_Auto                      = "Frameskip värde satt till: Automatisk (%d Hz)"
-Msg_Frameskip_Standard                  = "Frameskip värde satt till: 1/%d"
-Msg_FPS_Counter_Enabled                 = "FPS-räknare på"
-Msg_FPS_Counter_Disabled                = "FPS-räknare av"
+Msg_Frameskip_Auto                      = "Frameskip vÃ¤rde satt till: Automatisk (%d Hz)"
+Msg_Frameskip_Standard                  = "Frameskip vÃ¤rde satt till: 1/%d"
+Msg_FPS_Counter_Enabled                 = "FPS-rÃ¤knare pÃ¥"
+Msg_FPS_Counter_Disabled                = "FPS-rÃ¤knare av"
 
 ; Logging --------------------------------------------------------------------
-Msg_Log_Need_Param                      = "LOG valet kräver ett filnamn!"
-Msg_Log_Session_Start                   = "-- Loggnings session startad på %s"
+Msg_Log_Need_Param                      = "LOG valet krÃ¤ver ett filnamn!"
+Msg_Log_Session_Start                   = "-- Loggnings session startad pÃ¥ %s"
 
 ; Save States ----------------------------------------------------------------
-Msg_Load_Need_Param                     = "LADDA valet kräver ett savestate nummer!"
-Msg_Load_Error                          = "Fel vid öppnande av %s!"
-Msg_Load_Not_Valid                      = "Filen %s är inte en giltig %s savegame!"
-Msg_Load_Success                        = "Tillstånd laddat från %s"
-Msg_Load_Version                        = "%s är en ostödd savegame version!"
-Msg_Load_Wrong_System                   = "%s är inte ett savegame för detta system!"
-Msg_Load_Massage                        = "Filen är i MSD format - konverterar"
-Msg_Save_Not_in_BIOS                    = "Kan ej spara när BIOS körs!"
+Msg_Load_Need_Param                     = "LADDA valet krÃ¤ver ett savestate nummer!"
+Msg_Load_Error                          = "Fel vid Ã¶ppnande av %s!"
+Msg_Load_Not_Valid                      = "Filen %s Ã¤r inte en giltig %s savegame!"
+Msg_Load_Success                        = "TillstÃ¥nd laddat frÃ¥n %s"
+Msg_Load_Version                        = "%s Ã¤r en ostÃ¶dd savegame version!"
+Msg_Load_Wrong_System                   = "%s Ã¤r inte ett savegame fÃ¶r detta system!"
+Msg_Load_Massage                        = "Filen Ã¤r i MSD format - konverterar"
+Msg_Save_Not_in_BIOS                    = "Kan ej spara nÃ¤r BIOS kÃ¶rs!"
 Msg_Save_Error                          = "Fel vid skrivning till %s!"
-Msg_Save_Success                        = "Tillstånd sparat till %s"
-Msg_Save_Slot                           = "Nuvarande savegame slot är: %d"
+Msg_Save_Success                        = "TillstÃ¥nd sparat till %s"
+Msg_Save_Slot                           = "Nuvarande savegame slot Ã¤r: %d"
 
 ; Options --------------------------------------------------------------------
-Msg_Options_BoxTitle                    = "Inställningar"
-Msg_Options_Close                       = "Stäng"
+Msg_Options_BoxTitle                    = "InstÃ¤llningar"
+Msg_Options_Close                       = "StÃ¤ng"
 Msg_Options_BIOS_Enable                 = "Visa BIOS logo."
-Msg_Options_DB_Display                  = "Visa namn, flaggor och ikoner från databasen."
-Msg_Options_Product_Number              = "Visa produktnummer från databasen."
-Msg_Options_Bright_Palette              = "Aktivera ljus palett på SMS och GG."
-Msg_Options_Load_Close                  = "Stäng filgranskaren efter laddning."
-Msg_Options_Load_FullScreen             = "Växla till fullskärmsläge efter laddning."
-Msg_Options_FullScreen_Messages         = "Visa meddelanden i fullskärm."
-Msg_Options_GUI_VSync                   = "Vänta på VSync i interface läge."
-Msg_Options_NES_Enable                  = "Mario är inte en fet rörmokare."
+Msg_Options_DB_Display                  = "Visa namn, flaggor och ikoner frÃ¥n databasen."
+Msg_Options_Product_Number              = "Visa produktnummer frÃ¥n databasen."
+Msg_Options_Bright_Palette              = "Aktivera ljus palett pÃ¥ SMS och GG."
+Msg_Options_Load_Close                  = "StÃ¤ng filgranskaren efter laddning."
+Msg_Options_Load_FullScreen             = "VÃ¤xla till fullskÃ¤rmslÃ¤ge efter laddning."
+Msg_Options_FullScreen_Messages         = "Visa meddelanden i fullskÃ¤rm."
+Msg_Options_GUI_VSync                   = "VÃ¤nta pÃ¥ VSync i interface lÃ¤ge."
+Msg_Options_NES_Enable                  = "Mario Ã¤r inte en fet rÃ¶rmokare."
 
 ; Languages / Localization ---------------------------------------------------
-Msg_Language_Set                        = "Språk satt till %s"
-Msg_Language_Set_Warning                = "OBS: Du rekommenderas att starta om MEKA för att vara säker på att all text uppdateras."
+Msg_Language_Set                        = "SprÃ¥k satt till %s"
+Msg_Language_Set_Warning                = "OBS: Du rekommenderas att starta om MEKA fÃ¶r att vara sÃ¤ker pÃ¥ att all text uppdateras."
 
 ; Sound Dumping --------------------------------------------------------------
-Msg_Sound_Dumping_Start                 = "Började dumpa ljud till %s"
+Msg_Sound_Dumping_Start                 = "BÃ¶rjade dumpa ljud till %s"
 Msg_Sound_Dumping_Stop                  = "Slutade dumpa ljud (%2.02f sekunder loggade)"
-Msg_Sound_Dumping_Error_File_1          = "Kan ej hitta giltigt filnamn för att dumpa ljud!"
-Msg_Sound_Dumping_Error_File_2          = "Fel vid öppning av %s för dumpning!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumpar kommer nu vara frame exakta (mindre filer, skippa röster)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumpar kommer nu vara sampel exakta (större filer, dumpa röster)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning måste startas om för att ta hänsyn till ny noggranhet)"
+Msg_Sound_Dumping_Error_File_1          = "Kan ej hitta giltigt filnamn fÃ¶r att dumpa ljud!"
+Msg_Sound_Dumping_Error_File_2          = "Fel vid Ã¶ppning av %s fÃ¶r dumpning!"
+Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumpar kommer nu vara frame exakta (mindre filer, skippa rÃ¶ster)"
+Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumpar kommer nu vara sampel exakta (stÃ¶rre filer, dumpa rÃ¶ster)"
+Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning mÃ¥ste startas om fÃ¶r att ta hÃ¤nsyn till ny noggranhet)"
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "ARKIV"
 Msg_Menu_Main_LoadROM                   = "Ladda ROM"
-Msg_Menu_Main_FreeROM                   = "Frigör ROM"
-Msg_Menu_Main_SaveState                 = "Spara tillstånd"
-Msg_Menu_Main_LoadState                 = "Ladda tillstånd"
-Msg_Menu_Main_Options                   = "Inställningar"
-Msg_Menu_Main_Language                  = "Språk"
+Msg_Menu_Main_FreeROM                   = "FrigÃ¶r ROM"
+Msg_Menu_Main_SaveState                 = "Spara tillstÃ¥nd"
+Msg_Menu_Main_LoadState                 = "Ladda tillstÃ¥nd"
+Msg_Menu_Main_Options                   = "InstÃ¤llningar"
+Msg_Menu_Main_Language                  = "SprÃ¥k"
 Msg_Menu_Main_Quit                      = "Avsluta"
 
 ; Menu: Debug ----------------------------------------------------------------
@@ -4193,8 +4193,8 @@ Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MASKIN"
-Msg_Menu_Machine_Power                  = "Ström"
-Msg_Menu_Machine_Power_On               = "På"
+Msg_Menu_Machine_Power                  = "StrÃ¶m"
+Msg_Menu_Machine_Power_On               = "PÃ¥"
 Msg_Menu_Machine_Power_Off              = "Av"
 Msg_Menu_Machine_Country                = "Land"
 Msg_Menu_Machine_Country_EU             = "Europa/USA"
@@ -4202,12 +4202,12 @@ Msg_Menu_Machine_Country_Jap            = "Japan"
 Msg_Menu_Machine_TVType                 = "TV Typ"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hård Paus"
-Msg_Menu_Machine_HardReset              = "Hård Reset"
+Msg_Menu_Machine_HardPause              = "HÃ¥rd Paus"
+Msg_Menu_Machine_HardReset              = "HÃ¥rd Reset"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "BILD"
-Msg_Menu_Video_FullScreen               = "Fullskärm"
+Msg_Menu_Video_FullScreen               = "FullskÃ¤rm"
 Msg_Menu_Video_Themes                   = "Teman"
 Msg_Menu_Video_Blitters                 = "Blitters"
 Msg_Menu_Video_Layers                   = "Lager"
@@ -4217,17 +4217,17 @@ Msg_Menu_Video_Flickering               = "Flimmer"
 Msg_Menu_Video_Flickering_Auto          = "Auto"
 Msg_Menu_Video_Flickering_Yes           = "Ja"
 Msg_Menu_Video_Flickering_No            = "Nej"
-Msg_Menu_Video_3DGlasses                = "3D Glasögon"
-Msg_Menu_Video_3DGlasses_Enabled        = "På"
-Msg_Menu_Video_3DGlasses_ShowBothSides  = "Visa båda sidor"
-Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Visa vänster sida"
-Msg_Menu_Video_3DGlasses_ShowRightSide  = "Visa höger sida"
-Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Använder glasögon på COM port"
+Msg_Menu_Video_3DGlasses                = "3D GlasÃ¶gon"
+Msg_Menu_Video_3DGlasses_Enabled        = "PÃ¥"
+Msg_Menu_Video_3DGlasses_ShowBothSides  = "Visa bÃ¥da sidor"
+Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Visa vÃ¤nster sida"
+Msg_Menu_Video_3DGlasses_ShowRightSide  = "Visa hÃ¶ger sida"
+Msg_Menu_Video_3DGlasses_UsesCOMPort    = "AnvÃ¤nder glasÃ¶gon pÃ¥ COM port"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "LJUD"
 Msg_Menu_Sound_FM                       = "FM enhet"
-Msg_Menu_Sound_FM_Enabled               = "På"
+Msg_Menu_Sound_FM_Enabled               = "PÃ¥"
 Msg_Menu_Sound_FM_Disabled              = "Av"
 Msg_Menu_Sound_FM_Editor                = "Instrumentediterare"
 Msg_Menu_Sound_Volume                   = "Volym"
@@ -4265,11 +4265,11 @@ Msg_Menu_Tools_TilesViewer              = "Tilegranskare"
 Msg_Menu_Tools_TechInfo                 = "Teknisk information"
 
 ; Menu: Help -----------------------------------------------------------------
-Msg_Menu_Help                           = "HJÄLP"
+Msg_Menu_Help                           = "HJÃ„LP"
 Msg_Menu_Help_Documentation             = "Dokumentation"
 Msg_Menu_Help_Compat                    = "Kompatabilitet"
 Msg_Menu_Help_Multiplayer_Games         = "Multiplayerspel"
-Msg_Menu_Help_Changes                   = "Ändringar"
+Msg_Menu_Help_Changes                   = "Ã„ndringar"
 Msg_Menu_Help_About                     = "Om MEKA"
 
 
@@ -4286,7 +4286,7 @@ WIP
 
 ; Main -----------------------------------------------------------------------
 Msg_Welcome                             = "Velkommen til %s (c) %s"
-;Msg_Window_Title                        = "MEKA - 8-bit eller dø!"
+;Msg_Window_Title                        = "MEKA - 8-bit eller dÃ¸!"
 Msg_Quit                                = "Godnat modige kriger. Godnat monster-land...."
 
 ; About ----------------------------------------------------------------------
@@ -4299,7 +4299,7 @@ Msg_About_Line_Homepage                 = "%s"
 Msg_Ok                                  = "Ok"
 Msg_Failed                              = "Fejlede!"
 Msg_Error_Base                          = "Fejl: %s"
-Msg_Error_Error                         = "Fatalt: fejl i hentning af fejltype. Noget må være galt."
+Msg_Error_Error                         = "Fatalt: fejl i hentning af fejltype. Noget mÃ¥ vÃ¦re galt."
 Msg_Error_Memory                        = "Ikke tilstraekkeligt med hukommelse"
 Msg_Error_Param                         = "Parameter \"%s\" er ugyldig\n"
 Msg_Error_Syntax                        = "Syntaksfejl!"
@@ -4310,20 +4310,20 @@ Msg_Error_Video_Mode_Back_To_GUI        = "Skifter tilbage til den grafiske brug
 
 ; Errors: File ---------------------------------------------------------------
 Msg_Error_File_Not_Found                = "Fil ikke fundet!"
-Msg_Error_File_Read                     = "Ikke i stand til at læse fra fil!"
+Msg_Error_File_Read                     = "Ikke i stand til at lÃ¦se fra fil!"
 Msg_Error_File_Empty                    = "Filen er tom!"
 
 ; Errors: ZIP File -----------------------------------------------------------
-Msg_Error_ZIP_Not_Supported             = "Denne version håndterer ikke ZIP filer!"
-Msg_Error_ZIP_Loading                   = "Ikke i stand til at læse ZIP fil!"
-Msg_Error_ZIP_Internal                  = "Intern fejl under læsning af ZIP fil!"
+Msg_Error_ZIP_Not_Supported             = "Denne version hÃ¥ndterer ikke ZIP filer!"
+Msg_Error_ZIP_Loading                   = "Ikke i stand til at lÃ¦se ZIP fil!"
+Msg_Error_ZIP_Internal                  = "Intern fejl under lÃ¦sning af ZIP fil!"
 
 ; Errors: Directory ----------------------------------------------------------
-Msg_Error_Directory_Open                = "Kan ikke åbne biblioteket!"
+Msg_Error_Directory_Open                = "Kan ikke Ã¥bne biblioteket!"
 
 ; Miscellaneous --------------------------------------------------------------
-Msg_Must_Reset                          = "Genstart spillet for, at ændringerne skal tage effekt"
-Msg_No_ROM                              = "Ingen ROM var indlæst!"
+Msg_Must_Reset                          = "Genstart spillet for, at Ã¦ndringerne skal tage effekt"
+Msg_No_ROM                              = "Ingen ROM var indlÃ¦st!"
 
 ; Initialization -------------------------------------------------------------
 Msg_Init_Allegro                        = "Initialiserer Allegro.."
@@ -4331,22 +4331,22 @@ Msg_Init_GUI                            = "Indlaeser grafisk brugergraenseflade.
 Msg_Init_Completed                      = "[KLAR]"
 
 ; Setup ----------------------------------------------------------------------
-Msg_Setup_Setup                         = "Opsætning"
+Msg_Setup_Setup                         = "OpsÃ¦tning"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 
 ; Screenshots Capture --------------------------------------------------------
-Msg_Capture_Done                        = "Skærmbillede gemt som %s"
-Msg_Capture_Error                       = "Ikke i stand til at gemme skærmbilledet!"
-Msg_Capture_Error_File                  = "Ikke i stand til at finde et gyldigt navn til skærmbilledet!"
+Msg_Capture_Done                        = "SkÃ¦rmbillede gemt som %s"
+Msg_Capture_Error                       = "Ikke i stand til at gemme skÃ¦rmbilledet!"
+Msg_Capture_Error_File                  = "Ikke i stand til at finde et gyldigt navn til skÃ¦rmbilledet!"
 
 ; On-Board Memory ------------------------------------------------------------
-Msg_SRAM_Loaded                         = "Indlæst SaveRAM fra disk (%d Kb)"
-Msg_SRAM_Load_Unable                    = "Ikke i stand til at indlæse SaveRAM fra disk"
+Msg_SRAM_Loaded                         = "IndlÃ¦st SaveRAM fra disk (%d Kb)"
+Msg_SRAM_Load_Unable                    = "Ikke i stand til at indlÃ¦se SaveRAM fra disk"
 Msg_SRAM_Wrote                          = "Skrev SaveRAM til disk (%d Kb)"
 Msg_SRAM_Write_Unable                   = "Ikke i stand til at skrive SaveRAM til disk (%d Kb)"
 Msg_93c46_Reset                         = "Genstarter 93c46"
-Msg_93c46_Loaded                        = "Indlæst 93c46 EEPROM data fra disk (%d bytes)"
-Msg_93c46_Load_Unable                   = "Ikke i stand til at indlæse 93c46 EEPROM data fra disk"
+Msg_93c46_Loaded                        = "IndlÃ¦st 93c46 EEPROM data fra disk (%d bytes)"
+Msg_93c46_Load_Unable                   = "Ikke i stand til at indlÃ¦se 93c46 EEPROM data fra disk"
 Msg_93c46_Wrote                         = "Skrev 93c46 EEPROM data til disk (%d bytes)"
 Msg_93c46_Write_Unable                  = "Ikke i stand til at skrive 93c46 EEPROM data til disk (%d bytes)"
 
@@ -4360,21 +4360,21 @@ Msg_Blitters_Error_Not_Enough           = "Ikke tilstraekkelige blitters fundet!
 Msg_Blitters_Error_Not_Found            = "Blitter ikke fundet!"
 Msg_Blitters_Error_Missing              = "I linie %d: Intet blitternavn defineret til lagring!"
 Msg_Blitters_Error_Unrecognized         = "I linie %d: Ukendt variabel!"
-Msg_Blitters_Set                        = "Benytter nu \"%s\" fullskærms-blitter."
+Msg_Blitters_Set                        = "Benytter nu \"%s\" fullskÃ¦rms-blitter."
 
 ; Nintendo -------------------------------------------------------------------
 Msg_NES_Activate                        = "Fed VVS-mands-tilstand aktiveret!"
 Msg_NES_Sucks                           = "Fatal fejl: Brugeren bryder sig om Nintendo!"
-Msg_NES_Mapper_Unknown                  = "Ikke understøttet mapper: %d. Spillet burde ikke virke."
-Msg_NES_Deny_Facts                      = "Du kan ikke benægte fakta."
+Msg_NES_Mapper_Unknown                  = "Ikke understÃ¸ttet mapper: %d. Spillet burde ikke virke."
+Msg_NES_Deny_Facts                      = "Du kan ikke benÃ¦gte fakta."
 
 ; Debugger -------------------------------------------------------------------
 Msg_Debug_Init                          = "Initialiserer debugger.. "
 Msg_Debug_Welcome                       = "Velkommen til Meka Debugger!"
 Msg_Debug_Not_Available                 = "Debuggeren findes ikke i denne version!"
-Msg_Debug_Trap_Read                     = "Ved PC:%04X - Læs fra %04X"
+Msg_Debug_Trap_Read                     = "Ved PC:%04X - LÃ¦s fra %04X"
 Msg_Debug_Trap_Write                    = "Ved PC:%04X - Skriv %02X til %04X"
-Msg_Debug_Trap_Port_Read                = "Ved PC:%04X - Port [%02X] læs"
+Msg_Debug_Trap_Port_Read                = "Ved PC:%04X - Port [%02X] lÃ¦s"
 Msg_Debug_Trap_Port_Write               = "Ved PC:%04X - Port [%02X] Skriv %02X"
 
 ; Data Dumper ----------------------------------------------------------------
@@ -4388,52 +4388,52 @@ Msg_DataDump_Main                       = "Dumpet %s (%d %s) i %s mode"
 
 ; Documentation --------------------------------------------------------------
 Msg_Doc_BoxTitle                        = "Dokumentation"
-Msg_Doc_File_Error                      = "Ikke i stand til at åbne dokumentationen!"
+Msg_Doc_File_Error                      = "Ikke i stand til at Ã¥bne dokumentationen!"
 Msg_Doc_Enabled                         = "Dokumentationen vises."
-Msg_Doc_Disabled                        = "Dokumentationen vises ikke længere."
+Msg_Doc_Disabled                        = "Dokumentationen vises ikke lÃ¦ngere."
 
 ; Sprite Flickering ----------------------------------------------------------
-Msg_Flickering_Auto                     = "Sprite flickering vil blive håndteret automatisk."
+Msg_Flickering_Auto                     = "Sprite flickering vil blive hÃ¥ndteret automatisk."
 Msg_Flickering_Yes                      = "Sprite flickering emulation er nu sat til."
-Msg_Flickering_No                       = "Sprite flickering emulation er nu slået fra."
+Msg_Flickering_No                       = "Sprite flickering emulation er nu slÃ¥et fra."
 
 ; Layers ---------------------------------------------------------------------
-Msg_Layer_BG_Disabled                   = "Baggrundsopdatering slået fra"
-Msg_Layer_BG_Enabled                    = "Baggrundsopdatering slået til"
-Msg_Layer_Spr_Disabled                  = "Sprites-opdatering slået fra"
-Msg_Layer_Spr_Enabled                   = "Sprites-opdatering slået til"
+Msg_Layer_BG_Disabled                   = "Baggrundsopdatering slÃ¥et fra"
+Msg_Layer_BG_Enabled                    = "Baggrundsopdatering slÃ¥et til"
+Msg_Layer_Spr_Disabled                  = "Sprites-opdatering slÃ¥et fra"
+Msg_Layer_Spr_Enabled                   = "Sprites-opdatering slÃ¥et til"
 
 ; Floppy Disk (FDC-765) ------------------------------------------------------
-Msg_FDC765_Unknown_Read                 = "FDC765: Ukendt disk læsekommando %3i"
+Msg_FDC765_Unknown_Read                 = "FDC765: Ukendt disk lÃ¦sekommando %3i"
 Msg_FDC765_Unknown_Write                = "FDC765: Ukendt disk skrivekommando %3i"
-Msg_FDC765_Disk_Too_Large1              = "Diskkopi er større end forventet (%i > %i)"
+Msg_FDC765_Disk_Too_Large1              = "Diskkopi er stÃ¸rre end forventet (%i > %i)"
 Msg_FDC765_Disk_Too_Large2              = "Yderligere data vil blive ignoreret"
 Msg_FDC765_Disk_Too_Small1              = "Diskkopi er mindre end forventet (%i < %i)"
 Msg_FDC765_Disk_Too_Small2              = "Manglende data vil blive regnet som tom"
 
 ; Terebi Oekaki (Graphic Board) ----------------------------------------------
-Msg_TVOekaki_Pen_Touch                  = "Pennen rører grafikpladen"
-Msg_TVOekaki_Pen_Away                   = "Pennen rører ikke grafikpladen"
+Msg_TVOekaki_Pen_Touch                  = "Pennen rÃ¸rer grafikpladen"
+Msg_TVOekaki_Pen_Away                   = "Pennen rÃ¸rer ikke grafikpladen"
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Paletteviser slået fra"
-Msg_Palette_Enabled                     = "Paletteviser slået til"
+Msg_Palette_Disabled                    = "Paletteviser slÃ¥et fra"
+Msg_Palette_Enabled                     = "Paletteviser slÃ¥et til"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Beskeder"
-Msg_Message_Disabled                    = "Beskeder slået fra"
-Msg_Message_Enabled                     = "Beskeder slået til"
+Msg_Message_Disabled                    = "Beskeder slÃ¥et fra"
+Msg_Message_Enabled                     = "Beskeder slÃ¥et til"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Teknisk information"
-Msg_TechInfo_Disabled                   = "Teknisk information slået fra"
-Msg_TechInfo_Enabled                    = "Teknisk information slået til"
+Msg_TechInfo_Disabled                   = "Teknisk information slÃ¥et fra"
+Msg_TechInfo_Enabled                    = "Teknisk information slÃ¥et til"
 
 ; Tile Viewer ----------------------------------------------------------------
 Msg_TilesViewer_BoxTitle                = "Tile-viser"
-Msg_TilesViewer_Disabled                = "Tile-viser slået fra"
-Msg_TilesViewer_Enabled                 = "Tile-viser slået til"
+Msg_TilesViewer_Disabled                = "Tile-viser slÃ¥et fra"
+Msg_TilesViewer_Enabled                 = "Tile-viser slÃ¥et til"
 Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Rapid Fire -----------------------------------------------------------------
@@ -4441,28 +4441,28 @@ Msg_RapidFire_JxBx_On                   = "Rapid Fire er nu aktiveret for Spille
 Msg_RapidFire_JxBx_Off                  = "Rapid Fire er nu deaktiveret for Spiller %d Knap %d"
 
 ; FM Unit (YM-2413 chipset) --------------------------------------------------
-Msg_FM_Enabled                          = "FM-enheds (YM-2413 chipset) emulering slået til"
-Msg_FM_Disabled                         = "FM-enheds (YM-2413 chipset) emulering slået fra"
+Msg_FM_Enabled                          = "FM-enheds (YM-2413 chipset) emulering slÃ¥et til"
+Msg_FM_Disabled                         = "FM-enheds (YM-2413 chipset) emulering slÃ¥et fra"
 
 ; Country --------------------------------------------------------------------
-Msg_Country_European_US                 = "Emuleret maskine er nu Europæisk/Amerikansk"
+Msg_Country_European_US                 = "Emuleret maskine er nu EuropÃ¦isk/Amerikansk"
 Msg_Country_JAP                         = "Emuleret maskine er nu Japansk"
 
 ; Patching System ------------------------------------------------------------
 Msg_Patch_Loading                       = "Indlaeser MEKA.PAT (patcher)... "
 ;Msg_Patch_Missing                       = "I linie %d: Ingen checksum defineret for instruktion!"
 ;Msg_Patch_Unrecognized                  = "I linie %d: Ukendt instruktion!"
-;Msg_Patch_Out_of_Bound                  = "Under patching af ROM: prøver at skrive uden for grænsen, ved position $%02X. Afbryder patch."
+;Msg_Patch_Out_of_Bound                  = "Under patching af ROM: prÃ¸ver at skrive uden for grÃ¦nsen, ved position $%02X. Afbryder patch."
 
 ; 3-D Glasses ----------------------------------------------------------------
-Msg_Glasses_Enabled                     = "3-D brille emulation slået til"
-Msg_Glasses_Disabled                    = "3-D brille emulation slået fra"
+Msg_Glasses_Enabled                     = "3-D brille emulation slÃ¥et til"
+Msg_Glasses_Disabled                    = "3-D brille emulation slÃ¥et fra"
 Msg_Glasses_Show_Both                   = "3-D effekt uforandret."
-Msg_Glasses_Show_Left                   = "3-D effekt slået fra ved kun at vise venstre side."
-Msg_Glasses_Show_Right                  = "3-D effekt slået fra ved kun at vise højre side."
-Msg_Glasses_Com_Port                    = "3-D brille emulation slået til gennem COM port %d."
-;Msg_Glasses_Com_Port2                   = "(editér MEKA.CFG for at ændre COM port)"
-Msg_Glasses_Unsupported                 = "Det ser ikke ud til at dette spil understøtter 3-D briller."
+Msg_Glasses_Show_Left                   = "3-D effekt slÃ¥et fra ved kun at vise venstre side."
+Msg_Glasses_Show_Right                  = "3-D effekt slÃ¥et fra ved kun at vise hÃ¸jre side."
+Msg_Glasses_Com_Port                    = "3-D brille emulation slÃ¥et til gennem COM port %d."
+;Msg_Glasses_Com_Port2                   = "(editÃ©r MEKA.CFG for at Ã¦ndre COM port)"
+Msg_Glasses_Unsupported                 = "Det ser ikke ud til at dette spil understÃ¸tter 3-D briller."
 
 ; Inputs Initialization ------------------------------------------------------
 Msg_Inputs_Joy_Init                     = "Initialiserer joystick.. "
@@ -4471,14 +4471,14 @@ Msg_Inputs_Joy_Init_Found               = "%d fundet."
 Msg_Inputs_Joy_Calibrate_Error          = "Fejl under kalibrering af joystick. Afbryder."
 
 ; Inputs ---------------------------------------------------------------------
-Msg_Inputs_Joypad                       = "Tilbehør: Joypad"
-Msg_Inputs_LightPhaser                  = "Tilbehør: Light Phaser"
-Msg_Inputs_PaddleControl                = "Tilbehør: Paddle Control"
-Msg_Inputs_SportsPad                    = "Tilbehør: Sports Pad"
-Msg_Inputs_TVOekaki                     = "Tilbehør: TV Oekaki Graphic Board"
+Msg_Inputs_Joypad                       = "TilbehÃ¸r: Joypad"
+Msg_Inputs_LightPhaser                  = "TilbehÃ¸r: Light Phaser"
+Msg_Inputs_PaddleControl                = "TilbehÃ¸r: Paddle Control"
+Msg_Inputs_SportsPad                    = "TilbehÃ¸r: Sports Pad"
+Msg_Inputs_TVOekaki                     = "TilbehÃ¸r: TV Oekaki Graphic Board"
 Msg_Inputs_Play_Digital                 = "Kontrol med digital styreenhed"
 Msg_Inputs_Play_Mouse                   = "Kontrol med analog styreenhed (mus)"
-Msg_Inputs_Play_Pen                     = "Kontrollér pennen med musen\nHøjre-klik simulerer, at pennen løftes"
+Msg_Inputs_Play_Pen                     = "KontrollÃ©r pennen med musen\nHÃ¸jre-klik simulerer, at pennen lÃ¸ftes"
 
 ; Inputs Configuration -------------------------------------------------------
 Msg_Inputs_Config_BoxTitle              = "Input Konfiguration"
@@ -4491,14 +4491,14 @@ Msg_Inputs_Src_Equal                    = "I linie %d: Lighedstegn savnes til va
 Msg_Inputs_Src_Unrecognized             = "I linie %d: Ukendt variabel \"%s\"!"
 Msg_Inputs_Src_Syntax_Param             = "I linie %d: Syntax-fejl i variabel parameter!"
 Msg_Inputs_Src_Inconsistency            = "I linie %d: Uforenlighed med tidligere indstillinger!"
-Msg_Inputs_Src_Map_Keyboard             = "Tryk på den tast, du vil tildele denne handling til"
+Msg_Inputs_Src_Map_Keyboard             = "Tryk pÃ¥ den tast, du vil tildele denne handling til"
 Msg_Inputs_Src_Map_Keyboard_Ok          = "Handling tildelt til tast \"%s\"."
-Msg_Inputs_Src_Map_Joypad               = "Tryk på den tast/akse, du vil tildele denne handling til"
+Msg_Inputs_Src_Map_Joypad               = "Tryk pÃ¥ den tast/akse, du vil tildele denne handling til"
 Msg_Inputs_Src_Map_Joypad_Ok_A          = "Handling tildelt til joypad stik %i, akse %i, %c."
 Msg_Inputs_Src_Map_Joypad_Ok_B          = "Handling tildelt til joypad knap %i."
-Msg_Inputs_Src_Map_Mouse                = "Tryk på den knap, du vil tildele denne handling til"
+Msg_Inputs_Src_Map_Mouse                = "Tryk pÃ¥ den knap, du vil tildele denne handling til"
 Msg_Inputs_Src_Map_Mouse_Ok_B           = "Handling tildelt til mus-knap %i."
-Msg_Inputs_Src_Map_Mouse_No_A           = "Desværre - mus-akserne kan ikke ændres"
+Msg_Inputs_Src_Map_Mouse_No_A           = "DesvÃ¦rre - mus-akserne kan ikke Ã¦ndres"
 Msg_Inputs_Src_Map_Cancelled            = "Tildeling afbrudt!"
 
 ; Machine --------------------------------------------------------------------
@@ -4511,7 +4511,7 @@ Msg_Machine_Reset                       = "Maskine genstartet"
 
 ; DataBase / Names -----------------------------------------------------------
 Msg_DB_Loading                          = "Indlaeser MEKA.NAM (spiltitler)... "
-Msg_DB_Name_Default                     = "Spilskærm"
+Msg_DB_Name_Default                     = "SpilskÃ¦rm"
 Msg_DB_Name_NoCartridge                 = "Ingen spilkasette"
 
 ; Configuration File ---------------------------------------------------------
@@ -4524,7 +4524,7 @@ Msg_Datafile_Loading                    = "Indlaeser MEKA.DAT (resourcer)... "
 Msg_Driver_Unknown                      = "Fatalt: Ukendt maskinedriver!"
 
 ; Overdump detection ---------------------------------------------------------
-;Msg_OverDump                            = "Denne ROM indeholder %d gange den nødvendige data.\nDownload venligst \"SMS Checker\" for, at checke den (http://www.smspower.org/maxim/smschecker/)."
+;Msg_OverDump                            = "Denne ROM indeholder %d gange den nÃ¸dvendige data.\nDownload venligst \"SMS Checker\" for, at checke den (http://www.smspower.org/maxim/smschecker/)."
 
 ; Sound ----------------------------------------------------------------------
 Msg_Sound_Init                          = "Initialiserer lydsystem.."
@@ -4537,25 +4537,25 @@ Msg_Sound_Init_Soundcard                = " - Initialiserer lydkort ved %d Hz"
 Msg_Sound_Init_Soundcard_No             = "Kan ikke initialisere lyd: intet lydkort valgt!"
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
-Msg_Sound_Stream_Error                  = "Lyd buffer stop. Genstarter datastrømmen."
-Msg_Sound_Volume_Changed                = "Volumen ændret til %d%%."
+Msg_Sound_Stream_Error                  = "Lyd buffer stop. Genstarter datastrÃ¸mmen."
+Msg_Sound_Volume_Changed                = "Volumen Ã¦ndret til %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Indlaeser MEKA.THM (brugergraenseflade temaer)... "
 Msg_Theme_Error_Not_Enough              = "Ikke tilstraekkelige temaer fundet! Check MEKA.THM eller proev at geninstallere."
 Msg_Theme_Error_Missing_Theme_Name      = "I linie %d: Intet tema defineret til lagring af vaerdi!"
-Msg_Theme_Error_BG_Big                  = "Baggrundsbilledet er for småt til at passe med heltalsskalering!"
-Msg_Theme_Error_BG                      = "Fejl under indlæsning af billede associeret med temaet!"
+Msg_Theme_Error_BG_Big                  = "Baggrundsbilledet er for smÃ¥t til at passe med heltalsskalering!"
+Msg_Theme_Error_BG                      = "Fejl under indlÃ¦sning af billede associeret med temaet!"
 Msg_Theme_Error_BG_FileName             = "(%s)"
 
 ; Loading ROM / Disk ---------------------------------------------------------
-Msg_LoadROM_Loading                     = "Indlæser ROM... "
-Msg_LoadROM_Success                     = "Indlæste %s"
-Msg_LoadDisk_Success                    = "Indlæste %s som en diskette"
+Msg_LoadROM_Loading                     = "IndlÃ¦ser ROM... "
+Msg_LoadROM_Success                     = "IndlÃ¦ste %s"
+Msg_LoadDisk_Success                    = "IndlÃ¦ste %s som en diskette"
 Msg_LoadROM_Comment                     = "Kommentar: %s"
 Msg_LoadROM_Warning                     = "-Advarsel-"
-Msg_LoadROM_Bad_Dump_Long               = "Denne ROM er kendt som et dårligt dump.\nDen fungerer muligvis ikke ordentligt. Download venligst SMS Checker for, at checke den (http://www.smspower.org/maxim/smschecker/)."
-Msg_LoadROM_Bad_Dump_Short              = "Advarsel - Denne ROM er kendt som et dårligt dump."
+Msg_LoadROM_Bad_Dump_Long               = "Denne ROM er kendt som et dÃ¥rligt dump.\nDen fungerer muligvis ikke ordentligt. Download venligst SMS Checker for, at checke den (http://www.smspower.org/maxim/smschecker/)."
+Msg_LoadROM_Bad_Dump_Short              = "Advarsel - Denne ROM er kendt som et dÃ¥rligt dump."
 Msg_LoadROM_Product_Num                 = "Produkt Kode: %s"
 Msg_LoadROM_SDSC                        = "-SDSC Header-"
 Msg_LoadROM_SDSC_Name                   = "Navn: %s"
@@ -4567,23 +4567,23 @@ Msg_LoadROM_SDSC_Unknown                = "<Ukendt>"
 Msg_LoadROM_SDSC_Error                  = "<Fejl>"
 
 ; File Browser ---------------------------------------------------------------
-Msg_FileBrowser_BoxTitle                = "Indlæs ROM"
+Msg_FileBrowser_BoxTitle                = "IndlÃ¦s ROM"
 Msg_FileBrowser_Drive                   = "[Drev %c]"
-Msg_FileBrowser_Load                    = "Indlæs"
+Msg_FileBrowser_Load                    = "IndlÃ¦s"
 Msg_FileBrowser_Close                   = "Luk"
-Msg_FileBrowser_LoadNames               = "Indlæs Navne"
-Msg_FileBrowser_ReloadDir               = "Opdatér"
+Msg_FileBrowser_LoadNames               = "IndlÃ¦s Navne"
+Msg_FileBrowser_ReloadDir               = "OpdatÃ©r"
 
 ; FM Editor ------------------------------------------------------------------
 Msg_FM_Editor_BoxTitle                  = "FM Instrument Editor"
-Msg_FM_Editor_Enabled                   = "FM Instrument Editor slået til"
-Msg_FM_Editor_Disabled                  = "FM Instrument Editor slået fra"
+Msg_FM_Editor_Enabled                   = "FM Instrument Editor slÃ¥et til"
+Msg_FM_Editor_Disabled                  = "FM Instrument Editor slÃ¥et fra"
 
 ; Video Options --------------------------------------------------------------
-Msg_Frameskip_Auto                      = "Frameskip værdi sat til: Automatisk (%d Hz)"
-Msg_Frameskip_Standard                  = "Frameskip værdi sat til: 1/%d"
-Msg_FPS_Counter_Enabled                 = "FPS tæller slået til"
-Msg_FPS_Counter_Disabled                = "FPS tæller slået fra"
+Msg_Frameskip_Auto                      = "Frameskip vÃ¦rdi sat til: Automatisk (%d Hz)"
+Msg_Frameskip_Standard                  = "Frameskip vÃ¦rdi sat til: 1/%d"
+Msg_FPS_Counter_Enabled                 = "FPS tÃ¦ller slÃ¥et til"
+Msg_FPS_Counter_Disabled                = "FPS tÃ¦ller slÃ¥et fra"
 
 ; Logging --------------------------------------------------------------------
 Msg_Log_Need_Param                      = "LOG-mulighed behoever et filnavn!"
@@ -4591,47 +4591,47 @@ Msg_Log_Session_Start                   = "-- Logning startet %s"
 
 ; Save States ----------------------------------------------------------------
 Msg_Load_Need_Param                     = "LOAD-muligheden har brug for et tilstandsnummer!"
-Msg_Load_Error                          = "Fejl under åbning af %s!"
+Msg_Load_Error                          = "Fejl under Ã¥bning af %s!"
 Msg_Load_Not_Valid                      = "Filen %s er ikke en gyldig %s spiltilstand!"
-Msg_Load_Success                        = "Tilstand indlæst fra %s"
-Msg_Load_Version                        = "%s er ikke en understøttet spiltilstand version!"
+Msg_Load_Success                        = "Tilstand indlÃ¦st fra %s"
+Msg_Load_Version                        = "%s er ikke en understÃ¸ttet spiltilstand version!"
 Msg_Load_Wrong_System                   = "%s er ikke en spiltilstand for dette system!"
 Msg_Load_Massage                        = "Filen er i MSD format - konverterer"
-Msg_Save_Not_in_BIOS                    = "Kan ikke gemme under kørsel af BIOS!"
+Msg_Save_Not_in_BIOS                    = "Kan ikke gemme under kÃ¸rsel af BIOS!"
 Msg_Save_Error                          = "Fejl under skrivning til %s!"
 Msg_Save_Success                        = "Tilstand gemt som %s"
-Msg_Save_Slot                           = "Nuværende spiltilstands-nummer er: %d"
+Msg_Save_Slot                           = "NuvÃ¦rende spiltilstands-nummer er: %d"
 
 ; Options --------------------------------------------------------------------
 Msg_Options_BoxTitle                    = "Indstilninger"
 Msg_Options_Close                       = "Luk"
-;Msg_Options_BIOS_Enable                 = "Vis internt BIOS logo hvis tilgængeligt i systemet."
-;Msg_Options_Product_Number              = "Vis spillets produkt kode hvis tilgængeligt."
+;Msg_Options_BIOS_Enable                 = "Vis internt BIOS logo hvis tilgÃ¦ngeligt i systemet."
+;Msg_Options_Product_Number              = "Vis spillets produkt kode hvis tilgÃ¦ngeligt."
 ;Msg_Options_Bright_Palette              = "Lys palette for Master System / Game Gear."
-Msg_Options_Load_Close                  = "Luk filbrowseren efter åbning af et spil."
-Msg_Options_Load_FullScreen             = "Skift til fuld skærm efter åbning af et spil."
+Msg_Options_Load_Close                  = "Luk filbrowseren efter Ã¥bning af et spil."
+Msg_Options_Load_FullScreen             = "Skift til fuld skÃ¦rm efter Ã¥bning af et spil."
 ;Msg_Options_VFN_Support                 = "Vis lange filnavne og landeflag."
-Msg_Options_FullScreen_Messages         = "Vis beskeder i fuldskærms mode."
-Msg_Options_GUI_VSync                   = "Vent på VSync i interface mode."
+Msg_Options_FullScreen_Messages         = "Vis beskeder i fuldskÃ¦rms mode."
+Msg_Options_GUI_VSync                   = "Vent pÃ¥ VSync i interface mode."
 Msg_Options_NES_Enable                  = "Mario er ikke en fed VVS-mand."
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Sprog sat til %s"
-Msg_Language_Set_Warning                = "NB: det er anbefalet at du genstarter MEKA for at være sikker på at al tekst opdateres."
+Msg_Language_Set_Warning                = "NB: det er anbefalet at du genstarter MEKA for at vÃ¦re sikker pÃ¥ at al tekst opdateres."
 
 ; Sound Dumping --------------------------------------------------------------
 Msg_Sound_Dumping_Start                 = "Startede dumpning af lyd til %s"
 Msg_Sound_Dumping_Stop                  = "Stoppede dumpning af lyd (%2.02f sekunder logget)"
 Msg_Sound_Dumping_Error_File_1          = "Kan ikke finde et gyldigt filnavn til lyd-dump!"
-Msg_Sound_Dumping_Error_File_2          = "Fejl under åbning af skrive-filen %s for dumpning!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumps vil nu være frame-eksakte (mindre filer, undgå voices)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumps vil nu være sample-eksakte (større filer, dump voices)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning bliver nødt til at blive genstartet for at tage hensyn til den nye kvalitet)"
+Msg_Sound_Dumping_Error_File_2          = "Fejl under Ã¥bning af skrive-filen %s for dumpning!"
+Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumps vil nu vÃ¦re frame-eksakte (mindre filer, undgÃ¥ voices)"
+Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumps vil nu vÃ¦re sample-eksakte (stÃ¸rre filer, dump voices)"
+Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning bliver nÃ¸dt til at blive genstartet for at tage hensyn til den nye kvalitet)"
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "FILER"
-Msg_Menu_Main_LoadROM                   = "Indlæs ROM"
-Msg_Menu_Main_FreeROM                   = "Frigør ROM"
+Msg_Menu_Main_LoadROM                   = "IndlÃ¦s ROM"
+Msg_Menu_Main_FreeROM                   = "FrigÃ¸r ROM"
 Msg_Menu_Main_SaveState                 = "Gem Savestate"
 Msg_Menu_Main_LoadState                 = "Hent Savestate"
 Msg_Menu_Main_Options                   = "Indstilninger"
@@ -4644,11 +4644,11 @@ Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------
 Msg_Menu_Machine                        = "MASKINE"
-Msg_Menu_Machine_Power                  = "Strøm"
-Msg_Menu_Machine_Power_On               = "Tænd"
+Msg_Menu_Machine_Power                  = "StrÃ¸m"
+Msg_Menu_Machine_Power_On               = "TÃ¦nd"
 Msg_Menu_Machine_Power_Off              = "Sluk"
 Msg_Menu_Machine_Country                = "Land"
-Msg_Menu_Machine_Country_EU             = "Europæisk/Amerikansk"
+Msg_Menu_Machine_Country_EU             = "EuropÃ¦isk/Amerikansk"
 Msg_Menu_Machine_Country_Jap            = "Japansk"
 Msg_Menu_Machine_TVType                 = "TV Type"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
@@ -4658,7 +4658,7 @@ Msg_Menu_Machine_HardReset              = "Hardware Genstart"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
-Msg_Menu_Video_FullScreen               = "Fuld skærm"
+Msg_Menu_Video_FullScreen               = "Fuld skÃ¦rm"
 Msg_Menu_Video_Themes                   = "Temaer"
 Msg_Menu_Video_Blitters                 = "Blitters"
 Msg_Menu_Video_Layers                   = "Lag"
@@ -4669,17 +4669,17 @@ Msg_Menu_Video_Flickering_Auto          = "Auto"
 Msg_Menu_Video_Flickering_Yes           = "Ja"
 Msg_Menu_Video_Flickering_No            = "Nej"
 Msg_Menu_Video_3DGlasses                = "3-D Briller"
-Msg_Menu_Video_3DGlasses_Enabled        = "Slået til"
+Msg_Menu_Video_3DGlasses_Enabled        = "SlÃ¥et til"
 Msg_Menu_Video_3DGlasses_ShowBothSides  = "Vis begge sider"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Vis venstre side"
-Msg_Menu_Video_3DGlasses_ShowRightSide  = "Vis højre side"
+Msg_Menu_Video_3DGlasses_ShowRightSide  = "Vis hÃ¸jre side"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Benytter briller via COM Port"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "LYD"
 Msg_Menu_Sound_FM                       = "FM Enhed"
-Msg_Menu_Sound_FM_Enabled               = "Slået til"
-Msg_Menu_Sound_FM_Disabled              = "Slået fra"
+Msg_Menu_Sound_FM_Enabled               = "SlÃ¥et til"
+Msg_Menu_Sound_FM_Disabled              = "SlÃ¥et fra"
 Msg_Menu_Sound_FM_Editor                = "Instrument Editor"
 Msg_Menu_Sound_Volume                   = "Volume"
 Msg_Menu_Sound_Volume_Mute              = "Mute"
@@ -4709,18 +4709,18 @@ Msg_Menu_Inputs_RapidFire_PxBx          = "Spiller %d Knap %d"
 Msg_Menu_Inputs_Configuration           = "Konfiguration"
 
 ; Menu: Tools ----------------------------------------------------------------
-Msg_Menu_Tools                          = "VÆRKTØJER"
+Msg_Menu_Tools                          = "VÃ†RKTÃ˜JER"
 Msg_Menu_Tools_Messages                 = "Beskeder"
 Msg_Menu_Tools_Palette                  = "Palette"
 Msg_Menu_Tools_TilesViewer              = "Tiles"
 Msg_Menu_Tools_TechInfo                 = "Teknisk Info"
 
 ; Menu: Help -----------------------------------------------------------------
-Msg_Menu_Help                           = "HJÆLP"
+Msg_Menu_Help                           = "HJÃ†LP"
 Msg_Menu_Help_Documentation             = "Dokumentation"
 Msg_Menu_Help_Compat                    = "Kompatibilitetsliste"
 Msg_Menu_Help_Multiplayer_Games         = "Multiplayer-spilsliste"
-Msg_Menu_Help_Changes                   = "Ændringer"
+Msg_Menu_Help_Changes                   = "Ã†ndringer"
 Msg_Menu_Help_About                     = "Om"
 
 ;-----------------------------------------------------------------------------
@@ -4728,7 +4728,7 @@ Msg_Menu_Help_About                     = "Om"
 ;-----------------------------------------------------------------------------
 ; [Test Accents]
 ; WIP
-; Msg_Welcome                           = "Test accent: eéèêë aàâä iîï uù ç"
+; Msg_Welcome                           = "Test accent: eÃ©Ã¨ÃªÃ« aÃ Ã¢Ã¤ iÃ®Ã¯ uÃ¹ Ã§"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
