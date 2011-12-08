@@ -295,7 +295,7 @@
  Mercs                                          -       Ok
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
- Micro Xevious, The (KR)                        -      *Ok
+ Micro Xevious, The (KR)                        -       Ok
  Miracle Warriors - Seal of The Dark Lord       FM      Ok
  Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
@@ -710,8 +710,8 @@
  Sindbad Mystery                                Ok
  Sindbad Mystery (TW)                           Ok
  Soukoban                                       Ok
- Soukoban (KR)                                 *Ok
- Soukoban [IQ logo] (KR)                       *Ok
+ Soukoban (KR)                                  Ok
+ Soukoban [IQ logo] (KR)                        Ok
  Soukoban (TW)                                  Ok
  Space Invaders                                 Ok
  Space Invaders (TW)                            Ok
@@ -751,7 +751,7 @@
  007 James Bond [v2.7]                          Ok
  007 James Bond [v2.7] (TW)                     Ok
  Challenge Derby [A]                            Ok
- Challenge Derby [A] [40k map]                 *Ok
+ Challenge Derby [A] [40k map]                  Ok
  Challenge Derby [B] [40k map]                  Ok
  Guzzler                                        Ok
  Guzzler (TW)                                   Ok
@@ -909,7 +909,7 @@
  Defenders of Oasis [Proto]                         Ok
  Desert Speedtrap - Starring Road Runner and Wile.. Ok
  Desert Speedtrap - Starring Road Runner and.. (US) Ok
- Desert Strike                                     *Ok
+ Desert Strike (EU)                                 Ok
  Desert Strike: Return to the Gulf (US)             Ok
  Devilish                                           Ok
  Devilish (US)                                      Ok
@@ -993,7 +993,7 @@
  Head Buster (JP)                                   Ok
  Heavy weight Champ (JP)                            Ok
  Home Alone                                         Ok
- Hook                                              *Ok
+ Hook (EU)                                          Ok
  Hook (US)                                          Ok
  Tarot no Yakata / House of Tarot (JP)              Ok
  Hurricanes                                         Ok
@@ -1018,7 +1018,7 @@
  Joe Montana Football (JP)                          Ok
  Judge Dredd                                        Ok
  Junction (JP)                                      Ok
- Junction (US)                                     *Ok
+ Junction (US)                                      Ok
  Jungle Book, The (Walt Disney's Classic)           Ok
  Jungle Book, The (Walt Disney's) (US)              Ok
  Jungle Strike                                      Ok
@@ -1157,7 +1157,7 @@
  Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
  Revenge of Drancon                                 Ok
- Riddick Rowe Boxing                               *Ok
+ Riddick Rowe Boxing (US)                           Ok
  Riddick Rowe Boxing (JP)                           Ok
  Rise of the Robots                                 Ok
  Ristar / Ristar the Shooting Star                  Ok
