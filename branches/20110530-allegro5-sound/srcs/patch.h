@@ -41,7 +41,7 @@ struct t_patch
 
 struct t_patches
 {
-    char        filename [FILENAME_LEN];
+    char        filename[FILENAME_LEN];
     t_list *    patches;
     t_patch *   patch_current;
 };

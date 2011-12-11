@@ -44,7 +44,7 @@ extern u8      PRAM[0x40];				   // Palette RAM
 extern u8 *    ROM;                        // Emulated ROM
 extern u8 *    Game_ROM;                   // Cartridge ROM
 extern u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
-extern u8 *    Mem_Pages [8];              // Pointer to memory pages
+extern u8 *    Mem_Pages[8];               // Pointer to memory pages
 };
 
 // Flags for layer handling ---------------------------------------------------
@@ -146,7 +146,11 @@ struct OPT_TYPE
 };
 
 // Max path length
-#define FILENAME_LEN	(512)
+#if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
+#define FILENAME_LEN	(PATH_MAX)
+#else
+#define FILENAME_LEN	(1024)
+#endif
 
 extern "C"
 {

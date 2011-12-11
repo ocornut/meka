@@ -42,17 +42,10 @@ void            Load_ROM_Misc           (int reset);
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Check_OverDump()
 // Check if the loaded media is an overdump, and reduce size accordingly
-//-----------------------------------------------------------------------------
-// Note: this function used to have a tolerance of 2 bytes to compare 
-// overdumped data. So if two half of a file were only 2 bytes different,
-// the file was considered as an overdump. This feature was removed, since
-// it makes bad dump/over dump tracking more difficult.
-//-----------------------------------------------------------------------------
 // FIXME: Function should work on a t_media_image eventually.
 //-----------------------------------------------------------------------------
-static void     Check_OverDump (void)
+static void     Check_OverDump()
 {
     int         overdump_ratio = 1;
 
@@ -84,12 +77,10 @@ static void     Check_OverDump (void)
 }
 
 //-----------------------------------------------------------------------------
-// Filenames_Init()
 // Initialize filenames of various path/files (configuration files, etc).
-//-----------------------------------------------------------------------------
 // FIXME-BUFFER: Potential buffer overflows here.
 //-----------------------------------------------------------------------------
-void    Filenames_Init(void)
+void    Filenames_Init()
 {
     // Get and save current directory
     getcwd (g_env.Paths.StartingDirectory, countof(g_env.Paths.StartingDirectory));
@@ -97,13 +88,13 @@ void    Filenames_Init(void)
     // Find emulator directory --------------------------------------------------
     strcpy (g_env.Paths.EmulatorDirectory, g_env.argv[0]);
     #ifdef ARCH_WIN32
-        StrReplace (g_env.Paths.EmulatorDirectory, '\\', '/');
+        StrReplace(g_env.Paths.EmulatorDirectory, '\\', '/');
     #endif
-    char* p = strrchr (g_env.Paths.EmulatorDirectory, '/');
+    char* p = strrchr(g_env.Paths.EmulatorDirectory, '/');
     if (p)
         *p = EOSTR;
     else
-        strcpy (g_env.Paths.EmulatorDirectory, g_env.Paths.StartingDirectory);
+        strcpy(g_env.Paths.EmulatorDirectory, g_env.Paths.StartingDirectory);
 
     //ConsolePrintf ("g_env.Paths.StartingDirectory = %s\n", g_env.Paths.StartingDirectory);
     //ConsolePrintf ("g_env.Paths.EmulatorDirectory = %s\n", g_env.Paths.EmulatorDirectory);
@@ -111,15 +102,14 @@ void    Filenames_Init(void)
 
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
     {
-        char temp[FILENAME_LEN];
-        strcpy (temp, g_env.Paths.EmulatorDirectory);
-        realpath (temp, g_env.Paths.EmulatorDirectory);
-        const int len = strlen (g_env.Paths.EmulatorDirectory);
-        g_env.Paths.EmulatorDirectory [len] = '/';
-        g_env.Paths.EmulatorDirectory [len + 1] = EOSTR;
+		char* rp = realpath(g_env.Paths.EmulatorDirectory, NULL);
+		if (rp != NULL)
+		{
+			strcpy(g_env.Paths.EmulatorDirectory, rp);
+			strcat(g_env.Paths.EmulatorDirectory, "/");
+			free(rp);
+		}
     }
-#else
-    //StrLower(g_env.Paths.EmulatorDirectory);
 #endif
 
     // Datafiles
