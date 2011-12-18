@@ -252,25 +252,30 @@ OBJ_CPU += $(OD)/debug.o $(OD)/debugger.o $(OD)/debughelper.o $(OD)/datadump.o
 #-----------------------------------------------------
 # Compiler Flags
 #-----------------------------------------------------
-CFLAGS = $(INCLUDES) $(DEFINES)
-
 ifeq ($(SYSTEM), win32)
 # Win32
 # (Note:TARGET unsupported for Win32 makefile compilation)
-CFLAGS += -W2 -Gd -Ox -GB -MT
+CFLAGS = -W2 -Gd -Ox -GB -MT
 else
 
 # UNIX/MS-DOS/MAC
+ifndef CFLAGS
+
 # RELEASE build
 ifeq ($(BUILD), release)
-CFLAGS += -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
+CFLAGS = -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
 endif
+
 # DEBUG build
 ifeq ($(BUILD), debug)
-CFLAGS += -Wall -g -ggdb
+CFLAGS = -Wall -g -ggdb
 endif
 
 endif
+
+endif
+
+CFLAGS += $(INCLUDES) $(DEFINES)
 
 #-----------------------------------------------------
 # Z80 CPU Cores
