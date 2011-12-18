@@ -1,6 +1,6 @@
 ﻿;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2011/10/26
+; Last updated 2011/12/13
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -1153,6 +1153,8 @@ GG  46ae9159 33DF404CAF5A0B4E   Yu Yu Hakusho II - Gekitou! Nanakyou no Tatakai/
 GG  141aaf96 8CE8B1B8A48E3BB6   Zan Gear/COUNTRY=JP/PRODUCT_NO=T-32017
 GG  23904898 C3918F68D3C745D6   Zool: Ninja of the "Nth" Dimension/COUNTRY=EU
 GG  b287c695 B4F7F5B93F2FA792   Zool: Ninja of the "Nth" Dimension/COUNTRY=US/PRODUCT_NO=T-83048
+GG  3247ff8b 126A1E96C18B90F4   Zoop/COUNTRY=US/PRODUCT_NO=T-139049
+GG  f397f041 0F6D1D96C28B90F4   Zoop [Proto]/FLAGS=PROTO
 
 ; Bad dumps
 GG  65e60dfe 516CF5541BA9E056   Batman Returns/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte, affecting an instruction. It might be a hack.
@@ -1505,7 +1507,6 @@ C7BD34655C7A62AB,Wagan Land [B],ID=T-14047,VER=Japanese
 ED6C5F01DA350830,Woody Pop [v1],ID=G-3103\,2203\,013530,VER=International 1
 BAC9E98F228F95BF,X-Men: Mojo World,ID=2561,VER=USA
 41E4E0DC502EC3DE,Zool - Zool no Yume Bouken,ID=T-149017,VER=Japanese
-0F6D1D96C28B90F4,Zoop,VER=USA
 
 ---- GAME GEAR BAD DUMPS ----
 92CFF74D6DAEC57B,Bart vs. The World (The Simpsons),JAPNAME=Bart World,VER=International,BAD

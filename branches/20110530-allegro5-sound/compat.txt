@@ -1314,9 +1314,10 @@
  Zool: Ninja of the Nth Dimension                  *Ok
  Zool: Ninja of the Nth Dimension (US)             *Ok
  Zool - Zool no Yume Bouken (JP)                    Ok
- Zoop                                               Ok
+ Zoop (US)                                         *Ok
+ Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 487 games tested - 475 are "Ok" - Compatibility rate: 97.45%
+ 488 games tested - 476 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
