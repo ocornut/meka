@@ -1162,6 +1162,7 @@ void     Debugger_Symbols_Load(void)
     StrPath_RemoveDirectory(symbol_filename);
 
     line_cnt = 0;
+	bool error = false;
     for (lines = symbol_file->data_lines; lines; lines = lines->next)
     {
         char* line = (char*) lines->elem;
@@ -1170,7 +1171,6 @@ void     Debugger_Symbols_Load(void)
         // Msg (MSGT_DEBUG, "%s", line);
 
         // Strip comments, skip empty lines
-        // FIXME: Can't we have some proper functions/tools to do this kind of thing?
         char* p = strchr(line, ';');
         if (p != NULL)
             *p = EOSTR;
@@ -1182,26 +1182,42 @@ void     Debugger_Symbols_Load(void)
         {
             u16 bank;
             u16 addr;
-            char *name;
-            int n;
-            if (sscanf(line, "%hX:%hX %n", &bank, &addr, &n) < 2)
-            {
-                Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error));
+			u32 addr32;
+            char name[512];
+			bool success = false;
+
+			// NO$GMB/WLA format
+			//  "0000:c007 VarScanlineMetrics"
+			if (!success)
+			{
+				if (sscanf(line, "%hX:%hX %s", &bank, &addr, name) == 3)
+					Debugger_Symbol_Add(addr, bank, name);
+			}
+
+			// SJASM format
+			//	"pause_music: equ 0000074Fh"
+			if (!success)
+			{
+				if (parse_getword(name, countof(name), &line, ":\t\r\n", ';', PARSE_FLAGS_NONE))
+				{
+					parse_skip_spaces(&line);
+					if (sscanf(line, "equ %Xh", &addr32) == 1)
+					{
+						Debugger_Symbol_Add(addr32 & 0xFFFF, 0, name);
+						success = true;
+					}
+				}
+			}
+
+			if (!success)
+			{
+				if (!error)
+				{
+					error = true;
+					Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
+				}
                 Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
-                tfile_free(symbol_file);
-                return;
-            }
-            line += n;
-            parse_skip_spaces(&line);
-            name = parse_getword(NULL, -1, &line, " \t\r\n", ';', PARSE_FLAGS_NONE);
-            if (name == NULL)
-            {
-                Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
-                Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
-                tfile_free(symbol_file);
-                return;
-            }
-            Debugger_Symbol_Add(addr, bank, name);
+			}
         }
     
     }
@@ -1343,7 +1359,7 @@ t_debugger_symbol *     Debugger_Symbol_Add(u16 addr, int bank, const char *name
     symbol = new t_debugger_symbol();
     symbol->addr = addr;
     symbol->bank = bank;
-    symbol->name = (char *)name;
+    symbol->name = strdup(name);
     symbol->name_uppercase = strdup(name);
     StrUpper(symbol->name_uppercase);
 
