@@ -80,6 +80,7 @@
  Bomber Raid                                    FM      Ok
  Bonanza Bros.                                  -       Ok
  Bonkers Wax Up! (Disney's) (BR)                -       Ok
+ Bobble Bobble [Clover] (KR)                    -       Ok
  Bubble Bobble                                  -       Ok
  Buggy Run                                      -       Ok
  California Games                               FM      Ok
@@ -217,6 +218,7 @@
  Great Golf / Masters Golf [Mega-Tech]          FM      Ok
  Great Golf / Masters Golf [Proto] (JP)         FM      Ok
  Great Golf [JP] (JP)                           -       Ok
+ Great Golf [JP] (KR)                           -      *Ok
  Great Ice Hockey                               SP      Ok
  Great Soccer                                   -       Ok
  Great Soccer (JP)                              -       Ok
@@ -316,6 +318,7 @@
  Nekkyuu Koushien (JP)                          FM      Ok
  Nemesis (KR)                                   -      *Ok
  Nemesis 2 (KR)                                 -      *Ok
+ New Boggle Boggle 2 (KR)                       -       Ok
  NewZealand Story, The                          -       Ok
  Ninja, The                                     -       Ok
  Ninja, The (JP)                                -       Ok
@@ -348,6 +351,7 @@
  Populous                                       -       Ok
  Pooyan (KR)                                    -      *Ok
  Poseidon Wars 3-D                              FM,(3D) Ok
+ Power Boggle Boggle (KR)                       -       Ok
  Power Strike                                   FM      Ok
  Power Strike II                                -       Ok
  Predator 2                                     -       Ok
@@ -454,6 +458,7 @@
  Super Boy II (KR)                              -       Ok
  Super Boy 3 (KR)                               -       Ok
  Super Boy 4 (KR)                               -       Ok
+ Super Bubble Bobble (KR)                       -       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -545,7 +550,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 527 games tested - 525 are "Ok" - Compatibility rate: 99.54%
+ 532 games tested - 530 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -609,6 +614,7 @@
  Championship Lode Runner                       Ok (can't write to tape)
  Championship Lode Runner (TW)                  Ok (can't write to tape)
  Choplifter                                     Ok
+ Choplifter (KR)                               *Ok
  Choplifter [Proto]                             Ok
  Choplifter [chinese logo] (TW)                 Ok
  Choplifter [english logo] (TW)                 Ok
@@ -741,7 +747,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 166 games tested - 166 are "Ok" - Compatibility rate: 100.00%
+ 167 games tested - 167 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

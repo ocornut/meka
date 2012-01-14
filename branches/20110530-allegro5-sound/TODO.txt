@@ -1,5 +1,11 @@
+JP+KR : display JP flag
+
+E-SWAT http://smspower.org/forums/viewtopic.php?t=8069
+
 Debugger: option to auto-start on ROM load (one can always do a RESET)
 Debugger: make always available
+Debugger: Add "Did you mean $XX" when parsing register name that matches two digit hex number (eg: DE)
+Debugger: STACK command does a reverse 'M SP' as a helper.
 
 SF-7000: write always access to RAM (even when ROM is mapped) dixit honestbob
 
@@ -73,7 +79,7 @@ Namely if ROM is bigger than 32 KB don't stupidely ignore the rest of the data!!
 .thm parsing crash (see forum - where??)
 
 Debugger: Many interesting mails from Maxim!
-Add support for F register in SET command
+Debugger: Add support for F register in SET command (or individual flag, ZF, CF, etc.)
 
 Command line file not found = Win32 console crash
 
@@ -130,7 +136,7 @@ Proppy session debugger notes:
   - edit/add fields
 - breakpoint write: only when values changing, !=
 - datadump sprite output is weird
-- bind RELOAD rom on a key, or add 'reload' command
+Debugger: bind RELOAD rom on a key, or add 'reload' command
 
 - debugger auto-start mode? (command-line, config?)
 - want to set breakpoints on ROM addresses... b r $30000 
