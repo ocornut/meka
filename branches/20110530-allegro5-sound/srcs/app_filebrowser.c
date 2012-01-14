@@ -105,34 +105,34 @@ void                FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 
 //-----------------------------------------------------------------------------
 
-int     FB_Return_File_Area_Y (void)
+int     FB_Return_File_Area_Y()
 {
     return ((FB.file_y * Font_Height (F_LARGE)) + 5);
 }
 
-int     FB_Return_Res_Y (void)
+int     FB_Return_Res_Y()
 {
     return (FB_Return_File_Area_Y() + (3 * FB_PAD_Y) + FB_BUTTON_Y);
 }
 
-void    FB_Switch(void)
+void    FB_Switch()
 {
     FB.active ^= 1;
     gui_box_show(FB.box, FB.active, TRUE);
     gui_menu_inverse_check(menus_ID.file, 0);
 }
 
-void    FB_Init_Values(void)
+void    FB_Init_Values()
 {
-    FB.res_x    = 320;
-    FB.file_y   = 19;
+    FB.res_x    = 340;
+    FB.file_y   = 21;
 }
 
-void	FB_Init (void)
+void	FB_Init()
 {
     t_frame     frame;
 
-    frame.pos.x     = 466;
+    frame.pos.x     = 454;
     frame.pos.y     = 54;
     frame.size.x    = FB.res_x;
     frame.size.y    = FB_Return_Res_Y();
@@ -149,7 +149,7 @@ void	FB_Init (void)
     FB_Layout(&FB, TRUE);
 }
 
-void    FB_Init_2(void)
+void    FB_Init_2()
 {
     chdir(FB.current_directory);
     FB_Load_Directory();
@@ -258,7 +258,7 @@ static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
     // - translation
     // - hacks
     // - bad
-    int p = DB_Entry_SelectFlag (db_entry);
+    int p = DB_Entry_SelectDisplayFlag(db_entry);
     if (db_entry->flags & DB_FLAG_BIOS)
         p += 500;
     if (db_entry->flags & DB_FLAG_PROTO)
@@ -273,7 +273,7 @@ static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
 }
 
 // FIXME-OPT: bubble sort is slow
-void        FB_Sort_Files (int start, int end)
+void        FB_Sort_Files(int start, int end)
 {
     for (; start < end - 1; start ++)
 	{
@@ -563,11 +563,11 @@ void	FB_Draw_List(void)
                     {
                         // Translation icon + Translation flag (+ overwrites)
                         x_usage += 18 + 18;
-                        entry_file_flag = DB_Entry_GetTranslationFlag (entry->db_entry);
+                        entry_file_flag = DB_Entry_GetTranslationFlag(entry->db_entry);
                     }
                     else 
                     {
-                        entry_file_flag = DB_Entry_SelectFlag (entry->db_entry);
+                        entry_file_flag = DB_Entry_SelectDisplayFlag(entry->db_entry);
                         if (entry_file_flag != -1)
                         {
                             // Country flag

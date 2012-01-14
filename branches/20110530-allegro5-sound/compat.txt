@@ -163,7 +163,7 @@
  Fantasy Zone [v0] (JP)                         -       Ok
  Fantasy Zone [v1] [Proto]                      -       Ok
  Fantasy Zone [v2]                              -       Ok
- Fantasy Zone (TW)                              -       Ok
+ Fantasy Zone [v2] (TW)                         -       Ok
  Fantasy Zone II - The Tears of Opa-Opa         FM      Ok
  Fantasy Zone II - Opa-Opa no Namida (JP)       FM      Ok
  Fantasy Zone: The Maze                         FM      Ok

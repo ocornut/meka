@@ -55,6 +55,7 @@ They are usually of 2 kinds:
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
   - FileBrowser: returning to parent directory position cursor on last child. [Omar]
   - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
+  - FileBrowser: display JP flag when a game is JP/KR or JP/TW in the database. [Omar]
   - GUI: Made "Ocean" the default theme and increased default GUI resolution. [Omar]
   - GUI: Made "SMS Power! theme more readable. [Omar]
   - GUI: depth order of windows is saved and restored between runs. [Omar]

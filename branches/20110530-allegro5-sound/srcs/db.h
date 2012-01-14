@@ -99,7 +99,7 @@ void                DB_Close                    (void);
 t_db_entry *        DB_Entry_Find               (u32 crc32, const t_meka_crc *mekacrc = NULL);
 
 //void				DB_Entry_Print				(const t_db_entry *entry);
-int                 DB_Entry_SelectFlag         (const t_db_entry *entry);
+int                 DB_Entry_SelectDisplayFlag  (const t_db_entry *entry);
 const char *        DB_Entry_GetCurrentName     (const t_db_entry *entry);
 const t_db_name *   DB_Entry_GetNameByCountry   (const t_db_entry *entry, int country);
 int                 DB_Entry_GetTranslationFlag (const t_db_entry *entry);

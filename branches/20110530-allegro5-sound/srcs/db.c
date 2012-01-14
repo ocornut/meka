@@ -751,7 +751,7 @@ const t_db_name *	DB_Entry_GetNameByCountry (const t_db_entry *entry, int countr
 // Select flag to display for given DB entry
 // Note: this is named 'Select' as it may return nothing, and cannot return
 // multiple flags. This is used by the file browser / vlfn system.
-int             DB_Entry_SelectFlag(const t_db_entry *entry)
+int             DB_Entry_SelectDisplayFlag(const t_db_entry *entry)
 {
     int         country = entry->country;
 
@@ -778,10 +778,13 @@ int             DB_Entry_SelectFlag(const t_db_entry *entry)
     case DB_COUNTRY_EU : break;             // No country for Europe only
     }
 
-    // We are there if we have multiple country or for EUROPE.
-    // In those, do not display a flag.
-    // FIXME: This behavior may be changed in the future.
+    // Special case to account for asian releases
+	if (country == (DB_COUNTRY_JP | DB_COUNTRY_KR))
+		return FLAG_JP;
+	if (country == (DB_COUNTRY_JP | DB_COUNTRY_TW))
+		return FLAG_JP;
 
+	// Do not display a flag
     return (-1);
 }
 
