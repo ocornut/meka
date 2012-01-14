@@ -52,19 +52,20 @@ void	Out_SMS (u16 Port, u8 Value)
 	switch (Port)
 	{
 		// 0x3F/63 : LightGun & Nationalisation Port ---------------------------------
-	case 0x3F: if ((tsms.Periph_Nat & 0xF) != (Value & 0xF))
-			   {
-				   Inputs.SportsPad_Latch [0] = Inputs.SportsPad_Latch [1] = 1;
-			   }
-			   tsms.Periph_Nat = Value;
-			   if (tsms.Periph_Nat == 0x0D) 
-				   Inputs.SportsPad_Latch [0] ^= 1;
-			   if (tsms.Periph_Nat == 0x07) 
-				   Inputs.SportsPad_Latch [1] ^= 1;
-			   // IO_LOG_WRITE();
-			   return;
+	case 0x3F: 
+		if ((tsms.Periph_Nat & 0xF) != (Value & 0xF))
+		{
+			Inputs.SportsPad_Latch [0] = Inputs.SportsPad_Latch [1] = 1;
+		}
+		tsms.Periph_Nat = Value;
+		if (tsms.Periph_Nat == 0x0D) 
+			Inputs.SportsPad_Latch [0] ^= 1;
+		if (tsms.Periph_Nat == 0x07) 
+			Inputs.SportsPad_Latch [1] ^= 1;
+		// IO_LOG_WRITE();
+		return;
 
-			   // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
+	   // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
 	case 0xF0:
 		sms.FM_Register = Value & 0x3F;
 		return;
@@ -75,22 +76,22 @@ void	Out_SMS (u16 Port, u8 Value)
 		{
 			if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
 			{
-				VGM_Data_Add_FM (&Sound.LogVGM, (Value << 8) | sms.FM_Register);
+				VGM_Data_Add_FM(&Sound.LogVGM, (Value << 8) | sms.FM_Register);
 			}
 			FM_Write(sms.FM_Register, Value);
 		}
 		return;
 
 		// 0xF2/242: FM Chipset Detection --------------------------------------------
-	case 0xF2: if (Sound.FM_Enabled)
-			   {
-				   sms.FM_Magic = Value;
-			   }
-			   //IO_LOG_WRITE();
-			   return;
+	case 0xF2: 
+		if (Sound.FM_Enabled)
+		{
+			sms.FM_Magic = Value;
+		}
+		return;
 
-			   // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
-			   // At least Cosmic Spacehead uses 0x7E for writing.
+	   // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
+	   // At least Cosmic Spacehead uses 0x7E for writing.
 	case 0x7E: case 0x7F:
 		// Msg (MSGT_DEBUG, "At %04Xh @ %d: PSG = %02Xh", sms.R.PC.W, sms.Pages_Reg [2], Value);
 		// PSG_0_Write (Value);
@@ -241,7 +242,6 @@ u8		In_SMS (u16 Port)
             return (v);
         }
         */
-
     }
 
 #ifdef DEBUG_IO
@@ -402,4 +402,3 @@ u8 In_SF7000 (word Port)
 }
 
 //-----------------------------------------------------------------------------
-

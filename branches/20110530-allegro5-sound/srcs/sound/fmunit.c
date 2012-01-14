@@ -53,7 +53,7 @@ const char *FM_Instruments_Name[YM2413_INSTRUMENTS] =
 //-----------------------------------------------------------------------------
 
 // Mask of Registers data to save for a state save
-const byte      FM_Regs_SavingFlags [YM2413_REGISTERS] =
+const u8	FM_Regs_SavingFlags[YM2413_REGISTERS] =
 {
   // Registers
   // 00-07: user-definable tone channel - left at 0xff for now
@@ -79,10 +79,10 @@ const byte      FM_Regs_SavingFlags [YM2413_REGISTERS] =
 };
 
 // Active given interface
-void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs)
+void    FM_Set_Interface(t_fm_unit_interface *intf, byte *new_fm_regs)
 {
-	if (FM_Unit_Current)
-		FM_Mute ();
+	if (FM_Unit_Current != NULL)
+		FM_Mute();
 
 	if ((new_fm_regs != FM_Regs) && FM_Regs)
 	{
@@ -92,41 +92,27 @@ void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs)
 
 	FM_Unit_Current = intf;
 	FM_Regs = new_fm_regs;
-	FM_Regenerate ();
+	FM_Regenerate();
 }
 
-//-----------------------------------------------------------------------------
-// FM_Null_Active()
-// Active the fake/null FM interface
-// FIXME: theorically this should never be called now. Need to assert there.
-//-----------------------------------------------------------------------------
-void    FM_Null_Active (void)
+// Active the dummy/null FM interface
+void    FM_Null_Active()
 {
-	// FIXME: currently using FM_OPL_Regs as a buffer to avoid crashing in
-	// access to the registers (by applet, etc...).
-	// A fake set of registers is created as sound/fmunit.c reference it.
-	// FIXME: This sucks.
+	// Create a dummy set of register.
 	static u8 FM_OPL_Regs [YM2413_REGISTERS];
 
 	FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Save()
-// Save FM register to given file pointer
-//-----------------------------------------------------------------------------
 void    FM_Save (FILE *f)
 {
   fwrite (FM_Regs, YM2413_REGISTERS, 1, f);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Load()
 // Load FM registers from given file pointer and call emulator Reload function
 // Note: only the registers are saved/loaded currently
 // If this has to change, please pay attention to the fact that MSD loading
 // use this fonction to load old Massage save states.
-//-----------------------------------------------------------------------------
 void    FM_Load (FILE *f)
 {
 	fread (FM_Regs, YM2413_REGISTERS, 1, f);

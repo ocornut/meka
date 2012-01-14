@@ -31,12 +31,12 @@ t_fm_unit_interface     FM_Digital_Interface =
 
 int     FM_Digital_Init()
 {
-    ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_YM2413_Digital));
+    ConsolePrintf("%s ", Msg_Get(MSG_Sound_Init_YM2413_Digital));
 
-	opll = OPLL_new (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
+	opll = OPLL_new(Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
     if (opll == NULL)
     {
-        ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
+        ConsolePrintf("%s\n", Msg_Get (MSG_Failed));
         return (MEKA_ERR_FAIL);
     }
 	// FIXME-NEWSOUND: FM init
@@ -50,75 +50,53 @@ int     FM_Digital_Init()
     stream_set_volume (FM_Digital_saChannel, VOLUME_MAX);
 	*/
 
-    OPLL_reset (opll);
+    OPLL_reset(opll);
 
-    ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));
+    ConsolePrintf("%s\n", Msg_Get (MSG_Ok));
     return (MEKA_ERR_OK);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Close()
-// Close emulation
-//-----------------------------------------------------------------------------
-void    FM_Digital_Close (void)
+void    FM_Digital_Close()
 {
     OPLL_delete (opll);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Active ()
 // Active this engine as being the current FM interface to use
-//-----------------------------------------------------------------------------
-void    FM_Digital_Active   (void)
+void    FM_Digital_Active()
 {
-    FM_Set_Interface (&FM_Digital_Interface, opll->reg);
+    FM_Set_Interface(&FM_Digital_Interface, opll->reg);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Reset()
 // Reset emulated YM-2413
-//-----------------------------------------------------------------------------
-void    FM_Digital_Reset (void)
+void    FM_Digital_Reset()
 {
-    OPLL_reset (opll);
+    OPLL_reset(opll);
 }
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Write()
 // Port write to the YM-2413
-//-----------------------------------------------------------------------------
-void    FM_Digital_Write (int Register, int Value)
+void    FM_Digital_Write(int Register, int Value)
 {
-    OPLL_writeReg (opll, Register, Value);
+    OPLL_writeReg(opll, Register, Value);
 }
 
-//-----------------------------------------------------------------------------
-//
-//-----------------------------------------------------------------------------
-void    FM_Digital_Mute         (void)
+void    FM_Digital_Mute()
 {
 }
 
-//-----------------------------------------------------------------------------
-//
-//-----------------------------------------------------------------------------
-void    FM_Digital_Resume       (void)
+void    FM_Digital_Resume()
 {
 }
 
-//-----------------------------------------------------------------------------
-// FM_Digital_Regenerate()
 // Regenerate various data from YM-2413 registers
 // This is called after a state loading
-//-----------------------------------------------------------------------------
-void    FM_Digital_Regenerate (void)
+void    FM_Digital_Regenerate()
 {
     // Msg (MSGT_DEBUG, __FUNCTION__);
     for (int i = 0; i < YM2413_REGISTERS; i++)
     {
-        FM_Digital_Write (i, FM_Regs[i]);
+        FM_Digital_Write(i, FM_Regs[i]);
     }
-    OPLL_forceRefresh (opll);
+    OPLL_forceRefresh(opll);
 }
 
 // Update audio stream
