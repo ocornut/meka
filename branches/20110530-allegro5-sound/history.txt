@@ -39,6 +39,7 @@ They are usually of 2 kinds:
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
     - Added support for parsing SJASM symbol format. [Omar]
+    - Added support for parsing TASM symbol format. [Omar]
   - Tools:
     - CheatFinder: added a new cheat finder application. [Omar]
       - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.

@@ -398,7 +398,6 @@ doing them now and some are quick work.
    - Find a solution to the problem of not being able to print result that are not 16-bits
  - Symbols
    - Automatically select name/addr symbols find in "SYM" command
-   - Different symbol file formats?
    - Keep track of source symbol, by keeping t_debugger_value all along the chain.
    - Figure out a way to keep symbol references and have them updated on ROM reload.
  - SET command

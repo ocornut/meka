@@ -105,8 +105,8 @@ static const char *             Debugger_BreakPoint_GetTypeName(t_debugger_break
 static bool                     Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value);
 
 // Symbols
-static void                     Debugger_Symbols_Load(void);
-static void                     Debugger_Symbols_Clear(void);
+static void                     Debugger_Symbols_Load();
+static void                     Debugger_Symbols_Clear();
 static void                     Debugger_Symbols_ListByName(char *search_name);
 static void						Debugger_Symbols_ListByAddr(u32 addr);
 t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(u32 addr);
@@ -1126,7 +1126,71 @@ int      Debugger_Bus_Read(int bus, int addr)
 // FUNCTIONS - SYMBOLS
 //-----------------------------------------------------------------------------
 
-void     Debugger_Symbols_Load(void)
+enum t_debugger_symbol_file_type
+{
+	DEBUGGER_SYMBOL_FILE_TYPE_WLA,
+	DEBUGGER_SYMBOL_FILE_TYPE_SJASM,
+	DEBUGGER_SYMBOL_FILE_TYPE_TASM,
+	DEBUGGER_SYMBOL_FILE_TYPE_MAX_
+};
+
+bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_file_type symbol_file_type)
+{
+	char line_buf[512];
+	strcpy(line_buf, line_original);
+	char* line = line_buf;
+
+    u16 bank;
+	u16 addr;
+	u32 addr32;
+	char name[512];
+
+	switch (symbol_file_type)
+	{
+	case DEBUGGER_SYMBOL_FILE_TYPE_WLA:
+        {
+			// NO$GMB/WLA format
+			//  "0000:c007 VarScanlineMetrics"
+			if (sscanf(line, "%hX:%hX %s", &bank, &addr, name) == 3)
+			{
+				Debugger_Symbol_Add(addr, bank, name);
+				return true;
+			}
+			break;
+		}
+	case DEBUGGER_SYMBOL_FILE_TYPE_SJASM:
+		{
+			// SJASM format
+			//	"pause_music: equ 0000074Fh"
+			if (parse_getword(name, countof(name), &line, ":\t\r\n", ';', PARSE_FLAGS_NONE))
+			{
+				parse_skip_spaces(&line);
+				if (sscanf(line, "equ %Xh", &addr32) == 1)
+				{
+					Debugger_Symbol_Add(addr32 & 0xFFFF, 0, name);
+					return true;
+				}
+			}
+			break;
+		}
+	case DEBUGGER_SYMBOL_FILE_TYPE_TASM:
+		{
+			if (parse_getword(name, countof(name), &line, " \t", ';', PARSE_FLAGS_NONE))
+			{
+				parse_skip_spaces(&line);
+				if (sscanf(line, "%hXh", &addr) == 1)
+				{
+					Debugger_Symbol_Add(addr, 0, name);
+					return true;
+				}
+			}
+			break;
+		}
+	}
+	return false;
+}
+
+void    Debugger_Symbols_Load(void)
 {
     char        symbol_filename[FILENAME_LEN];
     t_tfile *   symbol_file;
@@ -1179,53 +1243,30 @@ void     Debugger_Symbols_Load(void)
             continue;
 
         // Parse
-        {
-            u16 bank;
-            u16 addr;
-			u32 addr32;
-            char name[512];
-			bool success = false;
-
-			// NO$GMB/WLA format
-			//  "0000:c007 VarScanlineMetrics"
-			if (!success)
+		bool parse_success = false;
+		for (int symbol_file_type = 0; symbol_file_type != DEBUGGER_SYMBOL_FILE_TYPE_MAX_; symbol_file_type++)
+		{
+			if (Debugger_Symbols_TryParseLine(line, (t_debugger_symbol_file_type)symbol_file_type))
 			{
-				if (sscanf(line, "%hX:%hX %s", &bank, &addr, name) == 3)
-					Debugger_Symbol_Add(addr, bank, name);
+				parse_success = true;
+				break;
 			}
-
-			// SJASM format
-			//	"pause_music: equ 0000074Fh"
-			if (!success)
+		}
+		if (!parse_success)
+		{
+			if (!error)
 			{
-				if (parse_getword(name, countof(name), &line, ":\t\r\n", ';', PARSE_FLAGS_NONE))
-				{
-					parse_skip_spaces(&line);
-					if (sscanf(line, "equ %Xh", &addr32) == 1)
-					{
-						Debugger_Symbol_Add(addr32 & 0xFFFF, 0, name);
-						success = true;
-					}
-				}
+				error = true;
+				Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
 			}
-
-			if (!success)
-			{
-				if (!error)
-				{
-					error = true;
-					Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
-				}
-                Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
-			}
-        }
-    
+            Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
+		}
     }
 
     // Free symbol file data
     tfile_free(symbol_file);
 
-    // Sort symbols
+    // Sort by address
     list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByAddress);
 
     // Verbose
@@ -1233,7 +1274,7 @@ void     Debugger_Symbols_Load(void)
     Debugger_Printf("%s\n", buf);
 }
 
-void    Debugger_Symbols_Clear(void)
+void    Debugger_Symbols_Clear()
 {
     t_list *symbols;
     for (symbols = Debugger.symbols; symbols != NULL; )
