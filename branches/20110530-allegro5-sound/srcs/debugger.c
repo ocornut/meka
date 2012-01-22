@@ -133,6 +133,7 @@ static void                     Debugger_Value_Write(t_debugger_value *value, u3
 
 // Reverse Map
 static void						Debugger_ReverseMap(u16 addr);
+static int						Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios);
 
 //-----------------------------------------------------------------------------
 // Data - Command Info/Help
@@ -211,9 +212,9 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " B DISABLE id                   ; Disable breakpoint <id>\n"
         " B CLEAR                        ; Clear breakpoints\n"
         "Parameters:\n"
-        " address : breakpoint address, can be a range\n"
+        " address : breakpoint address, can be a range or label\n"
         " access  : access to trap, any from r/w/x (rwx)\n"
-        " bus     : bus/event, one from cpu/io/vram/pal/line (cpu)\n"
+        " bus     : bus/event, one from cpu/io/vram/pal/rom/line (cpu)\n"
         //" id      : breakpoint identifier\n"
         "Examples:\n"
         " B 0038          ; break when CPU access $0038\n"
@@ -369,11 +370,12 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 
 static t_debugger_bus_info  DebuggerBusInfos[BREAKPOINT_LOCATION_MAX_] =
 {
-    { BREAKPOINT_LOCATION_CPU,      "CPU",  2,  0x0000, 0xFFFF, BREAKPOINT_ACCESS_RWX,  DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
-    { BREAKPOINT_LOCATION_IO,       "IO",   1,  0x00,   0xFF,   BREAKPOINT_ACCESS_RW,   1                                   },
-    { BREAKPOINT_LOCATION_VRAM,     "VRAM", 2,  0x0000, 0x3FFF, BREAKPOINT_ACCESS_RW,   DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
-    { BREAKPOINT_LOCATION_PRAM,     "PAL",  1,  0x00,   0x3F,   BREAKPOINT_ACCESS_W,    DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
-    { BREAKPOINT_LOCATION_LINE,     "LINE", 2,  0,      312,    BREAKPOINT_ACCESS_E,    0                                   },      // FIXME: Alright, this one is quite a hack...
+    { BREAKPOINT_LOCATION_CPU,      "CPU",  2,  0x0000,		0xFFFF,		BREAKPOINT_ACCESS_RWX,  DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
+	{ BREAKPOINT_LOCATION_ROM,      "ROM",  3,  0x000000,   0x1FFFFF,	BREAKPOINT_ACCESS_RWX,  DEBUGGER_DATA_COMPARE_LENGTH_MAX    },	// 'addr_max' is updated on media change. NB- 'w' is unusual but it doesn't hurt supporting it?
+    { BREAKPOINT_LOCATION_IO,       "IO",   1,  0x00,		0xFF,		BREAKPOINT_ACCESS_RW,   1                                   },
+    { BREAKPOINT_LOCATION_VRAM,     "VRAM", 2,  0x0000,		0x3FFF,		BREAKPOINT_ACCESS_RW,   DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
+    { BREAKPOINT_LOCATION_PRAM,     "PAL",  1,  0x00,		0x3F,		BREAKPOINT_ACCESS_W,    DEBUGGER_DATA_COMPARE_LENGTH_MAX    },	// 'addr_max' is updated on driver change
+    { BREAKPOINT_LOCATION_LINE,     "LINE", 2,  0,			312,		BREAKPOINT_ACCESS_E,    0                                   },  // FIXME: A bit hacky
 };
 
 //-----------------------------------------------------------------------------
@@ -558,7 +560,7 @@ void        Debugger_MachineReset(void)
     // Hook Z80 read/write and I/O
     Debugger_Hooks_Install();
 
-    // Set PRAM size
+    // Update PRAM size
     if (g_driver->id == DRV_GG)
 		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x3F;
     else
@@ -576,6 +578,9 @@ void        Debugger_MediaReload(void)
 {
 	if (!Debugger.enabled)
 		return;
+
+	// Update ROM size
+	DebuggerBusInfos[BREAKPOINT_LOCATION_ROM].addr_max = (tsms.Size_ROM - 1);
 
     // Reload symbols
     Debugger_Symbols_Load();
@@ -637,7 +642,7 @@ int		Debugger_Hook(Z80 *R)
             t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
             if (breakpoint->enabled)
 			{
-                if (breakpoint->location == BREAKPOINT_LOCATION_CPU && (breakpoint->access_flags & BREAKPOINT_ACCESS_X))
+                if ((breakpoint->access_flags & BREAKPOINT_ACCESS_X) && (breakpoint->location == BREAKPOINT_LOCATION_CPU || breakpoint->location == BREAKPOINT_LOCATION_ROM) )
                 {
                     if (Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_X, pc, RdZ80_NoHook(pc)))
                         break_activated = TRUE;
@@ -787,7 +792,7 @@ t_debugger_breakpoint *     Debugger_BreakPoint_Add(int type, int location, int 
     // Check parameters
     assert(address_start <= address_end);
     assert(address_start >= 0);
-    assert(address_end < 0x10000);
+	assert(address_end <= DebuggerBusInfos[location].addr_max);
     assert(type == BREAKPOINT_TYPE_BREAK || type == BREAKPOINT_TYPE_WATCH);
 
     // Create and setup breakpoint
@@ -833,57 +838,115 @@ void                        Debugger_BreakPoint_Remove(t_debugger_breakpoint *br
 
 void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *breakpoint)
 {
-    int         addr;
-    t_list **   bus_lists;
-
     // Set flag
     breakpoint->enabled = TRUE;
 
     // Add to corresponding bus space list
+    t_list ** bus_lists;
     switch (breakpoint->location)
     {
-    case BREAKPOINT_LOCATION_CPU:   bus_lists = Debugger.breakpoints_cpu_space;   break;
+	case BREAKPOINT_LOCATION_CPU:	bus_lists = Debugger.breakpoints_cpu_space;   break;
+	case BREAKPOINT_LOCATION_ROM:	bus_lists = Debugger.breakpoints_cpu_space;   break;
     case BREAKPOINT_LOCATION_IO:    bus_lists = Debugger.breakpoints_io_space;    break;
     case BREAKPOINT_LOCATION_VRAM:  bus_lists = Debugger.breakpoints_vram_space;  break;
     case BREAKPOINT_LOCATION_PRAM:  bus_lists = Debugger.breakpoints_pram_space;  break;
     case BREAKPOINT_LOCATION_LINE:  bus_lists = Debugger.breakpoints_line_space;  break;
-    default:			    assert(0); return;
+    default: assert(0); return;
     }
-    for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
-        list_add(&bus_lists[addr], breakpoint);
 
-    // Add to CPU exec trap
-    if (breakpoint->location == BREAKPOINT_LOCATION_CPU)
-        if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
-            for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
-                Debugger_CPU_Exec_Traps[addr]++;
+	// Add to CPU exec trap?
+	bool cpu_exec_trap = false;
+	if (breakpoint->location == BREAKPOINT_LOCATION_CPU || breakpoint->location == BREAKPOINT_LOCATION_ROM)
+		if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
+			cpu_exec_trap = true;
+
+	if (breakpoint->location == BREAKPOINT_LOCATION_ROM)
+	{
+		// FIXME: Redundant breakpoints will be added if range span over the size of a page
+		// FIXME: Most mapper use 0x4000 sized pages, it would be an optimisation to know this information
+		const int mapper_page_size = 0x2000;
+		const int mapper_bank_count = 0xC000/mapper_page_size;
+		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
+		const int addr_max1 = (int)(breakpoint->address_range[1] & (mapper_page_size-1))+1;	// Prewrap both ends of the range to avoid duplicate additions.
+	    for (int addr = addr_min; addr != addr_max1; addr++)
+		{
+			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
+			for (int i = 0; i != mapper_bank_count; i++)
+			{
+				const u32 addr_candidate = addr0 | (i * mapper_page_size);
+				list_add(&bus_lists[addr_candidate], breakpoint);
+				if (cpu_exec_trap)
+					Debugger_CPU_Exec_Traps[addr_candidate]++;
+			}
+		}
+	}
+	else
+	{
+	    for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
+		{
+		    list_add(&bus_lists[addr], breakpoint);
+			if (cpu_exec_trap)
+				Debugger_CPU_Exec_Traps[addr]++;
+		}
+	}
 }
 
 void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *breakpoint)
 {
-    int         addr;
-    t_list **   bus_lists;
-
     // Set flag
     breakpoint->enabled = FALSE;
 
     // Remove from bus space list
+    t_list ** bus_lists;
     switch (breakpoint->location)
     {
     case BREAKPOINT_LOCATION_CPU:   bus_lists = Debugger.breakpoints_cpu_space;   break;
+	case BREAKPOINT_LOCATION_ROM:	bus_lists = Debugger.breakpoints_cpu_space;   break;
     case BREAKPOINT_LOCATION_IO:    bus_lists = Debugger.breakpoints_io_space;    break;
     case BREAKPOINT_LOCATION_VRAM:  bus_lists = Debugger.breakpoints_vram_space;  break;
     case BREAKPOINT_LOCATION_PRAM:  bus_lists = Debugger.breakpoints_pram_space;  break;
     case BREAKPOINT_LOCATION_LINE:  bus_lists = Debugger.breakpoints_line_space;  break;
-    default:			    assert(0); return;
+    default: assert(0); return;
     }
-    for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
-        list_remove(&bus_lists[addr], breakpoint);
 
-    // Remove CPU exec trap
+	// Add to CPU exec trap?
+	bool cpu_exec_trap = false;
+	if (breakpoint->location == BREAKPOINT_LOCATION_CPU || breakpoint->location == BREAKPOINT_LOCATION_ROM)
+		if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
+			cpu_exec_trap = true;
+
+	if (breakpoint->location == BREAKPOINT_LOCATION_ROM)
+	{
+		const int mapper_page_size = 0x2000;
+		const int mapper_bank_count = 0xC000/mapper_page_size;
+		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
+		const int addr_max1 = (int)(breakpoint->address_range[1] & (mapper_page_size-1))+1;	// Prewrap both ends of the range to avoid duplicate additions.
+	    for (int addr = addr_min; addr != addr_max1; addr++)
+		{
+			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
+			for (int i = 0; i != mapper_bank_count; i++)
+			{
+				const u32 addr_candidate = addr0 | (i * mapper_page_size);
+				list_remove(&bus_lists[addr_candidate], breakpoint);
+				if (cpu_exec_trap)
+					Debugger_CPU_Exec_Traps[addr_candidate]--;
+			}
+		}
+	}
+	else
+	{
+		for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
+		{
+			list_remove(&bus_lists[addr], breakpoint);
+			if (cpu_exec_trap)
+				Debugger_CPU_Exec_Traps[addr]--;
+		}
+	}
+
+    // Remove CPU exec trap?
     if (breakpoint->location == BREAKPOINT_LOCATION_CPU)
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
-            for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
+            for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
                 Debugger_CPU_Exec_Traps[addr]--;
 }
 
@@ -963,13 +1026,26 @@ void                        Debugger_BreakPoint_GetSummaryLine(t_debugger_breakp
     Trim_End(buf);
 }
 
-bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value)
+bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value)
 {
     t_debugger_bus_info *bus_info = &DebuggerBusInfos[breakpoint->location];
     const char *action;
     char buf[256];
 
     // Debugger_Printf("Debugger_BreakPoint_ActivatedVerbose() %04x\n", addr);
+
+	int rmapped_addr = addr;
+
+	if (breakpoint->location == BREAKPOINT_LOCATION_ROM)
+	{
+		bool is_bios;
+		const int rom_addr = Debugger_ReverseMapFindRomAddress(addr, &is_bios);
+		if (rom_addr == -1)
+			return FALSE;
+		if (rom_addr < breakpoint->address_range[0] || rom_addr > breakpoint->address_range[1])
+			return FALSE;	// False candidate (due to mapping)
+		rmapped_addr = rom_addr;
+	}
 
     // Data comparer
     // FIXME
@@ -982,7 +1058,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
             int i;
             for (i = 1; i != breakpoint->data_compare_length; i++)
             {
-                int value2 = Debugger_Bus_Read(breakpoint->location, addr + i);
+                int value2 = Debugger_Bus_Read(breakpoint->location, rmapped_addr + i);
                 if (value2 != breakpoint->data_compare_bytes[i])
                     return (FALSE);
             }
@@ -1019,7 +1095,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
             action,
             bus_info->name,
             bus_info->bus_addr_size * 2,
-            addr,
+            rmapped_addr,
             value);
     }
     else if (access & BREAKPOINT_ACCESS_W)
@@ -1030,7 +1106,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
             action,
             bus_info->name,
             bus_info->bus_addr_size * 2,
-            addr,
+            rmapped_addr,
             value);
     }
     else if (access & BREAKPOINT_ACCESS_X)
@@ -1048,7 +1124,7 @@ bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_brea
             breakpoint->id,
             action,
             bus_info->name,
-            addr);
+            rmapped_addr);
     }
     else
     {
@@ -2000,16 +2076,16 @@ void        Debugger_Applet_Redraw_State(void)
 			// Breakpoints
 			{
 				t_list *breakpoints;
-				int flags = 0;
+				bool on_breakpoint = false;
 				for (breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
 				{
 					t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
+					if (breakpoint->location == BREAKPOINT_LOCATION_ROM)	// FIXME: Support the '!' indicator for ROM breakpoints
+						continue;
 					if (breakpoint->type == BREAKPOINT_TYPE_BREAK)
-					{
-						flags |= 1;
-					}
+						on_breakpoint = true;
 				}
-				if (flags & 1)
+				if (on_breakpoint)
 				{
 					buf[0] = '!';
 				}
@@ -2329,6 +2405,8 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     // Parse Bus
     if (!stricmp(arg, "CPU"))
         location = BREAKPOINT_LOCATION_CPU;
+    else if (!stricmp(arg, "ROM"))
+        location = BREAKPOINT_LOCATION_ROM;
     else if (!stricmp(arg, "IO"))
         location = BREAKPOINT_LOCATION_IO;
     else if (!stricmp(arg, "VRAM"))
@@ -2397,7 +2475,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         if (Debugger_Eval_GetExpression(&p, &address_start) > 0)
         {
             // Default is no range, so end==start
-            address_start.data = (u16)address_start.data;
+            address_start.data = address_start.data;
             address_end = address_start;
         }
         if (strncmp(p, "..", 2) == 0)
@@ -2410,7 +2488,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             if (address_start.data == -1)
                 address_start.data = bus_info->addr_min;
             if (Debugger_Eval_GetExpression(&p, &address_end) > 0)
-                address_end.data = (u16)address_end.data;
+                address_end.data = address_end.data;
             else
                 address_end.data = bus_info->addr_max;
         }
@@ -3985,6 +4063,59 @@ void        Debugger_History_List(const char *search_term_arg)
 // FUNCTIONS - REVERSE MAP
 //-----------------------------------------------------------------------------
 
+int			Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios)
+{
+	const int mem_pages_index = (addr >> 13);
+	const u8 *mem_pages_base = Mem_Pages[mem_pages_index] + (mem_pages_index << 13);
+
+	int offset;
+
+	// - ROM
+	offset = (mem_pages_base - ROM) + (addr & 0x1FFF);
+	if (offset >= 0 && offset < tsms.Size_ROM)
+	{
+		*is_bios = false;
+		return offset;
+	}
+			
+	// - ROM (special hack for first 1 KB)
+	// FIXME: Report ROM instead of SMS BIOS in those cases. Anyway SMS BIOS is poorly emulated.
+	offset = (mem_pages_base - Game_ROM_Computed_Page_0) + (addr & 0x1FFF);
+	if (offset >= 0 && offset < 0x4000)
+	{
+		*is_bios = false;
+		return offset;
+	}
+
+	// - BIOSes
+	offset = (mem_pages_base - BIOS_ROM) + (addr & 0x1fff);
+	if (offset >= 0 && offset < 0x2000)
+	{
+		*is_bios = true;
+		return offset;
+	}
+	offset = (mem_pages_base - BIOS_ROM_Jap) + (addr & 0x1fff);
+	if (offset >= 0 && offset < 0x2000)
+	{
+		*is_bios = true;
+		return offset;
+	}
+	offset = (mem_pages_base - BIOS_ROM_Coleco) + (addr & 0x1fff);
+	if (offset >= 0 && offset < 0x2000)
+	{
+		*is_bios = true;
+		return offset;
+	}
+	offset = (mem_pages_base - BIOS_ROM_SF7000) + (addr & 0x1fff);
+	if (offset >= 0 && offset < 0x4000)
+	{
+		*is_bios = true;
+		return offset;
+	}
+
+	return -1;
+}
+
 //-----------------------------------------------------------------------------
 // Note: this is completely hard-coded to handle the most common cases.
 // The reason is that this feature was planned since a long time using a more
@@ -4031,16 +4162,16 @@ void		Debugger_ReverseMap(u16 addr)
 			// Using direct pointer arithmetic comparisons.
 			int offset;
 
-			// - ROM
-			offset = (mem_pages_base - ROM) + (addr & 0x1FFF);
-			if (offset >= 0 && offset < tsms.Size_ROM)
-				Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
-			
-			// - ROM (special hack for first 1 KB)
-			// FIXME: Report ROM instead of SMS BIOS in those cases. Anyway SMS BIOS is poorly emulated.
-			offset = (mem_pages_base - Game_ROM_Computed_Page_0) + (addr & 0x1FFF);
-			if (offset >= 0 && offset < 0x4000)
-				Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
+			// - ROM, Game_ROM_Computed_Page_0, BIOS_ROM*
+			bool is_bios;
+			offset = Debugger_ReverseMapFindRomAddress(addr, &is_bios);
+			if (offset != -1)
+			{
+				if (is_bios)
+					Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
+				else			
+					Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
+			}
 
 			// - RAM
 			offset = (mem_pages_base - RAM) + (addr & MIN(0x1fff, ram_len - 1));
@@ -4052,20 +4183,6 @@ void		Debugger_ReverseMap(u16 addr)
 			offset = (mem_pages_base - SRAM) + (addr & MIN(0x1fff, sram_len - 1));
 			if (offset >= 0 && offset < sram_len)
 				Debugger_Printf(" Z80 $%04X = SRAM $%04X", addr, offset);
-
-			// - BIOSes
-			offset = (mem_pages_base - BIOS_ROM) + (addr & 0x1fff);
-			if (offset >= 0 && offset < 0x2000)
-				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
-			offset = (mem_pages_base - BIOS_ROM_Jap) + (addr & 0x1fff);
-			if (offset >= 0 && offset < 0x2000)
-				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
-			offset = (mem_pages_base - BIOS_ROM_Coleco) + (addr & 0x1fff);
-			if (offset >= 0 && offset < 0x2000)
-				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
-			offset = (mem_pages_base - BIOS_ROM_SF7000) + (addr & 0x1fff);
-			if (offset >= 0 && offset < 0x4000)
-				Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
 
 			//break;
 		}

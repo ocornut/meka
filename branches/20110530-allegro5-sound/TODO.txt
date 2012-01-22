@@ -138,7 +138,6 @@ Proppy session debugger notes:
 Debugger: bind RELOAD rom on a key, or add 'reload' command
 
 - debugger auto-start mode? (command-line, config?)
-- want to set breakpoints on ROM addresses... b r $30000 
 - 'M hl-1' doesn't work
 
 <cgfm2> can I increase the SMS display window size in GUI mode?
@@ -255,7 +254,7 @@ doing them now and some are quick work.
    - Check Charles' SmsGun test.
 
 -----------------------------
- PERIPHERALS/INPUTS USER
+ PERIPHERALS/INPUTS HOST
 -----------------------------
  - Support analog axis, damnit!
  - Add Message when changing Player 2 input (?)
@@ -269,7 +268,7 @@ doing them now and some are quick work.
  - Interface mouse driver (who cares anymore).
  - Keyboard not qwerty
  - Player 2 default inputs on right side of the keyboard ?
- - Added both buttons & combo inputs
+ - Add both buttons & combo inputs
  - Be able to configure Rapid Fire speed.
  - Cursor is repositionned when enabling light phaser within GUI
  - Support for more than one mouse (for light phaser game)

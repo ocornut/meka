@@ -204,9 +204,9 @@ Usage:
  B DISABLE id                   ; Disable breakpoint <id>
  B CLEAR                        ; Clear breakpoints
 Parameters:
- address : breakpoint address, can be a range
+ address : breakpoint address, can be a range or label
  access  : access to trap, any from r/w/x (rwx)
- bus     : bus/event, one from cpu/io/vram/pal/line (cpu)
+ bus     : bus/event, one from cpu/io/vram/pal/rom/line (cpu)
  xx      ; byte to compare to, for conditionnal break
  id      : breakpoint identifier
 Examples:

@@ -35,6 +35,7 @@ They are usually of 2 kinds:
     - Added support for mirrored VDP ports in $80..$BF range, as required by some 
       Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
   - Debugger:
+    - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
     - Added CR command ("Continue to next RET* instruction"). [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]

@@ -16,7 +16,7 @@
  SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  20 em 1 (BR)                                   -       Ok
- 4 PAK All Action (AU)                          -      *Ok
+ 4 PAK All Action (AU)                          -       Ok
  94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
  Action Fighter [v1]                            -       Ok

@@ -23,11 +23,12 @@
 #define BREAKPOINT_ACCESS_E                     (0x08)
 
 #define BREAKPOINT_LOCATION_CPU                 (0)
-#define BREAKPOINT_LOCATION_IO                  (1)
-#define BREAKPOINT_LOCATION_VRAM                (2)
-#define BREAKPOINT_LOCATION_PRAM                (3)
-#define BREAKPOINT_LOCATION_LINE                (4)
-#define BREAKPOINT_LOCATION_MAX_                (5)
+#define BREAKPOINT_LOCATION_ROM                 (1)
+#define BREAKPOINT_LOCATION_IO                  (2)
+#define BREAKPOINT_LOCATION_VRAM                (3)
+#define BREAKPOINT_LOCATION_PRAM                (4)
+#define BREAKPOINT_LOCATION_LINE                (5)
+#define BREAKPOINT_LOCATION_MAX_                (6)
 
 #define BREAKPOINT_TYPE_BREAK                   (0)
 #define BREAKPOINT_TYPE_WATCH                   (1)

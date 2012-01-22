@@ -379,22 +379,22 @@ WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
 	case 0x3FFE: // Frame 0 ----------------------------------------------------
 		{
 			sms.Pages_Reg[0] = Value;
-			const int page_8 = (sms.Pages_Reg[0]) & tsms.Pages_Mask_16k;
-			Map_16k_ROM (0, page_8 * 2);
+			const int page = (sms.Pages_Reg[0]) & tsms.Pages_Mask_16k;
+			Map_16k_ROM(0, page * 2);
 			return;
 		}
 	case 0x7FFF: // Frame 1 ----------------------------------------------------
 		{
 			sms.Pages_Reg[1] = Value;
-			const int page_8 = (sms.Pages_Reg[1]) & tsms.Pages_Mask_16k;
-			Map_16k_ROM (2, page_8 * 2);
+			const int page = (sms.Pages_Reg[1]) & tsms.Pages_Mask_16k;
+			Map_16k_ROM(2, page * 2);
 			return;
 		}
 	case 0xBFFF: // Frame 2 ----------------------------------------------------
 		{
 			sms.Pages_Reg[2] = Value;
-			const int page_8 = ((sms.Pages_Reg[0]&0x30) + (sms.Pages_Reg[2])) & tsms.Pages_Mask_16k;
-			Map_16k_ROM (4, page_8 * 2);
+			const int page = ((sms.Pages_Reg[0]&0x30) + (sms.Pages_Reg[2])) & tsms.Pages_Mask_16k;
+			Map_16k_ROM(4, page * 2);
 			return;
 		}
 	}
