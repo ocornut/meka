@@ -5,6 +5,129 @@
  source code and refer to HISTORY.TXT file.
 -----------------------------------------------------------------------------
 
+ MEKA 0.80 WIP
+ -------------
+  - Updated to Allegro 5.0.2 with OpenGL/DirectX backends. [Omar]
+    This required a lot of changes and rewrite in the codebase. It probably added new bugs,
+    and performances seems to vary depending on computer settings and video drivers.
+    Please do report if you have any issue/slowdown so we can fix them!
+  - Preliminary MacOSX port. [Omar]
+  - Rewrote sound engine and fixed audio issues that many users had. [Omar]
+    The sound is also now functional under Linux and MacOS. [Omar]  
+  - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
+    Codebase can now freely take advantage of all C++ compiler features. [Omar]
+  - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
+  - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
+  - Setup panel allows to select display driver and resolution. [Omar]
+  - Added Polish translation. [thr]
+  - Emulation:
+    - Added support for variant of MSX-based Korean 8KB mapper used by Nemesis. [Omar]
+    - Added support for 4 PAK All Action mapper. [Omar]
+    - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
+    - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
+      This allow 'Ali Baba' and 'Block Hole' to run properly. Better clearing patterns
+      could be implemented for other systems/countries after we've done more research. [Omar]
+    - Added support for mirrored VDP ports in $80..$BF range, as required by some 
+      Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
+  - Debugger:
+    - Added CR command ("Continue to next RET* instruction"). [Omar]
+    - Improved the range of disassembly before PC cursor when running loops. [Omar]
+    - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
+    - Added support for parsing SJASM symbol format. [Omar]
+    - Added support for parsing TASM symbol format. [Omar]
+  - Tools:
+    - CheatFinder: added a new cheat finder application. [Omar]
+      - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.
+      - Can search in RAM,ROM,VRAM,VREG,PRAM,SRAM,Z80 spaces for maximum flexibility,
+        although for actual cheat-finding purpose RAM is likely to be more searched for.
+      - Reduce the match set by using ==,!=,<,>,<=,>= operators, compare with a constant 
+        or the old value stored in each match memory location.
+      - Highlight matches in the memory editor for easier visibility.
+      - Undo button.
+    - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
+    - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
+    - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
+  - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
+  - FileBrowser: returning to parent directory position cursor on last child. [Omar]
+  - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
+  - FileBrowser: display JP flag when a game is JP/KR or JP/TW in the database. [Omar]
+  - GUI: Made "Ocean" the default theme and increased default GUI resolution. [Omar]
+  - GUI: Made "SMS Power! theme more readable. [Omar]
+  - GUI: depth order of windows is saved and restored between runs. [Omar]
+  - GUI: increased mouse horizontal range when using scrollbars. [Omar]
+  - GUI: added 'game_window_scale' directive on configuration file to resize game window. [Omar]
+  - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
+  - Removed code for the old OPL3 based YM2413 emulator. [Omar]
+  - Removed easter egg code for emulating the NES. [Omar]
+  - Removed easter egg mini-games and various other obsolete features. [Omar]
+  - Removed mekaw.txt and mekanix.txt documentation files (obsolete). [Omar]
+  - (Win32) Using precompiled header for blazing fast compilation (MSVC). [Omar]
+  - (Win32) Using precompiled Allegro binaries. [Omar]
+  - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
+  - (Win32) Now including NASM assembler in the repository. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+          GG  - a8ef36a7 - Junction                             --> Junction (JP)
+          GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
+          GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
+          SG1 - 5eb48a20 - Congo Bongo [v1]                     --> Congo Bongo [v0] (made a mistake originally ordering the versions. see thread on SMS Power! forum)
+          SG1 - 5a24c7cf - Congo Bongo [v0]                     --> Congo Bongo [v1] 
+          SG1 - f7eb94c5 - Congo Bongo [v0] (TW)                --> Congo Bongo [v1] (TW)
+          OMV - 90160849 - 007 James Bond                       --> 007 James Bond [v2.7] (version v2.6 found)
+          OMV - 76d6c64d - 007 James Bond (TW)                  --> 007 James Bond [v2.7] (TW)
+          OMV - d5fdb4a3 - Space Armor [v0]                     --> Space Armor [v2.0] [v1] (earlier build found replacing [v0], v2.0 is found on title screen but doesn't differenciate both v20 builds)
+          OMV - ac4f0a5c - Space Armor [v1]                     --> Space Armor [v2.0] [v2]
+          SC3 - 22f4f92a - Nihonshi Nenpyou (JP)                --> Nihonshi Nenpyou [BAD] (JP) (was bad dump, correct dump confirmed multiple times)
+          
+
+ MEKA 0.74 WIP xxxxxxxx
+ ----------------------
+  - (Win32) Updated project file to Visual Studio 2008 format + compilation fixes.
+  - (Win32) Updated Allegro library to 4.2.3 (using precompiled binary from 'allegro-msvc9-4.2.3').
+  - (Win32) Updated LibPNG library to 1.2.8 (precompiled binary package included in repository).
+  - (Win32) Including minimal DirectX 7.0 package (precompiled binary package 'dx70_min' included in repository)
+     because newer DirectX SDK tends to cause problem with 4.2.x Allegro branches.
+  - SC-3000:
+    - Fixed the ':' (colon) key not working on Sega Keyboard emulation under certain host keyboard/OS configuration. [Omar]
+  - GUI:
+    - Added Taiwanese flag (for DB and File Browser). [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+          SMS - 84665648 - Great Soccer (JP) [Hack]             --> Great Soccer (TW)
+          SMS - 656d1a3e - Hokuto no Ken [BAD] (CH)             --> Hokuto no Ken (TW) [Hack] (the "bad" data is on the original cart, but this version has additional modifications)
+          SMS - 69538469 - Monopoly [A]                         --> Monopoly (US)
+          SMS - 026d94a4 - Monopoly [B]                         --> Monopoly (EU)
+          SMS - 311d2863 - Prince of Persia [SMS-GG] [A]        --> Prince of Persia [SMS-GG] (US)
+          SMS - 45f058d6 - Prince of Persia [SMS-GG] [B]        --> Prince of Persia [SMS-GG] (EU)
+          SMS - 01686d67 - Suho Cheonsa (KR)                    --> Suho Jeonsa (KR)
+          SG1 - 868419b5 - Champion Golf [A]                    --> Champion Golf [cart]
+          SG1 - 5a904122 - Champion Golf [B]                    --> Champion Golf [card]
+          SG1 - fdc095bc - Doki Doki Penguin Land (HK)          --> Doki Doki Penguin Land (TW)
+          SG1 - 60f30138 - Dragon Wang [B]                      --> Dragon Wang [v0]
+          SG1 - 7c7d4397 - Dragon Wang (TW)                     --> Dragon Wang [v0] [chinese logo] (TW) (because a second Taiwanese version exists)
+          SG1 - 99c3de21 - Dragon Wang [A]                      --> Dragon Wang [v1]
+          SG1 - bd24d27b - Flicky                               --> Flicky [v0]
+          SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
+          SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]
+          SG1 - 6d909857 - Mahjong                              --> Mahjong [small 1983]
+          SG1 - 8572d73a - Monaco GP [24k]                      --> Monaco GP [24k] [v0] [40k map]
+          SG1 - da2d57f3 - Monaco GP [32k]                      --> Monaco GP [32k] [v1] (provision for newly found [v2] build).
+          SG1 - 37fca2eb - Pitfall II ~The Lost Caverns~ [A]    --> Pitfall II ~The Lost Caverns~ [v0] (dumps and versionning finally confirmed)
+          SG1 - 3db74761 - Pitfall II ~The Lost Caverns~ [B]    --> Pitfall II ~The Lost Caverns~ [v1]
+          SG1 - 160535c5 - Wonder Boy [A]                       --> Wonder Boy [v0]
+          OMV - 90160849 - James Bond 007                       --> 007 James Bond
+          GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5 in One Fun Pak
+          GG  - a6bf865e - Beavis and Butt-Head (MTV's)         --> Beavis and Butt-Head (MTV's)
+          GG  - 3858f14f - Beavis and Butt-head (MTV's) (US)    --> Beavis and Butt-head (MTV's) (US)
+          GG  - 03d28eab - Crayon Shin-chan - Taiketsu! Tankam..--> Crayon Shin-chan - Taiketsu! Kantamu Panic!! (JP) (embarassing typo)
+          GG  - 7ec95282 - Madoh Monogatari A [...] Bake~shon   --> Madoh Monogatari A - Doki Doki Vacation (JP)
+          GG  - 4e279baa - PGA TOUR Golf 2                      --> PGA TOUR Golf II
+          GG  - 786dd67b - Skweek (JP)                          --> Skweek [BAD] (JP)
+          GG  - 88618afa - Tails' Sky Patrol (JP)               --> Tails' Skypatrol (JP)
+          GG  - e678f264 - Yogi Bear [Proto]                    --> Yogi Bear in Yogi Bears Goldrush [Proto]
+    Other smaller changes not recorded, please refer to meka.nam SVN history for exact changes.
+
+
  MEKA 0.73
  ---------
   - Updated MEKA license, data are now licensed under the same term as sources.
