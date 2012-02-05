@@ -137,10 +137,11 @@ Debugger commands summary
  P expr                         : Print evaluated expression
  M [addr] [len]                 : Memory dump at <addr>
  D [addr] [cnt]                 : Disassembly at <addr>
+ STACK [len]                    : Stack dump
+ RMAP addr                      : Reverse map Z80 address
  SYM [name]                     : Find symbols by name
  SYM @addr                      : Find symbols by address
  SET register=value             : Set Z80 register
- RMAP addr                      : Reverse map Z80 address
  CLOCK [RESET]                  : Display Z80 cycle counter
 -- Miscellaenous:
  MEMEDIT [lines] [cols]         : Spawn memory editor
@@ -307,7 +308,7 @@ Usage:
  M [address] [len]
 Parameters:
  address : address to dump memory from (PC)
- len     : length to dump, in byte (128)
+ len     : bytes to dump (128)
 Examples:
  M             ; dump 128 bytes at PC
  M HL BC       ; dump BC bytes at HL
@@ -322,6 +323,17 @@ Parameters:
  address : address to disassemble from (PC)
  cnt     : number of instruction to disassemble (10)
 
+
+Debugger command - ST
+---------------------
+ST/STACK: Dump stack
+Usage:
+ ST [len]
+Parameters:
+ len     : bytes to dump (10)
+Examples:
+ SP             ; dump 10 bytes at SP
+ 
 
 Debugger command - R
 --------------------

@@ -316,11 +316,24 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " M [address] [len]\n"
         "Parameters:\n"
         " address : address to dump memory from (PC)\n"
-        " len     : length to dump, in byte (128)"
+        " len     : bytes to dump (128)"
         "Examples:\n"
         " M              ; dump 128 bytes at PC\n"
         " M HL BC        ; dump BC bytes at HL"
     },
+	{
+		"ST", "STACK",
+		"Dump stack ",
+		// Description
+		"ST/STACK: Dump stack\n"
+		"Usage:\n"
+		" M [len]\n"
+		"Parameters:\n"
+		" len     : bytes to dump (10)"
+		"Examples:\n"
+		" SP             ; dump 10 bytes at SP\n"
+		" SP 100         ; dump 100 bytes at SP"
+	},
     {
         "D", "DASM",
         "Disassemble",
@@ -2151,7 +2164,7 @@ static void     Debugger_Help(const char *cmd)
         // Generic help
         Debugger_Printf("Debugger Help:\n");
         Debugger_Printf("-- Flow:\n");
-        Debugger_Printf(" <CR>                   : Step into"                  "\n");
+        Debugger_Printf(" <Enter>                : Step into"                  "\n");
         Debugger_Printf(" S                      : Step over"                  "\n");
         Debugger_Printf(" C [addr]               : Continue (up to <addr>)"    "\n");
 		Debugger_Printf(" CR                     : Continue up to next RET"    "\n");
@@ -2169,6 +2182,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" P expr                 : Print evaluated expression" "\n");
         Debugger_Printf(" M [addr] [len]         : Memory dump at <addr>"      "\n");
         Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
+		Debugger_Printf(" STACK [len]            : Stack dump"                 "\n");
 		Debugger_Printf(" RMAP addr              : Reverse map Z80 address"    "\n");
         Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
         Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
@@ -3110,40 +3124,68 @@ void        Debugger_InputParseCommand(char *line)
                     len = value.data;
                 }
             }
+            while (len > 0)
             {
-                int i;
-                while (len > 0)
+                char buf[256];
+                u8   data[8];
+                char *p;
+                int  line_len = (len >= 8) ? 8 : len;
+                sprintf(buf, "%04X-%04X | ", addr, (addr + line_len - 1) & 0xFFFF);
+                p = buf + strlen(buf);
+				int i;
+                for (i = 0; i < line_len; i++)
                 {
-                    char buf[256];
-                    u8   data[8];
-                    char *p;
-                    int  line_len = (len >= 8) ? 8 : len;
-                    sprintf(buf, "%04X-%04X | ", addr, (addr + line_len - 1) & 0xFFFF);
-                    p = buf + strlen(buf);
-                    for (i = 0; i < line_len; i++)
-                    {
-                        data[i] = RdZ80_NoHook((addr + i) & 0xFFFF);
-                        sprintf(p, "%02X ", data[i]);
-                        p += 3;
-                    }
-                    if (i < 8)
-                    {
-                        p += sprintf(p, "%-*s", (8 - line_len) * 3, "");
-                    }
-                    sprintf(p, "| ");
-                    p += 2;
-                    for (i = 0; i < line_len; i++)
-                        *p++ = (isprint(data[i]) ? data[i] : '.');
-                    *p++ = '\n';
-                    *p = EOSTR;
-                    Debugger_Printf(buf);
-                    addr += 8;
-                    len -= line_len;
+                    data[i] = RdZ80_NoHook((addr + i) & 0xFFFF);
+                    sprintf(p, "%02X ", data[i]);
+                    p += 3;
                 }
+                if (i < 8)
+                {
+                    p += sprintf(p, "%-*s", (8 - line_len) * 3, "");
+                }
+                sprintf(p, "| ");
+                p += 2;
+                for (i = 0; i < line_len; i++)
+                    *p++ = (isprint(data[i]) ? data[i] : '.');
+                *p++ = '\n';
+                *p = EOSTR;
+                Debugger_Printf(buf);
+                addr += 8;
+                len -= line_len;
             }
         }
         return;
     }
+	
+	// ST - STACK DUMP
+	if (!strcmp(cmd, "ST") || !strcmp(cmd, "STACK"))
+	{
+		if (!(g_machine_flags & MACHINE_POWER_ON))
+		{
+			Debugger_Printf("Command unavailable while machine is not running!\n");
+		}
+		else
+		{
+			u16 addr = sms.R.SP.W;
+			int len  = 10;
+			t_debugger_value value;
+			if (Debugger_Eval_GetValue(&line, &value) > 0)
+				len = value.data;
+			Debugger_Printf(" Current PC:     %04x", sms.R.PC.W);
+			Debugger_Printf("------------------------");
+			Debugger_Printf(" Stack   8-bit   16-bit");
+			Debugger_Printf("------------------------");
+			while (len > 0)
+			{
+				const u8 v0 = RdZ80_NoHook(addr & 0xFFFF);
+				const u8 v1 = RdZ80_NoHook((addr+1) & 0xFFFF);
+				Debugger_Printf(" %04X:   %02x      %04x", addr, v0, (v1<<8)|v0);
+				addr++;
+				len--;
+			}
+		}
+		return;
+	}
 
     // MEMEDIT - MEMORY EDITOR SPAWN
     if (!strcmp(cmd, "MEMEDIT") || !strcmp(cmd, "MEMEDITOR"))
