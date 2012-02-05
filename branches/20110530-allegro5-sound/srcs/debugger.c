@@ -111,6 +111,7 @@ static void                     Debugger_Symbols_ListByName(char *search_name);
 static void						Debugger_Symbols_ListByAddr(u32 addr);
 t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(u32 addr);
 t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(u32 addr);
+t_debugger_symbol *             Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);
 
 // Symbol
 static t_debugger_symbol *      Debugger_Symbol_Add(u16 addr, int bank, const char *name);
@@ -329,9 +330,9 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 		"Usage:\n"
 		" M [len]\n"
 		"Parameters:\n"
-		" len     : bytes to dump (10)"
+		" len     : bytes to dump (8)"
 		"Examples:\n"
-		" SP             ; dump 10 bytes at SP\n"
+		" SP             ; dump 8 bytes at SP\n"
 		" SP 100         ; dump 100 bytes at SP"
 	},
     {
@@ -880,12 +881,10 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 		const int mapper_page_size = 0x2000;
 		const int mapper_bank_count = 0xC000/mapper_page_size;
 		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
-		const int addr_max1 = (int)(breakpoint->address_range[1] & (mapper_page_size-1))+1;	// Prewrap both ends of the range to avoid duplicate additions.
+		const int addr_max = (int)(breakpoint->address_range[1] & (mapper_page_size-1));	// Prewrap both ends of the range to avoid duplicate additions.
 	    for (int addr = addr_min; ; addr++)
 		{
 			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
-			if (addr0 == addr_max1)
-				break;
 			for (int i = 0; i != mapper_bank_count; i++)
 			{
 				const u32 addr_candidate = addr0 | (i * mapper_page_size);
@@ -893,6 +892,8 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 				if (cpu_exec_trap)
 					Debugger_CPU_Exec_Traps[addr_candidate]++;
 			}
+			if (addr0 == addr_max)
+				break;
 		}
 	}
 	else
@@ -935,12 +936,10 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 		const int mapper_page_size = 0x2000;
 		const int mapper_bank_count = 0xC000/mapper_page_size;
 		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
-		const int addr_max1 = (int)(breakpoint->address_range[1] & (mapper_page_size-1))+1;	// Prewrap both ends of the range to avoid duplicate additions.
+		const int addr_max = (int)(breakpoint->address_range[1] & (mapper_page_size-1));	// Prewrap both ends of the range to avoid duplicate additions.
 	    for (int addr = addr_min; ; addr++)
 		{
 			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
-			if (addr0 == addr_max1)
-				break;
 			for (int i = 0; i != mapper_bank_count; i++)
 			{
 				const u32 addr_candidate = addr0 | (i * mapper_page_size);
@@ -948,6 +947,8 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 				if (cpu_exec_trap)
 					Debugger_CPU_Exec_Traps[addr_candidate]--;
 			}
+			if (addr0 == addr_max)
+				break;
 		}
 	}
 	else
@@ -1476,6 +1477,19 @@ t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 addr)
     while (symbols->next != NULL)
         symbols = symbols->next;
     return ((t_debugger_symbol *)symbols->elem);
+}
+
+t_debugger_symbol *		Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range)
+{
+	while (range >= 0)
+	{
+		t_debugger_symbol * symbol = Debugger_Symbols_GetLastByAddr(addr);
+		if (symbol != NULL)
+			return symbol;
+		addr--;
+		range--;
+	}
+	return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -3115,11 +3129,11 @@ void        Debugger_InputParseCommand(char *line)
             u16 addr = sms.R.PC.W;
             int len  = 16*8;
             t_debugger_value value;
-            if (Debugger_Eval_GetValue(&line, &value) > 0)
+            if (Debugger_Eval_GetExpression(&line, &value) > 0)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if (Debugger_Eval_GetValue(&line, &value) > 0)
+                if (Debugger_Eval_GetExpression(&line, &value) > 0)
                 {
                     len = value.data;
                 }
@@ -3167,19 +3181,29 @@ void        Debugger_InputParseCommand(char *line)
 		else
 		{
 			u16 addr = sms.R.SP.W;
-			int len  = 10;
+			int len  = 8;
 			t_debugger_value value;
 			if (Debugger_Eval_GetValue(&line, &value) > 0)
 				len = value.data;
-			Debugger_Printf(" Current PC:     %04x", sms.R.PC.W);
+
+			t_debugger_symbol * symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
+			if (symbol != NULL)
+				Debugger_Printf(" Current PC:     %04X      %s+%X", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->addr);
+			else
+				Debugger_Printf(" Current PC:     %04X", sms.R.PC.W);
 			Debugger_Printf("------------------------");
 			Debugger_Printf(" Stack   8-bit   16-bit");
 			Debugger_Printf("------------------------");
 			while (len > 0)
 			{
-				const u8 v0 = RdZ80_NoHook(addr & 0xFFFF);
-				const u8 v1 = RdZ80_NoHook((addr+1) & 0xFFFF);
-				Debugger_Printf(" %04X:   %02x      %04x", addr, v0, (v1<<8)|v0);
+				const u8 v8 = RdZ80_NoHook(addr & 0xFFFF);
+				const u16 v16 = (RdZ80_NoHook((addr+1) & 0xFFFF) << 8) | v8;
+				
+				symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 64);
+				if (symbol != NULL)
+					Debugger_Printf(" %04X:   %02X      %04X      %s+%X", addr, v8, v16, symbol->name, v16-symbol->addr);
+				else
+					Debugger_Printf(" %04X:   %02X      %04X", addr, v8, v16);
 				addr++;
 				len--;
 			}
@@ -3617,15 +3641,15 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     }
     for (;;)
     {
-        parse_skip_spaces(&p);
+        //parse_skip_spaces(&p);
 
         // Get operator
         op = *p;
 
-        if (op == ',' || op == '.')
+        if (op == ',' || op == '.' || op == ' ')
             break;
 
-        // Chain of addition/substraction are handled by Debugger_Eval_GetExpression()
+        // Chain of addition/subtraction are handled by Debugger_Eval_GetExpression()
         if (op == '+' || op == '-') 
             break;
 
@@ -3727,12 +3751,12 @@ int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
 
     for (;;)
     {
-        parse_skip_spaces(&p);
+        //parse_skip_spaces(&p);
 
         // Get operator
         op = *p;
 
-        if (op == ',' || op == '.')
+        if (op == ',' || op == '.' || op == ' ')
             break;
 
         // Stop parsing here on end-of-string or parenthesis closure

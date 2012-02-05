@@ -171,6 +171,7 @@ void                        Debugger_Printf(const char *format, ...);
 // Symbols
 t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(u32 addr);
 t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(u32 addr);
+t_debugger_symbol *         Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);
 
 // Hooks
 int                         Debugger_Hook(Z80 *R);

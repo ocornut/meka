@@ -4,7 +4,6 @@ E-SWAT http://smspower.org/forums/viewtopic.php?t=8069
 Debugger: option to auto-start on ROM load (one can always do a RESET)
 Debugger: make always available
 Debugger: Add "Did you mean $XX" when parsing register name that matches two digit hex number (eg: DE)
-Debugger: STACK command does a reverse 'M SP' as a helper.
 
 SF-7000: write always access to RAM (even when ROM is mapped) dixit honestbob
 

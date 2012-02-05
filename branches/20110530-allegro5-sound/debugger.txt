@@ -72,6 +72,7 @@ Expression evaluator
 
 Mathematical expression can be evaluated by the debugger.
 Supported features are:
+
  - Values:
    - Immediate hexadecimal integer 
      (eg: 1234, or $1234 or 0x1234)
@@ -87,13 +88,21 @@ Supported features are:
      constants ('A' is a 10 in hexadecimal). Z80 registers name are always
      given priority over hexadecimal constants. 
      Uses the 'Ox' or '$' prefixes to resolve ambiguity.
+     
  - Operators:
    - Integer operators: + - / *
      (eg: 1+2*3 returns 7)
+     (eg: SP-10)
    - Binary operators: & | ^
      (eg: 0xF0 | 0x0F returns 0xFF)
    - Parenthesis: (), forcing priority
      (eg: (1+2)*3 returns 9)
+
+Any separator among the set of ',' '.' or ' ' (space) is considered as ending the expression.
+The remaining text will be fed to the next parameters of the current command.
+
+	M HL+10			; correct
+	M HL + 10		; incorrect (will provide 3 parameters to the "M" command)
 
 
 Known problems
@@ -103,10 +112,7 @@ Known problems
   'AF','BC','DE','A','B','C','D','E' by default refers to Z80 registers.
   Uses $ or 0x hexadecimal prefixes to resolve ambiguities.
 
-- Reseting or loading save states may trigger strange behavior, such as
-  breakpoints being ignored for a frame or so.
-
-- Execution breakpoints only function for the leading byte of the opcode.
+- Execution breakpoints only works for the leading byte of the opcode.
   eg:
     1234 - C3 00 20 - JP $2000
   Adding an X breakpoint at $1234 will work, but not at $1235 or $1236.
@@ -330,9 +336,12 @@ ST/STACK: Dump stack
 Usage:
  ST [len]
 Parameters:
- len     : bytes to dump (10)
+ len     : bytes to dump (8)
 Examples:
- SP             ; dump 10 bytes at SP
+ SP             ; dump 8 bytes at SP
+Notes:
+ Each entry is displayed as a possible 8-bit of 16-bit value.
+ Symbols are resolved.
  
 
 Debugger command - R
