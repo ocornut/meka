@@ -37,6 +37,7 @@ They are usually of 2 kinds:
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
     - Added CR command ("Continue to next RET* instruction"). [Omar]
+    - Added STACK command ("Dump stack", with dual 8/16 bits display and with symbol resolving). [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
     - Added support for parsing SJASM symbol format. [Omar]
