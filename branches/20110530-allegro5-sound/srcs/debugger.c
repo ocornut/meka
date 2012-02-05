@@ -868,9 +868,11 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 		const int mapper_bank_count = 0xC000/mapper_page_size;
 		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
 		const int addr_max1 = (int)(breakpoint->address_range[1] & (mapper_page_size-1))+1;	// Prewrap both ends of the range to avoid duplicate additions.
-	    for (int addr = addr_min; addr != addr_max1; addr++)
+	    for (int addr = addr_min; ; addr++)
 		{
 			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
+			if (addr0 == addr_max1)
+				break;
 			for (int i = 0; i != mapper_bank_count; i++)
 			{
 				const u32 addr_candidate = addr0 | (i * mapper_page_size);
@@ -921,9 +923,11 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 		const int mapper_bank_count = 0xC000/mapper_page_size;
 		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
 		const int addr_max1 = (int)(breakpoint->address_range[1] & (mapper_page_size-1))+1;	// Prewrap both ends of the range to avoid duplicate additions.
-	    for (int addr = addr_min; addr != addr_max1; addr++)
+	    for (int addr = addr_min; ; addr++)
 		{
 			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
+			if (addr0 == addr_max1)
+				break;
 			for (int i = 0; i != mapper_bank_count; i++)
 			{
 				const u32 addr_candidate = addr0 | (i * mapper_page_size);
@@ -2464,14 +2468,13 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     else
     {
         t_debugger_bus_info *bus_info = &DebuggerBusInfos[location];
-        char *               p;
 
         // Clear out
         Debugger_Value_SetDirect(&address_start, (u32)-1, 16);
         Debugger_Value_SetDirect(&address_end,   (u32)-1, 16);
 
         // Parse different kind of ranges (A, A.., A..B, ..B)
-        p = arg;
+        char* p = arg;
         if (Debugger_Eval_GetExpression(&p, &address_start) > 0)
         {
             // Default is no range, so end==start
