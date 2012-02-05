@@ -36,7 +36,7 @@
  Alex Kidd in Shinobi World                     -       Ok
  Alex Kidd: The Lost Stars                      FM      Ok
  Alf                                            -       Ok
- Alibaba and 40 Thieves (KR)                    -      *Ok
+ Alibaba and 40 Thieves (KR)                    -       Ok
  Alien 3                                        -       Ok
  Alien Storm                                    -       Ok
  Alien Syndrome                                 FM      Ok
@@ -75,7 +75,7 @@
  Black Belt                                     -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
  Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
- Block Hole (KR)                                -      *Ok
+ Block Hole (KR)                                -       Ok
  BMX Trial - Alex Kidd (JP)                     FM,PAD  Ok
  Bomber Raid                                    FM      Ok
  Bonanza Bros.                                  -       Ok
@@ -147,7 +147,7 @@
  Earthworm Jim (BR)                             -       Ok
  Ecco the Dolphin                               -       Ok
  Ecco - The Tides of Time (BR)                  -       Ok
- E.I. - Exa Innova (KR)                         -      *Ok
+ E.I. - Exa Innova (KR)                         -       Ok
  Enduro Racer                                   -       Ok
  Enduro Racer (JP)                              -       Ok
  E-SWAT [A]                                     -       Ok
@@ -218,7 +218,7 @@
  Great Golf / Masters Golf [Mega-Tech]          FM      Ok
  Great Golf / Masters Golf [Proto] (JP)         FM      Ok
  Great Golf [JP] (JP)                           -       Ok
- Great Golf [JP] (KR)                           -      *Ok
+ Great Golf [JP] (KR)                           -       Ok
  Great Ice Hockey                               SP      Ok
  Great Soccer                                   -       Ok
  Great Soccer (JP)                              -       Ok
@@ -259,7 +259,7 @@
  Jurassic Park                                  -       Ok
  Kenseiden                                      FM      Ok
  Kenseiden (JP)                                 FM      Ok
- King & Balloon (KR)                            -      *Ok
+ King & Balloon (KR)                            -       Ok
  King's Quest - Quest for the Crown             -       Ok
  King's Quest - Quest for the Crown [Proto]     -       Ok
  KLAX                                           -       Ok
@@ -349,7 +349,7 @@
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
- Pooyan (KR)                                    -      *Ok
+ Pooyan (KR)                                    -       Ok
  Poseidon Wars 3-D                              FM,(3D) Ok
  Power Boggle Boggle (KR)                       -       Ok
  Power Strike                                   FM      Ok
@@ -364,7 +364,7 @@
  Psycho Fox                                     -       Ok
  Putt & Putter                                  -       Ok
  Putt & Putter [Proto]                          -       Ok
- Puznic (KR)                                    -      *Ok
+ Puznic (KR)                                    -       Ok
  Quartet                                        -       Ok
  Quest for the Shaven Yak Starring Ren Ho..(BR) -       Ok
  R-Type                                         FM      Ok
@@ -538,7 +538,7 @@
  X-Men: Mojo World (BR)                         -       Ok
  Xenon 2 - Megablast [Image Works]              -       Ok
  Xenon 2 - Megablast [Virgin]                   -       Ok
- Xyxolog (KR)                                   -      *Ok
+ Xyxolog (KR)                                   -       Ok
  Ys (JP)                                        FM      Ok
  Y's: The Vanished Omens                        -       Ok
  Y's: The Vanished Omens [Demo]                 FM     *Ok
