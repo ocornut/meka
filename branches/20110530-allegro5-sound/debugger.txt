@@ -338,7 +338,7 @@ Usage:
 Parameters:
  len     : bytes to dump (8)
 Examples:
- SP             ; dump 8 bytes at SP
+ ST             ; dump 8 bytes at SP
 Notes:
  Each entry is displayed as a possible 8-bit of 16-bit value.
  Symbols are resolved.

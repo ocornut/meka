@@ -328,12 +328,12 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 		// Description
 		"ST/STACK: Dump stack\n"
 		"Usage:\n"
-		" M [len]\n"
+		" ST [len]\n"
 		"Parameters:\n"
 		" len     : bytes to dump (8)"
 		"Examples:\n"
-		" SP             ; dump 8 bytes at SP\n"
-		" SP 100         ; dump 100 bytes at SP"
+		" ST             ; dump 8 bytes at SP\n"
+		" ST 100         ; dump 100 bytes at SP"
 	},
     {
         "D", "DASM",
@@ -3013,7 +3013,7 @@ void        Debugger_InputParseCommand(char *line)
             int len  = 10;
             t_debugger_value value;
             int expr_error;
-            if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
+            if ((expr_error = Debugger_Eval_GetExpression(&line, &value)) < 0)
             {
                 Debugger_Printf("Syntax error!\n");
                 return;
@@ -3022,7 +3022,7 @@ void        Debugger_InputParseCommand(char *line)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
+                if ((expr_error = Debugger_Eval_GetExpression(&line, &value)) < 0)
                 {
                     Debugger_Printf("Syntax error!\n");
                     return;
@@ -3183,7 +3183,7 @@ void        Debugger_InputParseCommand(char *line)
 			u16 addr = sms.R.SP.W;
 			int len  = 8;
 			t_debugger_value value;
-			if (Debugger_Eval_GetValue(&line, &value) > 0)
+			if (Debugger_Eval_GetExpression(&line, &value) > 0)
 				len = value.data;
 
 			t_debugger_symbol * symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
