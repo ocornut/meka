@@ -65,16 +65,13 @@ find a modern one yet besides NES/GB(Color) stuff.
 So I think it will be more helpful to debuggers for doing Sprites, if there is one for MEKA, It will become superior to 
 the other Z80+VDP emulators. Beating MSX(2/+) Somehow
 
-
 - Speed above 1/9 (for zexall)
-- Debugger: Count point. or full memmap count points.
+Debugger: Count point. or full memmap count points.
 
 (Actually, some way to enter a super-turbo-fast-forward mode (more than 1/9 frameskip) might be nice, especially if it can still hit a breakpoint directly. Debugger seems generally weird at 1/9 frameskip, stepping instructions when not expected?)
 
 Fix default .sc mapper (eigo sakubun)
 Namely if ROM is bigger than 32 KB don't stupidely ignore the rest of the data!!
-
-.thm parsing crash (see forum - where??)
 
 Debugger: Many interesting mails from Maxim!
 Debugger: Add support for F register in SET command (or individual flag, ZF, CF, etc.)
@@ -136,21 +133,12 @@ Proppy session debugger notes:
 - datadump sprite output is weird
 Debugger: bind RELOAD rom on a key, or add 'reload' command
 
-- debugger auto-start mode? (command-line, config?)
-- 'M hl-1' doesn't work
-
 <cgfm2> can I increase the SMS display window size in GUI mode?
 
 Jacko: Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually 
 (like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 
 so it is hard to tell if it was my PC doing something or it was MEKA.
 
-WIP 0.72:
- - Blitters (lots to do)
-   - All blitters, redo, etc
-   - Integer stretch
- - Themes:
-   - Background pictures switch effect.
 - Data
   - Update/remove Themes section from web page.
   - Tweak country flags for proper color now that there's no more palette.
@@ -354,9 +342,9 @@ doing them now and some are quick work.
 -----------------------------
  DEBUGGER
 -----------------------------
- - A-class bugs:
+ - Bugs:
    - inst_after > pc-temp appearing in several cases (eg: Super Basketball demo).
-   - Savestate/reset/bios seems to mess with breakpoints. 
+   - Savestate/reset/bios seems to mess with breakpoints?
      Check coherency and switching between mainloops (emulation standard/debug, no emulation)
    - Backspace in memory editor widget reset machine
  - Debugger:
@@ -469,12 +457,9 @@ doing them now and some are quick work.
     - A breakpoint can trigger a call.
     - Support for debug configuration file/script per ROM/project.
  - Call Stack
-   - Keep a call stack updated (using a modified Z80 core)
-   - "often I find myself having to manually dump the stack memory to find 
-      the address of the calling code for a function"
+   - Keep a call stack updated (using a modified Z80 core?)
+   - Log wether each memory location was written as 8 or 16 bits?
  - Tools:
-   - Callstack viewer
-     - Requires Z80 emulator modification
    - Sprite viewer
      - Select individual sprites, shows infos
    - Sprite ripper
@@ -488,7 +473,7 @@ doing them now and some are quick work.
    - Warn incorrect (non standard) VRAM/port accesses.
    - Warn interrupt if VDP latch is set (98% of the time I guess it
      can lead to a bug).
-   - Warn interrupt in/out if Z80 registers are differents (except shadow)
+   - Warn on return of interrupts if Z80 registers are differents from entering (except shadow)
    - PSG access addresses logger/hacker
      Show checkbox for all location accessing to PSG, allows to disable some.
      Could be super useful for VGM hacking/logging.
@@ -880,7 +865,6 @@ doing them now and some are quick work.
 -----------------------------
  DESKTOP
 -----------------------------
- - Update the ALEX KIDD theme (see Myau of Algo e-mail & alex3.pcx)
  - Background filename should be case sensitive (especially for Mekanix)
  - Add ratio background stretch.
  - Unable to load pictures error only on start or theme switch (not when

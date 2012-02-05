@@ -112,6 +112,9 @@ Known problems
   'AF','BC','DE','A','B','C','D','E' by default refers to Z80 registers.
   Uses $ or 0x hexadecimal prefixes to resolve ambiguities.
 
+- Reseting or loading save states may result in missing breakpoints for a few
+  Z80 instructions (unconfirmed? is this bug still valid?).
+
 - Execution breakpoints only works for the leading byte of the opcode.
   eg:
     1234 - C3 00 20 - JP $2000
