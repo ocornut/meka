@@ -592,8 +592,8 @@ SMS a0cf8b15 805E1AC308DBF36F   World Cup Italia '90 [Demo]/COUNTRY=US/COMMENT=R
 SMS a6bf8f9e 412EC711CEF9955D   World Cup USA 94/COUNTRY=EU,BR/PRODUCT_NO=29028-50,29028-05,29028-06,29028-09,29028-18,028430
 SMS a2a60bc8 036FB34FE9E516A8   World Games/COUNTRY=EU,BR/PRODUCT_NO=5114
 SMS 914d3fc4 15E6422DECFDF4B9   World Games [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
-SMS 7b369892 1624A9110762168D   World Grand Prix/COUNTRY=US,BR,KR/PRODUCT_NO=5080,?,GB-1304/COMMENT=US version of "The Circuit". Also used in Korean version.
-SMS 4aaad0d6 761980092FA9EA26   World Grand Prix/COUNTRY=EU/PRODUCT_NO=5080/COMMENT=European version of "The Circuit".
+SMS 7b369892 1624A9110762168D   World Grand Prix/COUNTRY=US,BR,KR/PRODUCT_NO=5080,?,GB-1304/COMMENT=Export version of "The Circuit". Also used in Brazilian and Korean version.
+SMS 4aaad0d6 761980092FA9EA26   World Grand Prix/COUNTRY=EU/PRODUCT_NO=5080/COMMENT=Export version of "The Circuit".
 SMS b5a9f824 7DB5DA9A1F9C326D   World Grand Prix [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 72112b75 54286C65B89E5409   World Soccer/NAME_US=Great Soccer/NAME_BR=Super Futebol/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1327,5059/COMMENT=This game has multiple name and title screen. It is named "Great Soccer" in USA, and is unrelated to the other "Great Soccer" game released in Japan and Europe.
 SMS 2db21448 E816FF0B158ACF8A   WWF Wrestlemania Steel Cage Challenge/COUNTRY=EU,BR/PRODUCT_NO=27054-050,026270
@@ -757,6 +757,7 @@ GG  c0009274 2D9E0A3FD48CA3E9   Bart vs. The Space Mutants (The Simpsons)/COUNTR
 GG  da7bd5c7 EC249DDDD77540EA   Bart vs. The World (The Simpsons)/NAME_JP=Bart World/COUNTRY=JP,US,EU,BR/PRODUCT_NO=T-81077,T-81098,075410
 GG  618b19e2 AB897446BC1570D1   Batman Forever/COUNTRY=US,EU,JP/PRODUCT_NO=T-81268,T-81268-50,T-81187
 GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,US,EU/PRODUCT_NO=G-3314,2416,2416-50
+GG  e9987511 82E53FF69611EBD2   Battleship - The classic naval combat game/COUNTRY=US/PRODUCT_NO=T-87018
 GG  cb3cd075 EA08216FFAAA5E7C   Battletoads/COUNTRY=JP,US,EU/PRODUCT_NO=G-3311,T-97018,2436
 GG  3858f14f 3332DEF0ABBF471C   Beavis and Butt-Head (MTV's)/COUNTRY=US/PRODUCT_NO=T-139018                 ; [EDITOR-NOTE] ?
 GG  a6bf865e 23BF4FE1E01DC42D   Beavis and Butt-Head (MTV's)/COUNTRY=EU/PRODUCT_NO=T-139018-50
@@ -1163,6 +1164,7 @@ GG  f397f041 0F6D1D96C28B90F4   Zoop [Proto]/FLAGS=PROTO
 
 ; Bad dumps
 GG  65e60dfe 516CF5541BA9E056   Batman Returns/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte, affecting an instruction. It might be a hack.
+GG  fddd8cd9 82E53FF69611EBD2   Battleship - The classic naval combat game/FLAGS=BAD/COUNTRY=US/PRODUCT_NO=T-87018/COMMENT=Missing upper half of data. Although unused by the ROM, they are technically part of the ROM.
 GG  fdc8fc18 B33070CAB97B921D   Dynamite Headdy/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte.
 GG  2b60873e 855EA7962D1B2B6D   Ecco the Dolphin/FLAGS=BAD/COUNTRY=US,EU/PRODUCT_NO=2516
 GG  365b92cf 2B867DCECA734285   Fantasy Zone Gear - Opa Opa Jr. no Bouken/FLAGS=BAD/COUNTRY=JP/PRODUCT_NO=T-44017,G-3225/COMMENT=9 bad bytes.
@@ -1486,8 +1488,6 @@ BE14C62C214ED2FB,Yeno Draw [Face 2],AUTHORS=Marc le Douarain
 
 ---- GAME GEAR ----
 C201ABFADA677FD8,Batter Up,VER=USA,COMMENT=Export version of "Gear Stadium".
-82E53FF69611EBD2,Battleship,VER=English
-86AFBDE2C233C176,Battleship,VER=English,COMMENT=This ROM can be safely cut to 65536 bytes.  ; mark as BAD
 D558C670ED32D2AC,Bubble Bobble,VER=English
 DCCED394874D1605,Bust a Move,VER=English
 10E74B085532032C,Columns,ID=G-3101\,G-3104,VER=Japanese

@@ -193,8 +193,12 @@ void        TechInfo_Update(void)
 
     // - Memory
     {
-        sprintf (line, " [MEMORY] Mapper:%d - Control:$%02X - F0:%02X - F1:%02X - F2:%02X - Pages:[%d/%d][%d/%d]",
-            (g_machine.mapper), (sms.Mapping_Register), (sms.Pages_Reg[0]), (sms.Pages_Reg[1]), (sms.Pages_Reg[2]), (tsms.Pages_Count_8k), (tsms.Pages_Mask_8k), (tsms.Pages_Count_16k), (tsms.Pages_Mask_16k));
+		if (g_machine.mapper_regs_count == 3)
+	        sprintf (line, " [MEMORY] Mapper:%d - Control:$%02X - Regs:$%02X,$%02X,$%02X - Pages:[%d/%d][%d/%d]",
+		        g_machine.mapper, sms.SRAM_Mapping_Register, g_machine.mapper_regs[0], g_machine.mapper_regs[1], g_machine.mapper_regs[2], tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
+		else
+			sprintf (line, " [MEMORY] Mapper:%d - Control:$%02X - Regs:$%02X,$%02X,$%02X,$%02X - Pages:[%d/%d][%d/%d]",
+				g_machine.mapper, sms.SRAM_Mapping_Register, g_machine.mapper_regs[0], g_machine.mapper_regs[1], g_machine.mapper_regs[2], g_machine.mapper_regs[3], tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
         TechInfo_SetLine(app, line, line_idx++);
     }
 

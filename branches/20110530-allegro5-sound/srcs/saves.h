@@ -7,7 +7,7 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define MSV_VERSION (0x0D)
+#define MEKA_SAVESTATE_VERSION (0x0E)
 
 // 0x06 -> 0x07
 // - sms.SRAM_Pages is multiplied by two
@@ -36,34 +36,26 @@
 //   at the code recently. It screw up debugging and can break compatibility when
 //   my CPU emulation loop changes.
 
-//-----------------------------------------------------------------------------
-// Type
-//-----------------------------------------------------------------------------
-
-/*
-struct t_mekastate_header
-{
-    char    magic[4];               // "MEKA-State"
-    char    content_creator[32];    // eg: "MEKA 0.69/W"
-};
-*/
+// 0x0D -> 0x0E
+// - added 4th mapper register *only if needed* (by some Korean mappers)
+//   so that import code in other emulator won't break for most games
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void  Load_Game (void);              //---------------------------- load a game
-void  Save_Game (void);              //---------------------------- save a game
-void  Load_Game_Misc (void);         // set some variables after loading a game
+void  Load_Game();
+void  Save_Game();
+void  Load_Game_Fixup();
 
 //-----------------------------------------------------------------------------
 
-int   Load_Game_MSV (FILE *f);       //------------- save a game in Meka format
-int   Save_Game_MSV (FILE *f);       //------------- load a game in Meka format
-int   Load_Game_STA (FILE *f);       //------------ load a game in BrSMS format
-int   Load_Game_MSD (FILE *f);       //---------- load a game in Massage format
+int   Load_Game_MSV(FILE *f);       // Save game in MEKA format
+int   Save_Game_MSV(FILE *f);       // Load game in MEKA format
+int   Load_Game_STA(FILE *f);       // Load game in BrSMS format
+int   Load_Game_MSD(FILE *f);       // Load game in Massage format
 
-void  Save_Set_Slot (int n);         //---- set variables for current save slot
-void  Save_Get_Filename (char *str); //..
+void  Save_Set_Slot(int n);
+void  Save_Get_Filename(char *str);
 
 //-----------------------------------------------------------------------------

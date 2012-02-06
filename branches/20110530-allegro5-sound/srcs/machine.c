@@ -218,87 +218,93 @@ void        Machine_Set_Mapper(void)
 
 void    Machine_Set_Mapping (void)
 {
-    sms.Mapping_Register = 0;
+    sms.SRAM_Mapping_Register = 0;
     sms.SRAM_Pages = 0;
-    sms.Pages_Reg [0] = 0; sms.Pages_Reg [1] = 1; sms.Pages_Reg [2] = 2;
+
+	g_machine.mapper_regs_count = 3;	// Default
+	g_machine.mapper_regs[0] = 0;
+	g_machine.mapper_regs[1] = 1;
+	g_machine.mapper_regs[2] = 2;
+	g_machine.mapper_regs[3] = 0;
 
     switch (g_machine.mapper)
     {
     case MAPPER_32kRAM: // 32k RAM MAPPER --------------------------------------
-        Map_8k_ROM (0, 0);
-        Map_8k_ROM (1, 1 & tsms.Pages_Mask_8k);
-        Map_8k_ROM (2, 2 & tsms.Pages_Mask_8k);
-        Map_8k_ROM (3, 3 & tsms.Pages_Mask_8k);
-        Map_8k_RAM (4, 0);
-        Map_8k_RAM (5, 1);
-        Map_8k_RAM (6, 2);
-        Map_8k_RAM (7, 3);
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(4, 0);
+        Map_8k_RAM(5, 1);
+        Map_8k_RAM(6, 2);
+        Map_8k_RAM(7, 3);
         break;
     case MAPPER_ColecoVision: // COLECOVISION MAPPER ---------------------------
-        Map_8k_Other (0, BIOS_ROM_Coleco);
-        Map_8k_RAM (1, 1);
-        Map_8k_RAM (2, 1);
-        Map_8k_RAM (3, 0);
-        Map_8k_ROM (4, 0);
-        Map_8k_ROM (5, 1 & tsms.Pages_Mask_8k);
-        Map_8k_ROM (6, 2 & tsms.Pages_Mask_8k);
-        Map_8k_ROM (7, 3 & tsms.Pages_Mask_8k);
+        Map_8k_Other(0, BIOS_ROM_Coleco);
+        Map_8k_RAM(1, 1);
+        Map_8k_RAM(2, 1);
+        Map_8k_RAM(3, 0);
+        Map_8k_ROM(4, 0);
+        Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(6, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(7, 3 & tsms.Pages_Mask_8k);
         break;
     case MAPPER_SMS_ActionReplay: // ACTION REPLAY MAPPER ----------------------
-        Map_8k_ROM (0, 0);
-        Map_8k_ROM (1, 1);
-        Map_8k_RAM (2, 1);
-        Map_8k_RAM (3, 1);
-        Map_8k_RAM (4, 2); // FIXME
-        Map_8k_RAM (5, 2);
-        Map_8k_RAM (6, 0);
-        Map_8k_RAM (7, 0);
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 1);
+        Map_8k_RAM(2, 1);
+        Map_8k_RAM(3, 1);
+        Map_8k_RAM(4, 2); // FIXME
+        Map_8k_RAM(5, 2);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
         break;
     case MAPPER_SF7000: // SF-7000 ---------------------------------------------
-        Map_16k_Other (0, BIOS_ROM_SF7000);
-        Map_8k_RAM (2, 2);
-        Map_8k_RAM (3, 3);
-        Map_8k_RAM (4, 4);
-        Map_8k_RAM (5, 5);
-        Map_8k_RAM (6, 6);
-        Map_8k_RAM (7, 7);
+        Map_16k_Other(0, BIOS_ROM_SF7000);
+        Map_8k_RAM(2, 2);
+        Map_8k_RAM(3, 3);
+        Map_8k_RAM(4, 4);
+        Map_8k_RAM(5, 5);
+        Map_8k_RAM(6, 6);
+        Map_8k_RAM(7, 7);
         break;
     case MAPPER_SMS_DisplayUnit: // DISPLAY UNIT MAPPER ----------------------
-        Map_8k_ROM (0, 0);  // ROM
-        Map_8k_ROM (1, 1);
-        Map_8k_RAM (2, 1);  // RAM - Mapping 2k (0x800) from 4000 to BFFF
-        Map_8k_RAM (3, 1);
-        Map_8k_RAM (4, 1);
-        Map_8k_RAM (5, 1);
-        Map_8k_RAM (6, 0);  // RAM - Standard
-        Map_8k_RAM (7, 0);
+        Map_8k_ROM(0, 0);  // ROM
+        Map_8k_ROM(1, 1);
+        Map_8k_RAM(2, 1);  // RAM - Mapping 2k (0x800) from 4000 to BFFF
+        Map_8k_RAM(3, 1);
+        Map_8k_RAM(4, 1);
+        Map_8k_RAM(5, 1);
+        Map_8k_RAM(6, 0);  // RAM - Standard
+        Map_8k_RAM(7, 0);
         break;
     case MAPPER_SMS_Korean_MSX_8KB:
-        Map_8k_ROM (0, 0);
-        Map_8k_ROM (1, 1);
-        Map_8k_ROM (2, 2);
-        Map_8k_ROM (3, 3);
-        Map_8k_ROM (4, 4);
-        Map_8k_ROM (5, 5);
-        Map_8k_RAM (6, 0);
-        Map_8k_RAM (7, 0);
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 1);
+        Map_8k_ROM(2, 2);
+        Map_8k_ROM(3, 3);
+        Map_8k_ROM(4, 4);
+        Map_8k_ROM(5, 5);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+		g_machine.mapper_regs_count = 4;
 
 		// Nemesis has boot code on page 0x0F which seems to be auto-mapped at 0x0000-0x1fff on boot
 		// I'm not sure what is really "correct" but this work and doesn't trigger on other Zemina games for now.
 		if (tsms.Size_ROM == 16*0x2000 && ROM[0] == 0x00 && ROM[1] == 0x00 && ROM[2] == 0x00 && ROM[15*0x2000+0] == 0xF3 && ROM[15*0x2000+1] == 0xED && ROM[15*0x2000+2] == 0x56)
 		{
-			Map_8k_ROM (0, 0x0F);
+			Map_8k_ROM(0, 0x0F);
 		}
         break;
     default: // Other mappers
-        Map_8k_ROM (0, 0);
-        Map_8k_ROM (1, 1);
-        Map_8k_ROM (2, 2);
-        Map_8k_ROM (3, 3);
-        Map_8k_ROM (4, 4);
-        Map_8k_ROM (5, 5);
-        Map_8k_RAM (6, 0);
-        Map_8k_RAM (7, 0);
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 1);
+        Map_8k_ROM(2, 2);
+        Map_8k_ROM(3, 3);
+        Map_8k_ROM(4, 4);
+        Map_8k_ROM(5, 5);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
         switch (g_machine.mapper)
         {
 		case MAPPER_SMS_NoMapper:
@@ -315,13 +321,13 @@ void    Machine_Set_Mapping (void)
             EEPROM_93c46_Init (EEPROM_93C46_INIT_ALL);
             break;
         case MAPPER_TVOekaki:
-            TVOekaki_Init ();
+            TVOekaki_Init();
             break;
         default:
             // RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
             memcpy (Game_ROM_Computed_Page_0, ROM, 0x4000);
 			//Map_16k_Other (0, Game_ROM_Computed_Page_0);
-			Map_16k_ROM (0, 0);	// Mapping may change to Game_ROM_Computed_Page_0 at runtime
+			Map_16k_ROM(0, 0);	// Mapping may change to Game_ROM_Computed_Page_0 at runtime
             break;
         }
         break;

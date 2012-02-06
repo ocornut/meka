@@ -137,23 +137,24 @@ WRITE_FUNC (Write_Default)
 		switch (Addr & 0x7)
 		{
 		case 4: // 0xFFFC: SRAM Register ---------------------------------------------
-			RAM [0x1FFC] = sms.Mapping_Register = Value;
+			RAM [0x1FFC] = sms.SRAM_Mapping_Register = Value;
 			if (SRAM_Active)
 			{
 				if (SRAM_Page)
 				{
-					sms.SRAM_Pages = 4; // 4 x 8 kb
+					sms.SRAM_Pages = 4; // 4 x 8 KB
 					Map_8k_Other (4, &SRAM [0x4000]);
 				}
 				else
 				{
-					if (sms.SRAM_Pages < 2) sms.SRAM_Pages = 2; // 2 x 8 kb
+					if (sms.SRAM_Pages < 2) 
+						sms.SRAM_Pages = 2; // 2 x 8 kB
 					Map_8k_Other (4, &SRAM [0x0000]);
 				}
 			}
 			else
 			{
-				Map_8k_ROM (4, sms.Pages_Reg [2] * 2);
+				Map_8k_ROM (4, g_machine.mapper_regs[2] * 2);
 			}
 			// FIXME: Use Map_16k* above instead of this.
 			Mem_Pages [5] = Mem_Pages [4];
@@ -164,9 +165,9 @@ WRITE_FUNC (Write_Default)
 			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to page %d !", CPU_GetPC, Value); }
 #endif
 			Value &= tsms.Pages_Mask_16k;
-			if (sms.Pages_Reg [0] != Value)
+			if (g_machine.mapper_regs[0] != Value)
 			{
-				RAM [0x1FFD] = sms.Pages_Reg [0] = Value;
+				RAM [0x1FFD] = g_machine.mapper_regs[0] = Value;
 				if (Value != 0)
 				{
 					Map_16k_Other (0, Game_ROM_Computed_Page_0);
@@ -182,18 +183,18 @@ WRITE_FUNC (Write_Default)
 			if (Value > tsms.Pages_Count_16k)
 			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-			RAM [0x1FFE] = sms.Pages_Reg [1] = Value & tsms.Pages_Mask_16k;
-			Map_16k_ROM (2, sms.Pages_Reg [1] * 2);
+			RAM [0x1FFE] = g_machine.mapper_regs[1] = Value & tsms.Pages_Mask_16k;
+			Map_16k_ROM (2, g_machine.mapper_regs[1] * 2);
 			return;
 		case 7: // 0xFFFF: Frame 2 ---------------------------------------------------
 #ifdef DEBUG_PAGES
 			if (Value > tsms.Pages_Count_16k)
 			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-			RAM [0x1FFF] = sms.Pages_Reg [2] = Value & tsms.Pages_Mask_16k;
+			RAM [0x1FFF] = g_machine.mapper_regs[2] = Value & tsms.Pages_Mask_16k;
 			if (!SRAM_Active)
 			{
-				Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
+				Map_16k_ROM (4, g_machine.mapper_regs[2] * 2);
 			}
 			return;
 		default: // 0xFFF8, 0xFFF9, 0xFFFA, 0xFFFB: Glasse Register ------------------
@@ -261,9 +262,9 @@ WRITE_FUNC (Write_Mapper_SG1000)
 		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to page %d !", CPU_GetPC, Value); }
 #endif
 		Value &= tsms.Pages_Mask_16k;
-		if (sms.Pages_Reg [0] != Value)
+		if (g_machine.mapper_regs[0] != Value)
 		{
-			RAM [0x1FFD] = sms.Pages_Reg [0] = Value;
+			RAM [0x1FFD] = g_machine.mapper_regs[0] = Value;
 			if (Value != 0)
 			{
 				Map_16k_Other (0, Game_ROM_Computed_Page_0);
@@ -280,16 +281,16 @@ WRITE_FUNC (Write_Mapper_SG1000)
 		if (Value > tsms.Pages_Count_16k)
 		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-		RAM [0x1FFE] = sms.Pages_Reg [1] = Value & tsms.Pages_Mask_16k;
-		Map_16k_ROM (2, sms.Pages_Reg [1] * 2);
+		RAM [0x1FFE] = g_machine.mapper_regs[1] = Value & tsms.Pages_Mask_16k;
+		Map_16k_ROM(2, g_machine.mapper_regs[1] * 2);
 		return;
 	case 0xFFFF: // Frame 2 ------------------------------------------------------
 #ifdef DEBUG_PAGES
 		if (Value > tsms.Pages_Count_16k)
 		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-		RAM [0x1FFF] = sms.Pages_Reg [2] = Value & tsms.Pages_Mask_16k;
-		Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
+		RAM [0x1FFF] = g_machine.mapper_regs[2] = Value & tsms.Pages_Mask_16k;
+		Map_16k_ROM (4, g_machine.mapper_regs[2] * 2);
 		return;
 	}
 
@@ -319,8 +320,8 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value);}
 #endif
 		Value = (Value & tsms.Pages_Mask_16k);
-		/*ROM [0x0000] = */ sms.Pages_Reg [0] = Value;
-		Map_16k_ROM (0, sms.Pages_Reg [0] * 2);
+		/*ROM [0x0000] = */ g_machine.mapper_regs[0] = Value;
+		Map_16k_ROM (0, g_machine.mapper_regs[0] * 2);
 		return;
 	case 0x4000: // Frame 1 ----------------------------------------------------
 #ifdef DEBUG_PAGES
@@ -329,20 +330,20 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 #endif
 		if (Value & 0x80) // OnBoard RAM for Ernie Els Golf
 		{
-			sms.Mapping_Register = ONBOARD_RAM_EXIST | ONBOARD_RAM_ACTIVE;
-			Map_8k_RAM (5, 1); // Mapped from 0xA000 to 0xC000 only! (0x8000 to 0xA000 has ROM!)
+			sms.SRAM_Mapping_Register = ONBOARD_RAM_EXIST | ONBOARD_RAM_ACTIVE;
+			Map_8k_RAM(5, 1); // Mapped from 0xA000 to 0xC000 only! (0x8000 to 0xA000 has ROM!)
 		}
 		else
 		{
-			if (sms.Mapping_Register & ONBOARD_RAM_ACTIVE)
+			if (sms.SRAM_Mapping_Register & ONBOARD_RAM_ACTIVE)
 			{
 				// Map Page 2 back if we just disabled On Board RAM
-				Map_8k_ROM (5, sms.Pages_Reg [2] * 2 + 1);
+				Map_8k_ROM(5, g_machine.mapper_regs[2] * 2 + 1);
 			}
-			sms.Mapping_Register &= ~ONBOARD_RAM_ACTIVE;
+			sms.SRAM_Mapping_Register &= ~ONBOARD_RAM_ACTIVE;
 			Value = (Value & tsms.Pages_Mask_16k);
-			/* ROM [0x4000] = */ sms.Pages_Reg [1] = Value;
-			Map_16k_ROM (2, sms.Pages_Reg [1] * 2);
+			/* ROM [0x4000] = */ g_machine.mapper_regs[1] = Value;
+			Map_16k_ROM(2, g_machine.mapper_regs[1] * 2);
 		}
 		return;
 	case 0x8000: // Frame 2 ----------------------------------------------------
@@ -351,8 +352,8 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
 		Value = (Value & tsms.Pages_Mask_16k);
-		/* ROM [0x8000] = */ /* ROM[0xBFFF] = */ sms.Pages_Reg [2] = Value;
-		Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
+		/* ROM [0x8000] = */ /* ROM[0xBFFF] = */ g_machine.mapper_regs[2] = Value;
+		Map_16k_ROM(4, g_machine.mapper_regs[2] * 2);
 		return;
 	}
 
@@ -360,7 +361,7 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 	{
 		// On Board RAM [0xA000]->[0xC000] ----------------------------------------
 		// (for Ernie Els Golf)
-	case 5: if (sms.Mapping_Register & ONBOARD_RAM_ACTIVE) { Mem_Pages [5] [Addr] = Value; return; } break;
+	case 5: if (sms.SRAM_Mapping_Register & ONBOARD_RAM_ACTIVE) { Mem_Pages [5] [Addr] = Value; return; } break;
 		// RAM [0xC000] = [0xE000] ------------------------------------------------
 	case 6: Mem_Pages [6] [Addr] = Value; return;
 	case 7: Mem_Pages [7] [Addr] = Value; return;
@@ -378,22 +379,22 @@ WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
 	{
 	case 0x3FFE: // Frame 0 ----------------------------------------------------
 		{
-			sms.Pages_Reg[0] = Value;
-			const int page = (sms.Pages_Reg[0]) & tsms.Pages_Mask_16k;
+			g_machine.mapper_regs[0] = Value;
+			const int page = (g_machine.mapper_regs[0]) & tsms.Pages_Mask_16k;
 			Map_16k_ROM(0, page * 2);
 			return;
 		}
 	case 0x7FFF: // Frame 1 ----------------------------------------------------
 		{
-			sms.Pages_Reg[1] = Value;
-			const int page = (sms.Pages_Reg[1]) & tsms.Pages_Mask_16k;
+			g_machine.mapper_regs[1] = Value;
+			const int page = (g_machine.mapper_regs[1]) & tsms.Pages_Mask_16k;
 			Map_16k_ROM(2, page * 2);
 			return;
 		}
 	case 0xBFFF: // Frame 2 ----------------------------------------------------
 		{
-			sms.Pages_Reg[2] = Value;
-			const int page = ((sms.Pages_Reg[0]&0x30) + (sms.Pages_Reg[2])) & tsms.Pages_Mask_16k;
+			g_machine.mapper_regs[2] = Value;
+			const int page = ((g_machine.mapper_regs[0]&0x30) + (g_machine.mapper_regs[2])) & tsms.Pages_Mask_16k;
 			Map_16k_ROM(4, page * 2);
 			return;
 		}
@@ -419,16 +420,16 @@ WRITE_FUNC (Write_Mapper_SMS_Korean)
         { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
     #endif
     Value = (Value & tsms.Pages_Mask_16k);
-    /* ROM [0xA000] = */ sms.Pages_Reg [2] = Value;
-    Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
+    /* ROM [0xA000] = */ g_machine.mapper_regs[2] = Value;
+    Map_16k_ROM(4, g_machine.mapper_regs[2] * 2);
     return;
     }
 
  switch (Addr >> 13)
     {
     // RAM [0xC000] = [0xE000] ------------------------------------------------
-    case 6: Mem_Pages [6] [Addr] = Value; return;
-    case 7: Mem_Pages [7] [Addr] = Value; return;
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
     }
 
  Write_Error (Addr, Value);
@@ -460,9 +461,8 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
             if (Value > tsms.Pages_Count_8k)
             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 4 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-            Value = (Value & tsms.Pages_Mask_8k);
-			sms.Pages_Reg[2] = ( Value & 0x0F ) | ( sms.Pages_Reg[2] & 0xF0 );
-            Map_8k_ROM (4, Value);
+			g_machine.mapper_regs[0] = Value;
+            Map_8k_ROM(4, Value & tsms.Pages_Mask_8k);
             return;
         }
     case 0x0001:
@@ -471,9 +471,8 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
             if (Value > tsms.Pages_Count_8k)
             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 5 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-            Value = (Value & tsms.Pages_Mask_8k);
-			sms.Pages_Reg[2] = ( ( Value & 0x0F ) << 4 ) | ( sms.Pages_Reg[2] & 0x0F );
-            Map_8k_ROM (5, Value);
+			g_machine.mapper_regs[1] = Value;
+            Map_8k_ROM(5, Value & tsms.Pages_Mask_8k);
             return;
         }
     case 0x0002:
@@ -482,9 +481,8 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
             if (Value > tsms.Pages_Count_8k)
             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-            Value = (Value & tsms.Pages_Mask_8k);
-			sms.Pages_Reg[1] = ( Value & 0x0F ) | ( sms.Pages_Reg[1] & 0xF0 );
-            Map_8k_ROM (2, Value);
+			g_machine.mapper_regs[2] = Value;
+            Map_8k_ROM(2, Value & tsms.Pages_Mask_8k);
             return;
         }
     case 0x0003:
@@ -493,9 +491,8 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
             if (Value > tsms.Pages_Count_8k)
             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 3 set to non-existant page: %d", CPU_GetPC, Value); }
 #endif
-            Value = (Value & tsms.Pages_Mask_8k);
-			sms.Pages_Reg[1] = ( ( Value & 0x0F ) << 4 ) | ( sms.Pages_Reg[1] & 0x0F );
-            Map_8k_ROM (3, Value);
+			g_machine.mapper_regs[3] = Value;
+            Map_8k_ROM(3, Value & tsms.Pages_Mask_8k);
             return;
         }
     }
@@ -552,24 +549,24 @@ WRITE_FUNC (Write_Mapper_93c46)
           if (Value > tsms.Pages_Count_16k)
              { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value); return; }
         #endif
-        RAM [0x1FFD] = sms.Pages_Reg [0] = Value & tsms.Pages_Mask_16k;
-        Map_16k_ROM (0, sms.Pages_Reg [0] * 2);
+        RAM [0x1FFD] = g_machine.mapper_regs[0] = Value & tsms.Pages_Mask_16k;
+        Map_16k_ROM (0, g_machine.mapper_regs[0] * 2);
         return;
    case 0xFFFE: // Frame 1 ----------------------------------------------------
         #ifdef DEBUG_PAGES
           if (Value > tsms.Pages_Count_16k)
              { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); return; }
         #endif
-        RAM [0x1FFE] = sms.Pages_Reg [1] = Value & tsms.Pages_Mask_16k;
-        Map_16k_ROM (2, sms.Pages_Reg [1] * 2);
+        RAM [0x1FFE] = g_machine.mapper_regs[1] = Value & tsms.Pages_Mask_16k;
+        Map_16k_ROM (2, g_machine.mapper_regs[1] * 2);
         return;
    case 0xFFFF: // Frame 2 ----------------------------------------------------
         #ifdef DEBUG_PAGES
           if (Value > tsms.Pages_Count_16k)
              { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); return; }
         #endif
-        RAM [0x1FFF] = sms.Pages_Reg [2] = Value & tsms.Pages_Mask_16k;
-        Map_16k_ROM (4, sms.Pages_Reg [2] * 2);
+        RAM [0x1FFF] = g_machine.mapper_regs[2] = Value & tsms.Pages_Mask_16k;
+        Map_16k_ROM (4, g_machine.mapper_regs[2] * 2);
         return;
    }
  switch (Addr >> 13)

@@ -869,7 +869,7 @@
  Batman Forever                                     Ok
  Batman Returns                                     Ok
  Batter Up                                          Ok
- Battleship                                         Ok
+ Battleship - The classic naval combat game        *Ok
  Battletoads                                        Ok
  Beavis and Butt-Head (MTV's)                       Ok
  Beavis and Butt-Head (MTV's) (US)                  Ok

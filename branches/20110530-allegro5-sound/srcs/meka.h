@@ -61,8 +61,8 @@ enum t_meka_state
 };
 
 // Battery Backed RAM Macros --------------------------------------------------
-#define SRAM_Active             (sms.Mapping_Register & 0x08)
-#define SRAM_Page               (sms.Mapping_Register & 0x04)
+#define SRAM_Active             (sms.SRAM_Mapping_Register & 0x08)
+#define SRAM_Page               (sms.SRAM_Mapping_Register & 0x04)
 
 // On Board RAM Macros (currently only for Ernie Els Golf)
 #define ONBOARD_RAM_EXIST       (0x20)
@@ -96,15 +96,14 @@ struct SMS_TYPE
     u8      Pending_NMI;                   // Pending NMI interrupt (for Coleco emulation)
     u8      Glasses_Register;              // 3-D Glasses Register
     u8      SRAM_Pages;                    // SRAM pages used
-    u8      Mapping_Register;              // SRAM status + mapping offset
+    u8      SRAM_Mapping_Register;         // SRAM status + mapping offset
     u8      FM_Magic;                      // FM Latch (for detection)
     u8      FM_Register;                   // FM Register
-    u8      Input_Mode;   // Port 0xDE     // 0->6: Keyboard - 7: Joypads
-    u8      Pages_Reg [3];                 // Paging registers
+    u8      Input_Mode;   // Port 0xDE     // 0->6: Keyboard - 7: Joypad
 };
 
-// Tempory (not saved) data for one machine
-// FIXME: reconceptualize those stuff, this is pure, old crap
+// Temporary (not saved) data for one machine
+// FIXME: re-conceptualize those stuff, this is pure, old crap
 struct TSMS_TYPE
 {
     u16     Control [8];                   // 0->6 = Keyboard - 7: Joypads
@@ -190,10 +189,14 @@ struct t_machine_vdp_smsgg
     u8                      scroll_x_latched_table[MAX_RES_Y];	// CACHE	// For tools
 };
 
+#define MAPPER_REGS_MAX		(4)
+
 struct t_machine
 {
     int                     driver_id;							// STATE	// t_machine_driver
     int                     mapper;								// STATE
+	u8						mapper_regs[MAPPER_REGS_MAX];		// STATE
+	int						mapper_regs_count;					// CONFIG	// Derived from 'mapper'
     t_machine_vdp_smsgg     VDP;
     struct t_tv_type *      TV;									// CONFIG
     int                     TV_lines;							// CONFIG	// Copy of TV->screen_lines

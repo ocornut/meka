@@ -38,13 +38,8 @@
 #define MAPPER_SMS_Korean_Janggun		(13)		// 8KB bank-switching (4 banks) mixed with 16KB bank-switching
 #define MAPPER_SMS_4PakAllAction		(14)
 
-#ifdef MAME_Z80
- #define READ_FUNC(a)   int  a  (int Addr)
- #define WRITE_FUNC(a)  void a  (int Addr, int Value)
-#else
- #define READ_FUNC(a)   u8 a    (register word Addr)
- #define WRITE_FUNC(a)  void a  (register word Addr, register u8 Value)
-#endif
+#define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
+#define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -20,11 +20,8 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Load_Game_Misc ()
-// Set/fixup some emulator data after loading a save state
-//-----------------------------------------------------------------------------
-void        Load_Game_Misc (void)
+// Fix up emulator data after loading a save state
+void        Load_Game_Fixup(void)
 {
     int     i;
     u8      b;
@@ -53,42 +50,42 @@ void        Load_Game_Misc (void)
             // We save previous RAM content, because:
             // The code could do: LD (FFFF), xx then LD (DFFF), yy
             // In this case, FCR[2]==xx but RAM[1FFF]==yy
-            b = RAM[0x1FFC]; WrZ80_NoHook (0xFFFC, sms.Mapping_Register); RAM[0x1FFC] = b;
-            b = RAM[0x1FFD]; WrZ80_NoHook (0xFFFD, sms.Pages_Reg[0]);     RAM[0x1FFD] = b;
-            b = RAM[0x1FFE]; WrZ80_NoHook (0xFFFE, sms.Pages_Reg[1]);     RAM[0x1FFE] = b;
-            b = RAM[0x1FFF]; WrZ80_NoHook (0xFFFF, sms.Pages_Reg[2]);     RAM[0x1FFF] = b;
+            b = RAM[0x1FFC]; WrZ80_NoHook (0xFFFC, sms.SRAM_Mapping_Register); RAM[0x1FFC] = b;
+            b = RAM[0x1FFD]; WrZ80_NoHook (0xFFFD, g_machine.mapper_regs[0]);  RAM[0x1FFD] = b;
+            b = RAM[0x1FFE]; WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[1]);  RAM[0x1FFE] = b;
+            b = RAM[0x1FFF]; WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[2]);  RAM[0x1FFF] = b;
             break;
 		case MAPPER_SMS_Korean_MSX_8KB:
-			WrZ80_NoHook (0x0000, (sms.Pages_Reg[2] & 0x0F));
-			WrZ80_NoHook (0x0001, (sms.Pages_Reg[2] & 0xF0) >> 4);
-			WrZ80_NoHook (0x0002, (sms.Pages_Reg[1] & 0x0F));
-			WrZ80_NoHook (0x0003, (sms.Pages_Reg[1] & 0xF0) >> 4);
+			WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
+			WrZ80_NoHook (0x0001, g_machine.mapper_regs[1]);
+			WrZ80_NoHook (0x0002, g_machine.mapper_regs[2]);
+			WrZ80_NoHook (0x0003, g_machine.mapper_regs[3]);
 			break;
         case MAPPER_CodeMasters:
-            WrZ80_NoHook (0x0000, sms.Pages_Reg[0]);
-            WrZ80_NoHook (0x4000, sms.Pages_Reg[1]);
-            WrZ80_NoHook (0x8000, sms.Pages_Reg[2]);
+            WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
+            WrZ80_NoHook (0x4000, g_machine.mapper_regs[1]);
+            WrZ80_NoHook (0x8000, g_machine.mapper_regs[2]);
             break;
 		case MAPPER_SMS_4PakAllAction:
-            WrZ80_NoHook (0x3FFE, sms.Pages_Reg[0]);
-            WrZ80_NoHook (0x7FFF, sms.Pages_Reg[1]);
-            WrZ80_NoHook (0xBFFF, sms.Pages_Reg[2]);
+            WrZ80_NoHook (0x3FFE, g_machine.mapper_regs[0]);
+            WrZ80_NoHook (0x7FFF, g_machine.mapper_regs[1]);
+            WrZ80_NoHook (0xBFFF, g_machine.mapper_regs[2]);
             break;
         case MAPPER_SMS_Korean:
-            WrZ80_NoHook (0xA000, sms.Pages_Reg[2]);
+            WrZ80_NoHook (0xA000, g_machine.mapper_regs[2]);
             break;
         case MAPPER_ColecoVision:
             for (i = 0x0400; i < 0x2000; i += 0x400)
                 memcpy (RAM + i, RAM, 0x0400);
             break;
         case MAPPER_SG1000:
-            b = RAM[0x1FFD]; WrZ80_NoHook(0xFFFD, sms.Pages_Reg[0]);     RAM[0x1FFD] = b;
-            b = RAM[0x1FFE]; WrZ80_NoHook(0xFFFE, sms.Pages_Reg[1]);     RAM[0x1FFE] = b;
-            b = RAM[0x1FFF]; WrZ80_NoHook(0xFFFF, sms.Pages_Reg[2]);     RAM[0x1FFF] = b;
+            b = RAM[0x1FFD]; WrZ80_NoHook(0xFFFD, g_machine.mapper_regs[0]);     RAM[0x1FFD] = b;
+            b = RAM[0x1FFE]; WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[1]);     RAM[0x1FFE] = b;
+            b = RAM[0x1FFF]; WrZ80_NoHook(0xFFFF, g_machine.mapper_regs[2]);     RAM[0x1FFF] = b;
             memcpy (RAM + 0x1000, RAM, 0x1000);
             break;
         case MAPPER_SF7000:
-            SF7000_IPL_Mapping_Update ();
+            SF7000_IPL_Mapping_Update();
             break;
         }
 	}
@@ -112,16 +109,9 @@ void        Load_Game_Misc (void)
     // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
 }
 
-//-----------------------------------------------------------------------------
-// Save_Game ()
 // Save current state / dispatch to format saving code
-//-----------------------------------------------------------------------------
-void        Save_Game (void)
+void        Save_Game()
 {
-    int     result;
-    FILE *  f;
-    char    buf[FILENAME_LEN+1];
-
     // Do not allow saving if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
@@ -137,12 +127,15 @@ void        Save_Game (void)
         return;
     }
 
-    Save_Get_Filename (buf);
+	char buf[FILENAME_LEN+1];
+    Save_Get_Filename(buf);
+	FILE* f;
+	int result;
     if (!(f = fopen (buf, "wb")))
         result = 2;
     else
     {
-        result = Save_Game_MSV (f);
+        result = Save_Game_MSV(f);
         fclose (f);
     }
 
@@ -156,16 +149,9 @@ void        Save_Game (void)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Load_Game ()
 // Load state from current slot
-//-----------------------------------------------------------------------------
-void        Load_Game (void)
+void        Load_Game()
 {
-    FILE *  f;
-    int     result;
-    char    buf[FILENAME_LEN+1];
-
     // Do not allow loading if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
@@ -177,9 +163,9 @@ void        Load_Game (void)
     if ((g_machine_flags & MACHINE_NOT_IN_BIOS) == 0)
     {
         // Note: I'm not sure why I saved the current VDP line here...
-        int Line = tsms.VDP_Line;
-        BIOS_Switch_to_Game ();
-        tsms.VDP_Line = Line;
+        const int line = tsms.VDP_Line;
+        BIOS_Switch_to_Game();
+        tsms.VDP_Line = line;
     }
 
     /*
@@ -189,7 +175,11 @@ void        Load_Game (void)
     #endif
     */
 
-    Save_Get_Filename (buf);
+	char buf[FILENAME_LEN+1];
+    Save_Get_Filename(buf);
+	
+	FILE* f;
+	int result;
     if (!(f = fopen (buf, "rb")))
         result = 2;
     else
@@ -202,7 +192,7 @@ void        Load_Game (void)
     switch (result)
     {
     case 1: Msg (MSGT_USER, Msg_Get (MSG_Load_Success), buf);
-        Load_Game_Misc ();
+        Load_Game_Fixup();
         break;
     case 2: Msg (MSGT_USER, Msg_Get (MSG_Load_Error), buf);         break;
     case 3: Msg (MSGT_USER, Msg_Get (MSG_Load_Not_Valid), buf);     break;
@@ -214,10 +204,7 @@ void        Load_Game (void)
     // Msg(MSGT_USER, "Loaded sms.R.Trap = %04X, %d", sms.R.Trap, sms.R.Trace);
 }
 
-//-----------------------------------------------------------------------------
-// Save_Game_MSV (FILE *f)
 // Save current state to given file, in MEKA save state format
-//-----------------------------------------------------------------------------
 int     Save_Game_MSV (FILE *f)
 {
     u8  b;
@@ -229,7 +216,7 @@ int     Save_Game_MSV (FILE *f)
     fwrite ("MEKA", 4, 1, f);
     b = 0x1A;
     fwrite (&b, 1, 1, f);
-    b = MSV_VERSION;
+    b = MEKA_SAVESTATE_VERSION;
     fwrite (&b, 1, 1, f);
     b = g_machine.driver_id;  // Do NOT save g_driver->id, as it may change with legacy video mode in the current code
     fwrite (&b, 1, 1, f);
@@ -239,6 +226,7 @@ int     Save_Game_MSV (FILE *f)
 
     // Write 'sms' structure (misc stuff)
     fwrite (&sms, sizeof (struct SMS_TYPE), 1, f);
+	fwrite (&g_machine.mapper_regs[0], sizeof(u8), g_machine.mapper_regs_count, f);
 
     // Write VDP scanline counter
     w = tsms.VDP_Line;
@@ -266,7 +254,7 @@ int     Save_Game_MSV (FILE *f)
         fwrite (&SF7000, sizeof (SF7000), 1, f);
         break;
     case MAPPER_CodeMasters:
-        if (sms.Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
+        if (sms.SRAM_Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
             fwrite (RAM, 0x2000 + 0x2000, 1, f);
         else
             fwrite (RAM, 0x2000, 1, f);
@@ -309,11 +297,8 @@ int     Save_Game_MSV (FILE *f)
     return (1);
 }
 
-//-----------------------------------------------------------------------------
-// Load_Game_MSV (FILE *f)
 // Load state from given file, in MEKA save state format
-//-----------------------------------------------------------------------------
-int         Load_Game_MSV (FILE *f)
+int         Load_Game_MSV(FILE *f)
 {
     char    buf[5];
     u8      b, version;
@@ -328,7 +313,7 @@ int         Load_Game_MSV (FILE *f)
     }
     fseek (f, 5, SEEK_SET);
     fread (&version, 1, 1, f);
-    if (version > MSV_VERSION)
+    if (version > MEKA_SAVESTATE_VERSION)
         return (4); // unsupported version
 
     // Msg (MSGT_DEBUG, "Loading, version = %02X", version);
@@ -361,10 +346,28 @@ int         Load_Game_MSV (FILE *f)
         // So they're not lost when loading a state while debugging
         u16 trap = sms.R.Trap;
         u8  trace = sms.R.Trace;
-        fread (&sms, sizeof (struct SMS_TYPE), 1, f);
+        fread (&sms, sizeof(struct SMS_TYPE), 1, f);
         sms.R.Trap = trap;
         sms.R.Trace = trace;
     }
+
+	// NB- MAPPER_REGS_MAX = 4 which match the old structure which was 3+1 (due to struct alignment)
+	fread(&g_machine.mapper_regs[0], sizeof(u8), MAPPER_REGS_MAX, f);
+	if (version < 0x0E)
+	{
+		g_machine.mapper_regs[3] = 0;
+		if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
+		{
+			u8 r[3];
+			r[0] = g_machine.mapper_regs[0];
+			r[1] = g_machine.mapper_regs[1];
+			r[2] = g_machine.mapper_regs[2];
+			g_machine.mapper_regs[0] = (r[2] & 0x0F);
+			g_machine.mapper_regs[1] = (r[2] & 0xF0) >> 4;
+			g_machine.mapper_regs[2] = (r[1] & 0x0F);
+			g_machine.mapper_regs[3] = (r[1] & 0xF0) >> 4;
+		}
+	}
 
     // VDP scanline counter
     if (version >= 0x0D)
@@ -406,7 +409,7 @@ int         Load_Game_MSV (FILE *f)
         fread (&SF7000, sizeof (SF7000), 1, f);
         break;
     case MAPPER_CodeMasters:
-        if (sms.Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
+        if (sms.SRAM_Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
             fread (RAM, 0x2000 + 0x2000, 1, f);
         else
             fread (RAM, 0x2000, 1, f);
@@ -510,8 +513,9 @@ int     Load_Game_MSD (FILE *f)
     fread (&sms.FM_Register, 1, 1, f);
     fread (&sms.FM_Magic, 1, 1, f);
     FM_Load (f);
-    fread (&sms.Mapping_Register, 1, 1, f);
-    fread (&sms.Pages_Reg [0], 3, 1, f);
+    fread (&sms.SRAM_Mapping_Register, 1, 1, f);
+    fread (&g_machine.mapper_regs[0], 3, 1, f);
+	g_machine.mapper_regs[3] = 0;
     fread (RAM, 0x2000, 1, f);
     fread (VRAM, 0x4000, 1, f);
     switch (g_machine.driver_id)
