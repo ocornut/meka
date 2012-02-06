@@ -252,7 +252,8 @@
  James "Buster" Douglas Knockout Boxing         -       Ok
  James "Buster" Douglas Knockout Boxing [Proto] -       Ok
  James Pond II - Codename: RoboCod              -       Ok
- Jang Pung 3                                    -       Ok
+ Janggun-ui Adeul (KR)                          -      *Ok
+ Jang Pung 3 (KR)                               -       Ok
  Joe Montana Football                           -       Ok
  Jogos de Verão II (BR)                         -       Ok
  Jungle Book, The (Walt Disney's Classic)       -       Ok
@@ -550,7 +551,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 532 games tested - 530 are "Ok" - Compatibility rate: 99.54%
+ 533 games tested - 531 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

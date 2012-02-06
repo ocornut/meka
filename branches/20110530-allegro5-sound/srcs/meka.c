@@ -116,16 +116,17 @@ static void Init_Emulator (void)
     drv_set (g_machine.driver_id);
 }
 
-static void Init_LookUpTables (void)
+static void Init_LookUpTables()
 {
     Coleco_Init_Table_Inputs();
+	Mapper_InitializeLookupTables();
     #ifdef X86_ASM
         Decode_Tile_ASM_Init();
     #endif
 }
 
 // Initialize default configuration settings
-static void Init_Default_Values (void)
+static void Init_Default_Values()
 {
     g_env.debug_dump_infos = FALSE;
 

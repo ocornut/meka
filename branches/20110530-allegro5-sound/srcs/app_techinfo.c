@@ -193,13 +193,21 @@ void        TechInfo_Update(void)
 
     // - Memory
     {
-		if (g_machine.mapper_regs_count == 3)
-	        sprintf (line, " [MEMORY] Mapper:%d - Control:$%02X - Regs:$%02X,$%02X,$%02X - Pages:[%d/%d][%d/%d]",
-		        g_machine.mapper, sms.SRAM_Mapping_Register, g_machine.mapper_regs[0], g_machine.mapper_regs[1], g_machine.mapper_regs[2], tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
-		else
-			sprintf (line, " [MEMORY] Mapper:%d - Control:$%02X - Regs:$%02X,$%02X,$%02X,$%02X - Pages:[%d/%d][%d/%d]",
-				g_machine.mapper, sms.SRAM_Mapping_Register, g_machine.mapper_regs[0], g_machine.mapper_regs[1], g_machine.mapper_regs[2], g_machine.mapper_regs[3], tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
-        TechInfo_SetLine(app, line, line_idx++);
+		char mapper_regs[256];
+		mapper_regs[0] = '\0';
+		for (int i = 0; i != g_machine.mapper_regs_count; i++)
+		{
+			char s[16];
+			if (i == 0)
+				sprintf(s, "$%02X", g_machine.mapper_regs[i]);
+			else 
+				sprintf(s, ",$%02X", g_machine.mapper_regs[i]);
+			strcat(mapper_regs, s);
+		}
+
+		sprintf (line, " [MAPPER] Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
+	        g_machine.mapper, sms.SRAM_Mapping_Register, mapper_regs, tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
+		TechInfo_SetLine(app, line, line_idx++);
     }
 
     // Blank left lines

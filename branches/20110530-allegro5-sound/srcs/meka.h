@@ -189,14 +189,15 @@ struct t_machine_vdp_smsgg
     u8                      scroll_x_latched_table[MAX_RES_Y];	// CACHE	// For tools
 };
 
-#define MAPPER_REGS_MAX		(4)
+#define MAPPER_REGS_MAX		(6)									// Janggun-ui Adeul uses up to 6
 
 struct t_machine
 {
     int                     driver_id;							// STATE	// t_machine_driver
     int                     mapper;								// STATE
 	u8						mapper_regs[MAPPER_REGS_MAX];		// STATE
-	int						mapper_regs_count;					// CONFIG	// Derived from 'mapper'
+	int						mapper_regs_count;					// CACHE	// Derived from 'mapper'
+	int						mapper_janggun_bytes_flipping_flags;// CACHE
     t_machine_vdp_smsgg     VDP;
     struct t_tv_type *      TV;									// CONFIG
     int                     TV_lines;							// CONFIG	// Copy of TV->screen_lines

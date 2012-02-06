@@ -61,7 +61,21 @@ void    Write_Error (int Addr, u8 Value)
 
 //-----------------------------------------------------------------------------
 
-void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr)
+static u8	Mapper_SMS_Korean_Janggun_BitReverseLUT[256];
+
+void	Mapper_InitializeLookupTables()
+{
+	for (int i = 0; i != 256; i++)
+	{
+		int reversed = 0;
+		for (int b = 0; b != 8; b++)
+			if (i & (1<<b))
+				reversed |= (1<<(7-b));
+		Mapper_SMS_Korean_Janggun_BitReverseLUT[i] = reversed;
+	}
+}
+
+void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
 {
     int len, start_addr;
 
@@ -507,6 +521,66 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
     Write_Error (Addr, Value);
 }
 
+WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun)
+{
+	switch (Addr)
+	{
+	case 0xFFFE:
+		{
+			g_machine.mapper_regs[0] = Value;
+			if (Value & 0x40)
+				g_machine.mapper_janggun_bytes_flipping_flags |= ((1 << 2)|(1 << 3));
+			else
+				g_machine.mapper_janggun_bytes_flipping_flags &= ~((1 << 2)|(1 << 3));
+			Map_16k_ROM(2, (Value & tsms.Pages_Mask_16k)*2);
+			break;
+		}
+	case 0x4000:
+		{
+			g_machine.mapper_regs[1] = Value;
+			Map_8k_ROM(2, Value & tsms.Pages_Mask_8k);
+			return;
+		}
+	case 0x6000:
+		{
+			g_machine.mapper_regs[2] = Value;
+			Map_8k_ROM(3, Value & tsms.Pages_Mask_8k);
+			return;
+		}
+	case 0xFFFF:
+		{
+			g_machine.mapper_regs[3] = Value;
+			if (Value & 0x40)
+				g_machine.mapper_janggun_bytes_flipping_flags |= ((1 << 4)|(1 << 5));
+			else
+				g_machine.mapper_janggun_bytes_flipping_flags &= ~((1 << 4)|(1 << 5));
+			Map_16k_ROM(4, (Value & tsms.Pages_Mask_16k)*2);
+			break;
+		}
+	case 0x8000:
+		{
+			g_machine.mapper_regs[4] = Value;
+			Map_8k_ROM(4, Value & tsms.Pages_Mask_8k);
+			return;
+		}
+	case 0xA000:
+		{
+			g_machine.mapper_regs[5] = Value;
+			Map_8k_ROM(5, Value & tsms.Pages_Mask_8k);
+			return;
+		}
+	}
+
+	switch (Addr >> 13)
+	{
+		// RAM [0xC000] = [0xE000] ------------------------------------------------
+	case 6: Mem_Pages [6] [Addr] = Value; return;
+	case 7: Mem_Pages [7] [Addr] = Value; return;
+	}
+
+	Write_Error (Addr, Value);
+}
+
 // MAPPER: SMS Display Unit - Write Byte
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit)
 {
@@ -617,6 +691,17 @@ READ_FUNC (Read_Default)
 
 	const unsigned int page = (Addr >> 13);
 	return (Mem_Pages [page] [Addr]);
+}
+
+READ_FUNC (Read_Mapper_SMS_Korean_Janggun)
+{
+	const unsigned int page = (Addr >> 13);
+	u8 b = Mem_Pages[page][Addr];
+
+	if (g_machine.mapper_janggun_bytes_flipping_flags & (1<<page))
+		b = Mapper_SMS_Korean_Janggun_BitReverseLUT[b];
+
+	return b;
 }
 
 // [MAPPER: 93c46 EEPROM] READ BYTE -------------------------------------------

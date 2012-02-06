@@ -61,6 +61,14 @@ void        Load_Game_Fixup(void)
 			WrZ80_NoHook (0x0002, g_machine.mapper_regs[2]);
 			WrZ80_NoHook (0x0003, g_machine.mapper_regs[3]);
 			break;
+		case MAPPER_SMS_Korean_Janggun:
+			WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[0]);
+			WrZ80_NoHook (0x4000, g_machine.mapper_regs[1]);
+			WrZ80_NoHook (0x6000, g_machine.mapper_regs[2]);
+			WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[3]);
+			WrZ80_NoHook (0x8000, g_machine.mapper_regs[4]);
+			WrZ80_NoHook (0xA000, g_machine.mapper_regs[5]);
+			break;
         case MAPPER_CodeMasters:
             WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
             WrZ80_NoHook (0x4000, g_machine.mapper_regs[1]);
@@ -261,6 +269,7 @@ int     Save_Game_MSV (FILE *f)
         break;
 	case MAPPER_SMS_NoMapper:
 	case MAPPER_SMS_Korean_MSX_8KB:
+	case MAPPER_SMS_Korean_Janggun:
     default:                  
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -351,11 +360,18 @@ int         Load_Game_MSV(FILE *f)
         sms.R.Trace = trace;
     }
 
-	// NB- MAPPER_REGS_MAX = 4 which match the old structure which was 3+1 (due to struct alignment)
-	fread(&g_machine.mapper_regs[0], sizeof(u8), MAPPER_REGS_MAX, f);
-	if (version < 0x0E)
+	if (version >= 0x0E)
 	{
-		g_machine.mapper_regs[3] = 0;
+		// Always save at least 4 so that legacy software can readily bump up version and read data for most games (apart from those using mappers with >4 registers)
+		const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
+		fread(&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
+	}
+	else
+	{
+		// Old structure which was 3+1 (due to struct alignment)
+		fread(&g_machine.mapper_regs[0], sizeof(u8), 3+1, f);
+		for (int i = 3; i != MAPPER_REGS_MAX; i++)				// 4th value was padding so we also invalid it.
+			g_machine.mapper_regs[i] = 0;
 		if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
 		{
 			u8 r[3];
@@ -416,6 +432,7 @@ int         Load_Game_MSV(FILE *f)
         break;
 	case MAPPER_SMS_NoMapper:
 	case MAPPER_SMS_Korean_MSX_8KB:
+	case MAPPER_SMS_Korean_Janggun:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;

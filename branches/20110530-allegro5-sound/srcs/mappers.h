@@ -45,14 +45,16 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Mapper_Get_RAM_Infos (int *plen, int *pstart_addr);
-int     Mapper_Autodetect (void);
+void	Mapper_InitializeLookupTables();
+void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr);
+int     Mapper_Autodetect();
 
 // Memory Handler -------------------------------------------------------------
 READ_FUNC  (Read_Default);
 READ_FUNC  (Read_Mapper_93c46);
 READ_FUNC  (Read_Mapper_TVOekaki);
 READ_FUNC  (Read_Mapper_SMS_DisplayUnit);
+READ_FUNC  (Read_Mapper_SMS_Korean_Janggun);
 //-----------------------------------------------------------------------------
 WRITE_FUNC (Write_Default);
 WRITE_FUNC (Write_Mapper_SG1000);
@@ -66,6 +68,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean);
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit);
 WRITE_FUNC (Write_Mapper_SMS_NoMapper);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB);
+WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun);
 WRITE_FUNC (Write_Mapper_SMS_4PakAllAction);
 //-----------------------------------------------------------------------------
 
