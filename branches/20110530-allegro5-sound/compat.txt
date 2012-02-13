@@ -114,7 +114,7 @@
  Comical Machine Gun Joe (TW)                   -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
- C_So! [Joy soft] (KR)                          -       Ok
+ C_So! [Joy soft] (KR)                          -      *Ok
  Cyber Shinobi, The                             -       Ok
  Cyborg Hunter                                  FM      Ok
  Cyborg Z (KR)                                  -       Ok
@@ -583,6 +583,7 @@
  Bank Panic                                     Ok
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
+ Bomberman Special (TW)                        *Ok
  Bomberman Special [DahJee] (TW)               *Ok
  Bomb Jack                                      Ok
  Bomb Jack [chinese logo] (TW)                  Ok
@@ -592,6 +593,7 @@
  Borderline                                     Ok
  Cabbage Patch Kids (TW)                        Ok
  Castle, The                                    Ok
+ Castle, The [MSX] (TW)                        *Ok
  Chack'n Pop                                    Ok
  Chack'n Pop (TW)                               Ok
  Champion Baseball                              Ok
@@ -674,6 +676,7 @@
  Lode Runner                                    Ok
  Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
+ Magical Kid Wiz (TW)                          *Ok
  Magical Tree (TW)                              Ok
  Mahjong [big 1983]                             Ok
  Mahjong [small 1983]                           Ok
@@ -703,7 +706,9 @@
  Pitfall II ~The Lost Caverns~ [v1]             Ok
  Pop Flamer                                     Ok
  Pop Flamer (TW)                                Ok
+ Rally-X (TW)                                  *Ok
  Rally-X [DahJee] (TW)                         *Ok
+ Road Fighter (TW)                             *Ok
  Road Fighter [Jumbo] (TW)                     *Ok
  Rock n' Bolt                                   Ok
  Rock n' Bolt (TW)                              Ok
@@ -758,7 +763,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 176 games tested - 176 are "Ok" - Compatibility rate: 100.00%
+ 181 games tested - 181 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
