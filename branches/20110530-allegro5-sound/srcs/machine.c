@@ -119,6 +119,9 @@ void    Machine_Set_Handler_Read(void)
 	case MAPPER_SMS_Korean_Janggun:
 		RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_Korean_Janggun;
 		break;
+	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+		RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
+		break;
     default:
         RdZ80 = RdZ80_NoHook = Read_Default;
         break;
@@ -171,6 +174,9 @@ void    Machine_Set_Handler_Write(void)
     case MAPPER_SMS_DisplayUnit:         // SMS Display Unit (RAM from 4000-47FF)
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_DisplayUnit;
         break;
+	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+		WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
+		break;
     default:                             // Standard mapper
         WrZ80 = WrZ80_NoHook = Write_Default;
         break;
@@ -316,6 +322,18 @@ void    Machine_Set_Mapping (void)
 		g_machine.mapper_janggun_bytes_flipping_flags = 0x00;
 		break;
 
+	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+		Map_8k_ROM(0, 0);
+		Map_8k_RAM(1, 0);
+		Map_8k_ROM(2, 2);
+		Map_8k_ROM(3, 3);
+		Map_8k_ROM(4, 4);
+		Map_8k_ROM(5, 5);
+		Map_8k_RAM(6, 1);
+		Map_8k_RAM(7, 1);
+		g_machine.mapper_regs_count = 0;
+		break;
+
     default: // Other mappers
         Map_8k_ROM(0, 0);
         Map_8k_ROM(1, 1);
@@ -338,7 +356,7 @@ void    Machine_Set_Mapping (void)
             break;
         case MAPPER_93c46:
             // RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
-            EEPROM_93c46_Init (EEPROM_93C46_INIT_ALL);
+            EEPROM_93c46_Init(EEPROM_93C46_INIT_ALL);
             break;
         case MAPPER_TVOekaki:
             TVOekaki_Init();
@@ -354,7 +372,7 @@ void    Machine_Set_Mapping (void)
     }
 }
 
-void    Machine_Set_Country (void)
+void    Machine_Set_Country(void)
 {
     if (DB.current_entry && DB.current_entry->emu_country != -1)
         sms.Country = DB.current_entry->emu_country;
@@ -362,7 +380,7 @@ void    Machine_Set_Country (void)
         sms.Country = g_configuration.country;
 }
 
-void    Machine_Set_IPeriod (void)
+void    Machine_Set_IPeriod(void)
 {
     if (DB.current_entry && DB.current_entry->emu_iperiod != -1)
     {
@@ -387,7 +405,7 @@ void    Machine_Set_IPeriod (void)
 }
 
 // FIXME: rename function
-void    Machine_Set_TV_Lines (void)
+void    Machine_Set_TV_Lines(void)
 {
     if (DB.current_entry && DB.current_entry->emu_tvtype != -1)
         g_machine.TV = &TV_Type_Table [DB.current_entry->emu_tvtype];
@@ -397,7 +415,7 @@ void    Machine_Set_TV_Lines (void)
 }
 
 // RESET EMULATED MACHINE -----------------------------------------------------
-void        Machine_Reset (void)
+void        Machine_Reset(void)
 {
     int     i;
     static byte VDPInit [16] =

@@ -95,6 +95,8 @@ void        Load_Game_Fixup(void)
         case MAPPER_SF7000:
             SF7000_IPL_Mapping_Update();
             break;
+		case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+			break;
         }
 	}
 
@@ -269,6 +271,10 @@ int     Save_Game_MSV (FILE *f)
         else
             fwrite (RAM, 0x2000, 1, f);
         break;
+	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+		fwrite (RAM, 0x02000, 1, f);
+		fwrite (RAM + 0x2000, 0x00800, 1, f);
+		break;
 	case MAPPER_SMS_NoMapper:
 	case MAPPER_SMS_Korean_MSX_8KB:
 	case MAPPER_SMS_Korean_Janggun:
@@ -432,6 +438,10 @@ int         Load_Game_MSV(FILE *f)
         else
             fread (RAM, 0x2000, 1, f);
         break;
+	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+		fread (RAM, 0x2000, 1, f);
+		fread (RAM + 0x2000, 0x0800, 1, f);
+		break;
 	case MAPPER_SMS_NoMapper:
 	case MAPPER_SMS_Korean_MSX_8KB:
 	case MAPPER_SMS_Korean_Janggun:

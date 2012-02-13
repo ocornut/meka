@@ -21,22 +21,23 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define MAPPER_Auto                     (-1)
-#define MAPPER_Standard                 (0)			// Standard Sega mapper.
-#define MAPPER_32kRAM                   (1)
-#define MAPPER_ColecoVision             (2)
-#define MAPPER_CodeMasters              (3)
-#define MAPPER_93c46                    (4)
-#define MAPPER_SG1000                   (5)
-#define MAPPER_SMS_ActionReplay         (6)
-#define MAPPER_TVOekaki                 (7)
-#define MAPPER_SF7000                   (8)
-#define MAPPER_SMS_Korean               (9)
-#define MAPPER_SMS_DisplayUnit          (10)
-#define MAPPER_SMS_NoMapper				(11)		// 0x0000->0xBFFF map to ROM. No mapper register.
-#define MAPPER_SMS_Korean_MSX_8KB       (12)		// 8KB bank-switching (4 banks)
-#define MAPPER_SMS_Korean_Janggun		(13)		// 8KB bank-switching (4 banks) mixed with 16KB bank-switching
-#define MAPPER_SMS_4PakAllAction		(14)
+#define MAPPER_Auto								(-1)
+#define MAPPER_Standard							(0)			// Standard Sega mapper.
+#define MAPPER_32kRAM							(1)
+#define MAPPER_ColecoVision						(2)
+#define MAPPER_CodeMasters						(3)
+#define MAPPER_93c46							(4)
+#define MAPPER_SG1000							(5)			// FIXME: Emulating 4KB RAM when it should be 2KB !#@?
+#define MAPPER_SMS_ActionReplay					(6)
+#define MAPPER_TVOekaki							(7)
+#define MAPPER_SF7000							(8)
+#define MAPPER_SMS_Korean						(9)
+#define MAPPER_SMS_DisplayUnit					(10)
+#define MAPPER_SMS_NoMapper						(11)		// 0x0000->0xBFFF map to ROM. No mapper register.
+#define MAPPER_SMS_Korean_MSX_8KB				(12)		// 8KB bank-switching (4 banks)
+#define MAPPER_SMS_Korean_Janggun				(13)		// 8KB bank-switching (4 banks) mixed with 16KB bank-switching
+#define MAPPER_SMS_4PakAllAction				(14)
+#define MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA	(15)		// 8KB RAM from 0x2000->0x3FFF + regular 2KB ram in 0xC000-0xFFFF range
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -55,6 +56,7 @@ READ_FUNC  (Read_Mapper_93c46);
 READ_FUNC  (Read_Mapper_TVOekaki);
 READ_FUNC  (Read_Mapper_SMS_DisplayUnit);
 READ_FUNC  (Read_Mapper_SMS_Korean_Janggun);
+READ_FUNC  (Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA);
 //-----------------------------------------------------------------------------
 WRITE_FUNC (Write_Default);
 WRITE_FUNC (Write_Mapper_SG1000);
@@ -70,6 +72,7 @@ WRITE_FUNC (Write_Mapper_SMS_NoMapper);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB);
 WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun);
 WRITE_FUNC (Write_Mapper_SMS_4PakAllAction);
+WRITE_FUNC (Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA);
 //-----------------------------------------------------------------------------
 
 extern void Map_8k_RAM    (int page, int ram_page);

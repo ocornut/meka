@@ -81,15 +81,16 @@ void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
 
     switch (g_machine.mapper)
     {
-        case MAPPER_32kRAM:         len = 0x08000; start_addr = 0x8000; break;
-        case MAPPER_ColecoVision:   len = 0x00400; start_addr = 0x6000; break;
-        case MAPPER_SG1000:         len = 0x01000; start_addr = 0xC000; break;
-        case MAPPER_TVOekaki:       len = 0x01000; start_addr = 0xC000; break;
-        case MAPPER_SF7000:         len = 0x10000; start_addr = 0x0000; break;
-        case MAPPER_SMS_DisplayUnit:len = 0x02800; start_addr = 0x4000; break; // FIXME: Incorrect, due to scattered mapping!
+        case MAPPER_32kRAM:							len = 0x08000; start_addr = 0x8000; break;
+        case MAPPER_ColecoVision:					len = 0x00400; start_addr = 0x6000; break;
+        case MAPPER_SG1000:							len = 0x01000; start_addr = 0xC000; break;
+        case MAPPER_TVOekaki:						len = 0x01000; start_addr = 0xC000; break;
+        case MAPPER_SF7000:							len = 0x10000; start_addr = 0x0000; break;
+        case MAPPER_SMS_DisplayUnit:				len = 0x02800; start_addr = 0x4000; break; // FIXME: Incorrect, due to scattered mapping!
+		case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:len = 0x02000+0x800; start_addr = 0x2000; break; // FIXME: Two memory regions
         // FIXME: ActionReplay!!
-        // default, codemaster, korean..
-        default:                    len = 0x02000; start_addr = 0xC000; break;
+        // default, Codemaster, Korean..
+        default:								len = 0x02000; start_addr = 0xC000; break;
     }
     if (plen)
         *plen = len;
@@ -100,7 +101,7 @@ void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
 // Return -1 if can't tell, else a mapper number
 int         Mapper_Autodetect(void)
 {
-    // If ROM is smaller than 32 kb, autodetected SMS mapper are not needed
+    // If ROM is smaller than 32KB, auto-detected SMS mapper are not needed
     if (tsms.Size_ROM <= 0x8000)
         return (-1);
 
@@ -127,7 +128,7 @@ int         Mapper_Autodetect(void)
     //Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cBFFF=%d, cFFFF=%d\n", c0002, c8000, cA000, cBFFF, cFFFF);
 
 	// 4 Pak All Action "games"
-	// this is not stricly necessary, since the full 4 Pak All Action is in meka.nam, but this allows extracted games to run standalone
+	// this is not strictly necessary, since the full 4 Pak All Action is in meka.nam, but this allows extracted games to run standalone
 	// NB: twin mouse has a false 0x0002 matching so it must be tested before
 	if (cBFFF > 0 && /*c0002 == 0 &&*/ c8000 == 0 && cA000 == 0 && cFFFF == 0)
 		return (MAPPER_SMS_4PakAllAction);
@@ -143,7 +144,6 @@ int         Mapper_Autodetect(void)
     return (MAPPER_Auto);
 }
 
-// [MAPPER: DEFAULT] WRITE BYTE -----------------------------------------------
 WRITE_FUNC (Write_Default)
 {
 	if ((Addr & 0xFFF8) == 0xFFF8)
@@ -195,7 +195,7 @@ WRITE_FUNC (Write_Default)
 		case 6: // 0xFFFE: Frame 1 ---------------------------------------------------
 #ifdef DEBUG_PAGES
 			if (Value > tsms.Pages_Count_16k)
-			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 			RAM [0x1FFE] = g_machine.mapper_regs[1] = Value & tsms.Pages_Mask_16k;
 			Map_16k_ROM (2, g_machine.mapper_regs[1] * 2);
@@ -203,7 +203,7 @@ WRITE_FUNC (Write_Default)
 		case 7: // 0xFFFF: Frame 2 ---------------------------------------------------
 #ifdef DEBUG_PAGES
 			if (Value > tsms.Pages_Count_16k)
-			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
+			{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 			RAM [0x1FFF] = g_machine.mapper_regs[2] = Value & tsms.Pages_Mask_16k;
 			if (!SRAM_Active)
@@ -265,7 +265,7 @@ WRITE_FUNC (Write_Mapper_SMS_NoMapper)
 	Write_Error (Addr, Value);
 }
 
-// [MAPPER: SG-1000] WRITE BYTE -----------------------------------------------
+// FIXME: Amount of RAM is totally incorrect.
 WRITE_FUNC (Write_Mapper_SG1000)
 {
 	switch (Addr)
@@ -293,7 +293,7 @@ WRITE_FUNC (Write_Mapper_SG1000)
 	case 0xFFFE: // Frame 1 ------------------------------------------------------
 #ifdef DEBUG_PAGES
 		if (Value > tsms.Pages_Count_16k)
-		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 		RAM [0x1FFE] = g_machine.mapper_regs[1] = Value & tsms.Pages_Mask_16k;
 		Map_16k_ROM(2, g_machine.mapper_regs[1] * 2);
@@ -301,7 +301,7 @@ WRITE_FUNC (Write_Mapper_SG1000)
 	case 0xFFFF: // Frame 2 ------------------------------------------------------
 #ifdef DEBUG_PAGES
 		if (Value > tsms.Pages_Count_16k)
-		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
+		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 		RAM [0x1FFF] = g_machine.mapper_regs[2] = Value & tsms.Pages_Mask_16k;
 		Map_16k_ROM (4, g_machine.mapper_regs[2] * 2);
@@ -316,14 +316,26 @@ WRITE_FUNC (Write_Mapper_SG1000)
 	switch (Addr >> 13)
 	{
 		// RAM [0xC000] = [0xE000] -----------------------------------------------
-	case 6: Mem_Pages [6] [Addr & 0xEFFF] = Mem_Pages [6] [Addr | 0x1000] = Value; return;
-	case 7: Mem_Pages [7] [Addr & 0xEFFF] = Mem_Pages [7] [Addr | 0x1000] = Value; return;
+	case 6: Mem_Pages [6] [Addr & ~0x1000] = Mem_Pages [6] [Addr | 0x1000] = Value; return;
+	case 7: Mem_Pages [7] [Addr & ~0x1000] = Mem_Pages [7] [Addr | 0x1000] = Value; return;
 	}
 
 	Write_Error (Addr, Value);
 }
 
-// [MAPPER: CODEMASTERS] WRITE BYTE -------------------------------------------
+WRITE_FUNC (Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA)
+{
+	// RAM 
+	switch (Addr >> 13)
+	{
+	case 1: Mem_Pages [1] [Addr] = Value; return;
+	case 6: Mem_Pages [6] [Addr & ~0x1800] = Value; return;
+	case 7: Mem_Pages [7] [Addr & ~0x1800] = Value; return;
+	}
+
+	Write_Error (Addr, Value);
+}
+
 WRITE_FUNC (Write_Mapper_CodeMasters)
 {
 	switch (Addr)
@@ -331,7 +343,7 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 	case 0x0000: // Frame 0 ----------------------------------------------------
 #ifdef DEBUG_PAGES
 		//if (Value > tsms.Pages_Count_16k)
-		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value);}
+		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existent page: %d", CPU_GetPC, Value);}
 #endif
 		Value = (Value & tsms.Pages_Mask_16k);
 		/*ROM [0x0000] = */ g_machine.mapper_regs[0] = Value;
@@ -340,7 +352,7 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 	case 0x4000: // Frame 1 ----------------------------------------------------
 #ifdef DEBUG_PAGES
 		//if (Value > tsms.Pages_Count_16k)
-		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); }
+		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 		if (Value & 0x80) // OnBoard RAM for Ernie Els Golf
 		{
@@ -363,7 +375,7 @@ WRITE_FUNC (Write_Mapper_CodeMasters)
 	case 0x8000: // Frame 2 ----------------------------------------------------
 #ifdef DEBUG_PAGES
 		//if (Value > tsms.Pages_Count_16k)
-		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
+		{ Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 		Value = (Value & tsms.Pages_Mask_16k);
 		/* ROM [0x8000] = */ /* ROM[0xBFFF] = */ g_machine.mapper_regs[2] = Value;
@@ -424,32 +436,26 @@ WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
 	Write_Error (Addr, Value);
 }
 
-// [MAPPER: KOREAN] WRITE BYTE ------------------------------------------------
 WRITE_FUNC (Write_Mapper_SMS_Korean)
 {
- if (Addr == 0xA000) // Frame 2 -----------------------------------------------
-    {
-    #ifdef DEBUG_PAGES
-      if (Value > tsms.Pages_Count_16k)
-        { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
-    #endif
-    Value = (Value & tsms.Pages_Mask_16k);
-    /* ROM [0xA000] = */ g_machine.mapper_regs[2] = Value;
-    Map_16k_ROM(4, g_machine.mapper_regs[2] * 2);
-    return;
-    }
+	if (Addr == 0xA000) // Frame 2 -----------------------------------------------
+	{
+		Value = (Value & tsms.Pages_Mask_16k);
+		/* ROM [0xA000] = */ g_machine.mapper_regs[2] = Value;
+		Map_16k_ROM(4, g_machine.mapper_regs[2] * 2);
+		return;
+	}
 
- switch (Addr >> 13)
-    {
-    // RAM [0xC000] = [0xE000] ------------------------------------------------
-    case 6: Mem_Pages[6][Addr] = Value; return;
-    case 7: Mem_Pages[7][Addr] = Value; return;
-    }
+	switch (Addr >> 13)
+	{
+		// RAM [0xC000] = [0xE000] ------------------------------------------------
+	case 6: Mem_Pages[6][Addr] = Value; return;
+	case 7: Mem_Pages[7][Addr] = Value; return;
+	}
 
- Write_Error (Addr, Value);
+	Write_Error (Addr, Value);
 }
 
-// [MAPPER: KOREAN] WRITE BYTE ------------------------------------------------
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
@@ -473,7 +479,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 4 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 4 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 			g_machine.mapper_regs[0] = Value;
             Map_8k_ROM(4, Value & tsms.Pages_Mask_8k);
@@ -483,7 +489,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 5 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 5 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 			g_machine.mapper_regs[1] = Value;
             Map_8k_ROM(5, Value & tsms.Pages_Mask_8k);
@@ -493,7 +499,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 			g_machine.mapper_regs[2] = Value;
             Map_8k_ROM(2, Value & tsms.Pages_Mask_8k);
@@ -503,7 +509,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
         {
 #ifdef DEBUG_PAGES
             if (Value > tsms.Pages_Count_8k)
-            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 3 set to non-existant page: %d", CPU_GetPC, Value); }
+            { Msg (MSGT_DEBUG, "At PC=%04X: Frame 3 set to non-existent page: %d", CPU_GetPC, Value); }
 #endif
 			g_machine.mapper_regs[3] = Value;
             Map_8k_ROM(3, Value & tsms.Pages_Mask_8k);
@@ -581,7 +587,6 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun)
 	Write_Error (Addr, Value);
 }
 
-// MAPPER: SMS Display Unit - Write Byte
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit)
 {
     switch (Addr >> 13)
@@ -596,7 +601,6 @@ WRITE_FUNC (Write_Mapper_SMS_DisplayUnit)
     Write_Error (Addr, Value);
 }
 
-// MAPPER: SMS Display Unit - Read Byte
 READ_FUNC (Read_Mapper_SMS_DisplayUnit)
 {
    // if (Addr == 0x4000)
@@ -606,7 +610,6 @@ READ_FUNC (Read_Mapper_SMS_DisplayUnit)
     return (Mem_Pages [Addr >> 13] [Addr]);
 }
 
-// [MAPPER: 93c46 EEPROM] WRITE BYTE ------------------------------------------
 WRITE_FUNC (Write_Mapper_93c46)
 {
  switch (Addr)
@@ -621,7 +624,7 @@ WRITE_FUNC (Write_Mapper_93c46)
    case 0xFFFD: // Frame 0 ----------------------------------------------------
         #ifdef DEBUG_PAGES
           if (Value > tsms.Pages_Count_16k)
-             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existant page: %d", CPU_GetPC, Value); return; }
+             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 0 set to non-existent page: %d", CPU_GetPC, Value); return; }
         #endif
         RAM [0x1FFD] = g_machine.mapper_regs[0] = Value & tsms.Pages_Mask_16k;
         Map_16k_ROM (0, g_machine.mapper_regs[0] * 2);
@@ -629,7 +632,7 @@ WRITE_FUNC (Write_Mapper_93c46)
    case 0xFFFE: // Frame 1 ----------------------------------------------------
         #ifdef DEBUG_PAGES
           if (Value > tsms.Pages_Count_16k)
-             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existant page: %d", CPU_GetPC, Value); return; }
+             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 1 set to non-existent page: %d", CPU_GetPC, Value); return; }
         #endif
         RAM [0x1FFE] = g_machine.mapper_regs[1] = Value & tsms.Pages_Mask_16k;
         Map_16k_ROM (2, g_machine.mapper_regs[1] * 2);
@@ -637,7 +640,7 @@ WRITE_FUNC (Write_Mapper_93c46)
    case 0xFFFF: // Frame 2 ----------------------------------------------------
         #ifdef DEBUG_PAGES
           if (Value > tsms.Pages_Count_16k)
-             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existant page: %d", CPU_GetPC, Value); return; }
+             { Msg (MSGT_DEBUG, "At PC=%04X: Frame 2 set to non-existent page: %d", CPU_GetPC, Value); return; }
         #endif
         RAM [0x1FFF] = g_machine.mapper_regs[2] = Value & tsms.Pages_Mask_16k;
         Map_16k_ROM (4, g_machine.mapper_regs[2] * 2);
@@ -655,8 +658,7 @@ WRITE_FUNC (Write_Mapper_93c46)
  Write_Error (Addr, Value);
 }
 
-// [MAPPER: ACTION REPLAY] WRITE BYTE -----------------------------------------
-// FIXME
+// FIXME-WIP
 WRITE_FUNC (Write_Mapper_SMS_ActionReplay)
 {
  switch (Addr >> 13)
@@ -672,12 +674,8 @@ WRITE_FUNC (Write_Mapper_SMS_ActionReplay)
  Write_Error (Addr, Value);
 }
 
-// [MAPPER: DEFAULT] READ BYTE ------------------------------------------------
 READ_FUNC (Read_Default)
 {
-	//if (Addr == 0x68F8)
-	//   Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), CPU_GetPC, Addr);
-
 	#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
 	if (Addr >= 0xC000 && Addr <= 0xFFFF)
 	{
@@ -704,24 +702,34 @@ READ_FUNC (Read_Mapper_SMS_Korean_Janggun)
 	return b;
 }
 
-// [MAPPER: 93c46 EEPROM] READ BYTE -------------------------------------------
+READ_FUNC (Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA)
+{
+	const unsigned int page = (Addr >> 13);
+	
+	// 0xC000->0xFFFF: SG-1000 work RAM
+	if (page >= 6)
+		Addr &= ~0x1800;
+
+	return Mem_Pages[page][Addr];
+}
+
 READ_FUNC (Read_Mapper_93c46)
 {
- // Addresses in the [8000h] range --------------------------------------------
- if ((Addr >> 13) == 0x04 && (EEPROM_93c46.Enabled))
-    {
-    // 93c46 Serial Access ----------------------------------------------------
-    if (Addr == 0x8000)
-       {
-       // Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), sms.R.PC.W, Addr);
-       return (EEPROM_93c46_Read ());
-       }
-    // 93c46? Direct Access ---------------------------------------------------
-    if (Addr >= 0x8008 && Addr < 0x8088)
-       return (EEPROM_93c46_Direct_Read (Addr - 0x8008));
-    }
+	// Addresses in the [8000h] range --------------------------------------------
+	if ((Addr >> 13) == 0x04 && (EEPROM_93c46.Enabled))
+	{
+		// 93c46 Serial Access ----------------------------------------------------
+		if (Addr == 0x8000)
+		{
+			// Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), sms.R.PC.W, Addr);
+			return EEPROM_93c46_Read();
+		}
+		// 93c46? Direct Access ---------------------------------------------------
+		if (Addr >= 0x8008 && Addr < 0x8088)
+			return EEPROM_93c46_Direct_Read(Addr - 0x8008);
+	}
 
- return (Mem_Pages [Addr >> 13] [Addr]);
+	return (Mem_Pages [Addr >> 13] [Addr]);
 }
 
 //-----------------------------------------------------------------------------
