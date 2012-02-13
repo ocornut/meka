@@ -234,7 +234,9 @@ int     Save_Game_MSV (FILE *f)
 
     // Write 'sms' structure (misc stuff)
     fwrite (&sms, sizeof (struct SMS_TYPE), 1, f);
-	fwrite (&g_machine.mapper_regs[0], sizeof(u8), g_machine.mapper_regs_count, f);
+
+	const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
+	fwrite (&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
 
     // Write VDP scanline counter
     w = tsms.VDP_Line;
