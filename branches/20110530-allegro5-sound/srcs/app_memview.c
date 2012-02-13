@@ -662,7 +662,7 @@ void	MemoryViewer_GotoAddress(t_memory_viewer* mv, t_memory_type memtype, u32 of
 	if (offset < 0 || offset >= (u32)memrange->size)
 	{
 		char buf[16];
-		sprintf(buf, "%0*X", memrange->addr_hex_length, offset+memrange->addr_start+offset);
+		sprintf(buf, "%0*X", memrange->addr_hex_length, memrange->addr_start+offset);
 		Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, memrange->name);
 		return;
 	}
@@ -691,7 +691,7 @@ void      MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w)
 
     // Read address
     const char* text = widget_inputbox_get_value(mv->address_edit_inputbox);
-	int addr;
+	int addr = 0;
     sscanf(text, "%X", &addr);
 
 	int offset = addr - mv->pane_current->memrange.addr_start;
