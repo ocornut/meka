@@ -226,6 +226,7 @@
  Great Tennis / Super Tennis (JP)               -       Ok
  Great Volleyball                               -       Ok
  Great Volleyball (JP)                          -       Ok
+ Gun.Smoke (KR)                                 -      *Ok
  Haja no Fuuin (JP)                             FM      Ok
  Hang On                                        -       Ok
  Hang On (JP)                                   -       Ok
@@ -551,7 +552,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 533 games tested - 531 are "Ok" - Compatibility rate: 99.54%
+ 534 games tested - 532 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -582,6 +583,7 @@
  Bank Panic                                     Ok
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
+ Bomberman Special [DahJee] (TW)               *Ok
  Bomb Jack                                      Ok
  Bomb Jack [chinese logo] (TW)                  Ok
  Bomb Jack [english logo] (TW)                  Ok
@@ -626,6 +628,7 @@
  Congo Bongo [v1]                               Ok
  Congo Bongo [v1] (TW)                          Ok
  Congo Bongo [v1] [40k map]                     Ok
+ Comic Bakery (KR)                             *Ok
  C_So!                                          Ok (can't write to tape)
  C_So! (TW)                                     Ok (can't write to tape)
  Doki Doki Penguin Land                         Ok
@@ -665,6 +668,9 @@
  Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
  Hyper Sports 2 (TW)                            Ok
+ King's Valley (TW)                            *Ok
+ Knightmare [Jumbo] (TW)                       *Ok
+ Legend of Kage, The [DahJee] (TW)             *Ok
  Lode Runner                                    Ok
  Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
@@ -697,6 +703,8 @@
  Pitfall II ~The Lost Caverns~ [v1]             Ok
  Pop Flamer                                     Ok
  Pop Flamer (TW)                                Ok
+ Rally-X [DahJee] (TW)                         *Ok
+ Road Fighter [Jumbo] (TW)                     *Ok
  Rock n' Bolt                                   Ok
  Rock n' Bolt (TW)                              Ok
  Safari Hunting                                 Ok
@@ -733,7 +741,9 @@
  Super Tank                                     Ok
  Super Tank (KR)                                Ok
  Super Tank (TW)                                Ok
+ Tank Battalion [DahJee] (TW)                  *Ok
  Terebi Oekaki Graphic Software                 Ok (uses Sega Graphic Board)
+ TwinBee [Jumbo] (TW)                          *Ok
  Wonder Boy [v0]                                Ok
  Wonder Boy [v1]                                Ok
  Wonder Boy [v1] (TW)                           Ok
@@ -748,7 +758,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 167 games tested - 167 are "Ok" - Compatibility rate: 100.00%
+ 176 games tested - 176 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
