@@ -112,6 +112,7 @@
  Comical Machine Gun Joe (JP)                   -       Ok
  Comical Machine Gun Joe (KR)                   -       Ok
  Comical Machine Gun Joe (TW)                   -       Ok
+ Comic Bakery (KR)                              -      *Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
  C_So! [Joy soft] (KR)                          -      *Ok
@@ -552,7 +553,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 534 games tested - 532 are "Ok" - Compatibility rate: 99.54%
+ 535 games tested - 533 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -630,7 +631,6 @@
  Congo Bongo [v1]                               Ok
  Congo Bongo [v1] (TW)                          Ok
  Congo Bongo [v1] [40k map]                     Ok
- Comic Bakery (KR)                             *Ok
  C_So!                                          Ok (can't write to tape)
  C_So! (TW)                                     Ok (can't write to tape)
  Doki Doki Penguin Land                         Ok
@@ -763,7 +763,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 181 games tested - 181 are "Ok" - Compatibility rate: 100.00%
+ 180 games tested - 180 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
