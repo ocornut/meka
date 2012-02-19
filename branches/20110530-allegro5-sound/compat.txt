@@ -112,7 +112,7 @@
  Comical Machine Gun Joe (JP)                   -       Ok
  Comical Machine Gun Joe (KR)                   -       Ok
  Comical Machine Gun Joe (TW)                   -       Ok
- Comic Bakery (KR)                              -      *Ok
+ Comic Bakery (KR)                              -       Ok
  Cool Spot                                      -       Ok
  Cosmic Spacehead                               -       Ok
  C_So! [Joy soft] (KR)                          -      *Ok
@@ -254,7 +254,7 @@
  James "Buster" Douglas Knockout Boxing         -       Ok
  James "Buster" Douglas Knockout Boxing [Proto] -       Ok
  James Pond II - Codename: RoboCod              -       Ok
- Janggun-ui Adeul (KR)                          -      *Ok
+ Janggun-ui Adeul (KR)                          -       Ok
  Jang Pung 3 (KR)                               -       Ok
  Joe Montana Football                           -       Ok
  Jogos de Verão II (BR)                         -       Ok
@@ -620,7 +620,7 @@
  Championship Lode Runner                       Ok (can't write to tape)
  Championship Lode Runner (TW)                  Ok (can't write to tape)
  Choplifter                                     Ok
- Choplifter (KR)                               *Ok
+ Choplifter (KR)                                Ok
  Choplifter [Proto]                             Ok
  Choplifter [chinese logo] (TW)                 Ok
  Choplifter [english logo] (TW)                 Ok
@@ -917,8 +917,9 @@
  Cliffhanger                                        Ok
  Clutch Hitter                                      Ok
  Coca Cola Kid                                      Ok
- Columns                                            Ok
- Columns (JP)                                       Ok
+ Columns [v0]                                       Ok
+ Columns [v0] (JP)                                  Ok
+ Columns [v1] (JP)                                 *Ok
  Cool Spot                                          Ok
  Cool Spot (US)                                     Ok
  Cosmic Spacehead                                   Ok
@@ -1154,7 +1155,7 @@
  Pocket Jansou (JP)                                 Ok
  Poker Face Paul's Blackjack                        Ok
  Poker Face Paul's Gin                              Ok
- Poker Face Paul's Poker                            Ok
+ Poker Face Paul's Poker                           *Ok
  Poker Face Paul's Solitaire                        Ok
  Pop Breaker (JP)                                   Ok
  Popeye's Beach Volleyball (JP)                     Ok
@@ -1245,8 +1246,8 @@
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
- Street Hero [Proto] [SMS-GG]                      *Ok
- Street Hero [Proto, Earlier] [SMS-GG]             *Ok
+ Street Hero [Proto 0] [SMS-GG]                     Ok
+ Street Hero [Proto 1] [SMS-GG]                     Ok
  Strider Returns                                    Ok
  Striker                                            Ok
  Super Battletank                                   Ok
@@ -1314,7 +1315,7 @@
  Wonder Boy (JP)                                    Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
- Woody Pop [v0]                                     Ok
+ Woody Pop [v0] (JP)                                Ok
  Woody Pop [v1]                                     Ok
  World Class Leaderboard Golf / World Class Leade.. Ok
  World Cup USA 94                                   Ok
@@ -1336,10 +1337,10 @@
  Zool: Ninja of the Nth Dimension                  *Ok
  Zool: Ninja of the Nth Dimension (US)             *Ok
  Zool - Zool no Yume Bouken (JP)                    Ok
- Zoop (US)                                         *Ok
+ Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 488 games tested - 476 are "Ok" - Compatibility rate: 97.45%
+ 489 games tested - 477 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
