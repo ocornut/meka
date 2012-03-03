@@ -38,7 +38,6 @@
 //-----------------------------------------------------------------------------
 void        gui_menus_init (void)
 {
-    int     i;
 	char	buffer[256];
 
     g_gui_status.x = 10;
@@ -151,7 +150,7 @@ void        gui_menus_init (void)
     Sound_Volume_Menu_Init (menus_ID.volume);
     // SOUND -> CHANNELS
     menus_ID.channels = menu_add_menu (menus_ID.sound, Msg_Get (MSG_Menu_Sound_Channels), AM_Active);
-    for (i = 1; i <= 3; i += 1)
+    for (int i = 1; i <= 3; i += 1)
     {
         snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Channels_Tone), i);
         menu_add_item  (menus_ID.channels, buffer, AM_Active | AM_Checked, (t_menu_callback)Sound_Channels_Menu_Handler, (void *)(i - 1));
