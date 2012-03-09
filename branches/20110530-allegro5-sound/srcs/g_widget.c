@@ -988,6 +988,13 @@ void        widget_inputbox_update(t_widget *w)
 				if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
 					c = 0;
 			}
+			else if (wd->content_type == WIDGET_CONTENT_TYPE_DEC_HEX_BIN)
+			{
+				if (c >= 'a' && c <= 'f')
+					c += 'A' - 'a';
+				if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c == '$' || c == '%' || c == '#')))
+					c = 0;
+			}
 			if (c != 0)
 			{
 				// Insert character

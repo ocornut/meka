@@ -61,7 +61,7 @@ static bool     Debugger_CompletionCallback(t_widget *w);
 
 // Evaluator
 static int      Debugger_Eval_GetValue(char **src, t_debugger_value *result);
-static bool     Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result);
+bool			Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format);
 static int      Debugger_Eval_GetExpression(char **expr, t_debugger_value *result);
 static bool     Debugger_Eval_GetVariable(int variable_replacement_flags, const char *var, t_debugger_value *result);
 
@@ -3488,14 +3488,12 @@ static int  Debugger_Eval_ParseInteger(const char *s, const char *base, const ch
     return (result);
 }
 
-bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result)
+bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format)
 {
-    t_debugger_eval_value_format value_format;
-
     // Debugger_Printf(" - token = %s\n", token);
 
     // Assume default hexadecimal
-    value_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX;
+    t_debugger_eval_value_format value_format = default_format;
     if (*value == '$')
     {
         value_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX;
@@ -3544,7 +3542,10 @@ bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result
             return (FALSE);
         }
 
-        Debugger_Value_SetDirect(result, data, 16);
+		if (data > (1<<15)-1 || data < -(1<<5))
+			Debugger_Value_SetDirect(result, data, 24);
+		else
+			Debugger_Value_SetDirect(result, data, 16);
     }
 
     return (TRUE);

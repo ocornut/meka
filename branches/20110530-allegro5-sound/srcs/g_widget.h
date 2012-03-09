@@ -22,6 +22,7 @@ enum t_widget_content_type
     WIDGET_CONTENT_TYPE_TEXT        = 0,
     WIDGET_CONTENT_TYPE_DECIMAL     = 1,
     WIDGET_CONTENT_TYPE_HEXADECIMAL = 2,
+	WIDGET_CONTENT_TYPE_DEC_HEX_BIN	= 3,
 };
 
 enum t_widget_inputbox_flags

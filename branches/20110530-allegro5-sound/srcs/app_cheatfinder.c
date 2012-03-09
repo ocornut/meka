@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_cheatfinder.h"
 #include "app_memview.h"
+#include "debugger.h"
 #include "desktop.h"
 #include "g_widget.h"
 
@@ -235,8 +236,8 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	if (setup)
 	{
 		t_frame frame(dc.pos, v2i(60,Font_Height(F_SMALL)+3));
-		app->w_custom_value = widget_inputbox_add(app->box, &frame, 6, F_MIDDLE, CheatFinder_CallbackReduce);
-		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DECIMAL);
+		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, F_MIDDLE, CheatFinder_CallbackReduce);
+		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DEC_HEX_BIN);
 	}
 	dc.pos.y += 1;
 
@@ -291,7 +292,11 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	}
 
 	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
-	app->custom_value_valid = (sscanf(custom_value_text, "%d", &app->custom_value) == 1);
+	t_debugger_value v;
+	app->custom_value_valid = Debugger_Eval_GetValueDirect(custom_value_text, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_DEC);
+	if (app->custom_value_valid)
+		app->custom_value = v.data;
+	//app->custom_value_valid = (sscanf(custom_value_text, "%d", &app->custom_value) == 1);
 
 	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
 	widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && (app->matches.empty() || (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid)));

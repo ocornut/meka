@@ -180,6 +180,9 @@ void                        Debugger_RdVRAM_Hook(register int addr, register u8 
 void                        Debugger_WrVRAM_Hook(register int addr, register u8 value);
 void                        Debugger_WrPRAM_Hook(register int addr, register u8 value);
 
+// Parser
+bool						Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX);
+
 // Bus Data Access Helpers
 int                         Debugger_Bus_Read(int bus, int addr);
 
