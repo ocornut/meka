@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2012/03/10
+; Last updated 2012/03/18
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -788,7 +788,7 @@ GG  c2e8a692 4CFC722EB04E8892   Choplifter III/COUNTRY=US/PRODUCT_NO=?
 GG  191b1ed8 D569D43547670605   Chuck Rock/COUNTRY=US,EU,JP,BR/PRODUCT_NO=2430,G-3320,016740
 GG  cb3a1d23 C00226EF6E17495B   Chuck Rock [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  3fcc28c9 B6FD24D8906B3422   Chuck Rock II - Son of Chuck/COUNTRY=US/PRODUCT_NO=T-48148
-GG  656708bf 65F159C71229103F   Chuck Rock II - Son of Chuck/COUNTRY=EU/PRODUCT_NO=T-115018-50,115018-50
+GG  656708bf 65F159C71229103F   Chuck Rock II - Son of Chuck/COUNTRY=EU,BR/PRODUCT_NO=T-115018-50,115018-50,075.450
 GG  bf75b153 2F97B4630C0D23E7   Cliffhanger/COUNTRY=US/PRODUCT_NO=T-93038
 GG  d228a467 9B49411CCAC8D756   Clutch Hitter/COUNTRY=US/PRODUCT_NO=2311
 GG  2c758fc8 775934E6039885F6   Cool Spot/COUNTRY=US/PRODUCT_NO=T-70108
@@ -800,11 +800,11 @@ GG  6caa625b 6D119C88287DCBEE   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=T-120028-
 GG  03d28eab 6B96D3F3E3A93875   Crayon Shin-chan - Taiketsu! Kantamu Panic!!/COUNTRY=JP/PRODUCT_NO=T-133047
 GG  529c864e A21AD85B167F6913   Crystal Warriors/COUNTRY=US,EU/PRODUCT_NO=2502/COMMENT=Export version of "Arliel - Crystal Densetsu".
 GG  6a24e47e C2965F6E8A59A751   Cutthroat Island/COUNTRY=US/PRODUCT_NO=T-81338
-GG  aae268fc 099CC645306AB402   Daffy Duck in Hollywood/COUNTRY=EU/PRODUCT_NO=2550
+GG  aae268fc 099CC645306AB402   Daffy Duck in Hollywood/COUNTRY=EU,BR/PRODUCT_NO=2550,077110
 GG  5a136d7e C8D6479F8BF46C91   Deep Duck Trouble - Starring Donald Duck (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2514,1205/COMMENT=Export version of "Donald Duck no Yottsu no Hihou".
 GG  e2791cc1 02E7288B76458A1F   Defenders of Oasis/COUNTRY=US,EU/PRODUCT_NO=2503/COMMENT=Export version of "Shadam Crusader ~Harukanaru Oukoku~".
 GG  c674eccc BC784278D69408A0   Defenders of Oasis [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Only the first 256 KB half so the game is probably unstable and incomplete.
-GG  c2e111ac 10D532DB6BFB198F   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=US/PRODUCT_NO=2442
+GG  c2e111ac 10D532DB6BFB198F   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/NAME_BR=Desert Speedtrap/COUNTRY=US,BR/PRODUCT_NO=2442,075400
 GG  ec808026 B9DF362895F7017D   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/COUNTRY=EU/PRODUCT_NO=2442
 GG  f6c400da AE87403603D0E79B   Desert Strike - Return to the Gulf/COUNTRY=US
 GG  3e44eca3 B681482B16BEE89A   Desert Strike/COUNTRY=EU/PRODUCT_NO=T-88068-50
@@ -1062,7 +1062,7 @@ GG  4d1f4699 C76F1AE91B588DC7   Shining Force Gaiden ~Ensei Jashin no Kuni e~/CO
 GG  30374681 1F9714187E37FE6B   Shining Force Gaiden II ~Jashin no Mezame~/COUNTRY=JP/PRODUCT_NO=G-3409/COMMENT=Japanese version of "Shining Force - The Sword of Hajya".
 GG  6019fe5e 87CA29057C33E3EF   Shining Force Gaiden ~Final Conflict~/COUNTRY=JP/PRODUCT_NO=G-3428
 GG  30f1c984 82C3D1CAD4A50C9B   Shinobi/COUNTRY=US,EU/PRODUCT_NO=2402
-GG  6201c694 4C0CF2421287A932   Shinobi II - The Silent Fury/NAME_JP=GG Shinobi II/COUNTRY=JP,US,EU/PRODUCT_NO=G-3315,2421
+GG  6201c694 4C0CF2421287A932   Shinobi II - The Silent Fury/NAME_JP=GG Shinobi II/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-3315,2421,075280
 GG  3d9c92c7 E8852EFBB49DA277   Skweek/COUNTRY=JP/PRODUCT_NO=T-60017/COMMENT=Japanese version of "Slider".
 GG  6a603eed 8C280F0037C2ED57   Side Pocket/COUNTRY=US/PRODUCT_NO=T-13018
 GG  751dad4c B0541293B90BC5CE   Slam Dunk - Shouri-e no Starting 5 (From TV animation)/COUNTRY=JP/PRODUCT_NO=T-133037

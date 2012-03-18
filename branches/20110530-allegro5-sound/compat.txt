@@ -935,7 +935,7 @@
  Defenders of Oasis                                 Ok
  Defenders of Oasis [Proto]                         Ok
  Desert Speedtrap - Starring Road Runner and Wile.. Ok
- Desert Speedtrap - Starring Road Runner and.. (US) Ok
+ Desert Speedtrap - Starring Road Runner.. (US,BR)  Ok
  Desert Strike (EU)                                 Ok
  Desert Strike: Return to the Gulf (US)             Ok
  Devilish                                           Ok
