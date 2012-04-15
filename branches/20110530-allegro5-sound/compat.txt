@@ -117,7 +117,7 @@
  Cosmic Spacehead                               -       Ok
  C_So! [MSX] (KR)                               -       Ok
  Cyber Shinobi, The                             -       Ok
- Cyber Shinobi, The [Proto]                     -      *Ok
+ Cyber Shinobi, The [Proto]                     -       Ok
  Cyborg Hunter                                  FM      Ok
  Cyborg Z (KR)                                  -       Ok
  Daffy Duck in Hollywood                        -       Ok
@@ -320,7 +320,7 @@
  My Hero                                        -       Ok
  NBA Jam [Proto]                                -       Ok
  Nekkyuu Koushien (JP)                          FM      Ok
- Nemesis (KR)                                   -      *Ok
+ Nemesis (KR)                                   -       Ok
  Nemesis 2 (KR)                                 -      *Ok
  New Boggle Boggle 2 (KR)                       -       Ok
  NewZealand Story, The                          -       Ok
@@ -411,6 +411,7 @@
  Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
+ Sky Jaguar (KR)                                -       Ok
  Slap Shot [v0]                                 -       Ok
  Slap Shot [v1]                                 -       Ok
  Slap Shot [v2] (US)                            -       Ok
@@ -450,7 +451,7 @@
  Streets of Rage                                -       Ok
  Streets of Rage II                             -       Ok
  Strider                                        -       Ok
- Strider [Demo]                                 -      *Ok
+ Strider [Demo]                                 -       Ok
  Strider II                                     -       Ok
  Submarine Attack                               -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
@@ -556,7 +557,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 538 games tested - 536 are "Ok" - Compatibility rate: 99.54%
+ 539 games tested - 537 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -673,7 +674,7 @@
  Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
  Hyper Sports 2 (TW)                            Ok
- King's Valley (TW)                            *Ok
+ King's Valley (TW)                             Ok
  Knightmare [Jumbo] (TW)                       *Ok
  Legend of Kage, The [DahJee] (TW)             *Ok
  Lode Runner                                    Ok
@@ -698,7 +699,7 @@
  Othello                                        Ok
  Othello (TW)                                   Ok
  Pacar                                          Ok
- Pacar [40k map]                               *Ok
+ Pacar [40k map]                                Ok
  Pacar (TW)                                     Ok
  Pachinko                                       Ok
  Pachinko II                                    Ok
@@ -1159,7 +1160,7 @@
  Pocket Jansou (JP)                                 Ok
  Poker Face Paul's Blackjack                        Ok
  Poker Face Paul's Gin                              Ok
- Poker Face Paul's Poker                           *Ok
+ Poker Face Paul's Poker                            Ok
  Poker Face Paul's Solitaire                        Ok
  Pop Breaker (JP)                                   Ok
  Popeye's Beach Volleyball (JP)                     Ok
@@ -1197,6 +1198,7 @@
  Ryuu Kyuu (JP)                                     Ok
  Samurai Shodown                                    Ok
  Samurai Spirits                                    Ok
+ Scratch Golf (US)                                 *Ok
  Scratch Golf (JP)                                  Ok
  SD Gundam Winner's History (JP)                    Ok
  Sega Game Pack 4 in 1                              Ok
@@ -1344,7 +1346,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 489 games tested - 477 are "Ok" - Compatibility rate: 97.45%
+ 490 games tested - 478 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
