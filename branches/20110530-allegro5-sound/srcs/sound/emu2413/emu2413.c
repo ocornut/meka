@@ -1678,10 +1678,23 @@ OPLL_writeReg (OPLL * opll, e_uint32 reg, e_uint32 data)
     setFnumber (opll, ch, ((data & 1) << 8) + opll->reg[0x10 + ch]);
     setBlock (opll, ch, (data >> 1) & 7);
     setSustine (opll, ch, (data >> 5) & 1);
+#if 1
+	// FIX from http://smspower.org/forums/viewtopic.php?p=70825#70825
+	if (ch < 0x06 || ! (opll->reg[0x0E] & 0x20))
+	{
+		// Valley Bell Fix: prevent commands 0x26-0x28 from turning
+		// the drums (BD, SD, CYM) off
+		if (data & 0x10)
+			keyOn (opll, ch);
+		else
+			keyOff (opll, ch);
+	}	
+#else
     if (data & 0x10)
       keyOn (opll, ch);
     else
       keyOff (opll, ch);
+#endif
     UPDATE_ALL (MOD(opll,ch));
     UPDATE_ALL (CAR(opll,ch));
     update_key_status (opll);
