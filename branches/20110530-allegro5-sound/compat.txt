@@ -929,6 +929,7 @@
  Cool Spot (US)                                     Ok
  Cosmic Spacehead                                   Ok
  Crayon Shin-chan - Taiketsu! Tankam Panic!! (JP)   Ok
+ Crazy Faces [Proto]                                Ok
  Crystal Warriors                                   Ok
  Cutthroat Island                                   Ok
  Daffy Duck in Hollywood                            Ok
@@ -1346,7 +1347,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 490 games tested - 478 are "Ok" - Compatibility rate: 97.45%
+ 491 games tested - 479 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

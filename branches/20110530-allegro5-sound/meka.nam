@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2012/04/15
+; Last updated 2012/04/28
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -800,6 +800,7 @@ GG  ac37e092 C8F45DEC67DF2095   Columns [v1]/COUNTRY=JP/PRODUCT_NO=G-3101,G-3104
 GG  83fa26d9 9FD46CE7B8EE365E   Columns [v2]/NAME_BR=Shapes and Columns/COUNTRY=US,EU,BR/PRODUCT_NO=2201,012070
 GG  6caa625b 6D119C88287DCBEE   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=T-120028-50/EMU_MAPPER=3/EMU_TVTYPE=PAL/EMU_SPRITE_FLICKER
 GG  03d28eab 6B96D3F3E3A93875   Crayon Shin-chan - Taiketsu! Kantamu Panic!!/COUNTRY=JP/PRODUCT_NO=T-133047
+GG  46ad6257 E4707F6AD1B4E658   Crazy Faces [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  529c864e A21AD85B167F6913   Crystal Warriors/COUNTRY=US,EU/PRODUCT_NO=2502/COMMENT=Export version of "Arliel - Crystal Densetsu".
 GG  6a24e47e C2965F6E8A59A751   Cutthroat Island/COUNTRY=US/PRODUCT_NO=T-81338
 GG  aae268fc 099CC645306AB402   Daffy Duck in Hollywood/COUNTRY=EU,BR/PRODUCT_NO=2550,077110
