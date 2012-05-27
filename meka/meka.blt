@@ -1,0 +1,91 @@
+;-----------------------------------------------------------------------------
+; MEKA - Video Configuration
+; http://www.smspower.org/meka
+;-----------------------------------------------------------------------------
+; To create your own themes, the easiest way is to use Maxim's MEKA configurator:
+;    http://www.smspower.org/maxim/mconfig/
+; Otherwise, you can manually edit this file, using the syntax described below.
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; Syntax:
+;
+;   [name]
+;   res = XRESOLUTIONxYRESOLUTION
+;   blitter = normal | tvmode | tvmode_double | eagle | hq2x
+;
+; The configuration name must be postfixed by a mark of the appliable operating system:
+;   ::WIN   for the Windows version of MEKA.
+;   ::UNIX  for the UNIX version of MEKA.
+;
+; Optional settings:
+;   refresh_rate = auto | 60 | 70 | ... (video refresh rate - prefer 60 Hz)
+;   stretch                             (enable fullscreen stretch)
+;
+; Available video modes depends on your video card. Some modes you may
+; want to try are 256x192, 256x240, 320x200 and 512x384.
+;
+; ADVICE
+; A great setting in most cases is to setting refresh_rate to 60,
+; enable vsync and disable the autoframeskipper in MEKA. This way,
+; emulation will be perfectly synchronized to 60 Hz.
+; Not all video card / drivers support setting a refresh rate other
+; than the default one, however.
+;
+; Blitters description:
+;  "normal"         default blitter
+;  "tvmode"         simulates TV scanlines, a bit slower but very nice
+;                   looking. lines are vertically doubled so you need a
+;                   suitable resolution (eg: 320x400).
+;  "tvmode_double"  simulates TV scanlines and double the size of each
+;                   pixels both horizontally and vertically.
+;  "eagle"          apply Eagle filtering (requires a *2 resolution)
+;  "hq2x"           apply HQ2X filtering (requires a *2 resolution)
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; WINDOWS - Default Modes
+;-----------------------------------------------------------------------------
+
+[Default::WIN]
+res = 768x576
+;res = 1024x768
+blitter = normal
+stretch
+
+;[Normal::WIN]
+;res = 320x200
+;refresh_rate = auto
+
+;[PAL Screen::WIN]
+;res = 320x240
+;refresh_rate = auto ; 50
+
+;[TV Mode::WIN]
+;res = 640x480
+;blitter = tvmode_double
+;;refresh_rate = 60
+
+;[HQ2X::WIN]
+;res = 1024x768
+;refresh_rate = 60
+;blitter = hq2x
+;stretch
+
+;[Eagle::WIN]
+;res = 1024x768
+;refresh_rate = 60
+;blitter = eagle
+;stretch
+
+;-----------------------------------------------------------------------------
+; UNIX - Default Modes
+;-----------------------------------------------------------------------------
+
+[Default::UNIX]
+res = 768x576
+;res = 1024x768
+blitter = normal
+stretch
+
+;-----------------------------------------------------------------------------

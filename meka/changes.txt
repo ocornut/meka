@@ -1,0 +1,2408 @@
+-----------------------------------------------------------------------------
+ MEKA - ChangeLog
+-----------------------------------------------------------------------------
+ Note: for a more developer/hacker centric ChangeLog, download
+ source code and refer to HISTORY.TXT file.
+-----------------------------------------------------------------------------
+
+ MEKA 0.80 WIP
+ -------------
+
+
+ MEKA 0.74 WIP xxxxxxxx
+ ----------------------
+  - (Win32) Updated project file to Visual Studio 2008 format + compilation fixes.
+  - (Win32) Updated Allegro library to 4.2.3 (using precompiled binary from 'allegro-msvc9-4.2.3').
+  - (Win32) Updated LibPNG library to 1.2.8 (precompiled binary package included in repository).
+  - (Win32) Including minimal DirectX 7.0 package (precompiled binary package 'dx70_min' included in repository)
+     because newer DirectX SDK tends to cause problem with 4.2.x Allegro branches.
+  - SC-3000:
+    - Fixed the ':' (colon) key not working on Sega Keyboard emulation under certain host keyboard/OS configuration. [Omar]
+  - GUI:
+    - Added Taiwanese flag (for DB and File Browser). [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+          SMS - 84665648 - Great Soccer (JP) [Hack]             --> Great Soccer (TW)
+          SMS - 656d1a3e - Hokuto no Ken [BAD] (CH)             --> Hokuto no Ken (TW) [Hack] (the "bad" data is on the original cart, but this version has additional modifications)
+          SMS - 69538469 - Monopoly [A]                         --> Monopoly (US)
+          SMS - 026d94a4 - Monopoly [B]                         --> Monopoly (EU)
+          SMS - 311d2863 - Prince of Persia [SMS-GG] [A]        --> Prince of Persia [SMS-GG] (US)
+          SMS - 45f058d6 - Prince of Persia [SMS-GG] [B]        --> Prince of Persia [SMS-GG] (EU)
+          SMS - 01686d67 - Suho Cheonsa (KR)                    --> Suho Jeonsa (KR)
+          SG1 - 868419b5 - Champion Golf [A]                    --> Champion Golf [cart]
+          SG1 - 5a904122 - Champion Golf [B]                    --> Champion Golf [card]
+          SG1 - fdc095bc - Doki Doki Penguin Land (HK)          --> Doki Doki Penguin Land (TW)
+          SG1 - 60f30138 - Dragon Wang [B]                      --> Dragon Wang [v0]
+          SG1 - 7c7d4397 - Dragon Wang (TW)                     --> Dragon Wang [v0] [chinese logo] (TW) (because a second Taiwanese version exists)
+          SG1 - 99c3de21 - Dragon Wang [A]                      --> Dragon Wang [v1]
+          SG1 - bd24d27b - Flicky                               --> Flicky [v0]
+          SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
+          SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]
+          SG1 - 6d909857 - Mahjong                              --> Mahjong [small 1983]
+          SG1 - 8572d73a - Monaco GP [24k]                      --> Monaco GP [24k] [v0] [40k map]
+          SG1 - da2d57f3 - Monaco GP [32k]                      --> Monaco GP [32k] [v1] (provision for newly found [v2] build).
+          SG1 - 37fca2eb - Pitfall II ~The Lost Caverns~ [A]    --> Pitfall II ~The Lost Caverns~ [v0] (dumps and versionning finally confirmed)
+          SG1 - 3db74761 - Pitfall II ~The Lost Caverns~ [B]    --> Pitfall II ~The Lost Caverns~ [v1]
+          SG1 - 160535c5 - Wonder Boy [A]                       --> Wonder Boy [v0]
+          OMV - 90160849 - James Bond 007                       --> 007 James Bond
+          GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5 in One Fun Pak
+          GG  - a6bf865e - Beavis and Butt-Head (MTV's)         --> Beavis and Butt-Head (MTV's)
+          GG  - 3858f14f - Beavis and Butt-head (MTV's) (US)    --> Beavis and Butt-head (MTV's) (US)
+          GG  - 03d28eab - Crayon Shin-chan - Taiketsu! Tankam..--> Crayon Shin-chan - Taiketsu! Kantamu Panic!! (JP) (embarassing typo)
+          GG  - 7ec95282 - Madoh Monogatari A [...] Bake~shon   --> Madoh Monogatari A - Doki Doki Vacation (JP)
+          GG  - 4e279baa - PGA TOUR Golf 2                      --> PGA TOUR Golf II
+          GG  - 786dd67b - Skweek (JP)                          --> Skweek [BAD] (JP)
+          GG  - 88618afa - Tails' Sky Patrol (JP)               --> Tails' Skypatrol (JP)
+          GG  - e678f264 - Yogi Bear [Proto]                    --> Yogi Bear in Yogi Bears Goldrush [Proto]
+    Other smaller changes not recorded, please refer to meka.nam SVN history for exact changes.
+
+
+ MEKA 0.73
+ ---------
+  - Updated MEKA license, data are now licensed under the same term as sources.
+    The license is now unrestrictive BSD-like. [Omar]
+  - Removed "k" and associated donation rambling from the documentation.
+    Donations are still welcome, at your own discretion.
+  - Emulation:
+    - Added support for "no bank switching" mapper. Used by Korean games such 
+      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for 
+      its RAM usage but do not expect bank-switching. [Omar]
+    - Added support for Korean 8KB banks mapper. Used by Korean games ported
+      from MSX such as "Penguin Adventure", "Street Master" or "Won-Si-In". [Omar]
+  - SC-3000:
+    - Fixed the ;/+/RAD key not working on Sega Keyboard emulation under
+      certain host keyboard/OS configuration. Thanks Jacko. [Omar]
+    - Fixed crash in the X86 assembly implementation of the 32KB RAM mapper
+      writer when the upper 16 bits were not cleared by the Z80 emulator. [Omar]
+  - Debugger:
+    - Added "SYM @addr" command to search for symbols given an address. [Omar]
+    - Added "RMAP addr" command to reverse map of a Z80 address and display
+      the source of data based on machine state (mapper registers, etc). 
+      eg:
+        RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
+        RMAP $E001      ; eg: print 'RAM $C001'
+      The feature doesn't work 100% in all mappers & bus mirroring cases, 
+      but should be ok with the standard SMS/GG mapper. [Omar]
+    - Duplicate commands are automatically removed from history. [Omar]
+    - Increased default height of the debugger. [Omar]
+    - Changed watch point per-frame flood limit from 100 to 50. Will expose in 
+      configuration file if requested. [Omar]
+    - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
+    - Fixed labels showing one instruction early in "DASM" command. [Omar]
+    - Added breakpoint '!' mark in disassembly window. [Omar]
+  - GUI:
+    - Fixed Light Phaser and Terebi Oekaki cursor shape when switching from
+      32-bits GUI mode to 16-bits game only mode. [Omar]
+    - File browser: fixed positionning of BAD and HACK icons, which aren't
+      overlays anymore. [Omar]
+    - Added Canadian flag (for DB and File Browser). [Omar]
+    - Fixed crash when empty gradient range are specified in theme file. [Omar]
+    - File browser: country flag now displayed even on BIOS, Prototypes
+      or Homebrew images. [Omar]
+    - Inputs configuration: right-click on input source selection goes 
+      backward, in addition to regular left-click to go forward. [Omar]
+  - Localization:
+    - Updated Dutch localization [Mark van Tilburg]
+  - Miscellaenous:
+    - Added "Capture" menu with screen capture menu access and options. [Maxim]
+    - Added "Capture All" mode, capturing all emulation frames to disk. [Maxim]
+    - Added "Include GUI" capture option. Disable to only capture game screen 
+      when MEKA GUI is enabled. [Maxim]
+    - Renamed "Automatically crop and align screen captures" option to
+      more explicit "Crop and align screen captures to 8x8 boundaries".
+      Previous name was sounding too "cool" and was sometimes activated
+      by innocent users who then got their capture all cropped. [Omar]
+    - Added "screenshots_crop_scrolling_column" option in configuration
+      file (default to enabled), to disable cropping the empty left-most 
+      column in horizontally scrolling games. [Omar]
+  - Project:
+    - (Win32) Fixed standard libraries used by debug builds (using unusual
+      combination led to various problems). Fixed various link warnings.
+      Fixed shared directories between DLL and No DLL builds. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+          SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)
+          SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
+          SMS - f4b3a7bd - Ariel - The Little Mermaid (BR)      --> Ariel - The Little Mermaid (Disney's) (BR)
+          SMS - b3768a7a - Bonkers Wax Up! (BR)                 --> Bonkers Wax Up! (Disney's) (BR)
+          SMS - 1b10a951 - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
+          SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
+          SMS - 46340c41 - Cheese Cat-astrophe                  --> Cheese Cat-Astrophe - Starring Speedy Gonzales
+          SMS - 89b79e77 - Dodgeball King (KR)                  --> Dallyeora Pigu-Wang (KR)
+          SMS - b8b141f9 - Fantasy Zone II                      --> Fantasy Zone II - The Tears of Opa-Opa
+          SMS - c722fb42 - Fantasy Zone II (JP)                 --> Fantasy Zone II - Opa-Opa no Namida (JP)
+          SMS - 45c50294 - Jogos de Verão II                    --> California Games II [50-60 Hz] (also found in Korea).
+          SMS - 5b5f9106 - Nekyuu Kousien (JP)                  --> Nekkyuu Koushien (JP)
+          SMS - 0e333b6e - Miracle Warriors - Seal of the Dar.. --> Miracle Warriors - Seal of The Dark Lord (casing on 'The')
+          SMS - be57a9a5 - Pacmania                             --> Pac-Mania (the other way, sorry! It seems like the official name of the game)
+          SMS - 294e0759 - Paperboy                             --> Paperboy [v0] (scoring bug)
+          SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (also found in Brasil)
+          SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
+          SMS - e1fff1bb - Shinobi (JP)                         --> Shinobi [v0] (also found in Brasil in Game Box Serie Lutas compilation)
+          SMS - 0c6fac4e - Shinobi                              --> Shinobi [v1]
+          SMS - c93bd0e9 - Slap Shot [B]                        --> Slap Shot [v0]
+          SMS - d33b296a - Slap Shot [A]                        --> Slap Shot [v1]
+          SMS - 702c3e98 - Slap Shot (US)                       --> Slap Shot [v2] (US)
+          SMS - e2fcb6f3 - Super Wonder Boy (JP)                --> Wonder Boy [v0] (also released in Italia)
+          SMS - 93ca8152 - T2 - The Arcade Game                 --> T2: The Arcade Game
+          SMS - 11ce074c - Taz in Escape From Mars              --> Taz in Escape from Mars
+          SMS - ac56104f - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
+          SMS - bf7b7285 - Tom and Jerry - The Movie            --> Tom and Jerry: The Movie
+          SMS - 0c2fc2de - Tom and Jerry - The Movie [Proto]    --> Tom and Jerry: The Movie [Proto]
+          SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
+          SMS - 73705c02 - Wonder Boy                           --> Wonder Boy [v1]
+          GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5-in-1 FunPak
+          GG  - 3e549b7a - Aerial Assault                       --> Aerial Assault [v0]
+          GG  - ffe4ed47 - Alien Syndrome                       --> Alien Syndrome (JP)
+          GG  - 97e3a18c - Ariel - The Little Mermaid           --> Ariel - The Little Mermaid (Disney's)
+          GG  - 8d8bfdc4 - Baku Baku Animal (US)                --> Baku Baku (US)
+          GG  - 10ac9374 - Baku Baku Animal (EU)                --> Baku Baku (EU)
+          GG  - a6bf865e - Beavis and Butt-head                 --> Beavis and Butt-head (MTV's)
+          GG  - 325b1797 - Berlin no Kabe - The Berlin Wall (JP)--> Berlin no Kabe - The BerlinWall (JP) (clearly spelled without space)
+          GG  - bfceba5f - Bonkers Wax Up!                      --> Bonkers Wax Up! (Disney's)
+          GG  - 69ebe5fa - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
+          GG  - 2c758fc8 - Cool Spot                            --> Cool Spot (US)
+          GG  - 03d28eab - Crayon Shin Chan - Taiketsu! T.. (JP)--> Crayon Shin-chan - Taiketsu! Tankam Panic!!
+          GG  - 4457e7c0 - Donald Duck no Yottsu no Himitsu (JP)--> Donald Duck no Yottsu no Hihou (JP)
+          GG  - 19e1cf2b - Dragon Crystal - Tsurani no M.. (JP) --> Dragon Crystal - Tsurani no Meikyuu (JP)
+          GG  - 152f0dcc - Drop Zone                            --> Dropzone (Archer MacLean's)
+          GG  - 5d3f23a9 - Earthworm Jim                        --> Earthworm Jim (US)
+          GG  - 2b60873e - Ecco the Dolphin                     --> Ecco the Dolphin [BAD]
+          GG  - d0a93e00 - F1                                   --> Formula One / F1 (alternative names)
+          GG  - d69097e8 - Fantasy Zone Gear                    --> Fantasy Zone / Fantasy Zone Gear - Opa Opa Jr. no Bouken
+          GG  - 449787e2 - Fatal Fury Special                   --> Fatal Fury Special (US)
+          GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
+          GG  - 751dad4c - From TV animation - Slam Dunk.. (JP) --> Slam Dunk - Shouri-e no Starting 5 (From TV animation) (JP)
+          GG  - 695cc120 - GG Portrait - Pai Chan (JP)          --> GG Portrait - Pai Chen (JP)
+          GG  - 4cf97801 - Godzilla - Kaiju Dai-Shingeki (JP)   --> Godzilla - Kaijuu Daishingeki (JP)
+          GG  - a93e8b0f - Griffin                              --> Griffin (JP)
+          GG  - 398f2358 - Kuni Chan's Game Paradise (JP)       --> Kuni Chan no Game Tengoku (JP)
+          GG  - f3774c65 - Kuni Chan's Game Paradise 2 (JP)     --> Kuni Chan no Game Tengoku Part 2 (JP)
+          GG  - 42389270 - Hyokkori Hyoutan Jima (JP)           --> Hyokkori Hyoutan Jima - Hyoutan Jima no Daikouka (JP)
+          GG  - 9fb5c155 - James Pond II - Codename: Robocod    --> James Pond II - Codename: Robocod (US)
+          GG  - 30c09f31 - Jungle Book, The (Walt Disney'..(US) --> Jungle Book, The (Walt Disney's) (US) (US version do not mention 'Classic'. Alternate name have only 'Disney's').
+          GG  - 87b8b612 - McDonald's - Donald no Magical World --> Donald no Magical World (Ronald in the Magical World) (JP) (Japanese only release, Western name is unused)
+          GG  - 75c71ebf - Madden NFL '95                       --> Madden NFL 95
+          GG  - 75e273eb - Madden '96                           --> Madden 96 [BAD]
+          GG  - 00c34d94 - Madoh Monogatari I - Mittsu no..(JP) --> Madoh Monogatari I - Mittsu no Madoukyuu (JP)
+          GG  - 0a634d79 - Madoh Monogatari III - K.. [v0] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v0] (JP)
+          GG  - 568f4825 - Madoh Monogatari III - K.. [v1] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v1] (JP)
+          GG  - 7ec95282 - Madoh Monogatari A - Dokidoki.. (JP) --> Madoh Monogatari A - Doki Doki Bake~shon (JP)
+          GG  - 8f82a6b9 - Magic Knight Ray Earth (JP)          --> Magic Knight Rayearth (JP)
+          GG  - 1c2c2b04 - Magic Knight Ray Earth 2 ~mak.. (JP) --> Magic Knight Rayearth 2 ~making of magic knight~
+          GG  - 6e1cc23c - Magical Taruruto-kun (JP)            --> Magical Taruruuto-kun (JP)
+          GG  - 36ebcd6d - Majors Pro Baseball                  --> Majors Pro Baseball, The
+          GG  - 2e4ec17b - Megami Tensei Gaiden Last Bible (JP) --> Megami Tensei Gaiden: Last Bible (JP)
+          GG  - 4ec30806 - Megami Tensei Gaiden Last Bibl..(JP) --> Megami Tensei Gaiden: Last Bible Special (JP)
+          GG  - 4d5d15fb - Moldorian (JP)                       --> Moldorian ~Hikari to Yami no Shisutaa~ (JP)
+          GG  - dbff0461 - Mortal Kombat (JP)                   --> Mortal Kombat - Shinken Kourin Densetsu (JP)
+          GG  - 54ab42a4 - Nazo Puyo Aruru no Ru (JP)           --> Nazo Puyo Aruru no Ruu (JP)
+          GG  - 4c874466 - Nazo Puyo Aruru no Ru [Editor.. (JP) --> Nazo Puyo Aruru no Ruu [Editor Proto] (JP)
+          GG  - 3679be80 - Neko Daisuki! (JP)                   --> Neko Dai Suki! (JP)
+          GG  - c3056e15 - Ninku (JP)                           --> Ninkuu (JP)
+          GG  - 06247dd2 - Ninku 2 ~Tenkuryu-e no Michi~ (JP)   --> Ninkuu 2 ~Tenkuuryuu-e no Michi~ (JP)
+          GG  - 9140f239 - Ninku Gaiden - Hiroyuki Daika.. (JP) --> Ninkuu Gaiden - Hiroyuki Daikatsugeki
+          GG  - 19030108 - NBA Action                           --> NBA Action - Starring David Robinson
+          GG  - 4680c7aa - NHL All Stars                        --> NHL All-Star Hockey
+          GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]
+          GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
+          GG  - d58cb27c - Out Run                              --> Out Run (JP)
+          GG  - f037ec00 - Out Run Europa [SMS-GG]              --> Out Run Europa [SMS-GG] (US)
+          GG  - a16c5e58 - Pac-Man                              --> Pac-Man (JP)
+          GG  - b42d8430 - Pet Club Inu Daisuki! (JP)           --> Pet Club Inu Dai Suki! (JP) (coherent with Neko Dai Suki!)
+          GG  - 3ef66810 - Popeye's Beach Volleyball (JP)       --> Popeye Beach Volley Ball (JP)
+          GG  - d173a06f - Puzlow Kids / Puyo Puyo              --> Puyo Puyo (Puzle Kids) (JP) (Japanese only release, Western name is unused)
+          GG  - 96045f76 - Road Rash                            --> Road Rash (US)
+          GG  - 445d7cd2 - Royal Stone ~Hikarishi Toki n.. (JP) --> Royal Stone ~Hirakareshi Toki no Tobira~ (JP)
+          GG  - fe7374d2 - Sailor Moon S (JP)                   --> Bishoujo Senshi Sailor Moon S (JP)
+          GG  - 2ae8c75f - Shanghai II (JP)                     --> Shanghai II [v0] (JP)
+          GG  - 9c5c7f53 - Shikinjou (JP)                       --> Shikinjo (JP) (official transcription)
+          GG  - 0f3e3840 - Sokoban World (JP)                   --> Soukoban (JP)
+          GG  - d23a2a93 - Sonic Triple Trouble                 --> Sonic The Hedgehog Triple Trouble
+          GG  - 80156323 - Star Trek The Next Generation - Th.. --> Star Trek: The Next Generation - The Advanced Holodeck Tutorial
+          GG  - 1ebfa5ca - Strider Returns                      --> Strider Returns (Journey from Darkness)
+          GG  - 2ea26930 - Surf Ninjas                          --> Surf Ninjas [BAD] (confirmed correct dump)
+          GG  - 9479c83a - T2 - The Arcade Game                 --> T2: The Arcade Game
+          GG  - cf9c607c - Taisen Mahjong HaoPai (JP)           --> Taisen Mahjong Hao-Pai (JP)
+          GG  - 20527530 - Taisen Mahjong HaoPai 2 (JP)         --> Taisen Mahjong Hao-Pai 2 (JP)
+          GG  - dd1d2ebf - Tama & Friends - 3chome Koen.. (JP)  --> Tama & Friends - 3 Choume Kouen Tamalympic (JP)
+          GG  - f1732ffe - TaleSpin                             --> TaleSpin (Disney's)
+          GG  - eebad66b - Taz in Escape From Mars              --> Taz in Escape from Mars
+          GG  - 1bd15773 - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
+          GG  - a1453efa - Tom and Jerry - The Movie (JP)       --> Tom and Jerry: The Movie
+          GG  - 5cd33ff2 - Tom and Jerry - The Movie            --> Tom and Jerry: The Movie (US)
+          GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness (US)
+          GG  - 9977fcb3 - Wonder Boy                           --> Wonder Boy (JP)
+          GG  - d9ce3f4c - Yaiba Adventures (JP)                --> Kenyuu Densetsu Yaiba (JP)
+          GG  - 88ebbf9e - Yuu Yuu Hakusho (JP)                 --> Yu Yu Hakusho - Horobishi Mono no Gyakushuu (JP)
+          GG  - 46ae9159 - Yuu Yuu Hakusho II (JP)              --> Yu Yu Hakusho II - Gekitou! Nanakyou no Tatakai (JP)
+          SG  - 37fca2eb - Pitfall II [A]                       --> Pitfall II ~The Lost Caverns~ [A]
+          SG  - 3db74761 - Pitfall II [B]                       --> Pitfall II ~The Lost Caverns~ [B]
+          SG  - 5a917e06 - Shinnyushain Tooru Kun (Konami no)   --> Shinnyuushain Tooru-Kun (Konami no)
+          OMV - 77db4704 - Q*Bert                               --> Q*bert
+
+
+ MEKA 0.72
+ ---------
+  - Updated k.
+  - Ports:
+    - Preliminary MacOSX port. [Proppy]
+      Compile and run under a x86-based MacOSX system. Missing sound (due 
+      to Seal) and debugger (unknown problem to resolve).
+      Looking for someone who wish to improve and maintain this port.
+  - Video/Blitters:
+    - Upgraded everything to hi-color video modes and got rid of old, 
+      8-bit indexed video modes. This is a major change in MEKA core.
+      Some of the benefits are:
+      - No more snow and/or color flickering on video card drivers 
+        which disliked palette changes.
+      - Better integration with desktop (usually run faster).
+      - Getting possible to use various kind of graphics filters.
+      - No more hassle with color limitation for the programmer
+        (meaning more features implemented for the end-user).
+      - Finally possible to show all Game Gear colors at once, 
+        and to implement LCD screen persistence (not yet done).
+      Some of the features above goes hand to hand with the blitter
+      system, which will be improved soon. [Omar]
+    - Fixed HQ2X stretched blitter when target output was not 16-bits. [Omar]
+    - Stretching works on all blitters. [Omar]
+    - Video depth, Vsync, Triple Buffering and Page flipping are now global 
+      video settings, removed from each specific blitter. Greatly simplify 
+      configuration and tweaking. [Omar]
+    - Triple buffering doesn't interfere with the refresh is not supported
+      by the current settings (eg: windowed mode), making it safe and more
+      simple to always leave it enabled. [Omar]
+    - Changed default fullscreen blitter configuration in the hope of getting 
+      something more compatible (640x480 by default), as so many people have 
+      problems with fullscreen modes.
+    - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
+    - Removed "parallel" blitter that displayed both odd and even frame
+      next to each other. Seems useless now. Could be brought back if some
+      four-eyed person request it. [Omar]
+  - Sound:
+    - Added support for VGM 1.10 header type. [Omar]
+  - Emulation:
+    - Fixed data corruption/overflow in VDP emulation when seeking and
+      writing to an invalid palette address. Thanks Maxim. [Omar]
+    - VDP palette write do not mask out current VDP address, so performing
+      the (unprobable) set address/access palette/access VRAM sequence will
+      keep address in the full 16KB range. [Omar]
+    - Fixed VDP line interrupts not properly running in overscan area in 
+      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
+      BB2K6 demo. [Omar]
+    - CPU:
+      - Z80: Fixed cases were address arithmetic would not wrap in the 
+        16-bit address space, effectively crashing the emulator (those cases
+        were mostly happening on corrupted data, but it also legit Z80 code, 
+        and in any case we don't want the emulator to crash). [Omar]
+      - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
+        Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
+        probably other infrequent cases. [FluBBa, Omar]
+      - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
+        by Sean Young's "The Undocumented Z80 Documented". [Omar]
+    - ColecoVision:
+      - Fixed emulation of pending NMI, pending flag is cleared when
+        reading VDP status. Fixes "Rock 'N Bolt" among other. 
+        Thanks to the anonymous poster on SMS Power! forums. [Omar]
+      - Note that the compatibility list for ColecoVision titles is
+        severly outdated. At some point, James Carter worked on a new,
+        more accurate list, but I lost all contact with him.
+      - Removed detection of supposed 128-bytes headers and 512-bytes footers
+        (from some old soft/copiers?), due to many false detections, 
+        particularly on homebrew ROM images (the code was introduced in 2001 
+        when Dig Dug and Pac-Man prototypes were released with such header, 
+        but ROM images now circulating are without the header). [Omar]
+  - GUI:
+    - Sorted default themes, removed non Sega 8-bit related themes.
+      Now embedding background pictures in regular binary distribution. 
+      CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
+    - KeyPad Enter key now works on input boxes. [Omar]
+    - Added shortcut CTRL-F4: closes current window. [Omar]
+    - Added shortcut CTRL-TAB: cycles thru windows taking inputs. [Omar]
+    - Reworked theme (skin) system from stratch: [Omar]
+      - Changed MEKA.THM file format.
+      - Using explicit names for variables.
+      - Added more variables, making the skin system a little more 
+        complicated but also more configurable.
+      - Using de-facto standard of specifying colors in #RRGGBB format.
+      - Rewrote most code since it was all legacy from old MEKA 0.10. 
+    - Added link to debugger documentation in HELP menu. [Omar]
+    - Removed closing fadeout since the current hi-color implementation 
+      is way inefficient and cannot garantee proper speed. [Omar]
+  - Development:
+    - Debugger:
+      - Fixed various command-line parsing bugs. [Omar]
+      - Added line history. Navigate history by pressing Up/Down. 
+        List or search in history using HISTORY (HI) command. [Omar]
+      - Added conditionnal breakpoints. [Omar]
+        eg:
+          BREAK r C000.. =01,02,03,04   ; break on read of 01020304 in RAM
+          BREAK x =C9                   ; break on CPU execution of RET
+          BREAK x =0,0                  ; break on CPU execution of NOP NOP
+          BREAK w pram 0 =03            ; break on PRAM write of color 0 as red
+      - Added display line event breakpoints/watchpoints. [Omar]
+        Useful for debugging line interrupts.
+        eg: 
+          BREAK line #13                ; break on display line 13
+      - Added "B nopnop" shortcut to break on two successives NOP instructions.
+        This is basically equivalent to "B x =0,0". [Omar]
+      - REGS (R) command in debugger now display shadow registers as well. [Omar]
+      - Added cursor before current instruction in disassembly. [Omar]
+      - Added access to shadow registers in expression evaluator. [Omar]
+        eg: 
+          PRINT AF',BC',DE',HL'
+      - Added SET command to modify Z80 registers. [Omar]
+        eg:
+          SET BC=$1234    ; set BC register to $1234
+          SET DE=HL,HL=0  ; set DE=HL, then zero HL
+      - Added MEMEDIT command to spawn a new memory editor. [Omar]
+      - Added CLOCK command, to display/reset a Z80 cycle counter.
+        Very simple but can be helpful to time Z80 routines. [Omar]
+      - (Win32) Forward debugging log to Windows debugging stream via
+        OutputDebugString(), so running MEKA from Microsoft Visual studio 
+        will display log in the 'Output' window. [Omar]
+    - Memory Editor:
+      - Added viewing and editing of VDP registers (VREG). [Omar]
+      - Added configuration file directive for resizing window. [Omar]
+      - Fixed cursor position when inputing an address on last page. [Omar]
+      - Added NES PRAM support. [Omar]
+    - Tiles viewer:
+      - Added NES palette switching (8 palettes). [Omar]
+    - Tilemap viewer:
+      - Added tilemap viewer. [Omar]
+        Shows tilemap, hovering or clicking a tile shows specific info 
+        about it, allows filtering BG/FG, disabling tile flipping, display 
+        of scrolling box, with or without raster effects, manual selection 
+        of tilemap address, etc.
+    - Made '$' default prefix for hexadecimal values in various places. [Omar]
+    - Datadump: [Ambil, Omar]
+      - Fixed "palette" dumping. Blue and green components were inverted. 
+        Replaced dumping of target host RGB values by actual SMS/GG components. 
+      - Added sprite pattern base address in "sprites" dumping.
+    - Cleaned Technical Information Viewer content, renamed a few fields
+      to their official names, removed redundant information. It's not
+      yet all clean. [Omar]
+  - Miscellaenous:
+    - Various fixes.
+    - Increased max length of directory/filenames. [Musuruan]
+    - Added "Automatically crop and align screen captures" option.
+      This option aligns screen captures on the nearest visible tile, 
+      helping to simplify the process of creating game maps by pasting 
+      captures next to each other. [Omar]
+      Note: May not work properly on game using scanline based effects.
+    - Updated various tidbits in the configuration file. [Omar]
+    - (Win32) Removed flickering from initialization message console. [Maxim]
+    - (UN*X) Renamed main executable to 'meka' (instead of 'meka.exe').
+  - Sources/Project
+    - (Win32) Added new targets supporting shared standard libraries. [Omar]
+    - (Win32) Updated Allegro library from WIP 4.1.18 to 4.2.0, including
+       various fixes/improvements:
+         http://www.talula.demon.co.uk/allegro/onlinedocs/en/changes.html
+    - (Win32) Now linking to zlib.lib instead of zlibs.lib (name for standard
+       static build of ZLIB). [Omar]
+    - Removed password encryption from MEKA datafile (became useless). [Omar]
+    - Fixed a bunch of warnings on higher warning levels. [Omar]
+    - Hacked a lot of old GUI code (box, widgets, menus among others), cleaned
+      and renamed various structures, replaced several usage of indexes by 
+      pointers, added const qualifiers, rewrote parts of various applets, 
+      got rid of some old obsolete code, etc. Hopefully broke nothing. [Omar]
+    - (Win32) Fixed MSVC project to reference LIBPNGDIR.
+    - (Win32) Including statically compiled libpng.lib in package. [Omar]
+    - (UN*X) No more need to manually edit .ASM files to compile. [Omar]
+    - Updated SOURCES.TXT documentation. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+      SMS - 0e21e6cf - Astro Flash (JP)                     --> Astro Flash [Hack] (JP)
+      SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
+      SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
+      SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
+      SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
+      SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
+      SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
+      SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck
+      SMS - 65d7e4e0 - Fantasy Zone                         --> Fantasy Zone [v2]
+      SMS - 5d08e823 - Fushigi no Oshiro Pit Pot (JP)       --> Fushigi no Oshiro Pit Pot [Hack] (JP)
+      SMS - a4ac35d8 - Galaxy Force [50 / 60 Hz]            --> Galaxy Force
+      SMS - 6c827520 - Galaxy Force [60 Hz]                 --> Galaxy Force (US)
+      SMS - dabcc054 - Ghost house (JP)                     --> Ghost House [Hack] (JP)
+      SMS - c1e699db - Great Baseball [JP] (JP)             --> Great Baseball [JP] [Hack] (JP)
+      SMS - 84665648 - Great Soccer (JP)                    --> Great Soccer [Hack] (JP)
+      SMS - 695a9a15 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+      SMS - 24e97200 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+      SMS - 6350e649 - Legend of Illusion (BR)              --> Legend of Illusion - Starring Mickey Mouse (BR)
+      SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
+      SMS - 87b9ecb8 - Satellite 7 (JP)                     --> Satellite 7 [Hack] (JP)
+      SMS - bcd91d78 - Seishun Scandal (JP)                 --> Seishun Scandal [Hack] (JP)
+      SMS - a71bc542 - Spy vs Spy (JP)                      --> Spy vs Spy [Hack] (JP)
+      SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
+      SMS - 95cbf3dd - Super Tennis (JP)                    --> Great Tennis / Super Tennis (JP) (note: this one is tricky. Official game name is "Great Tennis" but title screen says "Super Tennis").
+      SMS - 9dfa67ee - Teddy Boy Blues (JP)                 --> Teddy Boy Blues [Hack] (JP)
+      SMS - 60c19645 - Zillion                              --> Zillion [v0]
+      SMS - 5718762c - Zillion (US)                         --> Zillion [v1] (US)
+      GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
+      GG  - 7a41c1dc - Aladdin                              --> Aladdin (Disney's)
+      GG  - 770e95e1 - Aladdin (JP)                         --> Aladdin (Disney's) (JP)
+      GG  - 4457e7c0 - Deep Duck Trouble / Donald Duck no.. --> Donald Duck no Yottsu no Himitsu (JP) (was Japanese dump)
+      GG  - f6af4b6b - Dynamite Headdy                      --> Dynamite Headdy (JP) (note: US/EU version is another dump)
+      GG  - 36aaf536 - Evander Holyfield Boxing             --> Evander Holyfield's "Real Deal" Boxing
+      GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
+      GG  - 9f64c2bb - Ichidanto-R (JP)                     --> Ichidant~R (Puzzle & Action)
+      GG  - 8c048325 - Indiana Jones and the Last Crusade   --> Indiana Jones and the Last Crusade [BAD]
+      GG  - 4a98678b - Joe Montana Football                 --> Joe Montana Football (JP)
+      GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
+      GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
+      GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
+      GG  - 0117c3df - Land of Illusion (JP)                --> Mickey Mouse no Mahou no Crystal (JP)
+      GG  - 0cd9c20b - Lion King, The                       --> Lion King, The (Disney's) (EU)
+      GG  - 9808d7b3 - Lion King, The (US)                  --> Lion King, The (Disney's) (US)
+      GG  - 00c34d94 - Madou Monogatari I - Mittsu no.. (JP)--> Madoh Monogatari I - Mittsu no Madokyuu (JP)
+      GG  - 12eb2287 - Madou Monogatari II - Aruru 16.. (JP)--> Madou Monogatari II - Aruru 16-sai (JP)
+      GG  - 0a634d79 - Madou Monogatari III - Kyukyok.. (JP)--> Madou Monogatari III - Kyuukyoku Joo-sama [v0] (JP)
+      GG  - 7ec95282 - Madou Monogatari A - Dokidoki-.. (JP)--> Madoh Monogatari A - Dokidoki-Bake Shon
+      GG  - cc90c723 - Pocket Jong Sou (JP)                 --> Pocket Jansou (JP)
+      GG  - afcc7828 - Psychic World                        --> Psychic World (JP)
+      GG  - 445d7cd2 - Royal Stone (JP)                     --> Royal Stone ~Hikarishi Toki no Tobira~ (JP)
+      GG  - 95efd52b - Ryu Kyu (JP)                         --> Ryuu Kyuu (JP)
+      GG  - 09f9ed60 - Shadam Crusader (JP)                 --> Shadam Crusader ~Harukanaru Oukoku~ (JP)
+      GG  - 2ae8c75f - Shanghai 2 (JP)                      --> Shanghai II (JP)
+      GG  - 4d1f4699 - Shining Force Gaiden (JP)            --> Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP)
+      GG  - 30374681 - Shining Force Gaiden II (JP)         --> Shining Force Gaiden II ~Jashin no Mezame~ (JP)
+      GG  - 6019fe5e - Shining Force Gaiden Final Con.. (JP)--> Shining Force Gaiden ~Final Conflict~ (JP)
+      GG  - 742a372b - Spider-Man and the X-Men in Arcade'..--> Spider-Man / X-Men: Arcade's Revenge
+      GG  - f1732ffe - Tale Spin                            --> TaleSpin
+      GG  - 09151743 - Tanto-R (JP)                         --> Tant~R (Puzzle & Action)
+      GG  - 3d8d0dd6 - World Series Baseball [A]            --> World Series Baseball [v0]
+      GG  - bb38cfd7 - World Series Baseball [B]            --> World Series Baseball [v1]
+      SG1 - 545fc9bb - Ashizawa's Hatchidan Tsumeshogi (JP) --> Serizawa Hachidan no Tsumeshogi (JP)
+      SG1 - 5970a12b - Champion Baseball                    --> Champion Baseball [16k]
+      SG1 - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
+      SG1 - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
+      SG1 - 09196fc5 - N-Sub (1988)                         --> N-Sub [16k] (1988)
+      SC3 - 622010e1 - Sega Music Editor                    --> Music
+      SC3 - b67ea1c4 - Sega Music Editor                    --> Music [BAD]
+      SC3 - 2ec28526 - Sega Music Editor (JP)               --> Music (JP)
+      SC3 - ae4f92cf - Uranai Angel Cuty (JP)               --> Uranai Angel Cutie (JP)
+
+
+ MEKA 0.71
+ ---------
+  - Now that MEKA is open-source, welcoming other developpers!
+    - New contributor: Robert Raper (DjRobX)
+    - New contributor: Maxim Stephin (MaxSt)
+    Names between brackets refers to the person(s) involved in a change.
+  - Blitter/Video:
+    - Added triple buffering support on fullscreen blitters. [DjRobX]
+      Made triple buffering the default for appliable video modes. It might
+      or not work on all configuration. Please report if any problem arise.
+    - Added max stretch support on fullscreen blitters. [DjRobX]
+      This is currently only available on normal and HQ2X filter.
+      Integer/ratio stretch not yet supported, so it is recommended to use
+      a resolution multiple of the emulated system screen size.
+    - Added support for internally converting the 8-bit video buffer to
+      another video depth and blitting that. [DjRobX]
+    - Integrated Maxim Stephin's HQ2X graphics filter, and added a dedicated
+      blitter. Only 16-bits output is supported as of yet. [MaxSt,DjRobX]
+  - GUI:
+    - Fixed input box widget missing keys on skipped frames. [Omar]
+      This made key inputs very annoying on certain configuration, and 
+      especially with 3-D glasses auto-frame-skipping enabled.
+    - Fixed a problem losing focus while dragging GUI windows with certain kind
+      of widgets (happened on tile viewer & memory editor, among other). [Omar]
+  - Development:
+    - Updated debugger documentation. [Omar]
+    - Added symbol loading in NO$GMB format, as generated by the commonly
+      used WLA DX linker (-s parameter). [Omar]
+    - Added label/symbol viewing in Z80 disassembly window. [Omar]
+    - Relative offsets are now resolved in Z80 disassembly window. [Omar]
+    - Added expression evaluator. [Omar]
+      Supports integer operators +,-,*,/, binary operators &,|,^, 
+      parenthesis, symbols and CPU registers replacement. 
+      Yet missing: unary operators -,!,~. 
+      All commands uses the expression evaluator to get their numeric 
+      parameters, so you can use it everywhere.
+      eg:
+        B function    ; break at given 'function' symbol
+        M my_data     ; memory dump from 'my_data' symbol
+    - Added PRINT (P) command to evaluate and print expressions. [Omar]
+      eg:
+        P IX,IY       ; print IX and IY registers
+        P 1200+34     ; print $1234
+        P %00101010   ; print 42
+        P HL+(BC*4)   ; print HL+BC*4
+        P label       ; print label
+    - Added contextual command line completion. [Omar]
+      Press TAB to complete current input with matching command/symbols.
+      eg:
+        b[tab]        ; -> BREAK
+        b[tab]la[tab] ; -> BREAK label
+    - Added SYMBOLS (SYM) command to list and search for a symbol. [Omar]
+    - Changed breakpoint/watchpoint range syntax to '..' to avoid any
+      syntaxical ambiguity with substraction (eg: B 1000..2000). [Omar]
+    - Added "B ENABLE/DISABLE ALL" shortcuts to enable/disable all 
+      breakpoints at once. [Omar]
+    - Added "B CLEAR DISABLED" shortcut to clear disabled breakpoints. [Omar]
+    - Added "Reload ROM" functionnality in the debug menu, for quicker reload.
+    - Palette viewer now shows color entry data while hovering colors. [Omar]
+    - Fixed display of CPU flags (only bit 0 was properly interpreted,
+      because of a typo). Added display of undocumented flags bits 3 
+      and 5 (partially emulated). [Omar]
+    - Made it that debugger log to file is immediately flushed. This allows
+      reading the log file in live while the debugger is running. [Omar]
+    - Added REGS (R) command to dump Z80 registers to the log console. [Omar]
+    - Added animation displaying weither CPU is running or not. [Omar]
+    - Fixed behavior of step/step over/continue when executing while being
+      located on a breakpoint. [Omar]
+    - Fixed behavior of step over an infinite loop. [Omar]
+  - Miscellaenous:
+    - (Win32) Added a "setup.bat" command file to run the interactive setup.
+      Seems like few people were aware of the command-line option. [Omar]
+    - (Win32) The interactive setup now offers to enable/disable the debugger,
+      so you don't have to manually enable it. [Omar]
+    - (Win32) Updated Allegro library from WIP 4.1.12 to 4.1.18, which includes
+      various fixes/improvements:
+        http://www.talula.demon.co.uk/allegro/onlinedocs/en/changes.html
+    - (Win32) Fixed crash on early aborting (eg: command line error) due to non
+      properly stopping joystick polling thread. [Omar]
+    - Fixed loading of corrupted or incorrectly sized ROM images that would
+      sometimes made the engine crash. [Omar]
+    - Updated various tidbits of documentation. [Omar]
+  - Added and modified entries in the checksum and compatibility lists. [Omar]
+    Some particular renaming includes:
+      SMS - 60c19645 - Akai Koudan Zillion (JP)             --> Zillion / Akai Koudan Zillion  (note: this ROM was released in both Japan and Europe)
+      SMS - a1710f13 - Lucky Dime Caper, The                --> Lucky Dime Caper, The - Starring Donald Duck
+      SMS - 5718762c - Zillion                              --> Zillion (US)
+      GG  - 7b7717b8 - Big War / Daisenryaku G (JP)         --> Taisen-gata Daisenryaku G (JP)
+      GG  - a49e9033 - NBA JAM                              --> NBA JAM (JP)
+
+  Note that DjRobX's video/blitter changes were integrated but some features 
+  may not be compatible with all others, and some need improvements. You are
+  welcome to experiment different configuration settings in MEKA.BLT but not
+  everything may work properly. The preset "HQ2X" blitter should works, though.
+  
+  The current blitter system makes it not trivial to do everything we want,
+  it is too limited in configuration, and was first made with MS-DOS and low
+  end computers in mind. As of next versions, I will work on reoverhauling the
+  system, trying to better fits needs of the 21st century (resizing, multiple
+  depth, hi-color, windowed modes without borders, non 4:3 ratio screens, 
+  different refresh rates...) and improve ease of setupping. 
+  Expect many changes in this area (hopefully). [Omar]
+
+  - Sources/Project
+    - (Linux) Updated Makefile and some sources tidbits for proper compilation.
+      [Omar,Belegdol,Proppy]
+    - (Linux,DOS) Object directories are now created automatically. [Omar]
+    - (Linux,DOS) Removed "smscheck" tool building from Makefile. Has nothing 
+      to do with MEKA. [Omar]
+    - (Linux,DOS) Added 'BUILD' switch in Makefile to select between release 
+      and debug builds.
+    - (Win32) Make it that build date/time stamp in build.c is updated when 
+      rebuilding the solution. Removed buildupd.exe executable from sources. [Omar]
+    - (DOS) I'm stopping to maintain the MS-DOS port. A maintener is welcome. [Omar]
+
+
+ MEKA 0.70
+ ---------
+  - Released source code.
+    Added SOURCES.TXT file with some information for programmers.
+  - Registration key is a thing of the past. It never served a real purpose
+    other than identifying donators. All donators are publicly listed at:
+        http://www.smspower.org/contrib.htm
+    Big thanks to all of them for their great and useful support!
+    I'll keep sending news/e-mails to donators.
+    MEKA is now officially not having a registration procedure anymore, but
+    your donations are still greatly welcome and are helping me to cover a 
+    part of my never-ending Sega 8-bit expenses, including buying cartridges
+    for dumping and preservation purpose.
+    I updated documentation to reflect this, and changed occurences of the
+    "registration" word by "donation", as it was always meant to be anyway.
+  - In SMS mode, fixed color filling when VDP rendering is disabled. 
+    Previously disabled parts where filled with black, instead of the current 
+    border color. No commercial game exhibited the problem. Chris Covell's 
+    port of Aleste 2 from GG to SMS did.
+  - Disabling background display now shows a yellow-ish color instead of the
+    black/border color, to help sprite ripping. Sorry it's not FF00FF pink,
+    but I am currently lacking free palette entries, and anyway, a screen full
+    of FF00FF pink would damage your eyes in a matter of seconds. :)
+  - Development:
+    - Added new full-featured breakpoints and watchpoints!
+      - Manage multiple breakpoints/watchpoints. Add/remove/enable/disable.
+      - Break and watch on CPU (rwx), IO (rw), VRAM (rw) and PRAM (w) buses.
+      - Break and watch on specific access (read/write/execute).
+      - Break and watch on single address or whole range.
+      - Previous "B" command changed to "S" (step over).
+      - Previous "B xxxx" command (one-time breakpoint) is still accessible
+        using the "C" (continue) command.
+    - Added detailed help for each command.
+      (eg: "HELP B" to get help on breakpoints).
+    - Instruction flow disassembly now attempt to display instructions before
+      the current one, based on some magical voodoo technique of mine.
+      Don't expect it to work in all cases - it is theorically impossible to 
+      do with variable-sized instructions anyway - but it can be improved.
+      This feature helps figuring out what's being executed contextually.
+    - The current instruction is now highlighted.
+    - ROM edition in the memory viewer was not taken into account without
+      a hard reset in region 0x0400-0x3FFF. Fixed.
+    - Fixed savestate saving/loading which didn't restore scanline number
+      properly, affecting debugging using those features.
+    - Tile viewer now display tile starting address.
+    - Tile viewer now update information while mouse hovering.
+    - Added optional length parameter to "MEM" and "DASM" commands.
+    - Fixed ASCII display of memory in "MEM" command.
+    - Added "debugger_console_lines" and "debugger_disassembly_lines" 
+      variables in configuration file, allowing to change debugger size.
+      Combine with a high-resolution MEKA desktop, and you can't be unhappy.
+    - Added debugger session logging to file "debug/debuglog.txt".
+      Can be disabled by clearing "debugger_log" in configuration file.
+    - Fixed a bug using the memory editor to write to RAM in Coleco Vision mode.
+    - Hacked a way so that you can affect controller inputs data while debugging
+      (press a direction, it immediately apply on the emulated system state).
+
+  - When used in the interface, analog peripherals supported by the mouse now
+    only perform their action if the mouse has focus on the game window. 
+    This prevent accidental in-game shooting when using tools or debugging.
+    Of course, you should not use the interface if you only intend to play.
+  - Fixed /LOG command line parameter (broken recently).
+  - Added and modified entries in the checksum and compatibility lists.
+    Redumped more games, sorted more versionning/country confusion.
+    To avoid certain confusion, all Game Gear games originally running 
+    in Master System mode were moved back in the Game Gear section. 
+    This makes the list consistant with actual cartridge releases.
+    Some particular renaming includes:
+      SMS - 17a40e29 - Alex Kidd in Miracle World (US)      --> Alex Kidd in Miracle World [v0] (US)
+      SMS - aed9aac4 - Alex Kidd in Miracle World           --> Alex Kidd in Miracle World [v1] (note: this was released in both US and Europe)
+      SMS - 08c9ec91 - Alex Kidd in Miracle World (JP)      --> Alex Kidd no Miracle World (JP)
+      SMS - 0df8597f - Basket Ball Nightmare                --> Basketball Nightmare
+      SMS - e421e466 - Borgman (JP)                         --> Chouon Senshi Borgman (JP)
+      SMS - 11645549 - Solomon no Kagi (JP)                 --> Solomon no Kagi - Oujo Rihita no Namida (JP)
+      SG  - 0b4bca74 - Border Line (JP)                     --> Borderline
+      SG  - 922c5468 - Souko Ban (JP)                       --> Soukoban (JP)
+      SG  - 1ae94122 - Star Jacker [old] (JP)               --> Star Jacker [v0] (JP)
+      SG  - 7f25deca - Star Jacker [new] (JP)               --> Star Jacker [v1]
+      GG  - fe12a92f - Densetsu no Houguku (JP)             --> Mickey Mouse Densetsu no Oukoku (JP) (terrible typo)
+      GG  - 937fd52b - Kaito Saint Tail (JP)                --> Kaitou Saint Tail (JP)
+      GG  - dfa805a0 - Hanou no Toukyuuji Dodge Danpei (JP) --> Honoo no Toukyuuji Dodge Danpei (JP)
+
+
+ MEKA 0.69b
+ ----------
+  - [DOS/UN*X] Fixed ZIP file support which was accidently disabled 
+    in version 0.69.
+  - Improved auto frame-skipper precision by a minor amount.
+    (on another hand, it still manage to skip frames badly).
+  - Disabled keys 0 to 9 to set a save state slot directly. 
+    Those conflicted with some existing and future features.
+    Hope that noone will be annoyed!
+  - Added ALT-ENTER hotkey to switch between fullscreen and windowed drivers.
+    It works in both GUI and Game mode, although the setting is not saved in 
+    Game mode (due to the way the MEKA.BLT file works now). 
+  - Added an option to allows pressing opposite directions on the joypad.
+    Although standard SG/SMS/GG controllers do not allow that, certain
+    type of controllers (or a modified or broken one) may allow it. 
+    This serve the purpose of demonstrating a bug in "Wonder Boy in Monster 
+    Land", where pressing Left and Right on the same time confuses the game.
+    It is also useful in the case some creative genius SMS programmer would
+    want to take advantage of that weird feature to do unusual things for a
+    soon-to-be released SMS software.
+  - Fixed priority of Sega Keyboard (SK-1100) emulation, so that not colliding
+    hotkeys are still available while SK-1100 is enabled.
+  - Memory Editor now share inputs focus with game. It makes hacking easier.
+    Of course you can always pause (F12) or remap controls if needed.
+  - Fixed state of debugger window (bug introduced in 0.69).
+  - Updated translations:
+    - Dutch translation (by Mark van Tilburg).
+    - Swedish translation (by Henrik Sankala).
+    - Redneck translation (by some redneck in UK).
+
+  - Added and modified entries in the checksum and compatibility lists.
+    Some particular renaming includes:
+      SMS - 31ffd7c3 - Castelo RETim Bum (BR)              --> Castelo RETim-Bum (BR)
+      SMS - b137007a - Desert Speedtrap                     --> Desert Speedtrap - Starring Road Runner and Wile E. Coyote
+      SMS - 7abc70e9 - Party Games / Family Games (JP)      --> Family Games (Party Games) (JP)
+      GG  - 7174b802 - Baku Baku Animal (JP)                --> Baku Baku Animal - Sekai Shiikugakari Senshu-ken (JP)
+      GG  - 03d28eab - Crayon Shin Chan (JP)                --> Crayon Shin Chan - Taiketsu! Tankam Panic!! (JP)
+      GG  - ec808026 - Desert Speedtrap                     --> Desert Speedtrap - Starring Road Runner and Wile E. Coyote
+      GG  - c2e111ac - Desert Speedtrap (US)                --> Desert Speedtrap - Starring Road Runner and Wile E. Coyote (US)
+      GG  - a1a19135 - GG League '94 (JP)                   --> Pro Yakyuu GG League '94 (JP)
+      GG  - 4cf97801 - Godzilla (JP)                        --> Godzilla - Kaiju Dai-Shingeki (JP)
+      GG  - 86c32e5b - NBA Jam TE                           --> NBA JAM Tournament Edition
+      GG  - 751dad4c - Slam Dunk (JP)                       --> From TV animation - Slam Dunk - Shouri-e no Starting 5 (JP)
+      GG  - dd1d2ebf - Tamalympic (JP)                      --> Tama & Friends - 3chome Koen Tamalympic (JP)
+    And an awful typo saying "Carmen Sandegio" instead of "Carmen Sandiego".
+
+
+ MEKA 0.69
+ ---------
+  - Updated k.
+  - Updated documentation.
+  - Added a Memory Editor, long awaited by programmers, hackers and cheaters!
+    It allows reading and writing to Z80 memory map, ROM, RAM, VRAM, Palette
+    and Battery Backed RAM. Although it is not yet full-featured, it is 
+    already very possible to create your own Pro Action Replay codes, and 
+    perform various real-time hacks. 
+    Please share your questions and hacks on SMS Power forums:
+        http://www.smspower.org/forum
+    This tool is the result of joint work with my beloved girlfriend, who
+    submitted a first version of it that she developped.
+  - Added support for loading and saving pictures in PNG format. PNG is now 
+    the default format for screenshots, instead of the badly outdated PCX.
+    (thanks to libpng). 
+  - Screenshots are now saved in the "Screenshots/" subdirectory.
+  - Tweaked some themes, reordered them, removed a few. Themes backgrounds 
+    are now in PNG format. Please be sure to download the new picture pack at:
+        http://www.smspower.org/meka/themes
+  - [Windows] Added a message console that shows up on startup and magically
+    disappear before you have time to read anything. If any problem occurs,
+    the console will actually stay to let you read it.
+  - [Windows] Fixed runtime application icon that wasn't showing.
+  - [Windows] Removed command line parameters uppercase conversion (eg: when 
+    ran from Windows explorer). This inconveniently created uppercase output 
+    filenames for savestates, screen captures, etc. This was MS-DOS legacy.
+  - Slighty optimized VRAM accesses emulation.
+  - Incremented message buffer size to cope with SMS Chip-8 Interpreter 1.1
+    11k embedded comment. There is still buffer overflows in the code and
+    I'm not trying to fix most of them now, so this is just a work-around.
+  - Various other fixes and code tweaking.
+
+  - Added and modified entries in the checksum and compatibility lists.
+    Some particular renaming includes:
+      SMS - 655fb1f4 - Bank Panic                           --> Bank Panic
+      SMS - b4dfb825 - Bank Panic                           --> Bank Panic [BAD]
+      SMS - 102d5fea - James Pond 2 - Codename Robocod      --> James Pond II - Codename: Robocod
+      SMS - e8ea842c - Marksman Shooting / Trap Shooting    --> Marksman Shooting & Trap Shooting
+      SMS - 00bef1d7 - Phantasy Star                        --> Phantasy Star [v3]
+      SMS - 07301f83 - Phantasy Star [Saturn]               --> Phantasy Star [Saturn]
+      GG  - c01293b0 - Devilish                             --> Devilish (US)
+      GG  - 06247dd2 - Ninku 2 (JP)                         --> Ninku 2 ~Tenkuryu-e no Michi~ (JP)
+      GG  - 00c34d94 - Madou Monogatari I (JP)              --> Madou Monogatari I - Mittsu no Madokyu (JP)
+      GG  - 0a634d79 - Madou Monogatari II (JP)             --> Madou Monogatari II - Aruru 16-sai (JP)
+      GG  - 12eb2287 - Madou Monogatari III (JP)            --> Madou Monogatari III - Kyukyoku Joo-sama (JP)
+      GG  - 7ec95282 - Madou Monogatari A                   --> Madou Monogatari A - Dokidoki-Bake Shon (JP)
+      GG  - c169c344 - X-Men - Gamesmaster's Legacy         --> X-Men - GamesMaster's Legacy
+
+    Use SMS Checker for your ROM renaming needs!
+        http://www.smspower.org/maxim/smschecker
+
+
+ MEKA 0.68b
+ ----------
+ As an experiment, I have enabled vsync in all default blitters and enabled
+ it by default in the GUI. Blitters are still a bit complicated to configure
+ so few people seems to actually tweak them or even enable the "smooth" 
+ blitter. Does it works better for you?
+ I'll be working on synchronisation and blitter improvement (stretching...)
+ in the future.
+
+  - Removed the 2-byte tolerance in overdump detection. Overdumps with two
+    slighty different half will be added in the database and marked as bad.
+  - Emulation:
+     - Fixed a major bug in the driver system, which resulted in corrupted
+       savestates in F-16 Fighter / F-16 Fighting Falcon (the savestate
+       system recognized them as SG-1000 games and so saved only part of RAM).
+       Previous ingame states for the game are unrecoverable :(
+     - Removed immediate palette update when CRAM is written in a legacy
+       video mode (the palette isn't updated on a SMS). It only affected
+       F-16 Fighter / F-16 Fighting Falcon, but in a non game-visible way.
+     - Tweaked heuristical SMS/GG mapper detection.
+     - Fixed SMS/GG scanline counter emulation which was ignoring TV type 
+       (NTSC or PAL/SECAM) override directive from the database.
+       (eg: one game would be forced to PAL/SECAM mode, but scanline counter 
+        emulation still mimic an NTSC system if it is the user selection).
+  - Fixed mouse button mapping in the Input Configuration applet.
+  - Fixed file browser showing Japanese names after loading SMS Woody Pop
+    or GG Pop Breaker (why those games only? because they both have a default 
+    country information in the DB, as they only works on Japanese systems).
+  - Added and modified entries in the checksum and compatibility lists.
+    Some particular renaming includes:
+      GG  - Ganbare Golby! (JP)             --> Ganbare Gorby!
+ 
+ 
+ MEKA 0.68
+ ---------
+ Please report any problems you encounter. 
+ Suggestions are always welcome.
+
+  - Updated MEKA.NAM database with a new format. 
+    The new format is more robust, includes CRC32, additionnal flags, and 
+    allows specifiying multiple countries for a same ROM file.
+    In addition, while the MEKA database is being repopulated with entries
+    in the new format, a high amount of verifications are being done on a
+    case by case basis (redump, verified name based on original game media,
+    box and manual, analysis of different versions of a same game, etc...).
+    I have already redumped more than a hundred games. This will unsure 
+    having a near-perfect database after the transition. Old formatted 
+    entries are kept during the transition period.
+  - SMS-mode Game Gear games are now autodetected and forced to run into
+    SMS mode even with a .GG extension. This is because those games are
+    often spread with a .GG extension, although there is no way in software 
+    to distinguish between a native GG game and one running in SMS mode, 
+    since the selection is done via a connected pin in the cartridge itself.
+  - Updated file browser:
+      - Added dedicated icons to known bad dumps, BIOS images, unofficial
+        hacks, homebrew programs (also incorrectly called "public domain"), 
+        prototypes and unofficial translation. A translation is defined as 
+        a hack whose primary purpose is to alter the language of a game.
+        How do you like my icons? 
+      - Added European, German, Italian, New-Zealand, Portuguese, Spanish,
+        Swedish and United-Kingdom flags. All flags are now displayed with 
+        a border, because some themes may choose a window color matching 
+        some flags.
+      - The "Load Names" feature is now faster and does not verbose any
+        data to the message box while loading all files.
+      - Made file browser window bigger by default.
+      - Removed the auto-generated MEKA.VFN file, which was crap anyway.
+        Instead, added a new auto-generated MEKA.FDB file, which store 
+        association between user ROM file names and MEKA DataBase entries.
+  - Emulation:
+      - Emulated VDP 315-5124 behavior of using register 5 bit 0 and 
+        register 6 bits 0-1 as masks on sprite x/tile attributes address 
+        and tile index. No known game relies on this feature, but it is 
+        good for the sake of accuracy and for developpers to check against
+        this particularity in their code (it is often a coding mistake). 
+        VDP 315-5124 must be selected for that.
+  - Updated TECH.TXT with SMS controller pinouts, simple SMS/DB-9 controller 
+    adapter instructions from Gary Pierce, and GNU/Linux notes.
+  - Various other fixes and code tweaking.
+
+  - Added and modified entries in the checksum and compatibility lists.
+      - Naming and database field usage convention has been changed, 
+        based on the new format. 
+        - "Title (The)" now becomes "Title, The".
+        - Unless specified by the game title, "Name: Subtitle" now 
+          becomes formatted "Name - Subtitle".
+        - A few other things related to versionning/country.
+      - Replaced all instances of "Tectoy" by "Tec Toy".
+      - Added some missing accents.
+      - Added many missing subtitles.
+      - Added many new product numbers.
+    Some particular renaming includes:
+      SMS - Alex Kidd BMX Trial (JP)        --> BMX Trial - Alex Kidd (JP)
+      SMS - Ninja Gaiden [B]                --> Ninja Gaiden
+      SMS - Ninja Gaiden [A]                --> Ninja Gaiden [Proto]
+      SMS - Putt & Putter [B]               --> Putt & Putter
+      SMS - Putt & Putter [A]               --> Putt & Putter [Proto]
+      SMS - Smash TV                        --> Super Smash T.V.
+      SMS - World Games [B]                 --> World Games
+      SMS - World Games [A]                 --> World Games [Proto]
+      GG  - GG Portrait: Akira (JP)         --> GG Portrait - Yuuki Akira (JP)
+      GG  - Halley Wars                     --> Halley Wars (JP)
+      GG  - Ninku Gaiden 2 (JP)             --> Ninku 2 (JP)
+      GG  - Pet Club Neko Dai Suki (JP)     --> Neko Daisuki! (JP)
+      GG  - Pet Club Inu Dai Suki (JP)      --> Pet Club Inu Daisuki! (JP)
+      GG  - Putt & Putter                   --> Putt & Putter (JP)
+      GG  - Shinkinjoh (JP)                 --> Shikinjou (JP)
+      GG  - Tempo JR                        --> Tempo Jr.
+      GG  - Winter Olympics                 --> Winter Olympics (JP)
+    The list above doesn't include ALL renaming, but only those I felt are
+    the most important to be propagated. Many other renaming were done.
+
+
+ MEKA 0.67
+ ---------
+  - Updated documentation.
+  - Tweaked the auto-frame skipper. Please let me know if you notice any
+    improvement or new problem.
+  - The analog Paddle Control is now usable using a digital keyboard or
+    joystick input, although it is HIGHLY recommended to use a mouse.
+    Playing with a keyboard or joystick may be sometimes frustrating and
+    does not allows fast movements.
+  - Updated debugging mode:
+      - Scrapped old, buggy, and unusable MS-DOS only text mode debugger.
+      - Added new debugger, well integrated into the GUI and functionnal 
+        with all versions of MEKA. It is a primitive debugger, but it can
+        be helpful and it is definitively better than nothing.
+        Supports step-into, step-over, breakpoint, jump, disassembly and
+        memory dump. Expression are not evaluated and syntax is primitive.
+        Enable with the /DEBUG command line parameter.
+      - [Windows] Data dumping facilities are now working.
+  - Updated patching system (see MEKA.PAT file):
+      - Updated syntax.
+      - Support for long awaited RAM patches! 
+        One of the side effect to that is that you can now apply 
+        PRO ACTION REPLAY codes easily. This feature is unfortunately
+        not backuped by a full-featured interface and cheats database, 
+        but is helpful and better than nothing - while waiting for 
+        advanced cheating functionnalites to be added in the future.
+      - Support for CRC32 to specify the game to apply patches on,
+        as well as using MEKA proprietary checksum format.
+      - Putting * in the CRC field will apply a patch to all games.
+      - Minor bug fixes.
+  - Inputs:
+      - [Windows] Fixed joystick sliders support (DirectInput < 8.00 
+        usually reports the fourth and fifth axis of a joystick as 
+        being sliders, which is a weird little known behavior).
+      - File browser now takes exclusive inputs so the emulated game
+        is not affected by keypresses.
+  - Fixed file browser "Load Names" feature. It was broken in version 0.66,
+    and sometimes (not always) went into an infinite loop in earlier version.
+  - [Windows] Command line parameters help is now displayed in a message box.
+  - Closing a box now automatically focus the next one in focus order.
+  - Various other fixes.
+  - Updated Dutch translation (by Mark van Tilburg).
+  
+  - Added and modified entries in the checksum and compatibility lists,
+    on the road to perfection. Added many missing (J) flags in the Game Gear 
+    compatibility list. Added a few missing accents.
+    Some particular renaming includes:
+      SMS - Back to the Future 2            --> Back to the Future II
+      SMS - Back to the Future 3            --> Back to the Future III
+      SMS - Blade Eagle 3D                  --> Blade Eagle 3-D
+      SMS - California Games 2              --> California Games II
+      SMS - Chuck Rock 2                    --> Chuck Rock II: Son of Chuck
+      SMS - Ecco 2: the Tides of Time       --> Ecco: The Tides of Time
+      SMS - Fantazy Zone 2                  --> Fantazy Zone II
+      SMS - Fantasy Zone 3: the Maze        --> Fantasy Zone: The Maze
+      SMS - Golvellius                      --> Golvellius: Valley of Doom
+      SMS - High School Kimengumi           --> High School! Kimengumi
+      SMS - Jogos de Verao 2                --> Jogos de Verão II
+      SMS - Maze Hunter 3D                  --> Maze Hunter 3-D
+      SMS - Missile Defense 3D              --> Missile Defense 3-D
+      SMS - Out Run 3D                      --> Out Run 3-D
+      SMS - Pac-Mania                       --> Pacmania
+      SMS - Poseidon Wars 3D                --> Poseidon Wars 3-D
+      SMS - Rambo: First Blood Part 2       --> Rambo: First Blood Part II
+      SMS - Secret Commando                 --> Secret Command
+      SMS - Space Harrier 3D [Export]       --> Space Harrier 3-D
+      SMS - Sport Pad Football              --> Sports Pad Football
+      SMS - Sport Pad Soccer                --> Sports Pad Soccer
+      SMS - Super Monaco GP 2               --> Super Monaco GP II (Ayrton's Senna)
+      SMS - Turma da Mônica em o Resgate    --> Turma da Mônica em: O Resgate
+      SMS - Wonder Boy in Monster Land [A]  --> Wonder Boy in Monster Land
+      SMS - Wonder Boy in Monster Land [B]  --> Wonder Boy in Monster Land [Hack]
+      SMS - Wonder Boy in Monster Land [C]  --> Super Wonder Boy Monster Land / World [Japan]
+      SMS - World Cup '92 (Tecmo)           --> World Cup '93 (Tecmo) (Proto)
+      SMS - Wimbledon 2                     --> Wimbledon II
+      SMS - Winter Olympic '94              --> Winter Olympics
+      SMS - Ys: Vanished Omen				--> Y's: The Vanished Omens
+      SMS - Ys: Vanished Omen [Japan]		--> Ys [Japan]
+      SMS - Zaxxon 3D [Export]              --> Zaxxon 3-D
+      SMS - Zillion 2 [Export]              --> Zillion II: The Tri Formation
+      GG  - Chuck Rock 2                    --> Chuck Rock II: Son of Chuck
+      GG  - Desert Speedtrap                --> Desert Speedtrap [USA]
+      GG  - Ecco 2: the Tides of Time       --> Ecco: The Tides of Time
+      GG  - Gun Star Heroes [Japan]			--> Gunstar Heroes [Japan]
+      GG  - Super Monaco GP 2               --> Super Monaco GP II (Ayrton's Senna)
+      SG  - Championship Lode Runner [B]    --> Championship Lode Runner
+      SG  - Hang On 2                       --> Hang On II
+      SG  - Hyper Sports                    --> Hyper Sports (Konami no)
+      SG  - Pitfall 2                       --> Pitfall II
+      SG  - Rockn' Bolt                     --> Rock n' Bolt
+      SG  - Shinnyushain TooruKun           --> Shinnyushain Tooru Kun (Konami no)
+      SG  - Sindbad Mystery [A]             --> Sindbad Mystery
+      
+    Please use SMS Checker for your ROM renaming needs!
+    http://www.smspower.org/maxim/smschecker
+    
+
+ MEKA 0.66
+ ---------
+ Blitting & synchronisation are still very bad in many cases. This is my
+ top priority but I still cannot find a good solution to improve it and
+ please everyone (slow and fast computers). I can't sleep! :(
+ Use the "smooth" blitter if possible.
+
+  - Updated default blitters (MEKA.BLT).
+  - Video mode is not reinitialized anymore when switching blitters with
+    the same resolution/refresh rate. This saves a bit of time.
+  - [Windows] Fixed page flipping, for those using it (see MEKA.BLT file).
+  - [Windows] Sega 3-D Glasses support is now properly working in MEKAW!
+    If you build the simple 3-D Glasses to COM adapter (as described in
+    the TECH.TXT file), it is possible to plug original 3-D glasses and
+    enjoy 3-D games as they were meant to be played - and additionnally, 
+    damage your eyes due to intense flickering :)
+    Best results are achieved by enabling page flipping or vsync.
+  - [DOS] Sega 3-D Glasses support now also works under a Windows 95/98
+    command prompt.
+  - Increased maximum number of joystick buttons to 32 (instead of 16).
+  - Partly fixed incorrect joystick axis reporting. It was a problem for 
+    many people, and made it impossible or difficult to configure joysticks
+    using the interface. One extended joystick axis may be missing now, 
+    until I can find a solution to this other problem.
+  - Tile viewer can now be configured to displayed all 512 tiles, instead
+    of the first 448 only. The bottom tiles looks awful with most SMS/GG 
+    games but some games use this area so it's good to see them.
+  - Tile viewer now allows to select all 15 colors to display tiles in
+    TMS9918 video modes (used by SG-1000, SC-3000, Coleco Vision, etc.).
+  - Loading a ROM now display the full name in the message box.
+  - [Windows] Upgraded MSVC compiler from version 5.0 to 7.1 (might bring
+    a small improvement on performance). Removed ZLIB.DLL from the 
+    distribution and statically linked it to the executable.
+  - [Windows] Fixed mekaw.cfg saving location. It was saving in a wrong
+    place in some cases (depending how you run it). 
+  - Updated Danish translation (by Mark Klemp).
+  - Added and modified entries in the checksum and compatibility lists.
+    Some particular renaming includes:
+      SMS - Asterix [A]                     --> Asterix [V0]
+      SMS - Asterix [B]                     --> Asterix [V1]
+      SMS - Chuck Rock 2 [A]                --> Chuck Rock 2 [Europe]
+      SMS - Chuck Rock 2 [B] [Brasil]       --> Chuck Rock 2 [Brasil]
+      SMS - Golfamania [1990]               --> Golfamania
+      SMS - Golfamania [1989]               --> Golfamania (Proto)
+      SMS - James Pond 2: Robocod           --> James Pond 2: Codename Robocod
+      SMS - Lemmings [A]                    --> Lemmings
+      SMS - Lemmings [B]                    --> Lemmings (Proto)
+      SMS - Mortal Kombat 2                 --> Mortal Kombat II
+      SMS - Pit Fighter [A]                 --> Pit Fighter [Europe]
+      SMS - Pit Fighter [B] [Brasil]        --> Pit Fighter [Brasil]
+      SMS - Rainbow Island [A]              --> Rainbow Island [Europe]
+      SMS - Rainbow Island [B] [Brasil]     --> Rainbow Island [Brasil]
+      SMS - Seishyun Scandal [Japan]        --> Seishun Scandal [Japan]
+      SMS - Taz-Mania [A]                   --> Taz-Mania
+      SMS - Taz-Mania [B]                   --> Taz-Mania (Proto)
+      SMS - Tom and Jerry: the Movie [A]    --> Tom and Jerry: The Movie
+      SMS - Tom and Jerry: the Movie [B]    --> Tom and Jerry: The Movie (Proto)
+      SMS - Ultima IV [A]                   --> Ultima IV
+      SMS - Ultima IV [B]                   --> Ultima IV (Proto)
+      SMS - Wonder Boy 3: the Dragon's Trap --> Wonder Boy III: The Dragon's Trap (Proto)
+      SMS - Woody Pop [Japan]               --> Woody Pop: Shinjinrui no Block Kuzushi [Japan]
+      GG  - Lemmings [A]                    --> Lemmings
+      GG  - Lemmings [B]                    --> Lemmings (Proto)
+      GG  - Monster World 2 [Japan]         --> Monster World II
+      GG  - Mortal Kombat 2                 --> Mortal Kombat II
+      GG  - Wonder Boy 3: the Dragon's Trap --> Wonder Boy III: The Dragon's Trap (Proto)
+    Please use SMS Checker for your ROM renaming needs!
+    http://www.smspower.org/maxim/smschecker
+
+
+ MEKA 0.65c
+ ----------
+  - Fixed Z80 interruption timing.
+    I have tested several "sensitive" games and nothing should have been
+    broke, but please e-mail me if you notice anything unusual.
+    In addition, the fix allowed to remove the need for a custom parameter
+    in MEKA.NAM for 5 more games.
+  - Fixed MEKA.PAT which added a bug to pausing in Wonder Boy III [SMS].
+    The bug was a leftover of one of my working session, and I forgot to
+    remove it before releasing the official distribution of version 0.65b.
+  - Fixed user inputs during the next frame after loading a savestate.
+    Previously, they were reseted on savestate loading, meaning that your
+    inputs were ignored on the first 1/60th second after loading. Although
+    this is not dramatic in most cases, in a few it made savestates unusable
+    because the player would die on loading without being able to react.
+    Now you have that missing 1/60th second.
+  - Attempted to fix the occasionnal crash on shutdown. I don't know if it
+    happens anymore or not.
+  - Updated Swedish translation (by Henrik Sankala).
+  - Added and modified entries in the checksum and compatibility lists.
+    Some particular renaming includes:
+      SMS - Double Target [Japan]   --> Double Target Cynthia no Nemuri [Japan]
+      SMS - Formula 1               --> F1
+      SMS - Machine Gun Joe [Japan] --> Comical Machine Gun Joe [Japan]
+      SMS - Pit Pot [Japan]         --> Fushigi no Oshiro Pit Pot [Japan]
+      SMS - Sonic the Hedgehog [A]  --> Sonic the Hedgehog [V0]
+      SMS - Sonic the Hedgehog [B]  --> Sonic the Hedgehog [V1]
+      SMS - Transbot                --> TransBot
+      GG  - Columns                 --> Columns [Japan]
+      GG  - Formula 1               --> F1
+      GG  - Pengo                   --> Pengo [Japan]
+      GG  - Jungle Book             --> Jungle Book [USA]
+      GG  - Woody Pop               --> Woody Pop [V0]
+    Please use SMS Checker for your ROM renaming needs!
+    http://www.smspower.org/maxim/smschecker/smschecker.htm
+
+
+ MEKA 0.65b
+ ----------
+  - Updated k.
+  - Fixed TV Mode which was accidentaly broken in version 0.65 (due to
+    recent palette system rewrite). Sorry for the inconvenience. I also
+    took the occasion to slighty optimize it.
+  - Fixed still screens corruption in Game Gear version of "Bart vs. the
+    Space Mutants". It was affected by a timing issue introduced in a
+    previous version. The fix (using a MEKA.NAM feature) is temporary until
+    a better one can be found.
+  - [Win] Added a simple first-run setup screen, to select soundcard,
+    sample rate and language. Additionally, you can show the setup screen
+    on startup by passing the -SETUP command line parameter to MEKA.
+  - Added "cabinet_mode" setting in MEKA.INP, to invert ESCAPE and F10 keys.
+    Arcade/emulation cabinet owners often have ESCAPE mapped to a key they
+    want to use to quit. This feature is a quick addition until full key
+    redefinition is supported.
+  - Added auto-repetition on keys F6/F8 (savestate selection).
+  - Added support for mouse wheel in file browser and documentation viewer.
+  - Fixed state saving crash that could happen when sound is completely 
+    disabled and no FM emulator was selected.
+  - Started migrating from my own general purpose C library to standard
+    C library (LibC) for various functions.  This should provides speed
+    improvements in the initialization process.
+  - Added and modified entries in the checksum and compatibility lists.
+  - Various minor changes. Can you stop them all?
+
+
+ MEKA 0.65
+ ---------
+  - Rewrote palette system in the attempt of reducing palette changes
+    even more. As some people noticed, on some computer, the Windows
+    version had terrible slowdown and incorrect colors at some occasion
+    and especially in Game Gear games.
+    This is due to some DirectX video drivers which force waiting for
+    a screen refresh before each palette change. Problem is that some
+    drivers does that and some other do not. Palette changes in MEKA
+    are now better grouped so that the wait should not affect gameplay
+    in most cases.
+    Please report if you notice any palette related problem in this version.
+    Windows users, note that you can still get color flickering in some
+    video modes. But overally, things should be much better.
+  - Rewrote hardware sprite collision emulation for video modes 1, 2 and 3
+    (used by SG-1000/SC-3000/SF-7000/Coleco Vision software, mainly).
+    Sprite collision are now processed line per line, for a very accurate
+    result - at the cost of a slighty slower emulation. Although machines
+    using those video modes usually can't poll for the current line, some
+    software can manually do a similar job, making this precise value useful.
+    This fixes "Froggy" and "Gold Miner" (SF-7000), and maybe more.
+    Please report if you notice any collision related problem in this version.
+  - Fixed SMS/GG scanline counter to return accurate values.
+  - PAL/SECAM modes now have 313 lines instead of 312.
+  - Fixed "Daffy Duck in Hollywood" (SMS) which in some cases had
+    incorrect scrolling on the level score screen.
+  - Fixed palette switching in "F-16 Fighter" / "F-16 Fighting Falcon",
+    colors were incorrect during one single frame after the title screen.
+    This bug was introduced in a previous release.
+  - [Windows] Fixed screen capture (did crash with some DirectX drivers
+    in version 0.64c).
+  - Added Chinese flag in the file loader and associated the early dump
+    of Hokuto no Ken with it.
+  - Added and modified entries in the checksum and compatibility lists.
+    Fixed a few inconsistent entries.
+    Some particular renaming includes:
+      Chase H.Q.        --> Taito Chase H.Q.        (official name)
+      Story of Mio      --> Hoshi Wo Sagashite...   (official name)
+      Hokuto no Ken [B] --> Hokuto no Ken
+      Hokuto no Ken [A] --> Hokuto no Ken [China]
+  - Updated documentation.
+  - [UN*X] Released a quick & dirty GNU/Linux build, codenamed "MEKANIX".
+    It is not perfect and I do not plan to completely support it, but I hope
+    it can be useful to some people (some asked for it).
+    Please read MEKANIX.TXT if you want to use it.
+
+
+ MEKA 0.64c
+ ----------
+  - Fixed the bug that would sometimes shut down sound when resetting
+    or loading a savestate in full-screen mode.
+  - Fixed the bug that would not save battery backed memory when switching
+    the virtual machine Off (thanks Ian Hodgkinson for the precise report!).
+  - Fixed Light Phaser border limit when left column is blanked. In some
+    cases, the limit was enabled where it should not have.
+  - Light Phaser is now usable inside of the GUI, although this is obviously
+    not recommended since you can move the game window accidentally.
+  - Redumped and verified plenty more cartridges. Added and modified entries
+    to the checksum and compatibility lists, including new alternate dumps.
+    Some particular renaming includes:
+      James Bond 007: The Duel [B] --> James Bond 007: The Duel
+      James Bond 007: The Duel [A] --> James Bond 007: The Duel [Brasil]
+      Paperboy [B]                 --> Paperboy
+      Paperboy [A]                 --> Paperboy [USA]
+    Also modified compatibility list to be coherent with checksum list
+    regarding alternate version naming.
+  - MEKA now switch back to interface if fullscreen video mode cannot be set,
+    instead of quitting.
+  - Virtual machine picture positionning in the GUI now takes account of the
+    resolution (in GUI another resolution than default 640x480 is used).
+  - Updated history section of the documentation.
+  - Added and modified entries in the checksum and compatibility lists.
+  - [Windows] Fixed some of the screen corruptions when another application
+    is getting the focus or writing to the screen (untested).
+  - Added SG-1000 games to the multiplayer games list file (MULTI.TXT).
+  - Updated Danish translation (by Marc Klemp).
+  - Added CPU state dumping feature in debug mode.
+
+
+ MEKA 0.64b
+ ----------
+  - Added patches to be able to run SMS BIOS images (Alex Kidd in Miracle
+    World, Hang On / Safari Hunt, Sonic the Hedgehog...) as standard games.
+  - Fixed an amazingly stupid problem that's been around since years, which
+    was that Game Gear colors were considered as 9-bits instead of 12-bits.
+    Colors are now more precise, and you can notice a clear difference by
+    looking at the ground in FIFA International Soccer.
+    Thanks goes to Carleton Handley (the FIFA programmer on Game Gear) for
+    clearly pointing that out to me.
+  - Fixed VDP IE1 bit controls on Z80 IRQ Line.
+  - Fixed top of the screen in video mode 3, and optimized its refresh.
+    (used by Cabbage Patch Kids Picture Show and Smurf Paint & Play Workshop)
+  - Added Danish translation (by Marc Klemp).
+  - Patches write commands (in MEKA.PAT) now support multiple bytes in
+    a single line.
+  - Added and modified entries in the checksum and compatibility lists.
+  - Added "Skydrop" theme by Peter Deas (need to uncomment it in MEKA.THM).
+  - [Windows] Removed some unused bits in Allegro library and statically
+    linked it within the executable, reducing the ZIP file by 150 Kb!
+
+
+ MEKA 0.64
+ ---------
+ Important changes were applied to the sound engine. As always, please
+ contact me if notice something unusual, if you have any comment or doubt.
+
+ PSG fixes that were applied in version 0.63 are apparently causing a bug
+ to Out Run (SMS) running in FM mode. I searched but was unable to fix it
+ as of yet. :(
+
+  - Cleaned and modified various part of the sound engine.
+    Please report if you notice anything unusual.
+  - [Windows] Disabled access to hardware YM-2413 emulation using OPL
+    under Windows 2000 and XP, avoiding crashes in certain cases... Well,
+    this time it should works :-)
+  - [Windows] FM Sound through OPL is now muted when switching to other
+    applications. PSG can not muted yet due to a technical constraint.
+  - Fixed muting of OPL on pause and quit (previously you were sometimes
+    able to hear very low hanging notes with a very high volume).
+  - Implemented software YM-2413 emulator by Mitsutaka Okazaki.
+    Although hardware YM-2413 emulation using OPL sounds cooler, this
+    emulator seems more faithful to the original chipset. It also works
+    on all systems, including Windows 2000 and XP. The downside is that
+    doing software synthesis takes a lot of time, and thus a fast computer
+    is recommended (at least 600 Mhz) to play MEKA with software YM-2413
+    emulation.
+  - Implemented a new software PSG emulator by Maxim (with modifications).
+    PSG emulation is pretty straightforward, but this emulator takes
+    account of several Maxim finds, such as the real sequence of pseudo
+    random numbers, as generated by the noise channel.
+  - Added refresh rate settings to GUI and Blitters. An advanced user
+    can now setup a video mode at 60 Hz with vsync enabled and auto frame
+    skipping disabled, for a smooth video refresh.
+  - Fixed PSG output that was previously too low and unsigned.
+  - [Windows] Attempted to fix some crashes subsequent to freeing a ROM.
+  - Added entries to the checksum and compatibility lists.
+  - Updated documentation.
+
+
+ MEKA 0.63b
+ ----------
+  - [Windows] Disabled access to hardware YM-2413 emulation using OPL
+    under Windows 2000 and XP, avoiding crashes in certain cases.
+  - Removed rare PSG debugging messages that were accidentally left.
+  - Fixed timing of the {LD,CP,IN,OT}[ID]R transfer/comparaison Z80 opcodes,
+    which were made too slow by 8 cycles in version 0.63.
+    "The Castle" (SG-1000) was affected.
+  - Fixed Sega Keyboard mapping for the "Yen" key on Japanese keyboard
+    (untested). Note that the mapping for certain specials keys seems not
+    to be right yet using the Windows version.
+  - Performed some minor calling optimizations.
+  - Updated Dutch, Deutsch, Italian, Spanish and Swedish translations
+    with missing messages. (Thanks to their respective mainteners!)
+
+
+ MEKA 0.63
+ ---------
+  - Implemented a cyclic color allocation algorythm, reducing palette
+    changes even more in some games. Users with videocard/drivers having
+    problems changing palette can expect less slowdown in Game Gear games.
+  - Tested every single Master System games, and wrote a multiplayer games
+    list out of them. It is included in the emulator (MULTI.TXT).
+  - Added 21 missing undocumented Z80 opcodes in the ED instruction set,
+    including the wonderful OUT (A), 0.
+  - Fixed PSG emulation. The holding note after text boxes shows in
+    "Alex Kidd in Miracle World" is no more, and noise channel writes were
+    fixed (as used by CodeMasters games: Micro Machines drums now sounds
+    correctly, etc...). Thanks to the great Maxim for his informations!
+  - Fixed Light Phaser shooting position for when left column blanking is
+    enabled (a bug leaked in since a few version).
+  - Fixed 64-bytes ROM footer detection.
+  - Fixed a bug affecting Hardware Reset and ROM reloading on SG-1000/SC-3000
+    and Colecovision emulation. As far as I know, only "Pac-Man" (Coleco)
+    was affected after an Hardware Reset, but other ROMs could as well.
+    Thanks to James Carter for the bug report.
+  - Fixed a two-years-old bug that may lead MEKA to crash when loading
+    a savestate that was previously used under the debugger.
+  - Fixed Sega Keyboard mapping for the unusual "Pi" / "Ro" key, so
+    Japanese users can use it at its standard mapping location.
+    Thanks to Yujiro for the bug report.
+  - FPS Counter is now enabled/disabled by pressing Alt+F, instead of
+    keeping F pressed.
+  - [Windows] Fixed time display.
+  - Updated to newer GCC version, hopefully little improving performances.
+  - Added and modified entries to the checksum and compatibility lists.
+    Some interesting ones I could rename after redumping:
+      Alex Kidd in Miracle World [A] --> Alex Kidd in Miracle World [Export]
+      Alex Kidd in Miracle World [B] --> Alex Kidd in Miracle World [USA]
+
+
+ MEKA 0.62c
+ ----------
+  - Various fixes.
+  - Added "compatibility list" and "changes list" items in the help menu,
+    allowing you to open them with the internal text viewer.
+  - Released Windows version.
+
+
+ MEKA 0.62b
+ ----------
+  - Sorry for the huge delay in such a minor update. I've tweaked the Z80
+    core a bit again to fix a little bug that I introduced myself and which
+    puzzled me for a while. I took the occasion also to upgrade to Marat's
+    latest debugger (now showing inline interrupt informations).
+  - Battery backed RAM is now scanned so unnecessary pages are not saved
+    in the .SAV file (this was previously already done, but only inside
+    of save states).
+  - Added new entries to the checksum and compatibility lists.
+  - Updated Spanish localisation.
+
+
+ MEKA 0.62
+ ---------
+ Compatibility notes:
+  - Sonic Blast [GG] minor glitches on title screen in non Japanese mode
+    has been confirmed to appear on a real Game Gear, so the game is now
+    marked as perfectly working.
+  - Thanks to the new 93c46 EEPROM emulator, Game Gear perfect compatibility
+    has now increased to 98.09% (counting like FreezeSMS does, that gives us
+    a whooping 150.00% :)
+  - Statistics: as far as I know, out of the 7 Game Gear games marked as
+    NON-WORKING, 5 games requires a simulation of LCD blurry persistance to
+    show up without flickering, 1 may be severly broken (not possible to
+    complete the game), and 1 is minorly broken.
+
+ As always, please report if you find out anything you feel as not emulated
+ PERFECTLY: even a single suspicious pixel, etc.. Thank you!
+
+  - Rewrote 93c46 EEPROM emulation from stratch, it now works and saves
+    data properly. This fixes the following Game Gear games:
+      - Majors Pro Baseball
+      - Nomo's World Series Baseball (J)
+      - Pro Yakyuu GG League (J)
+      - World Series Baseball [A]
+      - World Series Baseball [B]
+      - World Series Baseball 95
+  - Emulated onboard 64 kb RAM chip of Ernie Els Golf (GG).
+  - For the sake of accuracy, started to implement emulation of the four
+    slighty different VDP chipsets used in Master System 1/2, Game Gear and
+    Megadrive (compatibility mode). They all have subtle differences, causing
+    some games not to work perfectly on all of them.
+  - Fixed glitches in Ys (Japanese version), using 315-5124 VDP emulation.
+  - Fixed bugs in Z80 emulation, letting the Game Over screen for Rambo III
+    to appears normally - and this required many many hours of work! (thanks
+    to Jonas Persson for reporting the bug). Also changed behavior of EI
+    instruction, fixing Double Dragon for Game Gear (again).
+  - Fixed VDP refresh disable emulation for Game Gear.
+  - Fixed YM-2413 state restoring when loading a save with FM playing.
+  - Now store YM-2413 state initialization in VGM files.
+  - If available, store Japanese game name (in romanji form) in VGM files.
+  - Fixed shifted instruction offset in debugger.
+  - Updated TECH.TXT with instructions about how to build a DB-9 adapter
+    to connect SMS Joypads on your PC.
+  - Added full French (by Overture 1928) and Swedish (by Henrik Sankala)
+    localisations. Complete Italian localisation (by Andra Ballandino).
+  - Fixed minor display bug in the Inputs configuration tool.
+
+
+ MEKA 0.61
+ ---------
+ This version may or not have minor glitches on certain games (like, a single
+ pixel or a single blinking row at the top or the bottom of the screen).
+ Please DO report those glitches if you notice any. Thanks!
+
+  - Moved 104 messages to MEKA.MSG, allowing for full localization of
+    the menus. 99% of MEKA is now localizable. Updated the following
+    languages: English, German, Redneck, Dutch, Portuguese and Spanish.
+  - Improved Z80 core (timing and interrupt emulation bug).
+  - Fixed Rise of the Robots (GG), MEKA being the first emulator to play
+    it without glitches (and even without, it sucks! :)
+  - Fixed most or all (?) glitches in Formula 1 (SMS) two-players mode
+    (maybe not the right way yet).
+  - Fixed Double Dragon (GG) which was not working since an update of
+    the Z80 core (from fMSX) several version ago.
+  - Country changes now immediately takes effects (no need to reset).
+  - Tweaking interrupt emulation for SG-1000/SC-3000/SF-7000 and Coleco
+    Vision drivers. Those changes should not affect anything.
+  - Fixed 'Parallel' video blitter, odd frames were not updated when
+    using the blitter with software 3-D Glasses mode enabled.
+  - Fixed crash of SF-7000 driver when loading a corrupted floppy disk.
+  - Fixed YM-2413 logging in VGM files (Register & Value were reversed!)
+  - Updated SDSC Header support for version 1.01 (adding Author field).
+  - Added Golden Axe theme by Death Adder. (uncomment to use in GUI)
+  - Updated to Allegro WIP 3.9.39 and reapplied all custom patchs.
+    Changed SideWinder autodetection process a bit. Hope it works!
+  - Reduced executable.
+
+
+ MEKA 0.60
+ ---------
+  - Improving timing in Z80 core.
+  - Fixed voices that weren't ok (Alex Kidd: the Lost Stars..).
+    Voices in many many games were tested, finally marked them as 'Ok' in
+    the compatibility list.
+  - Due to timing improvments, now Space Harrier [50 Hz version] has correct
+    glitches (like on a real system) when running in NTSC mode. It is now
+    configured to automatically use PAL/SECAM by default.
+  - Removed the need of specific IPeriod setting for some Codemasters
+    games, meaning that they will now run even if you delete MEKA.NAM.
+  - Added sample accurate VGM logging, allowing to log voices. The option
+    was previously grayed, it is activated now that all voices are Ok.
+  - Updated to VGM version 1.01, to include original TV type information
+    (NTSC or PAL/SECAM) in the file, allowing to play at a different rate.
+  - Fixed minor sprite masking bug affecting scrolling games in certain
+    conditions. Evander Holyfield Boxing (Game Gear) was affected.
+  - Added support for Coleco Vision header/footer in order to load the
+    newly released "Pac Man" and "Dig Dug" ROMs from CGE 2001.
+  - Fixed a minor bug when loading an in-game savestate from the BIOS.
+  - Fixed file loader sorting so that if present, ".." is always on top.
+  - Added/fixed entrys to the checksum and compatibility lists.
+  - Added two Sonic themes by H Hog. (uncomment to use in GUI)
+
+
+ MEKA 0.59b
+ ----------
+  - Fixed vertical scanline counter emulation.
+  - Fixed a minor hardware collision bug introduced in version 0.59.
+  - Fixed usage of '%' in ROM comment field.
+  - Changed message logging (with /LOG) to avoid cutting text in the file
+    when it doesn't fit on the GUI message box.
+
+
+ MEKA 0.59
+ ---------
+  - Various changes to the sound engine:
+     - Fixed PSG Periodic Noise emulation (bass in some Marble Madness tunes,
+       Daffy Duck in Hollywood, and few other games). Thanks Ziria and Maxim!
+     - Added PAL/SECAM machines accurate base clock for PSG wave generation
+       (pitch is around 1% off from NTSC machines).
+     - Added VGM logging. VGM (for Video Game Music) is a new file format
+       recently developed on S8-Dev with collaboration of Dave, Maxim and
+       some other people. Maxim has wrote a WinAMP plugin already.
+       Check out the newly created Music Section on SMS Power at
+       http://www.smspower.org/music !
+     - Added PSG registers to the technical information window.
+  - Fixed a very weird bug introduced in version 0.58, where a certain sprite
+    configuration and positionning could screws up the whole emulator! This
+    caused problems in Terminator 2: The Judgment Day and Ghouls'n Ghosts.
+  - Added Korean mapper (9) emulation, as used by Dodgeball King.
+  - Added Italian messages translations (by Andrea Ballandino).
+  - Added German messages translations (by Tilman Hesse).
+  - Fixed some PortuguE messages.
+  - Fixed/added accentued characters in some Brazilian game names.
+  - Added new "Mario Must Die" theme, with a nice handdrawn picture :-)
+  - Added new entrys to the checksum and compatibility lists.
+  - Fixed and improved various minor things.
+
+
+ MEKA 0.58c
+ ----------
+  - Fixed the missing soundcard selection menu in some cases.
+  - Added printing of SDSC Header informations when found. The SDSC Header
+    has been defined and created by the SMS Power developement team (based
+    on Eric Quinn's idea) for homebrewn programs.
+  - Drawn Latin-Extended characters (Unicode 0080-00FF) in the big font.
+    Accents are now usable everywhere in MEKA. Be sure to use accents from
+    the Latin-Extended table (usually used by Windows programs, not DOS ones).
+  - Added Spanish messages translations (by Antonio J. Bazalo).
+  - Added PortuguE messages translations (by Rodrigo C. Rubio).
+  - Added "WIP" (Work In Progress) parameter in language definition, to
+    disable warnings and informations when the language is uncomplete.
+  - Squashed one very minor flag bug in the browser when a ROM had an
+    number after a space, at the end of its filename.
+
+
+ MEKA 0.58b
+ ----------
+  - Fixed various minor bugs.
+  - Fixed two scrolling emulation bugs in video mode 5. They did not
+    affect any game, but for the sake of accuracy, better fixing them!
+  - Added Dutch messages translations (by Mark van Tilburg) and Redneck
+    messages translations (by Maxim, using Dialectizer). Fry mah hide!
+  - Added /LOAD command line parameter, to start directly with a savestate
+    loaded (so you can make yourself batchfile loading a certain state.)
+  - Added several new entrys to the checksum and compatibility lists, and
+    fixed some existing ones. Added an USA flag and set the flag to all
+    SMS games only released in USA (Alf, King's Quest, Montezuma's Revenge).
+  - Added one new happy theme from the french movie "Am‚lie Poulain".
+
+
+ MEKA 0.58
+ ---------
+ Again, please report if you notice any bug/glitche with any game, that is
+ not mentionned in the compatibility list. The VDP fix applied in this
+ version is also a massive compatibility test, and I would like to know
+ if it has any unexpected behavior on other games. So play, play, play! :)
+
+  - Added PSG sound logging to WAV files, accessible from the Sound menu.
+  - Rewrote messaging system, added localization support.
+    Moved all messages to an external file, MEKA.MSG. You can now change
+    80% of the texts used in MEKA, and translate it to the language of your
+    choice. I am however NOT YET sure about how accents will work, since it
+    depends on the font used.
+    This feature required a pass on all existing code and so took plenty
+    of time to do (10+ hours), I might have screwed a few messages during
+    the change, so be sure to send me an e-mail if you notice anything
+    unusual.
+  - Implemented a VDP quirk found in Master System 2 but not Master System 1
+    or Game Gear, discovered by Charles Mac Donald (thanks Charles!). This
+    one fixes Cosmic Spacehead *BUT* might screws up few other games. I did
+    a bit of testing but couldn't do them all again, so please report if you
+    notice anything unusual with another game.
+  - Improved hardware sprite collision accuracy, fixed a bug in some
+    cases where it was previously framerate dependant, and rewrote the
+    whole code in assembly.
+  - Changed initializations messages and some other messages.
+  - Fixed an incorrect numbers of TV lines in PAL/SECAM TV emulation (due
+    to a typo - thanks goes to cgfm2 for pointing me this stupid error!),
+    allowing removal of a few custom MEKA.NAM parameters (Daffy Duck in
+    Hollywood..).
+  - Fixed the annoying bug that caused crashes on startup under DOS when
+    sound was enabled.
+  - Fixed a minor bug in Codemaster mapper emulation, that affected the
+    checksum check of 'Drop Zone' (although the game worked).
+  - Fixed crash when using a patch defined in MEKA.PAT that write outside
+    of any existing data.
+  - Added (very) quick and (very) dirty frame-per-frame advance by pressing
+    ALT-F12. In fact, it will unpause the game then pause it back next frame.
+  - Updated Colecovision compatibility list and added some product IDs,
+    thanks to Tincho DJ.
+    The current state with Colecovision games is: a mess :(
+    Someone will lots of Colecovision knowledge would be very helpful
+    to help sorting out all bad dumps, testing games and redumping others.
+
+
+ MEKA 0.57b
+ ----------
+
+ Lots of fixes, for a total of twenty working hours.
+ Please also note in documentation that *I HAVE MOVED HOUSE*, that is
+ in case you planned to send something.
+ 
+  - Various minor fixes and improvements.
+  - Fixed startup delay (and sometimes crash) when autodetecting Sidewinders.
+  - Fixed and improved the new dynamic palette handler, avoiding palettes
+    overflow on some Game Gear games such as Sonic & Tails 2 / Triple Trouble,
+    Sonic 1 or Deep Duck Trouble. The fourth level of Sonic 1 is however
+    not yet perfect when both air and water are shown on screen.
+    Thanks to ICEknight for pointing the bug out.
+  - Made various clean and corrections to the main sound engine structure.
+    It should not have broken anything, but please report if you notice
+    something unusual. Noticable changes are that:
+     - MEKA refuse to start if sound initialization has failed.
+     - Sound is now muted while certain long operations are being processed.
+     - Sound card type is not lost if you only disable sound.
+     - An incorrect BLASTER environnement variable is now reported.
+  - Added an algorithm to automatically detect certain mappers and select
+    them when the ROM is unknown.
+  - Fixed vertical scrolling emulation in certain special cases.
+  - Fixed zoomed sprites in SMS/GG video mode. They were accidentally
+    screwed up by a typo (!) in previous version, and affected Virtua
+    Fighter Mini.
+  - Fixed a bug with checksum handling. In some cases, ROMs with only a
+    few different bytes were previously not recognized as different.
+  - Fixed usage of the ';' key in the input system (now usable), previously
+    the character was considered as beginning a comment in MEKA.INP.
+  - Fullscreen messages are now correctly displayed when the current emulated
+    system uses a resolution higher than your fullscreen resolution.
+  - Fixed debugger breakpoint when loading a save state.
+  - Added some new entrys to the checksum and compatibility lists,
+    and fixed few existing ones. Added a french flag, currently used
+    for games translated in french.
+
+
+ MEKA 0.57
+ ---------
+ Note: I made lots of little sources changes in this version. Things have
+ been tested, but in case you notice anything unusual, please contact me.
+
+  - Rewrote dynamic palette handler, minimizing actual hardware palette
+    changes, reducing snow and generally reducing flickering when games
+    were abusing of palette changes (like the "Happy Birthday" demo, or
+    some Game Gear games). Due to that change, Palette and Tile viewers
+    are now slighty slower than before, but since they are not used for
+    playing, it is fine.
+  - Rewrote hardware sprites collision emulation a more accurate way,
+    fixing Cheese Catastrophe (SMS) bonus catching. There was an easy
+    way to get it to work, but technically speaking, it was not the
+    right one. Instead I emulated the feature a better way so that
+    theorically, any tricky uses of it should be working. Speed might
+    have dropped of about 1 FPS on slow computers.
+    (Thanks to nop.nop for the bug report.)
+  - Added data dumping facilities for developers and hackers.
+    You can now dump the following to a file:
+      - RAM (raw or text hex/ascii)
+      - VRAM (raw or text hex/ascii)
+      - Palette (raw or text colors definitions)
+      - Sprites (raw or text sprites definition)
+      - VDP Regs (raw or text binary/hex)
+      - OnBoard Memory (raw or text hew/ascii)
+    Those functionnalities are available by starting MEKA with /DEBUG.
+  - Added Sega Keyboard (SK-1100) hardware detection emulation. You can
+    know use the emulated keyboard to play SG-1000 (and early SMS) games
+    supporting it.
+  - Added a 'none' value for joypad driver, to disable any kind of
+    detection (as it may be slow on some computers). See MEKA.INP.
+  - Battery backed RAM optional pages are now not saved when their
+    content is null.
+  - Optimized the technical information viewer that was previously
+    too slow. Also made cosmetic changes to the informations shown.
+  - Fixed error message that said MEKA was unable to write SaveRAM
+    to write, while it did correctly.
+  - Fixed savestate loading bug in some very specific cases when using
+    a custom mapper.
+  - Fixed sprite drawing in overscan video mode.
+  - The selected tile in the tile viewer is now refreshed if modified.
+  - Fixed PSG volume bug, where volumes 14 and 15 were actually the same.
+    (thanks to Martin Konrad for noticing it)
+  - Changed the 'palette_bright' option to a 'palette' option that can
+    be either 'muted' or 'bright', the later being now the default, since
+    many people suggested that it was better than the old default one.
+    Also added a switch in the GUI options box to change it dynamically.
+  - VSync is now automatically avoided if a speed faster than 70 hz is
+    being used. So you can use a blitter with VSync enabled and still
+    profit of accelerations if you want them sometimes (skip intros, etc..).
+  - Partially rewrote popup menu code. Also hacked a bit to fixed the bug
+    when more than 32 themes were enabled on the same time.
+  - Added the usual amount of new themes and new database entries.
+  - Added some new comments to the configuration file.
+  - Converted all ASM code to NASM format, for better portability.
+  - Ported MEKA to Windows. Cool.
+
+
+ MEKA 0.56
+ ---------
+  - Added Sega Super Control Station emulation, codename SF-7000.
+    The SF-7000 is a rare addon for the Sega Computer 3000, providing it
+    with a 3" Floppy Disk Drive, 64 kbytes of RAM, a parallel printer port
+    and a RS-232C port. The later two are only partially emulated as anyway
+    there is no way to use the emulated connection (ex: for printing) yet.
+    Many thanks goes to Marc Le Douarain for his help and dumps of his old
+    disks, and Ulrich Cordes for the FDC-765 emulation (see documentation).
+
+    I added in the documentation a paragraph about how to use SC-3000 and
+    SF-7000 Basic software, as it is needed to load programs for the later.
+    Also, I am still looking for a real SF-7000 and any softwares!
+
+  - Added sprite flickering emulation in video mode 5 (SMS/GG), and
+    interfaced so you can now enable it if you feel like playing shooters
+    with invisible bullets. It is available in the VIDEO->FLICKERING menu.
+  - MEKA is now ignoring those rarely present 64 bytes footers.
+  - Fixed Ninja Gaiden (GG version) hand on intermission animation.
+  - Fixed PAUSE button which was broken in version 0.55b.
+  - Fixed blinking sides when a program was using text mode (Sega Basic, ..)
+    with a border color different than black.
+  - Fixed Sega Keyboard letters color.
+  - Fixed /LOG command line option which was ignoring the given filename.
+  - Added and fixed entrys in the compatibility and checksum lists.
+  - Various minor changes - changed messages, fixed typos..
+
+
+ MEKA 0.55b
+ ----------
+  - Added configurable mouse speed values in the MEKA.INP file.
+  - Fixed mouse under Windows NT / Windows 2000.
+
+
+ MEKA 0.55
+ ---------
+  - Added builtin documentation, accessible from the "HELP" menu.
+  - Entirely revamped the input system. I originally fixed Paddle Control
+    emulation then noticed the problem I was having with Super Racing was
+    due to a bug in the original game. I did not feel like adding a cheap
+    hack and beside it was time to clean it up, I just needed a reason :)
+    Inputs related changes you will notice are:
+
+      - Added configuration tool, showing small pictures of peripherals
+        being used (hope you like the pictures, as I spent a long time
+        drawing them). This tool allows you to see currently available inputs
+        sources, enable/disable them, and change their key/buttons mapping.
+        No more dealing with obscure scancodes numbers (finally).
+        To keep going with the MEKA tradition, every configuration bit is
+        stored in a human-readable and manually editable file: MEKA.INP.
+        You can access most of the functionnalities from under the interface
+        but experienced users might want to check this file out. The new
+        input system is high-level oriented and allows you to do many nice
+        things like playing with two pads on the same time or mapping pause
+        to a mouse button. Whatever you feel.
+      - Any joypad/joystick corresponding to the driver selected in MEKA.INP
+        should be automatically enabled on starting, and available for use.
+      - Renamed left occurences of peripherals that were incorrectly named
+        (Paddle Controller -> Paddle Control, Light Gun -> Light Phaser)
+      - Improved Paddle Control emulation so that they will work in Japanese
+        mode, and allowing Super Racing to detect a paddle when plugged on,
+        instead of the regular joypad.
+      - Fixed a precision bug in Paddle Control 2 emulation.
+      - Added support for a second Sport Pad / Trackball.
+      - Added digital input source emulation with the mouse, so basically
+        you can play any joypad game with a mouse now. Expect being really
+        frustrated with most games, but it is actually very cool for shooters
+        and games where you do not have to do 'long' movements. Try R-Type.
+
+  - Added 3-D Glasses emulation, with both software and hardware modes:
+      - Software mode let you play 3-D games by showing only
+        images of a choosen side (left or right).
+      - Hardware mode supports REAL Sega 3-D Glasses connected on
+        your PC through the communication port! See TECH.TXT for more
+        informations about how to build a Sega 3-D Glasses adapter
+        and enjoy a new dimension of videogaming :-)
+        Warning: 3-D Glasses support through the COM port is still not
+        in perfect stage, meaning that you may experience flickering.
+        A blitter with VSync enabled is *strongly* recommended.
+        Also stop playing every 30 minutes eyes you'll become blind :)
+
+  - Tweaked VDP code for potentially more accurate side effect emulation.
+  - Fixed sprite collisions in certain cases. The following Colecovision
+    games are now perfectly playable:
+      - Carnival (Bonus Level is ok)
+      - Jumpman Junior (Ladders on level 3 are ok).
+      - Pitfall 2 (No false hit on the third screen).
+      - Venture.
+    Thanks goes to the one who sent me a long e-mail about collision
+    detection some months ago, but which I unfortunately lost and was
+    then unable to answer. E-mail me if you are still around :)
+  - Fixed hard pausing. You can now safely take screenshots after pausing
+    with a message shown on the screen, as it will not be shown in the shot.
+  - Fixed loading of very small ROMs, which affected Tic Tac Toe on
+    Colecovision, and maybe your very own demos programs.
+  - Implemented Antiriad's hack to Allegro - used in Raine - to permit
+    usage of Sidewinders while their driver is loaded (not tested). Thanks!
+  - Fixed the Eagle blitter which was not centered and showed garbage
+    in some machines. Also fixed the default Eagle blitter configuration
+    which limited speed to 30 FPS even on a very fast system. What a loss!
+    By the way, Eagle does in fact looks nice with a few games. Try R-Type.
+  - Slighty optimized memory accesses and tile refresh.
+  - Changed the key to save screenshots from F12 to PrintScreen. If you
+    are using Windows, be sure to configure the properties of your DOS box
+    to enable the use of the PrintScreen key if you want to make screenshots.
+  - Added F12 shortcut to hard pause emulation.
+  - Added access to enabling/disable GUI Vertical Sync in the options box.
+  - Fixed a bug that prevented Battery Backed RAM or EEPROM to be saved when
+    freeing ROM.
+  - Added a technical document (TECH.TXT) with basis informations about
+    the systems, as well as the schematic for the 3-D Glasses adapter.
+  - Reduced default FM writing delay, that should speed up the two games
+    over-abusing of FM writes. Try R-Type title screen.
+  - Added various name and checksum entries, and corrected many existing ones.
+    Should have noted out all Game Gear games running in Master System mode,
+    fixed some Colecovision names and date, and generally improved accuracy.
+    Thanks goes to Maxim and Luke2 for their precious help! :)
+  - Added Korean flag in the file loader and associated Super Tetris with it.
+    There are still several Korean games to dump, however.
+  - Fixed leap year calculation (for display of dates).
+  - Fixed a crashing bug when passing too many parameters on command line.
+  - Added the usual bunch of new GUI themes, and more pictures are available
+    from the homepage.
+  - Plenty of minor fixes here and here.
+
+
+ MEKA 0.54b
+ ----------
+  - Made some very minor fixes.
+  - Added two new themes (Deep Purple and Deep Brown).
+
+
+ MEKA 0.54
+ ---------
+  - Updated to the documentation, improved many parts and added new things.
+    Please read it!
+  - Fixed invalid vertical sprite wrapping in video mode 2 (bug introduced
+    in version 0.51, slighty affecting The Castle and maybe other games).
+  - Added PSG wave synthesis sound rate setting in the configuration file.
+    Rate is no more fixed to a weird value like in all previous versions,
+    avoiding the clicks and noise with certains soundcards. You can also
+    change the rate to the default values of 11025, 22050 and 44100 Hz from
+    the GUI pop-up menus.
+  - Added separate PSG channel enabling/disabling. Mainly useful for
+    musicians who want to listen to different channels separately, but
+    it is also very fun to disable some channels and play games with
+    somewhat new musics :)
+  - Fixed FM bug when hard pausing and unpausing in some games.
+  - Addams Family, Operation Wolf and Sonic Blast now automatically run in
+    PAL/Secam mode when NTSC is selected, due to the games having bugs in
+    NTSC mode.
+  - Fixed the badly positionned line of Hang On in Hang On / Safari Hunt.
+  - If brutally forced to close (like when switching to a blitter using an
+    invalid resolution), MEKA now switch back to its starting directory.
+  - Added screenshot filename template to the configuration file. You can
+    now configure weither you want padding, short or long filenames, etc..
+    Also changed screenshot numbering starting value from 0 to 1.
+  - Added "integer stretched" display of the themes background pictures
+    (see MEKA.THM).
+  - Added new themes, some of them using nice background pictures you are
+    invited to download at http://www.smspower.org/meka/themes.
+
+
+ MEKA 0.53c
+ ----------
+ Game Gear compatibility rate is now of 95.80%. It is the only unperfect
+ system and that's mainly due to the lack of LCD screen persistence of
+ vision emulation.
+
+  - Kishin Douji Zenki very minor graphic bug was a bug in the game itself,
+    not in MEKA. Thanks goes to Adol brothers for their help on this one.
+  - Added a patch to fix a bug in Walter Payton Football (in the game itself)
+    preventing it to works on machines with a FM Chipset.
+  - Fixed Wanted patch, I had accidentally commented a line out.
+  - Fixed California Games 2 minor graphic bug when selecting the top left
+    entry of the menu (screwed in version 0.52). Thanks Pieter!
+  - Added new entries to checksum and compatibility list.
+
+
+ MEKA 0.53b
+ ----------
+ I finally figured out what was the problem of the major slow down in
+ some video modes when page flipping was enabled. Actually using page
+ flipping need to force vertical synchronisation in most video modes, so
+ enabling them both will make the program synchronise twice per frame to
+ the vertical refresh, causing speed to be limited to about 30/35 FPS.
+ The default blitter definition files now have Page Flipping modes enabled
+ by mode, replacing the obsolote VSync modes.
+
+  - Fixed a bug preventing files to appear in the file browser under DOS.
+  - Added all known Colecovision dumps to the checksum/names list.
+    Names are based on Cowering's GoodColeco utility.
+  - Game name is now dynamically updated under the GUI is a country change
+    affect the current name.
+  - Fixed "Rise of the Robots" by forcing NTSC mode when it is not enabled.
+  - Added a patch to fix a bug in Wanted (in the game itself) preventing it
+    to works on machines with a FM Chipset.
+  - Fixed a bug sometimes happening where disabling background layer
+    display wouldn't work.
+  - Added 5 new themes (commented by default).
+
+
+ MEKA 0.53
+ ---------
+ Master System compatibility rate has now reached the perfect 100.00%
+ assuming out of the 373 tested ROMs none was broken in a recent version.
+ Something major have changed in this version and which might screw just
+ about any game. So if you find anything unusual that might be a bug,
+ please report it to me. As soon as possible I'll spend a week trying
+ all games again.
+
+ Enabling page flipping is known to cut down the speed by a factor of two.
+ This is obviously a bug as page flipping should not affect performances
+ so at the moment I suggest avoiding it and enabling VSync instead.
+
+ As a side news, I have ported MEKA to FreeBSD/NetBSD. It probably compiles
+ under Linux also, and whenever I can get my hands on a computer running
+ Windows applications at a correct speed, a Windows port will be worked on.
+
+  - Fixed temporary sound bug when loading savestates in certains cases.
+  - Added TV Type switch to change between NTSC and PAL/SECAM.
+  - Improved tile viewer so that a click on a tile shows its number and
+    the tile itself. Might be useful for developers and ROM hackers.
+  - Improved file browser: added a "Reload Directory" button and a
+    "Load Names" button to load full game names for all files.
+  - Fixed Y's (SMS/J).
+  - Added full TV Oekaki Graphic Board and Pen emulation, using mouse.
+    Button 1 simulate a pen press and button 2 simulates the pen being away
+    of the graphic board - when it is away you can use standard inputs. Now
+    you will be able to draw with the emulator ^_^
+    Thanks to Toshi for sending out the Graphic Board.
+  - Fixed GP Rider (GG) road corruption.
+  - Fixed NBA Action (GG) abnormal flickering.
+  - Fixed NBA Jam TE (GG, previously unknown bug) and Surfs Ninja (GG).
+  - Fixed reset key in Sega Keyboard emulation.
+  - Fixed Gear Game communication port emulation somewhat broken in
+    previous version and which affected Pac Attack.
+  - Fixed secret games left side of the screen bug in fullscreen mode.
+  - Improved auto frame skipper synchronization to the choosen speed.
+  - Compiled with the newest patched Seal Audio Library, improving overall
+    sound quality (16-bit mode was somewhat useless in previous versions),
+    and ALLOWING SOUND TO WORK ON SOUND BLASTER 128 SOUND CARDS, finally.
+    A big thanks goes to whoever patched Seal for that.
+    (I guess it is someone to the MAME team, but I am not sure.)
+  - File browser now go in the root of drive if current directory is invalid.
+  - Removed a broken line in the MEKA.NAM file causing Back to the Future 3
+    to show a black screen.
+  - Added even more new entries in the compatibility and checksum lists.
+  - Lot of sources changes and improvments.
+
+
+ MEKA 0.52
+ ---------
+ Compatibility rates as of version 0.52:
+
+  Master System: 99.72%
+    (not perfect because of the Japanese version of Ys).
+  Sega Game 1000: 100.00%
+  Sega Computer 3000: 100.00%
+    (excluding emulation of optional peripherals such as the Sega Printer)
+  Game Gear: 95.03%
+    (excluding gear-to-gear emulation used by certains two players games)
+
+  - Fixed the minor glitches in:
+   - Back to the Future 2
+     (black section flickering between the road and status bar)
+   - Gangster Town
+     (little line of skyblue pixels on the top of the car in the first scene)
+   - Operation Wolf
+     (minor graphic glitches on the top of the bottom bar when shooting)
+
+ Tested Wonderboy in Monsterworld on a real system and confirmed the minor
+ glitch when the menu is vertically scrolling is a bug in the game itself.
+
+ Did some research about Ys (J/FM), with help from Toshi.
+ It is not considered anymore as a bad dump. The bug happening in MEKA also
+ happens when using a real Game Gear or a Megadrive with an adapter.
+ However the game show a perfect status bar on a Japanese Master System,
+ so the bad behavior is considered as a bug of MEKA, even if in the first
+ place it is due to a bug in the game code taking advantage of an odd
+ behavior of the Japanese Master System.
+
+ Also:
+  - Improved run-time TMS9918 video mode detection.
+  - Fixed Hyper Pro Yakyuu 92 (GG).
+  - Reduced flickers in NBA Action (GG).
+  - Fixed freezing until a key is pressed when loading the Japanese BIOS.
+  - Fixed yet another silly bug introduced in previous version and screwing
+    some SC-3000 software such as the Sega Basic.
+  - Added new entries to compatibility and checksum lists. Also redone
+    SC-3000 list with names corrections for Japanese educational softwares.
+  - Fixed potential VDP bug - wasn't affecting any games, but could have.
+  - Implemented MAME Z80 CPU Core but did not enabled it in the public
+    version as it doesnt bring anything better than Marat's core: they
+    are on par, but MAME license is quite limiting.
+  - Improved documentation inside of the MEKA.BLT file.
+  - Fixed a bunch of minor bugs. Fixed handing of ROM smaller than eight
+    kilobytes. Fixed empty entry creation in the VFN database. Fixed a bug
+    in windows repositionning when changing resolution.
+  - Reduced executable size.
+
+ And also:
+  - Added background picture caching for a faster switch to the GUI when
+    a big image is used on background.
+  - Added a bunch of new themes into the distribution package.
+    Background pictures for some of the themes are available on a new
+    site at http://www.emucamp.com/meka/themes
+  - As of now the PICS/ directory should be considered as the one everyone
+    have to use to share themes easily. You can still have your own themes
+    pictures stored anyway, anyway.
+
+
+ MEKA 0.51 - OverClocked Edition
+ -------------------------------
+ SG-1000 perfect compatibility rate is now of 100%
+
+  - Added the possibility of adding a custom background picture in themes.
+    Keyword to be used in MEKA.THM is "background_pic". Pictures need to
+    be in PCX format and a maximum of 128 colors will be used. You can
+    zoom, tile or center the picture using the appropriate keywords.
+  - Added desktop saving. Active windows and their position are now saved
+    and restored back when loading MEKA.
+  - Rewrote sprite engine for video modes 1/2/3, fixing the minor bug in
+    Pitfall 2 (SG-1000) and Rockn'Bolt (SG-1000). Probably also fixed some
+    Colecovision games. Added optional flickering emulation.
+
+
+ MEKA 0.50
+ ---------
+ Master System perfect compatibility rate is now of 98.90%
+ Games still causing problems are:
+   Back to the Future 2
+     (black section flickering between the road and status bar)
+   Gangster Town
+     (little line of skyblue pixels on the top of the car in the first scene)
+   Operation Wolf
+     (minor graphic glitches on the top of the bottom bar when shooting)
+   Wonderboy in Monsterworld
+     (minor glitche on the menu vertical scrolling line when pressing pause)
+ Found out that the bug in Aerial Assault was happening on a real system.
+ So it's not considered as a bug anymore.
+
+ Next step will be to improve Game Gear perfect compatibility rate (94% now).
+
+ First, reparing bugs introduced in MEKA 0.40:
+  - Fixed accidentally left bug in SG-1000 interrupt emulation, fixing
+    Championship Lode Runner and probably other games.
+  - Fixed accidentally left minor scrolling bug in a few games (Castle of
+    Illusion to name one. I forgot about the others).
+
+ New stuff being:
+  - Rewrote Light Phaser emulation. The following games are now playable:
+      - Laser Ghost (Light Phaser is optional)
+      - Missile Defense 3D
+      - Operation Wolf
+      - Shooting Gallery
+      - Wanted
+  - Improved various bit of emulation to fix the following games:
+      - Robocop 3 (SMS): does not crash anymore when pausing.
+      - Back to the Future 3 (SMS): have minor title screen bug fixed.
+      - Sonic Drift 2 (GG): bottom of screen is correct now.
+      - Out Run (GG): music now plays.
+  - Added Game Gear vertical scrolling lock emulation (fixing Fray).
+  - Added wide effective area emulation (2 Star Trek games on Game Gear).
+  - Implemented better systems hardware differences to allow detection.
+    Renaming Pit Pot (SMS) to the .SG extension and running it will
+    now show a custom error screen! Thanks goes to Yujiro to the notice.
+  - Slighty optimized Master System and Game Gear screen refresh.
+  - Rewrote blitters handling system:
+      - Added blitters definition file (MEKA.BLT) where you can configure
+        fullscreen video modes drivers, resolution and effects, and create
+        your own video modes this way.
+      - Added "TV Mode" blitter that simulate accurates TV scanlines. 
+      - Added "Double" blitter. Nice uses of it are:
+          - Doubling screen with 512x384 mode (getting true Fullscreen).
+          - Doubling screen in a tweaked mode (Game Gear with big pixels).
+            If you find any suitable mode for Game Gear other than the ones
+            listed in the MEKA.BLT file, please tell me about it.
+      - Added "Page Flipping" option to blitter (reducing flickers)
+      - Included "Perfect" blitter definition with all best features enabled
+        (512x384 resolution, TV Mode, Doubled Fullscreen, Page Flipping and
+        Vertical Synchronisation) for people with *very* fast computer.
+      - Removed hotkeys to enable/disable the Scanlines, Eagle and Parallel
+        effects. They are now part of blitters configuration. The current
+        blitter can be changed by pressing F1.
+  - Rewrote frameskip handling system and added speed throttling.
+      - F2 key now switch between standard and automatic frameskipping.
+      - F3 decrease speed in automatic mode, else decrease frameskip.
+      - F4 increase speed in automatic mode, else increase frameskip.
+  - Added icons package from various contributors (see ICONS.ZIP).
+  - Added Massage savegame converter. Rename a .MSD file in the MEKA
+    naming convention and it will be automatically converted when loading.
+    You might in some cases experience sound or various other problems
+    with certain games. The usual solution is to pause and unpause the
+    game, else try to change screen/level.
+  - Slighty improved voice emulation.
+  - Rewrote drivers handling system. It is easier to maintain internally now.
+  - Color related stuff:
+      - Fixed potentiel palette problems with some video card/mode couples.
+      - Revamped whole palette update handling (reducing snow).
+      - Palette viewer now show no more than the correct number of colors
+        in SG-1000/SC-3000/Coleco mode.
+  - Fixed configuration file problem when using PSX and N64 joypads.
+  - Added new games and product numbers to compatibility and checksum lists.
+  - Added mouse button 2 shortcut to switch between the two Light Phasers.
+  - Added some new GUI themes - uncomment in MEKA.THM file to use them.
+  - Fixed file browser bug when overwriting recognized ROMs with unknown
+    ones would keep the old, recognized name showing.
+  - Fullscreen captures now ignore status message and filters/effects.
+  - Made some structural optimisations, increasing speed of a few percents.
+  - Fixed bug virtual longfile name self created list saving.
+  - Fixed a screenshot naming bug with short ROM names.
+  - Fixed rare crashing bug with the blood cursor GUI effect.
+  - Sega Basic Level 3 Version 1.1 Japanese now works with a patch.
+  - Reduced savegame size for SG-1000 and Colecovision systems.
+  - Compiled with latest Allegro library, adding support for the following
+    joysticks/pads drivers:
+      - DB9 pads through parallel ports (allow to plug real SMS pads!)
+      - PC Engine pads through parallel ports
+      - Saturn pads with IF-SEGA interface cards for PC.
+
+ Now Phantasy Star runs at 49 frame per seconds on my computer !
+
+
+ MEKA 0.40
+ ---------
+ Master System perfect compatibility rate is now of 97.78%
+ Games still causing problems are:
+   Aerial Assault (minor scrolling glitch on the beginning of a level)
+   Back to the Future 3 (minor bug on title screen)
+   Missile Defense 3D (buggy lightgun emulation)
+   Operation Wolf (buggy lightgun emulation)
+   Robocop 3 (pausing crashes the game)
+   Shooting Gallery (buggy lightgun emulation)
+   Wanted (buggy lightgun emulation)
+   Wonderboy in Monsterworld (glitches when pressing pause)
+
+ Game Gear perfect compatibility rate is 94.55%
+ 17 games are still causing problems, including 5 which requires simulation
+ of LCD screen visual persistance to produces transparency effect, 3 using
+ an internal EEPROM to save custom teams, 2 having bad scrolling positions,
+ and the 7 others:
+   GP Rider (road distort itself after a moment)
+   Kishin Douji Zenki (one line of clouds is not scrolling in fighting level)
+   NBA Action (sprites flickering, might be the real game behavior)
+   Out Run (no music for some reasons)
+   RBI Baseball '94 (sprites not visible in top view, might be a bad dump)
+   Sonic Blast / G-Sonic (micro title bug in US/Euro mode)
+   Sonic Drift 2 (bottom line has a bad scrolling offset)
+
+ Sega Game 1000 perfect compatibility rate is 97.40%
+ Games still causing problems are:
+   Pitfall 2 (minor glitch at the top when dying)
+   Rockn' Bolt (sprite priorities bug on lift when starting)
+
+  - Improved emulation on various point, fixing:
+      - Altered Beast (SMS): title screen effect is now ok
+      - Cool Spot (SMS): no more minor flickering
+      - Evander Holyfield Boxing (GG): no more blue screen every odd frame
+      - Global Gladiator (SMS): no more minor flickering
+      - Gun Star Heroes (GG): no more glitches here and here
+      - Hang On / Safari Hunt (SMS): fixed a bug preventing to start sometimes
+      - Heavy Weight Champ (SMS): music play on introduction
+      - Hurricanes (GG): no more blue screen every odd frame
+      - Impossible Mission (SMS): room are showing properly when entering
+      - NBA Jam (GG): playfield is ok
+      - PGA Tour Golf (SMS): playfield is ok before game start
+      - Legend of Illusion (SMS): does not hang anymore at the sunken ship stage
+      - Out Run (GG): no more flickering
+      - Orguss (SG-1000): no hang when exploding with the small robot
+      - Safari Hunting (SG-1000): no hang when entering in the game area
+      - Safari Race (SG-1000): better response of button on title screen
+      - Shining Force 1 (GG): fixed random crashes
+      - Shining Force 2 (GG): fixed random crashes
+      - Shining Force 3 (GG): fixed random crashes
+      - Speedball 2 (SMS): no more flickering
+      - Sonic Drift (GG): now works perfectly
+      - Sonic Drift 2 (GG): now works almost perfectly, minor bug on bottom
+      - Terminator 2: Judgement Day (GG): no more blackout every odd frame
+      - WWF Steel Cage Challenge (SMS): no more moving bug on barriers
+      - Xenon 2 (SMS): no more flickering
+  - Custom IPeriod values for Aerial Assault (SMS), Barcelona 92 (SMS),
+    Gokuaku Doumei Dump Matsumoto (SMS) and Pro Wrestling (SMS) are not
+    needed anymore due to improved emulation, and were removed. The only
+    game left needing a custom IPeriod value is "Shadow of Beast" which
+    sometimes crash on title screen with the default value.
+  - Improved voice emulation, many games sound correct now (not all).
+  - Updated to Allegro WIP in prevision to future improvments. In the
+    meanwhile, the new version provides drivers for Gravis Grip, PSX and
+    Nintendo 64 joypads, as well as better Sidewinder support (untested).
+  - Rewrote hardware sprite collision emulation. Might break some games,
+    please report if you discover anything unusual!
+  - Improved Master System Sportpad controller emulation.
+    Games are easier to play now, even if it is not perfect.
+  - Improved default mapper emulation.
+  - Added (buggy) EEPROM model 93c46 emulation. This chipset is used by
+    three Game Gear baseball games to save custom teams and game progress.
+    Pretty though one to emulate, but that's the only way to reach perfect
+    emulation ^_^
+  - Added Rapid Fire emulation.
+  - Improved video mode 2 emulation, fixing Cosmo Fighter 2 (Coleco).
+  - Added video mode 3 emulation, used by two painting programs for the
+    Colecovision, and very probably by many SC-3000 programs.
+  - Definitively removed the snow effect that pissed everyone :-(
+    I would have stopped on the 28 of December, anyway.
+    Instead, added the "special=snow" parameter in the theme file, to
+    create your own themes using that effect.
+  - Added Christmas and Sunrise GUI themes.
+  - Compatibility and checksum lists changes:
+     - Added a bunch of new names.
+     - Added new Game Gear Japanese games (thanks to Casiopea).
+     - Differencied names for alternate versions (thanks to Luke).
+     - Added product numbers for about 150 Japanese Game Gear games.
+  - Added IPERIOD_SG1000_SC3000 setting in the configuration file.
+  - Added a patch to fix the bug in Sport Pad Soccer which make it hang on
+    systems without the FM chipset.
+  - Fixed bad screen size bug in certain cases after freeing ROM.
+  - Added improved filter for old configuration file. As the keyboard
+    keycodes have changed in this version they cannot be imported.
+  - Added /LOG command line parameters to log all messages to a file.
+  - Rewrote message applet from scratch. It does not slow down anymore
+    when the number of messages per second is too important (+1000).
+  [sources changes]
+  - Revamped mapper handling.
+  - Revamped backed memory handling.
+
+
+ MEKA 0.32c
+ ----------
+  (minor update - version number still the same in the executable)
+  - Fixed a stupid little damned bug causing the program to crash under DOS.
+  - Added IPERIOD_COLECO setting in the configuration file.
+    Do not touch unless you know what it means!
+
+
+ MEKA 0.32b
+ ----------
+  (minor update - version number still the same in the executable)
+  - Fixed slodown bug when loading a non Coleco ROM after a Coleco ROM.
+  - Fixed a bug preventing from switching the machine Off in certain cases.
+  - Fixed a minor file browser bug (selection was lost when using mouse).
+  - Added some new checksums for various hacks.
+  - Added a new GUI theme.
+
+
+ MEKA 0.32
+ ---------
+  - Fixed the following games:
+      - Andre Agassi Tennis [SMS, GG]
+      - Greendog [GG] (Sega logo now shake, it did not before)
+      - Panzer Dragoon Mini [GG]
+      - Pit Fighter [SMS]
+  - Improved emulation in the following games:
+      - PGA Tour Golf [SMS] (level presentation now scroll - buggy)
+      - Sonic Spinball [SMS, GG] (lake in introduction now scroll - buggy)
+  - Fixed a VDP bug introduced in 0.31 that affected Rescue Mission (and
+    probably many other games, too).
+  - Added .BIN extension in the file browser (for some Colecovision ROMs).
+  - Fixed incorrect palette of Colecovision picture after freeing ROM.
+  - Updated Colecovision compatibility list, Added a new GUI theme,
+    Added checksum and names for a bunch of SMS hacks.
+  - Improved debugger (still not for public consumption).
+
+
+ MEKA 0.31
+ ---------
+ (YM-2413 emulation is disabled by default because of many people who
+  do not know about the existence of that chipset and complain about the
+  musics and sound effects not being the same as they used to hear. Now
+  that you know about it, feel free to enable YM-2413 emulation yourself).
+
+  - Updated various chapters of the documentation. Please read it!
+  - Added ZIP files support. Also improved file handling in general.
+    Warning: loading ZIP files which do not contains valid ROM images may
+    crash the program when it comes to emulating a non Z80-code file.
+  - Made some minor optimizations of screen refresh.
+  - Fixed a bug that caused games not to run before being reseted
+    when in Japanese mode with the BIOS enabled.
+  - Fixed a bug which cause the START button to be randomly pressed just
+    after loading a Game Gear savegame.
+  - Added a patch to fix the bug in American Pro Football that make it
+    hang on systems with the FM chipset.
+  - Fixed too early palette setting when loading a SG-1000/SC-3000/Coleco
+    game from the command line.
+  - Added support for sprites both doubled and zoomed.
+  - Added options box with various flags modifiable directly under the GUI:
+     - Enable/disable startup BIOS logo.
+     - Keep file browser open after loading game.
+     - Switch to fullscreen mode after loading game (new option).
+     - Enable/disable virtual long file names (new option).
+     - Enable/disable messages in fullscreen mode.
+  - Slighty improved dynamic palette system, fixing Moldorian and other
+    games, until a better fix could be applied.
+  - Added an option to show games product numbers.
+  - Game comments are now displayed under the GUI, and a warning is given
+    on known bad dumps. Any cool informations and comments that could be
+    included in the default distribution are welcome.
+  - Updated Colecovision support (finally):
+     - Improved keypad emulation. Mapped # and * keys on the keyboard.
+       Their corresponding keys are minus and equals, next to the 0.
+     - Fixed garbage sound on the beginning of some games.
+     - Improved interrupt emulation.
+     - Fixed joypad emulation in some cases.
+     - Added Colecovision picture in the graphical user interface.
+  - Reorganized and cleaned various parts of the sources. Improved
+    widgets and configuration file handling (no visible changes).
+  - Updated compatibility and checksum lists with new entries. Added and
+    fixed even more Japanese names. Added flags here and here.
+
+
+ MEKA 0.30
+ ---------
+  - Hiroshi added a preliminary FM Voice Editor.
+  - Fixed FM emulation bug in Wonderboy 2 / Monster World 1 / Monica 1.
+  - FM writes are now delayed, and FM musics are now in better sync with PSG.
+  - Hiroshi dumped the original Japanese Master System BIOS. Then I hacked
+    and interfaced it to includes it in MEKA. To watch the demo included
+    in the Japanese SMS: change the machine country to Japanese, remove
+    cartridge if any is loaded and switch the power ON.
+  - Fixed a bug in VRAM access emulation (AX Battler sprites now works).
+  - Improved dynamic palette system:
+      - No more color bug in Itchy & Scratchy (GG) and Bust a Move (GG)
+      - Less flickering in Space Harrier (GG) menu
+  - Improved palette handling when a game quickly change the video mode
+    in the middle of a frame, fixing Back to the Future 2 (SMS).
+  - Fixed title screen bug in California Games 2 (SMS).
+  - Fixed top screen flickering in Addams Family (SMS)
+  - Fixed Pop Breaker (GG). I did introduce a bug just before releasing 0.10.
+  - Fixed dirty first column when reseting some SG-1000 games.
+  - Fixed dirty first column on badly programmed SMS games (Jurassic Park).
+  - Improved file browser:
+      - Added keyboard input (arrows, page up/down, home/end, letters)
+      - Added little flags next to Japanese, Brazilian and Australian games.
+      - Added a configuration switch to keep the browser open after loading.
+      - Selected file is now kept after loading a game.
+  - Rewrote some parts of the GUI engine (no visual changes).
+  - Fixed a command line bug.
+  - The pause/start button has been moved to the SPACE key for two reasons:
+    first, some games use it as an action button, and secondly, when the file
+    browser is open it would interfer with it because of the ENTER key.
+  - Added patch to fix Sega logo color in the Ninja Gaiden bad dump.
+  - Added tons of new entries to the checksum, name and compatibility lists.
+  - Added 3 new GUI themes (uncomment manually or enable with WonderTheme).
+  - A bunch of other minor fixes and improvements.
+
+
+ MEKA 0.20
+ ---------
+  - Removed delays when accessing to soundblaster hardware registers,
+    resulting in a 20 frame per seconds speedup in R-Type, and no more
+    slowdowns in Wonderboy 3 with YM2413 emulation enabled. If you have
+    problems with this version, try setting the value back to 16 in the
+    configuration file, and be sure to contact me.
+  - Added automatic peripheral type switching.
+  - Added Sport Pad controller emulation.
+  - Improved Paddle controller emulation (much more precise).
+  - Finally managed to understand peripheral detection, so you can
+    play Out Run with the Paddle controller enabled (ala Steering Wheel)
+    for the first time in your life :-)
+  - Fixed Light Phaser emulation bug in Operation Wolf.
+  - Added a switch to enable/disable YM-2413 emulation inside of the GUI.
+  - Added a switch to change country inside of the GUI.
+  - Emusphere.com sucks (just checking if they ever read what they paste).
+  - Messages are now shown in fullscreen mode, making things a bit slower.
+    You can disable that feature in the configuration file.
+  - Fixed snow when VSync is enabled and colors are being updated. Check the
+    Star Wars introduction to notice the difference. (thanks to Lord_B).
+  - Major checksum, name and compatibility lists update. Added more than
+    200 new entries, fixed some names, and added more product numbers and
+    Japanese name equivalents. (special thanks to Jossa and Tincho DJ)
+  - Fixed a potential nationalization bug.
+  - Added hard pause feature, available from the menu or with CTRL-P.
+  - Added ALT-F11 hotkey to enable/disable the background layer (for
+    sprites ripping).
+  - Added values in the configuration file to resize the file browser.
+  - Added values in the configuration file to remap the joystick buttons.
+  - Added necessary menu entries to swap keyboard and gamepad buttons.
+  - Added two new GUI themes, courtesy of Tincho DJ. Uncomment them in the
+    default theme file or enable them with Wonder Theme.
+  - Updated savegame format (backward compatible, of course).
+  - Increased end delay for non registered users.
+  - A few other cosmetic changes.
+
+ Special thanks for this release goes to James McKay for having figured the
+ big part of the controller thing by originally hacking Sport Pad Football.
+
+
+ MEKA 0.13.1
+ -----------
+  - Fixed many crashing bug introduced in version 0.13.
+  - Fixed FM persistant sound when loading a PSG game after a FM game.
+  - Fixed a bug when trying to free a ROM when the BIOS logo is running.
+  - Now you can load a savegame while the BIOS logo is running.
+  - Fixed Shining Force 3 (Game Gear).
+  - Added some more entries in the compatibility and checksum lists.
+
+
+ MEKA 0.13
+ ---------
+  - Various non emulation bug fixed.
+  - Added an option to free the current loaded ROM (to play the snail game).
+  - Added Colecovision emulation.
+  - Color themes are no more hardcored into the executable, so you can create
+    your own ones by editing the MEKA.THM file. Added the following new ones:
+      - Girl's Power (by me)
+      - Monochrome (by Limbs a Flyin')
+      - Necro (by Roni)
+      - Grey Box (by Puyolin and me)
+  - Added the necessary code for handling registration keys. Now registered
+    users have a permanent keyfile that unlock MEKA.
+  - All pause buttons bug with or without joypads enabled should be fixed
+    now, although I still cannot test the code.
+  - Fixed snow in SG-1000/SC-3000/Colecovision games.
+  - Fixed a keyboard lock bug that happened sometimes (mainly when starting
+    "BrAin waSH" but also in some other cases).
+  - Update savegame file format. Old files can still be loaded with this
+    version, but you won't be able to play the new savegames with an older
+    version. Oh well, who cares ?
+  - Removed SMS background picture anti-aliasing to fit with all color themes
+    and added a picture when no cartridges is inserted.
+  - Some optimizations in SG-1000/SC-3000/Colecovision games.
+  - Added FM patch for Monica Em: O Resgate.
+  - Added a few more titles to the compatibility and checksum lists.
+
+
+ MEKA 0.12
+ ---------
+  - Added preliminary voice emulation.
+  - Added joystick and video drivers entry in the configuration file
+    (you can now use four-buttons joypads, VESA modes, etc..).
+  - Fixed PSG/FM volumes.
+  - Fixed a bug that prevented Battery RAM to be saved in certain cases.
+  - Fixed a BIOS bug when no ROM was loaded in Japanese mode.
+  - Added an option to disable background refresh (for GFX ripping).
+  - Fixed virtual long filename duplicates creation.
+  - Changed default IPeriod to 228 and updated the list.
+  - Fixed Shining Force 2.
+  - Added new entries into checksum and compatibily lists.
+  - Improved double dump detection, via a tolerance system.
+  - Some minor optimizations.
+
+
+ MEKA 0.11
+ ---------
+  - Fixed sound crashing.
+  - Improved FM sound emulation.
+  - Mapped start/pause button on joystick (button 3).
+  - Fixed Orguss (SG-1000).
+  - Fixed Power Strike (SMS).
+
+
+ MEKA 0.10
+ ---------
+  - Initial public release.
+
