@@ -49,7 +49,7 @@ byte    EEPROM_93c46_Direct_Read        (int Addr);
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_93c46
+typedef struct  s_93c46
 {
   byte          Enabled;
   byte          Lines;
@@ -59,14 +59,14 @@ struct t_93c46
   word          Opcode;
   word          Latch;
   word          Data [EEPROM_93C46_DATA_SIZE/2]; // Data must be at end of structure
-};
+}               t_93c46;
 
-extern t_93c46  EEPROM_93c46;
+t_93c46         EEPROM_93c46;
 
 // Legacy structure (for loading old MEKA savestates) -------------------------
 
 /*
-struct t_93c46_LEGACY
+typedef struct  s_93c46_LEGACY
 {
   byte          Action;
   byte          Enabled;
@@ -79,7 +79,7 @@ struct t_93c46_LEGACY
   word          Data [64]; // _DATA_SIZE / sizeof(_DATA_TYPE)
   byte          EW_Enable;
   byte          Return_Read;
-};
+}               t_93c46_LEGACY;
 */
 
 //-----------------------------------------------------------------------------

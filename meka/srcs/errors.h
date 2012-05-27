@@ -36,7 +36,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-extern int      meka_errno;
+int             meka_errno;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -44,7 +44,7 @@ extern int      meka_errno;
 
 const char *    meka_strerror(void);
 
-#ifdef ARCH_WIN32
+#ifdef WIN32
 void            ShowWindowsErrorMessage(void);
 #endif
 

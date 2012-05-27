@@ -1,5 +1,5 @@
 
-This is the "developer" version of CHANGES.TXT
+This is the "private" version of CHANGES.TXT
 Not much difference, mainly:
 - Including some source-related comments.
 - Including pre-0.10 changelog.
@@ -10,402 +10,9 @@ They are usually of 2 kinds:
 - Fixes or addition to things changed during WIP.
 - Programmer/hacker centric information.
 
- MEKA 0.8x WIP Allegro 5
- -----------------------
-  - Updated to Allegro 5.0.2 with OpenGL/DirectX backends. [Omar]
-    This required a lot of changes and rewrite in the codebase. It probably added new bugs,
-    and performances seems to vary depending on computer settings and video drivers.
-    Please do report if you have any issue/slowdown so we can fix them!
-  - Preliminary MacOSX port. [Omar]
-  - Rewrote sound engine and fixed audio issues that many users had. [Omar]
-    The sound is also now functional under Linux and MacOS. [Omar]  
-  - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
-    Codebase can now freely take advantage of all C++ compiler features. [Omar]
-  - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
-  - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
-  - Setup panel allows to select display driver and resolution. [Omar]
-  - Added Polish translation. [thr]
-  - Emulation:
-    - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
-    - Added support for '4 PAK All Action' mapper. [Omar]
-    - Added support for 'Janggun-ui Adeul' mapper. [Omar]
-    - Added support for Taiwanese DahJee/Jumbo SG-1000 II RAM extension adapter. [Omar]
-    - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
-    - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
-      This allow 'Ali Baba' and 'Block Hole' to run properly. Better clearing patterns
-      could be implemented for other systems/countries after we've done more research. [Omar]
-    - Added support for mirrored VDP ports in $80..$BF range, as required by some 
-      Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
-    - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
-  - Debugger:
-    - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
-    - Added CR command ("Continue to next RET* instruction"). [Omar]
-    - Added STACK command ("Dump stack", with dual 8/16 bits display and with symbol resolving). [Omar]
-    - Improved the range of disassembly before PC cursor when running loops. [Omar]
-    - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
-    - Added support for parsing SJASM symbol format. [Omar]
-    - Added support for parsing TASM symbol format. [Omar]
-  - Tools:
-    - CheatFinder: added a new cheat finder application. [Omar]
-      - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.
-      - Can search in RAM,ROM,VRAM,VREG,PRAM,SRAM,Z80 spaces for maximum flexibility,
-        although for actual cheat-finding purpose RAM is likely to be more searched for.
-      - Reduce the match set by using ==,!=,<,>,<=,>= operators, compare with a constant 
-        or the old value stored in each match memory location.
-      - Highlight matches in the memory editor for easier visibility.
-      - Undo button.
-    - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
-    - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
-    - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
-  - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
-  - FileBrowser: returning to parent directory position cursor on last child. [Omar]
-  - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
-  - FileBrowser: display JP flag when a game is JP/KR or JP/TW in the database. [Omar]
-  - GUI: Made "Ocean" the default theme and increased default GUI resolution. [Omar]
-  - GUI: Made "SMS Power! theme more readable. [Omar]
-  - GUI: depth order of windows is saved and restored between runs. [Omar]
-  - GUI: increased mouse horizontal range when using scrollbars. [Omar]
-  - GUI: added 'game_window_scale' directive on configuration file to resize game window. [Omar]
-  - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
-  - Removed code for the old OPL3 based YM2413 emulator. [Omar]
-  - Removed easter egg code for emulating the NES. [Omar]
-  - Removed easter egg mini-games and various other obsolete features. [Omar]
-  - Removed mekaw.txt and mekanix.txt documentation files (obsolete). [Omar]
-  - (Win32) Using precompiled header for blazing fast compilation (MSVC). [Omar]
-  - (Win32) Using precompiled Allegro binaries. [Omar]
-  - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
-  - (Win32) Now including NASM assembler in the repository. [Omar]
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-          GG  - f3ca6676 - Columns (JP)                         --> Columns [v0]
-          GG  - 83fa26d9 - Columns                              --> Columns [v2]
-          GG  - a8ef36a7 - Junction                             --> Junction (JP)
-          GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
-          GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
-          SG1 - 5eb48a20 - Congo Bongo [v1]                     --> Congo Bongo [v0] (made a mistake originally ordering the versions. see thread on SMS Power! forum)
-          SG1 - 5a24c7cf - Congo Bongo [v0]                     --> Congo Bongo [v1] 
-          SG1 - f7eb94c5 - Congo Bongo [v0] (TW)                --> Congo Bongo [v1] (TW)
-          OMV - 90160849 - 007 James Bond                       --> 007 James Bond [v2.7] (version v2.6 found)
-          OMV - 76d6c64d - 007 James Bond (TW)                  --> 007 James Bond [v2.7] (TW)
-          OMV - d5fdb4a3 - Space Armor [v0]                     --> Space Armor [v2.0] [v1] (earlier build found replacing [v0], v2.0 is found on title screen but doesn't differenciate both v20 builds)
-          OMV - ac4f0a5c - Space Armor [v1]                     --> Space Armor [v2.0] [v2]
-          SC3 - 22f4f92a - Nihonshi Nenpyou (JP)                --> Nihonshi Nenpyou [BAD] (JP) (was bad dump, correct dump confirmed multiple times)
-          
-
- MEKA 0.74 WIP xxxxxxxx
+ MEKA 0.72 WIP xxxxxxxx
  ----------------------
-  - (Win32) Updated project file to Visual Studio 2008 format + compilation fixes.
-  - (Win32) Updated Allegro library to 4.2.3 (using precompiled binary from 'allegro-msvc9-4.2.3').
-  - (Win32) Updated LibPNG library to 1.2.8 (precompiled binary package included in repository).
-  - (Win32) Including minimal DirectX 7.0 package (precompiled binary package 'dx70_min' included in repository)
-     because newer DirectX SDK tends to cause problem with 4.2.x Allegro branches.
-  - SC-3000:
-    - Fixed the ':' (colon) key not working on Sega Keyboard emulation under certain host keyboard/OS configuration. [Omar]
-  - GUI:
-    - Added Taiwanese flag (for DB and File Browser). [Omar]
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-          SMS - 84665648 - Great Soccer (JP) [Hack]             --> Great Soccer (TW)
-          SMS - 656d1a3e - Hokuto no Ken [BAD] (CH)             --> Hokuto no Ken (TW) [Hack] (the "bad" data is on the original cart, but this version has additional modifications)
-          SMS - 69538469 - Monopoly [A]                         --> Monopoly (US)
-          SMS - 026d94a4 - Monopoly [B]                         --> Monopoly (EU)
-          SMS - 311d2863 - Prince of Persia [SMS-GG] [A]        --> Prince of Persia [SMS-GG] (US)
-          SMS - 45f058d6 - Prince of Persia [SMS-GG] [B]        --> Prince of Persia [SMS-GG] (EU)
-          SMS - 01686d67 - Suho Cheonsa (KR)                    --> Suho Jeonsa (KR)
-          SG1 - 868419b5 - Champion Golf [A]                    --> Champion Golf [cart]
-          SG1 - 5a904122 - Champion Golf [B]                    --> Champion Golf [card]
-          SG1 - fdc095bc - Doki Doki Penguin Land (HK)          --> Doki Doki Penguin Land (TW)
-          SG1 - 60f30138 - Dragon Wang [B]                      --> Dragon Wang [v0]
-          SG1 - 7c7d4397 - Dragon Wang (TW)                     --> Dragon Wang [v0] [chinese logo] (TW) (because a second Taiwanese version exists)
-          SG1 - 99c3de21 - Dragon Wang [A]                      --> Dragon Wang [v1]
-          SG1 - bd24d27b - Flicky                               --> Flicky [v0]
-          SG1 - 191ffe0a - GP World [A]                         --> GP World [v1]
-          SG1 - 191ffe0a - GP World [B]                         --> GP World [v0]
-          SG1 - 6d909857 - Mahjong                              --> Mahjong [small 1983]
-          SG1 - 8572d73a - Monaco GP [24k]                      --> Monaco GP [24k] [v0] [40k map]
-          SG1 - da2d57f3 - Monaco GP [32k]                      --> Monaco GP [32k] [v1] (provision for newly found [v2] build).
-          SG1 - 37fca2eb - Pitfall II ~The Lost Caverns~ [A]    --> Pitfall II ~The Lost Caverns~ [v0] (dumps and versionning finally confirmed)
-          SG1 - 3db74761 - Pitfall II ~The Lost Caverns~ [B]    --> Pitfall II ~The Lost Caverns~ [v1]
-          SG1 - 160535c5 - Wonder Boy [A]                       --> Wonder Boy [v0]
-          OMV - 90160849 - James Bond 007                       --> 007 James Bond
-          GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5 in One Fun Pak
-          GG  - a6bf865e - Beavis and Butt-Head (MTV's)         --> Beavis and Butt-Head (MTV's)
-          GG  - 3858f14f - Beavis and Butt-head (MTV's) (US)    --> Beavis and Butt-head (MTV's) (US)
-          GG  - 03d28eab - Crayon Shin-chan - Taiketsu! Tankam..--> Crayon Shin-chan - Taiketsu! Kantamu Panic!! (JP) (embarassing typo)
-          GG  - 7ec95282 - Madoh Monogatari A [...] Bake~shon   --> Madoh Monogatari A - Doki Doki Vacation (JP)
-          GG  - 4e279baa - PGA TOUR Golf 2                      --> PGA TOUR Golf II
-          GG  - 786dd67b - Skweek (JP)                          --> Skweek [BAD] (JP)
-          GG  - 88618afa - Tails' Sky Patrol (JP)               --> Tails' Skypatrol (JP)
-          GG  - e678f264 - Yogi Bear [Proto]                    --> Yogi Bear in Yogi Bears Goldrush [Proto]
-    Other smaller changes not recorded, please refer to meka.nam SVN history for exact changes.
-          
-
- MEKA 0.73 WIP 20100530
- ----------------------
-  - Updated MEKA license, data are now licensed under the same term as sources.
-    The license is now unrestrictive BSD-like. [Omar]
-  - Removed "k" and associated donation rambling from the documentation.
-    Donations are still welcome, at your own discretion.
-  - Emulation:
-    - Added support for "no bank switching" mapper. Used by Korean games such 
-      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for 
-      its RAM usage but do not expect bank-switching. [Omar]
-    - Added support for Korean 8KB banks mapper. Used by Korean games ported
-      from MSX such as "Penguin Adventure", "Street Master" or "Won-Si-In". [Omar]
-  - GUI:
-    - Fixed Light Phaser and Terebi Oekaki cursor shape when switching from
-      32-bits GUI mode to 16-bits game only mode. [Omar]
-    - File browser: fixed positionning of BAD and HACK icons, which aren't
-      overlays anymore. [Omar]
-    - Added Canadian flag (for DB and File Browser). [Omar]
-    - Fixed crash when empty gradient range are specified in theme file. [Omar]
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-          SMS - b3768a7a - Bonkers Wax Up! (BR)                 --> Bonkers Wax Up! (Disney's) (BR)
-          SMS - 1b10a951 - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
-          SMS - c0e25d62 - California Games II                  --> California Games II [50 Hz]
-          SMS - 46340c41 - Cheese Cat-astrophe                  --> Cheese Cat-Astrophe - Starring Speedy Gonzales
-          SMS - 89b79e77 - Dodgeball King (KR)                  --> Dallyeora Pigu-Wang (KR)
-          SMS - b8b141f9 - Fantasy Zone II                      --> Fantasy Zone II - The Tears of Opa-Opa
-          SMS - c722fb42 - Fantasy Zone II (JP)                 --> Fantasy Zone II - Opa-Opa no Namida (JP)
-          SMS - 45c50294 - Jogos de Verão II                    --> California Games II [50-60 Hz] (also found in Korea).
-          SMS - 5b5f9106 - Nekyuu Kousien (JP)                  --> Nekkyuu Koushien (JP)
-          SMS - 0e333b6e - Miracle Warriors - Seal of the Dar.. --> Miracle Warriors - Seal of The Dark Lord (casing on 'The')
-          SMS - be57a9a5 - Pacmania                             --> Pac-Mania (the other way, sorry! It seems like the official name of the game)
-          SMS - 294e0759 - Paperboy                             --> Paperboy [v0] (scoring bug)
-          SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (also found in Brasil)
-          SMS - 97d03541 - Sangokushi 3 (KR)                    --> Samgukji III (KR), Japanese Name "Sangokushi III".
-          SMS - e1fff1bb - Shinobi (JP)                         --> Shinobi [v0] (also found in Brasil in Game Box Serie Lutas compilation)
-          SMS - 0c6fac4e - Shinobi                              --> Shinobi [v1]
-          SMS - c93bd0e9 - Slap Shot [B]                        --> Slap Shot [v0]
-          SMS - d33b296a - Slap Shot [A]                        --> Slap Shot [v1]
-          SMS - 702c3e98 - Slap Shot (US)                       --> Slap Shot [v2] (US)
-          SMS - 93ca8152 - T2 - The Arcade Game                 --> T2: The Arcade Game
-          SMS - 11ce074c - Taz in Escape From Mars              --> Taz in Escape from Mars
-          SMS - ac56104f - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
-          SMS - bf7b7285 - Tom and Jerry - The Movie            --> Tom and Jerry: The Movie
-          SMS - 0c2fc2de - Tom and Jerry - The Movie [Proto]    --> Tom and Jerry: The Movie [Proto]
-          SMS - 20f40cae - Vampire                              --> Master of Darkness / Vampire [Proto]
-          GG  - f85a8ce8 - 5 in 1 Fun Pak                       --> 5-in-1 FunPak
-          GG  - 8d8bfdc4 - Baku Baku Animal (US)                --> Baku Baku (US)
-          GG  - 10ac9374 - Baku Baku Animal (EU)                --> Baku Baku (EU)
-          GG  - a6bf865e - Beavis and Butt-head                 --> Beavis and Butt-head (MTV's)
-          GG  - 325b1797 - Berlin no Kabe - The Berlin Wall (JP)--> Berlin no Kabe - The BerlinWall (JP) (clearly spelled without space)
-          GG  - bfceba5f - Bonkers Wax Up!                      --> Bonkers Wax Up! (Disney's)
-          GG  - 69ebe5fa - Bram Stoker's Dracula                --> Dracula (Bram Stoker's)
-          GG  - 2c758fc8 - Cool Spot                            --> Cool Spot (US)
-          GG  - 03d28eab - Crayon Shin Chan - Taiketsu! T.. (JP)--> Crayon Shin-chan - Taiketsu! Tankam Panic!!
-          GG  - 4457e7c0 - Donald Duck no Yottsu no Himitsu (JP)--> Donald Duck no Yottsu no Hihou (JP)
-          GG  - 19e1cf2b - Dragon Crystal - Tsurani no M.. (JP) --> Dragon Crystal - Tsurani no Meikyuu (JP)
-          GG  - 152f0dcc - Drop Zone                            --> Dropzone (Archer MacLean's)
-          GG  - 5d3f23a9 - Earthworm Jim                        --> Earthworm Jim (US)
-          GG  - 2b60873e - Ecco the Dolphin                     --> Ecco the Dolphin [BAD]
-          GG  - d0a93e00 - F1                                   --> Formula One / F1 (alternative names)
-          GG  - d69097e8 - Fantasy Zone Gear                    --> Fantasy Zone / Fantasy Zone Gear - Opa Opa Jr. no Bouken
-          GG  - 449787e2 - Fatal Fury Special                   --> Fatal Fury Special (US)
-          GG  - 751dad4c - From TV animation - Slam Dunk.. (JP) --> Slam Dunk - Shouri-e no Starting 5 (From TV animation) (JP)
-          GG  - 695cc120 - GG Portrait - Pai Chan (JP)          --> GG Portrait - Pai Chen (JP)
-          GG  - 4cf97801 - Godzilla - Kaiju Dai-Shingeki (JP)   --> Godzilla - Kaijuu Daishingeki (JP)
-          GG  - 398f2358 - Kuni Chan's Game Paradise (JP)       --> Kuni Chan no Game Tengoku (JP)
-          GG  - f3774c65 - Kuni Chan's Game Paradise 2 (JP)     --> Kuni Chan no Game Tengoku Part 2 (JP)
-          GG  - 42389270 - Hyokkori Hyoutan Jima (JP)           --> Hyokkori Hyoutan Jima - Hyoutan Jima no Daikouka (JP)
-          GG  - 9fb5c155 - James Pond II - Codename: Robocod    --> James Pond II - Codename: Robocod (US)
-          GG  - 30c09f31 - Jungle Book, The (Walt Disney'..(US) --> Jungle Book, The (Walt Disney's) (US) (US version do not mention 'Classic'. Alternate name have only 'Disney's').
-          GG  - 87b8b612 - McDonald's - Donald no Magical World --> Donald no Magical World (Ronald in the Magical World) (JP) (Japanese only release, Western name is unused)
-          GG  - 75c71ebf - Madden NFL '95                       --> Madden NFL 95
-          GG  - 00c34d94 - Madoh Monogatari I - Mittsu no..(JP) --> Madoh Monogatari I - Mittsu no Madoukyuu (JP)
-          GG  - 0a634d79 - Madoh Monogatari III - K.. [v0] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v0] (JP)
-          GG  - 568f4825 - Madoh Monogatari III - K.. [v1] (JP) --> Madoh Monogatari III - Kyuukyoku Joou-sama [v1] (JP)
-          GG  - 7ec95282 - Madoh Monogatari A - Dokidoki.. (JP) --> Madoh Monogatari A - Doki Doki Bake~shon (JP)
-          GG  - 8f82a6b9 - Magic Knight Ray Earth (JP)          --> Magic Knight Rayearth (JP)
-          GG  - 1c2c2b04 - Magic Knight Ray Earth 2 ~mak.. (JP) --> Magic Knight Rayearth 2 ~making of magic knight~
-          GG  - 6e1cc23c - Magical Taruruto-kun (JP)            --> Magical Taruruuto-kun (JP)
-          GG  - 2e4ec17b - Megami Tensei Gaiden Last Bible (JP) --> Megami Tensei Gaiden: Last Bible (JP)
-          GG  - 4ec30806 - Megami Tensei Gaiden Last Bibl..(JP) --> Megami Tensei Gaiden: Last Bible Special (JP)
-          GG  - 4d5d15fb - Moldorian (JP)                       --> Moldorian ~Hikari to Yami no Shisutaa~ (JP)
-          GG  - dbff0461 - Mortal Kombat (JP)                   --> Mortal Kombat - Shinken Kourin Densetsu (JP)
-          GG  - 54ab42a4 - Nazo Puyo Aruru no Ru (JP)           --> Nazo Puyo Aruru no Ruu (JP)
-          GG  - 4c874466 - Nazo Puyo Aruru no Ru [Editor.. (JP) --> Nazo Puyo Aruru no Ruu [Editor Proto] (JP)
-          GG  - 3679be80 - Neko Daisuki! (JP)                   --> Neko Dai Suki! (JP)
-          GG  - c3056e15 - Ninku (JP)                           --> Ninkuu (JP)
-          GG  - 06247dd2 - Ninku 2 ~Tenkuryu-e no Michi~ (JP)   --> Ninkuu 2 ~Tenkuuryuu-e no Michi~ (JP)
-          GG  - 9140f239 - Ninku Gaiden - Hiroyuki Daika.. (JP) --> Ninkuu Gaiden - Hiroyuki Daikatsugeki
-          GG  - 19030108 - NBA Action                           --> NBA Action - Starring David Robinson
-          GG  - 4680c7aa - NHL All Stars                        --> NHL All-Star Hockey
-          GG  - a2f9c7af - Olympic Gold [SMS-GG] [B]            --> Olympic Gold [v0] [SMS-GG]
-          GG  - 1d93246e - Olympic Gold [SMS-GG] [A]            --> Olympic Gold [v1] [SMS-GG]
-          GG  - d58cb27c - Out Run                              --> Out Run (JP)
-          GG  - f037ec00 - Out Run Europa [SMS-GG]              --> Out Run Europa [SMS-GG] (US)
-          GG  - a16c5e58 - Pac-Man                              --> Pac-Man (JP)
-          GG  - b42d8430 - Pet Club Inu Daisuki! (JP)           --> Pet Club Inu Dai Suki! (JP) (coherent with Neko Dai Suki!)
-          GG  - 3ef66810 - Popeye's Beach Volleyball (JP)       --> Popeye Beach Volley Ball (JP)
-          GG  - d173a06f - Puzlow Kids / Puyo Puyo              --> Puyo Puyo (Puzle Kids) (JP) (Japanese only release, Western name is unused)
-          GG  - 96045f76 - Road Rash                            --> Road Rash (US)
-          GG  - 445d7cd2 - Royal Stone ~Hikarishi Toki n.. (JP) --> Royal Stone ~Hirakareshi Toki no Tobira~ (JP)
-          GG  - fe7374d2 - Sailor Moon S (JP)                   --> Bishoujo Senshi Sailor Moon S (JP)
-          GG  - 2ae8c75f - Shanghai II (JP)                     --> Shanghai II [v0] (JP)
-          GG  - 9c5c7f53 - Shikinjou (JP)                       --> Shikinjo (JP) (official transcription)
-          GG  - 0f3e3840 - Sokoban World (JP)                   --> Soukoban (JP)
-          GG  - d23a2a93 - Sonic Triple Trouble                 --> Sonic The Hedgehog Triple Trouble
-          GG  - 80156323 - Star Trek The Next Generation - Th.. --> Star Trek: The Next Generation - The Advanced Holodeck Tutorial
-          GG  - 1ebfa5ca - Strider Returns                      --> Strider Returns (Journey from Darkness)
-          GG  - 2ea26930 - Surf Ninjas                          --> Surf Ninjas [BAD] (confirmed correct dump)
-          GG  - 9479c83a - T2 - The Arcade Game                 --> T2: The Arcade Game
-          GG  - cf9c607c - Taisen Mahjong HaoPai (JP)           --> Taisen Mahjong Hao-Pai (JP)
-          GG  - 20527530 - Taisen Mahjong HaoPai 2 (JP)         --> Taisen Mahjong Hao-Pai 2 (JP)
-          GG  - dd1d2ebf - Tama & Friends - 3chome Koen.. (JP)  --> Tama & Friends - 3 Choume Kouen Tamalympic (JP)
-          GG  - eebad66b - Taz in Escape From Mars              --> Taz in Escape from Mars
-          GG  - 1bd15773 - Terminator 2 - Judgment Day          --> Terminator 2: Judgment Day
-          GG  - a1453efa - Tom and Jerry - The Movie (JP)       --> Tom and Jerry: The Movie
-          GG  - 5cd33ff2 - Tom and Jerry - The Movie            --> Tom and Jerry: The Movie (US)
-          GG  - 7ec64025 - Vampire - Master of Darkness         --> Vampire - Master of Darkness (US)
-          GG  - 9977fcb3 - Wonder Boy                           --> Wonder Boy (JP)
-          GG  - d9ce3f4c - Yaiba Adventures (JP)                --> Kenyuu Densetsu Yaiba (JP)
-          GG  - 88ebbf9e - Yuu Yuu Hakusho (JP)                 --> Yu Yu Hakusho - Horobishi Mono no Gyakushuu (JP)
-          GG  - 46ae9159 - Yuu Yuu Hakusho II (JP)              --> Yu Yu Hakusho II - Gekitou! Nanakyou no Tatakai (JP)
-          SG  - 37fca2eb - Pitfall II [A]                       --> Pitfall II ~The Lost Caverns~ [A]
-          SG  - 3db74761 - Pitfall II [B]                       --> Pitfall II ~The Lost Caverns~ [B]
-          SG  - 5a917e06 - Shinnyushain Tooru Kun (Konami no)   --> Shinnyuushain Tooru-Kun (Konami no)
-          OMV - 77db4704 - Q*Bert                               --> Q*bert
-
-
- MEKA 0.73 WIP 20080619
- ----------------------
-  - Localization:
-    - Updated Dutch localization [Mark van Tilburg]
-  - SC-3000:
-    - Fixed the ;/+/RAD key not working on Sega Keyboard emulation under
-      certain host keyboard/OS configuration. Thanks Jacko. [Omar]
-    - Fixed crash in the X86 assembly implementation of the 32KB RAM mapper
-      writer when the upper 16 bits were not cleared by the Z80 emulator. [Omar]
-  - Debugger:
-    - Added "SYM @addr" command to search for symbols given an address. [Omar]
-    - Added "RMAP addr" command to reverse map of a Z80 address and display
-      the source of data based on machine state (mapper registers, etc). 
-      eg:
-        RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
-        RMAP $E001      ; eg: print 'RAM $C001'
-      The feature doesn't work 100% in all mappers & bus mirroring cases, 
-      but should be ok with the standard SMS/GG mapper. [Omar]
-    - Duplicate commands are automatically removed from history. [Omar]
-    - Increased default height of the debugger. [Omar]
-    - Changed watch point per-frame flood limit from 100 to 50. Will expose in 
-      configuration file if requested. [Omar]
-    - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
-    - Fixed labels showing one instruction early in "DASM" command. [Omar]
-    - Added breakpoint '!' mark in disassembly window. [Omar]
-  - GUI:
-    - File browser: country flag now displayed even on BIOS, Prototypes
-      or Homebrew images. [Omar]
-    - Inputs configuration: right-click on input source selection goes 
-      backward, in addition to regular left-click to go forward. [Omar]
   - Miscellaenous:
-    - Added "Capture" menu with screen capture menu access and options. [Maxim]
-    - Added "Capture All" mode, capturing all emulation frames to disk. [Maxim]
-    - Added "Include GUI" capture option. Disable to only capture game screen 
-      when MEKA GUI is enabled. [Maxim]
-    - Renamed "Automatically crop and align screen captures" option to
-      more explicit "Crop and align screen captures to 8x8 boundaries".
-      Previous name was sounding too "cool" and was sometimes activated
-      by innocent users who then got their capture all cropped. [Omar]
-    - Added "screenshots_crop_scrolling_column" option in configuration
-      file (default to enabled), to disable cropping the empty left-most 
-      column in horizontally scrolling games. [Omar]
-  - Project:
-    - (Win32) Fixed standard libraries used by debug builds (using unusual
-      combination led to various problems). Fixed various link warnings.
-      Fixed shared directories between DLL and No DLL builds. [Omar]
-  - Added and modified entries in the checksum and compatibility lists. [Omar]
-    Some particular renaming includes:
-          SMS - d91b340d - Action Fighter (JP)                  --> Action Fighter [v1] (also released in Germany and Italia)
-          SMS - 3658f3e0 - Action Fighter                       --> Action Fighetr [v2]
-          SMS - f4b3a7bd - Ariel - The Little Mermaid (BR)      --> Ariel - The Little Mermaid (Disney's) (BR)
-          SMS - e2fcb6f3 - Super Wonder Boy (JP)                --> Wonder Boy [v0] (also released in Italia)
-          SMS - 73705c02 - Wonder Boy                           --> Wonder Boy [v1]
-          GG  - 3e549b7a - Aerial Assault                       --> Aerial Assault [v0]
-          GG  - ffe4ed47 - Alien Syndrome                       --> Alien Syndrome (JP)
-          GG  - 97e3a18c - Ariel - The Little Mermaid           --> Ariel - The Little Mermaid (Disney's)
-          GG  - e123d9b8 - Fray (JP)                            --> Fray ~Shugyou hen~ (JP)
-          GG  - a93e8b0f - Griffin                              --> Griffin (JP)
-          GG  - 75e273eb - Madden '96                           --> Madden 96 [BAD]
-          GG  - 36ebcd6d - Majors Pro Baseball                  --> Majors Pro Baseball, The
-          GG  - f1732ffe - TaleSpin                             --> TaleSpin (Disney's)
-          GG  - 7ec64025 - Vampire: Master of Darkness          --> Vampire - Master of Darkness
-
-
- MEKA 0.72
- ---------
-  Includes all 0.72 WIP below, minus lines starting with hash characters
-  (those lines refer to fixes relative to changes in a WIP).
-
-
- MEKA 0.72 WIP 20070512
- ----------------------
-  - ColecoVision:
-    - Removed detection of supposed 128-bytes headers and 512-bytes footers
-      (from some old soft/copiers?), due to many false detections, 
-      particularly on homebrew ROM images (the code was introduced in 2001 
-      when Dig Dug and Pac-Man prototypes were released with such header, 
-      but ROM images now circulating are without the header). [Omar]
-      
-
- MEKA 0.72 WIP 20070508
- ----------------------
-  - Ports:
-    - Preliminary MacOSX port. [Proppy]
-      Compile and run under a x86-based MacOSX system. Missing sound (due 
-      to Seal) and debugger (unknown problem to resolve).
-      Looking for someone who wish to improve and maintain this port.
-  - Blitter/Video:
-    - Fixed HQ2X stretched blitter when target output was not 16-bits. [Omar]
-#   - Fixed TV Mode blitters broken since since switching to hi-color.
-      Implementation is slower than previously, but it works well. [Omar]
-    - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
-    - Stretching works on all blitters. [Omar]
-    - Video depth, Vsync, Triple Buffering and Page flipping are now global 
-      video settings, removed from each specific blitter. Greatly simplify 
-      configuration and tweaking. [Omar]
-    - Triple buffering doesn't interfere with the refresh is not supported
-      by the current settings (eg: windowed mode), making it safe and more
-      simple to always leave it enabled. [Omar]
-  - CPU:
-    - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
-      Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
-      probably other infrequent cases. [FluBBa, Omar]
-    - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
-      by Sean Young's "The Undocumented Z80 Documented". [Omar]
-  - ColecoVision:
-    - Fixed emulation of pending NMI, pending flag is cleared when
-      reading VDP status. Fixes "Rock 'N Bolt" among other. 
-      Thanks to the anonymous poster on SMS Power! forums. [Omar]
-    - Note that the compatibility list for ColecoVision titles is
-      severly outdated. At some point, James Carter worked on a new,
-      more accurate list, but I lost all contact with him.
-  - NES:
-    - Fixed video rendering, broken when switching to hi-color modes. [Omar]
-    - Added PRAM support in Memory Editor. [Omar]
-    - Added 8 palette switching in Tile Viewer. [Omar]
-    - Note: NES emulation is humor legacy code and won't be supported.
-  - GUI:
-    - Sorted default themes, removed non Sega 8-bit related themes.
-      Now embedding background pictures in regular binary distribution. 
-      CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
-
-
- MEKA 0.72 WIP 20070426
- ----------------------
-  - CPU:
-    - Z80: Fixed cases were address arithmetic would not wrap in the 
-      16-bit address space, effectively crashing the emulator (those cases
-      were mostly happening on corrupted data, but it also legit Z80 code, 
-      and in any case we don't want the emulator to crash). [Omar]
-  - Tilemap viewer:
-##  - Fixed leftover of white rectangle when mouse hover last line. [Omar]
-  - Debugger:
-    - Added "B nopnop" shortcut to break on two successives NOP instructions.
-      This is basically equivalent to "B x =0,0". [Omar]
-  - Miscellaenous:
-    - Increased max length of directory/filenames. [Musuruan]
     - Added "Automatically crop and align screen captures" option.
       This option aligns screen captures on the nearest visible tile, 
       helping to simplify the process of creating game maps by pasting 
@@ -413,29 +20,20 @@ They are usually of 2 kinds:
       Note: May not work properly on game using scanline based effects.
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
-          SMS - 65d7e4e0 - Fantasy Zone                         --> Fantasy Zone [v2]
-          SMS - 60c19645 - Zillion                              --> Zillion [v0]
-          SMS - 5718762c - Zillion (US)                         --> Zillion [v1] (US)
           GG  - 7a41c1dc - Aladdin                              --> Aladdin (Disney's)
           GG  - 770e95e1 - Aladdin (JP)                         --> Aladdin (Disney's) (JP)
           GG  - 4457e7c0 - Deep Duck Trouble / Donald Duck no.. --> Donald Duck no Yottsu no Himitsu (JP) (was Japanese dump)
           GG  - 36aaf536 - Evander Holyfield Boxing             --> Evander Holyfield's "Real Deal" Boxing
-          GG  - 8c048325 - Indiana Jones and the Last Crusade   --> Indiana Jones and the Last Crusade [BAD]
-          GG  - 4a98678b - Joe Montana Football                 --> Joe Montana Football (JP)
           GG  - 00c34d94 - Madou Monogatari I - Mittsu no.. (JP)--> Madoh Monogatari I - Mittsu no Madokyuu (JP)
           GG  - 12eb2287 - Madou Monogatari II - Aruru 16.. (JP)--> Madou Monogatari II - Aruru 16-sai (JP)
           GG  - 0a634d79 - Madou Monogatari III - Kyukyok.. (JP)--> Madou Monogatari III - Kyuukyoku Joo-sama [v0] (JP)
           GG  - 7ec95282 - Madou Monogatari A - Dokidoki-.. (JP)--> Madoh Monogatari A - Dokidoki-Bake Shon
-          GG  - afcc7828 - Psychic World                        --> Psychic World (JP)
           GG  - 2ae8c75f - Shanghai 2 (JP)                      --> Shanghai II (JP)
           GG  - 4d1f4699 - Shining Force Gaiden (JP)            --> Shining Force Gaiden ~Ensei Jashin no Kuni e~ (JP)
           GG  - 30374681 - Shining Force Gaiden II (JP)         --> Shining Force Gaiden II ~Jashin no Mezame~ (JP)
           GG  - 6019fe5e - Shining Force Gaiden Final Con.. (JP)--> Shining Force Gaiden ~Final Conflict~ (JP)
-          GG  - 742a372b - Spider-Man and the X-Men in Arcade'..--> Spider-Man / X-Men: Arcade's Revenge
-          GG  - f1732ffe - Tale Spin                            --> TaleSpin
-          SG1 - 545fc9bb - Ashizawa Hachidan no Tsumeshogi (JP) --> Serizawa Hachidan no Tsumeshogi (JP)
-          SG1 - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
-          SG1 - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
+          SG  - 6d909857 - Sega Mah-Jong (JP)                   --> Mahjong (Sega) (JP)
+          SG  - e7e0f0e3 - Home Mah-Jong (JP)                   --> Home Mahjong [v1] (JP)
 
 
  MEKA 0.72 WIP 20061217
@@ -458,7 +56,7 @@ They are usually of 2 kinds:
       next to each other. Seems useless now. Could be brought back if some
       four-eyed person request it. [Omar]
   - Debugger:
-    - Added CLOCK command, to display/reset a Z80 cycle counter.
+    - Added "CLOCK" command, to display/reset a Z80 cycle counter.
       Very simple but can be helpful to time Z80 routines. [Omar]
     - (Win32) Forward debugging log to Windows debugging stream via
       OutputDebugString(), so running MEKA from Microsoft Visual studio 
@@ -485,6 +83,7 @@ They are usually of 2 kinds:
           SMS - c352c7eb - Lion King, The                       --> Lion King, The (Disney's)
           SMS - 1de2c2d0 - Strategic Defense Initiative (JP)    --> SDI (JP)
           GG  - bb4f23ff - Adventures of Batman and Robin       --> Adventures of Batman & Robin, The
+          GG  - 423803a7 - Gambler Jikochuushin Ha (JP)         --> Gyuwanburaa Jikochuushin Ha (JP)
           GG  - 90100884 - Jungle Book, The                     --> Jungle Book, The (Walt Disney's Classic)
           GG  - 30c09f31 - Jungle Book, The (US)                --> Jungle Book, The (Walt Disney's Classic) (US)
           GG  - 52dbf3e1 - Land of Illusion                     --> Land of Illusion - Starring Mickey Mouse
@@ -666,8 +265,7 @@ They are usually of 2 kinds:
 
  MEKA 0.71
  ---------
-  Includes all 0.71 WIP below, minus lines starting with hash characters
-  (those lines refer to fixes relative to changes in a WIP).
+  Includes all 0.71 WIP below.
 
 
  MEKA 0.71 WIP 20050625
@@ -1214,14 +812,14 @@ They are usually of 2 kinds:
       SMS - World Cup '92 (Tecmo)           --> World Cup '93 (Tecmo) (Proto)
       SMS - Wimbledon 2                     --> Wimbledon II
       SMS - Winter Olympic '94              --> Winter Olympics
-      SMS - Ys: Vanished Omen               --> Y's: The Vanished Omens
-      SMS - Ys: Vanished Omen [Japan]       --> Ys [Japan]
+      SMS - Ys: Vanished Omen				--> Y's: The Vanished Omens
+      SMS - Ys: Vanished Omen [Japan]		--> Ys [Japan]
       SMS - Zaxxon 3D [Export]              --> Zaxxon 3-D
       SMS - Zillion 2 [Export]              --> Zillion II: The Tri Formation
       GG  - Chuck Rock 2                    --> Chuck Rock II: Son of Chuck
       GG  - Desert Speedtrap                --> Desert Speedtrap [USA]
       GG  - Ecco 2: the Tides of Time       --> Ecco: The Tides of Time
-      GG  - Gun Star Heroes [Japan]         --> Gunstar Heroes [Japan]
+      GG  - Gun Star Heroes [Japan]			--> Gunstar Heroes [Japan]
       GG  - Super Monaco GP 2               --> Super Monaco GP II (Ayrton's Senna)
       SG  - Championship Lode Runner [B]    --> Championship Lode Runner
       SG  - Hang On 2                       --> Hang On II

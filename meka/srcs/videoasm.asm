@@ -13,9 +13,14 @@ SECTION .data
 
 %DEFINE  _Decode_Tile_ASM            Decode_Tile_ASM
 %DEFINE  _Decode_Tile_ASM_Init       Decode_Tile_ASM_Init
+%DEFINE  _Find_Last_Sprite_ASM       Find_Last_Sprite_ASM
+%DEFINE  _Find_Last_Sprite_ASM_Wide  Find_Last_Sprite_ASM_Wide
 %DEFINE  _Sprite_Collide_Line_ASM    Sprite_Collide_Line_ASM
 
 %DEFINE  _VRAM                       VRAM
+%DEFINE  _sprite_attribute_table     sprite_attribute_table
+%DEFINE  _Sprite_Last                Sprite_Last
+%DEFINE  _Sprites_on_Line            Sprites_on_Line
 %DEFINE  _Sprites_Collision_Table    Sprites_Collision_Table
 %DEFINE  _Do_Collision               Do_Collision
 %DEFINE  _sms                        sms
@@ -23,12 +28,17 @@ SECTION .data
 %ENDIF ; ASM_SYMBOLS_REQUIRE_UNDERSCORE
 
 EXTERN  _VRAM
+EXTERN  _sprite_attribute_table
+EXTERN  _Sprite_Last
+EXTERN  _Sprites_on_Line
 EXTERN  _Sprites_Collision_Table
 EXTERN  _Do_Collision
 EXTERN  _sms
 
 GLOBAL  _Decode_Tile_ASM
 GLOBAL  _Decode_Tile_ASM_Init
+GLOBAL  _Find_Last_Sprite_ASM
+GLOBAL  _Find_Last_Sprite_ASM_Wide
 GLOBAL  _Sprite_Collide_Line_ASM
 
 		
@@ -239,7 +249,136 @@ _Decode_Tile_ASM:
 ;	popl	%ebx
 ;	ret
 ;------------------------------------------------------------------------------
-s
+
+;------------------------------------------------------------------------------
+; Function: Find_Last_Sprite_ASM
+; Parameters: int Height, int VDP_Line
+;------------------------------------------------------------------------------
+; int    y;
+; int    line;
+;
+; Sprite_Last = 0;
+; Sprites_on_Line = 0;
+; while (Sprite_Last < 64)
+;   {
+;   if ((y = sprite_attribute_table [Sprite_Last]) == 208)
+;      break;
+;   Sprite_Last ++;
+;   if (y > 224) y -= 256;
+;   line = VDP_Line - y - 1;
+;   if (line >= 0 && line < Height)
+;      Sprites_on_Line ++;
+;   }
+; Sprite_Last --;
+;------------------------------------------------------------------------------
+_Find_Last_Sprite_ASM:
+
+        push    eax
+        push    ebx
+        push    ecx
+        push    edx
+        push    esi
+
+        mov     ecx, dword [esp + 24]           ; ecx = Height
+        mov     edx, dword [esp + 28]           ; edx = VDP_Line
+
+        mov     esi, [_sprite_attribute_table]  ; esi = sprite_attribute_table
+        xor     eax, eax                        ; eax = 0 (Sprite_Last)
+        mov     dword [_Sprites_on_Line], 0     ; Sprites_on_Line = 0
+
+.L1
+        xor     ebx, ebx
+        mov     bl, byte [esi]                  ; bl = *esi
+        cmp     bl, 208                         ; if (bl == 208)
+        jz      .L4                             ;    goto L4
+
+        cmp     ebx, 224                        ; if (y < 224)
+        jle     .L2                             ;    y -= 256;
+        sub     ebx, 256                        ;
+.L2
+        neg     ebx
+        dec     ebx
+        add     ebx, edx
+        cmp     ebx, 0
+        jl      .L3
+        cmp     ebx, ecx
+        jge     .L3
+        inc     dword [_Sprites_on_Line]
+
+.L3
+        inc     eax                             ; eax++ (Sprite_Last++)
+        inc     esi                             ; esi++
+        test    eax, 64                         ; if ((eax & 64) == 0) -> if (eax < 64)
+        jz      .L1                             ;    goto L1
+
+.L4
+        dec     eax                             ; eax--
+        mov     dword [_Sprite_Last], eax       ; Sprite_Last = eax
+
+        pop     esi
+        pop     edx
+        pop     ecx
+        pop     ebx
+        pop     eax
+
+        ret
+
+;------------------------------------------------------------------------------
+; Function: Find_Last_Sprite_ASM
+; Parameters: int Height, int VDP_Line
+;------------------------------------------------------------------------------
+; Exact same as above, except that it doesn't end when an Y = 208
+;------------------------------------------------------------------------------
+_Find_Last_Sprite_ASM_Wide:
+
+        push    eax
+        push    ebx
+        push    ecx
+        push    edx
+        push    esi
+
+        mov     ecx, dword [esp + 24]           ; ecx = Height
+        mov     edx, dword [esp + 28]           ; edx = VDP_Line
+
+        mov     esi, [_sprite_attribute_table]  ; esi = sprite_attribute_table
+        xor     eax, eax                        ; eax = 0 (Sprite_Last)
+        mov     dword [_Sprites_on_Line], 0     ; Sprites_on_Line = 0
+
+.L1
+        xor     ebx, ebx
+        mov     bl, byte [esi]                  ; bl = *esi
+
+        cmp     ebx, 224                        ; if (y < 224)
+        jle     .L2                             ;    y -= 256;
+        sub     ebx, 256                        ;
+.L2
+        neg     ebx
+        dec     ebx
+        add     ebx, edx
+        cmp     ebx, 0
+        jl      .L3
+        cmp     ebx, ecx
+        jge     .L3
+        inc     dword [_Sprites_on_Line]
+
+.L3
+        inc     eax                             ; eax++ (Sprite_Last++)
+        inc     esi                             ; esi++
+        test    eax, 64                         ; if ((eax & 64) == 0) -> if (eax < 64)
+        jz      .L1                             ;    goto L1
+
+.L4
+        dec     eax                             ; eax--
+        mov     dword [_Sprite_Last], eax       ; Sprite_Last = eax
+
+        pop     esi
+        pop     edx
+        pop     ecx
+        pop     ebx
+        pop     eax
+        ret
+;------------------------------------------------------------------------------
+
 ;------------------------------------------------------------------------------
 ; Function: Sprite_Collide_Line_ASM
 ; Parameters: byte *p_src, int x, int line
@@ -356,6 +495,3 @@ _Sprite_Collide_Line_ASM:
 
 ;------------------------------------------------------------------------------
 
-%ifidn __OUTPUT_FORMAT__,elf
-section .note.GNU-stack noalloc noexec nowrite progbits
-%endif

@@ -3,7 +3,8 @@
 // FDC765 (Floppy Disk Drive) Emulator - Headers
 //-----------------------------------------------------------------------------
 // Originally from Ulrich Cordes
-// Modified by Marc Le Douarain, Omar Cornut
+// Modified a bit by Marc Le Douarain
+// Revamped by Omar Cornut
 //-----------------------------------------------------------------------------
 
 // Original file header:
@@ -34,7 +35,7 @@
 //-----------------------------
 // Disk Header (256 bytes)
 //-----------------------------
-struct FDC765_DiskHeader
+typedef struct
 {
   byte   tag[0x30];     /* 00-21  MV - CPC ...                                      */
                         /* 22-2F  unused (0)                                        */
@@ -44,20 +45,20 @@ struct FDC765_DiskHeader
                         /* 32-33  tracksize (including 0x100 bytes header)          */
                         /*        9 sectors * 0x200 bytes each + header = 0x1300    */
   byte   unused[0xcc];  /* 34-FF  unused (0)                                        */
-};
+} FDC765_DiskHeader;
 
-struct FDC765_Track
+typedef struct
 {
   byte                  DiscData [4096];        // 16*256 bytes Data
-};
+} FDC765_Track;
 
-struct FDC765_Disk
+typedef struct
 {
   byte                  HasDisk;                // TRUE if a disk is inserted
   FDC765_DiskHeader     Header;                 // then the structure is valid
   FDC765_Track         *Tracks;
   int                   TracksSize;
-};
+} FDC765_Disk;
 
 // Initialize/Close funtions --------------------------------------------------
 void    FDC765_Init             (void);         // Initialization
@@ -79,7 +80,7 @@ byte    FDC765_Status_Read      (void);
 
 // Added by Marc Le Douarain for SF-7000 emulation ----------------------------
 // (Pin 17 of the FDC is connected to SF-7000 [PA2] input port)
-extern u8	FDC765_Cmd_For_SF7000;
+byte    FDC765_Cmd_For_SF7000;
 
 //-----------------------------------------------------------------------------
 

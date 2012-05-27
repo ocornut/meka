@@ -7,7 +7,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_app_inputs_config
+typedef struct
 {
     t_gui_box * box;
     bool        active;
@@ -18,9 +18,9 @@ struct t_app_inputs_config
     t_widget *  CheckBox_Enabled;
     t_widget *  CheckBox_Emulate_Digital;
     bool        CheckBox_Emulate_Digital_Value;
-};
+} t_app_inputs_config;
 
-extern t_app_inputs_config     Inputs_CFG;
+t_app_inputs_config     Inputs_CFG;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -31,12 +31,12 @@ void    Inputs_CFG_Init_Applet                  (void);
 void    Inputs_CFG_Update                       (t_app_inputs_config *app);
 
 void    Inputs_CFG_Current_Source_Draw          (void);
-byte    Inputs_CFG_Current_Source_Draw_Map      (int i, ALLEGRO_COLOR Color);
+byte    Inputs_CFG_Current_Source_Draw_Map      (int i, int Color);
 void    Inputs_CFG_Current_Source_Change        (t_widget *w);
 
 void    Inputs_CFG_Peripherals_Draw             (void);
 
-void    Inputs_CFG_Peripheral_Change            (int Player, t_input_peripheral Periph);
+void    Inputs_CFG_Peripheral_Change            (int Player, int Periph);
 void    Inputs_CFG_Peripheral_Change_Handler    (t_widget *w);
 
 void    Inputs_CFG_Map_Change_Handler           (t_widget *w);

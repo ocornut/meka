@@ -8,24 +8,24 @@
 //-----------------------------------------------------------------------------
 
 #define TEXTVIEWER_LINES                (44)
-#define TEXTVIEWER_COLUMNS              (62)
-#define TEXTVIEWER_PADDING              (4)
+#define TEXTVIEWER_COLUMNS              (60)
+#define TEXTVIEWER_PADDING_X            (4)
 #define TEXTVIEWER_SCROLLBAR_SIZE_X     (7)
-#define TEXTVIEWER_SCROLL_VELOCITY_BASE (2.5f)
-#define TEXTVIEWER_SCROLL_VELOCITY_MAX  (20.0f)
+#define TEXTVIEWER_SCROLL_VELOCITY_BASE (6)         // 8
+#define TEXTVIEWER_SCROLL_VELOCITY_MAX  (5678)      // ???
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_app_textviewer
+typedef struct
 {
     bool        active;
     bool        dirty;
     int         current_file;           // FIXME: REMOVE OUT OF APPLET
 
     t_gui_box * box;
-    t_font_id   font;
+    int         font;
     int         font_height;
 
     int         size_x;                 // in columns
@@ -39,13 +39,13 @@ struct t_app_textviewer
 
     int         scroll_position_y;
     int         scroll_position_y_max;  // text_size_y - (text_lines_per_page * font_height)
-    float       scroll_velocity_y;
+    int         scroll_velocity_y;
 
     t_widget *  widget_scrollbar;
 
-};
+} t_app_textviewer;
 
-extern t_app_textviewer   TextViewer;
+t_app_textviewer   TextViewer;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -57,6 +57,12 @@ void                TextViewer_Update(t_app_textviewer *tv);
 void                TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file);
 
 void                TextViewer_Switch_Doc_Main(void);
+#ifdef WIN32
+void                TextViewer_Switch_Doc_MainW(void);
+#endif
+#ifdef UNIX
+void                TextViewer_Switch_Doc_MainU(void);
+#endif
 void                TextViewer_Switch_Doc_Compat(void);
 void                TextViewer_Switch_Doc_Multiplayer_Games(void);
 void                TextViewer_Switch_Doc_Changes(void);

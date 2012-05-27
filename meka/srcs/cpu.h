@@ -7,8 +7,8 @@
 // Data
 //-----------------------------------------------------------------------------
 
-extern int     CPU_Loop_Stop;  // Set to break from CPU emulation and return to mainloop()
-extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the SG-1000/SC-3000 loop handlers)
+int     CPU_Loop_Stop;  // Set to break from CPU emulation and return to mainloop()
+int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the SG-1000/SC-3000 loop handlers)
 
 //-----------------------------------------------------------------------------
 // Macros and declarations, per Z80 emulator
@@ -18,11 +18,16 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 //-----------------------------------------------------------------------------
 
 #ifdef MARAT_Z80
-  u16 Loop_SMS (void);
+  word Loop_SMS (void);
   #define Macro_Stop_CPU    { return (INT_QUIT); }
   #define CPU_GetPC()       (sms.R.PC.W)
   #define CPU_GetICount()   (sms.R.ICount)
   #define CPU_GetIPeriod()  (sms.R.IPeriod)
+#elif MDK_Z80
+  #define INT_NONE          (-1)
+  #define INT_IRQ           0x38
+  #define INT_NMI           0x66
+  #define Macro_Stop_CPU    { Z80_Running = 0; return (0); }
 #elif RAZE_Z80
   #define INT_IRQ           (0x38)
   #define INT_NMI           (0x66)
@@ -75,8 +80,8 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 
 #define Interrupt_Loop_Misc_Common                                          \
     {                                                                       \
-    Sound_Update();                                                         \
-    tsms.Control_Check_GUI = TRUE;                                          \
+    Sound_Update_Frame ();                                                  \
+    tsms.Control_Check_GUI = TRUE;                                           \
     Inputs_Sources_Update ();   /* Poll input sources */                    \
     Inputs_Emulation_Update (TRUE); /* Might disable Control_Check_GUI */   \
     Inputs_Check_GUI (!tsms.Control_Check_GUI);                             \
@@ -92,13 +97,13 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 #define Interrupt_Loop_Misc                                                 \
     {                                                                       \
     Interrupt_Loop_Misc_Common;                                             \
-    if (Inputs.SK1100_Enabled)                                              \
+    if (Inputs.Keyboard_Enabled)                                            \
        {                                                                    \
-       if (Inputs_KeyDown(ALLEGRO_KEY_SCROLLLOCK))                          \
+       if (key [KEY_SCRLOCK])                                               \
           Interrupt = INT_NMI;                                              \
        }                                                                    \
     else                                                                    \
-    if ((tsms.Control_Start_Pause == 1) && (g_driver->id != DRV_GG))         \
+    if ((tsms.Control_Start_Pause == 1) && (cur_drv->id != DRV_GG))         \
        { tsms.Control_Start_Pause = 2; Interrupt = INT_NMI; }               \
     }
 

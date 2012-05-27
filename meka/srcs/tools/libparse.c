@@ -3,10 +3,10 @@
 // by Omar Cornut in 2000-2004
 //-----------------------------------------------------------------------------
 
-#include "shared.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "libmy.h"
 #include "libparse.h"
 
 #ifndef FALSE
@@ -44,6 +44,8 @@ void        parse_skip_spaces(char **src)
 }
 
 //-----------------------------------------------------------------------------
+// parse_getword(char *dst, int dst_len, char **src, char *separators)
+//-----------------------------------------------------------------------------
 // Retrieve next word, as delimited by the given set of separators,
 // into given location, with maximum length, starting at given pointed string.
 // Increase pointed string source.
@@ -52,7 +54,7 @@ void        parse_skip_spaces(char **src)
 // Note: In case of repeated separators (eg: ",,,,", it doesn't return NULL 
 // but empty strings. NULL is returned at end of source pointed string.
 //-----------------------------------------------------------------------------
-char *      parse_getword(char *dst, int dst_len, char **src, const char *separators, char comment_char, t_parse_flags flags)
+char *      parse_getword(char *dst, int dst_len, char **src, char *separators, char comment_char, t_parse_flags flags)
 {
     char *  p;
     int     inhibit;
@@ -84,7 +86,7 @@ char *      parse_getword(char *dst, int dst_len, char **src, const char *separa
         if (dst_len == 0 && (*p == EOSTR || *p == comment_char))
             return (NULL);
         dst_len++; // for \0 storage
-        dst = (char*)malloc(sizeof (char) * dst_len);
+        dst = malloc(sizeof (char) * dst_len);
     }
 
     // Copy word until separator or end-of-string is found. Handle \ inhibitor.
@@ -158,7 +160,7 @@ char *      parse_escape_string(const char *src, const char *escape_chars)
     if (count == 0)
         return NULL;
 
-    dst = (char*)malloc(sizeof(char) * (src_length + count + 1));
+    dst = malloc(sizeof(char) * (src_length + count + 1));
     p = dst;
     while ((c = *src++) != '\0')
     {
@@ -187,7 +189,7 @@ char *      parse_unescape_string(const char *src, const char *escape_chars)
 
     // Make it easier, allocate same as source length
     src_length = strlen(src);
-    dst = (char*)malloc(sizeof(char) * (src_length + 1));
+    dst = malloc(sizeof(char) * (src_length + 1));
     p = dst;
 
     // Copy

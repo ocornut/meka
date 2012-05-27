@@ -1,16 +1,15 @@
+
 // Outdated
 // - Based on OPL wrapper
 // - Use widget 'id' (made obsolete)
 // Could be worked out to be up to date, if someone has the motivation...
-
-#include "shared.h"
 
 #if 0
 
 /*
 struct type_apps_bitmap
 {
-  ALLEGRO_BITMAP *FM_Editor;
+  BITMAP *FM_Editor;
 };
 
 struct type_apps
@@ -52,13 +51,13 @@ struct type_apps
 
 static int  fontx, fonty;
 
-struct t_fmeditor_app
+typedef struct
 {
   t_gui_box *   box;
   int           current_voice_number;
-};
+} t_fmeditor_app;
 
-extern t_fmeditor_app  FM_Editor;
+t_fmeditor_app  FM_Editor;
 
 enum {
   SEL_FMNUM = 0,
@@ -174,6 +173,8 @@ void    FM_Editor_Redraw (void)
      Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      }
+
+  FM_Editor.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 /************************************************/
@@ -205,6 +206,9 @@ void    FM_Editor_CallBack (t_widget *w)
           if (((FM_Regs[0x30 + i] >> 4) & 0x0f) == FM_Editor.current_voice_number)
              {
              vcref[i] = -1;
+             #ifdef MEKA_OPL
+               FM_OPL_Set_Voice (i, FM_Editor.current_voice_number, fmVol[FM_Regs[0x30 + i] & 0x0f]);
+             #endif
              }
           }
        break;
@@ -225,7 +229,7 @@ void        FM_Editor_Init (void)
 
     apps.id.FM_Editor = gui_box_create (300, 80, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, Msg_Get (MSG_FM_Editor_BoxTitle));
     FM_Editor.box = gui.box[apps.id.FM_Editor];
-    apps.gfx.FM_Editor = al_create_bitmap (FM_EDITOR_SIZE_X, FM_EDITOR_SIZE_Y);
+    apps.gfx.FM_Editor = create_bitmap (FM_EDITOR_SIZE_X, FM_EDITOR_SIZE_Y);
     gui_set_image_box (apps.id.FM_Editor, apps.gfx.FM_Editor);
     FM_Editor.box->update = FM_Editor_Redraw;
     Desktop_Register_Box ("FMEDITOR", apps.id.FM_Editor, 0, &apps.active.FM_Editor);

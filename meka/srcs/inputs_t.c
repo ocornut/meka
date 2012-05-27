@@ -11,9 +11,9 @@
 //-----------------------------------------------------------------------------
 
 int     Key_Alpha_Table [NUM_ALPHA_KEYS] =
-  { ALLEGRO_KEY_A, ALLEGRO_KEY_B, ALLEGRO_KEY_C, ALLEGRO_KEY_D, ALLEGRO_KEY_E, ALLEGRO_KEY_F, ALLEGRO_KEY_G, ALLEGRO_KEY_H, ALLEGRO_KEY_I,
-    ALLEGRO_KEY_J, ALLEGRO_KEY_K, ALLEGRO_KEY_L, ALLEGRO_KEY_M, ALLEGRO_KEY_N, ALLEGRO_KEY_O, ALLEGRO_KEY_P, ALLEGRO_KEY_Q, ALLEGRO_KEY_R,
-    ALLEGRO_KEY_S, ALLEGRO_KEY_T, ALLEGRO_KEY_U, ALLEGRO_KEY_V, ALLEGRO_KEY_W, ALLEGRO_KEY_X, ALLEGRO_KEY_Y, ALLEGRO_KEY_Z };
+  { KEY_A, KEY_B, KEY_C, KEY_D, KEY_E, KEY_F, KEY_G, KEY_H, KEY_I,
+    KEY_J, KEY_K, KEY_L, KEY_M, KEY_N, KEY_O, KEY_P, KEY_Q, KEY_R,
+    KEY_S, KEY_T, KEY_U, KEY_V, KEY_W, KEY_X, KEY_Y, KEY_Z };
 char    Alpha_Table [NUM_ALPHA_KEYS] =
   { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
     'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
@@ -25,14 +25,18 @@ static int  typematic_repeat_counter = 0;
 // Functions
 //-----------------------------------------------------------------------------
 
-void	Inputs_KeyClearAllState()
+//-----------------------------------------------------------------------------
+// Inputs_Key_Eat (int keycode)
+// Eat given key by removing the corresponding flag in the global key[] table
+//-----------------------------------------------------------------------------
+void    Inputs_Key_Eat(int keycode)
 {
-	memset(g_keyboard_state, 0, sizeof(g_keyboard_state));
+    key[keycode] = 0;
 }
 
 void    Inputs_KeyPressQueue_Remove(t_key_press *keypress)
 {
-    Inputs_KeyEat(keypress->scancode); // FIXME
+    Inputs_Key_Eat(keypress->scancode); // FIXME
 
     list_remove(&Inputs.KeyPressedQueue, keypress);
     free(keypress);
@@ -43,38 +47,25 @@ void    Inputs_KeyPressQueue_Clear(void)
     list_free(&Inputs.KeyPressedQueue);
 }
 
-bool	Inputs_KeyDown(int keycode)
-{
-	return g_keyboard_state[keycode];
-	//return al_key_down(&g_keyboard_state, keycode);
-}
-
-// Eat given key by removing the corresponding flag in the global key[] table
-void    Inputs_KeyEat(int keycode)
-{
-	g_keyboard_state[keycode] = false;
-	//g_keyboard_state.__key_down__internal__[keycode / 32] &= ~(1 << (keycode & 31));
-}
-
 //-----------------------------------------------------------------------------
 // Inputs_KeyPressed (int keycode, bool eat)
 // Return weither given key was just pressed, then eat the key if asked for
 //-----------------------------------------------------------------------------
-bool    Inputs_KeyPressed(int keycode, bool eat)
+int     Inputs_KeyPressed (int keycode, bool eat)
 {
     // Check if requested key was just pressed
-    if (Inputs_KeyDown(keycode) && opt.Current_Key_Pressed == 0)
+    if (key[keycode] && opt.Current_Key_Pressed == 0)
     {
         opt.Current_Key_Pressed = keycode;
         typematic_repeating = FALSE;
         typematic_repeat_counter = 0;
         if (eat)
-			Inputs_KeyEat(keycode);
+            key[keycode] = 0;
         return (TRUE);
     }
     // Check if previously pressed key was released
-    // FIXME: shouldn't be done in this function, but rather in a single inputs-update
-    if (opt.Current_Key_Pressed != 0 && Inputs_KeyDown(opt.Current_Key_Pressed) == false)
+    // FIXME: should be done in this function, but rather in a single inputs-update
+    if (opt.Current_Key_Pressed != 0 && key [opt.Current_Key_Pressed] == 0)
         opt.Current_Key_Pressed = 0;
     return (FALSE);
 }
@@ -87,7 +78,7 @@ bool    Inputs_KeyPressed(int keycode, bool eat)
 // FIXME: this function is theorically incorrect, since it relies on
 // static global data. Repeating two keys should mess the whole thing ?
 //-----------------------------------------------------------------------------
-bool    Inputs_KeyPressed_Repeat(int keycode, bool eat, int delay, int rate)
+int     Inputs_KeyPressed_Repeat (int keycode, bool eat, int delay, int rate)
 {
     // hmm...
     Inputs_KeyPressed (keycode, eat);

@@ -7,19 +7,16 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-enum t_country
-{
-	COUNTRY_EXPORT      = 0,
-	COUNTRY_JAPAN       = 1,
-	COUNTRY_AUTO		= 2,
-};
+#define         COUNTRY_EXPORT          (0)
+#define         COUNTRY_JAPAN           (1)
+#define         COUNTRY_AUTO            (2)
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 void            Country_Init            (void);
-void            Nationalize             (u8 *v);
+void            Nationalize             (byte *v);
 void            Set_Country_European_US (void);
 void            Set_Country_JP          (void);
 

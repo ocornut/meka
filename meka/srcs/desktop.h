@@ -7,13 +7,13 @@
 // DATA
 //-----------------------------------------------------------------------------
 
-struct t_desktop
+typedef struct
 {
     t_list *    items;
     char        filename[FILENAME_LEN];
-};
+} t_desktop;
 
-extern t_desktop       Desktop;
+t_desktop       Desktop;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS

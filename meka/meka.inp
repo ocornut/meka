@@ -1,5 +1,5 @@
 ;-----------------------------------------------------------------------------
-; MEKA 0.80-alpha - Inputs Configuration
+; MEKA 0.72 WIP - Inputs Configuration
 ; This file is automatically updated and rewritten when quitting
 ; Feel free to edit this file manually if you feel the need to.
 ; However, any comment you may manually add will be deleted!
@@ -16,6 +16,16 @@
 ; Schematics and drivers for various console controllers adapters:
 ;  - Direct Pad Pro
 ;    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/
+;-----------------------------------------------------------------------------
+
+;-----------------------------------------------------------------------------
+; Configure mouse speed here:
+;
+mouse_speed_x        = 2
+mouse_speed_y        = 2
+;
+; The higher the value is, the slower the axis will be.
+; 2 is the default for both axis. Use 1 for a fastest mouse movement.
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -55,8 +65,8 @@ player_up           = key Up
 player_down         = key Down
 player_left         = key Left
 player_right        = key Right
-player_button1      = key Z
-player_button2      = key X
+player_button1      = key Left Control
+player_button2      = key Alt
 player_start_pause  = key Space
 player_reset        = key Backspace
 
@@ -76,14 +86,13 @@ type                = joypad
 connection          = 1
 enabled             = yes
 player              = 1
-player_up           = joy stick 2 axis 1 dir 0
-player_down         = joy stick 2 axis 1 dir 1
-player_left         = joy stick 2 axis 0 dir 0
-player_right        = joy stick 2 axis 0 dir 1
+player_up           = joy stick 0 axis 1 dir 0
+player_down         = joy stick 0 axis 1 dir 1
+player_left         = joy stick 0 axis 0 dir 0
+player_right        = joy stick 0 axis 0 dir 1
 player_button1      = joy_button 0
 player_button2      = joy_button 1
-player_start_pause  = joy_button 7
-player_reset        = joy_button 6
+player_start_pause  = joy_button 2
 
 [Joypad 2]
 type                = joypad
@@ -96,7 +105,7 @@ player_left         = joy stick 0 axis 0 dir 0
 player_right        = joy stick 0 axis 0 dir 1
 player_button1      = joy_button 0
 player_button2      = joy_button 1
-player_start_pause  = joy_button 7
+player_start_pause  = joy_button 2
 
 [Mouse 1]
 type                = mouse

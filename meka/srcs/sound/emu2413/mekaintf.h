@@ -5,10 +5,10 @@
 
 //-----------------------------------------------------------------------------
 
-int     FM_Digital_Init         ();
+int     FM_Digital_Init         (void *userdata /* unused */);
 void    FM_Digital_Close        (void);
 void    FM_Digital_Active       (void);
-void    FM_Digital_WriteSamples	(void *buffer, int length);
+void    FM_Digital_Update       (int chip, void *buffer, int length);
 
 //-----------------------------------------------------------------------------
 

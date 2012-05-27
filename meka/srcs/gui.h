@@ -7,103 +7,26 @@
 // Basic type
 //-----------------------------------------------------------------------------
 
-struct t_gui_box;
+typedef struct s_gui_box    t_gui_box;
 
-struct v2i
+typedef struct
 {
     int   x;
     int   y;
+} t_xy;
 
-	v2i()
-	{
-		x = y = -1;
-	}
-	v2i(int _x, int _y)
-	{
-		Set(_x, _y);
-	}
-
-	void Set(int _x, int _y)
-	{
-		x = _x;
-		y = _y;
-	}
-
-	v2i operator+(const v2i& rhs) const		{ return v2i(x+rhs.x,y+rhs.y); }
-	v2i operator-(const v2i& rhs) const		{ return v2i(x-rhs.x,y-rhs.y); }
-
-	const v2i& operator+=(const v2i& rhs)	{ x+=rhs.x; y+=rhs.y; return *this; }
-};
-
-struct t_frame
+typedef struct
 {
-    v2i  pos;
-    v2i  size;
-
-	t_frame()
-	{
-	}
-
-	t_frame(v2i _pos, v2i _size)
-	{
-		Set(_pos, _size);
-	}
-	void Set(v2i _pos, v2i _size)
-	{
-		pos = _pos;
-		size = _size;
-	}
-	void SetPos(v2i _pos)
-	{
-		pos = _pos;
-	}
-	void SetPos(int x, int y)
-	{
-		pos.x = x;
-		pos.y = y;
-	}
-	void SetSize(v2i _size)
-	{
-		size = _size;
-	}
-	void SetSize(int x, int y)
-	{
-		size.x = x;
-		size.y = y;
-	}
-	v2i  GetPosEnd() const
-	{
-		v2i pe;
-		pe.x = pos.x+size.x;
-		pe.y = pos.y+size.y;
-		return pe;
-	}
-};
-
-struct DrawCursor
-{
-	v2i	pos;
-	int x_base;
-	int y_spacing;
-	v2i viewport_min;
-	v2i viewport_max;
-
-	DrawCursor(v2i _pos, int font_id = -1);
-
-	void NewLine()
-	{
-		pos.x = x_base;
-		pos.y += y_spacing;
-	}
-	void HorizontalSeparator();
-	void VerticalSeparator();
-};
+    t_xy  pos;
+    t_xy  size;
+} t_frame;
 
 //-----------------------------------------------------------------------------
 // Includes other GUI files
 //-----------------------------------------------------------------------------
 
 #include "g_action.h"
+#include "g_applet.h"
 #include "g_box.h"
 #include "g_action.h"
 #include "g_mouse.h"
@@ -113,6 +36,15 @@ struct DrawCursor
 #include "g_menu.h"
 #include "g_menu_i.h"
 #include "g_menu_t.h"
+
+//-----------------------------------------------------------------------------
+// GUI non-shared includes
+// Those are listed here for reference purposes, but should be included
+// manually by each file using them.
+//-----------------------------------------------------------------------------
+
+// #include "g_file.h"      // G_FILE.H     File Browser
+// #include "g_widget.h"    // G_WIDGET.H   Widgets
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -135,20 +67,25 @@ struct DrawCursor
 
 #define GUI_BOX_MAX                 (128)
 
-enum t_gui_box_type
+#define GUI_FB_ACCESS_DIRECT        (0)
+#define GUI_FB_ACCESS_BUFFERED      (1)
+#define GUI_FB_ACCESS_FLIPPED       (2)
+
+typedef enum
 {
     GUI_BOX_TYPE_STANDARD           = 0,
     GUI_BOX_TYPE_GAME               = 1,
-};
+} t_gui_box_type;
 
-enum t_gui_box_flags
+typedef enum
 {
     GUI_BOX_FLAGS_ACTIVE                    = 0x0001,
+    GUI_BOX_FLAGS_DIRTY_REDRAW              = 0x0002,
     GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT   = 0x0004,
     GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE    = 0x0008,   // When set and the box has focus, inputs are exclusive to this box
     GUI_BOX_FLAGS_DELETE                    = 0x0010,
     GUI_BOX_FLAGS_TAB_STOP                  = 0x0020,
-};
+} t_gui_box_flags;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -156,24 +93,23 @@ enum t_gui_box_flags
 
 void    gui_redraw (void);
 void    gui_redraw_everything_now_once (void);
+void    Redraw_Background (void);
 
-void    GUI_DrawBackground(void);
-void    GUI_RelayoutAll(void);
+void    gui_relayout(void);
+
+int     gui_box_image (byte is, int which, BITMAP *bitmap);
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-typedef void (*t_gui_box_update_handler)();
-typedef void (*t_gui_box_destroy_handler)(void *);
-
-struct t_gui_box
+struct s_gui_box
 {
     t_frame         frame;						// Frame (position & size)
     char *          title;						// Title
     t_gui_box_type  type;                       // Type
-    int				flags;                      // Flags (t_gui_box_flags) // FIXME-ENUM
-    ALLEGRO_BITMAP *gfx_buffer;					// Graphics buffer holding content render
+    t_gui_box_flags flags;                      // Flags/Attributes
+    BITMAP *		gfx_buffer;					// Graphics buffer holding content render
     t_list *        widgets;                    // Widgets
 
     // Handlers
@@ -182,19 +118,19 @@ struct t_gui_box
 
     // User data
     void *          user_data;
-};
+}; // t_gui_box
 
-struct t_gui_info
+typedef struct
 {
   bool              must_redraw;
   int               bars_height;
   int               grid_distance;
   int               dirty_x, dirty_y;
-  v2i              screen;
-  v2i              screen_pad;
-};
+  t_xy              screen;
+  t_xy              screen_pad;
+} t_gui_info;
 
-struct t_gui_mouse
+typedef struct
 {
     int             x;
     int             x_prev;
@@ -211,17 +147,17 @@ struct t_gui_mouse
     int             z_rel;      // Z Relative
     int             z_current;  // Z Current
     int             z_prev;     // Z Previous
-};
+} t_gui_mouse;
 
-struct t_gui
+typedef struct
 {
     t_list *        boxes;
     t_gui_box *     boxes_z_ordered[GUI_BOX_MAX];
     int             boxes_count;
     t_gui_info      info;
     t_gui_mouse     mouse;
-};
+} t_gui;
 
-extern t_gui        gui;
+t_gui           gui;
 
 //-----------------------------------------------------------------------------

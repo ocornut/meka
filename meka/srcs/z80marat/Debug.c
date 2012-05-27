@@ -14,10 +14,9 @@
 
 // #define DEBUG
 // define changed from "DEBUG" to "MEKA_Z80_DEBUGGER"
-#include "shared.h"
-
 #ifdef MEKA_Z80_DEBUGGER
 
+#include "shared.h"
 #include "Z80.h"
 #include "debugger.h"
 
@@ -34,7 +33,7 @@
 // I'm not sure to understand everything. The code is hell to decipher.
 //
 
-static const char *Mnemonics[256] =
+static char *Mnemonics[256] =
 {
   "NOP","LD BC,#h","LD (BC),A","INC BC","INC B","DEC B","LD B,*h","RLCA",
   "EX AF,AF'","ADD HL,BC","LD A,(BC)","DEC BC","INC C","DEC C","LD C,*h","RRCA",
@@ -70,7 +69,7 @@ static const char *Mnemonics[256] =
   "RET M","LD SP,HL","JP M,#h","EI","CALL M,#h","PFX_FD","CP *h","RST 38h"
 };
 
-static const char *MnemonicsCB[256] =
+static char *MnemonicsCB[256] =
 {
   "RLC B","RLC C","RLC D","RLC E","RLC H","RLC L","RLC (HL)","RLC A",
   "RRC B","RRC C","RRC D","RRC E","RRC H","RRC L","RRC (HL)","RRC A",
@@ -106,7 +105,7 @@ static const char *MnemonicsCB[256] =
   "SET 7,B","SET 7,C","SET 7,D","SET 7,E","SET 7,H","SET 7,L","SET 7,(HL)","SET 7,A"
 };
 
-static const char *MnemonicsED[256] =
+static char *MnemonicsED[256] =
 {
   "DB EDh,00h","DB EDh,01h","DB EDh,02h","DB EDh,03h",
   "DB EDh,04h","DB EDh,05h","DB EDh,06h","DB EDh,07h",
@@ -174,7 +173,7 @@ static const char *MnemonicsED[256] =
   "DB EDh,FCh","DB EDh,FDh","DB EDh,FEh","DB EDh,FFh"
 };
 
-static const char *MnemonicsXX[256] =
+static char *MnemonicsXX[256] =
 {
   "NOP","LD BC,#h","LD (BC),A","INC BC","INC B","DEC B","LD B,*h","RLCA",
   "EX AF,AF'","ADD I%,BC","LD A,(BC)","DEC BC","INC C","DEC C","LD C,*h","RRCA",
@@ -210,7 +209,7 @@ static const char *MnemonicsXX[256] =
   "RET M","LD SP,I%","JP M,#h","EI","CALL M,#h","PFX_FD","CP *h","RST 38h"
 };
 
-static const char *MnemonicsXCB[256] =
+static char *MnemonicsXCB[256] =
 {
   "RLC B","RLC C","RLC D","RLC E","RLC H","RLC L","RLC (I%@h)","RLC A",
   "RRC B","RRC C","RRC D","RRC E","RRC H","RRC L","RRC (I%@h)","RRC A",
@@ -253,7 +252,7 @@ static const char *MnemonicsXCB[256] =
 /*************************************************************/
 int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indirect_offsets)
 {
-    char  R[256], H[256], C;
+    char  R[256], H[256], C, *T, *P;
     byte  J, Offset = 0;
     word  B;
     int   relative_offset_base = 0;  // 0 : from PC, 1 : from IX, 2 : from IY
@@ -262,31 +261,27 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
     C = '\0';
     J = 0;
 
-	const char *T_const = NULL;
     switch (RdZ80_NoHook(B))
     {
-    case 0xCB: B++;T_const=MnemonicsCB[RdZ80_NoHook(B++&0xFFFF)];break;
-    case 0xED: B++;T_const=MnemonicsED[RdZ80_NoHook(B++&0xFFFF)];break;
+    case 0xCB: B++;T=MnemonicsCB[RdZ80_NoHook(B++&0xFFFF)];break;
+    case 0xED: B++;T=MnemonicsED[RdZ80_NoHook(B++&0xFFFF)];break;
     case 0xDD: B++;C='X';
         if (RdZ80_NoHook(B&0xFFFF)!=0xCB) 
-            T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
+            T=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
-        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
+        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
     case 0xFD: B++;C='Y';
         if(RdZ80_NoHook(B&0xFFFF)!=0xCB) 
-            T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
+            T=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
-        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
+        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
     default:   
-        T_const=Mnemonics[RdZ80_NoHook(B++&0xFFFF)];
+        T=Mnemonics[RdZ80_NoHook(B++&0xFFFF)];
         break;
     }
-	char T[32];
-	strcpy(T, T_const);
 
-	char *P;
     if ((P=strchr(T,'^')) != NULL)
     {
         strncpy(R,T,P-T);R[P-T]='\0';
@@ -319,7 +314,6 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
         }
     }
     else
-	{
         if ((P=strchr(R,'@')) != NULL)
         {
             if (S != NULL)
@@ -375,7 +369,6 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                 if (S != NULL)
                     strcpy(S, R);
             }
-	}
 
     // MEKA-START: needed so it works properly when the instruction wrap at 0xffff
     if (B < A)

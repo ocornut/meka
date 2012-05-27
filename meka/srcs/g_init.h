@@ -7,11 +7,10 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    GUI_Init();
-void    GUI_Close(void);
-
-void	GUI_SetupNewVideoMode();
-void	GUI_CreateVideoBuffers();
+void    gui_init(int res_x, int res_y, int color_depth);
+void    gui_set_video_mode(int res_x, int res_y, int color_depth);
+void    gui_init_again(void);
+void    gui_close(void);
 
 //-----------------------------------------------------------------------------
 

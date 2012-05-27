@@ -5,28 +5,21 @@
 
 #include "shared.h"
 #include "app_game.h"
-#include "inputs_t.h"
-#include "lightgun.h"
+#include "keyboard.h"
 #include "rapidfir.h"
-#include "sk1100.h"
 #include "sportpad.h"
 #include "tvoekaki.h"
-#include "video.h"
-#include "vdp.h"
 
 // #define DEBUG_JOY
-
-bool					g_keyboard_state[ALLEGRO_KEY_MAX];
-int						g_keyboard_modifiers = 0;
-ALLEGRO_EVENT_QUEUE *	g_keyboard_event_queue = NULL;
-ALLEGRO_MOUSE_STATE		g_mouse_state;
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void Inputs_FixUpJoypadOppositesDirections(void);
-static void	Inputs_UpdateMouseRange(void);
+static void    Inputs_FixUp_JoypadOppositesDirections (void);
+#ifdef DOS
+static void    Inputs_Update_VoiceRecognition (void);
+#endif
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -36,47 +29,47 @@ void        Inputs_Sources_Init (void)
 {
     Inputs.Sources = NULL;
     Inputs.Sources_Max = 0;
+    Inputs.Sources_Joy_Driver = JOY_TYPE_AUTODETECT;
 
     Inputs.Peripheral [0] = INPUT_JOYPAD;
     Inputs.Peripheral [1] = INPUT_JOYPAD;
-
-	memset(&g_keyboard_state, 0, sizeof(g_keyboard_state));
-	memset(&g_mouse_state, 0, sizeof(g_mouse_state));
-	g_keyboard_event_queue = al_create_event_queue();
-	al_register_event_source(g_keyboard_event_queue, al_get_keyboard_event_source());
 }
 
-t_input_src *       Inputs_Sources_Add(char *name)
+t_input_src *       Inputs_Sources_Add (char *name)
 {
-	t_input_src* src = (t_input_src*)malloc (sizeof (t_input_src));
+    int             i;
+    t_input_src *   Src = malloc (sizeof (t_input_src));
 
-    src->name                      = name;
-    src->type                      = INPUT_SRC_TYPE_KEYBOARD;
-    src->enabled                   = TRUE;
-    src->flags                     = INPUT_SRC_FLAGS_DIGITAL;
-    src->player                    = PLAYER_1;
-    src->Connection_Port           = 0;
-    src->Analog_to_Digital_FallOff = 0.8f;
-    src->Connected_and_Ready       = FALSE; // by default. need to be flagged for use
+    Src->name                      = name;
+    Src->type                      = INPUT_SRC_TYPE_KEYBOARD;
+    Src->enabled                   = TRUE;
+    Src->flags                     = INPUT_SRC_FLAGS_DIGITAL;
+    Src->player                    = PLAYER_1;
+    Src->Connection_Port           = 0;
+    Src->Driver                    = 0;
+    Src->Analog_to_Digital_FallOff = 0.8f;
+    Src->Connected_and_Ready       = FALSE; // by default. need to be flagged for use
 
-    for (int i = 0; i < INPUT_MAP_MAX; i++)
+    for (i = 0; i < INPUT_MAP_MAX; i++)
     {
-        src->Map[i].type = INPUT_MAP_TYPE_KEY; // key,button,..
-        src->Map[i].idx = -1;
-        src->Map[i].current_value = 0;
-        src->Map_Counters[i] = 0;
+        Src->Map[i].Type = 0; // key,button,..
+        Src->Map[i].Idx = -1;
+        Src->Map[i].Res = 0;
+        Src->Map_Counters[i] = 0;
     }
 
-	Inputs.Sources = (t_input_src**)realloc(Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
-    Inputs.Sources [Inputs.Sources_Max] = src;
+    Inputs.Sources = realloc (Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
+    Inputs.Sources [Inputs.Sources_Max] = Src;
     Inputs.Sources_Max ++;
 
-    return (src);
+    return (Src);
 }
 
-void       Inputs_Sources_Close()
+void       Inputs_Sources_Close (void)
 {
-    for (int i = 0; i < Inputs.Sources_Max; i++)
+    int    i;
+
+    for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *input_src = Inputs.Sources[i];
         free(input_src->name);
@@ -96,10 +89,16 @@ void       Inputs_Sources_Close()
 //-----------------------------------------------------------------------------
 void        Inputs_Emulation_Update (bool running)
 {
+    int     i, j;
+    u16 *   c;
+    int     Pause_Pressed = FALSE, Reset_Pressed = FALSE;
+    int     players;
+
+    //----------------------------------------------------------------------------
     // Control[7] is the following:
     // LG2.LG1.Unused.Reset.P2B.P2A.P2R.P2L - P2D.P2U.P1B.P1A.P1R.P1L.P1D.P1U
     // Now setting all bits (active logic)
-    u16* c = &tsms.Control[7];
+    c = &tsms.Control[7];
     *c |= 0x1FFF;
 
     // Now this is tricky... if we are in GUI mode, check if the focused box
@@ -111,34 +110,29 @@ void        Inputs_Emulation_Update (bool running)
     // for emulation should run for all frames (including skipped ones).
     // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
     // and I use an easy path, that is until rewriting the GUI.
-    if (g_env.state == MEKA_STATE_GUI && !(g_machine_flags & MACHINE_PAUSED))
-	{
-        if (gui.boxes_z_ordered[0] && (gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE) != 0)
+    if (Meka_State == MEKA_STATE_GUI && !(machine & MACHINE_PAUSED))
+        if (gui.boxes_z_ordered[0] && gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE)
         {
-            // Returning from the emulation inputs update requires to take care of a few variables...
+            // Returning from the emulation inputs update requires to take care
+            // of a few variables...
             if (tsms.Control_Start_Pause == 1) // Leave it if it is == 2
                 tsms.Control_Start_Pause = 0;
-            if (g_driver->id == DRV_GG)
+            if (cur_drv->id == DRV_GG)
                 tsms.Control_GG |= (0x80);
-            if (Inputs.SK1100_Enabled)
-                SK1100_Clear();
+            if (Inputs.Keyboard_Enabled)
+                Keyboard_Emulation_Clear();
             return;
         }
-	}
-
-    bool pause_pressed = false;
-	bool reset_pressed = false;
 
     // Convert input sources data to emulation inputs data
-    const int players = ((g_driver->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
-    for (int i = 0; i < players; i++)
-	{
-        for (int source_index = 0; source_index < Inputs.Sources_Max; source_index++)
+    players = ((cur_drv->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
+    for (i = 0; i < players; i++)
+        for (j = 0; j < Inputs.Sources_Max; j++)
         {
-            const t_input_src *src = Inputs.Sources[source_index];
-            if (src->enabled == FALSE || src->player != i)
+            t_input_src *Src = Inputs.Sources[j];
+            if (Src->enabled == FALSE || Src->player != i)
                 continue;
-
+            // Starting from here, source 'j' apply to player 'i' ------------------
             // If current peripheral is digital, skip analog only inputs sources
             // If current peripheral is analog, skip digital only inputs sources
             // k = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].result_type;
@@ -148,40 +142,39 @@ void        Inputs_Emulation_Update (bool running)
             switch (Inputs.Peripheral [i])
             {
             case INPUT_JOYPAD: //---------------------------- Joypad/Control Stick
-                if (src->flags & INPUT_SRC_FLAGS_DIGITAL)
+                if (Src->flags & INPUT_SRC_FLAGS_DIGITAL)
                 {
-					//Msg(MSGT_DEBUG, "Player %d Src %d LEFT=%d", i, source_index, src->Map[INPUT_MAP_DIGITAL_LEFT].Res);
-                    if (src->Map[INPUT_MAP_DIGITAL_UP].current_value)     *c &= (!i? ~0x0001 : ~0x0040);
-                    if (src->Map[INPUT_MAP_DIGITAL_DOWN].current_value)   *c &= (!i? ~0x0002 : ~0x0080);
-                    if (src->Map[INPUT_MAP_DIGITAL_LEFT].current_value)   *c &= (!i? ~0x0004 : ~0x0100);
-                    if (src->Map[INPUT_MAP_DIGITAL_RIGHT].current_value)  *c &= (!i? ~0x0008 : ~0x0200);
-                    if (src->Map[INPUT_MAP_BUTTON1].current_value)        *c &= (!i? ~0x0010 : ~0x0400);
-                    if (src->Map[INPUT_MAP_BUTTON2].current_value)        *c &= (!i? ~0x0020 : ~0x0800);
+                    if (Src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
+                    if (Src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
+                    if (Src->Map[INPUT_MAP_DIGITAL_LEFT].Res)   *c &= (!i? ~0x0004 : ~0x0100);
+                    if (Src->Map[INPUT_MAP_DIGITAL_RIGHT].Res)  *c &= (!i? ~0x0008 : ~0x0200);
+                    if (Src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
+                    if (Src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
-                else if (src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) // ANALOG
+                else if (Src->flags & INPUT_SRC_FLAGS_EMULATE_DIGITAL) // ANALOG
                 {
-                    if (src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value < 0)  *c &= (!i? ~0x0001 : ~0x0040);
-                    if (src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value > 0)  *c &= (!i? ~0x0002 : ~0x0080);
-                    if (src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value < 0)  *c &= (!i? ~0x0004 : ~0x0100);
-                    if (src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value > 0)  *c &= (!i? ~0x0008 : ~0x0200);
-                    if (src->Map[INPUT_MAP_BUTTON1].current_value)                *c &= (!i? ~0x0010 : ~0x0400);
-                    if (src->Map[INPUT_MAP_BUTTON2].current_value)                *c &= (!i? ~0x0020 : ~0x0800);
+                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res < 0)  *c &= (!i? ~0x0001 : ~0x0040);
+                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res > 0)  *c &= (!i? ~0x0002 : ~0x0080);
+                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res < 0)  *c &= (!i? ~0x0004 : ~0x0100);
+                    if (Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res > 0)  *c &= (!i? ~0x0008 : ~0x0200);
+                    if (Src->Map[INPUT_MAP_BUTTON1].Res)                *c &= (!i? ~0x0010 : ~0x0400);
+                    if (Src->Map[INPUT_MAP_BUTTON2].Res)                *c &= (!i? ~0x0020 : ~0x0800);
                 }
                 break;
             case INPUT_LIGHTPHASER: //------------------------------- Light Phaser
-                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
-                    LightPhaser_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value);
-                if (src->Map[INPUT_MAP_BUTTON1].current_value)           *c &= (!i? ~0x0010 : ~0x0400);
-                if (src->Map[INPUT_MAP_BUTTON2].current_value)           *c &= (!i? ~0x0020 : ~0x0800);
+                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    LightGun_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res);
+                if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
+                if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;
             case INPUT_PADDLECONTROL: //------------------------ Paddle Controller
                 {
                     int x = Inputs.Paddle_X[i];
                     int dx = 0;
-                    if (src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
                     {
                         // Using analogic relative movement
-                        dx = src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value;
+                        dx = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
                         if (dx > 0)
                             dx = (dx + 4) / 5;
                         else if (dx < 0)
@@ -194,15 +187,15 @@ void        Inputs_Emulation_Update (bool running)
                         const int dx_table[1+5] = 
                         { 0, 1, 2, 3, 5, 7 };
                         //0  1  2  3  4  5, 6
-                        //Msg (MSGT_DEBUG, "Map_Counters[DIGITAL_LEFT] = %d, [DIGITAL_RIGHT] = %d", src->Map_Counters[INPUT_MAP_DIGITAL_LEFT], src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT]);
-                        if (src->Map_Counters[INPUT_MAP_DIGITAL_LEFT] && !src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT])
+                        //Msg (MSGT_DEBUG, "Map_Counters[DIGITAL_LEFT] = %d, [DIGITAL_RIGHT] = %d", Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT], Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT]);
+                        if (Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT] && !Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT])
                         {
-                            dx = src->Map_Counters[INPUT_MAP_DIGITAL_LEFT];
+                            dx = Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT];
                             dx = -dx_table[(dx > 5) ? 5 : dx];
                         }
-                        if (src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT] && !src->Map_Counters[INPUT_MAP_DIGITAL_LEFT])
+                        if (Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT] && !Src->Map_Counters[INPUT_MAP_DIGITAL_LEFT])
                         {
-                            dx = src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT];
+                            dx = Src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT];
                             dx = dx_table[(dx > 5) ? 5 : dx];
                         }
                     }
@@ -213,47 +206,46 @@ void        Inputs_Emulation_Update (bool running)
                         Inputs.Paddle_X [i] = x;
                     }
                     // Button 1 (only one button on Paddle Control)
-                    if (src->Map[INPUT_MAP_BUTTON1].current_value)           *c &= (!i? ~0x0010 : ~0x0400);
+                    if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
                     break;
                 }
             case INPUT_SPORTSPAD: //--------------------------------- Sports Pads
-                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
-                    SportsPad_Update (i, src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value);
-                if (src->Map[INPUT_MAP_BUTTON1].current_value)           *c &= (!i? ~0x0010 : ~0x0400);
-                if (src->Map[INPUT_MAP_BUTTON2].current_value)           *c &= (!i? ~0x0020 : ~0x0800);
+                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
+                    SportsPad_Update (i, Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res);
+                if (Src->Map[INPUT_MAP_BUTTON1].Res)           *c &= (!i? ~0x0010 : ~0x0400);
+                if (Src->Map[INPUT_MAP_BUTTON2].Res)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;
             case INPUT_TVOEKAKI: //--------------------------------- Terebi Oekaki
-                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
+                if (Src->flags & INPUT_SRC_FLAGS_ANALOG)
                 {
                     // Create button field (this is due to old code legacy)
-                    const int b_field = (src->Map[INPUT_MAP_BUTTON1].current_value ? 1 : 0) | (src->Map[INPUT_MAP_BUTTON2].current_value ? 2 : 0);
-                    TVOekaki_Update (src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value, b_field);
+                    int b_field = (Src->Map[INPUT_MAP_BUTTON1].Res ? 1 : 0) | (Src->Map[INPUT_MAP_BUTTON2].Res ? 2 : 0);
+                    TVOekaki_Update (Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res, Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res, b_field);
                 }
                 else // Support standard controller with digital inputs, because the
                 {    // Terebi Oekaki is not connected to the controller port, it is free to use !
-                    if (src->Map[INPUT_MAP_DIGITAL_UP].current_value)     *c &= (!i? ~0x0001 : ~0x0040);
-                    if (src->Map[INPUT_MAP_DIGITAL_DOWN].current_value)   *c &= (!i? ~0x0002 : ~0x0080);
-                    if (src->Map[INPUT_MAP_DIGITAL_LEFT].current_value)   *c &= (!i? ~0x0004 : ~0x0100);
-                    if (src->Map[INPUT_MAP_DIGITAL_RIGHT].current_value)  *c &= (!i? ~0x0008 : ~0x0200);
-                    if (src->Map[INPUT_MAP_BUTTON1].current_value)        *c &= (!i? ~0x0010 : ~0x0400);
-                    if (src->Map[INPUT_MAP_BUTTON2].current_value)        *c &= (!i? ~0x0020 : ~0x0800);
+                    if (Src->Map[INPUT_MAP_DIGITAL_UP].Res)     *c &= (!i? ~0x0001 : ~0x0040);
+                    if (Src->Map[INPUT_MAP_DIGITAL_DOWN].Res)   *c &= (!i? ~0x0002 : ~0x0080);
+                    if (Src->Map[INPUT_MAP_DIGITAL_LEFT].Res)   *c &= (!i? ~0x0004 : ~0x0100);
+                    if (Src->Map[INPUT_MAP_DIGITAL_RIGHT].Res)  *c &= (!i? ~0x0008 : ~0x0200);
+                    if (Src->Map[INPUT_MAP_BUTTON1].Res)        *c &= (!i? ~0x0010 : ~0x0400);
+                    if (Src->Map[INPUT_MAP_BUTTON2].Res)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
                 break;
             }
             // Process RESET and PAUSE/START buttons
-            if (src->Map[INPUT_MAP_PAUSE_START].current_value) { pause_pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
-            if (src->Map[INPUT_MAP_RESET].current_value)       { reset_pressed = TRUE; }
+            if (Src->Map[INPUT_MAP_PAUSE_START].Res) { Pause_Pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
+            if (Src->Map[INPUT_MAP_RESET].Res)       { Reset_Pressed = TRUE; }
         }
-	}
 
     // SK-1100 Keyboard update
-    if (Inputs.SK1100_Enabled)
-        SK1100_Update();
+    if (Inputs.Keyboard_Enabled)
+        Keyboard_Emulation_Update ();
 
     // Handle reset and clear pause latch if necessary
-    if (reset_pressed == TRUE)
+    if (Reset_Pressed == TRUE)
     {
-        if (g_driver->id == DRV_SMS)
+        if (cur_drv->id == DRV_SMS)
         {
             // Set the reset bit on SMS
             // FIXME: What about always setting it? (not only on SMS)
@@ -265,17 +257,17 @@ void        Inputs_Emulation_Update (bool running)
             {
                 // If SK-1100 is not emulated then process with an hardware Reset
                 // Note: this test is invalid in case Reset was pressed from a pad, it will cancel pressing reset from the pad
-                if (Inputs.SK1100_Enabled == FALSE)
+                if (Inputs.Keyboard_Enabled == FALSE)
                     Machine_Reset();
             }
         }
     }
 
-    if (pause_pressed == FALSE)
+    if (Pause_Pressed == FALSE)
         tsms.Control_Start_Pause = 0;
 
     // Game Gear Start button
-    if (g_driver->id == DRV_GG)
+    if (cur_drv->id == DRV_GG)
     {
         if (tsms.Control_Start_Pause == 1)
             tsms.Control_GG &= (~0x80);
@@ -284,8 +276,8 @@ void        Inputs_Emulation_Update (bool running)
     }
 
     // Correct the cases where opposite directions are pressed
-    if (!g_configuration.allow_opposite_directions)
-        Inputs_FixUpJoypadOppositesDirections ();
+    if (!g_Configuration.allow_opposite_directions)
+        Inputs_FixUp_JoypadOppositesDirections ();
 
     // Simulate Rapid Fire
     if (running)
@@ -293,84 +285,40 @@ void        Inputs_Emulation_Update (bool running)
         if (RapidFire != 0)
             RapidFire_Update ();
     }
+
+    // Voice Recognition
+    #ifdef DOS
+        Inputs_Update_VoiceRecognition ();
+    #endif
 }
 
 //-----------------------------------------------------------------------------
 // Read and update all inputs sources
 //-----------------------------------------------------------------------------
-void	Inputs_Sources_Update()
+void        Inputs_Sources_Update (void)
 {
-	// Process keyboard events
-	ALLEGRO_EVENT key_event;
-	while (al_get_next_event(g_keyboard_event_queue, &key_event))
-	{
-		switch (key_event.type)
-		{
-		case ALLEGRO_EVENT_KEY_DOWN:
-			g_keyboard_state[key_event.keyboard.keycode] = true;
-			break;
-		case ALLEGRO_EVENT_KEY_UP:
-			g_keyboard_state[key_event.keyboard.keycode] = false;
-			break;
-		case ALLEGRO_EVENT_KEY_CHAR:
-			// Process 'character' keypresses
-			// Those are transformed (given keyboard state & locale) into printable character
-			// Equivalent to using ToUnicode() in the Win32 API.
-			// Note: Allegro is handling repeat for us here.
-			if (key_event.keyboard.unichar > 0 && (key_event.keyboard.unichar & ~0xFF) == 0)
-			{
-				//Msg(MSGT_DEBUG, "%i %04x", key_event.keyboard.keycode, key_event.keyboard.unichar);
-				t_key_press* key_press = (t_key_press*)malloc(sizeof(*key_press));
-				key_press->scancode = key_event.keyboard.keycode;
-				key_press->ascii = key_event.keyboard.unichar & 0xFF;
-				list_add_to_end(&Inputs.KeyPressedQueue, key_press);
-			}
-			break;
-		}
-	}
-	
-	// Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
-#ifdef ARCH_WIN32
-	g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = (GetAsyncKeyState(VK_SNAPSHOT) != 0);
-	// g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
-#endif
+    int     i, j;
+    int     mouse_mx, mouse_my;
 
-	// Update keyboard modifiers flags
-	g_keyboard_modifiers = 0;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
-	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_ALT;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
-
-	// Keyboard debugging
-#if 0
-	u8 win32_keyboard_state[256];
-	memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
-	bool ret = GetKeyboardState(&win32_keyboard_state[0]);
-	for (int i = 0; i != 256; i++)
-		if (win32_keyboard_state[i])
-			Msg(MSGT_DEBUG, "[%d Win32 pressed %d\n", ret, i);
-		//if (GetAsyncKeyState(i))
-		//	Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d, %08x", ret, i, GetAsyncKeyState(i));
-
-	//for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
-	//	if (al_key_down(&g_keyboard_state, i))
-	//		Msg( MSGT_DEBUG, "Pressed key %d", i);
+#ifdef MEKA_JOY
+    int     Joy_Polled = FALSE;
 #endif
 
     // Poll mouse
-	const int mouse_x_prev = g_mouse_state.x;
-	const int mouse_y_prev = g_mouse_state.y;
-	al_get_mouse_state(&g_mouse_state);
-	Inputs_UpdateMouseRange();
+    poll_mouse ();
+    get_mouse_mickeys (&mouse_mx, &mouse_my);
+    Inputs.MouseMickeys_X = mouse_mx;
+    Inputs.MouseMickeys_Y = mouse_my;
 
-	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
-	const int mouse_mx = g_mouse_state.x - mouse_x_prev;
-	const int mouse_my = g_mouse_state.y - mouse_y_prev;
+    // Add pressed keys to keypress queue
+    if (keypressed ())
+    {
+        t_key_press *key_press = malloc(sizeof(*key_press));
+        key_press->ascii = ureadkey (&key_press->scancode);
+        list_add_to_end(&Inputs.KeyPressedQueue, key_press);
+    }
 
-    for (int i = 0; i < Inputs.Sources_Max; i++)
+    for (i = 0; i < Inputs.Sources_Max; i++)
     {
         t_input_src *Src = Inputs.Sources[i];
         if (!Src->enabled || Src->Connected_and_Ready == FALSE)
@@ -380,126 +328,122 @@ void	Inputs_Sources_Update()
             // Keyboard -------------------------------------------------------------
         case INPUT_SRC_TYPE_KEYBOARD:
             {
-                for (int j = 0; j != INPUT_MAP_MAX; j++)
+                for (j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
-                    const int old_res = map->current_value;
-                    map->current_value = (map->idx != -1 && Inputs_KeyDown(map->idx));
-                    if (old_res && map->current_value)
-					{
+                    int old_res = map->Res;
+                    map->Res = (map->Idx != -1 && key [map->Idx]);
+                    if (old_res && map->Res)
                         Src->Map_Counters[j]++;
-						//Msg(MSGT_DEBUG, "Map %d on", j);
-					}
                     else
-					{
                         Src->Map_Counters[j] = 0;
-					}
                 }
                 break;
             }
-#ifdef MEKA_JOYPAD
+#ifdef MEKA_JOY
             // Digital Joypad/Joystick ----------------------------------------------
         case INPUT_SRC_TYPE_JOYPAD:
             {
-       			ALLEGRO_JOYSTICK *joystick = al_get_joystick(Src->Connection_Port);
-				ALLEGRO_JOYSTICK_STATE state;
-				al_get_joystick_state(joystick, &state);
+                JOYSTICK_INFO *joystick = &joy[Src->Connection_Port];
+                if (!Joy_Polled) 
+                { 
+                    poll_joystick(); 
+                    Joy_Polled = TRUE; 
+                }
 
 #ifdef DEBUG_JOY
                 {
-					const int num_sticks = al_get_joystick_num_sticks(joystick);
-					const int num_buttons = al_get_joystick_num_buttons(joystick);
-					
+                    int i, j;
+                    char buf[512];
                     Msg (MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
-                    for (int i = 0; i < num_sticks; i++)
+                    for (i = 0; i < joystick->num_sticks; i++)
                     {
-                        const int num_axes = al_get_joystick_num_axes(joystick, i);
-						Msg (MSGT_DEBUG, "- Stick %d\n", i);
-                        for (int j = 0; j < num_axes; j++)
+                        JOYSTICK_STICK_INFO *stick = &joystick->stick[i];
+                        Msg (MSGT_DEBUG, "- Stick %d (flags = %04x)\n", i, stick->flags);
+                        for (j = 0; j < stick->num_axis; j++)
                         {
-							Msg (MSGT_DEBUG, "   - Axis %d (pos = %f)\n", j, state.stick[i].axis[j]);
+                            JOYSTICK_AXIS_INFO *axis = &stick->axis[j];
+                            Msg (MSGT_DEBUG, "   - Axis %d (pos = %d, d1 = %d, d2 = %d)\n", j, axis->pos, axis->d1, axis->d2);
                         }
                     }
-
-                    char buf[512];
                     strcpy(buf, "- Buttons ");
-                    for (int i = 0; i < num_buttons; i++)
-						sprintf(buf + strlen(buf), "%d ", state.button[i]);
+                    for (i = 0; i < joystick->num_buttons; i++)
+                        sprintf(buf + strlen(buf), "%d ", joystick->button[i].b);
                     Msg (MSGT_DEBUG, buf);
                 }
 #endif
 
-                for (int j = 0; j != INPUT_MAP_MAX; j++)
+                for (j = 0; j != INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
-                    int old_res = map->current_value;
-                    switch (map->type)
+                    int old_res = map->Res;
+                    switch (map->Type)
                     {
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
-							const float axis = state.stick[INPUT_MAP_UNPACK_STICK(map->idx)].axis[INPUT_MAP_UNPACK_AXIS(map->idx)];
-							map->current_value = (INPUT_MAP_UNPACK_DIR_LR(map->idx) ? axis > INPUT_JOY_DEADZONE : axis < -INPUT_JOY_DEADZONE);
+                            JOYSTICK_AXIS_INFO *axis = &joystick->stick [INPUT_MAP_GET_STICK (map->Idx)].axis [INPUT_MAP_GET_AXIS (map->Idx)];
+                            map->Res = (INPUT_MAP_GET_DIR_LR (map->Idx) ? axis->d2 : axis->d1);
                             break;
                         }
+                        // FIXME: to do.. support analogue axis
+                        // case INPUT_MAP_TYPE_JOY_AXIS_ANAL:
                     case INPUT_MAP_TYPE_JOY_BUTTON:
                         {
-							map->current_value = (map->idx != (-1) && state.button[map->idx]);
+                            map->Res = (map->Idx != -1 && joystick->button [map->Idx].b);
                             break;
                         }
                     }
-                    if (old_res && map->current_value)
+                    if (old_res && map->Res)
                         Src->Map_Counters[j]++;
                     else
                         Src->Map_Counters[j] = 0;
                 }
                 break;
             }
-#endif // #ifdef MEKA_JOYPAD
+#endif // #ifdef MEKA_JOY
             // Mouse ----------------------------------------------------------------
         case INPUT_SRC_TYPE_MOUSE:
             {
+                int x, y;
                 bool disable_mouse_button = FALSE;
 
-                if (g_env.state == MEKA_STATE_GAME)
+                if (Meka_State == MEKA_STATE_FULLSCREEN)
                 {
-					int mx, my;
-					Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &mx, &my, true);
-					//Msg(MSGT_USER, "%d %d", mx, my);
-                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value = mx;
-					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value = my;
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = mouse_x;
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = mouse_y;
                 }
                 else
                 {
                     // Compute distance to first GUI game box
                     // FIXME: this sucks
-                    int x = g_mouse_state.x - gamebox_instance->frame.pos.x;
-                    int y = g_mouse_state.y - gamebox_instance->frame.pos.y;
+                    x = mouse_x - gamebox_instance->frame.pos.x;
+                    y = mouse_y - gamebox_instance->frame.pos.y;
                     if (x < 0 || y < 0 || x >= gamebox_instance->frame.size.x || y >= gamebox_instance->frame.size.y)
                         disable_mouse_button = TRUE;
                     if (x < 0) x = 0; 
                     // if (x > 255) x = 255;
                     if (y < 0) y = 0;
-                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value = x;
-                    Src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value = y;
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_X].Res = x;
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_Y].Res = y;
                 }
 
-                int x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value;
+                x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res;
                 if (x > 0 && mouse_mx < x)
                 { if (mouse_mx < 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
                 else if (x < 0 && mouse_mx > x)
                 { if (mouse_mx > 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
                 else
                     x = mouse_mx;
-                Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value = x;
+                Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].Res = x;
 
-                int y = Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value;
+                y = Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res;
                 if (y > 0 && mouse_my < y)
                 { if (mouse_my < 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
                 else if (y < 0 && mouse_my > y)
                 { if (mouse_my > 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
                 else
                     y = mouse_my;
-                Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value = y;
+                Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].Res = y;
 
                 // No counters for analog data
                 Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_X] = 0;
@@ -508,16 +452,16 @@ void	Inputs_Sources_Update()
                 Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_Y_REL] = 0;
 
                 // Buttons ---------------------------------------------------------
-                for (int j = 4; j < INPUT_MAP_MAX; j++)
+                for (j = 4; j < INPUT_MAP_MAX; j++)
                 {
                     t_input_map *map = &Src->Map[j];
-                    int old_res = map->current_value;
-                    const int button_mask = (1 << Src->Map[j].idx);
+                    int old_res = map->Res;
+                    const int button_mask = (1 << Src->Map[j].Idx);
                     if (disable_mouse_button)
-                        Src->Map[j].current_value = 0;
+                        Src->Map[j].Res = 0;
                     else
-						Src->Map[j].current_value = (Src->Map[j].idx != -1 && (g_mouse_state.buttons & button_mask));
-                    if (old_res && map->current_value)
+                        Src->Map[j].Res = (Src->Map[j].Idx != -1 && (mouse_b & button_mask));
+                    if (old_res && map->Res)
                         Src->Map_Counters[j]++;
                     else
                         Src->Map_Counters[j] = 0;
@@ -529,35 +473,11 @@ void	Inputs_Sources_Update()
     }
 }
 
-void Inputs_UpdateMouseRange()
-{
-	if (g_env.state != MEKA_STATE_GAME)
-		return;
-
-	int sx_org;
-	int sy_org;
-	Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &sx_org, &sy_org, false);
-	int sx = sx_org;
-	int sy = sy_org;
-
-	if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
-	{ 
-		sx = Clamp<int>(sx, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
-		sy = Clamp<int>(sy, 0, g_driver->y_res);
-	}
-
-	//Msg(MSGT_USER, "xy %d %d -> %d %d", sx_org, sy_org, sx, sy);
-
-	if (sx != sx_org || sy != sy_org)
-	{
-		Video_GameMode_EmulatedPosToScreenPos(sx, sy, &g_mouse_state.x, &g_mouse_state.y, false);
-		al_set_mouse_xy(g_display, g_mouse_state.x, g_mouse_state.y);
-		//Msg(MSGT_USER, "%d", ret);
-	}
-}
-
+//-----------------------------------------------------------------------------
+// Inputs_FixUp_JoypadOppositesDirections()
 // Fix up/down & left/right cases
-static void    Inputs_FixUpJoypadOppositesDirections (void)
+//-----------------------------------------------------------------------------
+static void    Inputs_FixUp_JoypadOppositesDirections (void)
 {
     u16        joy = tsms.Control[7];
     if (!(joy & (0x0001 | 0x0002))) { joy |= (0x0001 | 0x0002); } // P1 Up & Down

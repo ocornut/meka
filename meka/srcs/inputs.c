@@ -4,31 +4,25 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "app_filebrowser.h"
 #include "app_options.h"
 #include "app_palview.h"
 #include "app_techinfo.h"
 #include "app_tileview.h"
 #include "blitintf.h"
 #include "capture.h"
+#include "config_v.h"
 #include "db.h"
 #include "debugger.h"
 #include "fskipper.h"
+#include "g_file.h"
+#include "games.h"
 #include "glasses.h"
 #include "inputs_c.h"
 #include "inputs_t.h"
-#include "lightgun.h"
+#include "keyboard.h"
 #include "saves.h"
-#include "sk1100.h"
 #include "tvoekaki.h"
 #include "vdp.h"
-#include "video.h"
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_inputs Inputs;
 
 //-----------------------------------------------------------------------------
 // Function
@@ -54,7 +48,7 @@ void    Inputs_Peripheral_Next (int Player)
     if (Inputs.Peripheral [Player] == INPUT_SPORTSPAD) // Skip TV Oekaki
         Inputs.Peripheral [Player] = INPUT_JOYPAD;
     else
-		Inputs.Peripheral [Player] = (t_input_peripheral)((Inputs.Peripheral [Player] + 1) % INPUT_PERIPHERAL_MAX);
+        Inputs.Peripheral [Player] = (Inputs.Peripheral [Player] + 1) % INPUT_PERIPHERAL_MAX;
     if (Player == PLAYER_1)
         Inputs_Switch_Current ();
     else
@@ -76,93 +70,105 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update ();
 
-    switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
+    switch (key_shifts & (KB_CTRL_FLAG | KB_ALT_FLAG | KB_SHIFT_FLAG))
     {
     case 0: // No modifiers
         {
             // State save/load
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F5, FALSE))
+            if (Inputs_KeyPressed (KEY_F5, FALSE))
                 Save_Game ();
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F7, FALSE))
+            if (Inputs_KeyPressed (KEY_F7, FALSE))
                 Load_Game ();
 
             // State change slot
             /*
-            if (g_driver->id != DRV_COLECO)
+            if (cur_drv->id != DRV_COLECO)
                 if (!gui.box_z_ordered[0]->focus_inputs_exclusive) // check note in inputs_u.c::Inputs_Emulation_Update()
                 {
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_0, FALSE))  Save_Set_Slot (0);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_1, FALSE))  Save_Set_Slot (1);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_2, FALSE))  Save_Set_Slot (2);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_3, FALSE))  Save_Set_Slot (3);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_4, FALSE))  Save_Set_Slot (4);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_5, FALSE))  Save_Set_Slot (5);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_6, FALSE))  Save_Set_Slot (6);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_7, FALSE))  Save_Set_Slot (7);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_8, FALSE))  Save_Set_Slot (8);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_9, FALSE))  Save_Set_Slot (9);
+                    if (Inputs_KeyPressed (KEY_0, FALSE))  Save_Set_Slot (0);
+                    if (Inputs_KeyPressed (KEY_1, FALSE))  Save_Set_Slot (1);
+                    if (Inputs_KeyPressed (KEY_2, FALSE))  Save_Set_Slot (2);
+                    if (Inputs_KeyPressed (KEY_3, FALSE))  Save_Set_Slot (3);
+                    if (Inputs_KeyPressed (KEY_4, FALSE))  Save_Set_Slot (4);
+                    if (Inputs_KeyPressed (KEY_5, FALSE))  Save_Set_Slot (5);
+                    if (Inputs_KeyPressed (KEY_6, FALSE))  Save_Set_Slot (6);
+                    if (Inputs_KeyPressed (KEY_7, FALSE))  Save_Set_Slot (7);
+                    if (Inputs_KeyPressed (KEY_8, FALSE))  Save_Set_Slot (8);
+                    if (Inputs_KeyPressed (KEY_9, FALSE))  Save_Set_Slot (9);
                 }
             */
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F6, FALSE, 30, 3)) 
+            if (Inputs_KeyPressed_Repeat (KEY_F6, FALSE, 30, 3)) 
                 Save_Set_Slot (opt.State_Current - 1);
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F8, FALSE, 30, 3)) 
+            if (Inputs_KeyPressed_Repeat (KEY_F8, FALSE, 30, 3)) 
                 Save_Set_Slot (opt.State_Current + 1);
 
             // Blitters switch
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F1, FALSE))    
+            if (Inputs_KeyPressed (KEY_F1, FALSE))    
                 Blitters_SwitchNext();
 
             // Speed & Frame skip 
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F2, FALSE))
+            if (Inputs_KeyPressed (KEY_F2, FALSE))
                 Frame_Skipper_Switch ();
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F3, FALSE, 30, 3))
+            if (Inputs_KeyPressed (KEY_F3, FALSE))
                 Frame_Skipper_Configure (-1);
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F4, FALSE, 30, 3))
+            if (Inputs_KeyPressed (KEY_F4, FALSE))
                 Frame_Skipper_Configure (1);
 
             // Input peripheral
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))
+            if (Inputs_KeyPressed (KEY_F9, FALSE))
                 Inputs_Peripheral_Next (PLAYER_1);
 
             // Switch mode (Fullscreen <-> GUI)
-            if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? ALLEGRO_KEY_F10 : ALLEGRO_KEY_ESCAPE, FALSE))
+            if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? KEY_F10 : KEY_ESC, FALSE))
                 Action_Switch_Mode ();
 
             // Sprites Refresh switch
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
+            if (Inputs_KeyPressed (KEY_F11, FALSE))
                 Action_Switch_Layer_Sprites ();
 
             // Hard Pause
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-                g_machine_pause_requests = 1;
+            if (Inputs_KeyPressed (KEY_F12, FALSE))
+                Machine_Pause_Need_To = TRUE;
         }
         break;
-    case ALLEGRO_KEYMOD_CTRL:
+    case KB_CTRL_FLAG:
         {
+            // Easter egg: Tetris
+            if (!sk1100_pressed && Inputs_KeyPressed (KEY_T, FALSE))
+                Tetris_Start ();
+            // Nintendon't - now removed because it is too violent
+            #ifdef DOS
+                if (!sk1100_pressed && Inputs_KeyPressed (KEY_N, FALSE))     
+                    Quit_Msg ("Nintendont.");
+            #endif
+
             // Hard Pause
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE) || (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)))
-                g_machine_pause_requests = 1;
+            if (Inputs_KeyPressed (KEY_F12, FALSE) || (!sk1100_pressed && Inputs_KeyPressed (KEY_P, FALSE)))
+                Machine_Pause_Need_To = TRUE;
             // Hard Reset
-            if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
-                Machine_Reset();
+            if (!sk1100_pressed && Inputs_KeyPressed (KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
+                Machine_Reset ();
 
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
-            if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
+            if (Inputs_KeyPressed(KEY_TAB, FALSE))
             {
+                int n;
+
                 // Remove keypress
                 // FIXME-KEYPRESS
-                for (t_list* keypresses = Inputs.KeyPressedQueue; keypresses != NULL; )
+                t_list *keypresses;
+                for (keypresses = Inputs.KeyPressedQueue; keypresses != NULL; )
                 {
-                    t_key_press* keypress = (t_key_press*)keypresses->elem;
+                    t_key_press *keypress = keypresses->elem;
                     keypresses = keypresses->next;
-                    if (keypress->scancode == ALLEGRO_KEY_TAB)
+                    if (keypress->scancode == KEY_TAB)
                         list_remove(&Inputs.KeyPressedQueue, keypress);
                 }
 
                 // Cycle focus
-                for (int n = gui.boxes_count - 1; n >= 0; n--)
+                for (n = gui.boxes_count - 1; n >= 0; n--)
                 {
-                    t_gui_box* b = gui.boxes_z_ordered[n];
+                    t_gui_box *b = gui.boxes_z_ordered[n];
                     if ((b->flags & GUI_BOX_FLAGS_TAB_STOP) && (b->flags & GUI_BOX_FLAGS_ACTIVE))
                     {
                         gui_box_set_focus(b);
@@ -173,43 +179,60 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
         }
         break;
-   case ALLEGRO_KEYMOD_ALT:
+   case KB_ALT_FLAG:
        {
            // SK-1100 Keyboard switch
-           if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))        
-               SK1100_Switch();
+           if (Inputs_KeyPressed (KEY_F9, FALSE))        
+               Keyboard_Switch ();
            // Background Refresh switch
-           if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE)) 
-               Action_Switch_Layer_Background();
+           if (Inputs_KeyPressed (KEY_F11, FALSE)) 
+               Action_Switch_Layer_Background ();
            // Next frame (pause hack)
-           if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-               g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+           if (Inputs_KeyPressed (KEY_F12, FALSE))
+               Machine_Pause_Need_To = (machine & MACHINE_PAUSED) ? 2 : 1;
 
            if (!sk1100_pressed)
            {
                // FPS Counter switch
-               if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))         
+               if (Inputs_KeyPressed (KEY_F, FALSE))         
                    Frame_Skipper_Switch_FPS_Counter ();
                // Applets hotkeys
-               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE))         FB_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE))         Options_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE))         TB_Message_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE))         PaletteViewer_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE))         TileViewer_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE))         TechInfo_Switch ();
+               if (Inputs_KeyPressed (KEY_L, FALSE))         FB_Switch ();
+               if (Inputs_KeyPressed (KEY_O, FALSE))         Options_Switch ();
+               if (Inputs_KeyPressed (KEY_M, FALSE))         TB_Message_Switch ();
+               if (Inputs_KeyPressed (KEY_P, FALSE))         PaletteViewer_Switch();
+               if (Inputs_KeyPressed (KEY_T, FALSE))         TileViewer_Switch ();
+               if (Inputs_KeyPressed (KEY_I, FALSE))         TechInfo_Switch ();
                // Quit emulator
-               if (Inputs_KeyPressed (ALLEGRO_KEY_X, FALSE))         
+               if (Inputs_KeyPressed (KEY_X, FALSE))         
                    opt.Force_Quit = TRUE;
                // Hard Reset
-               if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
-                   Machine_Reset();
+               if (Inputs_KeyPressed (KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
+                   Machine_Reset ();
 
                // GUI fullscreen/windowed
-                if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
+                if (Inputs_KeyPressed (KEY_ENTER, FALSE))
                 {
-					g_configuration.video_fullscreen ^= 1;
-					//al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_configuration.video_fullscreen);
-                    Video_Setup_State();
+                    if (Meka_State == MEKA_STATE_FULLSCREEN)
+                    {
+                        t_video_driver *driver = VideoDriver_FindByDriverId(Blitters.current->driver);
+                        if (driver && driver->drv_id_switch_fs_win)
+                        {
+                            // FIXME: Put that properly in blitter interface
+                            // FIXME: Not saved anywhere... better than nothing anyway.
+                            Blitters.current->driver = driver->drv_id_switch_fs_win;
+                            Video_Setup_State();
+                        }
+                    }
+                    else if (Meka_State == MEKA_STATE_GUI)
+                    {
+                        t_video_driver *driver = VideoDriver_FindByDriverId(g_Configuration.video_mode_gui_driver);
+                        if (driver && driver->drv_id_switch_fs_win)
+                        {
+                            g_Configuration.video_mode_gui_driver = driver->drv_id_switch_fs_win;
+                            Video_GUI_ChangeVideoMode(g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, g_Configuration.video_mode_gui_depth);
+                        }
+                    }
                     return;
                 }
 
@@ -219,21 +242,21 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     }
 
     // Quit emulator
-    if (Inputs_KeyDown(Inputs.Cabinet_Mode ? ALLEGRO_KEY_ESCAPE : ALLEGRO_KEY_F10))
+    if (key [Inputs.Cabinet_Mode ? KEY_ESC : KEY_F10]) 
         opt.Force_Quit = TRUE;
 
     // Debugger switch
     #ifdef MEKA_Z80_DEBUGGER
         // Disabled when SK-1100 is emulated because of collision in usage of ScrollLock key
         // Actually on SC-3000 it is hardwired to NMI
-        if (!Inputs.SK1100_Enabled && Inputs_KeyPressed(ALLEGRO_KEY_SCROLLLOCK, TRUE))
-        //if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
-            Debugger_Switch();
+        if (!Inputs.Keyboard_Enabled && Inputs_KeyPressed (KEY_SCRLOCK, TRUE))
+        //if (!sk1100_pressed && Inputs_KeyPressed (KEY_SCRLOCK, TRUE))
+            Debugger_Switch ();
     #endif
 
     // Screen capture
-    if (Inputs_KeyPressed(ALLEGRO_KEY_PRINTSCREEN, FALSE))
-        Capture_Request();
+    if (Inputs_KeyPressed (KEY_PRTSCR, FALSE))
+        Capture_Request ();
 
     // SF-7000 Disk 21 Bomber Raid
     // if (Test_Key(KEY_W))
@@ -242,6 +265,23 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     // Wonder Boy III, Current Song
     //if (key[KEY_J])
     //   Msg (0, "RAM[0xFF9] = %02X", RAM[0xFF9]);
+
+    // Old video modes debugging
+    // if (Test_Key(KEY_J)) BACK_AREA -= 0x100;
+    // if (Test_Key(KEY_K)) BACK_AREA += 0x100;
+    // if (Test_Key(KEY_U)) BACK_AREA -= 0x1;
+    // if (Test_Key(KEY_I)) BACK_AREA += 0x1;
+    // SG-1000 stuff
+    // if (Test_Key(KEY_U)) SG_BACK_TILE -= 0x100;
+    // if (Test_Key(KEY_I)) SG_BACK_TILE += 0x100;
+    // if (Test_Key(KEY_O)) SG_BACK_TILE -= 0x2000;
+
+    /*
+    if (Test_Key(KEY_U))
+        { Debug_Generic_Value ++; Msg (MSGT_DEBUG, "Debug_Generic_Value: %d -> %d", Debug_Generic_Value - 1, Debug_Generic_Value); }
+    if (Test_Key(KEY_I))
+        { Debug_Generic_Value --; Msg (MSGT_DEBUG, "Debug_Generic_Value: %d -> %d", Debug_Generic_Value + 1, Debug_Generic_Value); }
+    */
 }
 
 // ACTION: SET INPUT TO STANDARD JOYPADS --------------------------------------
@@ -268,6 +308,9 @@ void    Inputs_Switch_LightPhaser (void)
 void    Inputs_Switch_PaddleControl (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_PADDLECONTROL);
+    // Easter egg: Pong
+    if (Inputs_KeyPressed (KEY_P, FALSE)) 
+        Pong_Start ();
     Msg (MSGT_USER, Msg_Get (MSG_Inputs_PaddleControl));
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Mouse));
     Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Digital_Unrecommended));
@@ -295,37 +338,37 @@ void    Inputs_Switch_TVOekaki (void)
 
 void    Input_ROM_Change (void)
 {
-    bool glasses = FALSE;
-    t_input_peripheral peripheral = INPUT_JOYPAD;
-
-	if (DB.current_entry)
+    int     input = INPUT_JOYPAD;
+    bool    glasses = FALSE;
+    if (DB_CurrentEntry)
     {
-        if (DB.current_entry->emu_inputs != -1)
-            peripheral = (t_input_peripheral)DB.current_entry->emu_inputs;
-        if (DB.current_entry->flags & DB_FLAG_EMU_3D)
+        if (DB_CurrentEntry->emu_inputs != -1)
+            input = DB_CurrentEntry->emu_inputs;
+        if (DB_CurrentEntry->flags & DB_FLAG_EMU_3D)
             glasses = TRUE;
     }
-    if (Inputs.Peripheral [PLAYER_1] != peripheral)
+    if (Inputs.Peripheral [PLAYER_1] != input)
     {
-        Inputs.Peripheral [PLAYER_1] = peripheral;
-        Inputs_Switch_Current();
+        Inputs.Peripheral [PLAYER_1] = input;
+        Inputs_Switch_Current ();
     }
     if (Glasses.Enabled != glasses)
     {
-        Glasses_Switch_Enable();
+        Glasses_Switch_Enable ();
     }
 }
 
-u8	Input_Port_DC (void)
+byte    Input_Port_DC (void)
 {
+    byte   v;
     static int paddle_flip_flop = 0;
 
-    if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
+    if (Inputs.Keyboard_Enabled && (sms.Input_Mode & 7) != 7)
     {
         // Msg (MSGT_USER, "Keyboard read %d", sms.Input_Mode & 7);
         return (tsms.Control [sms.Input_Mode & 7] & 0xFF);
     }
-    u8 v = tsms.Control[7] & 0xFF;
+    v = tsms.Control[7] & 0xFF;
 
     if (Inputs.Peripheral [PLAYER_1] == INPUT_PADDLECONTROL
         || Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD
@@ -386,16 +429,17 @@ u8	Input_Port_DC (void)
     return (v);
 }
 
-u8	Input_Port_DD (void)
+byte    Input_Port_DD (void)
 {
-    static int paddle_flip_flop = 0;	// FIXME
+    byte   v;
+    static int paddle_flip_flop = 0;
 
     // SK-1100
-    if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
+    if (Inputs.Keyboard_Enabled && (sms.Input_Mode & 7) != 7)
         return (tsms.Control [sms.Input_Mode & 7]  >> 8);
 
     // Controllers
-    u8 v = (tsms.Control[7]) >> 8;
+    v = (tsms.Control[7]) >> 8;
 
     if (Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL
         || Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD)
@@ -444,11 +488,11 @@ u8	Input_Port_DD (void)
 
     // Light Gun -----------------------------------------------------------------
     if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)
-        LightPhaser_Sync(PLAYER_1, &v);
+        LightGun_Sync (PLAYER_1, &v);
     if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)
-        LightPhaser_Sync(PLAYER_2, &v);
+        LightGun_Sync (PLAYER_2, &v);
     // Nationalisation -----------------------------------------------------------
-    Nationalize(&v);
+    Nationalize (&v);
 
     // Msg (MSGT_DEBUG, "AT PC=%04X: IN 0xDD (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
     return (v);
@@ -457,94 +501,67 @@ u8	Input_Port_DD (void)
 // UPDATE WHAT IS NECESSARY AFTER A PERIPHERAL CHANGE -------------------------
 void    Inputs_Peripheral_Change_Update (void)
 {
-    // Update LightGun.Enabled quick access flag
-    LightPhaser.Enabled = (Inputs.Peripheral[0] == INPUT_LIGHTPHASER || Inputs.Peripheral[1] == INPUT_LIGHTPHASER);
+    int Cursor;
+    int Player;
 
-    if (g_env.mouse_installed == -1)
+    // Update LightGun.Enabled quick access flag
+    LightGun.Enabled = (Inputs.Peripheral [0] == INPUT_LIGHTPHASER || Inputs.Peripheral [1] == INPUT_LIGHTPHASER);
+
+    if (g_Env.mouse_installed == -1)
         return;
 
-    t_mouse_cursor cursor = MEKA_MOUSE_CURSOR_STANDARD; 
-    int player = PLAYER_1;
+    Cursor = MEKA_MOUSE_CURSOR_STANDARD; 
+    Player = PLAYER_1;
+    opt.Fullscreen_Cursor = FALSE;
 
     // Note: Player 1 has priority over Player 2 for cursor
-    if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)    { cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_2; }
-    else if (Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD) { cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_2; }
-    else if (Inputs.Peripheral [PLAYER_2] == INPUT_TVOEKAKI)  { cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_2; }
+    if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)    { Cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; Player = PLAYER_2; }
+    else if (Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD) { Cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; Player = PLAYER_2; }
+    else if (Inputs.Peripheral [PLAYER_2] == INPUT_TVOEKAKI)  { Cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; Player = PLAYER_2; }
 
-    if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)    { cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_1; }
-    else if (Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD) { cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_1; }
-    else if (Inputs.Peripheral [PLAYER_1] == INPUT_TVOEKAKI)  { cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_1; }
+    if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)    { Cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; Player = PLAYER_1; }
+    else if (Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD) { Cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; Player = PLAYER_1; }
+    else if (Inputs.Peripheral [PLAYER_1] == INPUT_TVOEKAKI)  { Cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; Player = PLAYER_1; }
 
-    // Msg(MSGT_DEBUG, "g_env.state=%d, Cursor=%d, Mask_Left=%d", g_env.state, Cursor, Mask_Left_8);
+    // Msg(MSGT_DEBUG, "Meka_State=%d, Cursor=%d, Mask_Left=%d", Meka_State, Cursor, Mask_Left_8);
 
-    switch (g_env.state)
+    switch (Meka_State)
     {
-    case MEKA_STATE_GAME:
-		if (cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
-		{
-			Inputs_SetMouseCursor(cursor);
-			int sx, sy;
-			Video_GameMode_EmulatedPosToScreenPos(LightPhaser.X[player], LightPhaser.Y[player], &sx, &sy, false);
-			al_set_mouse_xy(g_display, sx, sy);
-		}
-		else if (cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
-		{
-			Inputs_SetMouseCursor(cursor);
-		}
-		else
-		{
-			Inputs_SetMouseCursor(MEKA_MOUSE_CURSOR_NONE);
-		}
-		break;
-    case MEKA_STATE_GUI:
-        if (cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
+    case MEKA_STATE_FULLSCREEN:
+        if (Cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER) // Light Phaser
         {
-            Inputs_SetMouseCursor(cursor);
+            Set_Mouse_Cursor(Cursor);
+            LightGun_Mouse_Range(Mask_Left_8);
+            position_mouse(LightGun.X [Player], LightGun.Y [Player]);
+            show_mouse(screenbuffer);
+            opt.Fullscreen_Cursor = TRUE;
+        }
+        else
+            if (Cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI) // Terebi Oekaki
+            {
+                Set_Mouse_Cursor(Cursor);
+                TVOekaki_Mouse_Range();
+                show_mouse(screenbuffer);
+                opt.Fullscreen_Cursor = TRUE;
+            }
+            else
+            {
+                Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_NONE);
+                show_mouse(NULL);
+            }
+            break;
+    case MEKA_STATE_GUI:
+        if (Cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER)
+        {
+            Set_Mouse_Cursor(Cursor);
             // Note: do not reposition mouse in GUI, this is annoying!
             // position_mouse (LightGun.X [Player] + gamebox_instance->frame.pos.x, LightGun.Y [Player] + gamebox_instance->frame.pos.y);
         }
-        else if (cursor == MEKA_MOUSE_CURSOR_SPORTS_PAD || cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
-		{
-            Inputs_SetMouseCursor(cursor);
-		}
+        else if (Cursor == MEKA_MOUSE_CURSOR_SPORTS_PAD || Cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
+            Set_Mouse_Cursor(Cursor);
         else
-		{
-            Inputs_SetMouseCursor(MEKA_MOUSE_CURSOR_STANDARD);
-		}
-        break;
-    }
-}
-
-// FIXME: Merge with Inputs_Peripheral_Change_Update() ?
-void    Inputs_SetMouseCursor(t_mouse_cursor mouse_cursor)
-{
-	Inputs.mouse_cursor = mouse_cursor;
-    if (g_env.mouse_installed == -1)
-        return;
-    switch (mouse_cursor)
-    {
-    case MEKA_MOUSE_CURSOR_NONE: 
-		al_hide_mouse_cursor(g_display);
-        break;
-    case MEKA_MOUSE_CURSOR_STANDARD: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.Main);
-		al_show_mouse_cursor(g_display);
-        break;
-    case MEKA_MOUSE_CURSOR_LIGHT_PHASER: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.LightPhaser);
-		al_show_mouse_cursor(g_display);
-        break;
-    case MEKA_MOUSE_CURSOR_SPORTS_PAD: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.SportsPad);
-		al_show_mouse_cursor(g_display);
-        break;
-    case MEKA_MOUSE_CURSOR_TV_OEKAKI: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.TvOekaki);
-		al_show_mouse_cursor(g_display);
-        break;
-    case MEKA_MOUSE_CURSOR_WAIT: 
-		al_set_mouse_cursor(g_display, Graphics.Cursors.Wait);
-		al_show_mouse_cursor(g_display);
+            Set_Mouse_Cursor(MEKA_MOUSE_CURSOR_STANDARD);
+        show_mouse (gui_buffer);
         break;
     }
 }
@@ -560,7 +577,7 @@ const t_input_peripheral_info   Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX] =
     { "Terebi Oekaki"   }
 };
 
-const char*	Inputs_Get_MapName (int Type, int MapIdx)
+char    *Inputs_Get_MapName (int Type, int MapIdx)
 {
     switch (Type)
     {

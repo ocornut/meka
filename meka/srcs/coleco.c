@@ -4,22 +4,12 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "coleco.h"
 #include "debugger.h"
 #include "fskipper.h"
-#include "inputs_t.h"
 #include "mappers.h"
 #include "patch.h"
 #include "vdp.h"
-#include "video.h"
 #include "video_m2.h"
-#include "sound/psg.h"
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-static u8 Coleco_Joy_Table_Conv [64];
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -53,7 +43,7 @@ void    Coleco_Port_Out (word Port, byte Value)
         if (Port & 1) Tms_VDP_Out_Address (Value);
         else Tms_VDP_Out_Data (Value); return;
     case 0xE0: // Sound
-        SN76489_Write(Value); /* PSG_0_Write (Value); */ return;
+        SN76489_Write (Value); /* PSG_0_Write (Value); */ return;
     case 0x80: // Change Input Mode
         sms.Input_Mode = 0; return;
     case 0xC0: // Change Input Mode
@@ -105,18 +95,18 @@ byte    Coleco_Keypad_1 (void)
 {
     int    v;
 
-         if (Inputs_KeyDown(ALLEGRO_KEY_0))        v = 10; // 0
-    else if (Inputs_KeyDown(ALLEGRO_KEY_1))        v = 13; // 1
-    else if (Inputs_KeyDown(ALLEGRO_KEY_2))        v =  7; // 2
-    else if (Inputs_KeyDown(ALLEGRO_KEY_3))        v = 12; // 3
-    else if (Inputs_KeyDown(ALLEGRO_KEY_4))        v =  2; // 4
-    else if (Inputs_KeyDown(ALLEGRO_KEY_5))        v =  3; // 5
-    else if (Inputs_KeyDown(ALLEGRO_KEY_6))        v = 14; // 6
-    else if (Inputs_KeyDown(ALLEGRO_KEY_7))        v =  5; // 7
-    else if (Inputs_KeyDown(ALLEGRO_KEY_8))        v =  1; // 8
-    else if (Inputs_KeyDown(ALLEGRO_KEY_9))        v = 11; // 9
-    else if (Inputs_KeyDown(ALLEGRO_KEY_MINUS))    v =  9; // *
-    else if (Inputs_KeyDown(ALLEGRO_KEY_EQUALS))   v =  6; // #
+    if (key[KEY_0])             v = 10; // 0
+    else if (key[KEY_1])        v = 13; // 1
+    else if (key[KEY_2])        v =  7; // 2
+    else if (key[KEY_3])        v = 12; // 3
+    else if (key[KEY_4])        v =  2; // 4
+    else if (key[KEY_5])        v =  3; // 5
+    else if (key[KEY_6])        v = 14; // 6
+    else if (key[KEY_7])        v =  5; // 7
+    else if (key[KEY_8])        v =  1; // 8
+    else if (key[KEY_9])        v = 11; // 9
+    else if (key[KEY_MINUS])    v =  9; // *
+    else if (key[KEY_EQUALS])   v =  6; // #
     else v = 0x0F;
     if (tsms.Control[7] & 0x20)
         v |= 0x40;
@@ -164,9 +154,10 @@ void        Coleco_Init_Table_Inputs (void)
 word    Loop_Coleco (void)
 {
     // Update sound cycle counter
-    Sound.CycleCounter += opt.Cur_IPeriod;
+    Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
+    Sound_CycleCounter += opt.Cur_IPeriod;
 
-    tsms.VDP_Line = (tsms.VDP_Line + 1) % g_machine.TV_lines;
+    tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
 
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER
@@ -190,8 +181,7 @@ word    Loop_Coleco (void)
     {
         Interrupt_Loop_Misc_Common;
         if (fskipper.Show_Current_Frame)
-            Refresh_Modes_0_1_2_3();
-
+            Refresh_Modes_0_1_2_3 ();
         // sms.VDP_Status &= ~VDP_STATUS_SpriteCollision;
         sms.VDP_Status |= VDP_STATUS_VBlank;
         //if (!(sms.VDP_Status & VDP_STATUS_SpriteCollision))
@@ -199,16 +189,15 @@ word    Loop_Coleco (void)
 
         // Note: refresh screen may reset the system, so you can NOT change
         // the status AFTER it, or else it would screw the newly emulated code
-        Video_RefreshScreen();
+        Refresh_Screen ();
         if ((opt.Force_Quit) || (CPU_Loop_Stop))
             Macro_Stop_CPU;
     }
 
-    if ((VBlank_ON) && (sms.VDP_Status & VDP_STATUS_VBlank) && (sms.Pending_NMI == FALSE) /* && (sms.VDP_Access_Mode == VDP_Access_Mode_1) */ )
+    if ((VBlank_ON) && (sms.VDP_Status & VDP_STATUS_VBlank) /* && (sms.VDP_Access_Mode == VDP_Access_Mode_1) */ )
     {
         sms.VDP_Status &= ~VDP_STATUS_VBlank;
-		sms.Pending_NMI = TRUE;
-        return (INT_NMI);
+        return (INT_NMI); // No pending interrupts on Coleco
     }
 
     return (INT_NONE);

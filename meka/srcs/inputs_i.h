@@ -8,9 +8,10 @@
 //-----------------------------------------------------------------------------
 
 void    Inputs_Init             (void);
+void    Inputs_Init_Mouse       (void);
 void    Inputs_Close            (void);
 
-#ifdef MEKA_JOYPAD
+#ifdef MEKA_JOY
 void    Inputs_Joystick_Init    (void);
 void    Inputs_Joystick_Close   (void);
 #endif

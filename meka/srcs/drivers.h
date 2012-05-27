@@ -7,40 +7,40 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-// Note: this field is saved into savestate so we have to maintain its binary compatibility.
-enum t_machine_driver
-{
-	DRV_SMS		= 0,
-	DRV_GG      = 1,
-	DRV_SG1000	= 2,
-	DRV_SC3000	= 3,
-	DRV_COLECO	= 4,
-	DRV_MSX___	= 5,
-	DRV_NES___	= 6,
-	DRV_SF7000	= 7,
-	DRV_MAX		= 8,
-};
+// Machines
+#define DRV_SMS         (0)
+#define DRV_GG          (1)
+#define DRV_SG1000      (2)
+#define DRV_SC3000      (3)
+#define DRV_COLECO      (4)
+#define DRV_MSX         (5)
+#define DRV_NES         (6)
+#define DRV_SF7000      (7)
+#define DRV_MAX         (8)
 
 // CPU Type
 #define CPU_Z80         (0)
+#define CPU_6502        (1)
 
 // VDP Type
 #define VDP_SMSGG       (0)
 #define VDP_TMS9918     (1)
+#define VDP_NES         (2)
 
 // Sound Type
 #define SND_SN76489AN   (0)
 #define SND_SN76489     (1)
+#define SND_NES         (2)
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct ts_driver
+typedef struct s_driver
 {
-  u8			id;
-  const char *	short_name;
-  const char *	full_name;
+  byte  id;
+  char *short_name;
+  char *full_name;
   int   cpu;
   int   vdp;
   int   snd;
@@ -54,15 +54,15 @@ struct ts_driver
   int   y_int;        // Working variable
   int   colors;
   int   ram;
-};
+} ts_driver;
 
-extern ts_driver * g_driver;
+ts_driver *     cur_drv;
 
-struct ts_driver_filename_extension
+typedef struct
 {
-    const char *	filename_extension;
-    int				driver;
-};
+    char *  filename_extension;
+    int     driver;
+} ts_driver_filename_extension;
 
 //-----------------------------------------------------------------------------
 // Functions

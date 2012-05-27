@@ -6,10 +6,6 @@
 #include "shared.h"
 
 //-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_tv_type * TV_Type_User = NULL;
 
 t_tv_type TV_Type_Table [] =
 {
@@ -18,14 +14,12 @@ t_tv_type TV_Type_Table [] =
 };
 
 //-----------------------------------------------------------------------------
-// Functions
-//-----------------------------------------------------------------------------
 
 void    TVType_Init_Values (void)
 {
     TV_Type_User = &TV_Type_Table[TVTYPE_NTSC];
-    g_machine.TV = TV_Type_User;
-    g_machine.TV_lines = TV_Type_User->screen_lines;
+    cur_machine.TV = TV_Type_User;
+    cur_machine.TV_lines = TV_Type_User->screen_lines;
     TVType_Update_Values ();
 }
 
@@ -37,18 +31,16 @@ void    TVType_Update_Values (void)
 void    TVType_Set (int tv_type, bool verbose)
 {
     TV_Type_User = &TV_Type_Table[tv_type];
-    g_machine.TV = TV_Type_User;
-    g_machine.TV_lines = TV_Type_User->screen_lines;
+    cur_machine.TV = TV_Type_User;
+    cur_machine.TV_lines = TV_Type_User->screen_lines;
 
     // FIXME: CPU_Clock_Current is not taken into account for IPeriod in CPU emulation
 
     // 262 * 228 = 59736, * 60 = 3584160
     // 313 * 228 = 71364, * 50 = 3568200
 
-    // SN76489_SetClock(opt.TV_Lines_Current * opt.Cur_IPeriod); // 59736 for NTSC
-    // SN76489_SetClock(g_machine.TV->CPU_clock);
-	Sound_UpdateClockSpeed();
-
+    // SN76489_ClockSet (opt.TV_Lines_Current * opt.Cur_IPeriod); // 59736 for NTSC
+    SN76489_ClockSet (cur_machine.TV->CPU_clock);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 

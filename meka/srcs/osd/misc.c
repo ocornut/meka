@@ -12,16 +12,15 @@
 //-----------------------------------------------------------------------------
 bool    OSD_X86CPU_Has_RDTSC (void)
 {
-#ifdef ARCH_MACOSX
+#ifdef MACOSX
     return TRUE;
-#endif // ARCH_MACOSX
-
-	int cpu_id;
+#endif // MACOSX
+    int cpu_id;
 
     //if (!(cpu_capabilities & CPU_ID))
     //    return (FALSE);
 
-#ifdef ARCH_WIN32
+    #ifdef WIN32
 
     __asm
     {
@@ -30,7 +29,7 @@ bool    OSD_X86CPU_Has_RDTSC (void)
         mov cpu_id, edx
     }
 
-#else
+    #else
 
     __asm__ (
         "movl $1,%%eax     ; "
@@ -43,7 +42,7 @@ bool    OSD_X86CPU_Has_RDTSC (void)
 	:                   // no inputs
 	:  "%ebx", "%ecx", "%edx"
 	);
-#endif
+    #endif
 
     // Msg (MSGT_DEBUG, "cpu_id = %08X", cpu_id);
 

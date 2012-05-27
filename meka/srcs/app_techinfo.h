@@ -14,16 +14,16 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_app_tech_info
+typedef struct
 {
     bool        active;
     t_gui_box * box;
     char        lines[TECHINFO_LINES][512 /* TECHINFO_COLUMNS */];
     bool        lines_dirty[TECHINFO_LINES];
 
-};
+} t_app_tech_info;
 
-extern t_app_tech_info TechInfo;
+t_app_tech_info TechInfo;
 
 //-----------------------------------------------------------------------------
 // Functions

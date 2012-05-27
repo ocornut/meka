@@ -7,13 +7,13 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_app_options
+typedef struct
 {
     t_gui_box * box;
     bool        active;
-};
+} t_app_options;
 
-extern t_app_options Options;
+t_app_options   Options;
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -3,7 +3,8 @@
 // FDC765 (Floppy Disk Drive) Emulator - Code
 //-----------------------------------------------------------------------------
 // Originally from Ulrich Cordes
-// Modified by Marc Le Douarain, Omar Cornut
+// Modified a bit by Marc Le Douarain
+// Revamped by Omar Cornut
 //-----------------------------------------------------------------------------
 
 // Original file header:
@@ -42,8 +43,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-FDC765_Disk dsk[FDC765_MAXDRIVES];
-u8			FDC765_Cmd_For_SF7000;
+FDC765_Disk dsk [FDC765_MAXDRIVES];
 
 //-----------------------------------------------------------------------------
 
@@ -554,7 +554,7 @@ void    FDC765_Disk_Insert (int DrvNum, void *Data, int DataSize)
 
   // Calculating track size and allocating memory for it
   Disk->TracksSize = Disk->Header.tracksize * Disk->Header.nbof_tracks * Disk->Header.nbof_heads;
-  Disk->Tracks = (FDC765_Track *)malloc (Disk->TracksSize);
+  Disk->Tracks = (void *)malloc (Disk->TracksSize);
 
   // Copying memory from data source
   memcpy (Disk->Tracks, Data, DataSize);

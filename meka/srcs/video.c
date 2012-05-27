@@ -9,14 +9,11 @@
 #include "capture.h"
 #include "debugger.h"
 #include "fskipper.h"
-#include "glasses.h"
 #include "inputs_i.h"
 #include "inputs_t.h"
 #include "palette.h"
 #include "skin_bg.h"
-#include "skin_fx.h"
 #include "vdp.h"
-#include "video.h"
 #include "osd/misc.h"
 #include "osd/timer.h"
 
@@ -24,418 +21,383 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_video	g_video;
-
-t_video_driver	g_video_drivers[] =
-{
-#ifdef ARCH_WIN32
-	{ "directx",	"DirectX",		0,					},	// Allegro for Win32 wants a zero here because it is "default".
+#ifdef DOS
+extern int    _wait_for_vsync;
 #endif
-	{ "opengl",		"OpenGL",		ALLEGRO_OPENGL,		},
-	{ "opengl30",	"OpenGL 3.0",	ALLEGRO_OPENGL_3_0, },
-	{ NULL, }
-};
-
-t_video_driver*	g_video_driver_default = &g_video_drivers[0];
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Video_Init()
+void    Video_Init (void)
 {
-	Video_CreateVideoBuffers();
-	Video_EnumerateDisplayModes();
-
-    // Clear variables
-    g_video.res_x						= 0;
-    g_video.res_y						= 0;
-    g_video.clear_requests				= 0;
-	g_video.game_area_x1				= 0;
-	g_video.game_area_x2				= 0;
-	g_video.game_area_y1				= 0;
-	g_video.game_area_y2				= 0;
-    g_video.driver						= 1;
-	g_video.refresh_rate_requested		= 0;
-	g_video.display_mode_current_index	= 0;
-	fs_out								= NULL;
-}
-
-void Video_CreateVideoBuffers()
-{
-	if (Screenbuffer_IsLocked())
-		Screenbuffer_ReleaseLock();
-
-	if (screenbuffer_1)
-		al_destroy_bitmap(screenbuffer_1);
-	if (screenbuffer_2)
-		al_destroy_bitmap(screenbuffer_2);
-
-	// Allocate buffers
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-	al_set_new_bitmap_format(g_configuration.video_game_format_request);
-    screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
-    screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
+    // Allocate buffers
+    screenbuffer_1      = create_bitmap_ex(16, MAX_RES_X + 32, MAX_RES_Y + 32);
+    screenbuffer_2      = create_bitmap_ex(16, MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
     screenbuffer_next   = screenbuffer_2;
 
-	// Retrieve actual video format. This will be used to compute color values.
-	g_screenbuffer_format = al_get_bitmap_format(screenbuffer_1);
-
-	Screenbuffer_AcquireLock();
+    // Clear variables
+    Video.res_x         = 0;
+    Video.res_y         = 0;
+    Video.page_flipflop = 0;
+    Video.clear_need    = FALSE;
+    Video.game_area_x1  = Video.game_area_x2 = Video.game_area_y1 = Video.game_area_y2 = 0;
+    Video.driver        = 1;
+    Video.refresh_rate_real = Video.refresh_rate_requested = 0;
+    fs_page_0 = fs_page_1 = fs_out = NULL;
 }
 
-static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool fullscreen, int refresh_rate, bool fatal)
+// CHANGE GRAPHIC MODE AND UPDATE NECESSARY VARIABLES -------------------------
+static int     Video_Mode_Change (int driver, int w, int h, int v_w, int v_h, int refresh_rate, int fatal)
 {
     // Attempt to avoid unnecessary resolution change (on blitter change)
     static struct
     {
-        t_video_driver* driver;
-        int w, h;
-		int fullscreen;
+        int driver;
+        int w, h, v_w, v_h;
         int refresh_rate;
-    } previous_mode = { NULL, -1, -1, -1, -1 };
-    if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && (int)fullscreen == previous_mode.fullscreen && refresh_rate == previous_mode.refresh_rate)
+    } previous_mode = { -1, -1, -1, -1, -1, -1 };
+    if (driver == previous_mode.driver && w == previous_mode.w && h == previous_mode.h && v_w == previous_mode.v_w && v_h == previous_mode.v_h && refresh_rate == previous_mode.refresh_rate)
     {
-        Video_GameMode_UpdateBounds();
-		if (g_env.state == MEKA_STATE_GUI)
-			GUI_RelayoutAll();
+        Video_Mode_Update_Size ();
         return (MEKA_ERR_OK);
     }
+
+    // We must create the larger buffers in the current depth
+    // FIXME-BLIT
+    if (Blit_Buffer_NativeTemp != NULL)
+        destroy_bitmap(Blit_Buffer_NativeTemp);
+    Blit_Buffer_NativeTemp = create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
 
     previous_mode.driver = driver;
     previous_mode.w = w;
     previous_mode.h = h;
-	previous_mode.fullscreen = fullscreen;
+    previous_mode.v_w = v_w;
+    previous_mode.v_h = v_h;
     previous_mode.refresh_rate = refresh_rate;
 
     // Set new mode
-	if (g_display != NULL)
-	{
-#ifdef ARCH_WIN32
-		// Allegro is missing keyboard events when there's no display, so as a workaround we clear the key states.
-		Inputs_KeyClearAllState();
-#endif
-		al_unregister_event_source(g_display_event_queue, al_get_display_event_source(g_display));
-		al_destroy_display(g_display);
-		g_display = NULL;
-	}
-
-	// Create new display
-	int display_flags = driver->flags;
-	if (fullscreen)
-		display_flags |= ALLEGRO_FULLSCREEN;
-	else
-		display_flags |= ALLEGRO_WINDOWED;
-	al_set_new_display_flags(display_flags);
-	al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST);
-	al_set_new_display_refresh_rate(g_configuration.video_mode_gui_refresh_rate);
-	g_display = al_create_display(w, h);
-
-	if (!g_display)
+    request_refresh_rate (refresh_rate);
+    if (set_gfx_mode (driver, w, h, v_w, v_h) != 0)
     {
         if (fatal)
-            Quit_Msg(Msg_Get(MSG_Error_Video_Mode), w, h);
-        Msg(MSGT_USER, Msg_Get(MSG_Error_Video_Mode), w, h);
+            Quit_Msg (Msg_Get (MSG_Error_Video_Mode), w, h, allegro_error);
+        Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode), w, h, allegro_error);
         return (MEKA_ERR_FAIL);
     }
+    fs_page_0 = NULL;
+    fs_page_1 = NULL;
+    fs_page_2 = NULL;
 
-	al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
+#ifdef DOS
+    // Set the Allegro vsync flag to that VGA scroll do not automatically vsync
+    _wait_for_vsync = FALSE;
+#endif
 
-    g_video.res_x = w;
-    g_video.res_y = h;
-    g_video.refresh_rate_requested = refresh_rate;
-	Video_GameMode_UpdateBounds();
+    Video.res_x = w;
+    Video.res_y = h;
+    Video.refresh_rate_requested = refresh_rate;
+    Video.refresh_rate_real = get_refresh_rate();
+    Video_Mode_Update_Size ();
 
-	// Window title
-    al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
+    // Update true-color data
+    Data_UpdateVideoMode();
 
-	// Recreate all video buffers
-	Blit_CreateVideoBuffers();
-	Video_CreateVideoBuffers();
-	Data_CreateVideoBuffers();
-	SkinFx_CreateVideoBuffers();
-	if (g_env.state == MEKA_STATE_GUI)
-		GUI_SetupNewVideoMode();
+    rest(100);
 
     return (MEKA_ERR_OK);
 }
 
-void    Video_GameMode_UpdateBounds(void)
+void    Video_Mode_Update_Size (void)
 {
+    int   x_fact, y_fact;
+
+    Blitters_Get_Factors (&x_fact, &y_fact);
+
     // Compute game area position to be centered on the screen
-	Blit_Fullscreen_UpdateBounds();
+    Video.game_area_x1 = (Video.res_x - cur_drv->x_res * x_fact) / 2;
+    Video.game_area_y1 = (Video.res_y - cur_drv->y_res * y_fact) / 2;
+    Video.game_area_x2 = (Video.res_x - Video.game_area_x1);
+    Video.game_area_y2 = (Video.res_y - Video.game_area_y1);
 }
 
-void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp)
-{
-	if (clamp)
-	{
-		const int rx = LinearRemapClamp(screen_x, g_video.game_area_x1, g_video.game_area_x2, 0, g_driver->x_res);
-		const int ry = LinearRemapClamp(screen_y, g_video.game_area_y1, g_video.game_area_y2, 0, g_driver->y_res);
-		*pemu_x = rx;
-		*pemu_y = ry;
-	}
-	else
-	{
-		const int rx = LinearRemap(screen_x, g_video.game_area_x1, g_video.game_area_x2, 0, g_driver->x_res);
-		const int ry = LinearRemap(screen_y, g_video.game_area_y1, g_video.game_area_y2, 0, g_driver->y_res);
-		*pemu_x = rx;
-		*pemu_y = ry;
-	}
-}
-
-void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp)
-{
-	if (clamp)
-	{
-		const int rx = LinearRemapClamp(emu_x, 0, g_driver->x_res, g_video.game_area_x1, g_video.game_area_x2);
-		const int ry = LinearRemapClamp(emu_y, 0, g_driver->y_res, g_video.game_area_y1, g_video.game_area_y2);
-		*pscreen_x = rx;
-		*pscreen_y = ry;
-	}
-	else
-	{
-		const int rx = LinearRemap(emu_x, 0, g_driver->x_res, g_video.game_area_x1, g_video.game_area_x2);
-		const int ry = LinearRemap(emu_y, 0, g_driver->y_res, g_video.game_area_y1, g_video.game_area_y2);
-		*pscreen_x = rx;
-		*pscreen_y = ry;
-	}
-}
-
-void    Video_ClearScreenBackBuffer()
+void    Video_Clear (void)
 {
     // Note: actual clearing will be done in blit.c
-    g_video.clear_requests = 3;
+    Video.clear_need = TRUE;
 }
 
-void	Video_EnumerateDisplayModes()
+void    Video_GUI_ChangeVideoMode (int res_x, int res_y, int depth)
 {
-	std::vector<t_video_mode>& display_modes = g_video.display_modes;
-	display_modes.clear();
+    t_list *boxes;
 
-	const int modes = al_get_num_display_modes();
-	for (int i = 0; i != modes; i++)
-	{
-		ALLEGRO_DISPLAY_MODE al_display_mode;
-		if (al_get_display_mode(i, &al_display_mode))
-		{
-			//Msg(MSGT_DEBUG, "Display Mode: %dx%d @ %d Hz, format %d", display_mode.width, display_mode.height, display_mode.refresh_rate, display_mode.format);
-			display_modes.resize(display_modes.size()+1);
+    gui_mouse_show(NULL);
+    g_Configuration.video_mode_gui_res_x = res_x;
+    g_Configuration.video_mode_gui_res_y = res_y;
+    g_Configuration.video_mode_gui_depth = depth;
+    gui_set_video_mode(res_x, res_y, depth);
+    if (Meka_State == MEKA_STATE_GUI)
+        Video_Setup_State();
+    Skins_Background_Redraw();
 
-			t_video_mode* video_mode = &display_modes.back();
-			video_mode->w = al_display_mode.width;
-			video_mode->h = al_display_mode.height;
-			//video_mode->color_format = al_display_mode.format;
-			video_mode->refresh_rate = al_display_mode.refresh_rate;
-		}
-	}
-
-	// filter out color_format duplicates because we ignore it for now
-	for (size_t i = 0; i < display_modes.size(); i++)
-	{
-		t_video_mode* video_mode = &display_modes[i];
-		for (size_t j = i + 1; j < display_modes.size(); j++)
-		{
-			t_video_mode* video_mode_2 = &display_modes[j];
-			if (video_mode->w == video_mode_2->w && video_mode->h == video_mode_2->h)
-			{
-				 if (video_mode->refresh_rate == video_mode_2->refresh_rate)
-				 {
-					 display_modes.erase(display_modes.begin()+j);
-					 j--;
-				 }
-			}
-		}
-	}
-
-	// find mode closest to current setting
-	g_video.display_mode_current_index = 0;
-	int closest_index = -1;
-	float closest_d2 = FLT_MAX;
-	for (size_t i = 0; i < display_modes.size(); i++)
-	{
-		t_video_mode* video_mode = &display_modes[i];
-
-		int dx = (video_mode->w - g_configuration.video_mode_gui_res_x);
-		int dy = (video_mode->h - g_configuration.video_mode_gui_res_y);
-		float d2 = dx*dx + dy*dy;
-
-		if (closest_d2 > d2)
-		{
-			if (closest_index != -1)
-				if (video_mode->refresh_rate != 0 && g_configuration.video_mode_gui_refresh_rate != 0 && video_mode->refresh_rate != g_configuration.video_mode_gui_refresh_rate)
-					continue;
-			closest_d2 = d2;
-			closest_index = i;
-		}
-	}
-	if (closest_index != -1)
-		g_video.display_mode_current_index = closest_index;
+    // Fix position
+    for (boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    {
+        t_gui_box *box = boxes->elem;;
+        gui_box_clip_position(box);
+        box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+    }
 }
 
-void    Video_Setup_State(void)
+// SWITCH FROM VIDEO MODES ----------------------------------------------------
+void    Video_Setup_State (void)
 {
-    switch (g_env.state)
+    switch (Meka_State)
     {
     case MEKA_STATE_SHUTDOWN:
         {
-			al_destroy_display(g_display);
-			g_display = NULL;
-            //set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
+            // ...
+            set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
             break;
         }
-    case MEKA_STATE_GAME: // FullScreen mode ----------------------------
+    case MEKA_STATE_FULLSCREEN: // FullScreen mode ----------------------------
         {
-			//const int game_res_x = Blitters.current->res_x;
-			//const int game_res_y = Blitters.current->res_y;
-			const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
-			const int game_res_x = g_configuration.video_mode_gui_res_x;
-			const int game_res_y = g_configuration.video_mode_gui_res_y;
-			const bool game_fullscreen = g_configuration.video_fullscreen;
+            int driver;
+            //#ifdef WIN32
+            //   driver = Blitters.current->driver_win;
+            //#else
+            driver = Blitters.current->driver;
+            //#endif
+	
+            // FIXME-BLIT
 
-            if (Video_ChangeVideoMode(g_configuration.video_driver, game_res_x, game_res_y, game_fullscreen, refresh_rate, FALSE) != MEKA_ERR_OK)
+            // Set color depth
+            set_color_depth(Blitters.current->video_depth);
+
+            if (Blitters.current->triple_buffering)
             {
-                g_env.state = MEKA_STATE_GUI;
-                Video_Setup_State();
-                Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
-                return;
+                if (Video_Mode_Change(
+                        driver,
+                        Blitters.current->res_x, Blitters.current->res_y,
+                    #ifdef WIN32
+                        0, 0,
+                    #else
+                        0, Blitters.current->res_y * 2,
+                    #endif
+                        Blitters.current->refresh_rate, FALSE) != MEKA_ERR_OK)
+                {
+                    Meka_State = MEKA_STATE_GUI;
+                    Video_Setup_State ();
+                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                    return;
+                }
+                if (fs_page_0)
+                    destroy_bitmap (fs_page_0);
+                if (fs_page_1)
+                    destroy_bitmap (fs_page_1);
+                if (fs_page_2)
+                    destroy_bitmap (fs_page_2);
+
+                fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
+                fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
+                fs_page_2 = create_video_bitmap (Video.res_x, Video.res_y);
+                enable_triple_buffer();
+                Video.page_flipflop = 0;
+                fs_out = fs_page_1;
+                clear_to_color (fs_page_0, Border_Color);
+                clear_to_color (fs_page_1, Border_Color);
+                clear_to_color (fs_page_2, Border_Color);
+                request_video_bitmap(fs_page_0);
+            } // if (Blitters.current->triple_buffering)
+            else if (Blitters.current->flip)
+            {
+                if (Video_Mode_Change (driver,
+                    Blitters.current->res_x, Blitters.current->res_y,
+#ifdef WIN32
+                    0, 0,
+#else
+                    0, Blitters.current->res_y * 2,
+#endif
+                    Blitters.current->refresh_rate,
+                    FALSE) != MEKA_ERR_OK)
+                {
+                    Meka_State = MEKA_STATE_GUI;
+                    Video_Setup_State ();
+                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                    return;
+                }
+                if (fs_page_0)
+                    destroy_bitmap (fs_page_0);
+                if (fs_page_1)
+                    destroy_bitmap (fs_page_1);
+                if (fs_page_2)
+                {
+                    destroy_bitmap (fs_page_1);
+                    fs_page_2 = NULL;
+                }
+
+                fs_page_0 = create_video_bitmap (Video.res_x, Video.res_y);
+                fs_page_1 = create_video_bitmap (Video.res_x, Video.res_y);
+                Video.page_flipflop = 0;
+                fs_out = fs_page_1;
+                clear_to_color (fs_page_0, Border_Color);
+                clear_to_color (fs_page_1, Border_Color);
+                show_video_bitmap (fs_page_0);
             }
-            fs_out = al_get_backbuffer(g_display);
-			Palette_Emulation_Reload();
-			Video_ClearScreenBackBuffer();
+            else
+            {
+                if (Video_Mode_Change (driver,
+                    Blitters.current->res_x, Blitters.current->res_y,
+                    0, 0,
+                    Blitters.current->refresh_rate,
+                    FALSE) != MEKA_ERR_OK)
+                {
+                    Meka_State = MEKA_STATE_GUI;
+                    Video_Setup_State ();
+                    Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                    return;
+                }
+                fs_out = screen;
+            }
+            Change_Mode_Misc ();
+            //Palette_Sync_All ();
+            // set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
         }
         break;
     case MEKA_STATE_GUI: // Interface Mode ------------------------------------
         {
-			const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
-			const int gui_res_x = g_configuration.video_mode_gui_res_x;
-			const int gui_res_y = g_configuration.video_mode_gui_res_y;
-			Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, refresh_rate, TRUE);
-            gui_redraw_everything_now_once();
+            // Revert to GUI color depth
+            // FIXME-DEPTH
+	        set_color_depth(g_Configuration.video_mode_gui_depth);
+
+            switch (g_Configuration.video_mode_gui_access_mode)
+            {
+            case GUI_FB_ACCESS_FLIPPED: //--------------------[ Two video pages ]---
+                {
+                    #ifdef WIN32
+                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+                    #else
+                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_x, 0, g_Configuration.video_mode_gui_res_y * 2, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+                    #endif
+                    gui_page_0 = create_sub_bitmap (screen, 0, 0,                                   g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
+                    gui_page_1 = create_sub_bitmap (screen, 0, g_Configuration.video_mode_gui_res_y,  g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y);
+                    opt.GUI_Current_Page = 1;
+                    gui_buffer = gui_page_1;
+                    scroll_screen (0, g_Configuration.video_mode_gui_res_y);
+                    break;
+                }
+            default: //---------------------------------[ One video page ]---
+                {
+                    Video_Mode_Change (g_Configuration.video_mode_gui_driver, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, 0, 0, g_Configuration.video_mode_gui_refresh_rate, TRUE);
+                    if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_DIRECT)
+                        gui_buffer = screen;
+                    break;
+                }
+            }
+            gui_init_again ();
+            Change_Mode_Misc ();
+            //Palette_Sync_All ();
+
+            gui_redraw_everything_now_once ();
+            if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_BUFFERED)
+            {
+                gui_mouse_show (gui_buffer);
+            }
         }
         break;
     }
-	Inputs_Peripheral_Change_Update();
+
+    #ifndef DOS
+        set_display_switch_callback (SWITCH_IN,  Switch_In_Callback);
+        set_display_switch_callback (SWITCH_OUT, Switch_Out_Callback);
+    #endif
+
+    Inputs_Init_Mouse (); // why? I forgot
 }
 
-void    Screen_Save_to_Next_Buffer(void)
+void    Screen_Save_to_Next_Buffer (void)
 {
-	al_set_target_bitmap(screenbuffer_next);
-	al_draw_bitmap(screenbuffer, 0, 0, 0);
+    blit (screenbuffer, screenbuffer_next, 0, 0, 0, 0, screenbuffer->w, screenbuffer->h);
 }
 
-void    Screen_Restore_from_Next_Buffer(void)
+void    Screen_Restore_from_Next_Buffer (void)
 {
-	al_set_target_bitmap(screenbuffer);
-	al_draw_bitmap(screenbuffer_next, 0, 0, 0);
+    blit (screenbuffer_next, screenbuffer, 0, 0, 0, 0, screenbuffer_next->w, screenbuffer_next->h);
 }
 
-void	Screenbuffer_AcquireLock(void)
-{
-	assert(g_screenbuffer_locked_region == NULL);
-	g_screenbuffer_locked_region = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
-}
-
-void	Screenbuffer_ReleaseLock(void)
-{
-	assert(g_screenbuffer_locked_region != NULL);
-	al_unlock_bitmap(screenbuffer);
-	g_screenbuffer_locked_region = NULL;
-}
-
-bool	Screenbuffer_IsLocked(void)
-{
-	return g_screenbuffer_locked_region != NULL;
-}
-
-void	Video_UpdateEvents()
-{
-	ALLEGRO_EVENT key_event;
-	while (al_get_next_event(g_display_event_queue, &key_event))
-	{
-		switch (key_event.type)
-		{
-		case ALLEGRO_EVENT_DISPLAY_CLOSE:
-			if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-				break;
-			opt.Force_Quit = TRUE;
-			break;
-		case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
-			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-			//	return;
-			//// Msg (MSGT_USER, "Switch_In_Callback()");
-			//// clear_to_color (screen, BORDER_COLOR);
-			//Video_Clear ();
-			//Sound_Playback_Resume ();
-			break;
-		case ALLEGRO_EVENT_DISPLAY_SWITCH_OUT:
-			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-			//	break;
-			//// Msg (MSGT_USER, "Switch_Out_Callback()");
-			//Sound_Playback_Mute ();
-			break;
-		}
-	}
-}
-
+// REFRESH THE SCREEN ---------------------------------------------------------
 // This is called when line == tsms.VDP_Line_End
-void    Video_RefreshScreen(void)
+void    Refresh_Screen (void)
 {
-	PROFILE_STEP("Video_RefreshScreen()");
+    // acquire_bitmap(screen);
 
-	Screenbuffer_ReleaseLock();
-	PROFILE_STEP("Screenbuffer_ReleaseLock()");
-
-	Video_UpdateEvents();
-	PROFILE_STEP("Video_UpdateEvents()");
-
-	// 3-D glasses emulation cancel out one render out of two
-	if (Glasses.Enabled && Glasses_Must_Skip_Frame())
-		Screen_Restore_from_Next_Buffer();
+//#ifdef WIN32
+//    Msg (MSGT_DEBUG, "%016I64x , %016I64x", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
+//#else
+//    Msg (MSGT_DEBUG, "%016llx , %016llx", OSD_Timer_GetCyclesCurrent(), OSD_Timer_GetCyclesPerSecond());
+//#endif
 
     if (fskipper.Show_Current_Frame)
     {
-		Capture_Update();
+        if (Capture.request)
+            Capture_Screen ();
 
-        if (g_machine_pause_requests > 0)
-            Machine_Pause();
+        if (Machine_Pause_Need_To)
+            Machine_Pause ();
 
-        if (g_env.state == MEKA_STATE_GUI)
+        if (Meka_State == MEKA_STATE_GUI) // GRAPHICAL USER INTERFACE ------------
         {
-            gui_update();
-			PROFILE_STEP("gui_update()");
+            if (g_Configuration.video_mode_gui_access_mode == GUI_FB_ACCESS_FLIPPED)
+            {
+                opt.GUI_Current_Page ^= 1;
+                if (opt.GUI_Current_Page == 0)
+                { gui_buffer = gui_page_0; scroll_screen (0, 0); }
+                else
+                { gui_buffer = gui_page_1; scroll_screen (0, g_Configuration.video_mode_gui_res_y); }
+            }
+
+            gui_update ();
 
             // Check if we're switching GUI off now
-            if (g_env.state != MEKA_STATE_GUI)
+            if (Meka_State != MEKA_STATE_GUI)
             {
-				Screenbuffer_AcquireLock();
+                // release_bitmap(screen);
                 return;
             }
 
-            gui_redraw();
-			PROFILE_STEP("gui_redraw()");
+            // Msg (MSGT_DEBUG, "calling gui_redraw(), screenbuffer=%d", (screenbuffer==screenbuffer_1)?1:2);
 
-			Blit_GUI();
-			PROFILE_STEP("Blit_GUI()");
+            gui_redraw ();
+
+            // Blit GUI screen ------------------------------------------------------
+            Blit_GUI ();
+
+            gui_mouse_show (NULL);
         }
 
-        if (g_env.state == MEKA_STATE_GAME)
+        if (Meka_State == MEKA_STATE_FULLSCREEN) // FULLSCREEN ---------------------
         {
-            // Show current FPS
+            if (opt.Fullscreen_Cursor)
+                gui_mouse_show (screenbuffer);
+
+            // Show current FPS -----------------------------------------------------
             if (fskipper.FPS_Display)
             {
-                char buf[16];
-                sprintf(buf, "%.1f FPS", fskipper.FPS);
-				int x, y;
-                if (g_driver->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
-				al_set_target_bitmap(screenbuffer);
-                Font_Print(F_MIDDLE, buf, x, y, COLOR_WHITE); // In white
-                //g_gui_status.timeleft = 0; // Force disabling the current message because it is slow to display
+                int x, y;
+                char s [16];
+                sprintf (s, "%d FPS", fskipper.FPS);
+                if (cur_drv->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
+                Font_Print (F_MIDDLE, screenbuffer, s, x, y, COLOR_WHITE); // In white
+                gui_status.timeleft = 0; // Force disabling the current message
             }
 
-            // Blit emulated screen in fullscreen mode
-            Blit_Fullscreen();
+            // Blit emulated screen in fullscreen mode ------------------------------
+            Blit_Fullscreen ();
+
+            // Disable LightGun cursor until next screen refresh --------------------
+            if (opt.Fullscreen_Cursor)
+                gui_mouse_show (NULL);
         }
 
         // Palette update after redraw
@@ -446,15 +408,15 @@ void    Video_RefreshScreen(void)
 
     } // of: if (fskipper.Show_Current_Frame)
 
-    // Draw next image in other buffer
-    if (g_machine_flags & MACHINE_PAUSED)
+    // Draw next image in other buffer --------------------------------------------
+    if (machine & MACHINE_PAUSED)
     {
-        Screen_Restore_from_Next_Buffer();
+        Screen_Restore_from_Next_Buffer ();
     }
     else
     {
         // Swap buffers
-        ALLEGRO_BITMAP *tmp = screenbuffer;
+        void *tmp = screenbuffer;
         screenbuffer = screenbuffer_next;
         screenbuffer_next = tmp;
         // Msg (MSGT_DEBUG, "Swap buffer. screenbuffer=%d", screenbuffer==screenbuffer_1?1:2);
@@ -467,28 +429,43 @@ void    Video_RefreshScreen(void)
         #endif
     }
 
-    // Ask frame-skipper whether next frame should be drawn or not
-    fskipper.Show_Current_Frame = Frame_Skipper();
-	PROFILE_STEP("Frame_Skipper()");
+    // Ask frame-skipper weither next frame should be drawn or not
+    fskipper.Show_Current_Frame = Frame_Skipper ();
+    //if (fskipper.Show_Current_Frame == FALSE)
+    //   Msg (MSGT_USER, "Skip frame!");
 
-	Screenbuffer_AcquireLock();
-	PROFILE_STEP("Screenbuffer_AcquireLock()");
+    // Update console (under WIN32)
+    // #ifdef WIN32
+    //  ConsoleUpdate();
+    // #endif
+
+    // release_bitmap(screen);
 }
 
-t_video_driver*	VideoDriver_FindByName(const char* name)
+// UPDATE LINE_START & LINE_END VARIABLES -------------------------------------
+// FIXME: move to vdp.c
+void    Update_Line_Start_End (void)
 {
-	t_video_driver* driver = &g_video_drivers[0];
-	while (driver->name)
-	{
-		if (stricmp(name, driver->name) == 0)
-			return driver;
-		driver++;
-	}
-
-	// Silently return default
-	return g_video_driver_default;
+    if (cur_drv->id == DRV_GG && Wide_Screen_28)
+        cur_drv->y_show_start = cur_drv->y_start + 16;
+    else
+        cur_drv->y_show_start = cur_drv->y_start;
+    cur_drv->y_show_end = cur_drv->y_show_start + cur_drv->y_res - 1;
+    if (Wide_Screen_28)
+        cur_drv->y_int = 224;
+    else
+        cur_drv->y_int = 192;
 }
 
+// SET BORDER COLOR IN VGA MODES ----------------------------------------------
+#ifdef DOS
+void    Video_VGA_Set_Border_Color (u8 idx)
+{
+    inp  (0x3DA);
+    outp (0x3C0, 0x31);
+    outp (0x3C0, idx);
+};
+#endif
 
 //-----------------------------------------------------------------------------
 

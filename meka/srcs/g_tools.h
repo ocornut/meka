@@ -15,10 +15,10 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_frame_clear(ALLEGRO_BITMAP *dst, const t_frame *frame, ALLEGRO_COLOR color);
+void    gui_frame_clear(BITMAP *dst, const t_frame *frame, int color);
 
-void    gui_rect(int look, int x1, int y1, int x2, int y2, ALLEGRO_COLOR c_fg);
-void    gui_rect_titled(char *Text, t_font_id font_id, int look, int x1, int y1, int x2, int y2, ALLEGRO_COLOR c_fg, ALLEGRO_COLOR c_bg, ALLEGRO_COLOR c_font);
+void    gui_rect (BITMAP *, int look, int x1, int y1, int x2, int y2, int c_fg);
+void    gui_rect_titled (BITMAP *bmp, char *Text, int FontIdx, int look, int x1, int y1, int x2, int y2, int c_fg, int c_bg, int c_font);
 
 static INLINE
 bool    frame_contains_point(const t_frame *frame, int point_x, int point_y)

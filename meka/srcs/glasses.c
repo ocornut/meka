@@ -10,12 +10,6 @@
 #include "inputs_c.h"
 
 //-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_glasses   Glasses;
-
-//-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
@@ -35,7 +29,7 @@ void    Glasses_Init_Values (void)
     // mode, Space Harrier and Maze Walker keep only this side enabled for
     // one or two seconds.
 
-#ifdef ARCH_WIN32
+#ifdef WIN32
     Glasses.ComHandle = INVALID_HANDLE_VALUE;
     Glasses_Set_ComPort (1);
 #else
@@ -53,13 +47,16 @@ void    Glasses_Close (void)
     }
 }
 
-int     Glasses_Must_Skip_Frame(void)
+int     Glasses_Must_Skip_Frame (void)
 {
+    int    ret, side;
     static int security_cnt = 0;
     // Msg (MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
 
-    const int side = (sms.Glasses_Register & 1);
-    const bool ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side) || (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT && side);
+    side = sms.Glasses_Register & 1;
+    ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side)
+        ||
+        (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT && side);
     if (ret == FALSE)
     {
         security_cnt = 0;
@@ -71,7 +68,7 @@ int     Glasses_Must_Skip_Frame(void)
             security_cnt = 0;
             Msg (MSGT_USER, Msg_Get (MSG_Glasses_Unsupported));
             // Msg (MSGT_USER_BOX, Msg_Get (MSG_Glasses_Unsupported2));
-            Glasses_Switch_Enable();
+            Glasses_Switch_Enable ();
         }
     }
     return (ret);
@@ -101,7 +98,7 @@ void    Glasses_Set_ComPort (int port)
 
 int     Glasses_ComPort_Initialize (void)
 {
-#ifdef ARCH_DOS
+#ifdef DOS
 
     int base = (Glasses.ComPort == 1) ? 0x3F0 : 0x2F0;
 
@@ -120,7 +117,7 @@ int     Glasses_ComPort_Initialize (void)
 
     return (TRUE);
 
-#elif ARCH_WIN32
+#elif WIN32
 
     HANDLE  handle;
     DCB     dcb;
@@ -175,7 +172,7 @@ int     Glasses_ComPort_Initialize (void)
 
 void    Glasses_ComPort_Close (void)
 {
-#ifdef ARCH_WIN32
+#ifdef WIN32
     if (Glasses.ComHandle == INVALID_HANDLE_VALUE)
         return;
     CloseHandle (Glasses.ComHandle);
@@ -185,7 +182,7 @@ void    Glasses_ComPort_Close (void)
 
 void    Glasses_ComPort_Write (int left_enable, int right_enable)
 {
-#ifdef ARCH_DOS
+#ifdef DOS
 
     int address = (Glasses.ComPort == 1) ? 0x3FC : 0x2FC;
     int data;
@@ -200,7 +197,7 @@ void    Glasses_ComPort_Write (int left_enable, int right_enable)
     outportb (address, data);
     asm volatile ("sti");
 
-#elif ARCH_WIN32
+#elif WIN32
 
     DCB dcb;
     if (Glasses.ComHandle == INVALID_HANDLE_VALUE)

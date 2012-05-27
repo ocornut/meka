@@ -7,12 +7,13 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_app_about_box
+typedef struct
 {
 	// Interface
 	bool			active;
     t_gui_box *     box;
-};
+
+} t_app_about_box;
 
 extern t_app_about_box     AboutBox;
 

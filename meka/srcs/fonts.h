@@ -7,33 +7,32 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-enum t_font_id
-{
-	F_CURRENT	= -1,		// Note: Code tends to write -1 directly as an abbrevation
-	F_LARGE		= 0,
-	F_MIDDLE	= 1,
-	F_SMALL		= 2,
-};
-
+#define         F_LARGE                 (0)
+#define         F_MIDDLE                (1)
+#define         F_SMALL                 (2)
 #define         MEKA_FONT_MAX           (3)
 
-#define         MEKA_FONT_STR_STAR      "\xC2\x80"	// 128 in UTF8
-#define         MEKA_FONT_STR_CHECKED   "\xC2\x81"	// 129 in UTF8
-#define         MEKA_FONT_STR_ARROW     ">"			// (not using the one stored at 130)
+#define         MEKA_FONT_STR_STAR      "€"
+#define         MEKA_FONT_STR_CHECKED   ""
+#define         MEKA_FONT_STR_ARROW     ">" // "‚"
+
+#define         MEKA_FONT_CHAR_STAR     (128)
+#define         MEKA_FONT_CHAR_CHECKED  (129)
+#define         MEKA_FONT_CHAR_ARROW    (130)
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_font
+typedef struct
 {
-    t_font_id		id;
-    ALLEGRO_FONT *	library_data;
-    int				height;
-};
+    int         id;
+    FONT *      library_data;
+    int         height;
+}               t_meka_font;
 
-extern t_font		Fonts[MEKA_FONT_MAX];
-extern t_font *		FontCurrent;
+t_meka_font     Fonts[MEKA_FONT_MAX];
+t_meka_font *   FontCurrent;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -41,26 +40,15 @@ extern t_font *		FontCurrent;
 
 void    Fonts_Init          (void);
 void    Fonts_Close         (void);
-void    Fonts_DeclareFont   (t_font_id font_id, ALLEGRO_FONT *library_data);
+void    Fonts_AddFont       (int font_id, FONT *library_data);
 
 //-----------------------------------------------------------------------------
 
-void    Font_SetCurrent     (t_font_id font_id);
-void    Font_Print          (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
-void    Font_PrintCentered  (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
-int     Font_Height         (t_font_id font_id = F_CURRENT);
-int     Font_TextLength     (t_font_id font_id, const char *text);
-
-struct FontPrinter
-{
-	t_font_id		font_id;
-	ALLEGRO_COLOR	color;
-	
-	FontPrinter(t_font_id _font_id);
-	FontPrinter(t_font_id _font_id, ALLEGRO_COLOR _color);
-
-	void	Printf(v2i pos, const char* format, ...) const;
-};
+void    Font_SetCurrent     (int font_id);
+void    Font_Print          (int font_id, BITMAP *dst, const char *text, int x, int y, int color);
+void    Font_PrintCentered  (int font_id, BITMAP *dst, const char *text, int x_center, int y, int color);
+int     Font_Height         (int font_id);
+int     Font_TextLength     (int font_id, const char *text);
 
 //-----------------------------------------------------------------------------
 

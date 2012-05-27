@@ -7,24 +7,26 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    LightPhaser_Init(void);
-void    LightPhaser_Sync(int player, byte *);
-void    LightPhaser_Update(int player, int device_x, int device_y);
-u8		LightPhaser_GetX(void);
+void    LightGun_Sync (int player, byte *);
+void    LightGun_Update (int player, int device_x, int device_y);
+
+byte    LightGun_X (void);
+void    LightGun_Init (void);
+void    LightGun_Mouse_Range (int);
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_light_phaser
+typedef struct
 {
-	bool	Enabled;		// Set if has least one Light Phaser is now enabled
-	int		LastSync;
-	u8		X[2];
-	u8		Y[2];
-};
+ int    Enabled; // Set if has least one Light Phaser is now enabled
+ int    LastSync;
+ byte   X [2];
+ byte   Y [2];
+} t_light_phaser;
 
-extern t_light_phaser  LightPhaser;
+t_light_phaser  LightGun; // FIXME: rename this symbol
 
 //-----------------------------------------------------------------------------
 

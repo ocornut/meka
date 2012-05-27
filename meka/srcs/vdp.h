@@ -63,7 +63,6 @@ int     VDP_Model_FindByName    (const char *name);
 
 void    VDP_VideoMode_Change    (void);
 void    VDP_VideoMode_Update    (void);
-void	VDP_UpdateLineLimits    (void);
 
 void    Tms_VDP_Out             (int vdp_register, int value);
 void    Tms_VDP_Out_Data        (int value);

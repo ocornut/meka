@@ -1,210 +1,429 @@
 //-----------------------------------------------------------------------------
-// MEKA - sound.c
-// Sound Engine - Code
+// MEKA - sound.h
+// Sound Engine - Code. Initialization and main part of the mess.
+//-----------------------------------------------------------------------------
+// Hiromitsu Shioya, 1998-1999
+// Omar Cornut, 1999+
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "fmunit.h"
-#include "fskipper.h"
-#include "psg.h"
-#include "emu2413/mekaintf.h"
-#include "sound_logging.h"
-#include "desktop.h"
-#include "g_widget.h"
 
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
 //-----------------------------------------------------------------------------
 
-static bool	Sound_InitEmulators();
-
-//-----------------------------------------------------------------------------
-// DATA
-//-----------------------------------------------------------------------------
-
-enum t_sound_chip
-{
-	SOUND_CHIP_PSG,
-	SOUND_CHIP_FM,
-};
-
-struct t_sound_stream
-{
-	t_sound_chip			chip;
-	ALLEGRO_EVENT_QUEUE	*	event_queue;
-	ALLEGRO_AUDIO_STREAM *	audio_stream;
-	s16	*					audio_buffer;
-	int						audio_buffer_size;
-	int						audio_buffer_wpos;	// write position for chip emulator 
-	int						audio_buffer_rpos;	// read position for audio system
-	void					(*sample_writer)(void*,int);
-
-	// Counters
-	double					samples_leftover;
-	int						samples_rendered0;
-	int						samples_rendered1;
-	s64						last_rendered_cycle_counter;
-};
-
-t_sound			Sound;
-t_sound_stream*	g_psg_stream = NULL;
-t_sound_stream*	g_ym2413_stream = NULL;
-
-struct t_app_sound_debug
-{
-	t_gui_box*	box;
-	bool		active;
-};
-
-static t_app_sound_debug	SoundDebugApp;
+static  int     Sound_Init_SoundCard (void);
+#ifdef MEKA_OPL
+static  int     Sound_Init_OPL (void);
+#endif
+static  int     Sound_Init_Engine (int buffer_mode);
+static  void    Sound_Init_Emulators (void);
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-// Initialize sound structure with its default settings
-void	Sound_Init_Config(void)
+//-----------------------------------------------------------------------------
+// Sound_Init_Config(void)
+// Initialize sound structure with its default values
+//-----------------------------------------------------------------------------
+void            Sound_Init_Config(void)
 {
     // General
-    Sound.Enabled       = TRUE;
-    Sound.Initialized   = FALSE;
-    Sound.SampleRate    = 44100;                  // 44100 Hz by default
-    Sound.Paused        = 0;
-    Sound.MasterVolume  = 128;
-	Sound.CycleCounter	= 0;
+    Sound.Enabled               = TRUE;
+    Sound.Initialized           = FALSE;
+    Sound.SoundCard             = SOUND_SOUNDCARD_SELECT; // Let user select by default
+#ifdef DOS
+    Sound.SampleRate            = 22050;                  // 22050 Hz by default for DOS version
+#else
+    Sound.SampleRate            = 44100;                  // 44100 Hz by default for WIN32/UNIX version
+#endif
+    Sound.Paused                = FALSE; // 0
+    Sound.MasterVolume          = 128;
+
+    // FM Emulation
+    Sound.FM_Emulator_Current   = FM_EMULATOR_NONE;
+    Sound.FM_Emulator_Available = FM_EMULATOR_NONE;
+
+    // OPL
+#ifdef MEKA_OPL
+    Sound.OPL_Speed             = 4;
+    Sound.OPL_Address           = 0x000;
+#endif
+
+    // Voices & and other legacy stuff
+    Sound.Voices        = NULL;
+    Sound.Voices_Max    = SOUND_VOICES_MAX;
+    SndMachine          = NULL;
+    reserved_channel    = 0;
+    sound_stream_mode   = SOUND_STREAM_WAIT;
+
+    // Cycle counter
+    Sound_CycleCounter = 0;
 
     // Sound Logging
-    Sound_Log_Init();
+    Sound_Log_Init ();
 }
 
 // Initialize actual sound engine ---------------------------------------------
-int		Sound_Init(void)
+int             Sound_Init (void)
 {
-    // Temporarily set fake/null FM interface
-    // This is to avoid crashing when using FM registers (savestates...) if sound is disabled.
+    // Set fake/null FM interface by default
+    // This is to avoid crashing when using FM registers (savestates...)
+    // if sound is disabled.
     FM_Null_Active();
 
     // Skip if there is no need to initialize sound now
-    // FIXME: Does MEKA works properly with no soundcard, is the machine updating registters properly and saving good savestates ?
+    // FIXME: will MEKA work properly with now soundcard ?
+    // Are emulators functionning properly and saving good savestates ?
     if (Sound.Enabled == FALSE)
         return (MEKA_ERR_OK);
+    if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
+    {
+        // Quit_Msg ("%s", Msg_Get (MSG_Sound_Init_Soundcard_No));
+        // return (MEKA_ERR_FAIL);
+        return (MEKA_ERR_OK);
+    }
 
     // Print Sound initialization message
     ConsolePrintf ("%s\n", Msg_Get (MSG_Sound_Init));
-	ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
 
-	if (!al_install_audio())
-	{
-		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
-		return (MEKA_ERR_FAIL);
-	}
-	if (!al_reserve_samples(0))
-	{
-		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
-		return (MEKA_ERR_FAIL);
-	}
-	ConsolePrintf ("\n");
+    // Initialize SEAL
+    Sound_Init_SEAL();
 
-    // Initialize Sound card
+    // Disable sound if user selected 'no soundcard'
+    if (Sound.SoundCard == SOUND_SOUNDCARD_NONE)
+    {
+        // Sound.Enabled = FALSE;
+        return (MEKA_ERR_OK);
+    }
+
+    // Initialize Sound Card, SEAL side
     // Start in pause mode, to avoid sound update on startup (could crash, before everything is initialized)
     Sound.Paused = TRUE;
+    Sound_Init_SoundCard();
+
+    // Initialize OPL (if available)
+#ifdef MEKA_OPL
+    Sound_Init_OPL();
+#endif
 
     // Initialize Sound emulators
-    if (!Sound_InitEmulators())
-	{
-		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
-		return (MEKA_ERR_FAIL);
-	}
+    Sound_Init_Emulators();
 
-	Sound_UpdateClockSpeed();
+    // Initialize Sound Engine (SEAL)
+    if (Sound_Init_Engine(SOUND_STREAM_WAIT) != MEKA_ERR_OK)
+        Quit ();
 
+    // FIXME: CRAP! Legacy stuff again
+    Sound.SampleRate = saGetSoundRate ();
+    sound_icount = 0;
+    Sound_Update_Count = 0;
+    saSetSoundCPUClock (Sound_Calc_CPU_Time);
+    // fm_delay_size = 6; // 0
+
+    // Setup checks in GUI
+    // Note: this GUI sucks :(
+    Sound.FM_Emulator_Current &= Sound.FM_Emulator_Available;
+    gui_menu_un_check_area (menus_ID.fm_emu, 0, 1);
+    gui_menu_active_area (FALSE, menus_ID.fm_emu, 0, 1);
+
+    // Select FM emulator
+    if (Sound.FM_Emulator_Available & FM_EMULATOR_YM2413HD)
+    {
+        gui_menu_active (AM_Active, menus_ID.fm_emu, 0);
+        gui_menu_active (AM_Active, menus_ID.fm, 3);
+        if (Sound.FM_Emulator_Current == FM_EMULATOR_NONE)
+            Sound.FM_Emulator_Current = FM_EMULATOR_YM2413HD;
+    }
+    if (Sound.FM_Emulator_Available & FM_EMULATOR_EMU2413)
+    {
+        gui_menu_active (AM_Active, menus_ID.fm_emu, 1);
+        if (Sound.FM_Emulator_Current == FM_EMULATOR_NONE)
+            Sound.FM_Emulator_Current = FM_EMULATOR_EMU2413;
+    }
+
+    // Activate current FM emulator
+    switch (Sound.FM_Emulator_Current)
+    {
+    #ifdef MEKA_OPL
+     case FM_EMULATOR_YM2413HD:
+         FM_OPL_Active ();
+         gui_menu_check (menus_ID.fm_emu, 0);
+         break;
+    #endif
+     case FM_EMULATOR_EMU2413:
+         FM_Digital_Active ();
+         gui_menu_check (menus_ID.fm_emu, 1);
+         break;
+     default:
+         FM_Null_Active ();
+         break;
+    }
+
+    // Ok
     Sound.Initialized = TRUE;
     return (MEKA_ERR_OK);
 }
 
-/* static void SawSampleWrite(s16* buf, int len)
+// Initialize SEAL library ----------------------------------------------------
+int     Sound_Init_SEAL (void)
 {
-	static int val = 0;
-	static int pitch = 0x10000;
-	for (int i = 0; i < ken; i++) 
-	{
-		buf[i] = ((val >> 16) & 0xff)*100;
-		val += pitch;
-		pitch++;
-	}
-}*/
-
-static bool	Sound_InitEmulators(void)
-{
-	PSG_Init();
-	g_psg_stream = SoundStream_Create(PSG_WriteSamples);
-	if (!g_psg_stream)
-		return false;
-
-	FM_Digital_Init();
-	FM_Digital_Active();
-	g_ym2413_stream = SoundStream_Create(FM_Digital_WriteSamples);
-	if (!g_ym2413_stream)
-		return false;
-
-	return true;
+    if (AInitialize() != AUDIO_ERROR_NONE)
+    {
+        Quit_Msg (Msg_Get (MSG_Sound_Init_Error_SEAL));
+        return (MEKA_ERR_FAIL);
+    }
+    return (MEKA_ERR_OK);
 }
 
-void	Sound_Close(void)
+// Initialize Sound Card ------------------------------------------------------
+static  int     Sound_Init_SoundCard (void)
 {
-	FM_Digital_Close();
+  int            i;
+  AUDIOINFO      Audio_Infos;
 
-    if (!Sound.Initialized)
-		return;
+  ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
+  ConsolePrint ("\n");
 
-    Sound_Log_Close();
-	SoundStream_Destroy(g_psg_stream);
-	SoundStream_Destroy(g_ym2413_stream);
-	al_uninstall_audio();
-    Sound.Initialized = FALSE;
+  Audio_Infos.nDeviceId = Sound.SoundCard;
+  Audio_Infos.wFormat = AUDIO_FORMAT_16BITS | AUDIO_FORMAT_STEREO; // FIXME: Stereo ?
+  Audio_Infos.nSampleRate = audio_sample_rate = Sound.SampleRate;
+
+  if (AOpenAudio(&Audio_Infos) != AUDIO_ERROR_NONE)
+     {
+     Quit_Msg ("%s", Msg_Get (MSG_Sound_Init_Error_Audio));
+     return (MEKA_ERR_FAIL);
+     }
+  // FIXME: original sound engine was trying different sample rate on failure
+
+  // Unused
+  // Maybe it was intended to check out number of channels there ?
+  // AGetAudioCaps (Audio_Infos.nDeviceId, &Audio_Caps);
+
+  // Open voices
+  if (AOpenVoices(Sound.Voices_Max) != AUDIO_ERROR_NONE)
+     {
+     Quit_Msg ("%s", Msg_Get (MSG_Sound_Init_Error_Voices));
+     return (MEKA_ERR_FAIL);
+     }
+
+  ASetAudioMixerValue (AUDIO_MIXER_MASTER_VOLUME, 256);
+
+  // Allocate voices and waveforms
+  Sound.Voices = Memory_Alloc (sizeof (t_voice) * Sound.Voices_Max);
+  for (i = 0; i < Sound.Voices_Max; i++)
+     {
+     if (ACreateAudioVoice(&Sound.Voices[i].hVoice) != AUDIO_ERROR_NONE)
+        {
+        Quit_Msg (Msg_Get (MSG_Sound_Init_Error_Voice_N), i);
+        return (MEKA_ERR_FAIL);
+        }
+     ASetVoicePanning(Sound.Voices[i].hVoice, 128); // Center voice
+     Sound.Voices[i].lpWave  = NULL;
+     Sound.Voices[i].playing = FALSE;
+     }
+
+  // FIXME: is this needed ?
+  AUpdateAudio ();
+
+  // FIXME: is this needed ?
+  // Check frame sample rate
+  audio_sample_rate = nominal_sample_rate = Audio_Infos.nSampleRate;
+
+  return (MEKA_ERR_OK);
 }
 
-void	Sound_UpdateClockSpeed(void)
+// Find and Initialize OPL if needed ------------------------------------------
+#ifdef MEKA_OPL
+static  int     Sound_Init_OPL (void)
 {
-	const double throttle_scale = 1.0f;//(double)fskipper.Throttled_Speed / (double)g_machine.TV->screen_frequency;
-	//Sound.CpuClock = g_machine.TV->CPU_clock;
-	Sound.CpuClock = CPU_GetIPeriod() * g_machine.TV->screen_lines * g_machine.TV->screen_frequency;
-	SN76489_SetClock((double)Sound.CpuClock * throttle_scale);
-	// FIXME-NEWSOUND: FM?
+    // OPL is used whenever a "BLASTER Axxx" environment variable is found
+    // This allows using OPL emulators (eg: VDMS) under NT based systems.
+    /*
+    // Attempt to find OPL only on systems supporting direct port accesses
+    // FIXME: Should let the user force OPL enabling, because of potential OPL
+    // emulators for recent Windows platforms.
+    if (os_type == OSTYPE_UNKNOWN || os_type == OSTYPE_WIN3
+        || os_type == OSTYPE_WIN95   || os_type == OSTYPE_WIN98
+        || os_type == OSTYPE_WINME)
+    {
+        Sound_OPL_Init_Config ();
+    }
+    */
+
+    if (Sound.OPL_Address != 0x000)
+    {
+        if (Sound_OPL_Init () == MEKA_ERR_OK)
+            return (MEKA_ERR_OK);
+        Sound.OPL_Address = 0x000;
+    }
+    return (MEKA_ERR_FAIL);
+}
+#endif
+
+// Initialize Sound Engine ----------------------------------------------------
+// FIXME: This is mostly legacy stuff :(
+static  int     Sound_Init_Engine (int buffer_mode)
+{
+    // Stream Buffer Mode
+    //STREAM_BUFFER_MAXA = DEF_STREAM_BUFFER_MAXA;
+    MODEB_FRAME_SIZE   = DEF_MODEB_FRAME_SIZE;
+    MODEB_UPDATE_COUNT = DEF_MODEB_UPDATE_COUNT;
+    MODEB_ERROR_MAX    = DEF_STREAM_UPDATE_ERROR_MAX;
+    STREAM_BUFFER_MAXB = MODEB_FRAME_SIZE;
+    MODEB_MASK         = MODEB_FRAME_SIZE / MODEB_UPDATE_COUNT;
+
+    sound_stream_mode  = buffer_mode; /* SOUND_STREAM_WAIT in MEKA */
+    //stream_buffer_max  = (sound_stream_mode == SOUND_STREAM_NORMAL) ? STREAM_BUFFER_MAXA : STREAM_BUFFER_MAXB;
+#ifdef INSTALL_SOUND_TIMER
+    buffered_stream_max = stream_buffer_max = 3; // audio_buffer_max_size
+    MODEB_UPDATE_COUNT = 1;
+#else
+    stream_buffer_max = ((stream_buffer_max / 6) / MODEB_UPDATE_COUNT) * MODEB_UPDATE_COUNT;
+    // buffered_stream_max = stream_buffer_max;   // audio_buffer_max_size
+    buffered_stream_max = MODEB_UPDATE_COUNT * 2; // audio_buffer_max_size
+#endif
+
+    /**** timer work init ****/
+    sound_freerun_count = 0;
+    sound_slice = 0;
+
+    if (change_sample_rate)
+    { // Sample rate has changed, so all emulators must be restarted!
+        change_sample_rate = FALSE;
+        saStopSoundEmulators();
+    }
+    ConsolePrint (" - SEAL: Ok\n"); // FIXME: should be a message ?
+
+#ifdef INSTALL_SOUND_TIMER
+    saInitSoundTimer();
+#endif
+
+    if (SndMachine != NULL)
+    {
+        if (!SndMachine->first)
+        {
+            int i;
+            SndMachine->first = 1;           /* first flag clear */
+            streams_sh_start();              /* streaming system initialize & start */
+            pause_sound = 0;                 /* pause flag off */
+            vbover_err = vbunder_err = 0;    /* error initial */
+            for (i = 0; i < SndMachine->control_max; i++)
+            {
+                if (SndMachine->f_init[i])
+                {
+                    if (SndMachine->f_init[i] (SndMachine->userdata[i]) != MEKA_ERR_OK)
+                    {
+                        SndMachine = NULL;
+                        return (MEKA_ERR_FAIL);
+                    }
+                }
+            }
+        }
+    }
+    return (MEKA_ERR_OK);
 }
 
-void	Sound_Update(void)
+// Initialize Sound Emulators -------------------------------------------------
+static  void    Sound_Init_Emulators (void)
 {
-	if (!Sound.Enabled)
-		return;
+    SoundRecEntry  rec;
 
-	static int frame_count = 0;
-	if ((frame_count++ % 60) == 0)
-	{
-		if (SoundDebugApp.active)
-			Msg(MSGT_DEBUG, "Tick, samples rendered %d %d", g_psg_stream->samples_rendered0, g_psg_stream->samples_rendered1);
-		g_psg_stream->samples_rendered0 = 0;
-		g_psg_stream->samples_rendered1 = 0;
-	}
-	SoundStream_Update(g_psg_stream);
-	SoundStream_Update(g_ym2413_stream);
+    // Add SN76496 (PSG) emulator
+    rec.sync       = 60;
+    rec.count      = 1;
+    rec.type       = SOUND_MACHINE_SN76496;
+    rec.f_init     = PSG_Init;
+    rec.f_update   = NULL; // PSG_Update_16 // Will be registered on initialisation
+    rec.f_stop     = NULL;
+    rec.userdata   = NULL;
+    saSetupSound   (&rec);
+
+    // Add YM-2413HD (FM) emulator if we have an OPL
+#ifdef MEKA_OPL
+    if (Sound.OPL_Address)
+    {
+        rec.type     = SOUND_MACHINE_YM2413HD;
+        rec.f_init   = FM_OPL_Init;
+        rec.f_update = FM_OPL_Update;
+        rec.f_stop   = FM_OPL_Close;
+        rec.userdata = NULL;
+        saAddSound     (&rec);
+        Sound.FM_Emulator_Available |= FM_EMULATOR_YM2413HD;
+    }
+#endif
+
+    // Add EMU2413 (FM) emulator
+    rec.type       = SOUND_MACHINE_EMU2413;
+    rec.f_init     = FM_Digital_Init;
+    rec.f_update   = NULL; // FM_Digital_Update; // will be registered on initialisation
+    rec.f_stop     = FM_Digital_Close;
+    rec.userdata   = NULL;
+    saAddSound       (&rec);
+    Sound.FM_Emulator_Available |= FM_EMULATOR_EMU2413;
 }
 
-void    Sound_Playback_Start(void)
+//-----------------------------------------------------------------------------
+// Sound_Close ()
+// Close sound engine
+//-----------------------------------------------------------------------------
+void            Sound_Close (void)
+{
+    if (Sound.Initialized == TRUE)
+    {
+        saRemoveSound ();
+        #ifdef MEKA_OPL
+            if (Sound.OPL_Address)
+                Sound_OPL_Close ();
+        #endif
+        Sound_Log_Close ();
+        Sound.Initialized = FALSE;
+    }
+}
+
+//-----------------------------------------------------------------------------
+// Sound_Update_Frame ()
+// Miscellaneous things to do on each frame
+//-----------------------------------------------------------------------------
+void            Sound_Update_Frame (void)
+{
+    // Decrement FM usage counter
+    // To save CPU, FM emulation is disabled if it gets to zero
+    // Msg (MSGT_DEBUG, "FM_Used = %d\n", FM_Used);
+    if (FM_Used > 0)
+        FM_Used --;
+
+    //saSoundTimerCallback();
+    //streams_sh_update();
+}
+
+//-----------------------------------------------------------------------------
+// Sound_Playback_Start ()
+// Start sound playback
+//-----------------------------------------------------------------------------
+void    Sound_Playback_Start (void)
 {
     Sound.Paused = TRUE;
-    Sound_Playback_Resume();
+    Sound_Playback_Resume ();
 }
 
-void    Sound_Playback_Stop(void)
+//-----------------------------------------------------------------------------
+// Sound_Playback_Stop ()
+// Stop sound playback
+//-----------------------------------------------------------------------------
+void    Sound_Playback_Stop (void)
 {
     Sound.Paused = FALSE;
-    Sound_Playback_Mute();
+    Sound_Playback_Mute ();
 }
 
+//-----------------------------------------------------------------------------
+// Sound_Playback_Mute ()
 // Mute sound playback
-// Increase 'Sound.Paused' counter and mute sound on >= 1
-void    Sound_Playback_Mute(void)
+// Increase 'Sound.Paused' counter and mute sound on 1 or more
+//-----------------------------------------------------------------------------
+void    Sound_Playback_Mute (void)
 {
     if (Sound.Paused == 0)
     {
@@ -213,368 +432,32 @@ void    Sound_Playback_Mute(void)
     Sound.Paused++;
 }
 
+//-----------------------------------------------------------------------------
+// Sound_Playback_Resume ()
 // Resume sound playback
 // Decrease Sound.Paused counter and resume sound on zero
-void    Sound_Playback_Resume(void)
+//-----------------------------------------------------------------------------
+void    Sound_Playback_Resume (void)
 {
     Sound.Paused--;
     if (Sound.Paused == 0)
     {
-        FM_Resume();
+        FM_Resume ();
     }
 }
 
+//-----------------------------------------------------------------------------
+// Sound_MasterVolume_Set ()
 // Change Master Volume (0-128)
-void    Sound_SetMasterVolume(int volume)
-{
-    Sound.MasterVolume = volume;
-	// FIXME-NEWSOUND: Master volume
-}
-
-void Sound_ResetCycleCounter()
-{
-	Sound.CycleCounter = 0;
-	Sound_UpdateClockSpeed();
-	if (g_psg_stream)
-		g_psg_stream->last_rendered_cycle_counter = 0;
-	if (g_ym2413_stream)
-		g_ym2413_stream->last_rendered_cycle_counter = 0;
-}
-
-s64 Sound_GetElapsedCycleCounter()
-{
-	// Calculate current CPU time
-	const int icount = CPU_GetICount(); // - Sound_Update_Count;
-	const int iperiod = CPU_GetIPeriod();
-
-	// iperiod : 228
-	// iperiod : 228.. 227.. 226.. [..] .. 3.. 2.. 1.. 0..
-	// Cycle elapsed in the period : iperiod-icount
-	// Cycle left in the period    : icount
-	return Sound.CycleCounter + (iperiod - icount);
-}
-
-double Sound_ConvertSamplesToCycles(double samples_count)
-{
-	return samples_count * (double)Sound.CpuClock / (double)Sound.SampleRate;
-}
-
 //-----------------------------------------------------------------------------
-
-t_sound_stream*	SoundStream_Create(void (*sample_writer)(void*,int))
+void    Sound_MasterVolume_Set (int v)
 {
-	t_sound_stream* stream = new t_sound_stream();
-	stream->event_queue = al_create_event_queue();
-	stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_SIZE, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_1);
-	if (!stream->audio_stream)
-	{
-		delete stream;
-		return NULL;
-	}
-	if (!al_attach_audio_stream_to_mixer(stream->audio_stream, al_get_default_mixer()))
-	{
-		delete stream;
-		return NULL;
-	}
-	al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->audio_stream));
+    int   i;
 
-	stream->audio_buffer_size = SOUND_BUFFERS_SIZE*SOUND_BUFFERS_COUNT*4;
-	stream->audio_buffer = new s16[stream->audio_buffer_size];
-	stream->audio_buffer_wpos = 0;
-	stream->audio_buffer_rpos = 0;
-	stream->sample_writer = sample_writer;
-
-	stream->samples_leftover = 0.0f;
-	stream->samples_rendered0 = 0;
-	stream->samples_rendered1 = 0;
-	stream->last_rendered_cycle_counter = 0;
-
-	return stream;
+    Sound.MasterVolume = v;
+    for (i = 0; i < Sound.Voices_Max; i++)
+    {
+        // FIXME: need volume
+        // ASetVoiceVolume (Sound.Voices[i].hVoice, (Sound.MasterVolume * volume) / 512);
+    }
 }
-
-void SoundStream_Destroy(t_sound_stream* stream)
-{
-	al_destroy_audio_stream(stream->audio_stream);
-	delete [] stream->audio_buffer;
-	al_destroy_event_queue(stream->event_queue);
-	delete stream;
-}
-
-void SoundStream_Update(t_sound_stream* stream)
-{
-	ALLEGRO_EVENT sound_event;
-	while (al_get_next_event(stream->event_queue, &sound_event))
-	{
-		if (sound_event.type == ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT)
-		{
-			s16* buf = (s16*)al_get_audio_stream_fragment(stream->audio_stream);
-			if (!buf)
-				continue;
-
-			// Need to catch up?
-			if (SoundStream_CountReadableSamples(stream) < SOUND_BUFFERS_SIZE)
-			{
-				SoundStream_RenderSamples(stream, SOUND_BUFFERS_SIZE);
-				/*Msg(MSGT_DEBUG, "Sound catchup by %d samples", SOUND_BUFFERS_SIZE);
-				Msg(MSGT_DEBUG, "%lld -> %lld, %lld + %.2f = %lld",
-					stream->last_rendered_cycle_counter, Sound_GetElapsedCycleCounter(),
-					stream->last_rendered_cycle_counter, (float)Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE),
-					(s64)(stream->last_rendered_cycle_counter + (float)Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE)) );
-					*/
-				stream->last_rendered_cycle_counter = Sound_GetElapsedCycleCounter();
-				//stream->last_rendered_cycle_counter += Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE);
-			}
-
-			SoundStream_PopSamples(stream, buf, SOUND_BUFFERS_SIZE);
-
-			if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
-				Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
-        }
-	}
-}
-
-void SoundStream_RenderSamples(t_sound_stream* stream, int samples_count)
-{
-	//Msg(MSGT_DEBUG, "RenderSamples() %d", samples_count);
-	if (samples_count <= 0)
-	{
-		Msg(MSGT_DEBUG, "RenderSamples %d", samples_count);
-		return;
-	}
-
-	stream->samples_rendered0 += samples_count;
-
-	s16* wbuf1;
-	s16* wbuf2;
-	int wbuf1_len;
-	int wbuf2_len;
-	if (SoundStream_PushSamplesRequestBufs(stream, samples_count, &wbuf1, &wbuf1_len, &wbuf2, &wbuf2_len))
-	{
-		if (wbuf1)
-			stream->sample_writer(wbuf1, wbuf1_len);
-		if (wbuf2)
-			stream->sample_writer(wbuf2, wbuf2_len);
-		stream->samples_rendered1 += wbuf1_len + wbuf2_len;
-	}
-}
-
-void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
-{
-	if (!Sound.Enabled)
-		return;
-
-	s64 current_cycle = Sound_GetElapsedCycleCounter();
-	s64 elapsed_cycles = current_cycle - stream->last_rendered_cycle_counter;
-
-	//elapsed_cycles = MIN(elapsed_cycles, 10000000);	// FIXME-NEWSOUND: how to handle pause, etc?
-
-	// Convert elapsed cycles in 'frames' unit
-	const int cpu_clock = Sound.CpuClock;
-	const double elapsed_emulated_seconds = (double)((double)elapsed_cycles / (double)cpu_clock);
-
-	const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elapsed_emulated_seconds;
-	if ((int)samples_to_render > 0)
-	{
-		//Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)samples_to_render);
-		SoundStream_RenderSamples(stream, (int)samples_to_render);
-
-		{
-			//samples_to_render = samplerate * (elapsed_cycles / cpu_clock);
-			//samples_to_render / (elapsed_cycles / cpu_clock) = samplerate;
-			//(samples_to_render * cpu_clock) / elapsed_cycles = samplerate;
-			//(samples_to_render * cpu_clock) = samplerate * elapsed_cycles;
-			//(samples_to_render * cpu_clock) / samplerate = elapsed_cycles;
-
-			//cycle = (rate / samples_to_render) * clock;
-			//const float recalc_elapsed_cycles = Sound_ConvertSamplesToCycles((int)samples_to_render);
-			//Msg(MSGT_DEBUG, "Elapsed %d <> %.2f", (int)elapsed_cycles, recalc_elapsed_cycles);
-		}
-
-		stream->last_rendered_cycle_counter = current_cycle;
-		stream->samples_leftover = (double)samples_to_render - (int)samples_to_render;
-	}
-}
-
-int	SoundStream_CountReadableSamples(const t_sound_stream* stream)
-{
-	if (stream->audio_buffer_rpos == stream->audio_buffer_wpos)
-		return 0;
-
-	// Circular buffer
-	if (stream->audio_buffer_rpos < stream->audio_buffer_wpos)
-		return (stream->audio_buffer_wpos - stream->audio_buffer_rpos);
-	else
-		return (stream->audio_buffer_size - stream->audio_buffer_rpos) + stream->audio_buffer_wpos;
-}
-
-int SoundStream_CountWritableSamples(const t_sound_stream* stream)
-{
-	return stream->audio_buffer_size - SoundStream_CountReadableSamples(stream);
-}
-
-bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_count, s16** wbuf1, int* wbuf1_len, s16** wbuf2, int* wbuf2_len)
-{
-	*wbuf1 = *wbuf2 = NULL;
-	*wbuf1_len = *wbuf2_len = 0;
-
-	s16* buf_begin = &stream->audio_buffer[0];
-	s16* buf_end = &stream->audio_buffer[stream->audio_buffer_size];
-
-	int writable_samples = SoundStream_CountWritableSamples(stream);
-	if (writable_samples < samples_count)
-	{
-		Msg(MSGT_DEBUG, "PushSamplesRequestBufs(): overflow %d > %d", samples_count, writable_samples);
-		return false;
-	}
-
-	if (stream->audio_buffer_wpos >= stream->audio_buffer_rpos)
-	{
-		// Provide writable buffer for wpos->end section
-		const int samples_to_write = MIN(samples_count, stream->audio_buffer_size - stream->audio_buffer_wpos);
-		if (samples_to_write < 0)
-			assert(0);
-		*wbuf1 = &stream->audio_buffer[stream->audio_buffer_wpos];
-		*wbuf1_len = samples_to_write;
-		if (*wbuf1 && (*wbuf1 < buf_begin || *wbuf1+*wbuf1_len > buf_end))
-			assert(0);
-		samples_count -= samples_to_write;
-		stream->audio_buffer_wpos = (stream->audio_buffer_wpos + samples_to_write) % stream->audio_buffer_size;
-	}
-	if (stream->audio_buffer_wpos < stream->audio_buffer_rpos)
-	{
-		// Provide writable buffer for wpos->rpos section
-		const int samples_to_write = MIN(samples_count, stream->audio_buffer_rpos - stream->audio_buffer_wpos);
-		if (samples_to_write < 0)
-			assert(0);
-		*wbuf2 = &stream->audio_buffer[stream->audio_buffer_wpos];
-		*wbuf2_len = samples_to_write;
-		if (*wbuf2 && (*wbuf2 < buf_begin || *wbuf2+*wbuf2_len > buf_end))
-			assert(0);
-		samples_count -= samples_to_write;
-		stream->audio_buffer_wpos = (stream->audio_buffer_wpos + samples_to_write) % stream->audio_buffer_size;
-	}
-
-	return true;
-}
-
-int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
-{
-	//Msg(MSGT_DEBUG, "PopSamples() %d", samples_wanted);
-
-	const int samples_avail = SoundStream_CountReadableSamples(stream);
-	if (samples_avail < samples_wanted)
-	{
-		Msg(MSGT_DEBUG, "PopSamples(): underrun %d < %d available", samples_avail, samples_wanted);
-		return 0;
-	}
-	const s16* buf_start = buf;
-	const s16* buf_end = buf + samples_wanted;
-
-	int samples_read = 0;
-	while (samples_wanted > 0)
-	{
-		if (stream->audio_buffer_rpos == stream->audio_buffer_wpos)
-		{
-			Msg(MSGT_DEBUG, "SoundStream_PopSamples(): underrun in loop");
-			break;
-		}
-
-		int samples_avail_contiguous;
-		if (stream->audio_buffer_rpos < stream->audio_buffer_wpos)
-		{
-			// Read rpos->wpos
-			samples_avail_contiguous = stream->audio_buffer_wpos - stream->audio_buffer_rpos;
-		}
-		else
-		{
-			// Read rpos->end
-			samples_avail_contiguous = stream->audio_buffer_size - stream->audio_buffer_rpos;
-		}
-
-		const int samples_to_read = MIN(samples_wanted, samples_avail_contiguous);
-		memcpy(&buf[samples_read], &stream->audio_buffer[stream->audio_buffer_rpos], samples_to_read * sizeof(s16));
-		samples_read += samples_to_read;
-		samples_wanted -= samples_to_read;
-		stream->audio_buffer_rpos = (stream->audio_buffer_rpos + samples_to_read) % stream->audio_buffer_size;
-	}
-
-	return samples_read;
-}
-
-//-----------------------------------------------------------------------------
-
-void SoundDebugApp_Init()
-{
-	t_app_sound_debug* app = &SoundDebugApp;
-
-	t_frame frame;
-    frame.pos.x = 150;
-    frame.pos.y = 500;
-    frame.size.x = 350;
-    frame.size.y = 70;
-	app->active = false;
-	app->box = gui_box_new(&frame, "Sound Debug");
-	app->box->user_data = app;
-	app->box->update = SoundDebugApp_Update;
-	widget_closebox_add(app->box, (t_widget_callback)SoundDebugApp_Switch);
-    Desktop_Register_Box("SOUND_DEBUG", app->box, 0, &app->active);
-}
-
-void SoundDebugApp_InstallMenuItems(int menu_parent)
-{
-	t_app_sound_debug* app = &SoundDebugApp;
-	menu_add_item(menu_parent, "Sound Debug", AM_Active | Is_Checked(app->active), (t_menu_callback)SoundDebugApp_Switch, app);
-}
-
-static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
-{
-	t_app_sound_debug* app = &SoundDebugApp;
-
-	char buf[256];
-	va_list args;
-	va_start(args, format);
-	vsnprintf(buf, countof(buf), format, args);
-	va_end(args);
-	
-	al_set_target_bitmap(app->box->gfx_buffer);
-	Font_Print(F_MIDDLE, buf, *px, *py, COLOR_SKIN_WINDOW_TEXT);
-	*py += Font_Height(F_MIDDLE);
-}
-
-void SoundDebugApp_Update()
-{
-	t_app_sound_debug* app = &SoundDebugApp;
-	if (!app->active)
-		return;
-
-	al_set_target_bitmap(app->box->gfx_buffer);
-	al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
-
-	if (!Sound.Enabled)
-		return;
-
-	int x = 4;
-	int y = 0;
-
-	static const char* stars64 = "****************************************************************";
-
-	t_sound_stream* stream = g_psg_stream;
-	int samples;
-
-	samples = SoundStream_CountReadableSamples(stream);
-	SoundDebugApp_Printf(&x, &y, "ReadableSamples: %-6d [%-32s]", samples, stars64+(64-MIN(32,samples/1024)));
-
-	samples = SoundStream_CountWritableSamples(stream);
-	SoundDebugApp_Printf(&x, &y, "WritableSamples: %-6d [%-32s]", samples, stars64+(64-MIN(32,samples/1024)));
-}
-
-// Called from closebox widget and menu handler
-void SoundDebugApp_Switch()
-{
-	t_app_sound_debug *app = &SoundDebugApp;
-	app->active ^= 1;
-	gui_box_show(app->box, app->active, TRUE);
-	gui_menu_inverse_check (menus_ID.sound, 4);	// FIXME-UGLY
-}
-
-//-----------------------------------------------------------------------------

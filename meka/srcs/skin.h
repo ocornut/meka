@@ -50,37 +50,38 @@
 // Data
 //-----------------------------------------------------------------------------
 
-extern ALLEGRO_COLOR	SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
+extern int				SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
 
-struct t_skin_gradient
+typedef struct
 {
 	bool				enabled;			// if not enabled, fill with native_gradient_start[0]
 	int					pos_start;			// 0-100%
 	int					pos_end;			// 0-100%, >= pos_start
 	u32 				color_start;
 	u32 				color_end;
-	ALLEGRO_COLOR 		native_color_start;
-	ALLEGRO_COLOR		native_color_end;
-	ALLEGRO_COLOR		native_color_buffer[SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE];
-};
+	u32 				native_color_start;
+	u32 				native_color_end;
+	u32					native_color_buffer[SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE];
+} t_skin_gradient;
 
-enum t_skin_effect
+typedef enum
 {
 	SKIN_EFFECT_NONE	= 0,
 	SKIN_EFFECT_BLOOD	= 1,
 	SKIN_EFFECT_HEARTS	= 2,
-};
+	SKIN_EFFECT_SNOW	= 3,
+} t_skin_effect;
 
-enum t_skin_background_picture_mode
+typedef enum
 {
     SKIN_BACKGROUND_PICTURE_MODE_CENTER         = 0,
     SKIN_BACKGROUND_PICTURE_MODE_STRETCH        = 1,
     SKIN_BACKGROUND_PICTURE_MODE_STRETCH_INT    = 2,
     SKIN_BACKGROUND_PICTURE_MODE_TILE           = 3,
     SKIN_BACKGROUND_PICTURE_MODE_DEFAULT        = SKIN_BACKGROUND_PICTURE_MODE_STRETCH,
-};
+} t_skin_background_picture_mode;
 
-struct t_skin
+typedef struct
 {
     bool                            enabled;
     char *                          name;
@@ -92,7 +93,7 @@ struct t_skin
 	t_skin_effect		            effect;
     char *                          background_picture;
     t_skin_background_picture_mode  background_picture_mode;
-};
+} t_skin;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -115,11 +116,13 @@ void                Skins_SetSkinConfiguration      (const char *skin_name);
 
 t_skin *			Skins_GetCurrentSkin			(void);
 t_skin *            Skins_FindSkinByName            (const char *skin_name);
-ALLEGRO_BITMAP *    Skins_GetBackgroundPicture      (void);
+BITMAP *            Skins_GetBackgroundPicture      (void);
+
+t_skin *            Skins_GetSystemSkinBlack        (void);
 
 //-----------------------------------------------------------------------------
 
-void				SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame);
-void				SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame);
+void				SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame);
+void				SkinGradient_DrawVertical(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame);
 
 //-----------------------------------------------------------------------------

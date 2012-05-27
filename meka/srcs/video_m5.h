@@ -8,33 +8,28 @@
 //-----------------------------------------------------------------------------
 
 #ifdef X86_ASM
-extern "C"
-{
- int     Decode_Tile_ASM (int, byte *);
- int     Decode_Tile_ASM_Init (void);
- void    Sprite_Collide_Line_ASM (byte *p_src, int x);
-}
+ extern int     Decode_Tile_ASM (int, byte *);
+ extern int     Decode_Tile_ASM_Init (void);
+ extern int     Find_Last_Sprite_ASM (int Height, int VDP_Line);
+ extern int     Find_Last_Sprite_ASM_Wide (int Height, int VDP_Line);
+ extern void    Sprite_Collide_Line_ASM (byte *p_src, int x);
 #else
- void    Decode_Tile_C (int, byte *);
- void    Sprite_Collide_Line_C (byte *p_src, int x);
+ void           Decode_Tile_C (int, byte *);
+ void           Find_Last_Sprite_C (int Height, int VDP_Line);
+ void           Find_Last_Sprite_C_Wide (int Height, int VDP_Line);
+ void           Sprite_Collide_Line_C (byte *p_src, int x);
 #endif
 
-void	Find_Last_Sprite(int sprites_height, int VDP_Line);
-void    Find_Last_Sprite_Wide(int sprites_height, int VDP_Line);
+void            Display_BackGround_Line_5_C (void);
 
-void    Display_BackGround_Line_5(void);
-
-extern "C"
-{
-extern int      Sprite_Last;
-extern int      Sprites_on_Line;
-}
+int             Sprite_Last;
+int             Sprites_on_Line;
 
 void            Refresh_Line_5 (void);
 void            Refresh_Sprites_5 (bool draw);
 
 //-----------------------------------------------------------------------------
 
-void            VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, const u32 *palette_host, int x, int y, int flip);
+void            VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip);
 
 //-----------------------------------------------------------------------------

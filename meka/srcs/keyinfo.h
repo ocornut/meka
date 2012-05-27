@@ -14,12 +14,12 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_key_info
+typedef struct
 {
-    int			scancode;
-    const char *name;
-    int			flags;
-};
+    int     scancode;
+    char *  name;
+    int     flags;
+} t_key_info;
 
 //-----------------------------------------------------------------------------
 // Functions

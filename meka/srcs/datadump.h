@@ -14,12 +14,12 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_data_dump
+typedef struct
 {
     int     Mode;
-};
+} t_data_dump;
 
-extern t_data_dump DataDump;
+t_data_dump DataDump;
 
 //-----------------------------------------------------------------------------
 // Functions

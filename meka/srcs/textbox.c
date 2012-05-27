@@ -16,13 +16,7 @@
 //-----------------------------------------------------------------------------
 
 #define TB_MESSAGE_LINES        (22) // 50
-#define TB_MESSAGE_COLUMNS      (46)
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_app_messages  TB_Message;
+#define TB_MESSAGE_COLUMNS      (40)
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -36,20 +30,21 @@ void    TB_Message_Init_Values(void)
     app->log_file         = NULL;
     app->log_filename     = NULL;
     app->box              = NULL;
+    app->box_gfx          = NULL;
     app->widget_textbox   = NULL;
 }
 
 static void TB_Message_Layout(t_app_messages *app, bool setup)
 {
-    al_set_target_bitmap(app->box->gfx_buffer);
-    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
+    // Clear
+    clear_to_color(app->box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
         t_frame frame;
 
         // Add closebox widget
-        widget_closebox_add(app->box, (t_widget_callback)TB_Message_Switch);
+        widget_closebox_add(app->box, TB_Message_Switch);
 
         // Create textbox widget
         frame.pos.x = 4;
@@ -58,6 +53,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
         frame.size.y = app->box->frame.size.y - (2*2);
         app->widget_textbox = widget_textbox_add(app->box, &frame, TB_MESSAGE_LINES, F_MIDDLE);
     }
+    //gui_box_set_dirty(app->box);
 }
 
 void        TB_Message_Init(void)
@@ -68,8 +64,8 @@ void        TB_Message_Init(void)
     app->active = TRUE;
 
     // Create box
-    frame.pos.x  = 16;
-    frame.pos.y  = 378;
+    frame.pos.x  = 10;
+    frame.pos.y  = 270;
     frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (F_MIDDLE)) + (4*2); // 4*2=padding
     frame.size.y = (TB_MESSAGE_LINES   * Font_Height (F_MIDDLE)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));

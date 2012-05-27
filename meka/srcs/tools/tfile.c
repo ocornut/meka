@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "libmy.h"
 #include "liblist.h"
 #include "tfile.h"
 
@@ -13,16 +14,21 @@
 
 t_tfile *       tfile_read(const char *filename)
 {
+    t_tfile *   tf;
+    FILE *      f;
+    int         size;
+    char *      p_cur;
+    char *      p_new;
+    int         lines_count;
+
     // Open and file
-	FILE* f;
     if ((f = fopen(filename, "rb")) == NULL)
     { 
         meka_errno = MEKA_ERR_FILE_OPEN; 
         return NULL; 
     }
 
-    // Gets its size
-	int size;
+    // Gets it size
     if (fseek(f, 0, SEEK_END) != 0 || (size = ftell(f)) == -1 || fseek(f, 0, SEEK_SET) != 0)
     { 
         meka_errno = MEKA_ERR_FILE_READ; 
@@ -30,28 +36,22 @@ t_tfile *       tfile_read(const char *filename)
     }
 
     // Allocate the t_tfile and read file data into to
-    t_tfile* tf = (t_tfile*)malloc(sizeof (t_tfile));
+    tf = malloc(sizeof (t_tfile));
     tf->size = size;
-    tf->data_raw = (char*)malloc(sizeof (char) * size + 1);
-	tf->data_lines = NULL;
+    tf->data_raw = malloc(sizeof (char) * size + 1);
 
     if (fread(tf->data_raw, sizeof (char), size, f) < (unsigned int)size)
     { 
         meka_errno = MEKA_ERR_FILE_READ; 
-		tfile_free(tf);
         return NULL; 
     }
     tf->data_raw[size] = EOSTR;
     fclose(f);
 
-	// Silently ignore UTF-8 header (for meka.nam)
-    char* p_cur = tf->data_raw;
-	if ((u8)p_cur[0] == 0xEF && (u8)p_cur[1] == 0xBB && (u8)p_cur[2] == 0xBF)
-		p_cur += 3;
-
     // Parse raw data to create the lines list
-    int lines_count = 0;
-	char* p_new;
+    tf->data_lines = NULL;
+    lines_count = 0;
+    p_cur = tf->data_raw;
     while ((p_new = strchr(p_cur, '\n')) != NULL)
     {
         *p_new = EOSTR;

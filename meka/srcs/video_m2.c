@@ -11,27 +11,34 @@
 // Data
 //-----------------------------------------------------------------------------
 
-static u8    Sprites_On_Line[192 + 32];
+static u8    Sprites_On_Line [192 + 32];
 
-ALLEGRO_COLOR TMS9918_Palette[16] =
-{
-	{ (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  0: Transparent   */
-	{ (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  1: Black         */
-	{ (4*0x08)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  2: Medium Green  */
-	{ (4*0x18)/255.0f, (4*0x38)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  3: Light Green   */
-	{ (4*0x08)/255.0f, (4*0x08)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  4: Dark Blue     */
-	{ (4*0x10)/255.0f, (4*0x18)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  5: Light Blue    */
-	{ (4*0x28)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  6: Dark Red      */
-	{ (4*0x10)/255.0f, (4*0x30)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  7: Cyan          */
-	{ (4*0x38)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  8: Medium Red    */
-	{ (4*0x38)/255.0f, (4*0x18)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  9: Light Red     */
-	{ (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 10: Dark Yellow   */
-	{ (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x20)/255.0f, 1.0f }, /* 11: Light Yellow  */
-	{ (4*0x08)/255.0f, (4*0x20)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 12: Dark Green    */
-	{ (4*0x30)/255.0f, (4*0x10)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 13: Magenta       */
-	{ (4*0x28)/255.0f, (4*0x28)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 14: Grey          */
-	{ (4*0x38)/255.0f, (4*0x38)/255.0f, (4*0x38)/255.0f, 1.0f }  /* 15: White         */
-};
+const RGB    TMS9918_Palette [16] =
+ {
+     // FIXME: Proper palette
+   /* 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0xC0, 0x20,
+   0x60, 0xE0, 0x60, 0x20, 0x20, 0xE0, 0x40, 0x60, 0xE0,
+   0xA0, 0x20, 0x20, 0x40, 0xC0, 0xE0, 0xE0, 0x20, 0x20,
+   0xE0, 0x60, 0x60, 0xC0, 0xC0, 0x20, 0xC0, 0xC0, 0x80,
+   0x20, 0x80, 0x20, 0xC0, 0x40, 0xA0, 0xA0, 0xA0, 0xA0,
+   0xE0, 0xE0, 0xE0, */
+   { 4*0x00, 4*0x00, 4*0x00, 0 }, /*  0: Transparent   */
+   { 4*0x00, 4*0x00, 4*0x00, 0 }, /*  1: Black         */
+   { 4*0x08, 4*0x30, 4*0x08, 0 }, /*  2: Medium Green  */
+   { 4*0x18, 4*0x38, 4*0x18, 0 }, /*  3: Light Green   */
+   { 4*0x08, 4*0x08, 4*0x38, 0 }, /*  4: Dark Blue     */
+   { 4*0x10, 4*0x18, 4*0x38, 0 }, /*  5: Light Blue    */
+   { 4*0x28, 4*0x08, 4*0x08, 0 }, /*  6: Dark Red      */
+   { 4*0x10, 4*0x30, 4*0x38, 0 }, /*  7: Cyan          */
+   { 4*0x38, 4*0x08, 4*0x08, 0 }, /*  8: Medium Red    */
+   { 4*0x38, 4*0x18, 4*0x18, 0 }, /*  9: Light Red     */
+   { 4*0x30, 4*0x30, 4*0x08, 0 }, /* 10: Dark Yellow   */
+   { 4*0x30, 4*0x30, 4*0x20, 0 }, /* 11: Light Yellow  */
+   { 4*0x08, 4*0x20, 4*0x08, 0 }, /* 12: Dark Green    */
+   { 4*0x30, 4*0x10, 4*0x28, 0 }, /* 13: Magenta       */
+   { 4*0x28, 4*0x28, 4*0x28, 0 }, /* 14: Grey          */
+   { 4*0x38, 4*0x38, 4*0x38, 0 }  /* 15: White         */
+ };
 
 //-----------------------------------------------------------------------------
 // Color configuration
@@ -39,17 +46,19 @@ ALLEGRO_COLOR TMS9918_Palette[16] =
 //  24/32 output someday)
 //-----------------------------------------------------------------------------
 
-static u16*	GFX_ScreenData = NULL;
-static int	GFX_ScreenPitch = 0;
-
 #define PIXEL_TYPE              u16
-#define PIXEL_PALETTE_TABLE     Palette_EmulationToHostGame
+#define PIXEL_LINE_DST          GFX_Line16
+#define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TMS9918_Palette_Setup(void)
+//-----------------------------------------------------------------------------
+// TMS9918_Palette_Set ()
+// Setup TMS9918 palette
+//-----------------------------------------------------------------------------
+void    TMS9918_Palette_Set (void)
 {
     int i;
 
@@ -60,21 +69,18 @@ void    TMS9918_Palette_Setup(void)
 }
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, int fgcolor_host, int bgcolor_host)
+void    VDP_Mode0123_DrawTile(BITMAP *dst, const u8 *pixels, int x, int y, int fgcolor, int bgcolor)
 {
-	const int color_format = al_get_bitmap_format(dst);
-    switch (al_get_pixel_format_bits(color_format))
+    // FIXME-DEPTH
+    switch (dst->vtable->color_depth)
     {
     case 16:
         {
-			u16* dst_data = (u16*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 1;
-			const u16 fgcolor = fgcolor_host;
-			const u16 bgcolor = bgcolor_host;
-            for (int i = 0; i != 8; i++)
+            int i;
+            for (i = 0; i != 8; i++)
             {
-                const u8 cc = *pixels_data++;
-                u16 *dst8 = dst_data + (dst_pitch*y) + x;
+                const u8 cc = *pixels++;
+                u16 *dst8 = (u16 *)dst->line[y] + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
                 dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
@@ -89,14 +95,11 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
         }
     case 32:
         {
-			u32* dst_data = (u32*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 2;
-			const u32 fgcolor = fgcolor_host;
-			const u32 bgcolor = bgcolor_host;
-            for (int i = 0; i != 8; i++)
+            int i;
+            for (i = 0; i != 8; i++)
             {
-                const u8 cc = *pixels_data++;
-                u32 *dst8 = dst_data + (dst_pitch*y) + x;
+                const u8 cc = *pixels++;
+                u32 *dst8 = (u32 *)dst->line[y] + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
                 dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
@@ -110,68 +113,13 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
             break;
         }
     default:
-		Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
+        assert(0);
+        Msg(MSGT_USER, "TileViewer: unsupported color depth!");
         break;
     }
 }
 
-void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, const u8 *colors_data)
-{
-	const int color_format = al_get_bitmap_format(dst);
-    switch (al_get_pixel_format_bits(color_format))
-    {
-    case 16:
-        {
-			u16* dst_data = (u16*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 1;
-            for (int i = 0; i != 8; i++)
-            {
-                const u8 cc = *pixels_data++;
-				const u8 color_indexes = *colors_data++;
-				const u16 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
-				const u16 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
-                u16 *dst8 = dst_data + (dst_pitch*y) + x;
-                dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
-                dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
-                dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
-                dst8[3] = (cc & 0x10) ? fgcolor : bgcolor;
-                dst8[4] = (cc & 0x08) ? fgcolor : bgcolor;
-                dst8[5] = (cc & 0x04) ? fgcolor : bgcolor;
-                dst8[6] = (cc & 0x02) ? fgcolor : bgcolor;
-                dst8[7] = (cc & 0x01) ? fgcolor : bgcolor;
-                y++;
-            }
-            break;
-        }
-    case 32:
-        {
-			u32* dst_data = (u32*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 2;
-            for (int i = 0; i != 8; i++)
-            {
-                const u8 cc = *pixels_data++;
-				const u8 color_indexes = *colors_data++;
-				const u32 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
-				const u32 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
-                u32 *dst8 = dst_data + (dst_pitch*y) + x;
-                dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
-                dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
-                dst8[2] = (cc & 0x20) ? fgcolor : bgcolor;
-                dst8[3] = (cc & 0x10) ? fgcolor : bgcolor;
-                dst8[4] = (cc & 0x08) ? fgcolor : bgcolor;
-                dst8[5] = (cc & 0x04) ? fgcolor : bgcolor;
-                dst8[6] = (cc & 0x02) ? fgcolor : bgcolor;
-                dst8[7] = (cc & 0x01) ? fgcolor : bgcolor;
-                y++;
-            }
-            break;
-        }
-    default:
-		Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
-        break;
-    }
-}
-
+// DISPLAY TEXT MODE 0 SCREEN -------------------------------------------------
 void    Display_Text_0 (void)
 {
     int         i, j;
@@ -183,16 +131,16 @@ void    Display_Text_0 (void)
         int k;
         for (k = 0; k != 8; k ++)
         {
-            PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch*(j + k);
-            const u8 *tile_n = g_machine.VDP.name_table_address + (j * 5);
+            PIXEL_TYPE *dst = (PIXEL_TYPE *)screenbuffer->line[j + k];
+            const u8 *tile_n = BACK_AREA + (j * 5);
 
             // 8 left pixels are black
-            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK16;    // FIXME-BORDER
+            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK;    // FIXME-BORDER
             dst += 8;
 
             for (i = 8; i != (40 * 6) + 8; i += 6)
             {
-                const u8 *p2  = g_machine.VDP.sg_pattern_gen_address + (*tile_n << 3) + k;
+                const u8 *p2  = SG_BACK_TILE + (*tile_n << 3) + k;
                 const u8 src6 = *p2;
                 dst[0] = (src6 & 0x80) ? fgcolor : bgcolor;
                 dst[1] = (src6 & 0x40) ? fgcolor : bgcolor;
@@ -205,16 +153,17 @@ void    Display_Text_0 (void)
             }
 
             // 8 right pixels are black
-            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK16;    // FIXME-BORDER
+            dst[0] = dst[1] = dst[2] = dst[3] = dst[4] = dst[5] = dst[6] = dst[7] = COLOR_BLACK;    // FIXME-BORDER
         }
     }
 }
 
+// DISPLAY BACKGROUND VIDEO MODE 1 --------------------------------------------
 void    Display_Background_1 (void)
 {
     int    i, j, j2;
     int    x, y = 0;
-    const u8 *tile_n = g_machine.VDP.name_table_address;           //-- Tile Table --------//
+    const u8 *tile_n = BACK_AREA;           //-- Tile Table --------//
 
     // DRAW ALL TILES ------------------------------------------------------------
     for (i = 0; i != 24; i++)
@@ -223,14 +172,14 @@ void    Display_Background_1 (void)
         for (j = 0; j != 32; j++)
         {
             // Draw one tile
-            const u8 * p1 = g_machine.VDP.sg_pattern_gen_address  + (*tile_n << 3);
-            const u8 * p2 = g_machine.VDP.sg_color_table_address + (*tile_n >> 3);
+            const u8 * p1 = SG_BACK_TILE  + (*tile_n << 3);
+            const u8 * p2 = SG_BACK_COLOR + (*tile_n >> 3);
             const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*p2 >> 4];
             const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[(*p2) & 0x0F];
             for (j2 = 0; j2 != 8; j2++)
             {
                 const u8    src8 = *p1++;
-                PIXEL_TYPE *dst8 = GFX_ScreenData + GFX_ScreenPitch*(y + j2) + x;
+                PIXEL_TYPE *dst8 = (PIXEL_TYPE *)screenbuffer->line[y + j2] + x;
                 dst8[0] = (src8 & 0x80) ? color1 : color2;
                 dst8[1] = (src8 & 0x40) ? color1 : color2;
                 dst8[2] = (src8 & 0x20) ? color1 : color2;
@@ -247,33 +196,42 @@ void    Display_Background_1 (void)
     }
 }
 
+// DISPLAY BACKGROUND VIDEO MODE 2 --------------------------------------------
 void    Display_Background_2 (void)
 {
-    const u8* pattern_name_table = g_machine.VDP.name_table_address;
-    const int vsection_mask = sms.VDP[4] & 3;
+    int    i, j, j2, k;
 
-    int y = 0;
-    for (int vsection_idx = 0; vsection_idx < 3; vsection_idx++) // screen in 3 parts
+    byte   *col_base;                     //-- Color Table Base --//
+    byte   *tile_base;                    //-- Tile Data Base ----//
+    byte   *p1,                           //-- Tile Data ---------//
+           *p2,                           //-- Color Table -------//
+           *p4 = BACK_AREA;               //-- Tile Table --------//
+
+    register int x, y;
+
+    int mask = sms.VDP [4] & 3;
+
+    // DRAW ALL TILES ------------------------------------------------------------
+    y = 0;
+    for (k = 0; k < 3; k ++)
     {
-        const u8* tile_base = g_machine.VDP.sg_pattern_gen_address + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
-        const u8* col_base = g_machine.VDP.sg_color_table_address + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
-        for (int ty = 0; ty < 8; ty++)
+        col_base = SG_BACK_COLOR + ((k & mask) * 0x800);
+        tile_base = SG_BACK_TILE + ((k & mask) * 0x800);
+        for (i = 0; i < 8; i++)
         {
-            int x = 0;
-            for (int tx = 0; tx < 32; tx++)
+            x = 0;
+            for (j = 0; j < 32; j++)
             {
-				const u32 pattern_name = (*pattern_name_table++) * 8;
-                const u8* p1 = tile_base + pattern_name;		// Pattern data
-                const u8* p2 = col_base  + pattern_name;		// Color table
+                p1 = tile_base + (*p4 * 8);
+                p2 = col_base  + (*p4++ * 8);
 
                 // Draw one tile
-                for (int j2 = 0; j2 < 8; j2 ++)
+                for (j2 = 0; j2 < 8; j2 ++, p2++)
                 {
-					PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y+j2) + x;
+                    PIXEL_TYPE *dst = ((PIXEL_TYPE *)screenbuffer->line [y + j2]) + x;
+                    const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*p2 >> 4];
+                    const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[(*p2) & 0x0F];
                     const u8 cc = (*p1++);
-					const u8 color_indexes = (*p2++);
-                    const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[color_indexes >> 4];
-                    const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[color_indexes & 0x0F];
                     dst[0] = (cc & 0x80) ? color1 : color2;
                     dst[1] = (cc & 0x40) ? color1 : color2;
                     dst[2] = (cc & 0x20) ? color1 : color2;
@@ -290,32 +248,33 @@ void    Display_Background_2 (void)
     }
 }
 
+// DISPLAY BACKGROUND VIDEO MODE 3 --------------------------------------------
 void    Display_Background_3 (void)
 {
     int         x, y, z;
-    const u8 *  pattern = g_machine.VDP.name_table_address;
+    const u8 *  pattern = BACK_AREA;
 
     for (y = 0; y != 192; y += 32)
     {
         for (x = 0; x != 256; x += 8)
         {
-            const u8 *tiles_data = g_machine.VDP.sg_pattern_gen_address + (*pattern++ * 8);
+            const u8 *tiles_data = SG_BACK_TILE + (*pattern++ * 8);
             for (z = 0; z != 8; z ++)
             {
                 PIXEL_TYPE *dst;
                 const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*tiles_data >> 4];
                 const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[*tiles_data & 0x0F];
                 
-                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 0) + x;
+                dst = (PIXEL_TYPE *)screenbuffer->line[y + 0] + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
-                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 1) + x;
+                dst = (PIXEL_TYPE *)screenbuffer->line[y + 1] + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
-                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 2) + x;
+                dst = (PIXEL_TYPE *)screenbuffer->line[y + 2] + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
-                dst = GFX_ScreenData + GFX_ScreenPitch * (y + 3) + x;
+                dst = (PIXEL_TYPE *)screenbuffer->line[y + 3] + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
                 y += 4;
@@ -328,16 +287,19 @@ void    Display_Background_3 (void)
 }
 
 // DRAW A MAGNIFIED MONOCHROME SPRITE TILE ------------------------------------
-void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
+void    Draw_Sprite_Mono_Double (u8 *src, int x, int y, int fcolor_idx)
 {
+    int         j;
+    PIXEL_TYPE  fcolor;
+
     if (fcolor_idx & 0x80) 
         x -= 32;
     fcolor_idx &= 0x0F;
     if (fcolor_idx == 0)
         return;
-    const PIXEL_TYPE fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
+    fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
 
-    for (int j = 0; j != 8; j++, src++)
+    for (j = 0; j != 8; j++, src++)
     {
         if (y < 0 || y > 190)
         {
@@ -347,9 +309,9 @@ void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
         else
         {
             const u8 src8 = *src;
-            if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+            if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
-                PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
+                PIXEL_TYPE * dst8 = (PIXEL_TYPE *)screenbuffer->line [y] + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
                 if  (src8 & 0x40) { dst8[2]  = dst8[3]  = fcolor; }
                 if  (src8 & 0x20) { dst8[4]  = dst8[5]  = fcolor; }
@@ -361,9 +323,9 @@ void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
             }
             // if (Sprites_On_Line [y] == 5) { }
             y++;
-            if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+            if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
-                PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
+                PIXEL_TYPE * dst8 = (PIXEL_TYPE *)screenbuffer->line [y] + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
                 if  (src8 & 0x40) { dst8[2]  = dst8[3]  = fcolor; }
                 if  (src8 & 0x20) { dst8[4]  = dst8[5]  = fcolor; }
@@ -380,23 +342,26 @@ void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
 }
 
 // DRAW A MONOCHROME SPRITE TILE ----------------------------------------------
-void    Draw_Sprite_Mono (const u8 *src, int x, int y, int fcolor_idx)
+void    Draw_Sprite_Mono (u8 *src, int x, int y, int fcolor_idx)
 {
+    int         j;
+    PIXEL_TYPE  fcolor;
+
     if (fcolor_idx & 0x80) 
         x -= 32;
     fcolor_idx &= 0x0F;
     if (fcolor_idx == 0)
         return;
-    PIXEL_TYPE fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
+    fcolor = PIXEL_PALETTE_TABLE[fcolor_idx];
 
-    for (int j = 0; j != 8; j++, y++, src++)
+    for (j = 0; j != 8; j++, y++, src++)
     {
         if (y < 0 || y > 191)
             continue;
-        if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+        if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
         {
             const u8     src8 = *src;
-            PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
+            PIXEL_TYPE * dst8 = (PIXEL_TYPE *)screenbuffer->line[y] + x;
             if  (src8 & 0x80) dst8[0] = fcolor; 
             if  (src8 & 0x40) dst8[1] = fcolor; 
             if  (src8 & 0x20) dst8[2] = fcolor; 
@@ -416,6 +381,9 @@ static const int Table_Mask [4] =   { 0xFF, 0xFF, 0xFC, 0xFC };
 // DISPLAY SPRITES IN VIDEO MODE 1/2/3 ----------------------------------------
 void    Display_Sprites_1_2_3 (void)
 {
+    u8 *    k;
+    int     i, j;
+    int     x, y;
     const int Sprite_Mode = Sprites_Double | Sprites_16x16;
     const int Mask = Table_Mask [Sprite_Mode];
     const int sprites_height = Table_Height [Sprite_Mode];
@@ -427,15 +395,13 @@ void    Display_Sprites_1_2_3 (void)
     memset (Sprites_On_Line, 0, 192 + 32);
 
     // Find last sprite
-	const u8* sat = g_machine.VDP.sprite_attribute_table;
-	int i;
     for (i = 0; i < 32 * 4; i += 4)
     {
-        int y = sat[i];
+        y = sprite_attribute_table[i];
         if ((y ++) == 0xD0) 
             break;
         if (y > 0xD0) y -= 0xFF;
-        for (int j = y; j < y + sprites_height; j++)
+        for (j = y; j < y + sprites_height; j++)
             if (j >= 0)
                 Sprites_On_Line [j]++;
     }
@@ -445,82 +411,77 @@ void    Display_Sprites_1_2_3 (void)
     while (i >= 0)
     {
         // Calculate vertical position and handle special meanings ----------------
-        int y = sat[i];
+        y = sprite_attribute_table[i];
         if ((y ++) == 0xD0) 
             break;
         if (y > 0xD0) 
             y -= 0x100;
         // Calculate horizontal position ------------------------------------------
-        int x = sat[i + 1];
+        x = sprite_attribute_table[i + 1];
         // Calculate tile starting address in VRAM --------------------------------
-        const u8* k = (u8 *)((long int)((sat[i + 2] & Mask) << 3) + (long int)g_machine.VDP.sprite_pattern_gen_address);
+        k = (u8 *)((int)((sprite_attribute_table[i + 2] & Mask) << 3) + (int)cur_machine.VDP.sprite_pattern_base_address);
         switch (Sprite_Mode)
         {
             // 8x8 (used in: Sokouban)
         case 0: //----------- address -- x position -- y position -- color
-            Draw_Sprite_Mono (k, x, y, sat[i + 3]);
+            Draw_Sprite_Mono (k, x, y, sprite_attribute_table[i + 3]);
             break;
             // 16x16 - 8x8 Doubled (used in: ?)
         case 1: //----------- address -- x position -- y position -- color
-            Draw_Sprite_Mono_Double (k, x, y, sat[i + 3]);
+            Draw_Sprite_Mono_Double (k, x, y, sprite_attribute_table[i + 3]);
             break;
             // 16x16 (used in most games)
         case 2: //----------- address -- x position --- y position --- color -----
-            Draw_Sprite_Mono (k,      x,     y,     sat[i + 3]);
-            Draw_Sprite_Mono (k + 8,  x,     y + 8, sat[i + 3]);
-            Draw_Sprite_Mono (k + 16, x + 8, y,     sat[i + 3]);
-            Draw_Sprite_Mono (k + 24, x + 8, y + 8, sat[i + 3]);
+            Draw_Sprite_Mono (k,      x,     y,     sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono (k + 8,  x,     y + 8, sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono (k + 16, x + 8, y,     sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono (k + 24, x + 8, y + 8, sprite_attribute_table[i + 3]);
             break;
         case 3: //------------------ address ---- x position ---- y position --- color ----
-            Draw_Sprite_Mono_Double (k,      x,      y,      sat[i + 3]);
-            Draw_Sprite_Mono_Double (k + 8,  x,      y + 16, sat[i + 3]);
-            Draw_Sprite_Mono_Double (k + 16, x + 16, y,      sat[i + 3]);
-            Draw_Sprite_Mono_Double (k + 24, x + 16, y + 16, sat[i + 3]);
+            Draw_Sprite_Mono_Double (k,      x,      y,      sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono_Double (k + 8,  x,      y + 16, sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono_Double (k + 16, x + 16, y,      sprite_attribute_table[i + 3]);
+            Draw_Sprite_Mono_Double (k + 24, x + 16, y + 16, sprite_attribute_table[i + 3]);
             break;
         }
         i -= 4;
         // Decrease Sprites_On_Line values ----------------------------------------
-        for (int j = y; j < y + sprites_height; j++) 
+        for (j = y; j < y + sprites_height; j++) 
             if (j >= 0) 
                 Sprites_On_Line [j]--;
     }
 }
 
-void    Refresh_Modes_0_1_2_3(void)
+void    Refresh_Modes_0_1_2_3 (void)
 {
-	GFX_ScreenData = (u16*)g_screenbuffer_locked_region->data;
-	GFX_ScreenPitch = g_screenbuffer_locked_region->pitch / sizeof(u16);	// Pitch in u16 pixel unit to ease pointer manipulations
-
-	// Display Background
+    // Display Background
     if (opt.Layer_Mask & LAYER_BACKGROUND)
     {
         if (Display_ON)
         {
             switch (tsms.VDP_VideoMode)
             {
-            case 0: Display_Text_0(); break;
-            case 1: Display_Background_1(); break;
-            case 2: Display_Background_2(); break;
-            case 3: Display_Background_3(); break;
+            case 0: Display_Text_0 (); break;
+            case 1: Display_Background_1 (); break;
+            case 2: Display_Background_2 (); break;
+            case 3: Display_Background_3 (); break;
             }
         }
         else
         {
             // Clear screen
-			al_set_target_bitmap(screenbuffer);
-			alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, BORDER_COLOR);
+            clear_to_color (screenbuffer, Border_Color);
         }
     }
     else
     {
         // Clear screen with yellow-ish color
-		al_set_target_bitmap(screenbuffer);
-		alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, COLOR_DEBUG_BACKDROP);
+        clear_to_color (screenbuffer, 95);  // see video_m5.c [20050403] For sprite ripping
     }
     // Display Sprites
     if ((opt.Layer_Mask & LAYER_SPRITES) && Display_ON)
     {
-        Display_Sprites_1_2_3();
+        Display_Sprites_1_2_3 ();
     }
 }
 
@@ -572,8 +533,8 @@ void    Check_Sprites_Collision_Modes_1_2_3 (void)
            continue;
 
         // Prepare pointers to the first tile line of each sprite
-        TileSrc = g_machine.VDP.sprite_pattern_gen_address | ((long)(SprSrc[2] & Mask) << 3);
-        TileDst = g_machine.VDP.sprite_pattern_gen_address | ((long)(SprDst[2] & Mask) << 3);
+        TileSrc = cur_machine.VDP.sprite_pattern_base_address | ((long)(SprSrc[2] & Mask) << 3);
+        TileDst = cur_machine.VDP.sprite_pattern_base_address | ((long)(SprDst[2] & Mask) << 3);
 
         if (dy < Size)
            {
@@ -623,21 +584,19 @@ void    Check_Sprites_Collision_Modes_1_2_3 (void)
 // FIXME: Zoomed sprites are actually not handled well in the collision tests
 void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 {
-  const int   mask = Table_Mask [Sprites_Double | Sprites_16x16];
-  const int   size = Table_Height [Sprites_Double | Sprites_16x16];
+  int   mask = Table_Mask [Sprites_Double | Sprites_16x16];
+  int   size = Table_Height [Sprites_Double | Sprites_16x16];
 
   int   src_n,     dst_n;
   int   src_y,     dst_y;
-  const u8 * src_spr;
-  const u8 * src_tile;
-  const u8 * dst_spr;
-  const u8 * dst_tile;
+  u8 *	src_spr,  *dst_spr;
+  u8 *	src_tile, *dst_tile;
 
   int   delta_x;
   int   delta_y;
 
-  const u8* sat = g_machine.VDP.sprite_attribute_table;
-  for (src_n = 0, src_spr = sat, src_y = src_spr[0]; src_n < 31 && src_y != 208;
+  for (src_n = 0, src_spr = sprite_attribute_table, src_y = src_spr[0];
+       src_n < 31 && src_y != 208;
        src_n++, src_spr += 4, src_y = src_spr[0])
      {
      // Skip if this sprite does not cover current line
@@ -663,8 +622,8 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 
         // Compare delta_y
         delta_y = src_y - dst_y;
-        //if (delta_y >= size || delta_y <= -size)
-        //   Msg (MSGT_USER, "delta_y = %d", delta_y);
+        if (delta_y >= size || delta_y <= -size)
+           Msg (MSGT_USER, "delta_y = %d", delta_y);
 
         // Compute delta_x, skip if the sprites cannot overlap
         delta_x = src_spr[1] - dst_spr[1];
@@ -672,8 +631,8 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
            continue;
 
         // Prepare pointers to the first tile of each sprite
-        src_tile = (u8 *)((long int)g_machine.VDP.sprite_pattern_gen_address | ((long int)(src_spr[2] & mask) << 3));
-        dst_tile = (u8 *)((long int)g_machine.VDP.sprite_pattern_gen_address | ((long int)(dst_spr[2] & mask) << 3));
+        src_tile = (u8 *)((int)cur_machine.VDP.sprite_pattern_base_address | ((int)(src_spr[2] & mask) << 3));
+        dst_tile = (u8 *)((int)cur_machine.VDP.sprite_pattern_base_address | ((int)(dst_spr[2] & mask) << 3));
 
         // Offset those pointers to the first tile line
         if (delta_y > 0)
@@ -687,12 +646,12 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 
         // Inverse sprites if delta_x < 0 for the purpose of the comparaison
         if (delta_x < 0)
-		{
-			const u8* tmp = src_tile;
-			src_tile  = dst_tile;
-			dst_tile  = tmp;
-			delta_x = -delta_x;
-		}
+           {
+           byte *tmp = src_tile;
+           src_tile  = dst_tile;
+           dst_tile  = tmp;
+           delta_x = -delta_x;
+           }
 
         // Finally compare actual sprites pixels
         if (size == 8)

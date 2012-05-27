@@ -7,27 +7,13 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-enum t_mouse_cursor
-{
-	MEKA_MOUSE_CURSOR_NONE,
-	MEKA_MOUSE_CURSOR_STANDARD,
-	MEKA_MOUSE_CURSOR_LIGHT_PHASER,
-	MEKA_MOUSE_CURSOR_SPORTS_PAD,
-	MEKA_MOUSE_CURSOR_TV_OEKAKI,
-	MEKA_MOUSE_CURSOR_WAIT,
-};
-
-// Note: casted to s8 in DB storage so make sure it fits.
-// Note: input configuration does a +1%max so we need consecutive integers.
-enum t_input_peripheral
-{
-	INPUT_JOYPAD			= 0,
-	INPUT_LIGHTPHASER		= 1,
-	INPUT_PADDLECONTROL		= 2,
-	INPUT_SPORTSPAD			= 3,
-	INPUT_TVOEKAKI			= 4,
-	INPUT_PERIPHERAL_MAX	= 5,
-};
+// Peripherals
+#define  INPUT_JOYPAD           (0)
+#define  INPUT_LIGHTPHASER      (1)
+#define  INPUT_PADDLECONTROL    (2)
+#define  INPUT_SPORTSPAD        (3)
+#define  INPUT_TVOEKAKI         (4)
+#define  INPUT_PERIPHERAL_MAX   (5)
 
 // Input Connection Possibilities ---------------------------------------------
 //
@@ -44,21 +30,21 @@ enum t_input_peripheral
 //-----------------------------------------------------------------------------
 
 // Input Sources Types
-enum t_input_src_type
+typedef enum
 {
     INPUT_SRC_TYPE_KEYBOARD = 0,
     INPUT_SRC_TYPE_JOYPAD   = 1,    // Digital only (yet)
     INPUT_SRC_TYPE_MOUSE    = 2,
-};
+} t_input_src_type;
 
 // Input Sources Flags
-enum t_input_src_flags
+typedef enum
 {
     INPUT_SRC_FLAGS_DIGITAL         = 0x0001,
     INPUT_SRC_FLAGS_EMULATE_DIGITAL = 0x0002,
     INPUT_SRC_FLAGS_ANALOG          = 0x0004,
     INPUT_SRC_FLAGS_EMULATE_ANALOG  = 0x0008,
-};
+} t_input_src_flags;
 
 // Players Definitions
 #define  PLAYER_NO      (-1)
@@ -66,22 +52,21 @@ enum t_input_src_flags
 #define  PLAYER_2       (1)
 #define  PLAYER_MAX     (2)
 
-// Input Mapping Types
-enum t_input_map_type
-{
-	INPUT_MAP_TYPE_KEY = 0,
-	INPUT_MAP_TYPE_JOY_BUTTON = 1,
-	INPUT_MAP_TYPE_JOY_AXIS = 2,
-	INPUT_MAP_TYPE_MOUSE_BUTTON = 3,
-	INPUT_MAP_TYPE_MOUSE_AXIS = 4,
-};
+// Input Mapping Types --------------------------------------------------------
+#define  INPUT_MAP_TYPE_KEY             (0)
+//-----------------------------------------------------------------------------
+#define  INPUT_MAP_TYPE_JOY_BUTTON      (0)
+#define  INPUT_MAP_TYPE_JOY_AXIS        (1)
+#define  INPUT_MAP_TYPE_JOY_AXIS_ANAL   (2)
+//-----------------------------------------------------------------------------
+#define  INPUT_MAP_TYPE_MOUSE_BUTTON    (0)
+#define  INPUT_MAP_TYPE_MOUSE_AXIS      (1)
+//-----------------------------------------------------------------------------
 
-#define INPUT_JOY_DEADZONE		(0.2f)			// -0.2f to 0.2f is neutral
-
-struct t_input_peripheral_info
+typedef struct
 {
-    const char*	name;
-};
+    char   *name;
+} t_input_peripheral_info;
 extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX];
 
 //-----------------------------------------------------------------------------
@@ -109,83 +94,87 @@ extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_
 // Axis Index Coding ----------------------------------------------------------
 // Joypad: 00000000.0000000d.ssssssss.aaaaaaaa (Direction, Stick, Axis)
 // Mouse:  00000000.00000000.00000000.aaaaaaaa (Axis)
-#define INPUT_MAP_UNPACK_AXIS(m)				(m & 0x0000FF)
-#define INPUT_MAP_UNPACK_STICK(m)				((m & 0x00FF00) >> 8)
-#define INPUT_MAP_UNPACK_DIR_LR(m)				(m & 0x010000)
-#define INPUT_MAP_PACK_AXIS(a)					(a)
-#define	INPUT_MAP_PACK_STICK_AXIS_DIR(s,a,d)    ((a & 0xFF) | ((s & 0xFF) << 8) | ((d & 0x01) << 16))
+#define      INPUT_MAP_GET_AXIS(m)         (m & 0x0000FF)
+#define      INPUT_MAP_GET_STICK(m)        ((m & 0x00FF00) >> 8)
+#define      INPUT_MAP_GET_DIR_LR(m)       (m & 0x010000)
+#define      MAKE_AXIS(a)                  (a)
+#define      MAKE_STICK_AXIS_DIR(s,a,d)    ((a & 0xFF) | ((s & 0xFF) << 8) | ((d & 0x01) << 16))
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_key_press
+typedef struct
 {
     int     scancode;
     int     ascii;
-};
+} t_key_press;
 
-struct t_input_map
+typedef struct
 {
-    t_input_map_type	type;						// Axis, Button, Wheel, etc..
-    int					idx;						// Index of Axis/Stick/Button/Wheel, etc..
-    int					current_value;              // Result, For buttons: 1 if pressed, for axis: contains value
-};
+    byte    Type;               // Axis, Button, Wheel, etc..
+    int     Idx;                // Index of Axis/Stick/Button/Wheel, etc..
+    int     Res;                // Result, For buttons: 1 if pressed, for axis: contains value
+} t_input_map;
 
-struct t_input_src
+typedef struct
 {
-    char *				name;                  
-    int					flags;						// enum t_input_src_flags // FIXME-ENUM               
+    char *              name;                  
+    t_input_src_flags   flags;                 
     t_input_src_type    type;
     bool                enabled;
-    int                 player;						// PLAYER_1 or PLAYER_2
+    int                 player;                 // PLAYER_1 or PLAYER_2
 
-    int					Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
-    float				Analog_to_Digital_FallOff;  // Default: 0.8f
-    bool				Connected_and_Ready;        // No/Yes
-    t_input_map			Map[INPUT_MAP_MAX];
-    int					Map_Counters[INPUT_MAP_MAX];
-};
+    byte            Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
+    float           Analog_to_Digital_FallOff;  // Default: 0.8f
+    byte            Connected_and_Ready;        // No/Yes
+    int             Driver;                     // Driver (NOW UNUSED)
+    t_input_map     Map[INPUT_MAP_MAX];
+    int             Map_Counters[INPUT_MAP_MAX];
+} t_input_src;
 
 // FIXME: yet unused
-struct t_peripheral_paddlecontrol
+typedef struct
 {
     u8              x;
-};
+} t_peripheral_paddlecontrol;
 
-struct t_inputs
+typedef struct
 {
-    char            FileName[FILENAME_LEN];        // Path to the MEKA.INP file
-	t_mouse_cursor	mouse_cursor;
+    char            FileName [FILENAME_LEN];        // Path to the MEKA.INP file
     // Emulation
-    t_input_peripheral	Peripheral[PLAYER_MAX];        // 2 inputs ports on emulated machines
+    byte            Peripheral [PLAYER_MAX];        // 2 inputs ports on emulated machines
     t_input_src **  Sources;
     int             Sources_Max;
-    int             SK1100_Enabled;					// Boolean. Set when SK-1100 enabled.
+    int             Sources_Joy_Driver;
+    int             Keyboard_Enabled;               // Boolean. Set when SK-1100 enabled.
     u8              Paddle_X [PLAYER_MAX];
     char            SportsPad_XY [PLAYER_MAX] [2];
     u8              SportsPad_Latch [PLAYER_MAX];
-   // Keyboard
+    // Mouse
+    int             MouseSpeed_X;                   // Mouse speed
+    int             MouseSpeed_Y;                   //
+    int             MouseMickeys_X;                 // Mouse movement in mickeys for this frame
+    int             MouseMickeys_Y;                 //
+    // Keyboard
     t_list *        KeyPressedQueue;                // Queued keypresses
     // GUI
-    bool            Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
-};
+    int             Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
+} t_inputs;
 
-extern t_inputs Inputs;
+t_inputs        Inputs;
 
-const char *    Inputs_Get_MapName(int Type, int MapIdx);
-void            Inputs_Peripheral_Next(int Player);
-int             Inputs_Peripheral_Result_Type(int Periph);
-void            Inputs_Peripheral_Change_Update(void);
+char *          Inputs_Get_MapName (int Type, int MapIdx);
+void            Inputs_Peripheral_Next (int Player);
+int             Inputs_Peripheral_Result_Type (int Periph);
+void            Inputs_Peripheral_Change_Update (void);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 void    Input_ROM_Change            (void);
-
-void    Inputs_SetMouseCursor		(t_mouse_cursor mouse_cursor);
 
 void    Inputs_Check_GUI            (bool sk1100_pressed);
 
@@ -196,8 +185,8 @@ void    Inputs_Switch_PaddleControl (void);
 void    Inputs_Switch_SportsPad     (void);
 void    Inputs_Switch_TVOekaki      (void);
 
-u8		Input_Port_DC               (void);
-u8		Input_Port_DD               (void);
+byte    Input_Port_DC               (void);
+byte    Input_Port_DD               (void);
 
 //-----------------------------------------------------------------------------
 

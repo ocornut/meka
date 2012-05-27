@@ -1523,6 +1523,3 @@ _tripline2		resb 8
 _tripline3		resb 8
 _dlx			resb 32
 
-%ifidn __OUTPUT_FORMAT__,elf
-section .note.GNU-stack noalloc noexec nowrite progbits
-%endif

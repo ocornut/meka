@@ -13,11 +13,11 @@
 // Data
 //-----------------------------------------------------------------------------
 
-extern ALLEGRO_COLOR Palette_Emulation[PALETTE_EMU_GAME_SIZE];
-extern u32			 Palette_EmulationToHostGui[PALETTE_EMU_GAME_SIZE];
-extern u16			 Palette_EmulationToHostGame[PALETTE_EMU_GAME_SIZE];
-extern int			 Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
-extern bool			 Palette_EmulationDirtyAny;
+extern RGB      Palette_Emulation[PALETTE_EMU_GAME_SIZE];
+extern int      Palette_EmulationToHost[PALETTE_EMU_GAME_SIZE];
+extern int      Palette_EmulationToHost16[PALETTE_EMU_GAME_SIZE];
+extern int      Palette_EmulationFlags[PALETTE_EMU_GAME_SIZE];
+extern bool     Palette_EmulationDirtyAny;
 
 typedef enum
 {
@@ -34,13 +34,10 @@ void    Palette_UpdateAfterRedraw();
 
 void    Palette_Emulation_Reset();
 void    Palette_Emulation_Reload();
-void    Palette_Emulation_SetColor(int idx, ALLEGRO_COLOR color);
+void    Palette_Emulation_SetColor(int idx, RGB color);
 
-void    Palette_Compute_RGB_SMS (ALLEGRO_COLOR *color, int i);
-void    Palette_Compute_RGB_GG  (ALLEGRO_COLOR *color, int i);
-
-u32		Palette_MakeHostColor(int format, int r, int g, int b);
-u32		Palette_MakeHostColor(int format, ALLEGRO_COLOR color);
+void    Palette_Compute_RGB_SMS (RGB *color, int i);
+void    Palette_Compute_RGB_GG  (RGB *color, int i);
 
 //-----------------------------------------------------------------------------
 

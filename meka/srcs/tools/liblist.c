@@ -1,14 +1,20 @@
 //
 // Linked List Library
-// 1999-2001
+// Omar Cornut, 1999-2001
 //
 
-#include "shared.h"
 #include "liblist.h"
+
+void *  malloc(int);
+void    free(void *);
+
+// LIST_ADD.C ---------------------------------------------------------------
 
 void		list_add(t_list **list, void *elem)
 {
-    t_list* item = (t_list*)malloc(sizeof (t_list));
+    t_list *    item;
+
+    item = malloc(sizeof (t_list));
     item->elem = elem;
     item->next = *list;
     *list = item;
@@ -16,7 +22,9 @@ void		list_add(t_list **list, void *elem)
 
 void		list_add_to_end(t_list **list, void *elem)
 {
-    t_list* item = (t_list*)malloc(sizeof (t_list));
+    t_list *      item;
+
+    item = malloc(sizeof (t_list));
     item->elem = elem;
     item->next = 0;
     if (*list == 0)
@@ -34,32 +42,39 @@ void		list_add_to_end(t_list **list, void *elem)
     }
 }
 
+// LIST_FREE.C --------------------------------------------------------------
+
 void		list_free(t_list **list)
 {
-	while (*list)
-	{
-		t_list* next = (*list)->next;
-		free((*list)->elem);
-		free(*list);
-		*list = next;
-	}
+  t_list	*next;
+
+  while (*list)
+    {
+      next = (*list)->next;
+      free((*list)->elem);
+      free(*list);
+      *list = next;
+    }
 }
 
 void		list_free_no_elem(t_list **list)
 {
-	while (*list)
-	{
-		t_list* next = (*list)->next;
-		free(*list);
-		*list = next;
-	}
+  t_list	*next;
+  while (*list)
+    {
+      next = (*list)->next;
+      free(*list);
+      *list = next;
+    }
 }
 
-void            list_free_custom(t_list **list, void (*custom_free)(void *))
+void            list_free_custom(t_list **list, void (*custom_free)())
 {
+    t_list	*next;
+
     while (*list)
     {
-        t_list* next = (*list)->next;
+        next = (*list)->next;
         if (custom_free != 0)
         {
             void *elem = (*list)->elem;
@@ -74,13 +89,17 @@ void            list_free_custom(t_list **list, void (*custom_free)(void *))
 
 void            list_remove(t_list **list, void *elem)
 {
-    t_list* elem_prev = 0;
-    t_list* save = *list;
+    t_list        *elem_prev;
+    t_list        *save;
+    t_list        *tmp;
+
+    elem_prev = 0;
+    save = *list;
     while (*list)
     {
         if ((*list)->elem == elem)
         {
-            t_list* tmp = *list;
+            tmp = *list;
             *list = (*list)->next;
             free(tmp);
             if (!elem_prev)
@@ -96,14 +115,17 @@ void            list_remove(t_list **list, void *elem)
 
 // LIST_REVERSE.C -----------------------------------------------------------
 
-void	list_reverse(t_list **list)
+void		list_reverse(t_list **list)
 {
+    t_list	*src;
+    t_list	*dest;
+
     if (*list == 0)
         return;
-    t_list* src = 0;
+    src = 0;
     while ((*list)->next)
     {
-        t_list* dest = (*list)->next;
+        dest = (*list)->next;
         (*list)->next = src;
         src = *list;
         *list = dest;
@@ -111,9 +133,13 @@ void	list_reverse(t_list **list)
     (*list)->next = src;
 }
 
-int		list_size(const t_list *list)
+// LIST_SIZE.C --------------------------------------------------------------
+
+int	list_size(t_list *list)
 {
-    int cnt = 0;
+    int	cnt;
+
+    cnt = 0;
     while (list)
     {
         cnt++;
@@ -122,37 +148,48 @@ int		list_size(const t_list *list)
     return (cnt);
 }
 
-void	list_sort(t_list **list, int (*fct)(void *elem1, void *elem2))
+// LIST_SORT.C --------------------------------------------------------------
+
+void		list_sort(t_list **list, int (*fct)(void *elem1, void *elem2))
 {
-	t_list* i = *list;
-	while (i)
+  t_list	*i;
+  t_list	*j;
+  t_list	*temp;
+
+  i = *list;
+  while (i)
+    {
+      j = i->next;
+      while (j)
 	{
-		t_list* j = i->next;
-		while (j)
-		{
-			if (fct(i->elem, j->elem) >= 0)
-			{
-				void* temp = i->elem;
-				i->elem = j->elem;
-				j->elem = temp;
-			}
-			j = j->next;
-		}
-		i = i->next;
+	  if (fct(i->elem, j->elem) >= 0)
+	    {
+	      temp = i->elem;
+	      i->elem = j->elem;
+	      j->elem = temp;
+	    }
+	  j = j->next;
 	}
+      i = i->next;
+    }
 }
 
-void	*list_to_table(const t_list *list)
+// LIST_TO_TAB.C ------------------------------------------------------------
+
+void	*list_to_tab(t_list *list)
 {
-	int size = list_size(list);
-	void** table = (void**)malloc(sizeof (void *) * (size + 1));
-	int i;
-	for (i = 0; i < size; i++)
-	{
-		table[i] = list->elem;
-		list = list->next;
-	}
-	table[i] = 0;
-	return (table);
+  int	i;
+  void	**table;
+  int	size;
+
+  size = list_size(list);
+  table = malloc(sizeof (void *) * (size + 1));
+  for (i = 0; i < size; i++)
+    {
+      table[i] = list->elem;
+      list = list->next;
+    }
+  table[i] = 0;
+  return (table);
 }
 

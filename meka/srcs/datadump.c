@@ -8,18 +8,6 @@
 #include "datadump.h"
 
 //-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_data_dump DataDump;
-
-//-----------------------------------------------------------------------------
-// Types
-//-----------------------------------------------------------------------------
-
-typedef int (*t_data_dump_handler_ascii)(FILE *f_dump, int pos, u8 const *data, int len, int start_addr);
-
-//-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
@@ -38,18 +26,18 @@ void    DataDump_Init (void)
 //-----------------------------------------------------------------------------
 void    DataDump_Init_Menus (int menu_id)
 {
-    menu_add_item (menu_id, "RAM",           AM_Active, (t_menu_callback)DataDump_RAM,			NULL);
-    menu_add_item (menu_id, "VRAM",          AM_Active, (t_menu_callback)DataDump_VRAM,			NULL);
-    menu_add_item (menu_id, "Palette",       AM_Active, (t_menu_callback)DataDump_Palette,		NULL);
-    menu_add_item (menu_id, "Sprites",       AM_Active, (t_menu_callback)DataDump_Sprites,		NULL);
-    //menu_add_item (menu_id, "BG/FG Map",   0,         (t_menu_callback)DataDump_BgFgMap,		NULL);
-    menu_add_item (menu_id, "CPU Regs",      AM_Active, (t_menu_callback)DataDump_CPURegs,		NULL);
-    menu_add_item (menu_id, "VDP Regs",      AM_Active, (t_menu_callback)DataDump_VRegs,			NULL);
-    menu_add_item (menu_id, "OnBoardMemory", AM_Active, (t_menu_callback)DataDump_OnBoardMemory,	NULL);
+    menu_add_item (menu_id, "RAM",           AM_Active, DataDump_RAM,			NULL);
+    menu_add_item (menu_id, "VRAM",          AM_Active, DataDump_VRAM,			NULL);
+    menu_add_item (menu_id, "Palette",       AM_Active, DataDump_Palette,		NULL);
+    menu_add_item (menu_id, "Sprites",       AM_Active, DataDump_Sprites,		NULL);
+    //menu_add_item (menu_id, "BG/FG Map",     0,         DataDump_BgFgMap,		NULL);
+    menu_add_item (menu_id, "CPU Regs",      AM_Active, DataDump_CPURegs,		NULL);
+    menu_add_item (menu_id, "VDP Regs",      AM_Active, DataDump_VRegs,			NULL);
+    menu_add_item (menu_id, "OnBoardMemory", AM_Active, DataDump_OnBoardMemory,	NULL);
 
     menus_ID.dump_cfg = menu_add_menu (menu_id, "Configuration",   AM_Active);
-    menu_add_item (menus_ID.dump_cfg, "ASCII",  AM_Active | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? AM_Checked : 0), (t_menu_callback)DataDump_Mode_Ascii,		NULL);
-    menu_add_item (menus_ID.dump_cfg, "Raw",    AM_Active | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? AM_Checked : 0), (t_menu_callback)DataDump_Mode_Raw,		NULL);
+    menu_add_item (menus_ID.dump_cfg, "ASCII",  AM_Active | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? AM_Checked : 0), DataDump_Mode_Ascii,		NULL);
+    menu_add_item (menus_ID.dump_cfg, "Raw",    AM_Active | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? AM_Checked : 0), DataDump_Mode_Raw,		NULL);
 }
 
 //-----------------------------------------------------------------------------
@@ -84,9 +72,9 @@ void    DataDump_Mode_Raw (void)
 
 static void     DataDump_Write_Filename (char *s, const char *name)
 {
-    if (!al_filename_exists (g_env.Paths.DebugDirectory))
-        al_make_directory (g_env.Paths.DebugDirectory);
-    sprintf (s, "%s/%s", g_env.Paths.DebugDirectory, name);
+    if (!file_exists (g_Env.Paths.DebugDirectory, 0xFF, NULL))
+        meka_mkdir (g_Env.Paths.DebugDirectory);
+    sprintf (s, "%s/%s", g_Env.Paths.DebugDirectory, name);
 }
 
 static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
@@ -113,7 +101,7 @@ static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
         "Raw");
 }
 
-static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, int start_addr, t_data_dump_handler_ascii func)
+static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, int start_addr, int (*func)())
 {
     int         i;
     FILE *      f_dump;
@@ -129,14 +117,14 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
     // Print a header
     fprintf(f_dump, MEKA_NAME_VERSION "\n");
     fprintf(f_dump, "** %s dump\n", name);
-    fprintf(f_dump, "** File: %s\n", g_env.Paths.MediaImageFile);
+    fprintf(f_dump, "** File: %s\n", g_Env.Paths.MediaImageFile);
     // Note: meka_date_getf() return a string with an ending \n
     fprintf(f_dump, "** Date: %s\n", meka_date_getf());
 
     // Dumping
     i = 0;
     while (i < len)
-        i = func(f_dump, i, data, len, start_addr);
+        i = func (f_dump, i, data, len, start_addr);
 
     // Close file & print a message
     fclose (f_dump);
@@ -239,7 +227,7 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
 {
     char    bitfields[2][9];
 
-    switch (g_machine.driver_id)
+    switch (cur_machine.driver_id)
     {
     case DRV_SMS:
         {
@@ -275,10 +263,10 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
 		if (pos == 0)
 		{
 			fprintf (f_dump,
-				"Sprite pattern base: $%04X\n"
+				"Sprite pattern base: $%04x\n"
 				"Sprite shift X (early clock): %d pixels\n\n",
-				(int)(g_machine.VDP.sprite_pattern_gen_address - VRAM),
-				g_machine.VDP.sprite_shift_x);
+				cur_machine.VDP.sprite_pattern_base_address - VRAM,
+				cur_machine.VDP.sprite_shift_x);
 			fprintf (f_dump,
 				"            Raw Data      |    X     Y     T     ?\n"
 				"---------- --------------- ------------------------\n");
@@ -293,8 +281,8 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
         if (pos == 0)
 		{
 			fprintf (f_dump,
-				"Sprite pattern base: $%04X\n\n",
-				(int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
+				"Sprite pattern base: $%04x\n\n",
+				cur_machine.VDP.sprite_pattern_base_address - VRAM);
 			fprintf (f_dump,
 				"            Raw Data    |    X     Y     T    C/A\n"
 				"----------- ------------ ------------------------\n");
@@ -345,7 +333,7 @@ void        DataDump_Palette (void)
 {
     int     len;
 
-    switch (g_machine.driver_id)
+    switch (cur_machine.driver_id)
     {
     case DRV_SMS:      len = 32;       break;
     case DRV_GG:       len = 64;       break;
@@ -385,9 +373,9 @@ void    DataDump_Sprites (void)
     }
 
     if (DataDump.Mode == DATADUMP_MODE_RAW)
-        DataDump_Main_Raw   ("Sprites", g_machine.VDP.sprite_attribute_table, n_sprites * 4);
+        DataDump_Main_Raw   ("Sprites", sprite_attribute_table, n_sprites * 4);
     else
-        DataDump_Main_Ascii ("Sprites", g_machine.VDP.sprite_attribute_table, n_sprites * 4, /* Unused */ 0, DataDump_Handler_Ascii_Sprite);
+        DataDump_Main_Ascii ("Sprites", sprite_attribute_table, n_sprites * 4, /* Unused */ 0, DataDump_Handler_Ascii_Sprite);
 }
 
 //-----------------------------------------------------------------------------
@@ -435,9 +423,9 @@ void        DataDump_OnBoardMemory (void)
         return;
     }
     if (DataDump.Mode == DATADUMP_MODE_RAW)
-        DataDump_Main_Raw   ("OBMem", (u8*)data, len);
+        DataDump_Main_Raw   ("OBMem", data, len);
     else
-        DataDump_Main_Ascii ("OBMem", (u8*)data, len, 0, DataDump_Handler_Ascii_Standard);
+        DataDump_Main_Ascii ("OBMem", data, len, 0, DataDump_Handler_Ascii_Standard);
 }
 
 //-----------------------------------------------------------------------------

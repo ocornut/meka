@@ -9,53 +9,43 @@
 #include "fskipper.h"
 
 //-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
 
-t_gui_status_bar	g_gui_status;
-t_gui_menus_id		menus_ID;
-gui_type_menus_opt	menus_opt;
-t_menu *		menus[MAX_MENUS];
-
-//-----------------------------------------------------------------------------
-// Functions
-//-----------------------------------------------------------------------------
-
+// REDRAW MENU AND STATUS BARS ------------------------------------------------
 void        gui_redraw_bars (void)
 {
-    // Redraw status bar
-	al_set_target_bitmap(gui_buffer);
-    al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height,     g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
-    al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
+    char    s[16];
+
+    // Redraw status bar ------------------------------------------------------
+    rectfill (gui_buffer, 0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height,     g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    rectfill (gui_buffer, 0, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_Configuration.video_mode_gui_res_x, g_Configuration.video_mode_gui_res_y - gui.info.bars_height - 1, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
     Font_SetCurrent (F_LARGE);
 
     // Show status bar message
-    if (g_gui_status.timeleft)
+    if (gui_status.timeleft)
     {
-        Font_Print(F_CURRENT, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
-        g_gui_status.timeleft --;
+        Font_Print (-1, gui_buffer, gui_status.message, gui_status.x, g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        gui_status.timeleft --;
     }
 
     // Show FPS counter
     if (fskipper.FPS_Display)
     {
-	    char s[16];
-        sprintf (s, "%.1f FPS", fskipper.FPS);
-        Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        sprintf (s, "%d FPS", fskipper.FPS);
+        Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 100 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
-    char s[16];
-    meka_time_getf(s);
-    Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    meka_time_getf (s);
+    Font_Print (-1, gui_buffer, s, g_Configuration.video_mode_gui_res_x - 10 - Font_TextLength (-1, s), g_Configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
+// UPDATE ALL MENUS -----------------------------------------------------------
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
 {
     int            i;
     int            x1, y1, x2, y2;
-    t_menu * menu = menus[n_menu];
+    gui_type_menu * menu = menus[n_menu];
 
     //if ((gui_mouse.pressed_on != PRESSED_ON_NOTHING) && (gui_mouse.pressed_on != PRESSED_ON_MENUS))
     // FIXME-FOCUS
@@ -66,17 +56,18 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
 
     menu->generation = generation;
 
+    // Update each menus ---------------------------------------------------------
     for (i = 0; i < menu->n_entry; i ++)
     {
-        t_menu_item *menu_entry = menu->entry[i];
-        if (!(menu_entry->flags & AM_Active))
+        gui_type_menu_entry *menu_entry = menu->entry[i];
+        if (!(menu_entry->attr & AM_Active))
         {
             continue;
         }
         gui_menu_return_entry_pos (n_menu, i, &x1, &y1, &x2, &y2);
 
         // ---
-        if (gui_is_mouse_hovering_area(x1, y1, x2, y2))
+        if (gui_mouse_area (x1, y1, x2, y2))
         {
             if ((!gui.mouse.buttons) && (gui.mouse.buttons_prev & 1))
             {
@@ -93,7 +84,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                     gui_menu_un_mouse_over (menus_ID.menu);
 
                     // Call event handler
-                    menu_entry->callback(&event);
+                    menu_entry->event_handler(&event);
                 }
             }
             if (gui.mouse.buttons & 1)
@@ -102,16 +93,16 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                 {
                     if (menus_opt.c_generation > generation)
                     {
-                        menu_entry->mouse_over = false;
+                        menu_entry->mouse_over = 0;
                     }
                     menus_opt.c_menu = n_menu;
                     menus_opt.c_entry = i;
                     menus_opt.c_somewhere = 1;
                     menus_opt.c_generation = generation;
-                    if (menu_entry->mouse_over == false)
+                    if (menu_entry->mouse_over == 0)
                     {
                         gui_menu_un_mouse_over (n_menu);
-                        menu_entry->mouse_over = true;
+                        menu_entry->mouse_over = 1;
                     }
                     else
                     {
@@ -119,7 +110,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                         {
                             gui_menu_un_mouse_over (menu->entry[i]->submenu_id);
                         }
-                        menu_entry->mouse_over = false;
+                        menu_entry->mouse_over = 0;
                         gui.info.must_redraw = TRUE;
                     }
 
@@ -141,33 +132,33 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
     }
 }
 
+// REDRAW A MENU AND HIS CHILDREN ---------------------------------------------
 void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 {
     int            i;
     int            x, y;
-    ALLEGRO_COLOR  color;
-    t_menu  *menu = menus [n_menu];
+    int            color, ln;
+    gui_type_menu  *menu = menus [n_menu];
 
     Font_SetCurrent (GUI_MENUS_FONT);
 
     if (n_menu == MENU_ID_MAIN) // Main menu (horizontal) ------------------------
     {
         // Draw menu background
-		al_set_target_bitmap(gui_buffer);
-        al_draw_filled_rectangle(0, 0, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
-        al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
+        rectfill (gui_buffer, 0, 0, g_Configuration.video_mode_gui_res_x, gui.info.bars_height, COLOR_SKIN_MENU_BACKGROUND);
+        rectfill (gui_buffer, 0, gui.info.bars_height + 1, g_Configuration.video_mode_gui_res_x, gui.info.bars_height + 2, COLOR_SKIN_MENU_BORDER);
 
         // Draw menu entrys
         x = menus_opt.distance;
         y = 3;
         for (i = 0; i < menu->n_entry; i ++)
         {
-            const int ln = Font_TextLength(F_CURRENT, menu->entry[i]->label);
-            if (x + ln > g_configuration.video_mode_gui_res_x)
+            ln = Font_TextLength (-1, menu->entry[i]->label);
+            if (x + ln > g_Configuration.video_mode_gui_res_x)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & AM_Active))
+            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->attr & AM_Active))
             {
                 gui_menu_highlight (n_menu, i);
                 if (menu->entry[i]->type == ITEM_SUB_MENU)
@@ -175,7 +166,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
                     gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
                 }
             }
-            if (menu->entry[i]->flags & AM_Active)
+            if (menu->entry[i]->attr & AM_Active)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -183,7 +174,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
             }
-            Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
+            Font_Print (-1, gui_buffer, menu->entry[i]->label, x, y, color);
             x += ln + menus_opt.distance;
         }
     }
@@ -191,15 +182,14 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     {
         // Miscellaneous
         // gui.info.must_redraw = TRUE;
-        const int ln = Font_Height();
-        gui_menu_return_children_pos(n_parent, n_parent_entry, &menu->sx, &menu->sy);
+        ln = Font_Height (-1);
+        gui_menu_return_children_pos (n_parent, n_parent_entry, &menu->sx, &menu->sy);
 
         // DRAW MENU BORDER -------------------------------------------------------
         // rectfill (gui_buffer, menu->sx - 2, menu->sy - 2, menu->sx + menu->lx + 2, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
         // rect (gui_buffer, menu->sx - 1, menu->sy - 1, menu->sx + menu->lx + 1, menu->sy + menu->ly + 1, COLOR_SKIN_MENU_BORDER);
-		al_set_target_bitmap(gui_buffer);
-        al_draw_rectangle(menu->sx - 1.5f, menu->sy - 0.5f, menu->sx + menu->lx + 2.5f, menu->sy + menu->ly + 1.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
-        al_draw_rectangle(menu->sx - 0.5f, menu->sy - 1.5f, menu->sx + menu->lx + 1.5f, menu->sy + menu->ly + 2.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
+        rect (gui_buffer, menu->sx - 2, menu->sy - 1, menu->sx + menu->lx + 2, menu->sy + menu->ly + 1, COLOR_SKIN_MENU_BORDER);
+        rect (gui_buffer, menu->sx - 1, menu->sy - 2, menu->sx + menu->lx + 1, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
 
         // DRAW MENU BACKGROUND WITH/WITHOUT GRADIENTS ----------------------------
         {
@@ -221,11 +211,11 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         y = menu->sy + MENUS_PADDING_Y;
         for (i = 0; i < menu->n_entry; i ++)
         {
-            if (y + ln > g_configuration.video_mode_gui_res_y)
+            if (y + ln > g_Configuration.video_mode_gui_res_y)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & AM_Active))
+            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->attr & AM_Active))
             {
                 gui_menu_highlight (n_menu, i);
                 if (menu->entry[i]->type == ITEM_SUB_MENU)
@@ -233,7 +223,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
                     gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
                 }
             }
-            if (menu->entry[i]->flags & AM_Active)
+            if (menu->entry[i]->attr & AM_Active)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -241,16 +231,16 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
             }
-            Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
+            Font_Print (-1, gui_buffer, menu->entry[i]->label, x, y, color);
             switch (menu->entry[i]->type)
             {
             case ITEM_SUB_MENU:
-                Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
+                Font_Print (-1, gui_buffer, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
                 break;
             case ITEM_EXECUTE:
-                if (menu->entry[i]->flags & AM_Checked)
+                if (menu->entry[i]->attr & AM_Checked)
                 {
-                    Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
+                    Font_Print (-1, gui_buffer, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
                 }
                 break;
             }
@@ -259,11 +249,10 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     }
 }
 
+// REDRAW ALL MENUS -----------------------------------------------------------
 void    gui_redraw_menus (void)
 {
     gui_redraw_bars ();
-
-	// initial panning animation
     if (menus_opt.distance > MENUS_DISTANCE)
     {
         menus_opt.distance -= 14;
@@ -271,10 +260,10 @@ void    gui_redraw_menus (void)
             menus_opt.distance = MENUS_DISTANCE;
         gui.info.must_redraw = TRUE;
     }
-
     gui_draw_menu (menus_ID.menu, -1, -1);
 }
 
+// UPDATE ALL MENUS -----------------------------------------------------------
 void    gui_update_menus (void)
 {
     menus_opt.c_somewhere = 0;

@@ -9,26 +9,21 @@
 #include "fskipper.h"
 #include "palette.h"
 #include "vdp.h"
-#include "video_c.h"
 #include "video_m5.h"
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
-static u16*	GFX_LineRegionData = NULL;
+static u16 *    GFX_Line16;
 
-extern "C"
-{
-int			Sprite_Last;
-int			Sprites_on_Line;
-int			Do_Collision;
+       int      Sprites_on_Line;
+       int      Do_Collision;
+static byte     Sprites_Draw_Mask [SMS_RES_X + 16];
 
-#define     Sprites_Collision_Table_Len (SMS_RES_X + 32)
-int         Sprites_Collision_Table_Start[Sprites_Collision_Table_Len + 32];
-int *       Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
-}
-static byte Sprites_Draw_Mask [SMS_RES_X + 16];
+#define         Sprites_Collision_Table_Len (SMS_RES_X + 32)
+int             Sprites_Collision_Table_Start[Sprites_Collision_Table_Len + 32];
+int *           Sprites_Collision_Table = Sprites_Collision_Table_Start + 16;
 
 //-----------------------------------------------------------------------------
 // Color configuration
@@ -37,23 +32,21 @@ static byte Sprites_Draw_Mask [SMS_RES_X + 16];
 //-----------------------------------------------------------------------------
 
 #define PIXEL_TYPE              u16
-#define PIXEL_LINE_DST          GFX_LineRegionData
-#define PIXEL_PALETTE_TABLE     Palette_EmulationToHostGame
+#define PIXEL_LINE_DST          GFX_Line16
+#define PIXEL_PALETTE_TABLE     Palette_EmulationToHost16
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
 // Note: this is used by tools only (not actual emulation refresh)
-void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
+void    VDP_Mode4_DrawTile(BITMAP *dst, const u8 *pixels, const int *palette_host, int x, int y, int flip)
 {
-	const int color_format = al_get_bitmap_format(dst);
-    switch (al_get_pixel_format_bits(color_format))
+    // FIXME-DEPTH
+    switch (dst->vtable->color_depth)
     {
     case 16:
         {
-			u16* dst_data = (u16*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 1;
             int i;
             if (flip & 0x0400)
             {
@@ -63,7 +56,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0600 : HV Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u16 *dst8 = (u16 *)dst->line[y] + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -80,7 +73,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0400 : V flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u16 *dst8 = (u16 *)dst->line[y] + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -100,7 +93,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0200 : H Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u16 *dst8 = (u16 *)dst->line[y] + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -117,7 +110,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0000 : No flip
                     for (i = 0; i != 8; i++)
                     {
-                        u16 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u16 *dst8 = (u16 *)dst->line[y] + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -134,8 +127,6 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
         }
     case 32:
         {
-			u32* dst_data = (u32*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 2;
             int i;
             if (flip & 0x0400)
             {
@@ -145,7 +136,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0600 : HV Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u32 *dst8 = (u32 *)dst->line[y] + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -162,7 +153,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0400 : V flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u32 *dst8 = (u32 *)dst->line[y] + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -182,7 +173,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0200 : H Flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u32 *dst8 = (u32 *)dst->line[y] + x;
                         dst8[7] = palette_host[*pixels++];
                         dst8[6] = palette_host[*pixels++];
                         dst8[5] = palette_host[*pixels++];
@@ -199,7 +190,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
                     // 0x0000 : No flip
                     for (i = 0; i != 8; i++)
                     {
-                        u32 *dst8 = dst_data + (dst_pitch*y) + x;
+                        u32 *dst8 = (u32 *)dst->line[y] + x;
                         dst8[0] = palette_host[*pixels++];
                         dst8[1] = palette_host[*pixels++];
                         dst8[2] = palette_host[*pixels++];
@@ -215,39 +206,38 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
             break;
         }
     default:
-		Msg(MSGT_USER, "video_m5: Unsupported color format: %d.", color_format);
+        assert(0);
+        Msg(MSGT_USER, "TileViewer: unsupported color depth!");
         break;
     }
+
 }
 
+// REDRAW A SCREEN LINE -------------------------------------------------------
 void    Refresh_Line_5 (void)
 {
 	// Point to current video line
-	GFX_LineRegionData = (u16*)( (u8*)g_screenbuffer_locked_region->data + g_screenbuffer_locked_region->pitch * tsms.VDP_Line );
+	GFX_Line16 = (u16 *)screenbuffer->line[tsms.VDP_Line];
 
 	if (fskipper.Show_Current_Frame == TRUE)
 	{
         // Scroll lock, update in X latch table (for tilemap viewer)
         if (Top_No_Scroll && tsms.VDP_Line < 16)
-            g_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = 0;
+            cur_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = 0;
 
         // Display Background & Foreground
 		if ((opt.Layer_Mask & LAYER_BACKGROUND) && Display_ON)
 		{
-			Display_BackGround_Line_5();
+			Display_BackGround_Line_5 ();
 		}
 		else
 		{
 			// Display is off
 			// Select SMS/GG backdrop color, unless background layer display was disabled by user, then use custom color for easier sprite extraction
-			u16 backdrop_color;
-			if (opt.Layer_Mask & LAYER_BACKGROUND)
-				backdrop_color = Palette_EmulationToHostGame[16 | (sms.VDP[7] & 15)];
-			else
-				backdrop_color = Palette_MakeHostColor(g_screenbuffer_format, COLOR_DEBUG_BACKDROP);
-
-			u16 *p = GFX_LineRegionData;
-			for (int n = 256; n != 0; n--)
+			const u16 backdrop_color = (opt.Layer_Mask & LAYER_BACKGROUND) ? Palette_EmulationToHost16[16 | (sms.VDP[7] & 15)] : makecol16(222,222,101);
+			int n;
+			u16 *p = GFX_Line16;
+			for (n = 256; n != 0; n--)
 				*p++ = backdrop_color;
 
 			// Clear sprite draw mask, so that all sprite will be displayed
@@ -260,16 +250,14 @@ void    Refresh_Line_5 (void)
 		if (Mask_Left_8)
 		{
 			// FIXME-BORDER
-			const u16 color_black = COLOR_BLACK16;
-			u16* p = GFX_LineRegionData;
-			p[0] = color_black;
-			p[1] = color_black;
-			p[2] = color_black;
-			p[3] = color_black;
-			p[4] = color_black;
-			p[5] = color_black;
-			p[6] = color_black;
-			p[7] = color_black;
+			GFX_Line16[0] = COLOR_BLACK;
+			GFX_Line16[1] = COLOR_BLACK;
+			GFX_Line16[2] = COLOR_BLACK;
+			GFX_Line16[3] = COLOR_BLACK;
+			GFX_Line16[4] = COLOR_BLACK;
+			GFX_Line16[5] = COLOR_BLACK;
+			GFX_Line16[6] = COLOR_BLACK;
+			GFX_Line16[7] = COLOR_BLACK;
 		}
 	}
 	else
@@ -280,18 +268,24 @@ void    Refresh_Line_5 (void)
 }
 
 // DISPLAY A BACKGROUND LINE --------------------------------------------------
-void    Display_BackGround_Line_5(void)
+void    Display_BackGround_Line_5_C (void)
 {
+    PIXEL_TYPE *dst_buf;
+    u8 *        src_map;
+    u8 *        sprite_mask;
+    int         x, x_scroll, x_ignore_vscroll, y;
+    int         tile_x, tile_line;
+
     // X scrolling computations
-    int x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : g_machine.VDP.scroll_x_latched;
-    int x = x_scroll & 7;  // x = x_scroll % 8
+    x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : cur_machine.VDP.scroll_x_latched;
+    x = x_scroll & 7;  // x = x_scroll % 8
     x_scroll >>= 3;    // x_scroll /= 8
     if (x_scroll == 0)
         x_scroll = 32;
 
     // Set destination address
-    PIXEL_TYPE* dst_buf = PIXEL_LINE_DST;
-    u8* sprite_mask = Sprites_Draw_Mask;
+    dst_buf = PIXEL_LINE_DST;
+    sprite_mask = Sprites_Draw_Mask;
 
     // Fill first 'non existents' pixels
     // (see SMS "Scrolling Test" for exemple of this)
@@ -306,8 +300,9 @@ void    Display_BackGround_Line_5(void)
         }
         else
         {
-            const PIXEL_TYPE color = PIXEL_PALETTE_TABLE[0];
-            for (int i = x; i != 0; i--)
+            PIXEL_TYPE color = PIXEL_PALETTE_TABLE[0];
+            int i;
+            for (i = x; i != 0; i--)
             {
                 *dst_buf++ = color;
                 *sprite_mask++ = 0;
@@ -316,7 +311,7 @@ void    Display_BackGround_Line_5(void)
     }
 
     // Y scrolling computations
-    int y = tsms.VDP_Line + g_machine.VDP.scroll_y_latched;
+    y = tsms.VDP_Line + cur_machine.VDP.scroll_y_latched;
     if (Wide_Screen_28)
     {
         y &= 255; // y %= 256, Wrap at 256
@@ -328,35 +323,40 @@ void    Display_BackGround_Line_5(void)
     }
 
     // Bit 0 of Register 2 act as a mask on the 315-5124
-    if (g_machine.VDP.model == VDP_MODEL_315_5124)
+    if (cur_machine.VDP.model == VDP_MODEL_315_5124)
         if ((sms.VDP[2] & 1) == 0)
             y &= 127;
 
     // Calculate source address & line in tile
-    const u8* src_map = g_machine.VDP.name_table_address + ((y & 0xFFFFFFF8) * 8) + (2 * (32 - x_scroll));
-    int tile_line = (y & 0x07) * 8;
+    src_map = BACK_AREA + ((y & 0xFFFFFFF8) * 8) + (2 * (32 - x_scroll));
+    tile_line = (y & 0x07) * 8;
 
     // Calculate position where vertical scrolling will be ignored
-    const int x_ignore_vscroll = (Right_No_Scroll) ? 23 : -1;
+    x_ignore_vscroll = (Right_No_Scroll) ? 23 : -1;
 
     // Drawing loop
-    int tile_x = 0;
+    tile_x = 0;
     while (tile_x < 32)
     {
         // Part of Horizontal Line not refreshed in Game Gear mode
-        if ((g_driver->id != DRV_GG) || ((tile_x > 4) && (tile_x < 26)))
+        if ((cur_drv->id != DRV_GG) || ((tile_x > 4) && (tile_x < 26)))
         {
+            int      tile_n;
+            u8       tile_attr;
+            int *    tile_palette;
+            u8 *     tile_pixels;
+
             // Draw tile line
-            const u8 tile_attr = src_map[1];
-            const int tile_n = *((u16 *)src_map) & 511;
+            tile_attr = src_map[1];
+            tile_n = *((u16 *)src_map) & 511;
             if (tgfx.Tile_Dirty [tile_n] & TILE_DIRTY_DECODE)
             {
                 Decode_Tile(tile_n);
                 tgfx.Tile_Dirty [tile_n] = TILE_DIRTY_REDRAW;
             }
 
-            const u16* tile_palette = (tile_attr & 0x08) ? &PIXEL_PALETTE_TABLE[16] : &PIXEL_PALETTE_TABLE[0];
-            const u8* tile_pixels = tgfx.Tile_Decoded[tile_n] + ((tile_attr & 0x04) ? (7 * 8) - tile_line : tile_line);
+            tile_palette = (tile_attr & 0x08) ? &PIXEL_PALETTE_TABLE[16] : &PIXEL_PALETTE_TABLE[0];
+            tile_pixels = tgfx.Tile_Decoded[tile_n] + ((tile_attr & 0x04) ? (7 * 8) - tile_line : tile_line);
 
             switch (tile_attr & 0x12)
             {
@@ -425,12 +425,12 @@ void    Display_BackGround_Line_5(void)
         {
             //if (Wide_Screen_28)
             //{
-            //    src_map = g_machine.VDP.name_table_address + (((tsms.VDP_Line - 32) & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
+            //    src_map = BACK_AREA + (((tsms.VDP_Line - 32) & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
             //    tile_line = ((tsms.VDP_Line - 32) & 0x07) * 8;
             //}
             //else
             //{
-                src_map = g_machine.VDP.name_table_address + ((tsms.VDP_Line & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
+                src_map = BACK_AREA + ((tsms.VDP_Line & 0xFFFFFFF8) * 8) + ((2 * (32 - x_scroll + tile_x)) & 63);
                 tile_line = (tsms.VDP_Line & 0x07) * 8;
             //}
         }
@@ -549,10 +549,7 @@ void        Refresh_Sprites_5 (bool draw)
 
         Sprite_Last = 0;
         Sprites_on_Line = 0;
-        if (Wide_Screen_28)
-			Find_Last_Sprite_Wide(height, tsms.VDP_Line);
-		else
-			Find_Last_Sprite(height, tsms.VDP_Line);
+        Find_Last_Sprite (Wide_Screen_28, height, tsms.VDP_Line);
 
         // Return if there's no sprite on this line
         if (Sprites_on_Line == 0)
@@ -574,7 +571,7 @@ void        Refresh_Sprites_5 (bool draw)
         Sprites_on_Line = 64 + 9;
     }
     // Draw all sprites on line if flickering is not enabled
-    else if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED))
+    else if (!(g_Configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED))
     {
         Sprites_on_Line = 0;
     }
@@ -592,16 +589,15 @@ void        Refresh_Sprites_5 (bool draw)
         int     x, y, n;
         byte *  p_src;
         int     j;
-		const u8 * spr_map = g_machine.VDP.sprite_attribute_table;
-        const u8 * spr_map_xn = &spr_map[0x80];
+        byte *  spr_map_xn = &sprite_attribute_table[0x80];
         int     spr_map_xn_offset;
         int     spr_map_n_mask = 0x01FF;
 
         // Bit 0 of Register 5 and Bits 0-1 of Register 6 act as masks on the 315-5124
-        if (g_machine.VDP.model == VDP_MODEL_315_5124)
+        if (cur_machine.VDP.model == VDP_MODEL_315_5124)
         {
             if ((sms.VDP[5] & 1) == 0)
-                spr_map_xn = &spr_map[0x00];
+                spr_map_xn = &sprite_attribute_table[0x00];
             if ((sms.VDP[6] & 1) == 0)
                 spr_map_n_mask &= ~0x0080;
             if ((sms.VDP[6] & 2) == 0)
@@ -618,7 +614,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = spr_map[j];
+                    y = sprite_attribute_table[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -628,8 +624,8 @@ void        Refresh_Sprites_5 (bool draw)
 
                     // Fetch N & X
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
-                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
+                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
@@ -648,7 +644,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = spr_map[j];
+                    y = sprite_attribute_table[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -658,8 +654,8 @@ void        Refresh_Sprites_5 (bool draw)
 
                     // Fetch N & X
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
-                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
+                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
@@ -679,7 +675,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = spr_map[j];
+                    y = sprite_attribute_table[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -690,13 +686,13 @@ void        Refresh_Sprites_5 (bool draw)
                     // Fetch N & X
                     // Increase N on the sprite second tile
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
                     if (y & 8) // >= 8
                     {
                         n ++;
                         y &= 7;
                     }
-                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
+                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)
@@ -716,7 +712,7 @@ void        Refresh_Sprites_5 (bool draw)
                 for (j = Sprite_Last; j >= 0; j --)
                 {
                     // Fetch Y & clip
-                    y = spr_map[j];
+                    y = sprite_attribute_table[j];
                     // if (y == 224) continue;
                     if (y > 224) y -= 256;
 
@@ -727,13 +723,13 @@ void        Refresh_Sprites_5 (bool draw)
                     // Fetch N & X
                     // Increase N on the sprite second tile
                     spr_map_xn_offset = j << 1;
-                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | g_machine.VDP.sprite_pattern_gen_index) & spr_map_n_mask;
+                    n = ((int)spr_map_xn [spr_map_xn_offset + 1] | cur_machine.VDP.sprite_pattern_base_index) & spr_map_n_mask;
                     if (y & 16) // >= 16
                     {
                         n ++;
                         y &= 15;
                     }
-                    x = spr_map_xn [spr_map_xn_offset] - g_machine.VDP.sprite_shift_x;
+                    x = spr_map_xn [spr_map_xn_offset] - cur_machine.VDP.sprite_shift_x;
 
                     // Decode tile if it isn't decoded yet
                     if (tgfx.Tile_Dirty [n] & TILE_DIRTY_DECODE)

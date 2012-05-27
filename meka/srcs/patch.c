@@ -9,19 +9,15 @@
 #include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_patches Patches;
-
-//-----------------------------------------------------------------------------
 // Patch_New (void)
 // Create a new patch
 //-----------------------------------------------------------------------------
 t_patch *       Patch_New (void)
 {
+    t_patch *   patch;
+
     // Allocate new patch
-    t_patch* patch = (t_patch*)malloc(sizeof (t_patch));
+    patch = malloc (sizeof (t_patch));
     if (patch == NULL)
         return (NULL); // FIXME: abort?
 
@@ -45,7 +41,9 @@ t_patch *       Patch_New (void)
 //-----------------------------------------------------------------------------
 t_patch_action *        Patch_Action_New (void)
 {
-    t_patch_action* action = (t_patch_action*)malloc (sizeof (t_patch_action));
+    t_patch_action *    action;
+
+    action = malloc (sizeof (t_patch_action));
     if (action == NULL)
         return (NULL); // FIXME: abort
 
@@ -158,7 +156,7 @@ int                     Patches_List_Parse_Line (char *line)
                 p++;
             if ((action->data_length % 32) == 0)
             {
-                action->data = (u8*)realloc(action->data, action->data_length + 32);
+                action->data = realloc (action->data, action->data_length + 32);
                 if (action->data == NULL)
                     return (1); // Not enough memory
             }
@@ -178,6 +176,8 @@ void            Patches_List_Init (void)
 {
     t_tfile *   tf;
     t_list *    lines;
+    char *      line;
+    int         line_cnt;
 
     ConsolePrint (Msg_Get (MSG_Patch_Loading));
 
@@ -196,16 +196,17 @@ void            Patches_List_Init (void)
     ConsolePrint ("\n");
 
     // Parse each line
-    int line_cnt = 0;
+    line_cnt = 0;
     for (lines = tf->data_lines; lines; lines = lines->next)
     {
-        char* line = (char*)lines->elem;
-        line_cnt += 1;
+        char *p;
 
-        StrLower(line);
+        line_cnt += 1;
+        line = lines->elem;
+
+        strlwr (line);
 
         // Remove comments and space
-		char* p;
         if ((p = strchr (line, ';')) != NULL)
             *p = EOSTR;
         Remove_Spaces (line);
@@ -242,7 +243,7 @@ t_patch *   Patch_Find (t_media_image *media_image)
     // Linear find
     for (patches = Patches.patches; patches != NULL; patches = patches->next)
     {
-        t_patch* patch = (t_patch*)patches->elem;
+        t_patch *patch = patches->elem;
 
         #ifdef DEBUG_PATCHES
             Msg (MSGT_DEBUG, "- Comparing mekacrc:%08X.%08X, crc32:%08X", patch->crc_mekacrc.v[0], patch->crc_mekacrc.v[1], patch->crc_crc32);
@@ -272,7 +273,7 @@ t_patch *   Patch_Find (t_media_image *media_image)
 void        Patches_ROM_Initialize (void)
 {
     // Find patch for current ROM
-    Patches.patch_current = Patch_Find (&g_media_rom);
+    Patches.patch_current = Patch_Find (&media_ROM);
 }
 
 //-----------------------------------------------------------------------------
@@ -289,7 +290,7 @@ void        Patches_ROM_Apply (void)
     // Apply ROM patches
     for (actions = patch->rom_patches; actions != NULL; actions = actions->next)
     {
-        t_patch_action* action = (t_patch_action*)actions->elem;
+        t_patch_action *action = actions->elem;
 
         // Apply all bytes
         int i;
@@ -323,7 +324,7 @@ void        Patches_MEM_Apply (void)
     // Apply MEM patches
     for (actions = patch->mem_patches; actions != NULL; actions = actions->next)
     {
-        t_patch_action* action = (t_patch_action*)actions->elem;
+        t_patch_action *action = actions->elem;
 
         // Apply all bytes
         int i;

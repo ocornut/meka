@@ -8,12 +8,16 @@
 #include "g_widget.h"
 
 //-----------------------------------------------------------------------------
+// Macros (useless)
+//-----------------------------------------------------------------------------
+
+#define qblit(b1, b2, sx, sy, lx, ly) blit(b1, b2, sx, sy, sx, sy, lx, ly);
+
+//-----------------------------------------------------------------------------
 // Functions (crap, horrible, painful)
 //-----------------------------------------------------------------------------
 
-// FIXME: That was a stupid macro!
-#define Limit(a,b)              (((b) > (a)) ? (a) : (b))
-
+// CHECK IF USER DO SOMETHING TO A BOX ----------------------------------------
 void        gui_update_boxes(void)
 {
     int         i;
@@ -42,7 +46,7 @@ void        gui_update_boxes(void)
 
         if (b_hover == NULL)
         {
-            if ((gui_is_mouse_hovering_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2))
+            if ((gui_mouse_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2))
                 ||
                 // FIXME-FOCUS
                 ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1)))
@@ -82,6 +86,7 @@ void        gui_update_boxes(void)
     // FIXME-FOCUS
     //gui_mouse.on_box = b;
     gui_box_set_focus(b);
+    b->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
     // gui.info.must_redraw = TRUE;
 
     //Msg(MSGT_DEBUG, "will_move=%d", will_move);
@@ -92,6 +97,8 @@ void        gui_update_boxes(void)
         int mx, my;
         int ax1, ay1, ax2, ay2;
         int bx1, by1, bx2, by2;
+
+        gui_mouse_show (NULL);
 
         // FIXME-FOCUS
         //if (gui_mouse.pressed_on != PRESSED_ON_BOX)
@@ -166,42 +173,58 @@ void        gui_update_boxes(void)
             }
         }
 
-		al_set_target_bitmap(gui_buffer);
-		al_draw_bitmap_region(gui_background, ax1, ay1, ax2 - ax1, ay2 - ay1, ax1, ay1, 0x0000);
-		al_draw_bitmap_region(gui_background, bx1, by1, bx2 - bx1, by2 - by1, bx1, by1, 0x0000);
-        // blit (color_buffer, gui_buffer, ax1, ay1, ax1, ay1, ax2 - ax1, ay2 - ay1);
-        // blit (color2_buffer, gui_buffer, bx1, by1, bx1, by1, bx2 - bx1, by2 - by1);
-        // blit (gui_buffer, screen, 0, 0, 0, 0, 640, 480);
+        qblit(gui_background, gui_buffer, ax1, ay1, ax2 - ax1, ay2 - ay1);
+        qblit(gui_background, gui_buffer, bx1, by1, bx2 - bx1, by2 - by1);
+        // qblit (color_buffer, gui_buffer, ax1, ay1, ax2 - ax1, ay2 - ay1);
+        // qblit (color2_buffer, gui_buffer, bx1, by1, bx2 - bx1, by2 - by1);
+        // qblit (gui_buffer, screen, 0, 0, 640, 480);
+
+        // Update 'must_redraw' flag for other boxes
+        {
+            int j;
+            for (j = i + 1; j < gui.boxes_count; j++)
+            {
+                t_gui_box *b2 = gui.boxes_z_ordered[j];
+                if (((b2->frame.pos.x + b2->frame.size.x + 2 >= ax1) && (b2->frame.pos.x - 2 <= ax2) && (b2->frame.pos.y + b2->frame.size.y + 2 >= ay1) && (b2->frame.pos.y - 20 <= ay2))
+                    ||
+                    ((b2->frame.pos.x + b2->frame.size.x + 2 >= bx1) && (b2->frame.pos.x - 2 <= bx2) && (b2->frame.pos.y + b2->frame.size.y + 2 >= by1) && (b2->frame.pos.y - 20 <= by2)))
+                {
+                    b2->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+                }
+            }
+        }
 
         // Update position
         b->frame.pos.x += mx;
         b->frame.pos.y += my;
         gui_box_clip_position (b);
+
+        gui_mouse_show (gui_buffer);
     } // Move Box -------------------------------------------------------------
 }
 
 t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
 {
+	t_gui_box * box;
+
 	// Allocate new box
-	t_gui_box* box = (t_gui_box *)malloc(sizeof (t_gui_box));
+	box = (t_gui_box *)malloc(sizeof (t_gui_box));
 	assert(box != NULL);
 
     // Setup members
     box->frame      = *frame;
     box->title      = strdup(title);
     box->type       = GUI_BOX_TYPE_STANDARD;
-    box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
-	box->gfx_buffer = NULL;
-	gui_box_create_video_buffer(box);
+    box->flags      = GUI_BOX_FLAGS_ACTIVE | GUI_BOX_FLAGS_DIRTY_REDRAW | GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+	box->gfx_buffer = create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
     box->widgets    = NULL;
     box->user_data  = NULL;
     box->update     = NULL;
     box->destroy    = NULL;
 
     // Clear GFX buffer
-	al_set_target_bitmap(box->gfx_buffer);
     //clear_to_color(box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
-    al_clear_to_color(al_map_rgb_f(1.0f, 0.0f, 1.0f));
+    clear_to_color(box->gfx_buffer, makecol(0xFF, 0x00, 0xFF));
 
     // Setup GUI global data
     list_add(&gui.boxes, box);
@@ -217,66 +240,49 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     return (box);
 }
 
-void	gui_box_create_video_buffer(t_gui_box *box)
-{
-	int sx, sy;
-	if (box->gfx_buffer)
-	{
-		// Reuse previous bitmap size over the size stored in box.
-		// Because current resizing system keeps largest size gfx_buffer so size stored in box may be smaller
-		// (as used by Tilemap Viewer, but we may switch to properly recreating the video buffer)
-		sx = al_get_bitmap_width(box->gfx_buffer);
-		sy = al_get_bitmap_height(box->gfx_buffer);
-		al_destroy_bitmap(box->gfx_buffer);
-	}
-	else
-	{
-		sx = box->frame.size.x+1;
-		sy = box->frame.size.y+1;
-	}
-
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
-	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
-
-	// Redraw and layout all
-	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
-}
-
-void	gui_box_destroy_widgets(t_gui_box* box)
-{
-	list_free_custom(&box->widgets, (t_list_free_handler)widget_destroy);
-}
-
 void    gui_box_delete(t_gui_box *box)
 {
+    int i;
+
     // Destroy applet callback
     if (box->destroy != NULL)
         box->destroy(box->user_data);
 
     // Remove from lists
     list_remove(&gui.boxes, box);
-    for (int i = 0; i < gui.boxes_count; i++)
-	{
+    for (i = 0; i < gui.boxes_count; i++)
         if (gui.boxes_z_ordered[i] == box)
         {
             for (; i < gui.boxes_count - 1; i++)
                 gui.boxes_z_ordered[i] = gui.boxes_z_ordered[i + 1];
             break;
         }
-	}
     gui.boxes_z_ordered[gui.boxes_count - 1] = NULL;
     gui.boxes_count--;
 
-	// Delete widgets
-	list_free_custom(&box->widgets, (t_list_free_handler)widget_destroy);
-
-	// Delete
-    al_destroy_bitmap(box->gfx_buffer);
+    // Delete
+    // FIXME: Delete widgets, memory leak here
+    destroy_bitmap(box->gfx_buffer);
     box->gfx_buffer = NULL;
     free(box->title);
     box->title = NULL;
     free(box);
+}
+
+void    gui_box_set_dirty(t_gui_box *box)
+{
+    // Set main dirty flag
+    box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+
+    // Set all widgets as dirty
+    {
+        t_list *widgets;
+        for (widgets = box->widgets; widgets != NULL; widgets = widgets->next)
+        {
+            t_widget *w = (t_widget *)widgets->elem;
+            w->dirty = TRUE;
+        }
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -290,6 +296,9 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
         // Show box
         box->flags |= GUI_BOX_FLAGS_ACTIVE;
 
+        // Set dirty
+        gui_box_set_dirty(box);
+
         // Set focus
         if (focus)
             gui_box_set_focus(box);
@@ -302,7 +311,8 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
         // If this box had the focus, let give focus to the following one
         if (focus && gui_box_has_focus(box))
         {
-            for (int n = 1; n < gui.boxes_count; n++)
+            int n;
+            for (n = 1; n < gui.boxes_count; n++)
             {
                 t_gui_box * box_behind = gui.boxes_z_ordered[n];
                 if (box_behind->flags & GUI_BOX_FLAGS_ACTIVE)
@@ -318,26 +328,26 @@ void            gui_box_show(t_gui_box *box, bool enable, bool focus)
     gui.info.must_redraw = TRUE;
 }
 
-int		gui_box_find_z(const t_gui_box* box)
-{
-    for (int i = 0; i < gui.boxes_count; i++)
-	{
-        if (gui.boxes_z_ordered[i] == box)
-			return i;
-	}
-	return -1;
-}
-
+//-----------------------------------------------------------------------------
+// gui_box_set_focus (t_gui_box *)
 // Set focus to given box
+//-----------------------------------------------------------------------------
 // FIXME: ARGH!
-void	gui_box_set_focus(t_gui_box *box)
+//-----------------------------------------------------------------------------
+void            gui_box_set_focus (t_gui_box *box)
 {
+    int         i;
+    t_gui_box * box_prev;
+
     if (gui_box_has_focus(box))
         return;
 
+    gui_box_set_dirty(box);
+    gui_box_set_dirty(gui.boxes_z_ordered[0]);
+
     // Shift
-    t_gui_box* box_prev = box;
-    for (int i = 0; i != gui.boxes_count; i++)
+    box_prev = box;
+    for (i = 0; i != gui.boxes_count; i++)
     {
         t_gui_box *box_curr = gui.boxes_z_ordered[i];
         gui.boxes_z_ordered[i] = box_prev;
@@ -364,6 +374,9 @@ void	gui_box_set_focus(t_gui_box *box)
     if (box_current_focus == box)
         return;
 
+    // Set redraw flag for old focused box
+    box_current_focus->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
+
     // Shift plan/z buffer by one
     for (i = box_plan; i > 0; i--)
         gui.box_plan[i] = gui.box_plan[i - 1];
@@ -371,27 +384,29 @@ void	gui_box_set_focus(t_gui_box *box)
     */
 }
 
-// Return weither given box has the focus
+//-----------------------------------------------------------------------------
+// gui_box_has_focus(t_gui_box *)
+// Return wether given box has the focus
+//-----------------------------------------------------------------------------
 int     gui_box_has_focus(t_gui_box *box)
 {
     return (gui.boxes_z_ordered[0] == box);
 }
 
+//-----------------------------------------------------------------------------
+// gui_box_set_title(t_gui_box *, char *)
 // Set title of given box
+//-----------------------------------------------------------------------------
 void    gui_box_set_title(t_gui_box *box, const char *title)
 {
     free(box->title);
     box->title = strdup(title);
 }
 
-void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
-{
-	box->frame.size.x = size_x;
-	box->frame.size.y = size_y;
-	gui.info.must_redraw = TRUE;
-}
-
+//-----------------------------------------------------------------------------
+// gui_box_clip_position (t_gui_box *box)
 // Clip position of given box so that it shows on desktop.
+//-----------------------------------------------------------------------------
 void    gui_box_clip_position (t_gui_box *box)
 {
     if (box->frame.pos.x < gui.info.screen_pad.x - box->frame.size.x)

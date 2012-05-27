@@ -4,13 +4,14 @@
 //
 
 #include "shared.h"
-#include "fmunit.h"
-#include "emu2413/mekaintf.h"
 
 //-----------------------------------------------------------------------------
 
 // Registers (pointer to current FM emulator register)
-u8 *					FM_Regs = NULL;
+byte *                  FM_Regs = NULL;
+
+// Flag telling weither seems to be used or not
+int                     FM_Used = FALSE;
 
 // Interface
 void                    FM_Null_Interface_Function(void) { }
@@ -53,7 +54,7 @@ const char *FM_Instruments_Name[YM2413_INSTRUMENTS] =
 //-----------------------------------------------------------------------------
 
 // Mask of Registers data to save for a state save
-const u8	FM_Regs_SavingFlags[YM2413_REGISTERS] =
+const byte      FM_Regs_SavingFlags [YM2413_REGISTERS] =
 {
   // Registers
   // 00-07: user-definable tone channel - left at 0xff for now
@@ -78,45 +79,77 @@ const u8	FM_Regs_SavingFlags[YM2413_REGISTERS] =
   0
 };
 
+//-----------------------------------------------------------------------------
+// FM_Set_Interface()
 // Active given interface
-void    FM_Set_Interface(t_fm_unit_interface *intf, byte *new_fm_regs)
+//-----------------------------------------------------------------------------
+void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs)
 {
-	if (FM_Unit_Current != NULL)
-		FM_Mute();
+  if (FM_Unit_Current)
+     FM_Mute ();
 
-	if ((new_fm_regs != FM_Regs) && FM_Regs)
-	{
-		// Msg (MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
-		memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
-	}
+  if ((new_fm_regs != FM_Regs) && FM_Regs)
+     {
+     // Msg (MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
+     memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
+     }
 
-	FM_Unit_Current = intf;
-	FM_Regs = new_fm_regs;
-	FM_Regenerate();
+  FM_Unit_Current = intf;
+  FM_Regs = new_fm_regs;
+  FM_Regenerate ();
 }
 
-// Active the dummy/null FM interface
-void    FM_Null_Active()
+//-----------------------------------------------------------------------------
+// FM_Null_Active()
+// Active the fake/null FM interface
+// FIXME: theorically this should never be called now. Need to assert there.
+//-----------------------------------------------------------------------------
+void    FM_Null_Active (void)
 {
-	// Create a dummy set of register.
-	static u8 FM_OPL_Regs [YM2413_REGISTERS];
-
-	FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
+  // FIXME: currently using FM_OPL_Regs as a buffer to avoid crashing in
+  // access to the registers (by applet, etc...).
+  FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
 }
 
+//-----------------------------------------------------------------------------
+// FM_Used_Check()
+// Compute weither the FM Unit seems to be used or not
+//-----------------------------------------------------------------------------
+void    FM_Used_Check (void)
+{
+  int   i;
+
+  if (FM_Regs)
+     for (i = 0; i < YM2413_REGISTERS; i++)
+        if (FM_Regs[i] != 0x00)
+           {
+           FM_Used = 60;
+           return;
+           }
+  FM_Used = FALSE;
+}
+
+//-----------------------------------------------------------------------------
+// FM_Save()
+// Save FM register to given file pointer
+//-----------------------------------------------------------------------------
 void    FM_Save (FILE *f)
 {
   fwrite (FM_Regs, YM2413_REGISTERS, 1, f);
 }
 
+//-----------------------------------------------------------------------------
+// FM_Load()
 // Load FM registers from given file pointer and call emulator Reload function
 // Note: only the registers are saved/loaded currently
 // If this has to change, please pay attention to the fact that MSD loading
 // use this fonction to load old Massage save states.
+//-----------------------------------------------------------------------------
 void    FM_Load (FILE *f)
 {
-	fread (FM_Regs, YM2413_REGISTERS, 1, f);
-	FM_Regenerate();
+  fread (FM_Regs, YM2413_REGISTERS, 1, f);
+  FM_Used_Check ();
+  FM_Regenerate ();
 }
 
 //-----------------------------------------------------------------------------

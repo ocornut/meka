@@ -5,14 +5,11 @@
 
 #include "shared.h"
 #include "app_memview.h"
-#include "bios.h"
 #include "debugger.h"
 #include "desktop.h"
 #include "g_widget.h"
-#include "mappers.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
-#include "z80marat/Z80DebugHelpers.h"
 #include <ctype.h>
 #include <string.h>
 
@@ -24,19 +21,6 @@
 
 #define DEBUGGER_APP_TITLE              "Debugger"
 #define DEBUGGER_APP_CPUSTATE_LINES     (2)
-
-#define DEBUGGER_WATCH_FLOOD_LIMIT		(50)
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_debugger   Debugger;
-int          Debugger_CPU_Exec_Traps[0x10000];
-u16          Debugger_Z80_PC_Last;
-u16          Debugger_Z80_PC_Log_Queue[128];
-int          Debugger_Z80_PC_Log_Queue_Back;
-int			 Debugger_Z80_PC_Log_Queue_Front;
 
 //-----------------------------------------------------------------------------
 // External declaration
@@ -61,7 +45,7 @@ static bool     Debugger_CompletionCallback(t_widget *w);
 
 // Evaluator
 static int      Debugger_Eval_GetValue(char **src, t_debugger_value *result);
-bool			Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format);
+static bool     Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result);
 static int      Debugger_Eval_GetExpression(char **expr, t_debugger_value *result);
 static bool     Debugger_Eval_GetVariable(int variable_replacement_flags, const char *var, t_debugger_value *result);
 
@@ -82,8 +66,8 @@ static void     Debugger_GetAccessString(int access, char buf[5])
 // Hooks
 static void                     Debugger_Hooks_Install(void);
 static void                     Debugger_Hooks_Uninstall(void);
-static void                     Debugger_WrZ80_Hook(register u16 addr, register u8 value);
-static u8                       Debugger_RdZ80_Hook(register u16 addr);
+static void                     Debugger_WrZ80_Hook(register int addr, register u8 value);
+static u8                       Debugger_RdZ80_Hook(register int addr);
 static void                     Debugger_OutZ80_Hook(register u16 addr, register u8 value);
 static u8                       Debugger_InZ80_Hook(register u16 addr);
 
@@ -105,13 +89,11 @@ static const char *             Debugger_BreakPoint_GetTypeName(t_debugger_break
 static bool                     Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value);
 
 // Symbols
-static void                     Debugger_Symbols_Load();
-static void                     Debugger_Symbols_Clear();
-static void                     Debugger_Symbols_ListByName(char *search_name);
-static void						Debugger_Symbols_ListByAddr(u32 addr);
-t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(u32 addr);
-t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(u32 addr);
-t_debugger_symbol *             Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);
+static void                     Debugger_Symbols_Load(void);
+static void                     Debugger_Symbols_Clear(void);
+static void                     Debugger_Symbols_List(char *search_name);
+t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(int addr);
+t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(int addr);
 
 // Symbol
 static t_debugger_symbol *      Debugger_Symbol_Add(u16 addr, int bank, const char *name);
@@ -120,33 +102,31 @@ static int                      Debugger_Symbol_CompareByAddress(t_debugger_symb
 
 // History
 static bool                     Debugger_History_Callback(t_widget *w, int level);
-static void						Debugger_History_AddLine(const char *line_to_add);
+static void						Debugger_History_AddLine(const char *line);
 static void                     Debugger_History_List(const char *search_term_arg);
 
 // Values
 static void                     Debugger_Value_Delete(t_debugger_value *value);
+
 static void                     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name, void *data, int data_size);
 static void                     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol);
 static void                     Debugger_Value_SetComputed(t_debugger_value *value, u32 data, int data_size);
 static void                     Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_size);
+
 static void                     Debugger_Value_Read(t_debugger_value *value);
 static void                     Debugger_Value_Write(t_debugger_value *value, u32 data);
-
-// Reverse Map
-static void						Debugger_ReverseMap(u16 addr);
-static int						Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios);
 
 //-----------------------------------------------------------------------------
 // Data - Command Info/Help
 //-----------------------------------------------------------------------------
 
-struct t_debugger_command_info
+typedef struct
 {
     const char *        command_short;
     const char *        command_long;
     const char *        abstract;
     const char *        description;
-};
+} t_debugger_command_info;
 
 static t_debugger_command_info              DebuggerCommandInfos[] =
 {
@@ -171,12 +151,6 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " C             ; Continue\n"
         " C address     ; Continue up to reaching <address>"
     },
-	{
-		"CR", "CONTRET",
-		"Continue to next RET instruction",
-		// Description
-		"CR/CONTRET: Continue to next RET* instruction",
-	},
     {
         NULL, "CLOCK",
         "Display Z80 cycle accumulator",
@@ -213,9 +187,9 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " B DISABLE id                   ; Disable breakpoint <id>\n"
         " B CLEAR                        ; Clear breakpoints\n"
         "Parameters:\n"
-        " address : breakpoint address, can be a range or label\n"
+        " address : breakpoint address, can be a range\n"
         " access  : access to trap, any from r/w/x (rwx)\n"
-        " bus     : bus/event, one from cpu/io/vram/pal/rom/line (cpu)\n"
+        " bus     : bus/event, one from cpu/io/vram/pal/line (cpu)\n"
         //" id      : breakpoint identifier\n"
         "Examples:\n"
         " B 0038          ; break when CPU access $0038\n"
@@ -264,22 +238,17 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         // Description
         "R/REGS: Dump Z80 registers\n"
         "Usage:\n"
-        " R"
+        " R\n"
     },
     {
         "SYM", "SYMBOLS",
-        "Find symbols",
+        "List symbols",
         // Description
-        "SYM/SYMBOLS: Find symbols\n"
+        "SYM/SYMBOLS: List symbols\n"
         "Usage:\n"
-		" SYM [name]\n"
-		" SYM @addr\n"
+        " SYM [name]\n"
         "Parameters:\n"
-        " name : symbol name to search for\n"
-		" addr : symbol address to search for\n"
-		"Examples:\n"
-		" SYM vdp         ; search for symbol matching 'vdp'\n"
-		" SYM @HL         ; search for symbol at address HL"
+        " name : symbol name to search for (*)"
     },
 	{
 		NULL, "SET",
@@ -295,19 +264,6 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 		" SET BC=$1234    ; set BC register to $1234\n"
 		" SET DE=HL,HL=0  ; set DE=HL, then zero HL"
 	},
-	{
-		NULL, "RMAP",
-		"Reverse map Z80 address",
-		// Description
-		"RMAP: Reverse map Z80 address\n"
-		"Usage:\n"
-		" RMAP address\n"
-		"Parameters:\n"
-		" address : address in Z80 space\n"
-		"Examples:\n"
-		" RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'\n"
-		" RMAP $E001      ; eg: print 'RAM $C001'"
-	},
     {
         "M", "MEM",
         "Dump memory",
@@ -317,24 +273,11 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " M [address] [len]\n"
         "Parameters:\n"
         " address : address to dump memory from (PC)\n"
-        " len     : bytes to dump (128)"
+        " len     : length to dump, in byte (128)"
         "Examples:\n"
         " M              ; dump 128 bytes at PC\n"
         " M HL BC        ; dump BC bytes at HL"
     },
-	{
-		"ST", "STACK",
-		"Dump stack ",
-		// Description
-		"ST/STACK: Dump stack\n"
-		"Usage:\n"
-		" ST [len]\n"
-		"Parameters:\n"
-		" len     : bytes to dump (8)"
-		"Examples:\n"
-		" ST             ; dump 8 bytes at SP\n"
-		" ST 100         ; dump 100 bytes at SP"
-	},
     {
         "D", "DASM",
         "Disassemble",
@@ -347,7 +290,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " cnt     : number of instruction to disassemble (10)"
     },
     {
-        NULL, "MEMEDIT",
+        NULL,"MEMEDIT",
         "Memory Editor",
         // Description
         "MEMEDIT: Spawn memory editor\n"
@@ -384,29 +327,28 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 
 static t_debugger_bus_info  DebuggerBusInfos[BREAKPOINT_LOCATION_MAX_] =
 {
-    { BREAKPOINT_LOCATION_CPU,      "CPU",  2,  0x0000,		0xFFFF,		BREAKPOINT_ACCESS_RWX,  DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
-	{ BREAKPOINT_LOCATION_ROM,      "ROM",  3,  0x000000,   0x1FFFFF,	BREAKPOINT_ACCESS_RWX,  DEBUGGER_DATA_COMPARE_LENGTH_MAX    },	// 'addr_max' is updated on media change. NB- 'w' is unusual but it doesn't hurt supporting it?
-    { BREAKPOINT_LOCATION_IO,       "IO",   1,  0x00,		0xFF,		BREAKPOINT_ACCESS_RW,   1                                   },
-    { BREAKPOINT_LOCATION_VRAM,     "VRAM", 2,  0x0000,		0x3FFF,		BREAKPOINT_ACCESS_RW,   DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
-    { BREAKPOINT_LOCATION_PRAM,     "PAL",  1,  0x00,		0x3F,		BREAKPOINT_ACCESS_W,    DEBUGGER_DATA_COMPARE_LENGTH_MAX    },	// 'addr_max' is updated on driver change
-    { BREAKPOINT_LOCATION_LINE,     "LINE", 2,  0,			312,		BREAKPOINT_ACCESS_E,    0                                   },  // FIXME: A bit hacky
+    { BREAKPOINT_LOCATION_CPU,      "CPU",  2,  0x0000, 0xFFFF, BREAKPOINT_ACCESS_RWX,  DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
+    { BREAKPOINT_LOCATION_IO,       "IO",   1,  0x00,   0xFF,   BREAKPOINT_ACCESS_RW,   1                                   },
+    { BREAKPOINT_LOCATION_VRAM,     "VRAM", 2,  0x0000, 0x3FFF, BREAKPOINT_ACCESS_RW,   DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
+    { BREAKPOINT_LOCATION_PRAM,     "PAL",  1,  0x00,   0x3F,   BREAKPOINT_ACCESS_W,    DEBUGGER_DATA_COMPARE_LENGTH_MAX    },
+    { BREAKPOINT_LOCATION_LINE,     "LINE", 2,  0,      312,    BREAKPOINT_ACCESS_E,    0                                   },      // FIXME: Alright, this one is quite a hack...
 };
 
 //-----------------------------------------------------------------------------
 // Data - Applet
 //-----------------------------------------------------------------------------
 
-struct t_debugger_app
+typedef struct
 {
     t_gui_box *         box;
-    ALLEGRO_BITMAP *    box_gfx;
+    BITMAP *            box_gfx;
     t_widget *          console;
     t_widget *          input_box;
-    t_font_id			font_id;
+    int                 font_id;
     int                 font_height;
     t_frame             frame_disassembly;
     t_frame             frame_cpustate;
-};
+} t_debugger_app;
 
 t_debugger_app          DebuggerApp;
 
@@ -422,7 +364,6 @@ void        Debugger_Init_Values (void)
     Debugger.trap_address = (u16)-1;
     Debugger.stepping = 0;
     Debugger.stepping_trace_after = 0;
-	Debugger.continuing_to_next_ret = false;
     Debugger.breakpoints = NULL;
     memset(Debugger.breakpoints_cpu_space,  0, sizeof(Debugger.breakpoints_cpu_space));
     memset(Debugger.breakpoints_io_space,   0, sizeof(Debugger.breakpoints_io_space));
@@ -434,7 +375,7 @@ void        Debugger_Init_Values (void)
     memset(Debugger.symbols_cpu_space,  0, sizeof(Debugger.symbols_cpu_space));
 	Debugger.history_max = 99;	// Note: if more than 2 digits, update code in Debugger_History_List()
 	Debugger.history_count = 1;
-	Debugger.history = (t_debugger_history_item*)malloc(sizeof(t_debugger_history_item) * Debugger.history_max);
+	Debugger.history = malloc(sizeof(t_debugger_history_item) * Debugger.history_max);
 	memset(Debugger.history, 0, sizeof(t_debugger_history_item) * Debugger.history_max);
 	Debugger.history_current_index = 0;
     Debugger.log_file = NULL;
@@ -449,50 +390,50 @@ void        Debugger_Init_Values (void)
         Z80 *cpu = &sms.R;
         t_debugger_value *value;
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "PC",   &cpu->PC.W, 16);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "SP",   &cpu->SP.W, 16);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "AF",   &cpu->AF.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "A",    &cpu->AF.B.h, 8);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "BC",   &cpu->BC.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "B",    &cpu->BC.B.h, 8);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "C",    &cpu->BC.B.l, 8);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "DE",   &cpu->DE.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "D",    &cpu->DE.B.h, 8);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "E",    &cpu->DE.B.l, 8);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "HL",   &cpu->HL.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "H",    &cpu->HL.B.h, 8);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "L",    &cpu->HL.B.l, 8);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "IX",   &cpu->IX.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "IY",   &cpu->IY.W, 16);
 
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "AF'",  &cpu->AF1.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "BC'",  &cpu->BC1.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "DE'",  &cpu->DE1.W, 16);
-        list_add(&Debugger.variables_cpu_registers, (value = (t_debugger_value*)malloc(sizeof(t_debugger_value))));
+        list_add(&Debugger.variables_cpu_registers, (value = malloc(sizeof(t_debugger_value))));
         Debugger_Value_SetCpuRegister(value, "HL'",  &cpu->HL1.W, 16);
     }
 
@@ -502,19 +443,19 @@ void        Debugger_Init_Values (void)
 static void Debugger_Init_LogFile(void)
 {
     // Open log file if not already open
-    if (g_configuration.debugger_log_enabled && Debugger.log_file == NULL)
+    if (g_Configuration.debugger_log_enabled && Debugger.log_file == NULL)
     {
         char filename[FILENAME_LEN];
-        if (!al_filename_exists(g_env.Paths.DebugDirectory))
-            al_make_directory(g_env.Paths.DebugDirectory);
-        sprintf(filename, "%s/%s", g_env.Paths.DebugDirectory, Debugger.log_filename);
+        if (!file_exists(g_Env.Paths.DebugDirectory, 0xFF, NULL))
+            meka_mkdir(g_Env.Paths.DebugDirectory);
+        sprintf(filename, "%s/%s", g_Env.Paths.DebugDirectory, Debugger.log_filename);
         Debugger.log_file = fopen(filename, "a+t");
         if (Debugger.log_file != NULL)
             fprintf(Debugger.log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
     }
 }
 
-void        Debugger_Init(void)
+void        Debugger_Init (void)
 {
     ConsolePrintf("%s\n", Msg_Get (MSG_Debug_Init));
     Debugger_Applet_Init();
@@ -529,7 +470,7 @@ void        Debugger_Init(void)
     Debugger_Printf("Press TAB for completion.\n");
 }
 
-void        Debugger_Close(void)
+void        Debugger_Close (void)
 {
     if (Debugger.log_file != NULL)
     {
@@ -541,7 +482,7 @@ void        Debugger_Close(void)
     Debugger.history = NULL;
 }
 
-void        Debugger_Enable(void)
+void        Debugger_Enable (void)
 {
     Debugger.enabled = TRUE;
     Debugger.active  = FALSE;
@@ -568,14 +509,14 @@ void        Debugger_MachineReset(void)
 
     // Clear Z80 PC log queue
     memset(Debugger_Z80_PC_Log_Queue, 0, sizeof(Debugger_Z80_PC_Log_Queue));
-    Debugger_Z80_PC_Log_Queue_Back = 0;
-    Debugger_Z80_PC_Log_Queue_Front = 0;
+    Debugger_Z80_PC_Log_Queue_Write = 0;
+    Debugger_Z80_PC_Log_Queue_First = 0;
 
     // Hook Z80 read/write and I/O
     Debugger_Hooks_Install();
 
-    // Update PRAM size
-    if (g_driver->id == DRV_GG)
+    // Set PRAM size
+    if (cur_drv->id == DRV_GG)
 		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x3F;
     else
 		DebuggerBusInfos[BREAKPOINT_LOCATION_PRAM].addr_max = 0x1F;
@@ -590,12 +531,6 @@ void        Debugger_MachineReset(void)
 //-----------------------------------------------------------------------------
 void        Debugger_MediaReload(void)
 {
-	if (!Debugger.enabled)
-		return;
-
-	// Update ROM size
-	DebuggerBusInfos[BREAKPOINT_LOCATION_ROM].addr_max = (tsms.Size_ROM - 1);
-
     // Reload symbols
     Debugger_Symbols_Load();
 }
@@ -621,7 +556,7 @@ void        Debugger_Update(void)
     Debugger.watch_counter = 0;
 }
 
-int		Debugger_Hook(Z80 *R)
+int         Debugger_Hook(Z80 *R)
 {
     const u16 pc = R->PC.W;
     // Debugger_Printf("hook, pc=%04X\n", pc);
@@ -655,14 +590,12 @@ int		Debugger_Hook(Z80 *R)
         {
             t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
             if (breakpoint->enabled)
-			{
-                if ((breakpoint->access_flags & BREAKPOINT_ACCESS_X) && (breakpoint->location == BREAKPOINT_LOCATION_CPU || breakpoint->location == BREAKPOINT_LOCATION_ROM) )
+                if (breakpoint->location == BREAKPOINT_LOCATION_CPU && (breakpoint->access_flags & BREAKPOINT_ACCESS_X))
                 {
                     if (Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_X, pc, RdZ80_NoHook(pc)))
                         break_activated = TRUE;
                     cnt--;
                 }
-			}
         }
         assert(cnt == 0);
         if (!break_activated && !R->Trace)
@@ -671,13 +604,6 @@ int		Debugger_Hook(Z80 *R)
             return (1);
         }
     }
-
-	if (Debugger.continuing_to_next_ret)
-	{
-		if (!Z80DebugHelper_IsRetExecuting(R))
-			return (1);
-		Debugger.continuing_to_next_ret = false;
-	}
 
     // Update state
     Debugger_Applet_Redraw_State();
@@ -806,11 +732,11 @@ t_debugger_breakpoint *     Debugger_BreakPoint_Add(int type, int location, int 
     // Check parameters
     assert(address_start <= address_end);
     assert(address_start >= 0);
-	assert(address_end <= DebuggerBusInfos[location].addr_max);
+    assert(address_end < 0x10000);
     assert(type == BREAKPOINT_TYPE_BREAK || type == BREAKPOINT_TYPE_WATCH);
 
     // Create and setup breakpoint
-    breakpoint = (t_debugger_breakpoint*)malloc(sizeof (t_debugger_breakpoint));
+    breakpoint = malloc(sizeof (t_debugger_breakpoint));
     breakpoint->enabled = TRUE;
     breakpoint->id = Debugger_BreakPoints_AllocateId();
     breakpoint->type = type;
@@ -852,119 +778,57 @@ void                        Debugger_BreakPoint_Remove(t_debugger_breakpoint *br
 
 void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *breakpoint)
 {
+    int         addr;
+    t_list **   bus_lists;
+
     // Set flag
     breakpoint->enabled = TRUE;
 
     // Add to corresponding bus space list
-    t_list ** bus_lists;
     switch (breakpoint->location)
     {
-	case BREAKPOINT_LOCATION_CPU:	bus_lists = Debugger.breakpoints_cpu_space;   break;
-	case BREAKPOINT_LOCATION_ROM:	bus_lists = Debugger.breakpoints_cpu_space;   break;
+    case BREAKPOINT_LOCATION_CPU:   bus_lists = Debugger.breakpoints_cpu_space;   break;
     case BREAKPOINT_LOCATION_IO:    bus_lists = Debugger.breakpoints_io_space;    break;
     case BREAKPOINT_LOCATION_VRAM:  bus_lists = Debugger.breakpoints_vram_space;  break;
     case BREAKPOINT_LOCATION_PRAM:  bus_lists = Debugger.breakpoints_pram_space;  break;
     case BREAKPOINT_LOCATION_LINE:  bus_lists = Debugger.breakpoints_line_space;  break;
-    default: assert(0); return;
+    default:			    assert(0); return;
     }
+    for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
+        list_add(&bus_lists[addr], breakpoint);
 
-	// Add to CPU exec trap?
-	bool cpu_exec_trap = false;
-	if (breakpoint->location == BREAKPOINT_LOCATION_CPU || breakpoint->location == BREAKPOINT_LOCATION_ROM)
-		if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
-			cpu_exec_trap = true;
-
-	if (breakpoint->location == BREAKPOINT_LOCATION_ROM)
-	{
-		// FIXME: Redundant breakpoints will be added if range span over the size of a page
-		// FIXME: Most mapper use 0x4000 sized pages, it would be an optimisation to know this information
-		const int mapper_page_size = 0x2000;
-		const int mapper_bank_count = 0xC000/mapper_page_size;
-		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
-		const int addr_max = (int)(breakpoint->address_range[1] & (mapper_page_size-1));	// Prewrap both ends of the range to avoid duplicate additions.
-	    for (int addr = addr_min; ; addr++)
-		{
-			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
-			for (int i = 0; i != mapper_bank_count; i++)
-			{
-				const u32 addr_candidate = addr0 | (i * mapper_page_size);
-				list_add(&bus_lists[addr_candidate], breakpoint);
-				if (cpu_exec_trap)
-					Debugger_CPU_Exec_Traps[addr_candidate]++;
-			}
-			if (addr0 == addr_max)
-				break;
-		}
-	}
-	else
-	{
-	    for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
-		{
-		    list_add(&bus_lists[addr], breakpoint);
-			if (cpu_exec_trap)
-				Debugger_CPU_Exec_Traps[addr]++;
-		}
-	}
+    // Add to CPU exec trap
+    if (breakpoint->location == BREAKPOINT_LOCATION_CPU)
+        if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
+            for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
+                Debugger_CPU_Exec_Traps[addr]++;
 }
 
 void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *breakpoint)
 {
+    int         addr;
+    t_list **   bus_lists;
+
     // Set flag
     breakpoint->enabled = FALSE;
 
     // Remove from bus space list
-    t_list ** bus_lists;
     switch (breakpoint->location)
     {
     case BREAKPOINT_LOCATION_CPU:   bus_lists = Debugger.breakpoints_cpu_space;   break;
-	case BREAKPOINT_LOCATION_ROM:	bus_lists = Debugger.breakpoints_cpu_space;   break;
     case BREAKPOINT_LOCATION_IO:    bus_lists = Debugger.breakpoints_io_space;    break;
     case BREAKPOINT_LOCATION_VRAM:  bus_lists = Debugger.breakpoints_vram_space;  break;
     case BREAKPOINT_LOCATION_PRAM:  bus_lists = Debugger.breakpoints_pram_space;  break;
     case BREAKPOINT_LOCATION_LINE:  bus_lists = Debugger.breakpoints_line_space;  break;
-    default: assert(0); return;
+    default:			    assert(0); return;
     }
+    for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
+        list_remove(&bus_lists[addr], breakpoint);
 
-	// Add to CPU exec trap?
-	bool cpu_exec_trap = false;
-	if (breakpoint->location == BREAKPOINT_LOCATION_CPU || breakpoint->location == BREAKPOINT_LOCATION_ROM)
-		if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
-			cpu_exec_trap = true;
-
-	if (breakpoint->location == BREAKPOINT_LOCATION_ROM)
-	{
-		const int mapper_page_size = 0x2000;
-		const int mapper_bank_count = 0xC000/mapper_page_size;
-		const int addr_min = (int)(breakpoint->address_range[0] & (mapper_page_size-1));
-		const int addr_max = (int)(breakpoint->address_range[1] & (mapper_page_size-1));	// Prewrap both ends of the range to avoid duplicate additions.
-	    for (int addr = addr_min; ; addr++)
-		{
-			const u32 addr0 = (u32)(addr & (mapper_page_size-1));
-			for (int i = 0; i != mapper_bank_count; i++)
-			{
-				const u32 addr_candidate = addr0 | (i * mapper_page_size);
-				list_remove(&bus_lists[addr_candidate], breakpoint);
-				if (cpu_exec_trap)
-					Debugger_CPU_Exec_Traps[addr_candidate]--;
-			}
-			if (addr0 == addr_max)
-				break;
-		}
-	}
-	else
-	{
-		for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)
-		{
-			list_remove(&bus_lists[addr], breakpoint);
-			if (cpu_exec_trap)
-				Debugger_CPU_Exec_Traps[addr]--;
-		}
-	}
-
-    // Remove CPU exec trap?
+    // Remove CPU exec trap
     if (breakpoint->location == BREAKPOINT_LOCATION_CPU)
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
-            for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
+            for (addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
                 Debugger_CPU_Exec_Traps[addr]--;
 }
 
@@ -1044,26 +908,13 @@ void                        Debugger_BreakPoint_GetSummaryLine(t_debugger_breakp
     Trim_End(buf);
 }
 
-bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value)
+bool                        Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value)
 {
     t_debugger_bus_info *bus_info = &DebuggerBusInfos[breakpoint->location];
     const char *action;
     char buf[256];
 
     // Debugger_Printf("Debugger_BreakPoint_ActivatedVerbose() %04x\n", addr);
-
-	int rmapped_addr = addr;
-
-	if (breakpoint->location == BREAKPOINT_LOCATION_ROM)
-	{
-		bool is_bios;
-		const int rom_addr = Debugger_ReverseMapFindRomAddress(addr, &is_bios);
-		if (rom_addr == -1)
-			return FALSE;
-		if (rom_addr < breakpoint->address_range[0] || rom_addr > breakpoint->address_range[1])
-			return FALSE;	// False candidate (due to mapping)
-		rmapped_addr = rom_addr;
-	}
 
     // Data comparer
     // FIXME
@@ -1076,7 +927,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
             int i;
             for (i = 1; i != breakpoint->data_compare_length; i++)
             {
-                int value2 = Debugger_Bus_Read(breakpoint->location, rmapped_addr + i);
+                int value2 = Debugger_Bus_Read(breakpoint->location, addr + i);
                 if (value2 != breakpoint->data_compare_bytes[i])
                     return (FALSE);
             }
@@ -1088,17 +939,15 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     {
         // Break
         sms.R.Trace = 1;
-		Debugger.continuing_to_next_ret = false;
         action = "break";
     }
     else
     {
         // Watch
-        if (++Debugger.watch_counter >= DEBUGGER_WATCH_FLOOD_LIMIT)
+        if (++Debugger.watch_counter >= 100)
         {
-			// Flood?
-            if (Debugger.watch_counter == DEBUGGER_WATCH_FLOOD_LIMIT)
-                Debugger_Printf("Maximum number of watch triggered this frame (%d)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.\n", DEBUGGER_WATCH_FLOOD_LIMIT);
+            if (Debugger.watch_counter == 100)
+                Debugger_Printf("Maximum number of watch triggered this frame (100)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.\n");
             return (TRUE);
         }
         action = "watch";
@@ -1113,7 +962,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
             action,
             bus_info->name,
             bus_info->bus_addr_size * 2,
-            rmapped_addr,
+            addr,
             value);
     }
     else if (access & BREAKPOINT_ACCESS_W)
@@ -1124,7 +973,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
             action,
             bus_info->name,
             bus_info->bus_addr_size * 2,
-            rmapped_addr,
+            addr,
             value);
     }
     else if (access & BREAKPOINT_ACCESS_X)
@@ -1142,7 +991,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
             breakpoint->id,
             action,
             bus_info->name,
-            rmapped_addr);
+            addr);
     }
     else
     {
@@ -1189,7 +1038,7 @@ int      Debugger_Bus_Read(int bus, int addr)
     case BREAKPOINT_LOCATION_CPU:
         {
             addr &= 0xFFFF;
-            return (g_machine_flags & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
+            return (machine & MACHINE_POWER_ON) ? RdZ80_NoHook(addr) : 0x00;
         }
     case BREAKPOINT_LOCATION_VRAM:
         {
@@ -1198,7 +1047,7 @@ int      Debugger_Bus_Read(int bus, int addr)
         }
     case BREAKPOINT_LOCATION_PRAM:
         {
-            switch (g_machine.driver_id)
+            switch (cur_machine.driver_id)
             {
             case DRV_SMS:   addr &= 31;  break;
             case DRV_GG:    addr &= 63;  break;
@@ -1220,73 +1069,9 @@ int      Debugger_Bus_Read(int bus, int addr)
 // FUNCTIONS - SYMBOLS
 //-----------------------------------------------------------------------------
 
-enum t_debugger_symbol_file_type
+void     Debugger_Symbols_Load(void)
 {
-	DEBUGGER_SYMBOL_FILE_TYPE_WLA,
-	DEBUGGER_SYMBOL_FILE_TYPE_SJASM,
-	DEBUGGER_SYMBOL_FILE_TYPE_TASM,
-	DEBUGGER_SYMBOL_FILE_TYPE_MAX_
-};
-
-bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_file_type symbol_file_type)
-{
-	char line_buf[512];
-	strcpy(line_buf, line_original);
-	char* line = line_buf;
-
-    u16 bank;
-	u16 addr;
-	u32 addr32;
-	char name[512];
-
-	switch (symbol_file_type)
-	{
-	case DEBUGGER_SYMBOL_FILE_TYPE_WLA:
-        {
-			// NO$GMB/WLA format
-			//  "0000:c007 VarScanlineMetrics"
-			if (sscanf(line, "%hX:%hX %s", &bank, &addr, name) == 3)
-			{
-				Debugger_Symbol_Add(addr, bank, name);
-				return true;
-			}
-			break;
-		}
-	case DEBUGGER_SYMBOL_FILE_TYPE_SJASM:
-		{
-			// SJASM format
-			//	"pause_music: equ 0000074Fh"
-			if (parse_getword(name, countof(name), &line, ":\t\r\n", ';', PARSE_FLAGS_NONE))
-			{
-				parse_skip_spaces(&line);
-				if (sscanf(line, "equ %Xh", &addr32) == 1)
-				{
-					Debugger_Symbol_Add(addr32 & 0xFFFF, 0, name);
-					return true;
-				}
-			}
-			break;
-		}
-	case DEBUGGER_SYMBOL_FILE_TYPE_TASM:
-		{
-			if (parse_getword(name, countof(name), &line, " \t", ';', PARSE_FLAGS_NONE))
-			{
-				parse_skip_spaces(&line);
-				if (sscanf(line, "%hXh", &addr) == 1)
-				{
-					Debugger_Symbol_Add(addr, 0, name);
-					return true;
-				}
-			}
-			break;
-		}
-	}
-	return false;
-}
-
-void    Debugger_Symbols_Load(void)
-{
-    char        symbol_filename[FILENAME_LEN];
+    char        symbol_filename[FILENAME_MAX];
     t_tfile *   symbol_file;
     t_list *    lines;
     int         line_cnt;
@@ -1297,8 +1082,8 @@ void    Debugger_Symbols_Load(void)
 
     // Load symbol file
     // 1. Try "image.sym"
-    strcpy(symbol_filename, g_env.Paths.MediaImageFile);
-    StrPath_RemoveExtension(symbol_filename);
+    strcpy(symbol_filename, g_Env.Paths.MediaImageFile);
+    killext(symbol_filename);
     strcat(symbol_filename, ".sym");
     symbol_file = tfile_read(symbol_filename);
     if (symbol_file == NULL)
@@ -1308,7 +1093,7 @@ void    Debugger_Symbols_Load(void)
             Msg(MSGT_USER, meka_strerror());
 
         // 2. Try "image.ext.sym"
-        snprintf(symbol_filename, FILENAME_LEN, "%s.sym", g_env.Paths.MediaImageFile);
+        snprintf(symbol_filename, FILENAME_MAX, "%s.sym", g_Env.Paths.MediaImageFile);
         symbol_file = tfile_read(symbol_filename);
         if (symbol_file == NULL)
         {
@@ -1317,19 +1102,20 @@ void    Debugger_Symbols_Load(void)
             return;
         }
     }
-    StrPath_RemoveDirectory(symbol_filename);
+    killpath(symbol_filename);
 
     line_cnt = 0;
-	bool error = false;
     for (lines = symbol_file->data_lines; lines; lines = lines->next)
     {
-        char* line = (char*) lines->elem;
+        char *p;
+        char *line = lines->elem;
         line_cnt += 1;
 
         // Msg (MSGT_DEBUG, "%s", line);
 
         // Strip comments, skip empty lines
-        char* p = strchr(line, ';');
+        // FIXME: Can't we have some proper functions/tools to do this kind of thing?
+        p = strchr(line, ';');
         if (p != NULL)
             *p = EOSTR;
         Trim(line);
@@ -1337,30 +1123,37 @@ void    Debugger_Symbols_Load(void)
             continue;
 
         // Parse
-		bool parse_success = false;
-		for (int symbol_file_type = 0; symbol_file_type != DEBUGGER_SYMBOL_FILE_TYPE_MAX_; symbol_file_type++)
-		{
-			if (Debugger_Symbols_TryParseLine(line, (t_debugger_symbol_file_type)symbol_file_type))
-			{
-				parse_success = true;
-				break;
-			}
-		}
-		if (!parse_success)
-		{
-			if (!error)
-			{
-				error = true;
-				Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
-			}
-            Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
-		}
+        {
+            u16 bank;
+            u16 addr;
+            char *name;
+            int n;
+            if (sscanf(line, "%hX:%hX %n", &bank, &addr, &n) < 2)
+            {
+                Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error));
+                Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
+                tfile_free(symbol_file);
+                return;
+            }
+            line += n;
+            parse_skip_spaces(&line);
+            name = parse_getword(NULL, -1, &line, " \t\r\n", ';', PARSE_FLAGS_NONE);
+            if (name == NULL)
+            {
+                Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
+                Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
+                tfile_free(symbol_file);
+                return;
+            }
+            Debugger_Symbol_Add(addr, bank, name);
+        }
+    
     }
 
     // Free symbol file data
     tfile_free(symbol_file);
 
-    // Sort by address
+    // Sort symbols
     list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByAddress);
 
     // Verbose
@@ -1368,10 +1161,10 @@ void    Debugger_Symbols_Load(void)
     Debugger_Printf("%s\n", buf);
 }
 
-void    Debugger_Symbols_Clear()
+void    Debugger_Symbols_Clear(void)
 {
     t_list *symbols;
-    for (symbols = Debugger.symbols; symbols != NULL; )
+    for (symbols = Debugger.symbols; symbols!= NULL; )
     {
         t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
         symbols = symbols->next;
@@ -1380,16 +1173,16 @@ void    Debugger_Symbols_Clear()
     assert(Debugger.symbols_count == 0);
 }
 
-void    Debugger_Symbols_ListByName(char *search_name)
+void    Debugger_Symbols_List(char *search_name)
 {
     t_list *symbols;
     int count;
-
+    
     if (search_name)
     {
         Debugger_Printf("Symbols matching \"%s\":\n", search_name);
         search_name = strdup(search_name);
-        StrUpper(search_name);
+        strupr(search_name);
     }
     else
     {
@@ -1423,42 +1216,7 @@ void    Debugger_Symbols_ListByName(char *search_name)
     }
 }
 
-void    Debugger_Symbols_ListByAddr(u32 addr_request)
-{
-	u32 addr_sym;
-	
-	addr_request &= 0xFFFF;
-	addr_sym = addr_request;
-	while (addr_sym != (u32)-1)
-	{
-		if (Debugger.symbols_cpu_space[addr_sym] != NULL)
-			break;
-		addr_sym--;
-	}
-
-	if (addr_sym == addr_request || addr_sym == (u32)-1)
-		Debugger_Printf("Symbols at address \"%04x\":\n", addr_request);
-	else
-		Debugger_Printf("Symbols near address \"%04x\":\n", addr_request);
-	if (addr_sym == (u32)-1)
-	{
-		Debugger_Printf(" <None>\n");
-	}
-	else
-	{
-		t_list *symbols;
-		for (symbols = Debugger.symbols_cpu_space[addr_sym]; symbols != NULL; symbols = symbols->next)
-		{
-			t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
-			if (addr_sym != addr_request)
-				Debugger_Printf(" %04X  %s + %X = %04X\n", symbol->addr, symbol->name, addr_request - addr_sym, addr_request);
-			else
-				Debugger_Printf(" %04X  %s\n", symbol->addr, symbol->name);
-		}
-	}
-}
-
-t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 addr)
+t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(int addr)
 {
     t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
     if (symbols == NULL)
@@ -1469,7 +1227,7 @@ t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 addr)
 // Note: this function is useful, as there's often cases where the programmer sets 
 // one 'end' symbol and a following 'start' symbol and they are at the same address.
 // In most of those cases, we want the last one.
-t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 addr)
+t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(int addr)
 {
     t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
     if (symbols == NULL)
@@ -1477,19 +1235,6 @@ t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 addr)
     while (symbols->next != NULL)
         symbols = symbols->next;
     return ((t_debugger_symbol *)symbols->elem);
-}
-
-t_debugger_symbol *		Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range)
-{
-	while (range >= 0)
-	{
-		t_debugger_symbol * symbol = Debugger_Symbols_GetLastByAddr(addr);
-		if (symbol != NULL)
-			return symbol;
-		addr--;
-		range--;
-	}
-	return NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -1504,12 +1249,12 @@ t_debugger_symbol *     Debugger_Symbol_Add(u16 addr, int bank, const char *name
     assert(name != NULL);
 
     // Create and setup symbol
-    symbol = new t_debugger_symbol();
+    symbol = malloc(sizeof (t_debugger_symbol));
     symbol->addr = addr;
     symbol->bank = bank;
-    symbol->name = strdup(name);
+    symbol->name = (char *)name;
     symbol->name_uppercase = strdup(name);
-    StrUpper(symbol->name_uppercase);
+    strupr(symbol->name_uppercase);
 
     // Add to global symbol list and CPU space list
     list_add(&Debugger.symbols, symbol);
@@ -1535,7 +1280,7 @@ void    Debugger_Symbol_Remove(t_debugger_symbol *symbol)
     // Delete
     free(symbol->name);
     free(symbol->name_uppercase);
-    delete symbol;
+    free(symbol);
 
     // Decrease global counter
     Debugger.symbols_count--;
@@ -1569,12 +1314,12 @@ void     Debugger_Hooks_Uninstall(void)
     OutZ80 = OutZ80_NoHook;
 }
 
-void        Debugger_WrZ80_Hook(register u16 addr, register u8 value)
+void        Debugger_WrZ80_Hook(register int addr, register u8 value)
 {
     t_list *breakpoints;
     for (breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_W)
         {
             // Verbose break/watch point result
@@ -1584,12 +1329,13 @@ void        Debugger_WrZ80_Hook(register u16 addr, register u8 value)
     WrZ80_NoHook(addr, value);
 }
 
-u8          Debugger_RdZ80_Hook(register u16 addr)
+u8          Debugger_RdZ80_Hook(register int addr)
 {
     u8 value = RdZ80_NoHook(addr);
-    for (t_list* breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_R)
         {
             // Special case, if a X handler is installed and we're now executing, ignore R breakpoint
@@ -1610,9 +1356,10 @@ u8          Debugger_RdZ80_Hook(register u16 addr)
 
 static void     Debugger_OutZ80_Hook(register u16 addr, register u8 value)
 {
-    for (t_list* breakpoints = Debugger.breakpoints_io_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_io_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_W)
         {
             // Verbose break/watch point result
@@ -1625,9 +1372,10 @@ static void     Debugger_OutZ80_Hook(register u16 addr, register u8 value)
 static u8       Debugger_InZ80_Hook(register u16 addr)
 {
     u8 value = InZ80_NoHook(addr);
-    for (t_list* breakpoints = Debugger.breakpoints_io_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_io_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_R)
         {
             // Verbose break/watch point result
@@ -1639,9 +1387,10 @@ static u8       Debugger_InZ80_Hook(register u16 addr)
 
 void            Debugger_RasterLine_Hook(register int line)
 {
-    for (t_list* breakpoints = Debugger.breakpoints_line_space[line]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_line_space[line]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
 
         // Verbose break/watch point result
         Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_E, line, 0);
@@ -1650,9 +1399,10 @@ void            Debugger_RasterLine_Hook(register int line)
 
 void            Debugger_RdVRAM_Hook(register int addr, register u8 value)
 {
-    for (t_list* breakpoints = Debugger.breakpoints_vram_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_vram_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_R)
         {
             // Verbose break/watch point result
@@ -1663,9 +1413,10 @@ void            Debugger_RdVRAM_Hook(register int addr, register u8 value)
 
 void            Debugger_WrVRAM_Hook(register int addr, register u8 value)
 {
-    for (t_list* breakpoints = Debugger.breakpoints_vram_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_vram_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_W)
         {
             // Verbose break/watch point result
@@ -1676,9 +1427,10 @@ void            Debugger_WrVRAM_Hook(register int addr, register u8 value)
 
 void            Debugger_WrPRAM_Hook(register int addr, register u8 value)
 {
-    for (t_list* breakpoints = Debugger.breakpoints_pram_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    t_list *breakpoints;
+    for (breakpoints = Debugger.breakpoints_pram_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
-        t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+        t_debugger_breakpoint *breakpoint = breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_W)
         {
             // Verbose break/watch point result
@@ -1744,7 +1496,7 @@ void        Debugger_Printf(const char *format, ...)
     va_end (param_list);
 
     // Output to debug console
-#ifdef ARCH_WIN32
+#ifdef WIN32
     OutputDebugString(buf);
 #endif
 
@@ -1782,10 +1534,10 @@ static void Debugger_Applet_Init (void)
     // Create box
     DebuggerApp.font_id = F_MIDDLE;
     DebuggerApp.font_height = Font_Height(DebuggerApp.font_id);
-    frame.pos.x     = 428;
+    frame.pos.x     = 280;
     frame.pos.y     = 50;
     frame.size.x    = 360;
-    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + g_configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
+    frame.size.y    = ((g_Configuration.debugger_console_lines + 1 + g_Configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
 
     DebuggerApp.box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
@@ -1808,38 +1560,34 @@ static void     Debugger_Applet_Layout(bool setup)
     t_frame     frame;
 
     // Clear
-	DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
-	al_set_target_bitmap(DebuggerApp.box->gfx_buffer);
-    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
+    clear_to_color(DebuggerApp.box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
-        widget_closebox_add(DebuggerApp.box, (t_widget_callback)Debugger_Switch);
+        widget_closebox_add(DebuggerApp.box, Debugger_Switch);
 
     // Add console (textbox widget)
     frame.pos.x = 6;
     frame.pos.y = 2;
     frame.size.x = DebuggerApp.box->frame.size.x - (6*2);
-    frame.size.y = g_configuration.debugger_console_lines * DebuggerApp.font_height;
+    frame.size.y = g_Configuration.debugger_console_lines * DebuggerApp.font_height;
     if (setup)
-        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, g_configuration.debugger_console_lines, DebuggerApp.font_id);
+        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, g_Configuration.debugger_console_lines, DebuggerApp.font_id);
     frame.pos.y += frame.size.y;
 
     // Add line
-	al_set_target_bitmap(DebuggerApp.box_gfx);
-    al_draw_hline(frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
+    hline (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
     frame.pos.y += DebuggerApp.font_height;
 
     // Setup disassembly frame
     DebuggerApp.frame_disassembly.pos.x   = frame.pos.x;
     DebuggerApp.frame_disassembly.pos.y   = frame.pos.y;
     DebuggerApp.frame_disassembly.size.x  = frame.size.x;
-    DebuggerApp.frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * DebuggerApp.font_height;
+    DebuggerApp.frame_disassembly.size.y  = g_Configuration.debugger_disassembly_lines * DebuggerApp.font_height;
     frame.pos.y += DebuggerApp.frame_disassembly.size.y;
 
     // Add line
-	al_set_target_bitmap(DebuggerApp.box_gfx);
-    al_draw_hline(frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
+    hline (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
     frame.pos.y += DebuggerApp.font_height;
 
     // Setup CPU state frame
@@ -1896,7 +1644,7 @@ int         Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 // Note: output array contains reference to static buffers. 
 // Be sure to make a copy if you want to reuse later.
 //-----------------------------------------------------------------------------
-static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
+static int  Debugger_GetZ80SummaryLines(const char ***lines_out, bool simple)
 {
     int             i;
     static char     line1[256];
@@ -1911,7 +1659,7 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
        flags[i] = (cpu->AF.B.l & (1 << (7 - i))) ? "SZyHxPNC"[i] : '.';
    flags[i] = EOSTR;
 
-   *lines_out = &lines[0];
+   *lines_out = lines;
 
    if (simple)
    {
@@ -1953,9 +1701,9 @@ void        Debugger_Applet_Redraw_State(void)
 {
     int     i;
 
-    if (!(g_machine_flags & MACHINE_POWER_ON))
+    if (!(machine & MACHINE_POWER_ON))
         return;
-    if (g_driver->cpu != CPU_Z80)    // Unsupported
+    if (cur_drv->cpu != CPU_Z80)    // Unsupported
         return;
 
     // Redraw Disassembly
@@ -1964,7 +1712,7 @@ void        Debugger_Applet_Redraw_State(void)
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines = ((g_configuration.debugger_disassembly_lines - 1) / 4) + 1; 
+        int     trackback_lines = ((g_Configuration.debugger_disassembly_lines - 1) / 4) + 1; 
         trackback_lines = MIN(trackback_lines, 10); // Max 10
         //  1 -> 1
         //  5 -> 2
@@ -1973,8 +1721,7 @@ void        Debugger_Applet_Redraw_State(void)
         // Max = 10
 
         // Clear disassembly buffer
-		al_set_target_bitmap(DebuggerApp.box_gfx);
-        al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x+frame.size.x+1, frame.pos.y+frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
+        rectfill (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
 
         // Figure out where to start disassembly
         // This is tricky code due to the trackback feature.
@@ -1983,7 +1730,7 @@ void        Debugger_Applet_Redraw_State(void)
         {
             int pc_temp = pc;
             int pc_history[10*4+1] = { 0 };
-            const int pc_history_size = trackback_lines*4;
+            int pc_history_size = trackback_lines*4;
             int i;
 
             // Find in PC log all values between PC-trackback_lines*4 and PC-1
@@ -1992,10 +1739,9 @@ void        Debugger_Applet_Redraw_State(void)
             // If it happens that a previous instruction is more than trackback_lines*4 bytes before PC, 
             // then the trackback feature won't find the previous instruction. This is not a big problem
             // and it's extreme rare anyway (multi prefixes, etc).
-			//Msg(MSGT_DEBUG, "front =%d, back=%d",Debugger_Z80_PC_Log_Queue_Front,Debugger_Z80_PC_Log_Queue_Back);
-            for (i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
+            for (i = Debugger_Z80_PC_Log_Queue_First; i != Debugger_Z80_PC_Log_Queue_Write; i = (i + 1) & 255)
             {
-                const int delta = pc - Debugger_Z80_PC_Log_Queue[i];
+                int delta = pc - Debugger_Z80_PC_Log_Queue[i];
                 if (delta > 0 && delta <= pc_history_size)
                     pc_history[delta] = Z80_Disassemble(NULL, Debugger_Z80_PC_Log_Queue[i], FALSE, FALSE);
             }
@@ -2066,32 +1812,32 @@ void        Debugger_Applet_Redraw_State(void)
         //  JR NZ
 
         // Disassemble instructions starting at 'PC'
-        for (i = 0; i < g_configuration.debugger_disassembly_lines; i++)
+        for (i = 0; i < g_Configuration.debugger_disassembly_lines; i++)
         {
             char buf[256];
-            const ALLEGRO_COLOR text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
-			int opcode_size;
+            int text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
 
-            if (g_configuration.debugger_disassembly_display_labels)
+            if (g_Configuration.debugger_disassembly_display_labels)
             {
                 // Display symbols/labels
                 if (Debugger.symbols_cpu_space[pc] != NULL)
                 {
-                    for (t_list* symbols = Debugger.symbols_cpu_space[pc]; symbols != NULL; symbols = symbols->next)
+                    t_list *symbols;
+                    for (symbols = Debugger.symbols_cpu_space[pc]; symbols != NULL; symbols = symbols->next)
                     {
-                        t_debugger_symbol* symbol = (t_debugger_symbol*)symbols->elem;
+                        t_debugger_symbol *symbol = symbols->elem;
                         if (skip_labels > 0)
                         {
                             skip_labels--;
                             continue;
                         }
                         sprintf(buf, "%s:", symbol->name);
-                        Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
+                        Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
                         i++;
-                        if (i >= g_configuration.debugger_disassembly_lines)
+                        if (i >= g_Configuration.debugger_disassembly_lines)
                             break;
                     }
-                    if (i >= g_configuration.debugger_disassembly_lines)
+                    if (i >= g_Configuration.debugger_disassembly_lines)
                         break;
                 }
             }
@@ -2100,31 +1846,16 @@ void        Debugger_Applet_Redraw_State(void)
             //Debugger_Z80_PC_Log_Queue_Add(pc);
 
             // Disassemble
-            //if (g_configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
-            buf[0] = ' ';
-            opcode_size = Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
-
-			// Breakpoints
-			{
-				t_list *breakpoints;
-				bool on_breakpoint = false;
-				for (breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
-				{
-					t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
-					if (breakpoint->location == BREAKPOINT_LOCATION_ROM)	// FIXME: Support the '!' indicator for ROM breakpoints
-						continue;
-					if (breakpoint->type == BREAKPOINT_TYPE_BREAK)
-						on_breakpoint = true;
-				}
-				if (on_breakpoint)
-				{
-					buf[0] = '!';
-				}
-			}
-
-            Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), text_color);
-
-			pc += opcode_size;
+            if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
+            {
+                buf[0] = ' ';
+                pc += Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
+            }
+            else
+            {
+                pc += Debugger_Disassemble_Format(buf, pc, pc == sms.R.PC.W);
+            }
+            Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), text_color);
         }
     }
 
@@ -2136,22 +1867,21 @@ void        Debugger_Applet_Redraw_State(void)
 
         // Clear CPU state buffer
         t_frame frame = DebuggerApp.frame_cpustate;
-		al_set_target_bitmap(DebuggerApp.box_gfx);
-        al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x+1, frame.pos.y + frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
+        rectfill (DebuggerApp.box_gfx, frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
         y = frame.pos.y;
 
         // Print Z80 summary lines
         lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
         assert(lines_count >= DEBUGGER_APP_CPUSTATE_LINES); // Display first 2 lines
-        Font_Print (DebuggerApp.font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         y += DebuggerApp.font_height;
-        Font_Print (DebuggerApp.font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print (DebuggerApp.font_id, DebuggerApp.box_gfx, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         
         // Print Z80 running state with nifty ASCII rotating animation
-        if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
+        if (!(machine & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
         {
             static int running_counter = 0;
-            const char *running_string;
+            char *running_string;
             switch (running_counter >> 1)
             {
                 case 0: running_string = "RUNNING |";  break;
@@ -2159,11 +1889,14 @@ void        Debugger_Applet_Redraw_State(void)
                 case 2: running_string = "RUNNING -";  break;
                 case 3: running_string = "RUNNING \\"; break;
             }
-            Font_Print(DebuggerApp.font_id, running_string, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(DebuggerApp.font_id, DebuggerApp.box_gfx, running_string, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
             running_counter = (running_counter + 1) % 8;
         }
 
     }
+
+    // Set redraw dirty flag
+    DebuggerApp.box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW;
 }
 
 //-----------------------------------------------------------------------------
@@ -2178,15 +1911,14 @@ static void     Debugger_Help(const char *cmd)
         // Generic help
         Debugger_Printf("Debugger Help:\n");
         Debugger_Printf("-- Flow:\n");
-        Debugger_Printf(" <Enter>                : Step into"                  "\n");
+        Debugger_Printf(" <CR>                   : Step into"                  "\n");
         Debugger_Printf(" S                      : Step over"                  "\n");
         Debugger_Printf(" C [addr]               : Continue (up to <addr>)"    "\n");
-		Debugger_Printf(" CR                     : Continue up to next RET"    "\n");
         Debugger_Printf(" J addr                 : Jump to <addr>"             "\n");
         Debugger_Printf("-- Breakpoints:\n");
         Debugger_Printf(" B [access] [bus] addr  : Add breakpoint"             "\n");
         Debugger_Printf(" W [access] [bus] addr  : Add watchpoint"             "\n");
-        //Debugger_Printf(" B                      : Detailed breakpoint help"   "\n");
+        Debugger_Printf(" B                      : Detailed breakpoint help"   "\n");
         //Debugger_Printf(" B LIST                 : List breakpoints"          "\n");
         //Debugger_Printf(" B REMOVE n             : Remove breakpoint"         "\n");
         //Debugger_Printf(" B ENABLE/DISABLE n     : Enable/disable breakpoint" "\n");
@@ -2196,9 +1928,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" P expr                 : Print evaluated expression" "\n");
         Debugger_Printf(" M [addr] [len]         : Memory dump at <addr>"      "\n");
         Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
-		Debugger_Printf(" STACK [len]            : Stack dump"                 "\n");
-		Debugger_Printf(" RMAP addr              : Reverse map Z80 address"    "\n");
-        Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
+        Debugger_Printf(" SYM [name]             : List symbols"               "\n");
         Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
         Debugger_Printf(" CLOCK [RESET]          : Display Z80 cycle counter"  "\n");
         Debugger_Printf("-- Miscellaenous:\n");
@@ -2244,15 +1974,6 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             Debugger_Help("W");
         return;
     }
-
-	// B NOPNOP -> B x =0,0 "(NOP NOP)"
-	// FIXME-WIP: Of course, a generic macro system would be welcome as well.
-	if (!stricmp(arg, "nopnop"))
-	{
-		static char break_nopnop_string[] = "x =0,0 \"(NOP NOP)\"";
-		line = break_nopnop_string;
-		parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE);
-	}
         
     // B LIST
     if (!stricmp(arg, "l") || !stricmp(arg, "list"))
@@ -2290,9 +2011,10 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             if (!stricmp(arg, "ALL"))
             {
-                for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
+                t_list *breakpoints;
+                for (breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
                 {
-                    t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+                    t_debugger_breakpoint *breakpoint = breakpoints->elem;
                     Debugger_BreakPoint_Enable(breakpoint);
                 }
                 Debugger_Printf("Enabled all breakpoints/watchpoints.\n");
@@ -2300,7 +2022,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             else
             {
                 int id = atoi(arg);
-                t_debugger_breakpoint* breakpoint = Debugger_BreakPoints_SearchById(id);
+                t_debugger_breakpoint *breakpoint = Debugger_BreakPoints_SearchById(id);
                 if (breakpoint)
                 {
                     char buf[256];
@@ -2336,9 +2058,10 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             if (!stricmp(arg, "ALL"))
             {
-                for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
+                t_list *breakpoints;
+                for (breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
                 {
-                    t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
+                    t_debugger_breakpoint *breakpoint = breakpoints->elem;
                     Debugger_BreakPoint_Disable(breakpoint);
                 }
                 Debugger_Printf("Disabled all breakpoints/watchpoints.\n");
@@ -2346,7 +2069,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             else
             {
                 int id = atoi(arg); // FIXME: no error check
-                t_debugger_breakpoint* breakpoint = Debugger_BreakPoints_SearchById(id);
+                t_debugger_breakpoint *breakpoint = Debugger_BreakPoints_SearchById(id);
                 if (breakpoint)
                 {
                     char buf[256];
@@ -2437,8 +2160,6 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     // Parse Bus
     if (!stricmp(arg, "CPU"))
         location = BREAKPOINT_LOCATION_CPU;
-    else if (!stricmp(arg, "ROM"))
-        location = BREAKPOINT_LOCATION_ROM;
     else if (!stricmp(arg, "IO"))
         location = BREAKPOINT_LOCATION_IO;
     else if (!stricmp(arg, "VRAM"))
@@ -2496,17 +2217,18 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     else
     {
         t_debugger_bus_info *bus_info = &DebuggerBusInfos[location];
+        char *               p;
 
         // Clear out
         Debugger_Value_SetDirect(&address_start, (u32)-1, 16);
         Debugger_Value_SetDirect(&address_end,   (u32)-1, 16);
 
         // Parse different kind of ranges (A, A.., A..B, ..B)
-        char* p = arg;
+        p = arg;
         if (Debugger_Eval_GetExpression(&p, &address_start) > 0)
         {
             // Default is no range, so end==start
-            address_start.data = address_start.data;
+            address_start.data = (u16)address_start.data;
             address_end = address_start;
         }
         if (strncmp(p, "..", 2) == 0)
@@ -2519,7 +2241,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             if (address_start.data == -1)
                 address_start.data = bus_info->addr_min;
             if (Debugger_Eval_GetExpression(&p, &address_end) > 0)
-                address_end.data = address_end.data;
+                address_end.data = (u16)address_end.data;
             else
                 address_end.data = bus_info->addr_max;
         }
@@ -2699,7 +2421,7 @@ void        Debugger_InputParseCommand(char *line)
 
     // Process command
     parse_getword(cmd, sizeof(cmd), &line, " ", 0, PARSE_FLAGS_NONE);
-    StrUpper(cmd);
+    strupr(cmd);
 
     // H - HELP
     if (!strcmp(cmd, "H") || !strcmp(cmd, "?") || !strcmp(cmd, "HELP"))
@@ -2736,19 +2458,19 @@ void        Debugger_InputParseCommand(char *line)
     // C - CONTINUE
     if (!strcmp(cmd, "C") || !strcmp(cmd, "CONT") || !strcmp(cmd, "CONTINUE"))
     {
-        if (!(g_machine_flags & MACHINE_POWER_ON))
+        t_debugger_value value;
+        if (!(machine & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running\n");
             return;
         }
 
-        if (!(g_machine_flags & MACHINE_DEBUGGING))
+        if (!(machine & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
             Machine_Debug_Start();
         }
 
-        t_debugger_value value;
         if (Debugger_Eval_GetExpression(&line, &value) > 0)
         {
             // Continue up to...
@@ -2765,7 +2487,7 @@ void        Debugger_InputParseCommand(char *line)
 
         // Stop tracing
         sms.R.Trace = 0;
-        Machine_Debug_Stop();
+        Machine_Debug_Stop ();
 
         // Setup a single stepping so that the CPU emulator won't break
         // on the same address right now.
@@ -2775,42 +2497,16 @@ void        Debugger_InputParseCommand(char *line)
         return;
     }
 
-    // CR - CONTRET
-    if (!strcmp(cmd, "CR") || !strcmp(cmd, "CONTRET"))
-    {
-        if (!(g_machine_flags & MACHINE_POWER_ON))
-        {
-            Debugger_Printf("Command unavailable while machine is not running\n");
-            return;
-        }
-
-        if (!(g_machine_flags & MACHINE_DEBUGGING))
-        {
-            // If running, stop and entering into debugging state
-            Machine_Debug_Start();
-        }
-
-        // Start tracing
-        sms.R.Trace = 1;
-		Debugger.continuing_to_next_ret = true;
-		Debugger.stepping = 1;	// to avoid breaking again on current RET instruction
-        Debugger.stepping_trace_after = 1;
-        Machine_Debug_Stop();
-        Debugger_SetTrap(-1);
-
-		return;
-	}
-
     // J - JUMP
     if (!strcmp(cmd, "J") || !strcmp(cmd, "JP") || !strcmp(cmd, "JUMP"))
     {
         t_debugger_value value;
-        if (!(g_machine_flags & MACHINE_POWER_ON))
+        if (!(machine & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
             return;
         }
-        if (!(g_machine_flags & MACHINE_DEBUGGING))
+        if (!(machine & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
             Machine_Debug_Start ();
@@ -2831,7 +2527,7 @@ void        Debugger_InputParseCommand(char *line)
     // S - STEP OVER
     if (!strcmp(cmd, "S") || !strcmp(cmd, "STEP"))
     {
-        if (!(g_machine_flags & MACHINE_POWER_ON))
+        if (!(machine & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
         }
@@ -2857,8 +2553,8 @@ void        Debugger_InputParseCommand(char *line)
             char *p = line;
             while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
             {
-                const s16 data = value.data;
-                const int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
+                s16 data = value.data;
+                int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
                 char binary_s[2][9];
                 char char_s[4];
 
@@ -2891,7 +2587,7 @@ void        Debugger_InputParseCommand(char *line)
         if (!parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
         {
             // Display clock
-            Debugger_Printf("Clock: %lld cycles\n", Debugger.cycle_counter);
+            Debugger_Printf("Clock: %d cycles\n", Debugger.cycle_counter);
             return;
         }
 
@@ -2900,7 +2596,7 @@ void        Debugger_InputParseCommand(char *line)
             // Reset clock
             Debugger.cycle_counter = 0;
             Debugger_Printf("Clock reset\n");
-            Debugger_Printf("Clock: %lld cycles\n", Debugger.cycle_counter);
+            Debugger_Printf("Clock: %d cycles\n", Debugger.cycle_counter);
             return;
         }
 
@@ -2911,10 +2607,10 @@ void        Debugger_InputParseCommand(char *line)
     // SET
     if (!strcmp(cmd, "SET"))
     {
-        if (!(g_machine_flags & MACHINE_DEBUGGING))
+        if (!(machine & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
-            Machine_Debug_Start();
+            Machine_Debug_Start ();
         }
 
         Trim(line);
@@ -3003,7 +2699,7 @@ void        Debugger_InputParseCommand(char *line)
     // D - DISASSEMBLE
     if (!strcmp(cmd, "D") || !strcmp(cmd, "DASM"))
     {
-        if (!(g_machine_flags & MACHINE_POWER_ON))
+        if (!(machine & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
         }
@@ -3013,7 +2709,7 @@ void        Debugger_InputParseCommand(char *line)
             int len  = 10;
             t_debugger_value value;
             int expr_error;
-            if ((expr_error = Debugger_Eval_GetExpression(&line, &value)) < 0)
+            if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
             {
                 Debugger_Printf("Syntax error!\n");
                 return;
@@ -3022,7 +2718,7 @@ void        Debugger_InputParseCommand(char *line)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if ((expr_error = Debugger_Eval_GetExpression(&line, &value)) < 0)
+                if ((expr_error = Debugger_Eval_GetValue(&line, &value)) < 0)
                 {
                     Debugger_Printf("Syntax error!\n");
                     return;
@@ -3038,89 +2734,46 @@ void        Debugger_InputParseCommand(char *line)
                 for (i = 0; i < len; i++)
                 {
                     char buf[256];
-					const int opcode_size = Debugger_Disassemble_Format(buf, addr, addr == sms.R.PC.W);
+                    addr += Debugger_Disassemble_Format(buf, addr, addr == sms.R.PC.W);
 
-                    // Display symbols/labels (if any)
-                    for (t_list* symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
+                    if (g_Configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
                     {
-                        t_debugger_symbol* symbol = (t_debugger_symbol*)symbols->elem;
-                        Debugger_Printf("%s:\n", symbol->name);
+                        // Display symbols/labels (if any)
+                        t_list *symbols;
+                        for (symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
+                        {
+                            t_debugger_symbol *symbol = symbols->elem;
+                            Debugger_Printf("%s:\n", symbol->name);
+                        }
+
+                        // Display instruction
+                        Debugger_Printf(" %s\n", buf);
                     }
-
-                    // Display instruction
-                    Debugger_Printf(" %s\n", buf);
-
-					addr += opcode_size;
+                    else
+                    {
+                        // Note the subtle difference: no space before '%s'
+                        Debugger_Printf("%s\n", buf);
+                    }
                 }
             }
         }
         return;
     }
 
-	// RMAP
-	if (!strcmp(cmd, "RMAP"))
-	{
-		Trim(line);
-		if (line[0])
-		{
-			if (!(g_machine_flags & MACHINE_POWER_ON))
-			{
-				Debugger_Printf("Command unavailable while machine is not running!\n");
-			}
-			else
-			{
-				t_debugger_value value;
-				char *p = line;
-				while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
-				{
-					const s16 addr = value.data;
-					Debugger_ReverseMap(addr);
-
-					// Skip comma to get to next expression, if any
-					if (*p == ',')
-						p++;
-				}
-			}
-		}
-		else
-		{
-			Debugger_Help("RMAP");
-		}
-		return;
-	}
-
     // SYMBOLS - SYMBOLS
     if (!strcmp(cmd, "SYM") || !strcmp(cmd, "SYMBOL") || !strcmp(cmd, "SYMBOLS"))
     {
-		Trim(line);
-		if (line[0] == '@')
-		{
-			t_debugger_value value;
-			line++;
-			if (Debugger_Eval_GetExpression(&line, &value) < 0)
-			{
-				Debugger_Printf("Syntax error!\n");
-				return;
-			}
-			else
-			{
-				Debugger_Symbols_ListByAddr(value.data);
-			}
-		}
-		else
-		{
-	        if (!StrNull(line))
-		        Debugger_Symbols_ListByName(line);
-			else
-				Debugger_Symbols_ListByName(NULL);
-		}
+        if (!StrNull(line))
+            Debugger_Symbols_List(line);
+        else
+            Debugger_Symbols_List(NULL);
         return;
     }
 
     // M - MEMORY DUMP
     if (!strcmp(cmd, "M") || !strcmp(cmd, "MEM"))
     {
-        if (!(g_machine_flags & MACHINE_POWER_ON))
+        if (!(machine & MACHINE_POWER_ON))
         {
             Debugger_Printf("Command unavailable while machine is not running!\n");
         }
@@ -3129,87 +2782,51 @@ void        Debugger_InputParseCommand(char *line)
             u16 addr = sms.R.PC.W;
             int len  = 16*8;
             t_debugger_value value;
-            if (Debugger_Eval_GetExpression(&line, &value) > 0)
+            if (Debugger_Eval_GetValue(&line, &value) > 0)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if (Debugger_Eval_GetExpression(&line, &value) > 0)
+                if (Debugger_Eval_GetValue(&line, &value) > 0)
                 {
                     len = value.data;
                 }
             }
-            while (len > 0)
             {
-                char buf[256];
-                u8   data[8];
-                char *p;
-                int  line_len = (len >= 8) ? 8 : len;
-                sprintf(buf, "%04X-%04X | ", addr, (addr + line_len - 1) & 0xFFFF);
-                p = buf + strlen(buf);
-				int i;
-                for (i = 0; i < line_len; i++)
+                int i;
+                while (len > 0)
                 {
-                    data[i] = RdZ80_NoHook((addr + i) & 0xFFFF);
-                    sprintf(p, "%02X ", data[i]);
-                    p += 3;
+                    char buf[256];
+                    u8   data[8];
+                    char *p;
+                    int  line_len = (len >= 8) ? 8 : len;
+                    sprintf(buf, "%04X-%04X | ", addr, (addr + line_len - 1) & 0xFFFF);
+                    p = buf + strlen(buf);
+                    for (i = 0; i < line_len; i++)
+                    {
+                        data[i] = RdZ80_NoHook((addr + i) & 0xFFFF);
+                        sprintf(p, "%02X ", data[i]);
+                        p += 3;
+                    }
+                    if (i < 8)
+                    {
+                        int n;
+                        sprintf(p, "%-*s%n", (8 - line_len) * 3, "", &n);
+                        p += n;
+                    }
+                    sprintf(p, "| ");
+                    p += 2;
+                    for (i = 0; i < line_len; i++)
+                        *p++ = (isprint(data[i]) ? data[i] : '.');
+                    *p++ = '\n';
+                    *p = EOSTR;
+                    Debugger_Printf(buf);
+                    addr += 8;
+                    len -= line_len;
                 }
-                if (i < 8)
-                {
-                    p += sprintf(p, "%-*s", (8 - line_len) * 3, "");
-                }
-                sprintf(p, "| ");
-                p += 2;
-                for (i = 0; i < line_len; i++)
-                    *p++ = (isprint(data[i]) ? data[i] : '.');
-                *p++ = '\n';
-                *p = EOSTR;
-                Debugger_Printf(buf);
-                addr += 8;
-                len -= line_len;
             }
         }
         return;
     }
-	
-	// ST - STACK DUMP
-	if (!strcmp(cmd, "ST") || !strcmp(cmd, "STACK"))
-	{
-		if (!(g_machine_flags & MACHINE_POWER_ON))
-		{
-			Debugger_Printf("Command unavailable while machine is not running!\n");
-		}
-		else
-		{
-			u16 addr = sms.R.SP.W;
-			int len  = 8;
-			t_debugger_value value;
-			if (Debugger_Eval_GetExpression(&line, &value) > 0)
-				len = value.data;
-
-			t_debugger_symbol * symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
-			if (symbol != NULL)
-				Debugger_Printf(" Current PC:     %04X      %s+%X", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->addr);
-			else
-				Debugger_Printf(" Current PC:     %04X", sms.R.PC.W);
-			Debugger_Printf("------------------------");
-			Debugger_Printf(" Stack   8-bit   16-bit");
-			Debugger_Printf("------------------------");
-			while (len > 0)
-			{
-				const u8 v8 = RdZ80_NoHook(addr & 0xFFFF);
-				const u16 v16 = (RdZ80_NoHook((addr+1) & 0xFFFF) << 8) | v8;
-				
-				symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 64);
-				if (symbol != NULL)
-					Debugger_Printf(" %04X:   %02X      %04X      %s+%X", addr, v8, v16, symbol->name, v16-symbol->addr);
-				else
-					Debugger_Printf(" %04X:   %02X      %04X", addr, v8, v16);
-				addr++;
-				len--;
-			}
-		}
-		return;
-	}
 
     // MEMEDIT - MEMORY EDITOR SPAWN
     if (!strcmp(cmd, "MEMEDIT") || !strcmp(cmd, "MEMEDITOR"))
@@ -3259,23 +2876,21 @@ void        Debugger_InputBoxCallback(t_widget *w)
     // An empty line means step into or activate debugging
     if (line_buf[0] == EOSTR)
     {
-        if (g_machine_flags & MACHINE_POWER_ON)
+        if (machine & MACHINE_POWER_ON)
         {
             // If machine is in PAUSE state, consider is the same as in DEBUGGING state
             // (Allows step during pause)
-            if ((g_machine_flags & MACHINE_DEBUGGING) || (g_machine_flags & MACHINE_PAUSED))
+            if ((machine & MACHINE_DEBUGGING) || (machine & MACHINE_PAUSED))
             {
                 // Step into
                 Debugger.stepping = 1;
                 Debugger.stepping_trace_after = sms.R.Trace = 1;
-				Debugger.continuing_to_next_ret = false;
-                Machine_Debug_Stop();
+                Machine_Debug_Stop ();
             }
             else
             {
                 // Activate debugging
                 Debugger.stepping = 0;
-				Debugger.continuing_to_next_ret = false;
                 Debugger_Printf("Breaking at $%04X\n", sms.R.PC.W);
                 Debugger_Applet_Redraw_State();
                 Machine_Debug_Start();
@@ -3286,9 +2901,8 @@ void        Debugger_InputBoxCallback(t_widget *w)
         return;
     }
 
-	// Add input to history
-	//// Note: add after executing command, so that HISTORY doesn't show itself
-	Debugger_History_AddLine(line_buf);
+    // Add input to history
+    Debugger_History_AddLine(line_buf);
 
     // Print line to the console, as a user command log
     // Note: passing address of the color because we need a theme switch to be reflected on this
@@ -3488,12 +3102,14 @@ static int  Debugger_Eval_ParseInteger(const char *s, const char *base, const ch
     return (result);
 }
 
-bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format)
+bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result)
 {
+    t_debugger_eval_value_format value_format;
+
     // Debugger_Printf(" - token = %s\n", token);
 
     // Assume default hexadecimal
-    t_debugger_eval_value_format value_format = default_format;
+    value_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX;
     if (*value == '$')
     {
         value_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX;
@@ -3519,7 +3135,7 @@ bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result
     }
 
     {
-        const char *  parse_end;
+        char *  parse_end;
         int     data;
         switch (value_format)
         {
@@ -3542,10 +3158,7 @@ bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result
             return (FALSE);
         }
 
-		if (data > (1<<15)-1 || data < -(1<<5))
-			Debugger_Value_SetDirect(result, data, 24);
-		else
-			Debugger_Value_SetDirect(result, data, 16);
+        Debugger_Value_SetDirect(result, data, 16);
     }
 
     return (TRUE);
@@ -3642,15 +3255,15 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     }
     for (;;)
     {
-        //parse_skip_spaces(&p);
+        parse_skip_spaces(&p);
 
         // Get operator
         op = *p;
 
-        if (op == ',' || op == '.' || op == ' ')
+        if (op == ',' || op == '.')
             break;
 
-        // Chain of addition/subtraction are handled by Debugger_Eval_GetExpression()
+        // Chain of addition/substraction are handled by Debugger_Eval_GetExpression()
         if (op == '+' || op == '-') 
             break;
 
@@ -3752,12 +3365,12 @@ int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
 
     for (;;)
     {
-        //parse_skip_spaces(&p);
+        parse_skip_spaces(&p);
 
         // Get operator
         op = *p;
 
-        if (op == ',' || op == '.' || op == ' ')
+        if (op == ',' || op == '.')
             break;
 
         // Stop parsing here on end-of-string or parenthesis closure
@@ -3894,7 +3507,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
     else if (matching_words_count == 1)
     {
         // Single match, no ambiguity :)
-        const char *complete_word = (const char *)matching_words->elem;
+        const char *complete_word = matching_words->elem;
         result = strdup(complete_word);
     }
     else
@@ -3904,7 +3517,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
         t_list *matches;
         
         // Sort matches by name
-        list_sort(&matching_words, (t_list_cmp_handler)stricmp);
+        list_sort(&matching_words, stricmp);
         
         // Print them
         if (current_word_len > 0)
@@ -3913,7 +3526,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
             Debugger_Printf("%d matches:\n", matching_words_count);
         for (matches = matching_words; matches != NULL; matches = matches->next)
         {
-            const char *complete_word = (const char *)matches->elem;
+            const char *complete_word = matches->elem;
             Debugger_Printf(" - %s\n", complete_word);
         }
 
@@ -3985,69 +3598,48 @@ bool        Debugger_CompletionCallback(t_widget *w)
 // FUNCTIONS - HISTORY
 //-----------------------------------------------------------------------------
 
-// FIXME-OPT: Absolutely lame implementation, because we don't have decent data structure libraries.
-void	Debugger_History_AddLine(const char *line_to_add)
+void	Debugger_History_AddLine(const char *line)
 {
 	t_debugger_history_item *item;
-	char *line;
-	char *line_uppercase;
-	bool item_added;
-	int n;
 
-    // Shift all history entries by one up to matching one which is moved back to front (entry 1).
-	// Entry 0 is current input line and is fixed.
+    // Shift all history entries by one, except entry 0 which is fixed
     // 3 bye        3 hello
     // 2 hello  --> 2 sega
     // 1 sega       1 <line>
     // 0            0 
 
-	// Duplicate line and convert to uppercase
-	// Even when we find a matching entry, we will replace it by was what typed to keep last character casing.
-	// It's a rather useless detail, meaning it is indispensable.
-	line = strdup(line_to_add);
-	line_uppercase = strdup(line_to_add);
-	StrUpper(line_uppercase);
+    // Note: this would be faster done with a linked list, but we'd require a
+    // double linked list for other operators. We have no double-linked list yet.
+    int n = Debugger.history_count - 1;
+    if (n >= 1)
+    {
+        // Free last entry
+        if (n == Debugger.history_max - 1)
+		{
+            free(Debugger.history[n].line);
+			free(Debugger.history[n].line_uppercase);
+		}
 
-	// Search for duplicate entry in history
-	for (n = 1; n < Debugger.history_count; n++)
-	{
-		if (strcmp(Debugger.history[n].line_uppercase, line_uppercase) == 0)
-			break;
-	}
-	
-	//Msg(MSGT_USER, "n = %d, h_count = %d, h_max = %d", n, Debugger.history_count, Debugger.history_max);
-
-	if (n < Debugger.history_count || n == Debugger.history_max - 1)
-	{
-		// Delete last or matching entry
-		free(Debugger.history[n].line);
-		free(Debugger.history[n].line_uppercase);
-		item_added = FALSE;
-	}
-	else
-	{
-		item_added = TRUE;
-	}
-
-	// Shift
-	while (n > 1)
-	{
-		Debugger.history[n] = Debugger.history[n - 1];
-		n--;
-	}
+        // Shift
+        while (n >= 1)
+        {
+            Debugger.history[n + 1] = Debugger.history[n];
+            n--;
+        }
+    }
 
     // Duplicate and add new entry
 	item = &Debugger.history[1];
- 	item->line = line;
-	item->line_uppercase = line_uppercase;
+ 	item->line = strdup(line);
+	item->line_uppercase = strdup(line);
 	item->cursor_pos = -1;
+	strupr(item->line_uppercase);
 
-	// Increase counter
-	if (item_added)
-		if (Debugger.history_count < Debugger.history_max)
-			Debugger.history_count++;
+    // Increase counter
+    if (Debugger.history_count < Debugger.history_max)
+        Debugger.history_count++;
 
-	// Reset current index every time a new line is typed
+	// Reset current index everytime a new line is typed
 	Debugger.history_current_index = 0;
 }
 
@@ -4057,11 +3649,13 @@ void	Debugger_History_AddLine(const char *line_to_add)
 //-----------------------------------------------------------------------------
 bool        Debugger_History_Callback(t_widget *w, int level)
 {
+	int		new_index;
+
 	if (level != -1 && level != 1)
         return (FALSE);
 
 	// Bound check
-    const int new_index = Debugger.history_current_index + level;
+    new_index = Debugger.history_current_index + level;
 	if (new_index < 0 || new_index >= Debugger.history_count)
 		return (FALSE);
 
@@ -4073,7 +3667,7 @@ bool        Debugger_History_Callback(t_widget *w, int level)
 		Debugger.history[0].line = strdup(widget_inputbox_get_value(w));
 		Debugger.history[0].line_uppercase = strdup(Debugger.history[0].line);
 		Debugger.history[0].cursor_pos = widget_inputbox_get_cursor_pos(w);
-		StrUpper(Debugger.history[0].line_uppercase);
+		strupr(Debugger.history[0].line_uppercase);
 	}
 
 	// Restore new item
@@ -4094,7 +3688,7 @@ void        Debugger_History_List(const char *search_term_arg)
 	{
 	    Debugger_Printf("History lines matching \"%s\":\n", search_term_arg);
 		search_term = strdup(search_term_arg);
-		StrUpper(search_term);
+		strupr(search_term);
 	}
 	else
 	{
@@ -4126,143 +3720,6 @@ void        Debugger_History_List(const char *search_term_arg)
 	{
 		// Free the uppercase duplicate we made
 		free(search_term);
-	}
-}
-
-//-----------------------------------------------------------------------------
-// FUNCTIONS - REVERSE MAP
-//-----------------------------------------------------------------------------
-
-int			Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios)
-{
-	const int mem_pages_index = (addr >> 13);
-	const u8 *mem_pages_base = Mem_Pages[mem_pages_index] + (mem_pages_index << 13);
-
-	int offset;
-
-	// - ROM
-	offset = (mem_pages_base - ROM) + (addr & 0x1FFF);
-	if (offset >= 0 && offset < tsms.Size_ROM)
-	{
-		*is_bios = false;
-		return offset;
-	}
-			
-	// - ROM (special hack for first 1 KB)
-	// FIXME: Report ROM instead of SMS BIOS in those cases. Anyway SMS BIOS is poorly emulated.
-	offset = (mem_pages_base - Game_ROM_Computed_Page_0) + (addr & 0x1FFF);
-	if (offset >= 0 && offset < 0x4000)
-	{
-		*is_bios = false;
-		return offset;
-	}
-
-	// - BIOSes
-	offset = (mem_pages_base - BIOS_ROM) + (addr & 0x1fff);
-	if (offset >= 0 && offset < 0x2000)
-	{
-		*is_bios = true;
-		return offset;
-	}
-	offset = (mem_pages_base - BIOS_ROM_Jap) + (addr & 0x1fff);
-	if (offset >= 0 && offset < 0x2000)
-	{
-		*is_bios = true;
-		return offset;
-	}
-	offset = (mem_pages_base - BIOS_ROM_Coleco) + (addr & 0x1fff);
-	if (offset >= 0 && offset < 0x2000)
-	{
-		*is_bios = true;
-		return offset;
-	}
-	offset = (mem_pages_base - BIOS_ROM_SF7000) + (addr & 0x1fff);
-	if (offset >= 0 && offset < 0x4000)
-	{
-		*is_bios = true;
-		return offset;
-	}
-
-	return -1;
-}
-
-//-----------------------------------------------------------------------------
-// Note: this is completely hard-coded to handle the most common cases.
-// The reason is that this feature was planned since a long time using a more
-// generic approach, but since I could not get myself to code that version, I'd
-// rather code the simple one so it is immediately useful.
-//-----------------------------------------------------------------------------
-// FIXME: Could support mappers registers, although it's not super useful.
-// FIXME: Not great at supporting mirrored ranges.
-//-----------------------------------------------------------------------------
-void		Debugger_ReverseMap(u16 addr)
-{
-	int     ram_len;
-	int		ram_start_addr;
-	int     sram_len;
-	u8 *    sram_buf;
-
-	Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
-	BMemory_Get_Infos((void**)&sram_buf, &sram_len);
-
-	//switch (g_machine.mapper)
-	{
-	//case MAPPER_Standard:
-	//case MAPPER_32kRAM:
-	//case MAPPER_CodeMasters:
-	//case MAPPER_SMS_Korean:
-	//case MAPPER_93c46:
-	//default:
-		{
-			//if (addr < 0x400)
-			//	Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %d, Offset %d)", addr, addr, 0, addr & 0x3FFF);
-
-			const int mem_pages_index = (addr >> 13);
-			const u8 *mem_pages_base = Mem_Pages[mem_pages_index] + (mem_pages_index << 13);
-
-			// Pages can be pointing to:
-			// - ROM
-			// - Game_ROM_Computed_Page_0
-			// - RAM
-			// - SRAM
-			// - BIOS_ROM
-			// - BIOS_ROM_Jap
-			// - BIOS_ROM_Coleco
-			// - BIOS_ROM_SF7000
-			// Using direct pointer arithmetic comparisons.
-			int offset;
-
-			// - ROM, Game_ROM_Computed_Page_0, BIOS_ROM*
-			bool is_bios;
-			offset = Debugger_ReverseMapFindRomAddress(addr, &is_bios);
-			if (offset != -1)
-			{
-				if (is_bios)
-					Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
-				else			
-					Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
-			}
-
-			// - RAM
-			offset = (mem_pages_base - RAM) + (addr & MIN(0x1fff, ram_len - 1));
-			if (offset >= 0 && offset < ram_len)
-				Debugger_Printf(" Z80 $%04X = RAM $%04X", addr, ram_start_addr + offset);
-				//Debugger_Printf(" Z80 $%04X = RAM $%04X = RAM $%04X", addr, ram_start_addr + offset, ram_start_addr + ram_len + offset);
-
-			// - SRAM
-			offset = (mem_pages_base - SRAM) + (addr & MIN(0x1fff, sram_len - 1));
-			if (offset >= 0 && offset < sram_len)
-				Debugger_Printf(" Z80 $%04X = SRAM $%04X", addr, offset);
-
-			//break;
-		}
-	/*
-	default:
-		{
-			Debugger_Printf("Unsupported Mapper Mode for this functionality!\nPlease contact me to request the feature.\n");
-			break;
-		}
-	*/
 	}
 }
 

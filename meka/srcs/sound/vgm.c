@@ -4,32 +4,33 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include <stdarg.h>
 #include "db.h"
-#include "fmunit.h"
-#include "psg.h"
 
 //-----------------------------------------------------------------------------
 
 void            VGM_Header_Init(t_vgm_header *h)
 {
+    int         i;
+
     assert(sizeof(t_vgm_header) == 64);
     memcpy(h->magic, VGM_MAGIC, sizeof (h->magic));
     h->eof_offset           = 0;                            // Unknown as of yet
     h->version_number       = VGM_VERSION;                  // VGM Version
     // FIXME: PSG?
-    h->sn76489_clock        = g_machine.TV->CPU_clock;    // CPU Clock
+    h->sn76489_clock        = cur_machine.TV->CPU_clock;    // CPU Clock
     h->ym2413_clock         = 0;                            // Will be set back if VGM_FM_Used==TRUE
     h->gd3_offset           = 0;                            // Unknown as of yet
     h->total_samples        = 0;
     h->loop_offset          = 0;
     h->loop_samples         = 0;
-    h->rate                 = g_machine.TV->screen_frequency;
-    if (g_driver->snd == SND_SN76489)
+    h->rate                 = cur_machine.TV->screen_frequency;
+    if (cur_drv->snd == SND_SN76489)
     {
         h->sn76489_feedback     = 0x0009;
         h->sn76489_shift_width  = 16;
     }
-    else if (g_driver->snd == SND_SN76489AN)
+    else if (cur_drv->snd == SND_SN76489AN)
     {
         h->sn76489_feedback     = 0x0003;   // 2005/11/12: VGM specs are incorrect, says 0x0006
         h->sn76489_shift_width  = 15;
@@ -43,7 +44,7 @@ void            VGM_Header_Init(t_vgm_header *h)
     h->_reserved            = 0;
     h->ym2612_clock         = 0;
     h->ym2151_clock         = 0;
-    for (int i = 0; i != VGM_PADDING_SIZE; i++)
+    for (i = 0; i != VGM_PADDING_SIZE; i++)
         h->_padding[i] = 0;
 }
 
@@ -129,8 +130,8 @@ void            VGM_Close(t_vgm *VGM)
 
 void            VGM_Update_Timing (t_vgm *VGM)
 {
-    VGM->Samples_per_Frame = (g_machine.TV->id == TVTYPE_NTSC) ? 735 : 882;
-    VGM->Cycles_per_Frame  = /*VGM->Header.PSG_Speed / 60*/ g_machine.TV_lines * opt.Cur_IPeriod;
+    VGM->Samples_per_Frame = (cur_machine.TV->id == TVTYPE_NTSC) ? 735 : 882;
+    VGM->Cycles_per_Frame  = /*VGM->Header.PSG_Speed / 60*/ cur_machine.TV_lines * opt.Cur_IPeriod;
     VGM->Samples_per_Cycle = (double)VGM->Samples_per_Frame / VGM->Cycles_per_Frame;
     VGM->Cycles_per_Sample = (double)VGM->Cycles_per_Frame / VGM->Samples_per_Frame;
 }
@@ -141,7 +142,7 @@ void            VGM_NewFrame(t_vgm *VGM)
     {
         byte b;
 
-        if (g_machine.TV->id == TVTYPE_NTSC)
+        if (cur_machine.TV->id == TVTYPE_NTSC)
         {
             b = VGM_CMD_WAIT_735;
             VGM->vgm_header.total_samples += 735;
@@ -247,38 +248,36 @@ void            VGM_Data_Add_Wait(t_vgm *VGM, int Samples)
 
 void            GD3_Header_Init(t_gd3_header *h)
 {
-    const char *name;
+    char *      name;
 
     memcpy(h->magic, GD3_MAGIC, 4);
     h->version = GD3_VERSION;
     h->data_length = 0;            // Unknown as of yet
-    h->strings[GD3_S_NAME_TRACK_ENG]  = StrDupToU16 ("");
-    h->strings[GD3_S_NAME_TRACK_JAP]  = StrDupToU16 ("");
+    h->strings[GD3_S_NAME_TRACK_ENG]  = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_TRACK_JAP]  = StrDupToUnicode ("");
 
     // English name
-    name = DB.current_entry ? DB_Entry_GetCurrentName (DB.current_entry) : "";
-    h->strings[GD3_S_NAME_GAME_ENG]   = StrDupToU16 (name);
+    name = DB_CurrentEntry ? DB_Entry_GetCurrentName (DB_CurrentEntry) : "";
+    h->strings[GD3_S_NAME_GAME_ENG]   = StrDupToUnicode (name);
 
     // Japanese name
-    if (DB.current_entry)
+    if (DB_CurrentEntry)
     {
-        const t_db_name *dbname = DB_Entry_GetNameByCountry(DB.current_entry, DB_COUNTRY_JP);
+        t_db_name *dbname = DB_Entry_GetNameByCountry (DB_CurrentEntry, DB_COUNTRY_JP);
         name = dbname ? dbname->name : "";
     }
     else
-	{
         name = "";
-	}
-    h->strings[GD3_S_NAME_GAME_JAP]   = StrDupToU16 (name);
+    h->strings[GD3_S_NAME_GAME_JAP]   = StrDupToUnicode (name);
 
     // System, Author, Date, File author (filled if MEKA is registered), Notes
-    h->strings[GD3_S_NAME_SYSTEM_ENG] = StrDupToU16 (g_driver->full_name);
-    h->strings[GD3_S_NAME_SYSTEM_JAP] = StrDupToU16 ("");
-    h->strings[GD3_S_NAME_AUTHOR_ENG] = StrDupToU16 ("");
-    h->strings[GD3_S_NAME_AUTHOR_JAP] = StrDupToU16 ("");
-    h->strings[GD3_S_DATE]            = StrDupToU16 ("");
-    h->strings[GD3_S_FILE_AUTHOR]     = StrDupToU16 (""); //registered.is ? registered.user_name_only : "");
-    h->strings[GD3_S_NOTES]           = StrDupToU16 ("");
+    h->strings[GD3_S_NAME_SYSTEM_ENG] = StrDupToUnicode (cur_drv->full_name);
+    h->strings[GD3_S_NAME_SYSTEM_JAP] = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_AUTHOR_ENG] = StrDupToUnicode ("");
+    h->strings[GD3_S_NAME_AUTHOR_JAP] = StrDupToUnicode ("");
+    h->strings[GD3_S_DATE]            = StrDupToUnicode ("");
+    h->strings[GD3_S_FILE_AUTHOR]     = StrDupToUnicode (""); //registered.is ? registered.user_name_only : "");
+    h->strings[GD3_S_NOTES]           = StrDupToUnicode ("");
 }
 
 void            GD3_Header_Close(t_gd3_header *h)
@@ -293,20 +292,23 @@ void            GD3_Header_Close(t_gd3_header *h)
 int             GD3_Header_Write(t_gd3_header *h, FILE *f)
 {
     int         i;
+    int         Len;
+    int         Pos;
+    char *      Buf;
 
     // Calculate Data Length
-    int Len = 0;
+    Len = 0;
     for (i = 0; i != GD3_S_MAX; i++)
-        Len += (StrLenU16 (h->strings[i]) + 1) * 2;
+        Len += (StrLenUnicode (h->strings[i]) + 1) * 2;
     h->data_length = Len;
 
     // Create buffer with all strings
-    char* Buf = (char*)Memory_Alloc (Len);
-    int Pos = 0;
+    Buf = Memory_Alloc (Len);
+    Pos = 0;
     for (i = 0; i < GD3_S_MAX; i++)
     {
-        StrCpyU16 ((word *)(Buf + Pos), h->strings[i]);
-        Pos += StrLenU16 (h->strings[i]) * 2;
+        StrCpyUnicode ((word *)(Buf + Pos), h->strings[i]);
+        Pos += StrLenUnicode (h->strings[i]) * 2;
         *(word *)(Buf + Pos) = 0x0000;
         Pos += 2;
     }

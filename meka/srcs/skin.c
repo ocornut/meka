@@ -20,7 +20,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-struct t_skin_manager
+typedef struct
 {
     t_list *            skins;
     t_skin *            skin_current;
@@ -28,23 +28,24 @@ struct t_skin_manager
     float               skin_fade_pos;
     float               skin_fade_speed;
     t_skin *            skin_fade_from;
+    t_skin *            skin_black;
     char *              skin_configuration_name;
-    ALLEGRO_BITMAP *    background_picture;
+    BITMAP *            background_picture;
     bool                quit_after_fade;
-};
+}                       t_skin_manager;
 
 static t_skin_manager   Skins;
 
-struct t_skin_color
+typedef struct
 {
     const char *        identifier;
     const char *        default_identifier;
-};
+} t_skin_color;
 
 // Table associating skin color definitions to name
 const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
 {
-    { "background_color",                       NULL                            }, // 0
+    { "background_color",                       NULL                            },
     { "background_grid_color",                  "background_color"              },
     { "window_border_color",                    NULL                            },
     { "window_background_color",                NULL                            },
@@ -54,7 +55,7 @@ const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
     { "window_text_color",                      NULL                            },
     { "window_text_highlight_color",            NULL                            },
     { "window_separators_color",                "window_border_color"           },
-    { "menu_background_color",                  NULL                            }, // 10
+    { "menu_background_color",                  NULL                            },
     { "menu_border_color",                      NULL                            },
     { "menu_selection_color",                   NULL                            },
     { "menu_text_color",                        NULL                            },
@@ -64,7 +65,7 @@ const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
     { "widget_generic_border_color",            "window_border_color"           },
     { "widget_generic_text_color",              "window_text_highlight_color"   },
     { "widget_generic_text_unactive_color",     "window_text_color"             },
-    { "widget_listbox_background_color",        "menu_background_color"         }, // 20
+    { "widget_listbox_background_color",        "menu_background_color"         },
     { "widget_listbox_border_color",            "menu_border_color"             },
     { "widget_listbox_selection_color",         "menu_selection_color"          },
     { "widget_listbox_text_color",              "menu_text_color"               },
@@ -75,7 +76,7 @@ const t_skin_color      SkinColorData[SKIN_COLOR_MAX_] =
     { "widget_statusbar_text_color",            "menu_text_color"               },
 };
 
-ALLEGRO_COLOR       SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
+int         SkinCurrent_NativeColorTable[SKIN_COLOR_MAX_];
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -100,7 +101,7 @@ t_skin *    Skin_New(const char *name)
     assert(name != NULL);
 
     // Create and setup empty skin
-    skin = (t_skin*)malloc(sizeof(t_skin));
+    skin = malloc(sizeof(t_skin));
     skin->enabled = FALSE;
     skin->name = strdup(name);
     skin->authors = NULL;
@@ -214,18 +215,19 @@ void        Skins_Init(void)
     Skins.skin_fade_pos         = 0.0f;
     Skins.skin_fade_speed       = SKIN_FADE_SPEED_DEFAULT;
     Skins.skin_fade_from        = NULL;
+    Skins.skin_black            = NULL;
     Skins.background_picture    = NULL;
     Skins.quit_after_fade       = FALSE;
 
     // Load skins from MEKA.THM file
-    Skins_Load(g_env.Paths.SkinFile);
+    Skins_Load(g_Env.Paths.SkinFile);
 
     // Post process skins and verify skin validity (all colors sets, etc)
     {
         t_list *skins;
         for (skins = Skins.skins; skins != NULL; skins = skins->next)
         {
-            t_skin* skin = (t_skin*)skins->elem;
+            t_skin *skin = skins->elem;
             Skin_PostProcess(skin);
             if (Skin_IsValid(skin))
             {
@@ -245,6 +247,18 @@ void        Skins_Init(void)
     // Verify that we have at least 1 loaded skin
     if (skin_first_valid == NULL)
         Quit_Msg (Msg_Get(MSG_Theme_Error_Not_Enough));
+
+    // Add full black skin (for fading out)
+    {
+        int i;
+        Skins.skin_black = Skin_New("#BLACK");
+        for (i = 0; i != SKIN_COLOR_MAX_; i++)
+        {
+            Skins.skin_black->colors[i] = COLOR_BLACK;
+            Skins.skin_black->colors_defined[i] = TRUE;
+        }
+        Skin_PostProcess(Skins.skin_black);
+    }
 
     // Set current skin
     Skins.skin_current = NULL;
@@ -401,6 +415,8 @@ static int  Skins_ParseLine(char *line)
                 skin->effect = SKIN_EFFECT_BLOOD;
             else if (!strcmp(value, "hearts"))
                 skin->effect = SKIN_EFFECT_HEARTS;
+            else if (!strcmp(value, "snow"))
+                skin->effect = SKIN_EFFECT_SNOW;
             else
                 return MEKA_ERR_SYNTAX;
             return MEKA_ERR_OK;
@@ -418,11 +434,15 @@ static int  Skins_ParseLine(char *line)
 //-----------------------------------------------------------------------------
 void        Skins_Load(const char *filename)
 {
+    t_tfile *   tf;
+    t_list *    lines;
+    char *      line;
+    int         line_cnt;
+
     ConsolePrint (Msg_Get (MSG_Theme_Loading));
 
     // Open and read file
-    t_tfile* tf;
-	tf = tfile_read(filename);
+    tf = tfile_read (filename);
     if (tf == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
@@ -433,11 +453,11 @@ void        Skins_Load(const char *filename)
     ConsolePrint ("\n");
 
     // Parse each line
-    int line_cnt = 0;
-    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
+    line_cnt = 0;
+    for (lines = tf->data_lines; lines; lines = lines->next)
     {
-        char* line = (char*)lines->elem;
         line_cnt += 1;
+        line = lines->elem;
         switch (Skins_ParseLine(line))
         {
         case MEKA_ERR_SYNTAX:
@@ -470,7 +490,7 @@ void        Skins_Load(const char *filename)
 void        Skins_Close(void)
 {
     // Free all strings
-    list_free_custom (&Skins.skins, (t_list_free_handler)Skin_Delete);
+    list_free_custom (&Skins.skins, Skin_Delete);
     free(Skins.skin_configuration_name);
     Skins.skins = NULL;
     Skins.skin_current = NULL;
@@ -485,9 +505,10 @@ void        Skins_SetSkinConfiguration(const char *skin_name)
 
 t_skin *    Skins_FindSkinByName(const char *skin_name)
 {
-    for (t_list* skins = Skins.skins; skins != NULL; skins = skins->next)
+    t_list *skins;
+    for (skins = Skins.skins; skins != NULL; skins = skins->next)
     {
-        t_skin* skin = (t_skin*)skins->elem;
+        t_skin *skin = skins->elem;
         if (skin->enabled && stricmp(skin_name, skin->name) == 0)
             return (skin);
     }
@@ -504,7 +525,7 @@ void        Skins_Apply(void)
     Skins_Background_Redraw();
 
     // Layout all boxes
-    GUI_RelayoutAll();
+    gui_relayout();
 }
 
 void        Skins_StartupFadeIn(void)
@@ -534,14 +555,14 @@ void        Skins_Select(t_skin *skin, bool fade)
     // Load background picture, if any
     if (Skins.background_picture != NULL)
     {
-        al_destroy_bitmap(Skins.background_picture);
+        destroy_bitmap(Skins.background_picture);
         Skins.background_picture = NULL;
     }
     if (Skins.skin_current->background_picture != NULL)
     {
         char filename[FILENAME_LEN];
-        sprintf(filename, "%s/%s", g_env.Paths.EmulatorDirectory, Skins.skin_current->background_picture);
-        Skins.background_picture = al_load_bitmap(filename);
+        sprintf(filename, "%s/%s", g_Env.Paths.EmulatorDirectory, Skins.skin_current->background_picture);
+        Skins.background_picture = load_bitmap(filename, NULL);
         if (Skins.background_picture == NULL)
         {
             Msg(MSGT_USER, Msg_Get (MSG_Theme_Error_BG));
@@ -571,13 +592,14 @@ void        Skins_Update(void)
     }
 
     // Quit after fade
-    if (Skins.quit_after_fade && !Skins.skin_fade)
-        opt.Force_Quit = TRUE;
+    if (Skins.quit_after_fade)
+        if (!Skins.skin_fade)
+            opt.Force_Quit = TRUE;
 }
 
 //-----------------------------------------------------------------------------
 
-static ALLEGRO_COLOR Skins_ColorBlendToNative(u32 color1, u32 color2, float fact1, float fact2)
+static u32  Skins_ColorBlendToNative(u32 color1, u32 color2, float fact1, float fact2)
 {
     const int r1 = (color1 & 0x00FF0000) >> 16;
     const int g1 = (color1 & 0x0000FF00) >> 8;
@@ -591,7 +613,7 @@ static ALLEGRO_COLOR Skins_ColorBlendToNative(u32 color1, u32 color2, float fact
     assert(r >= 0 && r <= 255);
     assert(g >= 0 && g <= 255);
     assert(b >= 0 && b <= 255);
-    return al_map_rgb(r, g, b);
+    return makecol(r, g, b);
 }
 
 static u32  Skins_ColorBlend(u32 color1, u32 color2, float fact1, float fact2)
@@ -611,19 +633,20 @@ static u32  Skins_ColorBlend(u32 color1, u32 color2, float fact1, float fact2)
     return (r << 16) | (g << 8) | (b);
 }
 
-static ALLEGRO_COLOR Skins_ColorToNative(u32 color)
+static u32  Skins_ColorToNative(u32 color)
 {
     const int r = (color & 0x00FF0000) >> 16;
     const int g = (color & 0x0000FF00) >> 8;
     const int b = (color & 0x000000FF) >> 0;
-    return al_map_rgb(r, g, b);
+    return makecol(r, g, b);
 }
 
 static void Skins_UpdateNativeGradient(t_skin_gradient *gradient, u32 color_start, u32 color_end)
 {
+    int i;
     gradient->native_color_start    = Skins_ColorToNative(color_start);
     gradient->native_color_end      = Skins_ColorToNative(color_end);
-    for (int i = 0; i < SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE; i++)
+    for (i = 0; i < SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE; i++)
     {
         const float fact2 = (float)i / (float)(SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1);
         const float fact1 = 1.0f - fact2;
@@ -669,10 +692,15 @@ static void Skins_UpdateNativeColorTable(void)
     }
 }
 
+static void Skins_SetupBackground(t_skin *skin)
+{
+    // FIXME
+}
+
 static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
 {
     // Switch smoothly to new theme
-    t_skin* skin = (t_skin*)event->user_data;
+    t_skin *skin = event->user_data;
     Skins_Select(skin, TRUE);
     Skins_Apply();
 
@@ -683,14 +711,16 @@ static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
 
 void        Skins_MenuInit(int menu_id)
 {
-    for (t_list* skins = Skins.skins; skins != NULL; skins = skins->next)
+    t_list *skins;
+    for (skins = Skins.skins; skins != NULL; skins = skins->next)
     {
-        t_skin* skin = (t_skin*)skins->elem;
+        t_skin *skin = skins->elem;
         if (skin->enabled)
         {
-            menu_add_item(menu_id, skin->name,
+            menu_add_item(menu_id,
+                skin->name,
                 AM_Active | ((Skins.skin_current == skin) ? AM_Checked : 0),
-                (t_menu_callback)Skins_MenuHandlerSelectSkin, skin);
+                Skins_MenuHandlerSelectSkin, skin);
         }
     }
 }
@@ -705,16 +735,21 @@ t_skin *    Skins_GetCurrentSkin(void)
     return Skins.skin_current;
 }
 
-ALLEGRO_BITMAP *    Skins_GetBackgroundPicture(void)
+BITMAP *    Skins_GetBackgroundPicture(void)
 {
     return Skins.background_picture;
+}
+
+t_skin *    Skins_GetSystemSkinBlack(void)
+{
+    return Skins.skin_black;
 }
 
 //-----------------------------------------------------------------------------
 // Functions - Gradients
 //-----------------------------------------------------------------------------
 
-void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame)
+void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame)
 {
     const int x1 = frame->pos.x;
     const int y1 = frame->pos.y;
@@ -724,8 +759,7 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *b
     if (!gradient->enabled)
     {
         // Fill with start color
-		al_set_target_bitmap(bitmap);
-        al_draw_filled_rectangle(x1, y1, x2+1, y2+1, gradient->native_color_start);
+        rectfill(bitmap, x1, y1, x2, y2, gradient->native_color_start);
     }
     else
     {
@@ -733,36 +767,32 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *b
         const int gradient_pos_start = ((x2 - x1) * gradient->pos_start) / 100;
         const int gradient_pos_end   = ((x2 - x1) * gradient->pos_end)   / 100;
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
-		al_set_target_bitmap(bitmap);
+        int n;
         if (gradient_pos_start != 0)
-            al_draw_filled_rectangle(x1, y1+0.5f, x1 + gradient_pos_start + 1, y2+1.5f, gradient->native_color_start);
-		if ( gradient_size > 0 )
-		{
-			for (int n = 0; n <= gradient_size; n++)
-			{
-				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
-				const int x = x1 + n + gradient_pos_start;
-				const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
-				al_draw_line(x+0.5f, y1+0.5f, x+0.5f, y2+1.5f, color, 0.0f);
-			}
-		}
-        if (gradient_pos_end < frame->size.x+1)
-            al_draw_filled_rectangle(x1 + gradient_pos_end, y1+0.5f, x2+1, y2+1.5f, gradient->native_color_end);
+            rectfill(bitmap, x1, y1, x1 + gradient_pos_start, y2, gradient->native_color_start);
+        for (n = 0; n <= gradient_size; n++)
+        {
+            const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
+            const int x = x1 + n + gradient_pos_start;
+            const u32 color = gradient->native_color_buffer[gradient_idx];
+            vline(bitmap, x, y1, y2, color);
+        }
+        if (gradient_pos_end != frame->size.x)
+            rectfill(bitmap, x1 + gradient_pos_end, y1, x2, y2, gradient->native_color_end);
     }
 }
 
-void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bitmap, t_frame *frame)
+void    SkinGradient_DrawVertical(t_skin_gradient *gradient, BITMAP *bitmap, t_frame *frame)
 {
     const int x1 = frame->pos.x;
     const int y1 = frame->pos.y;
     const int x2 = frame->pos.x + frame->size.x;
     const int y2 = frame->pos.y + frame->size.y;
 
-	al_set_target_bitmap(bitmap);
     if (!gradient->enabled)
     {
         // Fill with start color
-        al_draw_filled_rectangle(x1, y1, x2+1, y2+1, gradient->native_color_start);
+        rectfill(bitmap, x1, y1, x2, y2, gradient->native_color_start);
     }
     else
     {
@@ -770,20 +800,18 @@ void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bit
         const int gradient_pos_start = ((y2 - y1) * gradient->pos_start) / 100;
         const int gradient_pos_end   = ((y2 - y1) * gradient->pos_end)   / 100;
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
+        int n;
         if (gradient_pos_start != 0)
-            al_draw_filled_rectangle(x1, y1, x2 + 1, y1 + gradient_pos_start + 1, gradient->native_color_start);
-		if ( gradient_size > 0 )
-		{
-			for (int n = 0; n <= gradient_size; n++)
-			{
-				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
-				const int y = y1 + n + gradient_pos_start;
-				const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
-				al_draw_hline(x1, y, x2, color);
-			}
-		}
-        if (gradient_pos_end < frame->size.y+1)
-            al_draw_filled_rectangle(x1, y1 + gradient_pos_end, x2 + 1, y2 + 1, gradient->native_color_end);
+            rectfill(bitmap, x1, y1, x2, y1 + gradient_pos_start, gradient->native_color_start);
+        for (n = 0; n <= gradient_size; n++)
+        {
+            const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
+            const int y = y1 + n + gradient_pos_start;
+            const u32 color = gradient->native_color_buffer[gradient_idx];
+            hline(bitmap, x1, y, x2, color);
+        }
+        if (gradient_pos_end != frame->size.y)
+            rectfill(bitmap, x1, y1 + gradient_pos_end, x2, y2, gradient->native_color_end);
     }
 }
 

@@ -44,7 +44,6 @@
     YM2143 data sheet
 
 **************************************************************************************/
-#include "shared.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,7 +51,7 @@
 #include "emu2413.h"
 
 // OMAR BEGIN
-#ifdef ARCH_WIN32
+#ifdef WIN32
 #undef INLINE
 #define INLINE __inline
 #endif
@@ -220,7 +219,6 @@ static e_uint32 dphaseTable[512][8][16];
                   Create tables
 
 ****************************************************/
-
 INLINE static e_int32
 Min (e_int32 i, e_int32 j)
 {
@@ -238,7 +236,7 @@ makeAdjustTable (void)
 
   AR_ADJUST_TABLE[0] = (1 << EG_BITS);
   for (i = 1; i < 128; i++)
-    AR_ADJUST_TABLE[i] = (e_uint16) ((double) (1 << EG_BITS) - 1 - (1 << EG_BITS) * log ((double)i) / log ((double)128));
+    AR_ADJUST_TABLE[i] = (e_uint16) ((double) (1 << EG_BITS) - 1 - (1 << EG_BITS) * log (i) / log (128));
 }
 
 
@@ -1678,23 +1676,10 @@ OPLL_writeReg (OPLL * opll, e_uint32 reg, e_uint32 data)
     setFnumber (opll, ch, ((data & 1) << 8) + opll->reg[0x10 + ch]);
     setBlock (opll, ch, (data >> 1) & 7);
     setSustine (opll, ch, (data >> 5) & 1);
-#if 1
-	// FIX from http://smspower.org/forums/viewtopic.php?p=70825#70825
-	if (ch < 0x06 || ! (opll->reg[0x0E] & 0x20))
-	{
-		// Valley Bell Fix: prevent commands 0x26-0x28 from turning
-		// the drums (BD, SD, CYM) off
-		if (data & 0x10)
-			keyOn (opll, ch);
-		else
-			keyOff (opll, ch);
-	}	
-#else
     if (data & 0x10)
       keyOn (opll, ch);
     else
       keyOff (opll, ch);
-#endif
     UPDATE_ALL (MOD(opll,ch));
     UPDATE_ALL (CAR(opll,ch));
     update_key_status (opll);

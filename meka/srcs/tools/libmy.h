@@ -8,21 +8,25 @@
 #define OK                      (0)
 #define ERR                     (1)
 
-int		Random(int max);
-float	RandomFloat(float max = 1.0f);
-float	RandomFloat(float min, float max);
+#define Maj(c)                  ((c >= 'a' && c <= 'z') ? (c + 'A' - 'a') : (c))
+#define Min(c)                  ((c >= 'A' && c <= 'Z') ? (c + 'a' - 'A') : (c))
+#define Limit(a,b)              (((b) > (a)) ? (a) : (b))
+
+#ifndef WIN32
+  #define Random(a)             (random() % (a))
+#else
+  #define Random(a)             (rand() % (a))
+#endif
 
 char   *StrNDup                 (const char *src, int n);
 
-unsigned short *StrCpyU16		(unsigned short *s1, unsigned short *s2);
-unsigned short *StrDupToU16		(const char *src);
-unsigned short *StrNDupToU16	(const char *src, int n);
-int             StrLenU16		(const unsigned short *s);
+unsigned short *StrCpyUnicode   (unsigned short *s1, unsigned short *s2);
+unsigned short *StrDupToUnicode (const char *src);
+unsigned short *StrNDupToUnicode(const char *src, int n);
+int             StrLenUnicode   (const unsigned short *s);
 
 int     StrNull                 (char *s);
 void    StrReplace              (char *s, char c1, char c2);
-void	StrUpper				(char *s);
-void	StrLower				(char *s);
 int     GetNbrHex               (const char *s);
 
 int     Power                   (int base, int power);
@@ -37,4 +41,5 @@ void    Replace_Backslash_N     (char *s);
 void    Write_Bits_Field        (int v, int n_bits, char *field);
 void    Random_Init             (void);
 int     BCD_to_Dec              (int bcd);
+
 

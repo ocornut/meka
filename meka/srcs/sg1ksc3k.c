@@ -5,10 +5,8 @@
 
 #include "shared.h"
 #include "fskipper.h"
-#include "inputs_t.h"
 #include "patch.h"
 #include "vdp.h"
-#include "video.h"
 #include "video_m2.h"
 #include "debugger.h"
 
@@ -21,9 +19,10 @@ word    Loop_SG1000_SC3000 (void)
     int Interrupt = INT_NONE;
 
     // Update sound cycle counter
-    Sound.CycleCounter += opt.Cur_IPeriod;
+    Sound_Update_Count += opt.Cur_IPeriod; // Should be made obsolete
+    Sound_CycleCounter += opt.Cur_IPeriod;
 
-    tsms.VDP_Line = (tsms.VDP_Line + 1) % g_machine.TV_lines;
+    tsms.VDP_Line = (tsms.VDP_Line + 1) % cur_machine.TV_lines;
 
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER
@@ -49,7 +48,7 @@ word    Loop_SG1000_SC3000 (void)
         if (fskipper.Show_Current_Frame)
         {
             // Msg (MSGT_DEBUG, "Loop_SG1000_SC3000: Refresh_Modes_0_1_2_3()");
-            Refresh_Modes_0_1_2_3();
+            Refresh_Modes_0_1_2_3 ();
         }
 
         sms.VDP_Status |= VDP_STATUS_VBlank;
@@ -58,8 +57,8 @@ word    Loop_SG1000_SC3000 (void)
 
         // Note: refresh screen may reset the system, so you can NOT change
         // the status AFTER it, or else it would screw the newly emulated code
-        // Msg (MSGT_DEBUG, "Loop_SG1000_SC3000: Video_RefreshScreen()");
-        Video_RefreshScreen();
+        // Msg (MSGT_DEBUG, "Loop_SG1000_SC3000: Refresh_Screen()");
+        Refresh_Screen ();
 
         if ((opt.Force_Quit) || (CPU_Loop_Stop))
             Macro_Stop_CPU;

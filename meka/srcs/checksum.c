@@ -12,7 +12,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-static void     mekacrc(t_meka_crc *dst, const u8 *data, int data_size)
+static void     mekacrc(t_meka_crc *dst, u8 *data, int data_size)
 {
     int         i;
     long        Checksum_8 [8];
@@ -39,37 +39,36 @@ static void     mekacrc(t_meka_crc *dst, const u8 *data, int data_size)
 }
 
 //-----------------------------------------------------------------------------
-// Checksum_Perform(const u8 *data, int data_size)
+// Checksum_Perform (u8 *data, int data_size)
 // Compute checksums for given set of ROM and update appropriate date
 //-----------------------------------------------------------------------------
 // FIXME: should take a media in parameter?
 //-----------------------------------------------------------------------------
-void            Checksum_Perform(const u8 *data, int data_size)
+void            Checksum_Perform (u8 *data, int data_size)
 {
     t_meka_crc  crc_mekacrc;
 
     // Compute and store MekaCRC
     mekacrc(&crc_mekacrc, data, data_size);
-    g_media_rom.mekacrc.v[0] = crc_mekacrc.v[0];
-    g_media_rom.mekacrc.v[1] = crc_mekacrc.v[1];
+    media_ROM.mekacrc.v[0] = crc_mekacrc.v[0];
+    media_ROM.mekacrc.v[1] = crc_mekacrc.v[1];
 
     // Compute and store CRC32
-    g_media_rom.crc32 = crc32(0, data, data_size);
+    media_ROM.crc32 = crc32(0, data, data_size);
 
     // Print out checksums (debugging)
-    // Msg (MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", g_media_rom.mekacrc.v[0], g_media_rom.mekacrc.v[1], g_media_rom.crc32);
+    // Msg (MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", media_ROM.mekacrc.v[0], media_ROM.mekacrc.v[1], media_ROM.crc32);
 
     // Find DB entry
-    DB.current_entry = DB_Entry_Find(g_media_rom.crc32, &g_media_rom.mekacrc);
+    DB_CurrentEntry = DB_Entry_Find(media_ROM.crc32, &media_ROM.mekacrc);
 
     // Update VLFN
     {
-		char media_path[FILENAME_LEN];
-        StrPath_RemoveDirectory(media_path, g_env.Paths.MediaImageFile);
-        if (DB.current_entry)
-            VLFN_AddEntry(media_path, DB.current_entry);
+        StrCpyPathRemoved(GenericBuffer, g_Env.Paths.MediaImageFile);
+        if (DB_CurrentEntry)
+            VLFN_AddEntry (GenericBuffer, DB_CurrentEntry);
         else
-            VLFN_RemoveEntry(media_path);
+            VLFN_RemoveEntry (GenericBuffer);
     }
 }
 

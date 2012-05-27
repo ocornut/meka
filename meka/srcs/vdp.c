@@ -8,9 +8,7 @@
 #include "app_game.h"
 #include "debugger.h"
 #include "g_tools.h"
-#include "lightgun.h"
 #include "palette.h"
-#include "video.h"
 #include "video_m2.h"
 
 //#define DEBUG_VDP
@@ -77,14 +75,14 @@ void    VDP_VideoMode_Change (void)
         tsms.VDP_VideoMode = tsms.VDP_New_VideoMode;
         if (tsms.VDP_VideoMode <= 3)
         {
-            if (g_driver->id == DRV_SMS)
+            if (cur_drv->id == DRV_SMS)
                 drv_set (DRV_SG1000);
         }
         else
         {
-            drv_set (g_machine.driver_id); // Revert back to original driver
+            drv_set (cur_machine.driver_id); // Revert back to original driver
         }
-        VDP_UpdateLineLimits();
+        Update_Line_Start_End ();
         Machine_Set_Handler_Loop ();
         Palette_Emulation_Reload ();
         for (i = 0; i < 16; i ++)
@@ -93,20 +91,20 @@ void    VDP_VideoMode_Change (void)
 
     if (tsms.VDP_Video_Change & VDP_VIDEO_CHANGE_SIZE)
     {
-        if (g_driver->id == DRV_SMS)
+        if (cur_drv->id == DRV_SMS)
         {
-            g_driver->y_res = ((Wide_Screen_28) ? 224 : 192);
-            gamebox_resize_all();
-            VDP_UpdateLineLimits();
-            Video_GameMode_UpdateBounds();
-            if (g_env.state == MEKA_STATE_GAME)
+            cur_drv->y_res = ((Wide_Screen_28) ? 224 : 192);
+            gamebox_resize_all ();
+            Update_Line_Start_End ();
+            Video_Mode_Update_Size ();
+            if (Meka_State == MEKA_STATE_FULLSCREEN)
             {
-                Video_ClearScreenBackBuffer();
+                Video_Clear ();
             }
         }
         else
         {
-            VDP_UpdateLineLimits();
+            Update_Line_Start_End ();
         }
     }
     tsms.VDP_Video_Change = 0x00;
@@ -142,19 +140,6 @@ void    VDP_VideoMode_Update (void)
     }
 }
 
-void	VDP_UpdateLineLimits(void)
-{
-	if (g_driver->id == DRV_GG && Wide_Screen_28)
-		g_driver->y_show_start = g_driver->y_start + 16;
-	else
-		g_driver->y_show_start = g_driver->y_start;
-	g_driver->y_show_end = g_driver->y_show_start + g_driver->y_res - 1;
-	if (Wide_Screen_28)
-		g_driver->y_int = 224;
-	else
-		g_driver->y_int = 192;
-}
-
 // WRITE A VALUE TO A VDP REGISTER --------------------------------------------
 void    Tms_VDP_Out (int vdp_register, int value)
 {
@@ -165,14 +150,20 @@ void    Tms_VDP_Out (int vdp_register, int value)
   switch (vdp_register)
     {
      // VDP Configuration 0 ---------------------------------------------------
-     case 0: /*
+     case 0: if ((value & 0x20) != Mask_Left_8)
+                {
+                // FIXME
+                if (Meka_State == MEKA_STATE_FULLSCREEN && LightGun.Enabled)
+                   LightGun_Mouse_Range (value & 0x20);
+                }
+             /*
              if ((Value & 0x10) != HBlank_ON)
                 {
                 Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, HBlank %s, IRequest = %02X", CPU_GetPC, tsms.VDP_Line, (Value & 0x10) ? "Enable" : "Disable", sms.R.IRequest);
                 }
              */
 
-             if ((sms.Pending_HBlank) && ((HBlank_ON) != (value & 0x10)))
+             if ((sms.Need_HBlank) && ((HBlank_ON) != (value & 0x10)))
              {
                 if (!(value & 0x10))
                    {
@@ -186,7 +177,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              }
 
              sms.VDP [0] = value;
-             g_machine.VDP.sprite_shift_x = ((Sprites_Left_8) ? 8 : 0);
+             cur_machine.VDP.sprite_shift_x = ((Sprites_Left_8) ? 8 : 0);
              VDP_VideoMode_Update ();
              // Msg (MSGT_DEBUG, "At PC=%04X, line=%d, VDP[0] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
              return;
@@ -201,52 +192,51 @@ void    Tms_VDP_Out (int vdp_register, int value)
                 } */
              sms.VDP [1] = value;
              // Sprite_Shift_Y = 0; // ((Wide_Screen_28) ? -16 : 0);
-             // Sprite_Shift_Y = ((Wide_Screen_28 && g_driver->id == DRV_GG) ? -16 : 0);
+             // Sprite_Shift_Y = ((Wide_Screen_28 && cur_drv->id == DRV_GG) ? -16 : 0);
              VDP_VideoMode_Update ();
              // Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, VDP[1] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
 
              // Update tilemap/name table address accordingly
-             if (g_driver->vdp == VDP_SMSGG)
+             if (cur_drv->vdp == VDP_SMSGG)
              {
                 if (Wide_Screen_28)
-                    g_machine.VDP.name_table_address  = VRAM + 0x700 + (int)((sms.VDP[2] & 0xC) << 10); // 0x0700 -> 0x3700, 0x1000 increments
+                    BACK_AREA  = VRAM + 0x700 + (int)((sms.VDP[2] & 0xC) << 10); // 0x0700 -> 0x3700, 0x1000 increments
                 else
-                    g_machine.VDP.name_table_address  = VRAM + (int)((sms.VDP[2] & 0xE) << 10); // 0x0000 -> 0x3800, 0x0800 increments
+                    BACK_AREA  = VRAM + (int)((sms.VDP[2] & 0xE) << 10); // 0x0000 -> 0x3800, 0x0800 increments
              }
              return;
 
      // Background/Foreground map address -------------------------------------
-     case 2: switch (g_driver->vdp)
+     case 2: switch (cur_drv->vdp)
                 {
                 case VDP_SMSGG:
                      if (Wide_Screen_28)
-                         g_machine.VDP.name_table_address  = VRAM + 0x700 + (int)((value & 0xC) << 10); // 0x0700 -> 0x3700, 0x1000 increments
+                         BACK_AREA  = VRAM + 0x700 + (int)((value & 0xC) << 10); // 0x0700 -> 0x3700, 0x1000 increments
                      else
-                         g_machine.VDP.name_table_address  = VRAM + (int)((value & 0xE) << 10); // 0x0000 -> 0x3800, 0x0800 increments
+                         BACK_AREA  = VRAM + (int)((value & 0xE) << 10); // 0x0000 -> 0x3800, 0x0800 increments
                      break;
                 case VDP_TMS9918:
-                     g_machine.VDP.name_table_address = VRAM + (int)((value & 0xF) << 10); // 0x0000 -> 0x3C00, 0x0400 increments
+                     BACK_AREA = VRAM + (int)((value & /*0x7F*/ 0xF /*7*/) << 10);
                      break;
                 }
              break;
 
      // TMS9918 register: contain bit 13 of the color table adress ------------
-     case 3: g_machine.VDP.sg_color_table_address = VRAM + ((((int)(value & VDP_Mask[tsms.VDP_VideoMode][0]) << 6) + ((int)sms.VDP[10] << 14)) & 0x3FFF);
+     case 3: SG_BACK_COLOR = VRAM + ((((int)(value & VDP_Mask[tsms.VDP_VideoMode][0]) << 6) + ((int)sms.VDP[10] << 14)) & 0x3FFF);
              break;
 
      // TMS9918 register: address of tile data --------------------------------
-	 // This is either $0000 or $2000 in VRAM
-     case 4: g_machine.VDP.sg_pattern_gen_address = VRAM + ((int)(value & VDP_Mask[tsms.VDP_VideoMode][1]) << 11);
+     case 4: SG_BACK_TILE = VRAM + ((int)(value & VDP_Mask[tsms.VDP_VideoMode][1]) << 11);
              break;
 
      // Sprite Attribute Table (SAT) address
-     case 5: switch (g_driver->vdp)
+     case 5: switch (cur_drv->vdp)
                 {
                 case VDP_SMSGG:
-                     g_machine.VDP.sprite_attribute_table = VRAM + (((int)value << 7) & 0x3F00);
+                     sprite_attribute_table = VRAM + (((int)value << 7) & 0x3F00);
                      break;
                 case VDP_TMS9918:
-                     g_machine.VDP.sprite_attribute_table = VRAM + ((int)(value & 0x7F) << 7);
+                     sprite_attribute_table = VRAM + ((int)(value & 0x7F) << 7);
                      break;
                 }
              break;
@@ -254,27 +244,27 @@ void    Tms_VDP_Out (int vdp_register, int value)
      // Sprite tile data address ----------------------------------------------
      case 6: 
          {
-			 switch (g_driver->vdp)
+			 switch (cur_drv->vdp)
                 {
                 case VDP_SMSGG:
-					g_machine.VDP.sprite_pattern_gen_index = (value & 4) ? 256 : 0;
-					g_machine.VDP.sprite_pattern_gen_address = VRAM + ((value & 4) ? 0x2000 : 0x0000);
+					cur_machine.VDP.sprite_pattern_base_index = (value & 4) ? 256 : 0;
+					cur_machine.VDP.sprite_pattern_base_address = VRAM + ((value & 4) ? 0x2000 : 0x0000);
 					break;
 				case VDP_TMS9918:
-		            g_machine.VDP.sprite_pattern_gen_address = VRAM + ((int)(value & 7) << 11);
+		            cur_machine.VDP.sprite_pattern_base_address = VRAM + ((int)(value & 7) << 11);
                     break;
 				}
              break;
          }
 
      // Border Color ----------------------------------------------------------
-     case 7: if (g_driver->vdp == VDP_TMS9918)
+     case 7: if (cur_drv->vdp == VDP_TMS9918)
                 Palette_Emulation_SetColor(0, TMS9918_Palette[value & 15]);
              break;
 
      // Horizontal Scrolling --------------------------------------------------
      case 8: if (CPU_GetICount() >= 8) 
-                 g_machine.VDP.scroll_x_latched = value;
+                 cur_machine.VDP.scroll_x_latched = value;
              // Msg (MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, CPU_GetICount(), value);
              break;
 
@@ -289,7 +279,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
 
      // TMS9918 register: contain bit 14-16 of the color table adress ---------
      // Else in video mode 5 contains number of line for H-Interrupt
-     case 10: g_machine.VDP.sg_color_table_address = VRAM + ((((int)(sms.VDP[3] & VDP_Mask[tsms.VDP_VideoMode][0]) << 6) + ((int)(value & 0x07) << 14)) & 0x3FFF);
+     case 10: SG_BACK_COLOR = VRAM + ((((int)(sms.VDP[3] & VDP_Mask[tsms.VDP_VideoMode][0]) << 6) + ((int)(value & 0x07) << 14)) & 0x3FFF);
               // Msg (MSGT_DEBUG, "%d @ VDP[10] = %d", tsms.VDP_Line, value);
               break;
     }
@@ -300,12 +290,12 @@ void    Tms_VDP_Out (int vdp_register, int value)
 
 void    Tms_VDP_Palette_Write(int addr, int value)
 {
-    ALLEGRO_COLOR color;
+    RGB color;
 
     // Write to CRAM (currently named PRAM)
     PRAM [addr] = value;
 
-    switch (g_driver->id)
+    switch (cur_drv->id)
     {
     case DRV_GG:
         {
@@ -362,7 +352,7 @@ void    Tms_VDP_Out_Data (int value)
         // Note: not masking sms.VDP_Address itself, based on the idea that higher bits are lost
         // when passing thru PRAM bus.
         int address_mask;
-        if (g_driver->id == DRV_GG)
+        if (cur_drv->id == DRV_GG)
             address_mask = 0x3F;
         else
             address_mask = 0x1F;
@@ -425,7 +415,7 @@ void    Tms_VDP_Out_Address (int value)
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     if ((value & 0xC0) == 0xC0)
     {
-        switch (g_driver->id)
+        switch (cur_drv->id)
         {
         case DRV_GG:
             sms.VDP_Pal = TRUE;
@@ -505,8 +495,7 @@ u8          Tms_VDP_In_Status (void)
     sms.VDP_Status &= 0x1F; // Clear bits 5, 6, 7
     // sms.VDP_Status = 0x1F // FIXME: investigate on this!
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
-    sms.Pending_HBlank = FALSE;
-	sms.Pending_NMI = FALSE;
+    sms.Need_HBlank = FALSE;
     #ifdef MARAT_Z80
         sms.R.IRequest = INT_NONE;
     #elif MAME_Z80

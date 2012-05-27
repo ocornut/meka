@@ -8,6 +8,7 @@
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "app_about.h"
+#include "games.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -27,54 +28,57 @@ static void         AboutBox_Layout(bool setup);
 
 void    AboutBox_Switch (void)
 {
+#ifdef DOS
     int menu_pos = 4;
-#ifdef MEKA_Z80_DEBUGGER
-	menu_pos += 1;
+#else
+    int menu_pos = 5;
 #endif
 
 	AboutBox.active ^= 1;
 	gui_box_show (AboutBox.box, AboutBox.active, TRUE);
     gui_menu_inverse_check (menus_ID.help, menu_pos);
+
+    // Easter egg: BrainWash
+    if (Inputs_KeyPressed (KEY_LCONTROL, FALSE))
+        BrainWash_Start ();
 }
 
 static void     AboutBox_Layout(bool setup)
 {
     t_app_about_box *app = &AboutBox;	// Global instance
-	const int dragon_h = al_get_bitmap_height(Graphics.Misc.Dragon);
 
-	al_set_target_bitmap(app->box->gfx_buffer);
-    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
+    // Clear
+    clear_to_color(AboutBox.box->gfx_buffer, COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
         // Add closebox widget
-        widget_closebox_add(app->box, (t_widget_callback)AboutBox_Switch);
+        widget_closebox_add(app->box, AboutBox_Switch);
     }
 
     // Draw MEKA dragon sprite
-	al_draw_bitmap(Graphics.Misc.Dragon, 10, (app->box->frame.size.y - dragon_h) / 2, 0);
+	draw_sprite (app->box->gfx_buffer, Graphics.Misc.Dragon, 10, (app->box->frame.size.y - Graphics.Misc.Dragon->h) / 2);
 
-	// Print about information lines
-	{
-		int i;
-		int y = 9;
-		Font_SetCurrent(F_LARGE);
-		for (i = 0; i < 4; i ++)
-		{
-			int x;
-			char buffer[256];
-			switch (i)
-			{
-			case 0: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE); break;
-			case 1: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT); break;
-			case 2: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
-			case 3: snprintf(buffer, countof(buffer), "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
-			}
-			x = (( (app->box->frame.size.x - dragon_h - 18 - 6) - Font_TextLength(F_CURRENT, buffer) ) / 2) + dragon_h + 8 + 6;
-			Font_Print(F_CURRENT, buffer, x, y, COLOR_SKIN_WINDOW_TEXT);
-			y += Font_Height() + 3;
-		}
-	}
+    // Print about information lines
+    {
+        int i;
+        int y = 9;
+	    Font_SetCurrent (F_LARGE);
+	    for (i = 0; i < 4; i ++)
+	    {
+            int x;
+		    switch (i)
+		    {
+		    case 0: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE); break;
+		    case 1: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT); break;
+		    case 2: sprintf (GenericBuffer, Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
+		    case 3: sprintf (GenericBuffer, "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
+		    }
+		    x = (( (app->box->frame.size.x - Graphics.Misc.Dragon->h - 18 - 6) - Font_TextLength (-1, GenericBuffer) ) / 2) + Graphics.Misc.Dragon->h + 8 + 6;
+		    Font_Print (-1, app->box->gfx_buffer, GenericBuffer, x, y, COLOR_SKIN_WINDOW_TEXT);
+		    y += Font_Height (-1) + 3;
+	    }
+    }
 }
 
 void            AboutBox_Init (void)
@@ -82,8 +86,8 @@ void            AboutBox_Init (void)
     t_app_about_box *app = &AboutBox;	// Global instance
 
     t_frame frame;
-	frame.pos.x = 440;
-	frame.pos.y = 62;
+	frame.pos.x = 285;
+	frame.pos.y = 60;
 	frame.size.x = 346;
 	frame.size.y = 93;
     app->box = gui_box_new(&frame, Msg_Get(MSG_About_BoxTitle));

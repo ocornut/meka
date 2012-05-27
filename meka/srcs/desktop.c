@@ -2,8 +2,6 @@
 // MEKA - desktop.c
 // Desktop Manager - Code
 //-----------------------------------------------------------------------------
-// Save position and size of windows on the desktop.
-//-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "desktop.h"
@@ -11,31 +9,28 @@
 #include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
-// Data
+// DATA
 //-----------------------------------------------------------------------------
 
-t_desktop Desktop;
-
-struct t_desktop_item
+typedef struct
 {
-    const char *	name;
-    t_gui_box *		box;
-    int				pos_x;
-    int				pos_y;
-	int				z;
-    bool			active;
-    bool *			active_org;
-};
+    char *      name;
+    t_gui_box * box;
+    int         pos_x;
+    int         pos_y;
+    bool        active;
+    bool *      active_org;
+} t_desktop_item;
 
 //-----------------------------------------------------------------------------
-// Forward Declarations
+// FORWARD DECLARATION
 //-----------------------------------------------------------------------------
 
 static void     Desktop_GetStateFromBoxes (void);
 void            Desktop_SetStateToBoxes (void);
 
 //-----------------------------------------------------------------------------
-// Functions
+// FUNCTIONS
 //-----------------------------------------------------------------------------
 
 void    Desktop_Init (void)
@@ -52,9 +47,9 @@ void    Desktop_Close (void)
 
 static t_desktop_item * Desktop_Item_New(const char *name, t_gui_box *box)
 {
-    t_desktop_item* item;
+    t_desktop_item *item;
 
-    item        = (t_desktop_item*)Memory_Alloc (sizeof (t_desktop_item));
+    item        = Memory_Alloc (sizeof (t_desktop_item));
     item->name  = strdup(name);
     item->box   = box;  // Note: can be NULL at this stage
 
@@ -65,16 +60,20 @@ static t_desktop_item * Desktop_Item_New(const char *name, t_gui_box *box)
 
 void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_active, bool *active_org)
 {
-    for (t_list* list = Desktop.items; list != NULL; list = list->next)
+    t_list *list;
+    t_desktop_item *item;
+
+    for (list = Desktop.items; list != NULL; list = list->next)
     {
-        t_desktop_item* item = (t_desktop_item*)list->elem;
+        item = list->elem;
         if (strcmp (item->name, name) == 0)
         {
             // ConsolePrintf ("found old %s\n", name);
             item->box = box;
             item->active_org = active_org;
-            box->frame.pos.x = item->pos_x;
-            box->frame.pos.y = item->pos_y;
+            // Set will be set later
+            //b->frame.pos.x = item->pos_x;
+            //b->frame.pos.y = item->pos_y;
             *(item->active_org) = item->active;
             //gui_box_clip_position (b);
             //gui_box_show (b, item->active, FALSE); // FIXME: Focus
@@ -84,8 +83,7 @@ void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_activ
 
     // ConsolePrintf ("make new %s\n", name);
     // Make new item, retrieve current data from box (unnecessary?)
-	t_desktop_item* item;
-    item                = (t_desktop_item*)Desktop_Item_New(name, box);
+    item                = Desktop_Item_New(name, box);
     item->pos_x         = box->frame.pos.x;
     item->pos_y         = box->frame.pos.y;
     item->active_org    = active_org;
@@ -99,9 +97,11 @@ void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_activ
 
 static void         Desktop_GetStateFromBoxes (void)
 {
-    for (t_list* list = Desktop.items; list != NULL; list = list->next)
+    t_list *        list;
+
+    for (list = Desktop.items; list != NULL; list = list->next)
     {
-        t_desktop_item* item = (t_desktop_item*)list->elem;
+        t_desktop_item *item = list->elem;
         if (item->box != NULL)
         {
             // Get state for this box
@@ -112,93 +112,95 @@ static void         Desktop_GetStateFromBoxes (void)
     }
 }
 
-static int	Desktop_ItemCmpByZ(void* lhs, void* rhs)
+void                Desktop_SetStateToBoxes (void)
 {
-	return ((t_desktop_item*)rhs)->z - ((t_desktop_item*)lhs)->z;
-}
+    t_list *        list;
 
-void	Desktop_SetStateToBoxes(void)
-{
     // Goes thru all boxes to set their position/active state
-	//list_sort(&Desktop.items, (t_list_cmp_handler)Desktop_ItemCmpByZ);
-    for (t_list* list = Desktop.items; list != NULL; list = list->next)
+    for (list = Desktop.items; list != NULL; list = list->next)
     {
-        t_desktop_item* item = (t_desktop_item*)list->elem;
+        t_desktop_item *item = list->elem;
         if (item->box != NULL)
         {
             // Set state for this box
             t_gui_box *b = item->box;
-            //b->frame.pos.x = item->pos_x;
-            //b->frame.pos.y = item->pos_y;
+            b->frame.pos.x = item->pos_x;
+            b->frame.pos.y = item->pos_y;
             *item->active_org = item->active;
-            gui_box_clip_position(b);
-            gui_box_show(b, item->active, FALSE);
-			if (item->active)
-				gui_box_set_focus(b);
+            gui_box_clip_position (b);
+            gui_box_show (b, item->active, FALSE); // FIXME: Focus
         }
     }
 }
 
-static int	Desktop_Load_Line(char *line)
+static int      Desktop_Load_Line (char *line)
 {
-    char *  w;
-    char    name[64+1];
-    char	buf[256+1];
+    t_desktop_item *item;
+    char *          w;
+    char            name[64+1];
+    char            buf[1024+1];
 
-    if (!(w = parse_getword(name, countof(name), &line, ",", ';')))
+    if (!(w = parse_getword(name, 64, &line, ",", ';', 0)))
         return (0);
 
-    if (!(w = parse_getword(buf, countof(buf), &line, ",", ';')))
-        return (0);
-    const int pos_x = atoi(w);
-    if (!(w = parse_getword(buf, countof(buf), &line, ",", ';')))
-        return (0);
-    const int pos_y = atoi(w);
-    if (!(w = parse_getword(buf, countof(buf), &line, ",", ';')))
-        return (0);
-    const int active = atoi(w);
+    {
+        int pos_x, pos_y;
+        int active;
+        if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
+            return (0);
+        pos_x = atoi(w);
+        if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
+            return (0);
+        pos_y = atoi(w);
+        if (!(w = parse_getword(buf, 1024, &line, ",", ';', 0)))
+            return (0);
+        active = atoi(w);
 
-    t_desktop_item *item = Desktop_Item_New(name, NULL);
-    item->pos_x = pos_x;
-    item->pos_y = pos_y;
-	item->z = list_size(Desktop.items);
-    item->active = (bool)active;
-    item->active_org = NULL;
-    list_add_to_end(&Desktop.items, item);
+        item = Desktop_Item_New(name, NULL);
+        item->pos_x = pos_x;
+        item->pos_y = pos_y;
+        item->active = (bool)active;
+        item->active_org = NULL;
+        list_add_to_end (&Desktop.items, item);
+    }
 
     // Ok
     return (1);
 }
 
-void	Desktop_Load (void)
+void                Desktop_Load (void)
 {
-    t_tfile* tf;
+    t_tfile *       tf;
+    t_list *        lines;
+    char *          line;
+    int             line_cnt;
 
     // Open and read file
     if ((tf = tfile_read (Desktop.filename)) == NULL)
         return;
 
     // Parse each line
-    int line_cnt = 0;
-    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
+    line_cnt = 0;
+    for (lines = tf->data_lines; lines; lines = lines->next)
     {
         line_cnt += 1;
-        char* line = (char*)lines->elem;
+        line = lines->elem;
         Desktop_Load_Line(line);
     }
 
     // Free file data
-    tfile_free(tf);
+    tfile_free (tf);
 }
 
-static void    Desktop_Save_Item(t_desktop_item *item, FILE *f)
+void    Desktop_Save_Item (FILE *f, t_desktop_item *item)
 {
-    fprintf(f, "%s, %i, %i, %d\n", item->name, item->pos_x, item->pos_y, item->active);
+    fprintf (f, "%s, %i, %i, %d\n", item->name, item->pos_x, item->pos_y, item->active);
 }
 
-void	Desktop_Save(void)
+void            Desktop_Save (void)
 {
     FILE *      f;
+    t_list *    list;
 
     if ((f = fopen (Desktop.filename, "wt")) == 0)
         return; // FIXME: report that somewhere ?
@@ -210,14 +212,8 @@ void	Desktop_Save(void)
     fprintf (f, ";-----------------------------------------------------------------------------\n\n");
 
     // Write all entries
-    for (t_list* list = Desktop.items; list != NULL; list = list->next)
-    {
-        t_desktop_item* item = (t_desktop_item*)list->elem;
-		item->z = gui_box_find_z(item->box);
-	}
-	list_sort(&Desktop.items, (t_list_cmp_handler)Desktop_ItemCmpByZ);
-    for (t_list* list = Desktop.items; list != NULL; list = list->next)
-		Desktop_Save_Item((t_desktop_item*)list->elem, f);
+    for (list = Desktop.items; list != NULL; list = list->next)
+        Desktop_Save_Item (f, list->elem);
 
     fprintf (f, "\n;-----------------------------------------------------------------------------\n\n");
 

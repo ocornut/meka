@@ -6,40 +6,40 @@
 #include "shared.h"
 #include "blit.h"
 #include "blitintf.h"
-#include "video.h"
+#include "config_v.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
-
-//-----------------------------------------------------------------------------
-// Data
-//-----------------------------------------------------------------------------
-
-t_blitters Blitters;
 
 //-----------------------------------------------------------------------------
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
-static int     Blitters_Str2Num(const char *s);
+static int     Blitters_Str2Num (const char *s);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-// Note: 'name' not const because the string is actually overwritten (could be done without)
-t_blitter *     Blitter_New(char *name)
+t_blitter *     Blitter_New (char *name)
 {
+    t_blitter * b;
+    char *      p;
+
     // Look for system identifier
-    char * p = name + strlen(name) - 1;
+    p = name + strlen(name) - 1;
     if (*p == ']')
         *p = EOSTR;
     p = strstr(name, BLITTER_OS_SEP);
 
     // Ignore blitter if it is not for current system
-#ifdef ARCH_WIN32
+#ifdef DOS
+    if (p != NULL)
+        if (stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_DOS) != 0)
+            return (NULL);
+#elif WIN32
     if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_WIN) != 0)
         return (NULL);
-#elif ARCH_UNIX
+#elif UNIX
     if (p == NULL || stricmp(p + strlen(BLITTER_OS_SEP), BLITTER_OS_UNIX) != 0)
         return (NULL);
 #endif
@@ -47,19 +47,24 @@ t_blitter *     Blitter_New(char *name)
         *p = EOSTR;
 
     // Allocate a blitter and set it with name and default values
-    t_blitter * b = (t_blitter*)malloc(sizeof (t_blitter));
+    b = malloc(sizeof (t_blitter));
     b->name             = strdup(name);
     b->index            = Blitters.count;
     b->res_x            = 320;
     b->res_y            = 240;
     b->blitter          = BLITTER_NORMAL;
+    b->driver           = GFX_AUTODETECT_FULLSCREEN;
+    b->flip             = FALSE;
     b->tv_colors        = FALSE;
+    b->vsync            = FALSE;
     b->refresh_rate     = 0;                                        // Default
+    b->video_depth      = g_Configuration.video_mode_desktop_depth;   // Default
     b->stretch          = BLITTER_STRETCH_NONE; // BLITTER_STRETCH_MAX_INT;
+    b->triple_buffering = FALSE;
     return (b);
 }
 
-void            Blitter_Delete(t_blitter *b)
+void            Blitter_Delete (t_blitter *b)
 {
     free(b->name);
     free(b);
@@ -69,20 +74,29 @@ void            Blitter_Delete(t_blitter *b)
 
 void            Blitters_Close(void)
 {
-    list_free_custom(&Blitters.list, (t_list_free_handler)Blitter_Delete);
+    list_free_custom(&Blitters.list, Blitter_Delete);
 }
 
 static const char * Blitters_Def_Variables [] =
 {
     "res",
     "blitter",
+    "driver",
+    "flip",
+    "vsync",
     "refresh_rate",
     "stretch",
+    "video_depth",
+    "triple_buffering",
     NULL
 };
 
-static int  Blitters_Parse_Line(char *s, char *s_case)
+static int  Blitters_Parse_Line (char *s, char *s_case)
 {
+    char    w[256];
+    int     i, line_len;
+
+    line_len = strlen(s);
     if (s[0] == '[')
     {
         Blitters.current = Blitter_New(&s_case[1]);
@@ -99,9 +113,8 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
         return (MEKA_ERR_OK);
 
     // Set attributes
-    char w[256];
+    // FIXME: use libparse
     parse_getword(w, sizeof(w), &s, "=", ';', PARSE_FLAGS_NONE);
-	int i;
     for (i = 0; Blitters_Def_Variables [i]; i++)
         if (!strcmp (w, Blitters_Def_Variables [i]))
             break;
@@ -129,15 +142,48 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
         else
             Blitters.current->tv_colors = FALSE;
         return MEKA_ERR_OK;
+        // Driver
     case 2:
+        Blitters.current->driver = VideoDriver_FindByDesc(s)->drv_id;
+        return MEKA_ERR_OK;
+        // Flip
+    case 3:
+        Blitters.current->flip = TRUE;
+        return MEKA_ERR_OK;
+        // VSync
+    case 4:
+        Blitters.current->vsync = TRUE;
+        return MEKA_ERR_OK;
+        // Refresh Rate
+    case 5:
         if (!strcmp(w, "auto"))
             Blitters.current->refresh_rate = 0;
         else
             Blitters.current->refresh_rate = atoi(s);
         return MEKA_ERR_OK;
         // Stretch
-    case 3:
-        Blitters.current->stretch = BLITTER_STRETCH_MAX_INT;
+    case 6:
+        Blitters.current->stretch = BLITETR_STRETCH_MAX_INT;
+        return MEKA_ERR_OK;
+        // Video Depth
+    case 7:
+        if (!strcmp(s, "auto"))
+        {
+            Blitters.current->video_depth = g_Configuration.video_mode_desktop_depth;
+            return MEKA_ERR_OK;
+        }
+        else
+        {
+            const int depth = atoi(s);
+            if (depth != 16 && depth != 24 && depth != 32)
+                return (MEKA_ERR_VALUE_INCORRECT);
+            Blitters.current->video_depth = atoi(s);
+            return MEKA_ERR_OK;
+        }
+        return MEKA_ERR_VALUE_INCORRECT;
+        // Triple Buffering
+    case 8:
+        Blitters.current->triple_buffering = TRUE;
         return MEKA_ERR_OK;
     default:
         return MEKA_ERR_UNKNOWN;
@@ -151,28 +197,33 @@ void    Blitters_Init_Values (void)
     Blitters.blitter_configuration_name = NULL;
 }
 
-void	Blitters_Init (void)
+void            Blitters_Init (void)
 {
+    t_tfile *   tf;
+    t_list *    lines;
+    int         line_cnt;
+
     ConsolePrint (Msg_Get(MSG_Blitters_Loading));
 
     Blitters.list = NULL;
     Blitters.current = NULL;
 
     // Open and read file
-    t_tfile * tf;
     if ((tf = tfile_read (Blitters.filename)) == NULL)
         Quit_Msg (meka_strerror());
     ConsolePrint ("\n");
 
     // Parse each line
-    int line_cnt = 0;
-    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
+    line_cnt = 0;
+    for (lines = tf->data_lines; lines; lines = lines->next)
     {
-        const char* line = (char*)lines->elem;
-        line_cnt += 1;
-
-		int i, j;
+        char *line;
         char s1 [256], s2 [256];
+        int i, j;
+
+        line_cnt += 1;
+        line = lines->elem;
+
         for (i = 0, j = 0; line [i] != 0 && line [i] != ';'; i ++)
             if ((line [0] == '[') || (line [i] != ' ' && line [i] != '\t'))
                 s2 [j ++] = line [i];
@@ -181,7 +232,7 @@ void	Blitters_Init (void)
             continue;
 
         strcpy (s1, s2);
-        StrLower(s1);
+        strlwr (s1);
 
         switch (Blitters_Parse_Line (s1, s2))
         {
@@ -202,14 +253,16 @@ void	Blitters_Init (void)
     if (Blitters.blitter_configuration_name != NULL)
         Blitters.current = Blitters_FindBlitterByName(Blitters.blitter_configuration_name);
     if (Blitters.current == NULL)
-        Blitters.current = (t_blitter*)Blitters.list->elem; // first
+        Blitters.current = Blitters.list->elem; // first
 }
 
 t_blitter * Blitters_FindBlitterByName(const char *name)
 {
-    for (t_list* blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
+    t_list *blitters;
+    
+    for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
     {
-        t_blitter* blitter = (t_blitter*)blitters->elem;
+        t_blitter *blitter = blitters->elem;
         if (stricmp(blitter->name, name) == 0)
             return (blitter);
     }
@@ -219,10 +272,13 @@ t_blitter * Blitters_FindBlitterByName(const char *name)
 const static struct
 {
     int value;
-    const char *name;
+    char *name;
 } Blitters_Str2Num_Table [] =
 {
     { BLITTER_NORMAL,        "normal"        },
+    { BLITTER_DOUBLE,        "double"        },
+    { BLITTER_SCANLINES,     "scanlines"     },
+    { BLITTER_SCANLINES,     "scanline"      },
     { BLITTER_TVMODE,        "tv"            },
     { BLITTER_TVMODE,        "tvmode"        },
     { BLITTER_TVMODE_DOUBLE, "tvmode_double" },
@@ -233,7 +289,8 @@ const static struct
 
 static int     Blitters_Str2Num (const char *s)
 {
-    for (int i = 0; Blitters_Str2Num_Table[i].name; i ++)
+    int   i;
+    for (i = 0; Blitters_Str2Num_Table[i].name; i ++)
         if (strcmp (s, Blitters_Str2Num_Table [i].name) == 0)
             return (Blitters_Str2Num_Table [i].value);
     return (BLITTER_NORMAL);
@@ -241,7 +298,7 @@ static int     Blitters_Str2Num (const char *s)
 
 void    Blitters_Switch_Common (void)
 {
-    if (g_env.state == MEKA_STATE_GAME)
+    if (Meka_State == MEKA_STATE_FULLSCREEN)
         Video_Setup_State ();
     Msg (MSGT_USER, Msg_Get (MSG_Blitters_Set), Blitters.current->name);
     gui_menu_un_check (menus_ID.blitters);
@@ -250,13 +307,15 @@ void    Blitters_Switch_Common (void)
 
 void    Blitters_SwitchNext(void)
 {
-    int index = (Blitters.current->index + 1) % Blitters.count;
-	t_list* blitters;
+    int index;
+    t_list *blitters;
+  
+    index = (Blitters.current->index + 1) % Blitters.count;
     for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
         if (index-- == 0)
             break;
     assert(blitters != NULL);
-    Blitters.current = (t_blitter*)blitters->elem;
+    Blitters.current = blitters->elem;
     Blitters_Switch_Common();
 }
 
@@ -268,13 +327,14 @@ static void    Blitters_Switch_Handler (t_menu_event *event)
 
 void    Blitters_Menu_Init (int menu_id)
 {
-    for (t_list* blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
+    t_list *blitters;
+    for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
     {
-        t_blitter* blitter = (t_blitter*)blitters->elem;
+        t_blitter *blitter = blitters->elem;
         menu_add_item(menu_id,
             blitter->name,
             AM_Active | ((blitter == Blitters.current) ? AM_Checked : 0),
-            (t_menu_callback)Blitters_Switch_Handler, blitter);
+            Blitters_Switch_Handler, blitter);
     }
 }
 

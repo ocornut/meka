@@ -2,23 +2,23 @@
 // MEKA - tools.h
 // Various tools - Headers
 //-----------------------------------------------------------------------------
-
-//-----------------------------------------------------------------------------
-// Path Functions
+// Note: obsolete ?
 //-----------------------------------------------------------------------------
 
-void    StrPath_GetExtension(char* buf);
-void    StrPath_RemoveExtension(char* buf);
+//-----------------------------------------------------------------------------
+// Functions (OLD)
+//-----------------------------------------------------------------------------
+
+void    keepext (char *org);
+void    killext (char *org);
+void    killpath (char *org);
+
+//-----------------------------------------------------------------------------
+// Functions (NEW)
+//-----------------------------------------------------------------------------
 
 // Extract filename from 'src' and copy it to location 'dst'
-void    StrPath_RemoveDirectory(char* buf);
-void    StrPath_RemoveDirectory(char* dst, const char* src);
+void    StrCpyPathRemoved(char *dst, const char *src);
 
 //-----------------------------------------------------------------------------
-// Time Functions
-//-----------------------------------------------------------------------------
 
-char *	meka_date_getf          (void);
-char *	meka_time_getf          (char *str);
-
-//-----------------------------------------------------------------------------
