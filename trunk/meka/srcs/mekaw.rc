@@ -1,3 +1,0 @@
-#include <windows.h>
-
-IDI_APPLICATION ICON "mekaw.ico"
