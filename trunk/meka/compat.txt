@@ -541,7 +541,7 @@
  World Grand Prix (US)                          -       Ok
  World Grand Prix [Proto]                       -       Ok
  World Soccer                                   (SP)    Ok
- WWF Wrestlemania Steel Cage Challenge          -       Ok
+ WWF WrestleMania Steel Cage Challenge          -       Ok
  X-Men: Mojo World (BR)                         -       Ok
  Xenon 2 - Megablast [Image Works]              -       Ok
  Xenon 2 - Megablast [Virgin]                   -       Ok
@@ -609,9 +609,9 @@
  Champion Boxing [card]                         Ok
  Champion Boxing [cart]                         Ok
  Champion Boxing [cart] (TW)                    Ok
- Champion Golf [card]                           Ok
- Champion Golf [cart]                           Ok
- Champion Golf [cart] (KR)                      Ok
+ Champion Golf [v0]                             Ok
+ Champion Golf [v0] (KR)                        Ok
+ Champion Golf [v1]                             Ok
  Champion Ice Hockey                            Ok
  Champion Ice Hockey (KR)                       Ok
  Champion Ice Hockey (TW)                       Ok
@@ -1331,7 +1331,7 @@
  World Series Baseball [v1]                         Ok
  World Series Baseball '95                          Ok
  WWF Raw                                            Ok
- WWF Wrestlemania Steel Cage Challenge [SMS-GG]     Ok
+ WWF WrestleMania Steel Cage Challenge [SMS-GG]     Ok
  X-Men                                              Ok
  X-Men: GamesMaster's Legacy                        Ok
  X-Men: Mojo World                                  Ok
