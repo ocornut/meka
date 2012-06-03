@@ -82,6 +82,8 @@ They are usually of 2 kinds:
           GG  - a8ef36a7 - Junction                             --> Junction (JP)
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
+          SG1 - 868419b5 - Champion Golf [cart]                 --> Champion Golf [v0]
+          SG1 - 5a904122 - Champion Golf [card]                 --> Champion Golf [v1]
           SG1 - 5eb48a20 - Congo Bongo [v1]                     --> Congo Bongo [v0] (made a mistake originally ordering the versions. see thread on SMS Power! forum)
           SG1 - 5a24c7cf - Congo Bongo [v0]                     --> Congo Bongo [v1] 
           SG1 - f7eb94c5 - Congo Bongo [v0] (TW)                --> Congo Bongo [v1] (TW)

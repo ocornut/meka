@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2012/05/14
+; Last updated 2012/06/03
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -603,8 +603,8 @@ SMS 7b369892 1624A9110762168D   World Grand Prix/COUNTRY=US,BR,KR/PRODUCT_NO=508
 SMS 4aaad0d6 761980092FA9EA26   World Grand Prix/COUNTRY=EU/PRODUCT_NO=5080/COMMENT=Export version of "The Circuit".
 SMS b5a9f824 7DB5DA9A1F9C326D   World Grand Prix [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 72112b75 54286C65B89E5409   World Soccer/NAME_US=Great Soccer/NAME_BR=Super Futebol/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1327,5059/COMMENT=This game has multiple name and title screen. It is named "Great Soccer" in USA, and is unrelated to the other "Great Soccer" game released in Japan and Europe.
-SMS 2db21448 E816FF0B158ACF8A   WWF Wrestlemania Steel Cage Challenge/COUNTRY=EU,BR/PRODUCT_NO=27054-050,026270
-SMS da8e95a9 1C2E45C0C47B0E64   WWF Wrestlemania Steel Cage Challenge [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU
+SMS 2db21448 E816FF0B158ACF8A   WWF WrestleMania Steel Cage Challenge/COUNTRY=EU,BR/PRODUCT_NO=27054-050,026270
+SMS da8e95a9 1C2E45C0C47B0E64   WWF WrestleMania Steel Cage Challenge [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU
 SMS 5c205ee1 148D13D956C94E06   Xenon 2: Megablast [Image Works]/COUNTRY=EU/PRODUCT_NO=27012-50
 SMS ec726c0d 949238322F74AC21   Xenon 2: Megablast [Virgin]/COUNTRY=EU/PRODUCT_NO=27038-50
 SMS 3e1387f6 5817A60154C0D7FF   X-Men: Mojo World/COUNTRY=BR/PRODUCT_NO=028740/COMMENT=This is a port from the Game Gear version.
@@ -666,7 +666,7 @@ SMS 6f2cf48a C8782C54E741D246   Streets of Rage/COUNTRY=EU,BR/FLAGS=BAD/COMMENT=
 SMS 10b1c008 F07A46299069111D   Super Boy 4/COUNTRY=KR/FLAGS=BAD/COMMENT=2 bad bytes.
 SMS 12706a8a EF7A46299169111D   Super Boy 4/COUNTRY=KR/FLAGS=BAD/COMMENT=1 bad byte.
 SMS ab260100 0BDC8EDC154D82CB   World Soccer/COUNTRY=JP,US,EU,BR/FLAGS=BAD
-SMS cb42bd33 C95F6AD329B98B2E   WWF Wrestlemania Steel Cage Challenge [SMS-GG]/FLAGS=BAD,SMSGG_MODE/COUNTRY=EU/COMMENT=First 64 Kb from the correct ROM.
+SMS cb42bd33 C95F6AD329B98B2E   WWF WrestleMania Steel Cage Challenge [SMS-GG]/FLAGS=BAD,SMSGG_MODE/COUNTRY=EU/COMMENT=First 64 Kb from the correct ROM.
 
 ; Hacks
 SMS 32da4b0d 606D1F7886714065   Argos no Juujiken [Hack]/COUNTRY=JP/FLAGS=HACK/PRODUCT_NO=S-001/COMMENT=Also known in the west as "Rygar". Hack of the game. Some original game data was overwritten. MarkIII screen and SALIO logo on title screen were removed.
@@ -1244,9 +1244,9 @@ SG1 56d85bd4 C1E467AD4A66CFC8   Champion Billiards/COUNTRY=TW/PRODUCT_NO=R-069
 SG1 f8b2ac1d 4123EF723DD41E0C   Champion Boxing [card]/COUNTRY=JP/PRODUCT_NO=C-33
 SG1 26f947d1 1FB7BB8E1123BAF3   Champion Boxing [cart]/COUNTRY=JP,NZ/PRODUCT_NO=G-1033
 SG1 15d2ce33 17BBBB8C1022BAFB   Champion Boxing [cart]/COUNTRY=TW/PRODUCT_NO=B-033
-SG1 5a904122 A11DC05FF929AD54   Champion Golf [card]/COUNTRY=JP/PRODUCT_NO=C-05
-SG1 868419b5 522DCE76FD2DC053   Champion Golf [cart]/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1005
-SG1 35af42ad 532DCE75FD2DC152   Champion Golf [cart]/COUNTRY=KR/PRODUCT_NO=G-35/COMMENT=Differ from original version by only 2 bytes which are likely an error in duplication.
+SG1 868419b5 522DCE76FD2DC053   Champion Golf [v0]/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1005
+SG1 35af42ad 532DCE75FD2DC152   Champion Golf [v0]/COUNTRY=KR/PRODUCT_NO=G-35/COMMENT=Differ from original version by only 2 bytes which are likely an error in duplication.
+SG1 5a904122 A11DC05FF929AD54   Champion Golf [v1]/COUNTRY=JP/PRODUCT_NO=C-05
 SG1 bdc05652 7D6DE53955B78D5F   Champion Ice Hockey/COUNTRY=JP/PRODUCT_NO=C-59
 SG1 ec0b862c 7C6DEC3955B78D59   Champion Ice Hockey/COUNTRY=KR
 SG1 c6e5192f 7C6FFF4E64A18043   Champion Ice Hockey/COUNTRY=TW/PRODUCT_NO=R-061
