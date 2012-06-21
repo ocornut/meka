@@ -1,4 +1,13 @@
 
+[B] Debugger: Reload Symbol option
+[A] Debugger: Breakpoints are borken (find out an exact repro)
+[B] Debugger: Variable watcher: watch all symbols in RAM range?
+[B] Debugger: Support label replacement in RST xx opcodes.
+[B] GUI: Add OS clipboard support, fix Delete key on input widget, added selection.
+[B] CTRL-F7 to load and Debug (C)ontinue.
+[B] Debugger: Preview memory regions on hovering register/instruction. 
+
+
 E-SWAT http://smspower.org/forums/viewtopic.php?t=8069
 
 Mapper_Get_RAM_Infos: Support for multiple RAM regions (eg: Taiwanese 8 KB RAM adapter mapper)

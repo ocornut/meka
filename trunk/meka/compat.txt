@@ -606,9 +606,9 @@
  Champion Baseball [40k map]                    Ok
  Champion Billiards                             Ok
  Champion Billiards (TW)                        Ok
- Champion Boxing [card]                         Ok
- Champion Boxing [cart]                         Ok
- Champion Boxing [cart] (TW)                    Ok
+ Champion Boxing [v0]                           Ok
+ Champion Boxing [v0] (TW)                      Ok
+ Champion Boxing [v1]                           Ok
  Champion Golf [v0]                             Ok
  Champion Golf [v0] (KR)                        Ok
  Champion Golf [v1]                             Ok
