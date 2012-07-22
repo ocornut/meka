@@ -1541,10 +1541,10 @@ Msg_Menu_Help_Changes                   = "Changes List"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Dutch]
-WIP
+;WIP
 ; Dutch text door Mark van Tilburg
 ; Beheerder: Mark van Tilburg (markvt _@_ van-tilburg . info)
-; Laatst bijgewerkt 07-07-2007
+; Laatst bijgewerkt 22-07-2012
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -1564,7 +1564,7 @@ Msg_About_Line_Homepage                 = "%s"
 Msg_Ok                                  = "Ok"
 Msg_Failed                              = "Failed!"
 Msg_Error_Base                          = "Error: %s"
-Msg_Error_Error                         = "Fatal: error getting error type. Er moet iets fout zijn."
+Msg_Error_Error                         = "Fatale error: getting error type. Er moet iets fout zijn."
 Msg_Error_Memory                        = "Niet genoeg geheugen!"
 Msg_Error_Param                         = "Parameter \"%s\" is invalide!\n"
 Msg_Error_Syntax                        = "Syntax fout!"
@@ -1598,6 +1598,8 @@ Msg_Init_Completed                      = "[klaar]"
 ; Setup ----------------------------------------------------------------------
 Msg_Setup_Running                       = "Setup wordt uitgevoerd..."
 Msg_Setup_Setup                         = "Setup"
+Msg_Setup_Video_Driver                  = "Video driver:"
+Msg_Setup_Video_DisplayMode             = "Video mode:"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
 Msg_Setup_Debugger_Enable               = "Z80 debugger en bijbehorende functies inschakelen"
 
@@ -1912,7 +1914,7 @@ Msg_Options_Load_FullScreen             = "Schakel over naar fullscreen na een s
 ;Msg_Options_VFN_Support                 = "Laat lange bestandsnamen zien en landen vlaggen."
 Msg_Options_FullScreen_Messages         = "laat berichten zien in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wacht for VSync in interface mode."
-;Msg_Options_Capture_Automatic_Crop_Align= "Screenshots automatisch vergroten / verkleinen en uitlijnen."
+Msg_Options_Capture_Crop_Align          = "Screenshots automatisch aanpassen tot 8x8 formaat."
 Msg_Options_NES_Enable                  = "Mario is geen dikke loodgieter."
 
 ; Languages / Localization ---------------------------------------------------
@@ -1976,6 +1978,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Laat beide kanten zien"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Laat linkerkant zien"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Laat rechterkant zien"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Gebruik bril op COM Poort"
+Msg_Menu_Video_Capture                  = "Opnemen"
+Msg_Menu_Video_Capture_CaptureScreen    = "Scherm opnemen"
+Msg_Menu_Video_Capture_CaptureScreenAll = "Scherm opnemen (Alle)"
+Msg_Menu_Video_Capture_IncludeGUI       = "GUI Meenemen in opname"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "GELUID"
@@ -2001,10 +2007,10 @@ Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accuratie"
 ; Menu: Inputs ---------------------------------------------------------------
 Msg_Menu_Inputs                         = "CONTROLS"
 Msg_Menu_Inputs_Joypad                  = "Joypad"
-Msg_Menu_Inputs_LightPhaser             = "Licht pistool"
+Msg_Menu_Inputs_LightPhaser             = "Pistool"
 Msg_Menu_Inputs_PaddleControl           = "Paddle Controller"
 Msg_Menu_Inputs_SportsPad               = "Sports Pad"
-Msg_Menu_Inputs_GraphicBoard            = "Graphisch Bord"
+Msg_Menu_Inputs_GraphicBoard            = "Teken tablet"
 Msg_Menu_Inputs_SK1100                  = "Sega Toetsenbord"
 Msg_Menu_Inputs_RapidFire               = "Snel vuren"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Speler %d Knop %d"
@@ -2016,6 +2022,7 @@ Msg_Menu_Tools_Messages                 = "Berichten"
 Msg_Menu_Tools_Palette                  = "Kleuren Palet"
 Msg_Menu_Tools_TilesViewer              = "Tegel bekijker"
 Msg_Menu_Tools_TilemapViewer            = "Tegelkaart Viewer"
+Msg_Menu_Tools_CheatFinder              = "Cheat Finder"
 Msg_Menu_Tools_TechInfo                 = "Technische Info"
 Msg_Menu_Tools_MemoryEditor             = "Geheugen Editor"
 
