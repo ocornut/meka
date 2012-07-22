@@ -25,6 +25,7 @@ They are usually of 2 kinds:
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Setup panel allows to select display driver and resolution. [Omar]
   - Added Polish translation. [thr]
+  - Updated Dutch translation. [Mark van Tilburg]
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
     - Added support for '4 PAK All Action' mapper. [Omar]
