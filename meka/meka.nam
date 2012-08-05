@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2012/06/03
+; Last updated 2012/08/05
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -791,6 +791,7 @@ GG  191b1ed8 D569D43547670605   Chuck Rock/COUNTRY=US,EU,JP,BR/PRODUCT_NO=2430,G
 GG  cb3a1d23 C00226EF6E17495B   Chuck Rock [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  3fcc28c9 B6FD24D8906B3422   Chuck Rock II - Son of Chuck/COUNTRY=US/PRODUCT_NO=T-48148
 GG  656708bf 65F159C71229103F   Chuck Rock II - Son of Chuck/COUNTRY=EU,BR/PRODUCT_NO=T-115018-50,115018-50,075.450
+GG  72981057 233F58409660EF21   CJ Elephant Fugitive/COUNTRY=EU,US/PRODUCT_NO=17014
 GG  bf75b153 2F97B4630C0D23E7   Cliffhanger/COUNTRY=US/PRODUCT_NO=T-93038
 GG  d228a467 9B49411CCAC8D756   Clutch Hitter/COUNTRY=US/PRODUCT_NO=2311
 GG  2c758fc8 775934E6039885F6   Cool Spot/COUNTRY=US/PRODUCT_NO=T-70108

@@ -919,6 +919,7 @@
  Chuck Rock [Proto]                                 Ok
  Chuck Rock II - Son of Chuck                       Ok
  Chuck Rock II - Son of Chuck (US)                  Ok
+ CJ Elephant Fugitive                               Ok
  Cliffhanger                                        Ok
  Clutch Hitter                                      Ok
  Coca Cola Kid                                      Ok
@@ -1347,7 +1348,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 491 games tested - 479 are "Ok" - Compatibility rate: 97.45%
+ 492 games tested - 480 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
