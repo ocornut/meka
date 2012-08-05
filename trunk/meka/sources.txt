@@ -8,21 +8,51 @@
  - SVN:         svn://svn.smspower.org/svn/meka
  - SVN Trunk:   svn://svn.smspower.org/svn/meka/trunk/meka
 ----------------------------------------------------------------------------
- Read the 'TODO.txt' file for a (messy) list of possible improvements.
- In short: the number 1 priority would be to scrap and rewrite the whole 
- sound playback architecture.
+ Also refer to TODO.txt file for a (messy) list of possible improvements.
 ----------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------
- Note to the knowledge-eager person:
+ Note to the knowledge-savy person:
  - MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
  - MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
  MEKA is an old piece of software, most of which was essentially written
  pre-2000. Although MEKA is still competitive in term of available features, 
  newer emulators are generally more accurate emulation-wise.
- The SMS Power! development Forums and Wiki are generally a good place 
- for sharing up to date knowledge about hardware and emulation.
+ The SMS Power! development Forums and Wiki are a betterd place to share
+ up to date knowledge about hardware and emulation.
 ---------------------------------------------------------------------------
+
+---------------------------------------
+ MEKA License
+---------------------------------------
+
+Applies to hq2x.c, hq2x16.asm, hq2x32.asm:
+
+  HQ2X is originally distributed under GPL license, which legally would 
+  not fit in MEKA (with its current license). An alternate license has 
+  been requested to the author, Maxim Stephin, who answered:
+
+    "Ah, just use it... I don't care much about legal stuff.
+     As long as it's not used in a commercial product, of course."
+
+  Overidding GPL terms.
+  commercial usage).
+  
+Apply to all code not by Omar Cornut: (see MEKA.txt)
+
+  Unlicensed. Gray area. Kernel Panic. Ahah!
+
+Apply to everything else:
+ 
+ #1 This source code comes free, without any warantee given.
+ 
+ #2 Any modification of this software must have this license preserved,
+    and source code made available under the same condition.
+
+ #3 Reuse of program source code and data authorized for any purpose.
+
+Please contact me ( omar AT miracleworld DOT net ) for any question.
+
 
 ---------------------------------------
 INDEX 
@@ -32,8 +62,6 @@ INDEX
 - Introduction
 - Technology
 - Source repository
-- Communication
-- License
 - How to Compile
 - How to create distribution packages
 - Hope
@@ -56,21 +84,18 @@ playing games using yet another hand.
  Introduction
 ---------------------------------------
 
-At some point, I realized that MEKA had all advantage to have its code
-sources opened. Letting people tweak the software, improve it, port it, 
-learn from it. Benefits for everyone. Here we are, finally.
+MEKA has been in development since summer 1998 (it was actually my first 
+proper project using C as programming language), and most of its codebase
+was written in 1998-2000, an era when MEKA was a closed source software.
 
-But here's the catch: MEKA is my pet project and was developped under
-closed doors for an eternity (starting summer 1998, my first proper
-project using C). It hasn't grown being a community project, and thus
-the codebase isn't particularly great and suited to today's development
-practices.
+That is to say that although MEKA is now free software and open-source,
+it hasn't been developed under this premise, and the code is pretty much
+the work of a disturbed adolescent mind learning its way around programming.
 
-Had I to rewrite MEKA today it would of course be very different, but 
-here we have this thing today and limited time to make it evolve.
-
-So well, this code is unperfect, but it's better than nothing.
-May it serves, may we can work together and improve it bit by bit.
+In the past decade most of my energy has been put toward other projects,
+but MEKA still gets some occasional love and care. May the code be useful
+and hope some people can contribute in keeping MEKA an up to date software
+and making it better.
 
 
 ---------------------------------------
@@ -87,70 +112,16 @@ librairies and technologies used by MEKA.
 
 MEKA code is hosted on a public Subversion (SVN) repository.
 
-Web viewer      @ http://svn.smspower.org
 SVN repository  @ svn://svn.smspower.org/svn/meka
 SVN trunk       @ svn://svn.smspower.org/svn/meka/trunk/meka
 
 Anonymous login allows read-only access.
-Write accesses are still limited, but I am open to it. You can submit 
-patches which will be applied if useful, and once becoming a regular 
-contributor we can likely setup your own account with write-access.
 
+Please e-mail me patches and they will be applied if deemed useful.
 
----------------------------------------
- Communication
----------------------------------------
-
-Please communicate on the dedicated MEKA forum on SMS Power!.
-
- - Feel free to ask any kind of question. I'll try to help.
- - You can post snippets of code and ask for explanation.
- - Some things may seems weird and not properly commented. 
-   Show me and I should be able to say if there's a known reason for doing
-   it the way it is done, or if it is just a mistake or unproper coding.
- - Feel free to suggest anything.
- 
-If you have an idea of some piece of work in mind, again, please communicate:
-
- - I may be able to help, provides guidelines, or ideas if I already thought
-   about the specific feature you're thinking about.
- - Most important and likely, I may be able to give direction about how to 
-   implement certain things given the current constraints in MEKA code.
-
-
----------------------------------------
- MEKA License 1.1
----------------------------------------
-
-Apply to hq2x.c, hq2x16.asm, hq2x32.asm:
-
-  HQ2X is originally distributed under GPL license, which legally would 
-  not fit in MEKA (with its current license). An alternate license has 
-  been requested to the author, Maxim Stephin, who answered:
-
-    "Ah, just use it... I don't care much about legal stuff.
-     As long as it's not used in a commercial product, of course."
-
-  Overidding GPL terms.
-  Maxim Stephin's comments is also a decent reminder about how many
-  people who release their product under GPL/LGPL don't actually 
-  understand the fundation of those license (both licenses allows
-  commercial usage).
-  
-Apply to all code not by Omar Cornut: (see MEKA.txt)
-
-  Unlicensed. Gray area. Kernel Panic. Ahah!
-
-Apply to everything else:
- 
- #1 This source code comes free, without any warantee given.
- 
- #2 Any modification of this software must have this license preserved,
-    and source code made available under the same condition.
-
- #3 Reuse of program source code and data authorized for any purpose.
-
-Please contact me ( omar AT miracleworld DOT net ) for any question.
+SVN write accesses are granted on a per-user basis. 
+I am totally open to giving access to people demonstrating their value
+to the project.
 
 
 ---------------------------------------
@@ -188,11 +159,10 @@ II. Compile for GNU/Linux and other UN*X based systems:
    - $ ./configure --enable-static
    - $ make
    - $ make install
- - Install NASM
-   - Get a package, or http://nasm.sourceforge.net
+   - $ For Ubuntu see notes on Allegro website 
  - Compile !
    - Use provided Makefile.
- - Contact me thru the forum for any help. :)
+ - Contact us thru the forum for any help. :)
 
 
 ---------------------------------------
