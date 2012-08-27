@@ -90,7 +90,7 @@ static int	get_february_len (int year)
     return (29);
 }
 
-// FIXME: do we really have to code this manually in 2005^h^h^h^h2011? seems insane (disclaimer: this is 1998 ms-dos code)
+// FIXME: do we really have to code this manually in 2005^h^h^h^h2012? seems insane (disclaimer: this is 1998 ms-dos code)
 // ctime() anymore? (or similar function?)
 static void	meka_get_time_date (int *phour, int *pminute, int *psecond, int *pday, int *pmonth, int *pyear, int *pday_of_week)
 {
