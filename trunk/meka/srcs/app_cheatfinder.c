@@ -60,7 +60,7 @@ static void			CheatFinder_UndoReduce(t_cheat_finder* app);
 static void			CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index);
 
 static u32			CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_match* match);
-static u32			CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* mem_range, int value_index);
+static u32			CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* memrange, t_cheat_finder_match* match);
 
 static void			CheatFinder_CallbackMemtypeSelect(t_widget* w);
 static void			CheatFinder_CallbackValuetypeSelect(t_widget* w);
@@ -318,7 +318,7 @@ void	CheatFinder_Update(t_cheat_finder* app)
 		if (app->matches.size() <= CHEAT_FINDER_MATCHES_MAX)
 		{
 			const t_cheat_finder_match* match = &app->matches[0];
-			for (int i = 0; i != app->matches.size(); i++, match++)
+			for (size_t i = 0; i != app->matches.size(); i++, match++)
 			{
 				if (match->type == CHEAT_FINDER_VALUE_TYPE_1)
 					fp.Printf(dc.pos+v2i(12,0), "%s $%0*X bit %d (mask $%02X): %d", memrange.name, memrange.addr_hex_length, memrange.addr_start+(match->value_index>>3), match->value_index&7, 1<<(match->value_index&7), match->last_value);
@@ -346,7 +346,7 @@ void	CheatFinder_Update(t_cheat_finder* app)
 	{
 		app->addresses_to_highlight_in_memory_editor.reserve(app->matches.size());
 		app->addresses_to_highlight_in_memory_editor.resize(0);
-		for (int i = 0; i != app->matches.size(); i++)
+		for (size_t i = 0; i != app->matches.size(); i++)
 		{
 			const t_cheat_finder_match* match = &app->matches[i];
 			u32 addr_min = CheatFinder_IndexToAddr(app, match);

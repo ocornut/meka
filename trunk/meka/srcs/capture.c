@@ -52,21 +52,16 @@ void        Capture_Request(void)
     Capture.request = TRUE;
 }
 
-//-----------------------------------------------------------------------------
-// Capture_FileName_Get(char *dst)
 // Compute filename for next screen capture
-//-----------------------------------------------------------------------------
 static void	Capture_FileName_Get(char *dst)
 {
-    char *  game_name;
-    char    s1 [FILENAME_LEN];
-    char    s2 [FILENAME_LEN];
-
     // Create directory if necessary
     if (!al_filename_exists(g_env.Paths.ScreenshotDirectory))
         al_make_directory(g_env.Paths.ScreenshotDirectory);
 
     // Figure out a base filename
+	const char* game_name;
+    char s1[FILENAME_LEN];
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & running
     {
         strcpy(s1, g_env.Paths.MediaImageFile);
@@ -78,7 +73,9 @@ static void	Capture_FileName_Get(char *dst)
     {
         game_name = CAPTURE_DEFAULT_PREFIX;
     }
-    sprintf(s2, "%%s/%s", g_configuration.capture_filename_template);
+
+	char s2[FILENAME_LEN];
+	sprintf(s2, "%%s/%s", g_configuration.capture_filename_template);
 
     // Create a full filename and check if the file already exists. Loop if it is the case.
 	// Note: CAPTURE_ID_MAX is 9999, for all capturing this gives us 2mn46s worth of frames at 60 FPS.
@@ -90,11 +87,8 @@ static void	Capture_FileName_Get(char *dst)
     while (al_filename_exists(dst) != 0 && Capture.id_number < CAPTURE_ID_MAX);
 }
 
-//-----------------------------------------------------------------------------
-// Capture_Screen(void)
 // Capture current screen to a file
-//-----------------------------------------------------------------------------
-static void		Capture_Screen(void)
+static void		Capture_Screen()
 {
     //PALETTE     pal;
 

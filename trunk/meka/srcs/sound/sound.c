@@ -467,8 +467,8 @@ int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
 		Msg(MSGT_DEBUG, "PopSamples(): underrun %d < %d available", samples_avail, samples_wanted);
 		return 0;
 	}
-	const s16* buf_start = buf;
-	const s16* buf_end = buf + samples_wanted;
+	//const s16* buf_start = buf;
+	//const s16* buf_end = buf + samples_wanted;
 
 	int samples_read = 0;
 	while (samples_wanted > 0)

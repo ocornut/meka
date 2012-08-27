@@ -144,7 +144,7 @@ u8		t_memory_range::ReadByte(int addr) const
 {
 	assert(addr >= 0 && addr < this->size);
 	switch (this->memtype)
-	{
+		{
 		case MEMTYPE_Z80: 
 			if (!(g_machine_flags & MACHINE_POWER_ON))
 				return 0x00;
@@ -315,7 +315,6 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 {
     t_frame frame;
 
-	ALLEGRO_BITMAP* box_gfx = mv->box->gfx_buffer;
 	al_set_target_bitmap(mv->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
@@ -459,7 +458,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     int y = 4;
     int addr = mv->memblock_first * mv->size_columns;
     
-	const u8* memory = mv->pane_current->memrange.data;
+	//const u8* memory = mv->pane_current->memrange.data;
 
     // Lines to separate address/hex/ascii
     // FIXME-SIZE
