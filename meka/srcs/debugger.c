@@ -124,7 +124,6 @@ static void						Debugger_History_AddLine(const char *line_to_add);
 static void                     Debugger_History_List(const char *search_term_arg);
 
 // Values
-static void                     Debugger_Value_Delete(t_debugger_value *value);
 static void                     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name, void *data, int data_size);
 static void                     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol);
 static void                     Debugger_Value_SetComputed(t_debugger_value *value, u32 data, int data_size);
@@ -892,7 +891,7 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 				if (cpu_exec_trap)
 					Debugger_CPU_Exec_Traps[addr_candidate]++;
 			}
-			if (addr0 == addr_max)
+			if (addr0 == (u32)addr_max)
 				break;
 		}
 	}
@@ -947,7 +946,7 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 				if (cpu_exec_trap)
 					Debugger_CPU_Exec_Traps[addr_candidate]--;
 			}
-			if (addr0 == addr_max)
+			if (addr0 == (u32)addr_max)
 				break;
 		}
 	}
@@ -1280,6 +1279,8 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 			}
 			break;
 		}
+	default:
+		break;
 	}
 	return false;
 }
@@ -2516,7 +2517,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                 p++;
 
             // Get second part of the range
-            if (address_start.data == -1)
+            if (address_start.data == (u32)-1)
                 address_start.data = bus_info->addr_min;
             if (Debugger_Eval_GetExpression(&p, &address_end) > 0)
                 address_end.data = address_end.data;
@@ -2531,7 +2532,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             return;
         }
 
-        if (address_start.data == -1 || address_end.data == -1)
+        if (address_start.data == (u32)-1 || address_end.data == (u32)-1)
         {
             Debugger_Printf("Syntax error!\n");
             Debugger_Printf("Type HELP B for usage instruction.\n");
@@ -3303,11 +3304,6 @@ void        Debugger_InputBoxCallback(t_widget *w)
 //-----------------------------------------------------------------------------
 // FUNCTIONS - Values/Variables
 //-----------------------------------------------------------------------------
-
-void     Debugger_Value_Delete(t_debugger_value *value)
-{
-    free(value);
-}
 
 void     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name, void *data, int data_size)
 {

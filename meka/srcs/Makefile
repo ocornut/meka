@@ -1,6 +1,6 @@
 #------------------------------------------------------
 # MEKA - Makefile
-# 1998-2011
+# 1998-2012
 # http://www.smspower.org/meka
 # Refer to MEKA.TXT file for full credits information.
 #------------------------------------------------------
@@ -263,12 +263,12 @@ ifndef CFLAGS
 
 # RELEASE build
 ifeq ($(BUILD), release)
-CFLAGS = -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
+CFLAGS = -w3 -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
 endif
 
 # DEBUG build
 ifeq ($(BUILD), debug)
-CFLAGS = -Wall -g -ggdb
+CFLAGS = -w3 -g -ggdb
 endif
 
 endif

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		075097E215EB793400B04454 /* app_cheatfinder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app_cheatfinder.c; sourceTree = "<group>"; };
+		075097E315EB793400B04454 /* app_cheatfinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_cheatfinder.h; sourceTree = "<group>"; };
 		07D7B3B9141D59EC00B5EB2A /* allegro4to5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = allegro4to5.c; sourceTree = "<group>"; };
 		07D7B3BA141D59EC00B5EB2A /* allegro4to5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = allegro4to5.h; sourceTree = "<group>"; };
 		07D7B3BB141D59EC00B5EB2A /* app_about.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = app_about.c; sourceTree = "<group>"; };
@@ -296,6 +298,8 @@
 		07D7B3B8141D59EC00B5EB2A /* srcs */ = {
 			isa = PBXGroup;
 			children = (
+				075097E215EB793400B04454 /* app_cheatfinder.c */,
+				075097E315EB793400B04454 /* app_cheatfinder.h */,
 				07D7B3B9141D59EC00B5EB2A /* allegro4to5.c */,
 				07D7B3BA141D59EC00B5EB2A /* allegro4to5.h */,
 				07D7B3BB141D59EC00B5EB2A /* app_about.c */,

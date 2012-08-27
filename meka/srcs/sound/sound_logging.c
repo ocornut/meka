@@ -11,11 +11,11 @@ void    Sound_Log_Init(void)
 {
 	Sound.LogWav                   = NULL;
 	Sound.LogWav_SizeData          = 0;
-	Sound.LogWav_FileName_Template = "%s-%02d.wav";
+	Sound.LogWav_FileName_Template = strdup("%s-%02d.wav");
 	Sound.LogWav_ID                = 0;
 	Sound.LogVGM.Logging           = VGM_LOGGING_NO;
 	Sound.LogVGM_Logging_Accuracy  = VGM_LOGGING_ACCURACY_FRAME;
-	Sound.LogVGM_FileName_Template = "%s-%02d.vgm";
+	Sound.LogVGM_FileName_Template = strdup("%s-%02d.vgm");
 	Sound.LogVGM_ID                = 0;
 }
 
@@ -32,7 +32,7 @@ void    Sound_Log_Init_Game(void)
     Sound.LogWav_ID = Sound.LogVGM_ID = 1; // Reset counter for a new game
 }
 
-void    Sound_Log_FileName_Get(char *result, char *filename_template, int *id)
+void    Sound_Log_FileName_Get(char *result, const char *filename_template, int *id)
 {
     char   s1 [FILENAME_LEN];
     char   s2 [FILENAME_LEN];
@@ -42,7 +42,7 @@ void    Sound_Log_FileName_Get(char *result, char *filename_template, int *id)
         al_make_directory(g_env.Paths.MusicDirectory);
 
     // Create second template ----------------------------------------------------
-    char * game_name;
+    const char * game_name;
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN) // If a game is loaded & runnnig
     {
         strcpy (s1, g_env.Paths.MediaImageFile);
