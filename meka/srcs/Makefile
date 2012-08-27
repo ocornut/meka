@@ -37,8 +37,8 @@
 #------------------------------------------------------
 # SYSTEM = dos
 # SYSTEM = win32
-SYSTEM = unix
-# SYSTEM = macosx
+# SYSTEM = unix
+SYSTEM = macosx
 #------------------------------------------------------
 BUILD = release
 # BUILD = debug
@@ -317,14 +317,14 @@ $(OD)/g_menu_t.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
 # $(OD)/data.o : data.c data.h g_colors.h
 
 # CPU emulators related compilation
-$(OD)/z80marat.a : z80marat/Z80.c z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.c z80marat/Z80Call.c z80marat/Z80DebugHelpers.c
+$(OD)/z80marat.a : z80marat/Z80.c z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.c z80marat/Z80Call.c z80marat/Z80DebugHelpers.cpp
 	$(CC) $(CFLAGS) -c z80marat/Z80.c $(CC_OUT)$@
 
 $(OD)/debug.o : z80marat/Debug.c z80marat/Z80.h
 	$(CC) $(CFLAGS) -c z80marat/Debug.c $(CC_OUT)$@
 
-$(OD)/debughelper.o : z80marat/Z80DebugHelpers.c z80marat/Z80.h
-	$(CC) $(CFLAGS) -c z80marat/Z80DebugHelpers.c $(CC_OUT)$@ 
+$(OD)/debughelper.o : z80marat/Z80DebugHelpers.cpp z80marat/Z80.h
+	$(CC) $(CFLAGS) -c z80marat/Z80DebugHelpers.cpp $(CC_OUT)$@ 
 
 # Generic Rules
 
