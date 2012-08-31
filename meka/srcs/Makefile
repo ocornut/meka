@@ -263,12 +263,12 @@ ifndef CFLAGS
 
 # RELEASE build
 ifeq ($(BUILD), release)
-CFLAGS = -w3 -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
+CFLAGS = -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
 endif
 
 # DEBUG build
 ifeq ($(BUILD), debug)
-CFLAGS = -w3 -g -ggdb
+CFLAGS = -Wall -g -ggdb
 endif
 
 endif
