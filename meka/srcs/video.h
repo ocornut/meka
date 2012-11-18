@@ -52,6 +52,7 @@ int		Video_FindClosestDisplayMode(int w, int h, int refresh_rate);
 void    Video_GameMode_UpdateBounds(void);
 void	Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp);
 void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp);
+void	Video_GameMode_GetScreenCenterPos(int* pscreen_x, int* pscreen_y);
 
 void    Video_RefreshScreen(void);
 void	Video_UpdateEvents();

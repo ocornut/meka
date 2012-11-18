@@ -1,7 +1,5 @@
 Is there any emulator/setting that handles the Sports Pad input in a way that makes the games playable? Meka allows to use the mouse for it, but it always stops where the mouse pointer would reach the border of the screen. I've tried some other emulators, but none of them seemed to support it at all...
 
-Games which use the extra-height 224-line video mode use a name table with 32 rows. When playing one of these games, would it be possible for Tilemap Viewer to expand vertically and show all 32 rows rather than only 28? 
-
 [B] Debugger: Reload Symbol option
 [A] Debugger: Breakpoints are borken (find out an exact repro)
 [B] Debugger: Variable watcher: watch all symbols in RAM range?
