@@ -136,7 +136,7 @@ void	FB_Init()
     frame.pos.y     = 54;
     frame.size.x    = FB.res_x;
     frame.size.y    = FB_Return_Res_Y();
-    FB.box = gui_box_new(&frame, Msg_Get (MSG_FileBrowser_BoxTitle));
+    FB.box = gui_box_new(&frame, Msg_Get(MSG_FileBrowser_BoxTitle));
     Desktop_Register_Box("FILEBROWSER", FB.box, 0, &FB.active);
 
     // Set exclusive inputs flag to avoid messing with emulation
@@ -231,7 +231,7 @@ void		FB_Add_DiskDrives(void)
             // Create a new file browser entry of disk type
             t_filebrowser_entry *entry;
 		    char buf[16];
-            sprintf (buf, "%c:", 'A' + i);
+            sprintf(buf, "%c:", 'A' + i);
             entry = FB_Entry_New (FB_ENTRY_TYPE_DRIVE, strdup (buf));
 
             // Add to list (FIXME: argh)
@@ -326,7 +326,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
     // Open current directory
     if ((dir = opendir(".")) == 0)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_Error_Directory_Open));
+        Msg(MSGT_USER, Msg_Get(MSG_Error_Directory_Open));
         return;
     }
 
@@ -533,7 +533,7 @@ void	FB_Draw_List(void)
         case FB_ENTRY_TYPE_DIRECTORY:
             {
                 // Name
-                strcpy (name_buffer, entry->file_name);
+                strcpy(name_buffer, entry->file_name);
                 // Width usage for directory '>' marker
                 x_usage = 8;
                 break;
@@ -541,7 +541,7 @@ void	FB_Draw_List(void)
         case FB_ENTRY_TYPE_DRIVE:
             {
                 // Name
-                sprintf (name_buffer, Msg_Get (MSG_FileBrowser_Drive), entry->file_name[0]);
+                sprintf(name_buffer, Msg_Get(MSG_FileBrowser_Drive), entry->file_name[0]);
                 // Width usage for drive '>' marker
                 x_usage = 8; 
                 break;
@@ -550,9 +550,9 @@ void	FB_Draw_List(void)
             {
                 // Name
                 if (entry->db_entry_name)
-                    strcpy (name_buffer, entry->db_entry_name);
+                    strcpy(name_buffer, entry->db_entry_name);
                 else
-                    strcpy (name_buffer, entry->file_name);
+                    strcpy(name_buffer, entry->file_name);
 
                 // Width usage for icons/flags
                 x_usage = 0;
@@ -823,7 +823,7 @@ void            FB_Update(void)
 
 void	FB_Load_Directory(void)
 {
-    // Msg (MSGT_DEBUG, "FB_Load_Directory()");
+    // Msg(MSGT_DEBUG, "FB_Load_Directory()");
 
     const int old_files_max = FB.files_max;
     const int old_file_pos = FB.file_pos;
@@ -844,19 +844,19 @@ void	FB_LoadAllNames(void)
     // Because Load_ROM with no verbosing doesn't save it
     BMemory_Save();
 
-    // Msg (MSGT_DEBUG, "FB_LoadAllNames()");
+    // Msg(MSGT_DEBUG, "FB_LoadAllNames()");
     for (int i = 0; i < FB.files_max; i++)
     {
         t_filebrowser_entry *entry = FB.files[i];
         if (entry->type == FB_ENTRY_TYPE_FILE)
         {
             strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
-            // Msg (MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
+            // Msg(MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
             FB.file_pos = i;
             FB_Check_and_Repos();
             FB_Draw_List();
-            Load_ROM (LOAD_INTERFACE, FALSE);
-            gui_redraw_everything_now_once ();
+            Load_ROM(LOAD_MODE_GUI, false);
+            gui_redraw_everything_now_once();
         }
     }
 
@@ -936,7 +936,7 @@ void	FB_OpenFile(const char* name)
     Sound_Playback_Mute();
 
 	strncpy(g_env.Paths.MediaImageFile, name, sizeof(g_env.Paths.MediaImageFile));
-	Load_ROM(LOAD_INTERFACE, TRUE);
+	Load_ROM(LOAD_MODE_GUI, true);
 	FB_Reload_Names();
 	if (g_configuration.fb_close_after_load)
 	{
@@ -982,7 +982,7 @@ void    FB_Click_List (t_widget *w)
         FB.last_click = i;
         if (FB.file_pos >= FB.files_max) 
             FB.file_pos = FB.files_max - 1;
-        FB_Draw_List ();
+        FB_Draw_List();
     }
 }
 
@@ -1012,7 +1012,7 @@ void    FB_Reload_Names (void)
     FB_Sort_Files (FB.file_first, FB.file_last);
 
     // Display
-    FB_Draw_List ();
+    FB_Draw_List();
 }
 
 //-----------------------------------------------------------------------------

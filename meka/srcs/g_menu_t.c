@@ -123,7 +123,7 @@ int                     menu_add_menu (int menu_id, const char *label, int flags
 		return (0);
 	}
 
-	const int submenu_id = menu_new ();
+	const int submenu_id = menu_new();
 	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
 
 	entry->label = strdup(label);

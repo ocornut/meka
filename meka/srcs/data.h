@@ -91,7 +91,7 @@ struct t_data_graphics
         ALLEGRO_BITMAP *    ColecoVision;
     } Machines;
 
-    // Miscellaenous
+    // Miscellaneous
     struct
     {
         ALLEGRO_BITMAP *    Dragon;

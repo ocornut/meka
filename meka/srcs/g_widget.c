@@ -673,7 +673,7 @@ void        widget_textbox_redraw(t_widget *w)
     /*
     {
         static cnt = 0;
-        Msg (MSGT_USER_INFOLINE, "widget_textbox_redraw() %d", cnt++);
+        Msg(MSGT_USER_INFOLINE, "widget_textbox_redraw() %d", cnt++);
     }
     // rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_BORDER);
     */
@@ -723,7 +723,7 @@ static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
         wd->lines_num++;
 
     // Copy new line
-    strcpy (wd->lines[0].text, line);
+    strcpy(wd->lines[0].text, line);
     wd->lines[0].pcolor = wd->pcurrent_color;
 }
 
@@ -823,7 +823,7 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
     wd->length_max          = length_max;
     assert(length_max != -1); // Currently, length must be fixed
     wd->value               = (char*)malloc (sizeof (char) * (length_max + 1));
-    strcpy (wd->value, "");
+    strcpy(wd->value, "");
     wd->cursor_pos          = wd->length = 0;
     wd->font_id             = font_id;
 	wd->cursor_blink_timer	= 0;
@@ -850,7 +850,7 @@ bool    widget_inputbox_insert_char(t_widget *w, char c)
     {
         // Limit field size
         if (wd->length == wd->length_max)
-            return (FALSE);
+            return false;
 
         // Shift everything that is after cursor pos
         if (wd->cursor_pos < wd->length)
@@ -877,7 +877,7 @@ bool    widget_inputbox_insert_char(t_widget *w, char c)
     // Set dirty flag
 	wd->cursor_blink_timer = 0;
 
-    return (TRUE);
+    return true;
 }
 
 bool    widget_inputbox_insert_string(t_widget *w, const char *str)
@@ -885,8 +885,8 @@ bool    widget_inputbox_insert_string(t_widget *w, const char *str)
     char    c;
     while ((c = *str++) != '\0')
         if (!widget_inputbox_insert_char(w, c))
-            return (FALSE);
-    return (TRUE);
+            return false;
+    return true;
 }
 
 bool    widget_inputbox_delete_current_char(t_widget *w)
@@ -896,7 +896,7 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
 	wd->cursor_blink_timer = 0;
     if (wd->cursor_pos == 0)
     {
-        return (FALSE);
+        return false;
     }
     else
     {
@@ -908,7 +908,7 @@ bool    widget_inputbox_delete_current_char(t_widget *w)
         wd->length--;
         wd->value[wd->length] = '\0';
 
-        return (TRUE);
+        return true;
     }
 }
 
@@ -935,7 +935,7 @@ void        widget_inputbox_update(t_widget *w)
 	}
 	wd->cursor_blink_timer = (wd->cursor_blink_timer + 1) % 70;
 
-    // Msg (MSGT_DEBUG, "cascii = %c, cscan = %04x", Inputs.KeyPressed.ascii, Inputs.KeyPressed.scancode);
+    // Msg(MSGT_DEBUG, "cascii = %c, cscan = %04x", Inputs.KeyPressed.ascii, Inputs.KeyPressed.scancode);
 
     // Mouse click set position
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
@@ -1141,7 +1141,7 @@ void        widget_inputbox_set_value(t_widget *w, const char *value)
     len = strlen(value);
     if (len < wd->length_max)
     {
-        strcpy (wd->value, value);
+        strcpy(wd->value, value);
         wd->length = len;
     }
     else

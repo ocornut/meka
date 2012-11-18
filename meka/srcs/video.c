@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // MEKA - video.c
-// Video / Miscellaenous - Code
+// Video / Miscellaneous - Code
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
@@ -304,7 +304,7 @@ void    Video_Setup_State(void)
             {
                 g_env.state = MEKA_STATE_GUI;
                 Video_Setup_State();
-                Msg (MSGT_USER, Msg_Get (MSG_Error_Video_Mode_Back_To_GUI));
+                Msg(MSGT_USER, Msg_Get(MSG_Error_Video_Mode_Back_To_GUI));
                 return;
             }
             fs_out = al_get_backbuffer(g_display);
@@ -370,16 +370,16 @@ void	Video_UpdateEvents()
 		case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
 			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
 			//	return;
-			//// Msg (MSGT_USER, "Switch_In_Callback()");
+			//// Msg(MSGT_USER, "Switch_In_Callback()");
 			//// clear_to_color (screen, BORDER_COLOR);
-			//Video_Clear ();
-			//Sound_Playback_Resume ();
+			//Video_Clear();
+			//Sound_Playback_Resume();
 			break;
 		case ALLEGRO_EVENT_DISPLAY_SWITCH_OUT:
 			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
 			//	break;
-			//// Msg (MSGT_USER, "Switch_Out_Callback()");
-			//Sound_Playback_Mute ();
+			//// Msg(MSGT_USER, "Switch_Out_Callback()");
+			//Sound_Playback_Mute();
 			break;
 		}
 	}
@@ -463,7 +463,7 @@ void    Video_RefreshScreen(void)
         ALLEGRO_BITMAP *tmp = screenbuffer;
         screenbuffer = screenbuffer_next;
         screenbuffer_next = tmp;
-        // Msg (MSGT_DEBUG, "Swap buffer. screenbuffer=%d", screenbuffer==screenbuffer_1?1:2);
+        // Msg(MSGT_DEBUG, "Swap buffer. screenbuffer=%d", screenbuffer==screenbuffer_1?1:2);
 
         // In debugging mode, copy previously rendered buffer to new one
         // This is so the user always see the current rendering taking place over the previous one

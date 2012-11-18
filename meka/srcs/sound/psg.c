@@ -52,14 +52,14 @@ static int      Active = 0;     // Set to true by SN76489_Init(), if false then 
 //-----------------------------------------------------------------------------
 int         PSG_Init()
 {
-    ConsolePrintf ("%s ", Msg_Get (MSG_Sound_Init_SN76496));
+    ConsolePrintf ("%s ", Msg_Get(MSG_Sound_Init_SN76496));
 
 	// FIXME-NEWSOUND: PSG
 	/*
     PSG_saChannel = stream_init ("SN76496 #0", g_sasound.audio_sample_rate, 16, 0, PSG_Update);
     if (PSG_saChannel == -1)
     {
-        ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
+        ConsolePrintf ("%s\n", Msg_Get(MSG_Failed));
         return (MEKA_ERR_FAIL);
     }
     stream_set_volume (PSG_saChannel, VOLUME_MAX);
@@ -69,7 +69,7 @@ int         PSG_Init()
         PSG.Channels[i].Active = TRUE;
 	SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
 
-    ConsolePrintf ("%s\n", Msg_Get (MSG_Ok));
+    ConsolePrintf ("%s\n", Msg_Get(MSG_Ok));
     return (MEKA_ERR_OK);
 }
 
@@ -187,7 +187,7 @@ void        PSG_Load (FILE *f, int version)
             fread (&PSG.Channels[i].IntermediatePos, 1, sizeof (signed long int),  f);
         }
     }
-    PSG_Regenerate ();
+    PSG_Regenerate();
 }
 
 //-----------------------------------------------------------------------------

@@ -98,7 +98,7 @@ case LD_A_I:
 case LD_A_R:
   R->R++;
   R->AF.B.h=(byte)(R->R-R->ICount);
-  // Msg (0, "At PC=%04X: LD A,R, returning %02X", R->PC.W, R->AF.B.h);
+  // Msg(0, "At PC=%04X: LD A,R, returning %02X", R->PC.W, R->AF.B.h);
   R->AF.B.l=(R->AF.B.l&C_FLAG)|(R->IFF&IFF_2? P_FLAG:0)|ZSTable[R->AF.B.h];
   break;
 

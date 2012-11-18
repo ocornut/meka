@@ -135,13 +135,13 @@ static bool		System_SetClipboardText(const char *text)
 {
 	// Open clipboard
 	if (!OpenClipboard(NULL))
-		return (FALSE);
+		return false;
 
 	// Global alloc
 	const int text_length = strlen(text) + 1;
 	HGLOBAL text_handle = GlobalAlloc(GMEM_MOVEABLE, text_length * sizeof(char)); 
 	if (text_handle == NULL)
-		return (FALSE);
+		return false;
 
 	// Lock the handle and copy the text to the buffer. 
 	char *text_copy = (char *)GlobalLock(text_handle); 
@@ -151,6 +151,6 @@ static bool		System_SetClipboardText(const char *text)
 	EmptyClipboard();
 	SetClipboardData(CF_TEXT, text_handle);
 	CloseClipboard();
-	return (TRUE);
+	return true;
 }
 

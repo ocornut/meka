@@ -40,7 +40,7 @@ word    Loop_SMS (void)
 
     if (tsms.VDP_Line == 0)
     {
-        Interrupt_Loop_Misc_Line_Zero ();
+        Interrupt_Loop_Misc_Line_Zero();
         g_machine.VDP.scroll_x_latched = sms.VDP[8];
         g_machine.VDP.scroll_y_latched = sms.VDP[9];
         sms.Lines_Left = sms.VDP [10];
@@ -58,8 +58,8 @@ word    Loop_SMS (void)
         if (tsms.VDP_Line == g_driver->y_show_end)
         {
             //if (g_driver->vdp == VDP_TMS)
-            //   Check_Sprites_Collision_Modes_1_2_3 ();
-            // Msg (MSGT_DEBUG, "Loop_SMS: Video_RefreshScreen()");
+            //   Check_Sprites_Collision_Modes_1_2_3();
+            // Msg(MSGT_DEBUG, "Loop_SMS: Video_RefreshScreen()");
             Video_RefreshScreen();
             if ((opt.Force_Quit) || (CPU_Loop_Stop))
                 Macro_Stop_CPU;
@@ -73,7 +73,7 @@ word    Loop_SMS (void)
             sms.Lines_Left = sms.VDP [10];
             sms.Pending_HBlank = TRUE;
             #ifdef DEBUG_VDP
-                Msg (MSGT_DEBUG, "%d @ Lines_Left == 0, HBlank == %d, Reloading VDP[10] = %d", tsms.VDP_Line, (HBlank_ON) ? 1 : 0, sms.VDP [10]);
+                Msg(MSGT_DEBUG, "%d @ Lines_Left == 0, HBlank == %d, Reloading VDP[10] = %d", tsms.VDP_Line, (HBlank_ON) ? 1 : 0, sms.VDP [10]);
             #endif
         }
         if ((sms.Pending_HBlank) && (HBlank_ON))
@@ -156,8 +156,8 @@ void    CPU_Loop (void)
         z80_emulate (opt.Cur_IPeriod);
         switch (LoopZ80 ())
         {
-        case INT_IRQ: z80_raise_IRQ (0xff); z80_lower_IRQ (); break;
-        case INT_NMI: z80_cause_NMI (); break;
+        case INT_IRQ: z80_raise_IRQ (0xff); z80_lower_IRQ(); break;
+        case INT_NMI: z80_cause_NMI(); break;
         case INT_QUIT: return;
         }
     }

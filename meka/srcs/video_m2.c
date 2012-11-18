@@ -611,7 +611,7 @@ void    Check_Sprites_Collision_Modes_1_2_3 (void)
 
         if (dy < Size)
            {
-           //Msg (MSGT_USER, "Sprites %d & %d Collide", n1, n2);
+           //Msg(MSGT_USER, "Sprites %d & %d Collide", n1, n2);
            sms.VDP_Status |= VDP_STATUS_SpriteCollision; // Set VDP Status Collision Bit
            return;
            }
@@ -664,7 +664,7 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
         // Compare delta_y
         delta_y = src_y - dst_y;
         //if (delta_y >= size || delta_y <= -size)
-        //   Msg (MSGT_USER, "delta_y = %d", delta_y);
+        //   Msg(MSGT_USER, "delta_y = %d", delta_y);
 
         // Compute delta_x, skip if the sprites cannot overlap
         delta_x = src_spr[1] - dst_spr[1];
@@ -719,7 +719,7 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 
         if (delta_y < size)
            {
-           // Msg (MSGT_USER, "Sprites %d & %d Collide", src_n, dst_n);
+           // Msg(MSGT_USER, "Sprites %d & %d Collide", src_n, dst_n);
            sms.VDP_Status |= VDP_STATUS_SpriteCollision; // Set VDP Status Collision Bit
            return;
            }

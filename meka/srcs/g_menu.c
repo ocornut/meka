@@ -41,7 +41,7 @@ void        gui_redraw_bars (void)
     if (fskipper.FPS_Display)
     {
 	    char s[16];
-        sprintf (s, "%.1f FPS", fskipper.FPS);
+        sprintf(s, "%.1f FPS", fskipper.FPS);
         Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
@@ -261,7 +261,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 
 void    gui_redraw_menus (void)
 {
-    gui_redraw_bars ();
+    gui_redraw_bars();
 
 	// initial panning animation
     if (menus_opt.distance > MENUS_DISTANCE)

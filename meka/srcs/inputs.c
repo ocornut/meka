@@ -39,12 +39,12 @@ void    Inputs_Switch_Current (void)
 {
     switch (Inputs.Peripheral [PLAYER_1])
     {
-    case INPUT_JOYPAD:        Inputs_Switch_Joypad        (); break;
-    case INPUT_LIGHTPHASER:   Inputs_Switch_LightPhaser   (); break;
-    case INPUT_PADDLECONTROL: Inputs_Switch_PaddleControl (); break;
-    case INPUT_SPORTSPAD:     Inputs_Switch_SportsPad     (); break;
-    case INPUT_TVOEKAKI:      Inputs_Switch_TVOekaki      (); break;
-    default: Msg (MSGT_USER, "Error #691: Input type not defined"); break;
+    case INPUT_JOYPAD:        Inputs_Switch_Joypad       (); break;
+    case INPUT_LIGHTPHASER:   Inputs_Switch_LightPhaser  (); break;
+    case INPUT_PADDLECONTROL: Inputs_Switch_PaddleControl(); break;
+    case INPUT_SPORTSPAD:     Inputs_Switch_SportsPad    (); break;
+    case INPUT_TVOEKAKI:      Inputs_Switch_TVOekaki     (); break;
+    default: Msg(MSGT_USER, "Error #691: Input type not defined"); break;
     }
 }
 
@@ -56,7 +56,7 @@ void    Inputs_Peripheral_Next (int Player)
     else
 		Inputs.Peripheral [Player] = (t_input_peripheral)((Inputs.Peripheral [Player] + 1) % INPUT_PERIPHERAL_MAX);
     if (Player == PLAYER_1)
-        Inputs_Switch_Current ();
+        Inputs_Switch_Current();
     else
         Inputs_CFG_Peripheral_Change (Player, Inputs.Peripheral [Player]);
 }
@@ -74,7 +74,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     Inputs_CFG_Update(&Inputs_CFG);
     //Inputs_CFG_Map_Change_Update();
     //if (Inputs_CFG.active)
-    //    Inputs_CFG.Box->update ();
+    //    Inputs_CFG.Box->update();
 
     switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
     {
@@ -82,9 +82,9 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
         {
             // State save/load
             if (Inputs_KeyPressed (ALLEGRO_KEY_F5, FALSE))
-                Save_Game ();
+                Save_Game();
             if (Inputs_KeyPressed (ALLEGRO_KEY_F7, FALSE))
-                Load_Game ();
+                Load_Game();
 
             // State change slot
             /*
@@ -114,7 +114,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
             // Speed & Frame skip 
             if (Inputs_KeyPressed (ALLEGRO_KEY_F2, FALSE))
-                Frame_Skipper_Switch ();
+                Frame_Skipper_Switch();
             if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F3, FALSE, 30, 3))
                 Frame_Skipper_Configure (-1);
             if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F4, FALSE, 30, 3))
@@ -126,11 +126,11 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
             // Switch mode (Fullscreen <-> GUI)
             if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? ALLEGRO_KEY_F10 : ALLEGRO_KEY_ESCAPE, FALSE))
-                Action_Switch_Mode ();
+                Action_Switch_Mode();
 
             // Sprites Refresh switch
             if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
-                Action_Switch_Layer_Sprites ();
+                Action_Switch_Layer_Sprites();
 
             // Hard Pause
             if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
@@ -189,14 +189,14 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
            {
                // FPS Counter switch
                if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))         
-                   Frame_Skipper_Switch_FPS_Counter ();
+                   Frame_Skipper_Switch_FPS_Counter();
                // Applets hotkeys
-               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE))         FB_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE))         Options_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE))         TB_Message_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE))         FB_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE))         Options_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE))         TB_Message_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE))         PaletteViewer_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE))         TileViewer_Switch ();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE))         TechInfo_Switch ();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE))         TileViewer_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE))         TechInfo_Switch();
                // Quit emulator
                if (Inputs_KeyPressed (ALLEGRO_KEY_X, FALSE))         
                    opt.Force_Quit = TRUE;
@@ -241,15 +241,15 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 
     // Wonder Boy III, Current Song
     //if (key[KEY_J])
-    //   Msg (0, "RAM[0xFF9] = %02X", RAM[0xFF9]);
+    //   Msg(0, "RAM[0xFF9] = %02X", RAM[0xFF9]);
 }
 
 // ACTION: SET INPUT TO STANDARD JOYPADS --------------------------------------
 void    Inputs_Switch_Joypad (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_JOYPAD);
-    Msg (MSGT_USER, Msg_Get (MSG_Inputs_Joypad));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Digital));
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_Joypad));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Digital));
     gui_menu_un_check_area (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
@@ -258,8 +258,8 @@ void    Inputs_Switch_Joypad (void)
 void    Inputs_Switch_LightPhaser (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_LIGHTPHASER);
-    Msg (MSGT_USER, Msg_Get (MSG_Inputs_LightPhaser));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Mouse));
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_LightPhaser));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
     gui_menu_un_check_area (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
@@ -268,9 +268,9 @@ void    Inputs_Switch_LightPhaser (void)
 void    Inputs_Switch_PaddleControl (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_PADDLECONTROL);
-    Msg (MSGT_USER, Msg_Get (MSG_Inputs_PaddleControl));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Mouse));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Digital_Unrecommended));
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_PaddleControl));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Digital_Unrecommended));
     gui_menu_un_check_area (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
@@ -278,8 +278,8 @@ void    Inputs_Switch_PaddleControl (void)
 void    Inputs_Switch_SportsPad (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_SPORTSPAD);
-    Msg (MSGT_USER, Msg_Get (MSG_Inputs_SportsPad));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Mouse));
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_SportsPad));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
     gui_menu_un_check_area (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
@@ -287,8 +287,8 @@ void    Inputs_Switch_SportsPad (void)
 void    Inputs_Switch_TVOekaki (void)
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_TVOEKAKI);
-    Msg (MSGT_USER, Msg_Get (MSG_Inputs_TVOekaki));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Inputs_Play_Pen));
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_TVOekaki));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Pen));
     gui_menu_un_check_area (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
@@ -322,7 +322,7 @@ u8	Input_Port_DC (void)
 
     if (Inputs.SK1100_Enabled && (sms.Input_Mode & 7) != 7)
     {
-        // Msg (MSGT_USER, "Keyboard read %d", sms.Input_Mode & 7);
+        // Msg(MSGT_USER, "Keyboard read %d", sms.Input_Mode & 7);
         return (tsms.Control [sms.Input_Mode & 7] & 0xFF);
     }
     u8 v = tsms.Control[7] & 0xFF;
@@ -370,7 +370,7 @@ u8	Input_Port_DC (void)
             break;
         case 0xFF: // 11111111: (Paddle 2 bits 4-5 ?)
             break;
-            // default: Msg (MSGT_DEBUG, "schmilblik error #4444, %02X", tsms.Periph_Nat);
+            // default: Msg(MSGT_DEBUG, "schmilblik error #4444, %02X", tsms.Periph_Nat);
     }
 
     if (Inputs.Peripheral [PLAYER_1] == INPUT_PADDLECONTROL)
@@ -382,7 +382,7 @@ u8	Input_Port_DC (void)
             v &= ~0x20;
     }
 
-    // Msg (MSGT_DEBUG, "AT PC=%04X: IN 0xDC (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
+    // Msg(MSGT_DEBUG, "AT PC=%04X: IN 0xDC (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
     return (v);
 }
 
@@ -426,7 +426,7 @@ u8	Input_Port_DD (void)
         case 0xFD: // 11111101: Paddle 2 bits 6-7
             v &= 0xFC | ((Inputs.Paddle_X [PLAYER_2] >> 6) & 0x3);
             break;
-            // default: Msg (MSGT_DEBUG, "schmilblik error #6666, %02X", tsms.Periph_Nat);
+            // default: Msg(MSGT_DEBUG, "schmilblik error #6666, %02X", tsms.Periph_Nat);
     }
 
     if (Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL)
@@ -450,7 +450,7 @@ u8	Input_Port_DD (void)
     // Nationalisation -----------------------------------------------------------
     Nationalize(&v);
 
-    // Msg (MSGT_DEBUG, "AT PC=%04X: IN 0xDD (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
+    // Msg(MSGT_DEBUG, "AT PC=%04X: IN 0xDD (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
     return (v);
 }
 

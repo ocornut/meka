@@ -115,7 +115,7 @@ bool Frame_Skipper()
         //int elapsed = (int)(cycle_current - fskipper.FPS_LastComputedTime);
         //int fps = (fskipper.Frame_Rendered * cycle_per_second + (cycle_per_second / 2)) / elapsed;
         //fskipper.FPS = fps;
-        //Msg (MSGT_DEBUG, "Frame_Rendered = %d, FPS = %d", fskipper.Frame_Rendered, fskipper.FPS);
+        //Msg(MSGT_DEBUG, "Frame_Rendered = %d, FPS = %d", fskipper.Frame_Rendered, fskipper.FPS);
         fskipper.FPS = (float)fskipper.FPS_FrameCountAccumulator / (float)fskipper.FPS_SecondsElapsed;
         fskipper.FPS_SecondsElapsed = 0;
         fskipper.FPS_FrameCountAccumulator = 0;
@@ -165,18 +165,18 @@ void Frame_Skipper_Configure (int v)
 void    Frame_Skipper_Show()
 {
     if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
-        Msg (MSGT_USER, Msg_Get (MSG_Frameskip_Auto), fskipper.Throttled_Speed);
+        Msg(MSGT_USER, Msg_Get(MSG_Frameskip_Auto), fskipper.Throttled_Speed);
     else
-        Msg (MSGT_USER, Msg_Get (MSG_Frameskip_Standard), fskipper.Unthrottled_Frameskip);
+        Msg(MSGT_USER, Msg_Get(MSG_Frameskip_Standard), fskipper.Unthrottled_Frameskip);
 }
 
 void    Frame_Skipper_Switch_FPS_Counter()
 {
     fskipper.FPS_Display = !fskipper.FPS_Display;
     if (fskipper.FPS_Display)
-        Msg (MSGT_USER, Msg_Get (MSG_FPS_Counter_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_FPS_Counter_Enabled));
     else
-        Msg (MSGT_USER, Msg_Get (MSG_FPS_Counter_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_FPS_Counter_Disabled));
 }
 
 //-----------------------------------------------------------------------------

@@ -21,8 +21,8 @@ u8*	BIOS_ROM_Coleco;
 //-----------------------------------------------------------------------------
 void    BIOS_Switch_to_Game (void)
 {
-	BIOS_Unload ();
-	Machine_Reset ();
+	BIOS_Unload();
+	Machine_Reset();
 }
 
 //-----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ void    BIOS_Load (void)
         ROM = BIOS_ROM;
     }
     g_machine.driver_id = DRV_SMS;
-    Machine_Reset ();
+    Machine_Reset();
 }
 
 //-----------------------------------------------------------------------------

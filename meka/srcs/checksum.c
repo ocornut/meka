@@ -57,7 +57,7 @@ void            Checksum_Perform(const u8 *data, int data_size)
     g_media_rom.crc32 = crc32(0, data, data_size);
 
     // Print out checksums (debugging)
-    // Msg (MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", g_media_rom.mekacrc.v[0], g_media_rom.mekacrc.v[1], g_media_rom.crc32);
+    // Msg(MSGT_DEBUG, "MekaCRC -> %08X.%08X ; CRC -> %08x", g_media_rom.mekacrc.v[0], g_media_rom.mekacrc.v[1], g_media_rom.crc32);
 
     // Find DB entry
     DB.current_entry = DB_Entry_Find(g_media_rom.crc32, &g_media_rom.mekacrc);

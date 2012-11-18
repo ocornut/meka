@@ -91,9 +91,9 @@ void    PaletteViewer_Switch(void)
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
 
     if (pv->active ^= 1)
-        Msg (MSGT_USER, Msg_Get (MSG_Palette_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_Palette_Enabled));
     else
-        Msg (MSGT_USER, Msg_Get (MSG_Palette_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_Palette_Disabled));
     gui_box_show (pv->box, pv->active, TRUE);
     gui_menu_inverse_check (menus_ID.tools, 1);
 }

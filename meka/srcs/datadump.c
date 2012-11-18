@@ -64,7 +64,7 @@ void    DataDump_Mode_Ascii (void)
     // Update GUI checks & print message to user
     gui_menu_un_check (menus_ID.dump_cfg);
     gui_menu_check (menus_ID.dump_cfg, 0);
-    Msg (MSGT_USER, Msg_Get (MSG_DataDump_Mode_Ascii));
+    Msg(MSGT_USER, Msg_Get(MSG_DataDump_Mode_Ascii));
 }
 
 //-----------------------------------------------------------------------------
@@ -79,14 +79,14 @@ void    DataDump_Mode_Raw (void)
     // Update GUI checks & print message to user
     gui_menu_un_check (menus_ID.dump_cfg);
     gui_menu_check (menus_ID.dump_cfg, 1);
-    Msg (MSGT_USER, Msg_Get (MSG_DataDump_Mode_Raw));
+    Msg(MSGT_USER, Msg_Get(MSG_DataDump_Mode_Raw));
 }
 
 static void     DataDump_Write_Filename (char *s, const char *name)
 {
     if (!al_filename_exists (g_env.Paths.DebugDirectory))
         al_make_directory (g_env.Paths.DebugDirectory);
-    sprintf (s, "%s/%s", g_env.Paths.DebugDirectory, name);
+    sprintf(s, "%s/%s", g_env.Paths.DebugDirectory, name);
 }
 
 static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
@@ -95,9 +95,9 @@ static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
     char        filename[FILENAME_LEN];
 
     DataDump_Write_Filename (filename, name);
-    if ((f_dump = fopen (filename, "wb")) == NULL)
+    if ((f_dump = fopen(filename, "wb")) == NULL)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_DataDump_Error), name);
+        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error), name);
         return;
     }
 
@@ -106,7 +106,7 @@ static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
 
     // Close file & print a message
     fclose (f_dump);
-    Msg (MSGT_USER, Msg_Get (MSG_DataDump_Main),
+    Msg(MSGT_USER, Msg_Get(MSG_DataDump_Main),
         name,
         (len % 1024 == 0) ? (len / 1024) : len,
         (len % 1024 == 0) ? "KBytes" : "bytes",
@@ -120,9 +120,9 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
     char        filename[FILENAME_LEN];
 
     DataDump_Write_Filename (filename, name);
-    if ((f_dump = fopen (filename, "wt")) == NULL)
+    if ((f_dump = fopen(filename, "wt")) == NULL)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_DataDump_Error), name);
+        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error), name);
         return;
     }
 
@@ -140,7 +140,7 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
 
     // Close file & print a message
     fclose (f_dump);
-    Msg (MSGT_USER, Msg_Get (MSG_DataDump_Main),
+    Msg(MSGT_USER, Msg_Get(MSG_DataDump_Main),
         name,
         (len % 1024 == 0) ? (len / 1024) : len,
         (len % 1024 == 0) ? "Kbytes" : "bytes",
@@ -156,13 +156,13 @@ static int  DataDump_Handler_Ascii_Standard (FILE *f_dump, int pos, u8 const *da
 {
     int     i;
 
-    fprintf (f_dump, "%04X-%04X | ", pos + start_addr, pos + start_addr + 15);
+    fprintf(f_dump, "%04X-%04X | ", pos + start_addr, pos + start_addr + 15);
     for (i = 0; (i < 16) && (pos + i < len); i++)
-        fprintf (f_dump, "%02X ", data[pos + i]);
-    fprintf (f_dump, "| ");
+        fprintf(f_dump, "%02X ", data[pos + i]);
+    fprintf(f_dump, "| ");
     for (i = 0; (i < 16) && (pos + i < len); i++)
-        fprintf (f_dump, "%c", (data[pos + i] >= 32) ? data[pos + i] : '.');
-    fprintf (f_dump, "\n");
+        fprintf(f_dump, "%c", (data[pos + i] >= 32) ? data[pos + i] : '.');
+    fprintf(f_dump, "\n");
     return (pos + 16);
 }
 
@@ -177,9 +177,9 @@ static void DataDump_Handler_Ascii_CPURegs_Reg (FILE *f_dump, const char *name, 
     Write_Bits_Field ((value >> 8) & 0xFF, 8, bitfields[0]);
     Write_Bits_Field (value & 0xFF, 8, bitfields[1]);
     if (comment)
-        fprintf (f_dump, "%-3s = $%04X | %%%s.%s | %s\n", name, value, bitfields[0], bitfields[1], comment);
+        fprintf(f_dump, "%-3s = $%04X | %%%s.%s | %s\n", name, value, bitfields[0], bitfields[1], comment);
     else
-        fprintf (f_dump, "%-3s = $%04X | %%%s.%s |\n", name, value, bitfields[0], bitfields[1]);
+        fprintf(f_dump, "%-3s = $%04X | %%%s.%s |\n", name, value, bitfields[0], bitfields[1]);
 }
 
 //-----------------------------------------------------------------------------
@@ -204,15 +204,15 @@ static int  DataDump_Handler_Ascii_CPURegs (FILE *f_dump, int pos, const u8 *dat
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "BC'", R->BC1.W, NULL);
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "DE'", R->DE1.W, NULL);
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "HL'", R->HL1.W, NULL);
-    fprintf (f_dump, "%-3s = $%02X\n", "I", (byte)(R->I));
-    fprintf (f_dump, "%-3s = $%02X\n", "R", (byte)(R->R - R->ICount)); // This is the algorythm to pseudo randomize R in opcode LD_A_R
-    fprintf (f_dump, "IPeriod = %d\n", R->IPeriod);
-    fprintf (f_dump, "ICount  = %d\n", R->ICount);
-    fprintf (f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n", 
+    fprintf(f_dump, "%-3s = $%02X\n", "I", (byte)(R->I));
+    fprintf(f_dump, "%-3s = $%02X\n", "R", (byte)(R->R - R->ICount)); // This is the algorythm to pseudo randomize R in opcode LD_A_R
+    fprintf(f_dump, "IPeriod = %d\n", R->IPeriod);
+    fprintf(f_dump, "ICount  = %d\n", R->ICount);
+    fprintf(f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n", 
         (R->IFF & IFF_1) ? 1 : 0, (R->IFF & IFF_2) ? 1 : 0, (R->IFF & (IFF_IM1 | IFF_IM2)) >> 1, (R->IFF & IFF_EI) ? 1 : 0, (R->IFF & IFF_HALT) ? 1 : 0);
-    fprintf (f_dump, "\n");
-    fprintf (f_dump, "(some implementation information were not dumped here.\n");
-    fprintf (f_dump, " Please contact me if they may be of your interest)\n");
+    fprintf(f_dump, "\n");
+    fprintf(f_dump, "(some implementation information were not dumped here.\n");
+    fprintf(f_dump, " Please contact me if they may be of your interest)\n");
     return (sizeof (sms.R));
 }
 
@@ -226,7 +226,7 @@ static int  DataDump_Handler_Ascii_VReg (FILE *f_dump, int pos, const u8 *data, 
     char    bitfield[9];
 
     Write_Bits_Field (data[pos], 8, bitfield);
-    fprintf (f_dump, "VReg[%02d] = $%02X | %%%s\n", pos, data[pos], bitfield);
+    fprintf(f_dump, "VReg[%02d] = $%02X | %%%s\n", pos, data[pos], bitfield);
     return (pos + 1);
 }
 
@@ -245,7 +245,7 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
         {
             const u8 palette_data = data[pos];
             Write_Bits_Field (palette_data, 8, bitfields[0]);
-            fprintf (f_dump, "Color %02d : %%%s | $%02X | R=%d, G=%d, B=%d\n", pos, bitfields[0], palette_data, palette_data & 3, (palette_data >> 2) & 3, (palette_data >> 4) & 3);
+            fprintf(f_dump, "Color %02d : %%%s | $%02X | R=%d, G=%d, B=%d\n", pos, bitfields[0], palette_data, palette_data & 3, (palette_data >> 2) & 3, (palette_data >> 4) & 3);
             return (pos + 1);
         }
     case DRV_GG:
@@ -253,11 +253,11 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
             const u16 palette_data = *(u16 *)(data + pos);
             Write_Bits_Field (data[pos+0], 8, bitfields[0]);
             Write_Bits_Field (data[pos+1], 8, bitfields[1]);
-            fprintf (f_dump, "Color %02d : %%%s.%s | $%04X | R=%d,%s G=%d,%s B=%d\n", pos / 2, bitfields[1], bitfields[0], palette_data, (palette_data & 15), (palette_data & 15) < 10 ? " " : "", (palette_data >> 4) & 15, ((palette_data >> 4) & 15) < 10 ? " " : "", (palette_data >> 8) & 15);
+            fprintf(f_dump, "Color %02d : %%%s.%s | $%04X | R=%d,%s G=%d,%s B=%d\n", pos / 2, bitfields[1], bitfields[0], palette_data, (palette_data & 15), (palette_data & 15) < 10 ? " " : "", (palette_data >> 4) & 15, ((palette_data >> 4) & 15) < 10 ? " " : "", (palette_data >> 8) & 15);
             return (pos + 2);
         }
     }
-    Msg (MSGT_USER, "Error #9011: datadump.c::DataDump_Handler_Ascii_Palette(). Please report.");
+    Msg(MSGT_USER, "Error #9011: datadump.c::DataDump_Handler_Ascii_Palette(). Please report.");
     return (len); // End dump
 }
 
@@ -274,16 +274,16 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
 		n = pos / 4;
 		if (pos == 0)
 		{
-			fprintf (f_dump,
+			fprintf(f_dump,
 				"Sprite pattern base: $%04X\n"
 				"Sprite shift X (early clock): %d pixels\n\n",
 				(int)(g_machine.VDP.sprite_pattern_gen_address - VRAM),
 				g_machine.VDP.sprite_shift_x);
-			fprintf (f_dump,
+			fprintf(f_dump,
 				"            Raw Data      |    X     Y     T     ?\n"
 				"---------- --------------- ------------------------\n");
 		}
-		fprintf (f_dump,
+		fprintf(f_dump,
 			"Sprite %02d : %02X %02X . %02X %02X |  % 4d  % 4d  % 4d  % 4d\n",
 			n, data[n], data[0x40 + n], data[0x80 + n*2], data[0x80 + n*2+1],
 			data[0x80 + n*2], data[n], data[0x80 + n*2+1], data[0x40 + n]);
@@ -292,14 +292,14 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
     {
         if (pos == 0)
 		{
-			fprintf (f_dump,
+			fprintf(f_dump,
 				"Sprite pattern base: $%04X\n\n",
 				(int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
-			fprintf (f_dump,
+			fprintf(f_dump,
 				"            Raw Data    |    X     Y     T    C/A\n"
 				"----------- ------------ ------------------------\n");
 		}
-        fprintf (f_dump,
+        fprintf(f_dump,
             "Sprite %02d : %02X %02X %02X %02X |  % 4d  % 4d  % 4d  % 4d%s\n",
             pos / 4,
             data[pos+0], data[pos+1], data[pos+2], data[pos+3],
@@ -353,7 +353,7 @@ void        DataDump_Palette (void)
     }
     if (len == 0)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_DataDump_Error_Palette));
+        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error_Palette));
         return;
     }
     if (DataDump.Mode == DATADUMP_MODE_RAW)
@@ -380,7 +380,7 @@ void    DataDump_Sprites (void)
 
     if (n_sprites == 0)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_DataDump_Error_Sprites));
+        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error_Sprites));
         return;
     }
 
@@ -431,7 +431,7 @@ void        DataDump_OnBoardMemory (void)
     BMemory_Get_Infos (&data, &len);
     if (data == NULL)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_DataDump_Error_OB_Memory));
+        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error_OB_Memory));
         return;
     }
     if (DataDump.Mode == DATADUMP_MODE_RAW)

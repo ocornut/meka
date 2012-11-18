@@ -22,10 +22,10 @@
 //-----------------------------------------------------------------------------
 
 #define IO_LOG_WRITE()      \
-        { Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Port_Write), CPU_GetPC, Port, Value); }
+        { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Write), CPU_GetPC, Port, Value); }
 
 #define IO_LOG_READ()       \
-        { Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Port_Read), CPU_GetPC, Port); }
+        { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Read), CPU_GetPC, Port); }
 
 //-----------------------------------------------------------------------------
 
@@ -93,14 +93,14 @@ void	Out_SMS (u16 Port, u8 Value)
 	   // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
 	   // At least Cosmic Spacehead uses 0x7E for writing.
 	case 0x7E: case 0x7F:
-		// Msg (MSGT_DEBUG, "At %04Xh @ %d: PSG = %02Xh", sms.R.PC.W, sms.Pages_Reg [2], Value);
+		// Msg(MSGT_DEBUG, "At %04Xh @ %d: PSG = %02Xh", sms.R.PC.W, sms.Pages_Reg [2], Value);
 		// PSG_0_Write (Value);
 		SN76489_Write (Value);
 		return;
 
 		// 0xDE/221 : Keyboard Raster Port -------------------------------------------
 	case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
-		// Msg (MSGT_DEBUG, "At %04Xh: Port 0xDE = %02Xh", sms.R.PC.W, Value);
+		// Msg(MSGT_DEBUG, "At %04Xh: Port 0xDE = %02Xh", sms.R.PC.W, Value);
 		return;
 
 		// Gear-to-gear Emulation ----------------------------------------------------
@@ -127,7 +127,7 @@ void	Out_SMS (u16 Port, u8 Value)
 		// FIXME: This is awful! If anyone sees this, say goodbye to my honor.
 	case 0xFF: if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
 			   {
-				   BIOS_Switch_to_Game ();
+				   BIOS_Switch_to_Game();
 			   }
 			   return;
 	}
@@ -160,21 +160,21 @@ u8		In_SMS (u16 Port)
     {
         // Scanline
     case 0x7E: 
-        return Beam_Y ();
+        return Beam_Y();
 
         // Horizontal X position (FIXME: emulate latch properly)
     case 0x7F: 
-        return Beam_X ();
+        return Beam_X();
 
         // Input Port 1 (Controller 1 and part of Controller 2)
     case 0xC0:
     case 0xDC: 
-        return Input_Port_DC ();
+        return Input_Port_DC();
 
         // Input Port 2 (Controller 2 & Latches)
     case 0xC1:
     case 0xDD: 
-        return Input_Port_DD ();
+        return Input_Port_DD();
 
         // Keyboard scan / printer / cassette
     case 0xDE: 
@@ -294,11 +294,11 @@ void Out_SF7000 (u16 Port, u8 Value)
 	case 0xE6: // FDC/Printer control
 		//IO_LOG_WRITE();
 		SF7000.Port_E6 = Value;
-		SF7000_IPL_Mapping_Update ();
+		SF7000_IPL_Mapping_Update();
 		if ((SF7000.Port_E6 & 0x03) == 0x03) // ???
 		{
 			// Reset Floppy Disk
-			FDC765_Reset ();
+			FDC765_Reset();
 			// Need to trigger a NMI there ?
 			CPU_ForceNMI = TRUE;
 		}
@@ -316,12 +316,12 @@ void Out_SF7000 (u16 Port, u8 Value)
 
 			if (Value & 0x04)
 			{
-				FDC765_Reset ();
+				FDC765_Reset();
 				FDC765_Cmd_For_SF7000 = TRUE;
 			}
 		}
 
-		SF7000_IPL_Mapping_Update ();
+		SF7000_IPL_Mapping_Update();
 		return;
 		//--[ USART 8251 ]------------------------------------------------------------
 	case 0xE8: /* IO_LOG_WRITE(); */ SF7000.Port_E8 = Value; return;
@@ -366,8 +366,8 @@ u8 In_SF7000 (word Port)
 
 		// SF-7000 Stuff -------------------------------------------------------------
 		//--[ FDC ]-------------------------------------------------------------------
-	case 0xE0: return FDC765_Status_Read ();
-	case 0xE1: return FDC765_Data_Read ();
+	case 0xE0: return FDC765_Status_Read();
+	case 0xE1: return FDC765_Data_Read();
 		//--[ P.P.I. ]----------------------------------------------------------------
 	case 0xE4: // FDC/Printer control
 		{

@@ -4,10 +4,10 @@
 //-----------------------------------------------------------------------------
 
 #define LOG_READ()      \
-   { Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Read), CPU_GetPC, Addr); }
+   { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Read), CPU_GetPC, Addr); }
 
 #define LOG_WRITE()      \
-   { Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Write), CPU_GetPC, Value, Addr); }
+   { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Write), CPU_GetPC, Value, Addr); }
 
 #ifdef DEBUG_MEM
   void    Write_Error (int Addr, byte Value);

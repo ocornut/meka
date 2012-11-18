@@ -40,13 +40,13 @@ static void     Options_Layout(t_app_options *app, bool setup);
 
 static void    Option_Switch_Uses_VLFN(void)
 {
-    FB_Load_Directory ();
+    FB_Load_Directory();
 }
 
 static void    Option_Switch_NES_Crap(void)
 {
     g_configuration.enable_NES = FALSE;
-    Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_NES_Deny_Facts));
+    Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_NES_Deny_Facts));
 }
 
 void    Options_Init_Applet(void)
@@ -57,7 +57,7 @@ void    Options_Init_Applet(void)
     frame.pos.y     = 102;
     frame.size.x    = 330;
     frame.size.y    = 200;
-    Options.box = gui_box_new(&frame, Msg_Get (MSG_Options_BoxTitle));
+    Options.box = gui_box_new(&frame, Msg_Get(MSG_Options_BoxTitle));
     Desktop_Register_Box("OPTIONS", Options.box, 0, &Options.active);
 
     // Layout

@@ -48,9 +48,9 @@ void	DrawCursor::VerticalSeparator()
 
 void    gui_redraw_everything_now_once (void)
 {
-    gui_update ();
-    gui_redraw ();
-    Blit_GUI ();
+    gui_update();
+    gui_redraw();
+    Blit_GUI();
 }
 
 void    GUI_DrawBackground(void)
@@ -114,7 +114,7 @@ void	gui_redraw(void)
         {
             char title[256];
             int  len = strlen (b->title);
-            strcpy (title, b->title);
+            strcpy(title, b->title);
             while (Font_TextLength(F_CURRENT, title) > (b_frame.size.x - 17))
                 title[--len] = EOSTR;
             strcat (title, "..");

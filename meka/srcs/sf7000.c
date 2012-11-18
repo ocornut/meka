@@ -113,7 +113,7 @@ WRITE_FUNC (Write_Mapper_SF7000)
 	{
 	//Out_SF7000 (0xE6, SF7000.Port_E6 | 0x40);
 	//Write_Error (Addr, Value);
-	Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Write), sms.R.PC.W, Value, Addr);
+	Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Write), sms.R.PC.W, Value, Addr);
 	return;
 	}
 	Mem_Pages [Page] [Addr] = Value;

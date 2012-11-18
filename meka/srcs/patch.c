@@ -73,7 +73,7 @@ int                     Patches_List_Parse_Line (char *line)
     if (line[0] == '[') // && (line[17] == ']')
     {
         // Create the new patch
-        t_patch *patch = Patch_New ();
+        t_patch *patch = Patch_New();
         if (patch == NULL)
             return (1); // Not enough memory
         Patches.patch_current = patch;
@@ -127,7 +127,7 @@ int                     Patches_List_Parse_Line (char *line)
 
     {
         // Create new action
-        t_patch_action *action = Patch_Action_New ();
+        t_patch_action *action = Patch_Action_New();
         if (action == NULL)
             return (1); // Not enough memory
 
@@ -184,7 +184,7 @@ void            Patches_List_Init (void)
     t_tfile *   tf;
     t_list *    lines;
 
-    ConsolePrint (Msg_Get (MSG_Patch_Loading));
+    ConsolePrint(Msg_Get(MSG_Patch_Loading));
 
     // Initializing system
     Patches.patches = NULL;
@@ -198,7 +198,7 @@ void            Patches_List_Init (void)
     }
 
     // Ok
-    ConsolePrint ("\n");
+    ConsolePrint("\n");
 
     // Parse each line
     int line_cnt = 0;
@@ -219,16 +219,16 @@ void            Patches_List_Init (void)
 
         switch (Patches_List_Parse_Line (line))
         {
-        case 1: tfile_free (tf); Quit_Msg (Msg_Get (MSG_Error_Memory));                   break;
-        case 2: tfile_free (tf); Quit_Msg (Msg_Get (MSG_Patch_Unrecognized), line_cnt);   break;
-        case 3: tfile_free (tf); Quit_Msg (Msg_Get (MSG_Patch_Missing), line_cnt);        break;
+        case 1: tfile_free(tf); Quit_Msg(Msg_Get(MSG_Error_Memory));                   break;
+        case 2: tfile_free(tf); Quit_Msg(Msg_Get(MSG_Patch_Unrecognized), line_cnt);   break;
+        case 3: tfile_free(tf); Quit_Msg(Msg_Get(MSG_Patch_Missing), line_cnt);        break;
         }
     }
 
     Patches.patch_current = NULL;
 
     // Free file data
-    tfile_free (tf);
+    tfile_free(tf);
 }
 
 //-----------------------------------------------------------------------------
@@ -241,7 +241,7 @@ t_patch *   Patch_Find (t_media_image *media_image)
     t_list *patches;
 
     #ifdef DEBUG_PATCHES
-        Msg (MSGT_DEBUG, "Patch_Find()");
+        Msg(MSGT_DEBUG, "Patch_Find()");
     #endif
 
     // Linear find
@@ -250,7 +250,7 @@ t_patch *   Patch_Find (t_media_image *media_image)
         t_patch* patch = (t_patch*)patches->elem;
 
         #ifdef DEBUG_PATCHES
-            Msg (MSGT_DEBUG, "- Comparing mekacrc:%08X.%08X, crc32:%08X", patch->crc_mekacrc.v[0], patch->crc_mekacrc.v[1], patch->crc_crc32);
+            Msg(MSGT_DEBUG, "- Comparing mekacrc:%08X.%08X, crc32:%08X", patch->crc_mekacrc.v[0], patch->crc_mekacrc.v[1], patch->crc_crc32);
         #endif
 
         if (patch->crc_type == PATCH_CRC_TYPE_NONE)
@@ -265,7 +265,7 @@ t_patch *   Patch_Find (t_media_image *media_image)
 
     // No patch found
     #ifdef DEBUG_PATCHES
-        Msg (MSGT_DEBUG, "-> not found");
+        Msg(MSGT_DEBUG, "-> not found");
     #endif
     return (NULL);
 }
@@ -303,11 +303,11 @@ void        Patches_ROM_Apply (void)
             int address = action->address + i;
             if (address < 0 || address >= tsms.Size_ROM)
             {
-                Msg (MSGT_USER, Msg_Get (MSG_Patch_Out_of_Bound), "ROM", address);
+                Msg(MSGT_USER, Msg_Get(MSG_Patch_Out_of_Bound), "ROM", address);
                 return;
             }
             #ifdef DEBUG_PATCHES
-                Msg (MSGT_DEBUG, "Patch ROM[%04X] = %02X", address, action->data[i]);
+                Msg(MSGT_DEBUG, "Patch ROM[%04X] = %02X", address, action->data[i]);
             #endif
             ROM [address] = action->data[i];
         }
@@ -336,13 +336,13 @@ void        Patches_MEM_Apply (void)
         int length = action->data_length;
         if (address < 0x0000 || address > 0xFFFF || (address + length - 1) < 0x0000 || (address + length - 1) > 0xFFFF)
         {
-            Msg (MSGT_USER, Msg_Get (MSG_Patch_Out_of_Bound), "MEM", address);
+            Msg(MSGT_USER, Msg_Get(MSG_Patch_Out_of_Bound), "MEM", address);
             return;
         }
         for (i = 0; i < length; i++)
         {
             #ifdef DEBUG_PATCHES
-                Msg (MSGT_DEBUG, "Patch MEM[%04X] = %02X", address, action->data[i]);
+                Msg(MSGT_DEBUG, "Patch MEM[%04X] = %02X", address, action->data[i]);
             #endif
             Mem_Pages [address >> 13] [address] = action->data[i];
             address++;

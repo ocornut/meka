@@ -26,7 +26,7 @@ void    TVType_Init_Values (void)
     TV_Type_User = &TV_Type_Table[TVTYPE_NTSC];
     g_machine.TV = TV_Type_User;
     g_machine.TV_lines = TV_Type_User->screen_lines;
-    TVType_Update_Values ();
+    TVType_Update_Values();
 }
 
 void    TVType_Update_Values (void)
@@ -55,8 +55,8 @@ void    TVType_Set (int tv_type, bool verbose)
     if (verbose)
     {
         // Print message & and update GUI checks
-        Msg (MSGT_USER, Msg_Get (MSG_TVType_Set), TV_Type_User->name);
-        Msg (MSGT_USER_BOX, Msg_Get (MSG_TVType_Info_Speed), TV_Type_User->screen_frequency);
+        Msg(MSGT_USER, Msg_Get(MSG_TVType_Set), TV_Type_User->name);
+        Msg(MSGT_USER_BOX, Msg_Get(MSG_TVType_Info_Speed), TV_Type_User->screen_frequency);
         gui_menu_un_check (menus_ID.tvtype);
         gui_menu_check (menus_ID.tvtype, tv_type);
         // Note that GUI checks are NOT updated if verbose mode is not set.

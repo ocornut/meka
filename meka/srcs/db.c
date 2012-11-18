@@ -272,7 +272,7 @@ static int      DB_Load_Entry (char *line)
             DB_Name_New (entry, w, value, FALSE);
             // printf("adding country %d name %s", value, w);
         }
-        else if (!strcmp (w, "COUNTRY"))
+        else if (!strcmp(w, "COUNTRY"))
         {
             while (line[-1] == ',' || line[-1] == '=')
             {
@@ -283,19 +283,19 @@ static int      DB_Load_Entry (char *line)
                 entry->country |= value;
             }
         }
-        else if (!strcmp (w, "PRODUCT_NO"))
+        else if (!strcmp(w, "PRODUCT_NO"))
         {
             if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
                 return (0);
             entry->product_no = w;
         }
-        else if (!strcmp (w, "EMU_COUNTRY"))
+        else if (!strcmp(w, "EMU_COUNTRY"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",/", ';')))
                 return (0);
-            entry->emu_country = atoi (w);
+            entry->emu_country = atoi(w);
         }
-        else if (!strcmp (w, "EMU_INPUTS"))
+        else if (!strcmp(w, "EMU_INPUTS"))
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
@@ -313,26 +313,26 @@ static int      DB_Load_Entry (char *line)
             else
                 return (0);
         }
-        else if (!strcmp (w, "EMU_IPERIOD"))
+        else if (!strcmp(w, "EMU_IPERIOD"))
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
-            entry->emu_iperiod = atoi (w);
+            entry->emu_iperiod = atoi(w);
         }
-        else if (!strcmp (w, "EMU_MAPPER"))
+        else if (!strcmp(w, "EMU_MAPPER"))
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
-            entry->emu_mapper = atoi (w);
+            entry->emu_mapper = atoi(w);
         }
-        else if (!strcmp (w, "EMU_VDP"))
+        else if (!strcmp(w, "EMU_VDP"))
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
             if ((entry->emu_vdp_model = VDP_Model_FindByName(w)) == -1)
                 return (0);
         }
-        else if (!strcmp (w, "EMU_TVTYPE"))
+        else if (!strcmp(w, "EMU_TVTYPE"))
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
@@ -344,50 +344,50 @@ static int      DB_Load_Entry (char *line)
             else
                 return (0);
         }
-        else if (!strcmp (w, "EMU_3D"))
+        else if (!strcmp(w, "EMU_3D"))
             entry->flags |= DB_FLAG_EMU_3D;
-        else if (!strcmp (w, "EMU_SPRITE_FLICKER"))
+        else if (!strcmp(w, "EMU_SPRITE_FLICKER"))
             entry->flags |= DB_FLAG_EMU_SPRITE_FLICKER;
-        else if (!strcmp (w, "COMMENT"))
+        else if (!strcmp(w, "COMMENT"))
         {
             if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
                 return (0);
             entry->comments = w;
         }
-        else if (!strcmp (w, "FLAGS"))
+        else if (!strcmp(w, "FLAGS"))
         {
             while (line[-1] == ',' || line[-1] == '=')
             {
                 if (!(w = parse_getword(buf, 16, &line, ",/", ';')))
                     return (0);
-                if      (!strcmp (w, "BAD"))        entry->flags |= DB_FLAG_BAD;
-                else if (!strcmp (w, "BIOS"))       entry->flags |= DB_FLAG_BIOS;
-                else if (!strcmp (w, "SMSGG_MODE")) entry->flags |= DB_FLAG_SMSGG_MODE;
-                else if (!strcmp (w, "HACK"))       entry->flags |= DB_FLAG_HACK;
-                else if (!strcmp (w, "TRANS"))      entry->flags |= DB_FLAG_TRANS;
-                else if (!strcmp (w, "PROTO"))      entry->flags |= DB_FLAG_PROTO;
-                else if (!strcmp (w, "HOMEBREW"))   entry->flags |= DB_FLAG_HOMEBREW;
+                if      (!strcmp(w, "BAD"))        entry->flags |= DB_FLAG_BAD;
+                else if (!strcmp(w, "BIOS"))       entry->flags |= DB_FLAG_BIOS;
+                else if (!strcmp(w, "SMSGG_MODE")) entry->flags |= DB_FLAG_SMSGG_MODE;
+                else if (!strcmp(w, "HACK"))       entry->flags |= DB_FLAG_HACK;
+                else if (!strcmp(w, "TRANS"))      entry->flags |= DB_FLAG_TRANS;
+                else if (!strcmp(w, "PROTO"))      entry->flags |= DB_FLAG_PROTO;
+                else if (!strcmp(w, "HOMEBREW"))   entry->flags |= DB_FLAG_HOMEBREW;
                 else return (0);
             }
         }
-        else if (!strcmp (w, "TRANS"))
+        else if (!strcmp(w, "TRANS"))
         {
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
             // In TRANS field only, 'EN' can be specified. It currently gets the UK flag.
-            if (!strcmp (w, "EN"))
+            if (!strcmp(w, "EN"))
                 value = DB_COUNTRY_UK;
             else if ((value = DB_FindCountryFlagByName(w)) == -1)
 				return (0);
             entry->trans_country = value;
         }
-        else if (!strcmp (w, "AUTHORS"))
+        else if (!strcmp(w, "AUTHORS"))
         {
             if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
                 return (0);
             entry->authors = w;
         }
-        else if (!strcmp (w, "VERSION"))
+        else if (!strcmp(w, "VERSION"))
         {
             if (!(w = parse_getword(NULL, 0, &line, "/", ';')))
                 return (0);
@@ -439,13 +439,13 @@ static int      DB_Load_EntryOldFormat (char *line)
     {
         StrUpper(w);
         // printf ("field '%s'\n", w);
-        if (!strcmp (w, "JAPNAME"))
+        if (!strcmp(w, "JAPNAME"))
         {
             if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
                 return (0);
             DB_Name_New (entry, w, DB_COUNTRY_JP, FALSE);
         }
-        else if (!strcmp (w, "VER"))
+        else if (!strcmp(w, "VER"))
         {
             // In the old format, the 'VER' field holds both COUNTRY and VERSION
             char *wp;
@@ -487,51 +487,51 @@ static int      DB_Load_EntryOldFormat (char *line)
                 // printf("--> NEW VERSION = '%s'\n", entry->version);
             }
         }
-        else if (!strcmp (w, "BAD"))
+        else if (!strcmp(w, "BAD"))
             entry->flags |= DB_FLAG_BAD;
-        else if (!strcmp (w, "HACK"))
+        else if (!strcmp(w, "HACK"))
             entry->flags |= DB_FLAG_HACK;
-        else if (!strcmp (w, "BIOS"))
+        else if (!strcmp(w, "BIOS"))
             entry->flags |= DB_FLAG_BIOS;
-        else if (!strcmp (w, "PROTO"))
+        else if (!strcmp(w, "PROTO"))
             entry->flags |= DB_FLAG_PROTO;
-        else if (!strcmp (w, "SMSGG_MODE")) 
+        else if (!strcmp(w, "SMSGG_MODE")) 
             entry->flags |= DB_FLAG_SMSGG_MODE;
-        else if (!strcmp (w, "3D"))
+        else if (!strcmp(w, "3D"))
             entry->flags |= DB_FLAG_EMU_3D;
-        else if (!strcmp (w, "FLICKER"))
+        else if (!strcmp(w, "FLICKER"))
             entry->flags |= DB_FLAG_EMU_SPRITE_FLICKER;
-        else if (!strcmp (w, "COMMENT"))
+        else if (!strcmp(w, "COMMENT"))
         {
             if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
                 return (0);
             entry->comments = w;
         }
-        else if (!strcmp (w, "ID"))
+        else if (!strcmp(w, "ID"))
         {
             if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
                 return (0);
             entry->product_no = w;
         }
-        else if (!strcmp (w, "MAPPER"))
+        else if (!strcmp(w, "MAPPER"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
-            entry->emu_mapper = atoi (w);
+            entry->emu_mapper = atoi(w);
         }
-        else if (!strcmp (w, "COUNTRY"))
+        else if (!strcmp(w, "COUNTRY"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
-            entry->emu_country = atoi (w);
+            entry->emu_country = atoi(w);
         }
-        else if (!strcmp (w, "TRANS"))
+        else if (!strcmp(w, "TRANS"))
         {
             int value;
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
             // In TRANS field only, 'EN' can be specified. It currently gets the UK flag.
-            if (!strcmp (w, "EN"))
+            if (!strcmp(w, "EN"))
                 value = DB_COUNTRY_UK;
             else
                 if ((value = DB_FindCountryFlagByName(w)) == -1)
@@ -539,13 +539,13 @@ static int      DB_Load_EntryOldFormat (char *line)
             entry->trans_country = value;
             entry->flags |= DB_FLAG_TRANS;
         }
-        else if (!strcmp (w, "IPERIOD"))
+        else if (!strcmp(w, "IPERIOD"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
-            entry->emu_iperiod = atoi (w);
+            entry->emu_iperiod = atoi(w);
         }
-        else if (!strcmp (w, "TVTYPE"))
+        else if (!strcmp(w, "TVTYPE"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
@@ -557,14 +557,14 @@ static int      DB_Load_EntryOldFormat (char *line)
             else
                 return (0);
         }
-        else if (!strcmp (w, "VDP"))
+        else if (!strcmp(w, "VDP"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
 			if ((entry->emu_vdp_model = VDP_Model_FindByName(w)) == -1)
 				return (0);
         }
-        else if (!strcmp (w, "INPUT"))
+        else if (!strcmp(w, "INPUT"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
@@ -582,13 +582,13 @@ static int      DB_Load_EntryOldFormat (char *line)
             else
                 return (0);
         }
-        else if (!strcmp (w, "AUTHORS"))
+        else if (!strcmp(w, "AUTHORS"))
         {
             if (!(w = parse_getword(NULL, 0, &line, ",", ';')))
                 return (0);
             entry->authors = w;
         }
-        else if (!strcmp (w, "DATE"))
+        else if (!strcmp(w, "DATE"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
                 return (0);
@@ -632,7 +632,7 @@ static int      DB_Load_Line (char *line)
 static bool		DB_Load (const char *filename, bool verbose)
 {
 	if (verbose)
-		ConsolePrint (Msg_Get (MSG_DB_Loading));
+		ConsolePrint(Msg_Get(MSG_DB_Loading));
 
     // Open and read file
     t_tfile* tf = tfile_read (filename);
@@ -644,7 +644,7 @@ static bool		DB_Load (const char *filename, bool verbose)
 
     // Ok
     if (verbose)
-		ConsolePrint ("\n");
+		ConsolePrint("\n");
 
     // Parse each line
     int line_cnt = 0;
@@ -663,8 +663,8 @@ static bool		DB_Load (const char *filename, bool verbose)
 
         if (DB_Load_Line (line) == 0)
         {
-            tfile_free (tf); 
-            Quit_Msg (Msg_Get (MSG_DB_SyntaxError), line_cnt);
+            tfile_free(tf); 
+            Quit_Msg(Msg_Get(MSG_DB_SyntaxError), line_cnt);
         }
     }
 

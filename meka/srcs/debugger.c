@@ -515,7 +515,7 @@ static void Debugger_Init_LogFile(void)
 
 void        Debugger_Init(void)
 {
-    ConsolePrintf("%s\n", Msg_Get (MSG_Debug_Init));
+    ConsolePrintf("%s\n", Msg_Get(MSG_Debug_Init));
     Debugger_Applet_Init();
 
     // Open log file
@@ -523,7 +523,7 @@ void        Debugger_Init(void)
         Debugger_Init_LogFile();
 
     // Print welcome line
-    Debugger_Printf("%s\n", Msg_Get (MSG_Debug_Welcome));
+    Debugger_Printf("%s\n", Msg_Get(MSG_Debug_Welcome));
     Debugger_Printf("Enter H for help. Open HELP menu for details.\n");
     Debugger_Printf("Press TAB for completion.\n");
 }
@@ -558,7 +558,7 @@ void        Debugger_MachineReset(void)
 		return;
 
 	// Reset breakpoint on CPU
-    Debugger_Printf("%s\n", Msg_Get (MSG_Machine_Reset));
+    Debugger_Printf("%s\n", Msg_Get(MSG_Machine_Reset));
     Debugger_SetTrap(0x0000);
     sms.R.Trace = 1;
 
@@ -1001,7 +1001,7 @@ void                        Debugger_BreakPoint_GetSummaryLine(t_debugger_breakp
     else
         sprintf(addr_string, "%0*X", bus_size * 2, breakpoint->address_range[0]);
 
-    sprintf (buf, "%c%d%c %s %-4s  %c%c%c  %-10s  %s", 
+    sprintf(buf, "%c%d%c %s %-4s  %c%c%c  %-10s  %s", 
         breakpoint->enabled ? '[' : '(',
         breakpoint->id, 
         breakpoint->enabled ? ']' : ')',
@@ -1069,7 +1069,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     if (breakpoint->data_compare_length != 0)
     {
         if (breakpoint->data_compare_bytes[0] != value)
-            return (FALSE);
+            return false;
         if (breakpoint->data_compare_length > 1)
         {
             int i;
@@ -1077,7 +1077,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
             {
                 int value2 = Debugger_Bus_Read(breakpoint->location, rmapped_addr + i);
                 if (value2 != breakpoint->data_compare_bytes[i])
-                    return (FALSE);
+                    return false;
             }
         }
     }
@@ -1098,7 +1098,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
 			// Flood?
             if (Debugger.watch_counter == DEBUGGER_WATCH_FLOOD_LIMIT)
                 Debugger_Printf("Maximum number of watch triggered this frame (%d)\nWill stop displaying more, to prevent flood.\nConsider removing/tuning your watchpoints.\n", DEBUGGER_WATCH_FLOOD_LIMIT);
-            return (TRUE);
+            return true;
         }
         action = "watch";
     }
@@ -1174,7 +1174,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
 
     Debugger_Printf("%s\n", buf);
 
-    return (TRUE);
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -1327,7 +1327,7 @@ void    Debugger_Symbols_Load(void)
         char* line = (char*) lines->elem;
         line_cnt += 1;
 
-        // Msg (MSGT_DEBUG, "%s", line);
+        // Msg(MSGT_DEBUG, "%s", line);
 
         // Strip comments, skip empty lines
         char* p = strchr(line, ';');
@@ -1695,7 +1695,7 @@ void            Debugger_WrPRAM_Hook(register int addr, register u8 value)
 //-----------------------------------------------------------------------------
 void        Debugger_Switch (void)
 {
-    // Msg (MSGT_DEBUG, "Debugger_Switch()");
+    // Msg(MSGT_DEBUG, "Debugger_Switch()");
     if (!Debugger.enabled)
         return;
     Debugger.active ^= 1;
@@ -1703,14 +1703,14 @@ void        Debugger_Switch (void)
     if (Debugger.active)
     {
         gui_menu_check (menus_ID.debug, 0);
-        Machine_Debug_Start ();
+        Machine_Debug_Start();
         // ??
         // Meka_Z80_Debugger_SetBreakPoint (Debugger.break_point_address);
     }
     else
     {
         gui_menu_un_check_one (menus_ID.debug, 0);
-        Machine_Debug_Stop ();
+        Machine_Debug_Stop();
         sms.R.Trap = 0xFFFF;
     }
 
@@ -2010,7 +2010,7 @@ void        Debugger_Applet_Redraw_State(void)
                     int inst_len = pc_history[i];
                     int inst_after = pc-i + inst_len;
 
-                    // Msg (0, "PC History -%02x : %04x (%d)", i, pc-i, inst_len);
+                    // Msg(0, "PC History -%02x : %04x (%d)", i, pc-i, inst_len);
 
                     while (inst_after < pc_temp)
                     {
@@ -2029,7 +2029,7 @@ void        Debugger_Applet_Redraw_State(void)
                     // FIXME: This actually happens, see TODO.TXT. Requires fix, workaround, or silent fail.
                     if (inst_after > pc_temp)
                     {
-                        // Msg (0, "[Warning] inst_after = %04x > pc_temp = %04x", inst_after, pc_temp);
+                        // Msg(0, "[Warning] inst_after = %04x > pc_temp = %04x", inst_after, pc_temp);
                         break;
                     }
 
@@ -2202,7 +2202,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
         Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
         Debugger_Printf(" CLOCK [RESET]          : Display Z80 cycle counter"  "\n");
-        Debugger_Printf("-- Miscellaenous:\n");
+        Debugger_Printf("-- Miscellaneous:\n");
         Debugger_Printf(" MEMEDIT [lines] [cols] : Spawn memory editor"        "\n");
         Debugger_Printf(" HISTORY [word]         : Print/search history"       "\n");
         Debugger_Printf(" H,? [command]          : Help"                       "\n");
@@ -2814,7 +2814,7 @@ void        Debugger_InputParseCommand(char *line)
         if (!(g_machine_flags & MACHINE_DEBUGGING))
         {
             // If running, stop and entering into debugging state
-            Machine_Debug_Start ();
+            Machine_Debug_Start();
         }
         if (Debugger_Eval_ParseExpression(&line, &value) > 0)
         {
@@ -2843,7 +2843,7 @@ void        Debugger_InputParseCommand(char *line)
             u16 addr = sms.R.PC.W + Z80_Disassemble(NULL, sms.R.PC.W, FALSE, FALSE);
             Debugger_SetTrap (addr);
             sms.R.Trace = 0;
-            Machine_Debug_Stop ();
+            Machine_Debug_Stop();
         }
         return;
     }
@@ -3418,7 +3418,7 @@ bool    Debugger_Eval_ParseVariable(int variable_replacement_flags, const char *
             {
                 *result = *value;
                 Debugger_Value_Read(result);
-                return (TRUE);
+                return true;
             }
         }
     }
@@ -3434,12 +3434,12 @@ bool    Debugger_Eval_ParseVariable(int variable_replacement_flags, const char *
             if (!stricmp(var, symbol->name))
             {
                 Debugger_Value_SetSymbol(result, symbol);
-                return (TRUE);
+                return true;
             }
         }
     }
 
-    return (FALSE);
+    return false;
 }
 
 static int  Debugger_Eval_ParseIntegerHex(const char *s, const char **end)
@@ -3535,7 +3535,7 @@ bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result,
         {
             // Syntax error
             // Note: 'src' pointer not advanced, this is what we want here
-            return (FALSE);
+            return false;
         }
 
 		if (data > (1<<15)-1 || data < -(1<<5))
@@ -3544,7 +3544,7 @@ bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result,
 			Debugger_Value_SetDirect(result, data, 16);
     }
 
-    return (TRUE);
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -3831,7 +3831,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
         current_word_len++;
     }
     // if (current_word_len == 0)
-    //    return (FALSE);
+    //    return false;
     current_word = StrNDup(s, current_word_len);
 
     // Attempt to find if there's a word before this
@@ -3969,11 +3969,11 @@ bool        Debugger_CompletionCallback(t_widget *w)
         if (matching_words_count == 1)
             widget_inputbox_insert_char(w, ' ');
 
-        return (TRUE);
+        return true;
     }
     else
     {
-        return (FALSE);
+        return false;
     }
 }
 
@@ -4054,12 +4054,12 @@ void	Debugger_History_AddLine(const char *line_to_add)
 bool        Debugger_History_Callback(t_widget *w, int level)
 {
 	if (level != -1 && level != 1)
-        return (FALSE);
+        return false;
 
 	// Bound check
     const int new_index = Debugger.history_current_index + level;
 	if (new_index < 0 || new_index >= Debugger.history_count)
-		return (FALSE);
+		return false;
 
 	// If leaving index 0 (current line), save current line to item 0
 	if (Debugger.history_current_index == 0)
@@ -4078,7 +4078,7 @@ bool        Debugger_History_Callback(t_widget *w, int level)
 		widget_inputbox_set_cursor_pos(w, Debugger.history[new_index].cursor_pos);
 	Debugger.history_current_index = new_index;
 
-    return (TRUE);
+    return true;
 }
 
 void        Debugger_History_List(const char *search_term_arg)

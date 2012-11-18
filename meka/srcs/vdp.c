@@ -72,7 +72,7 @@ void    VDP_VideoMode_Change (void)
 
     if (tsms.VDP_Video_Change & VDP_VIDEO_CHANGE_MODE)
     {
-        //Msg (MSGT_DEBUG, "Line %d. Change video mode %d -> %d (bits = %d)",
+        //Msg(MSGT_DEBUG, "Line %d. Change video mode %d -> %d (bits = %d)",
         //     tsms.VDP_Line, tsms.VDP_VideoMode, tsms.VDP_New_VideoMode, ((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1));
         tsms.VDP_VideoMode = tsms.VDP_New_VideoMode;
         if (tsms.VDP_VideoMode <= 3)
@@ -85,8 +85,8 @@ void    VDP_VideoMode_Change (void)
             drv_set (g_machine.driver_id); // Revert back to original driver
         }
         VDP_UpdateLineLimits();
-        Machine_Set_Handler_Loop ();
-        Palette_Emulation_Reload ();
+        Machine_Set_Handler_Loop();
+        Palette_Emulation_Reload();
         for (i = 0; i < 16; i ++)
             Tms_VDP_Out (i, sms.VDP [i]);
     }
@@ -133,12 +133,12 @@ void    VDP_VideoMode_Update (void)
     case 0x02: /* 00.10 */ tsms.VDP_New_VideoMode = 4; break;
     case 0x03: /* 00.11 */ tsms.VDP_New_VideoMode = 5; break;
     case 0x0A: /* 10.10 */ tsms.VDP_New_VideoMode = 9; break; // ?
-        // default: Msg (MSGT_DEBUG, "Error #42 - Unknown video mode %d - Please contact me", ((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1));
+        // default: Msg(MSGT_DEBUG, "Error #42 - Unknown video mode %d - Please contact me", ((sms.VDP[0] & 0x06) >> 1) | ((sms.VDP[1] & 0x18) >> 1));
     }
     if (tsms.VDP_VideoMode != tsms.VDP_New_VideoMode)
     {
         tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_MODE;
-        // Msg (MSGT_DEBUG, "Change video mode, %d -> %d", tsms.VDP_VideoMode, tsms.VDP_New_VideoMode);
+        // Msg(MSGT_DEBUG, "Change video mode, %d -> %d", tsms.VDP_VideoMode, tsms.VDP_New_VideoMode);
     }
 }
 
@@ -159,7 +159,7 @@ void	VDP_UpdateLineLimits(void)
 void    Tms_VDP_Out (int vdp_register, int value)
 {
   #ifdef DEBUG_VDP
-    Msg (MSGT_DEBUG, "At PC=%04X: VDP Reg[%d] = %02X", CPU_GetPC, vdp_register, value);
+    Msg(MSGT_DEBUG, "At PC=%04X: VDP Reg[%d] = %02X", CPU_GetPC, vdp_register, value);
   #endif
 
   switch (vdp_register)
@@ -168,7 +168,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
      case 0: /*
              if ((Value & 0x10) != HBlank_ON)
                 {
-                Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, HBlank %s, IRequest = %02X", CPU_GetPC, tsms.VDP_Line, (Value & 0x10) ? "Enable" : "Disable", sms.R.IRequest);
+                Msg(MSGT_DEBUG, "At PC=%04X, Line=%d, HBlank %s, IRequest = %02X", CPU_GetPC, tsms.VDP_Line, (Value & 0x10) ? "Enable" : "Disable", sms.R.IRequest);
                 }
              */
 
@@ -176,7 +176,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              {
                 if (!(value & 0x10))
                    {
-                   // Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, disabling IE1 unasserted the Z80 IRQ Line", CPU_GetPC, tsms.VDP_Line);
+                   // Msg(MSGT_DEBUG, "At PC=%04X, Line=%d, disabling IE1 unasserted the Z80 IRQ Line", CPU_GetPC, tsms.VDP_Line);
                    sms.R.IRequest = INT_NONE;
                    }
                 else
@@ -187,8 +187,8 @@ void    Tms_VDP_Out (int vdp_register, int value)
 
              sms.VDP [0] = value;
              g_machine.VDP.sprite_shift_x = ((Sprites_Left_8) ? 8 : 0);
-             VDP_VideoMode_Update ();
-             // Msg (MSGT_DEBUG, "At PC=%04X, line=%d, VDP[0] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
+             VDP_VideoMode_Update();
+             // Msg(MSGT_DEBUG, "At PC=%04X, line=%d, VDP[0] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
              return;
 
      // VDP Configuration 1 ---------------------------------------------------
@@ -196,14 +196,14 @@ void    Tms_VDP_Out (int vdp_register, int value)
                 tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_SIZE;
              /* if ((value & 0x40) != Display_ON)
                 {
-                Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, Enable/Disable Display %02X", sms.R.PC.W, tsms.VDP_Line, value);
+                Msg(MSGT_DEBUG, "At PC=%04X, Line=%d, Enable/Disable Display %02X", sms.R.PC.W, tsms.VDP_Line, value);
                 sms.R.Trace = TRUE;
                 } */
              sms.VDP [1] = value;
              // Sprite_Shift_Y = 0; // ((Wide_Screen_28) ? -16 : 0);
              // Sprite_Shift_Y = ((Wide_Screen_28 && g_driver->id == DRV_GG) ? -16 : 0);
-             VDP_VideoMode_Update ();
-             // Msg (MSGT_DEBUG, "At PC=%04X, Line=%d, VDP[1] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
+             VDP_VideoMode_Update();
+             // Msg(MSGT_DEBUG, "At PC=%04X, Line=%d, VDP[1] = %02X", sms.R.PC.W, tsms.VDP_Line, value);
 
              // Update tilemap/name table address accordingly
              if (g_driver->vdp == VDP_SMSGG)
@@ -275,14 +275,14 @@ void    Tms_VDP_Out (int vdp_register, int value)
      // Horizontal Scrolling --------------------------------------------------
      case 8: if (CPU_GetICount() >= 8) 
                  g_machine.VDP.scroll_x_latched = value;
-             // Msg (MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, CPU_GetICount(), value);
+             // Msg(MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, CPU_GetICount(), value);
              break;
 
      // Vertical Scrolling ----------------------------------------------------
-     //case 9: Msg (MSGT_DEBUG, "At PC=%04X, Line=%d: vscroll = %d", CPU_GetPC(), tsms.VDP_Line, value);
+     //case 9: Msg(MSGT_DEBUG, "At PC=%04X, Line=%d: vscroll = %d", CPU_GetPC(), tsms.VDP_Line, value);
              // if ((Wide_Screen_28) && value > 224)
              //   {
-             //   Msg (MSGT_DEBUG, "Error #9384: Please contact me if you see this message.");
+             //   Msg(MSGT_DEBUG, "Error #9384: Please contact me if you see this message.");
              //   value = 224;
              //   }
      //        break;
@@ -290,7 +290,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
      // TMS9918 register: contain bit 14-16 of the color table adress ---------
      // Else in video mode 5 contains number of line for H-Interrupt
      case 10: g_machine.VDP.sg_color_table_address = VRAM + ((((int)(sms.VDP[3] & VDP_Mask[tsms.VDP_VideoMode][0]) << 6) + ((int)(value & 0x07) << 14)) & 0x3FFF);
-              // Msg (MSGT_DEBUG, "%d @ VDP[10] = %d", tsms.VDP_Line, value);
+              // Msg(MSGT_DEBUG, "%d @ VDP[10] = %d", tsms.VDP_Line, value);
               break;
     }
 
@@ -334,7 +334,7 @@ void    Tms_VDP_Out_Data (int value)
     {
         // VRAM write
         #ifdef DEBUG_VDP_DATA
-            Msg (MSGT_DEBUG, "At PC=%04X: VDP[%04X] = %02X", CPU_GetPC, sms.VDP_Address, value);
+            Msg(MSGT_DEBUG, "At PC=%04X: VDP[%04X] = %02X", CPU_GetPC, sms.VDP_Address, value);
         #endif
         VRAM [sms.VDP_Address] = sms.VDP_ReadLatch = value;
 
@@ -349,7 +349,7 @@ void    Tms_VDP_Out_Data (int value)
 
         // - Sylvantale patching: Catch writes to tile 265
         // if ((sms.VDP_Address / 32) == 265)
-        //    Msg (MSG_USER, "%04X (%d): VDP[%04X] = %02X", CPU_GetPC, sms.Pages_Reg [0], sms.VDP_Address, value);
+        //    Msg(MSG_USER, "%04X (%d): VDP[%04X] = %02X", CPU_GetPC, sms.Pages_Reg [0], sms.VDP_Address, value);
         // - Bart vs. the Space Mutants (GG)
         // if (sms.VDP_Address >= 0x3800 && sms.VDP_Address < 0x3F00)
         //    printf ("%04X: VDP[%04X] = %02X\n", CPU_GetPC, sms.VDP_Address, value);
@@ -369,7 +369,7 @@ void    Tms_VDP_Out_Data (int value)
 
         // Palette/CRAM write
         #ifdef DEBUG_VDP_DATA
-            Msg (MSGT_DEBUG, "At PC=%04X: PRAM[%04X] = %02X", CPU_GetPC, sms.VDP_Address & address_mask, value);
+            Msg(MSGT_DEBUG, "At PC=%04X: PRAM[%04X] = %02X", CPU_GetPC, sms.VDP_Address & address_mask, value);
         #endif
 
         Tms_VDP_Palette_Write(sms.VDP_Address & address_mask, value);
@@ -390,16 +390,16 @@ void    Tms_VDP_Out_Address (int value)
     // [DEBUG] Daffy Duck
     //if (CPU_GetPC == 0x7348)
     //{
-    //   Msg (MSGT_DEBUG, "At PC=%04X: VDP Out: %02X", CPU_GetPC, Value);
+    //   Msg(MSGT_DEBUG, "At PC=%04X: VDP Out: %02X", CPU_GetPC, Value);
     //   if (sms.VDP_Access_Mode != VDP_Access_Mode_1)
     //       if ((Value & 0xC0) == 0x80)
-    //          Msg (MSGT_DEBUG, " -> (line %d) vreg[%d] = %02X ", tsms.VDP_Line, Value & 0x0F, sms.VDP_Access_First);
+    //          Msg(MSGT_DEBUG, " -> (line %d) vreg[%d] = %02X ", tsms.VDP_Line, Value & 0x0F, sms.VDP_Access_First);
     //}
 
     if (sms.VDP_Access_Mode == VDP_Access_Mode_1)
     {
         #ifdef DEBUG_VDP
-            Msg (MSGT_DEBUG, "At PC=%04X: VDP Address1: %02X", CPU_GetPC, value);
+            Msg(MSGT_DEBUG, "At PC=%04X: VDP Address1: %02X", CPU_GetPC, value);
         #endif
         sms.VDP_Access_First = value;   // Latch
         sms.VDP_Access_Mode  = VDP_Access_Mode_2;
@@ -415,10 +415,10 @@ void    Tms_VDP_Out_Address (int value)
     // 10 : VDP_Reg
     // 11 : Palette
     // 01 : Address
-    // Msg (MSGT_DEBUG, "[%04X] VDP Set %02X,%02X", sms.R.PC.W,sms.VDP_Access_First, Value);
+    // Msg(MSGT_DEBUG, "[%04X] VDP Set %02X,%02X", sms.R.PC.W,sms.VDP_Access_First, Value);
 
     #ifdef DEBUG_VDP
-        Msg (MSGT_DEBUG, "At PC=%04X: VDP Address2: %02X", CPU_GetPC, value);
+        Msg(MSGT_DEBUG, "At PC=%04X: VDP Address2: %02X", CPU_GetPC, value);
         // printf ("At PC=%04X: VDP Address2: %02X\n", CPU_GetPC, Value);
     #endif
 
@@ -455,7 +455,7 @@ void    Tms_VDP_Out_Address (int value)
         sms.VDP_Address = (((word)value << 8) | sms.VDP_Access_First) & 0x3FFF;
         // if (sms.VDP_Address >= 0x8000)
         //    {
-        //    Msg (MSGT_DEBUG, "[%04X] VDP Address %04X", sms.R.PC.W, sms.VDP_Address);
+        //    Msg(MSGT_DEBUG, "[%04X] VDP Address %04X", sms.R.PC.W, sms.VDP_Address);
         //    }
         if ((value & 0xC0) == 0)
         { // Read Mode
@@ -470,7 +470,7 @@ u8      Tms_VDP_In_Data (void)
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     // if (sms.VDP_Pal)
     //    {
-    //    Msg (MSGT_DEBUG, "Error #7313 [Read from PRAM] - Please contact me.");
+    //    Msg(MSGT_DEBUG, "Error #7313 [Read from PRAM] - Please contact me.");
     //    return (0);
     //    }
     // else
@@ -478,7 +478,7 @@ u8      Tms_VDP_In_Data (void)
         u8 b = sms.VDP_ReadLatch;
 
         #ifdef DEBUG_VDP_DATA
-            Msg (MSGT_DEBUG, "At PC=%04X: VDP Read, returning latched %02X", CPU_GetPC, b);
+            Msg(MSGT_DEBUG, "At PC=%04X: VDP Read, returning latched %02X", CPU_GetPC, b);
         #endif
 
         // Debugger hook
@@ -513,7 +513,7 @@ u8          Tms_VDP_In_Status (void)
         z80_set_irq_line (0, CLEAR_LINE);
     #endif
     #ifdef DEBUG_VDP
-        Msg (MSGT_DEBUG, "At PC=%04X: VDP Status Read, returning %02X", CPU_GetPC, b | 0x1F);
+        Msg(MSGT_DEBUG, "At PC=%04X: VDP Status Read, returning %02X", CPU_GetPC, b | 0x1F);
     #endif
     return (b | 0x1F);
     //return (b & 0xE0);

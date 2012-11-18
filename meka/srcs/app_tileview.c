@@ -132,7 +132,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     {
         const int mx = app->tiles_display_zone->mouse_x;
         const int my = app->tiles_display_zone->mouse_y;
-        // Msg (MSGT_USER, "mx = %d, my = %d", mx, my);
+        // Msg(MSGT_USER, "mx = %d, my = %d", mx, my);
         if (app->tiles_display_zone->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
             app->tile_hovered = ((my / 8) * 16) + mx / 8;
         else
@@ -301,9 +301,9 @@ void    TileViewer_SelectedTile_Select (t_widget *w)
 void    TileViewer_Switch (void)
 {
     if (TileViewer.active ^= 1)
-        Msg (MSGT_USER, Msg_Get (MSG_TilesViewer_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_TilesViewer_Enabled));
     else
-        Msg (MSGT_USER, Msg_Get (MSG_TilesViewer_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_TilesViewer_Disabled));
     gui_box_show (TileViewer.box, TileViewer.active, TRUE);
     gui_menu_inverse_check (menus_ID.tools, 2);
 }

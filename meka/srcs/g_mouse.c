@@ -45,7 +45,7 @@ void    gui_update_mouse (void)
     gui.mouse.x = g_mouse_state.x;
     gui.mouse.y = g_mouse_state.y;
 	gui.mouse.buttons = g_mouse_state.buttons;
-    // Msg (MSGT_DEBUG, "gui_mouse_button = %d", mouse_b);
+    // Msg(MSGT_DEBUG, "gui_mouse_button = %d", mouse_b);
 
     gui.mouse.z_prev = gui.mouse.z_current;
 	gui.mouse.z_current = g_mouse_state.z;

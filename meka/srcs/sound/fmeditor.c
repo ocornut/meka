@@ -132,7 +132,7 @@ void    FM_Editor_Redraw (void)
   rectfill (apps.gfx.FM_Editor, 0, 0, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
   /**** set number/parameters ****/
-  sprintf (mesg, *mbase, FM_Editor.current_voice_number, (char *)FM_Instruments_Name[FM_Editor.current_voice_number]);
+  sprintf(mesg, *mbase, FM_Editor.current_voice_number, (char *)FM_Instruments_Name[FM_Editor.current_voice_number]);
   Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
   mbase++;
   line++;
@@ -143,7 +143,7 @@ void    FM_Editor_Redraw (void)
   voice = (unsigned char *)(&FM_OPL_Patchs[FM_Editor.current_voice_number]);
   for (i = 0; i < sizeof (FM_OPL_Patch) / 2; i++ )
     {
-    sprintf (mesg, *mbase, *voice, *(voice + 1));
+    sprintf(mesg, *mbase, *voice, *(voice + 1));
     Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
     voice += 2;
     mbase++;
@@ -155,22 +155,22 @@ void    FM_Editor_Redraw (void)
   /**** now select FM voice ****/
   if (!(FM_Regs[0x0e] & 0x20))
      {
-     sprintf (mesg, " FM-MODE: 9 voices mode");
+     sprintf(mesg, " FM-MODE: 9 voices mode");
      Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      vmax = 9;
      }
   else
      {
-     sprintf (mesg, " FM-MODE: 6 voices & rhythm mode");
+     sprintf(mesg, " FM-MODE: 6 voices & rhythm mode");
      Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      vmax = 6;
      }
   for (i = 0; i < 9; i++)
      {
-     if (i < vmax)  sprintf (mesg, "  Channel #%d = %2d[%02x] ", i, (FM_Regs[0x30 + i]>>4)&0x0f, FM_Regs[0x30 + i]&0x0f);
-     else           sprintf (mesg, "  Channel #%d = %2d[%02x]*", i, (FM_Regs[0x30 + i]>>4)&0x0f, FM_Regs[0x30 + i]&0x0f);
+     if (i < vmax)  sprintf(mesg, "  Channel #%d = %2d[%02x] ", i, (FM_Regs[0x30 + i]>>4)&0x0f, FM_Regs[0x30 + i]&0x0f);
+     else           sprintf(mesg, "  Channel #%d = %2d[%02x]*", i, (FM_Regs[0x30 + i]>>4)&0x0f, FM_Regs[0x30 + i]&0x0f);
      Font_Print (-1, apps.gfx.FM_Editor, mesg, 0, line * fonty, COLOR_SKIN_WINDOW_TEXT);
      line++;
      }
@@ -223,7 +223,7 @@ void        FM_Editor_Init (void)
     fonty = Font_Height (FM_EDITOR_FONT);
     fontx = 6; // Arbitrary.. is actual FM_EDITOR_FONT character width
 
-    apps.id.FM_Editor = gui_box_create (300, 80, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, Msg_Get (MSG_FM_Editor_BoxTitle));
+    apps.id.FM_Editor = gui_box_create (300, 80, FM_EDITOR_SIZE_X - 1, FM_EDITOR_SIZE_Y - 1, Msg_Get(MSG_FM_Editor_BoxTitle));
     FM_Editor.box = gui.box[apps.id.FM_Editor];
     apps.gfx.FM_Editor = al_create_bitmap (FM_EDITOR_SIZE_X, FM_EDITOR_SIZE_Y);
     gui_set_image_box (apps.id.FM_Editor, apps.gfx.FM_Editor);
@@ -263,9 +263,9 @@ void    FM_Editor_Switch (void)
     apps.active.FM_Editor ^= 1;
     gui_box_show (gui.box[apps.id.FM_Editor], apps.active.FM_Editor, TRUE);
     if (apps.active.FM_Editor)
-        Msg (MSGT_USER, Msg_Get (MSG_FM_Editor_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_FM_Editor_Enabled));
     else
-        Msg (MSGT_USER, Msg_Get (MSG_FM_Editor_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_FM_Editor_Disabled));
     gui_menu_inverse_check (menus_ID.fm, 3);
 }
 

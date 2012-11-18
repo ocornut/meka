@@ -26,7 +26,7 @@ void    VMachine_Draw (void)
     int    x, y;
 
     #ifdef DEBUG_WHOLE
-        Msg (MSGT_DEBUG, "VMachine_Draw ();");
+        Msg(MSGT_DEBUG, "VMachine_Draw();");
     #endif
 
     x = gui.info.screen.x;
@@ -63,7 +63,7 @@ void    Machine_Init (void)
 void    Machine_ON (void)
 {
 #ifdef DEBUG_WHOLE
-	Msg (MSGT_DEBUG, "Machine_ON()");
+	Msg(MSGT_DEBUG, "Machine_ON()");
 #endif
 	if (!(g_machine_flags & MACHINE_POWER_ON))
 	{
@@ -73,10 +73,10 @@ void    Machine_ON (void)
 		if (!(g_machine_flags & MACHINE_ROM_LOADED))
 		{
 #ifdef DEBUG_WHOLE
-			Msg (MSGT_DEBUG, "Machine_ON() : BIOS_Load()");
+			Msg(MSGT_DEBUG, "Machine_ON() : BIOS_Load()");
 #endif
-			BIOS_Load ();
-			Machine_Remove_Cartridge ();
+			BIOS_Load();
+			Machine_Remove_Cartridge();
 		}
 		Skins_Background_Redraw();
 	}
@@ -117,9 +117,9 @@ void    Free_ROM (void)
     // Call BMemory_Save() only if Machine_Off() won't call it
     // FIXME: this is some crap hack, the whole machine thing need to be rewritten
     if (!(g_machine_flags & MACHINE_POWER_ON))
-        BMemory_Save ();
-    Machine_OFF ();
-    Machine_Remove_Cartridge ();
+        BMemory_Save();
+    Machine_OFF();
+    Machine_Remove_Cartridge();
     g_machine_flags = 0;
     if (Game_ROM)
     {
@@ -127,13 +127,13 @@ void    Free_ROM (void)
         Game_ROM = NULL;
         tsms.Size_ROM = 0;
         DB.current_entry = NULL;
-        BIOS_Load ();
+        BIOS_Load();
     }
     if (g_machine.driver_id != DRV_COLECO)
         g_machine.driver_id = DRV_SMS;
-    Machine_Reset ();
-    gamebox_rename_all ();
-    Change_System_Misc ();
+    Machine_Reset();
+    gamebox_rename_all();
+    Change_System_Misc();
 
 	// Clear filename data
     strcpy(g_env.Paths.MediaImageFile, "");

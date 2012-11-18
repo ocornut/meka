@@ -38,7 +38,7 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
   void (*WrZ80)(word, byte);
   byte (*RdZ80)(word);
   word (*LoopZ80)();
-  void CPU_Loop ();
+  void CPU_Loop();
   int Get_Active_CPU (void);
   int Get_IRQ_Vector (int p);
   #define Macro_Stop_CPU    z80_exit()
@@ -52,8 +52,8 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
   void (*WrZ80)(word, byte);
   byte (*RdZ80)(word);
   word (*LoopZ80)();
-  void CPU_Loop ();
-  word Loop_SMS ();
+  void CPU_Loop();
+  word Loop_SMS();
   #define Macro_Stop_CPU { return (INT_QUIT); }
   #define Raze_Update_Mapping(a, b, c) { z80_map_read (a, b, c); z80_map_fetch (a, b, c); }
 #else
@@ -65,10 +65,10 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 #define Interrupt_Loop_Misc_Line_Zero()                                     \
     {                                                                       \
     if (tsms.VDP_Video_Change)                                              \
-       VDP_VideoMode_Change ();                                             \
+       VDP_VideoMode_Change();                                             \
     if (Sound.LogVGM.Logging != VGM_LOGGING_NO)                             \
        VGM_NewFrame (&Sound.LogVGM);                                        \
-    Patches_MEM_Apply ();                                                   \
+    Patches_MEM_Apply();                                                   \
     }
 
 //-----------------------------------------------------------------------------
@@ -77,7 +77,7 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
     {                                                                       \
     Sound_Update();                                                         \
     tsms.Control_Check_GUI = TRUE;                                          \
-    Inputs_Sources_Update ();   /* Poll input sources */                    \
+    Inputs_Sources_Update();   /* Poll input sources */                    \
     Inputs_Emulation_Update (TRUE); /* Might disable Control_Check_GUI */   \
     Inputs_Check_GUI (!tsms.Control_Check_GUI);                             \
     if ((opt.Force_Quit) || (CPU_Loop_Stop))                                \

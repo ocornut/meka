@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // MEKA - osd/misc.c
-// OSD Miscellaenous Functions - Code
+// OSD Miscellaneous Functions - Code
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
@@ -19,7 +19,7 @@ bool    OSD_X86CPU_Has_RDTSC (void)
 	int cpu_id;
 
     //if (!(cpu_capabilities & CPU_ID))
-    //    return (FALSE);
+    //    return false;
 
 #ifdef ARCH_WIN32
 
@@ -45,11 +45,11 @@ bool    OSD_X86CPU_Has_RDTSC (void)
 	);
 #endif
 
-    // Msg (MSGT_DEBUG, "cpu_id = %08X", cpu_id);
+    // Msg(MSGT_DEBUG, "cpu_id = %08X", cpu_id);
 
     if (cpu_id & 0x10)
-        return (TRUE);
-    return (FALSE);
+        return true;
+    return false;
 }
 
 //-----------------------------------------------------------------------------

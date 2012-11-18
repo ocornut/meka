@@ -59,7 +59,7 @@ t_blitter *     Blitter_New(char *name)
     return (b);
 }
 
-void            Blitter_Delete(t_blitter *b)
+void Blitter_Delete(t_blitter *b)
 {
     free(b->name);
     free(b);
@@ -67,12 +67,12 @@ void            Blitter_Delete(t_blitter *b)
 
 //-----------------------------------------------------------------------------
 
-void            Blitters_Close(void)
+void Blitters_Close()
 {
     list_free_custom(&Blitters.list, (t_list_free_handler)Blitter_Delete);
 }
 
-static const char * Blitters_Def_Variables [] =
+static const char * Blitters_Def_Variables[] =
 {
     "res",
     "blitter",
@@ -103,7 +103,7 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
     parse_getword(w, sizeof(w), &s, "=", ';', PARSE_FLAGS_NONE);
 	int i;
     for (i = 0; Blitters_Def_Variables [i]; i++)
-        if (!strcmp (w, Blitters_Def_Variables [i]))
+        if (!strcmp(w, Blitters_Def_Variables [i]))
             break;
     if (Blitters.current == NULL)
         return (MEKA_ERR_MISSING);
@@ -145,15 +145,15 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
     return MEKA_ERR_OK;
 }
 
-void    Blitters_Init_Values (void)
+void    Blitters_Init_Values()
 {
     Blitters.current = NULL;
     Blitters.blitter_configuration_name = NULL;
 }
 
-void	Blitters_Init (void)
+void	Blitters_Init()
 {
-    ConsolePrint (Msg_Get(MSG_Blitters_Loading));
+    ConsolePrint(Msg_Get(MSG_Blitters_Loading));
 
     Blitters.list = NULL;
     Blitters.current = NULL;
@@ -161,8 +161,8 @@ void	Blitters_Init (void)
     // Open and read file
     t_tfile * tf;
     if ((tf = tfile_read (Blitters.filename)) == NULL)
-        Quit_Msg (meka_strerror());
-    ConsolePrint ("\n");
+        Quit_Msg(meka_strerror());
+    ConsolePrint("\n");
 
     // Parse each line
     int line_cnt = 0;
@@ -180,23 +180,23 @@ void	Blitters_Init (void)
         if (StrIsNull (s2))
             continue;
 
-        strcpy (s1, s2);
+        strcpy(s1, s2);
         StrLower(s1);
 
         switch (Blitters_Parse_Line (s1, s2))
         {
-        case MEKA_ERR_UNKNOWN:          tfile_free (tf); Quit_Msg (Msg_Get (MSG_Blitters_Error_Unrecognized), line_cnt);
-        case MEKA_ERR_MISSING:          tfile_free (tf); Quit_Msg (Msg_Get (MSG_Blitters_Error_Missing), line_cnt);
-        case MEKA_ERR_VALUE_INCORRECT:  tfile_free (tf); Quit_Msg (Msg_Get (MSG_Blitters_Error_Incorrect_Value), line_cnt);
+        case MEKA_ERR_UNKNOWN:          tfile_free(tf); Quit_Msg(Msg_Get(MSG_Blitters_Error_Unrecognized), line_cnt);
+        case MEKA_ERR_MISSING:          tfile_free(tf); Quit_Msg(Msg_Get(MSG_Blitters_Error_Missing), line_cnt);
+        case MEKA_ERR_VALUE_INCORRECT:  tfile_free(tf); Quit_Msg(Msg_Get(MSG_Blitters_Error_Incorrect_Value), line_cnt);
         }
     }
 
     // Free file data
-    tfile_free (tf);
+    tfile_free(tf);
 
     // Requires at least 1 blitter
     if (Blitters.count == 0)
-        Quit_Msg (Msg_Get (MSG_Blitters_Error_Not_Enough));
+        Quit_Msg(Msg_Get(MSG_Blitters_Error_Not_Enough));
 
     // Current blitter
     if (Blitters.blitter_configuration_name != NULL)
@@ -231,19 +231,19 @@ const static struct
     { 0, 0 }
 };
 
-static int     Blitters_Str2Num (const char *s)
+static int     Blitters_Str2Num(const char *s)
 {
     for (int i = 0; Blitters_Str2Num_Table[i].name; i ++)
-        if (strcmp (s, Blitters_Str2Num_Table [i].name) == 0)
-            return (Blitters_Str2Num_Table [i].value);
+        if (strcmp(s, Blitters_Str2Num_Table[i].name) == 0)
+            return (Blitters_Str2Num_Table[i].value);
     return (BLITTER_NORMAL);
 }
 
 void    Blitters_Switch_Common (void)
 {
     if (g_env.state == MEKA_STATE_GAME)
-        Video_Setup_State ();
-    Msg (MSGT_USER, Msg_Get (MSG_Blitters_Set), Blitters.current->name);
+        Video_Setup_State();
+    Msg(MSGT_USER, Msg_Get(MSG_Blitters_Set), Blitters.current->name);
     gui_menu_un_check (menus_ID.blitters);
     gui_menu_check (menus_ID.blitters, Blitters.current->index);
 }

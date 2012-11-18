@@ -148,9 +148,9 @@ bool        Skin_IsValid(t_skin *skin)
     for (i = 0; i < SKIN_COLOR_MAX_; i++)
     {
         if (!skin->colors_defined)
-            return (FALSE);
+            return false;
     }
-    return (TRUE);
+    return true;
 }
 
 bool        Skin_PostProcess(t_skin *skin)
@@ -244,7 +244,7 @@ void        Skins_Init(void)
 
     // Verify that we have at least 1 loaded skin
     if (skin_first_valid == NULL)
-        Quit_Msg (Msg_Get(MSG_Theme_Error_Not_Enough));
+        Quit_Msg(Msg_Get(MSG_Theme_Error_Not_Enough));
 
     // Set current skin
     Skins.skin_current = NULL;
@@ -418,7 +418,7 @@ static int  Skins_ParseLine(char *line)
 //-----------------------------------------------------------------------------
 void        Skins_Load(const char *filename)
 {
-    ConsolePrint (Msg_Get (MSG_Theme_Loading));
+    ConsolePrint(Msg_Get(MSG_Theme_Loading));
 
     // Open and read file
     t_tfile* tf;
@@ -430,7 +430,7 @@ void        Skins_Load(const char *filename)
     }
 
     // Ok
-    ConsolePrint ("\n");
+    ConsolePrint("\n");
 
     // Parse each line
     int line_cnt = 0;
@@ -544,8 +544,8 @@ void        Skins_Select(t_skin *skin, bool fade)
         Skins.background_picture = al_load_bitmap(filename);
         if (Skins.background_picture == NULL)
         {
-            Msg(MSGT_USER, Msg_Get (MSG_Theme_Error_BG));
-            Msg(MSGT_USER_BOX, Msg_Get (MSG_Theme_Error_BG_FileName), Skins.skin_current->background_picture);
+            Msg(MSGT_USER, Msg_Get(MSG_Theme_Error_BG));
+            Msg(MSGT_USER_BOX, Msg_Get(MSG_Theme_Error_BG_FileName), Skins.skin_current->background_picture);
         }
     }
 }

@@ -587,9 +587,9 @@ void    MemoryViewer_SwitchMainInstance()
 {
     t_memory_viewer *mv = MemoryViewer_MainInstance;
     if (mv->active ^= 1)
-        Msg(MSGT_USER, Msg_Get (MSG_MemoryEditor_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Enabled));
     else
-        Msg(MSGT_USER, Msg_Get (MSG_MemoryEditor_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Disabled));
     gui_box_show(mv->box, mv->active, TRUE);
     gui_menu_inverse_check(menus_ID.tools, 4);
 }
@@ -662,7 +662,7 @@ void	MemoryViewer_GotoAddress(t_memory_viewer* mv, t_memory_type memtype, u32 of
 	{
 		char buf[16];
 		sprintf(buf, "%0*X", memrange->addr_hex_length, memrange->addr_start+offset);
-		Msg (MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, memrange->name);
+		Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Address_Out_of_Bound), buf, memrange->name);
 		return;
 	}
 
@@ -709,7 +709,7 @@ static void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
 
     // When cursor reach 2, switch to next byte
     const int cursor = widget_inputbox_get_cursor_pos(mv->values_edit_inputbox);
-    // Msg (MSGT_DEBUG, "Edit, cursor at %d", cursor);
+    // Msg(MSGT_DEBUG, "Edit, cursor at %d", cursor);
     if (cursor == 2)
     {
         // Simulate validation, then re-enable edit box
@@ -775,7 +775,7 @@ static void        MemoryViewer_ClickMemoryHex(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    // Msg (MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
+    // Msg(MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
 
     // Clicking in empty columns disable edition
     for (int i = 0; i < (mv->size_columns - 1) / 8; i++)
@@ -809,8 +809,8 @@ static void        MemoryViewer_ClickMemoryAscii(t_widget *w)
 
     int x = w->mouse_x / (Font_Height(F_MIDDLE) - 2);
     int y = w->mouse_y / Font_Height(F_MIDDLE);
-    // Msg (MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
-    // Msg (MSGT_DEBUG, "x = %d, y = %d\n", x, y);
+    // Msg(MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
+    // Msg(MSGT_DEBUG, "x = %d, y = %d\n", x, y);
 
     mv->values_edit_position = x + y * mv->size_columns;
     mv->values_edit_active = TRUE;

@@ -32,7 +32,7 @@ static void	Inputs_UpdateMouseRange();
 // Functions
 //-----------------------------------------------------------------------------
 
-void        Inputs_Sources_Init (void)
+void	Inputs_Sources_Init()
 {
     Inputs.Sources = NULL;
     Inputs.Sources_Max = 0;
@@ -197,7 +197,7 @@ void        Inputs_Emulation_Update (bool running)
                         const int dx_table[1+5] = 
                         { 0, 1, 2, 3, 5, 7 };
                         //0  1  2  3  4  5, 6
-                        //Msg (MSGT_DEBUG, "Map[DIGITAL_LEFT].pressed_counter = %d, [DIGITAL_RIGHT] = %d", src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter, src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter);
+                        //Msg(MSGT_DEBUG, "Map[DIGITAL_LEFT].pressed_counter = %d, [DIGITAL_RIGHT] = %d", src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter, src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter);
                         if (src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter > 0 && src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter == 0)
                         {
                             dx = src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter;
@@ -288,19 +288,17 @@ void        Inputs_Emulation_Update (bool running)
 
     // Correct the cases where opposite directions are pressed
     if (!g_configuration.allow_opposite_directions)
-        Inputs_FixUpJoypadOppositesDirections ();
+        Inputs_FixUpJoypadOppositesDirections();
 
     // Simulate Rapid Fire
     if (running)
     {
         if (RapidFire != 0)
-            RapidFire_Update ();
+            RapidFire_Update();
     }
 }
 
-//-----------------------------------------------------------------------------
 // Read and update all inputs sources
-//-----------------------------------------------------------------------------
 void	Inputs_Sources_Update()
 {
 	// Process keyboard events
@@ -417,14 +415,14 @@ void	Inputs_Sources_Update()
 					const int num_sticks = al_get_joystick_num_sticks(joystick);
 					const int num_buttons = al_get_joystick_num_buttons(joystick);
 					
-                    Msg (MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
+                    Msg(MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
                     for (int i = 0; i < num_sticks; i++)
                     {
                         const int num_axes = al_get_joystick_num_axes(joystick, i);
-						Msg (MSGT_DEBUG, "- Stick %d\n", i);
+						Msg(MSGT_DEBUG, "- Stick %d\n", i);
                         for (int j = 0; j < num_axes; j++)
                         {
-							Msg (MSGT_DEBUG, "   - Axis %d (pos = %f)\n", j, state.stick[i].axis[j]);
+							Msg(MSGT_DEBUG, "   - Axis %d (pos = %f)\n", j, state.stick[i].axis[j]);
                         }
                     }
 
@@ -432,7 +430,7 @@ void	Inputs_Sources_Update()
                     strcpy(buf, "- Buttons ");
                     for (int i = 0; i < num_buttons; i++)
 						sprintf(buf + strlen(buf), "%d ", state.button[i]);
-                    Msg (MSGT_DEBUG, buf);
+                    Msg(MSGT_DEBUG, buf);
                 }
 #endif
 
@@ -570,7 +568,7 @@ void Inputs_UpdateMouseRange()
 }
 
 // Fix up/down & left/right cases
-static void    Inputs_FixUpJoypadOppositesDirections (void)
+static void    Inputs_FixUpJoypadOppositesDirections()
 {
     u16        joy = tsms.Control[7];
     if (!(joy & (0x0001 | 0x0002))) { joy |= (0x0001 | 0x0002); } // P1 Up & Down

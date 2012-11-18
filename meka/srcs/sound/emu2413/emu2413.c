@@ -937,9 +937,9 @@ OPLL_SLOT_reset (OPLL_SLOT * slot, int type)
 static void
 internal_refresh (void)
 {
-  makeDphaseTable ();
-  makeDphaseARTable ();
-  makeDphaseDRTable ();
+  makeDphaseTable();
+  makeDphaseARTable();
+  makeDphaseDRTable();
   pm_dphase = (e_uint32) rate_adjust (PM_SPEED * PM_DP_WIDTH / (clk / 72));
   am_dphase = (e_uint32) rate_adjust (AM_SPEED * AM_DP_WIDTH / (clk / 72));
 }
@@ -950,20 +950,20 @@ maketables (e_uint32 c, e_uint32 r)
   if (c != clk)
   {
     clk = c;
-    makePmTable ();
-    makeAmTable ();
-    makeDB2LinTable ();
-    makeAdjustTable ();
-    makeTllTable ();
-    makeRksTable ();
-    makeSinTable ();
-    makeDefaultPatch ();
+    makePmTable();
+    makeAmTable();
+    makeDB2LinTable();
+    makeAdjustTable();
+    makeTllTable();
+    makeRksTable();
+    makeSinTable();
+    makeDefaultPatch();
   }
 
   if (r != rate)
   {
     rate = r;
-    internal_refresh ();
+    internal_refresh();
   }
 }
 
@@ -1078,7 +1078,7 @@ OPLL_set_rate (OPLL * opll, e_uint32 r)
     rate = 49716;
   else
     rate = r;
-  internal_refresh ();
+  internal_refresh();
   rate = r;
 }
 

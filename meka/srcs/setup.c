@@ -243,9 +243,9 @@ static int Setup_Interactive_Console()
     ConsolePrintf ("[%s]\n", Msg_Get(MSG_Setup_Setup));
 
     // Print sound card selection message
-//    ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
+//    ConsolePrintf ("%s\n", Msg_Get(MSG_Setup_Soundcard_Select));
 //#ifdef ARCH_WIN32
-//	ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));
+//	ConsolePrintf("%s\n", Msg_Get(MSG_Setup_Soundcard_Select_Tips_Win32));
 //#endif
 	
 	return MEKA_ERR_OK;

@@ -42,28 +42,28 @@ void    Machine_Pause (void)
     // Verbose
     if (g_machine_flags & MACHINE_PAUSED)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_Machine_Pause));
+        Msg(MSGT_USER, Msg_Get(MSG_Machine_Pause));
         // gui_menu_check (menus_ID.machine, 2);
-        Screen_Save_to_Next_Buffer ();
+        Screen_Save_to_Next_Buffer();
     }
     else
     {
-        Msg (MSGT_USER, Msg_Get (MSG_Machine_Resume));
+        Msg(MSGT_USER, Msg_Get(MSG_Machine_Resume));
         // gui_menu_un_check_one (menus_ID.machine, 2);
     }
 }
 
 void    Machine_Debug_Start (void)
 {
-    // Msg (MSGT_DEBUG, "Machine_Debug_Start()");
+    // Msg(MSGT_DEBUG, "Machine_Debug_Start()");
     g_machine_flags |= MACHINE_PAUSED | MACHINE_DEBUGGING;
     CPU_Loop_Stop = TRUE;
-    Screen_Save_to_Next_Buffer ();
+    Screen_Save_to_Next_Buffer();
 }
 
 void    Machine_Debug_Stop (void)
 {
-    // Msg (MSGT_DEBUG, "Machine_Debug_Stop()");
+    // Msg(MSGT_DEBUG, "Machine_Debug_Stop()");
     g_machine_flags &= ~(MACHINE_PAUSED | MACHINE_DEBUGGING);
     // next pass in MainLoop() will restart CPU emulation
     // We however set the flag in case this function is called with emulation
@@ -429,26 +429,26 @@ void        Machine_Reset(void)
     };
 
     #ifdef DEBUG_WHOLE
-        Msg (MSGT_DEBUG, "Machine_Reset();");
+        Msg(MSGT_DEBUG, "Machine_Reset();");
     #endif
 
     // Unpause machine if necessary
     if (g_machine_flags & MACHINE_PAUSED)
-        Machine_Pause ();
+        Machine_Pause();
 
     // Set driver & machine stuff
     drv_set (g_machine.driver_id);
 
-    Machine_Set_Mapper          ();
+    Machine_Set_Mapper         ();
     if ((g_machine_flags & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
-        Machine_Set_Mapping     (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
-    Machine_Set_Handler_IO      ();
-    Machine_Set_Handler_Read    ();
-    Machine_Set_Handler_Write   ();
-    Machine_Set_Handler_Loop    ();
-    Machine_Set_Country         ();
-    Machine_Set_IPeriod         ();
-    Machine_Set_TV_Lines        ();
+        Machine_Set_Mapping    (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
+    Machine_Set_Handler_IO     ();
+    Machine_Set_Handler_Read   ();
+    Machine_Set_Handler_Write  ();
+    Machine_Set_Handler_Loop   ();
+    Machine_Set_Country        ();
+    Machine_Set_IPeriod        ();
+    Machine_Set_TV_Lines       ();
 
     // VDP MODEL --------------------------------------------------------------
     if (DB.current_entry && DB.current_entry->emu_vdp_model != -1)
@@ -487,7 +487,7 @@ void        Machine_Reset(void)
 
     // CPU (RICHARD MITTON'S CORE) --------------------------------------------
 #elif RAZE_Z80
-    z80_init_memmap ();
+    z80_init_memmap();
     z80_add_write (0x0000, 0xFFFF, Z80_MAP_HANDLED, WrZ80);
     for (i = 0; i < 4; i ++)
     {
@@ -501,8 +501,8 @@ void        Machine_Reset(void)
     }
     z80_set_in (InZ80);
     z80_set_out (OutZ80);
-    z80_end_memmap ();
-    z80_reset ();
+    z80_end_memmap();
+    z80_reset();
 #endif
 
     // MEMORY -----------------------------------------------------------------
@@ -536,7 +536,7 @@ void        Machine_Reset(void)
     if ((g_driver->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (g_machine_flags & MACHINE_ROM_LOADED))
     {
         #ifdef DEBUG_WHOLE
-            Msg (MSGT_DEBUG, "Machine_Reset(): BIOS_Unload()");
+            Msg(MSGT_DEBUG, "Machine_Reset(): BIOS_Unload()");
         #endif
         BIOS_Unload();
     }
@@ -600,7 +600,7 @@ void        Machine_Reset(void)
     sms.FM_Register = 0;
     sms.FM_Magic = 0;
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
-    // resume_fm ();
+    // resume_fm();
     FM_Reset();
 	SN76489_Reset (g_machine.TV->CPU_clock, Sound.SampleRate);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
@@ -620,7 +620,7 @@ void        Machine_Reset(void)
 
     // DEBUGGER ---------------------------------------------------------------
     #ifdef MEKA_Z80_DEBUGGER
-        Debugger_MachineReset ();
+        Debugger_MachineReset();
     #endif
 }
 

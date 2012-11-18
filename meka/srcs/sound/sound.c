@@ -90,17 +90,17 @@ int		Sound_Init(void)
         return (MEKA_ERR_OK);
 
     // Print Sound initialization message
-    ConsolePrintf ("%s\n", Msg_Get (MSG_Sound_Init));
-	ConsolePrintf (Msg_Get (MSG_Sound_Init_Soundcard), Sound.SampleRate);
+    ConsolePrintf ("%s\n", Msg_Get(MSG_Sound_Init));
+	ConsolePrintf (Msg_Get(MSG_Sound_Init_Soundcard), Sound.SampleRate);
 
 	if (!al_install_audio())
 	{
-		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
+		Quit_Msg("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
 		return (MEKA_ERR_FAIL);
 	}
 	if (!al_reserve_samples(0))
 	{
-		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
+		Quit_Msg("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
 		return (MEKA_ERR_FAIL);
 	}
 	ConsolePrintf ("\n");
@@ -112,7 +112,7 @@ int		Sound_Init(void)
     // Initialize Sound emulators
     if (!Sound_InitEmulators())
 	{
-		Quit_Msg ("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
+		Quit_Msg("%s", Msg_Get(MSG_Sound_Init_Error_Audio));
 		return (MEKA_ERR_FAIL);
 	}
 

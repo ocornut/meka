@@ -142,27 +142,27 @@ int             TextViewer_Open(t_app_textviewer *tv, const char *title, const c
 
 void            TextViewer_Switch_Doc_Main(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain, DOC_MAIN); 
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain, DOC_MAIN); 
 }
 
 void            TextViewer_Switch_Doc_Compat(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationCompat, DOC_COMPAT);
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationCompat, DOC_COMPAT);
 }
 
 void            TextViewer_Switch_Doc_Multiplayer_Games(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationMulti, DOC_MULTI); 
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMulti, DOC_MULTI); 
 }
 
 void            TextViewer_Switch_Doc_Changes(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationChanges, DOC_CHANGES); 
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationChanges, DOC_CHANGES); 
 }
 
 void            TextViewer_Switch_Doc_Debugger(void)
 { 
-    TextViewer_Switch(&TextViewer, Msg_Get (MSG_Doc_BoxTitle), g_env.Paths.DocumentationDebugger, DOC_DEBUGGER); 
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationDebugger, DOC_DEBUGGER); 
 }
 
 void            TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file)
