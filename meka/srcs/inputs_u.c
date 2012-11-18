@@ -61,10 +61,13 @@ t_input_src *       Inputs_Sources_Add(char *name)
 
     for (int i = 0; i < INPUT_MAP_MAX; i++)
     {
-        src->Map[i].type = INPUT_MAP_TYPE_KEY; // key,button,..
-        src->Map[i].idx = -1;
-        src->Map[i].current_value = 0;
-        src->Map_Counters[i] = 0;
+		t_input_map_entry* map = &src->Map[i];
+        map->type = INPUT_MAP_TYPE_KEY; // key,button,..
+        map->hw_index = -1;
+		map->hw_axis = 0;
+		map->hw_direction = 0;
+        map->current_value = 0;
+        map->pressed_counter = 0;
     }
 
 	Inputs.Sources = (t_input_src**)realloc(Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
@@ -194,15 +197,15 @@ void        Inputs_Emulation_Update (bool running)
                         const int dx_table[1+5] = 
                         { 0, 1, 2, 3, 5, 7 };
                         //0  1  2  3  4  5, 6
-                        //Msg (MSGT_DEBUG, "Map_Counters[DIGITAL_LEFT] = %d, [DIGITAL_RIGHT] = %d", src->Map_Counters[INPUT_MAP_DIGITAL_LEFT], src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT]);
-                        if (src->Map_Counters[INPUT_MAP_DIGITAL_LEFT] && !src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT])
+                        //Msg (MSGT_DEBUG, "Map[DIGITAL_LEFT].pressed_counter = %d, [DIGITAL_RIGHT] = %d", src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter, src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter);
+                        if (src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter > 0 && src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter == 0)
                         {
-                            dx = src->Map_Counters[INPUT_MAP_DIGITAL_LEFT];
+                            dx = src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter;
                             dx = -dx_table[(dx > 5) ? 5 : dx];
                         }
-                        if (src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT] && !src->Map_Counters[INPUT_MAP_DIGITAL_LEFT])
+                        if (src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter > 0 && src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter == 0)
                         {
-                            dx = src->Map_Counters[INPUT_MAP_DIGITAL_RIGHT];
+                            dx = src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter;
                             dx = dx_table[(dx > 5) ? 5 : dx];
                         }
                     }
@@ -386,17 +389,17 @@ void	Inputs_Sources_Update()
             {
                 for (int j = 0; j != INPUT_MAP_MAX; j++)
                 {
-                    t_input_map *map = &Src->Map[j];
+                    t_input_map_entry *map = &Src->Map[j];
                     const int old_res = map->current_value;
-                    map->current_value = (map->idx != -1 && Inputs_KeyDown(map->idx));
+                    map->current_value = (map->hw_index != -1 && Inputs_KeyDown(map->hw_index));
                     if (old_res && map->current_value)
 					{
-                        Src->Map_Counters[j]++;
+                        Src->Map[j].pressed_counter++;
 						//Msg(MSGT_DEBUG, "Map %d on", j);
 					}
                     else
 					{
-                        Src->Map_Counters[j] = 0;
+                        Src->Map[j].pressed_counter = 0;
 					}
                 }
                 break;
@@ -435,26 +438,26 @@ void	Inputs_Sources_Update()
 
                 for (int j = 0; j != INPUT_MAP_MAX; j++)
                 {
-                    t_input_map *map = &Src->Map[j];
+                    t_input_map_entry *map = &Src->Map[j];
                     int old_res = map->current_value;
                     switch (map->type)
                     {
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
-							const float axis = state.stick[INPUT_MAP_UNPACK_STICK(map->idx)].axis[INPUT_MAP_UNPACK_AXIS(map->idx)];
-							map->current_value = (INPUT_MAP_UNPACK_DIR_LR(map->idx) ? axis > INPUT_JOY_DEADZONE : axis < -INPUT_JOY_DEADZONE);
+							const float v = state.stick[map->hw_index].axis[map->hw_axis];
+							map->current_value = (map->hw_direction ? v > INPUT_JOY_DEADZONE : v < -INPUT_JOY_DEADZONE);
                             break;
                         }
                     case INPUT_MAP_TYPE_JOY_BUTTON:
                         {
-							map->current_value = (map->idx != (-1) && state.button[map->idx]);
+							map->current_value = (map->hw_index != (-1) && state.button[map->hw_index]);
                             break;
                         }
                     }
                     if (old_res && map->current_value)
-                        Src->Map_Counters[j]++;
+                        Src->Map[j].pressed_counter++;
                     else
-                        Src->Map_Counters[j] = 0;
+                        Src->Map[j].pressed_counter = 0;
                 }
                 break;
             }
@@ -508,25 +511,25 @@ void	Inputs_Sources_Update()
                 Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value = y;
 
                 // No counters for analog data
-                Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_X] = 0;
-                Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_Y] = 0;
-                Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_X_REL] = 0;
-                Src->Map_Counters[INPUT_MAP_ANALOG_AXIS_Y_REL] = 0;
+                Src->Map[INPUT_MAP_ANALOG_AXIS_X].pressed_counter = 0;
+                Src->Map[INPUT_MAP_ANALOG_AXIS_Y].pressed_counter = 0;
+                Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].pressed_counter = 0;
+                Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].pressed_counter = 0;
 
                 // Buttons ---------------------------------------------------------
                 for (int j = 4; j < INPUT_MAP_MAX; j++)
                 {
-                    t_input_map *map = &Src->Map[j];
+                    t_input_map_entry *map = &Src->Map[j];
                     int old_res = map->current_value;
-                    const int button_mask = (1 << Src->Map[j].idx);
+                    const int button_mask = (1 << Src->Map[j].hw_index);
                     if (disable_mouse_button)
                         Src->Map[j].current_value = 0;
                     else
-						Src->Map[j].current_value = (Src->Map[j].idx != -1 && (g_mouse_state.buttons & button_mask));
+						Src->Map[j].current_value = (Src->Map[j].hw_index != -1 && (g_mouse_state.buttons & button_mask));
                     if (old_res && map->current_value)
-                        Src->Map_Counters[j]++;
+                        Src->Map[j].pressed_counter++;
                     else
-                        Src->Map_Counters[j] = 0;
+                        Src->Map[j].pressed_counter = 0;
                 }
                 break;
             }

@@ -55,7 +55,7 @@ t_tfile *       tfile_read(const char *filename)
     while ((p_new = strchr(p_cur, '\n')) != NULL)
     {
         *p_new = EOSTR;
-        Chomp(p_cur);
+        StrChomp(p_cur);
         list_add_to_end(&tf->data_lines, p_cur);
         lines_count++;
         p_cur = p_new + 1;

@@ -6,6 +6,7 @@
 // #define DEBUG_PATCHES
 #include "shared.h"
 #include "patch.h"
+#include "debugger.h"
 #include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
@@ -140,7 +141,11 @@ int                     Patches_List_Parse_Line (char *line)
             return (2);
 
         // Get address
-        action->address = GetNbrHex (line + 4);
+		t_debugger_value v;
+		if (Debugger_Eval_ParseConstant(line+4, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX))
+			action->address = v.data;
+		else
+			action->address = 0;
         // ConsolePrintf("Address = %x\n", action->address);
 
         p = strchr(line, '=');
@@ -208,7 +213,7 @@ void            Patches_List_Init (void)
 		char* p;
         if ((p = strchr (line, ';')) != NULL)
             *p = EOSTR;
-        Remove_Spaces (line);
+        StrRemoveBlanks (line);
         if (line[0] == EOSTR)
             continue;
 

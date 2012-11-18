@@ -593,7 +593,6 @@ int		Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
             lang->Name, msg_id);
     }
 
-    // Replace_Backslash_N (msg);
     // lang->Messages [n] = strdup (msg);
     lang->Messages[n] = parse_getword(NULL, 0, &msg, "\"", 0);
 
@@ -684,9 +683,9 @@ int             Messages_Init_Parse_Line (char *line)
         return (MEKA_ERR_SYNTAX);
     }
     *p = EOSTR;
-    Trim (line);
+    StrTrim (line);
     StrUpper(line);
-    Trim (p + 1);
+    StrTrim (p + 1);
     if ((p = strchr (p + 1, '\"')) == NULL)
     {
         free(line);
@@ -735,8 +734,8 @@ int             Messages_Init (void)
         if (p != NULL)
             *p = EOSTR;
 
-        Trim (line);
-        if (StrNull (line))
+        StrTrim (line);
+        if (StrIsNull (line))
             continue;
 
         // Parse Line and handle errors

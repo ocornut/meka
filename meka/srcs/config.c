@@ -189,7 +189,7 @@ void Configuration_Load()
         line_cnt += 1;
 
 		char* line = (char*)lines->elem;
-        if (StrNull(line))
+        if (StrIsNull(line))
             continue;
 
 		char variable[256], val[256];
