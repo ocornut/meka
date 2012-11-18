@@ -7,12 +7,12 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Configuration_Load              (void);
-void    Configuration_Load_PostProcess  (void);
-void    Configuration_Save              (void);
+void    Configuration_Load();
+void    Configuration_Load_PostProcess();
+void    Configuration_Save();
 
-void    Command_Line_Parse              (void);
-void    Command_Line_Help               (void);
+void    Command_Line_Parse();
+void    Command_Line_Help();
 
 //-----------------------------------------------------------------------------
 

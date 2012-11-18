@@ -10,6 +10,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "config.h"
 #include "setup.h"
 #include "video.h"
 #include "sound/s_misc.h"
@@ -21,22 +22,23 @@
 // Forward declaration
 //-----------------------------------------------------------------------------
 #ifdef ARCH_WIN32
-    static int    Setup_Interactive_Win32(void);
+    static int    Setup_Interactive_Win32();
 #else
-    static int    Setup_Interactive_Console(void);
+    static int    Setup_Interactive_Console();
 #endif
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Setup_Interactive_Init (void)
+void Setup_Interactive_Init()
 {
     if (opt.Setup_Interactive_Execute)
     {
         ConsolePrintf ("%s\n", Msg_Get(MSG_Setup_Running));
         opt.Setup_Interactive_Execute = FALSE;
-        if (Setup_Interactive() == MEKA_ERR_CANCEL)
+        const int ret = Setup_Interactive();
+		if (ret == MEKA_ERR_CANCEL)
         {
             // Note: the only reason for setting the state to SHUTDOWN is so that Quit() doesn't pause on the console.
             g_env.state = MEKA_STATE_SHUTDOWN;   
@@ -45,15 +47,15 @@ void    Setup_Interactive_Init (void)
     }
 }
 
-int     Setup_Interactive (void)
+int Setup_Interactive()
 {
     // Call appropriate setup
     #ifdef ARCH_WIN32
         // Windows setup
-        return (Setup_Interactive_Win32());
+        return Setup_Interactive_Win32();
     #else
         // Console setup (DOS & UNIX)
-        return (Setup_Interactive_Console());
+        //return Setup_Interactive_Console();
     #endif
 }
 
@@ -219,7 +221,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 
 // Interactive Setup (Win32 version) ------------------------------------------
 // Let user choose his sound card driver, sound rate and language
-static  int     Setup_Interactive_Win32 (void)
+static int Setup_Interactive_Win32()
 {
 	const HINSTANCE hInstance = GetModuleHandle(NULL);
 	const HWND hWndParent = 0; // win_get_window()
@@ -235,12 +237,12 @@ static  int     Setup_Interactive_Win32 (void)
 
 // Interactive Setup (Console version) ----------------------------------------
 // Let user choose his sound card driver
-static  int     Setup_Interactive_Console (void)
+static int Setup_Interactive_Console()
 {
     // Print setup message
-    ConsolePrintf ("[%s]\n", Msg_Get (MSG_Setup_Setup));
+    ConsolePrintf ("[%s]\n", Msg_Get(MSG_Setup_Setup));
 
-    // Print soundcard selection message
+    // Print sound card selection message
 //    ConsolePrintf ("%s\n", Msg_Get (MSG_Setup_Soundcard_Select));
 //#ifdef ARCH_WIN32
 //	ConsolePrintf("%s\n", Msg_Get (MSG_Setup_Soundcard_Select_Tips_Win32));

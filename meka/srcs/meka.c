@@ -147,6 +147,8 @@ static void Init_Default_Values()
     // Machine
     g_machine.driver_id = DRV_SMS;
 
+	g_configuration.loaded_configuration_file	  = FALSE;
+
     // Country
     g_configuration.country                       = COUNTRY_EXPORT;
     g_configuration.country_cfg                   = COUNTRY_EXPORT;
@@ -360,6 +362,7 @@ int main(int argc, char **argv)
 	Capture_Init            (); // Initialize Screen capture
     Configuration_Load      (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);
+
     Setup_Interactive_Init  (); // Show Interactive Setup if asked to
     Configuration_Load_PostProcess  ();
     Frame_Skipper_Init      (); // Initialize Auto Frame Skipper
@@ -390,7 +393,11 @@ int main(int argc, char **argv)
     // Initialization complete
     ConsolePrintf ("%s\n--\n", Msg_Get (MSG_Init_Completed));
 
-    // Load ROM from command line if necessary
+	// Save configuration file early on (so that bad drivers, will still create a default .cfg file etc.)
+	if (!g_configuration.loaded_configuration_file)
+		Configuration_Save();
+
+	// Load ROM from command line if necessary
     Load_ROM_Command_Line   ();
 
     // Wait for Win32 console signal
@@ -398,9 +405,9 @@ int main(int argc, char **argv)
         return (0);
     ConsoleClose            (); // Close Console
 
-    FB_Init_2               (); // Finish initializing the file browser
+	FB_Init_2               (); // Finish initializing the file browser
 
-    // Setup initial state (fullscreen/GUI)
+	// Setup initial state (fullscreen/GUI)
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
         g_env.state = MEKA_STATE_GAME;
     else
