@@ -386,9 +386,11 @@ void    gui_box_set_title(t_gui_box *box, const char *title)
 
 void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
 {
+	if (box->frame.size.x == size_x && box->frame.size.y == size_y)
+		return;
 	box->frame.size.x = size_x;
 	box->frame.size.y = size_y;
-	gui.info.must_redraw = TRUE;
+	gui_box_create_video_buffer(box);
 }
 
 // Clip position of given box so that it shows on desktop.

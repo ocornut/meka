@@ -56,6 +56,7 @@ They are usually of 2 kinds:
       - Highlight matches in the memory editor for easier visibility.
       - Undo button.
     - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
+    - TilemapViewer: support for 256x256 tilemap used in PAL/SECAM wide screen mode. [Omar]
     - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
     - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
   - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
