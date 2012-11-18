@@ -25,8 +25,8 @@ ALLEGRO_MOUSE_STATE		g_mouse_state;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void Inputs_FixUpJoypadOppositesDirections(void);
-static void	Inputs_UpdateMouseRange(void);
+static void Inputs_FixUpJoypadOppositesDirections();
+static void	Inputs_UpdateMouseRange();
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -110,7 +110,7 @@ void        Inputs_Emulation_Update (bool running)
     // is mostly only run on emulation frame that are not skipped, while inputs
     // for emulation should run for all frames (including skipped ones).
     // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
-    // and I use an easy path, that is until rewriting the GUI.
+    // and I use an easy path.
     if (g_env.state == MEKA_STATE_GUI && !(g_machine_flags & MACHINE_PAUSED))
 	{
         if (gui.boxes_z_ordered[0] && (gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE) != 0)
@@ -133,9 +133,9 @@ void        Inputs_Emulation_Update (bool running)
     const int players = ((g_driver->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
     for (int i = 0; i < players; i++)
 	{
-        for (int source_index = 0; source_index < Inputs.Sources_Max; source_index++)
+        for (int src_index = 0; src_index < Inputs.Sources_Max; src_index++)
         {
-            const t_input_src *src = Inputs.Sources[source_index];
+            const t_input_src *src = Inputs.Sources[src_index];
             if (src->enabled == FALSE || src->player != i)
                 continue;
 
@@ -144,7 +144,7 @@ void        Inputs_Emulation_Update (bool running)
             // k = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].result_type;
             // if (!(Src->Result_Type & (k | (k << 1))))
             //    continue;
-            // Process peripheral dependant stuff
+            // Process peripheral dependent stuff
             switch (Inputs.Peripheral [i])
             {
             case INPUT_JOYPAD: //---------------------------- Joypad/Control Stick
@@ -180,7 +180,7 @@ void        Inputs_Emulation_Update (bool running)
                     int dx = 0;
                     if (src->flags & INPUT_SRC_FLAGS_ANALOG)
                     {
-                        // Using analogic relative movement
+                        // Using analog relative movement
                         dx = src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value;
                         if (dx > 0)
                             dx = (dx + 4) / 5;
@@ -364,11 +364,15 @@ void	Inputs_Sources_Update()
 	const int mouse_x_prev = g_mouse_state.x;
 	const int mouse_y_prev = g_mouse_state.y;
 	al_get_mouse_state(&g_mouse_state);
-	Inputs_UpdateMouseRange();
 
 	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
-	const int mouse_mx = g_mouse_state.x - mouse_x_prev;
-	const int mouse_my = g_mouse_state.y - mouse_y_prev;
+	int screen_center_x, screen_center_y;
+	Video_GameMode_GetScreenCenterPos(&screen_center_x, &screen_center_y);
+	const int mouse_mx_unbounded = g_mouse_state.x - screen_center_x;
+	const int mouse_my_unbounded = g_mouse_state.y - screen_center_y;
+
+	// Recenter and clamp in range
+	Inputs_UpdateMouseRange();
 
     for (int i = 0; i < Inputs.Sources_Max; i++)
     {
@@ -458,7 +462,7 @@ void	Inputs_Sources_Update()
             // Mouse ----------------------------------------------------------------
         case INPUT_SRC_TYPE_MOUSE:
             {
-                bool disable_mouse_button = FALSE;
+                bool disable_mouse_button = false;
 
                 if (g_env.state == MEKA_STATE_GAME)
                 {
@@ -475,7 +479,7 @@ void	Inputs_Sources_Update()
                     int x = g_mouse_state.x - gamebox_instance->frame.pos.x;
                     int y = g_mouse_state.y - gamebox_instance->frame.pos.y;
                     if (x < 0 || y < 0 || x >= gamebox_instance->frame.size.x || y >= gamebox_instance->frame.size.y)
-                        disable_mouse_button = TRUE;
+                        disable_mouse_button = true;
                     if (x < 0) x = 0; 
                     // if (x > 255) x = 255;
                     if (y < 0) y = 0;
@@ -484,21 +488,23 @@ void	Inputs_Sources_Update()
                 }
 
                 int x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value;
-                if (x > 0 && mouse_mx < x)
-                { if (mouse_mx < 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
-                else if (x < 0 && mouse_mx > x)
-                { if (mouse_mx > 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
+				const int mx = mouse_mx_unbounded;
+                if (x > 0 && mx < x)
+                { if (mx < 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
+                else if (x < 0 && mx > x)
+                { if (mx > 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
                 else
-                    x = mouse_mx;
+				{ x = mx; }
                 Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value = x;
 
                 int y = Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value;
-                if (y > 0 && mouse_my < y)
-                { if (mouse_my < 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
-                else if (y < 0 && mouse_my > y)
-                { if (mouse_my > 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
+                const int my = mouse_my_unbounded;
+				if (y > 0 && my < y)
+                { if (my < 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
+                else if (y < 0 && my > y)
+                { if (my > 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
                 else
-                    y = mouse_my;
+				{ y = my; }
                 Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value = y;
 
                 // No counters for analog data
@@ -537,23 +543,27 @@ void Inputs_UpdateMouseRange()
 	int sx_org;
 	int sy_org;
 	Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &sx_org, &sy_org, false);
-	int sx = sx_org;
-	int sy = sy_org;
 
 	if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
 	{ 
-		sx = Clamp<int>(sx, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
-		sy = Clamp<int>(sy, 0, g_driver->y_res);
+		const int sx = Clamp<int>(sx_org, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
+		const int sy = Clamp<int>(sy_org, 0, g_driver->y_res);
+		if (sx != sx_org || sy != sy_org)
+		{
+			int mx, my;
+			Video_GameMode_EmulatedPosToScreenPos(sx, sy, &mx, &my, false);
+			al_set_mouse_xy(g_display, mx, my);
+		}
+	}
+	else if (Inputs.Peripheral[PLAYER_1] == INPUT_SPORTSPAD || Inputs.Peripheral[PLAYER_2] == INPUT_SPORTSPAD)
+	{
+		// Recenter so we can keep moving
+		int sx, sy;
+		Video_GameMode_GetScreenCenterPos(&sx, &sy);
+		al_set_mouse_xy(g_display, sx, sy);
 	}
 
 	//Msg(MSGT_USER, "xy %d %d -> %d %d", sx_org, sy_org, sx, sy);
-
-	if (sx != sx_org || sy != sy_org)
-	{
-		Video_GameMode_EmulatedPosToScreenPos(sx, sy, &g_mouse_state.x, &g_mouse_state.y, false);
-		al_set_mouse_xy(g_display, g_mouse_state.x, g_mouse_state.y);
-		//Msg(MSGT_USER, "%d", ret);
-	}
 }
 
 // Fix up/down & left/right cases

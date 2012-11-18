@@ -455,7 +455,7 @@ u8	Input_Port_DD (void)
 }
 
 // UPDATE WHAT IS NECESSARY AFTER A PERIPHERAL CHANGE -------------------------
-void    Inputs_Peripheral_Change_Update (void)
+void    Inputs_Peripheral_Change_Update()
 {
     // Update LightGun.Enabled quick access flag
     LightPhaser.Enabled = (Inputs.Peripheral[0] == INPUT_LIGHTPHASER || Inputs.Peripheral[1] == INPUT_LIGHTPHASER);

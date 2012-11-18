@@ -203,6 +203,12 @@ void	Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x,
 	}
 }
 
+void	Video_GameMode_GetScreenCenterPos(int* pscreen_x, int* pscreen_y)
+{
+	*pscreen_x = (g_video.game_area_x1 + g_video.game_area_x2) >> 1;
+	*pscreen_y = (g_video.game_area_y1 + g_video.game_area_y2) >> 1;
+}
+
 void    Video_ClearScreenBackBuffer()
 {
     // Note: actual clearing will be done in blit.c
