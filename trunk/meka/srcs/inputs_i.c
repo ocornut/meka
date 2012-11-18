@@ -24,16 +24,16 @@ void    Inputs_Init (void)
     Inputs.KeyPressedQueue = NULL;
 
     // Sources
-    Inputs_Sources_Init ();
+    Inputs_Sources_Init();
 
     // Peripheral
     Inputs.Paddle_X [PLAYER_1] = Inputs.Paddle_X [PLAYER_2] = 0;
-    LightPhaser_Init ();
-    SportsPad_Init ();
-    RapidFire_Init ();
+    LightPhaser_Init();
+    SportsPad_Init();
+    RapidFire_Init();
 
     // Load Inputs Sources List
-    Load_Inputs_Src_List ();
+    Load_Inputs_Src_List();
 }
 
 #ifdef MEKA_JOYPAD
@@ -57,16 +57,16 @@ void    Inputs_Joystick_Init(void)
         return;
 
     // There is at least one joypad so we'll launch initialization
-    ConsolePrint (Msg_Get (MSG_Inputs_Joy_Init));
+    ConsolePrint(Msg_Get(MSG_Inputs_Joy_Init));
 
     if (!al_install_joystick() || ((num_joy = al_get_num_joysticks()) == 0))
     {
-        ConsolePrint (Msg_Get (MSG_Inputs_Joy_Init_None));
-		ConsolePrint ("\n");
+        ConsolePrint(Msg_Get(MSG_Inputs_Joy_Init_None));
+		ConsolePrint("\n");
         return;
     }
-    ConsolePrintf (Msg_Get (MSG_Inputs_Joy_Init_Found), num_joy);
-    ConsolePrint ("\n");
+    ConsolePrintf (Msg_Get(MSG_Inputs_Joy_Init_Found), num_joy);
+    ConsolePrint("\n");
 
     // Flag available devices "connected and ready"
     for (i = 0; i < Inputs.Sources_Max; i++)

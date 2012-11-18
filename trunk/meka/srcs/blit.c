@@ -363,7 +363,7 @@ void    Blit_GUI(void)
     // Update 3-D Glasses (if no VSync)
     if (!g_configuration.video_mode_gui_vsync)
         if (Glasses.Enabled)
-            Glasses_Update ();
+            Glasses_Update();
 }
 
 //-----------------------------------------------------------------------------

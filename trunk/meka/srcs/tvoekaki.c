@@ -55,8 +55,8 @@ void    TVOekaki_Update (int device_x, int device_y, int device_b_field)
     if ((nmouse_b & 2) != 0 && (lmouse_b & 2) == 0)
     {
         TVOekaki.Infos ^= (TVOEKAKI_BIT_ON_BOARD);
-        if (TVOEKAKI_ON_BOARD) Msg (MSGT_USER, Msg_Get (MSG_TVOekaki_Pen_Touch));
-        else Msg (MSGT_USER, Msg_Get (MSG_TVOekaki_Pen_Away));
+        if (TVOEKAKI_ON_BOARD) Msg(MSGT_USER, Msg_Get(MSG_TVOekaki_Pen_Touch));
+        else Msg(MSGT_USER, Msg_Get(MSG_TVOekaki_Pen_Away));
     }
 
     lmouse_b = nmouse_b;

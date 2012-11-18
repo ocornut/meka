@@ -77,7 +77,7 @@ void    gui_update_applets_after_redraw()
 {
     // Theme effects (blood/snow/hearts) : restoring data to the framebuffer
     if (Skins_GetCurrentSkin()->effect != SKIN_EFFECT_NONE)
-        special_effects_update_after ();
+        special_effects_update_after();
 }
 
 void    gui_update ()
@@ -87,7 +87,7 @@ void    gui_update ()
 
     // Theme effects (blood/snow/hearts) : saving data from the framebuffer
     if (Skins_GetCurrentSkin()->effect != SKIN_EFFECT_NONE)
-        special_effects_update_before ();
+        special_effects_update_before();
 
     // Skins update
     Skins_Update();

@@ -20,15 +20,15 @@ const char *  meka_strerror(void)
 {
 	switch (meka_errno)
 	{
-	case MEKA_ERR_MEMORY:            return (Msg_Get (MSG_Error_Memory));
-	case MEKA_ERR_FILE_OPEN:         return (Msg_Get (MSG_Error_File_Not_Found));
-	case MEKA_ERR_FILE_READ:         return (Msg_Get (MSG_Error_File_Read));
-	case MEKA_ERR_FILE_EMPTY:        return (Msg_Get (MSG_Error_File_Empty));
-	case MEKA_ERR_ZIP_NOT_SUPPORTED: return (Msg_Get (MSG_Error_ZIP_Not_Supported));
-	case MEKA_ERR_ZIP_LOADING:       return (Msg_Get (MSG_Error_ZIP_Loading));
-	case MEKA_ERR_ZIP_INTERNAL:      return (Msg_Get (MSG_Error_ZIP_Internal));
+	case MEKA_ERR_MEMORY:            return (Msg_Get(MSG_Error_Memory));
+	case MEKA_ERR_FILE_OPEN:         return (Msg_Get(MSG_Error_File_Not_Found));
+	case MEKA_ERR_FILE_READ:         return (Msg_Get(MSG_Error_File_Read));
+	case MEKA_ERR_FILE_EMPTY:        return (Msg_Get(MSG_Error_File_Empty));
+	case MEKA_ERR_ZIP_NOT_SUPPORTED: return (Msg_Get(MSG_Error_ZIP_Not_Supported));
+	case MEKA_ERR_ZIP_LOADING:       return (Msg_Get(MSG_Error_ZIP_Loading));
+	case MEKA_ERR_ZIP_INTERNAL:      return (Msg_Get(MSG_Error_ZIP_Internal));
 	}
-	return (Msg_Get (MSG_Error_Error));
+	return (Msg_Get(MSG_Error_Error));
 }
 
 #ifdef ARCH_WIN32

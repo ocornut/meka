@@ -11,10 +11,10 @@
 //-----------------------------------------------------------------------------
 
 FILE   *INP_File;
-INLINE  void INP_Write_Line     (const char *s)                   { fprintf (INP_File, "%s\n", s); }
-INLINE  void INP_Write_Str      (const char *name, const char *s) { fprintf (INP_File, "%s = %s\n", name, s); }
-INLINE  void INP_Write_Int      (const char *name, int value)     { fprintf (INP_File, "%s = %d\n", name, value); }
-INLINE  void INP_Write_Float    (const char *name, float value)   { fprintf (INP_File, "%s = %.2f\n", name, value); }
+INLINE  void INP_Write_Line     (const char *s)                   { fprintf(INP_File, "%s\n", s); }
+INLINE  void INP_Write_Str      (const char *name, const char *s) { fprintf(INP_File, "%s = %s\n", name, s); }
+INLINE  void INP_Write_Int      (const char *name, int value)     { fprintf(INP_File, "%s = %d\n", name, value); }
+INLINE  void INP_Write_Float    (const char *name, float value)   { fprintf(INP_File, "%s = %.2f\n", name, value); }
 
 //-----------------------------------------------------------------------------
 
@@ -87,13 +87,13 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
         return MEKA_ERR_OK;
 
     case  5: // emulate_digital ------------------------------------------------
-        if (!strcmp (w, "yes"))      { input_src->flags |= INPUT_SRC_FLAGS_EMULATE_DIGITAL; return MEKA_ERR_OK; }
-        if (!strcmp (w, "no"))       { input_src->flags &= ~INPUT_SRC_FLAGS_EMULATE_DIGITAL; return MEKA_ERR_OK; }
+        if (!strcmp(w, "yes"))      { input_src->flags |= INPUT_SRC_FLAGS_EMULATE_DIGITAL; return MEKA_ERR_OK; }
+        if (!strcmp(w, "no"))       { input_src->flags &= ~INPUT_SRC_FLAGS_EMULATE_DIGITAL; return MEKA_ERR_OK; }
         return MEKA_ERR_SYNTAX;
 
     case  6: // emulate_analog -------------------------------------------------
-        if (!strcmp (w, "yes"))      { input_src->flags |= INPUT_SRC_FLAGS_EMULATE_ANALOG; return MEKA_ERR_OK; }
-        if (!strcmp (w, "no"))       { input_src->flags &= ~INPUT_SRC_FLAGS_EMULATE_ANALOG; return MEKA_ERR_OK; }
+        if (!strcmp(w, "yes"))      { input_src->flags |= INPUT_SRC_FLAGS_EMULATE_ANALOG; return MEKA_ERR_OK; }
+        if (!strcmp(w, "no"))       { input_src->flags &= ~INPUT_SRC_FLAGS_EMULATE_ANALOG; return MEKA_ERR_OK; }
         return MEKA_ERR_SYNTAX;
 
     case  7: // digital_falloff ------------------------------------------------
@@ -116,7 +116,7 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
             //if (MapIdx >= INPUT_MAP_DIGITAL_UP && MapIdx <= INPUT_MAP_DOWN && !(input_src->Result_Type & DIGITAL))
             //   return MEKA_ERR_INCOHERENT;
 
-            if (!strcmp (w, "key"))
+            if (!strcmp(w, "key"))
             {
                 const t_key_info *key_info;
                 if (input_src->type != INPUT_SRC_TYPE_KEYBOARD)
@@ -135,7 +135,7 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
                 return MEKA_ERR_OK;
             }
 
-            if (!strcmp (w, "joy"))
+            if (!strcmp(w, "joy"))
             {
                 int stick, axis, dir;
 
@@ -157,7 +157,7 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
                 return MEKA_ERR_OK;
             }
 
-            if (!strcmp (w, "joy_button"))
+            if (!strcmp(w, "joy_button"))
             {
                 if (input_src->type != INPUT_SRC_TYPE_JOYPAD)
                     return MEKA_ERR_INCOHERENT;
@@ -168,7 +168,7 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
                 return MEKA_ERR_OK;
             }
 
-            if (!strcmp (w, "mouse_button"))
+            if (!strcmp(w, "mouse_button"))
             {
                 if (input_src->type != INPUT_SRC_TYPE_MOUSE)
                     return MEKA_ERR_INCOHERENT;
@@ -211,7 +211,7 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
 
     case 20: // cabinet_mode ---------------------------------------------------
         {
-            Inputs.Cabinet_Mode = atoi (w);
+            Inputs.Cabinet_Mode = atoi(w);
             return MEKA_ERR_OK;
         }
     }
@@ -219,26 +219,20 @@ static int  Load_Inputs_Src_Parse_Var (int var_idx, char *s, t_input_src *input_
     return MEKA_ERR_SYNTAX;
 }
 
-void            Load_Inputs_Src_List (void)
+void            Load_Inputs_Src_List()
 {
-    int             i;
-    char            w[256];
     t_input_src *   input_src = NULL;
 
-    t_tfile *       tf;
-    t_list *        lines;
-    int             line_cnt;
-
     // Open and read file
-    ConsolePrint (Msg_Get (MSG_Inputs_Src_Loading));
-    tf = tfile_read (Inputs.FileName);
+    ConsolePrint(Msg_Get(MSG_Inputs_Src_Loading));
+    t_tfile* tf = tfile_read (Inputs.FileName);
     if (tf == NULL)
-        Quit_Msg (meka_strerror());
-    ConsolePrint ("\n");
+        Quit_Msg(meka_strerror());
+    ConsolePrint("\n");
 
     // Parse each line
-    line_cnt = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    int line_cnt = 0;
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
         char* line = (char*) lines->elem;
         line_cnt += 1;
@@ -248,43 +242,45 @@ void            Load_Inputs_Src_List (void)
 
         if (line[0] == '[' && line[strlen(line) - 1] == ']')
         {
-            input_src = Inputs_Sources_Add(StrNDup (line + 1, strlen(line) - 2));
+            input_src = Inputs_Sources_Add(StrNDup(line + 1, strlen(line) - 2));
             // ConsolePrintf ("new source --> %s <--\n", CurSrc->Name);
             continue;
         }
 
+		char w[256];
         StrLower(line);
         if (!parse_getword(w, sizeof(w), &line, "=", ';', PARSE_FLAGS_NONE))
             continue;
 
-        for (i = 0; Inputs_Src_List_KeyWords[i]; i++)
+        for (int i = 0; Inputs_Src_List_KeyWords[i]; i++)
+		{
             if (strcmp(w, Inputs_Src_List_KeyWords[i]) == 0)
             {
                 // FIXME: this is ugly
                 if (input_src == NULL
-                    && strcmp (w, "mouse_speed_x") != 0
-                    && strcmp (w, "mouse_speed_y") != 0
-                    && strcmp (w, "cabinet_mode")  != 0)
+                    && strcmp(w, "mouse_speed_x") != 0
+                    && strcmp(w, "mouse_speed_y") != 0
+                    && strcmp(w, "cabinet_mode")  != 0)
                 {
                     tfile_free(tf);
-                    Quit_Msg (Msg_Get (MSG_Inputs_Src_Missing), line_cnt);
+                    Quit_Msg(Msg_Get(MSG_Inputs_Src_Missing), line_cnt);
                 }
 
                 parse_skip_spaces(&line);
                 if (!parse_getword(w, sizeof(w), &line, "", ';', PARSE_FLAGS_NONE))
                 {
                     tfile_free(tf);
-                    Quit_Msg (Msg_Get (MSG_Inputs_Src_Equal), line_cnt);
+                    Quit_Msg(Msg_Get(MSG_Inputs_Src_Equal), line_cnt);
                 }
 
                 switch (Load_Inputs_Src_Parse_Var(i, w, input_src))
                 {
                 case MEKA_ERR_SYNTAX:
                     tfile_free(tf);
-                    Quit_Msg (Msg_Get (MSG_Inputs_Src_Syntax_Param), line_cnt);
+                    Quit_Msg(Msg_Get(MSG_Inputs_Src_Syntax_Param), line_cnt);
                 case MEKA_ERR_INCOHERENT :
                     tfile_free(tf);
-                    Quit_Msg (Msg_Get (MSG_Inputs_Src_Inconsistency), line_cnt);
+                    Quit_Msg(Msg_Get(MSG_Inputs_Src_Inconsistency), line_cnt);
                     break;
                     // FIXME: EMPTY is not handled there
                 }
@@ -293,8 +289,9 @@ void            Load_Inputs_Src_List (void)
             if (!Inputs_Src_List_KeyWords [i])
             {
                 tfile_free(tf);
-                Quit_Msg (Msg_Get (MSG_Inputs_Src_Unrecognized), line_cnt, w);
+                Quit_Msg(Msg_Get(MSG_Inputs_Src_Unrecognized), line_cnt, w);
             }
+		}
     }
 
     // Free file data
@@ -302,12 +299,12 @@ void            Load_Inputs_Src_List (void)
 
     // Verify that we have enough inputs sources
     if (Inputs.Sources_Max == 0)
-        Quit_Msg (Msg_Get (MSG_Inputs_Src_Not_Enough));
+        Quit_Msg(Msg_Get(MSG_Inputs_Src_Not_Enough));
 }
 
-void    Write_Inputs_Src_List (void)
+void    Write_Inputs_Src_List()
 {
-	if (!(INP_File = fopen (Inputs.FileName, "wt")))
+	if (!(INP_File = fopen(Inputs.FileName, "wt")))
 		return;
 
 	INP_Write_Line (";-----------------------------------------------------------------------------");
@@ -332,7 +329,7 @@ void    Write_Inputs_Src_List (void)
 	INP_Write_Line (";-----------------------------------------------------------------------------");
 	INP_Write_Line ("");
 	INP_Write_Line (";-----------------------------------------------------------------------------");
-	INP_Write_Line ("; Miscellaenous features:");
+	INP_Write_Line ("; Miscellaneous features:");
 	INP_Write_Line (";");
 	INP_Write_Line ("; Invert ESC (switch screens) and F10 (quit) keys. Arcade cabinet owners");
 	INP_Write_Line ("; often have the ESC key mapped to a certain button they want to quit with.");
@@ -347,9 +344,9 @@ void    Write_Inputs_Src_List (void)
 	INP_Write_Line ("; type = keyboard (digital) | joypad (digital) | mouse (analog)");
 	INP_Write_Line (";   Select the type of input device");
 	INP_Write_Line ("; enabled = yes | no");
-	INP_Write_Line (";   Set to no in order to tell Meka to ignore input from this device");
+	INP_Write_Line (";   Set to no in order to tell MEKA to ignore input from this device");
 	INP_Write_Line ("; player = 1 | 2");
-	INP_Write_Line (";   Player on which inputs are applicated");
+	INP_Write_Line (";   Player number");
 	INP_Write_Line ("; connection = <number>");
 	INP_Write_Line (";   Joypad only. Select connection to use: 1 = first pad, 2 = second pad..");
 	INP_Write_Line ("; emulate_digital");
@@ -365,14 +362,14 @@ void    Write_Inputs_Src_List (void)
 	{
 		char s [256], s2 [256];
 		t_input_src *input_src = Inputs.Sources[i];
-		sprintf (s, "[%s]", input_src->name);
+		sprintf(s, "[%s]", input_src->name);
 		INP_Write_Line(s);
 
 		switch (input_src->type)
 		{
-		case INPUT_SRC_TYPE_KEYBOARD: sprintf (s, "keyboard");  break;
-		case INPUT_SRC_TYPE_JOYPAD:   sprintf (s, "joypad");    break;
-		case INPUT_SRC_TYPE_MOUSE:    sprintf (s, "mouse");     break;
+		case INPUT_SRC_TYPE_KEYBOARD: sprintf(s, "keyboard");  break;
+		case INPUT_SRC_TYPE_JOYPAD:   sprintf(s, "joypad");    break;
+		case INPUT_SRC_TYPE_MOUSE:    sprintf(s, "mouse");     break;
 		}
 		INP_Write_Str ("type               ", s);
 		if (input_src->type == INPUT_SRC_TYPE_JOYPAD)
@@ -390,28 +387,28 @@ void    Write_Inputs_Src_List (void)
 			{
 				switch (j)
 				{
-				case INPUT_MAP_DIGITAL_UP:    strcpy (s, "player_up          "); break;
-				case INPUT_MAP_DIGITAL_DOWN:  strcpy (s, "player_down        "); break;
-				case INPUT_MAP_DIGITAL_LEFT:  strcpy (s, "player_left        "); break;
-				case INPUT_MAP_DIGITAL_RIGHT: strcpy (s, "player_right       "); break;
+				case INPUT_MAP_DIGITAL_UP:    strcpy(s, "player_up          "); break;
+				case INPUT_MAP_DIGITAL_DOWN:  strcpy(s, "player_down        "); break;
+				case INPUT_MAP_DIGITAL_LEFT:  strcpy(s, "player_left        "); break;
+				case INPUT_MAP_DIGITAL_RIGHT: strcpy(s, "player_right       "); break;
 				}
 			}
 			if (input_src->flags & INPUT_SRC_FLAGS_ANALOG)
 			{
 				switch (j)
 				{
-				case INPUT_MAP_ANALOG_AXIS_X: strcpy (s, "player_x_axis      "); break;
-				case INPUT_MAP_ANALOG_AXIS_Y: strcpy (s, "player_y_axis      "); break;
+				case INPUT_MAP_ANALOG_AXIS_X: strcpy(s, "player_x_axis      "); break;
+				case INPUT_MAP_ANALOG_AXIS_Y: strcpy(s, "player_y_axis      "); break;
 				}
 			}
 			if (StrIsNull(s))
 			{
 				switch (j)
 				{
-				case INPUT_MAP_BUTTON1:     strcpy (s, "player_button1     "); break;
-				case INPUT_MAP_BUTTON2:     strcpy (s, "player_button2     "); break;
-				case INPUT_MAP_PAUSE_START: strcpy (s, "player_start_pause "); break;
-				case INPUT_MAP_RESET:       strcpy (s, "player_reset       "); break;
+				case INPUT_MAP_BUTTON1:     strcpy(s, "player_button1     "); break;
+				case INPUT_MAP_BUTTON2:     strcpy(s, "player_button2     "); break;
+				case INPUT_MAP_PAUSE_START: strcpy(s, "player_start_pause "); break;
+				case INPUT_MAP_RESET:       strcpy(s, "player_reset       "); break;
 				}
 			}
 			if (StrIsNull(s))
@@ -424,7 +421,7 @@ void    Write_Inputs_Src_List (void)
 					// Handle special case of the ; key that has to be backslashed
 					// Removed because... colon is actually ':', not ';' :)
 					// if (n == KEY_COLON)
-					//    sprintf (s2, "key \\;");
+					//    sprintf(s2, "key \\;");
 					//else
 					{
 						const t_key_info *key_info = KeyInfo_FindByScancode(map->hw_index);
@@ -439,10 +436,10 @@ void    Write_Inputs_Src_List (void)
 				switch (map->type)
 				{
 				case INPUT_MAP_TYPE_JOY_BUTTON:
-					sprintf (s2, "joy_button %i", map->hw_index);
+					sprintf(s2, "joy_button %i", map->hw_index);
 					break;
 				case INPUT_MAP_TYPE_JOY_AXIS:
-					sprintf (s2, "joy stick %i axis %i dir %i", map->hw_index, map->hw_axis, map->hw_direction);
+					sprintf(s2, "joy stick %i axis %i dir %i", map->hw_index, map->hw_axis, map->hw_direction);
 					break;
 				}
 				break;
@@ -451,10 +448,10 @@ void    Write_Inputs_Src_List (void)
 				switch (map->type)
 				{
 				case INPUT_MAP_TYPE_MOUSE_BUTTON:
-					sprintf (s2, "mouse_button %i", map->hw_index);
+					sprintf(s2, "mouse_button %i", map->hw_index);
 					break;
 				case INPUT_MAP_TYPE_MOUSE_AXIS:
-					sprintf (s2, "mouse_axis %i", map->hw_index);
+					sprintf(s2, "mouse_axis %i", map->hw_index);
 					break;
 				}
 				break;

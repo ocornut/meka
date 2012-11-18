@@ -115,7 +115,7 @@ void        TechInfo_Update(void)
             TechInfo.lines_dirty[i] = TRUE;
     }
 
-    sprintf (line, "   [MODE] %s (%s)", g_driver->full_name, g_driver->short_name);
+    sprintf(line, "   [MODE] %s (%s)", g_driver->full_name, g_driver->short_name);
     TechInfo_SetLine(app, line, line_idx++);
 
     // Sega 8-bit
@@ -131,10 +131,10 @@ void        TechInfo_Update(void)
         case VDP_MODEL_315_5313: sprintf(model_str, "315-5313"); break;
         default: assert(0); break;
         }
-        sprintf (line, "    [VDP] Model:%s - Display Mode:%d",
+        sprintf(line, "    [VDP] Model:%s - Display Mode:%d",
             model_str, tsms.VDP_VideoMode);
         TechInfo_SetLine(app, line, line_idx++);
-        sprintf (line, "    [VDP] Status:$%02X - Address:$%04X - Latch:$%02X - IE0:%d - IE1:%d - DIS:%d",
+        sprintf(line, "    [VDP] Status:$%02X - Address:$%04X - Latch:$%02X - IE0:%d - IE1:%d - DIS:%d",
             sms.VDP_Status, sms.VDP_Address, sms.VDP_Access_First,
             (VBlank_ON?1:0), (HBlank_ON?1:0), (Display_ON?1:0));
         TechInfo_SetLine(app, line, line_idx++);
@@ -142,21 +142,21 @@ void        TechInfo_Update(void)
 
     // - Scroll
     {
-        sprintf (line, " [SCROLL] X:$%02X - Y:$%02X - LeftColumnBlank:%d - HSI:%d - VSI:%d",
+        sprintf(line, " [SCROLL] X:$%02X - Y:$%02X - LeftColumnBlank:%d - HSI:%d - VSI:%d",
             sms.VDP[8], sms.VDP[9], (Mask_Left_8?1:0), (Top_No_Scroll?1:0), (Right_No_Scroll?1:0));
         TechInfo_SetLine(app, line, line_idx++);
     }
 
     // - Sprites
     {
-        sprintf (line, "[SPRITES] Size:%s - Double:%d - EarlyClock:%d - SAT:$%04X - SPG:$%04X",
+        sprintf(line, "[SPRITES] Size:%s - Double:%d - EarlyClock:%d - SAT:$%04X - SPG:$%04X",
             (Sprites_8x16?"8x16":"8x8"), (Sprites_Double?1:0), (Sprites_Left_8?1:0), (int)(g_machine.VDP.sprite_attribute_table - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
 
     // - Inputs
     {
-        sprintf (line, " [INPUTS] PortDE:$%02X - Port3F:$%02X - Joy:$%04X - GG:$%02X - Paddle:$%02X,$%02X",
+        sprintf(line, " [INPUTS] PortDE:$%02X - Port3F:$%02X - Joy:$%04X - GG:$%02X - Paddle:$%02X,$%02X",
             (sms.Input_Mode), (tsms.Periph_Nat), tsms.Control[7], (tsms.Control_GG), (Inputs.Paddle_X [PLAYER_1]), (Inputs.Paddle_X [PLAYER_2]));
         TechInfo_SetLine(app, line, line_idx++);
     }
@@ -165,11 +165,11 @@ void        TechInfo_Update(void)
     {
 #ifdef MEKA_Z80_DEBUGGER
         if (Debugger.enabled && Debugger.active)
-            sprintf (line, "[VARIOUS] Country:%s - Border:%d - IPeriod:%d/%d - Lines:%d/%d",
+            sprintf(line, "[VARIOUS] Country:%s - Border:%d - IPeriod:%d/%d - Lines:%d/%d",
             (sms.Country==COUNTRY_EXPORT)?"Export":"Japan", (sms.VDP[7] & 15), CPU_GetICount(), CPU_GetIPeriod(), tsms.VDP_Line, g_machine.TV_lines);
         else
 #endif
-            sprintf (line, "[VARIOUS] Country:%s - Border:%d - IPeriod:%d - Lines:%d",
+            sprintf(line, "[VARIOUS] Country:%s - Border:%d - IPeriod:%d - Lines:%d",
             (sms.Country==COUNTRY_EXPORT)?"Export":"Japan", (sms.VDP[7] & 15), CPU_GetIPeriod(), g_machine.TV_lines);
         TechInfo_SetLine(app, line, line_idx++);
     }
@@ -184,7 +184,7 @@ void        TechInfo_Update(void)
     // - PSG
     {
         t_psg *psg = &PSG;
-        sprintf (line, "    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)",
+        sprintf(line, "    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)",
             psg->Registers[0], psg->Registers[1], psg->Registers[2], psg->Registers[3],
             psg->Registers[4], psg->Registers[5], psg->Registers[6], psg->Registers[7],
             ((psg->Registers[6] & 0x04) ? "White" : "Periodic"));
@@ -205,7 +205,7 @@ void        TechInfo_Update(void)
 			strcat(mapper_regs, s);
 		}
 
-		sprintf (line, " [MAPPER] Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
+		sprintf(line, " [MAPPER] Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
 	        g_machine.mapper, sms.SRAM_Mapping_Register, mapper_regs, tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
 		TechInfo_SetLine(app, line, line_idx++);
     }
@@ -221,9 +221,9 @@ void        TechInfo_Update(void)
 void    TechInfo_Switch (void)
 {
     if (TechInfo.active ^= 1)
-        Msg (MSGT_USER, Msg_Get(MSG_TechInfo_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_TechInfo_Enabled));
     else
-        Msg (MSGT_USER, Msg_Get(MSG_TechInfo_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_TechInfo_Disabled));
     gui_box_show(TechInfo.box, TechInfo.active, TRUE);
     gui_menu_inverse_check(menus_ID.tools, 6);
 }

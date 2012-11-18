@@ -128,7 +128,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
     Inputs_CFG_Peripherals_Draw();
 
     // Draw current input source
-    Inputs_CFG_Current_Source_Draw ();
+    Inputs_CFG_Current_Source_Draw();
 }
 
 byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
@@ -377,8 +377,8 @@ void    Inputs_CFG_Peripheral_Change_Handler (t_widget *w)
 void    Inputs_CFG_Peripheral_Change (int Player, t_input_peripheral Periph)
 {
     Inputs.Peripheral [Player] = Periph;
-    Inputs_CFG_Peripherals_Draw ();
-    Inputs_Peripheral_Change_Update ();
+    Inputs_CFG_Peripherals_Draw();
+    Inputs_Peripheral_Change_Update();
 }
 
 void    Inputs_CFG_Map_Change_Handler (t_widget *w)
@@ -405,21 +405,21 @@ void    Inputs_CFG_Map_Change_Handler (t_widget *w)
     switch (input_src->type)
     {
     case INPUT_SRC_TYPE_KEYBOARD:
-        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Keyboard));
+        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Keyboard));
         break;
     case INPUT_SRC_TYPE_JOYPAD:
-        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad));
+        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Joypad));
         break;
     case INPUT_SRC_TYPE_MOUSE:
         if (MapIdx < 4)
         {
-            Msg (MSGT_USER, Msg_Get (MSG_Inputs_Src_Map_Mouse_No_A));
+            Msg(MSGT_USER, Msg_Get(MSG_Inputs_Src_Map_Mouse_No_A));
             return;
         }
-        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Mouse));
+        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Mouse));
         break;
     default:
-        Msg (MSGT_USER, "Error #24813R");
+        Msg(MSGT_USER, "Error #24813R");
         return;
     }
 
@@ -477,7 +477,7 @@ void    Inputs_CFG_Map_Change_Update (void)
     {
         found = TRUE;
         map->hw_index = -1;
-        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Cancelled));
+        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Cancelled));
         Inputs_CFG_Map_Change_End();
         return;
     }
@@ -499,11 +499,11 @@ void    Inputs_CFG_Map_Change_Update (void)
                         map->hw_index = i;
                         map->type = INPUT_MAP_TYPE_KEY;
                         found = TRUE;
-                        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Keyboard_Ok), key_info->name);
+                        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Keyboard_Ok), key_info->name);
                     }
                     else
                     {
-                        Msg (MSGT_DEBUG, "KeyInfo_FindByScancode(%x) failed", i);
+                        Msg(MSGT_DEBUG, "KeyInfo_FindByScancode(%x) failed", i);
                     }
                     break;
                 }
@@ -530,7 +530,7 @@ void    Inputs_CFG_Map_Change_Update (void)
                     map->hw_index = i;
                     map->type = INPUT_MAP_TYPE_JOY_BUTTON;
 					found = TRUE;
-                    Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_B), i);
+                    Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Joypad_Ok_B), i);
                     break;
                 }
 			}
@@ -545,7 +545,7 @@ void    Inputs_CFG_Map_Change_Update (void)
                 for (int j = 0; j < num_axes; j++)
                 {
                     const float axis_pos = state.stick[i].axis[j];
-					//Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
+					//Msg(MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
 					if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < -INPUT_JOY_DEADZONE)
                     {
 						map->hw_index = i;
@@ -553,7 +553,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 						map->hw_direction = (axis_pos > 0.0f ? 1 : 0);
                         map->type = INPUT_MAP_TYPE_JOY_AXIS;
                         found = TRUE;
-                        Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
+                        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
                         break;
                     }
                 }
@@ -628,7 +628,7 @@ void    Inputs_CFG_Map_Change_Update (void)
     if (!found)
         return;
 
-    Inputs_CFG_Map_Change_End ();
+    Inputs_CFG_Map_Change_End();
     app->dirty = TRUE;
 }
 
@@ -636,10 +636,10 @@ void    Inputs_CFG_Map_Change_End (void)
 {
     // Need to restore cursor.
     // FIXME: the method sucks! need to sort those functions anyway.
-    Inputs_Peripheral_Change_Update ();
+    Inputs_Peripheral_Change_Update();
 
     // Refresh current source after changing mapping
-    Inputs_CFG_Current_Source_Draw ();
+    Inputs_CFG_Current_Source_Draw();
     widget_checkbox_set_pvalue (Inputs_CFG.CheckBox_Enabled, &Inputs.Sources [Inputs_CFG.Current_Source]->enabled);
     //widget_checkbox_redraw (Inputs_CFG.CheckBox_Enabled);
 

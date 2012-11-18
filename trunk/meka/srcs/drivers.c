@@ -54,7 +54,7 @@ void    drv_set (int num)
 {
     if (num < 0 || num >= DRV_MAX)
     {
-        Quit_Msg (Msg_Get (MSG_Driver_Unknown));
+        Quit_Msg(Msg_Get(MSG_Driver_Unknown));
     }
     else
     {

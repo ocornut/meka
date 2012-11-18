@@ -313,7 +313,7 @@ int             GD3_Header_Write(t_gd3_header *h, FILE *f)
 
     // Asserting that Pos == Len
     if (Pos != Len)
-        Quit_Msg ("Fatal Error in sound/vgm.c::GD3_Header_Write(), Pos != Len");
+        Quit_Msg("Fatal Error in sound/vgm.c::GD3_Header_Write(), Pos != Len");
 
     // Write data
     fwrite (h, sizeof (h->magic) + sizeof (h->version) + sizeof (h->data_length), 1, f);

@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 // MEKA - S_MISC.C
-// Sound Miscellaenous - Code
+// Sound Miscellaneous - Code
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
@@ -30,8 +30,8 @@ int		Sound_Rate_Default_Table[] =
 void    FM_Disable (void)
 {
     Sound.FM_Enabled = FALSE;
-    Msg (MSGT_USER, Msg_Get (MSG_FM_Disabled));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
+    Msg(MSGT_USER, Msg_Get(MSG_FM_Disabled));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
     gui_menu_un_check_area (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 1);
 }
@@ -39,8 +39,8 @@ void    FM_Disable (void)
 void    FM_Enable (void)
 {
     Sound.FM_Enabled = TRUE;
-    Msg (MSGT_USER, Msg_Get (MSG_FM_Enabled));
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Must_Reset));
+    Msg(MSGT_USER, Msg_Get(MSG_FM_Enabled));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
     gui_menu_un_check_area (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 0);
 }
@@ -67,7 +67,7 @@ void    Sound_Volume_Menu_Handler (t_menu_event *event)
 	const int volume = (long int)event->user_data;
 
 	Sound_SetMasterVolume(volume);
-    Msg (MSGT_USER /*_BOX*/, Msg_Get (MSG_Sound_Volume_Changed), volume);
+    Msg(MSGT_USER /*_BOX*/, Msg_Get(MSG_Sound_Volume_Changed), volume);
     gui_menu_un_check (menus_ID.volume);
 	gui_menu_check (menus_ID.volume, event->menu_item_idx);
 }

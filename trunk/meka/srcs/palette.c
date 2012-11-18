@@ -76,7 +76,7 @@ void    Palette_Emulation_Reload (void)
     // g_driver->vdp == VDP_SMSGG
     // SMS/GG Palette will be reloaded
 #ifdef DEBUG_PALETTE
-    Msg (MSGT_DEBUG, "Palette_Emulation_Reload() SMS/GG");
+    Msg(MSGT_DEBUG, "Palette_Emulation_Reload() SMS/GG");
 #endif
 
     switch (g_driver->id)

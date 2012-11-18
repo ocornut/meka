@@ -28,9 +28,9 @@
 char *  SDSC_String_Get (int offset, int verbose_error)
 {
     if (offset == 0x0000 || offset == 0xFFFF)
-        return (verbose_error ? strdup (Msg_Get (MSG_LoadROM_SDSC_Unknown)) : NULL);
+        return (verbose_error ? strdup (Msg_Get(MSG_LoadROM_SDSC_Unknown)) : NULL);
     if (offset >= tsms.Size_ROM)
-        return (verbose_error ? strdup (Msg_Get (MSG_LoadROM_SDSC_Error)) : NULL);
+        return (verbose_error ? strdup (Msg_Get(MSG_LoadROM_SDSC_Error)) : NULL);
 
     int len = 0;
     char* src = (char *)(Game_ROM + offset);
@@ -53,23 +53,23 @@ int         SDSC_Read_and_Display (void)
     int     offset;
 
     if (tsms.Size_ROM < 0x8000)
-        return (FALSE);
+        return false;
     if (strncmp((const char *)Game_ROM + 0x7FE0, SDSC_MAGIC, 4) != 0)
-        return (FALSE);
+        return false;
 
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC));
 
     // Name
     offset = *(u16 *)(Game_ROM + 0x7FEC);
     s = SDSC_String_Get (offset, TRUE);
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Name), s);
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC_Name), s);
     free (s);
 
     // Version
     {
         int major = BCD_to_Dec (*(u8 *)(Game_ROM + 0x7FE4));
         int minor = BCD_to_Dec (*(u8 *)(Game_ROM + 0x7FE5));
-        Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Version), major, minor);
+        Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC_Version), major, minor);
     }
 
     // Date
@@ -78,7 +78,7 @@ int         SDSC_Read_and_Display (void)
         int month = BCD_to_Dec (*(u8 *) (Game_ROM + 0x7FE7));
         int year  = BCD_to_Dec (*(u16 *)(Game_ROM + 0x7FE8));
         if (year || month || day)
-            Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Date), year, month, day);
+            Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC_Date), year, month, day);
     }
 
     // Author
@@ -86,7 +86,7 @@ int         SDSC_Read_and_Display (void)
     s = SDSC_String_Get (offset, FALSE);
     if (s)
     {
-        Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Author), s);
+        Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC_Author), s);
         free (s);
     }
 
@@ -95,12 +95,12 @@ int         SDSC_Read_and_Display (void)
     s = SDSC_String_Get (offset, FALSE);
     if (s)
     {
-        // Msg (MSGT_USER_BOX, "len = %d", strlen(s));
-        Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_SDSC_Release_Note), s);
+        // Msg(MSGT_USER_BOX, "len = %d", strlen(s));
+        Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC_Release_Note), s);
         free (s);
     }
 
-    return (TRUE);
+    return true;
 }
 
 //-----------------------------------------------------------------------------

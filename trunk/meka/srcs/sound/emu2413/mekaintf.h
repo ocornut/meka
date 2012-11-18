@@ -5,7 +5,7 @@
 
 //-----------------------------------------------------------------------------
 
-int     FM_Digital_Init         ();
+int     FM_Digital_Init        ();
 void    FM_Digital_Close        (void);
 void    FM_Digital_Active       (void);
 void    FM_Digital_WriteSamples	(void *buffer, int length);

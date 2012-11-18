@@ -323,7 +323,7 @@ st0 &= 0x3F;
       break;
 
     default:
-      Msg (MSGT_DEBUG, Msg_Get (MSG_FDC765_Unknown_Write), FDCCommand [0]);
+      Msg(MSGT_DEBUG, Msg_Get(MSG_FDC765_Unknown_Write), FDCCommand [0]);
       break;
   }
 }
@@ -360,7 +360,7 @@ byte    FDCExecReadCommand (void)
       break;
 
     default:
-      Msg (MSGT_DEBUG, Msg_Get (MSG_FDC765_Unknown_Read), FDCCommand [0]);
+      Msg(MSGT_DEBUG, Msg_Get(MSG_FDC765_Unknown_Read), FDCCommand [0]);
       break;
   }
   return ret;
@@ -395,7 +395,7 @@ void    FDC765_Init (void)
     dsk[i].Tracks = NULL;
     dsk[i].TracksSize = 0;
     }
-  FDC765_Reset ();
+  FDC765_Reset();
 }
 
 /*********************************************************************/
@@ -477,9 +477,9 @@ byte    FDC765_Data_Read (void)
 {
   FDC765_Cmd_For_SF7000 = FALSE;
   if (ExecCmdPhase)
-     return FDCExecReadCommand ();
+     return FDCExecReadCommand();
   if (ResultPhase)
-     return FDCGetResult ();
+     return FDCGetResult();
   return 0;
 }
 
@@ -560,13 +560,13 @@ void    FDC765_Disk_Insert (int DrvNum, void *Data, int DataSize)
   memcpy (Disk->Tracks, Data, DataSize);
   if (DataSize > Disk->TracksSize)
      {
-     Msg (MSGT_USER, Msg_Get (MSG_FDC765_Disk_Too_Large1), DataSize, Disk->TracksSize);
-     Msg (MSGT_USER_BOX, Msg_Get (MSG_FDC765_Disk_Too_Large2));
+     Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Large1), DataSize, Disk->TracksSize);
+     Msg(MSGT_USER_BOX, Msg_Get(MSG_FDC765_Disk_Too_Large2));
      }
   if (DataSize < Disk->TracksSize)
      {
-     Msg (MSGT_USER, Msg_Get (MSG_FDC765_Disk_Too_Small1), DataSize, Disk->TracksSize);
-     Msg (MSGT_USER_BOX, Msg_Get (MSG_FDC765_Disk_Too_Small2));
+     Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Small1), DataSize, Disk->TracksSize);
+     Msg(MSGT_USER_BOX, Msg_Get(MSG_FDC765_Disk_Too_Small2));
      memset ((byte *)Disk->Tracks + DataSize, 0, Disk->TracksSize - DataSize);
      }
 }

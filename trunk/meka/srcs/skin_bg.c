@@ -78,7 +78,7 @@ static void     Skins_Background_Draw_StretchInteger(ALLEGRO_BITMAP *bmp)
 
     if (factor == 0)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_Theme_Error_BG_Big));
+        Msg(MSGT_USER, Msg_Get(MSG_Theme_Error_BG_Big));
         return;
     }
 
@@ -102,7 +102,7 @@ static void     Skins_Background_Draw_Center(ALLEGRO_BITMAP *bmp)
 void    Skins_Background_Redraw(void)
 {
 #ifdef DEBUG_WHOLE
-	Msg (MSGT_DEBUG, "Skins_Background_Redraw();");
+	Msg(MSGT_DEBUG, "Skins_Background_Redraw();");
 #endif
 
 	gui.info.must_redraw = TRUE;

@@ -47,9 +47,9 @@ void            Load_ROM_Misc           (int reset);
 //-----------------------------------------------------------------------------
 static void     Check_OverDump()
 {
-    int         overdump_ratio = 1;
+    int overdump_ratio = 1;
 
-    // Msg (MSGT_DEBUG, "tsms.Size_ROM=%d", tsms.Size_ROM);
+    // Msg(MSGT_DEBUG, "tsms.Size_ROM=%d", tsms.Size_ROM);
 
     // No check on ROM that are multiple of 8192 ...
     if ((tsms.Size_ROM % 8192) != 0)
@@ -73,7 +73,7 @@ static void     Check_OverDump()
 
     // Verbose
     if (Loading_UserVerbose && overdump_ratio > 1)
-        Msg (MSGT_USER, Msg_Get (MSG_OverDump), overdump_ratio);
+        Msg(MSGT_USER, Msg_Get(MSG_OverDump), overdump_ratio);
 }
 
 //-----------------------------------------------------------------------------
@@ -86,7 +86,7 @@ void    Filenames_Init()
     getcwd (g_env.Paths.StartingDirectory, countof(g_env.Paths.StartingDirectory));
 
     // Find emulator directory --------------------------------------------------
-    strcpy (g_env.Paths.EmulatorDirectory, g_env.argv[0]);
+    strcpy(g_env.Paths.EmulatorDirectory, g_env.argv[0]);
     #ifdef ARCH_WIN32
         StrReplace(g_env.Paths.EmulatorDirectory, '\\', '/');
     #endif
@@ -113,40 +113,40 @@ void    Filenames_Init()
 #endif
 
     // Datafiles
-    sprintf (g_env.Paths.DataFile,      "%s/meka.dat",    g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.DataBaseFile,  "%s/meka.nam",    g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.SkinFile,      "%s/meka.thm",    g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DataFile,      "%s/meka.dat",    g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DataBaseFile,  "%s/meka.nam",    g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.SkinFile,      "%s/meka.thm",    g_env.Paths.EmulatorDirectory);
 
-    sprintf (Patches.filename,			"%s/meka.pat",    g_env.Paths.EmulatorDirectory);
-    sprintf (VLFN_DataBase.filename,    "%s/meka.fdb",    g_env.Paths.EmulatorDirectory);
-    sprintf (Blitters.filename,			"%s/meka.blt",    g_env.Paths.EmulatorDirectory);
-    sprintf (Desktop.filename,			"%s/meka.dsk",    g_env.Paths.EmulatorDirectory);
-    sprintf (Inputs.FileName,			"%s/meka.inp",    g_env.Paths.EmulatorDirectory);
-    sprintf (Messages.FileName,			"%s/meka.msg",    g_env.Paths.EmulatorDirectory);
+    sprintf(Patches.filename,			"%s/meka.pat",    g_env.Paths.EmulatorDirectory);
+    sprintf(VLFN_DataBase.filename,     "%s/meka.fdb",    g_env.Paths.EmulatorDirectory);
+    sprintf(Blitters.filename,			"%s/meka.blt",    g_env.Paths.EmulatorDirectory);
+    sprintf(Desktop.filename,			"%s/meka.dsk",    g_env.Paths.EmulatorDirectory);
+    sprintf(Inputs.FileName,			"%s/meka.inp",    g_env.Paths.EmulatorDirectory);
+    sprintf(Messages.FileName,			"%s/meka.msg",    g_env.Paths.EmulatorDirectory);
 
     // Documentations
-    sprintf (g_env.Paths.DocumentationMain,       "%s/meka.txt",      g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.DocumentationCompat,     "%s/compat.txt",    g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.DocumentationMulti,      "%s/multi.txt",     g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.DocumentationChanges,    "%s/changes.txt",   g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.DocumentationDebugger,   "%s/debugger.txt",  g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DocumentationMain,       "%s/meka.txt",      g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DocumentationCompat,     "%s/compat.txt",    g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DocumentationMulti,      "%s/multi.txt",     g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DocumentationChanges,    "%s/changes.txt",   g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DocumentationDebugger,   "%s/debugger.txt",  g_env.Paths.EmulatorDirectory);
 
     // Configuration file
 #ifdef ARCH_WIN32
-    sprintf (g_env.Paths.ConfigurationFile,       "%s/mekaw.cfg",     g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.ConfigurationFile,       "%s/mekaw.cfg",     g_env.Paths.EmulatorDirectory);
 #else
-    sprintf (g_env.Paths.ConfigurationFile,       "%s/meka.cfg",      g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.ConfigurationFile,       "%s/meka.cfg",      g_env.Paths.EmulatorDirectory);
 #endif
 
     // Directories
-    sprintf (g_env.Paths.ScreenshotDirectory,     "%s/Screenshots",   g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.SavegameDirectory,       "%s/Saves",         g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.MusicDirectory,          "%s/Music",         g_env.Paths.EmulatorDirectory);
-    sprintf (g_env.Paths.DebugDirectory,          "%s/Debug",         g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.ScreenshotDirectory,     "%s/Screenshots",   g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.SavegameDirectory,       "%s/Saves",         g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.MusicDirectory,          "%s/Music",         g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DebugDirectory,          "%s/Debug",         g_env.Paths.EmulatorDirectory);
 
     // ROM
-    strcpy (g_env.Paths.MediaImageFile,  "");
-    strcpy (g_env.Paths.BatteryBackedMemoryFile, "");
+    strcpy(g_env.Paths.MediaImageFile,  "");
+    strcpy(g_env.Paths.BatteryBackedMemoryFile, "");
 }
 
 void    Filenames_Init_ROM (void)
@@ -161,96 +161,89 @@ void    Filenames_Init_ROM (void)
     // Save/OnBoard memory filename
     {
         char temp[FILENAME_LEN];
-        strcpy   (temp, g_env.Paths.MediaImageFile);
-        StrPath_RemoveExtension  (temp);
-        StrPath_RemoveDirectory (temp);
-        sprintf  (g_env.Paths.BatteryBackedMemoryFile, "%s/%s.sav", g_env.Paths.SavegameDirectory, temp);
+        strcpy(temp, g_env.Paths.MediaImageFile);
+        StrPath_RemoveExtension(temp);
+        StrPath_RemoveDirectory(temp);
+        sprintf(g_env.Paths.BatteryBackedMemoryFile, "%s/%s.sav", g_env.Paths.SavegameDirectory, temp);
     }
 }
 
-bool    Load_ROM_Command_Line (void)
+bool    Load_ROM_Command_Line()
 {
     if (StrIsNull(g_env.Paths.MediaImageFile))
-        return (FALSE);
-    return Load_ROM (LOAD_COMMANDLINE, TRUE);
+        return false;
+    return Load_ROM(LOAD_MODE_COMMANDLINE, true);
 }
 
-//-----------------------------------------------------------------------------
-// Reload_ROM (void)
-// Reload current ROM.
-//-----------------------------------------------------------------------------
-bool    Reload_ROM (void)
+// Reload current ROM file
+bool    Reload_ROM()
 {
     if (StrIsNull(g_env.Paths.MediaImageFile))
     {
-        Msg (MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_No_ROM));
-        return (FALSE);
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_No_ROM));
+        return false;
     }
-    if (Load_ROM (LOAD_INTERFACE, FALSE))
+    if (Load_ROM (LOAD_MODE_GUI, FALSE))
     {
-        Msg (MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_Reloaded));
-        return (TRUE);
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_Reloaded));
+        return true;
     }
-    return (FALSE);
+    return false;
 }
 
-//-----------------------------------------------------------------------------
-// Load_ROM (int mode, int user_verbose)
 // Load media/ROM from given filename.
 // If user_verbose if false, avoid printing stuff to the message box
-//-----------------------------------------------------------------------------
 // Note: path to ROM filename must be set in 'g_env.Paths.MediaImageFile' before calling this
-//-----------------------------------------------------------------------------
-bool    Load_ROM (int mode, int user_verbose)
+bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
 {
     // Set file global flag
     Loading_UserVerbose = user_verbose;
 
-    switch (mode)
+    switch (load_mode)
     {
-    case LOAD_COMMANDLINE:
+    case LOAD_MODE_COMMANDLINE:
         if (user_verbose)
-            ConsolePrint (Msg_Get (MSG_LoadROM_Loading));
+            ConsolePrint(Msg_Get(MSG_LoadROM_Loading));
         break;
-    case LOAD_INTERFACE:
+    case LOAD_MODE_GUI:
         // FIXME: do not save Backed Memory in non-verbose mode
         // This mode is only used by the file browser. This way we avoid loading
         // and saving all battery backed memory when doing a "Load All".
         // Of course, this is a little hack but it's better this way.
         if (user_verbose)
-            BMemory_Save ();
+            BMemory_Save();
         break;
     }
 
-    if (Load_ROM_Main () != MEKA_ERR_OK)
+    if (Load_ROM_Main() != MEKA_ERR_OK)
     {
-        switch (mode)
+        switch (load_mode)
         {
-        case LOAD_COMMANDLINE:
+        case LOAD_MODE_COMMANDLINE:
             Quit_Msg("%s\n\"%s\"\n", meka_strerror(), g_env.Paths.MediaImageFile);
-            // Quit_Msg (meka_strerror());
-            return (FALSE);
-        case LOAD_INTERFACE:
-            Msg (MSGT_USER, Msg_Get (MSG_Error_Base), meka_strerror());
-            return (FALSE);
+            // Quit_Msg(meka_strerror());
+            return false;
+        case LOAD_MODE_GUI:
+            Msg(MSGT_USER, Msg_Get(MSG_Error_Base), meka_strerror());
+            return false;
         }
     }
 
     // If we are already in SF-7000 mode, do not reset (allows hot switching disks)
 	const bool reset = (g_driver->id != DRV_SF7000);
 
-    // Miscellaenous stuff (including reset)
-    Load_ROM_Misc (reset);
+    // Miscellaneous stuff (including reset)
+    Load_ROM_Misc(reset);
 
-    if (mode == LOAD_COMMANDLINE)
+    if (load_mode == LOAD_MODE_COMMANDLINE)
     {
         if (user_verbose)
-            ConsolePrint ("\n");
+            ConsolePrint("\n");
         if (opt.State_Load != -1)
         {
             opt.State_Current = opt.State_Load; // Note: we're not calling the function to avoid displaying the 'slot change' message
             opt.State_Load = -1;
-            Load_Game ();
+            Load_Game();
         }
     }
 
@@ -269,38 +262,38 @@ bool    Load_ROM (int mode, int user_verbose)
         if (DB.current_entry)
         {
             // Name
-            Msg (MSGT_USER, "\"%s\"", DB_Entry_GetCurrentName (DB.current_entry));
+            Msg(MSGT_USER, "\"%s\"", DB_Entry_GetCurrentName (DB.current_entry));
 
             // Comment
             if (DB.current_entry->comments)
-                Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_Comment), DB.current_entry->comments);
+                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Comment), DB.current_entry->comments);
 
             // Show SMS-GG mode info
             if (DB.current_entry->flags & DB_FLAG_SMSGG_MODE)
             {
                 if (DB.current_entry->comments)
                     // Append to comment message
-                    Msg (MSGT_USER_BOX, "%s", Msg_Get (MSG_LoadROM_SMSGG_Mode_Comment));
+                    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_SMSGG_Mode_Comment));
                 else // Print the comment marker before
-                    Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_Comment), Msg_Get (MSG_LoadROM_SMSGG_Mode_Comment));
+                    Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Comment), Msg_Get(MSG_LoadROM_SMSGG_Mode_Comment));
             }
 
             // Show BAD ROM warning
             if (DB.current_entry->flags & DB_FLAG_BAD)
             {
-                Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_Warning));
-                Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_Bad_Dump_Long));
-                Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_LoadROM_Bad_Dump_Short));
+                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Warning));
+                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Bad_Dump_Long));
+                Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_LoadROM_Bad_Dump_Short));
             }
 
             // Show Product Number
             if (DB.current_entry->product_no && g_configuration.show_product_number)
-                Msg (MSGT_USER_BOX, Msg_Get (MSG_LoadROM_Product_Num), DB.current_entry->product_no);
+                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Product_Num), DB.current_entry->product_no);
         }
 
         // Show SDSC Header
         if (user_verbose)
-            SDSC_Read_and_Display ();
+            SDSC_Read_and_Display();
     }
 
     // Automatically change input peripheral depending on MEKA.NAM entry
@@ -309,9 +302,9 @@ bool    Load_ROM (int mode, int user_verbose)
     // Since the verbose flag is only cleared by the file browser "Load All"
     // functionnality, it is ok to avoid changing inputs.
     if (user_verbose)
-        Input_ROM_Change ();
+        Input_ROM_Change();
 
-    return (TRUE);
+    return true;
 }
 
 void    Load_Header_and_Footer_Remove (int *pstart, long *psize)
@@ -440,7 +433,7 @@ int             Load_ROM_File(const char *filename_ext)
     g_machine.driver_id = drv_get_from_filename_extension(filename_ext);
 
     // Open file ----------------------------------------------------------------
-    if (!(f = fopen (g_env.Paths.MediaImageFile, "rb")))
+    if (!(f = fopen(g_env.Paths.MediaImageFile, "rb")))
         return (MEKA_ERR_FILE_OPEN);
 
     // Get file size
@@ -532,7 +525,7 @@ int             Load_ROM_Main ()
     int         zipped = FALSE;
 #endif
 
-    Filenames_Init_ROM ();
+    Filenames_Init_ROM();
 
     // Check extension ----------------------------------------------------------
     strcpy(filename_ext, g_env.Paths.MediaImageFile);
@@ -564,7 +557,7 @@ int             Load_ROM_Main ()
 void    Load_ROM_Misc (int reset)
 {
     // Check for overdump
-    Check_OverDump ();
+    Check_OverDump();
 
     // Perform checksum and DB lookup
     Checksum_Perform (ROM, tsms.Size_ROM);
@@ -583,8 +576,8 @@ void    Load_ROM_Misc (int reset)
     }
 
     // Initialize patching system for this ROM and apply
-    Patches_ROM_Initialize ();
-    Patches_ROM_Apply ();
+    Patches_ROM_Initialize();
+    Patches_ROM_Apply();
 
     // Set driver
     drv_set (g_machine.driver_id);
@@ -592,32 +585,32 @@ void    Load_ROM_Misc (int reset)
     // Do not system if old AND new driver is SF7000 (for disk change, this is slighty hacky)
     if (reset || g_machine.driver_id != DRV_SF7000)
     {
-        Machine_Init ();
+        Machine_Init();
         g_machine_flags |= MACHINE_ROM_LOADED;
-        Machine_Insert_Cartridge ();
-        Machine_ON ();
+        Machine_Insert_Cartridge();
+        Machine_ON();
     }
 
     if (g_machine.driver_id == DRV_SF7000)
-        FDC765_Disk_Insert (0, ROM, tsms.Size_ROM);
+        FDC765_Disk_Insert(0, ROM, tsms.Size_ROM);
 
     // FIXME: do not save Backed Memory in non-verbose mode
     // Read the full comment next to BMemory_Save() in Load_ROM()
     if (Loading_UserVerbose)
-        BMemory_Load ();
+        BMemory_Load();
 
     // Update game boxes
-    gamebox_rename_all ();
+    gamebox_rename_all();
 
-    // Miscellaenous things to apply when machine type change
-    Change_System_Misc ();
+    // Miscellaneous things to apply when machine type change
+    Change_System_Misc();
 
     // BIOS load/unload
     // FIXME: this is a mess
     if ((g_configuration.enable_BIOS) && (g_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
-        BIOS_Load ();
+        BIOS_Load();
     else
-        BIOS_Unload ();
+        BIOS_Unload();
 }
 
 //-----------------------------------------------------------------------------

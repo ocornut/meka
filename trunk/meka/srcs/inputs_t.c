@@ -70,13 +70,13 @@ bool    Inputs_KeyPressed(int keycode, bool eat)
         typematic_repeat_counter = 0;
         if (eat)
 			Inputs_KeyEat(keycode);
-        return (TRUE);
+        return true;
     }
     // Check if previously pressed key was released
     // FIXME: shouldn't be done in this function, but rather in a single inputs-update
     if (opt.Current_Key_Pressed != 0 && Inputs_KeyDown(opt.Current_Key_Pressed) == false)
         opt.Current_Key_Pressed = 0;
-    return (FALSE);
+    return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ bool    Inputs_KeyPressed_Repeat(int keycode, bool eat, int delay, int rate)
     // hmm...
     Inputs_KeyPressed (keycode, eat);
     if (opt.Current_Key_Pressed != keycode)
-        return (FALSE);
+        return false;
 
     // Increment counter
     typematic_repeat_counter++;
@@ -102,13 +102,13 @@ bool    Inputs_KeyPressed_Repeat(int keycode, bool eat, int delay, int rate)
     {
         // Return TRUE on first press
         if (typematic_repeat_counter == 1)
-            return (TRUE);
+            return true;
         // Then wait for given delay
         if (typematic_repeat_counter == delay)
         {
             typematic_repeating = TRUE;
             typematic_repeat_counter = 0;
-            return (TRUE);
+            return true;
         }
     }
     else
@@ -117,10 +117,10 @@ bool    Inputs_KeyPressed_Repeat(int keycode, bool eat, int delay, int rate)
         if (typematic_repeat_counter == rate)
         {
             typematic_repeat_counter = 0;
-            return (TRUE);
+            return true;
         }
     }
-    return (FALSE);
+    return false;
 }
 
 //-----------------------------------------------------------------------------

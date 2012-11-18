@@ -22,9 +22,9 @@
 //-----------------------------------------------------------------------------
 
 static FILE *       CFG_File;
-static INLINE void  CFG_Write_Line      (const char *line)                  { fprintf (CFG_File, "%s\n", line); }
-static INLINE void  CFG_Write_Int       (const char *name, int value)       { fprintf (CFG_File, "%s = %d\n", name, value); }
-static INLINE void  CFG_Write_Str       (const char *name, const char *str) { fprintf (CFG_File, "%s = %s\n", name, str); }
+static INLINE void  CFG_Write_Line      (const char *line)                  { fprintf(CFG_File, "%s\n", line); }
+static INLINE void  CFG_Write_Int       (const char *name, int value)       { fprintf(CFG_File, "%s = %d\n", name, value); }
+static INLINE void  CFG_Write_Str       (const char *name, const char *str) { fprintf(CFG_File, "%s = %s\n", name, str); }
 
 static void  CFG_Write_StrEscape (const char *name, const char *str)
 {
@@ -202,7 +202,7 @@ void Configuration_Load()
     }
 
     // Free file data
-    tfile_free (tf);
+    tfile_free(tf);
 
 	g_configuration.loaded_configuration_file = true;
 }
@@ -271,7 +271,7 @@ void Configuration_Save()
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");
     CFG_Write_Int  ("start_in_gui", g_configuration.start_in_gui);
     CFG_Write_StrEscape("theme", Skins_GetCurrentSkin()->name);
-	fprintf (CFG_File, "game_window_scale = %.2f\n", g_configuration.game_window_scale); 
+	fprintf(CFG_File, "game_window_scale = %.2f\n", g_configuration.game_window_scale); 
 	CFG_Write_Int  ("fb_width", FB.res_x);
     CFG_Write_Line ("(File browser width, in pixel)");
     CFG_Write_Int  ("fb_height", FB.file_y);
@@ -352,16 +352,16 @@ void Configuration_Save()
 
 //-----------------------------------------------------------------------------
 
-static void     Param_Check (int *current, const char *msg)
+static void     Param_Check(int *current, const char *msg)
 {
     if ((*current) + 1 >= g_env.argc)
-        Quit_Msg (msg);
+        Quit_Msg(msg);
     (*current)++;
 }
 
-void    Command_Line_Parse (void)
+void    Command_Line_Parse()
 {
-	const char  *Params[] =
+	const char* params[] =
 	{
 		"EURO", "US", "JAP", "JP", "JPN", "HELP", "?",
 		"SOUND", "NOELEPHANT", "DEBUG", "LOG", "LOAD",
@@ -380,8 +380,8 @@ void    Command_Line_Parse (void)
 			)
 		{
 			int j;
-			for (j = 0; Params[j]; j++)
-				if (!stricmp (s + 1, Params[j]))
+			for (j = 0; params[j]; j++)
+				if (!stricmp (s + 1, params[j]))
 					break;
 			switch (j)
 			{
@@ -399,31 +399,31 @@ void    Command_Line_Parse (void)
 				break;
 			case 9: // DEBUG
 #ifndef MEKA_Z80_DEBUGGER
-				Quit_Msg (Msg_Get (MSG_Debug_Not_Available));
+				Quit_Msg(Msg_Get(MSG_Debug_Not_Available));
 #else
-				g_configuration.debug_mode_cl = TRUE;
+				g_configuration.debug_mode_cl = true;
 #endif
 				break;
 			case 10: // LOG
-				Param_Check (&i, Msg_Get (MSG_Log_Need_Param));
+				Param_Check(&i, Msg_Get(MSG_Log_Need_Param));
 				TB_Message.log_filename = strdup(g_env.argv[i]);
 				break;
 			case 11: // LOAD
-				Param_Check (&i, Msg_Get (MSG_Load_Need_Param));
+				Param_Check(&i, Msg_Get(MSG_Load_Need_Param));
 				opt.State_Load = atoi(g_env.argv[i]);
 				break;
 			case 12: // SETUP
-				opt.Setup_Interactive_Execute = TRUE;
+				opt.Setup_Interactive_Execute = true;
 				break;
 				// Private Usage
 			case 13: // _DEBUG_INFOS
-				g_env.debug_dump_infos = TRUE;
+				g_env.debug_dump_infos = true;
 				if (TB_Message.log_filename == NULL)
 					TB_Message.log_filename = strdup("debuglog.txt");
 				break;
 			default:
-				ConsolePrintf (Msg_Get (MSG_Error_Param), s);
-				ConsolePrint ("\n--\n");
+				ConsolePrintf (Msg_Get(MSG_Error_Param), s);
+				ConsolePrint("\n--\n");
 				Command_Line_Help();
 				return;
 			}
@@ -431,7 +431,7 @@ void    Command_Line_Parse (void)
 		else
 		{
 			// FIXME: specifying more than one ROM ?
-			strcpy (g_env.Paths.MediaImageFile, s);
+			strcpy(g_env.Paths.MediaImageFile, s);
 			//MessageBox(NULL, s, s, 0);
 		}
 	}

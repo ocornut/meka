@@ -114,9 +114,9 @@ void        Load_Game_Fixup(void)
         tgfx.Tile_Dirty [i] = TILE_DIRTY_DECODE | TILE_DIRTY_REDRAW;
 
     // Reload palette
-    Palette_Emulation_Reload ();
+    Palette_Emulation_Reload();
 
-    // Msg (MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
+    // Msg(MSGT_DEBUG, "ICount %d VDP Line %d", CPU_GetICount(), tsms.VDP_Line);
 }
 
 // Save current state / dispatch to format saving code
@@ -125,7 +125,7 @@ void        Save_Game()
     // Do not allow saving if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_No_ROM));
+        Msg(MSGT_USER, Msg_Get(MSG_No_ROM));
         return;
     }
 
@@ -133,7 +133,7 @@ void        Save_Game()
     // This would be messy with file handling currently
     if ((g_machine_flags & MACHINE_NOT_IN_BIOS) == 0)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_Save_Not_in_BIOS));
+        Msg(MSGT_USER, Msg_Get(MSG_Save_Not_in_BIOS));
         return;
     }
 
@@ -141,7 +141,7 @@ void        Save_Game()
     Save_Get_Filename(buf);
 	FILE* f;
 	int result;
-    if (!(f = fopen (buf, "wb")))
+    if (!(f = fopen(buf, "wb")))
         result = 2;
     else
     {
@@ -152,9 +152,9 @@ void        Save_Game()
     StrPath_RemoveDirectory (buf);
     switch (result)
     {
-    case 1: Msg (MSGT_USER, Msg_Get (MSG_Save_Success), buf);
+    case 1: Msg(MSGT_USER, Msg_Get(MSG_Save_Success), buf);
         break;
-    case 2: Msg (MSGT_USER, Msg_Get (MSG_Save_Error), buf);
+    case 2: Msg(MSGT_USER, Msg_Get(MSG_Save_Error), buf);
         break;
     }
 }
@@ -165,7 +165,7 @@ void        Load_Game()
     // Do not allow loading if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
-        Msg (MSGT_USER, Msg_Get (MSG_No_ROM));
+        Msg(MSGT_USER, Msg_Get(MSG_No_ROM));
         return;
     }
 
@@ -190,7 +190,7 @@ void        Load_Game()
 	
 	FILE* f;
 	int result;
-    if (!(f = fopen (buf, "rb")))
+    if (!(f = fopen(buf, "rb")))
         result = 2;
     else
     {
@@ -201,13 +201,13 @@ void        Load_Game()
     StrPath_RemoveDirectory (buf);
     switch (result)
     {
-    case 1: Msg (MSGT_USER, Msg_Get (MSG_Load_Success), buf);
+    case 1: Msg(MSGT_USER, Msg_Get(MSG_Load_Success), buf);
         Load_Game_Fixup();
         break;
-    case 2: Msg (MSGT_USER, Msg_Get (MSG_Load_Error), buf);         break;
-    case 3: Msg (MSGT_USER, Msg_Get (MSG_Load_Not_Valid), buf);     break;
-    case 4: Msg (MSGT_USER, Msg_Get (MSG_Load_Version), buf);       break;
-    case 5: Msg (MSGT_USER, Msg_Get (MSG_Load_Wrong_System), buf);  break;
+    case 2: Msg(MSGT_USER, Msg_Get(MSG_Load_Error), buf);         break;
+    case 3: Msg(MSGT_USER, Msg_Get(MSG_Load_Not_Valid), buf);     break;
+    case 4: Msg(MSGT_USER, Msg_Get(MSG_Load_Version), buf);       break;
+    case 5: Msg(MSGT_USER, Msg_Get(MSG_Load_Wrong_System), buf);  break;
     }
 
     // Msg(MSGT_USER, "Debugger.Break_Point = %04X", Debugger.Break_Point);
@@ -220,7 +220,7 @@ int     Save_Game_MSV (FILE *f)
     u8  b;
     u16 w;
 
-    BMemory_Verify_Usage ();
+    BMemory_Verify_Usage();
 
     // Write Header
     fwrite ("MEKA", 4, 1, f);
@@ -333,7 +333,7 @@ int         Load_Game_MSV(FILE *f)
     if (version > MEKA_SAVESTATE_VERSION)
         return (4); // unsupported version
 
-    // Msg (MSGT_DEBUG, "Loading, version = %02X", version);
+    // Msg(MSGT_DEBUG, "Loading, version = %02X", version);
 
     // Read driver id
     fread (&b, 1, 1, f);
@@ -474,7 +474,7 @@ int         Load_Game_MSV(FILE *f)
     {
         // ...If not available, mute PSG volumes by default
         // SN76489_Reset (opt.CPU_Clock_Current, audio_sample_rate);
-        PSG_Mute ();
+        PSG_Mute();
         // There is a reason for muting the PSG volumes instead of reseting it all
         // when the PSG data is missing: a same game is more likely to have noises 
         // setup the same way, so we want to keep current settings.
@@ -510,7 +510,7 @@ int     Load_Game_MSD (FILE *f)
     word   w;
     byte   i, version;
 
-    Msg (MSGT_USER, Msg_Get (MSG_Load_Massage));
+    Msg(MSGT_USER, Msg_Get(MSG_Load_Massage));
     /* Skipping "SNAP" */
     fseek (f, 0x09, SEEK_SET);
     fread (&version, 1, 1, f);
@@ -612,7 +612,7 @@ void    Save_Set_Slot (int n)
         n = 0;
     if (n > 99) 
         n = 99;
-    Msg (MSGT_USER, Msg_Get (MSG_Save_Slot), n);
+    Msg(MSGT_USER, Msg_Get(MSG_Save_Slot), n);
     opt.State_Current = n;
 }
 
@@ -626,10 +626,10 @@ void    Save_Get_Filename (char *str)
         al_make_directory(g_env.Paths.SavegameDirectory);
 
     // Compute save state filename
-    strcpy (buf, g_env.Paths.MediaImageFile);
+    strcpy(buf, g_env.Paths.MediaImageFile);
     StrPath_RemoveExtension (buf);
     StrPath_RemoveDirectory (buf);
-    sprintf (str, "%s/%s.S%02d", g_env.Paths.SavegameDirectory, buf, opt.State_Current);
+    sprintf(str, "%s/%s.S%02d", g_env.Paths.SavegameDirectory, buf, opt.State_Current);
 }
 
 //-----------------------------------------------------------------------------

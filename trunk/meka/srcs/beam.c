@@ -61,8 +61,8 @@ INLINE int  Beam_Calc_Y (void)
     if (CPU_GetICount() < 8)
         c = (c + 1) % g_machine.TV_lines;
 
-    // Msg (MSGT_USER, "At PC=%04X, Read Beam Y%s", sms.R.PC.W, (CPU_GetICount() < 8) ? " (Affected)" : "");
-    // Msg (MSGT_USER, "At PC=%04X, Read Beam Y, returning %d", sms.R.PC.W, (c < 256) ? c : 255);
+    // Msg(MSGT_USER, "At PC=%04X, Read Beam Y%s", sms.R.PC.W, (CPU_GetICount() < 8) ? " (Affected)" : "");
+    // Msg(MSGT_USER, "At PC=%04X, Read Beam Y, returning %d", sms.R.PC.W, (c < 256) ? c : 255);
 
     // return ((c < 255) ? c : 255);
 
@@ -81,14 +81,14 @@ INLINE int  Beam_Calc_Y (void)
     case TVTYPE_PAL_SECAM:
         {
             if (c <= 0xF2)
-                //Msg (MSGT_USER, "%d @ Read Beam Y, returning %X", tsms.VDP_Line, c);
+                //Msg(MSGT_USER, "%d @ Read Beam Y, returning %X", tsms.VDP_Line, c);
                 return (c);
-            // Msg (MSGT_USER, "%d @ Read Beam Y, returning %X", tsms.VDP_Line, c - 57);
+            // Msg(MSGT_USER, "%d @ Read Beam Y, returning %X", tsms.VDP_Line, c - 57);
             return (c - 57);
         }
     default:
         {
-            Msg (MSGT_USER, "BeamY Error: unknown TV Type");
+            Msg(MSGT_USER, "BeamY Error: unknown TV Type");
             return ((c < 255) ? c : 255);
         }
     }

@@ -56,7 +56,7 @@ void        BMemory_Load (void)
     // May want to totally move BMemory stuff to a driver based system
     memset (SRAM, 0, 0x8000);
     if (g_machine.mapper == MAPPER_93c46)
-        EEPROM_93c46_Clear ();
+        EEPROM_93c46_Clear();
 
     f = fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
     if (f == NULL)
@@ -73,7 +73,7 @@ void        BMemory_Save (void)
 {
 	FILE *  f;
 
-	BMemory_Verify_Usage ();
+	BMemory_Verify_Usage();
 	switch (g_machine.mapper)
 	{
 	case MAPPER_Standard:       if (sms.SRAM_Pages == 0) return; break;
@@ -127,17 +127,17 @@ void    BMemory_SRAM_Load (FILE *f)
 	while (sms.SRAM_Pages < 4); // This is the max value
 
 	if (sms.SRAM_Pages > 0)
-		Msg (MSGT_USER, Msg_Get (MSG_SRAM_Loaded), sms.SRAM_Pages * 8);
+		Msg(MSGT_USER, Msg_Get(MSG_SRAM_Loaded), sms.SRAM_Pages * 8);
 	else
-		Msg (MSGT_USER, Msg_Get (MSG_SRAM_Load_Unable));
+		Msg(MSGT_USER, Msg_Get(MSG_SRAM_Load_Unable));
 }
 
 void    BMemory_SRAM_Save (FILE *f)
 {
 	if (f && fwrite (SRAM, sms.SRAM_Pages * 0x2000, 1, f) == 1)
-		Msg (MSGT_USER, Msg_Get (MSG_SRAM_Wrote), sms.SRAM_Pages * 8);
+		Msg(MSGT_USER, Msg_Get(MSG_SRAM_Wrote), sms.SRAM_Pages * 8);
 	else
-		Msg (MSGT_USER, Msg_Get (MSG_SRAM_Write_Unable), sms.SRAM_Pages * 8);
+		Msg(MSGT_USER, Msg_Get(MSG_SRAM_Write_Unable), sms.SRAM_Pages * 8);
 }
 
 void    BMemory_SRAM_Load_State (FILE *f)

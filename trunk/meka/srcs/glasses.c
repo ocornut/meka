@@ -49,14 +49,14 @@ void    Glasses_Close (void)
     if (Glasses.Enabled && Glasses.Mode == GLASSES_MODE_COM_PORT)
     {
         Glasses_ComPort_Write (FALSE, FALSE);
-        Glasses_ComPort_Close ();
+        Glasses_ComPort_Close();
     }
 }
 
 int     Glasses_Must_Skip_Frame(void)
 {
     static int security_cnt = 0;
-    // Msg (MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
+    // Msg(MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
 
     const int side = (sms.Glasses_Register & 1);
     const bool ret = (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT && !side) || (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT && side);
@@ -69,8 +69,8 @@ int     Glasses_Must_Skip_Frame(void)
         if (++security_cnt >= 180) // Arbitrary value (180 updates, should be 3 seconds)
         {
             security_cnt = 0;
-            Msg (MSGT_USER, Msg_Get (MSG_Glasses_Unsupported));
-            // Msg (MSGT_USER_BOX, Msg_Get (MSG_Glasses_Unsupported2));
+            Msg(MSGT_USER, Msg_Get(MSG_Glasses_Unsupported));
+            // Msg(MSGT_USER_BOX, Msg_Get(MSG_Glasses_Unsupported2));
             Glasses_Switch_Enable();
         }
     }
@@ -80,12 +80,12 @@ int     Glasses_Must_Skip_Frame(void)
 void    Glasses_Set_Mode (int mode)
 {
     if (Glasses.Mode == GLASSES_MODE_COM_PORT && mode != GLASSES_MODE_COM_PORT)
-        Glasses_ComPort_Close ();
+        Glasses_ComPort_Close();
     Glasses.Mode = mode;
     if (Glasses.Mode == GLASSES_MODE_COM_PORT)
         if (!Glasses_ComPort_Initialize ())
         {
-            Msg (MSGT_USER, Msg_Get(MSG_Glasses_Com_Port_Open_Error), Glasses.ComPort);
+            Msg(MSGT_USER, Msg_Get(MSG_Glasses_Com_Port_Open_Error), Glasses.ComPort);
         }
 }
 
@@ -95,7 +95,7 @@ void    Glasses_Set_ComPort (int port)
     if (Glasses.Mode == GLASSES_MODE_COM_PORT)
         if (!Glasses_ComPort_Initialize())
         {
-            Msg (MSGT_USER, Msg_Get(MSG_Glasses_Com_Port_Open_Error), Glasses.ComPort);
+            Msg(MSGT_USER, Msg_Get(MSG_Glasses_Com_Port_Open_Error), Glasses.ComPort);
         }
 }
 
@@ -118,7 +118,7 @@ int     Glasses_ComPort_Initialize (void)
     outportb (base + 0x0C, 0x00);
     asm volatile ("sti");
 
-    return (TRUE);
+    return true;
 
 #elif ARCH_WIN32
 
@@ -128,7 +128,7 @@ int     Glasses_ComPort_Initialize (void)
 
     // Close previously opened COM device
     if (Glasses.ComHandle != INVALID_HANDLE_VALUE)
-        Glasses_ComPort_Close ();
+        Glasses_ComPort_Close();
 
     // Find COM device name
     if (Glasses.ComPort == 1)
@@ -136,18 +136,18 @@ int     Glasses_ComPort_Initialize (void)
     else if (Glasses.ComPort == 2)
         com_device_name = "COM2";
     else
-        return (FALSE);
+        return false;
 
     // Open COM device
     handle = CreateFile(com_device_name, GENERIC_READ|GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
     if (handle == INVALID_HANDLE_VALUE)
-        return (FALSE);
+        return false;
 
     // Get current state
     if (!GetCommState(handle, &dcb))
     {
         CloseHandle (handle);
-        return (FALSE);
+        return false;
     }
 
     // Fill in DCB: 57,600 bps, 8 data bits, no parity, and 1 stop bit.
@@ -160,15 +160,15 @@ int     Glasses_ComPort_Initialize (void)
     if (!SetCommState(handle, &dcb))
     {
         CloseHandle (handle);
-        return (FALSE);
+        return false;
     }
 
     Glasses.ComHandle = handle;
-    return (TRUE);
+    return true;
 
 #else
 
-    return (TRUE);
+    return true;
 
 #endif
 }
@@ -243,47 +243,47 @@ void    Glasses_Update (void)
 
 void    Glasses_Switch_Enable (void)
 {
-    Glasses_Close ();
+    Glasses_Close();
     Glasses.Enabled ^= 1;
     if (Glasses.Enabled)
     {
         gui_menu_check (menus_ID.glasses, 0);
-        Msg (MSGT_USER, Msg_Get (MSG_Glasses_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_Glasses_Enabled));
     }
     else
     {
         gui_menu_un_check_one (menus_ID.glasses, 0);
-        Msg (MSGT_USER, Msg_Get (MSG_Glasses_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_Glasses_Disabled));
     }
     gui_menu_active_area (Glasses.Enabled, menus_ID.glasses, 1, 4);
-    Inputs_CFG_Peripherals_Draw ();
+    Inputs_CFG_Peripherals_Draw();
 }
 
 void    Glasses_Switch_Mode_Show_Both (void)
 {
-    Glasses_Close ();
+    Glasses_Close();
     Glasses.Mode = GLASSES_MODE_SHOW_BOTH;
     gui_menu_un_check_area (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 1);
-    Msg (MSGT_USER, Msg_Get (MSG_Glasses_Show_Both));
+    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Show_Both));
 }
 
 void    Glasses_Switch_Mode_Show_Left (void)
 {
-    Glasses_Close ();
+    Glasses_Close();
     Glasses.Mode = GLASSES_MODE_SHOW_ONLY_LEFT;
     gui_menu_un_check_area (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 2);
-    Msg (MSGT_USER, Msg_Get (MSG_Glasses_Show_Left));
+    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Show_Left));
 }
 
 void    Glasses_Switch_Mode_Show_Right (void)
 {
-    Glasses_Close ();
+    Glasses_Close();
     Glasses.Mode = GLASSES_MODE_SHOW_ONLY_RIGHT;
     gui_menu_un_check_area (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 3);
-    Msg (MSGT_USER, Msg_Get (MSG_Glasses_Show_Right));
+    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Show_Right));
 }
 
 void    Glasses_Switch_Mode_Com_Port (void)
@@ -291,8 +291,8 @@ void    Glasses_Switch_Mode_Com_Port (void)
     Glasses.Mode = GLASSES_MODE_COM_PORT;
     gui_menu_un_check_area (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 4);
-    Msg (MSGT_USER, Msg_Get (MSG_Glasses_Com_Port), Glasses.ComPort);
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Glasses_Com_Port2));
+    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Com_Port), Glasses.ComPort);
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Glasses_Com_Port2));
 }
 
 //-----------------------------------------------------------------------------

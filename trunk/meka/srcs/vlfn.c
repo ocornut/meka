@@ -35,12 +35,12 @@ static void             VLFN_DataBase_Save  (void);
 void            VLFN_Init (void)
 {
     VLFN_DataBase.entries = NULL;
-    VLFN_DataBase_Load ();
+    VLFN_DataBase_Load();
 }
 
 void            VLFN_Close (void)
 {
-    VLFN_DataBase_Save ();
+    VLFN_DataBase_Save();
 }
 
 static t_vlfn_entry *   VLFN_Entry_New (const char *file_name, t_db_entry *db_entry)
@@ -60,7 +60,7 @@ static void      VLFN_Entry_Delete (t_vlfn_entry *entry)
 
 static int       VLFN_Entries_Compare (t_vlfn_entry *entry1, t_vlfn_entry *entry2)
 {
-    return (strcmp (entry1->filename, entry2->filename));
+    return (strcmp(entry1->filename, entry2->filename));
 }
 
 //-----------------------------------------------------------------------------
@@ -74,7 +74,7 @@ void            VLFN_DataBase_Load (void)
     char *      line;
     int         line_cnt;
 
-    ConsolePrint (Msg_Get (MSG_FDB_Loading));
+    ConsolePrint(Msg_Get(MSG_FDB_Loading));
 
     // Open and read file
     tf = tfile_read (VLFN_DataBase.filename);
@@ -85,7 +85,7 @@ void            VLFN_DataBase_Load (void)
     }
 
     // Ok
-    ConsolePrint ("\n");
+    ConsolePrint("\n");
 
     // Parse each line
     line_cnt = 0;
@@ -144,7 +144,7 @@ void            VLFN_DataBase_Load (void)
     }
 
     // Free file data
-    tfile_free (tf);
+    tfile_free(tf);
 }
 
 //-----------------------------------------------------------------------------
@@ -156,33 +156,33 @@ void        VLFN_DataBase_Save (void)
     FILE *  f;
     t_list *list;
 
-    if ((f = fopen (VLFN_DataBase.filename, "wt")) == 0)
+    if ((f = fopen(VLFN_DataBase.filename, "wt")) == 0)
         return; // FIXME: report that somewhere ?
 
     // Sort entries by file name before writing, so the output file is more sexy
     list_sort (&VLFN_DataBase.entries, (int (*)(void *, void *))VLFN_Entries_Compare);
 
     // Write header
-    fprintf (f, ";-----------------------------------------------------------------------------\n");
-    fprintf (f, "; " MEKA_NAME " " MEKA_VERSION " - User Filenames DataBase\n");
-    fprintf (f, "; Associate user filenames with MEKA DataBase entries.\n");
-    fprintf (f, "; This information is used by the file loader.\n");
-    fprintf (f, "; This file is automatically updated and rewritten by the emulator.\n");
-    fprintf (f, ";-----------------------------------------------------------------------------\n\n");
+    fprintf(f, ";-----------------------------------------------------------------------------\n");
+    fprintf(f, "; " MEKA_NAME " " MEKA_VERSION " - User Filenames DataBase\n");
+    fprintf(f, "; Associate user filenames with MEKA DataBase entries.\n");
+    fprintf(f, "; This information is used by the file loader.\n");
+    fprintf(f, "; This file is automatically updated and rewritten by the emulator.\n");
+    fprintf(f, ";-----------------------------------------------------------------------------\n\n");
 
     // Write all entries
     for (list = VLFN_DataBase.entries; list != NULL; list = list->next)
     {
         t_vlfn_entry* entry     = (t_vlfn_entry*)list->elem;
         t_db_entry* db_entry    = entry->db_entry;
-        fprintf (f, "%s", entry->filename);
+        fprintf(f, "%s", entry->filename);
         if (db_entry->crc_crc32 != 0)
-            fprintf (f, "/CRC32:%08x", db_entry->crc_crc32);
+            fprintf(f, "/CRC32:%08x", db_entry->crc_crc32);
         // Note: MekaCRC is always written now!
-        fprintf (f, "/MEKACRC:%08X%08X\n", db_entry->crc_mekacrc.v[0], db_entry->crc_mekacrc.v[1]);
+        fprintf(f, "/MEKACRC:%08X%08X\n", db_entry->crc_mekacrc.v[0], db_entry->crc_mekacrc.v[1]);
     }
 
-    fprintf (f, "\n;-----------------------------------------------------------------------------\n\n");
+    fprintf(f, "\n;-----------------------------------------------------------------------------\n\n");
 
     // Close write
     fclose (f);
@@ -235,7 +235,7 @@ void        VLFN_RemoveEntry (const char *file_name)
         VLFN_Entry_Delete(entry);
 
         // Ask file browser to reload names
-        FB_Reload_Names ();
+        FB_Reload_Names();
     }
 }
 

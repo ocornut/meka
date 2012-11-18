@@ -36,7 +36,7 @@ int     FM_Digital_Init()
 	opll = OPLL_new(Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
     if (opll == NULL)
     {
-        ConsolePrintf("%s\n", Msg_Get (MSG_Failed));
+        ConsolePrintf("%s\n", Msg_Get(MSG_Failed));
         return (MEKA_ERR_FAIL);
     }
 	// FIXME-NEWSOUND: FM init
@@ -44,7 +44,7 @@ int     FM_Digital_Init()
     FM_Digital_saChannel = stream_init ("YM-2413 #0", g_sasound.audio_sample_rate, 16, 0, FM_Digital_Update);
     if (FM_Digital_saChannel == -1)
     {
-        ConsolePrintf ("%s\n", Msg_Get (MSG_Failed));
+        ConsolePrintf ("%s\n", Msg_Get(MSG_Failed));
         return (MEKA_ERR_FAIL); // FIXME: Error in channel creation
     }
     stream_set_volume (FM_Digital_saChannel, VOLUME_MAX);
@@ -52,7 +52,7 @@ int     FM_Digital_Init()
 
     OPLL_reset(opll);
 
-    ConsolePrintf("%s\n", Msg_Get (MSG_Ok));
+    ConsolePrintf("%s\n", Msg_Get(MSG_Ok));
     return (MEKA_ERR_OK);
 }
 
@@ -91,7 +91,7 @@ void    FM_Digital_Resume()
 // This is called after a state loading
 void    FM_Digital_Regenerate()
 {
-    // Msg (MSGT_DEBUG, __FUNCTION__);
+    // Msg(MSGT_DEBUG, __FUNCTION__);
     for (int i = 0; i < YM2413_REGISTERS; i++)
     {
         FM_Digital_Write(i, FM_Regs[i]);
@@ -103,7 +103,7 @@ void    FM_Digital_Regenerate()
 // This is periodically called by the sound engine
 void    FM_Digital_WriteSamples(void *buffer, int length)
 {
-    // Msg (MSGT_USER, "FM_Digital_WriteSamples(%p, %d)", buffer, length);
+    // Msg(MSGT_USER, "FM_Digital_WriteSamples(%p, %d)", buffer, length);
 
     // printf("\n[%s]\n", __FUNCTION__);
 

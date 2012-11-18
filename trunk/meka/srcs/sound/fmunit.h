@@ -27,15 +27,15 @@ struct t_fm_unit_interface
 {
 	const char*	desc;
 	const char*	author;
-	void (*f_reset)      ();
+	void (*f_reset)     ();
 	void (*f_write)      (int Register, int Value);
-	void (*f_mute)       ();
-	void (*f_resume)     ();
-	void (*f_regenerate) ();
+	void (*f_mute)      ();
+	void (*f_resume)    ();
+	void (*f_regenerate)();
 };
 
 void    FM_Set_Interface (t_fm_unit_interface *intf, byte *new_fm_regs);
-void    FM_Null_Active   ();
+void    FM_Null_Active  ();
 
 extern t_fm_unit_interface* FM_Unit_Current;
 

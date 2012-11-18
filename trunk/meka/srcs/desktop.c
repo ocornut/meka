@@ -41,13 +41,13 @@ void            Desktop_SetStateToBoxes (void);
 void    Desktop_Init (void)
 {
     Desktop.items = NULL;
-    Desktop_Load ();
+    Desktop_Load();
 }
 
 void    Desktop_Close (void)
 {
-    Desktop_GetStateFromBoxes ();
-    Desktop_Save ();
+    Desktop_GetStateFromBoxes();
+    Desktop_Save();
 }
 
 static t_desktop_item * Desktop_Item_New(const char *name, t_gui_box *box)
@@ -68,7 +68,7 @@ void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_activ
     for (t_list* list = Desktop.items; list != NULL; list = list->next)
     {
         t_desktop_item* item = (t_desktop_item*)list->elem;
-        if (strcmp (item->name, name) == 0)
+        if (strcmp(item->name, name) == 0)
         {
             // ConsolePrintf ("found old %s\n", name);
             item->box = box;
@@ -200,14 +200,14 @@ void	Desktop_Save(void)
 {
     FILE *      f;
 
-    if ((f = fopen (Desktop.filename, "wt")) == 0)
+    if ((f = fopen(Desktop.filename, "wt")) == 0)
         return; // FIXME: report that somewhere ?
 
     // Write header
-    fprintf (f, ";-----------------------------------------------------------------------------\n");
-    fprintf (f, "; " MEKA_NAME " " MEKA_VERSION " - Desktop State\n");
-    fprintf (f, "; This file is automatically updated and rewritten by the emulator\n");
-    fprintf (f, ";-----------------------------------------------------------------------------\n\n");
+    fprintf(f, ";-----------------------------------------------------------------------------\n");
+    fprintf(f, "; " MEKA_NAME " " MEKA_VERSION " - Desktop State\n");
+    fprintf(f, "; This file is automatically updated and rewritten by the emulator\n");
+    fprintf(f, ";-----------------------------------------------------------------------------\n\n");
 
     // Write all entries
     for (t_list* list = Desktop.items; list != NULL; list = list->next)
@@ -219,7 +219,7 @@ void	Desktop_Save(void)
     for (t_list* list = Desktop.items; list != NULL; list = list->next)
 		Desktop_Save_Item((t_desktop_item*)list->elem, f);
 
-    fprintf (f, "\n;-----------------------------------------------------------------------------\n\n");
+    fprintf(f, "\n;-----------------------------------------------------------------------------\n\n");
 
     // Close write
     fclose (f);

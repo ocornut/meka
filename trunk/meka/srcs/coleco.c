@@ -42,7 +42,7 @@ WRITE_FUNC (Write_Mapper_Coleco)
             Mem_Pages[3][Addr|0x1800] = Mem_Pages[3][Addr|0x1C00] = Value;
         return;
     }
-    // Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Write), sms.R.PC.W, Value, Addr);
+    // Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Write), sms.R.PC.W, Value, Addr);
 }
 
 void    Coleco_Port_Out (word Port, byte Value)
@@ -60,7 +60,7 @@ void    Coleco_Port_Out (word Port, byte Value)
         sms.Input_Mode = 1; return;
     }
 #ifdef DEBUG_IO
-    Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Port_Write), sms.R.PC.W, Port, Value);
+    Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Write), sms.R.PC.W, Port, Value);
 #endif
 }
 
@@ -75,7 +75,7 @@ byte    Coleco_Port_In (word Port)
         return (Coleco_Inputs (Port));
     }
 #ifdef DEBUG_IO
-    Msg (MSGT_DEBUG, Msg_Get (MSG_Debug_Trap_Port_Read), sms.R.PC.W, Port);
+    Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Read), sms.R.PC.W, Port);
 #endif
     return (0xFF);
 }
@@ -83,7 +83,7 @@ byte    Coleco_Port_In (word Port)
 // Colecovision Inputs emulation ----------------------------------------------
 byte    Coleco_Inputs (word Port)
 {
-    // Msg (MSGT_DEBUG, "[coleco_inputs] %d, %d", Port & 2, sms.Input_Mode);
+    // Msg(MSGT_DEBUG, "[coleco_inputs] %d, %d", Port & 2, sms.Input_Mode);
     if ((Port & 2) == 0)
     {
         // Player 1
@@ -176,7 +176,7 @@ word    Loop_Coleco (void)
 
     if (tsms.VDP_Line == 0)
     {
-        Interrupt_Loop_Misc_Line_Zero ();
+        Interrupt_Loop_Misc_Line_Zero();
     }
 
     if (tsms.VDP_Line >= 0 && tsms.VDP_Line < 192)
@@ -195,7 +195,7 @@ word    Loop_Coleco (void)
         // sms.VDP_Status &= ~VDP_STATUS_SpriteCollision;
         sms.VDP_Status |= VDP_STATUS_VBlank;
         //if (!(sms.VDP_Status & VDP_STATUS_SpriteCollision))
-        //   Check_Sprites_Collision_Modes_1_2_3 ();
+        //   Check_Sprites_Collision_Modes_1_2_3();
 
         // Note: refresh screen may reset the system, so you can NOT change
         // the status AFTER it, or else it would screw the newly emulated code

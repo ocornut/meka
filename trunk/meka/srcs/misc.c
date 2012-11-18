@@ -23,7 +23,7 @@ void *	Memory_Alloc(size_t size)
 	if (p == NULL)
 	{
 		meka_errno = MEKA_ERR_MEMORY;
-		Quit_Msg (meka_strerror());
+		Quit_Msg(meka_strerror());
 	}
 	return (p);
 }
@@ -118,7 +118,7 @@ void    Quit(void)
 		g_display = NULL;
         //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
         // g_env.state = MEKA_STATE_SHUTDOWN;
-        // Video_Setup_State ();
+        // Video_Setup_State();
     }
 
     // Return back to starting directory
@@ -137,7 +137,7 @@ void    Quit(void)
 }
 
 // Display an error message then quit the application
-void	Quit_Msg (const char *format, ...)
+void	Quit_Msg(const char *format, ...)
 {
     // Set text mode if we're not already in
     if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
@@ -146,7 +146,7 @@ void	Quit_Msg (const char *format, ...)
 		g_display = NULL;
         //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
         // g_env.state = MEKA_STATE_SHUTDOWN;
-        // Video_Setup_State ();
+        // Video_Setup_State();
     }
 
     // Return back to starting directory
@@ -169,7 +169,7 @@ void	Quit_Msg (const char *format, ...)
         else
         {
             // Note: we don't use allegro_message() because Allegro might be unitialized here
-            MessageBox (NULL, buffer, Msg_Get (MSG_Window_Title), MB_OK | MB_ICONINFORMATION);
+            MessageBox (NULL, buffer, Msg_Get(MSG_Window_Title), MB_OK | MB_ICONINFORMATION);
         }
     }
 #else
@@ -178,7 +178,7 @@ void	Quit_Msg (const char *format, ...)
         va_start (params, format);
         vprintf  (format, params); // FIXME: use Console*
         va_end   (params);
-        ConsolePrint ("\n");
+        ConsolePrint("\n");
     }
 #endif
 

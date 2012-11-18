@@ -19,7 +19,7 @@
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
-; Miscellaenous features:
+; Miscellaneous features:
 ;
 ; Invert ESC (switch screens) and F10 (quit) keys. Arcade cabinet owners
 ; often have the ESC key mapped to a certain button they want to quit with.
@@ -34,9 +34,9 @@ cabinet_mode         = 0
 ; type = keyboard (digital) | joypad (digital) | mouse (analog)
 ;   Select the type of input device
 ; enabled = yes | no
-;   Set to no in order to tell Meka to ignore input from this device
+;   Set to no in order to tell MEKA to ignore input from this device
 ; player = 1 | 2
-;   Player on which inputs are applicated
+;   Player number
 ; connection = <number>
 ;   Joypad only. Select connection to use: 1 = first pad, 2 = second pad..
 ; emulate_digital

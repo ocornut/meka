@@ -42,8 +42,8 @@ void    RapidFire_Switch_J1B1 (void)
     RapidFire ^= RAPIDFIRE_J1B1;
     gui_menu_inverse_check (menus_ID.rapidfire, 0);
     if (RapidFire & RAPIDFIRE_J1B1)
-        Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_On), 1, 1);
-    else Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_Off), 1, 1);
+        Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_On), 1, 1);
+    else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 1, 1);
 }
 
 void    RapidFire_Switch_J1B2 (void)
@@ -51,8 +51,8 @@ void    RapidFire_Switch_J1B2 (void)
     RapidFire ^= RAPIDFIRE_J1B2;
     gui_menu_inverse_check (menus_ID.rapidfire, 1);
     if (RapidFire & RAPIDFIRE_J1B2)
-        Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_On), 1, 2);
-    else Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_Off), 1, 2);
+        Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_On), 1, 2);
+    else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 1, 2);
 }
 
 void    RapidFire_Switch_J2B1 (void)
@@ -60,8 +60,8 @@ void    RapidFire_Switch_J2B1 (void)
     RapidFire ^= RAPIDFIRE_J2B1;
     gui_menu_inverse_check (menus_ID.rapidfire, 2);
     if (RapidFire & RAPIDFIRE_J2B1)
-        Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_On), 2, 1);
-    else Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_Off), 2, 1);
+        Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_On), 2, 1);
+    else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 2, 1);
 }
 
 void    RapidFire_Switch_J2B2 (void)
@@ -69,8 +69,8 @@ void    RapidFire_Switch_J2B2 (void)
     RapidFire ^= RAPIDFIRE_J2B2;
     gui_menu_inverse_check (menus_ID.rapidfire, 3);
     if (RapidFire & RAPIDFIRE_J2B2)
-        Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_On), 2, 2);
-    else Msg (MSGT_USER, Msg_Get (MSG_RapidFire_JxBx_Off), 2, 2);
+        Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_On), 2, 2);
+    else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 2, 2);
 }
 
 //-----------------------------------------------------------------------------

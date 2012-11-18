@@ -76,7 +76,7 @@ static bool Data_LoadBitmap(ALLEGRO_BITMAP** pbitmap, const char* name)
 		if (!*pbitmap)
 		{
 			//Quit_Msg("Error loading bitmap data: \"%s\"", filename_buf);
-			Quit_Msg (Msg_Get (MSG_Failed));
+			Quit_Msg(Msg_Get(MSG_Failed));
 			return false;
 		}
 
@@ -133,7 +133,7 @@ static bool Data_LoadFontA4(ALLEGRO_FONT** pfont, const char* name)
 		if (!*pfont)
 		{
 			//Quit_Msg("Error loading bitmap data: \"%s\"", filename_buf);
-			Quit_Msg (Msg_Get (MSG_Failed));
+			Quit_Msg(Msg_Get(MSG_Failed));
 			return false;
 		}
 	}
@@ -147,7 +147,7 @@ static void Data_ProcessVideoBitmaps();
 void Data_Init(void)
 {
     // Print loading message to console
-    ConsolePrint (Msg_Get (MSG_Datafile_Loading));
+    ConsolePrint(Msg_Get(MSG_Datafile_Loading));
 
 	// FIXME-ALLEGRO5: Load from an archive file + minimal error handling.
 	DataProcessFlags = DATA_PROCESS_NULLIFY | DATA_PROCESS_FREE | DATA_PROCESS_LOAD;
@@ -166,7 +166,7 @@ void Data_ProcessVideoBitmaps()
 	Data_LoadBitmap(&Graphics.Cursors.Bitmaps.SportsPad,	"cursor_sportspad.tga");
 	Data_LoadBitmap(&Graphics.Cursors.Bitmaps.TvOekaki,		"cursor_tvoekaki.tga");
 
-	// Miscellaenous
+	// Miscellaneous
 	Data_LoadBitmap(&Graphics.Misc.Dragon,					"gfx_dragon.tga");
 	Data_LoadBitmap(&Graphics.Misc.Heart1,					"gfx_heart1.tga");
 	Data_LoadBitmap(&Graphics.Misc.Heart2,					"gfx_heart2.tga");

@@ -34,7 +34,7 @@ word    Loop_SG1000_SC3000 (void)
     if (tsms.VDP_Line == 0)
     {
         Interrupt_Loop_Misc;
-        Interrupt_Loop_Misc_Line_Zero ();
+        Interrupt_Loop_Misc_Line_Zero();
     }
 
     if (tsms.VDP_Line >= 0 && tsms.VDP_Line < 192)
@@ -48,17 +48,17 @@ word    Loop_SG1000_SC3000 (void)
     {
         if (fskipper.Show_Current_Frame)
         {
-            // Msg (MSGT_DEBUG, "Loop_SG1000_SC3000: Refresh_Modes_0_1_2_3()");
+            // Msg(MSGT_DEBUG, "Loop_SG1000_SC3000: Refresh_Modes_0_1_2_3()");
             Refresh_Modes_0_1_2_3();
         }
 
         sms.VDP_Status |= VDP_STATUS_VBlank;
         //if (!(sms.VDP_Status & VDP_STATUS_SpriteCollision))
-        //   Check_Sprites_Collision_Modes_1_2_3 ();
+        //   Check_Sprites_Collision_Modes_1_2_3();
 
         // Note: refresh screen may reset the system, so you can NOT change
         // the status AFTER it, or else it would screw the newly emulated code
-        // Msg (MSGT_DEBUG, "Loop_SG1000_SC3000: Video_RefreshScreen()");
+        // Msg(MSGT_DEBUG, "Loop_SG1000_SC3000: Video_RefreshScreen()");
         Video_RefreshScreen();
 
         if ((opt.Force_Quit) || (CPU_Loop_Stop))
@@ -69,7 +69,7 @@ word    Loop_SG1000_SC3000 (void)
         && (sms.VDP_Status & VDP_STATUS_VBlank))
     {
         Interrupt = INT_IRQ;
-        // Msg (MSGT_DEBUG, "At PC=%04X: V-Blank", CPU_GetPC);
+        // Msg(MSGT_DEBUG, "At PC=%04X: V-Blank", CPU_GetPC);
     }
 
     if (Interrupt == INT_IRQ)

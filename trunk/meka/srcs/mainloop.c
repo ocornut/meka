@@ -17,28 +17,28 @@
 void    Main_Loop (void)
 {
     #ifdef DEBUG_WHOLE
-        Msg (MSGT_DEBUG, "Main_Loop ();");
+        Msg(MSGT_DEBUG, "Main_Loop();");
     #endif
 
     // Print debugging information
     if (g_env.debug_dump_infos)
     {
-        Msg (MSGT_DEBUG, "### Debugging information ###");
-        Msg (MSGT_DEBUG, "MEKA %s (%s %s)", MEKA_VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME);
-        Msg (MSGT_DEBUG, "allegro_version = %08x", al_get_allegro_version());
-        //Msg (MSGT_DEBUG, "os_type = { %c%c%c%c (%d.%d) }", os_type>>24, (os_type>>16)&0xFF, (os_type>>8)&0xFF, (os_type)&0xFF, os_version, os_revision);
-        //Msg (MSGT_DEBUG, "cpu = { fpu: %d, mmx:%d, 3dnow:%d-%d, sse:%d, sse2:%d }", CPU_FPU?1:0, CPU_MMX?1:0, CPU_3DNOW?1:0, CPU_ENH3DNOW?1:0, CPU_SSE?1:0, CPU_SSE2?1:0);
-        //Msg (MSGT_DEBUG, "cpu = { has_rdtsc: %d }", OSD_X86CPU_Has_RDTSC ());
-        //Msg (MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", g_configuration.video_mode_gui_driver, g_configuration.video_mode_gui_res_x, g_configuration.video_mode_gui_res_y, g_configuration.video_mode_gui_refresh_rate, g_configuration.video_mode_gui_depth_cfg);
-        Msg (MSGT_DEBUG, "mouse = %d", g_env.mouse_installed);
-        Msg (MSGT_DEBUG, "joystick = %d", al_get_num_joysticks());
-        Msg (MSGT_DEBUG, "### Debugging information ###");
+        Msg(MSGT_DEBUG, "### Debugging information ###");
+        Msg(MSGT_DEBUG, "MEKA %s (%s %s)", MEKA_VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+        Msg(MSGT_DEBUG, "allegro_version = %08x", al_get_allegro_version());
+        //Msg(MSGT_DEBUG, "os_type = { %c%c%c%c (%d.%d) }", os_type>>24, (os_type>>16)&0xFF, (os_type>>8)&0xFF, (os_type)&0xFF, os_version, os_revision);
+        //Msg(MSGT_DEBUG, "cpu = { fpu: %d, mmx:%d, 3dnow:%d-%d, sse:%d, sse2:%d }", CPU_FPU?1:0, CPU_MMX?1:0, CPU_3DNOW?1:0, CPU_ENH3DNOW?1:0, CPU_SSE?1:0, CPU_SSE2?1:0);
+        //Msg(MSGT_DEBUG, "cpu = { has_rdtsc: %d }", OSD_X86CPU_Has_RDTSC ());
+        //Msg(MSGT_DEBUG, "gui = { driver:%ld, %d*%d @ %d Hz, depth:%d }", g_configuration.video_mode_gui_driver, g_configuration.video_mode_gui_res_x, g_configuration.video_mode_gui_res_y, g_configuration.video_mode_gui_refresh_rate, g_configuration.video_mode_gui_depth_cfg);
+        Msg(MSGT_DEBUG, "mouse = %d", g_env.mouse_installed);
+        Msg(MSGT_DEBUG, "joystick = %d", al_get_num_joysticks());
+        Msg(MSGT_DEBUG, "### Debugging information ###");
     }
 
     for (;;)
     {
         #ifdef DEBUG_WHOLE
-            Msg (MSGT_DEBUG, "Main_Loop(), Loop;");
+            Msg(MSGT_DEBUG, "Main_Loop(), Loop;");
         #endif
         CPU_Loop_Stop = FALSE;
         if ((g_machine_flags & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON)
@@ -49,13 +49,13 @@ void    Main_Loop (void)
                     #ifdef MEKA_Z80_DEBUGGER
                         if (Debugger.active /* && (Debugger.break_point_set || sms.R.Trace)*/)
                         {
-                            // Msg (MSGT_USER, "Entering RunZ80_Debugging()");
+                            // Msg(MSGT_USER, "Entering RunZ80_Debugging()");
                             RunZ80_Debugging (&sms.R);
                         }
                         else
                     #endif
                         {
-                            // Msg (MSGT_USER, "Entering RunZ80()");
+                            // Msg(MSGT_USER, "Entering RunZ80()");
                             RunZ80 (&sms.R);
                         }
                 #else
@@ -79,14 +79,14 @@ void    Main_Loop (void)
     al_clear_to_color(COLOR_BLACK);
 
     // Stop sound
-    Sound_Playback_Stop ();
+    Sound_Playback_Stop();
 }
 
 // MAIN LOOP WHEN FALSE ROM IS LOADED --------------------------------------------
 void    Main_Loop_No_Emulation (void)
 {
 #ifdef DEBUG_WHOLE
-    Msg (MSGT_DEBUG, "Main_Loop_No_Emulation ();");
+    Msg(MSGT_DEBUG, "Main_Loop_No_Emulation();");
 #endif
 
     for (;;)

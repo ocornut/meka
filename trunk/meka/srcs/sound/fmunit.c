@@ -86,7 +86,7 @@ void    FM_Set_Interface(t_fm_unit_interface *intf, byte *new_fm_regs)
 
 	if ((new_fm_regs != FM_Regs) && FM_Regs)
 	{
-		// Msg (MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
+		// Msg(MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
 		memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
 	}
 

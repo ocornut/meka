@@ -54,8 +54,8 @@ void    StrPath_RemoveDirectory(char* buf)
 	if (p != NULL)
 	{
 		p++;
-		strcpy (tmp, p);
-		strcpy (buf, tmp);
+		strcpy(tmp, p);
+		strcpy(buf, tmp);
 	}
 }
 
@@ -71,7 +71,7 @@ void    StrPath_RemoveDirectory(char *dst, const char *src)
 #endif
 
     p = (p ? p + 1 : src);
-    strcpy (dst, p);
+    strcpy(dst, p);
 }
 
 //-----------------------------------------------------------------------------
@@ -157,11 +157,11 @@ char *  meka_time_getf (char *str)
 #ifdef ARCH_WIN32
     SYSTEMTIME t;
     GetLocalTime (&t);
-    sprintf (str, "%02i:%02i:%02i", t.wHour, t.wMinute, t.wSecond);
+    sprintf(str, "%02i:%02i:%02i", t.wHour, t.wMinute, t.wSecond);
 #else
     int hour, minute, second;
     meka_get_time_date(&hour, &minute, &second, 0, 0, 0, 0);
-    sprintf (str, "%02i:%02i:%02i", hour, minute, second);
+    sprintf(str, "%02i:%02i:%02i", hour, minute, second);
 #endif
     return (str);
 }

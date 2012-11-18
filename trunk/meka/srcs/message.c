@@ -540,7 +540,7 @@ int		Lang_Post_Check (t_lang *lang)
         {
             ConsolePrintf ("Language \"%s\" is incomplete (%d/%d messages found) !\n",
                 lang->Name, cnt, MSG_MAX - 1);
-            ConsoleEnablePause ();
+            ConsoleEnablePause();
         }
         if (lang->WIP == FALSE)
         {
@@ -609,8 +609,8 @@ static void		Lang_Set (t_menu_event *event)
 	Messages.Lang_Cur = (t_lang *)event->user_data;
     gui_menu_un_check (menus_ID.languages);
 	gui_menu_check (menus_ID.languages, event->menu_item_idx);
-    Msg (MSGT_USER, Msg_Get (MSG_Language_Set), Messages.Lang_Cur->Name);
-    Msg (MSGT_USER_BOX, Msg_Get (MSG_Language_Set_Warning));
+    Msg(MSGT_USER, Msg_Get(MSG_Language_Set), Messages.Lang_Cur->Name);
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Language_Set_Warning));
 
     // Post-process
     // FIXME: Rebuild menus
@@ -714,13 +714,13 @@ int             Messages_Init (void)
     // Note: this is one of the few cases were the string has to be hardcoded.
     // That is of course because the messages/localization system is not
     // initialized as of yet..
-    ConsolePrint ("Loading MEKA.MSG (messages).. ");
+    ConsolePrint("Loading MEKA.MSG (messages).. ");
 
     // Open and read file --------------------------------------------------------
     tf = tfile_read (Messages.FileName);
     if (tf == NULL)
-        Quit_Msg ("MISSING!\nTry re-installing your version of Meka.");
-    ConsolePrint ("\n");
+        Quit_Msg("MISSING!\nTry re-installing your version of Meka.");
+    ConsolePrint("\n");
 
     // Parse each line -----------------------------------------------------------
     line_cnt = 0;
@@ -744,36 +744,36 @@ int             Messages_Init (void)
         {
         case MEKA_ERR_MISSING:    
             ConsolePrintf ("On line %d: No language defined for storing message !", line_cnt);
-            tfile_free (tf);
-            Quit ();
+            tfile_free(tf);
+            Quit();
             break;
         case MEKA_ERR_UNKNOWN:    
             ConsolePrintf ("On line %d: Unknown message \"%s\", skipping it.\n", line_cnt, line);
-            // tfile_free (tf);
-            // Quit ();
+            // tfile_free(tf);
+            // Quit();
             break;
         case MEKA_ERR_SYNTAX:     
             ConsolePrintf ("On line %d: Syntax error.\n%s\n", line_cnt, line);
-            tfile_free (tf);
-            Quit ();
+            tfile_free(tf);
+            Quit();
             break;
         }
     }
 
     // Free file data
-    tfile_free (tf);
+    tfile_free(tf);
 
     // Verify language completion
     {
         if (Messages.Lang_Cur == NULL)
-            Quit_Msg ("No language defined. Try re-installing your version of Meka.");
+            Quit_Msg("No language defined. Try re-installing your version of Meka.");
         Messages.Lang_Cur = Messages.Lang_Default;
         for (t_list* langs = Messages.Langs; langs; langs = langs->next)
         {
             t_lang* lang = (t_lang*)langs->elem;
             if (Lang_Post_Check (lang) != MEKA_ERR_OK)
                 if (lang == Messages.Lang_Default)
-                    Quit_Msg ("This is the default language, so we need to abort.");
+                    Quit_Msg("This is the default language, so we need to abort.");
         }
     }
 
@@ -833,10 +833,10 @@ void            ConsolePrintf (const char *format, ...)
 }
 
 //-----------------------------------------------------------------------------
-// ConsolePrint (const char *msg)
+// ConsolePrint(const char *msg)
 // Print message to console.
 //-----------------------------------------------------------------------------
-void            ConsolePrint (const char *msg)
+void            ConsolePrint(const char *msg)
 {
     // FIXME: to do
     #ifdef ARCH_WIN32
@@ -898,7 +898,7 @@ void            Msg(int attr, const char *format, ...)
 
     #ifdef MSG_USER
         if (attr == MSG_USER) // Allegro constant!!
-            Quit_Msg ("Fatal: avoid using MSG_USER, it is an Allegro constant!");
+            Quit_Msg("Fatal: avoid using MSG_USER, it is an Allegro constant!");
     #endif
 
     // Handle Bock-is-lazy-to-type-a-full-constant mode
@@ -920,7 +920,7 @@ void            Msg(int attr, const char *format, ...)
         // Set status line
         if (attr & MSGT_USER_INFOLINE)
         {
-            strcpy (g_gui_status.message, src);
+            strcpy(g_gui_status.message, src);
             g_gui_status.timeleft = 120;
         }
 
@@ -1026,7 +1026,7 @@ static bool     ConsoleWin32_WaitForAnswer(t_console_win32 *c, bool allow_run)
     // Create wait semaphore
     c->semaphore_wait = CreateSemaphore(NULL, 0, 1, NULL);
     if (c->semaphore_wait == 0)
-        return (FALSE);
+        return false;
 
     // Send message to window handler
     PostMessage(c->hwnd, WM_USER+1, allow_run ? 1 : 0, 0);

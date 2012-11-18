@@ -312,9 +312,9 @@ void         TilemapViewer_SwitchMainInstance(void)
     app->active ^= 1;
     // FIXME-LOCAL
     //if (app->active ^= 1)
-    //    Msg(MSGT_USER, Msg_Get (MSG_MemoryEditor_Enabled));
+    //    Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Enabled));
     //else
-    //    Msg(MSGT_USER, Msg_Get (MSG_MemoryEditor_Disabled));
+    //    Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Disabled));
     gui_box_show(app->box, app->active, TRUE);
     gui_menu_inverse_check(menus_ID.tools, 3);
 }

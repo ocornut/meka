@@ -61,9 +61,9 @@ void    GUI_Init()
 	GUI_InitApplets();
     SkinFx_Init();
 
-    Desktop_SetStateToBoxes ();     // Set all boxes state based on MEKA.DSK data
-    gui_menus_init ();              // Create menus (Note: need to be done after Desktop_SetStateToBoxes because it uses the 'active' flags to check items)
-    gui_init_mouse ();
+    Desktop_SetStateToBoxes();     // Set all boxes state based on MEKA.DSK data
+    gui_menus_init();              // Create menus (Note: need to be done after Desktop_SetStateToBoxes because it uses the 'active' flags to check items)
+    gui_init_mouse();
 }
 
 void	GUI_SetupNewVideoMode()
@@ -133,7 +133,7 @@ void    GUI_InitApplets(void)
     TextViewer_Init(&TextViewer);
     // FIXME: save current file in meka.cfg
     if (TextViewer_Open(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain) != MEKA_ERR_OK)
-        Msg (MSGT_USER, Msg_Get(MSG_Doc_File_Error));
+        Msg(MSGT_USER, Msg_Get(MSG_Doc_File_Error));
     TextViewer.current_file = 0; // FIXME: Remove this field
 
     TechInfo_Init();
@@ -152,9 +152,9 @@ void    GUI_InitApplets(void)
     #ifdef MEKA_Z80_DEBUGGER
     if (g_configuration.debug_mode)
     {
-        Debugger_Enable ();
-        Debugger_Init ();
-        DataDump_Init ();
+        Debugger_Enable();
+        Debugger_Init();
+        DataDump_Init();
     }
     #endif
 }

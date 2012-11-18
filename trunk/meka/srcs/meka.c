@@ -246,22 +246,22 @@ static void Free_Memory (void)
 
 static void Close_Emulator (void)
 {
-    Sound_Close          ();
-    Desktop_Close        ();
-    Fonts_Close          ();
-    FDC765_Close         ();
-    Palette_Close        ();
-    Inputs_Sources_Close ();
+    Sound_Close         ();
+    Desktop_Close       ();
+    Fonts_Close         ();
+    FDC765_Close        ();
+    Palette_Close       ();
+    Inputs_Sources_Close();
 #ifdef MEKA_JOYPAD
 	Inputs_Joystick_Close();
 #endif
-    GUI_Close            ();
-    Free_Memory          ();
-    FB_Close             ();
-    DB_Close             ();
-    Blitters_Close       ();
-    Glasses_Close        ();
-    Data_Close           ();
+    GUI_Close           ();
+    Free_Memory         ();
+    FB_Close            ();
+    DB_Close            ();
+    Blitters_Close      ();
+    Glasses_Close       ();
+    Data_Close          ();
 }
 
 // Remove Allegro installed callback
@@ -283,10 +283,10 @@ static void Close_Emulator_Starting_Dir(void)
 
 static int Init_Allegro (void)
 {
-    ConsolePrint (Msg_Get (MSG_Init_Allegro));
+    ConsolePrint(Msg_Get(MSG_Init_Allegro));
 
     // Initialize timer BEFORE allegro
-    // OSD_Timer_Initialize ();
+    // OSD_Timer_Initialize();
 
     al_init();
 	al_init_font_addon();
@@ -319,7 +319,7 @@ static void Close_Allegro(void)
 
 static void Init_GUI(void)
 {
-    ConsolePrintf ("%s\n", Msg_Get (MSG_Init_GUI));
+    ConsolePrintf ("%s\n", Msg_Get(MSG_Init_GUI));
     GUI_Init();
 }
 
@@ -331,7 +331,7 @@ int main(int argc, char **argv)
         InitCommonControls();
     #endif
 
-    ConsoleInit (); // First thing to do
+    ConsoleInit(); // First thing to do
     #ifdef ARCH_WIN32
         ConsolePrintf ("%s (built %s %s)\n(c) %s %s\n--\n", MEKA_NAME_VERSION, MEKA_BUILD_DATE, MEKA_BUILD_TIME, MEKA_DATE, MEKA_AUTHORS);
     #else
@@ -354,58 +354,58 @@ int main(int argc, char **argv)
 
     // Initializations
     g_env.state = MEKA_STATE_INIT;
-    Filenames_Init          (); // Set Filenames Values
-    Messages_Init           (); // Load MEKA.MSG and init messaging system
-    Init_Default_Values     (); // Set Defaults Variables
-    Command_Line_Parse      (); // Parse Command Line (1)
-    Init_Allegro            (); // Initialize Allegro Library
-	Capture_Init            (); // Initialize Screen capture
-    Configuration_Load      (); // Load Configuration File
+    Filenames_Init         (); // Set Filenames Values
+    Messages_Init          (); // Load MEKA.MSG and init messaging system
+    Init_Default_Values    (); // Set Defaults Variables
+    Command_Line_Parse     (); // Parse Command Line (1)
+    Init_Allegro           (); // Initialize Allegro Library
+	Capture_Init           (); // Initialize Screen capture
+    Configuration_Load     (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);
 
-    Setup_Interactive_Init  (); // Show Interactive Setup if asked to
-    Configuration_Load_PostProcess  ();
-    Frame_Skipper_Init      (); // Initialize Auto Frame Skipper
-    Country_Init            (); // Initialize Country
+    Setup_Interactive_Init (); // Show Interactive Setup if asked to
+    Configuration_Load_PostProcess ();
+    Frame_Skipper_Init     (); // Initialize Auto Frame Skipper
+    Country_Init           (); // Initialize Country
     DB_Init                 (g_env.Paths.DataBaseFile); // Initialize and load DataBase file
-    Patches_List_Init       (); // Load Patches List
-    VLFN_Init               (); // Load Virtual Long Filename List
-    Skins_Init              (); // Load Skin List
-    Blitters_Init           (); // Load Blitter List
-    Inputs_Init             (); // Initialize Inputs and load inputs sources list
-    Blit_Init               (); // Initialize Blitter
-    Random_Init             (); // Initialize Random Number Generator
-    Fonts_Init              (); // Initialize Fonts system
+    Patches_List_Init      (); // Load Patches List
+    VLFN_Init              (); // Load Virtual Long Filename List
+    Skins_Init             (); // Load Skin List
+    Blitters_Init          (); // Load Blitter List
+    Inputs_Init            (); // Initialize Inputs and load inputs sources list
+    Blit_Init              (); // Initialize Blitter
+    Random_Init            (); // Initialize Random Number Generator
+    Fonts_Init             (); // Initialize Fonts system
 	Effects_TV_Init			();	// Initialize TV snow effect
-    FDC765_Init             (); // Initialize Floppy Disk emulation
-    Data_Init               (); // Load datafile
-    Init_Emulator           (); // Initialize Emulation
-    Palette_Init            (); // Initialize Palette system
+    FDC765_Init            (); // Initialize Floppy Disk emulation
+    Data_Init              (); // Load datafile
+    Init_Emulator          (); // Initialize Emulation
+    Palette_Init           (); // Initialize Palette system
     Init_LookUpTables		(); // Initialize Look-up tables
-    Machine_Init            (); // Initialize Virtual Machine
-    Init_GUI                (); // Initialize Graphical User Interface
-    Sound_Init              (); // Initialize Sound
+    Machine_Init           (); // Initialize Virtual Machine
+    Init_GUI               (); // Initialize Graphical User Interface
+    Sound_Init             (); // Initialize Sound
 #ifdef MEKA_JOYPAD
-    Inputs_Joystick_Init    (); // Initialize Joysticks. 
+    Inputs_Joystick_Init   (); // Initialize Joysticks. 
 #endif
-	Machine_Reset           (); // Reset Emulated Machine (set default values)
+	Machine_Reset          (); // Reset Emulated Machine (set default values)
 
     // Initialization complete
-    ConsolePrintf ("%s\n--\n", Msg_Get (MSG_Init_Completed));
+    ConsolePrintf ("%s\n--\n", Msg_Get(MSG_Init_Completed));
 
 	// Save configuration file early on (so that bad drivers, will still create a default .cfg file etc.)
 	if (!g_configuration.loaded_configuration_file)
 		Configuration_Save();
 
 	// Load ROM from command line if necessary
-    Load_ROM_Command_Line   ();
+    Load_ROM_Command_Line  ();
 
     // Wait for Win32 console signal
     if (!ConsoleWaitForAnswer(TRUE))
         return (0);
-    ConsoleClose            (); // Close Console
+    ConsoleClose           (); // Close Console
 
-	FB_Init_2               (); // Finish initializing the file browser
+	FB_Init_2              (); // Finish initializing the file browser
 
 	// Setup initial state (fullscreen/GUI)
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
@@ -416,19 +416,19 @@ int main(int argc, char **argv)
 
     // Start main program loop
     // Everything runs from there.
-    // Z80_Opcodes_Usage_Reset ();
+    // Z80_Opcodes_Usage_Reset();
     Main_Loop(); 
-    // Z80_Opcodes_Usage_Print ();
+    // Z80_Opcodes_Usage_Print();
 
     // Shutting down emulator...
     g_env.state = MEKA_STATE_SHUTDOWN;
-    Video_Setup_State       (); // Switch back to text mode
-    BMemory_Save            (); // Write Backed Memory if necessary
-    Configuration_Save      (); // Write Configuration File
-    Write_Inputs_Src_List   (); // Write Inputs Definition File
-    VLFN_Close              (); // Write Virtual Long Filename List
-    Close_Emulator          (); // Close Emulator
-    Show_End_Message        (); // Show End Message
+    Video_Setup_State      (); // Switch back to text mode
+    BMemory_Save           (); // Write Backed Memory if necessary
+    Configuration_Save     (); // Write Configuration File
+    Write_Inputs_Src_List  (); // Write Inputs Definition File
+    VLFN_Close             (); // Write Virtual Long Filename List
+    Close_Emulator         (); // Close Emulator
+    Show_End_Message       (); // Show End Message
 	Close_Allegro			();
 
     return (0);

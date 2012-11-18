@@ -205,9 +205,9 @@ void    SK1100_Switch(void)
     Skins_Background_Redraw();
     gui.info.must_redraw = TRUE;
     if (Inputs.SK1100_Enabled)
-        Msg (MSGT_USER, Msg_Get (MSG_Inputs_SK1100_Enabled));
+        Msg(MSGT_USER, Msg_Get(MSG_Inputs_SK1100_Enabled));
     else
-        Msg (MSGT_USER, Msg_Get (MSG_Inputs_SK1100_Disabled));
+        Msg(MSGT_USER, Msg_Get(MSG_Inputs_SK1100_Disabled));
 }
 
 // Clear SK-1100 data for emulation
