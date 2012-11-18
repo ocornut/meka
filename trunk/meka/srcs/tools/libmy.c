@@ -69,11 +69,11 @@ unsigned short   *StrNDupToU16(const char *src, int n)
 	return (ret);
 }
 
-int     StrNull (char *s)
+bool	StrIsNull(const char *s)
 {
 	if (s == 0 || *s == EOSTR)
-		return (1);
-	return (0);
+		return true;
+	return false;
 }
 
 void	StrUpper(char *s)
@@ -104,7 +104,7 @@ void	StrLower(char *s)
 	}
 }
 
-void    StrReplace (char *s, char c1, char c2)
+void StrReplace (char *s, char c1, char c2)
 {
 	while (*s)
 	{
@@ -112,56 +112,6 @@ void    StrReplace (char *s, char c1, char c2)
 			*s = c2;
 		s++;
 	}
-}
-
-/*
-char    *StrSChr (char *s, char *s2)
-{
- int    i;
-
- while (*s)
-   {
-   i = 0;
-   while (s[i] == s2[i] && s[i] && s2[i])
-     i++;
-   if (s2[i] == EOSTR)
-      return (s);
-   s++;
-   }
- return (0);
-}
-*/
-
-int         GetNbrHex (const char *s)
-{
-    int     result = 0;
-
-    while (*s != EOSTR)
-    {
-        int digit = *s;
-        if (digit >= '0' && digit <= '9')
-            digit = digit - '0';
-        else if (digit >= 'a' && digit <= 'f')
-            digit = digit - 'a' + 10;
-        else if (digit >= 'A' && digit <= 'F')
-            digit = digit - 'F' + 10;
-        else
-            break;
-        result = result * 16 + digit;
-        s++;
-    }
-    return (result);
-}
-
-int         Power (int base, int power)
-{
-    int ret = 1;
-    while (power > 0)
-    {
-        ret = ret * base;
-        power --;
-    }
-    return (ret);
 }
 
 int	Match (const char *src, const char *wildcards)
@@ -190,7 +140,7 @@ int	Match (const char *src, const char *wildcards)
 	}
 }
 
-void    Chomp (char *s)
+void    StrChomp (char *s)
 {
 	int   last;
 
@@ -202,7 +152,7 @@ void    Chomp (char *s)
 	}
 }
 
-void    Trim (char *s)
+void    StrTrim (char *s)
 {
 	char * s1 = s;
 	char * s2 = s;
@@ -214,10 +164,10 @@ void    Trim (char *s)
 			*s1++ = *s2++;
 		*s1 = EOSTR;
 	}
-	Trim_End(s);
+	StrTrimEnd(s);
 }
 
-void     Trim_End(char *s)
+void     StrTrimEnd(char *s)
 {
 	int i = strlen(s) - 1;
 	while (i > 0 && (s[i] == ' ' || s[i] == '\t'))
@@ -227,7 +177,7 @@ void     Trim_End(char *s)
 	}
 }
 
-void    Remove_Spaces(char *s)
+void    StrRemoveBlanks(char *s)
 {
 	char *dst;
 
@@ -240,22 +190,6 @@ void    Remove_Spaces(char *s)
 			*dst++ = *s++;
 	}
 	*dst = EOSTR;
-}
-
-void    Replace_Backslash_N(char *s)
-{
-	int   i;
-
-	while (*s)
-	{
-		if (s[0] == '\\' && s[1] == 'n')
-		{
-			s[0] = '\n';
-			for (i = 1; s[i]; i++)
-				s[i] = s[i + 1];
-		}
-		s++;
-	}
 }
 
 void    Write_Bits_Field (int v, int n_bits, char *field)

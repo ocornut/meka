@@ -106,16 +106,6 @@ extern  const t_input_peripheral_info Inputs_Peripheral_Infos [INPUT_PERIPHERAL_
 #define  INPUT_MAP_MAX                  (8)
 //-----------------------------------------------------------------------------
 
-// Axis Index Coding ----------------------------------------------------------
-// Joypad: 00000000.0000000d.ssssssss.aaaaaaaa (Direction, Stick, Axis)
-// Mouse:  00000000.00000000.00000000.aaaaaaaa (Axis)
-#define INPUT_MAP_UNPACK_AXIS(m)				(m & 0x0000FF)
-#define INPUT_MAP_UNPACK_STICK(m)				((m & 0x00FF00) >> 8)
-#define INPUT_MAP_UNPACK_DIR_LR(m)				(m & 0x010000)
-#define INPUT_MAP_PACK_AXIS(a)					(a)
-#define	INPUT_MAP_PACK_STICK_AXIS_DIR(s,a,d)    ((a & 0xFF) | ((s & 0xFF) << 8) | ((d & 0x01) << 16))
-//-----------------------------------------------------------------------------
-
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -126,11 +116,14 @@ struct t_key_press
     int     ascii;
 };
 
-struct t_input_map
+struct t_input_map_entry
 {
     t_input_map_type	type;						// Axis, Button, Wheel, etc..
-    int					idx;						// Index of Axis/Stick/Button/Wheel, etc..
+    int					hw_index;					// Index of button/stick
+	int					hw_axis;
+	int					hw_direction;
     int					current_value;              // Result, For buttons: 1 if pressed, for axis: contains value
+	int					pressed_counter;
 };
 
 struct t_input_src
@@ -144,8 +137,7 @@ struct t_input_src
     int					Connection_Port;            // Joypad Number, COM Port, etc.. (device & machine dependant)
     float				Analog_to_Digital_FallOff;  // Default: 0.8f
     bool				Connected_and_Ready;        // No/Yes
-    t_input_map			Map[INPUT_MAP_MAX];
-    int					Map_Counters[INPUT_MAP_MAX];
+    t_input_map_entry	Map[INPUT_MAP_MAX];
 };
 
 // FIXME: yet unused

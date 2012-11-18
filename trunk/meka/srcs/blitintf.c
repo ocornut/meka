@@ -177,7 +177,7 @@ void	Blitters_Init (void)
             if ((line [0] == '[') || (line [i] != ' ' && line [i] != '\t'))
                 s2 [j ++] = line [i];
         s2 [j] = 0;
-        if (StrNull (s2))
+        if (StrIsNull (s2))
             continue;
 
         strcpy (s1, s2);

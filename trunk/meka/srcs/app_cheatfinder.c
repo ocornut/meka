@@ -293,7 +293,7 @@ void	CheatFinder_Update(t_cheat_finder* app)
 
 	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
 	t_debugger_value v;
-	app->custom_value_valid = Debugger_Eval_GetValueDirect(custom_value_text, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_DEC);
+	app->custom_value_valid = Debugger_Eval_ParseConstant(custom_value_text, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_DEC);
 	if (app->custom_value_valid)
 		app->custom_value = v.data;
 	//app->custom_value_valid = (sscanf(custom_value_text, "%d", &app->custom_value) == 1);

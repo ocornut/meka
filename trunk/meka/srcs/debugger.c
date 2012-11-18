@@ -61,9 +61,9 @@ static bool     Debugger_CompletionCallback(t_widget *w);
 
 // Evaluator
 static int      Debugger_Eval_GetValue(char **src, t_debugger_value *result);
-bool			Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format);
-static int      Debugger_Eval_GetExpression(char **expr, t_debugger_value *result);
-static bool     Debugger_Eval_GetVariable(int variable_replacement_flags, const char *var, t_debugger_value *result);
+bool			Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format);
+static int      Debugger_Eval_ParseExpression(char **expr, t_debugger_value *result);
+static bool     Debugger_Eval_ParseVariable(int variable_replacement_flags, const char *var, t_debugger_value *result);
 
 static void     Debugger_GetAccessString(int access, char buf[5])
 {
@@ -1040,7 +1040,7 @@ void                        Debugger_BreakPoint_GetSummaryLine(t_debugger_breakp
         strcat(buf, breakpoint->desc);
 
     // Trim trailing spaces
-    Trim_End(buf);
+    StrTrimEnd(buf);
 }
 
 bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value)
@@ -1333,8 +1333,8 @@ void    Debugger_Symbols_Load(void)
         char* p = strchr(line, ';');
         if (p != NULL)
             *p = EOSTR;
-        Trim(line);
-        if (StrNull(line))
+        StrTrim(line);
+        if (StrIsNull(line))
             continue;
 
         // Parse
@@ -2504,7 +2504,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
 
         // Parse different kind of ranges (A, A.., A..B, ..B)
         char* p = arg;
-        if (Debugger_Eval_GetExpression(&p, &address_start) > 0)
+        if (Debugger_Eval_ParseExpression(&p, &address_start) > 0)
         {
             // Default is no range, so end==start
             address_start.data = address_start.data;
@@ -2519,7 +2519,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             // Get second part of the range
             if (address_start.data == (u32)-1)
                 address_start.data = bus_info->addr_min;
-            if (Debugger_Eval_GetExpression(&p, &address_end) > 0)
+            if (Debugger_Eval_ParseExpression(&p, &address_end) > 0)
                 address_end.data = address_end.data;
             else
                 address_end.data = bus_info->addr_max;
@@ -2610,7 +2610,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                 Debugger_Printf("Error: data comparing for write accesses is limited to 1 byte! Only read/execute accesses can uses more.\n");
                 return;
             }
-            if (!Debugger_Eval_GetValueDirect(value_buf, &value))
+            if (!Debugger_Eval_ParseConstant(value_buf, &value))
             {
                 Debugger_Printf("Syntax error!\n");
                 return;
@@ -2631,7 +2631,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     // Parse or create description
     {
         assert(desc == NULL);
-        Trim(line);
+        StrTrim(line);
         if (line[0] != '\0')
         {
             if (line[0] == '\"')
@@ -2715,7 +2715,7 @@ void        Debugger_InputParseCommand(char *line)
     // HI - HISTORY
     if (!strcmp(cmd, "HI") || !strcmp(cmd, "HISTORY"))
     {
-        if (!StrNull(line))
+        if (!StrIsNull(line))
             Debugger_History_List(line);
         else
 			Debugger_History_List(NULL);
@@ -2750,7 +2750,7 @@ void        Debugger_InputParseCommand(char *line)
         }
 
         t_debugger_value value;
-        if (Debugger_Eval_GetExpression(&line, &value) > 0)
+        if (Debugger_Eval_ParseExpression(&line, &value) > 0)
         {
             // Continue up to...
             u16 addr = value.data;
@@ -2816,7 +2816,7 @@ void        Debugger_InputParseCommand(char *line)
             // If running, stop and entering into debugging state
             Machine_Debug_Start ();
         }
-        if (Debugger_Eval_GetExpression(&line, &value) > 0)
+        if (Debugger_Eval_ParseExpression(&line, &value) > 0)
         {
             sms.R.PC.W = value.data;
             Debugger_Printf("Jump to $%04X\n", sms.R.PC.W);
@@ -2852,11 +2852,11 @@ void        Debugger_InputParseCommand(char *line)
     if (!strcmp(cmd, "P") || !strcmp(cmd, "PRINT"))
     {
         t_debugger_value value;
-        Trim(line);
+        StrTrim(line);
         if (line[0])
         {
             char *p = line;
-            while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
+            while (*p && Debugger_Eval_ParseExpression(&p, &value) > 0)
             {
                 const s16 data = value.data;
                 const int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
@@ -2918,7 +2918,7 @@ void        Debugger_InputParseCommand(char *line)
             Machine_Debug_Start();
         }
 
-        Trim(line);
+        StrTrim(line);
         if (line[0])
         {
             char *p = line;
@@ -2959,7 +2959,7 @@ void        Debugger_InputParseCommand(char *line)
                 {
                     // Get right value
                     t_debugger_value rvalue;
-                    if (Debugger_Eval_GetExpression(&p, &rvalue) > 0)
+                    if (Debugger_Eval_ParseExpression(&p, &rvalue) > 0)
                     {
                         // Assign
                         if (rvalue.data_size > lvalue->data_size)
@@ -3014,7 +3014,7 @@ void        Debugger_InputParseCommand(char *line)
             int len  = 10;
             t_debugger_value value;
             int expr_error;
-            if ((expr_error = Debugger_Eval_GetExpression(&line, &value)) < 0)
+            if ((expr_error = Debugger_Eval_ParseExpression(&line, &value)) < 0)
             {
                 Debugger_Printf("Syntax error!\n");
                 return;
@@ -3023,7 +3023,7 @@ void        Debugger_InputParseCommand(char *line)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if ((expr_error = Debugger_Eval_GetExpression(&line, &value)) < 0)
+                if ((expr_error = Debugger_Eval_ParseExpression(&line, &value)) < 0)
                 {
                     Debugger_Printf("Syntax error!\n");
                     return;
@@ -3061,7 +3061,7 @@ void        Debugger_InputParseCommand(char *line)
 	// RMAP
 	if (!strcmp(cmd, "RMAP"))
 	{
-		Trim(line);
+		StrTrim(line);
 		if (line[0])
 		{
 			if (!(g_machine_flags & MACHINE_POWER_ON))
@@ -3072,7 +3072,7 @@ void        Debugger_InputParseCommand(char *line)
 			{
 				t_debugger_value value;
 				char *p = line;
-				while (*p && Debugger_Eval_GetExpression(&p, &value) > 0)
+				while (*p && Debugger_Eval_ParseExpression(&p, &value) > 0)
 				{
 					const s16 addr = value.data;
 					Debugger_ReverseMap(addr);
@@ -3093,12 +3093,12 @@ void        Debugger_InputParseCommand(char *line)
     // SYMBOLS - SYMBOLS
     if (!strcmp(cmd, "SYM") || !strcmp(cmd, "SYMBOL") || !strcmp(cmd, "SYMBOLS"))
     {
-		Trim(line);
+		StrTrim(line);
 		if (line[0] == '@')
 		{
 			t_debugger_value value;
 			line++;
-			if (Debugger_Eval_GetExpression(&line, &value) < 0)
+			if (Debugger_Eval_ParseExpression(&line, &value) < 0)
 			{
 				Debugger_Printf("Syntax error!\n");
 				return;
@@ -3110,7 +3110,7 @@ void        Debugger_InputParseCommand(char *line)
 		}
 		else
 		{
-	        if (!StrNull(line))
+	        if (!StrIsNull(line))
 		        Debugger_Symbols_ListByName(line);
 			else
 				Debugger_Symbols_ListByName(NULL);
@@ -3130,11 +3130,11 @@ void        Debugger_InputParseCommand(char *line)
             u16 addr = sms.R.PC.W;
             int len  = 16*8;
             t_debugger_value value;
-            if (Debugger_Eval_GetExpression(&line, &value) > 0)
+            if (Debugger_Eval_ParseExpression(&line, &value) > 0)
             {
                 addr = value.data;
                 parse_skip_spaces(&line);
-                if (Debugger_Eval_GetExpression(&line, &value) > 0)
+                if (Debugger_Eval_ParseExpression(&line, &value) > 0)
                 {
                     len = value.data;
                 }
@@ -3184,7 +3184,7 @@ void        Debugger_InputParseCommand(char *line)
 			u16 addr = sms.R.SP.W;
 			int len  = 8;
 			t_debugger_value value;
-			if (Debugger_Eval_GetExpression(&line, &value) > 0)
+			if (Debugger_Eval_ParseExpression(&line, &value) > 0)
 				len = value.data;
 
 			t_debugger_symbol * symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
@@ -3252,7 +3252,7 @@ void        Debugger_InputBoxCallback(t_widget *w)
     char    line_buf[512];
 
     strcpy(line_buf, widget_inputbox_get_value(DebuggerApp.input_box));
-    Trim(line_buf);
+    StrTrim(line_buf);
 
     // Clear input box
     widget_inputbox_set_value(DebuggerApp.input_box, "");
@@ -3405,7 +3405,7 @@ void     Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_si
 //   Generalized abstraction to access system components?
 //   Anyway - this is quick and dirty but it suffise now.
 //-----------------------------------------------------------------------------
-bool    Debugger_Eval_GetVariable(int variable_replacement_flags, const char *var, t_debugger_value *result)
+bool    Debugger_Eval_ParseVariable(int variable_replacement_flags, const char *var, t_debugger_value *result)
 {
     // CPU registers
     if (variable_replacement_flags & DEBUGGER_VARIABLE_REPLACEMENT_CPU_REGS)
@@ -3484,7 +3484,7 @@ static int  Debugger_Eval_ParseInteger(const char *s, const char *base, const ch
     return (result);
 }
 
-bool    Debugger_Eval_GetValueDirect(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format)
+bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format)
 {
     // Debugger_Printf(" - token = %s\n", token);
 
@@ -3572,7 +3572,7 @@ int    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
     if (*src == '(')
     {
         src++;
-        expr_error = Debugger_Eval_GetExpression(&src, result);
+        expr_error = Debugger_Eval_ParseExpression(&src, result);
         if (expr_error <= 0)
             return (expr_error);
         if (*src != ')')
@@ -3594,14 +3594,14 @@ int    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
         return (0);
 
     // Attempt to see if it's a variable
-    if (Debugger_Eval_GetVariable(DEBUGGER_VARIABLE_REPLACEMENT_ALL, token, result))
+    if (Debugger_Eval_ParseVariable(DEBUGGER_VARIABLE_REPLACEMENT_ALL, token, result))
     {
         *src_result = src;
         return (1);
     }
 
     // Else a direct value
-    if (Debugger_Eval_GetValueDirect(token, result))
+    if (Debugger_Eval_ParseConstant(token, result))
     {
         *src_result = src;
         return (1);
@@ -3723,7 +3723,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
 //  A+(B*C)
 //  ((0xFF^0x10)&%11110000)
 //-----------------------------------------------------------------------------
-int     Debugger_Eval_GetExpression(char **expr, t_debugger_value *result)
+int     Debugger_Eval_ParseExpression(char **expr, t_debugger_value *result)
 {
     char *  p;
     char    op;

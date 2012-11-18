@@ -152,7 +152,7 @@ void    Filenames_Init()
 void    Filenames_Init_ROM (void)
 {
     // ROM (when parsed from command line)
-    if (StrNull(g_env.Paths.MediaImageFile))
+    if (StrIsNull(g_env.Paths.MediaImageFile))
     {
         strcpy(g_env.Paths.BatteryBackedMemoryFile, "");
         return;
@@ -170,7 +170,7 @@ void    Filenames_Init_ROM (void)
 
 bool    Load_ROM_Command_Line (void)
 {
-    if (StrNull(g_env.Paths.MediaImageFile))
+    if (StrIsNull(g_env.Paths.MediaImageFile))
         return (FALSE);
     return Load_ROM (LOAD_COMMANDLINE, TRUE);
 }
@@ -181,7 +181,7 @@ bool    Load_ROM_Command_Line (void)
 //-----------------------------------------------------------------------------
 bool    Reload_ROM (void)
 {
-    if (StrNull(g_env.Paths.MediaImageFile))
+    if (StrIsNull(g_env.Paths.MediaImageFile))
     {
         Msg (MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_No_ROM));
         return (FALSE);

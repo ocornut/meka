@@ -131,14 +131,14 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
     Inputs_CFG_Current_Source_Draw ();
 }
 
-byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
+byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
-    t_input_src *input_src = Inputs.Sources [Inputs_CFG.Current_Source];
-    t_input_map *Map = &input_src->Map[i];
+    t_input_src* input_src = Inputs.Sources [Inputs_CFG.Current_Source];
+    t_input_map_entry* map = &input_src->Map[i];
 
-    const char* map_name = Inputs_Get_MapName (input_src->type, i);
+    const char* map_name = Inputs_Get_MapName(input_src->type, i);
     if (map_name == NULL)
         return FALSE;
 
@@ -152,9 +152,9 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
     int y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(F_CURRENT) + GUI_LOOK_LINES_SPACING_Y) + 7;
 
     char map_value[128];
-    if (Map->idx == -1)
+    if (map->hw_index == -1)
 	{
-        sprintf (map_value, "<Null>");
+        sprintf(map_value, "<Null>");
 	}
     else
     {
@@ -162,34 +162,29 @@ byte        Inputs_CFG_Current_Source_Draw_Map (int i, ALLEGRO_COLOR Color)
         {
         case INPUT_SRC_TYPE_KEYBOARD:
             {
-                const t_key_info *key_info = KeyInfo_FindByScancode (Map->idx);
-                strcpy (map_value, key_info ? key_info->name : "error");
+                const t_key_info *key_info = KeyInfo_FindByScancode(map->hw_index);
+                strcpy(map_value, key_info ? key_info->name : "error");
                 break;
             }
         case INPUT_SRC_TYPE_JOYPAD:
-            switch (Map->type)
+            switch (map->type)
             {
             case INPUT_MAP_TYPE_JOY_AXIS:
-                sprintf (map_value, "Stick %d, Axis %d, %c",
-                    INPUT_MAP_UNPACK_STICK(Map->idx),
-                    INPUT_MAP_UNPACK_AXIS(Map->idx),
-                    INPUT_MAP_UNPACK_DIR_LR(Map->idx) ? '+' : '-');
+				sprintf(map_value, "Stick %d, Axis %d, %c", map->hw_index, map->hw_axis, map->hw_direction ? '+' : '-');
                 break;
             case INPUT_MAP_TYPE_JOY_BUTTON:
-                sprintf (map_value, "Button %d", Map->idx);
+                sprintf(map_value, "Button %d", map->hw_index);
                 break;
             }
             break;
         case INPUT_SRC_TYPE_MOUSE:
-            switch (Map->type)
+            switch (map->type)
             {
             case INPUT_MAP_TYPE_MOUSE_AXIS:
-                sprintf (map_value, "Axis %d (%c)",
-                    INPUT_MAP_UNPACK_AXIS(Map->idx),
-                    'X' + INPUT_MAP_UNPACK_AXIS(Map->idx));
+                sprintf(map_value, "Axis %d (%c)", map->hw_index, 'X' + map->hw_index);
                 break;
             case INPUT_MAP_TYPE_MOUSE_BUTTON:
-                sprintf (map_value, "Button %d", Map->idx+1);
+                sprintf(map_value, "Button %d", map->hw_index+1);
                 break;
             }
             break;
@@ -259,7 +254,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
 
     // Mapping
     for (int i = 0; i < INPUT_MAP_MAX; i++)
-        if (Inputs_CFG_Current_Source_Draw_Map (i, COLOR_SKIN_WINDOW_TEXT))
+        if (Inputs_CFG_Current_Source_Draw_Map(i, COLOR_SKIN_WINDOW_TEXT))
             y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
     // Quit now if it is not an analog device..
@@ -293,7 +288,7 @@ void    Inputs_CFG_Current_Source_Change (t_widget *w)
 		app->Current_Source--;
 	}
 
-    Inputs_CFG_Current_Source_Draw ();
+    Inputs_CFG_Current_Source_Draw();
     widget_checkbox_set_pvalue (app->CheckBox_Enabled, &Inputs.Sources [app->Current_Source]->enabled);
     widget_checkbox_redraw (app->CheckBox_Enabled);
     if (app->Current_Map != -1)
@@ -469,24 +464,21 @@ void    Inputs_CFG_Map_Change_Update (void)
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
-    int           i;
-    bool          found;
-    t_input_src * input_src;
-
     if (Inputs_CFG.Current_Map == -1)
         return;
 
-    found = FALSE;
-    input_src = Inputs.Sources[Inputs_CFG.Current_Source];
+    bool found = FALSE;
+    t_input_src* input_src = Inputs.Sources[Inputs_CFG.Current_Source];
+	t_input_map_entry* map = &input_src->Map[Inputs_CFG.Current_Map];
 
     // Pressing ESC cancel map change
 	// Eat the keypress to avoid it having side effect of switching to fullscreen mode
     if (Inputs_KeyPressed(ALLEGRO_KEY_ESCAPE, true))
     {
         found = TRUE;
-        input_src->Map [Inputs_CFG.Current_Map].idx = -1;
+        map->hw_index = -1;
         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Cancelled));
-        Inputs_CFG_Map_Change_End ();
+        Inputs_CFG_Map_Change_End();
         return;
     }
 
@@ -496,7 +488,7 @@ void    Inputs_CFG_Map_Change_Update (void)
         // Keyboard ----------------------------------------------------------------
     case INPUT_SRC_TYPE_KEYBOARD:
         {
-            for (i = 0; i < ALLEGRO_KEY_MAX; i++)
+            for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
 			{
 				// Eat keypresses to avoid them having a side effect with the GUI or game
                 if (Inputs_KeyPressed(i, true))
@@ -504,8 +496,8 @@ void    Inputs_CFG_Map_Change_Update (void)
                     const t_key_info *key_info = KeyInfo_FindByScancode(i);
                     if (key_info)
                     {
-                        input_src->Map [Inputs_CFG.Current_Map].idx = i;
-                        input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_KEY;
+                        map->hw_index = i;
+                        map->type = INPUT_MAP_TYPE_KEY;
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Keyboard_Ok), key_info->name);
                     }
@@ -531,12 +523,12 @@ void    Inputs_CFG_Map_Change_Update (void)
 
             // Check buttons
 			const int num_buttons = al_get_joystick_num_buttons(joystick);
-            for (i = 0; i < num_buttons; i++)
+            for (int i = 0; i < num_buttons; i++)
 			{
 				if (state.button[i])
                 {
-                    input_src->Map [Inputs_CFG.Current_Map].idx = i;
-                    input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_JOY_BUTTON;
+                    map->hw_index = i;
+                    map->type = INPUT_MAP_TYPE_JOY_BUTTON;
 					found = TRUE;
                     Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_B), i);
                     break;
@@ -547,7 +539,7 @@ void    Inputs_CFG_Map_Change_Update (void)
 
             // Check axises
 			const int num_sticks = al_get_joystick_num_sticks(joystick);
-            for (i = 0; i < num_sticks; i++)
+            for (int i = 0; i < num_sticks; i++)
             {
 				const int num_axes = al_get_joystick_num_axes(joystick, i);
                 for (int j = 0; j < num_axes; j++)
@@ -556,8 +548,10 @@ void    Inputs_CFG_Map_Change_Update (void)
 					//Msg (MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
 					if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < -INPUT_JOY_DEADZONE)
                     {
-                        input_src->Map [Inputs_CFG.Current_Map].idx = INPUT_MAP_PACK_STICK_AXIS_DIR(i, j, (axis_pos > 0.0f ? 1 : 0));
-                        input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_JOY_AXIS;
+						map->hw_index = i;
+						map->hw_axis = j;
+						map->hw_direction = (axis_pos > 0.0f ? 1 : 0);
+                        map->type = INPUT_MAP_TYPE_JOY_AXIS;
                         found = TRUE;
                         Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
                         break;
@@ -584,11 +578,12 @@ void    Inputs_CFG_Map_Change_Update (void)
                     n = 2;
                 if (n != -1)
                 {
-                    input_src->Map [Inputs_CFG.Current_Map].idx = n;
-                    input_src->Map [Inputs_CFG.Current_Map].type = INPUT_MAP_TYPE_MOUSE_BUTTON;
+					t_input_map_entry* map = &input_src->Map[Inputs_CFG.Current_Map];
+                    map->hw_index = n;
+                    map->type = INPUT_MAP_TYPE_MOUSE_BUTTON;
                     gui.mouse.buttons_prev = gui.mouse.buttons; // Note: eating mouse press FIXME
-                    found = TRUE;
-                    Msg (MSGT_USER_INFOLINE, Msg_Get (MSG_Inputs_Src_Map_Mouse_Ok_B), n+1);
+                    found = true;
+                    Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Mouse_Ok_B), n+1);
                     break;
                 }
             }
