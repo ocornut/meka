@@ -112,11 +112,12 @@ void	TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app)
 	switch (app->layout)
 	{
 	case TILEMAP_VIEWER_LAYOUT_SMSGG:
+	case TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT:
 		{
 			app->frame_tilemap.pos.x        = TILEMAP_VIEWER_PADDING;
 			app->frame_tilemap.pos.y        = TILEMAP_VIEWER_PADDING;
 			app->frame_tilemap.size.x       = 256;
-			app->frame_tilemap.size.y       = 224;
+			app->frame_tilemap.size.y       = (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT) ? 256 : 224;
 
 			app->frame_infos.pos.x          = TILEMAP_VIEWER_PADDING;
 			app->frame_infos.pos.y          = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
@@ -188,7 +189,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     // Horizontal line
     al_draw_line(0, app->frame_tilemap_addr.pos.y+0.5f, app->frame_config.pos.x + app->frame_config.size.x, app->frame_tilemap_addr.pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
-	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG)
+	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG || app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT)
 	{
 		// Vertical line
 		al_draw_line(app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y, app->frame_config.pos.x - TILEMAP_VIEWER_PADDING*2+1, app->frame_config.pos.y + app->frame_config.size.y, COLOR_SKIN_WINDOW_SEPARATORS, 0);
@@ -326,7 +327,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 	// Full relayout when changing video mode
 	t_tilemap_viewer_layout required_layout;
 	if (tsms.VDP_VideoMode >= 4)
-		required_layout = TILEMAP_VIEWER_LAYOUT_SMSGG;
+		required_layout = (Wide_Screen_28) ? TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT : TILEMAP_VIEWER_LAYOUT_SMSGG;
 	else
 		required_layout = TILEMAP_VIEWER_LAYOUT_SGSC;
 	if (app->layout != required_layout)
@@ -392,11 +393,10 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
 		// Draw tilemap
         const u16 *map = (u16 *)(VRAM + app->config_tilemap_addr);
-        int i, j;
-        for (j = 0; j != 224/8; j++)
+        for (int j = 0; j != app->frame_tilemap.size.y/8; j++)
         {
             const int dst_y = app->frame_tilemap.pos.y + (j << 3);
-            for (i = 0; i != 256/8; i++)
+            for (int i = 0; i != app->frame_tilemap.size.x/8; i++)
             {
                 const int   dst_x           = app->frame_tilemap.pos.x + (i << 3);
                 const u16   map_item        = *map++;
@@ -455,7 +455,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
     }
 
     // Update hovered/selected tile information
-	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG)
+	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG || app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT)
     {
         if (app->config_scroll)
             TilemapViewer_UpdateScroll(app);
@@ -525,7 +525,7 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     gui_frame_clear(app->box->gfx_buffer, &app->frame_infos, COLOR_SKIN_WINDOW_BACKGROUND);
 
 	FontPrinter fp(F_MIDDLE);
-	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG)
+	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG || app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT)
 	{
 		v2i pos = app->frame_infos.pos;
 		pos.x += TILEMAP_VIEWER_PADDING;
@@ -612,9 +612,6 @@ static void     TilemapViewer_UpdateScrollDrawLineWrap(t_tilemap_viewer *app, in
     if (Wide_Screen_28)
     {
 		y &= 255;
-		// FIXME: This is temporary (and incorrect) until the applet can resize itself
-		if (y >= 224)
-			return;
     }
     else
     {
