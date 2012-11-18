@@ -43,8 +43,8 @@ void alx_locked_draw_filled_rectangle(ALLEGRO_LOCKED_REGION* dst_region, int x1,
 		{
 			const u32 host_color32 = Palette_MakeHostColor(color_format, color);
 
-			const int dst_pitch = dst_region->pitch;
-			u32* dst_data_line = (u32*)dst_region->data + (y1 * dst_pitch);
+			const int dst_pitch = dst_region->pitch >> 2;
+			u32* dst_data_line = (u32*)dst_region->data + (y1 * dst_pitch + x1);
 			const int x_len32 = (x2 - x1);
 			for (int y = y1; y != y2; y++, dst_data_line += dst_pitch)
 			{
