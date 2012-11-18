@@ -67,6 +67,7 @@ They are usually of 2 kinds:
   - GUI: depth order of windows is saved and restored between runs. [Omar]
   - GUI: increased mouse horizontal range when using scrollbars. [Omar]
   - GUI: added 'game_window_scale' directive on configuration file to resize game window. [Omar]
+  - Configuration file is created early on startup if missing. [Omar]
   - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
   - Removed code for the old OPL3 based YM2413 emulator. [Omar]
   - Removed easter egg code for emulating the NES. [Omar]

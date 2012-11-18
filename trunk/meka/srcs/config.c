@@ -167,72 +167,58 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "video_game_page_flipping"))		{}
 }
 
-//-----------------------------------------------------------------------------
 // Load configuration file data from MEKA.CFG
-//-----------------------------------------------------------------------------
-void        Configuration_Load (void)
+void Configuration_Load()
 {
-    char       variable[256], value[256];
-    t_tfile *  tf;
-    t_list *   lines;
-    char *     line;
-    int        line_cnt;
-
-    StrPath_RemoveDirectory(value, g_env.Paths.ConfigurationFile);
-#ifdef ARCH_WIN32
-    StrUpper(value);
-#endif
-    ConsolePrintf (Msg_Get(MSG_Config_Loading), value);
+    ConsolePrintf(Msg_Get(MSG_Config_Loading), g_env.Paths.ConfigurationFile);
 
     // Open and read file
+	t_tfile *  tf;
     if ((tf = tfile_read(g_env.Paths.ConfigurationFile)) == NULL)
     {
-        ConsolePrintf ("%s\n", meka_strerror());
+        ConsolePrintf("%s\n", meka_strerror());
 		opt.Setup_Interactive_Execute = true;
         return;
     }
-    ConsolePrint ("\n");
+    ConsolePrint("\n");
 
     // Parse each line
-    line_cnt = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    int line_cnt = 0;
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
         line_cnt += 1;
-        line = (char*)lines->elem;
 
-        if (StrNull (line))
+		char* line = (char*)lines->elem;
+        if (StrNull(line))
             continue;
 
+		char variable[256], val[256];
         if (parse_getword(variable, sizeof(variable), &line, "=", ';', PARSE_FLAGS_NONE))
         {
             parse_skip_spaces(&line);
-            if (parse_getword(value, sizeof(value), &line, "", ';', PARSE_FLAGS_NONE))
-                Configuration_Load_Line(variable, value);
+            if (parse_getword(val, sizeof(val), &line, "", ';', PARSE_FLAGS_NONE))
+                Configuration_Load_Line(variable, val);
         }
     }
 
     // Free file data
     tfile_free (tf);
+
+	g_configuration.loaded_configuration_file = true;
 }
 
-//-----------------------------------------------------------------------------
-// Configuration_Load_PostProcess ()
 // Various post processing right after loading the configuration file
-//-----------------------------------------------------------------------------
-void    Configuration_Load_PostProcess (void)
+void Configuration_Load_PostProcess()
 {
     g_configuration.debug_mode = (g_configuration.debug_mode_cfg || g_configuration.debug_mode_cl);
 }
 
-//-----------------------------------------------------------------------------
-// Configuration_Save ()
 // Save configuration file data to MEKA.CFG
-//-----------------------------------------------------------------------------
-void    Configuration_Save (void)
+void Configuration_Save()
 {
     char   s1 [256];
 
-    if (!(CFG_File = fopen (g_env.Paths.ConfigurationFile, "wt")))
+    if (!(CFG_File = fopen(g_env.Paths.ConfigurationFile, "wt")))
         return;
 
     CFG_Write_Line (";");
@@ -451,7 +437,7 @@ void    Command_Line_Parse (void)
 	}
 }
 
-void    Command_Line_Help (void)
+void    Command_Line_Help(void)
 {
     // Note: this help screen is not localized.
     Quit_Msg(

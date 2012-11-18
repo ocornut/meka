@@ -263,6 +263,8 @@ struct t_video_driver;
 
 struct t_meka_configuration
 {
+	bool	loaded_configuration_file;
+
     // Country
     int     country;                    // Country to use (session)
     int     country_cfg;                // " given by configuration file and saved back
