@@ -523,7 +523,7 @@ void SoundDebugApp_Init()
 void SoundDebugApp_InstallMenuItems(int menu_parent)
 {
 	t_app_sound_debug* app = &SoundDebugApp;
-	menu_add_item(menu_parent, "Sound Debug", AM_Active | Is_Checked(app->active), (t_menu_callback)SoundDebugApp_Switch, app);
+	menu_add_item(menu_parent, "Sound Debug", MENU_ITEM_FLAG_ACTIVE | Is_Checked(app->active), (t_menu_callback)SoundDebugApp_Switch, app);
 }
 
 static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)

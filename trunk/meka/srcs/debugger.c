@@ -105,7 +105,7 @@ static const char *             Debugger_BreakPoint_GetTypeName(t_debugger_break
 static bool                     Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int access, int addr, int value);
 
 // Symbols
-static void                     Debugger_Symbols_Load();
+bool							Debugger_Symbols_Load();
 static void                     Debugger_Symbols_Clear();
 static void                     Debugger_Symbols_ListByName(char *search_name);
 static void						Debugger_Symbols_ListByAddr(u32 addr);
@@ -583,11 +583,8 @@ void        Debugger_MachineReset(void)
     Debugger.cycle_counter = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_MediaReload(void)
 // Called when the media (ROM) gets changed/reloaded
-//-----------------------------------------------------------------------------
-void        Debugger_MediaReload(void)
+void        Debugger_MediaReload()
 {
 	if (!Debugger.enabled)
 		return;
@@ -1285,23 +1282,21 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 	return false;
 }
 
-void    Debugger_Symbols_Load(void)
+bool	Debugger_Symbols_Load(void)
 {
-    char        symbol_filename[FILENAME_LEN];
-    t_tfile *   symbol_file;
-    t_list *    lines;
-    int         line_cnt;
-    char        buf[256];
+	if (!Debugger.enabled)
+		return false;
 
-    // First, clear any existing symbol
+    // First clear any existing symbol
     Debugger_Symbols_Clear();
 
     // Load symbol file
     // 1. Try "image.sym"
+	char symbol_filename[FILENAME_LEN];
     strcpy(symbol_filename, g_env.Paths.MediaImageFile);
     StrPath_RemoveExtension(symbol_filename);
     strcat(symbol_filename, ".sym");
-    symbol_file = tfile_read(symbol_filename);
+    t_tfile* symbol_file = tfile_read(symbol_filename);
     if (symbol_file == NULL)
     {
         // Note: we silently fail on MEKA_ERR_FILE_OPEN (file not found / cannot open)
@@ -1315,14 +1310,14 @@ void    Debugger_Symbols_Load(void)
         {
             if (meka_errno != MEKA_ERR_FILE_OPEN)
                 Msg(MSGT_USER, meka_strerror());
-            return;
+            return false;
         }
     }
     StrPath_RemoveDirectory(symbol_filename);
 
-    line_cnt = 0;
+    int line_cnt = 0;
 	bool error = false;
-    for (lines = symbol_file->data_lines; lines; lines = lines->next)
+    for (t_list* lines = symbol_file->data_lines; lines; lines = lines->next)
     {
         char* line = (char*) lines->elem;
         line_cnt += 1;
@@ -1365,14 +1360,16 @@ void    Debugger_Symbols_Load(void)
     list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByAddress);
 
     // Verbose
+	char buf[256];
     sprintf(buf, Msg_Get(MSG_Debug_Symbols_Loaded), Debugger.symbols_count, symbol_filename);
     Debugger_Printf("%s\n", buf);
+
+	return (Debugger.symbols_count > 0);
 }
 
 void    Debugger_Symbols_Clear()
 {
-    t_list *symbols;
-    for (symbols = Debugger.symbols; symbols != NULL; )
+    for (t_list* symbols = Debugger.symbols; symbols != NULL; )
     {
         t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
         symbols = symbols->next;
@@ -1383,9 +1380,6 @@ void    Debugger_Symbols_Clear()
 
 void    Debugger_Symbols_ListByName(char *search_name)
 {
-    t_list *symbols;
-    int count;
-
     if (search_name)
     {
         Debugger_Printf("Symbols matching \"%s\":\n", search_name);
@@ -1397,8 +1391,8 @@ void    Debugger_Symbols_ListByName(char *search_name)
         Debugger_Printf("Symbols:\n");
     }
 
-    count = 0;
-    for (symbols = Debugger.symbols; symbols != NULL; symbols = symbols->next)
+    int count = 0;
+    for (t_list* symbols = Debugger.symbols; symbols != NULL; symbols = symbols->next)
     {
         t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
 
@@ -1426,10 +1420,8 @@ void    Debugger_Symbols_ListByName(char *search_name)
 
 void    Debugger_Symbols_ListByAddr(u32 addr_request)
 {
-	u32 addr_sym;
-	
 	addr_request &= 0xFFFF;
-	addr_sym = addr_request;
+	u32 addr_sym = addr_request;
 	while (addr_sym != (u32)-1)
 	{
 		if (Debugger.symbols_cpu_space[addr_sym] != NULL)
@@ -1441,6 +1433,7 @@ void    Debugger_Symbols_ListByAddr(u32 addr_request)
 		Debugger_Printf("Symbols at address \"%04x\":\n", addr_request);
 	else
 		Debugger_Printf("Symbols near address \"%04x\":\n", addr_request);
+
 	if (addr_sym == (u32)-1)
 	{
 		Debugger_Printf(" <None>\n");
@@ -1499,13 +1492,11 @@ t_debugger_symbol *		Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int ran
 
 t_debugger_symbol *     Debugger_Symbol_Add(u16 addr, int bank, const char *name)
 {
-    t_debugger_symbol * symbol;
-
     // Check parameters
     assert(name != NULL);
 
     // Create and setup symbol
-    symbol = new t_debugger_symbol();
+    t_debugger_symbol* symbol = new t_debugger_symbol();
     symbol->addr = addr;
     symbol->bank = bank;
     symbol->name = strdup(name);
@@ -1572,8 +1563,7 @@ void     Debugger_Hooks_Uninstall(void)
 
 void        Debugger_WrZ80_Hook(register u16 addr, register u8 value)
 {
-    t_list *breakpoints;
-    for (breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
+    for (t_list* breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
         t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
         if (breakpoint->access_flags & BREAKPOINT_ACCESS_W)
@@ -1587,7 +1577,7 @@ void        Debugger_WrZ80_Hook(register u16 addr, register u8 value)
 
 u8          Debugger_RdZ80_Hook(register u16 addr)
 {
-    u8 value = RdZ80_NoHook(addr);
+    const u8 value = RdZ80_NoHook(addr);
     for (t_list* breakpoints = Debugger.breakpoints_cpu_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
         t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
@@ -1625,7 +1615,7 @@ static void     Debugger_OutZ80_Hook(register u16 addr, register u8 value)
 
 static u8       Debugger_InZ80_Hook(register u16 addr)
 {
-    u8 value = InZ80_NoHook(addr);
+    const u8 value = InZ80_NoHook(addr);
     for (t_list* breakpoints = Debugger.breakpoints_io_space[addr]; breakpoints != NULL; breakpoints = breakpoints->next)
     {
         t_debugger_breakpoint* breakpoint = (t_debugger_breakpoint*)breakpoints->elem;
@@ -1688,28 +1678,25 @@ void            Debugger_WrPRAM_Hook(register int addr, register u8 value)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_Switch ()
-//-----------------------------------------------------------------------------
 // Enable or disable the debugger window and associated processing.
-//-----------------------------------------------------------------------------
-void        Debugger_Switch (void)
+void	Debugger_Switch()
 {
     // Msg(MSGT_DEBUG, "Debugger_Switch()");
     if (!Debugger.enabled)
         return;
+
     Debugger.active ^= 1;
-    gui_box_show (DebuggerApp.box, Debugger.active, TRUE);
+    gui_box_show(DebuggerApp.box, Debugger.active, true);
     if (Debugger.active)
     {
-        gui_menu_check (menus_ID.debug, 0);
+        gui_menu_check(menus_ID.debug, 0);
         Machine_Debug_Start();
         // ??
         // Meka_Z80_Debugger_SetBreakPoint (Debugger.break_point_address);
     }
     else
     {
-        gui_menu_un_check_one (menus_ID.debug, 0);
+        gui_menu_un_check_one(menus_ID.debug, 0);
         Machine_Debug_Stop();
         sms.R.Trap = 0xFFFF;
     }
@@ -1729,16 +1716,11 @@ void        Debugger_Switch (void)
         Debugger_Init_LogFile();
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_Printf()
-//-----------------------------------------------------------------------------
 // Print a formatted line to the debugger console
-//-----------------------------------------------------------------------------
 void        Debugger_Printf(const char *format, ...)
 {
     char    buf[1024];
     va_list param_list;
-    char *  p;
 
     va_start (param_list, format);
     vsprintf (buf, format, param_list);
@@ -1757,7 +1739,7 @@ void        Debugger_Printf(const char *format, ...)
     }
 
     // Split message by line (\n) and send it to the various places
-    p = buf;
+    char* p = buf;
     do
     {
         char *line = p;
@@ -1874,15 +1856,12 @@ static void     Debugger_Applet_Layout(bool setup)
 //-----------------------------------------------------------------------------
 int         Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 {
-    int     len;
-    char    instr[128];
-
-    len = Z80_Disassemble(instr, addr, TRUE, TRUE);
+    char  instr[128];
+    const int len = Z80_Disassemble(instr, addr, TRUE, TRUE);
     if (dst != NULL)
     {
-        int     i;
-        char    instr_opcodes[128];
-        for (i = 0; i < len; i++)
+        char instr_opcodes[128];
+        for (int i = 0; i < len; i++)
             sprintf(instr_opcodes + (i*3), "%02X ", RdZ80_NoHook ((addr + i) & 0xFFFF));
         sprintf(dst, "%04X: %-12s%c%s", addr, instr_opcodes, cursor ? '>' : ' ', instr);
     }
@@ -1899,61 +1878,59 @@ int         Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 //-----------------------------------------------------------------------------
 static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
 {
-    int             i;
-    static char     line1[256];
-    static char     line2[256];
-    static char     line3[256];
-    static char *   lines[4] = { line1, line2, line3, NULL };
-    char            flags[9];
-    Z80 *           cpu = &sms.R;
+	static char     line1[256];
+	static char     line2[256];
+	static char     line3[256];
+	static char *   lines[4] = { line1, line2, line3, NULL };
+	char            flags[9];
+	Z80 *           cpu = &sms.R;
 
-   // Compute flags string
-   for (i = 0; i < 8; i++)
-       flags[i] = (cpu->AF.B.l & (1 << (7 - i))) ? "SZyHxPNC"[i] : '.';
-   flags[i] = EOSTR;
+	// Compute flags string
+	int i;
+	for (i = 0; i < 8; i++)
+		flags[i] = (cpu->AF.B.l & (1 << (7 - i))) ? "SZyHxPNC"[i] : '.';
+	flags[i] = EOSTR;
 
-   *lines_out = &lines[0];
+	*lines_out = &lines[0];
 
-   if (simple)
-   {
-       // Line 1
-       sprintf(line1, "AF:%04X  BC:%04X  DE:%04X  HL:%04X  IX:%04X  IY:%04X",
-           cpu->AF.W, cpu->BC.W, cpu->DE.W, cpu->HL.W, cpu->IX.W, cpu->IY.W);
+	if (simple)
+	{
+		// Line 1
+		sprintf(line1, "AF:%04X  BC:%04X  DE:%04X  HL:%04X  IX:%04X  IY:%04X",
+			cpu->AF.W, cpu->BC.W, cpu->DE.W, cpu->HL.W, cpu->IX.W, cpu->IY.W);
 
-       // Line 2
-       sprintf(line2, "PC:%04X  SP:%04X  Flags:[%s]  %s%s", 
-           cpu->PC.W, cpu->SP.W, flags,
-           (cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
+		// Line 2
+		sprintf(line2, "PC:%04X  SP:%04X  Flags:[%s]  %s%s", 
+			cpu->PC.W, cpu->SP.W, flags,
+			(cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
 
-       return (2);
-   }
-   else
-   {
-       // Line 1
-       sprintf(line1, "AF:%04X  BC:%04X  DE:%04X  HL:%04X  IX:%04X  IY:%04X",
-           cpu->AF.W, cpu->BC.W, cpu->DE.W, cpu->HL.W, cpu->IX.W, cpu->IY.W);
+		return (2);
+	}
+	else
+	{
+		// Line 1
+		sprintf(line1, "AF:%04X  BC:%04X  DE:%04X  HL:%04X  IX:%04X  IY:%04X",
+			cpu->AF.W, cpu->BC.W, cpu->DE.W, cpu->HL.W, cpu->IX.W, cpu->IY.W);
 
-       // Line 2
-       sprintf(line2, "AF'%04X  BC'%04X  DE'%04X  HL'%04X",
-           cpu->AF1.W, cpu->BC1.W, cpu->DE1.W, cpu->HL1.W);
+		// Line 2
+		sprintf(line2, "AF'%04X  BC'%04X  DE'%04X  HL'%04X",
+			cpu->AF1.W, cpu->BC1.W, cpu->DE1.W, cpu->HL1.W);
 
-       // Line 3
-       sprintf(line3, "PC:%04X  SP:%04X  Flags:[%s]  %s%s", 
-           cpu->PC.W, cpu->SP.W, flags,
-           (cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
+		// Line 3
+		sprintf(line3, "PC:%04X  SP:%04X  Flags:[%s]  %s%s", 
+			cpu->PC.W, cpu->SP.W, flags,
+			(cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
 
-       return (3);
-   }
+		return (3);
+	}
 }
 
 //-----------------------------------------------------------------------------
 // Debugger_Applet_Redraw_State()
 // Redraw disassembly and CPU state
 //-----------------------------------------------------------------------------
-void        Debugger_Applet_Redraw_State(void)
+void	Debugger_Applet_Redraw_State(void)
 {
-    int     i;
-
     if (!(g_machine_flags & MACHINE_POWER_ON))
         return;
     if (g_driver->cpu != CPU_Z80)    // Unsupported
@@ -1979,13 +1956,12 @@ void        Debugger_Applet_Redraw_State(void)
 
         // Figure out where to start disassembly
         // This is tricky code due to the trackback feature.
-        // Successives PC are logged by the debugging CPU emulator and it helps with the trackback.
+        // Successive PC are logged by the debugging CPU emulator and it helps with the trackback.
         pc = sms.R.PC.W;
         {
             int pc_temp = pc;
             int pc_history[10*4+1] = { 0 };
             const int pc_history_size = trackback_lines*4;
-            int i;
 
             // Find in PC log all values between PC-trackback_lines*4 and PC-1
             // The *4 is assuming instruction can't be more than 4 bytes averagely
@@ -1994,7 +1970,7 @@ void        Debugger_Applet_Redraw_State(void)
             // then the trackback feature won't find the previous instruction. This is not a big problem
             // and it's extreme rare anyway (multi prefixes, etc).
 			//Msg(MSGT_DEBUG, "front =%d, back=%d",Debugger_Z80_PC_Log_Queue_Front,Debugger_Z80_PC_Log_Queue_Back);
-            for (i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
+            for (int i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
             {
                 const int delta = pc - Debugger_Z80_PC_Log_Queue[i];
                 if (delta > 0 && delta <= pc_history_size)
@@ -2002,7 +1978,7 @@ void        Debugger_Applet_Redraw_State(void)
             }
 
             // Now look in pc_history
-            for (i = 0; i < pc_history_size; i++)
+            for (int i = 0; i < pc_history_size; i++)
             {
                 if (pc_history[i] != 0)
                 {
@@ -2067,7 +2043,7 @@ void        Debugger_Applet_Redraw_State(void)
         //  JR NZ
 
         // Disassemble instructions starting at 'PC'
-        for (i = 0; i < g_configuration.debugger_disassembly_lines; i++)
+        for (int i = 0; i < g_configuration.debugger_disassembly_lines; i++)
         {
             char buf[256];
             const ALLEGRO_COLOR text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
@@ -2107,9 +2083,8 @@ void        Debugger_Applet_Redraw_State(void)
 
 			// Breakpoints
 			{
-				t_list *breakpoints;
 				bool on_breakpoint = false;
-				for (breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
+				for (t_list* breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
 				{
 					t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
 					if (breakpoint->location == BREAKPOINT_LOCATION_ROM)	// FIXME: Support the '!' indicator for ROM breakpoints
@@ -2131,18 +2106,15 @@ void        Debugger_Applet_Redraw_State(void)
 
     // Redraw CPU State
     {
-        char ** lines;
-        int     lines_count;
-        int     y;
-
         // Clear CPU state buffer
         t_frame frame = DebuggerApp.frame_cpustate;
 		al_set_target_bitmap(DebuggerApp.box_gfx);
         al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x+1, frame.pos.y + frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
-        y = frame.pos.y;
+        int y = frame.pos.y;
 
         // Print Z80 summary lines
-        lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
+		char ** lines;
+        const int lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
         assert(lines_count >= DEBUGGER_APP_CPUSTATE_LINES); // Display first 2 lines
         Font_Print (DebuggerApp.font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         y += DebuggerApp.font_height;

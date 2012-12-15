@@ -183,7 +183,7 @@ bool    Reload_ROM()
         Msg(MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_No_ROM));
         return false;
     }
-    if (Load_ROM (LOAD_MODE_GUI, FALSE))
+    if (Load_ROM(LOAD_MODE_GUI, FALSE))
     {
         Msg(MSGT_USER, "%s", Msg_Get(MSG_LoadROM_Reload_Reloaded));
         return true;
@@ -300,7 +300,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
     // FIXME: we don't do it at all if !user_verbose, to save us from passing
     // the verbose flag all down to inputs peripherals changing functions.
     // Since the verbose flag is only cleared by the file browser "Load All"
-    // functionnality, it is ok to avoid changing inputs.
+    // functionality, it is ok to avoid changing inputs.
     if (user_verbose)
         Input_ROM_Change();
 

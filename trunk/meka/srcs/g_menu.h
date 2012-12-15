@@ -7,12 +7,14 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
+typedef int t_menu_id;
+
 #define GUI_MENUS_FONT      (F_LARGE)
 
 #define MAX_MENUS           (256)
 #define MAX_MENUS_ENTRY     (96)
 
-#define MENU_ID_MAIN        (0)
+#define MENU_ID_MAIN        ((t_menu_id)0)
 
 #define MENUS_DISTANCE      (20)
 #define MENUS_PADDING_X     (8)
@@ -20,30 +22,28 @@
 
 enum t_menu_item_type
 {
-	ITEM_NOTHING        = 0,
-	ITEM_SUB_MENU		= 1,
-	ITEM_EXECUTE		= 2,
-	ITEM_BAR			= 3,
+	MENU_ITEM_TYPE_UNKNOWN	= 0,
+	MENU_ITEM_TYPE_SUB_MENU	= 1,
+	MENU_ITEM_TYPE_CALLBACK	= 2,
 };
 
 // Definitions for Menus Attributes
 enum t_menu_item_flags
 {
-	AM_Nothing			= 0,
-	AM_Active			= 1<<0,
-	AM_Checked			= 1<<1,
+	MENU_ITEM_FLAG_ACTIVE	= 1<<0,
+	MENU_ITEM_FLAG_CHECKED	= 1<<1,
 };
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_init_menu (void);
-void    gui_redraw_menus (void);
+void    gui_init_menu();
+void    gui_redraw_menus();
 
-void    gui_draw_menu (int n_menu, int n_parent, int n_parent_entry);
-void    gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation);
-void    gui_update_menus (void);
+void    gui_draw_menu(int n_menu, int n_parent, int n_parent_entry);
+void    gui_update_menu(int n_menu, int n_parent, int n_parent_entry, int generation);
+void    gui_update_menus();
 
 //-----------------------------------------------------------------------------
 // Data (NEW)
@@ -107,7 +107,7 @@ struct t_menu_event
 
 struct t_gui_status_bar
 {
-	char  message [MSG_MAX_LEN];
+	char  message[MSG_MAX_LEN];
 	int   x;
 	int   timeleft;
 };
@@ -116,17 +116,17 @@ extern t_gui_status_bar g_gui_status;
 
 struct t_gui_menus_id
 {
-	int   menu;
-	int   file;
-	int   machine, power, country, tvtype;
-	int   video, themes, blitters, layers, flickering, glasses, screenshots;
-	int   inputs, rapidfire;
-	int   sound, volume, rate, channels, fm;
-	int   tools;
-	int   debug, dump, dump_cfg, watch;
-	int   help;
-	int   languages;
-	int   sound_log;
+	t_menu_id   root;
+	t_menu_id	file;
+	t_menu_id	machine, power, country, tvtype;
+	t_menu_id	video, themes, blitters, layers, flickering, glasses, screenshots;
+	t_menu_id   inputs, rapidfire;
+	t_menu_id	sound, volume, rate, channels, fm;
+	t_menu_id	tools;
+	t_menu_id	debug, dump, dump_cfg, watch;
+	t_menu_id	help;
+	t_menu_id	languages;
+	t_menu_id	sound_log;
 };
 
 extern t_gui_menus_id menus_ID;
@@ -142,14 +142,14 @@ struct t_menu_item
 	t_menu_item_type	type;
 	unsigned int		flags;
 	bool				mouse_over;
-	int					submenu_id;			// id of submenu if (action == 1)
+	t_menu_id			submenu_id;			// id of sub-menu if (action == 1)
 	t_menu_callback		callback;			// pointer to function to execute if (action == 2)
 	void *				user_data;
 };
 
 struct t_menu
 {
-	int					id;
+	t_menu_id			id;
 	t_menu_item *		entry[MAX_MENUS_ENTRY];
 	int					n_entry;
 	int                 generation;

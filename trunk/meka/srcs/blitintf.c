@@ -273,7 +273,7 @@ void    Blitters_Menu_Init (int menu_id)
         t_blitter* blitter = (t_blitter*)blitters->elem;
         menu_add_item(menu_id,
             blitter->name,
-            AM_Active | ((blitter == Blitters.current) ? AM_Checked : 0),
+            MENU_ITEM_FLAG_ACTIVE | ((blitter == Blitters.current) ? MENU_ITEM_FLAG_CHECKED : 0),
             (t_menu_callback)Blitters_Switch_Handler, blitter);
     }
 }

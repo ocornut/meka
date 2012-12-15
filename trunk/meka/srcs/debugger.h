@@ -169,6 +169,7 @@ void                        Debugger_Switch(void);
 void                        Debugger_Printf(const char *format, ...);
 
 // Symbols
+bool						Debugger_Symbols_Load();
 t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(u32 addr);
 t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(u32 addr);
 t_debugger_symbol *         Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);

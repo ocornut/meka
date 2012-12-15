@@ -689,7 +689,7 @@ void        Skins_MenuInit(int menu_id)
         if (skin->enabled)
         {
             menu_add_item(menu_id, skin->name,
-                AM_Active | ((Skins.skin_current == skin) ? AM_Checked : 0),
+                MENU_ITEM_FLAG_ACTIVE | ((Skins.skin_current == skin) ? MENU_ITEM_FLAG_CHECKED : 0),
                 (t_menu_callback)Skins_MenuHandlerSelectSkin, skin);
         }
     }

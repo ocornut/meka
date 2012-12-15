@@ -371,7 +371,7 @@ void	gui_box_set_focus(t_gui_box *box)
     */
 }
 
-// Return weither given box has the focus
+// Return whether given box has the focus
 int     gui_box_has_focus(t_gui_box *box)
 {
     return (gui.boxes_z_ordered[0] == box);
