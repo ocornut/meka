@@ -47,7 +47,7 @@ void    FM_Enable (void)
 
 // SOUND->VOLUME menu ---------------------------------------------------------
 
-void    Sound_Volume_Menu_Init (int menu_id)
+void    Sound_Volume_Menu_Init(int menu_id)
 {
     const int master_volume_100 = (float)Sound.MasterVolume * ((float)100 / 128);
     for (int i = 0; i <= 100; i += 20)
@@ -57,12 +57,12 @@ void    Sound_Volume_Menu_Init (int menu_id)
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Mute));
         else
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Value), i);
-        menu_add_item(menu_id, buffer, AM_Nothing | Is_Checked (i - 9 < master_volume_100 && i + 9 > master_volume_100), 
+        menu_add_item(menu_id, buffer, Is_Checked(i - 9 < master_volume_100 && i + 9 > master_volume_100), 
 			(t_menu_callback)Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
     }
 }
 
-void    Sound_Volume_Menu_Handler (t_menu_event *event)
+void    Sound_Volume_Menu_Handler(t_menu_event *event)
 {
 	const int volume = (long int)event->user_data;
 

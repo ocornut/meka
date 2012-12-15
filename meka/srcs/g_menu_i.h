@@ -9,8 +9,8 @@
 
 void    gui_menus_init (void);
 
-#define Is_Active(test)         ((test) ? AM_Active : 0)
-#define Is_Checked(test)        ((test) ? AM_Checked : 0)
+#define Is_Active(test)         ((test) ? MENU_ITEM_FLAG_ACTIVE : 0)
+#define Is_Checked(test)        ((test) ? MENU_ITEM_FLAG_CHECKED : 0)
 
 //-----------------------------------------------------------------------------
 

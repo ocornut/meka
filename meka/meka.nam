@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2012/08/05
+; Last updated 2012/12/15
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -1189,7 +1189,7 @@ GG  f397f041 0F6D1D96C28B90F4   Zoop [Proto]/FLAGS=PROTO
 GG  65e60dfe 516CF5541BA9E056   Batman Returns/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte, affecting an instruction. It might be a hack.
 GG  fddd8cd9 82E53FF69611EBD2   Battleship - The classic naval combat game/FLAGS=BAD/COUNTRY=US/PRODUCT_NO=T-87018/COMMENT=Missing upper half of data. Although unused by the ROM, they are technically part of the ROM.
 GG  fdc8fc18 B33070CAB97B921D   Dynamite Headdy/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte.
-GG  2b60873e 855EA7962D1B2B6D   Ecco the Dolphin/FLAGS=BAD/COUNTRY=US,EU/PRODUCT_NO=2516
+GG  2b60873e 855EA7962D1B2B6D   Ecco the Dolphin/FLAGS=BAD/COUNTRY=US,EU/PRODUCT_NO=2516/COMMENT=1 bad byte.
 GG  365b92cf 2B867DCECA734285   Fantasy Zone Gear - Opa Opa Jr. no Bouken/FLAGS=BAD/COUNTRY=JP/PRODUCT_NO=T-44017,G-3225/COMMENT=9 bad bytes.
 GG  29b1df1a 01B1CB4E2F1E4C9C   Fatal Fury Special/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte.
 GG  808a71c3 F2F739A55BF09757   Kinetic Connection/FLAGS=BAD/COUNTRY=JP/COMMENT=Overdumped ROM.
@@ -1206,7 +1206,7 @@ GG  2e217fae BA886A87DB50B1F1   Super Off Road/FLAGS=BAD/COUNTRY=US,EU/COMMENT=4
 GG  2ea26930 86FF547C91408D4D   Surf Ninjas/FLAGS=BAD/COUNTRY=US/COMMENT=1 bad byte.
 GG  cb591501 0F4A286C9AE1D8C0   Tails Adventures/FLAGS=BAD/COUNTRY=JP,US/COMMENT=3 bad bytes.
 GG  924ce5be 2D0E8F4CFE37872E   Virtua Fighter Animation/FLAGS=BAD/COUNTRY=US
-GG  231e5b78 E4B611A11356D972   VR Troopers/FLAGS=BAD/COUNTRY=US,EU
+GG  231e5b78 E4B611A11356D972   VR Troopers/FLAGS=BAD/COUNTRY=US,EU/COMMENT=2 bad bytes.
 
 ; Hacks
 GG  90d40776 8A8E033FAF71E0A6   Lion King, The (Disney's) [Hack]/COUNTRY=US/FLAGS=HACK/COMMENT=Hack of the game. Include a cheat trainer.

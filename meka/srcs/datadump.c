@@ -38,18 +38,18 @@ void    DataDump_Init (void)
 //-----------------------------------------------------------------------------
 void    DataDump_Init_Menus (int menu_id)
 {
-    menu_add_item (menu_id, "RAM",           AM_Active, (t_menu_callback)DataDump_RAM,			NULL);
-    menu_add_item (menu_id, "VRAM",          AM_Active, (t_menu_callback)DataDump_VRAM,			NULL);
-    menu_add_item (menu_id, "Palette",       AM_Active, (t_menu_callback)DataDump_Palette,		NULL);
-    menu_add_item (menu_id, "Sprites",       AM_Active, (t_menu_callback)DataDump_Sprites,		NULL);
+    menu_add_item (menu_id, "RAM",           MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_RAM,			NULL);
+    menu_add_item (menu_id, "VRAM",          MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRAM,			NULL);
+    menu_add_item (menu_id, "Palette",       MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Palette,		NULL);
+    menu_add_item (menu_id, "Sprites",       MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Sprites,		NULL);
     //menu_add_item (menu_id, "BG/FG Map",   0,         (t_menu_callback)DataDump_BgFgMap,		NULL);
-    menu_add_item (menu_id, "CPU Regs",      AM_Active, (t_menu_callback)DataDump_CPURegs,		NULL);
-    menu_add_item (menu_id, "VDP Regs",      AM_Active, (t_menu_callback)DataDump_VRegs,			NULL);
-    menu_add_item (menu_id, "OnBoardMemory", AM_Active, (t_menu_callback)DataDump_OnBoardMemory,	NULL);
+    menu_add_item (menu_id, "CPU Regs",      MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_CPURegs,		NULL);
+    menu_add_item (menu_id, "VDP Regs",      MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRegs,			NULL);
+    menu_add_item (menu_id, "OnBoardMemory", MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_OnBoardMemory,	NULL);
 
-    menus_ID.dump_cfg = menu_add_menu (menu_id, "Configuration",   AM_Active);
-    menu_add_item (menus_ID.dump_cfg, "ASCII",  AM_Active | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? AM_Checked : 0), (t_menu_callback)DataDump_Mode_Ascii,		NULL);
-    menu_add_item (menus_ID.dump_cfg, "Raw",    AM_Active | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? AM_Checked : 0), (t_menu_callback)DataDump_Mode_Raw,		NULL);
+    menus_ID.dump_cfg = menu_add_menu (menu_id, "Configuration",   MENU_ITEM_FLAG_ACTIVE);
+    menu_add_item (menus_ID.dump_cfg, "ASCII",  MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Ascii,		NULL);
+    menu_add_item (menus_ID.dump_cfg, "Raw",    MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Raw,		NULL);
 }
 
 //-----------------------------------------------------------------------------

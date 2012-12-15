@@ -128,7 +128,7 @@ int                     menu_add_menu (int menu_id, const char *label, int flags
 
 	entry->label = strdup(label);
 	entry->hotkey = NULL;
-	entry->type = ITEM_SUB_MENU;
+	entry->type = MENU_ITEM_TYPE_SUB_MENU;
 	entry->flags = flags;
 	entry->mouse_over = false;
 	entry->submenu_id = submenu_id;
@@ -138,7 +138,7 @@ int                     menu_add_menu (int menu_id, const char *label, int flags
 }
 
 // ADD A MENU SUBMENU ---------------------------------------------------------
-int                     menu_add_item (int menu_id, const char *label, int flags, t_menu_callback callback, void *user_data)
+int	menu_add_item(int menu_id, const char *label, int flags, t_menu_callback callback, void *user_data)
 {
 	t_menu* menu = menus [menu_id];
 	if (menu->n_entry >= MAX_MENUS_ENTRY)
@@ -149,7 +149,7 @@ int                     menu_add_item (int menu_id, const char *label, int flags
 	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
 	entry->label = strdup(label);
 	entry->hotkey = NULL;
-	entry->type = ITEM_EXECUTE;
+	entry->type = MENU_ITEM_TYPE_CALLBACK;
 	entry->flags = flags;
 	entry->mouse_over = false;
 	entry->callback = (t_menu_callback)callback;
@@ -168,7 +168,7 @@ void            gui_menu_un_mouse_over (int menu_id)
 		{
 			gui.info.must_redraw = TRUE;
 			menu->entry[i]->mouse_over = false;
-			if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->flags & AM_Active))
+			if ((menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
 			{
 				gui_menu_un_mouse_over (menu->entry[i]->submenu_id);
 			}
@@ -183,8 +183,8 @@ void            gui_menu_un_check (int menu_id)
 	t_menu  *menu = menus [menu_id];
 	for (int i = 0; i < menu->n_entry; i ++)
 	{
-		menu->entry[i]->flags &= (~AM_Checked);
-		if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->flags & AM_Active))
+		menu->entry[i]->flags &= (~MENU_ITEM_FLAG_CHECKED);
+		if ((menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
 		{
 			gui_menu_un_check (menu->entry[i]->submenu_id);
 		}
@@ -198,8 +198,8 @@ void            gui_menu_un_check_area (int menu_id, int start, int end)
 	t_menu  *menu = menus [menu_id];
 	for (int i = start; i <= end; i ++)
 	{
-		menu->entry[i]->flags &= (~AM_Checked);
-		if ((menu->entry[i]->type == ITEM_SUB_MENU) && (menu->entry[i]->flags & AM_Active))
+		menu->entry[i]->flags &= (~MENU_ITEM_FLAG_CHECKED);
+		if ((menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
 		{
 			gui_menu_un_check (menu->entry[i]->submenu_id);
 		}
@@ -213,9 +213,9 @@ void            gui_menu_active (int active, int menu_id, int menu_item)
 
     assert(menu_item >= 0 && menu_item < menu->n_entry);
     if (active)
-        menu->entry[menu_item]->flags |= (AM_Active);
+        menu->entry[menu_item]->flags |= (MENU_ITEM_FLAG_ACTIVE);
     else
-        menu->entry[menu_item]->flags &= (~AM_Active);
+        menu->entry[menu_item]->flags &= (~MENU_ITEM_FLAG_ACTIVE);
 }
 
 // FIXME: Make obsolete
@@ -225,9 +225,9 @@ void            gui_menu_active_area (int active, int menu_id, int start, int en
 	for (int i = start; i <= end; i ++)
 	{
 		if (active)
-			menu->entry[i]->flags |= (AM_Active);
+			menu->entry[i]->flags |= (MENU_ITEM_FLAG_ACTIVE);
 		else
-			menu->entry[i]->flags &= (~AM_Active);
+			menu->entry[i]->flags &= (~MENU_ITEM_FLAG_ACTIVE);
 	}
 }
 
@@ -235,7 +235,7 @@ void            gui_menu_active_area (int active, int menu_id, int start, int en
 // INVERSE CHECK ATTRIBUTE OF A CERTAIN ENTRY ---------------------------------
 void    gui_menu_inverse_check (int menu_id, int n_entry)
 {
-	menus [menu_id]->entry [n_entry]->flags ^= AM_Checked;
+	menus [menu_id]->entry [n_entry]->flags ^= MENU_ITEM_FLAG_CHECKED;
 }
 
 //-----------------------------------------------------------------------------

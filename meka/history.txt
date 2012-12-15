@@ -46,6 +46,7 @@ They are usually of 2 kinds:
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
     - Added support for parsing SJASM symbol format. [Omar]
     - Added support for parsing TASM symbol format. [Omar]
+    - Added a "Reload Symbols" menu option (useful when manually crafting symbols while reverse engineering). [Omar]
   - Tools:
     - CheatFinder: added a new cheat finder application. [Omar]
       - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.

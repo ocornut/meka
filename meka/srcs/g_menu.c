@@ -69,7 +69,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
     for (i = 0; i < menu->n_entry; i ++)
     {
         t_menu_item *menu_entry = menu->entry[i];
-        if (!(menu_entry->flags & AM_Active))
+        if (!(menu_entry->flags & MENU_ITEM_FLAG_ACTIVE))
         {
             continue;
         }
@@ -80,7 +80,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
         {
             if ((!gui.mouse.buttons) && (gui.mouse.buttons_prev & 1))
             {
-                if (menu_entry->type == ITEM_EXECUTE)
+                if (menu_entry->type == MENU_ITEM_TYPE_CALLBACK)
                 {
                     // Setup event structure
                     t_menu_event event;
@@ -90,7 +90,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                     event.menu_item_idx = i;
                     event.user_data     = menu_entry->user_data;
 
-                    gui_menu_un_mouse_over (menus_ID.menu);
+                    gui_menu_un_mouse_over(menus_ID.root);
 
                     // Call event handler
                     menu_entry->callback(&event);
@@ -115,7 +115,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                     }
                     else
                     {
-                        if (menu_entry->type == ITEM_SUB_MENU)
+                        if (menu_entry->type == MENU_ITEM_TYPE_SUB_MENU)
                         {
                             gui_menu_un_mouse_over (menu->entry[i]->submenu_id);
                         }
@@ -131,8 +131,8 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
             }
         }
 
-        // Update sub-menus if necessary ----------------------------------------
-        if ((menu_entry->mouse_over) && (menu_entry->type == ITEM_SUB_MENU))
+        // Update sub-menus if necessary
+        if ((menu_entry->mouse_over) && (menu_entry->type == MENU_ITEM_TYPE_SUB_MENU))
         {
             gui_menu_return_children_pos (n_menu, i, &menus[menu_entry->submenu_id]->sx,
                 &menus[menu_entry->submenu_id]->sy);
@@ -141,12 +141,9 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
     }
 }
 
-void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
+void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 {
-    int            i;
-    int            x, y;
-    ALLEGRO_COLOR  color;
-    t_menu  *menu = menus [n_menu];
+    t_menu *menu = menus[n_menu];
 
     Font_SetCurrent (GUI_MENUS_FONT);
 
@@ -157,25 +154,26 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         al_draw_filled_rectangle(0, 0, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
         al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
 
-        // Draw menu entrys
-        x = menus_opt.distance;
-        y = 3;
-        for (i = 0; i < menu->n_entry; i ++)
+        // Draw menu entries
+        int x = menus_opt.distance;
+        int y = 3;
+        for (int i = 0; i < menu->n_entry; i ++)
         {
             const int ln = Font_TextLength(F_CURRENT, menu->entry[i]->label);
             if (x + ln > g_configuration.video_mode_gui_res_x)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & AM_Active))
+            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
             {
                 gui_menu_highlight (n_menu, i);
-                if (menu->entry[i]->type == ITEM_SUB_MENU)
+                if (menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU)
                 {
                     gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
                 }
             }
-            if (menu->entry[i]->flags & AM_Active)
+			ALLEGRO_COLOR  color;
+	        if (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -216,24 +214,25 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             SkinGradient_DrawVertical(&Skins_GetCurrentSkin()->gradient_menu, gui_buffer, &menu_frame);
         }
 
-        // Draw menu entrys -------------------------------------------------------
-        x = menu->sx + MENUS_PADDING_X;
-        y = menu->sy + MENUS_PADDING_Y;
-        for (i = 0; i < menu->n_entry; i ++)
+        // Draw menu entries
+        int x = menu->sx + MENUS_PADDING_X;
+        int y = menu->sy + MENUS_PADDING_Y;
+        for (int i = 0; i < menu->n_entry; i++)
         {
             if (y + ln > g_configuration.video_mode_gui_res_y)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & AM_Active))
+            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
             {
                 gui_menu_highlight (n_menu, i);
-                if (menu->entry[i]->type == ITEM_SUB_MENU)
+                if (menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU)
                 {
                     gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
                 }
             }
-            if (menu->entry[i]->flags & AM_Active)
+			ALLEGRO_COLOR color;
+            if (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -244,11 +243,11 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
             switch (menu->entry[i]->type)
             {
-            case ITEM_SUB_MENU:
+            case MENU_ITEM_TYPE_SUB_MENU:
                 Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
                 break;
-            case ITEM_EXECUTE:
-                if (menu->entry[i]->flags & AM_Checked)
+            case MENU_ITEM_TYPE_CALLBACK:
+                if (menu->entry[i]->flags & MENU_ITEM_FLAG_CHECKED)
                 {
                     Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
                 }
@@ -259,7 +258,7 @@ void            gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
     }
 }
 
-void    gui_redraw_menus (void)
+void    gui_redraw_menus()
 {
     gui_redraw_bars();
 
@@ -269,16 +268,16 @@ void    gui_redraw_menus (void)
         menus_opt.distance -= 14;
         if (menus_opt.distance < MENUS_DISTANCE)
             menus_opt.distance = MENUS_DISTANCE;
-        gui.info.must_redraw = TRUE;
+        gui.info.must_redraw = true;
     }
 
-    gui_draw_menu (menus_ID.menu, -1, -1);
+    gui_draw_menu(menus_ID.root, -1, -1);
 }
 
-void    gui_update_menus (void)
+void    gui_update_menus()
 {
     menus_opt.c_somewhere = 0;
-    gui_update_menu (menus_ID.menu, 0, 0, 0);
+    gui_update_menu(menus_ID.root, 0, 0, 0);
     if ((gui.mouse.buttons & 1) && (menus_opt.c_somewhere == 0)
         && (menus_opt.c_menu == -1)
         && (menus_opt.c_entry == -1)

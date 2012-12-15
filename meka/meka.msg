@@ -9,7 +9,7 @@
 ;-----------------------------------------------------------------------------
 ; History
 ;----------------------------------------	-------------------------------------
-; MEKA 0.73  : Update language:  Dutch
+; MEKA 0.73  : Updated language: Dutch
 ;              Added:            Msg_Menu_Video_Capture
 ;                                Msg_Menu_Video_Capture_CaptureScreen
 ;                                Msg_Menu_Video_Capture_CaptureScreenAll
@@ -66,25 +66,22 @@
 ; How does it work ?
 ;
 ; - [xxx] define a new language
-; - You can add messages for the same language at different places,
-;   as long as they are defined after the corresponding [xxx] line.
+; - You can add messages for the same language at different places, as long 
+;	as they are defined after the corresponding [xxx] line.
 ;   However, for the purpose of easing maintainance, try to stick to
 ;   same order as the reference language (english).
 ; - First language (english) is the default language.
-;   If another language is missing sentences, it will use the ones
-;   from the default language. The default language must NOT be missing
-;   ANY sentence! 
-; - Accents are written using UTF Latin-Extended codepage. Usually,
-;   Windows softwars uses this codepage. 
-;   Under MS-DOS, initialization text-mode messages are using ANSI-DOS 
-;   codepage. For this reason, accents may not be displayed properly
-;   during initialization.
-; - '%s' is usually replaced with text and '%d' or '%i' with a number
-;   Order of those must NOT be changed. It might be a problem when
-;   localizing some sentence. Please contact me if so, I'll try to work
-;   on a solution.
+;   If another language is missing sentences, it will use the ones from the 
+;	default language. The default language must not be missing any sentence! 
+; - Messages are using printf() style format markers:
+;		%s	:	string replacement
+;		%d	:	integer number replacement
+;		%i	:	integer number replacement
+;	Those markers are to be kept in the same order as defined by the reference 
+;	English text. Removing or re-ordering markers will likely lead to MEKA crashing.
+;	Please contact me if your language requires a better solution for localisation.
 ; - ';' is the comment character in this file
-;   As of yet, you must NOT use a ';' character in a sentence
+;   As of yet, you cannot use a ';' character in a sentence
 ; - 'WIP' (Work In Progress) on a line will disable warnings and error
 ;   messages for this language, if it this uncomplete. This is useful
 ;   for when a language is missing few sentences, in a release version.
@@ -504,7 +501,8 @@ Msg_Menu_Main_Quit                      = "Quit"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Enabled                  = "Enabled"
-Msg_Menu_Debug_Reload_ROM               = "Reload ROM"
+Msg_Menu_Debug_ReloadROM                = "Reload ROM"
+Msg_Menu_Debug_ReloadSymbols            = "Reload Symbols"
 Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -1541,7 +1539,7 @@ Msg_Menu_Help_Changes                   = "Changes List"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Dutch]
-;WIP
+WIP
 ; Dutch text door Mark van Tilburg
 ; Beheerder: Mark van Tilburg (markvt _@_ van-tilburg . info)
 ; Laatst bijgewerkt 22-07-2012
@@ -1943,7 +1941,7 @@ Msg_Menu_Main_Quit                      = "Stoppen"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Enabled                  = "Ingeschakeld"
-Msg_Menu_Debug_Reload_ROM               = "Herlaad ROM"
+Msg_Menu_Debug_ReloadROM                = "Herlaad ROM"
 Msg_Menu_Debug_Dump                     = "Opslaan"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -2484,6 +2482,7 @@ Msg_Menu_Help_About                     = "Acerca de"
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Polski]
+WIP
 ; Translation by thr
 ; Maintainer: thr (r AT sledinmay.com)
 ;-----------------------------------------------------------------------------
@@ -2881,7 +2880,7 @@ Msg_Menu_Main_Quit                      = "Wyjscie"
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
 Msg_Menu_Debug_Enabled                  = "Wlaczony"
-Msg_Menu_Debug_Reload_ROM               = "Ponownie wczytaj ROM"
+Msg_Menu_Debug_ReloadROM                = "Ponownie wczytaj ROM"
 Msg_Menu_Debug_Dump                     = "Zrzut"
 
 ; Menu: Machine --------------------------------------------------------------
