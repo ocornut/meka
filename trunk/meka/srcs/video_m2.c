@@ -262,26 +262,27 @@ void    Display_Background_2 (void)
             int x = 0;
             for (int tx = 0; tx < 32; tx++)
             {
-				const u32 pattern_name = (*pattern_name_table++) * 8;
-                const u8* p1 = tile_base + pattern_name;		// Pattern data
-                const u8* p2 = col_base  + pattern_name;		// Color table
+				const u32 char_name_value = (*pattern_name_table++);
+				const u32 char_name_addr = char_name_value * 8;
+                const u8* char_pattern_data = tile_base + char_name_addr;
+                const u8* char_color_data = col_base  + char_name_addr;
 
                 // Draw one tile
-                for (int j2 = 0; j2 < 8; j2 ++)
+                for (int j2 = 0; j2 < 8; j2++)
                 {
 					PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y+j2) + x;
-                    const u8 cc = (*p1++);
-					const u8 color_indexes = (*p2++);
+                    const u8 pattern_8 = (*char_pattern_data++);
+					const u8 color_indexes = (*char_color_data++);
                     const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[color_indexes >> 4];
                     const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[color_indexes & 0x0F];
-                    dst[0] = (cc & 0x80) ? color1 : color2;
-                    dst[1] = (cc & 0x40) ? color1 : color2;
-                    dst[2] = (cc & 0x20) ? color1 : color2;
-                    dst[3] = (cc & 0x10) ? color1 : color2;
-                    dst[4] = (cc & 0x08) ? color1 : color2;
-                    dst[5] = (cc & 0x04) ? color1 : color2;
-                    dst[6] = (cc & 0x02) ? color1 : color2;
-                    dst[7] = (cc & 0x01) ? color1 : color2;
+                    dst[0] = (pattern_8 & 0x80) ? color1 : color2;
+                    dst[1] = (pattern_8 & 0x40) ? color1 : color2;
+                    dst[2] = (pattern_8 & 0x20) ? color1 : color2;
+                    dst[3] = (pattern_8 & 0x10) ? color1 : color2;
+                    dst[4] = (pattern_8 & 0x08) ? color1 : color2;
+                    dst[5] = (pattern_8 & 0x04) ? color1 : color2;
+                    dst[6] = (pattern_8 & 0x02) ? color1 : color2;
+                    dst[7] = (pattern_8 & 0x01) ? color1 : color2;
                 }
                 x += 8;
             }
