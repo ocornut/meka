@@ -16,10 +16,10 @@ They are usually of 2 kinds:
     This required a lot of changes and rewrite in the codebase. It probably added new bugs,
     and performances seems to vary depending on computer settings and video drivers.
     Please do report if you have any issue/slowdown so we can fix them!
-  - Preliminary MacOSX port. [Omar]
+  - Preliminary MacOSX port. MEKA NEEDS A MAC MAINTENER! [Omar]
   - Rewrote sound engine and fixed audio issues that many users had. [Omar]
     The sound is also now functional under Linux and MacOS. [Omar]  
-  - Now build with a C++ compiler (fixed all incompatible C code + lots of cleanup). 
+  - Now build with a C++ compiler, fixed all incompatible C constructs + lots of cleanup.
     Codebase can now freely take advantage of all C++ compiler features. [Omar]
   - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
   - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
@@ -56,7 +56,7 @@ They are usually of 2 kinds:
         or the old value stored in each match memory location.
       - Highlight matches in the memory editor for easier visibility.
       - Undo button.
-    - TilemapViewer: basic support for legacy graphic mode 2 used by SG-1000 games. [Omar]
+    - TilemapViewer: support for legacy graphic mode 2 used by SG-1000 games. [Omar]
     - TilemapViewer: support for 256x256 tilemap used in PAL/SECAM wide screen mode. [Omar]
     - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
     - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
@@ -75,7 +75,7 @@ They are usually of 2 kinds:
   - Removed easter egg code for emulating the NES. [Omar]
   - Removed easter egg mini-games and various other obsolete features. [Omar]
   - Removed mekaw.txt and mekanix.txt documentation files (obsolete). [Omar]
-  - (Win32) Using precompiled header for blazing fast compilation (MSVC). [Omar]
+  - (Win32) Using precompiled header for faster compilation (MSVC). [Omar]
   - (Win32) Using precompiled Allegro binaries. [Omar]
   - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
   - (Win32) Now including NASM assembler in the repository. [Omar]

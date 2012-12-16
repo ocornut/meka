@@ -148,13 +148,13 @@ void	TilemapViewer_SetupLayoutSizes(t_tilemap_viewer *app)
 
 			app->frame_infos.pos.x          = TILEMAP_VIEWER_PADDING;
 			app->frame_infos.pos.y          = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
-			app->frame_infos.size.x         = 180 - TILEMAP_VIEWER_PADDING / 2;
-			app->frame_infos.size.y         = 26;
+			app->frame_infos.size.x         = 180 + 76 - TILEMAP_VIEWER_PADDING / 2;
+			app->frame_infos.size.y         = 90;//26;
 
 			app->frame_config.pos.x         = app->frame_infos.pos.x + app->frame_infos.size.x + (TILEMAP_VIEWER_PADDING * 2);
 			app->frame_config.pos.y         = app->frame_tilemap.pos.y + app->frame_tilemap.size.y + TILEMAP_VIEWER_PADDING;
-			app->frame_config.size.x        = 76;
-			app->frame_config.size.y        = 26;
+			app->frame_config.size.x        = 0;//76;
+			app->frame_config.size.y        = 90;//26;
 
 			app->frame_tilemap_addr.pos.x   = TILEMAP_VIEWER_PADDING;
 			app->frame_tilemap_addr.pos.y   = app->frame_infos.pos.y + app->frame_infos.size.y + TILEMAP_VIEWER_PADDING;
@@ -507,19 +507,13 @@ static void		TilemapViewer_UpdateAddresses(t_tilemap_viewer *app)
 
 static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 {
-	const int  tile_count = (app->frame_tilemap.size.x / 8) * (app->frame_tilemap.size.y / 8);
+	const int tile_count = (app->frame_tilemap.size.x / 8) * (app->frame_tilemap.size.y / 8);
 	if (app->tile_selected >= tile_count)
 		app->tile_selected = 0;
 
     const int  tile_current = (app->tile_hovered == -1) ? app->tile_selected : app->tile_hovered;
     const int  tile_current_x = tile_current & 31;
     const int  tile_current_y = tile_current >> 5;
-    const u16 *tile_map = (u16 *)(VRAM + app->config_tilemap_addr);
-    const u16  tile_map_item = tile_map[tile_current];
-    char       tile_map_items_bits[2][9];
-
-    Write_Bits_Field((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
-    Write_Bits_Field(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);
 
 	al_set_target_bitmap(app->box->gfx_buffer);
     gui_frame_clear(app->box->gfx_buffer, &app->frame_infos, COLOR_SKIN_WINDOW_BACKGROUND);
@@ -527,43 +521,33 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 	FontPrinter fp(F_MIDDLE);
 	if (app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG || app->layout == TILEMAP_VIEWER_LAYOUT_SMSGG_EXTRAHEIGHT)
 	{
+		const u16* tile_map = (u16 *)(VRAM + app->config_tilemap_addr);
+		const u16  tile_map_item = tile_map[tile_current];
+		char       tile_map_items_bits[2][9];
+		Write_Bits_Field((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
+		Write_Bits_Field(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);
+
 		v2i pos = app->frame_infos.pos;
 		pos.x += TILEMAP_VIEWER_PADDING;
 		pos.y += TILEMAP_VIEWER_PADDING;
 		const v2i vh = v2i(0, Font_Height(F_MIDDLE)+2);
 
-		fp.Printf(pos, "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
-		pos += vh;
+		fp.Printf(pos, "Index:     $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2)); pos += vh;
+		fp.Printf(pos, "X:         %d", tile_current_x); pos += vh;
+		fp.Printf(pos, "Y:         %d", tile_current_y); pos += vh;
 
-		fp.Printf(pos, "X:        %d", tile_current_x);
-		pos += vh;
+		fp.Printf(pos, "Name Data: $%04X", tile_map_item); pos += vh;
+		fp.Printf(pos, "           %%%s.%s", tile_map_items_bits[1], tile_map_items_bits[0]); pos += vh;
 
-		fp.Printf(pos, "Y:        %d", tile_current_y);
-		pos += vh;
+		//fp.Printf(&pos, "            ___pcvhn.nnnnnnnn"); pos += vh;
 
-		fp.Printf(pos, "Data:     $%04X", tile_map_item);
-		pos += vh;
+		fp.Printf(pos, "Tile No:   $%03X", tile_map_item & 0x1FF); pos += vh;
 
-		fp.Printf(pos, "          %%%s.%s", tile_map_items_bits[1], tile_map_items_bits[0]);
-		pos += vh;
+		fp.Printf(pos, "H Flip:    %d", (tile_map_item & 0x200) ? 1 : 0); pos += vh;
+		fp.Printf(pos, "V Flip:    %d", (tile_map_item & 0x400) ? 1 : 0); pos += vh;
 
-		//fp.Printf(&pos, "           ___pcvhn.nnnnnnnn");
-		//pos += vh;
-
-		fp.Printf(pos, "Pattern:  $%03X", tile_map_item & 0x1FF);
-		pos += vh;
-
-		fp.Printf(pos, "H Flip:   %d", (tile_map_item & 0x200) ? 1 : 0);
-		pos += vh;
-
-		fp.Printf(pos, "V Flip:   %d", (tile_map_item & 0x400) ? 1 : 0);
-		pos += vh;
-
-		fp.Printf(pos, "Palette:  %d", (tile_map_item & 0x800) ? 1 : 0);
-		pos += vh;
-
-		fp.Printf(pos, "Priority: %s", (tile_map_item & 0x1000) ? "FG" : "BG");
-		pos += vh;
+		fp.Printf(pos, "Palette:   %d", (tile_map_item & 0x800) ? 1 : 0); pos += vh;
+		fp.Printf(pos, "Priority:  %s", (tile_map_item & 0x1000) ? "FG" : "BG"); pos += vh;
 	}
 
 	if (app->layout == TILEMAP_VIEWER_LAYOUT_SGSC)
@@ -573,22 +557,27 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 		pos.y += TILEMAP_VIEWER_PADDING;
 		const v2i vh = v2i(0, Font_Height(F_MIDDLE)+2);
 
-		/*
-		// FIXME-WIP
-		fp.Printf(pos, "Index:    $%03X @ VRAM $%04X", tile_current, app->config_tilemap_addr + (tile_current * 2));
-		pos += vh;
-		*/
+		fp.Printf(pos, "Index:   $%03X", tile_current); pos += vh;
+		fp.Printf(pos, "X:       %d", tile_current_x); pos += vh;
+		fp.Printf(pos, "Y:       %d", tile_current_y); pos += vh;
 
-		fp.Printf(pos, "X:        %d", tile_current_x);
-		pos += vh;
+		const int vsection_mask = sms.VDP[4] & 3;
+		const int vsection_idx = tile_current_y / 8;
+		const u8 char_name = VRAM[(app->config_tilemap_addr + tile_current) & 0x3FFF];
+		const u32 char_name_addr = char_name * 8;
+		const u8* tile_base = g_machine.VDP.sg_pattern_gen_address + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
+		const u8* col_base = g_machine.VDP.sg_color_table_address + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
+		const u8* char_pattern_data = tile_base + char_name_addr;
+		const u8* char_color_data = col_base  + char_name_addr;
 
-		fp.Printf(pos, "Y:        %d", tile_current_y);
-		pos += vh;
+		fp.Printf(pos, "Name:    1 byte @ VRAM $%04X", (app->config_tilemap_addr + tile_current) & 0x3FFF); pos += vh;
+		fp.Printf(pos, "         $%02X", char_name); pos += vh;
 
-		/*
-		fp.Printf(pos, "Pattern:  $%03X", tile_map_item & 0x1FF);
-		pos += vh;
-		*/
+		fp.Printf(pos, "Pattern: 8 bytes @ VRAM $%04X", char_pattern_data - VRAM); pos += vh;
+		fp.Printf(pos, "         $%02X $%02X $%02X $%02X $%02X $%02X $%02X $%02X", char_pattern_data[0], char_pattern_data[1], char_pattern_data[2], char_pattern_data[3], char_pattern_data[4], char_pattern_data[5], char_pattern_data[6], char_pattern_data[7]); pos += vh;
+
+		fp.Printf(pos, "Color:   8 bytes @ VRAM $%04X", char_color_data - VRAM); pos += vh;
+		fp.Printf(pos, "         $%02X $%02X $%02X $%02X $%02X $%02X $%02X $%02X", char_color_data[0], char_color_data[1], char_color_data[2], char_color_data[3], char_color_data[4], char_color_data[5], char_color_data[6], char_color_data[7]); pos += vh;
 	}
 
     al_draw_rectangle(
