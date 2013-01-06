@@ -48,6 +48,11 @@ extern "C" {
 #include "zlib.h"
 #endif
 
+// Newer versions of ZLIB uses _Z_OF
+#ifndef OF
+#define OF _Z_OF
+#endif
+
 #if defined(STRICTUNZIP) || defined(STRICTZIPUNZIP)
 /* like the STRICT of WIN32, we define a pointer that cannot be converted
     from (void*) without cast */
