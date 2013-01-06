@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2012/12/15
+; Last updated 2013/01/06
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -1184,6 +1184,9 @@ GG  23904898 C3918F68D3C745D6   Zool: Ninja of the "Nth" Dimension/COUNTRY=EU
 GG  b287c695 B4F7F5B93F2FA792   Zool: Ninja of the "Nth" Dimension/COUNTRY=US/PRODUCT_NO=T-83048
 GG  3247ff8b 126A1E96C18B90F4   Zoop/COUNTRY=US/PRODUCT_NO=T-139049
 GG  f397f041 0F6D1D96C28B90F4   Zoop [Proto]/FLAGS=PROTO
+
+; BIOS images
+GG  0ebea9d4 B5175CEECD71E2CA   Game Gear Majesco [BIOS]/FLAGS=BIOS/COUNTRY=US
 
 ; Bad dumps
 GG  65e60dfe 516CF5541BA9E056   Batman Returns/FLAGS=BAD/COUNTRY=JP,US,EU/COMMENT=1 bad byte, affecting an instruction. It might be a hack.
