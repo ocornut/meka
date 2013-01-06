@@ -53,12 +53,12 @@ extern t_patches Patches;
 //-----------------------------------------------------------------------------
 
 // Load MEKA.PAT
-void            Patches_List_Init (void);
+void	Patches_List_Init ();
 
 // Apply patches
-void            Patches_ROM_Initialize (void);
-void            Patches_ROM_Apply (void);
-void            Patches_MEM_Apply (void);
+void    Patches_ROM_Initialize();
+void    Patches_ROM_Apply();
+void    Patches_MEM_Apply();
 
 //-----------------------------------------------------------------------------
 
