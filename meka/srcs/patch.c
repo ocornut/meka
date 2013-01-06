@@ -44,7 +44,7 @@ t_patch *       Patch_New (void)
 // Patch_Action_New (void)
 // Create a new patch action
 //-----------------------------------------------------------------------------
-t_patch_action *        Patch_Action_New (void)
+t_patch_action *        Patch_Action_New()
 {
     t_patch_action* action = (t_patch_action*)malloc (sizeof (t_patch_action));
     if (action == NULL)
@@ -58,13 +58,9 @@ t_patch_action *        Patch_Action_New (void)
     return (action);
 }
 
-//-----------------------------------------------------------------------------
-// Patches_List_Parse_Line (char *line)
 // Parse and handle content of a line from MEKA.PAT
-//-----------------------------------------------------------------------------
-int                     Patches_List_Parse_Line (char *line)
+int	Patches_List_Parse_Line(const char *line)
 {
-    char *p;
     char s[256];
 
     // ConsolePrintf("line = %s\n", line);
@@ -79,7 +75,7 @@ int                     Patches_List_Parse_Line (char *line)
         Patches.patch_current = patch;
 
         // Find checksum type and value
-        p = strchr (line+1, ']');
+        const char* p = strchr (line+1, ']');
         if (p == NULL)
             return (2); // Unrecognized instruction
         strncpy (s, line+1, p-(line+1));
@@ -141,14 +137,14 @@ int                     Patches_List_Parse_Line (char *line)
             return (2);
 
         // Get address
+		// NB: don't test return value of ParseConstant because it currently return false because of the trailing ']'
 		t_debugger_value v;
-		if (Debugger_Eval_ParseConstant(line+4, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX))
-			action->address = v.data;
-		else
-			action->address = 0;
+		v.data = 0;
+		Debugger_Eval_ParseConstant(line+4, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX);
+		action->address = v.data;
         // ConsolePrintf("Address = %x\n", action->address);
 
-        p = strchr(line, '=');
+        const char* p = strchr(line, '=');
         if (p == NULL)
             return (2);
 
@@ -287,29 +283,27 @@ void        Patches_ROM_Initialize (void)
 void        Patches_ROM_Apply (void)
 {
     t_patch *patch = Patches.patch_current;
-    t_list *actions;
     if (patch == NULL)
         return;
 
     // Apply ROM patches
-    for (actions = patch->rom_patches; actions != NULL; actions = actions->next)
+    for (t_list* actions = patch->rom_patches; actions != NULL; actions = actions->next)
     {
         t_patch_action* action = (t_patch_action*)actions->elem;
 
         // Apply all bytes
-        int i;
-        for (i = 0; i < action->data_length; i++)
+        for (int i = 0; i < action->data_length; i++)
         {
-            int address = action->address + i;
-            if (address < 0 || address >= tsms.Size_ROM)
+            const int addr = action->address + i;
+            if (addr < 0 || addr >= tsms.Size_ROM)
             {
-                Msg(MSGT_USER, Msg_Get(MSG_Patch_Out_of_Bound), "ROM", address);
+                Msg(MSGT_USER, Msg_Get(MSG_Patch_Out_of_Bound), "ROM", addr);
                 return;
             }
             #ifdef DEBUG_PATCHES
-                Msg(MSGT_DEBUG, "Patch ROM[%04X] = %02X", address, action->data[i]);
+                Msg(MSGT_DEBUG, "Patch ROM[%04X] = %02X", addr, action->data[i]);
             #endif
-            ROM [address] = action->data[i];
+            ROM[addr] = action->data[i];
         }
     }
 }

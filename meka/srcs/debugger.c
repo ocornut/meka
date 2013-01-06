@@ -3503,17 +3503,18 @@ bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result,
         default:
             assert(0);
         }
-        if (*parse_end != '\0')
-        {
-            // Syntax error
-            // Note: 'src' pointer not advanced, this is what we want here
-            return false;
-        }
 
 		if (data > (1<<15)-1 || data < -(1<<5))
 			Debugger_Value_SetDirect(result, data, 24);
 		else
 			Debugger_Value_SetDirect(result, data, 16);
+
+		if (*parse_end != '\0')
+		{
+			// Syntax error
+			// Note: 'src' pointer not advanced, this is what we want here
+			return false;
+		}
     }
 
     return true;
