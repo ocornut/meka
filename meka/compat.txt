@@ -321,7 +321,7 @@
  NBA Jam [Proto]                                -       Ok
  Nekkyuu Koushien (JP)                          FM      Ok
  Nemesis (KR)                                   -       Ok
- Nemesis 2 (KR)                                 -      *Ok
+ Nemesis 2 (KR)                                 -       Ok
  New Boggle Boggle 2 (KR)                       -       Ok
  NewZealand Story, The                          -       Ok
  Ninja, The                                     -       Ok
@@ -933,6 +933,7 @@
  Crazy Faces [Proto]                                Ok
  Crystal Warriors                                   Ok
  Cutthroat Island                                   Ok
+ Cutthroat Island [Proto]                           Ok
  Daffy Duck in Hollywood                            Ok
  Deep Duck Trouble - Starring Donald Duck           Ok
  Defenders of Oasis                                 Ok
@@ -1200,7 +1201,7 @@
  Ryuu Kyuu (JP)                                     Ok
  Samurai Shodown                                    Ok
  Samurai Spirits                                    Ok
- Scratch Golf (US)                                 *Ok
+ Scratch Golf (US)                                  Ok
  Scratch Golf (JP)                                  Ok
  SD Gundam Winner's History (JP)                    Ok
  Sega Game Pack 4 in 1                              Ok
@@ -1348,7 +1349,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 492 games tested - 480 are "Ok" - Compatibility rate: 97.45%
+ 493 games tested - 481 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
