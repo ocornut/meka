@@ -348,33 +348,48 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                 B++;
             }
         }
-        else
-            if((P=strchr(R,'#')) != NULL)
-            {
-                if (S != NULL)
-                {
-                    u16 addr = RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF);
-                    t_debugger_symbol *symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
-                    if (symbol != NULL)
-                    {
-                        strncpy(S,R,P-R);S[P-R]='\0';
-                        snprintf(H,256,"%s (%04Xh)", symbol->name, addr);
-                        strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
-                    }
-                    else
-                    {
-                        strncpy(S,R,P-R);S[P-R]='\0';
-                        sprintf(H,"%04Xh", addr);
-                        strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
-                    }
-                }
-                B += 2;
-            }
-            else
-            {
-                if (S != NULL)
-                    strcpy(S, R);
-            }
+		else if((P=strchr(R,'#')) != NULL)
+		{
+			if (S != NULL)
+			{
+				const u16 addr = RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF);
+				t_debugger_symbol *symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
+				if (symbol != NULL)
+				{
+					strncpy(S,R,P-R);S[P-R]='\0';
+					snprintf(H,256,"%s (%04Xh)", symbol->name, addr);
+					strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
+				}
+				else
+				{
+					strncpy(S,R,P-R);S[P-R]='\0';
+					sprintf(H,"%04Xh", addr);
+					strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
+				}
+			}
+			B += 2;
+		}
+		else if(strncmp(R,"RST ",4)==0)
+		{
+			if (S != NULL)
+			{
+				const u16 addr = (u16)Debugger_Eval_ParseIntegerHex(R+4);
+				t_debugger_symbol *symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
+				if (symbol != NULL)
+				{
+					sprintf(S,"RST %s (%02Xh)", symbol->name, addr);
+				}
+				else
+				{
+					strcpy(S, R);
+				}
+			}
+		}
+		else
+		{
+			if (S != NULL)
+				strcpy(S, R);
+		}
 	}
 
     // MEKA-START: needed so it works properly when the instruction wrap at 0xffff

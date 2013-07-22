@@ -3414,7 +3414,7 @@ bool    Debugger_Eval_ParseVariable(int variable_replacement_flags, const char *
     return false;
 }
 
-static int  Debugger_Eval_ParseIntegerHex(const char *s, const char **end)
+int  Debugger_Eval_ParseIntegerHex(const char* s, const char** out_end)
 {
     int         result = 0;
     char        c;
@@ -3434,7 +3434,8 @@ static int  Debugger_Eval_ParseIntegerHex(const char *s, const char **end)
         result = (result << 4) | digit;
         s++;
     }
-    *end = s;
+	if (out_end)
+		*out_end = s;
     return (result);
 }
 
