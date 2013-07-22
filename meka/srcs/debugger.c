@@ -112,6 +112,8 @@ static void						Debugger_Symbols_ListByAddr(u32 addr);
 t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(u32 addr);
 t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(u32 addr);
 t_debugger_symbol *             Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);
+static void                     Debugger_Symbols_Vars_ListByName(char *search_name);
+static void						Debugger_Symbols_Vars_ListByAddr(u32 addr);
 
 // Symbol
 static t_debugger_symbol *      Debugger_Symbol_Add(u16 addr, int bank, const char *name);
@@ -280,6 +282,23 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 		" SYM vdp         ; search for symbol matching 'vdp'\n"
 		" SYM @HL         ; search for symbol at address HL"
     },
+	{
+		NULL, "VARS",
+		"Display variables",
+		// Description
+		"VARS: display variables\n"
+		"Variables are symbols declared within a RAM location.\n"
+		"Usage:\n"
+		" VARS [name]\n"
+		" VARS @addr\n"
+		"Parameters:\n"
+		" name : variable/symbol name to search for\n"
+		" addr : variable/symbol address to search for\n"
+		"Examples:\n"
+		" VARS             ; display all variables\n"
+		" VARS player      ; display variables matching 'player'\n"
+		" VARS @HL         ; display variables at address HL"
+	},
 	{
 		NULL, "SET",
 		"Set Z80 register",
@@ -1452,6 +1471,98 @@ void    Debugger_Symbols_ListByAddr(u32 addr_request)
 	}
 }
 
+static void	Debugger_Symbols_Vars_Print(const t_debugger_symbol* symbol, const t_list* next)
+{
+	// Default to 2
+	int var_size = 2;
+	const t_debugger_symbol* symbol_next = next ? (t_debugger_symbol *)next->elem : NULL;
+	if (symbol_next != NULL)
+	{
+		const int offset_to_next_symbol = (int)(symbol_next->addr - symbol->addr);
+		if (offset_to_next_symbol < 2)
+			var_size = 1;
+	}
+
+	int var_value = 0;
+	for (int i = 0; i < var_size; i++)
+		var_value |= Debugger_Bus_Read(BREAKPOINT_LOCATION_CPU, (symbol->addr+i)&0xffff) << (i * 8);
+
+	//char binary_s[2][9];
+	//Write_Bits_Field((var_value >> 0) & 0xFF, 8, binary_s[0]);
+	//Write_Bits_Field((var_value >> 8) & 0xFF, 8, binary_s[1]);
+
+	//if (var_size == 1)
+	Debugger_Printf(" %04X: %-28s = %-*s$%0*hX  dec: %d\n", symbol->addr, symbol->name, (2-var_size)*2, "", var_size*2, var_value, var_value);
+	//else
+	//	Debugger_Printf(" %04X  %s = $%0*hX  dec: %d, bin: %%%s.%s\n", symbol->addr, symbol->name, var_size, var_value, var_value, binary_s[0], binary_s[1]);
+}
+
+void    Debugger_Symbols_Vars_ListByName(char *search_name)
+{
+	if (search_name)
+	{
+		Debugger_Printf("Variables matching \"%s\":\n", search_name);
+		search_name = strdup(search_name);
+		StrUpper(search_name);
+	}
+	else
+	{
+		Debugger_Printf("Variables:\n");
+	}
+
+	int ram_len;
+	int ram_start_addr;
+	Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
+
+	int count = 0;
+	for (t_list* symbols = Debugger.symbols; symbols != NULL; symbols = symbols->next)
+	{
+		const t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
+
+		const bool is_in_ram = symbol->addr >= ram_start_addr && symbol->addr < ram_start_addr+ram_len;
+		if (!is_in_ram)
+			continue;
+
+		// If search_name was specified, skip symbol not matching it
+		if (search_name != NULL)
+			if (strstr(symbol->name_uppercase, search_name) == NULL)
+				continue;
+		count++;
+
+		Debugger_Symbols_Vars_Print(symbol, symbols->next);
+	}
+
+	if (count == 0)
+	{
+		Debugger_Printf(" <None>\n");
+	}
+	if (search_name != NULL)
+	{
+		// Free the uppercase duplicate we made
+		free(search_name);
+	}
+}
+
+void	Debugger_Symbols_Vars_ListByAddr(u32 addr)
+{
+	addr &= 0xFFFF;
+
+	Debugger_Printf("Variables at address \"%04x\":\n", addr);
+
+	if (Debugger.symbols_cpu_space[addr] == NULL)
+	{
+		Debugger_Printf(" <None>\n");
+	}
+	else
+	{
+		for (const t_list* symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
+		{
+			t_debugger_symbol *symbol = (t_debugger_symbol*)symbols->elem;
+			Debugger_Symbols_Vars_Print(symbol, symbols->next);
+		}
+	}
+}
+
 t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 addr)
 {
     t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
@@ -2171,6 +2282,7 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
 		Debugger_Printf(" STACK [len]            : Stack dump"                 "\n");
 		Debugger_Printf(" RMAP addr              : Reverse map Z80 address"    "\n");
+		Debugger_Printf(" VARS [name|@addr]      : Display variables"          "\n");
         Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
         Debugger_Printf(" SET register=value     : Set Z80 register"           "\n");
         Debugger_Printf(" CLOCK [RESET]          : Display Z80 cycle counter"  "\n");
@@ -3082,13 +3194,35 @@ void        Debugger_InputParseCommand(char *line)
 		}
 		else
 		{
-	        if (!StrIsNull(line))
-		        Debugger_Symbols_ListByName(line);
-			else
-				Debugger_Symbols_ListByName(NULL);
+			Debugger_Symbols_ListByName(!StrIsNull(line) ? line : NULL);
 		}
         return;
     }
+
+	// VARS
+	if (!strcmp(cmd, "VAR") || !strcmp(cmd, "VARS"))
+	{
+		StrTrim(line);
+		if (line[0] == '@')
+		{
+			t_debugger_value value;
+			line++;
+			if (Debugger_Eval_ParseExpression(&line, &value) < 0)
+			{
+				Debugger_Printf("Syntax error!\n");
+				return;
+			}
+			else
+			{
+				Debugger_Symbols_Vars_ListByAddr(value.data);
+			}
+		}
+		else
+		{
+			Debugger_Symbols_Vars_ListByName(!StrIsNull(line) ? line : NULL);
+		}
+		return;
+	}
 
     // M - MEMORY DUMP
     if (!strcmp(cmd, "M") || !strcmp(cmd, "MEM"))
@@ -4169,10 +4303,10 @@ void		Debugger_ReverseMap(u16 addr)
 {
 	int     ram_len;
 	int		ram_start_addr;
+	Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
+
 	int     sram_len;
 	u8 *    sram_buf;
-
-	Mapper_Get_RAM_Infos(&ram_len, &ram_start_addr);
 	BMemory_Get_Infos((void**)&sram_buf, &sram_len);
 
 	//switch (g_machine.mapper)

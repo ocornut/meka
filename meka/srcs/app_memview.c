@@ -473,7 +473,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
 
     // Print current address
     // FIXME: Could create a label widget for this purpose.
-	const int addr_offset = (mv->memblock_first * 16) + mv->values_edit_position;
+	const int addr_offset = (mv->memblock_first * mv->size_columns) + mv->values_edit_position;
 	const int addr_abs = addr_start + addr_offset;
     sprintf(buf, "%0*X", addr_length, addr_abs);
     al_draw_filled_rectangle(56, mv->frame_view.size.y + 1 + 4, 91+1, mv->frame_view.size.y + 1 + 4 + Font_Height(font_id) + 1, COLOR_SKIN_WINDOW_BACKGROUND);
