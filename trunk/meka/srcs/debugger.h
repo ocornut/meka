@@ -183,6 +183,7 @@ void                        Debugger_WrPRAM_Hook(register int addr, register u8 
 
 // Parser
 bool						Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result, t_debugger_eval_value_format default_format = DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX);
+int							Debugger_Eval_ParseIntegerHex(const char* s, const char** out_end = NULL);
 
 // Bus Data Access Helpers
 int                         Debugger_Bus_Read(int bus, int addr);
