@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2013/01/06
+; Last updated 2013/03/24
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -804,6 +804,7 @@ GG  03d28eab 6B96D3F3E3A93875   Crayon Shin-chan - Taiketsu! Kantamu Panic!!/COU
 GG  46ad6257 E4707F6AD1B4E658   Crazy Faces [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  529c864e A21AD85B167F6913   Crystal Warriors/COUNTRY=US,EU/PRODUCT_NO=2502/COMMENT=Export version of "Arliel - Crystal Densetsu".
 GG  6a24e47e C2965F6E8A59A751   Cutthroat Island/COUNTRY=US/PRODUCT_NO=T-81338
+GG  6352ef00 B7731FD87342E644   Cutthroat Island [Proto]/COUNTRY=US/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  aae268fc 099CC645306AB402   Daffy Duck in Hollywood/COUNTRY=EU,BR/PRODUCT_NO=2550,077110
 GG  5a136d7e C8D6479F8BF46C91   Deep Duck Trouble - Starring Donald Duck (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2514,1205/COMMENT=Export version of "Donald Duck no Yottsu no Hihou".
 GG  e2791cc1 02E7288B76458A1F   Defenders of Oasis/COUNTRY=US,EU/PRODUCT_NO=2503/COMMENT=Export version of "Shadam Crusader ~Harukanaru Oukoku~".
