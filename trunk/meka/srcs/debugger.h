@@ -84,7 +84,8 @@ enum t_debugger_value_source
     DEBUGGER_VALUE_SOURCE_COMPUTED,             // Computed
     DEBUGGER_VALUE_SOURCE_DIRECT,               // Direct input value
     DEBUGGER_VALUE_SOURCE_CPU_REG,              // From CPU
-    DEBUGGER_VALUE_SOURCE_SYMBOL,               // From symbol
+    DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR,      // From symbol
+	DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR,      //
 };
 
 // 'value' also refered as 'variables'

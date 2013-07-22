@@ -192,16 +192,17 @@ void    StrRemoveBlanks(char *s)
 	*dst = EOSTR;
 }
 
-void    Write_Bits_Field (int v, int n_bits, char *field)
+void    Write_Bits_Field(int v, int n_bits, char* out_field)
 {
-	char  *p = field + n_bits;
+	char* p = out_field;
 
-	*p-- = EOSTR;
-	while (n_bits-- > 0)
+	for (int bit_idx = n_bits-1; bit_idx >= 0; bit_idx--)
 	{
-		*p-- = (v & 0x01) ? '1' : '0';
-		v >>= 1;
+		*p++ = (v & (1 << bit_idx)) ? '1' : '0';
+		if (bit_idx != 0 && (bit_idx & 7) == 0)
+			*p++ = '.';
 	}
+	*p = EOSTR;
 }
 
 void    Random_Init (void)

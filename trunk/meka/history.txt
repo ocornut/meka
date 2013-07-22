@@ -40,6 +40,7 @@ They are usually of 2 kinds:
     - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
+    - Referring to a symbol using with the : prefix (in the form ":xxxx") returns the ROM address instead of the CPU address. [Omar]
     - Added CR command ("Continue to next RET* instruction"). [Omar]
     - Added STACK command ("Dump stack", with dual 8/16 bits display and with symbol resolving). [Omar]
     - Added VARS command ("Variables") to display content pointed by symbols in RAM. [Omar]
@@ -49,6 +50,7 @@ They are usually of 2 kinds:
     - Added support for parsing TASM symbol format. [Omar]
     - Added a "Reload Symbols" menu option (useful when manually crafting symbols while reverse engineering). [Omar]
     - Disassembler decode labels in 'RST xx' instructions. [Omar]
+    - Better support for 24-bits constants. [Omar]
   - Tools:
     - CheatFinder: added a new cheat finder application. [Omar]
       - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.
