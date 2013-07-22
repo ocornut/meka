@@ -33,6 +33,6 @@ void    StrTrim                 (char *s);
 void    StrTrimEnd              (char *s);
 void    StrRemoveBlanks         (char *s);
 
-void    Write_Bits_Field        (int v, int n_bits, char *field);
+void    Write_Bits_Field        (int v, int n_bits, char* out_field);
 int     BCD_to_Dec              (int bcd);
 

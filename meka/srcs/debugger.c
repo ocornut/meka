@@ -127,7 +127,7 @@ static void                     Debugger_History_List(const char *search_term_ar
 
 // Values
 static void                     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name, void *data, int data_size);
-static void                     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol);
+static void                     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol, bool rom_addr);
 static void                     Debugger_Value_SetComputed(t_debugger_value *value, u32 data, int data_size);
 static void                     Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_size);
 static void                     Debugger_Value_Read(t_debugger_value *value);
@@ -2737,17 +2737,18 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         else 
         {
             // Create automatic description containing symbol
-            if (address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL || address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL)
+            if (address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR
+			 || address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR)
             {
                 static char buf[512];
-                if (address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL)
+                if (address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR)
                     strcpy(buf, ((t_debugger_symbol *)address_start.source_data)->name);
                 else
                     sprintf(buf, "%04hX", address_start.data);
                 if (address_start.data != address_end.data)
                 {
                     strcat(buf, "..");
-                    if (address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL)
+                    if (address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR)
                         strcat(buf, ((t_debugger_symbol *)address_end.source_data)->name);
                     else
                         sprintf(buf+strlen(buf), "%04hX", address_end.data);
@@ -2942,21 +2943,25 @@ void        Debugger_InputParseCommand(char *line)
             char *p = line;
             while (*p && Debugger_Eval_ParseExpression(&p, &value) > 0)
             {
-                const s16 data = value.data;
-                const int data_size_bytes = 2; //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
-                char binary_s[2][9];
-                char char_s[4];
+                const s32 data = value.data;
+				const int data_size_bytes = Clamp<int>(value.data_size/8, 2, 4); //data & 0xFFFF0000) ? ((data & 0xFF000000) ? 4 : 3) : (2);
 
                 // Write binary buffer
-                Write_Bits_Field((data >> 0) & 0xFF, 8, binary_s[0]);
-                Write_Bits_Field((data >> 8) & 0xFF, 8, binary_s[1]);
+				char binary_s[32+4+1];
+				Write_Bits_Field(data, data_size_bytes*8, binary_s);
 
                 // Write ascii buffer
-                if (isprint(data & 0xFF))
-                    sprintf(char_s, "'%c'", data & 0xFF);
+				char ascii_s[16];
+                if (data_size_bytes == 1)
+				{
+					if (isprint(data & 0xFF))
+						sprintf(ascii_s, "  asc: '%c'", data & 0xFF);
+					else
+						sprintf(ascii_s, "  asc: N/A ", data & 0xFF);
+				}
                 else
-                    sprintf(char_s, "N/A");
-                Debugger_Printf(" $%0*hX  bin: %%%s.%s  asc: %s  dec: %d\n", data_size_bytes * 2, data, binary_s[1], binary_s[0], char_s, data);
+                    sprintf(ascii_s, "");
+                Debugger_Printf(" $%0*hX  bin: %%%s%s  dec: %d\n", data_size_bytes * 2, data, binary_s, ascii_s, data);
 
                 // Skip comma to get to next expression, if any
                 if (*p == ',')
@@ -3422,12 +3427,12 @@ void     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name
     Debugger_Value_Read(value);
 }
 
-void     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol)
+void     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *symbol, bool rom_addr)
 {
     value->data         = 0;
     value->data_size    = 16;
 	value->flags		= DEBUGGER_VALUE_FLAGS_ACCESS_READ;
-    value->source       = DEBUGGER_VALUE_SOURCE_SYMBOL;
+	value->source       = rom_addr ? DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR : DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR;
     value->source_data  = symbol;
     value->name         = symbol->name;
     Debugger_Value_Read(value);
@@ -3435,23 +3440,35 @@ void     Debugger_Value_SetSymbol(t_debugger_value *value, t_debugger_symbol *sy
 
 void    Debugger_Value_Read(t_debugger_value *value)
 {
-    assert(value->flags & DEBUGGER_VALUE_FLAGS_ACCESS_READ);
-    switch (value->source)
-    {
-    case DEBUGGER_VALUE_SOURCE_CPU_REG:
-        if (value->data_size == 8)
-            value->data = *(u8 *)value->source_data;
-        else if (value->data_size == 16)
-            value->data = *(u16 *)value->source_data;
-        else
-            assert(0);
-        break;
-    case DEBUGGER_VALUE_SOURCE_SYMBOL:
-        value->data = ((t_debugger_symbol *)value->source_data)->addr;
-        break;
-    default:
-        assert(0);
-    }
+	assert(value->flags & DEBUGGER_VALUE_FLAGS_ACCESS_READ);
+	switch (value->source)
+	{
+	case DEBUGGER_VALUE_SOURCE_CPU_REG:
+		{
+			if (value->data_size == 8)
+				value->data = *(u8 *)value->source_data;
+			else if (value->data_size == 16)
+				value->data = *(u16 *)value->source_data;
+			else
+				assert(0);
+		}
+		break;
+	case DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR:
+		{
+			t_debugger_symbol* symbol = (t_debugger_symbol *)value->source_data;
+			value->data = symbol->addr;
+		}
+		break;
+	case DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR:
+		{
+			t_debugger_symbol* symbol = (t_debugger_symbol *)value->source_data;
+			value->data = (symbol->bank * 0x4000) + (symbol->addr & 0x1fff);
+			value->data_size = 24;
+		}
+		break;
+	default:
+		assert(0);
+	}
 }
 
 void    Debugger_Value_Write(t_debugger_value *value, u32 data)
@@ -3533,13 +3550,13 @@ bool    Debugger_Eval_ParseVariable(int variable_replacement_flags, const char *
     if (variable_replacement_flags & DEBUGGER_VARIABLE_REPLACEMENT_SYMBOLS)
     {
         // Go thru all symbols
-        t_list *symbols;
-        for (symbols = Debugger.symbols; symbols!= NULL; symbols = symbols->next)
+		const bool is_rom_addr = (*var == ':');
+        for (t_list *symbols = Debugger.symbols; symbols != NULL; symbols = symbols->next)
         {
             t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
-            if (!stricmp(var, symbol->name))
+			if (!stricmp(is_rom_addr ? var+1 : var, symbol->name))
             {
-                Debugger_Value_SetSymbol(result, symbol);
+                Debugger_Value_SetSymbol(result, symbol, is_rom_addr);
                 return true;
             }
         }
@@ -3639,7 +3656,8 @@ bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result,
             assert(0);
         }
 
-		if (data > (1<<15)-1 || data < -(1<<5))
+		//if (data > (1<<15)-1 || data < -(1<<5))
+		if (data > 0xffff || data < -0x7fff)
 			Debugger_Value_SetDirect(result, data, 24);
 		else
 			Debugger_Value_SetDirect(result, data, 16);
@@ -3720,13 +3738,10 @@ int    Debugger_Eval_GetValue(char **src_result, t_debugger_value *result)
 
 static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *result)
 {
-    char *  p;
-    char    op;
-    int     expr_error;
     t_debugger_value value1;
     t_debugger_value value2;
 
-    p = (char *)*expr; 
+    char* p = (char *)*expr; 
     // Debugger_Printf("Debugger_Eval_GetExpression_Block(\"%s\")\n", p);
 
     parse_skip_spaces(&p);
@@ -3737,7 +3752,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     }
 
     // Get first value
-    expr_error = Debugger_Eval_GetValue(&p, &value1);
+    int expr_error = Debugger_Eval_GetValue(&p, &value1);
     if (expr_error <= 0)
     {
         Debugger_Printf("Syntax error at \"%s\"!\n", p);
@@ -3749,7 +3764,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
         //parse_skip_spaces(&p);
 
         // Get operator
-        op = *p;
+        const char op = *p;
 
         if (op == ',' || op == '.' || op == ' ')
             break;
@@ -3933,7 +3948,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
     int pos = widget_inputbox_get_cursor_pos(w);
     const char *s = widget_inputbox_get_value(w) + pos;
     current_word_len = 0;
-    while (pos-- > 0 && !isspace(s[-1]))
+	while (pos-- > 0 && !isspace(s[-1]) && s[-1] != ':')
     {
         s--;
         current_word_len++;
