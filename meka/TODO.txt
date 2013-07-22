@@ -1,8 +1,24 @@
+
+Hey there,
+
+I was so happy to see my favourite SMS emulator was having another update! I downloaded the most recent beta in this thread, and discovered that it doesn't like being installed over 0.73, throwing up sound buffer errors. Doing a clean install removes this.
+
+I've not had time to do much further testing, however one small UI issue that's always been there, and I'd like to see fixed if possible please, is the inability to set controllers outside of the order that Windows sees them in.
+
+To explain: You can't change 3/6 Joypad 1 to Player 2, nor can you click it's controls and input any other controller except the one listed first by Windows. In my case, I have currently an MS Sidewinder Pro Flightstick and a Logic3 Arcade Stick both in USB ports, and Joypad 1 will only take input from the Sidewinder. 4/6 Joypad 2 takes the Arcade stick input, but not the Flightstick in turn.
+
+Suggested Solution: Drop down box to map specific controller to Player X, or allowing Player 1 to be swapped with Player 2 with a click on that line in the box, thus swapping what controller it maps too. 
+
+--
+
+My build is the 2012/12/31. 
+
+markvt: The 'delete' key does not work in the cheat finder for me, only the 'backspace' key does allow to remove a value in the search box. 
+
 Is there any emulator/setting that handles the Sports Pad input in a way that makes the games playable? Meka allows to use the mouse for it, but it always stops where the mouse pointer would reach the border of the screen. I've tried some other emulators, but none of them seemed to support it at all...
 
 [A] Debugger: Breakpoints are borken (find out an exact repro)
-[B] Debugger: Variable watcher: watch all symbols in RAM range?
-[B] Debugger: Support label replacement in RST xx opcodes.
+[B] Debugger: Variables window with live filter.
 [B] GUI: Add OS clipboard support, fix Delete key on input widget, added selection.
 [B] CTRL-F7 to load and Debug (C)ontinue.
 [B] Debugger: Preview memory regions on hovering register/instruction. 
@@ -15,7 +31,7 @@ Debugger: option to auto-start on ROM load (one can always do a RESET)
 Debugger: make always available
 Debugger: Add "Did you mean $XX" when parsing register name that matches two digit hex number (eg: DE)
 
-SF-7000: write always access to RAM (even when ROM is mapped) dixit honestbob
+SF-7000 emulation: write always access to RAM (even when ROM is mapped) - via honestbob
 
 Z80 PC history command (great to figure out caller)
 Z80 branch history command

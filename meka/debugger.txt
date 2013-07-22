@@ -50,6 +50,10 @@ or post pended with the ".SYM" extension.
 
 If you are using a tool that generate an unsupported symbol format please contact me.
 
+Symbols are replaced by their corresponding address in CPU space in the various debugger commands.
+If you prefix a symbol name with the : character (eg: ":MyLabel") it is replaced by its address in ROM space.
+This is only functional if the bank number is available from the symbols format (the 'XXXX' in WLA DX output).
+
 
 Completion
 ----------
@@ -80,8 +84,10 @@ Supported features are:
      (eg: %00101010)
    - Immediate decimal integer
      (eg: #256)
-   - Symbols gets replaced by their address.
+   - Symbols gets replaced by their CPU address.
      (eg: function_label)
+   - Symbols prefixed by : gets replaced by their ROM address.
+     (eg: :function_label)
    - Z80 registers names gets replaced by their current value.
      (eg: PC, SP, AF, A, BC, B, C, DE, D, E, HL, H, L, IX, IY)
      Pay attention that some registers names are ambiguous with hexadecimal
@@ -148,6 +154,8 @@ Debugger commands summary
  D [addr] [cnt]                 : Disassembly at <addr>
  STACK [len]                    : Stack dump
  RMAP addr                      : Reverse map Z80 address
+ VARS [name]                    : Display variables by name
+ VARS @addr                     : Display variables by address
  SYM [name]                     : Find symbols by name
  SYM @addr                      : Find symbols by address
  SET register=value             : Set Z80 register
@@ -296,9 +304,25 @@ Usage:
  CLOCK R[ESET] ; Reset cycle accumulator
 
 
+Debugger command - VARS
+----------------------
+VARS: Display variables
+(Variables are symbols declared within a RAM location.)
+Usage:
+ VARS [name]
+ VARS @addr
+Parameters:
+ name : variable/symbol name to search for
+ addr : variable/symbol address to search for
+Examples:
+ VARS             ; display all variables
+ VARS player      ; display variables matching 'player'
+ VARS @HL         ; display variables at address HL
+
+
 Debugger command - SYM
 ----------------------
-SYM/SYMBOLS: Fins symbols
+SYM/SYMBOLS: Find symbols
 Usage:
  SYM [name]
  SYM @addr
