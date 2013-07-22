@@ -56,7 +56,6 @@ struct t_cheat_finder
 
 	t_memory_type				memtype;
 	t_cheat_finder_value_type	valuetype;
-	t_cheat_finder_comparer		comparer;
 	t_cheat_finder_compare_to	compare_to;
 	int							custom_value;
 	bool						custom_value_valid;
@@ -66,7 +65,7 @@ struct t_cheat_finder
 	t_widget*							w_comparer_buttons[CHEAT_FINDER_COMPARER_MAX_];
 	t_widget*							w_compare_to_buttons[2];
 	t_widget*							w_custom_value;
-	t_widget*							w_reduce_search;
+	//t_widget*							w_reduce_search;
 	t_widget*							w_undo_reduce_search;
 	t_widget*							w_matches_memedit_buttons[CHEAT_FINDER_MATCHES_MAX];
 

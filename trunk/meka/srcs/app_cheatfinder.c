@@ -55,7 +55,7 @@ static void         CheatFinder_Layout(t_cheat_finder *app, bool setup);
 static void			CheatFinder_Update(t_cheat_finder* app);
 
 static void			CheatFinder_ResetMatches(t_cheat_finder* app);
-static void			CheatFinder_ReduceMatches(t_cheat_finder* app);
+static void			CheatFinder_ReduceMatches(t_cheat_finder* app, t_cheat_finder_comparer comparer);
 static void			CheatFinder_UndoReduce(t_cheat_finder* app);
 static void			CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index);
 
@@ -64,7 +64,7 @@ static u32			CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* me
 
 static void			CheatFinder_CallbackMemtypeSelect(t_widget* w);
 static void			CheatFinder_CallbackValuetypeSelect(t_widget* w);
-static void			CheatFinder_CallbackComparerSelect(t_widget* w);
+static void			CheatFinder_CallbackComparer(t_widget* w);
 static void			CheatFinder_CallbackCompareToSelect(t_widget* w);
 static void			CheatFinder_CallbackReset(t_widget* w);
 static void			CheatFinder_CallbackReduce(t_widget* w);
@@ -96,8 +96,7 @@ t_cheat_finder *	CheatFinder_New(bool register_desktop)
 
 	app->memtype			= MEMTYPE_RAM;
 	app->valuetype			= CHEAT_FINDER_VALUE_TYPE_8;
-	app->comparer			= CHEAT_FINDER_COMPARER_EQUAL;
-	app->compare_to			= CHEAT_FINDER_COMPARE_TO_CONSTANT;
+	app->compare_to			= CHEAT_FINDER_COMPARE_TO_OLD_VALUE;
 	app->custom_value		= 0;
 	app->custom_value_valid	= false;
 	app->reset_state		= true;
@@ -198,26 +197,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	dc.NewLine();
 	dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
 
-	fp.Printf(dc.pos+v2i(0,4), "Comparer:");
-	dc.NewLine();
-	//if (setup)
-	{
-		for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
-		{
-			t_frame frame(dc.pos, v2i(30,Font_Height(F_SMALL)+3));
-			if (setup)
-				app->w_comparer_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackComparerSelect, WIDGET_BUTTON_STYLE_SMALL, (const char *)s_comparer_names[i], (void*)i);
-			if ((i & 1) == 0)
-				dc.pos.x += frame.size.x + 2;
-			else
-				dc.NewLine();
-				//dc.pos.y += frame.size.y + 2;
-		}
-	}
-	//dc.NewLine();
-	dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
-
-	fp.Printf(dc.pos+v2i(0,4), "Compare to:");
+	fp.Printf(dc.pos+v2i(0,4), "COMPARE REF:");
 	dc.NewLine();
 	{
 		t_frame frame(dc.pos, v2i(50,Font_Height(F_SMALL)+3));
@@ -244,14 +224,34 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	dc.NewLine();
 	dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
 
+	fp.Printf(dc.pos+v2i(0,4), "REDUCE:");
+	dc.NewLine();
+	//if (setup)
+	{
+		for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
+		{
+			t_frame frame(dc.pos, v2i(30,Font_Height(F_SMALL)+3));
+			if (setup)
+				app->w_comparer_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackComparer, WIDGET_BUTTON_STYLE_SMALL, (const char *)s_comparer_names[i], (void*)i);
+			if ((i & 1) == 0)
+				dc.pos.x += frame.size.x + 2;
+			else
+				dc.NewLine();
+			//dc.pos.y += frame.size.y + 2;
+		}
+	}
+	//dc.NewLine();
+
+	//dc.HorizontalSeparator();	// NB: this draw too far but the rest is clearer later anyway, so its ok for now
+
 	//dc.pos.y += 2;
-	if (setup)
+	/*if (setup)
 	{
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
 		app->w_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackReduce, WIDGET_BUTTON_STYLE_SMALL, "START");		// FIXME-LOCALIZATION
 	}
 	dc.NewLine();
-	dc.pos.y += 2;
+	dc.pos.y += 2;*/
 	if (setup)
 	{
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
@@ -286,11 +286,6 @@ void	CheatFinder_Update(t_cheat_finder* app)
 		widget_button_set_grayed_out(app->w_valuetype_buttons[i], !app->reset_state);
 	}
 
-	for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
-	{
-		widget_set_highlight(app->w_comparer_buttons[i], app->comparer == i);
-	}
-
 	const char* custom_value_text = widget_inputbox_get_value(app->w_custom_value);
 	t_debugger_value v;
 	app->custom_value_valid = Debugger_Eval_ParseConstant(custom_value_text, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_DEC);
@@ -298,8 +293,12 @@ void	CheatFinder_Update(t_cheat_finder* app)
 		app->custom_value = v.data;
 	//app->custom_value_valid = (sscanf(custom_value_text, "%d", &app->custom_value) == 1);
 
-	widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
-	widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && (app->matches.empty() || (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid)));
+	const bool cannot_reduce = (app->matches.empty() || (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid));
+	for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
+		widget_button_set_grayed_out(app->w_comparer_buttons[i], cannot_reduce);
+
+	//widget_button_set_label(app->w_reduce_search, app->reset_state ? "START" : "REDUCE");	// FIXME-LOCALIZATION
+	//widget_button_set_grayed_out(app->w_reduce_search, !app->reset_state && (app->matches.empty() || (app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT && !app->custom_value_valid)));
 	widget_button_set_grayed_out(app->w_undo_reduce_search, app->matches_undo.empty());
 
 	al_draw_filled_rectangle(app->matches_frame.pos.x, app->matches_frame.pos.y, app->matches_frame.pos.x+app->matches_frame.size.x, app->matches_frame.pos.y+app->matches_frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
@@ -452,7 +451,7 @@ void CheatFinder_ResetMatches(t_cheat_finder* app)
 	}
 }
 
-void CheatFinder_ReduceMatches(t_cheat_finder* app)
+void CheatFinder_ReduceMatches(t_cheat_finder* app, t_cheat_finder_comparer comparer)
 {
 	t_memory_range memrange;
 	MemoryRange_GetDetails(app->memtype, &memrange);
@@ -484,7 +483,7 @@ void CheatFinder_ReduceMatches(t_cheat_finder* app)
 		const u32 v_to_compare = (app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE) ? v_old : custom_value;
 
 		bool compare_success = false;
-		switch (app->comparer)
+		switch (comparer)
 		{
 		case CHEAT_FINDER_COMPARER_EQUAL:
 			compare_success = (v_cur == v_to_compare);
@@ -554,12 +553,6 @@ static void CheatFinder_CallbackValuetypeSelect(t_widget* w)
 	CheatFinder_ResetMatches(app);
 }
 
-static void CheatFinder_CallbackComparerSelect(t_widget* w)
-{
-	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	app->comparer = (t_cheat_finder_comparer)(long)w->user_data;
-}
-
 static void CheatFinder_CallbackCompareToSelect(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
@@ -572,13 +565,21 @@ static void CheatFinder_CallbackReset(t_widget* w)
 	CheatFinder_ResetMatches(app);
 }
 
-static void CheatFinder_CallbackReduce(t_widget* w)
+static void CheatFinder_CallbackComparer(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
+	CheatFinder_ReduceMatches(app, (t_cheat_finder_comparer)(int)w->user_data);
+}
+
+static void CheatFinder_CallbackReduce(t_widget* w)
+{
+	assert(0);
+	/*t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	if (w != app->w_reduce_search)
 		widget_button_trigger(app->w_reduce_search);
 	else
-		CheatFinder_ReduceMatches(app);
+		CheatFinder_ReduceMatches(app, (t_cheat_finder_comparer)(int)w->user_data);
+		*/
 }
 
 static void CheatFinder_CallbackUndoReduce(t_widget* w)
