@@ -9,15 +9,14 @@
 
 typedef int t_menu_id;
 
-#define GUI_MENUS_FONT      (F_LARGE)
-
 #define MAX_MENUS           (256)
 #define MAX_MENUS_ENTRY     (96)
 
 #define MENU_ID_MAIN        ((t_menu_id)0)
 
-#define MENUS_PADDING_X     (8)
-#define MENUS_PADDING_Y     (4)
+#define MENUS_PADDING_X			(8)
+#define MENUS_PADDING_Y			(4)
+#define MENUS_PADDING_CHECK_X   (12)
 
 enum t_menu_item_type
 {
@@ -152,7 +151,8 @@ struct t_menu
 	t_menu_item *		entry[MAX_MENUS_ENTRY];
 	int					n_entry;
 	int                 generation;
-	int                 sx, sy, lx, ly;
+	int                 start_pos_x, start_pos_y;
+	int					size_x, size_y;
 };
 
 struct  gui_type_menus_opt

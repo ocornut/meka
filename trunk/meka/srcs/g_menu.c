@@ -134,8 +134,8 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
         // Update sub-menus if necessary
         if ((menu_entry->mouse_over) && (menu_entry->type == MENU_ITEM_TYPE_SUB_MENU))
         {
-            gui_menu_return_children_pos (n_menu, i, &menus[menu_entry->submenu_id]->sx,
-                &menus[menu_entry->submenu_id]->sy);
+            gui_menu_return_children_pos (n_menu, i, &menus[menu_entry->submenu_id]->start_pos_x,
+                &menus[menu_entry->submenu_id]->start_pos_y);
             gui_update_menu (menu_entry->submenu_id, n_menu, i, generation + 1);
         }
     }
@@ -145,10 +145,12 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 {
     t_menu *menu = menus[n_menu];
 
-    Font_SetCurrent (GUI_MENUS_FONT);
+	const int label_to_shortcut_y_offset = (Font_Height(F_LARGE) - Font_Height(F_MIDDLE)) / 2 + 1;
 
-    if (n_menu == MENU_ID_MAIN) // Main menu (horizontal) ------------------------
+    if (n_menu == MENU_ID_MAIN)
     {
+		// a) Main horizontal menu
+
         // Draw menu background
 		al_set_target_bitmap(gui_buffer);
         al_draw_filled_rectangle(0, 0, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
@@ -181,31 +183,34 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
             }
+			Font_SetCurrent(F_LARGE);
             Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
             x += ln + menus_opt.distance;
         }
     }
-    else // Children menu (vertical) ---------------------------------------------
+    else
     {
+		// b) Vertical children menus
+
         // Miscellaneous
         // gui.info.must_redraw = TRUE;
         const int ln = Font_Height();
-        gui_menu_return_children_pos(n_parent, n_parent_entry, &menu->sx, &menu->sy);
+        gui_menu_return_children_pos(n_parent, n_parent_entry, &menu->start_pos_x, &menu->start_pos_y);
 
         // DRAW MENU BORDER -------------------------------------------------------
         // rectfill (gui_buffer, menu->sx - 2, menu->sy - 2, menu->sx + menu->lx + 2, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
         // rect (gui_buffer, menu->sx - 1, menu->sy - 1, menu->sx + menu->lx + 1, menu->sy + menu->ly + 1, COLOR_SKIN_MENU_BORDER);
 		al_set_target_bitmap(gui_buffer);
-        al_draw_rectangle(menu->sx - 1.5f, menu->sy - 0.5f, menu->sx + menu->lx + 2.5f, menu->sy + menu->ly + 1.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
-        al_draw_rectangle(menu->sx - 0.5f, menu->sy - 1.5f, menu->sx + menu->lx + 1.5f, menu->sy + menu->ly + 2.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
+        al_draw_rectangle(menu->start_pos_x - 1.5f, menu->start_pos_y - 0.5f, menu->start_pos_x + menu->size_x + 2.5f, menu->start_pos_y + menu->size_y + 1.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
+        al_draw_rectangle(menu->start_pos_x - 0.5f, menu->start_pos_y - 1.5f, menu->start_pos_x + menu->size_x + 1.5f, menu->start_pos_y + menu->size_y + 2.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
 
         // DRAW MENU BACKGROUND WITH/WITHOUT GRADIENTS ----------------------------
         {
             t_frame menu_frame;
-            menu_frame.pos.x = menu->sx;
-            menu_frame.pos.y = menu->sy;
-            menu_frame.size.x = menu->lx;
-            menu_frame.size.y = menu->ly;
+            menu_frame.pos.x = menu->start_pos_x;
+            menu_frame.pos.y = menu->start_pos_y;
+            menu_frame.size.x = menu->size_x;
+            menu_frame.size.y = menu->size_y;
             if (n_parent == 0)
             {
                 menu_frame.pos.y -= 2;
@@ -215,24 +220,26 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         }
 
         // Draw menu entries
-        int x = menu->sx + MENUS_PADDING_X;
-        int y = menu->sy + MENUS_PADDING_Y;
+        int x = menu->start_pos_x + MENUS_PADDING_X;
+        int y = menu->start_pos_y + MENUS_PADDING_Y;
         for (int i = 0; i < menu->n_entry; i++)
         {
             if (y + ln > g_configuration.video_mode_gui_res_y)
             {
                 break;
             }
-            if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
+			t_menu_item* item = menu->entry[i];
+
+            if ((item->mouse_over) && (item->flags & MENU_ITEM_FLAG_ACTIVE))
             {
-                gui_menu_highlight (n_menu, i);
-                if (menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU)
+                gui_menu_highlight(n_menu, i);
+                if (item->type == MENU_ITEM_TYPE_SUB_MENU)
                 {
-                    gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
+                    gui_draw_menu(item->submenu_id, n_menu, i);
                 }
             }
 			ALLEGRO_COLOR color;
-            if (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE)
+            if (item->flags & MENU_ITEM_FLAG_ACTIVE)
             {
                 color = COLOR_SKIN_MENU_TEXT;
             }
@@ -240,16 +247,28 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
             }
-            Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
-            switch (menu->entry[i]->type)
+
+			Font_SetCurrent(F_LARGE);
+            Font_Print(F_CURRENT, item->label, x, y, color);
+
+			if (item->shortcut != NULL)
+			{
+				Font_SetCurrent(F_MIDDLE);
+				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextLength(F_CURRENT, item->shortcut);
+				const int shortcut_y = y + label_to_shortcut_y_offset;
+				Font_Print(F_CURRENT, item->shortcut, shortcut_x, shortcut_y, color);
+			}
+
+            switch (item->type)
             {
             case MENU_ITEM_TYPE_SUB_MENU:
-                Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->sx + menu->lx - MENUS_PADDING_X, y, color);
+                Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - MENUS_PADDING_X, y, color);
                 break;
             case MENU_ITEM_TYPE_CALLBACK:
-                if (menu->entry[i]->flags & MENU_ITEM_FLAG_CHECKED)
+                if (item->flags & MENU_ITEM_FLAG_CHECKED)
                 {
-                    Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->sx + menu->lx - MENUS_PADDING_X - 1, y, color);
+					Font_SetCurrent(F_LARGE);
+                    Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->start_pos_x + menu->size_x - MENUS_PADDING_X - 1, y, color);
                 }
                 break;
             }

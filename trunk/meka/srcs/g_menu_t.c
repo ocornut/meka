@@ -42,7 +42,7 @@ void    gui_menu_return_children_pos (int p_menu, int p_entry, int *x, int *y)
 // RETURN COORDINATES OF A MENU ENTRY -----------------------------------------
 void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, int *x2, int *y2)
 {
-	Font_SetCurrent (GUI_MENUS_FONT);
+	Font_SetCurrent (F_LARGE);
 	if (menu_id == MENU_ID_MAIN)
 	{
 		*y1 = 1;
@@ -57,29 +57,31 @@ void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, i
 	}
 	else
 	{
-		*x1 = menus[menu_id]->sx + 2;
-		*x2 = menus[menu_id]->sx + menus[menu_id]->lx - 2;
-		*y1 = menus[menu_id]->sy + (n_entry * (Font_Height() + MENUS_PADDING_Y)) + MENUS_PADDING_Y;
+		*x1 = menus[menu_id]->start_pos_x + 2;
+		*x2 = menus[menu_id]->start_pos_x + menus[menu_id]->size_x - 2;
+		*y1 = menus[menu_id]->start_pos_y + (n_entry * (Font_Height() + MENUS_PADDING_Y)) + MENUS_PADDING_Y;
 		*y2 = *y1 + Font_Height();
 		*y1 -= 3;
 	}
 }
 
 // UPDATE THE SIZE OF A MENU --------------------------------------------------
-void    gui_menu_update_size (int menu_id)
+void    gui_menu_update_size(int menu_id)
 {
-	int lx_max = 0;
-	Font_SetCurrent(GUI_MENUS_FONT);
-	for (int i = 0; i < menus[menu_id]->n_entry; i ++)
+	int w_max = 0;
+	Font_SetCurrent(F_LARGE);
+	
+	t_menu* menu = menus[menu_id];
+	for (int i = 0; i < menu->n_entry; i ++)
 	{
-		const int j = Font_TextLength(F_CURRENT, menus[menu_id]->entry[i]->label);
-		if (j > lx_max)
-		{
-			lx_max = j;
-		}
+		t_menu_item* item = menu->entry[i];
+		const int text_w = Font_TextLength(F_CURRENT, item->label);
+		const int shortcut_w = item->shortcut ? Font_TextLength(F_MIDDLE, item->shortcut) : 0;
+
+		w_max = MAX(w_max, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
 	}
-	menus [menu_id]->lx = lx_max + (3 * MENUS_PADDING_X);
-	menus [menu_id]->ly = ((Font_Height() + MENUS_PADDING_Y) * menus[menu_id]->n_entry);
+	menu->size_x = w_max + (3 * MENUS_PADDING_X);
+	menu->size_y = ((Font_Height() + MENUS_PADDING_Y) * menu->n_entry);
 }
 
 void gui_menus_update_size (void)
@@ -105,17 +107,18 @@ int     menu_new (void)
 		return (0);
 
 	// Allocate new menu and initialize it with default values
-	menus[menu_id] = (t_menu *)malloc(sizeof (t_menu));
-	menus[menu_id]->id = menu_id;
-	menus[menu_id]->sx = menus[menu_id]->sy = 0;
-	menus[menu_id]->lx = menus[menu_id]->ly = 0;
-	menus[menu_id]->n_entry = 0;
-	menus[menu_id]->generation = -1;
+	t_menu* menu = (t_menu *)malloc(sizeof (t_menu));
+	menus[menu_id] = menu;
+	menu->id = menu_id;
+	menu->start_pos_x = menus[menu_id]->start_pos_y = 0;
+	menu->size_x = menus[menu_id]->size_y = 0;
+	menu->n_entry = 0;
+	menu->generation = -1;
 
 	return (menu_id);
 }
 
-int                     menu_add_menu (int menu_id, const char *label, int flags)
+int		menu_add_menu (int menu_id, const char *label, int flags)
 {
 	t_menu* menu = menus[menu_id];
 	if (menu->n_entry >= MAX_MENUS_ENTRY)
