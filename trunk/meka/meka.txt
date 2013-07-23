@@ -1,8 +1,8 @@
 
-  MEKA 0.8x - Documentation
+  MEKA 0.80-ALPHA - Documentation
  ===========================
   Multi machine emulator for MS-Windows, GNU/Linux, etc.
-  (c) in 1998-2011 by MEKA team (Omar Cornut and contributors, list below).
+  (c) in 1998-2013 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
   License in 'sources.txt' file (BSD-like for most parts)
@@ -11,11 +11,19 @@
   Please forgive my sometimes flaky english.
 
 ----------------------------------------------------------------------------
- Level 0 : I am a busy guy
+ Level 0 : Documents index
 ----------------------------------------------------------------------------
+
+   meka.txt      : main documentation
+   changes.txt   : changelog
+   compat.txt    : compatibility list
+   debugger.txt  : debugger, development, hacking tools
+   multi.txt     : multiplayer games list
+   sources.txt   : how to compile, license
+   tech.txt      : technical diagrams
+   
  If you are looking for how to donate to the MEKA project, press Up, Down, 
- Right, Left and start directly at Level 6. However I strongly recommend 
- reading the whole documentation, because documentation are cool.
+ Right, Left and start directly at Level 6. Documentation are cool.
 ----------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------
@@ -47,15 +55,12 @@
  > Mitsutaka Okazaki            Software Yamaha 2413 emulator (EMU2413).
  > Maxim                        Software PSG emulator.
  > Ulrich Cordes                FDC765 emulator for SF-7000. Implemented with modifications in MEKA.
- > Valerie Tching / Kittie      Original version of the Memory Editor.
+ > Valerie Tching / Kittie      Initial version of the Memory Editor.
  > Johan Euphrosine / Proppy    GNU/Linux tweaks.
  > DJRobX                       Blitters and video improvements, HQ2X interface.
  > Maxim Stephin / MaxSt        HQ2X graphics filter.
  > Dirk Stevens                 Eagle graphics filter.
  > Hiromitsu Shioya / Hiro-shi  Original sound engine (now obsolete).
-
- Please Google individual people listed above if you want to get in contact
- with them. Out of privacy/spam concerns I can't list their e-mail address here.
 
  MEKA in its original flavor was a program for MS-DOS and compatible systems.
  MEKAW is the codename for the MS-Windows version of MEKA.
@@ -67,7 +72,7 @@
  The Windows version is the main development version.
  
  The GNU/Linux version should be working but needs a maintainer.
- Could this be you?
+ Could it be you?
  
  Now let me tell you more about the cool systems that MEKA emulates!
 
@@ -353,7 +358,7 @@
 
   - Logging of sound output to VGM (and WAV) format. VGM is a logging format 
     developed by the S8-Dev community of SMS Power. For more information,
-    and a music archive, go to http://www.smspower.org/music.
+    and a music archive, go to http://www.smspower.org/Music
     Logging of WAV only works for PSG sound (YM-2413 FM is not yet logged).
 
   - Definable video modes with some nice fullscreen effects available such
@@ -402,7 +407,7 @@
  building a time machine.
 
 ----------------------------------------------------------------------------
- Level 5 : Usability
+ Level 5 : Usage
 ----------------------------------------------------------------------------
 
  Simply execute the "MEKA.EXE" (or "MEKAW.EXE", depending on the version
@@ -417,7 +422,7 @@
    -HELP -?         Display command line help
    -SETUP           Start with the setup screen
    -EURO -US        Emulate an European/US system for this session
-   -JAP -JP -JPN    Emulate a Japanese system for this session
+   -JP              Emulate a Japanese system for this session
    -DEBUG           Enable debugging features
    -LOAD <n>        Load savestate <n> on startup
    -LOG <file>      Log message to file <file> (appending it)
@@ -429,42 +434,45 @@
 
  Common to all systems
  ---------------------
-  D-Pad ........................... Arrow Keys (default)
-  Button 1 ........................ Left Control (default)
-  Button 2 ........................ Left Alternate (default)
+  D-Pad ............................. Arrow Keys (default)
+  Button 1 .......................... Left Control (default)
+  Button 2 .......................... Left Alternate (default)
 
  Master System / SG-1000
  -----------------------
-  Soft Pause ...................... Space
+  Soft Pause ........................ Space
     This is the same pause as if you pressed the button on a real machine.
     It can be used only if the game supports it at the moment you press it.
     On some game, pressing pause will get you a menu, etc..
-  Hard Pause ...................... ALT+P or F12
+    
+  Hard Pause ........................ ALT+P or F12
     This "special" pause with simply freeze the game, without changing
     anything. It is usable everytime, everywhere.
-  Soft Reset ...................... Backspace
+    
+  Soft Reset ........................ Backspace
     This is the same reset as if you pressed the button on a real machine.
     It can be used only if the game supports it at the moment you press it.
     On some emulated systems that does not support software reset, like the
     Game Gear, pressing this key will actually produces an hard reset.
-  Hard Reset ...................... ALT+Backspace
+    
+  Hard Reset ........................ ALT+Backspace
     This "special" reset with completly reset the emulated system.
     It is usable everytime, everywhere.
 
  Game Gear
  ---------
-  Start ........................... Space
-  Hard Reset ...................... Backspace
+  Start ............................. Space
+  Hard Reset ........................ Backspace
 
  SC-3000/SF-7000 (anytime using the SK-1100, in fact)
  ----------------------------------------------------
-  Soft Reset ...................... Break
+  Soft Reset ........................ Break
 
  Other keys are mapped at the same place as the Sega Keyboard (SK-1100).
  So be sure to look at the provided picture carefully. For example:
 
-  Control ......................... Caps Lock
-  Graph ........................... Left Control
+  Control ........................... Caps Lock
+  Graph ............................. Left Control
 
  The "Pi" key, also used to type the "Ro" kana in Japanese, has
  unfortunately no equivalent on today's PC keyboard of most countries.
@@ -476,7 +484,7 @@
 
  ColecoVision
  ------------
-  Numeric Pad ..................... Keys 0 to 9, Minus and Equal
+  Numeric Pad ....................... Keys 0 to 9, Minus and Equal
 
  Miscellaneous keys
  ------------------
@@ -699,21 +707,14 @@
 ----------------------------------------------------------------------------
 
  Check out http://www.smspower.org and participate to the healthy debates
- on the forum. Also check out the developer section and see some great
- homemade programs and projects in the work.
+ on the forum. Also check out the developer section, documentations, homebrew
+ games, hardware hacks and various projects being made by the community.
 
- Check out http://www.smspower.org/music for a great Sega 8-bit music
- archive, informations, tools and a forum.
+ Check out http://www.smspower.org/Music for a great Sega 8-bit music
+ archive, informations, tools and a forum. 
  
- Musician friends, use your skills to make us some great covers of SMS songs!
-
  Check out http://www.smspower.org/meka/wip for latest work-in-progress
  versions of MEKA, with new great features you never dreamed of.
-
- Buy games you like, buy (or register) software you like!
- Support the video game industry. 
- Support creative games.
- Support indy and home developpers. 
 
  Play Wonder Boy III: The Dragon's Trap over and over until you figure out
  you cannot get bored with it.
@@ -761,12 +762,8 @@
 
   Compilers/assemblers:
   - Microsoft Visual C++
-    http://www.microsoft.com/VisualStudio
-  - GCC (UN*X versions) and development suite by a bunch of happy GNU people.
-    http://gcc.gnu.org/
-    http://www.gnu.org/software/make/
-  - NASM (Netwide Assembler)
-    http://nasm.sourceforge.net/
+  - GCC
+  - NASM
 
   Librairies:
   - Allegro 5 (video and inputs features), by the Allegro team.
@@ -799,11 +796,11 @@
  Level 12 : End Credits
 ----------------------------------------------------------------------------
 
- In addition to people already listed as "Contributors" at the top of this
- document, I would like to thank the following persons:
+ In addition to people listed as MEKA development contributors at the top of 
+ this document, I would like to thank the following persons:
 
  Maxim,
-  restless support on countless Sega 8-bit projects and the SMS Power! site.
+  restless support on countless Sega 8-bit projects and the modern SMS Power! wiki backend.
   can't list all of them! too many goodness! you used it? he made it.
   http://www.smspower.org/maxim
 
@@ -813,7 +810,7 @@
 
  Mike Gordon,
   hardware hacker extraordinary. Designed SMS Reader among other stuff.
-  http://www.smspower.org/smsreader
+  http://www.smspower.org/Development/SMSReader
 
  Andrew Lindsay:
   hardware hacker extraordinary. Funded The SMS Preservation Society (1996-1997)
@@ -843,11 +840,8 @@
  Nicolas Hamel,
  Richard Bush,
  Nicolas Lannier,
-  invaluable help and inspiration in my early emulation/programming days.
-
  James McKay,
-  for the Massage emulator (which got me interested again in SMS!), and 
-  coping with my ignorance and harassing.
+  invaluable help and inspiration in my early emulation/programming days.
 
  Eric Quinn,
   http://www.smspower.org/seganotebook/
@@ -856,70 +850,24 @@
   for help with SF-7000 emulation and dumps of his old disks.
   http://membres.multimania.fr/mavati/sf7000/
 
- Gary Pierce (Youltar),
+ Youltar,
   for his general support, SmsCartPad adapters, 3-D glasses and rapid fire 
   schematics, artworks.
   http://www.smspower.org/smscartpad
 
- Marat Fayzullin,
-  for Master Gear and being such a pioneer with console emulation.
-  http://fms.komkon.org
-
- Ricardo Bittencourt,
- Martin Konrad,
-  http://www.lsi.usp.br/~ricardo/brsms.htm
-  http://emukon.kontechs.de
-  http://www.smspower.org/martin
-
- Anonymous Jon:
- Super Majik Spiral Crew,
- Richard Talbot Watkins:
-  wrote technical documents about the Master System.
-
- Sean Young:
-  wrote technical documents about the TMS9918a and Z80 chips.
-  http://www.msxnet.org
-
- MrLee, 
- Billy Jr,
- Richard Mitton,
- Leonard Silva de Oliveira,
- Flavio Morsoletto,
- Charles Doty,
- Leonardo Pires,
- Christopher Coleman:
- MXS,
- Sam Pettus,
- Chris White,
- Jonathan Griffith,
- Puyolin,
-  various contributions, technical stuff, moral support.
-
- Lasse Reinikainen & Image/Helsinki/Finland,
-  for beta testing and countless dumps, including the old and original
-  Master System BIOS. Before getting hold of it, we spent a lot of time
-  recreating a pretend copy of the Master System bootup animation from 
-  stratch. Only few days before the release, Lasse sent me the BIOS dump. 
-  Believe it or not, there was only one different pixel between the original 
-  Sega logo and the one I drew by looking at my TV :)
-
- Emilie Skog (MoonTrip),
-  great and inspirational music. we'll finish that Wonder Boy game someday :)
-
- Olivier Aichelbaum (ACBM),
- Dominique Toussaint,
-  for my first owned SC-3000h, the BASIC cartridge and the documentation.
-  http://www.acbm.com
-
  Westone team,
-  for making Wonder Boy III, the best game ever... in 1989. :~)
-  if anybody wants to hire me to work on a proper remake/sequel, I'm there!
+  for making Wonder Boy III: The Dragon's Trap - such a lovely game :)
   http://www.westone.co.jp
   
- Friends and family for their support,
- Everybody who supported MEKA and SMS Power or ever played a SMS game.
-
- And of course thanks to SEGA, for such a cool system and great games !
+ Lasse Reinikainen & Image/Helsinki/Finland, Emilie Skog, Marat Fayzullin,
+ Ricardo Bittencourt, Martin Konrad, Anonymous Jon, Super Majik Spiral Crew,
+ Richard Talbot Watkins, Sean Young, MrLee, Billy Jr, Richard Mitton,
+ Leonard Silva de Oliveira, Flavio Morsoletto, Charles Doty, Leonardo Pires,
+ Christopher Coleman, MXS, Sam Pettus, Chris White, Jonathan Griffith, Puyolin,
+ Olivier Aichelbaum (ACBM), Dominique Toussaint, friends and family etc.
+  
+ Everybody who supported MEKA, SMS Power! or just loves the SMS!
+ And of course thanks to SEGA!
 
 ----------------------------------------------------------------------------
   .         .              .            .          .        .         .
