@@ -353,7 +353,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
 			if (S != NULL)
 			{
 				const u16 addr = RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF);
-				t_debugger_symbol *symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
+				const t_debugger_symbol* symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
 				if (symbol != NULL)
 				{
 					strncpy(S,R,P-R);S[P-R]='\0';
@@ -374,7 +374,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
 			if (S != NULL)
 			{
 				const u16 addr = (u16)Debugger_Eval_ParseIntegerHex(R+4);
-				t_debugger_symbol *symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
+				const t_debugger_symbol* symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
 				if (symbol != NULL)
 				{
 					sprintf(S,"RST %s (%02Xh)", symbol->name, addr);

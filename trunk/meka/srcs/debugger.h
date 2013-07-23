@@ -60,7 +60,8 @@ struct t_debugger_bus_info
 
 struct t_debugger_symbol
 {
-    u16         addr;
+    u16         cpu_addr;
+	u32         rom_addr;
     int         bank;                           // Currently unsupported, set to -1
     char *      name;
     char *      name_uppercase;					// For grep
@@ -171,9 +172,9 @@ void                        Debugger_Printf(const char *format, ...);
 
 // Symbols
 bool						Debugger_Symbols_Load();
-t_debugger_symbol *         Debugger_Symbols_GetFirstByAddr(u32 addr);
-t_debugger_symbol *         Debugger_Symbols_GetLastByAddr(u32 addr);
-t_debugger_symbol *         Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);
+const t_debugger_symbol *   Debugger_Symbols_GetFirstByAddr(u32 cpu_addr);
+const t_debugger_symbol *   Debugger_Symbols_GetLastByAddr(u32 cpu_addr);
+const t_debugger_symbol *   Debugger_Symbols_GetClosestPreviousByAddr(u32 cpu_addr, int range);
 
 // Hooks
 int                         Debugger_Hook(Z80 *R);

@@ -108,17 +108,17 @@ static bool                     Debugger_BreakPoint_ActivatedVerbose(t_debugger_
 bool							Debugger_Symbols_Load();
 static void                     Debugger_Symbols_Clear();
 static void                     Debugger_Symbols_ListByName(char *search_name);
-static void						Debugger_Symbols_ListByAddr(u32 addr);
-t_debugger_symbol *             Debugger_Symbols_GetFirstByAddr(u32 addr);
-t_debugger_symbol *             Debugger_Symbols_GetLastByAddr(u32 addr);
-t_debugger_symbol *             Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range);
+static void						Debugger_Symbols_ListByAddr(u32 cpu_addr);
+const t_debugger_symbol *       Debugger_Symbols_GetFirstByAddr(u32 cpu_addr);
+const t_debugger_symbol *       Debugger_Symbols_GetLastByAddr(u32 cpu_addr);
+const t_debugger_symbol *       Debugger_Symbols_GetClosestPreviousByAddr(u32 cpu_addr, int range);
 static void                     Debugger_Symbols_Vars_ListByName(char *search_name);
 static void						Debugger_Symbols_Vars_ListByAddr(u32 addr);
 
 // Symbol
 static t_debugger_symbol *      Debugger_Symbol_Add(u16 addr, int bank, const char *name);
 static void                     Debugger_Symbol_Remove(t_debugger_symbol *symbol);
-static int                      Debugger_Symbol_CompareByAddress(t_debugger_symbol *symbol1, t_debugger_symbol *symbol2);
+static int                      Debugger_Symbol_CompareByRomAddress(const t_debugger_symbol *symbol1, const t_debugger_symbol *symbol2);
 
 // History
 static bool                     Debugger_History_Callback(t_widget *w, int level);
@@ -665,8 +665,8 @@ int		Debugger_Hook(Z80 *R)
     {
         int cnt = Debugger_CPU_Exec_Traps[pc];
         bool break_activated = FALSE;
-        t_list *breakpoints;
-        for (breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
+        
+        for (t_list* breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
         {
             t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
             if (breakpoint->enabled)
@@ -726,9 +726,7 @@ void    Debugger_SetTrap(int trap)
 
 void                        Debugger_BreakPoints_Clear(bool disabled_only)
 {
-    t_list *breakpoints;
-
-    for (breakpoints = Debugger.breakpoints; breakpoints != NULL; )
+    for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; )
     {
         t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
         breakpoints = breakpoints->next;
@@ -744,15 +742,13 @@ void                        Debugger_BreakPoints_Clear(bool disabled_only)
 
 void                        Debugger_BreakPoints_List(void)
 {
-    t_list *breakpoints;
-    
     Debugger_Printf("Breakpoints/Watchpoints:\n");
     if (Debugger.breakpoints == NULL)
     {
         Debugger_Printf(" <None>\n");
         return;
     }
-    for (breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
+    for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
     {
         t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
         char buf[256];
@@ -765,8 +761,7 @@ void                        Debugger_BreakPoints_List(void)
 int                         Debugger_BreakPoints_AllocateId(void)
 {
     int max = -1;
-    t_list *breakpoints;
-    for (breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
+    for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
     {
         t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
         if (breakpoint->id > max)
@@ -1376,7 +1371,7 @@ bool	Debugger_Symbols_Load(void)
     tfile_free(symbol_file);
 
     // Sort by address
-    list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByAddress);
+    list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByRomAddress);
 
     // Verbose
 	char buf[256];
@@ -1420,7 +1415,7 @@ void    Debugger_Symbols_ListByName(char *search_name)
             if (strstr(symbol->name_uppercase, search_name) == NULL)
                 continue;
         count++;
-        Debugger_Printf(" %04X  %s\n", symbol->addr, symbol->name);
+        Debugger_Printf(" %04X  %s\n", symbol->cpu_addr, symbol->name);
     }
     if (count == 0)
     {
@@ -1464,9 +1459,9 @@ void    Debugger_Symbols_ListByAddr(u32 addr_request)
 		{
 			t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
 			if (addr_sym != addr_request)
-				Debugger_Printf(" %04X  %s + %X = %04X\n", symbol->addr, symbol->name, addr_request - addr_sym, addr_request);
+				Debugger_Printf(" %04X  %s + %X = %04X\n", symbol->cpu_addr, symbol->name, addr_request - addr_sym, addr_request);
 			else
-				Debugger_Printf(" %04X  %s\n", symbol->addr, symbol->name);
+				Debugger_Printf(" %04X  %s\n", symbol->cpu_addr, symbol->name);
 		}
 	}
 }
@@ -1478,21 +1473,21 @@ static void	Debugger_Symbols_Vars_Print(const t_debugger_symbol* symbol, const t
 	const t_debugger_symbol* symbol_next = next ? (t_debugger_symbol *)next->elem : NULL;
 	if (symbol_next != NULL)
 	{
-		const int offset_to_next_symbol = (int)(symbol_next->addr - symbol->addr);
+		const int offset_to_next_symbol = (int)(symbol_next->cpu_addr - symbol->cpu_addr);
 		if (offset_to_next_symbol < 2)
 			var_size = 1;
 	}
 
 	int var_value = 0;
 	for (int i = 0; i < var_size; i++)
-		var_value |= Debugger_Bus_Read(BREAKPOINT_LOCATION_CPU, (symbol->addr+i)&0xffff) << (i * 8);
+		var_value |= Debugger_Bus_Read(BREAKPOINT_LOCATION_CPU, (symbol->cpu_addr+i)&0xffff) << (i * 8);
 
 	//char binary_s[2][9];
 	//Write_Bits_Field((var_value >> 0) & 0xFF, 8, binary_s[0]);
 	//Write_Bits_Field((var_value >> 8) & 0xFF, 8, binary_s[1]);
 
 	//if (var_size == 1)
-	Debugger_Printf(" %04X: %-28s = %-*s$%0*hX  dec: %d\n", symbol->addr, symbol->name, (2-var_size)*2, "", var_size*2, var_value, var_value);
+	Debugger_Printf(" %04X: %-28s = %-*s$%0*hX  dec: %d\n", symbol->cpu_addr, symbol->name, (2-var_size)*2, "", var_size*2, var_value, var_value);
 	//else
 	//	Debugger_Printf(" %04X  %s = $%0*hX  dec: %d, bin: %%%s.%s\n", symbol->addr, symbol->name, var_size, var_value, var_value, binary_s[0], binary_s[1]);
 }
@@ -1519,7 +1514,7 @@ void    Debugger_Symbols_Vars_ListByName(char *search_name)
 	{
 		const t_debugger_symbol *symbol = (t_debugger_symbol *)symbols->elem;
 
-		const bool is_in_ram = symbol->addr >= ram_start_addr && symbol->addr < ram_start_addr+ram_len;
+		const bool is_in_ram = symbol->cpu_addr >= ram_start_addr && symbol->cpu_addr < ram_start_addr+ram_len;
 		if (!is_in_ram)
 			continue;
 
@@ -1563,32 +1558,39 @@ void	Debugger_Symbols_Vars_ListByAddr(u32 addr)
 	}
 }
 
-t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 addr)
+const t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 cpu_addr)
 {
-    t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
-    if (symbols == NULL)
-        return (NULL);
-    return ((t_debugger_symbol *)symbols->elem);
+	const int rom_addr = Debugger_ReverseMapFindRomAddress((u16)cpu_addr, NULL);
+	for (const t_list* symbols = Debugger.symbols_cpu_space[(u16)cpu_addr]; symbols; symbols = symbols->next)
+	{
+		const t_debugger_symbol* symbol = (const t_debugger_symbol *)symbols->elem;
+		if (rom_addr == -1 || rom_addr == symbol->rom_addr)
+			return symbol;
+	}
+    return NULL;
 }
 
-// Note: this function is useful, as there's often cases where the programmer sets 
+// This function is useful because there's often cases where the programmer sets 
 // one 'end' symbol and a following 'start' symbol and they are at the same address.
 // In most of those cases, we want the last one.
-t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 addr)
+const t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 cpu_addr)
 {
-    t_list *symbols = Debugger.symbols_cpu_space[(u16)addr];
-    if (symbols == NULL)
-        return (NULL);
-    while (symbols->next != NULL)
-        symbols = symbols->next;
-    return ((t_debugger_symbol *)symbols->elem);
+	const int rom_addr = Debugger_ReverseMapFindRomAddress((u16)cpu_addr, NULL);
+	const t_debugger_symbol* last_valid_symbol = NULL;
+	for (const t_list* symbols = Debugger.symbols_cpu_space[(u16)cpu_addr]; symbols; symbols = symbols->next)
+	{
+		const t_debugger_symbol* symbol = (const t_debugger_symbol *)symbols->elem;
+		if (rom_addr == -1 || rom_addr == symbol->rom_addr)
+			last_valid_symbol = symbol;
+	}
+	return last_valid_symbol;
 }
 
-t_debugger_symbol *		Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range)
+const t_debugger_symbol *		Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int range)
 {
 	while (range >= 0)
 	{
-		t_debugger_symbol * symbol = Debugger_Symbols_GetLastByAddr(addr);
+		const t_debugger_symbol * symbol = Debugger_Symbols_GetLastByAddr(addr);
 		if (symbol != NULL)
 			return symbol;
 		addr--;
@@ -1601,14 +1603,15 @@ t_debugger_symbol *		Debugger_Symbols_GetClosestPreviousByAddr(u32 addr, int ran
 // FUNCTIONS - SYMBOL
 //-----------------------------------------------------------------------------
 
-t_debugger_symbol *     Debugger_Symbol_Add(u16 addr, int bank, const char *name)
+t_debugger_symbol *     Debugger_Symbol_Add(u16 cpu_addr, int bank, const char *name)
 {
     // Check parameters
     assert(name != NULL);
 
     // Create and setup symbol
     t_debugger_symbol* symbol = new t_debugger_symbol();
-    symbol->addr = addr;
+    symbol->cpu_addr = cpu_addr;
+	symbol->rom_addr = (bank * 0x4000) + (symbol->cpu_addr & 0x3fff);
     symbol->bank = bank;
     symbol->name = strdup(name);
     symbol->name_uppercase = strdup(name);
@@ -1616,7 +1619,7 @@ t_debugger_symbol *     Debugger_Symbol_Add(u16 addr, int bank, const char *name
 
     // Add to global symbol list and CPU space list
     list_add(&Debugger.symbols, symbol);
-    list_add_to_end(&Debugger.symbols_cpu_space[symbol->addr], symbol);
+    list_add_to_end(&Debugger.symbols_cpu_space[symbol->cpu_addr], symbol);
 
     // Increase global counter
     Debugger.symbols_count++;
@@ -1633,7 +1636,7 @@ void    Debugger_Symbol_Remove(t_debugger_symbol *symbol)
 
     // Remove from global symbol list and CPU space list
     list_remove(&Debugger.symbols, symbol);
-    list_remove(&Debugger.symbols_cpu_space[symbol->addr], symbol);
+    list_remove(&Debugger.symbols_cpu_space[symbol->cpu_addr], symbol);
 
     // Delete
     free(symbol->name);
@@ -1645,9 +1648,9 @@ void    Debugger_Symbol_Remove(t_debugger_symbol *symbol)
     assert(Debugger.symbols_count >= 0);
 }
 
-int     Debugger_Symbol_CompareByAddress(t_debugger_symbol *symbol1, t_debugger_symbol *symbol2)
+int     Debugger_Symbol_CompareByRomAddress(const t_debugger_symbol* symbol1, const t_debugger_symbol* symbol2)
 {
-    return (symbol1->addr - symbol2->addr);
+    return (symbol1->rom_addr - symbol2->rom_addr);
 }
 
 //-----------------------------------------------------------------------------
@@ -1655,7 +1658,7 @@ int     Debugger_Symbol_CompareByAddress(t_debugger_symbol *symbol1, t_debugger_
 //-----------------------------------------------------------------------------
 
 // Hook Z80 read/write and I/O
-void     Debugger_Hooks_Install(void)
+void     Debugger_Hooks_Install()
 {
     RdZ80 = Debugger_RdZ80_Hook;
     WrZ80 = Debugger_WrZ80_Hook;
@@ -1864,12 +1867,8 @@ void        Debugger_Printf(const char *format, ...)
     while (p != NULL && *p != EOSTR);
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_Applet_Init ()
-//-----------------------------------------------------------------------------
 // Initialize the debugger applet
-//-----------------------------------------------------------------------------
-static void Debugger_Applet_Init (void)
+static void Debugger_Applet_Init()
 {
     t_frame frame;
 
@@ -2036,11 +2035,8 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
 	}
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_Applet_Redraw_State()
 // Redraw disassembly and CPU state
-//-----------------------------------------------------------------------------
-void	Debugger_Applet_Redraw_State(void)
+void	Debugger_Applet_Redraw_State()
 {
     if (!(g_machine_flags & MACHINE_POWER_ON))
         return;
@@ -2153,6 +2149,9 @@ void	Debugger_Applet_Redraw_State(void)
         //  DEC
         //  JR NZ
 
+		bool pc_in_bios;
+		const int pc_rom_addr = Debugger_ReverseMapFindRomAddress(pc, &pc_in_bios);
+
         // Disassemble instructions starting at 'PC'
         for (int i = 0; i < g_configuration.debugger_disassembly_lines; i++)
         {
@@ -2165,14 +2164,17 @@ void	Debugger_Applet_Redraw_State(void)
                 // Display symbols/labels
                 if (Debugger.symbols_cpu_space[pc] != NULL)
                 {
-                    for (t_list* symbols = Debugger.symbols_cpu_space[pc]; symbols != NULL; symbols = symbols->next)
+                    for (const t_list* symbols = Debugger.symbols_cpu_space[pc]; symbols != NULL; symbols = symbols->next)
                     {
-                        t_debugger_symbol* symbol = (t_debugger_symbol*)symbols->elem;
+                        const t_debugger_symbol* symbol = (t_debugger_symbol*)symbols->elem;
                         if (skip_labels > 0)
                         {
                             skip_labels--;
                             continue;
                         }
+						if (pc_rom_addr != -1 && symbol->rom_addr != pc_rom_addr)
+							continue;
+
                         sprintf(buf, "%s:", symbol->name);
                         Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
                         i++;
@@ -3131,9 +3133,12 @@ void        Debugger_InputParseCommand(char *line)
 					const int opcode_size = Debugger_Disassemble_Format(buf, addr, addr == sms.R.PC.W);
 
                     // Display symbols/labels (if any)
+					const int rom_addr = Debugger_ReverseMapFindRomAddress(addr, NULL);
                     for (t_list* symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
                     {
-                        t_debugger_symbol* symbol = (t_debugger_symbol*)symbols->elem;
+                        const t_debugger_symbol* symbol = (const t_debugger_symbol*)symbols->elem;
+						if (rom_addr != -1 && symbol->rom_addr != rom_addr)
+							continue;
                         Debugger_Printf("%s:\n", symbol->name);
                     }
 
@@ -3298,9 +3303,9 @@ void        Debugger_InputParseCommand(char *line)
 			if (Debugger_Eval_ParseExpression(&line, &value) > 0)
 				len = value.data;
 
-			t_debugger_symbol * symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
+			const t_debugger_symbol* symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
 			if (symbol != NULL)
-				Debugger_Printf(" Current PC:     %04X      %s+%X", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->addr);
+				Debugger_Printf(" Current PC:     %04X      %s+%X", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->cpu_addr);
 			else
 				Debugger_Printf(" Current PC:     %04X", sms.R.PC.W);
 			Debugger_Printf("------------------------");
@@ -3313,7 +3318,7 @@ void        Debugger_InputParseCommand(char *line)
 				
 				symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 64);
 				if (symbol != NULL)
-					Debugger_Printf(" %04X:   %02X      %04X      %s+%X", addr, v8, v16, symbol->name, v16-symbol->addr);
+					Debugger_Printf(" %04X:   %02X      %04X      %s+%X", addr, v8, v16, symbol->name, v16-symbol->cpu_addr);
 				else
 					Debugger_Printf(" %04X:   %02X      %04X", addr, v8, v16);
 				addr++;
@@ -3456,13 +3461,13 @@ void    Debugger_Value_Read(t_debugger_value *value)
 	case DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR:
 		{
 			t_debugger_symbol* symbol = (t_debugger_symbol *)value->source_data;
-			value->data = symbol->addr;
+			value->data = symbol->cpu_addr;
 		}
 		break;
 	case DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR:
 		{
 			t_debugger_symbol* symbol = (t_debugger_symbol *)value->source_data;
-			value->data = (symbol->bank * 0x4000) + (symbol->addr & 0x3fff);
+			value->data = symbol->rom_addr;
 			value->data_size = 24;
 		}
 		break;
@@ -4263,7 +4268,7 @@ int			Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios)
 	offset = (mem_pages_base - ROM) + (addr & 0x1FFF);
 	if (offset >= 0 && offset < tsms.Size_ROM)
 	{
-		*is_bios = false;
+		if (is_bios) *is_bios = false;
 		return offset;
 	}
 			
@@ -4272,7 +4277,7 @@ int			Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios)
 	offset = (mem_pages_base - Game_ROM_Computed_Page_0) + (addr & 0x1FFF);
 	if (offset >= 0 && offset < 0x4000)
 	{
-		*is_bios = false;
+		if (is_bios) *is_bios = false;
 		return offset;
 	}
 
@@ -4280,25 +4285,25 @@ int			Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios)
 	offset = (mem_pages_base - BIOS_ROM) + (addr & 0x1fff);
 	if (offset >= 0 && offset < 0x2000)
 	{
-		*is_bios = true;
+		if (is_bios) *is_bios = true;
 		return offset;
 	}
 	offset = (mem_pages_base - BIOS_ROM_Jap) + (addr & 0x1fff);
 	if (offset >= 0 && offset < 0x2000)
 	{
-		*is_bios = true;
+		if (is_bios) *is_bios = true;
 		return offset;
 	}
 	offset = (mem_pages_base - BIOS_ROM_Coleco) + (addr & 0x1fff);
 	if (offset >= 0 && offset < 0x2000)
 	{
-		*is_bios = true;
+		if (is_bios) *is_bios = true;
 		return offset;
 	}
 	offset = (mem_pages_base - BIOS_ROM_SF7000) + (addr & 0x1fff);
 	if (offset >= 0 && offset < 0x4000)
 	{
-		*is_bios = true;
+		if (is_bios) *is_bios = true;
 		return offset;
 	}
 
