@@ -139,7 +139,7 @@ I. Compile for Microsoft Windows:
  - Requires Microsoft Visual Studio 2008 (9.0) C++ compiler.
  - Install Allegro 5.0 library.
    - You can download precompiled Win32 binaries at: http://www.allegro.cc/files/
-   - I used the package: allegro-5.0.2-1-msvc-9.0.zip
+   - I used the package: allegro-5.0.9-1-msvc-9.0.zip
      But you can use another package matching your version of Visual Studio.
    - If you want to compile Allegro by yourself follow the instructions in Allegro package.
  - Setup Visual Studio directories for Allegro:
