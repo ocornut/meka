@@ -100,8 +100,8 @@ void	gui_menus_init (void)
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_On),              MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_ON, NULL);
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_Off),             MENU_ITEM_FLAG_ACTIVE /* | AM_Checked */, (t_menu_callback)Machine_OFF, NULL);
     // MACHINE -> COUNTRY
-    menu_add_item     (menus_ID.country,  Msg_Get(MSG_Menu_Machine_Country_EU),            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_European_US, NULL);
-    menu_add_item     (menus_ID.country,  Msg_Get(MSG_Menu_Machine_Country_Jap),           MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_JP, NULL);
+    menu_add_item     (menus_ID.country,  Msg_Get(MSG_Menu_Machine_Country_EU),            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_Export, NULL);
+    menu_add_item     (menus_ID.country,  Msg_Get(MSG_Menu_Machine_Country_Jap),           MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_Japan, NULL);
     // MACHINE -> TV TYPE
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_NTSC),           MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_NTSC), (t_menu_callback)TVType_Set_NTSC, NULL);
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_PALSECAM),       MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_PAL_SECAM), (t_menu_callback)TVType_Set_PAL_SECAM, NULL);

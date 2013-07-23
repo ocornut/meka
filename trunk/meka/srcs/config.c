@@ -81,7 +81,7 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "last_directory"))					{ snprintf(FB.current_directory, FILENAME_LEN, "%s", value); return; }
 	if (!strcmp(var, "bios_logo"))						{ g_configuration.enable_BIOS = (bool)atoi(value); return; }
 	if (!strcmp(var, "rapidfire"))						{ RapidFire = atoi(value); return; }
-	if (!strcmp(var, "country"))						{ if (!strcmp(value, "jp")) g_configuration.country_cfg = COUNTRY_JAPAN; else g_configuration.country_cfg = COUNTRY_EXPORT; return; }
+	if (!strcmp(var, "country"))						{ if (!strcmp(value, "jp")) g_configuration.country = COUNTRY_JAPAN; else g_configuration.country = COUNTRY_EXPORT; return; }
 	if (!strcmp(var, "tv_type"))
 	{
 		if (strcmp(value, "ntsc") == 0)
@@ -279,7 +279,7 @@ void Configuration_Save()
     CFG_Write_StrEscape  ("language", Messages.Lang_Cur->Name);
     CFG_Write_Int  ("bios_logo", g_configuration.enable_BIOS);
     CFG_Write_Int  ("rapidfire", RapidFire);
-    CFG_Write_Str  ("country", (g_configuration.country_cfg == COUNTRY_EXPORT) ? "us/eu" : "jp");
+    CFG_Write_Str  ("country", (g_configuration.country == COUNTRY_EXPORT) ? "us/eu" : "jp");
     CFG_Write_Line ("(emulated machine country, either 'us/eu' or 'jp'");
     if (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
         CFG_Write_Line ("sprite_flickering = auto");
@@ -353,10 +353,10 @@ void    Command_Line_Parse()
 {
 	const char* params[] =
 	{
-		"EURO", "US", "JP", "HELP", "?",
-		"SOUND", "NOELEPHANT", "LOG", "LOAD",
+		"HELP", "?",
+		"NOELEPHANT", "LOG", "LOAD",
 		"SETUP",
-		"_DEBUG_INFOS",
+		"DEBUG_INFOS",
 		NULL
 	};
 
@@ -375,31 +375,24 @@ void    Command_Line_Parse()
 					break;
 			switch (j)
 			{
-			case 0: case 1: // EURO/US
-				g_configuration.country_cl = COUNTRY_EXPORT;
+			case 0: // HELP
+			case 1: Command_Line_Help();
 				break;
-			case 2: // JP
-				g_configuration.country_cl = COUNTRY_JAPAN;
+			case 2: // NOELEPHANT
 				break;
-			case 3: // HELP
-			case 4: Command_Line_Help();
-				break;
-			case 5: // SOUND
-			case 6: // NOELEPHANT
-				break;
-			case 7: // LOG
+			case 3: // LOG
 				Param_Check(&i, Msg_Get(MSG_Log_Need_Param));
 				TB_Message.log_filename = strdup(g_env.argv[i]);
 				break;
-			case 8: // LOAD
+			case 4: // LOAD
 				Param_Check(&i, Msg_Get(MSG_Load_Need_Param));
 				opt.State_Load = atoi(g_env.argv[i]);
 				break;
-			case 9: // SETUP
+			case 5: // SETUP
 				opt.Setup_Interactive_Execute = true;
 				break;
 				// Private Usage
-			case 10: // _DEBUG_INFOS
+			case 6: // DEBUG_INFOS
 				g_env.debug_dump_infos = true;
 				if (TB_Message.log_filename == NULL)
 					TB_Message.log_filename = strdup("debuglog.txt");
