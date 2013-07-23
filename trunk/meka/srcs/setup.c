@@ -79,7 +79,6 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER_TEXT), Msg_Get(MSG_Setup_Video_Driver));
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_VIDEO_RESOLUTION_TEXT), Msg_Get(MSG_Setup_Video_DisplayMode));
 			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_SOUND_SAMPLERATE_TEXT), Msg_Get(MSG_Setup_SampleRate_Select));
-			SetWindowText(GetDlgItem(hDlg, IDC_SETUP_DEBUGGER_ENABLE), Msg_Get(MSG_Setup_Debugger_Enable));
 
 			HWND combo_hwnd;
 			int default_selection;
@@ -156,9 +155,6 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 				}
 			}
 
-			// Fill debugger enable box
-			CheckDlgButton(hDlg, IDC_SETUP_DEBUGGER_ENABLE, (bool)g_configuration.debug_mode_cfg);
-
 			// Move to foreground, seems to be needed
 			SetForegroundWindow(hDlg);
 
@@ -202,7 +198,6 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 						}
 
 						// Debugger enable
-						g_configuration.debug_mode_cfg = (bool)IsDlgButtonChecked(hDlg, IDC_SETUP_DEBUGGER_ENABLE);
 						EndDialog(hDlg, 0);
 					}
 					return TRUE;

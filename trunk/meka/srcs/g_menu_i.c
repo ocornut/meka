@@ -57,13 +57,12 @@ void	gui_menus_init (void)
     //-------------------------------------------------------------------------
     menus_ID.root     = menu_new();
     menus_ID.file     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Main),    MENU_ITEM_FLAG_ACTIVE);
-    if (g_configuration.debug_mode)
-       menus_ID.debug = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.machine  = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Machine), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
     menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
+    menus_ID.debug    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.help     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Help),    MENU_ITEM_FLAG_ACTIVE);
 
     //-------------------------------------------------------------------------
@@ -81,16 +80,14 @@ void	gui_menus_init (void)
     // DEBUG
     //-------------------------------------------------------------------------
 #ifdef MEKA_Z80_DEBUGGER
-    if (g_configuration.debug_mode)
-    {
-        menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_Enabled), MENU_ITEM_FLAG_ACTIVE | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
-        menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadROM), MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Reload_ROM, NULL);
-		menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadSymbols), MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_ReloadSymbols_Callback, NULL);
-        menus_ID.dump  = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Dump),       MENU_ITEM_FLAG_ACTIVE);
-        DataDump_Init_Menus (menus_ID.dump);
-        //menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Watch),      0);
-    }
+    menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_Enabled), MENU_ITEM_FLAG_ACTIVE | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
+    menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadROM), MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Reload_ROM, NULL);
+	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadSymbols), MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_ReloadSymbols_Callback, NULL);
+    menus_ID.dump  = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Dump),       MENU_ITEM_FLAG_ACTIVE);
+    DataDump_Init_Menus (menus_ID.dump);
+    //menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Watch),      0);
 #endif // MEKA_Z80_DEBUGGER
+
     //-------------------------------------------------------------------------
     // MACHINE
     //-------------------------------------------------------------------------
