@@ -412,17 +412,14 @@
  Simply execute the "MEKA.EXE" (or "MEKAW.EXE", depending on the version
  you are using) file, and MEKA should be up and running.
 
- Command line options
- --------------------
- You can also run MEKA from the command line and it will take a filename
- as a first parameter.
-
- Additionnal parameters are also available:
+ Command line
+ ------------
+ You can also run MEKA from the command line and pass it a filename parameter.
+ 
+ Command line options are also available:
+ 
    -HELP -?         Display command line help
    -SETUP           Start with the setup screen
-   -EURO -US        Emulate an European/US system for this session
-   -JP              Emulate a Japanese system for this session
-   -DEBUG           Enable debugging features
    -LOAD <n>        Load savestate <n> on startup
    -LOG <file>      Log message to file <file> (appending it)
    -NOELEPHANT      Just what it says

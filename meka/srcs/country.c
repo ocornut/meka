@@ -20,14 +20,14 @@
 
 //-----------------------------------------------------------------------------
 
-void    Set_Country_European_US (void)
+void    Set_Country_Export()
 {
     Msg(MSGT_USER, Msg_Get(MSG_Country_European_US));
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
-    g_configuration.country = g_configuration.country_cfg = COUNTRY_EXPORT;
-    gui_menu_un_check (menus_ID.country);
-    gui_menu_check (menus_ID.country, 0);
+    g_configuration.country = COUNTRY_EXPORT;
+    gui_menu_un_check(menus_ID.country);
+    gui_menu_check(menus_ID.country, 0);
 
     // Set emulation country
     sms.Country = g_configuration.country;
@@ -37,12 +37,12 @@ void    Set_Country_European_US (void)
     FB_Reload_Names();
 }
 
-void    Set_Country_JP (void)
+void    Set_Country_Japan()
 {
     Msg(MSGT_USER, Msg_Get(MSG_Country_JAP));
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
-    g_configuration.country = g_configuration.country_cfg = COUNTRY_JAPAN;
+    g_configuration.country = COUNTRY_JAPAN;
     gui_menu_un_check (menus_ID.country);
     gui_menu_check (menus_ID.country, 1);
 
@@ -68,15 +68,6 @@ void    Nationalize (byte *v)
                 *v &= 0x3F; // clear bits 6 and 7
             }
         }
-}
-
-// INITIALIZE COUNTRY ---------------------------------------------------------
-void    Country_Init (void)
-{
-    if (g_configuration.country_cl != COUNTRY_AUTO)
-        g_configuration.country = g_configuration.country_cl;
-    else
-        g_configuration.country = g_configuration.country_cfg;
 }
 
 //-----------------------------------------------------------------------------

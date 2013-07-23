@@ -149,12 +149,7 @@ static void Init_Default_Values()
 
 	g_configuration.loaded_configuration_file	  = false;
 
-    // Country
     g_configuration.country                       = COUNTRY_EXPORT;
-    g_configuration.country_cfg                   = COUNTRY_EXPORT;
-    g_configuration.country_cl                    = COUNTRY_AUTO;
-
-    // Miscellaneous
     g_configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
     g_configuration.enable_BIOS                   = true;
     g_configuration.show_product_number           = false;
@@ -360,8 +355,7 @@ int main(int argc, char **argv)
 
     Setup_Interactive_Init (); // Show Interactive Setup if asked to
     Frame_Skipper_Init     (); // Initialize Auto Frame Skipper
-    Country_Init           (); // Initialize Country
-    DB_Init                 (g_env.Paths.DataBaseFile); // Initialize and load DataBase file
+    DB_Init                (g_env.Paths.DataBaseFile); // Initialize and load DataBase file
     Patches_List_Init      (); // Load Patches List
     VLFN_Init              (); // Load Virtual Long Filename List
     Skins_Init             (); // Load Skin List

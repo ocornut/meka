@@ -266,11 +266,7 @@ struct t_meka_configuration
 	bool	loaded_configuration_file;
 
     // Country
-    int     country;                    // Country to use (session)
-    int     country_cfg;                // " given by configuration file and saved back
-    int     country_cl;                 // " given by command-line
-
-    // Miscellaneous
+    int     country;                    // Country to use
     int     sprite_flickering;          // Set to emulate sprite flickering.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.
     bool    enable_BIOS;
