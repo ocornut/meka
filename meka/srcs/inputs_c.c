@@ -42,14 +42,14 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup);
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Inputs_CFG_Switch (void)
+void    Inputs_CFG_Switch()
 {
     Inputs_CFG.active ^= 1;
     gui_box_show (Inputs_CFG.box, Inputs_CFG.active, TRUE);
     gui_menu_toggle_check (menus_ID.inputs, 7);
 }
 
-void    Inputs_CFG_Init_Applet (void)
+void    Inputs_CFG_Init_Applet()
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
     t_frame frame;

@@ -191,10 +191,14 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))         
                    Frame_Skipper_Switch_FPS_Counter();
                // Applets hotkeys
-               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE))         FB_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE))         Options_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE))         TB_Message_Switch();
-               // Hard Reset
+               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE)) FB_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE)) Options_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE)) TB_Message_Switch();
+			   if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)) PaletteViewer_Switch();
+			   if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE)) TileViewer_Switch();
+			   if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE)) TechInfo_Switch();
+
+			   // Hard Reset
                if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
                    Machine_Reset();
 

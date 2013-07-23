@@ -68,11 +68,11 @@ void	gui_menus_init (void)
     //-------------------------------------------------------------------------
     // MAIN
     //-------------------------------------------------------------------------
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadROM),   "ALT+L",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (FB.active), (t_menu_callback)FB_Switch, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadROM),   "Alt+L",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (FB.active), (t_menu_callback)FB_Switch, NULL);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_FreeROM),   NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Free_ROM, NULL);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState), "F5",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Save_Game, NULL);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadState), "F7",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Load_Game, NULL);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),   "ALT+O",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Options.active), (t_menu_callback)Options_Switch, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),   "Alt+O",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Options.active), (t_menu_callback)Options_Switch, NULL);
     Langs_Menu_Add    (menus_ID.file);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),      "F10",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
 
@@ -80,7 +80,7 @@ void	gui_menus_init (void)
     // DEBUG
     //-------------------------------------------------------------------------
 #ifdef MEKA_Z80_DEBUGGER
-	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_Enabled),		"ScrollLock",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
+	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_Enabled),		"Scroll Lock",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
     menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadROM),		NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Reload_ROM, NULL);
 	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadSymbols),	NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_ReloadSymbols_Callback, NULL);
     menus_ID.dump  = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Dump),			MENU_ITEM_FLAG_ACTIVE);
@@ -95,7 +95,7 @@ void	gui_menus_init (void)
     menus_ID.region   = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_Region), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.tvtype   = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_TVType), MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.machine,  Msg_Get(MSG_Menu_Machine_PauseEmulation),        "F12",			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Pause, NULL);
-    menu_add_item     (menus_ID.machine,  Msg_Get(Msg_Menu_Machine_ResetEmulation),        "ALT+Backspace",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Reset, NULL);
+    menu_add_item     (menus_ID.machine,  Msg_Get(Msg_Menu_Machine_ResetEmulation),        "Alt+Backspace",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Reset, NULL);
     // MACHINE -> POWER
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_On),              NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_ON, NULL);
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_Off),             NULL,			MENU_ITEM_FLAG_ACTIVE /* | AM_Checked */, (t_menu_callback)Machine_OFF, NULL);
@@ -125,7 +125,7 @@ void	gui_menus_init (void)
     // VIDEO -> LAYERS
     menus_ID.layers   = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Layers),     MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Sprites),          "F11",			MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Sprites, NULL);
-    menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Background),       "ALT+F11",		MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Background, NULL);
+    menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Background),       "Alt+F11",		MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Background, NULL);
     // VIDEO -> FLICKERING
     menus_ID.flickering = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Flickering), MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_Auto),       NULL,			MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO), (t_menu_callback)Action_Switch_Flickering_Auto, NULL);
@@ -176,7 +176,7 @@ void	gui_menus_init (void)
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_PaddleControl),	NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_PaddleControl, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SportsPad),		NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_SportsPad, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_GraphicBoard),	NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_TVOekaki, NULL);
-    menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SK1100),			"ALT+F9",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SK1100_Switch, NULL);
+    menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SK1100),			"Alt+F9",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SK1100_Switch, NULL);
     // INPUTS -> RAPID FIRE
     menus_ID.rapidfire = menu_add_menu (menus_ID.inputs, Msg_Get(MSG_Menu_Inputs_RapidFire), MENU_ITEM_FLAG_ACTIVE);
     snprintf          (buffer, countof(buffer), Msg_Get(MSG_Menu_Inputs_RapidFire_PxBx), 1, 1);
@@ -193,13 +193,13 @@ void	gui_menus_init (void)
     //-------------------------------------------------------------------------
     // TOOLS
     //-------------------------------------------------------------------------
-    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Messages),      "ALT+M",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (TB_Message.active),                  (t_menu_callback)TB_Message_Switch,                  NULL);
-    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Palette),       NULL,		MENU_ITEM_FLAG_ACTIVE | Is_Checked (PaletteViewer.active),               (t_menu_callback)PaletteViewer_Switch,               NULL);
-    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilesViewer),   NULL,		MENU_ITEM_FLAG_ACTIVE | Is_Checked (TileViewer.active),                  (t_menu_callback)TileViewer_Switch,                  NULL);
+    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Messages),      "Alt+M",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (TB_Message.active),                  (t_menu_callback)TB_Message_Switch,                  NULL);
+    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Palette),       "Alt+P",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (PaletteViewer.active),               (t_menu_callback)PaletteViewer_Switch,               NULL);
+    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilesViewer),   "Alt+T",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (TileViewer.active),                  (t_menu_callback)TileViewer_Switch,                  NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilemapViewer), NULL,		MENU_ITEM_FLAG_ACTIVE | Is_Checked (TilemapViewer_MainInstance->active), (t_menu_callback)TilemapViewer_SwitchMainInstance,   NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_MemoryEditor),  NULL,		MENU_ITEM_FLAG_ACTIVE | Is_Checked (MemoryViewer_MainInstance->active),  (t_menu_callback)MemoryViewer_SwitchMainInstance,    NULL);
 	menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_CheatFinder),   NULL,		MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_CheatFinder_MainInstance->active), (t_menu_callback)CheatFinder_SwitchMainInstance,	 NULL);
-    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TechInfo),      NULL,		MENU_ITEM_FLAG_ACTIVE | Is_Checked (TechInfo.active),                    (t_menu_callback)TechInfo_Switch,                    NULL);
+    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TechInfo),      "Alt+I",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (TechInfo.active),                    (t_menu_callback)TechInfo_Switch,                    NULL);
 
     //-------------------------------------------------------------------------
     // HELP
