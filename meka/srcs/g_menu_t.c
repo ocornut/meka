@@ -43,6 +43,7 @@ void    gui_menu_return_children_pos (int p_menu, int p_entry, int *x, int *y)
 void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, int *x2, int *y2)
 {
 	Font_SetCurrent (F_LARGE);
+	t_menu* menu = menus[menu_id];
 	if (menu_id == MENU_ID_MAIN)
 	{
 		*y1 = 1;
@@ -50,17 +51,26 @@ void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, i
 		*x1 = menus_opt.distance;
 		for (int i = 0; i < n_entry; i ++)
 		{
-			*x1 += Font_TextLength(F_CURRENT, menus[menu_id]->entry[i]->label) + menus_opt.distance;
+			t_menu_item* item = menu->entry[i];
+			*x1 += Font_TextLength(F_CURRENT, item->label) + menus_opt.distance;
 		}
 		*x1 -= (menus_opt.distance_usable / 2);
-		*x2 = *x1 + menus_opt.distance_usable + Font_TextLength(F_CURRENT, menus[menu_id]->entry[n_entry]->label);
+		*x2 = *x1 + menus_opt.distance_usable + Font_TextLength(F_CURRENT, menu->entry[n_entry]->label);
 	}
 	else
 	{
-		*x1 = menus[menu_id]->start_pos_x + 2;
-		*x2 = menus[menu_id]->start_pos_x + menus[menu_id]->size_x - 2;
-		*y1 = menus[menu_id]->start_pos_y + (n_entry * (Font_Height() + MENUS_PADDING_Y)) + MENUS_PADDING_Y;
-		*y2 = *y1 + Font_Height();
+		*x1 = menu->start_pos_x + 2;
+		*x2 = menu->start_pos_x + menu->size_x - 2;
+		int y = menu->start_pos_y + MENUS_PADDING_Y;
+		for (int i = 0; i < n_entry; i ++)
+		{
+			t_menu_item* item = menu->entry[i];
+			y += item->type == MENU_ITEM_TYPE_SEPARATOR ? MENUS_PADDING_Y : Font_Height()+MENUS_PADDING_Y;
+		}
+
+		t_menu_item* item = menu->entry[n_entry];
+		*y1 = y;
+		*y2 = y + (item->type == MENU_ITEM_TYPE_SEPARATOR ? 0 : Font_Height());
 		*y1 -= 3;
 	}
 }
@@ -68,20 +78,30 @@ void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, i
 // UPDATE THE SIZE OF A MENU --------------------------------------------------
 void    gui_menu_update_size(int menu_id)
 {
-	int w_max = 0;
+	int size_x = 0;
+	int size_y = 0;
 	Font_SetCurrent(F_LARGE);
 	
 	t_menu* menu = menus[menu_id];
 	for (int i = 0; i < menu->n_entry; i ++)
 	{
 		t_menu_item* item = menu->entry[i];
-		const int text_w = Font_TextLength(F_CURRENT, item->label);
-		const int shortcut_w = item->shortcut ? Font_TextLength(F_MIDDLE, item->shortcut) : 0;
+		if (item->type == MENU_ITEM_TYPE_SEPARATOR)
+		{
+			size_y += MENUS_PADDING_Y;
+			continue;
+		}
+		else
+		{
+			const int text_w = Font_TextLength(F_CURRENT, item->label);
+			const int shortcut_w = item->shortcut ? Font_TextLength(F_MIDDLE, item->shortcut) : 0;
 
-		w_max = MAX(w_max, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
+			size_x = MAX(size_x, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
+			size_y += Font_Height() + MENUS_PADDING_Y;
+		}
 	}
-	menu->size_x = w_max + (3 * MENUS_PADDING_X);
-	menu->size_y = ((Font_Height() + MENUS_PADDING_Y) * menu->n_entry);
+	menu->size_x = size_x + (3 * MENUS_PADDING_X);
+	menu->size_y = size_y;
 }
 
 void gui_menus_update_size (void)
@@ -156,6 +176,25 @@ int	menu_add_item(int menu_id, const char* label, const char* shortcut, int flag
 	entry->mouse_over = false;
 	entry->callback = (t_menu_callback)callback;
 	entry->user_data = user_data;
+	return (menu->n_entry ++);
+}
+
+int	menu_add_separator(int menu_id)
+{
+	t_menu* menu = menus [menu_id];
+	if (menu->n_entry >= MAX_MENUS_ENTRY)
+	{
+		return (0);
+	}
+
+	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
+	entry->label = NULL;
+	entry->shortcut = NULL;
+	entry->type = MENU_ITEM_TYPE_SEPARATOR;
+	entry->flags = 0;
+	entry->mouse_over = false;
+	entry->callback = NULL;
+	entry->user_data = NULL;
 	return (menu->n_entry ++);
 }
 

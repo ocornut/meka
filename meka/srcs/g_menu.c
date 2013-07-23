@@ -194,7 +194,6 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 
         // Miscellaneous
         // gui.info.must_redraw = TRUE;
-        const int ln = Font_Height();
         gui_menu_return_children_pos(n_parent, n_parent_entry, &menu->start_pos_x, &menu->start_pos_y);
 
         // DRAW MENU BORDER -------------------------------------------------------
@@ -224,11 +223,14 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         int y = menu->start_pos_y + MENUS_PADDING_Y;
         for (int i = 0; i < menu->n_entry; i++)
         {
-            if (y + ln > g_configuration.video_mode_gui_res_y)
-            {
-                break;
-            }
 			t_menu_item* item = menu->entry[i];
+
+			if (item->type == MENU_ITEM_TYPE_SEPARATOR)
+			{
+				al_draw_hline(menu->start_pos_x, y-1, menu->start_pos_x + menu->size_x, COLOR_SKIN_MENU_BORDER);
+				y += MENUS_PADDING_Y;
+				continue;
+			}
 
             if ((item->mouse_over) && (item->flags & MENU_ITEM_FLAG_ACTIVE))
             {
@@ -272,7 +274,7 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
                 }
                 break;
             }
-            y += ln + MENUS_PADDING_Y;
+            y += Font_Height(F_LARGE) + MENUS_PADDING_Y;
         }
     }
 }

@@ -23,6 +23,7 @@ enum t_menu_item_type
 	MENU_ITEM_TYPE_UNKNOWN	= 0,
 	MENU_ITEM_TYPE_SUB_MENU	= 1,
 	MENU_ITEM_TYPE_CALLBACK	= 2,
+	MENU_ITEM_TYPE_SEPARATOR = 3,
 };
 
 // Definitions for Menus Attributes
