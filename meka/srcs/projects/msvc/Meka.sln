@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meka", "Meka.vcproj", "{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "smsid", "..\smsid\smsid.vcproj", "{3391017C-51A4-477A-9C31-BB5D68A07928}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "smsid", "..\..\smsid\smsid.vcproj", "{3391017C-51A4-477A-9C31-BB5D68A07928}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,7 +8,7 @@
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 #ifdef ARCH_WIN32
-#include "MsVc/resource.h"
+#include "projects/msvc/resource.h"
 #endif
 
 //-----------------------------------------------------------------------------
