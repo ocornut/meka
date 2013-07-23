@@ -82,9 +82,9 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
         {
             // State save/load
             if (Inputs_KeyPressed (ALLEGRO_KEY_F5, FALSE))
-                Save_Game();
+                SaveState_Save();
             if (Inputs_KeyPressed (ALLEGRO_KEY_F7, FALSE))
-                Load_Game();
+                SaveState_Load();
 
             // State change slot
             /*
@@ -103,10 +103,10 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                     if (Inputs_KeyPressed (ALLEGRO_KEY_9, FALSE))  Save_Set_Slot (9);
                 }
             */
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F6, FALSE, 30, 3)) 
-                Save_Set_Slot (opt.State_Current - 1);
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F8, FALSE, 30, 3)) 
-                Save_Set_Slot (opt.State_Current + 1);
+            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F6, FALSE, 30, 3)) 
+                SaveState_SetPrevSlot();
+            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F8, FALSE, 30, 3)) 
+                SaveState_SetNextSlot();
 
             // Blitters switch
             if (Inputs_KeyPressed (ALLEGRO_KEY_F1, FALSE))    
