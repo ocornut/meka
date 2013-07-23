@@ -441,7 +441,7 @@
     It can be used only if the game supports it at the moment you press it.
     On some game, pressing pause will get you a menu, etc..
     
-  Hard Pause ........................ ALT+P or F12
+  Hard Pause ........................ F12
     This "special" pause with simply freeze the game, without changing
     anything. It is usable everytime, everywhere.
     

@@ -16,7 +16,7 @@
 
 // ACTION: QUITTING EMULATOR --------------------------------------------------
 // FIXME-DEPTH: Ressources (machines, icons) not faded out
-void    Action_Quit (void)
+void    Action_Quit()
 {
     Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Quit));
 
@@ -80,7 +80,7 @@ void    Action_Quit (void)
 void    Action_Switch_Layer_Sprites (void)
 {
     opt.Layer_Mask ^= LAYER_SPRITES;
-    gui_menu_inverse_check (menus_ID.layers, 0);
+    gui_menu_toggle_check (menus_ID.layers, 0);
     if (opt.Layer_Mask & LAYER_SPRITES)
     {
         Msg(MSGT_USER, Msg_Get(MSG_Layer_Spr_Enabled));
@@ -95,7 +95,7 @@ void    Action_Switch_Layer_Sprites (void)
 void    Action_Switch_Layer_Background (void)
 {
     opt.Layer_Mask ^= LAYER_BACKGROUND;
-    gui_menu_inverse_check (menus_ID.layers, 1);
+    gui_menu_toggle_check (menus_ID.layers, 1);
     if (opt.Layer_Mask & LAYER_BACKGROUND)
     {
         Msg(MSGT_USER, Msg_Get(MSG_Layer_BG_Enabled));
@@ -112,7 +112,7 @@ void    Action_Switch_Flickering_Auto (void)
     g_configuration.sprite_flickering = SPRITE_FLICKERING_AUTO;
     if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
         g_configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
-    gui_menu_un_check (menus_ID.flickering);
+    gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 0);
     Msg(MSGT_USER, Msg_Get(MSG_Flickering_Auto));
 }
@@ -121,7 +121,7 @@ void    Action_Switch_Flickering_Auto (void)
 void    Action_Switch_Flickering_Yes (void)
 {
     g_configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
-    gui_menu_un_check (menus_ID.flickering);
+    gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 1);
     Msg(MSGT_USER, Msg_Get(MSG_Flickering_Yes));
 }
@@ -130,7 +130,7 @@ void    Action_Switch_Flickering_Yes (void)
 void    Action_Switch_Flickering_No (void)
 {
     g_configuration.sprite_flickering = SPRITE_FLICKERING_NO;
-    gui_menu_un_check (menus_ID.flickering);
+    gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 2);
     Msg(MSGT_USER, Msg_Get(MSG_Flickering_No));
 }

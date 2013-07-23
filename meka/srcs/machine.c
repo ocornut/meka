@@ -31,8 +31,7 @@ int g_machine_pause_requests = 0;
 // Functions
 //-----------------------------------------------------------------------------
 
-// HARD PAUSE EMULATED MACHINE ------------------------------------------------
-void    Machine_Pause (void)
+void    Machine_Pause()
 {
     g_machine_flags ^= MACHINE_PAUSED;
     CPU_Loop_Stop = TRUE;
@@ -49,7 +48,7 @@ void    Machine_Pause (void)
     else
     {
         Msg(MSGT_USER, Msg_Get(MSG_Machine_Resume));
-        // gui_menu_un_check_one (menus_ID.machine, 2);
+        // gui_menu_uncheck_range(menus_ID.machine, 2, 2);
     }
 }
 

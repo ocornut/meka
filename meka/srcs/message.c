@@ -607,7 +607,7 @@ int		Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
 static void		Lang_Set (t_menu_event *event)
 {
 	Messages.Lang_Cur = (t_lang *)event->user_data;
-    gui_menu_un_check (menus_ID.languages);
+    gui_menu_uncheck_all (menus_ID.languages);
 	gui_menu_check (menus_ID.languages, event->menu_item_idx);
     Msg(MSGT_USER, Msg_Get(MSG_Language_Set), Messages.Lang_Cur->Name);
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Language_Set_Warning));
@@ -640,7 +640,7 @@ void            Langs_Menu_Add (int menu_id)
         for (t_list* langs = Messages.Langs; langs; langs = langs->next)
         {
             t_lang* lang = (t_lang*)langs->elem;
-            menu_add_item(menus_ID.languages, lang->Name, MENU_ITEM_FLAG_ACTIVE | Is_Checked (lang == Messages.Lang_Cur), (t_menu_callback)Lang_Set, lang);
+            menu_add_item(menus_ID.languages, lang->Name, NULL, MENU_ITEM_FLAG_ACTIVE | Is_Checked (lang == Messages.Lang_Cur), (t_menu_callback)Lang_Set, lang);
         }
     }
 }

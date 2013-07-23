@@ -196,7 +196,7 @@ void	Capture_MenuHandler_Capture(void)
 void	Capture_MenuHandler_AllFrames(void)
 {
 	Capture.request_all_frames = !Capture.request_all_frames;
-	gui_menu_inverse_check(menus_ID.screenshots, 1);
+	gui_menu_toggle_check(menus_ID.screenshots, 1);
 	if (Capture.request_all_frames)
 	{
 		// FIXME-CAPTURE
@@ -206,7 +206,7 @@ void	Capture_MenuHandler_AllFrames(void)
 void	Capture_MenuHandler_IncludeGui(void)
 {
 	g_configuration.capture_include_gui = !g_configuration.capture_include_gui;
-	gui_menu_inverse_check(menus_ID.screenshots, 2);
+	gui_menu_toggle_check(menus_ID.screenshots, 2);
 }
 
 //-----------------------------------------------------------------------------

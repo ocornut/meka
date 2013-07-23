@@ -591,7 +591,7 @@ void    MemoryViewer_SwitchMainInstance()
     else
         Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Disabled));
     gui_box_show(mv->box, mv->active, TRUE);
-    gui_menu_inverse_check(menus_ID.tools, 4);
+    gui_menu_toggle_check(menus_ID.tools, 4);
 }
 
 static void MemoryViewer_ViewPane(t_memory_viewer *mv, t_memory_type memtype)

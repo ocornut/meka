@@ -127,7 +127,7 @@ int                     menu_add_menu (int menu_id, const char *label, int flags
 	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
 
 	entry->label = strdup(label);
-	entry->hotkey = NULL;
+	entry->shortcut = NULL;
 	entry->type = MENU_ITEM_TYPE_SUB_MENU;
 	entry->flags = flags;
 	entry->mouse_over = false;
@@ -137,8 +137,7 @@ int                     menu_add_menu (int menu_id, const char *label, int flags
 	return (submenu_id);
 }
 
-// ADD A MENU SUBMENU ---------------------------------------------------------
-int	menu_add_item(int menu_id, const char *label, int flags, t_menu_callback callback, void *user_data)
+int	menu_add_item(int menu_id, const char* label, const char* shortcut, int flags, t_menu_callback callback, void *user_data)
 {
 	t_menu* menu = menus [menu_id];
 	if (menu->n_entry >= MAX_MENUS_ENTRY)
@@ -148,7 +147,7 @@ int	menu_add_item(int menu_id, const char *label, int flags, t_menu_callback cal
 
 	t_menu_item* entry = menu->entry[menu->n_entry] = (t_menu_item *)malloc(sizeof (t_menu_item));
 	entry->label = strdup(label);
-	entry->hotkey = NULL;
+	entry->shortcut = shortcut ? strdup(shortcut) : NULL;
 	entry->type = MENU_ITEM_TYPE_CALLBACK;
 	entry->flags = flags;
 	entry->mouse_over = false;
@@ -159,7 +158,7 @@ int	menu_add_item(int menu_id, const char *label, int flags, t_menu_callback cal
 
 // SET ALL "MOUSE_OVER" VARIABLE TO ZERO, RECURSIVELY -------------------------
 // FIXME: Make obsolete
-void            gui_menu_un_mouse_over (int menu_id)
+void	gui_menu_un_mouse_over (int menu_id)
 {
 	t_menu  *menu = menus [menu_id];
 	for (int i = 0; i < menu->n_entry; i ++)
@@ -178,7 +177,7 @@ void            gui_menu_un_mouse_over (int menu_id)
 
 // SET ALL "CHECKED" ATTRIBUTES TO ZERO, RECURSIVELY --------------------------
 // FIXME: Make obsolete
-void            gui_menu_un_check (int menu_id)
+void	gui_menu_uncheck_all(int menu_id)
 {
 	t_menu  *menu = menus [menu_id];
 	for (int i = 0; i < menu->n_entry; i ++)
@@ -186,14 +185,14 @@ void            gui_menu_un_check (int menu_id)
 		menu->entry[i]->flags &= (~MENU_ITEM_FLAG_CHECKED);
 		if ((menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
 		{
-			gui_menu_un_check (menu->entry[i]->submenu_id);
+			gui_menu_uncheck_all (menu->entry[i]->submenu_id);
 		}
 	}
 }
 
 // SET ALL "CHECKED" ATTRIBUTES TO ZERO, RECURSIVELY --------------------------
 // FIXME: Make obsolete
-void            gui_menu_un_check_area (int menu_id, int start, int end)
+void	gui_menu_uncheck_range(int menu_id, int start, int end)
 {
 	t_menu  *menu = menus [menu_id];
 	for (int i = start; i <= end; i ++)
@@ -201,13 +200,13 @@ void            gui_menu_un_check_area (int menu_id, int start, int end)
 		menu->entry[i]->flags &= (~MENU_ITEM_FLAG_CHECKED);
 		if ((menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
 		{
-			gui_menu_un_check (menu->entry[i]->submenu_id);
+			gui_menu_uncheck_all (menu->entry[i]->submenu_id);
 		}
 	}
 }
 
 // FIXME: Make obsolete
-void            gui_menu_active (int active, int menu_id, int menu_item)
+void	gui_menu_active(int active, int menu_id, int menu_item)
 {
     t_menu  *menu = menus [menu_id];
 
@@ -219,7 +218,7 @@ void            gui_menu_active (int active, int menu_id, int menu_item)
 }
 
 // FIXME: Make obsolete
-void            gui_menu_active_area (int active, int menu_id, int start, int end)
+void	gui_menu_active_range(int active, int menu_id, int start, int end)
 {
 	t_menu  *menu = menus [menu_id];
 	for (int i = start; i <= end; i ++)
@@ -231,9 +230,13 @@ void            gui_menu_active_area (int active, int menu_id, int start, int en
 	}
 }
 
+void    gui_menu_check(int menu_id, int n_entry)
+{
+	menus [menu_id]->entry [n_entry]->flags |= MENU_ITEM_FLAG_CHECKED;
+}
+
 // FIXME: Make obsolete
-// INVERSE CHECK ATTRIBUTE OF A CERTAIN ENTRY ---------------------------------
-void    gui_menu_inverse_check (int menu_id, int n_entry)
+void    gui_menu_toggle_check (int menu_id, int n_entry)
 {
 	menus [menu_id]->entry [n_entry]->flags ^= MENU_ITEM_FLAG_CHECKED;
 }

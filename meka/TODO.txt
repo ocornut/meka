@@ -1,4 +1,11 @@
 
+Menu note:
+- step one frame (ALT+F12) missing
+- CTRL+F12 in SK-1100 mode
+- FPS counter toggle
+
+--
+
 Hey there,
 
 I was so happy to see my favourite SMS emulator was having another update! I downloaded the most recent beta in this thread, and discovered that it doesn't like being installed over 0.73, throwing up sound buffer errors. Doing a clean install removes this.

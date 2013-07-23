@@ -26,8 +26,8 @@ extern t_app_inputs_config     Inputs_CFG;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Inputs_CFG_Switch                       (void);
-void    Inputs_CFG_Init_Applet                  (void);
+void    Inputs_CFG_Switch                       ();
+void    Inputs_CFG_Init_Applet                  ();
 void    Inputs_CFG_Update                       (t_app_inputs_config *app);
 
 void    Inputs_CFG_Current_Source_Draw          (void);

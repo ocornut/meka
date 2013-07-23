@@ -15,15 +15,15 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    FB_Switch               (void);
-void    FB_Init_Values          (void);
-void    FB_Init                 (void);
-void    FB_Init_2               (void);
-void    FB_Close                (void);
-void    FB_Update               (void);
+void    FB_Switch               ();
+void    FB_Init_Values          ();
+void    FB_Init                 ();
+void    FB_Init_2               ();
+void    FB_Close                ();
+void    FB_Update               ();
 
-void    FB_Load_Directory       (void);
-void    FB_Reload_Names         (void);
+void    FB_Load_Directory       ();
+void    FB_Reload_Names         ();
 
 //-----------------------------------------------------------------------------
 // Data

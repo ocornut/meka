@@ -16,18 +16,16 @@
 #define VMACHINE_COLECO_POS_Y        (+42)
 
 // Status Simulation ----------------------------------------------------------
-void    Free_ROM (void);
-void    Machine_ON (void);
-void    Machine_OFF (void);
-void    Machine_Init (void);
-void    Machine_Insert_Cartridge (void);
-void    Machine_Remove_Cartridge (void);
-//-----------------------------------------------------------------------------
+void    Free_ROM();
+void    Machine_ON();
+void    Machine_OFF();
+void    Machine_Init();
+void    Machine_Insert_Cartridge();
+void    Machine_Remove_Cartridge();
 
 // Graphics -------------------------------------------------------------------
-void    VMachine_Draw (void);
-void    VMachine_Init_Colors (void);
-//-----------------------------------------------------------------------------
+void    VMachine_Draw();
+void    VMachine_Init_Colors();
 
 extern int g_machine_flags;
 
