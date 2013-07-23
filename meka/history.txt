@@ -73,6 +73,7 @@ They are usually of 2 kinds:
     - depth order of windows is saved and restored between runs. [Omar]
     - Increased mouse horizontal range when using scrollbars. [Omar]
     - Added 'game_window_scale' directive on configuration file to resize game window. [Omar]
+    - Tidied up menu entries. [Omar]
     - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
     - FileBrowser: returning to parent directory position cursor on last child. [Omar]
     - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
