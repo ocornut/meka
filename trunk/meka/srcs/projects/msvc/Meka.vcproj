@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../../objs/$(ConfigurationName)"
-			IntermediateDirectory="../../objs/$(ConfigurationName)"
+			OutputDirectory="../../../objs/$(ConfigurationName)"
+			IntermediateDirectory="../../../objs/$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -48,7 +48,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
+				AdditionalIncludeDirectories="../..;../../../libs/seal/include/;../../../libs/libpng/include/;../../../libs/dx70_min/include/;../../../libs/zlib/"
 				PreprocessorDefinitions="_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM"
 				StringPooling="false"
 				MinimalRebuild="true"
@@ -83,11 +83,11 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="allegro-5.0.9-static-md-debug.lib allegro_font-5.0.9-static-md-debug.lib allegro_primitives-5.0.9-static-md-debug.lib allegro_image-5.0.9-static-md-debug.lib allegro_audio-5.0.9-static-md-debug.lib openal-1.14-static-md-debug.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
-				OutputFile="../../mekaw.exe"
+				OutputFile="../../../mekaw.exe"
 				Version=""
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../libs/libpng/lib/;../../libs/dx70_min/lib/;../../libs/zlib/"
+				AdditionalLibraryDirectories="../../../libs/libpng/lib/;../../../libs/dx70_min/lib/;../../../libs/zlib/"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames="libcmt, msvcrt"
 				GenerateDebugInformation="true"
@@ -123,8 +123,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../../objs/$(ConfigurationName)"
-			IntermediateDirectory="../../objs/$(ConfigurationName)"
+			OutputDirectory="../../../objs/$(ConfigurationName)"
+			IntermediateDirectory="../../../objs/$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -159,7 +159,7 @@
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="..;../../libs/seal/include/;../../libs/libpng/include/;../../libs/dx70_min/include/;../../libs/zlib/"
+				AdditionalIncludeDirectories="../..;../../../libs/seal/include/;../../../libs/libpng/include/;../../../libs/dx70_min/include/;../../../libs/zlib/"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;X86_ASM"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -195,11 +195,11 @@
 				AdditionalOptions="/MACHINE:I386"
 				AdditionalDependencies="allegro-5.0.9-static-md.lib allegro_font-5.0.9-static-md.lib allegro_primitives-5.0.9-static-md.lib allegro_image-5.0.9-static-md.lib allegro_audio-5.0.9-static-md.lib openal-1.14-static-md.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
 				ShowProgress="0"
-				OutputFile="../../mekaw.exe"
+				OutputFile="../../../mekaw.exe"
 				Version=""
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="../../libs/libpng/lib/;../../libs/dx70_min/lib/;../../libs/zlib/"
+				AdditionalLibraryDirectories="../../../libs/libpng/lib/;../../../libs/dx70_min/lib/;../../../libs/zlib/"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames="libcmt"
 				ModuleDefinitionFile=""
@@ -243,39 +243,39 @@
 			Name="Docs"
 			>
 			<File
-				RelativePath="..\..\changes.txt"
+				RelativePath="..\..\..\changes.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\compat.txt"
+				RelativePath="..\..\..\compat.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\debugger.txt"
+				RelativePath="..\..\..\debugger.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\history.txt"
+				RelativePath="..\..\..\history.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.txt"
+				RelativePath="..\..\..\meka.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\multi.txt"
+				RelativePath="..\..\..\multi.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\sources.txt"
+				RelativePath="..\..\..\sources.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\tech.txt"
+				RelativePath="..\..\..\tech.txt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\todo.txt"
+				RelativePath="..\..\..\todo.txt"
 				>
 			</File>
 		</Filter>
@@ -283,39 +283,39 @@
 			Name="Data"
 			>
 			<File
-				RelativePath="..\..\meka.blt"
+				RelativePath="..\..\..\meka.blt"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.dsk"
+				RelativePath="..\..\..\meka.dsk"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.fdb"
+				RelativePath="..\..\..\meka.fdb"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.inp"
+				RelativePath="..\..\..\meka.inp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.msg"
+				RelativePath="..\..\..\meka.msg"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.nam"
+				RelativePath="..\..\..\meka.nam"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.pat"
+				RelativePath="..\..\..\meka.pat"
 				>
 			</File>
 			<File
-				RelativePath="..\..\meka.thm"
+				RelativePath="..\..\..\meka.thm"
 				>
 			</File>
 			<File
-				RelativePath="..\..\mekaw.cfg"
+				RelativePath="..\..\..\mekaw.cfg"
 				>
 			</File>
 		</Filter>
@@ -323,243 +323,243 @@
 			Name="Srcs"
 			>
 			<File
-				RelativePath="..\allegro4to5.c"
+				RelativePath="..\..\allegro4to5.c"
 				>
 			</File>
 			<File
-				RelativePath="..\allegro4to5.h"
+				RelativePath="..\..\allegro4to5.h"
 				>
 			</File>
 			<File
-				RelativePath="..\bmemory.c"
+				RelativePath="..\..\bmemory.c"
 				>
 			</File>
 			<File
-				RelativePath="..\bmemory.h"
+				RelativePath="..\..\bmemory.h"
 				>
 			</File>
 			<File
-				RelativePath="..\build.c"
+				RelativePath="..\..\build.c"
 				>
 			</File>
 			<File
-				RelativePath="..\capture.c"
+				RelativePath="..\..\capture.c"
 				>
 			</File>
 			<File
-				RelativePath="..\capture.h"
+				RelativePath="..\..\capture.h"
 				>
 			</File>
 			<File
-				RelativePath="..\checksum.c"
+				RelativePath="..\..\checksum.c"
 				>
 			</File>
 			<File
-				RelativePath="..\checksum.h"
+				RelativePath="..\..\checksum.h"
 				>
 			</File>
 			<File
-				RelativePath="..\commport.c"
+				RelativePath="..\..\commport.c"
 				>
 			</File>
 			<File
-				RelativePath="..\commport.h"
+				RelativePath="..\..\commport.h"
 				>
 			</File>
 			<File
-				RelativePath="..\config.c"
+				RelativePath="..\..\config.c"
 				>
 			</File>
 			<File
-				RelativePath="..\config.h"
+				RelativePath="..\..\config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\country.c"
+				RelativePath="..\..\country.c"
 				>
 			</File>
 			<File
-				RelativePath="..\country.h"
+				RelativePath="..\..\country.h"
 				>
 			</File>
 			<File
-				RelativePath="..\cpu.c"
+				RelativePath="..\..\cpu.c"
 				>
 			</File>
 			<File
-				RelativePath="..\cpu.h"
+				RelativePath="..\..\cpu.h"
 				>
 			</File>
 			<File
-				RelativePath="..\data.c"
+				RelativePath="..\..\data.c"
 				>
 			</File>
 			<File
-				RelativePath="..\data.h"
+				RelativePath="..\..\data.h"
 				>
 			</File>
 			<File
-				RelativePath="..\db.c"
+				RelativePath="..\..\db.c"
 				>
 			</File>
 			<File
-				RelativePath="..\db.h"
+				RelativePath="..\..\db.h"
 				>
 			</File>
 			<File
-				RelativePath="..\eeprom.c"
+				RelativePath="..\..\eeprom.c"
 				>
 			</File>
 			<File
-				RelativePath="..\eeprom.h"
+				RelativePath="..\..\eeprom.h"
 				>
 			</File>
 			<File
-				RelativePath="..\effects.c"
+				RelativePath="..\..\effects.c"
 				>
 			</File>
 			<File
-				RelativePath="..\effects.h"
+				RelativePath="..\..\effects.h"
 				>
 			</File>
 			<File
-				RelativePath="..\errors.c"
+				RelativePath="..\..\errors.c"
 				>
 			</File>
 			<File
-				RelativePath="..\errors.h"
+				RelativePath="..\..\errors.h"
 				>
 			</File>
 			<File
-				RelativePath="..\fdc765.c"
+				RelativePath="..\..\fdc765.c"
 				>
 			</File>
 			<File
-				RelativePath="..\fdc765.h"
+				RelativePath="..\..\fdc765.h"
 				>
 			</File>
 			<File
-				RelativePath="..\file.c"
+				RelativePath="..\..\file.c"
 				>
 			</File>
 			<File
-				RelativePath="..\file.h"
+				RelativePath="..\..\file.h"
 				>
 			</File>
 			<File
-				RelativePath="..\fonts.c"
+				RelativePath="..\..\fonts.c"
 				>
 			</File>
 			<File
-				RelativePath="..\fonts.h"
+				RelativePath="..\..\fonts.h"
 				>
 			</File>
 			<File
-				RelativePath="..\fskipper.c"
+				RelativePath="..\..\fskipper.c"
 				>
 			</File>
 			<File
-				RelativePath="..\fskipper.h"
+				RelativePath="..\..\fskipper.h"
 				>
 			</File>
 			<File
-				RelativePath="..\grab.h"
+				RelativePath="..\..\grab.h"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs.c"
+				RelativePath="..\..\inputs.c"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs.h"
+				RelativePath="..\..\inputs.h"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_c.c"
+				RelativePath="..\..\inputs_c.c"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_c.h"
+				RelativePath="..\..\inputs_c.h"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_f.c"
+				RelativePath="..\..\inputs_f.c"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_f.h"
+				RelativePath="..\..\inputs_f.h"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_i.c"
+				RelativePath="..\..\inputs_i.c"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_i.h"
+				RelativePath="..\..\inputs_i.h"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_t.c"
+				RelativePath="..\..\inputs_t.c"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_t.h"
+				RelativePath="..\..\inputs_t.h"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_u.c"
+				RelativePath="..\..\inputs_u.c"
 				>
 			</File>
 			<File
-				RelativePath="..\inputs_u.h"
+				RelativePath="..\..\inputs_u.h"
 				>
 			</File>
 			<File
-				RelativePath="..\mainloop.c"
+				RelativePath="..\..\mainloop.c"
 				>
 			</File>
 			<File
-				RelativePath="..\mainloop.h"
+				RelativePath="..\..\mainloop.h"
 				>
 			</File>
 			<File
-				RelativePath="..\mappers.c"
+				RelativePath="..\..\mappers.c"
 				>
 			</File>
 			<File
-				RelativePath="..\mappers.h"
+				RelativePath="..\..\mappers.h"
 				>
 			</File>
 			<File
-				RelativePath="..\meka.c"
+				RelativePath="..\..\meka.c"
 				>
 			</File>
 			<File
-				RelativePath="..\meka.h"
+				RelativePath="..\..\meka.h"
 				>
 			</File>
 			<File
-				RelativePath="..\message.c"
+				RelativePath="..\..\message.c"
 				>
 			</File>
 			<File
-				RelativePath="..\message.h"
+				RelativePath="..\..\message.h"
 				>
 			</File>
 			<File
-				RelativePath="..\misc.c"
+				RelativePath="..\..\misc.c"
 				>
 			</File>
 			<File
-				RelativePath="..\misc.h"
+				RelativePath="..\..\misc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\patch.c"
+				RelativePath="..\..\patch.c"
 				>
 			</File>
 			<File
-				RelativePath="..\patch.h"
+				RelativePath="..\..\patch.h"
 				>
 			</File>
 			<File
@@ -567,31 +567,31 @@
 				>
 			</File>
 			<File
-				RelativePath="..\saves.c"
+				RelativePath="..\..\saves.c"
 				>
 			</File>
 			<File
-				RelativePath="..\saves.h"
+				RelativePath="..\..\saves.h"
 				>
 			</File>
 			<File
-				RelativePath="..\sdsc.c"
+				RelativePath="..\..\sdsc.c"
 				>
 			</File>
 			<File
-				RelativePath="..\sdsc.h"
+				RelativePath="..\..\sdsc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\setup.c"
+				RelativePath="..\..\setup.c"
 				>
 			</File>
 			<File
-				RelativePath="..\setup.h"
+				RelativePath="..\..\setup.h"
 				>
 			</File>
 			<File
-				RelativePath="..\shared.c"
+				RelativePath="..\..\shared.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -611,117 +611,117 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\shared.h"
+				RelativePath="..\..\shared.h"
 				>
 			</File>
 			<File
-				RelativePath="..\system.h"
+				RelativePath="..\..\system.h"
 				>
 			</File>
 			<File
-				RelativePath="..\tools.c"
+				RelativePath="..\..\tools.c"
 				>
 			</File>
 			<File
-				RelativePath="..\tools.h"
+				RelativePath="..\..\tools.h"
 				>
 			</File>
 			<File
-				RelativePath="..\tvtype.c"
+				RelativePath="..\..\tvtype.c"
 				>
 			</File>
 			<File
-				RelativePath="..\tvtype.h"
+				RelativePath="..\..\tvtype.h"
 				>
 			</File>
 			<File
-				RelativePath="..\vlfn.c"
+				RelativePath="..\..\vlfn.c"
 				>
 			</File>
 			<File
-				RelativePath="..\vlfn.h"
+				RelativePath="..\..\vlfn.h"
 				>
 			</File>
 			<File
-				RelativePath="..\vmachine.c"
+				RelativePath="..\..\vmachine.c"
 				>
 			</File>
 			<File
-				RelativePath="..\vmachine.h"
+				RelativePath="..\..\vmachine.h"
 				>
 			</File>
 			<File
-				RelativePath="..\vmachpal.h"
+				RelativePath="..\..\vmachpal.h"
 				>
 			</File>
 			<Filter
 				Name="Sound"
 				>
 				<File
-					RelativePath="..\sound\fmeditor.c"
+					RelativePath="..\..\sound\fmeditor.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\fmeditor.h"
+					RelativePath="..\..\sound\fmeditor.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\fmunit.c"
+					RelativePath="..\..\sound\fmunit.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\fmunit.h"
+					RelativePath="..\..\sound\fmunit.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\s_misc.c"
+					RelativePath="..\..\sound\s_misc.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\s_misc.h"
+					RelativePath="..\..\sound\s_misc.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\sound.c"
+					RelativePath="..\..\sound\sound.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\sound.h"
+					RelativePath="..\..\sound\sound.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\sound_logging.c"
+					RelativePath="..\..\sound\sound_logging.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\sound_logging.h"
+					RelativePath="..\..\sound\sound_logging.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\vgm.c"
+					RelativePath="..\..\sound\vgm.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\vgm.h"
+					RelativePath="..\..\sound\vgm.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\wav.c"
+					RelativePath="..\..\sound\wav.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sound\wav.h"
+					RelativePath="..\..\sound\wav.h"
 					>
 				</File>
 				<Filter
 					Name="PSG"
 					>
 					<File
-						RelativePath="..\sound\psg.c"
+						RelativePath="..\..\sound\psg.c"
 						>
 					</File>
 					<File
-						RelativePath="..\sound\psg.h"
+						RelativePath="..\..\sound\psg.h"
 						>
 					</File>
 				</Filter>
@@ -729,27 +729,27 @@
 					Name="Emu2413"
 					>
 					<File
-						RelativePath="..\sound\emu2413\2413tone.h"
+						RelativePath="..\..\sound\emu2413\2413tone.h"
 						>
 					</File>
 					<File
-						RelativePath="..\sound\emu2413\emu2413.c"
+						RelativePath="..\..\sound\emu2413\emu2413.c"
 						>
 					</File>
 					<File
-						RelativePath="..\sound\emu2413\emu2413.h"
+						RelativePath="..\..\sound\emu2413\emu2413.h"
 						>
 					</File>
 					<File
-						RelativePath="..\sound\emu2413\emutypes.h"
+						RelativePath="..\..\sound\emu2413\emutypes.h"
 						>
 					</File>
 					<File
-						RelativePath="..\sound\emu2413\mekaintf.c"
+						RelativePath="..\..\sound\emu2413\mekaintf.c"
 						>
 					</File>
 					<File
-						RelativePath="..\sound\emu2413\mekaintf.h"
+						RelativePath="..\..\sound\emu2413\mekaintf.h"
 						>
 					</File>
 				</Filter>
@@ -758,35 +758,35 @@
 				Name="Tools"
 				>
 				<File
-					RelativePath="..\tools\liblist.c"
+					RelativePath="..\..\tools\liblist.c"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\liblist.h"
+					RelativePath="..\..\tools\liblist.h"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\libmy.c"
+					RelativePath="..\..\tools\libmy.c"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\libmy.h"
+					RelativePath="..\..\tools\libmy.h"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\libparse.c"
+					RelativePath="..\..\tools\libparse.c"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\libparse.h"
+					RelativePath="..\..\tools\libparse.h"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\tfile.c"
+					RelativePath="..\..\tools\tfile.c"
 					>
 				</File>
 				<File
-					RelativePath="..\tools\tfile.h"
+					RelativePath="..\..\tools\tfile.h"
 					>
 				</File>
 				<Filter
@@ -796,11 +796,11 @@
 						Name="zip"
 						>
 						<File
-							RelativePath="..\libaddon\zip\unzip.c"
+							RelativePath="..\..\libaddon\zip\unzip.c"
 							>
 						</File>
 						<File
-							RelativePath="..\libaddon\zip\unzip.h"
+							RelativePath="..\..\libaddon\zip\unzip.h"
 							>
 						</File>
 					</Filter>
@@ -813,59 +813,35 @@
 					Name="Z80marat"
 					>
 					<File
-						RelativePath="..\z80marat\Codes.h"
+						RelativePath="..\..\z80marat\Codes.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\CodesCB.h"
+						RelativePath="..\..\z80marat\CodesCB.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\CodesED.h"
+						RelativePath="..\..\z80marat\CodesED.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\CodesXCB.h"
+						RelativePath="..\..\z80marat\CodesXCB.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\CodesXX.h"
+						RelativePath="..\..\z80marat\CodesXX.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\Debug.c"
+						RelativePath="..\..\z80marat\Debug.c"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\Tables.h"
+						RelativePath="..\..\z80marat\Tables.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\Z80.c"
-						>
-						<FileConfiguration
-							Name="Debug|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="0"
-							/>
-						</FileConfiguration>
-						<FileConfiguration
-							Name="Release|Win32"
-							>
-							<Tool
-								Name="VCCLCompilerTool"
-								UsePrecompiledHeader="0"
-							/>
-						</FileConfiguration>
-					</File>
-					<File
-						RelativePath="..\z80marat\Z80.h"
-						>
-					</File>
-					<File
-						RelativePath="..\z80marat\Z80Call.c"
+						RelativePath="..\..\z80marat\Z80.c"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -885,15 +861,39 @@
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\z80marat\Z80DebugHelpers.cpp"
+						RelativePath="..\..\z80marat\Z80.h"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\Z80DebugHelpers.h"
+						RelativePath="..\..\z80marat\Z80Call.c"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+						<FileConfiguration
+							Name="Release|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="0"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath="..\..\z80marat\Z80DebugHelpers.cpp"
 						>
 					</File>
 					<File
-						RelativePath="..\z80marat\Z80OpcodeEnums.h"
+						RelativePath="..\..\z80marat\Z80DebugHelpers.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\z80marat\Z80OpcodeEnums.h"
 						>
 					</File>
 				</Filter>
@@ -902,123 +902,123 @@
 				Name="GUI"
 				>
 				<File
-					RelativePath="..\desktop.c"
+					RelativePath="..\..\desktop.c"
 					>
 				</File>
 				<File
-					RelativePath="..\desktop.h"
+					RelativePath="..\..\desktop.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_action.c"
+					RelativePath="..\..\g_action.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_action.h"
+					RelativePath="..\..\g_action.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_box.c"
+					RelativePath="..\..\g_box.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_box.h"
+					RelativePath="..\..\g_box.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_init.c"
+					RelativePath="..\..\g_init.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_init.h"
+					RelativePath="..\..\g_init.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_menu.c"
+					RelativePath="..\..\g_menu.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_menu.h"
+					RelativePath="..\..\g_menu.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_menu_i.c"
+					RelativePath="..\..\g_menu_i.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_menu_i.h"
+					RelativePath="..\..\g_menu_i.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_menu_t.c"
+					RelativePath="..\..\g_menu_t.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_menu_t.h"
+					RelativePath="..\..\g_menu_t.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_mouse.c"
+					RelativePath="..\..\g_mouse.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_mouse.h"
+					RelativePath="..\..\g_mouse.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_tools.c"
+					RelativePath="..\..\g_tools.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_tools.h"
+					RelativePath="..\..\g_tools.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_update.c"
+					RelativePath="..\..\g_update.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_update.h"
+					RelativePath="..\..\g_update.h"
 					>
 				</File>
 				<File
-					RelativePath="..\g_widget.c"
+					RelativePath="..\..\g_widget.c"
 					>
 				</File>
 				<File
-					RelativePath="..\g_widget.h"
+					RelativePath="..\..\g_widget.h"
 					>
 				</File>
 				<File
-					RelativePath="..\gui.c"
+					RelativePath="..\..\gui.c"
 					>
 				</File>
 				<File
-					RelativePath="..\gui.h"
+					RelativePath="..\..\gui.h"
 					>
 				</File>
 				<File
-					RelativePath="..\skin.c"
+					RelativePath="..\..\skin.c"
 					>
 				</File>
 				<File
-					RelativePath="..\skin.h"
+					RelativePath="..\..\skin.h"
 					>
 				</File>
 				<File
-					RelativePath="..\skin_bg.c"
+					RelativePath="..\..\skin_bg.c"
 					>
 				</File>
 				<File
-					RelativePath="..\skin_bg.h"
+					RelativePath="..\..\skin_bg.h"
 					>
 				</File>
 				<File
-					RelativePath="..\skin_fx.c"
+					RelativePath="..\..\skin_fx.c"
 					>
 				</File>
 				<File
-					RelativePath="..\skin_fx.h"
+					RelativePath="..\..\skin_fx.h"
 					>
 				</File>
 			</Filter>
@@ -1026,39 +1026,39 @@
 				Name="Video"
 				>
 				<File
-					RelativePath="..\beam.c"
+					RelativePath="..\..\beam.c"
 					>
 				</File>
 				<File
-					RelativePath="..\beam.h"
+					RelativePath="..\..\beam.h"
 					>
 				</File>
 				<File
-					RelativePath="..\blit.c"
+					RelativePath="..\..\blit.c"
 					>
 				</File>
 				<File
-					RelativePath="..\blit.h"
+					RelativePath="..\..\blit.h"
 					>
 				</File>
 				<File
-					RelativePath="..\blit_c.c"
+					RelativePath="..\..\blit_c.c"
 					>
 				</File>
 				<File
-					RelativePath="..\blit_c.h"
+					RelativePath="..\..\blit_c.h"
 					>
 				</File>
 				<File
-					RelativePath="..\blitintf.c"
+					RelativePath="..\..\blitintf.c"
 					>
 				</File>
 				<File
-					RelativePath="..\blitintf.h"
+					RelativePath="..\..\blitintf.h"
 					>
 				</File>
 				<File
-					RelativePath="..\eagle.asm"
+					RelativePath="..\..\eagle.asm"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1066,7 +1066,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1076,65 +1076,65 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\eagle.h"
+					RelativePath="..\..\eagle.h"
 					>
 				</File>
 				<File
-					RelativePath="..\palette.c"
+					RelativePath="..\..\palette.c"
 					>
 				</File>
 				<File
-					RelativePath="..\palette.h"
+					RelativePath="..\..\palette.h"
 					>
 				</File>
 				<File
-					RelativePath="..\vdp.c"
+					RelativePath="..\..\vdp.c"
 					>
 				</File>
 				<File
-					RelativePath="..\vdp.h"
+					RelativePath="..\..\vdp.h"
 					>
 				</File>
 				<File
-					RelativePath="..\video.c"
+					RelativePath="..\..\video.c"
 					>
 				</File>
 				<File
-					RelativePath="..\video.h"
+					RelativePath="..\..\video.h"
 					>
 				</File>
 				<File
-					RelativePath="..\video_c.c"
+					RelativePath="..\..\video_c.c"
 					>
 				</File>
 				<File
-					RelativePath="..\video_c.h"
+					RelativePath="..\..\video_c.h"
 					>
 				</File>
 				<File
-					RelativePath="..\video_m2.c"
+					RelativePath="..\..\video_m2.c"
 					>
 				</File>
 				<File
-					RelativePath="..\video_m2.h"
+					RelativePath="..\..\video_m2.h"
 					>
 				</File>
 				<File
-					RelativePath="..\video_m5.c"
+					RelativePath="..\..\video_m5.c"
 					>
 				</File>
 				<File
-					RelativePath="..\video_m5.h"
+					RelativePath="..\..\video_m5.h"
 					>
 				</File>
 				<File
-					RelativePath="..\videoasm.asm"
+					RelativePath="..\..\videoasm.asm"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1142,7 +1142,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1152,7 +1152,7 @@
 						<Tool
 							Name="VCCustomBuildTool"
 							Description="Assembling $(InputPath)"
-							CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+							CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 							Outputs="$(OutDir)/$(InputName).obj"
 						/>
 					</FileConfiguration>
@@ -1161,15 +1161,15 @@
 					Name="HQ2X"
 					>
 					<File
-						RelativePath="..\hq2x.c"
+						RelativePath="..\..\hq2x.c"
 						>
 					</File>
 					<File
-						RelativePath="..\hq2x.h"
+						RelativePath="..\..\hq2x.h"
 						>
 					</File>
 					<File
-						RelativePath="..\hq2x16.asm"
+						RelativePath="..\..\hq2x16.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -1177,7 +1177,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
@@ -1188,14 +1188,14 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\hq2x32.asm"
+						RelativePath="..\..\hq2x32.asm"
 						>
 						<FileConfiguration
 							Name="Debug|Win32"
@@ -1203,7 +1203,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
@@ -1214,7 +1214,7 @@
 							<Tool
 								Name="VCCustomBuildTool"
 								Description="Assembling $(InputPath)"
-								CommandLine="&quot;..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
+								CommandLine="&quot;..\..\..\libs\nasm\nasmw.exe&quot; -O1 -DWIN32 -f win32 &quot;$(InputPath)&quot; -o &quot;$(OutDir)/$(InputName).obj&quot;&#x0D;&#x0A;"
 								AdditionalDependencies=""
 								Outputs="$(OutDir)/$(InputName).obj"
 							/>
@@ -1226,67 +1226,67 @@
 				Name="Peripherals"
 				>
 				<File
-					RelativePath="..\areplay.c"
+					RelativePath="..\..\areplay.c"
 					>
 				</File>
 				<File
-					RelativePath="..\areplay.h"
+					RelativePath="..\..\areplay.h"
 					>
 				</File>
 				<File
-					RelativePath="..\glasses.c"
+					RelativePath="..\..\glasses.c"
 					>
 				</File>
 				<File
-					RelativePath="..\glasses.h"
+					RelativePath="..\..\glasses.h"
 					>
 				</File>
 				<File
-					RelativePath="..\keyinfo.c"
+					RelativePath="..\..\keyinfo.c"
 					>
 				</File>
 				<File
-					RelativePath="..\keyinfo.h"
+					RelativePath="..\..\keyinfo.h"
 					>
 				</File>
 				<File
-					RelativePath="..\lightgun.c"
+					RelativePath="..\..\lightgun.c"
 					>
 				</File>
 				<File
-					RelativePath="..\lightgun.h"
+					RelativePath="..\..\lightgun.h"
 					>
 				</File>
 				<File
-					RelativePath="..\rapidfir.c"
+					RelativePath="..\..\rapidfir.c"
 					>
 				</File>
 				<File
-					RelativePath="..\rapidfir.h"
+					RelativePath="..\..\rapidfir.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sk1100.c"
+					RelativePath="..\..\sk1100.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sk1100.h"
+					RelativePath="..\..\sk1100.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sportpad.c"
+					RelativePath="..\..\sportpad.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sportpad.h"
+					RelativePath="..\..\sportpad.h"
 					>
 				</File>
 				<File
-					RelativePath="..\tvoekaki.c"
+					RelativePath="..\..\tvoekaki.c"
 					>
 				</File>
 				<File
-					RelativePath="..\tvoekaki.h"
+					RelativePath="..\..\tvoekaki.h"
 					>
 				</File>
 			</Filter>
@@ -1294,59 +1294,59 @@
 				Name="Machines"
 				>
 				<File
-					RelativePath="..\bios.c"
+					RelativePath="..\..\bios.c"
 					>
 				</File>
 				<File
-					RelativePath="..\bios.h"
+					RelativePath="..\..\bios.h"
 					>
 				</File>
 				<File
-					RelativePath="..\coleco.c"
+					RelativePath="..\..\coleco.c"
 					>
 				</File>
 				<File
-					RelativePath="..\coleco.h"
+					RelativePath="..\..\coleco.h"
 					>
 				</File>
 				<File
-					RelativePath="..\drivers.c"
+					RelativePath="..\..\drivers.c"
 					>
 				</File>
 				<File
-					RelativePath="..\drivers.h"
+					RelativePath="..\..\drivers.h"
 					>
 				</File>
 				<File
-					RelativePath="..\ioports.c"
+					RelativePath="..\..\ioports.c"
 					>
 				</File>
 				<File
-					RelativePath="..\ioports.h"
+					RelativePath="..\..\ioports.h"
 					>
 				</File>
 				<File
-					RelativePath="..\machine.c"
+					RelativePath="..\..\machine.c"
 					>
 				</File>
 				<File
-					RelativePath="..\machine.h"
+					RelativePath="..\..\machine.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sf7000.c"
+					RelativePath="..\..\sf7000.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sf7000.h"
+					RelativePath="..\..\sf7000.h"
 					>
 				</File>
 				<File
-					RelativePath="..\sg1ksc3k.c"
+					RelativePath="..\..\sg1ksc3k.c"
 					>
 				</File>
 				<File
-					RelativePath="..\sg1ksc3k.h"
+					RelativePath="..\..\sg1ksc3k.h"
 					>
 				</File>
 			</Filter>
@@ -1354,7 +1354,7 @@
 				Name="OSD"
 				>
 				<File
-					RelativePath="..\osd\misc.c"
+					RelativePath="..\..\osd\misc.c"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1374,15 +1374,15 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\osd\misc.h"
+					RelativePath="..\..\osd\misc.h"
 					>
 				</File>
 				<File
-					RelativePath="..\osd\timer.c"
+					RelativePath="..\..\osd\timer.c"
 					>
 				</File>
 				<File
-					RelativePath="..\osd\timer.h"
+					RelativePath="..\..\osd\timer.h"
 					>
 				</File>
 			</Filter>
@@ -1390,99 +1390,99 @@
 				Name="Applets"
 				>
 				<File
-					RelativePath="..\app_about.c"
+					RelativePath="..\..\app_about.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_about.h"
+					RelativePath="..\..\app_about.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_cheatfinder.c"
+					RelativePath="..\..\app_cheatfinder.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_cheatfinder.h"
+					RelativePath="..\..\app_cheatfinder.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_filebrowser.c"
+					RelativePath="..\..\app_filebrowser.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_filebrowser.h"
+					RelativePath="..\..\app_filebrowser.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_game.c"
+					RelativePath="..\..\app_game.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_game.h"
+					RelativePath="..\..\app_game.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_mapview.c"
+					RelativePath="..\..\app_mapview.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_mapview.h"
+					RelativePath="..\..\app_mapview.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_memview.c"
+					RelativePath="..\..\app_memview.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_memview.h"
+					RelativePath="..\..\app_memview.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_options.c"
+					RelativePath="..\..\app_options.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_options.h"
+					RelativePath="..\..\app_options.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_palview.c"
+					RelativePath="..\..\app_palview.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_palview.h"
+					RelativePath="..\..\app_palview.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_techinfo.c"
+					RelativePath="..\..\app_techinfo.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_techinfo.h"
+					RelativePath="..\..\app_techinfo.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_textview.c"
+					RelativePath="..\..\app_textview.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_textview.h"
+					RelativePath="..\..\app_textview.h"
 					>
 				</File>
 				<File
-					RelativePath="..\app_tileview.c"
+					RelativePath="..\..\app_tileview.c"
 					>
 				</File>
 				<File
-					RelativePath="..\app_tileview.h"
+					RelativePath="..\..\app_tileview.h"
 					>
 				</File>
 				<File
-					RelativePath="..\textbox.c"
+					RelativePath="..\..\textbox.c"
 					>
 				</File>
 				<File
-					RelativePath="..\textbox.h"
+					RelativePath="..\..\textbox.h"
 					>
 				</File>
 			</Filter>
@@ -1490,19 +1490,19 @@
 				Name="Debugger"
 				>
 				<File
-					RelativePath="..\datadump.c"
+					RelativePath="..\..\datadump.c"
 					>
 				</File>
 				<File
-					RelativePath="..\datadump.h"
+					RelativePath="..\..\datadump.h"
 					>
 				</File>
 				<File
-					RelativePath="..\debugger.c"
+					RelativePath="..\..\debugger.c"
 					>
 				</File>
 				<File
-					RelativePath="..\debugger.h"
+					RelativePath="..\..\debugger.h"
 					>
 				</File>
 			</Filter>

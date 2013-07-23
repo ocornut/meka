@@ -15,7 +15,7 @@
 #include "video.h"
 #include "sound/s_misc.h"
 #ifdef ARCH_WIN32
-#include "MsVc/resource.h"
+#include "projects/msvc/resource.h"
 #endif
 
 //-----------------------------------------------------------------------------
