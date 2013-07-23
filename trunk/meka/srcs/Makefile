@@ -426,13 +426,13 @@ dist_bin_win32 :
 	cd ..
 	-$(MKDIR) Dist
 	@echo Compressing
-	-upx -9 mekaw.exe
+	-libs/dist_win/upx.exe -9 mekaw.exe
 	@echo Packaging
-	zip -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/mekaw.zip icons.zip setup.bat
-	zip -9 Dist/mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
-	zip -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
-	zip -9 Dist/mekaw.zip -r datafiles/*.*
+	libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
+	libs/dist_win/zip.exe -9 Dist/mekaw.zip icons.zip setup.bat
+	libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
+	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
+	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r datafiles/*.*
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
