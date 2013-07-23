@@ -316,7 +316,7 @@ void         TilemapViewer_SwitchMainInstance(void)
     //else
     //    Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Disabled));
     gui_box_show(app->box, app->active, TRUE);
-    gui_menu_inverse_check(menus_ID.tools, 3);
+    gui_menu_toggle_check(menus_ID.tools, 3);
 }
 
 void         TilemapViewer_Update(t_tilemap_viewer *app)

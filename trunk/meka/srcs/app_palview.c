@@ -95,7 +95,7 @@ void    PaletteViewer_Switch(void)
     else
         Msg(MSGT_USER, Msg_Get(MSG_Palette_Disabled));
     gui_box_show (pv->box, pv->active, TRUE);
-    gui_menu_inverse_check (menus_ID.tools, 1);
+    gui_menu_toggle_check (menus_ID.tools, 1);
 }
 
 // Note: has to be executed after tileviewer::update

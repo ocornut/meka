@@ -32,7 +32,7 @@ void    FM_Disable (void)
     Sound.FM_Enabled = FALSE;
     Msg(MSGT_USER, Msg_Get(MSG_FM_Disabled));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
-    gui_menu_un_check_area (menus_ID.fm, 0, 1);
+    gui_menu_uncheck_range (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 1);
 }
 
@@ -41,7 +41,7 @@ void    FM_Enable (void)
     Sound.FM_Enabled = TRUE;
     Msg(MSGT_USER, Msg_Get(MSG_FM_Enabled));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
-    gui_menu_un_check_area (menus_ID.fm, 0, 1);
+    gui_menu_uncheck_range (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 0);
 }
 
@@ -57,7 +57,7 @@ void    Sound_Volume_Menu_Init(int menu_id)
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Mute));
         else
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Value), i);
-        menu_add_item(menu_id, buffer, Is_Checked(i - 9 < master_volume_100 && i + 9 > master_volume_100), 
+        menu_add_item(menu_id, buffer, NULL, Is_Checked(i - 9 < master_volume_100 && i + 9 > master_volume_100), 
 			(t_menu_callback)Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
     }
 }
@@ -68,7 +68,7 @@ void    Sound_Volume_Menu_Handler(t_menu_event *event)
 
 	Sound_SetMasterVolume(volume);
     Msg(MSGT_USER /*_BOX*/, Msg_Get(MSG_Sound_Volume_Changed), volume);
-    gui_menu_un_check (menus_ID.volume);
+    gui_menu_uncheck_all (menus_ID.volume);
 	gui_menu_check (menus_ID.volume, event->menu_item_idx);
 }
 
@@ -79,6 +79,6 @@ void    Sound_Channels_Menu_Handler(t_menu_event *event)
 	const int channel_idx = (long int)event->user_data;
 
     PSG.Channels[channel_idx].Active ^= 1;
-    gui_menu_inverse_check (menus_ID.channels, channel_idx);
+    gui_menu_toggle_check (menus_ID.channels, channel_idx);
 }
 

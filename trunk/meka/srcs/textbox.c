@@ -114,7 +114,7 @@ void    TB_Message_Switch(void)
     else
         Msg(MSGT_USER, Msg_Get(MSG_Message_Disabled));
     gui_box_show (app->box, app->active, TRUE);
-    gui_menu_inverse_check (menus_ID.tools, 0);
+    gui_menu_toggle_check (menus_ID.tools, 0);
 }
 
 void    TB_Message_Print (const char *line)

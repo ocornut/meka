@@ -140,7 +140,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     case ALLEGRO_KEYMOD_CTRL:
         {
             // Hard Pause
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE) || (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)))
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
                 g_machine_pause_requests = 1;
             // Hard Reset
             if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
@@ -194,12 +194,6 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE))         FB_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE))         Options_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE))         TB_Message_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE))         PaletteViewer_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE))         TileViewer_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE))         TechInfo_Switch();
-               // Quit emulator
-               if (Inputs_KeyPressed (ALLEGRO_KEY_X, FALSE))         
-                   opt.Force_Quit = TRUE;
                // Hard Reset
                if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
                    Machine_Reset();
@@ -250,7 +244,7 @@ void    Inputs_Switch_Joypad (void)
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_JOYPAD);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_Joypad));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Digital));
-    gui_menu_un_check_area (menus_ID.inputs, 0, 4);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
 
@@ -260,7 +254,7 @@ void    Inputs_Switch_LightPhaser (void)
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_LIGHTPHASER);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_LightPhaser));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
-    gui_menu_un_check_area (menus_ID.inputs, 0, 4);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
 
@@ -271,7 +265,7 @@ void    Inputs_Switch_PaddleControl (void)
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_PaddleControl));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Digital_Unrecommended));
-    gui_menu_un_check_area (menus_ID.inputs, 0, 4);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
 
@@ -280,7 +274,7 @@ void    Inputs_Switch_SportsPad (void)
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_SPORTSPAD);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_SportsPad));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
-    gui_menu_un_check_area (menus_ID.inputs, 0, 4);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
 
@@ -289,7 +283,7 @@ void    Inputs_Switch_TVOekaki (void)
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_TVOEKAKI);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_TVOekaki));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Pen));
-    gui_menu_un_check_area (menus_ID.inputs, 0, 4);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
     gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
 }
 

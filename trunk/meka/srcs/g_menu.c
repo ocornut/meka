@@ -263,11 +263,12 @@ void    gui_redraw_menus()
     gui_redraw_bars();
 
 	// initial panning animation
-    if (menus_opt.distance > MENUS_DISTANCE)
+	const int MENUS_DISTANCE_FROM_LEFT = 20;
+    if (menus_opt.distance > MENUS_DISTANCE_FROM_LEFT)
     {
         menus_opt.distance -= 14;
-        if (menus_opt.distance < MENUS_DISTANCE)
-            menus_opt.distance = MENUS_DISTANCE;
+        if (menus_opt.distance < MENUS_DISTANCE_FROM_LEFT)
+            menus_opt.distance = MENUS_DISTANCE_FROM_LEFT;
         gui.info.must_redraw = true;
     }
 

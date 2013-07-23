@@ -244,7 +244,7 @@ void    Blitters_Switch_Common (void)
     if (g_env.state == MEKA_STATE_GAME)
         Video_Setup_State();
     Msg(MSGT_USER, Msg_Get(MSG_Blitters_Set), Blitters.current->name);
-    gui_menu_un_check (menus_ID.blitters);
+    gui_menu_uncheck_all (menus_ID.blitters);
     gui_menu_check (menus_ID.blitters, Blitters.current->index);
 }
 
@@ -273,6 +273,7 @@ void    Blitters_Menu_Init (int menu_id)
         t_blitter* blitter = (t_blitter*)blitters->elem;
         menu_add_item(menu_id,
             blitter->name,
+			NULL,
             MENU_ITEM_FLAG_ACTIVE | ((blitter == Blitters.current) ? MENU_ITEM_FLAG_CHECKED : 0),
             (t_menu_callback)Blitters_Switch_Handler, blitter);
     }

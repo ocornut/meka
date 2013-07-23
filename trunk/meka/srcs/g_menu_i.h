@@ -7,7 +7,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_menus_init (void);
+void    gui_menus_init();
 
 #define Is_Active(test)         ((test) ? MENU_ITEM_FLAG_ACTIVE : 0)
 #define Is_Checked(test)        ((test) ? MENU_ITEM_FLAG_CHECKED : 0)

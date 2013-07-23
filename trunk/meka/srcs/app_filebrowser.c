@@ -107,7 +107,7 @@ void                FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 
 int     FB_Return_File_Area_Y()
 {
-    return ((FB.file_y * Font_Height (F_LARGE)) + 5);
+    return ((FB.file_y * Font_Height(F_LARGE)) + 5);
 }
 
 int     FB_Return_Res_Y()
@@ -119,7 +119,7 @@ void    FB_Switch()
 {
     FB.active ^= 1;
     gui_box_show(FB.box, FB.active, TRUE);
-    gui_menu_inverse_check(menus_ID.file, 0);
+    gui_menu_toggle_check(menus_ID.file, 0);
 }
 
 void    FB_Init_Values()

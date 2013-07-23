@@ -34,7 +34,7 @@ void    AboutBox_Switch (void)
 
 	AboutBox.active ^= 1;
 	gui_box_show (AboutBox.box, AboutBox.active, TRUE);
-    gui_menu_inverse_check (menus_ID.help, menu_pos);
+    gui_menu_toggle_check (menus_ID.help, menu_pos);
 }
 
 static void     AboutBox_Layout(bool setup)

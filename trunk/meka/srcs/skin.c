@@ -677,7 +677,7 @@ static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
     Skins_Apply();
 
     // Check new selected theme in menu
-    gui_menu_un_check (menus_ID.themes);
+    gui_menu_uncheck_all (menus_ID.themes);
     gui_menu_check (menus_ID.themes, event->menu_item_idx);
 }
 
@@ -688,7 +688,7 @@ void        Skins_MenuInit(int menu_id)
         t_skin* skin = (t_skin*)skins->elem;
         if (skin->enabled)
         {
-            menu_add_item(menu_id, skin->name,
+            menu_add_item(menu_id, skin->name, NULL,
                 MENU_ITEM_FLAG_ACTIVE | ((Skins.skin_current == skin) ? MENU_ITEM_FLAG_CHECKED : 0),
                 (t_menu_callback)Skins_MenuHandlerSelectSkin, skin);
         }

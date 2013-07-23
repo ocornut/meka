@@ -1810,7 +1810,7 @@ void	Debugger_Switch()
     }
     else
     {
-        gui_menu_un_check_one(menus_ID.debug, 0);
+        gui_menu_uncheck_range(menus_ID.debug, 0, 0);
         Machine_Debug_Stop();
         sms.R.Trap = 0xFFFF;
     }

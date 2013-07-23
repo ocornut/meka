@@ -305,7 +305,7 @@ void    TileViewer_Switch (void)
     else
         Msg(MSGT_USER, Msg_Get(MSG_TilesViewer_Disabled));
     gui_box_show (TileViewer.box, TileViewer.active, TRUE);
-    gui_menu_inverse_check (menus_ID.tools, 2);
+    gui_menu_toggle_check (menus_ID.tools, 2);
 }
 
 //-----------------------------------------------------------------------------

@@ -16,7 +16,6 @@ typedef int t_menu_id;
 
 #define MENU_ID_MAIN        ((t_menu_id)0)
 
-#define MENUS_DISTANCE      (20)
 #define MENUS_PADDING_X     (8)
 #define MENUS_PADDING_Y     (4)
 
@@ -138,7 +137,7 @@ typedef void (*t_menu_callback)(t_menu_event*);
 struct t_menu_item
 {
 	char *				label;
-	char *				hotkey;
+	char *				shortcut;
 	t_menu_item_type	type;
 	unsigned int		flags;
 	bool				mouse_over;

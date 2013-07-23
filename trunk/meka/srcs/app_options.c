@@ -136,7 +136,7 @@ void    Options_Switch(void)
 {
     Options.active ^= 1;
     gui_box_show(Options.box, Options.active, TRUE);
-    gui_menu_inverse_check(menus_ID.file, 4);
+    gui_menu_toggle_check(menus_ID.file, 4);
 }
 
 //-----------------------------------------------------------------------------

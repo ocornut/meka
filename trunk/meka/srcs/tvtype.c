@@ -57,7 +57,7 @@ void    TVType_Set (int tv_type, bool verbose)
         // Print message & and update GUI checks
         Msg(MSGT_USER, Msg_Get(MSG_TVType_Set), TV_Type_User->name);
         Msg(MSGT_USER_BOX, Msg_Get(MSG_TVType_Info_Speed), TV_Type_User->screen_frequency);
-        gui_menu_un_check (menus_ID.tvtype);
+        gui_menu_uncheck_all (menus_ID.tvtype);
         gui_menu_check (menus_ID.tvtype, tv_type);
         // Note that GUI checks are NOT updated if verbose mode is not set.
         // The reason is the parameters in MEKA.NAM can force a TV type, but we don't
