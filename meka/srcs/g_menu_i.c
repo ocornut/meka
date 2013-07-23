@@ -68,13 +68,15 @@ void	gui_menus_init (void)
     //-------------------------------------------------------------------------
     // MAIN
     //-------------------------------------------------------------------------
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadROM),   "Alt+L",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (FB.active), (t_menu_callback)FB_Switch, NULL);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_FreeROM),   NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Free_ROM, NULL);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState), "F5",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Save_Game, NULL);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadState), "F7",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Load_Game, NULL);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),   "Alt+O",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Options.active), (t_menu_callback)Options_Switch, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadROM),			"Alt+L",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (FB.active), (t_menu_callback)FB_Switch, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_FreeROM),			NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Free_ROM, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState_Save),	"F5",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SaveState_Save, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState_Load),	"F7",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SaveState_Load, NULL);
+	menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState_PrevSlot), "F6",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SaveState_SetPrevSlot, NULL);
+	menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState_NextSlot), "F9",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SaveState_SetNextSlot, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),			"Alt+O",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Options.active), (t_menu_callback)Options_Switch, NULL);
     Langs_Menu_Add    (menus_ID.file);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),      "F10",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),				"F10",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
 
     //-------------------------------------------------------------------------
     // DEBUG

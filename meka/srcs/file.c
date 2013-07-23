@@ -243,7 +243,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
         {
             opt.State_Current = opt.State_Load; // Note: we're not calling the function to avoid displaying the 'slot change' message
             opt.State_Load = -1;
-            Load_Game();
+            SaveState_Load();
         }
     }
 

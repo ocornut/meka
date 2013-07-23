@@ -44,15 +44,17 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void  Load_Game();
-void  Save_Game();
+void  SaveState_Load();
+void  SaveState_Save();
+void  SaveState_SetSlot(int n);
+void  SaveState_SetPrevSlot();
+void  SaveState_SetNextSlot();
 void  Load_Game_Fixup();
 
 //-----------------------------------------------------------------------------
 
 int   Load_Game_MSV(FILE *f);       // Save game in MEKA format
 int   Save_Game_MSV(FILE *f);       // Load game in MEKA format
-int   Load_Game_STA(FILE *f);       // Load game in BrSMS format
 int   Load_Game_MSD(FILE *f);       // Load game in Massage format
 
 void  Save_Set_Slot(int n);

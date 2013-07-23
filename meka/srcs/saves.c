@@ -120,7 +120,7 @@ void        Load_Game_Fixup(void)
 }
 
 // Save current state / dispatch to format saving code
-void        Save_Game()
+void        SaveState_Save()
 {
     // Do not allow saving if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
@@ -160,7 +160,7 @@ void        Save_Game()
 }
 
 // Load state from current slot
-void        Load_Game()
+void        SaveState_Load()
 {
     // Do not allow loading if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
@@ -599,14 +599,7 @@ int     Load_Game_MSD (FILE *f)
     return (1);
 }
 
-// LOAD CURRENT GAME IN BRSMS FORMAT ------------------------------------------
-int     Load_Game_STA (FILE *f)
-{
-    return (0);
-}
-
-// CHANGE SAVEGAME SLOT -------------------------------------------------------
-void    Save_Set_Slot (int n)
+void    SaveState_SetSlot(int n)
 {
     if (n < 0)  
         n = 0;
@@ -614,6 +607,16 @@ void    Save_Set_Slot (int n)
         n = 99;
     Msg(MSGT_USER, Msg_Get(MSG_Save_Slot), n);
     opt.State_Current = n;
+}
+
+void	SaveState_SetPrevSlot()
+{
+	SaveState_SetSlot(opt.State_Current - 1);
+}
+
+void	SaveState_SetNextSlot()
+{
+	SaveState_SetSlot(opt.State_Current + 1);
 }
 
 // RETURN FILENAME OF CURRENT SAVEGAME ----------------------------------------
