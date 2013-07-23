@@ -5,65 +5,16 @@
 -----------------------------------------------------------------------------
  SUMMARY
 -----------------------------------------------------------------------------
-1. Sega Master System & Game Gear quick specifications
-2. SMS Joypads Pinouts
-3. SMS Joypads (DB-9) to Parallel port adapter (type 1)
-4. SMS Joypads (DB-9) to Parallel port adapter (type 2)
-5. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
-6. SMS 3-D Glasses to Serial/COM port adapter
-7. More ?
+ 1. SMS Joypads Pinouts
+ 2. SMS Joypads (DB-9) to Parallel port adapter (type 1)
+ 3. SMS Joypads (DB-9) to Parallel port adapter (type 2)
+ 4. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
+ 5. SMS 3-D Glasses to Serial/COM port adapter
+ 6. More ?
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
- 1. Sega Master System & Game Gear quick specifications
-    by Omar Cornut
------------------------------------------------------------------------------
- Mainly intended for webmasters who would like to put some technical 
- information about Sega 8-bit systems. If you want to know way more about them, 
- check out S8-Dev at the following address: http://www.smspower.org/dev
-
-  CPU:         Zilog Z80 at 3.58 mhz (3.579545 hz to be exact).
-
-  RAM:         64 kbits (= 8 kbytes)
-
-  SaveRAM:     Battery backed memory. Included on certain cartridges only.
-               usually one or two banks of 128 kbits each (= 16 kbytes).
-
-  Video RAM:   128 kbits (= 16 kbytes)
-
-  Colors:      32 (16*2) on-screen, with an available palette of 64 colors
-               on the Master System and 4096 on the Game Gear.
-
-  Resolution:  256x224 pixels. In video modes used by the very most games,
-               only the top 256x192 pixels or the top right 248x192 pixels
-               are shown on the screen. On the Game Gear, a 160x144 pixels
-               centered area is always shown.
-
-  Characters:  8x8 pixels, using one of the two 16 colors palette. Up to
-               512 characters can be stored in VRAM but usually only 448
-               are used because there will be not enough room to store
-               actual screen and sprite tables.
-
-  Sprites:     maximum of 64 sprites on-screen, 8 per lines. Sized of 8x8
-               or 8x16 pixels, using one of the two 16 colors palette (the
-               same for all sprites). May be masked by foreground tiles.
-
-  Scrolling:   hardware scrolling, vertical and horizontal, line-based,
-               allowing raster effects. Scrolling can hardware ignored for
-               the top 16 pixels (used in many games for a status bar) and 
-               for the 64 rightmost pixels (used by Gauntlet and Golvellius
-               in vertical stages).
-
-  Audio:       three tone channels with 1024 different frequencies and one
-               noise (sound) channel. 16 different volume step.
-
-               optional YM-2413 FM chipset on Japanese systems: 9 channels
-               (or 6 + 3 drums), 15+1 instruments, hardware vibrato and
-               amplitude modulation.
------------------------------------------------------------------------------
-
------------------------------------------------------------------------------
- 2. SMS Joypads Pinouts
+ 1. SMS Joypads Pinouts
     Copied from Linux Joystick Driver documentation
     http://atrey.karlin.mff.cuni.cz/~vojtech/joystick/
 -----------------------------------------------------------------------------
@@ -94,7 +45,7 @@
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
- 3. SMS Joypads (DB-9) to Parallel port adapter (type 1)
+ 2. SMS Joypads (DB-9) to Parallel port adapter (type 1)
     Comments by Mike Gordon.
 -----------------------------------------------------------------------------
  This adapter schematic is natively supported by the MS-DOS version of MEKA
@@ -177,7 +128,7 @@
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
- 4. SMS Joypads (DB-9) to Parallel port adapter (type 2)
+ 3. SMS Joypads (DB-9) to Parallel port adapter (type 2)
     Comments by Gary Pierce (Youltar).
 -----------------------------------------------------------------------------
  Please refer to SmsCartPad homepage for more detailed instruction:
@@ -211,7 +162,7 @@
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
- 5. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
+ 4. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
 -----------------------------------------------------------------------------
  GNU/Linux kernels starting version 2.2 supports a wide range of joysticks, 
  based on the "Linux Joystick Driver" project:
@@ -221,7 +172,7 @@
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
- 6. SMS 3-D Glasses to Serial/COM port adapter
+ 5. SMS 3-D Glasses to Serial/COM port adapter
     Unknown original author. Comments by Frank and Mike Gordon.
 -----------------------------------------------------------------------------
  This adapter schematic is natively supported by the MS-DOS and Windows 
@@ -386,8 +337,7 @@ Good luck building the adapter, and enjoy!
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
- 7. More ?
+ 6. More ?
 -----------------------------------------------------------------------------
- If you have something interesting to contribute to this document, 
- feel free to contact me about it (see my e-mail in the MEKA.TXT file).
+ http://www.smspower.org/Development !
 -----------------------------------------------------------------------------
