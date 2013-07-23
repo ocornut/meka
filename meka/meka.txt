@@ -366,13 +366,12 @@
 
   - Debugging features, making MEKA useful for various programming/debugging
     or even cheating purposes:
+     - Full featured Z80 debugger
      - Palette Viewer
      - Tiles Viewer
      - Tilemap Viewer
      - Memory Editor
      - Technical Information summary
-     - Data Dumping features
-     - And a basic debugger (run MEKA with /DEBUG parameter).
     Read the "DEBUGGER.TXT" file for more information.
 
   - Easter eggs / secret features: edit everything, click everywhere, try

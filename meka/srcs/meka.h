@@ -270,11 +270,6 @@ struct t_meka_configuration
     int     country_cfg;                // " given by configuration file and saved back
     int     country_cl;                 // " given by command-line
 
-    // Debug Mode
-    bool    debug_mode;                 // Set if debug mode enabled (session)
-    bool    debug_mode_cfg;             // " given by configuration file and saved back
-    bool    debug_mode_cl;              // " given by command-line
-
     // Miscellaneous
     int     sprite_flickering;          // Set to emulate sprite flickering.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.

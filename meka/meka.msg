@@ -162,7 +162,6 @@ Msg_Setup_Setup                         = "Setup"
 Msg_Setup_Video_Driver                  = "Display driver:"
 Msg_Setup_Video_DisplayMode             = "Display mode:"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
-Msg_Setup_Debugger_Enable               = "Enable Z80 debugger and associated features"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Screen captured to %s"
@@ -657,7 +656,6 @@ Msg_Init_Completed                      = "[PRET]"
 Msg_Setup_Running                       = "Execution du programme de configuration..."
 Msg_Setup_Setup                         = "Configuration"
 Msg_Setup_SampleRate_Select             = "Fréquence d'échantillonage:"
-Msg_Setup_Debugger_Enable               = "Active le debuggeur Z80 et autres fonctionnalites associees"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Ecran capturé dans %s"
@@ -1599,7 +1597,6 @@ Msg_Setup_Setup                         = "Setup"
 Msg_Setup_Video_Driver                  = "Video driver:"
 Msg_Setup_Video_DisplayMode             = "Video mode:"
 Msg_Setup_SampleRate_Select             = "Sample rate:"
-Msg_Setup_Debugger_Enable               = "Z80 debugger en bijbehorende functies inschakelen"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Screenfoto naar %s"
@@ -2541,7 +2538,6 @@ Msg_Setup_Setup                         = "Konfiguracja"
 Msg_Setup_Video_Driver                  = "Sterownik ekranu:"
 Msg_Setup_Video_DisplayMode             = "Tryb graficzny:"
 Msg_Setup_SampleRate_Select             = "Czestotliwosc probkowania:"
-Msg_Setup_Debugger_Enable               = "Wlacz debugger Z80 i pokrewne funkcje"
 
 ; Screenshots Capture --------------------------------------------------------
 Msg_Capture_Done                        = "Ekran zrzucony do %s"

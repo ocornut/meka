@@ -8,7 +8,6 @@
 //-----------------------------------------------------------------------------
 
 void    Configuration_Load();
-void    Configuration_Load_PostProcess();
 void    Configuration_Save();
 
 void    Command_Line_Parse();

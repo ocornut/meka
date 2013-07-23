@@ -128,7 +128,7 @@ static void Init_LookUpTables()
 // Initialize default configuration settings
 static void Init_Default_Values()
 {
-    g_env.debug_dump_infos = FALSE;
+    g_env.debug_dump_infos = false;
 
     // IPeriod
     opt.IPeriod = opt.Cur_IPeriod = 228;
@@ -137,50 +137,45 @@ static void Init_Default_Values()
 
     opt.Layer_Mask = LAYER_BACKGROUND | LAYER_SPRITES;
 
-    opt.GUI_Inited = FALSE;
+    opt.GUI_Inited = false;
     opt.Current_Key_Pressed = 0;
     opt.State_Current = 0;
     opt.State_Load = -1;
-    opt.Setup_Interactive_Execute = FALSE;
-    opt.Force_Quit = FALSE;
+    opt.Setup_Interactive_Execute = false;
+    opt.Force_Quit = false;
 
     // Machine
     g_machine.driver_id = DRV_SMS;
 
-	g_configuration.loaded_configuration_file	  = FALSE;
+	g_configuration.loaded_configuration_file	  = false;
 
     // Country
     g_configuration.country                       = COUNTRY_EXPORT;
     g_configuration.country_cfg                   = COUNTRY_EXPORT;
     g_configuration.country_cl                    = COUNTRY_AUTO;
 
-    // Debug Mode
-    g_configuration.debug_mode                    = FALSE;
-    g_configuration.debug_mode_cfg                = TRUE;
-    g_configuration.debug_mode_cl                 = FALSE;
-
     // Miscellaneous
     g_configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
-    g_configuration.enable_BIOS                   = TRUE;
-    g_configuration.show_product_number           = FALSE;
-    g_configuration.show_fullscreen_messages      = TRUE;
-    g_configuration.enable_NES                    = FALSE;
-    g_configuration.allow_opposite_directions     = FALSE;
-    g_configuration.start_in_gui                  = TRUE;
+    g_configuration.enable_BIOS                   = true;
+    g_configuration.show_product_number           = false;
+    g_configuration.show_fullscreen_messages      = true;
+    g_configuration.enable_NES                    = false;
+    g_configuration.allow_opposite_directions     = false;
+    g_configuration.start_in_gui                  = true;
 
     // Applet: Game Screen
     g_configuration.game_window_scale             = 1.0f;
 
     // Applet: File Browser
-    g_configuration.fb_close_after_load           = FALSE;
-    g_configuration.fb_uses_DB                    = TRUE;
-    g_configuration.fullscreen_after_load         = TRUE;
+    g_configuration.fb_close_after_load           = false;
+    g_configuration.fb_uses_DB                    = true;
+    g_configuration.fullscreen_after_load         = true;
 
     // Applet: Debugger
-    g_configuration.debugger_console_lines        = 28;
+	g_configuration.debugger_console_lines        = 28;
     g_configuration.debugger_disassembly_lines    = 20;
-    g_configuration.debugger_disassembly_display_labels = TRUE;
-    g_configuration.debugger_log_enabled          = TRUE;
+    g_configuration.debugger_disassembly_display_labels = true;
+    g_configuration.debugger_log_enabled          = true;
 
     // Applet: Memory Editor
     g_configuration.memory_editor_lines				= 16;
@@ -188,21 +183,21 @@ static void Init_Default_Values()
 
     // Video
 	g_configuration.video_driver					= g_video_driver_default;
-	g_configuration.video_fullscreen				= FALSE;
+	g_configuration.video_fullscreen				= false;
 	g_configuration.video_game_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
 	g_configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_NO_ALPHA;
 
-	g_configuration.video_mode_game_vsync			= FALSE;
+	g_configuration.video_mode_game_vsync			= false;
     g_configuration.video_mode_gui_res_x			= 800;
     g_configuration.video_mode_gui_res_y			= 600;
     g_configuration.video_mode_gui_refresh_rate		= 0;    // Auto
-    g_configuration.video_mode_gui_vsync			= FALSE;
+    g_configuration.video_mode_gui_vsync			= false;
 
 	// Capture
 	g_configuration.capture_filename_template		= "%s-%02d.png";
-	g_configuration.capture_crop_scrolling_column	= TRUE;
-	g_configuration.capture_crop_align_8x8			= FALSE;
-	g_configuration.capture_include_gui				= TRUE;
+	g_configuration.capture_crop_scrolling_column	= true;
+	g_configuration.capture_crop_align_8x8			= false;
+	g_configuration.capture_include_gui				= true;
 
     // Media
     // FIXME: yet not fully used
@@ -339,7 +334,7 @@ int main(int argc, char **argv)
     #endif
 
     // Wait for Win32 console signal
-    if (!ConsoleWaitForAnswer(TRUE))
+    if (!ConsoleWaitForAnswer(true))
         return (0);
 
     // Save command line parameters
@@ -364,7 +359,6 @@ int main(int argc, char **argv)
     atexit (Close_Emulator_Starting_Dir);
 
     Setup_Interactive_Init (); // Show Interactive Setup if asked to
-    Configuration_Load_PostProcess ();
     Frame_Skipper_Init     (); // Initialize Auto Frame Skipper
     Country_Init           (); // Initialize Country
     DB_Init                 (g_env.Paths.DataBaseFile); // Initialize and load DataBase file
@@ -401,7 +395,7 @@ int main(int argc, char **argv)
     Load_ROM_Command_Line  ();
 
     // Wait for Win32 console signal
-    if (!ConsoleWaitForAnswer(TRUE))
+    if (!ConsoleWaitForAnswer(true))
         return (0);
     ConsoleClose           (); // Close Console
 

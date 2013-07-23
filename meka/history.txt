@@ -52,6 +52,7 @@ They are usually of 2 kinds:
     - Disassembler decode symbols given their full ROM bank mapping (if bank information is provided by symbols file). [Omar]
     - Disassembler decode symbols in 'RST xx' instructions. [Omar]
     - Better support for 24-bits constants. [Omar]
+    - Debugger is always available at runtime. Obsoleted /DEBUG command-line parameter. [Omar]
   - Tools:
     - CheatFinder: added a new cheat finder application. [Omar]
       - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.

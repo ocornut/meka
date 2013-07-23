@@ -150,12 +150,9 @@ void    GUI_InitApplets(void)
 
     // Debugger
     #ifdef MEKA_Z80_DEBUGGER
-    if (g_configuration.debug_mode)
-    {
-        Debugger_Enable();
-        Debugger_Init();
-        DataDump_Init();
-    }
+    Debugger_Enable();
+    Debugger_Init();
+    DataDump_Init();
     #endif
 }
 

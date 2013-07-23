@@ -67,7 +67,6 @@ enum
 	MSG_Setup_Video_Driver,
 	MSG_Setup_Video_DisplayMode,
 	MSG_Setup_SampleRate_Select,
-	MSG_Setup_Debugger_Enable,
 
 	MSG_Capture_Done,
 	MSG_Capture_Error,

@@ -139,7 +139,6 @@ static void     Configuration_Load_Line (char *var, char *value)
 			g_configuration.video_mode_gui_refresh_rate = atoi(value);
 		return;
 	}
-	if (!strcmp(var, "debug_mode"))						{ g_configuration.debug_mode_cfg = (bool)atoi(value); return; }
 	if (!strcmp(var, "allow_opposite_directions"))		{ g_configuration.allow_opposite_directions = (bool)atoi(value); return; }
 	if (!strcmp(var, "debugger_console_lines"))			{ g_configuration.debugger_console_lines = MAX(1, atoi(value)); return; }
 	if (!strcmp(var, "debugger_disassembly_lines"))		{ g_configuration.debugger_disassembly_lines = MAX(1, atoi(value)); return; }
@@ -205,12 +204,6 @@ void Configuration_Load()
     tfile_free(tf);
 
 	g_configuration.loaded_configuration_file = true;
-}
-
-// Various post processing right after loading the configuration file
-void Configuration_Load_PostProcess()
-{
-    g_configuration.debug_mode = (g_configuration.debug_mode_cfg || g_configuration.debug_mode_cl);
 }
 
 // Save configuration file data to MEKA.CFG
@@ -332,9 +325,6 @@ void Configuration_Save()
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< DEBUGGING FUNCTIONNALITIES -------------------------------------------");
-    CFG_Write_Int  ("debug_mode", g_configuration.debug_mode_cfg);
-    CFG_Write_Line ("(set to 1 to permanently enable debug mode. you can also enable");
-    CFG_Write_Line (" it for a single session by starting MEKA with the /DEBUG parameter)");
     CFG_Write_Int  ("debugger_console_lines", g_configuration.debugger_console_lines);
     CFG_Write_Int  ("debugger_disassembly_lines", g_configuration.debugger_disassembly_lines);
     CFG_Write_Int  ("debugger_disassembly_display_labels", g_configuration.debugger_disassembly_display_labels);
@@ -363,8 +353,8 @@ void    Command_Line_Parse()
 {
 	const char* params[] =
 	{
-		"EURO", "US", "JAP", "JP", "JPN", "HELP", "?",
-		"SOUND", "NOELEPHANT", "DEBUG", "LOG", "LOAD",
+		"EURO", "US", "JP", "HELP", "?",
+		"SOUND", "NOELEPHANT", "LOG", "LOAD",
 		"SETUP",
 		"_DEBUG_INFOS",
 		NULL
@@ -388,41 +378,34 @@ void    Command_Line_Parse()
 			case 0: case 1: // EURO/US
 				g_configuration.country_cl = COUNTRY_EXPORT;
 				break;
-			case 2: case 3: case 4: // JAP
+			case 2: // JP
 				g_configuration.country_cl = COUNTRY_JAPAN;
 				break;
-			case 5: // HELP
-			case 6: Command_Line_Help();
+			case 3: // HELP
+			case 4: Command_Line_Help();
 				break;
-			case 7: // SOUND
-			case 8: // NOELEPHANT
+			case 5: // SOUND
+			case 6: // NOELEPHANT
 				break;
-			case 9: // DEBUG
-#ifndef MEKA_Z80_DEBUGGER
-				Quit_Msg(Msg_Get(MSG_Debug_Not_Available));
-#else
-				g_configuration.debug_mode_cl = true;
-#endif
-				break;
-			case 10: // LOG
+			case 7: // LOG
 				Param_Check(&i, Msg_Get(MSG_Log_Need_Param));
 				TB_Message.log_filename = strdup(g_env.argv[i]);
 				break;
-			case 11: // LOAD
+			case 8: // LOAD
 				Param_Check(&i, Msg_Get(MSG_Load_Need_Param));
 				opt.State_Load = atoi(g_env.argv[i]);
 				break;
-			case 12: // SETUP
+			case 9: // SETUP
 				opt.Setup_Interactive_Execute = true;
 				break;
 				// Private Usage
-			case 13: // _DEBUG_INFOS
+			case 10: // _DEBUG_INFOS
 				g_env.debug_dump_infos = true;
 				if (TB_Message.log_filename == NULL)
 					TB_Message.log_filename = strdup("debuglog.txt");
 				break;
 			default:
-				ConsolePrintf (Msg_Get(MSG_Error_Param), s);
+				ConsolePrintf(Msg_Get(MSG_Error_Param), s);
 				ConsolePrint("\n--\n");
 				Command_Line_Help();
 				return;
