@@ -3462,7 +3462,7 @@ void    Debugger_Value_Read(t_debugger_value *value)
 	case DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR:
 		{
 			t_debugger_symbol* symbol = (t_debugger_symbol *)value->source_data;
-			value->data = (symbol->bank * 0x4000) + (symbol->addr & 0x1fff);
+			value->data = (symbol->bank * 0x4000) + (symbol->addr & 0x3fff);
 			value->data_size = 24;
 		}
 		break;
