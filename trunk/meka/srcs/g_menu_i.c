@@ -92,16 +92,16 @@ void	gui_menus_init (void)
     // MACHINE
     //-------------------------------------------------------------------------
     menus_ID.power    = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_Power),  MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.country  = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_Country),MENU_ITEM_FLAG_ACTIVE);
+    menus_ID.region   = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_Region), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.tvtype   = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_TVType), MENU_ITEM_FLAG_ACTIVE);
-    menu_add_item     (menus_ID.machine,  Msg_Get(MSG_Menu_Machine_HardPause),             MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Pause, NULL);
-    menu_add_item     (menus_ID.machine,  Msg_Get(MSG_Menu_Machine_HardReset),             MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Reset, NULL);
+    menu_add_item     (menus_ID.machine,  Msg_Get(MSG_Menu_Machine_PauseEmulation),        MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Pause, NULL);
+    menu_add_item     (menus_ID.machine,  Msg_Get(Msg_Menu_Machine_ResetEmulation),        MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_Reset, NULL);
     // MACHINE -> POWER
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_On),              MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_ON, NULL);
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_Off),             MENU_ITEM_FLAG_ACTIVE /* | AM_Checked */, (t_menu_callback)Machine_OFF, NULL);
     // MACHINE -> COUNTRY
-    menu_add_item     (menus_ID.country,  Msg_Get(MSG_Menu_Machine_Country_EU),            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_Export, NULL);
-    menu_add_item     (menus_ID.country,  Msg_Get(MSG_Menu_Machine_Country_Jap),           MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_Japan, NULL);
+    menu_add_item     (menus_ID.region,   Msg_Get(MSG_Menu_Machine_Region_Export),         MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_Export, NULL);
+    menu_add_item     (menus_ID.region,   Msg_Get(MSG_Menu_Machine_Region_Japan),          MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_Japan, NULL);
     // MACHINE -> TV TYPE
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_NTSC),           MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_NTSC), (t_menu_callback)TVType_Set_NTSC, NULL);
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_PALSECAM),       MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_PAL_SECAM), (t_menu_callback)TVType_Set_PAL_SECAM, NULL);
@@ -112,10 +112,10 @@ void	gui_menus_init (void)
     menu_add_item     (menus_ID.video,    Msg_Get(MSG_Menu_Video_FullScreen),              MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Switch_Mode, NULL);
 
 	// VIDEO -> CAPTURE
-	menus_ID.screenshots = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Capture),	MENU_ITEM_FLAG_ACTIVE);
-	menu_add_item(menus_ID.screenshots, Msg_Get(MSG_Menu_Video_Capture_CaptureScreen),		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Capture_MenuHandler_Capture, NULL);
-	menu_add_item(menus_ID.screenshots, Msg_Get(MSG_Menu_Video_Capture_CaptureScreenAll),	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Capture_MenuHandler_AllFrames, NULL);
-	menu_add_item(menus_ID.screenshots, Msg_Get(MSG_Menu_Video_Capture_IncludeGui),		MENU_ITEM_FLAG_ACTIVE | Is_Checked(g_configuration.capture_include_gui), (t_menu_callback)Capture_MenuHandler_IncludeGui, NULL);
+	menus_ID.screenshots = menu_add_menu (menus_ID.video, Msg_Get(Msg_Menu_Video_ScreenCapture),	MENU_ITEM_FLAG_ACTIVE);
+	menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_Capture),		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Capture_MenuHandler_Capture, NULL);
+	menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_CaptureRepeat),	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Capture_MenuHandler_AllFrames, NULL);
+	menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_IncludeGui),			MENU_ITEM_FLAG_ACTIVE | Is_Checked(g_configuration.capture_include_gui), (t_menu_callback)Capture_MenuHandler_IncludeGui, NULL);
 	// VIDEO -> THEMES
     menus_ID.themes   = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Themes),     MENU_ITEM_FLAG_ACTIVE);
     Skins_MenuInit (menus_ID.themes);

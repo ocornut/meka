@@ -10,10 +10,10 @@
 ; History
 ;----------------------------------------	-------------------------------------
 ; MEKA 0.73  : Updated language: Dutch
-;              Added:            Msg_Menu_Video_Capture
-;                                Msg_Menu_Video_Capture_CaptureScreen
-;                                Msg_Menu_Video_Capture_CaptureScreenAll
-;                                Msg_Menu_Video_Capture_IncludeGUI
+;              Added:            Msg_Menu_Video_ScreenCapture
+;                                Msg_Menu_Video_ScreenCapture_Capture
+;                                Msg_Menu_Video_ScreenCapture_CaptureRepeat
+;                                Msg_Menu_Video_ScreenCapture_IncludeGUI
 ;              Updated:          Msg_Options_Capture_Crop_Align
 ;              Renamed:          Msg_Options_Capture_Automatic_Crop_Align -> Msg_Options_Capture_Crop_Align
 ;              Removed:          Msg_Menu_Video_Screens*
@@ -51,7 +51,6 @@
 ; Currently supporting:
 ;   English
 ;   French
-;   Redneck
 ;   Dutch
 ;   Spanish
 ;   Polski
@@ -489,17 +488,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumping will have to be restarte
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "MAIN"
-Msg_Menu_Main_LoadROM                   = "Load ROM"
+Msg_Menu_Main_LoadROM                   = "Load ROM.."
 Msg_Menu_Main_FreeROM                   = "Free ROM"
 Msg_Menu_Main_SaveState                 = "Save State"
 Msg_Menu_Main_LoadState                 = "Load State"
-Msg_Menu_Main_Options                   = "Options"
+Msg_Menu_Main_Options                   = "Options.."
 Msg_Menu_Main_Language                  = "Language"
 Msg_Menu_Main_Quit                      = "Quit"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Enabled"
+Msg_Menu_Debug_Enabled                  = "Enabled.."
 Msg_Menu_Debug_ReloadROM                = "Reload ROM"
 Msg_Menu_Debug_ReloadSymbols            = "Reload Symbols"
 Msg_Menu_Debug_Dump                     = "Dump"
@@ -509,14 +508,14 @@ Msg_Menu_Machine                        = "MACHINE"
 Msg_Menu_Machine_Power                  = "Power"
 Msg_Menu_Machine_Power_On               = "On"
 Msg_Menu_Machine_Power_Off              = "Off"
-Msg_Menu_Machine_Country                = "Country"
-Msg_Menu_Machine_Country_EU             = "European/US"
-Msg_Menu_Machine_Country_Jap            = "Japanese"
+Msg_Menu_Machine_Region                 = "Region"
+Msg_Menu_Machine_Region_Export          = "Europe/US"
+Msg_Menu_Machine_Region_Japan           = "Japan"
 Msg_Menu_Machine_TVType                 = "TV Type"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hard Pause"
-Msg_Menu_Machine_HardReset              = "Hard Reset"
+Msg_Menu_Machine_PauseEmulation         = "Pause Emulation"
+Msg_Menu_Machine_ResetEmulation         = "Reset Emulation"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -526,7 +525,7 @@ Msg_Menu_Video_Blitters                 = "Blitters"
 Msg_Menu_Video_Layers                   = "Layers"
 Msg_Menu_Video_Layers_Sprites           = "Sprites"
 Msg_Menu_Video_Layers_Background        = "Background"
-Msg_Menu_Video_Flickering               = "Flickering"
+Msg_Menu_Video_Flickering               = "Sprite Flickering"
 Msg_Menu_Video_Flickering_Auto          = "Auto"
 Msg_Menu_Video_Flickering_Yes           = "Yes"
 Msg_Menu_Video_Flickering_No            = "No"
@@ -536,10 +535,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Show both sides"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Show left side"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Show right side"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Uses Glasses on COM Port"
-Msg_Menu_Video_Capture                  = "Capture"
-Msg_Menu_Video_Capture_CaptureScreen    = "Capture Screen"
-Msg_Menu_Video_Capture_CaptureScreenAll = "Capture Screen (All)"
-Msg_Menu_Video_Capture_IncludeGUI       = "Include GUI"
+Msg_Menu_Video_ScreenCapture            = "Screen Capture"
+Msg_Menu_Video_ScreenCapture_Capture    = "Screen Capture"
+Msg_Menu_Video_ScreenCapture_CaptureRepeat = "Screen Capture (every frame)"
+Msg_Menu_Video_ScreenCapture_IncludeGUI = "Include GUI"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOUND"
@@ -572,26 +571,26 @@ Msg_Menu_Inputs_GraphicBoard            = "Graphic Board"
 Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
 Msg_Menu_Inputs_RapidFire               = "Rapid Fire"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Player %d Button %d"
-Msg_Menu_Inputs_Configuration           = "Configuration"
+Msg_Menu_Inputs_Configuration           = "Configuration.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "TOOLS"
-Msg_Menu_Tools_Messages                 = "Messages"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Tiles Viewer"
-Msg_Menu_Tools_TilemapViewer            = "Tilemap Viewer"
-Msg_Menu_Tools_CheatFinder              = "Cheat Finder"
-Msg_Menu_Tools_TechInfo                 = "Tech Info"
-Msg_Menu_Tools_MemoryEditor             = "Memory Editor"
+Msg_Menu_Tools_Messages                 = "Messages.."
+Msg_Menu_Tools_Palette                  = "Palette.."
+Msg_Menu_Tools_TilesViewer              = "Tiles Viewer.."
+Msg_Menu_Tools_TilemapViewer            = "Tilemap Viewer.."
+Msg_Menu_Tools_CheatFinder              = "Cheat Finder.."
+Msg_Menu_Tools_TechInfo                 = "Tech Info.."
+Msg_Menu_Tools_MemoryEditor             = "Memory Editor.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HELP"
-Msg_Menu_Help_Documentation             = "Documentation"
-Msg_Menu_Help_Compat                    = "Compatibility List"
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List"
-Msg_Menu_Help_Changes                   = "Changes List"
-Msg_Menu_Help_Debugger					= "Debugger"
-Msg_Menu_Help_About                     = "About"
+Msg_Menu_Help_Documentation             = "Documentation.."
+Msg_Menu_Help_Compat                    = "Compatibility List.."
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List.."
+Msg_Menu_Help_Changes                   = "Changes List.."
+Msg_Menu_Help_Debugger					= "Debugger.."
+Msg_Menu_Help_About                     = "About.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -976,17 +975,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(l'acquisition VGM devra être redém
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
-Msg_Menu_Main_LoadROM                   = "Charger ROM"
+Msg_Menu_Main_LoadROM                   = "Charger ROM.."
 Msg_Menu_Main_FreeROM                   = "Libérer ROM"
 Msg_Menu_Main_SaveState                 = "Sauver état"
 Msg_Menu_Main_LoadState                 = "Charger état"
-Msg_Menu_Main_Options                   = "Options"
+Msg_Menu_Main_Options                   = "Options.."
 Msg_Menu_Main_Language                  = "Langue"
 Msg_Menu_Main_Quit                      = "Quitter"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Activé"
+Msg_Menu_Debug_Enabled                  = "Activé.."
 Msg_Menu_Debug_Dump                     = "Acquisition"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -994,14 +993,14 @@ Msg_Menu_Machine                        = "MACHINE"
 Msg_Menu_Machine_Power                  = "Marche/Arrêt"
 Msg_Menu_Machine_Power_On               = "Allumer"
 Msg_Menu_Machine_Power_Off              = "Eteindre"
-Msg_Menu_Machine_Country                = "Pays"
-Msg_Menu_Machine_Country_EU             = "Européenne/US"
-Msg_Menu_Machine_Country_Jap            = "Japonaise"
+Msg_Menu_Machine_Region                 = "Région"
+Msg_Menu_Machine_Region_Export          = "Europe/US"
+Msg_Menu_Machine_Region_Japan           = "Japon"
 Msg_Menu_Machine_TVType                 = "Type de TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Pause hard"
-Msg_Menu_Machine_HardReset              = "Reset hard"
+Msg_Menu_Machine_PauseEmulation         = "Pause émulation"
+Msg_Menu_Machine_ResetEmulation         = "Reset émulation"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -1011,7 +1010,7 @@ Msg_Menu_Video_Blitters                 = "Paramètres"
 Msg_Menu_Video_Layers                   = "Plans"
 Msg_Menu_Video_Layers_Sprites           = "Sprites"
 Msg_Menu_Video_Layers_Background        = "Arrière plan"
-Msg_Menu_Video_Flickering               = "Clignotement"
+Msg_Menu_Video_Flickering               = "Clignotement des sprites"
 Msg_Menu_Video_Flickering_Auto          = "Automatique"
 Msg_Menu_Video_Flickering_Yes           = "Activé"
 Msg_Menu_Video_Flickering_No            = "Désactivé"
@@ -1021,10 +1020,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Activer les deux côtés"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Activer le côté gauche"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Activer le côté droit"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Lunettes sur le Port COM"
-Msg_Menu_Video_Capture                  = "Capture"
-Msg_Menu_Video_Capture_CaptureScreen    = "Capturer l'écran"
-Msg_Menu_Video_Capture_CaptureScreenAll = "Capturer l'écran (tous)"
-Msg_Menu_Video_Capture_IncludeGUI       = "Inclure l'interface"
+Msg_Menu_Video_ScreenCapture            = "Capture d'écrqn"
+Msg_Menu_Video_ScreenCapture_Capture    = "Capturer l'écran"
+Msg_Menu_Video_ScreenCapture_CaptureRepeat = "Capturer l'écran (tous)"
+Msg_Menu_Video_ScreenCapture_IncludeGUI    = "Inclure l'interface"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SON"
@@ -1057,481 +1056,23 @@ Msg_Menu_Inputs_GraphicBoard            = "Table Graphique"
 Msg_Menu_Inputs_SK1100                  = "Clavier Sega"
 Msg_Menu_Inputs_RapidFire               = "Tir Automatique"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Joueur %d Bouton %d"
-Msg_Menu_Inputs_Configuration           = "Configuration"
+Msg_Menu_Inputs_Configuration           = "Configuration.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "OUTILS"
-Msg_Menu_Tools_Messages                 = "Messages"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Visionneur de tiles"
-Msg_Menu_Tools_TechInfo                 = "Informations techniques"
-Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire"
+Msg_Menu_Tools_Messages                 = "Messages.."
+Msg_Menu_Tools_Palette                  = "Palette.."
+Msg_Menu_Tools_TilesViewer              = "Visionneur de tiles.."
+Msg_Menu_Tools_TechInfo                 = "Informations techniques.."
+Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AIDE"
-Msg_Menu_Help_Documentation             = "Documentation"
-Msg_Menu_Help_Compat                    = "Compatibilité"
-Msg_Menu_Help_Multiplayer_Games         = "Jeux Multijoueurs"
-Msg_Menu_Help_Changes                   = "Mises à jour"
-Msg_Menu_Help_About                     = "A propos"
-
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-[Redneck]
-WIP
-; Translation by the Dialectizer (http://www.rinkworks.com/dialect)
-; Maintainer: Maxim (maxim AT mwos.cjb.net)
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-;-----------------------------------------------------------------------------
-
-; Main -----------------------------------------------------------------------
-Msg_Welcome                             = "Welcome t'%s (c) %s"
-;Msg_Window_Title                        = "MEKA - 8-bit o' die!"
-Msg_Quit                                = "Good night, brave warrio'. Good night, monster-lan'...."
-
-; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "About Meka.."
-Msg_About_Line_Meka_Date                = "%s (c) %s"
-Msg_About_Line_Authors                  = "by %s"
-Msg_About_Line_Homepage                 = "%s"
-
-; Errors ---------------------------------------------------------------------
-Msg_Ok                                  = "Ok"
-Msg_Failed                              = "Failed! Fry mah hide!"
-Msg_Error_Base                          = "Erro': %s"
-Msg_Error_Error                         = "Fatal: erro' gittin' erro' type. Sumpin muss be wrong, acco'din' t' th' code o' th' heells!"
-Msg_Error_Memory                        = "Not inough memo'y! Fry mah hide!"
-Msg_Error_Param                         = "Pareemeter \"%s\" is invalid! Fry mah hide!\n"
-Msg_Error_Syntax                        = "Syntax erro'! Fry mah hide!"
-Msg_Error_Video_Mode_Back_To_GUI        = "Switchin' back t'graphical user interface."
-
-; Errors: Video --------------------------------------------------------------
-Msg_Error_Video_Mode                    = "Unable t'switch t'desuhed video mode (%dx%d)."
-
-; Errors: File ---------------------------------------------------------------
-Msg_Error_File_Not_Found                = "File not foun'! Fry mah hide!"
-Msg_Error_File_Read                     = "Unable t'read fum file!"
-Msg_Error_File_Empty                    = "File is emppy! Fry mah hide!"
-
-; Errors: ZIP File -----------------------------------------------------------
-Msg_Error_ZIP_Not_Supported             = "This hyar vahshun don't han'le ZIP files!"
-Msg_Error_ZIP_Loading                   = "Unable t'read ZIP file!"
-Msg_Error_ZIP_Internal                  = "Internal erro' while loadin' ZIP file!"
-
-; Errors: Directory ----------------------------------------------------------
-Msg_Error_Directory_Open                = "Erro' openin' direcko'y! Fry mah hide!"
-
-; Miscellaneous --------------------------------------------------------------
-Msg_Must_Reset                          = "Reset th' game fo' th' changes t'take effeck"
-Msg_No_ROM                              = "No ROM was loaded! Fry mah hide!"
-
-; Initialization -------------------------------------------------------------
-Msg_Init_Allegro                        = "Initializin' Allegro.."
-Msg_Init_GUI                            = "Initializin' graphical user interface.."
-Msg_Init_Completed                      = "[READY]"
-
-; Setup ----------------------------------------------------------------------
-Msg_Setup_Setup                         = "Setup"
-Msg_Setup_SampleRate_Select             = "Sample rate:"
-
-; Screenshots Capture --------------------------------------------------------
-Msg_Capture_Done                        = "Screen cappured t'%s"
-Msg_Capture_Error                       = "Unable t'create screen cappure!"
-Msg_Capture_Error_File                  = "Unable t'find valid filename t'save screen cappure!"
-
-; On-Board Memomy ------------------------------------------------------------
-Msg_SRAM_Loaded                         = "Loaded SaveRAM fum disk (%d Kb)"
-Msg_SRAM_Load_Unable                    = "Unable t'load SaveRAM fum disk"
-Msg_SRAM_Wrote                          = "Wrote SaveRAM t'disk (%d Kb)"
-Msg_SRAM_Write_Unable                   = "Unable t'write SaveRAM t'disk (%d Kb)"
-Msg_93c46_Reset                         = "Resettin' 93c46"
-Msg_93c46_Loaded                        = "Loaded 93c46 EEPROM data fum disk (%d bytes)"
-Msg_93c46_Load_Unable                   = "Unable t'load 93c46 EEPROM data fum disk"
-Msg_93c46_Wrote                         = "Wrote 93c46 EEPROM data t'disk (%d bytes)"
-Msg_93c46_Write_Unable                  = "Unable t'write 93c46 EEPROM data t'disk (%d bytes)"
-
-; TV Type --------------------------------------------------------------------
-Msg_TVType_Set                          = "TV Type is now %s"
-Msg_TVType_Info_Speed                   = "(Origeenal speed is %d Hz)"
-
-; Blitters -------------------------------------------------------------------
-Msg_Blitters_Loading                    = "Loadin' MEKA.BLT (video modes / blitters).. "
-Msg_Blitters_Error_Not_Enough           = "Not inough blitters foun'! Fry mah hide! Check MEKA.BLT file o' try re-installin'."
-Msg_Blitters_Error_Not_Found            = "Blitter not foun'! Fry mah hide!"
-Msg_Blitters_Error_Missing              = "On line %d: No blitter name defined fo' sto'in' value!"
-Msg_Blitters_Error_Unrecognized         = "On line %d: Unreckanized variable!"
-Msg_Blitters_Set                        = "Now usin' \"%s\" fullscreen blitter."
-
-; Naimo ----------------------------------------------------------------------
-Msg_NES_Activate                        = "Fat plumber mode ackivated"
-Msg_NES_Sucks                           = "Fatal erro': user likes Nintendo! Fry mah hide!"
-Msg_NES_Mapper_Unknown                  = "Unsuppo'ted Mapper: %d, cuss it all t' tarnation. Game sh'd not funckshun."
-Msg_NES_Deny_Facts                      = "Yo' kin deny facks."
-
-; Debugger -------------------------------------------------------------------
-Msg_Debug_Init                          = "Initializin' debugger.. "
-Msg_Debug_Welcome                       = "Welcome t'Meka Debugger! Fry mah hide!"
-Msg_Debug_Not_Available                 = "Debugger not available in this hyar vahshun! Fry mah hide!"
-Msg_Debug_Trap_Read                     = "At PC:%04X - Read fum %04X"
-Msg_Debug_Trap_Write                    = "At PC:%04X - Write %02X t'%04X"
-Msg_Debug_Trap_Port_Read                = "At PC:%04X - Po't [%02X] Read"
-Msg_Debug_Trap_Port_Write               = "At PC:%04X - Po't [%02X] Write %02X"
-
-; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Follerin' data dumps will be made in ASCIah mode."
-Msg_DataDump_Mode_Raw                   = "Follerin' data dumps will be made in Raw mode."
-Msg_DataDump_Error                      = "Erro' creatin' file t'dump %s!"
-Msg_DataDump_Error_OB_Memory            = "No on-board memo'y t'dump! Fry mah hide!"
-Msg_DataDump_Error_Palette              = "No palette t'dump! Fry mah hide!"
-Msg_DataDump_Error_Sprites              = "No sprites t'dump! Fry mah hide!"
-Msg_DataDump_Main                       = "Dumped %s (%d %s) in %s mode"
-
-; Docoomntashun --------------------------------------------------------------
-Msg_Doc_BoxTitle                        = "Docoomntashun"
-Msg_Doc_File_Error                      = "Unable t'open docoomntashun! Fry mah hide!"
-Msg_Doc_Enabled                         = "Docoomntashun showin' up."
-Msg_Doc_Disabled                        = "Docoomntashun is no mo'e."
-
-; Sprite Flickerin' ----------------------------------------------------------
-Msg_Flickering_Auto                     = "Sprite flickerin' will be han'led autymatically."
-Msg_Flickering_Yes                      = "Sprite flickerin' emulashun is now inabled, cuss it all t' tarnation."
-Msg_Flickering_No                       = "Sprite flickerin' emulashun is now disabled, cuss it all t' tarnation."
-
-; Layers ---------------------------------------------------------------------
-Msg_Layer_BG_Disabled                   = "Backgroun' refresh disabled"
-Msg_Layer_BG_Enabled                    = "Backgroun' refresh inabled"
-Msg_Layer_Spr_Disabled                  = "Sprites refresh disabled"
-Msg_Layer_Spr_Enabled                   = "Sprites refresh inabled"
-
-; Floppy Disk (FDC-765) ------------------------------------------------------
-Msg_FDC765_Unknown_Read                 = "FDC765: Unknown disk read comman' %3i"
-Msg_FDC765_Unknown_Write                = "FDC765: Unknown disk write comman' %3i"
-Msg_FDC765_Disk_Too_Large1              = "Disk Image is larger than specked (%i > %i)"
-Msg_FDC765_Disk_Too_Large2              = "Addishunal data will be igno'ed"
-Msg_FDC765_Disk_Too_Small1              = "Disk Image is smaller than specked (%i < %i)"
-Msg_FDC765_Disk_Too_Small2              = "Missin' data will be assoomd as emppy"
-
-; Terebi Oekaki (Graphic Board) ----------------------------------------------
-Msg_TVOekaki_Pen_Touch                  = "Pen is touchin' graphic board"
-Msg_TVOekaki_Pen_Away                   = "Pen is not touchin' graphic board"
-
-; Palette Viewer -------------------------------------------------------------
-Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Palette viewer disabled"
-Msg_Palette_Enabled                     = "Palette viewer inabled"
-
-; Message box ----------------------------------------------------------------
-Msg_Message_BoxTitle                    = "Messages"
-Msg_Message_Disabled                    = "Message box disabled"
-Msg_Message_Enabled                     = "Message box inabled"
-
-; Technical Info'mashun box --------------------------------------------------
-Msg_TechInfo_BoxTitle                   = "Technical Info'mashun"
-Msg_TechInfo_Disabled                   = "Technical info'mashun box disabled"
-Msg_TechInfo_Enabled                    = "Technical info'mashun box inabled"
-
-; Tile Viewer ----------------------------------------------------------------
-Msg_TilesViewer_BoxTitle                = "Tiles Viewer"
-Msg_TilesViewer_Disabled                = "Tiles viewer disabled"
-Msg_TilesViewer_Enabled                 = "Tiles viewer inabled"
-Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
-
-; Rapid Fire -----------------------------------------------------------------
-Msg_RapidFire_JxBx_On                   = "Rapid Fire is now ackivated fo' Player %d Button %d"
-Msg_RapidFire_JxBx_Off                  = "Rapid Fire is now disabled fo' Player %d Button %d"
-
-; FM Unit (YM-2413 gritset) --------------------------------------------------
-Msg_FM_Enabled                          = "FM Unit (YM-2413 gritset) emulashun inabled"
-Msg_FM_Disabled                         = "FM Unit (YM-2413 gritset) emulashun disabled"
-
-; Country --------------------------------------------------------------------
-Msg_Country_European_US                 = "Emulated machine is now European/US"
-Msg_Country_JAP                         = "Emulated machine is now Japanese"
-
-; Patchin' System ------------------------------------------------------------
-Msg_Patch_Loading                       = "Loadin' MEKA.PAT (patches).. "
-Msg_Patch_Missing                       = "On line %d: No checksum defined t'apply comman' to! Fry mah hide!"
-Msg_Patch_Unrecognized                  = "On line %d: Syntax erro' o' unreckanized comman'! Fry mah hide!"
-Msg_Patch_Value_Not_a_Byte              = "On line %d: Value %s does not fit into an unsigned byte!"
-Msg_Patch_Out_of_Bound                  = "While patchin' %s: address $%04X is outta boun'aries. Patch not applied, cuss it all t' tarnation."
-
-; 3-D Glasses ----------------------------------------------------------------
-Msg_Glasses_Enabled                     = "3-D Glasses emulashun inabled"
-Msg_Glasses_Disabled                    = "3-D Glasses emulashun disabled"
-Msg_Glasses_Show_Both                   = "3-D effeck kepp as is."
-Msg_Glasses_Show_Left                   = "3-D effeck disabled by showin' only lef' side."
-Msg_Glasses_Show_Right                  = "3-D effeck disabled by showin' only right side."
-Msg_Glasses_Com_Port                    = "3-D Glasses emulashun inabled through COM Po't %d, cuss it all t' tarnation."
-Msg_Glasses_Com_Port2                   = "(edit MEKA.CFG t'change th' Communicashun Po't)"
-Msg_Glasses_Com_Port_Open_Error		    = "Error openin' COM po't %d, cuss it all t' tarnation. 3-D Glasses suppo't will not funckshun."
-Msg_Glasses_Unsupported                 = "3-D Glasses seems t'be not suppo'ted by this hyar game."
-
-; Inputs Initializashun ------------------------------------------------------
-Msg_Inputs_Joy_Init                     = "Initializin' joystick. Shet mah mouth!. "
-Msg_Inputs_Joy_Init_None                = "none foun'."
-Msg_Inputs_Joy_Init_Found               = "%d foun'."
-Msg_Inputs_Joy_Calibrate_Error          = "Erro' calibratin' joystick. Shet mah mouth! Abo'tin'."
-
-; Inputs ---------------------------------------------------------------------
-Msg_Inputs_Joypad                       = "Input peripheral: Joypad"
-Msg_Inputs_LightPhaser                  = "Input peripheral: Light Phaser"
-Msg_Inputs_PaddleControl                = "Input peripheral: Paddle Control"
-Msg_Inputs_SportsPad                    = "Input peripheral: Spo'ts Pad"
-Msg_Inputs_TVOekaki                     = "Input peripheral: TV Oekaki Graphic Board"
-Msg_Inputs_Play_Digital                 = "Control wif digital input device"
-Msg_Inputs_Play_Mouse                   = "Control wif analog input device (mouse)"
-Msg_Inputs_Play_Pen                     = "Control pen wif mouse\nRight-click simulates removin' th' pen fum th' board"
-Msg_Inputs_Play_Digital_Unrecommended   = "A digital input device (eg: keyboard) is suppo'ted but NOT recommended"
-
-; Inputs Configuration -------------------------------------------------------
-Msg_Inputs_Config_BoxTitle              = "Input Configurashun"
-
-; Inputs Sources -------------------------------------------------------------
-Msg_Inputs_Src_Loading                  = "Loadin' MEKA.INP (inputs sources definishun).. "
-Msg_Inputs_Src_Not_Enough               = "Not inough inputs sources foun'! Fry mah hide! Check MEKA.INP file o' try re-installin'."
-Msg_Inputs_Src_Missing                  = "On line %d: No input source defined fo' sto'in' value!"
-Msg_Inputs_Src_Equal                    = "On line %d: Missin' equal sign fo' variable assignment! Fry mah hide!"
-Msg_Inputs_Src_Unrecognized             = "On line %d: Unreckanized variable \"%s\"! Fry mah hide!"
-Msg_Inputs_Src_Syntax_Param             = "On line %d: Syntax erro' on variable pareemeter! Fry mah hide!"
-Msg_Inputs_Src_Inconsistency            = "On line %d: Incoharncy wif previous settin's!"
-Msg_Inputs_Src_Map_Keyboard             = "Now press th' key yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Keyboard_Ok          = "Ackshun assigned t'key \"%s\"."
-Msg_Inputs_Src_Map_Joypad               = "Now press th' button/axis yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Joypad_Ok_A          = "Ackshun assigned t'joypad stick %i, axis %i, %c."
-Msg_Inputs_Src_Map_Joypad_Ok_B          = "Ackshun assigned t'joypad button %i."
-Msg_Inputs_Src_Map_Mouse                = "Now press th' button yer hankerin' t'assign t'this ackshun"
-Msg_Inputs_Src_Map_Mouse_Ok_B           = "Ackshun assigned t'mouse button %i."
-Msg_Inputs_Src_Map_Mouse_No_A           = "So'ry - Mouse axis kinnot be changed"
-Msg_Inputs_Src_Map_Cancelled            = "Assignment kincelled! Fry mah hide!"
-
-; Machine --------------------------------------------------------------------
-Msg_Machine_Pause                       = "Machine emulashun paused"
-Msg_Machine_Resume                      = "Machine emulashun resoomd"
-Msg_Machine_Reset                       = "Machine reseted"
-
-; Virtual File Names ---------------------------------------------------------
-;Msg_VFN_Loading                         = "Loadin' MEKA.VFN (virtual file names).. "
-
-; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Loadin' MEKA.NAM (games names).. "
-Msg_DB_Name_Default                     = "Game Screen"
-Msg_DB_Name_NoCartridge                 = "No Cartridge"
-Msg_DB_SyntaxError                      = "On line %d: Syntax erro'! Fry mah hide!"
-
-; Configurashun File ---------------------------------------------------------
-Msg_Config_Loading                      = "Loadin' %s (configurashun).. "
-
-; Datafile -------------------------------------------------------------------
-Msg_Datafile_Loading                    = "Loadin' MEKA.DAT (resources).. "
-
-; Drivahs --------------------------------------------------------------------
-Msg_Driver_Unknown                      = "Fatal: Unknown Machine Drivah! Fry mah hide!"
-
-; On overdump deteckshun -----------------------------------------------------
-Msg_OverDump                            = "This hyar ROM corntains %d times th' necessary data.\nPlease download SMS Checker t'clean it (http://www.smspower.org/maxim/smschecker/)."
-
-; Soun' ----------------------------------------------------------------------
-Msg_Sound_Init                          = "Initializin' soun' system, dawgone it.."
-Msg_Sound_Init_Error_Audio              = " - Erro' openin' Audio system, dawgone it. Try a diffrunt card an'/o' sample rate."
-Msg_Sound_Init_Error_Blaster            = " - BLASTER variable not foun', disablin' FM soun'! Fry mah hide!"
-Msg_Sound_Init_Error_Blaster_A          = " - BLASTER variable does not corntain address (A=xxx), disablin' FM soun'! Fry mah hide!"
-Msg_Sound_Init_Error_Voices             = " - Voices initializashun failed, cuss it all t' tarnation."
-Msg_Sound_Init_Error_Voice_N            = " - Voice #%d creashun failed, cuss it all t' tarnation."
-Msg_Sound_Init_Soundcard                = " - Initializin' soun' card @ %d Hz, cuss it all t' tarnation.."
-Msg_Sound_Init_Soundcard_No             = "Cain't initialize audio: no soun' card selecked! Fry mah hide!"
-Msg_Sound_Volume_Changed                = "Voloom changed t'%d%%."
-Msg_Sound_Stream_Error                  = "Soun' buffer stop. Restartin' stream, dawgone it."
-Msg_Sound_Init_SN76496                  = " - SN76496 digital emulato':"
-Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulato':"
-
-; Theme ----------------------------------------------------------------------
-Msg_Theme_Loading                       = "Loadin' MEKA.THM (interface themes).. "
-Msg_Theme_Error_Not_Enough              = "Not inough themes foun'! Fry mah hide! Check MEKA.THM file o' try re-installin'."
-Msg_Theme_Error_Missing_Theme_Name      = "On line %d: No theme name defined fo' sto'in' value!"
-Msg_Theme_Error_BG_Big                  = "Backgroun' pitcher t'small t'fit wif integer scalin'! Fry mah hide!"
-Msg_Theme_Error_BG                      = "Erro' loadin' pitcher assosheeated wif theme!"
-Msg_Theme_Error_BG_FileName             = "(%s)"
-
-; Loadin' ROM / Disk ---------------------------------------------------------
-Msg_LoadROM_Loading                     = "Loadin' ROM.. "
-Msg_LoadROM_Success                     = "Successfully loaded %s"
-Msg_LoadDisk_Success                    = "Successfully loaded %s as a floppy disk"
-Msg_LoadROM_Comment                     = "Comment: %s"
-Msg_LoadROM_Warning                     = "-Warnin'-"
-Msg_LoadROM_Bad_Dump_Long               = "This hyar ROM is known as bein' a bad dump.\nChances is thet it will not funckshun proper. Please download SMS Checker t'check it (http://www.smspower.org/maxim/smschecker/)."
-Msg_LoadROM_SMSGG_Mode_Comment          = "This hyar is a Game Gear ROM runnin' in Master System compatibility mode."
-Msg_LoadROM_Bad_Dump_Short              = "Warnin' - This hyar ROM is known as bein' a bad dump."
-Msg_LoadROM_Product_Num                 = "Produck Number: %s"
-Msg_LoadROM_SDSC                        = "-SDSC Header-"
-Msg_LoadROM_SDSC_Name                   = "Name: %s"
-Msg_LoadROM_SDSC_Version                = "Vershun: %d.%02d"
-Msg_LoadROM_SDSC_Date                   = "Date: %04d.%02d.%02d"
-Msg_LoadROM_SDSC_Author                 = "Autho': %s"
-Msg_LoadROM_SDSC_Release_Note           = "Release Note: %s"
-Msg_LoadROM_SDSC_Unknown                = "<Unknown>"
-Msg_LoadROM_SDSC_Error                  = "<Erro'>"
-
-; File Browser ---------------------------------------------------------------
-Msg_FileBrowser_BoxTitle                = "Load ROM"
-Msg_FileBrowser_Drive                   = "[Drive %c]"
-Msg_FileBrowser_Load                    = "Load"
-Msg_FileBrowser_Close                   = "Close"
-Msg_FileBrowser_LoadNames               = "Load Names"
-Msg_FileBrowser_ReloadDir               = "Reload Dir"
-
-; FM Instruments Editor ------------------------------------------------------
-Msg_FM_Editor_BoxTitle                  = "FM Instroomnts Edito'"
-Msg_FM_Editor_Enabled                   = "FM Voice Edito' inabled"
-Msg_FM_Editor_Disabled                  = "FM Voice Edito' disabled"
-
-; Video Options --------------------------------------------------------------
-Msg_Frameskip_Auto                      = "Frameskip value set to: Automatic (%d Hz)"
-Msg_Frameskip_Standard                  = "Frameskip value set to: 1/%d"
-Msg_FPS_Counter_Enabled                 = "FPS counter inabled"
-Msg_FPS_Counter_Disabled                = "FPS counter disabled"
-
-; Logging --------------------------------------------------------------------
-Msg_Log_Need_Param                      = "LOG opshun needs a filename!"
-Msg_Log_Session_Start                   = "-- Loggin' sesshun started on %s"
-
-; Save States ----------------------------------------------------------------
-Msg_Load_Need_Param                     = "LOAD opshun needs a savestate number! Fry mah hide!"
-Msg_Load_Error                          = "Erro' openin' %s!"
-Msg_Load_Not_Valid                      = "File %s is not a valid %s savegame!"
-Msg_Load_Success                        = "State loaded fum %s"
-Msg_Load_Version                        = "%s is an unsuppo'ted savegame vahshun! Fry mah hide!"
-Msg_Load_Wrong_System                   = "%s is not a savegame fo' this hyar system! Fry mah hide!"
-Msg_Load_Massage                        = "File is in MSD fo'mat - cornvahtin'"
-Msg_Save_Not_in_BIOS                    = "Cain't save while runnin' BIOS! Fry mah hide!"
-Msg_Save_Error                          = "Erro' writin' t'%s!"
-Msg_Save_Success                        = "State saved t'%s"
-Msg_Save_Slot                           = "Current savegame slot is: %d"
-
-; Options --------------------------------------------------------------------
-Msg_Options_BoxTitle                    = "Opshuns"
-Msg_Options_Close                       = "Close"
-Msg_Options_Load_Close                  = "Close file browser af'er loadin' a game."
-Msg_Options_Load_FullScreen             = "Switch t'fullscreen mode af'er loadin' a game."
-Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
-Msg_Options_GUI_VSync                   = "Wait fo' VSync in interface mode."
-Msg_Options_NES_Enable                  = "Mario is a not fat plumber."
-Msg_Options_BIOS_Enable                 = "Display BIOS logo."
-Msg_Options_Bright_Palette              = "Enable bright palette on SMS an' GG."
-Msg_Options_DB_Display                  = "Display names, flags an' icons fum database."
-Msg_Options_Product_Number              = "Display produck number fum database."
-
-; Languages / Localization ---------------------------------------------------
-Msg_Language_Set                        = "Language set t'%s"
-Msg_Language_Set_Warning                = "Note: it is advised t'restart MEKA fo' all text t'update"
-
-; Sound Dumping --------------------------------------------------------------
-Msg_Sound_Dumping_Start                 = "Started dumpin' soun' output t'%s"
-Msg_Sound_Dumping_Stop                  = "Stopped dumpin' soun' output (%2.02f seconds logged)"
-Msg_Sound_Dumping_Error_File_1          = "Unable t'find a valid filename t'dump soun' output! Fry mah hide!"
-Msg_Sound_Dumping_Error_File_2          = "Erro' openin' output file %s fo' dumpin'! Fry mah hide!"
-Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumps will now be frame accurate (smaller files, skip voices)"
-Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumps will now be sample accurate (mo' trimenjus files, dump voices)"
-Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpin' will hafta be restarted t'take account of noo accuracy)"
-
-; Menu: Main -----------------------------------------------------------------
-Msg_Menu_Main                           = "MAIN"
-Msg_Menu_Main_LoadROM                   = "Load ROM"
-Msg_Menu_Main_FreeROM                   = "Free ROM"
-Msg_Menu_Main_SaveState                 = "Save State"
-Msg_Menu_Main_LoadState                 = "Load State"
-Msg_Menu_Main_Options                   = "Opshuns"
-Msg_Menu_Main_Language                  = "Language"
-Msg_Menu_Main_Quit                      = "Quit"
-
-; Menu: Debug ----------------------------------------------------------------
-Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Dump                     = "Dump"
-Msg_Menu_Debug_Enabled                  = "Enabled"
-
-; Menu: Machine --------------------------------------------------------------
-Msg_Menu_Machine                        = "MACHINE"
-Msg_Menu_Machine_Power                  = "Power"
-Msg_Menu_Machine_Power_On               = "On"
-Msg_Menu_Machine_Power_Off              = "Off"
-Msg_Menu_Machine_Country                = "Country"
-Msg_Menu_Machine_Country_EU             = "European/US"
-Msg_Menu_Machine_Country_Jap            = "Japanese"
-Msg_Menu_Machine_TVType                 = "TV Type"
-Msg_Menu_Machine_TVType_NTSC            = "NTSC"
-Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hard Pause"
-Msg_Menu_Machine_HardReset              = "Hard Reset"
-
-; Menu: Video ----------------------------------------------------------------
-Msg_Menu_Video                          = "VIDEO"
-Msg_Menu_Video_FullScreen               = "Fullscreen"
-Msg_Menu_Video_Themes                   = "Themes"
-Msg_Menu_Video_Blitters                 = "Blitters"
-Msg_Menu_Video_Layers                   = "Layers"
-Msg_Menu_Video_Layers_Sprites           = "Sprites"
-Msg_Menu_Video_Layers_Background        = "Backgroun'"
-Msg_Menu_Video_Flickering               = "Flickerin'"
-Msg_Menu_Video_Flickering_Auto          = "Auto"
-Msg_Menu_Video_Flickering_Yes           = "Yessuh"
-Msg_Menu_Video_Flickering_No            = "No"
-Msg_Menu_Video_3DGlasses                = "3-D Glasses"
-Msg_Menu_Video_3DGlasses_Enabled        = "Enabled"
-Msg_Menu_Video_3DGlasses_ShowBothSides  = "Show both sides"
-Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Show lef' side"
-Msg_Menu_Video_3DGlasses_ShowRightSide  = "Show right side"
-Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Uses Glasses on COM Po't"
-
-; Menu: Sound ----------------------------------------------------------------
-Msg_Menu_Sound                          = "SOUN'"
-Msg_Menu_Sound_FM                       = "FM Unit"
-Msg_Menu_Sound_FM_Enabled               = "Inabled"
-Msg_Menu_Sound_FM_Disabled              = "Disabled"
-Msg_Menu_Sound_FM_Editor                = "Instroomnts Edito'"
-Msg_Menu_Sound_Volume                   = "Voloom"
-Msg_Menu_Sound_Volume_Mute              = "Mute"
-Msg_Menu_Sound_Volume_Value             = "%d%%"
-Msg_Menu_Sound_Rate                     = "Rate"
-Msg_Menu_Sound_Rate_Hz                  = "%d Hz"
-Msg_Menu_Sound_Channels                 = "Channels"
-Msg_Menu_Sound_Channels_Tone            = "Tone %d"
-Msg_Menu_Sound_Channels_Noises          = "Noises"
-Msg_Menu_Sound_Dump                     = "Dump"
-Msg_Menu_Sound_Dump_WAV_Start           = "WAV Start"
-Msg_Menu_Sound_Dump_WAV_Stop            = "WAV Stop"
-Msg_Menu_Sound_Dump_VGM_Start           = "VGM Start"
-Msg_Menu_Sound_Dump_VGM_Stop            = "VGM Stop"
-Msg_Menu_Sound_Dump_VGM_SampleAccurate  = "VGM Sample Accurate"
-
-; Menu: Inputs ---------------------------------------------------------------
-Msg_Menu_Inputs                         = "INPUTS"
-Msg_Menu_Inputs_Joypad                  = "Joypad"
-Msg_Menu_Inputs_LightPhaser             = "Light Phaser"
-Msg_Menu_Inputs_PaddleControl           = "Paddle Control"
-Msg_Menu_Inputs_SportsPad               = "Spo'ts Pad"
-Msg_Menu_Inputs_GraphicBoard            = "Graphic Board"
-Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
-Msg_Menu_Inputs_RapidFire               = "Rapid Fire"
-Msg_Menu_Inputs_RapidFire_PxBx          = "Player %d Button %d"
-Msg_Menu_Inputs_Configuration           = "Configurashun"
-
-; Menu: Tools ----------------------------------------------------------------
-Msg_Menu_Tools                          = "TOOLS"
-Msg_Menu_Tools_Messages                 = "Messages"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Tiles Viewer"
-Msg_Menu_Tools_TechInfo                 = "Tech Info"
-
-; Menu: Help -----------------------------------------------------------------
-Msg_Menu_Help                           = "HE'P"
-Msg_Menu_Help_Documentation             = "He'p"
-Msg_Menu_Help_About                     = "About"
-Msg_Menu_Help_Compat                    = "Compatibility List"
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List"
-Msg_Menu_Help_Changes                   = "Changes List"
-
-
+Msg_Menu_Help_Documentation             = "Documentation.."
+Msg_Menu_Help_Compat                    = "Compatibilité.."
+Msg_Menu_Help_Multiplayer_Games         = "Jeux Multijoueurs.."
+Msg_Menu_Help_Changes                   = "Mises à jour.."
+Msg_Menu_Help_About                     = "A propos.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -1927,17 +1468,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpen moet opnieuw opgestart wo
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "BESTAND"
-Msg_Menu_Main_LoadROM                   = "Laad ROM"
+Msg_Menu_Main_LoadROM                   = "Laad ROM.."
 Msg_Menu_Main_FreeROM                   = "Haal ROM eruit"
 Msg_Menu_Main_SaveState                 = "Status opslaan"
 Msg_Menu_Main_LoadState                 = "Status laden"
-Msg_Menu_Main_Options                   = "Opties"
+Msg_Menu_Main_Options                   = "Opties.."
 Msg_Menu_Main_Language                  = "Taal"
 Msg_Menu_Main_Quit                      = "Stoppen"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Ingeschakeld"
+Msg_Menu_Debug_Enabled                  = "Ingeschakeld.."
 Msg_Menu_Debug_ReloadROM                = "Herlaad ROM"
 Msg_Menu_Debug_Dump                     = "Opslaan"
 
@@ -1946,14 +1487,14 @@ Msg_Menu_Machine                        = "MACHINE"
 Msg_Menu_Machine_Power                  = "Power"
 Msg_Menu_Machine_Power_On               = "Aan"
 Msg_Menu_Machine_Power_Off              = "Uit"
-Msg_Menu_Machine_Country                = "Land"
-Msg_Menu_Machine_Country_EU             = "Europees/US"
-Msg_Menu_Machine_Country_Jap            = "Japans"
+Msg_Menu_Machine_Region                 = "Land"
+Msg_Menu_Machine_Region_Export          = "Europees/US"
+Msg_Menu_Machine_Region_Japan           = "Japans"
 Msg_Menu_Machine_TVType                 = "TV Type"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Harde Pause"
-Msg_Menu_Machine_HardReset              = "Harde Reset"
+;Msg_Menu_Machine_PauseEmulation         = "Harde Pause"
+;Msg_Menu_Machine_ResetEmulation         = "Harde Reset"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -1963,7 +1504,7 @@ Msg_Menu_Video_Blitters                 = "Blitters"
 Msg_Menu_Video_Layers                   = "Lagen"
 Msg_Menu_Video_Layers_Sprites           = "Sprites"
 Msg_Menu_Video_Layers_Background        = "Achtergrond"
-Msg_Menu_Video_Flickering               = "Flikkeren"
+Msg_Menu_Video_Flickering               = "Sprite flikkeren"
 Msg_Menu_Video_Flickering_Auto          = "Automatisch"
 Msg_Menu_Video_Flickering_Yes           = "Ja"
 Msg_Menu_Video_Flickering_No            = "Nee"
@@ -1973,10 +1514,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Laat beide kanten zien"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Laat linkerkant zien"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Laat rechterkant zien"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Gebruik bril op COM Poort"
-Msg_Menu_Video_Capture                  = "Opnemen"
-Msg_Menu_Video_Capture_CaptureScreen    = "Scherm opnemen"
-Msg_Menu_Video_Capture_CaptureScreenAll = "Scherm opnemen (Alle)"
-Msg_Menu_Video_Capture_IncludeGUI       = "GUI Meenemen in opname"
+Msg_Menu_Video_ScreenCapture                  = "Opnemen"
+Msg_Menu_Video_ScreenCapture_Capture    = "Scherm opnemen"
+Msg_Menu_Video_ScreenCapture_CaptureRepeat = "Scherm opnemen (Alle)"
+Msg_Menu_Video_ScreenCapture_IncludeGUI       = "GUI Meenemen in opname"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "GELUID"
@@ -2009,26 +1550,26 @@ Msg_Menu_Inputs_GraphicBoard            = "Teken tablet"
 Msg_Menu_Inputs_SK1100                  = "Sega Toetsenbord"
 Msg_Menu_Inputs_RapidFire               = "Snel vuren"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Speler %d Knop %d"
-Msg_Menu_Inputs_Configuration           = "Configuratie"
+Msg_Menu_Inputs_Configuration           = "Configuratie.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "WERKSET"
-Msg_Menu_Tools_Messages                 = "Berichten"
-Msg_Menu_Tools_Palette                  = "Kleuren Palet"
-Msg_Menu_Tools_TilesViewer              = "Tegel bekijker"
-Msg_Menu_Tools_TilemapViewer            = "Tegelkaart Viewer"
-Msg_Menu_Tools_CheatFinder              = "Cheat Finder"
-Msg_Menu_Tools_TechInfo                 = "Technische Info"
-Msg_Menu_Tools_MemoryEditor             = "Geheugen Editor"
+Msg_Menu_Tools_Messages                 = "Berichten.."
+Msg_Menu_Tools_Palette                  = "Kleuren Palet.."
+Msg_Menu_Tools_TilesViewer              = "Tegel bekijker.."
+Msg_Menu_Tools_TilemapViewer            = "Tegelkaart Viewerv
+Msg_Menu_Tools_CheatFinder              = "Cheat Finder.."
+Msg_Menu_Tools_TechInfo                 = "Technische Info.."
+Msg_Menu_Tools_MemoryEditor             = "Geheugen Editor.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HELP"
-Msg_Menu_Help_Documentation             = "Documentatie"
-Msg_Menu_Help_Compat                    = "Compatibiliteits lijst"
-Msg_Menu_Help_Multiplayer_Games         = "Mp spellen lijst"
-Msg_Menu_Help_Changes                   = "Veranderingen"
-Msg_Menu_Help_Debugger					= "Debugger"
-Msg_Menu_Help_About                     = "Over"
+Msg_Menu_Help_Documentation             = "Documentatie.."
+Msg_Menu_Help_Compat                    = "Compatibiliteits lijst.."
+Msg_Menu_Help_Multiplayer_Games         = "Mp spellen lijst.."
+Msg_Menu_Help_Changes                   = "Veranderingen.."
+Msg_Menu_Help_Debugger					= "Debugger.."
+Msg_Menu_Help_About                     = "Over.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2382,11 +1923,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(El dumpeo VGM tendrá que reempezar 
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
-Msg_Menu_Main_LoadROM                   = "Cargar ROM"
+Msg_Menu_Main_LoadROM                   = "Cargar ROM.."
 Msg_Menu_Main_FreeROM                   = "Liberar ROM"
 Msg_Menu_Main_SaveState                 = "Salvar estado"
 Msg_Menu_Main_LoadState                 = "Cargar estado"
-Msg_Menu_Main_Options                   = "Opciones"
+Msg_Menu_Main_Options                   = "Opciones.."
 Msg_Menu_Main_Language                  = "Idioma"
 Msg_Menu_Main_Quit                      = "Salir"
 
@@ -2399,14 +1940,14 @@ Msg_Menu_Machine                        = "MAQUINA"
 Msg_Menu_Machine_Power                  = "Power"
 Msg_Menu_Machine_Power_On               = "On"
 Msg_Menu_Machine_Power_Off              = "Off"
-Msg_Menu_Machine_Country                = "Pais"
-Msg_Menu_Machine_Country_EU             = "Europeo/USA"
-Msg_Menu_Machine_Country_Jap            = "Japonés"
+Msg_Menu_Machine_Region                 = "Pais"
+Msg_Menu_Machine_Region_Export          = "Europeo/USA"
+Msg_Menu_Machine_Region_Japan           = "Japonés"
 Msg_Menu_Machine_TVType                 = "Tipo TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Pausa dura"
-Msg_Menu_Machine_HardReset              = "Reset duro"
+;Msg_Menu_Machine_PauseEmulation         = "Pausa dura"
+;Msg_Menu_Machine_ResetEmulation         = "Reset duro"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -2416,7 +1957,7 @@ Msg_Menu_Video_Blitters                 = "Blitters"
 Msg_Menu_Video_Layers                   = "Capas"
 Msg_Menu_Video_Layers_Sprites           = "Sprites"
 Msg_Menu_Video_Layers_Background        = "Fondo"
-Msg_Menu_Video_Flickering               = "Flickering"
+Msg_Menu_Video_Flickering               = "Sprite flickering"
 Msg_Menu_Video_Flickering_Auto          = "Auto"
 Msg_Menu_Video_Flickering_Yes           = "Si"
 Msg_Menu_Video_Flickering_No            = "No"
@@ -2458,22 +1999,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Tableta gráfica"
 Msg_Menu_Inputs_SK1100                  = "TEclado Sega"
 Msg_Menu_Inputs_RapidFire               = "Fuego rápido"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Jugador %d Botón %d"
-Msg_Menu_Inputs_Configuration           = "Configuración"
+Msg_Menu_Inputs_Configuration           = "Configuración.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "UTILES"
-Msg_Menu_Tools_Messages                 = "Mensajes"
-Msg_Menu_Tools_Palette                  = "Paletas"
-Msg_Menu_Tools_TilesViewer              = "Visor de Retales"
-Msg_Menu_Tools_TechInfo                 = "Tech Info"
+Msg_Menu_Tools_Messages                 = "Mensajes.."
+Msg_Menu_Tools_Palette                  = "Paletas.."
+Msg_Menu_Tools_TilesViewer              = "Visor de Retales.."
+Msg_Menu_Tools_TechInfo                 = "Tech Info.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AYUDA"
-Msg_Menu_Help_Documentation             = "Documentación"
-Msg_Menu_Help_Compat                    = "Lista de compatibilidad"
-Msg_Menu_Help_Multiplayer_Games         = "Lista de juegos multijugador"
-Msg_Menu_Help_Changes                   = "Lista de cambios"
-Msg_Menu_Help_About                     = "Acerca de"
+Msg_Menu_Help_Documentation             = "Documentación.."
+Msg_Menu_Help_Compat                    = "Lista de compatibilidad.."
+Msg_Menu_Help_Multiplayer_Games         = "Lista de juegos multijugador.."
+Msg_Menu_Help_Changes                   = "Lista de cambios.."
+Msg_Menu_Help_About                     = "Acerca de.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2865,17 +2406,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(By zastosowac nowy tryb dokladnosci 
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "GLOWNE"
-Msg_Menu_Main_LoadROM                   = "Wczytaj ROM"
+Msg_Menu_Main_LoadROM                   = "Wczytaj ROM.."
 Msg_Menu_Main_FreeROM                   = "Wyladuj ROM"
 Msg_Menu_Main_SaveState                 = "Zapisz stan"
 Msg_Menu_Main_LoadState                 = "Wczytaj stan"
-Msg_Menu_Main_Options                   = "Opcje"
+Msg_Menu_Main_Options                   = "Opcje.."
 Msg_Menu_Main_Language                  = "Jezyk"
 Msg_Menu_Main_Quit                      = "Wyjscie"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Wlaczony"
+Msg_Menu_Debug_Enabled                  = "Wlaczony.."
 Msg_Menu_Debug_ReloadROM                = "Ponownie wczytaj ROM"
 Msg_Menu_Debug_Dump                     = "Zrzut"
 
@@ -2884,14 +2425,14 @@ Msg_Menu_Machine                        = "MASZYNA"
 Msg_Menu_Machine_Power                  = "Zasilanie"
 Msg_Menu_Machine_Power_On               = "Wl"
 Msg_Menu_Machine_Power_Off              = "Wyl"
-Msg_Menu_Machine_Country                = "Region"
-Msg_Menu_Machine_Country_EU             = "Europa/USA"
-Msg_Menu_Machine_Country_Jap            = "Japonia"
+Msg_Menu_Machine_Region                 = "Region"
+Msg_Menu_Machine_Region_Export          = "Europa/USA"
+Msg_Menu_Machine_Region_Japan           = "Japonia"
 Msg_Menu_Machine_TVType                 = "Typ TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Twarda pauza"
-Msg_Menu_Machine_HardReset              = "Twardy reset"
+;Msg_Menu_Machine_PauseEmulation         = "Twarda pauza"
+;Msg_Menu_Machine_ResetEmulation         = "Twardy reset"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "WIDEO"
@@ -2901,7 +2442,7 @@ Msg_Menu_Video_Blitters                 = "Blittery"
 Msg_Menu_Video_Layers                   = "Warstwy"
 Msg_Menu_Video_Layers_Sprites           = "Duszki"
 Msg_Menu_Video_Layers_Background        = "Tlo"
-Msg_Menu_Video_Flickering               = "Migotanie"
+Msg_Menu_Video_Flickering               = "Migotanie duszkow"
 Msg_Menu_Video_Flickering_Auto          = "Auto"
 Msg_Menu_Video_Flickering_Yes           = "Tak"
 Msg_Menu_Video_Flickering_No            = "Nie"
@@ -2911,10 +2452,10 @@ Msg_Menu_Video_3DGlasses_ShowBothSides  = "Pokazuj obie strony"
 Msg_Menu_Video_3DGlasses_ShowLeftSide   = "Pokazuj lewa strone"
 Msg_Menu_Video_3DGlasses_ShowRightSide  = "Pokazuj prawa strone"
 Msg_Menu_Video_3DGlasses_UsesCOMPort    = "Uzywaj okularow w porcie COM"
-Msg_Menu_Video_Capture                  = "Zrzut"
-Msg_Menu_Video_Capture_CaptureScreen    = "Zrzut ekranu"
-Msg_Menu_Video_Capture_CaptureScreenAll = "Zrzut ekranu (wszystko)"
-Msg_Menu_Video_Capture_IncludeGUI       = "Dolacz GUI"
+Msg_Menu_Video_ScreenCapture                  = "Zrzut"
+Msg_Menu_Video_ScreenCapture_Capture    = "Zrzut ekranu"
+Msg_Menu_Video_ScreenCapture_CaptureRepeat = "Zrzut ekranu (wszystko)"
+Msg_Menu_Video_ScreenCapture_IncludeGUI       = "Dolacz GUI"
 
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "DZWIEK"
@@ -2947,26 +2488,26 @@ Msg_Menu_Inputs_GraphicBoard            = "Karta graficzna"
 Msg_Menu_Inputs_SK1100                  = "Klawiatura Sega"
 Msg_Menu_Inputs_RapidFire               = "Autofire"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Gracz %d Przycisk %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguracja"
+Msg_Menu_Inputs_Configuration           = "Konfiguracja.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "NARZEDZIA"
-Msg_Menu_Tools_Messages                 = "Komunikaty"
-Msg_Menu_Tools_Palette                  = "Paleta"
-Msg_Menu_Tools_TilesViewer              = "Przegladarka plytek"
-Msg_Menu_Tools_TilemapViewer            = "Przegladarka map plytek"
-Msg_Menu_Tools_CheatFinder              = "Wyszukiwarka cheatow"
-Msg_Menu_Tools_TechInfo                 = "Informacje techniczne"
-Msg_Menu_Tools_MemoryEditor             = "Edytor pamieci"
+Msg_Menu_Tools_Messages                 = "Komunikaty.."
+Msg_Menu_Tools_Palette                  = "Paleta.."
+Msg_Menu_Tools_TilesViewer              = "Przegladarka plytek.."
+Msg_Menu_Tools_TilemapViewer            = "Przegladarka map plytek.."
+Msg_Menu_Tools_CheatFinder              = "Wyszukiwarka cheatow.."
+Msg_Menu_Tools_TechInfo                 = "Informacje techniczne.."
+Msg_Menu_Tools_MemoryEditor             = "Edytor pamieci.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "POMOC"
-Msg_Menu_Help_Documentation             = "Dokumentacja"
-Msg_Menu_Help_Compat                    = "Lista kompatybilnosci"
-Msg_Menu_Help_Multiplayer_Games         = "Lista gier dla wielu graczy"
-Msg_Menu_Help_Changes                   = "Lista zmian"
-Msg_Menu_Help_Debugger					        = "Debugger"
-Msg_Menu_Help_About                     = "O"
+Msg_Menu_Help_Documentation             = "Dokumentacja.."
+Msg_Menu_Help_Compat                    = "Lista kompatybilnosci.."
+Msg_Menu_Help_Multiplayer_Games         = "Lista gier dla wielu graczy.."
+Msg_Menu_Help_Changes                   = "Lista zmian.."
+Msg_Menu_Help_Debugger					= "Debugger.."
+Msg_Menu_Help_About                     = "O.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3331,11 +2872,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(A cópia de VGM deverá ser reinicia
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
-Msg_Menu_Main_LoadROM                   = "Abre ROM"
+Msg_Menu_Main_LoadROM                   = "Abre ROM.."
 Msg_Menu_Main_FreeROM                   = "Fecha ROM"
 Msg_Menu_Main_SaveState                 = "Gravar Estado"
 Msg_Menu_Main_LoadState                 = "Carregar Estado"
-Msg_Menu_Main_Options                   = "Opções"
+Msg_Menu_Main_Options                   = "Opções.."
 Msg_Menu_Main_Language                  = "Idioma"
 Msg_Menu_Main_Quit                      = "Sair"
 
@@ -3348,14 +2889,14 @@ Msg_Menu_Machine                        = "CONSOLE"
 Msg_Menu_Machine_Power                  = "Liga/Desliga"
 Msg_Menu_Machine_Power_On               = "Ligado"
 Msg_Menu_Machine_Power_Off              = "Desligado"
-Msg_Menu_Machine_Country                = "País"
-Msg_Menu_Machine_Country_EU             = "Europa/EUA/Brasil"
-Msg_Menu_Machine_Country_Jap            = "Japão"
+Msg_Menu_Machine_Region                 = "País"
+Msg_Menu_Machine_Region_Export          = "Europa/EUA/Brasil"
+Msg_Menu_Machine_Region_Japan           = "Japão"
 Msg_Menu_Machine_TVType                 = "Tipo de TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Pausar"
-Msg_Menu_Machine_HardReset              = "Reiniciar"
+;Msg_Menu_Machine_PauseEmulation         = "Pausar"
+;Msg_Menu_Machine_ResetEmulation         = "Reiniciar"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VÍDEO"
@@ -3407,19 +2948,19 @@ Msg_Menu_Inputs_GraphicBoard            = "Prancheta gráfica"
 Msg_Menu_Inputs_SK1100                  = "Teclado Sega"
 Msg_Menu_Inputs_RapidFire               = "Turbo"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Jogador %d Botão %d"
-Msg_Menu_Inputs_Configuration           = "Configuração"
+Msg_Menu_Inputs_Configuration           = "Configuração.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "FERRAMENTAS"
-Msg_Menu_Tools_Messages                 = "Mensagens"
-Msg_Menu_Tools_Palette                  = "Paleta"
-Msg_Menu_Tools_TilesViewer              = "Visualizador de Tiles"
-Msg_Menu_Tools_TechInfo                 = "Informações Técnicas"
+Msg_Menu_Tools_Messages                 = "Mensagens.."
+Msg_Menu_Tools_Palette                  = "Paleta.."
+Msg_Menu_Tools_TilesViewer              = "Visualizador de Tiles.."
+Msg_Menu_Tools_TechInfo                 = "Informações Técnicas.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AJUDA"
-Msg_Menu_Help_Documentation             = "Ajuda"
-Msg_Menu_Help_About                     = "Sobre"
+Msg_Menu_Help_Documentation             = "Ajuda.."
+Msg_Menu_Help_About                     = "Sobre.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3773,11 +3314,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "Ricomincio Dump VGM (tengo conto dell
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPALE"
-Msg_Menu_Main_LoadROM                   = "Carica ROM"
+Msg_Menu_Main_LoadROM                   = "Carica ROM.."
 Msg_Menu_Main_FreeROM                   = "Libera ROM"
 Msg_Menu_Main_SaveState                 = "Salva  Stato"
 Msg_Menu_Main_LoadState                 = "Carica Stato"
-Msg_Menu_Main_Options                   = "Opzioni"
+Msg_Menu_Main_Options                   = "Opzioni.."
 Msg_Menu_Main_Language                  = "Lingua"
 Msg_Menu_Main_Quit                      = "Chiudi"
 
@@ -3790,14 +3331,14 @@ Msg_Menu_Machine                        = "CONSOLE"
 Msg_Menu_Machine_Power                  = "Accensione"
 Msg_Menu_Machine_Power_On               = "On"
 Msg_Menu_Machine_Power_Off              = "Off"
-Msg_Menu_Machine_Country                = "Paese"
-Msg_Menu_Machine_Country_EU             = "Europa/Stati Uniti"
-Msg_Menu_Machine_Country_Jap            = "Giappone"
+Msg_Menu_Machine_Region                 = "Paese"
+Msg_Menu_Machine_Region_Export          = "Europa/Stati Uniti"
+Msg_Menu_Machine_Region_Japan           = "Giappone"
 Msg_Menu_Machine_TVType                 = "Tipo di TV"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Pausa hardware"
-Msg_Menu_Machine_HardReset              = "Reset hardware"
+;Msg_Menu_Machine_PauseEmulation         = "Pausa hardware"
+;Msg_Menu_Machine_ResetEmulation         = "Reset hardware"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -3849,22 +3390,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Tavoletta grafica"
 Msg_Menu_Inputs_SK1100                  = "Tastiera Sega"
 Msg_Menu_Inputs_RapidFire               = "Fuoco Rapido"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Giocatore %d Buttone %d"
-Msg_Menu_Inputs_Configuration           = "Configurazione"
+Msg_Menu_Inputs_Configuration           = "Configurazione.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "STRUMENTI"
-Msg_Menu_Tools_Messages                 = "Messaggi"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Visore di Tiles"
-Msg_Menu_Tools_TechInfo                 = "Informazioni Tecniche"
+Msg_Menu_Tools_Messages                 = "Messaggi.."
+Msg_Menu_Tools_Palette                  = "Palette.."
+Msg_Menu_Tools_TilesViewer              = "Visore di Tiles.."
+Msg_Menu_Tools_TechInfo                 = "Informazioni Tecniche.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AIUTO"
-Msg_Menu_Help_Documentation             = "Documentazione"
-Msg_Menu_Help_Compat                    = "Lista giochi compatibili"
-Msg_Menu_Help_Multiplayer_Games         = "Lista giochi multiplayer"
-Msg_Menu_Help_Changes                   = "Lista cambiamenti"
-Msg_Menu_Help_About                     = "About"
+Msg_Menu_Help_Documentation             = "Documentazione.."
+Msg_Menu_Help_Compat                    = "Lista giochi compatibili.."
+Msg_Menu_Help_Multiplayer_Games         = "Lista giochi multiplayer.."
+Msg_Menu_Help_Changes                   = "Lista cambiamenti.."
+Msg_Menu_Help_About                     = "About.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -4219,11 +3760,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(Der VGM-Dump muß neu gestartet werd
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "DATEI"
-Msg_Menu_Main_LoadROM                   = "ROM laden"
+Msg_Menu_Main_LoadROM                   = "ROM laden.."
 Msg_Menu_Main_FreeROM                   = "ROM schließen"
 Msg_Menu_Main_SaveState                 = "Status sichern"
 Msg_Menu_Main_LoadState                 = "Status laden"
-Msg_Menu_Main_Options                   = "Optionen"
+Msg_Menu_Main_Options                   = "Optionen.."
 Msg_Menu_Main_Language                  = "Sprache"
 Msg_Menu_Main_Quit                      = "Ende"
 
@@ -4236,14 +3777,14 @@ Msg_Menu_Machine                        = "MASCHINE"
 Msg_Menu_Machine_Power                  = "Power"
 Msg_Menu_Machine_Power_On               = "An"
 Msg_Menu_Machine_Power_Off              = "Aus"
-Msg_Menu_Machine_Country                = "Land"
-Msg_Menu_Machine_Country_EU             = "Europa/US"
-Msg_Menu_Machine_Country_Jap            = "Japanisch"
+Msg_Menu_Machine_Region                 = "Land"
+Msg_Menu_Machine_Region_Export          = "Europa/US"
+Msg_Menu_Machine_Region_Japan           = "Japanisch"
 Msg_Menu_Machine_TVType                 = "TV-Typ"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hardwarepause"
-Msg_Menu_Machine_HardReset              = "Hardwarereset"
+;Msg_Menu_Machine_PauseEmulation        = "Hardwarepause"
+;Msg_Menu_Machine_ResetEmulation        = "Hardwarereset"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -4295,22 +3836,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Graphiktablett"
 Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
 Msg_Menu_Inputs_RapidFire               = "Dauerfeuer"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Spieler %d Knopf %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguration"
+Msg_Menu_Inputs_Configuration           = "Konfiguration.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "WERKZEUGE"
-Msg_Menu_Tools_Messages                 = "Meldungen"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Kachelbetrachter"
-Msg_Menu_Tools_TechInfo                 = "Technische Infos"
+Msg_Menu_Tools_Messages                 = "Meldungen.."
+Msg_Menu_Tools_Palette                  = "Palette.."
+Msg_Menu_Tools_TilesViewer              = "Kachelbetrachter.."
+Msg_Menu_Tools_TechInfo                 = "Technische Infos.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HILFE"
-Msg_Menu_Help_Documentation             = "Dokumentation"
-Msg_Menu_Help_Compat                    = "Unterstützte Spiele"
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer"
-Msg_Menu_Help_Changes                   = "Was ist neu?"
-Msg_Menu_Help_About                     = "Über"
+Msg_Menu_Help_Documentation             = "Dokumentation.."
+Msg_Menu_Help_Compat                    = "Unterstützte Spiele.."
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayer.."
+Msg_Menu_Help_Changes                   = "Was ist neu.."
+Msg_Menu_Help_About                     = "Über.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -4674,17 +4215,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning måste startas om för 
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "ARKIV"
-Msg_Menu_Main_LoadROM                   = "Ladda ROM"
+Msg_Menu_Main_LoadROM                   = "Ladda ROM.."
 Msg_Menu_Main_FreeROM                   = "Frigör ROM"
 Msg_Menu_Main_SaveState                 = "Spara tillstånd"
 Msg_Menu_Main_LoadState                 = "Ladda tillstånd"
-Msg_Menu_Main_Options                   = "Inställningar"
+Msg_Menu_Main_Options                   = "Inställningar.."
 Msg_Menu_Main_Language                  = "Språk"
 Msg_Menu_Main_Quit                      = "Avsluta"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Aktiverad"
+Msg_Menu_Debug_Enabled                  = "Aktiverad.."
 Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -4692,14 +4233,14 @@ Msg_Menu_Machine                        = "MASKIN"
 Msg_Menu_Machine_Power                  = "Ström"
 Msg_Menu_Machine_Power_On               = "På"
 Msg_Menu_Machine_Power_Off              = "Av"
-Msg_Menu_Machine_Country                = "Land"
-Msg_Menu_Machine_Country_EU             = "Europa/USA"
-Msg_Menu_Machine_Country_Jap            = "Japan"
+Msg_Menu_Machine_Region                 = "Land"
+Msg_Menu_Machine_Region_Export          = "Europa/USA"
+Msg_Menu_Machine_Region_Japan           = "Japan"
 Msg_Menu_Machine_TVType                 = "TV Typ"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hård Paus"
-Msg_Menu_Machine_HardReset              = "Hård Reset"
+;Msg_Menu_Machine_PauseEmulation         = "Hård Paus"
+;Msg_Menu_Machine_ResetEmulation         = "Hård Reset"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "BILD"
@@ -4751,22 +4292,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Grafikbord"
 Msg_Menu_Inputs_SK1100                  = "Sega Tangentbord"
 Msg_Menu_Inputs_RapidFire               = "Automateld"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Spelare %d Knapp %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguration"
+Msg_Menu_Inputs_Configuration           = "Konfiguration.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "VERKTYG"
-Msg_Menu_Tools_Messages                 = "Meddelanden"
-Msg_Menu_Tools_Palette                  = "Palett"
-Msg_Menu_Tools_TilesViewer              = "Tilegranskare"
-Msg_Menu_Tools_TechInfo                 = "Teknisk information"
+Msg_Menu_Tools_Messages                 = "Meddelanden.."
+Msg_Menu_Tools_Palette                  = "Palett.."
+Msg_Menu_Tools_TilesViewer              = "Tilegranskare.."
+Msg_Menu_Tools_TechInfo                 = "Teknisk information.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HJÄLP"
-Msg_Menu_Help_Documentation             = "Dokumentation"
-Msg_Menu_Help_Compat                    = "Kompatabilitet"
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayerspel"
-Msg_Menu_Help_Changes                   = "Ändringar"
-Msg_Menu_Help_About                     = "Om MEKA"
+Msg_Menu_Help_Documentation             = "Dokumentation.."
+Msg_Menu_Help_Compat                    = "Kompatabilitet.."
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayerspel.."
+Msg_Menu_Help_Changes                   = "Ändringar.."
+Msg_Menu_Help_About                     = "Om MEKA.."
 
 
 ;-----------------------------------------------------------------------------
@@ -5126,11 +4667,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning bliver nødt til at bli
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "FILER"
-Msg_Menu_Main_LoadROM                   = "Indlæs ROM"
+Msg_Menu_Main_LoadROM                   = "Indlæs ROM.."
 Msg_Menu_Main_FreeROM                   = "Frigør ROM"
 Msg_Menu_Main_SaveState                 = "Gem Savestate"
 Msg_Menu_Main_LoadState                 = "Hent Savestate"
-Msg_Menu_Main_Options                   = "Indstilninger"
+Msg_Menu_Main_Options                   = "Indstilninger.."
 Msg_Menu_Main_Language                  = "Sprog"
 Msg_Menu_Main_Quit                      = "Afslut"
 
@@ -5143,14 +4684,14 @@ Msg_Menu_Machine                        = "MASKINE"
 Msg_Menu_Machine_Power                  = "Strøm"
 Msg_Menu_Machine_Power_On               = "Tænd"
 Msg_Menu_Machine_Power_Off              = "Sluk"
-Msg_Menu_Machine_Country                = "Land"
-Msg_Menu_Machine_Country_EU             = "Europæisk/Amerikansk"
-Msg_Menu_Machine_Country_Jap            = "Japansk"
+Msg_Menu_Machine_Region                 = "Land"
+Msg_Menu_Machine_Region_Export          = "Europæisk/Amerikansk"
+Msg_Menu_Machine_Region_Japan           = "Japansk"
 Msg_Menu_Machine_TVType                 = "TV Type"
 Msg_Menu_Machine_TVType_NTSC            = "NTSC"
 Msg_Menu_Machine_TVType_PALSECAM        = "PAL/SECAM"
-Msg_Menu_Machine_HardPause              = "Hardware Pause"
-Msg_Menu_Machine_HardReset              = "Hardware Genstart"
+;Msg_Menu_Machine_PauseEmulation         = "Hardware Pause"
+;Msg_Menu_Machine_ResetEmulation         = "Hardware Genstart"
 
 ; Menu: Video ----------------------------------------------------------------
 Msg_Menu_Video                          = "VIDEO"
@@ -5202,22 +4743,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Graphic Board"
 Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
 Msg_Menu_Inputs_RapidFire               = "Rapid Fire"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Spiller %d Knap %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguration"
+Msg_Menu_Inputs_Configuration           = "Konfiguration.."
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "VÆRKTØJER"
-Msg_Menu_Tools_Messages                 = "Beskeder"
-Msg_Menu_Tools_Palette                  = "Palette"
-Msg_Menu_Tools_TilesViewer              = "Tiles"
-Msg_Menu_Tools_TechInfo                 = "Teknisk Info"
+Msg_Menu_Tools_Messages                 = "Beskeder.."
+Msg_Menu_Tools_Palette                  = "Palette.."
+Msg_Menu_Tools_TilesViewer              = "Tiles.."
+Msg_Menu_Tools_TechInfo                 = "Teknisk Info.."
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HJÆLP"
-Msg_Menu_Help_Documentation             = "Dokumentation"
-Msg_Menu_Help_Compat                    = "Kompatibilitetsliste"
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer-spilsliste"
-Msg_Menu_Help_Changes                   = "Ændringer"
-Msg_Menu_Help_About                     = "Om"
+Msg_Menu_Help_Documentation             = "Dokumentation.."
+Msg_Menu_Help_Compat                    = "Kompatibilitetsliste.."
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayer-spilsliste.."
+Msg_Menu_Help_Changes                   = "Ændringer.."
+Msg_Menu_Help_About                     = "Om.."
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------

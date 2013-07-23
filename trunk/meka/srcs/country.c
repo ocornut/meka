@@ -26,8 +26,8 @@ void    Set_Country_Export()
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
     g_configuration.country = COUNTRY_EXPORT;
-    gui_menu_un_check(menus_ID.country);
-    gui_menu_check(menus_ID.country, 0);
+    gui_menu_un_check(menus_ID.region);
+    gui_menu_check(menus_ID.region, 0);
 
     // Set emulation country
     sms.Country = g_configuration.country;
@@ -43,8 +43,8 @@ void    Set_Country_Japan()
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
     g_configuration.country = COUNTRY_JAPAN;
-    gui_menu_un_check (menus_ID.country);
-    gui_menu_check (menus_ID.country, 1);
+    gui_menu_un_check (menus_ID.region);
+    gui_menu_check (menus_ID.region, 1);
 
     // Set emulation country
     sms.Country = g_configuration.country;
