@@ -180,7 +180,9 @@ void	gui_menus_init (void)
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_PaddleControl),	NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_PaddleControl, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SportsPad),		NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_SportsPad, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_GraphicBoard),	NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_TVOekaki, NULL);
+	menu_add_separator(menus_ID.inputs);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SK1100),			"Alt+F9",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SK1100_Switch, NULL);
+	menu_add_separator(menus_ID.inputs);
     // INPUTS -> RAPID FIRE
     menus_ID.rapidfire = menu_add_menu (menus_ID.inputs, Msg_Get(MSG_Menu_Inputs_RapidFire), MENU_ITEM_FLAG_ACTIVE);
     snprintf          (buffer, countof(buffer), Msg_Get(MSG_Menu_Inputs_RapidFire_PxBx), 1, 1);
