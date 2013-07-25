@@ -1008,11 +1008,11 @@ void        widget_inputbox_update(t_widget *w)
     // Backspace, Delete
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_DELETE))
 	{
-        if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate) || Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DELETE, TRUE, tm_delay, tm_rate))
+        if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate))
         {
             if (wd->cursor_pos > 0)
             {
-                // Delete current character
+                // Delete previous character
                 widget_inputbox_delete_current_char(w);
                 edited = TRUE;
             }
@@ -1021,6 +1021,16 @@ void        widget_inputbox_update(t_widget *w)
             if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, FALSE))
                 Inputs_KeyEat(ALLEGRO_KEY_BACKSPACE);
         }
+		if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DELETE, TRUE, tm_delay, tm_rate))
+		{
+			if (wd->cursor_pos < wd->length)
+			{
+				// Delete next character
+				wd->cursor_pos++;
+				widget_inputbox_delete_current_char(w);
+				edited = TRUE;
+			}
+		}
 	}
 
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
@@ -1171,7 +1181,7 @@ void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
 
 	if (cursor_pos < 0)
         return;
-    if (cursor_pos > wd->length_max)
+    if (cursor_pos > wd->length)
         return;
 
     // Set cursor position to given position
