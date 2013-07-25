@@ -198,10 +198,10 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
 //-----------------------------------------------------------------------------
 
 // Enable/disable SK-1100 emulation
-void    SK1100_Switch(void)
+void    SK1100_Switch()
 {
     Inputs.SK1100_Enabled ^= 1;
-    gui_menu_toggle_check (menus_ID.inputs, 5);
+    gui_menu_toggle_check (menus_ID.inputs, 6);
     Skins_Background_Redraw();
     gui.info.must_redraw = TRUE;
     if (Inputs.SK1100_Enabled)
@@ -211,7 +211,7 @@ void    SK1100_Switch(void)
 }
 
 // Clear SK-1100 data for emulation
-void    SK1100_Clear(void)
+void    SK1100_Clear()
 {
     int i;
     for (i = 0; i < 7; i ++)
@@ -219,7 +219,7 @@ void    SK1100_Clear(void)
 }
 
 // Update SK-1100 data for emulation
-void    SK1100_Update (void)
+void    SK1100_Update()
 {
     int i;
     SK1100_Clear();
@@ -237,4 +237,3 @@ void    SK1100_Update (void)
 }
 
 //-----------------------------------------------------------------------------
-
