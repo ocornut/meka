@@ -2149,9 +2149,6 @@ void	Debugger_Applet_Redraw_State()
         //  DEC
         //  JR NZ
 
-		bool pc_in_bios;
-		const int pc_rom_addr = Debugger_ReverseMapFindRomAddress(pc, &pc_in_bios);
-
         // Disassemble instructions starting at 'PC'
         for (int i = 0; i < g_configuration.debugger_disassembly_lines; i++)
         {
@@ -2161,7 +2158,10 @@ void	Debugger_Applet_Redraw_State()
 
             if (g_configuration.debugger_disassembly_display_labels)
             {
-                // Display symbols/labels
+				bool pc_in_bios;
+				const int pc_rom_addr = Debugger_ReverseMapFindRomAddress(pc, &pc_in_bios);
+
+				// Display symbols/labels
                 if (Debugger.symbols_cpu_space[pc] != NULL)
                 {
                     for (const t_list* symbols = Debugger.symbols_cpu_space[pc]; symbols != NULL; symbols = symbols->next)
