@@ -46,7 +46,7 @@ void    Inputs_CFG_Switch()
 {
     Inputs_CFG.active ^= 1;
     gui_box_show (Inputs_CFG.box, Inputs_CFG.active, TRUE);
-    gui_menu_toggle_check (menus_ID.inputs, 7);
+    gui_menu_toggle_check (menus_ID.inputs, 9);
 }
 
 void    Inputs_CFG_Init_Applet()
