@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2013/03/24
+; Last updated 2013/08/07
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -962,7 +962,7 @@ GG  2e4ec17b F5296F1E651FF4DD   Megami Tensei Gaiden: Last Bible/COUNTRY=JP/PROD
 GG  4ec30806 6FA65308EF07702A   Megami Tensei Gaiden: Last Bible Special/COUNTRY=JP/PRODUCT_NO=G-3427
 GG  fe12a92f C47B5E5AC577A12C   Mickey Mouse Densetsu no Oukoku/COUNTRY=JP/PRODUCT_NO=G-3360/COMMENT=Japanese version of "Legend of Illusion - Starring Mickey Mouse".
 GG  0117c3df 6C107B6F23212630   Mickey Mouse no Mahou no Crystal/COUNTRY=JP/PRODUCT_NO=G-3323/COMMENT=Japanese version of "Land of Illusion - Starring Mickey Mouse".
-GG  eccf7a4f DE2CEEA5F01F074D   Mickey's Ultimate Challenge/COUNTRY=US/PRODUCT_NO=?
+GG  eccf7a4f DE2CEEA5F01F074D   Mickey's Ultimate Challenge/COUNTRY=US/PRODUCT_NO=T-112028
 GG  dbe8895c 0D511C6572333844   Micro Machines 2: Turbo Tournament/COUNTRY=EU/PRODUCT_NO=T-120108-50/EMU_MAPPER=3
 GG  9289dfcc 2D785B7B8B594E53   Mighty Morphin Power Rangers/COUNTRY=US,EU/PRODUCT_NO=2548,2548-50
 GG  b47c19e5 F02DEF107C75975C   Mighty Morphin Power Rangers: The Movie/COUNTRY=US,EU/PRODUCT_NO=2564,2564-50
