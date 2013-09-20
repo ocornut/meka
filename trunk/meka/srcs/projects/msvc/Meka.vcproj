@@ -159,7 +159,7 @@
 				InlineFunctionExpansion="1"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories="../..;../../../libs/seal/include/;../../../libs/libpng/include/;../../../libs/dx70_min/include/;../../../libs/zlib/"
+				AdditionalIncludeDirectories="../..;../../../libs/seal/include/;../../../libs/libpng/include/;../../../libs/dx70_min/include/;../../../libs/zlib/;../../../libs/allegro/include/"
 				PreprocessorDefinitions="NDEBUG;_WINDOWS;X86_ASM"
 				StringPooling="true"
 				MinimalRebuild="false"
