@@ -7,8 +7,11 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <winres.h>
-//#include "afxres.h"
+// VS Express
+#include "windows.h"
+#ifndef IDC_STATIC
+#define IDC_STATIC				-1
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -42,7 +45,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""winres.h""\r\n"
+    "#include ""windows.h""\r\n"
     "\0"
 END
 
