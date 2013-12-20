@@ -1363,7 +1363,7 @@
 
 -----------------------------------------------------------------------------
  COLECOVISION (COL) COMPATIBILITY LIST
- by Tincho DJ, Jossa and Omar Cornut
+ by Tincho DJ, Jossa and Bock
 -----------------------------------------------------------------------------
  Note: this list is outdated. Please help rewriting it if you're interested.
 -----------------------------------------------------------------------------
