@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2013/08/07
+; Last updated 2013/12/20
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -16,11 +16,29 @@
 ; - ColecoVision:
 ;   - 128-bytes header removed 
 ;   - 512-bytes footer removed
+; Most dumps nowadays should have those nowadays, but old files may not.
 ;-----------------------------------------------------------------------------
-; Notes:
-; - About additional information in name field: version is added to the name 
-;   field, if there's several versions for a same software.
-; - Korean names transcription are probably incorrect for many.
+
+;-----------------------------------------------------------------------------
+; Cartridge Hardware ("Mapper") Identifiers
+; From MEKA sources in srcs/mappers.h
+;-----------------------------------------------------------------------------
+;   0 : standard sms/gg sega mapper, optional SRAM
+;   1 : 32KB of RAM mapped at 0x8000-0xFFFF
+;   2 : colecovisions
+;   3 : code masters mapper, registers at 0x0000, 0x4000, 0x8000
+;   4 : sega mapper with 93c46 eeprom
+;   5 : sg-1000 (currently incorrectly emulating 4KB of RAM instead of 2KB)
+;   6 : master system action replay
+;   7 : terebi oekaki (graphic tablet)
+;   8 : sf-7000
+;   9 : sms korean mapper, mapping register at 0xA000
+;  10 : sms display unit BIOS
+;  11 : no mapper, ROM up to 48KB (typically 32KB)
+;  12 : sms korean msx type 8KB banks, registers at 0x0000->0x0003
+;  13 : sms korean for Janggun-ui Adeul
+;  14 : sms 4 Pak All Action
+;  15 : sg-1000 II with taiwanese memory expansion adapter, 8KB RAM from 0x2000->0x3FFF + regular 2KB RAM mapped at 0xC000-0xFFFF
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -45,11 +63,12 @@
 ; the new database content will be more much exhaustive and accurate than
 ; any existing database.
 ;-----------------------------------------------------------------------------
-; Approximately 70% of the database was converted.
+; Approximately 90% of the database was converted.
 ;-----------------------------------------------------------------------------
 ; The top part of this file consists in verified entries in the new format.
 ; The bottom part consists in entries in the old format. Once every entries
 ; will be verified and converted, the old format will be made obsolete.
+; ColecoVision entries will most likely not be updated.
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -1536,12 +1555,12 @@ DCCED394874D1605,Bust a Move,VER=English
 2C18F1F2231B2E6D,Jeopardy! - Sports Edition,VER=English
 EEF607B16825FADD,Man Overboard!,VER=English,Mapper=3,TVTYPE=PAL/SECAM
 51710931D2A8ED9D,Micro Machines,Mapper=3
-5A78E272B1729621,Paperboy 2,VER=USA
+5A78E272B1729621,Paperboy 2,VER=USA,ID=301037-0161
 BDC45082B4BFDC5E,Pete Sampras Tennis,Mapper=3,VER=English
 97222AD3F8DE1D57,Sonic The Hedgehog [Proto],PROTO,COMMENT=This is an unfinished prototype version of the game.
 7C8CA98E3973C74E,Sports Trivia - Championship Edition,VER=USA
 289F743A3E37CC4A,Sports Illustrated: Championship Football & Baseball,VER=USA
-D7713EC45DD6B5CE,Tesserae,VER=USA
+D7713EC45DD6B5CE,Tesserae,VER=USA,ID=T-83028
 DFBD34655C7A6293,Wagan Land [A],ID=T-14047,VER=Japanese
 C7BD34655C7A62AB,Wagan Land [B],ID=T-14047,VER=Japanese
 41E4E0DC502EC3DE,Zool - Zool no Yume Bouken,ID=T-149017,VER=Japanese

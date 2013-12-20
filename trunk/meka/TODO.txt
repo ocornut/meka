@@ -1,4 +1,10 @@
 
+breakpoint crashes
+
+fm registrers viewer
+http://www.smspower.org/forums/viewtopic.php?p=76979#76979
+
+
 Menu note:
 - step one frame (ALT+F12) missing
 - CTRL+F12 in SK-1100 mode
