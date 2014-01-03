@@ -3949,11 +3949,13 @@ bool        Debugger_CompletionCallback(t_widget *w)
     int     matching_words_count = 0;
     char *  result;
     
+	const char* word_delimiters = " \t\r\n,:;";
+
     // Get current word
     int pos = widget_inputbox_get_cursor_pos(w);
     const char *s = widget_inputbox_get_value(w) + pos;
     current_word_len = 0;
-	while (pos-- > 0 && !isspace(s[-1]) && s[-1] != ':')
+	while (pos-- > 0 && !strchr(word_delimiters, s[-1]))
     {
         s--;
         current_word_len++;
@@ -4090,12 +4092,12 @@ bool        Debugger_CompletionCallback(t_widget *w)
             widget_inputbox_delete_current_char(w);
 
         // Then, re-add the full word
-        widget_inputbox_insert_string(w, result);
+        widget_inputbox_insert_chars(w, result);
         free(result);
 
         // If we had only one match, add a space
         if (matching_words_count == 1)
-            widget_inputbox_insert_char(w, ' ');
+            widget_inputbox_insert_chars(w, " ");
 
         return true;
     }

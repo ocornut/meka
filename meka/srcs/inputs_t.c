@@ -90,7 +90,7 @@ bool    Inputs_KeyPressed(int keycode, bool eat)
 bool    Inputs_KeyPressed_Repeat(int keycode, bool eat, int delay, int rate)
 {
     // hmm...
-    Inputs_KeyPressed (keycode, eat);
+    Inputs_KeyPressed(keycode, eat);
     if (opt.Current_Key_Pressed != keycode)
         return false;
 
