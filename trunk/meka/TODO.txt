@@ -1,3 +1,8 @@
+- it crashes when I lock the workstation (WinXP)
+- single key shortcuts (with F6 and F7 keys for example) for run over (continue to next) and run into (enter) calls so that I can debug with two fingers on the keyboard and two eyes on the screen :) 
+
+I just noticed this thread and after fixing this, it appeared that the Korean version of "Circus Charlie" also needs 2KB of RAM at $c000-$ffff 
+
 
 breakpoint crashes
 
