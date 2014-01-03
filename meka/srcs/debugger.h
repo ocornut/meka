@@ -117,9 +117,10 @@ struct t_debugger
     u16         trap_address;
     int         stepping;                       // Set when we are doing a single step
     int         stepping_trace_after;
-	bool		continuing_to_next_ret;
+	bool		stepping_out_enable;			// Run until RET && SP >= step_out_stack_ref
+	u16			stepping_out_stack_ref;
     t_list *    breakpoints;
-    t_list *    breakpoints_cpu_space[0x10000]; // 0000-FFFF : each Z80 address has its list of appliable breakpoints
+    t_list *    breakpoints_cpu_space[0x10000]; // 0000-FFFF : each Z80 address has its list of applicable breakpoints
     t_list *    breakpoints_io_space[0x100];
     t_list *    breakpoints_vram_space[0x4000];
     t_list *    breakpoints_pram_space[0x40];

@@ -137,7 +137,7 @@ Debugger commands summary
  S                              : Step over
  C                              : Continue
  C addr                         : Continue up to <addr>
- CR                             : Continue up to next RET
+ SO                             : Step out / break at next RET
  J addr                         : Jump to <addr>
 -- Breakpoints:
  B [access] [bus] addr [=value] : Add breakpoint

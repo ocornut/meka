@@ -173,10 +173,10 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
         " C address     ; Continue up to reaching <address>"
     },
 	{
-		"CR", "CONTRET",
+		"SO", "STEPOUT",
 		"Continue to next RET instruction",
 		// Description
-		"CR/CONTRET: Continue to next RET* instruction",
+		"SO/STEPOUT: Continue to next RET* instruction",
 	},
     {
         NULL, "CLOCK",
@@ -440,7 +440,8 @@ void        Debugger_Init_Values (void)
     Debugger.trap_address = (u16)-1;
     Debugger.stepping = 0;
     Debugger.stepping_trace_after = 0;
-	Debugger.continuing_to_next_ret = false;
+	Debugger.stepping_out_enable = false;
+	Debugger.stepping_out_stack_ref = 0x0000;
     Debugger.breakpoints = NULL;
     memset(Debugger.breakpoints_cpu_space,  0, sizeof(Debugger.breakpoints_cpu_space));
     memset(Debugger.breakpoints_io_space,   0, sizeof(Debugger.breakpoints_io_space));
@@ -687,11 +688,13 @@ int		Debugger_Hook(Z80 *R)
         }
     }
 
-	if (Debugger.continuing_to_next_ret)
+	if (Debugger.stepping_out_enable)
 	{
+		if (R->SP.W < Debugger.stepping_out_stack_ref)
+			return (1);
 		if (!Z80DebugHelper_IsRetExecuting(R))
 			return (1);
-		Debugger.continuing_to_next_ret = false;
+		Debugger.stepping_out_enable = false;
 	}
 
     // Update state
@@ -1098,7 +1101,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     {
         // Break
         sms.R.Trace = 1;
-		Debugger.continuing_to_next_ret = false;
+		Debugger.stepping_out_enable = false;
         action = "break";
     }
     else
@@ -2863,8 +2866,8 @@ void        Debugger_InputParseCommand(char *line)
         return;
     }
 
-    // CR - CONTRET
-    if (!strcmp(cmd, "CR") || !strcmp(cmd, "CONTRET"))
+    // SO - STEPOUT
+    if (!strcmp(cmd, "SO") || !strcmp(cmd, "STEPOUT"))
     {
         if (!(g_machine_flags & MACHINE_POWER_ON))
         {
@@ -2880,7 +2883,8 @@ void        Debugger_InputParseCommand(char *line)
 
         // Start tracing
         sms.R.Trace = 1;
-		Debugger.continuing_to_next_ret = true;
+		Debugger.stepping_out_enable = true;
+		Debugger.stepping_out_stack_ref = sms.R.SP.W;
 		Debugger.stepping = 1;	// to avoid breaking again on current RET instruction
         Debugger.stepping_trace_after = 1;
         Machine_Debug_Stop();
@@ -3385,14 +3389,14 @@ void        Debugger_InputBoxCallback(t_widget *w)
                 // Step into
                 Debugger.stepping = 1;
                 Debugger.stepping_trace_after = sms.R.Trace = 1;
-				Debugger.continuing_to_next_ret = false;
+				Debugger.stepping_out_enable = false;
                 Machine_Debug_Stop();
             }
             else
             {
                 // Activate debugging
                 Debugger.stepping = 0;
-				Debugger.continuing_to_next_ret = false;
+				Debugger.stepping_out_enable = false;
                 Debugger_Printf("Breaking at $%04X\n", sms.R.PC.W);
                 Debugger_Applet_Redraw_State();
                 Machine_Debug_Start();
