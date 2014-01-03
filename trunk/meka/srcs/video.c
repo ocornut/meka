@@ -436,7 +436,7 @@ void    Video_RefreshScreen(void)
 				int x, y;
                 if (g_driver->id == DRV_GG) { x = 48; y = 24; } else { x = 8; y = 6; }
 				al_set_target_bitmap(screenbuffer);
-                Font_Print(F_MIDDLE, buf, x, y, COLOR_WHITE); // In white
+                Font_Print(F_MEDIUM, buf, x, y, COLOR_WHITE); // In white
                 //g_gui_status.timeleft = 0; // Force disabling the current message because it is slow to display
             }
 

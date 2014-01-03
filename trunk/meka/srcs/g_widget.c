@@ -405,7 +405,15 @@ void        widget_button_redraw(t_widget *w)
             Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
             break;
         }
-    case WIDGET_BUTTON_STYLE_BIG:
+	case WIDGET_BUTTON_STYLE_MEDIUM:
+		{
+			const t_font_id font_id = F_MEDIUM;
+			al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
+			gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+			Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
+			break;
+		}
+    case WIDGET_BUTTON_STYLE_LARGE:
         {
             const t_font_id font_id = F_LARGE;
 	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);

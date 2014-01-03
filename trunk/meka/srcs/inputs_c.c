@@ -91,9 +91,9 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
 
         // Input source change button
         frame.pos.x = 170;
-        frame.pos.y = 10-Font_Height(F_MIDDLE)/2;
+        frame.pos.y = 10-Font_Height(F_MEDIUM)/2;
         frame.size.x = INPUTS_CFG_FRAME_X - 5;
-        frame.size.y = Font_Height(F_MIDDLE);
+        frame.size.y = Font_Height(F_MEDIUM);
         widget_button_add(app->box, &frame, 1|2, (t_widget_callback)Inputs_CFG_Current_Source_Change, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
 
         // Input map change button
@@ -215,7 +215,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     // y = 10 + (i % 2) * (frame_sy + GUI_LOOK_FRAME_SPACING_Y);
 
     // Set font to use
-    Font_SetCurrent(F_MIDDLE);
+    Font_SetCurrent(F_MEDIUM);
     font_height = Font_Height();
 
     // Clear area to display on
@@ -228,7 +228,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     {
         char buf[128];
         sprintf(buf, "%d/%d: %s >>", app->Current_Source+1, Inputs.Sources_Max, input_src->name);
-        gui_rect_titled(buf, F_MIDDLE, LOOK_THIN,
+        gui_rect_titled(buf, F_MEDIUM, LOOK_THIN,
             x, y, x + frame_x, y + frame_y,
             COLOR_SKIN_WIDGET_GENERIC_BORDER, COLOR_SKIN_WINDOW_BACKGROUND, /*COLOR_SKIN_WINDOW_TEXT*/COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT);
     }

@@ -94,7 +94,7 @@ void    gui_menu_update_size(int menu_id)
 		else
 		{
 			const int text_w = Font_TextLength(F_CURRENT, item->label);
-			const int shortcut_w = item->shortcut ? Font_TextLength(F_MIDDLE, item->shortcut) : 0;
+			const int shortcut_w = item->shortcut ? Font_TextLength(F_MEDIUM, item->shortcut) : 0;
 
 			size_x = MAX(size_x, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
 			size_y += Font_Height() + MENUS_PADDING_Y;

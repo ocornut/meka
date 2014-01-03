@@ -145,7 +145,7 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 {
     t_menu *menu = menus[n_menu];
 
-	const int label_to_shortcut_y_offset = (Font_Height(F_LARGE) - Font_Height(F_MIDDLE)) / 2 + 1;
+	const int label_to_shortcut_y_offset = (Font_Height(F_LARGE) - Font_Height(F_MEDIUM)) / 2 + 1;
 
     if (n_menu == MENU_ID_MAIN)
     {
@@ -255,7 +255,7 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
 
 			if (item->shortcut != NULL)
 			{
-				Font_SetCurrent(F_MIDDLE);
+				Font_SetCurrent(F_MEDIUM);
 				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextLength(F_CURRENT, item->shortcut);
 				const int shortcut_y = y + label_to_shortcut_y_offset;
 				Font_Print(F_CURRENT, item->shortcut, shortcut_x, shortcut_y, color);

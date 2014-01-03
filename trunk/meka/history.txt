@@ -49,6 +49,7 @@ They are usually of 2 kinds:
     - Added support for parsing SJASM symbol format. [Omar]
     - Added support for parsing TASM symbol format. [Omar]
     - Added a "Reload Symbols" menu option (useful when manually crafting symbols while reverse engineering). [Omar]
+    - Added shortcuts button in interface for "Stop/Continue", "Step Into", "Step Over" and "Step Out". [Omar]
     - Disassembler decode symbols given their full ROM bank mapping (if bank information is provided by symbols file). [Omar]
     - Disassembler decode symbols in 'RST xx' instructions. [Omar]
     - Better support for 24-bits constants. [Omar]

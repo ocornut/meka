@@ -44,7 +44,7 @@ struct type_apps
 
 #define  FM_EDITOR_SIZE_X    (320)
 #define  FM_EDITOR_SIZE_Y    (224)
-#define  FM_EDITOR_FONT      (F_MIDDLE)
+#define  FM_EDITOR_FONT      (F_MEDIUM)
 
 //-----------------------------------------------------------------------------
 // Data

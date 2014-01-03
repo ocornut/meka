@@ -135,8 +135,8 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 		widget_closebox_add(app->box, CheatFinder_CallbackClose);
 
 	// Setup Memory sections
-	FontPrinter fp(F_MIDDLE);
-	DrawCursor dc(v2i(5,0), F_MIDDLE);
+	FontPrinter fp(F_MEDIUM);
+	DrawCursor dc(v2i(5,0), F_MEDIUM);
 	dc.y_spacing += 4;
 
 	fp.Printf(dc.pos+v2i(0,4), "Memory region:");
@@ -181,7 +181,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	app->matches_frame.SetPos(92,dc.pos.y);
 	app->matches_frame.SetSize(app->box->frame.size - app->matches_frame.pos);
 
-	DrawCursor dc2(v2i(92+5,dc.pos.y+3),F_MIDDLE);
+	DrawCursor dc2(v2i(92+5,dc.pos.y+3),F_MEDIUM);
 	dc2.NewLine();
 	al_draw_line(91+0.5f,dc.pos.y-2,91+0.5f,app->box->frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 	if (setup)
@@ -216,7 +216,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	if (setup)
 	{
 		t_frame frame(dc.pos, v2i(60,Font_Height(F_SMALL)+3));
-		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, F_MIDDLE, NULL);
+		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, F_MEDIUM, NULL);
 		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DEC_HEX_BIN);
 	}
 	dc.pos.y += 1;
@@ -303,8 +303,8 @@ void	CheatFinder_Update(t_cheat_finder* app)
 
 	al_draw_filled_rectangle(app->matches_frame.pos.x, app->matches_frame.pos.y, app->matches_frame.pos.x+app->matches_frame.size.x, app->matches_frame.pos.y+app->matches_frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
 
-	FontPrinter fp(F_MIDDLE);
-	DrawCursor dc(app->matches_frame.pos+v2i(5,4), F_MIDDLE);
+	FontPrinter fp(F_MEDIUM);
+	DrawCursor dc(app->matches_frame.pos+v2i(5,4), F_MEDIUM);
 
 	fp.Printf(dc.pos, (app->matches.size()>1) ? "%d matches" : "%d match", app->matches.size());
 	dc.NewLine();

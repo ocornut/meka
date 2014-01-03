@@ -51,7 +51,8 @@ int     Z80_Assemble(const char *src, byte dst[8]);
 
 static void     Debugger_Applet_Init(void);
 static void     Debugger_Applet_Layout(bool setup);
-static void     Debugger_Applet_Redraw_State(void);
+static void     Debugger_Applet_RedrawState(void);
+static void		Debugger_Applet_UpdateShortcuts(void);
 
 // Misc
 static void     Debugger_Help(const char *cmd);
@@ -124,6 +125,9 @@ static int                      Debugger_Symbol_CompareByRomAddress(const t_debu
 static bool                     Debugger_History_Callback(t_widget *w, int level);
 static void						Debugger_History_AddLine(const char *line_to_add);
 static void                     Debugger_History_List(const char *search_term_arg);
+
+// Shortcuts
+static void						Debugger_ShortcutButton_Callback(t_widget* w);
 
 // Values
 static void                     Debugger_Value_SetCpuRegister(t_debugger_value *value, const char *name, void *data, int data_size);
@@ -414,6 +418,13 @@ static t_debugger_bus_info  DebuggerBusInfos[BREAKPOINT_LOCATION_MAX_] =
 // Data - Applet
 //-----------------------------------------------------------------------------
 
+struct t_debugger_shortcut
+{
+	char*				name;
+	char*				command;
+	t_widget*			button;
+};
+
 struct t_debugger_app
 {
     t_gui_box *         box;
@@ -423,7 +434,11 @@ struct t_debugger_app
     t_font_id			font_id;
     int                 font_height;
     t_frame             frame_disassembly;
+	t_frame             frame_shortcuts;
     t_frame             frame_cpustate;
+
+	std::vector<t_debugger_shortcut>	shortcuts;
+	int									shortcuts_freeze;
 };
 
 t_debugger_app          DebuggerApp;
@@ -616,25 +631,42 @@ void        Debugger_MediaReload()
     Debugger_Symbols_Load();
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_Update ()
-// Update MEKA debugger
-//-----------------------------------------------------------------------------
-void        Debugger_Update(void)
+void	Debugger_Update(void)
 {
     if (Debugger.active)
     {
         // If skin has changed, redraw everything
-        if (DebuggerApp.box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
+		t_debugger_app* app = &DebuggerApp;
+        if (app->box->flags & GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT)
         {
             Debugger_Applet_Layout(FALSE);
-            DebuggerApp.box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
+            app->box->flags &= ~GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
         }
-        Debugger_Applet_Redraw_State();
+		Debugger_Applet_UpdateShortcuts();
+        Debugger_Applet_RedrawState();
     }
 
     // Reset watch counter
     Debugger.watch_counter = 0;
+}
+
+void	Debugger_Applet_UpdateShortcuts()
+{
+	t_debugger_app* app = &DebuggerApp;
+
+	if (app->shortcuts_freeze > 0)
+	{
+		// We intentionally skip 1 update on simple STEP operation to avoid flickering buttons
+		app->shortcuts_freeze--;
+		return;
+	}
+
+	app->shortcuts[0].command = (bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)) ? "C" : "STEPINTO";
+	widget_button_set_label(app->shortcuts[0].button, (bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)) ? "Cont" : "Stop");
+	widget_button_set_grayed_out(app->shortcuts[0].button, !(bool)(g_machine_flags & (MACHINE_POWER_ON)));
+	widget_button_set_grayed_out(app->shortcuts[1].button, !(bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)));
+	widget_button_set_grayed_out(app->shortcuts[2].button, !(bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)));
+	widget_button_set_grayed_out(app->shortcuts[3].button, !(bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)));
 }
 
 int		Debugger_Hook(Z80 *R)
@@ -698,7 +730,8 @@ int		Debugger_Hook(Z80 *R)
 	}
 
     // Update state
-    Debugger_Applet_Redraw_State();
+	//Debugger_Applet_UpdateShortcuts();
+    //Debugger_Applet_RedrawState();
 
     // Set machine in debugging mode (halted)
     Machine_Debug_Start();    
@@ -1873,27 +1906,29 @@ void        Debugger_Printf(const char *format, ...)
 // Initialize the debugger applet
 static void Debugger_Applet_Init()
 {
-    t_frame frame;
+	t_debugger_app* app = &DebuggerApp;
+
+	t_frame frame;
 
     // Create box
-    DebuggerApp.font_id = F_MIDDLE;
-    DebuggerApp.font_height = Font_Height(DebuggerApp.font_id);
+    app->font_id = F_MEDIUM;
+    app->font_height = Font_Height(app->font_id);
     frame.pos.x     = 428;
     frame.pos.y     = 50;
     frame.size.x    = 360;
-    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + g_configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * DebuggerApp.font_height) + 20 + (2*2); // 2*2=padding
+    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + g_configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height) + 22 + 20 + (2*2); // 2*2=padding
 
-    DebuggerApp.box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
-    DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
+    app->box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
+    app->box_gfx = app->box->gfx_buffer;
 
     // Set exclusive inputs flag to avoid messing with emulation
-    DebuggerApp.box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
+    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
 
     // Set tab stop
-    DebuggerApp.box->flags |= GUI_BOX_FLAGS_TAB_STOP;
+    app->box->flags |= GUI_BOX_FLAGS_TAB_STOP;
 
     // Register to desktop (applet is disabled by default)
-    Desktop_Register_Box("DEBUG", DebuggerApp.box, FALSE, &Debugger.active);
+    Desktop_Register_Box("DEBUG", app->box, FALSE, &Debugger.active);
 
     // Layout
     Debugger_Applet_Layout(TRUE);
@@ -1901,62 +1936,104 @@ static void Debugger_Applet_Init()
 
 static void     Debugger_Applet_Layout(bool setup)
 {
+	t_debugger_app* app = &DebuggerApp;
+
     t_frame     frame;
 
     // Clear
-	DebuggerApp.box_gfx = DebuggerApp.box->gfx_buffer;
-	al_set_target_bitmap(DebuggerApp.box->gfx_buffer);
+	app->box_gfx = app->box->gfx_buffer;
+	al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
-        widget_closebox_add(DebuggerApp.box, (t_widget_callback)Debugger_Switch);
+        widget_closebox_add(app->box, (t_widget_callback)Debugger_Switch);
 
     // Add console (textbox widget)
     frame.pos.x = 6;
     frame.pos.y = 2;
-    frame.size.x = DebuggerApp.box->frame.size.x - (6*2);
-    frame.size.y = g_configuration.debugger_console_lines * DebuggerApp.font_height;
+    frame.size.x = app->box->frame.size.x - (6*2);
+    frame.size.y = g_configuration.debugger_console_lines * app->font_height;
     if (setup)
-        DebuggerApp.console = widget_textbox_add(DebuggerApp.box, &frame, g_configuration.debugger_console_lines, DebuggerApp.font_id);
+        app->console = widget_textbox_add(app->box, &frame, g_configuration.debugger_console_lines, app->font_id);
     frame.pos.y += frame.size.y;
 
     // Add line
-	al_set_target_bitmap(DebuggerApp.box_gfx);
-    al_draw_hline(frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
-    frame.pos.y += DebuggerApp.font_height;
+	al_set_target_bitmap(app->box_gfx);
+    al_draw_hline(frame.pos.x, frame.pos.y + app->font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
+    frame.pos.y += app->font_height;
 
     // Setup disassembly frame
-    DebuggerApp.frame_disassembly.pos.x   = frame.pos.x;
-    DebuggerApp.frame_disassembly.pos.y   = frame.pos.y;
-    DebuggerApp.frame_disassembly.size.x  = frame.size.x;
-    DebuggerApp.frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * DebuggerApp.font_height;
-    frame.pos.y += DebuggerApp.frame_disassembly.size.y;
+    app->frame_disassembly.pos.x   = frame.pos.x;
+    app->frame_disassembly.pos.y   = frame.pos.y;
+    app->frame_disassembly.size.x  = frame.size.x;
+    app->frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * app->font_height;
+    frame.pos.y += app->frame_disassembly.size.y;
 
     // Add line
-	al_set_target_bitmap(DebuggerApp.box_gfx);
-    al_draw_hline(frame.pos.x, frame.pos.y + DebuggerApp.font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
-    frame.pos.y += DebuggerApp.font_height;
+	al_set_target_bitmap(app->box_gfx);
+    al_draw_hline(frame.pos.x, frame.pos.y + app->font_height / 2, frame.pos.x + frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
+    frame.pos.y += app->font_height;
+
+	// Shortcuts
+	app->frame_shortcuts.pos.x   = frame.pos.x;
+	app->frame_shortcuts.pos.y   = frame.pos.y;
+	app->frame_shortcuts.size.x  = frame.size.x;
+	app->frame_shortcuts.size.y  = 22;
+	if (setup)
+	{
+		// Unfortunately, although initially I wanted shortcuts to be generic command-runner,
+		// the code Debugger_Applet_UpdateShortcuts() is pretty hard-coded for the 4 entries above for usability reason.
+		app->shortcuts_freeze = 0;
+		static const t_debugger_shortcut shortcuts_def[] =
+		{
+			{ "Cont", "C", },
+			{ "Step", "STEPINTO" },
+			{ "Over", "S" },
+			{ "Out",  "SO" },
+			//{ "Breakpoints", "B L" },
+			//{ "Regs", "REGS" },
+			//{ "Stacks", "STACK" },
+		};
+		assert(app->shortcuts.empty());
+		DrawCursor dc(app->frame_shortcuts.pos, F_MEDIUM);
+		for (int i = 0; i < countof(shortcuts_def); i++)
+		{
+			const t_debugger_shortcut* sh_def = &shortcuts_def[i];
+
+			t_debugger_shortcut sh;
+			sh.name = sh_def->name;
+			sh.command = sh_def->command;
+
+			//t_frame frame(dc.pos, v2i(Font_TextLength(F_LARGE, sh.name) + 3, Font_Height(F_LARGE) + 3));
+			t_frame frame(dc.pos, v2i(50 + 3, Font_Height(F_MEDIUM) + 10));
+			sh.button = widget_button_add(app->box, &frame, 1, Debugger_ShortcutButton_Callback, WIDGET_BUTTON_STYLE_MEDIUM, (const char *)sh.name, (void*)i);
+			dc.pos.x += frame.size.x + 2;
+
+			app->shortcuts.push_back(sh);
+		}
+	}
+	frame.pos.y += app->frame_shortcuts.size.y;
 
     // Setup CPU state frame
-    DebuggerApp.frame_cpustate.pos.x   = frame.pos.x;
-    DebuggerApp.frame_cpustate.pos.y   = frame.pos.y;
-    DebuggerApp.frame_cpustate.size.x  = frame.size.x;
-    DebuggerApp.frame_cpustate.size.y  = DEBUGGER_APP_CPUSTATE_LINES * DebuggerApp.font_height;
-    frame.pos.y += DebuggerApp.frame_cpustate.size.y;
+	app->frame_cpustate.pos.x   = frame.pos.x;
+	app->frame_cpustate.pos.y   = frame.pos.y;
+	app->frame_cpustate.size.x  = frame.size.x;
+	app->frame_cpustate.size.y  = DEBUGGER_APP_CPUSTATE_LINES * app->font_height;
+    frame.pos.y += app->frame_cpustate.size.y;
 
     // Add input box
     frame.pos.x = 4;
-    frame.pos.y = DebuggerApp.box->frame.size.y - 16 - 2;
-    frame.size.x = DebuggerApp.box->frame.size.x - (4*2);
+    frame.pos.y = app->box->frame.size.y - 16 - 2;
+    frame.size.x = app->box->frame.size.x - (4*2);
     frame.size.y = 16;
     if (setup)
     {
-        DebuggerApp.input_box = widget_inputbox_add(DebuggerApp.box, &frame, 56, F_MIDDLE, Debugger_InputBoxCallback);
-        widget_inputbox_set_flags(DebuggerApp.input_box, WIDGET_INPUTBOX_FLAGS_COMPLETION, TRUE);
-        widget_inputbox_set_callback_completion(DebuggerApp.input_box, Debugger_CompletionCallback);
-        widget_inputbox_set_flags(DebuggerApp.input_box, WIDGET_INPUTBOX_FLAGS_HISTORY, TRUE);
-        widget_inputbox_set_callback_history(DebuggerApp.input_box, Debugger_History_Callback);
+        app->input_box = widget_inputbox_add(app->box, &frame, 56, F_MEDIUM, Debugger_InputBoxCallback);
+        widget_inputbox_set_flags(app->input_box, WIDGET_INPUTBOX_FLAGS_COMPLETION, TRUE);
+        widget_inputbox_set_callback_completion(app->input_box, Debugger_CompletionCallback);
+        widget_inputbox_set_flags(app->input_box, WIDGET_INPUTBOX_FLAGS_HISTORY, TRUE);
+        widget_inputbox_set_callback_history(app->input_box, Debugger_History_Callback);
     }
 }
 
@@ -2039,16 +2116,14 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
 }
 
 // Redraw disassembly and CPU state
-void	Debugger_Applet_Redraw_State()
+void	Debugger_Applet_RedrawState()
 {
-    if (!(g_machine_flags & MACHINE_POWER_ON))
-        return;
-    if (g_driver->cpu != CPU_Z80)    // Unsupported
-        return;
+	t_debugger_app* app = &DebuggerApp;
 
     // Redraw Disassembly
-    {
-        t_frame frame = DebuggerApp.frame_disassembly;
+	if ((g_machine_flags & MACHINE_POWER_ON) && (g_driver->cpu == CPU_Z80))
+	{
+        t_frame frame = app->frame_disassembly;
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
@@ -2061,7 +2136,7 @@ void	Debugger_Applet_Redraw_State()
         // Max = 10
 
         // Clear disassembly buffer
-		al_set_target_bitmap(DebuggerApp.box_gfx);
+		al_set_target_bitmap(app->box_gfx);
         al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x+frame.size.x+1, frame.pos.y+frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
 
         // Figure out where to start disassembly
@@ -2179,7 +2254,7 @@ void	Debugger_Applet_Redraw_State()
 							continue;
 
                         sprintf(buf, "%s:", symbol->name);
-                        Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), COLOR_SKIN_WINDOW_TEXT);
+                        Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * app->font_height), COLOR_SKIN_WINDOW_TEXT);
                         i++;
                         if (i >= g_configuration.debugger_disassembly_lines)
                             break;
@@ -2214,17 +2289,18 @@ void	Debugger_Applet_Redraw_State()
 				}
 			}
 
-            Font_Print(DebuggerApp.font_id, buf, frame.pos.x, frame.pos.y + (i * DebuggerApp.font_height), text_color);
+            Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * app->font_height), text_color);
 
 			pc += opcode_size;
         }
     }
 
     // Redraw CPU State
+	if (g_driver->cpu == CPU_Z80)
     {
         // Clear CPU state buffer
-        t_frame frame = DebuggerApp.frame_cpustate;
-		al_set_target_bitmap(DebuggerApp.box_gfx);
+        t_frame frame = app->frame_cpustate;
+		al_set_target_bitmap(app->box_gfx);
         al_draw_filled_rectangle(frame.pos.x, frame.pos.y, frame.pos.x + frame.size.x+1, frame.pos.y + frame.size.y+1, COLOR_SKIN_WINDOW_BACKGROUND);
         int y = frame.pos.y;
 
@@ -2232,24 +2308,27 @@ void	Debugger_Applet_Redraw_State()
 		char ** lines;
         const int lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
         assert(lines_count >= DEBUGGER_APP_CPUSTATE_LINES); // Display first 2 lines
-        Font_Print (DebuggerApp.font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
-        y += DebuggerApp.font_height;
-        Font_Print (DebuggerApp.font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print (app->font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        y += app->font_height;
+        Font_Print (app->font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         
         // Print Z80 running state with nifty ASCII rotating animation
         if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
         {
-            static int running_counter = 0;
-            const char *running_string;
-            switch (running_counter >> 1)
-            {
-                case 0: running_string = "RUNNING |";  break;
-                case 1: running_string = "RUNNING /";  break;
-                case 2: running_string = "RUNNING -";  break;
-                case 3: running_string = "RUNNING \\"; break;
-            }
-            Font_Print(DebuggerApp.font_id, running_string, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
-            running_counter = (running_counter + 1) % 8;
+            const char *label = "OFF";
+			if (g_machine_flags & MACHINE_POWER_ON)
+			{
+				static int running_counter = 0;
+				switch (running_counter >> 1)
+				{
+					case 0: label = "RUNNING |";  break;
+					case 1: label = "RUNNING /";  break;
+					case 2: label = "RUNNING -";  break;
+					case 3: label = "RUNNING \\"; break;
+				}
+				running_counter = (running_counter + 1) % 8;
+			}
+            Font_Print(app->font_id, label, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
         }
 
     }
@@ -2269,8 +2348,8 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf("-- Flow:\n");
         Debugger_Printf(" <Enter>                : Step into"                  "\n");
         Debugger_Printf(" S                      : Step over"                  "\n");
-        Debugger_Printf(" C [addr]               : Continue (up to <addr>)"    "\n");
-		Debugger_Printf(" CR                     : Continue up to next RET"    "\n");
+		Debugger_Printf(" SO                     : Step out (up to next RET)"   "\n");
+		Debugger_Printf(" C [addr]               : Continue (up to <addr>)"    "\n");
         Debugger_Printf(" J addr                 : Jump to <addr>"             "\n");
         Debugger_Printf("-- Breakpoints:\n");
         Debugger_Printf(" B [access] [bus] addr  : Add breakpoint"             "\n");
@@ -2779,8 +2858,38 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         Debugger_BreakPoint_GetSummaryLine(breakpoint, buf);
         Debugger_Printf(" %s\n", buf);
     }
+}
 
-
+void		Debugger_StepInto()
+{
+	if (g_machine_flags & MACHINE_POWER_ON)
+	{
+		// If machine is in PAUSE state, consider is the same as in DEBUGGING state
+		// (Allows step during pause)
+		if ((g_machine_flags & MACHINE_DEBUGGING) || (g_machine_flags & MACHINE_PAUSED))
+		{
+			// Step into
+			Debugger.stepping = 1;
+			Debugger.stepping_trace_after = sms.R.Trace = 1;
+			Debugger.stepping_out_enable = false;
+			Machine_Debug_Stop();
+		}
+		else
+		{
+			// Activate debugging
+			Debugger.stepping = 0;
+			Debugger.stepping_out_enable = false;
+			Debugger_Printf("Breaking at $%04X\n", sms.R.PC.W);
+			//Debugger_Applet_RedrawState();
+			Machine_Debug_Start();
+			//Debugger_Hook (&sms.R);
+			sms.R.Trace = 1;
+		}
+	}
+	else
+	{
+		Debugger_Printf("Command unavailable while machine is not running!\n");
+	}
 }
 
 void        Debugger_InputParseCommand(char *line)
@@ -2824,12 +2933,19 @@ void        Debugger_InputParseCommand(char *line)
         return;
     }
 
+	// STEPINTO (undocumented / for shortcuts)
+	if (!strcmp(cmd, "STEPINTO"))
+	{
+		Debugger_StepInto();
+		return;
+	}
+
     // C - CONTINUE
     if (!strcmp(cmd, "C") || !strcmp(cmd, "CONT") || !strcmp(cmd, "CONTINUE"))
     {
         if (!(g_machine_flags & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running\n");
+            Debugger_Printf("Command unavailable while machine is not running!\n");
             return;
         }
 
@@ -2871,7 +2987,7 @@ void        Debugger_InputParseCommand(char *line)
     {
         if (!(g_machine_flags & MACHINE_POWER_ON))
         {
-            Debugger_Printf("Command unavailable while machine is not running\n");
+            Debugger_Printf("Command unavailable while machine is not running!\n");
             return;
         }
 
@@ -2911,7 +3027,7 @@ void        Debugger_InputParseCommand(char *line)
         {
             sms.R.PC.W = value.data;
             Debugger_Printf("Jump to $%04X\n", sms.R.PC.W);
-            Debugger_Applet_Redraw_State();
+            //Debugger_Applet_RedrawState();
         }
         else
         {
@@ -3088,11 +3204,18 @@ void        Debugger_InputParseCommand(char *line)
     // R - REGS
     if (!strcmp(cmd, "R") || !strcmp(cmd, "REGS"))
     {
-        char **lines;
-        const int lines_count = Debugger_GetZ80SummaryLines(&lines, FALSE);
-        int i;
-        for (i = 0; i != lines_count; i++)
-            Debugger_Printf("%s\n", lines[i]);
+		if (!(g_machine_flags & MACHINE_POWER_ON))
+		{
+			Debugger_Printf("Command unavailable while machine is not running!\n");
+		}
+		else
+		{
+			char **lines;
+			const int lines_count = Debugger_GetZ80SummaryLines(&lines, FALSE);
+			int i;
+			for (i = 0; i != lines_count; i++)
+				Debugger_Printf("%s\n", lines[i]);
+		}
         return;
     }
 
@@ -3361,6 +3484,19 @@ void        Debugger_InputParseCommand(char *line)
     Debugger_Printf("Syntax error!\n");
 }
 
+void		Debugger_ShortcutButton_Callback(t_widget* w)
+{
+	t_debugger_app* app = &DebuggerApp;
+
+	t_debugger_shortcut* sh = &app->shortcuts[(int)w->user_data];
+
+	char* command = strdup(sh->command);
+	Debugger_InputParseCommand(command);		// non-const input
+	free(command);
+
+	app->shortcuts_freeze = 1;
+}
+
 //-----------------------------------------------------------------------------
 // Debugger_InputBoxCallback(t_widget *w)
 //-----------------------------------------------------------------------------
@@ -3380,30 +3516,8 @@ void        Debugger_InputBoxCallback(t_widget *w)
     // An empty line means step into or activate debugging
     if (line_buf[0] == EOSTR)
     {
-        if (g_machine_flags & MACHINE_POWER_ON)
-        {
-            // If machine is in PAUSE state, consider is the same as in DEBUGGING state
-            // (Allows step during pause)
-            if ((g_machine_flags & MACHINE_DEBUGGING) || (g_machine_flags & MACHINE_PAUSED))
-            {
-                // Step into
-                Debugger.stepping = 1;
-                Debugger.stepping_trace_after = sms.R.Trace = 1;
-				Debugger.stepping_out_enable = false;
-                Machine_Debug_Stop();
-            }
-            else
-            {
-                // Activate debugging
-                Debugger.stepping = 0;
-				Debugger.stepping_out_enable = false;
-                Debugger_Printf("Breaking at $%04X\n", sms.R.PC.W);
-                Debugger_Applet_Redraw_State();
-                Machine_Debug_Start();
-                //Debugger_Hook (&sms.R);
-                sms.R.Trace = 1;
-            }
-        }
+		if (g_machine_flags & MACHINE_POWER_ON)
+			Debugger_StepInto();
         return;
     }
 
