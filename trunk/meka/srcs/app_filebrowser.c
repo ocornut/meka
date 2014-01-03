@@ -371,6 +371,13 @@ void                FB_Add_Entries (t_list *ext_list, int type)
 
 #else // ARCH_WIN32
 
+#ifndef FA_LABEL
+#define FA_LABEL        8
+#endif
+#ifndef FA_DIREC
+#define FA_DIREC        16
+#endif
+
     struct _finddata_t info;
     long   handle;
 	if ((handle = _findfirst ("*.*", &info)) < 0)
