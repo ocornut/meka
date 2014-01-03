@@ -45,7 +45,7 @@ char *  SDSC_String_Get (int offset, int verbose_error)
 
 // Called after ROM loading
 // Read SDSC Header and display it if found
-// Return weither something has been displayed or not
+// Return whether something has been displayed or not
 // (return value currently not used)
 int         SDSC_Read_and_Display (void)
 {

@@ -1049,8 +1049,8 @@ void        widget_inputbox_update(t_widget *w)
 		}
 	}
 
-	// Clipboard Paste
-	if (is_ctrl_pressed && Inputs_KeyPressed_Repeat(ALLEGRO_KEY_V, TRUE, tm_delay, tm_rate))
+	// Clipboard Paste (slower repeat rate)
+	if (is_ctrl_pressed && Inputs_KeyPressed_Repeat(ALLEGRO_KEY_V, false, tm_delay, tm_rate*3))
 	{
 		if (char* s = OSD_ClipboardGetText())
 		{
