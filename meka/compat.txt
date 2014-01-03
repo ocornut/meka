@@ -588,8 +588,8 @@
  Bank Panic                                     Ok
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
- Bomberman Special (TW)                        *Ok
- Bomberman Special [DahJee] (TW)               *Ok
+ Bomberman Special (TW)                         Ok
+ Bomberman Special [DahJee] (TW)                Ok
  Bomb Jack                                      Ok
  Bomb Jack [chinese logo] (TW)                  Ok
  Bomb Jack [english logo] (TW)                  Ok
@@ -598,7 +598,7 @@
  Borderline                                     Ok
  Cabbage Patch Kids (TW)                        Ok
  Castle, The                                    Ok
- Castle, The [MSX] (TW)                        *Ok
+ Castle, The [MSX] (TW)                         Ok
  Chack'n Pop                                    Ok
  Chack'n Pop (TW)                               Ok
  Champion Baseball                              Ok
@@ -675,8 +675,8 @@
  Hyper Sports (Konami no) (TW)                  Ok
  Hyper Sports 2 (TW)                            Ok
  King's Valley (TW)                             Ok
- Knightmare [Jumbo] (TW)                       *Ok
- Legend of Kage, The [DahJee] (TW)             *Ok
+ Knightmare [Jumbo] (TW)                        Ok
+ Legend of Kage, The [DahJee] (TW)              Ok
  Lode Runner                                    Ok
  Lode Runner (KR)                               Ok
  Lode Runner (TW)                               Ok
@@ -711,10 +711,10 @@
  Pitfall II ~The Lost Caverns~ [v1]             Ok
  Pop Flamer                                     Ok
  Pop Flamer (TW)                                Ok
- Rally-X (TW)                                  *Ok
- Rally-X [DahJee] (TW)                         *Ok
- Road Fighter (TW)                             *Ok
- Road Fighter [Jumbo] (TW)                     *Ok
+ Rally-X (TW)                                   Ok
+ Rally-X [DahJee] (TW)                          Ok
+ Road Fighter (TW)                              Ok
+ Road Fighter [Jumbo] (TW)                      Ok
  Rock n' Bolt                                   Ok
  Rock n' Bolt (TW)                              Ok
  Safari Hunting                                 Ok
@@ -751,9 +751,9 @@
  Super Tank                                     Ok
  Super Tank (KR)                                Ok
  Super Tank (TW)                                Ok
- Tank Battalion [DahJee] (TW)                  *Ok
+ Tank Battalion [DahJee] (TW)                   Ok
  Terebi Oekaki Graphic Software                 Ok (uses Sega Graphic Board)
- TwinBee [Jumbo] (TW)                          *Ok
+ TwinBee [Jumbo] (TW)                           Ok
  Wonder Boy [v0]                                Ok
  Wonder Boy [v1]                                Ok
  Wonder Boy [v1] (TW)                           Ok
@@ -761,6 +761,7 @@
  Yamato [40k map]                               Ok
  Yamato (TW)                                    Ok
  Yie Ar Kung-Fu (TW)                            Ok
+ Yie Ar Kung-Fu II (TW)                         Ok
  Zaxxon                                         Ok
  Zaxxon (TW)                                    Ok
  Zippy Race                                     Ok
@@ -768,7 +769,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 181 games tested - 181 are "Ok" - Compatibility rate: 100.00%
+ 182 games tested - 182 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -890,7 +891,7 @@
  Batman Forever                                     Ok
  Batman Returns                                     Ok
  Batter Up                                          Ok
- Battleship - The classic naval combat game        *Ok
+ Battleship - The classic naval combat game         Ok
  Battletoads                                        Ok
  Beavis and Butt-Head (MTV's)                       Ok
  Beavis and Butt-Head (MTV's) (US)                  Ok
@@ -1343,8 +1344,8 @@
  Yuu Yuu Hakusho (JP)                               Ok
  Yuu Yuu Hakusho II (JP)                            Ok
  Zan Gear (JP)                                      Ok
- Zool: Ninja of the Nth Dimension                  *Ok
- Zool: Ninja of the Nth Dimension (US)             *Ok
+ Zool: Ninja of the Nth Dimension                   Ok
+ Zool: Ninja of the Nth Dimension (US)              Ok
  Zool - Zool no Yume Bouken (JP)                    Ok
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
