@@ -216,7 +216,7 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	if (setup)
 	{
 		t_frame frame(dc.pos, v2i(60,Font_Height(F_SMALL)+3));
-		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, F_MIDDLE, CheatFinder_CallbackReduce);
+		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, F_MIDDLE, NULL);
 		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DEC_HEX_BIN);
 	}
 	dc.pos.y += 1;
@@ -569,17 +569,6 @@ static void CheatFinder_CallbackComparer(t_widget* w)
 {
 	t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
 	CheatFinder_ReduceMatches(app, (t_cheat_finder_comparer)(int)w->user_data);
-}
-
-static void CheatFinder_CallbackReduce(t_widget* w)
-{
-	assert(0);
-	/*t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
-	if (w != app->w_reduce_search)
-		widget_button_trigger(app->w_reduce_search);
-	else
-		CheatFinder_ReduceMatches(app, (t_cheat_finder_comparer)(int)w->user_data);
-		*/
 }
 
 static void CheatFinder_CallbackUndoReduce(t_widget* w)

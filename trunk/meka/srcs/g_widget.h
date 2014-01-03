@@ -34,6 +34,7 @@ enum t_widget_inputbox_flags
     WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR    = 0x0008,
     WIDGET_INPUTBOX_FLAGS_COMPLETION                = 0x0010,
     WIDGET_INPUTBOX_FLAGS_HISTORY                   = 0x0020,
+	WIDGET_INPUTBOX_FLAGS_NO_SELECTION              = 0x0040,
 };
 
 enum t_widget_scrollbar_type
@@ -152,14 +153,17 @@ int         widget_inputbox_get_value_length        (t_widget* w);
 void        widget_inputbox_set_value               (t_widget* w, const char *value);
 int         widget_inputbox_get_cursor_pos          (t_widget* w);
 void        widget_inputbox_set_cursor_pos          (t_widget* w, int cursor_pos);
+bool		widget_inputbox_has_selection			(t_widget* w);
+void        widget_inputbox_set_selection			(t_widget* w, int sel_begin, int sel_end);
+void        widget_inputbox_set_selection_end		(t_widget* w, int sel_end);
 void        widget_inputbox_set_callback_enter      (t_widget* w, void (*callback_enter)(t_widget *));
 void        widget_inputbox_set_callback_edit       (t_widget* w, void (*callback_edit)(t_widget *));
 void        widget_inputbox_set_flags               (t_widget* w, int /*t_widget_inputbox_flags*/ flags, bool enable);	// FIXME-ENUM
 void        widget_inputbox_set_content_type        (t_widget* w, t_widget_content_type content_type);
-void        widget_inputbox_set_insert_mode         (t_widget* w, int insert_mode);
+void        widget_inputbox_set_overwrite_mode		(t_widget* w, bool overwrite_mode);
 void        widget_inputbox_set_callback_completion (t_widget* w, bool (*callback_completion)(t_widget *));
 void        widget_inputbox_set_callback_history    (t_widget* w, bool (*callback_history)(t_widget *, int level));
-bool        widget_inputbox_insert_char             (t_widget* w, char c);
-bool        widget_inputbox_insert_string           (t_widget* w, const char *str);
-bool        widget_inputbox_delete_current_char     (t_widget* w);
+bool        widget_inputbox_insert_chars			(t_widget* w, const char *str);
+void        widget_inputbox_delete_selection		(t_widget* w);
+void        widget_inputbox_delete_current_char     (t_widget* w);
 //-----------------------------------------------------------------------------

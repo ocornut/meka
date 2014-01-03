@@ -395,9 +395,9 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
         frame.size.y = Font_Height(F_MIDDLE);
         mv->values_edit_inputbox = widget_inputbox_add(mv->box, &frame, 2, F_MIDDLE, MemoryViewer_InputBoxValue_EnterCallback);
         widget_inputbox_set_callback_edit(mv->values_edit_inputbox, MemoryViewer_InputBoxValue_EditCallback);
-        widget_inputbox_set_flags(mv->values_edit_inputbox, WIDGET_INPUTBOX_FLAGS_NO_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_DELETE | WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR, TRUE);
+        widget_inputbox_set_flags(mv->values_edit_inputbox, WIDGET_INPUTBOX_FLAGS_NO_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_DELETE | WIDGET_INPUTBOX_FLAGS_NO_SELECTION | WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR, TRUE);
         widget_inputbox_set_content_type(mv->values_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
-        widget_inputbox_set_insert_mode(mv->values_edit_inputbox, TRUE);
+        widget_inputbox_set_overwrite_mode(mv->values_edit_inputbox, TRUE);
         mv->values_edit_inputbox->update_func = NULL;
         widget_set_enabled(mv->values_edit_inputbox, false);
     }

@@ -10,6 +10,7 @@
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "keyinfo.h"
+#include "osd/misc.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -73,11 +74,13 @@ struct t_widget_data_inputbox
 {
     int							flags;			// enum t_widget_inputbox_flags // FIXME-ENUM
     t_widget_content_type       content_type;
-    int                         insert_mode;    // Boolean
-    char *                      value;
+    bool                        overwrite_mode;
+    char *                      text;
+	char *						tmp_buffer;
     int                         length;
     int                         length_max;
-    int                         cursor_pos;
+    int                         sel_begin;
+	int                         sel_end;		// == cursor_pos
     t_font_id                   font_id;
 	int							cursor_blink_timer;
     void                        (*callback_edit)(t_widget *inputbox);
@@ -750,7 +753,7 @@ void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
         buf[pos+1] = EOSTR;
 
         // Compute length
-        // FIXME: this algorythm sucks
+        // FIXME-OPT: Dumb
         if (Font_TextLength(wd->font_id, buf) > w->frame.size.x)
         {
             char *blank = strrchr (buf, ' ');
@@ -819,12 +822,14 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
     wd = (t_widget_data_inputbox*)w->data;
     wd->flags               = WIDGET_INPUTBOX_FLAGS_DEFAULT;
     wd->content_type        = WIDGET_CONTENT_TYPE_TEXT;
-    wd->insert_mode         = FALSE;
+    wd->overwrite_mode      = false;
     wd->length_max          = length_max;
     assert(length_max != -1); // Currently, length must be fixed
-    wd->value               = (char*)malloc (sizeof (char) * (length_max + 1));
-    strcpy(wd->value, "");
-    wd->cursor_pos          = wd->length = 0;
+    wd->text				= new char[length_max + 1];
+    strcpy(wd->text, "");
+	wd->tmp_buffer			= new char[length_max + 1];
+	wd->length				= 0;
+    wd->sel_begin = wd->sel_end = 0;
     wd->font_id             = font_id;
 	wd->cursor_blink_timer	= 0;
     wd->callback_enter      = callback_enter;
@@ -839,77 +844,116 @@ t_widget *  widget_inputbox_add(t_gui_box *box, const t_frame *frame, int length
 void	widget_inputbox_destroy(t_widget *w)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
-	free(wd->value);
+	delete[] wd->text;
+	delete[] wd->tmp_buffer;
 }
 
-bool    widget_inputbox_insert_char(t_widget *w, char c)
+void	widget_inputbox_delete_selection(t_widget* w)
 {
-    t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+	t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
-    if (wd->insert_mode == FALSE)
-    {
-        // Limit field size
-        if (wd->length == wd->length_max)
-            return false;
+	// Delete selection
+	if (widget_inputbox_has_selection(w))
+	{
+		const int sel_len = max(wd->sel_begin, wd->sel_end) - min(wd->sel_begin, wd->sel_end);
+		for (int i = max(wd->sel_begin, wd->sel_end); i < wd->length; i++)
+			wd->text[i - sel_len] = wd->text[i];
+		wd->sel_begin = wd->sel_end = min(wd->sel_begin, wd->sel_end);
+		wd->length -= sel_len;
+	}
+}
 
-        // Shift everything that is after cursor pos
-        if (wd->cursor_pos < wd->length)
-        {
-            int i;
-            for (i = wd->length; i > wd->cursor_pos; i--)
-                wd->value[i] = wd->value[i-1];
-        }
-    }
+bool    widget_inputbox_insert_chars(t_widget* w, const char* str)
+{
+	t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
-    // Insert at cursor pos
-    wd->value[wd->cursor_pos] = c;
-    wd->cursor_pos++;
-    if (wd->length < wd->length_max)
-    {
-        wd->length++;
-        wd->value[wd->length] = '\0';
-    }
+	widget_inputbox_delete_selection(w);
+	assert(!widget_inputbox_has_selection(w));
 
-    // Edit callback
-    if (wd->callback_edit)
-        wd->callback_edit(w);
+	// How much can we fit?
+	int str_len = strlen(str);
+	if (wd->overwrite_mode)
+	{
+		str_len = MIN(str_len, wd->length_max - wd->sel_end);
+		assert(wd->sel_end + str_len <= wd->length_max);
+	}
+	else
+	{
+		str_len = MIN(str_len, wd->length_max - wd->length);
+		assert(wd->length + str_len <= wd->length_max);
+	}
 
-    // Set dirty flag
+	if (str_len == 0)
+		return false;
+	const char* str_end = str + str_len;
+
+	if (!wd->overwrite_mode)
+	{
+		// Shift everything that is after cursor pos
+		for (int i = wd->length; i > wd->sel_end; i--)
+			wd->text[i] = wd->text[i-str_len];
+	}
+
+	// Insert at cursor pos
+	for (int i = 0; i < str_len; i++)
+		wd->text[wd->sel_end + i] = str[i];
+	wd->sel_begin = wd->sel_end = wd->sel_end + str_len;
+	wd->length += str_len;
+	wd->text[wd->length] = '\0';
+
+	// Edit callback
+	if (wd->callback_edit)
+		wd->callback_edit(w);
+
+	// Set dirty flag
 	wd->cursor_blink_timer = 0;
 
     return true;
 }
 
-bool    widget_inputbox_insert_string(t_widget *w, const char *str)
-{
-    char    c;
-    while ((c = *str++) != '\0')
-        if (!widget_inputbox_insert_char(w, c))
-            return false;
-    return true;
-}
-
-bool    widget_inputbox_delete_current_char(t_widget *w)
+void    widget_inputbox_delete_current_char(t_widget *w)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
 
 	wd->cursor_blink_timer = 0;
-    if (wd->cursor_pos == 0)
-    {
-        return false;
-    }
-    else
-    {
-        // Shift everything that is after cursor
-        int i;
-        for (i = wd->cursor_pos; i < wd->length; i++)
-            wd->value[i-1] = wd->value[i];
-        wd->cursor_pos--;
-        wd->length--;
-        wd->value[wd->length] = '\0';
 
-        return true;
-    }
+	assert(!widget_inputbox_has_selection(w));
+
+	// Shift everything that is after cursor
+	for (int i = wd->sel_end; i < wd->length; i++)
+		wd->text[i-1] = wd->text[i];
+	wd->sel_begin = wd->sel_end = wd->sel_end - 1;
+	wd->length--;
+	wd->text[wd->length] = '\0';
+}
+
+static char	widget_inputbox_translate_char(t_widget* w, char c)
+{
+	t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+
+	if (!isprint(c))
+		return 0;
+
+	if (wd->content_type == WIDGET_CONTENT_TYPE_DECIMAL)
+	{
+		if (!(c >= '0' && c <= '9'))
+			return 0;
+	}
+	else if (wd->content_type == WIDGET_CONTENT_TYPE_HEXADECIMAL)
+	{
+		if (c >= 'a' && c <= 'f')
+			c += 'A' - 'a';
+		if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
+			return 0;
+	}
+	else if (wd->content_type == WIDGET_CONTENT_TYPE_DEC_HEX_BIN)
+	{
+		if (c >= 'a' && c <= 'f')
+			c += 'A' - 'a';
+		if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c == '$' || c == '%' || c == '#')))
+			return 0;
+	}
+	return c;
 }
 
 //-----------------------------------------------------------------------------
@@ -922,7 +966,11 @@ void        widget_inputbox_update(t_widget *w)
 
 	const int tm_delay = 15;
     const int tm_rate = 1;
-    bool edited = FALSE;
+
+	const bool is_ctrl_pressed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) != 0;
+	const bool is_shift_pressed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_SHIFT) != 0;
+
+    bool edited = false;
 
     // Check if we have focus
     // FIXME: This is completely a hack since it checks BOX focus (and not Widget focus,
@@ -955,7 +1003,7 @@ void        widget_inputbox_update(t_widget *w)
                 char s[2] = { EOSTR, EOSTR };
                 for (i = 0; i < wd->length; i++)
                 {
-                    s[0] = wd->value[i];
+                    s[0] = wd->text[i];
                     mx -= Font_TextLength(wd->font_id, s);
                     if (mx <= 0)
                         break;
@@ -967,66 +1015,103 @@ void        widget_inputbox_update(t_widget *w)
 
     // Check for printable input keys
     t_list *keypress_queue = Inputs.KeyPressedQueue;
-    while (((wd->length < wd->length_max) || (wd->insert_mode == TRUE && wd->cursor_pos < wd->length)) && 
-        (keypress_queue != NULL))
+    while (keypress_queue != NULL)
     {
-        t_key_press* keypress = (t_key_press*)keypress_queue->elem;
+		t_key_press* keypress = (t_key_press*)keypress_queue->elem;
         keypress_queue = keypress_queue->next;
 
 		if (isprint(keypress->ascii))
 		{
-			char c = keypress->ascii;
-			if (wd->content_type == WIDGET_CONTENT_TYPE_DECIMAL)
-			{
-				if (!(c >= '0' && c <= '9'))
-					c = 0;
-			}
-			else if (wd->content_type == WIDGET_CONTENT_TYPE_HEXADECIMAL)
-			{
-				if (c >= 'a' && c <= 'f')
-					c += 'A' - 'a';
-				if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F')))
-					c = 0;
-			}
-			else if (wd->content_type == WIDGET_CONTENT_TYPE_DEC_HEX_BIN)
-			{
-				if (c >= 'a' && c <= 'f')
-					c += 'A' - 'a';
-				if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c == '$' || c == '%' || c == '#')))
-					c = 0;
-			}
+			const char c = widget_inputbox_translate_char(w, keypress->ascii);
 			if (c != 0)
 			{
 				// Insert character
-				widget_inputbox_insert_char(w, c);
+				char sc[2];
+				sc[0] = c;
+				sc[1] = '\0';
+				widget_inputbox_insert_chars(w, sc);
 				Inputs_KeyPressQueue_Remove(keypress);
 				return;
 			}
 		}
     }
 
-    // Backspace, Delete
+	// Clipboard Copy
+	if (is_ctrl_pressed && Inputs_KeyPressed(ALLEGRO_KEY_C, true))
+	{
+		if (wd->flags & WIDGET_INPUTBOX_FLAGS_NO_SELECTION)
+		{
+			OSD_ClipboardSetText(wd->text, wd->text + wd->length);
+		}
+		else if (wd->sel_begin != wd->sel_end)
+		{
+			OSD_ClipboardSetText(wd->text + min(wd->sel_begin, wd->sel_end), wd->text + max(wd->sel_begin, wd->sel_end));
+		}
+	}
+
+	// Clipboard Paste
+	if (is_ctrl_pressed && Inputs_KeyPressed_Repeat(ALLEGRO_KEY_V, TRUE, tm_delay, tm_rate))
+	{
+		if (char* s = OSD_ClipboardGetText())
+		{
+			bool allowed = true;
+			for (int i = 0; s[i]; i++)
+			{
+				if (widget_inputbox_translate_char(w, s[i]) == 0)
+				{
+					allowed = false;
+					break;
+				}
+			}
+			if (allowed)
+				widget_inputbox_insert_chars(w, s);
+			free(s);
+		}
+	}
+
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_DELETE))
 	{
-        if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate))
+		// Clipboard Cut
+		if (is_ctrl_pressed && Inputs_KeyPressed(ALLEGRO_KEY_X, true))
+		{
+			if (wd->sel_begin != wd->sel_end)
+			{
+				OSD_ClipboardSetText(wd->text + min(wd->sel_begin, wd->sel_end), wd->text + max(wd->sel_begin, wd->sel_end));
+				widget_inputbox_delete_selection(w);
+			}
+		}
+
+		// Backspace
+		if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_BACKSPACE, FALSE, tm_delay, tm_rate))
         {
-            if (wd->cursor_pos > 0)
-            {
-                // Delete previous character
-                widget_inputbox_delete_current_char(w);
-                edited = TRUE;
-            }
+			if (widget_inputbox_has_selection(w))
+			{
+				widget_inputbox_delete_selection(w);
+			}
+			else if (wd->sel_end > 0)
+			{
+				// Delete previous character
+				widget_inputbox_delete_current_char(w);
+				edited = TRUE;
+			}
 
             // HACK: This avoid resetting while backspacing in the widget
             if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, FALSE))
                 Inputs_KeyEat(ALLEGRO_KEY_BACKSPACE);
         }
+
+		// Delete
 		if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DELETE, TRUE, tm_delay, tm_rate))
 		{
-			if (wd->cursor_pos < wd->length)
+			if (widget_inputbox_has_selection(w))
+			{
+				widget_inputbox_delete_selection(w);
+			}
+			else if (wd->sel_end < wd->length)
 			{
 				// Delete next character
-				wd->cursor_pos++;
+				wd->sel_begin++;
+				wd->sel_end++;
 				widget_inputbox_delete_current_char(w);
 				edited = TRUE;
 			}
@@ -1035,17 +1120,54 @@ void        widget_inputbox_update(t_widget *w)
 
     if (!(wd->flags & WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR))
     {
-        // Left/Right arrows: move cursor
-        if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_LEFT, FALSE, tm_delay, tm_rate))
-			widget_inputbox_set_cursor_pos(w, wd->cursor_pos - 1);
-        if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_RIGHT, FALSE, tm_delay, tm_rate))
-			widget_inputbox_set_cursor_pos(w, wd->cursor_pos + 1);
+		// Left/Right arrows: move cursor
+		const char* word_delimiters = " \t\r\n,:;";
+		if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_LEFT, FALSE, tm_delay, tm_rate))
+		{
+			int offset = -1;
+			if (is_ctrl_pressed)
+			{
+				int i = wd->sel_end - 1;
+				while (i >= 0 && strchr(word_delimiters, wd->text[i]))
+					i--;
+				while (i >= 0 && !strchr(word_delimiters, wd->text[i]))
+					i--;
+				offset = i - wd->sel_end + 1;
+			}
+			widget_inputbox_set_selection_end(w, wd->sel_end + offset);
+			if (!is_shift_pressed)
+				wd->sel_begin = wd->sel_end;
+		}
+		if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_RIGHT, FALSE, tm_delay, tm_rate))
+		{
+			int offset = +1;
+			if (is_ctrl_pressed)
+			{
+				int i = wd->sel_end;
+				while (i < wd->length && !strchr(word_delimiters, wd->text[i]))
+					i++;
+				while (i < wd->length && strchr(word_delimiters, wd->text[i]))
+					i++;
+				offset = i - wd->sel_end;
+			}
+			widget_inputbox_set_selection_end(w, wd->sel_end + offset);
+			if (!is_shift_pressed)
+				wd->sel_begin = wd->sel_end;
+		}
 
-        // Home/End: set cursor to beginning/end of input box
-        if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
-            widget_inputbox_set_cursor_pos(w, 0);
-        if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
-            widget_inputbox_set_cursor_pos(w, wd->length);
+		// Home/End: set cursor to beginning/end of input box
+		if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
+		{
+			widget_inputbox_set_selection_end(w, 0);
+			if (!is_shift_pressed)
+				wd->sel_begin = wd->sel_end;
+		}
+		if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
+		{
+			widget_inputbox_set_selection_end(w, wd->length);
+			if (!is_shift_pressed)
+				wd->sel_begin = wd->sel_end;
+		}
     }
 
 	// Completion callback
@@ -1102,38 +1224,52 @@ void        widget_inputbox_redraw(t_widget *w)
 	const ALLEGRO_COLOR bg_color = (w->highlight) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
     al_draw_filled_rectangle(w->frame.pos.x + 1, w->frame.pos.y + 1, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, bg_color);
 
-    // Draw text & cursor
-    {
-        int x = w->frame.pos.x + 2 + 3; // Note: +3 to center font
-        int y = w->frame.pos.y + (w->frame.size.y - Font_Height(wd->font_id)) / 2 + 1;
-        int i;
-        for (i = 0; i < wd->length + 1; i++)
-        {
-            if (draw_cursor && i == wd->cursor_pos)
-            {
-                // Draw cursor line
-                int cursor_y1 = w->frame.pos.y + 2;
-                int cursor_y2 = cursor_y1 + w->frame.size.y - 2*2;
-                al_draw_vline(x, cursor_y1, cursor_y2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
-            }
-            if (i < wd->length)
-            {
-                // Draw one character
-                const ALLEGRO_COLOR color = (highlight_all || i == wd->cursor_pos) ? COLOR_SKIN_WIDGET_GENERIC_TEXT : COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE;
-                char ch[2];
-                ch[0] = wd->value[i];
-                ch[1] = '\0';
-				Font_Print(wd->font_id, ch, x, y, color);
-                x += Font_TextLength(wd->font_id, ch); // A bit slow
-            }
-        }
-    }
+	int x = w->frame.pos.x + 2 + 3; // Note: +3 to center font
+	const int y = w->frame.pos.y + (w->frame.size.y - Font_Height(wd->font_id)) / 2 + 1;
+
+	// Selection
+	if (wd->sel_begin != wd->sel_end)
+	{
+		const int sel_min = min(wd->sel_begin, wd->sel_end);
+		const int sel_max = max(wd->sel_begin, wd->sel_end);
+
+		sprintf(wd->tmp_buffer, "%.*s", sel_min, wd->text);
+		const int sel_min_x = Font_TextLength(wd->font_id, wd->tmp_buffer);
+
+		sprintf(wd->tmp_buffer, "%.*s", sel_max - sel_min, wd->text + sel_min);
+		const int sel_max_x = sel_min_x + Font_TextLength(wd->font_id, wd->tmp_buffer);
+
+		const ALLEGRO_COLOR inv_color = COLOR_SKIN_WINDOW_BACKGROUND;
+		al_draw_filled_rectangle(x + sel_min_x, w->frame.pos.y + 1+1, x + sel_max_x, w->frame.pos.y + w->frame.size.y-1, inv_color);
+	}
+
+	// Draw text & cursor
+	for (int i = 0; i < wd->length + 1; i++)
+	{
+		if (draw_cursor && (i == wd->sel_end))
+		{
+			// Draw cursor line
+			int cursor_y1 = w->frame.pos.y + 2;
+			int cursor_y2 = cursor_y1 + w->frame.size.y - 2*2;
+			al_draw_vline(x, cursor_y1, cursor_y2, COLOR_SKIN_WIDGET_GENERIC_TEXT);
+		}
+		if (i < wd->length)
+		{
+			// Draw one character
+			ALLEGRO_COLOR color = (highlight_all || i == wd->sel_end) ? COLOR_SKIN_WIDGET_GENERIC_TEXT : COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE;
+			char ch[2];
+			ch[0] = wd->text[i];
+			ch[1] = '\0';
+			Font_Print(wd->font_id, ch, x, y, color);
+			x += Font_TextLength(wd->font_id, ch); // A bit slow
+		}
+	}
 }
 
 const char *widget_inputbox_get_value(t_widget *w)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
-    return (wd->value);
+    return (wd->text);
 }
 
 int         widget_inputbox_get_value_length(t_widget *w)
@@ -1151,42 +1287,52 @@ void        widget_inputbox_set_value(t_widget *w, const char *value)
     len = strlen(value);
     if (len < wd->length_max)
     {
-        strcpy(wd->value, value);
+        strcpy(wd->text, value);
         wd->length = len;
     }
     else
     {
-        strncpy (wd->value, value, wd->length_max);
-        wd->value[wd->length_max] = '\0';
+        strncpy (wd->text, value, wd->length_max);
+        wd->text[wd->length_max] = '\0';
         wd->length = wd->length_max;
     }
 
     // Set cursor to end of text
-    // Eventually we'll add some parameters to avoid or tweak that behavior...
-    wd->cursor_pos = wd->length;
+    wd->sel_begin = wd->sel_end = wd->length;
 }
 
 int         widget_inputbox_get_cursor_pos(t_widget *w)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
-    return (wd->cursor_pos);
+    return (wd->sel_end);
 }
 
 void        widget_inputbox_set_cursor_pos(t_widget *w, int cursor_pos)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
-
-	// Reset blinking so cursor shows immediately
 	wd->cursor_blink_timer = 0;
+    wd->sel_begin = wd->sel_end = Clamp<int>(cursor_pos, 0, wd->length);
+}
 
-	if (cursor_pos < 0)
-        return;
-    if (cursor_pos > wd->length)
-        return;
+bool		widget_inputbox_has_selection(t_widget *w)
+{
+	t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+	return wd->sel_begin != wd->sel_end;
+}
 
-    // Set cursor position to given position
-    // Eventually we'll add some parameters to avoid or tweak that behavior...
-    wd->cursor_pos = cursor_pos;
+void        widget_inputbox_set_selection(t_widget *w, int sel_begin, int sel_end)
+{
+	t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+	wd->cursor_blink_timer = 0;
+	wd->sel_begin = Clamp<int>(sel_begin, 0, wd->length);
+	wd->sel_end = Clamp<int>(sel_end, 0, wd->length);
+}
+
+void        widget_inputbox_set_selection_end(t_widget *w, int sel_end)
+{
+	t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
+	wd->cursor_blink_timer = 0;
+	wd->sel_end = Clamp<int>(sel_end, 0, wd->length);
 }
 
 void        widget_inputbox_set_callback_enter(t_widget *w, void (*callback_enter)(t_widget *))
@@ -1217,10 +1363,10 @@ void        widget_inputbox_set_content_type(t_widget *w, t_widget_content_type 
     wd->content_type = content_type;
 }
 
-void        widget_inputbox_set_insert_mode(t_widget *w, int insert_mode)
+void        widget_inputbox_set_overwrite_mode(t_widget *w, bool overwrite_mode)
 {
     t_widget_data_inputbox* wd = (t_widget_data_inputbox*)w->data;
-    wd->insert_mode = insert_mode;
+    wd->overwrite_mode = overwrite_mode;
 }
 
 void        widget_inputbox_set_callback_completion(t_widget *w, bool (*callback_completion)(t_widget *widget))
