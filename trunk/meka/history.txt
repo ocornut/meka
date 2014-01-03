@@ -41,7 +41,7 @@ They are usually of 2 kinds:
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
     - Referring to a symbol using with the : prefix (in the form ":xxxx") returns the ROM address instead of the CPU address. [Omar]
-    - Added CR command ("Continue to next RET* instruction"). [Omar]
+    - Added STEPOUT command ("Continue to next RET* instruction at same stack-frame level."). [Omar]
     - Added STACK command ("Dump stack", with dual 8/16 bits display and with symbol resolving). [Omar]
     - Added VARS command ("Variables") to display content pointed by symbols in RAM. [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
@@ -83,6 +83,7 @@ They are usually of 2 kinds:
     - FileBrowser: returning to parent directory position cursor on last child. [Omar]
     - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
     - FileBrowser: display JP flag when a game is JP/KR or JP/TW in the database. [Omar]
+    - FileBrowser: alphabetical shortcuts ignore disk drivers under Windows. [Omar]
   - Sources/Development:
     - Added a batch script 'tools/dist_bin_win32.bat' to create binary Win32 package. [Omar]
     - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]

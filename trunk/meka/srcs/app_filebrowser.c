@@ -226,18 +226,18 @@ void		FB_Add_DiskDrives(void)
 {
     for (int i = 2; i < 26; i ++)   // C: to Z:
     {
-        if (GetLogicalDrives () & (1 << i))
+        if (GetLogicalDrives() & (1 << i))
         {
             // Create a new file browser entry of disk type
             t_filebrowser_entry *entry;
 		    char buf[16];
             sprintf(buf, "%c:", 'A' + i);
-            entry = FB_Entry_New (FB_ENTRY_TYPE_DRIVE, strdup (buf));
+            entry = FB_Entry_New(FB_ENTRY_TYPE_DRIVE, strdup(buf));
 
-            // Add to list (FIXME: argh)
-            FB.files [FB.files_max] = entry;
+            // Add to list (FIXME: arghh.)
+            FB.files[FB.files_max] = entry;
             FB.files_max ++;
-			FB.files = (t_filebrowser_entry**)realloc(FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
+			FB.files = (t_filebrowser_entry**)realloc(FB.files, (FB.files_max + 1) * sizeof(t_filebrowser_entry *));
         }
     }
 }
@@ -447,17 +447,17 @@ static void     FB_Load_Directory_Internal(void)
     // Then add files
     // FIXME: get the list from Drivers.[ch]
     t_list* ext_list = NULL;
-    list_add (&ext_list, (void*)"SMS");
-    list_add (&ext_list, (void*)"GG");
-    list_add (&ext_list, (void*)"SG");
-    list_add (&ext_list, (void*)"SC");
-    list_add (&ext_list, (void*)"SF7");
-    list_add (&ext_list, (void*)"OMV");
-    list_add (&ext_list, (void*)"COL");
-    list_add (&ext_list, (void*)"BIN");
-    list_add (&ext_list, (void*)"ROM");
+    list_add(&ext_list, (void*)"SMS");
+    list_add(&ext_list, (void*)"GG");
+    list_add(&ext_list, (void*)"SG");
+    list_add(&ext_list, (void*)"SC");
+    list_add(&ext_list, (void*)"SF7");
+    list_add(&ext_list, (void*)"OMV");
+    list_add(&ext_list, (void*)"COL");
+    list_add(&ext_list, (void*)"BIN");
+    list_add(&ext_list, (void*)"ROM");
     #ifdef MEKA_ZIP
-        list_add (&ext_list, (void*)"ZIP");
+        list_add(&ext_list, (void*)"ZIP");
     #endif
     FB_Add_Entries(ext_list, FB_ENTRY_TYPE_FILE);
 
@@ -534,7 +534,7 @@ void	FB_Draw_List(void)
         if (n == FB.file_pos)
             al_draw_filled_rectangle(FB_PAD_X + 2, y, FB.res_x - FB_SCROLL_X - FB_PAD_X - 1, y + Font_Height() - 1, COLOR_SKIN_WIDGET_LISTBOX_SELECTION);
 
-        // Get the name to print and additionnal width usage (icons, etc...)
+        // Get the name to print and additional width usage (icons, etc...)
         switch (entry->type)
         {
         case FB_ENTRY_TYPE_DIRECTORY:
@@ -726,37 +726,37 @@ void            FB_Update(void)
     if (gui_box_has_focus(FB.box))
     {
         // Update keyboard inputs
-        if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, TRUE) || Inputs_KeyPressed (ALLEGRO_KEY_PAD_ENTER, TRUE))
+        if (Inputs_KeyPressed(ALLEGRO_KEY_ENTER, TRUE) || Inputs_KeyPressed (ALLEGRO_KEY_PAD_ENTER, TRUE))
         {
             FB_OpenSelectedEntry();
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed (ALLEGRO_KEY_HOME, FALSE))
+        else if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
         {
             FB.file_pos = 0;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed (ALLEGRO_KEY_END, FALSE))
+        else if (Inputs_KeyPressed(ALLEGRO_KEY_END, FALSE))
         {
             FB.file_pos = FB.files_max - 1;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_DOWN, FALSE, 15, 1))
+        else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_DOWN, FALSE, 15, 1))
         {
             FB.file_pos ++;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_UP, FALSE, 15, 1))
+        else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_UP, FALSE, 15, 1))
         {
             FB.file_pos --;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PGDN, FALSE, 30, 4))
+        else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGDN, FALSE, 30, 4))
         {
             FB.file_pos += FB.file_y;
             dirty = TRUE;
         }
-        else if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_PGUP, FALSE, 30, 4))
+        else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGUP, FALSE, 30, 4))
         {
             FB.file_pos -= FB.file_y;
             dirty = TRUE;
@@ -775,13 +775,15 @@ void            FB_Update(void)
 			int i;
             for (i = 0; i < NUM_ALPHA_KEYS; i ++)
 			{
-                if (Inputs_KeyPressed_Repeat (Key_Alpha_Table [i], FALSE, 20, 2))
+                if (Inputs_KeyPressed_Repeat(Key_Alpha_Table [i], FALSE, 20, 2))
                 {
 					int j;
                     for (j = FB.file_pos + 1; j < FB.files_max; j ++)
                     {
                         t_filebrowser_entry *entry = FB.files[j];
-                        char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
+						if (entry->type == FB_ENTRY_TYPE_DRIVE)
+							continue;
+                        const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
                         if (toupper(c) == Alpha_Table [i])
                         { 
                             FB.file_pos = j; 
@@ -793,7 +795,9 @@ void            FB_Update(void)
                         for (j = 0; j < FB.file_pos; j ++)
                         {
                             t_filebrowser_entry *entry = FB.files[j];
-                            char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
+							if (entry->type == FB_ENTRY_TYPE_DRIVE)
+								continue;
+                            const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
                             if (toupper (c) == Alpha_Table [i])
                             { 
                                 FB.file_pos = j; 
