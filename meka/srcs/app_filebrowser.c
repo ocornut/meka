@@ -186,15 +186,15 @@ void	FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y);
         frame.size.x = FB_BUTTON_X;
         frame.size.y = FB_BUTTON_Y;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Close));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, WIDGET_BUTTON_STYLE_LARGE, Msg_Get(MSG_FileBrowser_Close));
 
         // Add 'LOAD' button
         frame.pos.x -= FB_BUTTON_X + 10;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, WIDGET_BUTTON_STYLE_BIG, Msg_Get(MSG_FileBrowser_Load));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, WIDGET_BUTTON_STYLE_LARGE, Msg_Get(MSG_FileBrowser_Load));
 
         // Add small 'LOAD NAMES' button
         frame.pos.x = FB_PAD_X;
-        frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MIDDLE) + 6;
+        frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MEDIUM) + 6;
         frame.size.x = 54;
         frame.size.y = Font_Height (F_SMALL) + 3;
         widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
@@ -490,7 +490,7 @@ void        FB_Draw_Infos (void)
 
 	char buf[32];
     sprintf(buf, "%d/%d", FB.file_pos + 1, FB.files_max);
-    Font_SetCurrent(F_MIDDLE);
+    Font_SetCurrent(F_MEDIUM);
 	al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(
         FB_TEXT_PAD_X, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,

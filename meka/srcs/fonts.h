@@ -11,7 +11,7 @@ enum t_font_id
 {
 	F_CURRENT	= -1,		// Note: Code tends to write -1 directly as an abbrevation
 	F_LARGE		= 0,
-	F_MIDDLE	= 1,
+	F_MEDIUM	= 1,
 	F_SMALL		= 2,
 };
 

@@ -220,12 +220,12 @@ void Data_ProcessVideoBitmaps()
 
     // Fonts
 	Data_LoadFontA4( &Fonts[F_LARGE].library_data,	"font_0.tga");
-	Data_LoadFontA4( &Fonts[F_MIDDLE].library_data,	"font_1.tga");
+	Data_LoadFontA4( &Fonts[F_MEDIUM].library_data,	"font_1.tga");
 	Data_LoadFontA4( &Fonts[F_SMALL].library_data,	"font_2.tga");
 	if (DataProcessFlags & DATA_PROCESS_LOAD)
 	{
 		Fonts_DeclareFont(F_LARGE,	Fonts[F_LARGE].library_data);
-		Fonts_DeclareFont(F_MIDDLE, Fonts[F_MIDDLE].library_data);
+		Fonts_DeclareFont(F_MEDIUM, Fonts[F_MEDIUM].library_data);
 		Fonts_DeclareFont(F_SMALL,  Fonts[F_SMALL].library_data);
 	}
 

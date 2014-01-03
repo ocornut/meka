@@ -54,7 +54,8 @@ enum t_widget_button_style
 {
     WIDGET_BUTTON_STYLE_INVISIBLE   = 0,
     WIDGET_BUTTON_STYLE_SMALL       = 1,
-    WIDGET_BUTTON_STYLE_BIG         = 2,
+	WIDGET_BUTTON_STYLE_MEDIUM      = 2,
+    WIDGET_BUTTON_STYLE_LARGE       = 3,
 };
 
 //-----------------------------------------------------------------------------

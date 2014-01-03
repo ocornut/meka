@@ -36,7 +36,7 @@ void            TextViewer_Init(t_app_textviewer *tv)
     tv->active      = FALSE;
     tv->dirty       = TRUE;
     tv->current_file= -1;
-    tv->font        = F_MIDDLE;
+    tv->font        = F_MEDIUM;
     tv->font_height = Font_Height(tv->font);
     tv->size_x		= TEXTVIEWER_COLUMNS;
     tv->size_y      = TEXTVIEWER_LINES;

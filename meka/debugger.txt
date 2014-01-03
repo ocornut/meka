@@ -135,9 +135,9 @@ Debugger commands summary
 -- Flow:
  <CR>                           : Step into
  S                              : Step over
+ SO                             : Step out (to next RET)
  C                              : Continue
  C addr                         : Continue up to <addr>
- SO                             : Step out / break at next RET
  J addr                         : Jump to <addr>
 -- Breakpoints:
  B [access] [bus] addr [=value] : Add breakpoint
