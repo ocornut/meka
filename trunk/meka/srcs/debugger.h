@@ -148,11 +148,11 @@ extern int          Debugger_CPU_Exec_Traps[0x10000];
 
 // PC log queue (for trackback feature)
 extern u16          Debugger_Z80_PC_Last;
-extern u16          Debugger_Z80_PC_Log_Queue[128];
+extern u16          Debugger_Z80_PC_Log_Queue[512];
 extern int          Debugger_Z80_PC_Log_Queue_Back;
 extern int			Debugger_Z80_PC_Log_Queue_Front;
 
-#define DEBUGGER_Z80_PC_LOG_QUEUE_MASK		127
+#define DEBUGGER_Z80_PC_LOG_QUEUE_MASK		511
 
 //-----------------------------------------------------------------------------
 // Functions

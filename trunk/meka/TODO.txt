@@ -38,7 +38,6 @@ Is there any emulator/setting that handles the Sports Pad input in a way that ma
 
 [A] Debugger: Breakpoints are borken (find out an exact repro)
 [B] Debugger: Variables window with live filter.
-[B] GUI: Add OS clipboard support, fix Delete key on input widget, added selection.
 [B] CTRL-F7 to load and Debug (C)ontinue.
 [B] Debugger: Preview memory regions on hovering register/instruction. 
 
@@ -64,21 +63,21 @@ Z80 branch history command
   
 
 Meka 0.80 check list
+[A]- fix sound: latency, 50 hz, other modes?
 - obsolete/hide blitter interface
 - debug version leaves allegro.log is current directory
-- fix sound: latency, 50 hz, other modes?
 - game gear stereo
 - start window is in background when running from explorer
 - solve vsync and refresh rate issues, at least be able to enable vsync?
 - have a pass at checking all features
-- tilemap viewer: mode 2: print more infos. add more addr settings.
+//- tilemap viewer: mode 2: print more infos. add more addr settings.
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
 - reorganize inputs configuration panel?
 - pro action replay 
 - end-user timing (message time, double click) shouldn't be measured in emulated frames
 - incorrect rom on command-line leaves a zombie thread? (sometimes?)
-- gui: show shortcuts
+//- gui: show shortcuts
 - GUI HOVERING SCROLL BAR BROKEN
 
 In Hang-On (Safari Hunt) -> glitch even in PAL mode
