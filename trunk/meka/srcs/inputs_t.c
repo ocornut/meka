@@ -58,7 +58,7 @@ void    Inputs_KeyEat(int keycode)
 
 //-----------------------------------------------------------------------------
 // Inputs_KeyPressed (int keycode, bool eat)
-// Return weither given key was just pressed, then eat the key if asked for
+// Return whether given key was just pressed, then eat the key if asked for
 //-----------------------------------------------------------------------------
 bool    Inputs_KeyPressed(int keycode, bool eat)
 {
@@ -81,18 +81,21 @@ bool    Inputs_KeyPressed(int keycode, bool eat)
 
 //-----------------------------------------------------------------------------
 // Inputs_KeyPressed_Repeat (int keycode, bool eat, int delay, int rate)
-// Return weither given key was pressed, handing repetition,
+// Return whether given key was pressed, handing repetition,
 // then eat the key if asked for.
 //-----------------------------------------------------------------------------
-// FIXME: this function is theorically incorrect, since it relies on
-// static global data. Repeating two keys should mess the whole thing ?
+// FIXME: this function is broken since it relies on static global data. 
+// Repeating two keys should mess the whole thing ?
 //-----------------------------------------------------------------------------
 bool    Inputs_KeyPressed_Repeat(int keycode, bool eat, int delay, int rate)
 {
     // hmm...
     Inputs_KeyPressed(keycode, eat);
     if (opt.Current_Key_Pressed != keycode)
+	{
+		//Msg(MSGT_DEBUG, "%d != %d", opt.Current_Key_Pressed, keycode);
         return false;
+	}
 
     // Increment counter
     typematic_repeat_counter++;
