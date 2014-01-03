@@ -34,7 +34,7 @@
 t_debugger   Debugger;
 int          Debugger_CPU_Exec_Traps[0x10000];
 u16          Debugger_Z80_PC_Last;
-u16          Debugger_Z80_PC_Log_Queue[128];
+u16          Debugger_Z80_PC_Log_Queue[512];
 int          Debugger_Z80_PC_Log_Queue_Back;
 int			 Debugger_Z80_PC_Log_Queue_Front;
 

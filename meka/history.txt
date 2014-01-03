@@ -52,6 +52,9 @@ They are usually of 2 kinds:
     - Added shortcuts button in interface for "Stop/Continue", "Step Into", "Step Over" and "Step Out". [Omar]
     - Disassembler decode symbols given their full ROM bank mapping (if bank information is provided by symbols file). [Omar]
     - Disassembler decode symbols in 'RST xx' instructions. [Omar]
+    - Reduced cases of disassembler view not being centered by increasing the size of the "instruction-start" buffer, 
+      the trade-off is that maintaining this buffer slows down the CPU emulation cost when debugger is active, 
+      hopefully the difference not noticeable. May investigate another method later on. [Omar]
     - Better support for 24-bits constants. [Omar]
     - Debugger is always available at runtime. Obsoleted /DEBUG command-line parameter. [Omar]
   - Tools:
