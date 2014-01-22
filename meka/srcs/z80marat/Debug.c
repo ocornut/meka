@@ -184,24 +184,24 @@ static const char *MnemonicsXX[256] =
   "JR @h","ADD I%,DE","LD A,(DE)","DEC DE","INC E","DEC E","LD E,*h","RRA",
   "JR NZ,@h","LD I%,#h","LD (#h),I%","INC I%","INC I%h","DEC I%h","LD I%h,*h","DAA",
   "JR Z,@h","ADD I%,I%","LD I%,(#h)","DEC I%","INC I%l","DEC I%l","LD I%l,*h","CPL",
-  "JR NC,@h","LD SP,#h","LD (#h),A","INC SP","INC (I%+^h)","DEC (I%+^h)","LD (I%+^h),*h","SCF",
+  "JR NC,@h","LD SP,#h","LD (#h),A","INC SP","INC (I%^h)","DEC (I%^h)","LD (I%^h),*h","SCF",
   "JR C,@h","ADD I%,SP","LD A,(#h)","DEC SP","INC A","DEC A","LD A,*h","CCF",
-  "LD B,B","LD B,C","LD B,D","LD B,E","LD B,I%h","LD B,I%l","LD B,(I%+^h)","LD B,A",
-  "LD C,B","LD C,C","LD C,D","LD C,E","LD C,I%h","LD C,I%l","LD C,(I%+^h)","LD C,A",
-  "LD D,B","LD D,C","LD D,D","LD D,E","LD D,I%h","LD D,I%l","LD D,(I%+^h)","LD D,A",
-  "LD E,B","LD E,C","LD E,D","LD E,E","LD E,I%h","LD E,I%l","LD E,(I%+^h)","LD E,A",
-  "LD I%h,B","LD I%h,C","LD I%h,D","LD I%h,E","LD I%h,I%h","LD I%h,I%l","LD H,(I%+^h)","LD I%h,A",
-  "LD I%l,B","LD I%l,C","LD I%l,D","LD I%l,E","LD I%l,I%h","LD I%l,I%l","LD L,(I%+^h)","LD I%l,A",
-  "LD (I%+^h),B","LD (I%+^h),C","LD (I%+^h),D","LD (I%+^h),E","LD (I%+^h),H","LD (I%+^h),L","HALT","LD (I%+^h),A",
-  "LD A,B","LD A,C","LD A,D","LD A,E","LD A,I%h","LD A,I%l","LD A,(I%+^h)","LD A,A",
-  "ADD B","ADD C","ADD D","ADD E","ADD I%h","ADD I%l","ADD (I%+^h)","ADD A",
-  "ADC B","ADC C","ADC D","ADC E","ADC I%h","ADC I%l","ADC (I%+^h)","ADC,A",
-  "SUB B","SUB C","SUB D","SUB E","SUB I%h","SUB I%l","SUB (I%+^h)","SUB A",
-  "SBC B","SBC C","SBC D","SBC E","SBC I%h","SBC I%l","SBC (I%+^h)","SBC A",
-  "AND B","AND C","AND D","AND E","AND I%h","AND I%l","AND (I%+^h)","AND A",
-  "XOR B","XOR C","XOR D","XOR E","XOR I%h","XOR I%l","XOR (I%+^h)","XOR A",
-  "OR B","OR C","OR D","OR E","OR I%h","OR I%l","OR (I%+^h)","OR A",
-  "CP B","CP C","CP D","CP E","CP I%h","CP I%l","CP (I%+^h)","CP A",
+  "LD B,B","LD B,C","LD B,D","LD B,E","LD B,I%h","LD B,I%l","LD B,(I%^h)","LD B,A",
+  "LD C,B","LD C,C","LD C,D","LD C,E","LD C,I%h","LD C,I%l","LD C,(I%^h)","LD C,A",
+  "LD D,B","LD D,C","LD D,D","LD D,E","LD D,I%h","LD D,I%l","LD D,(I%^h)","LD D,A",
+  "LD E,B","LD E,C","LD E,D","LD E,E","LD E,I%h","LD E,I%l","LD E,(I%^h)","LD E,A",
+  "LD I%h,B","LD I%h,C","LD I%h,D","LD I%h,E","LD I%h,I%h","LD I%h,I%l","LD H,(I%^h)","LD I%h,A",
+  "LD I%l,B","LD I%l,C","LD I%l,D","LD I%l,E","LD I%l,I%h","LD I%l,I%l","LD L,(I%^h)","LD I%l,A",
+  "LD (I%^h),B","LD (I%^h),C","LD (I%^h),D","LD (I%^h),E","LD (I%^h),H","LD (I%^h),L","HALT","LD (I%^h),A",
+  "LD A,B","LD A,C","LD A,D","LD A,E","LD A,I%h","LD A,I%l","LD A,(I%^h)","LD A,A",
+  "ADD B","ADD C","ADD D","ADD E","ADD I%h","ADD I%l","ADD (I%^h)","ADD A",
+  "ADC B","ADC C","ADC D","ADC E","ADC I%h","ADC I%l","ADC (I%^h)","ADC,A",
+  "SUB B","SUB C","SUB D","SUB E","SUB I%h","SUB I%l","SUB (I%^h)","SUB A",
+  "SBC B","SBC C","SBC D","SBC E","SBC I%h","SBC I%l","SBC (I%^h)","SBC A",
+  "AND B","AND C","AND D","AND E","AND I%h","AND I%l","AND (I%^h)","AND A",
+  "XOR B","XOR C","XOR D","XOR E","XOR I%h","XOR I%l","XOR (I%^h)","XOR A",
+  "OR B","OR C","OR D","OR E","OR I%h","OR I%l","OR (I%^h)","OR A",
+  "CP B","CP C","CP D","CP E","CP I%h","CP I%l","CP (I%^h)","CP A",
   "RET NZ","POP BC","JP NZ,#h","JP #h","CALL NZ,#h","PUSH BC","ADD *h","RST 00h",
   "RET Z","RET","JP Z,#h","PFX_CB","CALL Z,#h","CALL #h","ADC *h","RST 08h",
   "RET NC","POP DE","JP NC,#h","OUTA (*h)","CALL NC,#h","PUSH DE","SUB *h","RST 10h",
@@ -303,14 +303,14 @@ void Z80_Disassemble_GetDecoratedSymbolFromAddress(const char* mnemonic, u16 add
 int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symbols_for_current_index_registers, bool resolve_indirect_offsets)
 {
     char  R[256], H[256], C;
-    byte  J, Offset = 0;
+    byte  Offset = 0;
+	bool  has_offset = false;
     word  B;
     int   relative_offset_base = 0;  // 0 : from PC, 1 : from IX, 2 : from IY
 
     B = A;
     C = '\0';
-    J = 0;
-
+    
 	const char *T_const = NULL;
     switch (RdZ80_NoHook(B))
     {
@@ -320,13 +320,13 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
         if (RdZ80_NoHook(B&0xFFFF)!=0xCB) 
             T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
-        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
+        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);has_offset=true;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
     case 0xFD: B++;C='Y';
         if(RdZ80_NoHook(B&0xFFFF)!=0xCB) 
             T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
-        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);J=1;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
+        { B++;Offset=RdZ80_NoHook(B++&0xFFFF);has_offset=true;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
     default:   
         T_const=Mnemonics[RdZ80_NoHook(B++&0xFFFF)];
@@ -338,28 +338,32 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 	char *P;
     if ((P=strchr(T,'^')) != NULL)
     {
-		// unsigned offset for ix/iy
-		u8 Offset2 = RdZ80_NoHook(B++&0xFFFF);
-		
 		if (S != NULL)
 		{
+			Offset = RdZ80_NoHook(B++&0xFFFF);
+
+			// convert 0xFF to -0x01 for nicer display
+			const char offset_sign = (Offset & 0x80) ? '-' : '+';
+			const byte offset_abs = (Offset & 0x80) ? 256 - Offset : Offset;
+
 			if (resolve_indirect_offsets)
 			{
 				if (display_symbols_for_current_index_registers)
 				{
-					u16 addr = (C == 'X') ? sms.R.IX.W : sms.R.IY.W;
-					addr += (signed char)Offset2;
-					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);
-					snprintf(R, 256, "%.*s%02Xh=%s%s", P-T, T, Offset2, H, P+2);
+					// P+2: skip the 'h' in the instruction
+					const u16 addr = ((C == 'X') ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
+					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);		// Don't display full address because it is obvious (for IX/IY being typically stable)
+					snprintf(R, 256, "%.*s%c%02Xh=%s%s", P-T, T, offset_sign, offset_abs, H, P+2);
 				}
 				else
 				{
-					snprintf(R, 256, "%.*s%02Xh%s", P-T, T, Offset2, P+2);
+					// P+2: skip the 'h' in the instruction
+					snprintf(R, 256, "%.*s%c%02Xh%s", P-T, T, offset_sign, offset_abs, P+2);
 				}
 			}
 			else
 			{
-				snprintf(R, 256, "%.*s%02Xh", P-T, T, Offset2, H, P+2);
+				snprintf(R, 256, "%.*s%c%02Xh", P-T, T, offset_sign, offset_abs, H, P+2);
 			}
 		}
 	}
@@ -396,22 +400,24 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
         {
             if (S != NULL)
             {
-                strncpy(S,R,P-R);S[P-R]='\0';
-                if(!J) 
+                if(!has_offset) 
                     Offset=RdZ80_NoHook(B++&0xFFFF);
+
+				// convert 0xFF to -0x01 for nicer display
+				const char offset_sign = (Offset & 0x80) ? '-' : '+';
+				const byte offset_abs = (Offset & 0x80) ? 256 - Offset : Offset;
+
                 if (resolve_indirect_offsets && relative_offset_base == 0)
                 {
 					// P+2: skip the 'h' in the instruction
 					const u16 addr = B + (signed char)Offset;
-					J = (Offset & 0x80) ? 256 - Offset : Offset;
 					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
-					snprintf(S,255, "%.*s%c%02X (%s)%s", P-R, R, (Offset&0x80)?'-':'+', J, H, P+2);
+					snprintf(S, 255, "%.*s%c%02X (%s)%s", P-R, R, offset_sign, offset_abs, H, P+2);
                 }
                 else
                 {
 					// P+2: skip the 'h' in the instruction
-					J = (Offset & 0x80) ? 256 - Offset : Offset;
-					snprintf(S,256, "%.*s%c%02Xh%s", P-R, R, (Offset&0x80)?'-':'+', J, P+2);
+					snprintf(S, 256, "%.*s%c%02Xh%s", P-R, R, offset_sign, offset_abs, P+2);
                 }
             }
             else

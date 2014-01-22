@@ -57,7 +57,7 @@ void    Z80_Opcodes_Usage_Print (void)
         if (Z80_Opcodes_Usage[i][j] > 0)
            {
            op_code[op_code_pos] = j;
-           Z80_Disassemble(op_name, 0x0000, FALSE, FALSE, FALSE);
+           Z80_Disassemble(op_name, 0x0000, false, false, false);
            printf ("Opcode %02X : %- 12i%-20s%d\n", j, Z80_Opcodes_Usage[i][j], op_name, cycles[j]);
            }
      }
