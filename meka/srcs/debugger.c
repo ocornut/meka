@@ -119,7 +119,7 @@ static void						Debugger_Symbols_Vars_ListByAddr(u32 addr);
 // Symbol
 static t_debugger_symbol *      Debugger_Symbol_Add(u16 addr, int bank, const char *name);
 static void                     Debugger_Symbol_Remove(t_debugger_symbol *symbol);
-static int                      Debugger_Symbol_CompareByRomAddress(const t_debugger_symbol *symbol1, const t_debugger_symbol *symbol2);
+static int                      Debugger_Symbol_CompareByRomOrCpuAddress(const t_debugger_symbol *symbol1, const t_debugger_symbol *symbol2);
 
 // History
 static bool                     Debugger_History_Callback(t_widget *w, int level);
@@ -1280,7 +1280,7 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 	strcpy(line_buf, line_original);
 	char* line = line_buf;
 
-    u16 bank;
+    int bank;
 	u16 addr;
 	u32 addr32;
 	char name[512];
@@ -1296,6 +1296,11 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 				Debugger_Symbol_Add(addr, bank, name);
 				return true;
 			}
+			if (sscanf(line, ":%hX %s", &addr, name) == 2)
+			{
+				Debugger_Symbol_Add(addr, -1, name);
+				return true;
+			}
 			break;
 		}
 	case DEBUGGER_SYMBOL_FILE_TYPE_SJASM:
@@ -1307,7 +1312,7 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 				parse_skip_spaces(&line);
 				if (sscanf(line, "equ %Xh", &addr32) == 1)
 				{
-					Debugger_Symbol_Add(addr32 & 0xFFFF, 0, name);
+					Debugger_Symbol_Add(addr32 & 0xFFFF, -1, name);
 					return true;
 				}
 			}
@@ -1320,7 +1325,7 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 				parse_skip_spaces(&line);
 				if (sscanf(line, "%hXh", &addr) == 1)
 				{
-					Debugger_Symbol_Add(addr, 0, name);
+					Debugger_Symbol_Add(addr, -1, name);
 					return true;
 				}
 			}
@@ -1407,7 +1412,7 @@ bool	Debugger_Symbols_Load(void)
     tfile_free(symbol_file);
 
     // Sort by address
-    list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByRomAddress);
+    list_sort(&Debugger.symbols, (int (*)(void *, void *))Debugger_Symbol_CompareByRomOrCpuAddress);
 
     // Verbose
 	char buf[256];
@@ -1600,7 +1605,7 @@ const t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 cpu_addr)
 	for (const t_list* symbols = Debugger.symbols_cpu_space[(u16)cpu_addr]; symbols; symbols = symbols->next)
 	{
 		const t_debugger_symbol* symbol = (const t_debugger_symbol *)symbols->elem;
-		if (rom_addr == -1 || rom_addr == symbol->rom_addr)
+		if (rom_addr == -1 || symbol->rom_addr == -1 || rom_addr == symbol->rom_addr)
 			return symbol;
 	}
     return NULL;
@@ -1616,7 +1621,7 @@ const t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 cpu_addr)
 	for (const t_list* symbols = Debugger.symbols_cpu_space[(u16)cpu_addr]; symbols; symbols = symbols->next)
 	{
 		const t_debugger_symbol* symbol = (const t_debugger_symbol *)symbols->elem;
-		if (rom_addr == -1 || rom_addr == symbol->rom_addr)
+		if (rom_addr == -1 || symbol->rom_addr == -1 || rom_addr == symbol->rom_addr)
 			last_valid_symbol = symbol;
 	}
 	return last_valid_symbol;
@@ -1647,7 +1652,7 @@ t_debugger_symbol *     Debugger_Symbol_Add(u16 cpu_addr, int bank, const char *
     // Create and setup symbol
     t_debugger_symbol* symbol = new t_debugger_symbol();
     symbol->cpu_addr = cpu_addr;
-	symbol->rom_addr = (bank * 0x4000) + (symbol->cpu_addr & 0x3fff);
+	symbol->rom_addr = (bank >= 0) ? ((bank * 0x4000) + (symbol->cpu_addr & 0x3fff)) : (u32)-1;
     symbol->bank = bank;
     symbol->name = strdup(name);
     symbol->name_uppercase = strdup(name);
@@ -1684,9 +1689,11 @@ void    Debugger_Symbol_Remove(t_debugger_symbol *symbol)
     assert(Debugger.symbols_count >= 0);
 }
 
-int     Debugger_Symbol_CompareByRomAddress(const t_debugger_symbol* symbol1, const t_debugger_symbol* symbol2)
+int     Debugger_Symbol_CompareByRomOrCpuAddress(const t_debugger_symbol* symbol1, const t_debugger_symbol* symbol2)
 {
-    return (symbol1->rom_addr - symbol2->rom_addr);
+	const u32 addr1 = symbol1->rom_addr == -1 ? symbol1->cpu_addr : symbol1->rom_addr;
+	const u32 addr2 = symbol2->rom_addr == -1 ? symbol2->cpu_addr : symbol2->rom_addr;
+    return (addr1 - addr2);
 }
 
 //-----------------------------------------------------------------------------
@@ -2250,7 +2257,8 @@ void	Debugger_Applet_RedrawState()
                             skip_labels--;
                             continue;
                         }
-						if (pc_rom_addr != -1 && symbol->rom_addr != pc_rom_addr)
+
+						if (pc_rom_addr != -1 && symbol->rom_addr != -1 && symbol->rom_addr != pc_rom_addr)
 							continue;
 
                         sprintf(buf, "%s:", symbol->name);
@@ -3264,7 +3272,7 @@ void        Debugger_InputParseCommand(char *line)
                     for (t_list* symbols = Debugger.symbols_cpu_space[addr]; symbols != NULL; symbols = symbols->next)
                     {
                         const t_debugger_symbol* symbol = (const t_debugger_symbol*)symbols->elem;
-						if (rom_addr != -1 && symbol->rom_addr != rom_addr)
+						if (rom_addr != -1 && symbol->rom_addr != -1 && symbol->rom_addr != rom_addr)
 							continue;
                         Debugger_Printf("%s:\n", symbol->name);
                     }
