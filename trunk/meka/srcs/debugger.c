@@ -1296,7 +1296,7 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 				Debugger_Symbol_Add(addr, bank, name);
 				return true;
 			}
-			if (sscanf(line, ":%hX %s", &addr, name) == 2)
+			if (sscanf(line, "%hX %s", &addr, name) == 2)
 			{
 				Debugger_Symbol_Add(addr, -1, name);
 				return true;
