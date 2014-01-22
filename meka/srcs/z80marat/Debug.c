@@ -70,6 +70,8 @@ static const char *Mnemonics[256] =
   "RET M","LD SP,HL","JP M,#h","EI","CALL M,#h","PFX_FD","CP *h","RST 38h"
 };
 
+
+
 static const char *MnemonicsCB[256] =
 {
   "RLC B","RLC C","RLC D","RLC E","RLC H","RLC L","RLC (HL)","RLC A",
@@ -246,12 +248,59 @@ static const char *MnemonicsXCB[256] =
   "SET 7,B","SET 7,C","SET 7,D","SET 7,E","SET 7,H","SET 7,L","SET 7,(I%@h)","SET 7,A"
 };
 
+static bool Z80_IsModifyingPC(const char* m)
+{
+	if (*m == 'J')
+		return true;
+	if (strncmp(m, "DJNZ", 4)==0) 
+		return true;
+	if (strncmp(m, "CALL", 4)==0) 
+		return true;
+	if (strncmp(m, "RET", 3)==0)
+		return true;
+	return false;
+}
+
+void Z80_Disassemble_GetDecoratedSymbolFromAddress(const char* mnemonic, u16 addr, char* buf, int buf_len, bool display_symbols, bool display_addr)
+{
+	const t_debugger_symbol* symbol = NULL;
+	if (display_symbols)
+	{
+		if (Z80_IsModifyingPC(mnemonic))
+			symbol = Debugger_Symbols_GetClosestPreviousByAddr(addr, 64);		// too misleading for data address so only use for code address
+		else
+			symbol = Debugger_Symbols_GetLastByAddr(addr);
+	}
+
+	if (symbol != NULL)
+	{
+		if (display_addr)
+		{
+			if (symbol->cpu_addr != addr)
+				snprintf(buf, buf_len,"%s+%X/%04Xh", symbol->name, addr-symbol->cpu_addr, addr);
+			else
+				snprintf(buf, buf_len,"%s/%04Xh", symbol->name, addr);
+		}
+		else
+		{
+			if (symbol->cpu_addr != addr)
+				snprintf(buf, buf_len,"%s+%X", symbol->name, addr-symbol->cpu_addr);
+			else
+				snprintf(buf, buf_len,"%s", symbol->name);
+		}
+	}
+	else
+	{
+		snprintf(buf, buf_len,"%04Xh", addr);
+	}
+}
+
 /** DAsm() ***************************************************/
 /** DAsm() will disassemble the code at adress A and put    **/
 /** the output text into S. It will return the number of    **/
 /** bytes disassembled.                                     **/
 /*************************************************************/
-int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indirect_offsets)
+int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symbols_for_current_index_registers, bool resolve_indirect_offsets)
 {
     char  R[256], H[256], C;
     byte  J, Offset = 0;
@@ -289,12 +338,35 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
 	char *P;
     if ((P=strchr(T,'^')) != NULL)
     {
-        strncpy(R,T,P-T);R[P-T]='\0';
-        sprintf(H,"%02Xh",RdZ80_NoHook(B++&0xFFFF));
-        strcat(R,H);strcat(R,P+2);
-    }
+		// unsigned offset for ix/iy
+		u8 Offset2 = RdZ80_NoHook(B++&0xFFFF);
+		
+		if (S != NULL)
+		{
+			if (resolve_indirect_offsets)
+			{
+				if (display_symbols_for_current_index_registers)
+				{
+					u16 addr = (C == 'X') ? sms.R.IX.W : sms.R.IY.W;
+					addr += (signed char)Offset2;
+					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);
+					snprintf(R, 256, "%.*s%02Xh=%s%s", P-T, T, Offset2, H, P+2);
+				}
+				else
+				{
+					snprintf(R, 256, "%.*s%02Xh%s", P-T, T, Offset2, P+2);
+				}
+			}
+			else
+			{
+				snprintf(R, 256, "%.*s%02Xh", P-T, T, Offset2, H, P+2);
+			}
+		}
+	}
     else 
+	{
         strcpy(R,T);
+	}
 
     if ((P=strchr(R,'%')) != NULL) 
     {
@@ -329,23 +401,22 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
                     Offset=RdZ80_NoHook(B++&0xFFFF);
                 if (resolve_indirect_offsets && relative_offset_base == 0)
                 {
-                    const u16 target = B + (signed char)Offset;
-                    const char sign = (Offset & 0x80) ? '-' : '+';
-                    J = (Offset & 0x80) ? 256 - Offset : Offset;
-                    sprintf(H, "%c%02Xh (%04Xh)", sign, J, target);
-                    strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
+					// P+2: skip the 'h' in the instruction
+					const u16 addr = B + (signed char)Offset;
+					J = (Offset & 0x80) ? 256 - Offset : Offset;
+					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
+					snprintf(S,255, "%.*s%c%02X (%s)%s", P-R, R, (Offset&0x80)?'-':'+', J, H, P+2);
                 }
                 else
                 {
-                    strcat(S,Offset&0x80? "-":"+");
-                    J=Offset&0x80? 256-Offset:Offset;
-                    sprintf(H,"%02Xh",J);
-                    strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
+					// P+2: skip the 'h' in the instruction
+					J = (Offset & 0x80) ? 256 - Offset : Offset;
+					snprintf(S,256, "%.*s%c%02Xh%s", P-R, R, (Offset&0x80)?'-':'+', J, P+2);
                 }
             }
             else
             {
-                B++;
+				B++;
             }
         }
 		else if((P=strchr(R,'#')) != NULL)
@@ -353,19 +424,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
 			if (S != NULL)
 			{
 				const u16 addr = RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF);
-				const t_debugger_symbol* symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
-				if (symbol != NULL)
-				{
-					strncpy(S,R,P-R);S[P-R]='\0';
-					snprintf(H,256,"%s (%04Xh)", symbol->name, addr);
-					strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
-				}
-				else
-				{
-					strncpy(S,R,P-R);S[P-R]='\0';
-					sprintf(H,"%04Xh", addr);
-					strcat(S,H);strcat(S,P+2); // skip the 'h' in the instruction
-				}
+				Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
+				snprintf(S, 256, "%.*s%s%s", P-R, R, H, P+2);
 			}
 			B += 2;
 		}
@@ -377,7 +437,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool resolve_indi
 				const t_debugger_symbol* symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
 				if (symbol != NULL)
 				{
-					sprintf(S,"RST %s (%02Xh)", symbol->name, addr);
+					sprintf(S,"RST %s/%02Xh", symbol->name, addr);
 				}
 				else
 				{
