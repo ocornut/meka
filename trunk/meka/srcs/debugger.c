@@ -42,7 +42,7 @@ int			 Debugger_Z80_PC_Log_Queue_Front;
 // External declaration
 //-----------------------------------------------------------------------------
 
-int     Z80_Disassemble(char *dst, word addr, bool display_symbols, bool resolve_indirect_offsets);
+int     Z80_Disassemble(char *dst, word addr, bool display_symbols, bool display_symbols_for_current_index_registers, bool resolve_indirect_offsets);
 int     Z80_Assemble(const char *src, byte dst[8]);
 
 //-----------------------------------------------------------------------------
@@ -1006,12 +1006,6 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 				Debugger_CPU_Exec_Traps[addr]--;
 		}
 	}
-
-    // Remove CPU exec trap?
-    if (breakpoint->location == BREAKPOINT_LOCATION_CPU)
-        if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
-            for (int addr = breakpoint->address_range[0]; addr <= breakpoint->address_range[1]; addr++)// = (addr + 1) & 0xffff)
-                Debugger_CPU_Exec_Traps[addr]--;
 }
 
 void                        Debugger_BreakPoint_SetDataCompare(t_debugger_breakpoint *breakpoint, int data_compare_length, u8 data_compare_bytes[8])
@@ -1745,7 +1739,7 @@ u8          Debugger_RdZ80_Hook(register u16 addr)
             if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
             {
                 if (addr >= Debugger_Z80_PC_Last && addr <= Debugger_Z80_PC_Last + 6)   // quick check to 6
-                    if (addr <= Debugger_Z80_PC_Last + Z80_Disassemble(NULL, Debugger_Z80_PC_Last, FALSE, FALSE))
+                    if (addr <= Debugger_Z80_PC_Last + Z80_Disassemble(NULL, Debugger_Z80_PC_Last, false, false, false))
                         continue;
             }
 
@@ -1922,7 +1916,7 @@ static void Debugger_Applet_Init()
     app->font_height = Font_Height(app->font_id);
     frame.pos.x     = 428;
     frame.pos.y     = 50;
-    frame.size.x    = 360;
+    frame.size.x    = 380;
     frame.size.y    = ((g_configuration.debugger_console_lines + 1 + g_configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height) + 22 + 20 + (2*2); // 2*2=padding
 
     app->box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
@@ -2054,7 +2048,7 @@ static void     Debugger_Applet_Layout(bool setup)
 int         Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 {
     char  instr[128];
-    const int len = Z80_Disassemble(instr, addr, TRUE, TRUE);
+    const int len = Z80_Disassemble(instr, addr, true, true, true);
     if (dst != NULL)
     {
         char instr_opcodes[128];
@@ -2166,7 +2160,7 @@ void	Debugger_Applet_RedrawState()
             {
                 const int delta = pc - Debugger_Z80_PC_Log_Queue[i];
                 if (delta > 0 && delta <= pc_history_size)
-                    pc_history[delta] = Z80_Disassemble(NULL, Debugger_Z80_PC_Log_Queue[i], FALSE, FALSE);
+                    pc_history[delta] = Z80_Disassemble(NULL, Debugger_Z80_PC_Log_Queue[i], false, false, false);
             }
 
             // Now look in pc_history
@@ -2188,7 +2182,7 @@ void	Debugger_Applet_RedrawState()
                         //   0003 - ? <- get this
                         //   0005 - PC
                         //..
-                        pc_history[pc_temp - inst_after] = inst_len = Z80_Disassemble(NULL, inst_after, FALSE, FALSE);
+                        pc_history[pc_temp - inst_after] = inst_len = Z80_Disassemble(NULL, inst_after, false, false, false);
                         i = pc_temp - inst_after;
                         inst_after += inst_len;
                     }
@@ -3055,7 +3049,7 @@ void        Debugger_InputParseCommand(char *line)
         {
             // Get address of following instruction
             // Do not verbose since this is just a step-over
-            u16 addr = sms.R.PC.W + Z80_Disassemble(NULL, sms.R.PC.W, FALSE, FALSE);
+            u16 addr = sms.R.PC.W + Z80_Disassemble(NULL, sms.R.PC.W, false, false, false);
             Debugger_SetTrap (addr);
             sms.R.Trace = 0;
             Machine_Debug_Stop();
