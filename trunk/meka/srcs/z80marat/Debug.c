@@ -340,6 +340,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
     {
 		if (S != NULL)
 		{
+			assert(!has_offset);	// Should never get a ^ in the DD CB and FD CB paths
 			Offset = RdZ80_NoHook(B++&0xFFFF);
 
 			// convert 0xFF to -0x01 for nicer display
@@ -431,7 +432,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
             }
             else
             {
-				B++;
+				if(!has_offset)
+					B++;
             }
         }
 		else if((P=strchr(R,'#')) != NULL)
