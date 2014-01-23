@@ -407,12 +407,21 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 				const char offset_sign = (Offset & 0x80) ? '-' : '+';
 				const byte offset_abs = (Offset & 0x80) ? 256 - Offset : Offset;
 
-                if (resolve_indirect_offsets && relative_offset_base == 0)
+                if (resolve_indirect_offsets)
                 {
 					// P+2: skip the 'h' in the instruction
-					const u16 addr = B + (signed char)Offset;
-					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
-					snprintf(S, 255, "%.*s%c%02X (%s)%s", P-R, R, offset_sign, offset_abs, H, P+2);
+					if (relative_offset_base == 0)
+					{
+						const u16 addr = B + (signed char)Offset;
+						Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
+						snprintf(S, 255, "%.*s%c%02Xh (%s)%s", P-R, R, offset_sign, offset_abs, H, P+2);
+					}
+					else
+					{
+						const u16 addr = ((relative_offset_base == 1) ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
+						Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);	// Don't display full address because it is obvious (for IX/IY being typically stable)
+						snprintf(S, 255, "%.*s%c%02Xh=%s%s", P-R, R, offset_sign, offset_abs, H, P+2);
+					}
                 }
                 else
                 {
