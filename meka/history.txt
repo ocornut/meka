@@ -12,17 +12,14 @@ They are usually of 2 kinds:
 
  MEKA 0.8x WIP Allegro 5
  -----------------------
-  - Updated to Allegro 5.0.9 with OpenGL/DirectX backends. [Omar]
+  - Updated from Allegro 4 (software rendering based) to Allegro 5.0.10 (with OpenGL/DirectX backends).
     This required a lot of changes and rewrite in the codebase. It probably added new bugs,
-    and performances seems to vary depending on computer settings and video drivers.
+    and performances seems to vary depending on computer settings and video drivers. [Omar]
     Please do report if you have any issue/slowdown so we can fix them!
-  - Preliminary MacOSX port. MEKA NEEDS A MAC MAINTENER! [Omar]
   - Rewrote sound engine and fixed audio issues that many users had. [Omar]
     The sound is also now functional under Linux and MacOS. [Omar]  
-  - Now build with a C++ compiler, fixed all incompatible C constructs + lots of cleanup.
-    Codebase can now freely take advantage of all C++ compiler features. [Omar]
+  - Preliminary MacOSX port. MEKA NEEDS A MAC MAINTENER! [Omar]
   - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
-  - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Setup panel allows to select display driver and resolution. [Omar]
   - Added Polish translation. [thr]
   - Updated Dutch translation. [Mark van Tilburg]
@@ -46,16 +43,18 @@ They are usually of 2 kinds:
     - Added VARS command ("Variables") to display content pointed by symbols in RAM. [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
+    - Added support for parsing the bank in NO&GMB/WLA symbol format. Symbols are turned into ROM addresses. [Omar]
     - Added support for parsing SJASM symbol format. [Omar]
     - Added support for parsing TASM symbol format. [Omar]
     - Added a "Reload Symbols" menu option (useful when manually crafting symbols while reverse engineering). [Omar]
     - Added shortcuts button in interface for "Stop/Continue", "Step Into", "Step Over" and "Step Out". [Omar]
-    - Disassembler decode symbols given their full ROM bank mapping (if bank information is provided by symbols file). [Omar]
-    - Disassembler decode symbols in 'RST xx' instructions. [Omar]
-    - Reduced cases of disassembler view not being centered by increasing the size of the "instruction-start" buffer, 
-      the trade-off is that maintaining this buffer slows down the CPU emulation cost when debugger is active, 
-      hopefully the difference not noticeable. May investigate another method later on. [Omar]
-    - Better support for 24-bits constants. [Omar]
+    - Disassembler: display symbols given their full ROM bank mapping (if bank information is provided by symbols file). [Omar]
+    - Disassembler: display symbols in 'RST xx' instructions. [Omar]
+    - Disassembler: opcodes shown in lower-case, increased spacing for readability. [Omar]
+    - Disassembler: display symbols+offset on JP/JR/CALL/RET/DJNZ instructions. [Omar]
+    - Disassembler: display symbols on IX/IY indexed instructions given the current value of IX/IY. [Omar]
+    - Improved disassembler view centering, increased the track-back buffer, fixed issues with prefixed instructions. [Omar]
+    - Better support for 24-bits constants (for PRINT, etc.). [Omar]
     - Debugger is always available at runtime. Obsoleted /DEBUG command-line parameter. [Omar]
   - Tools:
     - CheatFinder: added a new cheat finder application. [Omar]
@@ -77,7 +76,7 @@ They are usually of 2 kinds:
     - TextInput: support for text selection, hold SHIFT+Left/Right keys to select text. [Omar]
     - TextInput: support for CTRL+Left/Right to jump to previous/next word. [Omar]
     - TextInput: support for clipboard (CTRL+X,CTRL+C,CTRL+V) shortcuts, tied to OS clipboard. [Omar]
-    - Depth order of windows is saved and restored between runs. [Omar]
+    - Depth order of windows is preserved accross sessions. [Omar]
     - Increased mouse horizontal range when using scrollbars. [Omar]
     - Added 'game_window_scale' directive on configuration file to resize game window. [Omar]
     - Discontinued ALT+P (=F12) and CTRL+X (=F10) shortcuts. [Omar]
@@ -88,7 +87,10 @@ They are usually of 2 kinds:
     - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
     - FileBrowser: display JP flag when a game is JP/KR or JP/TW in the database. [Omar]
     - FileBrowser: alphabetical shortcuts ignore disk drivers under Windows. [Omar]
+    - 3-D Glasses mode doesn't halve framerate of the interface anymore. [Omar]
   - Sources/Development:
+    - Now build with a C++ compiler, fixed all incompatible C constructs + lots of cleanup.
+      Codebase can now freely take advantage of all C++ compiler features. [Omar]
     - Added a batch script 'tools/dist_bin_win32.bat' to create binary Win32 package. [Omar]
     - Removed #ifdef-out code that was used by the MS-DOS version. [Omar]
     - Removed code for the old OPL3 based YM2413 emulator. [Omar]
@@ -96,7 +98,7 @@ They are usually of 2 kinds:
     - Removed easter egg mini-games and various other obsolete features. [Omar]
     - Removed mekaw.txt and mekanix.txt documentation files (obsolete). [Omar]
     - (Win32) Using precompiled header for faster compilation (MSVC). [Omar]
-    - (Win32) Now including precompiled Allegro 5.0.9 in the repository. [Omar]
+    - (Win32) Now including precompiled Allegro 5.0.10 in the repository. [Omar]
     - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
     - (Win32) Now including NASM assembler in the repository. [Omar]
   - Configuration file is created early on startup if missing. [Omar]
