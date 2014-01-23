@@ -250,13 +250,13 @@ static const char *MnemonicsXCB[256] =
 
 static bool Z80_IsModifyingPC(const char* m)
 {
-	if (*m == 'J')
+	if (*m == 'j')
 		return true;
-	if (strncmp(m, "DJNZ", 4)==0) 
+	if (strncmp(m, "djnz", 4)==0) 
 		return true;
-	if (strncmp(m, "CALL", 4)==0) 
+	if (strncmp(m, "call", 4)==0) 
 		return true;
-	if (strncmp(m, "RET", 3)==0)
+	if (strncmp(m, "ret", 3)==0)
 		return true;
 	return false;
 }
@@ -316,13 +316,13 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
     {
     case 0xCB: B++;T_const=MnemonicsCB[RdZ80_NoHook(B++&0xFFFF)];break;
     case 0xED: B++;T_const=MnemonicsED[RdZ80_NoHook(B++&0xFFFF)];break;
-    case 0xDD: B++;C='X';
+    case 0xDD: B++;C='x';
         if (RdZ80_NoHook(B&0xFFFF)!=0xCB) 
             T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
         { B++;Offset=RdZ80_NoHook(B++&0xFFFF);has_offset=true;T_const=MnemonicsXCB[RdZ80_NoHook(B++&0xFFFF)]; }
         break;
-    case 0xFD: B++;C='Y';
+    case 0xFD: B++;C='y';
         if(RdZ80_NoHook(B&0xFFFF)!=0xCB) 
             T_const=MnemonicsXX[RdZ80_NoHook(B++&0xFFFF)];
         else
@@ -334,6 +334,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
     }
 	char T[32];
 	strcpy(T, T_const);
+	StrLower(T);
 
 	char *P;
     if ((P=strchr(T,'^')) != NULL)
@@ -352,7 +353,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 				if (display_symbols_for_current_index_registers)
 				{
 					// P+2: skip the 'h' in the instruction
-					const u16 addr = ((C == 'X') ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
+					const u16 addr = ((C == 'x') ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
 					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);		// Don't display full address because it is obvious (for IX/IY being typically stable)
 					snprintf(R, 256, "%.*s%c%d=%s%s", P-T, T, offset_sign, offset_abs, H, P+2);
 				}
@@ -376,9 +377,9 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
     if ((P=strchr(R,'%')) != NULL) 
     {
         *P=C;
-        if (C == 'X')
+        if (C == 'x')
             relative_offset_base = 1;
-        else if (C == 'Y')
+        else if (C == 'y')
             relative_offset_base = 2;
     }
 

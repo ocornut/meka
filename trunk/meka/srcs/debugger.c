@@ -1968,7 +1968,7 @@ static void     Debugger_Applet_Layout(bool setup)
     app->frame_disassembly.pos.x   = frame.pos.x;
     app->frame_disassembly.pos.y   = frame.pos.y;
     app->frame_disassembly.size.x  = frame.size.x;
-    app->frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * app->font_height;
+    app->frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * (app->font_height+1);
     frame.pos.y += app->frame_disassembly.size.y;
 
     // Add line
@@ -2256,7 +2256,7 @@ void	Debugger_Applet_RedrawState()
 							continue;
 
                         sprintf(buf, "%s:", symbol->name);
-                        Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * app->font_height), COLOR_SKIN_WINDOW_TEXT);
+                        Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * (app->font_height+1)), COLOR_SKIN_WINDOW_TEXT);
                         i++;
                         if (i >= g_configuration.debugger_disassembly_lines)
                             break;
@@ -2291,7 +2291,7 @@ void	Debugger_Applet_RedrawState()
 				}
 			}
 
-            Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * app->font_height), text_color);
+            Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * (app->font_height+1)), text_color);
 
 			pc += opcode_size;
         }
