@@ -97,7 +97,7 @@ SMS 08c9ec91 8F4496EF846F02B3   Alex Kidd no Miracle World/COUNTRY=JP/PRODUCT_NO
 SMS 6f8e46cf B20081B6495EBAB6   Alex Kidd in Miracle World [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-10/COMMENT=Box says "Alex Kido".
 SMS d2417ed7 7ACEE06A678FF583   Alex Kidd in Shinobi World/COUNTRY=US,EU,BR/PRODUCT_NO=7044
 SMS 82038ad4 8C8CBA6269074D0F   Alf/COUNTRY=US,BR/PRODUCT_NO=5111
-SMS 08bf3de3 99C9E641B75585E6   Alibaba and 40 Thieves/COUNTRY=KR/EMU_COUNTRY=1   ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern.
+SMS 08bf3de3 99C9E641B75585E6   Alibaba and 40 Thieves/COUNTRY=KR/EMU_COUNTRY=1   ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern typically left over of Japanese BIOS.
 SMS b618b144 2C339F1D709F32A4   Alien 3/COUNTRY=EU,BR/PRODUCT_NO=MK-27043-50
 SMS 7f30f793 122165765570939A   Alien Storm/COUNTRY=EU,BR/PRODUCT_NO=7075
 SMS 5cbfe997 468211BFBE1EC3C9   Alien Syndrome/COUNTRY=US,EU,BR/PRODUCT_NO=7006
