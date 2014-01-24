@@ -277,14 +277,14 @@ void Z80_Disassemble_GetDecoratedSymbolFromAddress(const char* mnemonic, u16 add
 		if (display_addr)
 		{
 			if (symbol->cpu_addr != addr)
-				snprintf(buf, buf_len,"%s+%X/%04Xh", symbol->name, addr-symbol->cpu_addr, addr);
+				snprintf(buf, buf_len,"%s+%Xh/%04Xh", symbol->name, addr-symbol->cpu_addr, addr);
 			else
 				snprintf(buf, buf_len,"%s/%04Xh", symbol->name, addr);
 		}
 		else
 		{
 			if (symbol->cpu_addr != addr)
-				snprintf(buf, buf_len,"%s+%X", symbol->name, addr-symbol->cpu_addr);
+				snprintf(buf, buf_len,"%s+%Xh", symbol->name, addr-symbol->cpu_addr);
 			else
 				snprintf(buf, buf_len,"%s", symbol->name);
 		}
@@ -339,10 +339,10 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 	char *P;
     if ((P=strchr(T,'^')) != NULL)
     {
+		assert(!has_offset);	// Should never get a ^ in the DD CB and FD CB paths
 		if (S != NULL)
 		{
-			assert(!has_offset);	// Should never get a ^ in the DD CB and FD CB paths
-			Offset = RdZ80_NoHook(B++&0xFFFF);
+			Offset = RdZ80_NoHook(B&0xFFFF);
 
 			// convert 0xFF to -0x01 for nicer display
 			const char offset_sign = (Offset & 0x80) ? '-' : '+';
@@ -368,6 +368,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 				snprintf(R, 256, "%.*s%c%d", P-T, T, offset_sign, offset_abs, H, P+2);
 			}
 		}
+		B++;
 	}
     else 
 	{
@@ -388,13 +389,10 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
         if (S != NULL)
         {
             strncpy(S,R,P-R);S[P-R]='\0';
-            sprintf(H,"%02Xh",RdZ80_NoHook(B++&0xFFFF));
+            sprintf(H,"%02Xh",RdZ80_NoHook(B&0xFFFF));
             strcat(S,H);strcat(S,P+2);
         }
-        else
-        {
-            B++;
-        }
+        B++;
     }
     else
 	{
@@ -403,7 +401,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
             if (S != NULL)
             {
                 if(!has_offset) 
-                    Offset=RdZ80_NoHook(B++&0xFFFF);
+                    Offset=RdZ80_NoHook(B&0xFFFF);
 
 				// convert 0xFF to -0x01 for nicer display
 				const char offset_sign = (Offset & 0x80) ? '-' : '+';
@@ -414,7 +412,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 					// P+2: skip the 'h' in the instruction
 					if (relative_offset_base == 0)
 					{
-						const u16 addr = B + (signed char)Offset;
+						const u16 addr = (B+1) + (signed char)Offset;
 						Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
 						snprintf(S, 255, "%.*s%c%02Xh (%s)%s", P-R, R, offset_sign, offset_abs, H, P+2);
 					}
@@ -431,11 +429,8 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 					snprintf(S, 256, "%.*s%c%02Xh%s", P-R, R, offset_sign, offset_abs, P+2);
                 }
             }
-            else
-            {
-				if(!has_offset)
-					B++;
-            }
+			if(!has_offset)
+				B++;
         }
 		else if((P=strchr(R,'#')) != NULL)
 		{

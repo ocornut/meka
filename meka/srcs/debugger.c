@@ -1917,7 +1917,7 @@ static void Debugger_Applet_Init()
     frame.pos.x     = 428;
     frame.pos.y     = 50;
     frame.size.x    = 380;
-    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + g_configuration.debugger_disassembly_lines + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height) + 22 + 20 + (2*2); // 2*2=padding
+    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height + (g_configuration.debugger_disassembly_lines * (app->font_height+1))) + 22 + 20 + (2*2); // 2*2=padding
 
     app->box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     app->box_gfx = app->box->gfx_buffer;
@@ -2047,7 +2047,7 @@ static void     Debugger_Applet_Layout(bool setup)
 //-----------------------------------------------------------------------------
 int         Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 {
-    char  instr[128];
+    char  instr[256];
     const int len = Z80_Disassemble(instr, addr, true, true, true);
     if (dst != NULL)
     {
