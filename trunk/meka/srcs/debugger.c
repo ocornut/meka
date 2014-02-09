@@ -857,7 +857,7 @@ t_debugger_breakpoint *     Debugger_BreakPoint_Add(int type, int location, int 
 
     // Create and setup breakpoint
     breakpoint = (t_debugger_breakpoint*)malloc(sizeof (t_debugger_breakpoint));
-    breakpoint->enabled = TRUE;
+    breakpoint->enabled = FALSE;
     breakpoint->id = Debugger_BreakPoints_AllocateId();
     breakpoint->type = type;
     breakpoint->location = location;
@@ -883,7 +883,7 @@ void                        Debugger_BreakPoint_Remove(t_debugger_breakpoint *br
     assert(breakpoint != NULL);
 
     // Disable
-    Debugger_BreakPoint_Disable(breakpoint);
+	Debugger_BreakPoint_Disable(breakpoint);
 
     // Remove from global breakpoint list
     list_remove(&Debugger.breakpoints, breakpoint);
@@ -898,8 +898,11 @@ void                        Debugger_BreakPoint_Remove(t_debugger_breakpoint *br
 
 void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *breakpoint)
 {
+	if (breakpoint->enabled)
+		return;
+
     // Set flag
-    breakpoint->enabled = TRUE;
+    breakpoint->enabled = true;
 
     // Add to corresponding bus space list
     t_list ** bus_lists;
@@ -955,8 +958,11 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 
 void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *breakpoint)
 {
-    // Set flag
-    breakpoint->enabled = FALSE;
+	if (!breakpoint->enabled)
+		return;
+
+	// Set flag
+    breakpoint->enabled = false;
 
     // Remove from bus space list
     t_list ** bus_lists;
@@ -2128,13 +2134,13 @@ void	Debugger_Applet_RedrawState()
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines = ((g_configuration.debugger_disassembly_lines - 1) / 4) + 1; 
-        trackback_lines = MIN(trackback_lines, 10); // Max 10
+        int     trackback_lines = (g_configuration.debugger_disassembly_lines / 3) + 1; 
+        trackback_lines = MIN(trackback_lines, 16); // Max 10 because of buffer below
         //  1 -> 1
         //  5 -> 2
         //  9 -> 3, etc.
         // 13 -> 4
-        // Max = 10
+        // Max = 10 ?
 
         // Clear disassembly buffer
 		al_set_target_bitmap(app->box_gfx);
@@ -2146,7 +2152,7 @@ void	Debugger_Applet_RedrawState()
         pc = sms.R.PC.W;
         {
             int pc_temp = pc;
-            int pc_history[10*4+1] = { 0 };
+            int pc_history[16*4+1] = { 0 };
             const int pc_history_size = trackback_lines*4;
 
             // Find in PC log all values between PC-trackback_lines*4 and PC-1
@@ -2182,8 +2188,8 @@ void	Debugger_Applet_RedrawState()
                         //   0003 - ? <- get this
                         //   0005 - PC
                         //..
-                        pc_history[pc_temp - inst_after] = inst_len = Z80_Disassemble(NULL, inst_after, false, false, false);
-                        i = pc_temp - inst_after;
+                        pc_history[pc - inst_after] = inst_len = Z80_Disassemble(NULL, inst_after, false, false, false);
+                        i = pc - inst_after;
                         inst_after += inst_len;
                     }
 
