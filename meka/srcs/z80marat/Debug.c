@@ -442,7 +442,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 			}
 			B += 2;
 		}
-		else if(strncmp(R,"RST ",4)==0)
+		else if(strncmp(R,"rst ",4)==0)
 		{
 			if (S != NULL)
 			{
@@ -450,7 +450,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 				const t_debugger_symbol* symbol = display_symbols ? Debugger_Symbols_GetLastByAddr(addr) : NULL;
 				if (symbol != NULL)
 				{
-					sprintf(S,"RST %s/%02Xh", symbol->name, addr);
+					sprintf(S,"rst %s/%02Xh", symbol->name, addr);
 				}
 				else
 				{
