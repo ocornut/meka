@@ -110,6 +110,8 @@ They are usually of 2 kinds:
           GG  - 83fa26d9 - Columns                              --> Columns [v2]
           GG  - a8ef36a7 - Junction                             --> Junction (JP)
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
+          GG  - de25e2d8 - Sports Illustrated - Championship F..--> Sports Illustrated - Championship Football & Baseball [BAD] (was bad dump)
+          GG  - 5b5de94d - Sports Trivia - Championship Edition --> Sports Trivia - Championship Edition [Proto] (from old Image dump stash)
           GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
           SG1 - 26f947d1 - Champion Boxing [cart]               --> Champion Boxing [v0]
           SG1 - f8b2ac1d - Champion Boxing [card]               --> Champion Boxing [v1]
