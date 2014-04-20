@@ -189,6 +189,7 @@
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
+ Gangcheol RoboCop (KR)                         -       Ok
  Gangster Town                                  LP      Ok
  Gauntlet                                       -       Ok
  George Foreman's KO Boxing                     -       Ok
@@ -277,6 +278,7 @@
  Legend of Illusion - Starring Mickey Mouse (BR)-       Ok
  Lemmings                                       -       Ok
  Lemmings [Proto]                               -       Ok
+ Lemmings 2: The Tribes [Proto]                 -       Ok
  Lion King, The (Disney's)                      -       Ok
  Line of Fire                                   (3D)    Ok
  Loretta no Shouzou (JP)                        -       Ok
@@ -313,6 +315,7 @@
  Montezuma's Revenge - Featuring Pana.. [Proto] -       Ok
  Moonwalker (Michael Jackson's)                 -       Ok
  Moonwalker (Michael Jackson's) [Proto]         -       Ok
+ Mopiranger (KR)                                -       Ok
  Mortal Kombat                                  -       Ok
  Mortal Kombat II                               -       Ok
  Mortal Kombat 3 (BR)                           -       Ok
@@ -385,6 +388,7 @@
  Reggie Jackson Baseball                        -       Ok
  Renegade                                       -       Ok
  Rescue Mission                                 FM,LP   Ok
+ Road Fighter (KR)                              -       Ok
  Road Rash                                      -       Ok
  RoboCop 3                                      -       Ok
  RoboCop versus The Terminator                  -       Ok
@@ -557,7 +561,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 539 games tested - 537 are "Ok" - Compatibility rate: 99.54%
+ 543 games tested - 541 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1071,6 +1075,7 @@
  Legend of Illusion                                 Ok
  Lemmings                                           Ok
  Lemmings [Proto]                                   Ok
+ Lemmings 2: The Tribes [Proto]                     Ok
  Lion King, The (Disney's) (EU)                     Ok
  Lion King, The (Disney's) (US)                     Ok
  Lion King, The (Disney's) (JP)                     Ok
@@ -1350,7 +1355,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 493 games tested - 481 are "Ok" - Compatibility rate: 97.45%
+ 494 games tested - 482 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

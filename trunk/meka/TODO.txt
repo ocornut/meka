@@ -1,4 +1,17 @@
 
+Trace log instruction
+
+//Disassembler: RST broken
+Debugger: STEP OVER broken on line with breakpoint
+MemoryViewew: input register/expr in ADDR field
+
+<48 KB rom should heuristically detect possible use of sega mapper by counting of LD (FFFx),A and discarding those who have also have load in E000.FFF0 range.
+
+Trackback: optimistically assume that disassembled lines (after >PC) can be included in trackback
+Trackback: replace by ROM sized bitfield?
+
+STACK currently doesn't log in debuglog.txt properly
+
 Easy save slot select in menu?
 
 - it crashes when I lock the workstation (WinXP)
