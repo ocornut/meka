@@ -109,50 +109,61 @@ enum t_debugger_eval_value_format
     DEBUGGER_EVAL_VALUE_FORMAT_STRING,
 };
 
+// 16 bytes per entry
+// same order as in Z80 structure so we can memcpy() the whole thing
+struct t_debugger_exec_log_entry
+{
+	u16	af, bc, de, hl, ix, iy, pc, sp;
+};
+
 struct t_debugger
 {
-    int         enabled;                        // Enabled and initialized
-    bool        active;                         // Currently showing on GUI
-    bool        trap_set;
-    u16         trap_address;
-    int         stepping;                       // Set when we are doing a single step
-    int         stepping_trace_after;
-	bool		stepping_out_enable;			// Run until RET && SP >= step_out_stack_ref
-	u16			stepping_out_stack_ref;
-    t_list *    breakpoints;
-    t_list *    breakpoints_cpu_space[0x10000]; // 0000-FFFF : each Z80 address has its list of applicable breakpoints
-    t_list *    breakpoints_io_space[0x100];
-    t_list *    breakpoints_vram_space[0x4000];
-    t_list *    breakpoints_pram_space[0x40];
-    t_list *    breakpoints_line_space[313];
-    t_list *    symbols;
-    int         symbols_count;
-    t_list *    symbols_cpu_space[0x10000];
-	int			history_max;
-    int         history_count;
+    int							enabled;                        // Enabled and initialized
+    bool						active;                         // Currently showing on GUI
+    bool						trap_set;
+    u16							trap_address;
+    int							stepping;                       // Set when we are doing a single step
+    int							stepping_trace_after;
+	bool						stepping_out_enable;			// Run until RET && SP >= step_out_stack_ref
+	u16							stepping_out_stack_ref;
+
+    t_list *					breakpoints;
+    t_list *					breakpoints_cpu_space[0x10000]; // 0000-FFFF : each Z80 address has its list of applicable breakpoints
+    t_list *					breakpoints_io_space[0x100];
+    t_list *					breakpoints_vram_space[0x4000];
+    t_list *					breakpoints_pram_space[0x40];
+    t_list *					breakpoints_line_space[313];
+
+	// This is like with breakpoints_cpu_space but with direct access to merged CPU read breakpoints. 
+	// The Z80 emulator use that to trap CPU read of first opcode byte *BEFORE* execution started.
+	// Whereas normal breakpoints are stopping the CPU after the event happened.
+	int							cpu_exec_traps[0x10000];
+
+    t_list *					symbols;
+    int							symbols_count;
+    t_list *					symbols_cpu_space[0x10000];
+
+	int							history_max;
+    int							history_count;
 	t_debugger_history_item *	history;
-	int			history_current_index;			// 0: new/current edit line, 1+: history lines items
-    t_list *	variables_cpu_registers;
-    FILE *		log_file;
-    const char *log_filename;
-    int			watch_counter;                  // For current frame
-    long long   cycle_counter;					// Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80(). 
+	int							history_current_index;			// 0: new/current edit line, 1+: history lines items
+
+    t_list *					variables_cpu_registers;
+    FILE *						log_file;
+    const char *				log_filename;
+    int							watch_counter;                  // For current frame
+    long long					cycle_counter;					// Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80(). 
+
+	// PC logging/trackbacking
+	u16							pc_last;
+	u8							pc_exec_points[0x10000];
+	std::vector<t_debugger_exec_log_entry>	pc_detail_log_data;
+	size_t						pc_detail_log_head;
+	size_t						pc_detail_log_count;
+	int							trackback_scroll_offset;		// Mouse wheel to scroll disassembly
 };
 
 extern t_debugger   Debugger;
-
-// This is like with breakpoints_cpu_space but with direct access to merged CPU read breakpoints. 
-// The Z80 emulator use that to trap CPU read of first opcode byte *BEFORE* execution started.
-// Otherwise, breakpoints works by stopping CPU after the event happened.
-extern int          Debugger_CPU_Exec_Traps[0x10000];
-
-// PC log queue (for trackback feature)
-extern u16          Debugger_Z80_PC_Last;
-extern u16          Debugger_Z80_PC_Log_Queue[512];
-extern int          Debugger_Z80_PC_Log_Queue_Back;
-extern int			Debugger_Z80_PC_Log_Queue_Front;
-
-#define DEBUGGER_Z80_PC_LOG_QUEUE_MASK		511
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -190,25 +201,6 @@ int							Debugger_Eval_ParseIntegerHex(const char* s, const char** out_end = NU
 
 // Bus Data Access Helpers
 int                         Debugger_Bus_Read(int bus, int addr);
-
-//-----------------------------------------------------------------------------
-// Functions - Inline
-//-----------------------------------------------------------------------------
-
-static INLINE
-void  Debugger_Z80_PC_Log_Queue_Add(unsigned short pc)
-{
-	// This break the constant-time property and make this way slower but gives us
-	for (int i = Debugger_Z80_PC_Log_Queue_Back; i != Debugger_Z80_PC_Log_Queue_Front; i = (i - 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
-		if (Debugger_Z80_PC_Log_Queue[i] == pc)
-			return;
-
-	// NB- constant time version
-    Debugger_Z80_PC_Log_Queue[Debugger_Z80_PC_Log_Queue_Back] = pc;
-    Debugger_Z80_PC_Log_Queue_Back = (Debugger_Z80_PC_Log_Queue_Back + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK;
-    if (Debugger_Z80_PC_Log_Queue_Back == Debugger_Z80_PC_Log_Queue_Front)
-        Debugger_Z80_PC_Log_Queue_Front = (Debugger_Z80_PC_Log_Queue_Front + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK;
-}
 
 //-----------------------------------------------------------------------------
 

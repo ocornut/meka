@@ -813,12 +813,12 @@ void            FB_Update(void)
         }
 
         // Update mouse inputs (wheel)
-        if (gui.mouse.z_rel != 0)
+        if (gui.mouse.wheel_rel != 0)
         {
 			const int wheel_speed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) ? 10 : 1;
-            if (gui.mouse.z_rel < 0)
+            if (gui.mouse.wheel_rel < 0)
                 FB.file_pos += wheel_speed;
-            if (gui.mouse.z_rel > 0)
+            if (gui.mouse.wheel_rel > 0)
                 FB.file_pos -= wheel_speed;
             dirty = TRUE;
         }

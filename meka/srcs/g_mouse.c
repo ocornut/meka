@@ -17,9 +17,8 @@ void    gui_init_mouse (void)
     gui.mouse.y_prev = 0;
     gui.mouse.buttons = 0;
     gui.mouse.buttons_prev = 0;
-    gui.mouse.z_rel = 0;
-    gui.mouse.z_current = 0;
-    gui.mouse.z_prev = 0;
+    gui.mouse.wheel_rel = 0;
+    gui.mouse.wheel_abs = 0;
     gui.mouse.focus = GUI_FOCUS_NONE;
     gui.mouse.focus_item = NULL;
     gui.mouse.reset_timer = TRUE;
@@ -47,9 +46,8 @@ void    gui_update_mouse (void)
 	gui.mouse.buttons = g_mouse_state.buttons;
     // Msg(MSGT_DEBUG, "gui_mouse_button = %d", mouse_b);
 
-    gui.mouse.z_prev = gui.mouse.z_current;
-	gui.mouse.z_current = g_mouse_state.z;
-    gui.mouse.z_rel = gui.mouse.z_current - gui.mouse.z_prev;
+    gui.mouse.wheel_rel = g_mouse_state.z - gui.mouse.wheel_abs;
+	gui.mouse.wheel_abs = g_mouse_state.z;
 
     // Uncomment to bypass Allegro 3 button emulation
     // if (gui_mouse.button == 4) gui_mouse.button = 3;
