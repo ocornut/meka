@@ -1,4 +1,3 @@
-
 #include "shared.h"
 #include "db.h"
 #include "vdp.h"

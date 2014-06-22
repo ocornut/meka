@@ -21,6 +21,7 @@
 #include "inputs_c.h"
 #include "skin_bg.h"
 #include "skin_fx.h"
+#include "textbox.h"
 
 //-----------------------------------------------------------------------------
 // Forward Declaration

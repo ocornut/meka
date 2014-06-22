@@ -20,6 +20,7 @@
 #include "lightgun.h"
 #include "saves.h"
 #include "sk1100.h"
+#include "textbox.h"
 #include "tvoekaki.h"
 #include "vdp.h"
 #include "video.h"

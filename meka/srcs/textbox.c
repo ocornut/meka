@@ -10,6 +10,7 @@
 #include "shared.h"
 #include "desktop.h"
 #include "g_widget.h"
+#include "textbox.h"
 
 //-----------------------------------------------------------------------------
 // Definitions

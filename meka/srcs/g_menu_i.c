@@ -25,6 +25,8 @@
 #include "rapidfir.h"
 #include "saves.h"
 #include "sk1100.h"
+#include "textbox.h"
+#include "tvtype.h"
 #include "sound/s_misc.h"
 #include "sound/sound_logging.h"
 

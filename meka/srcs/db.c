@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "db.h"
 #include "vdp.h"
+#include "tvtype.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 

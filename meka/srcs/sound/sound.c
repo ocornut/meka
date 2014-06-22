@@ -11,6 +11,7 @@
 #include "sound_logging.h"
 #include "desktop.h"
 #include "g_widget.h"
+#include "tvtype.h"
 
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
