@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2014/04/20
+; Last updated 2014/06/09
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -63,7 +63,7 @@
 ; the new database content will be more much exhaustive and accurate than
 ; any existing database.
 ;-----------------------------------------------------------------------------
-; Approximately 90% of the database was converted.
+; Approximately 95% of the database was converted.
 ;-----------------------------------------------------------------------------
 ; The top part of this file consists in verified entries in the new format.
 ; The bottom part consists in entries in the old format. Once every entries
@@ -166,8 +166,8 @@ SMS 16ec3575 59B7B528A8C7DFC5   Choplifter [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMEN
 SMS e421e466 8854D3291643319E   Chouon Senshi Borgman/COUNTRY=JP/PRODUCT_NO=G-1371/COMMENT=Japanese version of "Cyborg Hunter".
 SMS 86f49ae9 81DD037E1B473887   Chouon Senshi Borgman [Proto]/FLAGS=PROTO/COUNTRY=JP/COMMENT=Prototype version of the game.
 SMS dd0e2927 8CFE7B6CC112B903   Chuck Rock/COUNTRY=EU,BR/PRODUCT_NO=MK-29004-50,028040
-SMS c30e690a B2D10AB51B1C5136   Chuck Rock II - Son of Chuck/COUNTRY=EU/PRODUCT_NO=MK-29019-50
-SMS 87783c04 DE902135694BC6C2   Chuck Rock II - Son of Chuck/COUNTRY=BR/PRODUCT_NO=028440/COMMENT=This version is an earlier build than the European version.
+SMS c30e690a B2D10AB51B1C5136   Chuck Rock II: Son of Chuck/COUNTRY=EU/PRODUCT_NO=MK-29019-50
+SMS 87783c04 DE902135694BC6C2   Chuck Rock II: Son of Chuck/COUNTRY=BR/PRODUCT_NO=028440/COMMENT=This version is an earlier build than the European version.
 SMS 8fb75994 2AB04A10D714A23F   Circuit, The/COUNTRY=JP/PRODUCT_NO=G-1304/COMMENT=Japanese version of "World Grand Prix".
 SMS e7f62e6d BA12C9527CEE0DA2   Cloud Master/NAME_JP=Chuka Taisen/COUNTRY=US,EU,BR/PRODUCT_NO=7027
 SMS 9d549e08 59868AC9BD4815B4   Comical Machine Gun Joe/COUNTRY=JP/PRODUCT_NO=C-511
@@ -813,8 +813,8 @@ GG  6b0fcec3 C8E8E57E33BC39C5   Chicago Syndicate/COUNTRY=US,BR/PRODUCT_NO=2535,
 GG  c2e8a692 4CFC722EB04E8892   Choplifter III/COUNTRY=US/PRODUCT_NO=T-22038
 GG  191b1ed8 D569D43547670605   Chuck Rock/COUNTRY=US,EU,JP,BR/PRODUCT_NO=2430,G-3320,016740
 GG  cb3a1d23 C00226EF6E17495B   Chuck Rock [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
-GG  3fcc28c9 B6FD24D8906B3422   Chuck Rock II - Son of Chuck/COUNTRY=US/PRODUCT_NO=T-48148
-GG  656708bf 65F159C71229103F   Chuck Rock II - Son of Chuck/COUNTRY=EU,BR/PRODUCT_NO=T-115018-50,115018-50,075.450
+GG  3fcc28c9 B6FD24D8906B3422   Chuck Rock II: Son of Chuck/COUNTRY=US/PRODUCT_NO=301086-0161 T-48148
+GG  656708bf 65F159C71229103F   Chuck Rock II: Son of Chuck/COUNTRY=EU,BR/PRODUCT_NO=T-115018-50,115018-50,075.450
 GG  72981057 233F58409660EF21   CJ Elephant Fugitive/COUNTRY=EU,US/PRODUCT_NO=17014
 GG  bf75b153 2F97B4630C0D23E7   Cliffhanger/COUNTRY=US/PRODUCT_NO=T-93038
 GG  d228a467 9B49411CCAC8D756   Clutch Hitter/COUNTRY=US/PRODUCT_NO=2311
@@ -1070,7 +1070,7 @@ GG  38d8ec56 46EF1611B14E079E   Riddick Bowe Boxing/COUNTRY=US/PRODUCT_NO=T-2202
 GG  a45fffb7 45EF1710B24D079F   Riddick Bowe Boxing/COUNTRY=JP/PRODUCT_NO=T-22027
 GG  100b77b2 C8EC4DEA219A73E7   Rise of the Robots/COUNTRY=US,EU/PRODUCT_NO=T-48208/EMU_TVTYPE=NTSC/EMU_IPERIOD=229
 GG  efe65b3b 66C33CFBDC17A706   Ristar the Shooting Star/NAME_US=Ristar/NAME_EU=Ristar/COUNTRY=JP,US,EU/PRODUCT_NO=G-3365,2543,2543-50
-GG  069a0704 6065615A7606FD07   RoboCop 3/COUNTRY=JP,US,EU/PRODUCT_NO=T-81097,?
+GG  069a0704 6065615A7606FD07   RoboCop 3/COUNTRY=JP,US,EU/PRODUCT_NO=T-81097,T-81178
 GG  4ab7fa4e E89A7A9BE94BBB7A   RoboCop versus The Terminator/COUNTRY=US,EU/PRODUCT_NO=?,T-70128-50
 GG  96045f76 897F02048B132F25   Road Rash/COUNTRY=US/PRODUCT_NO=T-79108
 GG  176505d4 897F02048B132F25   Road Rash/COUNTRY=EU/PRODUCT_NO=79108-50
