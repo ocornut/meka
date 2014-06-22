@@ -102,8 +102,8 @@
  Chouon Senshi Borgman (JP)                     FM      Ok
  Chouon Senshi Borgman [Proto] (JP)             FM      Ok
  Chuck Rock                                     -       Ok
- Chuck Rock II - Son of Chuck                   -       Ok
- Chuck Rock II - Son of Chuck (BR)              -       Ok
+ Chuck Rock II: Son of Chuck                    -       Ok
+ Chuck Rock II: Son of Chuck (BR)               -       Ok
  Circuit, The (JP)                              -       Ok
  Cloud Master / Chuka Taisen                    FM      Ok
  Color & Switch Test                            -       Ok
@@ -922,8 +922,8 @@
  Choplifter III                                     Ok
  Chuck Rock                                         Ok
  Chuck Rock [Proto]                                 Ok
- Chuck Rock II - Son of Chuck                       Ok
- Chuck Rock II - Son of Chuck (US)                  Ok
+ Chuck Rock II: Son of Chuck                        Ok
+ Chuck Rock II: Son of Chuck (US)                   Ok
  CJ Elephant Fugitive                               Ok
  Cliffhanger                                        Ok
  Clutch Hitter                                      Ok
