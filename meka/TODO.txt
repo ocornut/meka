@@ -1,6 +1,4 @@
 
-Trace log instruction
-
 //Disassembler: RST broken
 Debugger: STEP OVER broken on line with breakpoint
 MemoryViewew: input register/expr in ADDR field
@@ -9,8 +7,6 @@ MemoryViewew: input register/expr in ADDR field
 
 Trackback: optimistically assume that disassembled lines (after >PC) can be included in trackback
 Trackback: replace by ROM sized bitfield?
-
-STACK currently doesn't log in debuglog.txt properly
 
 Easy save slot select in menu?
 

@@ -24,6 +24,8 @@ search for the following variables:
   debugger_disassembly_lines            (number of disassembly lines)
   debugger_disassembly_display_labels   (enable label display)
   debugger_log                          (enable log of debugger output)
+
+Use mouse wheel to scroll in disassembly.
   
 All debugger output are logged by default. 
 The log is located in the 'DEBUG/DEBUGLOG.TXT' file.
@@ -156,9 +158,10 @@ Debugger commands summary
 -- Inspect/Modify:
  R                              : Dump Z80 registers
  P expr                         : Print evaluated expression
- M [addr] [len]                 : Memory dump at <addr>
+ M [addr] [cnt]                 : Memory dump at <addr>
  D [addr] [cnt]                 : Disassembly at <addr>
- STACK [len]                    : Stack dump
+ STACK [cnt]                    : Stack dump
+ TRACE [<cnt>|all|clear|regs]   : Trace past execution
  RMAP addr                      : Reverse map Z80 address
  VARS [name]                    : Display variables by name
  VARS @addr                     : Display variables by address
@@ -363,8 +366,8 @@ Parameters:
  cnt     : number of instruction to disassemble (10)
 
 
-Debugger command - ST
----------------------
+Debugger command - STACK
+------------------------
 ST/STACK: Dump stack
 Usage:
  ST [len]
@@ -375,7 +378,22 @@ Examples:
 Notes:
  Each entry is displayed as a possible 8-bit of 16-bit value.
  Symbols are resolved.
- 
+
+
+Debugger command - TRACE
+------------------------
+TR/TRACE: Trace past execution
+Usage:
+ TR [cnt]
+ TR all         ; trace all (since last clear
+ TR clear       ; clear trace log
+ TR regs        ; toggle dumping extra registers
+Parameters:
+ cnt            : number of previous instruction (16)
+Notes:
+ If the number of instructions to trace is large, output is redirected to Debug/debuglog.txt
+ and not displayed in the debugger view.
+
 
 Debugger command - R
 --------------------
