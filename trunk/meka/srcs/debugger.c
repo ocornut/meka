@@ -341,7 +341,7 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
     },
 	{
 		"ST", "STACK",
-		"Dump stack ",
+		"Dump stack",
 		// Description
 		"ST/STACK: Dump stack\n"
 		"Usage:\n"
@@ -352,7 +352,20 @@ static t_debugger_command_info              DebuggerCommandInfos[] =
 		" ST             ; dump 8 bytes at SP\n"
 		" ST 100         ; dump 100 bytes at SP"
 	},
-    {
+	{
+		"TR", "TRACE",
+		"Trace past execution",
+		// Description
+		"TR/TRACE: Trace past execution\n"
+		"Usage:\n"
+		" TR [cnt]\n"
+		" TR all         ; trace all (since last clear)\n"
+		" TR clear       ; clear trace log\n"
+		" TR regs        ; toggle dumping extra registers\n"
+		"Parameters:\n"
+		" cnt     : number of previous instruction (16)"
+	},
+	{
         "D", "DASM",
         "Disassemble",
         // Description
@@ -472,6 +485,8 @@ void        Debugger_Init_Values (void)
     Debugger.cycle_counter = 0;
 
 	memset(Debugger.cpu_exec_traps, 0, sizeof(Debugger.cpu_exec_traps));
+
+	Debugger.pc_detail_log_show_extra_registers = false;
 
 	Debugger.trackback_scroll_offset = 0;
 
@@ -600,7 +615,8 @@ void        Debugger_MachineReset(void)
 
 	Debugger.pc_last = 0;
 	memset(Debugger.pc_exec_points, 0, sizeof(Debugger.pc_exec_points));
-	Debugger.pc_detail_log_data.clear();
+	Debugger.pc_detail_log_data.resize(64*1024); // 256 KB buffer
+	Debugger.pc_detail_log_data[Debugger.pc_detail_log_data.size()-1].pc = 0xffff;
 	Debugger.pc_detail_log_head = 0;
 	Debugger.pc_detail_log_count = 0;
 
@@ -1872,6 +1888,42 @@ void	Debugger_Switch()
         Debugger_Init_LogFile();
 }
 
+void		Debugger_PrintEx(bool debugger, bool log, bool ui, char* buf)
+{
+	// Output to debug console
+	if (debugger)
+	{
+#ifdef ARCH_WIN32
+		OutputDebugString(buf);
+#endif
+	}
+
+    // Log to file
+	if (log)
+    if (Debugger.log_file != NULL)
+    {
+        fprintf(Debugger.log_file, "%s", buf);
+        fflush(Debugger.log_file);
+    }
+
+	if (ui)
+	{
+		// Split message by line (\n) and send it to the various places
+		char* p = buf;
+		do
+		{
+			char *line = p;
+			p = strchr (p, '\n');
+			if (p)
+			{
+				*p++ = EOSTR;
+			}
+			widget_textbox_print_scroll(DebuggerApp.console, TRUE, line);
+		}
+		while (p != NULL && *p != EOSTR);
+	}
+}
+
 // Print a formatted line to the debugger console
 void        Debugger_Printf(const char *format, ...)
 {
@@ -1882,31 +1934,7 @@ void        Debugger_Printf(const char *format, ...)
     vsprintf (buf, format, param_list);
     va_end (param_list);
 
-    // Output to debug console
-#ifdef ARCH_WIN32
-    OutputDebugString(buf);
-#endif
-
-    // Log to file
-    if (Debugger.log_file != NULL)
-    {
-        fprintf(Debugger.log_file, "%s", buf);
-        fflush(Debugger.log_file);
-    }
-
-    // Split message by line (\n) and send it to the various places
-    char* p = buf;
-    do
-    {
-        char *line = p;
-        p = strchr (p, '\n');
-        if (p)
-        {
-            *p++ = EOSTR;
-        }
-        widget_textbox_print_scroll(DebuggerApp.console, TRUE, line);
-    }
-    while (p != NULL && *p != EOSTR);
+	Debugger_PrintEx(true, true, true, buf);
 }
 
 // Initialize the debugger applet
@@ -2379,9 +2407,10 @@ static void     Debugger_Help(const char *cmd)
         Debugger_Printf("-- Inspect/Modify:\n");
         Debugger_Printf(" R                      : Dump Z80 registers"         "\n");
         Debugger_Printf(" P expr                 : Print evaluated expression" "\n");
-        Debugger_Printf(" M [addr] [len]         : Memory dump at <addr>"      "\n");
+        Debugger_Printf(" M [addr] [cnt]         : Memory dump at <addr>"      "\n");
         Debugger_Printf(" D [addr] [cnt]         : Disassembly at <addr>"      "\n");
-		Debugger_Printf(" STACK [len]            : Stack dump"                 "\n");
+		Debugger_Printf(" STACK [cnt]            : Stack dump"                 "\n");
+		Debugger_Printf(" TRACE [cnt|clear|regs] : Trace past execution"       "\n");
 		Debugger_Printf(" RMAP addr              : Reverse map Z80 address"    "\n");
 		Debugger_Printf(" VARS [name|@addr]      : Display variables"          "\n");
         Debugger_Printf(" SYM [name|@addr]       : Find symbols"               "\n");
@@ -3431,7 +3460,7 @@ void        Debugger_InputParseCommand(char *line)
         }
         return;
     }
-	
+
 	// ST - STACK DUMP
 	if (!strcmp(cmd, "ST") || !strcmp(cmd, "STACK"))
 	{
@@ -3449,12 +3478,12 @@ void        Debugger_InputParseCommand(char *line)
 
 			const t_debugger_symbol* symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
 			if (symbol != NULL)
-				Debugger_Printf(" Current PC:     %04X      %s+%X", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->cpu_addr);
+				Debugger_Printf(" Current PC:     %04X      %s+%X\n", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->cpu_addr);
 			else
-				Debugger_Printf(" Current PC:     %04X", sms.R.PC.W);
-			Debugger_Printf("------------------------");
-			Debugger_Printf(" Stack   8-bit   16-bit");
-			Debugger_Printf("------------------------");
+				Debugger_Printf(" Current PC:     %04X\n", sms.R.PC.W);
+			Debugger_Printf("------------------------\n");
+			Debugger_Printf(" Stack   8-bit   16-bit\n");
+			Debugger_Printf("------------------------\n");
 			while (len > 0)
 			{
 				const u8 v8 = RdZ80_NoHook(addr & 0xFFFF);
@@ -3462,12 +3491,103 @@ void        Debugger_InputParseCommand(char *line)
 				
 				symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 64);
 				if (symbol != NULL)
-					Debugger_Printf(" %04X:   %02X      %04X      %s+%X", addr, v8, v16, symbol->name, v16-symbol->cpu_addr);
+					Debugger_Printf(" %04X:   %02X      %04X      %s+%X\n", addr, v8, v16, symbol->name, v16-symbol->cpu_addr);
 				else
-					Debugger_Printf(" %04X:   %02X      %04X", addr, v8, v16);
+					Debugger_Printf(" %04X:   %02X      %04X\n", addr, v8, v16);
 				addr++;
 				len--;
 			}
+		}
+		return;
+	}
+
+	// TR - TRACE
+	if (!strcmp(cmd, "TR") || !strcmp(cmd, "TRACE"))
+	{
+		if (!(g_machine_flags & MACHINE_POWER_ON))
+		{
+			Debugger_Printf("Command unavailable while machine is not running!\n");
+		}
+		else
+		{
+			int cnt = min(16, Debugger.pc_detail_log_count);
+        
+            parse_skip_spaces(&line);
+
+			char* line_start = line;
+			if (parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
+			{
+				StrUpper(arg);
+				if (strcmp(arg, "REGS") == 0)
+				{
+					Debugger.pc_detail_log_show_extra_registers = !Debugger.pc_detail_log_show_extra_registers;
+					if (Debugger.pc_detail_log_show_extra_registers)
+						Debugger_Printf("Trace will show: PC, AF, BC, DE, HL, IX, IY, SP\n");
+					else
+						Debugger_Printf("Trace will show: PC, AF, BC, DE, HL\n");
+					return;
+				}
+				else if (strcmp(arg, "CLEAR") == 0)
+				{
+					Debugger.pc_detail_log_head = 0;
+					Debugger.pc_detail_log_count = 0;
+					Debugger.pc_detail_log_data[Debugger.pc_detail_log_data.size()-1].pc = 0xffff;
+					Debugger_Printf("Trace log cleared.\n");
+					return;
+				}
+				else if (strcmp(arg, "ALL") == 0)
+				{
+					cnt = Debugger.pc_detail_log_count;
+				}
+				else
+				{
+					t_debugger_value value;
+					line = line_start;
+					if (Debugger_Eval_ParseExpression(&line, &value) > 0)
+					{
+						cnt = value.data;
+					}
+					else
+					{
+						Debugger_Printf("Syntax error!\n");
+						Debugger_Help("TRACE");
+						return;
+					}
+				}
+			}
+
+			cnt = min(cnt, (int)Debugger.pc_detail_log_count);
+
+			Debugger_Printf("Tracing %d instruction%s (of total %d recorded)\n", cnt, cnt>1?"s":"", Debugger.pc_detail_log_count);
+			for (int i = cnt; i > 0; i--)
+			{
+				int n = (Debugger.pc_detail_log_head - i + Debugger.pc_detail_log_data.size()) % Debugger.pc_detail_log_data.size();
+				const t_debugger_exec_log_entry* e = &Debugger.pc_detail_log_data[n];
+
+				char instr[128];
+				if (int len = Z80_Disassemble(instr, e->pc, false, false, true))
+				{
+					char buf[256];
+
+					//char instr_opcodes[128];
+					//for (int i = 0; i < len; i++)
+					//	sprintf(instr_opcodes + (i*3), "%02X ", RdZ80_NoHook((e->pc + i) & 0xFFFF));
+					if (Debugger.pc_detail_log_show_extra_registers)
+						sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X IX:%04X IY:%04X SP:%04X\n", 
+							e->pc, instr, e->af, e->bc, e->de, e->hl, e->ix, e->iy, e->sp);
+					else
+						sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X\n", 
+							e->pc, instr, e->af, e->bc, e->de, e->hl);
+
+					// g_configuration.debugger_console_lines
+					if (cnt > 256)
+						Debugger_PrintEx(false, true, false, buf);
+					else
+						Debugger_PrintEx(true, true, true, buf);
+				}		
+			}
+			if (cnt > 256)
+				Debugger_PrintEx(true, false, true, "(output in file Debug/debuglog.txt)");
 		}
 		return;
 	}
@@ -3483,6 +3603,7 @@ void        Debugger_InputParseCommand(char *line)
             {
                 Debugger_Printf("Syntax error!\n");
                 Debugger_Help("MEMEDIT");
+				return;
             }
         }
         if (parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE))
@@ -3491,6 +3612,7 @@ void        Debugger_InputParseCommand(char *line)
             {
                 Debugger_Printf("Syntax error!\n");
                 Debugger_Help("MEMEDIT");
+				return;
             }
         }
         MemoryViewer_New(FALSE, size_x, size_y);

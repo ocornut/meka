@@ -49,13 +49,13 @@ struct t_debugger_breakpoint
 
 struct t_debugger_bus_info
 {
-    int                 location;
-    const char *        name;
-    int                 bus_addr_size;  // in bytes
-    int                 addr_min;
-    int                 addr_max;
-    int                 access;
-    int                 data_compare_length_max;
+    int         location;
+    const char* name;
+    int         bus_addr_size;  // in bytes
+    int         addr_min;
+    int         addr_max;
+    int         access;
+    int         data_compare_length_max;
 };
 
 struct t_debugger_symbol
@@ -160,6 +160,7 @@ struct t_debugger
 	std::vector<t_debugger_exec_log_entry>	pc_detail_log_data;
 	size_t						pc_detail_log_head;
 	size_t						pc_detail_log_count;
+	bool						pc_detail_log_show_extra_registers;
 	int							trackback_scroll_offset;		// Mouse wheel to scroll disassembly
 };
 

@@ -41,6 +41,7 @@ They are usually of 2 kinds:
     - Added STEPOUT command ("Continue to next RET* instruction at same stack-frame level."). [Omar]
     - Added STACK command ("Dump stack", with dual 8/16 bits display and with symbol resolving). [Omar]
     - Added VARS command ("Variables") to display content pointed by symbols in RAM. [Omar]
+    - Added TRACE command to trace past execution. [Omar]
     - Improved the range of disassembly before PC cursor when running loops. [Omar]
     - Fixed CLOCK command display for period longer than 10 minutes. [Maxim]
     - Added support for parsing the bank in NO&GMB/WLA symbol format. Symbols are turned into ROM addresses. [Omar]

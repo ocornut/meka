@@ -608,24 +608,6 @@ word    RunZ80_Debugging(Z80 *R)
 		// This allow us to have backtracking disassembly
 		if (Debugger.pc_exec_points[R->PC.W] == 0)
 			Debugger.pc_exec_points[R->PC.W] = 0xff;
-
-		// Trace
-		if (size_t log_size = Debugger.pc_detail_log_data.size())
-		{
-			t_debugger_exec_log_entry* e = &Debugger.pc_detail_log_data[Debugger.pc_detail_log_head];
-			e->af = R->AF.W;
-			e->bc = R->BC.W;
-			e->de = R->DE.W;
-			e->hl = R->HL.W;
-			e->ix = R->IX.W;
-			e->iy = R->IY.W;
-			e->pc = R->PC.W;
-			e->sp = R->SP.W;
-			if (++Debugger.pc_detail_log_head == log_size)
-				Debugger.pc_detail_log_head = 0;
-			if (Debugger.pc_detail_log_count < log_size)
-				Debugger.pc_detail_log_count++;
-		}
 #endif // MEKA_Z80_DEBUGGER
 
         // Turn tracing on when reached trap address
@@ -637,6 +619,29 @@ word    RunZ80_Debugging(Z80 *R)
         if (R->Trace || Debugger.cpu_exec_traps[R->PC.W])
             if (!Debugger_Hook(R))
                 return (R->PC.W);
+
+		// Trace
+		if (size_t log_size = Debugger.pc_detail_log_data.size())
+		{
+			const size_t head = Debugger.pc_detail_log_head;
+			const size_t prev = head == 0 ? log_size - 1 : head - 1;
+			if (Debugger.pc_detail_log_data[prev].pc != R->PC.W)
+			{
+				t_debugger_exec_log_entry* e = &Debugger.pc_detail_log_data[head];
+				e->af = R->AF.W;
+				e->bc = R->BC.W;
+				e->de = R->DE.W;
+				e->hl = R->HL.W;
+				e->ix = R->IX.W;
+				e->iy = R->IY.W;
+				e->pc = R->PC.W;
+				e->sp = R->SP.W;
+				if (++Debugger.pc_detail_log_head == log_size)
+					Debugger.pc_detail_log_head = 0;
+				if (Debugger.pc_detail_log_count < log_size)
+					Debugger.pc_detail_log_count++;
+			}
+		}
 #endif // MEKA_Z80_DEBUGGER
 
         // Save ICount before instruction
