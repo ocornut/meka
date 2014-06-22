@@ -873,7 +873,7 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
 static void     MemoryViewer_UpdateInputs(t_memory_viewer *mv)
 {
     // Check for focus
-    if (!gui_box_has_focus (mv->box))
+    if (!gui_box_has_focus(mv->box))
         return;
 
     if (Inputs_KeyPressed(ALLEGRO_KEY_HOME, FALSE))
@@ -892,7 +892,7 @@ static void     MemoryViewer_UpdateInputs(t_memory_viewer *mv)
         mv->values_edit_active = TRUE;
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGUP, FALSE, 30, 3) || gui.mouse.z_rel > 0)
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGUP, FALSE, 30, 3) || gui.mouse.wheel_rel > 0)
     {
         mv->memblock_first -= mv->size_lines;
         if (mv->memblock_first < 0)
@@ -903,7 +903,7 @@ static void     MemoryViewer_UpdateInputs(t_memory_viewer *mv)
         }
         MemoryViewer_SetupEditValueBox(mv);
     }
-    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGDN, FALSE, 30, 3) || gui.mouse.z_rel < 0)
+    else if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_PGDN, FALSE, 30, 3) || gui.mouse.wheel_rel < 0)
     {
         mv->memblock_first += mv->size_lines;
         if (mv->memblock_first + mv->size_lines > mv->memblocks_max)

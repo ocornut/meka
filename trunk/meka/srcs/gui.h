@@ -208,9 +208,8 @@ struct t_gui_mouse
     t_gui_focus     focus;
     void *          focus_item;
 
-    int             z_rel;      // Z Relative
-    int             z_current;  // Z Current
-    int             z_prev;     // Z Previous
+    int             wheel_rel;
+    int             wheel_abs;
 };
 
 struct t_gui

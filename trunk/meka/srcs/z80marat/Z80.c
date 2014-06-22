@@ -67,12 +67,7 @@ word    (*LoopZ80)(/*register Z80 *R*/ void);
 
 extern void    Msg(int attr, const char *format, ...);
 
-extern int              Debugger_Hook(Z80 *R);
-extern int              Debugger_CPU_Exec_Traps[0x10000];
-extern unsigned short   Debugger_Z80_PC_Last;
-extern unsigned short   Debugger_Z80_PC_Log_Queue[512];
-extern int              Debugger_Z80_PC_Log_Queue_Back;
-extern int              Debugger_Z80_PC_Log_Queue_Front;
+extern int     Debugger_Hook(Z80 *R);
 
 //*** MEKA-END ***
 
@@ -606,12 +601,31 @@ word    RunZ80_Debugging(Z80 *R)
     {
         // This is block of code that gets added in RunZ80_Debugging() compared to standard RunZ80()
 
-        // Log PC addresses
-		// This allow us to conventinely start disassembly above the PC cursor
-		// May be worth (not too slow?) looking back in the queue for duplicate to avoid polluting the buffer
 #ifdef MEKA_Z80_DEBUGGER
-        Debugger_Z80_PC_Last = R->PC.W;
-        Debugger_Z80_PC_Log_Queue_Add(R->PC.W);
+		Debugger.pc_last = R->PC.W;
+
+        // Log PC execution address
+		// This allow us to have backtracking disassembly
+		if (Debugger.pc_exec_points[R->PC.W] == 0)
+			Debugger.pc_exec_points[R->PC.W] = 0xff;
+
+		// Trace
+		if (size_t log_size = Debugger.pc_detail_log_data.size())
+		{
+			t_debugger_exec_log_entry* e = &Debugger.pc_detail_log_data[Debugger.pc_detail_log_head];
+			e->af = R->AF.W;
+			e->bc = R->BC.W;
+			e->de = R->DE.W;
+			e->hl = R->HL.W;
+			e->ix = R->IX.W;
+			e->iy = R->IY.W;
+			e->pc = R->PC.W;
+			e->sp = R->SP.W;
+			if (++Debugger.pc_detail_log_head == log_size)
+				Debugger.pc_detail_log_head = 0;
+			if (Debugger.pc_detail_log_count < log_size)
+				Debugger.pc_detail_log_count++;
+		}
 #endif // MEKA_Z80_DEBUGGER
 
         // Turn tracing on when reached trap address
@@ -620,8 +634,8 @@ word    RunZ80_Debugging(Z80 *R)
 
         // Call single-step debugger, exit if requested
 #ifdef MEKA_Z80_DEBUGGER
-        if (R->Trace || Debugger_CPU_Exec_Traps[R->PC.W])
-            if (!Debugger_Hook (R))
+        if (R->Trace || Debugger.cpu_exec_traps[R->PC.W])
+            if (!Debugger_Hook(R))
                 return (R->PC.W);
 #endif // MEKA_Z80_DEBUGGER
 

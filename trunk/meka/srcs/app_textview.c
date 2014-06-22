@@ -288,11 +288,11 @@ static void     TextViewer_Update_Inputs(t_app_textviewer *tv)
         return;
 
     // Update mouse wheel inputs
-    if (gui.mouse.z_rel != 0)
+    if (gui.mouse.wheel_rel != 0)
     {
-        if (gui.mouse.z_rel > 0)
+        if (gui.mouse.wheel_rel > 0)
             tv->scroll_velocity_y -= TEXTVIEWER_SCROLL_VELOCITY_BASE * 4.0f;
-        if (gui.mouse.z_rel < 0)
+        if (gui.mouse.wheel_rel < 0)
             tv->scroll_velocity_y += TEXTVIEWER_SCROLL_VELOCITY_BASE * 4.0f;
         tv->dirty = TRUE;
     }

@@ -31,19 +31,14 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_debugger   Debugger;
-int          Debugger_CPU_Exec_Traps[0x10000];
-u16          Debugger_Z80_PC_Last;
-u16          Debugger_Z80_PC_Log_Queue[512];
-int          Debugger_Z80_PC_Log_Queue_Back;
-int			 Debugger_Z80_PC_Log_Queue_Front;
+t_debugger		Debugger;
 
 //-----------------------------------------------------------------------------
 // External declaration
 //-----------------------------------------------------------------------------
 
-int     Z80_Disassemble(char *dst, word addr, bool display_symbols, bool display_symbols_for_current_index_registers, bool resolve_indirect_offsets);
-int     Z80_Assemble(const char *src, byte dst[8]);
+int	Z80_Disassemble(char *dst, word addr, bool display_symbols, bool display_symbols_for_current_index_registers, bool resolve_indirect_offsets);
+int	Z80_Assemble(const char *src, byte dst[8]);
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -475,7 +470,10 @@ void        Debugger_Init_Values (void)
     Debugger.log_filename = "debuglog.txt";
     Debugger.watch_counter = 0;
     Debugger.cycle_counter = 0;
-    memset(Debugger_CPU_Exec_Traps, 0, sizeof(Debugger_CPU_Exec_Traps));
+
+	memset(Debugger.cpu_exec_traps, 0, sizeof(Debugger.cpu_exec_traps));
+
+	Debugger.trackback_scroll_offset = 0;
 
     // Add Z80 CPU registers variables
     Debugger.variables_cpu_registers = NULL;
@@ -600,10 +598,11 @@ void        Debugger_MachineReset(void)
     // Reset trap table
     // Debugger_BreakPointRefreshCpuExecTraps();
 
-    // Clear Z80 PC log queue
-    memset(Debugger_Z80_PC_Log_Queue, 0, sizeof(Debugger_Z80_PC_Log_Queue));
-    Debugger_Z80_PC_Log_Queue_Back = 0;
-    Debugger_Z80_PC_Log_Queue_Front = 0;
+	Debugger.pc_last = 0;
+	memset(Debugger.pc_exec_points, 0, sizeof(Debugger.pc_exec_points));
+	Debugger.pc_detail_log_data.clear();
+	Debugger.pc_detail_log_head = 0;
+	Debugger.pc_detail_log_count = 0;
 
     // Hook Z80 read/write and I/O
     Debugger_Hooks_Install();
@@ -694,9 +693,9 @@ int		Debugger_Hook(Z80 *R)
         Debugger_Printf("Break at $%04X\n", pc);
 
     // If we arrived from a breakpoint CPU exec trap...
-    if (Debugger_CPU_Exec_Traps[pc])
+    if (Debugger.cpu_exec_traps[pc])
     {
-        int cnt = Debugger_CPU_Exec_Traps[pc];
+        int cnt = Debugger.cpu_exec_traps[pc];
         bool break_activated = FALSE;
         
         for (t_list* breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
@@ -939,7 +938,7 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 				const u32 addr_candidate = addr0 | (i * mapper_page_size);
 				list_add(&bus_lists[addr_candidate], breakpoint);
 				if (cpu_exec_trap)
-					Debugger_CPU_Exec_Traps[addr_candidate]++;
+					Debugger.cpu_exec_traps[addr_candidate]++;
 			}
 			if (addr0 == (u32)addr_max)
 				break;
@@ -951,7 +950,7 @@ void                     Debugger_BreakPoint_Enable(t_debugger_breakpoint *break
 		{
 		    list_add(&bus_lists[addr], breakpoint);
 			if (cpu_exec_trap)
-				Debugger_CPU_Exec_Traps[addr]++;
+				Debugger.cpu_exec_traps[addr]++;
 		}
 	}
 }
@@ -997,7 +996,7 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 				const u32 addr_candidate = addr0 | (i * mapper_page_size);
 				list_remove(&bus_lists[addr_candidate], breakpoint);
 				if (cpu_exec_trap)
-					Debugger_CPU_Exec_Traps[addr_candidate]--;
+					Debugger.cpu_exec_traps[addr_candidate]--;
 			}
 			if (addr0 == (u32)addr_max)
 				break;
@@ -1009,7 +1008,7 @@ void                     Debugger_BreakPoint_Disable(t_debugger_breakpoint *brea
 		{
 			list_remove(&bus_lists[addr], breakpoint);
 			if (cpu_exec_trap)
-				Debugger_CPU_Exec_Traps[addr]--;
+				Debugger.cpu_exec_traps[addr]--;
 		}
 	}
 }
@@ -1154,7 +1153,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     if (access & BREAKPOINT_ACCESS_R)
     {
         sprintf(buf, "%04X: [%d] %s %s read from %0*X, read value=%02x", 
-            Debugger_Z80_PC_Last,
+			Debugger.pc_last,
             breakpoint->id,
             action,
             bus_info->name,
@@ -1165,7 +1164,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     else if (access & BREAKPOINT_ACCESS_W)
     {
         sprintf(buf, "%04X: [%d] %s %s write to %0*X, writing value=%02x", 
-            Debugger_Z80_PC_Last,
+            Debugger.pc_last,
             breakpoint->id,
             action,
             bus_info->name,
@@ -1176,7 +1175,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     else if (access & BREAKPOINT_ACCESS_X)
     {
         sprintf(buf, "%04X: [%d] %s %s execution", 
-            Debugger_Z80_PC_Last,
+            Debugger.pc_last,
             breakpoint->id,
             action,
             bus_info->name);
@@ -1184,7 +1183,7 @@ bool	Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, int
     else if (access & BREAKPOINT_ACCESS_E)
     {
         sprintf(buf, "%04X: [%d] %s %s %d event", 
-            Debugger_Z80_PC_Last,
+            Debugger.pc_last,
             breakpoint->id,
             action,
             bus_info->name,
@@ -1744,8 +1743,8 @@ u8          Debugger_RdZ80_Hook(register u16 addr)
             // It is not logical but much better for end user, who is likely to use RWX in most cases
             if (breakpoint->access_flags & BREAKPOINT_ACCESS_X)
             {
-                if (addr >= Debugger_Z80_PC_Last && addr <= Debugger_Z80_PC_Last + 6)   // quick check to 6
-                    if (addr <= Debugger_Z80_PC_Last + Z80_Disassemble(NULL, Debugger_Z80_PC_Last, false, false, false))
+                if (addr >= Debugger.pc_last && addr <= Debugger.pc_last + 6)   // quick check to 6
+                    if (addr <= Debugger.pc_last + Z80_Disassemble(NULL, Debugger.pc_last, false, false, false))
                         continue;
             }
 
@@ -2127,6 +2126,19 @@ void	Debugger_Applet_RedrawState()
 {
 	t_debugger_app* app = &DebuggerApp;
 
+	// Mouse wheel scroll disassembly
+    if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
+		if (g_machine_flags & MACHINE_POWER_ON)
+			Debugger.trackback_scroll_offset = 0;
+    if (gui_box_has_focus(app->box))
+	{
+		if (gui.mouse.wheel_rel)
+		{
+			const int wheel_speed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) ? 5 : 1;
+			Debugger.trackback_scroll_offset += gui.mouse.wheel_rel * wheel_speed;
+		}
+	}
+
     // Redraw Disassembly
 	if ((g_machine_flags & MACHINE_POWER_ON) && (g_driver->cpu == CPU_Z80))
 	{
@@ -2134,8 +2146,8 @@ void	Debugger_Applet_RedrawState()
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines = (g_configuration.debugger_disassembly_lines / 3) + 1; 
-        trackback_lines = MIN(trackback_lines, 16); // Max 10 because of buffer below
+        int     trackback_lines_base = (g_configuration.debugger_disassembly_lines / 3) + 1; 
+        trackback_lines_base = MIN(trackback_lines_base, 16); // Max 10 because of buffer below
         //  1 -> 1
         //  5 -> 2
         //  9 -> 3, etc.
@@ -2150,76 +2162,73 @@ void	Debugger_Applet_RedrawState()
         // This is tricky code due to the trackback feature.
         // Successive PC are logged by the debugging CPU emulator and it helps with the trackback.
         pc = sms.R.PC.W;
+
+		// Scroll
+		int trackback_lines = trackback_lines_base + Debugger.trackback_scroll_offset;
+		
+		if (trackback_lines < 0)
+		{
+			// Forward
+			while (trackback_lines < 0)
+			{
+				int inst_len = Z80_Disassemble(NULL, (u16)pc, false, false, false);
+				if ((int)pc + inst_len <= 0xffff)
+					pc += inst_len;
+				trackback_lines++;
+			}
+		}
+
+		if (trackback_lines > 0)
         {
-            int pc_temp = pc;
-            int pc_history[16*4+1] = { 0 };
-            const int pc_history_size = trackback_lines*4;
+			while (trackback_lines > 0)
+			{
+				int pc_trackback = pc;
+				for (int b = 1; b < 7; b++)		// ~Maximum 7 bytes per op
+				{
+					int inst_start = (int)pc - b;
+					if (inst_start < 0)
+						break;
+					
+					int inst_len = Debugger.pc_exec_points[inst_start];
+					if (inst_len == 0)
+						continue;
 
-            // Find in PC log all values between PC-trackback_lines*4 and PC-1
-            // The *4 is assuming instruction can't be more than 4 bytes averagely
-            // Build pc_history[] table and fill it with instruction length when found in log.
-            // If it happens that a previous instruction is more than trackback_lines*4 bytes before PC, 
-            // then the trackback feature won't find the previous instruction. This is not a big problem
-            // and it's extreme rare anyway (multi prefixes, etc).
-			//Msg(MSGT_DEBUG, "front =%d, back=%d",Debugger_Z80_PC_Log_Queue_Front,Debugger_Z80_PC_Log_Queue_Back);
-            for (int i = Debugger_Z80_PC_Log_Queue_Front; i != Debugger_Z80_PC_Log_Queue_Back; i = (i + 1) & DEBUGGER_Z80_PC_LOG_QUEUE_MASK)
-            {
-                const int delta = pc - Debugger_Z80_PC_Log_Queue[i];
-                if (delta > 0 && delta <= pc_history_size)
-                    pc_history[delta] = Z80_Disassemble(NULL, Debugger_Z80_PC_Log_Queue[i], false, false, false);
-            }
+					// lazily convert 0xff stored by CPU convert to opcode len
+					// zero out following bytes of the same instruction, so that in case of instructions sharing byte, the last executed one will override.
+					if (inst_len == 0xff)
+					{
+						inst_len = Z80_Disassemble(NULL, (u16)(inst_start), false, false, false);
+						Debugger.pc_exec_points[inst_start] = inst_len;
+						for (int z = 1; z < inst_len; z++)
+							Debugger.pc_exec_points[inst_start + z] = 0;
+					}
 
-            // Now look in pc_history
-            for (int i = 0; i < pc_history_size; i++)
-            {
-                if (pc_history[i] != 0)
-                {
-                    // Count instruction up to PC
-                    int inst_len = pc_history[i];
-                    int inst_after = pc-i + inst_len;
-
-                    // Msg(0, "PC History -%02x : %04x (%d)", i, pc-i, inst_len);
-
-                    while (inst_after < pc_temp)
-                    {
-                        // Retrieve next instruction until reaching PC
-                        // eg:
-                        //   0000 - known inst (3)
-                        //   0003 - ? <- get this
-                        //   0005 - PC
-                        //..
-                        pc_history[pc - inst_after] = inst_len = Z80_Disassemble(NULL, inst_after, false, false, false);
-                        i = pc - inst_after;
-                        inst_after += inst_len;
-                    }
-
-                    // Went after PC, something was wrong. Might happen on data bytes between close code, etc.
-                    // FIXME: This actually happens, see TODO.TXT. Requires fix, workaround, or silent fail.
-                    if (inst_after > pc_temp)
-                    {
-                        // Msg(0, "[Warning] inst_after = %04x > pc_temp = %04x", inst_after, pc_temp);
-                        break;
-                    }
-
-                    // This is the instruction right before pc_temp!
-                    // We successfully trackbacked one instruction.
-                    if (inst_after == pc_temp)
-                    {
-                        pc_temp -= inst_len;
+					if (inst_start + inst_len == pc)
+					{
+						pc_trackback = inst_start;
                         trackback_lines--;
-                        if (Debugger.symbols_cpu_space[pc_temp])
-                            trackback_lines -= list_size(Debugger.symbols_cpu_space[pc_temp]);
-                    }
 
-                    // No more trackback to do
-                    if (trackback_lines <= 0)
-                        break;
-                }
-            }
-            pc = pc_temp;
+						// account for labels showing in disassembler
+						if (g_configuration.debugger_disassembly_display_labels)
+							if (Debugger.symbols_cpu_space[pc_trackback])
+								trackback_lines -= list_size(Debugger.symbols_cpu_space[pc_trackback]);
+					}
+					break;
+				}
+
+				if (pc == pc_trackback)
+				{
+					// clamp user scroll offset
+					if (Debugger.trackback_scroll_offset != 0)
+						Debugger.trackback_scroll_offset -= trackback_lines;
+						//min(Debugger.trackback_scroll_offset, trackback_lines - (trackback_lines_base + Debugger.trackback_scroll_offset));
+					break;
+				}
+				pc = pc_trackback;
+			}
             if (trackback_lines < 0)
                 skip_labels = -trackback_lines;
-        }
+		}
 
         // label_a:
         //  XOR
