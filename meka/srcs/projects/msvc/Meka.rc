@@ -7,7 +7,6 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-// VS Express
 #include "windows.h"
 #ifndef IDC_STATIC
 #define IDC_STATIC				-1
@@ -24,13 +23,6 @@
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// RT_MANIFEST
-//
-
-1                       RT_MANIFEST             "manifest.xml"
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
