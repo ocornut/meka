@@ -85,7 +85,7 @@
 				AdditionalDependencies="allegro-5.0.10-static-md-debug.lib allegro_font-5.0.10-static-md-debug.lib allegro_primitives-5.0.10-static-md-debug.lib allegro_image-5.0.10-static-md-debug.lib allegro_audio-5.0.10-static-md-debug.lib openal-1.14-static-md-debug.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
 				OutputFile="../../../mekaw.exe"
 				Version=""
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../../libs/libpng/lib/;../../../libs/dx70_min/lib/;../../../libs/zlib/;../../../libs/allegro/lib/"
 				IgnoreAllDefaultLibraries="false"
@@ -197,7 +197,7 @@
 				ShowProgress="0"
 				OutputFile="../../../mekaw.exe"
 				Version=""
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="../../../libs/libpng/lib/;../../../libs/dx70_min/lib/;../../../libs/zlib/;../../../libs/allegro/lib/"
 				IgnoreAllDefaultLibraries="false"
@@ -1511,10 +1511,6 @@
 			Name="Resources"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
-			<File
-				RelativePath=".\manifest.xml"
-				>
-			</File>
 			<File
 				RelativePath=".\Meka.rc"
 				>
