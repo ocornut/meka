@@ -18,6 +18,7 @@
 #include "vdp.h"
 #include "video.h"
 #include "tvoekaki.h"
+#include "tvtype.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
 

@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "app_game.h"
+#include "textbox.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 #ifdef ARCH_WIN32

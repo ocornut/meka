@@ -14,6 +14,8 @@
 #include "glasses.h"
 #include "rapidfir.h"
 #include "video.h"
+#include "textbox.h"
+#include "tvtype.h"
 #include "tools/libparse.h"
 #include "tools/tfile.h"
 

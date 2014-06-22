@@ -7,6 +7,7 @@
 #include "db.h"
 #include "fmunit.h"
 #include "psg.h"
+#include "tvtype.h"
 
 //-----------------------------------------------------------------------------
 

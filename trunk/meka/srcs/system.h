@@ -17,6 +17,7 @@
 
 #define _HAS_EXCEPTIONS 0
 #define _STATIC_CPPLIB
+#define _DISABLE_DEPRECATE_STATIC_CPPLIB
 #include <vector>
 #include <map>
 #include <algorithm>

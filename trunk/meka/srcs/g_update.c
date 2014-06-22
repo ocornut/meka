@@ -20,6 +20,7 @@
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "skin_fx.h"
+#include "textbox.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration

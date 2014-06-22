@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "beam.h"
 #include "lightgun.h"
+#include "tvtype.h"
 
 //-----------------------------------------------------------------------------
 // Functions

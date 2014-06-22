@@ -32,6 +32,8 @@
 #include "palette.h"
 #include "patch.h"
 #include "setup.h"
+#include "textbox.h"
+#include "tvtype.h"
 #include "video.h"
 #include "video_m5.h"
 #include "vlfn.h"
