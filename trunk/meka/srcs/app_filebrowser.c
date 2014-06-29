@@ -980,11 +980,8 @@ bool    FB_SelectEntryByFileName(const char* file_name)
 void    FB_Click_List (t_widget *w)
 {
     const int i = FB.file_display_first + (w->mouse_y / Font_Height (F_LARGE));
-    if ((i == FB.last_click) && (gui.mouse.time_since_last_click < DOUBLE_CLICK_SPEED))
+	if ((i == FB.last_click) && (gui.mouse.double_clicked & 1))
     {
-        // FIXME: double-clicks should be generically handled by GUI and supports frameskipping
-        gui.mouse.reset_timer = TRUE;
-        gui.mouse.time_since_last_click = DOUBLE_CLICK_SPEED + 1;
         FB_OpenSelectedEntry();
     }
     else

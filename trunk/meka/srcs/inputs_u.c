@@ -16,7 +16,7 @@
 
 // #define DEBUG_JOY
 
-bool					g_keyboard_state[ALLEGRO_KEY_MAX];
+float					g_keyboard_state[ALLEGRO_KEY_MAX];
 int						g_keyboard_modifiers = 0;
 ALLEGRO_EVENT_QUEUE *	g_keyboard_event_queue = NULL;
 ALLEGRO_MOUSE_STATE		g_mouse_state;
@@ -40,7 +40,8 @@ void	Inputs_Sources_Init()
     Inputs.Peripheral [0] = INPUT_JOYPAD;
     Inputs.Peripheral [1] = INPUT_JOYPAD;
 
-	memset(&g_keyboard_state, 0, sizeof(g_keyboard_state));
+	for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
+		g_keyboard_state[i] = -1.0f;
 	memset(&g_mouse_state, 0, sizeof(g_mouse_state));
 	g_keyboard_event_queue = al_create_event_queue();
 	al_register_event_source(g_keyboard_event_queue, al_get_keyboard_event_source());
@@ -301,6 +302,12 @@ void        Inputs_Emulation_Update (bool running)
 // Read and update all inputs sources
 void	Inputs_Sources_Update()
 {
+	float dt = 1.0f/60.0f;		// FIXME: Delta time
+
+	for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
+		if (g_keyboard_state[i] >= 0.0f)
+			g_keyboard_state[i] += dt;
+
 	// Process keyboard events
 	ALLEGRO_EVENT key_event;
 	while (al_get_next_event(g_keyboard_event_queue, &key_event))
@@ -308,10 +315,11 @@ void	Inputs_Sources_Update()
 		switch (key_event.type)
 		{
 		case ALLEGRO_EVENT_KEY_DOWN:
-			g_keyboard_state[key_event.keyboard.keycode] = true;
+			if (g_keyboard_state[key_event.keyboard.keycode] < 0.0f)
+				g_keyboard_state[key_event.keyboard.keycode] = 0.0f;
 			break;
 		case ALLEGRO_EVENT_KEY_UP:
-			g_keyboard_state[key_event.keyboard.keycode] = false;
+			g_keyboard_state[key_event.keyboard.keycode] = -1.0f;
 			break;
 		case ALLEGRO_EVENT_KEY_CHAR:
 			// Process 'character' keypresses
@@ -332,7 +340,10 @@ void	Inputs_Sources_Update()
 	
 	// Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
 #ifdef ARCH_WIN32
-	g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = (GetAsyncKeyState(VK_SNAPSHOT) != 0);
+	if (GetAsyncKeyState(VK_SNAPSHOT))
+		g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] < 0.0f ? 0.0f : g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] + dt;
+	else
+		g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = -1.0f;
 	// g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
 #endif
 
