@@ -17,12 +17,13 @@ void    gui_init_mouse (void)
     gui.mouse.y_prev = 0;
     gui.mouse.buttons = 0;
     gui.mouse.buttons_prev = 0;
+	gui.mouse.double_clicked = 0;
     gui.mouse.wheel_rel = 0;
     gui.mouse.wheel_abs = 0;
     gui.mouse.focus = GUI_FOCUS_NONE;
     gui.mouse.focus_item = NULL;
-    gui.mouse.reset_timer = TRUE;
-    gui.mouse.time_since_last_click = 0;
+    gui.mouse.last_click_button = 0;
+	gui.mouse.last_click_time_elapsed = 9999.0f;
 }
 
 bool	gui_is_mouse_hovering_area (int x1, int y1, int x2, int y2)
@@ -52,7 +53,30 @@ void    gui_update_mouse (void)
     // Uncomment to bypass Allegro 3 button emulation
     // if (gui_mouse.button == 4) gui_mouse.button = 3;
 
-    gui.mouse.time_since_last_click ++;
+	for (size_t i = 0; i < 3; i++)
+	{
+		if ((gui.mouse.buttons & (1<<i)) && !(gui.mouse.buttons_prev & (1<<i)))
+		{
+			if (gui.mouse.last_click_button == (1<<i) && gui.mouse.last_click_time_elapsed < DOUBLE_CLICK_SPEED)
+			{
+				gui.mouse.double_clicked |= (1<<i);
+				gui.mouse.last_click_time_elapsed = 9999.0f;	// So that 3rd click doesn't become a double-click
+			}
+			else
+			{
+				gui.mouse.last_click_time_elapsed = 0;
+			}
+			gui.mouse.last_click_button = (1<<i);
+		}
+		else
+		{
+			gui.mouse.double_clicked &= ~(1<<i);
+		}
+	}
+	if (gui.mouse.last_click_button)
+	{
+		gui.mouse.last_click_time_elapsed++;
+	}
 
     if (gui.mouse.buttons == 0)
     {
@@ -62,15 +86,6 @@ void    gui_update_mouse (void)
         menus_opt.c_menu = -1;
         menus_opt.c_entry = -1;
         menus_opt.c_generation = -1;
-        if (gui.mouse.reset_timer)
-        {
-            gui.mouse.reset_timer = FALSE;
-            gui.mouse.time_since_last_click = 0;
-        }
-    }
-    else
-    {
-        gui.mouse.reset_timer = TRUE;
     }
 }
 

@@ -73,32 +73,22 @@
 // Basic Types
 //-----------------------------------------------------------------------------
 
-#ifndef _BASE_TYPES
-#define _BASE_TYPES
-
 #define BYTE_TYPE_DEFINED // for z80marat/z80.h
 #define WORD_TYPE_DEFINED // for z80marat/z80.h
 
-// Obsolete. Avoid use
+// Obsolete, avoid use
 typedef unsigned char       byte;
 typedef unsigned short      word;
 typedef unsigned long       dword;
 
-// Data types - use when size matter
 typedef unsigned char       u8;
 typedef   signed char       s8;
 typedef unsigned short      u16;
 typedef   signed short      s16;
 typedef unsigned int        u32;
 typedef   signed int        s32;
-
-#ifndef ARCH_WIN32
-    typedef long long       s64;
-#else
-    typedef LONGLONG        s64;
-#endif
-
-#endif /* #ifndef _BASE_TYPES */
+typedef unsigned long long  u64;
+typedef   signed long long  s64;
 
 //-----------------------------------------------------------------------------
 // Inlining

@@ -202,8 +202,9 @@ struct t_gui_mouse
     int             y_prev;
     int             buttons;
     int             buttons_prev;
-    int             time_since_last_click;
-    bool            reset_timer;
+	int				double_clicked;
+	int				last_click_button;
+    int             last_click_time_elapsed;
 
     t_gui_focus     focus;
     void *          focus_item;

@@ -27,7 +27,8 @@ static int  typematic_repeat_counter = 0;
 
 void	Inputs_KeyClearAllState()
 {
-	memset(g_keyboard_state, 0, sizeof(g_keyboard_state));
+	for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
+		g_keyboard_state[i] = -1.0f;
 }
 
 void    Inputs_KeyPressQueue_Remove(t_key_press *keypress)
@@ -45,14 +46,14 @@ void    Inputs_KeyPressQueue_Clear(void)
 
 bool	Inputs_KeyDown(int keycode)
 {
-	return g_keyboard_state[keycode];
+	return g_keyboard_state[keycode] >= 0.0f;
 	//return al_key_down(&g_keyboard_state, keycode);
 }
 
 // Eat given key by removing the corresponding flag in the global key[] table
 void    Inputs_KeyEat(int keycode)
 {
-	g_keyboard_state[keycode] = false;
+	g_keyboard_state[keycode] = -1.0f;
 	//g_keyboard_state.__key_down__internal__[keycode / 32] &= ~(1 << (keycode & 31));
 }
 
