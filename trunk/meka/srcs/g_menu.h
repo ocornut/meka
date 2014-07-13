@@ -106,7 +106,7 @@ struct t_menu_event
 
 struct t_gui_status_bar
 {
-	char  message[MSG_MAX_LEN];
+	char  message[1024];
 	int   x;
 	int   timeleft;
 };
