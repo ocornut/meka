@@ -22,7 +22,9 @@ enum {
    ALLEGRO_OPENGL_3_0                  = 1 << 7,
    ALLEGRO_OPENGL_FORWARD_COMPATIBLE   = 1 << 8,
    ALLEGRO_FULLSCREEN_WINDOW           = 1 << 9,
-   ALLEGRO_MINIMIZED                   = 1 << 10
+   ALLEGRO_MINIMIZED                   = 1 << 10,
+   ALLEGRO_PROGRAMMABLE_PIPELINE       = 1 << 11,
+   ALLEGRO_GTK_TOPLEVEL_INTERNAL       = 1 << 12
 };
 
 /* Possible parameters for al_set_display_option.
@@ -61,6 +63,8 @@ enum ALLEGRO_DISPLAY_OPTIONS {
    ALLEGRO_SUPPORT_NPOT_BITMAP,
    ALLEGRO_CAN_DRAW_INTO_BITMAP,
    ALLEGRO_SUPPORT_SEPARATE_ALPHA,
+   ALLEGRO_AUTO_CONVERT_BITMAPS,
+   ALLEGRO_SUPPORTED_ORIENTATIONS,
    ALLEGRO_DISPLAY_OPTIONS_COUNT
 };
 
@@ -72,14 +76,26 @@ enum
 };
 
 
+/* Bitflags so they can be used for the ALLEGRO_SUPPORTED_ORIENTATIONS option. */
 enum ALLEGRO_DISPLAY_ORIENTATION
 {
-   ALLEGRO_DISPLAY_ORIENTATION_0_DEGREES,
-   ALLEGRO_DISPLAY_ORIENTATION_90_DEGREES,
-   ALLEGRO_DISPLAY_ORIENTATION_180_DEGREES,
-   ALLEGRO_DISPLAY_ORIENTATION_270_DEGREES,
-   ALLEGRO_DISPLAY_ORIENTATION_FACE_UP,
-   ALLEGRO_DISPLAY_ORIENTATION_FACE_DOWN
+   ALLEGRO_DISPLAY_ORIENTATION_UNKNOWN = 0,
+   ALLEGRO_DISPLAY_ORIENTATION_0_DEGREES = 1,
+   ALLEGRO_DISPLAY_ORIENTATION_90_DEGREES = 2,
+   ALLEGRO_DISPLAY_ORIENTATION_180_DEGREES = 4,
+   ALLEGRO_DISPLAY_ORIENTATION_270_DEGREES = 8,
+   ALLEGRO_DISPLAY_ORIENTATION_PORTRAIT = 5,
+   ALLEGRO_DISPLAY_ORIENTATION_LANDSCAPE = 10,
+   ALLEGRO_DISPLAY_ORIENTATION_ALL = 15,
+   ALLEGRO_DISPLAY_ORIENTATION_FACE_UP = 16,
+   ALLEGRO_DISPLAY_ORIENTATION_FACE_DOWN = 32
+};
+
+
+/* Formally part of the primitives addon. */
+enum
+{
+   _ALLEGRO_PRIM_MAX_USER_ATTR = 10
 };
 
 
@@ -98,8 +114,8 @@ AL_FUNC(int, al_get_display_height, (ALLEGRO_DISPLAY *display));
 AL_FUNC(int, al_get_display_format, (ALLEGRO_DISPLAY *display));
 AL_FUNC(int, al_get_display_refresh_rate, (ALLEGRO_DISPLAY *display));
 AL_FUNC(int, al_get_display_flags,  (ALLEGRO_DISPLAY *display));
+AL_FUNC(int, al_get_display_orientation, (ALLEGRO_DISPLAY* display));
 AL_FUNC(bool, al_set_display_flag, (ALLEGRO_DISPLAY *display, int flag, bool onoff));
-AL_FUNC(bool, al_toggle_display_flag, (ALLEGRO_DISPLAY *display, int flag, bool onoff));
 
 AL_FUNC(ALLEGRO_DISPLAY*, al_create_display, (int w, int h));
 AL_FUNC(void,             al_destroy_display, (ALLEGRO_DISPLAY *display));
@@ -129,6 +145,8 @@ AL_FUNC(void, al_set_new_window_position, (int x, int y));
 AL_FUNC(void, al_get_new_window_position, (int *x, int *y));
 AL_FUNC(void, al_set_window_position, (ALLEGRO_DISPLAY *display, int x, int y));
 AL_FUNC(void, al_get_window_position, (ALLEGRO_DISPLAY *display, int *x, int *y));
+AL_FUNC(bool, al_set_window_constraints, (ALLEGRO_DISPLAY *display, int min_w, int min_h, int max_w, int max_h));
+AL_FUNC(bool, al_get_window_constraints, (ALLEGRO_DISPLAY *display, int *min_w, int *min_h, int *max_w, int *max_h));
 
 AL_FUNC(void, al_set_window_title, (ALLEGRO_DISPLAY *display, const char *title));
 
@@ -136,11 +154,15 @@ AL_FUNC(void, al_set_window_title, (ALLEGRO_DISPLAY *display, const char *title)
 AL_FUNC(void, al_set_new_display_option, (int option, int value, int importance));
 AL_FUNC(int, al_get_new_display_option, (int option, int *importance));
 AL_FUNC(void, al_reset_new_display_options, (void));
+AL_FUNC(void, al_set_display_option, (ALLEGRO_DISPLAY *display, int option, int value));
 AL_FUNC(int, al_get_display_option, (ALLEGRO_DISPLAY *display, int option));
 
 /*Deferred drawing*/
 AL_FUNC(void, al_hold_bitmap_drawing, (bool hold));
 AL_FUNC(bool, al_is_bitmap_drawing_held, (void));
+
+AL_FUNC(void, al_acknowledge_drawing_halt, (ALLEGRO_DISPLAY *display));
+AL_FUNC(void, al_acknowledge_drawing_resume, (ALLEGRO_DISPLAY *display));
 
 #ifdef __cplusplus
    }

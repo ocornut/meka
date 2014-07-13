@@ -5,6 +5,10 @@
 #include "allegro5/internal/aintern_bitmap.h"
 #include "allegro5/internal/aintern_display.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 enum {
    _ALLEGRO_OPENGL_VERSION_0     = 0, /* dummy */
@@ -26,8 +30,6 @@ enum {
 
 #define ALLEGRO_MAX_OPENGL_FBOS 8
 
-struct ALLEGRO_BITMAP_OGL;
-
 enum {
    FBO_INFO_UNUSED      = 0,
    FBO_INFO_TRANSIENT   = 1,  /* may be destroyed for another bitmap */
@@ -38,14 +40,12 @@ typedef struct ALLEGRO_FBO_INFO
 {
    int fbo_state;
    GLuint fbo;
-   struct ALLEGRO_BITMAP_OGL *owner;
+   ALLEGRO_BITMAP *owner;
    double last_use_time;
 } ALLEGRO_FBO_INFO;
 
-typedef struct ALLEGRO_BITMAP_OGL
+typedef struct ALLEGRO_BITMAP_EXTRA_OPENGL
 {
-   ALLEGRO_BITMAP bitmap; /* This must be the first member. */
-
    /* Driver specifics. */
 
    int true_w;
@@ -53,21 +53,13 @@ typedef struct ALLEGRO_BITMAP_OGL
 
    GLuint texture; /* 0 means, not uploaded yet. */
 
-#if defined ALLEGRO_GP2XWIZ
-   EGLSurface pbuffer;
-   EGLContext context;
-   NativeWindowType pbuf_native_wnd;
-   bool changed;
-#else
    ALLEGRO_FBO_INFO *fbo_info;
-#endif
 
    unsigned char *lock_buffer;
 
    float left, top, right, bottom; /* Texture coordinates. */
    bool is_backbuffer; /* This is not a real bitmap, but the backbuffer. */
-} ALLEGRO_BITMAP_OGL;
-
+} ALLEGRO_BITMAP_EXTRA_OPENGL;
 
 typedef struct OPENGL_INFO {
    uint32_t version;       /* OpenGL version */
@@ -79,8 +71,23 @@ typedef struct OPENGL_INFO {
    int is_ati_radeon_7000; /* Special cases for ATI Radeon 7000 */
    int is_ati_r200_chip;	/* Special cases for ATI card with chip R200 */
    int is_mesa_driver;     /* Special cases for MESA */
+   int is_intel_hd_graphics_3000;
 } OPENGL_INFO;
 
+
+typedef struct ALLEGRO_OGL_VARLOCS
+{
+   /* Cached shader variable locations. */
+   GLint pos_loc;
+   GLint color_loc;
+   GLint projview_matrix_loc;
+   GLint texcoord_loc;
+   GLint use_tex_loc;
+   GLint tex_loc;
+   GLint use_tex_matrix_loc;
+   GLint tex_matrix_loc;
+   GLint user_attr_loc[_ALLEGRO_PRIM_MAX_USER_ATTR];
+} ALLEGRO_OGL_VARLOCS;
 
 typedef struct ALLEGRO_OGL_EXTRAS
 {
@@ -91,14 +98,24 @@ typedef struct ALLEGRO_OGL_EXTRAS
    /* Various info about OpenGL implementation. */
    OPENGL_INFO ogl_info;
 
-   ALLEGRO_BITMAP_OGL *opengl_target;
+   ALLEGRO_BITMAP *opengl_target;
 
-   ALLEGRO_BITMAP_OGL *backbuffer;
+   ALLEGRO_BITMAP *backbuffer;
 
    /* True if display resources are shared among displays. */
    bool is_shared;
 
    ALLEGRO_FBO_INFO fbos[ALLEGRO_MAX_OPENGL_FBOS];
+
+   /* In non-programmable pipe mode this should be zero.
+    * In programmable pipeline mode this should be non-zero.
+    */
+   GLuint program_object;
+   ALLEGRO_OGL_VARLOCS varlocs;
+
+   /* For OpenGL 3.0+ we use a single vao and vbo. */
+   GLuint vao, vbo;
+
 } ALLEGRO_OGL_EXTRAS;
 
 typedef struct ALLEGRO_OGL_BITMAP_VERTEX
@@ -116,28 +133,57 @@ void _al_ogl_manage_extensions(ALLEGRO_DISPLAY *disp);
 void _al_ogl_unmanage_extensions(ALLEGRO_DISPLAY *disp);
 
 /* bitmap */
+int _al_ogl_get_glformat(int format, int component);
 ALLEGRO_BITMAP *_al_ogl_create_bitmap(ALLEGRO_DISPLAY *d, int w, int h);
-ALLEGRO_BITMAP *_al_ogl_create_sub_bitmap(ALLEGRO_DISPLAY *d, ALLEGRO_BITMAP *parent,
-                                          int x, int y, int w, int h);
+void _al_ogl_upload_bitmap_memory(ALLEGRO_BITMAP *bitmap, int format, void *ptr);
 
-/* common driver */
+/* locking */
+#ifndef ALLEGRO_CFG_OPENGLES
+   ALLEGRO_LOCKED_REGION *_al_ogl_lock_region_new(ALLEGRO_BITMAP *bitmap,
+      int x, int y, int w, int h, int format, int flags);
+   void _al_ogl_unlock_region_new(ALLEGRO_BITMAP *bitmap);
+#else
+   ALLEGRO_LOCKED_REGION *_al_ogl_lock_region_old_gles(ALLEGRO_BITMAP *bitmap,
+      int x, int y, int w, int h, int format, int flags);
+   void _al_ogl_unlock_region_old_gles(ALLEGRO_BITMAP *bitmap);
+#endif
+
+/* framebuffer objects */
+GLint _al_ogl_bind_framebuffer(GLint fbo);
 void _al_ogl_reset_fbo_info(ALLEGRO_FBO_INFO *info);
 bool _al_ogl_create_persistent_fbo(ALLEGRO_BITMAP *bitmap);
 ALLEGRO_FBO_INFO *_al_ogl_persist_fbo(ALLEGRO_DISPLAY *display,
                                       ALLEGRO_FBO_INFO *transient_fbo_info);
+void _al_ogl_setup_fbo(ALLEGRO_DISPLAY *display, ALLEGRO_BITMAP *bitmap);
+
+/* common driver */
 void _al_ogl_setup_gl(ALLEGRO_DISPLAY *d);
 void _al_ogl_set_target_bitmap(ALLEGRO_DISPLAY *display, ALLEGRO_BITMAP *bitmap);
 void _al_ogl_setup_bitmap_clipping(const ALLEGRO_BITMAP *bitmap);
 ALLEGRO_BITMAP *_al_ogl_get_backbuffer(ALLEGRO_DISPLAY *d);
-ALLEGRO_BITMAP_OGL* _al_ogl_create_backbuffer(ALLEGRO_DISPLAY *disp);
-void _al_ogl_destroy_backbuffer(ALLEGRO_BITMAP_OGL *b);
-bool _al_ogl_resize_backbuffer(ALLEGRO_BITMAP_OGL *b, int w, int h);
-
-struct ALLEGRO_DISPLAY_INTERFACE;
+ALLEGRO_BITMAP* _al_ogl_create_backbuffer(ALLEGRO_DISPLAY *disp);
+void _al_ogl_destroy_backbuffer(ALLEGRO_BITMAP *b);
+bool _al_ogl_resize_backbuffer(ALLEGRO_BITMAP *b, int w, int h);
+void _al_opengl_backup_dirty_bitmaps(ALLEGRO_DISPLAY *d, bool flip);
 
 /* draw */
+struct ALLEGRO_DISPLAY_INTERFACE;
 void _al_ogl_add_drawing_functions(struct ALLEGRO_DISPLAY_INTERFACE *vt);
 
 AL_FUNC(bool, _al_opengl_set_blender, (ALLEGRO_DISPLAY *disp));
+AL_FUNC(char const *, _al_gl_error_string, (GLenum e));
+
+void _al_ogl_update_render_state(ALLEGRO_DISPLAY *display);
+
+/* shader */
+#ifdef ALLEGRO_CFG_SHADER_GLSL
+   bool _al_glsl_set_projview_matrix(GLint projview_matrix_loc,
+      const ALLEGRO_TRANSFORM *t);
+#endif
+
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

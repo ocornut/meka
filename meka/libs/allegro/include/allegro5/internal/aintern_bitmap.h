@@ -4,6 +4,7 @@
 #include "allegro5/bitmap.h"
 #include "allegro5/bitmap_lock.h"
 #include "allegro5/display.h"
+#include "allegro5/render_state.h"
 #include "allegro5/transformations.h"
 
 #ifdef __cplusplus
@@ -56,6 +57,13 @@ struct ALLEGRO_BITMAP
 
    /* Transformation for this bitmap */
    ALLEGRO_TRANSFORM transform;
+   ALLEGRO_TRANSFORM inverse_transform;
+   bool              inverse_transform_dirty;
+
+   /* Shader applied to this bitmap.  Set this field with
+    * _al_set_bitmap_shader_field to maintain invariants.
+    */
+   ALLEGRO_SHADER *shader;
 
    /* Info for sub-bitmaps */
    ALLEGRO_BITMAP *parent;
@@ -65,11 +73,11 @@ struct ALLEGRO_BITMAP
    /* A memory copy of the bitmap data. May be NULL for an empty bitmap. */
    unsigned char *memory;
 
-   /* Size of the bitmap object. Used only by functions to convert bitmap
-      storage type. Can be missleading. */
-   size_t size;
+   /* Extra data for display bitmaps, like texture id and so on. */
+   void *extra;
 
-   bool preserve_texture;
+   /* set_target_bitmap and lock_bitmap mark bitmaps as dirty for preservation */
+   bool dirty;
 };
 
 struct ALLEGRO_BITMAP_INTERFACE
@@ -85,10 +93,6 @@ struct ALLEGRO_BITMAP_INTERFACE
     * might create/update a texture. Returns false on failure.
     */
    bool (*upload_bitmap)(ALLEGRO_BITMAP *bitmap);
-   /* If the display version of the bitmap has been modified, use this to update
-    * the memory copy accordingly. E.g. with an OpenGL driver, this might
-    * read the contents of an associated texture.
-    */
 
    void (*update_clipping_rectangle)(ALLEGRO_BITMAP *bitmap);
 
@@ -99,6 +103,9 @@ struct ALLEGRO_BITMAP_INTERFACE
 	int flags);
 
    void (*unlock_region)(ALLEGRO_BITMAP *bitmap);
+
+   /* Used to update any dangling pointers the bitmap driver might keep. */
+   void (*bitmap_pointer_changed)(ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *old);
 };
 
 extern void (*_al_convert_funcs[ALLEGRO_NUM_PIXEL_FORMATS]
@@ -111,28 +118,20 @@ void _al_convert_bitmap_data(
 	void *dst, int dst_format, int dst_pitch,
 	int sx, int sy, int dx, int dy,
 	int width, int height);
-void _al_convert_to_memory_bitmap(ALLEGRO_BITMAP *bitmap);
-void _al_convert_to_display_bitmap(ALLEGRO_BITMAP *bitmap);
 
-#ifdef ALLEGRO_GP2XWIZ
-/* Optimized blitters */
-void _al_draw_bitmap_region_optimized_rgba_4444_to_rgb_565(
-   ALLEGRO_BITMAP *src, int sx, int sy, int sw, int sh,
-   ALLEGRO_BITMAP *dest, int dx, int dy, int flags);
-void _al_draw_bitmap_region_optimized_rgb_565_to_rgb_565(
-   ALLEGRO_BITMAP *src, int sx, int sy, int sw, int sh,
-   ALLEGRO_BITMAP *dest, int dx, int dy, int flags);
-void _al_draw_bitmap_region_optimized_rgba_4444_to_rgba_4444(
-   ALLEGRO_BITMAP *src, int sx, int sy, int sw, int sh,
-   ALLEGRO_BITMAP *dest, int dx, int dy, int flags);
-#endif
+/* Bitmap type conversion */ 
+void _al_init_convert_bitmap_list(void);
+void _al_register_convert_bitmap(ALLEGRO_BITMAP *bitmap);
+void _al_unregister_convert_bitmap(ALLEGRO_BITMAP *bitmap);
+void _al_convert_to_display_bitmap(ALLEGRO_BITMAP *bitmap);
+void _al_convert_to_memory_bitmap(ALLEGRO_BITMAP *bitmap);
 
 /* Simple bitmap drawing */
-/* _al_put_pixel was inadvertently exported in 5.0.x releases. */
-AL_FUNC(void, _al_put_pixel, (ALLEGRO_BITMAP *bitmap, int x, int y, ALLEGRO_COLOR color));
+void _al_put_pixel(ALLEGRO_BITMAP *bitmap, int x, int y, ALLEGRO_COLOR color);
 
 /* Bitmap I/O */
 void _al_init_iio_table(void);
+
 
 #ifdef __cplusplus
 }

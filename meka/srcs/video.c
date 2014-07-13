@@ -318,7 +318,8 @@ void    Video_Setup_State(void)
 			const int gui_res_x = g_configuration.video_mode_gui_res_x;
 			const int gui_res_y = g_configuration.video_mode_gui_res_y;
 			Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, refresh_rate, TRUE);
-            gui_redraw_everything_now_once();
+			if (opt.GUI_Inited)
+				gui_redraw_everything_now_once();
         }
         break;
     }

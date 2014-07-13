@@ -32,6 +32,7 @@
 #include "palette.h"
 #include "patch.h"
 #include "setup.h"
+#include "skin_bg.h"
 #include "textbox.h"
 #include "tvtype.h"
 #include "video.h"
@@ -99,10 +100,8 @@ ALLEGRO_COLOR COLOR_DEBUG_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,10
 // FIXME: this function is pretty old and is basically a left-over or
 // everything that was not moved elsewhere.
 //-----------------------------------------------------------------------------
-static void Init_Emulator (void)
+static void Init_Emulator()
 {
-    Video_Init();
-
     memset(RAM, 0, 0x10000);        // RAM: 64 Kb (max=SF-7000)
     memset(SRAM, 0, 0x8000);        // SRAM: 32 Kb (max)
     memset(VRAM, 0, 0x4000);        // VRAM: 16 Kb
@@ -273,7 +272,7 @@ static void Close_Emulator_Starting_Dir(void)
     chdir(g_env.Paths.StartingDirectory);
 }
 
-static int Init_Allegro (void)
+static int Init_Allegro()
 {
     ConsolePrint(Msg_Get(MSG_Init_Allegro));
 
@@ -368,11 +367,20 @@ int main(int argc, char **argv)
     Fonts_Init             (); // Initialize Fonts system
 	Effects_TV_Init			();	// Initialize TV snow effect
     FDC765_Init            (); // Initialize Floppy Disk emulation
-    Data_Init              (); // Load datafile
+    //Data_Init              (); // Load datafile
     Init_Emulator          (); // Initialize Emulation
     Palette_Init           (); // Initialize Palette system
     Init_LookUpTables		(); // Initialize Look-up tables
     Machine_Init           (); // Initialize Virtual Machine
+
+	opt.GUI_Inited = false;
+	// Setup initial state (fullscreen/GUI)
+    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
+        g_env.state = MEKA_STATE_GAME;
+    else
+        g_env.state = MEKA_STATE_GUI;
+    Video_Setup_State();
+
     Init_GUI               (); // Initialize Graphical User Interface
     Sound_Init             (); // Initialize Sound
 #ifdef MEKA_JOYPAD
@@ -397,12 +405,8 @@ int main(int argc, char **argv)
 
 	FB_Init_2              (); // Finish initializing the file browser
 
-	// Setup initial state (fullscreen/GUI)
-    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
-        g_env.state = MEKA_STATE_GAME;
-    else
-        g_env.state = MEKA_STATE_GUI;
-    Video_Setup_State();
+    Video_Init();
+    Data_Init              (); // Load datafile
 
     // Start main program loop
     // Everything runs from there.
