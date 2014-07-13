@@ -50,10 +50,13 @@
 #include "allegro5/mouse.h"
 #include "allegro5/mouse_cursor.h"
 #include "allegro5/path.h"
+#include "allegro5/render_state.h"
+#include "allegro5/shader.h"
 #include "allegro5/system.h"
 #include "allegro5/threads.h"
 #include "allegro5/timer.h"
 #include "allegro5/tls.h"
+#include "allegro5/touch_input.h"
 #include "allegro5/transformations.h"
 #include "allegro5/utf8.h"
 

@@ -137,7 +137,26 @@ enum
    ALLEGRO_KEY_BACKQUOTE	= 104,	/* MacOS X */
    ALLEGRO_KEY_SEMICOLON2	= 105,	/* MacOS X -- TODO: ask lillo what this should be */
    ALLEGRO_KEY_COMMAND	= 106,	/* MacOS X */
-   ALLEGRO_KEY_UNKNOWN      = 107,
+   
+   ALLEGRO_KEY_BACK = 107,        /* Android back key */
+   ALLEGRO_KEY_VOLUME_UP = 108,
+   ALLEGRO_KEY_VOLUME_DOWN = 109,
+
+   /* Android/Xperia Play keys */
+   ALLEGRO_KEY_SEARCH       = 110,
+   ALLEGRO_KEY_DPAD_CENTER  = 111,
+   ALLEGRO_KEY_BUTTON_X     = 112,
+   ALLEGRO_KEY_BUTTON_Y     = 113,
+   ALLEGRO_KEY_DPAD_UP      = 114,
+   ALLEGRO_KEY_DPAD_DOWN    = 115,
+   ALLEGRO_KEY_DPAD_LEFT    = 116,
+   ALLEGRO_KEY_DPAD_RIGHT   = 117,
+   ALLEGRO_KEY_SELECT       = 118,
+   ALLEGRO_KEY_START        = 119,
+   ALLEGRO_KEY_L1           = 120,
+   ALLEGRO_KEY_R1           = 121,
+   
+   ALLEGRO_KEY_UNKNOWN      = 122,
 
    /* All codes up to before ALLEGRO_KEY_MODIFIERS can be freely
     * assignedas additional unknown keys, like various multimedia

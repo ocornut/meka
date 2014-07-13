@@ -12,7 +12,7 @@ They are usually of 2 kinds:
 
  MEKA 0.8x WIP Allegro 5
  -----------------------
-  - Updated from Allegro 4 (software rendering based) to Allegro 5.0.10 (with OpenGL/DirectX backends).
+  - Updated from Allegro 4 (software rendering based) to Allegro 5.1.7 (with OpenGL/DirectX backends).
     This required a lot of changes and rewrite in the codebase. It probably added new bugs,
     and performances seems to vary depending on computer settings and video drivers. [Omar]
     Please do report if you have any issue/slowdown so we can fix them!

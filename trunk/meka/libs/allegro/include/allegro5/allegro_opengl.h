@@ -58,12 +58,41 @@
 #define GL_GLEXT_PROTOTYPES
 #endif
 
-#elif defined ALLEGRO_GP2XWIZ
+#elif defined ALLEGRO_ANDROID || defined ALLEGRO_RASPBERRYPI
 
-#include <wiz/GL/gl.h>
-#include <wiz/GL/nanogl.h>
-#include <wiz/GL/wizGLES.h>
-#include <wiz/GL/egl.h>
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+
+#ifndef ALLEGRO_CFG_NO_GLES2
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
+#else
+#define GL_FUNC_ADD GL_FUNC_ADD_OES
+#define GL_FUNC_SUBTRACT GL_FUNC_SUBTRACT_OES
+#define GL_FUNC_REVERSE_SUBTRACT GL_FUNC_REVERSE_SUBTRACT_OES
+#endif
+
+#define GL_RGBA8 GL_RGBA8_OES
+
+#ifndef ALLEGRO_RASPBERRYPI
+#define GL_FRAMEBUFFER_BINDING_EXT GL_FRAMEBUFFER_BINDING_OES
+#define GL_FRAMEBUFFER_EXT GL_FRAMEBUFFER_OES
+#define glBlendEquation glBlendEquationOES
+#define glBlendFuncSeparate glBlendFuncSeparateOES
+#define glBlendEquationSeparate glBlendEquationSeparateOES
+#define glGenerateMipmapEXT glGenerateMipmapOES
+#define glBindFramebufferEXT glBindFramebufferOES
+#define glDeleteFramebuffersEXT glDeleteFramebuffersOES
+#else
+#define GL_FRAMEBUFFER_BINDING_EXT GL_FRAMEBUFFER_BINDING
+#define GL_FRAMEBUFFER_EXT GL_FRAMEBUFFER
+#define glBlendEquation glBlendEquation
+#define glBlendFuncSeparate glBlendFuncSeparate
+#define glBlendEquationSeparate glBlendEquationSeparate
+#define glGenerateMipmapEXT glGenerateMipmap
+#define glBindFramebufferEXT glBindFramebuffer
+#define glDeleteFramebuffersEXT glDeleteFramebuffers
+#endif
 
 #else /* ALLEGRO_MACOSX */
 
@@ -75,6 +104,11 @@
 #undef  __glxext_h_
 
 #endif /* ALLEGRO_MACOSX */
+
+#ifdef ALLEGRO_RASPBERRYPI
+#include <EGL/egl.h>
+#include <EGL/eglext.h>
+#endif
 
 #include "allegro5/opengl/gl_ext.h"
 
@@ -111,7 +145,6 @@
 		typedef type (*name) args;
 #endif
 
-
 /*
  *  Public OpenGL-related API
  */
@@ -130,7 +163,7 @@ AL_FUNC(ALLEGRO_OGL_EXT_LIST*, al_get_opengl_extension_list,     (void));
 AL_FUNC(GLuint,                al_get_opengl_texture,            (ALLEGRO_BITMAP *bitmap));
 AL_FUNC(void,                  al_remove_opengl_fbo,             (ALLEGRO_BITMAP *bitmap));
 AL_FUNC(GLuint,                al_get_opengl_fbo,                (ALLEGRO_BITMAP *bitmap));
-AL_FUNC(void,                  al_get_opengl_texture_size,       (ALLEGRO_BITMAP *bitmap,
+AL_FUNC(bool,                  al_get_opengl_texture_size,       (ALLEGRO_BITMAP *bitmap,
                                                                   int *w, int *h));
 AL_FUNC(void,                  al_get_opengl_texture_position,   (ALLEGRO_BITMAP *bitmap,
                                                                   int *u, int *v));
