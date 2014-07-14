@@ -381,12 +381,13 @@ int main(int argc, char **argv)
         g_env.state = MEKA_STATE_GUI;
     Video_Setup_State();
 
-    Init_GUI               (); // Initialize Graphical User Interface
+	Machine_Reset          (); // Reset Emulated Machine (set default values)
+
+	Init_GUI               (); // Initialize Graphical User Interface
     Sound_Init             (); // Initialize Sound
 #ifdef MEKA_JOYPAD
     Inputs_Joystick_Init   (); // Initialize Joysticks. 
 #endif
-	Machine_Reset          (); // Reset Emulated Machine (set default values)
 
     // Initialization complete
     ConsolePrintf ("%s\n--\n", Msg_Get(MSG_Init_Completed));
