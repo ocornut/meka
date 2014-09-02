@@ -125,7 +125,7 @@ void    PaletteViewer_Update(void)
     // Update hovered color index
     {
         const int mx = pv->frame_palette_zone->mouse_x;
-        const int my = pv->frame_palette_zone->mouse_y;
+        //const int my = pv->frame_palette_zone->mouse_y;
         if (pv->frame_palette_zone->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
             pv->color_hovered = (mx / color_box_size);
         else

@@ -355,17 +355,17 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 					// P+2: skip the 'h' in the instruction
 					const u16 addr = ((C == 'x') ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
 					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);		// Don't display full address because it is obvious (for IX/IY being typically stable)
-					snprintf(R, 256, "%.*s%c%d=%s%s", P-T, T, offset_sign, offset_abs, H, P+2);
+					snprintf(R, 256, "%.*s%c%d=%s%s", (int)(P-T), T, offset_sign, offset_abs, H, P+2);
 				}
 				else
 				{
 					// P+2: skip the 'h' in the instruction
-					snprintf(R, 256, "%.*s%c%d%s", P-T, T, offset_sign, offset_abs, P+2);
+					snprintf(R, 256, "%.*s%c%d%s", (int)(P-T), T, offset_sign, offset_abs, P+2);
 				}
 			}
 			else
 			{
-				snprintf(R, 256, "%.*s%c%d", P-T, T, offset_sign, offset_abs, H, P+2);
+				snprintf(R, 256, "%.*s%c%d", (int)(P-T), T, offset_sign, offset_abs);
 			}
 		}
 		B++;
@@ -414,19 +414,19 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 					{
 						const u16 addr = (B+1) + (signed char)Offset;
 						Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
-						snprintf(S, 255, "%.*s%c%02Xh (%s)%s", P-R, R, offset_sign, offset_abs, H, P+2);
+						snprintf(S, 255, "%.*s%c%02Xh (%s)%s", (int)(P-R), R, offset_sign, offset_abs, H, P+2);
 					}
 					else
 					{
 						const u16 addr = ((relative_offset_base == 1) ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
 						Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);	// Don't display full address because it is obvious (for IX/IY being typically stable)
-						snprintf(S, 255, "%.*s%c%d=%s%s", P-R, R, offset_sign, offset_abs, H, P+2);
+						snprintf(S, 255, "%.*s%c%d=%s%s", (int)(P-R), R, offset_sign, offset_abs, H, P+2);
 					}
                 }
                 else
                 {
 					// P+2: skip the 'h' in the instruction
-					snprintf(S, 256, "%.*s%c%02Xh%s", P-R, R, offset_sign, offset_abs, P+2);
+					snprintf(S, 256, "%.*s%c%02Xh%s", (int)(P-R), R, offset_sign, offset_abs, P+2);
                 }
             }
 			if(!has_offset)
@@ -438,7 +438,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 			{
 				const u16 addr = RdZ80_NoHook(B&0xFFFF)+256*RdZ80_NoHook((B+1)&0xFFFF);
 				Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, true);
-				snprintf(S, 256, "%.*s%s%s", P-R, R, H, P+2);
+				snprintf(S, 256, "%.*s%s%s", (int)(P-R), R, H, P+2);
 			}
 			B += 2;
 		}

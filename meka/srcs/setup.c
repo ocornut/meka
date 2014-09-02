@@ -102,7 +102,7 @@ static BOOL CALLBACK	Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT message
 				Video_EnumerateDisplayModes();
 				combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_VIDEO_DISPLAY_MODE);
 				std::vector<t_video_mode>& display_modes = g_video.display_modes;
-				for (int i = 0; i != display_modes.size(); i++)
+				for (size_t i = 0; i != display_modes.size(); i++)
 				{
 					t_video_mode* display_mode = &display_modes[i];
 					char buf[256];

@@ -373,8 +373,6 @@ void	Inputs_Sources_Update()
 #endif
 
     // Poll mouse
-	const int mouse_x_prev = g_mouse_state.x;
-	const int mouse_y_prev = g_mouse_state.y;
 	al_get_mouse_state(&g_mouse_state);
 
 	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log

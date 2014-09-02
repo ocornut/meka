@@ -893,7 +893,7 @@ bool    widget_inputbox_insert_chars(t_widget* w, const char* str)
 
 	if (str_len == 0)
 		return false;
-	const char* str_end = str + str_len;
+	//const char* str_end = str + str_len;
 
 	if (!wd->overwrite_mode)
 	{

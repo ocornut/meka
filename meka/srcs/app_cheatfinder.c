@@ -369,10 +369,9 @@ static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_mat
 
 static u32 CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* memrange, t_cheat_finder_match* match)
 {
-	u32 addr = CheatFinder_IndexToAddr(app, match);
+	const u32 addr = CheatFinder_IndexToAddr(app, match);
 	
 	u32 v;
-
 	switch (match->type)
 	{
 	case CHEAT_FINDER_VALUE_TYPE_1:
@@ -399,6 +398,10 @@ static u32 CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* memr
 			v = ((u32)memrange->ReadByte(addr) << 0) | ((u32)memrange->ReadByte(addr+1) << 8) | ((u32)memrange->ReadByte(addr+2) << 16);
 			break;
 		}
+	default:
+		assert(0);
+		v = 0;
+		break;
 	}
 
 	return v;

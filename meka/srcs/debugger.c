@@ -1306,7 +1306,7 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
         {
 			// NO$GMB/WLA format
 			//  "0000:c007 VarScanlineMetrics"
-			if (sscanf(line, "%hX:%hX %s", &bank, &addr, name) == 3)
+			if (sscanf(line, "%X:%hX %s", &bank, &addr, name) == 3)
 			{
 				Debugger_Symbol_Add(addr, bank, name);
 				return true;
@@ -2428,7 +2428,7 @@ static void     Debugger_Help(const char *cmd)
         t_debugger_command_info *command_info = &DebuggerCommandInfos[0];
         while (command_info->command_long != NULL)
         {
-            if ((command_info->command_short) && !stricmp(cmd, command_info->command_short) || (command_info->command_long && !stricmp(cmd, command_info->command_long)))
+            if ((command_info->command_short && !stricmp(cmd, command_info->command_short)) || (command_info->command_long && !stricmp(cmd, command_info->command_long)))
             {
                 Debugger_Printf("%s\n", command_info->description);
                 return;
@@ -3125,10 +3125,10 @@ void        Debugger_InputParseCommand(char *line)
 					if (isprint(data & 0xFF))
 						sprintf(ascii_s, "  asc: '%c'", data & 0xFF);
 					else
-						sprintf(ascii_s, "  asc: N/A ", data & 0xFF);
+						sprintf(ascii_s, "  asc: N/A ");
 				}
                 else
-                    sprintf(ascii_s, "");
+                    ascii_s[0] = '\0';
                 Debugger_Printf(" $%0*hX  bin: %%%s%s  dec: %d\n", data_size_bytes * 2, data, binary_s, ascii_s, data);
 
                 // Skip comma to get to next expression, if any
@@ -3587,7 +3587,11 @@ void        Debugger_InputParseCommand(char *line)
 				}		
 			}
 			if (cnt > 256)
-				Debugger_PrintEx(true, false, true, "(output in file Debug/debuglog.txt)");
+			{
+				char buf[256];
+				strcpy(buf, "(output in file Debug/debuglog.txt)");
+				Debugger_PrintEx(true, false, true, buf);
+			}
 		}
 		return;
 	}
@@ -3902,7 +3906,7 @@ bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result,
 
     {
         const char *  parse_end;
-        int     data;
+        int data;
         switch (value_format)
         {
         case DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX:
@@ -3916,6 +3920,7 @@ bool    Debugger_Eval_ParseConstant(const char *value, t_debugger_value *result,
             break;
         default:
             assert(0);
+			return false;
         }
 
 		//if (data > (1<<15)-1 || data < -(1<<5))
