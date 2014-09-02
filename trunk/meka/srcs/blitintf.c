@@ -139,10 +139,8 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
     case 3:
         Blitters.current->stretch = BLITTER_STRETCH_MAX_INT;
         return MEKA_ERR_OK;
-    default:
-        return MEKA_ERR_UNKNOWN;
     }
-    return MEKA_ERR_OK;
+    return MEKA_ERR_UNKNOWN;
 }
 
 void    Blitters_Init_Values()

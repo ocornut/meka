@@ -83,6 +83,7 @@ static int month_len_table[12] =
 { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 // return number of days in February for given year
+#ifndef ARCH_WIN32
 static int	get_february_len (int year)
 {
     if ((year % 4) != 0 || (((year % 100) == 0) && ((year % 400) == 0)))
@@ -94,17 +95,6 @@ static int	get_february_len (int year)
 // ctime() anymore? (or similar function?)
 static void	meka_get_time_date (int *phour, int *pminute, int *psecond, int *pday, int *pmonth, int *pyear, int *pday_of_week)
 {
-#ifdef ARCH_WIN32
-    SYSTEMTIME t;
-    GetLocalTime(&t);
-    if (phour)      *phour      = t.wHour;
-    if (pminute)    *pminute    = t.wMinute;
-    if (psecond)    *psecond    = t.wSecond;
-    if (pday)       *pday       = t.wDay;
-    if (pmonth)     *pmonth     = t.wMonth;
-    if (pyear)      *pyear      = t.wYear;
-    if (pday_of_week) *pday_of_week = t.wDayOfWeek;
-#else
     time_t t;
     int	cnt;
     int	day, month, year, day_of_week;
@@ -142,8 +132,8 @@ static void	meka_get_time_date (int *phour, int *pminute, int *psecond, int *pda
     if (pmonth) *pmonth = month + 1;
     if (pyear) *pyear = year;
     if (pday_of_week) *pday_of_week = day_of_week;
-#endif
 }
+#endif
 
 char *  meka_date_getf (void)
 {
