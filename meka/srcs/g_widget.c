@@ -863,10 +863,10 @@ void	widget_inputbox_delete_selection(t_widget* w)
 	// Delete selection
 	if (widget_inputbox_has_selection(w))
 	{
-		const int sel_len = max(wd->sel_begin, wd->sel_end) - min(wd->sel_begin, wd->sel_end);
+		const int sel_len = MAX(wd->sel_begin, wd->sel_end) - MIN(wd->sel_begin, wd->sel_end);
 		for (int i = max(wd->sel_begin, wd->sel_end); i < wd->length; i++)
 			wd->text[i - sel_len] = wd->text[i];
-		wd->sel_begin = wd->sel_end = min(wd->sel_begin, wd->sel_end);
+		wd->sel_begin = wd->sel_end = MIN(wd->sel_begin, wd->sel_end);
 		wd->length -= sel_len;
 	}
 }
@@ -1053,7 +1053,7 @@ void        widget_inputbox_update(t_widget *w)
 		}
 		else if (wd->sel_begin != wd->sel_end)
 		{
-			OSD_ClipboardSetText(wd->text + min(wd->sel_begin, wd->sel_end), wd->text + max(wd->sel_begin, wd->sel_end));
+			OSD_ClipboardSetText(wd->text + MIN(wd->sel_begin, wd->sel_end), wd->text + MAX(wd->sel_begin, wd->sel_end));
 		}
 	}
 
@@ -1084,7 +1084,7 @@ void        widget_inputbox_update(t_widget *w)
 		{
 			if (wd->sel_begin != wd->sel_end)
 			{
-				OSD_ClipboardSetText(wd->text + min(wd->sel_begin, wd->sel_end), wd->text + max(wd->sel_begin, wd->sel_end));
+				OSD_ClipboardSetText(wd->text + MIN(wd->sel_begin, wd->sel_end), wd->text + MAX(wd->sel_begin, wd->sel_end));
 				widget_inputbox_delete_selection(w);
 			}
 		}
@@ -1238,8 +1238,8 @@ void        widget_inputbox_redraw(t_widget *w)
 	// Selection
 	if (wd->sel_begin != wd->sel_end)
 	{
-		const int sel_min = min(wd->sel_begin, wd->sel_end);
-		const int sel_max = max(wd->sel_begin, wd->sel_end);
+		const int sel_min = MIN(wd->sel_begin, wd->sel_end);
+		const int sel_max = MAX(wd->sel_begin, wd->sel_end);
 
 		sprintf(wd->tmp_buffer, "%.*s", sel_min, wd->text);
 		const int sel_min_x = Font_TextLength(wd->font_id, wd->tmp_buffer);

@@ -428,8 +428,8 @@ static t_debugger_bus_info  DebuggerBusInfos[BREAKPOINT_LOCATION_MAX_] =
 
 struct t_debugger_shortcut
 {
-	char*				name;
-	char*				command;
+	const char*			name;
+	const char*			command;
 	t_widget*			button;
 };
 
@@ -2249,7 +2249,7 @@ void	Debugger_Applet_RedrawState()
 					// clamp user scroll offset
 					if (Debugger.trackback_scroll_offset != 0)
 						Debugger.trackback_scroll_offset -= trackback_lines;
-						//min(Debugger.trackback_scroll_offset, trackback_lines - (trackback_lines_base + Debugger.trackback_scroll_offset));
+						//MIN(Debugger.trackback_scroll_offset, trackback_lines - (trackback_lines_base + Debugger.trackback_scroll_offset));
 					break;
 				}
 				pc = pc_trackback;
@@ -3510,7 +3510,7 @@ void        Debugger_InputParseCommand(char *line)
 		}
 		else
 		{
-			int cnt = min(16, Debugger.pc_detail_log_count);
+			int cnt = MIN(16, Debugger.pc_detail_log_count);
         
             parse_skip_spaces(&line);
 
@@ -3556,7 +3556,7 @@ void        Debugger_InputParseCommand(char *line)
 				}
 			}
 
-			cnt = min(cnt, (int)Debugger.pc_detail_log_count);
+			cnt = MIN(cnt, (int)Debugger.pc_detail_log_count);
 
 			Debugger_Printf("Tracing %d instruction%s (of total %d recorded)\n", cnt, cnt>1?"s":"", Debugger.pc_detail_log_count);
 			for (int i = cnt; i > 0; i--)
@@ -3627,7 +3627,7 @@ void		Debugger_ShortcutButton_Callback(t_widget* w)
 {
 	t_debugger_app* app = &DebuggerApp;
 
-	t_debugger_shortcut* sh = &app->shortcuts[(int)w->user_data];
+	t_debugger_shortcut* sh = &app->shortcuts[(int)(intptr_t)w->user_data];
 
 	char* command = strdup(sh->command);
 	Debugger_InputParseCommand(command);		// non-const input
