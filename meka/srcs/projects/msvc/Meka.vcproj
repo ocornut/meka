@@ -82,7 +82,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="allegro-5.1.7-static-md-debug.lib allegro_font-5.1.7-static-md-debug.lib allegro_primitives-5.1.7-static-md-debug.lib allegro_image-5.1.7-static-md-debug.lib allegro_audio-5.1.7-static-md-debug.lib openal-1.14-static-md-debug.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
+				AdditionalDependencies="allegro-5.0.10-static-md-debug.lib allegro_font-5.0.10-static-md-debug.lib allegro_primitives-5.0.10-static-md-debug.lib allegro_image-5.0.10-static-md-debug.lib allegro_audio-5.0.10-static-md-debug.lib openal-1.14-static-md-debug.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
 				OutputFile="../../../mekaw.exe"
 				Version=""
 				LinkIncremental="2"
@@ -193,7 +193,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="allegro-5.1.7-static-md.lib allegro_font-5.1.7-static-md.lib allegro_primitives-5.1.7-static-md.lib allegro_image-5.1.7-static-md.lib allegro_audio-5.1.7-static-md.lib openal-1.14-static-md.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
+				AdditionalDependencies="allegro-5.0.10-static-md.lib allegro_font-5.0.10-static-md.lib allegro_primitives-5.0.10-static-md.lib allegro_image-5.0.10-static-md.lib allegro_audio-5.0.10-static-md.lib openal-1.14-static-md.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib gdiplus.lib comdlg32.lib comctl32.lib ole32.lib winmm.lib shlwapi.lib psapi.lib opengl32.lib dxguid.lib d3d9.lib"
 				ShowProgress="0"
 				OutputFile="../../../mekaw.exe"
 				Version=""

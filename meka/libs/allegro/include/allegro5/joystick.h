@@ -25,7 +25,7 @@
 
 /* internal values */
 #define _AL_MAX_JOYSTICK_AXES	   3
-#define _AL_MAX_JOYSTICK_STICKS    16
+#define _AL_MAX_JOYSTICK_STICKS    8
 #define _AL_MAX_JOYSTICK_BUTTONS   32
 
 

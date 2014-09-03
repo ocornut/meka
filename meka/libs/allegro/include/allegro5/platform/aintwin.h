@@ -1,6 +1,6 @@
-/*         ______   ___    ___
- *        /\  _  \ /\_ \  /\_ \
- *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___
+/*         ______   ___    ___ 
+ *        /\  _  \ /\_ \  /\_ \ 
+ *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___ 
  *         \ \  __ \ \ \ \  \ \ \   /'__`\ /'_ `\/\`'__\/ __`\
  *          \ \ \/\ \ \_\ \_ \_\ \_/\  __//\ \L\ \ \ \//\ \L\ \
  *           \ \_\ \_\/\____\/\____\ \____\ \____ \ \_\\ \____/
@@ -30,7 +30,6 @@
 #include "allegro5/platform/aintwthr.h"
 #include "allegro5/internal/aintern_display.h"
 #include "allegro5/internal/aintern_system.h"
-#include "allegro5/internal/aintern_vector.h"
 #include "allegro5/system.h"
 
 
@@ -41,20 +40,6 @@
    extern "C" {
 #endif
 
-/* user defined hooks into the main win32 event loop */
-
-typedef bool (*ALLEGRO_DISPLAY_WIN_CALLBACK_PROC)
-   (ALLEGRO_DISPLAY *, UINT, WPARAM, LPARAM, void *);
-
-typedef struct ALLEGRO_DISPLAY_WIN_CALLBACK ALLEGRO_DISPLAY_WIN_CALLBACK;
-
-struct ALLEGRO_DISPLAY_WIN_CALLBACK
-{
-   ALLEGRO_DISPLAY_WIN_CALLBACK_PROC proc;
-   void *userdata;
-};
-
-/* the extended display struct for Windows */
 
 typedef struct ALLEGRO_DISPLAY_WIN ALLEGRO_DISPLAY_WIN;
 
@@ -91,9 +76,6 @@ struct ALLEGRO_DISPLAY_WIN
     */
    int toggle_w;
    int toggle_h;
-
-   /* A list of user callbacks associated with the window messages */
-   _AL_VECTOR msg_callbacks;
 };
 
 
@@ -178,8 +160,6 @@ HICON _al_win_create_icon(HWND wnd, ALLEGRO_BITMAP *sprite, int xfocus, int yfoc
 /* window decorations */
 void _al_win_set_window_position(HWND window, int x, int y);
 void _al_win_get_window_position(HWND window, int *x, int *y);
-bool _al_win_set_window_constraints(ALLEGRO_DISPLAY *display, int min_w, int min_h, int max_w, int max_h);
-bool _al_win_get_window_constraints(ALLEGRO_DISPLAY *display, int *min_w, int *min_h, int *max_w, int *max_h);
 void _al_win_set_window_frameless(ALLEGRO_DISPLAY *display, HWND window, bool frameless);
 bool _al_win_set_display_flag(ALLEGRO_DISPLAY *display, int flag, bool onoff);
 void _al_win_set_window_title(ALLEGRO_DISPLAY *display, const char *title);
@@ -218,68 +198,6 @@ bool _al_win_hide_mouse_cursor(ALLEGRO_DISPLAY *display);
                                                   ALLEGRO_DISPLAY_MODE *mode);
    bool _al_wgl_init_display(void);
 #endif /*  defined ALLEGRO_CFG_OPENGL */
-
-
-/* touch input specific API */
-
-#if (_WIN32_WINNT < 0x0601)
-typedef struct tagTOUCHINPUT {
-   LONG x;
-   LONG y;
-   HANDLE hSource;
-   DWORD dwID;
-   DWORD dwFlags;
-   DWORD dwMask;
-   DWORD dwTime;
-   ULONG_PTR dwExtraInfo;
-   DWORD cxContact;
-   DWORD cyContact;
-} TOUCHINPUT, *PTOUCHINPUT;
-#endif
-
-/* Define those fellows. They are available on Windows SDK 7.0,
- * which is shipped with Visual Studio 2010. So it is not likely they
- * will be defined in <windows.h>. Also do not trust MinGW WinAPI
- * headers as they are outdated. Version 3.15, which is newest at the
- * time of writting this, still have invalid defines related to
- * multi-touch support.
- */
-#define _AL_WM_TOUCH                         0x0240
-
-#define _AL_MOUSEEVENTF_FROMTOUCH            0xFF515700
-
-#define _AL_TOUCHEVENTF_MOVE                 0x0001
-#define _AL_TOUCHEVENTF_DOWN                 0x0002
-#define _AL_TOUCHEVENTF_UP                   0x0004
-#define _AL_TOUCHEVENTF_PRIMARY              0x0010
-
-#define _AL_SM_DIGITIZER                     94
-
-#define _AL_NID_READY                        0x80
-
-
-/* set of function required to handle touch input on Windows */
-typedef BOOL (WINAPI *CLOSETOUCHINPUTHANDLEPROC)(HANDLE hTouchInput);
-typedef BOOL (WINAPI *GETTOUCHINPUTINFOPROC)(HANDLE hTouchInput, UINT cInputs, PTOUCHINPUT pInputs, int cbSize);
-typedef BOOL (WINAPI *ISTOUCHWINDOWPROC)(HWND hWnd, PULONG pulFlags);
-typedef BOOL (WINAPI *REGISTERTOUCHWINDOWPROC)(HWND hWnd, ULONG ulFlags);
-typedef BOOL (WINAPI *UNREGISTERTOUCHWINDOWPROC)(HWND hWnd);
-
-bool _al_win_init_touch_input_api(void);
-void _al_win_exit_touch_input_api(void);
-
-extern CLOSETOUCHINPUTHANDLEPROC     _al_win_close_touch_input_handle;
-extern GETTOUCHINPUTINFOPROC         _al_win_get_touch_input_info;
-extern ISTOUCHWINDOWPROC             _al_win_is_touch_window;
-extern REGISTERTOUCHWINDOWPROC       _al_win_register_touch_window;
-extern UNREGISTERTOUCHWINDOWPROC     _al_win_unregister_touch_window;
-
-/* touch input routines */
-void _al_win_touch_input_set_time_stamp(size_t timestamp);
-void _al_win_touch_input_handle_begin(int id, size_t timestamp, float x, float y, bool primary, ALLEGRO_DISPLAY_WIN *win_disp);
-void _al_win_touch_input_handle_end(int id, size_t timestamp, float x, float y, bool primary, ALLEGRO_DISPLAY_WIN *win_disp);
-void _al_win_touch_input_handle_move(int id, size_t timestamp, float x, float y, bool primary, ALLEGRO_DISPLAY_WIN *win_disp);
-void _al_win_touch_input_handle_cancel(int id, size_t timestamp, float x, float y, bool primary, ALLEGRO_DISPLAY_WIN *win_disp);
 
 
 #ifdef __cplusplus

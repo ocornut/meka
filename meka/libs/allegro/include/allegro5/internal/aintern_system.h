@@ -8,12 +8,7 @@
 #include "allegro5/internal/aintern_joystick.h"
 #include "allegro5/internal/aintern_keyboard.h"
 #include "allegro5/internal/aintern_mouse.h"
-#include "allegro5/internal/aintern_touch_input.h"
 #include "allegro5/internal/aintern_vector.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 typedef struct ALLEGRO_SYSTEM_INTERFACE ALLEGRO_SYSTEM_INTERFACE;
 
@@ -24,7 +19,6 @@ struct ALLEGRO_SYSTEM_INTERFACE
    ALLEGRO_DISPLAY_INTERFACE *(*get_display_driver)(void);
    ALLEGRO_KEYBOARD_DRIVER *(*get_keyboard_driver)(void);
    ALLEGRO_MOUSE_DRIVER *(*get_mouse_driver)(void);
-   ALLEGRO_TOUCH_INPUT_DRIVER *(*get_touch_input_driver)(void);
    ALLEGRO_JOYSTICK_DRIVER *(*get_joystick_driver)(void);
    int (*get_num_display_modes)(void);
    ALLEGRO_DISPLAY_MODE *(*get_display_mode)(int index, ALLEGRO_DISPLAY_MODE *mode);
@@ -55,16 +49,12 @@ struct ALLEGRO_SYSTEM
 };
 
 
-void _al_register_system_interfaces(void);
-extern _AL_VECTOR _al_system_interfaces;
+AL_FUNC(void, _al_register_system_interfaces, (void));
+AL_VAR(_AL_VECTOR, _al_system_interfaces);
 AL_VAR(_AL_DTOR_LIST *, _al_dtor_list);
 
 AL_FUNC(void *, _al_open_library, (const char *filename));
 AL_FUNC(void *, _al_import_symbol, (void *library, const char *symbol));
 AL_FUNC(void, _al_close_library, (void *library));
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif
