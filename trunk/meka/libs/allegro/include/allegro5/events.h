@@ -39,17 +39,7 @@ enum
    ALLEGRO_EVENT_DISPLAY_FOUND               = 44,
    ALLEGRO_EVENT_DISPLAY_SWITCH_IN           = 45,
    ALLEGRO_EVENT_DISPLAY_SWITCH_OUT          = 46,
-   ALLEGRO_EVENT_DISPLAY_ORIENTATION         = 47,
-   ALLEGRO_EVENT_DISPLAY_HALT_DRAWING        = 48,
-   ALLEGRO_EVENT_DISPLAY_RESUME_DRAWING      = 49,
-
-   ALLEGRO_EVENT_TOUCH_BEGIN                 = 50,
-   ALLEGRO_EVENT_TOUCH_END                   = 51,
-   ALLEGRO_EVENT_TOUCH_MOVE                  = 52,
-   ALLEGRO_EVENT_TOUCH_CANCEL                = 53,
-   
-   ALLEGRO_EVENT_DISPLAY_CONNECTED           = 60,
-   ALLEGRO_EVENT_DISPLAY_DISCONNECTED        = 61
+   ALLEGRO_EVENT_DISPLAY_ORIENTATION         = 47
 };
 
 
@@ -164,25 +154,6 @@ typedef struct ALLEGRO_TIMER_EVENT
 
 
 
-/* Type: ALLEGRO_TOUCH_EVENT
- */
-typedef struct ALLEGRO_TOUCH_EVENT
-{
-   _AL_EVENT_HEADER(struct ALLEGRO_TOUCH_INPUT)
-   struct ALLEGRO_DISPLAY *display;
-   /* (id) Identifier of the event, always positive number.
-    * (x, y) Touch position on the screen in 1:1 resolution.
-    * (dx, dy) Relative touch position.
-    * (primary) True, if touch is a primary one (usually first one).
-    */
-   int id;
-   float x, y;
-   float dx, dy;
-   bool primary;
-} ALLEGRO_TOUCH_EVENT;
-
-
-
 /* Type: ALLEGRO_USER_EVENT
  */
 typedef struct ALLEGRO_USER_EVENT ALLEGRO_USER_EVENT;
@@ -217,7 +188,6 @@ union ALLEGRO_EVENT
    ALLEGRO_KEYBOARD_EVENT keyboard;
    ALLEGRO_MOUSE_EVENT    mouse;
    ALLEGRO_TIMER_EVENT    timer;
-   ALLEGRO_TOUCH_EVENT    touch;
    ALLEGRO_USER_EVENT     user;
 };
 
@@ -248,8 +218,6 @@ AL_FUNC(ALLEGRO_EVENT_QUEUE*, al_create_event_queue, (void));
 AL_FUNC(void, al_destroy_event_queue, (ALLEGRO_EVENT_QUEUE*));
 AL_FUNC(void, al_register_event_source, (ALLEGRO_EVENT_QUEUE*, ALLEGRO_EVENT_SOURCE*));
 AL_FUNC(void, al_unregister_event_source, (ALLEGRO_EVENT_QUEUE*, ALLEGRO_EVENT_SOURCE*));
-AL_FUNC(void, al_pause_event_queue, (ALLEGRO_EVENT_QUEUE*, bool));
-AL_FUNC(bool, al_is_event_queue_paused, (const ALLEGRO_EVENT_QUEUE*));
 AL_FUNC(bool, al_is_event_queue_empty, (ALLEGRO_EVENT_QUEUE*));
 AL_FUNC(bool, al_get_next_event, (ALLEGRO_EVENT_QUEUE*, ALLEGRO_EVENT *ret_event));
 AL_FUNC(bool, al_peek_next_event, (ALLEGRO_EVENT_QUEUE*, ALLEGRO_EVENT *ret_event));

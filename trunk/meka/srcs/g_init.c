@@ -65,9 +65,6 @@ void    GUI_Init()
     Desktop_SetStateToBoxes();     // Set all boxes state based on MEKA.DSK data
     gui_menus_init();              // Create menus (Note: need to be done after Desktop_SetStateToBoxes because it uses the 'active' flags to check items)
     gui_init_mouse();
-
-	Skins_Background_Redraw();
-	gui_redraw_everything_now_once();
 }
 
 void	GUI_SetupNewVideoMode()

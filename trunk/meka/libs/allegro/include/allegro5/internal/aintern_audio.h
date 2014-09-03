@@ -18,8 +18,7 @@ typedef enum ALLEGRO_AUDIO_DRIVER_ENUM
    ALLEGRO_AUDIO_DRIVER_DSOUND     = 0x20003,
    ALLEGRO_AUDIO_DRIVER_OSS        = 0x20004,
    ALLEGRO_AUDIO_DRIVER_AQUEUE     = 0x20005,
-   ALLEGRO_AUDIO_DRIVER_PULSEAUDIO = 0x20006,
-   ALLEGRO_AUDIO_DRIVER_OPENSL     = 0x20007
+   ALLEGRO_AUDIO_DRIVER_PULSEAUDIO = 0x20006
 } ALLEGRO_AUDIO_DRIVER_ENUM;
 
 typedef struct ALLEGRO_AUDIO_DRIVER ALLEGRO_AUDIO_DRIVER;
@@ -42,10 +41,6 @@ struct ALLEGRO_AUDIO_DRIVER {
 
    unsigned int   (*get_voice_position)(const ALLEGRO_VOICE*);
    int            (*set_voice_position)(ALLEGRO_VOICE*, unsigned int);
-   
-   
-   int            (*allocate_recorder)(ALLEGRO_AUDIO_RECORDER *);
-   void           (*deallocate_recorder)(ALLEGRO_AUDIO_RECORDER *);
 };
 
 extern ALLEGRO_AUDIO_DRIVER *_al_kcm_driver;
@@ -326,50 +321,6 @@ ALLEGRO_KCM_AUDIO_FUNC(void, _al_kcm_shutdown_default_mixer, (void));
 
 ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_CHANNEL_CONF, _al_count_to_channel_conf, (int num_channels));
 ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_AUDIO_DEPTH, _al_word_size_to_depth_conf, (int word_size));
-
-ALLEGRO_KCM_AUDIO_FUNC(void, _al_emit_audio_event, (int event_type));
-
-
-/*
- * Recording
- */
- 
-struct ALLEGRO_AUDIO_RECORDER {
-  ALLEGRO_EVENT_SOURCE source;
-  
-  ALLEGRO_THREAD           *thread;
-  ALLEGRO_MUTEX            *mutex;
-  ALLEGRO_COND             *cond;
-                           /* recording is done in its own thread as
-                              implemented by the driver */
-  
-  ALLEGRO_AUDIO_DEPTH      depth;
-  ALLEGRO_CHANNEL_CONF     chan_conf;
-  unsigned int             frequency;
-
-  void                     **fragments;
-                           /* the buffers to record into */
-
-  unsigned int             fragment_count;
-                           /* the number of fragments */
-
-  unsigned int             samples;
-                           /* the number of samples returned at every FRAGMENT event */
-                           
-  size_t                   fragment_size;
-                           /* size in bytes of each fragument */
-
-  unsigned int             sample_size;
-                           /* the size in bytes of each sample */
-  
-  volatile bool            is_recording; 
-                           /* true if the driver should actively be updating
-                              the buffer */
-                              
-  void                     *extra;
-                           /* custom data for the driver to use as needed */
-};
-
 
 #endif
 

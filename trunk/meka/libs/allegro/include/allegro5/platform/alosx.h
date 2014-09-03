@@ -60,9 +60,6 @@ ALLEGRO_PATH *_al_osx_get_path(int id);
       #endif
       #ifdef __cplusplus
          extern "C" int _al_mangled_main(int, char **);
-         /* We can't provide a prototype for C without restricting
-          * users into a single function signature for main().
-          */
       #endif
    #endif
 #endif

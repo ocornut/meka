@@ -17,17 +17,16 @@ typedef struct ALLEGRO_BITMAP ALLEGRO_BITMAP;
  */
 enum {
    ALLEGRO_MEMORY_BITMAP            = 0x0001,
-   _ALLEGRO_KEEP_BITMAP_FORMAT      = 0x0002,	/* now a bitmap loader flag */
+   ALLEGRO_KEEP_BITMAP_FORMAT       = 0x0002,
    ALLEGRO_FORCE_LOCKING            = 0x0004,
    ALLEGRO_NO_PRESERVE_TEXTURE      = 0x0008,
-   _ALLEGRO_ALPHA_TEST              = 0x0010,   /* now a render state flag */
+   ALLEGRO_ALPHA_TEST               = 0x0010,
    _ALLEGRO_INTERNAL_OPENGL         = 0x0020,
    ALLEGRO_MIN_LINEAR               = 0x0040,
    ALLEGRO_MAG_LINEAR               = 0x0080,
    ALLEGRO_MIPMAP                   = 0x0100,
-   _ALLEGRO_NO_PREMULTIPLIED_ALPHA  = 0x0200,	/* now a bitmap loader flag */
-   ALLEGRO_VIDEO_BITMAP             = 0x0400,
-   ALLEGRO_CONVERT_BITMAP           = 0x1000
+   ALLEGRO_NO_PREMULTIPLIED_ALPHA   = 0x0200,
+   ALLEGRO_VIDEO_BITMAP             = 0x0400
 };
 
 
@@ -64,8 +63,6 @@ AL_FUNC(ALLEGRO_BITMAP *, al_get_parent_bitmap, (ALLEGRO_BITMAP *bitmap));
 
 /* Miscellaneous */
 AL_FUNC(ALLEGRO_BITMAP *, al_clone_bitmap, (ALLEGRO_BITMAP *bitmap));
-AL_FUNC(void, al_convert_bitmap, (ALLEGRO_BITMAP *bitmap));
-AL_FUNC(void, al_convert_bitmaps, (void));
 
 #ifdef __cplusplus
    }

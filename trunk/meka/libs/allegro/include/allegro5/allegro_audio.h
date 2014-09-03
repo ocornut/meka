@@ -46,21 +46,9 @@ extern "C" {
 /* User event type emitted when a stream fragment is ready to be
  * refilled with more audio data.
  * Must be in 512 <= n < 1024
- *
  */
 #define ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT  (513)
 #define ALLEGRO_EVENT_AUDIO_STREAM_FINISHED  (514)
-
-#define ALLEGRO_EVENT_AUDIO_RECORDER_FRAGMENT       (515)
-
-typedef struct ALLEGRO_AUDIO_RECORDER_EVENT ALLEGRO_AUDIO_RECORDER_EVENT;
-struct ALLEGRO_AUDIO_RECORDER_EVENT
-{
-   _AL_EVENT_HEADER(struct ALLEGRO_AUDIO_RECORDER)
-   struct ALLEGRO_USER_EVENT_DESCRIPTOR *__internal__descr;
-   void *buffer;
-   unsigned int samples;
-};
 
 
 /* Enum: ALLEGRO_AUDIO_DEPTH
@@ -136,14 +124,6 @@ enum ALLEGRO_MIXER_QUALITY
  */
 #define ALLEGRO_AUDIO_PAN_NONE      (-1000.0f)
 
-/* Enum: ALLEGRO_AUDIO_EVENT_TYPE
- */
-enum ALLEGRO_AUDIO_EVENT_TYPE
-{
-   ALLEGRO_EVENT_AUDIO_ROUTE_CHANGE       = 520,
-   ALLEGRO_EVENT_AUDIO_INTERRUPTION       = 521,
-   ALLEGRO_EVENT_AUDIO_END_INTERRUPTION   = 522
-};
 
 /* Type: ALLEGRO_SAMPLE
  */
@@ -178,11 +158,6 @@ typedef struct ALLEGRO_MIXER ALLEGRO_MIXER;
 /* Type: ALLEGRO_VOICE
  */
 typedef struct ALLEGRO_VOICE ALLEGRO_VOICE;
-
-
-/* Type: ALLEGRO_AUDIO_RECORDER
- */
-typedef struct ALLEGRO_AUDIO_RECORDER ALLEGRO_AUDIO_RECORDER;
 
 
 #ifndef __cplusplus
@@ -387,22 +362,11 @@ ALLEGRO_KCM_AUDIO_FUNC(bool, al_save_sample_f, (ALLEGRO_FILE* fp, const char *id
 ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_AUDIO_STREAM *, al_load_audio_stream_f, (ALLEGRO_FILE* fp, const char *ident,
 	size_t buffer_count, unsigned int samples));
 
-ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_EVENT_SOURCE *, al_get_audio_event_source, (void));
 
-/* Recording functions */
-ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_AUDIO_RECORDER *, al_create_audio_recorder, (size_t fragment_count,
-   unsigned int samples, unsigned int freq, ALLEGRO_AUDIO_DEPTH depth, ALLEGRO_CHANNEL_CONF chan_conf));
-ALLEGRO_KCM_AUDIO_FUNC(bool, al_start_audio_recorder, (ALLEGRO_AUDIO_RECORDER *r));
-ALLEGRO_KCM_AUDIO_FUNC(void, al_stop_audio_recorder, (ALLEGRO_AUDIO_RECORDER *r));
-ALLEGRO_KCM_AUDIO_FUNC(bool, al_is_audio_recorder_recording, (ALLEGRO_AUDIO_RECORDER *r));
-ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_EVENT_SOURCE *, al_get_audio_recorder_event_source,
-   (ALLEGRO_AUDIO_RECORDER *r));
-ALLEGRO_KCM_AUDIO_FUNC(ALLEGRO_AUDIO_RECORDER_EVENT *, al_get_audio_recorder_event, (ALLEGRO_EVENT *event));
-ALLEGRO_KCM_AUDIO_FUNC(void, al_destroy_audio_recorder, (ALLEGRO_AUDIO_RECORDER *r));
-   
 #ifdef __cplusplus
 } /* End extern "C" */
 #endif
+
 
 #endif
 

@@ -45,11 +45,7 @@ struct ALLEGRO_SYSTEM_XGLX
    Atom AllegroAtom;
    Atom XEmbedAtom;
 
-   /* Background thread to process X events.
-    * Not used if GTK main loop is used.
-    */
-   bool have_xevents_thread;
-   _AL_THREAD xevents_thread;
+   _AL_THREAD thread; /* background thread. */
    _AL_MUTEX lock; /* thread lock for whenever we access internals. */
    // FIXME: One condition variable really would be enough.
    _AL_COND resized; /* Condition variable to wait for resizing a window. */
