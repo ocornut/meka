@@ -864,7 +864,7 @@ void	widget_inputbox_delete_selection(t_widget* w)
 	if (widget_inputbox_has_selection(w))
 	{
 		const int sel_len = MAX(wd->sel_begin, wd->sel_end) - MIN(wd->sel_begin, wd->sel_end);
-		for (int i = max(wd->sel_begin, wd->sel_end); i < wd->length; i++)
+		for (int i = MAX(wd->sel_begin, wd->sel_end); i < wd->length; i++)
 			wd->text[i - sel_len] = wd->text[i];
 		wd->sel_begin = wd->sel_end = MIN(wd->sel_begin, wd->sel_end);
 		wd->length -= sel_len;
