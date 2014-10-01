@@ -7,7 +7,7 @@
 #include "inputs_i.h"
 #include "inputs_f.h"
 #include "lightgun.h"
-#include "sportpad.h"
+#include "periph.h"
 #include "rapidfir.h"
 
 //-----------------------------------------------------------------------------
@@ -27,10 +27,7 @@ void    Inputs_Init (void)
     Inputs_Sources_Init();
 
     // Peripheral
-    Inputs.Paddle_X [PLAYER_1] = Inputs.Paddle_X [PLAYER_2] = 0;
-    LightPhaser_Init();
-    SportsPad_Init();
-    RapidFire_Init();
+	Peripherals_Init();
 
     // Load Inputs Sources List
     Load_Inputs_Src_List();

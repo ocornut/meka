@@ -157,7 +157,7 @@ void        TechInfo_Update(void)
     // - Inputs
     {
         sprintf(line, " [INPUTS] PortDE:$%02X - Port3F:$%02X - Joy:$%04X - GG:$%02X - Paddle:$%02X,$%02X",
-            (sms.Input_Mode), (tsms.Periph_Nat), tsms.Control[7], (tsms.Control_GG), (Inputs.Paddle_X [PLAYER_1]), (Inputs.Paddle_X [PLAYER_2]));
+            (sms.Input_Mode), (tsms.Port3F), tsms.Control[7], (tsms.Control_GG), (Inputs.Paddle[0].x), (Inputs.Paddle[1].x));
         TechInfo_SetLine(app, line, line_idx++);
     }
 

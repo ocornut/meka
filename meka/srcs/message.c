@@ -147,9 +147,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_FDC765_Disk_Too_Small1),
 	__MSG_ADD(MSG_FDC765_Disk_Too_Small2),
 
-	__MSG_ADD(MSG_TVOekaki_Pen_Touch),
-	__MSG_ADD(MSG_TVOekaki_Pen_Away),
-
 	__MSG_ADD(MSG_Palette_BoxTitle),
 	__MSG_ADD(MSG_Palette_Disabled),
 	__MSG_ADD(MSG_Palette_Enabled),
@@ -207,7 +204,8 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Inputs_LightPhaser),
 	__MSG_ADD(MSG_Inputs_PaddleControl),
 	__MSG_ADD(MSG_Inputs_SportsPad),
-	__MSG_ADD(MSG_Inputs_TVOekaki),
+	__MSG_ADD(MSG_Inputs_GraphicBoard),
+	__MSG_ADD(MSG_Inputs_GraphicBoardV2),
 	__MSG_ADD(MSG_Inputs_Play_Digital),
 	__MSG_ADD(MSG_Inputs_Play_Mouse),
 	__MSG_ADD(MSG_Inputs_Play_Digital_Unrecommended),
@@ -435,6 +433,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Menu_Inputs_PaddleControl),
 	__MSG_ADD(MSG_Menu_Inputs_SportsPad),
 	__MSG_ADD(MSG_Menu_Inputs_GraphicBoard),
+	__MSG_ADD(MSG_Menu_Inputs_GraphicBoardV2),
 	__MSG_ADD(MSG_Menu_Inputs_SK1100),
 	__MSG_ADD(MSG_Menu_Inputs_RapidFire),
 	__MSG_ADD(MSG_Menu_Inputs_RapidFire_PxBx),

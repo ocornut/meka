@@ -303,7 +303,7 @@ int     Save_Game_MSV (FILE *f)
     FM_Save (f);
 
     // Write Port 3F value
-    fwrite (&tsms.Periph_Nat, 1, 1, f);
+    fwrite (&tsms.Port3F, 1, 1, f);
 
     // Write backed memory (SRAM, 93c46 EEPROM, etc.)
     BMemory_Save_State (f);
@@ -486,7 +486,7 @@ int         Load_Game_MSV(FILE *f)
 
     // Read port 3F value
     if (version >= 0x04)
-        fread (&tsms.Periph_Nat, 1, 1, f);
+        fread (&tsms.Port3F, 1, 1, f);
 
     // Previously stored 16 kb pages instead of 8 kb pages
     if (version < 0x07)
