@@ -13,6 +13,7 @@
 #include "sf7000.h"
 #include "vdp.h"
 #include "commport.h"
+#include "periph.h"
 #include "fdc765.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
@@ -30,7 +31,7 @@
 //-----------------------------------------------------------------------------
 
 // OUTPUT - CALLED BY THE EMULATED Z80
-void	Out_SMS (u16 Port, u8 Value)
+void	Out_SMS(u16 Port, u8 Value)
 {
 	// 0x80..0xBF : VDP
 	if ((Port & 0xC0) == 0x80)
@@ -53,17 +54,14 @@ void	Out_SMS (u16 Port, u8 Value)
 	{
 		// 0x3F/63 : LightGun & Nationalisation Port ---------------------------------
 	case 0x3F: 
-		if ((tsms.Periph_Nat & 0xF) != (Value & 0xF))
 		{
-			Inputs.SportsPad_Latch [0] = Inputs.SportsPad_Latch [1] = 1;
+			const u8 old_value = tsms.Port3F;
+			const u8 new_value = Value;
+			Peripherals_WritePort3F(old_value, new_value);
+			tsms.Port3F = Value;
+			// IO_LOG_WRITE();
+			return;
 		}
-		tsms.Periph_Nat = Value;
-		if (tsms.Periph_Nat == 0x0D) 
-			Inputs.SportsPad_Latch [0] ^= 1;
-		if (tsms.Periph_Nat == 0x07) 
-			Inputs.SportsPad_Latch [1] ^= 1;
-		// IO_LOG_WRITE();
-		return;
 
 	   // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
 	case 0xF0:

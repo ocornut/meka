@@ -57,9 +57,9 @@ void    Set_Country_Japan()
 void    Nationalize (byte *v)
 {
     if (sms.Country == COUNTRY_EXPORT)
-        if ((tsms.Periph_Nat & 0xF) == 0x5)
+        if ((tsms.Port3F & 0xF) == 0x5)
         {
-            if ((tsms.Periph_Nat & 0xF0) == 0xF0)
+            if ((tsms.Port3F & 0xF0) == 0xF0)
             {
                 *v |= 0xC0; // set bits 6 and 7
             }

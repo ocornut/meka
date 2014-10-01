@@ -310,7 +310,9 @@ static int      DB_Load_Entry (char *line)
             else if (!strcmp(w, "sportspad"))
                 entry->emu_inputs = INPUT_SPORTSPAD;
             else if (!strcmp(w, "tvoekaki"))
-                entry->emu_inputs = INPUT_TVOEKAKI;
+                entry->emu_inputs = INPUT_GRAPHICBOARD;
+            else if (!strcmp(w, "graphicboardv2"))
+                entry->emu_inputs = INPUT_GRAPHICBOARD_V2;
             else
                 return (0);
         }
@@ -411,7 +413,7 @@ static int      DB_Load_Entry (char *line)
 // DB_Load_EntryOldFormat (char *line)
 // Load DB entry in old format from given line
 //-----------------------------------------------------------------------------
-static int      DB_Load_EntryOldFormat (char *line)
+static int      DB_Load_EntryOldFormat(char *line)
 {
     t_db_entry *entry;
     t_meka_crc  mekacrc;
@@ -496,8 +498,6 @@ static int      DB_Load_EntryOldFormat (char *line)
             entry->flags |= DB_FLAG_BIOS;
         else if (!strcmp(w, "PROTO"))
             entry->flags |= DB_FLAG_PROTO;
-        else if (!strcmp(w, "SMSGG_MODE")) 
-            entry->flags |= DB_FLAG_SMSGG_MODE;
         else if (!strcmp(w, "3D"))
             entry->flags |= DB_FLAG_EMU_3D;
         else if (!strcmp(w, "FLICKER"))
@@ -520,12 +520,6 @@ static int      DB_Load_EntryOldFormat (char *line)
                 return (0);
             entry->emu_mapper = atoi(w);
         }
-        else if (!strcmp(w, "COUNTRY"))
-        {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
-                return (0);
-            entry->emu_country = atoi(w);
-        }
         else if (!strcmp(w, "TRANS"))
         {
             int value;
@@ -540,12 +534,6 @@ static int      DB_Load_EntryOldFormat (char *line)
             entry->trans_country = value;
             entry->flags |= DB_FLAG_TRANS;
         }
-        else if (!strcmp(w, "IPERIOD"))
-        {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
-                return (0);
-            entry->emu_iperiod = atoi(w);
-        }
         else if (!strcmp(w, "TVTYPE"))
         {
             if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
@@ -555,31 +543,6 @@ static int      DB_Load_EntryOldFormat (char *line)
                 entry->emu_tvtype = TVTYPE_PAL_SECAM;
             else if (!strcmp(w, "ntsc"))
                 entry->emu_tvtype = TVTYPE_NTSC;
-            else
-                return (0);
-        }
-        else if (!strcmp(w, "VDP"))
-        {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
-                return (0);
-			if ((entry->emu_vdp_model = VDP_Model_FindByName(w)) == -1)
-				return (0);
-        }
-        else if (!strcmp(w, "INPUT"))
-        {
-            if (!(w = parse_getword(buf, 1024, &line, ",", ';')))
-                return (0);
-            StrLower(w);
-            if (!strcmp(w, "joypad"))
-                entry->emu_inputs = INPUT_JOYPAD;
-            else if (!strcmp(w, "lightphaser"))
-                entry->emu_inputs = INPUT_LIGHTPHASER;
-            else if (!strcmp(w, "paddle"))
-                entry->emu_inputs = INPUT_PADDLECONTROL;
-            else if (!strcmp(w, "sportspad"))
-                entry->emu_inputs = INPUT_SPORTSPAD;
-            else if (!strcmp(w, "tvoekaki"))
-                entry->emu_inputs = INPUT_TVOEKAKI;
             else
                 return (0);
         }

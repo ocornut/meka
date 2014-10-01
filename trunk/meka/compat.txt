@@ -71,7 +71,7 @@
  Basketball Nightmare                           -       Ok
  Batman Returns                                 -       Ok
  Battlemaniacs (BR)                             -       Ok
- Battle Out Run                                 -       Ok
+ Battle Out Run                                 (FM)    Ok (Hidden FM music)
  Black Belt                                     -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
  Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
@@ -134,8 +134,8 @@
  Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM      Ok
  Double Dragon                                  FM      Ok
  Double Dragon (KR)                             FM      Ok
- Double Hawk                                    -       Ok
- Double Hawk [Proto]                            -       Ok
+ Double Hawk                                    (FM)    Ok (Hidden FM music)
+ Double Hawk [Proto]                            (FM)    Ok (Hidden FM music)
  Double Target - Cynthia no Nemuri              -       Ok
  Dracula (Bram Stoker's)                        -       Ok
  Dr. Robotnik's Mean Bean Machine               -       Ok
@@ -143,7 +143,7 @@
  Dragon: The Bruce Lee Story                    -       Ok
  Dr. HELLO (KR)                                 -       Ok
  Dynamite Duke                                  -       Ok
- Dynamite Dux                                   -       Ok
+ Dynamite Dux                                   (FM)    Ok (Hidden FM music)
  Dynamite Headdy (BR)                           -       Ok
  Eagles 5 (KR)                                  -       Ok
  Earthworm Jim (BR)                             -       Ok
@@ -379,7 +379,7 @@
  Rainbow Islands                                -       Ok
  Rainbow Islands (BR)                           -       Ok
  Rambo - First Blood Part II                    -       Ok
- Rambo III                                      LP      Ok
+ Rambo III                                      LP,(FM) Ok (Hidden FM music)
  Rampage                                        FM      Ok
  Rampart                                        -       Ok
  Rastan                                         FM      Ok
@@ -404,6 +404,7 @@
  Scramble Spirits                               FM      Ok
  Secret Command                                 -       Ok
  Sega Chess                                     -       Ok
+ Sega Graphic Board v2.0 [Proto]                GB     *Ok. Requires Graphic Board v2.0 (Prototype hardware)
  Sega World Tournament Golf                     -       Ok
  Seishun Scandal (JP)                           -       Ok
  Sensible Soccer                                -       Ok
@@ -459,7 +460,7 @@
  Strider II                                     -       Ok
  Submarine Attack                               -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
- Summer Games                                   -       Ok
+ Summer Games                                   (FM)    Ok (Hidden FM music)
  Summer Games [Proto]                           FM      Ok
  Suho Jeonsa (KR)                               -       Ok
  Super Basketball [Demo]                        -       Ok
@@ -561,7 +562,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 543 games tested - 541 are "Ok" - Compatibility rate: 99.54%
+ 544 games tested - 542 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

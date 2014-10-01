@@ -7,9 +7,9 @@
 #include "app_game.h"
 #include "inputs_t.h"
 #include "lightgun.h"
+#include "periph.h"
 #include "rapidfir.h"
 #include "sk1100.h"
-#include "sportpad.h"
 #include "tvoekaki.h"
 #include "video.h"
 #include "vdp.h"
@@ -91,14 +91,10 @@ void       Inputs_Sources_Close()
     Inputs.Sources_Max = 0;
 }
 
-//-----------------------------------------------------------------------------
-// Inputs_Emulation_Update ()
 // Update emulation inputs, based on inputs sources data
-//-----------------------------------------------------------------------------
 // If 'running' is false, only update emulation state, but do not produce
 // any side effect such as backspace doing an automatic HardReset in GG mode.
-//-----------------------------------------------------------------------------
-void        Inputs_Emulation_Update (bool running)
+void	Inputs_Emulation_Update(bool running)
 {
     // Control[7] is the following:
     // LG2.LG1.Unused.Reset.P2B.P2A.P2R.P2L - P2D.P2U.P1B.P1A.P1R.P1L.P1D.P1U
@@ -106,14 +102,13 @@ void        Inputs_Emulation_Update (bool running)
     u16* c = &tsms.Control[7];
     *c |= 0x1FFF;
 
-    // Now this is tricky... if we are in GUI mode, check if the focused box
-    // has the exclusive inputs flag. If it has it and the machine is running 
-    // (not paused or being debugged), return now.
-    // The reason for doing that is that handling inputs priority is very
-    // complicated with the current GUI, because applet/widget updating code
-    // is mostly only run on emulation frame that are not skipped, while inputs
-    // for emulation should run for all frames (including skipped ones).
-    // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
+    // If we are in GUI mode, check if the focused box has the exclusive inputs flag. 
+	// If it has it and the machine is running (not paused or being debugged), return.
+    // The reason for doing that is that handling inputs priority is a mess with the 
+    // current GUI system, because applet/widget updating code is mostly only run on 
+	// emulation frame that are not skipped, while inputs for emulation should run for
+	// all frames (including skipped ones).
+	// So it is a bit complicated to handle a way for an applet to 'eat' a key, 
     // and I use an easy path.
     if (g_env.state == MEKA_STATE_GUI && !(g_machine_flags & MACHINE_PAUSED))
 	{
@@ -180,7 +175,7 @@ void        Inputs_Emulation_Update (bool running)
                 break;
             case INPUT_PADDLECONTROL: //------------------------ Paddle Controller
                 {
-                    int x = Inputs.Paddle_X[i];
+                    int x = Inputs.Paddle[i].x;
                     int dx = 0;
                     if (src->flags & INPUT_SRC_FLAGS_ANALOG)
                     {
@@ -214,7 +209,7 @@ void        Inputs_Emulation_Update (bool running)
                     {
                         x += dx;
                         if (x < 0) x = 0; else if (x > 255) x = 255;
-                        Inputs.Paddle_X [i] = x;
+                        Inputs.Paddle[i].x = x;
                     }
                     // Button 1 (only one button on Paddle Control)
                     if (src->Map[INPUT_MAP_BUTTON1].current_value)           *c &= (!i? ~0x0010 : ~0x0400);
@@ -222,11 +217,11 @@ void        Inputs_Emulation_Update (bool running)
                 }
             case INPUT_SPORTSPAD: //--------------------------------- Sports Pads
                 if (src->flags & INPUT_SRC_FLAGS_ANALOG)
-                    SportsPad_Update (i, src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value);
+                    Peripherals_SportsPad_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value);
                 if (src->Map[INPUT_MAP_BUTTON1].current_value)           *c &= (!i? ~0x0010 : ~0x0400);
                 if (src->Map[INPUT_MAP_BUTTON2].current_value)           *c &= (!i? ~0x0020 : ~0x0800);
                 break;
-            case INPUT_TVOEKAKI: //--------------------------------- Terebi Oekaki
+            case INPUT_GRAPHICBOARD: //----------------------------- Terebi Oekaki
                 if (src->flags & INPUT_SRC_FLAGS_ANALOG)
                 {
                     // Create button field (this is due to old code legacy)
@@ -242,7 +237,14 @@ void        Inputs_Emulation_Update (bool running)
                     if (src->Map[INPUT_MAP_BUTTON1].current_value)        *c &= (!i? ~0x0010 : ~0x0400);
                     if (src->Map[INPUT_MAP_BUTTON2].current_value)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
-                break;
+				break;
+			case INPUT_GRAPHICBOARD_V2:
+                if (src->flags & INPUT_SRC_FLAGS_ANALOG)
+				{
+					const int buttons = (src->Map[INPUT_MAP_BUTTON1].current_value ? 2 : 0) | (src->Map[INPUT_MAP_BUTTON2].current_value ? 4 : 0) | (src->Map[INPUT_MAP_PAUSE_START].current_value ? 1 : 0);
+					Peripherals_GraphicBoardV2_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value, buttons);
+				}
+				break;
             }
             // Process RESET and PAUSE/START buttons
             if (src->Map[INPUT_MAP_PAUSE_START].current_value) { pause_pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }

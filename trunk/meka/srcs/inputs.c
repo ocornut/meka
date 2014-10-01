@@ -40,11 +40,12 @@ void    Inputs_Switch_Current (void)
 {
     switch (Inputs.Peripheral [PLAYER_1])
     {
-    case INPUT_JOYPAD:        Inputs_Switch_Joypad       (); break;
-    case INPUT_LIGHTPHASER:   Inputs_Switch_LightPhaser  (); break;
-    case INPUT_PADDLECONTROL: Inputs_Switch_PaddleControl(); break;
-    case INPUT_SPORTSPAD:     Inputs_Switch_SportsPad    (); break;
-    case INPUT_TVOEKAKI:      Inputs_Switch_TVOekaki     (); break;
+    case INPUT_JOYPAD:			Inputs_Switch_Joypad       (); break;
+    case INPUT_LIGHTPHASER:		Inputs_Switch_LightPhaser  (); break;
+    case INPUT_PADDLECONTROL:	Inputs_Switch_PaddleControl(); break;
+    case INPUT_SPORTSPAD:		Inputs_Switch_SportsPad    (); break;
+	case INPUT_GRAPHICBOARD:	Inputs_Switch_GraphicBoard (); break;
+	case INPUT_GRAPHICBOARD_V2: Inputs_Switch_GraphicBoardV2(); break;
     default: Msg(MSGT_USER, "Error #691: Input type not defined"); break;
     }
 }
@@ -244,55 +245,64 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 }
 
 // ACTION: SET INPUT TO STANDARD JOYPADS --------------------------------------
-void    Inputs_Switch_Joypad (void)
+void    Inputs_Switch_Joypad()
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_JOYPAD);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_Joypad));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Digital));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
+    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 // INPUTS: SET INPUT TO LIGHT PHASER ------------------------------------------
-void    Inputs_Switch_LightPhaser (void)
+void    Inputs_Switch_LightPhaser()
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_LIGHTPHASER);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_LightPhaser));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
+    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 // INPUTS: SET INPUT TO PADDLE CONTROLLER -------------------------------------
-void    Inputs_Switch_PaddleControl (void)
+void    Inputs_Switch_PaddleControl()
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_PADDLECONTROL);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_PaddleControl));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Digital_Unrecommended));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
+    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
-void    Inputs_Switch_SportsPad (void)
+void    Inputs_Switch_SportsPad()
 {
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_SPORTSPAD);
     Msg(MSGT_USER, Msg_Get(MSG_Inputs_SportsPad));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Mouse));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
+    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
-void    Inputs_Switch_TVOekaki (void)
+void    Inputs_Switch_GraphicBoard()
 {
-    Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_TVOEKAKI);
-    Msg(MSGT_USER, Msg_Get(MSG_Inputs_TVOekaki));
+    Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_GRAPHICBOARD);
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_GraphicBoard));
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Pen));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 4);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral [PLAYER_1]);
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
+    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
-void    Input_ROM_Change (void)
+void    Inputs_Switch_GraphicBoardV2()
+{
+    Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_GRAPHICBOARD_V2);
+    Msg(MSGT_USER, Msg_Get(MSG_Inputs_GraphicBoardV2));
+    Msg(MSGT_USER_BOX, Msg_Get(MSG_Inputs_Play_Pen));
+    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
+    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
+}
+
+void    Input_ROM_Change()
 {
     bool glasses = FALSE;
     t_input_peripheral peripheral = INPUT_JOYPAD;
@@ -326,50 +336,79 @@ u8	Input_Port_DC (void)
     }
     u8 v = tsms.Control[7] & 0xFF;
 
-    if (Inputs.Peripheral [PLAYER_1] == INPUT_PADDLECONTROL
-        || Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD
-        || Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL
-        || Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD)
-        switch (tsms.Periph_Nat)
-    {
-        // SPORT PAD -----------------------------------------------------------
-        case 0x0D: // 00001101: SportsPad 1 bits 4-8
-            v &= 0xF0;
-            v |= 0x0F & (Inputs.SportsPad_XY [PLAYER_1] [Inputs.SportsPad_Latch [PLAYER_1] & 1] >> 4);
-            break;
-        case 0x2D: // 00101101: SportsPad 1 bits 0-3
-            v &= 0xF0;
-            v |= 0x0F & (Inputs.SportsPad_XY [PLAYER_1] [Inputs.SportsPad_Latch [PLAYER_1] & 1]);
-            break;
-        case 0x07: // 00001111: SportsPad 2 bits 4-5
-            v &= 0x3F;
-            v |= 0xC0 & (Inputs.SportsPad_XY [PLAYER_2] [Inputs.SportsPad_Latch [PLAYER_2] & 1] << 2);
-            break;
-        case 0x87: // 10001111: SportsPad 2 bits 0-1
-            v &= 0x3F;
-            v |= 0xC0 & (Inputs.SportsPad_XY [PLAYER_2] [Inputs.SportsPad_Latch [PLAYER_2] & 1] << 6);
-            break;
+	// FIXME: Rewrite all this broken shit properly.
+	if (Inputs.Peripheral[PLAYER_1] == INPUT_GRAPHICBOARD_V2)
+	{
+		const t_peripheral_graphic_board_v2* p = &Inputs.GraphicBoardV2[0];
+		v &= 0xF0;
+		if (tsms.Port3F & 0x10)
+		{
+			v &= ~0x10;
+		}
+		else
+		{
+			switch (p->read_index & 7)
+			{
+			case 0: v &= ~0x10; v |= p->buttons ^ 0x0f; break;
+			case 1: v |= p->unknown >> 4; break;
+			case 2: v |= p->unknown & 0x0f; break;
+			case 3: v |= p->x >> 4; break;
+			case 4: v |= p->x & 0x0f; break;
+			case 5: v |= p->y >> 4; break;
+			case 6: v |= p->y & 0x0f; break;
+			}
+		}
+		//Msg(MSGT_DEBUG, "in $dc read_index = %d --> %02x", Inputs.GraphicBoardV2[0].read_index, v);
+	}
 
-            // PADDLE CONTROL ------------------------------------------------------
-            // Japanese "Flip-Flop" mode
-        case 0x55: // 01010101
-            if (paddle_flip_flop) // Paddle 1 bits 0-3, Paddle 2 bits 0-1
-                v &= (Inputs.Paddle_X [PLAYER_1] & 0xF) | ((Inputs.Paddle_X [PLAYER_2] << 6) & 0xC0) | 0x10;
-            else                  // Paddle 1 bits 4-7, Paddle 2 bits 4-5
-                v &= ((Inputs.Paddle_X [PLAYER_1] >> 4) & 0xF) | ((Inputs.Paddle_X [PLAYER_2] << 2) & 0xC0) | 0x10;
-            break;
-            // Export "Select" mode
-        case 0xDD: // 11011101: Paddle 1 bits 0-3, Paddle 2 bits 0-1
-            v &= (Inputs.Paddle_X [PLAYER_1] & 0xF) | ((Inputs.Paddle_X [PLAYER_2] << 6) & 0xC0) | 0x10;
-            break;
-        case 0xFD: // 11111101: Paddle 1 bits 4-7, Paddle 2 bits 4-5
-            v &= ((Inputs.Paddle_X [PLAYER_1] >> 4) & 0xF) | ((Inputs.Paddle_X [PLAYER_2] << 2) & 0xC0) | 0x10;
-            break;
-        case 0xDF: // 11011111: (Paddle 2 bits 0-1 ?)
-            break;
-        case 0xFF: // 11111111: (Paddle 2 bits 4-5 ?)
-            break;
-            // default: Msg(MSGT_DEBUG, "schmilblik error #4444, %02X", tsms.Periph_Nat);
+    if (Inputs.Peripheral [PLAYER_1] == INPUT_PADDLECONTROL || Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD
+     || Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL || Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD)
+	{
+		const t_peripheral_paddle* paddle_1 = &Inputs.Paddle[0];
+		const t_peripheral_paddle* paddle_2 = &Inputs.Paddle[1];
+		const t_peripheral_sportspad* sportspad_1 = &Inputs.SportsPad[0];
+		const t_peripheral_sportspad* sportspad_2 = &Inputs.SportsPad[1];
+		switch (tsms.Port3F)
+		{
+			// SPORT PAD -----------------------------------------------------------
+		case 0x0D: // 00001101: SportsPad 1 bits 4-8
+			v &= 0xF0;
+			v |= 0x0F & (((sportspad_1->latch & 1) ? sportspad_1->y : sportspad_1->x) >> 4);
+			break;
+		case 0x2D: // 00101101: SportsPad 1 bits 0-3
+			v &= 0xF0;
+			v |= 0x0F & (((sportspad_1->latch & 1) ? sportspad_1->y : sportspad_1->x)     );
+			break;
+		case 0x07: // 00001111: SportsPad 2 bits 4-5
+			v &= 0x3F;
+			v |= 0xC0 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) << 2);
+			break;
+		case 0x87: // 10001111: SportsPad 2 bits 0-1
+			v &= 0x3F;
+			v |= 0xC0 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) << 6);
+			break;
+
+			// PADDLE CONTROL ------------------------------------------------------
+			// Japanese "Flip-Flop" mode
+		case 0x55: // 01010101
+			if (paddle_flip_flop) // Paddle 1 bits 0-3, Paddle 2 bits 0-1
+				v &= (paddle_1->x & 0xF) | ((paddle_2->x << 6) & 0xC0) | 0x10;
+			else                  // Paddle 1 bits 4-7, Paddle 2 bits 4-5
+				v &= ((paddle_1->x >> 4) & 0xF) | ((paddle_2->x << 2) & 0xC0) | 0x10;
+			break;
+			// Export "Select" mode
+		case 0xDD: // 11011101: Paddle 1 bits 0-3, Paddle 2 bits 0-1
+			v &= (paddle_1->x & 0xF) | ((paddle_2->x << 6) & 0xC0) | 0x10;
+			break;
+		case 0xFD: // 11111101: Paddle 1 bits 4-7, Paddle 2 bits 4-5
+			v &= ((paddle_1->x >> 4) & 0xF) | ((paddle_2->x << 2) & 0xC0) | 0x10;
+			break;
+		case 0xDF: // 11011111: (Paddle 2 bits 0-1 ?)
+			break;
+		case 0xFF: // 11111111: (Paddle 2 bits 4-5 ?)
+			break;
+			// default: Msg(MSGT_DEBUG, "schmilblik error #4444, %02X", tsms.Port3F);
+		}
     }
 
     if (Inputs.Peripheral [PLAYER_1] == INPUT_PADDLECONTROL)
@@ -381,7 +420,7 @@ u8	Input_Port_DC (void)
             v &= ~0x20;
     }
 
-    // Msg(MSGT_DEBUG, "AT PC=%04X: IN 0xDC (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
+    // Msg(MSGT_DEBUG, "AT PC=%04X: IN 0xDC (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Port3F);
     return (v);
 }
 
@@ -396,36 +435,41 @@ u8	Input_Port_DD (void)
     // Controllers
     u8 v = (tsms.Control[7]) >> 8;
 
-    if (Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL
-        || Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD)
-        switch (tsms.Periph_Nat)
+	// FIXME: Rewrite all this broken shit properly.
+	const t_peripheral_paddle* paddle_1 = &Inputs.Paddle[0];
+	const t_peripheral_paddle* paddle_2 = &Inputs.Paddle[1];
+	const t_peripheral_sportspad* sportspad_1 = &Inputs.SportsPad[0];
+	const t_peripheral_sportspad* sportspad_2 = &Inputs.SportsPad[1];
+
+    if (Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL || Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD)
+        switch (tsms.Port3F)
     {
         // SPORTS PAD ---------------------------------------------------------
         case 0x07: // 00001111: SportsPad 2 bits 6-7
-            v &= 0xFC;
-            v |= 0x03 & (Inputs.SportsPad_XY [PLAYER_2] [Inputs.SportsPad_Latch [PLAYER_2] & 1] >> 6);
+			v &= 0xFC;
+			v |= 0x03 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) >> 4);
             break;
         case 0x87: // 10001111: SportsPad 2 bits 2-3
             v &= 0xFC;
-            v |= 0x03 & (Inputs.SportsPad_XY [PLAYER_2] [Inputs.SportsPad_Latch [PLAYER_2] & 1] >> 2);
+			v |= 0x03 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) >> 2);
             break;
 
             // PADDLE CONTROL ------------------------------------------------------
             // Japanese "Flip-Flop" mode
         case 0x55:
             if (paddle_flip_flop) // Paddle 2 bits 2-3
-                v &= 0xFC | ((Inputs.Paddle_X [PLAYER_2] >> 2) & 0x3);
+                v &= 0xFC | ((paddle_2->x >> 2) & 0x3);
             else                  // Paddle 2 bits 6-7
-                v &= 0xFC | ((Inputs.Paddle_X [PLAYER_2] >> 6) & 0x3);
+                v &= 0xFC | ((paddle_2->x >> 6) & 0x3);
             break;
             // Export "Select" mode
         case 0xDD: // 11011101: Paddle 2 bits 2-3
-            v &= 0xFC | ((Inputs.Paddle_X [PLAYER_2] >> 2) & 0x3);
+            v &= 0xFC | ((paddle_2->x >> 2) & 0x3);
             break;
         case 0xFD: // 11111101: Paddle 2 bits 6-7
-            v &= 0xFC | ((Inputs.Paddle_X [PLAYER_2] >> 6) & 0x3);
+            v &= 0xFC | ((paddle_2->x >> 6) & 0x3);
             break;
-            // default: Msg(MSGT_DEBUG, "schmilblik error #6666, %02X", tsms.Periph_Nat);
+            // default: Msg(MSGT_DEBUG, "schmilblik error #6666, %02X", tsms.Port3F);
     }
 
     if (Inputs.Peripheral [PLAYER_2] == INPUT_PADDLECONTROL)
@@ -449,7 +493,7 @@ u8	Input_Port_DD (void)
     // Nationalisation -----------------------------------------------------------
     Nationalize(&v);
 
-    // Msg(MSGT_DEBUG, "AT PC=%04X: IN 0xDD (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Periph_Nat);
+    // Msg(MSGT_DEBUG, "AT PC=%04X: IN 0xDD (0x%02X) while Port_3Fh=%02X", CPU_GetPC, v, tsms.Port3F);
     return (v);
 }
 
@@ -466,13 +510,13 @@ void    Inputs_Peripheral_Change_Update()
     int player = PLAYER_1;
 
     // Note: Player 1 has priority over Player 2 for cursor
-    if (Inputs.Peripheral [PLAYER_2] == INPUT_LIGHTPHASER)    { cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_2; }
-    else if (Inputs.Peripheral [PLAYER_2] == INPUT_SPORTSPAD) { cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_2; }
-    else if (Inputs.Peripheral [PLAYER_2] == INPUT_TVOEKAKI)  { cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_2; }
+    if (Inputs.Peripheral[PLAYER_2] == INPUT_LIGHTPHASER)		{ cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_2; }
+    else if (Inputs.Peripheral[PLAYER_2] == INPUT_SPORTSPAD)	{ cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_2; }
+    else if (Inputs.Peripheral[PLAYER_2] == INPUT_GRAPHICBOARD || Inputs.Peripheral[PLAYER_2] == INPUT_GRAPHICBOARD_V2)	{ cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_2; }
 
-    if (Inputs.Peripheral [PLAYER_1] == INPUT_LIGHTPHASER)    { cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_1; }
-    else if (Inputs.Peripheral [PLAYER_1] == INPUT_SPORTSPAD) { cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_1; }
-    else if (Inputs.Peripheral [PLAYER_1] == INPUT_TVOEKAKI)  { cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_1; }
+    if (Inputs.Peripheral[PLAYER_1] == INPUT_LIGHTPHASER)		{ cursor = MEKA_MOUSE_CURSOR_LIGHT_PHASER; player = PLAYER_1; }
+    else if (Inputs.Peripheral[PLAYER_1] == INPUT_SPORTSPAD)	{ cursor = MEKA_MOUSE_CURSOR_SPORTS_PAD; player = PLAYER_1; }
+	else if (Inputs.Peripheral[PLAYER_1] == INPUT_GRAPHICBOARD || Inputs.Peripheral[PLAYER_1] == INPUT_GRAPHICBOARD_V2)	{ cursor = MEKA_MOUSE_CURSOR_TV_OEKAKI; player = PLAYER_1; }
 
     // Msg(MSGT_DEBUG, "g_env.state=%d, Cursor=%d, Mask_Left=%d", g_env.state, Cursor, Mask_Left_8);
 
@@ -550,13 +594,15 @@ void    Inputs_SetMouseCursor(t_mouse_cursor mouse_cursor)
 
 //----------------------------------------------------------
 
-const t_input_peripheral_info   Inputs_Peripheral_Infos [INPUT_PERIPHERAL_MAX] =
+// Short names for UI
+const t_input_peripheral_info   Inputs_Peripheral_Infos[INPUT_PERIPHERAL_MAX] =
 {
     { "Joypad"          },
     { "Light Phaser"    },
     { "Paddle Control"  },
     { "Sports Pad"      },
-    { "Terebi Oekaki"   }
+    { "Terebi Oekaki"   },
+	{ "Graphic Board"   },
 };
 
 const char*	Inputs_Get_MapName (int Type, int MapIdx)

@@ -46,7 +46,7 @@ void    Inputs_CFG_Switch()
 {
     Inputs_CFG.active ^= 1;
     gui_box_show (Inputs_CFG.box, Inputs_CFG.active, TRUE);
-    gui_menu_toggle_check (menus_ID.inputs, 9);
+    gui_menu_toggle_check (menus_ID.inputs, 10);
 }
 
 void    Inputs_CFG_Init_Applet()
@@ -333,20 +333,21 @@ void        Inputs_CFG_Peripherals_Draw (void)
     for (int i = 0; i < PLAYER_MAX; i++)
     {
         // Print name
-        const char *name = Inputs_Peripheral_Infos [Inputs.Peripheral [i]].name;
+        const char *name = Inputs_Peripheral_Infos[Inputs.Peripheral[i]].name;
         Font_PrintCentered(F_CURRENT, name, 
             10 + 11 + (i ? 64 : 0) + (58 / 2), // X
             20, // Y
             COLOR_SKIN_WINDOW_TEXT);
 
         // Draw peripheral sprite
-        switch (Inputs.Peripheral [i])
+        switch (Inputs.Peripheral[i])
         {
-            case INPUT_JOYPAD:        sprite = Graphics.Inputs.Joypad;          break;
-            case INPUT_LIGHTPHASER:   sprite = Graphics.Inputs.LightPhaser;     break;
-            case INPUT_PADDLECONTROL: sprite = Graphics.Inputs.PaddleControl;   break;
-            case INPUT_SPORTSPAD:     sprite = Graphics.Inputs.SportsPad;       break;
-            case INPUT_TVOEKAKI:      sprite = Graphics.Inputs.TvOekaki;        break;
+            case INPUT_JOYPAD:			sprite = Graphics.Inputs.Joypad;          break;
+            case INPUT_LIGHTPHASER:		sprite = Graphics.Inputs.LightPhaser;     break;
+            case INPUT_PADDLECONTROL:	sprite = Graphics.Inputs.PaddleControl;   break;
+            case INPUT_SPORTSPAD:		sprite = Graphics.Inputs.SportsPad;       break;
+            case INPUT_GRAPHICBOARD:	sprite = Graphics.Inputs.TvOekaki;        break;
+			case INPUT_GRAPHICBOARD_V2:	sprite = Graphics.Inputs.TvOekaki;        break;
         }
         if (sprite != NULL)
         {

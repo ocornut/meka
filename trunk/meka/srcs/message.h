@@ -139,9 +139,6 @@ enum
 	MSG_FDC765_Disk_Too_Small1,
 	MSG_FDC765_Disk_Too_Small2,
 	
-	MSG_TVOekaki_Pen_Touch,
-	MSG_TVOekaki_Pen_Away,
-	
 	MSG_Palette_BoxTitle,
 	MSG_Palette_Disabled,
 	MSG_Palette_Enabled,
@@ -199,7 +196,8 @@ enum
 	MSG_Inputs_LightPhaser,
 	MSG_Inputs_PaddleControl,
 	MSG_Inputs_SportsPad,
-	MSG_Inputs_TVOekaki,
+	MSG_Inputs_GraphicBoard,
+	MSG_Inputs_GraphicBoardV2,
 	MSG_Inputs_Play_Digital,
 	MSG_Inputs_Play_Mouse,
 	MSG_Inputs_Play_Digital_Unrecommended,
@@ -427,6 +425,7 @@ enum
 	MSG_Menu_Inputs_PaddleControl,
 	MSG_Menu_Inputs_SportsPad,
 	MSG_Menu_Inputs_GraphicBoard,
+	MSG_Menu_Inputs_GraphicBoardV2,
 	MSG_Menu_Inputs_SK1100,
 	MSG_Menu_Inputs_RapidFire,
 	MSG_Menu_Inputs_RapidFire_PxBx,

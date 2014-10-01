@@ -25,8 +25,9 @@ enum t_input_peripheral
 	INPUT_LIGHTPHASER		= 1,
 	INPUT_PADDLECONTROL		= 2,
 	INPUT_SPORTSPAD			= 3,
-	INPUT_TVOEKAKI			= 4,
-	INPUT_PERIPHERAL_MAX	= 5,
+	INPUT_GRAPHICBOARD		= 4,
+	INPUT_GRAPHICBOARD_V2	= 5,
+	INPUT_PERIPHERAL_MAX	= 6,
 };
 
 // Input Connection Possibilities ---------------------------------------------
@@ -140,10 +141,26 @@ struct t_input_src
     t_input_map_entry	Map[INPUT_MAP_MAX];
 };
 
-// FIXME: yet unused
-struct t_peripheral_paddlecontrol
+struct t_peripheral_graphic_board_v2
 {
-    u8              x;
+	u8 unknown;
+	u8 buttons;       // 3-bit
+	u8 x, y;
+	u8 read_index;
+	//u8 read_data;     // 4-bit input (bits 0-3 of $DC for player 1, bits 6-7 of $DC + bits 0-1 of $DD for player 2)
+};
+
+struct t_peripheral_paddle
+{
+	// FIXME
+	u8 x;
+};
+
+struct t_peripheral_sportspad
+{
+	// FIXME
+	u8 x, y;
+	u8 latch;
 };
 
 struct t_inputs
@@ -155,12 +172,16 @@ struct t_inputs
     t_input_src **  Sources;
     int             Sources_Max;
     int             SK1100_Enabled;					// Boolean. Set when SK-1100 enabled.
-    u8              Paddle_X [PLAYER_MAX];
-    char            SportsPad_XY [PLAYER_MAX] [2];
-    u8              SportsPad_Latch [PLAYER_MAX];
-   // Keyboard
+
+	// Machine-side peripheral data
+	t_peripheral_paddle				Paddle[PLAYER_MAX];
+	t_peripheral_sportspad			SportsPad[PLAYER_MAX];
+	t_peripheral_graphic_board_v2	GraphicBoardV2[PLAYER_MAX];
+
+	// Keyboard
     t_list *        KeyPressedQueue;                // Queued keypresses
-    // GUI
+    
+	// GUI
     bool            Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
 };
 
@@ -186,7 +207,8 @@ void    Inputs_Switch_Joypad        (void);
 void    Inputs_Switch_LightPhaser   (void);
 void    Inputs_Switch_PaddleControl (void);
 void    Inputs_Switch_SportsPad     (void);
-void    Inputs_Switch_TVOekaki      (void);
+void    Inputs_Switch_GraphicBoard  (void);
+void    Inputs_Switch_GraphicBoardV2(void);
 
 u8		Input_Port_DC               (void);
 u8		Input_Port_DD               (void);

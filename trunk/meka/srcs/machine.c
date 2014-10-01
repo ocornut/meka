@@ -593,7 +593,7 @@ void        Machine_Reset(void)
         tsms.Control [i] = 0xFFFF; /* 0x3FFF */
     tsms.Control_GG = /*0x20 | 0x80*/ 0;
     tsms.Control_Start_Pause = 0;
-    tsms.Periph_Nat = 0;
+    tsms.Port3F = 0;
     sms.Input_Mode = 0x07;
 
     // SOUND ------------------------------------------------------------------

@@ -28,6 +28,7 @@ They are usually of 2 kinds:
     - Added support for '4 PAK All Action' mapper. [Omar]
     - Added support for 'Janggun-ui Adeul' mapper. [Omar]
     - Added support for Taiwanese DahJee/Jumbo SG-1000 II RAM extension adapter. [Omar]
+    - Added support for Sega Graphic Tablet v2.0 prototype hardware. [Maxim,Omar]
     - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
     - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
       This allow 'Ali Baba' and 'Block Hole' to run properly. Better clearing patterns
