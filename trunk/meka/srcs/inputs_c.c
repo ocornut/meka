@@ -347,7 +347,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
             case INPUT_PADDLECONTROL:	sprite = Graphics.Inputs.PaddleControl;   break;
             case INPUT_SPORTSPAD:		sprite = Graphics.Inputs.SportsPad;       break;
             case INPUT_GRAPHICBOARD:	sprite = Graphics.Inputs.TvOekaki;        break;
-			case INPUT_GRAPHICBOARD_V2:	sprite = Graphics.Inputs.TvOekaki;        break;
+			case INPUT_GRAPHICBOARD_V2:	sprite = Graphics.Inputs.GraphicBoardV2;  break;
         }
         if (sprite != NULL)
         {

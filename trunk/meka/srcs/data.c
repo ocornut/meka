@@ -180,6 +180,7 @@ void Data_ProcessVideoBitmaps()
 	Data_LoadBitmap(&Graphics.Inputs.SportsPad,				"gfx_sportspad.tga");
 	Data_LoadBitmap(&Graphics.Inputs.SuperHeroPad,			"gfx_superheropad.tga");
 	Data_LoadBitmap(&Graphics.Inputs.TvOekaki,				"gfx_tvoekaki.tga");
+	Data_LoadBitmap(&Graphics.Inputs.GraphicBoardV2,		"gfx_graphicboardv2.tga");
 	Data_LoadBitmap(&Graphics.Inputs.SK1100_Keyboard,		"gfx_keyboard.tga");
 
 	// Machines
