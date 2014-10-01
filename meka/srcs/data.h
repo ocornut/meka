@@ -79,6 +79,7 @@ struct t_data_graphics
         ALLEGRO_BITMAP *    SportsPad;
         ALLEGRO_BITMAP *    SuperHeroPad;
         ALLEGRO_BITMAP *    TvOekaki;
+		ALLEGRO_BITMAP *    GraphicBoardV2;
         ALLEGRO_BITMAP *    SK1100_Keyboard;
     } Inputs;
 
