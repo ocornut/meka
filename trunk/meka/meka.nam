@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2014/10/01
+; Last updated 2014/10/02
 ;-----------------------------------------------------------------------------
 ; Database made and kept updated by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -216,8 +216,11 @@ SMS 7c28703a B26E818E12334547   Ecco - The Tides of Time/COUNTRY=BR/PRODUCT_NO=0
 SMS dd74bcf1 1D8FA00A8C616558   E.I. - Exa Innova/COUNTRY=KR
 SMS 00e73541 93D3417EE009757D   Enduro Racer/NAME_BR=Super Cross/COUNTRY=US,EU,BR/PRODUCT_NO=5077/COMMENT=This is the limited 128 KB version of the game as released outside of Japan (5 different level layout instead of 10 in the Japanese version).
 SMS 5d5c50b3 6038C2516F841949   Enduro Racer/COUNTRY=JP/PRODUCT_NO=G-1322/COMMENT=This is the full original 256 KB version of the game as released in Japan (10 different level layout).
-SMS c4bb1676 C12FD315320E1CCC   E-SWAT [A]/COUNTRY=US,EU/PRODUCT_NO=7042
-SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [B]/COUNTRY=US,EU,BR/PRODUCT_NO=7042
+SMS c4bb1676 C12FD315320E1CCC   E-SWAT [v0]/COUNTRY=EU/PRODUCT_NO=7042
+SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=7042
+SMS 4f20694a A67EA404D88A5F73   E-SWAT [Proto 0]/FLAGS=PROTO
+SMS f7ca9801 E58073DF458CD4A4   E-SWAT [Proto 1]/FLAGS=PROTO
+SMS fd91cc7e BC2FD215320C1DD3   E-SWAT [Proto 2]/FLAGS=PROTO
 SMS aa140c9c 0E423CDBCAD3E01C   Excellent Dizzy Collection, The [SMS-GG]/COUNTRY=EU/FLAGS=SMSGG_MODE/EMU_TVTYPE=PAL/EMU_MAPPER=3
 SMS 8813514b B7049344859B9CB2   Excellent Dizzy Collection, The [Proto]/FLAGS=PROTO/EMU_TVTYPE=PAL/EMU_MAPPER=3/COMMENT=Prototype version of the game. Seems incomplete. The prototype was submitted as a 256 KB EPROM, while the full Game Gear version is twice as big. It's possible to run this version a bit further by appending the second half from the Game Gear version, but it'll eventually crash.
 SMS ec788661 066B34EF6BEC0411   F1/NAME_BR=Fórmula-1/COUNTRY=EU,BR/PRODUCT_NO=MK-27072-50,026330
@@ -792,8 +795,8 @@ GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,US,EU/PRODUCT_NO=G-331
 GG  16448209 C201ABFADA677FD8   Batter Up/COUNTRY=US/PRODUCT_NO=T-14028/COMMENT=Export version of "Gear Stadium".
 GG  e9987511 82E53FF69611EBD2   Battleship - The classic naval combat game/COUNTRY=US/PRODUCT_NO=T-87018
 GG  cb3cd075 EA08216FFAAA5E7C   Battletoads/COUNTRY=JP,US,EU/PRODUCT_NO=G-3311,T-97018,2436
-GG  3858f14f 3332DEF0ABBF471C   Beavis and Butt-Head (MTV's)/COUNTRY=US/PRODUCT_NO=T-139018                 ; [EDITOR-NOTE] ?
-GG  a6bf865e 23BF4FE1E01DC42D   Beavis and Butt-Head (MTV's)/COUNTRY=EU/PRODUCT_NO=T-139018-50
+GG  a6bf865e 23BF4FE1E01DC42D   Beavis and Butt-Head (MTV's)/COUNTRY=US,EU/PRODUCT_NO=T-139018,T-139018-50
+GG  3858f14f 3332DEF0ABBF471C   Beavis and Butt-Head (MTV's) [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears' Camping Adventure, The/COUNTRY=US/PRODUCT_NO=2447
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The BerlinWall/COUNTRY=JP/PRODUCT_NO=T-33017
 GG  fe7374d2 7C9BF74B57970FAA   Bishoujo Senshi Sailor Moon S/COUNTRY=JP/PRODUCT_NO=T-133017
