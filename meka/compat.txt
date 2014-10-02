@@ -152,8 +152,11 @@
  E.I. - Exa Innova (KR)                         -       Ok
  Enduro Racer                                   -       Ok
  Enduro Racer (JP)                              -       Ok
- E-SWAT [A]                                     -       Ok
- E-SWAT [B]                                     -       Ok
+ E-SWAT [v0]                                    -       Ok
+ E-SWAT [v1]                                    -       Ok
+ E-SWAT [Proto 0]                               -      *Ok
+ E-SWAT [Proto 1]                               -      *Ok
+ E-SWAT [Proto 2]                               -      *Ok
  Excellent Dizzy Collection, The [Proto]        -       Ok (The prototype isn't really playable)
  F1                                             -       Ok
  F-1 Spirit - The way to Formula-1 (KR)         -       Ok
@@ -562,7 +565,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 544 games tested - 542 are "Ok" - Compatibility rate: 99.54%
+ 547 games tested - 545 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -899,7 +902,7 @@
  Battleship - The classic naval combat game         Ok
  Battletoads                                        Ok
  Beavis and Butt-Head (MTV's)                       Ok
- Beavis and Butt-Head (MTV's) (US)                  Ok
+ Beavis and Butt-Head (MTV's) [Proto]               Ok
  Berenstain Bears' Camping Adventure, The           Ok
  Berlin no Kabe - The BerlinWall (JP)               Ok
  Bishoujo Senshi Sailor Moon S (JP)                 Ok
