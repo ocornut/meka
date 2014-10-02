@@ -343,13 +343,13 @@ u8	Input_Port_DC (void)
 		v &= 0xF0;
 		if (tsms.Port3F & 0x10)
 		{
-			v &= ~0x10;
+			v &= ~0x1F;
 		}
 		else
 		{
 			switch (p->read_index & 7)
 			{
-			case 0: v &= ~0x10; v |= p->buttons ^ 0x0f; break;
+			case 0: v &= ~0x10; v |= p->buttons ^ 0x0f; break; // board always ready
 			case 1: v |= p->unknown >> 4; break;
 			case 2: v |= p->unknown & 0x0f; break;
 			case 3: v |= p->x >> 4; break;

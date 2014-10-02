@@ -143,11 +143,10 @@ struct t_input_src
 
 struct t_peripheral_graphic_board_v2
 {
-	u8 unknown;
+	u8 unknown;		  // 0xFD-0xFF
 	u8 buttons;       // 3-bit
 	u8 x, y;
 	u8 read_index;
-	//u8 read_data;     // 4-bit input (bits 0-3 of $DC for player 1, bits 6-7 of $DC + bits 0-1 of $DD for player 2)
 };
 
 struct t_peripheral_paddle
