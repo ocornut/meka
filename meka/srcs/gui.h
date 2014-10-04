@@ -193,8 +193,8 @@ struct t_gui_info
   int               bars_height;
   int               grid_distance;
   int               dirty_x, dirty_y;
-  v2i              screen;
-  v2i              screen_pad;
+  v2i				screen;
+  v2i				screen_pad;
 };
 
 struct t_gui_mouse

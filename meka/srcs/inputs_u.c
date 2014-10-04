@@ -495,6 +495,14 @@ void	Inputs_Sources_Update()
                     if (x < 0) x = 0; 
                     // if (x > 255) x = 255;
                     if (y < 0) y = 0;
+
+					const float sx = (float)g_driver->x_res / (gamebox_instance->frame.size.x + 1);
+					const float sy = (float)g_driver->y_res / (gamebox_instance->frame.size.y + 1);
+					x *= sx;
+					y *= sy;
+				    if ((g_driver->id == DRV_SMS) && (Mask_Left_8))
+						x += 4;
+
                     Src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value = x;
                     Src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value = y;
                 }
