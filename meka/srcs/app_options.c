@@ -132,7 +132,7 @@ void    Options_Update(void)
     }
 }
 
-void    Options_Switch(void)
+void    Options_Switch()
 {
     Options.active ^= 1;
     gui_box_show(Options.box, Options.active, TRUE);
