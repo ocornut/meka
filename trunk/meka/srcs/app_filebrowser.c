@@ -773,9 +773,11 @@ void            FB_Update(void)
             // FIXME: this function may need a rewrite. Also, avoid using strupr()!
             // FIXME: could use allegro feature of keycode->ascii conversion
 			int i;
-            for (i = 0; i < NUM_ALPHA_KEYS; i ++)
+            for (i = 0; i < 26; i ++)
 			{
-                if (Inputs_KeyPressed_Repeat(Key_Alpha_Table [i], FALSE, 20, 2))
+				const int keycode = ALLEGRO_KEY_A + i;
+				const char keychar = 'A' + i;
+                if (Inputs_KeyPressed_Repeat(keycode, FALSE, 20, 2))
                 {
 					int j;
                     for (j = FB.file_pos + 1; j < FB.files_max; j ++)
@@ -783,8 +785,8 @@ void            FB_Update(void)
                         t_filebrowser_entry *entry = FB.files[j];
 						if (entry->type == FB_ENTRY_TYPE_DRIVE)
 							continue;
-                        const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
-                        if (toupper(c) == Alpha_Table [i])
+                        const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name[0];
+                        if (toupper(c) == keychar)
                         { 
                             FB.file_pos = j; 
                             break; 
@@ -797,8 +799,8 @@ void            FB_Update(void)
                             t_filebrowser_entry *entry = FB.files[j];
 							if (entry->type == FB_ENTRY_TYPE_DRIVE)
 								continue;
-                            const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name [0];
-                            if (toupper (c) == Alpha_Table [i])
+                            const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name[0];
+                            if (toupper (c) == keychar)
                             { 
                                 FB.file_pos = j; 
                                 break; 
@@ -808,7 +810,7 @@ void            FB_Update(void)
                     break;
                 }
 			}
-            if (i != NUM_ALPHA_KEYS) 
+            if (i != 26) 
                 dirty = TRUE;
         }
 
