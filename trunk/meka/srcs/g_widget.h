@@ -96,8 +96,8 @@ struct t_widget
 //-----------------------------------------------------------------------------
 
 // Updating functions ---------------------------------------------------------
-int         widgets_update_box              (t_gui_box *box, int cx, int cy);
-void        widgets_call_update             (void);
+bool        widgets_update_box              (t_gui_box *box, int cx, int cy);
+void        widgets_call_update             ();
 
 // Widget: generics -----------------------------------------------------------
 void        widget_destroy                  (t_widget* w);

@@ -101,12 +101,11 @@ void	widget_button_destroy(t_widget* w);
 // Functions
 //-----------------------------------------------------------------------------
 
-int         widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
+bool	widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
 {
-    bool    wm = TRUE;
-    t_list *widgets;
+    bool widget_active = false;
 
-    for (widgets = b->widgets; widgets != NULL; widgets = widgets->next)
+    for (t_list *widgets = b->widgets; widgets != NULL; widgets = widgets->next)
     {
         t_widget *w = (t_widget *)widgets->elem;
         if (!w->enabled)
@@ -132,13 +131,13 @@ int         widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
                     gui.mouse.focus = GUI_FOCUS_WIDGET;
                     gui.mouse.focus_item = w;
                     w->mouse_action |= WIDGET_MOUSE_ACTION_CLICK;
-                    wm = FALSE;
+                    widget_active = true;
                 }
             }
         }
     }
 
-    return (wm);
+    return widget_active;
 }
 
 void    widgets_call_update(void)
@@ -380,7 +379,8 @@ void	widget_button_trigger(t_widget* w)
 {
 	t_widget_data_button* wd = (t_widget_data_button*)w->data;
 	wd->highlight_on_click = 6;
-	wd->callback(w);
+	if (wd->callback)
+		wd->callback(w);
 }
 
 void        widget_button_redraw(t_widget *w)
