@@ -22,9 +22,9 @@
 
 void    Set_Country_Export()
 {
-    Msg(MSGT_USER, Msg_Get(MSG_Country_European_US));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_European_US));
     if (g_machine_flags & MACHINE_POWER_ON)
-        Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
+        Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Must_Reset));
     g_configuration.country = COUNTRY_EXPORT;
     gui_menu_uncheck_all(menus_ID.region);
     gui_menu_check(menus_ID.region, 0);
@@ -39,9 +39,9 @@ void    Set_Country_Export()
 
 void    Set_Country_Japan()
 {
-    Msg(MSGT_USER, Msg_Get(MSG_Country_JAP));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_JAP));
     if (g_machine_flags & MACHINE_POWER_ON)
-        Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
+        Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Must_Reset));
     g_configuration.country = COUNTRY_JAPAN;
     gui_menu_uncheck_all (menus_ID.region);
     gui_menu_check (menus_ID.region, 1);

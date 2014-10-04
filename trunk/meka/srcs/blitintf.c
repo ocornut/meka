@@ -159,7 +159,7 @@ void	Blitters_Init()
     // Open and read file
     t_tfile * tf;
     if ((tf = tfile_read (Blitters.filename)) == NULL)
-        Quit_Msg(meka_strerror());
+        Quit_Msg("%s", meka_strerror());
     ConsolePrint("\n");
 
     // Parse each line
@@ -194,7 +194,7 @@ void	Blitters_Init()
 
     // Requires at least 1 blitter
     if (Blitters.count == 0)
-        Quit_Msg(Msg_Get(MSG_Blitters_Error_Not_Enough));
+        Quit_Msg("%s", Msg_Get(MSG_Blitters_Error_Not_Enough));
 
     // Current blitter
     if (Blitters.blitter_configuration_name != NULL)

@@ -76,7 +76,7 @@ static bool Data_LoadBitmap(ALLEGRO_BITMAP** pbitmap, const char* name)
 		if (!*pbitmap)
 		{
 			//Quit_Msg("Error loading bitmap data: \"%s\"", filename_buf);
-			Quit_Msg(Msg_Get(MSG_Failed));
+			Quit_Msg("%s", Msg_Get(MSG_Failed));
 			return false;
 		}
 
@@ -133,7 +133,7 @@ static bool Data_LoadFontA4(ALLEGRO_FONT** pfont, const char* name)
 		if (!*pfont)
 		{
 			//Quit_Msg("Error loading bitmap data: \"%s\"", filename_buf);
-			Quit_Msg(Msg_Get(MSG_Failed));
+			Quit_Msg("%s", Msg_Get(MSG_Failed));
 			return false;
 		}
 	}

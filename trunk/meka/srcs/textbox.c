@@ -111,9 +111,9 @@ void    TB_Message_Switch(void)
     t_app_messages *app = &TB_Message;  // Global instance
 
     if (app->active ^= 1)
-        Msg(MSGT_USER, Msg_Get(MSG_Message_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Message_Enabled));
     else
-        Msg(MSGT_USER, Msg_Get(MSG_Message_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Message_Disabled));
     gui_box_show (app->box, app->active, TRUE);
     gui_menu_toggle_check (menus_ID.tools, 0);
 }

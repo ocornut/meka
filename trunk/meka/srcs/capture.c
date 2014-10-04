@@ -97,7 +97,7 @@ static void		Capture_Screen()
     Capture_FileName_Get(filename);
     if (Capture.id_number >= CAPTURE_ID_MAX)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Capture_Error_File));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Capture_Error_File));
         return;
     }
 
@@ -154,14 +154,14 @@ static void		Capture_Screen()
     ALLEGRO_BITMAP* bmp = al_create_sub_bitmap(source, x_start, y_start, x_len, y_len);
     if (bmp == NULL)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Capture_Error));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Capture_Error));
         return;
     }
 
     //get_palette(pal);
     if (!al_save_bitmap(filename, bmp))
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Capture_Error));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Capture_Error));
         al_destroy_bitmap(bmp);
         return;
     }

@@ -221,9 +221,9 @@ void        TechInfo_Update(void)
 void    TechInfo_Switch (void)
 {
     if (TechInfo.active ^= 1)
-        Msg(MSGT_USER, Msg_Get(MSG_TechInfo_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_TechInfo_Enabled));
     else
-        Msg(MSGT_USER, Msg_Get(MSG_TechInfo_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_TechInfo_Disabled));
     gui_box_show(TechInfo.box, TechInfo.active, TRUE);
     gui_menu_toggle_check(menus_ID.tools, 6);
 }

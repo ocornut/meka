@@ -64,7 +64,7 @@ void    DataDump_Mode_Ascii (void)
     // Update GUI checks & print message to user
     gui_menu_uncheck_all (menus_ID.dump_cfg);
     gui_menu_check (menus_ID.dump_cfg, 0);
-    Msg(MSGT_USER, Msg_Get(MSG_DataDump_Mode_Ascii));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Mode_Ascii));
 }
 
 //-----------------------------------------------------------------------------
@@ -79,7 +79,7 @@ void    DataDump_Mode_Raw (void)
     // Update GUI checks & print message to user
     gui_menu_uncheck_all (menus_ID.dump_cfg);
     gui_menu_check (menus_ID.dump_cfg, 1);
-    Msg(MSGT_USER, Msg_Get(MSG_DataDump_Mode_Raw));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Mode_Raw));
 }
 
 static void     DataDump_Write_Filename (char *s, const char *name)
@@ -353,7 +353,7 @@ void        DataDump_Palette (void)
     }
     if (len == 0)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error_Palette));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Error_Palette));
         return;
     }
     if (DataDump.Mode == DATADUMP_MODE_RAW)
@@ -380,7 +380,7 @@ void    DataDump_Sprites (void)
 
     if (n_sprites == 0)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error_Sprites));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Error_Sprites));
         return;
     }
 
@@ -431,7 +431,7 @@ void        DataDump_OnBoardMemory (void)
     BMemory_Get_Infos (&data, &len);
     if (data == NULL)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error_OB_Memory));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Error_OB_Memory));
         return;
     }
     if (DataDump.Mode == DATADUMP_MODE_RAW)

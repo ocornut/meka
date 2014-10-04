@@ -22,7 +22,7 @@ void    BMemory_93c46_Load (FILE *f)
   if (fread (EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE, 1, f) == 1)
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Loaded), EEPROM_93C46_DATA_SIZE);
   else
-     Msg(MSGT_USER, Msg_Get(MSG_93c46_Load_Unable));
+     Msg(MSGT_USER, "%s", Msg_Get(MSG_93c46_Load_Unable));
 }
 
 void    BMemory_93c46_Save (FILE *f)

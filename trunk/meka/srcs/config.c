@@ -347,7 +347,7 @@ void Configuration_Save()
 static void     Param_Check(int *current, const char *msg)
 {
     if ((*current) + 1 >= g_env.argc)
-        Quit_Msg(msg);
+        Quit_Msg("%s", msg);
     (*current)++;
 }
 

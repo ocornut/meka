@@ -1371,7 +1371,7 @@ bool	Debugger_Symbols_Load(void)
     {
         // Note: we silently fail on MEKA_ERR_FILE_OPEN (file not found / cannot open)
         if (meka_errno != MEKA_ERR_FILE_OPEN)
-            Msg(MSGT_USER, meka_strerror());
+            Msg(MSGT_USER, "%s", meka_strerror());
 
         // 2. Try "image.ext.sym"
         snprintf(symbol_filename, FILENAME_LEN, "%s.sym", g_env.Paths.MediaImageFile);
@@ -1379,7 +1379,7 @@ bool	Debugger_Symbols_Load(void)
         if (symbol_file == NULL)
         {
             if (meka_errno != MEKA_ERR_FILE_OPEN)
-                Msg(MSGT_USER, meka_strerror());
+                Msg(MSGT_USER, "%s", meka_strerror());
             return false;
         }
     }

@@ -587,9 +587,9 @@ void    MemoryViewer_SwitchMainInstance()
 {
     t_memory_viewer *mv = MemoryViewer_MainInstance;
     if (mv->active ^= 1)
-        Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_MemoryEditor_Enabled));
     else
-        Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_MemoryEditor_Disabled));
     gui_box_show(mv->box, mv->active, TRUE);
     gui_menu_toggle_check(menus_ID.tools, 4);
 }
@@ -757,7 +757,7 @@ static void      MemoryViewer_InputBoxValue_EnterCallback(t_widget *w)
 	if (!ok)
 	{
 		assert(mv->pane_current->memrange.memtype == MEMTYPE_Z80);
-		Msg(MSGT_USER, Msg_Get(MSG_MemoryEditor_WriteZ80_Unable));
+		Msg(MSGT_USER, "%s", Msg_Get(MSG_MemoryEditor_WriteZ80_Unable));
 	}
     mv->values_edit_active = FALSE;
     MemoryViewer_SetupEditValueBox(mv);

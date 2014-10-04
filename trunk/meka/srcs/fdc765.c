@@ -561,12 +561,12 @@ void    FDC765_Disk_Insert (int DrvNum, void *Data, int DataSize)
   if (DataSize > Disk->TracksSize)
      {
      Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Large1), DataSize, Disk->TracksSize);
-     Msg(MSGT_USER_BOX, Msg_Get(MSG_FDC765_Disk_Too_Large2));
+     Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_FDC765_Disk_Too_Large2));
      }
   if (DataSize < Disk->TracksSize)
      {
      Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Small1), DataSize, Disk->TracksSize);
-     Msg(MSGT_USER_BOX, Msg_Get(MSG_FDC765_Disk_Too_Small2));
+     Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_FDC765_Disk_Too_Small2));
      memset ((byte *)Disk->Tracks + DataSize, 0, Disk->TracksSize - DataSize);
      }
 }

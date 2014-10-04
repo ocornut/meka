@@ -125,7 +125,7 @@ void        SaveState_Save()
     // Do not allow saving if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_No_ROM));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_No_ROM));
         return;
     }
 
@@ -133,7 +133,7 @@ void        SaveState_Save()
     // This would be messy with file handling currently
     if ((g_machine_flags & MACHINE_NOT_IN_BIOS) == 0)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Save_Not_in_BIOS));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Save_Not_in_BIOS));
         return;
     }
 
@@ -165,7 +165,7 @@ void        SaveState_Load()
     // Do not allow loading if machine is not running
     if ((g_machine_flags & MACHINE_RUN) != MACHINE_RUN)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_No_ROM));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_No_ROM));
         return;
     }
 
@@ -510,7 +510,7 @@ int     Load_Game_MSD (FILE *f)
     word   w;
     byte   i, version;
 
-    Msg(MSGT_USER, Msg_Get(MSG_Load_Massage));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Load_Massage));
     /* Skipping "SNAP" */
     fseek (f, 0x09, SEEK_SET);
     fread (&version, 1, 1, f);

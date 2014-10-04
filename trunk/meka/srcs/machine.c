@@ -42,13 +42,13 @@ void    Machine_Pause()
     // Verbose
     if (g_machine_flags & MACHINE_PAUSED)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Machine_Pause));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Machine_Pause));
         // gui_menu_check (menus_ID.machine, 2);
         Screen_Save_to_Next_Buffer();
     }
     else
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Machine_Resume));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Machine_Resume));
         // gui_menu_uncheck_range(menus_ID.machine, 2, 2);
     }
 }

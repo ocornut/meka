@@ -170,16 +170,16 @@ void            TextViewer_Switch(t_app_textviewer *tv, const char *title, const
     if (tv->current_file != current_file)
     {
         if (TextViewer_Open(tv, title, filename) != MEKA_ERR_OK)
-            Msg(MSGT_USER, Msg_Get(MSG_Doc_File_Error));
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Doc_File_Error));
         tv->active = TRUE;
         tv->current_file = current_file;
     }
     else
     {
         if (tv->active ^= 1)
-            Msg(MSGT_USER, Msg_Get(MSG_Doc_Enabled));
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Doc_Enabled));
         else
-            Msg(MSGT_USER, Msg_Get(MSG_Doc_Disabled));
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Doc_Disabled));
     }
 
     gui_box_show(tv->box, tv->active, TRUE);
@@ -192,7 +192,7 @@ void            TextViewer_Switch_Close(void)
 {
     t_app_textviewer *tv = &TextViewer; // Global instance
     tv->active = FALSE;
-    Msg(MSGT_USER, Msg_Get(MSG_Doc_Disabled));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Doc_Disabled));
     gui_box_show(tv->box, tv->active, TRUE);
     gui_menu_uncheck_range(menus_ID.help, 0, DOC_MAX - 1);
 }
