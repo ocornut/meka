@@ -74,7 +74,7 @@ void    Sound_LogWAV_Start(void)
 		Sound_Log_FileName_Get (FileName, Sound.LogWav_FileName_Template, &Sound.LogWav_ID);
 		if (Sound.LogWav_ID >= SOUND_LOG_ID_MAX)
 		{
-			Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Error_File_1));
+			Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_Error_File_1));
 			return;
 		}
 		Sound.LogWav = WAV_Start(FileName);
@@ -116,7 +116,7 @@ void    Sound_LogVGM_Start(void)
 	Sound_Log_FileName_Get(FileName, Sound.LogVGM_FileName_Template, &Sound.LogVGM_ID);
 	if (Sound.LogVGM_ID >= SOUND_LOG_ID_MAX)
 	{
-		Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Error_File_1));
+		Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_Error_File_1));
 		return;
 	}
 	if (VGM_Start(&Sound.LogVGM, FileName, Sound.LogVGM_Logging_Accuracy) != MEKA_ERR_OK)
@@ -149,16 +149,16 @@ void    Sound_LogVGM_Accuracy_Switch(void)
     if (Sound.LogVGM_Logging_Accuracy == VGM_LOGGING_ACCURACY_SAMPLE)
     {
         Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_FRAME;
-        Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_VGM_Acc_Frame));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Frame));
     }
     else
     {
         Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_SAMPLE;
-        Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_VGM_Acc_Sample));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Sample));
     }
     gui_menu_toggle_check (menus_ID.sound_log, 2);
     if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
     {
-        Msg(MSGT_USER_BOX, Msg_Get(MSG_Sound_Dumping_VGM_Acc_Change));
+        Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Change));
     }
 }

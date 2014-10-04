@@ -281,9 +281,9 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
             // Show BAD ROM warning
             if (DB.current_entry->flags & DB_FLAG_BAD)
             {
-                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Warning));
-                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Bad_Dump_Long));
-                Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_LoadROM_Bad_Dump_Short));
+                Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_Warning));
+                Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Long));
+                Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Short));
             }
 
             // Show Product Number

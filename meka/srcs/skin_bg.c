@@ -78,7 +78,7 @@ static void     Skins_Background_Draw_StretchInteger(ALLEGRO_BITMAP *bmp)
 
     if (factor == 0)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Theme_Error_BG_Big));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Theme_Error_BG_Big));
         return;
     }
 

@@ -30,8 +30,8 @@ int		Sound_Rate_Default_Table[] =
 void    FM_Disable (void)
 {
     Sound.FM_Enabled = FALSE;
-    Msg(MSGT_USER, Msg_Get(MSG_FM_Disabled));
-    Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_FM_Disabled));
+    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Must_Reset));
     gui_menu_uncheck_range (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 1);
 }
@@ -39,8 +39,8 @@ void    FM_Disable (void)
 void    FM_Enable (void)
 {
     Sound.FM_Enabled = TRUE;
-    Msg(MSGT_USER, Msg_Get(MSG_FM_Enabled));
-    Msg(MSGT_USER_BOX, Msg_Get(MSG_Must_Reset));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_FM_Enabled));
+    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Must_Reset));
     gui_menu_uncheck_range (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 0);
 }
@@ -54,7 +54,7 @@ void    Sound_Volume_Menu_Init(int menu_id)
     {
 		char buffer[256];
         if (i == 0)
-            snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Mute));
+            snprintf(buffer, countof(buffer), "%s", Msg_Get(MSG_Menu_Sound_Volume_Mute));
         else
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Value), i);
         menu_add_item(menu_id, buffer, NULL, Is_Checked(i - 9 < master_volume_100 && i + 9 > master_volume_100), 

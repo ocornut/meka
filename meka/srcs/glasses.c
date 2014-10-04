@@ -69,8 +69,8 @@ int     Glasses_Must_Skip_Frame(void)
         if (++security_cnt >= 180) // Arbitrary value (180 updates, should be 3 seconds)
         {
             security_cnt = 0;
-            Msg(MSGT_USER, Msg_Get(MSG_Glasses_Unsupported));
-            // Msg(MSGT_USER_BOX, Msg_Get(MSG_Glasses_Unsupported2));
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Unsupported));
+            // Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Glasses_Unsupported2));
             Glasses_Switch_Enable();
         }
     }
@@ -248,12 +248,12 @@ void    Glasses_Switch_Enable (void)
     if (Glasses.Enabled)
     {
         gui_menu_check (menus_ID.glasses, 0);
-        Msg(MSGT_USER, Msg_Get(MSG_Glasses_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Enabled));
     }
     else
     {
         gui_menu_uncheck_range(menus_ID.glasses, 0, 0);
-        Msg(MSGT_USER, Msg_Get(MSG_Glasses_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Disabled));
     }
     gui_menu_active_range (Glasses.Enabled, menus_ID.glasses, 1, 4);
     Inputs_CFG_Peripherals_Draw();
@@ -265,7 +265,7 @@ void    Glasses_Switch_Mode_Show_Both (void)
     Glasses.Mode = GLASSES_MODE_SHOW_BOTH;
     gui_menu_uncheck_range (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 1);
-    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Show_Both));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Show_Both));
 }
 
 void    Glasses_Switch_Mode_Show_Left (void)
@@ -274,7 +274,7 @@ void    Glasses_Switch_Mode_Show_Left (void)
     Glasses.Mode = GLASSES_MODE_SHOW_ONLY_LEFT;
     gui_menu_uncheck_range (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 2);
-    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Show_Left));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Show_Left));
 }
 
 void    Glasses_Switch_Mode_Show_Right (void)
@@ -283,7 +283,7 @@ void    Glasses_Switch_Mode_Show_Right (void)
     Glasses.Mode = GLASSES_MODE_SHOW_ONLY_RIGHT;
     gui_menu_uncheck_range (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 3);
-    Msg(MSGT_USER, Msg_Get(MSG_Glasses_Show_Right));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Show_Right));
 }
 
 void    Glasses_Switch_Mode_Com_Port (void)
@@ -292,7 +292,7 @@ void    Glasses_Switch_Mode_Com_Port (void)
     gui_menu_uncheck_range (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 4);
     Msg(MSGT_USER, Msg_Get(MSG_Glasses_Com_Port), Glasses.ComPort);
-    Msg(MSGT_USER_BOX, Msg_Get(MSG_Glasses_Com_Port2));
+    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Glasses_Com_Port2));
 }
 
 //-----------------------------------------------------------------------------

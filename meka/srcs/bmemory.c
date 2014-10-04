@@ -129,7 +129,7 @@ void    BMemory_SRAM_Load (FILE *f)
 	if (sms.SRAM_Pages > 0)
 		Msg(MSGT_USER, Msg_Get(MSG_SRAM_Loaded), sms.SRAM_Pages * 8);
 	else
-		Msg(MSGT_USER, Msg_Get(MSG_SRAM_Load_Unable));
+		Msg(MSGT_USER, "%s", Msg_Get(MSG_SRAM_Load_Unable));
 }
 
 void    BMemory_SRAM_Save (FILE *f)

@@ -326,7 +326,7 @@ void                FB_Add_Entries (t_list *ext_list, int type)
     // Open current directory
     if ((dir = opendir(".")) == 0)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Error_Directory_Open));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Error_Directory_Open));
         return;
     }
 

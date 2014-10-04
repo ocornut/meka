@@ -18,7 +18,7 @@
 // FIXME-DEPTH: Ressources (machines, icons) not faded out
 void    Action_Quit()
 {
-    Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Quit));
+    Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_Quit));
 
     // Shut up sound while fading
     Sound_Playback_Stop();
@@ -83,11 +83,11 @@ void    Action_Switch_Layer_Sprites (void)
     gui_menu_toggle_check (menus_ID.layers, 0);
     if (opt.Layer_Mask & LAYER_SPRITES)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Layer_Spr_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_Spr_Enabled));
     }
     else
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Layer_Spr_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_Spr_Disabled));
     }
 }
 
@@ -98,11 +98,11 @@ void    Action_Switch_Layer_Background (void)
     gui_menu_toggle_check (menus_ID.layers, 1);
     if (opt.Layer_Mask & LAYER_BACKGROUND)
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Layer_BG_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_BG_Enabled));
     }
     else
     {
-        Msg(MSGT_USER, Msg_Get(MSG_Layer_BG_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_BG_Disabled));
     }
 }
 
@@ -114,7 +114,7 @@ void    Action_Switch_Flickering_Auto (void)
         g_configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
     gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 0);
-    Msg(MSGT_USER, Msg_Get(MSG_Flickering_Auto));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_Auto));
 }
 
 // ACTION: SWITCH SPRITE FLICKERING TO 'TRUE' ----------------------------------
@@ -123,7 +123,7 @@ void    Action_Switch_Flickering_Yes (void)
     g_configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
     gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 1);
-    Msg(MSGT_USER, Msg_Get(MSG_Flickering_Yes));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_Yes));
 }
 
 // ACTION: SWITCH SPRITE FLICKERING TO 'FALSE' -----------------------------------
@@ -132,7 +132,7 @@ void    Action_Switch_Flickering_No (void)
     g_configuration.sprite_flickering = SPRITE_FLICKERING_NO;
     gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 2);
-    Msg(MSGT_USER, Msg_Get(MSG_Flickering_No));
+    Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_No));
 }
 
 // ACTION: SWITCH BETWEEN FULLSCREEN AND INTERFACE MODES ----------------------

@@ -304,7 +304,7 @@ void    Video_Setup_State(void)
             {
                 g_env.state = MEKA_STATE_GUI;
                 Video_Setup_State();
-                Msg(MSGT_USER, Msg_Get(MSG_Error_Video_Mode_Back_To_GUI));
+                Msg(MSGT_USER, "%s", Msg_Get(MSG_Error_Video_Mode_Back_To_GUI));
                 return;
             }
             fs_out = al_get_backbuffer(g_display);

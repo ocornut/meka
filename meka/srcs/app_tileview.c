@@ -301,9 +301,9 @@ void    TileViewer_SelectedTile_Select (t_widget *w)
 void    TileViewer_Switch (void)
 {
     if (TileViewer.active ^= 1)
-        Msg(MSGT_USER, Msg_Get(MSG_TilesViewer_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_TilesViewer_Enabled));
     else
-        Msg(MSGT_USER, Msg_Get(MSG_TilesViewer_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_TilesViewer_Disabled));
     gui_box_show (TileViewer.box, TileViewer.active, TRUE);
     gui_menu_toggle_check (menus_ID.tools, 2);
 }

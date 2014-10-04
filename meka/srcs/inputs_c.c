@@ -406,18 +406,18 @@ void    Inputs_CFG_Map_Change_Handler (t_widget *w)
     switch (input_src->type)
     {
     case INPUT_SRC_TYPE_KEYBOARD:
-        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Keyboard));
+        Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_Inputs_Src_Map_Keyboard));
         break;
     case INPUT_SRC_TYPE_JOYPAD:
-        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Joypad));
+        Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_Inputs_Src_Map_Joypad));
         break;
     case INPUT_SRC_TYPE_MOUSE:
         if (MapIdx < 4)
         {
-            Msg(MSGT_USER, Msg_Get(MSG_Inputs_Src_Map_Mouse_No_A));
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_Src_Map_Mouse_No_A));
             return;
         }
-        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Mouse));
+        Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_Inputs_Src_Map_Mouse));
         break;
     default:
         Msg(MSGT_USER, "Error #24813R");
@@ -478,7 +478,7 @@ void    Inputs_CFG_Map_Change_Update (void)
     {
         found = TRUE;
         map->hw_index = -1;
-        Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Inputs_Src_Map_Cancelled));
+        Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_Inputs_Src_Map_Cancelled));
         Inputs_CFG_Map_Change_End();
         return;
     }

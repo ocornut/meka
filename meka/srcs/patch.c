@@ -215,7 +215,7 @@ void            Patches_List_Init (void)
 
         switch (Patches_List_Parse_Line (line))
         {
-        case 1: tfile_free(tf); Quit_Msg(Msg_Get(MSG_Error_Memory));                   break;
+        case 1: tfile_free(tf); Quit_Msg("%s", Msg_Get(MSG_Error_Memory));                   break;
         case 2: tfile_free(tf); Quit_Msg(Msg_Get(MSG_Patch_Unrecognized), line_cnt);   break;
         case 3: tfile_free(tf); Quit_Msg(Msg_Get(MSG_Patch_Missing), line_cnt);        break;
         }

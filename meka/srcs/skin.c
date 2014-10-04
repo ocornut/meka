@@ -244,7 +244,7 @@ void        Skins_Init(void)
 
     // Verify that we have at least 1 loaded skin
     if (skin_first_valid == NULL)
-        Quit_Msg(Msg_Get(MSG_Theme_Error_Not_Enough));
+        Quit_Msg("%s", Msg_Get(MSG_Theme_Error_Not_Enough));
 
     // Set current skin
     Skins.skin_current = NULL;
@@ -544,7 +544,7 @@ void        Skins_Select(t_skin *skin, bool fade)
         Skins.background_picture = al_load_bitmap(filename);
         if (Skins.background_picture == NULL)
         {
-            Msg(MSGT_USER, Msg_Get(MSG_Theme_Error_BG));
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Theme_Error_BG));
             Msg(MSGT_USER_BOX, Msg_Get(MSG_Theme_Error_BG_FileName), Skins.skin_current->background_picture);
         }
     }

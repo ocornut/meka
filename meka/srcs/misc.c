@@ -23,7 +23,7 @@ void *	Memory_Alloc(size_t size)
 	if (p == NULL)
 	{
 		meka_errno = MEKA_ERR_MEMORY;
-		Quit_Msg(meka_strerror());
+		Quit_Msg("%s", meka_strerror());
 	}
 	return (p);
 }

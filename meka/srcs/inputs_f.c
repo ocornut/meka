@@ -227,7 +227,7 @@ void            Load_Inputs_Src_List()
     ConsolePrint(Msg_Get(MSG_Inputs_Src_Loading));
     t_tfile* tf = tfile_read (Inputs.FileName);
     if (tf == NULL)
-        Quit_Msg(meka_strerror());
+        Quit_Msg("%s", meka_strerror());
     ConsolePrint("\n");
 
     // Parse each line
@@ -299,7 +299,7 @@ void            Load_Inputs_Src_List()
 
     // Verify that we have enough inputs sources
     if (Inputs.Sources_Max == 0)
-        Quit_Msg(Msg_Get(MSG_Inputs_Src_Not_Enough));
+        Quit_Msg("%s", Msg_Get(MSG_Inputs_Src_Not_Enough));
 }
 
 void    Write_Inputs_Src_List()

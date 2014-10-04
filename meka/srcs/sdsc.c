@@ -57,7 +57,7 @@ int         SDSC_Read_and_Display (void)
     if (strncmp((const char *)Game_ROM + 0x7FE0, SDSC_MAGIC, 4) != 0)
         return false;
 
-    Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_SDSC));
+    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_SDSC));
 
     // Name
     offset = *(u16 *)(Game_ROM + 0x7FEC);

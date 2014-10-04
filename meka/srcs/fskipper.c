@@ -174,9 +174,9 @@ void    Frame_Skipper_Switch_FPS_Counter()
 {
     fskipper.FPS_Display = !fskipper.FPS_Display;
     if (fskipper.FPS_Display)
-        Msg(MSGT_USER, Msg_Get(MSG_FPS_Counter_Enabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_FPS_Counter_Enabled));
     else
-        Msg(MSGT_USER, Msg_Get(MSG_FPS_Counter_Disabled));
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_FPS_Counter_Disabled));
 }
 
 //-----------------------------------------------------------------------------
