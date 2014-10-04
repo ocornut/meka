@@ -244,8 +244,8 @@ t_widget *  widget_closebox_add(t_gui_box *box, t_widget_callback callback)
     t_frame frame;
     frame.pos.x = box->frame.size.x - 10;
     frame.pos.y = -15;
-    frame.size.x = 7;
-    frame.size.y = 6;
+    frame.size.x = 8;
+    frame.size.y = 8;
 
     w = widget_new(box, WIDGET_TYPE_CLOSEBOX, &frame);
     widget_set_mouse_buttons_mask(w, 1);
