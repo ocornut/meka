@@ -31,7 +31,7 @@ bool	gui_is_mouse_hovering_area (int x1, int y1, int x2, int y2)
     return ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2));
 }
 
-void    gui_update_mouse (void)
+void    gui_update_mouse()
 {
     if (g_env.mouse_installed == -1)
     {

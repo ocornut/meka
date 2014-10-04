@@ -134,7 +134,7 @@ void	Inputs_Emulation_Update(bool running)
 	{
         for (int src_index = 0; src_index < Inputs.Sources_Max; src_index++)
         {
-            const t_input_src *src = Inputs.Sources[src_index];
+            const t_input_src* src = Inputs.Sources[src_index];
             if (src->enabled == FALSE || src->player != i)
                 continue;
 
@@ -144,7 +144,7 @@ void	Inputs_Emulation_Update(bool running)
             // if (!(Src->Result_Type & (k | (k << 1))))
             //    continue;
             // Process peripheral dependent stuff
-            switch (Inputs.Peripheral [i])
+            switch (Inputs.Peripheral[i])
             {
             case INPUT_JOYPAD: //---------------------------- Joypad/Control Stick
                 if (src->flags & INPUT_SRC_FLAGS_DIGITAL)
@@ -378,10 +378,12 @@ void	Inputs_Sources_Update()
 	al_get_mouse_state(&g_mouse_state);
 
 	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
-	int screen_center_x, screen_center_y;
-	Video_GameMode_GetScreenCenterPos(&screen_center_x, &screen_center_y);
-	const int mouse_mx_unbounded = g_mouse_state.x - screen_center_x;
-	const int mouse_my_unbounded = g_mouse_state.y - screen_center_y;
+	//int screen_center_x, screen_center_y;
+	//Video_GameMode_GetScreenCenterPos(&screen_center_x, &screen_center_y);
+	//const int mouse_mx_unbounded = g_mouse_state.x - screen_center_x;
+	//const int mouse_my_unbounded = g_mouse_state.y - screen_center_y;
+	const int mouse_mx_unbounded = g_mouse_state.x - gui.mouse.x_prev;
+	const int mouse_my_unbounded = g_mouse_state.y - gui.mouse.y_prev;
 
 	// Recenter and clamp in range
 	Inputs_UpdateMouseRange();
@@ -508,6 +510,7 @@ void	Inputs_Sources_Update()
                 }
 
                 int x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value;
+				//Msg(MSGT_DEBUG, "x = %d, %d - %d", x, g_mouse_state.x,gui.mouse.x_prev);
 				const int mx = mouse_mx_unbounded;
                 if (x > 0 && mx < x)
                 { if (mx < 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
@@ -533,11 +536,11 @@ void	Inputs_Sources_Update()
                 Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].pressed_counter = 0;
                 Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].pressed_counter = 0;
 
-                // Buttons ---------------------------------------------------------
+                // Buttons
                 for (int j = 4; j < INPUT_MAP_MAX; j++)
                 {
                     t_input_map_entry *map = &Src->Map[j];
-                    int old_res = map->current_value;
+                    const int old_res = map->current_value;
                     const int button_mask = (1 << Src->Map[j].hw_index);
                     if (disable_mouse_button)
                         Src->Map[j].current_value = 0;

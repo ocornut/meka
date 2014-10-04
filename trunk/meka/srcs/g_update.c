@@ -81,11 +81,8 @@ void    gui_update_applets_after_redraw()
         special_effects_update_after();
 }
 
-void    gui_update ()
+void    gui_update()
 {
-    // Update mous data
-    gui_update_mouse();
-
     // Theme effects (blood/snow/hearts) : saving data from the framebuffer
     if (Skins_GetCurrentSkin()->effect != SKIN_EFFECT_NONE)
         special_effects_update_before();
