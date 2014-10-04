@@ -1,4 +1,6 @@
 
+Allow to resize boxes
+
 //Disassembler: RST broken
 Debugger: STEP OVER broken on line with breakpoint
 MemoryViewew: input register/expr in ADDR field

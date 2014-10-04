@@ -26,10 +26,16 @@ void    gui_init_mouse (void)
 	gui.mouse.last_click_time_elapsed = 9999.0f;
 }
 
-bool	gui_is_mouse_hovering_area (int x1, int y1, int x2, int y2)
+bool	gui_is_mouse_hovering_area(int x1, int y1, int x2, int y2)
 {
     return ((gui.mouse.x >= x1) && (gui.mouse.y >= y1) && (gui.mouse.x <= x2) && (gui.mouse.y <= y2));
 }
+
+bool	gui_is_mouse_hovering_area(const t_frame* frame)
+{
+    return ((gui.mouse.x >= frame->pos.x) && (gui.mouse.y >= frame->pos.y) && (gui.mouse.x <= frame->pos.x+frame->size.x) && (gui.mouse.y <= frame->pos.y+frame->size.y));
+}
+
 
 void    gui_update_mouse()
 {

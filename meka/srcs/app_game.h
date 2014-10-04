@@ -13,11 +13,11 @@ extern t_gui_box *  gamebox_instance;
 // Functions
 //-----------------------------------------------------------------------------
 
-t_gui_box * gamebox_create (int x, int y);
+t_gui_box * gamebox_create(int x, int y);
 
-void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer);
-void        gamebox_resize_all (void);
-void        gamebox_rename_all (void);
+void        gamebox_draw(t_gui_box *box, ALLEGRO_BITMAP *game_buffer);
+void        gamebox_resize_all();
+void        gamebox_rename_all();
 
 //-----------------------------------------------------------------------------
 

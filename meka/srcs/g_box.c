@@ -16,37 +16,42 @@
 
 void        gui_update_boxes(void)
 {
-    int         i;
-    bool        will_move = FALSE;
-    t_gui_box * b = NULL;
-    t_gui_box * b_hover = NULL;
-
     if (gui.mouse.focus == GUI_FOCUS_DESKTOP || gui.mouse.focus == GUI_FOCUS_MENUS)
         return;
 
     // Update widgets, and find on which box the mouse cursor is
-    for (i = 0; i < gui.boxes_count; i++)
+    t_gui_box * b_hover = NULL;
+    bool will_move = FALSE;
+    for (int i = 0; i < gui.boxes_count; i++)
     {
-        int mouse_x;
-        int mouse_y;
-
-        b = gui.boxes_z_ordered[i];
+		t_gui_box* b = gui.boxes_z_ordered[i];
 
         // Skip invisible boxes
         if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
 
-        mouse_x = gui.mouse.x - b->frame.pos.x;
-        mouse_y = gui.mouse.y - b->frame.pos.y;
-        will_move = widgets_update_box(b, mouse_x, mouse_y);
+        const int mouse_x = gui.mouse.x - b->frame.pos.x;
+        const int mouse_y = gui.mouse.y - b->frame.pos.y;
+        will_move = !widgets_update_box(b, mouse_x, mouse_y);
 
         if (b_hover == NULL)
         {
-            if ((gui_is_mouse_hovering_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2))
-                ||
-                // FIXME-FOCUS
-                ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1)))
+			// FIXME-FOCUS
+			// Already has focus?
+			if ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1))
+			{
+				b_hover = b;
+				break;
+			}
+			
+			const bool hovering_window = gui_is_mouse_hovering_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2);
+            if (hovering_window)
             {
+				// When using light phaser, paddle control, graphic board, etc. which require
+				if (b->type == GUI_BOX_TYPE_GAME && Inputs.Peripheral[0] != INPUT_JOYPAD)
+					if (gui_is_mouse_hovering_area(&b->frame))
+						will_move = false;
+
                 b_hover = b;
                 break;
             }
@@ -73,7 +78,7 @@ void        gui_update_boxes(void)
     /*
     will_move = TRUE;
     if ((b->n_widgets > 0) && (gui_mouse.pressed_on != PRESSED_ON_BOX))
-        will_move = widgets_update_box(b, cx, cy);
+        will_move = !widgets_update_box(b, cx, cy);
     */
 
     if ((gui.mouse.buttons & 1) == 0)
@@ -81,6 +86,7 @@ void        gui_update_boxes(void)
 
     // FIXME-FOCUS
     //gui_mouse.on_box = b;
+	t_gui_box* b = b_hover;
     gui_box_set_focus(b);
     // gui.info.must_redraw = TRUE;
 
@@ -111,6 +117,7 @@ void        gui_update_boxes(void)
             // if ((!mx) && (!my)) continue;
         }
 
+		// FIXME: rewrite this embarassing 1998 code into something decent
         if (mx >= 0)
         {
             if (my >= 0)
