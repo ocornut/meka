@@ -11,10 +11,7 @@
 // Functions (crap, horrible, painful)
 //-----------------------------------------------------------------------------
 
-// FIXME: That was a stupid macro!
-#define Limit(a,b)              (((b) > (a)) ? (a) : (b))
-
-void        gui_update_boxes(void)
+void	gui_update_boxes(void)
 {
     if (gui.mouse.focus == GUI_FOCUS_DESKTOP || gui.mouse.focus == GUI_FOCUS_MENUS)
         return;
@@ -96,8 +93,6 @@ void        gui_update_boxes(void)
     if ((will_move) && (gui.mouse.focus != GUI_FOCUS_WIDGET) && (gui.mouse.buttons & 1))
     {
         int mx, my;
-        int ax1, ay1, ax2, ay2;
-        int bx1, by1, bx2, by2;
 
         // FIXME-FOCUS
         //if (gui_mouse.pressed_on != PRESSED_ON_BOX)
@@ -117,74 +112,76 @@ void        gui_update_boxes(void)
             // if ((!mx) && (!my)) continue;
         }
 
+		// Mouse moves box
 		// FIXME: rewrite this embarassing 1998 code into something decent
-        if (mx >= 0)
-        {
-            if (my >= 0)
-            { // mx > 0 - my > 0
-                ax1 = b->frame.pos.x                                          -  2 ;
-                ay1 = b->frame.pos.y                                          - 20 ;
-                ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-                ay2 = b->frame.pos.y + Limit(b->frame.size.y + 22, my) + 1    - 20 ;
+		if (mx != 0 || my != 0)
+		{
+			int ax1, ay1, ax2, ay2;
+			int bx1, by1, bx2, by2;
+			if (mx >= 0)
+			{
+				ax1 = b->frame.pos.x  -2;
+				ay1 = b->frame.pos.y - 20;
 
-                bx1 = b->frame.pos.x                                          -  2 ;
-                by1 = b->frame.pos.y + Limit(b->frame.size.y + 22, my) + 1    - 20 ;
-                bx2 = b->frame.pos.x + Limit(b->frame.size.x, mx) + 1         +  2 ;
-                by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
-            }
-            else
-            { // mx > 0 - my < 0
-                ax1 = b->frame.pos.x                                          -  2 ;
-                ay1 = b->frame.pos.y                                          - 20 ;
-                ax2 = b->frame.pos.x + Limit(b->frame.size.x, mx) + 1         +  2 ;
-                ay2 = b->frame.pos.y + b->frame.size.y - Limit(b->frame.size.y + 22, -my)  +  2 ;
+				if (my >= 0)
+				{ // mx > 0 - my > 0
+					ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+					ay2 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
 
-                bx1 = b->frame.pos.x                                          -  2 ;
-                by1 = b->frame.pos.y + b->frame.size.y - Limit(b->frame.size.y + 22, -my)  +  2 ;
-                bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-                by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
-            }
-        }
-        else
-        {
-            if (my >= 0)
-            { // mx < 0 - my > 0
-                ax1 = b->frame.pos.x                                          -  2 ;
-                ay1 = b->frame.pos.y                                          - 20 ;
-                ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-                ay2 = b->frame.pos.y + Limit(b->frame.size.y + 22, my) + 1    - 20 ;
+					bx1 = b->frame.pos.x                                          -  2 ;
+					by1 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
+					bx2 = b->frame.pos.x + MIN(b->frame.size.x, mx) + 1         +  2 ;
+					by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+				}
+				else
+				{ // mx > 0 - my < 0
+					ax2 = b->frame.pos.x + MIN(b->frame.size.x, mx) + 1         +  2 ;
+					ay2 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
 
-                bx1 = b->frame.pos.x + b->frame.size.x - Limit(b->frame.size.x, -mx)       -  2 ;
-                by1 = b->frame.pos.y + Limit(b->frame.size.y + 22, my) + 1    - 20 ;
-                bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-                by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
-            }
-            else
-            { // mx < 0 - my < 0
-                ax1 = b->frame.pos.x + b->frame.size.x - Limit(b->frame.size.x, -mx)       -  2 ;
-                ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-                ay1 = b->frame.pos.y                                          - 20 ;
-                ay2 = b->frame.pos.y + b->frame.size.y - Limit(b->frame.size.y + 22, -my)  +  2 ;
+					bx1 = b->frame.pos.x                                          -  2 ;
+					by1 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+					bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+					by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+				}
+			}
+			else
+			{
+				if (my >= 0)
+				{ // mx < 0 - my > 0
+					ax1 = b->frame.pos.x -  2 ;
+					ay1 = b->frame.pos.y - 20 ;
+					ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+					ay2 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
 
-                bx1 = b->frame.pos.x                                   -  2 ;
-                by1 = b->frame.pos.y + b->frame.size.y - Limit(b->frame.size.y + 22, -my)  +  2 ;
-                bx2 = b->frame.pos.x + b->frame.size.x + 1                       +  2 ;
-                by2 = b->frame.pos.y + b->frame.size.y + 1                       +  2 ;
-            }
-        }
+					bx1 = b->frame.pos.x + b->frame.size.x - MIN(b->frame.size.x, -mx)       -  2 ;
+					by1 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
+					bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+					by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+				}
+				else
+				{ // mx < 0 - my < 0
+					ax1 = b->frame.pos.x + b->frame.size.x - MIN(b->frame.size.x, -mx)       -  2 ;
+					ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+					ay1 = b->frame.pos.y                                          - 20 ;
+					ay2 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
 
-		al_set_target_bitmap(gui_buffer);
-		al_draw_bitmap_region(gui_background, ax1, ay1, ax2 - ax1, ay2 - ay1, ax1, ay1, 0x0000);
-		al_draw_bitmap_region(gui_background, bx1, by1, bx2 - bx1, by2 - by1, bx1, by1, 0x0000);
-        // blit (color_buffer, gui_buffer, ax1, ay1, ax1, ay1, ax2 - ax1, ay2 - ay1);
-        // blit (color2_buffer, gui_buffer, bx1, by1, bx1, by1, bx2 - bx1, by2 - by1);
-        // blit (gui_buffer, screen, 0, 0, 0, 0, 640, 480);
+					bx1 = b->frame.pos.x                                   -  2 ;
+					by1 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+					bx2 = b->frame.pos.x + b->frame.size.x + 1                       +  2 ;
+					by2 = b->frame.pos.y + b->frame.size.y + 1                       +  2 ;
+				}
+			}
 
-        // Update position
-        b->frame.pos.x += mx;
-        b->frame.pos.y += my;
-        gui_box_clip_position (b);
-    } // Move Box -------------------------------------------------------------
+			al_set_target_bitmap(gui_buffer);
+			al_draw_bitmap_region(gui_background, ax1, ay1, ax2 - ax1, ay2 - ay1, ax1, ay1, 0x0000);
+			al_draw_bitmap_region(gui_background, bx1, by1, bx2 - bx1, by2 - by1, bx1, by1, 0x0000);
+
+			// Update position
+			b->frame.pos.x += mx;
+			b->frame.pos.y += my;
+			gui_box_clip_position(b);
+		}
+    }
 }
 
 t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
