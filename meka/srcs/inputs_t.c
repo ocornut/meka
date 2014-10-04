@@ -10,14 +10,6 @@
 // Data
 //-----------------------------------------------------------------------------
 
-int     Key_Alpha_Table [NUM_ALPHA_KEYS] =
-  { ALLEGRO_KEY_A, ALLEGRO_KEY_B, ALLEGRO_KEY_C, ALLEGRO_KEY_D, ALLEGRO_KEY_E, ALLEGRO_KEY_F, ALLEGRO_KEY_G, ALLEGRO_KEY_H, ALLEGRO_KEY_I,
-    ALLEGRO_KEY_J, ALLEGRO_KEY_K, ALLEGRO_KEY_L, ALLEGRO_KEY_M, ALLEGRO_KEY_N, ALLEGRO_KEY_O, ALLEGRO_KEY_P, ALLEGRO_KEY_Q, ALLEGRO_KEY_R,
-    ALLEGRO_KEY_S, ALLEGRO_KEY_T, ALLEGRO_KEY_U, ALLEGRO_KEY_V, ALLEGRO_KEY_W, ALLEGRO_KEY_X, ALLEGRO_KEY_Y, ALLEGRO_KEY_Z };
-char    Alpha_Table [NUM_ALPHA_KEYS] =
-  { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
-
 static int  typematic_repeating = 0;
 static int  typematic_repeat_counter = 0;
 
