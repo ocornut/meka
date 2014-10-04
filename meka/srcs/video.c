@@ -408,6 +408,7 @@ void    Video_RefreshScreen(void)
         if (g_machine_pause_requests > 0)
             Machine_Pause();
 
+		gui_update_mouse();
         if (g_env.state == MEKA_STATE_GUI)
         {
             gui_update();
