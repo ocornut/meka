@@ -407,7 +407,7 @@
  Scramble Spirits                               FM      Ok
  Secret Command                                 -       Ok
  Sega Chess                                     -       Ok
- Sega Graphic Board v2.0 [Proto]                GB     *Ok. Requires Graphic Board v2.0 (Prototype hardware)
+ Sega Graphic Board v2.0 [Proto]                GB2     Ok. Requires Graphic Board v2.0 (Prototype hardware)
  Sega World Tournament Golf                     -       Ok
  Seishun Scandal (JP)                           -       Ok
  Sensible Soccer                                -       Ok
