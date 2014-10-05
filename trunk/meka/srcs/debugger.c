@@ -1296,7 +1296,6 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 	char* line = line_buf;
 
     int bank;
-	u16 addr;
 	u32 addr32;
 	char name[512];
 
@@ -1306,14 +1305,14 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
         {
 			// NO$GMB/WLA format
 			//  "0000:c007 VarScanlineMetrics"
-			if (sscanf(line, "%X:%hX %s", &bank, &addr, name) == 3)
+			if (sscanf(line, "%X:%X %s", &bank, &addr32, name) == 3)
 			{
-				Debugger_Symbol_Add(addr, bank, name);
+				Debugger_Symbol_Add(addr32 & 0xFFFF, bank, name);
 				return true;
 			}
-			if (sscanf(line, "%hX %s", &addr, name) == 2)
+			if (sscanf(line, "%X %s", &addr32, name) == 2)
 			{
-				Debugger_Symbol_Add(addr, -1, name);
+				Debugger_Symbol_Add(addr32 & 0xFFFF, -1, name);
 				return true;
 			}
 			break;
@@ -1338,9 +1337,9 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 			if (parse_getword(name, countof(name), &line, " \t", ';', PARSE_FLAGS_NONE))
 			{
 				parse_skip_spaces(&line);
-				if (sscanf(line, "%hXh", &addr) == 1)
+				if (sscanf(line, "%Xh", &addr32) == 1)
 				{
-					Debugger_Symbol_Add(addr, -1, name);
+					Debugger_Symbol_Add(addr32 & 0xFFFF, -1, name);
 					return true;
 				}
 			}
