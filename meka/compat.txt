@@ -522,8 +522,8 @@
  Virtua Fighter Animation                       -       Ok
  Walter Payton Football                         -       Ok
  Wanted                                         LP      Ok
- Where in the World is Carmen Sandiego ?        -       Ok
- Where in the World is Carmen Sandiego ? (BR)   -       Ok
+ Where in the World is Carmen Sandiego?         -       Ok
+ Where in the World is Carmen Sandiego? (BR)    -       Ok
  Wimbledon                                      -       Ok
  Wimbledon II                                   -       Ok
  Winter Olympics                                -       Ok

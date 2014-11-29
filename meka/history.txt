@@ -49,7 +49,7 @@ They are usually of 2 kinds:
     - Added support for parsing SJASM symbol format. [Omar]
     - Added support for parsing TASM symbol format. [Omar]
     - Added a "Reload Symbols" menu option (useful when manually crafting symbols while reverse engineering). [Omar]
-    - Added shortcuts button in interface for "Stop/Continue", "Step Into", "Step Over" and "Step Out". [Omar]
+    - Added shortcuts button in interface for "Stop/Continue", "Step", "StepOver", "StepOut", "Stack". [Omar]
     - Disassembler: uses recorded Z80 execution history to allow semi-freely scrolling up and down in disassembly. [Omar]
     - Disassembler: display symbols given their full ROM bank mapping (if bank information is provided by symbols file). [Omar]
     - Disassembler: display symbols in 'RST xx' instructions. [Omar]
