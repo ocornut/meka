@@ -44,10 +44,10 @@ int	Z80_Assemble(const char *src, byte dst[8]);
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void     Debugger_Applet_Init(void);
+static void     Debugger_Applet_Init();
 static void     Debugger_Applet_Layout(bool setup);
-static void     Debugger_Applet_RedrawState(void);
-static void		Debugger_Applet_UpdateShortcuts(void);
+static void     Debugger_Applet_RedrawState();
+static void		Debugger_Applet_UpdateShortcuts();
 
 // Misc
 static void     Debugger_Help(const char *cmd);
@@ -682,6 +682,7 @@ void	Debugger_Applet_UpdateShortcuts()
 	widget_button_set_grayed_out(app->shortcuts[1].button, !(bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)));
 	widget_button_set_grayed_out(app->shortcuts[2].button, !(bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)));
 	widget_button_set_grayed_out(app->shortcuts[3].button, !(bool)(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)));
+	widget_button_set_grayed_out(app->shortcuts[4].button, !(bool)(g_machine_flags & (MACHINE_POWER_ON)));
 }
 
 int		Debugger_Hook(Z80 *R)
@@ -2015,18 +2016,17 @@ static void     Debugger_Applet_Layout(bool setup)
 	app->frame_shortcuts.size.y  = 22;
 	if (setup)
 	{
-		// Unfortunately, although initially I wanted shortcuts to be generic command-runner,
-		// the code Debugger_Applet_UpdateShortcuts() is pretty hard-coded for the 4 entries above for usability reason.
+		// FIXME: the code in Debugger_Applet_UpdateShortcuts() is pretty hard-coded for the 5 entries below for now (to update their active state), maybe strcmp the button
 		app->shortcuts_freeze = 0;
 		static const t_debugger_shortcut shortcuts_def[] =
 		{
 			{ "Cont", "C", },
 			{ "Step", "STEPINTO" },
-			{ "Over", "S" },
-			{ "Out",  "SO" },
+			{ "StepOver", "S" },
+			{ "StepOut",  "SO" },
+			{ "Stack", "STACK" },
 			//{ "Breakpoints", "B L" },
 			//{ "Regs", "REGS" },
-			//{ "Stacks", "STACK" },
 		};
 		assert(app->shortcuts.empty());
 		DrawCursor dc(app->frame_shortcuts.pos, F_MEDIUM);
@@ -2039,7 +2039,7 @@ static void     Debugger_Applet_Layout(bool setup)
 			sh.command = sh_def->command;
 
 			//t_frame frame(dc.pos, v2i(Font_TextLength(F_LARGE, sh.name) + 3, Font_Height(F_LARGE) + 3));
-			t_frame frame(dc.pos, v2i(50 + 3, Font_Height(F_MEDIUM) + 10));
+			t_frame frame(dc.pos, v2i(60, Font_Height(F_MEDIUM) + 10));
 			sh.button = widget_button_add(app->box, &frame, 1, Debugger_ShortcutButton_Callback, WIDGET_BUTTON_STYLE_MEDIUM, (const char *)sh.name, (void*)i);
 			dc.pos.x += frame.size.x + 2;
 
