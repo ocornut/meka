@@ -1,4 +1,6 @@
 
+Border Color emulation
+
 Allow to resize boxes
 
 //Disassembler: RST broken
@@ -54,6 +56,12 @@ Is there any emulator/setting that handles the Sports Pad input in a way that ma
 [B] Debugger: Variables window with live filter.
 [B] CTRL-F7 to load and Debug (C)ontinue.
 [B] Debugger: Preview memory regions on hovering register/instruction. 
+
+Add a super-fast mode (faster than 1/9 for CLOCK-ing things like zexall)
+
+Debugger seems generally weird at 1/9 frameskip, stepping instructions when not expected?) 
+> As for the 1/9 bug: I think it is to do with the keyboard repeat code. Entering "j 0" gets me to 0 + however many instructions the debugger thinks I have held down Enter for. In frameskip mode I guess it is interpreting repeats after a very short pause. It ought to be realtime-based instead of emulated-frame-based?
+
 
 E-SWAT http://smspower.org/forums/viewtopic.php?t=8069
 
