@@ -1986,7 +1986,7 @@ static void     Debugger_Applet_Layout(bool setup)
     // Add console (textbox widget)
     frame.pos.x = 6;
     frame.pos.y = 2;
-    frame.size.x = app->box->frame.size.x - (6*2);
+    frame.size.x = app->box->frame.size.x - (6*1);
     frame.size.y = g_configuration.debugger_console_lines * app->font_height;
     if (setup)
         app->console = widget_textbox_add(app->box, &frame, g_configuration.debugger_console_lines, app->font_id);
