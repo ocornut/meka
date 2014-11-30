@@ -368,6 +368,10 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 				snprintf(R, 256, "%.*s%c%d", (int)(P-T), T, offset_sign, offset_abs);
 			}
 		}
+		else
+		{
+			strcpy(R,T);
+		}
 		B++;
 	}
     else 
