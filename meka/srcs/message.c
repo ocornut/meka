@@ -371,6 +371,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Menu_Debug_ReloadROM),
 	__MSG_ADD(MSG_Menu_Debug_ReloadSymbols),
 	__MSG_ADD(MSG_Menu_Debug_StepFrame),
+	__MSG_ADD(MSG_Menu_Debug_LoadStateAndContinue),
 	__MSG_ADD(MSG_Menu_Debug_Dump),
 
 	__MSG_ADD(MSG_Menu_Machine),

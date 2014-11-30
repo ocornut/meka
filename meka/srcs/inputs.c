@@ -83,9 +83,9 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     case 0: // No modifiers
         {
             // State save/load
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F5, FALSE))
+            if (Inputs_KeyPressed(ALLEGRO_KEY_F5, FALSE))
                 SaveState_Save();
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F7, FALSE))
+            if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))
                 SaveState_Load();
 
             // State change slot
@@ -144,6 +144,17 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             // Hard Reset
             if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
                 Machine_Reset();
+
+			// Load State & Continue
+			if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))
+			{
+				SaveState_Load();
+				if (Debugger.active)
+				{
+					char command[128] = "CONT";
+					Debugger_InputParseCommand(command);		// non-const input
+				}
+			}
 
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
             if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
