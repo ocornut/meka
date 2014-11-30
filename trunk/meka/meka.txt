@@ -500,10 +500,10 @@
   Show FPS counter .................. ALT+F
 
   Change emulated peripheral ........ F9
-  Enable/Disable Sega keyboard ...... ALT+F9
+  Enable/Disable Sega keyboard ...... CTRL+F9
 
   Enable/Disable sprites ............ F11
-  Enable/Disable background ......... ALT+F11
+  Enable/Disable background ......... CTRL+F11
 
   Enable/Disable debugger ........... Scroll Lock (*1)
   
