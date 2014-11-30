@@ -317,10 +317,12 @@ void	Inputs_Sources_Update()
 		switch (key_event.type)
 		{
 		case ALLEGRO_EVENT_KEY_DOWN:
+			//Msg(MSGT_DEBUG, "ALLEGRO_EVENT_KEY_DOWN %d", key_event.keyboard.keycode);
 			if (g_keyboard_state[key_event.keyboard.keycode] < 0.0f)
 				g_keyboard_state[key_event.keyboard.keycode] = 0.0f;
 			break;
 		case ALLEGRO_EVENT_KEY_UP:
+			//Msg(MSGT_DEBUG, "ALLEGRO_EVENT_KEY_UP %d", key_event.keyboard.keycode);
 			g_keyboard_state[key_event.keyboard.keycode] = -1.0f;
 			break;
 		case ALLEGRO_EVENT_KEY_CHAR:
@@ -556,6 +558,13 @@ void	Inputs_Sources_Update()
             //-----------------------------------------------------------------------
         }
     }
+}
+
+void Inputs_Sources_ClearOutOfFocus()
+{
+	for (size_t i = 0; i < ALLEGRO_KEY_MAX; i++)
+		g_keyboard_state[i] = -1.0f;
+	g_keyboard_modifiers = 0;
 }
 
 void Inputs_UpdateMouseRange()
