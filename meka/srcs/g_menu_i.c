@@ -99,7 +99,7 @@ void	gui_menus_init (void)
 	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_Enabled),		"Scroll Lock",	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
     menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadROM),		NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Reload_ROM, NULL);
 	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadSymbols),	NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_ReloadSymbols_Callback, NULL);
-	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_StepFrame),		"Alt+F12",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_StepFrame_Callback, NULL);
+	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_StepFrame),		"Ctrl+F12",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_StepFrame_Callback, NULL);
 	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_LoadStateAndContinue),"Ctrl+F7",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_LoadStateAndContinue_Callback, NULL);
     menus_ID.dump  = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Dump),			MENU_ITEM_FLAG_ACTIVE);
     DataDump_Init_Menus (menus_ID.dump);
@@ -143,7 +143,7 @@ void	gui_menus_init (void)
     // VIDEO -> LAYERS
     menus_ID.layers   = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Layers),     MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Sprites),          "F11",			MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Sprites, NULL);
-    menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Background),       "Alt+F11",		MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Background, NULL);
+    menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Background),       "Ctrl+F11",		MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Background, NULL);
     // VIDEO -> FLICKERING
     menus_ID.flickering = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Flickering), MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_Auto),       NULL,			MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO), (t_menu_callback)Action_Switch_Flickering_Auto, NULL);
@@ -196,7 +196,7 @@ void	gui_menus_init (void)
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_GraphicBoard),	NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_GraphicBoard, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_GraphicBoardV2),	NULL,		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_GraphicBoardV2, NULL);
 	menu_add_separator(menus_ID.inputs);
-    menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SK1100),			"Alt+F9",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SK1100_Switch, NULL);
+    menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_SK1100),			"CTRL+F9",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SK1100_Switch, NULL);
 	menu_add_separator(menus_ID.inputs);
     // INPUTS -> RAPID FIRE
     menus_ID.rapidfire = menu_add_menu (menus_ID.inputs, Msg_Get(MSG_Menu_Inputs_RapidFire), MENU_ITEM_FLAG_ACTIVE);

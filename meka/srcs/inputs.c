@@ -130,7 +130,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? ALLEGRO_KEY_F10 : ALLEGRO_KEY_ESCAPE, FALSE))
                 Action_Switch_Mode();
 
-            // Sprites Refresh switch
+            // Sprites Display
             if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
                 Action_Switch_Layer_Sprites();
 
@@ -145,6 +145,14 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
                 Machine_Reset();
 
+			// Background Display
+			if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE)) 
+				Action_Switch_Layer_Background();
+
+			// Next frame (pause hack)
+			if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
+				g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+
 			// Load State & Continue
 			if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))
 			{
@@ -155,6 +163,10 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 					Debugger_InputParseCommand(command);		// non-const input
 				}
 			}
+
+			// SK-1100 Keyboard switch
+			if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))        
+				SK1100_Switch();
 
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
             if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
@@ -185,16 +197,6 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
         break;
    case ALLEGRO_KEYMOD_ALT:
        {
-           // SK-1100 Keyboard switch
-           if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))        
-               SK1100_Switch();
-           // Background Refresh switch
-           if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE)) 
-               Action_Switch_Layer_Background();
-           // Next frame (pause hack)
-           if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-               g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
-
            if (!sk1100_pressed)
            {
                // FPS Counter switch
