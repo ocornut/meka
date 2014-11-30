@@ -3475,7 +3475,7 @@ void        Debugger_InputParseCommand(char *line)
 			if (Debugger_Eval_ParseExpression(&line, &value) > 0)
 				len = value.data;
 
-			const t_debugger_symbol* symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 64);
+			const t_debugger_symbol* symbol = Debugger_Symbols_GetClosestPreviousByAddr(sms.R.PC.W, 256); // be generous
 			if (symbol != NULL)
 				Debugger_Printf(" Current PC:     %04X      %s+%X\n", sms.R.PC.W, symbol->name, sms.R.PC.W-symbol->cpu_addr);
 			else
@@ -3488,7 +3488,7 @@ void        Debugger_InputParseCommand(char *line)
 				const u8 v8 = RdZ80_NoHook(addr & 0xFFFF);
 				const u16 v16 = (RdZ80_NoHook((addr+1) & 0xFFFF) << 8) | v8;
 				
-				symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 64);
+				symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 256);
 				if (symbol != NULL)
 					Debugger_Printf(" %04X:   %02X      %04X      %s+%X\n", addr, v8, v16, symbol->name, v16-symbol->cpu_addr);
 				else
