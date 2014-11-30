@@ -362,6 +362,7 @@ enum
 	MSG_Menu_Debug_Enabled,
 	MSG_Menu_Debug_ReloadROM,
 	MSG_Menu_Debug_ReloadSymbols,
+	MSG_Menu_Debug_StepFrame,
 	MSG_Menu_Debug_Dump,
 	
 	MSG_Menu_Machine,

@@ -3,7 +3,6 @@ Border Color emulation
 
 Allow to resize boxes
 
-//Disassembler: RST broken
 Debugger: STEP OVER broken on line with breakpoint
 MemoryViewew: input register/expr in ADDR field
 
@@ -27,7 +26,6 @@ http://www.smspower.org/forums/viewtopic.php?p=76979#76979
 
 
 Menu note:
-- step one frame (ALT+F12) missing
 - CTRL+F12 in SK-1100 mode
 - FPS counter toggle
 - F1,F2,F3,F4
