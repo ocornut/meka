@@ -369,18 +369,20 @@ void	Video_UpdateEvents()
 			opt.Force_Quit = TRUE;
 			break;
 		case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
+			//Msg(MSGT_USER, "ALLEGRO_EVENT_DISPLAY_SWITCH_IN");
 			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
 			//	return;
-			//// Msg(MSGT_USER, "Switch_In_Callback()");
 			//// clear_to_color (screen, BORDER_COLOR);
 			//Video_Clear();
 			//Sound_Playback_Resume();
+			Inputs_Sources_ClearOutOfFocus();
 			break;
 		case ALLEGRO_EVENT_DISPLAY_SWITCH_OUT:
+			//Msg(MSGT_USER, "ALLEGRO_EVENT_DISPLAY_SWITCH_OUT");
 			//if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
 			//	break;
-			//// Msg(MSGT_USER, "Switch_Out_Callback()");
 			//Sound_Playback_Mute();
+			Inputs_Sources_ClearOutOfFocus();
 			break;
 		}
 	}
