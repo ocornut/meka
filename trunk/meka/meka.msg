@@ -501,6 +501,7 @@ Msg_Menu_Debug_Enabled                  = "Enabled.."
 Msg_Menu_Debug_ReloadROM                = "Reload ROM"
 Msg_Menu_Debug_ReloadSymbols            = "Reload Symbols"
 Msg_Menu_Debug_StepFrame                = "Step Frame"
+Msg_Menu_Debug_LoadStateAndContinue     = "Load State & Continue"
 Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------

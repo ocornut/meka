@@ -2937,7 +2937,7 @@ void		Debugger_StepInto()
 	}
 }
 
-void        Debugger_InputParseCommand(char *line)
+void        Debugger_InputParseCommand(char* line)
 {
     char    cmd[64];
     char    arg[256];

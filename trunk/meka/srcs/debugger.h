@@ -182,6 +182,7 @@ void                        Debugger_Enable(void);
 void                        Debugger_Update(void);
 void                        Debugger_Switch(void);
 void                        Debugger_Printf(const char *format, ...);
+void						Debugger_InputParseCommand(char* line);
 
 // Symbols
 bool						Debugger_Symbols_Load();

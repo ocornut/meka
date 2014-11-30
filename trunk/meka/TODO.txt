@@ -50,9 +50,7 @@ markvt: The 'delete' key does not work in the cheat finder for me, only the 'bac
 
 Is there any emulator/setting that handles the Sports Pad input in a way that makes the games playable? Meka allows to use the mouse for it, but it always stops where the mouse pointer would reach the border of the screen. I've tried some other emulators, but none of them seemed to support it at all...
 
-[A] Debugger: Breakpoints are borken (find out an exact repro)
 [B] Debugger: Variables window with live filter.
-[B] CTRL-F7 to load and Debug (C)ontinue.
 [B] Debugger: Preview memory regions on hovering register/instruction. 
 
 Add a super-fast mode (faster than 1/9 for CLOCK-ing things like zexall)

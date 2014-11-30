@@ -44,6 +44,11 @@ static void	Debug_StepFrame_Callback(t_menu_event*)
 	g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
 }
 
+static void	Debug_LoadStateAndContinue_Callback(t_menu_event*)
+{
+	
+}
+
 //-----------------------------------------------------------------------------
 
 // Initialize and create GUI menus
@@ -95,6 +100,7 @@ void	gui_menus_init (void)
     menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadROM),		NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Reload_ROM, NULL);
 	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadSymbols),	NULL,			MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_ReloadSymbols_Callback, NULL);
 	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_StepFrame),		"Alt+F12",		MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_StepFrame_Callback, NULL);
+	menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_LoadStateAndContinue),"Ctrl+F7",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Debug_LoadStateAndContinue_Callback, NULL);
     menus_ID.dump  = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Dump),			MENU_ITEM_FLAG_ACTIVE);
     DataDump_Init_Menus (menus_ID.dump);
     //menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Watch),      0);
