@@ -9,24 +9,24 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_font		Fonts[MEKA_FONT_MAX];
-t_font *	FontCurrent;
+t_font		Fonts[FONTID_COUNT_];
+t_font *	FontCurrent = NULL;
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Fonts_Init (void)
+void    Fonts_Init()
 {
     // See DATA.C
 }
 
-void    Fonts_Close (void)
+void    Fonts_Close()
 {
 }
 
 // Register font to the fonts system
-void    Fonts_DeclareFont (t_font_id font_id, ALLEGRO_FONT *library_data)
+void    Fonts_DeclareFont(t_font_id font_id, ALLEGRO_FONT *library_data)
 {
     t_font *font		= &Fonts[font_id];
     font->id            = font_id;
@@ -34,7 +34,7 @@ void    Fonts_DeclareFont (t_font_id font_id, ALLEGRO_FONT *library_data)
     font->height        = al_get_font_line_height(library_data);
 }
 
-void    Font_SetCurrent (t_font_id font_id)
+void    Font_SetCurrent(t_font_id font_id)
 {
     FontCurrent = &Fonts[font_id];
 }
@@ -42,7 +42,7 @@ void    Font_SetCurrent (t_font_id font_id)
 // Print given string with parameters using current font
 void    Font_Print(t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color)
 {
-    if (font_id == F_CURRENT)
+    if (font_id == FONTID_CUR)
         font_id = FontCurrent->id;
     al_draw_text(Fonts[font_id].library_data, color, x, y, ALLEGRO_ALIGN_LEFT, text);
 }
@@ -50,7 +50,7 @@ void    Font_Print(t_font_id font_id, const char *text, int x, int y, ALLEGRO_CO
 // Print given string, centered around a given x position
 void    Font_PrintCentered(t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color)
 {
-    if (font_id == F_CURRENT)
+    if (font_id == FONTID_CUR)
         font_id = FontCurrent->id;
     al_draw_text(Fonts[font_id].library_data, color, x, y, ALLEGRO_ALIGN_CENTRE, text);
 }
@@ -58,7 +58,7 @@ void    Font_PrintCentered(t_font_id font_id, const char *text, int x, int y, AL
 // Return height of given font
 int     Font_Height(t_font_id font_id)
 {
-    if (font_id == F_CURRENT)
+    if (font_id == FONTID_CUR)
         font_id = FontCurrent->id;
     return Fonts[font_id].height;
 }
@@ -66,7 +66,7 @@ int     Font_Height(t_font_id font_id)
 // Return length of given text in pixel
 int      Font_TextLength(t_font_id font_id, const char *text)
 {
-    if (font_id == F_CURRENT)
+    if (font_id == FONTID_CUR)
         font_id = FontCurrent->id;
     return al_get_text_width(Fonts[font_id].library_data, text);
 }

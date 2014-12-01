@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// MEKA (c) Omar Cornut (Bock) & MEKA team 1998-2013
+// MEKA (c) Omar Cornut (Bock) & MEKA team 1998-2014
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision emulator
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
@@ -268,12 +268,12 @@ static void Close_Callback (void)
 
 // Change to starting directory
 // This function is registered in the atexit() table to be called on quit
-static void Close_Emulator_Starting_Dir(void)
+static void Close_Emulator_Starting_Dir()
 {
     chdir(g_env.Paths.StartingDirectory);
 }
 
-static int Init_Allegro (void)
+static int Init_Allegro()
 {
     ConsolePrint(Msg_Get(MSG_Init_Allegro));
 
@@ -281,8 +281,9 @@ static int Init_Allegro (void)
     // OSD_Timer_Initialize();
 
     al_init();
-	al_init_font_addon();
 	al_init_image_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
 	al_init_primitives_addon();
 
     // Keyboard, mouse
@@ -426,4 +427,3 @@ int main(int argc, char **argv)
 }
 
 //-----------------------------------------------------------------------------
-

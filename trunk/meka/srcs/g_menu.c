@@ -15,25 +15,25 @@
 t_gui_status_bar	g_gui_status;
 t_gui_menus_id		menus_ID;
 gui_type_menus_opt	menus_opt;
-t_menu *		menus[MAX_MENUS];
+t_menu *			menus[MAX_MENUS];
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void        gui_redraw_bars (void)
+void        gui_redraw_bars()
 {
     // Redraw status bar
 	al_set_target_bitmap(gui_buffer);
     al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height,     g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
     al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
-    Font_SetCurrent (F_LARGE);
+    Font_SetCurrent(FONTID_MENUS);
 
     // Show status bar message
     if (g_gui_status.timeleft)
     {
-        Font_Print(F_CURRENT, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(FONTID_CUR, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
         g_gui_status.timeleft --;
     }
 
@@ -42,13 +42,13 @@ void        gui_redraw_bars (void)
     {
 	    char s[16];
         sprintf(s, "%.1f FPS", fskipper.FPS);
-        Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextLength(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     char s[16];
     meka_time_getf(s);
-    Font_Print(F_CURRENT, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextLength(F_CURRENT, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextLength(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
@@ -101,9 +101,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                 if (!((menus_opt.c_menu == n_menu) && (menus_opt.c_entry == i)))
                 {
                     if (menus_opt.c_generation > generation)
-                    {
                         menu_entry->mouse_over = false;
-                    }
                     menus_opt.c_menu = n_menu;
                     menus_opt.c_entry = i;
                     menus_opt.c_somewhere = 1;
@@ -141,11 +139,13 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
     }
 }
 
-void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
+void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 {
     t_menu *menu = menus[n_menu];
 
-	const int label_to_shortcut_y_offset = (Font_Height(F_LARGE) - Font_Height(F_MEDIUM)) / 2 + 1;
+	const t_font_id font_id = FONTID_MENUS;
+
+	const int label_to_shortcut_y_offset = (Font_Height(font_id) - Font_Height(FONTID_MEDIUM)) / 2 + 1;
 
     if (n_menu == MENU_ID_MAIN)
     {
@@ -157,35 +157,28 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
         al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
 
         // Draw menu entries
-        int x = menus_opt.distance;
+        int x = menus_opt.spacing_render;
         int y = 3;
         for (int i = 0; i < menu->n_entry; i ++)
         {
-            const int ln = Font_TextLength(F_CURRENT, menu->entry[i]->label);
+            const int ln = Font_TextLength(FONTID_CUR, menu->entry[i]->label);
             if (x + ln > g_configuration.video_mode_gui_res_x)
-            {
                 break;
-            }
             if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
             {
                 gui_menu_highlight (n_menu, i);
                 if (menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU)
-                {
-                    gui_draw_menu (menu->entry[i]->submenu_id, n_menu, i);
-                }
+                    gui_draw_menu(menu->entry[i]->submenu_id, n_menu, i);
             }
 			ALLEGRO_COLOR  color;
 	        if (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE)
-            {
                 color = COLOR_SKIN_MENU_TEXT;
-            }
             else
-            {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
-            }
-			Font_SetCurrent(F_LARGE);
-            Font_Print(F_CURRENT, menu->entry[i]->label, x, y, color);
-            x += ln + menus_opt.distance;
+
+			Font_SetCurrent(font_id);
+            Font_Print(FONTID_CUR, menu->entry[i]->label, x, y, color);
+            x += ln + menus_opt.spacing_render;
         }
     }
     else
@@ -236,45 +229,35 @@ void	gui_draw_menu (int n_menu, int n_parent, int n_parent_entry)
             {
                 gui_menu_highlight(n_menu, i);
                 if (item->type == MENU_ITEM_TYPE_SUB_MENU)
-                {
                     gui_draw_menu(item->submenu_id, n_menu, i);
-                }
             }
 			ALLEGRO_COLOR color;
             if (item->flags & MENU_ITEM_FLAG_ACTIVE)
-            {
                 color = COLOR_SKIN_MENU_TEXT;
-            }
             else
-            {
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
-            }
 
-			Font_SetCurrent(F_LARGE);
-            Font_Print(F_CURRENT, item->label, x, y, color);
+			Font_SetCurrent(FONTID_MENUS);
+            Font_Print(FONTID_CUR, item->label, x, y, color);
 
 			if (item->shortcut != NULL)
 			{
-				Font_SetCurrent(F_MEDIUM);
-				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextLength(F_CURRENT, item->shortcut);
+				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextLength(FONTID_MEDIUM, item->shortcut);
 				const int shortcut_y = y + label_to_shortcut_y_offset;
-				Font_Print(F_CURRENT, item->shortcut, shortcut_x, shortcut_y, color);
+				Font_Print(FONTID_MEDIUM, item->shortcut, shortcut_x, shortcut_y, color);
 			}
 
             switch (item->type)
             {
             case MENU_ITEM_TYPE_SUB_MENU:
-                Font_Print(F_CURRENT, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - MENUS_PADDING_X, y, color);
+                Font_Print(FONTID_CUR, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - (int)(Font_TextLength(FONTID_CUR, MEKA_FONT_STR_ARROW)*1.3f), y, color);
                 break;
             case MENU_ITEM_TYPE_CALLBACK:
                 if (item->flags & MENU_ITEM_FLAG_CHECKED)
-                {
-					Font_SetCurrent(F_LARGE);
-                    Font_Print(F_CURRENT, MEKA_FONT_STR_CHECKED, menu->start_pos_x + menu->size_x - MENUS_PADDING_X - 1, y, color);
-                }
+                    Font_Print(FONTID_CUR, MEKA_FONT_STR_CHECKED, menu->start_pos_x + menu->size_x - (int)(Font_TextLength(FONTID_CUR, MEKA_FONT_STR_CHECKED)*1.3f), y, color);
                 break;
             }
-            y += Font_Height(F_LARGE) + MENUS_PADDING_Y;
+            y += Font_Height(FONTID_MENUS) + MENUS_PADDING_Y;
         }
     }
 }
@@ -284,12 +267,10 @@ void    gui_redraw_menus()
     gui_redraw_bars();
 
 	// initial panning animation
-	const int MENUS_DISTANCE_FROM_LEFT = 20;
-    if (menus_opt.distance > MENUS_DISTANCE_FROM_LEFT)
+    if (menus_opt.spacing_render > menus_opt.spacing)
     {
-        menus_opt.distance -= 14;
-        if (menus_opt.distance < MENUS_DISTANCE_FROM_LEFT)
-            menus_opt.distance = MENUS_DISTANCE_FROM_LEFT;
+        menus_opt.spacing_render -= 14;
+		menus_opt.spacing_render = MIN(menus_opt.spacing, menus_opt.spacing_render);
         gui.info.must_redraw = true;
     }
 

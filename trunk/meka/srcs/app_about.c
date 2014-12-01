@@ -58,7 +58,7 @@ static void     AboutBox_Layout(bool setup)
 	{
 		int i;
 		int y = 9;
-		Font_SetCurrent(F_LARGE);
+		Font_SetCurrent(FONTID_LARGE);
 		for (i = 0; i < 4; i ++)
 		{
 			int x;
@@ -70,8 +70,8 @@ static void     AboutBox_Layout(bool setup)
 			case 2: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
 			case 3: snprintf(buffer, countof(buffer), "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
 			}
-			x = (( (app->box->frame.size.x - dragon_h - 18 - 6) - Font_TextLength(F_CURRENT, buffer) ) / 2) + dragon_h + 8 + 6;
-			Font_Print(F_CURRENT, buffer, x, y, COLOR_SKIN_WINDOW_TEXT);
+			x = (( (app->box->frame.size.x - dragon_h - 18 - 6) - Font_TextLength(FONTID_CUR, buffer) ) / 2) + dragon_h + 8 + 6;
+			Font_Print(FONTID_CUR, buffer, x, y, COLOR_SKIN_WINDOW_TEXT);
 			y += Font_Height() + 3;
 		}
 	}

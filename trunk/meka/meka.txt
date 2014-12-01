@@ -2,7 +2,7 @@
   MEKA 0.80-ALPHA - Documentation
  ===========================
   Multi machine emulator for MS-Windows, GNU/Linux, etc.
-  (c) in 1998-2013 by MEKA team (Omar Cornut and contributors, list below).
+  (c) in 1998-2014 by MEKA team (Omar Cornut and contributors, list below).
  ==========================================================================
   Homepage: http://www.smspower.org/meka
   License in 'sources.txt' file (BSD-like for most parts)

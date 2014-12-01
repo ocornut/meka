@@ -239,15 +239,15 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     mv->size_columns    = (size_columns != -1) ? size_columns : g_configuration.memory_editor_columns;
     mv->size_lines      = (size_lines != -1)   ? size_lines   : g_configuration.memory_editor_lines;
 
-    mv->frame_hex.pos.x  = 4 + (Font_Height(F_MEDIUM) * 6) - 7;
+    mv->frame_hex.pos.x  = 4 + (Font_Height(FONTID_MEDIUM) * 6) - 7;
     mv->frame_hex.pos.y  = 4;
-    mv->frame_hex.size.x = (mv->size_columns * (Font_Height(F_MEDIUM) * (2) - 1)) + ((mv->size_columns - 1) / 8) * MEMVIEW_COLUMNS_8_PADDING;
-    mv->frame_hex.size.y = mv->size_lines * Font_Height(F_MEDIUM);
+    mv->frame_hex.size.x = (mv->size_columns * (Font_Height(FONTID_MEDIUM) * (2) - 1)) + ((mv->size_columns - 1) / 8) * MEMVIEW_COLUMNS_8_PADDING;
+    mv->frame_hex.size.y = mv->size_lines * Font_Height(FONTID_MEDIUM);
 
     mv->frame_ascii.pos.x  = mv->frame_hex.pos.x + mv->frame_hex.size.x + MEMVIEW_COLUMNS_8_PADDING;
     mv->frame_ascii.pos.y  = 4;
-    mv->frame_ascii.size.x = (mv->size_columns * (Font_Height(F_MEDIUM) - 2));
-    mv->frame_ascii.size.y = mv->size_lines * Font_Height(F_MEDIUM);
+    mv->frame_ascii.size.x = (mv->size_columns * (Font_Height(FONTID_MEDIUM) - 2));
+    mv->frame_ascii.size.y = mv->size_lines * Font_Height(FONTID_MEDIUM);
 
     // Create box
     mv->frame_view.pos.x = 10;
@@ -255,7 +255,7 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     // A column is made with 2 figures plus a space (except the last one)
     mv->frame_view.size.x = 4;
     // Start of the line: "XXXXX:" (6 characters)
-    mv->frame_view.size.x += (Font_Height(F_MEDIUM) * 6) - 7;   // Address
+    mv->frame_view.size.x += (Font_Height(FONTID_MEDIUM) * 6) - 7;   // Address
     mv->frame_view.size.x += mv->frame_hex.size.x;              // Hexadecimal
     mv->frame_view.size.x += MEMVIEW_COLUMNS_8_PADDING;         // Padding
     mv->frame_view.size.x += mv->frame_ascii.size.x;            // ASCII
@@ -267,7 +267,7 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     // Scrollbar
     frame.size.x += 7;
     // Bottom bar
-    frame.size.y += 1 + 1 + Font_Height(F_SMALL) + 2;
+    frame.size.y += 1 + 1 + Font_Height(FONTID_SMALL) + 2;
 
     mv->box = gui_box_new(&frame, Msg_Get(MSG_MemoryEditor_BoxTitle));
     mv->box->user_data = mv;
@@ -331,7 +331,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
         frame.pos.x = 179;
         frame.pos.y = mv->frame_view.size.y + 1;
         frame.size.x = 30;
-        frame.size.y = Font_Height (F_SMALL) + 3;
+        frame.size.y = Font_Height (FONTID_SMALL) + 3;
 
 		for (int i = 0; i != MEMTYPE_MAX_; i++)
 		{
@@ -339,7 +339,7 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
 			t_memory_type memtype = (t_memory_type)i;
 			MemoryRange_GetDetails(memtype, &pane->memrange);
 			pane->memblock_first = 0;
-			pane->button = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewPaneCallback, WIDGET_BUTTON_STYLE_SMALL, (char *)pane->memrange.name, (void*)memtype);
+			pane->button = widget_button_add(mv->box, &frame, 1, MemoryViewer_ViewPaneCallback, FONTID_SMALL, (char *)pane->memrange.name, (void*)memtype);
 
 			frame.pos.x += frame.size.x + 2;
 		}
@@ -350,21 +350,21 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     frame.size.x = mv->box->frame.size.x;
     frame.size.y = mv->box->frame.size.y - mv->frame_view.size.y;
     if (setup)
-        mv->bottom_box = widget_button_add(mv->box, &frame, 1, MemoryViewer_ClickBottom, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        mv->bottom_box = widget_button_add(mv->box, &frame, 1, MemoryViewer_ClickBottom, FONTID_NONE, NULL);
 
     // Address text
     frame.pos.y = mv->frame_view.size.y + 1;
-    frame.size.y = Font_Height(F_SMALL) + 3;
-    Font_Print(F_MEDIUM, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    frame.size.y = Font_Height(FONTID_SMALL) + 3;
+    Font_Print(FONTID_MEDIUM, "Address:", 5, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     al_draw_vline(92, frame.pos.y, frame.pos.y + frame.size.y, COLOR_SKIN_WINDOW_SEPARATORS);
 
     // Goto Address input box
-    Font_Print(F_MEDIUM, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(FONTID_MEDIUM, "Goto", 100, frame.pos.y + 4, COLOR_SKIN_WINDOW_TEXT);
     if (setup)
     {
         frame.pos.x = 128;
         frame.size.x = 40;
-        mv->address_edit_inputbox = widget_inputbox_add(mv->box, &frame, 5, F_MEDIUM, MemoryViewer_InputBoxAddress_EnterCallback);
+        mv->address_edit_inputbox = widget_inputbox_add(mv->box, &frame, 5, FONTID_MEDIUM, MemoryViewer_InputBoxAddress_EnterCallback);
         widget_inputbox_set_content_type(mv->address_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
     }
 
@@ -372,10 +372,10 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     if (setup)
     {
         // Hexadecimal part
-        mv->values_hex_box = widget_button_add(mv->box, &mv->frame_hex, 1, MemoryViewer_ClickMemoryHex, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        mv->values_hex_box = widget_button_add(mv->box, &mv->frame_hex, 1, MemoryViewer_ClickMemoryHex, FONTID_NONE, NULL);
 
         // ASCII part
-        mv->values_ascii_box = widget_button_add(mv->box, &mv->frame_ascii, 1, MemoryViewer_ClickMemoryAscii, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        mv->values_ascii_box = widget_button_add(mv->box, &mv->frame_ascii, 1, MemoryViewer_ClickMemoryAscii, FONTID_NONE, NULL);
     }
 
     // Scrollbar
@@ -391,9 +391,9 @@ static void MemoryViewer_Layout(t_memory_viewer *mv, bool setup)
     {
         frame.pos.x = 0;
         frame.pos.y = 0;
-        frame.size.x = Font_Height(F_MEDIUM) * 2 + 3;
-        frame.size.y = Font_Height(F_MEDIUM);
-        mv->values_edit_inputbox = widget_inputbox_add(mv->box, &frame, 2, F_MEDIUM, MemoryViewer_InputBoxValue_EnterCallback);
+        frame.size.x = Font_Height(FONTID_MEDIUM) * 2 + 3;
+        frame.size.y = Font_Height(FONTID_MEDIUM);
+        mv->values_edit_inputbox = widget_inputbox_add(mv->box, &frame, 2, FONTID_MEDIUM, MemoryViewer_InputBoxValue_EnterCallback);
         widget_inputbox_set_callback_edit(mv->values_edit_inputbox, MemoryViewer_InputBoxValue_EditCallback);
         widget_inputbox_set_flags(mv->values_edit_inputbox, WIDGET_INPUTBOX_FLAGS_NO_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_MOVE_CURSOR | WIDGET_INPUTBOX_FLAGS_NO_DELETE | WIDGET_INPUTBOX_FLAGS_NO_SELECTION | WIDGET_INPUTBOX_FLAGS_HIGHLIGHT_CURRENT_CHAR, TRUE);
         widget_inputbox_set_content_type(mv->values_edit_inputbox, WIDGET_CONTENT_TYPE_HEXADECIMAL);
@@ -427,7 +427,7 @@ static void        MemoryViewer_Update(t_memory_viewer *mv)
     t_memory_pane *pane = mv->pane_current;
 
     char            buf[9];
-    const t_font_id	font_id = F_MEDIUM;
+    const t_font_id	font_id = FONTID_MEDIUM;
     const int       font_height = Font_Height(font_id);
     const int       addr_length = pane->memrange.addr_hex_length;
     const int       addr_start  = pane->memrange.addr_start;
@@ -780,7 +780,7 @@ static void        MemoryViewer_ClickMemoryHex(t_widget *w)
     // Clicking in empty columns disable edition
     for (int i = 0; i < (mv->size_columns - 1) / 8; i++)
     {
-        const int max_x = (i + 1) * (8 * (Font_Height(F_MEDIUM) * (2) - 1) + MEMVIEW_COLUMNS_8_PADDING);
+        const int max_x = (i + 1) * (8 * (Font_Height(FONTID_MEDIUM) * (2) - 1) + MEMVIEW_COLUMNS_8_PADDING);
         const int min_x = max_x - MEMVIEW_COLUMNS_8_PADDING;
         if (w->mouse_x >= min_x && w->mouse_x < max_x)
         {
@@ -794,9 +794,9 @@ static void        MemoryViewer_ClickMemoryHex(t_widget *w)
     // Inside
     // FIXME-SIZE
 	int x, y;
-    x = w->mouse_x / (Font_Height(F_MEDIUM) * (2) - 1);
-    x = (w->mouse_x - (x / 8) * MEMVIEW_COLUMNS_8_PADDING) / (Font_Height(F_MEDIUM) * (2) - 1);
-    y = (w->mouse_y / Font_Height(F_MEDIUM));
+    x = w->mouse_x / (Font_Height(FONTID_MEDIUM) * (2) - 1);
+    x = (w->mouse_x - (x / 8) * MEMVIEW_COLUMNS_8_PADDING) / (Font_Height(FONTID_MEDIUM) * (2) - 1);
+    y = (w->mouse_y / Font_Height(FONTID_MEDIUM));
 
     mv->values_edit_position = x + y * mv->size_columns;
     mv->values_edit_active = TRUE;
@@ -807,8 +807,8 @@ static void        MemoryViewer_ClickMemoryAscii(t_widget *w)
 {
     t_memory_viewer *mv = (t_memory_viewer *)w->box->user_data; // Get instance
 
-    int x = w->mouse_x / (Font_Height(F_MEDIUM) - 2);
-    int y = w->mouse_y / Font_Height(F_MEDIUM);
+    int x = w->mouse_x / (Font_Height(FONTID_MEDIUM) - 2);
+    int y = w->mouse_y / Font_Height(FONTID_MEDIUM);
     // Msg(MSGT_DEBUG, "click w->mx = %d, w->my = %d (frame %d x %d)\n", w->mx, w->my, w->frame.size.x, w->frame.size.y);
     // Msg(MSGT_DEBUG, "x = %d, y = %d\n", x, y);
 
@@ -833,10 +833,10 @@ static void    MemoryViewer_SetupEditValueBox(t_memory_viewer *mv)
         {
             t_frame *frame = &mv->values_edit_inputbox->frame;
             const int pos = mv->values_edit_position;
-            frame->pos.x = (pos % mv->size_columns) * (Font_Height(F_MEDIUM) * 2 - 1);
+            frame->pos.x = (pos % mv->size_columns) * (Font_Height(FONTID_MEDIUM) * 2 - 1);
             // Spacing every 8 bytes
             frame->pos.x += MEMVIEW_COLUMNS_8_PADDING * ((pos % mv->size_columns) / 8);
-            frame->pos.y = (pos / mv->size_columns) * Font_Height(F_MEDIUM);
+            frame->pos.y = (pos / mv->size_columns) * Font_Height(FONTID_MEDIUM);
             frame->pos.x += mv->values_hex_box->frame.pos.x - 5; // Coordinates are parent relative
             frame->pos.y += mv->values_hex_box->frame.pos.y - 1;
         }

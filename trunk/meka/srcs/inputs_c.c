@@ -35,7 +35,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup);
 // FIXME: Actually, values below are not size of the whole inputs configuration applet
 #define INPUTS_CFG_FRAME_X      (150)
 #define INPUTS_CFG_FRAME_Y      ((GUI_LOOK_FRAME_PAD1_Y + GUI_LOOK_FRAME_PAD2_Y * 2)                     \
-                                 + ((INPUT_MAP_MAX + 3) * (Font_Height(F_SMALL) + GUI_LOOK_LINES_SPACING_Y)) \
+                                 + ((INPUT_MAP_MAX + 3) * (Font_Height(FONTID_SMALL) + GUI_LOOK_LINES_SPACING_Y)) \
                                  - GUI_LOOK_LINES_SPACING_Y)
 
 //-----------------------------------------------------------------------------
@@ -87,21 +87,21 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
         frame.pos.y = 18;
         frame.size.x = al_get_bitmap_width(Graphics.Inputs.InputsBase);
         frame.size.y = 80-2;
-        widget_button_add(app->box, &frame, 1, (t_widget_callback)Inputs_CFG_Peripheral_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(app->box, &frame, 1, (t_widget_callback)Inputs_CFG_Peripheral_Change_Handler, FONTID_NONE, NULL);
 
         // Input source change button
         frame.pos.x = 170;
-        frame.pos.y = 10-Font_Height(F_MEDIUM)/2;
+        frame.pos.y = 10-Font_Height(FONTID_MEDIUM)/2;
         frame.size.x = INPUTS_CFG_FRAME_X - 5;
-        frame.size.y = Font_Height(F_MEDIUM);
-        widget_button_add(app->box, &frame, 1|2, (t_widget_callback)Inputs_CFG_Current_Source_Change, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        frame.size.y = Font_Height(FONTID_MEDIUM);
+        widget_button_add(app->box, &frame, 1|2, (t_widget_callback)Inputs_CFG_Current_Source_Change, FONTID_NONE, NULL);
 
         // Input map change button
         frame.pos.x = 170 /* + (INPUTS_CFG_FRAME_X / 2)*/;
         frame.pos.y = 48;
         frame.size.x = (INPUTS_CFG_FRAME_X /* / 2 */) - 10;
-        frame.size.y = INPUT_MAP_MAX * (Font_Height(F_SMALL) + GUI_LOOK_LINES_SPACING_Y);
-        widget_button_add(app->box, &frame, 1, (t_widget_callback)Inputs_CFG_Map_Change_Handler, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        frame.size.y = INPUT_MAP_MAX * (Font_Height(FONTID_SMALL) + GUI_LOOK_LINES_SPACING_Y);
+        widget_button_add(app->box, &frame, 1, (t_widget_callback)Inputs_CFG_Map_Change_Handler, FONTID_NONE, NULL);
 
         // 'Enabled' checkbox
         frame.pos.x = 170;
@@ -114,7 +114,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
         // because currently it is drawn on the box before having the chance
         // to be disabled... so anyway drawing source will clear it.
         frame.pos.x = 170;
-        frame.pos.y = 19 + (7 * 2) + (2 + 6) * (Font_Height(F_SMALL) + GUI_LOOK_LINES_SPACING_Y);
+        frame.pos.y = 19 + (7 * 2) + (2 + 6) * (Font_Height(FONTID_SMALL) + GUI_LOOK_LINES_SPACING_Y);
         frame.size.x = INPUTS_CFG_CHECK_X;
         frame.size.y = INPUTS_CFG_CHECK_Y;
         app->CheckBox_Emulate_Digital = widget_checkbox_add(app->box, &frame, &app->CheckBox_Emulate_Digital_Value, (t_widget_callback)Inputs_CFG_Emulate_Digital_Handler);
@@ -143,13 +143,13 @@ byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
         return FALSE;
 
     // Set default font
-    Font_SetCurrent(F_SMALL);
+    Font_SetCurrent(FONTID_SMALL);
 
     // Shift Y position by 2 steps for analog devices
     if (input_src->flags & INPUT_SRC_FLAGS_ANALOG && i > INPUT_MAP_ANALOG_AXIS_Y_REL)
         i -= 2;
     int x = 165;
-    int y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(F_CURRENT) + GUI_LOOK_LINES_SPACING_Y) + 7;
+    int y = 10 + GUI_LOOK_FRAME_PAD1_Y + (2 + i) * (Font_Height(FONTID_CUR) + GUI_LOOK_LINES_SPACING_Y) + 7;
 
     char map_value[128];
     if (map->hw_index == -1)
@@ -192,8 +192,8 @@ byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
     }
 
 	al_set_target_bitmap(app->box->gfx_buffer);
-    Font_Print(F_CURRENT, map_name, x + GUI_LOOK_FRAME_PAD_X, y, Color);
-    Font_Print(F_CURRENT, map_value, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
+    Font_Print(FONTID_CUR, map_name, x + GUI_LOOK_FRAME_PAD_X, y, Color);
+    Font_Print(FONTID_CUR, map_value, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
     // y += Font_Height() + GUI_LOOK_LINES_SPACING_Y;
 
     return TRUE;
@@ -215,7 +215,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     // y = 10 + (i % 2) * (frame_sy + GUI_LOOK_FRAME_SPACING_Y);
 
     // Set font to use
-    Font_SetCurrent(F_MEDIUM);
+    Font_SetCurrent(FONTID_MEDIUM);
     font_height = Font_Height();
 
     // Clear area to display on
@@ -228,24 +228,24 @@ void    Inputs_CFG_Current_Source_Draw (void)
     {
         char buf[128];
         sprintf(buf, "%d/%d: %s >>", app->Current_Source+1, Inputs.Sources_Max, input_src->name);
-        gui_rect_titled(buf, F_MEDIUM, LOOK_THIN,
+        gui_rect_titled(buf, FONTID_MEDIUM, LOOK_THIN,
             x, y, x + frame_x, y + frame_y,
             COLOR_SKIN_WIDGET_GENERIC_BORDER, COLOR_SKIN_WINDOW_BACKGROUND, /*COLOR_SKIN_WINDOW_TEXT*/COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT);
     }
 
     // Set font to use
-    Font_SetCurrent (F_SMALL);
+    Font_SetCurrent (FONTID_SMALL);
     font_height = Font_Height();
     y += GUI_LOOK_FRAME_PAD1_Y;
 
     // Enable Check
-    Font_Print(F_CURRENT, Msg_Get(MSG_Inputs_Config_Source_Enabled), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(FONTID_CUR, Msg_Get(MSG_Inputs_Config_Source_Enabled), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
     y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
     // Player
     char buf[64];
 	snprintf(buf, sizeof(buf), Msg_Get(MSG_Inputs_Config_Source_Player), input_src->player + 1);
-	Font_Print(F_CURRENT, buf, x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+	Font_Print(FONTID_CUR, buf, x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
 	y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
     // Horizontal Separator
@@ -267,7 +267,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
 
     // Emulate Digital
     widget_checkbox_redraw (app->CheckBox_Emulate_Digital);
-    Font_Print(F_CURRENT, Msg_Get(MSG_Inputs_Config_Source_Emulate_Joypad), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(FONTID_CUR, Msg_Get(MSG_Inputs_Config_Source_Emulate_Joypad), x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
     y += font_height + GUI_LOOK_LINES_SPACING_Y;
 }
 
@@ -317,7 +317,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     ALLEGRO_BITMAP *sprite = NULL;
 
     // Set font to use
-    Font_SetCurrent (F_SMALL);
+    Font_SetCurrent (FONTID_SMALL);
 
     // Clear area to display on
 	al_set_target_bitmap(bmp);
@@ -325,7 +325,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     al_draw_filled_rectangle(10, 58, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 121 + 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Print 'click to select peripheral' message
-    Font_PrintCentered(F_CURRENT, Msg_Get(MSG_Inputs_Config_Peripheral_Click), 
+    Font_PrintCentered(FONTID_CUR, Msg_Get(MSG_Inputs_Config_Peripheral_Click), 
         10 + 11 + (64 / 2) + (58 / 2),
         4, COLOR_SKIN_WINDOW_TEXT);
 
@@ -334,7 +334,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     {
         // Print name
         const char *name = Inputs_Peripheral_Infos[Inputs.Peripheral[i]].name;
-        Font_PrintCentered(F_CURRENT, name, 
+        Font_PrintCentered(FONTID_CUR, name, 
             10 + 11 + (i ? 64 : 0) + (58 / 2), // X
             20, // Y
             COLOR_SKIN_WINDOW_TEXT);

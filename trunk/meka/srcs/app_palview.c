@@ -59,7 +59,7 @@ void    PaletteViewer_Init()
     pv->frame_info.pos.y        = 50;
     pv->frame_info.size.x       = pv->box->frame.size.x;
     pv->frame_info.size.y       = 13;
-    pv->frame_palette_zone      = widget_button_add(pv->box, &pv->frame_palette, 1, PaletteViewer_CallbackSelectColor, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+    pv->frame_palette_zone      = widget_button_add(pv->box, &pv->frame_palette, 1, PaletteViewer_CallbackSelectColor, FONTID_NONE, NULL);
 
     // Layout
     PaletteViewer_Layout(pv, TRUE);
@@ -185,7 +185,7 @@ void    PaletteViewer_Update(void)
                     color_bits[0] = 0;
                     break;
             }
-            Font_Print(F_SMALL, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(FONTID_SMALL, buf, 16, pv->frame_info.pos.y + 1, COLOR_SKIN_WINDOW_TEXT);
             dirty = TRUE;
             pv->color_displayed = color_current;
         }

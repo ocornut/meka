@@ -112,5 +112,6 @@ void    Data_Init                   (void);
 void    Data_Close                  (void);
 
 void    Data_CreateVideoBuffers     (void);
+bool	Data_LoadFont(ALLEGRO_FONT** pfont, const char* name, int size);
 
 //-----------------------------------------------------------------------------

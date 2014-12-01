@@ -57,7 +57,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
         frame.pos.y = 2;
         frame.size.x = app->box->frame.size.x - (4*2);
         frame.size.y = app->box->frame.size.y - (2*2);
-        app->widget_textbox = widget_textbox_add(app->box, &frame, TB_MESSAGE_LINES, F_MEDIUM);
+        app->widget_textbox = widget_textbox_add(app->box, &frame, TB_MESSAGE_LINES, FONTID_MEDIUM);
     }
 }
 
@@ -71,8 +71,8 @@ void        TB_Message_Init(void)
     // Create box
     frame.pos.x  = 16;
     frame.pos.y  = 378;
-    frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (F_MEDIUM)) + (4*2); // 4*2=padding
-    frame.size.y = (TB_MESSAGE_LINES   * Font_Height (F_MEDIUM)) + (2*2); // 2*2=padding
+    frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (FONTID_MEDIUM)) + (4*2); // 4*2=padding
+    frame.size.y = (TB_MESSAGE_LINES   * Font_Height (FONTID_MEDIUM)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));
 
     // Register to desktop

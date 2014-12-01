@@ -107,7 +107,7 @@ void                FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 
 int     FB_Return_File_Area_Y()
 {
-    return ((FB.file_y * Font_Height(F_LARGE)) + 5);
+    return ((FB.file_y * Font_Height(FONTID_LARGE)) + 5);
 }
 
 int     FB_Return_Res_Y()
@@ -178,7 +178,7 @@ void	FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_PAD_Y + 2;
         frame.size.x = FB.res_x - (2 * FB_PAD_X) - FB_SCROLL_X - 4;
         frame.size.y = FB_Return_File_Area_Y () - 6;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Click_List, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Click_List, FONTID_NONE, NULL);
 
         // Add 'CLOSE' button
         //frame.pos.x = FB_BUTTON_X + 10;
@@ -186,22 +186,22 @@ void	FB_Layout(t_filebrowser *app, bool setup)
         frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y);
         frame.size.x = FB_BUTTON_X;
         frame.size.y = FB_BUTTON_Y;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, WIDGET_BUTTON_STYLE_LARGE, Msg_Get(MSG_FileBrowser_Close));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, FONTID_LARGE, Msg_Get(MSG_FileBrowser_Close));
 
         // Add 'LOAD' button
         frame.pos.x -= FB_BUTTON_X + 10;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, WIDGET_BUTTON_STYLE_LARGE, Msg_Get(MSG_FileBrowser_Load));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, FONTID_LARGE, Msg_Get(MSG_FileBrowser_Load));
 
         // Add small 'LOAD NAMES' button
         frame.pos.x = FB_PAD_X;
-        frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height (F_MEDIUM) + 6;
+        frame.pos.y = FB_Return_File_Area_Y () + (2 * FB_PAD_Y) + Font_Height(FONTID_MEDIUM) + 6;
         frame.size.x = 54;
-        frame.size.y = Font_Height (F_SMALL) + 3;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
+        frame.size.y = Font_Height (FONTID_SMALL) + 3;
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, FONTID_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
 
         // Add small 'RELOAD DIR' button
         frame.pos.x += frame.size.x + 1;
-        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, WIDGET_BUTTON_STYLE_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
+        widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, FONTID_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
     }
 
     // Outer frame
@@ -490,14 +490,14 @@ void        FB_Draw_Infos (void)
 
 	char buf[32];
     sprintf(buf, "%d/%d", FB.file_pos + 1, FB.files_max);
-    Font_SetCurrent(F_MEDIUM);
+    Font_SetCurrent(FONTID_MEDIUM);
 	al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(
         FB_TEXT_PAD_X, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
         88+1, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2+1/*+ 6*/ + Font_Height(),
         COLOR_SKIN_WINDOW_BACKGROUND);
-    Font_Print(F_CURRENT, buf,
-        (110 - Font_TextLength(F_CURRENT, buf)) / 2,
+    Font_Print(FONTID_CUR, buf,
+        (110 - Font_TextLength(FONTID_CUR, buf)) / 2,
         FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
         COLOR_SKIN_WINDOW_TEXT);
 }
@@ -522,7 +522,7 @@ void	FB_Draw_List(void)
     al_draw_filled_rectangle(FB_PAD_X + 2, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
 	al_draw_line(FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, FB.res_x - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
-    Font_SetCurrent (F_LARGE);
+    Font_SetCurrent (FONTID_LARGE);
     for (int n = FB.file_display_first; n < lines_max; n++)
     {
         t_filebrowser_entry *entry = FB.files[n];
@@ -595,11 +595,11 @@ void	FB_Draw_List(void)
         x_max -= x_usage;
 
         // If name doesn't fit in x_max, we have to cut it
-        if (x + Font_TextLength(F_CURRENT, name_buffer) > x_max)
+        if (x + Font_TextLength(FONTID_CUR, name_buffer) > x_max)
         {
-            const int x_usage_ellipse = Font_TextLength(F_CURRENT, "..");
+            const int x_usage_ellipse = Font_TextLength(FONTID_CUR, "..");
             int name_buffer_len = strlen(name_buffer);
-            while (x + Font_TextLength(F_CURRENT, name_buffer) + x_usage_ellipse > x_max)
+            while (x + Font_TextLength(FONTID_CUR, name_buffer) + x_usage_ellipse > x_max)
             {
                 name_buffer_len--;
                 name_buffer [name_buffer_len] = EOSTR;
@@ -608,7 +608,7 @@ void	FB_Draw_List(void)
         }
 
         // Print name
-        Font_Print(F_CURRENT, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
+        Font_Print(FONTID_CUR, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
 
         // Print additionnal infos/icons
         switch (entry->type)
@@ -617,7 +617,7 @@ void	FB_Draw_List(void)
         case FB_ENTRY_TYPE_DRIVE:
             {
                 // Directory/Drive '>' marker
-                Font_Print(F_CURRENT, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
+                Font_Print(FONTID_CUR, ">", FB.res_x - FB_TEXT_PAD_X - FB_SCROLL_X - 4, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
                 break;
             }
         case FB_ENTRY_TYPE_FILE:
@@ -981,7 +981,7 @@ bool    FB_SelectEntryByFileName(const char* file_name)
 
 void    FB_Click_List (t_widget *w)
 {
-    const int i = FB.file_display_first + (w->mouse_y / Font_Height (F_LARGE));
+    const int i = FB.file_display_first + (w->mouse_y / Font_Height (FONTID_LARGE));
 	if ((i == FB.last_click) && (gui.mouse.double_clicked & 1))
     {
         FB_OpenSelectedEntry();

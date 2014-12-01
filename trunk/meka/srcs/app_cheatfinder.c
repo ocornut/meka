@@ -135,8 +135,8 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 		widget_closebox_add(app->box, CheatFinder_CallbackClose);
 
 	// Setup Memory sections
-	FontPrinter fp(F_MEDIUM);
-	DrawCursor dc(v2i(5,0), F_MEDIUM);
+	FontPrinter fp(FONTID_MEDIUM);
+	DrawCursor dc(v2i(5,0), FONTID_MEDIUM);
 	dc.y_spacing += 4;
 
 	fp.Printf(dc.pos+v2i(0,4), "Memory region:");
@@ -150,8 +150,8 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 			t_memory_range memrange;
 			MemoryRange_GetDetails(memtype, &memrange);
 
-			t_frame frame(dc.pos, v2i(30,Font_Height(F_SMALL) + 3));
-			app->w_memtype_buttons[memtype] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackMemtypeSelect, WIDGET_BUTTON_STYLE_SMALL, (const char *)memrange.name, (void*)memtype);
+			t_frame frame(dc.pos, v2i(30,Font_Height(FONTID_SMALL) + 3));
+			app->w_memtype_buttons[memtype] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackMemtypeSelect, FONTID_SMALL, (const char *)memrange.name, (void*)memtype);
 			dc.pos.x += frame.size.x + 2;
 		}
 	}
@@ -164,8 +164,8 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	{
 		for (int i = 0; i != CHEAT_FINDER_VALUE_TYPE_MAX_; i++)
 		{
-			t_frame frame(dc.pos, v2i(30,Font_Height(F_SMALL)+3));
-			app->w_valuetype_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackValuetypeSelect, WIDGET_BUTTON_STYLE_SMALL, (const char *)s_value_type_names[i], (void*)i);
+			t_frame frame(dc.pos, v2i(30,Font_Height(FONTID_SMALL)+3));
+			app->w_valuetype_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackValuetypeSelect, FONTID_SMALL, (const char *)s_value_type_names[i], (void*)i);
 			dc.pos.x += frame.size.x + 2;
 		}
 	}
@@ -174,23 +174,23 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 
 	if (setup)
 	{
-		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
-		widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackReset, WIDGET_BUTTON_STYLE_SMALL, "RESET SEARCH");	// FIXME-LOCALIZATION
+		t_frame frame(dc.pos, v2i(80,Font_Height(FONTID_SMALL)+3));
+		widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackReset, FONTID_SMALL, "RESET SEARCH");	// FIXME-LOCALIZATION
 	}
 
 	app->matches_frame.SetPos(92,dc.pos.y);
 	app->matches_frame.SetSize(app->box->frame.size - app->matches_frame.pos);
 
-	DrawCursor dc2(v2i(92+5,dc.pos.y+3),F_MEDIUM);
+	DrawCursor dc2(v2i(92+5,dc.pos.y+3),FONTID_MEDIUM);
 	dc2.NewLine();
 	al_draw_line(91+0.5f,dc.pos.y-2,91+0.5f,app->box->frame.size.y+1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 	if (setup)
 	{
-		int h = Font_Height(F_SMALL)-2;
+		int h = Font_Height(FONTID_SMALL)-2;
 		for (int i = 0; i != CHEAT_FINDER_MATCHES_MAX; i++)
 		{
 			t_frame frame(dc2.pos, v2i(h,h));
-			app->w_matches_memedit_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackSelectOneMatch, WIDGET_BUTTON_STYLE_SMALL, "", (void*)i);
+			app->w_matches_memedit_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackSelectOneMatch, FONTID_SMALL, "", (void*)i);
 			dc2.NewLine();
 		}
 	}
@@ -200,13 +200,13 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	fp.Printf(dc.pos+v2i(0,4), "COMPARE REF:");
 	dc.NewLine();
 	{
-		t_frame frame(dc.pos, v2i(50,Font_Height(F_SMALL)+3));
+		t_frame frame(dc.pos, v2i(50,Font_Height(FONTID_SMALL)+3));
 		if (setup)
-			app->w_compare_to_buttons[CHEAT_FINDER_COMPARE_TO_OLD_VALUE] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackCompareToSelect, WIDGET_BUTTON_STYLE_SMALL, "Old Value", (void*)0);
+			app->w_compare_to_buttons[CHEAT_FINDER_COMPARE_TO_OLD_VALUE] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackCompareToSelect, FONTID_SMALL, "Old Value", (void*)0);
 		dc.NewLine();
 		frame.SetPos(dc.pos);
 		if (setup)
-			app->w_compare_to_buttons[CHEAT_FINDER_COMPARE_TO_CONSTANT] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackCompareToSelect, WIDGET_BUTTON_STYLE_SMALL, "Constant", (void*)1);
+			app->w_compare_to_buttons[CHEAT_FINDER_COMPARE_TO_CONSTANT] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackCompareToSelect, FONTID_SMALL, "Constant", (void*)1);
 		dc.NewLine();
 	}
 
@@ -215,8 +215,8 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	dc.pos.y += 2;
 	if (setup)
 	{
-		t_frame frame(dc.pos, v2i(60,Font_Height(F_SMALL)+3));
-		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, F_MEDIUM, NULL);
+		t_frame frame(dc.pos, v2i(60,Font_Height(FONTID_SMALL)+3));
+		app->w_custom_value = widget_inputbox_add(app->box, &frame, 9, FONTID_MEDIUM, NULL);
 		widget_inputbox_set_content_type(app->w_custom_value, WIDGET_CONTENT_TYPE_DEC_HEX_BIN);
 	}
 	dc.pos.y += 1;
@@ -230,9 +230,9 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	{
 		for (int i = 0; i != CHEAT_FINDER_COMPARER_MAX_; i++)
 		{
-			t_frame frame(dc.pos, v2i(30,Font_Height(F_SMALL)+3));
+			t_frame frame(dc.pos, v2i(30,Font_Height(FONTID_SMALL)+3));
 			if (setup)
-				app->w_comparer_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackComparer, WIDGET_BUTTON_STYLE_SMALL, (const char *)s_comparer_names[i], (void*)i);
+				app->w_comparer_buttons[i] = widget_button_add(app->box, &frame, 1, CheatFinder_CallbackComparer, FONTID_SMALL, (const char *)s_comparer_names[i], (void*)i);
 			if ((i & 1) == 0)
 				dc.pos.x += frame.size.x + 2;
 			else
@@ -248,14 +248,14 @@ void	CheatFinder_Layout(t_cheat_finder *app, bool setup)
 	/*if (setup)
 	{
 		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
-		app->w_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackReduce, WIDGET_BUTTON_STYLE_SMALL, "START");		// FIXME-LOCALIZATION
+		app->w_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackReduce, FONTID_SMALL, "START");		// FIXME-LOCALIZATION
 	}
 	dc.NewLine();
 	dc.pos.y += 2;*/
 	if (setup)
 	{
-		t_frame frame(dc.pos, v2i(80,Font_Height(F_SMALL)+3));
-		app->w_undo_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackUndoReduce, WIDGET_BUTTON_STYLE_SMALL, "UNDO REDUCE");		// FIXME-LOCALIZATION
+		t_frame frame(dc.pos, v2i(80,Font_Height(FONTID_SMALL)+3));
+		app->w_undo_reduce_search = widget_button_add(app->box, &frame, 1, (t_widget_callback)CheatFinder_CallbackUndoReduce, FONTID_SMALL, "UNDO REDUCE");		// FIXME-LOCALIZATION
 		//widget_button_set_grayed_out(app->w_undo_reduce_search, false);
 	}
 }
@@ -303,8 +303,8 @@ void	CheatFinder_Update(t_cheat_finder* app)
 
 	al_draw_filled_rectangle(app->matches_frame.pos.x, app->matches_frame.pos.y, app->matches_frame.pos.x+app->matches_frame.size.x, app->matches_frame.pos.y+app->matches_frame.size.y, COLOR_SKIN_WINDOW_BACKGROUND);
 
-	FontPrinter fp(F_MEDIUM);
-	DrawCursor dc(app->matches_frame.pos+v2i(5,4), F_MEDIUM);
+	FontPrinter fp(FONTID_MEDIUM);
+	DrawCursor dc(app->matches_frame.pos+v2i(5,4), FONTID_MEDIUM);
 
 	fp.Printf(dc.pos, (app->matches.size()>1) ? "%d matches" : "%d match", app->matches.size());
 	dc.NewLine();
