@@ -241,10 +241,9 @@ static void    Desktop_Save_Item(t_desktop_item *item, FILE *f)
 	fprintf(f, "\n");
 }
 
-void	Desktop_Save(void)
+void	Desktop_Save()
 {
-    FILE *      f;
-
+	FILE * f;
     if ((f = fopen(Desktop.filename, "wt")) == 0)
         return; // FIXME: report that somewhere ?
 
@@ -264,7 +263,7 @@ void	Desktop_Save(void)
     for (t_list* list = Desktop.items; list != NULL; list = list->next)
 		Desktop_Save_Item((t_desktop_item*)list->elem, f);
 
-    fprintf(f, "\n;-----------------------------------------------------------------------------\n\n");
+    fprintf(f, ";-----------------------------------------------------------------------------\n\n");
 
     // Close write
     fclose (f);
