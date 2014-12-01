@@ -49,10 +49,10 @@ void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, in
 		for (int i = 0; i < n_entry; i ++)
 		{
 			t_menu_item* item = menu->entry[i];
-			*x1 += Font_TextLength(FONTID_CUR, item->label) + menus_opt.spacing_render;
+			*x1 += Font_TextWidth(FONTID_CUR, item->label) + menus_opt.spacing_render;
 		}
 		*x1 -= (menus_opt.spacing / 2);
-		*x2 = *x1 + menus_opt.spacing + Font_TextLength(FONTID_CUR, menu->entry[n_entry]->label);
+		*x2 = *x1 + menus_opt.spacing + Font_TextWidth(FONTID_CUR, menu->entry[n_entry]->label);
 	}
 	else
 	{
@@ -90,8 +90,8 @@ void    gui_menu_update_size(int menu_id)
 		}
 		else
 		{
-			const int text_w = Font_TextLength(FONTID_CUR, item->label);
-			const int shortcut_w = item->shortcut ? Font_TextLength(FONTID_MEDIUM, item->shortcut) : 0;
+			const int text_w = Font_TextWidth(FONTID_CUR, item->label);
+			const int shortcut_w = item->shortcut ? Font_TextWidth(FONTID_MEDIUM, item->shortcut) : 0;
 
 			size_x = MAX(size_x, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
 			size_y += Font_Height() + MENUS_PADDING_Y;

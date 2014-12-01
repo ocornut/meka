@@ -22,6 +22,7 @@ void    gui_init_mouse (void)
     gui.mouse.wheel_abs = 0;
     gui.mouse.focus = GUI_FOCUS_NONE;
     gui.mouse.focus_item = NULL;
+	gui.mouse.focus_is_resizing = false;
     gui.mouse.last_click_button = 0;
 	gui.mouse.last_click_time_elapsed = 9999.0f;
 }

@@ -7,7 +7,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_update (void);
-void    gui_update_applets_after_redraw (void);
+void    gui_update();
+void    gui_update_applets_after_redraw();
 
 //-----------------------------------------------------------------------------

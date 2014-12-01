@@ -13,13 +13,6 @@
 #include "textbox.h"
 
 //-----------------------------------------------------------------------------
-// Definitions
-//-----------------------------------------------------------------------------
-
-#define TB_MESSAGE_LINES        (22) // 50
-#define TB_MESSAGE_COLUMNS      (46)
-
-//-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
@@ -45,41 +38,42 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
     al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
-    if (setup)
-    {
-        t_frame frame;
+    // Add closebox widget
+	if (setup)
+		widget_closebox_add(app->box, (t_widget_callback)TB_Message_Switch);
 
-        // Add closebox widget
-        widget_closebox_add(app->box, (t_widget_callback)TB_Message_Switch);
-
-        // Create textbox widget
-        frame.pos.x = 4;
-        frame.pos.y = 2;
-        frame.size.x = app->box->frame.size.x - (4*2);
-        frame.size.y = app->box->frame.size.y - (2*2);
-        app->widget_textbox = widget_textbox_add(app->box, &frame, TB_MESSAGE_LINES, FONTID_MEDIUM);
-    }
+    // Create textbox widget
+	t_frame frame;
+    frame.pos.x = 4;
+    frame.pos.y = 2;
+    frame.size.x = app->box->frame.size.x - (4*2);
+    frame.size.y = app->box->frame.size.y - (2*2);
+	if (setup)
+		app->widget_textbox = widget_textbox_add(app->box, &frame, FONTID_MEDIUM);
+	else
+		app->widget_textbox->frame = frame;
 }
 
-void        TB_Message_Init(void)
+void        TB_Message_Init()
 {
     t_app_messages *app = &TB_Message;  // Global instance
-    t_frame frame;
 
-    app->active = TRUE;
+    app->active = true;
 
     // Create box
+	t_frame frame;
     frame.pos.x  = 16;
     frame.pos.y  = 378;
-    frame.size.x = (TB_MESSAGE_COLUMNS * Font_Height (FONTID_MEDIUM)) + (4*2); // 4*2=padding
-    frame.size.y = (TB_MESSAGE_LINES   * Font_Height (FONTID_MEDIUM)) + (2*2); // 2*2=padding
+    frame.size.x = (46 * Font_Height(FONTID_MEDIUM)) + (4*2); // 4*2=padding
+    frame.size.y = (24 * Font_Height (FONTID_MEDIUM)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));
+	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
 
     // Register to desktop
-    Desktop_Register_Box("MESSAGES", app->box, TRUE, &app->active);
+    Desktop_Register_Box("MESSAGES", app->box, true, &app->active);
 
     // Layout
-    TB_Message_Layout(app, TRUE);
+    TB_Message_Layout(app, true);
 
     // Open log file
     if (app->log_filename != NULL)
@@ -90,7 +84,7 @@ void        TB_Message_Init(void)
     }
 }
 
-void    TB_Message_Update(void)
+void    TB_Message_Update()
 {
     t_app_messages *app = &TB_Message;  // Global instance
 

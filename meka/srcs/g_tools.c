@@ -38,7 +38,7 @@ void    gui_rect_titled (char *Text, t_font_id font_id,
 {
     int lx, ly;
     gui_rect(look, x1, y1, x2, y2, c_fg);
-    lx = Font_TextLength(font_id, Text) + (2 * GUI_LOOK_FRAME_PAD_HEAD2_X) + 3;
+    lx = Font_TextWidth(font_id, Text) + (2 * GUI_LOOK_FRAME_PAD_HEAD2_X) + 3;
     ly = Font_Height(font_id) / 2;
 
     al_draw_filled_rectangle(x1 + GUI_LOOK_FRAME_PAD_HEAD1_X, y1 - ly, x1 + GUI_LOOK_FRAME_PAD_HEAD1_X + lx + 1, y1 + ly + 1, c_bg);

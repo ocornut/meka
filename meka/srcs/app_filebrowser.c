@@ -497,7 +497,7 @@ void        FB_Draw_Infos (void)
         88+1, FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2+1/*+ 6*/ + Font_Height(),
         COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print(FONTID_CUR, buf,
-        (110 - Font_TextLength(FONTID_CUR, buf)) / 2,
+        (110 - Font_TextWidth(FONTID_CUR, buf)) / 2,
         FB_Return_File_Area_Y() + (2 * FB_PAD_Y) + 2,
         COLOR_SKIN_WINDOW_TEXT);
 }
@@ -595,11 +595,11 @@ void	FB_Draw_List(void)
         x_max -= x_usage;
 
         // If name doesn't fit in x_max, we have to cut it
-        if (x + Font_TextLength(FONTID_CUR, name_buffer) > x_max)
+        if (x + Font_TextWidth(FONTID_CUR, name_buffer) > x_max)
         {
-            const int x_usage_ellipse = Font_TextLength(FONTID_CUR, "..");
+            const int x_usage_ellipse = Font_TextWidth(FONTID_CUR, "..");
             int name_buffer_len = strlen(name_buffer);
-            while (x + Font_TextLength(FONTID_CUR, name_buffer) + x_usage_ellipse > x_max)
+            while (x + Font_TextWidth(FONTID_CUR, name_buffer) + x_usage_ellipse > x_max)
             {
                 name_buffer_len--;
                 name_buffer [name_buffer_len] = EOSTR;

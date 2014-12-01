@@ -42,13 +42,13 @@ void        gui_redraw_bars()
     {
 	    char s[16];
         sprintf(s, "%.1f FPS", fskipper.FPS);
-        Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextLength(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     char s[16];
     meka_time_getf(s);
-    Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextLength(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
@@ -161,7 +161,7 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
         int y = 3;
         for (int i = 0; i < menu->n_entry; i ++)
         {
-            const int ln = Font_TextLength(FONTID_CUR, menu->entry[i]->label);
+            const int ln = Font_TextWidth(FONTID_CUR, menu->entry[i]->label);
             if (x + ln > g_configuration.video_mode_gui_res_x)
                 break;
             if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
@@ -242,7 +242,7 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 
 			if (item->shortcut != NULL)
 			{
-				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextLength(FONTID_MEDIUM, item->shortcut);
+				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextWidth(FONTID_MEDIUM, item->shortcut);
 				const int shortcut_y = y + label_to_shortcut_y_offset;
 				Font_Print(FONTID_MEDIUM, item->shortcut, shortcut_x, shortcut_y, color);
 			}
@@ -250,11 +250,17 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
             switch (item->type)
             {
             case MENU_ITEM_TYPE_SUB_MENU:
-                Font_Print(FONTID_CUR, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - (int)(Font_TextLength(FONTID_CUR, MEKA_FONT_STR_ARROW)*1.3f), y, color);
+				{
+					// FIXME: draw shape
+	                Font_Print(FONTID_CUR, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - (int)(Font_TextWidth(FONTID_CUR, MEKA_FONT_STR_ARROW)*1.3f), y, color);
+				}
                 break;
             case MENU_ITEM_TYPE_CALLBACK:
                 if (item->flags & MENU_ITEM_FLAG_CHECKED)
-                    Font_Print(FONTID_CUR, MEKA_FONT_STR_CHECKED, menu->start_pos_x + menu->size_x - (int)(Font_TextLength(FONTID_CUR, MEKA_FONT_STR_CHECKED)*1.3f), y, color);
+				{
+					// FIXME: draw shape
+                    Font_Print(FONTID_CUR, MEKA_FONT_STR_CHECKED, menu->start_pos_x + menu->size_x - (int)(Font_TextWidth(FONTID_CUR, MEKA_FONT_STR_CHECKED)*1.3f), y, color);
+				}
                 break;
             }
             y += Font_Height(FONTID_MENUS) + MENUS_PADDING_Y;

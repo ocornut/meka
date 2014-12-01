@@ -24,8 +24,8 @@
 
 struct t_widget_data_closebox
 {
-    int                         lighted;
-	t_widget_callback			callback;
+    int					active;
+	t_widget_callback	callback;
 };
 
 struct t_widget_data_button
@@ -62,8 +62,7 @@ struct t_widget_data_textbox
 {
     int                         lines_num;
     int                         lines_max;
-    int                         columns_max;
-    t_widget_data_textbox_line *lines;
+	t_widget_data_textbox_line* lines;
     t_font_id                   font_id;
     const ALLEGRO_COLOR *       pcurrent_color;
 };
@@ -237,24 +236,21 @@ void        widget_set_user_data(t_widget *w, void *user_data)
 
 t_widget *  widget_closebox_add(t_gui_box *box, t_widget_callback callback)
 {
-    t_widget *w;
-    t_widget_data_closebox *wd;
-
     t_frame frame;
-    frame.pos.x = box->frame.size.x - 10;
-    frame.pos.y = -15;
-    frame.size.x = 8;
-    frame.size.y = 8;
+	frame.size.x = Font_Height(FONTID_MENUS) - 5;
+	frame.size.y = Font_Height(FONTID_MENUS) - 5;
+    frame.pos.x = box->frame.size.x - (frame.size.x + 3);
+    frame.pos.y = -(frame.size.y + 5);
 
-    w = widget_new(box, WIDGET_TYPE_CLOSEBOX, &frame);
+    t_widget *w = widget_new(box, WIDGET_TYPE_CLOSEBOX, &frame);
     widget_set_mouse_buttons_mask(w, 1);
 
     w->redraw_func = widget_closebox_redraw;
     w->update_func = widget_closebox_update;
 
     w->data = malloc(sizeof (t_widget_data_closebox));
-    wd = (t_widget_data_closebox*)w->data;
-    wd->lighted = FALSE;
+    t_widget_data_closebox *wd = (t_widget_data_closebox*)w->data;
+    wd->active = false;
     wd->callback = callback;
 
     return w;
@@ -264,17 +260,21 @@ void        widget_closebox_redraw(t_widget *w)
 {
     t_widget_data_closebox* wd = (t_widget_data_closebox*)w->data;
 
-	ALLEGRO_COLOR color;
+	w->frame.pos.x = w->box->frame.size.x - (w->frame.size.x + 1);
+	w->frame.pos.y = -(w->frame.size.y + 5);
 
     // Get appropriate color
-    // Note: using titlebar text active/unactive color to display the closebox star
-    color = (wd->lighted) ? COLOR_SKIN_WINDOW_TITLEBAR_TEXT : COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
+    // Note: using titlebar text active/inactive color to display the closebox star
+    ALLEGRO_COLOR color = (w->mouse_action & WIDGET_MOUSE_ACTION_HOVER) ? COLOR_SKIN_WINDOW_TITLEBAR_TEXT : COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
 
     // Draw box-closing star using the LARGE font
-    // MEKA_FONT_STR_STAR correspond to a string holding the * picture in the font
 	al_set_target_bitmap(gui_buffer);
-    Font_Print (FONTID_LARGE, MEKA_FONT_STR_STAR, 
-        w->box->frame.pos.x + w->frame.pos.x, w->box->frame.pos.y + w->frame.pos.y - 4, color);
+	al_draw_filled_rectangle(
+		w->box->frame.pos.x + w->frame.pos.x + 2, 					w->box->frame.pos.y + w->frame.pos.y + 2, 
+		w->box->frame.pos.x + w->frame.pos.x + w->frame.size.x - 2,	w->box->frame.pos.y + w->frame.pos.y + w->frame.size.y - 2, color);
+	al_draw_rectangle(
+		w->box->frame.pos.x + w->frame.pos.x + 2,					w->box->frame.pos.y + w->frame.pos.y + 2, 
+		w->box->frame.pos.x + w->frame.pos.x + w->frame.size.x - 2,	w->box->frame.pos.y + w->frame.pos.y + w->frame.size.y - 2, COLOR_SKIN_WINDOW_BACKGROUND, 1);
 }
 
 void        widget_closebox_update(t_widget *w)
@@ -282,27 +282,23 @@ void        widget_closebox_update(t_widget *w)
     t_widget_data_closebox* wd = (t_widget_data_closebox*)w->data;
 
     // Mouse handling
-    if (!wd->lighted)
+    if (!wd->active)
     {
         if ((w->mouse_action & WIDGET_MOUSE_ACTION_HOVER) && (w->mouse_buttons & 1))
-        {
-            wd->lighted = TRUE;
-        }
+            wd->active = true;
     }
     else
     {
         if (!(w->mouse_action & WIDGET_MOUSE_ACTION_HOVER))
         {
-            wd->lighted = FALSE;
+            wd->active = false;
         }
         else
         {
             if ((w->mouse_buttons_previous & 1) && !(w->mouse_buttons & 1))
             {
-                wd->lighted = FALSE;
-                {
-                    wd->callback(w);
-                }
+                wd->active = false;
+                wd->callback(w);
             }
         }
     }
@@ -320,10 +316,7 @@ void        widget_closebox_update(t_widget *w)
 
 t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_font_id font_id, const char *label, void* user_data)
 {
-    t_widget *w;
-    t_widget_data_button *wd;
-
-    w = widget_new(box, WIDGET_TYPE_BUTTON, frame);
+    t_widget* w = widget_new(box, WIDGET_TYPE_BUTTON, frame);
     widget_set_mouse_buttons_mask(w, mouse_buttons_mask);
 
 	w->destroy_func = widget_button_destroy;
@@ -331,7 +324,7 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     w->update_func = widget_button_update;
 
     w->data = malloc(sizeof (t_widget_data_button));
-    wd = (t_widget_data_button*)w->data;
+    t_widget_data_button* wd = (t_widget_data_button*)w->data;
     wd->label = label ? strdup(label) : NULL;
     wd->font_id = font_id;
 	wd->highlight_on_click = 0;
@@ -400,7 +393,7 @@ void        widget_button_redraw(t_widget *w)
 		gui_rect(LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 	else
 		gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-	Font_Print(wd->font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(wd->font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(wd->font_id)) / 2) + 1, text_color);
+	Font_Print(wd->font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextWidth(wd->font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(wd->font_id)) / 2) + 1, text_color);
 }
 
 void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
@@ -424,17 +417,14 @@ void	widget_button_set_label(t_widget *w, const char* label)
 
 t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, const int *v_max, int *v_start, int v_step_per_page, t_widget_callback callback)
 {
-    t_widget *w;
-    t_widget_data_scrollbar *wd;
-
-    w = widget_new(box, WIDGET_TYPE_SCROLLBAR, frame);
+    t_widget* w = widget_new(box, WIDGET_TYPE_SCROLLBAR, frame);
     widget_set_mouse_buttons_mask(w, 1);
 
     w->redraw_func = widget_scrollbar_redraw;
     w->update_func = widget_scrollbar_update;
 
     w->data = (t_widget_data_scrollbar *)malloc (sizeof (t_widget_data_scrollbar));
-    wd = (t_widget_data_scrollbar*)w->data;
+    t_widget_data_scrollbar* wd = (t_widget_data_scrollbar*)w->data;
     wd->scrollbar_type = scrollbar_type;
     wd->v_max = v_max;
     wd->v_start = v_start;
@@ -550,17 +540,14 @@ void        widget_scrollbar_redraw(t_widget *w)
 
 t_widget *  widget_checkbox_add(t_gui_box *box, const t_frame *frame, bool *pvalue, t_widget_callback callback)
 {
-    t_widget *w;
-    t_widget_data_checkbox *wd;
-
-    w = widget_new(box, WIDGET_TYPE_CHECKBOX, frame);
+    t_widget* w = widget_new(box, WIDGET_TYPE_CHECKBOX, frame);
     widget_set_mouse_buttons_mask(w, 1);
 
     w->redraw_func = widget_checkbox_redraw;
     w->update_func = widget_checkbox_update;
 
     w->data = malloc(sizeof (t_widget_data_checkbox));
-    wd = (t_widget_data_checkbox*)w->data;
+    t_widget_data_checkbox* wd = (t_widget_data_checkbox*)w->data;
     wd->pvalue = pvalue;
     wd->callback = callback;
 
@@ -607,35 +594,27 @@ void        widget_checkbox_set_pvalue(t_widget *w, bool *pvalue)
 
 void		widget_textbox_destroy(t_widget *w);
 
-t_widget *      widget_textbox_add(t_gui_box *box, const t_frame *frame, int lines_max, t_font_id font_id)
+t_widget *  widget_textbox_add(t_gui_box *box, const t_frame *frame, t_font_id font_id)
 {
-    t_widget *  w;
-    t_widget_data_textbox *wd;
-
     // Create widget
-    w = widget_new(box, WIDGET_TYPE_TEXTBOX, frame);
-
+    t_widget* w = widget_new(box, WIDGET_TYPE_TEXTBOX, frame);
 	w->destroy_func = widget_textbox_destroy;
     w->redraw_func = widget_textbox_redraw;
     w->update_func = NULL;
 
     // Setup values & parameters
     w->data = malloc(sizeof (t_widget_data_textbox));
-    wd = (t_widget_data_textbox*)w->data;
+    t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
     wd->lines_num       = 0;
-    wd->lines_max       = lines_max;
+    wd->lines_max       = 100;
     wd->font_id         = font_id;
     wd->pcurrent_color  = &COLOR_SKIN_WINDOW_TEXT;
 
-    // FIXME: To compute 'columns_max', we assume that 'M' is the widest character 
-    // of a font. Which may or may not be true, and should be fixed. 
-    wd->columns_max = w->frame.size.x / Font_TextLength(font_id, "M");
-    wd->lines       = (t_widget_data_textbox_line*)malloc(sizeof (t_widget_data_textbox_line) * lines_max);
-    for (int i = 0; i < lines_max; i++)
+    wd->lines = (t_widget_data_textbox_line*)malloc(sizeof(t_widget_data_textbox_line) * wd->lines_max);
+    for (int i = 0; i < wd->lines_max; i++)
     {
         wd->lines[i].pcolor = wd->pcurrent_color;
-        wd->lines[i].text = (char*)malloc (sizeof (char) * (wd->columns_max + 1));
-        wd->lines[i].text[0] = EOSTR;
+        wd->lines[i].text = NULL;
     }
 
     // Return newly created widget
@@ -654,27 +633,26 @@ void        widget_textbox_redraw(t_widget *w)
 {
     t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
 
-    const int fh = Font_Height (wd->font_id);
-    int x = w->frame.pos.x;
-    int y = w->frame.pos.y + w->frame.size.y - fh;
-    int i;
-	ALLEGRO_BITMAP *bmp = w->box->gfx_buffer;
+    const int fh = Font_Height(wd->font_id);
+    const int x = w->frame.pos.x;
+    int y = w->frame.pos.y + w->frame.size.y;
 
-    /*
-    {
-        static cnt = 0;
-        Msg(MSGT_USER_INFOLINE, "widget_textbox_redraw() %d", cnt++);
-    }
-    // rect (gui.box_image [w->box_n], w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x, w->frame.pos.y + w->frame.size.y, COLOR_SKIN_BORDER);
-    */
-
-	al_set_target_bitmap(bmp);
+	al_set_target_bitmap(w->box->gfx_buffer);
     al_draw_filled_rectangle(w->frame.pos.x, w->frame.pos.y, w->frame.pos.x + w->frame.size.x + 1, w->frame.pos.y + w->frame.size.y + 1, COLOR_SKIN_WINDOW_BACKGROUND);
-    for (i = 0; i < wd->lines_num; i++)
+    for (int i = 0; i < wd->lines_num; i++)
     {
-        if (wd->lines[i].text[0] != EOSTR)
-            Font_Print (wd->font_id, wd->lines[i].text, x, y, *wd->lines[i].pcolor);
-        y -= fh;
+		if (y < w->frame.pos.y - fh)
+			break;
+		
+		t_widget_data_textbox_line* entry = &wd->lines[i];
+
+		const int wrap_width = w->frame.size.x;
+		const int h = Font_TextHeight(wd->font_id, entry->text, wrap_width);
+		y -= h;
+
+        if (wd->lines[i].text[0] == EOSTR)
+			continue;
+        Font_Print(wd->font_id, entry->text, x, y, *entry->pcolor, wrap_width);
     }
 }
 
@@ -693,19 +671,23 @@ void        widget_textbox_set_current_color(t_widget *w, const ALLEGRO_COLOR *p
     wd->pcurrent_color = pcurrent_color;
 }
 
-static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
+void		widget_textbox_print_scroll(t_widget *w, bool wrap, const char *line)
 {
     t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
 
     // Shift all lines by one position
-    // FIXME: should replace this by a circular queue
+    // FIXME-OPT: circular queue
     if (wd->lines_num > 0)
     {
-        t_widget_data_textbox_line wrapped_line = wd->lines[wd->lines_max - 1];
-        int n;
-        for (n = wd->lines_max - 1; n > 0; n--)
+		if (wd->lines[wd->lines_max - 1].text)
+		{
+			free(wd->lines[wd->lines_max - 1].text);
+			wd->lines[wd->lines_max - 1].text = NULL;
+		}
+
+        for (int n = wd->lines_max - 1; n > 0; n--)
             wd->lines[n] = wd->lines[n - 1];
-        wd->lines[0] = wrapped_line;
+        wd->lines[0].text = NULL;
     }
 
     // Increment number of lines counter
@@ -713,10 +695,14 @@ static void widget_textbox_print_scroll_nowrap(t_widget *w, const char *line)
         wd->lines_num++;
 
     // Copy new line
-    strcpy(wd->lines[0].text, line);
-    wd->lines[0].pcolor = wd->pcurrent_color;
+	if (wd->lines_max > 0)
+	{
+	    wd->lines[0].text = strdup(line);
+		wd->lines[0].pcolor = wd->pcurrent_color;
+	}
 }
 
+/*
 void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
 {
     t_widget_data_textbox* wd = (t_widget_data_textbox*)w->data;
@@ -773,11 +759,16 @@ void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
     if (pos != 0)
         widget_textbox_print_scroll_nowrap(w, buf);
 }
+*/
 
-void        widget_textbox_printf_scroll(t_widget *w, int wrap, const char *format, ...)
+void        widget_textbox_printf_scroll(t_widget *w, bool wrap, const char* fmt, ...)
 {
-    // FIXME: yet unsupported
-    assert(0);
+	char buf[1024];
+	va_list args;
+	va_start(fmt, args);
+	vsnprintf(buf, countof(buf), fmt, args);
+	va_end(args);
+	widget_textbox_print_scroll(w, wrap, buf);
 }
 
 //-----------------------------------------------------------------------------
@@ -992,7 +983,7 @@ void        widget_inputbox_update(t_widget *w)
                 for (i = 0; i < wd->length; i++)
                 {
                     s[0] = wd->text[i];
-                    mx -= Font_TextLength(wd->font_id, s);
+                    mx -= Font_TextWidth(wd->font_id, s);
                     if (mx <= 0)
                         break;
                 }
@@ -1222,10 +1213,10 @@ void        widget_inputbox_redraw(t_widget *w)
 		const int sel_max = MAX(wd->sel_begin, wd->sel_end);
 
 		sprintf(wd->tmp_buffer, "%.*s", sel_min, wd->text);
-		const int sel_min_x = Font_TextLength(wd->font_id, wd->tmp_buffer);
+		const int sel_min_x = Font_TextWidth(wd->font_id, wd->tmp_buffer);
 
 		sprintf(wd->tmp_buffer, "%.*s", sel_max - sel_min, wd->text + sel_min);
-		const int sel_max_x = sel_min_x + Font_TextLength(wd->font_id, wd->tmp_buffer);
+		const int sel_max_x = sel_min_x + Font_TextWidth(wd->font_id, wd->tmp_buffer);
 
 		const ALLEGRO_COLOR inv_color = COLOR_SKIN_WINDOW_BACKGROUND;
 		al_draw_filled_rectangle(x + sel_min_x, w->frame.pos.y + 1+1, x + sel_max_x, w->frame.pos.y + w->frame.size.y-1, inv_color);
@@ -1249,7 +1240,7 @@ void        widget_inputbox_redraw(t_widget *w)
 			ch[0] = wd->text[i];
 			ch[1] = '\0';
 			Font_Print(wd->font_id, ch, x, y, color);
-			x += Font_TextLength(wd->font_id, ch); // A bit slow
+			x += Font_TextWidth(wd->font_id, ch); // A bit slow
 		}
 	}
 }
