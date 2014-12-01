@@ -18,7 +18,7 @@
 // FIXME-DEPTH: Ressources (machines, icons) not faded out
 void    Action_Quit()
 {
-    Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_Quit));
+    Msg(MSGT_STATUS_BAR, "%s", Msg_Get(MSG_Quit));
 
     // Shut up sound while fading
     Sound_Playback_Stop();

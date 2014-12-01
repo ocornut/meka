@@ -91,12 +91,8 @@ void	gui_draw()
         case GUI_BOX_TYPE_STANDARD: 
 			al_set_target_bitmap(gui_buffer);
 			al_draw_bitmap_region(b->gfx_buffer, 0, 0, bb.size.x + 1, bb.size.y + 1, bb.pos.x, bb.pos.y, 0x0000);
-			if ((b->flags & GUI_BOX_FLAGS_ALLOW_RESIZE) != 0)
-			{
-				//al_draw_triangle()
-			}
             break;
-        case GUI_BOX_TYPE_GAME : 
+		case GUI_BOX_TYPE_GAME: 
             gamebox_draw(b, screenbuffer);
             break;
         }
@@ -107,14 +103,16 @@ void	gui_draw()
 		al_draw_line(bb.pos.x, bb.pos.y - 1.5f, bb.pos.x + bb.size.x + 1, bb.pos.y - 1.5f, COLOR_SKIN_WINDOW_BORDER, 0);
 		al_draw_line(bb.pos.x, bb.pos.y - 0.5f, bb.pos.x + bb.size.x + 1, bb.pos.y - 0.5f, COLOR_SKIN_WINDOW_BORDER, 0);
 
-		// Draw resize widget
+		// Draw resize widget (invisible for game window)
 		if (b->flags & GUI_BOX_FLAGS_ALLOW_RESIZE)
 		{
-			const int sz = 9; // display size is 9, interaction is 12
-			ALLEGRO_COLOR color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
-			if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_box == b && gui.mouse.focus_is_resizing)
-				color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
-			al_draw_filled_triangle(bb_max.x+2, bb_max.y+2, bb_max.x+2-sz, bb_max.y+2, bb_max.x+2, bb_max.y+2-sz, color);
+			const bool is_resizing = (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_box == b && gui.mouse.focus_is_resizing);
+			if (b->type != GUI_BOX_TYPE_GAME || is_resizing)
+			{
+				const int sz = 9; // display size is 9, interaction is 12
+				const ALLEGRO_COLOR color = is_resizing ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
+				al_draw_filled_triangle(bb_max.x+2, bb_max.y+2, bb_max.x+2-sz, bb_max.y+2, bb_max.x+2, bb_max.y+2-sz, color);
+			}
 		}
 
 		// Draw title bar

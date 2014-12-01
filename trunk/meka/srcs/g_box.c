@@ -112,8 +112,6 @@ void	gui_update_boxes()
     // Move/resize
     if ((do_move || do_resize) && (gui.mouse.focus != GUI_FOCUS_WIDGET) && (gui.mouse.buttons & 1))
     {
-        int mx, my;
-
         // FIXME-FOCUS
         //if (gui_mouse.pressed_on != PRESSED_ON_BOX)
         if (gui.mouse.focus != GUI_FOCUS_BOX)
@@ -124,26 +122,34 @@ void	gui_update_boxes()
             gui.mouse.focus_box = b;
 			gui.mouse.focus_widget = NULL;
 			gui.mouse.focus_is_resizing = do_resize ? true : false;
-            mx = 0;
-            my = 0;
-        }
-        else
-        {
-            mx = gui.mouse.x - gui.mouse.x_prev;
-            my = gui.mouse.y - gui.mouse.y_prev;
+			gui.mouse.focus_pivot.x = gui.mouse.x - b->frame.pos.x;
+			gui.mouse.focus_pivot.y = gui.mouse.y - b->frame.pos.y;
+			if (gui.mouse.focus_is_resizing)
+			{
+				// Lower-right pivot for resizing
+				gui.mouse.focus_pivot.x -= b->frame.size.x;
+				gui.mouse.focus_pivot.y -= b->frame.size.y;
+			}
         }
 
 		assert((t_gui_box*)gui.mouse.focus_box == b);
 
 		// Mouse moves box
 		// FIXME: rewrite this embarrassing 1998 code into something decent
-		if (mx != 0 || my != 0)
+		if (gui.mouse.focus_is_resizing)
 		{
-			if (gui.mouse.focus_is_resizing)
-			{
-				gui_box_resize(b, b->frame.size.x + mx, b->frame.size.y + my);
-			}
-			else
+			// Resize
+			const int sx = (gui.mouse.x - gui.mouse.focus_pivot.x) - b->frame.pos.x;
+			const int sy = (gui.mouse.y - gui.mouse.focus_pivot.y) - b->frame.pos.y;
+			gui_box_resize(b, sx, sy);
+		}
+		else
+		{
+			// Move
+			const int mx = (gui.mouse.x - gui.mouse.focus_pivot.x) - b->frame.pos.x;
+			const int my = (gui.mouse.y - gui.mouse.focus_pivot.y) - b->frame.pos.y;
+
+			if (mx || my)
 			{
 				int ax1, ay1, ax2, ay2;
 				int bx1, by1, bx2, by2;
@@ -232,6 +238,8 @@ t_gui_box *	gui_box_new(const t_frame *frame, const char *title)
     box->widgets    = NULL;
 	box->size_min.Set(32,32);
 	box->size_max.Set(10000,10000);
+	box->size_step.Set(1,1);
+	box->size_fixed_ratio = false;
     box->user_data  = NULL;
     box->update     = NULL;
     box->destroy    = NULL;
@@ -428,12 +436,31 @@ void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
 	size_x = Clamp<int>(size_x, box->size_min.x, box->size_max.x);
 	size_y = Clamp<int>(size_y, box->size_min.y, box->size_max.y);
 
+	if (box->size_fixed_ratio)
+	{
+		float inc_ratio_x = (0.49f + (float)((size_x - (box->size_min.x-1))) / box->size_step.x);
+		float inc_ratio_y = (0.49f + (float)((size_y - (box->size_min.y-1))) / box->size_step.y);
+		inc_ratio_x = inc_ratio_y = MIN(inc_ratio_x, inc_ratio_y);
+	
+		size_x = box->size_min.x + (int)inc_ratio_x * box->size_step.x;
+		size_y = box->size_min.y + (int)inc_ratio_y * box->size_step.y;
+	}
+
+	if (box->size_fixed_ratio)
+		Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Options_GUI_GameWindowScale), (int)(g_configuration.game_window_scale*100));
+
 	if (box->frame.size.x == size_x && box->frame.size.y == size_y)
 		return;
+
 	box->frame.size.x = size_x;
 	box->frame.size.y = size_y;
+
+	if (box->size_fixed_ratio)
+		g_configuration.game_window_scale = (size_x+1) / (float)g_driver->x_res;
+
 	gui_box_create_video_buffer(box);
 	gui.info.must_redraw = true;
+
 }
 
 // Clip position of given box so that it shows on desktop.

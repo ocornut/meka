@@ -343,6 +343,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
 	__MSG_ADD(MSG_Options_GUI_VSync),
 	__MSG_ADD(MSG_Options_Capture_Crop_Align),
 	__MSG_ADD(MSG_Options_NES_Enable),
+	__MSG_ADD(MSG_Options_GUI_GameWindowScale),
 
 	__MSG_ADD(MSG_Language_Set),
 	__MSG_ADD(MSG_Language_Set_Warning),
@@ -922,7 +923,7 @@ void            Msg(int attr, const char *format, ...)
         }
 
         // Set status line
-        if (attr & MSGT_USER_INFOLINE)
+        if (attr & MSGT_STATUS_BAR)
         {
             strcpy(g_gui_status.message, src);
             g_gui_status.timeleft = 120;

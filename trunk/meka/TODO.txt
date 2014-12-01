@@ -3,8 +3,6 @@ Memory Leak
 
 Border Color emulation
 
-Allow to resize boxes
-
 Debugger: STEP OVER broken on line with breakpoint
 MemoryViewew: input register/expr in ADDR field
 
@@ -362,7 +360,6 @@ doing them now and some are quick work.
      - 32 bits version
      - HQ2X, HQ4X
  - Resize window
-   - Need Allegro support of that feature (I think it's in the work).
    - Easy to do for GUI.
    - Support for fullscreen blitter (hmm..?)
  - [Win32] Support OS resolution change.

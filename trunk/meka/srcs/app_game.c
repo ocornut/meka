@@ -20,7 +20,7 @@ t_gui_box *  gamebox_instance;
 // Functions
 //-----------------------------------------------------------------------------
 
-void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
+void        gamebox_draw(t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 {
 	const float scale = g_configuration.game_window_scale;
 
@@ -43,13 +43,9 @@ void        gamebox_draw (t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
     }
 
 	if (fabs(scale-1.0f) < 0.001f)
-	{
 	    al_draw_bitmap_region(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, 0x0000);
-	}
 	else
-	{
 		al_draw_scaled_bitmap(game_buffer, x_start, y_start, x_len, y_len, x_dst, y_dst, x_len*scale, y_len*scale, 0x0000);
-	}
 }
 
 void        gamebox_compute_size(int *x, int *y)
@@ -71,6 +67,12 @@ t_gui_box * gamebox_create(int x, int y)
 
     box->type = GUI_BOX_TYPE_GAME;
     box->flags |= GUI_BOX_FLAGS_TAB_STOP;
+	box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
+	box->size_min.x = (g_driver->x_res/2)-1;
+	box->size_min.y = (g_driver->y_res/2)-1;
+	box->size_step.x = g_driver->x_res/4;
+	box->size_step.y = g_driver->y_res/4;
+	box->size_fixed_ratio = true;
 
     gui_box_clip_position(box);
     gamebox_rename_all();
@@ -78,13 +80,17 @@ t_gui_box * gamebox_create(int x, int y)
     return (box);
 }
 
-void	gamebox_resize_all (void)
+void	gamebox_resize_all()
 {
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
         t_gui_box* box = (t_gui_box*)boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
         {
+			box->size_min.x = (g_driver->x_res/2)-1;
+			box->size_min.y = (g_driver->y_res/2)-1;
+			box->size_step.x = g_driver->x_res/4;
+			box->size_step.y = g_driver->y_res/4;
 			int sx, sy;
             gamebox_compute_size(&sx, &sy);
 			gui_box_resize(box, sx, sy);
@@ -93,7 +99,7 @@ void	gamebox_resize_all (void)
     gui.info.must_redraw = TRUE;
 }
 
-void        gamebox_rename_all (void)
+void	gamebox_rename_all()
 {
     const char *new_name;
     
@@ -113,9 +119,8 @@ void        gamebox_rename_all (void)
     {
         t_gui_box* box = (t_gui_box*)boxes->elem;
         if (box->type == GUI_BOX_TYPE_GAME)
-            gui_box_set_title (box, new_name);
+            gui_box_set_title(box, new_name);
     }
 }
 
 //-----------------------------------------------------------------------------
-

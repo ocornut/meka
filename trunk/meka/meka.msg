@@ -469,6 +469,7 @@ Msg_Options_FullScreen_Messages         = "Show messages in fullscreen mode."
 Msg_Options_GUI_VSync                   = "Wait for VSync in interface mode."
 Msg_Options_Capture_Crop_Align          = "Crop and align screen captures to 8x8 boundaries."
 Msg_Options_NES_Enable                  = "Mario is not a fat plumber."
+Msg_Options_GUI_GameWindowScale         = "Game window size: %d%%"
 
 ; Languages / Localization ---------------------------------------------------
 Msg_Language_Set                        = "Language set to %s"
