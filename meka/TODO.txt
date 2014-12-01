@@ -1,4 +1,6 @@
 
+Memory Leak
+
 Border Color emulation
 
 Allow to resize boxes
