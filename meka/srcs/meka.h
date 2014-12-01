@@ -309,6 +309,14 @@ struct t_meka_configuration
 	bool			capture_crop_align_8x8;
 	bool			capture_include_gui;
 
+	// Fonts (t_font_id)
+	int				font_menus;
+	int				font_messages;
+	int				font_options;
+	int				font_debugger;
+	int				font_documentation;
+	int				font_techinfo;
+	int				font_filebrowser;
 };
 
 extern t_meka_configuration    g_configuration;

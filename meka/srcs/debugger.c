@@ -1929,7 +1929,7 @@ static void Debugger_Applet_Init()
 	t_frame frame;
 
     // Create box
-    app->font_id = FONTID_MEDIUM;//FONTID_PROGGYCLEAN;
+    app->font_id = (t_font_id)g_configuration.font_debugger;
     app->font_height = Font_Height(app->font_id);
     frame.pos.x     = 428;
     frame.pos.y     = 50;

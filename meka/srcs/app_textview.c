@@ -36,7 +36,7 @@ void	TextViewer_Init(t_app_textviewer* app)
     app->active      = FALSE;
     app->dirty       = TRUE;
     app->current_file= -1;
-    app->font        = FONTID_PROGGYCLEAN;
+    app->font        = (t_font_id)g_configuration.font_documentation;
     app->font_height = Font_Height(app->font);
 
     // Create box

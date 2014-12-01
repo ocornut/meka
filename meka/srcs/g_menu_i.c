@@ -56,10 +56,12 @@ void	gui_menus_init()
 {
 	char buffer[256];
 
+	t_font_id font_id = (t_font_id)g_configuration.font_menus;
+
     g_gui_status.x = 10;
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
     Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS_SHORT);
-	menus_opt.spacing = Font_TextWidth(FONTID_MENUS, "  ");
+	menus_opt.spacing = Font_TextWidth(font_id, "  ");
     menus_opt.spacing_render = gui.info.screen.x - 40;
     menus_opt.c_menu = -1;
     menus_opt.c_entry = -1;

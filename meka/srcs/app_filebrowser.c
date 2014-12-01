@@ -92,7 +92,7 @@ void	FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 
 static int FB_Return_File_Area_Y()
 {
-    return ((FB.files_display_count * Font_Height(FONTID_LARGE)) + 5);
+    return ((FB.files_display_count * Font_Height(FB.font_id)) + 5);
 }
 
 void    FB_Switch()
@@ -137,12 +137,14 @@ void    FB_Init_2()
 
 void	FB_Layout(t_filebrowser *app, bool setup)
 {
+	app->font_id = (t_font_id)g_configuration.font_filebrowser;
+
     al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
 	int contents_y = app->box->frame.size.y;
 	contents_y -= ((3*FB_PAD_Y) + FB_BUTTON_Y + 5);
-	app->files_display_count = contents_y / Font_Height(FONTID_LARGE);
+	app->files_display_count = contents_y / Font_Height(app->font_id);
 
 	app->bottom_y = contents_y + 2*FB_PAD_Y;
 
@@ -186,14 +188,14 @@ void	FB_Layout(t_filebrowser *app, bool setup)
     frame.size.x = FB_BUTTON_X;
     frame.size.y = FB_BUTTON_Y;
 	if (setup)
-		app->widget_close_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, FONTID_LARGE, Msg_Get(MSG_FileBrowser_Close));
+		app->widget_close_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, app->font_id, Msg_Get(MSG_FileBrowser_Close));
 	else
 		app->widget_close_button->frame = frame;
 
     // Add 'LOAD' button
     frame.pos.x -= FB_BUTTON_X + 10;
 	if (setup)
-		app->widget_load_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, FONTID_LARGE, Msg_Get(MSG_FileBrowser_Load));
+		app->widget_load_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, app->font_id, Msg_Get(MSG_FileBrowser_Load));
 	else
 		app->widget_load_button->frame = frame;
 
@@ -530,7 +532,7 @@ void	FB_Draw_List()
     al_draw_filled_rectangle(FB_PAD_X + 2, FB_PAD_Y + 2, bb_w - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
 	al_draw_line(bb_w - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, bb_w - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
-    Font_SetCurrent (FONTID_LARGE);
+    Font_SetCurrent(app->font_id);
     for (int n = FB.file_display_first; n < lines_max; n++)
     {
         t_filebrowser_entry *entry = FB.files[n];
@@ -618,7 +620,7 @@ void	FB_Draw_List()
         // Print name
         Font_Print(FONTID_CUR, name_buffer, x, y, COLOR_SKIN_WIDGET_LISTBOX_TEXT);
 
-        // Print additionnal infos/icons
+        // Print additional infos/icons
         switch (entry->type)
         {
         case FB_ENTRY_TYPE_DIRECTORY:
@@ -989,17 +991,19 @@ bool    FB_SelectEntryByFileName(const char* file_name)
 
 void    FB_Click_List (t_widget *w)
 {
-    const int i = FB.file_display_first + (w->mouse_y / Font_Height (FONTID_LARGE));
-	if ((i == FB.last_click) && (gui.mouse.double_clicked & 1))
+	t_filebrowser* app = &FB;
+
+    const int i = app->file_display_first + (w->mouse_y / Font_Height(app->font_id));
+	if ((i == app->last_click) && (gui.mouse.double_clicked & 1))
     {
         FB_OpenSelectedEntry();
     }
     else
     {
-        FB.file_pos = i;
-        FB.last_click = i;
-        if (FB.file_pos >= FB.files_max) 
-            FB.file_pos = FB.files_max - 1;
+        app->file_pos = i;
+        app->last_click = i;
+        if (app->file_pos >= app->files_max) 
+            app->file_pos = app->files_max - 1;
         FB_Draw_List();
     }
 }

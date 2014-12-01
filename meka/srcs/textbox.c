@@ -49,7 +49,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
     frame.size.x = app->box->frame.size.x - (4*2);
     frame.size.y = app->box->frame.size.y - (2*2);
 	if (setup)
-		app->widget_textbox = widget_textbox_add(app->box, &frame, FONTID_MEDIUM);
+		app->widget_textbox = widget_textbox_add(app->box, &frame, (t_font_id)g_configuration.font_messages);
 	else
 		app->widget_textbox->frame = frame;
 }
@@ -57,6 +57,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
 void        TB_Message_Init()
 {
     t_app_messages *app = &TB_Message;  // Global instance
+	t_font_id font_id = (t_font_id)g_configuration.font_messages;
 
     app->active = true;
 
@@ -64,8 +65,8 @@ void        TB_Message_Init()
 	t_frame frame;
     frame.pos.x  = 16;
     frame.pos.y  = 378;
-    frame.size.x = (46 * Font_Height(FONTID_MEDIUM)) + (4*2); // 4*2=padding
-    frame.size.y = (24 * Font_Height (FONTID_MEDIUM)) + (2*2); // 2*2=padding
+    frame.size.x = (46 * Font_Height(font_id)) + (4*2); // 4*2=padding
+    frame.size.y = (24 * Font_Height(font_id)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));
 	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
 
@@ -80,7 +81,7 @@ void        TB_Message_Init()
     {
         app->log_file = fopen(app->log_filename, "a+t");
         if (app->log_file)
-            fprintf(app->log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
+            fprintf(app->log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf());
     }
 }
 

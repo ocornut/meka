@@ -194,6 +194,15 @@ static void Init_Default_Values()
 	g_configuration.capture_crop_align_8x8			= false;
 	g_configuration.capture_include_gui				= true;
 
+	// Fonts
+	g_configuration.font_menus						= FONTID_LARGE; // FONTID_CRISP;
+	g_configuration.font_messages					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_options					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_debugger					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_documentation				= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_techinfo					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_filebrowser				= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+
     // Media
     // FIXME: yet not fully used
     g_media_rom.type        = MEDIA_IMAGE_ROM;

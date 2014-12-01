@@ -28,12 +28,12 @@ void        gui_redraw_bars()
     al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height,     g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
     al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
-    Font_SetCurrent(FONTID_MENUS);
+	t_font_id font_id = (t_font_id)g_configuration.font_menus;
 
     // Show status bar message
     if (g_gui_status.timeleft)
     {
-        Font_Print(FONTID_CUR, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(font_id, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
         g_gui_status.timeleft --;
     }
 
@@ -42,13 +42,13 @@ void        gui_redraw_bars()
     {
 	    char s[16];
         sprintf(s, "%.1f FPS", fskipper.FPS);
-        Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(font_id, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     char s[16];
     meka_time_getf(s);
-    Font_Print(FONTID_CUR, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print(font_id, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
@@ -144,8 +144,7 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 {
     t_menu *menu = menus[n_menu];
 
-	const t_font_id font_id = FONTID_MENUS;
-
+	const t_font_id font_id = (t_font_id)g_configuration.font_menus;
 	const int label_to_shortcut_y_offset = (Font_Height(font_id) - Font_Height(FONTID_MEDIUM)) / 2 + 1;
 
     if (n_menu == MENU_ID_MAIN)
@@ -238,7 +237,7 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
             else
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
 
-			Font_SetCurrent(FONTID_MENUS);
+			Font_SetCurrent(font_id);
             Font_Print(FONTID_CUR, item->label, x, y, color);
 
 			if (item->shortcut != NULL)
@@ -264,7 +263,7 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 				}
                 break;
             }
-            y += Font_Height(FONTID_MENUS) + MENUS_PADDING_Y;
+            y += Font_Height(font_id) + MENUS_PADDING_Y;
         }
     }
 }

@@ -37,46 +37,47 @@ static void TechInfo_Layout(t_app_tech_info *app, bool setup)
     }
 }
 
-void        TechInfo_Init (void)
+void        TechInfo_Init()
 {
-    int    i;
-    t_frame frame;
+	t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
 
+    t_frame frame;
     frame.pos.x = 306;
     frame.pos.y = 482;
-    frame.size.x = TECHINFO_COLUMNS * Font_TextWidth(FONTID_MEDIUM, " ");
-    frame.size.y = TECHINFO_LINES * Font_Height(FONTID_MEDIUM);
+    frame.size.x = TECHINFO_COLUMNS * Font_TextWidth(font_id, " ");
+    frame.size.y = TECHINFO_LINES * Font_Height(font_id);
     
     TechInfo.active = FALSE;
-
     TechInfo.box = gui_box_new(&frame, Msg_Get(MSG_TechInfo_BoxTitle));
     Desktop_Register_Box("TECHINFO", TechInfo.box, 0, &TechInfo.active);
     TechInfo.box->update = TechInfo_Update;
 
     // Layout
-    TechInfo_Layout(&TechInfo, TRUE);
+    TechInfo_Layout(&TechInfo, true);
 
     // Clear lines
-    for (i = 0; i != TECHINFO_LINES; i++)
+    for (int i = 0; i != TECHINFO_LINES; i++)
     {
         strcpy(TechInfo.lines[i], "");
-        TechInfo.lines_dirty[i] = TRUE;
+        TechInfo.lines_dirty[i] = true;
     }
 }
 
-static void TechInfo_Redraw(t_app_tech_info *app)
+static void TechInfo_Redraw(t_app_tech_info* app)
 {
+	t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
+
 	al_set_target_bitmap(app->box->gfx_buffer);
     for (int i = 0; i != TECHINFO_LINES; i++)
     {
         if (app->lines_dirty[i])
         {
-            const int h = Font_Height (FONTID_MEDIUM);
+            const int h = Font_Height(font_id);
             const int y = (h * i);
 
 			al_set_target_bitmap(app->box->gfx_buffer);
             al_draw_filled_rectangle(0, y, app->box->frame.size.x+1, y + h, COLOR_SKIN_WINDOW_BACKGROUND);
-            Font_Print(FONTID_MEDIUM, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(font_id, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
 
             app->lines_dirty[i] = FALSE;
         }

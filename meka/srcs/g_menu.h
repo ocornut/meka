@@ -18,8 +18,6 @@ typedef int t_menu_id;
 #define MENUS_PADDING_Y			(4)
 #define MENUS_PADDING_CHECK_X   (12)
 
-#define FONTID_MENUS			FONTID_LARGE
-
 enum t_menu_item_type
 {
 	MENU_ITEM_TYPE_UNKNOWN	= 0,
