@@ -216,6 +216,8 @@ void	gui_update_boxes()
 
 t_gui_box *	gui_box_new(const t_frame *frame, const char *title)
 {
+	assert(frame->size.x > 0 && frame->size.y > 0);
+
 	// Allocate new box
 	t_gui_box* box = (t_gui_box *)malloc(sizeof (t_gui_box));
 	assert(box != NULL);

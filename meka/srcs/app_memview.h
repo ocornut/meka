@@ -72,9 +72,8 @@ struct t_memory_viewer
     t_widget *          values_edit_inputbox;
 
     // Interface - Bottom (control)
-    t_widget *          bottom_box;
+	t_widget *          bottom_box;
     t_widget *          address_edit_inputbox;
-
 };
 
 extern t_memory_viewer *MemoryViewer_MainInstance;
@@ -85,8 +84,8 @@ extern t_list *         MemoryViewers;
 //-----------------------------------------------------------------------------
 
 t_memory_viewer *       MemoryViewer_New(bool register_desktop, int size_columns, int size_lines);
-void                    MemoryViewer_Delete(t_memory_viewer* mv);
-void					MemoryViewer_GotoAddress(t_memory_viewer* mv, t_memory_type memtype, u32 offset);
+void                    MemoryViewer_Delete(t_memory_viewer* app);
+void					MemoryViewer_GotoAddress(t_memory_viewer* app, t_memory_type memtype, u32 offset);
 void                    MemoryViewer_SwitchMainInstance(void);
 
 void                    MemoryViewers_Update(void);
