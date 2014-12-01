@@ -114,14 +114,13 @@ void	FB_Init()
 
 	app->files_display_count = 21;
     app->box = gui_box_new(&frame, Msg_Get(MSG_FileBrowser_BoxTitle));
-    Desktop_Register_Box("FILEBROWSER", app->box, 0, &FB.active);
-
-    // Set exclusive inputs flag to avoid messing with emulation
-    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
-
+    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;				// Set exclusive inputs flag to avoid messing with emulation
 	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
 	app->box->size_min.x = 250;
 	app->box->size_min.y = 120;
+
+	// Register to desktop
+	Desktop_Register_Box("FILEBROWSER", app->box, 0, &FB.active);
 
     // Add close box widget
     widget_closebox_add(FB.box, (t_widget_callback)FB_Switch);

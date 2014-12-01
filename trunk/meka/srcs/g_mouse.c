@@ -21,7 +21,8 @@ void    gui_init_mouse (void)
     gui.mouse.wheel_rel = 0;
     gui.mouse.wheel_abs = 0;
     gui.mouse.focus = GUI_FOCUS_NONE;
-    gui.mouse.focus_item = NULL;
+    gui.mouse.focus_box = NULL;
+	gui.mouse.focus_widget = NULL;
 	gui.mouse.focus_is_resizing = false;
     gui.mouse.last_click_button = 0;
 	gui.mouse.last_click_time_elapsed = 9999.0f;
@@ -41,9 +42,7 @@ bool	gui_is_mouse_hovering_area(const t_frame* frame)
 void    gui_update_mouse()
 {
     if (g_env.mouse_installed == -1)
-    {
         return;
-    }
 
     gui.mouse.x_prev = gui.mouse.x;
     gui.mouse.y_prev = gui.mouse.y;
@@ -88,7 +87,8 @@ void    gui_update_mouse()
     if (gui.mouse.buttons == 0)
     {
         gui.mouse.focus = GUI_FOCUS_NONE;
-        gui.mouse.focus_item = NULL;
+        gui.mouse.focus_box = NULL;
+		gui.mouse.focus_widget = NULL;
 
         menus_opt.c_menu = -1;
         menus_opt.c_entry = -1;
