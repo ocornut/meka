@@ -8,7 +8,7 @@
 #include "g_widget.h"
 
 //-----------------------------------------------------------------------------
-// Functions (crap, horrible, painful)
+// Functions (anything in this file is particularly bad code)
 //-----------------------------------------------------------------------------
 
 void	gui_update_boxes()
