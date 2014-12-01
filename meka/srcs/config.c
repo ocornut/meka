@@ -75,8 +75,6 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "start_in_gui"))					{ g_configuration.start_in_gui = (bool)atoi(value); return; }
 	if (!strcmp(var, "theme"))							{ Skins_SetSkinConfiguration(value); return; }
 	if (!strcmp(var, "game_window_scale"))				{ g_configuration.game_window_scale = atof(value); if (g_configuration.game_window_scale < 0) g_configuration.game_window_scale = 1.0f; return; }
-	if (!strcmp(var, "fb_width"))						{ FB.res_x = atoi(value); return; }
-	if (!strcmp(var, "fb_height"))						{ FB.file_y = atoi(value); return; }
 	if (!strcmp(var, "fb_uses_db"))						{ g_configuration.fb_uses_DB = (bool)atoi(value); return; }
 	if (!strcmp(var, "fb_close_after_load"))			{ g_configuration.fb_close_after_load = (bool)atoi(value); return; }
 	if (!strcmp(var, "fb_fullscreen_after_load"))		{ g_configuration.fullscreen_after_load = (bool)atoi(value); return; }
@@ -142,8 +140,6 @@ static void     Configuration_Load_Line (char *var, char *value)
 		return;
 	}
 	if (!strcmp(var, "allow_opposite_directions"))		{ g_configuration.allow_opposite_directions = (bool)atoi(value); return; }
-	if (!strcmp(var, "debugger_console_lines"))			{ g_configuration.debugger_console_lines = MAX(1, atoi(value)); return; }
-	if (!strcmp(var, "debugger_disassembly_lines"))		{ g_configuration.debugger_disassembly_lines = MAX(1, atoi(value)); return; }
 	if (!strcmp(var, "debugger_disassembly_display_labels")) { g_configuration.debugger_disassembly_display_labels = (bool)atoi(value); return; }
 	if (!strcmp(var, "debugger_log"))					{ g_configuration.debugger_log_enabled = (bool)atoi(value); return; }
 	if (!strcmp(var, "memory_editor_lines"))			{ g_configuration.memory_editor_lines = MAX(1, atoi(value)); return; }
@@ -267,10 +263,6 @@ void Configuration_Save()
     CFG_Write_Int  ("start_in_gui", g_configuration.start_in_gui);
     CFG_Write_StrEscape("theme", Skins_GetCurrentSkin()->name);
 	fprintf(CFG_File, "game_window_scale = %.2f\n", g_configuration.game_window_scale); 
-	CFG_Write_Int  ("fb_width", FB.res_x);
-    CFG_Write_Line ("(File browser width, in pixel)");
-    CFG_Write_Int  ("fb_height", FB.file_y);
-    CFG_Write_Line ("(File browser height, in number of files shown)");
     CFG_Write_Int  ("fb_uses_db", g_configuration.fb_uses_DB);
     CFG_Write_Int  ("fb_close_after_load", g_configuration.fb_close_after_load);
     CFG_Write_Int  ("fb_fullscreen_after_load", g_configuration.fullscreen_after_load);
@@ -327,8 +319,6 @@ void Configuration_Save()
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< DEBUGGING FUNCTIONNALITIES -------------------------------------------");
-    CFG_Write_Int  ("debugger_console_lines", g_configuration.debugger_console_lines);
-    CFG_Write_Int  ("debugger_disassembly_lines", g_configuration.debugger_disassembly_lines);
     CFG_Write_Int  ("debugger_disassembly_display_labels", g_configuration.debugger_disassembly_display_labels);
     CFG_Write_Int  ("debugger_log", g_configuration.debugger_log_enabled);
     CFG_Write_Int  ("memory_editor_lines", g_configuration.memory_editor_lines);

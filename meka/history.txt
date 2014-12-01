@@ -60,6 +60,7 @@ They are usually of 2 kinds:
     - Improved disassembler view centering, increased the track-back buffer, fixed issues with prefixed instructions. [Omar]
     - Better support for 24-bits constants (for PRINT, etc.). [Omar]
     - Debugger is always available at runtime. Obsoleted /DEBUG command-line parameter. [Omar]
+    - Debugger window can be resized. [Omar]
   - Tools:
     - CheatFinder: added a new cheat finder application. [Omar]
       - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.
@@ -77,6 +78,7 @@ They are usually of 2 kinds:
   - GUI:
     - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
     - Made "SMS Power! theme more readable. [Omar]
+    - Some window can now be dynamically resized. [Omar]
     - TextInput: support for text selection, hold SHIFT+Left/Right keys to select text. [Omar]
     - TextInput: support for CTRL+Left/Right to jump to previous/next word. [Omar]
     - TextInput: support for clipboard (CTRL+X,CTRL+C,CTRL+V) shortcuts, tied to OS clipboard. [Omar]

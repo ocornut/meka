@@ -76,18 +76,18 @@ static void     Debugger_GetAccessString(int access, char buf[5])
 }
 
 // Hooks
-static void                     Debugger_Hooks_Install(void);
-static void                     Debugger_Hooks_Uninstall(void);
+static void                     Debugger_Hooks_Install();
+static void                     Debugger_Hooks_Uninstall();
 static void                     Debugger_WrZ80_Hook(register u16 addr, register u8 value);
 static u8                       Debugger_RdZ80_Hook(register u16 addr);
 static void                     Debugger_OutZ80_Hook(register u16 addr, register u8 value);
 static u8                       Debugger_InZ80_Hook(register u16 addr);
 
 // Breakpoints
-static void                     Debugger_BreakPoints_List(void);
+static void                     Debugger_BreakPoints_List();
 static void                     Debugger_BreakPoints_Clear(bool disabled_only);
-//static void                   Debugger_BreakPoints_RefreshCpuExecTraps(void);
-static int                      Debugger_BreakPoints_AllocateId(void);
+//static void                   Debugger_BreakPoints_RefreshCpuExecTraps();
+static int                      Debugger_BreakPoints_AllocateId();
 static t_debugger_breakpoint *  Debugger_BreakPoints_SearchById(int id);
 
 // Breakpoint
@@ -456,7 +456,7 @@ t_debugger_app          DebuggerApp;
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-void        Debugger_Init_Values (void)
+void        Debugger_Init_Values()
 {
     Debugger.enabled = FALSE;
     Debugger.active = FALSE;
@@ -547,7 +547,7 @@ void        Debugger_Init_Values (void)
     // Note: Some more clearing will be done by Debugger_MachineReset()
 }
 
-static void Debugger_Init_LogFile(void)
+static void Debugger_Init_LogFile()
 {
     // Open log file if not already open
     if (g_configuration.debugger_log_enabled && Debugger.log_file == NULL)
@@ -562,7 +562,7 @@ static void Debugger_Init_LogFile(void)
     }
 }
 
-void        Debugger_Init(void)
+void        Debugger_Init()
 {
     ConsolePrintf("%s\n", Msg_Get(MSG_Debug_Init));
     Debugger_Applet_Init();
@@ -577,7 +577,7 @@ void        Debugger_Init(void)
     Debugger_Printf("Press TAB for completion.\n");
 }
 
-void        Debugger_Close(void)
+void        Debugger_Close()
 {
     if (Debugger.log_file != NULL)
     {
@@ -589,7 +589,7 @@ void        Debugger_Close(void)
     Debugger.history = NULL;
 }
 
-void        Debugger_Enable(void)
+void        Debugger_Enable()
 {
     Debugger.enabled = TRUE;
     Debugger.active  = FALSE;
@@ -597,11 +597,8 @@ void        Debugger_Enable(void)
     Debugger.trap_address = 0x0000;
 }
 
-//-----------------------------------------------------------------------------
-// Debugger_MachineReset ()
 // Called when the machine gets reseted
-//-----------------------------------------------------------------------------
-void        Debugger_MachineReset(void)
+void        Debugger_MachineReset()
 {
 	if (!Debugger.active)
 		return;
@@ -647,7 +644,7 @@ void        Debugger_MediaReload()
     Debugger_Symbols_Load();
 }
 
-void	Debugger_Update(void)
+void	Debugger_Update()
 {
     if (Debugger.active)
     {
@@ -777,7 +774,7 @@ void    Debugger_SetTrap(int trap)
 // FUNCTIONS - Breakpoints Manager
 //-----------------------------------------------------------------------------
 
-void                        Debugger_BreakPoints_Clear(bool disabled_only)
+void	Debugger_BreakPoints_Clear(bool disabled_only)
 {
     for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; )
     {
@@ -793,7 +790,7 @@ void                        Debugger_BreakPoints_Clear(bool disabled_only)
         Debugger_Printf("Breakpoints cleared.\n");
 }
 
-void                        Debugger_BreakPoints_List(void)
+void	Debugger_BreakPoints_List()
 {
     Debugger_Printf("Breakpoints/Watchpoints:\n");
     if (Debugger.breakpoints == NULL)
@@ -811,7 +808,7 @@ void                        Debugger_BreakPoints_List(void)
 }
 
 // FIXME: May want to find the first empty slot (instead of max+1)
-int                         Debugger_BreakPoints_AllocateId(void)
+int		Debugger_BreakPoints_AllocateId()
 {
     int max = -1;
     for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; breakpoints = breakpoints->next)
@@ -836,15 +833,13 @@ t_debugger_breakpoint *     Debugger_BreakPoints_SearchById(int id)
 }
 
 /*
-void                        Debugger_BreakPoints_RefreshCpuExecTraps(void)
+void	Debugger_BreakPoints_RefreshCpuExecTraps()
 {
-    t_list *                breakpoints;
-
     // First clear table
     memset(Debugger_Z80_PC_Trap, 0, sizeof(Debugger_Z80_PC_Trap));
 
     // Then go thru all breakpoints to add their trap
-    for (breakpoints = Debugger.breakpoints; breakpoints != NULL; )
+    for (t_list* breakpoints = Debugger.breakpoints; breakpoints != NULL; )
     {
         t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
         if (breakpoint->location == BREAKPOINT_LOCATION_CPU)
@@ -1353,7 +1348,7 @@ bool	Debugger_Symbols_TryParseLine(const char* line_original, t_debugger_symbol_
 	return false;
 }
 
-bool	Debugger_Symbols_Load(void)
+bool	Debugger_Symbols_Load()
 {
 	if (!Debugger.enabled)
 		return false;
@@ -1726,7 +1721,7 @@ void     Debugger_Hooks_Install()
 }
 
 // Unhook Z80 read/write and I/O
-void     Debugger_Hooks_Uninstall(void)
+void     Debugger_Hooks_Uninstall()
 {
     RdZ80 = RdZ80_NoHook;
     WrZ80 = WrZ80_NoHook;
@@ -1947,6 +1942,8 @@ static void Debugger_Applet_Init()
     app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;		// Set exclusive inputs flag to avoid messing with emulation
     app->box->flags |= GUI_BOX_FLAGS_TAB_STOP;						// CTRL+TAB stops here
 	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;					// Can be resized
+	app->box->size_min.x = 220;
+	app->box->size_min.y = 150;
 
     // Register to desktop (applet is disabled by default)
     Desktop_Register_Box("DEBUGGER", app->box, FALSE, &Debugger.active);
@@ -2973,19 +2970,6 @@ void        Debugger_InputParseCommand(char* line)
             Debugger_Help(NULL);
         return;
     }
-
-	if (!strcmp(cmd, "--"))
-	{
-		gui_box_resize(DebuggerApp.box, DebuggerApp.box->frame.size.x-30, DebuggerApp.box->frame.size.y-30);
-		Debugger_Applet_Layout(false);
-		return;
-	}
-	if (!strcmp(cmd, "++"))
-	{
-		gui_box_resize(DebuggerApp.box, DebuggerApp.box->frame.size.x+30, DebuggerApp.box->frame.size.y+30);
-		Debugger_Applet_Layout(false);
-		return;
-	}
 
     // HI - HISTORY
     if (!strcmp(cmd, "HI") || !strcmp(cmd, "HISTORY"))
