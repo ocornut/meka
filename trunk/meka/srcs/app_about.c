@@ -70,7 +70,7 @@ static void     AboutBox_Layout(bool setup)
 			case 2: snprintf(buffer, countof(buffer), Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE); break;
 			case 3: snprintf(buffer, countof(buffer), "Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME); break;
 			}
-			x = (( (app->box->frame.size.x - dragon_h - 18 - 6) - Font_TextLength(FONTID_CUR, buffer) ) / 2) + dragon_h + 8 + 6;
+			x = (( (app->box->frame.size.x - dragon_h - 18 - 6) - Font_TextWidth(FONTID_CUR, buffer) ) / 2) + dragon_h + 8 + 6;
 			Font_Print(FONTID_CUR, buffer, x, y, COLOR_SKIN_WINDOW_TEXT);
 			y += Font_Height() + 3;
 		}

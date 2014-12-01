@@ -99,7 +99,7 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
     {
         Video_GameMode_UpdateBounds();
 		if (g_env.state == MEKA_STATE_GUI)
-			GUI_RelayoutAll();
+			gui_relayout_all();
         return (MEKA_ERR_OK);
     }
 
@@ -423,8 +423,8 @@ void    Video_RefreshScreen(void)
                 return;
             }
 
-            gui_redraw();
-			PROFILE_STEP("gui_redraw()");
+            gui_draw();
+			PROFILE_STEP("gui_draw()");
 
 			Blit_GUI();
 			PROFILE_STEP("Blit_GUI()");

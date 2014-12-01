@@ -11,25 +11,27 @@
 // Functions (crap, horrible, painful)
 //-----------------------------------------------------------------------------
 
-void	gui_update_boxes(void)
+void	gui_update_boxes()
 {
     if (gui.mouse.focus == GUI_FOCUS_DESKTOP || gui.mouse.focus == GUI_FOCUS_MENUS)
         return;
 
     // Update widgets, and find on which box the mouse cursor is
     t_gui_box * b_hover = NULL;
-    bool will_move = FALSE;
+    bool no_widgets = false;
+	bool do_move = false;
+	bool do_resize = false;
+
     for (int i = 0; i < gui.boxes_count; i++)
     {
 		t_gui_box* b = gui.boxes_z_ordered[i];
 
-        // Skip invisible boxes
         if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
 
         const int mouse_x = gui.mouse.x - b->frame.pos.x;
         const int mouse_y = gui.mouse.y - b->frame.pos.y;
-        will_move = !widgets_update_box(b, mouse_x, mouse_y);
+        no_widgets = !widgets_update_box(b, mouse_x, mouse_y);
 
         if (b_hover == NULL)
         {
@@ -38,16 +40,32 @@ void	gui_update_boxes(void)
 			if ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1))
 			{
 				b_hover = b;
+				do_move = gui.mouse.focus_is_resizing == false;
+				do_resize = gui.mouse.focus_is_resizing == true;
 				break;
 			}
 			
 			const bool hovering_window = gui_is_mouse_hovering_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2);
             if (hovering_window)
             {
+				do_move = true;
+				if ((b->flags & GUI_BOX_FLAGS_ALLOW_RESIZE) != 0)
+				{
+					t_frame resize_bb;
+					resize_bb.pos.x = b->frame.pos.x + b->frame.size.x - 12;
+					resize_bb.pos.y = b->frame.pos.y + b->frame.size.y - 12;
+					resize_bb.size.x = resize_bb.size.y = 14;
+					if (gui_is_mouse_hovering_area(&resize_bb))
+					{
+						do_move = false;
+						do_resize = true;
+					}
+				}
+
 				// When using light phaser, paddle control, graphic board, etc. which require
 				if (b->type == GUI_BOX_TYPE_GAME && Inputs.Peripheral[0] != INPUT_JOYPAD)
 					if (gui_is_mouse_hovering_area(&b->frame))
-						will_move = false;
+						do_move = do_resize = false;
 
                 b_hover = b;
                 break;
@@ -81,16 +99,14 @@ void	gui_update_boxes(void)
     if ((gui.mouse.buttons & 1) == 0)
         return;
 
-    // FIXME-FOCUS
+    // Focus
     //gui_mouse.on_box = b;
 	t_gui_box* b = b_hover;
     gui_box_set_focus(b);
-    // gui.info.must_redraw = TRUE;
+	//assert(do_move || do_resize);
 
-    //Msg(MSGT_DEBUG, "will_move=%d", will_move);
-
-    // ELSE, MOVE THE BOX --------------------------------------------------------
-    if ((will_move) && (gui.mouse.focus != GUI_FOCUS_WIDGET) && (gui.mouse.buttons & 1))
+    // Move/resize
+    if ((do_move || do_resize) && (gui.mouse.focus != GUI_FOCUS_WIDGET) && (gui.mouse.buttons & 1))
     {
         int mx, my;
 
@@ -102,6 +118,7 @@ void	gui_update_boxes(void)
             //gui_mouse.pressed_on = PRESSED_ON_BOX;
             gui.mouse.focus = GUI_FOCUS_BOX;
             gui.mouse.focus_item = b;
+			gui.mouse.focus_is_resizing = do_resize ? true : false;
             mx = 0;
             my = 0;
         }
@@ -109,77 +126,85 @@ void	gui_update_boxes(void)
         {
             mx = gui.mouse.x - gui.mouse.x_prev;
             my = gui.mouse.y - gui.mouse.y_prev;
-            // if ((!mx) && (!my)) continue;
         }
 
+		assert((t_gui_box*)gui.mouse.focus_item == b);
+
 		// Mouse moves box
-		// FIXME: rewrite this embarassing 1998 code into something decent
+		// FIXME: rewrite this embarrassing 1998 code into something decent
 		if (mx != 0 || my != 0)
 		{
-			int ax1, ay1, ax2, ay2;
-			int bx1, by1, bx2, by2;
-			if (mx >= 0)
+			if (gui.mouse.focus_is_resizing)
 			{
-				ax1 = b->frame.pos.x  -2;
-				ay1 = b->frame.pos.y - 20;
-
-				if (my >= 0)
-				{ // mx > 0 - my > 0
-					ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-					ay2 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
-
-					bx1 = b->frame.pos.x                                          -  2 ;
-					by1 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
-					bx2 = b->frame.pos.x + MIN(b->frame.size.x, mx) + 1         +  2 ;
-					by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
-				}
-				else
-				{ // mx > 0 - my < 0
-					ax2 = b->frame.pos.x + MIN(b->frame.size.x, mx) + 1         +  2 ;
-					ay2 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
-
-					bx1 = b->frame.pos.x                                          -  2 ;
-					by1 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
-					bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-					by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
-				}
+				gui_box_resize(b, b->frame.size.x + mx, b->frame.size.y + my);
 			}
 			else
 			{
-				if (my >= 0)
-				{ // mx < 0 - my > 0
-					ax1 = b->frame.pos.x -  2 ;
-					ay1 = b->frame.pos.y - 20 ;
-					ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-					ay2 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
+				int ax1, ay1, ax2, ay2;
+				int bx1, by1, bx2, by2;
+				if (mx >= 0)
+				{
+					ax1 = b->frame.pos.x  -2;
+					ay1 = b->frame.pos.y - 20;
 
-					bx1 = b->frame.pos.x + b->frame.size.x - MIN(b->frame.size.x, -mx)       -  2 ;
-					by1 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
-					bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-					by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+					if (my >= 0)
+					{ // mx > 0 - my > 0
+						ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+						ay2 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
+
+						bx1 = b->frame.pos.x                                          -  2 ;
+						by1 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
+						bx2 = b->frame.pos.x + MIN(b->frame.size.x, mx) + 1         +  2 ;
+						by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+					}
+					else
+					{ // mx > 0 - my < 0
+						ax2 = b->frame.pos.x + MIN(b->frame.size.x, mx) + 1         +  2 ;
+						ay2 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+
+						bx1 = b->frame.pos.x                                          -  2 ;
+						by1 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+						bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+						by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+					}
 				}
 				else
-				{ // mx < 0 - my < 0
-					ax1 = b->frame.pos.x + b->frame.size.x - MIN(b->frame.size.x, -mx)       -  2 ;
-					ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
-					ay1 = b->frame.pos.y                                          - 20 ;
-					ay2 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+				{
+					if (my >= 0)
+					{ // mx < 0 - my > 0
+						ax1 = b->frame.pos.x -  2 ;
+						ay1 = b->frame.pos.y - 20 ;
+						ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+						ay2 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
 
-					bx1 = b->frame.pos.x                                   -  2 ;
-					by1 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
-					bx2 = b->frame.pos.x + b->frame.size.x + 1                       +  2 ;
-					by2 = b->frame.pos.y + b->frame.size.y + 1                       +  2 ;
+						bx1 = b->frame.pos.x + b->frame.size.x - MIN(b->frame.size.x, -mx)       -  2 ;
+						by1 = b->frame.pos.y + MIN(b->frame.size.y + 22, my) + 1    - 20 ;
+						bx2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+						by2 = b->frame.pos.y + b->frame.size.y + 1                    +  2 ;
+					}
+					else
+					{ // mx < 0 - my < 0
+						ax1 = b->frame.pos.x + b->frame.size.x - MIN(b->frame.size.x, -mx)       -  2 ;
+						ax2 = b->frame.pos.x + b->frame.size.x + 1                    +  2 ;
+						ay1 = b->frame.pos.y                                          - 20 ;
+						ay2 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+
+						bx1 = b->frame.pos.x                                   -  2 ;
+						by1 = b->frame.pos.y + b->frame.size.y - MIN(b->frame.size.y + 22, -my)  +  2 ;
+						bx2 = b->frame.pos.x + b->frame.size.x + 1                       +  2 ;
+						by2 = b->frame.pos.y + b->frame.size.y + 1                       +  2 ;
+					}
 				}
+
+				al_set_target_bitmap(gui_buffer);
+				al_draw_bitmap_region(gui_background, ax1, ay1, ax2 - ax1, ay2 - ay1, ax1, ay1, 0x0000);
+				al_draw_bitmap_region(gui_background, bx1, by1, bx2 - bx1, by2 - by1, bx1, by1, 0x0000);
+
+				// Update position
+				b->frame.pos.x += mx;
+				b->frame.pos.y += my;
+				gui_box_clip_position(b);
 			}
-
-			al_set_target_bitmap(gui_buffer);
-			al_draw_bitmap_region(gui_background, ax1, ay1, ax2 - ax1, ay2 - ay1, ax1, ay1, 0x0000);
-			al_draw_bitmap_region(gui_background, bx1, by1, bx2 - bx1, by2 - by1, bx1, by1, 0x0000);
-
-			// Update position
-			b->frame.pos.x += mx;
-			b->frame.pos.y += my;
-			gui_box_clip_position(b);
 		}
     }
 }
@@ -211,7 +236,7 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
     list_add(&gui.boxes, box);
     gui.boxes_z_ordered[gui.boxes_count] = box;
     gui.boxes_count++;
-    gui.info.must_redraw = TRUE;
+    gui.info.must_redraw = true;
 
     // Set focus
     // Note: be sure to call this after gui.box_last++
@@ -242,6 +267,7 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
 	box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
+	assert(box->gfx_buffer);
 
 	// Redraw and layout all
 	box->flags |= GUI_BOX_FLAGS_DIRTY_REDRAW_ALL_LAYOUT;
@@ -390,6 +416,9 @@ void    gui_box_set_title(t_gui_box *box, const char *title)
 
 void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
 {
+	size_x = MAX(size_x, 32);
+	size_y = MAX(size_y, 32);
+
 	if (box->frame.size.x == size_x && box->frame.size.y == size_y)
 		return;
 	box->frame.size.x = size_x;

@@ -49,90 +49,40 @@ void	DrawCursor::VerticalSeparator()
 void    gui_redraw_everything_now_once (void)
 {
     gui_update();
-    gui_redraw();
+    gui_draw();
     Blit_GUI();
 }
 
-void    GUI_DrawBackground(void)
+void    gui_draw_background()
 {
 	al_set_target_bitmap(gui_buffer);
 	al_draw_bitmap(gui_background, 0, 0, 0x0000);
 }
 
-// Redraw the screen for this frame
-void	gui_redraw(void)
+void	gui_draw()
 {
     // If we were asked to redraw everything, redraw the background as well
     if (gui.info.must_redraw == TRUE)
-        GUI_DrawBackground();
+        gui_draw_background();
 
 	al_set_target_bitmap(gui_buffer);
     for (int i = gui.boxes_count - 1; i >= 0; i--)
     {
         t_gui_box* b = gui.boxes_z_ordered[i];
-        t_frame b_frame = b->frame;
+        const t_frame bb = b->frame;
+		const v2i bb_min = bb.GetMin();
+		const v2i bb_max = bb.GetMax();
 
         if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
 
-	    ALLEGRO_COLOR color;
-        if (i == 0)
+        // Draw widgets
+        for (t_list* widgets = b->widgets; widgets != NULL; widgets = widgets->next)
         {
-            // Active/focused box
-            color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT;
-        }
-        else
-        {
-            // Non-active/focused box
-            color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
-        }
-
-        // Draw borders
-		al_set_target_bitmap(gui_buffer);
-        gui_rect(LOOK_ROUND, b_frame.pos.x - 2, b_frame.pos.y - 20, b_frame.pos.x + b_frame.size.x + 2, b_frame.pos.y + b_frame.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
-        al_draw_line(b_frame.pos.x, b_frame.pos.y - 1.5f, b_frame.pos.x + b_frame.size.x + 1, b_frame.pos.y - 1.5f, COLOR_SKIN_WINDOW_BORDER, 0);
-        al_draw_line(b_frame.pos.x, b_frame.pos.y - 0.5f, b_frame.pos.x + b_frame.size.x + 1, b_frame.pos.y - 0.5f, COLOR_SKIN_WINDOW_BORDER, 0);
-
-        // Draw title bar.
-		{
-			t_frame titlebar_frame;
-			titlebar_frame.pos.x  = b_frame.pos.x;
-			titlebar_frame.pos.y  = b_frame.pos.y - 18;
-			titlebar_frame.size.x = b_frame.size.x;
-			titlebar_frame.size.y = 15;
-			SkinGradient_DrawHorizontal(&Skins_GetCurrentSkin()->gradient_window_titlebar, gui_buffer, &titlebar_frame);
-		}
-
-        // Draw title bar text, with wrapping
-        // FIXME: again, the algorythm below sucks. Drawn label should be precomputed anyway.
-        Font_SetCurrent(FONTID_LARGE);
-        if (Font_TextLength(FONTID_CUR, b->title) <= (b_frame.size.x - 8))
-        {
-            Font_Print (FONTID_CUR, b->title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
-        }
-        else
-        {
-            char title[256];
-            int  len = strlen (b->title);
-            strcpy(title, b->title);
-            while (Font_TextLength(FONTID_CUR, title) > (b_frame.size.x - 17))
-                title[--len] = EOSTR;
-            strcat (title, "..");
-            Font_Print(FONTID_CUR, title, b_frame.pos.x + 4, b_frame.pos.y - 17, color);
-        }
-
-        // Redraw widgets
-        if (b->widgets != NULL)
-        {
-            for (t_list* widgets = b->widgets; widgets != NULL; widgets = widgets->next)
-            {
-                t_widget *w = (t_widget *)widgets->elem;
-                if (w->enabled)
-                {
-                    if (w->redraw_func != NULL)
-                        w->redraw_func(w);
-                }
-            }
+            t_widget *w = (t_widget *)widgets->elem;
+            if (w->enabled && w->type != WIDGET_TYPE_CLOSEBOX)
+                if (w->redraw_func != NULL)
+                    w->redraw_func(w);
         }
 
         // Blit content
@@ -140,12 +90,71 @@ void	gui_redraw(void)
         {
         case GUI_BOX_TYPE_STANDARD: 
 			al_set_target_bitmap(gui_buffer);
-			al_draw_bitmap_region(b->gfx_buffer, 0, 0, b_frame.size.x + 1, b_frame.size.y + 1, b_frame.pos.x, b_frame.pos.y, 0x0000);
+			al_draw_bitmap_region(b->gfx_buffer, 0, 0, bb.size.x + 1, bb.size.y + 1, bb.pos.x, bb.pos.y, 0x0000);
+			if ((b->flags & GUI_BOX_FLAGS_ALLOW_RESIZE) != 0)
+			{
+				//al_draw_triangle()
+			}
             break;
         case GUI_BOX_TYPE_GAME : 
             gamebox_draw(b, screenbuffer);
             break;
         }
+
+		// Draw borders
+		al_set_target_bitmap(gui_buffer);
+		gui_rect(LOOK_ROUND, bb.pos.x - 2, bb.pos.y - 20, bb.pos.x + bb.size.x + 2, bb.pos.y + bb.size.y + 2, COLOR_SKIN_WINDOW_BORDER);
+		al_draw_line(bb.pos.x, bb.pos.y - 1.5f, bb.pos.x + bb.size.x + 1, bb.pos.y - 1.5f, COLOR_SKIN_WINDOW_BORDER, 0);
+		al_draw_line(bb.pos.x, bb.pos.y - 0.5f, bb.pos.x + bb.size.x + 1, bb.pos.y - 0.5f, COLOR_SKIN_WINDOW_BORDER, 0);
+
+		// Draw resize widget
+		if (b->flags & GUI_BOX_FLAGS_ALLOW_RESIZE)
+		{
+			const int sz = 9; // display size is 9, interaction is 12
+			ALLEGRO_COLOR color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
+			if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b && gui.mouse.focus_is_resizing)
+				color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
+			al_draw_filled_triangle(bb_max.x+2, bb_max.y+2, bb_max.x+2-sz, bb_max.y+2, bb_max.x+2, bb_max.y+2-sz, color);
+		}
+
+		// Draw title bar
+		{
+			t_frame titlebar_frame;
+			titlebar_frame.pos.x  = bb.pos.x;
+			titlebar_frame.pos.y  = bb.pos.y - 18;
+			titlebar_frame.size.x = bb.size.x;
+			titlebar_frame.size.y = 15;
+			SkinGradient_DrawHorizontal(&Skins_GetCurrentSkin()->gradient_window_titlebar, gui_buffer, &titlebar_frame);
+
+			// Draw title bar text, with wrapping
+			// Is window the focused one?
+			const ALLEGRO_COLOR color = (i == 0) ? COLOR_SKIN_WINDOW_TITLEBAR_TEXT : COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
+			Font_SetCurrent(FONTID_LARGE);
+			if (Font_TextWidth(FONTID_CUR, b->title) <= (bb.size.x - 8))
+			{
+				Font_Print (FONTID_CUR, b->title, bb.pos.x + 4, bb.pos.y - 17, color);
+			}
+			else
+			{
+				// FIXME-OPT: shit code.
+				char title[256];
+				int len = strlen(b->title);
+				strcpy(title, b->title);
+				while (Font_TextWidth(FONTID_CUR, title) > (bb.size.x - 17))
+					title[--len] = EOSTR;
+				strcat(title, "..");
+				Font_Print(FONTID_CUR, title, bb.pos.x + 4, bb.pos.y - 17, color);
+			}
+
+			// Draw widgets
+			for (t_list* widgets = b->widgets; widgets != NULL; widgets = widgets->next)
+			{
+				t_widget *w = (t_widget *)widgets->elem;
+				if (w->enabled && w->type == WIDGET_TYPE_CLOSEBOX)
+					if (w->redraw_func != NULL)
+						w->redraw_func(w);
+			}
+		}
     }
 
     // Redraw menus on top of the desktop
@@ -158,7 +167,7 @@ void	gui_redraw(void)
     gui.info.must_redraw = FALSE;
 }
 
-void    GUI_RelayoutAll(void)
+void    gui_relayout_all()
 {
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {

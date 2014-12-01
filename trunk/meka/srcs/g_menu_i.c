@@ -59,7 +59,7 @@ void	gui_menus_init()
     g_gui_status.x = 10;
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
     Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS_SHORT);
-	menus_opt.spacing = Font_TextLength(FONTID_MENUS, "  ");
+	menus_opt.spacing = Font_TextWidth(FONTID_MENUS, "  ");
     menus_opt.spacing_render = gui.info.screen.x - 40;
     menus_opt.c_menu = -1;
     menus_opt.c_entry = -1;

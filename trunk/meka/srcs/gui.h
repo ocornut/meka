@@ -74,7 +74,11 @@ struct t_frame
 		size.x = x;
 		size.y = y;
 	}
-	v2i  GetPosEnd() const
+	v2i	GetMin() const
+	{
+		return pos;
+	}
+	v2i GetMax() const
 	{
 		v2i pe;
 		pe.x = pos.x+size.x;
@@ -151,17 +155,18 @@ enum t_gui_box_flags
     GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE    = 0x0008,   // When set and the box has focus, inputs are exclusive to this box
     GUI_BOX_FLAGS_DELETE                    = 0x0010,
     GUI_BOX_FLAGS_TAB_STOP                  = 0x0020,
+	GUI_BOX_FLAGS_ALLOW_RESIZE              = 0x0040,
 };
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_redraw (void);
-void    gui_redraw_everything_now_once (void);
+void    gui_draw();
+void    gui_redraw_everything_now_once();
 
-void    GUI_DrawBackground(void);
-void    GUI_RelayoutAll(void);
+void    gui_draw_background();
+void    gui_relayout_all();
 
 //-----------------------------------------------------------------------------
 // Data
@@ -211,6 +216,7 @@ struct t_gui_mouse
 
     t_gui_focus     focus;
     void *          focus_item;
+	bool			focus_is_resizing;
 
     int             wheel_rel;
     int             wheel_abs;

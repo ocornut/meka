@@ -25,7 +25,6 @@ enum t_font_id
 	FONTID_COUNT_,
 };
 
-#define         MEKA_FONT_STR_STAR      "\xC2\x80"	// 128 in UTF8
 #define         MEKA_FONT_STR_CHECKED   "\xC2\x81"	// 129 in UTF8
 #define         MEKA_FONT_STR_ARROW     ">"			// (not using the one stored at 130)
 
@@ -54,10 +53,11 @@ void    Fonts_DeclareFont   (t_font_id font_id, ALLEGRO_FONT *library_data);
 //-----------------------------------------------------------------------------
 
 void    Font_SetCurrent     (t_font_id font_id);
-void    Font_Print          (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
+void    Font_Print          (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color, int wrap_width = -1);
 void    Font_PrintCentered  (t_font_id font_id, const char *text, int x, int y, ALLEGRO_COLOR color);
 int     Font_Height         (t_font_id font_id = FONTID_CUR);
-int     Font_TextLength     (t_font_id font_id, const char *text);
+int     Font_TextWidth      (t_font_id font_id, const char *text, const char* text_end = NULL);
+int     Font_TextHeight     (t_font_id font_id, const char *text, int wrap_width = -1);
 
 struct FontPrinter
 {

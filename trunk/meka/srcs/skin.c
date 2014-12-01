@@ -279,40 +279,37 @@ static int  Skins_ParseLine(char *line)
 {
     if (line[0] == '[')
     {
-        // Create new skin
-        t_skin *skin;
-        char skin_name[256];
+		line++;
 
-        // Get name
-        line++;
+		// Get name
+		char skin_name[256];
         if (!parse_getword(skin_name, sizeof(skin_name), &line, "]", ';', PARSE_FLAGS_DONT_EAT_SEPARATORS))
             return MEKA_ERR_SYNTAX;
         if (*line != ']')
             return MEKA_ERR_SYNTAX;
 
-        // Create skin
-        skin = Skin_New(skin_name);
+		// Create new skin
+		t_skin* skin = Skin_New(skin_name);
         list_add(&Skins.skins, skin);
         Skins.skin_current = skin;
         return MEKA_ERR_OK;
     }
     else
     {
-        int i;
-        char var[256];
-        char value[256];
         t_skin *skin = Skins.skin_current;
 
         // Read line
+		char var[256];
+		char value[256];
         if (!parse_getword(var, sizeof(var), &line, "=", ';', PARSE_FLAGS_NONE))
             return MEKA_ERR_OK;
         parse_skip_spaces(&line);
 
-        // Requires a current skin to be set
-        if (skin == NULL)
-            return MEKA_ERR_MISSING;
+		if (!skin)
+			return MEKA_ERR_MISSING;
 
         // Check if it's a skin color
+		int i;
         for (i = 0; i < SKIN_COLOR_MAX_; i++)
             if (strcmp(var, SkinColorData[i].identifier) == 0)
                 break;
@@ -504,7 +501,7 @@ void        Skins_Apply(void)
     Skins_Background_Redraw();
 
     // Layout all boxes
-    GUI_RelayoutAll();
+    gui_relayout_all();
 }
 
 void        Skins_StartupFadeIn(void)

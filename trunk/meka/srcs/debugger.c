@@ -444,6 +444,7 @@ struct t_debugger_app
     t_frame             frame_disassembly;
 	t_frame             frame_shortcuts;
     t_frame             frame_cpustate;
+	int					disassembly_lines;
 
 	std::vector<t_debugger_shortcut>	shortcuts;
 	int									shortcuts_freeze;
@@ -1908,19 +1909,7 @@ void		Debugger_PrintEx(bool debugger, bool log, bool ui, char* buf)
 
 	if (ui)
 	{
-		// Split message by line (\n) and send it to the various places
-		char* p = buf;
-		do
-		{
-			char *line = p;
-			p = strchr (p, '\n');
-			if (p)
-			{
-				*p++ = EOSTR;
-			}
-			widget_textbox_print_scroll(DebuggerApp.console, TRUE, line);
-		}
-		while (p != NULL && *p != EOSTR);
+		widget_textbox_print_scroll(DebuggerApp.console, TRUE, buf);
 	}
 }
 
@@ -1930,9 +1919,9 @@ void        Debugger_Printf(const char *format, ...)
     char    buf[1024];
     va_list param_list;
 
-    va_start (param_list, format);
-    vsprintf (buf, format, param_list);
-    va_end (param_list);
+    va_start(param_list, format);
+    vsprintf(buf, format, param_list);
+    va_end(param_list);
 
 	Debugger_PrintEx(true, true, true, buf);
 }
@@ -1949,28 +1938,18 @@ static void Debugger_Applet_Init()
     app->font_height = Font_Height(app->font_id);
     frame.pos.x     = 428;
     frame.pos.y     = 50;
-	switch (app->font_id)
-	{
-	case FONTID_LARGE: frame.size.x = 560; break;
-	default:	  frame.size.x = 380; break;
-	}
-    frame.size.y    = (g_configuration.debugger_console_lines + 1 + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height;
-	frame.size.y   += (g_configuration.debugger_disassembly_lines) * (app->font_height+1);
-	frame.size.y   += app->font_height + 14; // Shortcut
-	frame.size.y   += app->font_height + 10;  // Input box
-	frame.size.y   += 2*3;				     // Padding
+	frame.size.x	= 380;
+	frame.size.y	= 600;
 
     app->box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     app->box_gfx = app->box->gfx_buffer;
 
-    // Set exclusive inputs flag to avoid messing with emulation
-    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;
-
-    // Set tab stop
-    app->box->flags |= GUI_BOX_FLAGS_TAB_STOP;
+    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;		// Set exclusive inputs flag to avoid messing with emulation
+    app->box->flags |= GUI_BOX_FLAGS_TAB_STOP;						// CTRL+TAB stops here
+	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;					// Can be resized
 
     // Register to desktop (applet is disabled by default)
-    Desktop_Register_Box("DEBUG", app->box, FALSE, &Debugger.active);
+    Desktop_Register_Box("DEBUGGER", app->box, FALSE, &Debugger.active);
 
     // Layout
     Debugger_Applet_Layout(TRUE);
@@ -1981,6 +1960,13 @@ static void     Debugger_Applet_Layout(bool setup)
 	t_debugger_app* app = &DebuggerApp;
 
     t_frame     frame;
+
+	// Resize
+	int contents_y = app->box->frame.size.y;
+	contents_y -= (1 + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height;
+	contents_y -= app->font_height + 14; // Shortcut
+	contents_y -= app->font_height + 10; // Input box
+	contents_y -= 2*3;				     // Padding
 
     // Clear
 	app->box_gfx = app->box->gfx_buffer;
@@ -1995,9 +1981,11 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.x = 6;
     frame.pos.y = 2;
     frame.size.x = app->box->frame.size.x - (6*1);
-    frame.size.y = g_configuration.debugger_console_lines * app->font_height;
+    frame.size.y = (contents_y * 0.5f);
     if (setup)
-        app->console = widget_textbox_add(app->box, &frame, g_configuration.debugger_console_lines, app->font_id);
+        app->console = widget_textbox_add(app->box, &frame, app->font_id);
+	else
+		app->console->frame = frame;
     frame.pos.y += frame.size.y;
 
     // Add line
@@ -2009,7 +1997,8 @@ static void     Debugger_Applet_Layout(bool setup)
     app->frame_disassembly.pos.x   = frame.pos.x;
     app->frame_disassembly.pos.y   = frame.pos.y;
     app->frame_disassembly.size.x  = frame.size.x;
-    app->frame_disassembly.size.y  = g_configuration.debugger_disassembly_lines * (app->font_height+1);
+    app->frame_disassembly.size.y  = contents_y * 0.5f;
+	app->disassembly_lines = MAX(0, (int)floorf(app->frame_disassembly.size.y / (app->font_height+1)));
     frame.pos.y += app->frame_disassembly.size.y;
 
     // Add line
@@ -2022,7 +2011,6 @@ static void     Debugger_Applet_Layout(bool setup)
 	app->frame_shortcuts.pos.y   = frame.pos.y;
 	app->frame_shortcuts.size.x  = frame.size.x;
 	app->frame_shortcuts.size.y  = app->font_height + 14;
-	if (setup)
 	{
 		// FIXME: the code in Debugger_Applet_UpdateShortcuts() is pretty hard-coded for the 5 entries below for now (to update their active state), maybe strcmp the button
 		app->shortcuts_freeze = 0;
@@ -2040,11 +2028,14 @@ static void     Debugger_Applet_Layout(bool setup)
 		for (int i = 0; i < countof(shortcuts_def); i++)
 		{
 			const t_debugger_shortcut* sh_def = &shortcuts_def[i];
-			button_w = MAX(button_w, Font_TextLength(app->font_id, sh_def->name));
+			button_w = MAX(button_w, Font_TextWidth(app->font_id, sh_def->name));
 		}
 		button_w += 8;
 
-		assert(app->shortcuts.empty());
+		if (setup)
+		{
+			assert(app->shortcuts.empty());
+		}
 		DrawCursor dc(app->frame_shortcuts.pos, app->font_id);
 		for (int i = 0; i < countof(shortcuts_def); i++)
 		{
@@ -2056,10 +2047,16 @@ static void     Debugger_Applet_Layout(bool setup)
 
 			//t_frame frame(dc.pos, v2i(Font_TextLength(F_LARGE, sh.name) + 3, Font_Height(F_LARGE) + 3));
 			t_frame frame(dc.pos, v2i(button_w, app->font_height + 10));
-			sh.button = widget_button_add(app->box, &frame, 1, Debugger_ShortcutButton_Callback, app->font_id, (const char *)sh.name, (void*)i);
+			if (setup)
+			{
+				sh.button = widget_button_add(app->box, &frame, 1, Debugger_ShortcutButton_Callback, app->font_id, (const char *)sh.name, (void*)i);
+				app->shortcuts.push_back(sh);
+			}
+			else
+			{
+				app->shortcuts[i].button->frame = frame;
+			}
 			dc.pos.x += frame.size.x + 2;
-
-			app->shortcuts.push_back(sh);
 		}
 	}
 	frame.pos.y += app->frame_shortcuts.size.y;
@@ -2072,7 +2069,7 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.y += app->frame_cpustate.size.y;
 
     // Add input box
-	frame.size.x = app->box->frame.size.x - (4*2);
+	frame.size.x = app->box->frame.size.x - 16; // Leave room for resize grip
 	frame.size.y = app->font_height + 8;
     frame.pos.x = 4;
     frame.pos.y = app->box->frame.size.y - frame.size.y - 2;
@@ -2084,6 +2081,10 @@ static void     Debugger_Applet_Layout(bool setup)
         widget_inputbox_set_flags(app->input_box, WIDGET_INPUTBOX_FLAGS_HISTORY, TRUE);
         widget_inputbox_set_callback_history(app->input_box, Debugger_History_Callback);
     }
+	else
+	{
+		app->input_box->frame = frame;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -2189,7 +2190,7 @@ void	Debugger_Applet_RedrawState()
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines_base = (g_configuration.debugger_disassembly_lines / 3) + 1; 
+        int     trackback_lines_base = (app->disassembly_lines / 3) + 1; 
         trackback_lines_base = MIN(trackback_lines_base, 16); // Max 10 because of buffer below
         //  1 -> 1
         //  5 -> 2
@@ -2287,7 +2288,7 @@ void	Debugger_Applet_RedrawState()
         //  JR NZ
 
         // Disassemble instructions starting at 'PC'
-        for (int i = 0; i < g_configuration.debugger_disassembly_lines; i++)
+        for (int i = 0; i < app->disassembly_lines; i++)
         {
             char buf[256];
             const ALLEGRO_COLOR text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
@@ -2316,10 +2317,10 @@ void	Debugger_Applet_RedrawState()
                         sprintf(buf, "%s:", symbol->name);
                         Font_Print(app->font_id, buf, frame.pos.x, frame.pos.y + (i * (app->font_height+1)), COLOR_SKIN_WINDOW_TEXT);
                         i++;
-                        if (i >= g_configuration.debugger_disassembly_lines)
+                        if (i >= app->disassembly_lines)
                             break;
                     }
-                    if (i >= g_configuration.debugger_disassembly_lines)
+                    if (i >= app->disassembly_lines)
                         break;
                 }
             }
@@ -2388,7 +2389,7 @@ void	Debugger_Applet_RedrawState()
 				}
 				running_counter = (running_counter + 1) % 8;
 			}
-			const int w = Font_TextLength(app->font_id, lines[1]) + Font_TextLength(app->font_id, "  ");
+			const int w = Font_TextWidth(app->font_id, lines[1]) + Font_TextWidth(app->font_id, "  ");
             Font_Print(app->font_id, label, frame.pos.x + w, y, COLOR_SKIN_WINDOW_TEXT);
         }
 
@@ -2972,7 +2973,20 @@ void        Debugger_InputParseCommand(char* line)
             Debugger_Help(NULL);
         return;
     }
-    
+
+	if (!strcmp(cmd, "--"))
+	{
+		gui_box_resize(DebuggerApp.box, DebuggerApp.box->frame.size.x-30, DebuggerApp.box->frame.size.y-30);
+		Debugger_Applet_Layout(false);
+		return;
+	}
+	if (!strcmp(cmd, "++"))
+	{
+		gui_box_resize(DebuggerApp.box, DebuggerApp.box->frame.size.x+30, DebuggerApp.box->frame.size.y+30);
+		Debugger_Applet_Layout(false);
+		return;
+	}
+
     // HI - HISTORY
     if (!strcmp(cmd, "HI") || !strcmp(cmd, "HISTORY"))
     {
@@ -3595,7 +3609,6 @@ void        Debugger_InputParseCommand(char* line)
 						sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X\n", 
 							e->pc, instr, e->af, e->bc, e->de, e->hl);
 
-					// g_configuration.debugger_console_lines
 					if (cnt > 256)
 						Debugger_PrintEx(false, true, false, buf);
 					else

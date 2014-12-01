@@ -16,7 +16,7 @@
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void		Lang_Set (t_menu_event *event);
+static void		Lang_Set(t_menu_event *event);
 
 //-----------------------------------------------------------------------------
 // Data
@@ -619,7 +619,7 @@ static void		Lang_Set (t_menu_event *event)
     // Post-process
     // FIXME: Rebuild menus
     gamebox_rename_all();
-    GUI_RelayoutAll();
+    gui_relayout_all();
 }
 
 void            Lang_Set_by_Name (char *name)

@@ -58,7 +58,7 @@ void    TileViewer_Init (void)
     app->tiles_display_frame.SetPos(0, 13);
     app->tiles_display_frame.SetSize(app->tiles_width * 8, app->tiles_height * 8);
 
-	app->tile_selected_frame.SetPos(2, app->tiles_display_frame.GetPosEnd().y+1);
+	app->tile_selected_frame.SetPos(2, app->tiles_display_frame.GetMax().y+1);
 	app->tile_selected_frame.SetSize(8,8);
 
 	app->vram_addr_tms9918_current = 0;
@@ -241,7 +241,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     // Refresh bottom status line (selected tile)
     if (dirty_all || tile_current_refresh)
     {
-		const int y = app->tiles_display_frame.GetPosEnd().y;
+		const int y = app->tiles_display_frame.GetMax().y;
 
         al_draw_filled_rectangle(16, y + 1, 127+1, y + 11+1, COLOR_SKIN_WINDOW_BACKGROUND);
         dirty = TRUE;

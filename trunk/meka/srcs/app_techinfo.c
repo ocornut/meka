@@ -44,7 +44,7 @@ void        TechInfo_Init (void)
 
     frame.pos.x = 306;
     frame.pos.y = 482;
-    frame.size.x = TECHINFO_COLUMNS * Font_TextLength(FONTID_MEDIUM, " ");
+    frame.size.x = TECHINFO_COLUMNS * Font_TextWidth(FONTID_MEDIUM, " ");
     frame.size.y = TECHINFO_LINES * Font_Height(FONTID_MEDIUM);
     
     TechInfo.active = FALSE;
