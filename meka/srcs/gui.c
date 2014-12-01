@@ -112,7 +112,7 @@ void	gui_draw()
 		{
 			const int sz = 9; // display size is 9, interaction is 12
 			ALLEGRO_COLOR color = COLOR_SKIN_WINDOW_TITLEBAR_TEXT_UNACTIVE;
-			if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b && gui.mouse.focus_is_resizing)
+			if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_box == b && gui.mouse.focus_is_resizing)
 				color = COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT;
 			al_draw_filled_triangle(bb_max.x+2, bb_max.y+2, bb_max.x+2-sz, bb_max.y+2, bb_max.x+2, bb_max.y+2-sz, color);
 		}

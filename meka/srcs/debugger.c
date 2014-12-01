@@ -1938,7 +1938,6 @@ static void Debugger_Applet_Init()
 
     app->box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     app->box_gfx = app->box->gfx_buffer;
-
     app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;		// Set exclusive inputs flag to avoid messing with emulation
     app->box->flags |= GUI_BOX_FLAGS_TAB_STOP;						// CTRL+TAB stops here
 	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;					// Can be resized

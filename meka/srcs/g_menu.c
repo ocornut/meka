@@ -124,7 +124,8 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                     // FIXME-FOCUS
                     //gui_mouse.pressed_on = PRESSED_ON_MENUS;
                     gui.mouse.focus = GUI_FOCUS_MENUS;
-                    gui.mouse.focus_item = menu;
+                    gui.mouse.focus_box = NULL;
+					gui.mouse.focus_widget = NULL;
                 }
             }
         }

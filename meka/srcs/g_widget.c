@@ -121,14 +121,15 @@ bool	widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
 
             // FIXME-FOCUS
             //if (gui_mouse.pressed_on == PRESSED_ON_NOTHING || gui_mouse.pressed_on == PRESSED_ON_WIDGET)
-            if (gui.mouse.focus == GUI_FOCUS_NONE || (gui.mouse.focus == GUI_FOCUS_WIDGET)) // && gui.mouse.focus_item == w;
+            if (gui.mouse.focus == GUI_FOCUS_NONE || (gui.mouse.focus == GUI_FOCUS_WIDGET && gui.mouse.focus_widget == w))
             {
                 if (w->mouse_buttons & w->mouse_buttons_mask)
                 {
                     // FIXME-FOCUS
                     //gui_mouse.pressed_on = PRESSED_ON_WIDGET;
                     gui.mouse.focus = GUI_FOCUS_WIDGET;
-                    gui.mouse.focus_item = w;
+					gui.mouse.focus_box = w->box;
+                    gui.mouse.focus_widget = w;
                     w->mouse_action |= WIDGET_MOUSE_ACTION_CLICK;
                     widget_active = true;
                 }
@@ -445,52 +446,45 @@ void    widget_scrollbar_update(t_widget *w)
         return;
 
     // First click needs to be inside. After, we tolerate moving a little outside.
-    if (w->mouse_action & WIDGET_MOUSE_ACTION_CLICK)
-    {
-        // OK
-    }
-    else
-    {
-        if ((w->mouse_buttons_previous & w->mouse_buttons_mask) == 0)
+	if (gui.mouse.focus_widget != w)
+		return;
+
+	if ((w->mouse_buttons_previous & w->mouse_buttons_mask) == 0)
+		return;
+
+	if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_VERTICAL)
+	{
+		if (mx < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || mx >= w->frame.size.x + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
 			return;
+		if (my < 0 || my >= w->frame.size.y)
+			return;
+	}
+	else if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_HORIZONTAL)
+	{
+		if (mx < 0 || mx >= w->frame.size.x)
+			return;
+		if (my < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || my >= w->frame.size.y + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
+		   return;
+	}
 
-        if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_VERTICAL)
-        {
-            if (mx < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || mx >= w->frame.size.x + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
-                return;
-            if (my < 0 || my >= w->frame.size.y)
-                return;
-        }
-        else if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_HORIZONTAL)
-        {
-            if (mx < 0 || mx >= w->frame.size.x)
-                return;
-            if (my < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || my >= w->frame.size.y + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
-                return;
-        }
-    }
-
+	// Move
+	int v_start;
+    switch (wd->scrollbar_type)
     {
-		// Move
-		int v_start;
-        switch (wd->scrollbar_type)
-        {
-        case WIDGET_SCROLLBAR_TYPE_VERTICAL:
-            v_start = ((my * *wd->v_max) / w->frame.size.y) - (wd->v_step_per_page / 2);
-            break;
-        case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
-            v_start = ((mx * *wd->v_max) / w->frame.size.x) - (wd->v_step_per_page / 2);
-            break;
-        }
-
-		// Clamp
-		if (v_start > *wd->v_max - wd->v_step_per_page) 
-			v_start = *wd->v_max - wd->v_step_per_page;
-		if (v_start < 0) 
-			v_start = 0;
-
-        *wd->v_start = v_start;
+    case WIDGET_SCROLLBAR_TYPE_VERTICAL:
+        v_start = ((my * *wd->v_max) / w->frame.size.y) - (wd->v_step_per_page / 2);
+        break;
+    case WIDGET_SCROLLBAR_TYPE_HORIZONTAL:
+        v_start = ((mx * *wd->v_max) / w->frame.size.x) - (wd->v_step_per_page / 2);
+        break;
     }
+
+	// Clamp
+	if (v_start > *wd->v_max - wd->v_step_per_page) 
+		v_start = *wd->v_max - wd->v_step_per_page;
+	if (v_start < 0) 
+		v_start = 0;
+    *wd->v_start = v_start;
 
     // Callback
 	if (wd->callback != NULL)

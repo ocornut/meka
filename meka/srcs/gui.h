@@ -216,7 +216,8 @@ struct t_gui_mouse
     int             last_click_time_elapsed;
 
     t_gui_focus     focus;
-    void *          focus_item;
+	t_gui_box*		focus_box;
+	t_widget*		focus_widget;
 	bool			focus_is_resizing;
 
     int             wheel_rel;

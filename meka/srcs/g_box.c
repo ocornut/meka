@@ -25,7 +25,6 @@ void	gui_update_boxes()
     for (int i = 0; i < gui.boxes_count; i++)
     {
 		t_gui_box* b = gui.boxes_z_ordered[i];
-
         if (!(b->flags & GUI_BOX_FLAGS_ACTIVE))
             continue;
 
@@ -37,7 +36,7 @@ void	gui_update_boxes()
         {
 			// FIXME-FOCUS
 			// Already has focus?
-			if ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item == b) && (gui.mouse.buttons & 1))
+			if ((gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_box == b) && (gui.mouse.buttons & 1))
 			{
 				b_hover = b;
 				do_move = gui.mouse.focus_is_resizing == false;
@@ -80,14 +79,15 @@ void	gui_update_boxes()
         if ((gui.mouse.buttons) && (gui.mouse.focus == GUI_FOCUS_NONE))
         {
             gui.mouse.focus = GUI_FOCUS_DESKTOP;
-            gui.mouse.focus_item = NULL;
+            gui.mouse.focus_box = NULL;
+			gui.mouse.focus_widget = NULL;
         }
         return;
     }
 
     // FIXME-FOCUS
     //if ((gui_mouse.on_box != NULL) && (gui_mouse.on_box != b_hover))
-    if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_item != b_hover)
+    if (gui.mouse.focus == GUI_FOCUS_BOX && gui.mouse.focus_box != b_hover)
         return;
 
     /*
@@ -101,9 +101,13 @@ void	gui_update_boxes()
 
     // Focus
     //gui_mouse.on_box = b;
-	t_gui_box* b = b_hover;
+	t_gui_box* b;
+	if (gui.mouse.focus == GUI_FOCUS_BOX || gui.mouse.focus == GUI_FOCUS_WIDGET)
+		b = gui.mouse.focus_box;
+	else
+		b = b_hover;
+
     gui_box_set_focus(b);
-	//assert(do_move || do_resize);
 
     // Move/resize
     if ((do_move || do_resize) && (gui.mouse.focus != GUI_FOCUS_WIDGET) && (gui.mouse.buttons & 1))
@@ -117,7 +121,8 @@ void	gui_update_boxes()
             // FIXME-FOCUS
             //gui_mouse.pressed_on = PRESSED_ON_BOX;
             gui.mouse.focus = GUI_FOCUS_BOX;
-            gui.mouse.focus_item = b;
+            gui.mouse.focus_box = b;
+			gui.mouse.focus_widget = NULL;
 			gui.mouse.focus_is_resizing = do_resize ? true : false;
             mx = 0;
             my = 0;
@@ -128,7 +133,7 @@ void	gui_update_boxes()
             my = gui.mouse.y - gui.mouse.y_prev;
         }
 
-		assert((t_gui_box*)gui.mouse.focus_item == b);
+		assert((t_gui_box*)gui.mouse.focus_box == b);
 
 		// Mouse moves box
 		// FIXME: rewrite this embarrassing 1998 code into something decent

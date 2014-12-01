@@ -46,9 +46,10 @@ void	TextViewer_Init(t_app_textviewer* app)
     frame.size.x	= 550;
     frame.size.y	= 620;
     app->box = gui_box_new(&frame, "Text Viewer");
-    Desktop_Register_Box("DOCUMENTATION", app->box, FALSE, &app->active);
-	
 	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
+
+	// Register to desktop
+	Desktop_Register_Box("DOCUMENTATION", app->box, FALSE, &app->active);
 
 	// Layout
 	TextViewer_Layout(app, true);
