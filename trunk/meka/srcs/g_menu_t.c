@@ -39,7 +39,8 @@ void    gui_menu_return_children_pos(int p_menu, int p_entry, int *x, int *y)
 
 void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, int *x2, int *y2)
 {
-	Font_SetCurrent(FONTID_MENUS);
+	t_font_id font_id = (t_font_id)g_configuration.font_menus;
+
 	t_menu* menu = menus[menu_id];
 	if (menu_id == MENU_ID_MAIN)
 	{
@@ -49,10 +50,10 @@ void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, in
 		for (int i = 0; i < n_entry; i ++)
 		{
 			t_menu_item* item = menu->entry[i];
-			*x1 += Font_TextWidth(FONTID_CUR, item->label) + menus_opt.spacing_render;
+			*x1 += Font_TextWidth(font_id, item->label) + menus_opt.spacing_render;
 		}
 		*x1 -= (menus_opt.spacing / 2);
-		*x2 = *x1 + menus_opt.spacing + Font_TextWidth(FONTID_CUR, menu->entry[n_entry]->label);
+		*x2 = *x1 + menus_opt.spacing + Font_TextWidth(font_id, menu->entry[n_entry]->label);
 	}
 	else
 	{
@@ -62,12 +63,12 @@ void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, in
 		for (int i = 0; i < n_entry; i ++)
 		{
 			t_menu_item* item = menu->entry[i];
-			y += item->type == MENU_ITEM_TYPE_SEPARATOR ? MENUS_PADDING_Y : Font_Height()+MENUS_PADDING_Y;
+			y += item->type == MENU_ITEM_TYPE_SEPARATOR ? MENUS_PADDING_Y : Font_Height(font_id)+MENUS_PADDING_Y;
 		}
 
 		t_menu_item* item = menu->entry[n_entry];
 		*y1 = y;
-		*y2 = y + (item->type == MENU_ITEM_TYPE_SEPARATOR ? 0 : Font_Height());
+		*y2 = y + (item->type == MENU_ITEM_TYPE_SEPARATOR ? 0 : Font_Height(font_id));
 		*y1 -= 3;
 	}
 }
@@ -75,10 +76,10 @@ void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, in
 // UPDATE THE SIZE OF A MENU --------------------------------------------------
 void    gui_menu_update_size(int menu_id)
 {
+	t_font_id font_id = (t_font_id)g_configuration.font_menus;
+
 	int size_x = 0;
 	int size_y = 0;
-	Font_SetCurrent(FONTID_MENUS);
-	
 	t_menu* menu = menus[menu_id];
 	for (int i = 0; i < menu->n_entry; i ++)
 	{
@@ -90,11 +91,11 @@ void    gui_menu_update_size(int menu_id)
 		}
 		else
 		{
-			const int text_w = Font_TextWidth(FONTID_CUR, item->label);
+			const int text_w = Font_TextWidth(font_id, item->label);
 			const int shortcut_w = item->shortcut ? Font_TextWidth(FONTID_MEDIUM, item->shortcut) : 0;
 
 			size_x = MAX(size_x, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
-			size_y += Font_Height() + MENUS_PADDING_Y;
+			size_y += Font_Height(font_id) + MENUS_PADDING_Y;
 		}
 	}
 	menu->size_x = size_x + (3 * MENUS_PADDING_X);

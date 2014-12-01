@@ -41,6 +41,7 @@ struct t_filebrowser_entry
 struct t_filebrowser
 {
     t_gui_box *         box;
+	t_font_id			font_id;
     bool                active;
     t_filebrowser_entry **  files;
     int                 files_max;
