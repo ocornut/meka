@@ -184,6 +184,8 @@ struct t_gui_box
     ALLEGRO_BITMAP *gfx_buffer;					// Graphics buffer holding content render
     t_list *        widgets;                    // Widgets
 	v2i				size_min, size_max;			// Resize limits
+	v2i				size_step;
+	bool			size_fixed_ratio;
 
     // Handlers
     void            (*update)();
@@ -219,6 +221,7 @@ struct t_gui_mouse
 	t_gui_box*		focus_box;
 	t_widget*		focus_widget;
 	bool			focus_is_resizing;
+	v2i				focus_pivot;			// in local box coordinates
 
     int             wheel_rel;
     int             wheel_abs;

@@ -283,7 +283,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
             {
                 Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_Warning));
                 Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Long));
-                Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Short));
+                Msg(MSGT_STATUS_BAR, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Short));
             }
 
             // Show Product Number

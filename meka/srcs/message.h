@@ -9,10 +9,10 @@
 
 // Messages types
 #define MSGT_USER_BOX                   (0x01)
-#define MSGT_USER_INFOLINE              (0x02)
+#define MSGT_STATUS_BAR					(0x02)
 #define MSGT_ATTR_DEBUG                 (0x04)
 
-#define MSGT_USER                       (MSGT_USER_BOX | MSGT_USER_INFOLINE)
+#define MSGT_USER                       (MSGT_USER_BOX | MSGT_STATUS_BAR)
 #define MSGT_DEBUG                      (MSGT_USER_BOX | MSGT_ATTR_DEBUG)
 
 //-----------------------------------------------------------------------------
@@ -335,6 +335,7 @@ enum
 	MSG_Options_GUI_VSync,
 	MSG_Options_Capture_Crop_Align,
 	MSG_Options_NES_Enable,
+	MSG_Options_GUI_GameWindowScale,
 	
 	MSG_Language_Set,
 	MSG_Language_Set_Warning,

@@ -79,7 +79,7 @@ void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_activ
             item->box = box;
             item->active_org = active_org;
             box->frame.pos = item->pos;
-			if (box->flags & GUI_BOX_FLAGS_ALLOW_RESIZE)
+			if ((box->flags & GUI_BOX_FLAGS_ALLOW_RESIZE) && (box->type != GUI_BOX_TYPE_GAME))
 				if (item->size.x > 0 && item->size.y > 0)
 					box->frame.size = item->size;
             *(active_org) = item->active;

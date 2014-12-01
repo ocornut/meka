@@ -46,7 +46,7 @@ static void    Option_Switch_Uses_VLFN(void)
 static void    Option_Switch_NES_Crap(void)
 {
     g_configuration.enable_NES = FALSE;
-    Msg(MSGT_USER_INFOLINE, "%s", Msg_Get(MSG_NES_Deny_Facts));
+    Msg(MSGT_STATUS_BAR, "%s", Msg_Get(MSG_NES_Deny_Facts));
 }
 
 void    Options_Init_Applet(void)
