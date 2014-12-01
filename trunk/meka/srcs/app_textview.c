@@ -20,101 +20,106 @@ t_app_textviewer   TextViewer;
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
-static void                 TextViewer_Layout(t_app_textviewer *tv, bool setup);
-static void                 TextViewer_ScrollbarCallback();
-static void                 TextViewer_Update_Inputs(t_app_textviewer *tv);
+static void		TextViewer_Layout(t_app_textviewer* app, bool setup);
+static void		TextViewer_ScrollbarCallback();
+static void		TextViewer_Update_Inputs(t_app_textviewer* app);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void            TextViewer_Init(t_app_textviewer *tv)
+void	TextViewer_Init(t_app_textviewer* app)
 {
-    assert(tv == &TextViewer); // WIP multiple instanciation not supported
+    assert(app == &TextViewer); // WIP multiple instances not supported
 
     // Setup members
-    tv->active      = FALSE;
-    tv->dirty       = TRUE;
-    tv->current_file= -1;
-    tv->font        = FONTID_MEDIUM;
-    tv->font_height = Font_Height(tv->font);
-    tv->size_x		= TEXTVIEWER_COLUMNS;
-    tv->size_y      = TEXTVIEWER_LINES;
+    app->active      = FALSE;
+    app->dirty       = TRUE;
+    app->current_file= -1;
+    app->font        = FONTID_PROGGYCLEAN;
+    app->font_height = Font_Height(app->font);
 
     // Create box
     t_frame frame;
     frame.pos.x		= 290;
     frame.pos.y		= 65;
-    frame.size.x	= (tv->size_x * tv->font_height) + TEXTVIEWER_PADDING - 1;
-    frame.size.y	= ((tv->size_y + 2) * tv->font_height) - 1;                  // +2 for vertical padding
-    tv->box = gui_box_new(&frame, "Text Viewer");
-    Desktop_Register_Box("TEXTVIEW", tv->box, FALSE, &tv->active);
+    frame.size.x	= 550;
+    frame.size.y	= 620;
+    app->box = gui_box_new(&frame, "Text Viewer");
+    Desktop_Register_Box("DOCUMENTATION", app->box, FALSE, &app->active);
+	
+	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
 
-    // Layout
-    TextViewer_Layout(tv, TRUE);
+	// Layout
+	TextViewer_Layout(app, true);
 
-    // Setup other members
-    tv->text_lines              = NULL;
-    tv->text_lines_count        = 0;
-    tv->text_frame.pos.x        = TEXTVIEWER_PADDING;
-    tv->text_frame.pos.y        = TEXTVIEWER_PADDING;
-    tv->text_frame.size.x       = tv->box->frame.size.x - (2 * TEXTVIEWER_PADDING) - TEXTVIEWER_SCROLLBAR_SIZE_X;
-    tv->text_frame.size.y       = tv->box->frame.size.y - (2 * TEXTVIEWER_PADDING);
-    tv->text_size_y             = 0;
-    tv->text_size_per_page      = tv->size_y * tv->font_height;
-    tv->scroll_position_y       = 0;
-    tv->scroll_position_y_max   = 0;
-    tv->scroll_velocity_y       = 0;
+	// Setup other members
+	app->text_lines              = NULL;
+	app->text_lines_count        = 0;
+	app->text_size_y             = 0;
+	app->scroll_position_y       = 0;
+	app->scroll_position_y_max   = 0;
+	app->scroll_velocity_y       = 0;
 }
 
-void            TextViewer_Layout(t_app_textviewer *tv, bool setup)
+void	TextViewer_Layout(t_app_textviewer* app, bool setup)
 {
+	app->text_frame.pos.x        = TEXTVIEWER_PADDING;
+	app->text_frame.pos.y        = TEXTVIEWER_PADDING;
+	app->text_frame.size.x       = app->box->frame.size.x - (2 * TEXTVIEWER_PADDING) - TEXTVIEWER_SCROLLBAR_SIZE_X;
+	app->text_frame.size.y       = app->box->frame.size.y - (2 * TEXTVIEWER_PADDING);
+	app->text_size_per_page      = app->box->frame.size.y;
+
     t_frame frame;
 
-    al_set_target_bitmap(tv->box->gfx_buffer);
+    al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
     if (setup)
-        widget_closebox_add(tv->box, (t_widget_callback)TextViewer_Switch_Close);
+        widget_closebox_add(app->box, (t_widget_callback)TextViewer_Switch_Close);
 
     // Add scrollbar
-    frame.pos.x = tv->box->frame.size.x - TEXTVIEWER_SCROLLBAR_SIZE_X;
+    frame.pos.x = app->box->frame.size.x - TEXTVIEWER_SCROLLBAR_SIZE_X;
     frame.pos.y = 0;
     frame.size.x = TEXTVIEWER_SCROLLBAR_SIZE_X;
-    frame.size.y = tv->box->frame.size.y;
+    frame.size.y = app->box->frame.size.y - 16;
     if (setup)
-        tv->widget_scrollbar = widget_scrollbar_add(tv->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &tv->text_size_y, &tv->scroll_position_y, tv->text_size_per_page, (t_widget_callback)TextViewer_ScrollbarCallback);
+	{
+        app->widget_scrollbar = widget_scrollbar_add(app->box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &app->text_size_y, &app->scroll_position_y, app->text_size_per_page, (t_widget_callback)TextViewer_ScrollbarCallback);
+	}
+	else
+	{
+		app->widget_scrollbar->frame = frame;
+		widget_scrollbar_set_page_step(app->widget_scrollbar, app->text_size_per_page);
+	}
 }
 
-int             TextViewer_Open(t_app_textviewer *tv, const char *title, const char *filename)
+int		TextViewer_Open(t_app_textviewer* app, const char* title, const char* filename)
 {
-    t_tfile *   tf;
-    t_list *    lines;
-    int         i;
-
     // Open and read file
+	t_tfile *   tf;
     if ((tf = tfile_read(filename)) == NULL)
         return (MEKA_ERR_FILE_OPEN);
 
     // Free existing lines
-    if (tv->text_lines != NULL)
+    if (app->text_lines != NULL)
     {
-        for (i = 0; i != tv->text_lines_count; i++)
-            free(tv->text_lines[i]);
-        free(tv->text_lines);
-        tv->text_lines = NULL;
-        tv->text_lines_count = 0;
+        for (int i = 0; i != app->text_lines_count; i++)
+            free(app->text_lines[i]);
+        free(app->text_lines);
+        app->text_lines = NULL;
+        app->text_lines_count = 0;
     }
 
     // Allocate and copy new lines
-    tv->text_lines = (char**)malloc(sizeof(char *) * tf->data_lines_count);
-    tv->text_lines_count = tf->data_lines_count;
-    i = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    app->text_lines = (char**)malloc(sizeof(char *) * tf->data_lines_count);
+    app->text_lines_count = tf->data_lines_count;
+    int i = 0;
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
         const char *line = (const char *)lines->elem;
-        tv->text_lines[i] = strdup(line);
+        app->text_lines[i] = strdup(line);
         i++;
     }
 
@@ -122,13 +127,13 @@ int             TextViewer_Open(t_app_textviewer *tv, const char *title, const c
     tfile_free(tf);
 
     // Update members
-    tv->dirty                   = TRUE;
-    tv->text_size_y             = tv->text_lines_count * tv->font_height;
-    tv->scroll_position_y       = 0;
-    tv->scroll_position_y_max   = tv->text_size_y - tv->text_size_per_page;
+    app->dirty                   = TRUE;
+    app->text_size_y             = app->text_lines_count * app->font_height;
+    app->scroll_position_y       = 0;
+    app->scroll_position_y_max   = app->text_size_y - app->text_size_per_page;
 
     // Set new title
-    gui_box_set_title(tv->box, title);
+    gui_box_set_title(app->box, title);
 
     return (MEKA_ERR_OK);
 }
@@ -165,7 +170,7 @@ void            TextViewer_Switch_Doc_Debugger(void)
     TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationDebugger, DOC_DEBUGGER); 
 }
 
-void            TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file)
+void	TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file)
 {
     if (tv->current_file != current_file)
     {
@@ -188,7 +193,7 @@ void            TextViewer_Switch(t_app_textviewer *tv, const char *title, const
         gui_menu_check(menus_ID.help, current_file);
 }
 
-void            TextViewer_Switch_Close(void)
+void	TextViewer_Switch_Close(void)
 {
     t_app_textviewer *tv = &TextViewer; // Global instance
     tv->active = FALSE;
@@ -203,7 +208,7 @@ static void     TextViewer_ScrollbarCallback(void)
     tv->dirty = TRUE;
 }
 
-void            TextViewer_Update(t_app_textviewer *tv)
+void	TextViewer_Update(t_app_textviewer *tv)
 {
     // Skip update if not active
     if (!tv->active)
@@ -250,11 +255,11 @@ void            TextViewer_Update(t_app_textviewer *tv)
     // Redraw
     tv->dirty = FALSE;
     {
-        // Uses Allegro clipping functionnality as a helper
+        // Uses Allegro clipping functionality as a helper
 		al_set_target_bitmap(tv->box->gfx_buffer);
 		//al_set_clipping_rectangle(tv->text_frame.pos.x, tv->text_frame.pos.y, tv->text_frame.pos.x + tv->text_frame.size.x, tv->text_frame.pos.y + tv->text_frame.size.y);
 
-        // Clear all since Allegro 5 doesnt seem to do clipping on font
+        // Clear all since Allegro 5 doesn't seem to do clipping on font
 		al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 	    
 		// Draw separator between text and scrollbar
@@ -266,18 +271,17 @@ void            TextViewer_Update(t_app_textviewer *tv)
 
         // Draw lines
         const int line_y = tv->scroll_position_y / tv->font_height;
-        int y = tv->text_frame.pos.y - tv->scroll_position_y % tv->font_height;
-        for (int i = line_y; i < line_y + tv->size_y + 1 && i < tv->text_lines_count; i++)
+        int y = tv->text_frame.pos.y - (tv->scroll_position_y % tv->font_height);
+        for (int i = line_y; i < tv->text_lines_count; i++)
         {
             Font_Print(tv->font, tv->text_lines[i], tv->text_frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
             y += tv->font_height;
+			if (y > tv->text_frame.pos.y + tv->text_frame.size.y)
+				break;
         }
 
         // Disable clipping
         //al_set_clipping_rectangle(0, 0, al_get_bitmap_width(tv->box->gfx_buffer), al_get_bitmap_height(tv->box->gfx_buffer));
-
-        //rectfill (TV->BoxGfx, TV->Pad_X, 0, TV->BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->Pad_Y, COLOR_SKIN_WINDOW_BACKGROUND);
-        //rectfill (TV->BoxGfx, TV->Pad_X, TV->BoxGfx->h - TV->Pad_Y, TV->BoxGfx->w - TV->Pad_X - TEXTVIEW_SCROLLBAR_LX - 4, TV->BoxGfx->h, COLOR_SKIN_WINDOW_BACKGROUND);
     }
 }
 
