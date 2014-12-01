@@ -434,12 +434,12 @@ t_widget *  widget_scrollbar_add(t_gui_box *box, t_widget_scrollbar_type scrollb
     return w;
 }
 
-void        widget_scrollbar_update(t_widget *w)
+void    widget_scrollbar_update(t_widget *w)
 {
     t_widget_data_scrollbar* wd = (t_widget_data_scrollbar*)w->data;
 
-    int mx = w->mouse_x;
-    int my = w->mouse_y;
+    const int mx = w->mouse_x;
+    const int my = w->mouse_y;
 
     if (!(w->mouse_buttons & w->mouse_buttons_mask))
         return;
@@ -451,33 +451,28 @@ void        widget_scrollbar_update(t_widget *w)
     }
     else
     {
-        if (w->mouse_buttons_previous & w->mouse_buttons_mask)
+        if ((w->mouse_buttons_previous & w->mouse_buttons_mask) == 0)
+			return;
+
+        if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_VERTICAL)
         {
-            if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_VERTICAL)
-            {
-                if (mx < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || mx >= w->frame.size.x + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
-                    return;
-                if (my < 0 || my >= w->frame.size.y)
-                    return;
-            }
-            else if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_HORIZONTAL)
-            {
-                if (mx < 0 || mx >= w->frame.size.x)
-                    return;
-                if (my < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || my >= w->frame.size.y + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
-                    return;
-            }
+            if (mx < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || mx >= w->frame.size.x + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
+                return;
+            if (my < 0 || my >= w->frame.size.y)
+                return;
         }
-        else
+        else if (wd->scrollbar_type == WIDGET_SCROLLBAR_TYPE_HORIZONTAL)
         {
-            return;
+            if (mx < 0 || mx >= w->frame.size.x)
+                return;
+            if (my < 0-WIDGET_SCROLLBAR_MOUSE_TOLERANCE || my >= w->frame.size.y + WIDGET_SCROLLBAR_MOUSE_TOLERANCE)
+                return;
         }
     }
 
     {
-        int v_start;
-
 		// Move
+		int v_start;
         switch (wd->scrollbar_type)
         {
         case WIDGET_SCROLLBAR_TYPE_VERTICAL:
@@ -533,7 +528,12 @@ void        widget_scrollbar_redraw(t_widget *w)
             break;
         }
     }
+}
 
+void	widget_scrollbar_set_page_step(t_widget *w, int page_step)
+{
+	t_widget_data_scrollbar* wd = (t_widget_data_scrollbar*)w->data;
+	wd->v_step_per_page = page_step;
 }
 
 //-----------------------------------------------------------------------------

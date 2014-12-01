@@ -183,6 +183,7 @@ struct t_gui_box
     int				flags;                      // Flags (t_gui_box_flags) // FIXME-ENUM
     ALLEGRO_BITMAP *gfx_buffer;					// Graphics buffer holding content render
     t_list *        widgets;                    // Widgets
+	v2i				size_min, size_max;			// Resize limits
 
     // Handlers
     void            (*update)();

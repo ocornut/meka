@@ -284,8 +284,6 @@ struct t_meka_configuration
     bool    fullscreen_after_load;
 
     // Applet: Debugger
-    int     debugger_console_lines;
-    int     debugger_disassembly_lines;
     bool    debugger_disassembly_display_labels;
     bool    debugger_log_enabled;
 

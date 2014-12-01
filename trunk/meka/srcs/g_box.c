@@ -209,7 +209,7 @@ void	gui_update_boxes()
     }
 }
 
-t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
+t_gui_box *	gui_box_new(const t_frame *frame, const char *title)
 {
 	// Allocate new box
 	t_gui_box* box = (t_gui_box *)malloc(sizeof (t_gui_box));
@@ -223,6 +223,8 @@ t_gui_box *	    gui_box_new(const t_frame *frame, const char *title)
 	box->gfx_buffer = NULL;
 	gui_box_create_video_buffer(box);
     box->widgets    = NULL;
+	box->size_min.Set(32,32);
+	box->size_max.Set(10000,10000);
     box->user_data  = NULL;
     box->update     = NULL;
     box->destroy    = NULL;
@@ -416,8 +418,8 @@ void    gui_box_set_title(t_gui_box *box, const char *title)
 
 void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
 {
-	size_x = MAX(size_x, 32);
-	size_y = MAX(size_y, 32);
+	size_x = Clamp<int>(size_x, box->size_min.x, box->size_max.x);
+	size_y = Clamp<int>(size_y, box->size_min.y, box->size_max.y);
 
 	if (box->frame.size.x == size_x && box->frame.size.y == size_y)
 		return;

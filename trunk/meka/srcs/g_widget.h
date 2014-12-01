@@ -119,6 +119,7 @@ void		widget_button_trigger			(t_widget* w);
 t_widget *  widget_scrollbar_add            (t_gui_box *box, t_widget_scrollbar_type scrollbar_type, const t_frame *frame, const int *v_max, int *v_start, int v_step, t_widget_callback callback);
 void        widget_scrollbar_update         (t_widget* w);
 void        widget_scrollbar_redraw			(t_widget* w);
+void		widget_scrollbar_set_page_step	(t_widget* w, int page_step);
 //-----------------------------------------------------------------------------
 
 // Widget: check box ----------------------------------------------------------

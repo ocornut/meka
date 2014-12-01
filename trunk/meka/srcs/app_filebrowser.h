@@ -16,7 +16,6 @@
 //-----------------------------------------------------------------------------
 
 void    FB_Switch               ();
-void    FB_Init_Values          ();
 void    FB_Init                 ();
 void    FB_Init_2               ();
 void    FB_Close                ();
@@ -50,9 +49,15 @@ struct t_filebrowser
     int                 file_first, file_last; // Other are directories & drives
     int                 last_click;
     char                current_directory[FILENAME_LEN+1];
-    int                 res_x, file_y;
+    int                 files_display_count;
 
+	int					bottom_y;
     t_widget *          widget_scrollbar;
+	t_widget *			widget_click_list;
+	t_widget *			widget_close_button;
+	t_widget *			widget_load_button;
+	t_widget *			widget_load_names_button;
+	t_widget *			widget_reload_dir_button;
 };
 
 extern t_filebrowser    FB;
