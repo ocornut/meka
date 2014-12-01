@@ -2,8 +2,6 @@
 // MEKA - g_widget.c
 // GUI Widgets - Code
 //-----------------------------------------------------------------------------
-// FIXME: Static inheritance would be more proper than dynamic allocating 'data'
-//-----------------------------------------------------------------------------
 
 #include "shared.h"
 #include "g_tools.h"
@@ -394,7 +392,8 @@ void        widget_button_redraw(t_widget *w)
 		gui_rect(LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 	else
 		gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-	Font_Print(wd->font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextWidth(wd->font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(wd->font_id)) / 2) + 1, text_color);
+	if (wd->label)
+		Font_Print(wd->font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextWidth(wd->font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(wd->font_id)) / 2) + 1, text_color);
 }
 
 void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
