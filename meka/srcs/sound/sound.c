@@ -538,8 +538,8 @@ static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
 	va_end(args);
 	
 	al_set_target_bitmap(app->box->gfx_buffer);
-	Font_Print(F_MEDIUM, buf, *px, *py, COLOR_SKIN_WINDOW_TEXT);
-	*py += Font_Height(F_MEDIUM);
+	Font_Print(FONTID_MEDIUM, buf, *px, *py, COLOR_SKIN_WINDOW_TEXT);
+	*py += Font_Height(FONTID_MEDIUM);
 }
 
 void SoundDebugApp_Update()

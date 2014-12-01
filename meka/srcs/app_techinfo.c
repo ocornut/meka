@@ -44,8 +44,8 @@ void        TechInfo_Init (void)
 
     frame.pos.x = 306;
     frame.pos.y = 482;
-    frame.size.x = TECHINFO_COLUMNS * Font_TextLength(F_MEDIUM, " ");
-    frame.size.y = TECHINFO_LINES * Font_Height(F_MEDIUM);
+    frame.size.x = TECHINFO_COLUMNS * Font_TextLength(FONTID_MEDIUM, " ");
+    frame.size.y = TECHINFO_LINES * Font_Height(FONTID_MEDIUM);
     
     TechInfo.active = FALSE;
 
@@ -71,12 +71,12 @@ static void TechInfo_Redraw(t_app_tech_info *app)
     {
         if (app->lines_dirty[i])
         {
-            const int h = Font_Height (F_MEDIUM);
+            const int h = Font_Height (FONTID_MEDIUM);
             const int y = (h * i);
 
 			al_set_target_bitmap(app->box->gfx_buffer);
             al_draw_filled_rectangle(0, y, app->box->frame.size.x+1, y + h, COLOR_SKIN_WINDOW_BACKGROUND);
-            Font_Print(F_MEDIUM, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(FONTID_MEDIUM, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
 
             app->lines_dirty[i] = FALSE;
         }

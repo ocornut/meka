@@ -75,7 +75,7 @@ static void     Options_Layout_AddLine(bool setup, t_frame *frame, const char *t
     if (setup)
         widget_checkbox_add(Options.box, frame, v, (t_widget_callback)func); // FIXME: Cast
     frame->pos.x += OPTIONS_CHECK_X + 8;
-    Font_Print(F_MEDIUM, text, frame->pos.x, frame->pos.y + shift_y, COLOR_SKIN_WINDOW_TEXT);
+    Font_Print(FONTID_MEDIUM, text, frame->pos.x, frame->pos.y + shift_y, COLOR_SKIN_WINDOW_TEXT);
     frame->pos.y += OPTIONS_CHECK_Y + 4;
 }
 
@@ -96,7 +96,7 @@ static void     Options_Layout(t_app_options *app, bool setup)
         frame.pos.y = Options.box->frame.size.y - OPTIONS_BUTTON_Y - OPTIONS_PAD_Y;
         frame.size.x = OPTIONS_BUTTON_X;
         frame.size.y = OPTIONS_BUTTON_Y;
-        widget_button_add(Options.box, &frame, 1, (t_widget_callback)Options_Switch, WIDGET_BUTTON_STYLE_LARGE, Msg_Get(MSG_Options_Close));
+        widget_button_add(Options.box, &frame, 1, (t_widget_callback)Options_Switch, FONTID_LARGE, Msg_Get(MSG_Options_Close));
     }
 
     // Draw option lines

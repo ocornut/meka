@@ -1945,12 +1945,20 @@ static void Debugger_Applet_Init()
 	t_frame frame;
 
     // Create box
-    app->font_id = F_MEDIUM;
+    app->font_id = FONTID_MEDIUM;//FONTID_PROGGYCLEAN;
     app->font_height = Font_Height(app->font_id);
     frame.pos.x     = 428;
     frame.pos.y     = 50;
-    frame.size.x    = 380;
-    frame.size.y    = ((g_configuration.debugger_console_lines + 1 + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height + (g_configuration.debugger_disassembly_lines * (app->font_height+1))) + 22 + 20 + (2*2); // 2*2=padding
+	switch (app->font_id)
+	{
+	case FONTID_LARGE: frame.size.x = 560; break;
+	default:	  frame.size.x = 380; break;
+	}
+    frame.size.y    = (g_configuration.debugger_console_lines + 1 + 1 + DEBUGGER_APP_CPUSTATE_LINES) * app->font_height;
+	frame.size.y   += (g_configuration.debugger_disassembly_lines) * (app->font_height+1);
+	frame.size.y   += app->font_height + 14; // Shortcut
+	frame.size.y   += app->font_height + 10;  // Input box
+	frame.size.y   += 2*3;				     // Padding
 
     app->box = gui_box_new(&frame, DEBUGGER_APP_TITLE);
     app->box_gfx = app->box->gfx_buffer;
@@ -2013,7 +2021,7 @@ static void     Debugger_Applet_Layout(bool setup)
 	app->frame_shortcuts.pos.x   = frame.pos.x;
 	app->frame_shortcuts.pos.y   = frame.pos.y;
 	app->frame_shortcuts.size.x  = frame.size.x;
-	app->frame_shortcuts.size.y  = 22;
+	app->frame_shortcuts.size.y  = app->font_height + 14;
 	if (setup)
 	{
 		// FIXME: the code in Debugger_Applet_UpdateShortcuts() is pretty hard-coded for the 5 entries below for now (to update their active state), maybe strcmp the button
@@ -2022,14 +2030,22 @@ static void     Debugger_Applet_Layout(bool setup)
 		{
 			{ "Cont", "C", },
 			{ "Step", "STEPINTO" },
-			{ "StepOver", "S" },
-			{ "StepOut",  "SO" },
+			{ "Step Over", "S" },
+			{ "Step Out",  "SO" },
 			{ "Stack", "STACK" },
 			//{ "Breakpoints", "B L" },
 			//{ "Regs", "REGS" },
 		};
+		int button_w = 0;
+		for (int i = 0; i < countof(shortcuts_def); i++)
+		{
+			const t_debugger_shortcut* sh_def = &shortcuts_def[i];
+			button_w = MAX(button_w, Font_TextLength(app->font_id, sh_def->name));
+		}
+		button_w += 8;
+
 		assert(app->shortcuts.empty());
-		DrawCursor dc(app->frame_shortcuts.pos, F_MEDIUM);
+		DrawCursor dc(app->frame_shortcuts.pos, app->font_id);
 		for (int i = 0; i < countof(shortcuts_def); i++)
 		{
 			const t_debugger_shortcut* sh_def = &shortcuts_def[i];
@@ -2039,8 +2055,8 @@ static void     Debugger_Applet_Layout(bool setup)
 			sh.command = sh_def->command;
 
 			//t_frame frame(dc.pos, v2i(Font_TextLength(F_LARGE, sh.name) + 3, Font_Height(F_LARGE) + 3));
-			t_frame frame(dc.pos, v2i(60, Font_Height(F_MEDIUM) + 10));
-			sh.button = widget_button_add(app->box, &frame, 1, Debugger_ShortcutButton_Callback, WIDGET_BUTTON_STYLE_MEDIUM, (const char *)sh.name, (void*)i);
+			t_frame frame(dc.pos, v2i(button_w, app->font_height + 10));
+			sh.button = widget_button_add(app->box, &frame, 1, Debugger_ShortcutButton_Callback, app->font_id, (const char *)sh.name, (void*)i);
 			dc.pos.x += frame.size.x + 2;
 
 			app->shortcuts.push_back(sh);
@@ -2056,13 +2072,13 @@ static void     Debugger_Applet_Layout(bool setup)
     frame.pos.y += app->frame_cpustate.size.y;
 
     // Add input box
+	frame.size.x = app->box->frame.size.x - (4*2);
+	frame.size.y = app->font_height + 8;
     frame.pos.x = 4;
-    frame.pos.y = app->box->frame.size.y - 16 - 2;
-    frame.size.x = app->box->frame.size.x - (4*2);
-    frame.size.y = 16;
+    frame.pos.y = app->box->frame.size.y - frame.size.y - 2;
     if (setup)
     {
-        app->input_box = widget_inputbox_add(app->box, &frame, 56, F_MEDIUM, Debugger_InputBoxCallback);
+        app->input_box = widget_inputbox_add(app->box, &frame, 56, app->font_id, Debugger_InputBoxCallback);
         widget_inputbox_set_flags(app->input_box, WIDGET_INPUTBOX_FLAGS_COMPLETION, TRUE);
         widget_inputbox_set_callback_completion(app->input_box, Debugger_CompletionCallback);
         widget_inputbox_set_flags(app->input_box, WIDGET_INPUTBOX_FLAGS_HISTORY, TRUE);
@@ -2352,9 +2368,9 @@ void	Debugger_Applet_RedrawState()
 		char ** lines;
         const int lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
         assert(lines_count >= DEBUGGER_APP_CPUSTATE_LINES); // Display first 2 lines
-        Font_Print (app->font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print(app->font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         y += app->font_height;
-        Font_Print (app->font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
+        Font_Print(app->font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         
         // Print Z80 running state with nifty ASCII rotating animation
         if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
@@ -2372,7 +2388,8 @@ void	Debugger_Applet_RedrawState()
 				}
 				running_counter = (running_counter + 1) % 8;
 			}
-            Font_Print(app->font_id, label, frame.pos.x + frame.size.x - 68, y, COLOR_SKIN_WINDOW_TEXT);
+			const int w = Font_TextLength(app->font_id, lines[1]) + Font_TextLength(app->font_id, "  ");
+            Font_Print(app->font_id, label, frame.pos.x + w, y, COLOR_SKIN_WINDOW_TEXT);
         }
 
     }

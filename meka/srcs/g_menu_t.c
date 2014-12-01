@@ -9,8 +9,7 @@
 // Functions - Old API, rewrite and make this obsolete
 //-----------------------------------------------------------------------------
 
-// HIGHLIGHT A MENU ENTRY -----------------------------------------------------
-void    gui_menu_highlight (int menu_id, int entry_id)
+void    gui_menu_highlight(int menu_id, int entry_id)
 {
     int    x1, x2;
     int    y1, y2;
@@ -20,13 +19,12 @@ void    gui_menu_highlight (int menu_id, int entry_id)
     al_draw_filled_rectangle(x1 - 2, y1, x2 + 2+1, y2+1, COLOR_SKIN_MENU_SELECTION);
 }
 
-// RETURN COORDINATE OF CHILDREN MENU -----------------------------------------
-void    gui_menu_return_children_pos (int p_menu, int p_entry, int *x, int *y)
+void    gui_menu_return_children_pos(int p_menu, int p_entry, int *x, int *y)
 {
     int    x1, x2;
     int    y1, y2;
 
-    gui_menu_return_entry_pos (p_menu, p_entry, &x1, &y1, &x2, &y2);
+    gui_menu_return_entry_pos(p_menu, p_entry, &x1, &y1, &x2, &y2);
     if (p_menu == MENU_ID_MAIN)
     {
         *x = x1;
@@ -39,23 +37,22 @@ void    gui_menu_return_children_pos (int p_menu, int p_entry, int *x, int *y)
     }
 }
 
-// RETURN COORDINATES OF A MENU ENTRY -----------------------------------------
-void    gui_menu_return_entry_pos (int menu_id, int n_entry, int *x1, int *y1, int *x2, int *y2)
+void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, int *x2, int *y2)
 {
-	Font_SetCurrent (F_LARGE);
+	Font_SetCurrent(FONTID_MENUS);
 	t_menu* menu = menus[menu_id];
 	if (menu_id == MENU_ID_MAIN)
 	{
 		*y1 = 1;
 		*y2 = gui.info.bars_height - 1;
-		*x1 = menus_opt.distance;
+		*x1 = menus_opt.spacing_render;
 		for (int i = 0; i < n_entry; i ++)
 		{
 			t_menu_item* item = menu->entry[i];
-			*x1 += Font_TextLength(F_CURRENT, item->label) + menus_opt.distance;
+			*x1 += Font_TextLength(FONTID_CUR, item->label) + menus_opt.spacing_render;
 		}
-		*x1 -= (menus_opt.distance_usable / 2);
-		*x2 = *x1 + menus_opt.distance_usable + Font_TextLength(F_CURRENT, menu->entry[n_entry]->label);
+		*x1 -= (menus_opt.spacing / 2);
+		*x2 = *x1 + menus_opt.spacing + Font_TextLength(FONTID_CUR, menu->entry[n_entry]->label);
 	}
 	else
 	{
@@ -80,7 +77,7 @@ void    gui_menu_update_size(int menu_id)
 {
 	int size_x = 0;
 	int size_y = 0;
-	Font_SetCurrent(F_LARGE);
+	Font_SetCurrent(FONTID_MENUS);
 	
 	t_menu* menu = menus[menu_id];
 	for (int i = 0; i < menu->n_entry; i ++)
@@ -93,8 +90,8 @@ void    gui_menu_update_size(int menu_id)
 		}
 		else
 		{
-			const int text_w = Font_TextLength(F_CURRENT, item->label);
-			const int shortcut_w = item->shortcut ? Font_TextLength(F_MEDIUM, item->shortcut) : 0;
+			const int text_w = Font_TextLength(FONTID_CUR, item->label);
+			const int shortcut_w = item->shortcut ? Font_TextLength(FONTID_MEDIUM, item->shortcut) : 0;
 
 			size_x = MAX(size_x, text_w + MENUS_PADDING_X + shortcut_w + MENUS_PADDING_CHECK_X);
 			size_y += Font_Height() + MENUS_PADDING_Y;

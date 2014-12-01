@@ -75,8 +75,7 @@ static bool Data_LoadBitmap(ALLEGRO_BITMAP** pbitmap, const char* name)
 		*pbitmap = al_load_bitmap(filename_buf);
 		if (!*pbitmap)
 		{
-			//Quit_Msg("Error loading bitmap data: \"%s\"", filename_buf);
-			Quit_Msg("%s", Msg_Get(MSG_Failed));
+			Quit_Msg("%s\nError loading image: \"%s\"", Msg_Get(MSG_Failed), name);
 			return false;
 		}
 
@@ -109,8 +108,7 @@ static bool Data_LoadMouseCursor(ALLEGRO_MOUSE_CURSOR** pcursor, ALLEGRO_BITMAP*
 	return true;
 }
 
-// Load Allegro 4 type fonts
-static bool Data_LoadFontA4(ALLEGRO_FONT** pfont, const char* name)
+bool Data_LoadFont(ALLEGRO_FONT** pfont, const char* name, int size)
 {
 	if (DataProcessFlags & DATA_PROCESS_NULLIFY)
 		*pfont = NULL;
@@ -129,13 +127,13 @@ static bool Data_LoadFontA4(ALLEGRO_FONT** pfont, const char* name)
 		char filename_buf[FILENAME_LEN];
 		sprintf(filename_buf, "%s/datafiles/%s", g_env.Paths.EmulatorDirectory, name);
 
-		*pfont = al_load_bitmap_font(filename_buf);
-		if (!*pfont)
+		ALLEGRO_FONT* font = al_load_font(filename_buf, size, 0);
+		if (!font)
 		{
-			//Quit_Msg("Error loading bitmap data: \"%s\"", filename_buf);
-			Quit_Msg("%s", Msg_Get(MSG_Failed));
+			Quit_Msg("%s\nError loading font: \"%s\"", Msg_Get(MSG_Failed), name);
 			return false;
 		}
+		*pfont = font;
 	}
 
 	return true;
@@ -220,14 +218,21 @@ void Data_ProcessVideoBitmaps()
 	Data_LoadBitmap(&Graphics.Icons.Translation_JP_US,		"icon_trans_jp_us.tga");
 
     // Fonts
-	Data_LoadFontA4( &Fonts[F_LARGE].library_data,	"font_0.tga");
-	Data_LoadFontA4( &Fonts[F_MEDIUM].library_data,	"font_1.tga");
-	Data_LoadFontA4( &Fonts[F_SMALL].library_data,	"font_2.tga");
+	Data_LoadFont( &Fonts[FONTID_LARGE].library_data,		"font_0.tga",				0);
+	Data_LoadFont( &Fonts[FONTID_MEDIUM].library_data,		"font_1.tga",				0);
+	Data_LoadFont( &Fonts[FONTID_SMALL].library_data,		"font_2.tga",				0);
+
+	Data_LoadFont( &Fonts[FONTID_PROGGYTINY].library_data,		"fonts/ProggyTinySZ.ttf",		-10);
+	Data_LoadFont( &Fonts[FONTID_PROGGYSMALL].library_data,		"fonts/ProggySmall.ttf",		-10);
+	Data_LoadFont( &Fonts[FONTID_PROGGYSQUARE].library_data,	"fonts/ProggySquareSZ.ttf",		-11);
+	Data_LoadFont( &Fonts[FONTID_PROGGYCLEAN].library_data,		"fonts/ProggyCleanSZ.ttf",		-13);
+	Data_LoadFont( &Fonts[FONTID_PCMONO].library_data,			"fonts/PixelCarnageMono.ttf",	-16);
+	Data_LoadFont( &Fonts[FONTID_CRISP].library_data,			"fonts/Crisp.ttf",				-16);
+
 	if (DataProcessFlags & DATA_PROCESS_LOAD)
 	{
-		Fonts_DeclareFont(F_LARGE,	Fonts[F_LARGE].library_data);
-		Fonts_DeclareFont(F_MEDIUM, Fonts[F_MEDIUM].library_data);
-		Fonts_DeclareFont(F_SMALL,  Fonts[F_SMALL].library_data);
+		for (int i = 0; i < FONTID_COUNT_; i++)
+			Fonts_DeclareFont((t_font_id)i,	Fonts[i].library_data);
 	}
 
 	// Mouse cursors

@@ -18,6 +18,8 @@ typedef int t_menu_id;
 #define MENUS_PADDING_Y			(4)
 #define MENUS_PADDING_CHECK_X   (12)
 
+#define FONTID_MENUS			FONTID_LARGE
+
 enum t_menu_item_type
 {
 	MENU_ITEM_TYPE_UNKNOWN	= 0,
@@ -158,8 +160,8 @@ struct t_menu
 
 struct  gui_type_menus_opt
 {
-	int   distance;
-	int   distance_usable;
+	int   spacing_render;
+	int   spacing;
 	int   c_menu, c_entry;
 	int   c_somewhere;
 	int   c_generation;

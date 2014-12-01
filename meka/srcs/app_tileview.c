@@ -87,8 +87,8 @@ void    TileViewer_Layout(t_app_tile_viewer *app, bool setup)
         widget_closebox_add(app->box, (t_widget_callback)TileViewer_Switch);
 
         // Create invisible buttons for hovering/selecting palette
-        app->tiles_display_zone = widget_button_add(app->box, &app->tiles_display_frame, 1, TileViewer_SelectedTile_Select, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
-        widget_button_add(app->box, &app->tiles_display_frame, 2, (t_widget_callback)TileViewer_Change_Palette, WIDGET_BUTTON_STYLE_INVISIBLE, NULL);
+        app->tiles_display_zone = widget_button_add(app->box, &app->tiles_display_frame, 1, TileViewer_SelectedTile_Select, FONTID_NONE, NULL);
+        widget_button_add(app->box, &app->tiles_display_frame, 2, (t_widget_callback)TileViewer_Change_Palette, FONTID_NONE, NULL);
     }
 
 	if (setup)
@@ -234,7 +234,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
 
 		char buf[64];
 		sprintf(buf, "Range: $%04X-$%04X", vram_addr_min, vram_addr_min+vram_addr_size-1);
-		Font_Print(F_SMALL, buf, 0, y + 1, COLOR_SKIN_WINDOW_TEXT);
+		Font_Print(FONTID_SMALL, buf, 0, y + 1, COLOR_SKIN_WINDOW_TEXT);
 		dirty = true;
 	}
 
@@ -258,7 +258,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
 			char buf[128];
 			const int tile_index = tile_current_addr / vram_tile_size;
             sprintf(buf, Msg_Get(MSG_TilesViewer_Tile), tile_index, tile_index, addr);
-            Font_Print(F_SMALL, buf, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
+            Font_Print(FONTID_SMALL, buf, 16, y + 1, COLOR_SKIN_WINDOW_TEXT);
             app->tile_displayed = tile_current;
         }
         else

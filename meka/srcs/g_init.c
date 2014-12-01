@@ -42,7 +42,7 @@ void    GUI_Init()
 
     gui.info.screen_pad.x = 2;
     gui.info.screen_pad.y = 2;
-    gui.info.bars_height = 19;
+    gui.info.bars_height = Font_Height(FONTID_MENUS)+3;
     gui.info.grid_distance = 32;
 
     gui.boxes = NULL;

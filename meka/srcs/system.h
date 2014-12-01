@@ -61,6 +61,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_ttf.h>
 #ifdef ARCH_WIN32
 #include <allegro5/allegro_windows.h>
 #endif

@@ -130,16 +130,16 @@ static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
 	al_draw_filled_rectangle(0, y-6, al_get_bitmap_width(dst), al_get_bitmap_height(dst), al_map_rgba(0,0,0,128));
 
 	// FIXME-OPT: use a dedicated font. This is slow as hell!!
-    Font_SetCurrent(F_LARGE);
-    Font_Print(F_CURRENT, g_gui_status.message, x - 1, y - 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x,     y - 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x + 1, y - 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x - 1, y + 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x,     y + 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x + 1, y + 1, COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x - 1, y,     COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x + 1, y,     COLOR_BLACK);
-    Font_Print(F_CURRENT, g_gui_status.message, x,     y,     COLOR_WHITE);
+    Font_SetCurrent(FONTID_LARGE);
+    Font_Print(FONTID_CUR, g_gui_status.message, x - 1, y - 1, COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x,     y - 1, COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x + 1, y - 1, COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x - 1, y + 1, COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x,     y + 1, COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x + 1, y + 1, COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x - 1, y,     COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x + 1, y,     COLOR_BLACK);
+    Font_Print(FONTID_CUR, g_gui_status.message, x,     y,     COLOR_WHITE);
 }
 
 void Blit_Fullscreen_UpdateBounds()

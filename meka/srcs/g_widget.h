@@ -50,14 +50,6 @@ enum t_widget_mouse_action
     WIDGET_MOUSE_ACTION_CLICK   = 0x0002,
 };
 
-enum t_widget_button_style
-{
-    WIDGET_BUTTON_STYLE_INVISIBLE   = 0,
-    WIDGET_BUTTON_STYLE_SMALL       = 1,
-	WIDGET_BUTTON_STYLE_MEDIUM      = 2,
-    WIDGET_BUTTON_STYLE_LARGE       = 3,
-};
-
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -115,7 +107,7 @@ void        widget_closebox_redraw          (t_widget* w);
 //-----------------------------------------------------------------------------
 
 // Widget: button -------------------------------------------------------------
-t_widget *  widget_button_add               (t_gui_box* box, const t_frame* frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char* label, void* user_data = NULL);
+t_widget *  widget_button_add               (t_gui_box* box, const t_frame* frame, int mouse_buttons_mask, t_widget_callback callback, t_font_id style, const char* label, void* user_data = NULL);
 void        widget_button_update            (t_widget* w);
 void        widget_button_redraw            (t_widget* w);
 void        widget_button_set_grayed_out    (t_widget* w, bool grayed_out);

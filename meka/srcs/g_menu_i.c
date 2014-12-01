@@ -52,15 +52,15 @@ static void	Debug_LoadStateAndContinue_Callback(t_menu_event*)
 //-----------------------------------------------------------------------------
 
 // Initialize and create GUI menus
-void	gui_menus_init (void)
+void	gui_menus_init()
 {
 	char buffer[256];
 
     g_gui_status.x = 10;
     Msg(MSGT_USER_BOX, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
     Msg(MSGT_USER_INFOLINE, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS_SHORT);
-    menus_opt.distance = gui.info.screen.x - 40;
-    menus_opt.distance_usable = 20;
+	menus_opt.spacing = Font_TextLength(FONTID_MENUS, "  ");
+    menus_opt.spacing_render = gui.info.screen.x - 40;
     menus_opt.c_menu = -1;
     menus_opt.c_entry = -1;
 

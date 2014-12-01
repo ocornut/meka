@@ -31,7 +31,7 @@ struct t_widget_data_closebox
 struct t_widget_data_button
 {
     char *						label;
-    t_widget_button_style       style;
+    t_font_id					font_id;
 	int							highlight_on_click;
 	bool						grayed_out;
 	t_widget_callback			callback;
@@ -273,7 +273,7 @@ void        widget_closebox_redraw(t_widget *w)
     // Draw box-closing star using the LARGE font
     // MEKA_FONT_STR_STAR correspond to a string holding the * picture in the font
 	al_set_target_bitmap(gui_buffer);
-    Font_Print (F_LARGE, MEKA_FONT_STR_STAR, 
+    Font_Print (FONTID_LARGE, MEKA_FONT_STR_STAR, 
         w->box->frame.pos.x + w->frame.pos.x, w->box->frame.pos.y + w->frame.pos.y - 4, color);
 }
 
@@ -318,7 +318,7 @@ void        widget_closebox_update(t_widget *w)
 
 //-----------------------------------------------------------------------------
 
-t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_widget_button_style style, const char *label, void* user_data)
+t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_buttons_mask, t_widget_callback callback, t_font_id font_id, const char *label, void* user_data)
 {
     t_widget *w;
     t_widget_data_button *wd;
@@ -333,7 +333,7 @@ t_widget *  widget_button_add(t_gui_box *box, const t_frame *frame, int mouse_bu
     w->data = malloc(sizeof (t_widget_data_button));
     wd = (t_widget_data_button*)w->data;
     wd->label = label ? strdup(label) : NULL;
-    wd->style = style;
+    wd->font_id = font_id;
 	wd->highlight_on_click = 0;
 	wd->grayed_out = FALSE;
     wd->callback = callback;
@@ -387,7 +387,7 @@ void        widget_button_redraw(t_widget *w)
 {
     t_widget_data_button* wd = (t_widget_data_button*)w->data;
     
-	if (wd->style == WIDGET_BUTTON_STYLE_INVISIBLE)
+	if (wd->font_id == FONTID_NONE)
 		return;
 
 	const ALLEGRO_COLOR bg_color = (w->highlight || wd->highlight_on_click>0) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
@@ -395,33 +395,12 @@ void        widget_button_redraw(t_widget *w)
 	const t_frame *frame = &w->frame;
 
 	al_set_target_bitmap(w->box->gfx_buffer);
-    switch (wd->style)
-    {
-    case WIDGET_BUTTON_STYLE_SMALL:
-        {
-            const t_font_id font_id = F_SMALL;
-	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
-            gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
-            break;
-        }
-	case WIDGET_BUTTON_STYLE_MEDIUM:
-		{
-			const t_font_id font_id = F_MEDIUM;
-			al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
-			gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-			Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
-			break;
-		}
-    case WIDGET_BUTTON_STYLE_LARGE:
-        {
-            const t_font_id font_id = F_LARGE;
-	        al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
-            gui_rect(LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
-            Font_Print(font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(font_id)) / 2) + 1, text_color);
-            break;
-        }
-    }
+	al_draw_filled_rectangle(frame->pos.x + 2, frame->pos.y + 2, frame->pos.x + frame->size.x - 1, frame->pos.y + frame->size.y - 1, bg_color);
+	if (Font_Height(wd->font_id) > 11)
+		gui_rect(LOOK_ROUND, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+	else
+		gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+	Font_Print(wd->font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextLength(wd->font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(wd->font_id)) / 2) + 1, text_color);
 }
 
 void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
@@ -762,7 +741,8 @@ void        widget_textbox_print_scroll(t_widget *w, int wrap, const char *line)
 
         // Compute length
         // FIXME-OPT: Dumb
-        if (Font_TextLength(wd->font_id, buf) > w->frame.size.x)
+		const int char_w = Font_TextLength(wd->font_id, buf);
+        if (char_w > w->frame.size.x)
         {
             char *blank = strrchr (buf, ' ');
             if (blank != NULL)
