@@ -1,6 +1,7 @@
 //
 // Linked List Library
 // 1999-2001
+// FIXME: shit
 //
 
 #include "shared.h"
@@ -70,8 +71,6 @@ void            list_free_custom(t_list **list, void (*custom_free)(void *))
     }
 }
 
-// LIST_REMOVE.C ------------------------------------------------------------
-
 void            list_remove(t_list **list, void *elem)
 {
     t_list* elem_prev = 0;
@@ -93,8 +92,6 @@ void            list_remove(t_list **list, void *elem)
     }
     *list = save;
 }
-
-// LIST_REVERSE.C -----------------------------------------------------------
 
 void	list_reverse(t_list **list)
 {
@@ -141,18 +138,3 @@ void	list_sort(t_list **list, int (*fct)(void *elem1, void *elem2))
 		i = i->next;
 	}
 }
-
-void	*list_to_table(const t_list *list)
-{
-	int size = list_size(list);
-	void** table = (void**)malloc(sizeof (void *) * (size + 1));
-	int i;
-	for (i = 0; i < size; i++)
-	{
-		table[i] = list->elem;
-		list = list->next;
-	}
-	table[i] = 0;
-	return (table);
-}
-

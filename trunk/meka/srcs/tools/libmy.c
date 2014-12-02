@@ -114,7 +114,7 @@ void StrReplace (char *s, char c1, char c2)
 	}
 }
 
-int	Match (const char *src, const char *wildcards)
+int	StrMatch (const char *src, const char *wildcards)
 {
 	int nbr = 0;
 	for (int val = 0; ; val++)
@@ -124,7 +124,7 @@ int	Match (const char *src, const char *wildcards)
 			int i = 0;
 			do
 			{
-				nbr = nbr + Match(src + val + i, wildcards + val + 1);
+				nbr = nbr + StrMatch(src + val + i, wildcards + val + 1);
 				i++;
 			}
 			while (src[val + i - 1] != EOSTR);
@@ -203,50 +203,4 @@ void    Write_Bits_Field(int v, int n_bits, char* out_field)
 			*p++ = '.';
 	}
 	*p = EOSTR;
-}
-
-void    Random_Init (void)
-{
-	srand ((unsigned int)time (NULL));
-#ifndef ARCH_WIN32
-	srandom (time (NULL));
-#endif
-}
-
-int		Random(int max)
-{
-#ifndef ARCH_WIN32
-	return random() % max;
-#else
-	return rand() % max;
-#endif
-}
-
-float	RandomFloat(float max)
-{
-	return max * ((float)Random(65535) / 65535.0f);
-}
-
-float	RandomFloat(float min, float max)
-{
-	return min + (max - min) * ((float)Random(65535) / 65535.0f);
-}
-
-// Convert a BCD number to decimal
-// Note: no error handling is done, if using A-F values
-int     BCD_to_Dec(int bcd)
-{
-	int    ret;
-	int    pow;
-
-	ret = 0;
-	pow = 1;
-	while (bcd > 0)
-	{
-		ret += (bcd & 0xF) * pow;
-		bcd >>= 4;
-		pow *= 10;
-	}
-
-	return (ret);
 }

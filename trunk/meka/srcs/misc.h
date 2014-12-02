@@ -15,6 +15,11 @@ void    Show_End_Message();
 void    Quit();
 void    Quit_Msg(const char *format, ...)      FORMAT_PRINTF (1);
 
+void    Random_Init();
+int		RandomInt(int max);
+float	RandomFloat(float max = 1.0f);
+float	RandomFloat(float min, float max);
+
 void *  Memory_Alloc(size_t size);
 
 #ifdef PROFILE_ENABLE
