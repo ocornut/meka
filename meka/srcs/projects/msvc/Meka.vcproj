@@ -635,6 +635,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\unzip.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\unzip.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\vlfn.c"
 				>
 			</File>
@@ -789,22 +797,6 @@
 					RelativePath="..\..\tools\tfile.h"
 					>
 				</File>
-				<Filter
-					Name="LibAddon"
-					>
-					<Filter
-						Name="zip"
-						>
-						<File
-							RelativePath="..\..\libaddon\zip\unzip.c"
-							>
-						</File>
-						<File
-							RelativePath="..\..\libaddon\zip\unzip.h"
-							>
-						</File>
-					</Filter>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="CPU"
