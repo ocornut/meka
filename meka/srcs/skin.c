@@ -7,7 +7,7 @@
 
 #include "shared.h"
 #include "skin_bg.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 // Definitions

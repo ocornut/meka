@@ -515,6 +515,22 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\libmisc.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libmisc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libparse.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\libparse.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\mainloop.c"
 				>
 			</File>
@@ -761,26 +777,6 @@
 						>
 					</File>
 				</Filter>
-			</Filter>
-			<Filter
-				Name="Tools"
-				>
-				<File
-					RelativePath="..\..\tools\libmisc.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\libmisc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\libparse.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\libparse.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="CPU"

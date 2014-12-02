@@ -7,7 +7,7 @@
 #include "blit.h"
 #include "blitintf.h"
 #include "video.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 // Data

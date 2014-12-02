@@ -8,7 +8,7 @@
 #include "desktop.h"
 #include "g_widget.h"
 #include "inputs_t.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 // Data

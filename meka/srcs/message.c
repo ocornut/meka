@@ -6,7 +6,7 @@
 #include "shared.h"
 #include "app_game.h"
 #include "textbox.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 #ifdef ARCH_WIN32
 #include "projects/msvc/resource.h"
 #endif
