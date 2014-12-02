@@ -76,9 +76,10 @@ They are usually of 2 kinds:
     - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
     - MemoryEditor: fixed display of address when number of columns is not 16. [Omar]
   - GUI:
+    - Now possible to resize the game window and some of the tools. [Omar]
+    - Now possible to change the font of the tools in the .CFG file. [Omar]
     - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
     - Made "SMS Power! theme more readable. [Omar]
-    - Various windows can now be dynamically resized. [Omar]
     - TextInput: support for text selection, hold SHIFT+Left/Right keys to select text. [Omar]
     - TextInput: support for CTRL+Left/Right to jump to previous/next word. [Omar]
     - TextInput: support for clipboard (CTRL+X,CTRL+C,CTRL+V) shortcuts, tied to OS clipboard. [Omar]
