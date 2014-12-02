@@ -183,8 +183,8 @@ static void Init_Default_Values()
 	g_configuration.video_gui_format_request		= ALLEGRO_PIXEL_FORMAT_ANY_NO_ALPHA;
 
 	g_configuration.video_mode_game_vsync			= false;
-    g_configuration.video_mode_gui_res_x			= 800;
-    g_configuration.video_mode_gui_res_y			= 600;
+    g_configuration.video_mode_gui_res_x			= 1024;
+    g_configuration.video_mode_gui_res_y			= 768;
     g_configuration.video_mode_gui_refresh_rate		= 0;    // Auto
     g_configuration.video_mode_gui_vsync			= false;
 
