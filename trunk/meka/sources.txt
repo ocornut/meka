@@ -38,11 +38,7 @@ Applies to hq2x.c, hq2x16.asm, hq2x32.asm:
   Overidding GPL terms.
   commercial usage).
   
-Apply to all code not by Omar Cornut: (see MEKA.txt)
-
-  Unlicensed. Gray area. Kernel Panic. Ahah!
-
-Apply to everything else:
+Apply to all code by Omar Cornut (see MEKA.txt)
  
  #1 This source code comes free, without any warantee given.
  
@@ -51,7 +47,11 @@ Apply to everything else:
 
  #3 Reuse of program source code and data authorized for any purpose.
 
-Please contact me ( omar AT miracleworld DOT net ) for any question.
+Apply to everything else:
+
+  Unlicensed. Gray area. Kernel Panic. Ahah!
+
+Please contact us for any question.
 
 
 ---------------------------------------

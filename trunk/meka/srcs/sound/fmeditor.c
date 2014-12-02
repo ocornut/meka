@@ -31,7 +31,6 @@ struct type_apps
 /****************************************************************/
 /*  FM voice editor version 0.01 for MEKA                       */
 /*                               Programmed by Hiromitsu Shioya */
-/*                           Update by Omar Cornut (03/19/2000) */
 /****************************************************************/
 
 #include "shared.h"

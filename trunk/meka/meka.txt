@@ -46,21 +46,21 @@
 
  MEKA is developped and coordinated by:
 
- > Omar Cornut / Bock
+ > Omar Cornut (Bock)
    E-mail: omar AT miracleworld DOT net
 
- And include invaluable contributions from the following handsome people:
+ With work from the following handsome people:
 
- > Marat Fayzullin / RST38H     Zilog Z80 CPU emulation core. Implemented with modifications in MEKA.
+ > Marat Fayzullin (RST38H)     Zilog Z80 CPU emulation core. Implemented with modifications in MEKA.
  > Mitsutaka Okazaki            Software Yamaha 2413 emulator (EMU2413).
  > Maxim                        Software PSG emulator.
- > Ulrich Cordes                FDC765 emulator for SF-7000. Implemented with modifications in MEKA.
- > Valerie Tching / Kittie      Initial version of the Memory Editor.
- > Johan Euphrosine / Proppy    GNU/Linux tweaks.
+ > Hiromitsu Shioya (Hiro-shi)  Original sound engine (now obsolete).
+ > Ulrich Cordes                FDC765 emulator for SF-7000. Implemented with modifications by Marc Le Douarain.
+ > Valerie Tching (Kittie)      Initial version of the Memory Editor.
+ > Johan Euphrosine (Proppy)    GNU/Linux+OSX tweaks.
  > DJRobX                       Blitters and video improvements, HQ2X interface.
- > Maxim Stephin / MaxSt        HQ2X graphics filter.
+ > Maxim Stephin (MaxSt)        HQ2X graphics filter.
  > Dirk Stevens                 Eagle graphics filter.
- > Hiromitsu Shioya / Hiro-shi  Original sound engine (now obsolete).
 
  MEKA in its original flavor was a program for MS-DOS and compatible systems.
  MEKAW is the codename for the MS-Windows version of MEKA.

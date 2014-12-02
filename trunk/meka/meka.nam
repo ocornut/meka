@@ -2,11 +2,12 @@
 ; MEKA - Software Database
 ; Last updated 2014/10/02
 ;-----------------------------------------------------------------------------
-; Database made and kept updated by Omar Cornut (Bock).
+; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
-; that is to dump, archive, label and version ROM images properly. 
-; It is being updated regularly based on various data sources and analysis.
-; Please contact me if you have any change to request/suggest.
+; that is to dump, archive, label and version ROM images properly based 
+; mostly on verified sources (aka real cartridges) and reverse engineering.
+; See dumping logs thread
+; http://www.smspower.org/forums/viewtopic.php?t=8087
 ;-----------------------------------------------------------------------------
 ; Note about data preprocessing that is done by MEKA before applying CRCs:
 ; - Duplicated data removed (2x/3x/4x+ overdumps)
@@ -16,7 +17,7 @@
 ; - ColecoVision:
 ;   - 128-bytes header removed 
 ;   - 512-bytes footer removed
-; Most dumps nowadays should have those nowadays, but old files may not.
+; Dumps nowadays shouldn't have any of those, but old may.
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -724,8 +725,8 @@ SMS 0299bda4 8EEACEC09980CF12   Crappy/FLAGS=HOMEBREW/AUTHORS=Memetic
 SMS ff67359b BAADC12E0B5E0041   DataStorm/FLAGS=HOMEBREW/EMU_MAPPER=0
 SMS 7cc2a20b 0929A17E9208977E   DCEvolution.net Intro/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=Promotional intro for the DCEvolution.net SMS\/GG\/SG-1000 project.
 SMS a95013d3 B788F3842E5B8938   Fri For Fransk! [v1.02]/FLAGS=HOMEBREW/VERSION=1.02/AUTHORS=Marc Klemp
-SMS 07c39ba4 20C7DA1FAAE0375F   Happy Looser/FLAGS=HOMEBREW/AUTHORS=Omar Cornut (Zoop)
-SMS 922954c6 19C6E01FA9E23760   Happy Looser/FLAGS=BAD,HOMEBREW/AUTHORS=Omar Cornut (Zoop)/COMMENT=Corrupted ROM header. This ROM was distributed in the sources package.
+SMS 07c39ba4 20C7DA1FAAE0375F   Happy Looser/FLAGS=HOMEBREW/AUTHORS=Zoop
+SMS 922954c6 19C6E01FA9E23760   Happy Looser/FLAGS=BAD,HOMEBREW/AUTHORS=Zoop/COMMENT=Corrupted ROM header. This ROM was distributed in the sources package.
 SMS ed169d59 A9A8F900277B8C88   Headbreak for a Scroller/FLAGS=HOMEBREW/AUTHORS=Furrtek\/L.i.N.
 SMS 6eaead07 A05F0BE71505FEF7   Page Frame Register Detect [v0.01]/FLAGS=HOMEBREW/VERSION=0.01/AUTHORS=Eric R. Quinn/EMU_MAPPER=0
 SMS ad0ff4f1 CDABEB55AD267EF7   Page Frame Register Detect [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Eric R. Quinn/EMU_MAPPER=0
@@ -1842,13 +1843,13 @@ E38A4D98CB653846,Only Words,AUTHORS=Mike Gordon
 D4E33E7972A85127,SG1000/SC3000 Information Database,VER=1
 2464136D1B405845,Simple Sprite Demo,AUTHORS=Heliophobe
 C23010310D22435B,Snail Music Demo,AUTHORS=Eric Quinn
-3FD64CA4D3EB99A4,SMS Cast,AUTHORS=Omar Cornut,VER=1.0
+3FD64CA4D3EB99A4,SMS Cast,AUTHORS=Zoop,VER=1.0
 C207598D7A91C680,SMSC's Text Demo,VER=1
 84225E96769DD083,SMSC's Text Demo,VER=2
 A3E72D1C7869A2AA,SMS Chip-8 Interpreter,AUTHORS=Maxim,VER=0.10
 9A362896C76D96A8,SMS Chip-8 Interpreter,AUTHORS=Maxim,VER=0.11
-94F3A78C8378BC8F,SMS Palette,VER=1,AUTHORS=Omar Cornut
-A43B75EE89CADC8F,SMS Power,VER=31,AUTHORS=Omar Cornut
+94F3A78C8378BC8F,SMS Palette,VER=1,AUTHORS=Zoop
+A43B75EE89CADC8F,SMS Power,VER=31,AUTHORS=Zoop
 5A7D658DA018CEB1,SMS Sound Test 1.1,VER=1.1,AUTHORS=Heliophobe
 C554A3F5ACCBEFE9,SMS VDP Test 1,AUTHORS=Flavio Morsoletto
 BB9D4DDD3E478772,Synth Test,AUTHORS=Heliophobe

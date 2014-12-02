@@ -3,7 +3,7 @@
 // FDC765 (Floppy Disk Drive) Emulator - Headers
 //-----------------------------------------------------------------------------
 // Originally from Ulrich Cordes
-// Modified by Marc Le Douarain, Omar Cornut
+// Modifications for SF-7000 by Marc Le Douarain, Omar Cornut
 //-----------------------------------------------------------------------------
 
 // Original file header:
