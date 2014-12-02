@@ -13,13 +13,13 @@ enum t_font_id
 {
 	FONTID_NONE			= -2,
 	FONTID_CUR			= -1,	// NB: Code tends to write -1 directly as an abbreviation
-	FONTID_LARGE		= 0,
+	FONTID_SMALL		= 0,
 	FONTID_MEDIUM		= 1,
-	FONTID_SMALL		= 2,
-	FONTID_PROGGYTINY,
-	FONTID_PROGGYSMALL,
-	FONTID_PROGGYSQUARE,
-	FONTID_PROGGYCLEAN,
+	FONTID_LARGE		= 2,
+	FONTID_PROGGY_TINY,
+	FONTID_PROGGY_SMALL,
+	FONTID_PROGGY_SQUARE,
+	FONTID_PROGGY_CLEAN,
 	FONTID_PCMONO,
 	FONTID_CRISP,
 	FONTID_COUNT_,
@@ -37,6 +37,9 @@ struct t_font
     t_font_id		id;
     ALLEGRO_FONT *	library_data;
     int				height;
+	const char*		text_id;
+	const char*		load_filename;
+	int				load_size;
 };
 
 extern t_font		Fonts[FONTID_COUNT_];
@@ -46,9 +49,8 @@ extern t_font *		FontCurrent;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Fonts_Init          (void);
-void    Fonts_Close         (void);
-void    Fonts_DeclareFont   (t_font_id font_id, ALLEGRO_FONT *library_data);
+void    Fonts_Init          ();
+void    Fonts_Close         ();
 
 //-----------------------------------------------------------------------------
 

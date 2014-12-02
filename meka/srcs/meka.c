@@ -196,13 +196,13 @@ static void Init_Default_Values()
 
 	// Fonts
 	g_configuration.font_menus						= FONTID_LARGE; // FONTID_CRISP;
-	g_configuration.font_messages					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
-	g_configuration.font_options					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
-	g_configuration.font_debugger					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
-	g_configuration.font_documentation				= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
-	g_configuration.font_techinfo					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
-	g_configuration.font_filebrowser				= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
-	g_configuration.font_about						= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_messages					= FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_options					= FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_debugger					= FONTID_PROGGY_SQUARE; //FONTID_PROGGYCLEAN;
+	g_configuration.font_documentation				= FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_techinfo					= FONTID_PROGGY_SQUARE; //FONTID_PROGGYCLEAN;
+	g_configuration.font_filebrowser				= FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_about						= FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
 
     // Media
     // FIXME: yet not fully used
@@ -359,6 +359,7 @@ int main(int argc, char **argv)
     Init_Default_Values    (); // Set Defaults Variables
     Command_Line_Parse     (); // Parse Command Line (1)
     Init_Allegro           (); // Initialize Allegro Library
+	Fonts_Init             (); // Initialize Fonts system
 	Capture_Init           (); // Initialize Screen capture
     Configuration_Load     (); // Load Configuration File
     atexit (Close_Emulator_Starting_Dir);
@@ -373,7 +374,6 @@ int main(int argc, char **argv)
     Inputs_Init            (); // Initialize Inputs and load inputs sources list
     Blit_Init              (); // Initialize Blitter
     Random_Init            (); // Initialize Random Number Generator
-    Fonts_Init             (); // Initialize Fonts system
 	Effects_TV_Init			();	// Initialize TV snow effect
     FDC765_Init            (); // Initialize Floppy Disk emulation
     Data_Init              (); // Load datafile

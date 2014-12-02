@@ -218,21 +218,11 @@ void Data_ProcessVideoBitmaps()
 	Data_LoadBitmap(&Graphics.Icons.Translation_JP_US,		"icon_trans_jp_us.tga");
 
     // Fonts
-	Data_LoadFont( &Fonts[FONTID_LARGE].library_data,		"font_0.tga",				0);
-	Data_LoadFont( &Fonts[FONTID_MEDIUM].library_data,		"font_1.tga",				0);
-	Data_LoadFont( &Fonts[FONTID_SMALL].library_data,		"font_2.tga",				0);
-
-	Data_LoadFont( &Fonts[FONTID_PROGGYTINY].library_data,		"fonts/ProggyTinySZ.ttf",		-10);
-	Data_LoadFont( &Fonts[FONTID_PROGGYSMALL].library_data,		"fonts/ProggySmall.ttf",		-10);
-	Data_LoadFont( &Fonts[FONTID_PROGGYSQUARE].library_data,	"fonts/ProggySquareSZ.ttf",		-11);
-	Data_LoadFont( &Fonts[FONTID_PROGGYCLEAN].library_data,		"fonts/ProggyCleanSZ.ttf",		-13);
-	Data_LoadFont( &Fonts[FONTID_PCMONO].library_data,			"fonts/PixelCarnageMono.ttf",	-16);
-	Data_LoadFont( &Fonts[FONTID_CRISP].library_data,			"fonts/Crisp.ttf",				-16);
-
-	if (DataProcessFlags & DATA_PROCESS_LOAD)
+	for (int i = 0; i < FONTID_COUNT_; i++)
 	{
-		for (int i = 0; i < FONTID_COUNT_; i++)
-			Fonts_DeclareFont((t_font_id)i,	Fonts[i].library_data);
+		Data_LoadFont(&Fonts[i].library_data, Fonts[i].load_filename,	Fonts[i].load_size);
+		if (DataProcessFlags & DATA_PROCESS_LOAD)
+			Fonts[i].height = al_get_font_line_height(Fonts[i].library_data);
 	}
 
 	// Mouse cursors
