@@ -12,6 +12,9 @@
 void    Change_System_Misc();
 void    Show_End_Message();
 
+bool	OSD_ClipboardSetText(const char* text, const char* text_end = NULL);
+char *	OSD_ClipboardGetText();					// User takes memory ownership
+
 void    Quit();
 void    Quit_Msg(const char *format, ...)      FORMAT_PRINTF (1);
 

@@ -1323,34 +1323,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="OSD"
-				>
-				<File
-					RelativePath="..\..\osd\misc.c"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)/$(InputName)1.obj"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="$(IntDir)/$(InputName)1.obj"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath="..\..\osd\misc.h"
-					>
-				</File>
-			</Filter>
-			<Filter
 				Name="Applets"
 				>
 				<File

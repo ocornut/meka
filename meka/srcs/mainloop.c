@@ -8,7 +8,6 @@
 #include "effects.h"
 #include "fskipper.h"
 #include "video.h"
-#include "osd/misc.h"
 
 //-----------------------------------------------------------------------------
 // Functions

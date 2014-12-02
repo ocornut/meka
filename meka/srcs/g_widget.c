@@ -8,7 +8,6 @@
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "keyinfo.h"
-#include "osd/misc.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
