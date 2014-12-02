@@ -157,7 +157,7 @@ OBJ_SOUND += $(OD)/sound/emu2413/emu2413.o $(OD)/sound/emu2413/mekaintf.o
 #-----------------------------------------------------
 # Option : ZIP support
 #-----------------------------------------------------
-OBJ_ZIP = $(OD)/libaddon/zip/unzip.o
+OBJ_ZIP = $(OD)/unzip.o
 ifneq ($(SYSTEM), win32)
 LIB_ZIP = -lz
 else

@@ -18,7 +18,7 @@
 #include "sdsc.h"
 #include "vlfn.h"
 #ifdef MEKA_ZIP
-    #include "libaddon/zip/unzip.h"
+    #include "unzip.h"
 #endif
 
 //-----------------------------------------------------------------------------
