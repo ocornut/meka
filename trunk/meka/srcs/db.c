@@ -8,7 +8,6 @@
 #include "vdp.h"
 #include "tvtype.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Data

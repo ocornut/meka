@@ -524,8 +524,8 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
 		const u16* tile_map = (u16 *)(VRAM + app->config_tilemap_addr);
 		const u16  tile_map_item = tile_map[tile_current];
 		char       tile_map_items_bits[2][9];
-		Write_Bits_Field((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
-		Write_Bits_Field(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);
+		StrWriteBitfield((tile_map_item & 0xFF), 8, tile_map_items_bits[0]);
+		StrWriteBitfield(((tile_map_item >> 8) & 0xFF), 8, tile_map_items_bits[1]);
 
 		v2i pos = app->frame_infos.pos;
 		pos.x += TILEMAP_VIEWER_PADDING;

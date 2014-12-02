@@ -8,7 +8,6 @@
 #include "shared.h"
 #include "skin_bg.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Definitions

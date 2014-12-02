@@ -7,7 +7,7 @@
 #include "shared.h"
 #include "patch.h"
 #include "debugger.h"
-#include "tools/tfile.h"
+#include "tools/libparse.h"
 
 //-----------------------------------------------------------------------------
 // Data

@@ -10,7 +10,6 @@
 #include "db.h"
 #include "vlfn.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Data

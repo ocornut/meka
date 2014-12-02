@@ -40,7 +40,6 @@ void    Change_System_Misc()
 #endif // MEKA_Z80_DEBUGGER
 }
 
-
 void    Random_Init (void)
 {
 	srand ((unsigned int)time (NULL));

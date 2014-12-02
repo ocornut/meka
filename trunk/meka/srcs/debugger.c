@@ -11,7 +11,6 @@
 #include "g_widget.h"
 #include "mappers.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 #include "z80marat/Z80DebugHelpers.h"
 #include <ctype.h>
 #include <string.h>
@@ -3129,7 +3128,7 @@ void        Debugger_InputParseCommand(char* line)
 
                 // Write binary buffer
 				char binary_s[32+4+1];
-				Write_Bits_Field(data, data_size_bytes*8, binary_s);
+				StrWriteBitfield(data, data_size_bytes*8, binary_s);
 
                 // Write ascii buffer
 				char ascii_s[16];
