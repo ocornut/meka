@@ -2,8 +2,8 @@
 // MEKA - fdc765.c
 // FDC765 (Floppy Disk Drive) Emulator - Code
 //-----------------------------------------------------------------------------
-// Originally from Ulrich Cordes
-// Modified by Marc Le Douarain, Omar Cornut
+// Ulrich Cordes
+// Modifications for SF-7000 by Marc Le Douarain, Omar Cornut
 //-----------------------------------------------------------------------------
 
 // Original file header:

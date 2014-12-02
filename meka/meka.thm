@@ -19,7 +19,7 @@
 
 ;-----------------------------------------------------------------------------
 [Ocean]
-authors                             = Puyolin, Omar Cornut
+authors                             = Puyolin, Bock
 background_color                    = #9AC7C7
 background_grid_color               = #9AC7C7
 window_border_color                 = #052D2D
@@ -40,7 +40,7 @@ menu_gradient                       = 16%-100% #005656
 
 ;-----------------------------------------------------------------------------
 [Classic]
-authors                             = Omar Cornut
+authors                             = Bock
 background_color                    = #FFFFFF
 background_grid_color               = #C0C0C9   ; default: background_color
 window_border_color                 = #11214D
@@ -76,7 +76,7 @@ widget_statusbar_text_color         = #FFFFFF   ; default: menu_text_color
 
 ;-----------------------------------------------------------------------------
 [Bloodlust]
-authors                             = Omar Cornut
+authors                             = Bock
 background_color                    = #000000
 background_grid_color               = #000000
 window_border_color                 = #7A000D
@@ -99,7 +99,7 @@ effect								= blood
 
 ;-----------------------------------------------------------------------------
 [Girl Power]
-authors                             = Omar Cornut
+authors                             = Bock
 background_color                    = #FF7EBF
 background_grid_color               = #FF7EBF
 window_border_color                 = #7E003D
@@ -144,7 +144,7 @@ menu_gradient                       = 00%-100% #4A219F
 
 ;-----------------------------------------------------------------------------
 [SMS Power!]
-authors                             = Tincho DJ, Omar Cornut
+authors                             = Tincho DJ, Bock
 background_color                    = #00669A
 background_grid_color               = #00669A
 window_border_color                 = #003566

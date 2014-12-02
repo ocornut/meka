@@ -1,7 +1,7 @@
 //
 // Meka - PSG.H
-// PSG Emulation, by Maxim Gready
-// Tweaked by Omar Cornut for implementation in MEKA
+// PSG Emulation, by Maxim
+// Tweaked for MEKA
 //
 
 //-----------------------------------------------------------------------------

@@ -103,8 +103,6 @@
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [English]
-; Original text by Omar Cornut (Bock)
-; Maintainer: Omar Cornut (omar AT miracleworld.net)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -599,9 +597,6 @@ Msg_Menu_Help_About                     = "About.."
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 [Français]
-; Maintainer: Omar Cornut (omar AT miracleworld.net)
-; Original text by Overture 1928 (alissalde AT aol.fr)
-; Merci à Eric pour ses lumières techniques!
 WIP
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -976,8 +971,8 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(l'acquisition VGM devra être redém
 Msg_Menu_Main                           = "PRINCIPAL"
 Msg_Menu_Main_LoadROM                   = "Charger ROM.."
 Msg_Menu_Main_FreeROM                   = "Libérer ROM"
-Msg_Menu_Main_SaveState_Save                 = "Sauver état"
-Msg_Menu_Main_SaveState_Load                 = "Charger état"
+Msg_Menu_Main_SaveState_Save            = "Sauver état"
+Msg_Menu_Main_SaveState_Load            = "Charger état"
 Msg_Menu_Main_Options                   = "Options.."
 Msg_Menu_Main_Language                  = "Langue"
 Msg_Menu_Main_Quit                      = "Quitter"
@@ -1080,7 +1075,7 @@ Msg_Menu_Help_About                     = "A propos.."
 [Dutch]
 WIP
 ; Dutch text door Mark van Tilburg
-; Beheerder: Mark van Tilburg (markvt _@_ van-tilburg . info)
+; Beheerder: Mark van Tilburg (markvt AT van-tilburg DOT info)
 ; Laatst bijgewerkt 22-07-2012
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -1572,8 +1567,7 @@ Msg_Menu_Help_About                     = "Over.."
 ;-----------------------------------------------------------------------------
 [Español]
 WIP
-; Translation by Antonio Bazalo (Bazathlon)
-; Maintainer: Antonio Bazalo (bazathlon AT wanadoo.es)
+; Translation by Bazathlon (bazathlon AT wanadoo DOT es)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2013,8 +2007,7 @@ Msg_Menu_Help_About                     = "Acerca de.."
 ;-----------------------------------------------------------------------------
 [Polski]
 WIP
-; Translation by thr
-; Maintainer: thr (r AT sledinmay.com)
+; Translation by thr (r AT sledinmay DOT com)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2951,8 +2944,7 @@ Msg_Menu_Help_About                     = "Sobre.."
 ;-----------------------------------------------------------------------------
 [Italiano]
 WIP
-; Translation by Andrea Ballandino (Adol)
-; Maintainer: Andrea Ballandino (adol AT email.it)
+; Translation by A.Ballandino (Adol AT email DOT it)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3392,8 +3384,7 @@ Msg_Menu_Help_About                     = "About.."
 ;-----------------------------------------------------------------------------
 [Deutsch]
 WIP
-; Übersetzung / translation to German: Tilman Hesse
-; Maintainer: Tilman Hesse (tilman_h AT yahoo.de)
+; Übersetzung / translation to German: T.Hesse (tilman_h AT yahoo DOT de)
 ; Used accents: äöüÄÖÜß
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3834,8 +3825,7 @@ Msg_Menu_Help_About                     = "Über.."
 ;-----------------------------------------------------------------------------
 [Swedish]
 WIP
-; Translation by Henrik Sankala
-; Maintainer: Henrik Sankala (hensan-7 AT student.ltu.se)
+; Translation by H.Sankala (hensan-7 AT student DOT ltu.se)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -4287,8 +4277,7 @@ Msg_Menu_Help_About                     = "Om MEKA.."
 ;-----------------------------------------------------------------------------
 [Danish]
 WIP
-; Translation by Marc Klemp
-; Maintainer: Marc Klemp (Supreme1 AT gmx.co.uk)
+; Translation by M.Klemp (Supreme1 AT gmx DOT co.uk)
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
