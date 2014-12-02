@@ -40,6 +40,36 @@ void    Change_System_Misc()
 #endif // MEKA_Z80_DEBUGGER
 }
 
+
+void    Random_Init (void)
+{
+	srand ((unsigned int)time (NULL));
+#ifndef ARCH_WIN32
+	srandom (time (NULL));
+#endif
+}
+
+int		RandomInt(int max)
+{
+#ifndef ARCH_WIN32
+	return random() % max;
+#else
+	return rand() % max;
+#endif
+}
+
+// FIXME: shit
+float	RandomFloat(float max)
+{
+	return max * ((float)RandomInt(65535) / 65535.0f);
+}
+
+// FIXME: shit
+float	RandomFloat(float min, float max)
+{
+	return min + (max - min) * ((float)RandomInt(65535) / 65535.0f);
+}
+
 void	Profile_Step(const char* name)
 {
 	static double last_time = 0.0;

@@ -73,7 +73,7 @@ void    Effects_TV_Update (void)
         u16* p4 = p2 + rx_d2;
         for (i = 0; i != rx_d2; i ++)
         {
-			const u16 color = tv_effect.colors[Random(TV_EFFECT_COLORS_MAX)];
+			const u16 color = tv_effect.colors[RandomInt(TV_EFFECT_COLORS_MAX)];
             *p1++ = *p2++ = *p3++ = *p4++ = color;
         }
     }
@@ -82,10 +82,10 @@ void    Effects_TV_Update (void)
     for (i = 0; i < 25; i ++)
     {
 		int len;
-        const u16 color = tv_effect.colors[Random(TV_EFFECT_COLORS_MAX)];
-        j = Random(rx); // x
-        k = Random(ry); // y
-        len = Random(30); // len
+        const u16 color = tv_effect.colors[RandomInt(TV_EFFECT_COLORS_MAX)];
+        j = RandomInt(rx); // x
+        k = RandomInt(ry); // y
+        len = RandomInt(30); // len
         j -= len;
         if (j < 0) 
 			j = 0;
@@ -94,13 +94,13 @@ void    Effects_TV_Update (void)
             *p1++ = color;
     }
 
-    j = Random(ry);
-    k = Random(16) + (rx - 16);
-    i = Random(16);
+    j = RandomInt(ry);
+    k = RandomInt(16) + (rx - 16);
+    i = RandomInt(16);
     u16* p1 = (u16 *)(screen_data + j*screen_pitch16 + i + start_offset);
     for (; i < k; i ++)
     {
-		int r = Random(16);
+		int r = RandomInt(16);
 		if (r != 0)
 			*p1 = tv_effect.colors[r % 3];
         p1 ++;
@@ -113,7 +113,7 @@ void    Effects_TV_Update (void)
             u16* p1 = (u16 *)(screen_data + j*screen_pitch16 + start_offset);
             for (i = 0; i != rx; i++)
             {
-                if (Random(tv_effect.start_line) != 0)
+                if (RandomInt(tv_effect.start_line) != 0)
                 {
                     *p1 = tv_effect.colors[0];
                 }
@@ -125,7 +125,7 @@ void    Effects_TV_Update (void)
             u16* p1 = (u16 *)(screen_data + j*screen_pitch16 + start_offset);
             for (i = 0; i < rx; i ++)
             {
-                if (Random(tv_effect.start_line) != 0)
+                if (RandomInt(tv_effect.start_line) != 0)
                 {
                     *p1 = tv_effect.colors[0];
                 }

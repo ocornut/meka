@@ -78,10 +78,10 @@ static void	SkinFx_UpdateBlood(void)
 
 	// Create new drops around cursor
 	for (i = 0; i < 4; i ++)
-		gui_applet_blood_create(Random(4), gui.mouse.x - 2 + Random(5), gui.mouse.y - 2 + Random(5));
+		gui_applet_blood_create(RandomInt(4), gui.mouse.x - 2 + RandomInt(5), gui.mouse.y - 2 + RandomInt(5));
 	for (i = 0; i < 2; i ++)
-		gui_applet_blood_create(Random(4), gui.mouse.x - 4 + Random(9), gui.mouse.y - 4 + Random(9));
-	gui_applet_blood_create(Random(4), gui.mouse.x - 5 + Random(11), gui.mouse.y - 5 + Random(11));
+		gui_applet_blood_create(RandomInt(4), gui.mouse.x - 4 + RandomInt(9), gui.mouse.y - 4 + RandomInt(9));
+	gui_applet_blood_create(RandomInt(4), gui.mouse.x - 5 + RandomInt(11), gui.mouse.y - 5 + RandomInt(11));
 
 	// Create new drops below currently focused window
 	t_gui_box* b = gui.boxes_z_ordered[0];
@@ -89,8 +89,8 @@ static void	SkinFx_UpdateBlood(void)
     {
 		for (i = 0; i < 4; i ++)
 		{
-			gui_applet_blood_create(Random(4), 
-				b->frame.pos.x - 2 + Random(b->frame.size.x + 4), b->frame.pos.y + b->frame.size.y + 2);
+			gui_applet_blood_create(RandomInt(4), 
+				b->frame.pos.x - 2 + RandomInt(b->frame.size.x + 4), b->frame.pos.y + b->frame.size.y + 2);
 		}
     }
 
@@ -129,8 +129,8 @@ static void	SkinFx_UpdateBlood(void)
 static void SkinFx_UpdateHearts()
 {
 	// Create a new heart
-	if (Random(60) == 0)
-		gui_applet_blood_create (Random(2), Random(gui.info.screen.x), gui.info.screen.y - gui.info.bars_height);
+	if (RandomInt(60) == 0)
+		gui_applet_blood_create (RandomInt(2), RandomInt(gui.info.screen.x), gui.info.screen.y - gui.info.bars_height);
 
 	// Floating hearts
 	for (int i = 0; i < MAX_HEARTS; i ++)
