@@ -39,7 +39,6 @@
 #include "video.h"
 #include "video_m5.h"
 #include "vlfn.h"
-#include "osd/timer.h"
 #ifdef ARCH_WIN32
 #include <commctrl.h>
 #endif

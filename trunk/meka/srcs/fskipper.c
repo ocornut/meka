@@ -6,7 +6,6 @@
 #include "shared.h"
 #include "fskipper.h"
 #include "osd/misc.h"
-#include "osd/timer.h"
 
 //-----------------------------------------------------------------------------
 // Data
