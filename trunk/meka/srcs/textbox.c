@@ -64,9 +64,9 @@ void        TB_Message_Init()
     // Create box
 	t_frame frame;
     frame.pos.x  = 16;
-    frame.pos.y  = 378;
-    frame.size.x = (46 * Font_Height(font_id)) + (4*2); // 4*2=padding
-    frame.size.y = (24 * Font_Height(font_id)) + (2*2); // 2*2=padding
+    frame.pos.y  = 626;
+    frame.size.x = (48 * Font_Height(font_id)) + (4*2); // 4*2=padding
+    frame.size.y = (8 * Font_Height(font_id)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));
 	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
 

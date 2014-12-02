@@ -141,7 +141,7 @@ void	gui_update_boxes()
 			// Resize
 			const int sx = (gui.mouse.x - gui.mouse.focus_pivot.x) - b->frame.pos.x;
 			const int sy = (gui.mouse.y - gui.mouse.focus_pivot.y) - b->frame.pos.y;
-			gui_box_resize(b, sx, sy);
+			gui_box_resize(b, sx, sy, true);
 		}
 		else
 		{
@@ -431,23 +431,28 @@ void    gui_box_set_title(t_gui_box *box, const char *title)
     box->title = strdup(title);
 }
 
-void	gui_box_resize(t_gui_box *box, int size_x, int size_y)
+void	gui_box_resize(t_gui_box *box, int size_x, int size_y, bool interactive)
 {
 	size_x = Clamp<int>(size_x, box->size_min.x, box->size_max.x);
 	size_y = Clamp<int>(size_y, box->size_min.y, box->size_max.y);
 
-	if (box->size_fixed_ratio)
+	if (box->size_step.x != 1 || box->size_step.y != 1)
 	{
 		float inc_ratio_x = (0.49f + (float)((size_x - (box->size_min.x-1))) / box->size_step.x);
 		float inc_ratio_y = (0.49f + (float)((size_y - (box->size_min.y-1))) / box->size_step.y);
-		inc_ratio_x = inc_ratio_y = MIN(inc_ratio_x, inc_ratio_y);
+
+		if (box->size_fixed_ratio)
+			inc_ratio_x = inc_ratio_y = MIN(inc_ratio_x, inc_ratio_y);
 	
 		size_x = box->size_min.x + (int)inc_ratio_x * box->size_step.x;
 		size_y = box->size_min.y + (int)inc_ratio_y * box->size_step.y;
 	}
 
-	if (box->size_fixed_ratio)
-		Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Options_GUI_GameWindowScale), (int)(g_configuration.game_window_scale*100));
+	if (box->size_fixed_ratio && interactive)
+	{
+		const float scale = (size_x+1) / (float)g_driver->x_res;
+		Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Options_GUI_GameWindowScale), (int)(scale*100));
+	}
 
 	if (box->frame.size.x == size_x && box->frame.size.y == size_y)
 		return;

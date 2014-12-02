@@ -59,8 +59,8 @@ void    Inputs_CFG_Init_Applet()
     app->Current_Map = -1;
     app->Current_Source = 0;
 
-    frame.pos.x     = 420;
-    frame.pos.y     = 408;
+    frame.pos.x     = 676;
+    frame.pos.y     = 584;
     frame.size.x    = 165 + (INPUTS_CFG_FRAME_X + GUI_LOOK_FRAME_SPACING_X);
     frame.size.y    = 150;
     app->box = gui_box_new(&frame, Msg_Get(MSG_Inputs_Config_BoxTitle));

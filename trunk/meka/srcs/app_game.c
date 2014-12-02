@@ -93,7 +93,7 @@ void	gamebox_resize_all()
 			box->size_step.y = g_driver->y_res/4;
 			int sx, sy;
             gamebox_compute_size(&sx, &sy);
-			gui_box_resize(box, sx, sy);
+			gui_box_resize(box, sx, sy, false);
         }
     }
     gui.info.must_redraw = TRUE;
