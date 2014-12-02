@@ -221,7 +221,7 @@ OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/coleco.o $(OD)/fdc765.o
-OBJ_TOOLS = $(OD)/tools/libmy.o $(OD)/tools/liblist.o $(OD)/tools/libparse.o $(OD)/tools/tfile.o $(OD)/osd/misc.o $(OD)/osd/timer.o
+OBJ_TOOLS = $(OD)/libmisc.o $(OD)/libparse.o $(OD)/osd/misc.o $(OD)/osd/timer.o
 
 ifeq ($(X86_ASM), yes)
 OBJ_EMU += $(OD)/mappersa.o
@@ -340,16 +340,7 @@ $(OD)/%.a : %.asm
 $(OD)/osd/%.o : osd/%.c osd/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
-$(OD)/tools/%.o : tools/%.c tools/%.h
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
-
 $(OD)/sound/%.o : sound/%.c sound/%.h
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
-
-$(OD)/libaddon/png/%.o : libaddon/png/%.c
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
-
-$(OD)/libaddon/zip/%.o : libaddon/zip/%.c libaddon/zip/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 #-----------------------------------------------------
@@ -394,7 +385,6 @@ dist_src :
 	zip -9 -r Dist/meka-src.zip srcs/osd/*.h srcs/osd/*.c
 	zip -9 -r Dist/meka-src.zip srcs/sound/*.h srcs/sound/*.c
 	zip -9 -r Dist/meka-src.zip srcs/sound/emu2413/*.h srcs/sound/emu2413/*.c
-	zip -9 -r Dist/meka-src.zip srcs/tools/*.h srcs/tools/*.c
 	zip -9 -r Dist/meka-src.zip srcs/z80marat/*.*
 	@echo Deleting VisualStudio temporary files, be sure that VisualStudio is closed.
 	-$(RM) -f srcs/MsVc/*.ncb
@@ -462,7 +452,6 @@ endif
 clean :		clean_backup
 	$(RM) -f $(OD)/*.o
 	$(RM) -f $(OD)/osd/*.o
-	$(RM) -f $(OD)/tools/*.o
 	$(RM) -f $(OD)/sound/*.o
 	$(RM) -f $(OD)/sound/emu2413/*.o
 	$(RM) -f $(OD)/libaddon/png/*.o
@@ -475,7 +464,6 @@ clean_all :	clean
 clean_backup :
 	$(RM) -f *~ *.c~ *.h~
 	$(RM) -f osd/*.c~ osd/*.h~
-	$(RM) -f tools/*.c~ tools/*.h~
 	$(RM) -f sound/*.c~ sound/*.h~
 	$(RM) -f sound/emu2413/*.c~ sound/emu2413/*.h~
 	$(RM) -f libaddon/png/*.c~ libaddon/png/*.h~

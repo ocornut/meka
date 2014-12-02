@@ -9,7 +9,7 @@
 #include "app_filebrowser.h"
 #include "db.h"
 #include "vlfn.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 // Data

@@ -16,7 +16,7 @@
 #include "video.h"
 #include "textbox.h"
 #include "tvtype.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 // Functions

@@ -199,7 +199,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\tools\libmisc.c"
+				RelativePath="..\libmisc.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -219,11 +219,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\tools\libmisc.h"
+				RelativePath="..\libmisc.h"
 				>
 			</File>
 			<File
-				RelativePath="..\tools\libparse.c"
+				RelativePath="..\libparse.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -243,7 +243,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\tools\libparse.h"
+				RelativePath="..\libparse.h"
 				>
 			</File>
 		</Filter>

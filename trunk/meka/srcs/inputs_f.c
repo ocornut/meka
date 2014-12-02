@@ -5,7 +5,7 @@
 
 #include "shared.h"
 #include "keyinfo.h"
-#include "tools/libparse.h"
+#include "libparse.h"
 
 //-----------------------------------------------------------------------------
 
