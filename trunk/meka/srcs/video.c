@@ -17,7 +17,6 @@
 #include "skin_fx.h"
 #include "vdp.h"
 #include "video.h"
-#include "osd/misc.h"
 
 //-----------------------------------------------------------------------------
 // Data

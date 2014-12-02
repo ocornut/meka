@@ -5,7 +5,6 @@
 
 #include "shared.h"
 #include "fskipper.h"
-#include "osd/misc.h"
 
 //-----------------------------------------------------------------------------
 // Data

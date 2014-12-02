@@ -215,13 +215,12 @@ OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $
 OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/periph.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o $(OD)/sk1100.o
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o
-OBJ_MISC  = $(OD)/allegro4to5.o	 $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o
+OBJ_MISC  = $(OD)/allegro4to5.o	 $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o $(OD)/libmisc.o $(OD)/libparse.o
 #OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/eagle.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/coleco.o $(OD)/fdc765.o
-OBJ_TOOLS = $(OD)/libmisc.o $(OD)/libparse.o $(OD)/osd/misc.o
 
 ifeq ($(X86_ASM), yes)
 OBJ_EMU += $(OD)/mappersa.o
@@ -337,9 +336,6 @@ $(OD)/%.o : %.asm
 $(OD)/%.a : %.asm
 	$(ASM) $(DEF_OS)-f $(OTYPE) $< -o $@
 
-$(OD)/osd/%.o : osd/%.c osd/%.h
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
-
 $(OD)/sound/%.o : sound/%.c sound/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
@@ -381,8 +377,6 @@ dist_src :
 	zip -9 -D Dist/meka-src.zip srcs/*.*
 	zip -9 -r Dist/meka-src.zip srcs/datasrc/*.*
 	zip -9 -r Dist/meka-src.zip srcs/docs/*.*
-	zip -9 -r Dist/meka-src.zip srcs/libaddon/*.*
-	zip -9 -r Dist/meka-src.zip srcs/osd/*.h srcs/osd/*.c
 	zip -9 -r Dist/meka-src.zip srcs/sound/*.h srcs/sound/*.c
 	zip -9 -r Dist/meka-src.zip srcs/sound/emu2413/*.h srcs/sound/emu2413/*.c
 	zip -9 -r Dist/meka-src.zip srcs/z80marat/*.*
@@ -451,11 +445,8 @@ endif
 # Cleaning rules -------------------------------------
 clean :		clean_backup
 	$(RM) -f $(OD)/*.o
-	$(RM) -f $(OD)/osd/*.o
 	$(RM) -f $(OD)/sound/*.o
 	$(RM) -f $(OD)/sound/emu2413/*.o
-	$(RM) -f $(OD)/libaddon/png/*.o
-	$(RM) -f $(OD)/libaddon/zip/*.o
 
 clean_all :	clean
 	$(RM) -f $(OD)/*.a
@@ -463,33 +454,20 @@ clean_all :	clean
 
 clean_backup :
 	$(RM) -f *~ *.c~ *.h~
-	$(RM) -f osd/*.c~ osd/*.h~
 	$(RM) -f sound/*.c~ sound/*.h~
 	$(RM) -f sound/emu2413/*.c~ sound/emu2413/*.h~
-	$(RM) -f libaddon/png/*.c~ libaddon/png/*.h~
-	$(RM) -f libaddon/zip/*.c~ libaddon/zip/*.h~
 
 clean_sound :
 	$(RM) -f $(OD)/sound/*.o
 
 # Directories
-makedir: $(OD) $(OD)/osd $(OD)/tools $(OD)/sound $(OD)/sound/emu2413 $(OD)/libaddon $(OD)/libaddon/png $(OD)/libaddon/zip
+makedir: $(OD) $(OD)/sound $(OD)/sound/emu2413
 $(OD):
 	-$(MKDIR) $(OD)
-$(OD)/osd:
-	-$(MKDIR) $(OD)/osd
-$(OD)/tools:
-	-$(MKDIR) $(OD)/tools
 $(OD)/sound:
 	-$(MKDIR) $(OD)/sound
 $(OD)/sound/emu2413:
 	-$(MKDIR) $(OD)/sound/emu2413
-$(OD)/libaddon:
-	-$(MKDIR) $(OD)/libaddon
-$(OD)/libaddon/png:
-	-$(MKDIR) $(OD)/libaddon/png
-$(OD)/libaddon/zip:
-	-$(MKDIR) $(OD)/libaddon/zip
 
 #------------------------------------------------------
 # EOF
