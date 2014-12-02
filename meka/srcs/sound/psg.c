@@ -272,7 +272,7 @@ void        SN76489_Write(const unsigned char data)
     #ifdef DEBUG_PSG
     {
         char bf[9];
-        Write_Bits_Field (data, 8, bf);
+        StrWriteBitfield (data, 8, bf);
         //Msg(MSGT_DEBUG, "%04X [%d] @ PSG Write %02X / %s (Latched = %d)", CPU_GetPC, sms.Pages_Reg [1], data, bf, PSG.LatchedRegister);
         Msg(MSGT_DEBUG, "%04X @ PSG Write %02X / %s (Latched = %d)", CPU_GetPC, data, bf, PSG.LatchedRegister);
     }

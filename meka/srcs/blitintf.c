@@ -8,7 +8,6 @@
 #include "blitintf.h"
 #include "video.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Data

@@ -199,7 +199,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\tools\liblist.c"
+				RelativePath="..\tools\libmisc.c"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -219,24 +219,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\tools\libmy.c"
+				RelativePath="..\tools\libmisc.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\tools\libparse.c"
@@ -259,24 +243,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\tools\tfile.c"
+				RelativePath="..\tools\libparse.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						CompileAs="2"
-					/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<File

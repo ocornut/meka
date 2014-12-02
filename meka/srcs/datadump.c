@@ -174,8 +174,8 @@ static void DataDump_Handler_Ascii_CPURegs_Reg (FILE *f_dump, const char *name, 
 {
     char    bitfields[2][9];
 
-    Write_Bits_Field ((value >> 8) & 0xFF, 8, bitfields[0]);
-    Write_Bits_Field (value & 0xFF, 8, bitfields[1]);
+    StrWriteBitfield ((value >> 8) & 0xFF, 8, bitfields[0]);
+    StrWriteBitfield (value & 0xFF, 8, bitfields[1]);
     if (comment)
         fprintf(f_dump, "%-3s = $%04X | %%%s.%s | %s\n", name, value, bitfields[0], bitfields[1], comment);
     else
@@ -225,7 +225,7 @@ static int  DataDump_Handler_Ascii_VReg (FILE *f_dump, int pos, const u8 *data, 
 {
     char    bitfield[9];
 
-    Write_Bits_Field (data[pos], 8, bitfield);
+    StrWriteBitfield (data[pos], 8, bitfield);
     fprintf(f_dump, "VReg[%02d] = $%02X | %%%s\n", pos, data[pos], bitfield);
     return (pos + 1);
 }
@@ -244,15 +244,15 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
     case DRV_SMS:
         {
             const u8 palette_data = data[pos];
-            Write_Bits_Field (palette_data, 8, bitfields[0]);
+            StrWriteBitfield (palette_data, 8, bitfields[0]);
             fprintf(f_dump, "Color %02d : %%%s | $%02X | R=%d, G=%d, B=%d\n", pos, bitfields[0], palette_data, palette_data & 3, (palette_data >> 2) & 3, (palette_data >> 4) & 3);
             return (pos + 1);
         }
     case DRV_GG:
         {
             const u16 palette_data = *(u16 *)(data + pos);
-            Write_Bits_Field (data[pos+0], 8, bitfields[0]);
-            Write_Bits_Field (data[pos+1], 8, bitfields[1]);
+            StrWriteBitfield (data[pos+0], 8, bitfields[0]);
+            StrWriteBitfield (data[pos+1], 8, bitfields[1]);
             fprintf(f_dump, "Color %02d : %%%s.%s | $%04X | R=%d,%s G=%d,%s B=%d\n", pos / 2, bitfields[1], bitfields[0], palette_data, (palette_data & 15), (palette_data & 15) < 10 ? " " : "", (palette_data >> 4) & 15, ((palette_data >> 4) & 15) < 10 ? " " : "", (palette_data >> 8) & 15);
             return (pos + 2);
         }

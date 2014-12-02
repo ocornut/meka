@@ -147,7 +147,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
                {
                #ifdef DEBUG_EEPROM
                   char bitfield[9];
-                  Write_Bits_Field (EEPROM_93c46.Opcode, 8, bitfield);
+                  StrWriteBitfield (EEPROM_93c46.Opcode, 8, bitfield);
                   Msg(MSGT_DEBUG, "At PC=%04X: 93c46: OPCODE = %s", CPU_GetPC, bitfield);
                #endif
                switch (EEPROM_93c46.Opcode & 0xC0)

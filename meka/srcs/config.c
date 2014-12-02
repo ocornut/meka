@@ -17,7 +17,6 @@
 #include "textbox.h"
 #include "tvtype.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Functions

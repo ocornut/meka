@@ -766,19 +766,11 @@
 				Name="Tools"
 				>
 				<File
-					RelativePath="..\..\tools\liblist.c"
+					RelativePath="..\..\tools\libmisc.c"
 					>
 				</File>
 				<File
-					RelativePath="..\..\tools\liblist.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\libmy.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\libmy.h"
+					RelativePath="..\..\tools\libmisc.h"
 					>
 				</File>
 				<File
@@ -787,14 +779,6 @@
 				</File>
 				<File
 					RelativePath="..\..\tools\libparse.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\tfile.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\tools\tfile.h"
 					>
 				</File>
 			</Filter>

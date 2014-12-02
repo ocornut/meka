@@ -179,14 +179,14 @@ void    PaletteViewer_Update()
             {
                 case DRV_SMS:
                     color_bits[0] = '%';
-                    Write_Bits_Field(PRAM[color_current], 8, color_bits + 1);
+                    StrWriteBitfield(PRAM[color_current], 8, color_bits + 1);
                     sprintf(buf+strlen(buf), " - %s", color_bits);
                     break;
                 case DRV_GG:
                     color_bits[0] = '%';
-                    Write_Bits_Field(PRAM[color_current * 2 + 1], 8, color_bits + 1);
+                    StrWriteBitfield(PRAM[color_current * 2 + 1], 8, color_bits + 1);
                     color_bits[9] = '.';
-                    Write_Bits_Field(PRAM[color_current * 2 + 0], 8, color_bits + 10);
+                    StrWriteBitfield(PRAM[color_current * 2 + 0], 8, color_bits + 10);
                     sprintf(buf+strlen(buf), " - %s", color_bits);
                     break;
                 default:

@@ -8,7 +8,6 @@
 #include "shared.h"
 #include "desktop.h"
 #include "tools/libparse.h"
-#include "tools/tfile.h"
 
 //-----------------------------------------------------------------------------
 // Data
