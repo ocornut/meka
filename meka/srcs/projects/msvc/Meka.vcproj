@@ -1349,14 +1349,6 @@
 					RelativePath="..\..\osd\misc.h"
 					>
 				</File>
-				<File
-					RelativePath="..\..\osd\timer.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\osd\timer.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Applets"

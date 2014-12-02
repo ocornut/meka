@@ -221,7 +221,7 @@ OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/coleco.o $(OD)/fdc765.o
-OBJ_TOOLS = $(OD)/libmisc.o $(OD)/libparse.o $(OD)/osd/misc.o $(OD)/osd/timer.o
+OBJ_TOOLS = $(OD)/libmisc.o $(OD)/libparse.o $(OD)/osd/misc.o
 
 ifeq ($(X86_ASM), yes)
 OBJ_EMU += $(OD)/mappersa.o

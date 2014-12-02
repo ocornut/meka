@@ -18,7 +18,6 @@
 #include "vdp.h"
 #include "video.h"
 #include "osd/misc.h"
-#include "osd/timer.h"
 
 //-----------------------------------------------------------------------------
 // Data

@@ -7,8 +7,6 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-bool        OSD_X86CPU_Has_RDTSC (void);
-
 bool		OSD_ClipboardSetText(const char* text, const char* text_end = NULL);
 char *		OSD_ClipboardGetText();					// User takes memory ownership
 
