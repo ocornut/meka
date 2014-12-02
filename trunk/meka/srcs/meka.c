@@ -202,6 +202,7 @@ static void Init_Default_Values()
 	g_configuration.font_documentation				= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
 	g_configuration.font_techinfo					= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
 	g_configuration.font_filebrowser				= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
+	g_configuration.font_about						= FONTID_PROGGYCLEAN; //FONTID_PROGGYCLEAN;
 
     // Media
     // FIXME: yet not fully used
