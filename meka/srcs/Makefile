@@ -1,6 +1,6 @@
 #------------------------------------------------------
 # MEKA - Makefile
-# 1998-2012
+# 1998-2014
 # http://www.smspower.org/meka
 # Refer to MEKA.TXT file for full credits information.
 #------------------------------------------------------
@@ -384,10 +384,11 @@ dist_src :
 	-$(MKDIR) Dist
 	zip -9 Dist/meka-src.zip meka.blt meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm
 	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip setup.bat
-	zip -9 -r Dist/meka-src.zip data/*.*
-	zip -9 -r Dist/meka-src.zip datafiles/*.*
+	zip -9 -r Dist/meka-src.zip Data/*.*
+	zip -9 -r Dist/meka-src.zip Themes/*.*
 	zip -9 -r Dist/meka-src.zip libs/*.*
 	zip -9 -D Dist/meka-src.zip srcs/*.*
+	zip -9 -r Dist/meka-src.zip srcs/datasrc/*.*
 	zip -9 -r Dist/meka-src.zip srcs/docs/*.*
 	zip -9 -r Dist/meka-src.zip srcs/libaddon/*.*
 	zip -9 -r Dist/meka-src.zip srcs/osd/*.h srcs/osd/*.c
@@ -415,8 +416,8 @@ dist_bin_dos :
 	zip -9 Dist/meka.zip meka.blt meka.cfg meka.dat meka.exe meka.inp meka.msg meka.nam meka.pat meka.thm
 	zip -9 Dist/meka.zip icons.zip
 	zip -9 Dist/meka.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt 
-	zip -9 Dist/meka.zip -r Themes/*.png Themes/Credits.txt
-	zip -9 Dist/meka.zip -r datafiles/*.*
+	zip -9 Dist/meka.zip -r Data/*.*
+	zip -9 Dist/meka.zip -r Themes/*.png Themes/README.txt
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
@@ -432,7 +433,7 @@ dist_bin_win32 :
 	libs/dist_win/zip.exe -9 Dist/mekaw.zip icons.zip setup.bat
 	libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
 	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
-	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r datafiles/*.*
+	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Data/*.*
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
@@ -449,7 +450,7 @@ dist_bin_unix :
 	cp meka meka.blt meka.cfg meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
 	cp meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
 	cp -R Themes ./mekanix/
-	cp -R datafiles ./mekanix/
+	cp -R Data ./mekanix/
 	tar cvzf Dist/mekanix.tgz ./mekanix
 	rm -fR ./mekanix/
 	@echo Done!

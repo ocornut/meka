@@ -1,4 +1,10 @@
 
+git import todo:
+- logins
+- rename Themes themes
+- cleanup 
+
+
 Memory Leak
 
 Border Color emulation
