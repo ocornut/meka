@@ -16,9 +16,26 @@ t_font *	FontCurrent = NULL;
 // Functions
 //-----------------------------------------------------------------------------
 
+static void Font_Declare(t_font_id id, const char* text_id, const char* load_filename, int load_size)
+{
+	Fonts[id].id = id;
+	Fonts[id].text_id = text_id;
+	Fonts[id].load_filename = load_filename;
+	Fonts[id].load_size = load_size;
+}
+
 void    Fonts_Init()
 {
-    // See DATA.C
+	Font_Declare(FONTID_SMALL,			"CLASSIC_SMALL",	"font_2.tga",					0);
+	Font_Declare(FONTID_MEDIUM,			"CLASSIC_MEDIUM",	"font_1.tga",					0);
+	Font_Declare(FONTID_LARGE,			"CLASSIC_LARGE",	"font_0.tga",					0);
+	Font_Declare(FONTID_PROGGY_TINY,		"PROGGY_TINY",		"fonts/ProggyTinySZ.ttf",		-10);
+	Font_Declare(FONTID_PROGGY_SMALL,	"PROGGY_SMALL",		"fonts/ProggySmall.ttf",		-10);
+	Font_Declare(FONTID_PROGGY_SQUARE,	"PROGGY_SQUARE",	"fonts/ProggySquareSZ.ttf",		-11);
+	Font_Declare(FONTID_PROGGY_CLEAN,	"PROGGY_CLEAN",		"fonts/ProggyCleanSZ.ttf",		-13);
+	Font_Declare(FONTID_PCMONO,			"PCMONO",			"fonts/PixelCarnageMono.ttf",	-16);
+	Font_Declare(FONTID_CRISP,			"CRISP",			"fonts/Crisp.ttf",				-16);
+	// NB: actual data loaded in Data.c
 }
 
 void    Fonts_Close()
@@ -26,12 +43,12 @@ void    Fonts_Close()
 }
 
 // Register font to the fonts system
-void    Fonts_DeclareFont(t_font_id font_id, ALLEGRO_FONT *library_data)
+void    Fonts_DeclareFont(t_font_id font_id, const char* text_id)
 {
     t_font *font		= &Fonts[font_id];
     font->id            = font_id;
-    font->library_data  = library_data;
-    font->height        = al_get_font_line_height(library_data);
+    font->height        = al_get_font_line_height(font->library_data);
+	font->text_id		= text_id;
 }
 
 void    Font_SetCurrent(t_font_id font_id)

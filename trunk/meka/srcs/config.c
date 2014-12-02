@@ -24,9 +24,23 @@
 //-----------------------------------------------------------------------------
 
 static FILE *       CFG_File;
-static INLINE void  CFG_Write_Line      (const char *line)                  { fprintf(CFG_File, "%s\n", line); }
-static INLINE void  CFG_Write_Int       (const char *name, int value)       { fprintf(CFG_File, "%s = %d\n", name, value); }
-static INLINE void  CFG_Write_Str       (const char *name, const char *str) { fprintf(CFG_File, "%s = %s\n", name, str); }
+
+static void  CFG_Write_Line(const char* fmt, ...)
+{ 
+	va_list args;
+	va_start(args, fmt);
+	vfprintf(CFG_File, fmt, args); 
+	va_end(args);
+	fprintf(CFG_File, "\n"); 
+}
+static void  CFG_Write_Int(const char *name, int value)
+{ 
+	fprintf(CFG_File, "%s = %d\n", name, value); 
+}
+static void  CFG_Write_Str(const char *name, const char *str) 
+{ 
+	fprintf(CFG_File, "%s = %s\n", name, str); 
+}
 
 static void  CFG_Write_StrEscape (const char *name, const char *str)
 {
@@ -42,10 +56,19 @@ static void  CFG_Write_StrEscape (const char *name, const char *str)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Configuration_Load_Line (char *variable, char *value)
+static void		Font_FindByName(const char* name, int* out)
+{
+	for (int i = 0; i < FONTID_COUNT_; i++)
+	{
+		if (stricmp(name, Fonts[i].text_id) == 0)
+		{
+			*out = (int)Fonts[i].id;
+			return;
+		}
+	}
+}
+
 // Handle a variable assignment during configuration file loading
-//-----------------------------------------------------------------------------
 static void     Configuration_Load_Line (char *var, char *value)
 {
 	StrLower(var);
@@ -149,6 +172,16 @@ static void     Configuration_Load_Line (char *var, char *value)
 	if (!strcmp(var, "screenshots_include_gui"))		{ g_configuration.capture_include_gui = (bool)atoi(value); return; }
 	if (!strcmp(var, "video_fullscreen"))				{ g_configuration.video_fullscreen = (bool)atoi(value); return; }
 	if (!strcmp(var, "video_driver"))					{ g_configuration.video_driver = VideoDriver_FindByName(value); return; }
+
+	// Fonts
+	if (!strcmp(var, ("font_menus")))			{ Font_FindByName(value, &g_configuration.font_menus); }
+	if (!strcmp(var, ("font_messages")))		{ Font_FindByName(value, &g_configuration.font_messages); }
+	if (!strcmp(var, ("font_options")))			{ Font_FindByName(value, &g_configuration.font_options); }
+	if (!strcmp(var, ("font_debugger")))		{ Font_FindByName(value, &g_configuration.font_debugger); }
+	if (!strcmp(var, ("font_documentation")))	{ Font_FindByName(value, &g_configuration.font_documentation); }
+	if (!strcmp(var, ("font_techinfo")))		{ Font_FindByName(value, &g_configuration.font_techinfo); }
+	if (!strcmp(var, ("font_filebrowser")))		{ Font_FindByName(value, &g_configuration.font_filebrowser); }
+	if (!strcmp(var, ("font_about")))			{ Font_FindByName(value, &g_configuration.font_about); }
 
 	// Obsolete variables
 	if (!strcmp(var, "fm_emulator"))			{}
@@ -298,6 +331,20 @@ void Configuration_Save()
     CFG_Write_Str  ("music_vgm_log_accuracy", (Sound.LogVGM_Logging_Accuracy == VGM_LOGGING_ACCURACY_FRAME) ? "frame" : "sample");
     CFG_Write_Line ("(either 'frame' or 'sample')");
     CFG_Write_Line ("");
+
+	CFG_Write_Line ("-----< FONTS >---------------------------------------------------------------");
+	CFG_Write_Line ("( available fonts:");
+	for (int i = 0; i < FONTID_COUNT_; i++)
+		CFG_Write_Line("  - %s, %d px%s", Fonts[i].text_id, Fonts[i].height, i+1==FONTID_COUNT_ ? " )" : "");
+	CFG_Write_Str  ("font_menus",			Fonts[g_configuration.font_menus].text_id);
+	CFG_Write_Str  ("font_messages",		Fonts[g_configuration.font_messages].text_id);
+	CFG_Write_Str  ("font_options",			Fonts[g_configuration.font_options].text_id);
+	CFG_Write_Str  ("font_debugger",		Fonts[g_configuration.font_debugger].text_id);
+	CFG_Write_Str  ("font_documentation",	Fonts[g_configuration.font_documentation].text_id);
+	CFG_Write_Str  ("font_techinfo",		Fonts[g_configuration.font_techinfo].text_id);
+	CFG_Write_Str  ("font_filebrowser",		Fonts[g_configuration.font_filebrowser].text_id);
+	CFG_Write_Str  ("font_about",			Fonts[g_configuration.font_about].text_id);
+	CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< 3-D GLASSES EMULATION >-----------------------------------------------");
     CFG_Write_Int  ("3dglasses_mode", Glasses.Mode);
