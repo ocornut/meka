@@ -43,23 +43,19 @@ void    PaletteViewer_Init()
     t_frame frame;
     frame.pos.x     = 163;
     frame.pos.y     = 53;
-    frame.size.x    = 191;
+    frame.size.x    = 192-1;
     frame.size.y    = 49+13;
     pv->box = gui_box_new(&frame, Msg_Get(MSG_Palette_BoxTitle));
+	pv->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
+	pv->box->size_min.x = 32*2-1;//frame.size.x;
+	pv->box->size_min.y = 24;
+	pv->box->size_max.x = 32*16-1;//frame.size.x;
+	pv->box->size_max.y = 88;
+	pv->box->size_step.x = 32;
+	pv->box->size_step.y = 1;
 
     // Register to desktop (applet is enabled by default)
     Desktop_Register_Box ("PALETTE", pv->box, TRUE, &pv->active);
-
-    // Setup frames
-    pv->frame_palette.pos.x     = 0;
-    pv->frame_palette.pos.y     = 0;
-    pv->frame_palette.size.x    = pv->box->frame.size.x;
-    pv->frame_palette.size.y    = 50;
-    pv->frame_info.pos.x        = 0;
-    pv->frame_info.pos.y        = 50;
-    pv->frame_info.size.x       = pv->box->frame.size.x;
-    pv->frame_info.size.y       = 13;
-    pv->frame_palette_zone      = widget_button_add(pv->box, &pv->frame_palette, 1, PaletteViewer_CallbackSelectColor, FONTID_NONE, NULL);
 
     // Layout
     PaletteViewer_Layout(pv, TRUE);
@@ -68,25 +64,37 @@ void    PaletteViewer_Init()
     PaletteViewer_SetPaletteSize(pv, g_driver->colors);
 }
 
-void    PaletteViewer_Layout(t_app_palette_viewer *app, bool setup)
+void    PaletteViewer_Layout(t_app_palette_viewer* app, bool setup)
 {
     al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
-    {
-        // Add closebox widget
         widget_closebox_add(app->box, (t_widget_callback)PaletteViewer_Switch);
-    }
 
-    // Draw line
+	// Setup frames
+	app->frame_palette.pos.x     = 0;
+	app->frame_palette.pos.y     = 0;
+	app->frame_palette.size.x    = app->box->frame.size.x;
+	app->frame_palette.size.y    = app->box->frame.size.y - 13;
+	app->frame_info.pos.x        = 0;
+	app->frame_info.pos.y        = app->frame_palette.size.y;
+	app->frame_info.size.x       = app->box->frame.size.x;
+	app->frame_info.size.y       = 13;
+
+	if (setup)
+		app->frame_palette_zone      = widget_button_add(app->box, &app->frame_palette, 1, PaletteViewer_CallbackSelectColor, FONTID_NONE, NULL);
+	else
+		app->frame_palette_zone->frame = app->frame_palette;
+
+    // Draw separator
     al_draw_line(app->frame_info.pos.x, app->frame_info.pos.y+0.5f, app->frame_info.pos.x + app->frame_info.size.x+1, app->frame_info.pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     // Draw current color square
 	gui_rect(LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
 
-void    PaletteViewer_Switch(void)
+void    PaletteViewer_Switch()
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
 
@@ -99,7 +107,7 @@ void    PaletteViewer_Switch(void)
 }
 
 // Note: has to be executed after tileviewer::update
-void    PaletteViewer_Update(void)
+void    PaletteViewer_Update()
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
 	ALLEGRO_BITMAP* box_gfx = pv->box->gfx_buffer;
@@ -143,7 +151,7 @@ void    PaletteViewer_Update(void)
         {
             al_draw_filled_rectangle(
                 (i * color_box_size), 0, 
-                (i * color_box_size) + color_box_size, 49+1,
+                (i * color_box_size) + color_box_size, pv->frame_palette.size.y,
                 Palette_Emulation[i]);
             Palette_EmulationFlags[i] &= ~PALETTE_EMULATION_FLAGS_DIRTY;
             dirty = TRUE;

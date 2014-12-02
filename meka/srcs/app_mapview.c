@@ -103,7 +103,7 @@ void	TilemapViewer_ChangeLayout(t_tilemap_viewer *app, t_tilemap_viewer_layout l
 	app->layout = layout;
 	gui_box_destroy_widgets(app->box);
 	TilemapViewer_SetupLayoutSizes(app);
-	gui_box_resize(app->box, app->frame_box.size.x, app->frame_box.size.y);
+	gui_box_resize(app->box, app->frame_box.size.x, app->frame_box.size.y, false);
 	TilemapViewer_Layout(app, true);
 }
 
