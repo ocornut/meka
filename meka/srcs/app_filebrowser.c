@@ -202,17 +202,17 @@ void	FB_Layout(t_filebrowser *app, bool setup)
     // Add small 'LOAD NAMES' button
     frame.pos.x = FB_PAD_X;
     frame.pos.y = app->bottom_y + Font_Height(FONTID_MEDIUM) + 6;
-    frame.size.x = 54;
-    frame.size.y = Font_Height (FONTID_SMALL) + 3;
+    frame.size.x = 80;
+    frame.size.y = (int)(Font_Height(FONTID_MEDIUM) * 2);
 	if (setup)
-		app->widget_load_names_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, FONTID_SMALL, Msg_Get(MSG_FileBrowser_LoadNames));
+		app->widget_load_names_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, FONTID_MEDIUM, Msg_Get(MSG_FileBrowser_LoadNames));
 	else
 		app->widget_load_names_button->frame = frame;
 
     // Add small 'RELOAD DIR' button
     frame.pos.x += frame.size.x + 1;
 	if (setup)
-		app->widget_reload_dir_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, FONTID_SMALL, Msg_Get(MSG_FileBrowser_ReloadDir));
+		app->widget_reload_dir_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, FONTID_MEDIUM, Msg_Get(MSG_FileBrowser_ReloadDir));
 	else
 		app->widget_reload_dir_button->frame = frame;
 }
@@ -494,20 +494,15 @@ static void     FB_Load_Directory_Internal()
 
 void        FB_Draw_Infos()
 {
-	t_filebrowser *app = &FB;
+	t_filebrowser* app = &FB;
 	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
 
 	char buf[32];
-    sprintf(buf, "%d/%d", FB.file_pos + 1, FB.files_max);
-    Font_SetCurrent(FONTID_MEDIUM);
+    sprintf(buf, "%d/%d", app->file_pos + 1, app->files_max);
+    Font_SetCurrent(app->font_id);
 	al_set_target_bitmap(box_gfx);
-    al_draw_filled_rectangle(
-        FB_TEXT_PAD_X, app->bottom_y + 2,
-        88+1,          app->bottom_y + 2 + Font_Height()+1,
-        COLOR_SKIN_WINDOW_BACKGROUND);
-    Font_Print(FONTID_CUR, buf,
-        (110 - Font_TextWidth(FONTID_CUR, buf)) / 2, app->bottom_y + 2,
-        COLOR_SKIN_WINDOW_TEXT);
+    al_draw_filled_rectangle(FB_TEXT_PAD_X, app->bottom_y + 2, 88+1, app->bottom_y + 2 + Font_Height()+1, COLOR_SKIN_WINDOW_BACKGROUND);
+    Font_Print(FONTID_CUR, buf, FB_TEXT_PAD_X, app->bottom_y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
 
 // Redraw file listing
@@ -875,11 +870,11 @@ void	FB_LoadAllNames()
         {
             strncpy(g_env.Paths.MediaImageFile, entry->file_name, sizeof(g_env.Paths.MediaImageFile));
             // Msg(MSGT_DEBUG, "Loading %d/%d, %s", i, FB.files_max, file.rom);
-            FB.file_pos = i;
-            FB_Check_and_Repos();
-            FB_Draw_List();
+            //FB.file_pos = i;
+            //FB_Check_and_Repos();
+            //FB_Draw_List();
             Load_ROM(LOAD_MODE_GUI, false);
-            gui_redraw_everything_now_once();
+            //gui_redraw_everything_now_once();
         }
     }
 

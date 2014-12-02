@@ -317,6 +317,7 @@ struct t_meka_configuration
 	int				font_documentation;
 	int				font_techinfo;
 	int				font_filebrowser;
+	int				font_about;
 };
 
 extern t_meka_configuration    g_configuration;
