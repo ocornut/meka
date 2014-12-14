@@ -114,7 +114,9 @@ int main(int argc, char* argv[])
 				countries++;
 			}
 		}
-		s += ")\n";
+		if (countries > 0)
+			s += ")";
+		s += "\n";
 	}
 	else
 	{
