@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2014/10/02
+; Last updated 2014/12/13
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -40,6 +40,7 @@
 ;  13 : sms korean for Janggun-ui Adeul
 ;  14 : sms 4 Pak All Action
 ;  15 : sg-1000 II with taiwanese memory expansion adapter, 8KB RAM from 0x2000->0x3FFF + regular 2KB RAM mapped at 0xC000-0xFFFF
+;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -308,6 +309,15 @@ SMS e167a561 319F4234855F6670   Hang On \/ Safari Hunt/COUNTRY=US,KR/PRODUCT_NO=
 SMS a120b77f 03D287D576716F79   Hang On \/ Safari Hunt [Proto]/FLAGS=PROTO/EMU_INPUTS=LIGHTPHASER/COMMENT=Prototype version of the game.
 SMS fdab876a AEB225FECBA7EE1D   Heavyweight Champ/COUNTRY=EU/PRODUCT_NO=7063/COMMENT=Same game as "George Foreman's KO Boxing" and "James "Buster" Douglas Knockout Boxing".
 SMS cde13ffb 003CC95FA787A4CA   Heroes of the Lance/COUNTRY=EU,BR/PRODUCT_NO=29003.50,028070
+SMS 98af0236 C89C8F4197527A69   Hi-Com 3-in-1 The Best Game Collection A/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Hang On, Pit Pot, Spy vs Spy.
+SMS 6ebfe1c3 D276EDD339D93AAC   Hi-Com 3-in-1 The Best Game Collection B/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Great Baseball, Great Soccer, Super Tennis.
+SMS 81a36a4f 76FBAF87132C908A   Hi-Com 3-in-1 The Best Game Collection C/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Teddy Boy Blues, Pit-Pot, Astro Flash.
+SMS 8d2d695d 54C959A96963AD68   Hi-Com 3-in-1 The Best Game Collection D/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Teddy Boy Blues, Great Soccer, Comical Machine Gun Joe.
+SMS 82c09b57 B547AFCC3800361B   Hi-Com 3-in-1 The Best Game Collection E/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Ghost House, Teddy Boy Blues, Seishun Scandal.
+SMS 4088eeb4 BF636F2E924ECC95   Hi-Com 3-in-1 The Best Game Collection F/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Satellite-7, Great Baseball, Seishun Scandal.
+SMS fba94148 65FB5EB69B3CA90C   Hi-Com 8-in-1 The Best Game Collection A/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Hyper Sports 2, Champion Boxing, Safari Race, Astro Flash, Monkey Academy, Star Force, Bank Panic, Teddy Boy.
+SMS 8333c86e 1457CD1F9A95F585   Hi-Com 8-in-1 The Best Game Collection B/COUNTRY=KR/EMU_MAPPER=16/COMMENT=King's Valley, Ghost House, Sega-Galaga, Monaco GP, Magical Tree, Ninka Princess, Satellite-7, Hang-On.
+SMS 00e9809f 76FDF6F9656C29A4   Hi-Com 8-in-1 The Best Game Collection C/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Athletic Land, Super Tank, Bomb Jack, Hyper Sports, Circus Charlie, Exerion, Great Baseball, Yie Ar Kung-Fu.
 SMS 9eb1aa4f 7DD79A9894C6A878   High School! Kimengumi/COUNTRY=JP/PRODUCT_NO=G-1309
 SMS 24f5fe8c 36CE68D578724E87   Hokuto no Ken/COUNTRY=JP/PRODUCT_NO=G-1303/COMMENT=Japanese version of "Black Belt". This game is based on the "Fist of the North Star" manga.
 SMS c4ab363d 7761965CF39300B0   Hokuto no Ken/COUNTRY=TW/PRODUCT_NO=G-1303/COMMENT=Taiwanese version of "Hokuto no Ken" as released by Aaronix. Final boss graphic data is corrupted (verified from original cartridge).
@@ -497,6 +507,7 @@ SMS 0c6fac4e DEF9F2C7A058ADCB   Shinobi [v1]/COUNTRY=US,EU,BR,KR/PRODUCT_NO=7009
 SMS 4b051022 034E26895A59CF7E   Shooting Gallery/NAME_BR=Shooting G./COUNTRY=US,EU,BR/PRODUCT_NO=5110/EMU_INPUTS=LIGHTPHASER
 SMS abdf3923 10361067C4C6C7F2   Sítio do Picapau Amarelo/COUNTRY=BR/PRODUCT_NO=028710
 SMS 5b8e65e4 F7E1FEDA866F82D9   Sky Jaguar/COUNTRY=KR/EMU_MAPPER=11
+SMS e3f260ca 9DEBAC77C07066BF   Sky Jaguar [Clover]/COUNTRY=KR/EMU_MAPPER=11
 SMS c93bd0e9 594106F8C181ED39   Slap Shot [v0]/COUNTRY=EU/PRODUCT_NO=7035
 SMS d33b296a 094AF2F7B08DE3A4   Slap Shot [v1]/COUNTRY=EU/PRODUCT_NO=7035		; [EDITOR-NOTE] Missing BR one. Some DB label this one "UE" but I have no source for it
 SMS 702c3e98 124C00EBBF84E58F   Slap Shot [v2]/COUNTRY=US,BR/PRODUCT_NO=7035,024430
