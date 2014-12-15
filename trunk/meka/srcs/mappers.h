@@ -38,6 +38,7 @@
 #define MAPPER_SMS_Korean_Janggun				(13)		// 8KB bank-switching (4 banks) mixed with 16KB bank-switching
 #define MAPPER_SMS_4PakAllAction				(14)
 #define MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA	(15)		// 8KB RAM from 0x2000->0x3FFF + regular 2KB ram in 0xC000-0xFFFF range
+#define MAPPER_SMS_Korean_Xin1					(16)		// Mapping register at 0xFFFF to map 32 KB at 0x0000->0x8000
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -73,6 +74,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB);
 WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun);
 WRITE_FUNC (Write_Mapper_SMS_4PakAllAction);
 WRITE_FUNC (Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA);
+WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1);
 //-----------------------------------------------------------------------------
 
 extern void Map_8k_RAM    (int page, int ram_page);

@@ -177,6 +177,9 @@ void    Machine_Set_Handler_Write(void)
 	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
 		WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
 		break;
+	case MAPPER_SMS_Korean_Xin1:
+		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Xin1;
+		break;
     default:                             // Standard mapper
         WrZ80 = WrZ80_NoHook = Write_Default;
         break;
@@ -332,6 +335,20 @@ void    Machine_Set_Mapping (void)
 		Map_8k_RAM(6, 1);
 		Map_8k_RAM(7, 1);
 		g_machine.mapper_regs_count = 0;
+		break;
+
+	case MAPPER_SMS_Korean_Xin1:
+		Map_8k_ROM(0, 0);
+		Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+		Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+		Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+		Map_8k_ROM(4, 0);
+		Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+		Map_8k_RAM(6, 0);
+		Map_8k_RAM(7, 0);
+		g_machine.mapper_regs_count = 1;
+		for (int i = 0; i != MAPPER_REGS_MAX; i++)
+			g_machine.mapper_regs[i] = 0;
 		break;
 
     default: // Other mappers

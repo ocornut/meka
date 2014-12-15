@@ -241,6 +241,15 @@
  Hang On / Safari Hunt [Proto]                  LP      Ok
  Heavyweight Champ                              -       Ok
  Heroes of the Lance                            -       Ok
+ Hi-Com 3-in-1 The Best Game Collection A (KR)  -       Ok
+ Hi-Com 3-in-1 The Best Game Collection B (KR)  -       Ok
+ Hi-Com 3-in-1 The Best Game Collection C (KR)  -       Ok
+ Hi-Com 3-in-1 The Best Game Collection D (KR)  -       Ok
+ Hi-Com 3-in-1 The Best Game Collection E (KR)  -       Ok
+ Hi-Com 3-in-1 The Best Game Collection F (KR)  -       Ok
+ Hi-Com 8-in-1 The Best Game Collection A (KR)  -       Ok
+ Hi-Com 8-in-1 The Best Game Collection B (KR)  -       Ok
+ Hi-Com 8-in-1 The Best Game Collection C (KR)  -       Ok
  High School! Kimengumi (JP)                    -       Ok
  Hokuto no Ken (JP)                             -       Ok
  Hokuto no Ken (TW)                             -       Ok (note: final boss graphic data is corrupted)
@@ -420,6 +429,7 @@
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
  Sky Jaguar (KR)                                -       Ok
+ Sky Jaguar [Clover] (KR)                       -      *Ok
  Slap Shot [v0]                                 -       Ok
  Slap Shot [v1]                                 -       Ok
  Slap Shot [v2] (US)                            -       Ok
@@ -565,7 +575,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 547 games tested - 545 are "Ok" - Compatibility rate: 99.54%
+ 557 games tested - 555 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
