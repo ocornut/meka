@@ -3630,6 +3630,10 @@ void        Debugger_InputParseCommand(char* line)
 				return;
             }
         }
+		if (size_x < 1 && size_x != -1)
+			size_x = -1;
+		if (size_y < 1 && size_y != -1)
+			size_y = -1;
         MemoryViewer_New(FALSE, size_x, size_y);
         return;
     }
