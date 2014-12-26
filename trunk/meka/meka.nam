@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2014/12/13
+; Last updated 2014/12/26
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -316,7 +316,7 @@ SMS 8d2d695d 54C959A96963AD68   Hi-Com 3-in-1 The Best Game Collection D/COUNTRY
 SMS 82c09b57 B547AFCC3800361B   Hi-Com 3-in-1 The Best Game Collection E/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Ghost House, Teddy Boy Blues, Seishun Scandal.
 SMS 4088eeb4 BF636F2E924ECC95   Hi-Com 3-in-1 The Best Game Collection F/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Satellite-7, Great Baseball, Seishun Scandal.
 SMS fba94148 65FB5EB69B3CA90C   Hi-Com 8-in-1 The Best Game Collection A/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Hyper Sports 2, Champion Boxing, Safari Race, Astro Flash, Monkey Academy, Star Force, Bank Panic, Teddy Boy.
-SMS 8333c86e 1457CD1F9A95F585   Hi-Com 8-in-1 The Best Game Collection B/COUNTRY=KR/EMU_MAPPER=16/COMMENT=King's Valley, Ghost House, Sega-Galaga, Monaco GP, Magical Tree, Ninka Princess, Satellite-7, Hang-On.
+SMS 8333c86e 1457CD1F9A95F585   Hi-Com 8-in-1 The Best Game Collection B/COUNTRY=KR/EMU_MAPPER=16/COMMENT=King's Valley, Ghost House, Sega-Galaga, Monaco GP, Magical Tree, Ninja Princess, Satellite-7, Hang-On.
 SMS 00e9809f 76FDF6F9656C29A4   Hi-Com 8-in-1 The Best Game Collection C/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Athletic Land, Super Tank, Bomb Jack, Hyper Sports, Circus Charlie, Exerion, Great Baseball, Yie Ar Kung-Fu.
 SMS 9eb1aa4f 7DD79A9894C6A878   High School! Kimengumi/COUNTRY=JP/PRODUCT_NO=G-1309
 SMS 24f5fe8c 36CE68D578724E87   Hokuto no Ken/COUNTRY=JP/PRODUCT_NO=G-1303/COMMENT=Japanese version of "Black Belt". This game is based on the "Fist of the North Star" manga.
@@ -329,7 +329,7 @@ SMS 64d6af3b C4B805DCD752A8D2   Impossible Mission/COUNTRY=EU,BR/PRODUCT_NO=2500
 SMS 71c4ca8f 1F41F02BC293A789   Impossible Mission [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS b4584dde 1C154AA5EFE3EF1F   Incredible Crash Dummies, The/NAME_BR=Crash Dummies/COUNTRY=EU,BR/PRODUCT_NO=MK 27057-50/COMMENT=Also referred to as "Crash Dummies".
 SMS be9a7071 19CC267376518536   Incredible Hulk, The/COUNTRY=EU,BR/PRODUCT_NO=29016-50
-SMS 8aeb574b 17779413DD492085   Indiana Jones and the Last Crusade/NAME_BR=Indiana Jones e a Última Cruzada/PRODUCT_NO=27008-50,027079
+SMS 8aeb574b 17779413DD492085   Indiana Jones and the Last Crusade/COUNTRY=EU,BR,PT/NAME_BR=Indiana Jones e a Última Cruzada/PRODUCT_NO=27008-50,027079
 SMS acec894d 64EA5CF36D9CD486   Indiana Jones and the Last Crusade [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS 8d23587f 5CEC5CB49DC68FB6   James Bond 007: The Duel/COUNTRY=EU/PRODUCT_NO=MK 27046-50
 SMS 8feff688 A022B16F114CDAE7   James Bond 007: The Duel/COUNTRY=BR/PRODUCT_NO=027230
@@ -444,7 +444,7 @@ SMS ca082218 CC2A2FBFE47BE4D9   Pooyan/COUNTRY=KR
 SMS c7a1fdef E9FF01CC584A7A2F   Populous/COUNTRY=EU,BR/PRODUCT_NO=27014
 SMS abd48ad2 DFAFA4ECD0D02D15   Poseidon Wars 3-D/NAME_BR=Poseidon Wars 3D/COUNTRY=US,EU,BR/PRODUCT_NO=8006/EMU_3D/COMMENT=The 3-D effect can be disabled by pressing Control Pad 2 Button 1 on title screen.
 SMS 6d309ac5 DF29E600439575C5   Power Boggle Boggle/COUNTRY=KR/COMMENT=Unlicensed clone of "Bubble Bobble".
-SMS 4077efd9 A3A0129B65F27148   Power Strike/COUNTRY=EU,BR,KR/PRODUCT_NO=5109,GB-1004
+SMS 4077efd9 A3A0129B65F27148   Power Strike/COUNTRY=US,EU,BR,KR/PRODUCT_NO=5109,GB-1004
 SMS a109a6fe 2BC9EC1AC078E1ED   Power Strike II/COUNTRY=EU,BR/PRODUCT_NO=9024
 SMS 0047b615 CCDD81E10B375F54   Predator 2/COUNTRY=EU/PRODUCT_NO=MK-27026-50/EMU_TVTYPE=PAL
 SMS 2b54c82b E77D821B153FC3E8   Predator 2/COUNTRY=BR/PRODUCT_NO=027110
