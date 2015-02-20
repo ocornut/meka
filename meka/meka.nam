@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2014/12/26
+; Last updated 2015/02/20
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -667,6 +667,7 @@ SMS 91e93385 E48EA39C2A04D150   Hang On \/ Safari Hunt [BIOS]/FLAGS=BIOS
 SMS e79bb689 0BCFEBA4D00C704B   Missile Defense 3-D [BIOS]/FLAGS=BIOS/EMU_INPUTS=LIGHTPHASER/EMU_3D
 SMS 81c3476b 21346172A6AAF296   Sonic The Hedgehog [BIOS]/FLAGS=BIOS
 SMS 0072ed54 8FA45DBECEBC899F   SMS (v1.3) [BIOS]/COUNTRY=US,EU/FLAGS=BIOS
+SMS b3d854f8 A5AA61B4D1BA8C85   SMS (v2.0) [BIOS]/COUNTRY=EU/FLAGS=BIOS
 SMS 48d44a13 312C856A6F60479E   SMS Japanese (v2.1) [BIOS]/COUNTRY=JP/FLAGS=BIOS
 SMS 1a15dfcc AEA4E4E75C18620D   SMS Prototype (M404) [BIOS]/FLAGS=BIOS
 SMS 72bec693 59E14606333368AC   SMS Prototype (v1.0) [BIOS]/FLAGS=BIOS
@@ -959,6 +960,7 @@ GG  a8ef36a7 3D8EFDAAD4168123   Junction/COUNTRY=JP/PRODUCT_NO=T-22017
 GG  32abaa02 12D49B6FB6946B5B   Junction/COUNTRY=US/PRODUCT_NO=T-22018
 GG  30c09f31 BC411BF2B555F1FB   Jungle Book, The (Walt Disney's)/COUNTRY=US/PRODUCT_NO=T-70118,1198/COMMENT=Majesco release says "Walt Disney's", regular release says only "Disney's".
 GG  90100884 AE4DC2168F64AF8B   Jungle Book, The (Walt Disney's Classic)/NAME_FR=Le Livre de la Jungle (Walt Disney's Classic)/NAME_DE=Das Dschungelbuch (Walt Disney's Classic)/COUNTRY=EU,FR,DE/PRODUCT_NO=T-70118-50,T-70118-09,T-70118-18
+GG  d51642b0 DA20C3B345BD622C   Jungle Strike/COUNTRY=US/PRODUCT_NO=T-100038
 GG  bd6f2321 78FF86D439FA807C   Jurassic Park/COUNTRY=US,EU/PRODUCT_NO=2511
 GG  2f536ae3 2192332A14FC845C   Jurassic Park/COUNTRY=JP/PRODUCT_NO=G-3229
 GG  937fd52b 5B21015F3D470997   Kaitou Saint Tail/COUNTRY=JP/PRODUCT_NO=G-3382
