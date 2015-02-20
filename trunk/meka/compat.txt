@@ -591,6 +591,7 @@
  Missile Defense 3-D [BIOS]                     LP,3D   Ok
  Sonic The Hedgehog [BIOS]                      -       Ok
  SMS (v1.3) [BIOS]                              -       Ok
+ SMS (v2.0) [BIOS]                              -      *Ok
  SMS Japanese (v2.1) [BIOS]                     FM      Ok
  SMS Prototype (M404) [BIOS]                    -       Ok
  SMS Prototype (v1.0) [BIOS]                    -       Ok
@@ -1071,7 +1072,7 @@
  Junction (US)                                      Ok
  Jungle Book, The (Walt Disney's Classic)           Ok
  Jungle Book, The (Walt Disney's) (US)              Ok
- Jungle Strike                                      Ok
+ Jungle Strike (US)                                 Ok
  Jurassic Park                                      Ok
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
