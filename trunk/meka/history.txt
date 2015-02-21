@@ -88,6 +88,7 @@ They are usually of 2 kinds:
     - Increased mouse horizontal range when using scrollbars. [Omar]
     - Added 'game_window_scale' directive on configuration file to resize game window. [Omar]
     - Discontinued ALT+P (=F12) and CTRL+X (=F10) shortcuts. [Omar]
+    - Added ALT+V shortcut to start/stop VGM logging. [Omar]
     - Menu entries display their shortcuts. Tidied up some menu entries. [Omar]
     - Pressing DEL key in a text input box delete the character ahead of cursor. [Omar]
     - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
