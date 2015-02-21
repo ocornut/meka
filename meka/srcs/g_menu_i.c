@@ -179,12 +179,12 @@ void	gui_menus_init()
     }
     menu_add_item     (menus_ID.channels, Msg_Get(MSG_Menu_Sound_Channels_Noises),        NULL, MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Sound_Channels_Menu_Handler, (void *)3);
     // SOUND -> LOGGING
-    menus_ID.sound_log = menu_add_menu (menus_ID.sound, Msg_Get(MSG_Menu_Sound_Dump),		MENU_ITEM_FLAG_ACTIVE);
-    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Dump_VGM_Start),			NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Sound_LogVGM_Start, NULL);
-    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Dump_VGM_Stop),			NULL,	0, (t_menu_callback)Sound_LogVGM_Stop, NULL);
-    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Dump_VGM_SampleAccurate), NULL,	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Sound.LogVGM_Logging_Accuracy == VGM_LOGGING_ACCURACY_SAMPLE), (t_menu_callback)Sound_LogVGM_Accuracy_Switch, NULL);
-    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Dump_WAV_Start),			NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Sound_LogWAV_Start, NULL);
-    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Dump_WAV_Stop),			NULL,	0, (t_menu_callback)Sound_LogWAV_Stop, NULL);
+    menus_ID.sound_log = menu_add_menu (menus_ID.sound, Msg_Get(MSG_Menu_Sound_Capture),		MENU_ITEM_FLAG_ACTIVE);
+    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Capture_VGM_Start),			"Alt+V",	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Sound_LogVGM_Start, NULL);
+    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Capture_VGM_Stop),			"Alt+V",	0, (t_menu_callback)Sound_LogVGM_Stop, NULL);
+    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Capture_VGM_SampleAccurate), NULL,	MENU_ITEM_FLAG_ACTIVE | Is_Checked (Sound.LogVGM_Logging_Accuracy == VGM_LOGGING_ACCURACY_SAMPLE), (t_menu_callback)Sound_LogVGM_Accuracy_Switch, NULL);
+    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Capture_WAV_Start),			NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Sound_LogWAV_Start, NULL);
+    menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Capture_WAV_Stop),			NULL,	0, (t_menu_callback)Sound_LogWAV_Stop, NULL);
 
 	SoundDebugApp_InstallMenuItems(menus_ID.sound);
 

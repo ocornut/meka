@@ -24,6 +24,7 @@
 #include "tvoekaki.h"
 #include "vdp.h"
 #include "video.h"
+#include "sound/sound_logging.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -209,6 +210,13 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
 			   if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)) PaletteViewer_Switch();
 			   if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE)) TileViewer_Switch();
 			   if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE)) TechInfo_Switch();
+			   if (Inputs_KeyPressed (ALLEGRO_KEY_V, FALSE))
+			   {
+				   if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
+					   Sound_LogVGM_Stop();
+				   else
+					   Sound_LogVGM_Start();
+			   }
 
 			   // Hard Reset
                if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
