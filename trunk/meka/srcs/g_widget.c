@@ -759,7 +759,7 @@ void        widget_textbox_printf_scroll(t_widget *w, bool wrap, const char* fmt
 {
 	char buf[1024];
 	va_list args;
-	va_start(fmt, args);
+	va_start(args, fmt);
 	vsnprintf(buf, countof(buf), fmt, args);
 	va_end(args);
 	widget_textbox_print_scroll(w, wrap, buf);
