@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2015/02/20
+; Last updated 2015/03/04
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -338,7 +338,8 @@ SMS cfb4bd7b 92C27B97AF09FBE7   James "Buster" Douglas Knockout Boxing [Proto]/F
 SMS 0a9089e5 3B2C5FDB4270713C   Joe Montana Football/COUNTRY=US,EU,BR/PRODUCT_NO=7062
 SMS 102d5fea 0C38C7A1580A24CE   James Pond II - Codename: RoboCod/COUNTRY=EU,BR/PRODUCT_NO=29013-50,028580
 SMS 192949d5 DE089DF319087BEE   Janggun-ui Adeul/COUNTRY=KR/EMU_MAPPER=13
-SMS 76c5bdfb F6B47C90D268957B   Jang Pung II [SMS-GG]/COUNTRY=KR/FLAGS=SMSGG_MODE/EMU_MAPPER=3/COMMENT=Unlicensed Street Fighter II clone. Originally distributed as a Game Gear cartridge.
+SMS 929222c4 3D06F62515E53078   Jang Pung II/COUNTRY=KR/PRODUCT_NO=SI-0103G/EMU_MAPPER=9/COMMENT=Unlicensed Street Fighter II clone. 
+SMS 76c5bdfb F6B47C90D268957B   Jang Pung II [SMS-GG]/COUNTRY=KR/FLAGS=SMSGG_MODE/EMU_MAPPER=3/COMMENT=Unlicensed Street Fighter II clone.
 SMS 18fb98a3 3EC6C8A5278C0DCF   Jang Pung 3/COUNTRY=KR/EMU_MAPPER=9
 SMS 695a9a15 C723308C422E8664   Jungle Book, The (Walt Disney's Classic)/NAME_FR=Le Livre de la Jungle (Walt Disney's Classic)/NAME_DE=Das Dschungelbuch (Walt Disney's Classic)/COUNTRY=EU,FR,DE,BR/PRODUCT_NO=MK-27069-50,MK-27069-09,MK-27069-18,027330
 SMS 0667ed9f 9E66E0AB50B7A4C6   Jurassic Park/COUNTRY=EU,BR/PRODUCT_NO=9030,028335
