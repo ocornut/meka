@@ -1,8 +1,5 @@
 #------------------------------------------------------
 # MEKA - Makefile
-# 1998-2014
-# http://www.smspower.org/meka
-# Refer to MEKA.TXT file for full credits information.
 #------------------------------------------------------
 # Best viewed with TAB=8
 #------------------------------------------------------

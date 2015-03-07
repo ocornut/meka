@@ -2,7 +2,7 @@
 // MEKA
 // Sega Master System / Game Gear / SG-1000 / SC-3000 / SF-7000 / ColecoVision emulator
 //-----------------------------------------------------------------------------
-// Omar Cornut (Bock) & MEKA team 1998-2014
+// Omar Cornut (Bock) & MEKA team 1998-2015
 // Sound engine by Hiromitsu Shioya (Hiroshi) in 1998-1999
 // Z80 CPU core by Marat Faizullin, 1994-1998
 //-----------------------------------------------------------------------------
