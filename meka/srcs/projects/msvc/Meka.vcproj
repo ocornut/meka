@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="../../../objs/$(ConfigurationName)"
-			IntermediateDirectory="../../../objs/$(ConfigurationName)"
+			OutputDirectory="../../../objs/meka/$(ConfigurationName)"
+			IntermediateDirectory="../../../objs/meka/$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -93,7 +93,7 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
 				GenerateMapFile="false"
-				MapFileName="$(IntDir)/mekaw.map"
+				MapFileName=""
 				MapExports="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -123,8 +123,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="../../../objs/$(ConfigurationName)"
-			IntermediateDirectory="../../../objs/$(ConfigurationName)"
+			OutputDirectory="../../../objs/meka/$(ConfigurationName)"
+			IntermediateDirectory="../../../objs/meka/$(ConfigurationName)"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
@@ -206,7 +206,7 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(IntDir)/mekaw.pdb"
 				GenerateMapFile="false"
-				MapFileName="$(IntDir)/mekaw.map"
+				MapFileName=""
 				MapExports="true"
 				SubSystem="2"
 				OptimizeReferences="2"

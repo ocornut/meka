@@ -6,3 +6,9 @@ meka/meka.dsk
 meka/meka.fdb
 meka/mekaw.cfg
 meka/mekaw.exe
+meka/smsid.exe
+*.opensdf
+*.sdf
+*.suo
+*.vcproj.*.user
+*.vcxproj.user
