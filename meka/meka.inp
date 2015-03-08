@@ -12,7 +12,10 @@
 ;  - SmsCardPad
 ;    http://www.smspower.org/smscartpad/
 ;  - PPJoy joystick driver for Windows 2000/XP
-;    http://www.geocities.com/deonvdw/
+;    Download mirror: http://www.zophar.net/joy/ppjoy.html
+;    Obsolete official website: http://web.archive.org/web/20021018045524/http://www.geocities.com/deonvdw/
+;  - ArcadeWereld.nl usb controller board
+;    http://www.smspower.org/forums/15321-SMSDB9ControllerOnPcUsingUSB
 ; Schematics and drivers for various console controllers adapters:
 ;  - Direct Pad Pro
 ;    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/
