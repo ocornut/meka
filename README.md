@@ -1,3 +1,9 @@
+MEKA
+====
+
+- Homepage: http://www.smspower.org/meka
+- Forum: http://www.smspower.org/forums/f7-MEKA
+
 MEKA is a multi-machine emulator. The following machines are supported by MEKA:
 
 - Sega Game 1000 (SG-1000)
@@ -17,3 +23,10 @@ MEKA was started in 1998 and first released on April 3rd 1999. It was my first m
 
 In spite of its old age and clunky technology, MEKA is possibly the most exhaustive Sega 8-bit emulator in term of coverage of obscure games, peripherals. And also provide competent debugging and reverse engineering tools. It is still maintained for those purpose but doesn't has much use for the average player. 
 The OLD SVN repository is still available for reference at svn://svn.smspower.org/meka/
+
+Gallery
+-------
+
+![Debugger Screenshot](http://www.smspower.org/forums/files/meka_080_wip_debugger_823.png)
+
+![Debugger Screenshot](http://www.smspower.org/meka/gallery/meka072-wip-sagaia.png)
