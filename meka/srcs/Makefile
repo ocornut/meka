@@ -32,10 +32,23 @@
 # - dos   : MS-DOS or compatible. Could work. Not maintened anymore.
 # TODO: Add command-line parameter to select this
 #------------------------------------------------------
-# SYSTEM = dos
-# SYSTEM = win32
-# SYSTEM = unix
-SYSTEM = macosx
+
+# code found on:
+# http://stackoverflow.com/questions/714100/os-detecting-makefile
+# Did not try to detect DOS, maybe this link can help:
+# http://www.opensource.apple.com/source/X11proto/X11proto-57/freetype/freetype-2.4.4/builds/dos/detect.mk
+ifeq ($(OS),Windows_NT)
+    SYSTEM = win32
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        SYSTEM = unix
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        SYSTEM = macosx
+    endif
+endif
+
 #------------------------------------------------------
 BUILD = release
 # BUILD = debug
@@ -63,6 +76,7 @@ INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
 X86_ASM = yes
 #--- Libraries
 LIB_OS  = -lm -L$(LIBPNGDIR)
+ALL_FILES=*.*
 endif
 
 #---[ UNIX/GCC ]---------------------------------------
@@ -83,10 +97,11 @@ MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_UNIX #-DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
-INC_OS  = -Ilibs -I../include
+INC_OS  = -Ilibs -I../include -I/usr/include/allegro5
 X86_ASM = no
 #--- Libraries
 LIB_OS  = 
+ALL_FILES=*
 endif
 
 #---[ MACOSX/GCC ]---------------------------------------
@@ -111,6 +126,7 @@ INC_OS  = -Ilibs -I../include
 X86_ASM = no
 #--- Libraries
 LIB_OS  = 
+ALL_FILES=*.*
 endif
 
 #---[ WINDOWS/MSVC ]-----------------------------------
@@ -143,6 +159,7 @@ LIB_PATHS       = -libpath:$(MSVCDIR)/lib/ -libpath:$(MSVCDIR)/PlatformSDK/lib/ 
 #--- Ressources
 RESSOURCES = mekaw.res
 
+ALL_FILES=*.*
 endif
 
 #-----------------------------------------------------
@@ -183,7 +200,7 @@ LIB_ALLEG = -lalleg
 endif
 
 ifeq ($(SYSTEM), unix)
-LIB_ALLEG = `pkg-config --cflags --libs allegro-5.0 allegro_image-5.0 allegro_audio-5.0 allegro_font-5.0 allegro_primitives-5.0`
+LIB_ALLEG = `pkg-config --cflags --libs allegro-5.0 allegro_image-5.0 allegro_audio-5.0 allegro_font-5.0 allegro_primitives-5.0 allegro_ttf-5.0`
 endif
 
 ifeq ($(SYSTEM), macosx)
@@ -287,7 +304,6 @@ OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT
 #-----------------------------------------------------
 # Linking Rule
 #-----------------------------------------------------
-
 exe	: makedir $(EXE)
 
 $(EXE)	: $(OBJ_MEKA)
@@ -342,8 +358,8 @@ $(OD)/sound/%.o : sound/%.c sound/%.h
 
 help :
 	@echo "Rules:"
-	@echo "  exe             - Build executable"
-	@echo "  dist            - Build all distributions"
+	@echo "  exe             - Build executable, independent of platform"
+	@echo "  dist            - Build sources and binary distribution"
 	@echo "  dist_src        - Build sources distribution"
 	@echo "  dist_bin_dos    - Build binary DOS distribution"
 	@echo "  dist_bin_win32  - Build binary Win32 distribution"
@@ -364,22 +380,28 @@ endif
 
 dist_src :
 	@echo Creating Dist/meka-src.zip
-	cd ..
-	-$(MKDIR) Dist
-	zip -9 Dist/meka-src.zip meka.blt meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/meka-src.zip *.cfg *.txt icons.zip setup.bat
-	zip -9 -r Dist/meka-src.zip Data/*.*
-	zip -9 -r Dist/meka-src.zip Themes/*.*
-	zip -9 -r Dist/meka-src.zip libs/*.*
-	zip -9 -D Dist/meka-src.zip srcs/*.*
-	zip -9 -r Dist/meka-src.zip srcs/datasrc/*.*
-	zip -9 -r Dist/meka-src.zip srcs/docs/*.*
-	zip -9 -r Dist/meka-src.zip srcs/sound/*.h srcs/sound/*.c
-	zip -9 -r Dist/meka-src.zip srcs/sound/emu2413/*.h srcs/sound/emu2413/*.c
-	zip -9 -r Dist/meka-src.zip srcs/z80marat/*.*
+# 	This change in directories does not work in linux.
+# 	Changed all the relative paths below to fix it.
+# 	Another aproach is:
+# 	http://stackoverflow.com/questions/1789594/how-to-write-cd-command-in-makefile
+# 	cd ..
+	-$(MKDIR) ../Dist
+	zip -9 ../Dist/meka-src.zip ../meka.blt ../meka.dat ../meka.inp ../meka.msg ../meka.nam ../meka.pat ../meka.thm
+	zip -9 ../Dist/meka-src.zip ../*.cfg ../*.txt ../icons.zip ../setup.bat
+	zip -9 -r ../Dist/meka-src.zip ../Data/$(ALL_FILES)
+	zip -9 -r ../Dist/meka-src.zip ../Themes/$(ALL_FILES)
+	zip -9 -r ../Dist/meka-src.zip ../libs/$(ALL_FILES)
+	zip -9 -D ../Dist/meka-src.zip ../srcs/$(ALL_FILES)
+	zip -9 -r ../Dist/meka-src.zip ../srcs/datasrc/$(ALL_FILES)
+# 	I dont have this folder on linux
+	-zip -9 -r ../Dist/meka-src.zip ../srcs/docs/$(ALL_FILES)
+	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/*.h ../srcs/sound/*.c
+	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/emu2413/*.h ../srcs/sound/emu2413/*.c
+	zip -9 -r ../Dist/meka-src.zip ../srcs/z80marat/$(ALL_FILES)
 	@echo Deleting VisualStudio temporary files, be sure that VisualStudio is closed.
 	-$(RM) -f srcs/MsVc/*.ncb
-	zip -9 -D Dist/meka-src.zip srcs/MsVc/*.*
+# 	I dont have this folder on linux
+	-zip -9 -D ../Dist/meka-src.zip ../srcs/MsVc/$(ALL_FILES)
 #	zip -9 -r Dist/meka-src.zip srcs/mithril/*.*
 #	zip -9 -r Dist/meka-src.zip srcs/z80mame/*.*
 #	zip -9 -r Dist/meka-src.zip srcs/z80mk/*.*
@@ -424,16 +446,16 @@ ifeq ($(SYSTEM), unix)
 dist_bin_unix :
 	@echo Creating Dist/mekanix.tgz
 	@echo Compressing
-	-upx -9 meka
+	-upx -9 ../meka
 	@echo Packaging
-	-mkdir ./Dist/
-	-mkdir ./Dist/mekanix/
-	cp meka meka.blt meka.cfg meka.dat meka.inp meka.msg meka.nam meka.pat meka.thm icons.zip ./mekanix/
-	cp meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt ./mekanix/
-	cp -R Themes ./mekanix/
-	cp -R Data ./mekanix/
-	tar cvzf Dist/mekanix.tgz ./mekanix
-	rm -fR ./mekanix/
+	-mkdir ../Dist/
+	-mkdir ../Dist/mekanix/
+	cp ../meka ../meka.blt ../meka.cfg ../meka.dat ../meka.inp ../meka.msg ../meka.nam ../meka.pat ../meka.thm ../icons.zip ../Dist/mekanix/
+	cp ../meka.txt ../changes.txt ../compat.txt ../debugger.txt ../multi.txt ../tech.txt ../Dist/mekanix/
+	cp -R ../Themes ../Dist/mekanix/
+	cp -R ../Data ../Dist/mekanix/
+	tar cvzf ../Dist/mekanix.tgz ../Dist/mekanix
+	rm -fR ../Dist/mekanix/
 	@echo Done!
 	@echo -- Check MEKA.BLT ! --
 	@echo -- Check MEKA.INP ! Joypad auto, on --
