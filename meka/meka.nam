@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2015/03/04
+; Last updated 2015/03/26
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -564,6 +564,7 @@ SMS 67c2f0ff 9FD6C92669F0360D   Super Boy II/COUNTRY=KR
 SMS 9195c34c 8585901FA9FBF8AB   Super Boy 3/COUNTRY=KR/EMU_MAPPER=12
 SMS b995b4f0 EE7A46299269111D   Super Boy 4/COUNTRY=KR
 SMS 22c09cfd 50BB66C5832E8C8D   Super Bubble Bobble/COUNTRY=KR/COMMENT=Unlicensed clone of "Bubble Bobble".
+SMS 6ce7f694 8B297D82FFFB75DE   Super Columns/COUNTRY=KR/COMMENT=Unlicensed clone. Also referred to as "Super Columns & Tetris".
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
 SMS 6f9ac98f 8F53B08718544338   Superman - The Man of Steel/COUNTRY=EU,BR/PRODUCT_NO=MK-27050-50,027190
@@ -1051,6 +1052,7 @@ GG  b318dd37 BEDFF2E5AB5FA3DF   Pac-Man/COUNTRY=US/PRODUCT_NO=T-14018
 GG  e9783cea 09198DB9275CA96C   Panzer Dragoon Mini/COUNTRY=JP/PRODUCT_NO=G-3384
 GG  f54b6803 45111CC58FB4FF87   Paperboy/COUNTRY=US,EU/PRODUCT_NO=301029-0161,T-48028-50
 GG  8b2c454b 5A78E272B1729621   Paperboy 2/COUNTRY=US/PRODUCT_NO=301037-0161
+GG  0b271db6 2C7AF371AE76A72B   Paperboy 2 [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  0da23cc1 770CA17EE8E592FF   Pengo/COUNTRY=US,EU/PRODUCT_NO=2202
 GG  ce863dba 593C7A3470EED58A   Pengo/COUNTRY=JP/PRODUCT_NO=G-3102
 GG  b42d8430 12378C9F6286693B   Pet Club Inu Dai Suki!/COUNTRY=JP/PRODUCT_NO=G-3436

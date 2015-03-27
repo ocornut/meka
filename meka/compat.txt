@@ -484,6 +484,7 @@
  Super Boy 3 (KR)                               -       Ok
  Super Boy 4 (KR)                               -       Ok
  Super Bubble Bobble (KR)                       -       Ok
+ Super Columns (KR)                             -      *Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -576,7 +577,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 558 games tested - 556 are "Ok" - Compatibility rate: 99.54%
+ 559 games tested - 557 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1171,6 +1172,7 @@
  Panzer Dragoon Mini (JP)                           Ok
  Paperboy                                           Ok
  Paperboy 2                                         Ok
+ Paperboy 2 [Proto]                                *Ok
  Pengo                                              Ok
  Pengo (JP)                                         Ok
  Pet Club Inu Dai Suki! (JP)                        Ok
@@ -1371,7 +1373,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 494 games tested - 482 are "Ok" - Compatibility rate: 97.45%
+ 495 games tested - 483 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
