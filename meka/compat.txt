@@ -1339,6 +1339,7 @@
  Wagan Land (JP)                                    Ok
  Wakiyanrando (JP)                                  Ok
  Wheel of Fortune                                   Ok
+ WildSnake [Proto]                                 *Ok
  Wimbledon / Wimbledon - Tennis                     Ok
  Winter Olympics / Winter Olympics Games            Ok
  Winter Olympics (JP)                               Ok
@@ -1373,7 +1374,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 495 games tested - 483 are "Ok" - Compatibility rate: 97.45%
+ 496 games tested - 484 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

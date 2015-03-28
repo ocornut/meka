@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2015/03/26
+; Last updated 2015/03/28
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -1208,6 +1208,7 @@ GG  d431c452 89865690753E3F19   Virtua Fighter Animation/COUNTRY=US,EU/PRODUCT_N
 GG  c05657f8 5B5E5A20BC6D6440   Virtua Fighter Mini/COUNTRY=JP/PRODUCT_NO=G-3380
 GG  b0f22745 E4B611A11356D972   VR Troopers/COUNTRY=US,EU/PRODUCT_NO=2559,2559-50
 GG  e91cdb2a 533DC337F17121F3   Wheel of Fortune/COUNTRY=US/PRODUCT_NO=T-83018
+GG  d460cc7f 32EEB88F6A58E2F5   WildSnake [Proto]/COUNTRY=US/PRODUCT_NO=T-124028/COMMENT=Prototype version of the unreleased game.
 GG  ce1108fd 5EF9334D02922E67   Wimbledon/NAME_US=Wimbledon Tennis/COUNTRY=JP,EU,US/PRODUCT_NO=G-3221,2323
 GG  d15d335b 8C9DF406D503E322   Winter Olympics/NAME_US=Winter Olympics Games/COUNTRY=US,EU/PRODUCT_NO=T-79088,T-79088-18
 GG  d5195a39 5AE30E1DD51AC5E4   Winter Olympics/COUNTRY=JP/PRODUCT_NO=G-3342
