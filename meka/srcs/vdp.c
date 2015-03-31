@@ -39,7 +39,6 @@
 // Note: not everything is implemented as on this table.
 //-----------------------------------------------------------------------------
 
-// FIXME: Document the below. 
 static u8   VDP_Mask [10] [2] =
 {
   /* 0 */ { 0x00, /*0x3F*/ 0x07 },
@@ -359,13 +358,7 @@ void    Tms_VDP_Out_Data (int value)
     else
     {
         // Address mask
-        // Note: not masking sms.VDP_Address itself, based on the idea that higher bits are lost
-        // when passing thru PRAM bus.
-        int address_mask;
-        if (g_driver->id == DRV_GG)
-            address_mask = 0x3F;
-        else
-            address_mask = 0x1F;
+		const int address_mask = (g_driver->id == DRV_GG) ? 0x3F : 0x1F;
 
         // Palette/CRAM write
         #ifdef DEBUG_VDP_DATA
@@ -425,28 +418,12 @@ void    Tms_VDP_Out_Address (int value)
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     if ((value & 0xC0) == 0xC0)
     {
-        switch (g_driver->id)
-        {
-        case DRV_GG:
-            sms.VDP_Pal = TRUE;
-            sms.VDP_Address = sms.VDP_Access_First & 0x3F;
-            break;
-        default: // needed for F-16 Fighters and Back to the Future 2
-            sms.VDP_Pal = TRUE;
-            sms.VDP_Address = sms.VDP_Access_First & 0x1F;
-            break;
-        }
+		sms.VDP_Pal = TRUE;
+		sms.VDP_Address = (((word)value << 8) | sms.VDP_Access_First) & 0x3FFF;
     }
-    //else
-    //if ((Value & 0xF0) == 0x80)
-    //      {
-    //      Tms_VDP_Out (Value & 0x0F, sms.VDP_Access_First);
-    //      }
     else
-        // if ((Value & 0xC0) == 0x40)
     {
         if (value & 0x80)
-            //((Value & 0xC0) == 0x80)
         {
             Tms_VDP_Out (value & 0x0F, sms.VDP_Access_First);
             // FIXME: clear last bit of value before setting address ?

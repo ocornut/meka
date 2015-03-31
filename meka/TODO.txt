@@ -1,10 +1,6 @@
 
-git import todo:
-- logins
-- rename Themes themes
-- cleanup 
-
-
+If you are going to work on it, maybe you can take the opportunity to also add full support for graphics modes 1 & 2 in the Tiles Viewer and Tilemap Viewer?
+Right now the Tiles Viewer only shows up to 512 tiles but graphics 2 supports up to 768. Also Tiles Viewer doesn't seem to use the color table (even though the game screen view seems to use it properly) 
 Memory Leak
 
 Border Color emulation
