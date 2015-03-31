@@ -39,7 +39,8 @@ They are usually of 2 kinds:
     - Z80: Fixed emulation of R register (fixes 'Bubble Bobble', 'Hong Kil Dong' among others) [Calindro]
     - Z80: Fixed CPDR running fully and ignoring interrupts. [Calindro]
     - Z80: Fixed HALT timing. [Calindro]
-    - VDP: Setting address via palette write preserve upper address bits. Fixes tests #4 and #15 of FluBBA VDP Tester. [Omar]
+    - VDP: Setting address via palette write preserve upper address bits. Fixes tests #4 and #15 of FluBBA's VDP Tester. [Omar]
+    - VDP: Writing to palette sets the read buffer. Fixes test #10 of FluBBA's VDP Tester. [Omar]
     - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
