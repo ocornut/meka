@@ -335,7 +335,8 @@ void    Tms_VDP_Out_Data (int value)
         #ifdef DEBUG_VDP_DATA
             Msg(MSGT_DEBUG, "At PC=%04X: VDP[%04X] = %02X", CPU_GetPC, sms.VDP_Address, value);
         #endif
-        VRAM [sms.VDP_Address] = sms.VDP_ReadLatch = value;
+        VRAM [sms.VDP_Address] = value;
+		sms.VDP_ReadLatch = value;
 
         // Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
@@ -366,6 +367,7 @@ void    Tms_VDP_Out_Data (int value)
         #endif
 
         Tms_VDP_Palette_Write(sms.VDP_Address & address_mask, value);
+		sms.VDP_ReadLatch = value;
 
         // Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
@@ -430,11 +432,8 @@ void    Tms_VDP_Out_Address (int value)
         }
         sms.VDP_Pal = FALSE;
         sms.VDP_Address = (((word)value << 8) | sms.VDP_Access_First) & 0x3FFF;
-        // if (sms.VDP_Address >= 0x8000)
-        //    {
-        //    Msg(MSGT_DEBUG, "[%04X] VDP Address %04X", sms.R.PC.W, sms.VDP_Address);
-        //    }
-        if ((value & 0xC0) == 0)
+
+		if ((value & 0xC0) == 0)
         { // Read Mode
             sms.VDP_ReadLatch = VRAM [sms.VDP_Address];
             sms.VDP_Address ++;
