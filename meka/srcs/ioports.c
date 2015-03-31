@@ -142,28 +142,23 @@ u8		In_SMS (u16 Port)
 	if ((Port & 0xC0) == 0x80)
 	{
 		if (Port & 0x01)
-		{
-			// 0xBD,0xBF and odd addresses: VDP Status
-			return Tms_VDP_In_Status();
-		}
+			return Tms_VDP_In_Status();	// 0xBD,0xBF and odd addresses: VDP Status
 		else
-		{
-			// 0xBE and even addresses: VDP Data
-			return Tms_VDP_In_Data();
-		}
+			return Tms_VDP_In_Data();	// 0xBE and even addresses: VDP Data
+	}
+
+	// 0x40 .. 0x7F : H/V counters
+	if ((Port & 0xC0) == 0x40)
+	{
+		if (Port & 0x01)
+			return Beam_X();	// HCounter (Latched)
+		else
+			return Beam_Y();	// VCounter
 	}
 
 	// FIXME: Proper mirroring/port mapping is not emulated.
     switch (Port)
     {
-        // Scanline
-    case 0x7E: 
-        return Beam_Y();
-
-        // Horizontal X position (FIXME: emulate latch properly)
-    case 0x7F: 
-        return Beam_X();
-
         // Input Port 1 (Controller 1 and part of Controller 2)
     case 0xC0:
     case 0xDC: 
@@ -338,15 +333,9 @@ u8 In_SF7000 (word Port)
 	if ((Port & 0xC0) == 0x80)
 	{
 		if (Port & 0x01)
-		{
-			// 0xBD,0xBF and odd addresses: VDP Status
-			return Tms_VDP_In_Status();
-		}
+			return Tms_VDP_In_Status();		// 0xBD,0xBF and odd addresses: VDP Status
 		else
-		{
-			// 0xBE and even addresses: VDP Data
-			return Tms_VDP_In_Data();
-		}
+			return Tms_VDP_In_Data();		// 0xBE and even addresses: VDP Data
 	}
 
 	switch (Port /*& 0xFF*/)
