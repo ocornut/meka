@@ -25,17 +25,8 @@
 // Define to enable debugging features
 // #define MEKA_Z80_DEBUGGER    // already defined in project
 
-// Definitions below are related to various attempts to fix/tweak 
-// the Z80 emulator.
-
-// Define to reload IPeriod everytime. Else, IPeriod is added to current ICount (which is accurate)
-// #define MEKA_Z80_IPERIOD_TRUNC
-
 // Define to enable timing on NMI/Int acceptance
 #define MEKA_Z80_INTERRUPTS_TAKES_TIME
-
-// Define to log interruptions
-// #define MEKA_Z80_DEBUG_LOG_INTERRUPTS
 
 // Define to enable change in interrupt emulation (WIP)
 //#define MEKA_Z80_INT_NEW
@@ -549,13 +540,6 @@ word    RunZ80(Z80 *R)
     /* If cycle counter expired... */
     if (R->ICount <= 0)
     {
-      #ifdef MEKA_Z80_DEBUG_LOG_INTERRUPTS
-        {
-        static int c = 0;
-        printf("%04X: %-6d\n", R->PC.W, c++);
-        }
-      #endif
-
       /* If we have come after EI, get address from IRequest */
       /* Otherwise, get it from the loop handler             */
       if (R->IFF & IFF_EI)
@@ -568,22 +552,14 @@ word    RunZ80(Z80 *R)
         else
         {
           J.W = LoopZ80(/*R*/);                 /* Call periodic handler    */
-          #ifdef MEKA_Z80_IPERIOD_TRUNC
-             R->ICount=R->IPeriod;              /* Reset the cycle counter  */
-          #else
-             R->ICount+=R->IPeriod;             /* Add up to cycle counter  */
-          #endif
+          R->ICount+=R->IPeriod;                /* Add up to cycle counter  */
           if (J.W==INT_NONE) J.W=R->IRequest;   /* Pending IRQ */
         }
       }
       else
       {
         J.W = LoopZ80(/*R*/);                   /* Call periodic handler    */
-        #ifdef MEKA_Z80_IPERIOD_TRUNC
-           R->ICount=R->IPeriod;                /* Reset the cycle counter  */
-        #else
-           R->ICount+=R->IPeriod;               /* Add up to cycle counter  */
-        #endif
+        R->ICount+=R->IPeriod;                  /* Add up to cycle counter  */
         if (J.W==INT_NONE) J.W=R->IRequest;     /* Pending int-rupt */
       }
 
@@ -692,22 +668,14 @@ word    RunZ80_Debugging(Z80 *R)
                 else
                 {
                     J.W = LoopZ80(/*R*/);                 /* Call periodic handler    */
-                    #ifdef MEKA_Z80_IPERIOD_TRUNC
-                        R->ICount=R->IPeriod;             /* Reset the cycle counter  */
-                    #else
-                        R->ICount+=R->IPeriod;            /* Add up to cycle counter  */
-                    #endif
+                    R->ICount+=R->IPeriod;                /* Add up to cycle counter  */
                     if (J.W==INT_NONE) J.W=R->IRequest;   /* Pending IRQ */
                 }
             }
             else
             {
                 J.W = LoopZ80(/*R*/);                   /* Call periodic handler    */
-                #ifdef MEKA_Z80_IPERIOD_TRUNC
-                    R->ICount=R->IPeriod;               /* Reset the cycle counter  */
-                #else
-                    R->ICount+=R->IPeriod;              /* Add up to cycle counter  */
-                #endif
+                R->ICount+=R->IPeriod;                  /* Add up to cycle counter  */
                 if (J.W==INT_NONE) J.W=R->IRequest;     /* Pending int-rupt */
             }
 
