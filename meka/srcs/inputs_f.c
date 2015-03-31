@@ -321,7 +321,10 @@ void    Write_Inputs_Src_List()
 	INP_Write_Line (";  - SmsCardPad");
 	INP_Write_Line (";    http://www.smspower.org/smscartpad/");
 	INP_Write_Line (";  - PPJoy joystick driver for Windows 2000/XP");
-	INP_Write_Line (";    http://www.geocities.com/deonvdw/");
+	INP_Write_Line (";    Download mirror: http://www.zophar.net/joy/ppjoy.html");
+	INP_Write_Line (";    Obsolete official website: http://web.archive.org/web/20021018045524/http://www.geocities.com/deonvdw/");
+	INP_Write_Line (";  - ArcadeWereld.nl usb controller board");
+	INP_Write_Line (";    http://www.smspower.org/forums/15321-SMSDB9ControllerOnPcUsingUSB");
 	INP_Write_Line ("; Schematics and drivers for various console controllers adapters:");
 	INP_Write_Line (";  - Direct Pad Pro");
 	INP_Write_Line (";    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/");
