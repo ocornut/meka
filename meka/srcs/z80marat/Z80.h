@@ -81,7 +81,7 @@ typedef struct
   pair AF, BC, DE, HL, IX, IY, PC, SP;  /* Main registers      */
   pair AF1, BC1, DE1, HL1;              /* Shadow registers    */
   byte IFF, I;                          /* Interrupt registers */
-  byte R;                               /* Refresh register    */
+  byte R, R7;                           /* Refresh register    */ /* Copy of 7th bit of R assigned by user */
 
   int  IPeriod, ICount; /* Set IPeriod to number of CPU cycles */
                         /* between calls to LoopZ80()          */

@@ -96,14 +96,16 @@ case LD_A_I:
   break;
 
 case LD_A_R:
-  R->R++;
-  R->AF.B.h=(byte)(R->R-R->ICount);
+  R->AF.B.h = R->R7 | (R->R & 0x7f); 
   // Msg(0, "At PC=%04X: LD A,R, returning %02X", R->PC.W, R->AF.B.h);
   R->AF.B.l=(R->AF.B.l&C_FLAG)|(R->IFF&IFF_2? P_FLAG:0)|ZSTable[R->AF.B.h];
   break;
 
 case LD_I_A:   R->I=R->AF.B.h;break;
-case LD_R_A:   break;
+case LD_R_A:   
+  R->R = R->AF.B.h; // We can do & 0x7f here but we're ignoring 7th bit of this register anyways so it doesn't matter
+  R->R7 = R->AF.B.h & 0x80;
+  break;
 
 case DB_4E: case DB_66: case DB_6E: // Undocumented
 case IM_0:     R->IFF&=~(IFF_IM1|IFF_IM2);break;
@@ -150,6 +152,7 @@ case INI:
   break;
 
 case INIR:
+   R->R += 2 * (R->ICount / 21); 
   do
   {
     WrZ80(R->HL.W++,InZ80(R->BC.B.l));
@@ -167,6 +170,7 @@ case IND:
   break;
 
 case INDR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     WrZ80(R->HL.W--,InZ80(R->BC.B.l));
@@ -185,6 +189,7 @@ case OUTI:
   break;
 
 case OTIR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     I=RdZ80(R->HL.W++);
@@ -213,6 +218,7 @@ case OUTD:
   break;
 
 case OTDR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     I=RdZ80(R->HL.W--);
@@ -240,6 +246,7 @@ case LDI:
   break;
 
 case LDIR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     WrZ80(R->DE.W++, RdZ80(R->HL.W++));
@@ -258,6 +265,7 @@ case LDD:
   break;
 
 case LDDR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     WrZ80(R->DE.W--,RdZ80(R->HL.W--));
@@ -279,6 +287,7 @@ case CPI:
   break;
 
 case CPIR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     I=RdZ80(R->HL.W++);
@@ -302,13 +311,14 @@ case CPD:
   break;
 
 case CPDR:
+  R->R += 2 * (R->ICount / 21); 
   do
   {
     I=RdZ80(R->HL.W--);
     J.B.l=R->AF.B.h-I;
     R->BC.W--;R->ICount-=21;
   }
-  while(R->BC.W&&J.B.l);
+  while(R->BC.W&&J.B.l&&(R->ICount>0)); 
   R->AF.B.l =
     N_FLAG|(R->AF.B.l&C_FLAG)|ZSTable[J.B.l]|
     ((R->AF.B.h^I^J.B.l)&H_FLAG)|(R->BC.W? P_FLAG:0);

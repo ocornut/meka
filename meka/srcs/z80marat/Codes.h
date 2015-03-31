@@ -220,8 +220,15 @@ case INA:  I=RdZ80(R->PC.W++);R->AF.B.h=InZ80(I);break;
 case HALT:
   R->PC.W--;
   R->IFF|=IFF_HALT;
-  R->IBackup=0;
-  R->ICount=0;
+  if (R->ICount > 0) 
+  {
+	  // Update R register
+	  // Avoid % on negative numbers
+	  const int cycles = Cycles[I];
+	  R->R += R->ICount / cycles;
+	  R->ICount %= cycles;
+	  R->IBackup = R->ICount;
+  } 
   break;
 
 case DI:

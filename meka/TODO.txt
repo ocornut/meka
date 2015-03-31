@@ -877,7 +877,6 @@ doing them now and some are quick work.
  - Out Run: PSG noise leftover in FM mode.
  - Daffy Duck in Hollywood menus (verify on a real PAL/SECAM system)
  - Sangokushi 3: try to finds why demonstration is not the same as on a real system (R?)
- - Bubble Bobble lockups?!! (on level 3/4/5 ?) ARGH
  - Championship Hockey: reset, glitches ? See on real system.
  - Fix formula 1 !! ? (any moer problem?)
  - 20-em-1 timing problem (currently patched)

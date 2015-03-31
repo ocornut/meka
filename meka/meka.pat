@@ -195,8 +195,7 @@ ROM[0000] = C3
 ; Disable the first controller port read, done outside of a loop.
 ; Inputs are updated by interrupt, and at the time the value was loaded,
 ; interrupts did not happens. It is very tricky and probably due to bad 
-; programming and timing issues, but I don't know why no emulator seems 
-; to do it well.
+; programming and timing issues, but I don't know why it doesn't emulate well.
 ; Author: Bock
 ;-----------------------------------------------------------------------------
 [crc32: f0f35c22]

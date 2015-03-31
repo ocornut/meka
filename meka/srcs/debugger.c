@@ -1046,7 +1046,7 @@ const char *                Debugger_BreakPoint_GetTypeName(t_debugger_breakpoin
     return ("XXX");
 }
 
-void                        Debugger_BreakPoint_GetSummaryLine(t_debugger_breakpoint *breakpoint, char *buf)
+void	Debugger_BreakPoint_GetSummaryLine(t_debugger_breakpoint *breakpoint, char *buf)
 {
     char    addr_string[16];
     int     bus_size;
@@ -2135,8 +2135,8 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
 			cpu->AF.W, cpu->BC.W, cpu->DE.W, cpu->HL.W, cpu->IX.W, cpu->IY.W);
 
 		// Line 2
-		sprintf(line2, "PC:%04X  SP:%04X  Flags:[%s]  %s%s", 
-			cpu->PC.W, cpu->SP.W, flags,
+		sprintf(line2, "PC:%04X  SP:%04X  Flags:[%s]  R:%02X  %s%s", 
+			cpu->PC.W, cpu->SP.W, flags, (cpu->R & 0x7F) | (cpu->R7),
 			(cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
 
 		return (2);
@@ -2152,8 +2152,8 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
 			cpu->AF1.W, cpu->BC1.W, cpu->DE1.W, cpu->HL1.W);
 
 		// Line 3
-		sprintf(line3, "PC:%04X  SP:%04X  Flags:[%s]  %s%s", 
-			cpu->PC.W, cpu->SP.W, flags,
+		sprintf(line3, "PC:%04X  SP:%04X  Flags:[%s]  R:%02X  %s%s", 
+			cpu->PC.W, cpu->SP.W, flags, (cpu->R & 0x7F) | (cpu->R7),
 			(cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
 
 		return (3);

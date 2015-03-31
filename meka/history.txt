@@ -36,6 +36,9 @@ They are usually of 2 kinds:
       could be implemented for other systems/countries after we've done more research. [Omar]
     - Added support for mirrored VDP ports in $80..$BF range, as required by some 
       Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
+    - Z80: Fixed emulation of R register (fixes 'Bubble Bobble', 'Hong Kil Dong' among others) [Calindro]
+    - Z80: Fixed CPDR running fully and ignoring interrupts. [Calindro]
+    - Z80: Fixed HALT timing. [Calindro]
     - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]

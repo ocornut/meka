@@ -205,7 +205,7 @@ static int  DataDump_Handler_Ascii_CPURegs (FILE *f_dump, int pos, const u8 *dat
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "DE'", R->DE1.W, NULL);
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "HL'", R->HL1.W, NULL);
     fprintf(f_dump, "%-3s = $%02X\n", "I", (byte)(R->I));
-    fprintf(f_dump, "%-3s = $%02X\n", "R", (byte)(R->R - R->ICount)); // This is the algorythm to pseudo randomize R in opcode LD_A_R
+    fprintf(f_dump, "%-3s = $%02X\n", "R", (byte)((R->R & 0x7F)|(R->R7)));
     fprintf(f_dump, "IPeriod = %d\n", R->IPeriod);
     fprintf(f_dump, "ICount  = %d\n", R->ICount);
     fprintf(f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n", 

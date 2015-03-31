@@ -238,7 +238,10 @@ int     Save_Game_MSV (FILE *f)
     fwrite (&g_media_rom.crc32, sizeof (u32), 1, f);
 
     // Write 'sms' structure (misc stuff)
+	sms.R.R = (sms.R.R & 0x7F) | (sms.R.R7);
+	sms.R.R7 = 0;
     fwrite (&sms, sizeof (struct SMS_TYPE), 1, f);
+	sms.R.R7 = (sms.R.R & 0x80);
 
 	const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
 	fwrite (&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
@@ -368,6 +371,7 @@ int         Load_Game_MSV(FILE *f)
         u16 trap = sms.R.Trap;
         u8  trace = sms.R.Trace;
         fread (&sms, sizeof(struct SMS_TYPE), 1, f);
+		sms.R.R7 = (sms.R.R & 0x80);
         sms.R.Trap = trap;
         sms.R.Trace = trace;
     }
@@ -575,6 +579,7 @@ int     Load_Game_MSD (FILE *f)
     fread (&sms.R.SP.B.h, 1, 1, f);
     fread (&sms.R.I, 1, 1, f);
     fread (&sms.R.R, 1, 1, f);
+	sms.R.R7 = sms.R.R & 0x80;
     fread (&sms.R.DE.B.l, 1, 1, f);
     fread (&sms.R.DE.B.h, 1, 1, f);
     fread (&sms.R.BC1.B.l, 1, 1, f);

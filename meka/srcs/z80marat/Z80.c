@@ -240,6 +240,7 @@ static void CodesCB(register Z80 *R)
   register byte I;
 
   I = RdZ80(R->PC.W++);
+  R->R++;
   R->ICount -= CyclesCB[I];
   #ifdef MEKA_Z80_OPCODES_USAGE
     Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_CB][I]++;
@@ -315,6 +316,7 @@ static void CodesED(register Z80 *R)
   register pair J;
 
   I = RdZ80(R->PC.W++);
+  R->R++;
   R->ICount -= CyclesED[I];
   #ifdef MEKA_Z80_OPCODES_USAGE
     Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_ED][I]++;
@@ -346,6 +348,7 @@ static void CodesDD(register Z80 *R)
 
 #define XX IX
   I = RdZ80(R->PC.W++);
+  R->R++;
   R->ICount -= CyclesXX[I];
   #ifdef MEKA_Z80_OPCODES_USAGE
     Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_DD][I]++;
@@ -378,6 +381,7 @@ static void CodesFD(register Z80 *R)
 
 #define XX IY
   I = RdZ80(R->PC.W++);
+  R->R++;
   R->ICount -= CyclesXX[I];
   #ifdef MEKA_Z80_OPCODES_USAGE
     Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_FD][I]++;
@@ -423,6 +427,8 @@ void    ResetZ80(Z80 *R)
   R->IY.W     = 0x0000;
   R->I        = 0x00;
   R->IFF      = 0x00;
+  R->R        = 0x00;
+  R->R7       = 0x00;
   R->ICount   = R->IPeriod;
   R->IRequest = INT_NONE;
 }
@@ -649,6 +655,7 @@ word    RunZ80_Debugging(Z80 *R)
 
         // Execute instruction
         I = RdZ80 (R->PC.W ++);
+        R->R++;
         R->ICount -= Cycles[I];
         #ifdef MEKA_Z80_OPCODES_USAGE
             Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_NONE][I]++;
