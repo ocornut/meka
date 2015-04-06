@@ -254,6 +254,7 @@
  Hokuto no Ken (JP)                             -       Ok
  Hokuto no Ken (TW)                             -       Ok (note: final boss graphic data is corrupted)
  Home Alone                                     -       Ok
+ Hong Kil Dong (KR)                             -       Ok
  Hook [Proto]                                   -       Ok
  Hoshi wo Sagashite... (JP)                     FM      Ok
  Hwarang-ui Geom (KR)                           FM      Ok
@@ -577,7 +578,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 559 games tested - 557 are "Ok" - Compatibility rate: 99.54%
+ 560 games tested - 558 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1172,7 +1173,7 @@
  Panzer Dragoon Mini (JP)                           Ok
  Paperboy                                           Ok
  Paperboy 2                                         Ok
- Paperboy 2 [Proto]                                *Ok
+ Paperboy 2 [Proto]                                 Ok
  Pengo                                              Ok
  Pengo (JP)                                         Ok
  Pet Club Inu Dai Suki! (JP)                        Ok
@@ -1263,6 +1264,7 @@
  Sonic The Hedgehog [v1]                            Ok
  Sonic The Hedgehog [Proto]                         Ok
  Sonic The Hedgehog 2                               Ok
+ Sonic The Hedgehog 2 [Demo]                        Ok
  Sonic The Hedgehog Triple Trouble                  Ok
  Space Harrier                                      Flickering status (LCD persistance).
  Spider-Man - Return of the Sinister Six            Ok
@@ -1339,7 +1341,7 @@
  Wagan Land (JP)                                    Ok
  Wakiyanrando (JP)                                  Ok
  Wheel of Fortune                                   Ok
- WildSnake [Proto]                                 *Ok
+ WildSnake [Proto]                                  Ok
  Wimbledon / Wimbledon - Tennis                     Ok
  Winter Olympics / Winter Olympics Games            Ok
  Winter Olympics (JP)                               Ok
@@ -1374,7 +1376,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 496 games tested - 484 are "Ok" - Compatibility rate: 97.45%
+ 497 games tested - 485 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

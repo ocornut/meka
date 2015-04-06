@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2015/03/28
+; Last updated 2015/04/06
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -322,6 +322,7 @@ SMS 9eb1aa4f 7DD79A9894C6A878   High School! Kimengumi/COUNTRY=JP/PRODUCT_NO=G-1
 SMS 24f5fe8c 36CE68D578724E87   Hokuto no Ken/COUNTRY=JP/PRODUCT_NO=G-1303/COMMENT=Japanese version of "Black Belt". This game is based on the "Fist of the North Star" manga.
 SMS c4ab363d 7761965CF39300B0   Hokuto no Ken/COUNTRY=TW/PRODUCT_NO=G-1303/COMMENT=Taiwanese version of "Hokuto no Ken" as released by Aaronix. Final boss graphic data is corrupted (verified from original cartridge).
 SMS c9dbf936 FA6B14A912C33ECB   Home Alone/COUNTRY=EU/PRODUCT_NO=7109/EMU_TVTYPE=PAL
+SMS 8040b2fa C0FDE9D208640814   Hong Kil Dong/COUNTRY=KR
 SMS 955a009e F35F09A93C040AB2   Hoshi wo Sagashite.../COUNTRY=JP/PRODUCT_NO=G-1354
 SMS 9ced34a7 09D4957E1609945D   Hook [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 SMS e4b7c56a 5263549F2E3AA14F   Hwarang-ui Geom/COUNTRY=KR/PRODUCT_NO=GB-2356/COMMENT=Korean version of "Kenseiden".
@@ -1139,6 +1140,7 @@ GG  3e31cb8c 2D341FEB6A1B46CA   Sonic The Hedgehog [v0]/COUNTRY=JP,US/PRODUCT_NO
 GG  d163356e 53D934469DC6E116   Sonic The Hedgehog [v1]/COUNTRY=JP,EU/PRODUCT_NO=G-3307,G-3334,2408
 GG  816c0a1e 97222AD3F8DE1D57   Sonic The Hedgehog [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  95a18ec7 D2612363E352F220   Sonic The Hedgehog 2/COUNTRY=JP,US,EU/PRODUCT_NO=G-3321,G-3338,2507
+GG  15ad37a5 0CE7F172FF90100B   Sonic The Hedgehog 2 [Demo]/FLAGS=PROTO
 GG  d23a2a93 0F635FF9B1886A93   Sonic The Hedgehog Triple Trouble/COUNTRY=US,EU/PRODUCT_NO=2530,2530-50/COMMENT=Export version of "Sonic & Tails 2".
 GG  0f3e3840 4FFC5704FCA43783   Soukoban/COUNTRY=JP/PRODUCT_NO=T-53017
 GG  600c15b3 308DC2BE252AC7AD   Space Harrier/COUNTRY=JP,US,EU/PRODUCT_NO=G-3212,2314
