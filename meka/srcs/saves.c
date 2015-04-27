@@ -100,6 +100,9 @@ void        Load_Game_Fixup(void)
 		case MAPPER_SMS_Korean_Xin1:
 			WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[0]);
 			break;
+		case MAPPER_SC3000_Survivors_Multicart:
+			Out_SMS(0xE0, g_machine.mapper_regs[0]);
+			break;
         }
 	}
 
@@ -255,6 +258,7 @@ int     Save_Game_MSV (FILE *f)
     switch (g_machine.mapper)
     {
     case MAPPER_32kRAM:
+	case MAPPER_SC3000_Survivors_Multicart:
         fwrite (RAM, 0x08000, 1, f);
         break;
     case MAPPER_ColecoVision:
@@ -418,6 +422,7 @@ int         Load_Game_MSV(FILE *f)
     switch (g_machine.mapper)
     {
     case MAPPER_32kRAM:
+	case MAPPER_SC3000_Survivors_Multicart:
         fread (RAM, 0x08000, 1, f);
         break;
     case MAPPER_ColecoVision:
@@ -491,7 +496,7 @@ int         Load_Game_MSV(FILE *f)
 
     // Read FM data
     if (version >= 0x03)
-        FM_Load (f);
+        FM_Load(f);
 
     // Read port 3F value
     if (version >= 0x04)

@@ -75,6 +75,24 @@ void	Mapper_InitializeLookupTables()
 	}
 }
 
+void	Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v)
+{
+	// Control Byte format
+	// Q0..Q4 controls the A15 to A19 address lines on the EPROMs.  
+	//        So these 5 bits let you select a 32KB logical block within one of the EPROMs.  Q0 => A15, Q1 => A16, Q2 => A17, Q3 => A18, Q4 => A19
+	// Q5	  is not connected to anything
+	// Q6	  ROM 0 / ROM 1 select (0 =>ROM 0, 1 => ROM 1)
+	// Q7	  Enables / Disables latch
+	//		  If the latch is disabled, then pull up resistors ensure that block 31 in ROM 1 is selected
+	int game_no = (v & 0x80) ? ((v & 0x1f) | ((v & 0x40) ? 0x20 : 0x00)) : 31;
+	g_machine.mapper_regs[0] = v;
+
+	Map_8k_ROM(0, game_no*4+0);
+	Map_8k_ROM(1, game_no*4+1);
+	Map_8k_ROM(2, game_no*4+2);
+	Map_8k_ROM(3, game_no*4+3);
+}
+
 void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
 {
     int len, start_addr;
@@ -88,6 +106,7 @@ void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
         case MAPPER_SF7000:							len = 0x10000; start_addr = 0x0000; break;
         case MAPPER_SMS_DisplayUnit:				len = 0x02800; start_addr = 0x4000; break; // FIXME: Incorrect, due to scattered mapping!
 		case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:len = 0x02000+0x800; start_addr = 0x2000; break; // FIXME: Two memory regions
+		case MAPPER_SC3000_Survivors_Multicart:		len = 0x08000; start_addr = 0x8000; break;
         // FIXME: ActionReplay!!
         // default, Codemaster, Korean..
         default:								len = 0x02000; start_addr = 0xC000; break;

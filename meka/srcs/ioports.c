@@ -14,6 +14,7 @@
 #include "vdp.h"
 #include "commport.h"
 #include "periph.h"
+#include "mappers.h"
 #include "fdc765.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
@@ -101,6 +102,11 @@ void	Out_SMS(u16 Port, u8 Value)
 		// Msg(MSGT_DEBUG, "At %04Xh: Port 0xDE = %02Xh", sms.R.PC.W, Value);
 		return;
 
+	case 0xE0:
+		if (g_machine.mapper == MAPPER_SC3000_Survivors_Multicart)
+			Out_SC3000_SurvivorsMulticarts_DataWrite(Value);
+		return;
+
 		// Gear-to-gear Emulation ----------------------------------------------------
 	case 0x01: Comm_Write_01 (Value); return;
 	case 0x02: Comm_Write_02 (Value); return;
@@ -124,9 +130,7 @@ void	Out_SMS(u16 Port, u8 Value)
 		// 0xFF/255: Switch from BIOS to Cartridge -----------------------------------
 		// FIXME: This is awful! If anyone sees this, say goodbye to my honor.
 	case 0xFF: if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
-			   {
 				   BIOS_Switch_to_Game();
-			   }
 			   return;
 	}
 
