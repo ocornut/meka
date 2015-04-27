@@ -23,15 +23,13 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-#define IO_LOG_WRITE()      \
-        { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Write), CPU_GetPC, Port, Value); }
+#define IO_LOG_WRITE()  { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Write), CPU_GetPC, Port, Value); }
 
-#define IO_LOG_READ()       \
-        { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Read), CPU_GetPC, Port); }
+#define IO_LOG_READ()   { Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Port_Read), CPU_GetPC, Port); }
 
 //-----------------------------------------------------------------------------
 
-// OUTPUT - CALLED BY THE EMULATED Z80
+// I/O: Port output
 void	Out_SMS(u16 Port, u8 Value)
 {
 	// 0x80..0xBF : VDP
@@ -53,7 +51,7 @@ void	Out_SMS(u16 Port, u8 Value)
 
 	switch (Port)
 	{
-		// 0x3F/63 : LightGun & Nationalisation Port ---------------------------------
+		// LightGun & Nationalization port
 	case 0x3F: 
 		{
 			const u8 old_value = tsms.Port3F;
@@ -64,7 +62,7 @@ void	Out_SMS(u16 Port, u8 Value)
 			return;
 		}
 
-	   // 0xF0/240 and 0xF1/241: FM Chipset Ports ------------------------------------
+		// YM2413 FM ports
 	case 0xF0:
 		sms.FM_Register = Value & 0x3F;
 		return;
@@ -80,8 +78,6 @@ void	Out_SMS(u16 Port, u8 Value)
 			FM_Write(sms.FM_Register, Value);
 		}
 		return;
-
-		// 0xF2/242: FM Chipset Detection --------------------------------------------
 	case 0xF2: 
 		if (Sound.FM_Enabled)
 		{
@@ -89,16 +85,15 @@ void	Out_SMS(u16 Port, u8 Value)
 		}
 		return;
 
-	   // 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
-	   // At least Cosmic Spacehead uses 0x7E for writing.
+	   // 0x7E, 0x7F: SN76489 PSG
+	   // NB: At least Cosmic Spacehead uses 0x7E for writing.
 	case 0x7E: case 0x7F:
-		// Msg(MSGT_DEBUG, "At %04Xh @ %d: PSG = %02Xh", sms.R.PC.W, sms.Pages_Reg [2], Value);
-		// PSG_0_Write (Value);
 		SN76489_Write (Value);
 		return;
 
-		// 0xDE/221 : Keyboard Raster Port -------------------------------------------
-	case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
+		// 0xDE: Keyboard Raster
+	case 0xDE: 
+		sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
 		// Msg(MSGT_DEBUG, "At %04Xh: Port 0xDE = %02Xh", sms.R.PC.W, Value);
 		return;
 
@@ -107,31 +102,34 @@ void	Out_SMS(u16 Port, u8 Value)
 			Out_SC3000_SurvivorsMulticarts_DataWrite(Value);
 		return;
 
-		// Gear-to-gear Emulation ----------------------------------------------------
+		// Gear-to-gear Emulation
 	case 0x01: Comm_Write_01 (Value); return;
 	case 0x02: Comm_Write_02 (Value); return;
 	case 0x03: Comm_Write_03 (Value); return;
 	case 0x05: Comm_Write_05 (Value); return;
 
-		// Game Gear Stereo ----------------------------------------------------------
+		// Game Gear Stereo
 		// FIXME: emulate stereo!
-	case 0x06: if (g_driver->id == DRV_GG)
-			   {
-				   SN76489_StereoWrite (Value);
-				   if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
-					   VGM_Data_Add_GG_Stereo (&Sound.LogVGM, Value);
-			   }
-			   return;
+	case 0x06: 
+		if (g_driver->id == DRV_GG)
+		{
+			SN76489_StereoWrite (Value);
+			if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
+				VGM_Data_Add_GG_Stereo (&Sound.LogVGM, Value);
+		}
+		return;
 
-	case 0x3E: // RAM [0] = Value & 7;
+	case 0x3E: 
+		// RAM [0] = Value & 7;
 		// Msgt (MSGT_DEBUG, "At %04Xh: [%02Xh] = %02Xh", sms.R.PC.W, Port, Value);
 		return;
 
 		// 0xFF/255: Switch from BIOS to Cartridge -----------------------------------
-		// FIXME: This is awful! If anyone sees this, say goodbye to my honor.
-	case 0xFF: if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
-				   BIOS_Switch_to_Game();
-			   return;
+		// FIXME: This is awful
+	case 0xFF: 
+		if ((g_machine_flags & (MACHINE_ROM_LOADED | MACHINE_NOT_IN_BIOS)) == MACHINE_ROM_LOADED)
+			BIOS_Switch_to_Game();
+		return;
 	}
 
 #ifdef DEBUG_IO
@@ -139,7 +137,7 @@ void	Out_SMS(u16 Port, u8 Value)
 #endif
 }
 
-// INPUT - CALLED BY THE EMULATED Z80 -----------------------------------------
+// I/O: Port input
 u8		In_SMS (u16 Port)
 {
 	// 0x80..0xBF : VDP
@@ -248,7 +246,7 @@ u8		In_SMS (u16 Port)
     return (0xFF);
 }
 
-// OUTPUT - CALLED BY THE EMULATED Z80 ----------------------------------------
+// I/O: Port output for SF-7000
 void Out_SF7000 (u16 Port, u8 Value)
 {
 	// 0x80..0xBF : VDP
@@ -270,11 +268,13 @@ void Out_SF7000 (u16 Port, u8 Value)
 
 	switch (Port)
 	{
-		// 0x7E/126 - 0x7F/127 : PSG Port --------------------------------------------
-	case 0x7E: case 0x7F: SN76489_Write (Value); /* PSG_0_Write (Value); */ return;
+		// 0x7E, 0x7F: SN76489 PSG
+	case 0x7E: case 0x7F: 
+		SN76489_Write (Value); /* PSG_0_Write (Value); */ return;
 
-		// 0xDE/221 : Keyboard Raster Port -------------------------------------------
-	case 0xDE: sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
+		// 0xDE: Keyboard Raster Port
+	case 0xDE: 
+		sms.Input_Mode = Value; // & 7; // Upper bits needed for SK-1100 detection
 		return;
 
 		// SF-7000 Stuff -------------------------------------------------------------
@@ -283,13 +283,12 @@ void Out_SF7000 (u16 Port, u8 Value)
 	case 0xE1: FDC765_Data_Write (Value); return;
 		//--[ P.P.I. ]----------------------------------------------------------------
 		//case 0xE4: // FDC/Printer check
-		//    IO_LOG_WRITE(); SF7000.Port_E4 = Value;
+		//    SF7000.Port_E4 = Value;
 		//    return;
 	case 0xE5: // Printer data output (parallel)
-		//IO_LOG_WRITE(); SF7000.Port_E5 = Value;
+		//SF7000.Port_E5 = Value;
 		return;
 	case 0xE6: // FDC/Printer control
-		//IO_LOG_WRITE();
 		SF7000.Port_E6 = Value;
 		SF7000_IPL_Mapping_Update();
 		if ((SF7000.Port_E6 & 0x03) == 0x03) // ???
@@ -301,7 +300,6 @@ void Out_SF7000 (u16 Port, u8 Value)
 		}
 		return;
 	case 0xE7: // Control Register
-		//IO_LOG_WRITE();
 		SF7000.Port_E7 = Value;
 		if (!(Value & 0x80))
 		{
@@ -321,8 +319,8 @@ void Out_SF7000 (u16 Port, u8 Value)
 		SF7000_IPL_Mapping_Update();
 		return;
 		//--[ USART 8251 ]------------------------------------------------------------
-	case 0xE8: /* IO_LOG_WRITE(); */ SF7000.Port_E8 = Value; return;
-	case 0xE9: /* IO_LOG_WRITE(); */ SF7000.Port_E9 = Value; return;
+	case 0xE8: SF7000.Port_E8 = Value; return;
+	case 0xE9: SF7000.Port_E9 = Value; return;
 	}
 
 #ifdef DEBUG_IO
@@ -330,7 +328,7 @@ void Out_SF7000 (u16 Port, u8 Value)
 #endif
 }
 
-// INPUT - CALLED BY THE EMULATED Z80 -----------------------------------------
+// I/O: Port Input for SF-7000
 u8 In_SF7000 (word Port)
 {
 	// 0x80..0xBF : VDP
@@ -346,11 +344,11 @@ u8 In_SF7000 (word Port)
 	{
 		// 0xC0/192 - 0xDC/220 : Joystick 1 Port -------------------------------------
 	case 0xC0:
-	case 0xDC: return (Input_Port_DC ());
+	case 0xDC: return (Input_Port_DC());
 
 		// 0xC1/193 - 0xDD/221 : Joystick 2 & LightGun Latch Port --------------------
 	case 0xC1:
-	case 0xDD: return (Input_Port_DD ());
+	case 0xDD: return (Input_Port_DD());
 
 		// 0xDE: Keyboard scan / printer / cassette ----------------------------------
 	case 0xDE: return sms.Input_Mode;
@@ -362,27 +360,23 @@ u8 In_SF7000 (word Port)
 		//--[ P.P.I. ]----------------------------------------------------------------
 	case 0xE4: // FDC/Printer control
 		{
-			static int MysteriousTime = 0x3200;
-			//IO_LOG_READ();
-			if (--MysteriousTime <= 0)
+			static int delay = 0x3200;		// FIXME
+			if (--delay <= 0)
 			{
-				MysteriousTime = 0x3200;
+				delay = 0x3200;
 				SF7000.Port_E4 ^= 4;
 			}
 			return FDC765_Cmd_For_SF7000 | SF7000.Port_E4 /* & 4 */;
 		}
 	case 0xE5: // Printer data output (parallel)
-		//IO_LOG_READ();
 		return SF7000.Port_E5;
 	case 0xE6: // FDC/Printer control
-		//IO_LOG_READ();
 		return SF7000.Port_E6;
 	case 0xE7: /// Control Register
-		//IO_LOG_READ();
 		return SF7000.Port_E7;
 		//--[ USART ]-----------------------------------------------------------------
-	case 0xE8: /* IO_LOG_READ(); */ return SF7000.Port_E8;
-	case 0xE9: /* IO_LOG_READ(); */ return SF7000.Port_E9;
+	case 0xE8: return SF7000.Port_E8;
+	case 0xE9: return SF7000.Port_E9;
 	}
 
 #ifdef DEBUG_IO
