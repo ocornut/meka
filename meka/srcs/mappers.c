@@ -84,8 +84,8 @@ void	Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v)
 	// Q6	  ROM 0 / ROM 1 select (0 =>ROM 0, 1 => ROM 1)
 	// Q7	  Enables / Disables latch
 	//		  If the latch is disabled, then pull up resistors ensure that block 31 in ROM 1 is selected
-	int game_no = (v & 0x80) ? ((v & 0x1f) | ((v & 0x40) ? 0x20 : 0x00)) : 31;
 	g_machine.mapper_regs[0] = v;
+	int game_no = (v & 0x80) ? ((v & 0x1f) | ((v & 0x40) ? 0x20 : 0x00)) : 0x3F;
 
 	Map_8k_ROM(0, game_no*4+0);
 	Map_8k_ROM(1, game_no*4+1);
