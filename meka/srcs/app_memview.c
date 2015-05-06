@@ -155,7 +155,9 @@ u8		t_memory_range::ReadByte(int addr) const
 		case MEMTYPE_PRAM:
 		case MEMTYPE_SRAM:
 		case MEMTYPE_VREG:
-			return this->data[addr];
+			if (addr >= 0 && addr < this->size)
+				return this->data[addr];
+			return 0xFF;
 	}
 	assert(0);
 	return 0x00;
@@ -527,6 +529,9 @@ static void        MemoryViewer_Update(t_memory_viewer* app)
             text = "You wish!";
 		int x = 4 + font_height * 6 - 7;
         Font_Print(font_id, text, x, y, COLOR_SKIN_WINDOW_TEXT);
+
+		app->values_edit_active = false;
+		MemoryViewer_SetupEditValueBox(app);
     }
     else 
     {
