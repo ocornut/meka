@@ -20,3 +20,5 @@ allegro.log
 *.suo
 *.vcproj.*.user
 *.vcxproj.user
+meka/srcs/obj
+meka/Dist

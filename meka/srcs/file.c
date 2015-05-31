@@ -21,6 +21,10 @@
     #include "unzip.h"
 #endif
 
+#if defined(ARCH_MACOSX)
+    #include "platform/macosx/osxhelpers.h"
+#endif
+
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -86,7 +90,13 @@ void    Filenames_Init()
     getcwd (g_env.Paths.StartingDirectory, countof(g_env.Paths.StartingDirectory));
 
     // Find emulator directory --------------------------------------------------
+
+#if defined(ARCH_MACOSX)
+    GetResourcePath( g_env.Paths.EmulatorDirectory, sizeof(g_env.Paths.EmulatorDirectory) );
+    ConsolePrintf ("Resource path = %s\n", g_env.Paths.EmulatorDirectory);
+#else
     strcpy(g_env.Paths.EmulatorDirectory, g_env.argv[0]);
+#endif
     #ifdef ARCH_WIN32
         StrReplace(g_env.Paths.EmulatorDirectory, '\\', '/');
     #endif

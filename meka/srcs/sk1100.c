@@ -84,7 +84,7 @@ static t_sk1100_key SK1100_Keys [SK1100_KEYS_NUM] =
   {  5, 0x0020, "Left Arrow"     }, // 48
   {  5, 0x0040, "Return"         }, // 49
   // 5, 0x0080, <UNUSED>
-  {  5, 0x0100, "ù"              }, // 50
+  {  5, 0x0100, "\x9d"              }, // 50
   // 5, 0x0200, <UNUSED>
   // 5, 0x0400, <UNUSED>
   {  5, 0x0800, "Func"           }, // 51

@@ -89,16 +89,16 @@ X86_ASM = no
 LIB_OS  = 
 endif
 
-#---[ MACOSX/GCC ]---------------------------------------
+#---[ MACOSX/Clang ]---------------------------------------
 ifeq ($(SYSTEM), macosx)
 #--- Executable name
 EXE     = ../meka
 #--- Output directory
 OD      = obj
 #--- Compilation
-CC      = g++
+CC      = clang++
 CC_OUT  = -o
-LINKER  = g++
+LINKER  = clang++
 ASM     = nasm
 OTYPE   = macho
 #--- Tools
@@ -107,10 +107,13 @@ MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_MACOSX -DUNIX
-INC_OS  = -Ilibs -I../include
+INC_OS  = -Ilibs -I../include -I/usr/local/include
 X86_ASM = no
 #--- Libraries
-LIB_OS  = 
+LIB_OS = -l freetype -framework OpenGL -framework CoreFoundation -framework OpenAL -framework AudioToolbox -framework AppKit -framework IOKit
+LIB_PATHS = -L/usr/local/lib
+#--- Platform specific object
+OBJ_PLATFORM = $(OD)/platform/macosx/osxhelpers.o
 endif
 
 #---[ WINDOWS/MSVC ]-----------------------------------
@@ -187,7 +190,7 @@ LIB_ALLEG = `pkg-config --cflags --libs allegro-5.0 allegro_image-5.0 allegro_au
 endif
 
 ifeq ($(SYSTEM), macosx)
-LIB_ALLEG = -lallegro -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_main -lallegro_image
+LIB_ALLEG = -lallegro -lallegro_font -lallegro_audio -lallegro_primitives -lallegro_main -lallegro_image -lallegro_ttf
 endif
 
 ifeq ($(SYSTEM), win32)
@@ -199,7 +202,7 @@ ifeq ($(SYSTEM), win32)
 LIB = $(LIB_PATHS) $(RESSOURCES)
 LIB += $(LIB_ALLEG) $(LIB_SOUND) $(LIB_ZIP) $(LIB_OS) -nodefaultlib:msvcrt
 else
-LIB = $(LIB_ALLEG) $(LIB_SOUND) $(LIB_OS) $(LIB_PNG) $(LIB_ZIP)
+LIB = $(LIB_PATHS) $(LIB_ALLEG) $(LIB_SOUND) $(LIB_OS) $(LIB_PNG) $(LIB_ZIP)
 endif
 
 #-----------------------------------------------------
@@ -259,7 +262,7 @@ ifndef CFLAGS
 
 # RELEASE build
 ifeq ($(BUILD), release)
-CFLAGS = -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer 
+CFLAGS = -Wall -O3 -ffast-math -fno-strength-reduce -funroll-all-loops -fomit-frame-pointer -x c++
 endif
 
 # DEBUG build
@@ -282,7 +285,7 @@ OBJ_CPU += $(OD)/z80marat.a
 #-----------------------------------------------------
 # Complete Objects List
 #-----------------------------------------------------
-OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT) $(OBJ_MISC) $(OBJ_CFG) $(OBJ_GUI) $(OBJ_GAPPS) $(OBJ_SOUND) $(OBJ_MACH) $(OBJ_ZIP) $(OBJ_PNG) $(OBJ_BLIT) $(OBJ_TOOLS) $(OBJ_LIBS)
+OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT) $(OBJ_MISC) $(OBJ_CFG) $(OBJ_GUI) $(OBJ_GAPPS) $(OBJ_SOUND) $(OBJ_MACH) $(OBJ_ZIP) $(OBJ_PNG) $(OBJ_BLIT) $(OBJ_TOOLS) $(OBJ_LIBS) $(OBJ_PLATFORM)
 
 #-----------------------------------------------------
 # Linking Rule
@@ -334,6 +337,9 @@ $(OD)/%.a : %.asm
 	$(ASM) $(DEF_OS)-f $(OTYPE) $< -o $@
 
 $(OD)/sound/%.o : sound/%.c sound/%.h
+	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
+
+$(OD)/platform/macosx/%.o : platform/macosx/%.c platform/macosx/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 #-----------------------------------------------------
@@ -458,7 +464,7 @@ clean_sound :
 	$(RM) -f $(OD)/sound/*.o
 
 # Directories
-makedir: $(OD) $(OD)/sound $(OD)/sound/emu2413
+makedir: $(OD) $(OD)/sound $(OD)/sound/emu2413 $(OD)/platform/macosx
 $(OD):
 	-$(MKDIR) $(OD)
 $(OD)/sound:
@@ -466,6 +472,8 @@ $(OD)/sound:
 $(OD)/sound/emu2413:
 	-$(MKDIR) $(OD)/sound/emu2413
 
+$(OD)/platform/macosx:
+	@$(MKDIR) -p $(OD)/platform/macosx
 #------------------------------------------------------
 # EOF
 #------------------------------------------------------

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleExecutable</key>
+	<string>meka</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.smspower.meka</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright © 1998-2015 Omar Cornut and contributors</string>
+	<key>CFBundleName</key>
+	<string>Meka</string>
+
+	<key>CFBundleVersion</key>
+	<string>0.80.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.80-alpha</string>
+</dict>
+</plist>
