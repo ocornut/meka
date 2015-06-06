@@ -4,6 +4,9 @@ MEKA
 - Homepage: http://www.smspower.org/meka
 - Forum: http://www.smspower.org/forums/f7-MEKA
 
+You can download the latest beta windows binaries from this forum thread:
+http://www.smspower.org/forums/13019-Meka080WithNewSoundEngineTESTERSWANTED?start=300#86895
+
 MEKA is a multi-machine emulator. The following machines are supported by MEKA:
 
 - Sega Game 1000 (SG-1000)
