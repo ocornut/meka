@@ -21,6 +21,7 @@
  Ace of Aces                                    -       Ok
  Action Fighter [v1]                            -       Ok
  Action Fighter [v2]                            -       Ok
+ Action Fighter (TW)                            -       Ok
  Addams Family, The                             -       Ok
  Aerial Assault                                 -       Ok
  Aerial Assault (US)                            -       Ok
@@ -154,9 +155,9 @@
  Enduro Racer (JP)                              -       Ok
  E-SWAT [v0]                                    -       Ok
  E-SWAT [v1]                                    -       Ok
- E-SWAT [Proto 0]                               -      *Ok
- E-SWAT [Proto 1]                               -      *Ok
- E-SWAT [Proto 2]                               -      *Ok
+ E-SWAT [Proto 0]                               -       Ok
+ E-SWAT [Proto 1]                               -       Ok
+ E-SWAT [Proto 2]                               -       Ok
  Excellent Dizzy Collection, The [Proto]        -       Ok (The prototype isn't really playable)
  F1                                             -       Ok
  F-1 Spirit - The way to Formula-1 (KR)         -       Ok
@@ -485,7 +486,7 @@
  Super Boy 3 (KR)                               -       Ok
  Super Boy 4 (KR)                               -       Ok
  Super Bubble Bobble (KR)                       -       Ok
- Super Columns (KR)                             -      *Ok
+ Super Columns (KR)                             -       Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -578,7 +579,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 560 games tested - 558 are "Ok" - Compatibility rate: 99.54%
+ 561 games tested - 559 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -687,11 +688,13 @@
  Hang On II [chinese logo] (TW)                 Ok
  Hang On II [english logo] (TW)                 Ok
  H.E.R.O.                                       Ok
- H.E.R.O. (TW)                                  Ok
+ H.E.R.O. [chinese logo] (TW)                   Ok
+ H.E.R.O. [english logo] (TW)                   Ok
  Home Mahjong [v0]                              Ok
  Home Mahjong [v1]                              Ok
  Home Mahjong [v1] (TW)                         Ok
  Hustle Chumy                                   Ok
+ Hustle Chumy (TW)                              Ok
  Hyper Sports (Konami no)                       Ok
  Hyper Sports (Konami no) (KR)                  Ok
  Hyper Sports (Konami no) (TW)                  Ok
@@ -727,6 +730,7 @@
  Pachinko II                                    Ok
  Pachinko II (TW)                               Ok
  Ping Pong (Konami's) (TW)                      Ok
+ Pippols [Jumbo] (TW)                          *Ok
  Pitfall II ~The Lost Caverns~ [v0]             Ok
  Pitfall II ~The Lost Caverns~ [v0] [chin..(TW) Ok
  Pitfall II ~The Lost Caverns~ [v0] [engl..(TW) Ok
@@ -738,7 +742,8 @@
  Road Fighter (TW)                              Ok
  Road Fighter [Jumbo] (TW)                      Ok
  Rock n' Bolt                                   Ok
- Rock n' Bolt (TW)                              Ok
+ Rock n' Bolt [chinese logo] (TW)               Ok
+ Rock n' Bolt [english logo] (TW)               Ok
  Safari Hunting                                 Ok
  Safari Hunting (TW)                            Ok
  Safari Race                                    Ok
@@ -770,6 +775,7 @@
  Star Jacker [v1]                               Ok
  Star Jacker [v1] (TW)                          Ok
  Star Jacker [v2]                               Ok
+ Star Soldier [DahJee] (TW)                    *Ok
  Super Tank                                     Ok
  Super Tank (KR)                                Ok
  Super Tank (TW)                                Ok
@@ -791,7 +797,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 182 games tested - 182 are "Ok" - Compatibility rate: 100.00%
+ 187 games tested - 187 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
