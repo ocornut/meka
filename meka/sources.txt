@@ -143,7 +143,7 @@ II. Compile for GNU/Linux and other UN*X based systems:
 
  - You are smart guys, you can figure it out!
  - Install Allegro library, latest WIP.
-   - http://www.talula.demon.co.uk/allegro/wip.html#unstable
+   - https://www.allegro.cc/
    - $ ./configure --enable-static
    - $ make
    - $ make install
