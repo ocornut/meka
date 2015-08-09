@@ -56,6 +56,7 @@ int Setup_Interactive()
     #else
         // Console setup (DOS & UNIX)
         //return Setup_Interactive_Console();
+        return MEKA_ERR_OK;
     #endif
 }
 
