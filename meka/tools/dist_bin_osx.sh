@@ -5,9 +5,11 @@ RESOURCE_DIR=./Dist/Meka.app/Contents/Resources
 BIN_DIR=./Dist/Meka.app/Contents/MacOS
 DIR=`dirname $0`
 
-DATA_FILES="meka.dat meka.nam meka.thm meka.pat meka.fdb meka.blt meka.dsk meka.inp meka.msg"
+#DATA_FILES="meka.dat meka.nam meka.thm meka.pat meka.fdb meka.blt meka.dsk meka.inp meka.msg"
+DATA_FILES="meka.dat meka.nam meka.thm meka.pat meka.blt meka.inp meka.msg"
 DOC_FILES="meka.txt compat.txt multi.txt changes.txt debugger.txt"
-CONF_FILES="meka.cfg"
+#CONF_FILES="meka.cfg"
+CONF_FILES=""
 
 function copy_to_resources {
 	for file in $1; do
@@ -26,6 +28,8 @@ cd $DIR/..
 rm -fR Dist/Meka.app
 mkdir -p Dist
 cp -r tools/dist_osx/Meka.app_template Dist/Meka.app
+mkdir -p $BIN_DIR
+mkdir -p $RESOURCE_DIR
 cp meka $BIN_DIR
 
 #copy resources files
