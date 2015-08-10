@@ -5,8 +5,8 @@ RESOURCE_DIR=./Dist/Meka.app/Contents/Resources
 BIN_DIR=./Dist/Meka.app/Contents/MacOS
 DIR=`dirname $0`
 
-#DATA_FILES="meka.dat meka.nam meka.thm meka.pat meka.fdb meka.blt meka.dsk meka.inp meka.msg"
-DATA_FILES="meka.dat meka.nam meka.thm meka.pat meka.blt meka.inp meka.msg"
+# Ignoring meka.dat while the 0.8x branch is using the Data/ folder (which we should aim to fix)
+DATA_FILES="meka.nam meka.thm meka.pat meka.blt meka.inp meka.msg"
 DOC_FILES="meka.txt compat.txt multi.txt changes.txt debugger.txt"
 #CONF_FILES="meka.cfg"
 CONF_FILES=""
