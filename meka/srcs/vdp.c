@@ -14,7 +14,6 @@
 #include "video_m2.h"
 
 //#define DEBUG_VDP
-//#define DEBUG_VDP_DATA
 
 //-----------------------------------------------------------------------------
 // Data
@@ -332,9 +331,6 @@ void    Tms_VDP_Out_Data (int value)
     if (sms.VDP_Pal == FALSE)
     {
         // VRAM write
-        #ifdef DEBUG_VDP_DATA
-            Msg(MSGT_DEBUG, "At PC=%04X: VDP[%04X] = %02X", CPU_GetPC, sms.VDP_Address, value);
-        #endif
         VRAM [sms.VDP_Address] = value;
 		sms.VDP_ReadLatch = value;
 
@@ -344,17 +340,11 @@ void    Tms_VDP_Out_Data (int value)
 				Debugger_WrVRAM_Hook(sms.VDP_Address, value);
 		#endif
 
+		sms.VDP_Address = (sms.VDP_Address + 1) & 0x3FFF;
+
         // Mark corresponding tile as dirty
         tgfx.Tile_Dirty [sms.VDP_Address / 32] |= TILE_DIRTY_DECODE;
-
-        // - Sylvantale patching: Catch writes to tile 265
-        // if ((sms.VDP_Address / 32) == 265)
-        //    Msg(MSG_USER, "%04X (%d): VDP[%04X] = %02X", CPU_GetPC, sms.Pages_Reg [0], sms.VDP_Address, value);
-        // - Bart vs. the Space Mutants (GG)
-        // if (sms.VDP_Address >= 0x3800 && sms.VDP_Address < 0x3F00)
-        //    printf ("%04X: VDP[%04X] = %02X\n", CPU_GetPC, sms.VDP_Address, value);
-        sms.VDP_Address = (sms.VDP_Address + 1) & 0x3FFF;
-        return;
+		return;
     }
     else
     {
@@ -362,10 +352,6 @@ void    Tms_VDP_Out_Data (int value)
 		const int address_mask = (g_driver->id == DRV_GG) ? 0x3F : 0x1F;
 
         // Palette/CRAM write
-        #ifdef DEBUG_VDP_DATA
-            Msg(MSGT_DEBUG, "At PC=%04X: PRAM[%04X] = %02X", CPU_GetPC, sms.VDP_Address & address_mask, value);
-        #endif
-
         Tms_VDP_Palette_Write(sms.VDP_Address & address_mask, value);
 		sms.VDP_ReadLatch = value;
 
@@ -453,11 +439,7 @@ u8      Tms_VDP_In_Data (void)
     {
         u8 b = sms.VDP_ReadLatch;
 
-        #ifdef DEBUG_VDP_DATA
-            Msg(MSGT_DEBUG, "At PC=%04X: VDP Read, returning latched %02X", CPU_GetPC, b);
-        #endif
-
-        // Debugger hook
+		// Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
 	        if (Debugger.active)
 		        Debugger_RdVRAM_Hook(sms.VDP_Address, b);
