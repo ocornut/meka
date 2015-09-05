@@ -266,7 +266,7 @@ void Z80_Disassemble_GetDecoratedSymbolFromAddress(const char* mnemonic, u16 add
 	const t_debugger_symbol* symbol = NULL;
 	if (display_symbols)
 	{
-		if (Z80_IsModifyingPC(mnemonic))
+		if (mnemonic && Z80_IsModifyingPC(mnemonic))
 			symbol = Debugger_Symbols_GetClosestPreviousByAddr(addr, 64);		// too misleading for data address so only use for code address
 		else
 			symbol = Debugger_Symbols_GetLastByAddr(addr);
@@ -354,7 +354,7 @@ int     Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symb
 				{
 					// P+2: skip the 'h' in the instruction
 					const u16 addr = ((C == 'x') ? sms.R.IX.W : sms.R.IY.W) + (signed char)Offset;
-					Z80_Disassemble_GetDecoratedSymbolFromAddress(R, addr, H, 256, display_symbols, false);		// Don't display full address because it is obvious (for IX/IY being typically stable)
+					Z80_Disassemble_GetDecoratedSymbolFromAddress(NULL, addr, H, 256, display_symbols, false);		// Don't display full address because it is obvious (for IX/IY being typically stable)
 					snprintf(R, 256, "%.*s%c%d=%s%s", (int)(P-T), T, offset_sign, offset_abs, H, P+2);
 				}
 				else
