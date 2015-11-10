@@ -432,6 +432,17 @@ int main(int argc, char **argv)
     Show_End_Message       (); // Show End Message
 	Close_Allegro			();
 
+    for (i = 0; i != g_env.argc; i++)
+    {
+        if( NULL != g_env.argv[i] )
+            free( g_env.argv[i] );
+    }
+
+    if( NULL != TB_Message.log_filename )
+    {
+        free( TB_Message.log_filename );
+    }
+
     return (0);
 }
 
