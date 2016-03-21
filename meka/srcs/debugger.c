@@ -1662,7 +1662,11 @@ t_debugger_symbol *     Debugger_Symbol_Add(u16 cpu_addr, int bank, const char *
     // Create and setup symbol
     t_debugger_symbol* symbol = new t_debugger_symbol();
     symbol->cpu_addr = cpu_addr;
-	symbol->rom_addr = (bank >= 0) ? ((bank * 0x4000) + (symbol->cpu_addr & 0x3fff)) : (u32)-1;
+	symbol->rom_addr = (u32)-1;
+	if (bank == 0)
+		symbol->rom_addr = symbol->cpu_addr;
+	if (bank > 0)
+		symbol->rom_addr = ((bank * 0x4000) + (symbol->cpu_addr & 0x3fff));
     symbol->bank = bank;
     symbol->name = strdup(name);
     symbol->name_uppercase = strdup(name);
