@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="deps">
+      <UniqueIdentifier>{a5be66af-df94-4229-8108-c7289ada6f8f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\db.c">
+      <Filter>deps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libmisc.c">
+      <Filter>deps</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libparse.c">
+      <Filter>deps</Filter>
+    </ClCompile>
+    <ClCompile Include="replacement_code.cpp" />
+    <ClCompile Include="smsid.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\db.h">
+      <Filter>deps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libmisc.h">
+      <Filter>deps</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libparse.h">
+      <Filter>deps</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

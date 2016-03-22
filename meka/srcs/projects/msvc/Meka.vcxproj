@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}</ProjectGuid>
+    <RootNamespace>Meka</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../../../objs/meka/$(Configuration)\</OutDir>
+    <IntDir>../../../objs/meka/$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\..\objs\meka\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\objs\meka\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>mekaw</TargetName>
+    <CustomBuildAfterTargets>Link</CustomBuildAfterTargets>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/Meka.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../..;../../../libs/seal/include/;../../../libs/libpng/include/;../../../libs/dx70_min/include/;../../../libs/zlib/;../../../libs/allegro/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling />
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>shared.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)shared.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>./$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>./$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>./$(IntDir)</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0000</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>allegro-5.0.10-static-md-debug.lib;allegro_font-5.0.10-static-md-debug.lib;allegro_primitives-5.0.10-static-md-debug.lib;allegro_image-5.0.10-static-md-debug.lib;allegro_audio-5.0.10-static-md-debug.lib;allegro_ttf-5.0.10-static-md-debug.lib;openal-1.14-static-md-debug.lib;freetype-2.4.8-static-md.lib;zlib.lib;kernel32.lib;user32.lib;gdi32.lib;gdiplus.lib;comdlg32.lib;comctl32.lib;ole32.lib;winmm.lib;shlwapi.lib;psapi.lib;opengl32.lib;dxguid.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>../../../mekaw.exe</OutputFile>
+      <Version />
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>../../../libs/zlib/;../../../libs/allegro/lib/;$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmt; msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)mekaw.pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName />
+      <MapExports>false</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/Meka.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>../..;../../../libs/allegro/include/;../../../libs/allegro_deps/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling />
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>shared.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)shared.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>./$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>./$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>./$(IntDir)</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0000</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/MACHINE:I386 /IGNORE:4204 %(AdditionalOptions)</AdditionalOptions>
+      <ShowProgress>NotSet</ShowProgress>
+      <Version />
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>../../../libs/allegro/lib/;../../../libs/allegro_deps/lib/;$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <ModuleDefinitionFile />
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)mekaw.pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName />
+      <MapExports>false</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention />
+      <AdditionalDependencies>allegro-static.lib;allegro_font-static.lib;allegro_primitives-static.lib;allegro_image-static.lib;allegro_audio-static.lib;allegro_ttf-static.lib;freetype.lib;jpeg.lib;libpng16.lib;zlib.lib;kernel32.lib;user32.lib;gdi32.lib;gdiplus.lib;comdlg32.lib;comctl32.lib;ole32.lib;winmm.lib;shlwapi.lib;psapi.lib;opengl32.lib;dxguid.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <CustomBuildStep>
+      <Command>copy /Y $(OutDir)$(TargetName)$(TargetExt) ..\..\..</Command>
+      <Outputs>..\.\..\mekaw.exe</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\changes.txt" />
+    <Text Include="..\..\..\compat.txt" />
+    <Text Include="..\..\..\debugger.txt" />
+    <Text Include="..\..\..\history.txt" />
+    <Text Include="..\..\..\meka.txt" />
+    <Text Include="..\..\..\multi.txt" />
+    <Text Include="..\..\..\sources.txt" />
+    <Text Include="..\..\..\tech.txt" />
+    <Text Include="..\..\..\todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\meka.blt" />
+    <None Include="..\..\..\meka.dsk" />
+    <None Include="..\..\..\meka.fdb" />
+    <None Include="..\..\..\meka.inp" />
+    <None Include="..\..\..\meka.msg" />
+    <None Include="..\..\..\meka.nam" />
+    <None Include="..\..\..\meka.pat" />
+    <None Include="..\..\..\meka.thm" />
+    <None Include="..\..\..\mekaw.cfg" />
+    <CustomBuild Include="..\..\eagle.asm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\hq2x16.asm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="..\..\hq2x32.asm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+    <None Include="..\..\Makefile" />
+    <CustomBuild Include="..\..\videoasm.asm">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Assembling %(FullPath)</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
+</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\allegro4to5.c" />
+    <ClCompile Include="..\..\app_about.c" />
+    <ClCompile Include="..\..\app_cheatfinder.c" />
+    <ClCompile Include="..\..\app_filebrowser.c" />
+    <ClCompile Include="..\..\app_game.c" />
+    <ClCompile Include="..\..\app_mapview.c" />
+    <ClCompile Include="..\..\app_memview.c" />
+    <ClCompile Include="..\..\app_options.c" />
+    <ClCompile Include="..\..\app_palview.c" />
+    <ClCompile Include="..\..\app_techinfo.c" />
+    <ClCompile Include="..\..\app_textview.c" />
+    <ClCompile Include="..\..\app_tileview.c" />
+    <ClCompile Include="..\..\areplay.c" />
+    <ClCompile Include="..\..\beam.c" />
+    <ClCompile Include="..\..\bios.c" />
+    <ClCompile Include="..\..\blit.c" />
+    <ClCompile Include="..\..\blitintf.c" />
+    <ClCompile Include="..\..\blit_c.c" />
+    <ClCompile Include="..\..\bmemory.c" />
+    <ClCompile Include="..\..\build.c" />
+    <ClCompile Include="..\..\capture.c" />
+    <ClCompile Include="..\..\checksum.c" />
+    <ClCompile Include="..\..\coleco.c" />
+    <ClCompile Include="..\..\commport.c" />
+    <ClCompile Include="..\..\config.c" />
+    <ClCompile Include="..\..\country.c" />
+    <ClCompile Include="..\..\cpu.c" />
+    <ClCompile Include="..\..\data.c" />
+    <ClCompile Include="..\..\datadump.c" />
+    <ClCompile Include="..\..\db.c" />
+    <ClCompile Include="..\..\debugger.c" />
+    <ClCompile Include="..\..\desktop.c" />
+    <ClCompile Include="..\..\drivers.c" />
+    <ClCompile Include="..\..\eeprom.c" />
+    <ClCompile Include="..\..\effects.c" />
+    <ClCompile Include="..\..\errors.c" />
+    <ClCompile Include="..\..\fdc765.c" />
+    <ClCompile Include="..\..\file.c" />
+    <ClCompile Include="..\..\fonts.c" />
+    <ClCompile Include="..\..\fskipper.c" />
+    <ClCompile Include="..\..\glasses.c" />
+    <ClCompile Include="..\..\gui.c" />
+    <ClCompile Include="..\..\g_action.c" />
+    <ClCompile Include="..\..\g_box.c" />
+    <ClCompile Include="..\..\g_init.c" />
+    <ClCompile Include="..\..\g_menu.c" />
+    <ClCompile Include="..\..\g_menu_i.c" />
+    <ClCompile Include="..\..\g_menu_t.c" />
+    <ClCompile Include="..\..\g_mouse.c" />
+    <ClCompile Include="..\..\g_tools.c" />
+    <ClCompile Include="..\..\g_update.c" />
+    <ClCompile Include="..\..\g_widget.c" />
+    <ClCompile Include="..\..\hq2x.c" />
+    <ClCompile Include="..\..\inputs.c" />
+    <ClCompile Include="..\..\inputs_c.c" />
+    <ClCompile Include="..\..\inputs_f.c" />
+    <ClCompile Include="..\..\inputs_i.c" />
+    <ClCompile Include="..\..\inputs_t.c" />
+    <ClCompile Include="..\..\inputs_u.c" />
+    <ClCompile Include="..\..\ioports.c" />
+    <ClCompile Include="..\..\keyinfo.c" />
+    <ClCompile Include="..\..\libmisc.c" />
+    <ClCompile Include="..\..\libparse.c" />
+    <ClCompile Include="..\..\lightgun.c" />
+    <ClCompile Include="..\..\machine.c" />
+    <ClCompile Include="..\..\mainloop.c" />
+    <ClCompile Include="..\..\mappers.c" />
+    <ClCompile Include="..\..\meka.c" />
+    <ClCompile Include="..\..\message.c" />
+    <ClCompile Include="..\..\misc.c" />
+    <ClCompile Include="..\..\palette.c" />
+    <ClCompile Include="..\..\patch.c" />
+    <ClCompile Include="..\..\periph.c" />
+    <ClCompile Include="..\..\rapidfir.c" />
+    <ClCompile Include="..\..\saves.c" />
+    <ClCompile Include="..\..\sdsc.c" />
+    <ClCompile Include="..\..\setup.c" />
+    <ClCompile Include="..\..\sf7000.c" />
+    <ClCompile Include="..\..\sg1ksc3k.c" />
+    <ClCompile Include="..\..\shared.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\sk1100.c" />
+    <ClCompile Include="..\..\skin.c" />
+    <ClCompile Include="..\..\skin_bg.c" />
+    <ClCompile Include="..\..\skin_fx.c" />
+    <ClCompile Include="..\..\sound\emu2413\emu2413.c" />
+    <ClCompile Include="..\..\sound\emu2413\mekaintf.c" />
+    <ClCompile Include="..\..\sound\fmeditor.c" />
+    <ClCompile Include="..\..\sound\fmunit.c" />
+    <ClCompile Include="..\..\sound\psg.c" />
+    <ClCompile Include="..\..\sound\sound.c" />
+    <ClCompile Include="..\..\sound\sound_logging.c" />
+    <ClCompile Include="..\..\sound\s_misc.c" />
+    <ClCompile Include="..\..\sound\vgm.c" />
+    <ClCompile Include="..\..\sound\wav.c" />
+    <ClCompile Include="..\..\textbox.c" />
+    <ClCompile Include="..\..\tools.c" />
+    <ClCompile Include="..\..\tvoekaki.c" />
+    <ClCompile Include="..\..\tvtype.c" />
+    <ClCompile Include="..\..\unzip.c" />
+    <ClCompile Include="..\..\vdp.c" />
+    <ClCompile Include="..\..\video.c" />
+    <ClCompile Include="..\..\video_c.c" />
+    <ClCompile Include="..\..\video_m2.c" />
+    <ClCompile Include="..\..\video_m5.c" />
+    <ClCompile Include="..\..\vlfn.c" />
+    <ClCompile Include="..\..\vmachine.c" />
+    <ClCompile Include="..\..\z80marat\Debug.c" />
+    <ClCompile Include="..\..\z80marat\Z80.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\z80marat\Z80Call.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\..\z80marat\Z80DebugHelpers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\allegro4to5.h" />
+    <ClInclude Include="..\..\app_about.h" />
+    <ClInclude Include="..\..\app_cheatfinder.h" />
+    <ClInclude Include="..\..\app_filebrowser.h" />
+    <ClInclude Include="..\..\app_game.h" />
+    <ClInclude Include="..\..\app_mapview.h" />
+    <ClInclude Include="..\..\app_memview.h" />
+    <ClInclude Include="..\..\app_options.h" />
+    <ClInclude Include="..\..\app_palview.h" />
+    <ClInclude Include="..\..\app_techinfo.h" />
+    <ClInclude Include="..\..\app_textview.h" />
+    <ClInclude Include="..\..\app_tileview.h" />
+    <ClInclude Include="..\..\areplay.h" />
+    <ClInclude Include="..\..\beam.h" />
+    <ClInclude Include="..\..\bios.h" />
+    <ClInclude Include="..\..\blit.h" />
+    <ClInclude Include="..\..\blitintf.h" />
+    <ClInclude Include="..\..\blit_c.h" />
+    <ClInclude Include="..\..\bmemory.h" />
+    <ClInclude Include="..\..\capture.h" />
+    <ClInclude Include="..\..\checksum.h" />
+    <ClInclude Include="..\..\coleco.h" />
+    <ClInclude Include="..\..\commport.h" />
+    <ClInclude Include="..\..\config.h" />
+    <ClInclude Include="..\..\country.h" />
+    <ClInclude Include="..\..\cpu.h" />
+    <ClInclude Include="..\..\data.h" />
+    <ClInclude Include="..\..\datadump.h" />
+    <ClInclude Include="..\..\db.h" />
+    <ClInclude Include="..\..\debugger.h" />
+    <ClInclude Include="..\..\desktop.h" />
+    <ClInclude Include="..\..\drivers.h" />
+    <ClInclude Include="..\..\eagle.h" />
+    <ClInclude Include="..\..\eeprom.h" />
+    <ClInclude Include="..\..\effects.h" />
+    <ClInclude Include="..\..\errors.h" />
+    <ClInclude Include="..\..\fdc765.h" />
+    <ClInclude Include="..\..\file.h" />
+    <ClInclude Include="..\..\fonts.h" />
+    <ClInclude Include="..\..\fskipper.h" />
+    <ClInclude Include="..\..\glasses.h" />
+    <ClInclude Include="..\..\grab.h" />
+    <ClInclude Include="..\..\gui.h" />
+    <ClInclude Include="..\..\g_action.h" />
+    <ClInclude Include="..\..\g_box.h" />
+    <ClInclude Include="..\..\g_init.h" />
+    <ClInclude Include="..\..\g_menu.h" />
+    <ClInclude Include="..\..\g_menu_i.h" />
+    <ClInclude Include="..\..\g_menu_t.h" />
+    <ClInclude Include="..\..\g_mouse.h" />
+    <ClInclude Include="..\..\g_tools.h" />
+    <ClInclude Include="..\..\g_update.h" />
+    <ClInclude Include="..\..\g_widget.h" />
+    <ClInclude Include="..\..\hq2x.h" />
+    <ClInclude Include="..\..\inputs.h" />
+    <ClInclude Include="..\..\inputs_c.h" />
+    <ClInclude Include="..\..\inputs_f.h" />
+    <ClInclude Include="..\..\inputs_i.h" />
+    <ClInclude Include="..\..\inputs_t.h" />
+    <ClInclude Include="..\..\inputs_u.h" />
+    <ClInclude Include="..\..\ioports.h" />
+    <ClInclude Include="..\..\keyinfo.h" />
+    <ClInclude Include="..\..\libmisc.h" />
+    <ClInclude Include="..\..\libparse.h" />
+    <ClInclude Include="..\..\lightgun.h" />
+    <ClInclude Include="..\..\machine.h" />
+    <ClInclude Include="..\..\mainloop.h" />
+    <ClInclude Include="..\..\mappers.h" />
+    <ClInclude Include="..\..\meka.h" />
+    <ClInclude Include="..\..\message.h" />
+    <ClInclude Include="..\..\misc.h" />
+    <ClInclude Include="..\..\palette.h" />
+    <ClInclude Include="..\..\patch.h" />
+    <ClInclude Include="..\..\periph.h" />
+    <ClInclude Include="..\..\rapidfir.h" />
+    <ClInclude Include="..\..\saves.h" />
+    <ClInclude Include="..\..\sdsc.h" />
+    <ClInclude Include="..\..\setup.h" />
+    <ClInclude Include="..\..\sf7000.h" />
+    <ClInclude Include="..\..\sg1ksc3k.h" />
+    <ClInclude Include="..\..\shared.h" />
+    <ClInclude Include="..\..\sk1100.h" />
+    <ClInclude Include="..\..\skin.h" />
+    <ClInclude Include="..\..\skin_bg.h" />
+    <ClInclude Include="..\..\skin_fx.h" />
+    <ClInclude Include="..\..\sound\emu2413\2413tone.h" />
+    <ClInclude Include="..\..\sound\emu2413\emu2413.h" />
+    <ClInclude Include="..\..\sound\emu2413\emutypes.h" />
+    <ClInclude Include="..\..\sound\emu2413\mekaintf.h" />
+    <ClInclude Include="..\..\sound\fmeditor.h" />
+    <ClInclude Include="..\..\sound\fmunit.h" />
+    <ClInclude Include="..\..\sound\psg.h" />
+    <ClInclude Include="..\..\sound\sound.h" />
+    <ClInclude Include="..\..\sound\sound_logging.h" />
+    <ClInclude Include="..\..\sound\s_misc.h" />
+    <ClInclude Include="..\..\sound\vgm.h" />
+    <ClInclude Include="..\..\sound\wav.h" />
+    <ClInclude Include="..\..\system.h" />
+    <ClInclude Include="..\..\textbox.h" />
+    <ClInclude Include="..\..\tools.h" />
+    <ClInclude Include="..\..\tvoekaki.h" />
+    <ClInclude Include="..\..\tvtype.h" />
+    <ClInclude Include="..\..\unzip.h" />
+    <ClInclude Include="..\..\vdp.h" />
+    <ClInclude Include="..\..\video.h" />
+    <ClInclude Include="..\..\video_c.h" />
+    <ClInclude Include="..\..\video_m2.h" />
+    <ClInclude Include="..\..\video_m5.h" />
+    <ClInclude Include="..\..\vlfn.h" />
+    <ClInclude Include="..\..\vmachine.h" />
+    <ClInclude Include="..\..\vmachpal.h" />
+    <ClInclude Include="..\..\z80marat\Codes.h" />
+    <ClInclude Include="..\..\z80marat\CodesCB.h" />
+    <ClInclude Include="..\..\z80marat\CodesED.h" />
+    <ClInclude Include="..\..\z80marat\CodesXCB.h" />
+    <ClInclude Include="..\..\z80marat\CodesXX.h" />
+    <ClInclude Include="..\..\z80marat\Tables.h" />
+    <ClInclude Include="..\..\z80marat\Z80.h" />
+    <ClInclude Include="..\..\z80marat\Z80DebugHelpers.h" />
+    <ClInclude Include="..\..\z80marat\Z80OpcodeEnums.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Meka.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="mekaw.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,836 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Docs">
+      <UniqueIdentifier>{4f66665f-f566-4046-a869-cf42d62c5f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{1add6800-429b-4faa-8637-6842e2a5ca82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs">
+      <UniqueIdentifier>{77da84d4-7adb-42ce-94e3-752f4797ee2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Sound">
+      <UniqueIdentifier>{73ce6f69-b4b2-4eb3-ae6f-6b3486b253ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Sound\PSG">
+      <UniqueIdentifier>{85fd0f3b-e518-4f0b-a178-df43d15a8c25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Sound\Emu2413">
+      <UniqueIdentifier>{87edded6-23c2-452a-9ca2-0f6e8558d8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\CPU">
+      <UniqueIdentifier>{c3bbca8b-9b5b-47b4-87e5-e9dfca36a374}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\CPU\Z80marat">
+      <UniqueIdentifier>{6c6d1c5d-9dcb-4df8-b498-68c9957be26b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\GUI">
+      <UniqueIdentifier>{c9c85590-abd2-4b12-8309-a43323d56f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Video">
+      <UniqueIdentifier>{a1be508c-b7b3-4c6c-863e-934a317d32f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Video\HQ2X">
+      <UniqueIdentifier>{6bb1ab42-f8c0-4955-bba1-57d9bd33dad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Peripherals">
+      <UniqueIdentifier>{74ead6c4-d1d6-48d6-b0d6-8faddff689fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Machines">
+      <UniqueIdentifier>{0c026409-962a-4e36-8d33-bb9961ac3127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Applets">
+      <UniqueIdentifier>{0d08e4c3-9e73-46e3-9fd8-5424635e9a29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Srcs\Debugger">
+      <UniqueIdentifier>{e86793e4-c4d1-42b4-98c9-74948df96535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{a733b7ed-c60b-481a-b5d2-841729f0bd9f}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\changes.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\compat.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\debugger.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\history.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\meka.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\multi.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\sources.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\tech.txt">
+      <Filter>Docs</Filter>
+    </Text>
+    <Text Include="..\..\..\todo.txt">
+      <Filter>Docs</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\meka.blt">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.dsk">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.fdb">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.inp">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.msg">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.nam">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.pat">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\meka.thm">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\..\mekaw.cfg">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\Makefile">
+      <Filter>Srcs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\allegro4to5.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bmemory.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\build.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\capture.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\checksum.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\commport.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\config.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\country.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpu.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\data.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\db.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\eeprom.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\effects.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\errors.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fdc765.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\file.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fonts.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fskipper.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inputs.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inputs_c.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inputs_f.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inputs_i.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inputs_t.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\inputs_u.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libmisc.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libparse.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mainloop.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\mappers.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\meka.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\message.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\misc.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\patch.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\saves.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sdsc.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\setup.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\shared.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tools.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tvtype.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\unzip.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vlfn.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vmachine.c">
+      <Filter>Srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\fmeditor.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\fmunit.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\s_misc.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\sound.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\sound_logging.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\vgm.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\wav.c">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\psg.c">
+      <Filter>Srcs\Sound\PSG</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\emu2413\emu2413.c">
+      <Filter>Srcs\Sound\Emu2413</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sound\emu2413\mekaintf.c">
+      <Filter>Srcs\Sound\Emu2413</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\z80marat\Debug.c">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\z80marat\Z80.c">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\z80marat\Z80Call.c">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\z80marat\Z80DebugHelpers.cpp">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\desktop.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_action.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_box.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_init.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_menu.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_menu_i.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_menu_t.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_mouse.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_tools.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_update.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\g_widget.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gui.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\skin.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\skin_bg.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\skin_fx.c">
+      <Filter>Srcs\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\beam.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\blit.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\blit_c.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\blitintf.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\palette.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vdp.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\video.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\video_c.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\video_m2.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\video_m5.c">
+      <Filter>Srcs\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\hq2x.c">
+      <Filter>Srcs\Video\HQ2X</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\areplay.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\glasses.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\keyinfo.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lightgun.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\periph.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\rapidfir.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sk1100.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tvoekaki.c">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\bios.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\coleco.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\drivers.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ioports.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\machine.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sf7000.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\sg1ksc3k.c">
+      <Filter>Srcs\Machines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_about.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_cheatfinder.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_filebrowser.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_game.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_mapview.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_memview.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_options.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_palview.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_techinfo.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_textview.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\app_tileview.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\textbox.c">
+      <Filter>Srcs\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\datadump.c">
+      <Filter>Srcs\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\debugger.c">
+      <Filter>Srcs\Debugger</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\allegro4to5.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bmemory.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\capture.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\checksum.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\commport.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\config.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\country.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpu.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\data.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\db.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\eeprom.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\effects.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\errors.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\fdc765.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\file.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\fonts.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\fskipper.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\grab.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inputs.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inputs_c.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inputs_f.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inputs_i.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inputs_t.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\inputs_u.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libmisc.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libparse.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mainloop.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mappers.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\meka.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\message.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\misc.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\patch.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\saves.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sdsc.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\setup.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\shared.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\system.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tools.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tvtype.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\unzip.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vlfn.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vmachine.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vmachpal.h">
+      <Filter>Srcs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\fmeditor.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\fmunit.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\s_misc.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\sound.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\sound_logging.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\vgm.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\wav.h">
+      <Filter>Srcs\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\psg.h">
+      <Filter>Srcs\Sound\PSG</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\emu2413\2413tone.h">
+      <Filter>Srcs\Sound\Emu2413</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\emu2413\emu2413.h">
+      <Filter>Srcs\Sound\Emu2413</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\emu2413\emutypes.h">
+      <Filter>Srcs\Sound\Emu2413</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sound\emu2413\mekaintf.h">
+      <Filter>Srcs\Sound\Emu2413</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\Codes.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\CodesCB.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\CodesED.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\CodesXCB.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\CodesXX.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\Tables.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\Z80.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\Z80DebugHelpers.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\z80marat\Z80OpcodeEnums.h">
+      <Filter>Srcs\CPU\Z80marat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\desktop.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_action.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_box.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_init.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_menu.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_menu_i.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_menu_t.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_mouse.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_tools.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_update.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\g_widget.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gui.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\skin.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\skin_bg.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\skin_fx.h">
+      <Filter>Srcs\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\beam.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\blit.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\blit_c.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\blitintf.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\eagle.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\palette.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\vdp.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\video.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\video_c.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\video_m2.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\video_m5.h">
+      <Filter>Srcs\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\hq2x.h">
+      <Filter>Srcs\Video\HQ2X</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\areplay.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\glasses.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\keyinfo.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lightgun.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\periph.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\rapidfir.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sk1100.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tvoekaki.h">
+      <Filter>Srcs\Peripherals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\bios.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\coleco.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\drivers.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ioports.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\machine.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sf7000.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\sg1ksc3k.h">
+      <Filter>Srcs\Machines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_about.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_cheatfinder.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_filebrowser.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_game.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_mapview.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_memview.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_options.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_palview.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_techinfo.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_textview.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\app_tileview.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\textbox.h">
+      <Filter>Srcs\Applets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\datadump.h">
+      <Filter>Srcs\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\debugger.h">
+      <Filter>Srcs\Debugger</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Meka.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="mekaw.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\eagle.asm">
+      <Filter>Srcs\Video</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\videoasm.asm">
+      <Filter>Srcs\Video</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\hq2x16.asm">
+      <Filter>Srcs\Video\HQ2X</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\..\hq2x32.asm">
+      <Filter>Srcs\Video\HQ2X</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
