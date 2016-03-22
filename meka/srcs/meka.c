@@ -124,9 +124,6 @@ static void Init_LookUpTables()
 {
     Coleco_Init_Table_Inputs();
 	Mapper_InitializeLookupTables();
-    #ifdef X86_ASM
-        Decode_Tile_ASM_Init();
-    #endif
 }
 
 // Initialize default configuration settings

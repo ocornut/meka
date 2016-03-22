@@ -7,17 +7,8 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-#ifdef X86_ASM
-extern "C"
-{
- int     Decode_Tile_ASM (int, byte *);
- int     Decode_Tile_ASM_Init (void);
- void    Sprite_Collide_Line_ASM (byte *p_src, int x);
-}
-#else
- void    Decode_Tile_C (int, byte *);
- void    Sprite_Collide_Line_C (byte *p_src, int x);
-#endif
+void    Decode_Tile_C (int, byte *);
+void    Sprite_Collide_Line_C (byte *p_src, int x);
 
 void	Find_Last_Sprite(int sprites_height, int VDP_Line);
 void    Find_Last_Sprite_Wide(int sprites_height, int VDP_Line);

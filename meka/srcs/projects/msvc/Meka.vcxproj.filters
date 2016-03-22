@@ -817,9 +817,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\videoasm.asm">
-      <Filter>Srcs\Video</Filter>
-    </CustomBuild>
     <CustomBuild Include="..\..\hq2x16.asm">
       <Filter>Srcs\Video\HQ2X</Filter>
     </CustomBuild>

@@ -36,7 +36,7 @@ void    Blit_Fullscreen_HQ2X            (void);
 //-----------------------------------------------------------------------------
 
 // Buffers
-extern ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;    // Line buffer stratch pad
+extern ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;    // Line buffer scratch pad
 extern ALLEGRO_BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
 
 //-----------------------------------------------------------------------------

@@ -71,9 +71,8 @@ RM      = rm
 MV      = ren
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DARCH_DOS -DX86_ASM
+DEF_OS  = -DARCH_DOS
 INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
-X86_ASM = yes
 #--- Libraries
 LIB_OS  = -lm -L$(LIBPNGDIR)
 ALL_FILES=*.*
@@ -96,9 +95,8 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DARCH_UNIX #-DX86_ASM -DASM_SYMBOLS_REQUIRE_UNDERSCORE
+DEF_OS  = -DARCH_UNIX -DASM_SYMBOLS_REQUIRE_UNDERSCORE
 INC_OS  = -Ilibs -I../include -I/usr/include/allegro5
-X86_ASM = no
 #--- Libraries
 LIB_OS  = 
 ALL_FILES=*
@@ -123,7 +121,6 @@ MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_MACOSX -DUNIX
 INC_OS  = -Ilibs -I../include -I/usr/local/include
-X86_ASM = no
 #--- Libraries
 LIB_OS = -l freetype -framework OpenGL -framework CoreFoundation -framework OpenAL -framework AudioToolbox -framework AppKit -framework IOKit
 LIB_PATHS = -L/usr/local/lib
@@ -151,9 +148,8 @@ MKDIR   = md
 RC      = rc
 
 #--- Definitions
-DEF_OS  = -DARCH_WIN32 -DX86_ASM
+DEF_OS  = -DARCH_WIN32
 INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
-X86_ASM = yes
 
 #--- Librairies
 LIB_OS          = kernel32.lib user32.lib gdi32.lib comdlg32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib
@@ -238,11 +234,6 @@ OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
 OBJ_VIDEO = $(OD)/video.o $(OD)/video_m2.o $(OD)/video_m5.o $(OD)/video_c.o $(OD)/vdp.o $(OD)/palette.o $(OD)/effects.o $(OD)/fskipper.o
 OBJ_MACH  = $(OD)/sg1ksc3k.o $(OD)/sf7000.o $(OD)/coleco.o $(OD)/fdc765.o
-
-ifeq ($(X86_ASM), yes)
-OBJ_EMU += $(OD)/mappersa.o
-OBJ_VIDEO += $(OD)/videoasm.o
-endif
 
 #-----------------------------------------------------
 # Includes directory
