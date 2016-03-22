@@ -43,6 +43,7 @@ extern t_video_driver*	g_video_driver_default;
 
 void    Video_Init();
 void	Video_CreateVideoBuffers();
+void	Video_DestroyVideoBuffers();
 
 void    Video_ClearScreenBackBuffer();
 void    Video_Setup_State();

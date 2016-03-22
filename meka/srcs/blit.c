@@ -72,12 +72,23 @@ void    Blit_Init (void)
     HQ2X_Init();
 }
 
-void	Blit_CreateVideoBuffers()
+void	Blit_DestroyVideoBuffers()
 {
 	if (Blit_Buffer_LineScratch)
+    {
 		al_destroy_bitmap(Blit_Buffer_LineScratch);
+        Blit_Buffer_LineScratch = NULL;
+    }
 	if (Blit_Buffer_Double)
+    {
 		al_destroy_bitmap(Blit_Buffer_Double);
+        Blit_Buffer_Double = NULL;
+    }
+}
+
+void	Blit_CreateVideoBuffers()
+{
+    Blit_DestroyVideoBuffers();
 
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_game_format_request);

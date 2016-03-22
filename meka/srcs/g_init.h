@@ -12,6 +12,7 @@ void    GUI_Close(void);
 
 void	GUI_SetupNewVideoMode();
 void	GUI_CreateVideoBuffers();
+void	GUI_DestroyVideoBuffers();
 
 //-----------------------------------------------------------------------------
 

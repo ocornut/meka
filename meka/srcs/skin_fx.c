@@ -54,13 +54,21 @@ void SkinFx_Init()
 
 void SkinFx_CreateVideoBuffers()
 {
+    SkinFx_DestroyVideoBuffers();
+
 	const int hw = al_get_bitmap_width(Graphics.Misc.Heart1);
 	const int hh = al_get_bitmap_height(Graphics.Misc.Heart1);
+    for (int i = 0; i != MAX_HEARTS; i ++)
+        hearts_save [i] = al_create_bitmap(hw, hh);
+}
+
+void SkinFx_DestroyVideoBuffers()
+{
     for (int i = 0; i != MAX_HEARTS; i ++)
     {
 		if (hearts_save[i] != NULL)
 			al_destroy_bitmap(hearts_save[i]);
-        hearts_save [i] = al_create_bitmap(hw, hh);
+        hearts_save[i] = NULL;
     }
 }
 

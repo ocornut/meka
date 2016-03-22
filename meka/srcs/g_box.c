@@ -263,6 +263,12 @@ t_gui_box *	gui_box_new(const t_frame *frame, const char *title)
     return (box);
 }
 
+void    gui_box_destroy_video_buffer(t_gui_box* box)
+{
+	al_destroy_bitmap(box->gfx_buffer);
+    box->gfx_buffer = NULL;
+}
+
 void	gui_box_create_video_buffer(t_gui_box *box)
 {
 	int sx, sy;
@@ -273,7 +279,7 @@ void	gui_box_create_video_buffer(t_gui_box *box)
 		// (as used by Tilemap Viewer, but we may switch to properly recreating the video buffer)
 		sx = al_get_bitmap_width(box->gfx_buffer);
 		sy = al_get_bitmap_height(box->gfx_buffer);
-		al_destroy_bitmap(box->gfx_buffer);
+        gui_box_destroy_video_buffer(box);
 	}
 	else
 	{

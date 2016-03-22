@@ -108,10 +108,11 @@ extern t_data_graphics     Graphics;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Data_Init                   (void);
-void    Data_Close                  (void);
+void    Data_Init                   ();
+void    Data_Close                  ();
 
-void    Data_CreateVideoBuffers     (void);
+void    Data_CreateVideoBuffers     ();
+void    Data_DestroyVideoBuffers    ();
 bool	Data_LoadFont(ALLEGRO_FONT** pfont, const char* name, int size);
 
 //-----------------------------------------------------------------------------

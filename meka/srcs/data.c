@@ -252,13 +252,18 @@ void Data_LoadBinaries()
 
 void    Data_Close(void)
 {
-	DataProcessFlags = DATA_PROCESS_FREE;
-	Data_ProcessVideoBitmaps();
+    Data_DestroyVideoBuffers();
 }
 
 void    Data_CreateVideoBuffers()
 {
 	DataProcessFlags = DATA_PROCESS_FREE | DATA_PROCESS_LOAD;
+	Data_ProcessVideoBitmaps();
+}
+
+void    Data_DestroyVideoBuffers()
+{
+	DataProcessFlags = DATA_PROCESS_FREE;
 	Data_ProcessVideoBitmaps();
 }
 

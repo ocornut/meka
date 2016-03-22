@@ -84,9 +84,8 @@ void	GUI_SetupNewVideoMode()
     }
 }
 
-void	GUI_CreateVideoBuffers()
+void	GUI_DestroyVideoBuffers()
 {
-    // Destroy existing buffers (if any)
     if (gui_buffer != NULL)
     {
         al_destroy_bitmap(gui_buffer);
@@ -95,6 +94,18 @@ void	GUI_CreateVideoBuffers()
         al_destroy_bitmap(gui_background);
         gui_background = NULL;
     }
+
+    // Recreate existing windows buffers
+    for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
+    {
+        t_gui_box* box = (t_gui_box*)boxes->elem;;
+		gui_box_destroy_video_buffer(box);
+	}
+}
+
+void	GUI_CreateVideoBuffers()
+{
+    GUI_DestroyVideoBuffers();
 
     // Setup buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);

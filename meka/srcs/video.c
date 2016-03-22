@@ -59,7 +59,7 @@ void    Video_Init()
 	fs_out								= NULL;
 }
 
-void Video_CreateVideoBuffers()
+void Video_DestroyVideoBuffers()
 {
 	if (Screenbuffer_IsLocked())
 		Screenbuffer_ReleaseLock();
@@ -69,7 +69,19 @@ void Video_CreateVideoBuffers()
 	if (screenbuffer_2)
 		al_destroy_bitmap(screenbuffer_2);
 
-	// Allocate buffers
+    screenbuffer_1 = screenbuffer_2 = NULL;
+
+    GUI_DestroyVideoBuffers();
+    Data_DestroyVideoBuffers();
+    Blit_DestroyVideoBuffers();
+	SkinFx_DestroyVideoBuffers();
+}
+
+void Video_CreateVideoBuffers()
+{
+    Video_DestroyVideoBuffers();
+
+    // Allocate buffers
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_game_format_request);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
@@ -81,6 +93,12 @@ void Video_CreateVideoBuffers()
 	g_screenbuffer_format = al_get_bitmap_format(screenbuffer_1);
 
 	Screenbuffer_AcquireLock();
+
+	Blit_CreateVideoBuffers();
+	Data_CreateVideoBuffers();
+	SkinFx_CreateVideoBuffers();
+	if (g_env.state == MEKA_STATE_GUI)
+		GUI_SetupNewVideoMode();
 }
 
 static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool fullscreen, int refresh_rate, bool fatal)
@@ -106,6 +124,8 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
     previous_mode.h = h;
 	previous_mode.fullscreen = fullscreen;
     previous_mode.refresh_rate = refresh_rate;
+
+    Video_DestroyVideoBuffers();
 
     // Set new mode
 	if (g_display != NULL)
@@ -149,17 +169,12 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
     al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
 
 	// Recreate all video buffers
-	Blit_CreateVideoBuffers();
 	Video_CreateVideoBuffers();
-	Data_CreateVideoBuffers();
-	SkinFx_CreateVideoBuffers();
-	if (g_env.state == MEKA_STATE_GUI)
-		GUI_SetupNewVideoMode();
 
     return (MEKA_ERR_OK);
 }
 
-void    Video_GameMode_UpdateBounds(void)
+void    Video_GameMode_UpdateBounds()
 {
     // Compute game area position to be centered on the screen
 	Blit_Fullscreen_UpdateBounds();
@@ -278,21 +293,20 @@ void	Video_EnumerateDisplayModes()
 		g_video.display_mode_current_index = closest_index;
 }
 
-void    Video_Setup_State(void)
+void    Video_Setup_State()
 {
     switch (g_env.state)
     {
     case MEKA_STATE_SHUTDOWN:
         {
-			al_destroy_display(g_display);
+            Video_DestroyVideoBuffers();
+            if (g_display)
+    			al_destroy_display(g_display);
 			g_display = NULL;
-            //set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
             break;
         }
     case MEKA_STATE_GAME: // FullScreen mode ----------------------------
         {
-			//const int game_res_x = Blitters.current->res_x;
-			//const int game_res_y = Blitters.current->res_y;
 			const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
 			const int game_res_x = g_configuration.video_mode_gui_res_x;
 			const int game_res_y = g_configuration.video_mode_gui_res_y;
@@ -310,7 +324,7 @@ void    Video_Setup_State(void)
 			Video_ClearScreenBackBuffer();
         }
         break;
-    case MEKA_STATE_GUI: // Interface Mode ------------------------------------
+    case MEKA_STATE_GUI:
         {
 			const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
 			const int gui_res_x = g_configuration.video_mode_gui_res_x;
@@ -324,32 +338,32 @@ void    Video_Setup_State(void)
 	Inputs_Peripheral_Change_Update();
 }
 
-void    Screen_Save_to_Next_Buffer(void)
+void    Screen_Save_to_Next_Buffer()
 {
 	al_set_target_bitmap(screenbuffer_next);
 	al_draw_bitmap(screenbuffer, 0, 0, 0);
 }
 
-void    Screen_Restore_from_Next_Buffer(void)
+void    Screen_Restore_from_Next_Buffer()
 {
 	al_set_target_bitmap(screenbuffer);
 	al_draw_bitmap(screenbuffer_next, 0, 0, 0);
 }
 
-void	Screenbuffer_AcquireLock(void)
+void	Screenbuffer_AcquireLock()
 {
 	assert(g_screenbuffer_locked_region == NULL);
 	g_screenbuffer_locked_region = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
 }
 
-void	Screenbuffer_ReleaseLock(void)
+void	Screenbuffer_ReleaseLock()
 {
 	assert(g_screenbuffer_locked_region != NULL);
 	al_unlock_bitmap(screenbuffer);
 	g_screenbuffer_locked_region = NULL;
 }
 
-bool	Screenbuffer_IsLocked(void)
+bool	Screenbuffer_IsLocked()
 {
 	return g_screenbuffer_locked_region != NULL;
 }

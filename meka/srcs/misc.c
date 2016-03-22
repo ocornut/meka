@@ -187,16 +187,14 @@ void    Show_End_Message()
 }
 
 // Quit the application immediately
-void    Quit(void)
+void    Quit()
 {
     // Set text mode if we're not already in
     if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
     {
+        Video_DestroyVideoBuffers();
 		al_destroy_display(g_display);
 		g_display = NULL;
-        //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
-        // g_env.state = MEKA_STATE_SHUTDOWN;
-        // Video_Setup_State();
     }
 
     // Return back to starting directory
@@ -220,11 +218,9 @@ void	Quit_Msg(const char *format, ...)
     // Set text mode if we're not already in
     if (g_env.state != MEKA_STATE_INIT && g_env.state != MEKA_STATE_SHUTDOWN)
     {
+        Video_DestroyVideoBuffers();
 		al_destroy_display(g_display);
 		g_display = NULL;
-        //set_gfx_mode (GFX_TEXT, 80, 25, 80, 25);
-        // g_env.state = MEKA_STATE_SHUTDOWN;
-        // Video_Setup_State();
     }
 
     // Return back to starting directory
