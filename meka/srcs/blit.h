@@ -10,9 +10,8 @@
 #define BLITTER_NORMAL          (0)
 #define BLITTER_TVMODE          (1)
 #define BLITTER_TVMODE_DOUBLE   (2)
-#define BLITTER_EAGLE           (3)
-#define BLITTER_HQ2X            (4)
-#define BLITTER_MAX             (5)
+#define BLITTER_HQ2X            (3)
+#define BLITTER_MAX             (4)
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -30,7 +29,6 @@ void    Blit_Fullscreen_Normal          (void);
 void    Blit_Fullscreen_Double          (void);
 void    Blit_Fullscreen_TV_Mode         (void);
 void    Blit_Fullscreen_TV_Mode_Double  (void);
-void    Blit_Fullscreen_Eagle           (void);
 void    Blit_Fullscreen_HQ2X            (void);
 
 //-----------------------------------------------------------------------------

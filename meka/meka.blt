@@ -12,7 +12,7 @@
 ;
 ;   [name]
 ;   res = XRESOLUTIONxYRESOLUTION
-;   blitter = normal | tvmode | tvmode_double | eagle | hq2x
+;   blitter = normal | tvmode | tvmode_double | hq2x
 ;
 ; The configuration name must be postfixed by a mark of the appliable operating system:
 ;   ::WIN   for the Windows version of MEKA.
@@ -39,7 +39,6 @@
 ;                   suitable resolution (eg: 320x400).
 ;  "tvmode_double"  simulates TV scanlines and double the size of each
 ;                   pixels both horizontally and vertically.
-;  "eagle"          apply Eagle filtering (requires a *2 resolution)
 ;  "hq2x"           apply HQ2X filtering (requires a *2 resolution)
 ;-----------------------------------------------------------------------------
 

@@ -223,7 +223,6 @@ const static struct
     { BLITTER_TVMODE,        "tv"            },
     { BLITTER_TVMODE,        "tvmode"        },
     { BLITTER_TVMODE_DOUBLE, "tvmode_double" },
-    { BLITTER_EAGLE,         "eagle"         },
     { BLITTER_HQ2X,          "hq2x"          },
     { 0, 0 }
 };

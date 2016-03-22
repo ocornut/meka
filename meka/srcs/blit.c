@@ -21,7 +21,6 @@
 #include "shared.h"
 #include "blit.h"
 #include "blitintf.h"
-#include "eagle.h"
 #include "fskipper.h"
 #include "glasses.h"
 #include "hq2x.h"
@@ -91,7 +90,6 @@ static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
     { Blit_Fullscreen_Normal,           1,      1 },
     { Blit_Fullscreen_TV_Mode,          1,      2 },
     { Blit_Fullscreen_TV_Mode_Double,   2,      2 },
-    { Blit_Fullscreen_Eagle,            2,      2 },
     { Blit_Fullscreen_HQ2X,             2,      2 },
 };
 
@@ -209,27 +207,6 @@ void    Blit_Fullscreen_Normal(void)
 {
     Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(screenbuffer);
-}
-
-void    Blit_Fullscreen_Eagle(void)
-{
-	assert(0);
-#if 0 // FIXME-ALLEGRO5: blitter eagle
-	// Eagle, x1 -> x2
-	int i;
-	for (i = blit_cfg.src_sy; i < blit_cfg.src_sy + g_driver->y_res; i ++)
-	{
-		eagle_mmx16(
-			(unsigned long *)((u16 *)screenbuffer->line[i] + blit_cfg.src_sx),
-			(unsigned long *)((u16 *)screenbuffer->line[i + 1] + blit_cfg.src_sx),
-			(short)g_driver->x_res * 2,
-			screenbuffer->seg,
-			(u16 *)Blit_Buffer_Double->line[i * 2] + (blit_cfg.src_sx * 2),
-			(u16 *)Blit_Buffer_Double->line[i * 2 + 1] + (blit_cfg.src_sx * 2));
-	}
-#endif
-	Blit_Fullscreen_Misc();
-	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
 void    Blit_Fullscreen_HQ2X (void)

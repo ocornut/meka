@@ -697,9 +697,6 @@
     <ClInclude Include="..\..\blitintf.h">
       <Filter>Srcs\Video</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\eagle.h">
-      <Filter>Srcs\Video</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\palette.h">
       <Filter>Srcs\Video</Filter>
     </ClInclude>
@@ -820,9 +817,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\eagle.asm">
-      <Filter>Srcs\Video</Filter>
-    </CustomBuild>
     <CustomBuild Include="..\..\videoasm.asm">
       <Filter>Srcs\Video</Filter>
     </CustomBuild>
