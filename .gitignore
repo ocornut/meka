@@ -14,10 +14,13 @@ meka/mekaw.ilk
 meka/smsid.exe
 meka/smsid.ilk
 meka/srcs/projects/msvc/Meka.ncb
+meka/libs/allegro
+meka/libs/allegro_deps
 allegro.log
 *.opensdf
 *.sdf
 *.suo
+*.ipch
 *.vcproj.*.user
 *.vcxproj.user
 meka/srcs/obj
