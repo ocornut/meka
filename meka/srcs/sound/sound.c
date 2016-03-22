@@ -135,7 +135,7 @@ int		Sound_Init(void)
 	}
 }*/
 
-static bool	Sound_InitEmulators(void)
+static bool	Sound_InitEmulators()
 {
 	PSG_Init();
 	g_psg_stream = SoundStream_Create(PSG_WriteSamples);
@@ -151,7 +151,7 @@ static bool	Sound_InitEmulators(void)
 	return true;
 }
 
-void	Sound_Close(void)
+void	Sound_Close()
 {
 	FM_Digital_Close();
 
@@ -165,7 +165,7 @@ void	Sound_Close(void)
     Sound.Initialized = FALSE;
 }
 
-void	Sound_UpdateClockSpeed(void)
+void	Sound_UpdateClockSpeed()
 {
 	const double throttle_scale = 1.0f;//(double)fskipper.Throttled_Speed / (double)g_machine.TV->screen_frequency;
 	//Sound.CpuClock = g_machine.TV->CPU_clock;
@@ -174,7 +174,7 @@ void	Sound_UpdateClockSpeed(void)
 	// FIXME-NEWSOUND: FM?
 }
 
-void	Sound_Update(void)
+void	Sound_Update()
 {
 	if (!Sound.Enabled)
 		return;

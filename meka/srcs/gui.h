@@ -178,11 +178,11 @@ typedef void (*t_gui_box_destroy_handler)(void *);
 struct t_gui_box
 {
     t_frame         frame;						// Frame (position & size)
-    char *          title;						// Title
+    char*           title;						// Title
     t_gui_box_type  type;                       // Type
     int				flags;                      // Flags (t_gui_box_flags) // FIXME-ENUM
-    ALLEGRO_BITMAP *gfx_buffer;					// Graphics buffer holding content render
-    t_list *        widgets;                    // Widgets
+    ALLEGRO_BITMAP* gfx_buffer;					// Graphics buffer holding content render
+    t_list*         widgets;                    // Widgets
 	v2i				size_min, size_max;			// Resize limits
 	v2i				size_step;
 	bool			size_fixed_ratio;

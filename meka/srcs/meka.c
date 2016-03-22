@@ -308,11 +308,13 @@ static int Init_Allegro()
 
 static void Close_Allegro(void)
 {
-	al_uninstall_mouse();
-	al_uninstall_audio();
 	al_shutdown_primitives_addon();
-	al_shutdown_image_addon();
+	al_shutdown_ttf_addon();
 	al_shutdown_font_addon();
+	al_shutdown_image_addon();
+
+    al_uninstall_mouse();
+	al_uninstall_audio();
 	al_uninstall_system();
 }
 
@@ -373,16 +375,14 @@ int main(int argc, char **argv)
     Inputs_Init            (); // Initialize Inputs and load inputs sources list
     Blit_Init              (); // Initialize Blitter
     Random_Init            (); // Initialize Random Number Generator
-	Effects_TV_Init			();	// Initialize TV snow effect
+	Effects_TV_Init        ();	// Initialize TV snow effect
     FDC765_Init            (); // Initialize Floppy Disk emulation
     Data_Init              (); // Load datafile
     Init_Emulator          (); // Initialize Emulation
     Palette_Init           (); // Initialize Palette system
-    Init_LookUpTables		(); // Initialize Look-up tables
+    Init_LookUpTables	   (); // Initialize Look-up tables
     Machine_Init           (); // Initialize Virtual Machine
-	Machine_Reset          (); // Reset Emulated Machine (set default values)
 
-	Init_GUI               (); // Initialize Graphical User Interface
     Sound_Init             (); // Initialize Sound
 #ifdef MEKA_JOYPAD
     Inputs_Joystick_Init   (); // Initialize Joysticks. 
@@ -396,14 +396,12 @@ int main(int argc, char **argv)
 		Configuration_Save();
 
 	// Load ROM from command line if necessary
-    Load_ROM_Command_Line  ();
+    Load_ROM_Command_Line();
 
     // Wait for Win32 console signal
     if (!ConsoleWaitForAnswer(true))
         return (0);
-    ConsoleClose           (); // Close Console
-
-	FB_Init_2              (); // Finish initializing the file browser
+    ConsoleClose(); // Close Console
 
 	// Setup initial state (fullscreen/GUI)
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
@@ -411,6 +409,10 @@ int main(int argc, char **argv)
     else
         g_env.state = MEKA_STATE_GUI;
     Video_Setup_State();
+
+    Machine_Reset          (); // Reset Emulated Machine (set default values)
+	Init_GUI               (); // Initialize Graphical User Interface
+	FB_Init_2              (); // Finish initializing the file browser
 
     // Start main program loop
     // Everything runs from there.
@@ -427,7 +429,8 @@ int main(int argc, char **argv)
     VLFN_Close             (); // Write Virtual Long Filename List
     Close_Emulator         (); // Close Emulator
     Show_End_Message       (); // Show End Message
-	Close_Allegro			();
+	
+    Close_Allegro();
 
     return (0);
 }

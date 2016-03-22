@@ -45,9 +45,11 @@
     <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>../../../objs/meka/$(Configuration)\</OutDir>
-    <IntDir>../../../objs/meka/$(Configuration)\</IntDir>
+    <OutDir>..\..\..\objs\meka\$(Configuration)\</OutDir>
+    <IntDir>..\..\..\objs\meka\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <TargetName>mekaw</TargetName>
+    <CustomBuildAfterTargets>Link</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\..\objs\meka\$(Configuration)\</OutDir>
@@ -66,13 +68,13 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../..;../../../libs/seal/include/;../../../libs/libpng/include/;../../../libs/dx70_min/include/;../../../libs/zlib/;../../../libs/allegro/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../..;../../../libs/allegro/include/;../../../libs/allegro_deps/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling />
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>shared.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)shared.pch</PrecompiledHeaderOutputFile>
@@ -91,11 +93,11 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>allegro-5.0.10-static-md-debug.lib;allegro_font-5.0.10-static-md-debug.lib;allegro_primitives-5.0.10-static-md-debug.lib;allegro_image-5.0.10-static-md-debug.lib;allegro_audio-5.0.10-static-md-debug.lib;allegro_ttf-5.0.10-static-md-debug.lib;openal-1.14-static-md-debug.lib;freetype-2.4.8-static-md.lib;zlib.lib;kernel32.lib;user32.lib;gdi32.lib;gdiplus.lib;comdlg32.lib;comctl32.lib;ole32.lib;winmm.lib;shlwapi.lib;psapi.lib;opengl32.lib;dxguid.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../../mekaw.exe</OutputFile>
+      <AdditionalDependencies>allegro-static.lib;allegro_font-static.lib;allegro_primitives-static.lib;allegro_image-static.lib;allegro_audio-static.lib;allegro_ttf-static.lib;freetype.lib;jpeg.lib;libpng16.lib;zlib.lib;kernel32.lib;user32.lib;gdi32.lib;gdiplus.lib;comdlg32.lib;comctl32.lib;ole32.lib;winmm.lib;shlwapi.lib;psapi.lib;opengl32.lib;dxguid.lib;d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <Version />
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <AdditionalLibraryDirectories>../../../libs/zlib/;../../../libs/allegro/lib/;$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../libs/allegro/lib/;../../../libs/allegro_deps/lib/;$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>libcmt; msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -106,7 +108,12 @@
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention />
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
+    <CustomBuildStep>
+      <Command>copy /Y $(OutDir)$(TargetName)$(TargetExt) ..\..\..</Command>
+      <Outputs>..\.\..\mekaw.exe</Outputs>
+    </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>

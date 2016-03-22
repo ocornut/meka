@@ -74,7 +74,6 @@ void	GUI_SetupNewVideoMode()
     gui.info.screen.y = g_configuration.video_mode_gui_res_y;
 	GUI_CreateVideoBuffers();
 
-    Skins_Background_Redraw();
     Skins_StartupFadeIn();
 
     // Fix windows position
@@ -108,6 +107,8 @@ void	GUI_CreateVideoBuffers()
 	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
 	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
     gui_background = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
+
+    Skins_Background_Redraw();
 
     // Recreate existing windows buffers
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)

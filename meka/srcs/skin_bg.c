@@ -99,7 +99,7 @@ static void     Skins_Background_Draw_Center(ALLEGRO_BITMAP *bmp)
 }
 
 
-void    Skins_Background_Redraw(void)
+void    Skins_Background_Redraw()
 {
 #ifdef DEBUG_WHOLE
 	Msg(MSGT_DEBUG, "Skins_Background_Redraw();");

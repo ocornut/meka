@@ -42,7 +42,7 @@ t_video_driver*	g_video_driver_default = &g_video_drivers[0];
 
 void    Video_Init()
 {
-	Video_CreateVideoBuffers();
+	//Video_CreateVideoBuffers();
 	Video_EnumerateDisplayModes();
 
     // Clear variables

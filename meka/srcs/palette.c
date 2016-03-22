@@ -30,14 +30,13 @@ bool			Palette_EmulationDirtyAny;
 //-----------------------------------------------------------------------------
 
 // Initialize palette engine
-void    Palette_Init (void)
+void    Palette_Init()
 {
-
     Palette_Emulation_Reset();
 }
 
 // Close palette engine
-void    Palette_Close(void)
+void    Palette_Close()
 {
 }
 
