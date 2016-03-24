@@ -12,17 +12,19 @@ They are usually of 2 kinds:
 
  MEKA 0.8x WIP Allegro 5
  -----------------------
-  - Updated from Allegro 4 (software rendering based) to Allegro 5.0.10 (with OpenGL/DirectX backends).
+  - Updated from Allegro 4 (software rendering based) to Allegro 5.1.12 (with OpenGL/DirectX backends).
     This required a lot of changes and rewrite in the codebase. It probably added new bugs,
     and performances seems to vary depending on computer settings and video drivers. [Omar]
     Please do report if you have any issue/slowdown so we can fix them!
   - Rewrote sound engine and fixed audio issues that many users had. [Omar]
     The sound is also now functional under Linux and MacOS. [Omar]  
-  - Preliminary MacOSX port. MEKA NEEDS A MAC MAINTENER! [Omar]
   - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
   - Setup panel allows to select display driver and resolution. [Omar]
   - Added Polish translation. [thr]
   - Updated Dutch translation. [Mark van Tilburg]
+  - MacOSX:
+    - Preliminary MacOSX port. MEKA NEEDS A MAC MAINTENER! [Omar]
+    - Use OS compliant directories for storing configuration files. [Dajero] (#12)
   - Emulation:
     - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
     - Added support for '4 PAK All Action' mapper. [Omar]
@@ -97,6 +99,7 @@ They are usually of 2 kinds:
     - Added ALT+V shortcut to start/stop VGM logging. [Omar]
     - Menu entries display their shortcuts. Tidied up some menu entries. [Omar]
     - Pressing DEL key in a text input box delete the character ahead of cursor. [Omar]
+    - FileBrowser: search for known extension when opening ZIP file (instead of picking first). [Maxim]
     - FileBrowser: holding CTRL key while using the mouse wheel fasten scrolling. [Omar]
     - FileBrowser: returning to parent directory position cursor on last child. [Omar]
     - FileBrowser: BackSpace key is shortcut to return to parent directory. [Omar]
@@ -112,9 +115,9 @@ They are usually of 2 kinds:
     - Removed easter egg code for emulating the NES. [Omar]
     - Removed easter egg mini-games and various other obsolete features. [Omar]
     - Removed mekaw.txt and mekanix.txt documentation files (obsolete). [Omar]
+    - (Win32) Updated project to using Visual Studio 2013. [Omar]
     - (Win32) Using precompiled header for faster compilation (MSVC). [Omar]
-    - (Win32) Now including precompiled Allegro 5.0.10 in the repository. [Omar]
-    - (Win32) Now including zlib 1.2.2 in the repository. [Omar]
+    - (Win32) Now including precompiled Allegro 5.1.12 package in repository. [Omar]
     - (Win32) Now including NASM assembler in the repository. [Omar]
   - Configuration file is created early on startup if missing. [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
