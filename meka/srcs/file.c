@@ -252,7 +252,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
         case LOAD_MODE_COMMANDLINE:
             Quit_Msg("%s\n\"%s\"\n", meka_strerror(), g_env.Paths.MediaImageFile);
             // Quit_Msg(meka_strerror());
-            return false;
+//            return false;
         case LOAD_MODE_GUI:
             Msg(MSGT_USER, Msg_Get(MSG_Error_Base), meka_strerror());
             return false;
@@ -403,17 +403,32 @@ int             Load_ROM_Zipped ()
         return (MEKA_ERR_ZIP_LOADING); // Error loading ZIP file
 
     // Locating..
-    err = unzGoToFirstFile (zf);
-    if (err != UNZ_OK) { unzClose (zf); return (MEKA_ERR_ZIP_INTERNAL); }
+	err = unzGoToFirstFile(zf);
+	do
+	{
+		if (err != UNZ_OK) { unzClose(zf); return (MEKA_ERR_ZIP_INTERNAL); }
 
-    // Getting informations..
-    unzGetCurrentFileInfo (zf, &zf_infos, temp, FILENAME_LEN, NULL, 0, NULL, 0);
-    tsms.Size_ROM = zf_infos.uncompressed_size;
+		// Getting informations..
+		unzGetCurrentFileInfo(zf, &zf_infos, temp, FILENAME_LEN, NULL, 0, NULL, 0);
+		StrPath_GetExtension(temp);
+		StrUpper(temp);
+
+		// Check if valid
+		if (drv_is_known_filename_extension(temp))
+		{
+			break;
+		}
+
+		// Else try next file
+		err = unzGoToNextFile(zf);
+
+		// If that was the last one, we'll use it
+	} while (err != UNZ_END_OF_LIST_OF_FILE);
+	
+	tsms.Size_ROM = zf_infos.uncompressed_size;
 
     // Setting driver ------------------------------------------------------------
     // Must be done there because we don't have the filename before..
-    StrPath_GetExtension(temp);
-    StrUpper(temp);
     g_machine.driver_id = drv_get_from_filename_extension(temp);
 
     // Remove Header & Footer
@@ -463,7 +478,7 @@ int             Load_ROM_File(const char *filename_ext)
     g_machine.driver_id = drv_get_from_filename_extension(filename_ext);
 
     // Open file ----------------------------------------------------------------
-    if (!(f = fopen(g_env.Paths.MediaImageFile, "rb")))
+    if ((f = fopen(g_env.Paths.MediaImageFile, "rb")) == NULL)
         return (MEKA_ERR_FILE_OPEN);
 
     // Get file size
@@ -527,7 +542,7 @@ static int      Load_ROM_Init_Memory ()
         alloc_size = 0xC000;
 
     // Allocate
-    if (!(p = (u8*)malloc (alloc_size)))
+    if ((p = (u8*)malloc (alloc_size)) == NULL)
         return (-1);
     if (Game_ROM)
         free (Game_ROM);

@@ -71,6 +71,7 @@ struct ts_driver_filename_extension
 void                    drv_init (void);
 void                    drv_set (int);
 int                     drv_get_from_filename_extension (const char *filename_extension);
+int                     drv_is_known_filename_extension(const char *filename_extension);
 int                     drv_id_to_mode (int);
 
 //-----------------------------------------------------------------------------
