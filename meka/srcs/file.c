@@ -251,8 +251,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
         {
         case LOAD_MODE_COMMANDLINE:
             Quit_Msg("%s\n\"%s\"\n", meka_strerror(), g_env.Paths.MediaImageFile);
-            // Quit_Msg(meka_strerror());
-//            return false;
+            return false;
         case LOAD_MODE_GUI:
             Msg(MSGT_USER, Msg_Get(MSG_Error_Base), meka_strerror());
             return false;
