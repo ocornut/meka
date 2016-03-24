@@ -53,6 +53,7 @@ endif
 BUILD = release
 # BUILD = debug
 #------------------------------------------------------
+OBJCFLAGS = ""
 
 #---[ DOS/DJGPP ]--------------------------------------
 ifeq ($(SYSTEM), dos)
@@ -122,7 +123,7 @@ MKDIR   = mkdir
 DEF_OS  = -DARCH_MACOSX -DUNIX
 INC_OS  = -Ilibs -I../include -I/usr/local/include
 #--- Libraries
-LIB_OS = -l freetype -framework OpenGL -framework CoreFoundation -framework OpenAL -framework AudioToolbox -framework AppKit -framework IOKit
+LIB_OS = -l freetype -framework OpenGL -framework CoreFoundation -framework OpenAL -framework AudioToolbox -framework AppKit -framework IOKit -framework Foundation
 LIB_PATHS = -L/usr/local/lib
 ALL_FILES=*.*
 #--- Platform specific object
@@ -346,8 +347,8 @@ $(OD)/%.a : %.asm
 $(OD)/sound/%.o : sound/%.c sound/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
-$(OD)/platform/macosx/%.o : platform/macosx/%.c platform/macosx/%.h
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
+$(OD)/platform/macosx/%.o : platform/macosx/%.mm platform/macosx/%.h
+	$(CC) $(OBJCFLAGS) -c $< $(CC_OUT)$@
 
 #-----------------------------------------------------
 # Help

@@ -96,7 +96,6 @@ void    Filenames_Init()
     ConsolePrintf ("Resource path = %s\n", g_env.Paths.EmulatorDirectory);
 #else
     strcpy(g_env.Paths.EmulatorDirectory, g_env.argv[0]);
-#endif
     #ifdef ARCH_WIN32
         StrReplace(g_env.Paths.EmulatorDirectory, '\\', '/');
     #endif
@@ -105,10 +104,7 @@ void    Filenames_Init()
         *p = EOSTR;
     else
         strcpy(g_env.Paths.EmulatorDirectory, g_env.Paths.StartingDirectory);
-
-    //ConsolePrintf ("g_env.Paths.StartingDirectory = %s\n", g_env.Paths.StartingDirectory);
-    //ConsolePrintf ("g_env.Paths.EmulatorDirectory = %s\n", g_env.Paths.EmulatorDirectory);
-    //ConsolePrintf ("argv[0] = %s\n", g_env.argv[0]);
+#endif
 
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
     {
@@ -116,43 +112,64 @@ void    Filenames_Init()
 		if (rp != NULL)
 		{
 			strcpy(g_env.Paths.EmulatorDirectory, rp);
-			strcat(g_env.Paths.EmulatorDirectory, "/");
+			//strcat(g_env.Paths.EmulatorDirectory, "/");
 			free(rp);
 		}
     }
 #endif
 
-    // Datafiles
-    sprintf(g_env.Paths.DataFile,      "%s/meka.dat",    g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.DataBaseFile,  "%s/meka.nam",    g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.SkinFile,      "%s/meka.thm",    g_env.Paths.EmulatorDirectory);
+	char dataDirectory[FILENAME_LEN], internalResourcesDirectory[FILENAME_LEN], externalResourcesDirectory[FILENAME_LEN];
+	strcpy(dataDirectory, g_env.Paths.EmulatorDirectory);
+#ifdef ARCH_MACOSX
+	GetWritableInternalResourcePath( internalResourcesDirectory, sizeof(internalResourcesDirectory) );
+	GetWritableExternalResourcePath( externalResourcesDirectory, sizeof(externalResourcesDirectory) );
+	const char *filesToCopyToInternalResourcesPath[2] = {
+		"meka.inp",
+		NULL
+	};
+	PopulateWritableInternalResourcesPath(internalResourcesDirectory, filesToCopyToInternalResourcesPath);
+#else
+	strcpy(internalResourcesDirectory, g_env.Paths.EmulatorDirectory);
+	strcpy(externalResourcesDirectory, g_env.Paths.EmulatorDirectory);
+#endif
 
-    sprintf(Patches.filename,			"%s/meka.pat",    g_env.Paths.EmulatorDirectory);
-    sprintf(VLFN_DataBase.filename,     "%s/meka.fdb",    g_env.Paths.EmulatorDirectory);
-    sprintf(Blitters.filename,			"%s/meka.blt",    g_env.Paths.EmulatorDirectory);
-    sprintf(Desktop.filename,			"%s/meka.dsk",    g_env.Paths.EmulatorDirectory);
-    sprintf(Inputs.FileName,			"%s/meka.inp",    g_env.Paths.EmulatorDirectory);
-    sprintf(Messages.FileName,			"%s/meka.msg",    g_env.Paths.EmulatorDirectory);
+	ConsolePrintf("Data Directory = %s\n", dataDirectory);
+	ConsolePrintf("Internal Writable Resources Directory = %s\n", internalResourcesDirectory);
+	ConsolePrintf("External Writable Resources Directory = %s\n", externalResourcesDirectory);
+
+    // Datafiles
+    sprintf(g_env.Paths.DataFile,       "%s/meka.dat",    dataDirectory);
+    sprintf(g_env.Paths.DataBaseFile,   "%s/meka.nam",    dataDirectory);
+    sprintf(g_env.Paths.SkinFile,       "%s/meka.thm",    dataDirectory);
+
+    sprintf(Patches.filename,			"%s/meka.pat",    dataDirectory);
+    sprintf(Blitters.filename,			"%s/meka.blt",    dataDirectory);
+    sprintf(Messages.FileName,			"%s/meka.msg",    dataDirectory);
+
+	// files that are written to
+    sprintf(Desktop.filename,			"%s/meka.dsk",    internalResourcesDirectory);
+    sprintf(VLFN_DataBase.filename,     "%s/meka.fdb",    internalResourcesDirectory);
+    sprintf(Inputs.FileName,			"%s/meka.inp",    internalResourcesDirectory);
 
     // Documentations
-    sprintf(g_env.Paths.DocumentationMain,       "%s/meka.txt",      g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.DocumentationCompat,     "%s/compat.txt",    g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.DocumentationMulti,      "%s/multi.txt",     g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.DocumentationChanges,    "%s/changes.txt",   g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.DocumentationDebugger,   "%s/debugger.txt",  g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.DocumentationMain,       "%s/meka.txt",      dataDirectory);
+    sprintf(g_env.Paths.DocumentationCompat,     "%s/compat.txt",    dataDirectory);
+    sprintf(g_env.Paths.DocumentationMulti,      "%s/multi.txt",     dataDirectory);
+    sprintf(g_env.Paths.DocumentationChanges,    "%s/changes.txt",   dataDirectory);
+    sprintf(g_env.Paths.DocumentationDebugger,   "%s/debugger.txt",  dataDirectory);
 
     // Configuration file
 #ifdef ARCH_WIN32
     sprintf(g_env.Paths.ConfigurationFile,       "%s/mekaw.cfg",     g_env.Paths.EmulatorDirectory);
-#else
-    sprintf(g_env.Paths.ConfigurationFile,       "%s/meka.cfg",      g_env.Paths.EmulatorDirectory);
+#else /* unix */
+    sprintf(g_env.Paths.ConfigurationFile,       "%s/meka.cfg",      internalResourcesDirectory);
 #endif
 
     // Directories
-    sprintf(g_env.Paths.ScreenshotDirectory,     "%s/Screenshots",   g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.SavegameDirectory,       "%s/Saves",         g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.MusicDirectory,          "%s/Music",         g_env.Paths.EmulatorDirectory);
-    sprintf(g_env.Paths.DebugDirectory,          "%s/Debug",         g_env.Paths.EmulatorDirectory);
+    sprintf(g_env.Paths.ScreenshotDirectory,     "%s/Screenshots",   externalResourcesDirectory);
+    sprintf(g_env.Paths.SavegameDirectory,       "%s/Saves",         externalResourcesDirectory);
+    sprintf(g_env.Paths.MusicDirectory,          "%s/Music",         externalResourcesDirectory);
+    sprintf(g_env.Paths.DebugDirectory,          "%s/Debug",         externalResourcesDirectory);
 
     // ROM
     strcpy(g_env.Paths.MediaImageFile,  "");
