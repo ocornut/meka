@@ -395,15 +395,7 @@ int main(int argc, char **argv)
 	if (!g_configuration.loaded_configuration_file)
 		Configuration_Save();
 
-	// Load ROM from command line if necessary
-    Load_ROM_Command_Line();
-
-    // Wait for Win32 console signal
-    if (!ConsoleWaitForAnswer(true))
-        return (0);
-    ConsoleClose(); // Close Console
-
-	// Setup initial state (fullscreen/GUI)
+	// Setup display (fullscreen/GUI)
     if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
         g_env.state = MEKA_STATE_GAME;
     else
@@ -413,6 +405,14 @@ int main(int argc, char **argv)
     Machine_Reset          (); // Reset Emulated Machine (set default values)
 	Init_GUI               (); // Initialize Graphical User Interface
 	FB_Init_2              (); // Finish initializing the file browser
+
+    // Load ROM from command line if necessary
+    Load_ROM_Command_Line();
+
+    // Wait for Win32 console signal
+    if (!ConsoleWaitForAnswer(true))
+        return (0);
+    ConsoleClose(); // Close Console
 
     // Start main program loop
     // Everything runs from there.
