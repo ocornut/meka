@@ -131,6 +131,7 @@ They are usually of 2 kinds:
           GG  - f3ca6676 - Columns (JP)                         --> Columns [v0]
           GG  - 83fa26d9 - Columns                              --> Columns [v2]
           GG  - a8ef36a7 - Junction                             --> Junction (JP)
+          GG  - 23f9150a - Kawasaki Superbike Challenge         --> Kawasaki Superbikes (EU) (now dumped US version)
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           GG  - de25e2d8 - Sports Illustrated - Championship F..--> Sports Illustrated - Championship Football & Baseball [BAD] (was bad dump)
           GG  - 5b5de94d - Sports Trivia - Championship Edition --> Sports Trivia - Championship Edition [Proto] (from old Image dump stash)
