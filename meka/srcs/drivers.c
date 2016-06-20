@@ -85,6 +85,18 @@ int         drv_get_from_filename_extension(const char *filename_extension)
     return (drivers_ext [i].driver);
 }
 
+int     drv_is_known_filename_extension(const char *filename_extension)
+{
+	for (const ts_driver_filename_extension* p = drivers_ext; p->filename_extension != NULL; ++p)
+	{
+		if (stricmp(filename_extension, p->filename_extension) == 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 //-----------------------------------------------------------------------------
 // drv_id_to_mode(int id)
 // Convert driver ID to the old kind of ID

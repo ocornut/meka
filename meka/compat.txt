@@ -818,6 +818,7 @@
  Q*bert                                         Ok
  San-nin Mahjong                                Ok
  San-nin Mahjong (TW)                           Ok
+ San-nin Mahjong [40k map]                     *Ok
  Space Armor [v1.0] [v0] [40k map]              Ok
  Space Armor [v2.0] [v1]                        Ok
  Space Armor [v2.0] [v2]                        Ok
@@ -1085,7 +1086,8 @@
  Jurassic Park                                      Ok
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
- Kawasaki Superbike Challenge / Kawasaki Superbikes Ok
+ Kawasaki Superbikes                                Ok
+ Kawasaki SuperBike Challenge (US)                 *Ok
  Kenyuu Densetsu Yaiba (JP)                         Ok
  Kick & Rush (JP)                                   Ok
  Kinetic Connection (JP)                            Ok
