@@ -19,6 +19,7 @@
  4 PAK All Action (AU)                          -       Ok
  94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
+ Action Fighter [v0] [Proto]                    -      *Ok
  Action Fighter [v1]                            -       Ok
  Action Fighter [v2]                            -       Ok
  Action Fighter (TW)                            -       Ok
@@ -88,6 +89,7 @@
  California Games II                            -       Ok
  Captain Silver                                 FM      Ok
  Captain Silver (US)                            FM      Ok
+ Captain Silver [Proto]                         FM     *Ok
  Casino Games                                   FM      Ok
  Castelo Rá-Tim-Bum (BR)                        -       Ok
  Castle of Illusion - Starring Mickey Mouse     -       Ok
@@ -431,6 +433,7 @@
  Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
+ Sky Fighter (KR)                               -      *Ok
  Sky Jaguar (KR)                                -       Ok
  Sky Jaguar [Clover] (KR)                       -       Ok
  Slap Shot [v0]                                 -       Ok
@@ -579,7 +582,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 561 games tested - 559 are "Ok" - Compatibility rate: 99.54%
+ 564 games tested - 562 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -940,6 +943,7 @@
  Casino FunPak                                      Ok
  Castle of Illusion - Starring Mickey Mouse [SMS-GG]Ok
  Castle of Illusion - Starring Mick.. [SMS-GG] (JP) Ok
+ Cave Dude [Proto] [SMS-GG]                        *Ok
  Chakan                                             Ok
  Championship Hockey                                Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales     Ok
@@ -1308,6 +1312,7 @@
  Super Monaco GP II (Ayrton Senna's) (JP)           Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) [Proto]        Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
+ Super Off Road [Proto]                            *Ok
  Super Return of the Jedi (Star Wars)               Ok
  Super Smash T.V.                                   Ok
  Super Space Invaders                               Ok
@@ -1385,7 +1390,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 498 games tested - 486 are "Ok" - Compatibility rate: 97.45%
+ 500 games tested - 488 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
