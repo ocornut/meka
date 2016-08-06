@@ -63,6 +63,17 @@ void	TextViewer_Init(t_app_textviewer* app)
 	app->scroll_velocity_y       = 0;
 }
 
+void	TextViewer_Close(t_app_textviewer* app)
+{
+    gui_box_delete(app->box);
+    app->box = NULL;
+    for (int i = 0; i != app->text_lines_count; i++)
+        free(app->text_lines[i]);
+    free(app->text_lines);
+    app->text_lines = NULL;
+    app->text_lines_count = 0;
+}
+
 void	TextViewer_Layout(t_app_textviewer* app, bool setup)
 {
 	app->text_frame.pos.x        = TEXTVIEWER_PADDING;

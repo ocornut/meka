@@ -163,6 +163,8 @@ void            DB_Entry_Delete (t_db_entry *entry)
         free (entry->version);
     if (entry->comments != NULL)
         free (entry->comments);
+    if (entry->authors != NULL)
+        free (entry->authors);
     free (entry);
 }
 

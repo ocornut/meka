@@ -304,7 +304,7 @@ static int Init_Allegro()
     return (1);
 }
 
-static void Close_Allegro(void)
+static void Close_Allegro()
 {
 	al_shutdown_primitives_addon();
 	al_shutdown_ttf_addon();

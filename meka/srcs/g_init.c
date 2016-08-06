@@ -131,7 +131,9 @@ void	GUI_CreateVideoBuffers()
 
 void	GUI_Close(void)
 {
-    // FIXME: Nice.
+    // FIXME: Nice....
+
+    TextViewer_Close(&TextViewer);
 }
 
 void    GUI_InitApplets(void)
