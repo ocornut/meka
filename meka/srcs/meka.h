@@ -356,6 +356,7 @@ extern t_media_image   g_media_rom;
 extern ALLEGRO_DISPLAY*			g_display;
 extern ALLEGRO_EVENT_QUEUE*		g_display_event_queue;
 extern ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region;
+extern ALLEGRO_BITMAP*          g_screenbuffer_locked_buffer;
 extern int						g_screenbuffer_format;
 extern int						g_gui_buffer_format;
 

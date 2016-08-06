@@ -77,6 +77,7 @@ u8 *    Mem_Pages [8];              // Pointer to memory pages
 ALLEGRO_DISPLAY*		g_display = NULL;
 ALLEGRO_EVENT_QUEUE*	g_display_event_queue = NULL;
 ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region = NULL;
+ALLEGRO_BITMAP*         g_screenbuffer_locked_buffer = NULL;
 int						g_screenbuffer_format = 0;
 int						g_gui_buffer_format = 0;
 
@@ -329,6 +330,10 @@ int main(int argc, char **argv)
         // Need for XP manifest stuff
         InitCommonControls();
     #endif
+
+#ifdef ARCH_WIN32
+    //_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+#endif
 
     ConsoleInit(); // First thing to do
     #ifdef ARCH_WIN32

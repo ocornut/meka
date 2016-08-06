@@ -352,15 +352,18 @@ void    Screen_Restore_from_Next_Buffer()
 
 void	Screenbuffer_AcquireLock()
 {
-	assert(g_screenbuffer_locked_region == NULL);
+	assert(g_screenbuffer_locked_region == NULL && g_screenbuffer_locked_buffer == NULL);
 	g_screenbuffer_locked_region = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
+    g_screenbuffer_locked_buffer = screenbuffer;
 }
 
 void	Screenbuffer_ReleaseLock()
 {
-	assert(g_screenbuffer_locked_region != NULL);
+	assert(g_screenbuffer_locked_region != NULL && g_screenbuffer_locked_buffer != NULL);
+    assert(g_screenbuffer_locked_buffer == screenbuffer);
 	al_unlock_bitmap(screenbuffer);
 	g_screenbuffer_locked_region = NULL;
+    g_screenbuffer_locked_buffer = NULL;
 }
 
 bool	Screenbuffer_IsLocked()
