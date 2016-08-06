@@ -817,6 +817,7 @@
  Othello Multivision [BIOS]                     Keyboard not emulated.
  Q*bert                                         Ok
  San-nin Mahjong                                Ok
+ San-nin Mahjong [40k map]                     *Ok
  San-nin Mahjong (TW)                           Ok
  San-nin Mahjong [40k map]                     *Ok
  Space Armor [v1.0] [v0] [40k map]              Ok
@@ -824,7 +825,7 @@
  Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  19 games tested - 18 are "Ok" - Compatibility rate: 94.44%
+  20 games tested - 19 are "Ok" - Compatibility rate: 95.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1086,7 +1087,7 @@
  Jurassic Park                                      Ok
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
- Kawasaki Superbikes                                Ok
+ Kawasaki Superbike Challenge / Kawasaki Superbikes Ok
  Kawasaki SuperBike Challenge (US)                 *Ok
  Kenyuu Densetsu Yaiba (JP)                         Ok
  Kick & Rush (JP)                                   Ok
@@ -1372,7 +1373,7 @@
  X-Men                                              Ok
  X-Men: GamesMaster's Legacy                        Ok
  X-Men: Mojo World                                  Ok
- Yogi Bear in Yogi Bears Goldrush [Proto]           Ok
+ Yogi Bear in Yogi Bear's Goldrush [Proto]          Ok
  Yuu Yuu Hakusho - Horobishi Mono no Gyakushuu (JP) Ok
  Yuu Yuu Hakusho II - Gekitou! Nanakyou no T.. (JP) Ok
  Yuu Yuu Hakusho (JP)                               Ok
@@ -1384,7 +1385,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 497 games tested - 485 are "Ok" - Compatibility rate: 97.45%
+ 498 games tested - 486 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
