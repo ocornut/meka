@@ -401,7 +401,7 @@ void	Video_UpdateEvents()
 }
 
 // This is called when line == tsms.VDP_Line_End
-void    Video_RefreshScreen(void)
+void    Video_RefreshScreen()
 {
 	PROFILE_STEP("Video_RefreshScreen()");
 

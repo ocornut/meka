@@ -89,7 +89,7 @@ char*	OSD_ClipboardGetText()
 #endif
 }
 
-void    Random_Init (void)
+void    Random_Init()
 {
 	srand ((unsigned int)time (NULL));
 #ifndef ARCH_WIN32
@@ -130,60 +130,12 @@ void	Profile_Step(const char* name)
 	last_time = current_time;
 }
 
-#ifdef ARCH_UNIX
-#define ESC         "\x1b"
-#define FGCOLOR(n)  ESC"[3"#n"m"
-#define BGCOLOR(n)  ESC"[4"#n"m"
-#define RESET       ESC"[0m"
-#endif
-
 // Show the ending ASCII message
 void    Show_End_Message()
 {
-	// ANSI colors codes reminder:
-	//  0: Black
-	//  4: Red
-	//  7: White
-	//  8: Dark Gray
-	// 15: Bright White
-
-#ifdef ARCH_UNIX
-	printf(" ");
-	printf(BGCOLOR(1));
-	printf(FGCOLOR(0));
-	printf ("                           ");  
-	printf (RESET "  %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
-
-	printf (" ");
-	printf(BGCOLOR(1));
-	printf(FGCOLOR(0));
-	printf (FGCOLOR(0) " ");
-	printf (FGCOLOR(7) "WONDER");
-	printf (FGCOLOR(0) " ");
-	printf (FGCOLOR(7) "BOY");
-	printf (FGCOLOR(0) " ");
-	printf (FGCOLOR(7) "III");
-	printf (FGCOLOR(0) "            ");
-	printf (RESET"  Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
-
-	printf (" ");
-	printf(BGCOLOR(1));
-	printf(FGCOLOR(0));
-	printf ("                      ");
-	printf (FGCOLOR(7) "SEGA");
-	printf (FGCOLOR(0) " ");
-	printf (RESET "  " MEKA_HOMEPAGE "\n");
-
-	printf (" ");
-	printf ("===========================");
-
-	printf (RESET);
-	printf ("\n");
-#else
 	ConsolePrintf (" %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
 	ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
 	ConsolePrintf (" " MEKA_HOMEPAGE "\n");
-#endif
 }
 
 // Quit the application immediately

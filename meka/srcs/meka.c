@@ -96,12 +96,10 @@ ALLEGRO_COLOR COLOR_DEBUG_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,10
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
-// Init_Emulator (void)
-//-----------------------------------------------------------------------------
 // FIXME: this function is pretty old and is basically a left-over or
 // everything that was not moved elsewhere.
 //-----------------------------------------------------------------------------
-static void Init_Emulator (void)
+static void Init_Emulator()
 {
     Video_Init();
 
