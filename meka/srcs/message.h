@@ -491,7 +491,8 @@ extern t_messages Messages;
 
 // Load messages from MEKA.MSG file (path given in structure)
 // Return a MEKA_ERR_xxx code
-int     Messages_Init (void);
+int     Messages_Init();
+void    Messages_Close();
 
 // Get specified message string
 const char*	Msg_Get(int n);

@@ -528,10 +528,17 @@ t_lang *	Lang_New(char *name)
     return (lang);
 }
 
+void    Lang_Delete(t_lang* lang)
+{
+    for (int i = 0; i < MSG_MAX; i++)
+        free(lang->Messages[i]);
+    free(lang->Name);
+    free(lang);
+}
+
 int		Lang_Post_Check (t_lang *lang)
 {
-    // Count available messages (skipping MSG_NULL)
-    // and set default for when one is missing
+    // Count available messages (skipping MSG_NULL) and set default for when one is missing
     int cnt = 0;
     for (int i = 1; i < MSG_MAX; i++)
         if (lang->Messages[i])
@@ -542,32 +549,18 @@ int		Lang_Post_Check (t_lang *lang)
         // default language, else MEKA will screw up later, with missing strings..
         if (lang->WIP == FALSE || lang == Messages.Lang_Default)
         {
-            ConsolePrintf ("Language \"%s\" is incomplete (%d/%d messages found) !\n",
-                lang->Name, cnt, MSG_MAX - 1);
+            ConsolePrintf ("Language \"%s\" is incomplete (%d/%d messages found) !\n", lang->Name, cnt, MSG_MAX - 1);
             ConsoleEnablePause();
         }
         if (lang->WIP == FALSE)
         {
             ConsolePrintf ("The following messages are missing:\n");
             for (int i = 1; i < MSG_MAX; i++)
-			{
                 if (lang->Messages[i] == NULL)
-                {
                     for (int j = 0; Msg_Translation_Table[j].name; j++)
                         if (Msg_Translation_Table[j].value == i)
                             ConsolePrintf ("  %s\n", Msg_Translation_Table[j].name);
-                    if (lang != Messages.Lang_Default)
-                        lang->Messages[i] = Messages.Lang_Default->Messages[i];
-                }
-			}
             ConsoleEnablePause();
-        }
-        else
-        {
-            if (lang != Messages.Lang_Default)
-                for (int i = 1; i < MSG_MAX; i++)
-                    if (lang->Messages[i] == NULL)
-                        lang->Messages[i] = Messages.Lang_Default->Messages[i];
         }
         return (MEKA_ERR_INCOMPLETE);
     }
@@ -656,8 +649,6 @@ void            Langs_Menu_Add (int menu_id)
 int             Messages_Init_Parse_Line (char *line)
 {
     char *      p;
-    //char *      p2;
-    int         ret;
 
     if (line[0] == '[')
     {
@@ -698,20 +689,15 @@ int             Messages_Init_Parse_Line (char *line)
     // if ((p2 = strrchr (p + 1, '\"')) == NULL)
     //    return (MEKA_ERR_SYNTAX);
     // *p2 = EOSTR;
-    ret = Lang_Message_Add(Messages.Lang_Cur, line, p + 1);
+    int ret = Lang_Message_Add(Messages.Lang_Cur, line, p + 1);
     free(line);
     return (ret);
 }
 
 // Load messages from MEKA.MSG file (path given in structure)
 // Return a MEKA_ERR_xxx code
-int             Messages_Init (void)
+int     Messages_Init()
 {
-    t_tfile *   tf;
-    t_list *    lines;
-    int         line_cnt;
-    char *      p;
-
     Messages.Lang_Cur = Messages.Lang_Default = NULL;
     Messages.Langs = NULL;
 
@@ -721,20 +707,20 @@ int             Messages_Init (void)
     ConsolePrint("Loading MEKA.MSG (messages).. ");
 
     // Open and read file --------------------------------------------------------
-    tf = tfile_read (Messages.FileName);
+    t_tfile* tf = tfile_read (Messages.FileName);
     if (tf == NULL)
         Quit_Msg("MISSING!\nTry re-installing your version of Meka.");
     ConsolePrint("\n");
 
     // Parse each line -----------------------------------------------------------
-    line_cnt = 0;
-    for (lines = tf->data_lines; lines; lines = lines->next)
+    int line_cnt = 0;
+    for (t_list* lines = tf->data_lines; lines; lines = lines->next)
     {
         char *line = (char*)lines->elem;
         line_cnt += 1;
 
         // Cut Comments
-        p = strchr (line, ';');
+        char* p = strchr (line, ';');
         if (p != NULL)
             *p = EOSTR;
 
@@ -785,8 +771,14 @@ int             Messages_Init (void)
     return (MEKA_ERR_OK);
 }
 
-void            Messages_Close (void)
+void    Messages_Close()
 {
+    for (t_list* langs = Messages.Langs; langs; langs = langs->next)
+    {
+        t_lang* lang = (t_lang*)langs->elem;
+        Lang_Delete(lang);
+    }
+    list_free_no_elem(&Messages.Langs);
 }
 
 //-----------------------------------------------------------------------------
@@ -886,7 +878,11 @@ bool            ConsoleWaitForAnswer (bool allow_run)
 
 const char*		Msg_Get(int n)
 {
-    return Messages.Lang_Cur->Messages[n];
+    const char* msg = Messages.Lang_Cur->Messages[n];
+    if (msg)
+        return msg;
+    msg = Messages.Lang_Default->Messages[n];
+    return msg;
 }
 
 // Send a message to the user and/or debugging message
