@@ -445,7 +445,10 @@ void    Command_Line_Parse()
 		else
 		{
 			// FIXME: specifying more than one ROM ?
-			strcpy(g_env.Paths.MediaImageFile, s);
+            if (s[0] == '/' || s[0] == '\\' || (isalpha(s[0]) && s[1] == ':'))
+    			strcpy(g_env.Paths.MediaImageFile, s);
+            else
+                sprintf(g_env.Paths.MediaImageFile, "%s/%s", g_env.Paths.StartingDirectory, s);
 			//MessageBox(NULL, s, s, 0);
 		}
 	}

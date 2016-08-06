@@ -107,15 +107,13 @@ void    Filenames_Init()
 #endif
 
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
-    {
-		char* rp = realpath(g_env.Paths.EmulatorDirectory, NULL);
-		if (rp != NULL)
-		{
-			strcpy(g_env.Paths.EmulatorDirectory, rp);
-			//strcat(g_env.Paths.EmulatorDirectory, "/");
-			free(rp);
-		}
-    }
+	char* rp = realpath(g_env.Paths.EmulatorDirectory, NULL);
+	if (rp != NULL)
+	{
+		strcpy(g_env.Paths.EmulatorDirectory, rp);
+		//strcat(g_env.Paths.EmulatorDirectory, "/");
+		free(rp);
+	}
 #endif
 
 	char data_dir[FILENAME_LEN];
