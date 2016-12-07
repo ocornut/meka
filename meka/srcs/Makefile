@@ -44,6 +44,9 @@ else
     ifeq ($(UNAME_S),Linux)
         SYSTEM = unix
     endif
+    ifneq (,($findstring BSD,$(UNAME_S)))
+    	SYSTEM = unix
+    endif
     ifeq ($(UNAME_S),Darwin)
         SYSTEM = macosx
     endif
