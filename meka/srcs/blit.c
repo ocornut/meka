@@ -291,7 +291,7 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 			// Note: adding ++ to the above u32 * cast somehow cause problems with GCC
 		}
 	}
-#endif 0
+#endif
 	Blit_Fullscreen_Misc();
 	Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
