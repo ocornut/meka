@@ -549,6 +549,7 @@ SMS 78d7faab 83A4D6495B81DD01   Spy vs Spy/COUNTRY=US,EU,DE,AU,BR,IT/PRODUCT_NO=
 SMS d41b9a08 440AA3B0518BF192   Spy vs Spy/COUNTRY=JP,KR/PRODUCT_NO=C-514,SG15C
 SMS 689f58a2 CDE5989D3972E985   Spy vs Spy/COUNTRY=TW/PRODUCT_NO=K-321
 SMS d4b8f66d 92936B306B38B8E5   Star Wars/COUNTRY=EU,BR/PRODUCT_NO=29014-50,028260
+SMS 01a2d595 1E802D0CDFBA761A   Street Battle [Proto] [SMS-GG]/COUNTRY=US/FLAGS=PROTO/EMU_MAPPER=3/COMMENT=Prototype version of the unreleased game. This is a conversion from the Korean original "Jang Pung II".
 SMS 0f8287ec 905391ED1A483904   Street Fighter II'/COUNTRY=BR/PRODUCT_NO=030010
 SMS 9fa727a0 A66B4A6607E970DF   Street Hero [Proto 0] [SMS-GG]/COUNTRY=US/FLAGS=PROTO/EMU_MAPPER=3/COMMENT=Prototype version of the unreleased game. This is a conversion from the Korean original "Janggun-ui Adeul".
 SMS fb481971 E152E02DE2677007   Street Hero [Proto 1] [SMS-GG]/COUNTRY=US/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game. This is a conversion from the Korean original "Janggun-ui Adeul".
@@ -815,7 +816,8 @@ GG  618b19e2 AB897446BC1570D1   Batman Forever/COUNTRY=US,EU,JP/PRODUCT_NO=T-812
 GG  7ac4a3ca 516CF5541BA9E056   Batman Returns/COUNTRY=JP,US,EU/PRODUCT_NO=G-3314,2416,2416-50
 GG  16448209 C201ABFADA677FD8   Batter Up/COUNTRY=US/PRODUCT_NO=T-14028/COMMENT=Export version of "Gear Stadium".
 GG  e9987511 82E53FF69611EBD2   Battleship - The classic naval combat game/COUNTRY=US/PRODUCT_NO=T-87018
-GG  cb3cd075 EA08216FFAAA5E7C   Battletoads/COUNTRY=JP,US,EU/PRODUCT_NO=G-3311,T-97018,2436
+GG  cb3cd075 EA08216FFAAA5E7C   Battletoads/COUNTRY=JP,EU/PRODUCT_NO=G-3311,2436
+GG  817cc0ca EC062170FAAA5D7C   Battletoads/COUNTRY=US/PRODUCT_NO=T-97018
 GG  a6bf865e 23BF4FE1E01DC42D   Beavis and Butt-Head (MTV's)/COUNTRY=US,EU/PRODUCT_NO=T-139018,T-139018-50
 GG  3858f14f 3332DEF0ABBF471C   Beavis and Butt-Head (MTV's) [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears' Camping Adventure, The/COUNTRY=US/PRODUCT_NO=2447
@@ -855,6 +857,7 @@ GG  529c864e A21AD85B167F6913   Crystal Warriors/COUNTRY=US,EU/PRODUCT_NO=2502/C
 GG  6a24e47e C2965F6E8A59A751   Cutthroat Island/COUNTRY=US/PRODUCT_NO=T-81338
 GG  6352ef00 B7731FD87342E644   Cutthroat Island [Proto]/COUNTRY=US/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  aae268fc 099CC645306AB402   Daffy Duck in Hollywood/COUNTRY=EU,BR/PRODUCT_NO=2550,077110
+GG  696f446d 96AF11854EE526CC   David Robinson's Supreme Court [Demo] [Proto]/FLAGS=PROTO/COMMENT=Prototype demo version of the unreleased game.
 GG  5a136d7e C8D6479F8BF46C91   Deep Duck Trouble - Starring Donald Duck (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2514,1205/COMMENT=Export version of "Donald Duck no Yottsu no Hihou".
 GG  e2791cc1 02E7288B76458A1F   Defenders of Oasis/COUNTRY=US,EU/PRODUCT_NO=2503/COMMENT=Export version of "Shadam Crusader ~Harukanaru Oukoku~".
 GG  c674eccc BC784278D69408A0   Defenders of Oasis [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Only the first 256 KB half so the game is probably unstable and incomplete.
@@ -1206,6 +1209,7 @@ GG  eebad66b 9B7DE59E03D29000   Taz in Escape from Mars/COUNTRY=US,EU/PRODUCT_NO
 GG  de466796 2D756A0E3A873BEA   Tempo Jr./COUNTRY=JP,US,EU/PRODUCT_NO=G-3369,2563,2562-50
 GG  c029a5fd EFDF88CF8D68A343   Terminator, The/COUNTRY=US,EU/PRODUCT_NO=T-70048,T-70048-50
 GG  dd6d2e34 0942170D3CFD87D1   Tengen World Cup Soccer/COUNTRY=US,EU/PRODUCT_NO=T-48118,T-48118-50
+GG  8e6818ae 735FA418010478F5   Tengen World Cup Soccer [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  1bd15773 796B2AA0D64851E3   Terminator 2: Judgment Day/COUNTRY=US,EU/PRODUCT_NO=T-81148,T-81148-50
 GG  969cf389 5A5865B5148A5541   Tintin in Tibet/NAME_FR=Tintin au Tibet/COUNTRY=EU/PRODUCT_NO=T-151-038-50/COMMENT=Also referred to using the french title showing on the box: "Tintin au Tibet".
 GG  a1453efa D9F631F59C7933C3   Tom and Jerry: The Movie/COUNTRY=JP/PRODUCT_NO=G-3319

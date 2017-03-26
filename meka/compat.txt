@@ -19,7 +19,7 @@
  4 PAK All Action (AU)                          -       Ok
  94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
- Action Fighter [v0] [Proto]                    -      *Ok
+ Action Fighter [v0] [Proto]                    -       Ok
  Action Fighter [v1]                            -       Ok
  Action Fighter [v2]                            -       Ok
  Action Fighter (TW)                            -       Ok
@@ -89,7 +89,7 @@
  California Games II                            -       Ok
  Captain Silver                                 FM      Ok
  Captain Silver (US)                            FM      Ok
- Captain Silver [Proto]                         FM     *Ok
+ Captain Silver [Proto]                         FM      Ok
  Casino Games                                   FM      Ok
  Castelo Rá-Tim-Bum (BR)                        -       Ok
  Castle of Illusion - Starring Mickey Mouse     -       Ok
@@ -433,7 +433,7 @@
  Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
- Sky Fighter (KR)                               -      *Ok
+ Sky Fighter (KR)                               -       Ok
  Sky Jaguar (KR)                                -       Ok
  Sky Jaguar [Clover] (KR)                       -       Ok
  Slap Shot [v0]                                 -       Ok
@@ -733,7 +733,7 @@
  Pachinko II                                    Ok
  Pachinko II (TW)                               Ok
  Ping Pong (Konami's) (TW)                      Ok
- Pippols [Jumbo] (TW)                          *Ok
+ Pippols [Jumbo] (TW)                           Ok
  Pitfall II ~The Lost Caverns~ [v0]             Ok
  Pitfall II ~The Lost Caverns~ [v0] [chin..(TW) Ok
  Pitfall II ~The Lost Caverns~ [v0] [engl..(TW) Ok
@@ -778,7 +778,7 @@
  Star Jacker [v1]                               Ok
  Star Jacker [v1] (TW)                          Ok
  Star Jacker [v2]                               Ok
- Star Soldier [DahJee] (TW)                    *Ok
+ Star Soldier [DahJee] (TW)                     Ok
  Super Tank                                     Ok
  Super Tank (KR)                                Ok
  Super Tank (TW)                                Ok
@@ -926,6 +926,7 @@
  Batter Up                                          Ok
  Battleship - The classic naval combat game         Ok
  Battletoads                                        Ok
+ Battletoads (US)                                   Ok
  Beavis and Butt-Head (MTV's)                       Ok
  Beavis and Butt-Head (MTV's) [Proto]               Ok
  Berenstain Bears' Camping Adventure, The           Ok
@@ -943,7 +944,7 @@
  Casino FunPak                                      Ok
  Castle of Illusion - Starring Mickey Mouse [SMS-GG]Ok
  Castle of Illusion - Starring Mick.. [SMS-GG] (JP) Ok
- Cave Dude [Proto] [SMS-GG]                        *Ok
+ Cave Dude [Proto] [SMS-GG]                         Ok
  Chakan                                             Ok
  Championship Hockey                                Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales     Ok
@@ -970,6 +971,7 @@
  Cutthroat Island                                   Ok
  Cutthroat Island [Proto]                           Ok
  Daffy Duck in Hollywood                            Ok
+ David Robinson's Supreme Court [Demo] [Proto]      Ok 
  Deep Duck Trouble - Starring Donald Duck           Ok
  Defenders of Oasis                                 Ok
  Defenders of Oasis [Proto]                         Ok
@@ -1294,6 +1296,7 @@
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
+ Street Battle [Proto] [SMS-GG]                     Ok
  Street Hero [Proto 0] [SMS-GG]                     Ok
  Street Hero [Proto 1] [SMS-GG]                     Ok
  Strider Returns                                    Ok
@@ -1312,7 +1315,7 @@
  Super Monaco GP II (Ayrton Senna's) (JP)           Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) [Proto]        Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
- Super Off Road [Proto]                            *Ok
+ Super Off Road [Proto]                             Ok
  Super Return of the Jedi (Star Wars)               Ok
  Super Smash T.V.                                   Ok
  Super Space Invaders                               Ok
@@ -1336,6 +1339,7 @@
  Taz-Mania                                          Ok
  Tempo Jr.                                          Ok
  Tengen World Cup Soccer                            Ok
+ Tengen World Cup Soccer [Proto]                   *Ok
  Terminator, The                                    Ok
  Terminator 2 - Judgment Day                        Ok
  Tesserae                                           Ok
@@ -1390,7 +1394,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 500 games tested - 488 are "Ok" - Compatibility rate: 97.45%
+ 504 games tested - 492 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
