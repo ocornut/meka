@@ -25,3 +25,5 @@ allegro.log
 *.vcxproj.user
 meka/srcs/obj
 meka/Dist
+
+.vs/
