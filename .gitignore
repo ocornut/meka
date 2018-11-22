@@ -27,3 +27,4 @@ meka/srcs/obj
 meka/Dist
 
 .vs/
+/meka/srcs/projects/msvc/packages/

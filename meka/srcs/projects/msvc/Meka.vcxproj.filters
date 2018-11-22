@@ -111,6 +111,7 @@
     <None Include="..\..\Makefile">
       <Filter>Srcs</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\allegro4to5.c">
