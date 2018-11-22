@@ -818,11 +818,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\hq2x16.asm">
-      <Filter>Srcs\Video\HQ2X</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\hq2x32.asm">
-      <Filter>Srcs\Video\HQ2X</Filter>
-    </CustomBuild>
+    <NASM Include="..\..\hq2x16.asm" />
+    <NASM Include="..\..\hq2x32.asm" />
   </ItemGroup>
 </Project>
