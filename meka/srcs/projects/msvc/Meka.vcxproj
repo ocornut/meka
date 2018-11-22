@@ -464,6 +464,9 @@
   <ItemGroup>
     <Image Include="mekaw.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="meka.manifest" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets" Condition="Exists('packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" />

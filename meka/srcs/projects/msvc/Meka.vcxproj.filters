@@ -821,4 +821,9 @@
     <NASM Include="..\..\hq2x16.asm" />
     <NASM Include="..\..\hq2x32.asm" />
   </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="meka.manifest">
+      <Filter>Resources</Filter>
+    </Manifest>
+  </ItemGroup>
 </Project>
