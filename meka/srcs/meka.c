@@ -329,6 +329,7 @@ int main(int argc, char **argv)
     #ifdef ARCH_WIN32
         // Need for XP manifest stuff
         InitCommonControls();
+        #pragma comment(lib, "comctl32.lib")
     #endif
 
 #ifdef ARCH_WIN32

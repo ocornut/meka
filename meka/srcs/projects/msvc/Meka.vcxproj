@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\nasm2.2.13.3.1\build\native\nasm.props" Condition="Exists('packages\nasm2.2.13.3.1\build\native\nasm.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -98,9 +99,7 @@
       <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <Version />
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>libcmt; msvcrt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)mekaw.pdb</ProgramDatabaseFile>
@@ -155,12 +154,10 @@
       <Culture>0x0000</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/MACHINE:I386 /IGNORE:4204 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MACHINE:I386 /IGNORE:4204,4099 %(AdditionalOptions)</AdditionalOptions>
       <ShowProgress>NotSet</ShowProgress>
       <Version />
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile />
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(IntDir)mekaw.pdb</ProgramDatabaseFile>
@@ -199,26 +196,18 @@
     <None Include="..\..\..\meka.pat" />
     <None Include="..\..\..\meka.thm" />
     <None Include="..\..\..\mekaw.cfg" />
-    <CustomBuild Include="..\..\hq2x16.asm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling %(FullPath)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Assembling %(FullPath)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\..\hq2x32.asm">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling %(FullPath)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Assembling %(FullPath)</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"..\..\..\libs\nasm\nasmw.exe" -O1 -DWIN32 -f win32 "%(FullPath)" -o "$(OutDir)%(Filename).obj"
-</Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(OutDir)%(Filename).obj;%(Outputs)</Outputs>
-    </CustomBuild>
+    <NASM Include="..\..\hq2x16.asm">
+      <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateDebugInformation>
+      <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateDebugInformation>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">-w-orphan-labels %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">-w-orphan-labels %(AdditionalOptions)</AdditionalOptions>
+    </NASM>
+    <NASM Include="..\..\hq2x32.asm">
+      <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateDebugInformation>
+      <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateDebugInformation>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">-w-orphan-labels %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">-w-orphan-labels %(AdditionalOptions)</AdditionalOptions>
+    </NASM>
     <None Include="..\..\Makefile" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -479,6 +468,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets" Condition="Exists('packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" />
     <Import Project="packages\Allegro.5.2.4.0\build\native\Allegro.targets" Condition="Exists('packages\Allegro.5.2.4.0\build\native\Allegro.targets')" />
+    <Import Project="packages\nasm2.2.13.3.1\build\native\nasm.targets" Condition="Exists('packages\nasm2.2.13.3.1\build\native\nasm.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -486,5 +476,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets'))" />
     <Error Condition="!Exists('packages\Allegro.5.2.4.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Allegro.5.2.4.0\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('packages\nasm2.2.13.3.1\build\native\nasm.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nasm2.2.13.3.1\build\native\nasm.props'))" />
+    <Error Condition="!Exists('packages\nasm2.2.13.3.1\build\native\nasm.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nasm2.2.13.3.1\build\native\nasm.targets'))" />
   </Target>
 </Project>
