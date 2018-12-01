@@ -24,7 +24,6 @@
   Includes:
   - Super-high quality tone channel "oversampling" by calculating fractional positions on transitions
   - Noise output pattern reverse engineered from actual SMS output
-  - Volume levels taken from actual SMS output
 
 */
 
@@ -35,11 +34,15 @@
 
 #define NoiseWhiteFeedback          NoiseWhiteFeedback_SMSGG
 
-// These values are taken from a real SMS2's output
 static const unsigned short int PSGVolumeValues[16] =
 {
+	// These values are taken from a real SMS2's output
+	/*
     892, 892, 892, 760, 623, 497, 404, 323,
     257, 198, 159, 123,  96,  75,  60,   0
+	*/
+	// These values are true volumes for 2dB drops at each step (multiply previous by 10^-0.1)
+	1516, 1205, 957, 760, 603, 479, 381, 303, 240, 191, 152, 120, 96, 76, 60, 0
 };
 
 // Variables
