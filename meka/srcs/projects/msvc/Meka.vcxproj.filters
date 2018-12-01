@@ -818,8 +818,12 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <NASM Include="..\..\hq2x16.asm" />
-    <NASM Include="..\..\hq2x32.asm" />
+    <NASM Include="..\..\hq2x32.asm">
+      <Filter>Srcs\Video\HQ2X</Filter>
+    </NASM>
+    <NASM Include="..\..\hq2x16.asm">
+      <Filter>Srcs\Video\HQ2X</Filter>
+    </NASM>
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="meka.manifest">
