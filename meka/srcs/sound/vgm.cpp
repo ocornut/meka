@@ -267,9 +267,9 @@ void            GD3_Header_Init(t_gd3_header *h)
         name = dbname ? dbname->name : "";
     }
     else
-	{
+    {
         name = "";
-	}
+    }
     h->strings[GD3_S_NAME_GAME_JAP]   = StrDupToU16 (name);
 
     // System, Author, Date, File author (filled if MEKA is registered), Notes

@@ -38,21 +38,21 @@ t_filebrowser    FB;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void		FB_Layout               (t_filebrowser *app, bool setup);
+static void     FB_Layout               (t_filebrowser *app, bool setup);
 
 //...
 
-static void		FB_Draw_List            ();
-static void		FB_Draw_Infos           ();
-static void		FB_Click_List           (t_widget *w);
-static void		FB_Sort_Files           (int start, int end);
-static void		FB_Check_and_Repos      ();
+static void     FB_Draw_List            ();
+static void     FB_Draw_Infos           ();
+static void     FB_Click_List           (t_widget *w);
+static void     FB_Sort_Files           (int start, int end);
+static void     FB_Check_and_Repos      ();
 
-static bool		FB_SelectEntryByFileName(const char* name);
-static void		FB_OpenSelectedEntry	();
-static void		FB_OpenDirectory		(const char* name);
-static void		FB_OpenFile				(const char* name);
-static void		FB_LoadAllNames			();
+static bool     FB_SelectEntryByFileName(const char* name);
+static void     FB_OpenSelectedEntry    ();
+static void     FB_OpenDirectory        (const char* name);
+static void     FB_OpenFile             (const char* name);
+static void     FB_LoadAllNames         ();
 
 static t_filebrowser_entry *   FB_Entry_New        (int type, char *file_name);
 static void                    FB_Entry_Delete     (t_filebrowser_entry *entry);
@@ -64,7 +64,7 @@ static void                    FB_Entry_Delete     (t_filebrowser_entry *entry);
 t_filebrowser_entry *       FB_Entry_New(int type, char *file_name)
 {
     t_filebrowser_entry* entry;
-	entry = (t_filebrowser_entry*)malloc(sizeof(t_filebrowser_entry));
+    entry = (t_filebrowser_entry*)malloc(sizeof(t_filebrowser_entry));
     entry->type             = type;
     entry->file_name        = file_name;
     entry->db_entry         = NULL;
@@ -79,7 +79,7 @@ void    FB_Entry_Delete(t_filebrowser_entry *entry)
 }
 
 // Find VLFN data associated to given entry file name, and associate data
-void	FB_Entry_FindVLFN(t_filebrowser_entry *entry)
+void    FB_Entry_FindVLFN(t_filebrowser_entry *entry)
 {
     t_vlfn_entry *  vlfn_entry = VLFN_FindByFileName(entry->file_name);
     if (vlfn_entry)
@@ -103,25 +103,25 @@ void    FB_Switch()
     gui_menu_toggle_check(menus_ID.file, 0);
 }
 
-void	FB_Init()
+void    FB_Init()
 {
-	t_filebrowser* app = &FB;
+    t_filebrowser* app = &FB;
 
-	t_frame frame;
+    t_frame frame;
     frame.pos.x     = 454;
     frame.pos.y     = 54;
     frame.size.x    = 340;
     frame.size.y    = 390;
 
-	app->files_display_count = 21;
+    app->files_display_count = 21;
     app->box = gui_box_new(&frame, Msg_Get(MSG_FileBrowser_BoxTitle));
-    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;				// Set exclusive inputs flag to avoid messing with emulation
-	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
-	app->box->size_min.x = 250;
-	app->box->size_min.y = 120;
+    app->box->flags |= GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE;                // Set exclusive inputs flag to avoid messing with emulation
+    app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
+    app->box->size_min.x = 250;
+    app->box->size_min.y = 120;
 
-	// Register to desktop
-	Desktop_Register_Box("FILEBROWSER", app->box, 0, &FB.active);
+    // Register to desktop
+    Desktop_Register_Box("FILEBROWSER", app->box, 0, &FB.active);
 
     // Add close box widget
     widget_closebox_add(FB.box, (t_widget_callback)FB_Switch);
@@ -136,21 +136,21 @@ void    FB_Init_2()
     FB_Load_Directory();
 }
 
-void	FB_Layout(t_filebrowser *app, bool setup)
+void    FB_Layout(t_filebrowser *app, bool setup)
 {
-	app->font_id = (t_font_id)g_configuration.font_filebrowser;
+    app->font_id = (t_font_id)g_configuration.font_filebrowser;
 
     al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
-	int contents_y = app->box->frame.size.y;
-	contents_y -= ((3*FB_PAD_Y) + FB_BUTTON_Y + 5);
-	app->files_display_count = contents_y / Font_Height(app->font_id);
+    int contents_y = app->box->frame.size.y;
+    contents_y -= ((3*FB_PAD_Y) + FB_BUTTON_Y + 5);
+    app->files_display_count = contents_y / Font_Height(app->font_id);
 
-	app->bottom_y = contents_y + 2*FB_PAD_Y;
+    app->bottom_y = contents_y + 2*FB_PAD_Y;
 
-	const t_frame bb = app->box->frame;
-	const int bb_w = app->box->frame.size.x;
+    const t_frame bb = app->box->frame;
+    const int bb_w = app->box->frame.size.x;
 
     // Setup widgets
     t_frame frame; 
@@ -160,13 +160,13 @@ void	FB_Layout(t_filebrowser *app, bool setup)
     frame.pos.y = FB_PAD_Y + 2;
     frame.size.x = FB_SCROLL_X - 3;
     frame.size.y = FB_Return_File_Area_Y() - 4;
-	if (setup)
-		app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, FB.files_display_count, (t_widget_callback)FB_Draw_List);
-	else
-	{
-		app->widget_scrollbar->frame = frame;
-		widget_scrollbar_set_page_step(app->widget_scrollbar, FB.files_display_count);
-	}
+    if (setup)
+        app->widget_scrollbar = widget_scrollbar_add(FB.box, WIDGET_SCROLLBAR_TYPE_VERTICAL, &frame, &FB.files_max, &FB.file_display_first, FB.files_display_count, (t_widget_callback)FB_Draw_List);
+    else
+    {
+        app->widget_scrollbar->frame = frame;
+        widget_scrollbar_set_page_step(app->widget_scrollbar, FB.files_display_count);
+    }
 
     // Add an invisible 'button' to catch click on the list
     // (currently the GUI doesn't handle list/combo)
@@ -174,13 +174,13 @@ void	FB_Layout(t_filebrowser *app, bool setup)
     frame.pos.y = FB_PAD_Y + 2;
     frame.size.x = bb_w - (2 * FB_PAD_X) - FB_SCROLL_X - 4;
     frame.size.y = FB_Return_File_Area_Y() - 6;
-	if (setup)
-	    app->widget_click_list = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Click_List, FONTID_NONE, NULL);
-	else
-		app->widget_click_list->frame = frame;
+    if (setup)
+        app->widget_click_list = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Click_List, FONTID_NONE, NULL);
+    else
+        app->widget_click_list->frame = frame;
 
-	// Outer frame
-	gui_rect(LOOK_ROUND, FB_PAD_X, FB_PAD_Y, bb_w - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y(), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
+    // Outer frame
+    gui_rect(LOOK_ROUND, FB_PAD_X, FB_PAD_Y, bb_w - FB_PAD_X, FB_PAD_Y + FB_Return_File_Area_Y(), COLOR_SKIN_WIDGET_LISTBOX_BORDER);
 
     // Add 'CLOSE' button
     //frame.pos.x = FB_BUTTON_X + 10;
@@ -188,51 +188,51 @@ void	FB_Layout(t_filebrowser *app, bool setup)
     frame.pos.y = app->bottom_y;
     frame.size.x = FB_BUTTON_X;
     frame.size.y = FB_BUTTON_Y;
-	if (setup)
-		app->widget_close_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, app->font_id, Msg_Get(MSG_FileBrowser_Close));
-	else
-		app->widget_close_button->frame = frame;
+    if (setup)
+        app->widget_close_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Switch, app->font_id, Msg_Get(MSG_FileBrowser_Close));
+    else
+        app->widget_close_button->frame = frame;
 
     // Add 'LOAD' button
     frame.pos.x -= FB_BUTTON_X + 10;
-	if (setup)
-		app->widget_load_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, app->font_id, Msg_Get(MSG_FileBrowser_Load));
-	else
-		app->widget_load_button->frame = frame;
+    if (setup)
+        app->widget_load_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_OpenSelectedEntry, app->font_id, Msg_Get(MSG_FileBrowser_Load));
+    else
+        app->widget_load_button->frame = frame;
 
     // Add small 'LOAD NAMES' button
     frame.pos.x = FB_PAD_X;
     frame.pos.y = app->bottom_y + Font_Height(FONTID_MEDIUM) + 6;
     frame.size.x = 80;
     frame.size.y = (int)(Font_Height(FONTID_MEDIUM) * 2);
-	if (setup)
-		app->widget_load_names_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, FONTID_MEDIUM, Msg_Get(MSG_FileBrowser_LoadNames));
-	else
-		app->widget_load_names_button->frame = frame;
+    if (setup)
+        app->widget_load_names_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_LoadAllNames, FONTID_MEDIUM, Msg_Get(MSG_FileBrowser_LoadNames));
+    else
+        app->widget_load_names_button->frame = frame;
 
     // Add small 'RELOAD DIR' button
     frame.pos.x += frame.size.x + 1;
-	if (setup)
-		app->widget_reload_dir_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, FONTID_MEDIUM, Msg_Get(MSG_FileBrowser_ReloadDir));
-	else
-		app->widget_reload_dir_button->frame = frame;
+    if (setup)
+        app->widget_reload_dir_button = widget_button_add(FB.box, &frame, 1, (t_widget_callback)FB_Load_Directory, FONTID_MEDIUM, Msg_Get(MSG_FileBrowser_ReloadDir));
+    else
+        app->widget_reload_dir_button->frame = frame;
 }
 
-void	FB_Free_Memory()
+void    FB_Free_Memory()
 {
     for (int i = 0; i < FB.files_max; i ++)
         FB_Entry_Delete(FB.files[i]);
     free(FB.files);
 }
 
-void	FB_Close()
+void    FB_Close()
 {
-	FB_Free_Memory();
+    FB_Free_Memory();
 }
 
 #ifdef ARCH_WIN32
 
-void	FB_Add_DiskDrives()
+void    FB_Add_DiskDrives()
 {
     for (int i = 2; i < 26; i ++)   // C: to Z:
     {
@@ -240,14 +240,14 @@ void	FB_Add_DiskDrives()
         {
             // Create a new file browser entry of disk type
             t_filebrowser_entry *entry;
-		    char buf[16];
+            char buf[16];
             sprintf(buf, "%c:", 'A' + i);
             entry = FB_Entry_New(FB_ENTRY_TYPE_DRIVE, strdup(buf));
 
             // Add to list (FIXME: arghh.)
             FB.files[FB.files_max] = entry;
             FB.files_max ++;
-			FB.files = (t_filebrowser_entry**)realloc(FB.files, (FB.files_max + 1) * sizeof(t_filebrowser_entry *));
+            FB.files = (t_filebrowser_entry**)realloc(FB.files, (FB.files_max + 1) * sizeof(t_filebrowser_entry *));
         }
     }
 }
@@ -283,10 +283,10 @@ static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
 }
 
 // FIXME-OPT: slow
-void	FB_Sort_Files(int start, int end)
+void    FB_Sort_Files(int start, int end)
 {
     for (; start < end - 1; start ++)
-	{
+    {
         for (int i = end - 1; i > start; i --)
         {
             t_filebrowser_entry *e1 = FB.files[i];
@@ -312,10 +312,10 @@ void	FB_Sort_Files(int start, int end)
                 FB.files [i - 1] = e1;
             }
         }
-	}
+    }
 }
 
-int		FB_Ext_In_List(const t_list *ext_list, const char *ext)
+int     FB_Ext_In_List(const t_list *ext_list, const char *ext)
 {
     while (ext_list)
     {
@@ -326,12 +326,12 @@ int		FB_Ext_In_List(const t_list *ext_list, const char *ext)
     return (0);
 }
 
-void	FB_Add_Entries(t_list *ext_list, int type)
+void    FB_Add_Entries(t_list *ext_list, int type)
 {
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
     DIR *           dir;
     struct dirent * dirent;
-    struct stat	    dirent_stat;
+    struct stat     dirent_stat;
 
     // Open current directory
     if ((dir = opendir(".")) == 0)
@@ -362,9 +362,9 @@ void	FB_Add_Entries(t_list *ext_list, int type)
                 continue;
         }
         else
-		{
+        {
             continue;
-		}
+        }
 
         // Create a new file browser entry of given type
         t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
@@ -372,7 +372,7 @@ void	FB_Add_Entries(t_list *ext_list, int type)
             FB_Entry_FindVLFN (entry);
 
         // Add to list (FIXME: argh)
-	    FB.files[FB.files_max] = entry;
+        FB.files[FB.files_max] = entry;
         FB.files_max ++;
         FB.files = (t_filebrowser_entry**)realloc (FB.files, (FB.files_max + 1) * sizeof (t_filebrowser_entry *));
     }
@@ -390,7 +390,7 @@ void	FB_Add_Entries(t_list *ext_list, int type)
 
     struct _finddata_t info;
     long   handle;
-	if ((handle = _findfirst ("*.*", &info)) < 0)
+    if ((handle = _findfirst ("*.*", &info)) < 0)
         return;
 
     do
@@ -416,9 +416,9 @@ void	FB_Add_Entries(t_list *ext_list, int type)
                 continue;
         }
         else
-		{
+        {
             continue;
-		}
+        }
 
         // Create a new file browser entry of given type
         t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
@@ -446,12 +446,12 @@ static void     FB_Load_Directory_Internal()
     FB.file_pos = 0;
     FB.file_display_first = 0;
     FB.last_click = -1;
-	FB.files = (t_filebrowser_entry**)malloc (sizeof (t_filebrowser_entry *));
+    FB.files = (t_filebrowser_entry**)malloc (sizeof (t_filebrowser_entry *));
 
     // First add directories and sort them
     FB_Add_Entries(NULL, FB_ENTRY_TYPE_DIRECTORY);
-	const int sort_dir_last = FB.files_max;
-	const int sort_dir_first = (sort_dir_last > 0 && (strcmp(FB.files [0]->file_name, "..") == 0)) ? 1 : 0;
+    const int sort_dir_last = FB.files_max;
+    const int sort_dir_first = (sort_dir_last > 0 && (strcmp(FB.files [0]->file_name, "..") == 0)) ? 1 : 0;
     FB_Sort_Files(sort_dir_first, sort_dir_last);
 
     // Then add files
@@ -474,7 +474,7 @@ static void     FB_Load_Directory_Internal()
     // If nothing was found, attempt to chdir to root and try again
     // FIXME: using a static there...
     if (FB.files_max == 0 && !no_files_hack)
-	{
+    {
         chdir("\\");
         no_files_hack = true;
         FB_Load_Directory_Internal();
@@ -495,38 +495,38 @@ static void     FB_Load_Directory_Internal()
 
 void        FB_Draw_Infos()
 {
-	t_filebrowser* app = &FB;
-	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
+    t_filebrowser* app = &FB;
+    ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
 
-	char buf[32];
+    char buf[32];
     sprintf(buf, "%d/%d", app->file_pos + 1, app->files_max);
     Font_SetCurrent(app->font_id);
-	al_set_target_bitmap(box_gfx);
+    al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(FB_TEXT_PAD_X, app->bottom_y + 2, 88+1, app->bottom_y + 2 + Font_Height()+1, COLOR_SKIN_WINDOW_BACKGROUND);
     Font_Print(FONTID_CUR, buf, FB_TEXT_PAD_X, app->bottom_y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
 
 // Redraw file listing
-void	FB_Draw_List()
+void    FB_Draw_List()
 {
-	t_filebrowser *app = &FB;
+    t_filebrowser *app = &FB;
 
-	ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
+    ALLEGRO_BITMAP* box_gfx = app->box->gfx_buffer;
 
     int     x = FB_TEXT_PAD_X;
     int     y = FB_TEXT_PAD_Y;
 
-	char    name_buffer [256];
+    char    name_buffer [256];
 
     const int lines_max = MIN(FB.file_display_first + FB.files_display_count, FB.files_max);
 
-	const t_frame bb = app->box->frame;
-	const int bb_w = app->box->frame.size.x;
+    const t_frame bb = app->box->frame;
+    const int bb_w = app->box->frame.size.x;
 
     // Ask scrollbar to refresh
-	al_set_target_bitmap(box_gfx);
+    al_set_target_bitmap(box_gfx);
     al_draw_filled_rectangle(FB_PAD_X + 2, FB_PAD_Y + 2, bb_w - FB_PAD_X - FB_SCROLL_X, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WIDGET_LISTBOX_BACKGROUND);
-	al_draw_line(bb_w - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, bb_w - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
+    al_draw_line(bb_w - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + 2, bb_w - FB_PAD_X - FB_SCROLL_X + 1, FB_PAD_Y + FB_Return_File_Area_Y() - 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     Font_SetCurrent(app->font_id);
     for (int n = FB.file_display_first; n < lines_max; n++)
@@ -636,7 +636,7 @@ void	FB_Draw_List()
                     // Hack icon
                     if (entry->db_entry->flags & DB_FLAG_HACK)
                     {
-						al_draw_bitmap(Graphics.Icons.Hack, x + 1, y + 1, 0);
+                        al_draw_bitmap(Graphics.Icons.Hack, x + 1, y + 1, 0);
                         x += 18;
                     }
 
@@ -695,7 +695,7 @@ void	FB_Draw_List()
     FB_Draw_Infos();
 }
 
-void	FB_Check_and_Repos()
+void    FB_Check_and_Repos()
 {
     if (FB.file_pos >= FB.files_max) 
         FB.file_pos = FB.files_max - 1;
@@ -705,15 +705,15 @@ void	FB_Check_and_Repos()
     if (FB.file_pos < (FB.files_display_count >> 1)) 
         FB.file_display_first = 0;
     else if (FB.file_pos >= FB.files_max - (FB.files_display_count / 2)) 
-		FB.file_display_first = FB.files_max - FB.files_display_count;
-	else
-		FB.file_display_first = FB.file_pos - (FB.files_display_count / 2);
+        FB.file_display_first = FB.files_max - FB.files_display_count;
+    else
+        FB.file_display_first = FB.file_pos - (FB.files_display_count / 2);
 
     if (FB.file_display_first < 0) 
         FB.file_display_first = 0;
 }
 
-void	FB_Update()
+void    FB_Update()
 {
     // Skip update if not active
     if (!FB.active)
@@ -769,8 +769,8 @@ void	FB_Update()
         }
         else if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, false))
         {
-			FB_OpenDirectory("..");
-			dirty = true;
+            FB_OpenDirectory("..");
+            dirty = true;
         }
         // Note: we check for no key modifiers to be pressed
         // Eg: we don't want ALT-L to jump on 'L' games
@@ -778,19 +778,19 @@ void	FB_Update()
         {
             // FIXME: this function may need a rewrite. Also, avoid using strupr()!
             // FIXME: could use allegro feature of keycode->ascii conversion
-			int i;
+            int i;
             for (i = 0; i < 26; i ++)
-			{
-				const int keycode = ALLEGRO_KEY_A + i;
-				const char keychar = 'A' + i;
+            {
+                const int keycode = ALLEGRO_KEY_A + i;
+                const char keychar = 'A' + i;
                 if (Inputs_KeyPressed_Repeat(keycode, FALSE, 20, 2))
                 {
-					int j;
+                    int j;
                     for (j = FB.file_pos + 1; j < FB.files_max; j ++)
                     {
                         t_filebrowser_entry *entry = FB.files[j];
-						if (entry->type == FB_ENTRY_TYPE_DRIVE)
-							continue;
+                        if (entry->type == FB_ENTRY_TYPE_DRIVE)
+                            continue;
                         const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name[0];
                         if (toupper(c) == keychar)
                         { 
@@ -799,12 +799,12 @@ void	FB_Update()
                         }
                     }
                     if (j == FB.files_max)
-					{
+                    {
                         for (j = 0; j < FB.file_pos; j ++)
                         {
                             t_filebrowser_entry *entry = FB.files[j];
-							if (entry->type == FB_ENTRY_TYPE_DRIVE)
-								continue;
+                            if (entry->type == FB_ENTRY_TYPE_DRIVE)
+                                continue;
                             const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name[0];
                             if (toupper (c) == keychar)
                             { 
@@ -812,10 +812,10 @@ void	FB_Update()
                                 break; 
                             }
                         }
-					}
+                    }
                     break;
                 }
-			}
+            }
             if (i != 26) 
                 dirty = TRUE;
         }
@@ -823,7 +823,7 @@ void	FB_Update()
         // Update mouse inputs (wheel)
         if (gui.mouse.wheel_rel != 0)
         {
-			const int wheel_speed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) ? 10 : 1;
+            const int wheel_speed = (g_keyboard_modifiers & ALLEGRO_KEYMOD_CTRL) ? 10 : 1;
             if (gui.mouse.wheel_rel < 0)
                 FB.file_pos += wheel_speed;
             if (gui.mouse.wheel_rel > 0)
@@ -840,7 +840,7 @@ void	FB_Update()
     }
 }
 
-void	FB_Load_Directory()
+void    FB_Load_Directory()
 {
     // Msg(MSGT_DEBUG, "FB_Load_Directory()");
 
@@ -854,10 +854,10 @@ void	FB_Load_Directory()
         FB.file_pos = old_file_pos;
         FB.file_display_first = old_file_display_first;
     }
-	FB_Draw_List();
+    FB_Draw_List();
 }
 
-void	FB_LoadAllNames()
+void    FB_LoadAllNames()
 {
     // Save current battery backed memory if there's one
     // Because Load_ROM with no verbosing doesn't save it
@@ -889,7 +889,7 @@ void	FB_LoadAllNames()
     FB_Draw_List();
 }
 
-void	FB_OpenSelectedEntry()
+void    FB_OpenSelectedEntry()
 {
     t_filebrowser_entry *entry = FB.files [FB.file_pos];
     switch (entry->type)
@@ -897,12 +897,12 @@ void	FB_OpenSelectedEntry()
     case FB_ENTRY_TYPE_DIRECTORY:
     case FB_ENTRY_TYPE_DRIVE:
         {
-			FB_OpenDirectory(entry->file_name);
+            FB_OpenDirectory(entry->file_name);
             break;
         }
     case FB_ENTRY_TYPE_FILE:
         {
-			FB_OpenFile(entry->file_name);
+            FB_OpenFile(entry->file_name);
             break;
         }
     default:
@@ -913,60 +913,60 @@ void	FB_OpenSelectedEntry()
     }
 }
 
-void	FB_OpenDirectory(const char* name)
+void    FB_OpenDirectory(const char* name)
 {
     // Mute sound while processing loading or changing directory, which may take time
     Sound_Playback_Mute();
 
-	// Change directory
-	chdir(name);
+    // Change directory
+    chdir(name);
 
-	char previous_directory[FILENAME_LEN];
-	if (!strcmp(name, ".."))
-	{
-		// If going up the hierarchy we want to position cursor on the orevious directory
-		// Abusively use StrPath_RemoveDirectory() since we know current_directory doesn't end with /
-		StrPath_RemoveDirectory(previous_directory, FB.current_directory);
-	}
-	else
-	{
-		previous_directory[0] = EOSTR;
-	}
+    char previous_directory[FILENAME_LEN];
+    if (!strcmp(name, ".."))
+    {
+        // If going up the hierarchy we want to position cursor on the orevious directory
+        // Abusively use StrPath_RemoveDirectory() since we know current_directory doesn't end with /
+        StrPath_RemoveDirectory(previous_directory, FB.current_directory);
+    }
+    else
+    {
+        previous_directory[0] = EOSTR;
+    }
 
-	getcwd(FB.current_directory, FILENAME_LEN);
-	//printf("curdir %s¥n", FB.current_directory);
-	FB_Free_Memory();
-	FB_Load_Directory_Internal();
+    getcwd(FB.current_directory, FILENAME_LEN);
+    //printf("curdir %s¥n", FB.current_directory);
+    FB_Free_Memory();
+    FB_Load_Directory_Internal();
 
-	if (previous_directory[0] != EOSTR)
-	{
-		FB_SelectEntryByFileName(previous_directory);
-	}
+    if (previous_directory[0] != EOSTR)
+    {
+        FB_SelectEntryByFileName(previous_directory);
+    }
 
-	FB_Draw_List();
+    FB_Draw_List();
 
-	// Resume sound
+    // Resume sound
     Sound_Playback_Resume();
 }
 
-void	FB_OpenFile(const char* name)
+void    FB_OpenFile(const char* name)
 {
     // Mute sound while processing loading or changing directory, which may take time
     Sound_Playback_Mute();
 
-	strncpy(g_env.Paths.MediaImageFile, name, sizeof(g_env.Paths.MediaImageFile));
-	Load_ROM(LOAD_MODE_GUI, true);
-	FB_Reload_Names();
-	if (g_configuration.fb_close_after_load)
-	{
-		FB_Switch();
-	}
-	if (g_configuration.fullscreen_after_load)
-	{
-		Action_Switch_Mode();
-	}
+    strncpy(g_env.Paths.MediaImageFile, name, sizeof(g_env.Paths.MediaImageFile));
+    Load_ROM(LOAD_MODE_GUI, true);
+    FB_Reload_Names();
+    if (g_configuration.fb_close_after_load)
+    {
+        FB_Switch();
+    }
+    if (g_configuration.fullscreen_after_load)
+    {
+        Action_Switch_Mode();
+    }
 
-	// Resume sound
+    // Resume sound
     Sound_Playback_Resume();
 }
 
@@ -975,22 +975,22 @@ bool    FB_SelectEntryByFileName(const char* file_name)
     for (int i = 0; i < FB.files_max; i++)
     {
         const t_filebrowser_entry *entry = FB.files[i];
-		if (strcmp(entry->file_name, file_name) == 0)
-		{
+        if (strcmp(entry->file_name, file_name) == 0)
+        {
             FB.file_pos = i;
             FB_Check_and_Repos();
-			return true;
-		}
-	}
-	return false;
+            return true;
+        }
+    }
+    return false;
 }
 
 void    FB_Click_List (t_widget *w)
 {
-	t_filebrowser* app = &FB;
+    t_filebrowser* app = &FB;
 
     const int i = app->file_display_first + (w->mouse_y / Font_Height(app->font_id));
-	if ((i == app->last_click) && (gui.mouse.double_clicked & 1))
+    if ((i == app->last_click) && (gui.mouse.double_clicked & 1))
     {
         FB_OpenSelectedEntry();
     }

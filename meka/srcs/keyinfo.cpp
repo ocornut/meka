@@ -86,7 +86,7 @@ static const t_key_info  KeyInfo_Table [] =
     { ALLEGRO_KEY_CLOSEBRACE,   "]",             KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_ENTER,        "Enter",                              KEY_INFO_ALLOW_USE     },
     //{ ALLEGRO_KEY_COLON,        ";",             KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     }, // //??Semi Colon (;), not Colon (:)
-    { ALLEGRO_KEY_SEMICOLON,	"Semicolon",     KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     }, // ?
+    { ALLEGRO_KEY_SEMICOLON,    "Semicolon",     KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     }, // ?
     { ALLEGRO_KEY_QUOTE,        "'",             KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     }, // Quote ('), not Double Quote (")
     { ALLEGRO_KEY_BACKSLASH,    "\\",            KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_BACKSLASH2,   "\\",            KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
@@ -109,8 +109,8 @@ static const t_key_info  KeyInfo_Table [] =
 
     { ALLEGRO_KEY_PAD_MINUS,    "Minus (Pad)",   KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PAD_PLUS,     "Plus (Pad)",    KEY_INFO_PRINTABLE | KEY_INFO_ALLOW_USE     },
-    { ALLEGRO_KEY_PAD_DELETE,   ". (Pad)",							  KEY_INFO_ALLOW_USE     },
-	{ 123,						". (Pad)",                            KEY_INFO_ALLOW_USE     },
+    { ALLEGRO_KEY_PAD_DELETE,   ". (Pad)",                            KEY_INFO_ALLOW_USE     },
+    { 123,                      ". (Pad)",                            KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PAD_ENTER,    "Enter (Pad)",                        KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PRINTSCREEN,  "Print Screen",                       KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_PAUSE,        "Pause",         0                                           },
@@ -132,8 +132,8 @@ static const t_key_info  KeyInfo_Table [] =
 
     { ALLEGRO_KEY_LSHIFT,       "Left Shift",                         KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_RSHIFT,       "Right Shift",                        KEY_INFO_ALLOW_USE     },
-    { ALLEGRO_KEY_RCTRL,		"Right Control",                      KEY_INFO_ALLOW_USE     },
-    { ALLEGRO_KEY_LCTRL,		"Left Control",                       KEY_INFO_ALLOW_USE     },
+    { ALLEGRO_KEY_RCTRL,        "Right Control",                      KEY_INFO_ALLOW_USE     },
+    { ALLEGRO_KEY_LCTRL,        "Left Control",                       KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_ALT,          "Alt",                                KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_ALTGR,        "Alt GR",                             KEY_INFO_ALLOW_USE     },
     { ALLEGRO_KEY_LWIN,         "Left Win",                           KEY_INFO_ALLOW_USE     },

@@ -278,17 +278,17 @@ static int  Skins_ParseLine(char *line)
 {
     if (line[0] == '[')
     {
-		line++;
+        line++;
 
-		// Get name
-		char skin_name[256];
+        // Get name
+        char skin_name[256];
         if (!parse_getword(skin_name, sizeof(skin_name), &line, "]", ';', PARSE_FLAGS_DONT_EAT_SEPARATORS))
             return MEKA_ERR_SYNTAX;
         if (*line != ']')
             return MEKA_ERR_SYNTAX;
 
-		// Create new skin
-		t_skin* skin = Skin_New(skin_name);
+        // Create new skin
+        t_skin* skin = Skin_New(skin_name);
         list_add(&Skins.skins, skin);
         Skins.skin_current = skin;
         return MEKA_ERR_OK;
@@ -298,17 +298,17 @@ static int  Skins_ParseLine(char *line)
         t_skin *skin = Skins.skin_current;
 
         // Read line
-		char var[256];
-		char value[256];
+        char var[256];
+        char value[256];
         if (!parse_getword(var, sizeof(var), &line, "=", ';', PARSE_FLAGS_NONE))
             return MEKA_ERR_OK;
         parse_skip_spaces(&line);
 
-		if (!skin)
-			return MEKA_ERR_MISSING;
+        if (!skin)
+            return MEKA_ERR_MISSING;
 
         // Check if it's a skin color
-		int i;
+        int i;
         for (i = 0; i < SKIN_COLOR_MAX_; i++)
             if (strcmp(var, SkinColorData[i].identifier) == 0)
                 break;
@@ -418,7 +418,7 @@ void        Skins_Load(const char *filename)
 
     // Open and read file
     t_tfile* tf;
-	tf = tfile_read(filename);
+    tf = tfile_read(filename);
     if (tf == NULL)
     {
         ConsolePrintf ("%s\n", meka_strerror());
@@ -720,7 +720,7 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *b
     if (!gradient->enabled)
     {
         // Fill with start color
-		al_set_target_bitmap(bitmap);
+        al_set_target_bitmap(bitmap);
         al_draw_filled_rectangle(x1, y1, x2+1, y2+1, gradient->native_color_start);
     }
     else
@@ -729,19 +729,19 @@ void    SkinGradient_DrawHorizontal(t_skin_gradient *gradient, ALLEGRO_BITMAP *b
         const int gradient_pos_start = ((x2 - x1) * gradient->pos_start) / 100;
         const int gradient_pos_end   = ((x2 - x1) * gradient->pos_end)   / 100;
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
-		al_set_target_bitmap(bitmap);
+        al_set_target_bitmap(bitmap);
         if (gradient_pos_start != 0)
             al_draw_filled_rectangle(x1, y1+0.5f, x1 + gradient_pos_start + 1, y2+1.5f, gradient->native_color_start);
-		if ( gradient_size > 0 )
-		{
-			for (int n = 0; n <= gradient_size; n++)
-			{
-				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
-				const int x = x1 + n + gradient_pos_start;
-				const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
-				al_draw_line(x+0.5f, y1+0.5f, x+0.5f, y2+1.5f, color, 0.0f);
-			}
-		}
+        if ( gradient_size > 0 )
+        {
+            for (int n = 0; n <= gradient_size; n++)
+            {
+                const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
+                const int x = x1 + n + gradient_pos_start;
+                const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
+                al_draw_line(x+0.5f, y1+0.5f, x+0.5f, y2+1.5f, color, 0.0f);
+            }
+        }
         if (gradient_pos_end < frame->size.x+1)
             al_draw_filled_rectangle(x1 + gradient_pos_end, y1+0.5f, x2+1, y2+1.5f, gradient->native_color_end);
     }
@@ -754,7 +754,7 @@ void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bit
     const int x2 = frame->pos.x + frame->size.x;
     const int y2 = frame->pos.y + frame->size.y;
 
-	al_set_target_bitmap(bitmap);
+    al_set_target_bitmap(bitmap);
     if (!gradient->enabled)
     {
         // Fill with start color
@@ -768,16 +768,16 @@ void    SkinGradient_DrawVertical(t_skin_gradient *gradient, ALLEGRO_BITMAP *bit
         const int gradient_size      = gradient_pos_end - gradient_pos_start;
         if (gradient_pos_start != 0)
             al_draw_filled_rectangle(x1, y1, x2 + 1, y1 + gradient_pos_start + 1, gradient->native_color_start);
-		if ( gradient_size > 0 )
-		{
-			for (int n = 0; n <= gradient_size; n++)
-			{
-				const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
-				const int y = y1 + n + gradient_pos_start;
-				const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
-				al_draw_hline(x1, y, x2, color);
-			}
-		}
+        if ( gradient_size > 0 )
+        {
+            for (int n = 0; n <= gradient_size; n++)
+            {
+                const int gradient_idx = n * (SKIN_GRADIENT_NATIVE_COLOR_BUFFER_SIZE - 1) / gradient_size;
+                const int y = y1 + n + gradient_pos_start;
+                const ALLEGRO_COLOR color = gradient->native_color_buffer[gradient_idx];
+                al_draw_hline(x1, y, x2, color);
+            }
+        }
         if (gradient_pos_end < frame->size.y+1)
             al_draw_filled_rectangle(x1, y1 + gradient_pos_end, x2 + 1, y2 + 1, gradient->native_color_end);
     }

@@ -48,18 +48,18 @@ void    GUI_Init()
     gui.boxes = NULL;
     gui.boxes_count = 0;
 
-	gui.info.screen.x = g_configuration.video_mode_gui_res_x;
+    gui.info.screen.x = g_configuration.video_mode_gui_res_x;
     gui.info.screen.y = g_configuration.video_mode_gui_res_y;
-	GUI_CreateVideoBuffers();
+    GUI_CreateVideoBuffers();
 
     Desktop_Init();
 
-	// Create game box (create before applets so it gets focus by default when there's no .dsk file)
+    // Create game box (create before applets so it gets focus by default when there's no .dsk file)
     static bool active_dummy = TRUE;
     gamebox_instance = gamebox_create(163, 151);
     Desktop_Register_Box("GAME", gamebox_instance, 1, &active_dummy);
 
-	GUI_InitApplets();
+    GUI_InitApplets();
     SkinFx_Init();
 
     Desktop_SetStateToBoxes();     // Set all boxes state based on MEKA.DSK data
@@ -67,12 +67,12 @@ void    GUI_Init()
     gui_init_mouse();
 }
 
-void	GUI_SetupNewVideoMode()
+void    GUI_SetupNewVideoMode()
 {
-	gui.info.must_redraw = TRUE;
-	gui.info.screen.x = g_configuration.video_mode_gui_res_x;
+    gui.info.must_redraw = TRUE;
+    gui.info.screen.x = g_configuration.video_mode_gui_res_x;
     gui.info.screen.y = g_configuration.video_mode_gui_res_y;
-	GUI_CreateVideoBuffers();
+    GUI_CreateVideoBuffers();
 
     Skins_StartupFadeIn();
 
@@ -84,7 +84,7 @@ void	GUI_SetupNewVideoMode()
     }
 }
 
-void	GUI_DestroyVideoBuffers()
+void    GUI_DestroyVideoBuffers()
 {
     if (gui_buffer != NULL)
     {
@@ -99,24 +99,24 @@ void	GUI_DestroyVideoBuffers()
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
         t_gui_box* box = (t_gui_box*)boxes->elem;;
-		gui_box_destroy_video_buffer(box);
-	}
+        gui_box_destroy_video_buffer(box);
+    }
 }
 
-void	GUI_CreateVideoBuffers()
+void    GUI_CreateVideoBuffers()
 {
     GUI_DestroyVideoBuffers();
 
     // Setup buffers
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
+    al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
+    al_set_new_bitmap_format(g_configuration.video_gui_format_request);
     gui_buffer = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
     al_set_target_bitmap(gui_buffer);
-	al_clear_to_color(COLOR_BLACK);
-	g_gui_buffer_format = al_get_bitmap_format(gui_buffer);
+    al_clear_to_color(COLOR_BLACK);
+    g_gui_buffer_format = al_get_bitmap_format(gui_buffer);
 
-	al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-	al_set_new_bitmap_format(g_configuration.video_gui_format_request);
+    al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
+    al_set_new_bitmap_format(g_configuration.video_gui_format_request);
     gui_background = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
 
     Skins_Background_Redraw();
@@ -125,11 +125,11 @@ void	GUI_CreateVideoBuffers()
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {
         t_gui_box* box = (t_gui_box*)boxes->elem;;
-		gui_box_create_video_buffer(box);
-	}
+        gui_box_create_video_buffer(box);
+    }
 }
 
-void	GUI_Close(void)
+void    GUI_Close(void)
 {
     // FIXME: Nice....
 
@@ -142,7 +142,7 @@ void    GUI_InitApplets(void)
     TB_Message_Init();
     MemoryViewer_MainInstance = MemoryViewer_New(TRUE, -1, -1);
     TilemapViewer_MainInstance = TilemapViewer_New(TRUE);
-	g_CheatFinder_MainInstance = CheatFinder_New(TRUE);
+    g_CheatFinder_MainInstance = CheatFinder_New(TRUE);
 
     // Text Viewer
     TextViewer_Init(&TextViewer);
@@ -160,7 +160,7 @@ void    GUI_InitApplets(void)
     Inputs_CFG_Init_Applet();
 
 #ifdef SOUND_DEBUG_APPLET
-	SoundDebugApp_Init();
+    SoundDebugApp_Init();
 #endif
 
     // Debugger

@@ -31,9 +31,9 @@ word    Loop_SMS (void)
     tsms.VDP_Line = (tsms.VDP_Line + 1) % g_machine.TV_lines;
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER
-		if (Debugger.active)
-			Debugger_RasterLine_Hook(tsms.VDP_Line);
-	#endif
+        if (Debugger.active)
+            Debugger_RasterLine_Hook(tsms.VDP_Line);
+    #endif
 
     // Update sound cycle counter0
     Sound.CycleCounter += opt.Cur_IPeriod;

@@ -100,7 +100,7 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
     // Set attributes
     char w[256];
     parse_getword(w, sizeof(w), &s, "=", ';', PARSE_FLAGS_NONE);
-	int i;
+    int i;
     for (i = 0; Blitters_Def_Variables [i]; i++)
         if (!strcmp(w, Blitters_Def_Variables [i]))
             break;
@@ -148,7 +148,7 @@ void    Blitters_Init_Values()
     Blitters.blitter_configuration_name = NULL;
 }
 
-void	Blitters_Init()
+void    Blitters_Init()
 {
     ConsolePrint(Msg_Get(MSG_Blitters_Loading));
 
@@ -168,7 +168,7 @@ void	Blitters_Init()
         const char* line = (char*)lines->elem;
         line_cnt += 1;
 
-		int i, j;
+        int i, j;
         char s1 [256], s2 [256];
         for (i = 0, j = 0; line [i] != 0 && line [i] != ';'; i ++)
             if ((line [0] == '[') || (line [i] != ' ' && line [i] != '\t'))
@@ -247,7 +247,7 @@ void    Blitters_Switch_Common (void)
 void    Blitters_SwitchNext(void)
 {
     int index = (Blitters.current->index + 1) % Blitters.count;
-	t_list* blitters;
+    t_list* blitters;
     for (blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
         if (index-- == 0)
             break;
@@ -269,7 +269,7 @@ void    Blitters_Menu_Init (int menu_id)
         t_blitter* blitter = (t_blitter*)blitters->elem;
         menu_add_item(menu_id,
             blitter->name,
-			NULL,
+            NULL,
             MENU_ITEM_FLAG_ACTIVE | ((blitter == Blitters.current) ? MENU_ITEM_FLAG_CHECKED : 0),
             (t_menu_callback)Blitters_Switch_Handler, blitter);
     }

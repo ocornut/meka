@@ -27,7 +27,7 @@ t_app_tech_info TechInfo;
 static void TechInfo_Layout(t_app_tech_info *app, bool setup)
 {
     // Clear
-	al_set_target_bitmap(app->box->gfx_buffer);
+    al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
@@ -39,7 +39,7 @@ static void TechInfo_Layout(t_app_tech_info *app, bool setup)
 
 void        TechInfo_Init()
 {
-	t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
+    t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
 
     t_frame frame;
     frame.pos.x = 306;
@@ -65,9 +65,9 @@ void        TechInfo_Init()
 
 static void TechInfo_Redraw(t_app_tech_info* app)
 {
-	t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
+    t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
 
-	al_set_target_bitmap(app->box->gfx_buffer);
+    al_set_target_bitmap(app->box->gfx_buffer);
     for (int i = 0; i != TECHINFO_LINES; i++)
     {
         if (app->lines_dirty[i])
@@ -75,7 +75,7 @@ static void TechInfo_Redraw(t_app_tech_info* app)
             const int h = Font_Height(font_id);
             const int y = (h * i);
 
-			al_set_target_bitmap(app->box->gfx_buffer);
+            al_set_target_bitmap(app->box->gfx_buffer);
             al_draw_filled_rectangle(0, y, app->box->frame.size.x+1, y + h, COLOR_SKIN_WINDOW_BACKGROUND);
             Font_Print(font_id, app->lines[i], 4, y, COLOR_SKIN_WINDOW_TEXT);
 
@@ -178,7 +178,7 @@ void        TechInfo_Update(void)
     // - TMS9918
     {
         sprintf(line, "[TMS9918] Name:%04X - Color:%04X - Pattern:%04X - SPG:%04X", 
-		    (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
+            (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
 
@@ -194,21 +194,21 @@ void        TechInfo_Update(void)
 
     // - Memory
     {
-		char mapper_regs[256];
-		mapper_regs[0] = '\0';
-		for (int i = 0; i != g_machine.mapper_regs_count; i++)
-		{
-			char s[16];
-			if (i == 0)
-				sprintf(s, "$%02X", g_machine.mapper_regs[i]);
-			else 
-				sprintf(s, ",$%02X", g_machine.mapper_regs[i]);
-			strcat(mapper_regs, s);
-		}
+        char mapper_regs[256];
+        mapper_regs[0] = '\0';
+        for (int i = 0; i != g_machine.mapper_regs_count; i++)
+        {
+            char s[16];
+            if (i == 0)
+                sprintf(s, "$%02X", g_machine.mapper_regs[i]);
+            else 
+                sprintf(s, ",$%02X", g_machine.mapper_regs[i]);
+            strcat(mapper_regs, s);
+        }
 
-		sprintf(line, " [MAPPER] Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
-	        g_machine.mapper, sms.SRAM_Mapping_Register, mapper_regs, tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
-		TechInfo_SetLine(app, line, line_idx++);
+        sprintf(line, " [MAPPER] Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
+            g_machine.mapper, sms.SRAM_Mapping_Register, mapper_regs, tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
+        TechInfo_SetLine(app, line, line_idx++);
     }
 
     // Blank left lines

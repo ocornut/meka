@@ -54,8 +54,8 @@ int         PSG_Init()
 {
     ConsolePrintf ("%s ", Msg_Get(MSG_Sound_Init_SN76496));
 
-	// FIXME-NEWSOUND: PSG
-	/*
+    // FIXME-NEWSOUND: PSG
+    /*
     PSG_saChannel = stream_init ("SN76496 #0", g_sasound.audio_sample_rate, 16, 0, PSG_Update);
     if (PSG_saChannel == -1)
     {
@@ -63,11 +63,11 @@ int         PSG_Init()
         return (MEKA_ERR_FAIL);
     }
     stream_set_volume (PSG_saChannel, VOLUME_MAX);
-	*/
+    */
 
     for (int i = 0; i < 4; i++)               // FIXME: to be done in sound.c ?
         PSG.Channels[i].Active = TRUE;
-	SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
+    SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
 
     ConsolePrintf ("%s\n", Msg_Get(MSG_Ok));
     return (MEKA_ERR_OK);
@@ -217,38 +217,38 @@ void        PSG_Mute (void)
 // Initialise and reset emulated PSG, given clock and sampling rate
 void        SN76489_Reset(const unsigned long PSGClockValue, const unsigned long SamplingRate)
 {
-	// Probably unnecessarily verbose
-	Active = (PSGClockValue > 0);
-	if (!Active) return;
+    // Probably unnecessarily verbose
+    Active = (PSGClockValue > 0);
+    if (!Active) return;
 
-	PSG.SamplingRate = SamplingRate;
-	PSG.Clock = 0.0f;
-	PSG.dClock = (float)PSGClockValue / (16 * SamplingRate);
+    PSG.SamplingRate = SamplingRate;
+    PSG.Clock = 0.0f;
+    PSG.dClock = (float)PSGClockValue / (16 * SamplingRate);
 
-	PSG.LatchedRegister = 0;		// Tone0 is latched on startup
-	PSG.Stereo = 0xFF;
+    PSG.LatchedRegister = 0;        // Tone0 is latched on startup
+    PSG.Stereo = 0xFF;
 
-	// Setup default channels parameters
-	for (int i = 0; i < 4; i++)
-	{
-		t_psg_channel*c = &PSG.Channels[i];
+    // Setup default channels parameters
+    for (int i = 0; i < 4; i++)
+    {
+        t_psg_channel*c = &PSG.Channels[i];
 
-		// Set all frequencies to 1
-		PSG.Registers[i * 2 + 0] = 1;
-		// Set volumes to off (0xf)
-		PSG.Registers[i * 2 + 1] = 0xF;
-		c->Volume = 0;
-		// Set counters to 0
-		c->ToneFreqVal = 0;
-		// Set flip-flops to 1
-		c->ToneFreqPos = 1;
-		// Set intermediate positions to do-not-use value
-		c->IntermediatePos = LONG_MIN;
-	}
+        // Set all frequencies to 1
+        PSG.Registers[i * 2 + 0] = 1;
+        // Set volumes to off (0xf)
+        PSG.Registers[i * 2 + 1] = 0xF;
+        c->Volume = 0;
+        // Set counters to 0
+        c->ToneFreqVal = 0;
+        // Set flip-flops to 1
+        c->ToneFreqPos = 1;
+        // Set intermediate positions to do-not-use value
+        c->IntermediatePos = LONG_MIN;
+    }
 
-	// Noise channels default parameters
-	PSG.NoiseFreq = 0x10;
-	PSG.NoiseShiftRegister = NoiseInitialState;
+    // Noise channels default parameters
+    PSG.NoiseFreq = 0x10;
+    PSG.NoiseShiftRegister = NoiseInitialState;
 }
 
 // Set PSG clock based on master CPU clock
@@ -279,7 +279,7 @@ void        SN76489_Write(const unsigned char data)
     #endif
 
     // Update the output buffer before changing the registers
-	SoundStream_RenderUpToCurrentTime(g_psg_stream);
+    SoundStream_RenderUpToCurrentTime(g_psg_stream);
 
     if (data & 0x80)
     {
@@ -344,8 +344,8 @@ void        SN76489_Write(const unsigned char data)
 //------------------------------------------------------------------------------
 void    SN76489_StereoWrite(const unsigned char data)
 {
-	if (!Active) return;
-	PSG.Stereo = data;
+    if (!Active) return;
+    PSG.Stereo = data;
 };
 
 //------------------------------------------------------------------------------
@@ -356,150 +356,150 @@ void    SN76489_StereoWrite(const unsigned char data)
 //------------------------------------------------------------------------------
 void    SN76489_GetValues(int *result_left, int *result_right)
 {
-	signed short int Channels[4]; // Value of each channel, before stereo is applied
+    signed short int Channels[4]; // Value of each channel, before stereo is applied
 
-	if (!Active) return;
+    if (!Active) return;
 
-	// Tone channels
-	t_psg_channel* c = &PSG.Channels[0];
-	for (int i = 0; i <= 2; i++, c++)
-	{
-		if (c->Active == FALSE)
-		{
-			Channels[i] = 0;
-			continue;
-		}
-		if (c->IntermediatePos != LONG_MIN)
-			Channels[i] = (c->Volume * c->IntermediatePos) >> 16;
-		else
-			Channels[i] = c->Volume * c->ToneFreqPos;
-	}
-	// Noise channel
-	if (c->Active == FALSE)
-		Channels[3] = 0;
-	else
-		Channels[3] = (short)(2 * c->Volume * (PSG.NoiseShiftRegister & 0x1));
+    // Tone channels
+    t_psg_channel* c = &PSG.Channels[0];
+    for (int i = 0; i <= 2; i++, c++)
+    {
+        if (c->Active == FALSE)
+        {
+            Channels[i] = 0;
+            continue;
+        }
+        if (c->IntermediatePos != LONG_MIN)
+            Channels[i] = (c->Volume * c->IntermediatePos) >> 16;
+        else
+            Channels[i] = c->Volume * c->ToneFreqPos;
+    }
+    // Noise channel
+    if (c->Active == FALSE)
+        Channels[3] = 0;
+    else
+        Channels[3] = (short)(2 * c->Volume * (PSG.NoiseShiftRegister & 0x1));
 
-	// Mix and output result
-	if (result_right == NULL)
-	{
-		*result_left = Channels[0] + Channels[1] + Channels[2] + Channels[3];
-	}
-	else
-	{
-		int mix = 0;
-		if (PSG.Stereo & 0x10)     mix += Channels[0];
-		if (PSG.Stereo & 0x20)     mix += Channels[1];
-		if (PSG.Stereo & 0x40)     mix += Channels[2];
-		if (PSG.Stereo & 0x80)     mix += Channels[3];
-		*result_left = mix;
-		if (((PSG.Stereo & 0xF0) >> 4) == (PSG.Stereo & 0x0F))
-		{
-			*result_right = mix;
-		}
-		else
-		{
-			mix = 0;
-			if (PSG.Stereo & 0x01)  mix += Channels[0];
-			if (PSG.Stereo & 0x02)  mix += Channels[1];
-			if (PSG.Stereo & 0x04)  mix += Channels[2];
-			if (PSG.Stereo & 0x08)  mix += Channels[3];
-			*result_right = mix;
-		}
-	}
+    // Mix and output result
+    if (result_right == NULL)
+    {
+        *result_left = Channels[0] + Channels[1] + Channels[2] + Channels[3];
+    }
+    else
+    {
+        int mix = 0;
+        if (PSG.Stereo & 0x10)     mix += Channels[0];
+        if (PSG.Stereo & 0x20)     mix += Channels[1];
+        if (PSG.Stereo & 0x40)     mix += Channels[2];
+        if (PSG.Stereo & 0x80)     mix += Channels[3];
+        *result_left = mix;
+        if (((PSG.Stereo & 0xF0) >> 4) == (PSG.Stereo & 0x0F))
+        {
+            *result_right = mix;
+        }
+        else
+        {
+            mix = 0;
+            if (PSG.Stereo & 0x01)  mix += Channels[0];
+            if (PSG.Stereo & 0x02)  mix += Channels[1];
+            if (PSG.Stereo & 0x04)  mix += Channels[2];
+            if (PSG.Stereo & 0x08)  mix += Channels[3];
+            *result_right = mix;
+        }
+    }
 
-	// Update Clock
-	PSG.Clock += PSG.dClock;
-	PSG.NumClocksForSample = PSG.Clock;           // Truncates
-	PSG.Clock -= PSG.NumClocksForSample;          // Remove integer part
+    // Update Clock
+    PSG.Clock += PSG.dClock;
+    PSG.NumClocksForSample = PSG.Clock;           // Truncates
+    PSG.Clock -= PSG.NumClocksForSample;          // Remove integer part
 
-	// Decrement tone channel counters
-	for (int i = 0; i <= 2; i++)
-		PSG.Channels[i].ToneFreqVal -= PSG.NumClocksForSample;
+    // Decrement tone channel counters
+    for (int i = 0; i <= 2; i++)
+        PSG.Channels[i].ToneFreqVal -= PSG.NumClocksForSample;
 
-	// Noise channel: match to tone2 or decrement its counter
-	if (PSG.NoiseFreq == 0x80)
-		PSG.Channels[3].ToneFreqVal = PSG.Channels[2].ToneFreqVal;
-	else
-		PSG.Channels[3].ToneFreqVal -= PSG.NumClocksForSample;
+    // Noise channel: match to tone2 or decrement its counter
+    if (PSG.NoiseFreq == 0x80)
+        PSG.Channels[3].ToneFreqVal = PSG.Channels[2].ToneFreqVal;
+    else
+        PSG.Channels[3].ToneFreqVal -= PSG.NumClocksForSample;
 
-	// Value below which PSG does not output
+    // Value below which PSG does not output
 #define PSG_CUTOFF 0x6
 
-	// Tone channels:
-	c = &PSG.Channels[0];
-	for (int i = 0; i <= 2; i++, c++)
-	{
-		if (c->ToneFreqVal <= 0)  // If it gets below 0...
-		{
-			int ToneFreq = PSG.Registers[i * 2 + 0];
+    // Tone channels:
+    c = &PSG.Channels[0];
+    for (int i = 0; i <= 2; i++, c++)
+    {
+        if (c->ToneFreqVal <= 0)  // If it gets below 0...
+        {
+            int ToneFreq = PSG.Registers[i * 2 + 0];
 
-			// FIXME [Omar] This is because asynchronous calls of this while PSG is being
-			// acessed on the main thread sometimes screw up this.
-			if (ToneFreq == 0)
-				ToneFreq = 1;
+            // FIXME [Omar] This is because asynchronous calls of this while PSG is being
+            // acessed on the main thread sometimes screw up this.
+            if (ToneFreq == 0)
+                ToneFreq = 1;
 
-			if (ToneFreq > PSG_CUTOFF)
-			{
-				// Calculate how much of the sample is + and how much is -
-				// Go to floating point and include the clock fraction for extreme accuracy :D
-				// Store as long int, maybe it's faster? I'm not very good at this
-				c->IntermediatePos = (long)
-					(
-					(PSG.NumClocksForSample - PSG.Clock + 2 * c->ToneFreqVal)
-					* c->ToneFreqPos / (PSG.NumClocksForSample + PSG.Clock)
-					* 65636
-					);
-				c->ToneFreqPos = -c->ToneFreqPos;   // Flip the flip-flop
-			}
-			else
-			{
-				c->ToneFreqPos = 1;                 // Stuck value
-				c->IntermediatePos = LONG_MIN;
-			};
-			c->ToneFreqVal += ToneFreq * (PSG.NumClocksForSample / ToneFreq+1);
-		}
-		else
-		{
-			c->IntermediatePos = LONG_MIN;
-		}
-	};
+            if (ToneFreq > PSG_CUTOFF)
+            {
+                // Calculate how much of the sample is + and how much is -
+                // Go to floating point and include the clock fraction for extreme accuracy :D
+                // Store as long int, maybe it's faster? I'm not very good at this
+                c->IntermediatePos = (long)
+                    (
+                    (PSG.NumClocksForSample - PSG.Clock + 2 * c->ToneFreqVal)
+                    * c->ToneFreqPos / (PSG.NumClocksForSample + PSG.Clock)
+                    * 65636
+                    );
+                c->ToneFreqPos = -c->ToneFreqPos;   // Flip the flip-flop
+            }
+            else
+            {
+                c->ToneFreqPos = 1;                 // Stuck value
+                c->IntermediatePos = LONG_MIN;
+            };
+            c->ToneFreqVal += ToneFreq * (PSG.NumClocksForSample / ToneFreq+1);
+        }
+        else
+        {
+            c->IntermediatePos = LONG_MIN;
+        }
+    };
 
-	// Noise channel
-	if (c->ToneFreqVal <= 0)              // If it gets below 0...
-	{
-		c->ToneFreqPos = -c->ToneFreqPos;  // Flip the flip-flop
-		if (PSG.NoiseFreq != 0x80)         // If not matching tone2, decrement counter
-			c->ToneFreqVal += PSG.NoiseFreq * (PSG.NumClocksForSample / PSG.NoiseFreq+1);
-		if (c->ToneFreqPos == 1)
-		{
-			// Only once per cycle...
-			// General method:
-			/*
-			int Feedback = 0;
-			if (PSG.Registers[6] & 0x04)
-			{ // For white noise:
-			int i;            // Calculate the XOR of the tapped bits for feedback
-			unsigned short int tapped = PSG.NoiseShiftRegister & NoiseWhiteFeedback;
-			for (i = 0; i < 16; i++)
-			Feedback += (tapped >> i) & 1;
-			Feedback &= 1;
-			}
-			else
-			{
-			Feedback = PSG.NoiseShiftRegister & 1; // For periodic: feedback=output
-			PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 15);
-			}
-			*/
+    // Noise channel
+    if (c->ToneFreqVal <= 0)              // If it gets below 0...
+    {
+        c->ToneFreqPos = -c->ToneFreqPos;  // Flip the flip-flop
+        if (PSG.NoiseFreq != 0x80)         // If not matching tone2, decrement counter
+            c->ToneFreqVal += PSG.NoiseFreq * (PSG.NumClocksForSample / PSG.NoiseFreq+1);
+        if (c->ToneFreqPos == 1)
+        {
+            // Only once per cycle...
+            // General method:
+            /*
+            int Feedback = 0;
+            if (PSG.Registers[6] & 0x04)
+            { // For white noise:
+            int i;            // Calculate the XOR of the tapped bits for feedback
+            unsigned short int tapped = PSG.NoiseShiftRegister & NoiseWhiteFeedback;
+            for (i = 0; i < 16; i++)
+            Feedback += (tapped >> i) & 1;
+            Feedback &= 1;
+            }
+            else
+            {
+            Feedback = PSG.NoiseShiftRegister & 1; // For periodic: feedback=output
+            PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 15);
+            }
+            */
 
-			// SMS-only method, probably a bit faster:
-			int Feedback = 0;
-			if (PSG.Registers[6] & 0x04)  // White Noise
-				Feedback = ((PSG.NoiseShiftRegister & 0x9) && ((PSG.NoiseShiftRegister & 0x9) ^ 0x9));
-			else    // Periodic Noise
-				Feedback = PSG.NoiseShiftRegister & 1;    // For periodic: feedback=output
-			PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 15);
-		}
-	};
+            // SMS-only method, probably a bit faster:
+            int Feedback = 0;
+            if (PSG.Registers[6] & 0x04)  // White Noise
+                Feedback = ((PSG.NoiseShiftRegister & 0x9) && ((PSG.NoiseShiftRegister & 0x9) ^ 0x9));
+            else    // Periodic Noise
+                Feedback = PSG.NoiseShiftRegister & 1;    // For periodic: feedback=output
+            PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 15);
+        }
+    };
 };
 

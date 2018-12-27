@@ -10,7 +10,7 @@
 struct t_app_options
 {
     t_gui_box * box;
-	t_font_id	font_id;
+    t_font_id   font_id;
     bool        active;
 };
 

@@ -108,50 +108,50 @@ void    Filenames_Init()
 #endif
 
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
-	char* rp = realpath(g_env.Paths.EmulatorDirectory, NULL);
-	if (rp != NULL)
-	{
-		strcpy(g_env.Paths.EmulatorDirectory, rp);
-		//strcat(g_env.Paths.EmulatorDirectory, "/");
-		free(rp);
-	}
+    char* rp = realpath(g_env.Paths.EmulatorDirectory, NULL);
+    if (rp != NULL)
+    {
+        strcpy(g_env.Paths.EmulatorDirectory, rp);
+        //strcat(g_env.Paths.EmulatorDirectory, "/");
+        free(rp);
+    }
 #endif
 
-	char data_dir[FILENAME_LEN];
+    char data_dir[FILENAME_LEN];
     char internal_resources_dir[FILENAME_LEN];
     char external_resources_dir[FILENAME_LEN];
-	strcpy(data_dir, g_env.Paths.EmulatorDirectory);
+    strcpy(data_dir, g_env.Paths.EmulatorDirectory);
 #ifdef ARCH_MACOSX
-	GetWritableInternalResourcePath( internal_resources_dir, sizeof(internal_resources_dir) );
-	GetWritableExternalResourcePath( external_resources_dir, sizeof(external_resources_dir) );
-	const char* files_to_copy_internal_resources[2] = 
+    GetWritableInternalResourcePath( internal_resources_dir, sizeof(internal_resources_dir) );
+    GetWritableExternalResourcePath( external_resources_dir, sizeof(external_resources_dir) );
+    const char* files_to_copy_internal_resources[2] = 
     {
-		"meka.inp",
-		NULL
-	};
-	PopulateWritableInternalResourcesPath(internal_resources_dir, files_to_copy_internal_resources);
+        "meka.inp",
+        NULL
+    };
+    PopulateWritableInternalResourcesPath(internal_resources_dir, files_to_copy_internal_resources);
 #else
-	strcpy(internal_resources_dir, g_env.Paths.EmulatorDirectory);
-	strcpy(external_resources_dir, g_env.Paths.EmulatorDirectory);
+    strcpy(internal_resources_dir, g_env.Paths.EmulatorDirectory);
+    strcpy(external_resources_dir, g_env.Paths.EmulatorDirectory);
 #endif
 
-	//ConsolePrintf("Data Directory = %s\n", data_dir);
-	//ConsolePrintf("Internal Writable Resources Directory = %s\n", internal_resources_dir);
-	//ConsolePrintf("External Writable Resources Directory = %s\n", external_resources_dir);
+    //ConsolePrintf("Data Directory = %s\n", data_dir);
+    //ConsolePrintf("Internal Writable Resources Directory = %s\n", internal_resources_dir);
+    //ConsolePrintf("External Writable Resources Directory = %s\n", external_resources_dir);
 
     // Datafiles
     sprintf(g_env.Paths.DataFile,       "%s/meka.dat",    data_dir);
     sprintf(g_env.Paths.DataBaseFile,   "%s/meka.nam",    data_dir);
     sprintf(g_env.Paths.SkinFile,       "%s/meka.thm",    data_dir);
 
-    sprintf(Patches.filename,			"%s/meka.pat",    data_dir);
-    sprintf(Blitters.filename,			"%s/meka.blt",    data_dir);
-    sprintf(Messages.FileName,			"%s/meka.msg",    data_dir);
+    sprintf(Patches.filename,           "%s/meka.pat",    data_dir);
+    sprintf(Blitters.filename,          "%s/meka.blt",    data_dir);
+    sprintf(Messages.FileName,          "%s/meka.msg",    data_dir);
 
-	// files that are written to
-    sprintf(Desktop.filename,			"%s/meka.dsk",    internal_resources_dir);
+    // files that are written to
+    sprintf(Desktop.filename,           "%s/meka.dsk",    internal_resources_dir);
     sprintf(VLFN_DataBase.filename,     "%s/meka.fdb",    internal_resources_dir);
-    sprintf(Inputs.FileName,			"%s/meka.inp",    internal_resources_dir);
+    sprintf(Inputs.FileName,            "%s/meka.inp",    internal_resources_dir);
 
     // Documentations
     sprintf(g_env.Paths.DocumentationMain,       "%s/meka.txt",      data_dir);
@@ -258,7 +258,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
     }
 
     // If we are already in SF-7000 mode, do not reset (allows hot switching disks)
-	const bool reset = (g_driver->id != DRV_SF7000);
+    const bool reset = (g_driver->id != DRV_SF7000);
 
     // Miscellaneous stuff (including reset)
     Load_ROM_Misc(reset);
@@ -279,7 +279,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
     if (user_verbose)
     {
         // Display success message
-		char filename[FILENAME_LEN];
+        char filename[FILENAME_LEN];
         StrPath_RemoveDirectory(filename, g_env.Paths.MediaImageFile);
         if (g_driver->id != DRV_SF7000)
             Msg(MSGT_USER, Msg_Get(MSG_LoadROM_Success), filename);
@@ -347,24 +347,24 @@ void    Load_Header_and_Footer_Remove (int *pstart, long *psize)
         // (both on the same time)
         if (size > 0x1000)
         {
-			/*
-			const int size_mod = size % 0x1000;
+            /*
+            const int size_mod = size % 0x1000;
             if (size_mod == 128 + 512)
             { 
-				start += 128; size -= 128 + 512; 
-			}
+                start += 128; size -= 128 + 512; 
+            }
             else
             {
                 if (size_mod == 128 || size_mod == (128+512))
                 { 
-					start += 128; size -= 128; 
-				}
+                    start += 128; size -= 128; 
+                }
                 if (size_mod == 512)
                 { 
-					size -= 512; 
-				}
+                    size -= 512; 
+                }
             }
-			*/
+            */
         }
         break;
     case DRV_SF7000: //--- SF-7000
@@ -401,29 +401,29 @@ int             Load_ROM_Zipped ()
         return (MEKA_ERR_ZIP_LOADING); // Error loading ZIP file
 
     // Locating..
-	err = unzGoToFirstFile(zf);
-	do
-	{
-		if (err != UNZ_OK) { unzClose(zf); return (MEKA_ERR_ZIP_INTERNAL); }
+    err = unzGoToFirstFile(zf);
+    do
+    {
+        if (err != UNZ_OK) { unzClose(zf); return (MEKA_ERR_ZIP_INTERNAL); }
 
-		// Getting informations..
-		unzGetCurrentFileInfo(zf, &zf_infos, temp, FILENAME_LEN, NULL, 0, NULL, 0);
-		StrPath_GetExtension(temp);
-		StrUpper(temp);
+        // Getting informations..
+        unzGetCurrentFileInfo(zf, &zf_infos, temp, FILENAME_LEN, NULL, 0, NULL, 0);
+        StrPath_GetExtension(temp);
+        StrUpper(temp);
 
-		// Check if valid
-		if (drv_is_known_filename_extension(temp))
-		{
-			break;
-		}
+        // Check if valid
+        if (drv_is_known_filename_extension(temp))
+        {
+            break;
+        }
 
-		// Else try next file
-		err = unzGoToNextFile(zf);
+        // Else try next file
+        err = unzGoToNextFile(zf);
 
-		// If that was the last one, we'll use it
-	} while (err != UNZ_END_OF_LIST_OF_FILE);
-	
-	tsms.Size_ROM = zf_infos.uncompressed_size;
+        // If that was the last one, we'll use it
+    } while (err != UNZ_END_OF_LIST_OF_FILE);
+    
+    tsms.Size_ROM = zf_infos.uncompressed_size;
 
     // Setting driver ------------------------------------------------------------
     // Must be done there because we don't have the filename before..

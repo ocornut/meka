@@ -12,10 +12,10 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_gui_status_bar	g_gui_status;
-t_gui_menus_id		menus_ID;
-gui_type_menus_opt	menus_opt;
-t_menu *			menus[MAX_MENUS];
+t_gui_status_bar    g_gui_status;
+t_gui_menus_id      menus_ID;
+gui_type_menus_opt  menus_opt;
+t_menu *            menus[MAX_MENUS];
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -24,11 +24,11 @@ t_menu *			menus[MAX_MENUS];
 void        gui_redraw_bars()
 {
     // Redraw status bar
-	al_set_target_bitmap(gui_buffer);
+    al_set_target_bitmap(gui_buffer);
     al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height,     g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
     al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
-	t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    t_font_id font_id = (t_font_id)g_configuration.font_menus;
 
     // Show status bar message
     if (g_gui_status.timeleft)
@@ -40,7 +40,7 @@ void        gui_redraw_bars()
     // Show FPS counter
     if (fskipper.FPS_Display)
     {
-	    char s[16];
+        char s[16];
         sprintf(s, "%.1f FPS", fskipper.FPS);
         Font_Print(font_id, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
@@ -125,7 +125,7 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
                     //gui_mouse.pressed_on = PRESSED_ON_MENUS;
                     gui.mouse.focus = GUI_FOCUS_MENUS;
                     gui.mouse.focus_box = NULL;
-					gui.mouse.focus_widget = NULL;
+                    gui.mouse.focus_widget = NULL;
                 }
             }
         }
@@ -140,19 +140,19 @@ void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, i
     }
 }
 
-void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
+void    gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 {
     t_menu *menu = menus[n_menu];
 
-	const t_font_id font_id = (t_font_id)g_configuration.font_menus;
-	const int label_to_shortcut_y_offset = (Font_Height(font_id) - Font_Height(FONTID_MEDIUM)) / 2 + 1;
+    const t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    const int label_to_shortcut_y_offset = (Font_Height(font_id) - Font_Height(FONTID_MEDIUM)) / 2 + 1;
 
     if (n_menu == MENU_ID_MAIN)
     {
-		// a) Main horizontal menu
+        // a) Main horizontal menu
 
         // Draw menu background
-		al_set_target_bitmap(gui_buffer);
+        al_set_target_bitmap(gui_buffer);
         al_draw_filled_rectangle(0, 0, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
         al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
 
@@ -170,20 +170,20 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
                 if (menu->entry[i]->type == MENU_ITEM_TYPE_SUB_MENU)
                     gui_draw_menu(menu->entry[i]->submenu_id, n_menu, i);
             }
-			ALLEGRO_COLOR  color;
-	        if (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE)
+            ALLEGRO_COLOR  color;
+            if (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE)
                 color = COLOR_SKIN_MENU_TEXT;
             else
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
 
-			Font_SetCurrent(font_id);
+            Font_SetCurrent(font_id);
             Font_Print(FONTID_CUR, menu->entry[i]->label, x, y, color);
             x += ln + menus_opt.spacing_render;
         }
     }
     else
     {
-		// b) Vertical children menus
+        // b) Vertical children menus
 
         // Miscellaneous
         // gui.info.must_redraw = TRUE;
@@ -192,7 +192,7 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
         // DRAW MENU BORDER -------------------------------------------------------
         // rectfill (gui_buffer, menu->sx - 2, menu->sy - 2, menu->sx + menu->lx + 2, menu->sy + menu->ly + 2, COLOR_SKIN_MENU_BORDER);
         // rect (gui_buffer, menu->sx - 1, menu->sy - 1, menu->sx + menu->lx + 1, menu->sy + menu->ly + 1, COLOR_SKIN_MENU_BORDER);
-		al_set_target_bitmap(gui_buffer);
+        al_set_target_bitmap(gui_buffer);
         al_draw_rectangle(menu->start_pos_x - 1.5f, menu->start_pos_y - 0.5f, menu->start_pos_x + menu->size_x + 2.5f, menu->start_pos_y + menu->size_y + 1.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
         al_draw_rectangle(menu->start_pos_x - 0.5f, menu->start_pos_y - 1.5f, menu->start_pos_x + menu->size_x + 1.5f, menu->start_pos_y + menu->size_y + 2.5f, COLOR_SKIN_MENU_BORDER, 1.0f);
 
@@ -216,14 +216,14 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
         int y = menu->start_pos_y + MENUS_PADDING_Y;
         for (int i = 0; i < menu->n_entry; i++)
         {
-			t_menu_item* item = menu->entry[i];
+            t_menu_item* item = menu->entry[i];
 
-			if (item->type == MENU_ITEM_TYPE_SEPARATOR)
-			{
-				al_draw_hline(menu->start_pos_x, y-1, menu->start_pos_x + menu->size_x, COLOR_SKIN_MENU_BORDER);
-				y += MENUS_PADDING_Y;
-				continue;
-			}
+            if (item->type == MENU_ITEM_TYPE_SEPARATOR)
+            {
+                al_draw_hline(menu->start_pos_x, y-1, menu->start_pos_x + menu->size_x, COLOR_SKIN_MENU_BORDER);
+                y += MENUS_PADDING_Y;
+                continue;
+            }
 
             if ((item->mouse_over) && (item->flags & MENU_ITEM_FLAG_ACTIVE))
             {
@@ -231,36 +231,36 @@ void	gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
                 if (item->type == MENU_ITEM_TYPE_SUB_MENU)
                     gui_draw_menu(item->submenu_id, n_menu, i);
             }
-			ALLEGRO_COLOR color;
+            ALLEGRO_COLOR color;
             if (item->flags & MENU_ITEM_FLAG_ACTIVE)
                 color = COLOR_SKIN_MENU_TEXT;
             else
                 color = COLOR_SKIN_MENU_TEXT_UNACTIVE;
 
-			Font_SetCurrent(font_id);
+            Font_SetCurrent(font_id);
             Font_Print(FONTID_CUR, item->label, x, y, color);
 
-			if (item->shortcut != NULL)
-			{
-				const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextWidth(FONTID_MEDIUM, item->shortcut);
-				const int shortcut_y = y + label_to_shortcut_y_offset;
-				Font_Print(FONTID_MEDIUM, item->shortcut, shortcut_x, shortcut_y, color);
-			}
+            if (item->shortcut != NULL)
+            {
+                const int shortcut_x = menu->start_pos_x + menu->size_x - MENUS_PADDING_CHECK_X - Font_TextWidth(FONTID_MEDIUM, item->shortcut);
+                const int shortcut_y = y + label_to_shortcut_y_offset;
+                Font_Print(FONTID_MEDIUM, item->shortcut, shortcut_x, shortcut_y, color);
+            }
 
             switch (item->type)
             {
             case MENU_ITEM_TYPE_SUB_MENU:
-				{
-					// FIXME: draw shape
-	                Font_Print(FONTID_CUR, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - (int)(Font_TextWidth(FONTID_CUR, MEKA_FONT_STR_ARROW)*1.3f), y, color);
-				}
+                {
+                    // FIXME: draw shape
+                    Font_Print(FONTID_CUR, MEKA_FONT_STR_ARROW, menu->start_pos_x + menu->size_x - (int)(Font_TextWidth(FONTID_CUR, MEKA_FONT_STR_ARROW)*1.3f), y, color);
+                }
                 break;
             case MENU_ITEM_TYPE_CALLBACK:
                 if (item->flags & MENU_ITEM_FLAG_CHECKED)
-				{
-					// FIXME: draw shape
+                {
+                    // FIXME: draw shape
                     Font_Print(FONTID_CUR, MEKA_FONT_STR_CHECKED, menu->start_pos_x + menu->size_x - (int)(Font_TextWidth(FONTID_CUR, MEKA_FONT_STR_CHECKED)*1.3f), y, color);
-				}
+                }
                 break;
             }
             y += Font_Height(font_id) + MENUS_PADDING_Y;
@@ -272,11 +272,11 @@ void    gui_redraw_menus()
 {
     gui_redraw_bars();
 
-	// initial panning animation
+    // initial panning animation
     if (menus_opt.spacing_render > menus_opt.spacing)
     {
         menus_opt.spacing_render -= 14;
-		menus_opt.spacing_render = MIN(menus_opt.spacing, menus_opt.spacing_render);
+        menus_opt.spacing_render = MIN(menus_opt.spacing, menus_opt.spacing_render);
         gui.info.must_redraw = true;
     }
 

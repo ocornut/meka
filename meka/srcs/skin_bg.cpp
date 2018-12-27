@@ -49,11 +49,11 @@ static void     Skins_Background_Draw_Tile(ALLEGRO_BITMAP *bmp)
 
 static void     Skins_Background_Draw_Stretch(ALLEGRO_BITMAP *bmp)
 {
-	al_draw_scaled_bitmap(bmp, 
-		0.0f, 0.0f, al_get_bitmap_width(bmp), al_get_bitmap_height(bmp),
-		0, gui.info.bars_height + 2,
-		gui.info.screen.x, gui.info.screen.y - 2 * (gui.info.bars_height + 2),
-		0);
+    al_draw_scaled_bitmap(bmp, 
+        0.0f, 0.0f, al_get_bitmap_width(bmp), al_get_bitmap_height(bmp),
+        0, gui.info.bars_height + 2,
+        gui.info.screen.x, gui.info.screen.y - 2 * (gui.info.bars_height + 2),
+        0);
 }
 
 static void     Skins_Background_Draw_StretchInteger(ALLEGRO_BITMAP *bmp)
@@ -63,8 +63,8 @@ static void     Skins_Background_Draw_StretchInteger(ALLEGRO_BITMAP *bmp)
     int         factor = 0;
 
     // Find best fit factor
-	const int w = al_get_bitmap_width(bmp);
-	const int h = al_get_bitmap_height(bmp);
+    const int w = al_get_bitmap_width(bmp);
+    const int h = al_get_bitmap_height(bmp);
     do
     {
         factor += 1;
@@ -87,7 +87,7 @@ static void     Skins_Background_Draw_StretchInteger(ALLEGRO_BITMAP *bmp)
         int sx = (gui.info.screen.x - w * factor) / 2;
         int sy = (gui.info.screen.y - 2 * (gui.info.bars_height + 2) - h * factor) / 2;
         sy += gui.info.bars_height + 2;
-		al_draw_scaled_bitmap(bmp, 0, 0, w, h, sx, sy, w * factor, h * factor, 0x0000);
+        al_draw_scaled_bitmap(bmp, 0, 0, w, h, sx, sy, w * factor, h * factor, 0x0000);
     }
 }
 
@@ -96,58 +96,58 @@ static void     Skins_Background_Draw_Center(ALLEGRO_BITMAP *bmp)
     const int   pos_x = (gui.info.screen.x - al_get_bitmap_width(bmp)) >> 1;
     const int   pos_y = (gui.info.screen.y - al_get_bitmap_height(bmp)) >> 1;
     Skins_Background_Redraw_Grid();
-	al_draw_bitmap(bmp, pos_x, pos_y, 0x0000);
+    al_draw_bitmap(bmp, pos_x, pos_y, 0x0000);
 }
 
 
 void    Skins_Background_Redraw()
 {
 #ifdef DEBUG_WHOLE
-	Msg(MSGT_DEBUG, "Skins_Background_Redraw();");
+    Msg(MSGT_DEBUG, "Skins_Background_Redraw();");
 #endif
 
-	gui.info.must_redraw = TRUE;
-	
+    gui.info.must_redraw = TRUE;
+    
     al_set_target_bitmap(gui_background);
 
     t_skin* skin = Skins_GetCurrentSkin();
     ALLEGRO_BITMAP* background = Skins_GetBackgroundPicture();
-	if (background != NULL)
-	{
+    if (background != NULL)
+    {
         switch (skin->background_picture_mode)
-		{
-		case SKIN_BACKGROUND_PICTURE_MODE_CENTER:
-			Skins_Background_Draw_Center(background);
-			break;
-		case SKIN_BACKGROUND_PICTURE_MODE_STRETCH:
-			Skins_Background_Draw_Stretch(background);
-			break;
-		case SKIN_BACKGROUND_PICTURE_MODE_STRETCH_INT:
-			Skins_Background_Draw_StretchInteger(background);
-			break;
-		case SKIN_BACKGROUND_PICTURE_MODE_TILE:
-			Skins_Background_Draw_Tile(background);
-			break;
+        {
+        case SKIN_BACKGROUND_PICTURE_MODE_CENTER:
+            Skins_Background_Draw_Center(background);
+            break;
+        case SKIN_BACKGROUND_PICTURE_MODE_STRETCH:
+            Skins_Background_Draw_Stretch(background);
+            break;
+        case SKIN_BACKGROUND_PICTURE_MODE_STRETCH_INT:
+            Skins_Background_Draw_StretchInteger(background);
+            break;
+        case SKIN_BACKGROUND_PICTURE_MODE_TILE:
+            Skins_Background_Draw_Tile(background);
+            break;
         default:
             //assert(0);
             Skins_Background_Draw_Stretch(background);
             break;
-		}
-	}
-	else
-	{
-		Skins_Background_Redraw_Grid();
-		VMachine_Draw();
-	}
+        }
+    }
+    else
+    {
+        Skins_Background_Redraw_Grid();
+        VMachine_Draw();
+    }
 
     // Draw SK-1100 centered on bottom
     if (Inputs.SK1100_Enabled)
-	{
-		ALLEGRO_BITMAP *bmp = Graphics.Inputs.SK1100_Keyboard;
-		al_draw_bitmap(bmp,
-			(gui.info.screen.x - al_get_bitmap_width(bmp)) / 2,
-			(gui.info.screen.y - al_get_bitmap_height(bmp) - 40), 0x0000);
-	}
+    {
+        ALLEGRO_BITMAP *bmp = Graphics.Inputs.SK1100_Keyboard;
+        al_draw_bitmap(bmp,
+            (gui.info.screen.x - al_get_bitmap_width(bmp)) / 2,
+            (gui.info.screen.y - al_get_bitmap_height(bmp) - 40), 0x0000);
+    }
 }
 
 //-----------------------------------------------------------------------------

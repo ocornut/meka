@@ -18,10 +18,10 @@ enum t_parse_flags
 // Text file
 struct t_tfile
 {
-	int           size;
-	char *        data_raw;
-	t_list *      data_lines;
-	int           data_lines_count;
+    int           size;
+    char *        data_raw;
+    t_list *      data_lines;
+    int           data_lines_count;
 };
 
 //-----------------------------------------------------------------------------

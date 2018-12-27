@@ -74,7 +74,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
 {
     t_frame frame;
 
-	al_set_target_bitmap(app->box->gfx_buffer);
+    al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
@@ -122,7 +122,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup)
     }
 
     // Draw input base
-	al_draw_bitmap(Graphics.Inputs.InputsBase, 10, 34, 0x0000);
+    al_draw_bitmap(Graphics.Inputs.InputsBase, 10, 34, 0x0000);
 
     // Draw current peripheral
     Inputs_CFG_Peripherals_Draw();
@@ -153,9 +153,9 @@ byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
 
     char map_value[128];
     if (map->hw_index == -1)
-	{
+    {
         sprintf(map_value, "<Null>");
-	}
+    }
     else
     {
         switch (input_src->type)
@@ -170,7 +170,7 @@ byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
             switch (map->type)
             {
             case INPUT_MAP_TYPE_JOY_AXIS:
-				sprintf(map_value, "Stick %d, Axis %d, %c", map->hw_index, map->hw_axis, map->hw_direction ? '+' : '-');
+                sprintf(map_value, "Stick %d, Axis %d, %c", map->hw_index, map->hw_axis, map->hw_direction ? '+' : '-');
                 break;
             case INPUT_MAP_TYPE_JOY_BUTTON:
                 sprintf(map_value, "Button %d", map->hw_index);
@@ -191,7 +191,7 @@ byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
         }
     }
 
-	al_set_target_bitmap(app->box->gfx_buffer);
+    al_set_target_bitmap(app->box->gfx_buffer);
     Font_Print(FONTID_CUR, map_name, x + GUI_LOOK_FRAME_PAD_X, y, Color);
     Font_Print(FONTID_CUR, map_value, x + (INPUTS_CFG_FRAME_X / 2), y, Color);
     // y += Font_Height() + GUI_LOOK_LINES_SPACING_Y;
@@ -219,7 +219,7 @@ void    Inputs_CFG_Current_Source_Draw (void)
     font_height = Font_Height();
 
     // Clear area to display on
-	al_set_target_bitmap(bmp);
+    al_set_target_bitmap(bmp);
     al_draw_filled_rectangle(x, y - font_height / 2,
         x + frame_x + 1, y - font_height / 2 + frame_y + 1,
         COLOR_SKIN_WINDOW_BACKGROUND);
@@ -244,9 +244,9 @@ void    Inputs_CFG_Current_Source_Draw (void)
 
     // Player
     char buf[64];
-	snprintf(buf, sizeof(buf), Msg_Get(MSG_Inputs_Config_Source_Player), input_src->player + 1);
-	Font_Print(FONTID_CUR, buf, x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
-	y += font_height + GUI_LOOK_LINES_SPACING_Y;
+    snprintf(buf, sizeof(buf), Msg_Get(MSG_Inputs_Config_Source_Player), input_src->player + 1);
+    Font_Print(FONTID_CUR, buf, x + GUI_LOOK_FRAME_PAD_X + INPUTS_CFG_CHECK_X + 3, y, COLOR_SKIN_WINDOW_TEXT);
+    y += font_height + GUI_LOOK_LINES_SPACING_Y;
 
     // Horizontal Separator
     al_draw_line(x + 4, y + 3 + 0.5f, x + frame_x - 4 + 1, y + 3 + 0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
@@ -273,20 +273,20 @@ void    Inputs_CFG_Current_Source_Draw (void)
 
 void    Inputs_CFG_Current_Source_Change (t_widget *w)
 {
-	t_app_inputs_config *app = &Inputs_CFG;   // Global instance
+    t_app_inputs_config *app = &Inputs_CFG;   // Global instance
 
-	if (w->mouse_buttons_activation & 1)
-	{
-		app->Current_Source++;
-		if (app->Current_Source == Inputs.Sources_Max)
-			app->Current_Source = 0;
-	}
-	else if (w->mouse_buttons_activation & 2)
-	{
-		if (app->Current_Source == 0)
-			app->Current_Source = Inputs.Sources_Max;
-		app->Current_Source--;
-	}
+    if (w->mouse_buttons_activation & 1)
+    {
+        app->Current_Source++;
+        if (app->Current_Source == Inputs.Sources_Max)
+            app->Current_Source = 0;
+    }
+    else if (w->mouse_buttons_activation & 2)
+    {
+        if (app->Current_Source == 0)
+            app->Current_Source = Inputs.Sources_Max;
+        app->Current_Source--;
+    }
 
     Inputs_CFG_Current_Source_Draw();
     widget_checkbox_set_pvalue (app->CheckBox_Enabled, &Inputs.Sources [app->Current_Source]->enabled);
@@ -320,7 +320,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     Font_SetCurrent (FONTID_SMALL);
 
     // Clear area to display on
-	al_set_target_bitmap(bmp);
+    al_set_target_bitmap(bmp);
     al_draw_filled_rectangle(10, 20, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 20 + Font_Height() + 1, COLOR_SKIN_WINDOW_BACKGROUND);
     al_draw_filled_rectangle(10, 58, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 121 + 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
@@ -342,18 +342,18 @@ void        Inputs_CFG_Peripherals_Draw (void)
         // Draw peripheral sprite
         switch (Inputs.Peripheral[i])
         {
-            case INPUT_JOYPAD:			sprite = Graphics.Inputs.Joypad;          break;
-            case INPUT_LIGHTPHASER:		sprite = Graphics.Inputs.LightPhaser;     break;
-            case INPUT_PADDLECONTROL:	sprite = Graphics.Inputs.PaddleControl;   break;
-            case INPUT_SPORTSPAD:		sprite = Graphics.Inputs.SportsPad;       break;
-            case INPUT_GRAPHICBOARD:	sprite = Graphics.Inputs.TvOekaki;        break;
-			case INPUT_GRAPHICBOARD_V2:	sprite = Graphics.Inputs.GraphicBoardV2;  break;
+            case INPUT_JOYPAD:          sprite = Graphics.Inputs.Joypad;          break;
+            case INPUT_LIGHTPHASER:     sprite = Graphics.Inputs.LightPhaser;     break;
+            case INPUT_PADDLECONTROL:   sprite = Graphics.Inputs.PaddleControl;   break;
+            case INPUT_SPORTSPAD:       sprite = Graphics.Inputs.SportsPad;       break;
+            case INPUT_GRAPHICBOARD:    sprite = Graphics.Inputs.TvOekaki;        break;
+            case INPUT_GRAPHICBOARD_V2: sprite = Graphics.Inputs.GraphicBoardV2;  break;
         }
         if (sprite != NULL)
         {
             al_draw_bitmap(sprite,
-				10 + 11 + (i ? 64 : 0) + (58 - al_get_bitmap_width(sprite)) / 2, // X
-				58, 0x0000);
+                10 + 11 + (i ? 64 : 0) + (58 - al_get_bitmap_width(sprite)) / 2, // X
+                58, 0x0000);
         }
     }
 
@@ -384,9 +384,9 @@ void    Inputs_CFG_Peripheral_Change (int Player, t_input_peripheral Periph)
 
 void    Inputs_CFG_Map_Change_Handler (t_widget *w)
 {
-	t_app_inputs_config *app = &Inputs_CFG; // Global instance
+    t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
-	int            MapIdx = (w->mouse_y * 8) / w->frame.size.y;
+    int            MapIdx = (w->mouse_y * 8) / w->frame.size.y;
     t_input_src *  input_src = Inputs.Sources [app->Current_Source];
 
     if (app->Current_Map != -1)
@@ -470,10 +470,10 @@ void    Inputs_CFG_Map_Change_Update (void)
 
     bool found = FALSE;
     t_input_src* input_src = Inputs.Sources[Inputs_CFG.Current_Source];
-	t_input_map_entry* map = &input_src->Map[Inputs_CFG.Current_Map];
+    t_input_map_entry* map = &input_src->Map[Inputs_CFG.Current_Map];
 
     // Pressing ESC cancel map change
-	// Eat the keypress to avoid it having side effect of switching to fullscreen mode
+    // Eat the keypress to avoid it having side effect of switching to fullscreen mode
     if (Inputs_KeyPressed(ALLEGRO_KEY_ESCAPE, true))
     {
         found = TRUE;
@@ -490,8 +490,8 @@ void    Inputs_CFG_Map_Change_Update (void)
     case INPUT_SRC_TYPE_KEYBOARD:
         {
             for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
-			{
-				// Eat keypresses to avoid them having a side effect with the GUI or game
+            {
+                // Eat keypresses to avoid them having a side effect with the GUI or game
                 if (Inputs_KeyPressed(i, true))
                 {
                     const t_key_info *key_info = KeyInfo_FindByScancode(i);
@@ -508,50 +508,50 @@ void    Inputs_CFG_Map_Change_Update (void)
                     }
                     break;
                 }
-			}
+            }
             break;
         }
 #ifdef MEKA_JOYPAD
         // Digital Joypad/Joystick -------------------------------------------------
     case INPUT_SRC_TYPE_JOYPAD:
         {
-			ALLEGRO_JOYSTICK *joystick = al_get_joystick(input_src->Connection_Port);
-			if (!joystick)
-				break;
+            ALLEGRO_JOYSTICK *joystick = al_get_joystick(input_src->Connection_Port);
+            if (!joystick)
+                break;
 
-			ALLEGRO_JOYSTICK_STATE state;
-			al_get_joystick_state(joystick, &state);
+            ALLEGRO_JOYSTICK_STATE state;
+            al_get_joystick_state(joystick, &state);
 
             // Check buttons
-			const int num_buttons = al_get_joystick_num_buttons(joystick);
+            const int num_buttons = al_get_joystick_num_buttons(joystick);
             for (int i = 0; i < num_buttons; i++)
-			{
-				if (state.button[i])
+            {
+                if (state.button[i])
                 {
                     map->hw_index = i;
                     map->type = INPUT_MAP_TYPE_JOY_BUTTON;
-					found = TRUE;
+                    found = TRUE;
                     Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Inputs_Src_Map_Joypad_Ok_B), i);
                     break;
                 }
-			}
-			if (found)
-				break;
+            }
+            if (found)
+                break;
 
             // Check axises
-			const int num_sticks = al_get_joystick_num_sticks(joystick);
+            const int num_sticks = al_get_joystick_num_sticks(joystick);
             for (int i = 0; i < num_sticks; i++)
             {
-				const int num_axes = al_get_joystick_num_axes(joystick, i);
+                const int num_axes = al_get_joystick_num_axes(joystick, i);
                 for (int j = 0; j < num_axes; j++)
                 {
                     const float axis_pos = state.stick[i].axis[j];
-					//Msg(MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
-					if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < -INPUT_JOY_DEADZONE)
+                    //Msg(MSGT_DEBUG, "- axis %d - pos %f", j, axis_pos);
+                    if (axis_pos > INPUT_JOY_DEADZONE || axis_pos < -INPUT_JOY_DEADZONE)
                     {
-						map->hw_index = i;
-						map->hw_axis = j;
-						map->hw_direction = (axis_pos > 0.0f ? 1 : 0);
+                        map->hw_index = i;
+                        map->hw_axis = j;
+                        map->hw_direction = (axis_pos > 0.0f ? 1 : 0);
                         map->type = INPUT_MAP_TYPE_JOY_AXIS;
                         found = TRUE;
                         Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Inputs_Src_Map_Joypad_Ok_A), i, j, (axis_pos > 0.0f ? '+' : '-'));
@@ -579,7 +579,7 @@ void    Inputs_CFG_Map_Change_Update (void)
                     n = 2;
                 if (n != -1)
                 {
-					t_input_map_entry* map = &input_src->Map[Inputs_CFG.Current_Map];
+                    t_input_map_entry* map = &input_src->Map[Inputs_CFG.Current_Map];
                     map->hw_index = n;
                     map->type = INPUT_MAP_TYPE_MOUSE_BUTTON;
                     gui.mouse.buttons_prev = gui.mouse.buttons; // Note: eating mouse press FIXME

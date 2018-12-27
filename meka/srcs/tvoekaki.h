@@ -31,8 +31,8 @@ void    TVOekaki_Update(int device_x, int device_y, int device_b_field);
 
 struct t_tvoekaki
 {
-	int		X, Y;
-	u8		Infos;
+    int     X, Y;
+    u8      Infos;
 };
 
 extern t_tvoekaki  TVOekaki;

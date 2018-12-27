@@ -7,8 +7,8 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define FRAMESKIP_MODE_THROTTLED	(0)
-#define FRAMESKIP_MODE_UNTHROTTLED	(1)
+#define FRAMESKIP_MODE_THROTTLED    (0)
+#define FRAMESKIP_MODE_UNTHROTTLED  (1)
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -29,7 +29,7 @@ void    Frame_Skipper_Init_Values (void);
 struct t_fskipper
 {
     // Frame skipper    
-    int             Mode;						// Automatic (sync) or standard
+    int             Mode;                       // Automatic (sync) or standard
     int             Throttled_Speed;
     volatile int    Throttled_Frame_Elapsed;
     int             Unthrottled_Frameskip;
@@ -37,13 +37,13 @@ struct t_fskipper
     bool            Show_Current_Frame;
 
     // FPS Counter
-    float			FPS;
+    float           FPS;
     bool            FPS_Display;
-	int				FPS_SecondsElapsed;
-    int             FPS_FrameCountAccumulator;	// Number of frames rendered (this second)
+    int             FPS_SecondsElapsed;
+    int             FPS_FrameCountAccumulator;  // Number of frames rendered (this second)
 };
 
-extern t_fskipper	fskipper;
+extern t_fskipper   fskipper;
 
 //-----------------------------------------------------------------------------
 

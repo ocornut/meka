@@ -48,7 +48,7 @@ void    TVType_Set (int tv_type, bool verbose)
 
     // SN76489_SetClock(opt.TV_Lines_Current * opt.Cur_IPeriod); // 59736 for NTSC
     // SN76489_SetClock(g_machine.TV->CPU_clock);
-	Sound_UpdateClockSpeed();
+    Sound_UpdateClockSpeed();
 
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);

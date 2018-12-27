@@ -59,7 +59,7 @@ t_patch_action *        Patch_Action_New()
 }
 
 // Parse and handle content of a line from MEKA.PAT
-int	Patches_List_Parse_Line(const char *line)
+int Patches_List_Parse_Line(const char *line)
 {
     char s[256];
 
@@ -137,11 +137,11 @@ int	Patches_List_Parse_Line(const char *line)
             return (2);
 
         // Get address
-		// NB: don't test return value of ParseConstant because it currently return false because of the trailing ']'
-		t_debugger_value v;
-		v.data = 0;
-		Debugger_Eval_ParseConstant(line+4, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX);
-		action->address = v.data;
+        // NB: don't test return value of ParseConstant because it currently return false because of the trailing ']'
+        t_debugger_value v;
+        v.data = 0;
+        Debugger_Eval_ParseConstant(line+4, &v, DEBUGGER_EVAL_VALUE_FORMAT_INT_HEX);
+        action->address = v.data;
         // ConsolePrintf("Address = %x\n", action->address);
 
         const char* p = strchr(line, '=');
@@ -206,7 +206,7 @@ void            Patches_List_Init (void)
         StrLower(line);
 
         // Remove comments and space
-		char* p;
+        char* p;
         if ((p = strchr (line, ';')) != NULL)
             *p = EOSTR;
         StrRemoveBlanks (line);

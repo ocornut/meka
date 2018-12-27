@@ -7,11 +7,11 @@
 // Configuration
 //-----------------------------------------------------------------------------
 
-#define MEKA_SOUND				// Enable sound
-#define MEKA_ZIP				// Enable ZIP file support
-#define MEKA_JOYPAD				// Enable joypad support
-#define MEKA_Z80_DEBUGGER		// Enable Z80 debugger
-#define MARAT_Z80				// Z80 emulator to use
+#define MEKA_SOUND              // Enable sound
+#define MEKA_ZIP                // Enable ZIP file support
+#define MEKA_JOYPAD             // Enable joypad support
+#define MEKA_Z80_DEBUGGER       // Enable Z80 debugger
+#define MARAT_Z80               // Z80 emulator to use
 
 #define MEKA_NAME               "MEKA"
 #define MEKA_VERSION            "0.80-alpha"

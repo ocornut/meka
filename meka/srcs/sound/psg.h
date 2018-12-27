@@ -21,18 +21,18 @@ struct t_psg_channel
     signed short int    ToneFreqVal;            // Frequency register values (counters)
     signed       char   ToneFreqPos;            // Frequency channel flip-flops
     signed long  int    IntermediatePos;        // Intermediate values used at boundaries between + and -
-  unsigned short int	Volume;                 // Current channel volume (0-900+...)
+  unsigned short int  Volume;                 // Current channel volume (0-900+...)
                  int    Active;                 // Set to 0 to mute
 };
 
 struct t_psg
 {
   t_psg_channel         Channels[4];            //
-  unsigned short int	Registers[8];           //
+  unsigned short int  Registers[8];           //
                  int    LatchedRegister;        //
   unsigned       char   Stereo;                 //
   unsigned short int    NoiseShiftRegister;     //
-    signed short int	NoiseFreq;              // regenerate
+    signed short int  NoiseFreq;              // regenerate
                  float  Clock;
                  float  dClock;
   unsigned       int    NumClocksForSample;

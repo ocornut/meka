@@ -25,19 +25,19 @@
 // Note: no error handling is done, if using A-F values
 static int     BCD_to_Dec(int bcd)
 {
-	int    ret;
-	int    pow;
+    int    ret;
+    int    pow;
 
-	ret = 0;
-	pow = 1;
-	while (bcd > 0)
-	{
-		ret += (bcd & 0xF) * pow;
-		bcd >>= 4;
-		pow *= 10;
-	}
+    ret = 0;
+    pow = 1;
+    while (bcd > 0)
+    {
+        ret += (bcd & 0xF) * pow;
+        bcd >>= 4;
+        pow *= 10;
+    }
 
-	return (ret);
+    return (ret);
 }
 
 //-----------------------------------------------------------------------------

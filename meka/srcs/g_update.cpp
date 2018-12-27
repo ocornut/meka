@@ -37,20 +37,20 @@ void    gui_update_applets()
     // because it allows changing tile data/palette so we want that to be reflected 
     // (especially since dirty flags are being cleared each frame)
     MemoryViewers_Update();
-	PROFILE_STEP("- MemoryViewers_Update");
+    PROFILE_STEP("- MemoryViewers_Update");
 
     TilemapViewers_Update();
-	PROFILE_STEP("- TilemapViewers_Update");
+    PROFILE_STEP("- TilemapViewers_Update");
 
-	CheatFinders_Update();
-	PROFILE_STEP("- CheatFinders_Update");
+    CheatFinders_Update();
+    PROFILE_STEP("- CheatFinders_Update");
 
     // Tile Viewer flag appropriate decoded VRAM tiles before emulation run
     TileViewer_Update(&TileViewer);
-	PROFILE_STEP("- TileViewer_Update");
+    PROFILE_STEP("- TileViewer_Update");
 
-	PaletteViewer_Update();
-	PROFILE_STEP("- PaletteViewer_Update");
+    PaletteViewer_Update();
+    PROFILE_STEP("- PaletteViewer_Update");
 
     //if (TB_Message.Active)
     //    TB_Update (TB_Message.TB);
@@ -63,11 +63,11 @@ void    gui_update_applets()
     AboutBox_Update();
     TB_Message_Update();
     TextViewer_Update(&TextViewer);
-	PROFILE_STEP("- misc");
+    PROFILE_STEP("- misc");
 
-	#ifdef SOUND_DEBUG_APPLET
-		SoundDebugApp_Update();
-	#endif
+    #ifdef SOUND_DEBUG_APPLET
+        SoundDebugApp_Update();
+    #endif
 
     #ifdef MEKA_Z80_DEBUGGER
         Debugger_Update();
@@ -96,7 +96,7 @@ void    gui_update()
 
     // Boxes update (move / compute dirtyness)
     gui_update_boxes();
-	PROFILE_STEP("gui_update_boxes()");
+    PROFILE_STEP("gui_update_boxes()");
 
     // Process box deletion
     for (t_list* boxes = gui.boxes; boxes != NULL; )
@@ -109,12 +109,12 @@ void    gui_update()
 
     // Widgets update
     widgets_call_update();
-	PROFILE_STEP("widgets_call_update()");
+    PROFILE_STEP("widgets_call_update()");
 
     // Call applets handlers
     // Note: Must be done after updating widgets
     gui_update_applets();
-	PROFILE_STEP("gui_update_applets()");
+    PROFILE_STEP("gui_update_applets()");
 }
 
 //-----------------------------------------------------------------------------

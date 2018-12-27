@@ -10,14 +10,14 @@
 
 void    Sound_Log_Init(void)
 {
-	Sound.LogWav                   = NULL;
-	Sound.LogWav_SizeData          = 0;
-	Sound.LogWav_FileName_Template = strdup("%s-%02d.wav");
-	Sound.LogWav_ID                = 0;
-	Sound.LogVGM.Logging           = VGM_LOGGING_NO;
-	Sound.LogVGM_Logging_Accuracy  = VGM_LOGGING_ACCURACY_FRAME;
-	Sound.LogVGM_FileName_Template = strdup("%s-%02d.vgm");
-	Sound.LogVGM_ID                = 0;
+    Sound.LogWav                   = NULL;
+    Sound.LogWav_SizeData          = 0;
+    Sound.LogWav_FileName_Template = strdup("%s-%02d.wav");
+    Sound.LogWav_ID                = 0;
+    Sound.LogVGM.Logging           = VGM_LOGGING_NO;
+    Sound.LogVGM_Logging_Accuracy  = VGM_LOGGING_ACCURACY_FRAME;
+    Sound.LogVGM_FileName_Template = strdup("%s-%02d.vgm");
+    Sound.LogVGM_ID                = 0;
 }
 
 void    Sound_Log_Close(void)
@@ -67,71 +67,71 @@ void    Sound_Log_FileName_Get(char *result, const char *filename_template, int 
 
 void    Sound_LogWAV_Start(void)
 {
-	if (Sound.LogWav != NULL)
-		Sound_LogWAV_Stop();
-	if (Sound.LogWav == NULL)
-	{ // Start Logging
-		char FileName[FILENAME_LEN];
-		Sound_Log_FileName_Get (FileName, Sound.LogWav_FileName_Template, &Sound.LogWav_ID);
-		if (Sound.LogWav_ID >= SOUND_LOG_ID_MAX)
-		{
-			Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_Error_File_1));
-			return;
-		}
-		Sound.LogWav = WAV_Start(FileName);
-		StrPath_RemoveDirectory (FileName);
-		if (Sound.LogWav == NULL)
-		{
-			Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Error_File_2), FileName);
-			return;
-		}
-		else
-		{
-			Sound.LogWav_SizeData = 0;
-			Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Start), FileName);
-			gui_menu_active_range (TRUE, menus_ID.sound_log, 4, 4);
-		}
-	}
+    if (Sound.LogWav != NULL)
+        Sound_LogWAV_Stop();
+    if (Sound.LogWav == NULL)
+    { // Start Logging
+        char FileName[FILENAME_LEN];
+        Sound_Log_FileName_Get (FileName, Sound.LogWav_FileName_Template, &Sound.LogWav_ID);
+        if (Sound.LogWav_ID >= SOUND_LOG_ID_MAX)
+        {
+            Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_Error_File_1));
+            return;
+        }
+        Sound.LogWav = WAV_Start(FileName);
+        StrPath_RemoveDirectory (FileName);
+        if (Sound.LogWav == NULL)
+        {
+            Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Error_File_2), FileName);
+            return;
+        }
+        else
+        {
+            Sound.LogWav_SizeData = 0;
+            Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Start), FileName);
+            gui_menu_active_range (TRUE, menus_ID.sound_log, 4, 4);
+        }
+    }
 }
 
 void    Sound_LogWAV_Stop(void)
 {
-	if (Sound.LogWav != NULL)
-	{
-		WAV_Close(Sound.LogWav, Sound.LogWav_SizeData);
-		Sound.LogWav = NULL;
-		Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Stop),
-			(double)Sound.LogWav_SizeData / ((16 / 8) * 1 * Sound.SampleRate));
-		gui_menu_active_range (FALSE, menus_ID.sound_log, 4, 4);
-	}
+    if (Sound.LogWav != NULL)
+    {
+        WAV_Close(Sound.LogWav, Sound.LogWav_SizeData);
+        Sound.LogWav = NULL;
+        Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Stop),
+            (double)Sound.LogWav_SizeData / ((16 / 8) * 1 * Sound.SampleRate));
+        gui_menu_active_range (FALSE, menus_ID.sound_log, 4, 4);
+    }
 }
 
 void    Sound_LogVGM_Start(void)
 {
-	char   FileName[FILENAME_LEN];
+    char   FileName[FILENAME_LEN];
 
-	if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
-		Sound_LogVGM_Stop();
+    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
+        Sound_LogVGM_Stop();
 
-	// Start Logging
-	Sound_Log_FileName_Get(FileName, Sound.LogVGM_FileName_Template, &Sound.LogVGM_ID);
-	if (Sound.LogVGM_ID >= SOUND_LOG_ID_MAX)
-	{
-		Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_Error_File_1));
-		return;
-	}
-	if (VGM_Start(&Sound.LogVGM, FileName, Sound.LogVGM_Logging_Accuracy) != MEKA_ERR_OK)
-	{
-		StrPath_RemoveDirectory (FileName);
-		Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Error_File_2), FileName);
-		return;
-	}
-	else
-	{
-		StrPath_RemoveDirectory (FileName);
-		Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Start), FileName);
-		gui_menu_active_range (TRUE, menus_ID.sound_log, 1, 1);
-	}
+    // Start Logging
+    Sound_Log_FileName_Get(FileName, Sound.LogVGM_FileName_Template, &Sound.LogVGM_ID);
+    if (Sound.LogVGM_ID >= SOUND_LOG_ID_MAX)
+    {
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_Error_File_1));
+        return;
+    }
+    if (VGM_Start(&Sound.LogVGM, FileName, Sound.LogVGM_Logging_Accuracy) != MEKA_ERR_OK)
+    {
+        StrPath_RemoveDirectory (FileName);
+        Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Error_File_2), FileName);
+        return;
+    }
+    else
+    {
+        StrPath_RemoveDirectory (FileName);
+        Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Start), FileName);
+        gui_menu_active_range (TRUE, menus_ID.sound_log, 1, 1);
+    }
 }
 
 void    Sound_LogVGM_Stop(void)

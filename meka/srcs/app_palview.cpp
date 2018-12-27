@@ -29,7 +29,7 @@ static void    PaletteViewer_CallbackSelectColor(t_widget *w);
 
 void    PaletteViewer_Init()
 {
-	t_app_palette_viewer *pv = &PaletteViewer;
+    t_app_palette_viewer *pv = &PaletteViewer;
 
     // Setup
     pv->active          = TRUE;
@@ -46,13 +46,13 @@ void    PaletteViewer_Init()
     frame.size.x    = 192-1;
     frame.size.y    = 49+13;
     pv->box = gui_box_new(&frame, Msg_Get(MSG_Palette_BoxTitle));
-	pv->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
-	pv->box->size_min.x = 32*2-1;//frame.size.x;
-	pv->box->size_min.y = 24;
-	pv->box->size_max.x = 32*16-1;//frame.size.x;
-	pv->box->size_max.y = 88;
-	pv->box->size_step.x = 32;
-	pv->box->size_step.y = 1;
+    pv->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
+    pv->box->size_min.x = 32*2-1;//frame.size.x;
+    pv->box->size_min.y = 24;
+    pv->box->size_max.x = 32*16-1;//frame.size.x;
+    pv->box->size_max.y = 88;
+    pv->box->size_step.x = 32;
+    pv->box->size_step.y = 1;
 
     // Register to desktop (applet is enabled by default)
     Desktop_Register_Box ("PALETTE", pv->box, TRUE, &pv->active);
@@ -72,26 +72,26 @@ void    PaletteViewer_Layout(t_app_palette_viewer* app, bool setup)
     if (setup)
         widget_closebox_add(app->box, (t_widget_callback)PaletteViewer_Switch);
 
-	// Setup frames
-	app->frame_palette.pos.x     = 0;
-	app->frame_palette.pos.y     = 0;
-	app->frame_palette.size.x    = app->box->frame.size.x;
-	app->frame_palette.size.y    = app->box->frame.size.y - 13;
-	app->frame_info.pos.x        = 0;
-	app->frame_info.pos.y        = app->frame_palette.size.y;
-	app->frame_info.size.x       = app->box->frame.size.x;
-	app->frame_info.size.y       = 13;
+    // Setup frames
+    app->frame_palette.pos.x     = 0;
+    app->frame_palette.pos.y     = 0;
+    app->frame_palette.size.x    = app->box->frame.size.x;
+    app->frame_palette.size.y    = app->box->frame.size.y - 13;
+    app->frame_info.pos.x        = 0;
+    app->frame_info.pos.y        = app->frame_palette.size.y;
+    app->frame_info.size.x       = app->box->frame.size.x;
+    app->frame_info.size.y       = 13;
 
-	if (setup)
-		app->frame_palette_zone      = widget_button_add(app->box, &app->frame_palette, 1, PaletteViewer_CallbackSelectColor, FONTID_NONE, NULL);
-	else
-		app->frame_palette_zone->frame = app->frame_palette;
+    if (setup)
+        app->frame_palette_zone      = widget_button_add(app->box, &app->frame_palette, 1, PaletteViewer_CallbackSelectColor, FONTID_NONE, NULL);
+    else
+        app->frame_palette_zone->frame = app->frame_palette;
 
     // Draw separator
     al_draw_line(app->frame_info.pos.x, app->frame_info.pos.y+0.5f, app->frame_info.pos.x + app->frame_info.size.x+1, app->frame_info.pos.y+0.5f, COLOR_SKIN_WINDOW_SEPARATORS, 0);
 
     // Draw current color square
-	gui_rect(LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
+    gui_rect(LOOK_THIN, 2, app->frame_info.pos.y + 1, 2 + 11, app->frame_info.pos.y + 1 + 11, COLOR_SKIN_WIDGET_GENERIC_BORDER);
 }
 
 void    PaletteViewer_Switch()
@@ -110,13 +110,13 @@ void    PaletteViewer_Switch()
 void    PaletteViewer_Update()
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
-	ALLEGRO_BITMAP* box_gfx = pv->box->gfx_buffer;
+    ALLEGRO_BITMAP* box_gfx = pv->box->gfx_buffer;
 
     // Skip update if not active
     if (!pv->active)
         return;
 
-	int         i;
+    int         i;
     bool        dirty = FALSE;
     const int   color_box_size = al_get_bitmap_width(box_gfx) / pv->palette_size;
     int         color_current;
@@ -144,7 +144,7 @@ void    PaletteViewer_Update()
     color_current_refresh = /*(color_current == -1) ? TRUE :*/ ((color_current != pv->color_displayed) ? TRUE : FALSE);
 
     // Draw palette
-	al_set_target_bitmap(box_gfx);
+    al_set_target_bitmap(box_gfx);
     for (i = 0; i != pv->palette_size; i++)
     {
         if (pv->dirty || Palette_EmulationFlags[i] & PALETTE_EMULATION_FLAGS_DIRTY)
@@ -171,7 +171,7 @@ void    PaletteViewer_Update()
             char color_bits[20];
 
             // Color square
-			al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, Palette_Emulation[color_current]);
+            al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, Palette_Emulation[color_current]);
     
             // Description
             sprintf(buf, "Color %d ($%02X)", color_current, color_current);

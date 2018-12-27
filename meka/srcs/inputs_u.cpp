@@ -17,23 +17,23 @@
 
 // #define DEBUG_JOY
 
-float					g_keyboard_state[ALLEGRO_KEY_MAX];
-int						g_keyboard_modifiers = 0;
-ALLEGRO_EVENT_QUEUE *	g_keyboard_event_queue = NULL;
-ALLEGRO_MOUSE_STATE		g_mouse_state;
+float                   g_keyboard_state[ALLEGRO_KEY_MAX];
+int                     g_keyboard_modifiers = 0;
+ALLEGRO_EVENT_QUEUE *   g_keyboard_event_queue = NULL;
+ALLEGRO_MOUSE_STATE     g_mouse_state;
 
 //-----------------------------------------------------------------------------
 // Forward declaration
 //-----------------------------------------------------------------------------
 
 static void Inputs_FixUpJoypadOppositesDirections();
-static void	Inputs_UpdateMouseRange();
+static void Inputs_UpdateMouseRange();
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void	Inputs_Sources_Init()
+void    Inputs_Sources_Init()
 {
     Inputs.Sources = NULL;
     Inputs.Sources_Max = 0;
@@ -41,16 +41,16 @@ void	Inputs_Sources_Init()
     Inputs.Peripheral [0] = INPUT_JOYPAD;
     Inputs.Peripheral [1] = INPUT_JOYPAD;
 
-	for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
-		g_keyboard_state[i] = -1.0f;
-	memset(&g_mouse_state, 0, sizeof(g_mouse_state));
-	g_keyboard_event_queue = al_create_event_queue();
-	al_register_event_source(g_keyboard_event_queue, al_get_keyboard_event_source());
+    for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
+        g_keyboard_state[i] = -1.0f;
+    memset(&g_mouse_state, 0, sizeof(g_mouse_state));
+    g_keyboard_event_queue = al_create_event_queue();
+    al_register_event_source(g_keyboard_event_queue, al_get_keyboard_event_source());
 }
 
 t_input_src *       Inputs_Sources_Add(char *name)
 {
-	t_input_src* src = (t_input_src*)malloc (sizeof (t_input_src));
+    t_input_src* src = (t_input_src*)malloc (sizeof (t_input_src));
 
     src->name                      = name;
     src->type                      = INPUT_SRC_TYPE_KEYBOARD;
@@ -63,16 +63,16 @@ t_input_src *       Inputs_Sources_Add(char *name)
 
     for (int i = 0; i < INPUT_MAP_MAX; i++)
     {
-		t_input_map_entry* map = &src->Map[i];
+        t_input_map_entry* map = &src->Map[i];
         map->type = INPUT_MAP_TYPE_KEY; // key,button,..
         map->hw_index = -1;
-		map->hw_axis = 0;
-		map->hw_direction = 0;
+        map->hw_axis = 0;
+        map->hw_direction = 0;
         map->current_value = 0;
         map->pressed_counter = 0;
     }
 
-	Inputs.Sources = (t_input_src**)realloc(Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
+    Inputs.Sources = (t_input_src**)realloc(Inputs.Sources, (Inputs.Sources_Max + 1) * sizeof (t_input_src *));
     Inputs.Sources [Inputs.Sources_Max] = src;
     Inputs.Sources_Max ++;
 
@@ -95,7 +95,7 @@ void       Inputs_Sources_Close()
 // Update emulation inputs, based on inputs sources data
 // If 'running' is false, only update emulation state, but do not produce
 // any side effect such as backspace doing an automatic HardReset in GG mode.
-void	Inputs_Emulation_Update(bool running)
+void    Inputs_Emulation_Update(bool running)
 {
     // Control[7] is the following:
     // LG2.LG1.Unused.Reset.P2B.P2A.P2R.P2L - P2D.P2U.P1B.P1A.P1R.P1L.P1D.P1U
@@ -104,15 +104,15 @@ void	Inputs_Emulation_Update(bool running)
     *c |= 0x1FFF;
 
     // If we are in GUI mode, check if the focused box has the exclusive inputs flag. 
-	// If it has it and the machine is running (not paused or being debugged), return.
+    // If it has it and the machine is running (not paused or being debugged), return.
     // The reason for doing that is that handling inputs priority is a mess with the 
     // current GUI system, because applet/widget updating code is mostly only run on 
-	// emulation frame that are not skipped, while inputs for emulation should run for
-	// all frames (including skipped ones).
-	// So it is a bit complicated to handle a way for an applet to 'eat' a key, 
+    // emulation frame that are not skipped, while inputs for emulation should run for
+    // all frames (including skipped ones).
+    // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
     // and I use an easy path.
     if (g_env.state == MEKA_STATE_GUI && !(g_machine_flags & MACHINE_PAUSED))
-	{
+    {
         if (gui.boxes_z_ordered[0] && (gui.boxes_z_ordered[0]->flags & GUI_BOX_FLAGS_FOCUS_INPUTS_EXCLUSIVE) != 0)
         {
             // Returning from the emulation inputs update requires to take care of a few variables...
@@ -124,15 +124,15 @@ void	Inputs_Emulation_Update(bool running)
                 SK1100_Clear();
             return;
         }
-	}
+    }
 
     bool pause_pressed = false;
-	bool reset_pressed = false;
+    bool reset_pressed = false;
 
     // Convert input sources data to emulation inputs data
     const int players = ((g_driver->id == DRV_GG) ? 1 : 2); // 1 player on GG, else 2
     for (int i = 0; i < players; i++)
-	{
+    {
         for (int src_index = 0; src_index < Inputs.Sources_Max; src_index++)
         {
             const t_input_src* src = Inputs.Sources[src_index];
@@ -150,7 +150,7 @@ void	Inputs_Emulation_Update(bool running)
             case INPUT_JOYPAD: //---------------------------- Joypad/Control Stick
                 if (src->flags & INPUT_SRC_FLAGS_DIGITAL)
                 {
-					//Msg(MSGT_DEBUG, "Player %d Src %d LEFT=%d", i, source_index, src->Map[INPUT_MAP_DIGITAL_LEFT].Res);
+                    //Msg(MSGT_DEBUG, "Player %d Src %d LEFT=%d", i, source_index, src->Map[INPUT_MAP_DIGITAL_LEFT].Res);
                     if (src->Map[INPUT_MAP_DIGITAL_UP].current_value)     *c &= (!i? ~0x0001 : ~0x0040);
                     if (src->Map[INPUT_MAP_DIGITAL_DOWN].current_value)   *c &= (!i? ~0x0002 : ~0x0080);
                     if (src->Map[INPUT_MAP_DIGITAL_LEFT].current_value)   *c &= (!i? ~0x0004 : ~0x0100);
@@ -238,20 +238,20 @@ void	Inputs_Emulation_Update(bool running)
                     if (src->Map[INPUT_MAP_BUTTON1].current_value)        *c &= (!i? ~0x0010 : ~0x0400);
                     if (src->Map[INPUT_MAP_BUTTON2].current_value)        *c &= (!i? ~0x0020 : ~0x0800);
                 }
-				break;
-			case INPUT_GRAPHICBOARD_V2:
+                break;
+            case INPUT_GRAPHICBOARD_V2:
                 if (src->flags & INPUT_SRC_FLAGS_ANALOG)
-				{
-					const int buttons = (src->Map[INPUT_MAP_BUTTON1].current_value ? 2 : 0) | (src->Map[INPUT_MAP_BUTTON2].current_value ? 4 : 0) | (src->Map[INPUT_MAP_PAUSE_START].current_value ? 1 : 0);
-					Peripherals_GraphicBoardV2_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value, buttons);
-				}
-				break;
+                {
+                    const int buttons = (src->Map[INPUT_MAP_BUTTON1].current_value ? 2 : 0) | (src->Map[INPUT_MAP_BUTTON2].current_value ? 4 : 0) | (src->Map[INPUT_MAP_PAUSE_START].current_value ? 1 : 0);
+                    Peripherals_GraphicBoardV2_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value, buttons);
+                }
+                break;
             }
             // Process RESET and PAUSE/START buttons
             if (src->Map[INPUT_MAP_PAUSE_START].current_value) { pause_pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
             if (src->Map[INPUT_MAP_RESET].current_value)       { reset_pressed = TRUE; }
         }
-	}
+    }
 
     // SK-1100 Keyboard update
     if (Inputs.SK1100_Enabled)
@@ -303,93 +303,93 @@ void	Inputs_Emulation_Update(bool running)
 }
 
 // Read and update all inputs sources
-void	Inputs_Sources_Update()
+void    Inputs_Sources_Update()
 {
-	float dt = 1.0f/60.0f;		// FIXME: Delta time
+    float dt = 1.0f/60.0f;      // FIXME: Delta time
 
-	for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
-		if (g_keyboard_state[i] >= 0.0f)
-			g_keyboard_state[i] += dt;
+    for (int i = 0; i < ALLEGRO_KEY_MAX; i++)
+        if (g_keyboard_state[i] >= 0.0f)
+            g_keyboard_state[i] += dt;
 
-	// Process keyboard events
-	ALLEGRO_EVENT key_event;
-	while (al_get_next_event(g_keyboard_event_queue, &key_event))
-	{
-		switch (key_event.type)
-		{
-		case ALLEGRO_EVENT_KEY_DOWN:
-			//Msg(MSGT_DEBUG, "ALLEGRO_EVENT_KEY_DOWN %d", key_event.keyboard.keycode);
-			if (g_keyboard_state[key_event.keyboard.keycode] < 0.0f)
-				g_keyboard_state[key_event.keyboard.keycode] = 0.0f;
-			break;
-		case ALLEGRO_EVENT_KEY_UP:
-			//Msg(MSGT_DEBUG, "ALLEGRO_EVENT_KEY_UP %d", key_event.keyboard.keycode);
-			g_keyboard_state[key_event.keyboard.keycode] = -1.0f;
-			break;
-		case ALLEGRO_EVENT_KEY_CHAR:
-			// Process 'character' keypresses
-			// Those are transformed (given keyboard state & locale) into printable character
-			// Equivalent to using ToUnicode() in the Win32 API.
-			// Note: Allegro is handling repeat for us here.
-			if (key_event.keyboard.unichar > 0 && (key_event.keyboard.unichar & ~0xFF) == 0)
-			{
-				//Msg(MSGT_DEBUG, "%i %04x", key_event.keyboard.keycode, key_event.keyboard.unichar);
-				t_key_press* key_press = (t_key_press*)malloc(sizeof(*key_press));
-				key_press->scancode = key_event.keyboard.keycode;
-				key_press->ascii = key_event.keyboard.unichar & 0xFF;
-				list_add_to_end(&Inputs.KeyPressedQueue, key_press);
-			}
-			break;
-		}
-	}
-	
-	// Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
+    // Process keyboard events
+    ALLEGRO_EVENT key_event;
+    while (al_get_next_event(g_keyboard_event_queue, &key_event))
+    {
+        switch (key_event.type)
+        {
+        case ALLEGRO_EVENT_KEY_DOWN:
+            //Msg(MSGT_DEBUG, "ALLEGRO_EVENT_KEY_DOWN %d", key_event.keyboard.keycode);
+            if (g_keyboard_state[key_event.keyboard.keycode] < 0.0f)
+                g_keyboard_state[key_event.keyboard.keycode] = 0.0f;
+            break;
+        case ALLEGRO_EVENT_KEY_UP:
+            //Msg(MSGT_DEBUG, "ALLEGRO_EVENT_KEY_UP %d", key_event.keyboard.keycode);
+            g_keyboard_state[key_event.keyboard.keycode] = -1.0f;
+            break;
+        case ALLEGRO_EVENT_KEY_CHAR:
+            // Process 'character' keypresses
+            // Those are transformed (given keyboard state & locale) into printable character
+            // Equivalent to using ToUnicode() in the Win32 API.
+            // Note: Allegro is handling repeat for us here.
+            if (key_event.keyboard.unichar > 0 && (key_event.keyboard.unichar & ~0xFF) == 0)
+            {
+                //Msg(MSGT_DEBUG, "%i %04x", key_event.keyboard.keycode, key_event.keyboard.unichar);
+                t_key_press* key_press = (t_key_press*)malloc(sizeof(*key_press));
+                key_press->scancode = key_event.keyboard.keycode;
+                key_press->ascii = key_event.keyboard.unichar & 0xFF;
+                list_add_to_end(&Inputs.KeyPressedQueue, key_press);
+            }
+            break;
+        }
+    }
+    
+    // Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
 #ifdef ARCH_WIN32
-	if (GetAsyncKeyState(VK_SNAPSHOT))
-		g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] < 0.0f ? 0.0f : g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] + dt;
-	else
-		g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = -1.0f;
-	// g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
+    if (GetAsyncKeyState(VK_SNAPSHOT))
+        g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] < 0.0f ? 0.0f : g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] + dt;
+    else
+        g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = -1.0f;
+    // g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
 #endif
 
-	// Update keyboard modifiers flags
-	g_keyboard_modifiers = 0;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
-	if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_ALT;
-	if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
-		g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
+    // Update keyboard modifiers flags
+    g_keyboard_modifiers = 0;
+    if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
+        g_keyboard_modifiers |= ALLEGRO_KEYMOD_CTRL;
+    if (Inputs_KeyDown(ALLEGRO_KEY_ALT) || Inputs_KeyDown(ALLEGRO_KEY_ALTGR))
+        g_keyboard_modifiers |= ALLEGRO_KEYMOD_ALT;
+    if (Inputs_KeyDown(ALLEGRO_KEY_LSHIFT) || Inputs_KeyDown(ALLEGRO_KEY_RSHIFT))
+        g_keyboard_modifiers |= ALLEGRO_KEYMOD_SHIFT;
 
-	// Keyboard debugging
+    // Keyboard debugging
 #if 0
-	u8 win32_keyboard_state[256];
-	memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
-	bool ret = GetKeyboardState(&win32_keyboard_state[0]);
-	for (int i = 0; i != 256; i++)
-		if (win32_keyboard_state[i])
-			Msg(MSGT_DEBUG, "[%d Win32 pressed %d\n", ret, i);
-		//if (GetAsyncKeyState(i))
-		//	Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d, %08x", ret, i, GetAsyncKeyState(i));
+    u8 win32_keyboard_state[256];
+    memset(&win32_keyboard_state[0], 0, sizeof(win32_keyboard_state));
+    bool ret = GetKeyboardState(&win32_keyboard_state[0]);
+    for (int i = 0; i != 256; i++)
+        if (win32_keyboard_state[i])
+            Msg(MSGT_DEBUG, "[%d Win32 pressed %d\n", ret, i);
+        //if (GetAsyncKeyState(i))
+        //  Msg( MSGT_DEBUG, "[%d] Win32 Pressed key %d, %08x", ret, i, GetAsyncKeyState(i));
 
-	//for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
-	//	if (al_key_down(&g_keyboard_state, i))
-	//		Msg( MSGT_DEBUG, "Pressed key %d", i);
+    //for (int i = 0; i != ALLEGRO_KEY_MAX; i++)
+    //  if (al_key_down(&g_keyboard_state, i))
+    //      Msg( MSGT_DEBUG, "Pressed key %d", i);
 #endif
 
     // Poll mouse
-	al_get_mouse_state(&g_mouse_state);
+    al_get_mouse_state(&g_mouse_state);
 
-	// FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
-	//int screen_center_x, screen_center_y;
-	//Video_GameMode_GetScreenCenterPos(&screen_center_x, &screen_center_y);
-	//const int mouse_mx_unbounded = g_mouse_state.x - screen_center_x;
-	//const int mouse_my_unbounded = g_mouse_state.y - screen_center_y;
-	const int mouse_mx_unbounded = g_mouse_state.x - gui.mouse.x_prev;
-	const int mouse_my_unbounded = g_mouse_state.y - gui.mouse.y_prev;
+    // FIXME-ALLEGRO5: Used to be provided by Allegro 4 as mouse_mx, mouse_my (mickeys?) - check SVN log
+    //int screen_center_x, screen_center_y;
+    //Video_GameMode_GetScreenCenterPos(&screen_center_x, &screen_center_y);
+    //const int mouse_mx_unbounded = g_mouse_state.x - screen_center_x;
+    //const int mouse_my_unbounded = g_mouse_state.y - screen_center_y;
+    const int mouse_mx_unbounded = g_mouse_state.x - gui.mouse.x_prev;
+    const int mouse_my_unbounded = g_mouse_state.y - gui.mouse.y_prev;
 
-	// Recenter and clamp in range
-	Inputs_UpdateMouseRange();
+    // Recenter and clamp in range
+    Inputs_UpdateMouseRange();
 
     for (int i = 0; i < Inputs.Sources_Max; i++)
     {
@@ -407,14 +407,14 @@ void	Inputs_Sources_Update()
                     const int old_res = map->current_value;
                     map->current_value = (map->hw_index != -1 && Inputs_KeyDown(map->hw_index));
                     if (old_res && map->current_value)
-					{
+                    {
                         Src->Map[j].pressed_counter++;
-						//Msg(MSGT_DEBUG, "Map %d on", j);
-					}
+                        //Msg(MSGT_DEBUG, "Map %d on", j);
+                    }
                     else
-					{
+                    {
                         Src->Map[j].pressed_counter = 0;
-					}
+                    }
                 }
                 break;
             }
@@ -422,30 +422,30 @@ void	Inputs_Sources_Update()
             // Digital Joypad/Joystick ----------------------------------------------
         case INPUT_SRC_TYPE_JOYPAD:
             {
-       			ALLEGRO_JOYSTICK *joystick = al_get_joystick(Src->Connection_Port);
-				ALLEGRO_JOYSTICK_STATE state;
-				al_get_joystick_state(joystick, &state);
+                ALLEGRO_JOYSTICK *joystick = al_get_joystick(Src->Connection_Port);
+                ALLEGRO_JOYSTICK_STATE state;
+                al_get_joystick_state(joystick, &state);
 
 #ifdef DEBUG_JOY
                 {
-					const int num_sticks = al_get_joystick_num_sticks(joystick);
-					const int num_buttons = al_get_joystick_num_buttons(joystick);
-					
+                    const int num_sticks = al_get_joystick_num_sticks(joystick);
+                    const int num_buttons = al_get_joystick_num_buttons(joystick);
+                    
                     Msg(MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
                     for (int i = 0; i < num_sticks; i++)
                     {
                         const int num_axes = al_get_joystick_num_axes(joystick, i);
-						Msg(MSGT_DEBUG, "- Stick %d\n", i);
+                        Msg(MSGT_DEBUG, "- Stick %d\n", i);
                         for (int j = 0; j < num_axes; j++)
                         {
-							Msg(MSGT_DEBUG, "   - Axis %d (pos = %f)\n", j, state.stick[i].axis[j]);
+                            Msg(MSGT_DEBUG, "   - Axis %d (pos = %f)\n", j, state.stick[i].axis[j]);
                         }
                     }
 
                     char buf[512];
                     strcpy(buf, "- Buttons ");
                     for (int i = 0; i < num_buttons; i++)
-						sprintf(buf + strlen(buf), "%d ", state.button[i]);
+                        sprintf(buf + strlen(buf), "%d ", state.button[i]);
                     Msg(MSGT_DEBUG, buf);
                 }
 #endif
@@ -458,13 +458,13 @@ void	Inputs_Sources_Update()
                     {
                     case INPUT_MAP_TYPE_JOY_AXIS:
                         {
-							const float v = state.stick[map->hw_index].axis[map->hw_axis];
-							map->current_value = (map->hw_direction ? v > INPUT_JOY_DEADZONE : v < -INPUT_JOY_DEADZONE);
+                            const float v = state.stick[map->hw_index].axis[map->hw_axis];
+                            map->current_value = (map->hw_direction ? v > INPUT_JOY_DEADZONE : v < -INPUT_JOY_DEADZONE);
                             break;
                         }
                     case INPUT_MAP_TYPE_JOY_BUTTON:
                         {
-							map->current_value = (map->hw_index != (-1) && state.button[map->hw_index]);
+                            map->current_value = (map->hw_index != (-1) && state.button[map->hw_index]);
                             break;
                         }
                     }
@@ -483,11 +483,11 @@ void	Inputs_Sources_Update()
 
                 if (g_env.state == MEKA_STATE_GAME)
                 {
-					int mx, my;
-					Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &mx, &my, true);
-					//Msg(MSGT_USER, "%d %d", mx, my);
+                    int mx, my;
+                    Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &mx, &my, true);
+                    //Msg(MSGT_USER, "%d %d", mx, my);
                     Src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value = mx;
-					Src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value = my;
+                    Src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value = my;
                 }
                 else
                 {
@@ -501,36 +501,36 @@ void	Inputs_Sources_Update()
                     // if (x > 255) x = 255;
                     if (y < 0) y = 0;
 
-					const float sx = (float)g_driver->x_res / (gamebox_instance->frame.size.x + 1);
-					const float sy = (float)g_driver->y_res / (gamebox_instance->frame.size.y + 1);
-					x *= sx;
-					y *= sy;
-				    if ((g_driver->id == DRV_SMS) && (Mask_Left_8))
-						x += 4;
+                    const float sx = (float)g_driver->x_res / (gamebox_instance->frame.size.x + 1);
+                    const float sy = (float)g_driver->y_res / (gamebox_instance->frame.size.y + 1);
+                    x *= sx;
+                    y *= sy;
+                    if ((g_driver->id == DRV_SMS) && (Mask_Left_8))
+                        x += 4;
 
                     Src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value = x;
                     Src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value = y;
                 }
 
                 int x = Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value;
-				//Msg(MSGT_DEBUG, "x = %d, %d - %d", x, g_mouse_state.x,gui.mouse.x_prev);
-				const int mx = mouse_mx_unbounded;
+                //Msg(MSGT_DEBUG, "x = %d, %d - %d", x, g_mouse_state.x,gui.mouse.x_prev);
+                const int mx = mouse_mx_unbounded;
                 if (x > 0 && mx < x)
                 { if (mx < 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
                 else if (x < 0 && mx > x)
                 { if (mx > 0) x = 0; else x *= Src->Analog_to_Digital_FallOff; }
                 else
-				{ x = mx; }
+                { x = mx; }
                 Src->Map[INPUT_MAP_ANALOG_AXIS_X_REL].current_value = x;
 
                 int y = Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value;
                 const int my = mouse_my_unbounded;
-				if (y > 0 && my < y)
+                if (y > 0 && my < y)
                 { if (my < 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
                 else if (y < 0 && my > y)
                 { if (my > 0) y = 0; else y *= Src->Analog_to_Digital_FallOff; }
                 else
-				{ y = my; }
+                { y = my; }
                 Src->Map[INPUT_MAP_ANALOG_AXIS_Y_REL].current_value = y;
 
                 // No counters for analog data
@@ -548,7 +548,7 @@ void	Inputs_Sources_Update()
                     if (disable_mouse_button)
                         Src->Map[j].current_value = 0;
                     else
-						Src->Map[j].current_value = (Src->Map[j].hw_index != -1 && (g_mouse_state.buttons & button_mask));
+                        Src->Map[j].current_value = (Src->Map[j].hw_index != -1 && (g_mouse_state.buttons & button_mask));
                     if (old_res && map->current_value)
                         Src->Map[j].pressed_counter++;
                     else
@@ -563,40 +563,40 @@ void	Inputs_Sources_Update()
 
 void Inputs_Sources_ClearOutOfFocus()
 {
-	for (size_t i = 0; i < ALLEGRO_KEY_MAX; i++)
-		g_keyboard_state[i] = -1.0f;
-	g_keyboard_modifiers = 0;
+    for (size_t i = 0; i < ALLEGRO_KEY_MAX; i++)
+        g_keyboard_state[i] = -1.0f;
+    g_keyboard_modifiers = 0;
 }
 
 void Inputs_UpdateMouseRange()
 {
-	if (g_env.state != MEKA_STATE_GAME)
-		return;
+    if (g_env.state != MEKA_STATE_GAME)
+        return;
 
-	int sx_org;
-	int sy_org;
-	Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &sx_org, &sy_org, false);
+    int sx_org;
+    int sy_org;
+    Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &sx_org, &sy_org, false);
 
-	if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
-	{ 
-		const int sx = Clamp<int>(sx_org, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
-		const int sy = Clamp<int>(sy_org, 0, g_driver->y_res);
-		if (sx != sx_org || sy != sy_org)
-		{
-			int mx, my;
-			Video_GameMode_EmulatedPosToScreenPos(sx, sy, &mx, &my, false);
-			al_set_mouse_xy(g_display, mx, my);
-		}
-	}
-	else if (Inputs.Peripheral[PLAYER_1] == INPUT_SPORTSPAD || Inputs.Peripheral[PLAYER_2] == INPUT_SPORTSPAD)
-	{
-		// Recenter so we can keep moving
-		int sx, sy;
-		Video_GameMode_GetScreenCenterPos(&sx, &sy);
-		al_set_mouse_xy(g_display, sx, sy);
-	}
+    if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
+    { 
+        const int sx = Clamp<int>(sx_org, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
+        const int sy = Clamp<int>(sy_org, 0, g_driver->y_res);
+        if (sx != sx_org || sy != sy_org)
+        {
+            int mx, my;
+            Video_GameMode_EmulatedPosToScreenPos(sx, sy, &mx, &my, false);
+            al_set_mouse_xy(g_display, mx, my);
+        }
+    }
+    else if (Inputs.Peripheral[PLAYER_1] == INPUT_SPORTSPAD || Inputs.Peripheral[PLAYER_2] == INPUT_SPORTSPAD)
+    {
+        // Recenter so we can keep moving
+        int sx, sy;
+        Video_GameMode_GetScreenCenterPos(&sx, &sy);
+        al_set_mouse_xy(g_display, sx, sy);
+    }
 
-	//Msg(MSGT_USER, "xy %d %d -> %d %d", sx_org, sy_org, sx, sy);
+    //Msg(MSGT_USER, "xy %d %d -> %d %d", sx_org, sy_org, sx, sy);
 }
 
 // Fix up/down & left/right cases

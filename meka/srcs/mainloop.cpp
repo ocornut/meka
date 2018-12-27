@@ -74,7 +74,7 @@ void    Main_Loop (void)
     }
 
     // Clear screen to black, so that palette switch doesn't look ugly when quitting
-	al_set_target_bitmap(al_get_backbuffer(g_display));
+    al_set_target_bitmap(al_get_backbuffer(g_display));
     al_clear_to_color(COLOR_BLACK);
 
     // Stop sound
@@ -102,7 +102,7 @@ void    Main_Loop_No_Emulation (void)
         if ((fskipper.Show_Current_Frame) && (!(g_machine_flags & MACHINE_POWER_ON)))
         {
             sms.VDP[0] &= ~0x20; // no mask left 8 (for GUI windows) // FIXME: blah
-			Effects_TV_Update();
+            Effects_TV_Update();
         }
         // Refresh GUI screen
         Video_RefreshScreen();

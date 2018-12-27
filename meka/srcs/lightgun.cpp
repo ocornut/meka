@@ -11,7 +11,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-t_light_phaser			LightPhaser;
+t_light_phaser          LightPhaser;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -25,7 +25,7 @@ void    LightPhaser_Init(void)
     LightPhaser.Y [PLAYER_1] = LightPhaser.Y [PLAYER_2] = 96;//g_driver->y_res / 2;
 }
 
-u8		LightPhaser_GetX(void)
+u8      LightPhaser_GetX(void)
 {
     const int r = LightPhaser.X [LightPhaser.LastSync] ; // + ((Mask_Left_8) ? 8 : 0);
     return (u8)(16 + (r / 2));
@@ -40,14 +40,14 @@ void    LightPhaser_Sync(int player, byte *v)
     const int dy = LightPhaser.Y[player] - tsms.VDP_Line;
 
     if (dy > -4 && dy < 4)
-	{
-		// Arbitrary values found after trying differents settings
+    {
+        // Arbitrary values found after trying differents settings
         if (dx > -48 && dx < 48)
         {
             *v &= (player == PLAYER_1) ? ~0x40 : ~0x80;
             LightPhaser.LastSync = player;
         }
-	}
+    }
 }
 
 // Light Phaser update function

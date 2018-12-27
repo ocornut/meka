@@ -18,11 +18,11 @@
 //-----------------------------------------------------------------------------
 
 void    Blit_Init();
-void	Blit_CreateVideoBuffers();
+void    Blit_CreateVideoBuffers();
 void    Blit_DestroyVideoBuffers();
 
 void    Blit_Fullscreen();
-void	Blit_Fullscreen_UpdateBounds();
+void    Blit_Fullscreen_UpdateBounds();
 
 void    Blit_GUI();
 

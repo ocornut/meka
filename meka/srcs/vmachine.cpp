@@ -16,7 +16,7 @@
 // Data
 //-----------------------------------------------------------------------------
 
-int		g_machine_flags = 0;
+int     g_machine_flags = 0;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -32,7 +32,7 @@ void    VMachine_Draw (void)
 
     x = gui.info.screen.x;
     y = 0;
-	al_set_target_bitmap(gui_background);
+    al_set_target_bitmap(gui_background);
     switch (g_driver->id)
     {
     case DRV_COLECO: //-------------- Draw a Colecovision ---------------------
@@ -64,23 +64,23 @@ void    Machine_Init (void)
 void    Machine_ON (void)
 {
 #ifdef DEBUG_WHOLE
-	Msg(MSGT_DEBUG, "Machine_ON()");
+    Msg(MSGT_DEBUG, "Machine_ON()");
 #endif
-	if (!(g_machine_flags & MACHINE_POWER_ON))
-	{
-		g_machine_flags |= MACHINE_POWER_ON;
-		CPU_Loop_Stop = TRUE;
-		Machine_Reset();
-		if (!(g_machine_flags & MACHINE_ROM_LOADED))
-		{
+    if (!(g_machine_flags & MACHINE_POWER_ON))
+    {
+        g_machine_flags |= MACHINE_POWER_ON;
+        CPU_Loop_Stop = TRUE;
+        Machine_Reset();
+        if (!(g_machine_flags & MACHINE_ROM_LOADED))
+        {
 #ifdef DEBUG_WHOLE
-			Msg(MSGT_DEBUG, "Machine_ON() : BIOS_Load()");
+            Msg(MSGT_DEBUG, "Machine_ON() : BIOS_Load()");
 #endif
-			BIOS_Load();
-			Machine_Remove_Cartridge();
-		}
-		Skins_Background_Redraw();
-	}
+            BIOS_Load();
+            Machine_Remove_Cartridge();
+        }
+        Skins_Background_Redraw();
+    }
 }
 
 void    Machine_OFF (void)
@@ -89,7 +89,7 @@ void    Machine_OFF (void)
     {
         BMemory_Save();
         g_machine_flags &= ~MACHINE_POWER_ON;   // Switch power Off
-        CPU_Loop_Stop = TRUE;					// Setup flag to stop Z80 emulation
+        CPU_Loop_Stop = TRUE;                   // Setup flag to stop Z80 emulation
         Machine_Reset();
         Skins_Background_Redraw();
         //effects.TV_Start_Line = 0;
@@ -136,7 +136,7 @@ void    Free_ROM (void)
     gamebox_rename_all();
     Change_System_Misc();
 
-	// Clear filename data
+    // Clear filename data
     strcpy(g_env.Paths.MediaImageFile, "");
     Filenames_Init_ROM();
 }

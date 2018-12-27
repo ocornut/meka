@@ -21,7 +21,7 @@ static ts_driver drivers [DRV_MAX] =
   {  DRV_SC3000, "SC-3000",  "Sega Computer 3000",    CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x08000 },
   {  DRV_COLECO, "COLECO",   "Coleco Vision",         CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x00400 },
   {  DRV_MSX___, "MSX",      "MSX-1",                 CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0 /*?*/ },
-  {  DRV_NES___, "NES",      "Nintendo",              0,		0,			 0,				 256, 240,  0,  0,   255, 0,  0,  0,  32,  0x00800 },
+  {  DRV_NES___, "NES",      "Nintendo",              0,    0,       0,        256, 240,  0,  0,   255, 0,  0,  0,  32,  0x00800 },
   {  DRV_SF7000, "SF-7000",  "Super Control Station", CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x10000 }
   // Driver ----- Name ------- Full Name ------------ CPU ----- VDP Chip --- SND Chip ------ X -- Y -- XS - YS - XE - YSS/SE/INT - C - RAM -----
 };
@@ -75,7 +75,7 @@ void    drv_set (int num)
 
 int         drv_get_from_filename_extension(const char *filename_extension)
 {
-	int i = 0;
+  int i = 0;
     while (drivers_ext [i].filename_extension != NULL)
     {
         if (stricmp(filename_extension, drivers_ext [i].filename_extension) == 0)
@@ -87,14 +87,14 @@ int         drv_get_from_filename_extension(const char *filename_extension)
 
 int     drv_is_known_filename_extension(const char *filename_extension)
 {
-	for (const ts_driver_filename_extension* p = drivers_ext; p->filename_extension != NULL; ++p)
-	{
-		if (stricmp(filename_extension, p->filename_extension) == 0)
-		{
-			return true;
-		}
-	}
-	return false;
+  for (const ts_driver_filename_extension* p = drivers_ext; p->filename_extension != NULL; ++p)
+  {
+    if (stricmp(filename_extension, p->filename_extension) == 0)
+    {
+      return true;
+    }
+  }
+  return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -104,15 +104,15 @@ int     drv_is_known_filename_extension(const char *filename_extension)
 //-----------------------------------------------------------------------------
 int     drv_id_to_mode(int id)
 {
-	switch (id)
-	{
-	case DRV_GG:        return (1);
-	case DRV_SG1000:    return (2);
-	case DRV_SC3000:    return (2 | 8);
-	case DRV_COLECO:    return (2 | 4);
-	case DRV_SF7000:    return (-1); // Was not existing, then
-	}
-	return (0);
+  switch (id)
+  {
+  case DRV_GG:        return (1);
+  case DRV_SG1000:    return (2);
+  case DRV_SC3000:    return (2 | 8);
+  case DRV_COLECO:    return (2 | 4);
+  case DRV_SF7000:    return (-1); // Was not existing, then
+  }
+  return (0);
 }
 
 //-----------------------------------------------------------------------------

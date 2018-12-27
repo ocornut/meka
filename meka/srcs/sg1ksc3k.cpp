@@ -27,9 +27,9 @@ word    Loop_SG1000_SC3000 (void)
 
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER
-	if (Debugger.active)
-		Debugger_RasterLine_Hook(tsms.VDP_Line);
-	#endif
+    if (Debugger.active)
+        Debugger_RasterLine_Hook(tsms.VDP_Line);
+    #endif
 
     if (tsms.VDP_Line == 0)
     {

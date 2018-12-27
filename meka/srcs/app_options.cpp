@@ -47,7 +47,7 @@ static void    Option_Switch_NES_Crap()
 void    Options_Init_Applet()
 {
     // Create box
-	t_frame frame;
+    t_frame frame;
     frame.pos.x     = 437;
     frame.pos.y     = 102;
     frame.size.x    = 400;
@@ -74,12 +74,12 @@ static void     Options_Layout_AddLine(t_app_options* app, bool setup, t_frame *
 
 static void     Options_Layout(t_app_options* app, bool setup)
 {
-	app->font_id = (t_font_id)g_configuration.font_options;
+    app->font_id = (t_font_id)g_configuration.font_options;
 
-	t_frame frame;
+    t_frame frame;
 
     al_set_target_bitmap(app->box->gfx_buffer);
-	al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
+    al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     if (setup)
     {
@@ -87,29 +87,29 @@ static void     Options_Layout(t_app_options* app, bool setup)
         widget_closebox_add(Options.box, (t_widget_callback)Options_Switch);
 
         // Add close button
-		frame.size.x = Font_TextWidth(app->font_id, Msg_Get(MSG_Options_Close))+15;
-		frame.size.y = Font_Height(app->font_id)*2;
+        frame.size.x = Font_TextWidth(app->font_id, Msg_Get(MSG_Options_Close))+15;
+        frame.size.y = Font_Height(app->font_id)*2;
         frame.pos.x = Options.box->frame.size.x - frame.size.x - OPTIONS_PAD_X;
         frame.pos.y = Options.box->frame.size.y - frame.size.y - OPTIONS_PAD_Y;
         widget_button_add(Options.box, &frame, 1, (t_widget_callback)Options_Switch, app->font_id, Msg_Get(MSG_Options_Close));
     }
 
     // Draw option lines
-	frame.pos.x = Font_Height(app->font_id)-2;
-	frame.pos.y = OPTIONS_PAD_Y;
+    frame.pos.x = Font_Height(app->font_id)-2;
+    frame.pos.y = OPTIONS_PAD_Y;
     frame.size.x = Font_Height(app->font_id);
     frame.size.y = Font_Height(app->font_id);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_BIOS_Enable),				&g_configuration.enable_BIOS,					NULL);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_DB_Display),					&g_configuration.fb_uses_DB,					Option_Switch_Uses_VLFN);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Product_Number),				&g_configuration.show_product_number,			NULL);
-    //Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Bright_Palette),			&g_configuration.palette_type,					Palette_Emu_Reload);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Allow_Opposite_Directions),	&g_configuration.allow_opposite_directions,		NULL);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Load_Close),					&g_configuration.fb_close_after_load,			NULL);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Load_FullScreen),			&g_configuration.fullscreen_after_load,			NULL);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_FullScreen_Messages),		&g_configuration.show_fullscreen_messages,		NULL);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_GUI_VSync),					&g_configuration.video_mode_gui_vsync,			NULL);
-	Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Capture_Crop_Align),			&g_configuration.capture_crop_align_8x8,		NULL);
-    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_NES_Enable),					&g_configuration.enable_NES,					Option_Switch_NES_Crap);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_BIOS_Enable),                &g_configuration.enable_BIOS,                   NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_DB_Display),                 &g_configuration.fb_uses_DB,                    Option_Switch_Uses_VLFN);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Product_Number),             &g_configuration.show_product_number,           NULL);
+    //Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Bright_Palette),           &g_configuration.palette_type,                  Palette_Emu_Reload);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Allow_Opposite_Directions),  &g_configuration.allow_opposite_directions,     NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Load_Close),                 &g_configuration.fb_close_after_load,           NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Load_FullScreen),            &g_configuration.fullscreen_after_load,         NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_FullScreen_Messages),        &g_configuration.show_fullscreen_messages,      NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_GUI_VSync),                  &g_configuration.video_mode_gui_vsync,          NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_Capture_Crop_Align),         &g_configuration.capture_crop_align_8x8,        NULL);
+    Options_Layout_AddLine(app, setup, &frame, Msg_Get(MSG_Options_NES_Enable),                 &g_configuration.enable_NES,                    Option_Switch_NES_Crap);
 }
 
 void    Options_Update(void)

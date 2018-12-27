@@ -12,7 +12,7 @@
 
 void    gui_frame_clear(ALLEGRO_BITMAP *dst, const t_frame *frame, ALLEGRO_COLOR color)
 {
-	al_set_target_bitmap(dst);
+    al_set_target_bitmap(dst);
     al_draw_filled_rectangle(frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, color);
 }
 

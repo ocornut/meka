@@ -83,45 +83,45 @@ t_sf7000 SF7000;
 
 void    SF7000_Reset (void)
 {
-	SF7000.Port_E4 = 0x00;
-	SF7000.Port_E5 = 0x00;
-	SF7000.Port_E6 = 0x00;
-	SF7000.Port_E7 = 0x00;
-	SF7000.Port_E8 = 0x00;
-	SF7000.Port_E9 = 0x00;
+    SF7000.Port_E4 = 0x00;
+    SF7000.Port_E5 = 0x00;
+    SF7000.Port_E6 = 0x00;
+    SF7000.Port_E7 = 0x00;
+    SF7000.Port_E8 = 0x00;
+    SF7000.Port_E9 = 0x00;
 }
 
 void    SF7000_IPL_Mapping_Update (void)
 {
-	if (IPL_Disabled)
-	{
-		Map_8k_RAM (0, 0);
-		Map_8k_RAM (1, 1);
-	}
-	else
-	{
-		Map_16k_Other (0, BIOS_ROM_SF7000);
-	}
+    if (IPL_Disabled)
+    {
+        Map_8k_RAM (0, 0);
+        Map_8k_RAM (1, 1);
+    }
+    else
+    {
+        Map_16k_Other (0, BIOS_ROM_SF7000);
+    }
 }
 
 // [MAPPER: SF-7000] WRITE BYTE -----------------------------------------------
 WRITE_FUNC (Write_Mapper_SF7000)
 {
-	/*
-	int Page = Addr >> 13;
-	if ((Page == 0 || Page == 1) && (IPL_Enabled))
-	{
-	//Out_SF7000 (0xE6, SF7000.Port_E6 | 0x40);
-	//Write_Error (Addr, Value);
-	Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Write), sms.R.PC.W, Value, Addr);
-	return;
-	}
-	Mem_Pages [Page] [Addr] = Value;
-	*/
+    /*
+    int Page = Addr >> 13;
+    if ((Page == 0 || Page == 1) && (IPL_Enabled))
+    {
+    //Out_SF7000 (0xE6, SF7000.Port_E6 | 0x40);
+    //Write_Error (Addr, Value);
+    Msg(MSGT_DEBUG, Msg_Get(MSG_Debug_Trap_Write), sms.R.PC.W, Value, Addr);
+    return;
+    }
+    Mem_Pages [Page] [Addr] = Value;
+    */
 
-	// Allowing to write even with IPL is enabled is needed
-	// (Sega Basic Disk Version needs that at least)
-	RAM [Addr] = Value;
+    // Allowing to write even with IPL is enabled is needed
+    // (Sega Basic Disk Version needs that at least)
+    RAM [Addr] = Value;
 }
 
 //-----------------------------------------------------------------------------

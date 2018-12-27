@@ -98,8 +98,8 @@ void    Machine_Set_Handler_IO(void)
         OutZ80 = OutZ80_NoHook = Out_SF7000;
         return;
     default:
-	    InZ80 = InZ80_NoHook = In_SMS;
-		OutZ80 = OutZ80_NoHook = Out_SMS;
+        InZ80 = InZ80_NoHook = In_SMS;
+        OutZ80 = OutZ80_NoHook = Out_SMS;
         return;
     }
 }
@@ -117,12 +117,12 @@ void    Machine_Set_Handler_Read(void)
     case MAPPER_SMS_DisplayUnit: // SMS Display Unit
         RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_DisplayUnit;
         break;
-	case MAPPER_SMS_Korean_Janggun:
-		RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_Korean_Janggun;
-		break;
-	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-		RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
-		break;
+    case MAPPER_SMS_Korean_Janggun:
+        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_Korean_Janggun;
+        break;
+    case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+        RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
+        break;
     default:
         RdZ80 = RdZ80_NoHook = Read_Default;
         break;
@@ -133,11 +133,11 @@ void    Machine_Set_Handler_Write(void)
 {
     switch (g_machine.mapper)
     {
-	case MAPPER_SMS_NoMapper:			 // SMS games with no bank switching
-		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_NoMapper;
-		break;
+    case MAPPER_SMS_NoMapper:            // SMS games with no bank switching
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_NoMapper;
+        break;
     case MAPPER_32kRAM:                  // Used by Sega Basic, The Castle, ..
-	case MAPPER_SC3000_Survivors_Multicart:
+    case MAPPER_SC3000_Survivors_Multicart:
         WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM;
         break;
     case MAPPER_ColecoVision:            // Colecovision
@@ -167,21 +167,21 @@ void    Machine_Set_Handler_Write(void)
     case MAPPER_SMS_Korean_MSX_8KB:      // SMS Korean games with MSX-based 8KB mapper
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB;
         break;
-	case MAPPER_SMS_Korean_Janggun:      // SMS Korean Janggun-ui Adeul
-		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Janggun;
-		break;
-	case MAPPER_SMS_4PakAllAction:
+    case MAPPER_SMS_Korean_Janggun:      // SMS Korean Janggun-ui Adeul
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Janggun;
+        break;
+    case MAPPER_SMS_4PakAllAction:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_4PakAllAction;
         break;
     case MAPPER_SMS_DisplayUnit:         // SMS Display Unit (RAM from 4000-47FF)
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_DisplayUnit;
         break;
-	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-		WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
-		break;
-	case MAPPER_SMS_Korean_Xin1:
-		WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Xin1;
-		break;
+    case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
+        break;
+    case MAPPER_SMS_Korean_Xin1:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Xin1;
+        break;
     default:                             // Standard mapper
         WrZ80 = WrZ80_NoHook = Write_Default;
         break;
@@ -200,14 +200,14 @@ void        Machine_Set_Mapper(void)
     switch (g_machine.driver_id)
     {
     case DRV_SC3000:
-		if (tsms.Size_ROM <= 32*1024)
-			g_machine.mapper = MAPPER_32kRAM;		// FIXME: Not technically correct. Should be enabled for BASIC.
-		else
-			g_machine.mapper = MAPPER_SG1000;
-		if (DB.current_entry == NULL && tsms.Size_ROM >= 0x200000)
-			if (memcmp(ROM+0x1F8004, "SC-3000 SURVIVORS MULTICART BOOT MENU", 38) == 0)
-				g_machine.mapper = MAPPER_SC3000_Survivors_Multicart;
-		return;
+        if (tsms.Size_ROM <= 32*1024)
+            g_machine.mapper = MAPPER_32kRAM;       // FIXME: Not technically correct. Should be enabled for BASIC.
+        else
+            g_machine.mapper = MAPPER_SG1000;
+        if (DB.current_entry == NULL && tsms.Size_ROM >= 0x200000)
+            if (memcmp(ROM+0x1F8004, "SC-3000 SURVIVORS MULTICART BOOT MENU", 38) == 0)
+                g_machine.mapper = MAPPER_SC3000_Survivors_Multicart;
+        return;
     case DRV_COLECO:
         g_machine.mapper = MAPPER_ColecoVision;
         return;
@@ -219,10 +219,10 @@ void        Machine_Set_Mapper(void)
         return;
     case DRV_SMS:
     case DRV_GG:
-		if (tsms.Size_ROM <= 48*1024)
-			g_machine.mapper = MAPPER_SMS_NoMapper;
+        if (tsms.Size_ROM <= 48*1024)
+            g_machine.mapper = MAPPER_SMS_NoMapper;
         else 
-			g_machine.mapper = MAPPER_Standard;
+            g_machine.mapper = MAPPER_Standard;
         if (DB.current_entry == NULL)    // Detect mapper for unknown ROM
         {
             const int m = Mapper_Autodetect();
@@ -241,12 +241,12 @@ void    Machine_Set_Mapping (void)
     sms.SRAM_Mapping_Register = 0;
     sms.SRAM_Pages = 0;
 
-	g_machine.mapper_regs_count = 3;	// Default
-	for (int i = 0; i != MAPPER_REGS_MAX; i++)
-		g_machine.mapper_regs[i] = 0;
-	g_machine.mapper_regs[0] = 0;
-	g_machine.mapper_regs[1] = 1;
-	g_machine.mapper_regs[2] = 2;
+    g_machine.mapper_regs_count = 3;    // Default
+    for (int i = 0; i != MAPPER_REGS_MAX; i++)
+        g_machine.mapper_regs[i] = 0;
+    g_machine.mapper_regs[0] = 0;
+    g_machine.mapper_regs[1] = 1;
+    g_machine.mapper_regs[2] = 2;
 
     switch (g_machine.mapper)
     {
@@ -308,69 +308,69 @@ void    Machine_Set_Mapping (void)
         Map_8k_ROM(5, 5);
         Map_8k_RAM(6, 0);
         Map_8k_RAM(7, 0);
-		g_machine.mapper_regs_count = 4;
+        g_machine.mapper_regs_count = 4;
 
-		// Nemesis has boot code on page 0x0F which seems to be auto-mapped at 0x0000-0x1fff on boot
-		// I'm not sure what is really "correct" but this work and doesn't trigger on other Zemina games for now.
-		if (tsms.Size_ROM == 16*0x2000 && ROM[0] == 0x00 && ROM[1] == 0x00 && ROM[2] == 0x00 && ROM[15*0x2000+0] == 0xF3 && ROM[15*0x2000+1] == 0xED && ROM[15*0x2000+2] == 0x56)
-		{
-			Map_8k_ROM(0, 0x0F);
-		}
+        // Nemesis has boot code on page 0x0F which seems to be auto-mapped at 0x0000-0x1fff on boot
+        // I'm not sure what is really "correct" but this work and doesn't trigger on other Zemina games for now.
+        if (tsms.Size_ROM == 16*0x2000 && ROM[0] == 0x00 && ROM[1] == 0x00 && ROM[2] == 0x00 && ROM[15*0x2000+0] == 0xF3 && ROM[15*0x2000+1] == 0xED && ROM[15*0x2000+2] == 0x56)
+        {
+            Map_8k_ROM(0, 0x0F);
+        }
         break;
-	case MAPPER_SMS_Korean_Janggun:
-		Map_8k_ROM(0, 0);
-		Map_8k_ROM(1, 1);
-		Map_8k_ROM(2, 2);
-		Map_8k_ROM(3, 3);
-		Map_8k_ROM(4, 4);
-		Map_8k_ROM(5, 5);
-		Map_8k_RAM(6, 0);
-		Map_8k_RAM(7, 0);
-		g_machine.mapper_regs_count = 6;
-		g_machine.mapper_janggun_bytes_flipping_flags = 0x00;
-		break;
+    case MAPPER_SMS_Korean_Janggun:
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 1);
+        Map_8k_ROM(2, 2);
+        Map_8k_ROM(3, 3);
+        Map_8k_ROM(4, 4);
+        Map_8k_ROM(5, 5);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 6;
+        g_machine.mapper_janggun_bytes_flipping_flags = 0x00;
+        break;
 
-	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-		Map_8k_ROM(0, 0);
-		Map_8k_RAM(1, 0);
-		Map_8k_ROM(2, 2);
-		Map_8k_ROM(3, 3);
-		Map_8k_ROM(4, 4);
-		Map_8k_ROM(5, 5);
-		Map_8k_RAM(6, 1);
-		Map_8k_RAM(7, 1);
-		g_machine.mapper_regs_count = 0;
-		break;
+    case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+        Map_8k_ROM(0, 0);
+        Map_8k_RAM(1, 0);
+        Map_8k_ROM(2, 2);
+        Map_8k_ROM(3, 3);
+        Map_8k_ROM(4, 4);
+        Map_8k_ROM(5, 5);
+        Map_8k_RAM(6, 1);
+        Map_8k_RAM(7, 1);
+        g_machine.mapper_regs_count = 0;
+        break;
 
-	case MAPPER_SMS_Korean_Xin1:
-		Map_8k_ROM(0, 0);
-		Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
-		Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
-		Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
-		Map_8k_ROM(4, 0);
-		Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
-		Map_8k_RAM(6, 0);
-		Map_8k_RAM(7, 0);
-		g_machine.mapper_regs_count = 1;
-		for (int i = 0; i != MAPPER_REGS_MAX; i++)
-			g_machine.mapper_regs[i] = 0;
-		break;
+    case MAPPER_SMS_Korean_Xin1:
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0);
+        Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        break;
 
-	case MAPPER_SC3000_Survivors_Multicart:
-		g_machine.mapper_regs_count = 1;
-		for (int i = 0; i != MAPPER_REGS_MAX; i++)
-			g_machine.mapper_regs[i] = 0;
-		g_machine.mapper_regs[0] = 0xDF; // $11011111; // Menu
-		//Map_8k_ROM(0, g_machine.mapper_regs[0]*4+0);
-		//Map_8k_ROM(1, g_machine.mapper_regs[0]*4+1);// & tsms.Pages_Mask_8k);
-		//Map_8k_ROM(2, g_machine.mapper_regs[0]*4+2);// & tsms.Pages_Mask_8k);
-		//Map_8k_ROM(3, g_machine.mapper_regs[0]*4+3);// & tsms.Pages_Mask_8k);
-		Map_8k_RAM(4, 0);
-		Map_8k_RAM(5, 1);
-		Map_8k_RAM(6, 2);
-		Map_8k_RAM(7, 3);
-		Out_SMS(0xE0, g_machine.mapper_regs[0]);
-		break;
+    case MAPPER_SC3000_Survivors_Multicart:
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[0] = 0xDF; // $11011111; // Menu
+        //Map_8k_ROM(0, g_machine.mapper_regs[0]*4+0);
+        //Map_8k_ROM(1, g_machine.mapper_regs[0]*4+1);// & tsms.Pages_Mask_8k);
+        //Map_8k_ROM(2, g_machine.mapper_regs[0]*4+2);// & tsms.Pages_Mask_8k);
+        //Map_8k_ROM(3, g_machine.mapper_regs[0]*4+3);// & tsms.Pages_Mask_8k);
+        Map_8k_RAM(4, 0);
+        Map_8k_RAM(5, 1);
+        Map_8k_RAM(6, 2);
+        Map_8k_RAM(7, 3);
+        Out_SMS(0xE0, g_machine.mapper_regs[0]);
+        break;
 
     default: // Other mappers
         Map_8k_ROM(0, 0);
@@ -383,8 +383,8 @@ void    Machine_Set_Mapping (void)
         Map_8k_RAM(7, 0);
         switch (g_machine.mapper)
         {
-		case MAPPER_SMS_NoMapper:
-			break;
+        case MAPPER_SMS_NoMapper:
+            break;
         case MAPPER_CodeMasters:
             // ROM [0x3FFF] = 0; ROM [0x7FFF] = 1; ROM [0xBFFF] = 2;
             break;
@@ -402,8 +402,8 @@ void    Machine_Set_Mapping (void)
         default:
             // RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;
             memcpy (Game_ROM_Computed_Page_0, ROM, 0x4000);
-			//Map_16k_Other (0, Game_ROM_Computed_Page_0);
-			Map_16k_ROM(0, 0);	// Mapping may change to Game_ROM_Computed_Page_0 at runtime
+            //Map_16k_Other (0, Game_ROM_Computed_Page_0);
+            Map_16k_ROM(0, 0);  // Mapping may change to Game_ROM_Computed_Page_0 at runtime
             break;
         }
         break;
@@ -490,9 +490,9 @@ void        Machine_Reset(void)
 
     // VDP MODEL --------------------------------------------------------------
     if (DB.current_entry && DB.current_entry->emu_vdp_model != -1)
-	{
+    {
         g_machine.VDP.model = DB.current_entry->emu_vdp_model;
-	}
+    }
     else
     {
         if (g_driver->id == DRV_GG)
@@ -545,30 +545,30 @@ void        Machine_Reset(void)
 
     // MEMORY -----------------------------------------------------------------
 
-	// Clear RAM
-	if (g_driver->id == DRV_SMS && sms.Country == COUNTRY_JAPAN)
-	{
-		// On Japanese SMS clear RAM with 0xF0 patterns
-		// I am not sure how reliable is that pattern but this is what I'm seeing on my JSMS
-		// In theory this should be applied to all drivers, all countries, etc. but the exact
-		// behavior of other systems and bioses should be inspected more in details before
-		// generalizing that.
-		// The game "Ali Baba" require a non-00 and non-FF memory pattern to run to a bug
-		// in the code which makes it execute uninitialized memory from 0xFF07 onward.
-		// An F0 pattern correspond to RET P which happens to fix the game.
+    // Clear RAM
+    if (g_driver->id == DRV_SMS && sms.Country == COUNTRY_JAPAN)
+    {
+        // On Japanese SMS clear RAM with 0xF0 patterns
+        // I am not sure how reliable is that pattern but this is what I'm seeing on my JSMS
+        // In theory this should be applied to all drivers, all countries, etc. but the exact
+        // behavior of other systems and bioses should be inspected more in details before
+        // generalizing that.
+        // The game "Ali Baba" require a non-00 and non-FF memory pattern to run to a bug
+        // in the code which makes it execute uninitialized memory from 0xFF07 onward.
+        // An F0 pattern correspond to RET P which happens to fix the game.
 
-		memset (RAM, 0xF0, 0x10000);
-	}
-	else
-	{
-		memset (RAM, 0x00, 0x10000);
-	}
+        memset (RAM, 0xF0, 0x10000);
+    }
+    else
+    {
+        memset (RAM, 0x00, 0x10000);
+    }
     memset (VRAM, 0, 0x04000);      // Clear all VRAM
     memset (PRAM, 0, 0x00040);      // Clear all PRAM (palette)
 
-	#ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
-		memset (RAM_IsUninitialized, 1, 0x2000);
-	#endif
+    #ifdef DEBUG_UNINITIALIZED_RAM_ACCESSES
+        memset (RAM_IsUninitialized, 1, 0x2000);
+    #endif
 
     // Unload BIOS if...
     if ((g_driver->id != DRV_SMS || sms.Country != COUNTRY_EXPORT) && (g_machine_flags & MACHINE_ROM_LOADED))
@@ -587,10 +587,10 @@ void        Machine_Reset(void)
 
     VDP_UpdateLineLimits();
 
-	//assert(!Screenbuffer_IsLocked());
-	al_set_target_bitmap(screenbuffer_1);
+    //assert(!Screenbuffer_IsLocked());
+    al_set_target_bitmap(screenbuffer_1);
     al_clear_to_color(COLOR_BLACK);
-	al_set_target_bitmap(screenbuffer_2);
+    al_set_target_bitmap(screenbuffer_2);
     al_clear_to_color(COLOR_BLACK);
     //screenbuffer = screenbuffer_1;
     //screenbuffer_next = screenbuffer_2;
@@ -623,7 +623,7 @@ void        Machine_Reset(void)
     sms.VDP_ReadLatch = 0x00;
     sms.Lines_Left = 255;
     sms.Pending_HBlank = FALSE;
-	sms.Pending_NMI = FALSE;
+    sms.Pending_NMI = FALSE;
     tsms.VDP_Line = 0;
 
     // CONTROLLERS ------------------------------------------------------------
@@ -640,11 +640,11 @@ void        Machine_Reset(void)
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm();
     FM_Reset();
-	SN76489_Reset (g_machine.TV->CPU_clock, Sound.SampleRate);
+    SN76489_Reset (g_machine.TV->CPU_clock, Sound.SampleRate);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 
-	Sound_ResetCycleCounter();
+    Sound_ResetCycleCounter();
 
     // FIXME: add a reset handler per driver, instead of the code below...
 

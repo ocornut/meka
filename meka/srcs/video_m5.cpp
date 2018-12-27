@@ -16,13 +16,13 @@
 // Data
 //-----------------------------------------------------------------------------
 
-static u16*	GFX_LineRegionData = NULL;
+static u16* GFX_LineRegionData = NULL;
 
 extern "C"
 {
-int			Sprite_Last;
-int			Sprites_on_Line;
-int			Do_Collision;
+int         Sprite_Last;
+int         Sprites_on_Line;
+int         Do_Collision;
 
 #define     Sprites_Collision_Table_Len (SMS_RES_X + 32)
 int         Sprites_Collision_Table_Start[Sprites_Collision_Table_Len + 32];
@@ -47,13 +47,13 @@ static byte Sprites_Draw_Mask [SMS_RES_X + 16];
 // Note: this is used by tools only (not actual emulation refresh)
 void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, const u8 *pixels, const u32 *palette_host, int x, int y, int flip)
 {
-	const int color_format = al_get_bitmap_format(dst);
+    const int color_format = al_get_bitmap_format(dst);
     switch (al_get_pixel_format_bits(color_format))
     {
     case 16:
         {
-			u16* dst_data = (u16*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 1;
+            u16* dst_data = (u16*)dst_region->data;
+            const int dst_pitch = dst_region->pitch >> 1;
             int i;
             if (flip & 0x0400)
             {
@@ -134,8 +134,8 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
         }
     case 32:
         {
-			u32* dst_data = (u32*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 2;
+            u32* dst_data = (u32*)dst_region->data;
+            const int dst_pitch = dst_region->pitch >> 2;
             int i;
             if (flip & 0x0400)
             {
@@ -215,68 +215,68 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
             break;
         }
     default:
-		Msg(MSGT_USER, "video_m5: Unsupported color format: %d.", color_format);
+        Msg(MSGT_USER, "video_m5: Unsupported color format: %d.", color_format);
         break;
     }
 }
 
 void    Refresh_Line_5 (void)
 {
-	// Point to current video line
-	GFX_LineRegionData = (u16*)( (u8*)g_screenbuffer_locked_region->data + g_screenbuffer_locked_region->pitch * tsms.VDP_Line );
+    // Point to current video line
+    GFX_LineRegionData = (u16*)( (u8*)g_screenbuffer_locked_region->data + g_screenbuffer_locked_region->pitch * tsms.VDP_Line );
 
-	if (fskipper.Show_Current_Frame == TRUE)
-	{
+    if (fskipper.Show_Current_Frame == TRUE)
+    {
         // Scroll lock, update in X latch table (for tilemap viewer)
         if (Top_No_Scroll && tsms.VDP_Line < 16)
             g_machine.VDP.scroll_x_latched_table[tsms.VDP_Line] = 0;
 
         // Display Background & Foreground
-		if ((opt.Layer_Mask & LAYER_BACKGROUND) && Display_ON)
-		{
-			Display_BackGround_Line_5();
-		}
-		else
-		{
-			// Display is off
-			// Select SMS/GG backdrop color, unless background layer display was disabled by user, then use custom color for easier sprite extraction
-			u16 backdrop_color;
-			if (opt.Layer_Mask & LAYER_BACKGROUND)
-				backdrop_color = Palette_EmulationToHostGame[16 | (sms.VDP[7] & 15)];
-			else
-				backdrop_color = Palette_MakeHostColor(g_screenbuffer_format, COLOR_DEBUG_BACKDROP);
+        if ((opt.Layer_Mask & LAYER_BACKGROUND) && Display_ON)
+        {
+            Display_BackGround_Line_5();
+        }
+        else
+        {
+            // Display is off
+            // Select SMS/GG backdrop color, unless background layer display was disabled by user, then use custom color for easier sprite extraction
+            u16 backdrop_color;
+            if (opt.Layer_Mask & LAYER_BACKGROUND)
+                backdrop_color = Palette_EmulationToHostGame[16 | (sms.VDP[7] & 15)];
+            else
+                backdrop_color = Palette_MakeHostColor(g_screenbuffer_format, COLOR_DEBUG_BACKDROP);
 
-			u16 *p = GFX_LineRegionData;
-			for (int n = 256; n != 0; n--)
-				*p++ = backdrop_color;
+            u16 *p = GFX_LineRegionData;
+            for (int n = 256; n != 0; n--)
+                *p++ = backdrop_color;
 
-			// Clear sprite draw mask, so that all sprite will be displayed
-			memset(Sprites_Draw_Mask, 0, 256);
-		}
+            // Clear sprite draw mask, so that all sprite will be displayed
+            memset(Sprites_Draw_Mask, 0, 256);
+        }
 
-		Refresh_Sprites_5 (Display_ON && (opt.Layer_Mask & LAYER_SPRITES));
+        Refresh_Sprites_5 (Display_ON && (opt.Layer_Mask & LAYER_SPRITES));
 
-		// Mask left columns with black if necessary
-		if (Mask_Left_8)
-		{
-			// FIXME-BORDER
-			const u16 color_black = COLOR_BLACK16;
-			u16* p = GFX_LineRegionData;
-			p[0] = color_black;
-			p[1] = color_black;
-			p[2] = color_black;
-			p[3] = color_black;
-			p[4] = color_black;
-			p[5] = color_black;
-			p[6] = color_black;
-			p[7] = color_black;
-		}
-	}
-	else
-	{
-		// Only update collision if frame is being skipped
-		Refresh_Sprites_5 (FALSE);
-	}
+        // Mask left columns with black if necessary
+        if (Mask_Left_8)
+        {
+            // FIXME-BORDER
+            const u16 color_black = COLOR_BLACK16;
+            u16* p = GFX_LineRegionData;
+            p[0] = color_black;
+            p[1] = color_black;
+            p[2] = color_black;
+            p[3] = color_black;
+            p[4] = color_black;
+            p[5] = color_black;
+            p[6] = color_black;
+            p[7] = color_black;
+        }
+    }
+    else
+    {
+        // Only update collision if frame is being skipped
+        Refresh_Sprites_5 (FALSE);
+    }
 }
 
 // DISPLAY A BACKGROUND LINE --------------------------------------------------
@@ -543,16 +543,16 @@ void        Refresh_Sprites_5 (bool draw)
         // Calculate Sprite Height
         int height = 8;
         if (Sprites_Double) 
-			height <<= 1;
+            height <<= 1;
         if (Sprites_8x16)   
-			height <<= 1;
+            height <<= 1;
 
         Sprite_Last = 0;
         Sprites_on_Line = 0;
         if (Wide_Screen_28)
-			Find_Last_Sprite_Wide(height, tsms.VDP_Line);
-		else
-			Find_Last_Sprite(height, tsms.VDP_Line);
+            Find_Last_Sprite_Wide(height, tsms.VDP_Line);
+        else
+            Find_Last_Sprite(height, tsms.VDP_Line);
 
         // Return if there's no sprite on this line
         if (Sprites_on_Line == 0)
@@ -592,7 +592,7 @@ void        Refresh_Sprites_5 (bool draw)
         int     x, y, n;
         byte *  p_src;
         int     j;
-		const u8 * spr_map = g_machine.VDP.sprite_attribute_table;
+        const u8 * spr_map = g_machine.VDP.sprite_attribute_table;
         const u8 * spr_map_xn = &spr_map[0x80];
         int     spr_map_xn_offset;
         int     spr_map_n_mask = 0x01FF;
@@ -606,8 +606,8 @@ void        Refresh_Sprites_5 (bool draw)
                 spr_map_n_mask &= ~0x0080;
             if ((sms.VDP[6] & 2) == 0)
                 spr_map_n_mask &= ~0x0040;
-			// FIXME: Should be the same, untested thought
-			spr_map_n_mask &= (~0x00C0) | ((sms.VDP[6] & 3) << 6);
+            // FIXME: Should be the same, untested thought
+            spr_map_n_mask &= (~0x00C0) | ((sms.VDP[6] & 3) << 6);
         }
 
         // Now process actual sprites

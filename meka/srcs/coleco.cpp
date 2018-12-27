@@ -170,9 +170,9 @@ word    Loop_Coleco (void)
 
     // Debugger hook
     #ifdef MEKA_Z80_DEBUGGER
-	if (Debugger.active)
-		Debugger_RasterLine_Hook(tsms.VDP_Line);
-	#endif
+    if (Debugger.active)
+        Debugger_RasterLine_Hook(tsms.VDP_Line);
+    #endif
 
     if (tsms.VDP_Line == 0)
     {
@@ -207,7 +207,7 @@ word    Loop_Coleco (void)
     if ((VBlank_ON) && (sms.VDP_Status & VDP_STATUS_VBlank) && (sms.Pending_NMI == FALSE) /* && (sms.VDP_Access_Mode == VDP_Access_Mode_1) */ )
     {
         sms.VDP_Status &= ~VDP_STATUS_VBlank;
-		sms.Pending_NMI = TRUE;
+        sms.Pending_NMI = TRUE;
         return (INT_NMI);
     }
 

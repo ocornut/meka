@@ -41,11 +41,11 @@ void        Load_Game_Fixup(void)
     // Memory
     // FIXME: need to clean all those stuff.. it's messy
     //if (g_machine.driver_id != DRV_NES)
-	{
+    {
         switch (g_machine.mapper)
         {
-		case MAPPER_SMS_NoMapper:
-			break;
+        case MAPPER_SMS_NoMapper:
+            break;
         case MAPPER_Standard:
         case MAPPER_93c46:
             // We save previous RAM content, because:
@@ -56,26 +56,26 @@ void        Load_Game_Fixup(void)
             b = RAM[0x1FFE]; WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[1]);  RAM[0x1FFE] = b;
             b = RAM[0x1FFF]; WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[2]);  RAM[0x1FFF] = b;
             break;
-		case MAPPER_SMS_Korean_MSX_8KB:
-			WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
-			WrZ80_NoHook (0x0001, g_machine.mapper_regs[1]);
-			WrZ80_NoHook (0x0002, g_machine.mapper_regs[2]);
-			WrZ80_NoHook (0x0003, g_machine.mapper_regs[3]);
-			break;
-		case MAPPER_SMS_Korean_Janggun:
-			WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[0]);
-			WrZ80_NoHook (0x4000, g_machine.mapper_regs[1]);
-			WrZ80_NoHook (0x6000, g_machine.mapper_regs[2]);
-			WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[3]);
-			WrZ80_NoHook (0x8000, g_machine.mapper_regs[4]);
-			WrZ80_NoHook (0xA000, g_machine.mapper_regs[5]);
-			break;
+        case MAPPER_SMS_Korean_MSX_8KB:
+            WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
+            WrZ80_NoHook (0x0001, g_machine.mapper_regs[1]);
+            WrZ80_NoHook (0x0002, g_machine.mapper_regs[2]);
+            WrZ80_NoHook (0x0003, g_machine.mapper_regs[3]);
+            break;
+        case MAPPER_SMS_Korean_Janggun:
+            WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[0]);
+            WrZ80_NoHook (0x4000, g_machine.mapper_regs[1]);
+            WrZ80_NoHook (0x6000, g_machine.mapper_regs[2]);
+            WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[3]);
+            WrZ80_NoHook (0x8000, g_machine.mapper_regs[4]);
+            WrZ80_NoHook (0xA000, g_machine.mapper_regs[5]);
+            break;
         case MAPPER_CodeMasters:
             WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
             WrZ80_NoHook (0x4000, g_machine.mapper_regs[1]);
             WrZ80_NoHook (0x8000, g_machine.mapper_regs[2]);
             break;
-		case MAPPER_SMS_4PakAllAction:
+        case MAPPER_SMS_4PakAllAction:
             WrZ80_NoHook (0x3FFE, g_machine.mapper_regs[0]);
             WrZ80_NoHook (0x7FFF, g_machine.mapper_regs[1]);
             WrZ80_NoHook (0xBFFF, g_machine.mapper_regs[2]);
@@ -96,16 +96,16 @@ void        Load_Game_Fixup(void)
         case MAPPER_SF7000:
             SF7000_IPL_Mapping_Update();
             break;
-		case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-			break;
-		case MAPPER_SMS_Korean_Xin1:
-			WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[0]);
-			break;
-		case MAPPER_SC3000_Survivors_Multicart:
-			Out_SMS(0xE0, g_machine.mapper_regs[0]);
-			break;
+        case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+            break;
+        case MAPPER_SMS_Korean_Xin1:
+            WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SC3000_Survivors_Multicart:
+            Out_SMS(0xE0, g_machine.mapper_regs[0]);
+            break;
         }
-	}
+    }
 
     // VDP/Graphic related
     tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
@@ -144,10 +144,10 @@ void        SaveState_Save()
         return;
     }
 
-	char buf[FILENAME_LEN+1];
+    char buf[FILENAME_LEN+1];
     Save_Get_Filename(buf);
-	FILE* f;
-	int result;
+    FILE* f;
+    int result;
     if (!(f = fopen(buf, "wb")))
         result = 2;
     else
@@ -192,11 +192,11 @@ void        SaveState_Load()
     #endif
     */
 
-	char buf[FILENAME_LEN+1];
+    char buf[FILENAME_LEN+1];
     Save_Get_Filename(buf);
-	
-	FILE* f;
-	int result;
+    
+    FILE* f;
+    int result;
     if (!(f = fopen(buf, "rb")))
         result = 2;
     else
@@ -242,13 +242,13 @@ int     Save_Game_MSV (FILE *f)
     fwrite (&g_media_rom.crc32, sizeof (u32), 1, f);
 
     // Write 'sms' structure (misc stuff)
-	sms.R.R = (sms.R.R & 0x7F) | (sms.R.R7);
-	sms.R.R7 = 0;
+    sms.R.R = (sms.R.R & 0x7F) | (sms.R.R7);
+    sms.R.R7 = 0;
     fwrite (&sms, sizeof (struct SMS_TYPE), 1, f);
-	sms.R.R7 = (sms.R.R & 0x80);
+    sms.R.R7 = (sms.R.R & 0x80);
 
-	const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
-	fwrite (&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
+    const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
+    fwrite (&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
 
     // Write VDP scanline counter
     w = tsms.VDP_Line;
@@ -259,7 +259,7 @@ int     Save_Game_MSV (FILE *f)
     switch (g_machine.mapper)
     {
     case MAPPER_32kRAM:
-	case MAPPER_SC3000_Survivors_Multicart:
+    case MAPPER_SC3000_Survivors_Multicart:
         fwrite (RAM, 0x08000, 1, f);
         break;
     case MAPPER_ColecoVision:
@@ -282,14 +282,14 @@ int     Save_Game_MSV (FILE *f)
         else
             fwrite (RAM, 0x2000, 1, f);
         break;
-	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-		fwrite (RAM, 0x02000, 1, f);
-		fwrite (RAM + 0x2000, 0x00800, 1, f);
-		break;
-	case MAPPER_SMS_NoMapper:
-	case MAPPER_SMS_Korean_MSX_8KB:
-	case MAPPER_SMS_Korean_Janggun:
-	case MAPPER_SMS_Korean_Xin1:
+    case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+        fwrite (RAM, 0x02000, 1, f);
+        fwrite (RAM + 0x2000, 0x00800, 1, f);
+        break;
+    case MAPPER_SMS_NoMapper:
+    case MAPPER_SMS_Korean_MSX_8KB:
+    case MAPPER_SMS_Korean_Janggun:
+    case MAPPER_SMS_Korean_Xin1:
     default:                  
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -376,35 +376,35 @@ int         Load_Game_MSV(FILE *f)
         u16 trap = sms.R.Trap;
         u8  trace = sms.R.Trace;
         fread (&sms, sizeof(struct SMS_TYPE), 1, f);
-		sms.R.R7 = (sms.R.R & 0x80);
+        sms.R.R7 = (sms.R.R & 0x80);
         sms.R.Trap = trap;
         sms.R.Trace = trace;
     }
 
-	if (version >= 0x0E)
-	{
-		// Always save at least 4 so that legacy software can readily bump up version and read data for most games (apart from those using mappers with >4 registers)
-		const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
-		fread(&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
-	}
-	else
-	{
-		// Old structure which was 3+1 (due to struct alignment)
-		fread(&g_machine.mapper_regs[0], sizeof(u8), 3+1, f);
-		for (int i = 3; i != MAPPER_REGS_MAX; i++)				// 4th value was padding so we also invalid it.
-			g_machine.mapper_regs[i] = 0;
-		if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
-		{
-			u8 r[3];
-			r[0] = g_machine.mapper_regs[0];
-			r[1] = g_machine.mapper_regs[1];
-			r[2] = g_machine.mapper_regs[2];
-			g_machine.mapper_regs[0] = (r[2] & 0x0F);
-			g_machine.mapper_regs[1] = (r[2] & 0xF0) >> 4;
-			g_machine.mapper_regs[2] = (r[1] & 0x0F);
-			g_machine.mapper_regs[3] = (r[1] & 0xF0) >> 4;
-		}
-	}
+    if (version >= 0x0E)
+    {
+        // Always save at least 4 so that legacy software can readily bump up version and read data for most games (apart from those using mappers with >4 registers)
+        const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
+        fread(&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
+    }
+    else
+    {
+        // Old structure which was 3+1 (due to struct alignment)
+        fread(&g_machine.mapper_regs[0], sizeof(u8), 3+1, f);
+        for (int i = 3; i != MAPPER_REGS_MAX; i++)              // 4th value was padding so we also invalid it.
+            g_machine.mapper_regs[i] = 0;
+        if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
+        {
+            u8 r[3];
+            r[0] = g_machine.mapper_regs[0];
+            r[1] = g_machine.mapper_regs[1];
+            r[2] = g_machine.mapper_regs[2];
+            g_machine.mapper_regs[0] = (r[2] & 0x0F);
+            g_machine.mapper_regs[1] = (r[2] & 0xF0) >> 4;
+            g_machine.mapper_regs[2] = (r[1] & 0x0F);
+            g_machine.mapper_regs[3] = (r[1] & 0xF0) >> 4;
+        }
+    }
 
     // VDP scanline counter
     if (version >= 0x0D)
@@ -423,7 +423,7 @@ int         Load_Game_MSV(FILE *f)
     switch (g_machine.mapper)
     {
     case MAPPER_32kRAM:
-	case MAPPER_SC3000_Survivors_Multicart:
+    case MAPPER_SC3000_Survivors_Multicart:
         fread (RAM, 0x08000, 1, f);
         break;
     case MAPPER_ColecoVision:
@@ -452,14 +452,14 @@ int         Load_Game_MSV(FILE *f)
         else
             fread (RAM, 0x2000, 1, f);
         break;
-	case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-		fread (RAM, 0x2000, 1, f);
-		fread (RAM + 0x2000, 0x0800, 1, f);
-		break;
-	case MAPPER_SMS_NoMapper:
-	case MAPPER_SMS_Korean_MSX_8KB:
-	case MAPPER_SMS_Korean_Janggun:
-	case MAPPER_SMS_Korean_Xin1:
+    case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+        fread (RAM, 0x2000, 1, f);
+        fread (RAM + 0x2000, 0x0800, 1, f);
+        break;
+    case MAPPER_SMS_NoMapper:
+    case MAPPER_SMS_Korean_MSX_8KB:
+    case MAPPER_SMS_Korean_Janggun:
+    case MAPPER_SMS_Korean_Xin1:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -559,7 +559,7 @@ int     Load_Game_MSD (FILE *f)
     FM_Load (f);
     fread (&sms.SRAM_Mapping_Register, 1, 1, f);
     fread (&g_machine.mapper_regs[0], 3, 1, f);
-	g_machine.mapper_regs[3] = 0;
+    g_machine.mapper_regs[3] = 0;
     fread (RAM, 0x2000, 1, f);
     fread (VRAM, 0x4000, 1, f);
     switch (g_machine.driver_id)
@@ -585,7 +585,7 @@ int     Load_Game_MSD (FILE *f)
     fread (&sms.R.SP.B.h, 1, 1, f);
     fread (&sms.R.I, 1, 1, f);
     fread (&sms.R.R, 1, 1, f);
-	sms.R.R7 = sms.R.R & 0x80;
+    sms.R.R7 = sms.R.R & 0x80;
     fread (&sms.R.DE.B.l, 1, 1, f);
     fread (&sms.R.DE.B.h, 1, 1, f);
     fread (&sms.R.BC1.B.l, 1, 1, f);
@@ -625,14 +625,14 @@ void    SaveState_SetSlot(int n)
     opt.State_Current = n;
 }
 
-void	SaveState_SetPrevSlot()
+void    SaveState_SetPrevSlot()
 {
-	SaveState_SetSlot(opt.State_Current - 1);
+    SaveState_SetSlot(opt.State_Current - 1);
 }
 
-void	SaveState_SetNextSlot()
+void    SaveState_SetNextSlot()
 {
-	SaveState_SetSlot(opt.State_Current + 1);
+    SaveState_SetSlot(opt.State_Current + 1);
 }
 
 // RETURN FILENAME OF CURRENT SAVEGAME ----------------------------------------

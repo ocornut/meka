@@ -19,7 +19,7 @@ t_db DB;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static bool		DB_Load			(const char *filename, bool verbose);
+static bool     DB_Load         (const char *filename, bool verbose);
 
 t_db_entry *    DB_Entry_New    (int system, u32 crc32, t_meka_crc *mekacrc);
 void            DB_Entry_Delete (t_db_entry *entry);
@@ -48,7 +48,7 @@ static struct
     { "",       -1         },
 };
 
-int			DB_FindDriverIdByName(const char* name)
+int         DB_FindDriverIdByName(const char* name)
 {
     for (int i = 0; DB_SystemTable[i].driver_id != -1; i++)
         if (!strcmp(name, DB_SystemTable[i].name))
@@ -66,8 +66,8 @@ const char*  DB_FindDriverNameById(int id)
 
 static struct
 {
-    char	name[3];
-    int		country_flag;
+    char    name[3];
+    int     country_flag;
 } DB_CountryTable[] = 
 {
     { "EU", DB_COUNTRY_EU   },
@@ -87,7 +87,7 @@ static struct
     { "CH", DB_COUNTRY_CH   },
     { "UK", DB_COUNTRY_UK   },
     { "CA", DB_COUNTRY_CA   },
-	{ "TW", DB_COUNTRY_TW   },
+    { "TW", DB_COUNTRY_TW   },
     { "",   -1              },
 };
 
@@ -124,7 +124,7 @@ t_db_entry *    DB_Entry_New (int system, u32 crc32, t_meka_crc *mekacrc)
     entry->crc_crc32    = crc32;
     entry->crc_mekacrc  = *mekacrc;
     entry->names        = NULL;
-    entry->country		= 0;
+    entry->country      = 0;
     entry->flags        = 0;
     entry->product_no   = NULL;
     entry->version      = NULL;
@@ -209,7 +209,7 @@ void            DB_Name_Delete (t_db_name *dbname)
 }
 
 // Initialize and load Meka database
-bool			DB_Init(const char* filename, bool verbose)
+bool            DB_Init(const char* filename, bool verbose)
 {
     DB.entries                      = NULL;
     DB.entries_counter_format_old   = 0;
@@ -382,7 +382,7 @@ static int      DB_Load_Entry (char *line)
             if (!strcmp(w, "EN"))
                 value = DB_COUNTRY_UK;
             else if ((value = DB_FindCountryFlagByName(w)) == -1)
-				return (0);
+                return (0);
             entry->trans_country = value;
         }
         else if (!strcmp(w, "AUTHORS"))
@@ -594,10 +594,10 @@ static int      DB_Load_Line (char *line)
 //-----------------------------------------------------------------------------
 // Initialize and load given Meka DB file
 //-----------------------------------------------------------------------------
-static bool		DB_Load (const char *filename, bool verbose)
+static bool     DB_Load (const char *filename, bool verbose)
 {
-	if (verbose)
-		ConsolePrint(Msg_Get(MSG_DB_Loading));
+    if (verbose)
+        ConsolePrint(Msg_Get(MSG_DB_Loading));
 
     // Open and read file
     t_tfile* tf = tfile_read (filename);
@@ -609,7 +609,7 @@ static bool		DB_Load (const char *filename, bool verbose)
 
     // Ok
     if (verbose)
-		ConsolePrint("\n");
+        ConsolePrint("\n");
 
     // Parse each line
     int line_cnt = 0;
@@ -640,7 +640,7 @@ static bool		DB_Load (const char *filename, bool verbose)
     //ConsolePrintf ("ENTRIES NEW = %d, OLD = %d\n", DB.entries_counter_format_new, DB.entries_counter_format_old);
     //Quit();
 
-	return true;
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -671,14 +671,14 @@ t_db_entry *    DB_Entry_Find(u32 crc32, const t_meka_crc *mekacrc)
     {
         t_db_entry* entry = (t_db_entry*)list->elem;
         if ((!entry->crc_crc32 && mekacrc) || entry->crc_crc32 == crc32)
-		{
-			if (mekacrc)
-			{
-				if (entry->crc_mekacrc.v[0] != mekacrc->v[0] || entry->crc_mekacrc.v[1] != mekacrc->v[1])
-					continue;
-			}
-			return (entry);
-		}
+        {
+            if (mekacrc)
+            {
+                if (entry->crc_mekacrc.v[0] != mekacrc->v[0] || entry->crc_mekacrc.v[1] != mekacrc->v[1])
+                    continue;
+            }
+            return (entry);
+        }
     }
 
     return (NULL);
@@ -686,7 +686,7 @@ t_db_entry *    DB_Entry_Find(u32 crc32, const t_meka_crc *mekacrc)
 
 // Get current name for current DB entry
 // Handle MEKA setting of the current country.
-const char *	DB_Entry_GetCurrentName (const t_db_entry *entry)
+const char *    DB_Entry_GetCurrentName (const t_db_entry *entry)
 {
     // In Japanese country mode, search for a Japanese name
     if (g_configuration.country == COUNTRY_JAPAN)
@@ -701,7 +701,7 @@ const char *	DB_Entry_GetCurrentName (const t_db_entry *entry)
 }
 
 // Find an entry name for given country. May return NULL if not found.
-const t_db_name *	DB_Entry_GetNameByCountry (const t_db_entry *entry, int country)
+const t_db_name *   DB_Entry_GetNameByCountry (const t_db_entry *entry, int country)
 {
     t_db_name * name = entry->names;
     while (name)
@@ -739,17 +739,17 @@ int             DB_Entry_SelectDisplayFlag(const t_db_entry *entry)
     case DB_COUNTRY_CH : return (FLAG_CH);  // Unused in MEKA DataBase
     case DB_COUNTRY_UK : return (FLAG_UK);  // Unused in MEKA DataBase
     case DB_COUNTRY_CA : return (FLAG_CA);
-	case DB_COUNTRY_TW : return (FLAG_TW);
+    case DB_COUNTRY_TW : return (FLAG_TW);
     case DB_COUNTRY_EU : break;             // No country for Europe only
     }
 
     // Special case to account for asian releases
-	if (country == (DB_COUNTRY_JP | DB_COUNTRY_KR))
-		return FLAG_JP;
-	if (country == (DB_COUNTRY_JP | DB_COUNTRY_TW))
-		return FLAG_JP;
+    if (country == (DB_COUNTRY_JP | DB_COUNTRY_KR))
+        return FLAG_JP;
+    if (country == (DB_COUNTRY_JP | DB_COUNTRY_TW))
+        return FLAG_JP;
 
-	// Do not display a flag
+    // Do not display a flag
     return (-1);
 }
 

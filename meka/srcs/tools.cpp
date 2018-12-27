@@ -22,28 +22,28 @@
 
 void    StrPath_RemoveExtension(char* buf)
 {
-	// Assume single dotted extension
-	char *p = strrchr(buf, '.');
-	if (p != NULL) 
-		*p = EOSTR;
+    // Assume single dotted extension
+    char *p = strrchr(buf, '.');
+    if (p != NULL) 
+        *p = EOSTR;
 }
 
 void    StrPath_GetExtension(char* buf)
 {
-	const char *p = strrchr (buf, '.');
-	if (p == NULL) 
-		return;
+    const char *p = strrchr (buf, '.');
+    if (p == NULL) 
+        return;
 
-	char tmp[FILENAME_LEN];
-	strcpy(tmp, p + 1);
-	strcpy(buf, tmp);
+    char tmp[FILENAME_LEN];
+    strcpy(tmp, p + 1);
+    strcpy(buf, tmp);
 }
 
 void    StrPath_RemoveDirectory(char* buf)
 {
-	char tmp[FILENAME_LEN];
+    char tmp[FILENAME_LEN];
 
-	const char* p = strrchr(buf, '/');
+    const char* p = strrchr(buf, '/');
 
 #ifdef ARCH_WIN32
     const char *p2 = strrchr(buf, '\\');
@@ -51,12 +51,12 @@ void    StrPath_RemoveDirectory(char* buf)
         p = p2;
 #endif
 
-	if (p != NULL)
-	{
-		p++;
-		strcpy(tmp, p);
-		strcpy(buf, tmp);
-	}
+    if (p != NULL)
+    {
+        p++;
+        strcpy(tmp, p);
+        strcpy(buf, tmp);
+    }
 }
 
 // Extract filename from 'src' and copy it to location 'dst'
@@ -84,7 +84,7 @@ static int month_len_table[12] =
 
 // return number of days in February for given year
 #ifndef ARCH_WIN32
-static int	get_february_len (int year)
+static int  get_february_len (int year)
 {
     if ((year % 4) != 0 || (((year % 100) == 0) && ((year % 400) == 0)))
         return (28);
@@ -93,11 +93,11 @@ static int	get_february_len (int year)
 
 // FIXME: do we really have to code this manually in 2005^h^h^h^h2012? seems insane (disclaimer: this is 1998 ms-dos code)
 // ctime() anymore? (or similar function?)
-static void	meka_get_time_date (int *phour, int *pminute, int *psecond, int *pday, int *pmonth, int *pyear, int *pday_of_week)
+static void meka_get_time_date (int *phour, int *pminute, int *psecond, int *pday, int *pmonth, int *pyear, int *pday_of_week)
 {
     time_t t;
-    int	cnt;
-    int	day, month, year, day_of_week;
+    int cnt;
+    int day, month, year, day_of_week;
 
     t = time(&t);
 

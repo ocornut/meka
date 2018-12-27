@@ -143,8 +143,8 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
     { ALLEGRO_KEY_ALTGR,          22      }, // Home Clear
     { ALLEGRO_KEY_SLASH,          23      },
     { ALLEGRO_KEY_SEMICOLON,      24      }, // ;
-	{ ALLEGRO_KEY_SEMICOLON2,     24      }, // ; ++
-	{ ALLEGRO_KEY_COLON2,         33      }, // :
+  { ALLEGRO_KEY_SEMICOLON2,     24      }, // ; ++
+  { ALLEGRO_KEY_COLON2,         33      }, // :
     { ALLEGRO_KEY_P,              25      },
     { ALLEGRO_KEY_0,              26      },
     // Row: 3 -------------------------------------------------------------------
@@ -152,7 +152,7 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
     { ALLEGRO_KEY_R,              28      },
     { ALLEGRO_KEY_F,              29      },
     { ALLEGRO_KEY_V,              30      },
-    { ALLEGRO_KEY_RCTRL,		  31      }, // Insert/Delete
+    { ALLEGRO_KEY_RCTRL,      31      }, // Insert/Delete
     { ALLEGRO_KEY_BACKSPACE,      31      }, // Insert/Delete ++
     { ALLEGRO_KEY_ABNT_C1,        32      }, // Pi
     { ALLEGRO_KEY_PAD_SLASH,      32      }, // Pi ++
@@ -173,7 +173,7 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
     { ALLEGRO_KEY_6,              44      },
     { ALLEGRO_KEY_Y,              45      },
     { ALLEGRO_KEY_H,              46      },
-    { ALLEGRO_KEY_N,			  47      },
+    { ALLEGRO_KEY_N,        47      },
     { ALLEGRO_KEY_LEFT,           48      }, // Left Arrow
     { ALLEGRO_KEY_ENTER,          49      }, // Return
     { ALLEGRO_KEY_YEN,            50,     }, // Yen
@@ -225,13 +225,13 @@ void    SK1100_Update()
     SK1100_Clear();
     for (i = 0; i != SK1100_MAPPING_NUM; i ++)
     {
-		const t_sk1100_map* k = &SK1100_Mapping[i];
+    const t_sk1100_map* k = &SK1100_Mapping[i];
         if (Inputs_KeyDown(k->key_pc))
         {
             const t_sk1100_key *sk1100_key = &SK1100_Keys[k->key_sk1100];
             tsms.Control [sk1100_key->row] &= (~sk1100_key->bit);
             tsms.Control_Check_GUI = FALSE;
-			//Msg(MSGT_USER, "Pressed %d -> %d", k->key_pc, k->key_sk1100);
+      //Msg(MSGT_USER, "Pressed %d -> %d", k->key_pc, k->key_sk1100);
         }
     }
 }

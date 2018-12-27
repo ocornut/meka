@@ -15,22 +15,22 @@ static u8    Sprites_On_Line[192 + 32];
 
 ALLEGRO_COLOR TMS9918_Palette[16] =
 {
-	{ (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  0: Transparent   */
-	{ (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  1: Black         */
-	{ (4*0x08)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  2: Medium Green  */
-	{ (4*0x18)/255.0f, (4*0x38)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  3: Light Green   */
-	{ (4*0x08)/255.0f, (4*0x08)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  4: Dark Blue     */
-	{ (4*0x10)/255.0f, (4*0x18)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  5: Light Blue    */
-	{ (4*0x28)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  6: Dark Red      */
-	{ (4*0x10)/255.0f, (4*0x30)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  7: Cyan          */
-	{ (4*0x38)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  8: Medium Red    */
-	{ (4*0x38)/255.0f, (4*0x18)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  9: Light Red     */
-	{ (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 10: Dark Yellow   */
-	{ (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x20)/255.0f, 1.0f }, /* 11: Light Yellow  */
-	{ (4*0x08)/255.0f, (4*0x20)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 12: Dark Green    */
-	{ (4*0x30)/255.0f, (4*0x10)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 13: Magenta       */
-	{ (4*0x28)/255.0f, (4*0x28)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 14: Grey          */
-	{ (4*0x38)/255.0f, (4*0x38)/255.0f, (4*0x38)/255.0f, 1.0f }  /* 15: White         */
+    { (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  0: Transparent   */
+    { (4*0x00)/255.0f, (4*0x00)/255.0f, (4*0x00)/255.0f, 1.0f }, /*  1: Black         */
+    { (4*0x08)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  2: Medium Green  */
+    { (4*0x18)/255.0f, (4*0x38)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  3: Light Green   */
+    { (4*0x08)/255.0f, (4*0x08)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  4: Dark Blue     */
+    { (4*0x10)/255.0f, (4*0x18)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  5: Light Blue    */
+    { (4*0x28)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  6: Dark Red      */
+    { (4*0x10)/255.0f, (4*0x30)/255.0f, (4*0x38)/255.0f, 1.0f }, /*  7: Cyan          */
+    { (4*0x38)/255.0f, (4*0x08)/255.0f, (4*0x08)/255.0f, 1.0f }, /*  8: Medium Red    */
+    { (4*0x38)/255.0f, (4*0x18)/255.0f, (4*0x18)/255.0f, 1.0f }, /*  9: Light Red     */
+    { (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 10: Dark Yellow   */
+    { (4*0x30)/255.0f, (4*0x30)/255.0f, (4*0x20)/255.0f, 1.0f }, /* 11: Light Yellow  */
+    { (4*0x08)/255.0f, (4*0x20)/255.0f, (4*0x08)/255.0f, 1.0f }, /* 12: Dark Green    */
+    { (4*0x30)/255.0f, (4*0x10)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 13: Magenta       */
+    { (4*0x28)/255.0f, (4*0x28)/255.0f, (4*0x28)/255.0f, 1.0f }, /* 14: Grey          */
+    { (4*0x38)/255.0f, (4*0x38)/255.0f, (4*0x38)/255.0f, 1.0f }  /* 15: White         */
 };
 
 //-----------------------------------------------------------------------------
@@ -39,8 +39,8 @@ ALLEGRO_COLOR TMS9918_Palette[16] =
 //  24/32 output someday)
 //-----------------------------------------------------------------------------
 
-static u16*	GFX_ScreenData = NULL;
-static int	GFX_ScreenPitch = 0;
+static u16* GFX_ScreenData = NULL;
+static int  GFX_ScreenPitch = 0;
 
 #define PIXEL_TYPE              u16
 #define PIXEL_PALETTE_TABLE     Palette_EmulationToHostGame
@@ -62,15 +62,15 @@ void    TMS9918_Palette_Setup(void)
 // Note: this is used by tools only (not actual emulation refresh)
 void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, int fgcolor_host, int bgcolor_host)
 {
-	const int color_format = al_get_bitmap_format(dst);
+    const int color_format = al_get_bitmap_format(dst);
     switch (al_get_pixel_format_bits(color_format))
     {
     case 16:
         {
-			u16* dst_data = (u16*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 1;
-			const u16 fgcolor = fgcolor_host;
-			const u16 bgcolor = bgcolor_host;
+            u16* dst_data = (u16*)dst_region->data;
+            const int dst_pitch = dst_region->pitch >> 1;
+            const u16 fgcolor = fgcolor_host;
+            const u16 bgcolor = bgcolor_host;
             for (int i = 0; i != 8; i++)
             {
                 const u8 cc = *pixels_data++;
@@ -89,10 +89,10 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
         }
     case 32:
         {
-			u32* dst_data = (u32*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 2;
-			const u32 fgcolor = fgcolor_host;
-			const u32 bgcolor = bgcolor_host;
+            u32* dst_data = (u32*)dst_region->data;
+            const int dst_pitch = dst_region->pitch >> 2;
+            const u32 fgcolor = fgcolor_host;
+            const u32 bgcolor = bgcolor_host;
             for (int i = 0; i != 8; i++)
             {
                 const u8 cc = *pixels_data++;
@@ -110,26 +110,26 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
             break;
         }
     default:
-		Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
+        Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
         break;
     }
 }
 
 void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_region, int x, int y, const u8 *pixels_data, const u8 *colors_data)
 {
-	const int color_format = al_get_bitmap_format(dst);
+    const int color_format = al_get_bitmap_format(dst);
     switch (al_get_pixel_format_bits(color_format))
     {
     case 16:
         {
-			u16* dst_data = (u16*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 1;
+            u16* dst_data = (u16*)dst_region->data;
+            const int dst_pitch = dst_region->pitch >> 1;
             for (int i = 0; i != 8; i++)
             {
                 const u8 cc = *pixels_data++;
-				const u8 color_indexes = *colors_data++;
-				const u16 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
-				const u16 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
+                const u8 color_indexes = *colors_data++;
+                const u16 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
+                const u16 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
                 u16 *dst8 = dst_data + (dst_pitch*y) + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
@@ -145,14 +145,14 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
         }
     case 32:
         {
-			u32* dst_data = (u32*)dst_region->data;
-			const int dst_pitch = dst_region->pitch >> 2;
+            u32* dst_data = (u32*)dst_region->data;
+            const int dst_pitch = dst_region->pitch >> 2;
             for (int i = 0; i != 8; i++)
             {
                 const u8 cc = *pixels_data++;
-				const u8 color_indexes = *colors_data++;
-				const u32 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
-				const u32 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
+                const u8 color_indexes = *colors_data++;
+                const u32 fgcolor = Palette_EmulationToHostGui[color_indexes >> 4];
+                const u32 bgcolor = Palette_EmulationToHostGui[color_indexes & 0x0F];
                 u32 *dst8 = dst_data + (dst_pitch*y) + x;
                 dst8[0] = (cc & 0x80) ? fgcolor : bgcolor;
                 dst8[1] = (cc & 0x40) ? fgcolor : bgcolor;
@@ -167,7 +167,7 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
             break;
         }
     default:
-		Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
+        Msg(MSGT_USER, "video_m2: unsupported color format: %d", color_format);
         break;
     }
 }
@@ -255,24 +255,24 @@ void    Display_Background_2 (void)
     int y = 0;
     for (int vsection_idx = 0; vsection_idx < 3; vsection_idx++) // screen in 3 parts
     {
-        const u8* tile_base = g_machine.VDP.sg_pattern_gen_address + ((vsection_idx & vsection_mask) * 0x800);	// Pattern data base
-        const u8* col_base = g_machine.VDP.sg_color_table_address + ((vsection_idx & vsection_mask) * 0x800);	// Color table base
+        const u8* tile_base = g_machine.VDP.sg_pattern_gen_address + ((vsection_idx & vsection_mask) * 0x800);  // Pattern data base
+        const u8* col_base = g_machine.VDP.sg_color_table_address + ((vsection_idx & vsection_mask) * 0x800);   // Color table base
         for (int ty = 0; ty < 8; ty++)
         {
             int x = 0;
             for (int tx = 0; tx < 32; tx++)
             {
-				const u32 char_name_value = (*pattern_name_table++);
-				const u32 char_name_addr = char_name_value * 8;
+                const u32 char_name_value = (*pattern_name_table++);
+                const u32 char_name_addr = char_name_value * 8;
                 const u8* char_pattern_data = tile_base + char_name_addr;
                 const u8* char_color_data = col_base  + char_name_addr;
 
                 // Draw one tile
                 for (int j2 = 0; j2 < 8; j2++)
                 {
-					PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y+j2) + x;
+                    PIXEL_TYPE *dst = GFX_ScreenData + GFX_ScreenPitch * (y+j2) + x;
                     const u8 pattern_8 = (*char_pattern_data++);
-					const u8 color_indexes = (*char_color_data++);
+                    const u8 color_indexes = (*char_color_data++);
                     const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[color_indexes >> 4];
                     const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[color_indexes & 0x0F];
                     dst[0] = (pattern_8 & 0x80) ? color1 : color2;
@@ -428,8 +428,8 @@ void    Display_Sprites_1_2_3 (void)
     memset (Sprites_On_Line, 0, 192 + 32);
 
     // Find last sprite
-	const u8* sat = g_machine.VDP.sprite_attribute_table;
-	int i;
+    const u8* sat = g_machine.VDP.sprite_attribute_table;
+    int i;
     for (i = 0; i < 32 * 4; i += 4)
     {
         int y = sat[i];
@@ -489,10 +489,10 @@ void    Display_Sprites_1_2_3 (void)
 
 void    Refresh_Modes_0_1_2_3(void)
 {
-	GFX_ScreenData = (u16*)g_screenbuffer_locked_region->data;
-	GFX_ScreenPitch = g_screenbuffer_locked_region->pitch / sizeof(u16);	// Pitch in u16 pixel unit to ease pointer manipulations
+    GFX_ScreenData = (u16*)g_screenbuffer_locked_region->data;
+    GFX_ScreenPitch = g_screenbuffer_locked_region->pitch / sizeof(u16);    // Pitch in u16 pixel unit to ease pointer manipulations
 
-	// Display Background
+    // Display Background
     if (opt.Layer_Mask & LAYER_BACKGROUND)
     {
         if (Display_ON)
@@ -508,15 +508,15 @@ void    Refresh_Modes_0_1_2_3(void)
         else
         {
             // Clear screen
-			al_set_target_bitmap(screenbuffer);
-			alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, BORDER_COLOR);
+            al_set_target_bitmap(screenbuffer);
+            alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, BORDER_COLOR);
         }
     }
     else
     {
         // Clear screen with yellow-ish color
-		al_set_target_bitmap(screenbuffer);
-		alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, COLOR_DEBUG_BACKDROP);
+        al_set_target_bitmap(screenbuffer);
+        alx_locked_draw_filled_rectangle(g_screenbuffer_locked_region, 0, 0, SMS_RES_X, SMS_RES_Y, COLOR_DEBUG_BACKDROP);
     }
     // Display Sprites
     if ((opt.Layer_Mask & LAYER_SPRITES) && Display_ON)
@@ -688,12 +688,12 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
 
         // Inverse sprites if delta_x < 0 for the purpose of the comparaison
         if (delta_x < 0)
-		{
-			const u8* tmp = src_tile;
-			src_tile  = dst_tile;
-			dst_tile  = tmp;
-			delta_x = -delta_x;
-		}
+        {
+            const u8* tmp = src_tile;
+            src_tile  = dst_tile;
+            dst_tile  = tmp;
+            delta_x = -delta_x;
+        }
 
         // Finally compare actual sprites pixels
         if (size == 8)

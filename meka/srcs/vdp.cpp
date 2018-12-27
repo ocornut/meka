@@ -140,17 +140,17 @@ void    VDP_VideoMode_Update (void)
     }
 }
 
-void	VDP_UpdateLineLimits(void)
+void    VDP_UpdateLineLimits(void)
 {
-	if (g_driver->id == DRV_GG && Wide_Screen_28)
-		g_driver->y_show_start = g_driver->y_start + 16;
-	else
-		g_driver->y_show_start = g_driver->y_start;
-	g_driver->y_show_end = g_driver->y_show_start + g_driver->y_res - 1;
-	if (Wide_Screen_28)
-		g_driver->y_int = 224;
-	else
-		g_driver->y_int = 192;
+    if (g_driver->id == DRV_GG && Wide_Screen_28)
+        g_driver->y_show_start = g_driver->y_start + 16;
+    else
+        g_driver->y_show_start = g_driver->y_start;
+    g_driver->y_show_end = g_driver->y_show_start + g_driver->y_res - 1;
+    if (Wide_Screen_28)
+        g_driver->y_int = 224;
+    else
+        g_driver->y_int = 192;
 }
 
 // WRITE A VALUE TO A VDP REGISTER --------------------------------------------
@@ -233,7 +233,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // TMS9918 register: address of tile data --------------------------------
-	 // This is either $0000 or $2000 in VRAM
+     // This is either $0000 or $2000 in VRAM
      case 4: g_machine.VDP.sg_pattern_gen_address = VRAM + ((int)(value & VDP_Mask[tsms.VDP_VideoMode][1]) << 11);
              break;
 
@@ -252,16 +252,16 @@ void    Tms_VDP_Out (int vdp_register, int value)
      // Sprite tile data address ----------------------------------------------
      case 6: 
          {
-			 switch (g_driver->vdp)
+             switch (g_driver->vdp)
                 {
                 case VDP_SMSGG:
-					g_machine.VDP.sprite_pattern_gen_index = (value & 4) ? 256 : 0;
-					g_machine.VDP.sprite_pattern_gen_address = VRAM + ((value & 4) ? 0x2000 : 0x0000);
-					break;
-				case VDP_TMS9918:
-		            g_machine.VDP.sprite_pattern_gen_address = VRAM + ((int)(value & 7) << 11);
+                    g_machine.VDP.sprite_pattern_gen_index = (value & 4) ? 256 : 0;
+                    g_machine.VDP.sprite_pattern_gen_address = VRAM + ((value & 4) ? 0x2000 : 0x0000);
                     break;
-				}
+                case VDP_TMS9918:
+                    g_machine.VDP.sprite_pattern_gen_address = VRAM + ((int)(value & 7) << 11);
+                    break;
+                }
              break;
          }
 
@@ -332,28 +332,28 @@ void    Tms_VDP_Out_Data (int value)
     {
         // VRAM write
         VRAM [sms.VDP_Address] = value;
-		sms.VDP_ReadLatch = value;
+        sms.VDP_ReadLatch = value;
 
         // Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
-			if (Debugger.active)
-				Debugger_WrVRAM_Hook(sms.VDP_Address, value);
-		#endif
+            if (Debugger.active)
+                Debugger_WrVRAM_Hook(sms.VDP_Address, value);
+        #endif
 
-		sms.VDP_Address = (sms.VDP_Address + 1) & 0x3FFF;
+        sms.VDP_Address = (sms.VDP_Address + 1) & 0x3FFF;
 
         // Mark corresponding tile as dirty
         tgfx.Tile_Dirty [sms.VDP_Address / 32] |= TILE_DIRTY_DECODE;
-		return;
+        return;
     }
     else
     {
         // Address mask
-		const int address_mask = (g_driver->id == DRV_GG) ? 0x3F : 0x1F;
+        const int address_mask = (g_driver->id == DRV_GG) ? 0x3F : 0x1F;
 
         // Palette/CRAM write
         Tms_VDP_Palette_Write(sms.VDP_Address & address_mask, value);
-		sms.VDP_ReadLatch = value;
+        sms.VDP_ReadLatch = value;
 
         // Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
@@ -406,8 +406,8 @@ void    Tms_VDP_Out_Address (int value)
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     if ((value & 0xC0) == 0xC0)
     {
-		sms.VDP_Pal = TRUE;
-		sms.VDP_Address = (((word)value << 8) | sms.VDP_Access_First) & 0x3FFF;
+        sms.VDP_Pal = TRUE;
+        sms.VDP_Address = (((word)value << 8) | sms.VDP_Access_First) & 0x3FFF;
     }
     else
     {
@@ -419,7 +419,7 @@ void    Tms_VDP_Out_Address (int value)
         sms.VDP_Pal = FALSE;
         sms.VDP_Address = (((word)value << 8) | sms.VDP_Access_First) & 0x3FFF;
 
-		if ((value & 0xC0) == 0)
+        if ((value & 0xC0) == 0)
         { // Read Mode
             sms.VDP_ReadLatch = VRAM [sms.VDP_Address];
             sms.VDP_Address ++;
@@ -439,11 +439,11 @@ u8      Tms_VDP_In_Data (void)
     {
         u8 b = sms.VDP_ReadLatch;
 
-		// Debugger hook
+        // Debugger hook
         #ifdef MEKA_Z80_DEBUGGER
-	        if (Debugger.active)
-		        Debugger_RdVRAM_Hook(sms.VDP_Address, b);
-		#endif
+            if (Debugger.active)
+                Debugger_RdVRAM_Hook(sms.VDP_Address, b);
+        #endif
 
         // Read next latch and increment address
         sms.VDP_ReadLatch = VRAM [sms.VDP_Address];
@@ -464,7 +464,7 @@ u8          Tms_VDP_In_Status (void)
     // sms.VDP_Status = 0x1F // FIXME: investigate on this!
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     sms.Pending_HBlank = FALSE;
-	sms.Pending_NMI = FALSE;
+    sms.Pending_NMI = FALSE;
     #ifdef MARAT_Z80
         sms.R.IRequest = INT_NONE;
     #elif MAME_Z80

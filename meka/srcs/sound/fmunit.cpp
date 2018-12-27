@@ -10,7 +10,7 @@
 //-----------------------------------------------------------------------------
 
 // Registers (pointer to current FM emulator register)
-u8 *					FM_Regs = NULL;
+u8 *          FM_Regs = NULL;
 
 // Interface
 void                    FM_Null_Interface_Function(void) { }
@@ -53,7 +53,7 @@ const char *FM_Instruments_Name[YM2413_INSTRUMENTS] =
 //-----------------------------------------------------------------------------
 
 // Mask of Registers data to save for a state save
-const u8	FM_Regs_SavingFlags[YM2413_REGISTERS] =
+const u8  FM_Regs_SavingFlags[YM2413_REGISTERS] =
 {
   // Registers
   // 00-07: user-definable tone channel - left at 0xff for now
@@ -81,27 +81,27 @@ const u8	FM_Regs_SavingFlags[YM2413_REGISTERS] =
 // Active given interface
 void    FM_Set_Interface(t_fm_unit_interface *intf, byte *new_fm_regs)
 {
-	if (FM_Unit_Current != NULL)
-		FM_Mute();
+  if (FM_Unit_Current != NULL)
+    FM_Mute();
 
-	if ((new_fm_regs != FM_Regs) && FM_Regs)
-	{
-		// Msg(MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
-		memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
-	}
+  if ((new_fm_regs != FM_Regs) && FM_Regs)
+  {
+    // Msg(MSGT_DEBUG, "%s: Copying FM registers...", __FUNCTION__);
+    memcpy (new_fm_regs, FM_Regs, YM2413_REGISTERS);
+  }
 
-	FM_Unit_Current = intf;
-	FM_Regs = new_fm_regs;
-	FM_Regenerate();
+  FM_Unit_Current = intf;
+  FM_Regs = new_fm_regs;
+  FM_Regenerate();
 }
 
 // Active the dummy/null FM interface
 void    FM_Null_Active()
 {
-	// Create a dummy set of register.
-	static u8 FM_OPL_Regs [YM2413_REGISTERS];
+  // Create a dummy set of register.
+  static u8 FM_OPL_Regs [YM2413_REGISTERS];
 
-	FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
+  FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
 }
 
 void    FM_Save (FILE *f)
@@ -115,8 +115,8 @@ void    FM_Save (FILE *f)
 // use this fonction to load old Massage save states.
 void    FM_Load (FILE *f)
 {
-	fread (FM_Regs, YM2413_REGISTERS, 1, f);
-	FM_Regenerate();
+  fread (FM_Regs, YM2413_REGISTERS, 1, f);
+  FM_Regenerate();
 }
 
 //-----------------------------------------------------------------------------

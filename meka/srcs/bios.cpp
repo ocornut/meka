@@ -13,8 +13,8 @@
 
 u8* BIOS_ROM;
 u8* BIOS_ROM_Jap;
-u8*	BIOS_ROM_SF7000;
-u8*	BIOS_ROM_Coleco;
+u8* BIOS_ROM_SF7000;
+u8* BIOS_ROM_Coleco;
 
 //-----------------------------------------------------------------------------
 // BIOS_Switch_to_Game (void)
@@ -22,8 +22,8 @@ u8*	BIOS_ROM_Coleco;
 //-----------------------------------------------------------------------------
 void    BIOS_Switch_to_Game (void)
 {
-	BIOS_Unload();
-	Machine_Reset();
+    BIOS_Unload();
+    Machine_Reset();
 }
 
 //-----------------------------------------------------------------------------
@@ -32,8 +32,8 @@ void    BIOS_Switch_to_Game (void)
 //-----------------------------------------------------------------------------
 void    BIOS_Unload (void)
 {
-	ROM = Game_ROM;
-	g_machine_flags |= MACHINE_NOT_IN_BIOS;
+    ROM = Game_ROM;
+    g_machine_flags |= MACHINE_NOT_IN_BIOS;
 }
 
 //-----------------------------------------------------------------------------
@@ -60,11 +60,11 @@ void    BIOS_Load (void)
 //-----------------------------------------------------------------------------
 void    BIOS_Free_Roms (void)
 {
-	// FIXME: aren't the data released by Allegro datafile routines ?!
-	// free (Bios_ROM);
-	// free (Bios_ROM_Jap);
-	// free (Bios_ROM_Coleco);
-	// free (Bios_ROM_Sf7000);
+    // FIXME: aren't the data released by Allegro datafile routines ?!
+    // free (Bios_ROM);
+    // free (Bios_ROM_Jap);
+    // free (Bios_ROM_Coleco);
+    // free (Bios_ROM_Sf7000);
 }
 
 //-----------------------------------------------------------------------------

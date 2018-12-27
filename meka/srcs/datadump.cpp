@@ -38,18 +38,18 @@ void    DataDump_Init (void)
 //-----------------------------------------------------------------------------
 void    DataDump_Init_Menus (int menu_id)
 {
-    menu_add_item (menu_id, "RAM",           NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_RAM,			NULL);
-    menu_add_item (menu_id, "VRAM",          NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRAM,			NULL);
-    menu_add_item (menu_id, "Palette",       NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Palette,		NULL);
-    menu_add_item (menu_id, "Sprites",       NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Sprites,		NULL);
-    //menu_add_item (menu_id, "BG/FG Map",   0,         (t_menu_callback)DataDump_BgFgMap,		NULL);
-    menu_add_item (menu_id, "CPU Regs",      NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_CPURegs,		NULL);
-    menu_add_item (menu_id, "VDP Regs",      NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRegs,			NULL);
-    menu_add_item (menu_id, "OnBoardMemory", NULL,	MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_OnBoardMemory,	NULL);
+    menu_add_item (menu_id, "RAM",           NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_RAM,           NULL);
+    menu_add_item (menu_id, "VRAM",          NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRAM,          NULL);
+    menu_add_item (menu_id, "Palette",       NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Palette,       NULL);
+    menu_add_item (menu_id, "Sprites",       NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Sprites,       NULL);
+    //menu_add_item (menu_id, "BG/FG Map",   0,         (t_menu_callback)DataDump_BgFgMap,      NULL);
+    menu_add_item (menu_id, "CPU Regs",      NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_CPURegs,       NULL);
+    menu_add_item (menu_id, "VDP Regs",      NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRegs,         NULL);
+    menu_add_item (menu_id, "OnBoardMemory", NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_OnBoardMemory, NULL);
 
     menus_ID.dump_cfg = menu_add_menu (menu_id, "Configuration",   MENU_ITEM_FLAG_ACTIVE);
-    menu_add_item (menus_ID.dump_cfg, "ASCII",  NULL,	MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Ascii,		NULL);
-    menu_add_item (menus_ID.dump_cfg, "Raw",    NULL,	MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Raw,		NULL);
+    menu_add_item (menus_ID.dump_cfg, "ASCII",  NULL,   MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Ascii,        NULL);
+    menu_add_item (menus_ID.dump_cfg, "Raw",    NULL,   MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Raw,      NULL);
 }
 
 //-----------------------------------------------------------------------------
@@ -268,37 +268,37 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
 //-----------------------------------------------------------------------------
 static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
 {
-	if (tsms.VDP_VideoMode > 4)
-	{
-		int  n;
-		n = pos / 4;
-		if (pos == 0)
-		{
-			fprintf(f_dump,
-				"Sprite pattern base: $%04X\n"
-				"Sprite shift X (early clock): %d pixels\n\n",
-				(int)(g_machine.VDP.sprite_pattern_gen_address - VRAM),
-				g_machine.VDP.sprite_shift_x);
-			fprintf(f_dump,
-				"            Raw Data      |    X     Y     T     ?\n"
-				"---------- --------------- ------------------------\n");
-		}
-		fprintf(f_dump,
-			"Sprite %02d : %02X %02X . %02X %02X |  % 4d  % 4d  % 4d  % 4d\n",
-			n, data[n], data[0x40 + n], data[0x80 + n*2], data[0x80 + n*2+1],
-			data[0x80 + n*2], data[n], data[0x80 + n*2+1], data[0x40 + n]);
-	}
+    if (tsms.VDP_VideoMode > 4)
+    {
+        int  n;
+        n = pos / 4;
+        if (pos == 0)
+        {
+            fprintf(f_dump,
+                "Sprite pattern base: $%04X\n"
+                "Sprite shift X (early clock): %d pixels\n\n",
+                (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM),
+                g_machine.VDP.sprite_shift_x);
+            fprintf(f_dump,
+                "            Raw Data      |    X     Y     T     ?\n"
+                "---------- --------------- ------------------------\n");
+        }
+        fprintf(f_dump,
+            "Sprite %02d : %02X %02X . %02X %02X |  % 4d  % 4d  % 4d  % 4d\n",
+            n, data[n], data[0x40 + n], data[0x80 + n*2], data[0x80 + n*2+1],
+            data[0x80 + n*2], data[n], data[0x80 + n*2+1], data[0x40 + n]);
+    }
     else
     {
         if (pos == 0)
-		{
-			fprintf(f_dump,
-				"Sprite pattern base: $%04X\n\n",
-				(int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
-			fprintf(f_dump,
-				"            Raw Data    |    X     Y     T    C/A\n"
-				"----------- ------------ ------------------------\n");
-		}
+        {
+            fprintf(f_dump,
+                "Sprite pattern base: $%04X\n\n",
+                (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
+            fprintf(f_dump,
+                "            Raw Data    |    X     Y     T    C/A\n"
+                "----------- ------------ ------------------------\n");
+        }
         fprintf(f_dump,
             "Sprite %02d : %02X %02X %02X %02X |  % 4d  % 4d  % 4d  % 4d%s\n",
             pos / 4,

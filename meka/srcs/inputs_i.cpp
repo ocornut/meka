@@ -27,7 +27,7 @@ void    Inputs_Init (void)
     Inputs_Sources_Init();
 
     // Peripheral
-	Peripherals_Init();
+    Peripherals_Init();
 
     // Load Inputs Sources List
     Load_Inputs_Src_List();
@@ -59,7 +59,7 @@ void    Inputs_Joystick_Init(void)
     if (!al_install_joystick() || ((num_joy = al_get_num_joysticks()) == 0))
     {
         ConsolePrint(Msg_Get(MSG_Inputs_Joy_Init_None));
-		ConsolePrint("\n");
+        ConsolePrint("\n");
         return;
     }
     ConsolePrintf (Msg_Get(MSG_Inputs_Joy_Init_Found), num_joy);

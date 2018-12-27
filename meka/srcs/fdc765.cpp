@@ -43,7 +43,7 @@
 //-----------------------------------------------------------------------------
 
 FDC765_Disk dsk[FDC765_MAXDRIVES];
-u8			FDC765_Cmd_For_SF7000;
+u8      FDC765_Cmd_For_SF7000;
 
 //-----------------------------------------------------------------------------
 
@@ -73,37 +73,37 @@ unsigned long TrackDataStart;      /* Startposition der Daten des akt. Sektors i
 const byte bytes_in_cmd[32] =
 {
     1,  /*  0 = none                                */
-	1,  /*  1 = none                                */
-	9,  /*  2 = READ TRACK, not implemented         */
-	3,  /*  3 = SPECIFY                             */
-	2,  /*  4 = SENSE DRIVE STATUS                  */
-	9,  /*  5 = WRITE DATA                          */
-	9,  /*  6 = READ DATA                           */
-	2,  /*  7 = RECALIBRATE                         */
-	1,  /*  8 = SENSE INTERRUPT STATUS              */
-	9,  /*  9 = WRITE DELETED DATA, not implemented */
-	2,  /* 10 = READ SECTOR ID                      */
-	1,  /* 11 = none                                */
-	9,  /* 12 = READ DELETED DATA, not implemented  */
-	6,  /* 13 = FORMAT A TRACK                      */
-	1,  /* 14 = none                                */
-	3,  /* 15 = SEEK                                */
-	1,  /* 16 = none                                */
-	9,  /* 17 = SCAN EQUAL                          */
-	1,  /* 18 = none                                */
-	1,  /* 19 = none                                */
-	1,  /* 20 = none                                */
-	1,  /* 21 = none                                */
-	1,  /* 22 = none                                */
-	1,  /* 23 = none                                */
-	1,  /* 24 = none                                */
-	9,  /* 25 = SCAN LOW OR EQUAL                   */
-	1,  /* 26 = none                                */
-	1,  /* 27 = none                                */
-	1,  /* 28 = none                                */
-	1,  /* 29 = none                                */
-	9,  /* 30 = SCAN HIGH OR EQUAL                  */
-	1   /* 31 = none                                */
+  1,  /*  1 = none                                */
+  9,  /*  2 = READ TRACK, not implemented         */
+  3,  /*  3 = SPECIFY                             */
+  2,  /*  4 = SENSE DRIVE STATUS                  */
+  9,  /*  5 = WRITE DATA                          */
+  9,  /*  6 = READ DATA                           */
+  2,  /*  7 = RECALIBRATE                         */
+  1,  /*  8 = SENSE INTERRUPT STATUS              */
+  9,  /*  9 = WRITE DELETED DATA, not implemented */
+  2,  /* 10 = READ SECTOR ID                      */
+  1,  /* 11 = none                                */
+  9,  /* 12 = READ DELETED DATA, not implemented  */
+  6,  /* 13 = FORMAT A TRACK                      */
+  1,  /* 14 = none                                */
+  3,  /* 15 = SEEK                                */
+  1,  /* 16 = none                                */
+  9,  /* 17 = SCAN EQUAL                          */
+  1,  /* 18 = none                                */
+  1,  /* 19 = none                                */
+  1,  /* 20 = none                                */
+  1,  /* 21 = none                                */
+  1,  /* 22 = none                                */
+  1,  /* 23 = none                                */
+  1,  /* 24 = none                                */
+  9,  /* 25 = SCAN LOW OR EQUAL                   */
+  1,  /* 26 = none                                */
+  1,  /* 27 = none                                */
+  1,  /* 28 = none                                */
+  1,  /* 29 = none                                */
+  9,  /* 30 = SCAN HIGH OR EQUAL                  */
+  1   /* 31 = none                                */
 };
 
 //-----------------------------------------------------------------------------
@@ -178,7 +178,7 @@ void    FDCExecWriteCommand (register byte Value)
       ExecCmdPhase = FALSE;
       ResultPhase = TRUE;
       StatusCounter = 100;
-      StatusRegister = 0xD0;		    /* Ready to return results */
+      StatusRegister = 0xD0;        /* Ready to return results */
       break;
 
     case 5:              /* Write data */

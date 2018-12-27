@@ -39,36 +39,36 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Add closebox widget
-	if (setup)
-		widget_closebox_add(app->box, (t_widget_callback)TB_Message_Switch);
+    if (setup)
+        widget_closebox_add(app->box, (t_widget_callback)TB_Message_Switch);
 
     // Create textbox widget
-	t_frame frame;
+    t_frame frame;
     frame.pos.x = 4;
     frame.pos.y = 2;
     frame.size.x = app->box->frame.size.x - (4*2);
     frame.size.y = app->box->frame.size.y - (2*2);
-	if (setup)
-		app->widget_textbox = widget_textbox_add(app->box, &frame, (t_font_id)g_configuration.font_messages);
-	else
-		app->widget_textbox->frame = frame;
+    if (setup)
+        app->widget_textbox = widget_textbox_add(app->box, &frame, (t_font_id)g_configuration.font_messages);
+    else
+        app->widget_textbox->frame = frame;
 }
 
 void        TB_Message_Init()
 {
     t_app_messages *app = &TB_Message;  // Global instance
-	t_font_id font_id = (t_font_id)g_configuration.font_messages;
+    t_font_id font_id = (t_font_id)g_configuration.font_messages;
 
     app->active = true;
 
     // Create box
-	t_frame frame;
+    t_frame frame;
     frame.pos.x  = 16;
     frame.pos.y  = 626;
     frame.size.x = (48 * Font_Height(font_id)) + (4*2); // 4*2=padding
     frame.size.y = (8 * Font_Height(font_id)) + (2*2); // 2*2=padding
     app->box = gui_box_new(&frame, Msg_Get(MSG_Message_BoxTitle));
-	app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
+    app->box->flags |= GUI_BOX_FLAGS_ALLOW_RESIZE;
 
     // Register to desktop
     Desktop_Register_Box("MESSAGES", app->box, true, &app->active);
