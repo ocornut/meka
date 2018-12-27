@@ -96,6 +96,15 @@ ALLEGRO_COLOR COLOR_DEBUG_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,10
 // Functions
 //-----------------------------------------------------------------------------
 
+#if defined(_MSC_VER)
+FILE _iob[] = { *stdin, *stdout, *stderr };
+
+extern "C" FILE * __cdecl __iob_func(void)
+{
+    return _iob;
+}
+#endif
+
 //-----------------------------------------------------------------------------
 // FIXME: this function is pretty old and is basically a left-over or
 // everything that was not moved elsewhere.
