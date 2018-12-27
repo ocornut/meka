@@ -683,6 +683,7 @@
  Girl's Garden                                  Ok
  Girl's Garden (TW)                             Ok
  Golgo 13                                       Ok
+ Goonies, The [DahJee] (TW)                    *Ok
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
  Gulkave                                        Ok
@@ -800,7 +801,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 188 games tested - 188 are "Ok" - Compatibility rate: 100.00%
+ 189 games tested - 189 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
