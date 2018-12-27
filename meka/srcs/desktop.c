@@ -179,7 +179,7 @@ static int	Desktop_Load_Line(char *line)
 		if (strcmp(var, "active") == 0)
 		{
 			int a;
-			if (sscanf(line, "%d,%d", &a) == 1)
+			if (sscanf(line, "%d", &a) == 1)
 				item->active = a != 0;
 			return MEKA_ERR_OK;
 		}
