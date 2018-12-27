@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2018/08/04
+; Last updated 2018/09/21
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -394,6 +394,7 @@ SMS 41cc2ade 2197A343DD55D25E   Micro Xevious, The/COUNTRY=KR
 SMS 0e333b6e 5DF944A13D3573E0   Miracle Warriors - Seal of The Dark Lord/COUNTRY=US,EU,BR/PRODUCT_NO=7500/COMMENT=Export version of "Haja no Fuuin".
 SMS 301a59aa C6AE142A815DF27E   Miracle Warriors - Seal of The Dark Lord [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS fbe5cfbb 32DAD3B36F53F7B5   Missile Defense 3-D/NAME_BR=Missile Defense 3D/COUNTRY=US,EU,BR/PRODUCT_NO=8001,023230/EMU_INPUTS=LIGHTPHASER/EMU_3D
+SMS 43def05d 9EFD71605F7B0FAB   Missile Defense 3-D [Proto]/FLAGS=PROTO/EMU_INPUTS=LIGHTPHASER/EMU_3D/COMMENT=Prototype version of the game.
 SMS 01d67c0b 78D6D79A391713DE   Mônica no Castelo do Dragão/COUNTRY=BR/COMMENT=Brasilian hacked version of "Wonder Boy in Monster Land", released by Tec Toy.
 SMS 026d94a4 486A3C3EC40B37CE   Monopoly/COUNTRY=EU
 SMS 69538469 4D632D43B6FE42EA   Monopoly/COUNTRY=US
@@ -662,12 +663,12 @@ SMS 565c799f 3E57DDC184F4D481   Xyzolog/COUNTRY=KR/PRODUCT_NO=G-91
 SMS 32759751 13C43FBEE6B25341   Ys/COUNTRY=JP/PRODUCT_NO=G-1370/EMU_VDP=315-5124/COMMENT=Japanese version of "Y's: The Vanished Omens".
 SMS b33e2827 6C4C3C65EF39ADD2   Y's: The Vanished Omens/NAME_BR=Y's/COUNTRY=US,EU,BR/PRODUCT_NO=7501/COMMENT=Export version of "Ys".
 SMS e8b82066 06806D7C60FB9C9A   Y's: The Vanished Omens [Demo]/COUNTRY=US/FLAGS=PROTO//EMU_VDP=315-5124/COMMENT=Rolling non-interactive demo to advertise the game. Text in Japanese although this is an US demo cartridge.
-SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
+SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU,BR/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
 SMS bba74147 2D689EA985B828BF   Zaxxon 3-D [Proto]/NAME_JP=Zaxxon 3D/FLAGS=PROTO/EMU_3D/COMMENT=Unfinished prototype version of the game.
 SMS 60c19645 39A919D7DA6933B8   Zillion [v0]/NAME_JP=Akai Koudan Zillion/COUNTRY=JP,EU/PRODUCT_NO=G-1325,5075
 SMS 5718762c 88E69FBAA2DA4974   Zillion [v1]/COUNTRY=US/PRODUCT_NO=5075     ; [EDITOR NOTE] Country listing for all 3 versions are based on what we found so far. It's probable that v1 and v2 were released in both US and EU.
 SMS 7ba54510 8AE29FB6A2DC4B76   Zillion [v2]/COUNTRY=EU/PRODUCT_NO=5075
-SMS 2f2e3bc9 FE36CB6E6BC5ED76   Zillion II: The Tri Formation/NAME_JP=Tri Formation/COUNTRY=JP,US,EU/PRODUCT_NO=G-1344,5105,
+SMS 2f2e3bc9 FE36CB6E6BC5ED76   Zillion II: The Tri Formation/NAME_JP=Tri Formation/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1344,5105
 SMS 9d9d0a5f F8C690D818C64DAF   Zool/COUNTRY=EU/PRODUCT_NO=27075-50
 
 ; BIOS images
@@ -826,6 +827,8 @@ GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears' Camping Adventure, The/COUNTRY
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The BerlinWall/COUNTRY=JP/PRODUCT_NO=T-33017
 GG  fe7374d2 7C9BF74B57970FAA   Bishoujo Senshi Sailor Moon S/COUNTRY=JP/PRODUCT_NO=T-133017
 GG  bfceba5f 7239ED165A6A8608   Bonkers Wax Up! (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2536,2536-50
+GG  fba338c5 D558C670ED32D2AC   Bubble Bobble/COUNTRY=US/PRODUCT_NO=T-11028
+GG  be2dc770 744B94047EA8552E   Bubble Bobble [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  5c34d9cd 0A954147D11708E9   Bugs Bunny in Double Trouble/COUNTRY=US,EU/PRODUCT_NO=2569,7766-50
 GG  c90f29ef DCCED394874D1605   Bust-A-Move/COUNTRY=US/PRODUCT_NO=2567
 GG  7cb079d0 7545BA4617EBF252   Buster Ball/COUNTRY=JP/PRODUCT_NO=T-53027
@@ -1021,7 +1024,7 @@ GG  4ec30806 6FA65308EF07702A   Megami Tensei Gaiden: Last Bible Special/COUNTRY
 GG  fe12a92f C47B5E5AC577A12C   Mickey Mouse Densetsu no Oukoku/COUNTRY=JP/PRODUCT_NO=G-3360/COMMENT=Japanese version of "Legend of Illusion - Starring Mickey Mouse".
 GG  0117c3df 6C107B6F23212630   Mickey Mouse no Mahou no Crystal/COUNTRY=JP/PRODUCT_NO=G-3323/COMMENT=Japanese version of "Land of Illusion - Starring Mickey Mouse".
 GG  eccf7a4f DE2CEEA5F01F074D   Mickey's Ultimate Challenge/COUNTRY=US/PRODUCT_NO=T-112028
-GG  f7c524f6 51710931D2A8ED9D   Micro Machines/COUNTRY=EU,US/PRODUCT_NO=17001/EMU_MAPPER=3
+GG  f7c524f6 51710931D2A8ED9D   Micro Machines/COUNTRY=EU,US/PRODUCT_NO=16001,17001/EMU_MAPPER=3
 GG  dbe8895c 0D511C6572333844   Micro Machines 2: Turbo Tournament/COUNTRY=EU/PRODUCT_NO=T-120108-50/EMU_MAPPER=3
 GG  9289dfcc 2D785B7B8B594E53   Mighty Morphin Power Rangers/COUNTRY=US,EU/PRODUCT_NO=2548,2548-50
 GG  b47c19e5 F02DEF107C75975C   Mighty Morphin Power Rangers: The Movie/COUNTRY=US,EU/PRODUCT_NO=2564,2564-50
@@ -1609,7 +1612,6 @@ B8077BB4C4963E7A,Poseidon Wars / Space Panic / Rambo,COMMENT=This disk contains 
 BE14C62C214ED2FB,Yeno Draw [Face 2],AUTHORS=Marc le Douarain
 
 ---- GAME GEAR ----
-D558C670ED32D2AC,Bubble Bobble,VER=English
 50513CEA88DD577D,Iron Man X-O Manowar in Heavy Metal,VER=USA  ; PRODUCT_NO=T-81398
 EEF607B16825FADD,Man Overboard!,VER=English,Mapper=3,TVTYPE=PAL/SECAM
 D7713EC45DD6B5CE,Tesserae,VER=USA,ID=T-83028

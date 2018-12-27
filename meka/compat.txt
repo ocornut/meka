@@ -325,6 +325,7 @@
  Miracle Warriors - Seal of The Dark Lord       FM      Ok
  Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
+ Missile Defense 3-D [Proto]                    LP,3D   Ok
  Mônica no Castelo do Dragão (BR)               FM      Ok
  Monopoly                                       -       Ok
  Monopoly (US)                                  -       Ok
@@ -584,7 +585,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 566 games tested - 564 are "Ok" - Compatibility rate: 99.54%
+ 567 games tested - 565 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -936,6 +937,7 @@
  Bishoujo Senshi Sailor Moon S (JP)                 Ok
  Bonkers Wax Up! (Disney's)                         Ok
  Bubble Bobble                                      Ok
+ Bubble Bobble [Proto]                              Ok
  Bugs Bunny in Double Trouble                       Ok
  Bust a Move                                        Ok
  Buster Ball                                        Ok
@@ -1096,7 +1098,7 @@
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
  Kawasaki Superbike Challenge / Kawasaki Superbikes Ok
- Kawasaki SuperBike Challenge (US)                 *Ok
+ Kawasaki Superbike Challenge (US)                  Ok
  Kenyuu Densetsu Yaiba (JP)                         Ok
  Kick & Rush (JP)                                   Ok
  Kinetic Connection (JP)                            Ok
@@ -1288,7 +1290,7 @@
  Spider-Man - vs. The Kingpin                       Ok
  Spider-Man / X-Men: Arcade's Revenge               Ok
  Spirou [Proto]                                     Ok
- Sports Illustrated: Championship Football & Base. *Ok
+ Sports Illustrated: Championship Football & Baseb. Ok
  Sports Trivia                                      Ok
  Sports Trivia - Championship Edition               Ok
  Star Gate                                          Ok
@@ -1396,7 +1398,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 504 games tested - 492 are "Ok" - Compatibility rate: 97.45%
+ 505 games tested - 493 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
