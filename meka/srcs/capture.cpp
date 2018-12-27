@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "capture.h"
+#include "vmachine.h"
 #include "vdp.h"
 
 // Keep request enabled if we're in 'all frames' capture mode

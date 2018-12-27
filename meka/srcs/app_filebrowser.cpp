@@ -12,6 +12,7 @@
 #include "file.h"
 #include "inputs_t.h"
 #include "vlfn.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 // Data

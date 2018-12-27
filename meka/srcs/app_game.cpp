@@ -9,6 +9,7 @@
 #include "app_game.h"
 #include "db.h"
 #include "vdp.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 // Data

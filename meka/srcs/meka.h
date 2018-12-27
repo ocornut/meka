@@ -176,12 +176,12 @@ struct t_machine_vdp_smsgg
 {
     int                     model;								// CONFIG
     int                     sprite_shift_x;						// CACHE	// 0 or 8
-	u8 *					name_table_address;					// CACHE
-	u8 *					sg_color_table_address;				// CACHE	// Was g_machine.VDP.sg_color_table_address
-	u8 *					sg_pattern_gen_address;				// CACHE	// Was g_machine.VDP.pattern_gen_address
+	u8*					    name_table_address;					// CACHE
+	u8*					    sg_color_table_address;				// CACHE	// Was g_machine.VDP.sg_color_table_address
+	u8*					    sg_pattern_gen_address;				// CACHE	// Was g_machine.VDP.pattern_gen_address
 	int						sprite_pattern_gen_index;			// CACHE	// 0 or 256, SMS/GG only
-	u8 *					sprite_pattern_gen_address;			// CACHE
-	u8 *					sprite_attribute_table;				// CACHE
+	u8*					    sprite_pattern_gen_address;			// CACHE
+	u8*					    sprite_attribute_table;				// CACHE
 
     // Scrolling latches
     u8                      scroll_x_latched;					// STATE
@@ -199,7 +199,7 @@ struct t_machine
 	int						mapper_regs_count;					// CACHE	// Derived from 'mapper'
 	int						mapper_janggun_bytes_flipping_flags;// CACHE
     t_machine_vdp_smsgg     VDP;
-    struct t_tv_type *      TV;									// CONFIG
+    struct t_tv_type*       TV;									// CONFIG
     int                     TV_lines;							// CONFIG	// Copy of TV->screen_lines
 };
 
@@ -238,7 +238,7 @@ struct t_meka_env
     t_meka_env_paths    Paths;
     int                 mouse_installed;
 	int					argc;
-	char **				argv;
+	char**				argv;
 
 	t_meka_state		state;
 	bool				debug_dump_infos;
@@ -249,7 +249,7 @@ extern t_meka_env  g_env;
 //-----------------------------------------------------------------------------
 // Configuration
 // All MEKA configuration options
-// Note: this is dependant of runtime emulation configuration, which can
+// Note: this is dependent of runtime emulation configuration, which can
 // be affected by various factors.
 // This structure should basically reflect the content of MEKA.CFG
 //-----------------------------------------------------------------------------
@@ -304,7 +304,7 @@ struct t_meka_configuration
     int				video_mode_gui_refresh_rate;
 
 	// Capture
-	const char *	capture_filename_template;
+	const char*	    capture_filename_template;
 	bool			capture_crop_scrolling_column;
 	bool			capture_crop_align_8x8;
 	bool			capture_include_gui;
@@ -337,11 +337,11 @@ struct t_meka_crc
 struct t_media_image
 {
     int         type;
-    u8 *        data;
+    u8*         data;
     int         data_size;
     t_meka_crc  mekacrc;
     u32         crc32;
-    // char *   filename ?
+    // char*    filename ?
 };
 
 // Currently a global to hold ROM infos.
@@ -361,10 +361,12 @@ extern int						g_screenbuffer_format;
 extern int						g_gui_buffer_format;
 
 // Video buffers
-extern ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
-extern ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
-extern ALLEGRO_BITMAP *fs_out;                            // Fullscreen video buffer
-extern ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
-extern ALLEGRO_BITMAP *gui_background;                    // GUI Background
+extern ALLEGRO_BITMAP* screenbuffer;            // Pointers to screen memory buffers
+extern ALLEGRO_BITMAP* screenbuffer_next;               
+extern ALLEGRO_BITMAP* screenbuffer_1;          // Screen memory buffers
+extern ALLEGRO_BITMAP* screenbuffer_2;                  
+extern ALLEGRO_BITMAP* fs_out;                  // Fullscreen video buffer
+extern ALLEGRO_BITMAP* gui_buffer;              // GUI memory buffer
+extern ALLEGRO_BITMAP* gui_background;          // GUI Background
 
 //-----------------------------------------------------------------------------

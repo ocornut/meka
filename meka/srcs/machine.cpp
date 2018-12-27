@@ -17,6 +17,7 @@
 #include "sg1ksc3k.h"
 #include "vdp.h"
 #include "video.h"
+#include "vmachine.h"
 #include "tvoekaki.h"
 #include "tvtype.h"
 #include "sound/fmunit.h"

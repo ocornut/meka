@@ -15,6 +15,7 @@
 #include "mappers.h"
 #include "inputs_t.h"
 #include "vdp.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 // Definitions

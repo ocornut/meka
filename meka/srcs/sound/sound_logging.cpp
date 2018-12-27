@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "sound_logging.h"
+#include "vmachine.h"
 #include "wav.h"
 
 void    Sound_Log_Init(void)

@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "app_filebrowser.h"
 #include "app_game.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 

@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "bios.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 // Data

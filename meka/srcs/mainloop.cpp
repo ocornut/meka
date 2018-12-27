@@ -8,6 +8,7 @@
 #include "effects.h"
 #include "fskipper.h"
 #include "video.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 // Functions

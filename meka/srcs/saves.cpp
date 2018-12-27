@@ -13,6 +13,7 @@
 #include "sf7000.h"
 #include "tvoekaki.h"
 #include "vdp.h"
+#include "vmachine.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
 

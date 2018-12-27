@@ -17,6 +17,7 @@
 #include "saves.h"
 #include "sdsc.h"
 #include "vlfn.h"
+#include "vmachine.h"
 #ifdef MEKA_ZIP
     #include "unzip.h"
 #endif

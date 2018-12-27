@@ -11,6 +11,7 @@
 #include "g_widget.h"
 #include "mappers.h"
 #include "libparse.h"
+#include "vmachine.h"
 #include "z80marat/Z80DebugHelpers.h"
 #include <ctype.h>
 #include <string.h>

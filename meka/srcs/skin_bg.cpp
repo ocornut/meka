@@ -5,6 +5,7 @@
 
 #include "shared.h"
 #include "skin_bg.h"
+#include "vmachine.h"
 
 //-----------------------------------------------------------------------------
 // Functions

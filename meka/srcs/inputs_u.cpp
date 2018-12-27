@@ -12,6 +12,7 @@
 #include "sk1100.h"
 #include "tvoekaki.h"
 #include "video.h"
+#include "vmachine.h"
 #include "vdp.h"
 
 // #define DEBUG_JOY

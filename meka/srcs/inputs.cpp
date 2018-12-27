@@ -24,6 +24,7 @@
 #include "tvoekaki.h"
 #include "vdp.h"
 #include "video.h"
+#include "vmachine.h"
 #include "sound/sound_logging.h"
 
 //-----------------------------------------------------------------------------

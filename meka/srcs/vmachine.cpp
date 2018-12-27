@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "vmachine.h"
 #include "app_game.h"
 #include "bios.h"
 #include "db.h"
