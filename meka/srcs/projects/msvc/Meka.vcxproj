@@ -366,6 +366,7 @@
     <ClInclude Include="..\..\..\libs\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\..\..\libs\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\..\libs\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\..\..\libs\str\Str.h" />
     <ClInclude Include="..\..\allegro4to5.h" />
     <ClInclude Include="..\..\app_about.h" />
     <ClInclude Include="..\..\app_cheatfinder.h" />
@@ -496,6 +497,7 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\..\..\libs\imgui\misc\natvis\imgui.natvis" />
+    <Natvis Include="..\..\..\libs\str\Str.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
