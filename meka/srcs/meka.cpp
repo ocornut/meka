@@ -40,6 +40,8 @@
 #include "video_m5.h"
 #include "vlfn.h"
 #include "vmachine.h"
+
+// External Libraries
 #ifdef ARCH_WIN32
 #include <commctrl.h>
 #endif
@@ -47,6 +49,8 @@
 #include <allegro5/allegro_ttf.h>
 #include "imgui.h"
 #include "imgui_impl_allegro5.h"
+#define STR_IMPLEMENTATION
+#include "../libs/str/Str.h"
 
 //-----------------------------------------------------------------------------
 // Globals
@@ -60,9 +64,9 @@ SMS_TYPE                sms;
 TSMS_TYPE               tsms;
 }
 
-t_machine               g_machine;
-t_meka_env              g_env;
-t_media_image           g_media_rom;            // FIXME-WIP: Not fully used
+t_machine        g_machine;
+t_meka_env       g_env;
+t_media_image    g_media_rom;            // FIXME-WIP: Not fully used
 t_meka_config    g_config;
 
 extern "C"  // C-style mangling for ASM linkage
@@ -407,7 +411,7 @@ int main(int argc, char **argv)
 
     Sound_Init             (); // Initialize Sound
 #ifdef MEKA_JOYPAD
-    Inputs_Joystick_Init   (); // Initialize Joysticks. 
+    Inputs_Joystick_Init   (); // Initialize Joysticks.
 #endif
 
     // Initialization complete
@@ -439,7 +443,7 @@ int main(int argc, char **argv)
     // Start main program loop
     // Everything runs from there.
     // Z80_Opcodes_Usage_Reset();
-    Main_Loop(); 
+    Main_Loop();
     // Z80_Opcodes_Usage_Print();
 
     // Shutting down emulator...
