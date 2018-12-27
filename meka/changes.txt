@@ -7,6 +7,7 @@
 
  MEKA 0.80 WIP
  -------------
+  <see history.txt for developer facing changes>
 
 
  MEKA 0.74 WIP xxxxxxxx
