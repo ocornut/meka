@@ -53,10 +53,6 @@
 // Allegro Library
 //-----------------------------------------------------------------------------
 
-#ifdef ARCH_WIN32
-#define ALLEGRO_STATICLINK			// Unix users probably don't want static linking?
-#endif	
-
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_primitives.h>

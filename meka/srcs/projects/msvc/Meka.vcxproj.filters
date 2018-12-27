@@ -111,6 +111,7 @@
     <None Include="..\..\Makefile">
       <Filter>Srcs</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\allegro4to5.c">
@@ -817,11 +818,16 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\hq2x16.asm">
+    <NASM Include="..\..\hq2x32.asm">
       <Filter>Srcs\Video\HQ2X</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\hq2x32.asm">
+    </NASM>
+    <NASM Include="..\..\hq2x16.asm">
       <Filter>Srcs\Video\HQ2X</Filter>
-    </CustomBuild>
+    </NASM>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="meka.manifest">
+      <Filter>Resources</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>

@@ -80,7 +80,7 @@ void    Desktop_Register_Box(const char *name, t_gui_box *box, int default_activ
             box->frame.pos = item->pos;
 			if ((box->flags & GUI_BOX_FLAGS_ALLOW_RESIZE) && (box->type != GUI_BOX_TYPE_GAME))
 				if (item->size.x > 0 && item->size.y > 0)
-					box->frame.size = item->size;
+                    gui_box_resize(box, item->size.x, item->size.y, false);
             *(active_org) = item->active;
             //gui_box_clip_position (b);
             //gui_box_show (b, item->active, FALSE); // FIXME: Focus
