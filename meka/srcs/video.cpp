@@ -19,6 +19,9 @@
 #include "video.h"
 #include "vmachine.h"
 
+#include "imgui.h"
+#include "imgui_impl_allegro5.h"
+
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
@@ -76,6 +79,8 @@ void Video_DestroyVideoBuffers()
     Data_DestroyVideoBuffers();
     Blit_DestroyVideoBuffers();
     SkinFx_DestroyVideoBuffers();
+
+    ImGui_ImplAllegro5_InvalidateDeviceObjects();
 }
 
 void Video_CreateVideoBuffers()
@@ -100,6 +105,9 @@ void Video_CreateVideoBuffers()
     SkinFx_CreateVideoBuffers();
     if (g_env.state == MEKA_STATE_GUI)
         GUI_SetupNewVideoMode();
+
+    ImGui_ImplAllegro5_CreateDeviceObjects();
+
 }
 
 static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool fullscreen, int refresh_rate, bool fatal)
@@ -172,6 +180,9 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 
     // Window title
     al_set_window_title(g_display, Msg_Get(MSG_Window_Title));
+
+    // Update ImGui Bindings context
+    ImGui_ImplAllegro5_SetDisplay(g_display);
 
     // Recreate all video buffers
     Video_CreateVideoBuffers();
@@ -425,6 +436,12 @@ void    Video_RefreshScreen()
 
     if (fskipper.Show_Current_Frame)
     {
+        // Start the dear imgui frame
+        // FIXME-IMGUI: We could aim to extend the scope of NewFrame..EndFrame so NewFrame appears earlier in the main loop.
+        ImGui_ImplAllegro5_NewFrame();
+        ImGui::NewFrame();
+        ImGui::ShowDemoWindow();
+        
         Capture_Update();
 
         if (g_machine_pause_requests > 0)
@@ -474,7 +491,10 @@ void    Video_RefreshScreen()
         // Clear keypress queue
         Inputs_KeyPressQueue_Clear();
 
-    } // of: if (fskipper.Show_Current_Frame)
+        // End the dear imgui frame
+        // Normally the Blit_XXX would have called EndFrame()+Render() but frame skipping won't call it so we make sure it has been called.
+        ImGui::EndFrame();
+    }
 
     // Draw next image in other buffer
     if (g_machine_flags & MACHINE_PAUSED)
