@@ -40,7 +40,7 @@
 #include "Tables.h"
 #include "debugger.h"
 
-#include "Z80Call.c"
+#include "Z80Call.cpp"
 
 void    (*WrZ80)(register word Addr, register byte Value);
 byte    (*RdZ80)(register word Addr);

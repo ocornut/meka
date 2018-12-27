@@ -26,10 +26,10 @@
 
 #------------------------------------------------------
 # System target to compile MEKA for (dos|unix|win32)
-# All systems must currently run on X86 archicture.
+# All systems must currently run on X86 architecture.
 # - unix  : UN*X system. Makefile up to date. May require system/library tweaking.
-# - win32 : Windows 32-bits. Makefile NOT up to date (can be updated). Hardcoded paths. Prefer using MsVc\Meka.sln (MSVC++ 7.1)
-# - dos   : MS-DOS or compatible. Could work. Not maintened anymore.
+# - win32 : Windows 32-bits. Makefile NOT up to date (can be updated). Hard-coded paths. Prefer using MsVc\Meka.sln (MSVC++ 7.1)
+# - dos   : MS-DOS or compatible. Could work. Not maintained anymore.
 # TODO: Add command-line parameter to select this
 #------------------------------------------------------
 
@@ -155,11 +155,11 @@ RC      = rc
 DEF_OS  = -DARCH_WIN32
 INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
 
-#--- Librairies
+#--- Libraries
 LIB_OS          = kernel32.lib user32.lib gdi32.lib comdlg32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib
 LIB_PATHS       = -libpath:$(MSVCDIR)/lib/ -libpath:$(MSVCDIR)/PlatformSDK/lib/ -libpath:$(DXSDKDIR)/lib
 
-#--- Ressources
+#--- Resources
 RESSOURCES = mekaw.res
 
 ALL_FILES=*.*
@@ -316,27 +316,30 @@ endif
 #-----------------------------------------------------
 
 # Custom Dependencies
-$(OD)/gui.o : gui.c gui.h shared.h meka.h
-$(OD)/build.o : build.c
-$(OD)/g_menu.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-$(OD)/g_menu_i.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-$(OD)/g_menu_t.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-# $(OD)/cpu.o : cpu.c cpu.h shared.h meka.h
-# $(OD)/palette.o : palette.c palette.h video.h shared.h meka.h
-# $(OD)/inputs.o : inputs.c inputs.h keyboard.c keyboard.h keyb_map.h
-# $(OD)/data.o : data.c data.h g_colors.h
+$(OD)/gui.o : gui.cpp gui.h shared.h meka.h
+$(OD)/build.o : build.cpp
+$(OD)/g_menu.o : g_menu.cpp g_menu.h g_menu_t.cpp g_menu_t.h g_menu_i.cpp g_menu_i.h
+$(OD)/g_menu_i.o : g_menu.cpp g_menu.h g_menu_t.cpp g_menu_t.h g_menu_i.cpp g_menu_i.h
+$(OD)/g_menu_t.o : g_menu.cpp g_menu.h g_menu_t.cpp g_menu_t.h g_menu_i.cpp g_menu_i.h
+# $(OD)/cpu.o : cpu.cpp cpu.h shared.h meka.h
+# $(OD)/palette.o : palette.cpp palette.h video.h shared.h meka.h
+# $(OD)/inputs.o : inputs.cpp inputs.h keyboard.cpp keyboard.h keyb_map.h
+# $(OD)/data.o : data.cpp data.h g_colors.h
 
 # CPU emulators related compilation
-$(OD)/z80marat.a : z80marat/Z80.c z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.c z80marat/Z80Call.c z80marat/Z80DebugHelpers.cpp
-	$(CC) $(CFLAGS) -c z80marat/Z80.c $(CC_OUT)$@
+$(OD)/z80marat.a : z80marat/Z80.cpp z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.cpp z80marat/Z80Call.cpp z80marat/Z80DebugHelpers.cpp
+	$(CC) $(CFLAGS) -c z80marat/Z80.cpp $(CC_OUT)$@
 
-$(OD)/debug.o : z80marat/Debug.c z80marat/Z80.h
-	$(CC) $(CFLAGS) -c z80marat/Debug.c $(CC_OUT)$@
+$(OD)/debug.o : z80marat/Debug.cpp z80marat/Z80.h
+	$(CC) $(CFLAGS) -c z80marat/Debug.cpp $(CC_OUT)$@
 
 $(OD)/debughelper.o : z80marat/Z80DebugHelpers.cpp z80marat/Z80.h
 	$(CC) $(CFLAGS) -c z80marat/Z80DebugHelpers.cpp $(CC_OUT)$@ 
 
 # Generic Rules
+
+$(OD)/%.o : %.cpp %.h
+	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 $(OD)/%.o : %.c %.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
@@ -347,7 +350,7 @@ $(OD)/%.o : %.asm
 $(OD)/%.a : %.asm
 	$(ASM) $(DEF_OS)-f $(OTYPE) $< -o $@
 
-$(OD)/sound/%.o : sound/%.c sound/%.h
+$(OD)/sound/%.o : sound/%.cpp sound/%.h
 	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 $(OD)/platform/macosx/%.o : platform/macosx/%.mm platform/macosx/%.h
@@ -381,9 +384,9 @@ endif
 
 dist_src :
 	@echo Creating Dist/meka-src.zip
-# 	This change in directories does not work in linux.
+# 	This change in directories does not work in Linux.
 # 	Changed all the relative paths below to fix it.
-# 	Another aproach is:
+# 	Another approach is:
 # 	http://stackoverflow.com/questions/1789594/how-to-write-cd-command-in-makefile
 # 	cd ..
 	-$(MKDIR) ../Dist
@@ -396,8 +399,8 @@ dist_src :
 	zip -9 -r ../Dist/meka-src.zip ../srcs/datasrc/$(ALL_FILES)
 # 	I dont have this folder on linux
 	-zip -9 -r ../Dist/meka-src.zip ../srcs/docs/$(ALL_FILES)
-	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/*.h ../srcs/sound/*.c
-	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/emu2413/*.h ../srcs/sound/emu2413/*.c
+	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/*.h ../srcs/sound/*.cpp
+	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/emu2413/*.h ../srcs/sound/emu2413/*.cpp
 	zip -9 -r ../Dist/meka-src.zip ../srcs/z80marat/$(ALL_FILES)
 	@echo Deleting VisualStudio temporary files, be sure that VisualStudio is closed.
 	-$(RM) -f srcs/MsVc/*.ncb
@@ -473,8 +476,8 @@ clean_all :	clean
 	$(RM) -f MsVc/*.ncb
 
 clean_backup :
-	$(RM) -f *~ *.c~ *.h~
-	$(RM) -f sound/*.c~ sound/*.h~
+	$(RM) -f *~ *.c~ *.cpp~ *.h~
+	$(RM) -f sound/*.c~ sound/*.cpp~ sound/*.h~
 	$(RM) -f sound/emu2413/*.c~ sound/emu2413/*.h~
 
 clean_sound :
