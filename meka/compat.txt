@@ -300,6 +300,7 @@
  Line of Fire                                   (3D)    Ok
  Loretta no Shouzou (JP)                        -       Ok
  Lord of Sword (JP)                             FM      Ok
+ Lord of Sword [SMS-GG] (TW)                    FM     *Ok
  Lord of The Sword                              FM      Ok
  Lucky Dime Caper, The - Starring Donald Duck   -       Ok
  Lucky Dime Caper, The - Starring Do... [Proto] -       Ok
@@ -444,6 +445,7 @@
  Smurfs Travel the World, The                   -       Ok
  Smurfs Travel the World, The [Proto]           -       Ok
  Solomon no Kagi - Oujo Rihita no Namida (JP)   FM      Ok
+ Solomon no Kagi - Oujo Rihita.. [Proto] (JP)   FM      Ok
  Sonic Blast                                    -       Ok
  Sonic Chaos                                    -       Ok
  Sonic Spinball                                 -       Ok
@@ -582,7 +584,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 564 games tested - 562 are "Ok" - Compatibility rate: 99.54%
+ 566 games tested - 564 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -821,9 +823,8 @@
  Othello Multivision [BIOS]                     Keyboard not emulated.
  Q*bert                                         Ok
  San-nin Mahjong                                Ok
- San-nin Mahjong [40k map]                     *Ok
+ San-nin Mahjong [40k map]                      Ok
  San-nin Mahjong (TW)                           Ok
- San-nin Mahjong [40k map]                     *Ok
  Space Armor [v1.0] [v0] [40k map]              Ok
  Space Armor [v2.0] [v1]                        Ok
  Space Armor [v2.0] [v2]                        Ok
