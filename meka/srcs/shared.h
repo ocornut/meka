@@ -32,6 +32,7 @@ extern char MEKA_BUILD_TIME[];
 
 #include "system.h"
 #include "libmisc.h"
+#include "../libs/str/Str.h"
 
 //-----------------------------------------------------------------------------
 // Z80 CPU cores

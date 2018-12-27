@@ -56,6 +56,9 @@
     <Filter Include="Libs\ImGui">
       <UniqueIdentifier>{ab412c14-4efb-42c0-962f-7e10ac718e0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libs\Str">
+      <UniqueIdentifier>{1d6eac80-085d-4c60-803d-5a78d79c5536}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\changes.txt">
@@ -842,6 +845,9 @@
     <ClInclude Include="..\..\..\libs\imgui\examples\imgui_impl_allegro5.h">
       <Filter>Libs\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\libs\str\Str.h">
+      <Filter>Libs\Str</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Meka.rc">
@@ -869,6 +875,9 @@
   <ItemGroup>
     <Natvis Include="..\..\..\libs\imgui\misc\natvis\imgui.natvis">
       <Filter>Libs\ImGui</Filter>
+    </Natvis>
+    <Natvis Include="..\..\..\libs\str\Str.natvis">
+      <Filter>Libs\Str</Filter>
     </Natvis>
   </ItemGroup>
 </Project>
