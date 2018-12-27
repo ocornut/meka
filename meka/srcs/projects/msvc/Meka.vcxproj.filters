@@ -59,6 +59,9 @@
     <Filter Include="Libs\Str">
       <UniqueIdentifier>{1d6eac80-085d-4c60-803d-5a78d79c5536}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Srcs\NewGui">
+      <UniqueIdentifier>{eefafd74-8462-4fd0-be86-1052abb6988b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\changes.txt">
@@ -468,6 +471,9 @@
     <ClCompile Include="..\..\..\libs\imgui\examples\imgui_impl_allegro5.cpp">
       <Filter>Libs\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\newgui.cpp">
+      <Filter>Srcs\NewGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\allegro4to5.h">
@@ -844,6 +850,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\libs\imgui\examples\imgui_impl_allegro5.h">
       <Filter>Libs\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\newgui.h">
+      <Filter>Srcs\NewGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\libs\str\Str.h">
       <Filter>Libs\Str</Filter>

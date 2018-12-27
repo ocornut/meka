@@ -72,7 +72,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../..;../../../libs/imgui;../../../libs/imgui/examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../..;../../../libs/imgui;../../../libs/imgui/examples;../../../libs/imgui_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -130,7 +130,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
-      <AdditionalIncludeDirectories>../..;../../../libs/imgui;../../../libs/imgui/examples;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../..;../../../libs/imgui;../../../libs/imgui/examples;../../../libs/imgui_misc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>false</MinimalRebuild>
@@ -304,6 +304,7 @@
     <ClCompile Include="..\..\meka.cpp" />
     <ClCompile Include="..\..\message.cpp" />
     <ClCompile Include="..\..\misc.cpp" />
+    <ClCompile Include="..\..\newgui.cpp" />
     <ClCompile Include="..\..\palette.cpp" />
     <ClCompile Include="..\..\patch.cpp" />
     <ClCompile Include="..\..\periph.cpp" />
@@ -437,6 +438,7 @@
     <ClInclude Include="..\..\meka.h" />
     <ClInclude Include="..\..\message.h" />
     <ClInclude Include="..\..\misc.h" />
+    <ClInclude Include="..\..\newgui.h" />
     <ClInclude Include="..\..\palette.h" />
     <ClInclude Include="..\..\patch.h" />
     <ClInclude Include="..\..\periph.h" />

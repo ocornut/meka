@@ -21,6 +21,7 @@
 
 #include "imgui.h"
 #include "imgui_impl_allegro5.h"
+#include "newgui.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -440,7 +441,6 @@ void    Video_RefreshScreen()
         // FIXME-IMGUI: We could aim to extend the scope of NewFrame..EndFrame so NewFrame appears earlier in the main loop.
         ImGui_ImplAllegro5_NewFrame();
         ImGui::NewFrame();
-        ImGui::ShowDemoWindow();
         
         Capture_Update();
 
@@ -462,6 +462,8 @@ void    Video_RefreshScreen()
 
             gui_draw();
             PROFILE_STEP("gui_draw()");
+
+            NewGui_Draw();
 
             Blit_GUI();
             PROFILE_STEP("Blit_GUI()");
