@@ -1288,7 +1288,7 @@
  Spider-Man - vs. The Kingpin                       Ok
  Spider-Man / X-Men: Arcade's Revenge               Ok
  Spirou [Proto]                                     Ok
- Sports Illustrated: Championship Football & Base.. Ok
+ Sports Illustrated: Championship Football & Base. *Ok
  Sports Trivia                                      Ok
  Sports Trivia - Championship Edition               Ok
  Star Gate                                          Ok

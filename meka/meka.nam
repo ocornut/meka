@@ -151,7 +151,7 @@ SMS b0fc4577 C10FA02711E01C5C   Buggy Run/COUNTRY=EU,BR/PRODUCT_NO=9025,028340
 SMS ac6009a7 CF790CF50722A0EE   California Games/NAME_BR=Jogos de Verão/COUNTRY=US,EU,BR/PRODUCT_NO=7014
 SMS c0e25d62 53E11D9FBBD9FB81   California Games II [50 Hz]/COUNTRY=EU/PRODUCT_NO=7105/EMU_TVTYPE=PAL
 SMS 45c50294 CE99027ABB34D757   California Games II [50-60 Hz]/NAME_BR=Jogos de Verão II/COUNTRY=BR,KR/PRODUCT_NO=025190,GB93006JG
-SMS a4852757 DE36EE3D634864B2   Captain Silver/COUNTRY=JP,EU/PRODUCT_NO=G-1356,7008/COMMENT=This is the full 256 KB original version of the game as released in Japan and Europe (6 levels).
+SMS a4852757 DE36EE3D634864B2   Captain Silver/COUNTRY=JP,EU,BR/PRODUCT_NO=G-1356,7008/COMMENT=This is the full 256 KB original version of the game as released in Japan and Europe (6 levels).
 SMS b81f6fa5 ED86FC925D8967B2   Captain Silver/COUNTRY=US/PRODUCT_NO=5117/COMMENT=This is the stripped out 128 KB version of the game as released in USA (4 levels out of 6).
 SMS 2532a7cd 799E5661199B700E   Captain Silver [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Based on the 128 KB version.
 SMS 3cff6e80 CA4954F3D05891ED   Casino Games/COUNTRY=US,EU/PRODUCT_NO=7021
