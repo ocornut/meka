@@ -866,4 +866,9 @@
       <Filter>Resources</Filter>
     </Manifest>
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\..\..\libs\imgui\misc\natvis\imgui.natvis">
+      <Filter>Libs\ImGui</Filter>
+    </Natvis>
+  </ItemGroup>
 </Project>

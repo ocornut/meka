@@ -27,6 +27,8 @@
 #include "palette.h"
 #include "vdp.h"
 #include "video.h"
+#include "imgui.h"
+#include "imgui_impl_allegro5.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -296,6 +298,13 @@ void    Blit_Fullscreen_TV_Mode_Double()
     Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
+static void Blit_RenderImGui()
+{
+    ImGui::EndFrame();
+    ImGui::Render();
+    ImGui_ImplAllegro5_RenderDrawData(ImGui::GetDrawData());
+}
+
 // Blit screenbuffer to video memory in fullscreen mode
 void    Blit_Fullscreen()
 {
@@ -322,6 +331,8 @@ void    Blit_Fullscreen()
         g_gui_status.timeleft --;
     }
 
+    Blit_RenderImGui();
+
     al_flip_display();
 }
 
@@ -344,6 +355,8 @@ void    Blit_GUI()
     al_set_target_bitmap(backbuffer);
     al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
     PROFILE_STEP("al_draw_bitmap()");
+
+    Blit_RenderImGui();
 
     al_flip_display();
     PROFILE_STEP("al_flip_display");

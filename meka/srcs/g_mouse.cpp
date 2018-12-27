@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
+#include "imgui.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -43,6 +44,17 @@ void    gui_update_mouse()
 {
     if (g_env.mouse_installed == -1)
         return;
+
+    ImGuiIO& io = ImGui::GetIO();
+    if (io.WantCaptureMouse)
+    {
+        gui.mouse.x = gui.mouse.x_prev = -999;
+        gui.mouse.y = gui.mouse.y_prev = -999;
+        gui.mouse.buttons_prev = gui.mouse.buttons = 0x00;
+        gui.mouse.wheel_rel = 0;
+        gui.mouse.double_clicked = 0x00;
+        return;
+    }
 
     gui.mouse.x_prev = gui.mouse.x;
     gui.mouse.y_prev = gui.mouse.y;

@@ -494,6 +494,9 @@
   <ItemGroup>
     <Manifest Include="meka.manifest" />
   </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\..\..\libs\imgui\misc\natvis\imgui.natvis" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="packages\nasm2.2.13.3.1\build\native\nasm.targets" Condition="Exists('packages\nasm2.2.13.3.1\build\native\nasm.targets')" />
