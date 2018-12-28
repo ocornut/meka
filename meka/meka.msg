@@ -113,7 +113,7 @@ Msg_Window_Title                        = "MEKA - In Pixels We Trust!"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "About Meka..."
+Msg_About_BoxTitle                      = "About Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -607,7 +607,7 @@ Msg_Quit                                = "Good night, brave warrior. Good night
 ;Msg_Quit                               = "Bonne nuit, brave guerrier. Bonne nuit, pays des monstres...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "A propos de Meka..."
+Msg_About_BoxTitle                      = "A propos de Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "par %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -1083,7 +1083,7 @@ Msg_Window_Title                        = "MEKA - Wij Vertrouwen Op Pixels!"
 Msg_Quit                                = "Slaap lekker, dappere strijder. goede nacht, monsterland...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Over Meka.."
+Msg_About_BoxTitle                      = "Over Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -1572,7 +1572,7 @@ Msg_Welcome                             = "Bienvenido a %s (c) %s"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Acerca de..."
+Msg_About_BoxTitle                      = "Acerca de"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "por %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -2010,7 +2010,7 @@ Msg_Window_Title                        = "MEKA - W Pikslach Ufnosc Pokladamy!"
 Msg_Quit                                = "Dobrej nocy, dzielny woju. Dobrej nocy, Kraino Potworow..."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "O Meka..."
+Msg_About_BoxTitle                      = "O Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -2509,7 +2509,7 @@ Msg_Welcome                             = "Bem vindo a %s (c) %s"
 Msg_Quit                                = "Boa noite, bravo guerreiro. Boa noite, terra dos monstros..."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Sobre Meka..."
+Msg_About_BoxTitle                      = "Sobre Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "por %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -2943,7 +2943,7 @@ Msg_Welcome                             = "Benvenuto in %s (c) %s"
 Msg_Quit                                = "Buona notte, valoroso guerriero. Notte, terra dei mostri...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "About Meka.."
+Msg_About_BoxTitle                      = "About Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -3382,7 +3382,7 @@ Msg_Welcome                             = "Willkommen in %s (c) %s"
 Msg_Quit                                = "Gute Nacht, mutiger Krieger. Gute Nacht, Monsterland..."
 
 ; About -----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Über Meka.."
+Msg_About_BoxTitle                      = "Über Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "von %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -3820,7 +3820,7 @@ Msg_Welcome                             = "Välkommen till %s (c) %s"
 Msg_Quit                                = "God natt, modiga krigare. God natt, monster-land...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Om Meka.."
+Msg_About_BoxTitle                      = "Om Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "av %s"
 Msg_About_Line_Homepage                 = "%s"
@@ -4270,7 +4270,7 @@ Msg_Welcome                             = "Velkommen til %s (c) %s"
 Msg_Quit                                = "Godnat modige kriger. Godnat monster-land...."
 
 ; About ----------------------------------------------------------------------
-Msg_About_BoxTitle                      = "Om Meka.."
+Msg_About_BoxTitle                      = "Om Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "af %s"
 Msg_About_Line_Homepage                 = "%s"
