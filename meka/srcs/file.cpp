@@ -294,29 +294,29 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
 
             // Comment
             if (DB.current_entry->comments)
-                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Comment), DB.current_entry->comments);
+                Msg(MSGT_USER_LOG, Msg_Get(MSG_LoadROM_Comment), DB.current_entry->comments);
 
             // Show SMS-GG mode info
             if (DB.current_entry->flags & DB_FLAG_SMSGG_MODE)
             {
                 if (DB.current_entry->comments)
                     // Append to comment message
-                    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_SMSGG_Mode_Comment));
+                    Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_LoadROM_SMSGG_Mode_Comment));
                 else // Print the comment marker before
-                    Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Comment), Msg_Get(MSG_LoadROM_SMSGG_Mode_Comment));
+                    Msg(MSGT_USER_LOG, Msg_Get(MSG_LoadROM_Comment), Msg_Get(MSG_LoadROM_SMSGG_Mode_Comment));
             }
 
             // Show BAD ROM warning
             if (DB.current_entry->flags & DB_FLAG_BAD)
             {
-                Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_Warning));
-                Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Long));
+                Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_LoadROM_Warning));
+                Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Long));
                 Msg(MSGT_STATUS_BAR, "%s", Msg_Get(MSG_LoadROM_Bad_Dump_Short));
             }
 
             // Show Product Number
             if (DB.current_entry->product_no && g_configuration.show_product_number)
-                Msg(MSGT_USER_BOX, Msg_Get(MSG_LoadROM_Product_Num), DB.current_entry->product_no);
+                Msg(MSGT_USER_LOG, Msg_Get(MSG_LoadROM_Product_Num), DB.current_entry->product_no);
         }
 
         // Show SDSC Header

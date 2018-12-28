@@ -607,7 +607,7 @@ static void     Lang_Set (t_menu_event *event)
     gui_menu_uncheck_all (menus_ID.languages);
     gui_menu_check (menus_ID.languages, event->menu_item_idx);
     Msg(MSGT_USER, Msg_Get(MSG_Language_Set), Messages.Lang_Cur->Name);
-    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Language_Set_Warning));
+    Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Language_Set_Warning));
 
     // Post-process
     // FIXME: Rebuild menus
@@ -925,7 +925,7 @@ void            Msg(int attr, const char *format, ...)
         }
 
         // Add to user text box
-        if (attr & MSGT_USER_BOX)
+        if (attr & MSGT_USER_LOG)
             TB_Message_Print(src);
 
 #ifdef WIN32

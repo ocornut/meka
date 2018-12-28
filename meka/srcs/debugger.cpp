@@ -1415,7 +1415,7 @@ bool    Debugger_Symbols_Load()
                 error = true;
                 Msg(MSGT_USER, Msg_Get(MSG_Debug_Symbols_Error), symbol_filename);
             }
-            Msg(MSGT_USER_BOX, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
+            Msg(MSGT_USER_LOG, Msg_Get(MSG_Debug_Symbols_Error_Line), line_cnt);
         }
     }
 

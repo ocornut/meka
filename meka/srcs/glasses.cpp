@@ -292,7 +292,7 @@ void    Glasses_Switch_Mode_Com_Port (void)
     gui_menu_uncheck_range (menus_ID.glasses, 1, 4);
     gui_menu_check (menus_ID.glasses, 4);
     Msg(MSGT_USER, Msg_Get(MSG_Glasses_Com_Port), Glasses.ComPort);
-    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Glasses_Com_Port2));
+    Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Glasses_Com_Port2));
 }
 
 //-----------------------------------------------------------------------------

@@ -541,7 +541,7 @@ void        Skins_Select(t_skin *skin, bool fade)
         if (Skins.background_picture == NULL)
         {
             Msg(MSGT_USER, "%s", Msg_Get(MSG_Theme_Error_BG));
-            Msg(MSGT_USER_BOX, Msg_Get(MSG_Theme_Error_BG_FileName), Skins.skin_current->background_picture);
+            Msg(MSGT_USER_LOG, Msg_Get(MSG_Theme_Error_BG_FileName), Skins.skin_current->background_picture);
         }
     }
 }

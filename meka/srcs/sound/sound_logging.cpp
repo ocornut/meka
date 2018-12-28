@@ -160,6 +160,6 @@ void    Sound_LogVGM_Accuracy_Switch(void)
     gui_menu_toggle_check (menus_ID.sound_log, 2);
     if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
     {
-        Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Change));
+        Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Change));
     }
 }

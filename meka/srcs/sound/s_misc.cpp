@@ -31,7 +31,7 @@ void    FM_Disable (void)
 {
     Sound.FM_Enabled = FALSE;
     Msg(MSGT_USER, "%s", Msg_Get(MSG_FM_Disabled));
-    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Must_Reset));
+    Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Must_Reset));
     gui_menu_uncheck_range (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 1);
 }
@@ -40,7 +40,7 @@ void    FM_Enable (void)
 {
     Sound.FM_Enabled = TRUE;
     Msg(MSGT_USER, "%s", Msg_Get(MSG_FM_Enabled));
-    Msg(MSGT_USER_BOX, "%s", Msg_Get(MSG_Must_Reset));
+    Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Must_Reset));
     gui_menu_uncheck_range (menus_ID.fm, 0, 1);
     gui_menu_check (menus_ID.fm, 0);
 }

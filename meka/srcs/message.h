@@ -8,12 +8,12 @@
 //-----------------------------------------------------------------------------
 
 // Messages types
-#define MSGT_USER_BOX                   (0x01)
+#define MSGT_USER_LOG                   (0x01)
 #define MSGT_STATUS_BAR                 (0x02)
 #define MSGT_ATTR_DEBUG                 (0x04)
 
-#define MSGT_USER                       (MSGT_USER_BOX | MSGT_STATUS_BAR)
-#define MSGT_DEBUG                      (MSGT_USER_BOX | MSGT_ATTR_DEBUG)
+#define MSGT_USER                       (MSGT_USER_LOG | MSGT_STATUS_BAR)
+#define MSGT_DEBUG                      (MSGT_USER_LOG | MSGT_ATTR_DEBUG)
 
 //-----------------------------------------------------------------------------
 
