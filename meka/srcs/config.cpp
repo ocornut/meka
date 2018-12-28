@@ -88,22 +88,22 @@ static void     Configuration_Load_Line (char *var, char *value)
         int x, y;
         if (sscanf(value, "%dx%d", &x, &y) == 2)
         {
-            g_configuration.video_mode_gui_res_x = x;
-            g_configuration.video_mode_gui_res_y = y;
+            g_config.video_mode_gui_res_x = x;
+            g_config.video_mode_gui_res_y = y;
         }
         return;
     }
-    if (!strcmp(var, "video_gui_vsync"))                { g_configuration.video_mode_gui_vsync = (bool)atoi(value); return; }
-    if (!strcmp(var, "start_in_gui"))                   { g_configuration.start_in_gui = (bool)atoi(value); return; }
+    if (!strcmp(var, "video_gui_vsync"))                { g_config.video_mode_gui_vsync = (bool)atoi(value); return; }
+    if (!strcmp(var, "start_in_gui"))                   { g_config.start_in_gui = (bool)atoi(value); return; }
     if (!strcmp(var, "theme"))                          { Skins_SetSkinConfiguration(value); return; }
-    if (!strcmp(var, "game_window_scale"))              { g_configuration.game_window_scale = atof(value); if (g_configuration.game_window_scale < 0) g_configuration.game_window_scale = 1.0f; return; }
-    if (!strcmp(var, "fb_uses_db"))                     { g_configuration.fb_uses_DB = (bool)atoi(value); return; }
-    if (!strcmp(var, "fb_close_after_load"))            { g_configuration.fb_close_after_load = (bool)atoi(value); return; }
-    if (!strcmp(var, "fb_fullscreen_after_load"))       { g_configuration.fullscreen_after_load = (bool)atoi(value); return; }
+    if (!strcmp(var, "game_window_scale"))              { g_config.game_window_scale = atof(value); if (g_config.game_window_scale < 0) g_config.game_window_scale = 1.0f; return; }
+    if (!strcmp(var, "fb_uses_db"))                     { g_config.fb_uses_DB = (bool)atoi(value); return; }
+    if (!strcmp(var, "fb_close_after_load"))            { g_config.fb_close_after_load = (bool)atoi(value); return; }
+    if (!strcmp(var, "fb_fullscreen_after_load"))       { g_config.fullscreen_after_load = (bool)atoi(value); return; }
     if (!strcmp(var, "last_directory"))                 { snprintf(FB.current_directory, FILENAME_LEN, "%s", value); return; }
-    if (!strcmp(var, "bios_logo"))                      { g_configuration.enable_BIOS = (bool)atoi(value); return; }
+    if (!strcmp(var, "bios_logo"))                      { g_config.enable_BIOS = (bool)atoi(value); return; }
     if (!strcmp(var, "rapidfire"))                      { RapidFire = atoi(value); return; }
-    if (!strcmp(var, "country"))                        { if (!strcmp(value, "jp")) g_configuration.country = COUNTRY_JAPAN; else g_configuration.country = COUNTRY_EXPORT; return; }
+    if (!strcmp(var, "country"))                        { if (!strcmp(value, "jp")) g_config.country = COUNTRY_JAPAN; else g_config.country = COUNTRY_EXPORT; return; }
     if (!strcmp(var, "tv_type"))
     {
         if (strcmp(value, "ntsc") == 0)
@@ -114,17 +114,17 @@ static void     Configuration_Load_Line (char *var, char *value)
         TVType_Update_Values();
         return;
     }
-    if (!strcmp(var, "show_product_number"))            { g_configuration.show_product_number = (bool)atoi(value); return; }
-    if (!strcmp(var, "show_messages_fullscreen"))       { g_configuration.show_fullscreen_messages = (bool)atoi(value); return; }
+    if (!strcmp(var, "show_product_number"))            { g_config.show_product_number = (bool)atoi(value); return; }
+    if (!strcmp(var, "show_messages_fullscreen"))       { g_config.show_fullscreen_messages = (bool)atoi(value); return; }
     if (!strcmp(var, "screenshot_template"))
     { 
         // Note: Obsolete variable name, see below
         StrReplace(value, '*', ' ');
-        g_configuration.capture_filename_template = strdup(value);
+        g_config.capture_filename_template = strdup(value);
         return;
     }
-    if (!strcmp(var, "screenshots_filename_template"))  { g_configuration.capture_filename_template = strdup(value); return; }
-    if (!strcmp(var, "screenshots_crop_align_8x8"))     { g_configuration.capture_crop_align_8x8 = (bool)atoi(value); return; }
+    if (!strcmp(var, "screenshots_filename_template"))  { g_config.capture_filename_template = strdup(value); return; }
+    if (!strcmp(var, "screenshots_crop_align_8x8"))     { g_config.capture_crop_align_8x8 = (bool)atoi(value); return; }
     if (!strcmp(var, "3dglasses_mode"))                 { Glasses_Set_Mode(atoi(value)); return; }
     if (!strcmp(var, "3dglasses_com_port"))             { Glasses_Set_ComPort(atoi(value)); return; }
     if (!strcmp(var, "iperiod"))                        { opt.IPeriod = atoi(value); return; }
@@ -134,11 +134,11 @@ static void     Configuration_Load_Line (char *var, char *value)
     if (!strcmp(var, "sprite_flickering"))
     {
         if (strcmp(value, "auto") == 0)
-            g_configuration.sprite_flickering = SPRITE_FLICKERING_AUTO;
+            g_config.sprite_flickering = SPRITE_FLICKERING_AUTO;
         else if (strcmp(value, "yes") == 0)
-            g_configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
+            g_config.sprite_flickering = SPRITE_FLICKERING_ENABLED;
         else if (strcmp(value, "no") == 0)
-            g_configuration.sprite_flickering = SPRITE_FLICKERING_NO;
+            g_config.sprite_flickering = SPRITE_FLICKERING_NO;
         return;
     }
     if (!strcmp(var, "language"))                       { Lang_Set_by_Name(value); return; }
@@ -156,31 +156,31 @@ static void     Configuration_Load_Line (char *var, char *value)
     if (!strcmp(var, "video_gui_refresh_rate"))
     {
         if (!strcmp(value, "auto"))
-            g_configuration.video_mode_gui_refresh_rate = 0;
+            g_config.video_mode_gui_refresh_rate = 0;
         else
-            g_configuration.video_mode_gui_refresh_rate = atoi(value);
+            g_config.video_mode_gui_refresh_rate = atoi(value);
         return;
     }
-    if (!strcmp(var, "allow_opposite_directions"))      { g_configuration.allow_opposite_directions = (bool)atoi(value); return; }
-    if (!strcmp(var, "debugger_disassembly_display_labels")) { g_configuration.debugger_disassembly_display_labels = (bool)atoi(value); return; }
-    if (!strcmp(var, "debugger_log"))                   { g_configuration.debugger_log_enabled = (bool)atoi(value); return; }
-    if (!strcmp(var, "memory_editor_lines"))            { g_configuration.memory_editor_lines = MAX(1, atoi(value)); return; }
-    if (!strcmp(var, "memory_editor_columns"))          { g_configuration.memory_editor_columns = MAX(1, atoi(value)); return; }
-    if (!strcmp(var, "video_game_vsync"))               { g_configuration.video_mode_game_vsync = (bool)atoi(value); return; }
-    if (!strcmp(var, "screenshots_crop_scrolling_column")) { g_configuration.capture_crop_scrolling_column = (bool)atoi(value); return; }
-    if (!strcmp(var, "screenshots_include_gui"))        { g_configuration.capture_include_gui = (bool)atoi(value); return; }
-    if (!strcmp(var, "video_fullscreen"))               { g_configuration.video_fullscreen = (bool)atoi(value); return; }
-    if (!strcmp(var, "video_driver"))                   { g_configuration.video_driver = VideoDriver_FindByName(value); return; }
+    if (!strcmp(var, "allow_opposite_directions"))      { g_config.allow_opposite_directions = (bool)atoi(value); return; }
+    if (!strcmp(var, "debugger_disassembly_display_labels")) { g_config.debugger_disassembly_display_labels = (bool)atoi(value); return; }
+    if (!strcmp(var, "debugger_log"))                   { g_config.debugger_log_enabled = (bool)atoi(value); return; }
+    if (!strcmp(var, "memory_editor_lines"))            { g_config.memory_editor_lines = MAX(1, atoi(value)); return; }
+    if (!strcmp(var, "memory_editor_columns"))          { g_config.memory_editor_columns = MAX(1, atoi(value)); return; }
+    if (!strcmp(var, "video_game_vsync"))               { g_config.video_mode_game_vsync = (bool)atoi(value); return; }
+    if (!strcmp(var, "screenshots_crop_scrolling_column")) { g_config.capture_crop_scrolling_column = (bool)atoi(value); return; }
+    if (!strcmp(var, "screenshots_include_gui"))        { g_config.capture_include_gui = (bool)atoi(value); return; }
+    if (!strcmp(var, "video_fullscreen"))               { g_config.video_fullscreen = (bool)atoi(value); return; }
+    if (!strcmp(var, "video_driver"))                   { g_config.video_driver = VideoDriver_FindByName(value); return; }
 
     // Fonts
-    if (!strcmp(var, ("font_menus")))           { Font_FindByName(value, &g_configuration.font_menus); }
-    if (!strcmp(var, ("font_messages")))        { Font_FindByName(value, &g_configuration.font_messages); }
-    if (!strcmp(var, ("font_options")))         { Font_FindByName(value, &g_configuration.font_options); }
-    if (!strcmp(var, ("font_debugger")))        { Font_FindByName(value, &g_configuration.font_debugger); }
-    if (!strcmp(var, ("font_documentation")))   { Font_FindByName(value, &g_configuration.font_documentation); }
-    if (!strcmp(var, ("font_techinfo")))        { Font_FindByName(value, &g_configuration.font_techinfo); }
-    if (!strcmp(var, ("font_filebrowser")))     { Font_FindByName(value, &g_configuration.font_filebrowser); }
-    if (!strcmp(var, ("font_about")))           { Font_FindByName(value, &g_configuration.font_about); }
+    if (!strcmp(var, ("font_menus")))           { Font_FindByName(value, &g_config.font_menus); }
+    if (!strcmp(var, ("font_messages")))        { Font_FindByName(value, &g_config.font_messages); }
+    if (!strcmp(var, ("font_options")))         { Font_FindByName(value, &g_config.font_options); }
+    if (!strcmp(var, ("font_debugger")))        { Font_FindByName(value, &g_config.font_debugger); }
+    if (!strcmp(var, ("font_documentation")))   { Font_FindByName(value, &g_config.font_documentation); }
+    if (!strcmp(var, ("font_techinfo")))        { Font_FindByName(value, &g_config.font_techinfo); }
+    if (!strcmp(var, ("font_filebrowser")))     { Font_FindByName(value, &g_config.font_filebrowser); }
+    if (!strcmp(var, ("font_about")))           { Font_FindByName(value, &g_config.font_about); }
 
     // Obsolete variables
     if (!strcmp(var, "fm_emulator"))            {}
@@ -233,7 +233,7 @@ void Configuration_Load()
     // Free file data
     tfile_free(tf);
 
-    g_configuration.loaded_configuration_file = true;
+    g_config.loaded_configuration_file = true;
 }
 
 // Save configuration file data to MEKA.CFG
@@ -259,25 +259,25 @@ void Configuration_Save()
     CFG_Write_Line ("");
 
     CFG_Write_Line ( "-----< VIDEO >--------------------------------------------------------------");
-    CFG_Write_Str  ("video_driver", g_configuration.video_driver->name);
+    CFG_Write_Str  ("video_driver", g_config.video_driver->name);
     CFG_Write_Line ("(Available video drivers: opengl, directx)");
-    CFG_Write_Int  ("video_fullscreen", g_configuration.video_fullscreen);
+    CFG_Write_Int  ("video_fullscreen", g_config.video_fullscreen);
 
     CFG_Write_StrEscape("video_game_blitter", Blitters.current->name);
     CFG_Write_Line ("(See MEKA.BLT file to configure blitters/fullscreen modes)");
-    CFG_Write_Int  ("video_game_vsync", g_configuration.video_mode_game_vsync);
+    CFG_Write_Int  ("video_game_vsync", g_config.video_mode_game_vsync);
 
-    sprintf        (s1, "%dx%d", g_configuration.video_mode_gui_res_x, g_configuration.video_mode_gui_res_y);
+    sprintf        (s1, "%dx%d", g_config.video_mode_gui_res_x, g_config.video_mode_gui_res_y);
     CFG_Write_Str  ("video_gui_resolution", s1);
-    if (g_configuration.video_mode_gui_refresh_rate == 0)
+    if (g_config.video_mode_gui_refresh_rate == 0)
         CFG_Write_Str ("video_gui_refresh_rate", "auto");
     else
-        CFG_Write_Int ("video_gui_refresh_rate", g_configuration.video_mode_gui_refresh_rate);
+        CFG_Write_Int ("video_gui_refresh_rate", g_config.video_mode_gui_refresh_rate);
     CFG_Write_Line ("(Video mode refresh rate. Set 'auto' for default rate. Not all drivers");
     CFG_Write_Line (" support non-default rate. Customized values then depends on your video");
     CFG_Write_Line (" card and monitor. Setting to 60 (Hz) is usually a good thing as the screen");
     CFG_Write_Line (" will be refreshed at the same time as the emulated systems.)");
-    CFG_Write_Int  ("video_gui_vsync", g_configuration.video_mode_gui_vsync);
+    CFG_Write_Int  ("video_gui_vsync", g_config.video_mode_gui_vsync);
     CFG_Write_Line ("(enable vertical synchronisation for fast computers)");
     CFG_Write_Line ("");
 
@@ -292,38 +292,38 @@ void Configuration_Save()
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");
-    CFG_Write_Int  ("start_in_gui", g_configuration.start_in_gui);
+    CFG_Write_Int  ("start_in_gui", g_config.start_in_gui);
     CFG_Write_StrEscape("theme", Skins_GetCurrentSkin()->name);
-    fprintf(CFG_File, "game_window_scale = %.2f\n", g_configuration.game_window_scale); 
-    CFG_Write_Int  ("fb_uses_db", g_configuration.fb_uses_DB);
-    CFG_Write_Int  ("fb_close_after_load", g_configuration.fb_close_after_load);
-    CFG_Write_Int  ("fb_fullscreen_after_load", g_configuration.fullscreen_after_load);
+    fprintf(CFG_File, "game_window_scale = %.2f\n", g_config.game_window_scale); 
+    CFG_Write_Int  ("fb_uses_db", g_config.fb_uses_DB);
+    CFG_Write_Int  ("fb_close_after_load", g_config.fb_close_after_load);
+    CFG_Write_Int  ("fb_fullscreen_after_load", g_config.fullscreen_after_load);
     CFG_Write_StrEscape  ("last_directory", FB.current_directory);
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< MISCELLANEOUS OPTIONS >-----------------------------------------------");
     CFG_Write_StrEscape  ("language", Messages.Lang_Cur->Name);
-    CFG_Write_Int  ("bios_logo", g_configuration.enable_BIOS);
+    CFG_Write_Int  ("bios_logo", g_config.enable_BIOS);
     CFG_Write_Int  ("rapidfire", RapidFire);
-    CFG_Write_Str  ("country", (g_configuration.country == COUNTRY_EXPORT) ? "us/eu" : "jp");
+    CFG_Write_Str  ("country", (g_config.country == COUNTRY_EXPORT) ? "us/eu" : "jp");
     CFG_Write_Line ("(emulated machine country, either 'us/eu' or 'jp'");
-    if (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
+    if (g_config.sprite_flickering & SPRITE_FLICKERING_AUTO)
         CFG_Write_Line ("sprite_flickering = auto");
     else
-        CFG_Write_Str ("sprite_flickering", (g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) ? "yes" : "no");
+        CFG_Write_Str ("sprite_flickering", (g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED) ? "yes" : "no");
     CFG_Write_Line ("(hardware sprite flickering emulator, either 'yes', 'no', or 'auto'");
     CFG_Write_Str  ("tv_type", (TV_Type_User->id == TVTYPE_NTSC) ? "ntsc" : "pal/secam");
     CFG_Write_Line ("(emulated TV type, either 'ntsc' or 'pal/secam'");
     //CFG_Write_Int  ("tv_snow_effect", effects.TV_Enabled);
-    //CFG_Write_Str  ("palette", (g_configuration.palette_type == PALETTE_TYPE_MUTED) ? "muted" : "bright");
+    //CFG_Write_Str  ("palette", (g_config.palette_type == PALETTE_TYPE_MUTED) ? "muted" : "bright");
     //CFG_Write_Line ("(palette type, either 'muted' or 'bright'");
-    CFG_Write_Int  ("show_product_number", g_configuration.show_product_number);
-    CFG_Write_Int  ("show_messages_fullscreen", g_configuration.show_fullscreen_messages);
-    CFG_Write_Int  ("allow_opposite_directions", g_configuration.allow_opposite_directions);
-    CFG_Write_StrEscape  ("screenshots_filename_template", g_configuration.capture_filename_template);
-    CFG_Write_Int  ("screenshots_crop_scrolling_column", g_configuration.capture_crop_scrolling_column);
-    CFG_Write_Int  ("screenshots_crop_align_8x8", g_configuration.capture_crop_align_8x8);
-    CFG_Write_Int  ("screenshots_include_gui", g_configuration.capture_include_gui);
+    CFG_Write_Int  ("show_product_number", g_config.show_product_number);
+    CFG_Write_Int  ("show_messages_fullscreen", g_config.show_fullscreen_messages);
+    CFG_Write_Int  ("allow_opposite_directions", g_config.allow_opposite_directions);
+    CFG_Write_StrEscape  ("screenshots_filename_template", g_config.capture_filename_template);
+    CFG_Write_Int  ("screenshots_crop_scrolling_column", g_config.capture_crop_scrolling_column);
+    CFG_Write_Int  ("screenshots_crop_align_8x8", g_config.capture_crop_align_8x8);
+    CFG_Write_Int  ("screenshots_include_gui", g_config.capture_include_gui);
     CFG_Write_StrEscape  ("music_wav_filename_template", Sound.LogWav_FileName_Template);
     CFG_Write_StrEscape  ("music_vgm_filename_template", Sound.LogVGM_FileName_Template);
     CFG_Write_Line ("(see documentation for more information about templates)");
@@ -335,14 +335,14 @@ void Configuration_Save()
     CFG_Write_Line ("( available fonts:");
     for (int i = 0; i < FONTID_COUNT_; i++)
         CFG_Write_Line("  - %s, %d px%s", Fonts[i].text_id, Fonts[i].height, i+1==FONTID_COUNT_ ? " )" : "");
-    CFG_Write_Str  ("font_menus",           Fonts[g_configuration.font_menus].text_id);
-    CFG_Write_Str  ("font_messages",        Fonts[g_configuration.font_messages].text_id);
-    CFG_Write_Str  ("font_options",         Fonts[g_configuration.font_options].text_id);
-    CFG_Write_Str  ("font_debugger",        Fonts[g_configuration.font_debugger].text_id);
-    CFG_Write_Str  ("font_documentation",   Fonts[g_configuration.font_documentation].text_id);
-    CFG_Write_Str  ("font_techinfo",        Fonts[g_configuration.font_techinfo].text_id);
-    CFG_Write_Str  ("font_filebrowser",     Fonts[g_configuration.font_filebrowser].text_id);
-    CFG_Write_Str  ("font_about",           Fonts[g_configuration.font_about].text_id);
+    CFG_Write_Str  ("font_menus",           Fonts[g_config.font_menus].text_id);
+    CFG_Write_Str  ("font_messages",        Fonts[g_config.font_messages].text_id);
+    CFG_Write_Str  ("font_options",         Fonts[g_config.font_options].text_id);
+    CFG_Write_Str  ("font_debugger",        Fonts[g_config.font_debugger].text_id);
+    CFG_Write_Str  ("font_documentation",   Fonts[g_config.font_documentation].text_id);
+    CFG_Write_Str  ("font_techinfo",        Fonts[g_config.font_techinfo].text_id);
+    CFG_Write_Str  ("font_filebrowser",     Fonts[g_config.font_filebrowser].text_id);
+    CFG_Write_Str  ("font_about",           Fonts[g_config.font_about].text_id);
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< 3-D GLASSES EMULATION >-----------------------------------------------");
@@ -365,10 +365,10 @@ void Configuration_Save()
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< DEBUGGING FUNCTIONNALITIES -------------------------------------------");
-    CFG_Write_Int  ("debugger_disassembly_display_labels", g_configuration.debugger_disassembly_display_labels);
-    CFG_Write_Int  ("debugger_log", g_configuration.debugger_log_enabled);
-    CFG_Write_Int  ("memory_editor_lines", g_configuration.memory_editor_lines);
-    CFG_Write_Int  ("memory_editor_columns", g_configuration.memory_editor_columns);
+    CFG_Write_Int  ("debugger_disassembly_display_labels", g_config.debugger_disassembly_display_labels);
+    CFG_Write_Int  ("debugger_log", g_config.debugger_log_enabled);
+    CFG_Write_Int  ("memory_editor_lines", g_config.memory_editor_lines);
+    CFG_Write_Int  ("memory_editor_columns", g_config.memory_editor_columns);
     CFG_Write_Line ("(preferably make columns a multiple of 8)");
     CFG_Write_Line ("");
 

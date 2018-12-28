@@ -49,7 +49,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
     frame.size.x = app->box->frame.size.x - (4*2);
     frame.size.y = app->box->frame.size.y - (2*2);
     if (setup)
-        app->widget_textbox = widget_textbox_add(app->box, &frame, (t_font_id)g_configuration.font_messages);
+        app->widget_textbox = widget_textbox_add(app->box, &frame, (t_font_id)g_config.font_messages);
     else
         app->widget_textbox->frame = frame;
 }
@@ -57,7 +57,7 @@ static void TB_Message_Layout(t_app_messages *app, bool setup)
 void        TB_Message_Init()
 {
     t_app_messages *app = &TB_Message;  // Global instance
-    t_font_id font_id = (t_font_id)g_configuration.font_messages;
+    t_font_id font_id = (t_font_id)g_config.font_messages;
 
     app->active = true;
 

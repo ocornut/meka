@@ -25,15 +25,15 @@ void        gui_redraw_bars()
 {
     // Redraw status bar
     al_set_target_bitmap(gui_buffer);
-    al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height,     g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
-    al_draw_filled_rectangle(0, g_configuration.video_mode_gui_res_y - gui.info.bars_height - 2, g_configuration.video_mode_gui_res_x+1, g_configuration.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
+    al_draw_filled_rectangle(0, g_config.video_mode_gui_res_y - gui.info.bars_height,     g_config.video_mode_gui_res_x+1, g_config.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    al_draw_filled_rectangle(0, g_config.video_mode_gui_res_y - gui.info.bars_height - 2, g_config.video_mode_gui_res_x+1, g_config.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
 
-    t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    t_font_id font_id = (t_font_id)g_config.font_menus;
 
     // Show status bar message
     if (g_gui_status.timeleft)
     {
-        Font_Print(font_id, g_gui_status.message, g_gui_status.x, g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(font_id, g_gui_status.message, g_gui_status.x, g_config.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
         g_gui_status.timeleft --;
     }
 
@@ -42,13 +42,13 @@ void        gui_redraw_bars()
     {
         char s[16];
         sprintf(s, "%.1f FPS", fskipper.FPS);
-        Font_Print(font_id, s, g_configuration.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        Font_Print(font_id, s, g_config.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_config.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
     }
 
     // Show current time
     char s[16];
     meka_time_getf(s);
-    Font_Print(font_id, s, g_configuration.video_mode_gui_res_x - 10 - Font_TextWidth(FONTID_CUR, s), g_configuration.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    Font_Print(font_id, s, g_config.video_mode_gui_res_x - 10 - Font_TextWidth(FONTID_CUR, s), g_config.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
 }
 
 void            gui_update_menu (int n_menu, int n_parent, int n_parent_entry, int generation)
@@ -144,7 +144,7 @@ void    gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 {
     t_menu *menu = menus[n_menu];
 
-    const t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    const t_font_id font_id = (t_font_id)g_config.font_menus;
     const int label_to_shortcut_y_offset = (Font_Height(font_id) - Font_Height(FONTID_MEDIUM)) / 2 + 1;
 
     if (n_menu == MENU_ID_MAIN)
@@ -153,8 +153,8 @@ void    gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
 
         // Draw menu background
         al_set_target_bitmap(gui_buffer);
-        al_draw_filled_rectangle(0, 0, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
-        al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_configuration.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
+        al_draw_filled_rectangle(0, 0, g_config.video_mode_gui_res_x+1, gui.info.bars_height+1, COLOR_SKIN_MENU_BACKGROUND);
+        al_draw_filled_rectangle(0, gui.info.bars_height + 1, g_config.video_mode_gui_res_x+1, gui.info.bars_height + 2+1, COLOR_SKIN_MENU_BORDER);
 
         // Draw menu entries
         int x = menus_opt.spacing_render;
@@ -162,7 +162,7 @@ void    gui_draw_menu(int n_menu, int n_parent, int n_parent_entry)
         for (int i = 0; i < menu->n_entry; i ++)
         {
             const int ln = Font_TextWidth(FONTID_CUR, menu->entry[i]->label);
-            if (x + ln > g_configuration.video_mode_gui_res_x)
+            if (x + ln > g_config.video_mode_gui_res_x)
                 break;
             if ((menu->entry[i]->mouse_over) && (menu->entry[i]->flags & MENU_ITEM_FLAG_ACTIVE))
             {

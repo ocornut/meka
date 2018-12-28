@@ -348,7 +348,7 @@ void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
         else
         {
             const u8 src8 = *src;
-            if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+            if (!(g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
                 PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
@@ -362,7 +362,7 @@ void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
             }
             // if (Sprites_On_Line [y] == 5) { }
             y++;
-            if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+            if (!(g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
             {
                 PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
                 if  (src8 & 0x80) { dst8[0]  = dst8[1]  = fcolor; }
@@ -394,7 +394,7 @@ void    Draw_Sprite_Mono (const u8 *src, int x, int y, int fcolor_idx)
     {
         if (y < 0 || y > 191)
             continue;
-        if (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
+        if (!(g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED) || Sprites_On_Line [y] <= 4)
         {
             const u8     src8 = *src;
             PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;

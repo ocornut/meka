@@ -234,7 +234,7 @@ void        widget_set_user_data(t_widget *w, void *user_data)
 
 t_widget *  widget_closebox_add(t_gui_box *box, t_widget_callback callback)
 {
-    t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    t_font_id font_id = (t_font_id)g_config.font_menus;
 
     t_frame frame;
     frame.size.x = Font_Height(font_id) - 5;

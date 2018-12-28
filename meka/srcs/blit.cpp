@@ -91,7 +91,7 @@ void    Blit_CreateVideoBuffers()
     Blit_DestroyVideoBuffers();
 
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-    al_set_new_bitmap_format(g_configuration.video_game_format_request);
+    al_set_new_bitmap_format(g_config.video_game_format_request);
     Blit_Buffer_LineScratch = al_create_bitmap(MAX_RES_X * 2, 1);
     Blit_Buffer_Double      = al_create_bitmap((MAX_RES_X + 32) * 2, (MAX_RES_Y + 32)*2);
 }
@@ -109,7 +109,7 @@ static void Blit_Fullscreen_Misc(void)
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
     // FIXME: 70 should be replaced by actual screen refresh rate ... how can we obtain it ?
-    if (g_configuration.video_mode_game_vsync)
+    if (g_config.video_mode_game_vsync)
     {
         if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
             al_wait_for_vsync();
@@ -316,7 +316,7 @@ void    Blit_Fullscreen(void)
 
     Blitters_Table[Blitters.current->blitter].blit_func();
 
-    if (g_gui_status.timeleft && g_configuration.show_fullscreen_messages)
+    if (g_gui_status.timeleft && g_config.show_fullscreen_messages)
     {
         Blit_Fullscreen_Message(fs_out, g_gui_status.timeleft);
         g_gui_status.timeleft --;
@@ -328,7 +328,7 @@ void    Blit_Fullscreen(void)
 void    Blit_GUI(void)
 {
     // Wait for VSync if necessary
-    if (g_configuration.video_mode_gui_vsync)
+    if (g_config.video_mode_gui_vsync)
     {
         // FIXME: see note about line below in Blit_Fullscreen()
         if (!(fskipper.Mode == FRAMESKIP_MODE_THROTTLED && fskipper.Throttled_Speed > 70))
@@ -349,7 +349,7 @@ void    Blit_GUI(void)
     PROFILE_STEP("al_flip_display");
 
     // Update 3-D Glasses (if no VSync)
-    if (!g_configuration.video_mode_gui_vsync)
+    if (!g_config.video_mode_gui_vsync)
         if (Glasses.Enabled)
             Glasses_Update();
 }

@@ -288,7 +288,7 @@ void    gui_box_create_video_buffer(t_gui_box *box)
     }
 
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-    al_set_new_bitmap_format(g_configuration.video_gui_format_request);
+    al_set_new_bitmap_format(g_config.video_gui_format_request);
     box->gfx_buffer = al_create_bitmap(box->frame.size.x+1, box->frame.size.y+1);
     assert(box->gfx_buffer);
 
@@ -467,7 +467,7 @@ void    gui_box_resize(t_gui_box *box, int size_x, int size_y, bool interactive)
     box->frame.size.y = size_y;
 
     if (box->size_fixed_ratio)
-        g_configuration.game_window_scale = (size_x+1) / (float)g_driver->x_res;
+        g_config.game_window_scale = (size_x+1) / (float)g_driver->x_res;
 
     gui_box_create_video_buffer(box);
     gui.info.must_redraw = true;

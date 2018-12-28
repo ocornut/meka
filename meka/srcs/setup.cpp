@@ -86,7 +86,7 @@ static BOOL CALLBACK    Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT mess
 
             // Fill video driver combo box
             combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER);
-            default_selection = g_configuration.video_driver - &g_video_drivers[0];
+            default_selection = g_config.video_driver - &g_video_drivers[0];
             t_video_driver* driver = &g_video_drivers[0];
             while (driver->name)
             {
@@ -174,16 +174,16 @@ static BOOL CALLBACK    Setup_Interactive_Win32_DialogProc (HWND hDlg, UINT mess
 
                         // Video Driver
                         if ((n = SendMessage(GetDlgItem(hDlg, IDC_SETUP_VIDEO_DRIVER), CB_GETCURSEL, 0, 0)) != CB_ERR)
-                            g_configuration.video_driver = &g_video_drivers[n];
+                            g_config.video_driver = &g_video_drivers[n];
 
                         // Video Display Mode
                         combo_hwnd = GetDlgItem(hDlg, IDC_SETUP_VIDEO_DISPLAY_MODE);
                         if ((n = SendMessage(combo_hwnd, CB_GETCURSEL, 0, 0)) != CB_ERR)
                         {
                             t_video_mode* display_mode = (t_video_mode*)SendMessage(combo_hwnd, CB_GETITEMDATA, n, 0);
-                            g_configuration.video_mode_gui_res_x = display_mode->w;
-                            g_configuration.video_mode_gui_res_y = display_mode->h;
-                            g_configuration.video_mode_gui_refresh_rate = display_mode->refresh_rate;
+                            g_config.video_mode_gui_res_x = display_mode->w;
+                            g_config.video_mode_gui_res_y = display_mode->h;
+                            g_config.video_mode_gui_refresh_rate = display_mode->refresh_rate;
                         }
 
                         // Sample Rate

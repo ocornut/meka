@@ -54,7 +54,7 @@ static void     AboutBox_Layout(bool setup)
     // Print about information lines
     {
         int y = 12;
-        Font_SetCurrent((t_font_id)g_configuration.font_about);
+        Font_SetCurrent((t_font_id)g_config.font_about);
         for (int i = 0; i < 4; i ++)
         {
             char buffer[256];

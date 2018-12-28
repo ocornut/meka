@@ -550,7 +550,7 @@ void        Debugger_Init_Values()
 static void Debugger_Init_LogFile()
 {
     // Open log file if not already open
-    if (g_configuration.debugger_log_enabled && Debugger.log_file == NULL)
+    if (g_config.debugger_log_enabled && Debugger.log_file == NULL)
     {
         char filename[FILENAME_LEN];
         if (!al_filename_exists(g_env.Paths.DebugDirectory))
@@ -1933,7 +1933,7 @@ static void Debugger_Applet_Init()
     t_frame frame;
 
     // Create box
-    app->font_id = (t_font_id)g_configuration.font_debugger;
+    app->font_id = (t_font_id)g_config.font_debugger;
     app->font_height = Font_Height(app->font_id);
     frame.pos.x     = 428;
     frame.pos.y     = 50;
@@ -2253,7 +2253,7 @@ void    Debugger_Applet_RedrawState()
                         trackback_lines--;
 
                         // account for labels showing in disassembler
-                        if (g_configuration.debugger_disassembly_display_labels)
+                        if (g_config.debugger_disassembly_display_labels)
                             if (Debugger.symbols_cpu_space[pc_trackback])
                                 trackback_lines -= list_size(Debugger.symbols_cpu_space[pc_trackback]);
                     }
@@ -2294,7 +2294,7 @@ void    Debugger_Applet_RedrawState()
             const ALLEGRO_COLOR text_color = (pc == sms.R.PC.W) ? COLOR_SKIN_WINDOW_TEXT_HIGHLIGHT : COLOR_SKIN_WINDOW_TEXT;
             int opcode_size;
 
-            if (g_configuration.debugger_disassembly_display_labels)
+            if (g_config.debugger_disassembly_display_labels)
             {
                 bool pc_in_bios;
                 const int pc_rom_addr = Debugger_ReverseMapFindRomAddress(pc, &pc_in_bios);
@@ -2329,7 +2329,7 @@ void    Debugger_Applet_RedrawState()
             //Debugger_Z80_PC_Log_Queue_Add(pc);
 
             // Disassemble
-            //if (g_configuration.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
+            //if (g_config.debugger_disassembly_display_labels && Debugger.symbols_count != 0)
             buf[0] = ' ';
             opcode_size = Debugger_Disassemble_Format(buf + 1, pc, pc == sms.R.PC.W);
 

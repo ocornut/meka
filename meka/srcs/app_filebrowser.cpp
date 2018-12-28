@@ -138,7 +138,7 @@ void    FB_Init_2()
 
 void    FB_Layout(t_filebrowser *app, bool setup)
 {
-    app->font_id = (t_font_id)g_configuration.font_filebrowser;
+    app->font_id = (t_font_id)g_config.font_filebrowser;
 
     al_set_target_bitmap(app->box->gfx_buffer);
     al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
@@ -368,7 +368,7 @@ void    FB_Add_Entries(t_list *ext_list, int type)
 
         // Create a new file browser entry of given type
         t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-        if (g_configuration.fb_uses_DB)
+        if (g_config.fb_uses_DB)
             FB_Entry_FindVLFN (entry);
 
         // Add to list (FIXME: argh)
@@ -422,7 +422,7 @@ void    FB_Add_Entries(t_list *ext_list, int type)
 
         // Create a new file browser entry of given type
         t_filebrowser_entry *entry = FB_Entry_New (type, strdup (name));
-        if (g_configuration.fb_uses_DB)
+        if (g_config.fb_uses_DB)
             FB_Entry_FindVLFN (entry);
 
         // Add to list (FIXME: argh)
@@ -957,11 +957,11 @@ void    FB_OpenFile(const char* name)
     strncpy(g_env.Paths.MediaImageFile, name, sizeof(g_env.Paths.MediaImageFile));
     Load_ROM(LOAD_MODE_GUI, true);
     FB_Reload_Names();
-    if (g_configuration.fb_close_after_load)
+    if (g_config.fb_close_after_load)
     {
         FB_Switch();
     }
-    if (g_configuration.fullscreen_after_load)
+    if (g_config.fullscreen_after_load)
     {
         Action_Switch_Mode();
     }
@@ -1007,7 +1007,7 @@ void    FB_Click_List (t_widget *w)
 // Load all names from DB, based on current country
 void    FB_Reload_Names()
 {
-    if (!g_configuration.fb_uses_DB)
+    if (!g_config.fb_uses_DB)
         return;
 
     // Get all names

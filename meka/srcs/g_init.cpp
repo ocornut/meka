@@ -42,14 +42,14 @@ void    GUI_Init()
 
     gui.info.screen_pad.x = 2;
     gui.info.screen_pad.y = 2;
-    gui.info.bars_height = Font_Height((t_font_id)g_configuration.font_menus)+3;
+    gui.info.bars_height = Font_Height((t_font_id)g_config.font_menus)+3;
     gui.info.grid_distance = 32;
 
     gui.boxes = NULL;
     gui.boxes_count = 0;
 
-    gui.info.screen.x = g_configuration.video_mode_gui_res_x;
-    gui.info.screen.y = g_configuration.video_mode_gui_res_y;
+    gui.info.screen.x = g_config.video_mode_gui_res_x;
+    gui.info.screen.y = g_config.video_mode_gui_res_y;
     GUI_CreateVideoBuffers();
 
     Desktop_Init();
@@ -70,8 +70,8 @@ void    GUI_Init()
 void    GUI_SetupNewVideoMode()
 {
     gui.info.must_redraw = TRUE;
-    gui.info.screen.x = g_configuration.video_mode_gui_res_x;
-    gui.info.screen.y = g_configuration.video_mode_gui_res_y;
+    gui.info.screen.x = g_config.video_mode_gui_res_x;
+    gui.info.screen.y = g_config.video_mode_gui_res_y;
     GUI_CreateVideoBuffers();
 
     Skins_StartupFadeIn();
@@ -109,14 +109,14 @@ void    GUI_CreateVideoBuffers()
 
     // Setup buffers
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-    al_set_new_bitmap_format(g_configuration.video_gui_format_request);
+    al_set_new_bitmap_format(g_config.video_gui_format_request);
     gui_buffer = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
     al_set_target_bitmap(gui_buffer);
     al_clear_to_color(COLOR_BLACK);
     g_gui_buffer_format = al_get_bitmap_format(gui_buffer);
 
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-    al_set_new_bitmap_format(g_configuration.video_gui_format_request);
+    al_set_new_bitmap_format(g_config.video_gui_format_request);
     gui_background = al_create_bitmap(gui.info.screen.x, gui.info.screen.x);
 
     Skins_Background_Redraw();

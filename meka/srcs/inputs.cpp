@@ -226,8 +226,8 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                // GUI fullscreen/windowed
                 if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
                 {
-                    g_configuration.video_fullscreen ^= 1;
-                    //al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_configuration.video_fullscreen);
+                    g_config.video_fullscreen ^= 1;
+                    //al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_config.video_fullscreen);
                     Video_Setup_State();
                     return;
                 }

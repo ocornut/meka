@@ -415,7 +415,7 @@ void    Machine_Set_Country(void)
     if (DB.current_entry && DB.current_entry->emu_country != -1)
         sms.Country = DB.current_entry->emu_country;
     else
-        sms.Country = g_configuration.country;
+        sms.Country = g_config.country;
 }
 
 void    Machine_Set_IPeriod(void)
@@ -602,12 +602,12 @@ void        Machine_Reset(void)
     tsms.VDP_Video_Change = VDP_VIDEO_CHANGE_ALL;
 
     // GRAPHICS: SPRITE FLICKERING --------------------------------------------
-    if (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO)
+    if (g_config.sprite_flickering & SPRITE_FLICKERING_AUTO)
     {
         if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
-            g_configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
+            g_config.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
         else
-            g_configuration.sprite_flickering &= ~SPRITE_FLICKERING_ENABLED;
+            g_config.sprite_flickering &= ~SPRITE_FLICKERING_ENABLED;
     }
 
     // PALETTE ----------------------------------------------------------------

@@ -109,9 +109,9 @@ void    Action_Switch_Layer_Background (void)
 // ACTION: SWITCH SPRITE FLICKERING TO 'AUTOMATIC' ----------------------------
 void    Action_Switch_Flickering_Auto (void)
 {
-    g_configuration.sprite_flickering = SPRITE_FLICKERING_AUTO;
+    g_config.sprite_flickering = SPRITE_FLICKERING_AUTO;
     if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
-        g_configuration.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
+        g_config.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
     gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 0);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_Auto));
@@ -120,7 +120,7 @@ void    Action_Switch_Flickering_Auto (void)
 // ACTION: SWITCH SPRITE FLICKERING TO 'TRUE' ----------------------------------
 void    Action_Switch_Flickering_Yes (void)
 {
-    g_configuration.sprite_flickering = SPRITE_FLICKERING_ENABLED;
+    g_config.sprite_flickering = SPRITE_FLICKERING_ENABLED;
     gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 1);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_Yes));
@@ -129,7 +129,7 @@ void    Action_Switch_Flickering_Yes (void)
 // ACTION: SWITCH SPRITE FLICKERING TO 'FALSE' -----------------------------------
 void    Action_Switch_Flickering_No (void)
 {
-    g_configuration.sprite_flickering = SPRITE_FLICKERING_NO;
+    g_config.sprite_flickering = SPRITE_FLICKERING_NO;
     gui_menu_uncheck_all (menus_ID.flickering);
     gui_menu_check (menus_ID.flickering, 2);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_No));

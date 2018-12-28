@@ -254,14 +254,14 @@ extern t_meka_env  g_env;
 // This structure should basically reflect the content of MEKA.CFG
 //-----------------------------------------------------------------------------
 
-// Values for g_configuration.sprite_flickering
+// Values for g_config.sprite_flickering
 #define SPRITE_FLICKERING_NO        (0)
 #define SPRITE_FLICKERING_ENABLED   (1)
 #define SPRITE_FLICKERING_AUTO      (2) // Default
 
 struct t_video_driver;
 
-struct t_meka_configuration
+struct t_meka_config
 {
     bool    loaded_configuration_file;
 
@@ -320,7 +320,7 @@ struct t_meka_configuration
     int             font_about;
 };
 
-extern t_meka_configuration    g_configuration;
+extern t_meka_config    g_config;
 
 //-----------------------------------------------------------------------------
 // Media image

@@ -315,7 +315,7 @@ bool    Load_ROM(t_load_mode load_mode, bool user_verbose)
             }
 
             // Show Product Number
-            if (DB.current_entry->product_no && g_configuration.show_product_number)
+            if (DB.current_entry->product_no && g_config.show_product_number)
                 Msg(MSGT_USER_LOG, Msg_Get(MSG_LoadROM_Product_Num), DB.current_entry->product_no);
         }
 
@@ -650,7 +650,7 @@ void    Load_ROM_Misc (int reset)
 
     // BIOS load/unload
     // FIXME: this is a mess
-    if ((g_configuration.enable_BIOS) && (g_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
+    if ((g_config.enable_BIOS) && (g_machine.driver_id == DRV_SMS) && (sms.Country == COUNTRY_EXPORT))
         BIOS_Load();
     else
         BIOS_Unload();

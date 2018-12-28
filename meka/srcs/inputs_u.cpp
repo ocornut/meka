@@ -291,7 +291,7 @@ void    Inputs_Emulation_Update(bool running)
     }
 
     // Correct the cases where opposite directions are pressed
-    if (!g_configuration.allow_opposite_directions)
+    if (!g_config.allow_opposite_directions)
         Inputs_FixUpJoypadOppositesDirections();
 
     // Simulate Rapid Fire

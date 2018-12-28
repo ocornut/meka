@@ -9,7 +9,7 @@
 #include "vdp.h"
 
 // Keep request enabled if we're in 'all frames' capture mode
-//if (!g_configuration.capture_all_frames)
+//if (!g_config.capture_all_frames)
 //Capture.request = FALSE;
 
 //-----------------------------------------------------------------------------
@@ -76,7 +76,7 @@ static void Capture_FileName_Get(char *dst)
     }
 
     char s2[FILENAME_LEN];
-    sprintf(s2, "%%s/%s", g_configuration.capture_filename_template);
+    sprintf(s2, "%%s/%s", g_config.capture_filename_template);
 
     // Create a full filename and check if the file already exists. Loop if it is the case.
     // Note: CAPTURE_ID_MAX is 9999, for all capturing this gives us 2mn46s worth of frames at 60 FPS.
@@ -105,7 +105,7 @@ static void     Capture_Screen()
     int x_start, x_len;
     int y_start, y_len;
     ALLEGRO_BITMAP* source = NULL;
-    if ((g_env.state == MEKA_STATE_GAME) || (!g_configuration.capture_include_gui)) 
+    if ((g_env.state == MEKA_STATE_GAME) || (!g_config.capture_include_gui)) 
     {
         // Fullscreen
         source = screenbuffer;
@@ -115,7 +115,7 @@ static void     Capture_Screen()
         y_len = g_driver->y_res;
 
         // Crop left column
-        if (g_configuration.capture_crop_scrolling_column)
+        if (g_config.capture_crop_scrolling_column)
         {
             if ((g_driver->id == DRV_SMS) && (tsms.VDP_VideoMode > 4) && (Mask_Left_8))
             {
@@ -126,7 +126,7 @@ static void     Capture_Screen()
 
         // Automatic crop on tile boundaries (for map making)
         // In total, remove 8 pixels from each axis
-        if (g_configuration.capture_crop_align_8x8)
+        if (g_config.capture_crop_align_8x8)
         {
             const int scroll_x = g_machine.VDP.scroll_x_latched;
             const int scroll_y = g_machine.VDP.scroll_y_latched;
@@ -141,8 +141,8 @@ static void     Capture_Screen()
         // GUI mode
         x_start = 0;
         y_start = 0;
-        x_len = g_configuration.video_mode_gui_res_x;
-        y_len = g_configuration.video_mode_gui_res_y;
+        x_len = g_config.video_mode_gui_res_x;
+        y_len = g_config.video_mode_gui_res_y;
         source = gui_buffer;
     }
     else
@@ -206,7 +206,7 @@ void    Capture_MenuHandler_AllFrames(void)
 
 void    Capture_MenuHandler_IncludeGui(void)
 {
-    g_configuration.capture_include_gui = !g_configuration.capture_include_gui;
+    g_config.capture_include_gui = !g_config.capture_include_gui;
     gui_menu_toggle_check(menus_ID.screenshots, 2);
 }
 

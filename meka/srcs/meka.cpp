@@ -61,7 +61,7 @@ TSMS_TYPE               tsms;
 t_machine               g_machine;
 t_meka_env              g_env;
 t_media_image           g_media_rom;            // FIXME-WIP: Not fully used
-t_meka_configuration    g_configuration;
+t_meka_config    g_config;
 
 extern "C"  // C-style mangling for ASM linkage
 {
@@ -157,60 +157,60 @@ static void Init_Default_Values()
     // Machine
     g_machine.driver_id = DRV_SMS;
 
-    g_configuration.loaded_configuration_file     = false;
+    g_config.loaded_configuration_file     = false;
 
-    g_configuration.country                       = COUNTRY_EXPORT;
-    g_configuration.sprite_flickering             = SPRITE_FLICKERING_AUTO;
-    g_configuration.enable_BIOS                   = true;
-    g_configuration.show_product_number           = false;
-    g_configuration.show_fullscreen_messages      = true;
-    g_configuration.enable_NES                    = false;
-    g_configuration.allow_opposite_directions     = false;
-    g_configuration.start_in_gui                  = true;
+    g_config.country                       = COUNTRY_EXPORT;
+    g_config.sprite_flickering             = SPRITE_FLICKERING_AUTO;
+    g_config.enable_BIOS                   = true;
+    g_config.show_product_number           = false;
+    g_config.show_fullscreen_messages      = true;
+    g_config.enable_NES                    = false;
+    g_config.allow_opposite_directions     = false;
+    g_config.start_in_gui                  = true;
 
     // Applet: Game Screen
-    g_configuration.game_window_scale             = 1.0f;
+    g_config.game_window_scale             = 1.0f;
 
     // Applet: File Browser
-    g_configuration.fb_close_after_load           = false;
-    g_configuration.fb_uses_DB                    = true;
-    g_configuration.fullscreen_after_load         = true;
+    g_config.fb_close_after_load           = false;
+    g_config.fb_uses_DB                    = true;
+    g_config.fullscreen_after_load         = true;
 
     // Applet: Debugger
-    g_configuration.debugger_disassembly_display_labels = true;
-    g_configuration.debugger_log_enabled          = true;
+    g_config.debugger_disassembly_display_labels = true;
+    g_config.debugger_log_enabled          = true;
 
     // Applet: Memory Editor
-    g_configuration.memory_editor_lines             = 16;
-    g_configuration.memory_editor_columns           = 16;
+    g_config.memory_editor_lines             = 16;
+    g_config.memory_editor_columns           = 16;
 
     // Video
-    g_configuration.video_driver                    = g_video_driver_default;
-    g_configuration.video_fullscreen                = false;
-    g_configuration.video_game_format_request       = ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
-    g_configuration.video_gui_format_request        = ALLEGRO_PIXEL_FORMAT_ANY_NO_ALPHA;
+    g_config.video_driver                    = g_video_driver_default;
+    g_config.video_fullscreen                = false;
+    g_config.video_game_format_request       = ALLEGRO_PIXEL_FORMAT_ANY_16_NO_ALPHA;
+    g_config.video_gui_format_request        = ALLEGRO_PIXEL_FORMAT_ANY_NO_ALPHA;
 
-    g_configuration.video_mode_game_vsync           = false;
-    g_configuration.video_mode_gui_res_x            = 1024;
-    g_configuration.video_mode_gui_res_y            = 768;
-    g_configuration.video_mode_gui_refresh_rate     = 0;    // Auto
-    g_configuration.video_mode_gui_vsync            = false;
+    g_config.video_mode_game_vsync           = false;
+    g_config.video_mode_gui_res_x            = 1024;
+    g_config.video_mode_gui_res_y            = 768;
+    g_config.video_mode_gui_refresh_rate     = 0;    // Auto
+    g_config.video_mode_gui_vsync            = false;
 
     // Capture
-    g_configuration.capture_filename_template       = "%s-%02d.png";
-    g_configuration.capture_crop_scrolling_column   = true;
-    g_configuration.capture_crop_align_8x8          = false;
-    g_configuration.capture_include_gui             = true;
+    g_config.capture_filename_template       = "%s-%02d.png";
+    g_config.capture_crop_scrolling_column   = true;
+    g_config.capture_crop_align_8x8          = false;
+    g_config.capture_include_gui             = true;
 
     // Fonts
-    g_configuration.font_menus                      = FONTID_LARGE; // FONTID_CRISP;
-    g_configuration.font_messages                   = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
-    g_configuration.font_options                    = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
-    g_configuration.font_debugger                   = FONTID_PROGGY_SQUARE; //FONTID_PROGGYCLEAN;
-    g_configuration.font_documentation              = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
-    g_configuration.font_techinfo                   = FONTID_PROGGY_SQUARE; //FONTID_PROGGYCLEAN;
-    g_configuration.font_filebrowser                = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
-    g_configuration.font_about                      = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+    g_config.font_menus                      = FONTID_LARGE; // FONTID_CRISP;
+    g_config.font_messages                   = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+    g_config.font_options                    = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+    g_config.font_debugger                   = FONTID_PROGGY_SQUARE; //FONTID_PROGGYCLEAN;
+    g_config.font_documentation              = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+    g_config.font_techinfo                   = FONTID_PROGGY_SQUARE; //FONTID_PROGGYCLEAN;
+    g_config.font_filebrowser                = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
+    g_config.font_about                      = FONTID_PROGGY_CLEAN; //FONTID_PROGGYCLEAN;
 
     // Media
     // FIXME: yet not fully used
@@ -406,11 +406,11 @@ int main(int argc, char **argv)
     ConsolePrintf ("%s\n--\n", Msg_Get(MSG_Init_Completed));
 
     // Save configuration file early on (so that bad drivers, will still create a default .cfg file etc.)
-    if (!g_configuration.loaded_configuration_file)
+    if (!g_config.loaded_configuration_file)
         Configuration_Save();
 
     // Setup display (fullscreen/GUI)
-    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_configuration.start_in_gui)
+    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_config.start_in_gui)
         g_env.state = MEKA_STATE_GAME;
     else
         g_env.state = MEKA_STATE_GUI;

@@ -689,7 +689,7 @@ t_db_entry *    DB_Entry_Find(u32 crc32, const t_meka_crc *mekacrc)
 const char *    DB_Entry_GetCurrentName (const t_db_entry *entry)
 {
     // In Japanese country mode, search for a Japanese name
-    if (g_configuration.country == COUNTRY_JAPAN)
+    if (g_config.country == COUNTRY_JAPAN)
     {
         const t_db_name *name = DB_Entry_GetNameByCountry (entry, DB_COUNTRY_JP);
         if (name)

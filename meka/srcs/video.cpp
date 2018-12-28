@@ -84,7 +84,7 @@ void Video_CreateVideoBuffers()
 
     // Allocate buffers
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP | ALLEGRO_NO_PRESERVE_TEXTURE);
-    al_set_new_bitmap_format(g_configuration.video_game_format_request);
+    al_set_new_bitmap_format(g_config.video_game_format_request);
     screenbuffer_1      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer_2      = al_create_bitmap(MAX_RES_X + 32, MAX_RES_Y + 32);
     screenbuffer        = screenbuffer_1;
@@ -152,7 +152,7 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
         display_flags |= ALLEGRO_WINDOWED;
     al_set_new_display_flags(display_flags);
     al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST);
-    al_set_new_display_refresh_rate(g_configuration.video_mode_gui_refresh_rate);
+    al_set_new_display_refresh_rate(g_config.video_mode_gui_refresh_rate);
     g_display = al_create_display(w, h);
 
     if (!g_display)
@@ -281,14 +281,14 @@ void    Video_EnumerateDisplayModes()
     {
         t_video_mode* video_mode = &display_modes[i];
 
-        int dx = (video_mode->w - g_configuration.video_mode_gui_res_x);
-        int dy = (video_mode->h - g_configuration.video_mode_gui_res_y);
+        int dx = (video_mode->w - g_config.video_mode_gui_res_x);
+        int dy = (video_mode->h - g_config.video_mode_gui_res_y);
         float d2 = dx*dx + dy*dy;
 
         if (closest_d2 > d2)
         {
             if (closest_index != -1)
-                if (video_mode->refresh_rate != 0 && g_configuration.video_mode_gui_refresh_rate != 0 && video_mode->refresh_rate != g_configuration.video_mode_gui_refresh_rate)
+                if (video_mode->refresh_rate != 0 && g_config.video_mode_gui_refresh_rate != 0 && video_mode->refresh_rate != g_config.video_mode_gui_refresh_rate)
                     continue;
             closest_d2 = d2;
             closest_index = i;
@@ -312,12 +312,12 @@ void    Video_Setup_State()
         }
     case MEKA_STATE_GAME: // FullScreen mode ----------------------------
         {
-            const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
-            const int game_res_x = g_configuration.video_mode_gui_res_x;
-            const int game_res_y = g_configuration.video_mode_gui_res_y;
-            const bool game_fullscreen = g_configuration.video_fullscreen;
+            const int refresh_rate = g_config.video_mode_gui_refresh_rate;
+            const int game_res_x = g_config.video_mode_gui_res_x;
+            const int game_res_y = g_config.video_mode_gui_res_y;
+            const bool game_fullscreen = g_config.video_fullscreen;
 
-            if (Video_ChangeVideoMode(g_configuration.video_driver, game_res_x, game_res_y, game_fullscreen, refresh_rate, FALSE) != MEKA_ERR_OK)
+            if (Video_ChangeVideoMode(g_config.video_driver, game_res_x, game_res_y, game_fullscreen, refresh_rate, FALSE) != MEKA_ERR_OK)
             {
                 g_env.state = MEKA_STATE_GUI;
                 Video_Setup_State();
@@ -331,10 +331,10 @@ void    Video_Setup_State()
         break;
     case MEKA_STATE_GUI:
         {
-            const int refresh_rate = g_configuration.video_mode_gui_refresh_rate;
-            const int gui_res_x = g_configuration.video_mode_gui_res_x;
-            const int gui_res_y = g_configuration.video_mode_gui_res_y;
-            Video_ChangeVideoMode(g_configuration.video_driver, gui_res_x, gui_res_y, g_configuration.video_fullscreen, refresh_rate, TRUE);
+            const int refresh_rate = g_config.video_mode_gui_refresh_rate;
+            const int gui_res_x = g_config.video_mode_gui_res_x;
+            const int gui_res_y = g_config.video_mode_gui_res_y;
+            Video_ChangeVideoMode(g_config.video_driver, gui_res_x, gui_res_y, g_config.video_fullscreen, refresh_rate, TRUE);
             if (opt.GUI_Inited)
                 gui_redraw_everything_now_once();
         }

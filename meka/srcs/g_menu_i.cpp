@@ -57,7 +57,7 @@ void    gui_menus_init()
 {
     char buffer[256];
 
-    t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    t_font_id font_id = (t_font_id)g_config.font_menus;
 
     g_gui_status.x = 10;
     Msg(MSGT_USER_LOG, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
@@ -121,8 +121,8 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_On),              NULL,            MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Machine_ON, NULL);
     menu_add_item     (menus_ID.power,    Msg_Get(MSG_Menu_Machine_Power_Off),             NULL,            MENU_ITEM_FLAG_ACTIVE /* | AM_Checked */, (t_menu_callback)Machine_OFF, NULL);
     // MACHINE -> COUNTRY
-    menu_add_item     (menus_ID.region,   Msg_Get(MSG_Menu_Machine_Region_Export),         NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_Export, NULL);
-    menu_add_item     (menus_ID.region,   Msg_Get(MSG_Menu_Machine_Region_Japan),          NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_Japan, NULL);
+    menu_add_item     (menus_ID.region,   Msg_Get(MSG_Menu_Machine_Region_Export),         NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.country == COUNTRY_EXPORT), (t_menu_callback)Set_Country_Export, NULL);
+    menu_add_item     (menus_ID.region,   Msg_Get(MSG_Menu_Machine_Region_Japan),          NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.country == COUNTRY_JAPAN),  (t_menu_callback)Set_Country_Japan, NULL);
     // MACHINE -> TV TYPE
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_NTSC),           NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_NTSC), (t_menu_callback)TVType_Set_NTSC, NULL);
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_PALSECAM),       NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_PAL_SECAM), (t_menu_callback)TVType_Set_PAL_SECAM, NULL);
@@ -136,7 +136,7 @@ void    gui_menus_init()
     menus_ID.screenshots = menu_add_menu (menus_ID.video, Msg_Get(Msg_Menu_Video_ScreenCapture),    MENU_ITEM_FLAG_ACTIVE);
     menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_Capture),      "PrintScreen",  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Capture_MenuHandler_Capture, NULL);
     menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_CaptureRepeat),NULL,           MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Capture_MenuHandler_AllFrames, NULL);
-    menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_IncludeGui),   NULL,           MENU_ITEM_FLAG_ACTIVE | Is_Checked(g_configuration.capture_include_gui), (t_menu_callback)Capture_MenuHandler_IncludeGui, NULL);
+    menu_add_item(menus_ID.screenshots, Msg_Get(Msg_Menu_Video_ScreenCapture_IncludeGui),   NULL,           MENU_ITEM_FLAG_ACTIVE | Is_Checked(g_config.capture_include_gui), (t_menu_callback)Capture_MenuHandler_IncludeGui, NULL);
     // VIDEO -> THEMES
     menus_ID.themes   = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Themes),     MENU_ITEM_FLAG_ACTIVE);
     Skins_MenuInit (menus_ID.themes);
@@ -149,9 +149,9 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.layers,   Msg_Get(MSG_Menu_Video_Layers_Background),       "Ctrl+F11",      MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Action_Switch_Layer_Background, NULL);
     // VIDEO -> FLICKERING
     menus_ID.flickering = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_Flickering), MENU_ITEM_FLAG_ACTIVE);
-    menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_Auto),       NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO), (t_menu_callback)Action_Switch_Flickering_Auto, NULL);
-    menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_Yes),        NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO) && (g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_Yes, NULL);
-    menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_No),         NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (!(g_configuration.sprite_flickering & SPRITE_FLICKERING_AUTO) && !(g_configuration.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_No, NULL);
+    menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_Auto),       NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.sprite_flickering & SPRITE_FLICKERING_AUTO), (t_menu_callback)Action_Switch_Flickering_Auto, NULL);
+    menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_Yes),        NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (!(g_config.sprite_flickering & SPRITE_FLICKERING_AUTO) && (g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_Yes, NULL);
+    menu_add_item     (menus_ID.flickering, Msg_Get(MSG_Menu_Video_Flickering_No),         NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (!(g_config.sprite_flickering & SPRITE_FLICKERING_AUTO) && !(g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED)), (t_menu_callback)Action_Switch_Flickering_No, NULL);
     // VIDEO -> GLASSES (3-D)
     menus_ID.glasses  = menu_add_menu (menus_ID.video, Msg_Get(MSG_Menu_Video_3DGlasses),  MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.glasses,  Msg_Get(MSG_Menu_Video_3DGlasses_Enabled),       NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (Glasses.Enabled), (t_menu_callback)Glasses_Switch_Enable, NULL);

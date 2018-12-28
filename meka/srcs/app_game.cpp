@@ -23,7 +23,7 @@ t_gui_box *  gamebox_instance;
 
 void        gamebox_draw(t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 {
-    const float scale = g_configuration.game_window_scale;
+    const float scale = g_config.game_window_scale;
 
     int     x_start = g_driver->x_start;
     int     y_start = g_driver->y_show_start;
@@ -51,8 +51,8 @@ void        gamebox_draw(t_gui_box *box, ALLEGRO_BITMAP *game_buffer)
 
 void        gamebox_compute_size(int *x, int *y)
 {
-    *x = (g_driver->x_res * g_configuration.game_window_scale) - 1;
-    *y = (g_driver->y_res * g_configuration.game_window_scale) - 1;
+    *x = (g_driver->x_res * g_config.game_window_scale) - 1;
+    *y = (g_driver->y_res * g_config.game_window_scale) - 1;
 }
 
 t_gui_box * gamebox_create(int x, int y)

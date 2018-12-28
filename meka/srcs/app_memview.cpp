@@ -236,8 +236,8 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
 
     // Setup members
     app->active = TRUE;
-    app->size_columns    = (size_columns != -1) ? size_columns : g_configuration.memory_editor_columns;
-    app->size_lines      = (size_lines != -1)   ? size_lines   : g_configuration.memory_editor_lines;
+    app->size_columns    = (size_columns != -1) ? size_columns : g_config.memory_editor_columns;
+    app->size_lines      = (size_lines != -1)   ? size_lines   : g_config.memory_editor_lines;
 
     app->frame_hex.size.x = (app->size_columns * (Font_Height(FONTID_MEDIUM) * (2) - 1)) + ((app->size_columns - 1) / 8) * MEMVIEW_COLUMNS_8_PADDING;
     app->frame_hex.size.y = app->size_lines * Font_Height(FONTID_MEDIUM);

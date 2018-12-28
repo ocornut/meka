@@ -39,7 +39,7 @@ void    gui_menu_return_children_pos(int p_menu, int p_entry, int *x, int *y)
 
 void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, int *x2, int *y2)
 {
-    t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    t_font_id font_id = (t_font_id)g_config.font_menus;
 
     t_menu* menu = menus[menu_id];
     if (menu_id == MENU_ID_MAIN)
@@ -76,7 +76,7 @@ void    gui_menu_return_entry_pos(int menu_id, int n_entry, int *x1, int *y1, in
 // UPDATE THE SIZE OF A MENU --------------------------------------------------
 void    gui_menu_update_size(int menu_id)
 {
-    t_font_id font_id = (t_font_id)g_configuration.font_menus;
+    t_font_id font_id = (t_font_id)g_config.font_menus;
 
     int size_x = 0;
     int size_y = 0;

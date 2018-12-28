@@ -26,12 +26,12 @@ void    Set_Country_Export()
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_European_US));
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Must_Reset));
-    g_configuration.country = COUNTRY_EXPORT;
+    g_config.country = COUNTRY_EXPORT;
     gui_menu_uncheck_all(menus_ID.region);
     gui_menu_check(menus_ID.region, 0);
 
     // Set emulation country
-    sms.Country = g_configuration.country;
+    sms.Country = g_config.country;
 
     // Update game boxes name and file browser
     gamebox_rename_all();
@@ -43,12 +43,12 @@ void    Set_Country_Japan()
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_JAP));
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Must_Reset));
-    g_configuration.country = COUNTRY_JAPAN;
+    g_config.country = COUNTRY_JAPAN;
     gui_menu_uncheck_all (menus_ID.region);
     gui_menu_check (menus_ID.region, 1);
 
     // Set emulation country
-    sms.Country = g_configuration.country;
+    sms.Country = g_config.country;
 
     // Update game boxes name and file browser
     gamebox_rename_all();

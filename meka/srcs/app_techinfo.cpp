@@ -39,7 +39,7 @@ static void TechInfo_Layout(t_app_tech_info *app, bool setup)
 
 void        TechInfo_Init()
 {
-    t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
+    t_font_id font_id = (t_font_id)g_config.font_techinfo;
 
     t_frame frame;
     frame.pos.x = 306;
@@ -65,7 +65,7 @@ void        TechInfo_Init()
 
 static void TechInfo_Redraw(t_app_tech_info* app)
 {
-    t_font_id font_id = (t_font_id)g_configuration.font_techinfo;
+    t_font_id font_id = (t_font_id)g_config.font_techinfo;
 
     al_set_target_bitmap(app->box->gfx_buffer);
     for (int i = 0; i != TECHINFO_LINES; i++)
