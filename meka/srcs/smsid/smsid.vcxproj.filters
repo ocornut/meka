@@ -6,7 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="replacement_code.cpp" />
     <ClCompile Include="smsid.cpp" />
     <ClCompile Include="..\db.cpp">
       <Filter>deps</Filter>
@@ -17,6 +16,7 @@
     <ClCompile Include="..\libparse.cpp">
       <Filter>deps</Filter>
     </ClCompile>
+    <ClCompile Include="smsid_stubs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -112,7 +112,7 @@
     <ClCompile Include="..\db.cpp" />
     <ClCompile Include="..\libmisc.cpp" />
     <ClCompile Include="..\libparse.cpp" />
-    <ClCompile Include="replacement_code.cpp" />
+    <ClCompile Include="smsid_stubs.cpp" />
     <ClCompile Include="smsid.cpp" />
   </ItemGroup>
   <ItemGroup>
