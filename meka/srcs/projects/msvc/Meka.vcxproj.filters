@@ -414,9 +414,6 @@
     <ClCompile Include="..\..\sg1ksc3k.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_about.cpp">
-      <Filter>Srcs\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\app_cheatfinder.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
@@ -781,9 +778,6 @@
     </ClInclude>
     <ClInclude Include="..\..\sg1ksc3k.h">
       <Filter>Srcs\Machines</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\app_about.h">
-      <Filter>Srcs\Applets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\app_cheatfinder.h">
       <Filter>Srcs\Applets</Filter>

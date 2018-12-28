@@ -6,7 +6,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "app_about.h"
 #include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_mapview.h"
@@ -51,7 +50,6 @@ void    gui_update_applets()
 
     TechInfo_Update();
     FB_Update();
-    AboutBox_Update();
     TextViewer_Update(&TextViewer);
     PROFILE_STEP("- misc");
 

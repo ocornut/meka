@@ -292,8 +292,9 @@ struct t_meka_config
     int             memory_editor_columns;
 
     // Applet: Misc
-    bool            log_active;
-    bool            options_active;
+    bool            log_active = true;
+    bool            options_active = false;
+    bool            about_active = false;
 
     // Video
     t_video_driver* video_driver;

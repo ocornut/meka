@@ -102,6 +102,7 @@ static void     Configuration_Load_Line (char *var, char *value)
     if (!strcmp(var, "fb_fullscreen_after_load"))       { g_config.fullscreen_after_load = (bool)atoi(value); return; }
     if (!strcmp(var, "log_active"))                     { g_config.log_active = (bool)atoi(value); return; }
     if (!strcmp(var, "options_active"))                 { g_config.options_active = (bool)atoi(value); return; }
+    if (!strcmp(var, "about_active"))                   { g_config.about_active = (bool)atoi(value); return; }
     if (!strcmp(var, "last_directory"))                 { snprintf(FB.current_directory, FILENAME_LEN, "%s", value); return; }
     if (!strcmp(var, "bios_logo"))                      { g_config.enable_BIOS = (bool)atoi(value); return; }
     if (!strcmp(var, "rapidfire"))                      { RapidFire = atoi(value); return; }
@@ -302,6 +303,7 @@ void Configuration_Save()
     CFG_Write_StrEscape  ("last_directory", FB.current_directory);
     CFG_Write_Int  ("log_active", g_config.log_active);
     CFG_Write_Int  ("options_active", g_config.options_active);
+    CFG_Write_Int  ("about_active", g_config.about_active);
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< MISCELLANEOUS OPTIONS >-----------------------------------------------");

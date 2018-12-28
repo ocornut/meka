@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "app_about.h"
 #include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_game.h"
@@ -136,7 +135,6 @@ void    GUI_Close()
 
 void    GUI_InitApplets()
 {
-    AboutBox_Init();
     MemoryViewer_MainInstance = MemoryViewer_New(TRUE, -1, -1);
     TilemapViewer_MainInstance = TilemapViewer_New(TRUE);
     g_CheatFinder_MainInstance = CheatFinder_New(TRUE);

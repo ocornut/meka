@@ -105,6 +105,10 @@ void    NewGui_Close()
     NewGui_CloseImGui();
 }
 
+//-----------------------------------------------------------------------------
+// APPLET: Game
+//-----------------------------------------------------------------------------
+
 void    NewGui_GameDraw()
 {
     // FIXME-IMGUI: Resize in fixed steps
@@ -142,6 +146,10 @@ void    NewGui_GameDraw()
     ImGui::End();
     ImGui::PopStyleVar(2);
 }
+
+//-----------------------------------------------------------------------------
+// APPLET: Log/Messages
+//-----------------------------------------------------------------------------
 
 void    NewGui_LogDraw()
 {
@@ -189,6 +197,10 @@ void    NewGui_LogAddTextLine(const char* line)
         fprintf(ng->log_file, "%s\n", line);
 }
 
+//-----------------------------------------------------------------------------
+// APPLET: Memory Editor
+//-----------------------------------------------------------------------------
+
 void    NewGui_MemEditorDraw()
 {
     if (!MemoryViewer_MainInstance->active)
@@ -211,7 +223,10 @@ void    NewGui_MemEditorDraw()
     ImGui::End();
 }
 
-// Applet: Palette Viewer
+//-----------------------------------------------------------------------------
+// APPLET: Palette Viewer
+//-----------------------------------------------------------------------------
+
 // FIXME-IMGUI: Resize mechanism. Window resize steps? Zoom button?
 void    NewGui_PaletteDraw()
 {
@@ -229,6 +244,7 @@ void    NewGui_PaletteDraw()
     // FIXME: Move to saved structure.
     static bool opt_show_memory = false;
     static int opt_icon_size = 20;
+    opt_icon_size = ImMax(8, opt_icon_size);
 
     // Runtime
     ImGuiStyle& style = ImGui::GetStyle();
@@ -351,6 +367,10 @@ void    NewGui_PaletteDraw()
     ImGui::End();
 }
 
+//-----------------------------------------------------------------------------
+// APPLET: Options
+//-----------------------------------------------------------------------------
+
 void    NewGui_OptionsDraw()
 {
     if (!g_config.options_active)
@@ -389,6 +409,48 @@ void    NewGui_OptionsDraw()
     ImGui::End();
 }
 
+//-----------------------------------------------------------------------------
+// APPLET: About Box
+//-----------------------------------------------------------------------------
+
+void    NewGui_AboutDraw()
+{
+    if (!g_config.about_active)
+        return;
+
+    Str128f title("%s###About", Msg_Get(MSG_About_BoxTitle));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12, 12));
+    bool open = ImGui::Begin(title.c_str(), &g_config.about_active, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::PopStyleVar();
+    if (!open)
+    {
+        ImGui::End();
+        return;
+    }
+
+    ALLEGRO_BITMAP* bmp = Graphics.Misc.Dragon;
+
+    ImGui::Dummy(ImVec2(8.0f, 1.0f));
+    ImGui::SameLine();
+    ImGui::Image(bmp, ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)));
+    ImGui::SameLine();
+    ImGui::Dummy(ImVec2(8.0f, 1.0f));
+    ImGui::SameLine();
+
+    ImGui::BeginGroup();
+    ImGui::Text(Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE);
+    ImGui::Text(Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT);
+    ImGui::Text(Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE);
+    ImGui::Text("Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
+    ImGui::EndGroup();
+
+    ImGui::End();
+}
+
+//-----------------------------------------------------------------------------
+// Main Menu Bar
+//-----------------------------------------------------------------------------
+
 void    NewGui_MainMenu()
 {
     if (!ImGui::BeginMainMenuBar())
@@ -424,6 +486,12 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Help)))
+    {
+        ImGui::MenuItem(Msg_Get(MSG_Menu_Help_About), NULL, &g_config.about_active);
+        ImGui::EndMenu();
+    }
+
     ImGui::EndMainMenuBar();
 }
 
@@ -440,6 +508,7 @@ void    NewGui_Draw()
     NewGui_MemEditorDraw();
     NewGui_PaletteDraw();
     NewGui_OptionsDraw();
+    NewGui_AboutDraw();
 
     ImGui::ShowDemoWindow();
 
