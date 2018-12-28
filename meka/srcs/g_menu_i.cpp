@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "app_about.h"
 #include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_mapview.h"
@@ -234,7 +233,7 @@ void    gui_menus_init()
 #ifdef MEKA_Z80_DEBUGGER
     menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_Debugger),       NULL,     MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)TextViewer_Switch_Doc_Debugger, NULL);
 #endif // MEKA_Z80_DEBUGGER
-    menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_About),          NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (AboutBox.active), (t_menu_callback)AboutBox_Switch, NULL);
+    menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_About),          NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked(g_config.about_active), [](t_menu_event*) { g_config.about_active ^= 1; }, NULL);
 
     // ...
     gui_menu_un_mouse_over(menus_ID.root);

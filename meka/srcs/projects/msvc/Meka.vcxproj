@@ -235,7 +235,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\allegro4to5.cpp" />
-    <ClCompile Include="..\..\app_about.cpp" />
     <ClCompile Include="..\..\app_cheatfinder.cpp" />
     <ClCompile Include="..\..\app_filebrowser.cpp" />
     <ClCompile Include="..\..\app_game.cpp" />
@@ -367,7 +366,6 @@
     <ClInclude Include="..\..\..\libs\imgui\imstb_truetype.h" />
     <ClInclude Include="..\..\..\libs\str\Str.h" />
     <ClInclude Include="..\..\allegro4to5.h" />
-    <ClInclude Include="..\..\app_about.h" />
     <ClInclude Include="..\..\app_cheatfinder.h" />
     <ClInclude Include="..\..\app_filebrowser.h" />
     <ClInclude Include="..\..\app_game.h" />

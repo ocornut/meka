@@ -188,10 +188,6 @@ static void Init_Default_Values()
     g_config.memory_editor_lines             = 16;
     g_config.memory_editor_columns           = 16;
 
-    // Applet: Misc / Visibility
-    g_config.log_active = true;
-    g_config.options_active = false;
-
     // Video
     g_config.video_driver                    = g_video_driver_default;
     g_config.video_fullscreen                = false;
