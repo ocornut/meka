@@ -144,8 +144,6 @@ enum
     MSG_Palette_Enabled,
 
     MSG_Message_BoxTitle,
-    MSG_Message_Disabled,
-    MSG_Message_Enabled,
 
     MSG_TechInfo_BoxTitle,
     MSG_TechInfo_Disabled,

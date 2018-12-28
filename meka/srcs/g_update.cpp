@@ -20,7 +20,6 @@
 #include "g_widget.h"
 #include "inputs_t.h"
 #include "skin_fx.h"
-#include "textbox.h"
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -51,16 +50,10 @@ void    gui_update_applets()
     PaletteViewer_Update();
     PROFILE_STEP("- PaletteViewer_Update");
 
-    //if (TB_Message.Active)
-    //    TB_Update (TB_Message.TB);
-    //if (apps.active.FM_Editor)
-    //    gui.box [apps.id.FM_Editor]->update();
-
     TechInfo_Update();
     FB_Update();
     Options_Update();
     AboutBox_Update();
-    TB_Message_Update();
     TextViewer_Update(&TextViewer);
     PROFILE_STEP("- misc");
 

@@ -332,7 +332,6 @@
     <ClCompile Include="..\..\sound\s_misc.cpp" />
     <ClCompile Include="..\..\sound\vgm.cpp" />
     <ClCompile Include="..\..\sound\wav.cpp" />
-    <ClCompile Include="..\..\textbox.cpp" />
     <ClCompile Include="..\..\tools.cpp" />
     <ClCompile Include="..\..\tvoekaki.cpp" />
     <ClCompile Include="..\..\tvtype.cpp" />
@@ -464,7 +463,6 @@
     <ClInclude Include="..\..\sound\vgm.h" />
     <ClInclude Include="..\..\sound\wav.h" />
     <ClInclude Include="..\..\system.h" />
-    <ClInclude Include="..\..\textbox.h" />
     <ClInclude Include="..\..\tools.h" />
     <ClInclude Include="..\..\tvoekaki.h" />
     <ClInclude Include="..\..\tvtype.h" />

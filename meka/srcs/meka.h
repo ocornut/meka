@@ -291,6 +291,9 @@ struct t_meka_config
     int             memory_editor_lines;
     int             memory_editor_columns;
 
+    // Applet: Misc
+    bool            log_active;
+
     // Video
     t_video_driver* video_driver;
     bool            video_fullscreen;
@@ -311,7 +314,6 @@ struct t_meka_config
 
     // Fonts (t_font_id)
     int             font_menus;
-    int             font_messages;
     int             font_options;
     int             font_debugger;
     int             font_documentation;
