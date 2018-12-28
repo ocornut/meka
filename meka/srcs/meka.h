@@ -293,6 +293,7 @@ struct t_meka_config
 
     // Applet: Misc
     bool            log_active;
+    bool            options_active;
 
     // Video
     t_video_driver* video_driver;

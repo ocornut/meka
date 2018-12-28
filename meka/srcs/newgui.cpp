@@ -13,7 +13,6 @@
 #include "app_memview.h"
 #include "palette.h"
 #include "saves.h"
-#include "app_options.h"
 #include "vmachine.h"
 
 // FIXME-IMGUI: Skinning: font, colors, etc.
@@ -352,6 +351,44 @@ void    NewGui_PaletteDraw()
     ImGui::End();
 }
 
+void    NewGui_OptionsDraw()
+{
+    if (!g_config.options_active)
+        return;
+
+    Str128f title("%s###Options", Msg_Get(MSG_Options_BoxTitle));
+    if (!ImGui::Begin(title.c_str(), &g_config.options_active, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::End();
+        return;
+    }
+
+    ImGui::Text("Emulation");
+    ImGui::Separator();
+    ImGui::Checkbox(Msg_Get(MSG_Options_BIOS_Enable), &g_config.enable_BIOS);
+    //if (ImGui::Checkbox(Msg_Get(MSG_Options_Bright_Palette), &g_config.palette_type)) Palette_Emu_Reload();
+    ImGui::Checkbox(Msg_Get(MSG_Options_Allow_Opposite_Directions), &g_config.allow_opposite_directions);
+
+    ImGui::Spacing();
+    ImGui::Text("User Interface");
+    ImGui::Separator();
+    if (ImGui::Checkbox(Msg_Get(MSG_Options_DB_Display), &g_config.fb_uses_DB))
+        FB_Load_Directory();
+    ImGui::Checkbox(Msg_Get(MSG_Options_Product_Number), &g_config.show_product_number);
+    ImGui::Checkbox(Msg_Get(MSG_Options_Load_Close), &g_config.fb_close_after_load);
+    ImGui::Checkbox(Msg_Get(MSG_Options_Load_FullScreen), &g_config.fullscreen_after_load);
+    ImGui::Checkbox(Msg_Get(MSG_Options_FullScreen_Messages), &g_config.show_fullscreen_messages);
+    ImGui::Checkbox(Msg_Get(MSG_Options_GUI_VSync), &g_config.video_mode_gui_vsync);
+    ImGui::Checkbox(Msg_Get(MSG_Options_Capture_Crop_Align), &g_config.capture_crop_align_8x8);
+    if (ImGui::Checkbox(Msg_Get(MSG_Options_NES_Enable), &g_config.enable_NES))
+    {
+        g_config.enable_NES = false;
+        Msg(MSGT_STATUS_BAR, "%s", Msg_Get(MSG_NES_Deny_Facts));
+    }
+
+    ImGui::End();
+}
+
 void    NewGui_MainMenu()
 {
     if (!ImGui::BeginMainMenuBar())
@@ -368,7 +405,7 @@ void    NewGui_MainMenu()
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_PrevSlot), "F6"))           SaveState_SetPrevSlot();
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_PrevSlot), "F8"))           SaveState_SetNextSlot();
         ImGui::Separator();
-        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Options), "Alt+O", Options.active))   Options_Switch();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Options), "Alt+O", &g_config.options_active)) {}
         if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Main_Language)))
         {
             for (t_list* langs = Messages.Langs; langs; langs = langs->next)
@@ -402,6 +439,7 @@ void    NewGui_Draw()
     NewGui_LogDraw();
     NewGui_MemEditorDraw();
     NewGui_PaletteDraw();
+    NewGui_OptionsDraw();
 
     ImGui::ShowDemoWindow();
 

@@ -234,9 +234,12 @@ static void    Desktop_Save_Item(t_desktop_item *item, FILE *f)
 {
     fprintf(f, "[%s]\n", item->name);
     fprintf(f, "active=%d\n", item->active);
-    fprintf(f, "pos=%d,%d\n", item->pos.x, item->pos.y);
-    if (item->box->flags & GUI_BOX_FLAGS_ALLOW_RESIZE)
-        fprintf(f, "size=%d,%d\n", item->size.x, item->size.y);
+    if (item->box)
+    {
+        fprintf(f, "pos=%d,%d\n", item->pos.x, item->pos.y);
+        if (item->box->flags & GUI_BOX_FLAGS_ALLOW_RESIZE)
+            fprintf(f, "size=%d,%d\n", item->size.x, item->size.y);
+    }
     fprintf(f, "\n");
 }
 
