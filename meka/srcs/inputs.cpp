@@ -5,7 +5,6 @@
 
 #include "shared.h"
 #include "app_filebrowser.h"
-#include "app_options.h"
 #include "app_palview.h"
 #include "app_techinfo.h"
 #include "app_tileview.h"
@@ -202,7 +201,7 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
                    Frame_Skipper_Switch_FPS_Counter();
                // Applets hotkeys
                if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE)) FB_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE)) Options_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE)) g_config.options_active ^= 1;
                if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE)) g_config.log_active ^= 1;
                if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)) PaletteViewer_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE)) TileViewer_Switch();
