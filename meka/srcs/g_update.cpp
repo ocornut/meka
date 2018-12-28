@@ -15,7 +15,6 @@
 #include "app_techinfo.h"
 #include "app_textview.h"
 #include "app_tileview.h"
-#include "app_options.h"
 #include "debugger.h"
 #include "g_widget.h"
 #include "inputs_t.h"
@@ -52,7 +51,6 @@ void    gui_update_applets()
 
     TechInfo_Update();
     FB_Update();
-    Options_Update();
     AboutBox_Update();
     TextViewer_Update(&TextViewer);
     PROFILE_STEP("- misc");

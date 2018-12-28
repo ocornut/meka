@@ -11,7 +11,6 @@
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_palview.h"
-#include "app_options.h"
 #include "app_techinfo.h"
 #include "app_textview.h"
 #include "app_tileview.h"
@@ -154,7 +153,6 @@ void    GUI_InitApplets()
     PaletteViewer_Init();
     // FM_Editor_Init();
     FB_Init();
-    Options_Init_Applet();
     Inputs_CFG_Init_Applet();
 
 #ifdef SOUND_DEBUG_APPLET

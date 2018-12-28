@@ -9,7 +9,6 @@
 #include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
-#include "app_options.h"
 #include "app_palview.h"
 #include "app_techinfo.h"
 #include "app_textview.h"
@@ -91,7 +90,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState_PrevSlot), "F6",      MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SaveState_SetPrevSlot, NULL);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_SaveState_NextSlot), "F8",      MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)SaveState_SetNextSlot, NULL);
     menu_add_separator(menus_ID.file);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),           "Alt+O",    MENU_ITEM_FLAG_ACTIVE | Is_Checked (Options.active), (t_menu_callback)Options_Switch, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),           "Alt+O",    MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.options_active), [](t_menu_event*) { g_config.options_active ^= 1; }, NULL);
     Langs_Menu_Add    (menus_ID.file);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),              "Alt+F4",   MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
 

@@ -432,9 +432,6 @@
     <ClCompile Include="..\..\app_memview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_options.cpp">
-      <Filter>Srcs\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\app_palview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
@@ -801,9 +798,6 @@
       <Filter>Srcs\Applets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\app_memview.h">
-      <Filter>Srcs\Applets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\app_options.h">
       <Filter>Srcs\Applets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\app_palview.h">
