@@ -5,8 +5,8 @@
 
 #include "shared.h"
 #include "app_game.h"
-#include "textbox.h"
 #include "libparse.h"
+#include "newgui.h"
 #ifdef ARCH_WIN32
 #include "projects/msvc/resource.h"
 #endif
@@ -151,8 +151,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Palette_Enabled),
 
     __MSG_ADD(MSG_Message_BoxTitle),
-    __MSG_ADD(MSG_Message_Disabled),
-    __MSG_ADD(MSG_Message_Enabled),
 
     __MSG_ADD(MSG_TechInfo_BoxTitle),
     __MSG_ADD(MSG_TechInfo_Disabled),
@@ -916,7 +914,7 @@ void            Msg(int attr, const char *format, ...)
 
         // Add to user text box
         if (attr & MSGT_USER_LOG)
-            TB_Message_Print(src);
+            NewGui_LogAddTextLine(src);
 
 #ifdef WIN32
         if (attr & MSGT_ATTR_DEBUG)

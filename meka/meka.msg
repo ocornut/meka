@@ -108,7 +108,7 @@
 ;-----------------------------------------------------------------------------
 
 ; Main -----------------------------------------------------------------------
-Msg_Welcome                             = "Welcome to %s (c) %s"
+Msg_Welcome                             = "Welcome to %s (c) %s."
 Msg_Window_Title                        = "MEKA - In Pixels We Trust!"
 Msg_Quit                                = "Good night, brave warrior. Good night, monster-land...."
 
@@ -248,8 +248,6 @@ Msg_Palette_Enabled                     = "Palette viewer enabled"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messages"
-Msg_Message_Disabled                    = "Message box disabled"
-Msg_Message_Enabled                     = "Message box enabled"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Technical Information"
@@ -738,8 +736,6 @@ Msg_Palette_Enabled                     = "Visualisateur de palette activé"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messages"
-Msg_Message_Disabled                    = "Fenêtre des messages désactivée"
-Msg_Message_Enabled                     = "Fenêtre des messages activée"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Informations Techniques"
@@ -1222,8 +1218,6 @@ Msg_Palette_Enabled                     = "Palet bekijker aan"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Berichten"
-Msg_Message_Disabled                    = "Berichtenbox uit"
-Msg_Message_Enabled                     = "Berichtenbox aan"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Technische Informatie"
@@ -1702,8 +1696,6 @@ Msg_Palette_Enabled                     = "Visor de paletas activado"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Mensajes"
-Msg_Message_Disabled                    = "Caja de mensajes desactivada"
-Msg_Message_Enabled                     = "Caja de mensajes activada"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Información técnica"
@@ -2153,8 +2145,6 @@ Msg_Palette_Enabled                     = "Wlaczono przegladarke palet"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Komunikaty"
-Msg_Message_Disabled                    = "Okno komunikatow wylaczone"
-Msg_Message_Enabled                     = "Okno komunikatow wlaczone"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Informacje techniczne"
@@ -2643,8 +2633,6 @@ Msg_Palette_Enabled                     = "Visualização de paleta ativa"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Mensagens"
-Msg_Message_Disabled                    = "Caixa de mensagem desativada"
-Msg_Message_Enabled                     = "Caixa de mensagem ativa"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Informações Técnicas"
@@ -3079,8 +3067,6 @@ Msg_Palette_Enabled                     = "Visore Palette attivato"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messaggi"
-Msg_Message_Disabled                    = "Box messaggi disabilitato"
-Msg_Message_Enabled                     = "Box messaggi attivato"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Informazioni tecniche"
@@ -3520,8 +3506,6 @@ Msg_Palette_Enabled                     = "Palettenbetrachter aktiviert"
 
 ; Message box -----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Meldungen"
-Msg_Message_Disabled                    = "Fenster für Meldungen geschlossen"
-Msg_Message_Enabled                     = "Fenster für Meldungen aktiviert"
 
 ; Technical Information box ---------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Technische Infos"
@@ -3964,8 +3948,6 @@ Msg_Palette_Enabled                     = "Palettgranskare på"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Meddelanden"
-Msg_Message_Disabled                    = "Meddelandefönster av"
-Msg_Message_Enabled                     = "Meddelandefönster på"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Teknisk information"
@@ -4416,8 +4398,6 @@ Msg_Palette_Enabled                     = "Paletteviser slået til"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Beskeder"
-Msg_Message_Disabled                    = "Beskeder slået fra"
-Msg_Message_Enabled                     = "Beskeder slået til"
 
 ; Technical Information box --------------------------------------------------
 Msg_TechInfo_BoxTitle                   = "Teknisk information"
