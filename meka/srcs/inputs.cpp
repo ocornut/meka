@@ -20,12 +20,12 @@
 #include "lightgun.h"
 #include "saves.h"
 #include "sk1100.h"
-#include "textbox.h"
 #include "tvoekaki.h"
 #include "vdp.h"
 #include "video.h"
 #include "vmachine.h"
 #include "sound/sound_logging.h"
+#include "newgui.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -203,7 +203,7 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
                // Applets hotkeys
                if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE)) FB_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE)) Options_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE)) TB_Message_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE)) g_config.log_active ^= 1;
                if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)) PaletteViewer_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE)) TileViewer_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE)) TechInfo_Switch();

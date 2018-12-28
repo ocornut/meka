@@ -447,9 +447,6 @@
     <ClCompile Include="..\..\app_tileview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\textbox.cpp">
-      <Filter>Srcs\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\datadump.cpp">
       <Filter>Srcs\Debugger</Filter>
     </ClCompile>
@@ -819,9 +816,6 @@
       <Filter>Srcs\Applets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\app_tileview.h">
-      <Filter>Srcs\Applets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\textbox.h">
       <Filter>Srcs\Applets</Filter>
     </ClInclude>
     <ClInclude Include="..\..\datadump.h">

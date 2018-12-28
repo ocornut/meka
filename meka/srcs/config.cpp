@@ -14,8 +14,8 @@
 #include "glasses.h"
 #include "rapidfir.h"
 #include "video.h"
-#include "textbox.h"
 #include "tvtype.h"
+#include "newgui.h"
 #include "libparse.h"
 
 //-----------------------------------------------------------------------------
@@ -100,6 +100,7 @@ static void     Configuration_Load_Line (char *var, char *value)
     if (!strcmp(var, "fb_uses_db"))                     { g_config.fb_uses_DB = (bool)atoi(value); return; }
     if (!strcmp(var, "fb_close_after_load"))            { g_config.fb_close_after_load = (bool)atoi(value); return; }
     if (!strcmp(var, "fb_fullscreen_after_load"))       { g_config.fullscreen_after_load = (bool)atoi(value); return; }
+    if (!strcmp(var, "log_active"))                     { g_config.log_active = (bool)atoi(value); return; }
     if (!strcmp(var, "last_directory"))                 { snprintf(FB.current_directory, FILENAME_LEN, "%s", value); return; }
     if (!strcmp(var, "bios_logo"))                      { g_config.enable_BIOS = (bool)atoi(value); return; }
     if (!strcmp(var, "rapidfire"))                      { RapidFire = atoi(value); return; }
@@ -174,7 +175,6 @@ static void     Configuration_Load_Line (char *var, char *value)
 
     // Fonts
     if (!strcmp(var, ("font_menus")))           { Font_FindByName(value, &g_config.font_menus); }
-    if (!strcmp(var, ("font_messages")))        { Font_FindByName(value, &g_config.font_messages); }
     if (!strcmp(var, ("font_options")))         { Font_FindByName(value, &g_config.font_options); }
     if (!strcmp(var, ("font_debugger")))        { Font_FindByName(value, &g_config.font_debugger); }
     if (!strcmp(var, ("font_documentation")))   { Font_FindByName(value, &g_config.font_documentation); }
@@ -299,6 +299,7 @@ void Configuration_Save()
     CFG_Write_Int  ("fb_close_after_load", g_config.fb_close_after_load);
     CFG_Write_Int  ("fb_fullscreen_after_load", g_config.fullscreen_after_load);
     CFG_Write_StrEscape  ("last_directory", FB.current_directory);
+    CFG_Write_Int  ("log_active", g_config.log_active);
     CFG_Write_Line ("");
 
     CFG_Write_Line ("-----< MISCELLANEOUS OPTIONS >-----------------------------------------------");
@@ -336,7 +337,6 @@ void Configuration_Save()
     for (int i = 0; i < FONTID_COUNT_; i++)
         CFG_Write_Line("  - %s, %d px%s", Fonts[i].text_id, Fonts[i].height, i+1==FONTID_COUNT_ ? " )" : "");
     CFG_Write_Str  ("font_menus",           Fonts[g_config.font_menus].text_id);
-    CFG_Write_Str  ("font_messages",        Fonts[g_config.font_messages].text_id);
     CFG_Write_Str  ("font_options",         Fonts[g_config.font_options].text_id);
     CFG_Write_Str  ("font_debugger",        Fonts[g_config.font_debugger].text_id);
     CFG_Write_Str  ("font_documentation",   Fonts[g_config.font_documentation].text_id);
@@ -420,7 +420,7 @@ void    Command_Line_Parse()
                 break;
             case 3: // LOG
                 Param_Check(&i, Msg_Get(MSG_Log_Need_Param));
-                TB_Message.log_filename = strdup(g_env.argv[i]);
+                g_newgui.log_filename = g_env.argv[i];
                 break;
             case 4: // LOAD
                 Param_Check(&i, Msg_Get(MSG_Load_Need_Param));
@@ -432,8 +432,8 @@ void    Command_Line_Parse()
                 // Private Usage
             case 6: // DEBUG_INFOS
                 g_env.debug_dump_infos = true;
-                if (TB_Message.log_filename == NULL)
-                    TB_Message.log_filename = strdup("debuglog.txt");
+                if (g_newgui.log_filename.empty())
+                    g_newgui.log_filename = "debuglog.txt";
                 break;
             default:
                 ConsolePrintf(Msg_Get(MSG_Error_Param), s);

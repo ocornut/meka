@@ -11,7 +11,6 @@
 #include "app_game.h"
 #include "app_palview.h"
 #include "app_memview.h"
-#include "desktop.h"
 #include "palette.h"
 #include "saves.h"
 #include "app_options.h"
@@ -63,6 +62,16 @@ static void NewGui_InitImGui()
 
 static void NewGui_InitApplets()
 {
+    t_newgui* ng = &g_newgui;
+
+    // Log
+    ng->log_data = new ImGuiTextBuffer();
+    if (!ng->log_filename.empty())
+    {
+        ng->log_file = fopen(ng->log_filename.c_str(), "a+t");
+        if (ng->log_file)
+            fprintf(ng->log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf());
+    }
 }
 
 void    NewGui_Init()
@@ -79,6 +88,16 @@ static void NewGui_CloseImGui()
 
 static void NewGui_CloseApplets()
 {
+    t_newgui* ng = &g_newgui;
+
+    if (ng->log_file)
+    {
+        fclose(ng->log_file);
+        ng->log_file = NULL;
+        ng->log_data->clear();
+    }
+    delete ng->log_data;
+    ng->log_data = NULL;
 }
 
 void    NewGui_Close()
@@ -125,6 +144,52 @@ void    NewGui_GameDraw()
     ImGui::PopStyleVar(2);
 }
 
+void    NewGui_LogDraw()
+{
+    t_newgui* ng = &g_newgui;
+    if (!g_config.log_active)
+        return;
+
+    Str128f title("%s###Log", Msg_Get(MSG_Message_BoxTitle));
+    if (!ImGui::Begin(title.c_str(), &g_config.log_active))
+    {
+        ImGui::End();
+        return;
+    }
+
+    if (ImGui::SmallButton("Clear"))
+        ng->log_data->clear();
+    ImGui::SameLine();
+    if (ImGui::SmallButton("Copy"))
+        ImGui::SetClipboardText(ng->log_data->c_str());
+    ImGui::Separator();
+
+    //static ImGuiTextFilter filter;
+    //filter.Draw("##filter");
+
+    ImGui::BeginChild("scrolling");
+    const char* log_data = ng->log_data->c_str();
+    ImGui::TextUnformatted(log_data);
+    if (ng->log_scroll_to_bottom)
+    {
+        ImGui::SetScrollHereY(1.0f);
+        ng->log_scroll_to_bottom = false;
+    }
+
+    ImGui::EndChild();
+    ImGui::End();
+}
+
+void    NewGui_LogAddTextLine(const char* line)
+{
+    t_newgui* ng = &g_newgui;
+
+    ng->log_data->appendf("%s\n", line);
+    ng->log_scroll_to_bottom = true;
+    if (ng->log_file)
+        fprintf(ng->log_file, "%s\n", line);
+}
+
 void    NewGui_MemEditorDraw()
 {
     if (!MemoryViewer_MainInstance->active)
@@ -151,7 +216,7 @@ void    NewGui_MemEditorDraw()
 // FIXME-IMGUI: Resize mechanism. Window resize steps? Zoom button?
 void    NewGui_PaletteDraw()
 {
-    if (!&PaletteViewer.active)
+    if (!PaletteViewer.active)
         return;
 
     Str128f title("%s###Palette", Msg_Get(MSG_Palette_BoxTitle));

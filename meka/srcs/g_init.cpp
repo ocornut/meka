@@ -21,7 +21,6 @@
 #include "inputs_c.h"
 #include "skin_bg.h"
 #include "skin_fx.h"
-#include "textbox.h"
 
 //-----------------------------------------------------------------------------
 // Forward Declaration
@@ -139,7 +138,6 @@ void    GUI_Close()
 void    GUI_InitApplets()
 {
     AboutBox_Init();
-    TB_Message_Init();
     MemoryViewer_MainInstance = MemoryViewer_New(TRUE, -1, -1);
     TilemapViewer_MainInstance = TilemapViewer_New(TRUE);
     g_CheatFinder_MainInstance = CheatFinder_New(TRUE);
