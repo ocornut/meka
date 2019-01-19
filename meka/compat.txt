@@ -501,6 +501,7 @@
  Super Monaco GP [Proto 1]                      -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Off Road                                 -       Ok
+ Super Off Road [Proto]                         -       Ok
  Super Racing (JP)                              FM,(PAD)Ok
  Super Smash T.V.                               -       Ok
  Super Space Invaders                           -       Ok
@@ -585,7 +586,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 567 games tested - 565 are "Ok" - Compatibility rate: 99.54%
+ 568 games tested - 566 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1001,6 +1002,7 @@
  Dragon Crystal - Tsurani no Meikyuu (JP)           Ok
  Dragon: The Bruce Lee Story                        Ok
  Dragon: The Bruce Lee Story (US)                   Ok
+ Dragon: The Bruce Lee Story [Proto]                Ok
  Dropzone (Archer MacLean's)                        Ok
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
@@ -1398,7 +1400,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 505 games tested - 493 are "Ok" - Compatibility rate: 97.45%
+ 506 games tested - 494 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

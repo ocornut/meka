@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2018/09/21
+; Last updated 2019/01/19
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -142,7 +142,7 @@ SMS 8ecd201c 95A173467C000C89   Blade Eagle 3-D/NAME_JP=Blade Eagle/COUNTRY=JP,U
 SMS 58d5fc48 C1001AE980334148   Blade Eagle 3-D [Proto]/FLAGS=PROTO/COUNTRY=US/EMU_3D/COMMENT=Prototype version of the game. Title screen says "Blade Eagle", same as Japanese version. Level differences are very clear from the beginning.
 SMS 643b6b76 97766D7F4D91D752   Block Hole/COUNTRY=KR/EMU_COUNTRY=1               ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern.
 SMS f9dbb533 7F77195ABBCB050C   BMX Trial - Alex Kidd/COUNTRY=JP/PRODUCT_NO=G-1330/EMU_INPUTS=PADDLE
-SMS caea8002 DC830766ED4115F1   Bonanza Bros./COUNTRY=EU,BR/PRODUCT_NO=7073/COMMENT=Also referred to as "Bonanza Brothers".
+SMS caea8002 DC830766ED4115F1   Bonanza Bros./NAME_BR=Bonanza Brothers/COUNTRY=EU,BR/PRODUCT_NO=7073/COMMENT=Also referred to as "Bonanza Brothers".
 SMS b3768a7a 1A817AD5D227C35A   Bonkers Wax Up!/COUNTRY=BR/PRODUCT_NO=028600/COMMENT=This is a port from the Game Gear version.
 SMS 3084cf11 BD3F8777A78138A6   Bomber Raid/COUNTRY=JP,US,EU/PRODUCT_NO=G-1373,QC-003,27006
 SMS 25eb9f80 18927BF53F0AF7A6   Bobble Bobble [Clover]/COUNTRY=KR/COMMENT=Unlicensed clone of "Bubble Bobble".
@@ -222,8 +222,8 @@ SMS 7c28703a B26E818E12334547   Ecco - The Tides of Time/COUNTRY=BR/PRODUCT_NO=0
 SMS dd74bcf1 1D8FA00A8C616558   E.I. - Exa Innova/COUNTRY=KR
 SMS 00e73541 93D3417EE009757D   Enduro Racer/NAME_BR=Super Cross/COUNTRY=US,EU,BR/PRODUCT_NO=5077/COMMENT=This is the limited 128 KB version of the game as released outside of Japan (5 different level layout instead of 10 in the Japanese version).
 SMS 5d5c50b3 6038C2516F841949   Enduro Racer/COUNTRY=JP/PRODUCT_NO=G-1322/COMMENT=This is the full original 256 KB version of the game as released in Japan (10 different level layout).
-SMS c4bb1676 C12FD315320E1CCC   E-SWAT [v0]/COUNTRY=EU/PRODUCT_NO=7042
-SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=7042
+SMS c4bb1676 C12FD315320E1CCC   E-SWAT [v0]/COUNTRY=EU,BR/PRODUCT_NO=7042
+SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [v1]/COUNTRY=US,EU/PRODUCT_NO=7042
 SMS 4f20694a A67EA404D88A5F73   E-SWAT [Proto 0]/FLAGS=PROTO
 SMS f7ca9801 E58073DF458CD4A4   E-SWAT [Proto 1]/FLAGS=PROTO
 SMS fd91cc7e BC2FD215320C1DD3   E-SWAT [Proto 2]/FLAGS=PROTO
@@ -512,7 +512,7 @@ SMS aab67ec3 EC0F9129D095CB1B   Shanghai/COUNTRY=US,EU/PRODUCT_NO=5110
 SMS d5d25156 CBF272B7DA6BC90C   Shanghai [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e1fff1bb E3EBF1D8895B9FE6   Shinobi [v0]/COUNTRY=JP,BR/PRODUCT_NO=G-1353,028380
 SMS 0c6fac4e DEF9F2C7A058ADCB   Shinobi [v1]/COUNTRY=US,EU,BR,KR/PRODUCT_NO=7009,GB-2353
-SMS 4b051022 034E26895A59CF7E   Shooting Gallery/NAME_BR=Shooting G./COUNTRY=US,EU,BR/PRODUCT_NO=5110/EMU_INPUTS=LIGHTPHASER
+SMS 4b051022 034E26895A59CF7E   Shooting Gallery/NAME_BR=Shooting G./COUNTRY=US,EU,BR,IT/PRODUCT_NO=5072/EMU_INPUTS=LIGHTPHASER
 SMS abdf3923 10361067C4C6C7F2   Sítio do Picapau Amarelo/COUNTRY=BR/PRODUCT_NO=028710
 SMS 77ba2667 0A9445E774AD31E4   Sky Fighter/COUNTRY=KR/PRODUCT_NO=G-M1\/4
 SMS 5b8e65e4 F7E1FEDA866F82D9   Sky Jaguar/COUNTRY=KR/EMU_MAPPER=11
@@ -584,6 +584,7 @@ SMS a1d6d963 CA2E38E7805970A0   Super Monaco GP [Proto 0]/FLAGS=PROTO/COMMENT=Pr
 SMS dd7adbcc C9712D78F61127F3   Super Monaco GP [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e890331d 0EE799CB6D17E43F   Super Monaco GP II (Ayrton Senna's)/COUNTRY=EU,BR,KR/PRODUCT_NO=9011
 SMS 54f68c2a F34CECBA9A4AAF88   Super Off Road/COUNTRY=EU/PRODUCT_NO=MK-27059-50
+SMS ce8d6846 BA46E1977D539F19   Super Off Road [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMENT=This game optionally support the Paddle Control.
 SMS e0b1aff8 55607A442D170643   Super Smash T.V./COUNTRY=EU/PRODUCT_NO=27044-50/COMMENT=Official game material mentions "Super Smash T.V.", but the game shows a "Smash T.V." title screen.
 SMS 1d6244ee A2F23281E94DB5CE   Super Space Invaders/COUNTRY=EU/PRODUCT_NO=MK 27023-50
@@ -888,6 +889,7 @@ GG  89f12e1e D522749CF8737519   Dragon Crystal - Tsurani no Meikyuu/COUNTRY=JP/P
 GG  0ef2ed93 77C55F382ABB2325   Dragon Crystal/COUNTRY=US,EU/PRODUCT_NO=2305
 GG  19e1cf2b D163D0F834459CEF   Dragon: The Bruce Lee Story/COUNTRY=EU/PRODUCT_NO=T-70148-50
 GG  17f588e8 D2CA3AAE14557F94   Dragon: The Bruce Lee Story/COUNTRY=US/PRODUCT_NO=T-81358
+GG  12e0e85b A2B9FD8131D7A778   Dragon: The Bruce Lee Story [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  152f0dcc 4C605B8937009F9A   Dropzone (Archer MacLean's)/COUNTRY=EU/PRODUCT_NO=T-121007/EMU_MAPPER=3
 GG  77ed48f5 646BC15AEE70793F   Dunk Kids/COUNTRY=JP/PRODUCT_NO=G-3352
 GG  610ff95c 44C54C81ACC8AC0A   Dynamite Headdy/COUNTRY=US,EU/PRODUCT_NO=2544
