@@ -12,9 +12,9 @@ They are usually of 2 kinds:
 
  MEKA 0.8x WIP Allegro 5
  -----------------------
-  - Updated from Allegro 4 (software rendering based) to Allegro 5.1.12 (with OpenGL/DirectX backends).
+  - Updated from Allegro 4 (software rendering based) to Allegro 5.2.40 (with OpenGL/DirectX backends).
     This required a lot of changes and rewrite in the codebase. It probably added new bugs,
-    and performances seems to vary depending on computer settings and video drivers. [Omar]
+    and performances seems to vary depending on computer settings and video drivers. [Omar, Maxim]
     Please do report if you have any issue/slowdown so we can fix them!
   - Rewrote sound engine and fixed audio issues that many users had. [Omar]
     The sound is also now functional under Linux and MacOS. [Omar]  
@@ -115,10 +115,9 @@ They are usually of 2 kinds:
     - Removed easter egg code for emulating the NES. [Omar]
     - Removed easter egg mini-games and various other obsolete features. [Omar]
     - Removed mekaw.txt and mekanix.txt documentation files (obsolete). [Omar]
-    - (Win32) Updated project to using Visual Studio 2013. [Omar]
+    - (Win32) Updated project to using Visual Studio 2017. [Maxim]
+    - (Win32) Grabbing dependencies via nuget. [Maxim]
     - (Win32) Using precompiled header for faster compilation (MSVC). [Omar]
-    - (Win32) Now including precompiled Allegro 5.1.12 package in repository. [Omar]
-    - (Win32) Now including NASM assembler in the repository. [Omar]
   - Configuration file is created early on startup if missing. [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
@@ -135,6 +134,7 @@ They are usually of 2 kinds:
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           GG  - de25e2d8 - Sports Illustrated - Championship F..--> Sports Illustrated - Championship Football & Baseball [BAD] (was bad dump)
           GG  - 5b5de94d - Sports Trivia - Championship Edition --> Sports Trivia - Championship Edition [Proto] (from old Image dump stash)
+          GG  - e678f264 - Yogi Bear in Yogi Bears Goldrush..   --> Yogi Bear in Yogi Bear's Goldrush [Proto]
           GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
           SG1 - 26f947d1 - Champion Boxing [cart]               --> Champion Boxing [v0]
           SG1 - f8b2ac1d - Champion Boxing [card]               --> Champion Boxing [v1]

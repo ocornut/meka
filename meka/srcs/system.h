@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 
 #ifdef _WIN32
-#define ARCH_WIN32		(1)
+#define ARCH_WIN32    (1)
 #endif
 
 //-----------------------------------------------------------------------------
@@ -41,7 +41,7 @@
   #include <dirent.h>
 #endif
 #ifdef ARCH_WIN32
-	#define stricmp _stricmp
+  #define stricmp _stricmp
     #define ALLEGRO_BITMAP WINDOWS_BITMAP
     #include <windows.h>
     #include <crtdbg.h>
@@ -52,10 +52,6 @@
 //-----------------------------------------------------------------------------
 // Allegro Library
 //-----------------------------------------------------------------------------
-
-#ifdef ARCH_WIN32
-#define ALLEGRO_STATICLINK			// Unix users probably don't want static linking?
-#endif	
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -142,9 +138,9 @@ typedef   signed long long  s64;
 //template <typename T, size_t N>
 //char (&_ArraySizeHelper(T (&array)[N])) [N];
 //#define countof(array) (sizeof(_ArraySizeHelper(array)))
-#define countof(array)	(sizeof(array) / sizeof(array[0]))
+#define countof(array)  (sizeof(array) / sizeof(array[0]))
 
-#define MATH_PI		(3.14159265f)
+#define MATH_PI   (3.14159265f)
 
 //-----------------------------------------------------------------------------
 // Warning Disable

@@ -9,11 +9,11 @@
 
 struct t_desktop
 {
-    t_list *		items;
-    char			filename[FILENAME_LEN];
+    t_list *        items;
+    char            filename[FILENAME_LEN];
 };
 
-extern t_desktop	Desktop;
+extern t_desktop    Desktop;
 
 //-----------------------------------------------------------------------------
 // FUNCTIONS

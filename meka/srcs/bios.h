@@ -9,8 +9,8 @@
 
 extern u8*  BIOS_ROM;
 extern u8*  BIOS_ROM_Jap;
-extern u8*	BIOS_ROM_SF7000;
-extern u8*	BIOS_ROM_Coleco;
+extern u8*  BIOS_ROM_SF7000;
+extern u8*  BIOS_ROM_Coleco;
 
 //-----------------------------------------------------------------------------
 // Functions

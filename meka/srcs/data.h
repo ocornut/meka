@@ -26,7 +26,7 @@
 #define FLAG_NZ         (15)    // New-Zealand
 #define FLAG_UK         (16)    // United-Kingdom
 #define FLAG_CA         (17)    // Canada
-#define FLAG_TW         (18)	// Taiwan
+#define FLAG_TW         (18)    // Taiwan
 #define FLAG_COUNT      (19)
 
 //-----------------------------------------------------------------------------
@@ -38,19 +38,19 @@ struct t_data_graphics
     // Cursors
     struct
     {
-		struct
-		{
-			ALLEGRO_BITMAP *    Main;
-			ALLEGRO_BITMAP *    Wait;
-			ALLEGRO_BITMAP *    LightPhaser;
-			ALLEGRO_BITMAP *    SportsPad;
-			ALLEGRO_BITMAP *    TvOekaki;
-		} Bitmaps;
-		ALLEGRO_MOUSE_CURSOR *	Main;
-		ALLEGRO_MOUSE_CURSOR *	Wait;
-		ALLEGRO_MOUSE_CURSOR *	LightPhaser;
-		ALLEGRO_MOUSE_CURSOR *	SportsPad;
-		ALLEGRO_MOUSE_CURSOR *	TvOekaki;
+        struct
+        {
+            ALLEGRO_BITMAP *    Main;
+            ALLEGRO_BITMAP *    Wait;
+            ALLEGRO_BITMAP *    LightPhaser;
+            ALLEGRO_BITMAP *    SportsPad;
+            ALLEGRO_BITMAP *    TvOekaki;
+        } Bitmaps;
+        ALLEGRO_MOUSE_CURSOR *  Main;
+        ALLEGRO_MOUSE_CURSOR *  Wait;
+        ALLEGRO_MOUSE_CURSOR *  LightPhaser;
+        ALLEGRO_MOUSE_CURSOR *  SportsPad;
+        ALLEGRO_MOUSE_CURSOR *  TvOekaki;
     } Cursors;
 
     // Flags
@@ -79,7 +79,7 @@ struct t_data_graphics
         ALLEGRO_BITMAP *    SportsPad;
         ALLEGRO_BITMAP *    SuperHeroPad;
         ALLEGRO_BITMAP *    TvOekaki;
-		ALLEGRO_BITMAP *    GraphicBoardV2;
+        ALLEGRO_BITMAP *    GraphicBoardV2;
         ALLEGRO_BITMAP *    SK1100_Keyboard;
     } Inputs;
 
@@ -113,6 +113,6 @@ void    Data_Close                  ();
 
 void    Data_CreateVideoBuffers     ();
 void    Data_DestroyVideoBuffers    ();
-bool	Data_LoadFont(ALLEGRO_FONT** pfont, const char* name, int size);
+bool    Data_LoadFont(ALLEGRO_FONT** pfont, const char* name, int size);
 
 //-----------------------------------------------------------------------------

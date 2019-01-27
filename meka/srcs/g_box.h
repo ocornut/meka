@@ -7,14 +7,14 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-t_gui_box *		gui_box_new(const t_frame* frame, const char* title);
-void			gui_box_destroy_widgets(t_gui_box* box);
+t_gui_box *     gui_box_new(const t_frame* frame, const char* title);
+void            gui_box_destroy_widgets(t_gui_box* box);
 void            gui_box_delete(t_gui_box* box);
-void			gui_box_create_video_buffer(t_gui_box* box);
-void			gui_box_destroy_video_buffer(t_gui_box* box);
-void			gui_box_resize(t_gui_box* box, int size_x, int size_y, bool interactive);
+void            gui_box_create_video_buffer(t_gui_box* box);
+void            gui_box_destroy_video_buffer(t_gui_box* box);
+void            gui_box_resize(t_gui_box* box, int size_x, int size_y, bool interactive);
 
-int				gui_box_find_z(const t_gui_box* box);
+int             gui_box_find_z(const t_gui_box* box);
 
 //-----------------------------------------------------------------------------
 // Functions / Make obsolete

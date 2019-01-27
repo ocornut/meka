@@ -7,11 +7,11 @@
 // Configuration
 //-----------------------------------------------------------------------------
 
-#define MEKA_SOUND				// Enable sound
-#define MEKA_ZIP				// Enable ZIP file support
-#define MEKA_JOYPAD				// Enable joypad support
-#define MEKA_Z80_DEBUGGER		// Enable Z80 debugger
-#define MARAT_Z80				// Z80 emulator to use
+#define MEKA_SOUND              // Enable sound
+#define MEKA_ZIP                // Enable ZIP file support
+#define MEKA_JOYPAD             // Enable joypad support
+#define MEKA_Z80_DEBUGGER       // Enable Z80 debugger
+#define MARAT_Z80               // Z80 emulator to use
 
 #define MEKA_NAME               "MEKA"
 #define MEKA_VERSION            "0.80-alpha"
@@ -21,7 +21,7 @@
 #define MEKA_HOMEPAGE           "http://www.smspower.org/meka"
 #define MEKA_AUTHORS            "Omar Cornut (Bock) and contributors"
 #define MEKA_AUTHORS_SHORT      "Omar Cornut and contributors"
-#define MEKA_DATE               "1998-2016"
+#define MEKA_DATE               "1998-2019"
 
 extern char MEKA_BUILD_DATE[];
 extern char MEKA_BUILD_TIME[];
@@ -81,6 +81,5 @@ struct t_widget;
 #include "skin.h"           // Interface Skins
 #include "sound/sound.h"    // Sound Engine (include other files)
 #include "tools.h"          // Various tools
-#include "vmachine.h"       // Virtual machine system
 
 //-----------------------------------------------------------------------------

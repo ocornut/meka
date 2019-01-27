@@ -47,6 +47,7 @@ extern t_app_textviewer   TextViewer;
 //-----------------------------------------------------------------------------
 
 void                TextViewer_Init(t_app_textviewer* app);
+void                TextViewer_Close(t_app_textviewer* app);
 int                 TextViewer_Open(t_app_textviewer* app, const char *title, const char *filename);
 void                TextViewer_Update(t_app_textviewer* app);
 void                TextViewer_Switch(t_app_textviewer* app, const char *title, const char *filename, int current_file);

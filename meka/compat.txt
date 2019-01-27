@@ -19,6 +19,7 @@
  4 PAK All Action (AU)                          -       Ok
  94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
+ Action Fighter [v0] [Proto]                    -       Ok
  Action Fighter [v1]                            -       Ok
  Action Fighter [v2]                            -       Ok
  Action Fighter (TW)                            -       Ok
@@ -88,6 +89,7 @@
  California Games II                            -       Ok
  Captain Silver                                 FM      Ok
  Captain Silver (US)                            FM      Ok
+ Captain Silver [Proto]                         FM      Ok
  Casino Games                                   FM      Ok
  Castelo Rá-Tim-Bum (BR)                        -       Ok
  Castle of Illusion - Starring Mickey Mouse     -       Ok
@@ -298,6 +300,7 @@
  Line of Fire                                   (3D)    Ok
  Loretta no Shouzou (JP)                        -       Ok
  Lord of Sword (JP)                             FM      Ok
+ Lord of Sword [SMS-GG] (TW)                    FM     *Ok
  Lord of The Sword                              FM      Ok
  Lucky Dime Caper, The - Starring Donald Duck   -       Ok
  Lucky Dime Caper, The - Starring Do... [Proto] -       Ok
@@ -322,6 +325,7 @@
  Miracle Warriors - Seal of The Dark Lord       FM      Ok
  Miracle Warriors - Seal of The Dark.. [Proto]  FM      Ok
  Missile Defense 3-D                            LP,3D   Ok
+ Missile Defense 3-D [Proto]                    LP,3D   Ok
  Mônica no Castelo do Dragão (BR)               FM      Ok
  Monopoly                                       -       Ok
  Monopoly (US)                                  -       Ok
@@ -431,6 +435,7 @@
  Shinobi [v1]                                   FM      Ok
  Shooting Gallery                               LP      Ok
  Sítio do Picapau Amarelo (BR)                  -       Ok
+ Sky Fighter (KR)                               -       Ok
  Sky Jaguar (KR)                                -       Ok
  Sky Jaguar [Clover] (KR)                       -       Ok
  Slap Shot [v0]                                 -       Ok
@@ -441,6 +446,7 @@
  Smurfs Travel the World, The                   -       Ok
  Smurfs Travel the World, The [Proto]           -       Ok
  Solomon no Kagi - Oujo Rihita no Namida (JP)   FM      Ok
+ Solomon no Kagi - Oujo Rihita.. [Proto] (JP)   FM      Ok
  Sonic Blast                                    -       Ok
  Sonic Chaos                                    -       Ok
  Sonic Spinball                                 -       Ok
@@ -495,6 +501,7 @@
  Super Monaco GP [Proto 1]                      -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Off Road                                 -       Ok
+ Super Off Road [Proto]                         -       Ok
  Super Racing (JP)                              FM,(PAD)Ok
  Super Smash T.V.                               -       Ok
  Super Space Invaders                           -       Ok
@@ -579,7 +586,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 561 games tested - 559 are "Ok" - Compatibility rate: 99.54%
+ 568 games tested - 566 are "Ok" - Compatibility rate: 99.54%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -680,6 +687,7 @@
  Girl's Garden                                  Ok
  Girl's Garden (TW)                             Ok
  Golgo 13                                       Ok
+ Goonies, The [DahJee] (TW)                    *Ok
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
  Gulkave                                        Ok
@@ -730,7 +738,7 @@
  Pachinko II                                    Ok
  Pachinko II (TW)                               Ok
  Ping Pong (Konami's) (TW)                      Ok
- Pippols [Jumbo] (TW)                          *Ok
+ Pippols [Jumbo] (TW)                           Ok
  Pitfall II ~The Lost Caverns~ [v0]             Ok
  Pitfall II ~The Lost Caverns~ [v0] [chin..(TW) Ok
  Pitfall II ~The Lost Caverns~ [v0] [engl..(TW) Ok
@@ -775,7 +783,7 @@
  Star Jacker [v1]                               Ok
  Star Jacker [v1] (TW)                          Ok
  Star Jacker [v2]                               Ok
- Star Soldier [DahJee] (TW)                    *Ok
+ Star Soldier [DahJee] (TW)                     Ok
  Super Tank                                     Ok
  Super Tank (KR)                                Ok
  Super Tank (TW)                                Ok
@@ -797,7 +805,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 188 games tested - 188 are "Ok" - Compatibility rate: 100.00%
+ 189 games tested - 189 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -817,14 +825,14 @@
  Othello Multivision [BIOS]                     Keyboard not emulated.
  Q*bert                                         Ok
  San-nin Mahjong                                Ok
+ San-nin Mahjong [40k map]                      Ok
  San-nin Mahjong (TW)                           Ok
- San-nin Mahjong [40k map]                     *Ok
  Space Armor [v1.0] [v0] [40k map]              Ok
  Space Armor [v2.0] [v1]                        Ok
  Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  19 games tested - 18 are "Ok" - Compatibility rate: 94.44%
+  20 games tested - 19 are "Ok" - Compatibility rate: 95.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -922,6 +930,7 @@
  Batter Up                                          Ok
  Battleship - The classic naval combat game         Ok
  Battletoads                                        Ok
+ Battletoads (US)                                   Ok
  Beavis and Butt-Head (MTV's)                       Ok
  Beavis and Butt-Head (MTV's) [Proto]               Ok
  Berenstain Bears' Camping Adventure, The           Ok
@@ -929,6 +938,7 @@
  Bishoujo Senshi Sailor Moon S (JP)                 Ok
  Bonkers Wax Up! (Disney's)                         Ok
  Bubble Bobble                                      Ok
+ Bubble Bobble [Proto]                              Ok
  Bugs Bunny in Double Trouble                       Ok
  Bust a Move                                        Ok
  Buster Ball                                        Ok
@@ -939,6 +949,7 @@
  Casino FunPak                                      Ok
  Castle of Illusion - Starring Mickey Mouse [SMS-GG]Ok
  Castle of Illusion - Starring Mick.. [SMS-GG] (JP) Ok
+ Cave Dude [Proto] [SMS-GG]                         Ok
  Chakan                                             Ok
  Championship Hockey                                Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales     Ok
@@ -965,6 +976,7 @@
  Cutthroat Island                                   Ok
  Cutthroat Island [Proto]                           Ok
  Daffy Duck in Hollywood                            Ok
+ David Robinson's Supreme Court [Demo] [Proto]      Ok 
  Deep Duck Trouble - Starring Donald Duck           Ok
  Defenders of Oasis                                 Ok
  Defenders of Oasis [Proto]                         Ok
@@ -990,6 +1002,7 @@
  Dragon Crystal - Tsurani no Meikyuu (JP)           Ok
  Dragon: The Bruce Lee Story                        Ok
  Dragon: The Bruce Lee Story (US)                   Ok
+ Dragon: The Bruce Lee Story [Proto]                Ok
  Dropzone (Archer MacLean's)                        Ok
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
@@ -1086,8 +1099,8 @@
  Jurassic Park                                      Ok
  Jurassic Park (JP)                                 Ok
  Kaitou Saint Tail (JP)                             Ok
- Kawasaki Superbikes                                Ok
- Kawasaki SuperBike Challenge (US)                 *Ok
+ Kawasaki Superbike Challenge / Kawasaki Superbikes Ok
+ Kawasaki Superbike Challenge (US)                  Ok
  Kenyuu Densetsu Yaiba (JP)                         Ok
  Kick & Rush (JP)                                   Ok
  Kinetic Connection (JP)                            Ok
@@ -1279,7 +1292,7 @@
  Spider-Man - vs. The Kingpin                       Ok
  Spider-Man / X-Men: Arcade's Revenge               Ok
  Spirou [Proto]                                     Ok
- Sports Illustrated: Championship Football & Base.. Ok
+ Sports Illustrated: Championship Football & Baseb. Ok
  Sports Trivia                                      Ok
  Sports Trivia - Championship Edition               Ok
  Star Gate                                          Ok
@@ -1289,6 +1302,7 @@
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
+ Street Battle [Proto] [SMS-GG]                     Ok
  Street Hero [Proto 0] [SMS-GG]                     Ok
  Street Hero [Proto 1] [SMS-GG]                     Ok
  Strider Returns                                    Ok
@@ -1307,6 +1321,7 @@
  Super Monaco GP II (Ayrton Senna's) (JP)           Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) [Proto]        Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
+ Super Off Road [Proto]                             Ok
  Super Return of the Jedi (Star Wars)               Ok
  Super Smash T.V.                                   Ok
  Super Space Invaders                               Ok
@@ -1330,6 +1345,7 @@
  Taz-Mania                                          Ok
  Tempo Jr.                                          Ok
  Tengen World Cup Soccer                            Ok
+ Tengen World Cup Soccer [Proto]                   *Ok
  Terminator, The                                    Ok
  Terminator 2 - Judgment Day                        Ok
  Tesserae                                           Ok
@@ -1372,7 +1388,7 @@
  X-Men                                              Ok
  X-Men: GamesMaster's Legacy                        Ok
  X-Men: Mojo World                                  Ok
- Yogi Bear in Yogi Bears Goldrush [Proto]           Ok
+ Yogi Bear in Yogi Bear's Goldrush [Proto]          Ok
  Yuu Yuu Hakusho - Horobishi Mono no Gyakushuu (JP) Ok
  Yuu Yuu Hakusho II - Gekitou! Nanakyou no T.. (JP) Ok
  Yuu Yuu Hakusho (JP)                               Ok
@@ -1384,7 +1400,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 497 games tested - 485 are "Ok" - Compatibility rate: 97.45%
+ 506 games tested - 494 are "Ok" - Compatibility rate: 97.45%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

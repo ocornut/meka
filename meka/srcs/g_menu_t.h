@@ -22,7 +22,7 @@ void    gui_menus_update_size           ();
 
 void    gui_menu_uncheck_all            (int menu_id);
 void    gui_menu_uncheck_range          (int menu_id, int start, int end);
-void	gui_menu_check					(int menu_id, int n_entry);
+void    gui_menu_check                  (int menu_id, int n_entry);
 void    gui_menu_toggle_check           (int menu_id, int n_entry);
 
 void    gui_menu_active                 (int active, int menu_id, int menu_item);

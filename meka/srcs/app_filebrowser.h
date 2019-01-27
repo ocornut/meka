@@ -34,14 +34,14 @@ struct t_filebrowser_entry
 {
     s16                 type;
     char *              file_name;
-    const t_db_entry *	db_entry;
+    const t_db_entry *  db_entry;
     const char *        db_entry_name;
 };
 
 struct t_filebrowser
 {
     t_gui_box *         box;
-	t_font_id			font_id;
+    t_font_id           font_id;
     bool                active;
     t_filebrowser_entry **  files;
     int                 files_max;
@@ -52,13 +52,13 @@ struct t_filebrowser
     char                current_directory[FILENAME_LEN+1];
     int                 files_display_count;
 
-	int					bottom_y;
+    int                 bottom_y;
     t_widget *          widget_scrollbar;
-	t_widget *			widget_click_list;
-	t_widget *			widget_close_button;
-	t_widget *			widget_load_button;
-	t_widget *			widget_load_names_button;
-	t_widget *			widget_reload_dir_button;
+    t_widget *          widget_click_list;
+    t_widget *          widget_close_button;
+    t_widget *          widget_load_button;
+    t_widget *          widget_load_names_button;
+    t_widget *          widget_reload_dir_button;
 };
 
 extern t_filebrowser    FB;

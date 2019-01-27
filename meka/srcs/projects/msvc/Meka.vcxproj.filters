@@ -111,336 +111,337 @@
     <None Include="..\..\Makefile">
       <Filter>Srcs</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\allegro4to5.c">
+    <ClCompile Include="..\..\allegro4to5.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\bmemory.c">
+    <ClCompile Include="..\..\bmemory.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\build.c">
+    <ClCompile Include="..\..\build.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\capture.c">
+    <ClCompile Include="..\..\capture.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\checksum.c">
+    <ClCompile Include="..\..\checksum.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\commport.c">
+    <ClCompile Include="..\..\commport.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\config.c">
+    <ClCompile Include="..\..\config.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\country.c">
+    <ClCompile Include="..\..\country.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpu.c">
+    <ClCompile Include="..\..\cpu.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\data.c">
+    <ClCompile Include="..\..\data.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\db.c">
+    <ClCompile Include="..\..\db.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\eeprom.c">
+    <ClCompile Include="..\..\eeprom.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\effects.c">
+    <ClCompile Include="..\..\effects.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\errors.c">
+    <ClCompile Include="..\..\errors.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\fdc765.c">
+    <ClCompile Include="..\..\fdc765.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\file.c">
+    <ClCompile Include="..\..\file.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\fonts.c">
+    <ClCompile Include="..\..\fonts.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\fskipper.c">
+    <ClCompile Include="..\..\fskipper.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\inputs.c">
+    <ClCompile Include="..\..\inputs.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\inputs_c.c">
+    <ClCompile Include="..\..\inputs_c.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\inputs_f.c">
+    <ClCompile Include="..\..\inputs_f.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\inputs_i.c">
+    <ClCompile Include="..\..\inputs_i.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\inputs_t.c">
+    <ClCompile Include="..\..\inputs_t.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\inputs_u.c">
+    <ClCompile Include="..\..\inputs_u.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libmisc.c">
+    <ClCompile Include="..\..\libmisc.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libparse.c">
+    <ClCompile Include="..\..\libparse.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mainloop.c">
+    <ClCompile Include="..\..\mainloop.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mappers.c">
+    <ClCompile Include="..\..\mappers.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\meka.c">
+    <ClCompile Include="..\..\meka.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\message.c">
+    <ClCompile Include="..\..\message.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\misc.c">
+    <ClCompile Include="..\..\misc.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\patch.c">
+    <ClCompile Include="..\..\patch.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\saves.c">
+    <ClCompile Include="..\..\saves.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sdsc.c">
+    <ClCompile Include="..\..\sdsc.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\setup.c">
+    <ClCompile Include="..\..\setup.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\shared.c">
+    <ClCompile Include="..\..\shared.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tools.c">
+    <ClCompile Include="..\..\tools.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tvtype.c">
+    <ClCompile Include="..\..\tvtype.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\unzip.c">
+    <ClCompile Include="..\..\unzip.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\vlfn.c">
+    <ClCompile Include="..\..\vlfn.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\vmachine.c">
+    <ClCompile Include="..\..\vmachine.cpp">
       <Filter>Srcs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\fmeditor.c">
+    <ClCompile Include="..\..\sound\fmeditor.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\fmunit.c">
+    <ClCompile Include="..\..\sound\fmunit.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\s_misc.c">
+    <ClCompile Include="..\..\sound\s_misc.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\sound.c">
+    <ClCompile Include="..\..\sound\sound.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\sound_logging.c">
+    <ClCompile Include="..\..\sound\sound_logging.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\vgm.c">
+    <ClCompile Include="..\..\sound\vgm.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\wav.c">
+    <ClCompile Include="..\..\sound\wav.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\psg.c">
+    <ClCompile Include="..\..\sound\psg.cpp">
       <Filter>Srcs\Sound\PSG</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\emu2413\emu2413.c">
+    <ClCompile Include="..\..\sound\emu2413\emu2413.cpp">
       <Filter>Srcs\Sound\Emu2413</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sound\emu2413\mekaintf.c">
+    <ClCompile Include="..\..\sound\emu2413\mekaintf.cpp">
       <Filter>Srcs\Sound\Emu2413</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\z80marat\Debug.c">
+    <ClCompile Include="..\..\z80marat\Debug.cpp">
       <Filter>Srcs\CPU\Z80marat</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\z80marat\Z80.c">
+    <ClCompile Include="..\..\z80marat\Z80.cpp">
       <Filter>Srcs\CPU\Z80marat</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\z80marat\Z80Call.c">
+    <ClCompile Include="..\..\z80marat\Z80Call.cpp">
       <Filter>Srcs\CPU\Z80marat</Filter>
     </ClCompile>
     <ClCompile Include="..\..\z80marat\Z80DebugHelpers.cpp">
       <Filter>Srcs\CPU\Z80marat</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\desktop.c">
+    <ClCompile Include="..\..\desktop.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_action.c">
+    <ClCompile Include="..\..\g_action.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_box.c">
+    <ClCompile Include="..\..\g_box.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_init.c">
+    <ClCompile Include="..\..\g_init.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_menu.c">
+    <ClCompile Include="..\..\g_menu.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_menu_i.c">
+    <ClCompile Include="..\..\g_menu_i.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_menu_t.c">
+    <ClCompile Include="..\..\g_menu_t.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_mouse.c">
+    <ClCompile Include="..\..\g_mouse.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_tools.c">
+    <ClCompile Include="..\..\g_tools.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_update.c">
+    <ClCompile Include="..\..\g_update.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_widget.c">
+    <ClCompile Include="..\..\g_widget.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gui.c">
+    <ClCompile Include="..\..\gui.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\skin.c">
+    <ClCompile Include="..\..\skin.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\skin_bg.c">
+    <ClCompile Include="..\..\skin_bg.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\skin_fx.c">
+    <ClCompile Include="..\..\skin_fx.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\beam.c">
+    <ClCompile Include="..\..\beam.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\blit.c">
+    <ClCompile Include="..\..\blit.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\blit_c.c">
+    <ClCompile Include="..\..\blit_c.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\blitintf.c">
+    <ClCompile Include="..\..\blitintf.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\palette.c">
+    <ClCompile Include="..\..\palette.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\vdp.c">
+    <ClCompile Include="..\..\vdp.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\video.c">
+    <ClCompile Include="..\..\video.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\video_c.c">
+    <ClCompile Include="..\..\video_c.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\video_m2.c">
+    <ClCompile Include="..\..\video_m2.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\video_m5.c">
+    <ClCompile Include="..\..\video_m5.cpp">
       <Filter>Srcs\Video</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\hq2x.c">
+    <ClCompile Include="..\..\hq2x.cpp">
       <Filter>Srcs\Video\HQ2X</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\areplay.c">
+    <ClCompile Include="..\..\areplay.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\glasses.c">
+    <ClCompile Include="..\..\glasses.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\keyinfo.c">
+    <ClCompile Include="..\..\keyinfo.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\lightgun.c">
+    <ClCompile Include="..\..\lightgun.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\periph.c">
+    <ClCompile Include="..\..\periph.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\rapidfir.c">
+    <ClCompile Include="..\..\rapidfir.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sk1100.c">
+    <ClCompile Include="..\..\sk1100.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tvoekaki.c">
+    <ClCompile Include="..\..\tvoekaki.cpp">
       <Filter>Srcs\Peripherals</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\bios.c">
+    <ClCompile Include="..\..\bios.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\coleco.c">
+    <ClCompile Include="..\..\coleco.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\drivers.c">
+    <ClCompile Include="..\..\drivers.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ioports.c">
+    <ClCompile Include="..\..\ioports.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\machine.c">
+    <ClCompile Include="..\..\machine.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sf7000.c">
+    <ClCompile Include="..\..\sf7000.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\sg1ksc3k.c">
+    <ClCompile Include="..\..\sg1ksc3k.cpp">
       <Filter>Srcs\Machines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_about.c">
+    <ClCompile Include="..\..\app_about.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_cheatfinder.c">
+    <ClCompile Include="..\..\app_cheatfinder.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_filebrowser.c">
+    <ClCompile Include="..\..\app_filebrowser.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_game.c">
+    <ClCompile Include="..\..\app_game.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_mapview.c">
+    <ClCompile Include="..\..\app_mapview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_memview.c">
+    <ClCompile Include="..\..\app_memview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_options.c">
+    <ClCompile Include="..\..\app_options.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_palview.c">
+    <ClCompile Include="..\..\app_palview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_techinfo.c">
+    <ClCompile Include="..\..\app_techinfo.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_textview.c">
+    <ClCompile Include="..\..\app_textview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_tileview.c">
+    <ClCompile Include="..\..\app_tileview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\textbox.c">
+    <ClCompile Include="..\..\textbox.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\datadump.c">
+    <ClCompile Include="..\..\datadump.cpp">
       <Filter>Srcs\Debugger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\debugger.c">
+    <ClCompile Include="..\..\debugger.cpp">
       <Filter>Srcs\Debugger</Filter>
     </ClCompile>
   </ItemGroup>
@@ -817,11 +818,16 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\hq2x16.asm">
+    <NASM Include="..\..\hq2x32.asm">
       <Filter>Srcs\Video\HQ2X</Filter>
-    </CustomBuild>
-    <CustomBuild Include="..\..\hq2x32.asm">
+    </NASM>
+    <NASM Include="..\..\hq2x16.asm">
       <Filter>Srcs\Video\HQ2X</Filter>
-    </CustomBuild>
+    </NASM>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="meka.manifest">
+      <Filter>Resources</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>
