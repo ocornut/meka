@@ -10,15 +10,15 @@
 // Note: this field is saved into savestate so we have to maintain its binary compatibility.
 enum t_machine_driver
 {
-	DRV_SMS		= 0,
-	DRV_GG      = 1,
-	DRV_SG1000	= 2,
-	DRV_SC3000	= 3,
-	DRV_COLECO	= 4,
-	DRV_MSX___	= 5,
-	DRV_NES___	= 6,
-	DRV_SF7000	= 7,
-	DRV_MAX		= 8,
+  DRV_SMS   = 0,
+  DRV_GG      = 1,
+  DRV_SG1000  = 2,
+  DRV_SC3000  = 3,
+  DRV_COLECO  = 4,
+  DRV_MSX___  = 5,
+  DRV_NES___  = 6,
+  DRV_SF7000  = 7,
+  DRV_MAX   = 8,
 };
 
 // CPU Type
@@ -38,9 +38,9 @@ enum t_machine_driver
 
 struct ts_driver
 {
-  u8			id;
-  const char *	short_name;
-  const char *	full_name;
+  u8      id;
+  const char *  short_name;
+  const char *  full_name;
   int   cpu;
   int   vdp;
   int   snd;
@@ -60,8 +60,8 @@ extern ts_driver * g_driver;
 
 struct ts_driver_filename_extension
 {
-    const char *	filename_extension;
-    int				driver;
+    const char *  filename_extension;
+    int       driver;
 };
 
 //-----------------------------------------------------------------------------

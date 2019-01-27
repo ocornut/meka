@@ -43,7 +43,8 @@ cp -r Themes $RESOURCE_DIR
 
 # copy libraries from /usr/local/lib to $BIN_DIR
 
-LOCAL_LIBS=$(otool -L $MEKA_APPBIN | awk '/\/usr\/local\/lib\// { print $1}')
+LOCAL_LIBS=$(otool -L $MEKA_APPBIN | awk '/\/usr\/local\// { print $1}')
+
 
 for local_lib in $LOCAL_LIBS
 do

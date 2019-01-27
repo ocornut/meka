@@ -9,8 +9,8 @@
 
 struct t_app_about_box
 {
-	// Interface
-	bool			active;
+    // Interface
+    bool            active;
     t_gui_box *     box;
 };
 

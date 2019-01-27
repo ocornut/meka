@@ -26,10 +26,10 @@
 
 #------------------------------------------------------
 # System target to compile MEKA for (dos|unix|win32)
-# All systems must currently run on X86 archicture.
+# All systems must currently run on X86 architecture.
 # - unix  : UN*X system. Makefile up to date. May require system/library tweaking.
-# - win32 : Windows 32-bits. Makefile NOT up to date (can be updated). Hardcoded paths. Prefer using MsVc\Meka.sln (MSVC++ 7.1)
-# - dos   : MS-DOS or compatible. Could work. Not maintened anymore.
+# - win32 : Windows 32-bits. Makefile NOT up to date (can be updated). Hard-coded paths. Prefer using MsVc\Meka.sln (MSVC++ 7.1)
+# - dos   : MS-DOS or compatible. Could work. Not maintained anymore.
 # TODO: Add command-line parameter to select this
 #------------------------------------------------------
 
@@ -45,7 +45,7 @@ else
         SYSTEM = unix
     endif
     ifneq (,($findstring BSD,$(UNAME_S)))
-    	SYSTEM = unix
+        SYSTEM = unix
     endif
     ifeq ($(UNAME_S),Darwin)
         SYSTEM = macosx
@@ -63,7 +63,7 @@ ifeq ($(SYSTEM), dos)
 #--- Executable name
 EXE     = ../meka.exe
 #--- Output directory
-OD		= obj
+OD      = obj
 #--- Compilation
 CC      = gcc -Werror
 CC_OUT  = -o
@@ -155,11 +155,11 @@ RC      = rc
 DEF_OS  = -DARCH_WIN32
 INC_OS  = -I$(LIBPNGDIR) -I$(ZLIBDIR)
 
-#--- Librairies
+#--- Libraries
 LIB_OS          = kernel32.lib user32.lib gdi32.lib comdlg32.lib ole32.lib ddraw.lib winmm.lib dsound.lib dinput.lib dxguid.lib
 LIB_PATHS       = -libpath:$(MSVCDIR)/lib/ -libpath:$(MSVCDIR)/PlatformSDK/lib/ -libpath:$(DXSDKDIR)/lib
 
-#--- Ressources
+#--- Resources
 RESSOURCES = mekaw.res
 
 ALL_FILES=*.*
@@ -232,7 +232,7 @@ OBJ_EMU   = $(OD)/mainloop.o $(OD)/ioports.o $(OD)/commport.o $(OD)/vmachine.o $
 OBJ_INP   = $(OD)/inputs.o $(OD)/inputs_c.o $(OD)/inputs_f.o $(OD)/inputs_i.o $(OD)/inputs_t.o $(OD)/inputs_u.o $(OD)/lightgun.o $(OD)/periph.o $(OD)/rapidfir.o $(OD)/tvoekaki.o $(OD)/glasses.o $(OD)/sk1100.o
 OBJ_FEAT  = $(OD)/checksum.o $(OD)/db.o $(OD)/vlfn.o $(OD)/patch.o $(OD)/saves.o
 OBJ_CFG   = $(OD)/config.o
-OBJ_MISC  = $(OD)/allegro4to5.o	 $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o $(OD)/libmisc.o $(OD)/libparse.o
+OBJ_MISC  = $(OD)/allegro4to5.o  $(OD)/misc.o $(OD)/build.o $(OD)/fonts.o $(OD)/file.o $(OD)/data.o $(OD)/tools.o $(OD)/keyinfo.o $(OD)/drivers.o $(OD)/message.o $(OD)/capture.o $(OD)/errors.o $(OD)/sdsc.o $(OD)/setup.o $(OD)/libmisc.o $(OD)/libparse.o
 #OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o $(OD)/hq2x16.o $(OD)/hq2x32.o
 OBJ_BLIT  = $(OD)/blit.o $(OD)/blitintf.o $(OD)/hq2x.o
 OBJ_CPU   = $(OD)/machine.o $(OD)/cpu.o
@@ -302,13 +302,13 @@ OBJ_MEKA = $(OD)/meka.o $(OBJ_CPU) $(OBJ_VIDEO) $(OBJ_EMU) $(OBJ_INP) $(OBJ_FEAT
 #-----------------------------------------------------
 # Linking Rule
 #-----------------------------------------------------
-exe	: makedir $(EXE)
+exe : makedir $(EXE)
 
-$(EXE)	: $(OBJ_MEKA)
+$(EXE)  : $(OBJ_MEKA)
 ifneq ($(SYSTEM), win32)
-	$(LINKER) -o $@ $(OBJ_MEKA) $(LIB)
+    $(LINKER) -o $@ $(OBJ_MEKA) $(LIB)
 else
-	$(LINKER) -nologo -release -subsystem:windows -out:$@ -section:.text,erw -section:.data,erw -section:.bss,erw $(OBJ_MEKA) $(LIB)
+    $(LINKER) -nologo -release -subsystem:windows -out:$@ -section:.text,erw -section:.data,erw -section:.bss,erw $(OBJ_MEKA) $(LIB)
 endif
 
 #-----------------------------------------------------
@@ -316,181 +316,184 @@ endif
 #-----------------------------------------------------
 
 # Custom Dependencies
-$(OD)/gui.o : gui.c gui.h shared.h meka.h
-$(OD)/build.o : build.c
-$(OD)/g_menu.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-$(OD)/g_menu_i.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-$(OD)/g_menu_t.o : g_menu.c g_menu.h g_menu_t.c g_menu_t.h g_menu_i.c g_menu_i.h
-# $(OD)/cpu.o : cpu.c cpu.h shared.h meka.h
-# $(OD)/palette.o : palette.c palette.h video.h shared.h meka.h
-# $(OD)/inputs.o : inputs.c inputs.h keyboard.c keyboard.h keyb_map.h
-# $(OD)/data.o : data.c data.h g_colors.h
+$(OD)/gui.o : gui.cpp gui.h shared.h meka.h
+$(OD)/build.o : build.cpp
+$(OD)/g_menu.o : g_menu.cpp g_menu.h g_menu_t.cpp g_menu_t.h g_menu_i.cpp g_menu_i.h
+$(OD)/g_menu_i.o : g_menu.cpp g_menu.h g_menu_t.cpp g_menu_t.h g_menu_i.cpp g_menu_i.h
+$(OD)/g_menu_t.o : g_menu.cpp g_menu.h g_menu_t.cpp g_menu_t.h g_menu_i.cpp g_menu_i.h
+# $(OD)/cpu.o : cpu.cpp cpu.h shared.h meka.h
+# $(OD)/palette.o : palette.cpp palette.h video.h shared.h meka.h
+# $(OD)/inputs.o : inputs.cpp inputs.h keyboard.cpp keyboard.h keyb_map.h
+# $(OD)/data.o : data.cpp data.h g_colors.h
 
 # CPU emulators related compilation
-$(OD)/z80marat.a : z80marat/Z80.c z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.c z80marat/Z80Call.c z80marat/Z80DebugHelpers.cpp
-	$(CC) $(CFLAGS) -c z80marat/Z80.c $(CC_OUT)$@
+$(OD)/z80marat.a : z80marat/Z80.cpp z80marat/Z80.h z80marat/Codes.h z80marat/CodesED.h z80marat/CodesCB.h z80marat/CodesXX.h z80marat/Tables.h z80marat/CodesXCB.h z80marat/Debug.cpp z80marat/Z80Call.cpp z80marat/Z80DebugHelpers.cpp
+    $(CC) $(CFLAGS) -c z80marat/Z80.cpp $(CC_OUT)$@
 
-$(OD)/debug.o : z80marat/Debug.c z80marat/Z80.h
-	$(CC) $(CFLAGS) -c z80marat/Debug.c $(CC_OUT)$@
+$(OD)/debug.o : z80marat/Debug.cpp z80marat/Z80.h
+    $(CC) $(CFLAGS) -c z80marat/Debug.cpp $(CC_OUT)$@
 
 $(OD)/debughelper.o : z80marat/Z80DebugHelpers.cpp z80marat/Z80.h
-	$(CC) $(CFLAGS) -c z80marat/Z80DebugHelpers.cpp $(CC_OUT)$@ 
+    $(CC) $(CFLAGS) -c z80marat/Z80DebugHelpers.cpp $(CC_OUT)$@ 
 
 # Generic Rules
 
+$(OD)/%.o : %.cpp %.h
+    $(CC) $(CFLAGS) -c $< $(CC_OUT)$@
+
 $(OD)/%.o : %.c %.h
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
+    $(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 $(OD)/%.o : %.asm
-	$(ASM) $(DEF_OS) -f $(OTYPE) $< -o $@
+    $(ASM) $(DEF_OS) -f $(OTYPE) $< -o $@
 
 $(OD)/%.a : %.asm
-	$(ASM) $(DEF_OS)-f $(OTYPE) $< -o $@
+    $(ASM) $(DEF_OS)-f $(OTYPE) $< -o $@
 
-$(OD)/sound/%.o : sound/%.c sound/%.h
-	$(CC) $(CFLAGS) -c $< $(CC_OUT)$@
+$(OD)/sound/%.o : sound/%.cpp sound/%.h
+    $(CC) $(CFLAGS) -c $< $(CC_OUT)$@
 
 $(OD)/platform/macosx/%.o : platform/macosx/%.mm platform/macosx/%.h
-	$(CC) $(OBJCFLAGS) -c $< $(CC_OUT)$@
+    $(CC) $(OBJCFLAGS) -c $< $(CC_OUT)$@
 
 #-----------------------------------------------------
 # Help
 #-----------------------------------------------------
 
 help :
-	@echo "Rules:"
-	@echo "  exe             - Build executable, independent of platform"
-	@echo "  dist            - Build sources and binary distribution"
-	@echo "  dist_src        - Build sources distribution"
-	@echo "  dist_bin_dos    - Build binary DOS distribution"
-	@echo "  dist_bin_win32  - Build binary Win32 distribution"
-	@echo "  dist_bin_unix   - Build binary UNIX distribution"
-	@echo "  clean           - Clean most object files (excluding z80 stuff, etc.)"
-	@echo "  clean_all       - Clean object files"
-	@echo "  makedir         - Create output directories"
+    @echo "Rules:"
+    @echo "  exe             - Build executable, independent of platform"
+    @echo "  dist            - Build sources and binary distribution"
+    @echo "  dist_src        - Build sources distribution"
+    @echo "  dist_bin_dos    - Build binary DOS distribution"
+    @echo "  dist_bin_win32  - Build binary Win32 distribution"
+    @echo "  dist_bin_unix   - Build binary UNIX distribution"
+    @echo "  clean           - Clean most object files (excluding z80 stuff, etc.)"
+    @echo "  clean_all       - Clean object files"
+    @echo "  makedir         - Create output directories"
 
 #-----------------------------------------------------
 # Distribution
 #-----------------------------------------------------
 
 ifeq ($(SYSTEM), unix)
-dist :	dist_src dist_bin_unix
+dist :  dist_src dist_bin_unix
 else
-dist :	dist_src dist_bin_dos dist_bin_win32
+dist :  dist_src dist_bin_dos dist_bin_win32
 endif
 
 dist_src :
-	@echo Creating Dist/meka-src.zip
-# 	This change in directories does not work in linux.
-# 	Changed all the relative paths below to fix it.
-# 	Another aproach is:
-# 	http://stackoverflow.com/questions/1789594/how-to-write-cd-command-in-makefile
-# 	cd ..
-	-$(MKDIR) ../Dist
-	zip -9 ../Dist/meka-src.zip ../meka.blt ../meka.dat ../meka.inp ../meka.msg ../meka.nam ../meka.pat ../meka.thm
-	zip -9 ../Dist/meka-src.zip ../*.cfg ../*.txt ../icons.zip ../setup.bat
-	zip -9 -r ../Dist/meka-src.zip ../Data/$(ALL_FILES)
-	zip -9 -r ../Dist/meka-src.zip ../Themes/$(ALL_FILES)
-	zip -9 -r ../Dist/meka-src.zip ../libs/$(ALL_FILES)
-	zip -9 -D ../Dist/meka-src.zip ../srcs/$(ALL_FILES)
-	zip -9 -r ../Dist/meka-src.zip ../srcs/datasrc/$(ALL_FILES)
-# 	I dont have this folder on linux
-	-zip -9 -r ../Dist/meka-src.zip ../srcs/docs/$(ALL_FILES)
-	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/*.h ../srcs/sound/*.c
-	zip -9 -r ../Dist/meka-src.zip ../srcs/sound/emu2413/*.h ../srcs/sound/emu2413/*.c
-	zip -9 -r ../Dist/meka-src.zip ../srcs/z80marat/$(ALL_FILES)
-	@echo Deleting VisualStudio temporary files, be sure that VisualStudio is closed.
-	-$(RM) -f srcs/MsVc/*.ncb
-# 	I dont have this folder on linux
-	-zip -9 -D ../Dist/meka-src.zip ../srcs/MsVc/$(ALL_FILES)
-#	zip -9 -r Dist/meka-src.zip srcs/mithril/*.*
-#	zip -9 -r Dist/meka-src.zip srcs/z80mame/*.*
-#	zip -9 -r Dist/meka-src.zip srcs/z80mk/*.*
-#	zip -9 -r Dist/meka-src.zip srcs/z80raze/*.*
-	@echo Done!
-	
+    @echo Creating Dist/meka-src.zip
+#   This change in directories does not work in Linux.
+#   Changed all the relative paths below to fix it.
+#   Another approach is:
+#   http://stackoverflow.com/questions/1789594/how-to-write-cd-command-in-makefile
+#   cd ..
+    -$(MKDIR) ../Dist
+    zip -9 ../Dist/meka-src.zip ../meka.blt ../meka.dat ../meka.inp ../meka.msg ../meka.nam ../meka.pat ../meka.thm
+    zip -9 ../Dist/meka-src.zip ../*.cfg ../*.txt ../icons.zip ../setup.bat
+    zip -9 -r ../Dist/meka-src.zip ../Data/$(ALL_FILES)
+    zip -9 -r ../Dist/meka-src.zip ../Themes/$(ALL_FILES)
+    zip -9 -r ../Dist/meka-src.zip ../libs/$(ALL_FILES)
+    zip -9 -D ../Dist/meka-src.zip ../srcs/$(ALL_FILES)
+    zip -9 -r ../Dist/meka-src.zip ../srcs/datasrc/$(ALL_FILES)
+#   I dont have this folder on linux
+    -zip -9 -r ../Dist/meka-src.zip ../srcs/docs/$(ALL_FILES)
+    zip -9 -r ../Dist/meka-src.zip ../srcs/sound/*.h ../srcs/sound/*.cpp
+    zip -9 -r ../Dist/meka-src.zip ../srcs/sound/emu2413/*.h ../srcs/sound/emu2413/*.cpp
+    zip -9 -r ../Dist/meka-src.zip ../srcs/z80marat/$(ALL_FILES)
+    @echo Deleting VisualStudio temporary files, be sure that VisualStudio is closed.
+    -$(RM) -f srcs/MsVc/*.ncb
+#   I dont have this folder on linux
+    -zip -9 -D ../Dist/meka-src.zip ../srcs/MsVc/$(ALL_FILES)
+#   zip -9 -r Dist/meka-src.zip srcs/mithril/*.*
+#   zip -9 -r Dist/meka-src.zip srcs/z80mame/*.*
+#   zip -9 -r Dist/meka-src.zip srcs/z80mk/*.*
+#   zip -9 -r Dist/meka-src.zip srcs/z80raze/*.*
+    @echo Done!
+    
 dist_bin_dos :
-	@echo Creating Dist/meka.zip
-	cd ..
-	-$(MKDIR) Dist
-	@echo Stripping and compressing
-	-strip meka.exe
-	-upx -9 meka.exe
-	@echo Packaging
-	zip -9 Dist/meka.zip meka.blt meka.cfg meka.dat meka.exe meka.inp meka.msg meka.nam meka.pat meka.thm
-	zip -9 Dist/meka.zip icons.zip
-	zip -9 Dist/meka.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt 
-	zip -9 Dist/meka.zip -r Data/*.*
-	zip -9 Dist/meka.zip -r Themes/*.png Themes/README.txt
-	@echo Done!
-	@echo -- Check MEKA.BLT ! --
-	@echo -- Check MEKA.INP ! Joypad auto, on --
+    @echo Creating Dist/meka.zip
+    cd ..
+    -$(MKDIR) Dist
+    @echo Stripping and compressing
+    -strip meka.exe
+    -upx -9 meka.exe
+    @echo Packaging
+    zip -9 Dist/meka.zip meka.blt meka.cfg meka.dat meka.exe meka.inp meka.msg meka.nam meka.pat meka.thm
+    zip -9 Dist/meka.zip icons.zip
+    zip -9 Dist/meka.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt 
+    zip -9 Dist/meka.zip -r Data/*.*
+    zip -9 Dist/meka.zip -r Themes/*.png Themes/README.txt
+    @echo Done!
+    @echo -- Check MEKA.BLT ! --
+    @echo -- Check MEKA.INP ! Joypad auto, on --
 
 dist_bin_win32 :
-	@echo Creating Dist/mekaw.zip
-	cd ..
-	-$(MKDIR) Dist
-	@echo Compressing
-	-libs/dist_win/upx.exe -9 mekaw.exe
-	@echo Packaging
-	libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
-	libs/dist_win/zip.exe -9 Dist/mekaw.zip icons.zip setup.bat
-	libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
-	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
-	libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Data/*.*
-	@echo Done!
-	@echo -- Check MEKA.BLT ! --
-	@echo -- Check MEKA.INP ! Joypad auto, on --
+    @echo Creating Dist/mekaw.zip
+    cd ..
+    -$(MKDIR) Dist
+    @echo Compressing
+    -libs/dist_win/upx.exe -9 mekaw.exe
+    @echo Packaging
+    libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.blt meka.dat mekaw.cfg mekaw.exe meka.inp meka.msg meka.nam meka.pat meka.thm
+    libs/dist_win/zip.exe -9 Dist/mekaw.zip icons.zip setup.bat
+    libs/dist_win/zip.exe -9 Dist/mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
+    libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Themes/*.png Themes/Credits.txt
+    libs/dist_win/zip.exe -9 Dist/mekaw.zip -r Data/*.*
+    @echo Done!
+    @echo -- Check MEKA.BLT ! --
+    @echo -- Check MEKA.INP ! Joypad auto, on --
 
 # Not sure if this still work
 ifeq ($(SYSTEM), unix)
 dist_bin_unix :
-	@echo Creating Dist/mekanix.tgz
-	@echo Compressing
-	-upx -9 ../meka
-	@echo Packaging
-	-mkdir ../Dist/
-	-mkdir ../Dist/mekanix/
-	cp ../meka ../meka.blt ../meka.cfg ../meka.dat ../meka.inp ../meka.msg ../meka.nam ../meka.pat ../meka.thm ../icons.zip ../Dist/mekanix/
-	cp ../meka.txt ../changes.txt ../compat.txt ../debugger.txt ../multi.txt ../tech.txt ../Dist/mekanix/
-	cp -R ../Themes ../Dist/mekanix/
-	cp -R ../Data ../Dist/mekanix/
-	tar cvzf ../Dist/mekanix.tgz ../Dist/mekanix
-	rm -fR ../Dist/mekanix/
-	@echo Done!
-	@echo -- Check MEKA.BLT ! --
-	@echo -- Check MEKA.INP ! Joypad auto, on --
+    @echo Creating Dist/mekanix.tgz
+    @echo Compressing
+    -upx -9 ../meka
+    @echo Packaging
+    -mkdir ../Dist/
+    -mkdir ../Dist/mekanix/
+    cp ../meka ../meka.blt ../meka.cfg ../meka.dat ../meka.inp ../meka.msg ../meka.nam ../meka.pat ../meka.thm ../icons.zip ../Dist/mekanix/
+    cp ../meka.txt ../changes.txt ../compat.txt ../debugger.txt ../multi.txt ../tech.txt ../Dist/mekanix/
+    cp -R ../Themes ../Dist/mekanix/
+    cp -R ../Data ../Dist/mekanix/
+    tar cvzf ../Dist/mekanix.tgz ../Dist/mekanix
+    rm -fR ../Dist/mekanix/
+    @echo Done!
+    @echo -- Check MEKA.BLT ! --
+    @echo -- Check MEKA.INP ! Joypad auto, on --
 endif
 
 # Cleaning rules -------------------------------------
-clean :		clean_backup
-	$(RM) -f $(OD)/*.o
-	$(RM) -f $(OD)/sound/*.o
-	$(RM) -f $(OD)/sound/emu2413/*.o
+clean :     clean_backup
+    $(RM) -f $(OD)/*.o
+    $(RM) -f $(OD)/sound/*.o
+    $(RM) -f $(OD)/sound/emu2413/*.o
 
-clean_all :	clean
-	$(RM) -f $(OD)/*.a
-	$(RM) -f MsVc/*.ncb
+clean_all : clean
+    $(RM) -f $(OD)/*.a
+    $(RM) -f MsVc/*.ncb
 
 clean_backup :
-	$(RM) -f *~ *.c~ *.h~
-	$(RM) -f sound/*.c~ sound/*.h~
-	$(RM) -f sound/emu2413/*.c~ sound/emu2413/*.h~
+    $(RM) -f *~ *.c~ *.cpp~ *.h~
+    $(RM) -f sound/*.c~ sound/*.cpp~ sound/*.h~
+    $(RM) -f sound/emu2413/*.c~ sound/emu2413/*.h~
 
 clean_sound :
-	$(RM) -f $(OD)/sound/*.o
+    $(RM) -f $(OD)/sound/*.o
 
 # Directories
 makedir: $(OD) $(OD)/sound $(OD)/sound/emu2413 $(OD)/platform/macosx
 $(OD):
-	-$(MKDIR) $(OD)
+    -$(MKDIR) $(OD)
 $(OD)/sound:
-	-$(MKDIR) $(OD)/sound
+    -$(MKDIR) $(OD)/sound
 $(OD)/sound/emu2413:
-	-$(MKDIR) $(OD)/sound/emu2413
+    -$(MKDIR) $(OD)/sound/emu2413
 
 $(OD)/platform/macosx:
-	@$(MKDIR) -p $(OD)/platform/macosx
+    @$(MKDIR) -p $(OD)/platform/macosx
 #------------------------------------------------------
 # EOF
 #------------------------------------------------------

@@ -23,8 +23,8 @@ void    SF7000_IPL_Mapping_Update (void);
 
 struct t_sf7000
 {
-	u8  Port_E4, Port_E5, Port_E6, Port_E7;
-	u8	Port_E8, Port_E9;
+    u8  Port_E4, Port_E5, Port_E6, Port_E7;
+    u8  Port_E8, Port_E9;
 };
 
 extern t_sf7000 SF7000;

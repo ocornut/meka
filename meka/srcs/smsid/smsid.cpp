@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 			DB_FindDriverNameById(entry->system),
 			entry->crc_crc32, 
 			entry->crc_mekacrc.v[0], entry->crc_mekacrc.v[1],
-			entry->names[0]);
+			entry->names[0].name);
 		s += buf;
 
 		int countries = 0;

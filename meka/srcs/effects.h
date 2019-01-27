@@ -7,7 +7,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void	Effects_TV_Init(void);
+void    Effects_TV_Init(void);
 void    Effects_TV_Reset(void);
 void    Effects_TV_Update(void);
 

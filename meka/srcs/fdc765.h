@@ -40,7 +40,7 @@ struct FDC765_DiskHeader
                         /* 22-2F  unused (0)                                        */
   byte   nbof_tracks;   /* 30     number of tracks (40)                             */
   byte   nbof_heads;    /* 31     number of heads (1) 2 not yet supported by cpcemu */
-  short  tracksize;	/*        short must be 16bit integer                       */
+  short  tracksize; /*        short must be 16bit integer                       */
                         /* 32-33  tracksize (including 0x100 bytes header)          */
                         /*        9 sectors * 0x200 bytes each + header = 0x1300    */
   byte   unused[0xcc];  /* 34-FF  unused (0)                                        */
@@ -79,7 +79,7 @@ byte    FDC765_Status_Read      (void);
 
 // Added by Marc Le Douarain for SF-7000 emulation ----------------------------
 // (Pin 17 of the FDC is connected to SF-7000 [PA2] input port)
-extern u8	FDC765_Cmd_For_SF7000;
+extern u8 FDC765_Cmd_For_SF7000;
 
 //-----------------------------------------------------------------------------
 

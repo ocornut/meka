@@ -75,7 +75,7 @@
       <AdditionalIncludeDirectories>../..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;DEBUGMODE;_WINDOWS;X86_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling />
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -96,7 +96,7 @@
       <Culture>0x0000</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/MACHINE:I386 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MACHINE:I386 /IGNORE:4204,4099 </AdditionalOptions>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <Version />
       <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -154,7 +154,7 @@
       <Culture>0x0000</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalOptions>/MACHINE:I386 /IGNORE:4204,4099 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MACHINE:I386 /IGNORE:4204,4099 </AdditionalOptions>
       <ShowProgress>NotSet</ShowProgress>
       <Version />
       <AdditionalLibraryDirectories>$(DXSDK_DIR)/lib/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -212,123 +212,123 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\allegro4to5.c" />
-    <ClCompile Include="..\..\app_about.c" />
-    <ClCompile Include="..\..\app_cheatfinder.c" />
-    <ClCompile Include="..\..\app_filebrowser.c" />
-    <ClCompile Include="..\..\app_game.c" />
-    <ClCompile Include="..\..\app_mapview.c" />
-    <ClCompile Include="..\..\app_memview.c" />
-    <ClCompile Include="..\..\app_options.c" />
-    <ClCompile Include="..\..\app_palview.c" />
-    <ClCompile Include="..\..\app_techinfo.c" />
-    <ClCompile Include="..\..\app_textview.c" />
-    <ClCompile Include="..\..\app_tileview.c" />
-    <ClCompile Include="..\..\areplay.c" />
-    <ClCompile Include="..\..\beam.c" />
-    <ClCompile Include="..\..\bios.c" />
-    <ClCompile Include="..\..\blit.c" />
-    <ClCompile Include="..\..\blitintf.c" />
-    <ClCompile Include="..\..\blit_c.c" />
-    <ClCompile Include="..\..\bmemory.c" />
-    <ClCompile Include="..\..\build.c" />
-    <ClCompile Include="..\..\capture.c" />
-    <ClCompile Include="..\..\checksum.c" />
-    <ClCompile Include="..\..\coleco.c" />
-    <ClCompile Include="..\..\commport.c" />
-    <ClCompile Include="..\..\config.c" />
-    <ClCompile Include="..\..\country.c" />
-    <ClCompile Include="..\..\cpu.c" />
-    <ClCompile Include="..\..\data.c" />
-    <ClCompile Include="..\..\datadump.c" />
-    <ClCompile Include="..\..\db.c" />
-    <ClCompile Include="..\..\debugger.c" />
-    <ClCompile Include="..\..\desktop.c" />
-    <ClCompile Include="..\..\drivers.c" />
-    <ClCompile Include="..\..\eeprom.c" />
-    <ClCompile Include="..\..\effects.c" />
-    <ClCompile Include="..\..\errors.c" />
-    <ClCompile Include="..\..\fdc765.c" />
-    <ClCompile Include="..\..\file.c" />
-    <ClCompile Include="..\..\fonts.c" />
-    <ClCompile Include="..\..\fskipper.c" />
-    <ClCompile Include="..\..\glasses.c" />
-    <ClCompile Include="..\..\gui.c" />
-    <ClCompile Include="..\..\g_action.c" />
-    <ClCompile Include="..\..\g_box.c" />
-    <ClCompile Include="..\..\g_init.c" />
-    <ClCompile Include="..\..\g_menu.c" />
-    <ClCompile Include="..\..\g_menu_i.c" />
-    <ClCompile Include="..\..\g_menu_t.c" />
-    <ClCompile Include="..\..\g_mouse.c" />
-    <ClCompile Include="..\..\g_tools.c" />
-    <ClCompile Include="..\..\g_update.c" />
-    <ClCompile Include="..\..\g_widget.c" />
-    <ClCompile Include="..\..\hq2x.c" />
-    <ClCompile Include="..\..\inputs.c" />
-    <ClCompile Include="..\..\inputs_c.c" />
-    <ClCompile Include="..\..\inputs_f.c" />
-    <ClCompile Include="..\..\inputs_i.c" />
-    <ClCompile Include="..\..\inputs_t.c" />
-    <ClCompile Include="..\..\inputs_u.c" />
-    <ClCompile Include="..\..\ioports.c" />
-    <ClCompile Include="..\..\keyinfo.c" />
-    <ClCompile Include="..\..\libmisc.c" />
-    <ClCompile Include="..\..\libparse.c" />
-    <ClCompile Include="..\..\lightgun.c" />
-    <ClCompile Include="..\..\machine.c" />
-    <ClCompile Include="..\..\mainloop.c" />
-    <ClCompile Include="..\..\mappers.c" />
-    <ClCompile Include="..\..\meka.c" />
-    <ClCompile Include="..\..\message.c" />
-    <ClCompile Include="..\..\misc.c" />
-    <ClCompile Include="..\..\palette.c" />
-    <ClCompile Include="..\..\patch.c" />
-    <ClCompile Include="..\..\periph.c" />
-    <ClCompile Include="..\..\rapidfir.c" />
-    <ClCompile Include="..\..\saves.c" />
-    <ClCompile Include="..\..\sdsc.c" />
-    <ClCompile Include="..\..\setup.c" />
-    <ClCompile Include="..\..\sf7000.c" />
-    <ClCompile Include="..\..\sg1ksc3k.c" />
-    <ClCompile Include="..\..\shared.c">
+    <ClCompile Include="..\..\allegro4to5.cpp" />
+    <ClCompile Include="..\..\app_about.cpp" />
+    <ClCompile Include="..\..\app_cheatfinder.cpp" />
+    <ClCompile Include="..\..\app_filebrowser.cpp" />
+    <ClCompile Include="..\..\app_game.cpp" />
+    <ClCompile Include="..\..\app_mapview.cpp" />
+    <ClCompile Include="..\..\app_memview.cpp" />
+    <ClCompile Include="..\..\app_options.cpp" />
+    <ClCompile Include="..\..\app_palview.cpp" />
+    <ClCompile Include="..\..\app_techinfo.cpp" />
+    <ClCompile Include="..\..\app_textview.cpp" />
+    <ClCompile Include="..\..\app_tileview.cpp" />
+    <ClCompile Include="..\..\areplay.cpp" />
+    <ClCompile Include="..\..\beam.cpp" />
+    <ClCompile Include="..\..\bios.cpp" />
+    <ClCompile Include="..\..\blit.cpp" />
+    <ClCompile Include="..\..\blitintf.cpp" />
+    <ClCompile Include="..\..\blit_c.cpp" />
+    <ClCompile Include="..\..\bmemory.cpp" />
+    <ClCompile Include="..\..\build.cpp" />
+    <ClCompile Include="..\..\capture.cpp" />
+    <ClCompile Include="..\..\checksum.cpp" />
+    <ClCompile Include="..\..\coleco.cpp" />
+    <ClCompile Include="..\..\commport.cpp" />
+    <ClCompile Include="..\..\config.cpp" />
+    <ClCompile Include="..\..\country.cpp" />
+    <ClCompile Include="..\..\cpu.cpp" />
+    <ClCompile Include="..\..\data.cpp" />
+    <ClCompile Include="..\..\datadump.cpp" />
+    <ClCompile Include="..\..\db.cpp" />
+    <ClCompile Include="..\..\debugger.cpp" />
+    <ClCompile Include="..\..\desktop.cpp" />
+    <ClCompile Include="..\..\drivers.cpp" />
+    <ClCompile Include="..\..\eeprom.cpp" />
+    <ClCompile Include="..\..\effects.cpp" />
+    <ClCompile Include="..\..\errors.cpp" />
+    <ClCompile Include="..\..\fdc765.cpp" />
+    <ClCompile Include="..\..\file.cpp" />
+    <ClCompile Include="..\..\fonts.cpp" />
+    <ClCompile Include="..\..\fskipper.cpp" />
+    <ClCompile Include="..\..\glasses.cpp" />
+    <ClCompile Include="..\..\gui.cpp" />
+    <ClCompile Include="..\..\g_action.cpp" />
+    <ClCompile Include="..\..\g_box.cpp" />
+    <ClCompile Include="..\..\g_init.cpp" />
+    <ClCompile Include="..\..\g_menu.cpp" />
+    <ClCompile Include="..\..\g_menu_i.cpp" />
+    <ClCompile Include="..\..\g_menu_t.cpp" />
+    <ClCompile Include="..\..\g_mouse.cpp" />
+    <ClCompile Include="..\..\g_tools.cpp" />
+    <ClCompile Include="..\..\g_update.cpp" />
+    <ClCompile Include="..\..\g_widget.cpp" />
+    <ClCompile Include="..\..\hq2x.cpp" />
+    <ClCompile Include="..\..\inputs.cpp" />
+    <ClCompile Include="..\..\inputs_c.cpp" />
+    <ClCompile Include="..\..\inputs_f.cpp" />
+    <ClCompile Include="..\..\inputs_i.cpp" />
+    <ClCompile Include="..\..\inputs_t.cpp" />
+    <ClCompile Include="..\..\inputs_u.cpp" />
+    <ClCompile Include="..\..\ioports.cpp" />
+    <ClCompile Include="..\..\keyinfo.cpp" />
+    <ClCompile Include="..\..\libmisc.cpp" />
+    <ClCompile Include="..\..\libparse.cpp" />
+    <ClCompile Include="..\..\lightgun.cpp" />
+    <ClCompile Include="..\..\machine.cpp" />
+    <ClCompile Include="..\..\mainloop.cpp" />
+    <ClCompile Include="..\..\mappers.cpp" />
+    <ClCompile Include="..\..\meka.cpp" />
+    <ClCompile Include="..\..\message.cpp" />
+    <ClCompile Include="..\..\misc.cpp" />
+    <ClCompile Include="..\..\palette.cpp" />
+    <ClCompile Include="..\..\patch.cpp" />
+    <ClCompile Include="..\..\periph.cpp" />
+    <ClCompile Include="..\..\rapidfir.cpp" />
+    <ClCompile Include="..\..\saves.cpp" />
+    <ClCompile Include="..\..\sdsc.cpp" />
+    <ClCompile Include="..\..\setup.cpp" />
+    <ClCompile Include="..\..\sf7000.cpp" />
+    <ClCompile Include="..\..\sg1ksc3k.cpp" />
+    <ClCompile Include="..\..\shared.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\sk1100.c" />
-    <ClCompile Include="..\..\skin.c" />
-    <ClCompile Include="..\..\skin_bg.c" />
-    <ClCompile Include="..\..\skin_fx.c" />
-    <ClCompile Include="..\..\sound\emu2413\emu2413.c" />
-    <ClCompile Include="..\..\sound\emu2413\mekaintf.c" />
-    <ClCompile Include="..\..\sound\fmeditor.c" />
-    <ClCompile Include="..\..\sound\fmunit.c" />
-    <ClCompile Include="..\..\sound\psg.c" />
-    <ClCompile Include="..\..\sound\sound.c" />
-    <ClCompile Include="..\..\sound\sound_logging.c" />
-    <ClCompile Include="..\..\sound\s_misc.c" />
-    <ClCompile Include="..\..\sound\vgm.c" />
-    <ClCompile Include="..\..\sound\wav.c" />
-    <ClCompile Include="..\..\textbox.c" />
-    <ClCompile Include="..\..\tools.c" />
-    <ClCompile Include="..\..\tvoekaki.c" />
-    <ClCompile Include="..\..\tvtype.c" />
-    <ClCompile Include="..\..\unzip.c" />
-    <ClCompile Include="..\..\vdp.c" />
-    <ClCompile Include="..\..\video.c" />
-    <ClCompile Include="..\..\video_c.c" />
-    <ClCompile Include="..\..\video_m2.c" />
-    <ClCompile Include="..\..\video_m5.c" />
-    <ClCompile Include="..\..\vlfn.c" />
-    <ClCompile Include="..\..\vmachine.c" />
-    <ClCompile Include="..\..\z80marat\Debug.c" />
-    <ClCompile Include="..\..\z80marat\Z80.c">
+    <ClCompile Include="..\..\sk1100.cpp" />
+    <ClCompile Include="..\..\skin.cpp" />
+    <ClCompile Include="..\..\skin_bg.cpp" />
+    <ClCompile Include="..\..\skin_fx.cpp" />
+    <ClCompile Include="..\..\sound\emu2413\emu2413.cpp" />
+    <ClCompile Include="..\..\sound\emu2413\mekaintf.cpp" />
+    <ClCompile Include="..\..\sound\fmeditor.cpp" />
+    <ClCompile Include="..\..\sound\fmunit.cpp" />
+    <ClCompile Include="..\..\sound\psg.cpp" />
+    <ClCompile Include="..\..\sound\sound.cpp" />
+    <ClCompile Include="..\..\sound\sound_logging.cpp" />
+    <ClCompile Include="..\..\sound\s_misc.cpp" />
+    <ClCompile Include="..\..\sound\vgm.cpp" />
+    <ClCompile Include="..\..\sound\wav.cpp" />
+    <ClCompile Include="..\..\textbox.cpp" />
+    <ClCompile Include="..\..\tools.cpp" />
+    <ClCompile Include="..\..\tvoekaki.cpp" />
+    <ClCompile Include="..\..\tvtype.cpp" />
+    <ClCompile Include="..\..\unzip.cpp" />
+    <ClCompile Include="..\..\vdp.cpp" />
+    <ClCompile Include="..\..\video.cpp" />
+    <ClCompile Include="..\..\video_c.cpp" />
+    <ClCompile Include="..\..\video_m2.cpp" />
+    <ClCompile Include="..\..\video_m5.cpp" />
+    <ClCompile Include="..\..\vlfn.cpp" />
+    <ClCompile Include="..\..\vmachine.cpp" />
+    <ClCompile Include="..\..\z80marat\Debug.cpp" />
+    <ClCompile Include="..\..\z80marat\Z80.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\z80marat\Z80Call.c">
+    <ClCompile Include="..\..\z80marat\Z80Call.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

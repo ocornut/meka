@@ -9,18 +9,18 @@
 
 enum t_country
 {
-	COUNTRY_EXPORT      = 0,
-	COUNTRY_JAPAN       = 1,
-	COUNTRY_AUTO		= 2,
+    COUNTRY_EXPORT      = 0,
+    COUNTRY_JAPAN       = 1,
+    COUNTRY_AUTO        = 2,
 };
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void            Nationalize				(u8* v);
-void            Set_Country_Export		();
-void            Set_Country_Japan		();
+void            Nationalize             (u8* v);
+void            Set_Country_Export      ();
+void            Set_Country_Japan       ();
 
 //-----------------------------------------------------------------------------
 

@@ -9,8 +9,8 @@
 
 enum t_load_mode
 {
-	LOAD_MODE_COMMANDLINE,
-	LOAD_MODE_GUI
+    LOAD_MODE_COMMANDLINE,
+    LOAD_MODE_GUI
 };
 
 //-----------------------------------------------------------------------------

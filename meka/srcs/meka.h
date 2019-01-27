@@ -23,24 +23,24 @@
 #define MAX_TILES               (512)
 
 // Fixed colors
-extern ALLEGRO_COLOR			COLOR_BLACK;
-extern ALLEGRO_COLOR			COLOR_WHITE;
-extern ALLEGRO_COLOR			COLOR_DEBUG_BACKDROP;	// When background render is disabled
+extern ALLEGRO_COLOR            COLOR_BLACK;
+extern ALLEGRO_COLOR            COLOR_WHITE;
+extern ALLEGRO_COLOR            COLOR_DEBUG_BACKDROP;   // When background render is disabled
 
-#define COLOR_BLACK16			0x0000
-#define COLOR_WHITE16			0xFFFF
+#define COLOR_BLACK16           0x0000
+#define COLOR_WHITE16           0xFFFF
 
 // Border Color
 // FIXME: Unsupported
-#define BORDER_COLOR            COLOR_BLACK		//((sms.VDP[7] & 15) + 16)
-#define BORDER_COLOR16			COLOR_BLACK16
+#define BORDER_COLOR            COLOR_BLACK     //((sms.VDP[7] & 15) + 16)
+#define BORDER_COLOR16          COLOR_BLACK16
 
-extern "C"	// C-style mangling
+extern "C"  // C-style mangling
 {
 extern u8      RAM[0x10000];               // RAM
 extern u8      SRAM[0x8000];               // Save RAM
 extern u8      VRAM[0x4000];               // Video RAM
-extern u8      PRAM[0x40];				   // Palette RAM
+extern u8      PRAM[0x40];                 // Palette RAM
 extern u8 *    ROM;                        // Emulated ROM
 extern u8 *    Game_ROM;                   // Cartridge ROM
 extern u8 *    Game_ROM_Computed_Page_0;   // Cartridge ROM computed first page
@@ -48,16 +48,16 @@ extern u8 *    Mem_Pages[8];               // Pointer to memory pages
 };
 
 // Flags for layer handling ---------------------------------------------------
-#define LAYER_BACKGROUND		(0x01)
+#define LAYER_BACKGROUND        (0x01)
 #define LAYER_SPRITES           (0x02)
 
 // Main MEKA state ------------------------------------------------------------
 enum t_meka_state
 {
-	MEKA_STATE_INIT,
-	MEKA_STATE_GAME,
-	MEKA_STATE_GUI,
-	MEKA_STATE_SHUTDOWN,
+    MEKA_STATE_INIT,
+    MEKA_STATE_GAME,
+    MEKA_STATE_GUI,
+    MEKA_STATE_SHUTDOWN,
 };
 
 // Battery Backed RAM Macros --------------------------------------------------
@@ -126,8 +126,8 @@ struct TSMS_TYPE
 // Variables related to graphics - not saved in savestate
 struct TGFX_TYPE
 {
-	u8	Tile_Dirty [MAX_TILES];
-	u8	Tile_Decoded [MAX_TILES] [64];
+    u8  Tile_Dirty [MAX_TILES];
+    u8  Tile_Decoded [MAX_TILES] [64];
 };
 
 struct OPT_TYPE
@@ -146,9 +146,9 @@ struct OPT_TYPE
 
 // Max path length
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
-#define FILENAME_LEN	(PATH_MAX)
+#define FILENAME_LEN    (PATH_MAX)
 #else
-#define FILENAME_LEN	(1024)
+#define FILENAME_LEN    (1024)
 #endif
 
 extern "C"
@@ -174,33 +174,33 @@ extern TSMS_TYPE  tsms;
 // 'CONFIG' denote fields that derive from emulator configuration
 struct t_machine_vdp_smsgg
 {
-    int                     model;								// CONFIG
-    int                     sprite_shift_x;						// CACHE	// 0 or 8
-	u8 *					name_table_address;					// CACHE
-	u8 *					sg_color_table_address;				// CACHE	// Was g_machine.VDP.sg_color_table_address
-	u8 *					sg_pattern_gen_address;				// CACHE	// Was g_machine.VDP.pattern_gen_address
-	int						sprite_pattern_gen_index;			// CACHE	// 0 or 256, SMS/GG only
-	u8 *					sprite_pattern_gen_address;			// CACHE
-	u8 *					sprite_attribute_table;				// CACHE
+    int                     model;                              // CONFIG
+    int                     sprite_shift_x;                     // CACHE    // 0 or 8
+    u8*                     name_table_address;                 // CACHE
+    u8*                     sg_color_table_address;             // CACHE    // Was g_machine.VDP.sg_color_table_address
+    u8*                     sg_pattern_gen_address;             // CACHE    // Was g_machine.VDP.pattern_gen_address
+    int                     sprite_pattern_gen_index;           // CACHE    // 0 or 256, SMS/GG only
+    u8*                     sprite_pattern_gen_address;         // CACHE
+    u8*                     sprite_attribute_table;             // CACHE
 
     // Scrolling latches
-    u8                      scroll_x_latched;					// STATE
-    u8                      scroll_y_latched;					// STATE
-    u8                      scroll_x_latched_table[MAX_RES_Y];	// CACHE	// For tools
+    u8                      scroll_x_latched;                   // STATE
+    u8                      scroll_y_latched;                   // STATE
+    u8                      scroll_x_latched_table[MAX_RES_Y];  // CACHE    // For tools
 };
 
-#define MAPPER_REGS_MAX		(6)									// Janggun-ui Adeul uses up to 6
+#define MAPPER_REGS_MAX     (6)                                 // Janggun-ui Adeul uses up to 6
 
 struct t_machine
 {
-    int                     driver_id;							// STATE	// t_machine_driver
-    int                     mapper;								// STATE
-	u8						mapper_regs[MAPPER_REGS_MAX];		// STATE
-	int						mapper_regs_count;					// CACHE	// Derived from 'mapper'
-	int						mapper_janggun_bytes_flipping_flags;// CACHE
+    int                     driver_id;                          // STATE    // t_machine_driver
+    int                     mapper;                             // STATE
+    u8                      mapper_regs[MAPPER_REGS_MAX];       // STATE
+    int                     mapper_regs_count;                  // CACHE    // Derived from 'mapper'
+    int                     mapper_janggun_bytes_flipping_flags;// CACHE
     t_machine_vdp_smsgg     VDP;
-    struct t_tv_type *      TV;									// CONFIG
-    int                     TV_lines;							// CONFIG	// Copy of TV->screen_lines
+    struct t_tv_type*       TV;                                 // CONFIG
+    int                     TV_lines;                           // CONFIG   // Copy of TV->screen_lines
 };
 
 extern t_machine   g_machine;
@@ -237,11 +237,11 @@ struct t_meka_env
 {
     t_meka_env_paths    Paths;
     int                 mouse_installed;
-	int					argc;
-	char **				argv;
+    int                 argc;
+    char**              argv;
 
-	t_meka_state		state;
-	bool				debug_dump_infos;
+    t_meka_state        state;
+    bool                debug_dump_infos;
 };
 
 extern t_meka_env  g_env;
@@ -249,21 +249,21 @@ extern t_meka_env  g_env;
 //-----------------------------------------------------------------------------
 // Configuration
 // All MEKA configuration options
-// Note: this is dependant of runtime emulation configuration, which can
+// Note: this is dependent of runtime emulation configuration, which can
 // be affected by various factors.
 // This structure should basically reflect the content of MEKA.CFG
 //-----------------------------------------------------------------------------
 
-// Values for g_configuration.sprite_flickering
+// Values for g_config.sprite_flickering
 #define SPRITE_FLICKERING_NO        (0)
 #define SPRITE_FLICKERING_ENABLED   (1)
 #define SPRITE_FLICKERING_AUTO      (2) // Default
 
 struct t_video_driver;
 
-struct t_meka_configuration
+struct t_meka_config
 {
-	bool	loaded_configuration_file;
+    bool    loaded_configuration_file;
 
     // Country
     int     country;                    // Country to use
@@ -288,39 +288,39 @@ struct t_meka_configuration
     bool    debugger_log_enabled;
 
     // Applet: Memory Editor
-    int				memory_editor_lines;
-    int				memory_editor_columns;
+    int             memory_editor_lines;
+    int             memory_editor_columns;
 
     // Video
-	t_video_driver*	video_driver;
-	bool			video_fullscreen;
-	int				video_game_format_request;
-	int				video_gui_format_request;
+    t_video_driver* video_driver;
+    bool            video_fullscreen;
+    int             video_game_format_request;
+    int             video_gui_format_request;
 
-	bool			video_mode_game_vsync;
-    int				video_mode_gui_res_x;
-    int				video_mode_gui_res_y;
-    bool			video_mode_gui_vsync;
-    int				video_mode_gui_refresh_rate;
+    bool            video_mode_game_vsync;
+    int             video_mode_gui_res_x;
+    int             video_mode_gui_res_y;
+    bool            video_mode_gui_vsync;
+    int             video_mode_gui_refresh_rate;
 
-	// Capture
-	const char *	capture_filename_template;
-	bool			capture_crop_scrolling_column;
-	bool			capture_crop_align_8x8;
-	bool			capture_include_gui;
+    // Capture
+    const char*     capture_filename_template;
+    bool            capture_crop_scrolling_column;
+    bool            capture_crop_align_8x8;
+    bool            capture_include_gui;
 
-	// Fonts (t_font_id)
-	int				font_menus;
-	int				font_messages;
-	int				font_options;
-	int				font_debugger;
-	int				font_documentation;
-	int				font_techinfo;
-	int				font_filebrowser;
-	int				font_about;
+    // Fonts (t_font_id)
+    int             font_menus;
+    int             font_messages;
+    int             font_options;
+    int             font_debugger;
+    int             font_documentation;
+    int             font_techinfo;
+    int             font_filebrowser;
+    int             font_about;
 };
 
-extern t_meka_configuration    g_configuration;
+extern t_meka_config    g_config;
 
 //-----------------------------------------------------------------------------
 // Media image
@@ -337,11 +337,11 @@ struct t_meka_crc
 struct t_media_image
 {
     int         type;
-    u8 *        data;
+    u8*         data;
     int         data_size;
     t_meka_crc  mekacrc;
     u32         crc32;
-    // char *   filename ?
+    // char*    filename ?
 };
 
 // Currently a global to hold ROM infos.
@@ -353,18 +353,20 @@ extern t_media_image   g_media_rom;
 // Data (video buffers)
 //-----------------------------------------------------------------------------
 
-extern ALLEGRO_DISPLAY*			g_display;
-extern ALLEGRO_EVENT_QUEUE*		g_display_event_queue;
-extern ALLEGRO_LOCKED_REGION*	g_screenbuffer_locked_region;
+extern ALLEGRO_DISPLAY*         g_display;
+extern ALLEGRO_EVENT_QUEUE*     g_display_event_queue;
+extern ALLEGRO_LOCKED_REGION*   g_screenbuffer_locked_region;
 extern ALLEGRO_BITMAP*          g_screenbuffer_locked_buffer;
-extern int						g_screenbuffer_format;
-extern int						g_gui_buffer_format;
+extern int                      g_screenbuffer_format;
+extern int                      g_gui_buffer_format;
 
 // Video buffers
-extern ALLEGRO_BITMAP *screenbuffer, *screenbuffer_next;  // Pointers to screen memory buffers
-extern ALLEGRO_BITMAP *screenbuffer_1, *screenbuffer_2;   // Screen memory buffers
-extern ALLEGRO_BITMAP *fs_out;                            // Fullscreen video buffer
-extern ALLEGRO_BITMAP *gui_buffer;                        // GUI memory buffer
-extern ALLEGRO_BITMAP *gui_background;                    // GUI Background
+extern ALLEGRO_BITMAP* screenbuffer;            // Pointers to screen memory buffers
+extern ALLEGRO_BITMAP* screenbuffer_next;               
+extern ALLEGRO_BITMAP* screenbuffer_1;          // Screen memory buffers
+extern ALLEGRO_BITMAP* screenbuffer_2;                  
+extern ALLEGRO_BITMAP* fs_out;                  // Fullscreen video buffer
+extern ALLEGRO_BITMAP* gui_buffer;              // GUI memory buffer
+extern ALLEGRO_BITMAP* gui_background;          // GUI Background
 
 //-----------------------------------------------------------------------------
