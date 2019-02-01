@@ -8,6 +8,37 @@
 #include "debugger.h"
 
 //-----------------------------------------------------------------------------
+// Definitions
+//-----------------------------------------------------------------------------
+
+#define SDSC_MAGIC      "SDSC"
+
+bool have_sdsc_tag = false;
+
+//-----------------------------------------------------------------------------
+// SDSC command buffer state
+//-----------------------------------------------------------------------------
+int num_pending_bytes = 0;
+char byte_buffer[3]; // We fill this in for multi-byte commands
+char* p_next_byte = byte_buffer; // Points to the next one to write
+
+//-----------------------------------------------------------------------------
+// State for formatting
+//-----------------------------------------------------------------------------
+// This is the size of the buffer we accumulate into. We flush when we get a newline.
+// Overflow is not handled particularly well.
+const int sdsc_console_buffer_size = 16 * 1024;
+// This is the buffer we accumulate into
+char sdsc_console_buffer[sdsc_console_buffer_size];
+// This is the location in the buffer for the next character to go to
+char* p_next_char = sdsc_console_buffer;
+// This is the offset in the buffer of the most recent format string,
+// pointing at the leading '%'. We set it to NULL when not in a format
+// string, and thus it also signals whether formatting is needed.
+char* p_format_start = NULL;
+
+
+//-----------------------------------------------------------------------------
 // SDSC ROM Tag - Version 1.01
 //-----------------------------------------------------------------------------
 // ROM Offset 0x7FE0 (4 Bytes): "SDSC" (ASCII: 0x53, 0x44, 0x53, 0x43)
@@ -72,6 +103,8 @@ int         SDSC_Read_and_Display (void)
     char *  s;
     int     offset;
 
+    have_sdsc_tag = false;
+
     if (tsms.Size_ROM < 0x8000)
         return false;
     if (strncmp((const char *)Game_ROM + 0x7FE0, SDSC_MAGIC, 4) != 0)
@@ -120,41 +153,44 @@ int         SDSC_Read_and_Display (void)
         free (s);
     }
 
+    have_sdsc_tag = true;
+
     return true;
 }
 
-int numPendingBytes = 0;
-char byteBuffer[3]; // We fill this in for multi-byte commands
-char* pNextByte = byteBuffer; // Points to the next one to write
-
 void SDSC_Debug_Console_Control(char c)
 {
-    *pNextByte++ = c;
-    if (--numPendingBytes == -1)
+    if (!have_sdsc_tag)
+    {
+        return;
+    }
+
+    *p_next_byte++ = c;
+    if (--num_pending_bytes == -1)
     {
         // First byte of sequence
         switch (c)
         {
         case 1:
         case 2:
-            numPendingBytes = 0;
+            num_pending_bytes = 0;
             break;
         case 3:
-            numPendingBytes = 1;
+            num_pending_bytes = 1;
             break;
         case 4:
-            numPendingBytes = 2;
+            num_pending_bytes = 2;
             break;
         default:
             Msg(MSGT_USER_LOG, "SDSC debug console control: unexpected command %02x", c);
-            numPendingBytes = 0;
+            num_pending_bytes = 0;
         }
     }
 
-    if (numPendingBytes == 0)
+    if (num_pending_bytes == 0)
     {
         // Sequence done
-        switch (byteBuffer[0])
+        switch (byte_buffer[0])
         {
         case 1:
             g_machine_pause_requests = 1;
@@ -164,48 +200,40 @@ void SDSC_Debug_Console_Control(char c)
             Msg(MSGT_USER_LOG, "SDSC debug console control: clear console (not implemented)");
             break;
         case 3:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: set attribute to %02x (not implemented)", byteBuffer[1]);
+            Msg(MSGT_USER_LOG, "SDSC debug console control: set attribute to %02x (not implemented)", byte_buffer[1]);
             break;
         case 4:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: set cursor position to %d, %d (not implemented)", byteBuffer[1], byteBuffer[2]);
+            Msg(MSGT_USER_LOG, "SDSC debug console control: set cursor position to %d, %d (not implemented)", byte_buffer[1], byte_buffer[2]);
             break;
         default:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: unexpected value %d (not implemented)", byteBuffer[0]);
+            Msg(MSGT_USER_LOG, "SDSC debug console control: unexpected value %d (not implemented)", byte_buffer[0]);
             break;
         }
 
         // Reset pointer
-        pNextByte = byteBuffer;
+        p_next_byte = byte_buffer;
     }
 }
 
-// State for formatting
-// This is the size of the buffer we accumulate into
-// Overflow is not handled particularly well
-const int SDSC_Console_Buffer_size = 16 * 1024;
-// This is the buffer we accumulate into
-char SDSC_Console_Buffer[SDSC_Console_Buffer_size];
-// This is the location in the buffer for the next character to go to
-char* pNextChar = SDSC_Console_Buffer;
-// This is the offset in the buffer of the most recent format string,
-// pointing at the leading '%'. We set it to NULL when not in a format
-// string, and thus it also signals whether formatting is needed.
-char* pFormatStart = NULL;
-
-// Formats and emits the error mesage into the SDSC console,
+// Formats and emits the error message into the SDSC console,
 // setting state variables such that the format string is consumed
 // Always returns false so it can be combined with a return
 bool SDSC_Format_Error(const char* format, ...)
 {
+    if (!have_sdsc_tag)
+    {
+        return false;
+    }
+
     // Print the message over the format string
-    va_list     params;
+    va_list params;
     va_start(params, format);
-    int charsAdded = vsprintf_s(pFormatStart, SDSC_Console_Buffer_size - (pFormatStart - SDSC_Console_Buffer), format, params);
+    const int chars_added = vsprintf_s(p_format_start, sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer), format, params);
     va_end(params);
     // Point to the following char
-    pNextChar = pFormatStart + charsAdded;
+    p_next_char = p_format_start + chars_added;
     // Signal that the formatting has been consumed
-    pFormatStart = NULL;
+    p_format_start = NULL;
     // Always return false
     return false;
 }
@@ -217,23 +245,23 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
 {
     // We iterate through and use this to determine which part we are working on
     int state = 0;
-    int parameterBytesRemaining = 0;
+    int parameter_bytes_remaining = 0;
     // We stick a bit in here so we can shift more in and detect when we're done
     // when this reaches the third byte
     data_type = 1;
     // We accumulate the ASCII width into here.
-    // An explict zero width ought to be an error, but we don't handle that,
+    // An explicit zero width ought to be an error, but we don't handle that,
     // and instead use zero as a signal for auto width.
     width = 0;
     // We accumulate the "parameter" into here.
     parameter = 0;
 
-    // We walk from pFormatStart to pNextChar-1 and see if it's valid
+    // We walk from p_format_start to p_next_char-1 and see if it's valid
     // If it is, we do the work and replace the format string with the result, and point pNextChar after it
     // Else we just return
-    for (char* pChar = pFormatStart + 1; pChar < pNextChar; ++pChar)
+    for (char* p_char = p_format_start + 1; p_char < p_next_char; ++p_char)
     {
-        char c = *pChar;
+        const char c = *p_char;
         switch (state)
         {
         case 0:
@@ -249,8 +277,7 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
             // Format specifier
             if (width > 256)
             {
-                SDSC_Format_Error("[Excessive width %d]", width);
-                return false;
+                return SDSC_Format_Error("[Excessive width %d]", width);
             }
             switch (c)
             {
@@ -287,11 +314,11 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
                 case 'w':
                 case 'b':
                     // Memory or VRAM address
-                    parameterBytesRemaining = 2;
+                    parameter_bytes_remaining = 2;
                     break;
                 case 'r':
                     // Register index
-                    parameterBytesRemaining = 1;
+                    parameter_bytes_remaining = 1;
                     break;
                 default:
                     SDSC_Format_Error("[Invalid data type '%c%c']", (data_type >> 8) & 0xff, c);
@@ -304,7 +331,7 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
             // First parameter byte
             parameter |= (u8)c;
             ++state;
-            if (--parameterBytesRemaining == 0)
+            if (--parameter_bytes_remaining == 0)
             {
                 // Skip state 4
                 ++state;
@@ -327,7 +354,7 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
 
 // Macro for combining two-character codes into ints
 // Endianness needs to match the way we parse it in
-#define FORMAT_TYPE(s) (s[0] << 8 | s[1])
+#define FORMAT_TYPE(s) ((s)[0] << 8 | (s)[1])
 
 bool SDSC_Get_Data(u16& data, int data_type, int parameter)
 {
@@ -439,7 +466,7 @@ int SDSC_Print_Binary(char* buffer, u16 data)
     char* p = buffer;
     for (int i = 0; i < 16; ++i)
     {
-        int bit = data >> (15 - i) & 1;
+        const int bit = data >> (15 - i) & 1;
         if (bit == 0 && p == buffer && i < 15)
         {
             // Skip leading zeroes
@@ -456,18 +483,18 @@ int SDSC_Print_Binary(char* buffer, u16 data)
 // isChar = 0 will make us print up to <width> characters, or until a 0 is encountered
 // (null-terminated string)
 // offset is an address in the Z80 memory, or VRAM
-int SDSC_Print_ASCII(char* buffer, int bufferSize, bool isVRAM, bool isChar, int offset, int width)
+int SDSC_Print_ASCII(char* buffer, int buffer_size, bool is_vram, bool is_char, int offset, int width)
 {
     // Determine how many characters to emit
-    int maxChars = isChar ? 1 : width > 0 ? width : bufferSize;
+    const int max_chars = is_char ? 1 : width > 0 ? width : buffer_size;
     // We support wrapping the offset as we go
     char* p = buffer;
-    for (int i = 0; i < maxChars; ++i)
+    for (int i = 0; i < max_chars; ++i)
     {
         // Get char
-        char c = isVRAM ? VRAM[offset & 0x3fff] : RdZ80_NoHook(offset & 0xffff);
+        const char c = is_vram ? VRAM[offset & 0x3fff] : RdZ80_NoHook(offset & 0xffff);
         // Stop on null for strings
-        if (c == 0 && !isChar)
+        if (c == 0 && !is_char)
         {
             break;
         }
@@ -487,9 +514,9 @@ void SDSC_Try_Format(void)
     // First parse the format
     int width;
     char format;
-    int dataType;
+    int data_type;
     int parameter;
-    if (!SDSC_Try_Parse_Format(width, format, dataType, parameter))
+    if (!SDSC_Try_Parse_Format(width, format, data_type, parameter))
     {
         return;
     }
@@ -497,47 +524,47 @@ void SDSC_Try_Format(void)
     // Handle "%%" -> "%"
     if (format == '%')
     {
-        pNextChar = pFormatStart + 1;
-        pFormatStart = NULL;
+        p_next_char = p_format_start + 1;
+        p_format_start = NULL;
         return;
     }
 
     // Now get the data
     u16 data;
-    if (!SDSC_Get_Data(data, dataType, parameter))
+    if (!SDSC_Get_Data(data, data_type, parameter))
     {
         return;
     }
 
     // Then print it into a local temporary buffer
-    const int bufferSize = 256 + 1; // Spec says max width is 256
-    char buffer[bufferSize];
-    int formattedLength;
+    const int buffer_size = 256 + 1; // Spec says max width is 256
+    char buffer[buffer_size];
+    int formatted_length;
     switch (format)
     {
     case 'd':
-        formattedLength = sprintf_s(buffer, bufferSize, "%d", data);
+        formatted_length = sprintf_s(buffer, buffer_size, "%d", data);
         break;
     case 'u':
-        formattedLength = sprintf_s(buffer, bufferSize, "%u", (unsigned int)data);
+        formatted_length = sprintf_s(buffer, buffer_size, "%u", (unsigned int)data);
         break;
     case 'x':
-        formattedLength = sprintf_s(buffer, bufferSize, "%x", data);
+        formatted_length = sprintf_s(buffer, buffer_size, "%x", data);
         break;
     case 'X':
-        formattedLength = sprintf_s(buffer, bufferSize, "%X", data);
+        formatted_length = sprintf_s(buffer, buffer_size, "%X", data);
         break;
     case 'b':
-        formattedLength = SDSC_Print_Binary(buffer, data);
+        formatted_length = SDSC_Print_Binary(buffer, data);
         break;
     case 'a':
     case 's':
-        if (dataType != FORMAT_TYPE("mb") && dataType != FORMAT_TYPE("vb"))
+        if (data_type != FORMAT_TYPE("mb") && data_type != FORMAT_TYPE("vb"))
         {
-            SDSC_Format_Error("[Invalid format string: format type '%c' with data type '%c%c'", format, dataType >> 8, dataType & 0xff);
+            SDSC_Format_Error("[Invalid format string: format type '%c' with data type '%c%c'", format, data_type >> 8, data_type & 0xff);
             return;
         }
-        formattedLength = SDSC_Print_ASCII(buffer, bufferSize, dataType == FORMAT_TYPE("vb"), format == 'a', parameter, width);
+        formatted_length = SDSC_Print_ASCII(buffer, buffer_size, data_type == FORMAT_TYPE("vb"), format == 'a', parameter, width);
         break;
     default:
         // Should already have checked this...
@@ -549,9 +576,9 @@ void SDSC_Try_Format(void)
     if (width == 0)
     {
         // If no width is specified, use the "natural" width
-        width = formattedLength;
+        width = formatted_length;
     }
-    else if (width > formattedLength)
+    else if (width > formatted_length)
     {
         // If it is wider, pad appropriately
         char padding;
@@ -566,37 +593,42 @@ void SDSC_Try_Format(void)
             padding = ' ';
             break;
         }
-        int paddingCount = width - formattedLength;
-        int spaceInBuffer = SDSC_Console_Buffer_size - (pFormatStart - SDSC_Console_Buffer);
-        if (paddingCount > spaceInBuffer)
+        int padding_count = width - formatted_length;
+        const int space_in_buffer = sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer);
+        if (padding_count > space_in_buffer)
         {
-            paddingCount = spaceInBuffer;
+            padding_count = space_in_buffer;
         }
-        for (int i = 0; i < paddingCount; ++i)
+        for (int i = 0; i < padding_count; ++i)
         {
-            *pFormatStart++ = padding;
+            *p_format_start++ = padding;
         }
     }
     // Now copy from buffer into the global buffer
     char* p = buffer;
-    if (width < formattedLength)
+    if (width < formatted_length)
     {
         // Skip leading chars to fit
-        p += formattedLength - width;
+        p += formatted_length - width;
     }
 
     // Replace the format string with the result
-    strncpy_s(pFormatStart, SDSC_Console_Buffer_size - (pFormatStart - SDSC_Console_Buffer), p, width);
-    pNextChar = pFormatStart + formattedLength;
+    strncpy_s(p_format_start, sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer), p, width);
+    p_next_char = p_format_start + formatted_length;
     // And signal that we are done
-    pFormatStart = NULL;
+    p_format_start = NULL;
 }
 
 void SDSC_Debug_Console_Data(char c)
 {
+    if (!have_sdsc_tag)
+    {
+        return;
+    }
+
     // Append to buffer
-    *pNextChar++ = c;
-    if (pFormatStart != NULL)
+    *p_next_char++ = c;
+    if (p_format_start != NULL)
     {
         // Try if we can process it, or reject it
         SDSC_Try_Format();
@@ -604,35 +636,35 @@ void SDSC_Debug_Console_Data(char c)
     else if (c == '%')
     {
         // Point at the leading '%'
-        pFormatStart = pNextChar - 1;
+        p_format_start = p_next_char - 1;
     }
     else if (c == 10)
     {
         // Emit buffer up to this point
-        *pNextChar = NULL;
-        Msg(MSGT_USER_LOG, "SDSC> %s", SDSC_Console_Buffer);
-        pNextChar = SDSC_Console_Buffer;
+        *p_next_char = NULL;
+        Msg(MSGT_USER_LOG, "SDSC> %s", sdsc_console_buffer);
+        p_next_char = sdsc_console_buffer;
     }
     else if (c == 13)
     {
         // Not supported
-        --pNextChar;
+        --p_next_char;
     }
     else if (c < ' ' || c > 127)
     {
         Msg(MSGT_USER_LOG, "SDSC debug console: invalid character $%02x", c);
     }
-    if (pNextChar - SDSC_Console_Buffer >= SDSC_Console_Buffer_size)
+    if (p_next_char - sdsc_console_buffer >= sdsc_console_buffer_size)
     {
         // Buffer overflow
-        --pNextChar;
+        --p_next_char;
         Msg(MSGT_USER_LOG, "SDSC debug console: buffer overflow, dumping contents");
-        *pNextChar = NULL;
-        Msg(MSGT_USER_LOG, "SDSC> %s", SDSC_Console_Buffer);
-        pNextChar = SDSC_Console_Buffer;
-        pFormatStart = NULL;
+        *p_next_char = NULL;
+        Msg(MSGT_USER_LOG, "SDSC> %s", sdsc_console_buffer);
+        p_next_char = sdsc_console_buffer;
+        p_format_start = NULL;
         // Push the last char back in
-        *pNextChar++ = c;
+        *p_next_char++ = c;
     }
 }
 
