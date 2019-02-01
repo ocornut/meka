@@ -32,7 +32,7 @@
 //-----------------------------------------------------------------------------
 
 // I/O: Port output
-void	Out_SMS(u16 Port, u8 Value)
+void    Out_SMS(u16 Port, u8 Value)
 {
     // 0x80..0xBF : VDP
     if ((Port & 0xC0) == 0x80)
@@ -148,24 +148,24 @@ void	Out_SMS(u16 Port, u8 Value)
 }
 
 // I/O: Port input
-u8		In_SMS (u16 Port)
+u8      In_SMS (u16 Port)
 {
     // 0x80..0xBF : VDP
     if ((Port & 0xC0) == 0x80)
     {
         if (Port & 0x01)
-            return Tms_VDP_In_Status();	// 0xBD,0xBF and odd addresses: VDP Status
+            return Tms_VDP_In_Status(); // 0xBD,0xBF and odd addresses: VDP Status
         else
-            return Tms_VDP_In_Data();	// 0xBE and even addresses: VDP Data
+            return Tms_VDP_In_Data();   // 0xBE and even addresses: VDP Data
     }
 
     // 0x40 .. 0x7F : H/V counters
     if ((Port & 0xC0) == 0x40)
     {
         if (Port & 0x01)
-            return Beam_X();	// HCounter (Latched)
+            return Beam_X();    // HCounter (Latched)
         else
-            return Beam_Y();	// VCounter
+            return Beam_Y();    // VCounter
     }
 
     // FIXME: Proper mirroring/port mapping is not emulated.
@@ -345,9 +345,9 @@ u8 In_SF7000 (word Port)
     if ((Port & 0xC0) == 0x80)
     {
         if (Port & 0x01)
-            return Tms_VDP_In_Status();		// 0xBD,0xBF and odd addresses: VDP Status
+            return Tms_VDP_In_Status();     // 0xBD,0xBF and odd addresses: VDP Status
         else
-            return Tms_VDP_In_Data();		// 0xBE and even addresses: VDP Data
+            return Tms_VDP_In_Data();       // 0xBE and even addresses: VDP Data
     }
 
     switch (Port /*& 0xFF*/)
@@ -370,7 +370,7 @@ u8 In_SF7000 (word Port)
         //--[ P.P.I. ]----------------------------------------------------------------
     case 0xE4: // FDC/Printer control
         {
-            static int delay = 0x3200;		// FIXME
+            static int delay = 0x3200;      // FIXME
             if (--delay <= 0)
             {
                 delay = 0x3200;
