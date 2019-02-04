@@ -7,9 +7,7 @@ build:
   project: meka/srcs/projects/msvc/meka.sln
   verbosity: minimal
 after_build:
-- cmd: >-
-    pushd meka
-
-    7z a ..\mekaw-%APPVEYOR_BUILD_VERSION%.zip Data Themes meka.* mekaw.exe icons.zip changes.txt debugger.txt setup.bat multi.txt tech.txt compat.txt
+- cmd: pushd meka\tools
+- cmd: dist_bin_win32.bat
 artifacts:
-- path: '*.zip'
+- path: 'Dist/*.zip'
