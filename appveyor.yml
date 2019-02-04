@@ -8,6 +8,6 @@ build:
   verbosity: minimal
 after_build:
 - cmd: pushd meka\tools
-- cmd: dist_bin_win32.bat
+- cmd: echo | dist_bin_win32.bat
 artifacts:
 - path: 'Dist/*.zip'
