@@ -10,4 +10,4 @@ after_build:
 - cmd: pushd meka\tools
 - cmd: echo | dist_bin_win32.bat
 artifacts:
-- path: 'Dist/*.zip'
+- path: 'meka/Dist/*.zip'
