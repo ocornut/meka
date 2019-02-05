@@ -9,7 +9,6 @@ tools\dist_win\zip.exe -X9 Dist\mekaw.zip meka.blt meka.dat mekaw.exe meka.inp m
 tools\dist_win\zip.exe -X9 Dist\mekaw.zip icons.zip setup.bat
 tools\dist_win\zip.exe -X9 Dist\mekaw.zip meka.txt changes.txt compat.txt debugger.txt multi.txt tech.txt
 tools\dist_win\zip.exe -X9 Dist\mekaw.zip -r Data\*.*
-tools\dist_win\zip.exe -X9 Dist\mekaw.zip -r Data\fonts\*.*
 tools\dist_win\zip.exe -X9 Dist\mekaw.zip -r Themes\*.png Themes\Credits.txt
 @echo Done!
 @echo -- Check MEKA.BLT ! --
