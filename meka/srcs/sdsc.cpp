@@ -19,8 +19,8 @@ bool have_sdsc_tag = false;
 // SDSC command buffer state
 //-----------------------------------------------------------------------------
 int num_pending_bytes = 0;
-char byte_buffer[3]; // We fill this in for multi-byte commands
-char* p_next_byte = byte_buffer; // Points to the next one to write
+u8 byte_buffer[3]; // We fill this in for multi-byte commands
+u8* p_next_byte = byte_buffer; // Points to the next one to write
 
 //-----------------------------------------------------------------------------
 // State for formatting
@@ -182,6 +182,7 @@ void SDSC_Debug_Console_Control(char c)
         {
         case 1:
         case 2:
+        default:
             num_pending_bytes = 0;
             break;
         case 3:
@@ -190,9 +191,6 @@ void SDSC_Debug_Console_Control(char c)
         case 4:
             num_pending_bytes = 2;
             break;
-        default:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: unexpected command %02x", c);
-            num_pending_bytes = 0;
         }
     }
 
@@ -202,17 +200,32 @@ void SDSC_Debug_Console_Control(char c)
         switch (byte_buffer[0])
         {
         case 1:
-            g_machine_pause_requests = 1;
+            //g_machine_pause_requests = 1; // Not immediate
+            //Machine_Debug_Start(); // Also not immediate
+            // This seems to be what makes it break - but only if the debugger is open.
+            sms.R.Trace = 1;
             Debugger_Printf("SDSC debug console control: suspend emulation");
             break;
         case 2:
             Msg(MSGT_USER_LOG, "SDSC debug console control: clear console (not implemented)");
             break;
         case 3:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: set attribute to %02x (not implemented)", byte_buffer[1]);
+            {
+                static const char* colours[]
+                {
+                    "Black", "Dark blue", "Dark green", "Dark cyan", "Dark red", "Dark magenta", "Dark yellow", "Dark gray", 
+                    "Light gray", "Light blue", "Light green", "Light cyan", "Light red", "Light magenta", "Light yellow", "White"
+                };
+                Msg(MSGT_USER_LOG, "SDSC debug console control: set attribute to %02x (%s on %s) (not implemented)", 
+                    byte_buffer[1], 
+                    colours[byte_buffer[1] & 0xf], 
+                    colours[byte_buffer[1] >> 4]);
+            }
             break;
         case 4:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: set cursor position to %d, %d (not implemented)", byte_buffer[1], byte_buffer[2]);
+            Msg(MSGT_USER_LOG, "SDSC debug console control: set cursor position to row %d, column %d (not implemented)", 
+                byte_buffer[1] % 25, 
+                byte_buffer[2] % 80);
             break;
         default:
             Msg(MSGT_USER_LOG, "SDSC debug console control: unexpected value %d (not implemented)", byte_buffer[0]);
@@ -365,71 +378,75 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
 // Endianness needs to match the way we parse it in
 #define FORMAT_TYPE(s) ((s)[0] << 8 | (s)[1])
 
-bool SDSC_Get_Data(u16& data, int data_type, int parameter)
+bool SDSC_Get_Data(u16& data, bool& is_byte, int data_type, int parameter)
 {
     switch (data_type)
     {
     case FORMAT_TYPE("mw"):
         // Read 16-bit data from Z80 address
         data = RdZ80_NoHook(parameter & 0xffff) | RdZ80_NoHook((parameter + 1) & 0xffff) << 8;
+        is_byte = false;
         break;
     case FORMAT_TYPE("mb"):
         // Read 8-bit data from Z80 address
         data = RdZ80_NoHook(parameter & 0xffff);
+        is_byte = false;
         break;
     case FORMAT_TYPE("vw"):
         // Read 16-bit data from VRAM
         data = VRAM[parameter & 0x3fff] | VRAM[(parameter + 1) & 0x3fff] << 8;
+        is_byte = false;
         break;
     case FORMAT_TYPE("vb"):
         // Read 8-bit data from VRAM
         data = VRAM[parameter & 0x3fff];
+        is_byte = false;
         break;
     case FORMAT_TYPE("pr"):
         // Read processor register
-        // ASCII values are a non-standard extension
+        // ASCII values are a non-standard extension I invented.
         switch (parameter)
         {
         case 'b':
-        case 0x00: data = sms.R.BC.B.h; break;
+        case 0x00: data = sms.R.BC.B.h; is_byte = true; break;
         case 'c':
-        case 0x01: data = sms.R.BC.B.l; break;
-        case 'e':
-        case 0x02: data = sms.R.DE.B.h; break;
+        case 0x01: data = sms.R.BC.B.l; is_byte = true; break;
         case 'd':
-        case 0x03: data = sms.R.DE.B.l; break;
-        case  'h':
-        case 0x04: data = sms.R.HL.B.h; break;
+        case 0x02: data = sms.R.DE.B.h; is_byte = true; break;
+        case 'e':
+        case 0x03: data = sms.R.DE.B.l; is_byte = true; break;
+        case 'h':
+        case 0x04: data = sms.R.HL.B.h; is_byte = true; break;
         case 'l':
-        case 0x05: data = sms.R.HL.B.l; break;
+        case 0x05: data = sms.R.HL.B.l; is_byte = true; break;
         case 'a':
-        case 0x06: data = sms.R.AF.B.h; break;
+        case 0x06: data = sms.R.AF.B.h; is_byte = true; break;
         case 'f':
-        case 0x07: data = sms.R.AF.B.l; break;
+        case 0x07: data = sms.R.AF.B.l; is_byte = true; break;
         case 'p':
-        case 0x08: data = sms.R.PC.W; break;
+        case 0x08: data = sms.R.PC.W; is_byte = false; break;
         case 's':
-        case 0x09: data = sms.R.SP.W; break;
+        case 0x09: data = sms.R.SP.W; is_byte = false; break;
         case 'x':
-        case 0x0a: data = sms.R.IX.W; break;
+        case 0x0a: data = sms.R.IX.W; is_byte = false; break;
         case 'y':
-        case 0x0b: data = sms.R.IY.W; break;
+        case 0x0b: data = sms.R.IY.W; is_byte = false; break;
         case 'B':
-        case 0x0c: data = sms.R.BC.W; break;
+        case 0x0c: data = sms.R.BC.W; is_byte = false; break;
         case 'D':
-        case 0x0d: data = sms.R.DE.W; break;
+        case 0x0d: data = sms.R.DE.W; is_byte = false; break;
         case 'H':
-        case 0x0e: data = sms.R.HL.W; break;
+        case 0x0e: data = sms.R.HL.W; is_byte = false; break;
         case 'A':
-        case 0x0f: data = sms.R.AF.W; break;
+        case 0x0f: data = sms.R.AF.W; is_byte = false; break;
         case 'r':
-        case 0x10: data = sms.R.R; break;
+        case 0x10: data = sms.R.R; is_byte = true; break;
         case 'i':
-        case 0x11: data = sms.R.I; break;
-        case 0x12: data = sms.R.BC1.W; break;
-        case 0x13: data = sms.R.DE1.W; break;
-        case 0x14: data = sms.R.HL1.W; break;
-        case 0x15: data = sms.R.AF1.W; break;
+        case 0x11: data = sms.R.I; is_byte = true; break;
+        case 0x12: data = sms.R.BC1.W; is_byte = false; break;
+        case 0x13: data = sms.R.DE1.W; is_byte = false; break;
+        case 0x14: data = sms.R.HL1.W; is_byte = false; break;
+        case 0x15: data = sms.R.AF1.W; is_byte = false; break;
         default:
             return SDSC_Format_Error("[Invalid processor register index %02x]", parameter);
         }
@@ -439,6 +456,7 @@ bool SDSC_Get_Data(u16& data, int data_type, int parameter)
         {
             // VDP register
             data = sms.VDP[parameter];
+            is_byte = true;
         }
         else if (parameter < 48)
         {
@@ -448,10 +466,12 @@ bool SDSC_Get_Data(u16& data, int data_type, int parameter)
             {
             case DRV_SMS:
                 data = PRAM[index];
+                is_byte = true;
                 break;
             case DRV_GG:
                 index *= 2;
                 data = PRAM[index] | ((u8)PRAM[index + 1] << 8);
+                is_byte = false;
                 break;
             default:
                 return SDSC_Format_Error("[Can't read palette for this emulated system]");
@@ -488,8 +508,8 @@ int SDSC_Print_Binary(char* buffer, u16 data)
 
 // Prints data as ASCII to buffer
 // Non-printable is emitted as '.'
-// isChar = 1 will make us print exactly one char, even if the data is 0
-// isChar = 0 will make us print up to <width> characters, or until a 0 is encountered
+// is_char = true will make us print exactly one char, even if the data is 0
+// is_char = false will make us print up to <width> characters, or until a 0 is encountered
 // (null-terminated string)
 // offset is an address in the Z80 memory, or VRAM
 int SDSC_Print_ASCII(char* buffer, int buffer_size, bool is_vram, bool is_char, int offset, int width)
@@ -539,8 +559,9 @@ void SDSC_Try_Format(void)
     }
 
     // Now get the data
-    u16 data;
-    if (!SDSC_Get_Data(data, data_type, parameter))
+    u16 data = 0;
+    bool is_byte = false;
+    if (!SDSC_Get_Data(data, is_byte, data_type, parameter))
     {
         return;
     }
@@ -552,22 +573,28 @@ void SDSC_Try_Format(void)
     switch (format)
     {
     case 'd':
-        formatted_length = sprintf_s(buffer, buffer_size, "%d", data);
+        // Signed decimal
+        formatted_length = sprintf_s(buffer, buffer_size, "%d", is_byte ? (s8)data : (s16)data);
         break;
     case 'u':
-        formatted_length = sprintf_s(buffer, buffer_size, "%u", (unsigned int)data);
+        // Unsigned decimal
+        formatted_length = sprintf_s(buffer, buffer_size, "%u", is_byte ? (u8)data : data);
         break;
     case 'x':
-        formatted_length = sprintf_s(buffer, buffer_size, "%x", data);
+        // Lowercase hex
+        formatted_length = sprintf_s(buffer, buffer_size, "%x", is_byte ? (u8)data : data);
         break;
     case 'X':
-        formatted_length = sprintf_s(buffer, buffer_size, "%X", data);
+        // Uppercase hex
+        formatted_length = sprintf_s(buffer, buffer_size, "%X", is_byte ? (u8)data : data);
         break;
     case 'b':
-        formatted_length = SDSC_Print_Binary(buffer, data);
+        // Binary
+        formatted_length = SDSC_Print_Binary(buffer, is_byte ? (u8)data : data);
         break;
     case 'a':
     case 's':
+        // ASCII
         if (data_type != FORMAT_TYPE("mb") && data_type != FORMAT_TYPE("vb"))
         {
             SDSC_Format_Error("[Invalid format string: format type '%c' with data type '%c%c'", format, data_type >> 8, data_type & 0xff);
