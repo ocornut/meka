@@ -207,7 +207,7 @@ void SDSC_Debug_Console_Control(char c)
             Debugger_Printf("SDSC debug console control: suspend emulation");
             break;
         case 2:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: clear console (not implemented)");
+            Debugger_Printf("SDSC debug console control: clear console (not implemented)");
             break;
         case 3:
             {
@@ -216,19 +216,19 @@ void SDSC_Debug_Console_Control(char c)
                     "Black", "Dark blue", "Dark green", "Dark cyan", "Dark red", "Dark magenta", "Dark yellow", "Dark gray", 
                     "Light gray", "Light blue", "Light green", "Light cyan", "Light red", "Light magenta", "Light yellow", "White"
                 };
-                Msg(MSGT_USER_LOG, "SDSC debug console control: set attribute to %02x (%s on %s) (not implemented)", 
+                Debugger_Printf("SDSC debug console control: set attribute to %02x (%s on %s) (not implemented)", 
                     byte_buffer[1], 
                     colours[byte_buffer[1] & 0xf], 
                     colours[byte_buffer[1] >> 4]);
             }
             break;
         case 4:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: set cursor position to row %d, column %d (not implemented)", 
+            Debugger_Printf("SDSC debug console control: set cursor position to row %d, column %d (not implemented)", 
                 byte_buffer[1] % 25, 
                 byte_buffer[2] % 80);
             break;
         default:
-            Msg(MSGT_USER_LOG, "SDSC debug console control: unexpected value %d (not implemented)", byte_buffer[0]);
+            Debugger_Printf("SDSC debug console control: unexpected value %d (not implemented)", byte_buffer[0]);
             break;
         }
 
@@ -678,7 +678,7 @@ void SDSC_Debug_Console_Data(char c)
     {
         // Emit buffer up to this point
         *p_next_char = NULL;
-        Msg(MSGT_USER_LOG, "SDSC> %s", sdsc_console_buffer);
+        Debugger_Printf("SDSC> %s", sdsc_console_buffer);
         p_next_char = sdsc_console_buffer;
     }
     else if (c == 13)
@@ -688,15 +688,15 @@ void SDSC_Debug_Console_Data(char c)
     }
     else if (c < ' ' || c > 127)
     {
-        Msg(MSGT_USER_LOG, "SDSC debug console: invalid character $%02x", c);
+        Debugger_Printf("SDSC debug console: invalid character $%02x", c);
     }
     if (p_next_char - sdsc_console_buffer >= sdsc_console_buffer_size)
     {
         // Buffer overflow
         --p_next_char;
-        Msg(MSGT_USER_LOG, "SDSC debug console: buffer overflow, dumping contents");
+        Debugger_Printf("SDSC debug console: buffer overflow, dumping contents");
         *p_next_char = NULL;
-        Msg(MSGT_USER_LOG, "SDSC> %s", sdsc_console_buffer);
+        Debugger_Printf("SDSC> %s", sdsc_console_buffer);
         p_next_char = sdsc_console_buffer;
         p_format_start = NULL;
         // Push the last char back in
