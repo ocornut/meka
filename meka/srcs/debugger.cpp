@@ -3470,7 +3470,7 @@ void        Debugger_InputParseCommand(char* line)
                     *p++ = (isprint(data[i]) ? data[i] : '.');
                 *p++ = '\n';
                 *p = EOSTR;
-                Debugger_Printf(buf);
+                Debugger_Printf("%s", buf);
                 addr += 8;
                 len -= line_len;
             }
