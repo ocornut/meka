@@ -364,6 +364,8 @@
     <ClInclude Include="..\..\..\libs\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\..\..\libs\imgui\imstb_textedit.h" />
     <ClInclude Include="..\..\..\libs\imgui\imstb_truetype.h" />
+    <ClInclude Include="..\..\..\libs\imgui_misc\IconsFontAwesome5.h" />
+    <ClInclude Include="..\..\..\libs\imgui_misc\imgui_memory_editor.h" />
     <ClInclude Include="..\..\..\libs\str\Str.h" />
     <ClInclude Include="..\..\allegro4to5.h" />
     <ClInclude Include="..\..\app_cheatfinder.h" />
