@@ -495,6 +495,10 @@ void        Skins_Apply(void)
     // Update native color table
     Skins_UpdateNativeColorTable();
 
+    // Dirty
+    gui.info.must_redraw = TRUE;
+    Skins_Background_Redraw();
+
     // Layout all boxes
     gui_relayout_all();
 }
