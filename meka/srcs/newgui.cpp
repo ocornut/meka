@@ -7,10 +7,14 @@
 #include "imgui_impl_allegro5.h"
 #include "IconsFontAwesome5.h"  // See https://fontawesome.com/icons?d=gallery
 
+#include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_game.h"
 #include "app_palview.h"
+#include "app_mapview.h"
 #include "app_memview.h"
+#include "app_techinfo.h"
+#include "app_tileview.h"
 #include "palette.h"
 #include "saves.h"
 #include "vmachine.h"
@@ -230,11 +234,11 @@ void    NewGui_MemEditorDraw()
 // FIXME-IMGUI: Resize mechanism. Window resize steps? Zoom button?
 void    NewGui_PaletteDraw()
 {
-    if (!PaletteViewer.active)
+    if (!g_config.palette_active)
         return;
 
     Str128f title("%s###Palette", Msg_Get(MSG_Palette_BoxTitle));
-    if (!ImGui::Begin(title.c_str(), &PaletteViewer.active, ImGuiWindowFlags_AlwaysAutoResize))
+    if (!ImGui::Begin(title.c_str(), &g_config.palette_active, ImGuiWindowFlags_AlwaysAutoResize))
     {
         ImGui::End();
         return;
@@ -483,6 +487,18 @@ void    NewGui_MainMenu()
         }
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Quit), "F10")) Action_Quit();
 
+        ImGui::EndMenu();
+    }
+
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Tools)))
+    {
+        ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_Messages), "Alt+M", &g_config.log_active);    // FIXME: Rename "Messages" to "Log" in the end user mesages
+        ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_Palette), "Alt+P", &g_config.palette_active);
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_TilesViewer), "Alt+T", TileViewer.active)) TileViewer_Switch();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_TilemapViewer), "", TilemapViewer_MainInstance->active)) TilemapViewer_SwitchMainInstance();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_MemoryEditor), "", MemoryViewer_MainInstance->active)) MemoryViewer_SwitchMainInstance();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_CheatFinder), "", g_CheatFinder_MainInstance->active)) CheatFinder_SwitchMainInstance();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_TechInfo), "", TechInfo.active)) TechInfo_Switch();
         ImGui::EndMenu();
     }
 
