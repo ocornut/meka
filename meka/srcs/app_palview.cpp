@@ -32,7 +32,6 @@ void    PaletteViewer_Init()
     t_app_palette_viewer *pv = &PaletteViewer;
 
     // Setup
-    pv->active          = TRUE;
     pv->dirty           = TRUE;
     pv->palette_size    = 32; // Note: PaletteViewer_SetPaletteSize() is called after setting up the window
     pv->color_displayed = -1;
@@ -55,7 +54,7 @@ void    PaletteViewer_Init()
     pv->box->size_step.y = 2;
 
     // Register to desktop (applet is enabled by default)
-    Desktop_Register_Box ("PALETTE", pv->box, TRUE, &pv->active);
+    Desktop_Register_Box ("PALETTE", pv->box, TRUE, &g_config.palette_active);
 
     // Layout
     PaletteViewer_Layout(pv, TRUE);
@@ -98,11 +97,11 @@ void    PaletteViewer_Switch()
 {
     t_app_palette_viewer *pv = &PaletteViewer;  // Global instance
 
-    if (pv->active ^= 1)
+    if (g_config.palette_active ^= 1)
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Palette_Enabled));
     else
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Palette_Disabled));
-    gui_box_show (pv->box, pv->active, TRUE);
+    gui_box_show (pv->box, g_config.palette_active, TRUE);
     gui_menu_toggle_check (menus_ID.tools, 1);
 }
 
@@ -113,7 +112,7 @@ void    PaletteViewer_Update()
     ALLEGRO_BITMAP* box_gfx = pv->box->gfx_buffer;
 
     // Skip update if not active
-    if (!pv->active)
+    if (!g_config.palette_active)
         return;
 
     int         i;

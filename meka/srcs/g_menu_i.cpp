@@ -216,7 +216,7 @@ void    gui_menus_init()
     // TOOLS
     //-------------------------------------------------------------------------
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Messages),      "Alt+M",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.log_active),                [](t_menu_event*) { g_config.log_active ^= 1; },     NULL);
-    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Palette),       "Alt+P",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (PaletteViewer.active),               (t_menu_callback)PaletteViewer_Switch,               NULL);
+    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Palette),       "Alt+P",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.palette_active),            (t_menu_callback)PaletteViewer_Switch,               NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilesViewer),   "Alt+T",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (TileViewer.active),                  (t_menu_callback)TileViewer_Switch,                  NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilemapViewer), NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (TilemapViewer_MainInstance->active), (t_menu_callback)TilemapViewer_SwitchMainInstance,   NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_MemoryEditor),  NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (MemoryViewer_MainInstance->active),  (t_menu_callback)MemoryViewer_SwitchMainInstance,    NULL);

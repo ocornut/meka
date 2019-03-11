@@ -32,8 +32,8 @@ imgui.ini
 *.suo
 *.ipch
 .vs/
-*.vc.db
 *.user
 .*.swp
 *~
 .*~
+imgui.ini

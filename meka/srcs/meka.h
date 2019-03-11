@@ -293,6 +293,7 @@ struct t_meka_config
 
     // Applet: Misc
     bool            log_active = true;
+    bool            palette_active = true;
     bool            options_active = false;
     bool            about_active = false;
 
