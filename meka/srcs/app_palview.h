@@ -10,7 +10,6 @@
 struct t_app_palette_viewer
 {
     // Interface
-    bool                active;
     bool                dirty;
     t_gui_box *         box;
     t_frame             frame_palette;
