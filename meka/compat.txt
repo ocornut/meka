@@ -32,6 +32,7 @@
  Aladdin (Disney's)                             -       Ok
  Aleste (JP)                                    FM      Ok
  Alex Kidd: High-Tech World                     -       Ok
+ Alex Kidd: High-Tech World [Proto]             -       Ok
  Alex Kidd in Miracle World [v0] (US)           -       Ok
  Alex Kidd in Miracle World [v1]                -       Ok
  Alex Kidd no Miracle World (JP)                -       Ok
@@ -239,6 +240,7 @@
  Haja no Fuuin (JP)                             FM      Ok
  Hang On                                        -       Ok
  Hang On (JP)                                   -       Ok
+ Hang On [Proto]                                -       Ok
  Hang On / Astro Warrior                        -       Ok
  Hang On / Safari Hunt                          LP      Ok
  Hang On / Safari Hunt [Proto]                  LP      Ok
@@ -586,7 +588,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 568 games tested - 566 are "Ok" - Compatibility rate: 99.54%
+ 570 games tested - 568 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -907,6 +909,7 @@
  Alien Syndrome                                     Ok
  Alien Syndrome (JP)                                Ok
  Andre Agassi Tennis                                Ok
+ Andre Agassi Tennis [Proto]                        Ok
  Arcade Classics                                    Ok
  Arch Rivals                                        Ok
  Arena - Maze of Death / Arena                      Ok
@@ -955,12 +958,14 @@
  Cheese Cat-astrophe - Starring Speedy Gonzales     Ok
  Chessmaster                                        Ok
  Chicago Syndicate                                  Ok
+ Chicago Syndicate [Proto] [1995-03-20]             Ok (Empire Syndicate)
  Choplifter III                                     Ok
  Chuck Rock                                         Ok
  Chuck Rock [Proto]                                 Ok
  Chuck Rock II: Son of Chuck                        Ok
  Chuck Rock II: Son of Chuck (US)                   Ok
  CJ Elephant Fugitive                               Ok
+ CJ Elephant Fugitive [Proto]                       Ok
  Cliffhanger                                        Ok
  Clutch Hitter                                      Ok
  Coca Cola Kid                                      Ok
@@ -1145,6 +1150,7 @@
  Mickey Mouse no Mahou no Crystal (JP)              Ok
  Mickey's Ultimate Challenge                        Ok
  Micro Machines                                     Ok
+ Micro Machines [Proto]                             Ok
  Micro Machines 2: Turbo Tournament                 Ok
  Mighty Morphin Power Rangers                       Ok
  Mighty Morphin Power Rangers: The Movie            Ok
@@ -1178,6 +1184,7 @@
  Ninkuu 2 ~Tenkuuryuu-e no Michi~ (JP)              Ok
  Ninkuu Gaiden - Hiroyuki Daikatsugeki (JP)         Ok
  Nomo's World Series Baseball / Nomo Hideo no..(JP) Ok
+ Off The Wall [Proto]                               Ok
  Olympic Gold [v0] [SMS-GG]                         Ok
  Olympic Gold [v0] [SMS-GG] (TW)                    Ok
  Olympic Gold [v1] [SMS-GG]                         Ok
@@ -1400,7 +1407,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 506 games tested - 494 are "Ok" - Compatibility rate: 97.45%
+ 511 games tested - 499 are "Ok" - Compatibility rate: 97.63%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
