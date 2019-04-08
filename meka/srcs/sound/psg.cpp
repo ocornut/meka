@@ -81,12 +81,6 @@ int         PSG_Init()
 void        PSG_WriteSamples(s16 *buffer, int length)
 {
     s16* buf = buffer;
-    /*
-    for (int i = 0; i < length; ++i)
-    {
-        *buf++ = 0;
-    }
-    */
     for (int length_left = length; length_left > 0; length_left--)
     {
         // Get 1 sample from emulator
