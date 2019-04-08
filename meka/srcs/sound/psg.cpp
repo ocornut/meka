@@ -78,32 +78,47 @@ int         PSG_Init()
 // Update audio stream
 // This is periodically called by the sound engine
 //-----------------------------------------------------------------------------
-void        PSG_WriteSamples(void *buffer, int length)
+void        PSG_WriteSamples(s16 *buffer, int length)
 {
-    s16* buf = (s16*)buffer;
+    s16* buf = buffer;
+    /*
+    for (int i = 0; i < length; ++i)
+    {
+        *buf++ = 0;
+    }
+    */
     for (int length_left = length; length_left > 0; length_left--)
     {
         // Get 1 sample from emulator
-        int left;
-        SN76489_GetValues (&left, NULL);
+        int left, right;
+        SN76489_GetValues (&left, &right);
 
-        // Clamp write to buffer
-        left *= 2;
-        if (left < -0x8000)
-            *buf = -0x8000;
-        else
-            if (left > 0x7FFF)
-                *buf =  0x7FFF;
-            else
-                *buf =  left;
-        buf++;
+#if SOUND_CHANNEL_COUNT == 1
+
+        // Combine to mono
+        int value = left + right;
+
+        value = MAX(MIN(value, 0x7fff), -0x8000);
+
+        *buf++ = value;
+
+#elif SOUND_CHANNEL_COUNT == 2
+
+        *buf++ = MAX(MIN(left*2, 0x7fff), -0x8000);
+        *buf++ = MAX(MIN(right*2, 0x7fff), -0x8000);
+
+#else
+
+        assert(0);
+
+#endif
     }
 
     // Write buffer to file if logging is activated within MEKA
     if (Sound.LogWav)
     {
-        fwrite (buffer, length, sizeof (short), Sound.LogWav);
-        Sound.LogWav_SizeData += length * sizeof (short);
+        fwrite (buffer, sizeof (short) * SOUND_CHANNEL_COUNT, length, Sound.LogWav);
+        Sound.LogWav_SizeData += length * sizeof (short) * SOUND_CHANNEL_COUNT;
     }
 }
 

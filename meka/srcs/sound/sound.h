@@ -7,10 +7,11 @@
 // DEFINITIONS
 //-----------------------------------------------------------------------------
 
-#define SOUND_BUFFERS_COUNT     (4)
-#define SOUND_BUFFERS_SIZE      (1024)
+#define SOUND_BUFFERS_COUNT         (4)
+#define SOUND_BUFFERS_SAMPLE_COUNT  (1024)
+#define SOUND_CHANNEL_COUNT         (2)
 
-#define SOUND_DEBUG_APPLET      (1)
+#define SOUND_DEBUG_APPLET          (1)
 
 //-----------------------------------------------------------------------------
 // INCLUDES
@@ -74,14 +75,14 @@ void            Sound_Playback_Stop();
 void            Sound_Playback_Mute();
 void            Sound_Playback_Resume();
 
-t_sound_stream* SoundStream_Create(void (*sample_writer)(void*,int));
+t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int));
 void            SoundStream_Destroy(t_sound_stream* stream);
 void            SoundStream_Update(t_sound_stream* stream);
 void            SoundStream_RenderSamples(t_sound_stream* stream, int samples_count);
 void            SoundStream_RenderUpToCurrentTime(t_sound_stream* stream);
 int             SoundStream_CountReadableSamples(const t_sound_stream* stream);
 int             SoundStream_CountWritableSamples(const t_sound_stream* stream);
-bool            SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_count, s16** wbuf1, int* wbuf1_len, s16** buf2, int* wbuf2_len);
+bool            SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_count, s16** wbuf1, int* wbuf1_sample_count, s16** buf2, int* wbuf2_sample_count);
 int             SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted);
 
 void            SoundDebugApp_Init();

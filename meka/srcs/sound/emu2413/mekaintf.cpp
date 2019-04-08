@@ -101,26 +101,23 @@ void    FM_Digital_Regenerate()
 
 // Update audio stream
 // This is periodically called by the sound engine
-void    FM_Digital_WriteSamples(void *buffer, int length)
+void    FM_Digital_WriteSamples(s16 *buffer, int length)
 {
     // Msg(MSGT_USER, "FM_Digital_WriteSamples(%p, %d)", buffer, length);
 
     // printf("\n[%s]\n", __FUNCTION__);
 
-	s16* buf = (s16*)buffer;
 	while (length--)
 	{
 		int val = OPLL_calc(opll) * 2;
-		if (val < -0x8000)
-			*buf = -0x8000;
-		else
-			if (val > 0x7FFF)
-				*buf = 0x7FFF;
-			else
-				*buf =  val;
-		buf++;
-		// printf("%d, ", buf[-1]);
-		// printf("%d, ", val);
+        val = MAX(MIN(val, 0x7fff), -0x8000);
+
+#if SOUND_CHANNEL_COUNT == 1
+		*buffer++ = val;
+#elif SOUND_CHANNEL_COUNT == 2
+		*buffer++ = val;
+		*buffer++ = val;
+#endif
 	}
 }
 

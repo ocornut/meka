@@ -5,7 +5,6 @@
 
 #include "shared.h"
 #include "fmunit.h"
-#include "fskipper.h"
 #include "psg.h"
 #include "emu2413/mekaintf.h"
 #include "sound_logging.h"
@@ -38,7 +37,7 @@ struct t_sound_stream
     int                     audio_buffer_size;
     int                     audio_buffer_wpos;  // write position for chip emulator 
     int                     audio_buffer_rpos;  // read position for audio system
-    void                    (*sample_writer)(void*,int);
+    void                    (*sample_writer)(s16*,int);
 
     // Counters
     double                  samples_leftover;
@@ -262,11 +261,12 @@ double Sound_ConvertSamplesToCycles(double samples_count)
 
 //-----------------------------------------------------------------------------
 
-t_sound_stream* SoundStream_Create(void (*sample_writer)(void*,int))
+t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
 {
     t_sound_stream* stream = new t_sound_stream();
     stream->event_queue = al_create_event_queue();
-    stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_SIZE, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_1);
+    const ALLEGRO_CHANNEL_CONF channelConf = SOUND_CHANNEL_COUNT == 2 ? ALLEGRO_CHANNEL_CONF_2 : ALLEGRO_CHANNEL_CONF_1;
+    stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_SAMPLE_COUNT, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, channelConf);
     if (!stream->audio_stream)
     {
         delete stream;
@@ -279,7 +279,7 @@ t_sound_stream* SoundStream_Create(void (*sample_writer)(void*,int))
     }
     al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->audio_stream));
 
-    stream->audio_buffer_size = SOUND_BUFFERS_SIZE*SOUND_BUFFERS_COUNT*4;
+    stream->audio_buffer_size = SOUND_BUFFERS_SAMPLE_COUNT*SOUND_BUFFERS_COUNT*SOUND_CHANNEL_COUNT;
     stream->audio_buffer = new s16[stream->audio_buffer_size];
     stream->audio_buffer_wpos = 0;
     stream->audio_buffer_rpos = 0;
@@ -313,9 +313,9 @@ void SoundStream_Update(t_sound_stream* stream)
                 continue;
 
             // Need to catch up?
-            if (SoundStream_CountReadableSamples(stream) < SOUND_BUFFERS_SIZE)
+            if (SoundStream_CountReadableSamples(stream) < SOUND_BUFFERS_SAMPLE_COUNT)
             {
-                SoundStream_RenderSamples(stream, SOUND_BUFFERS_SIZE);
+                SoundStream_RenderSamples(stream, SOUND_BUFFERS_SAMPLE_COUNT);
                 /*Msg(MSGT_DEBUG, "Sound catchup by %d samples", SOUND_BUFFERS_SIZE);
                 Msg(MSGT_DEBUG, "%lld -> %lld, %lld + %.2f = %lld",
                     stream->last_rendered_cycle_counter, Sound_GetElapsedCycleCounter(),
@@ -326,7 +326,7 @@ void SoundStream_Update(t_sound_stream* stream)
                 //stream->last_rendered_cycle_counter += Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE);
             }
 
-            SoundStream_PopSamples(stream, buf, SOUND_BUFFERS_SIZE);
+            SoundStream_PopSamples(stream, buf, SOUND_BUFFERS_SAMPLE_COUNT);
 
             if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
                 Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
@@ -345,17 +345,19 @@ void SoundStream_RenderSamples(t_sound_stream* stream, int samples_count)
 
     stream->samples_rendered0 += samples_count;
 
+    // We render the number of samples Allegro wants - this may end up crossing the end of the buffer,
+    // so we may need to do it in two chunks.
     s16* wbuf1;
     s16* wbuf2;
-    int wbuf1_len;
-    int wbuf2_len;
-    if (SoundStream_PushSamplesRequestBufs(stream, samples_count, &wbuf1, &wbuf1_len, &wbuf2, &wbuf2_len))
+    int wbuf1_samples_count;
+    int wbuf2_samples_count;
+    if (SoundStream_PushSamplesRequestBufs(stream, samples_count, &wbuf1, &wbuf1_samples_count, &wbuf2, &wbuf2_samples_count))
     {
         if (wbuf1)
-            stream->sample_writer(wbuf1, wbuf1_len);
-        if (wbuf2)
-            stream->sample_writer(wbuf2, wbuf2_len);
-        stream->samples_rendered1 += wbuf1_len + wbuf2_len;
+            stream->sample_writer(wbuf1, wbuf1_samples_count);
+        if (wbuf2 && wbuf2_samples_count > 0)
+            stream->sample_writer(wbuf2, wbuf2_samples_count);
+        stream->samples_rendered1 += wbuf1_samples_count + wbuf2_samples_count;
     }
 }
 
@@ -399,24 +401,29 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
 int SoundStream_CountReadableSamples(const t_sound_stream* stream)
 {
     if (stream->audio_buffer_rpos == stream->audio_buffer_wpos)
+    {
         return 0;
+    }
 
     // Circular buffer
     if (stream->audio_buffer_rpos < stream->audio_buffer_wpos)
-        return (stream->audio_buffer_wpos - stream->audio_buffer_rpos);
-    else
-        return (stream->audio_buffer_size - stream->audio_buffer_rpos) + stream->audio_buffer_wpos;
+    {
+        // Have not wrapped
+        return (stream->audio_buffer_wpos - stream->audio_buffer_rpos) / SOUND_CHANNEL_COUNT;
+    }
+    // Have wrapped
+    return ((stream->audio_buffer_size - stream->audio_buffer_rpos) + stream->audio_buffer_wpos) / SOUND_CHANNEL_COUNT;
 }
 
 int SoundStream_CountWritableSamples(const t_sound_stream* stream)
 {
-    return stream->audio_buffer_size - SoundStream_CountReadableSamples(stream);
+    return stream->audio_buffer_size / SOUND_CHANNEL_COUNT - SoundStream_CountReadableSamples(stream);
 }
 
-bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_count, s16** wbuf1, int* wbuf1_len, s16** wbuf2, int* wbuf2_len)
+bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_count, s16** wbuf1, int* wbuf1_sample_count, s16** wbuf2, int* wbuf2_sample_count)
 {
     *wbuf1 = *wbuf2 = NULL;
-    *wbuf1_len = *wbuf2_len = 0;
+    *wbuf1_sample_count = *wbuf2_sample_count = 0;
 
     s16* buf_begin = &stream->audio_buffer[0];
     s16* buf_end = &stream->audio_buffer[stream->audio_buffer_size];
@@ -431,28 +438,28 @@ bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_coun
     if (stream->audio_buffer_wpos >= stream->audio_buffer_rpos)
     {
         // Provide writable buffer for wpos->end section
-        const int samples_to_write = MIN(samples_count, stream->audio_buffer_size - stream->audio_buffer_wpos);
+        const int samples_to_write = MIN(samples_count, (stream->audio_buffer_size - stream->audio_buffer_wpos) / SOUND_CHANNEL_COUNT);
         if (samples_to_write < 0)
             assert(0);
         *wbuf1 = &stream->audio_buffer[stream->audio_buffer_wpos];
-        *wbuf1_len = samples_to_write;
-        if (*wbuf1 && (*wbuf1 < buf_begin || *wbuf1+*wbuf1_len > buf_end))
+        *wbuf1_sample_count = samples_to_write;
+        if (*wbuf1 && (*wbuf1 < buf_begin || *wbuf1+*wbuf1_sample_count*SOUND_CHANNEL_COUNT > buf_end))
             assert(0);
         samples_count -= samples_to_write;
-        stream->audio_buffer_wpos = (stream->audio_buffer_wpos + samples_to_write) % stream->audio_buffer_size;
+        stream->audio_buffer_wpos = (stream->audio_buffer_wpos + samples_to_write*SOUND_CHANNEL_COUNT) % stream->audio_buffer_size;
     }
-    if (stream->audio_buffer_wpos < stream->audio_buffer_rpos)
+    if (stream->audio_buffer_wpos < stream->audio_buffer_rpos && samples_count > 0)
     {
         // Provide writable buffer for wpos->rpos section
-        const int samples_to_write = MIN(samples_count, stream->audio_buffer_rpos - stream->audio_buffer_wpos);
+        const int samples_to_write = MIN(samples_count, (stream->audio_buffer_rpos - stream->audio_buffer_wpos) / SOUND_CHANNEL_COUNT);
         if (samples_to_write < 0)
             assert(0);
         *wbuf2 = &stream->audio_buffer[stream->audio_buffer_wpos];
-        *wbuf2_len = samples_to_write;
-        if (*wbuf2 && (*wbuf2 < buf_begin || *wbuf2+*wbuf2_len > buf_end))
+        *wbuf2_sample_count = samples_to_write;
+        if (*wbuf2 && (*wbuf2 < buf_begin || *wbuf2+*wbuf2_sample_count*SOUND_CHANNEL_COUNT > buf_end))
             assert(0);
         samples_count -= samples_to_write;
-        stream->audio_buffer_wpos = (stream->audio_buffer_wpos + samples_to_write) % stream->audio_buffer_size;
+        stream->audio_buffer_wpos = (stream->audio_buffer_wpos + samples_to_write*SOUND_CHANNEL_COUNT) % stream->audio_buffer_size;
     }
 
     return true;
@@ -484,20 +491,21 @@ int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
         if (stream->audio_buffer_rpos < stream->audio_buffer_wpos)
         {
             // Read rpos->wpos
-            samples_avail_contiguous = stream->audio_buffer_wpos - stream->audio_buffer_rpos;
+            samples_avail_contiguous = (stream->audio_buffer_wpos - stream->audio_buffer_rpos) / SOUND_CHANNEL_COUNT;
         }
         else
         {
             // Read rpos->end
-            samples_avail_contiguous = stream->audio_buffer_size - stream->audio_buffer_rpos;
+            samples_avail_contiguous = (stream->audio_buffer_size - stream->audio_buffer_rpos) / SOUND_CHANNEL_COUNT;
         }
 
         const int samples_to_read = MIN(samples_wanted, samples_avail_contiguous);
-        memcpy(&buf[samples_read], &stream->audio_buffer[stream->audio_buffer_rpos], samples_to_read * sizeof(s16));
+        memcpy(&buf[samples_read*SOUND_CHANNEL_COUNT], &stream->audio_buffer[stream->audio_buffer_rpos], samples_to_read * sizeof(s16) * SOUND_CHANNEL_COUNT);
         samples_read += samples_to_read;
         samples_wanted -= samples_to_read;
-        stream->audio_buffer_rpos = (stream->audio_buffer_rpos + samples_to_read) % stream->audio_buffer_size;
+        stream->audio_buffer_rpos = (stream->audio_buffer_rpos + samples_to_read * SOUND_CHANNEL_COUNT) % stream->audio_buffer_size;
     }
+//    memset(buf, 0, 1024*2*SOUND_CHANNEL_COUNT);
 
     return samples_read;
 }
