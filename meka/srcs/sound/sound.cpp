@@ -265,7 +265,15 @@ t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
 {
     t_sound_stream* stream = new t_sound_stream();
     stream->event_queue = al_create_event_queue();
-    const ALLEGRO_CHANNEL_CONF channelConf = SOUND_CHANNEL_COUNT == 2 ? ALLEGRO_CHANNEL_CONF_2 : ALLEGRO_CHANNEL_CONF_1;
+
+#if SOUND_CHANNEL_COUNT == 1
+    const ALLEGRO_CHANNEL_CONF channelConf = ALLEGRO_CHANNEL_CONF_1;
+#elif SOUND_CHANNEL_COUNT == 2
+    const ALLEGRO_CHANNEL_CONF channelConf = ALLEGRO_CHANNEL_CONF_2;
+#else
+    assert(0);
+#endif
+
     stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_SAMPLE_COUNT, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, channelConf);
     if (!stream->audio_stream)
     {
