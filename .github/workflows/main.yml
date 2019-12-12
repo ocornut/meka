@@ -1,0 +1,47 @@
+name: Continuous build
+
+on:
+  push: {}
+  pull_request: {}
+  
+jobs:
+  Windows:
+    runs-on: windows-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+
+    - name: Enable Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1.0.0
+      with:
+        arch: x86
+        toolset: 14.1 # VS2017
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v1
+      with:
+        path: meka/srcs/projects/msvc/packages
+        key: packages-${{ hashFiles('meka/srcs/projects/msvc/packages.config') }}
+    
+    - name: Cache build outputs
+      uses: actions/cache@v1
+      with:
+        path: meka/objs
+        key: objs
+    
+    - name: Setup NuGet.exe for use with actions
+      uses: NuGet/setup-nuget@v1.0.2
+    
+    - name: Package restore
+      run: nuget restore meka/srcs/projects/msvc/meka.sln
+    
+    - name: Build
+      run: msbuild meka/srcs/projects/msvc/meka.sln /property:Configuration=Release /property:Platform=Win32 /maxcpucount
+    
+    - name: Package
+      working-directory: meka\tools
+      shell: cmd
+      run: echo | dist_bin_win32.bat
