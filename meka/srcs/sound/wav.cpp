@@ -67,7 +67,7 @@ FILE*   WAV_Start(char *FileName)
         return (NULL);
 
     t_wav_header h;
-    WAV_Header_Init(&h, Sound.SampleRate, 16, 1);
+    WAV_Header_Init(&h, Sound.SampleRate, 16, SOUND_CHANNEL_COUNT);
     fwrite (&h, sizeof (h), 1, f);
     // ..
     return (f);
