@@ -16,6 +16,7 @@
  SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  20 em 1 (BR)                                   -       Ok
+ 3D Gunner [Proto]                              LP,3D  *Ok
  4 PAK All Action (AU)                          -       Ok
  94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
@@ -588,7 +589,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 570 games tested - 568 are "Ok" - Compatibility rate: 99.64%
+ 571 games tested - 569 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

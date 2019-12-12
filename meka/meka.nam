@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2019/04/25
+; Last updated 2019/12/12
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -78,6 +78,7 @@
 ;-----------------------------------------------------------------------------
 
 SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
+SMS 56dcb2d4 9FA930C396F93600   3D Gunner [Proto]/EMU_MAPPER=0/EMU_INPUTS=LIGHTPHASER/EMU_3D/COMMENT=Prototype version of the unreleased game.
 SMS a67f2a5c 4EB5F14E8488C9E9   4 PAK All Action/COUNTRY=AU/EMU_MAPPER=14
 SMS 060d6a7c 89A31578AA7C44DD   94 Super World Cup Soccer/COUNTRY=KR/PRODUCT_NO=DS-G403
 SMS 887d9f6b 9EB1F06967AA8DBA   Ace of Aces/COUNTRY=EU/PRODUCT_NO=7054
@@ -232,7 +233,7 @@ SMS aa140c9c 0E423CDBCAD3E01C   Excellent Dizzy Collection, The [SMS-GG]/COUNTRY
 SMS 8813514b B7049344859B9CB2   Excellent Dizzy Collection, The [Proto]/FLAGS=PROTO/EMU_TVTYPE=PAL/EMU_MAPPER=3/COMMENT=Prototype version of the game. Seems incomplete. The prototype was submitted as a 256 KB EPROM, while the full Game Gear version is twice as big. It's possible to run this version a bit further by appending the second half from the Game Gear version, but it'll eventually crash.
 SMS ec788661 066B34EF6BEC0411   F1/NAME_BR=Fórmula-1/COUNTRY=EU,BR/PRODUCT_NO=MK-27072-50,026330
 SMS 06965ed9 0942E34E2B1B46F8   F-1 Spirit - The way to Formula-1/COUNTRY=KR/EMU_MAPPER=12
-SMS eaebf323 A14F71C94A96B145   F-16 Fighter/COUNTRY=US,EU,DE,IT/PRODUCT_NO=4005M,4081,4581,41005/COMMENT=US version is sometimes labelled "F-16 Fighting Falcon" but has a "F-16 Fighter" title screen.
+SMS eaebf323 A14F71C94A96B145   F-16 Fighter/COUNTRY=US,EU,DE,IT,BR/PRODUCT_NO=4005M,4081,4581,41005/COMMENT=US version is sometimes labelled "F-16 Fighting Falcon" but has a "F-16 Fighter" title screen.
 SMS 7ce06fce 41BC24AC74DB9252   F-16 Fighting Falcon/COUNTRY=JP/PRODUCT_NO=C-508
 SMS 184c23b7 8B5072C94E9DBB44   F-16 Fighting Falcon/COUNTRY=US/PRODUCT_NO=4005
 SMS c4c53226 A7DEDC9F65CA8B46   F-16 Fighting Falcon/COUNTRY=TW/PRODUCT_NO=K-313
@@ -566,7 +567,7 @@ SMS b990269a 4795A5446841741E   Strider [Demo]/FLAGS=PROTO
 SMS b8f0915a 44E778659B2ECD62   Strider II/COUNTRY=EU,BR/PRODUCT_NO=29005-50,026250
 SMS d8f2f1b9 2E5B54DFAA4D4706   Submarine Attack/COUNTRY=EU,BR/PRODUCT_NO=7048
 SMS b13df647 57E32ED9EF14328A   Sukeban Deka II - Shoujo Tekkamen Densetsu/COUNTRY=JP/PRODUCT_NO=G-1318
-SMS 8da5c93f AF2D01D4A78C8B91   Summer Games/COUNTRY=EU/PRODUCT_NO=5119
+SMS 8da5c93f AF2D01D4A78C8B91   Summer Games/NAME_BR=Jogos Olímpicos/COUNTRY=EU,BR/PRODUCT_NO=5119
 SMS 80eb1fff 420EEF0B240F3152   Summer Games [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 01686d67 88E8E8D0608B22CB   Suho Jeonsa/COUNTRY=KR/PRODUCT_NO=DS-G402
 SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
