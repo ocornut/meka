@@ -87,7 +87,6 @@ Meka 0.80 check list
 [A]- fix sound: latency, 50 hz, other modes?
 - obsolete/hide blitter interface
 - debug version leaves allegro.log is current directory
-- game gear stereo
 - start window is in background when running from explorer
 - solve vsync and refresh rate issues, at least be able to enable vsync?
 - have a pass at checking all features
@@ -974,7 +973,6 @@ doing them now and some are quick work.
      What about PSG/FM registers, saved into a savestate ?
  - WAV logging does not saves FM.
    - Require mixing on our side, or retrieval of mixed buffer.
- - Game Gear Stereo Emulation
  PSG:
  - Different PSG feedback/noise for SG-1000/SC-3000/etc.. (SN76489AN variant)
  - Higher PSG Volume
@@ -995,8 +993,6 @@ doing them now and some are quick work.
    > send some in_vgm.dlls with the 0.55 and 0.60 cores.
  - Support CPU speed change.
  Notes:
- - Panning: possibility to support Game Gear stereo easily ?
-   (without major performance hit)
  - AUpdateAudio() in starting init: it is necessary ?
 
  - Some (old) unsorted feedback:
