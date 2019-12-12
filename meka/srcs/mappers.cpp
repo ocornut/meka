@@ -278,7 +278,7 @@ WRITE_FUNC (Write_Mapper_SMS_NoMapper)
     {
         // RAM [0xC000] = [0xE000] ------------------------------------------------
     case 6: Mem_Pages [6] [Addr] = Value; return;
-    case 7: Mem_Pages [7] [Addr] = Value; return;
+    case 7: Mem_Pages [7] [Addr] = Value; if (Addr >= 0xFFF8 && Addr <= 0xFFFB) sms.Glasses_Register = Value; return;
     }
 
     Write_Error (Addr, Value);
