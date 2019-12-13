@@ -48,10 +48,10 @@
 struct t_db_name
 {
     // 16 bytes + name data
-    char *          name;                   // UTF-8
+    char*           name;                   // UTF-8
     int             country     : 31;       // In this field, only specific LANGUAGE fields are specified (JP,BR,KR,HK) or if the name is different
     int             non_latin   : 1;        // Set if non-latin UTF-8 data. If not set, name is romanized.
-    t_db_name *     next;
+    t_db_name*      next;
 };
 
 struct t_db_entry
@@ -60,13 +60,13 @@ struct t_db_entry
     int             system;                 // Parsed to DRV_* definitions, -1 if unknown
     u32             crc_crc32;              // CRC32
     t_meka_crc      crc_mekacrc;            // MekaCRC
-    t_db_name *     names;                  // Names (1st is default name)
+    t_db_name*      names;                  // Names (1st is default name)
     int             country;                // Country flags
     int             flags;                  // Flags (see definitions above)
-    char *          product_no;             // Product Number
-    char *          version;                // Version note
-    char *          comments;               // Comments
-    char *          authors;                // Author(s)
+    char*           product_no;             // Product Number
+    char*           version;                // Version note
+    char*           comments;               // Comments
+    char*           authors;                // Author(s)
     int             trans_country;          // Translation country (if applicable)
 
     // Emulation purpose (7 bytes)
@@ -81,10 +81,10 @@ struct t_db_entry
 
 struct t_db
 {
-    t_list *        entries;
+    t_list*         entries;
     int             entries_counter_format_old;
     int             entries_counter_format_new;
-    t_db_entry *    current_entry;
+    t_db_entry*     current_entry;
 };
 
 extern t_db         DB;
@@ -96,13 +96,13 @@ extern t_db         DB;
 bool                DB_Init                     (const char* filename, bool verbose = true);
 void                DB_Close                    (void);
 
-t_db_entry *        DB_Entry_Find               (u32 crc32, const t_meka_crc *mekacrc = NULL);
+t_db_entry*         DB_Entry_Find               (u32 crc32, const t_meka_crc* mekacrc = NULL);
 
-//void              DB_Entry_Print              (const t_db_entry *entry);
-int                 DB_Entry_SelectDisplayFlag  (const t_db_entry *entry);
-const char *        DB_Entry_GetCurrentName     (const t_db_entry *entry);
-const t_db_name *   DB_Entry_GetNameByCountry   (const t_db_entry *entry, int country);
-int                 DB_Entry_GetTranslationFlag (const t_db_entry *entry);
+//void              DB_Entry_Print              (const t_db_entry* entry);
+int                 DB_Entry_SelectDisplayFlag  (const t_db_entry* entry);
+const char*         DB_Entry_GetCurrentName     (const t_db_entry* entry);
+const t_db_name*    DB_Entry_GetNameByCountry   (const t_db_entry* entry, int country);
+int                 DB_Entry_GetTranslationFlag (const t_db_entry* entry);
 
 int                 DB_FindDriverIdByName       (const char* name);
 const char*         DB_FindDriverNameById       (int driver_id);
