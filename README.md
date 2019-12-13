@@ -4,8 +4,9 @@ MEKA
 - Homepage: http://www.smspower.org/meka
 - Forum: http://www.smspower.org/forums/f7-MEKA
 
-You can download the latest beta windows binaries from this forum thread:
-<br>http://www.smspower.org/forums/13019?start=300#86895
+Latest Beta Windows binaries:
+- https://github.com/ocornut/meka/releases
+- Also may want to follow this thread: http://www.smspower.org/forums/13019
 
 MEKA is a multi-machine emulator. The following machines are supported by MEKA:
 
