@@ -35,7 +35,7 @@ They are usually of 2 kinds:
     - PSG: Added support for Game Gear stereo emulation! [Maxim]
     - PSG: Emulate the PSG volumes "ideally" rather than matching some real systems' suboptimal output. [Maxim]
     - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
-  - Emulation (Memory System, Mappers):
+  - Emulation (Memory System, Mappers, Peripherals):
     - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
     - Added support for '4 PAK All Action' mapper. [Omar]
     - Added support for 'Janggun-ui Adeul' mapper. [Omar]
@@ -50,6 +50,9 @@ They are usually of 2 kinds:
       could be implemented for other systems/countries after we've done more research. [Omar]
     - Added support for mirrored VDP ports in $80..$BF range, as required by some 
       Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
+    - Light Phaser: Adding per-game hacky light phaser function to reduce drift 
+      between perceived cursor and what the game will end up using, particularly 
+      useful for 'Missile Defense 3-D' and '3D Gunner'. [Omar]
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
     - Referring to a symbol using with the : prefix (in the form ":xxxx") returns the ROM address instead of the CPU address. [Omar]

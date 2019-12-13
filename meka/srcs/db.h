@@ -76,6 +76,7 @@ struct t_db_entry
     s8              emu_mapper;             // -1 if auto
     s8              emu_tvtype;             // -1 if auto
     s8              emu_vdp_model;          // -1 if auto
+    s8              emu_lightphaser_emu_func;// -1 if auto
     s16             emu_iperiod;            // -1 if auto
 };
 

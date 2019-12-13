@@ -137,6 +137,7 @@ t_db_entry*     DB_Entry_New (int system, u32 crc32, t_meka_crc* mekacrc)
     entry->emu_mapper   = -1;
     entry->emu_tvtype   = -1;
     entry->emu_vdp_model= -1;
+    entry->emu_lightphaser_emu_func = -1;
 
     return (entry);
 }
@@ -319,6 +320,12 @@ static int      DB_Load_Entry (char* line)
             if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
                 return (0);
             entry->emu_mapper = atoi(w);
+        }
+        else if (!strcmp(w, "EMU_LP_FUNC"))
+        {
+            if (!(w = parse_getword(buf, 1024, &line, "/", ';')))
+                return (0);
+            entry->emu_lightphaser_emu_func = atoi(w);
         }
         else if (!strcmp(w, "EMU_VDP"))
         {
