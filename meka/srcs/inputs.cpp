@@ -326,16 +326,19 @@ void    Input_ROM_Change()
     bool glasses = FALSE;
     t_input_peripheral peripheral = INPUT_JOYPAD;
 
-    if (DB.current_entry)
+    LightPhaser.EmuFunc = LIGHTPHASER_EMU_FUNC_DEFAULT;
+    if (t_db_entry* db_entry = DB.current_entry)
     {
-        if (DB.current_entry->emu_inputs != -1)
-            peripheral = (t_input_peripheral)DB.current_entry->emu_inputs;
-        if (DB.current_entry->flags & DB_FLAG_EMU_3D)
+        if (db_entry->emu_inputs != -1)
+            peripheral = (t_input_peripheral)db_entry->emu_inputs;
+        if (db_entry->emu_lightphaser_emu_func != -1)
+            LightPhaser.EmuFunc = (t_lightphaser_emu_func)db_entry->emu_lightphaser_emu_func;
+        if (db_entry->flags & DB_FLAG_EMU_3D)
             glasses = TRUE;
     }
-    if (Inputs.Peripheral [PLAYER_1] != peripheral)
+    if (Inputs.Peripheral[PLAYER_1] != peripheral)
     {
-        Inputs.Peripheral [PLAYER_1] = peripheral;
+        Inputs.Peripheral[PLAYER_1] = peripheral;
         Inputs_Switch_Current();
     }
     if (Glasses.Enabled != glasses)
