@@ -19,9 +19,6 @@
     <ClCompile Include="smsid_stubs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\db.h">
       <Filter>deps</Filter>
     </ClInclude>
@@ -31,5 +28,8 @@
     <ClInclude Include="..\libparse.h">
       <Filter>deps</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
