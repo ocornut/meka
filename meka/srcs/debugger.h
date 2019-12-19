@@ -149,7 +149,7 @@ struct t_debugger
     int                         history_current_index;          // 0: new/current edit line, 1+: history lines items
 
     t_list *                    variables_cpu_registers;
-    FILE *                      log_file;
+    ALLEGRO_FILE *                      log_file;
     const char *                log_filename;
     int                         watch_counter;                  // For current frame
     long long                   cycle_counter;                  // Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80(). 

@@ -7,10 +7,10 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    BMemory_93c46_Load              (FILE *f);
-void    BMemory_93c46_Save              (FILE *f);
-void    BMemory_93c46_Load_State        (FILE *f);
-void    BMemory_93c46_Save_State        (FILE *f);
+void    BMemory_93c46_Load              (ALLEGRO_FILE *f);
+void    BMemory_93c46_Save              (ALLEGRO_FILE *f);
+void    BMemory_93c46_Load_State        (ALLEGRO_FILE *f);
+void    BMemory_93c46_Save_State        (ALLEGRO_FILE *f);
 void    BMemory_93c46_Get_Infos         (void **data, int *len);
 
 //-----------------------------------------------------------------------------

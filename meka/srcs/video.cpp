@@ -93,13 +93,15 @@ void Video_CreateVideoBuffers()
     // Retrieve actual video format. This will be used to compute color values.
     g_screenbuffer_format = al_get_bitmap_format(screenbuffer_1);
 
+    assert(screenbuffer != NULL);
+    assert(screenbuffer_next != NULL);
+
     Screenbuffer_AcquireLock();
 
     Blit_CreateVideoBuffers();
     Data_CreateVideoBuffers();
     SkinFx_CreateVideoBuffers();
-    if (g_env.state == MEKA_STATE_GUI)
-        GUI_SetupNewVideoMode();
+    GUI_SetupNewVideoMode();
 }
 
 static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool fullscreen, int refresh_rate, bool fatal)
@@ -165,8 +167,8 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 
     al_register_event_source(g_display_event_queue, al_get_display_event_source(g_display));
 
-    g_video.res_x = w;
-    g_video.res_y = h;
+    g_video.res_x = al_get_display_width(g_display);
+    g_video.res_y = al_get_display_height(g_display);
     g_video.refresh_rate_requested = refresh_rate;
     Video_GameMode_UpdateBounds();
 
@@ -221,6 +223,21 @@ void    Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen
     }
 }
 
+
+void    Video_GameMode_GetScreenSize(int* pscreen_x, int* pscreen_y )
+{
+    *pscreen_x = al_get_display_width(g_display);
+    *pscreen_y = al_get_display_height(g_display);
+}
+
+void    Video_GameMode_GetScreenBounds(int* pscreen_x1, int* pscreen_y1, int* pscreen_x2, int* pscreen_y2 )
+{
+    *pscreen_x1 = g_video.game_area_x1;
+    *pscreen_y1 = g_video.game_area_y1;
+    *pscreen_x2 = g_video.game_area_x2;
+    *pscreen_y2 = g_video.game_area_y2;
+}
+
 void    Video_GameMode_GetScreenCenterPos(int* pscreen_x, int* pscreen_y)
 {
     *pscreen_x = (g_video.game_area_x1 + g_video.game_area_x2) >> 1;
@@ -238,6 +255,7 @@ void    Video_EnumerateDisplayModes()
     std::vector<t_video_mode>& display_modes = g_video.display_modes;
     display_modes.clear();
 
+#ifndef ARCH_ANDROID
     const int modes = al_get_num_display_modes();
     for (int i = 0; i != modes; i++)
     {
@@ -296,12 +314,15 @@ void    Video_EnumerateDisplayModes()
     }
     if (closest_index != -1)
         g_video.display_mode_current_index = closest_index;
+#endif
 }
 
 void    Video_Setup_State()
 {
     switch (g_env.state)
     {
+    case MEKA_STATE_INIT:
+        break;
     case MEKA_STATE_SHUTDOWN:
         {
             Video_DestroyVideoBuffers();
@@ -360,11 +381,15 @@ void    Screenbuffer_AcquireLock()
     assert(g_screenbuffer_locked_region == NULL && g_screenbuffer_locked_buffer == NULL);
     g_screenbuffer_locked_region = al_lock_bitmap(screenbuffer, ALLEGRO_PIXEL_FORMAT_ANY, ALLEGRO_LOCK_READWRITE);
     g_screenbuffer_locked_buffer = screenbuffer;
+
+    assert(g_screenbuffer_locked_region != NULL);
+    assert(g_screenbuffer_locked_buffer != NULL);
 }
 
 void    Screenbuffer_ReleaseLock()
 {
-    assert(g_screenbuffer_locked_region != NULL && g_screenbuffer_locked_buffer != NULL);
+    assert(g_screenbuffer_locked_region != NULL);
+    assert(g_screenbuffer_locked_buffer != NULL);
     assert(g_screenbuffer_locked_buffer == screenbuffer);
     al_unlock_bitmap(screenbuffer);
     g_screenbuffer_locked_region = NULL;
@@ -378,6 +403,9 @@ bool    Screenbuffer_IsLocked()
 
 void    Video_UpdateEvents()
 {
+    bool resume = false;
+    bool pause = false;
+    
     ALLEGRO_EVENT key_event;
     while (al_get_next_event(g_display_event_queue, &key_event))
     {
@@ -403,9 +431,68 @@ void    Video_UpdateEvents()
             //  break;
             //Sound_Playback_Mute();
             Inputs_Sources_ClearOutOfFocus();
+            pause = true;
             break;
+            
+            // Resize
+        case ALLEGRO_EVENT_DISPLAY_RESIZE:
+            al_acknowledge_resize(g_display);
+            /* fallthrough */
+            
+         // Screen rotated
+        case ALLEGRO_EVENT_DISPLAY_ORIENTATION:
+            g_video.res_x = al_get_display_width(g_display);
+            g_video.res_y = al_get_display_height(g_display);
+            Video_GameMode_UpdateBounds();
+            break;
+            
+            // Android leave app
+        case ALLEGRO_EVENT_DISPLAY_HALT_DRAWING:
+            al_acknowledge_drawing_halt(g_display);
+            break;
+            
+            // Android return to app
+        case ALLEGRO_EVENT_DISPLAY_RESUME_DRAWING:
+            al_acknowledge_drawing_resume(g_display);
+            resume = true;
+            break;
+
+            // Android left app
+        case ALLEGRO_EVENT_DISPLAY_LOST:
+            break;
+
         }
     }
+
+    // Android sends resume events multiple times, triggering this multiple times.
+    if ( resume ) {
+
+        Video_CreateVideoBuffers();
+        Screenbuffer_ReleaseLock();
+    }
+
+#ifdef ARCH_ANDROID
+    // Under android, easier to sit here and wait for resume events
+    while( pause ) {
+
+        al_wait_for_event(g_display_event_queue, &key_event);
+        
+        switch (key_event.type ) {
+            case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
+                pause = false;
+                break;
+            case ALLEGRO_EVENT_DISPLAY_HALT_DRAWING:
+                al_acknowledge_drawing_halt(g_display);
+                break;
+            case ALLEGRO_EVENT_DISPLAY_RESIZE:
+                al_acknowledge_resize(g_display);
+                break;
+            case ALLEGRO_EVENT_DISPLAY_RESUME_DRAWING:
+                al_acknowledge_drawing_resume(g_display);
+                break;
+        }
+    }
+#endif
 }
 
 // This is called when line == tsms.VDP_Line_End

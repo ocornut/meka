@@ -96,6 +96,9 @@ void    Filenames_Init()
     GetResourcePath( g_env.Paths.EmulatorDirectory, sizeof(g_env.Paths.EmulatorDirectory) );
     ConsolePrintf ("Resource path = %s\n", g_env.Paths.EmulatorDirectory);
 #else
+#ifdef ARCH_ANDROID
+    strcpy(g_env.Paths.EmulatorDirectory, "meka" );
+#else
     strcpy(g_env.Paths.EmulatorDirectory, g_env.argv[0]);
     #ifdef ARCH_WIN32
         StrReplace(g_env.Paths.EmulatorDirectory, '\\', '/');
@@ -106,8 +109,9 @@ void    Filenames_Init()
     else
         strcpy(g_env.Paths.EmulatorDirectory, g_env.Paths.StartingDirectory);
 #endif
+#endif
 
-#if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
+#if (defined(ARCH_UNIX) || defined(ARCH_MACOSX)) && !defined(ARCH_ANDROID)
     char* rp = realpath(g_env.Paths.EmulatorDirectory, NULL);
     if (rp != NULL)
     {
@@ -173,8 +177,14 @@ void    Filenames_Init()
     sprintf(g_env.Paths.MusicDirectory,          "%s/Music",         external_resources_dir);
     sprintf(g_env.Paths.DebugDirectory,          "%s/Debug",         external_resources_dir);
 
+    #ifdef ARCH_ANDROID
+    #define DEFAULT_ROM "meka/meka.sc"
+    #else
+    #define DEFAULT_ROM ""
+    #endif
+
     // ROM
-    strcpy(g_env.Paths.MediaImageFile,  "");
+    strcpy(g_env.Paths.MediaImageFile,  DEFAULT_ROM );
     strcpy(g_env.Paths.BatteryBackedMemoryFile, "");
 }
 
@@ -465,23 +475,23 @@ int             Load_ROM_Zipped ()
 }
 #endif // ifdef MEKA_ZIP
 
+#include "libparse.h"
+
 // LOAD A ROM FROM A FILE -----------------------------------------------------
 int             Load_ROM_File(const char *filename_ext)
 {
-    FILE *      f;
+    ALLEGRO_FILE *      f;
     int         start_at;
 
     // Setting driver -----------------------------------------------------------
     // Must be done there because Load_ROM_Zip
     g_machine.driver_id = drv_get_from_filename_extension(filename_ext);
 
-    // Open file ----------------------------------------------------------------
-    if ((f = fopen(g_env.Paths.MediaImageFile, "rb")) == NULL)
-        return (MEKA_ERR_FILE_OPEN);
+    tsms.Size_ROM = tfile_size( g_env.Paths.MediaImageFile );
 
-    // Get file size
-    fseek (f, 0, SEEK_END);
-    tsms.Size_ROM = ftell (f);
+    // Open file ----------------------------------------------------------------
+    if ((f = al_fopen(g_env.Paths.MediaImageFile, "rb")) == NULL)
+            return (MEKA_ERR_FILE_OPEN);
 
     // Remove Header & Footer
     Load_Header_and_Footer_Remove (&start_at, &tsms.Size_ROM);
@@ -489,16 +499,16 @@ int             Load_ROM_File(const char *filename_ext)
     // Check out if the ROM isn't actually empty
     if (tsms.Size_ROM <= 0)
         return (MEKA_ERR_FILE_EMPTY);       // File empty .. FIXME: to short ? because of header..
-    fseek (f, start_at, SEEK_SET);
+    al_fseek (f, start_at, SEEK_SET);
 
     // Allocate necessary memory to load ROM ------------------------------------
     if (Load_ROM_Init_Memory () == -1)
         return (MEKA_ERR_MEMORY);           // Not enough memory
 
     // Read data then close file ------------------------------------------------
-    if (fread (ROM, 1, tsms.Size_ROM, f) != (unsigned int)tsms.Size_ROM)
+    if (al_fread (f, ROM, tsms.Size_ROM) != (unsigned int)tsms.Size_ROM)
         return (MEKA_ERR_FILE_READ);        // Error reading file
-    fclose (f);
+    al_fclose (f);
 
     // Copy data for Colecovision mirroring -------------------------------------
     if (g_machine.driver_id == DRV_COLECO)

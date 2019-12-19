@@ -54,6 +54,8 @@ void    Video_GameMode_UpdateBounds(void);
 void    Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp);
 void    Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp);
 void    Video_GameMode_GetScreenCenterPos(int* pscreen_x, int* pscreen_y);
+void    Video_GameMode_GetScreenBounds(int* pscreen_x1, int* pscreen_y1, int* pscreen_x2, int* pscreen_y2 );
+void    Video_GameMode_GetScreenSize(int* pscreen_x, int* pscreen_y );
 
 void    Video_RefreshScreen(void);
 void    Video_UpdateEvents();

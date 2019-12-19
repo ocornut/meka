@@ -36,7 +36,7 @@ struct t_sound
     bool        FM_Enabled;                 // FM Emulation enabled (emulated machine)
 
     // Logging
-    FILE *      LogWav;
+    ALLEGRO_FILE *      LogWav;
     int         LogWav_SizeData;
     char *      LogWav_FileName_Template;
     int         LogWav_ID;

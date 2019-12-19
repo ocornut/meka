@@ -26,10 +26,10 @@ static void Font_Declare(t_font_id id, const char* text_id, const char* load_fil
 
 void    Fonts_Init()
 {
-    Font_Declare(FONTID_SMALL,          "CLASSIC_SMALL",    "font_2.tga",                   0);
-    Font_Declare(FONTID_MEDIUM,         "CLASSIC_MEDIUM",   "font_1.tga",                   0);
-    Font_Declare(FONTID_LARGE,          "CLASSIC_LARGE",    "font_0.tga",                   0);
-    Font_Declare(FONTID_PROGGY_TINY,        "PROGGY_TINY",      "fonts/ProggyTinySZ.ttf",       -10);
+    Font_Declare(FONTID_SMALL,          "CLASSIC_SMALL",    "font_2.png",                   0);
+    Font_Declare(FONTID_MEDIUM,         "CLASSIC_MEDIUM",   "font_1.png",                   0);
+    Font_Declare(FONTID_LARGE,          "CLASSIC_LARGE",    "font_0.png",                   0);
+    Font_Declare(FONTID_PROGGY_TINY,    "PROGGY_TINY",      "fonts/ProggyTinySZ.ttf",       -10);
     Font_Declare(FONTID_PROGGY_SMALL,   "PROGGY_SMALL",     "fonts/ProggySmall.ttf",        -10);
     Font_Declare(FONTID_PROGGY_SQUARE,  "PROGGY_SQUARE",    "fonts/ProggySquareSZ.ttf",     -11);
     Font_Declare(FONTID_PROGGY_CLEAN,   "PROGGY_CLEAN",     "fonts/ProggyCleanSZ.ttf",      -13);

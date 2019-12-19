@@ -146,14 +146,14 @@ void        SaveState_Save()
 
     char buf[FILENAME_LEN+1];
     Save_Get_Filename(buf);
-    FILE* f;
+    ALLEGRO_FILE * f;
     int result;
-    if (!(f = fopen(buf, "wb")))
+    if (!(f = al_fopen(buf, "wb")))
         result = 2;
     else
     {
         result = Save_Game_MSV(f);
-        fclose (f);
+        al_fclose (f);
     }
 
     StrPath_RemoveDirectory (buf);
@@ -195,14 +195,14 @@ void        SaveState_Load()
     char buf[FILENAME_LEN+1];
     Save_Get_Filename(buf);
     
-    FILE* f;
+    ALLEGRO_FILE * f;
     int result;
-    if (!(f = fopen(buf, "rb")))
+    if (!(f = al_fopen(buf, "rb")))
         result = 2;
     else
     {
         result = Load_Game_MSV (f);
-        fclose (f);
+        al_fclose (f);
     }
 
     StrPath_RemoveDirectory (buf);
@@ -222,7 +222,7 @@ void        SaveState_Load()
 }
 
 // Save current state to given file, in MEKA save state format
-int     Save_Game_MSV (FILE *f)
+int     Save_Game_MSV (ALLEGRO_FILE *f)
 {
     u8  b;
     u16 w;
@@ -230,29 +230,29 @@ int     Save_Game_MSV (FILE *f)
     BMemory_Verify_Usage();
 
     // Write Header
-    fwrite ("MEKA", 4, 1, f);
+    al_fwrite ( f, "MEKA", 4);
     b = 0x1A;
-    fwrite (&b, 1, 1, f);
+    al_fwrite ( f, &b, 1);
     b = MEKA_SAVESTATE_VERSION;
-    fwrite (&b, 1, 1, f);
+    al_fwrite ( f, &b, 1);
     b = g_machine.driver_id;  // Do NOT save g_driver->id, as it may change with legacy video mode in the current code
-    fwrite (&b, 1, 1, f);
+    al_fwrite ( f, &b, 1);
 
     // Write CRC32, introduced in version 0x0C
-    fwrite (&g_media_rom.crc32, sizeof (u32), 1, f);
+    al_fwrite (f, &g_media_rom.crc32, sizeof (u32) );
 
     // Write 'sms' structure (misc stuff)
     sms.R.R = (sms.R.R & 0x7F) | (sms.R.R7);
     sms.R.R7 = 0;
-    fwrite (&sms, sizeof (struct SMS_TYPE), 1, f);
+    al_fwrite (f, &sms, sizeof (struct SMS_TYPE) );
     sms.R.R7 = (sms.R.R & 0x80);
 
     const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
-    fwrite (&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
+    al_fwrite (f, &g_machine.mapper_regs[0], sizeof(u8) * mappers_regs_to_save );
 
     // Write VDP scanline counter
     w = tsms.VDP_Line;
-    fwrite (&w, sizeof (u16), 1, f);
+    al_fwrite (f, &w, sizeof (u16) );
 
     // Write RAM & mapper specific data
     // FIXME: RAM size should be based on value got from current driver
@@ -260,53 +260,53 @@ int     Save_Game_MSV (FILE *f)
     {
     case MAPPER_32kRAM:
     case MAPPER_SC3000_Survivors_Multicart:
-        fwrite (RAM, 0x08000, 1, f);
+        al_fwrite (f, RAM, 0x08000 );
         break;
     case MAPPER_ColecoVision:
-        fwrite (RAM, 0x00400, 1, f);
+        al_fwrite (f, RAM, 0x00400 );
         break;
     case MAPPER_SG1000:
-        fwrite (RAM, 0x01000, 1, f);
+        al_fwrite (f, RAM, 0x01000 );
         break;
     case MAPPER_TVOekaki:
-        fwrite (RAM, 0x01000, 1, f);
-        fwrite (&TVOekaki, sizeof (TVOekaki), 1, f);
+        al_fwrite (f, RAM, 0x01000 );
+        al_fwrite (f, &TVOekaki, sizeof (TVOekaki) );
         break;
     case MAPPER_SF7000:
-        fwrite (RAM, 0x10000, 1, f);
-        fwrite (&SF7000, sizeof (SF7000), 1, f);
+        al_fwrite (f, RAM, 0x10000 );
+        al_fwrite (f, &SF7000, sizeof (SF7000) );
         break;
     case MAPPER_CodeMasters:
         if (sms.SRAM_Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
-            fwrite (RAM, 0x2000 + 0x2000, 1, f);
+            al_fwrite (f, RAM, 0x2000 + 0x2000 );
         else
-            fwrite (RAM, 0x2000, 1, f);
+            al_fwrite (f, RAM, 0x2000 );
         break;
     case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-        fwrite (RAM, 0x02000, 1, f);
-        fwrite (RAM + 0x2000, 0x00800, 1, f);
+        al_fwrite (f, RAM, 0x02000 );
+        al_fwrite (f, RAM + 0x2000, 0x00800 );
         break;
     case MAPPER_SMS_NoMapper:
     case MAPPER_SMS_Korean_MSX_8KB:
     case MAPPER_SMS_Korean_Janggun:
     case MAPPER_SMS_Korean_Xin1:
     default:                  
-        fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
+        al_fwrite (f, RAM, 0x2000 ); // Do not use g_driver->ram because of g_driver video mode change
         break;
     }
     
     // Write VRAM
-    fwrite (VRAM, 0x4000, 1, f);
+    al_fwrite (f, VRAM, 0x4000 );
     
     // Write Palette
     switch (g_machine.driver_id)
     {
     case DRV_SMS:
-        fwrite (PRAM, 32, 1, f);
+        al_fwrite (f, PRAM, 32 );
         break;
     case DRV_GG:
-        fwrite (PRAM, 64, 1, f);
-        fwrite (&Gear_to_Gear, sizeof (t_gear_to_gear), 1, f);
+        al_fwrite (f, PRAM, 64 );
+        al_fwrite (f, &Gear_to_Gear, sizeof (t_gear_to_gear) );
         break;
     }
 
@@ -315,24 +315,24 @@ int     Save_Game_MSV (FILE *f)
     FM_Save (f);
 
     // Write Port 3F value
-    fwrite (&tsms.Port3F, 1, 1, f);
+    al_fwrite (f, &tsms.Port3F, 1 );
 
     // Write backed memory (SRAM, 93c46 EEPROM, etc.)
     BMemory_Save_State (f);
  
     // Write "EOF" characters
-    fwrite ("EOF", 3, 1, f);
+    al_fwrite (f, "EOF", 3 );
 
     return (1);
 }
 
 // Load state from given file, in MEKA save state format
-int         Load_Game_MSV(FILE *f)
+int         Load_Game_MSV(ALLEGRO_FILE *f)
 {
     char    buf[5];
     u8      b, version;
 
-    fread (&buf, 4, 1, f);
+    al_fread ( f, &buf, 4 );
     buf[4] = 0;
     if (strcmp(buf, "MEKA") != 0)
     {
@@ -340,15 +340,15 @@ int         Load_Game_MSV(FILE *f)
             return (Load_Game_MSD (f));
         return (3); // not a savegame
     }
-    fseek (f, 5, SEEK_SET);
-    fread (&version, 1, 1, f);
+    al_fseek (f, 5, SEEK_SET);
+    al_fread ( f, &version, 1 );
     if (version > MEKA_SAVESTATE_VERSION)
         return (4); // unsupported version
 
     // Msg(MSGT_DEBUG, "Loading, version = %02X", version);
 
     // Read driver id
-    fread (&b, 1, 1, f);
+    al_fread ( f, &b, 1 );
     if (version >= 0x05)
     {
         // Check if we are running on the same machine
@@ -366,7 +366,7 @@ int         Load_Game_MSV(FILE *f)
     if (version >= 0x0C)
     {
         u32 crc;
-        fread (&crc, sizeof (u32), 1, f);
+        al_fread ( f, &crc, sizeof (u32) );
     }
 
     // 'sms' structure (including CPU stuff)
@@ -375,7 +375,7 @@ int         Load_Game_MSV(FILE *f)
         // So they're not lost when loading a state while debugging
         u16 trap = sms.R.Trap;
         u8  trace = sms.R.Trace;
-        fread (&sms, sizeof(struct SMS_TYPE), 1, f);
+        al_fread ( f, &sms, sizeof(struct SMS_TYPE) );
         sms.R.R7 = (sms.R.R & 0x80);
         sms.R.Trap = trap;
         sms.R.Trace = trace;
@@ -385,12 +385,12 @@ int         Load_Game_MSV(FILE *f)
     {
         // Always save at least 4 so that legacy software can readily bump up version and read data for most games (apart from those using mappers with >4 registers)
         const int mappers_regs_to_save = (g_machine.mapper_regs_count <= 4) ? 4 : g_machine.mapper_regs_count;
-        fread(&g_machine.mapper_regs[0], sizeof(u8), mappers_regs_to_save, f);
+        al_fread( f, &g_machine.mapper_regs[0], sizeof(u8) * mappers_regs_to_save );
     }
     else
     {
         // Old structure which was 3+1 (due to struct alignment)
-        fread(&g_machine.mapper_regs[0], sizeof(u8), 3+1, f);
+        al_fread(f , &g_machine.mapper_regs[0], sizeof(u8) * (3+1) );
         for (int i = 3; i != MAPPER_REGS_MAX; i++)              // 4th value was padding so we also invalid it.
             g_machine.mapper_regs[i] = 0;
         if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
@@ -410,7 +410,7 @@ int         Load_Game_MSV(FILE *f)
     if (version >= 0x0D)
     {
         u16 w;
-        fread (&w, sizeof (u16), 1, f);
+        al_fread ( f, &w, sizeof (u16) );
         tsms.VDP_Line = w;
     }
     else
@@ -424,49 +424,49 @@ int         Load_Game_MSV(FILE *f)
     {
     case MAPPER_32kRAM:
     case MAPPER_SC3000_Survivors_Multicart:
-        fread (RAM, 0x08000, 1, f);
+        al_fread ( f, RAM, 0x08000 );
         break;
     case MAPPER_ColecoVision:
         if (version >= 0x06)
-            fread (RAM, 0x00400, 1, f);
+            al_fread ( f, RAM, 0x00400 );
         else
-            fread (RAM, 0x02000, 1, f); // Previously saved 8 Kb instead of 1 kb
+            al_fread ( f, RAM, 0x02000 ); // Previously saved 8 Kb instead of 1 kb
         break;
     case MAPPER_SG1000:
         if (version >= 0x06)
-            fread (RAM, 0x01000, 1, f);
+            al_fread ( f, RAM, 0x01000 );
         else
-            fread (RAM, 0x02000, 1, f); // Previously saved 8 Kb instead of 4 Kb
+            al_fread ( f, RAM, 0x02000 ); // Previously saved 8 Kb instead of 4 Kb
         break;
     case MAPPER_TVOekaki:
-        fread (RAM, 0x01000, 1, f);
-        fread (&TVOekaki, sizeof (TVOekaki), 1, f);
+        al_fread ( f, RAM, 0x01000 );
+        al_fread ( f, &TVOekaki, sizeof (TVOekaki) );
         break;
     case MAPPER_SF7000:
-        fread (RAM, 0x10000, 1, f);
-        fread (&SF7000, sizeof (SF7000), 1, f);
+        al_fread ( f, RAM, 0x10000 );
+        al_fread ( f, &SF7000, sizeof (SF7000) );
         break;
     case MAPPER_CodeMasters:
         if (sms.SRAM_Mapping_Register & ONBOARD_RAM_EXIST) // Ernie Els Golf Onboard RAM
-            fread (RAM, 0x2000 + 0x2000, 1, f);
+            al_fread ( f, RAM, 0x2000 + 0x2000 );
         else
-            fread (RAM, 0x2000, 1, f);
+            al_fread ( f, RAM, 0x2000 );
         break;
     case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-        fread (RAM, 0x2000, 1, f);
-        fread (RAM + 0x2000, 0x0800, 1, f);
+        al_fread ( f, RAM, 0x2000 );
+        al_fread ( f, RAM + 0x2000, 0x0800 );
         break;
     case MAPPER_SMS_NoMapper:
     case MAPPER_SMS_Korean_MSX_8KB:
     case MAPPER_SMS_Korean_Janggun:
     case MAPPER_SMS_Korean_Xin1:
     default:
-        fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
+        al_fread ( f, RAM, 0x2000 ); // Do not use g_driver->ram because of g_driver video mode change
         break;
     }
 
     // Read VRAM
-    fread (VRAM, 0x4000, 1, f);
+    al_fread ( f, VRAM, 0x4000 );
 
     // Read Palette
     // This depend on g_machine.driver_id and NOT on g_driver->id
@@ -474,11 +474,11 @@ int         Load_Game_MSV(FILE *f)
     switch (g_machine.driver_id)
     {
     case DRV_SMS:
-        fread (PRAM, 32, 1, f);
+        al_fread ( f, PRAM, 32 );
         break;
     case DRV_GG:
-        fread (PRAM, 64, 1, f);
-        fread (&Gear_to_Gear, sizeof (t_gear_to_gear), 1, f);
+        al_fread ( f, PRAM, 64 );
+        al_fread ( f, &Gear_to_Gear, sizeof (t_gear_to_gear) );
         break;
     }
 
@@ -501,7 +501,7 @@ int         Load_Game_MSV(FILE *f)
 
     // Read port 3F value
     if (version >= 0x04)
-        fread (&tsms.Port3F, 1, 1, f);
+        al_fread ( f, &tsms.Port3F, 1 );
 
     // Previously stored 16 kb pages instead of 8 kb pages
     if (version < 0x07)
@@ -520,24 +520,24 @@ int         Load_Game_MSV(FILE *f)
 }
 
 // LOAD CURRENT GAME IN MASSAGE FORMAT ----------------------------------------
-int     Load_Game_MSD (FILE *f)
+int     Load_Game_MSD (ALLEGRO_FILE *f)
 {
     word   w;
     byte   i, version;
 
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Load_Massage));
     /* Skipping "SNAP" */
-    fseek (f, 0x09, SEEK_SET);
-    fread (&version, 1, 1, f);
+    al_fseek (f, 0x09, SEEK_SET);
+    al_fread ( f, &version, 1 );
     if (version > 0)
         return (4); // not the same version, only version 0 defined and supported
-    fread (&i, 1, 1, f);
+    al_fread ( f, &i, 1 );
     // Massage 0: SMS, 1: GG, which map to our define
     if (i != 0 && i != 1)
         return (4); // We only know about SMS/GG massage savestates
     if (i != g_machine.driver_id)
         return (5); // not the same machine
-    fread (&sms.Country, 1, 1, f);
+    al_fread ( f, &sms.Country, 1 );
     /* Skipping FM enable/disable */
     /* Skipping ports 0x00 to 0x06 */
     // FIXME: read those port
@@ -545,64 +545,64 @@ int     Load_Game_MSD (FILE *f)
     /* Skipping PSG frequencies/volume */
     /* Skipping PSG latch/data bytes */
     // FIXME: read PSG stuff
-    fseek (f, 0x28, SEEK_SET);
-    fread (&sms.VDP [0], 11, 1, f);
-    fread (&sms.VDP_Address, 2, 1, f);
-    fread (&sms.VDP_Access_Mode, 1, 1, f);
-    fread (&sms.VDP_Access_First, 1, 1, f);
-    fread (&w, 2, 1, f); /* Current Video Scanline */
+    al_fseek (f, 0x28, SEEK_SET);
+    al_fread ( f, &sms.VDP [0], 11 );
+    al_fread ( f, &sms.VDP_Address, 2 );
+    al_fread ( f, &sms.VDP_Access_Mode, 1 );
+    al_fread ( f, &sms.VDP_Access_First, 1 );
+    al_fread ( f, &w, 2 ); /* Current Video Scanline */
     tsms.VDP_Line = w;
-    fread (&sms.Lines_Left, 1, 1, f);
-    fread (&sms.Input_Mode, 1, 1, f); /* Port 0xDE */
-    fread (&sms.FM_Register, 1, 1, f);
-    fread (&sms.FM_Magic, 1, 1, f);
+    al_fread ( f, &sms.Lines_Left, 1 );
+    al_fread ( f, &sms.Input_Mode, 1 ); /* Port 0xDE */
+    al_fread ( f, &sms.FM_Register, 1 );
+    al_fread ( f, &sms.FM_Magic, 1 );
     FM_Load (f);
-    fread (&sms.SRAM_Mapping_Register, 1, 1, f);
-    fread (&g_machine.mapper_regs[0], 3, 1, f);
+    al_fread ( f, &sms.SRAM_Mapping_Register, 1 );
+    al_fread ( f, &g_machine.mapper_regs[0], 3 );
     g_machine.mapper_regs[3] = 0;
-    fread (RAM, 0x2000, 1, f);
-    fread (VRAM, 0x4000, 1, f);
+    al_fread ( f, RAM, 0x2000 );
+    al_fread ( f, VRAM, 0x4000 );
     switch (g_machine.driver_id)
     {
     case DRV_SMS:
-        fread (PRAM, 32, 1, f);
+        al_fread ( f, PRAM, 32 );
         break;
     case DRV_GG:
-        fread (PRAM, 64, 1, f);
+        al_fread ( f, PRAM, 64 );
         break;
     }
-    fread (SRAM, 0x8000, 1, f);
+    al_fread ( f, SRAM, 0x8000 );
 #ifdef MARAT_Z80
-    fread (&sms.R.AF.B.l, 1, 1, f);
-    fread (&sms.R.AF.B.h, 1, 1, f);
-    fread (&sms.R.BC.B.l, 1, 1, f);
-    fread (&sms.R.BC.B.h, 1, 1, f);
-    fread (&sms.R.HL.B.l, 1, 1, f);
-    fread (&sms.R.HL.B.h, 1, 1, f);
-    fread (&sms.R.PC.B.l, 1, 1, f);
-    fread (&sms.R.PC.B.h, 1, 1, f);
-    fread (&sms.R.SP.B.l, 1, 1, f);
-    fread (&sms.R.SP.B.h, 1, 1, f);
-    fread (&sms.R.I, 1, 1, f);
-    fread (&sms.R.R, 1, 1, f);
+    al_fread ( f, &sms.R.AF.B.l, 1 );
+    al_fread ( f, &sms.R.AF.B.h, 1 );
+    al_fread ( f, &sms.R.BC.B.l, 1 );
+    al_fread ( f, &sms.R.BC.B.h, 1 );
+    al_fread ( f, &sms.R.HL.B.l, 1 );
+    al_fread ( f, &sms.R.HL.B.h, 1 );
+    al_fread ( f, &sms.R.PC.B.l, 1 );
+    al_fread ( f, &sms.R.PC.B.h, 1 );
+    al_fread ( f, &sms.R.SP.B.l, 1 );
+    al_fread ( f, &sms.R.SP.B.h, 1 );
+    al_fread ( f, &sms.R.I, 1 );
+    al_fread ( f, &sms.R.R, 1 );
     sms.R.R7 = sms.R.R & 0x80;
-    fread (&sms.R.DE.B.l, 1, 1, f);
-    fread (&sms.R.DE.B.h, 1, 1, f);
-    fread (&sms.R.BC1.B.l, 1, 1, f);
-    fread (&sms.R.BC1.B.h, 1, 1, f);
-    fread (&sms.R.DE1.B.l, 1, 1, f);
-    fread (&sms.R.DE1.B.h, 1, 1, f);
-    fread (&sms.R.HL1.B.l, 1, 1, f);
-    fread (&sms.R.HL1.B.h, 1, 1, f);
-    fread (&sms.R.AF1.B.l, 1, 1, f);
-    fread (&sms.R.AF1.B.h, 1, 1, f);
-    fread (&sms.R.IY.B.l, 1, 1, f);
-    fread (&sms.R.IY.B.h, 1, 1, f);
-    fread (&sms.R.IX.B.l, 1, 1, f);
-    fread (&sms.R.IX.B.h, 1, 1, f);
+    al_fread ( f, &sms.R.DE.B.l, 1 );
+    al_fread ( f, &sms.R.DE.B.h, 1 );
+    al_fread ( f, &sms.R.BC1.B.l, 1 );
+    al_fread ( f, &sms.R.BC1.B.h, 1 );
+    al_fread ( f, &sms.R.DE1.B.l, 1 );
+    al_fread ( f, &sms.R.DE1.B.h, 1 );
+    al_fread ( f, &sms.R.HL1.B.l, 1 );
+    al_fread ( f, &sms.R.HL1.B.h, 1 );
+    al_fread ( f, &sms.R.AF1.B.l, 1 );
+    al_fread ( f, &sms.R.AF1.B.h, 1 );
+    al_fread ( f, &sms.R.IY.B.l, 1 );
+    al_fread ( f, &sms.R.IY.B.h, 1 );
+    al_fread ( f, &sms.R.IX.B.l, 1 );
+    al_fread ( f, &sms.R.IX.B.h, 1 );
     { // FIXME: should verify
         byte b[3];
-        fread (b, 3, 1, f);
+        al_fread ( f, b, 3 );
         sms.R.IFF = b[0];
         sms.R.IFF = (sms.R.IFF & 0xF9);
         if (b[2] == 1) sms.R.IFF |= 2;

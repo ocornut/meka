@@ -53,12 +53,12 @@ int             VGM_Start(t_vgm *VGM, const char *FileName, int Logging_Accuracy
     int         i;
 
     VGM->Logging = Logging_Accuracy;
-    VGM->File = fopen(FileName, "wb");
+    VGM->File = al_fopen(FileName, "wb");
     if (VGM->File  == NULL)
         return (MEKA_ERR_FILE_WRITE);
     VGM_Header_Init(&VGM->vgm_header);
     GD3_Header_Init(&VGM->gd3_header);
-    fwrite (&VGM->vgm_header, sizeof (VGM->vgm_header), 1, VGM->File);
+    al_fwrite ( VGM->File, &VGM->vgm_header, sizeof (VGM->vgm_header) );
 
     VGM->DataSize = 0;
     VGM->Cycles_Counter = 0;
@@ -117,9 +117,9 @@ void            VGM_Close(t_vgm *VGM)
         VGM->vgm_header.ym2413_clock = VGM->vgm_header.sn76489_clock;
 
     // Rewrite header with updated N_Samples & EOF_Relative
-    fseek (VGM->File, 0, SEEK_SET);
-    fwrite (&VGM->vgm_header, sizeof (VGM->vgm_header), 1, VGM->File);
-    fclose (VGM->File);
+    al_fseek (VGM->File, 0, SEEK_SET);
+    al_fwrite ( VGM->File, &VGM->vgm_header, sizeof (VGM->vgm_header) );
+    al_fclose (VGM->File);
 
     // Clean out
     VGM->Logging = VGM_LOGGING_NO;
@@ -181,7 +181,7 @@ void            VGM_Data_Add_GG_Stereo(t_vgm *VGM, byte Data)
         VGM_Wait_Samples (VGM);
 
     buf[1] = Data;
-    fwrite (buf, 2, sizeof (char), VGM->File);
+    al_fwrite ( VGM->File, buf, 2 * sizeof (char));
     VGM->DataSize += 2;
 }
 
@@ -190,7 +190,7 @@ void            VGM_Data_Add_Byte(t_vgm *VGM, byte Data)
     // if (VGM->Logging == VGM_LOGGING_ACCURACY_SAMPLE)
     //    VGM_Wait_Samples (VGM);
 
-    fwrite (&Data, 1, sizeof (byte), VGM->File);
+    al_fwrite ( VGM->File, &Data, 1 * sizeof (byte));
     VGM->DataSize += 1;
 }
 
@@ -202,7 +202,7 @@ void            VGM_Data_Add_PSG(t_vgm *VGM, byte Data)
         VGM_Wait_Samples (VGM);
 
     buf[1] = Data;
-    fwrite (buf, 2, sizeof (byte), VGM->File);
+    al_fwrite ( VGM->File, buf, 2 * sizeof (byte));
     VGM->DataSize += 2;
 }
 
@@ -214,7 +214,7 @@ void            VGM_Data_Add_FM(t_vgm *VGM, int RegData)
         VGM_Wait_Samples (VGM);
 
     *(word *)&buf[1] = RegData;
-    fwrite (buf, 3, sizeof (byte), VGM->File);
+    al_fwrite ( VGM->File, buf, 3 * sizeof (byte));
     VGM->DataSize += 3;
     VGM->FM_Used = TRUE;
 }
@@ -231,14 +231,14 @@ void            VGM_Data_Add_Wait(t_vgm *VGM, int Samples)
         *(word *)&buf[1] = 0xFFFF;
         do
         {
-            fwrite (buf, 3, sizeof (byte), VGM->File);
+            al_fwrite ( VGM->File, buf, 3 * sizeof (byte));
             VGM->DataSize += 3;
             Samples -= 0xFFFF;
         }
         while (Samples > 0xFFFF);
     }
     *(word *)&buf[1] = Samples;
-    fwrite (buf, 3, sizeof (byte), VGM->File);
+    al_fwrite ( VGM->File, buf, 3 * sizeof (byte));
     VGM->DataSize += 3;
 }
 
@@ -291,7 +291,7 @@ void            GD3_Header_Close(t_gd3_header *h)
 }
 
 // Write GD3 header to given Stdio file
-int             GD3_Header_Write(t_gd3_header *h, FILE *f)
+int             GD3_Header_Write(t_gd3_header *h, ALLEGRO_FILE *f)
 {
     int         i;
 
@@ -317,8 +317,8 @@ int             GD3_Header_Write(t_gd3_header *h, FILE *f)
         Quit_Msg("Fatal Error in sound/vgm.c::GD3_Header_Write(), Pos != Len");
 
     // Write data
-    fwrite (h, sizeof (h->magic) + sizeof (h->version) + sizeof (h->data_length), 1, f);
-    fwrite (Buf, Len, 1, f);
+    al_fwrite ( f, h, sizeof (h->magic) + sizeof (h->version) + sizeof (h->data_length));
+    al_fwrite ( f, Buf, Len);
     free (Buf);
 
     return (sizeof (h->magic) + sizeof (h->version) + sizeof (h->data_length) + Len);

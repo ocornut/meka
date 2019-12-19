@@ -50,7 +50,7 @@ void    BMemory_Get_Infos (void **data, int *len)
 
 void        BMemory_Load (void)
 {
-    FILE *  f;
+    ALLEGRO_FILE *  f;
 
     // FIXME: Clear() handler
     // May want to totally move BMemory stuff to a driver based system
@@ -58,7 +58,7 @@ void        BMemory_Load (void)
     if (g_machine.mapper == MAPPER_93c46)
         EEPROM_93c46_Clear();
 
-    f = fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
+    f = al_fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
     if (f == NULL)
         return;
     switch (g_machine.mapper)
@@ -66,12 +66,12 @@ void        BMemory_Load (void)
     case MAPPER_Standard:       BMemory_SRAM_Load (f);  break;
     case MAPPER_93c46:          BMemory_93c46_Load (f); break;
     }
-    fclose (f);
+    al_fclose (f);
 }
 
 void        BMemory_Save (void)
 {
-    FILE *  f;
+    ALLEGRO_FILE *  f;
 
     BMemory_Verify_Usage();
     switch (g_machine.mapper)
@@ -82,17 +82,17 @@ void        BMemory_Save (void)
     }
     if (!al_filename_exists(g_env.Paths.SavegameDirectory))
         al_make_directory(g_env.Paths.SavegameDirectory);
-    f = fopen(g_env.Paths.BatteryBackedMemoryFile, "wb");
+    f = al_fopen(g_env.Paths.BatteryBackedMemoryFile, "wb");
     switch (g_machine.mapper)
     {
     case MAPPER_Standard:       BMemory_SRAM_Save (f); break;
     case MAPPER_93c46:          BMemory_93c46_Save (f); break;
     }
     if (f)
-        fclose (f);
+        al_fclose (f);
 }
 
-void    BMemory_Load_State (FILE *f)
+void    BMemory_Load_State (ALLEGRO_FILE *f)
 {
     switch (g_machine.mapper)
     {
@@ -101,7 +101,7 @@ void    BMemory_Load_State (FILE *f)
     }
 }
 
-void    BMemory_Save_State (FILE *f)
+void    BMemory_Save_State (ALLEGRO_FILE *f)
 {
     switch (g_machine.mapper)
     {
@@ -114,12 +114,12 @@ void    BMemory_Save_State (FILE *f)
 // SRAM
 //-----------------------------------------------------------------------------
 
-void    BMemory_SRAM_Load (FILE *f)
+void    BMemory_SRAM_Load (ALLEGRO_FILE *f)
 {
     sms.SRAM_Pages = 0;
     do
     {
-        if (fread (&SRAM[sms.SRAM_Pages * 0x2000], 0x2000, 1, f) == 1)
+        if (al_fread ( f, &SRAM[sms.SRAM_Pages * 0x2000], 0x2000) == 1)
             sms.SRAM_Pages++;
         else
             break;
@@ -132,25 +132,25 @@ void    BMemory_SRAM_Load (FILE *f)
         Msg(MSGT_USER, "%s", Msg_Get(MSG_SRAM_Load_Unable));
 }
 
-void    BMemory_SRAM_Save (FILE *f)
+void    BMemory_SRAM_Save (ALLEGRO_FILE *f)
 {
-    if (f && fwrite (SRAM, sms.SRAM_Pages * 0x2000, 1, f) == 1)
+    if (f && al_fwrite ( f, SRAM, sms.SRAM_Pages * 0x2000) == 1)
         Msg(MSGT_USER, Msg_Get(MSG_SRAM_Wrote), sms.SRAM_Pages * 8);
     else
         Msg(MSGT_USER, Msg_Get(MSG_SRAM_Write_Unable), sms.SRAM_Pages * 8);
 }
 
-void    BMemory_SRAM_Load_State (FILE *f)
+void    BMemory_SRAM_Load_State (ALLEGRO_FILE *f)
 {
-    fread (SRAM, sms.SRAM_Pages * 0x2000, 1, f);
+    al_fread ( f, SRAM, sms.SRAM_Pages * 0x2000);
     if (sms.SRAM_Pages < 4)
         memset (SRAM + sms.SRAM_Pages * 0x2000, 0, (4 - sms.SRAM_Pages) * 0x2000);
 }
 
-void    BMemory_SRAM_Save_State (FILE *f)
+void    BMemory_SRAM_Save_State (ALLEGRO_FILE *f)
 {
     if (sms.SRAM_Pages > 0)
-        fwrite (SRAM, sms.SRAM_Pages * 0x2000, 1, f);
+        al_fwrite ( f, SRAM, sms.SRAM_Pages * 0x2000);
 }
 
 void    BMemory_SRAM_Get_Infos (void **data, int *len)

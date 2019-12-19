@@ -30,6 +30,7 @@ struct t_tfile
 
 t_tfile *   tfile_read(const char *filename);
 void        tfile_free(t_tfile *tf);
+int         tfile_size( const char *filename );
 
 void        parse_trim_trailing_spaces  (char *s);
 void        parse_skip_spaces           (char **src);

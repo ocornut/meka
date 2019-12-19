@@ -1,0 +1,22 @@
+To build for linux:
+---------------------
+
+mkdir build
+cd build
+cmake .. -DCMAKE_BUILD_TYPE=Debug
+#cmake .. -DCMAKE_BUILD_TYPE=Release
+make VEBOSE=1
+
+To run:
+-------
+cd srcs
+cp ../../Data/ . -r
+cp ../../meka.* .
+cp ../../srcs/SC3000SurvivorsMkIIMulticart_v2_31.sc .
+./meka ./SC3000SurvivorsMkIIMulticart_v2_31.sc
+
+
+To install prerequisites:
+------------------
+# Ubuntu:
+sudo apt-get install liballegro5-dev

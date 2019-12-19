@@ -14,7 +14,7 @@ struct t_app_messages
 {
     bool        active;
     char *      log_filename;
-    FILE *      log_file;
+    ALLEGRO_FILE *      log_file;
     t_gui_box * box;
     t_widget *  widget_textbox;
 };

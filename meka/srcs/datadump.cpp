@@ -17,7 +17,7 @@ t_data_dump DataDump;
 // Types
 //-----------------------------------------------------------------------------
 
-typedef int (*t_data_dump_handler_ascii)(FILE *f_dump, int pos, u8 const *data, int len, int start_addr);
+typedef int (*t_data_dump_handler_ascii)(ALLEGRO_FILE *f_dump, int pos, u8 const *data, int len, int start_addr);
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -91,21 +91,21 @@ static void     DataDump_Write_Filename (char *s, const char *name)
 
 static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
 {
-    FILE *      f_dump;
+    ALLEGRO_FILE *      f_dump;
     char        filename[FILENAME_LEN];
 
     DataDump_Write_Filename (filename, name);
-    if ((f_dump = fopen(filename, "wb")) == NULL)
+    if ((f_dump = al_fopen(filename, "wb")) == NULL)
     {
         Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error), name);
         return;
     }
 
     // Dump
-    fwrite (data, 1, len, f_dump);
+    al_fwrite (f_dump, data, len);
 
     // Close file & print a message
-    fclose (f_dump);
+    al_fclose (f_dump);
     Msg(MSGT_USER, Msg_Get(MSG_DataDump_Main),
         name,
         (len % 1024 == 0) ? (len / 1024) : len,
@@ -116,22 +116,22 @@ static void     DataDump_Main_Raw (const char *name, const u8 *data, int len)
 static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, int start_addr, t_data_dump_handler_ascii func)
 {
     int         i;
-    FILE *      f_dump;
+    ALLEGRO_FILE *      f_dump;
     char        filename[FILENAME_LEN];
 
     DataDump_Write_Filename (filename, name);
-    if ((f_dump = fopen(filename, "wt")) == NULL)
+    if ((f_dump = al_fopen(filename, "wt")) == NULL)
     {
         Msg(MSGT_USER, Msg_Get(MSG_DataDump_Error), name);
         return;
     }
 
     // Print a header
-    fprintf(f_dump, MEKA_NAME_VERSION "\n");
-    fprintf(f_dump, "** %s dump\n", name);
-    fprintf(f_dump, "** File: %s\n", g_env.Paths.MediaImageFile);
+    al_fprintf(f_dump, MEKA_NAME_VERSION "\n");
+    al_fprintf(f_dump, "** %s dump\n", name);
+    al_fprintf(f_dump, "** File: %s\n", g_env.Paths.MediaImageFile);
     // Note: meka_date_getf() return a string with an ending \n
-    fprintf(f_dump, "** Date: %s\n", meka_date_getf());
+    al_fprintf(f_dump, "** Date: %s\n", meka_date_getf());
 
     // Dumping
     i = 0;
@@ -139,7 +139,7 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
         i = func(f_dump, i, data, len, start_addr);
 
     // Close file & print a message
-    fclose (f_dump);
+    al_fclose (f_dump);
     Msg(MSGT_USER, Msg_Get(MSG_DataDump_Main),
         name,
         (len % 1024 == 0) ? (len / 1024) : len,
@@ -152,17 +152,17 @@ static void     DataDump_Main_Ascii (const char *name, const u8 *data, int len, 
 // Data dump ASCII output handler:
 // - Standard (hexadecimal & ascii equivalents, 16 per line)
 //-----------------------------------------------------------------------------
-static int  DataDump_Handler_Ascii_Standard (FILE *f_dump, int pos, u8 const *data, int len, int start_addr)
+static int  DataDump_Handler_Ascii_Standard (ALLEGRO_FILE *f_dump, int pos, u8 const *data, int len, int start_addr)
 {
     int     i;
 
-    fprintf(f_dump, "%04X-%04X | ", pos + start_addr, pos + start_addr + 15);
+    al_fprintf(f_dump, "%04X-%04X | ", pos + start_addr, pos + start_addr + 15);
     for (i = 0; (i < 16) && (pos + i < len); i++)
-        fprintf(f_dump, "%02X ", data[pos + i]);
-    fprintf(f_dump, "| ");
+        al_fprintf(f_dump, "%02X ", data[pos + i]);
+    al_fprintf(f_dump, "| ");
     for (i = 0; (i < 16) && (pos + i < len); i++)
-        fprintf(f_dump, "%c", (data[pos + i] >= 32) ? data[pos + i] : '.');
-    fprintf(f_dump, "\n");
+        al_fprintf(f_dump, "%c", (data[pos + i] >= 32) ? data[pos + i] : '.');
+    al_fprintf(f_dump, "\n");
     return (pos + 16);
 }
 
@@ -170,16 +170,16 @@ static int  DataDump_Handler_Ascii_Standard (FILE *f_dump, int pos, u8 const *da
 // DataDump_Handler_Ascii_CPURegs_Reg ()
 // Helper function to dump a Z80 CPU register
 //-----------------------------------------------------------------------------
-static void DataDump_Handler_Ascii_CPURegs_Reg (FILE *f_dump, const char *name, word value, const char *comment)
+static void DataDump_Handler_Ascii_CPURegs_Reg (ALLEGRO_FILE *f_dump, const char *name, word value, const char *comment)
 {
     char    bitfields[2][9];
 
     StrWriteBitfield ((value >> 8) & 0xFF, 8, bitfields[0]);
     StrWriteBitfield (value & 0xFF, 8, bitfields[1]);
     if (comment)
-        fprintf(f_dump, "%-3s = $%04X | %%%s.%s | %s\n", name, value, bitfields[0], bitfields[1], comment);
+        al_fprintf(f_dump, "%-3s = $%04X | %%%s.%s | %s\n", name, value, bitfields[0], bitfields[1], comment);
     else
-        fprintf(f_dump, "%-3s = $%04X | %%%s.%s |\n", name, value, bitfields[0], bitfields[1]);
+        al_fprintf(f_dump, "%-3s = $%04X | %%%s.%s |\n", name, value, bitfields[0], bitfields[1]);
 }
 
 //-----------------------------------------------------------------------------
@@ -187,7 +187,7 @@ static void DataDump_Handler_Ascii_CPURegs_Reg (FILE *f_dump, const char *name, 
 // Data dump ASCII output handler:
 // - CPU Registers (all registers at once, given by 'data' pointer)
 //-----------------------------------------------------------------------------
-static int  DataDump_Handler_Ascii_CPURegs (FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
+static int  DataDump_Handler_Ascii_CPURegs (ALLEGRO_FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
 {
     Z80 *   R;
 
@@ -204,15 +204,15 @@ static int  DataDump_Handler_Ascii_CPURegs (FILE *f_dump, int pos, const u8 *dat
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "BC'", R->BC1.W, NULL);
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "DE'", R->DE1.W, NULL);
     DataDump_Handler_Ascii_CPURegs_Reg (f_dump, "HL'", R->HL1.W, NULL);
-    fprintf(f_dump, "%-3s = $%02X\n", "I", (byte)(R->I));
-    fprintf(f_dump, "%-3s = $%02X\n", "R", (byte)((R->R & 0x7F)|(R->R7)));
-    fprintf(f_dump, "IPeriod = %d\n", R->IPeriod);
-    fprintf(f_dump, "ICount  = %d\n", R->ICount);
-    fprintf(f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n", 
+    al_fprintf(f_dump, "%-3s = $%02X\n", "I", (byte)(R->I));
+    al_fprintf(f_dump, "%-3s = $%02X\n", "R", (byte)((R->R & 0x7F)|(R->R7)));
+    al_fprintf(f_dump, "IPeriod = %d\n", R->IPeriod);
+    al_fprintf(f_dump, "ICount  = %d\n", R->ICount);
+    al_fprintf(f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n", 
         (R->IFF & IFF_1) ? 1 : 0, (R->IFF & IFF_2) ? 1 : 0, (R->IFF & (IFF_IM1 | IFF_IM2)) >> 1, (R->IFF & IFF_EI) ? 1 : 0, (R->IFF & IFF_HALT) ? 1 : 0);
-    fprintf(f_dump, "\n");
-    fprintf(f_dump, "(some implementation information were not dumped here.\n");
-    fprintf(f_dump, " Please contact me if they may be of your interest)\n");
+    al_fprintf(f_dump, "\n");
+    al_fprintf(f_dump, "(some implementation information were not dumped here.\n");
+    al_fprintf(f_dump, " Please contact me if they may be of your interest)\n");
     return (sizeof (sms.R));
 }
 
@@ -221,12 +221,12 @@ static int  DataDump_Handler_Ascii_CPURegs (FILE *f_dump, int pos, const u8 *dat
 // Data dump ASCII output handler:
 // - VDP Registers (hexadecimal & binary, 1 per line)
 //-----------------------------------------------------------------------------
-static int  DataDump_Handler_Ascii_VReg (FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
+static int  DataDump_Handler_Ascii_VReg (ALLEGRO_FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
 {
     char    bitfield[9];
 
     StrWriteBitfield (data[pos], 8, bitfield);
-    fprintf(f_dump, "VReg[%02d] = $%02X | %%%s\n", pos, data[pos], bitfield);
+    al_fprintf(f_dump, "VReg[%02d] = $%02X | %%%s\n", pos, data[pos], bitfield);
     return (pos + 1);
 }
 
@@ -235,7 +235,7 @@ static int  DataDump_Handler_Ascii_VReg (FILE *f_dump, int pos, const u8 *data, 
 // Data dump ASCII output handler:
 // - Palette (colors, 1 or 2 bytes per line depending on driver)
 //-----------------------------------------------------------------------------
-static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
+static int  DataDump_Handler_Ascii_Palette (ALLEGRO_FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
 {
     char    bitfields[2][9];
 
@@ -245,7 +245,7 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
         {
             const u8 palette_data = data[pos];
             StrWriteBitfield (palette_data, 8, bitfields[0]);
-            fprintf(f_dump, "Color %02d : %%%s | $%02X | R=%d, G=%d, B=%d\n", pos, bitfields[0], palette_data, palette_data & 3, (palette_data >> 2) & 3, (palette_data >> 4) & 3);
+            al_fprintf(f_dump, "Color %02d : %%%s | $%02X | R=%d, G=%d, B=%d\n", pos, bitfields[0], palette_data, palette_data & 3, (palette_data >> 2) & 3, (palette_data >> 4) & 3);
             return (pos + 1);
         }
     case DRV_GG:
@@ -253,7 +253,7 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
             const u16 palette_data = *(u16 *)(data + pos);
             StrWriteBitfield (data[pos+0], 8, bitfields[0]);
             StrWriteBitfield (data[pos+1], 8, bitfields[1]);
-            fprintf(f_dump, "Color %02d : %%%s.%s | $%04X | R=%d,%s G=%d,%s B=%d\n", pos / 2, bitfields[1], bitfields[0], palette_data, (palette_data & 15), (palette_data & 15) < 10 ? " " : "", (palette_data >> 4) & 15, ((palette_data >> 4) & 15) < 10 ? " " : "", (palette_data >> 8) & 15);
+            al_fprintf(f_dump, "Color %02d : %%%s.%s | $%04X | R=%d,%s G=%d,%s B=%d\n", pos / 2, bitfields[1], bitfields[0], palette_data, (palette_data & 15), (palette_data & 15) < 10 ? " " : "", (palette_data >> 4) & 15, ((palette_data >> 4) & 15) < 10 ? " " : "", (palette_data >> 8) & 15);
             return (pos + 2);
         }
     }
@@ -266,7 +266,7 @@ static int  DataDump_Handler_Ascii_Palette (FILE *f_dump, int pos, const u8 *dat
 // Data dump ASCII output handler:
 // - Sprites (x, y, attr, unknown)
 //-----------------------------------------------------------------------------
-static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
+static int  DataDump_Handler_Ascii_Sprite (ALLEGRO_FILE *f_dump, int pos, const u8 *data, int len, int start_addr)
 {
     if (tsms.VDP_VideoMode > 4)
     {
@@ -274,16 +274,16 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
         n = pos / 4;
         if (pos == 0)
         {
-            fprintf(f_dump,
+            al_fprintf(f_dump,
                 "Sprite pattern base: $%04X\n"
                 "Sprite shift X (early clock): %d pixels\n\n",
                 (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM),
                 g_machine.VDP.sprite_shift_x);
-            fprintf(f_dump,
+            al_fprintf(f_dump,
                 "            Raw Data      |    X     Y     T     ?\n"
                 "---------- --------------- ------------------------\n");
         }
-        fprintf(f_dump,
+        al_fprintf(f_dump,
             "Sprite %02d : %02X %02X . %02X %02X |  % 4d  % 4d  % 4d  % 4d\n",
             n, data[n], data[0x40 + n], data[0x80 + n*2], data[0x80 + n*2+1],
             data[0x80 + n*2], data[n], data[0x80 + n*2+1], data[0x40 + n]);
@@ -292,14 +292,14 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
     {
         if (pos == 0)
         {
-            fprintf(f_dump,
+            al_fprintf(f_dump,
                 "Sprite pattern base: $%04X\n\n",
                 (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
-            fprintf(f_dump,
+            al_fprintf(f_dump,
                 "            Raw Data    |    X     Y     T    C/A\n"
                 "----------- ------------ ------------------------\n");
         }
-        fprintf(f_dump,
+        al_fprintf(f_dump,
             "Sprite %02d : %02X %02X %02X %02X |  % 4d  % 4d  % 4d  % 4d%s\n",
             pos / 4,
             data[pos+0], data[pos+1], data[pos+2], data[pos+3],

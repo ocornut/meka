@@ -79,9 +79,9 @@ void        TB_Message_Init()
     // Open log file
     if (app->log_filename != NULL)
     {
-        app->log_file = fopen(app->log_filename, "a+t");
+        app->log_file = al_fopen(app->log_filename, "a+t");
         if (app->log_file)
-            fprintf(app->log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf());
+            al_fprintf(app->log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf());
     }
 }
 
@@ -119,7 +119,7 @@ void    TB_Message_Print (const char *line)
 
     widget_textbox_print_scroll(app->widget_textbox, TRUE, line);
     if (app->log_file)
-       fprintf(app->log_file, "%s\n", line);
+       al_fprintf(app->log_file, "%s\n", line);
 }
 
 void    TB_Message_Destroy (void)
@@ -130,7 +130,7 @@ void    TB_Message_Destroy (void)
     // ...
     if (app->log_file)
     {
-        fclose (app->log_file);
+        al_fclose (app->log_file);
         app->log_file = NULL;
     }
     if (app->log_filename)

@@ -53,9 +53,9 @@ void  Load_Game_Fixup();
 
 //-----------------------------------------------------------------------------
 
-int   Load_Game_MSV(FILE *f);       // Save game in MEKA format
-int   Save_Game_MSV(FILE *f);       // Load game in MEKA format
-int   Load_Game_MSD(FILE *f);       // Load game in Massage format
+int   Load_Game_MSV(ALLEGRO_FILE *f);       // Save game in MEKA format
+int   Save_Game_MSV(ALLEGRO_FILE *f);       // Load game in MEKA format
+int   Load_Game_MSD(ALLEGRO_FILE *f);       // Load game in Massage format
 
 void  Save_Set_Slot(int n);
 void  Save_Get_Filename(char *str);

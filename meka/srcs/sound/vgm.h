@@ -77,7 +77,7 @@ struct t_gd3_header
 struct t_vgm
 {
     int             Logging;                // Currently logging / & type
-    FILE *          File;                   // File
+    ALLEGRO_FILE *          File;                   // File
     int             DataSize;               // Size for all VGM data (not just a single buffer)
     int             FM_Used;                // FM is used ?
     t_vgm_header    vgm_header;             // VGM Header
@@ -103,6 +103,6 @@ void            VGM_Data_Add_Wait(t_vgm *VGM, int samples);
 
 void            GD3_Header_Init(t_gd3_header *h);
 void            GD3_Header_Close(t_gd3_header *h);
-int             GD3_Header_Write(t_gd3_header *h, FILE *f);
+int             GD3_Header_Write(t_gd3_header *h, ALLEGRO_FILE *f);
 
 //-----------------------------------------------------------------------------

@@ -104,18 +104,18 @@ void    FM_Null_Active()
   FM_Set_Interface (&FM_Null_Interface, FM_OPL_Regs);
 }
 
-void    FM_Save (FILE *f)
+void    FM_Save (ALLEGRO_FILE *f)
 {
-  fwrite (FM_Regs, YM2413_REGISTERS, 1, f);
+    al_fwrite (f, FM_Regs, YM2413_REGISTERS);
 }
 
 // Load FM registers from given file pointer and call emulator Reload function
 // Note: only the registers are saved/loaded currently
 // If this has to change, please pay attention to the fact that MSD loading
 // use this fonction to load old Massage save states.
-void    FM_Load (FILE *f)
+void    FM_Load (ALLEGRO_FILE *f)
 {
-  fread (FM_Regs, YM2413_REGISTERS, 1, f);
+    al_fread (f, FM_Regs, YM2413_REGISTERS);
   FM_Regenerate();
 }
 

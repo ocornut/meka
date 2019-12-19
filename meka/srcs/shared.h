@@ -7,16 +7,21 @@
 // Configuration
 //-----------------------------------------------------------------------------
 
+//#define PROFILE_ENABLE
+
 #define MEKA_SOUND              // Enable sound
 #define MEKA_ZIP                // Enable ZIP file support
 #define MEKA_JOYPAD             // Enable joypad support
 #define MEKA_Z80_DEBUGGER       // Enable Z80 debugger
 #define MARAT_Z80               // Z80 emulator to use
 
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
 #define MEKA_NAME               "MEKA"
-#define MEKA_VERSION            "0.80-alpha"
-#define MEKA_VERSION_HIGH       (0)
-#define MEKA_VERSION_LOW        (80)
+#define MEKA_VERSION_HIGH       0
+#define MEKA_VERSION_LOW        81
+#define MEKA_VERSION            TOSTRING(MEKA_VERSION_HIGH) "." TOSTRING(MEKA_VERSION_LOW)
 #define MEKA_NAME_VERSION       MEKA_NAME " " MEKA_VERSION
 #define MEKA_HOMEPAGE           "http://www.smspower.org/meka"
 #define MEKA_AUTHORS            "Omar Cornut (Bock) and contributors"
@@ -83,3 +88,4 @@ struct t_widget;
 #include "tools.h"          // Various tools
 
 //-----------------------------------------------------------------------------
+

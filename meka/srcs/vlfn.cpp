@@ -152,39 +152,39 @@ void            VLFN_DataBase_Load (void)
 //-----------------------------------------------------------------------------
 void        VLFN_DataBase_Save (void)
 {
-    FILE *  f;
+    ALLEGRO_FILE *  f;
     t_list *list;
 
-    if ((f = fopen(VLFN_DataBase.filename, "wt")) == 0)
+    if ((f = al_fopen(VLFN_DataBase.filename, "wt")) == 0)
         return; // FIXME: report that somewhere ?
 
     // Sort entries by file name before writing, so the output file is more sexy
     list_sort (&VLFN_DataBase.entries, (int (*)(void *, void *))VLFN_Entries_Compare);
 
     // Write header
-    fprintf(f, ";-----------------------------------------------------------------------------\n");
-    fprintf(f, "; " MEKA_NAME " " MEKA_VERSION " - User Filenames DataBase\n");
-    fprintf(f, "; Associate user filenames with MEKA DataBase entries.\n");
-    fprintf(f, "; This information is used by the file loader.\n");
-    fprintf(f, "; This file is automatically updated and rewritten by the emulator.\n");
-    fprintf(f, ";-----------------------------------------------------------------------------\n\n");
+    al_fprintf(f, ";-----------------------------------------------------------------------------\n");
+    al_fprintf(f, "; " MEKA_NAME " " MEKA_VERSION " - User Filenames DataBase\n");
+    al_fprintf(f, "; Associate user filenames with MEKA DataBase entries.\n");
+    al_fprintf(f, "; This information is used by the file loader.\n");
+    al_fprintf(f, "; This file is automatically updated and rewritten by the emulator.\n");
+    al_fprintf(f, ";-----------------------------------------------------------------------------\n\n");
 
     // Write all entries
     for (list = VLFN_DataBase.entries; list != NULL; list = list->next)
     {
         t_vlfn_entry* entry     = (t_vlfn_entry*)list->elem;
         t_db_entry* db_entry    = entry->db_entry;
-        fprintf(f, "%s", entry->filename);
+        al_fprintf(f, "%s", entry->filename);
         if (db_entry->crc_crc32 != 0)
-            fprintf(f, "/CRC32:%08x", db_entry->crc_crc32);
+            al_fprintf(f, "/CRC32:%08x", db_entry->crc_crc32);
         // Note: MekaCRC is always written now!
-        fprintf(f, "/MEKACRC:%08X%08X\n", db_entry->crc_mekacrc.v[0], db_entry->crc_mekacrc.v[1]);
+        al_fprintf(f, "/MEKACRC:%08X%08X\n", db_entry->crc_mekacrc.v[0], db_entry->crc_mekacrc.v[1]);
     }
 
-    fprintf(f, "\n;-----------------------------------------------------------------------------\n\n");
+    al_fprintf(f, "\n;-----------------------------------------------------------------------------\n\n");
 
     // Close write
-    fclose (f);
+    al_fclose (f);
 
     // Free all entries
     list_free_custom (&VLFN_DataBase.entries, (t_list_free_handler)VLFN_Entry_Delete);

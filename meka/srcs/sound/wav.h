@@ -3,7 +3,7 @@
 // WAV File Creation - Headers
 //-----------------------------------------------------------------------------
 
-FILE    *WAV_Start(char *FileName);
-void     WAV_Close(FILE *f, int SizeData);
+ALLEGRO_FILE    *WAV_Start(char *FileName);
+void     WAV_Close(ALLEGRO_FILE *f, int SizeData);
 
 //-----------------------------------------------------------------------------

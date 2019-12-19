@@ -556,9 +556,9 @@ static void Debugger_Init_LogFile()
         if (!al_filename_exists(g_env.Paths.DebugDirectory))
             al_make_directory(g_env.Paths.DebugDirectory);
         sprintf(filename, "%s/%s", g_env.Paths.DebugDirectory, Debugger.log_filename);
-        Debugger.log_file = fopen(filename, "a+t");
+        Debugger.log_file = al_fopen(filename, "a+t");
         if (Debugger.log_file != NULL)
-            fprintf(Debugger.log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
+            al_fprintf(Debugger.log_file, Msg_Get(MSG_Log_Session_Start), meka_date_getf ());
     }
 }
 
@@ -581,7 +581,7 @@ void        Debugger_Close()
 {
     if (Debugger.log_file != NULL)
     {
-        fclose(Debugger.log_file);
+        al_fclose(Debugger.log_file);
         Debugger.log_file = NULL;
     }
     // FIXME-HISTORY: free history lines
@@ -1902,8 +1902,8 @@ void        Debugger_PrintEx(bool debugger, bool log, bool ui, char* buf)
     if (log)
     if (Debugger.log_file != NULL)
     {
-        fprintf(Debugger.log_file, "%s", buf);
-        fflush(Debugger.log_file);
+        al_fprintf(Debugger.log_file, "%s", buf);
+        al_fflush(Debugger.log_file);
     }
 
     if (ui)

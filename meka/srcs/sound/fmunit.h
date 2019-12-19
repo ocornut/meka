@@ -51,8 +51,8 @@ extern t_fm_unit_interface* FM_Unit_Current;
 
 //-----------------------------------------------------------------------------
 
-void    FM_Save(FILE *f);
-void    FM_Load(FILE *f);
+void    FM_Save(ALLEGRO_FILE *f);
+void    FM_Load(ALLEGRO_FILE *f);
 
 //-----------------------------------------------------------------------------
 

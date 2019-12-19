@@ -51,6 +51,7 @@ void    Frame_Skipper_Init()
 
 bool Frame_Skipper()
 {
+#ifndef ARCH_ANDROID
     if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
     {
         // Auto frame-skipping
@@ -89,6 +90,7 @@ bool Frame_Skipper()
         }
         fskipper.Unthrottled_Counter = 1;
     }
+#endif
 
     // Poll FPS timer 
     ALLEGRO_EVENT timer_event;

@@ -60,34 +60,34 @@ void    WAV_Header_Init(t_wav_header *h, int Samples_per_Second, int Bits_per_Sa
     h->Data_Len = 0; // Unknown as of yet
 }
 
-FILE*   WAV_Start(char *FileName)
+ALLEGRO_FILE*   WAV_Start(char *FileName)
 {
-    FILE* f = fopen(FileName, "wb");
+    ALLEGRO_FILE* f = al_fopen(FileName, "wb");
     if (f == NULL)
         return (NULL);
 
     t_wav_header h;
     WAV_Header_Init(&h, Sound.SampleRate, 16, SOUND_CHANNEL_COUNT);
-    fwrite (&h, sizeof (h), 1, f);
+    al_fwrite (f,&h, sizeof (h));
     // ..
     return (f);
 }
 
-void    WAV_Close(FILE *f, int SizeData)
+void    WAV_Close(ALLEGRO_FILE *f, int SizeData)
 {
     t_wav_header h;
 
     h.RIFF_Len = (4) + (8+16) + (8 + SizeData);
     int Offset = (int)((char *)&h.RIFF_Len - (char *)&h);
-    fseek (f, Offset, SEEK_SET);
-    fwrite (&h.RIFF_Len, sizeof (h.RIFF_Len), 1, f);
+    al_fseek (f, Offset, SEEK_SET);
+    al_fwrite (f, &h.RIFF_Len, sizeof (h.RIFF_Len));
 
     h.Data_Len = (SizeData);
     Offset = (int)((char *)&h.Data_Len - (char *)&h);
-    fseek (f, Offset, SEEK_SET);
-    fwrite (&h.Data_Len, sizeof (h.Data_Len), 1, f);
+    al_fseek (f, Offset, SEEK_SET);
+    al_fwrite (f, &h.Data_Len, sizeof (h.Data_Len));
 
-    fclose(f);
+    al_fclose(f);
 }
 
 //-----------------------------------------------------------------------------
