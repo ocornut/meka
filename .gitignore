@@ -31,3 +31,8 @@ allegro.log
 *.vc.db
 *.vcproj.*.user
 *.vcxproj.user
+
+#Additional Unix ignores
+meka/meka
+meka/meka.cfg
+meka/srcs/compile_commands.json
