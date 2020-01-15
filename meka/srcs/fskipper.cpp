@@ -28,6 +28,7 @@ void    Frame_Skipper_Init_Values (void)
     fskipper.Unthrottled_Frameskip      = 1;
     fskipper.Unthrottled_Counter        = 0;
     fskipper.Show_Current_Frame         = TRUE;
+    
     fskipper.FPS                        = 0.0f;
     fskipper.FPS_Display                = FALSE;
     fskipper.FPS_SecondsElapsed         = 0;
@@ -49,8 +50,48 @@ void    Frame_Skipper_Init()
     al_start_timer(g_timer_seconds);
 }
 
+
+//Estimate the current output Frames per Second
+void Frame_Skipper_EstimateFPS(t_fskipper *fskipper){
+
+  fskipper->FPS_FrameCountAccumulator++;
+  
+  // Poll FPS timer 
+  ALLEGRO_EVENT timer_event;
+  while (al_get_next_event(g_timer_seconds_event_queue, &timer_event))
+    {
+      switch (timer_event.type)
+        {
+        case ALLEGRO_EVENT_TIMER:
+	  if (timer_event.timer.source == g_timer_seconds)
+            {
+	      fskipper->FPS_SecondsElapsed ++;
+	      break;
+            }
+	  break;
+        }
+    }
+  
+  // Compute FPS if a new second has elapsed
+  if (fskipper->FPS_SecondsElapsed > 0)
+    {  
+      const float new_FPS = (float)fskipper->FPS_FrameCountAccumulator / (float)fskipper->FPS_SecondsElapsed;
+      //Msg(MSGT_DEBUG, "Old/New FPS %f/%f", fskipper->FPS, new_FPS);
+      
+      fskipper->FPS = new_FPS;
+      fskipper->FPS_SecondsElapsed = 0;
+      fskipper->FPS_FrameCountAccumulator = 0;
+    }
+  
+}
+
 bool Frame_Skipper()
 {
+
+  //Estimate current FPS on each entry, before any early exits
+  Frame_Skipper_EstimateFPS(&fskipper);
+  
+  
     if (fskipper.Mode == FRAMESKIP_MODE_THROTTLED)
     {
         // Auto frame-skipping
@@ -90,34 +131,6 @@ bool Frame_Skipper()
         fskipper.Unthrottled_Counter = 1;
     }
 
-    // Poll FPS timer 
-    ALLEGRO_EVENT timer_event;
-    while (al_get_next_event(g_timer_seconds_event_queue, &timer_event))
-    {
-        switch (timer_event.type)
-        {
-        case ALLEGRO_EVENT_TIMER:
-            if (timer_event.timer.source == g_timer_seconds)
-            {
-                fskipper.FPS_SecondsElapsed ++;
-                break;
-            }
-            break;
-        }
-    }
-
-    // Compute FPS if a new second has elapsed
-    fskipper.FPS_FrameCountAccumulator++;
-    if (fskipper.FPS_SecondsElapsed > 0)
-    {
-        //int elapsed = (int)(cycle_current - fskipper.FPS_LastComputedTime);
-        //int fps = (fskipper.Frame_Rendered * cycle_per_second + (cycle_per_second / 2)) / elapsed;
-        //fskipper.FPS = fps;
-        //Msg(MSGT_DEBUG, "Frame_Rendered = %d, FPS = %d", fskipper.Frame_Rendered, fskipper.FPS);
-        fskipper.FPS = (float)fskipper.FPS_FrameCountAccumulator / (float)fskipper.FPS_SecondsElapsed;
-        fskipper.FPS_SecondsElapsed = 0;
-        fskipper.FPS_FrameCountAccumulator = 0;
-    }
 
     // Will show next frame
     return TRUE;
