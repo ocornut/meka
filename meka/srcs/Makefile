@@ -168,7 +168,7 @@ endif
 #-----------------------------------------------------
 # Option : Sound emulation and output
 #-----------------------------------------------------
-OBJ_SOUND = $(OD)/sound/sound.o $(OD)/sound/s_misc.o $(OD)/sound/sound_logging.o $(OD)/sound/psg.o $(OD)/sound/fmeditor.o $(OD)/sound/wav.o $(OD)/sound/vgm.o $(OD)/sound/fmunit.o
+OBJ_SOUND = $(OD)/sound/sound.o $(OD)/sound/s_misc.o $(OD)/sound/sound_logging.o $(OD)/sound/psg.o $(OD)/sound/fmeditor.o $(OD)/sound/wav.o $(OD)/sound/vgm.o $(OD)/sound/fmunit.o $(OD)/sound/circular_buffer.o 
 OBJ_SOUND += $(OD)/sound/emu2413/emu2413.o $(OD)/sound/emu2413/mekaintf.o
 
 #-----------------------------------------------------
