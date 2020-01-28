@@ -14,6 +14,7 @@
 
 #include "fskipper.h" //Allegro (Wall) output sound rate (Z80cycles/sec) determined by current output framerate
 
+#include <iostream>
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
 //-----------------------------------------------------------------------------
@@ -23,6 +24,236 @@ static bool Sound_InitEmulators();
 //-----------------------------------------------------------------------------
 // DATA
 //-----------------------------------------------------------------------------
+
+typedef s16   CBuff_T; //The data type stored in the circular buffer
+
+//A circular buffer with heap storage of a power of two elements
+struct CBuff {
+
+  //Use unsigned integers to take advantage of automatic overflow wraparound on increment
+  //So long as capacity is a power of two, wraparound will keep modular arithmetic in sync.
+  u32   begin;
+  u32   end;
+
+  u32   CAPACITY;  //The max number of elements in the buff (must be a power of two)
+  
+  CBuff_T* elements;    //The raw storage elements of the buffer
+  
+};
+
+
+//Return the base 2 logarithm of the given positive number to the base 2, rounded up to the nearest integer
+u8 Log2Ceil(const u32 raw_number){
+
+  if(raw_number==0){ //Special case
+    return 0;
+  }
+
+  u32 n =raw_number-1; //Subtract one to handle the case where we are exactly on a power of two
+
+  //Keep right shifting down until the most significant bit is gone
+  //This gives the power of two just above n
+  u8 exponent = 0;
+  while(n){
+    n= n >> 1;
+    exponent++;
+  }
+
+  return exponent;
+  
+}
+
+//Return the power of two at or above the given integer
+u32 BoundingPowerOfTwo(const u32 n){
+  const u8 exponent = Log2Ceil(n);
+  const u32 bounding_power = ( 1 << exponent);
+  return bounding_power;
+
+}
+
+//Create a circular buffer with heap storage of at least the requested capacity.
+//The true capacity will be the closest bounding power of two, which simplifies the internal index arithmetic
+CBuff CBuff_CreateCircularBuffer(const u32 requested_capacity){
+
+  //Check for failing cases with blunt asserts
+  const u32 CAPACITY_MAX = (1<<31); //2^31
+  const u32 CAPACITY_MIN = (1<<2); //2
+  assert( requested_capacity <= CAPACITY_MAX);
+  assert( requested_capacity >= CAPACITY_MIN);
+
+  //Set the actual capcity to the nearest power of two at or above the requested capacity (simplifies circular buffer) 
+  const u32 BoundingCapacity = BoundingPowerOfTwo(requested_capacity);
+  
+  CBuff cbuff = {};
+  cbuff.CAPACITY = BoundingCapacity; 
+
+  //Allocate buffer storage on heap
+  cbuff.elements = new CBuff_T [cbuff.CAPACITY];
+  
+  return cbuff;
+}
+
+void CBuff_DeleteCircularBuffer(CBuff* cbuff){
+
+  delete [] cbuff->elements;
+}
+
+u32 CBuff_Size(const CBuff* cbuff){
+  return cbuff->end - cbuff->begin; //rely on overlow wraparound and unsigned arithmetic to do the right thing
+}
+
+u32 CBuff_UnusedCapacity(const CBuff* cbuff){
+  return cbuff->CAPACITY - CBuff_Size(cbuff);
+}
+
+
+bool CBuff_Full(const CBuff* cbuff){
+  return CBuff_Size(cbuff) >= cbuff->CAPACITY;
+}
+
+bool CBuff_Empty(const CBuff* cbuff){
+  return CBuff_Size(cbuff) == 0U;
+}
+
+
+//A guaranteed contiguous segment of CBuff storage, to allow external callers contiguous access to a buffer segment
+//Provides a raw pointer view into the underlying buffer storage region
+struct CBuff_Block{
+  CBuff_T* begin;
+  CBuff_T* end;
+};
+
+//Compute the length of storage block in underlying elements
+u32 CBuff_Length(const CBuff_Block* block){
+  return block->end - block->begin;
+}
+
+//A general span of a circular buffer's storage array, representing an ordered set
+//of data, which may wrap around back to the beginning of storage. To deal with any
+//wraparound, a second continguus block is provided, which may be empty
+struct CBuff_SplitSpan{
+
+  // No wraparound case
+  //
+  // |     ################        | cap_end
+  //           block1                              //block2 is empty
+  //
+  //
+  // Wraparound case
+  //
+  //       end      begin
+  //        v        v 
+  // |#######        ##############| cap_end
+  //   block2            block1
+  
+  CBuff_Block block1; //A contiguous block at the start of the span
+  CBuff_Block block2; //A second contiguous data block (possibly empty) logically at the end of the span,
+                      //but which can physically be located before the start in memory
+
+};
+
+//Create a raw block view into the circular buffer's storage region, given the start and end indices of the storage block
+CBuff_Block CBuff_MakeBlock(const CBuff* cbuff, const u32 blockstart, const u32 blockend){
+
+  //Double check that the block allocation is valid
+  assert(blockstart < cbuff->CAPACITY);
+  assert(blockend   <= cbuff->CAPACITY);
+  assert(blockstart <= blockend);
+  
+  CBuff_Block raw_view = {};
+  raw_view.begin = cbuff->elements + blockstart;
+  raw_view.end   = cbuff->elements + blockend;
+
+  return raw_view;
+}
+
+//Convert a pair of buffer storage indices (or buffer indices) into a split span,
+//giving two contiguous blocks of storage space
+CBuff_SplitSpan CBuff_GetSplitSpan(const CBuff* cbuff, const u32 span_start, const u32 span_end){
+
+  //First mod the indices to lie within [0, cap_end) so they are proper storage indices
+  const u32 CAPACITY = cbuff->CAPACITY;
+  const u32 start = span_start  % CAPACITY;
+  const u32 end = span_end % CAPACITY;
+
+  
+  //Let cap_end be the end of the physical storage block
+  //The split span will be one of the two forms 
+  // (start,     end)     (end, end)   or
+  // (start, cap_end)     (0, end)
+  //depending on whether the span has wrapped around or not
+
+  //Find data indices  (start, mid1) (mid2, end)
+  const u32 cap_end = CAPACITY;
+  const u32 mid1 = end < start ? cap_end : end;
+  const u32 mid2 = mid1 % CAPACITY;
+
+
+  const CBuff_Block block1 = CBuff_MakeBlock(cbuff, start, mid1); //{start, mid1}
+  const CBuff_Block block2 = CBuff_MakeBlock(cbuff, mid2, end);   //{mid2, end}
+  
+  const CBuff_SplitSpan split_span = {block1, block2};
+
+  return split_span;
+
+}
+  
+
+
+//Push "count" unitialized onto the end of the buffer, and return a Span into the allocated space
+//If there is not enough remaining storage to allocate "count" elements, no elements are added and zero
+//length span is returned
+CBuff_SplitSpan CBuff_PushBackSpan(CBuff* cbuff, const u32 count){
+
+  const bool can_allocate = count <= CBuff_UnusedCapacity(cbuff);
+
+  CBuff_SplitSpan allocated_span = {}; //Zero length span
+  if(can_allocate){
+
+    const u32 prev_end = cbuff->end;
+    cbuff->end += count; //only reserving space, elements uninitialised
+
+    allocated_span = CBuff_GetSplitSpan(cbuff, prev_end, cbuff->end);
+  }
+  
+  return allocated_span;
+}
+
+//Pop "count" elements from the beginning of the buffer, and return a Span into the freed space. Any popped
+//elements are no longer members of the buffer after this call. If there are less than the requested "count"
+//elements in the array, no elements are removed and a zero length span is returned
+CBuff_SplitSpan CBuff_PopFrontSpan(CBuff* cbuff, const u32 count){
+
+  const bool can_free = count <= CBuff_Size(cbuff);
+
+  CBuff_SplitSpan popped_span = {}; //Zero length span
+  if(can_free){
+
+    const u32 prev_begin = cbuff->begin;
+    cbuff->begin += count;  //elements are removed from the buffer!
+                            //Span points to "undefined" storage (this is not thread safe)
+
+    popped_span = CBuff_GetSplitSpan(cbuff, prev_begin, cbuff->begin);
+  }
+  
+  return popped_span;
+}
+
+//Single element push and pop for convienience
+
+bool CBuff_PushBack(CBuff* cbuff, const CBuff_T value){
+
+  const bool push_ok = !CBuff_Full(cbuff);
+
+  if(push_ok){
+    const u32 writeindex = cbuff->end % cbuff->CAPACITY;
+    cbuff->elements[writeindex] = value;
+    cbuff->end++; //rely on uint wraparound
+  }
+
+  return push_ok;
+}
+
 
 enum t_sound_chip
 {
@@ -35,7 +266,8 @@ struct t_sound_stream
     t_sound_chip            chip;
     ALLEGRO_EVENT_QUEUE *   event_queue;
     ALLEGRO_AUDIO_STREAM *  audio_stream;
-    s16 *                   audio_buffer;
+    s16 *                   audio_buffer_orig;
+    CBuff                   audio_buffer;
     int                     audio_buffer_size;
     int                     audio_buffer_wpos;  // write position for chip emulator 
     int                     audio_buffer_rpos;  // read position for audio system
@@ -300,9 +532,12 @@ t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
     al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->audio_stream));
 
     stream->audio_buffer_size = SOUND_BUFFERS_SAMPLE_COUNT*SOUND_BUFFERS_COUNT*SOUND_CHANNEL_COUNT;
-    stream->audio_buffer = new s16[stream->audio_buffer_size];
+    stream->audio_buffer_orig = new s16[stream->audio_buffer_size];
     stream->audio_buffer_wpos = 0;
     stream->audio_buffer_rpos = 0;
+
+    stream->audio_buffer = CBuff_CreateCircularBuffer(stream->audio_buffer_size);
+    
     stream->sample_writer = sample_writer;
 
     stream->samples_leftover = 0.0f;
@@ -316,7 +551,8 @@ t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
 void SoundStream_Destroy(t_sound_stream* stream)
 {
     al_destroy_audio_stream(stream->audio_stream);
-    delete [] stream->audio_buffer;
+    delete [] stream->audio_buffer_orig;
+    CBuff_DeleteCircularBuffer(&stream->audio_buffer);
     al_destroy_event_queue(stream->event_queue);
     delete stream;
 }
@@ -375,12 +611,39 @@ void SoundStream_RenderSamples(t_sound_stream* stream, int samples_count)
     int wbuf2_samples_count;
     if (SoundStream_PushSamplesRequestBufs(stream, samples_count, &wbuf1, &wbuf1_samples_count, &wbuf2, &wbuf2_samples_count))
     {
-        if (wbuf1)
-            stream->sample_writer(wbuf1, wbuf1_samples_count);
-        if (wbuf2 && wbuf2_samples_count > 0)
-            stream->sample_writer(wbuf2, wbuf2_samples_count);
+
+      //std::cout << "wbuf1_samples_count: " << wbuf1_samples_count << std::endl;
+      //std::cout << "wbuf2_samples_count: " << wbuf2_samples_count << std::endl;
+
+      if (wbuf1){
+	//stream->sample_writer(wbuf1, wbuf1_samples_count);
+      }
+      if (wbuf2 && wbuf2_samples_count > 0){
+	//stream->sample_writer(wbuf2, wbuf2_samples_count);
+      }
         stream->samples_rendered1 += wbuf1_samples_count + wbuf2_samples_count;
     }
+    
+#if 1
+    const u32 space_remaining = CBuff_UnusedCapacity(&stream->audio_buffer)/SOUND_CHANNEL_COUNT;
+    if(space_remaining >= samples_count){
+
+      //std::cout << "split_span write" << std::endl;
+      CBuff_SplitSpan write_span = CBuff_PushBackSpan(&stream->audio_buffer , samples_count*SOUND_CHANNEL_COUNT);
+
+      //std::cout << "block1 length: " << CBuff_Length(&write_span.block1) << std::endl;
+      //std::cout << "block2 length: " << CBuff_Length(&write_span.block2) << std::endl;
+      stream->sample_writer(write_span.block1.begin, CBuff_Length(&write_span.block1)/SOUND_CHANNEL_COUNT);
+      stream->sample_writer(write_span.block2.begin, CBuff_Length(&write_span.block2)/SOUND_CHANNEL_COUNT);
+	    
+      
+    } else {
+      Msg(MSGT_DEBUG, "RenderSamples CBuff overflow: %d > %d", samples_count, space_remaining);
+    }
+#endif
+    
+
+    
 }
 
 void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
@@ -450,6 +713,7 @@ int SoundStream_CountReadableSamples(const t_sound_stream* stream)
 
 int SoundStream_CountWritableSamples(const t_sound_stream* stream)
 {
+  //Number of samples written depends on SOUND_CHANNEL_COUNT!!!!!
     return stream->audio_buffer_size / SOUND_CHANNEL_COUNT - SoundStream_CountReadableSamples(stream);
 }
 
@@ -458,8 +722,8 @@ bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_coun
     *wbuf1 = *wbuf2 = NULL;
     *wbuf1_sample_count = *wbuf2_sample_count = 0;
 
-    s16* buf_begin = &stream->audio_buffer[0];
-    s16* buf_end = &stream->audio_buffer[stream->audio_buffer_size];
+    s16* buf_begin = &stream->audio_buffer_orig[0];
+    s16* buf_end = &stream->audio_buffer_orig[stream->audio_buffer_size];
 
     int writable_samples = SoundStream_CountWritableSamples(stream);
     if (writable_samples < samples_count)
@@ -474,7 +738,7 @@ bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_coun
         const int samples_to_write = MIN(samples_count, (stream->audio_buffer_size - stream->audio_buffer_wpos) / SOUND_CHANNEL_COUNT);
         if (samples_to_write < 0)
             assert(0);
-        *wbuf1 = &stream->audio_buffer[stream->audio_buffer_wpos];
+        *wbuf1 = &stream->audio_buffer_orig[stream->audio_buffer_wpos];
         *wbuf1_sample_count = samples_to_write;
         if (*wbuf1 && (*wbuf1 < buf_begin || *wbuf1+*wbuf1_sample_count*SOUND_CHANNEL_COUNT > buf_end))
             assert(0);
@@ -487,7 +751,7 @@ bool SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int samples_coun
         const int samples_to_write = MIN(samples_count, (stream->audio_buffer_rpos - stream->audio_buffer_wpos) / SOUND_CHANNEL_COUNT);
         if (samples_to_write < 0)
             assert(0);
-        *wbuf2 = &stream->audio_buffer[stream->audio_buffer_wpos];
+        *wbuf2 = &stream->audio_buffer_orig[stream->audio_buffer_wpos];
         *wbuf2_sample_count = samples_to_write;
         if (*wbuf2 && (*wbuf2 < buf_begin || *wbuf2+*wbuf2_sample_count*SOUND_CHANNEL_COUNT > buf_end))
             assert(0);
@@ -508,6 +772,30 @@ int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
         Msg(MSGT_DEBUG, "PopSamples(): underrun %d < %d available", samples_avail, samples_wanted);
         return 0;
     }
+
+#if 1
+    const u32 samples_avail_ = CBuff_Size(&stream->audio_buffer) /SOUND_CHANNEL_COUNT;
+    if(samples_avail_ < samples_wanted){
+      Msg(MSGT_DEBUG, "PopSamples() CBuff: underrun %d < %d available", samples_avail_, samples_wanted);
+      return 0;
+    }
+
+
+    CBuff_SplitSpan read_span = CBuff_PopFrontSpan(&stream->audio_buffer, samples_wanted*SOUND_CHANNEL_COUNT);
+
+    const CBuff_Block block1 = read_span.block1;
+    const CBuff_Block block2 = read_span.block2;
+    const u32 block1_samples = CBuff_Length(&block1);
+    const u32 block2_samples = CBuff_Length(&block2);
+
+    
+    memcpy(buf, block1.begin, block1_samples * sizeof(s16));
+    memcpy(buf+block1_samples , block2.begin, block2_samples * sizeof(s16));
+#endif
+    
+    //memcpy(&buf[samples_read*SOUND_CHANNEL_COUNT], &stream->audio_buffer_orig[stream->audio_buffer_rpos], samples_to_read * sizeof(s16) * SOUND_CHANNEL_COUNT);
+    
+    
     //const s16* buf_start = buf;
     //const s16* buf_end = buf + samples_wanted;
 
@@ -533,7 +821,7 @@ int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
         }
 
         const int samples_to_read = MIN(samples_wanted, samples_avail_contiguous);
-        memcpy(&buf[samples_read*SOUND_CHANNEL_COUNT], &stream->audio_buffer[stream->audio_buffer_rpos], samples_to_read * sizeof(s16) * SOUND_CHANNEL_COUNT);
+        //memcpy(&buf[samples_read*SOUND_CHANNEL_COUNT], &stream->audio_buffer_orig[stream->audio_buffer_rpos], samples_to_read * sizeof(s16) * SOUND_CHANNEL_COUNT);
         samples_read += samples_to_read;
         samples_wanted -= samples_to_read;
         stream->audio_buffer_rpos = (stream->audio_buffer_rpos + samples_to_read * SOUND_CHANNEL_COUNT) % stream->audio_buffer_size;
