@@ -103,6 +103,12 @@ u32 CBuff_Length(const CBuff_Block* block){
   return block->end - block->begin;
 }
 
+//Compute the total storage block span in underlying elements
+u32 CBuff_Length(const CBuff_SplitSpan* span){
+  return CBuff_Length(&span->block1) + CBuff_Length(&span->block2);
+}
+
+
 //Create a raw block view into the circular buffer's storage region, given the start and end indices of the storage block
 CBuff_Block CBuff_MakeBlock(const CBuff* cbuff, const u32 blockstart, const u32 blockend){
 

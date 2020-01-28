@@ -96,6 +96,8 @@ bool CBuff_Empty(const CBuff* cbuff);
 //Compute the length of a raw storage block in underlying elements
 u32 CBuff_Length(const CBuff_Block* block);
 
+//Compute the total storage block span in underlying elements
+u32 CBuff_Length(const CBuff_SplitSpan* span);
 
 //Create a raw block view into the circular buffer's storage region,
 //given the start and end indices of the storage block
