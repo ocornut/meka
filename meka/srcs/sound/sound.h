@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 
 #define SOUND_BUFFERS_COUNT         (4)
-#define SOUND_BUFFERS_SAMPLE_COUNT  (1024)
+#define SOUND_BUFFERS_FRAME_COUNT   (1024)
 #define SOUND_CHANNEL_COUNT         (2)
 
 #define SOUND_DEBUG_APPLET          (1)
@@ -81,9 +81,9 @@ void            SoundStream_Destroy(t_sound_stream* stream);
 void            SoundStream_Update(t_sound_stream* stream);
 void            SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requested);
 void            SoundStream_RenderUpToCurrentTime(t_sound_stream* stream);
-int             SoundStream_CountReadableSamples(const t_sound_stream* stream);
-int             SoundStream_CountWritableSamples(const t_sound_stream* stream);
-int             SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted);
+int             SoundStream_CountReadableFrames(const t_sound_stream* stream);
+int             SoundStream_CountWritableFrames(const t_sound_stream* stream);
+u32             SoundStream_PopFrames(t_sound_stream* stream, s16* buf, const int frames_wanted);
 
 void            SoundDebugApp_Init();
 void            SoundDebugApp_InstallMenuItems(int menu_parent);

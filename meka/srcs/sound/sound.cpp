@@ -16,10 +16,10 @@
 
 #include "circular_buffer.h"
 
-//TODO: 
-//Rename variables to distinguish between  "samples" here to "frames"
+//Note on "Samples" vs "Frames": 
 //A sample is an individual sound level for one channel
-//An auidio frame consists of exactly one sample of audio for each channel (by default CHANNEL_COUNT=2 here)
+//An audio frame consists of exactly one sample of audio for each channel (by default CHANNEL_COUNT=2 here)
+//So four frames of  2 channel audio will consist of 8 samples; LRLRLRLR
 
 //-----------------------------------------------------------------------------
 // DEFINES
@@ -304,7 +304,10 @@ t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
     assert(0);
 #endif
 
-    stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_SAMPLE_COUNT, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, channelConf);
+    //Note: Allegro's internal defintion of an audio "sample" actually an audio frame, whose number
+    //of samples depends on the number of sound channels. The size of an allegro 'sample' depends both on them
+    //audio bit depth and the number of sound channels.
+    stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_FRAME_COUNT, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, channelConf);
     if (!stream->audio_stream)
     {
         delete stream;
@@ -317,7 +320,8 @@ t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
     }
     al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->audio_stream));
 
-    const u32 buffer_sample_capacity = SOUND_BUFFERS_SAMPLE_COUNT*SOUND_BUFFERS_COUNT*SOUND_CHANNEL_COUNT;
+    const u32 SOUND_BUFFERS_SAMPLE_COUNT = SOUND_BUFFERS_FRAME_COUNT*SOUND_BUFFERS_COUNT;
+    const u32 buffer_sample_capacity = SOUND_BUFFERS_SAMPLE_COUNT*SOUND_CHANNEL_COUNT;
 
     stream->audio_buffer = CBuff_CreateCircularBuffer(buffer_sample_capacity);
     
@@ -353,18 +357,21 @@ void SoundStream_Update(t_sound_stream* stream)
                 continue;
 
             // Need to catch up?
-	    const int samples_underrun = SOUND_BUFFERS_SAMPLE_COUNT - SoundStream_CountReadableSamples(stream);
-            if (samples_underrun > 0)
+	    //Note: What allegro refers to as a "sample" is in fact an audio frame of (possible multiple) samples, one sample for each channel in the frame
+	    const u32 ALLEGRO_BUFFER_SIZE_FRAMES = SOUND_BUFFERS_FRAME_COUNT;
+	    
+	    const int frames_underrun = ALLEGRO_BUFFER_SIZE_FRAMES - SoundStream_CountReadableFrames(stream);
+            if (frames_underrun > 0)
             {
-		//Try to make enough samples to fill up the next Allegro output buffer
-		SoundStream_RenderAudioFrames(stream, samples_underrun);
+		//Try to make enough audio frames to fill up the next Allegro output buffer
+		SoundStream_RenderAudioFrames(stream, frames_underrun);
 
 		stream->last_rendered_cycle_counter = Sound_GetElapsedCycleCounter();
-                //stream->last_rendered_cycle_counter += Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE);
+
             }
 
-	    //Although audio calls render entire frames, we pop elements into the buffer by requested samples
-            SoundStream_PopSamples(stream, buf, SOUND_BUFFERS_SAMPLE_COUNT);
+	    //Write a complete fragement's worth of audio frames into the allegro buffer
+            SoundStream_PopFrames(stream, buf, ALLEGRO_BUFFER_SIZE_FRAMES);
 
             if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
                 Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
@@ -373,8 +380,8 @@ void SoundStream_Update(t_sound_stream* stream)
 }
 
 
-//TODO: Fix Readable/Writable to return values in proper samples
-int SoundStream_CountReadableSamples(const t_sound_stream* stream)
+//Returns the current number of frames worth of audio stored  in the meka sound buffer
+int SoundStream_CountReadableFrames(const t_sound_stream* stream)
 {
 
   const u32 readable_samples = CBuff_Size(&stream->audio_buffer);
@@ -383,7 +390,8 @@ int SoundStream_CountReadableSamples(const t_sound_stream* stream)
 
 }
 
-int SoundStream_CountWritableSamples(const t_sound_stream* stream)
+//Returns the current number of frames worth of audio which can be written to the meka sound buffer
+int SoundStream_CountWritableFrames(const t_sound_stream* stream)
 {
   //Number of samples written depends on SOUND_CHANNEL_COUNT!!!!! (In current sample logic) 
 
@@ -409,7 +417,7 @@ void SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requ
     u32 samples_rendered = 0;
     if(samples_cap_remaining >= samples_requested){
 
-	//Slightly awkward logic as we store samples, but the write requests are fundamentally in audio frames.
+	//Slightly awkward logic as we store samples, but the read/write requests are fundamentally in audio frames.
 
 	//Get a split span from the circular sound buffer, giving two contiguous sample blocks, in logical sound order
 	CBuff_SplitSpan write_span = CBuff_PushBackSpan(&stream->audio_buffer , samples_requested);
@@ -426,11 +434,11 @@ void SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requ
 	samples_rendered = CBuff_Length(&write_span);
 
 	if(samples_rendered != samples_requested){
-	    Msg(MSGT_DEBUG, "RenderSamples() Samples Requested/Rendered: %d > %d", samples_requested, samples_rendered);
+	    Msg(MSGT_DEBUG, "RenderAudioFrames(): Samples Requested/Rendered: %d > %d", samples_requested, samples_rendered);
 	}
 	          
     } else {
-      Msg(MSGT_DEBUG, "RenderSamples CBuff overflow: %d > %d", samples_requested, samples_cap_remaining);
+      Msg(MSGT_DEBUG, "RenderAudioFrames(): CBuff overflow: %d > %d", samples_requested, samples_cap_remaining);
     }
 
     //Keep a record of frame/sample requests/renders
@@ -464,13 +472,16 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
     const double elasped_output_seconds = (double)((double)elapsed_cycles / (double)output_cycles_per_sec);
     //Note: elapsed_emulated_seconds = elapsed_cycles * Sound.CpuClock;
     
-    // TL;DR We need enough audi frames for the elapsed output (Wall) time, not the elapsed emulated time.
+    // TL;DR We need enough audio frames for the elapsed output (Wall) time, not the elapsed emulated time.
 
-    const double audio_frames_to_render = stream->audio_frames_leftover + (double)Sound.SampleRate * elasped_output_seconds;
+    const int single_channel_sound_rate = Sound.SampleRate;
+    const int audio_frame_rate = single_channel_sound_rate; //The audio frame rate is the same as all single channel sound rates
+    
+    const double audio_frames_to_render = stream->audio_frames_leftover + (double)audio_frame_rate * elasped_output_seconds;
     
     if ((int)audio_frames_to_render > 0)
     {
-        //Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)audio_frames_to_render);
+
         SoundStream_RenderAudioFrames(stream, (int)audio_frames_to_render);
 
         stream->last_rendered_cycle_counter = current_cycle;
@@ -479,20 +490,22 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
 }
 
 
-int SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted)
+//Try to read enough audio samples for the requested number of audio frames from the internal sound buffer. The number of samples actually read is returned. 
+u32 SoundStream_PopFrames(t_sound_stream* stream, s16* buf, const int frames_wanted)
 {
-    //Msg(MSGT_DEBUG, "PopSamples() %d", samples_wanted);
 
-    const int samples_avail = SoundStream_CountReadableSamples(stream);
-    if (samples_avail < samples_wanted)
+    const int frames_avail = SoundStream_CountReadableFrames(stream);
+    if (frames_avail < frames_wanted)
     {
-        Msg(MSGT_DEBUG, "PopSamples(): underrun %d < %d available", samples_avail, samples_wanted);
+        Msg(MSGT_DEBUG, "PopFrames(): underrun %d < %d available", frames_avail, frames_wanted);
         return 0;
     }
 
+    //The audio buffers stores raw audio samples, one sample per channel in the audio frame
+    const int samples_wanted = frames_wanted*SOUND_CHANNEL_COUNT; 
 
     //Get a split span from the circular sound buffer, giving two contiguous blocks, in logical sound order
-    CBuff_SplitSpan read_span = CBuff_PopFrontSpan(&stream->audio_buffer, samples_wanted*SOUND_CHANNEL_COUNT);
+    CBuff_SplitSpan read_span = CBuff_PopFrontSpan(&stream->audio_buffer, samples_wanted);
 
     const CBuff_Block block1 = read_span.block1;
     const CBuff_Block block2 = read_span.block2;
@@ -567,13 +580,13 @@ void SoundDebugApp_Update()
     static const char* stars64 = "****************************************************************";
 
     t_sound_stream* stream = g_psg_stream;
-    int samples;
 
-    samples = SoundStream_CountReadableSamples(stream);
-    SoundDebugApp_Printf(&x, &y, "ReadableSamples: %-6d [%-32s]", samples, stars64+(64-MIN(32,samples/1024)));
 
-    samples = SoundStream_CountWritableSamples(stream);
-    SoundDebugApp_Printf(&x, &y, "WritableSamples: %-6d [%-32s]", samples, stars64+(64-MIN(32,samples/1024)));
+    const int readable_frames = SoundStream_CountReadableFrames(stream);
+    SoundDebugApp_Printf(&x, &y, "Readable Audio Frames: %-6d [%-32s]", readable_frames, stars64+(64-MIN(32,readable_frames/1024)));
+
+    const u32 writable_frames = SoundStream_CountWritableFrames(stream);
+    SoundDebugApp_Printf(&x, &y, "Writable Audio Frames: %-6d [%-32s]", writable_frames, stars64+(64-MIN(32,writable_frames/1024)));
 }
 
 // Called from closebox widget and menu handler
