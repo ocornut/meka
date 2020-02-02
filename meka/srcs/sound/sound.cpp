@@ -49,7 +49,7 @@ struct t_sound_stream
     ALLEGRO_EVENT_QUEUE *   event_queue;
     ALLEGRO_AUDIO_STREAM *  audio_stream;
   
-    CBuff                   audio_buffer;         //Samples buffer (circular buffer)
+    CBuff                   meka_sample_buffer;   //Meka's own internal audio sample buffer (before writing out to allegro)
 
     t_audio_frame_writer    audio_frame_writer;   //A function which write a requested number of audio
                                                   //frames into a sample buffer. (Each frame may have several samples)
@@ -323,7 +323,7 @@ t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
     const u32 SOUND_BUFFERS_SAMPLE_COUNT = SOUND_BUFFERS_FRAME_COUNT*SOUND_BUFFERS_COUNT;
     const u32 buffer_sample_capacity = SOUND_BUFFERS_SAMPLE_COUNT*SOUND_CHANNEL_COUNT;
 
-    stream->audio_buffer = CBuff_CreateCircularBuffer(buffer_sample_capacity);
+    stream->meka_sample_buffer = CBuff_CreateCircularBuffer(buffer_sample_capacity);
     
     stream->audio_frame_writer = audio_frame_writer;
 
@@ -340,7 +340,7 @@ t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
 void SoundStream_Destroy(t_sound_stream* stream)
 {
     al_destroy_audio_stream(stream->audio_stream);
-    CBuff_DeleteCircularBuffer(&stream->audio_buffer);
+    CBuff_DeleteCircularBuffer(&stream->meka_sample_buffer);
     al_destroy_event_queue(stream->event_queue);
     delete stream;
 }
@@ -384,7 +384,7 @@ void SoundStream_Update(t_sound_stream* stream)
 int SoundStream_CountReadableFrames(const t_sound_stream* stream)
 {
 
-  const u32 readable_samples = CBuff_Size(&stream->audio_buffer);
+  const u32 readable_samples = CBuff_Size(&stream->meka_sample_buffer);
   const int readable_frames = readable_samples / SOUND_CHANNEL_COUNT;
   return readable_frames;
 
@@ -395,7 +395,7 @@ int SoundStream_CountWritableFrames(const t_sound_stream* stream)
 {
   //Number of samples written depends on SOUND_CHANNEL_COUNT!!!!! (In current sample logic) 
 
-  const u32 writable_samples = CBuff_UnusedCapacity(&stream->audio_buffer);
+  const u32 writable_samples = CBuff_UnusedCapacity(&stream->meka_sample_buffer);
   const u32 writable_frames = writable_samples / SOUND_CHANNEL_COUNT;
   return writable_frames;
   
@@ -413,14 +413,14 @@ void SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requ
 
     const u32 samples_requested = frames_requested*SOUND_CHANNEL_COUNT; //The frame contains one sample per sound channel
     
-    const u32 samples_cap_remaining = CBuff_UnusedCapacity(&stream->audio_buffer);
+    const u32 samples_cap_remaining = CBuff_UnusedCapacity(&stream->meka_sample_buffer);
     u32 samples_rendered = 0;
     if(samples_cap_remaining >= samples_requested){
 
 	//Slightly awkward logic as we store samples, but the read/write requests are fundamentally in audio frames.
 
 	//Get a split span from the circular sound buffer, giving two contiguous sample blocks, in logical sound order
-	CBuff_SplitSpan write_span = CBuff_PushBackSpan(&stream->audio_buffer , samples_requested);
+	CBuff_SplitSpan write_span = CBuff_PushBackSpan(&stream->meka_sample_buffer , samples_requested);
 
 	//Each audio frame contains one sample per audio channel
 	//(TODO: We may run into trouble if an odd number of samples is ever added)
@@ -505,7 +505,7 @@ u32 SoundStream_PopFrames(t_sound_stream* stream, s16* buf, const int frames_wan
     const int samples_wanted = frames_wanted*SOUND_CHANNEL_COUNT; 
 
     //Get a split span from the circular sound buffer, giving two contiguous blocks, in logical sound order
-    CBuff_SplitSpan read_span = CBuff_PopFrontSpan(&stream->audio_buffer, samples_wanted);
+    CBuff_SplitSpan read_span = CBuff_PopFrontSpan(&stream->meka_sample_buffer, samples_wanted);
 
     const CBuff_Block block1 = read_span.block1;
     const CBuff_Block block2 = read_span.block2;
