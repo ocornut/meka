@@ -101,8 +101,10 @@ void    FM_Digital_Regenerate()
 
 // Update audio stream
 // This is periodically called by the sound engine
-void    FM_Digital_WriteSamples(s16 *buffer, int length)
+void    FM_Digital_WriteAudioFrames(s16 *buffer, u32 length, u8 channel_count)
 {
+        assert(channel_count == SOUND_CHANNEL_COUNT); //Logic for variable sound channels not implemented yet
+	
     // Msg(MSGT_USER, "FM_Digital_WriteSamples(%p, %d)", buffer, length);
 
     // printf("\n[%s]\n", __FUNCTION__);

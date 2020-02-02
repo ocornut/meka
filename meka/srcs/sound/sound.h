@@ -55,6 +55,8 @@ extern t_sound          Sound;
 extern t_sound_stream*  g_psg_stream;
 extern t_sound_stream*  g_ym2413_stream;
 
+typedef void (*t_audio_frame_writer)(s16*, u32, u8); //The type of audio frame (sample_writer) function
+
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
@@ -74,10 +76,10 @@ void            Sound_Playback_Stop();
 void            Sound_Playback_Mute();
 void            Sound_Playback_Resume();
 
-t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int));
+t_sound_stream* SoundStream_Create(t_audio_frame_writer);
 void            SoundStream_Destroy(t_sound_stream* stream);
 void            SoundStream_Update(t_sound_stream* stream);
-void            SoundStream_RenderSamples(t_sound_stream* stream, const int samples_requested);
+void            SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requested);
 void            SoundStream_RenderUpToCurrentTime(t_sound_stream* stream);
 int             SoundStream_CountReadableSamples(const t_sound_stream* stream);
 int             SoundStream_CountWritableSamples(const t_sound_stream* stream);

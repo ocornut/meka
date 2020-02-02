@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------------
 
 int     PSG_Init();
-void    PSG_WriteSamples(s16 *buffer, int length);
+void    PSG_WriteAudioFrames(s16 *buffer, u32 length, u8 channel_count);
 void    PSG_Reset(void);
 void    PSG_Save(FILE *f);
 void    PSG_Load(FILE *f, int version);

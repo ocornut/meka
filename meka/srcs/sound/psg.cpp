@@ -81,10 +81,12 @@ int         PSG_Init()
 // Update audio stream
 // This is periodically called by the sound engine
 //-----------------------------------------------------------------------------
-void        PSG_WriteSamples(s16 *buffer, int length)
+void    PSG_WriteAudioFrames(s16 *buffer, u32 length, u8 channel_count)
 {
+    assert(channel_count == SOUND_CHANNEL_COUNT); //Logic for variable sound channels not implemented yet
+    
     s16* buf = buffer;
-    for (int length_left = length; length_left > 0; length_left--)
+    for (int length_left = (int)length; length_left > 0; length_left--)
     {
         // Get 1 sample from emulator
         int left, right;

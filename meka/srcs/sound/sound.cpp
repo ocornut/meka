@@ -51,14 +51,16 @@ struct t_sound_stream
   
     CBuff                   audio_buffer;         //Samples buffer (circular buffer)
 
-    void                    (*sample_writer)(s16*,int);
+    t_audio_frame_writer    audio_frame_writer;   //A function which write a requested number of audio
+                                                  //frames into a sample buffer. (Each frame may have several samples)
 
     // Counters
-    double                  samples_leftover;
+    double                  audio_frames_leftover;
     s64                     last_rendered_cycle_counter;
 
-    int                     samples_requested;    //Counter recording the  samples render requests
-    int                     samples_rendered;     //Counter recording the number of actual samples rendered after requests
+    u32                     frames_requested;       //Counter recording the number audio frames render requests
+    u32                     samples_requested;      //Counter recording the  samples render requests
+    u32                     samples_rendered;       //Counter recording the number of actual samples rendered after requests
 };
 
 t_sound         Sound;
@@ -163,13 +165,13 @@ int     Sound_Init(void)
 static bool Sound_InitEmulators()
 {
     PSG_Init();
-    g_psg_stream = SoundStream_Create(PSG_WriteSamples);
+    g_psg_stream = SoundStream_Create(PSG_WriteAudioFrames);
     if (!g_psg_stream)
         return false;
 
     FM_Digital_Init();
     FM_Digital_Active();
-    g_ym2413_stream = SoundStream_Create(FM_Digital_WriteSamples);
+    g_ym2413_stream = SoundStream_Create(FM_Digital_WriteAudioFrames);
     if (!g_ym2413_stream)
         return false;
 
@@ -210,10 +212,12 @@ void    Sound_Update()
     if ((frame_count++ % 60) == 0)
     {
 	if (SoundDebugApp.active){
-            Msg(MSGT_DEBUG, "Tick, samples rendered %d %d", g_psg_stream->samples_requested, g_psg_stream->samples_rendered);
+            Msg(MSGT_DEBUG, "Tick, frames/samples/rendered %d %d %d",
+		g_psg_stream->frames_requested, g_psg_stream->samples_requested, g_psg_stream->samples_rendered);
 	}
-        g_psg_stream->samples_requested = 0;
-        g_psg_stream->samples_rendered = 0;
+	g_psg_stream->frames_requested = 0;
+	g_psg_stream->samples_requested = 0;
+	g_psg_stream->samples_rendered = 0;
     }
     SoundStream_Update(g_psg_stream);
     SoundStream_Update(g_ym2413_stream);
@@ -287,7 +291,7 @@ s64 Sound_GetElapsedCycleCounter()
 
 //-----------------------------------------------------------------------------
 
-t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
+t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
 {
     t_sound_stream* stream = new t_sound_stream();
     stream->event_queue = al_create_event_queue();
@@ -317,10 +321,12 @@ t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
 
     stream->audio_buffer = CBuff_CreateCircularBuffer(buffer_sample_capacity);
     
-    stream->sample_writer = sample_writer;
+    stream->audio_frame_writer = audio_frame_writer;
 
-    stream->samples_leftover = 0.0f;
+    stream->audio_frames_leftover = 0.0f;
     stream->last_rendered_cycle_counter = 0;
+
+    stream->frames_requested = 0;
     stream->samples_requested = 0;
     stream->samples_rendered = 0;
 
@@ -351,12 +357,13 @@ void SoundStream_Update(t_sound_stream* stream)
             if (samples_underrun > 0)
             {
 		//Try to make enough samples to fill up the next Allegro output buffer
-		SoundStream_RenderSamples(stream, samples_underrun);
+		SoundStream_RenderAudioFrames(stream, samples_underrun);
 
 		stream->last_rendered_cycle_counter = Sound_GetElapsedCycleCounter();
                 //stream->last_rendered_cycle_counter += Sound_ConvertSamplesToCycles(SOUND_BUFFERS_SIZE);
             }
 
+	    //Although audio calls render entire frames, we pop elements into the buffer by requested samples
             SoundStream_PopSamples(stream, buf, SOUND_BUFFERS_SAMPLE_COUNT);
 
             if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
@@ -365,34 +372,69 @@ void SoundStream_Update(t_sound_stream* stream)
     }
 }
 
-void SoundStream_RenderSamples(t_sound_stream* stream, const int samples_requested)
+
+//TODO: Fix Readable/Writable to return values in proper samples
+int SoundStream_CountReadableSamples(const t_sound_stream* stream)
 {
 
-    if (samples_requested <= 0)
+  const u32 readable_samples = CBuff_Size(&stream->audio_buffer);
+  const int readable_frames = readable_samples / SOUND_CHANNEL_COUNT;
+  return readable_frames;
+
+}
+
+int SoundStream_CountWritableSamples(const t_sound_stream* stream)
+{
+  //Number of samples written depends on SOUND_CHANNEL_COUNT!!!!! (In current sample logic) 
+
+  const u32 writable_samples = CBuff_UnusedCapacity(&stream->audio_buffer);
+  const u32 writable_frames = writable_samples / SOUND_CHANNEL_COUNT;
+  return writable_frames;
+  
+}
+
+
+void SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requested)
+{
+
+    if (frames_requested <= 0)
     {
-        Msg(MSGT_DEBUG, "RenderSamples %d", samples_requested);
+        Msg(MSGT_DEBUG, "RenderAudioFrames() %d", frames_requested);
         return;
     }
 
-    const u32 space_remaining = CBuff_UnusedCapacity(&stream->audio_buffer)/SOUND_CHANNEL_COUNT; //TODO: Change to use frames
+    const u32 samples_requested = frames_requested*SOUND_CHANNEL_COUNT; //The frame contains one sample per sound channel
+    
+    const u32 samples_cap_remaining = CBuff_UnusedCapacity(&stream->audio_buffer);
     u32 samples_rendered = 0;
-    if(space_remaining >= samples_requested){
+    if(samples_cap_remaining >= samples_requested){
 
+	//Slightly awkward logic as we store samples, but the write requests are fundamentally in audio frames.
+
+	//Get a split span from the circular sound buffer, giving two contiguous sample blocks, in logical sound order
+	CBuff_SplitSpan write_span = CBuff_PushBackSpan(&stream->audio_buffer , samples_requested);
+
+	//Each audio frame contains one sample per audio channel
+	//(TODO: We may run into trouble if an odd number of samples is ever added)
+	const u32 block1_frames = CBuff_Length(&write_span.block1)/SOUND_CHANNEL_COUNT;
+	const u32 block2_frames = CBuff_Length(&write_span.block2)/SOUND_CHANNEL_COUNT;
 	
-	//Get a split span from the circular sound buffer, giving two contiguous blocks, in logical sound order
-	CBuff_SplitSpan write_span = CBuff_PushBackSpan(&stream->audio_buffer , samples_requested*SOUND_CHANNEL_COUNT);
-
 	//Call the stream sample writer function to write data to each block in turn (The block lengths may be zero)
-	stream->sample_writer(write_span.block1.begin, CBuff_Length(&write_span.block1)/SOUND_CHANNEL_COUNT);
-	stream->sample_writer(write_span.block2.begin, CBuff_Length(&write_span.block2)/SOUND_CHANNEL_COUNT);
+	stream->audio_frame_writer(write_span.block1.begin, block1_frames, SOUND_CHANNEL_COUNT);
+	stream->audio_frame_writer(write_span.block2.begin, block2_frames, SOUND_CHANNEL_COUNT);
 	
 	samples_rendered = CBuff_Length(&write_span);
+
+	if(samples_rendered != samples_requested){
+	    Msg(MSGT_DEBUG, "RenderSamples() Samples Requested/Rendered: %d > %d", samples_requested, samples_rendered);
+	}
 	          
     } else {
-      Msg(MSGT_DEBUG, "RenderSamples CBuff overflow: %d > %d", samples_requested, space_remaining);
+      Msg(MSGT_DEBUG, "RenderSamples CBuff overflow: %d > %d", samples_requested, samples_cap_remaining);
     }
 
-    //Keep a record of samples requests/renders //TODO: Fix up frames requested verse samples requested
+    //Keep a record of frame/sample requests/renders
+    stream->frames_requested += frames_requested;
     stream->samples_requested += samples_requested;
     stream->samples_rendered  += samples_rendered;
     
@@ -412,7 +454,7 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
     
     //The OUTPUT (Wall) sound clock (in Z80cycles/sec) is different from the
     //emulated sound clock (in Z80cycles/sec) as we may be running at a non-standard FPS (e.g. 10Hz or 200Hz).
-    //We are generating samples for the OUPUT  sound buffers, so we need to base our clock rate and rendered sample
+    //We are generating audi frame for the OUPUT sound buffers, so we need to base our clock rate and rendered frame
     //count on the output FPS rate (otherwise we will over/underflow the actual output sound)
     
     //We can base the output FPS rate on either fskipper.Throttled_Speed (requested) or fskipper.FPS (measured)
@@ -422,37 +464,18 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
     const double elasped_output_seconds = (double)((double)elapsed_cycles / (double)output_cycles_per_sec);
     //Note: elapsed_emulated_seconds = elapsed_cycles * Sound.CpuClock;
     
-    // TL;DR We need enough samples for the elapsed output (Wall) time, not the elapsed emulated time.
+    // TL;DR We need enough audi frames for the elapsed output (Wall) time, not the elapsed emulated time.
 
-    const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elasped_output_seconds;
+    const double audio_frames_to_render = stream->audio_frames_leftover + (double)Sound.SampleRate * elasped_output_seconds;
     
-    if ((int)samples_to_render > 0)
+    if ((int)audio_frames_to_render > 0)
     {
-        //Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)samples_to_render);
-        SoundStream_RenderSamples(stream, (int)samples_to_render);
+        //Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)audio_frames_to_render);
+        SoundStream_RenderAudioFrames(stream, (int)audio_frames_to_render);
 
         stream->last_rendered_cycle_counter = current_cycle;
-        stream->samples_leftover = (double)samples_to_render - (int)samples_to_render;
+        stream->audio_frames_leftover = (double)audio_frames_to_render - (int)audio_frames_to_render;
     }
-}
-
-int SoundStream_CountReadableSamples(const t_sound_stream* stream)
-{
-
-  const u32 readable_samples = CBuff_Size(&stream->audio_buffer);
-  const int readable_frames = readable_samples / SOUND_CHANNEL_COUNT;
-  return readable_frames;
-
-}
-
-int SoundStream_CountWritableSamples(const t_sound_stream* stream)
-{
-  //Number of samples written depends on SOUND_CHANNEL_COUNT!!!!! (In current sample logic) 
-
-  const u32 writable_samples = CBuff_UnusedCapacity(&stream->audio_buffer);
-  const u32 writable_frames = writable_samples / SOUND_CHANNEL_COUNT;
-  return writable_frames;
-  
 }
 
 
