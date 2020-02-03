@@ -47,7 +47,8 @@ struct t_sound_stream
 {
     t_sound_chip            chip;
     ALLEGRO_EVENT_QUEUE *   event_queue;
-    ALLEGRO_AUDIO_STREAM *  audio_stream;
+    ALLEGRO_AUDIO_STREAM *  allegro_audio_stream;
+
   
     CBuff                   meka_sample_buffer;   //Meka's own internal audio sample buffer (before writing out to allegro)
 
@@ -307,18 +308,22 @@ t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
     //Note: Allegro's internal defintion of an audio "sample" actually an audio frame, whose number
     //of samples depends on the number of sound channels. The size of an allegro 'sample' depends both on them
     //audio bit depth and the number of sound channels.
-    stream->audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_FRAME_COUNT, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, channelConf);
-    if (!stream->audio_stream)
+    stream->allegro_audio_stream = al_create_audio_stream(SOUND_BUFFERS_COUNT, SOUND_BUFFERS_FRAME_COUNT, Sound.SampleRate, ALLEGRO_AUDIO_DEPTH_INT16, channelConf);
+
+
+    if (!stream->allegro_audio_stream)
     {
         delete stream;
         return NULL;
     }
-    if (!al_attach_audio_stream_to_mixer(stream->audio_stream, al_get_default_mixer()))
+    if (!al_attach_audio_stream_to_mixer(stream->allegro_audio_stream, al_get_default_mixer()))
     {
         delete stream;
         return NULL;
     }
-    al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->audio_stream));
+
+    
+    al_register_event_source(stream->event_queue, al_get_audio_stream_event_source(stream->allegro_audio_stream));
 
     const u32 SOUND_BUFFERS_SAMPLE_COUNT = SOUND_BUFFERS_FRAME_COUNT*SOUND_BUFFERS_COUNT;
     const u32 buffer_sample_capacity = SOUND_BUFFERS_SAMPLE_COUNT*SOUND_CHANNEL_COUNT;
@@ -339,7 +344,7 @@ t_sound_stream* SoundStream_Create(t_audio_frame_writer audio_frame_writer)
 
 void SoundStream_Destroy(t_sound_stream* stream)
 {
-    al_destroy_audio_stream(stream->audio_stream);
+    al_destroy_audio_stream(stream->allegro_audio_stream);
     CBuff_DeleteCircularBuffer(&stream->meka_sample_buffer);
     al_destroy_event_queue(stream->event_queue);
     delete stream;
@@ -352,7 +357,7 @@ void SoundStream_Update(t_sound_stream* stream)
     {
         if (sound_event.type == ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT)
         {
-            s16* buf = (s16*)al_get_audio_stream_fragment(stream->audio_stream);
+            s16* buf = (s16*)al_get_audio_stream_fragment(stream->allegro_audio_stream);
             if (!buf)
                 continue;
 
@@ -373,15 +378,19 @@ void SoundStream_Update(t_sound_stream* stream)
 	    //Write a complete fragement's worth of audio frames into the allegro buffer
             SoundStream_PopFrames(stream, buf, ALLEGRO_BUFFER_SIZE_FRAMES);
 
-            if (!al_set_audio_stream_fragment(stream->audio_stream, buf))
+            if (!al_set_audio_stream_fragment(stream->allegro_audio_stream, buf)){
                 Msg(MSGT_DEBUG, "Error in al_set_audio_stream_fragment()");
+	    }
+
         }
     }
+
+    
 }
 
 
 //Returns the current number of frames worth of audio stored  in the meka sound buffer
-int SoundStream_CountReadableFrames(const t_sound_stream* stream)
+u32 SoundStream_CountReadableFrames(const t_sound_stream* stream)
 {
 
   const u32 readable_samples = CBuff_Size(&stream->meka_sample_buffer);
@@ -391,7 +400,7 @@ int SoundStream_CountReadableFrames(const t_sound_stream* stream)
 }
 
 //Returns the current number of frames worth of audio which can be written to the meka sound buffer
-int SoundStream_CountWritableFrames(const t_sound_stream* stream)
+u32 SoundStream_CountWritableFrames(const t_sound_stream* stream)
 {
   //Number of samples written depends on SOUND_CHANNEL_COUNT!!!!! (In current sample logic) 
 
@@ -562,6 +571,7 @@ static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
     *py += Font_Height(FONTID_MEDIUM);
 }
 
+				 
 void SoundDebugApp_Update()
 {
     t_app_sound_debug* app = &SoundDebugApp;
@@ -582,11 +592,31 @@ void SoundDebugApp_Update()
     t_sound_stream* stream = g_psg_stream;
 
 
+    //Internal Meka buffer debug
+    SoundDebugApp_Printf(&x, &y, "Meka PSG Buffer:");
+    const u32 FRAMES_PER_STAR = SOUND_BUFFERS_COUNT*SOUND_BUFFERS_FRAME_COUNT/32; 
+    
     const int readable_frames = SoundStream_CountReadableFrames(stream);
-    SoundDebugApp_Printf(&x, &y, "Readable Audio Frames: %-6d [%-32s]", readable_frames, stars64+(64-MIN(32,readable_frames/1024)));
+    SoundDebugApp_Printf(&x, &y, "Readable Frames: %-6d [%-32s]", readable_frames, stars64+(64-MIN(32,readable_frames/FRAMES_PER_STAR)));
 
     const u32 writable_frames = SoundStream_CountWritableFrames(stream);
-    SoundDebugApp_Printf(&x, &y, "Writable Audio Frames: %-6d [%-32s]", writable_frames, stars64+(64-MIN(32,writable_frames/1024)));
+    SoundDebugApp_Printf(&x, &y, "Writable Frames: %-6d [%-32s]", writable_frames, stars64+(64-MIN(32,writable_frames/FRAMES_PER_STAR)));
+
+
+    //Allegro output stream debug
+    SoundDebugApp_Printf(&x, &y, "");
+    SoundDebugApp_Printf(&x, &y, "Allegro PSG Stream");
+
+    ALLEGRO_AUDIO_STREAM *  allegro_audio_stream = stream->allegro_audio_stream;
+    const bool stream_playing = al_get_audio_stream_playing(allegro_audio_stream);
+    const char * playing_string = stream_playing ? "PLAYING" : "NOT PLAYING";
+
+    const u8 BITS_PER_BYTE = 8;
+    const u32 audio_bit_depth = BITS_PER_BYTE* al_get_audio_depth_size(al_get_audio_stream_depth(allegro_audio_stream));
+    const u32 stream_frequency = al_get_audio_stream_frequency(allegro_audio_stream);
+    SoundDebugApp_Printf(&x, &y, "%s , Bit Depth %d, Frequency %d", playing_string, audio_bit_depth, stream_frequency);
+
+    
 }
 
 // Called from closebox widget and menu handler

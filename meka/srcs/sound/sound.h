@@ -81,8 +81,8 @@ void            SoundStream_Destroy(t_sound_stream* stream);
 void            SoundStream_Update(t_sound_stream* stream);
 void            SoundStream_RenderAudioFrames(t_sound_stream* stream, const int frames_requested);
 void            SoundStream_RenderUpToCurrentTime(t_sound_stream* stream);
-int             SoundStream_CountReadableFrames(const t_sound_stream* stream);
-int             SoundStream_CountWritableFrames(const t_sound_stream* stream);
+u32             SoundStream_CountReadableFrames(const t_sound_stream* stream);
+u32             SoundStream_CountWritableFrames(const t_sound_stream* stream);
 u32             SoundStream_PopFrames(t_sound_stream* stream, s16* buf, const int frames_wanted);
 
 void            SoundDebugApp_Init();
