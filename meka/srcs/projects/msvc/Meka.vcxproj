@@ -307,6 +307,7 @@
     <ClCompile Include="..\..\sound\fmunit.cpp" />
     <ClCompile Include="..\..\sound\psg.cpp" />
     <ClCompile Include="..\..\sound\sound.cpp" />
+    <ClCompile Include="..\..\sound\circular_buffer.cpp" />
     <ClCompile Include="..\..\sound\sound_logging.cpp" />
     <ClCompile Include="..\..\sound\s_misc.cpp" />
     <ClCompile Include="..\..\sound\vgm.cpp" />

@@ -249,6 +249,9 @@
     <ClCompile Include="..\..\sound\sound.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\sound\circular_buffer.cpp">
+      <Filter>Srcs\Sound</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\sound\sound_logging.cpp">
       <Filter>Srcs\Sound</Filter>
     </ClCompile>
