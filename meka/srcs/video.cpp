@@ -416,22 +416,15 @@ void    Video_UpdateEvents()
                 break;
             opt.Force_Quit = TRUE;
             break;
-        case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
-            //Msg(MSGT_USER, "ALLEGRO_EVENT_DISPLAY_SWITCH_IN");
-            //if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-            //  return;
-            //// clear_to_color (screen, BORDER_COLOR);
-            //Video_Clear();
-            //Sound_Playback_Resume();
-            Inputs_Sources_ClearOutOfFocus();
-            break;
+        
+        case ALLEGRO_EVENT_DISPLAY_LOST:
         case ALLEGRO_EVENT_DISPLAY_SWITCH_OUT:
-            //Msg(MSGT_USER, "ALLEGRO_EVENT_DISPLAY_SWITCH_OUT");
-            //if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
-            //  break;
-            //Sound_Playback_Mute();
-            Inputs_Sources_ClearOutOfFocus();
             pause = true;
+            /* fallthrough */
+        case ALLEGRO_EVENT_DISPLAY_EXPOSE:
+        case ALLEGRO_EVENT_DISPLAY_FOUND:
+        case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
+            Inputs_Sources_ClearOutOfFocus();
             break;
             
             // Resize
@@ -456,11 +449,6 @@ void    Video_UpdateEvents()
             al_acknowledge_drawing_resume(g_display);
             resume = true;
             break;
-
-            // Android left app
-        case ALLEGRO_EVENT_DISPLAY_LOST:
-            break;
-
         }
     }
 
@@ -478,6 +466,8 @@ void    Video_UpdateEvents()
         al_wait_for_event(g_display_event_queue, &key_event);
         
         switch (key_event.type ) {
+            case ALLEGRO_EVENT_DISPLAY_EXPOSE:
+            case ALLEGRO_EVENT_DISPLAY_FOUND:
             case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
                 pause = false;
                 break;
