@@ -28,8 +28,6 @@ if(ANDROID)
   set(name Meka)
   
   link_directories( "${ALLEGRO_DIRECTORY}/lib" "${ANDROID_NDK_TOOLCHAIN_ROOT}/sysroot/usr/lib" )
-  add_library(native-lib SHARED ${sources})
-  target_link_libraries(native-lib ${ALLEGRO_LIBS} log z)
   
   # Add android target for app
   add_android_app(${name} "${sources};${assets}")
@@ -77,11 +75,11 @@ if(ANDROID)
   set(src "${CMAKE_CURRENT_BINARY_DIR}/${name}.project/app/build/outputs/apk/debug/app-debug.apk")
   set(dest "${CMAKE_CURRENT_BINARY_DIR}/${name}.apk")
   set(dest2 "/media/sf_Shared/")
-  add_custom_command(TARGET native-lib POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy "${src}" "${dest}"
+  add_custom_command(TARGET ${name}_apk POST_BUILD COMMAND "${CMAKE_COMMAND}" -E copy "${src}" "${dest}"
     COMMAND "${CMAKE_COMMAND}" -E copy "${dest}" "${dest2}")
 
   # Add install target
-  add_custom_target(push DEPENDS ${name} COMMAND adb install -r ${dest})
+  add_custom_target(push DEPENDS ${name}_apk COMMAND adb install -r ${dest} COMMENT "Installing to device" )
 
   add_custom_target(resource)
   
