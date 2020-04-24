@@ -138,6 +138,7 @@ void    Machine_Set_Handler_Write(void)
         break;
     case MAPPER_32kRAM:                  // Used by Sega Basic, The Castle, ..
     case MAPPER_SC3000_Survivors_Multicart:
+    case MAPPER_SC3000_Survivors_Megacart:
         WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM;
         break;
     case MAPPER_ColecoVision:            // Colecovision
@@ -204,9 +205,12 @@ void        Machine_Set_Mapper(void)
             g_machine.mapper = MAPPER_32kRAM;       // FIXME: Not technically correct. Should be enabled for BASIC.
         else
             g_machine.mapper = MAPPER_SG1000;
-        if (DB.current_entry == NULL && tsms.Size_ROM >= 0x200000)
-            if (memcmp(ROM+0x1F8004, "SC-3000 SURVIVORS MULTICART BOOT MENU", 38) == 0)
+        if (DB.current_entry == NULL) {
+            if ( tsms.Size_ROM >= 0x400000)
+                g_machine.mapper = MAPPER_SC3000_Survivors_Megacart;
+            else if ( tsms.Size_ROM >= 0x200000)
                 g_machine.mapper = MAPPER_SC3000_Survivors_Multicart;
+        }
         return;
     case DRV_COLECO:
         g_machine.mapper = MAPPER_ColecoVision;
@@ -357,6 +361,21 @@ void    Machine_Set_Mapping (void)
         break;
 
     case MAPPER_SC3000_Survivors_Multicart:
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[0] = 0xDF; // $11011111; // Menu
+        //Map_8k_ROM(0, g_machine.mapper_regs[0]*4+0);
+        //Map_8k_ROM(1, g_machine.mapper_regs[0]*4+1);// & tsms.Pages_Mask_8k);
+        //Map_8k_ROM(2, g_machine.mapper_regs[0]*4+2);// & tsms.Pages_Mask_8k);
+        //Map_8k_ROM(3, g_machine.mapper_regs[0]*4+3);// & tsms.Pages_Mask_8k);
+        Map_8k_RAM(4, 0);
+        Map_8k_RAM(5, 1);
+        Map_8k_RAM(6, 2);
+        Map_8k_RAM(7, 3);
+        Out_SMS(0xE0, g_machine.mapper_regs[0]);
+        break;
+    case MAPPER_SC3000_Survivors_Megacart:
         g_machine.mapper_regs_count = 1;
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
             g_machine.mapper_regs[i] = 0;

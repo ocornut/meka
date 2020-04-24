@@ -102,6 +102,7 @@ void        Load_Game_Fixup(void)
             WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[0]);
             break;
         case MAPPER_SC3000_Survivors_Multicart:
+        case MAPPER_SC3000_Survivors_Megacart:
             Out_SMS(0xE0, g_machine.mapper_regs[0]);
             break;
         }
@@ -260,6 +261,7 @@ int     Save_Game_MSV (ALLEGRO_FILE *f)
     {
     case MAPPER_32kRAM:
     case MAPPER_SC3000_Survivors_Multicart:
+    case MAPPER_SC3000_Survivors_Megacart:
         al_fwrite (f, RAM, 0x08000 );
         break;
     case MAPPER_ColecoVision:
@@ -424,6 +426,7 @@ int         Load_Game_MSV(ALLEGRO_FILE *f)
     {
     case MAPPER_32kRAM:
     case MAPPER_SC3000_Survivors_Multicart:
+    case MAPPER_SC3000_Survivors_Megacart:
         al_fread ( f, RAM, 0x08000 );
         break;
     case MAPPER_ColecoVision:

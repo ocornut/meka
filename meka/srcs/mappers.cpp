@@ -93,6 +93,19 @@ void    Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v)
     Map_8k_ROM(3, game_no*4+3);
 }
 
+void    Out_SC3000_SurvivorsMegacarts_DataWrite(u8 data)
+{
+    // Control Byte format
+    // No idea
+    g_machine.mapper_regs[0] = data;
+    int game_no = (data & 0x1f) | (data & 0xc0) >> 1;
+
+    Map_8k_ROM(0, game_no*4+0);
+    Map_8k_ROM(1, game_no*4+1);
+    Map_8k_ROM(2, game_no*4+2);
+    Map_8k_ROM(3, game_no*4+3);
+}
+
 void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
 {
     int len, start_addr;
@@ -107,6 +120,7 @@ void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
         case MAPPER_SMS_DisplayUnit:                len = 0x02800; start_addr = 0x4000; break; // FIXME: Incorrect, due to scattered mapping!
         case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:len = 0x02000+0x800; start_addr = 0x2000; break; // FIXME: Two memory regions
         case MAPPER_SC3000_Survivors_Multicart:     len = 0x08000; start_addr = 0x8000; break;
+        case MAPPER_SC3000_Survivors_Megacart:      len = 0x08000; start_addr = 0x8000; break;
         // FIXME: ActionReplay!!
         // default, Codemaster, Korean..
         default:                                len = 0x02000; start_addr = 0xC000; break;

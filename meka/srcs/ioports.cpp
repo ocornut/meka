@@ -101,6 +101,9 @@ void    Out_SMS(u16 Port, u8 Value)
     case 0xE0:
         if (g_machine.mapper == MAPPER_SC3000_Survivors_Multicart)
             Out_SC3000_SurvivorsMulticarts_DataWrite(Value);
+        else if (g_machine.mapper == MAPPER_SC3000_Survivors_Megacart)
+            Out_SC3000_SurvivorsMegacarts_DataWrite(Value);
+
         return;
 
         // Gear-to-gear Emulation
