@@ -3,7 +3,9 @@ To build for android:
 
 mkdir build-android
 cd build-android
-cmake .. -DANDROID_NDK_TOOLCHAIN_ROOT=$ANDROID_NDK_TOOLCHAIN_ROOT -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DALLEGRO_DIRECTORY=/opt/android/allegro5 -DCMAKE_BUILD_TYPE=Release
+export ANDROID_ABI=arm64-v8a
+export ANDROID_ABI=armeabi-v7a
+cmake .. -DANDROID_NDK_TOOLCHAIN_ROOT=$ANDROID_NDK_TOOLCHAIN_ROOT -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DALLEGRO_DIRECTORY=/opt/android/allegro5/${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release
 make VEBOSE=1
 
 # install to emulator
@@ -62,15 +64,20 @@ To build allegro:
 ---------------------
 Download freetype:
 
-tar xvfz freetype-2.10.1.tar.gz
+python /opt/android/android-ndk-r20b/build/tools/make_standalone_toolchain.py --api=16 --install-dir=$ANDROID_NDK_TOOLCHAIN_ROOT --arch=arm64
+python /opt/android/android-ndk-r20b/build/tools/make_standalone_toolchain.py --api=16 --install-dir=$ANDROID_NDK_TOOLCHAIN_ROOT --arch=arm
+
+tar xvfz /media/sf_Shared/freetype-2.10.1.tar.gz
 cd freetype-2.10.1/
 export TOOLCHAIN=$ANDROID_NDK_TOOLCHAIN_ROOT
 export FREETYPE=`pwd`
+export PATH=${PATH}:$ANDROID_NDK_TOOLCHAIN_ROOT/bin
 ./configure --host=arm-linux-androideabi --prefix=$FREETYPE/install --without-png --without-zlib --without-harfbuzz --enable-shared
 sed -i 's/\-version\-info \$(version_info)/-avoid-version/' builds/unix/unix-cc.mk
 make
 make install
-cp -r install/ /opt/android/freetype2/
+mkdir -pf /opt/android/freetype2/
+cp -rv install/* /opt/android/freetype2/
 ls /opt/android/freetype2/
 
 Download allegro5 master. Avoid stable! Android sdk changes too quickly to use stable release
@@ -78,9 +85,12 @@ Read README_android.txt. It likely will have changed since writing.
 
 unzip allegro5-master.zip
 cd allegro5-master
-mkdir build-android
+export ANDROID_ABI=arm64-v8a
+export ANDROID_ABI=armeabi-v7a
+mkdir build_android_${ANDROID_ABI}
+cd build_android_${ANDROID_ABI}
 echo TODO: Check allegro README_android.txt
-cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/android/android-ndk-r20b/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=/opt/android/allegro5/ -DFREETYPE_LIBRARY=/opt/android/freetype2/lib/libfreetype.a -DFREETYPE_INCLUDE_DIRS=/opt/android/freetype2/include/freetype2/
+cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/android/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=/opt/android/allegro5/${ANDROID_ABI} -DFREETYPE_LIBRARY=/opt/android/freetype2/lib/libfreetype.a -DFREETYPE_INCLUDE_DIRS=/opt/android/freetype2/include/freetype2/
 make
 make install
 

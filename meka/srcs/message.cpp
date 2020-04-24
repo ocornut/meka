@@ -952,6 +952,9 @@ void            Msg(int attr, const char *format, ...)
 #endif
 #endif
         }
+#if defined(ARCH_ANDROID)
+        ConsolePrintf("%s\n", src);
+#endif
     }
     while (p != NULL);
 }

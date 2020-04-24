@@ -374,6 +374,10 @@ bool Touch_Check_Triangle( t_meka_point *touch_pos, int key, t_meka_point *tople
     return Touch_Set_Direction( key, Point_In_Triangle( touch_pos, topleft, bottomright, centre ) );
 }
 
+#ifdef ARCH_ANDROID
+#include <android/log.h>
+#endif
+
 void Input_OnScreen()
 {
 #ifdef ARCH_ANDROID
@@ -386,16 +390,17 @@ void Input_OnScreen()
     int screen_size = std::min( screen_width, screen_height );
     int pad_width = screen_size / 3;
     int button_size = screen_size / 8;
-    int pad_long_size = pad_width / 2;
-    int pad_short_size = pad_long_size / 4;
-    int pad_centre_x = pad_long_size + pad_short_size;
+    int pad_long_size = pad_width * 0.45;
+    int pad_short_size = pad_long_size * 0.28;
+    int pad_offset_x = screen_size / 30;
+    int pad_centre_x = pad_long_size + pad_short_size + pad_offset_x;
     int pad_centre_y = screen_height - pad_centre_x;
 
     t_meka_point pad_centre = { pad_centre_x, pad_centre_y };
 
     int button_radius = button_size / 2;
     int option_radius = button_radius / 2;
-    int button_offset = pad_long_size - button_radius;
+    int button_offset = pad_long_size - button_radius / 2;
 
     t_meka_point pad_fire1_centre = { screen_width - pad_centre.x, pad_centre.y + button_offset };
     t_meka_point pad_fire2_centre = { screen_width - pad_centre.x + button_offset, pad_centre.y };
@@ -406,7 +411,13 @@ void Input_OnScreen()
 
     al_get_touch_input_state( &touch_input_state );
 
-    bool touch_down = touch_input_state.touches[0].id == 0;
+    //bool touch_down = touch_input_state.touches[0].id == 0;
+
+    bool touch_down = false;
+
+    for ( int index = 0 ; index < ALLEGRO_TOUCH_INPUT_MAX_TOUCH_COUNT; index++ ) {
+        if ( touch_input_state.touches[index].id >= 0 ) touch_down = true;
+    }
 
     if ( touch_down ) {
 
@@ -429,7 +440,7 @@ void Input_OnScreen()
             int keyidx = 0;
             int keys[] = { ALLEGRO_KEY_UP, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_RIGHT };
 
-            // Draw pad
+            // Detect pad touch
             for( int y = 0; y < 2; y++ ) {
 
                 int diry = y ? -1 : 1;
