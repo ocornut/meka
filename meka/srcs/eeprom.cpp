@@ -17,30 +17,30 @@ t_93c46  EEPROM_93c46;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    BMemory_93c46_Load (FILE *f)
+void    BMemory_93c46_Load (ALLEGRO_FILE *f)
 {
-  if (fread (EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE, 1, f) == 1)
+  if (al_fread ( f, EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE) == 1)
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Loaded), EEPROM_93C46_DATA_SIZE);
   else
      Msg(MSGT_USER, "%s", Msg_Get(MSG_93c46_Load_Unable));
 }
 
-void    BMemory_93c46_Save (FILE *f)
+void    BMemory_93c46_Save (ALLEGRO_FILE *f)
 {
-  if (f && fwrite (EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE, 1, f) == 1)
+  if (f && al_fwrite ( f,EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE) == 1)
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Wrote), EEPROM_93C46_DATA_SIZE);
   else
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Write_Unable), EEPROM_93C46_DATA_SIZE);
 }
 
-void    BMemory_93c46_Load_State (FILE *f)
+void    BMemory_93c46_Load_State (ALLEGRO_FILE *f)
 {
-  fread (&EEPROM_93c46, sizeof (EEPROM_93c46), 1, f);
+  al_fread ( f, &EEPROM_93c46, sizeof (EEPROM_93c46));
 }
 
-void    BMemory_93c46_Save_State (FILE *f)
+void    BMemory_93c46_Save_State (ALLEGRO_FILE *f)
 {
-  fwrite (&EEPROM_93c46, sizeof (EEPROM_93c46), 1, f);
+  al_fwrite ( f,&EEPROM_93c46, sizeof (EEPROM_93c46));
 }
 
 void    BMemory_93c46_Get_Infos (void **data, int *len)

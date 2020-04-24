@@ -143,8 +143,8 @@ static  t_sk1100_map SK1100_Mapping [SK1100_MAPPING_NUM] =
     { ALLEGRO_KEY_ALTGR,          22      }, // Home Clear
     { ALLEGRO_KEY_SLASH,          23      },
     { ALLEGRO_KEY_SEMICOLON,      24      }, // ;
-  { ALLEGRO_KEY_SEMICOLON2,     24      }, // ; ++
-  { ALLEGRO_KEY_COLON2,         33      }, // :
+    { ALLEGRO_KEY_SEMICOLON2,     24      }, // ; ++
+    { ALLEGRO_KEY_COLON2,         33      }, // :
     { ALLEGRO_KEY_P,              25      },
     { ALLEGRO_KEY_0,              26      },
     // Row: 3 -------------------------------------------------------------------

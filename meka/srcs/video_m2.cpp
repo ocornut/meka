@@ -454,7 +454,7 @@ void    Display_Sprites_1_2_3 (void)
         // Calculate horizontal position ------------------------------------------
         int x = sat[i + 1];
         // Calculate tile starting address in VRAM --------------------------------
-        const u8* k = (u8 *)((long int)((sat[i + 2] & Mask) << 3) + (long int)g_machine.VDP.sprite_pattern_gen_address);
+        const u8* k = g_machine.VDP.sprite_pattern_gen_address + ((sat[i + 2] & Mask) << 3);
         switch (Sprite_Mode)
         {
             // 8x8 (used in: Sokouban)
@@ -673,8 +673,8 @@ void    Check_Sprites_Collision_Modes_1_2_3_Line (int line)
            continue;
 
         // Prepare pointers to the first tile of each sprite
-        src_tile = (u8 *)((long int)g_machine.VDP.sprite_pattern_gen_address | ((long int)(src_spr[2] & mask) << 3));
-        dst_tile = (u8 *)((long int)g_machine.VDP.sprite_pattern_gen_address | ((long int)(dst_spr[2] & mask) << 3));
+        src_tile = g_machine.VDP.sprite_pattern_gen_address + ((src_spr[2] & mask) << 3);
+        dst_tile = g_machine.VDP.sprite_pattern_gen_address + ((dst_spr[2] & mask) << 3);
 
         // Offset those pointers to the first tile line
         if (delta_y > 0)

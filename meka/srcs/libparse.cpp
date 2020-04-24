@@ -202,24 +202,53 @@ char *      parse_unescape_string(const char *src, const char *escape_chars)
     }
     *p = '\0';
 
-    return (dst);
+ return (dst);
+}
+///< al_ftell doesn't work in android apks, so do it the hard way
+int tfile_size( const char *filename ) {
+
+    int fsize = 0;
+
+    ALLEGRO_FILE * f;
+    if ((f = al_fopen(filename, "rb")) == NULL) return 0;
+
+#ifdef ARCH_ANDROID
+    
+    #define BLOCK_SIZE 1024
+
+    long size = BLOCK_SIZE;
+    char buffer[BLOCK_SIZE + 1];
+    
+    do {
+        
+        size = al_fread(f, buffer, BLOCK_SIZE);
+        fsize += size;
+    } while ( size == BLOCK_SIZE );
+#else
+    al_fseek (f, 0, SEEK_END);
+
+    fsize = al_ftell(f);
+#endif
+    
+    al_fclose(f);
+
+    return fsize;
 }
 
 t_tfile *       tfile_read(const char *filename)
 {
-    // Open and file
-    FILE* f;
-    if ((f = fopen(filename, "rb")) == NULL)
-    { 
-        meka_errno = MEKA_ERR_FILE_OPEN; 
-        return NULL; 
-    }
+    int size = tfile_size( filename );
+    if ( size == 0 ) {
 
-    // Gets its size
-    int size;
-    if (fseek(f, 0, SEEK_END) != 0 || (size = ftell(f)) == -1 || fseek(f, 0, SEEK_SET) != 0)
+        meka_errno = MEKA_ERR_FILE_EMPTY;
+        return NULL;
+    }
+    
+    // Open and file
+    ALLEGRO_FILE * f;
+    if ((f = al_fopen(filename, "rb")) == NULL)
     { 
-        meka_errno = MEKA_ERR_FILE_READ; 
+        meka_errno = MEKA_ERR_FILE_OPEN;
         return NULL; 
     }
 
@@ -229,14 +258,14 @@ t_tfile *       tfile_read(const char *filename)
     tf->data_raw = (char*)malloc(sizeof (char) * size + 1);
     tf->data_lines = NULL;
 
-    if (fread(tf->data_raw, sizeof (char), size, f) < (unsigned int)size)
+    if (al_fread(f, tf->data_raw, sizeof (char) * size) < (unsigned int)size)
     { 
         meka_errno = MEKA_ERR_FILE_READ; 
         tfile_free(tf);
         return NULL; 
     }
     tf->data_raw[size] = EOSTR;
-    fclose(f);
+    al_fclose(f);
 
     // Silently ignore UTF-8 header (for meka.nam)
     char* p_cur = tf->data_raw;
@@ -265,6 +294,7 @@ t_tfile *       tfile_read(const char *filename)
 
     // OK
     meka_errno = MEKA_ERR_OK;
+
     return (tf);
 }
 

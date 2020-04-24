@@ -99,7 +99,7 @@ RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
-DEF_OS  = -DARCH_UNIX -DASM_SYMBOLS_REQUIRE_UNDERSCORE
+DEF_OS  = -DASM_SYMBOLS_REQUIRE_UNDERSCORE
 INC_OS  = -Ilibs -I../include -I/usr/include/allegro5
 #--- Libraries
 LIB_OS  = 
@@ -203,7 +203,8 @@ LIB_ALLEG = -lalleg
 endif
 
 ifeq ($(SYSTEM), unix)
-LIB_ALLEG = `pkg-config --cflags --libs allegro-5.0 allegro_image-5.0 allegro_audio-5.0 allegro_font-5.0 allegro_primitives-5.0 allegro_ttf-5.0`
+ALLEGRO_VERSION=5
+LIB_ALLEG = `pkg-config --cflags --libs allegro-$(ALLEGRO_VERSION) allegro_image-$(ALLEGRO_VERSION) allegro_audio-$(ALLEGRO_VERSION) allegro_font-$(ALLEGRO_VERSION) allegro_primitives-$(ALLEGRO_VERSION) allegro_ttf-$(ALLEGRO_VERSION)`
 endif
 
 ifeq ($(SYSTEM), macosx)

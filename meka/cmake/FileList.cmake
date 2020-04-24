@@ -1,0 +1,332 @@
+set(ALLEGRO_SRC_FILES
+    src/allegro.c
+    src/bitmap.c
+    src/bitmap_draw.c
+    src/bitmap_io.c
+    src/bitmap_lock.c
+    src/bitmap_pixel.c
+    src/bitmap_type.c
+    src/blenders.c
+    src/clipboard.c
+    src/config.c
+    src/convert.c
+    src/cpu.c
+    src/debug.c
+    src/display.c
+    src/display_settings.c
+    src/drawing.c
+    src/dtor.c
+    src/events.c
+    src/evtsrc.c
+    src/exitfunc.c
+    src/file.c
+    src/file_slice.c
+    src/file_stdio.c
+    src/fshook.c
+    src/fshook_stdio.c
+    src/fullscreen_mode.c
+    src/haptic.c
+    src/inline.c
+    src/joynu.c
+    src/keybdnu.c
+    src/libc.c
+    src/math.c
+    src/memblit.c
+    src/memdraw.c
+    src/memory.c
+    src/monitor.c
+    src/mousenu.c
+    src/mouse_cursor.c
+    src/path.c
+    src/pixels.c
+    src/shader.c
+    src/system.c
+    src/threads.c
+    src/timernu.c
+    src/tls.c
+    src/touch_input.c
+    src/transformations.c
+    src/tri_soft.c
+    src/utf8.c
+    src/misc/aatree.c
+    src/misc/bstrlib.c
+    src/misc/list.c
+    src/misc/vector.c
+    )
+
+set(ALLEGRO_SRC_WIN_FILES
+    src/win/wclipboard.c
+    src/win/whapall.c
+    src/win/whapdrv.c
+    src/win/whaptic.cpp
+    src/win/whapxi.c
+    src/win/wjoyall.c
+    src/win/wjoydrv.c
+    src/win/wjoydxnu.cpp
+    src/win/wjoyxi.c
+    src/win/wkeyboard.c
+    src/win/wmcursor.c
+    src/win/wmouse.c
+    src/win/wsystem.c
+    src/win/wthread.c
+    src/win/wtime.c
+    src/win/wtouch_input.c
+    src/win/wunicode.c
+    src/win/wwindow.c
+    src/win/wxthread.c
+    )
+
+set(ALLEGRO_SRC_D3D_FILES
+    src/win/d3d_bmp.cpp
+    src/win/d3d_disp.cpp
+    src/win/d3d_display_formats.cpp
+    src/win/d3d_render_state.cpp
+    src/win/d3d_shader.cpp
+    src/win/d3d_d3dx9.cpp
+    )
+
+set(ALLEGRO_SRC_OPENGL_FILES
+    src/opengl/extensions.c
+    src/opengl/ogl_bitmap.c
+    src/opengl/ogl_display.c
+    src/opengl/ogl_draw.c
+    src/opengl/ogl_fbo.c
+    src/opengl/ogl_lock.c
+    src/opengl/ogl_lock_es.c
+    src/opengl/ogl_render_state.c
+    src/opengl/ogl_shader.c
+    )
+
+set(ALLEGRO_SRC_WGL_FILES
+    src/win/wgl_disp.c
+    )
+
+set(ALLEGRO_SRC_UNIX_FILES
+    src/unix/udrvlist.c
+    src/unix/ufdwatch.c
+    src/unix/ugfxdrv.c
+    src/unix/uhapdrv.c
+    src/unix/ujoydrv.c
+    src/unix/ukeybd.c
+    src/unix/umouse.c
+    src/unix/upath.c
+    src/unix/utime.c
+    src/unix/uxthread.c
+    )
+
+set(ALLEGRO_SRC_X_FILES
+    src/x/xclipboard.c
+    src/x/xcursor.c
+    src/x/xdisplay.c
+    src/x/xevents.c
+    src/x/xfullscreen.c
+    src/x/xglx_config.c
+    src/x/xkeyboard.c
+    src/x/xmousenu.c
+    src/x/xrandr.c
+    src/x/xsystem.c
+    src/x/xtouch.c
+    src/x/xwindow.c
+    src/linux/lhaptic.c
+    src/linux/ljoynu.c
+    )
+
+set(ALLEGRO_SRC_MACOSX_FILES
+    src/macosx/hidjoy.m
+    src/macosx/hidjoy-10.4.m
+    src/macosx/hidman.m
+    src/macosx/keybd.m
+    src/macosx/qzmouse.m
+    src/macosx/system.m
+    src/macosx/osxclipboard.m
+    src/macosx/osxgl.m
+    src/macosx/osx_app_delegate.m
+    src/unix/utime.c
+    src/unix/uxthread.c
+    )
+
+set(ALLEGRO_SRC_IPHONE_FILES
+    src/iphone/allegroAppDelegate.m
+    src/iphone/EAGLView.m
+    src/iphone/ViewController.m
+    src/iphone/iphone_clipboard.m
+    src/iphone/iphone_display.m
+    src/iphone/iphone_joystick.m
+    src/iphone/iphone_keyboard.c
+    src/iphone/iphone_main.m
+    src/iphone/iphone_mouse.m
+    src/iphone/iphone_path.m
+    src/iphone/iphone_system.c
+    src/iphone/iphone_touch_input.m
+    src/unix/utime.c
+    src/unix/uxthread.c
+    )
+
+set(ALLEGRO_SRC_ANDROID_FILES
+   src/unix/ufdwatch.c
+   src/unix/utime.c
+   src/unix/uxthread.c
+   src/android/android_apk_file.c
+   src/android/android_clipboard.c
+   src/android/android_display.c
+   src/android/android_image.c
+   src/android/android_input_stream.c
+   src/android/android_joystick.c
+   src/android/android_keyboard.c
+   src/android/android_mouse.c
+   src/android/android_sensors.c
+   src/android/android_system.c
+   src/android/android_touch.c
+   src/android/jni_helpers.c
+   src/linux/ljoynu.c
+   src/android/android_apk_fs.c
+)
+
+set(ALLEGRO_SRC_RASPBERRYPI_FILES
+   src/unix/utime.c
+   src/unix/uxthread.c
+   src/linux/lkeybdnu.c
+   src/linux/lmseev.c
+   src/linux/lmsedrv.c
+   src/linux/lhaptic.c
+   src/linux/ljoynu.c
+   src/x/xevents.c
+   src/x/xkeyboard.c
+   src/x/xmousenu.c
+   src/x/xwindow.c
+   src/raspberrypi/pisystem.c
+   src/raspberrypi/pidisplay.c
+   )
+
+set(ALLEGRO_SRC_SDL_FILES
+   src/sdl/sdl_system.c
+   src/sdl/sdl_time.c
+   src/sdl/sdl_thread.c
+   src/sdl/sdl_display.c
+   src/sdl/sdl_keyboard.c
+   src/sdl/sdl_mouse.c
+   src/sdl/sdl_touch.c
+   src/sdl/sdl_joystick.c
+   src/sdl/sdl_event_hack.c
+   )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_FILES
+    include/allegro5/allegro5.h
+    include/allegro5/allegro.h
+    include/allegro5/alcompat.h
+    include/allegro5/altime.h
+    include/allegro5/base.h
+    include/allegro5/bitmap.h
+    include/allegro5/bitmap_draw.h
+    include/allegro5/bitmap_io.h
+    include/allegro5/bitmap_lock.h
+    include/allegro5/blender.h
+    include/allegro5/clipboard.h
+    include/allegro5/color.h
+    include/allegro5/config.h
+    include/allegro5/cpu.h
+    include/allegro5/debug.h
+    include/allegro5/display.h
+    include/allegro5/drawing.h
+    include/allegro5/error.h
+    include/allegro5/events.h
+    include/allegro5/file.h
+    include/allegro5/fixed.h
+    include/allegro5/fmaths.h
+    include/allegro5/fshook.h
+    include/allegro5/fullscreen_mode.h
+    include/allegro5/haptic.h
+    include/allegro5/joystick.h
+    include/allegro5/keyboard.h
+    include/allegro5/keycodes.h
+    include/allegro5/memory.h
+    include/allegro5/monitor.h
+    include/allegro5/mouse.h
+    include/allegro5/mouse_cursor.h
+    include/allegro5/path.h
+    include/allegro5/render_state.h
+    include/allegro5/shader.h
+    include/allegro5/system.h
+    include/allegro5/threads.h
+    include/allegro5/tls.h
+    include/allegro5/touch_input.h
+    include/allegro5/timer.h
+    include/allegro5/transformations.h
+    include/allegro5/utf8.h
+    include/allegro5/allegro_direct3d.h
+    include/allegro5/allegro_opengl.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_INLINE_FILES
+    include/allegro5/inline/fmaths.inl
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_INTERNAL_FILES
+    # Only files which need to be installed.
+    include/allegro5/internal/alconfig.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_OPENGL_FILES
+    include/allegro5/opengl/gl_ext.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_OPENGL_GLEXT_FILES
+    include/allegro5/opengl/GLext/gl_ext_alias.h
+    include/allegro5/opengl/GLext/gl_ext_defs.h
+    include/allegro5/opengl/GLext/glx_ext_alias.h
+    include/allegro5/opengl/GLext/glx_ext_defs.h
+    include/allegro5/opengl/GLext/wgl_ext_alias.h
+    include/allegro5/opengl/GLext/wgl_ext_defs.h
+    include/allegro5/opengl/GLext/gl_ext_api.h
+    include/allegro5/opengl/GLext/gl_ext_list.h
+    include/allegro5/opengl/GLext/glx_ext_api.h
+    include/allegro5/opengl/GLext/glx_ext_list.h
+    include/allegro5/opengl/GLext/wgl_ext_api.h
+    include/allegro5/opengl/GLext/wgl_ext_list.h
+   )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_PLATFORM_FILES
+    # Only files which need to be installed.
+    include/allegro5/platform/alandroid.h
+    include/allegro5/platform/alandroidcfg.h
+    include/allegro5/platform/albcc32.h
+    include/allegro5/platform/aliphone.h
+    include/allegro5/platform/aliphonecfg.h
+    include/allegro5/platform/almngw32.h
+    include/allegro5/platform/almsvc.h
+    include/allegro5/platform/alosx.h
+    include/allegro5/platform/alosxcfg.h
+    include/allegro5/platform/alraspberrypi.h
+    include/allegro5/platform/alraspberrypicfg.h
+    include/allegro5/platform/alucfg.h
+    include/allegro5/platform/alunix.h
+    include/allegro5/platform/alwatcom.h
+    include/allegro5/platform/alwin.h
+    include/allegro5/platform/astdbool.h
+    include/allegro5/platform/astdint.h
+    include/allegro5/platform/allegro_sdl_config.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_WINDOWS_FILES
+    include/allegro5/allegro_windows.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_MACOSX_FILES
+    include/allegro5/allegro_osx.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_IPHONE_FILES
+    include/allegro5/allegro_iphone.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_ANDROID_FILES
+    include/allegro5/allegro_android.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_PLATFORM_FILES_GENERATED
+    include/allegro5/platform/alplatf.h
+    )
+
+set(ALLEGRO_INCLUDE_ALLEGRO_X_FILES
+    include/allegro5/allegro_x.h
+    )

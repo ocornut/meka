@@ -230,27 +230,27 @@ void    Desktop_Load()
     tfile_free(tf);
 }
 
-static void    Desktop_Save_Item(t_desktop_item *item, FILE *f)
+static void    Desktop_Save_Item(t_desktop_item *item, ALLEGRO_FILE *f)
 {
-    fprintf(f, "[%s]\n", item->name);
-    fprintf(f, "active=%d\n", item->active);
-    fprintf(f, "pos=%d,%d\n", item->pos.x, item->pos.y);
+    al_fprintf(f, "[%s]\n", item->name);
+    al_fprintf(f, "active=%d\n", item->active);
+    al_fprintf(f, "pos=%d,%d\n", item->pos.x, item->pos.y);
     if (item->box->flags & GUI_BOX_FLAGS_ALLOW_RESIZE)
-        fprintf(f, "size=%d,%d\n", item->size.x, item->size.y);
-    fprintf(f, "\n");
+        al_fprintf(f, "size=%d,%d\n", item->size.x, item->size.y);
+    al_fprintf(f, "\n");
 }
 
 void    Desktop_Save()
 {
-    FILE * f;
-    if ((f = fopen(Desktop.filename, "wt")) == 0)
+    ALLEGRO_FILE * f;
+    if ((f = al_fopen(Desktop.filename, "wt")) == 0)
         return; // FIXME: report that somewhere ?
 
     // Write header
-    fprintf(f, ";-----------------------------------------------------------------------------\n");
-    fprintf(f, "; " MEKA_NAME " " MEKA_VERSION " - Desktop State\n");
-    fprintf(f, "; This file is automatically updated and rewritten by the emulator\n");
-    fprintf(f, ";-----------------------------------------------------------------------------\n\n");
+    al_fprintf(f, ";-----------------------------------------------------------------------------\n");
+    al_fprintf(f, "; " MEKA_NAME " " MEKA_VERSION " - Desktop State\n");
+    al_fprintf(f, "; This file is automatically updated and rewritten by the emulator\n");
+    al_fprintf(f, ";-----------------------------------------------------------------------------\n\n");
 
     // Write all entries
     for (t_list* list = Desktop.items; list != NULL; list = list->next)
@@ -262,10 +262,10 @@ void    Desktop_Save()
     for (t_list* list = Desktop.items; list != NULL; list = list->next)
         Desktop_Save_Item((t_desktop_item*)list->elem, f);
 
-    fprintf(f, ";-----------------------------------------------------------------------------\n\n");
+    al_fprintf(f, ";-----------------------------------------------------------------------------\n\n");
 
     // Close write
-    fclose (f);
+    al_fclose (f);
 }
 
 //-----------------------------------------------------------------------------

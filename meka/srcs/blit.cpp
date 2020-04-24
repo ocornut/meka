@@ -183,11 +183,30 @@ void Blit_Fullscreen_UpdateBounds()
     }
     else
     {
+        #ifdef ARCH_ANDROID
+        // Automatic integer scale
+        const double scale_x = (double)g_video.res_x / g_blit.src_size_x;
+        const double scale_y = (double)g_video.res_y / g_blit.src_size_y;
+        double dst_scale = MIN(scale_x, scale_y);
+
+        /*
+        g_video.game_area_x1 = 0;
+        g_video.game_area_y1 = 0;
+        g_video.game_area_x2 = g_blit.src_size_x * dst_scale;
+        g_video.game_area_y2 = g_blit.src_size_y * dst_scale;
+        */
+        g_video.game_area_x1 = (g_video.res_x - g_blit.src_size_x*dst_scale) / 2;
+        g_video.game_area_y1 = 0;//(g_video.res_y - g_blit.src_size_y*dst_scale) / 2;
+        g_video.game_area_x2 = g_video.game_area_x1 + g_blit.src_size_x*dst_scale;
+        g_video.game_area_y2 = g_video.game_area_y1 + g_blit.src_size_y*dst_scale;
+
+        #else
         // Integer scale
         g_video.game_area_x1 = (g_video.res_x - g_blit.src_size_x*g_blit.dst_scale) / 2;
         g_video.game_area_y1 = (g_video.res_y - g_blit.src_size_y*g_blit.dst_scale) / 2;
         g_video.game_area_x2 = g_video.game_area_x1 + g_blit.src_size_x*g_blit.dst_scale;
         g_video.game_area_y2 = g_video.game_area_y1 + g_blit.src_size_y*g_blit.dst_scale;
+        #endif
     }
 }
 
@@ -296,6 +315,8 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
     Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
+void Input_OnScreen();
+
 // Blit screenbuffer to video memory in fullscreen mode
 void    Blit_Fullscreen(void)
 {
@@ -322,6 +343,8 @@ void    Blit_Fullscreen(void)
         g_gui_status.timeleft --;
     }
 
+    Input_OnScreen();
+
     al_flip_display();
 }
 
@@ -343,6 +366,7 @@ void    Blit_GUI(void)
     ALLEGRO_BITMAP* backbuffer = al_get_backbuffer(g_display);
     al_set_target_bitmap(backbuffer);
     al_draw_bitmap(gui_buffer, 0, 0, 0x0000);
+
     PROFILE_STEP("al_draw_bitmap()");
 
     al_flip_display();

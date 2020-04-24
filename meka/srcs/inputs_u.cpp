@@ -46,6 +46,8 @@ void    Inputs_Sources_Init()
     memset(&g_mouse_state, 0, sizeof(g_mouse_state));
     g_keyboard_event_queue = al_create_event_queue();
     al_register_event_source(g_keyboard_event_queue, al_get_keyboard_event_source());
+
+    al_install_touch_input();
 }
 
 t_input_src *       Inputs_Sources_Add(char *name)
@@ -246,6 +248,8 @@ void    Inputs_Emulation_Update(bool running)
                     Peripherals_GraphicBoardV2_Update(i, src->Map[INPUT_MAP_ANALOG_AXIS_X].current_value, src->Map[INPUT_MAP_ANALOG_AXIS_Y].current_value, buttons);
                 }
                 break;
+            default:
+                break;
             }
             // Process RESET and PAUSE/START buttons
             if (src->Map[INPUT_MAP_PAUSE_START].current_value) { pause_pressed = TRUE; if (tsms.Control_Start_Pause == 0) tsms.Control_Start_Pause = 1; }
@@ -302,6 +306,223 @@ void    Inputs_Emulation_Update(bool running)
     }
 }
 
+typedef struct {
+
+    int x;
+    int y;
+
+} t_meka_point;
+
+///< is point in triangle
+bool Point_In_Rectangle (t_meka_point *pt, t_meka_point *v1, t_meka_point *v2)
+{
+    return pt->x > v1->x && pt->x < v2->x && pt->y > v1->y && pt->y < v2->y;
+}
+
+///< Direction of triangle
+float Point_Sign (t_meka_point *p1, t_meka_point *p2, t_meka_point *p3)
+{
+    return (p1->x - p3->x) * (p2->y - p3->y) - (p2->x - p3->x) * (p1->y - p3->y);
+}
+
+///< is point in triangle
+bool Point_In_Triangle (t_meka_point *pt, t_meka_point *v1, t_meka_point *v2, t_meka_point *v3)
+{
+    float d1, d2, d3;
+    bool has_neg, has_pos;
+
+    d1 = Point_Sign(pt, v1, v2);
+    d2 = Point_Sign(pt, v2, v3);
+    d3 = Point_Sign(pt, v3, v1);
+
+    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+    //printf( "%d,%d %d,%d %d,%d %d,%d %d %d %d\n", pt->x, pt->y, v1->x, v1->y, v2->x, v2->y, v3->x, v3->y, has_neg, has_pos, !(has_neg && has_pos));
+    return !(has_neg && has_pos);
+}
+
+double sqr( double x ) { return x*x; }
+
+///< is point in triangle
+bool Point_In_Circle (t_meka_point *pt, t_meka_point *centre, int radius )
+{
+    return sqr(pt->x - centre->x) + sqr(pt->y - centre->y) < sqr( radius );
+}
+
+bool Touch_Set_Direction( int key, bool state )
+{
+    if ( state ) {
+        if (g_keyboard_state[key] < 0.0f)
+            g_keyboard_state[key] = 0.0f;
+    }
+
+    return state;
+}
+
+bool Touch_Check_Circle( t_meka_point *touch_pos, int key, t_meka_point *centre, int radius )
+{
+    return Touch_Set_Direction( key, Point_In_Circle( touch_pos, centre, radius ) );
+}
+
+bool Touch_Check_Rectangle( t_meka_point *touch_pos, int key, t_meka_point *topleft, t_meka_point *bottomright )
+{
+    return Touch_Set_Direction( key, Point_In_Rectangle( touch_pos, topleft, bottomright ) );
+}
+
+bool Touch_Check_Triangle( t_meka_point *touch_pos, int key, t_meka_point *topleft, t_meka_point *bottomright, t_meka_point *centre )
+{
+    return Touch_Set_Direction( key, Point_In_Triangle( touch_pos, topleft, bottomright, centre ) );
+}
+
+#ifdef ARCH_ANDROID
+#include <android/log.h>
+#endif
+
+void Input_OnScreen()
+{
+#ifdef ARCH_ANDROID
+    static bool g_touch_down = false;
+
+    int screen_width;
+    int screen_height;
+    Video_GameMode_GetScreenSize( &screen_width, &screen_height );
+
+    int screen_size = std::min( screen_width, screen_height );
+    int pad_width = screen_size / 3;
+    int button_size = screen_size / 8;
+    int pad_long_size = pad_width * 0.45;
+    int pad_short_size = pad_long_size * 0.28;
+    int pad_offset_x = screen_size / 30;
+    int pad_centre_x = pad_long_size + pad_short_size + pad_offset_x;
+    int pad_centre_y = screen_height - pad_centre_x;
+
+    t_meka_point pad_centre = { pad_centre_x, pad_centre_y };
+
+    int button_radius = button_size / 2;
+    int option_radius = button_radius / 2;
+    int button_offset = pad_long_size - button_radius / 2;
+
+    t_meka_point pad_fire1_centre = { screen_width - pad_centre.x, pad_centre.y + button_offset };
+    t_meka_point pad_fire2_centre = { screen_width - pad_centre.x + button_offset, pad_centre.y };
+
+    t_meka_point pad_reset_centre = { pad_fire1_centre.x, screen_height / 2 };
+
+    ALLEGRO_TOUCH_INPUT_STATE touch_input_state;
+
+    al_get_touch_input_state( &touch_input_state );
+
+    //bool touch_down = touch_input_state.touches[0].id == 0;
+
+    bool touch_down = false;
+
+    for ( int index = 0 ; index < ALLEGRO_TOUCH_INPUT_MAX_TOUCH_COUNT; index++ ) {
+        if ( touch_input_state.touches[index].id >= 0 ) touch_down = true;
+    }
+
+    if ( touch_down ) {
+
+        g_keyboard_state[ALLEGRO_KEY_Z] = g_keyboard_state[ALLEGRO_KEY_X] =
+            g_keyboard_state[ALLEGRO_KEY_SPACE] = g_keyboard_state[ALLEGRO_KEY_ENTER] =
+            g_keyboard_state[ALLEGRO_KEY_LEFT] = g_keyboard_state[ALLEGRO_KEY_RIGHT] =
+            g_keyboard_state[ALLEGRO_KEY_DOWN] = g_keyboard_state[ALLEGRO_KEY_UP] = -1.0f;
+
+        for ( int index = 0 ; index < ALLEGRO_TOUCH_INPUT_MAX_TOUCH_COUNT; index++ ) {
+
+            ALLEGRO_TOUCH_STATE touch_state;
+
+            touch_state = touch_input_state.touches[index];
+
+            bool touch_valid = touch_state.id >= 0;
+            if ( !touch_valid ) continue;
+
+            t_meka_point touch_pos = { (int)touch_state.x, (int)touch_state.y };
+
+            int keyidx = 0;
+            int keys[] = { ALLEGRO_KEY_UP, ALLEGRO_KEY_LEFT, ALLEGRO_KEY_DOWN, ALLEGRO_KEY_RIGHT };
+
+            // Detect pad touch
+            for( int y = 0; y < 2; y++ ) {
+
+                int diry = y ? -1 : 1;
+
+                // top/bottom
+                // inner
+                t_meka_point centre_topleft = { pad_centre.x - pad_short_size, pad_centre.y - diry * pad_short_size };
+                t_meka_point centre_topright = { pad_centre.x + pad_short_size, pad_centre.y - diry * pad_short_size };
+                Touch_Check_Triangle( &touch_pos, keys[keyidx], &centre_topleft, &centre_topright, &pad_centre );
+
+                // outer
+                t_meka_point topleft = { pad_centre.x - diry * pad_long_size, pad_centre.y - diry * pad_long_size };
+                t_meka_point bottomright = { pad_centre.x + diry * pad_long_size, pad_centre.y - diry * pad_short_size };
+                Touch_Check_Rectangle( &touch_pos, keys[keyidx++], y ? &bottomright : &topleft, y ? &topleft : &bottomright );
+
+                // left/right
+                // inner
+                t_meka_point centre_lefttop = { pad_centre.x - diry * pad_short_size, pad_centre.y - pad_short_size };
+                t_meka_point centre_leftbottom = { pad_centre.x - diry * pad_short_size, pad_centre.y + pad_short_size };
+                Touch_Check_Triangle( &touch_pos, keys[keyidx], &centre_lefttop, &centre_leftbottom, &pad_centre );
+
+                // outer
+                t_meka_point lefttop = { pad_centre.x - diry * pad_long_size, pad_centre.y - diry * pad_long_size };
+                t_meka_point rightbottom = { pad_centre.x - diry * pad_short_size, pad_centre.y + diry * pad_long_size };
+                Touch_Check_Rectangle( &touch_pos, keys[keyidx++], y ? &rightbottom : &lefttop,  y ? &lefttop : &rightbottom );
+            }
+
+            Touch_Check_Circle( &touch_pos, ALLEGRO_KEY_Z, &pad_fire1_centre, button_radius );
+            Touch_Check_Circle( &touch_pos, ALLEGRO_KEY_X, &pad_fire2_centre, button_radius );
+
+            bool reset = Point_In_Circle( &touch_pos, &pad_reset_centre, option_radius );
+            if ( reset ) Machine_Reset();
+        }
+
+    } else {
+
+        if ( g_touch_down != touch_down ) {
+
+            g_keyboard_state[ALLEGRO_KEY_Z] = g_keyboard_state[ALLEGRO_KEY_X] =
+                g_keyboard_state[ALLEGRO_KEY_LEFT] = g_keyboard_state[ALLEGRO_KEY_RIGHT] =
+                g_keyboard_state[ALLEGRO_KEY_DOWN] = g_keyboard_state[ALLEGRO_KEY_UP] = -1.0f;
+        }
+    }
+
+    g_touch_down = touch_down;
+
+    // Draw on screen controls
+    ALLEGRO_COLOR colour = al_map_rgb(192,192,192);
+    int line_width = 4;
+
+    // Draw pad
+    for( int y = 0; y < 2; y++ ) {
+
+        int diry = y ? -1 : 1;
+
+        for( int x = 0; x < 2; x++ ) {
+
+            int dirx = x ? -1 : 1;
+
+            al_draw_line( pad_centre.x - dirx * pad_short_size, pad_centre.y - diry * pad_short_size,
+                pad_centre.x - dirx * pad_long_size, pad_centre.y - diry * pad_short_size, colour, line_width );
+            al_draw_line( pad_centre.x - dirx * pad_short_size, pad_centre.y - diry * pad_short_size,
+                pad_centre.x - dirx * pad_short_size, pad_centre.y - diry * pad_long_size, colour, line_width );
+        }
+
+        al_draw_line( pad_centre.x - diry * pad_long_size, pad_centre.y - pad_short_size,
+            pad_centre.x - diry * pad_long_size, pad_centre.y + pad_short_size, colour, line_width );
+        al_draw_line( pad_centre.x - pad_short_size, pad_centre.y - diry * pad_long_size,
+            pad_centre.x + pad_short_size, pad_centre.y - diry * pad_long_size, colour, line_width );
+    }
+
+    // Fire 1
+    al_draw_circle( pad_fire1_centre.x, pad_fire1_centre.y, button_radius, colour, line_width );
+
+    // Fire 2
+    al_draw_circle( pad_fire2_centre.x, pad_fire2_centre.y, button_radius, colour, line_width );
+
+    // Reboot to menu
+    al_draw_circle( pad_reset_centre.x, pad_reset_centre.y, option_radius, colour, line_width );
+#endif
+}
+
 // Read and update all inputs sources
 void    Inputs_Sources_Update()
 {
@@ -333,7 +554,7 @@ void    Inputs_Sources_Update()
             // Note: Allegro is handling repeat for us here.
             if (key_event.keyboard.unichar > 0 && (key_event.keyboard.unichar & ~0xFF) == 0)
             {
-                //Msg(MSGT_DEBUG, "%i %04x", key_event.keyboard.keycode, key_event.keyboard.unichar);
+                //Msg(MSGT_DEBUG, "ALLEOGR_EVENT_KEY_CHAR %i %04x", key_event.keyboard.keycode, key_event.keyboard.unichar);
                 t_key_press* key_press = (t_key_press*)malloc(sizeof(*key_press));
                 key_press->scancode = key_event.keyboard.keycode;
                 key_press->ascii = key_event.keyboard.unichar & 0xFF;
@@ -342,7 +563,9 @@ void    Inputs_Sources_Update()
             break;
         }
     }
-    
+
+    Input_OnScreen();
+
     // Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
 #ifdef ARCH_WIN32
     if (GetAsyncKeyState(VK_SNAPSHOT))
@@ -446,7 +669,7 @@ void    Inputs_Sources_Update()
                     strcpy(buf, "- Buttons ");
                     for (int i = 0; i < num_buttons; i++)
                         sprintf(buf + strlen(buf), "%d ", state.button[i]);
-                    Msg(MSGT_DEBUG, buf);
+                    //Msg(MSGT_DEBUG, buf);
                 }
 #endif
 
@@ -467,6 +690,8 @@ void    Inputs_Sources_Update()
                             map->current_value = (map->hw_index != (-1) && state.button[map->hw_index]);
                             break;
                         }
+                    default:
+                        break;
                     }
                     if (old_res && map->current_value)
                         Src->Map[j].pressed_counter++;
@@ -611,4 +836,3 @@ static void    Inputs_FixUpJoypadOppositesDirections()
 }
 
 //-----------------------------------------------------------------------------
-

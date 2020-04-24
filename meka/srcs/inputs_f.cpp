@@ -9,11 +9,11 @@
 
 //-----------------------------------------------------------------------------
 
-FILE   *INP_File;
-INLINE  void INP_Write_Line     (const char *s)                   { fprintf(INP_File, "%s\n", s); }
-INLINE  void INP_Write_Str      (const char *name, const char *s) { fprintf(INP_File, "%s = %s\n", name, s); }
-INLINE  void INP_Write_Int      (const char *name, int value)     { fprintf(INP_File, "%s = %d\n", name, value); }
-INLINE  void INP_Write_Float    (const char *name, float value)   { fprintf(INP_File, "%s = %.2f\n", name, value); }
+ALLEGRO_FILE *INP_File;
+INLINE  void INP_Write_Line     (const char *s)                   { al_fprintf(INP_File, "%s\n", s); }
+INLINE  void INP_Write_Str      (const char *name, const char *s) { al_fprintf(INP_File, "%s = %s\n", name, s); }
+INLINE  void INP_Write_Int      (const char *name, int value)     { al_fprintf(INP_File, "%s = %d\n", name, value); }
+INLINE  void INP_Write_Float    (const char *name, float value)   { al_fprintf(INP_File, "%s = %.2f\n", name, value); }
 
 //-----------------------------------------------------------------------------
 
@@ -303,7 +303,7 @@ void            Load_Inputs_Src_List()
 
 void    Write_Inputs_Src_List()
 {
-	if (!(INP_File = fopen(Inputs.FileName, "wt")))
+	if (!(INP_File = al_fopen(Inputs.FileName, "wt")))
 		return;
 
 	INP_Write_Line (";-----------------------------------------------------------------------------");
@@ -473,7 +473,7 @@ void    Write_Inputs_Src_List()
 	}
 
 	INP_Write_Line (";-----------------------------------------------------------------------------");
-	fclose (INP_File);
+	al_fclose (INP_File);
 }
 
 //-----------------------------------------------------------------------------

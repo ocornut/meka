@@ -178,7 +178,6 @@ void    Quit_Msg(const char *format, ...)
     // Return back to starting directory
     chdir (g_env.Paths.StartingDirectory);
 
-#ifdef ARCH_WIN32
     {
         // FIXME: should redirect on console
         char buffer[512];
@@ -188,6 +187,8 @@ void    Quit_Msg(const char *format, ...)
         va_end   (params);
 
         ConsolePrint(buffer);
+
+#ifdef ARCH_WIN32
         ConsoleEnablePause();
 
         if (g_env.state == MEKA_STATE_INIT)
@@ -197,16 +198,8 @@ void    Quit_Msg(const char *format, ...)
             // Note: we don't use allegro_message() because Allegro might be unitialized here
             MessageBox (NULL, buffer, Msg_Get(MSG_Window_Title), MB_OK | MB_ICONINFORMATION);
         }
-    }
-#else
-    {
-        va_list params;
-        va_start (params, format);
-        vprintf  (format, params); // FIXME: use Console*
-        va_end   (params);
-        ConsolePrint("\n");
-    }
 #endif
+    }
 
     // Force Allegro closing
     // Trying to fix the crash on quit.

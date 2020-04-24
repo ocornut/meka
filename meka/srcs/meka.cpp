@@ -10,6 +10,8 @@
 // Entry points and various initialization functions
 //-----------------------------------------------------------------------------
 
+#define ALLEGRO_UNSTABLE 1
+
 #include "shared.h"
 #include "app_filebrowser.h"
 #include "app_options.h"
@@ -43,8 +45,13 @@
 #ifdef ARCH_WIN32
 #include <commctrl.h>
 #endif
+#ifdef ARCH_ANDROID
+#include <allegro5/allegro_android.h>
+#endif
+
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/touch_input.h>
 
 //-----------------------------------------------------------------------------
 // Globals
@@ -290,7 +297,7 @@ static void Close_Emulator_Starting_Dir()
 
 static int Init_Allegro()
 {
-    ConsolePrint(Msg_Get(MSG_Init_Allegro));
+    //ConsolePrint(Msg_Get(MSG_Init_Allegro));
 
     // Initialize timer BEFORE allegro
     // OSD_Timer_Initialize();
@@ -307,6 +314,13 @@ static int Init_Allegro()
 
     // Create event queues
     g_display_event_queue = al_create_event_queue();
+    
+#ifdef ARCH_ANDROID
+    // Read from apk (zip) file
+    al_android_set_apk_file_interface();
+    al_android_set_apk_fs_interface();
+    g_env.mouse_installed = -1;
+#endif
 
     // Get Allegro version and print it in console
     const unsigned int allegro_version = al_get_allegro_version();
@@ -358,22 +372,30 @@ int main(int argc, char **argv)
         return (0);
 
     // Save command line parameters
+    #ifdef ARCH_ANDROID
+    // Android, is a shared object
+    g_env.argc = 1;
+    g_env.argv = (char**)malloc (sizeof(char *) * (g_env.argc + 1));
+    g_env.argv[0] = strdup("./meka");
+    #else
+    // Save command line parameters
     g_env.argc = argc;
     g_env.argv = (char**)malloc (sizeof(char *) * (g_env.argc + 1));
     int i;
     for (i = 0; i != g_env.argc; i++)
         g_env.argv[i] = strdup(argv[i]);
     g_env.argv[i] = NULL;
+    #endif
 
     // FIXME: add 'init system' here
 
     // Initializations
     g_env.state = MEKA_STATE_INIT;
+    Init_Allegro           (); // Initialize Allegro Library
     Filenames_Init         (); // Set Filenames Values
     Messages_Init          (); // Load MEKA.MSG and init messaging system
     Init_Default_Values    (); // Set Defaults Variables
     Command_Line_Parse     (); // Parse Command Line (1)
-    Init_Allegro           (); // Initialize Allegro Library
     Fonts_Init             (); // Initialize Fonts system
     Capture_Init           (); // Initialize Screen capture
     Configuration_Load     (); // Load Configuration File
@@ -410,7 +432,7 @@ int main(int argc, char **argv)
         Configuration_Save();
 
     // Setup display (fullscreen/GUI)
-    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_config.start_in_gui)
+    if (!g_config.start_in_gui)
         g_env.state = MEKA_STATE_GAME;
     else
         g_env.state = MEKA_STATE_GUI;

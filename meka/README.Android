@@ -1,0 +1,119 @@
+To build for android:
+---------------------
+
+mkdir build-android
+cd build-android
+export ANDROID_ABI=arm64-v8a
+export ANDROID_ABI=armeabi-v7a
+cmake .. -DANDROID_NDK_TOOLCHAIN_ROOT=$ANDROID_NDK_TOOLCHAIN_ROOT -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=armeabi-v7a -DALLEGRO_DIRECTORY=/opt/android/allegro5/${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release
+make VEBOSE=1
+
+# install to emulator
+adb install ./srcs/Meka.apk
+
+To install android sdk
+---------------------
+Download android-ndk-r20b-linux-x86_64.zip (or latest)
+Download sdk-tools-4333796.zip (or latest)
+
+mkdir /opt/android
+cd /opt/android
+unzip ~/Downloads/android-ndk-r20b-linux-x86_64.zip
+mkdir sdk-tools && cd sdk-tools
+unzip ~/Downloads/sdk-tools-4333796.zip
+
+To setup android sdks
+---------------------
+# Download sdk tools
+/opt/android/android-sdk/tools/bin/sdkmanager "build-tools;19.1.0"
+/opt/android/android-sdk/tools/bin/sdkmanager "platforms;android-16"
+/opt/android/android-sdk/tools/bin/sdkmanager "system-images;android-16;default;armeabi-v7a"
+/opt/android/android-sdk/tools/bin/sdkmanager "system-images;android-16;google_apis;x86"
+/opt/android/android-sdk/tools/bin/sdkmanager "platform-tools"
+/opt/android/android-sdk/tools/bin/sdkmanager "emulator"
+/opt/android/android-sdk/tools/bin/sdkmanager --list
+
+python /opt/android/android-ndk-r20b/build/tools/make_standalone_toolchain.py --api=16 --install-dir=$ANDROID_NDK_TOOLCHAIN_ROOT --arch=arm
+
+Update environment:
+---------------------
+vi ~/.bashrc:
+
+#let Android find the NDK
+export ANDROID_HOME=/opt/android/android-sdk
+export ANDROID_NDK_ROOT=/opt/android/android-ndk-r20b
+export ANDROID_NDK_HOME=$ANDROID_NDK_ROOT
+export ANDROID_NDK_LLVM=$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64
+export ANDROID_NDK_ARM=$ANDROID_NDK_ROOT/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64
+export ANDROID_NDK_TOOLCHAIN_ROOT=/opt/android/android-toolchain
+export ANDROID_SDK_ROOT=/opt/android/android-sdk
+
+#set the path to the SDK
+export PATH=$PATH:${ANDROID_HOME}/emulator:${ANDROID_HOME}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin
+
+#set the path to the NDK
+export PATH=$PATH:${ANDROID_NDK_ROOT}
+
+#set path to arm-linux-androideabi-gcc and friends
+export PATH=$PATH:${ANDROID_NDK_TOOLCHAIN}/bin
+
+#help the emulator find its ini files (optional)
+export ANDROID_AVD_HOME=~/.android/avd
+
+To build allegro:
+---------------------
+Download freetype:
+
+python /opt/android/android-ndk-r20b/build/tools/make_standalone_toolchain.py --api=16 --install-dir=$ANDROID_NDK_TOOLCHAIN_ROOT --arch=arm64
+python /opt/android/android-ndk-r20b/build/tools/make_standalone_toolchain.py --api=16 --install-dir=$ANDROID_NDK_TOOLCHAIN_ROOT --arch=arm
+
+tar xvfz /media/sf_Shared/freetype-2.10.1.tar.gz
+cd freetype-2.10.1/
+export TOOLCHAIN=$ANDROID_NDK_TOOLCHAIN_ROOT
+export FREETYPE=`pwd`
+export PATH=${PATH}:$ANDROID_NDK_TOOLCHAIN_ROOT/bin
+./configure --host=arm-linux-androideabi --prefix=$FREETYPE/install --without-png --without-zlib --without-harfbuzz --enable-shared
+sed -i 's/\-version\-info \$(version_info)/-avoid-version/' builds/unix/unix-cc.mk
+make
+make install
+mkdir -pf /opt/android/freetype2/
+cp -rv install/* /opt/android/freetype2/
+ls /opt/android/freetype2/
+
+Download allegro5 master. Avoid stable! Android sdk changes too quickly to use stable release
+Read README_android.txt. It likely will have changed since writing.
+
+unzip allegro5-master.zip
+cd allegro5-master
+export ANDROID_ABI=arm64-v8a
+export ANDROID_ABI=armeabi-v7a
+mkdir build_android_${ANDROID_ABI}
+cd build_android_${ANDROID_ABI}
+echo TODO: Check allegro README_android.txt
+cmake .. -DCMAKE_TOOLCHAIN_FILE=/opt/android/android-ndk-r21/build/cmake/android.toolchain.cmake -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWANT_EXAMPLES=ON -DCMAKE_INSTALL_PREFIX=/opt/android/allegro5/${ANDROID_ABI} -DFREETYPE_LIBRARY=/opt/android/freetype2/lib/libfreetype.a -DFREETYPE_INCLUDE_DIRS=/opt/android/freetype2/include/freetype2/
+make
+make install
+
+To install emulators:
+---------------------
+emulator -list-avds
+
+# Create emulators. type yes then hold down enter
+/opt/android/android-sdk/tools/bin/avdmanager create avd --name "android16x86" -k "system-images;android-16;default;x86"
+/opt/android/android-sdk/tools/bin/avdmanager create avd --name "android16arm" -k "system-images;android-16;default;armeabi-v7a" --force
+/opt/android/android-sdk/tools/bin/avdmanager create avd --name "android23arm" -k "system-images;android-23;default;armeabi-v7a" --force
+
+# Run emulators
+/opt/android/android-sdk/emulator/emulator "@android23arm"
+
+Connecting to emulator:
+---------------------
+
+#/opt/android/android-sdk/platform-tools/adb shell
+/opt/android/android-sdk/platform-tools/adb install ./srcs/Meka.apk
+/opt/android/android-sdk/platform-tools/adb logcat | grep MEKA
+
+
+Windows:
+c:\unix\android-sdk-tools\platform-tools\adb install "c:\Users\smspower\Documents\\Meka.apk"
+c:\unix\android-sdk-tools\platform-tools\adb logcat | findstr MEKA

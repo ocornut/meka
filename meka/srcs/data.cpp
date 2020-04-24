@@ -39,13 +39,13 @@ static void* Data_LoadBinary(const char* name)
     char filename_buf[FILENAME_LEN];
     sprintf(filename_buf, "%s/Data/%s", g_env.Paths.EmulatorDirectory, name);
 
-    FILE* f = fopen(filename_buf, "rb");
-    fseek(f, 0, SEEK_END);
-    const int size = ftell(f);
-    fseek(f, 0, SEEK_SET);
+    ALLEGRO_FILE * f = al_fopen(filename_buf, "rb");
+    al_fseek(f, 0, SEEK_END);
+    const int size = al_ftell(f);
+    al_fseek(f, 0, SEEK_SET);
 
     void* buf = Memory_Alloc(size);
-    fread(buf, 1, size, f);
+    al_fread(f, buf, size);
     return buf;
 }
 
@@ -102,7 +102,9 @@ static bool Data_LoadMouseCursor(ALLEGRO_MOUSE_CURSOR** pcursor, ALLEGRO_BITMAP*
 
     if (DataProcessFlags & DATA_PROCESS_LOAD)
     {
+        #ifndef ARCH_ANDROID
         *pcursor = al_create_mouse_cursor(bitmap, pivot_x, pivot_y);
+        #endif
     }
 
     return true;
@@ -158,64 +160,64 @@ void Data_Init(void)
 void Data_ProcessVideoBitmaps()
 {
     // Cursors
-    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.Main,         "cursor_main.tga");
-    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.Wait,         "cursor_wait.tga");
-    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.LightPhaser,  "cursor_lightphaser.tga");
-    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.SportsPad,    "cursor_sportspad.tga");
-    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.TvOekaki,     "cursor_tvoekaki.tga");
+    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.Main,         "cursor_main.png");
+    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.Wait,         "cursor_wait.png");
+    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.LightPhaser,  "cursor_lightphaser.png");
+    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.SportsPad,    "cursor_sportspad.png");
+    Data_LoadBitmap(&Graphics.Cursors.Bitmaps.TvOekaki,     "cursor_tvoekaki.png");
 
     // Miscellaneous
-    Data_LoadBitmap(&Graphics.Misc.Dragon,                  "gfx_dragon.tga");
-    Data_LoadBitmap(&Graphics.Misc.Heart1,                  "gfx_heart1.tga");
-    Data_LoadBitmap(&Graphics.Misc.Heart2,                  "gfx_heart2.tga");
+    Data_LoadBitmap(&Graphics.Misc.Dragon,                  "gfx_dragon.png");
+    Data_LoadBitmap(&Graphics.Misc.Heart1,                  "gfx_heart1.png");
+    Data_LoadBitmap(&Graphics.Misc.Heart2,                  "gfx_heart2.png");
 
     // Inputs
-    Data_LoadBitmap(&Graphics.Inputs.InputsBase,            "gfx_inputs.tga");
-    Data_LoadBitmap(&Graphics.Inputs.Glasses,               "gfx_glasses.tga");
-    Data_LoadBitmap(&Graphics.Inputs.Joypad,                "gfx_joypad.tga");
-    Data_LoadBitmap(&Graphics.Inputs.LightPhaser,           "gfx_lightphaser.tga");
-    Data_LoadBitmap(&Graphics.Inputs.PaddleControl,         "gfx_paddlecontrol.tga");
-    Data_LoadBitmap(&Graphics.Inputs.SportsPad,             "gfx_sportspad.tga");
-    Data_LoadBitmap(&Graphics.Inputs.SuperHeroPad,          "gfx_superheropad.tga");
-    Data_LoadBitmap(&Graphics.Inputs.TvOekaki,              "gfx_tvoekaki.tga");
-    Data_LoadBitmap(&Graphics.Inputs.GraphicBoardV2,        "gfx_graphicboardv2.tga");
-    Data_LoadBitmap(&Graphics.Inputs.SK1100_Keyboard,       "gfx_keyboard.tga");
+    Data_LoadBitmap(&Graphics.Inputs.InputsBase,            "gfx_inputs.png");
+    Data_LoadBitmap(&Graphics.Inputs.Glasses,               "gfx_glasses.png");
+    Data_LoadBitmap(&Graphics.Inputs.Joypad,                "gfx_joypad.png");
+    Data_LoadBitmap(&Graphics.Inputs.LightPhaser,           "gfx_lightphaser.png");
+    Data_LoadBitmap(&Graphics.Inputs.PaddleControl,         "gfx_paddlecontrol.png");
+    Data_LoadBitmap(&Graphics.Inputs.SportsPad,             "gfx_sportspad.png");
+    Data_LoadBitmap(&Graphics.Inputs.SuperHeroPad,          "gfx_superheropad.png");
+    Data_LoadBitmap(&Graphics.Inputs.TvOekaki,              "gfx_tvoekaki.png");
+    Data_LoadBitmap(&Graphics.Inputs.GraphicBoardV2,        "gfx_graphicboardv2.png");
+    Data_LoadBitmap(&Graphics.Inputs.SK1100_Keyboard,       "gfx_keyboard.png");
 
     // Machines
-    Data_LoadBitmap(&Graphics.Machines.MasterSystem,        "machine_sms.tga");
-    Data_LoadBitmap(&Graphics.Machines.MasterSystem_Cart,   "machine_sms_cartridge.tga");
-    Data_LoadBitmap(&Graphics.Machines.MasterSystem_Light,  "machine_sms_light.tga");
-    Data_LoadBitmap(&Graphics.Machines.ColecoVision,        "machine_coleco.tga");
+    Data_LoadBitmap(&Graphics.Machines.MasterSystem,        "machine_sms.png");
+    Data_LoadBitmap(&Graphics.Machines.MasterSystem_Cart,   "machine_sms_cartridge.png");
+    Data_LoadBitmap(&Graphics.Machines.MasterSystem_Light,  "machine_sms_light.png");
+    Data_LoadBitmap(&Graphics.Machines.ColecoVision,        "machine_coleco.png");
 
     // Flags
-    Data_LoadBitmap(&Graphics.Flags [FLAG_UNKNOWN],         "flag_unknown.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_AU],              "flag_au.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_BR],              "flag_br.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_JP],              "flag_jp.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_KR],              "flag_kr.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_FR],              "flag_fr.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_US],              "flag_us.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_CH],              "flag_ch.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_HK],              "flag_hk.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_EU],              "flag_eu.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_PT],              "flag_pt.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_DE],              "flag_de.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_IT],              "flag_it.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_SP],              "flag_sp.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_SW],              "flag_sw.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_NZ],              "flag_nz.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_UK],              "flag_uk.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_CA],              "flag_ca.tga");
-    Data_LoadBitmap(&Graphics.Flags [FLAG_TW],              "flag_tw.tga");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_UNKNOWN],         "flag_unknown.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_AU],              "flag_au.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_BR],              "flag_br.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_JP],              "flag_jp.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_KR],              "flag_kr.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_FR],              "flag_fr.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_US],              "flag_us.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_CH],              "flag_ch.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_HK],              "flag_hk.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_EU],              "flag_eu.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_PT],              "flag_pt.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_DE],              "flag_de.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_IT],              "flag_it.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_SP],              "flag_sp.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_SW],              "flag_sw.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_NZ],              "flag_nz.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_UK],              "flag_uk.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_CA],              "flag_ca.png");
+    Data_LoadBitmap(&Graphics.Flags [FLAG_TW],              "flag_tw.png");
 
     // Icons
-    Data_LoadBitmap(&Graphics.Icons.BAD,                    "icon_bad.tga");
-    Data_LoadBitmap(&Graphics.Icons.BIOS,                   "icon_bios.tga");
-    Data_LoadBitmap(&Graphics.Icons.Hack,                   "icon_hack.tga");
-    Data_LoadBitmap(&Graphics.Icons.HomeBrew,               "icon_homebrew.tga");
-    Data_LoadBitmap(&Graphics.Icons.Prototype,              "icon_proto.tga");
-    Data_LoadBitmap(&Graphics.Icons.Translation_JP,         "icon_trans_jp.tga");
-    Data_LoadBitmap(&Graphics.Icons.Translation_JP_US,      "icon_trans_jp_us.tga");
+    Data_LoadBitmap(&Graphics.Icons.BAD,                    "icon_bad.png");
+    Data_LoadBitmap(&Graphics.Icons.BIOS,                   "icon_bios.png");
+    Data_LoadBitmap(&Graphics.Icons.Hack,                   "icon_hack.png");
+    Data_LoadBitmap(&Graphics.Icons.HomeBrew,               "icon_homebrew.png");
+    Data_LoadBitmap(&Graphics.Icons.Prototype,              "icon_proto.png");
+    Data_LoadBitmap(&Graphics.Icons.Translation_JP,         "icon_trans_jp.png");
+    Data_LoadBitmap(&Graphics.Icons.Translation_JP_US,      "icon_trans_jp_us.png");
 
     // Fonts
     for (int i = 0; i < FONTID_COUNT_; i++)

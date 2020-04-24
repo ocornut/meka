@@ -7,6 +7,14 @@
 // Architecture
 //-----------------------------------------------------------------------------
 
+#ifdef linux
+#define ARCH_UNIX     (1)
+#endif
+
+#ifdef __ANDROID__
+#define ARCH_ANDROID  (1)
+#endif
+
 #ifdef _WIN32
 #define ARCH_WIN32    (1)
 #endif
@@ -130,6 +138,11 @@ typedef   signed long long  s64;
 #if defined(ARCH_UNIX) || defined(ARCH_MACOSX)
   #define stricmp strcasecmp
   #define strnicmp strncasecmp
+#endif
+
+#ifdef ARCH_ANDROID
+#define register
+#include <unistd.h>
 #endif
 
 // countof(): provide number of elements in an array

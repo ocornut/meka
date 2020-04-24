@@ -114,7 +114,7 @@ void        PSG_WriteSamples(s16 *buffer, int length)
     // Write buffer to file if logging is activated within MEKA
     if (Sound.LogWav)
     {
-        fwrite (buffer, sizeof (short) * SOUND_CHANNEL_COUNT, length, Sound.LogWav);
+        al_fwrite (Sound.LogWav, buffer, sizeof (short) * SOUND_CHANNEL_COUNT * length);
         Sound.LogWav_SizeData += length * sizeof (short) * SOUND_CHANNEL_COUNT;
     }
 }
@@ -123,27 +123,27 @@ void        PSG_WriteSamples(s16 *buffer, int length)
 // PSG_Save()
 // Save PSG state to file
 //-----------------------------------------------------------------------------
-void        PSG_Save (FILE *f)
+void        PSG_Save (ALLEGRO_FILE *f)
 {
     byte    b;
     word    w;
     int     i;
 
     // PSG Data
-    fwrite (PSG.Registers, 8, sizeof (word), f);
+    al_fwrite ( f, PSG.Registers, 8 * sizeof (word));
     b = PSG.LatchedRegister;
-    fwrite (&b,            1, sizeof (byte), f);
+    al_fwrite ( f, &b,            sizeof (byte));
     b = PSG.Stereo;
-    fwrite (&b,            1, sizeof (byte), f);
+    al_fwrite ( f, &b,            sizeof (byte));
     w = PSG.NoiseShiftRegister;
-    fwrite (&w,            1, sizeof (word), f);
+    al_fwrite ( f, &w,            sizeof (word));
 
     // Implementation Data
     for (i = 0; i < 4; i++)
     {
-        fwrite (&PSG.Channels[i].ToneFreqVal,     1, sizeof (signed short int), f);
-        fwrite (&PSG.Channels[i].ToneFreqPos,     1, sizeof (signed char),      f);
-        fwrite (&PSG.Channels[i].IntermediatePos, 1, sizeof (signed long int),  f);
+        al_fwrite ( f, &PSG.Channels[i].ToneFreqVal,     sizeof (signed short int));
+        al_fwrite ( f, &PSG.Channels[i].ToneFreqPos,     sizeof (signed char));
+        al_fwrite ( f, &PSG.Channels[i].IntermediatePos, sizeof (signed long int));
     }
 }
 
@@ -151,17 +151,17 @@ void        PSG_Save (FILE *f)
 // PSG_Load()
 // Load PSG state from a file
 //-----------------------------------------------------------------------------
-void        PSG_Load (FILE *f, int version)
+void        PSG_Load (ALLEGRO_FILE *f, int version)
 {
     int     i;
 
     // PSG Registers
-    fread (PSG.Registers, 8, sizeof (word), f);
+    al_fread (f, PSG.Registers, 8 * sizeof (word));
     if (version < 0x0B)
     {
         // Legagy Loading
         char dummy_buffer[5];
-        fread (dummy_buffer, 4+1, sizeof (char), f);
+        al_fread (f, dummy_buffer, (4+1) * sizeof (char));
         PSG.LatchedRegister = 0;
         PSG.Stereo = 0xFF;
         PSG.NoiseShiftRegister = NoiseInitialState;
@@ -185,18 +185,18 @@ void        PSG_Load (FILE *f, int version)
         word w;
 
         // PSG Data
-        fread (&b, 1, sizeof (byte), f);
+        al_fread (f, &b, sizeof (byte));
         PSG.LatchedRegister = b;
-        fread (&b, 1, sizeof (byte), f);
+        al_fread (f, &b, sizeof (byte));
         PSG.Stereo = b;
-        fread (&w, 1, sizeof (word), f);
+        al_fread (f, &w, sizeof (word));
         PSG.NoiseShiftRegister = w;
         // Implemention Data
         for (i = 0; i < 4; i++)
         {
-            fread (&PSG.Channels[i].ToneFreqVal,     1, sizeof (signed short int), f);
-            fread (&PSG.Channels[i].ToneFreqPos,     1, sizeof (signed char),      f);
-            fread (&PSG.Channels[i].IntermediatePos, 1, sizeof (signed long int),  f);
+            al_fread (f, &PSG.Channels[i].ToneFreqVal,     sizeof (signed short int));
+            al_fread (f, &PSG.Channels[i].ToneFreqPos,     sizeof (signed char));
+            al_fread (f, &PSG.Channels[i].IntermediatePos, sizeof (signed long int));
         }
     }
     PSG_Regenerate();

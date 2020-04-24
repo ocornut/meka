@@ -26,7 +26,9 @@ float   RandomFloat(float min, float max);
 void *  Memory_Alloc(size_t size);
 
 #ifdef PROFILE_ENABLE
-#define PROFILE_STEP(__NAME)        Profile_Step(__NAME)
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define PROFILE_STEP(__NAME) Profile_Step( __FILE__ ": " TOSTRING( __LINE__ ) "  " __NAME )
 #else
 #define PROFILE_STEP(__NAME)        do {} while(0)
 #endif

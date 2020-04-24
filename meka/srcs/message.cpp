@@ -10,6 +10,9 @@
 #ifdef ARCH_WIN32
 #include "projects/msvc/resource.h"
 #endif
+#ifdef ARCH_ANDROID
+#include <android/log.h>
+#endif
 
 //-----------------------------------------------------------------------------
 // Forward declaration
@@ -790,6 +793,10 @@ void            ConsoleInit (void)
     // Reset pause flag
     ConsolePause = FALSE;
 
+    #ifdef ARCH_ANDROID
+    __android_log_print( ANDROID_LOG_INFO,"MEKA", " ------------------- STARTED! ---------------" );
+    #endif
+
     // Initialize Win32 console
     #ifdef ARCH_WIN32
         const HINSTANCE hInstance = GetModuleHandle(NULL);
@@ -845,9 +852,15 @@ void            ConsolePrint(const char *msg)
             fflush (stdout);
         }
     #else
+    #if ARCH_ANDROID
+
+        __android_log_print( ANDROID_LOG_INFO,"MEKA", "%s", msg );
+
+    #else
         printf("%s", msg);
         fflush (stdout);
         // ...
+    #endif
     #endif
 }
 
@@ -928,12 +941,19 @@ void            Msg(int attr, const char *format, ...)
         if (attr & MSGT_USER_LOG)
             TB_Message_Print(src);
 
-#ifdef WIN32
         if (attr & MSGT_ATTR_DEBUG)
         {
+#ifdef WIN32
             OutputDebugString(src);
             OutputDebugString("\n");
+#else
+#if defined( DEBUG ) || defined( PROFILE_ENABLE )
+            ConsolePrintf("%s\n", src);
+#endif
+#endif
         }
+#if defined(ARCH_ANDROID)
+        ConsolePrintf("%s\n", src);
 #endif
     }
     while (p != NULL);

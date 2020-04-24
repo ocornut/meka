@@ -22,23 +22,23 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-static FILE *       CFG_File;
+static ALLEGRO_FILE *       CFG_File;
 
 static void  CFG_Write_Line(const char* fmt, ...)
 { 
     va_list args;
     va_start(args, fmt);
-    vfprintf(CFG_File, fmt, args); 
+    al_vfprintf(CFG_File, fmt, args); 
     va_end(args);
-    fprintf(CFG_File, "\n"); 
+    al_fprintf(CFG_File, "\n"); 
 }
 static void  CFG_Write_Int(const char *name, int value)
 { 
-    fprintf(CFG_File, "%s = %d\n", name, value); 
+    al_fprintf(CFG_File, "%s = %d\n", name, value); 
 }
 static void  CFG_Write_Str(const char *name, const char *str) 
 { 
-    fprintf(CFG_File, "%s = %s\n", name, str); 
+    al_fprintf(CFG_File, "%s = %s\n", name, str); 
 }
 
 static void  CFG_Write_StrEscape (const char *name, const char *str)
@@ -46,12 +46,12 @@ static void  CFG_Write_StrEscape (const char *name, const char *str)
     char *str_escaped = parse_escape_string(str, NULL);
     if (str_escaped)
     {
-        fprintf(CFG_File, "%s = %s\n", name, str_escaped);
+        al_fprintf(CFG_File, "%s = %s\n", name, str_escaped);
         free(str_escaped);
     }
     else
     {
-        fprintf(CFG_File, "%s = %s\n", name, str);
+        al_fprintf(CFG_File, "%s = %s\n", name, str);
     }
 }
 
@@ -241,7 +241,7 @@ void Configuration_Save()
 {
     char   s1 [256];
 
-    if (!(CFG_File = fopen(g_env.Paths.ConfigurationFile, "wt")))
+    if (!(CFG_File = al_fopen(g_env.Paths.ConfigurationFile, "wt")))
         return;
 
     CFG_Write_Line (";");
@@ -294,7 +294,7 @@ void Configuration_Save()
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");
     CFG_Write_Int  ("start_in_gui", g_config.start_in_gui);
     CFG_Write_StrEscape("theme", Skins_GetCurrentSkin()->name);
-    fprintf(CFG_File, "game_window_scale = %.2f\n", g_config.game_window_scale); 
+    al_fprintf(CFG_File, "game_window_scale = %.2f\n", g_config.game_window_scale); 
     CFG_Write_Int  ("fb_uses_db", g_config.fb_uses_DB);
     CFG_Write_Int  ("fb_close_after_load", g_config.fb_close_after_load);
     CFG_Write_Int  ("fb_fullscreen_after_load", g_config.fullscreen_after_load);
@@ -375,7 +375,7 @@ void Configuration_Save()
     CFG_Write_Line ("-----< FACTS >---------------------------------------------------------------");
     CFG_Write_Line ("nes_sucks = 1");
 
-    fclose (CFG_File);
+    al_fclose (CFG_File);
 }
 
 //-----------------------------------------------------------------------------
