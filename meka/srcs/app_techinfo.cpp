@@ -46,7 +46,7 @@ void        TechInfo_Init()
     frame.pos.y = 482;
     frame.size.x = TECHINFO_COLUMNS * Font_TextWidth(font_id, " ");
     frame.size.y = TECHINFO_LINES * Font_Height(font_id);
-    
+
     TechInfo.active = FALSE;
     TechInfo.box = gui_box_new(&frame, Msg_Get(MSG_TechInfo_BoxTitle));
     Desktop_Register_Box("TECHINFO", TechInfo.box, 0, &TechInfo.active);
@@ -177,7 +177,7 @@ void        TechInfo_Update(void)
 
     // - TMS9918
     {
-        sprintf(line, "[TMS9918] Name:%04X - Color:%04X - Pattern:%04X - SPG:%04X", 
+        sprintf(line, "[TMS9918] Name:$%04X - Color:$%04X - Pattern:$%04X - SPG:$%04X",
             (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
@@ -201,7 +201,7 @@ void        TechInfo_Update(void)
             char s[16];
             if (i == 0)
                 sprintf(s, "$%02X", g_machine.mapper_regs[i]);
-            else 
+            else
                 sprintf(s, ",$%02X", g_machine.mapper_regs[i]);
             strcat(mapper_regs, s);
         }
