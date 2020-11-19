@@ -64,6 +64,7 @@
  Astro Flash (JP)                               -       Ok
  Astro Warrior                                  -       Ok
  Astro Warrior / Pit Pot                        -       Ok
+ Astro Warrior / Pit Pot [Proto]                -      *Ok
  A-Team, The [Music] [Proto]                    -       Ok
  Aztec Adventure / Nazca '88                    FM      Ok
  Back to the Future Part II                     -       Ok
@@ -76,6 +77,7 @@
  Batman Returns                                 -       Ok
  Battlemaniacs (BR)                             -       Ok
  Battle Out Run                                 (FM)    Ok (Hidden FM music)
+ Battle Wings [Proto]                           FM      Ok
  Black Belt                                     -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
  Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
@@ -124,6 +126,7 @@
  Cyber Shinobi, The                             -       Ok
  Cyber Shinobi, The [Proto]                     -       Ok
  Cyborg Hunter                                  FM      Ok
+ Cyborg Hunter [Proto]                          FM      Ok
  Cyborg Z (KR)                                  -       Ok
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
@@ -197,6 +200,7 @@
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
+ Game De Check! Koutsuu Anzen [Proto] (JP)     *FM      Ok
  Gangcheol RoboCop (KR)                         -       Ok
  Gangster Town                                  LP      Ok
  Gauntlet                                       -       Ok
@@ -360,6 +364,7 @@
  Ottifants, The                                 -       Ok
  Out Run                                        FM,(PAD)        In FM mode, wave sound hang at race start.
  Out Run 3-D                                    FM,(3D),(PAD)   Ok
+ Out Run 3-D [Proto]                            FM,(3D),(PAD?)  Ok
  Out Run Europa                                 -       Ok
  Pac-Mania                                      -       Ok
  Paperboy                                       -       Ok
@@ -589,7 +594,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 571 games tested - 569 are "Ok" - Compatibility rate: 99.64%
+ 575 games tested - 573 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -993,6 +998,7 @@
  Devilish                                           Ok
  Devilish (US)                                      Ok
  Devilish (JP)                                      Ok
+ Dinobasher - Starring Bignose the Caveman [Proto]  Ok
  Donald Duck no Lucky Dime (JP)                     Ok
  Donald Duck no Yottsu no Hihou (JP)                Ok
  Donald no Magical World (Ronald in the Magic.. (JP)Ok
@@ -1408,7 +1414,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 512 games tested - 500 are "Ok" - Compatibility rate: 97.63%
+ 513 games tested - 501 are "Ok" - Compatibility rate: 97.63%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
