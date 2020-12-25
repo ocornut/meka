@@ -27,6 +27,24 @@ MEKA was started in 1998 and first released on April 3rd 1999. It was my first m
 
 In spite of its old age and very clunky technology, MEKA is among the most exhaustive Sega 8-bit emulator in term of coverage of obscure games, peripherals. And also provide competent debugging and reverse engineering tools. It is still maintained for those purpose but doesn't has much use for the average player. 
 
+Credits
+-------
+(old pre-github credits from meka.txt)
+ 
+```
+Omar Cornut (Bock): Main development, coordination
+Marat Fayzullin (RST38H): Zilog Z80 CPU emulation core. Implemented with modifications in MEKA.
+Mitsutaka Okazaki: Software Yamaha 2413 emulator (EMU2413).
+Maxim: Software PSG emulator.
+Hiromitsu Shioya (Hiro-shi): Original sound engine (now obsolete).
+Ulrich Cordes: FDC765 emulator for SF-7000. Implemented with modifications by Marc Le Douarain.
+Valerie Tching (Kittie): Initial version of the Memory Editor.
+Johan Euphrosine (Proppy): GNU/Linux+OSX tweaks.
+DJRobX: Blitters and video improvements, HQ2X interface.
+Maxim Stephin (MaxSt): HQ2X graphics filter.
+Dirk Stevens: Eagle graphics filter.
+```
+
 Clone
 -----
 
