@@ -56,11 +56,17 @@ void        Load_Game_Fixup(void)
             b = RAM[0x1FFE]; WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[1]);  RAM[0x1FFE] = b;
             b = RAM[0x1FFF]; WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[2]);  RAM[0x1FFF] = b;
             break;
-        case MAPPER_SMS_Korean_MSX_8KB:
+        case MAPPER_SMS_Korean_MSX_8KB_0003:
             WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
             WrZ80_NoHook (0x0001, g_machine.mapper_regs[1]);
             WrZ80_NoHook (0x0002, g_machine.mapper_regs[2]);
             WrZ80_NoHook (0x0003, g_machine.mapper_regs[3]);
+            break;
+        case MAPPER_SMS_Korean_MSX_8KB_0300:
+            WrZ80_NoHook(0x0000, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0x0100, g_machine.mapper_regs[1]);
+            WrZ80_NoHook(0x0200, g_machine.mapper_regs[2]);
+            WrZ80_NoHook(0x0300, g_machine.mapper_regs[3]);
             break;
         case MAPPER_SMS_Korean_Janggun:
             WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[0]);
@@ -287,7 +293,8 @@ int     Save_Game_MSV (FILE *f)
         fwrite (RAM + 0x2000, 0x00800, 1, f);
         break;
     case MAPPER_SMS_NoMapper:
-    case MAPPER_SMS_Korean_MSX_8KB:
+    case MAPPER_SMS_Korean_MSX_8KB_0003:
+    case MAPPER_SMS_Korean_MSX_8KB_0300:
     case MAPPER_SMS_Korean_Janggun:
     case MAPPER_SMS_Korean_Xin1:
     default:                  
@@ -393,7 +400,7 @@ int         Load_Game_MSV(FILE *f)
         fread(&g_machine.mapper_regs[0], sizeof(u8), 3+1, f);
         for (int i = 3; i != MAPPER_REGS_MAX; i++)              // 4th value was padding so we also invalid it.
             g_machine.mapper_regs[i] = 0;
-        if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
+        if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB_0003 || g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB_0300)
         {
             u8 r[3];
             r[0] = g_machine.mapper_regs[0];
@@ -457,7 +464,8 @@ int         Load_Game_MSV(FILE *f)
         fread (RAM + 0x2000, 0x0800, 1, f);
         break;
     case MAPPER_SMS_NoMapper:
-    case MAPPER_SMS_Korean_MSX_8KB:
+    case MAPPER_SMS_Korean_MSX_8KB_0003:
+    case MAPPER_SMS_Korean_MSX_8KB_0300:
     case MAPPER_SMS_Korean_Janggun:
     case MAPPER_SMS_Korean_Xin1:
     default:

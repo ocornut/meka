@@ -164,8 +164,11 @@ void    Machine_Set_Handler_Write(void)
     case MAPPER_SMS_Korean:              // SMS Korean games
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean;
         break;
-    case MAPPER_SMS_Korean_MSX_8KB:      // SMS Korean games with MSX-based 8KB mapper
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB;
+    case MAPPER_SMS_Korean_MSX_8KB_0003:      // SMS Korean games with MSX-based 8KB mapper
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0003;
+        break;
+    case MAPPER_SMS_Korean_MSX_8KB_0300:      // SMS Korean games with MSX-based 8KB mapper
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0300;
         break;
     case MAPPER_SMS_Korean_Janggun:      // SMS Korean Janggun-ui Adeul
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Janggun;
@@ -299,7 +302,8 @@ void    Machine_Set_Mapping (void)
         Map_8k_RAM(6, 0);  // RAM - Standard
         Map_8k_RAM(7, 0);
         break;
-    case MAPPER_SMS_Korean_MSX_8KB:
+    case MAPPER_SMS_Korean_MSX_8KB_0003:
+    case MAPPER_SMS_Korean_MSX_8KB_0300:
         Map_8k_ROM(0, 0);
         Map_8k_ROM(1, 1);
         Map_8k_ROM(2, 2);
@@ -312,10 +316,9 @@ void    Machine_Set_Mapping (void)
 
         // Nemesis has boot code on page 0x0F which seems to be auto-mapped at 0x0000-0x1fff on boot
         // I'm not sure what is really "correct" but this work and doesn't trigger on other Zemina games for now.
-        if (tsms.Size_ROM == 16*0x2000 && ROM[0] == 0x00 && ROM[1] == 0x00 && ROM[2] == 0x00 && ROM[15*0x2000+0] == 0xF3 && ROM[15*0x2000+1] == 0xED && ROM[15*0x2000+2] == 0x56)
-        {
-            Map_8k_ROM(0, 0x0F);
-        }
+        if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB_0003)
+            if (tsms.Size_ROM == 16*0x2000 && ROM[0] == 0x00 && ROM[1] == 0x00 && ROM[2] == 0x00 && ROM[15*0x2000+0] == 0xF3 && ROM[15*0x2000+1] == 0xED && ROM[15*0x2000+2] == 0x56)
+                Map_8k_ROM(0, 0x0F);
         break;
     case MAPPER_SMS_Korean_Janggun:
         Map_8k_ROM(0, 0);

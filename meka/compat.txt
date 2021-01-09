@@ -501,6 +501,7 @@
  Super Boy 4 (KR)                               -       Ok
  Super Bubble Bobble (KR)                       -       Ok
  Super Columns (KR)                             -       Ok
+ Super Game World 75 (KR)                       -      *Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -508,6 +509,7 @@
  Super Monaco GP [Proto 0]                      -       Ok
  Super Monaco GP [Proto 1]                      -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
+ Super Multi Game - Super 75 in 1 (KR)          -      *Ok
  Super Off Road                                 -       Ok
  Super Off Road [Proto]                         -       Ok
  Super Racing (JP)                              FM,(PAD)Ok
@@ -594,7 +596,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 575 games tested - 573 are "Ok" - Compatibility rate: 99.64%
+ 577 games tested - 575 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

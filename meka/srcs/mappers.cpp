@@ -126,6 +126,7 @@ int         Mapper_Autodetect(void)
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
     int c0002 = 0, c8000 = 0, cA000 = 0, cBFFF = 0, cFFFF = 0;
+    int c0000 = 0, c0100 = 0, c0200 = 0, c0300 = 0;
     for (int i = 0; i < 0x8000; i++)
     {
         if (ROM[i] == 0x32) // Z80 opcode for: LD (xxxx), A
@@ -141,6 +142,12 @@ int         Mapper_Autodetect(void)
             { i += 2; cA000++; continue; }
             if (addr == 0xBFFF)
             { i += 2; cBFFF++; continue; }
+
+            // MAPPER_SMS_Korean_MSX_8KB_0300
+            if (addr == 0x0000) { i += 2; c0000++; continue; }
+            if (addr == 0x0100) { i += 2; c0100++; continue; }
+            if (addr == 0x0200) { i += 2; c0200++; continue; }
+            if (addr == 0x0300) { i += 2; c0300++; continue; }
         }
     }
 
@@ -154,11 +161,13 @@ int         Mapper_Autodetect(void)
 
     // 2 is a security measure, although tests on existing ROM showed it was not needed
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
-        return (MAPPER_SMS_Korean_MSX_8KB);
+        return (MAPPER_SMS_Korean_MSX_8KB_0003);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean);
+    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1)
+        return (MAPPER_SMS_Korean_MSX_8KB_0300);
 
     return (MAPPER_Auto);
 }
@@ -512,7 +521,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
 //   not switchable the first register is kept as zero).
 // - If ever it happens that Sega 8-bits mappers gets standardized this whole system will
 //   be reworked and per-mapper state be taken into account in save states.
-WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003)
 {
     switch (Addr)
     {
@@ -566,6 +575,46 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
     }
 
     Write_Error (Addr, Value);
+}
+
+WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_8KB_0300)
+{
+    switch (Addr)
+    {
+    case 0x0000:
+    {
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(4, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    case 0x0100:
+    {
+        g_machine.mapper_regs[1] = Value;
+        Map_8k_ROM(2, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    case 0x0200:
+    {
+        g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(5, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    case 0x0300:
+    {
+        g_machine.mapper_regs[3] = Value;
+        Map_8k_ROM(3, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun)

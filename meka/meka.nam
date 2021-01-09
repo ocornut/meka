@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2020/10/16
+; Last updated 2021/01/09
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -41,6 +41,8 @@
 ;  14 : sms 4 Pak All Action
 ;  15 : sg-1000 II with taiwanese memory expansion adapter, 8KB RAM from 0x2000->0x3FFF + regular 2KB RAM mapped at 0xC000-0xFFFF
 ;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000
+;  17 : sc-3000 survivors multicart.
+;  18 : sms korean xx-in-1, register at 0x0000 mapping 8 KB at 0x8000, register at 0x0100 mapping 8 KB at 0x4000, register at 0x0200 mapping 8 KB at 0xA000, register at 0x0300 mapping 8 KB at 0x6000
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -584,6 +586,7 @@ SMS 9195c34c 8585901FA9FBF8AB   Super Boy 3/COUNTRY=KR/EMU_MAPPER=12
 SMS b995b4f0 EE7A46299269111D   Super Boy 4/COUNTRY=KR
 SMS 22c09cfd 50BB66C5832E8C8D   Super Bubble Bobble/COUNTRY=KR/COMMENT=Unlicensed clone of "Bubble Bobble".
 SMS 6ce7f694 8B297D82FFFB75DE   Super Columns/COUNTRY=KR/COMMENT=Unlicensed clone. Also referred to as "Super Columns & Tetris".
+SMS c29bb8cd F5394893312A6339   Super Game World 75/COUNTRY=KR/EMU_MAPPER=18
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
 SMS 6f9ac98f 8F53B08718544338   Superman - The Man of Steel/COUNTRY=EU,BR/PRODUCT_NO=MK-27050-50,027190
@@ -592,6 +595,7 @@ SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
 SMS a1d6d963 CA2E38E7805970A0   Super Monaco GP [Proto 0]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS dd7adbcc C9712D78F61127F3   Super Monaco GP [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e890331d 0EE799CB6D17E43F   Super Monaco GP II (Ayrton Senna's)/COUNTRY=EU,BR,KR/PRODUCT_NO=9011
+SMS 660bf6ec D093565FC7E8C376   Super Multi Game - Super 75 in 1/COUNTRY=KR/EMU_MAPPER=18
 SMS 54f68c2a F34CECBA9A4AAF88   Super Off Road/COUNTRY=EU/PRODUCT_NO=MK-27059-50
 SMS ce8d6846 BA46E1977D539F19   Super Off Road [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMENT=This game optionally support the Paddle Control.
