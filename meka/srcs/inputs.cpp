@@ -390,46 +390,58 @@ u8  Input_Port_DC (void)
         const t_peripheral_paddle* paddle_2 = &Inputs.Paddle[1];
         const t_peripheral_sportspad* sportspad_1 = &Inputs.SportsPad[0];
         const t_peripheral_sportspad* sportspad_2 = &Inputs.SportsPad[1];
-        switch (tsms.Port3F)
-        {
-            // SPORT PAD -----------------------------------------------------------
-        case 0x0D: // 00001101: SportsPad 1 bits 4-8
-            v &= 0xF0;
-            v |= 0x0F & (((sportspad_1->latch & 1) ? sportspad_1->y : sportspad_1->x) >> 4);
-            break;
-        case 0x2D: // 00101101: SportsPad 1 bits 0-3
-            v &= 0xF0;
-            v |= 0x0F & (((sportspad_1->latch & 1) ? sportspad_1->y : sportspad_1->x)     );
-            break;
-        case 0x07: // 00001111: SportsPad 2 bits 4-5
-            v &= 0x3F;
-            v |= 0xC0 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) << 2);
-            break;
-        case 0x87: // 10001111: SportsPad 2 bits 0-1
-            v &= 0x3F;
-            v |= 0xC0 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) << 6);
-            break;
 
-            // PADDLE CONTROL ------------------------------------------------------
-            // Japanese "Flip-Flop" mode
-        case 0x55: // 01010101
+        if (sms.Country)
+        {
+            // Japanese consoles do not have port 3F
             if (paddle_flip_flop) // Paddle 1 bits 0-3, Paddle 2 bits 0-1
                 v &= (paddle_1->x & 0xF) | ((paddle_2->x << 6) & 0xC0) | 0x10;
             else                  // Paddle 1 bits 4-7, Paddle 2 bits 4-5
                 v &= ((paddle_1->x >> 4) & 0xF) | ((paddle_2->x << 2) & 0xC0) | 0x10;
-            break;
-            // Export "Select" mode
-        case 0xDD: // 11011101: Paddle 1 bits 0-3, Paddle 2 bits 0-1
-            v &= (paddle_1->x & 0xF) | ((paddle_2->x << 6) & 0xC0) | 0x10;
-            break;
-        case 0xFD: // 11111101: Paddle 1 bits 4-7, Paddle 2 bits 4-5
-            v &= ((paddle_1->x >> 4) & 0xF) | ((paddle_2->x << 2) & 0xC0) | 0x10;
-            break;
-        case 0xDF: // 11011111: (Paddle 2 bits 0-1 ?)
-            break;
-        case 0xFF: // 11111111: (Paddle 2 bits 4-5 ?)
-            break;
-            // default: Msg(MSGT_DEBUG, "schmilblik error #4444, %02X", tsms.Port3F);
+        }
+        else
+        {
+            switch (tsms.Port3F)
+            {
+                // SPORT PAD -----------------------------------------------------------
+            case 0x0D: // 00001101: SportsPad 1 bits 4-8
+                v &= 0xF0;
+                v |= 0x0F & (((sportspad_1->latch & 1) ? sportspad_1->y : sportspad_1->x) >> 4);
+                break;
+            case 0x2D: // 00101101: SportsPad 1 bits 0-3
+                v &= 0xF0;
+                v |= 0x0F & (((sportspad_1->latch & 1) ? sportspad_1->y : sportspad_1->x)     );
+                break;
+            case 0x07: // 00001111: SportsPad 2 bits 4-5
+                v &= 0x3F;
+                v |= 0xC0 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) << 2);
+                break;
+            case 0x87: // 10001111: SportsPad 2 bits 0-1
+                v &= 0x3F;
+                v |= 0xC0 & (((sportspad_2->latch & 1) ? sportspad_2->y : sportspad_2->x) << 6);
+                break;
+
+                // PADDLE CONTROL ------------------------------------------------------
+                // Japanese "Flip-Flop" mode
+            case 0x55: // 01010101
+                if (paddle_flip_flop) // Paddle 1 bits 0-3, Paddle 2 bits 0-1
+                    v &= (paddle_1->x & 0xF) | ((paddle_2->x << 6) & 0xC0) | 0x10;
+                else                  // Paddle 1 bits 4-7, Paddle 2 bits 4-5
+                    v &= ((paddle_1->x >> 4) & 0xF) | ((paddle_2->x << 2) & 0xC0) | 0x10;
+                break;
+                // Export "Select" mode
+            case 0xDD: // 11011101: Paddle 1 bits 0-3, Paddle 2 bits 0-1
+                v &= (paddle_1->x & 0xF) | ((paddle_2->x << 6) & 0xC0) | 0x10;
+                break;
+            case 0xFD: // 11111101: Paddle 1 bits 4-7, Paddle 2 bits 4-5
+                v &= ((paddle_1->x >> 4) & 0xF) | ((paddle_2->x << 2) & 0xC0) | 0x10;
+                break;
+            case 0xDF: // 11011111: (Paddle 2 bits 0-1 ?)
+                break;
+            case 0xFF: // 11111111: (Paddle 2 bits 4-5 ?)
+                break;
+                // default: Msg(MSGT_DEBUG, "schmilblik error #4444, %02X", tsms.Port3F);
+            }
         }
     }
 
