@@ -391,7 +391,7 @@ u8  Input_Port_DC (void)
         const t_peripheral_sportspad* sportspad_1 = &Inputs.SportsPad[0];
         const t_peripheral_sportspad* sportspad_2 = &Inputs.SportsPad[1];
 
-        if (sms.Country)
+        if (sms.Country == COUNTRY_JAPAN)
         {
             // Japanese consoles do not have port 3F
             if (paddle_flip_flop) // Paddle 1 bits 0-3, Paddle 2 bits 0-1
