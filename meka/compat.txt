@@ -16,7 +16,7 @@
  SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  20 em 1 (BR)                                   -       Ok
- 3D Gunner [Proto]                              LP,3D  *Ok
+ 3D Gunner [Proto]                              LP,3D   Ok
  4 PAK All Action (AU)                          -       Ok
  94 Super World Cup Soccer (KR)                 -       Ok
  Ace of Aces                                    -       Ok
@@ -27,6 +27,7 @@
  Addams Family, The                             -       Ok
  Aerial Assault                                 -       Ok
  Aerial Assault (US)                            -       Ok
+ Aerial Assault [HTH] [SMS-GG] (TW)             -       Ok
  After Burner                                   FM      Ok
  Agigongnyong Dooly (KR)                        -       Ok
  Air Rescue                                     -       Ok
@@ -37,6 +38,7 @@
  Alex Kidd in Miracle World [v0] (US)           -       Ok
  Alex Kidd in Miracle World [v1]                -       Ok
  Alex Kidd no Miracle World (JP)                -       Ok
+ Alex Kidd in Miracle World [HTH] [SMS-GG] (TW) -       Ok
  Alex Kidd in Shinobi World                     -       Ok
  Alex Kidd: The Lost Stars                      FM      Ok
  Alf                                            -       Ok
@@ -53,6 +55,7 @@
  Anmitsu Hime (JP)                              -       Ok
  Arcade Smash Hits                              -       Ok
  Argos no Juujiken (JP)                         -       Ok
+ Argos no Juujiken [HTH] [SMS-GG] (TW)          -       Ok
  Ariel - The Little Mermaid (Disney's) (BR)     -       Ok
  Ashura (JP)                                    -       Ok
  Assault City                                   -       Ok
@@ -79,6 +82,7 @@
  Battle Out Run                                 (FM)    Ok (Hidden FM music)
  Battle Wings [Proto]                           FM      Ok
  Black Belt                                     -       Ok
+ Black Belt [HTH] [SMS-GG] (TW)                 -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
  Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
  Block Hole (KR)                                -       Ok
@@ -125,6 +129,7 @@
  C_So! [MSX] (KR)                               -       Ok
  Cyber Shinobi, The                             -       Ok
  Cyber Shinobi, The [Proto]                     -       Ok
+ Cyber Shinobi, The [HTH] [SMS-GG] (TW)         -       Ok
  Cyborg Hunter                                  FM      Ok
  Cyborg Hunter [Proto]                          FM      Ok
  Cyborg Z (KR)                                  -       Ok
@@ -139,9 +144,11 @@
  Dinosaur Dooley, The (KR)                      -       Ok
  Dodgeball King (KR)                            -       Ok
  Doki Doki Penguin Land - Uchuu Daibouken (JP)  FM      Ok
- Doki Doki Penguin Land - Uchuu... [Proto] (JP) FM      Ok
+ Doki Doki Penguin Land ... [HTH] [SMS-GG] (TW) FM      Ok
+ Doki Doki Penguin Land ... [Proto] (JP)        FM      Ok
  Double Dragon                                  FM      Ok
  Double Dragon (KR)                             FM      Ok
+ Double Dragon [HTH] [SMS-GG] (TW)              FM      Ok
  Double Hawk                                    (FM)    Ok (Hidden FM music)
  Double Hawk [Proto]                            (FM)    Ok (Hidden FM music)
  Double Target - Cynthia no Nemuri              -       Ok
@@ -185,22 +192,24 @@
  Férias Frustradas do Pica Pau (BR)             -       Ok
  FIFA International Soccer (BR)                 -       Ok
  Final Bubble Bobble (JP)                       -       Ok
+ Final Bubble Bobble [HTH] [SMS-GG] (TW)        -       Ok
  Fire & Forget II                               -       Ok
  Fire & Ice (BR)                                -       Ok
  Flash, The                                     -       Ok
  Flashpoint (KR)                                -       Ok
  Flintstones, The                               -       Ok
  Forgotten Worlds                               -       Ok
+ Forgotten Worlds [HTH] [SMS-GG]                -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Gaegujangi Kkachi (KR)                         -       Ok
- Gain Ground                                    -       Ok
+ Gain Ground                1                   -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
  Galaxian (KR)                                  -       Ok
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
- Game De Check! Koutsuu Anzen [Proto] (JP)     *FM      Ok
+ Game De Check! Koutsuu Anzen [Proto] (JP)      FM      Ok
  Gangcheol RoboCop (KR)                         -       Ok
  Gangster Town                                  LP      Ok
  Gauntlet                                       -       Ok
@@ -228,6 +237,7 @@
  Great Baseball                                 -       Ok
  Great Baseball [JP] (JP)                       -       Ok
  Great Basketball                               -       Ok
+ Great Basketball [HTH] [SMS-GG] (TW)           -       Ok
  Great Football                                 -       Ok
  Great Golf / Masters Golf                      FM      Ok
  Great Golf / Masters Golf [Mega-Tech]          FM      Ok
@@ -263,6 +273,7 @@
  High School! Kimengumi (JP)                    -       Ok
  Hokuto no Ken (JP)                             -       Ok
  Hokuto no Ken (TW)                             -       Ok (note: final boss graphic data is corrupted)
+ Hokuto no Ken [HTH] [SMS-GG] (TW)              -       Ok
  Home Alone                                     -       Ok
  Hong Kil Dong (KR)                             -       Ok
  Hook [Proto]                                   -       Ok
@@ -295,6 +306,7 @@
  Knightmare II: The Maze of Galious (KR)        -       Ok
  Kujakuou (JP)                                  FM      Ok
  Kung Fu Kid                                    -       Ok
+ Kung Fu Kid [HTH] [SMS-GG] (TW)                -       Ok
  Krusty's Fun House                             -       Ok
  Land of Illusion - Starring Mickey Mouse       -       Ok
  Laser Ghost                                    (LP)    Ok
@@ -307,7 +319,7 @@
  Line of Fire                                   (3D)    Ok
  Loretta no Shouzou (JP)                        -       Ok
  Lord of Sword (JP)                             FM      Ok
- Lord of Sword [SMS-GG] (TW)                    FM     *Ok
+ Lord of Sword [HTH] [SMS-GG] (TW)              FM      Ok
  Lord of The Sword                              FM      Ok
  Lucky Dime Caper, The - Starring Donald Duck   -       Ok
  Lucky Dime Caper, The - Starring Do... [Proto] -       Ok
@@ -367,8 +379,9 @@
  Out Run 3-D [Proto]                            FM,(3D),(PAD?)  Ok
  Out Run Europa                                 -       Ok
  Pac-Mania                                      -       Ok
- Paperboy                                       -       Ok
- Paperboy (US)                                  -       Ok
+ Paperboy [v0]                                  -       Ok
+ Paperboy [v1]                                  -       Ok
+ Paperboy [v1] [HTH] [SMS-GG] (TW)              -       Ok
  Parlour Games                                  FM      Ok
  Pat Riley Basketball [Proto]                   -       Ok
  Penguin Adventure (KR)                         -       Ok
@@ -391,6 +404,7 @@
  Predator 2                                     -       Ok
  Predator 2 (BR)                                -       Ok
  Prince of Persia                               -       Ok
+ Prince of Persia [HTH] [SMS-GG] (TW)           -       Ok
  Promocao Especial M.System III Compact         -       Ok 
  Pro Wrestling                                  -       Ok
  Pro Yakyuu Pennant Race, The (JP)              -       Ok
@@ -400,9 +414,11 @@
  Putt & Putter [Proto]                          -       Ok
  Puznic (KR)                                    -       Ok
  Quartet                                        -       Ok
+ Quartet [HTH] [SMS-GG] (TW)                    -       Ok
  Quest for the Shaven Yak Starring Ren Ho..(BR) -       Ok
  R-Type                                         FM      Ok
  R-Type [Proto]                                 FM      Ok
+ R-Type [HTH] [SMS-GG] (TW)                     FM      Ok
  Rainbow Islands                                -       Ok
  Rainbow Islands (BR)                           -       Ok
  Rambo - First Blood Part II                    -       Ok
@@ -429,14 +445,19 @@
  Sapo Xulé Vs Os Invasores do Brejo (BR)        -       Ok
  Satellite 7 (JP)                               -       Ok
  Scramble Spirits                               FM      Ok
+ Scramble Spirits [HTH] [SMS-GG] (TW)           FM      Ok
  Secret Command                                 -       Ok
+ Secret Command [HTH] [SMS-GG] (TW)             -       Ok
  Sega Chess                                     -       Ok
  Sega Graphic Board v2.0 [Proto]                GB2     Ok. Requires Graphic Board v2.0 (Prototype hardware)
  Sega World Tournament Golf                     -       Ok
  Seishun Scandal (JP)                           -       Ok
+ Seishun Scandal [HTH] [SMS-GG] (TW)            -       Ok
  Sensible Soccer                                -       Ok
  Shadow Dancer - The Secret Of Shinobi          -       Ok
+ Shadow Dancer - The Secr.. [HTH] [SMS-GG] (TW) -       Ok
  Shadow of the Beast                            -       Ok
+ Shadow of the Beast [HTH] [SMS-GG] (TW)        -       Ok
  Shanghai                                       FM      Ok
  Shanghai [Proto]                               FM      Ok
  Shinobi [v0]                                   FM      Ok
@@ -486,9 +507,11 @@
  Streets of Rage                                -       Ok
  Streets of Rage II                             -       Ok
  Strider                                        -       Ok
+ Strider [HTH] [SMS-GG] (TW)                    -       Ok
  Strider [Demo]                                 -       Ok
  Strider II                                     -       Ok
  Submarine Attack                               -       Ok
+ Submarine Attack [HTH] [SMS-GG] (TW)           -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   (FM)    Ok (Hidden FM music)
  Summer Games [Proto]                           FM      Ok
@@ -536,6 +559,7 @@
  Three Dragon Story, The (KR)                   -       Ok
  Thunder Blade                                  FM      Ok
  Thunder Blade (JP)                             FM      Ok
+ Thunder Blade [HTH] [SMS-GG] (TW)              FM      Ok
  Time Soldiers                                  FM      Ok
  Tom and Jerry: The Movie                       -       Ok
  Tom and Jerry: The Movie [Proto]               -       Ok
@@ -596,7 +620,7 @@
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 577 games tested - 575 are "Ok" - Compatibility rate: 99.64%
+ 600 games tested - 598 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -911,7 +935,6 @@
  Aerial Assault [v1] (JP)                           Ok
  Aladdin (Disney's)                                 Ok
  Aladdin (Disney's) (JP)                            Ok
- Alex Kidd in Miracle World [SMS-GG] (TW)           Ok
  Alien 3                                            Ok
  Alien 3 (JP)                                       Ok
  Alien Syndrome                                     Ok
@@ -1416,7 +1439,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 513 games tested - 501 are "Ok" - Compatibility rate: 97.63%
+ 512 games tested - 500 are "Ok" - Compatibility rate: 97.63%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

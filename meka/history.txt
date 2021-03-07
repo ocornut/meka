@@ -131,10 +131,12 @@ They are usually of 2 kinds:
   - Configuration file is created early on startup if missing. [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          SMS - 6f8e46cf - Alex Kidd in Miracle World [SMS-GG] (TW) --> Alex Kidd in Miracle World [HTH] [SMS-GG] (TW) (labeling HTH release, listing them under SMS)
           SMS - c4bb1676 - E-SWAT [A]                           --> E-SWAT [v0]
           SMS - c10fce39 - E-SWAT [B]                           --> E-SWAT [v1]
           SMS - d1a7b1aa - Olympic Gold (KR, BR)                --> Olympic Gold [v0]
           SMS - 6a5a1e39 - Olympic Gold                         --> Olympic Gold [v1]
+          SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (US, BR)
           GG  - a6bf865e - Beavis and Butt-Head (MTV's) (EU)    --> Beavis and Butt-Head (MTV's) (US, EU)
           GG  - 3858f14f - Beavis and Butt-Head (MTV's) (US)    --> Beavis and Butt-Head (MTV's) [Proto]
           GG  - f3ca6676 - Columns (JP)                         --> Columns [v0]
