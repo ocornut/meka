@@ -3082,8 +3082,8 @@ Msg_FDC765_Disk_Too_Small2              = "Os dados ausentes serão assumidos co
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Paleta"
-Msg_Palette_Disabled                    = "Visualizador da paleta desativada"
-Msg_Palette_Enabled                     = "Visualizador da paleta ativa"
+Msg_Palette_Disabled                    = "Visualizador da paleta desativado"
+Msg_Palette_Enabled                     = "Visualizador da paleta ativo"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Mensagens"
@@ -3097,8 +3097,8 @@ Msg_TechInfo_Enabled                    = "Informações técnicas ativadas"
 
 ; Tile Viewer ----------------------------------------------------------------
 Msg_TilesViewer_BoxTitle                = "Visualizador dos Tiles"
-Msg_TilesViewer_Disabled                = "Visualizador dos tiles desativada"
-Msg_TilesViewer_Enabled                 = "Visualizador dos tiles ativa"
+Msg_TilesViewer_Disabled                = "Visualizador dos tiles desativado"
+Msg_TilesViewer_Enabled                 = "Visualizador dos tiles ativo"
 Msg_TilesViewer_Tile                    = "Tile %d ($%X) @ %s"
 
 ; Memory Editor --------------------------------------------------------------
@@ -3382,8 +3382,8 @@ Msg_Menu_Video_ScreenCapture_IncludeGUI = "Incluir a GUI"
 ; Menu: Sound ----------------------------------------------------------------
 Msg_Menu_Sound                          = "SOM"
 Msg_Menu_Sound_FM                       = "Unidade do FM"
-Msg_Menu_Sound_FM_Enabled               = "Ativada"
-Msg_Menu_Sound_FM_Disabled              = "Desativada"
+Msg_Menu_Sound_FM_Enabled               = "Ativado"
+Msg_Menu_Sound_FM_Disabled              = "Desativado"
 Msg_Menu_Sound_FM_Editor                = "Editor de Instrumentos"
 Msg_Menu_Sound_Volume                   = "Volume"
 Msg_Menu_Sound_Volume_Mute              = "Mudo"
