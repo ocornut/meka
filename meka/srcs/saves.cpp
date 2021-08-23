@@ -110,6 +110,9 @@ void        Load_Game_Fixup(void)
         case MAPPER_SC3000_Survivors_Multicart:
             Out_SMS(0xE0, g_machine.mapper_regs[0]);
             break;
+        case MAPPER_SMS_Korean_128in1:
+            WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
+            break;
         }
     }
 
@@ -228,7 +231,7 @@ void        SaveState_Load()
 }
 
 // Save current state to given file, in MEKA save state format
-int     Save_Game_MSV (FILE *f)
+int     Save_Game_MSV(FILE *f)
 {
     u8  b;
     u16 w;
@@ -297,6 +300,7 @@ int     Save_Game_MSV (FILE *f)
     case MAPPER_SMS_Korean_MSX_8KB_0300:
     case MAPPER_SMS_Korean_Janggun:
     case MAPPER_SMS_Korean_Xin1:
+    case MAPPER_SMS_Korean_128in1:
     default:                  
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -468,6 +472,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MSX_8KB_0300:
     case MAPPER_SMS_Korean_Janggun:
     case MAPPER_SMS_Korean_Xin1:
+    case MAPPER_SMS_Korean_128in1:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;

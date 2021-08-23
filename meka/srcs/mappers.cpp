@@ -464,6 +464,7 @@ WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
     Write_Error (Addr, Value);
 }
 
+// Write function for Mapper #9: MAPPER_SMS_Korean
 WRITE_FUNC (Write_Mapper_SMS_Korean)
 {
     if (Addr == 0xA000) // Frame 2 -----------------------------------------------
@@ -484,6 +485,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean)
     Write_Error (Addr, Value);
 }
 
+// Write function for Mapper #16: MAPPER_SMS_Korean_Xin1
 WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
 {
     if (Addr == 0xFFFF) // Frame 2 -----------------------------------------------
@@ -505,6 +507,37 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
 
     Write_Error (Addr, Value);
 }
+
+// Mapper #19
+WRITE_FUNC (Write_Mapper_SMS_Korean_128in1)
+{
+    if ((Addr & 0x6000) == 0x2000) // Configurable segment -----------------------------------------------
+    {
+        RAM[0x1FFF] = Value;
+
+        // This is technically incorrect: to mimic the actual hardware
+        // we would either need to use an overdumped 2MB ROM, or we
+        // would need to preserve all the segment base bits, as page
+        // numbers past the end of the ROM return zeroes in real
+        // hardware.
+        Value = ((Value ^ 0x1F) & tsms.Pages_Mask_8k) ^ 0x1F;
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(2, g_machine.mapper_regs[0] ^ 0x1f);
+        Map_8k_ROM(3, g_machine.mapper_regs[0] ^ 0x1e);
+        Map_8k_ROM(4, g_machine.mapper_regs[0] ^ 0x1d);
+        Map_8k_ROM(5, g_machine.mapper_regs[0] ^ 0x1c);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.

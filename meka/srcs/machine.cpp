@@ -164,10 +164,10 @@ void    Machine_Set_Handler_Write(void)
     case MAPPER_SMS_Korean:              // SMS Korean games
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean;
         break;
-    case MAPPER_SMS_Korean_MSX_8KB_0003:      // SMS Korean games with MSX-based 8KB mapper
+    case MAPPER_SMS_Korean_MSX_8KB_0003: // SMS Korean games with MSX-based 8KB mapper
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0003;
         break;
-    case MAPPER_SMS_Korean_MSX_8KB_0300:      // SMS Korean games with MSX-based 8KB mapper
+    case MAPPER_SMS_Korean_MSX_8KB_0300: // SMS Korean games with MSX-based 8KB mapper
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0300;
         break;
     case MAPPER_SMS_Korean_Janggun:      // SMS Korean Janggun-ui Adeul
@@ -184,6 +184,9 @@ void    Machine_Set_Handler_Write(void)
         break;
     case MAPPER_SMS_Korean_Xin1:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Xin1;
+        break;
+    case MAPPER_SMS_Korean_128in1:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_128in1;
         break;
     default:                             // Standard mapper
         WrZ80 = WrZ80_NoHook = Write_Default;
@@ -352,6 +355,20 @@ void    Machine_Set_Mapping (void)
         Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
         Map_8k_ROM(4, 0);
         Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        break;
+
+    case MAPPER_SMS_Korean_128in1:
+        Map_8k_ROM(0, 0);
+        Map_8k_ROM(1, 0);
+        Map_8k_ROM(2, 0x60 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0x61 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0x62 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0x63 & tsms.Pages_Mask_8k);
         Map_8k_RAM(6, 0);
         Map_8k_RAM(7, 0);
         g_machine.mapper_regs_count = 1;
