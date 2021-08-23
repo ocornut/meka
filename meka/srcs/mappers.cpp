@@ -165,7 +165,7 @@ int         Mapper_Autodetect(void)
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
-        return (MAPPER_SMS_Korean);
+        return (MAPPER_SMS_Korean_A000);
     if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1)
         return (MAPPER_SMS_Korean_MSX_8KB_0300);
 
@@ -464,8 +464,8 @@ WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
     Write_Error (Addr, Value);
 }
 
-// Write function for Mapper #9: MAPPER_SMS_Korean
-WRITE_FUNC (Write_Mapper_SMS_Korean)
+// Write function for Mapper #9: MAPPER_SMS_Korean_A000
+WRITE_FUNC (Write_Mapper_SMS_Korean_A000)
 {
     if (Addr == 0xA000) // Frame 2 -----------------------------------------------
     {
@@ -610,6 +610,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003)
     Write_Error (Addr, Value);
 }
 
+// Write function for mapper #18: MAPPER_SMS_Korean_MSX_8KB_0300
 WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_8KB_0300)
 {
     switch (Addr)

@@ -31,7 +31,7 @@
 #define MAPPER_SMS_ActionReplay                 (6)
 #define MAPPER_TVOekaki                         (7)
 #define MAPPER_SF7000                           (8)
-#define MAPPER_SMS_Korean                       (9)         // Register at 0xA000. FIXME: will need renaming
+#define MAPPER_SMS_Korean_A000                  (9)         // Register at 0xA000.
 #define MAPPER_SMS_DisplayUnit                  (10)
 #define MAPPER_SMS_NoMapper                     (11)        // 0x0000->0xBFFF map to ROM. No mapper register.
 #define MAPPER_SMS_Korean_MSX_8KB_0003          (12)        // 8KB bank-switching (4 banks)
@@ -70,7 +70,7 @@ WRITE_FUNC (Write_Mapper_93c46);
 WRITE_FUNC (Write_Mapper_SMS_ActionReplay);
 WRITE_FUNC (Write_Mapper_TVOekaki);
 WRITE_FUNC (Write_Mapper_SF7000);
-WRITE_FUNC (Write_Mapper_SMS_Korean);
+WRITE_FUNC (Write_Mapper_SMS_Korean_A000);
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit);
 WRITE_FUNC (Write_Mapper_SMS_NoMapper);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003);
