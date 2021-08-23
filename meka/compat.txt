@@ -77,6 +77,7 @@
  Bart vs. The Space Mutants (The Simpsons)      -       Ok
  Bart vs. The World (The Simpsons)              -       Ok
  Basketball Nightmare                           -       Ok
+ Basketball Nightmare [Proto]                   -       Ok
  Batman Returns                                 -       Ok
  Battlemaniacs (BR)                             -       Ok
  Battle Out Run                                 (FM)    Ok (Hidden FM music)
@@ -108,6 +109,7 @@
  Chapolim x Drácula - Um Duelo Assustador (BR)  -       Ok
  Cheese Cat-astrophe - Starring Speedy Gonzales -       Ok
  Choplifter                                     -       Ok
+ Choplifter [HTH] [SMS-GG] (TW)                 -      *Ok
  Choplifter [Proto]                             -       Ok
  Choplifter [Proto] (JP)                        -       Ok
  Chouon Senshi Borgman (JP)                     FM      Ok
@@ -116,6 +118,7 @@
  Chuck Rock II: Son of Chuck                    -       Ok
  Chuck Rock II: Son of Chuck (BR)               -       Ok
  Circuit, The (JP)                              -       Ok
+ Circuit, The (TW)                              -      *Ok
  Cloud Master / Chuka Taisen                    FM      Ok
  Color & Switch Test                            -       Ok
  Columns                                        -       Ok
@@ -136,6 +139,7 @@
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
  Dead Angle                                     -       Ok
+ Dead Angle [Proto]                             -      *Ok
  Deep Duck Trouble - Starring Donald Duck       -       Ok
  Desert Speedtrap - Starring Road Runner and..  -       Ok
  Desert Strike                                  -       Ok
@@ -159,6 +163,7 @@
  Dr. HELLO (KR)                                 -       Ok
  Dynamite Duke                                  -       Ok
  Dynamite Dux                                   (FM)    Ok (Hidden FM music)
+ Dynamite Dux [Proto]                           (FM?)   Ok (Hidden FM music?)
  Dynamite Headdy (BR)                           -       Ok
  Eagles 5 (KR)                                  -       Ok
  Earthworm Jim (BR)                             -       Ok
@@ -169,6 +174,7 @@
  Enduro Racer (JP)                              -       Ok
  E-SWAT [v0]                                    -       Ok
  E-SWAT [v1]                                    -       Ok
+ E-SWAT [v1] [HTH] [SMS-GG] (TW)                -      *Ok
  E-SWAT [Proto 0]                               -       Ok
  E-SWAT [Proto 1]                               -       Ok
  E-SWAT [Proto 2]                               -       Ok
@@ -261,6 +267,7 @@
  Hang On / Safari Hunt [Proto]                  LP      Ok
  Heavyweight Champ                              -       Ok
  Heroes of the Lance                            -       Ok
+ Heroes of the Lance [Proto]                    -      *Ok
  Hi-Com 3-in-1 The Best Game Collection A (KR)  -       Ok
  Hi-Com 3-in-1 The Best Game Collection B (KR)  -       Ok
  Hi-Com 3-in-1 The Best Game Collection C (KR)  -       Ok
@@ -424,8 +431,10 @@
  Rambo - First Blood Part II                    -       Ok
  Rambo III                                      LP,(FM) Ok (Hidden FM music)
  Rampage                                        FM      Ok
+ Rampage [Proto]                                FM     *Ok
  Rampart                                        -       Ok
  Rastan                                         FM      Ok
+ Rastan [Proto]                                 FM      Ok
  R.C. Grand Prix                                -       Ok
  R.C. Grand Prix [Proto]                        -       Ok
  Reggie Jackson Baseball                        -       Ok
@@ -514,7 +523,8 @@
  Submarine Attack [HTH] [SMS-GG] (TW)           -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   (FM)    Ok (Hidden FM music)
- Summer Games [Proto]                           FM      Ok
+ Summer Games [Proto 0]                         -      *Ok (No audio)
+ Summer Games [Proto 1]                         FM      Ok
  Suho Jeonsa (KR)                               -       Ok
  Super Basketball [Demo]                        -       Ok
  Super Bioman I (KR)                            -       Ok
@@ -543,6 +553,7 @@
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
  T2: The Arcade Game                            -       Ok
  Taito Chase H.Q.                               -       Ok
+ Taito Chase H.Q. [Proto]                       -       Ok
  Taz in Escape From Mars (BR)                   -       Ok
  Taz-Mania                                      -       Ok
  Taz-Mania [Proto]                              -       Ok
@@ -600,8 +611,8 @@
  World Cup USA 94                               -       Ok
  World Games                                    -       Ok
  World Games [Proto]                            -       Ok
- World Grand Prix                               -       Ok
- World Grand Prix (US)                          -       Ok
+ World Grand Prix [v0]                          -       Ok
+ World Grand Prix [v2]                          -       Ok
  World Grand Prix [Proto]                       -       Ok
  World Soccer                                   (SP)    Ok
  WWF WrestleMania Steel Cage Challenge          -       Ok
@@ -618,9 +629,10 @@
  Zillion [v1]                                   -       Ok
  Zillion [v2]                                   -       Ok
  Zillion II: The Tri Formation / Tri Formation  FM      Ok
+ Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 600 games tested - 598 are "Ok" - Compatibility rate: 99.64%
+ 612 games tested - 610 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -970,6 +982,8 @@
  Berenstain Bears' Camping Adventure, The           Ok
  Berlin no Kabe - The BerlinWall (JP)               Ok
  Bishoujo Senshi Sailor Moon S (JP)                 Ok
+ BreakThru! [Proto]                                *Ok (game does NOT run neither on real hardware, hence "Ok". Switching to PAL gets it to run)
+ BreakThru! [Proto] [Patched                       *Ok
  Bonkers Wax Up! (Disney's)                         Ok
  Bubble Bobble                                      Ok
  Bubble Bobble [Proto]                              Ok
@@ -1044,6 +1058,7 @@
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
  Dynamite Headdy (JP)                               Ok
+ Dynamite Headdy [Proto]                           *Ok
  Earthworm Jim                                      Ok
  Earthworm Jim (US)                                 Ok
  Ecco the Dolphin                                   Ok
@@ -1125,8 +1140,8 @@
  Jeopardy! - Sports Edition                         Ok
  J League GG Pro Striker '94 (JP)                   Ok
  J League Soccer Dream Eleven (JP)                  Ok
- Joe Montana Football                               Ok
- Joe Montana Football (JP)                          Ok
+ Joe Montana Football [v0]                          Ok
+ Joe Montana Football [v1]                          Ok
  Judge Dredd                                        Ok
  Junction (JP)                                      Ok
  Junction (US)                                      Ok
@@ -1192,6 +1207,7 @@
  Monster World II - Dragon no Wana (JP)             Ok
  Mortal Kombat                                      Ok
  Mortal Kombat - Shinken Kourin Densetsu (JP)       Ok
+ Mortal Kombat [Proto]                             *Ok
  Mortal Kombat II / Mortal Kombat II - Kyukyoku S.. Ok
  Mortal Kombat 3                                    Ok
  Ms. Pac-Man                                        Ok
@@ -1341,6 +1357,7 @@
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
+ Streets of Rage II / Bare Knuckle II [Proto]      *Ok
  Street Battle [Proto] [SMS-GG]                     Ok
  Street Hero [Proto 0] [SMS-GG]                     Ok
  Street Hero [Proto 1] [SMS-GG]                     Ok
@@ -1384,7 +1401,7 @@
  Taz-Mania                                          Ok
  Tempo Jr.                                          Ok
  Tengen World Cup Soccer                            Ok
- Tengen World Cup Soccer [Proto]                   *Ok
+ Tengen World Cup Soccer [Proto]                    Ok
  Terminator, The                                    Ok
  Terminator 2 - Judgment Day                        Ok
  Tesserae                                           Ok
@@ -1439,7 +1456,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 512 games tested - 500 are "Ok" - Compatibility rate: 97.63%
+ 516 games tested - 505 are "Ok" - Compatibility rate: 97.63%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
