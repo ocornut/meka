@@ -160,14 +160,14 @@ int         Mapper_Autodetect(void)
         return (MAPPER_SMS_4PakAllAction);
 
     // 2 is a security measure, although tests on existing ROM showed it was not needed
+    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1 && cFFFF == 0) // Need to be BEFORE MAPPER_SMS_Korean_MSX_8KB_0003 for 30-in-1
+        return (MAPPER_SMS_Korean_MSX_8KB_0300);
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_MSX_8KB_0003);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_A000);
-    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1)
-        return (MAPPER_SMS_Korean_MSX_8KB_0300);
 
     return (MAPPER_Auto);
 }
