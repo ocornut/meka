@@ -164,6 +164,10 @@ void    Machine_Set_Handler_Write(void)
     case MAPPER_SMS_Korean_A000:         // SMS Korean games with A000 register
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_A000;
         break;
+        break;
+    case MAPPER_SMS_Korean_BFFC:         // SMS Korean games with BFFC register
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_BFFC;
+        break;
     case MAPPER_SMS_Korean_MSX_8KB_0003: // SMS Korean games with MSX-based 8KB mapper
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0003;
         break;
@@ -409,6 +413,7 @@ void    Machine_Set_Mapping (void)
             // ROM [0x3FFF] = 0; ROM [0x7FFF] = 1; ROM [0xBFFF] = 2;
             break;
         case MAPPER_SMS_Korean_A000:
+        case MAPPER_SMS_Korean_BFFC:
         case MAPPER_SMS_4PakAllAction:
             // ROM [0xA000] = 0;
             break;

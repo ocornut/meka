@@ -42,6 +42,7 @@
 #define MAPPER_SC3000_Survivors_Multicart       (17)
 #define MAPPER_SMS_Korean_MSX_8KB_0300          (18)        // Super Multi Game Super 75 in 1, Super Game World 75
 #define MAPPER_SMS_Korean_128in1                (19)        // 128 Hap
+#define MAPPER_SMS_Korean_BFFC                  (20)        // Register at 0xBFFC mapping 48 KB (MAYBE?)
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -71,6 +72,7 @@ WRITE_FUNC (Write_Mapper_SMS_ActionReplay);
 WRITE_FUNC (Write_Mapper_TVOekaki);
 WRITE_FUNC (Write_Mapper_SF7000);
 WRITE_FUNC (Write_Mapper_SMS_Korean_A000);
+WRITE_FUNC (Write_Mapper_SMS_Korean_BFFC);
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit);
 WRITE_FUNC (Write_Mapper_SMS_NoMapper);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003);

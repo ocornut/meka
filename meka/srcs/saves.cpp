@@ -89,6 +89,9 @@ void        Load_Game_Fixup(void)
         case MAPPER_SMS_Korean_A000:
             WrZ80_NoHook (0xA000, g_machine.mapper_regs[2]);
             break;
+        case MAPPER_SMS_Korean_BFFC:
+            WrZ80_NoHook(0xBFFC, g_machine.mapper_regs[0]);
+            break;
         case MAPPER_ColecoVision:
             for (i = 0x0400; i < 0x2000; i += 0x400)
                 memcpy (RAM + i, RAM, 0x0400);

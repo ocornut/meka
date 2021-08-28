@@ -125,7 +125,7 @@ int         Mapper_Autodetect(void)
         return (-1);
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
-    int c0002 = 0, c8000 = 0, cA000 = 0, cBFFF = 0, cFFFF = 0;
+    int c0002 = 0, c8000 = 0, cA000 = 0, cBFFC = 0, cBFFF = 0, cFFFF = 0;
     int c0000 = 0, c0100 = 0, c0200 = 0, c0300 = 0;
     for (int i = 0; i < 0x8000; i++)
     {
@@ -149,6 +149,17 @@ int         Mapper_Autodetect(void)
             if (addr == 0x0200) { i += 2; c0200++; continue; }
             if (addr == 0x0300) { i += 2; c0300++; continue; }
         }
+
+        if (ROM[i] == 0x21) // Z80 opcode for LD HL,XXXX
+        {
+            const u16 addr = *(u16*)&ROM[i + 1];
+
+            // Super Game 200 - 200 Hap ~ Super Game (KR)
+            if (addr == 0xBFFC)
+                if (ROM[i + 3] == 0x3A) // LD A,XXX
+                    if (ROM[i + 6] == 0x77) // LD (HL), A
+                        cBFFC++;
+        }
     }
 
     //Msg(MSGT_USER, "c002=%d, c8000=%d, cA000=%d, cBFFF=%d, cFFFF=%d\n", c0002, c8000, cA000, cBFFF, cFFFF);
@@ -166,6 +177,8 @@ int         Mapper_Autodetect(void)
         return (MAPPER_SMS_Korean_MSX_8KB_0003);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
+    if (cBFFC >= 1 && cFFFF == 0)
+        return (MAPPER_SMS_Korean_BFFC);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_A000);
 
@@ -484,6 +497,31 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_A000)
 
     Write_Error (Addr, Value);
 }
+
+// Write function for Mapper #21: MAPPER_SMS_Korean_BFFC
+WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
+{
+    if (Addr == 0xBFFC)
+    {
+        g_machine.mapper_regs[0] = Value;
+        if (Value >= tsms.Pages_Count_16k / 3)
+            Value = tsms.Pages_Count_16k / 3 - 1;
+        Map_16k_ROM(0, Value * 6);
+        Map_16k_ROM(2, Value * 6 + 2);
+        Map_16k_ROM(4, Value * 6 + 4);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 
 // Write function for Mapper #16: MAPPER_SMS_Korean_Xin1
 WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
