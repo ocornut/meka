@@ -104,33 +104,11 @@ void    Machine_Set_Handler_IO(void)
     }
 }
 
-void    Machine_Set_Handler_Read(void)
+void    Machine_Set_Handler_MemRW(void)
 {
-    switch (g_machine.mapper)
-    {
-    case MAPPER_93c46: // Used by Game Gear baseball games
-        RdZ80 = RdZ80_NoHook = Read_Mapper_93c46;
-        break;
-    case MAPPER_TVOekaki: // Terebi Oekaki Graphic Board
-        RdZ80 = RdZ80_NoHook = Read_Mapper_TVOekaki;
-        break;
-    case MAPPER_SMS_DisplayUnit: // SMS Display Unit
-        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_DisplayUnit;
-        break;
-    case MAPPER_SMS_Korean_Janggun:
-        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_Korean_Janggun;
-        break;
-    case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-        RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
-        break;
-    default:
-        RdZ80 = RdZ80_NoHook = Read_Default;
-        break;
-    }
-}
+    RdZ80 = RdZ80_NoHook = Read_Default;
+    WrZ80 = WrZ80_NoHook = Write_Default;
 
-void    Machine_Set_Handler_Write(void)
-{
     switch (g_machine.mapper)
     {
     case MAPPER_SMS_NoMapper:            // SMS games with no bank switching
@@ -147,6 +125,7 @@ void    Machine_Set_Handler_Write(void)
         WrZ80 = WrZ80_NoHook = Write_Mapper_CodeMasters;
         break;
     case MAPPER_93c46:                   // Used by Game Gear baseball games
+        RdZ80 = RdZ80_NoHook = Read_Mapper_93c46;
         WrZ80 = WrZ80_NoHook = Write_Mapper_93c46;
         break;
     case MAPPER_SG1000:                  // 4 kb of RAM
@@ -156,6 +135,7 @@ void    Machine_Set_Handler_Write(void)
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_ActionReplay;
         break;
     case MAPPER_TVOekaki:                // Terebi Oekaki Graphic Board
+        RdZ80 = RdZ80_NoHook = Read_Mapper_TVOekaki;
         WrZ80 = WrZ80_NoHook = Write_Mapper_TVOekaki;
         break;
     case MAPPER_SF7000:                  // SF-7000
@@ -175,15 +155,18 @@ void    Machine_Set_Handler_Write(void)
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0300;
         break;
     case MAPPER_SMS_Korean_Janggun:      // SMS Korean Janggun-ui Adeul
+        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_Korean_Janggun;
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Janggun;
         break;
     case MAPPER_SMS_4PakAllAction:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_4PakAllAction;
         break;
     case MAPPER_SMS_DisplayUnit:         // SMS Display Unit (RAM from 4000-47FF)
+        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_DisplayUnit;
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_DisplayUnit;
         break;
     case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
+        RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
         WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
         break;
     case MAPPER_SMS_Korean_Xin1:
@@ -191,9 +174,6 @@ void    Machine_Set_Handler_Write(void)
         break;
     case MAPPER_SMS_Korean_128in1:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_128in1;
-        break;
-    default:                             // Standard mapper
-        WrZ80 = WrZ80_NoHook = Write_Default;
         break;
     }
 }
@@ -506,8 +486,7 @@ void        Machine_Reset(void)
     if ((g_machine_flags & MACHINE_RUN) != 0 /*== MACHINE_RUN */)
         Machine_Set_Mapping    (); // ^^ FIXME: the test above isn't beautiful since MACHINE_RUN contains multiple flags, but I'm unsure which of them is actually needed to perform the correct test
     Machine_Set_Handler_IO     ();
-    Machine_Set_Handler_Read   ();
-    Machine_Set_Handler_Write  ();
+    Machine_Set_Handler_MemRW  ();
     Machine_Set_Handler_Loop   ();
     Machine_Set_Country        ();
     Machine_Set_IPeriod        ();
