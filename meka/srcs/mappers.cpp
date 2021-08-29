@@ -701,6 +701,7 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_8KB_0300)
     case 0x0200:
     {
         g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(1, Value & tsms.Pages_Mask_8k);
         Map_8k_ROM(5, Value & tsms.Pages_Mask_8k);
         return;
     }
