@@ -498,17 +498,46 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_A000)
     Write_Error (Addr, Value);
 }
 
-// Write function for Mapper #21: MAPPER_SMS_Korean_BFFC
+// Write function for Mapper #20: MAPPER_SMS_Korean_BFFC
 WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
 {
     if (Addr == 0xBFFC)
     {
         g_machine.mapper_regs[0] = Value;
-        if (Value >= tsms.Pages_Count_16k / 3)
-            Value = tsms.Pages_Count_16k / 3 - 1;
-        Map_16k_ROM(0, Value * 6);
-        Map_16k_ROM(2, Value * 6 + 2);
-        Map_16k_ROM(4, Value * 6 + 4);
+
+        const int mask_16 = tsms.Pages_Mask_16k; // 0x3F for a 1 MB rom
+        u8 lower;
+        u8 upper;
+        switch (Value & (0x40 | 0x80))
+        {
+        case 0x00: // 32 KB SMS/SG game
+            lower = (Value & 0x3E);
+            upper = (Value & 0x3E) | 1;
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            break;
+        case 0x40: // 16 KB SMS/SG game
+            lower = upper = (Value & 0x3F);
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            break;
+        case 0x80: // MSX Regular (16 KB bios + 16 KB ROM)
+            lower = 0x20;
+            upper = (Value & 0x3F);
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            break;
+        case 0xC0: // MSX Namco (16 KB bios + 2x8 KB ROM each mirrored once)
+            lower = 0x20;
+            upper = (Value & 0x3F);
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_8k_ROM (2, (upper & mask_16) * 2);
+            Map_8k_ROM (3, (upper & mask_16) * 2);
+            Map_8k_ROM (4, (upper & mask_16) * 2 + 1);
+            Map_8k_ROM (5, (upper & mask_16) * 2 + 1);
+            break;
+        }
+
         return;
     }
 

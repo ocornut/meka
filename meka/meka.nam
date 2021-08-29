@@ -44,6 +44,7 @@
 ;  17 : sc-3000 survivors multicart.
 ;  18 : sms korean xx-in-1, register at 0x0000 mapping 8 KB at 0x8000, register at 0x0100 mapping 8 KB at 0x4000, register at 0x0200 mapping 8 KB at 0xA000, register at 0x0300 mapping 8 KB at 0x6000
 ;  19 : sms korean 128-in-1, with 8KB page size, register @0x2000; 0x4000-0xBFFF: register^0x1[FEDC], 0x0000-0x3FFF: page 0 
+;  20 : sms korean 0xBFFC sms+msx
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
