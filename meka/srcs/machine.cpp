@@ -169,8 +169,8 @@ void    Machine_Set_Handler_MemRW(void)
         RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
         WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
         break;
-    case MAPPER_SMS_Korean_Xin1:
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Xin1;
+    case MAPPER_SMS_Korean_FFFF_HiCom:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_FFFF_HiCom;
         break;
     case MAPPER_SMS_Korean_2000_xor_1F:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_2000_xor_1F;
@@ -332,7 +332,7 @@ void    Machine_Set_Mapping (void)
         g_machine.mapper_regs_count = 0;
         break;
 
-    case MAPPER_SMS_Korean_Xin1:
+    case MAPPER_SMS_Korean_FFFF_HiCom:
         Map_8k_ROM(0, 0);
         Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
         Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);

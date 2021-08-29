@@ -40,7 +40,7 @@
 ;  13 : sms korean for Janggun-ui Adeul
 ;  14 : sms 4 Pak All Action
 ;  15 : sg-1000 II with taiwanese memory expansion adapter, 8KB RAM from 0x2000->0x3FFF + regular 2KB RAM mapped at 0xC000-0xFFFF
-;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000
+;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000 (hi-com cartridges)
 ;  17 : sc-3000 survivors multicart.
 ;  18 : sms korean xx-in-1, register at 0x0000 mapping 8 KB at 0x8000, register at 0x0100 mapping 8 KB at 0x4000, register at 0x0200 mapping 8 KB at 0xA000, register at 0x0300 mapping 8 KB at 0x6000
 ;  19 : sms korean xx-in-1, register at 0x2000 mapping 8x4 KB 0x4000-0xBFFF using register xored with 0x1F, 0x1E, 0x1D, 0x1C. 0x0000-0x3FFF stuck on bank 0. 

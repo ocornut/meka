@@ -38,7 +38,7 @@
 #define MAPPER_SMS_Korean_Janggun               (13)        // 8KB bank-switching (4 banks) mixed with 16KB bank-switching
 #define MAPPER_SMS_4PakAllAction                (14)
 #define MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA  (15)        // 8KB RAM from 0x2000->0x3FFF + regular 2KB ram in 0xC000-0xFFFF range
-#define MAPPER_SMS_Korean_Xin1                  (16)        // Register at 0xFFFF to map 32 KB at 0x0000->0x8000
+#define MAPPER_SMS_Korean_FFFF_HiCom            (16)        // Register at 0xFFFF to map 32 KB at 0x0000->0x8000
 #define MAPPER_SC3000_Survivors_Multicart       (17)
 #define MAPPER_SMS_Korean_MSX_8KB_0300          (18)        // Registers at 0x0000,0x0100,0x0200,0x0300 (Super Multi Game Super 75 in 1, Super Game World 75 etc.)
 #define MAPPER_SMS_Korean_2000_xor_1F           (19)        // Register at 0x2000 (128 Hap, Game Mo-eumjip 188 Hap etc.)
@@ -80,7 +80,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0300);
 WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun);
 WRITE_FUNC (Write_Mapper_SMS_4PakAllAction);
 WRITE_FUNC (Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA);
-WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1);
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFF_HiCom);
 WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F);
 //-----------------------------------------------------------------------------
 void Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v);

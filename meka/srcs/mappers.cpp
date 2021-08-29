@@ -556,8 +556,8 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
 }
 
 
-// Write function for Mapper #16: MAPPER_SMS_Korean_Xin1
-WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
+// Write function for Mapper #16: MAPPER_SMS_Korean_FFFF_HiCom
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFF_HiCom)
 {
     if (Addr == 0xFFFF) // Frame 2 -----------------------------------------------
     {
