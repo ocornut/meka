@@ -125,7 +125,7 @@ int         Mapper_Autodetect(void)
         return (-1);
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
-    int c0002 = 0, c8000 = 0, cA000 = 0, cBFFC = 0, cBFFF = 0, cFFFF = 0;
+    int c0002 = 0, c2000 = 0, c8000 = 0, cA000 = 0, cBFFC = 0, cBFFF = 0, cFFFF = 0;
     int c0000 = 0, c0100 = 0, c0200 = 0, c0300 = 0;
     for (int i = 0; i < 0x8000; i++)
     {
@@ -136,6 +136,8 @@ int         Mapper_Autodetect(void)
             { i += 2; cFFFF++; continue; }
             if (addr == 0x0002 || addr == 0x0003 || addr == 0x0004)
             { i += 2; c0002++; continue; }
+            if (addr == 0x2000)
+            { i += 2; c2000++; continue; }
             if (addr == 0x8000)
             { i += 2; c8000++; continue; }
             if (addr == 0xA000)
@@ -175,6 +177,8 @@ int         Mapper_Autodetect(void)
         return (MAPPER_SMS_Korean_MSX_8KB_0300);
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_MSX_8KB_0003);
+    if (c2000 >= 2 && cFFFF == 0)
+        return (MAPPER_SMS_Korean_2000_xor_1F);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
     if (cBFFC >= 1 && cFFFF == 0)
@@ -576,7 +580,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
 }
 
 // Mapper #19
-WRITE_FUNC (Write_Mapper_SMS_Korean_128in1)
+WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
 {
     if ((Addr & 0x6000) == 0x2000) // Configurable segment -----------------------------------------------
     {

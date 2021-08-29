@@ -172,8 +172,8 @@ void    Machine_Set_Handler_MemRW(void)
     case MAPPER_SMS_Korean_Xin1:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Xin1;
         break;
-    case MAPPER_SMS_Korean_128in1:
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_128in1;
+    case MAPPER_SMS_Korean_2000_xor_1F:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_2000_xor_1F;
         break;
     }
 }
@@ -346,7 +346,7 @@ void    Machine_Set_Mapping (void)
             g_machine.mapper_regs[i] = 0;
         break;
 
-    case MAPPER_SMS_Korean_128in1:
+    case MAPPER_SMS_Korean_2000_xor_1F:
         Map_8k_ROM(0, 0);
         Map_8k_ROM(1, 0);
         Map_8k_ROM(2, 0x60 & tsms.Pages_Mask_8k);
