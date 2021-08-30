@@ -208,6 +208,7 @@
  Forgotten Worlds [HTH] [SMS-GG]                -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Gaegujangi Kkachi (KR)                         -       Ok
+ Game Moeumjip 188 Hap (KR)                     -      *Ok
  Gain Ground                1                   -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
@@ -534,7 +535,9 @@
  Super Boy 4 (KR)                               -       Ok
  Super Bubble Bobble (KR)                       -       Ok
  Super Columns (KR)                             -       Ok
- Super Game World 75 (KR)                       -      *Ok
+ Super Game 200 (KR)                            -      *Ok
+ Super Game World 30 Hap (KR)                   -      *Ok
+ Super Game World 75 Hap (KR)                   -      *Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP                                -       Ok
@@ -632,7 +635,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 612 games tested - 610 are "Ok" - Compatibility rate: 99.64%
+ 615 games tested - 613 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
