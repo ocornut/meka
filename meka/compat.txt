@@ -77,7 +77,8 @@
  Bart vs. The Space Mutants (The Simpsons)      -       Ok
  Bart vs. The World (The Simpsons)              -       Ok
  Basketball Nightmare                           -       Ok
- Basketball Nightmare [Proto]                   -       Ok
+ Basketball Nightmare [Proto 0]                 -      *Ok
+ Basketball Nightmare [Proto 1]                 -       Ok
  Batman Returns                                 -       Ok
  Battlemaniacs (BR)                             -       Ok
  Battle Out Run                                 (FM)    Ok (Hidden FM music)
@@ -139,7 +140,7 @@
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
  Dead Angle                                     -       Ok
- Dead Angle [Proto]                             -      *Ok
+ Dead Angle [Proto]                             -       Ok
  Deep Duck Trouble - Starring Donald Duck       -       Ok
  Desert Speedtrap - Starring Road Runner and..  -       Ok
  Desert Strike                                  -       Ok
@@ -163,7 +164,7 @@
  Dr. HELLO (KR)                                 -       Ok
  Dynamite Duke                                  -       Ok
  Dynamite Dux                                   (FM)    Ok (Hidden FM music)
- Dynamite Dux [Proto]                           (FM?)   Ok (Hidden FM music?)
+ Dynamite Dux [Proto]                           (FM)   *Ok (Hidden FM music)
  Dynamite Headdy (BR)                           -       Ok
  Eagles 5 (KR)                                  -       Ok
  Earthworm Jim (BR)                             -       Ok
@@ -208,7 +209,7 @@
  Forgotten Worlds [HTH] [SMS-GG]                -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Gaegujangi Kkachi (KR)                         -       Ok
- Game Moeumjip 188 Hap (KR)                     -      *Ok
+ Game Mo-eumjip 188 Hap (KR)                    -      *Ok
  Gain Ground                1                   -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
@@ -235,6 +236,7 @@
  G-LOC - Air Battle                             -       Ok
  Gokuaku Doumei Dump Matsumoto (JP)             -       Ok
  Golden Axe                                     -       Ok
+ Golden Axe [Demo]                              -      *Ok
  Golden Axe Warrior                             -       Ok
  Golfamania                                     FM      Ok
  Golfamania [Proto]                             FM      Ok
@@ -268,7 +270,7 @@
  Hang On / Safari Hunt [Proto]                  LP      Ok
  Heavyweight Champ                              -       Ok
  Heroes of the Lance                            -       Ok
- Heroes of the Lance [Proto]                    -      *Ok
+ Heroes of the Lance [Proto]                    -       Ok
  Hi-Com 3-in-1 The Best Game Collection A (KR)  -       Ok
  Hi-Com 3-in-1 The Best Game Collection B (KR)  -       Ok
  Hi-Com 3-in-1 The Best Game Collection C (KR)  -       Ok
@@ -418,6 +420,7 @@
  Pro Yakyuu Pennant Race, The (JP)              -       Ok
  Psychic World                                  -       Ok
  Psycho Fox                                     -       Ok
+ Psycho Fox [Proto]                             -      *Ok
  Putt & Putter                                  -       Ok
  Putt & Putter [Proto]                          -       Ok
  Puznic (KR)                                    -       Ok
@@ -455,6 +458,7 @@
  Sapo Xulé Vs Os Invasores do Brejo (BR)        -       Ok
  Satellite 7 (JP)                               -       Ok
  Scramble Spirits                               FM      Ok
+ Scramble Spirits [Proto]                       FM     *Ok
  Scramble Spirits [HTH] [SMS-GG] (TW)           FM      Ok
  Secret Command                                 -       Ok
  Secret Command [HTH] [SMS-GG] (TW)             -       Ok
@@ -573,6 +577,7 @@
  Three Dragon Story, The (KR)                   -       Ok
  Thunder Blade                                  FM      Ok
  Thunder Blade (JP)                             FM      Ok
+ Thunder Blade [Proto] (JP)                     FM      Ok
  Thunder Blade [HTH] [SMS-GG] (TW)              FM      Ok
  Time Soldiers                                  FM      Ok
  Tom and Jerry: The Movie                       -       Ok
@@ -635,7 +640,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 615 games tested - 613 are "Ok" - Compatibility rate: 99.64%
+ 620 games tested - 617 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -985,8 +990,8 @@
  Berenstain Bears' Camping Adventure, The           Ok
  Berlin no Kabe - The BerlinWall (JP)               Ok
  Bishoujo Senshi Sailor Moon S (JP)                 Ok
- BreakThru! [Proto]                                *Ok (game does NOT run neither on real hardware, hence "Ok". Switching to PAL gets it to run)
- BreakThru! [Proto] [Patched                       *Ok
+ BreakThru! [Proto]                                 Ok (game does NOT run neither on real hardware, hence "Ok". Switching to PAL gets it to run)
+ BreakThru! [Proto] [Patched]                       Ok
  Bonkers Wax Up! (Disney's)                         Ok
  Bubble Bobble                                      Ok
  Bubble Bobble [Proto]                              Ok
@@ -1061,7 +1066,7 @@
  Dunk Kids (JP)                                     Ok
  Dynamite Headdy                                    Ok
  Dynamite Headdy (JP)                               Ok
- Dynamite Headdy [Proto]                           *Ok
+ Dynamite Headdy [Proto]                            Ok
  Earthworm Jim                                      Ok
  Earthworm Jim (US)                                 Ok
  Ecco the Dolphin                                   Ok
@@ -1210,7 +1215,7 @@
  Monster World II - Dragon no Wana (JP)             Ok
  Mortal Kombat                                      Ok
  Mortal Kombat - Shinken Kourin Densetsu (JP)       Ok
- Mortal Kombat [Proto]                             *Ok
+ Mortal Kombat [Proto]                              Ok
  Mortal Kombat II / Mortal Kombat II - Kyukyoku S.. Ok
  Mortal Kombat 3                                    Ok
  Ms. Pac-Man                                        Ok
@@ -1360,7 +1365,7 @@
  Star Wars (US)                                     Ok
  Streets of Rage / Bare Knuckle                     Ok
  Streets of Rage II / Bare Knuckle II               Ok
- Streets of Rage II / Bare Knuckle II [Proto]      *Ok
+ Streets of Rage II / Bare Knuckle II [Proto]       Ok
  Street Battle [Proto] [SMS-GG]                     Ok
  Street Hero [Proto 0] [SMS-GG]                     Ok
  Street Hero [Proto 1] [SMS-GG]                     Ok
