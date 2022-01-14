@@ -125,7 +125,8 @@ int         Mapper_Autodetect(void)
         return (-1);
 
     // Search for code to access mapper -> LD (8000)|(FFFF), A
-    int c0002 = 0, c8000 = 0, cA000 = 0, cBFFF = 0, cFFFF = 0;
+    int c0002 = 0, c2000 = 0, c8000 = 0, cA000 = 0, cBFFC = 0, cBFFF = 0, cFFFF = 0;
+    int c0000 = 0, c0100 = 0, c0200 = 0, c0300 = 0;
     for (int i = 0; i < 0x8000; i++)
     {
         if (ROM[i] == 0x32) // Z80 opcode for: LD (xxxx), A
@@ -135,12 +136,31 @@ int         Mapper_Autodetect(void)
             { i += 2; cFFFF++; continue; }
             if (addr == 0x0002 || addr == 0x0003 || addr == 0x0004)
             { i += 2; c0002++; continue; }
+            if (addr == 0x2000)
+            { i += 2; c2000++; continue; }
             if (addr == 0x8000)
             { i += 2; c8000++; continue; }
             if (addr == 0xA000)
             { i += 2; cA000++; continue; }
             if (addr == 0xBFFF)
             { i += 2; cBFFF++; continue; }
+
+            // MAPPER_SMS_Korean_MSX_8KB_0300
+            if (addr == 0x0000) { i += 2; c0000++; continue; }
+            if (addr == 0x0100) { i += 2; c0100++; continue; }
+            if (addr == 0x0200) { i += 2; c0200++; continue; }
+            if (addr == 0x0300) { i += 2; c0300++; continue; }
+        }
+
+        if (ROM[i] == 0x21) // Z80 opcode for LD HL,XXXX
+        {
+            const u16 addr = *(u16*)&ROM[i + 1];
+
+            // Super Game 200 - 200 Hap ~ Super Game (KR)
+            if (addr == 0xBFFC)
+                if (ROM[i + 3] == 0x3A) // LD A,XXX
+                    if (ROM[i + 6] == 0x77) // LD (HL), A
+                        cBFFC++;
         }
     }
 
@@ -153,12 +173,18 @@ int         Mapper_Autodetect(void)
         return (MAPPER_SMS_4PakAllAction);
 
     // 2 is a security measure, although tests on existing ROM showed it was not needed
+    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1 && cFFFF == 0) // Need to be BEFORE MAPPER_SMS_Korean_MSX_8KB_0003 for 30-in-1
+        return (MAPPER_SMS_Korean_MSX_8KB_0300);
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
-        return (MAPPER_SMS_Korean_MSX_8KB);
+        return (MAPPER_SMS_Korean_MSX_8KB_0003);
+    if (c2000 >= 2 && cFFFF == 0)
+        return (MAPPER_SMS_Korean_2000_xor_1F);
     if (c8000 > cFFFF + 2 || (c8000 > 0 && cFFFF == 0))
         return (MAPPER_CodeMasters);
+    if (cBFFC >= 1 && cFFFF == 0)
+        return (MAPPER_SMS_Korean_BFFC);
     if (cA000 > cFFFF + 2 || (cA000 > 0 && cFFFF == 0))
-        return (MAPPER_SMS_Korean);
+        return (MAPPER_SMS_Korean_A000);
 
     return (MAPPER_Auto);
 }
@@ -455,7 +481,8 @@ WRITE_FUNC (Write_Mapper_SMS_4PakAllAction)
     Write_Error (Addr, Value);
 }
 
-WRITE_FUNC (Write_Mapper_SMS_Korean)
+// Write function for Mapper #9: MAPPER_SMS_Korean_A000
+WRITE_FUNC (Write_Mapper_SMS_Korean_A000)
 {
     if (Addr == 0xA000) // Frame 2 -----------------------------------------------
     {
@@ -475,7 +502,62 @@ WRITE_FUNC (Write_Mapper_SMS_Korean)
     Write_Error (Addr, Value);
 }
 
-WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
+// Write function for Mapper #20: MAPPER_SMS_Korean_BFFC
+WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
+{
+    if (Addr == 0xBFFC)
+    {
+        g_machine.mapper_regs[0] = Value;
+
+        const int mask_16 = tsms.Pages_Mask_16k; // 0x3F for a 1 MB rom
+        u8 lower;
+        u8 upper;
+        switch (Value & (0x40 | 0x80))
+        {
+        case 0x00: // 32 KB SMS/SG game
+            lower = (Value & 0x3E);
+            upper = (Value & 0x3E) | 1;
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            break;
+        case 0x40: // 16 KB SMS/SG game
+            lower = upper = (Value & 0x3F);
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            break;
+        case 0x80: // MSX Regular (16 KB bios + 16 KB ROM)
+            lower = 0x20;
+            upper = (Value & 0x3F);
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            break;
+        case 0xC0: // MSX Namco (16 KB bios + 2x8 KB ROM each mirrored once)
+            lower = 0x20;
+            upper = (Value & 0x3F);
+            Map_16k_ROM(0, (lower & mask_16) * 2);
+            Map_8k_ROM (2, (upper & mask_16) * 2);
+            Map_8k_ROM (3, (upper & mask_16) * 2);
+            Map_8k_ROM (4, (upper & mask_16) * 2 + 1);
+            Map_8k_ROM (5, (upper & mask_16) * 2 + 1);
+            break;
+        }
+
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
+
+// Write function for Mapper #16: MAPPER_SMS_Korean_FFFF_HiCom
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFF_HiCom)
 {
     if (Addr == 0xFFFF) // Frame 2 -----------------------------------------------
     {
@@ -497,6 +579,37 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
     Write_Error (Addr, Value);
 }
 
+// Mapper #19
+WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
+{
+    if ((Addr & 0x6000) == 0x2000) // Configurable segment -----------------------------------------------
+    {
+        RAM[0x1FFF] = Value;
+
+        // This is technically incorrect: to mimic the actual hardware
+        // we would either need to use an overdumped 2MB ROM, or we
+        // would need to preserve all the segment base bits, as page
+        // numbers past the end of the ROM return zeroes in real
+        // hardware.
+        Value = ((Value ^ 0x1F) & tsms.Pages_Mask_8k) ^ 0x1F;
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(2, g_machine.mapper_regs[0] ^ 0x1f);
+        Map_8k_ROM(3, g_machine.mapper_regs[0] ^ 0x1e);
+        Map_8k_ROM(4, g_machine.mapper_regs[0] ^ 0x1d);
+        Map_8k_ROM(5, g_machine.mapper_regs[0] ^ 0x1c);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
@@ -512,7 +625,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1)
 //   not switchable the first register is kept as zero).
 // - If ever it happens that Sega 8-bits mappers gets standardized this whole system will
 //   be reworked and per-mapper state be taken into account in save states.
-WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003)
 {
     switch (Addr)
     {
@@ -566,6 +679,48 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Write function for mapper #18: MAPPER_SMS_Korean_MSX_8KB_0300
+WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_8KB_0300)
+{
+    switch (Addr)
+    {
+    case 0x0000:
+    {
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(4, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    case 0x0100:
+    {
+        g_machine.mapper_regs[1] = Value;
+        Map_8k_ROM(2, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    case 0x0200:
+    {
+        g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(1, Value & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    case 0x0300:
+    {
+        g_machine.mapper_regs[3] = Value;
+        Map_8k_ROM(3, Value & tsms.Pages_Mask_8k);
+        return;
+    }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun)

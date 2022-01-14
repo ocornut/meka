@@ -4613,65 +4613,47 @@ void        Debugger_ReverseMap(u16 addr)
     u8 *    sram_buf;
     BMemory_Get_Infos((void**)&sram_buf, &sram_len);
 
-    //switch (g_machine.mapper)
+    //if (addr < 0x400)
+    //  Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %d, Offset %d)", addr, addr, 0, addr & 0x3FFF);
+
+    const int mem_pages_index = (addr >> 13);
+    const u8 *mem_pages_base = Mem_Pages[mem_pages_index] + (mem_pages_index << 13);
+
+    // Pages can be pointing to:
+    // - ROM
+    // - Game_ROM_Computed_Page_0
+    // - RAM
+    // - SRAM
+    // - BIOS_ROM
+    // - BIOS_ROM_Jap
+    // - BIOS_ROM_Coleco
+    // - BIOS_ROM_SF7000
+    // Using direct pointer arithmetic comparisons.
+    int offset;
+
+    // - ROM, Game_ROM_Computed_Page_0, BIOS_ROM*
+    bool is_bios;
+    offset = Debugger_ReverseMapFindRomAddress(addr, &is_bios);
+    if (offset != -1)
     {
-    //case MAPPER_Standard:
-    //case MAPPER_32kRAM:
-    //case MAPPER_CodeMasters:
-    //case MAPPER_SMS_Korean:
-    //case MAPPER_93c46:
-    //default:
-        {
-            //if (addr < 0x400)
-            //  Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %d, Offset %d)", addr, addr, 0, addr & 0x3FFF);
-
-            const int mem_pages_index = (addr >> 13);
-            const u8 *mem_pages_base = Mem_Pages[mem_pages_index] + (mem_pages_index << 13);
-
-            // Pages can be pointing to:
-            // - ROM
-            // - Game_ROM_Computed_Page_0
-            // - RAM
-            // - SRAM
-            // - BIOS_ROM
-            // - BIOS_ROM_Jap
-            // - BIOS_ROM_Coleco
-            // - BIOS_ROM_SF7000
-            // Using direct pointer arithmetic comparisons.
-            int offset;
-
-            // - ROM, Game_ROM_Computed_Page_0, BIOS_ROM*
-            bool is_bios;
-            offset = Debugger_ReverseMapFindRomAddress(addr, &is_bios);
-            if (offset != -1)
-            {
-                if (is_bios)
-                    Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
-                else            
-                    Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
-            }
-
-            // - RAM
-            offset = (mem_pages_base - RAM) + (addr & MIN(0x1fff, ram_len - 1));
-            if (offset >= 0 && offset < ram_len)
-                Debugger_Printf(" Z80 $%04X = RAM $%04X", addr, ram_start_addr + offset);
-                //Debugger_Printf(" Z80 $%04X = RAM $%04X = RAM $%04X", addr, ram_start_addr + offset, ram_start_addr + ram_len + offset);
-
-            // - SRAM
-            offset = (mem_pages_base - SRAM) + (addr & MIN(0x1fff, sram_len - 1));
-            if (offset >= 0 && offset < sram_len)
-                Debugger_Printf(" Z80 $%04X = SRAM $%04X", addr, offset);
-
-            //break;
-        }
-    /*
-    default:
-        {
-            Debugger_Printf("Unsupported Mapper Mode for this functionality!\nPlease contact me to request the feature.\n");
-            break;
-        }
-    */
+        if (is_bios)
+            Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
+        else            
+            Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
     }
+
+    // - RAM
+    offset = (mem_pages_base - RAM) + (addr & MIN(0x1fff, ram_len - 1));
+    if (offset >= 0 && offset < ram_len)
+        Debugger_Printf(" Z80 $%04X = RAM $%04X", addr, ram_start_addr + offset);
+        //Debugger_Printf(" Z80 $%04X = RAM $%04X = RAM $%04X", addr, ram_start_addr + offset, ram_start_addr + ram_len + offset);
+
+    // - SRAM
+    offset = (mem_pages_base - SRAM) + (addr & MIN(0x1fff, sram_len - 1));
+    if (offset >= 0 && offset < sram_len)
+        Debugger_Printf(" Z80 $%04X = SRAM $%04X", addr, offset);
+
+    //break;
 }
 
 //-----------------------------------------------------------------------------

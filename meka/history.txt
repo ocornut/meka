@@ -42,6 +42,9 @@ They are usually of 2 kinds:
     - Added support for Taiwanese DahJee/Jumbo SG-1000 II RAM extension adapter. [Omar]
     - Added support for Sega Graphic Tablet v2.0 prototype hardware. [Maxim,Omar]
     - Added support for Korean Hi-Com 3-in-1 and 8-in-1 mapper. [Omar]
+    - Added support for Korean xx-in-1 mapper at 0x0000,0x0100,0x0200,0x300 for: 'Super Multi Game - Super 75 in 1' and 'Super Game World 75'. [Omar]
+    - Added support for Korean xx-in-1 mapper at 0x2000 for: '128 Hap', 'Game Mo-eumjip 188 Hap'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0xBFFC for: 'Super Game 200'. [bsittler, Omar]
     - Added support for SC-3000 Survivors Multicart mapper. [Omar,Honestbob]
     - Fixed 32K "No Mapper" mapper from forwarding 3-D Glasses writes. Fixes '3D Gunner'. [Omar]
     - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
@@ -130,14 +133,21 @@ They are usually of 2 kinds:
   - Configuration file is created early on startup if missing. [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          SMS - 6f8e46cf - Alex Kidd in Miracle World [SMS-GG] (TW) --> Alex Kidd in Miracle World [HTH] [SMS-GG] (TW) (labeling HTH release, listing them under SMS)
           SMS - c4bb1676 - E-SWAT [A]                           --> E-SWAT [v0]
           SMS - c10fce39 - E-SWAT [B]                           --> E-SWAT [v1]
           SMS - d1a7b1aa - Olympic Gold (KR, BR)                --> Olympic Gold [v0]
           SMS - 6a5a1e39 - Olympic Gold                         --> Olympic Gold [v1]
+          SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (US, BR)
+          SMS - 80eb1fff - Summer Games [Proto]                 --> Summer Games [Proto 1]
+          SMS - 4aaad0d6 - World Grand Prix (EU)                --> World Grand Prix [v0] (also in IT, DE)
+          SMS - 7b369892 - World Grand Prix (US)                --> World Grand Prix [v2] (also in BR, KR)
           GG  - a6bf865e - Beavis and Butt-Head (MTV's) (EU)    --> Beavis and Butt-Head (MTV's) (US, EU)
           GG  - 3858f14f - Beavis and Butt-Head (MTV's) (US)    --> Beavis and Butt-Head (MTV's) [Proto]
           GG  - f3ca6676 - Columns (JP)                         --> Columns [v0]
           GG  - 83fa26d9 - Columns                              --> Columns [v2]
+          GG  - 2e01ba6c - Joe Montana Football                 --> Joe Montana Football [v0]
+          GG  - 4a98678b - Joe Montana Football (JP)            --> Joe Montana Football [v1] (JP, BR)
           GG  - a8ef36a7 - Junction                             --> Junction (JP)
           GG  - 23f9150a - Kawasaki Superbike Challenge         --> Kawasaki Superbikes (EU) (now dumped US version)
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)

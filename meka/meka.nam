@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2019/12/12
+; Last updated 2021/08/30
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -40,7 +40,11 @@
 ;  13 : sms korean for Janggun-ui Adeul
 ;  14 : sms 4 Pak All Action
 ;  15 : sg-1000 II with taiwanese memory expansion adapter, 8KB RAM from 0x2000->0x3FFF + regular 2KB RAM mapped at 0xC000-0xFFFF
-;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000
+;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000 (hi-com cartridges)
+;  17 : sc-3000 survivors multicart.
+;  18 : sms korean xx-in-1, register at 0x0000 mapping 8 KB at 0x8000, register at 0x0100 mapping 8 KB at 0x4000, register at 0x0200 mapping 8 KB at 0xA000, register at 0x0300 mapping 8 KB at 0x6000
+;  19 : sms korean xx-in-1, register at 0x2000 mapping 8x4 KB 0x4000-0xBFFF using register xored with 0x1F, 0x1E, 0x1D, 0x1C. 0x0000-0x3FFF stuck on bank 0. 
+;  20 : sms korean xx-in-1, register at 0xBFFC, sms+msx
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -77,6 +81,7 @@
 ; DATA - SEGA MASTER SYSTEM (SMS)
 ;-----------------------------------------------------------------------------
 
+SMS ba5ec0e3 0707EB856DC38BC7   128 Hap (KR)/COUNTRY=KR/EMU_MAPPER=19
 SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
 SMS 56dcb2d4 9FA930C396F93600   3D Gunner [Proto]/EMU_MAPPER=0/EMU_INPUTS=LIGHTPHASER/EMU_3D/EMU_LP_FUNC=2/COMMENT=Prototype version of the unreleased game.
 SMS a67f2a5c 4EB5F14E8488C9E9   4 PAK All Action/COUNTRY=AU/EMU_MAPPER=14
@@ -84,11 +89,12 @@ SMS 060d6a7c 89A31578AA7C44DD   94 Super World Cup Soccer/COUNTRY=KR/PRODUCT_NO=
 SMS 887d9f6b 9EB1F06967AA8DBA   Ace of Aces/COUNTRY=EU/PRODUCT_NO=7054
 SMS e2d765ad EF9CEC3C51B11338   Action Fighter [v0] [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS d91b340d 2CCEA6A00321A4F8   Action Fighter [v1]/COUNTRY=JP,DE,IT/PRODUCT_NO=G-1305,41008,5055
-SMS 3658f3e0 2BCDA99F0321A4F8   Action Fighter [v2]/COUNTRY=US,EU,BR/PRODUCT_NO=5055
+SMS 3658f3e0 2BCDA99F0321A4F8   Action Fighter [v2]/COUNTRY=US,EU,IT,BR/PRODUCT_NO=5055
 SMS 8418f438 9D9BC6348F4446B5   Action Fighter/COUNTRY=TW/PRODUCT_NO=M-1216
 SMS 72420f38 40698151916E7D09   Addams Family, The/COUNTRY=EU/PRODUCT_NO=MK-27067-50/EMU_TVTYPE=PAL
 SMS 15576613 AFA2AEA50041A17A   Aerial Assault/COUNTRY=US/PRODUCT_NO=7041
 SMS ecf491cf 8BB24BB9F2B8E62F   Aerial Assault/COUNTRY=EU,BR/PRODUCT_NO=7041
+SMS 6630e5fd 63D7FA2EFB6F6BC9   Aerial Assault [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-11/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 1c951f8e 69AAC8EBB8D1F6BB   After Burner/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1340,9001
 SMS 4f1be9fa 3B58EA21D5D9EDC7   Agigongnyong Dooly/COUNTRY=KR/COMMENT=Korean language version of "The Dinosaur Dooley" (also a Korean cartridge). Music tracks and a few artworks are different.
 SMS 8b43d21d 656A7A10AFC7AD84   Air Rescue/COUNTRY=EU,BR,KR/PRODUCT_NO=7102,GB2018JG
@@ -97,10 +103,10 @@ SMS d8c4165b 7AF7BA94F1EB0263   Aleste/COUNTRY=JP/PRODUCT_NO=G-1352/COMMENT=Japa
 SMS 013c0a94 02B8FA4E6DCA25A2   Alex Kidd: High-Tech World/COUNTRY=US,EU,BR/PRODUCT_NO=5116,023020/COMMENT=Export version of "Anmitsu Hime".
 SMS 2d7fabb2 19B9164073CE1483   Alex Kidd: High-Tech World [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS c13896d5 FCA1E2B346E4B6EE   Alex Kidd: The Lost Stars/COUNTRY=JP,US,EU,BR,KR/PRODUCT_NO=G-1347,7005,GB-2347/COMMENT=English label has a typo, saying "Alex Kidd: The Lost Star".
-SMS 17a40e29 7D8119AF99740429   Alex Kidd in Miracle World [v0]/COUNTRY=US,IT/PRODUCT_NO=5067
-SMS aed9aac4 9E9ACFFA4B7344FD   Alex Kidd in Miracle World [v1]/COUNTRY=US,EU/PRODUCT_NO=5067
+SMS 17a40e29 7D8119AF99740429   Alex Kidd in Miracle World [v0]/COUNTRY=US,IT,DE/PRODUCT_NO=5067,41013
+SMS aed9aac4 9E9ACFFA4B7344FD   Alex Kidd in Miracle World [v1]/COUNTRY=US,EU,BR/PRODUCT_NO=5067
 SMS 08c9ec91 8F4496EF846F02B3   Alex Kidd no Miracle World/COUNTRY=JP/PRODUCT_NO=G-1306
-SMS 6f8e46cf B20081B6495EBAB6   Alex Kidd in Miracle World [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-10/COMMENT=Taiwanese HTH release. Box says "Alex Kido".
+SMS 6f8e46cf B20081B6495EBAB6   Alex Kidd in Miracle World [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-10/COMMENT=Taiwanese HTH release for Game Gear. Box says "Alex Kido".
 SMS d2417ed7 7ACEE06A678FF583   Alex Kidd in Shinobi World/COUNTRY=US,EU,BR/PRODUCT_NO=7044
 SMS 82038ad4 8C8CBA6269074D0F   Alf/COUNTRY=US,BR/PRODUCT_NO=5111
 SMS 08bf3de3 99C9E641B75585E6   Alibaba and 40 Thieves/COUNTRY=KR/EMU_COUNTRY=1   ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern typically left over of Japanese BIOS.
@@ -116,6 +122,7 @@ SMS 7b27202f C546819D9058925D   American Baseball/COUNTRY=EU,BR/PRODUCT_NO=7019
 SMS 3727d8b2 F5E365059B891882   American Pro Football/COUNTRY=EU/PRODUCT_NO=7020/COMMENT=European version of "Walter Payton Football".
 SMS e4163163 52E64F6379BC4E93   Arcade Smash Hits/COUNTRY=EU/PRODUCT_NO=27032-50
 SMS bae75805 B1B3520AE6A57C39   Argos no Juujiken/COUNTRY=JP/PRODUCT_NO=001/COMMENT=Also known in the west as "Rygar".
+SMS 5e4b454e 3E5F1176876F3DA9   Argos no Juujiken [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-02/COMMENT=Taiwanese HTH release for Game Gear. Box says "Alocos".
 SMS f4b3a7bd A7AF89DB1688A107   Ariel - The Little Mermaid (Disney's)/COUNTRY=BR/PRODUCT_NO=026350/COMMENT=This is a port from the Game Gear version. 
 SMS ae705699 8A53E8116C3E95EB   Ashura/COUNTRY=JP/PRODUCT_NO=G-1307/COMMENT=Japanese version of "Secret Command" (Europe) and "Rambo - First Blood Part II" (USA).
 SMS 0bd8da96 61A53B8B8924BFC8   Assault City/COUNTRY=EU/PRODUCT_NO=7034/COMMENT=A Light Phaser version also exists.
@@ -127,6 +134,8 @@ SMS def9b14e 5861B70BCC1B2A74   Astérix and the Secret Mission/COUNTRY=EU/PRODU
 SMS c795182d 041B1627D5288324   Astro Flash/COUNTRY=JP/PRODUCT_NO=C-503/COMMENT=Japanese version of "TransBot".
 SMS 299cbb74 E41681744EF7FAD2   Astro Warrior/COUNTRY=JP,US,BR/PRODUCT_NO=G-1312,5069
 SMS 69efd483 35006A2A22FE0710   Astro Warrior \/ Pit Pot/COUNTRY=EU,DE,IT/PRODUCT_NO=6081,41011
+SMS 69efd483 35006A2A22FE0710   Astro Warrior \/ Pit Pot/COUNTRY=EU,DE,IT/PRODUCT_NO=6081,41011
+SMS 3da7f1ce 37FE6B2A21FE0710   Astro Warrior & Pit Pot [Proto]/COUNTRY=DE/COMMENT=Early Red artwork German version. Only 2 header bytes differs from final release.
 SMS 0eb430ff F5F159BFDF8F9DF7   A-Team, The [Music] [Proto]/FLAGS=PROTO/COUNTRY=EU/COMMENT=Sound driver and music tracks by Jeroen Tel, for the unreleased "The A-Team" game.
 SMS ff614eb3 C0065F686A4316B0   Aztec Adventure/NAME_JP=Nazca '88/COUNTRY=JP,US,EU/PRODUCT_NO=G-1335,5100
 SMS e5ff50d8 D2BE59AA0185BE29   Back to the Future Part II/COUNTRY=EU,BR/PRODUCT_NO=27010-50
@@ -136,10 +145,13 @@ SMS 655fb1f4 D8A13BCA59CD77E5   Bank Panic/COUNTRY=EU,DE,IT/PRODUCT_NO=4084,4102
 SMS d1cc08ee 4220E6AA3FBBA074   Bart vs. The Space Mutants (The Simpsons)/COUNTRY=EU,BR,PT/PRODUCT_NO=MK-27031-50
 SMS f6b2370a 98430D51443E0D38   Bart vs. The World (The Simpsons)/COUNTRY=EU,BR/PRODUCT_NO=MK 27053-50,027210
 SMS 0df8597f 0C2223DC0ECAB348   Basketball Nightmare/COUNTRY=EU,BR/PRODUCT_NO=7025
+SMS e5b3573e A8E366425A4D55D1   Basketball Nightmare [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS b154ec38 35A2509E003333D5   Batman Returns/COUNTRY=EU,BR/PRODUCT_NO=7112,7112-50
 SMS 1cbb7bf1 D1A8660091BC1ABA   Battlemaniacs/COUNTRY=BR/PRODUCT_NO=027376/EMU_TVTYPE=PAL/COMMENT=This game was developed by RARE (UK) but only released in Brazil. It seems to have been 95% completed with some glitchs left and a quite easy ending sequence.
 SMS c19430ce 2063D1C61FABFC20   Battle Out Run/COUNTRY=EU,BR/PRODUCT_NO=7033
-SMS da3a2f57 23DA1C4AC46CB8B5   Black Belt/COUNTRY=US,EU/PRODUCT_NO=5054/COMMENT=Export adaptation of "Hokuto no Ken". The original Japanese game is based on the "Fist of the North Star" manga. Characters and levels were replaced for the export version.
+SMS fae0ade7 18ED1D60B2659ACD   Battle Wings [Proto]/FLAGS=PROTO/COMMENT=Prototype of "Bomber Raid".
+SMS da3a2f57 23DA1C4AC46CB8B5   Black Belt/COUNTRY=US,EU,BR/PRODUCT_NO=5054/COMMENT=Export adaptation of "Hokuto no Ken". The original Japanese game is based on the "Fist of the North Star" manga. Characters and levels were replaced for the export version.
+SMS 98f64975 0E67FD07904D5B4F   Black Belt [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-19/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 8ecd201c 95A173467C000C89   Blade Eagle 3-D/NAME_JP=Blade Eagle/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1351,8005/EMU_3D
 SMS 58d5fc48 C1001AE980334148   Blade Eagle 3-D [Proto]/FLAGS=PROTO/COUNTRY=US/EMU_3D/COMMENT=Prototype version of the game. Title screen says "Blade Eagle", same as Japanese version. Level differences are very clear from the beginning.
 SMS 643b6b76 97766D7F4D91D752   Block Hole/COUNTRY=KR/EMU_COUNTRY=1               ; [EDITOR-NOTE] May run on export system, haven't tested yet but the game requires a non-zero RAM clearing pattern.
@@ -169,6 +181,7 @@ SMS 7e5839a0 C7A7D1085D01ABB0   Championship Hockey/COUNTRY=EU/PRODUCT_NO=27084-
 SMS 492c7c6e 2F6E3B854AD2C1C6   Chapolim x Drácula - Um Duelo Assustador/COUNTRY=BR/PRODUCT_NO=023430/COMMENT=Brazilian hacked version of "Ghost House", released by Tec Toy.
 SMS 46340c41 5F5124D60E874C75   Cheese Cat-Astrophe - Starring Speedy Gonzales/NAME_PT=Cheese Cat-Astrophe - Com Speedy Gonzales/COUNTRY=EU,BR,PT/PRODUCT_NO=9033-50,028550
 SMS 4a21c15f BA03F66F1CEFB221   Choplifter/COUNTRY=US,EU,DE,BR/PRODUCT_NO=5051,41001
+SMS 55f929ce 5CC5DB32E6CF130A   Choplifter [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-15/COMMENT=Taiwanese HTH release for Game Gear.
 SMS fd981232 1DD493C4BDB5AD99   Choplifter [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 16ec3575 59B7B528A8C7DFC5   Choplifter [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMENT=Prototype version of the game, found on a Japanese-format cartridge.
 SMS e421e466 8854D3291643319E   Chouon Senshi Borgman/COUNTRY=JP/PRODUCT_NO=G-1371/COMMENT=Japanese version of "Cyborg Hunter".
@@ -177,6 +190,7 @@ SMS dd0e2927 8CFE7B6CC112B903   Chuck Rock/COUNTRY=EU,BR/PRODUCT_NO=MK-29004-50,
 SMS c30e690a B2D10AB51B1C5136   Chuck Rock II: Son of Chuck/COUNTRY=EU/PRODUCT_NO=MK-29019-50
 SMS 87783c04 DE902135694BC6C2   Chuck Rock II: Son of Chuck/COUNTRY=BR/PRODUCT_NO=028440/COMMENT=This version is an earlier build than the European version.
 SMS 8fb75994 2AB04A10D714A23F   Circuit, The/COUNTRY=JP/PRODUCT_NO=G-1304/COMMENT=Japanese version of "World Grand Prix".
+SMS 1df0fc90 198269AF6F442C6E   Circuit, The/COUNTRY=TW/PRODUCT_NO=G-1304
 SMS e7f62e6d BA12C9527CEE0DA2   Cloud Master/NAME_JP=Chuka Taisen/COUNTRY=US,EU,BR/PRODUCT_NO=7027
 SMS 9d549e08 59868AC9BD4815B4   Comical Machine Gun Joe/COUNTRY=JP/PRODUCT_NO=C-511
 SMS 84ad5ae4 A9567EC5B94513AD   Comical Machine Gun Joe/COUNTRY=TW/PRODUCT_NO=K-317
@@ -190,12 +204,15 @@ SMS 29822980 AA098A4FE1EB594F   Cosmic Spacehead/COUNTRY=EU/PRODUCT_NO=MK-27074-
 SMS 0918fba0 AC5C1E17C758A7FD   C_So! [MSX]/COUNTRY=KR
 SMS 1350e4f8 54D5553AF5264FDE   Cyber Shinobi, The/COUNTRY=EU,BR/PRODUCT_NO=7050
 SMS dac00a3a 3FAB87D3FDD61FCA   Cyber Shinobi, The [Proto]/FLAGS=PROTO
+SMS ad9ff469 4CCE5139F3214CFC   Cyber Shinobi, The [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-33/COMMENT=Taiwanese HTH release for Game Gear. Box also says "Space no Ninja".
 SMS 908e7524 48CF176FE2E9692F   Cyborg Hunter/COUNTRY=US,EU,BR/PRODUCT_NO=QC-002,25003/COMMENT=Export version of "Chouon Senshi Borgman".
+SMS 691211a1 61DA346DEFEE64E3   Cyborg Hunter [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 77efe84a 38F62FF22B9B34B7   Cyborg Z/COUNTRY=KR/EMU_MAPPER=12
-SMS 71abef27 8C16E13E120E48D7   Daffy Duck in Hollywood/COUNTRY=EU,BR/PRODUCT_NO=9031,028360/EMU_TVTYPE=NTSC
+SMS 71abef27 8C16E13E120E48D7   Daffy Duck in Hollywood/COUNTRY=EU,BR,AU/PRODUCT_NO=9031,028360/EMU_TVTYPE=NTSC
 SMS 89b79e77 E3D53E738DD294A4   Dallyeora Pigu-Wang/COUNTRY=KR/PRODUCT_NO=G9511-RP4/EMU_MAPPER=9/COMMENT=Name translate as "Run Dodgeball King"
 SMS ae4a28d7 573DC782B785EDFA   Danan: The Jungle Fighter/NAME_BR=Danan/COUNTRY=EU,BR/PRODUCT_NO=7049
 SMS e2f7193e D57FCD7C1E815D67   Dead Angle/COUNTRY=US,EU,BR/PRODUCT_NO=7030
+SMS f9271c3d 1B549F5E634E10D3   Dead Angle [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 42fc3a6e E705BC457D04D7BB   Deep Duck Trouble - Starring Donald Duck/COUNTRY=EU,BR/PRODUCT_NO=9022
 SMS b137007a F82AE98027F45A00   Desert Speedtrap - Starring Road Runner and Wile E. Coyote/NAME_BR=Desert Speedtrap/COUNTRY=EU,BR/PRODUCT_NO=7122,027250
 SMS 6c1433f9 F0BF995E2C2E5FA1   Desert Strike/COUNTRY=EU/PRODUCT_NO=MK 29010-50
@@ -203,12 +220,14 @@ SMS f6fab48d E2628BCB39487174   Dick Tracy/COUNTRY=US,EU,BR/PRODUCT_NO=7057
 SMS ea5c3a6f 31C90A07943577B5   Dinobasher - Starring Bignose the Caveman [Proto]/FLAGS=PROTO/EMU_MAPPER=3/COMMENT=Prototype version of the unreleased game.
 SMS 32f4b791 AEC0BB10E75FCFB2   Dinosaur Dooley, The/COUNTRY=KR/COMMENT=English language version of "Agigongnyong Dooly" (also a Korean cartridge). Music tracks and a few artworks are different.
 SMS 2bcdb8fa 9A7D6603682DA249   Doki Doki Penguin Land - Uchuu Daibouken/COUNTRY=JP/PRODUCT_NO=G-1334/COMMENT=Japanese version of "Penguin Land".
+SMS fb163003 94FB507C17030883   Doki Doki Penguin Land - Uchuu-Daibouken [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-03/COMMENT=Taiwanese HTH release for Game Gear. Box says "Astro Adventure".
 SMS 56bd2455 BF5D696ADE34916E   Doki Doki Penguin Land - Uchuu Daibouken [Proto]/FLAGS=PROTO/COUNTRY=JP/COMMENT=Prototype version of the game.
 SMS a55d89f3 3488F258EC375C7B   Double Dragon/COUNTRY=JP,US,EU,BR,KR/PRODUCT_NO=G-1369,7012,GB-2369
 SMS aeacfca7 E846E84DC813566C   Double Dragon/COUNTRY=KR/COMMENT=Only differ from original version by a blanked out Sega logo.
+SMS f4f848c2 8AE7B5E174DDF3B5   Double Dragon [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-02/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 8370f6cd 128E2488C291E978   Double Hawk/COUNTRY=EU/PRODUCT_NO=7036
 SMS f76d5cee 932160B3D0411315   Double Hawk [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
-SMS 52b83072 06C09D75451032A1   Double Target - Cynthia no Nemuri/COUNTRY=JP/PRODUCT_NO=G-1314/COMMENT=Japanese version of "Quartet".
+SMS 52b83072 06C09D75451032A1   Double Target - Cynthia no Nemuri/COUNTRY=JP,TW/PRODUCT_NO=G-1314/COMMENT=Japanese version of "Quartet".
 SMS 1b10a951 1AF283FD7C694E41   Dracula (Bram Stoker's)/COUNTRY=EU/PRODUCT_NO=MK-27065-50/EMU_TVTYPE=PAL
 SMS 9549fce4 6C4E00641D7F6ADC   Dragon Crystal/COUNTRY=EU,BR/PRODUCT_NO=5123,023440
 SMS c88a5064 71FD7E5B59B78722   Dragon: The Bruce Lee Story/COUNTRY=EU/PRODUCT_NO=MK-27079-50
@@ -216,16 +235,18 @@ SMS 16537865 CAB3012EDD748A79   Dr. HELLO/COUNTRY=KR
 SMS 6c696221 4F253839D8443AC5   Dr. Robotnik's Mean Bean Machine/COUNTRY=EU,BR/PRODUCT_NO=7123,025360
 SMS 07306947 D8735FD26D415482   Dynamite Duke/COUNTRY=EU,BR/PRODUCT_NO=7067
 SMS 0e1cc1e0 4002AEAA680311EA   Dynamite Dux/COUNTRY=EU,BR/PRODUCT_NO=7029
+SMS 4e59175e A039A522C6B4F0F6   Dynamite Dux [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7db5b0fa 8B7CE5483E4F1B24   Dynamite Headdy/COUNTRY=BR/PRODUCT_NO=028570/COMMENT=This is a port from the Game Gear version. It was apparently ported to the Master System by a division of SEGA outside Japan, but never released at the time. Tec Toy later released it.
 SMS f06f2ccb BBFF73681C587186   Eagles 5/COUNTRY=KR
 SMS c4d5efc5 65DF0FAE9B9BD8F1   Earthworm Jim/COUNTRY=BR/PRODUCT_NO=028690/EMU_TVTYPE=NTSC/COMMENT=This is a port from the Game Gear version. It has a status bar display bug on early Master System 1.
-SMS 6687fab9 83074B5C0E7C3A0B   Ecco the Dolphin/COUNTRY=EU,BR/PRODUCT_NO=9029
+SMS 6687fab9 83074B5C0E7C3A0B   Ecco the Dolphin/COUNTRY=EU,BR,AU/PRODUCT_NO=9029
 SMS 7c28703a B26E818E12334547   Ecco - The Tides of Time/COUNTRY=BR/PRODUCT_NO=028630/COMMENT=The in-game demonstration has timing problems making it buggy.
 SMS dd74bcf1 1D8FA00A8C616558   E.I. - Exa Innova/COUNTRY=KR
 SMS 00e73541 93D3417EE009757D   Enduro Racer/NAME_BR=Super Cross/COUNTRY=US,EU,BR/PRODUCT_NO=5077/COMMENT=This is the limited 128 KB version of the game as released outside of Japan (5 different level layout instead of 10 in the Japanese version).
 SMS 5d5c50b3 6038C2516F841949   Enduro Racer/COUNTRY=JP/PRODUCT_NO=G-1322/COMMENT=This is the full original 256 KB version of the game as released in Japan (10 different level layout).
 SMS c4bb1676 C12FD315320E1CCC   E-SWAT [v0]/COUNTRY=EU,BR/PRODUCT_NO=7042
 SMS c10fce39 CAEDD39267EAE1B2   E-SWAT [v1]/COUNTRY=US,EU/PRODUCT_NO=7042
+SMS 96e16fe4 4239547D58D3D0B9   E-SWAT [v1] [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-12/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 4f20694a A67EA404D88A5F73   E-SWAT [Proto 0]/FLAGS=PROTO
 SMS f7ca9801 E58073DF458CD4A4   E-SWAT [Proto 1]/FLAGS=PROTO
 SMS fd91cc7e BC2FD215320C1DD3   E-SWAT [Proto 2]/FLAGS=PROTO
@@ -251,12 +272,14 @@ SMS 17ab6883 866A225E7803D045   FA Tetris/COUNTRY=KR/EMU_MAPPER=11
 SMS bf6c2e37 5C434F34BA4434AC   Férias Frustradas do Pica Pau/COUNTRY=BR/PRODUCT_NO=028660
 SMS 9bb3b5f9 78A312E98554F41D   FIFA International Soccer/COUNTRY=BR/PRODUCT_NO=028670/COMMENT=This is a port from the Game Gear version.
 SMS 3ebb7457 1812E0F53178AFA9   Final Bubble Bobble/COUNTRY=JP/PRODUCT_NO=G-1362/COMMENT=Japanese version of "Bubble Bobble".
+SMS b948752e E04A9E63784D2CE4   Final Bubble Bobble [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-01/COMMENT=Taiwanese HTH release for Game Gear. Box says "Bubble Dragon".
 SMS f6ad7b1d E356BEF0D3941C96   Fire & Forget II/COUNTRY=EU/PRODUCT_NO=27009-50/COMMENT=Other versions of the game are subtitled "The Death Convoy", but not the Master System version. Note that it is the original version of the game. Amiga and Atari ST versions are actually ports based on the SMS version.
 SMS 8b24a640 C9A68D7C60D1C196   Fire & Ice/COUNTRY=BR/PRODUCT_NO=027360/COMMENT=This game was developed and planned for release in Europe, then was cancelled. Tec Toy later released the game in Brazil.
 SMS be31d63f 087CCA33EB554EF1   Flash, The/COUNTRY=EU,BR/PRODUCT_NO=7506,7506-50
 SMS 61e8806f 0909D2F70850EDE0   Flashpoint/COUNTRY=KR/EMU_MAPPER=11/EMU_SPRITE_FLICKER
 SMS ca5c78a5 BD9E05F283723B7E   Flintstones, The/COUNTRY=EU,BR/PRODUCT_NO=MK-27013-50
 SMS 38c53916 4589A9BD05075E62   Forgotten Worlds/COUNTRY=EU,BR,AU,KR/PRODUCT_NO=7056,GB-2005JG
+SMS 44136a72 269D69A7F7DD4E0B   Forgotten Worlds [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-46/COMMENT=Taiwanese HTH release for Game Gear.
 SMS e6795c53 B637976CB4B28D1D   Fushigi no Oshiro Pit Pot/COUNTRY=JP/PRODUCT_NO=C-507
 SMS 8b40f6bf 8CE87C3FDC15F4EC   Gaegujangi Kkachi/COUNTRY=KR/PRODUCT_NO=GB-4001/COMMENT=Name translate as "Kkachi, a naughty boy".
 SMS 3ec5e627 C00413DAC7946A8A   Gain Ground/COUNTRY=EU,BR/PRODUCT_NO=7045
@@ -267,11 +290,13 @@ SMS 6c827520 1B819E859D0C3860   Galaxy Force/COUNTRY=US/EMU_TVTYPE=NTSC/PRODUCT_
 SMS a4ac35d8 0B932CEAD9975587   Galaxy Force/COUNTRY=EU,BR/PRODUCT_NO=29001
 SMS 5fc74d2a 1EE251A5D9687455   Gangster Town/COUNTRY=US,EU,BR/EMU_INPUTS=LIGHTPHASER/EMU_IPERIOD=258/PRODUCT_NO=5074,023120   ; [EDITOR-NOTE] BR blue box version is 023120. BR cardboard version has no product_no.
 SMS 1890f407 EF924BC5AE023A85   Game Box Série Esportes Radicais/COUNTRY=BR/PRODUCT_NO=023480/COMMENT=Hacked version of "California Games" with only two events left. Released by Tec Toy.
+SMS 9afab511 F87F393D06469C2B   Game De Check! Koutsuu Anzen [Proto]/COUNTRY=JP/COMMENT=Unreleased not-for-sale educative game.
+SMS 380d7400 DD6520742A9CBCA8   Game Moeumjip 188 Hap/COUNTRY=KR/EMU_MAPPER=19
 SMS ad522efd 8D03BD7E1EFB021A   Gangcheol RoboCop/COUNTRY=KR/PRODUCT_NO=SI-3131G
 SMS d9190956 0DD3230F6E789E6A   Gauntlet/COUNTRY=EU,BR/PRODUCT_NO=25006-50
 SMS a64898ce E466186F844A540D   George Foreman's KO Boxing/COUNTRY=EU,BR/PRODUCT_NO=MK-27041-50,026180
 SMS 956c416b 25ABB2B6FC7AD67C   Geraldinho/COUNTRY=BR/PRODUCT_NO=021080/COMMENT=Brazilian hacked version of "Teddy Boy", released by Tec Toy.
-SMS 1ddc3059 DC6545FFFA415CE4   Ghostbusters/COUNTRY=US,EU,KR/PRODUCT_NO=5065,GB1024JG
+SMS 1ddc3059 DC6545FFFA415CE4   Ghostbusters/COUNTRY=US,EU,BR,KR/PRODUCT_NO=5065,GB1024JG
 SMS c0f3ce7e 827C30E5ED689206   Ghost House/COUNTRY=JP/PRODUCT_NO=C-512
 SMS f1f8ff2d 102C54291BD04715   Ghost House/COUNTRY=US,EU,AU,IT,BR/PRODUCT_NO=4002,4502
 SMS 1203afc9 C65D33D6DF6C90F9   Ghost House/COUNTRY=KR
@@ -286,13 +311,14 @@ SMS c7ded988 9BCA87E879AE0BFA   Golden Axe Warrior/COUNTRY=US,EU,BR/PRODUCT_NO=7
 SMS 48651325 C0AB0A7E886044E1   Golfamania/COUNTRY=EU,BR/PRODUCT_NO=7502
 SMS 5dabfdc3 D7DD318BE2DA8351   Golfamania [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7f7b568d 3D8263CB4F982705   Golfamania (Super Golf) [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game, then called "Super Golf".
-SMS a51376fe 593A81384915F462   Golvellius - Valley of Doom/COUNTRY=US,EU/PRODUCT_NO=7017/COMMENT=Export version of "Maou Golvellius".
+SMS a51376fe 593A81384915F462   Golvellius - Valley of Doom/COUNTRY=US,EU,BR/PRODUCT_NO=7017,024170/COMMENT=Export version of "Maou Golvellius".
 SMS 7a92eba6 DB5D5B37B0F77916   Ghouls'n Ghosts/COUNTRY=US,EU,BR,KR/PRODUCT_NO=7055,025170,GB-2006JG
 SMS 96ca6902 8D436928DC24B2ED   Ghouls'n Ghosts [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise the game.
 SMS ec2da554 EB6D4D69959BF2D0   GP Rider/COUNTRY=EU,BR/PRODUCT_NO=9013,028200
 SMS 10ed6b57 40C511003F43AFB9   Great Baseball/COUNTRY=US,EU,BR/PRODUCT_NO=5061/COMMENT=Not the same game as the Japanese card version also named "Great Baseball".
 SMS 89e98a7c 9F82F97234F38CC1   Great Baseball [JP]/COUNTRY=JP/PRODUCT_NO=C-505/COMMENT=Not the same game as the Export cartridge version also named "Great Baseball".
 SMS 2ac001eb 47A87FEE28140464   Great Basketball/NAME_BR=Great Basket/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1320,5071
+SMS 6fe448a5 8E35498FE5E6A1F9   Great Basketball [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-17/COMMENT=Taiwanese HTH release for Game Gear. Box says "94-Nen Super Basketball".
 SMS 2055825f 9081CE66CC2A03C2   Great Football/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1321,5058
 SMS 98e4ae4a 20A77684F32545E2   Great Golf/NAME_JP=Masters Golf/COUNTRY=JP,US,EU/PRODUCT_NO=G-1332,5057/COMMENT=This game was called "Masters Golf" in Japan. Another game also named "Great Golf" was released in Japan, but isn't the same game.
 SMS c6611c84 8573186E10A8BF0B   Great Golf [Mega-Tech]/COUNTRY=US,EU/COMMENT=From "Mega-Tech" arcade version.
@@ -314,8 +340,9 @@ SMS 649f29e8 EC7C600B6C427E01   Hang On [Proto]/FLAGS=PROTO/COMMENT=Prototype ve
 SMS 1c5059f0 AC0BC3BFC7D2AB83   Hang On \/ Astro Warrior/COUNTRY=US/PRODUCT_NO=6002
 SMS e167a561 319F4234855F6670   Hang On \/ Safari Hunt/COUNTRY=US,KR/PRODUCT_NO=6001/EMU_INPUTS=LIGHTPHASER
 SMS a120b77f 03D287D576716F79   Hang On \/ Safari Hunt [Proto]/FLAGS=PROTO/EMU_INPUTS=LIGHTPHASER/COMMENT=Prototype version of the game.
-SMS fdab876a AEB225FECBA7EE1D   Heavyweight Champ/COUNTRY=EU/PRODUCT_NO=7063/COMMENT=Same game as "George Foreman's KO Boxing" and "James "Buster" Douglas Knockout Boxing".
+SMS fdab876a AEB225FECBA7EE1D   Heavyweight Champ/COUNTRY=EU,BR/PRODUCT_NO=7063,024180/COMMENT=Same game as "George Foreman's KO Boxing" and "James "Buster" Douglas Knockout Boxing".
 SMS cde13ffb 003CC95FA787A4CA   Heroes of the Lance/COUNTRY=EU,BR/PRODUCT_NO=29003.50,028070
+SMS 9611bebd 5C7AED2ED64DDA12   Heroes of the Lance [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 98af0236 C89C8F4197527A69   Hi-Com 3-in-1 The Best Game Collection A/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Hang On, Pit Pot, Spy vs Spy.
 SMS 6ebfe1c3 D276EDD339D93AAC   Hi-Com 3-in-1 The Best Game Collection B/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Great Baseball, Great Soccer, Super Tennis.
 SMS 81a36a4f 76FBAF87132C908A   Hi-Com 3-in-1 The Best Game Collection C/COUNTRY=KR/EMU_MAPPER=16/COMMENT=Teddy Boy Blues, Pit-Pot, Astro Flash.
@@ -328,6 +355,7 @@ SMS 00e9809f 76FDF6F9656C29A4   Hi-Com 8-in-1 The Best Game Collection C/COUNTRY
 SMS 9eb1aa4f 7DD79A9894C6A878   High School! Kimengumi/COUNTRY=JP/PRODUCT_NO=G-1309
 SMS 24f5fe8c 36CE68D578724E87   Hokuto no Ken/COUNTRY=JP/PRODUCT_NO=G-1303/COMMENT=Japanese version of "Black Belt". This game is based on the "Fist of the North Star" manga.
 SMS c4ab363d 7761965CF39300B0   Hokuto no Ken/COUNTRY=TW/PRODUCT_NO=G-1303/COMMENT=Taiwanese version of "Hokuto no Ken" as released by Aaronix. Final boss graphic data is corrupted (verified from original cartridge).
+SMS b6207f0d 0A9F6FCB746A47F8   Hokuto no Ken [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-04/COMMENT=Taiwanese HTH release for Game Gear. Box says "Northen Ken".
 SMS c9dbf936 FA6B14A912C33ECB   Home Alone/COUNTRY=EU/PRODUCT_NO=7109/EMU_TVTYPE=PAL
 SMS 8040b2fa C0FDE9D208640814   Hong Kil Dong/COUNTRY=KR
 SMS 955a009e F35F09A93C040AB2   Hoshi wo Sagashite.../COUNTRY=JP/PRODUCT_NO=G-1354
@@ -361,6 +389,7 @@ SMS f89af3cc 1E40D12DA16EB3E2   Knightmare II: The Maze of Galious/COUNTRY=KR/EM
 SMS 64a585eb 6328C143CB001393   Krusty's Fun House/COUNTRY=EU,BR/PRODUCT_NO=MK 27056-50,026280
 SMS d11d32e4 261F3B6965EAC701   Kujakuou/COUNTRY=JP/PRODUCT_NO=G-1366/COMMENT=Japanese version of SpellCaster.
 SMS 1e949d1f 50C0B42AE27D4D66   Kung Fu Kid/COUNTRY=US,EU,BR/PRODUCT_NO=5078/COMMENT=Export version of "Makai Retsuden".
+SMS 4762e022 715E94C4B05F03C7   Kung Fu Kid [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 401-21/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 24e97200 37B375B8FEA09AB1   Land of Illusion - Starring Mickey Mouse/COUNTRY=EU,BR/PRODUCT_NO=9014
 SMS 0ca95637 B3C4296E5BC63899   Laser Ghost/COUNTRY=EU/PRODUCT_NO=7074/COMMENT=This game can be played using the Light Phaser. To enable this feature, start the game by pressing a button on the second Control Pad.
 SMS eb71247b DF5DEA1CDB3EC8DD   Lethal Weapon 3 [Music] [Proto]/FLAGS=PROTO/COUNTRY=EU/COMMENT=Sound driver and music tracks by Jeroen Tel, for the unreleased "Lethal Weapon 3" game.
@@ -369,9 +398,9 @@ SMS f369b2d8 C3A7D6B47AE01C96   Lemmings/COUNTRY=EU,BR,KR/PRODUCT_NO=7108,025204
 SMS 2c61ed88 9841AB54F8EB0441   Lemmings [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS cf5aecca FDA25D3F5F358CA5   Lemmings 2 - The Tribes [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 SMS cb09f355 9C076464A46F730F   Line of Fire/COUNTRY=EU,BR,KR/PRODUCT_NO=9006,GB-4011JG/COMMENT=This game has an hidden 3-D Glasses mode. To enable this feature, press both Control Pad buttons during reset.
-SMS c352c7eb DC4FD0C90A6F5E65   Lion King, The (Disney's)/NAME_SP=El Rey León (Disney's)/NAME_FR=Le Roi Lion (Disney's)/NAME_DE=Der König Der Löwen (Disney's)/COUNTRY=EU,SP,FR,DE,BR/PRODUCT_NO=MK-27081-50,MK-27081-06,MK-27081-09,MK-27081-18,028450
+SMS c352c7eb DC4FD0C90A6F5E65   Lion King, The (Disney's)/NAME_SP=El Rey León (Disney's)/NAME_FR=Le Roi Lion (Disney's)/NAME_DE=Der König Der Löwen (Disney's)/NAME_IT=Il Re Leone/COUNTRY=EU,SP,FR,DE,BR,IT/PRODUCT_NO=MK-27081-50,MK-27081-06,MK-27081-09,MK-27081-18,MK-27081-13,028450
 SMS aa7d6f45 572DF98CDFB5D98A   Lord of Sword/COUNTRY=JP/PRODUCT_NO=G-1361/COMMENT=Japanese version of "Lord of The Sword".
-SMS 7eaed675 DCA3A3F9337D95A0   Lord of Sword [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-05/COMMENT=Taiwanese HTH release.
+SMS 7eaed675 DCA3A3F9337D95A0   Lord of Sword [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-05/COMMENT=Taiwanese HTH release for Game Gear.
 SMS e8511b08 92362CB89D5572F0   Lord of The Sword/COUNTRY=US,EU,BR/PRODUCT_NO=7016/COMMENT=Export version of "Lord of Sword".
 SMS 323f357f 10BBC3D7919A561A   Loretta no Shouzou/COUNTRY=JP/PRODUCT_NO=G-1315
 SMS a1710f13 57B8D77289FE41E0   Lucky Dime Caper, The - Starring Donald Duck/NAME_BR=Lucky Dime Caper, The - Estrelando Pato Donald/COUNTRY=EU,BR/PRODUCT_NO=7072,7072-50
@@ -383,7 +412,7 @@ SMS bf0411ad FFA3B9E9C1445E59   Maou Golvellius/COUNTRY=JP/PRODUCT_NO=G-1363/COM
 SMS 21a21352 FEA3B9E9C1445D5B   Maou Golvellius [Proto]/FLAGS=PROTO/COUNTRY=JP/COMMENT=Prototype version of the game.
 SMS bf6f3e5f EFA3373E2142D2C4   Marble Madness/COUNTRY=EU/PRODUCT_NO=27024-50
 SMS e8ea842c 8865855EC8C5267D   Marksman Shooting & Trap Shooting/COUNTRY=US,BR/PRODUCT_NO=6003/EMU_INPUTS=LIGHTPHASER         ; [EDITOR-NOTE] BR cardboard version has no product_no.
-SMS e8215c2e 73340E125480BFA6   Marksman Shooting \/ Trap Shooting \/ Safari Hunt/COUNTRY=EU/EMU_INPUTS=LIGHTPHASER
+SMS e8215c2e 73340E125480BFA6   Marksman Shooting \/ Trap Shooting \/ Safari Hunt/COUNTRY=EU,DE,IT,BR/EMU_INPUTS=LIGHTPHASER
 SMS 96fb4d4b 4B833BC369A0A586   Master of Darkness/COUNTRY=EU,BR/PRODUCT_NO=7107,7107-50,025112
 SMS 20f40cae 5B02852A4E1B3952   Master of Darkness \/ Vampire [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Title screen says "Vampire" which was a working title.
 SMS 93141463 6A32F08336B0FA11   Masters of Combat/COUNTRY=EU,AU,BR/PRODUCT_NO=7124,9028/COMMENT=Master System version of "Buster Fight" on the Game Gear.
@@ -408,7 +437,7 @@ SMS 56cc906b FA387D6C37963DDB   Moonwalker (Michael Jackson's)/NAME_BR=Moonwalke
 SMS 54123936 F6367C6B39953EE1   Moonwalker (Michael Jackson's) [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS b49aa6fc F77F4A19E34FD71E   Mopiranger/COUNTRY=KR
 SMS 302dc686 BC55ADDD0F5CF901   Mortal Kombat/COUNTRY=EU,BR/PRODUCT_NO=MK-29021-50,028240
-SMS 2663bf18 C71D87669810186F   Mortal Kombat II/COUNTRY=EU,BR/PRODUCT_NO=MK-29029-50,028530
+SMS 2663bf18 C71D87669810186F   Mortal Kombat II/COUNTRY=EU,BR,AU/PRODUCT_NO=MK-29029-50,028530
 SMS 395ae757 6E91621C296C02EC   Mortal Kombat 3/COUNTRY=BR/PRODUCT_NO=028730/COMMENT=This is a port from the Game Gear version.
 SMS 3cd816c6 F78B647E2DECD2B1   Ms. Pac-Man/COUNTRY=EU,BR/PRODUCT_NO=301030-0160
 SMS 62f0c23d ED4ACAF1CF794680   My Hero/NAME_BR=Gang's Fighter/COUNTRY=US,EU,BR,PT,DE,IT/PRODUCT_NO=4001,4501,021030,41004/COMMENT=Export version of "Seishun Scandal".
@@ -419,25 +448,27 @@ SMS 0a77fa5e D9A608B8110F2B76   Nemesis 2/COUNTRY=KR/EMU_MAPPER=12
 SMS dbbf4dd1 BD4A36BDBE1C7FAD   New Boggle Boggle 2/COUNTRY=KR/COMMENT=Unlicensed clone of "Bubble Bobble".
 SMS c660ff34 0F4613232FB9602D   NewZealand Story, The/COUNTRY=EU/PRODUCT_NO=27035-50
 SMS 320313ec 690DDE10E39C7CA1   Ninja, The/COUNTRY=JP/PRODUCT_NO=G-1308
-SMS 66a15bd9 6E674174DCF99F02   Ninja, The/NAME_IT=I Ninja/COUNTRY=US,EU,IT/PRODUCT_NO=5066
+SMS 66a15bd9 6E674174DCF99F02   Ninja, The/NAME_IT=I Ninja/COUNTRY=US,EU,IT,DE/PRODUCT_NO=5066,41012
 SMS 1b1d8cc2 9E56B510032E6FA7   Ninja Gaiden/COUNTRY=EU,BR/PRODUCT_NO=7101
 SMS 761e9396 762C4C122E81DD74   Ninja Gaiden [Proto]/FLAGS=PROTO/COUNTRY=EU,BR/COMMENT=Prototype version of the game.
 SMS d1a7b1aa 17D121A728287888   Olympic Gold [v0]/COUNTRY=KR,BR/PRODUCT_NO=GB2023JG
 SMS 6a5a1e39 A6491A91F74F0A16   Olympic Gold [v1]/COUNTRY=EU,UK,AU,SP,FR,DE/PRODUCT_NO=MK-27030-50,MK-27030-05,MK-27030-06,MK-27030-09,MK-27030-18
 SMS a2f9c7af 972BE85E65BA5A7F   Olympic Gold [v0] [SMS-GG]/COUNTRY=US,JP,BR/PRODUCT_NO=T-79018,G-3316,015810/FLAGS=SMSGG_MODE
-SMS 3382d73f 9B2BE85C65BA5A7D   Olympic Gold [v0] [SMS-GG]/COUNTRY=CH/FLAGS=SMSGG_MODE/COMMENT=This minor hack of the code enable the game to run on unlicensed cartridges using a slightly incompatible mapper.
-SMS 1d93246e 489D35A442E436E6   Olympic Gold [v1] [SMS-GG]/COUNTRY=EU,UK,DE/PRODUCT_NO=79018-50,79018-05,79018-18/FLAGS=SMSGG_MODE
+SMS 3382d73f 9B2BE85C65BA5A7D   Olympic Gold [v0] [SMS-GG]/COUNTRY=TW/FLAGS=SMSGG_MODE/COMMENT=This minor hack of the code enable the game to run on unlicensed cartridges using a slightly incompatible mapper.
+SMS 1d93246e 489D35A442E436E6   Olympic Gold [v1] [SMS-GG]/COUNTRY=EU,DE,FR,UK,SP/PRODUCT_NO=79018-50,79018-18,79018-09,79018-05,79018-06/FLAGS=SMSGG_MODE
 SMS bea27d5c 7DBE1156242EEE1E   Opa Opa/COUNTRY=JP,KR/PRODUCT_NO=G-1343,GB-1343/COMMENT=Japanese version of "Fantasy Zone: The Maze".
 SMS 205caae8 0BD7C48F97528F53   Operation Wolf/COUNTRY=EU,BR/PRODUCT_NO=7039/EMU_INPUTS=LIGHTPHASER/EMU_TVTYPE=PAL/COMMENT=This game can also be played using the second Control Pad.
 SMS 82ef2a7d 9C0F1AFF59252A94   Ottifants, The/COUNTRY=EU,BR/PRODUCT_NO=7120,025450
 SMS 5589d8d2 B32F41555F15C94B   Out Run/NAME_BR=OutRun/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1326,7003,024240/COMMENT=This game optionally support the Paddle Control.
 SMS d6f43dda 1BB3AE977AC3CCE4   Out Run 3-D/NAME_BR=Out Run 3D/COUNTRY=EU,BR/PRODUCT_NO=8007/EMU_3D/COMMENT=This game optionally support the Paddle Control. The 3-D effect can be disabled by pressing Pause on title screen.
+SMS 4e684ec0 9FF9E104E43B97CD   Out Run 3-D [Proto]/FLAGS=PROTO/EMU_3D/COMMENT=Prototype version of the game.
 SMS 3932adbc 436E35E9D2EFEF81   Out Run Europa/COUNTRY=EU,BR/PRODUCT_NO=27016-50
 SMS f037ec00 3BFAB46092543899   Out Run Europa [SMS-GG]/COUNTRY=US/FLAGS=SMSGG_MODE/PRODUCT_NO=T-79038
 SMS 01eab89d 45F5AC628D4F37A5   Out Run Europa [SMS-GG]/COUNTRY=EU,BR/FLAGS=SMSGG_MODE/PRODUCT_NO=79038-50,016870
 SMS be57a9a5 7DBED7938B8E4FF3   Pac-Mania/COUNTRY=EU/PRODUCT_NO=25010-50/COMMENT=Also referred to as "Pacmania".
 SMS 294e0759 EBC446E748FB6978   Paperboy [v0]/COUNTRY=EU/PRODUCT_NO=25008-50
 SMS 327a0b4c 266B27943121471B   Paperboy [v1]/COUNTRY=US,BR/PRODUCT_NO=5121
+SMS 354bee78 A63466570BFB253E   Paperboy [v1] [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-23/COMMENT=Taiwanese HTH release for Game Gear. Box says "Paper Boy".
 SMS e030e66c 621888488B1D43CB   Parlour Games/COUNTRY=US,EU/PRODUCT_NO=5103/COMMENT=Export version of "Family Games" ("Party Games").
 SMS 9aefe664 B3AE3F297F8E9793   Pat Riley Basketball [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the unreleased game.
 SMS 445525e2 C78797B1481E0FF5   Penguin Adventure/COUNTRY=KR/EMU_MAPPER=12
@@ -463,8 +494,9 @@ SMS e5f789b9 C5D3A3094BD09F02   Predator 2 [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=US,
 SMS 7704287d 2AD78D0B99231992   Prince of Persia/COUNTRY=EU,BR/PRODUCT_NO=27022-50,027270
 SMS 311d2863 A7AF7C148412B4D0   Prince of Persia [SMS-GG]/COUNTRY=US/PRODUCT_NO=T-48098 301053-0161/FLAGS=SMSGG_MODE
 SMS 45f058d6 A8AB7C128212B8D3   Prince of Persia [SMS-GG]/COUNTRY=EU/PRODUCT_NO=T-88018-50/FLAGS=SMSGG_MODE
+SMS cafd2d83 2C1E66E95ED392A4   Prince of Persia [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-15/COMMENT=Taiwanese HTH release for Game Gear. Box says "Prince of Persia" in English and "Ali Papa Densetsu" in Japanese.
 SMS 30af0233 6B2F747298C5F330   Promocao Especial M.System III Compact/COUNTRY=BR/COMMENT=Tec Toy cartridge sent to Brasilian shops, promoting the Master System III Super Compact and release of Sonic The Hedgehog 2.
-SMS fbde42d3 FE6C6689595835C1   Pro Wrestling/COUNTRY=US,EU,BR/PRODUCT_NO=5056/COMMENT=Export version of "Gokuaku Doumei Dump Matsumoto".
+SMS fbde42d3 FE6C6689595835C1   Pro Wrestling/COUNTRY=US,EU,DE,IT,BR/PRODUCT_NO=5056,41009/COMMENT=Export version of "Gokuaku Doumei Dump Matsumoto".
 SMS da9be8f0 368FE6B9C92FC4E0   Pro Yakyuu Pennant Race, The/COUNTRY=JP/PRODUCT_NO=G-1323
 SMS 5c0b1f0f 106D424E827F1FD3   Psychic World/COUNTRY=EU,BR/PRODUCT_NO=7066
 SMS 97993479 51C5A27AE5C1A97F   Psycho Fox/COUNTRY=US,EU,BR,KR/PRODUCT_NO=7032,GB-7032
@@ -472,14 +504,17 @@ SMS 357d4f78 F8FBE39B6B9A7A10   Putt & Putter/NAME_BR=Minigolf/COUNTRY=EU,BR/PRO
 SMS 8167ccc4 57D2E5AF6CF007E0   Putt & Putter [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 76e8265f 22792EA4280C8FD0   Puznic/COUNTRY=KR
 SMS e0f34fa6 7B806045EC630110   Quartet/COUNTRY=US,EU/PRODUCT_NO=5073/COMMENT=Export version of "Double Target - Cynthia no Nemuri".
+SMS cacdf759 603D4A07BB29C36B   Quartet [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-28/COMMENT=Taiwanese HTH release for Game Gear.
 SMS f42e145c B8840BAF3B2A2C79   Quest for the Shaven Yak Starring Ren Hoëk & Stimpy/COUNTRY=BR/PRODUCT_NO=028540/EMU_TVTYPE=PAL/COMMENT=This is a port from the Game Gear version.
 SMS c172a22c 7BCD35D3A8365C76   Rainbow Islands/COUNTRY=EU/PRODUCT_NO=7117
 SMS 00ec173a 60C74DD2B1355C78   Rainbow Islands/COUNTRY=BR/PRODUCT_NO=026360/COMMENT=This version is an earlier build than the European version. It has different copyright information.
 SMS bbda65f0 35A0597C0B263AEB   Rambo - First Blood Part II/COUNTRY=US/PRODUCT_NO=5064/COMMENT=Same game as "Ashura" (Japan) and "Secret Command" (Europe). Also referred to as "Rambo".
 SMS da5a7013 670E95C06B26376E   Rambo III/COUNTRY=US,EU,BR,KR/PRODUCT_NO=7015,GB-7015/EMU_INPUTS=LIGHTPHASER
 SMS 42fc47ee 554C7BE855EAE1DC   Rampage/COUNTRY=US,EU,BR/PRODUCT_NO=QC-001,27005    ; [EDITOR-NOTE] BR version has no product_no.
+SMS 0e0d6c7a 7F450EE1FC11AE92   Rampage [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 426e5c8a 23F4F2C7282735AC   Rampart/COUNTRY=EU/PRODUCT_NO=301026-0160
 SMS c547eb1b 1DA1B2C2A17604B3   Rastan/COUNTRY=US,EU,BR/PRODUCT_NO=7022
+SMS f063bfc8 3795FE95416244BA   Rastan [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 9c76fb3a D5F5307E4C80328A   Rastan Saga [SMS-GG]/COUNTRY=JP/FLAGS=SMSGG_MODE/PRODUCT_NO=T-11037
 SMS 54316fea A3E4BFF29BB8066F   R.C. Grand Prix/COUNTRY=US,EU,BR/PRODUCT_NO=27007
 SMS 767f11b8 5EDFCCBA77EF03D4   R.C. Grand Prix [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -494,6 +529,7 @@ SMS 8212b754 7C3D8387CD52CB53   RoboCop versus The Terminator/COUNTRY=EU,BR/PROD
 SMS 1bcc7be3 6510DE9EFF33617C   Rocky/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1319,7002
 SMS bb54b6b0 5286A12D022F2801   R-Type/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1364,9002
 SMS 0d0840d5 BB28E74692B7DBCC   R-Type [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. Data layout is different from final build but otherwise content is the same.
+SMS e532716f 217A297127BA42A8   R-Type [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 401-01/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 1fdae719 9815A90C29BA6556   Running Battle/COUNTRY=EU,BR/PRODUCT_NO=7037,024300
 SMS 66388128 D28E2F698C014338   Sagaia/COUNTRY=EU,BR/PRODUCT_NO=7078
 SMS 97d03541 49C0303E13D3CBD8   Samgukji III/NAME_JP=Sangokushi III/COUNTRY=KR/EMU_MAPPER=9
@@ -502,15 +538,20 @@ SMS 7ab2946a 137517DF00728D83   Sapo Xulé S.O.S. Lagoa Poluída/COUNTRY=BR/PROD
 SMS 9a608327 A55A9508345B7560   Sapo Xulé Vs Os Invasores do Brejo/COUNTRY=BR/PRODUCT_NO=026340/COMMENT=Hacked version of "Psycho Fox", released by Tec Toy.
 SMS 16249e19 ABFBCE1810529280   Satellite 7/COUNTRY=JP/PRODUCT_NO=C-506
 SMS 9a8b28ec 8C879DB38E98096E   Scramble Spirits/COUNTRY=EU,BR/PRODUCT_NO=7031
+SMS 7d59283b 0A6F1CFCF5311831   Scramble Spirits [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-09/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 1de2c2d0 FD39BA27B96F853C   SDI/COUNTRY=JP,KR/PRODUCT_NO=G-1338,GB-1338/COMMENT=Means "Strategic Defense Initiative". Japanese version of "Global Defense".
 SMS 00529114 E7DF258AF50C0981   Secret Command/COUNTRY=EU/PRODUCT_NO=5081/COMMENT=Also referred to as "Secret Commando" on title screen. Same game as "Ashura" (Japan) and "Rambo - First Blood Part II" (USA).
+SMS 89efcc22 D2D92284F30609AD   Secret Command [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-07/COMMENT=Taiwanese HTH release for Game Gear. Box title is yet unknown.
 SMS a8061aef A2AB60901AE8F3CE   Sega Chess/COUNTRY=EU,BR/PRODUCT_NO=7069
 SMS 276aa542 1490B536046BD32F   Sega Graphic Board v2.0 [Proto]/FLAGS=PROTO/EMU_INPUTS=GRAPHICBOARDV2/EMU_MAPPER=11
 SMS 296879dd C1191ABD8EFFA31F   Sega World Tournament Golf/COUNTRY=EU,BR,KR/PRODUCT_NO=7103,024420,GB2038JG
 SMS f0ba2bc6 A2297AFAC9472988   Seishun Scandal/COUNTRY=JP/PRODUCT_NO=C-510/COMMENT=Japanese version of "My Hero".
+SMS d0263024 81845E918735BE92   Seishun Scandal [HTH] [SMS-GG]/COUNTRY=TW/FLAGS=SMSGG_MODE/PRODUCT_NO=HG 256-06/COMMENT=Taiwanese HTH release for Game Gear. Box says "Action Boy".
 SMS f8176918 233B773430937DB7   Sensible Soccer/COUNTRY=EU/PRODUCT_NO=8011,MK-25014-50
 SMS 3793c01a BB279C12C22FBFC0   Shadow Dancer - The Secret Of Shinobi/NAME_BR=The Secret Of Shinobi/NAME_KR=Shadow Dancer/COUNTRY=EU,BR,KR/PRODUCT_NO=9009,GB4010JG
+SMS ab67c6bd FFCF49E495178BCE   Shadow Dancer - The Secret Of Shinobi [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 401-06/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 1575581d F96C3BA032F7D6C1   Shadow of the Beast/COUNTRY=EU,BR/PRODUCT_NO=27019-50,025270/EMU_TVTYPE=PAL
+SMS ac2ea669 D7DF5953A9944D14   Shadow of the Beast [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-47/COMMENT=Taiwanese HTH release for Game Gear.
 SMS aab67ec3 EC0F9129D095CB1B   Shanghai/COUNTRY=US,EU/PRODUCT_NO=5110
 SMS d5d25156 CBF272B7DA6BC90C   Shanghai [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e1fff1bb E3EBF1D8895B9FE6   Shinobi [v0]/COUNTRY=JP,BR/PRODUCT_NO=G-1353,028380
@@ -531,7 +572,7 @@ SMS 11645549 146FA8E655225E1A   Solomon no Kagi - Oujo Rihita no Namida/COUNTRY=
 SMS 92dc4cd6 80CC1AC534E69427   Solomon no Kagi - Oujo Rihita no Namida [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 96b3f29e 5A989B9EFF10EED8   Sonic Blast/COUNTRY=BR/PRODUCT_NO=030030/EMU_TVTYPE=PAL/COMMENT=This is a port from the Game Gear version.
 SMS aedf3bdf 724EF423E356618F   Sonic Chaos/COUNTRY=EU,BR/PRODUCT_NO=9021,028120
-SMS 11c1bc8a D3A4F10A4B37C04C   Sonic Spinball/COUNTRY=EU,BR/PRODUCT_NO=9034,028489
+SMS 11c1bc8a D3A4F10A4B37C04C   Sonic Spinball/COUNTRY=EU,BR,AU/PRODUCT_NO=9034,028489
 SMS b519e833 2F2C8E1A0AE456B9   Sonic The Hedgehog/COUNTRY=EU,US,BR/PRODUCT_NO=7076
 SMS 5b3b922c 89244C65041595F4   Sonic The Hedgehog 2 [v0]/COUNTRY=EU,BR/PRODUCT_NO=9015,028120/EMU_TVTYPE=PAL
 SMS d6f2bfca 9E35369CB6BB509A   Sonic The Hedgehog 2 [v1]/COUNTRY=EU,BR,KR/PRODUCT_NO=9015,028120,GB4030JG/EMU_TVTYPE=PAL
@@ -548,7 +589,7 @@ SMS 5ccc1a65 7B32EAE9E99C54A7   Speedball [Virgin]/COUNTRY=EU/PRODUCT_NO=25013-5
 SMS 0c7366a0 5D5B88F6AA6D367D   Speedball 2/COUNTRY=EU/PRODUCT_NO=27039-50
 SMS 4752cae7 DCC8653E70E4F66F   SpellCaster/COUNTRY=US,EU,BR/PRODUCT_NO=9003/COMMENT=Export version of "Kujakuou"
 SMS ebe45388 5C12588F41421117   Spider-Man - Return of the Sinister Six/COUNTRY=EU,BR/PRODUCT_NO=MK-27055-50,026290
-SMS 908ff25c F0697EEFE5278CA2   Spider-Man - vs. The Kingpin/COUNTRY=EU,US,BR/PRODUCT_NO=7065
+SMS 908ff25c F0697EEFE5278CA2   Spider-Man - vs. The Kingpin/COUNTRY=EU,US,BR,AU/PRODUCT_NO=7065
 SMS 41c948bf 6333A82396B2CF88   Sports Pad Soccer/COUNTRY=JP/PRODUCT_NO=G-1365/EMU_INPUTS=SPORTSPAD
 SMS e42e4998 C4C45B848BC2A3A9   Sports Pad Football/COUNTRY=US/PRODUCT_NO=5060/EMU_INPUTS=SPORTSPAD
 SMS 78d7faab 83A4D6495B81DD01   Spy vs Spy/COUNTRY=US,EU,DE,AU,BR,IT/PRODUCT_NO=4083,4583,41021/COMMENT=Sometimes referred to as "Spy Vs. Spy".
@@ -563,12 +604,15 @@ SMS 83f0eede F1E64D24CBBD220E   Street Master/COUNTRY=KR/EMU_MAPPER=12
 SMS 4ab3790f CC782C54E741D242   Streets of Rage/COUNTRY=EU,BR/PRODUCT_NO=9019,028190
 SMS 04e9c089 40214E28DB2E75AB   Streets of Rage II/COUNTRY=EU,BR/PRODUCT_NO=9026,028300
 SMS 9802ed31 87B23673DB921899   Strider/COUNTRY=EU,US,BR,KR/PRODUCT_NO=9005,GB4028JG
+SMS 63a7f906 8B5F187B87419229   Strider [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 401-02/COMMENT=Taiwanese HTH release for Game Gear. Box says "The Strider".
 SMS b990269a 4795A5446841741E   Strider [Demo]/FLAGS=PROTO
 SMS b8f0915a 44E778659B2ECD62   Strider II/COUNTRY=EU,BR/PRODUCT_NO=29005-50,026250
 SMS d8f2f1b9 2E5B54DFAA4D4706   Submarine Attack/COUNTRY=EU,BR/PRODUCT_NO=7048
+SMS d282ef71 2E635CDBA9494501   Submarine Attack [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-31/COMMENT=Taiwanese HTH release for Game Gear. Box title is yet unknown.
 SMS b13df647 57E32ED9EF14328A   Sukeban Deka II - Shoujo Tekkamen Densetsu/COUNTRY=JP/PRODUCT_NO=G-1318
 SMS 8da5c93f AF2D01D4A78C8B91   Summer Games/NAME_BR=Jogos Olímpicos/COUNTRY=EU,BR/PRODUCT_NO=5119
-SMS 80eb1fff 420EEF0B240F3152   Summer Games [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS 4f530cb2 D1B42E8EF4C358B0   Summer Games [Proto 0]/FLAGS=PROTO/COMMENT=Early prototype version of the game. No audio.
+SMS 80eb1fff 420EEF0B240F3152   Summer Games [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 01686d67 88E8E8D0608B22CB   Suho Jeonsa/COUNTRY=KR/PRODUCT_NO=DS-G402
 SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
 SMS a66d26cf 5E7FE6D39D642445   Super Bioman I/COUNTRY=KR
@@ -578,6 +622,9 @@ SMS 9195c34c 8585901FA9FBF8AB   Super Boy 3/COUNTRY=KR/EMU_MAPPER=12
 SMS b995b4f0 EE7A46299269111D   Super Boy 4/COUNTRY=KR
 SMS 22c09cfd 50BB66C5832E8C8D   Super Bubble Bobble/COUNTRY=KR/COMMENT=Unlicensed clone of "Bubble Bobble".
 SMS 6ce7f694 8B297D82FFFB75DE   Super Columns/COUNTRY=KR/COMMENT=Unlicensed clone. Also referred to as "Super Columns & Tetris".
+SMS ba5d2776 1EBAD8829E4FF6EB   Super Game 200/COUNTRY=KR/EMU_MAPPER=20
+SMS 0cde0938 2DFBC7EBB5C63576   Super Game World 30 Hap/COUNTRY=KR/EMU_MAPPER=18
+SMS c29bb8cd F5394893312A6339   Super Game World 75 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
 SMS 6f9ac98f 8F53B08718544338   Superman - The Man of Steel/COUNTRY=EU,BR/PRODUCT_NO=MK-27050-50,027190
@@ -586,6 +633,7 @@ SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
 SMS a1d6d963 CA2E38E7805970A0   Super Monaco GP [Proto 0]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS dd7adbcc C9712D78F61127F3   Super Monaco GP [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS e890331d 0EE799CB6D17E43F   Super Monaco GP II (Ayrton Senna's)/COUNTRY=EU,BR,KR/PRODUCT_NO=9011
+SMS 660bf6ec D093565FC7E8C376   Super Multi Game - Super 75 in 1/COUNTRY=KR/EMU_MAPPER=18
 SMS 54f68c2a F34CECBA9A4AAF88   Super Off Road/COUNTRY=EU/PRODUCT_NO=MK-27059-50
 SMS ce8d6846 BA46E1977D539F19   Super Off Road [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMENT=This game optionally support the Paddle Control.
@@ -596,6 +644,7 @@ SMS bd1cc7df 230C5D2B35293BB0   Super Tetris/COMMENT=Unlicensed Tetris clone.
 SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
 SMS 93ca8152 BC18F17F4F471214   T2: The Arcade Game/COUNTRY=EU/PRODUCT_NO=MK-27061-50
 SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
+SMS 1cdcf415 B68CF0B91B594859   Taito Chase H.Q. [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7bb81e3d 508B3E02BE909106   Taito Chase H.Q. [SMS-GG]/COUNTRY=JP/FLAGS=SMSGG_MODE/PRODUCT_NO=T-11017
 SMS c8381def 5EDD7209C4516FC6   Taito Chase H.Q. [SMS-GG]/NAME_US=Chase H.Q./COUNTRY=US/FLAGS=SMSGG_MODE/PRODUCT_NO=T-11018
 SMS 11ce074c C37CA576419924A8   Taz in Escape from Mars/COUNTRY=BR/PRODUCT_NO=028620/COMMENT=This is a port from the Game Gear version.
@@ -614,6 +663,7 @@ SMS ac56104f 798ED2D04A190EE6   Terminator 2: Judgment Day/COUNTRY=EU/PRODUCT_NO
 SMS 8640e7e8 F59737442BCF7986   Three Dragon Story, The/COUNTRY=KR
 SMS ae920e4b 71B0240AD8312583   Thunder Blade/COUNTRY=US,EU,BR/PRODUCT_NO=7011
 SMS c0ce19b1 1FE27772C146E52A   Thunder Blade/COUNTRY=JP/PRODUCT_NO=G-1360
+SMS 98cf1254 394D74D61F0665A6   Thunder Blade [HTH] [SMS-GG] (TW)/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-03/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 51bd14be C69000F39D02997F   Time Soldiers/COUNTRY=US,EU,BR/PRODUCT_NO=7024
 SMS bf7b7285 2CAB2FD57FA3D42F   Tom and Jerry: The Movie/COUNTRY=EU,BR/PRODUCT_NO=7070,026150
 SMS 0c2fc2de CF198685CF743C8E   Tom and Jerry: The Movie [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -644,18 +694,18 @@ SMS 8cbef0c1 522ECFED1D0DF8A2   Wonder Boy in Monster Land/COUNTRY=US,EU/PRODUCT
 SMS 8312c429 FEE7F612ED897726   Wonder Boy in Monster Land [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7d7ce80b 9ECDFDB1438755C8   Wonder Boy in Monster World/COUNTRY=EU,KR/PRODUCT_NO=9012,9012-50,GB4021JG
 SMS 81bff9bb 2AC27C1DAA5E640F   Wonder Boy in Monster World [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
-SMS 679e1676 9C7847B5CB3F875F   Wonder Boy III: The Dragon's Trap/NAME_JP=Monster World II/COUNTRY=US,EU,KR/PRODUCT_NO=7026,GB-2004
+SMS 679e1676 9C7847B5CB3F875F   Wonder Boy III: The Dragon's Trap/NAME_JP=Monster World II/COUNTRY=US,EU,KR,AU/PRODUCT_NO=7026,GB-2004
 SMS a05258f5 7DA12B7293A88D7D   Wonsiin/COUNTRY=KR/EMU_MAPPER=12
 SMS 315917d4 96069693DD5753B4   Woody Pop - Shinjinrui no Block Kuzushi/COUNTRY=JP/PRODUCT_NO=C-519/EMU_COUNTRY=1/EMU_INPUTS=PADDLE
 SMS c9dd4e5f 7B26A0ABD55647A2   Woody Pop (Super Arkanoid)/COUNTRY=KR/PRODUCT_NO=G-2101
 SMS c9a449b7 29655F8F9FFB0EDC   World Class Leader Board/COUNTRY=EU,BR/PRODUCT_NO=27015-50,025330
 SMS 6e1ad6fd 83C0B3E1924F1434   World Cup Italia '90/NAME_BR=Super Futebol II/COUNTRY=EU,BR/PRODUCT_NO=5084,023340
 SMS a0cf8b15 805E1AC308DBF36F   World Cup Italia '90 [Demo]/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise the game.
-SMS a6bf8f9e 412EC711CEF9955D   World Cup USA 94/COUNTRY=EU,BR/PRODUCT_NO=29028-50,29028-05,29028-06,29028-09,29028-18,028430
+SMS a6bf8f9e 412EC711CEF9955D   World Cup USA 94/COUNTRY=EU,BR,AU/PRODUCT_NO=29028-50,29028-05,29028-06,29028-09,29028-18,028430
 SMS a2a60bc8 036FB34FE9E516A8   World Games/COUNTRY=EU,BR/PRODUCT_NO=5114
 SMS 914d3fc4 15E6422DECFDF4B9   World Games [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
-SMS 7b369892 1624A9110762168D   World Grand Prix/COUNTRY=US,BR,KR/PRODUCT_NO=5080,?,GB-1304/COMMENT=Export version of "The Circuit". Also used in Brazilian and Korean version.
-SMS 4aaad0d6 761980092FA9EA26   World Grand Prix/COUNTRY=EU,IT/PRODUCT_NO=5080/COMMENT=Export version of "The Circuit".
+SMS 4aaad0d6 761980092FA9EA26   World Grand Prix [v0]/COUNTRY=EU,IT,DE/PRODUCT_NO=5080,41006/COMMENT=Export version of "The Circuit".
+SMS 7b369892 1624A9110762168D   World Grand Prix [v2]/COUNTRY=US,BR,KR/PRODUCT_NO=5080,?,GB-1304/COMMENT=Export version of "The Circuit". Also used in Brazilian and Korean version.
 SMS b5a9f824 7DB5DA9A1F9C326D   World Grand Prix [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 72112b75 54286C65B89E5409   World Soccer/NAME_US=Great Soccer/NAME_BR=Super Futebol/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1327,5059/COMMENT=This game has multiple name and title screen. It is named "Great Soccer" in USA, and is unrelated to the other "Great Soccer" game released in Japan and Europe.
 SMS 2db21448 E816FF0B158ACF8A   WWF WrestleMania Steel Cage Challenge/COUNTRY=EU,BR/PRODUCT_NO=27054-050,026270
@@ -673,6 +723,7 @@ SMS 60c19645 39A919D7DA6933B8   Zillion [v0]/NAME_JP=Akai Koudan Zillion/COUNTRY
 SMS 5718762c 88E69FBAA2DA4974   Zillion [v1]/COUNTRY=US/PRODUCT_NO=5075     ; [EDITOR NOTE] Country listing for all 3 versions are based on what we found so far. It's probable that v1 and v2 were released in both US and EU.
 SMS 7ba54510 8AE29FB6A2DC4B76   Zillion [v2]/COUNTRY=EU/PRODUCT_NO=5075
 SMS 2f2e3bc9 FE36CB6E6BC5ED76   Zillion II: The Tri Formation/NAME_JP=Tri Formation/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-1344,5105
+SMS 5b1cf392 59089ED697AC5494   Zillion II: The Tri Formation [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 9d9d0a5f F8C690D818C64DAF   Zool/COUNTRY=EU/PRODUCT_NO=27075-50
 
 ; BIOS images
@@ -807,12 +858,12 @@ GG  f0204191 9A1D6EB1E8A2AAF6   Arch Rivals/COUNTRY=US/PRODUCT_NO=T-81118
 GG  7cb3facf 3556E4BEA15709D2   Arena - Maze of Death/NAME_EU=Arena/COUNTRY=US,EU/PRODUCT_NO=2565,2565-50
 GG  97e3a18c F70090C4366C52C1   Ariel - The Little Mermaid (Disney's)/COUNTRY=US,EU,BR/PRODUCT_NO=2411,075260
 GG  35fa3f68 EDE3ACDDC72A476F   Arliel - Crystal Densetsu/COUNTRY=JP/PRODUCT_NO=G-3403/COMMENT=Japanese version of "Crystal Warriors".
-GG  78208b40 A662E4EF17F3CC4F   Astérix and the Great Rescue/COUNTRY=US/PRODUCT_NO=2520
+GG  78208b40 A662E4EF17F3CC4F   Astérix and the Great Rescue/COUNTRY=US,BR/PRODUCT_NO=2520,077210
 GG  328c5cc8 0676B41642F43153   Astérix and the Great Rescue/COUNTRY=EU/PRODUCT_NO=2520
 GG  c01a8051 4EC17BDFA523F1DE   Astérix and the Secret Mission/COUNTRY=EU/PRODUCT_NO=2513
 GG  dfcf555f 5FA88D0C551D33BB   Ax Battler - A Legend of Golden Axe [v1.5]/NAME_JP=Ax Battler - Golden Axe Densetsu/COUNTRY=JP/PRODUCT_NO=G-3304
 GG  3435ab54 20D68E092FC9A0DB   Ax Battler - A Legend of Golden Axe [v2.0] [Proto]/COUNTRY=US,EU/FLAGS=PROTO/COMMENT=Prototype version of the game.
-GG  663bcf8a C75A6F968FFFD973   Ax Battler - A Legend of Golden Axe [v2.4]/COUNTRY=US,EU/PRODUCT_NO=2405
+GG  663bcf8a C75A6F968FFFD973   Ax Battler - A Legend of Golden Axe [v2.4]/NAME_BR=Golden Axe,COUNTRY=US,EU,BR/PRODUCT_NO=2405,012100
 GG  8d8bfdc4 1C884BD0A4242752   Baku Baku/COUNTRY=US/PRODUCT_NO=2451/COMMENT=Title screen says "Baku Baku Animal".
 GG  10ac9374 DF6C0BFA8275ECCD   Baku Baku/COUNTRY=EU/PRODUCT_NO=2451-50/COMMENT=Title screen says "Baku Baku Animal".
 GG  7174b802 72E0E91D3A450128   Baku Baku Animal - Sekai Shiikugakari Senshu-ken/COUNTRY=JP/PRODUCT_NO=G-3378
@@ -831,6 +882,8 @@ GG  3858f14f 3332DEF0ABBF471C   Beavis and Butt-Head (MTV's) [Proto]/FLAGS=PROTO
 GG  a4bb9ffb F7196CDC184FF74A   Berenstain Bears' Camping Adventure, The/COUNTRY=US/PRODUCT_NO=2447
 GG  325b1797 5213F712A56DCDB3   Berlin no Kabe - The BerlinWall/COUNTRY=JP/PRODUCT_NO=T-33017
 GG  fe7374d2 7C9BF74B57970FAA   Bishoujo Senshi Sailor Moon S/COUNTRY=JP/PRODUCT_NO=T-133017
+GG  64d7a694 6A7CA59C13A35AC9   BreakThru! [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
+GG  6edd48a6 6E7CA59A13A35AC7   BreakThru! [Proto] [Fixed]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game, manually fixed.
 GG  bfceba5f 7239ED165A6A8608   Bonkers Wax Up! (Disney's)/COUNTRY=US,EU/PRODUCT_NO=2536,2536-50
 GG  fba338c5 D558C670ED32D2AC   Bubble Bobble/COUNTRY=US/PRODUCT_NO=T-11028
 GG  be2dc770 744B94047EA8552E   Bubble Bobble [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -844,7 +897,7 @@ GG  2b732056 C51E34D54AB1C554   Casino FunPak/COUNTRY=US/PRODUCT_NO=T-125048
 GG  5675dfdd ABD4AF91D87D8369   Captain America and The Avengers/COUNTRY=US				; [EDITOR-NOTE] Product no?
 GG  dfc7adc8 A6DB92F52896C476   Chakan/COUNTRY=US,EU/PRODUCT_NO=2414
 GG  e21d2a88 BA2B2AA1D437E362   Championship Hockey/COUNTRY=EU/PRODUCT_NO=?
-GG  4e78fd36 778927EF24927BB9   Cheese Cat-Astrophe - Starring Speedy Gonzales/COUNTRY=US,EU/PRODUCT_NO=2523,2523-50
+GG  4e78fd36 778927EF24927BB9   Cheese Cat-Astrophe - Starring Speedy Gonzales/COUNTRY=US,EU,BR/PRODUCT_NO=2523,2523-50,077160
 GG  da811ba6 340FBB84D6F82B85   Chessmaster, The/NAME_BR=Sega Chess/COUNTRY=US,EU,BR/PRODUCT_NO=2317,013520
 GG  6b0fcec3 C8E8E57E33BC39C5   Chicago Syndicate/COUNTRY=US,BR/PRODUCT_NO=2535,077260
 GG  635bc4f5 DAB3B95BFD82A13F   Chicago Syndicate [Proto] [1995-03-20]/FLAGS=PROTO/COMMENT=Prototype version of the game with an "Empire Syndicate" title screen.
@@ -880,6 +933,7 @@ GG  3e44eca3 B681482B16BEE89A   Desert Strike/COUNTRY=EU/PRODUCT_NO=T-88068-50
 GG  25db174f FED59D64601210AA   Devilish/COUNTRY=JP/PRODUCT_NO=T-28017
 GG  d43ac6c5 7DFFB63AF302306F   Devilish/COUNTRY=EU,BR/PRODUCT_NO=2321,015340
 GG  c01293b0 A9F32B4C77256DE4   Devilish/COUNTRY=US                                         ; [EDITOR-NOTE] might be a prototype
+GG  2306aaf4 47EA8C022D9DA2D5   Dinobasher - Starring Bignose the Caveman [Proto]/FLAGS=PROTO/EMU_MAPPER=3/COMMENT=Prototype version of the unreleased game.
 GG  2d98bd87 9A5CD4E692C2A854   Donald Duck no Lucky Dime/COUNTRY=JP/PRODUCT_NO=G-3306/COMMENT=Japanese version of "Lucky Dime Caper\, The".
 GG  4457e7c0 FF64CE10F01C7D36   Donald Duck no Yottsu no Hihou/COUNTRY=JP/PRODUCT_NO=G-3332/COMMENT=Japanese version of "Deep Duck Trouble - Starring Donald Duck (Disney's)".
 GG  87b8b612 FFBCED0863554B4D   Donald no Magical World (Ronald in the Magical World)/COUNTRY=JP/PRODUCT_NO=G-3340/COMMENT=The game has an alternate "Ronald in the Magical World" title screen when ran on export system, but it was never released outside of Japan.
@@ -888,7 +942,7 @@ GG  733292a6 1D6B7F6FC8CE6D87   Doraemon Waku Waku Pocket Paradise/COUNTRY=JP/PR
 GG  1307a290 505B00DA3C579A4E   Double Dragon/NAME_EU=Double Dragon - The Revenge of Billy Lee/COUNTRY=US,EU/PRODUCT_NO=T-70038,T-70038-50
 GG  331904c0 B247BC4945B611F6   Double Dragon [Proto]/FLAGS=PROTO/COUNTRY=US,EU/COMMENT=Prototype version of the game.
 GG  c9907dce 63F29FF2C073A146   Dr. Franken [Demo]/FLAGS=PROTO/COMMENT=Prototype demo version of the unreleased game.
-GG  3c2d4f48 129ED3B48CD93133   Dr. Robotnik's Mean Bean Machine/COUNTRY=US,EU/PRODUCT_NO=2446
+GG  3c2d4f48 129ED3B48CD93133   Dr. Robotnik's Mean Bean Machine/COUNTRY=US,EU,BR/PRODUCT_NO=2446
 GG  69ebe5fa A3B7C429356E31E5   Dracula (Bram Stoker's)/COUNTRY=EU/PRODUCT_NO=T-93018-50
 GG  d966ec47 A3BEC3293C5E33E6   Dracula (Bram Stoker's)/COUNTRY=US/PRODUCT_NO=T-93018
 GG  89f12e1e D522749CF8737519   Dragon Crystal - Tsurani no Meikyuu/COUNTRY=JP/PRODUCT_NO=G-3206
@@ -900,11 +954,12 @@ GG  152f0dcc 4C605B8937009F9A   Dropzone (Archer MacLean's)/COUNTRY=EU/PRODUCT_N
 GG  77ed48f5 646BC15AEE70793F   Dunk Kids/COUNTRY=JP/PRODUCT_NO=G-3352
 GG  610ff95c 44C54C81ACC8AC0A   Dynamite Headdy/COUNTRY=US,EU/PRODUCT_NO=2544
 GG  f6af4b6b B33070CAB97B921D   Dynamite Headdy/COUNTRY=JP/PRODUCT_NO=G-3355
+GG  843556b1 B5CDFD6349EA09E2   Dynamite Headdy [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  5d3f23a9 A338FA736E8E1D9F   Earthworm Jim/COUNTRY=US/PRODUCT_NO=T-132028
 GG  691ae339 4E2E597F60A504A3   Earthworm Jim/COUNTRY=EU/PRODUCT_NO=T-70178-50
 GG  a32eb9d5 26F78FEB7D00EB01   Ecco the Dolphin/COUNTRY=JP/PRODUCT_NO=G-3344
 GG  866c7113 855EA7962D1C2B6C   Ecco the Dolphin/COUNTRY=US,EU,BR/PRODUCT_NO=2516,077100
-GG  e2f3b203 21E70CD78EEE2D6C   Ecco - The Tides of Time/NAME_FR=Ecco - Les Marées du Temps/COUNTRY=US,EU,FR/PRODUCT_NO=2541,2541-50,02541F/COMMENT=Export version of "Ecco the Dolphin II".
+GG  e2f3b203 21E70CD78EEE2D6C   Ecco - The Tides of Time/NAME_FR=Ecco - Les Marées du Temps/COUNTRY=US,EU,FR,BR/PRODUCT_NO=2541,2541-50,02541F,077190/COMMENT=Export version of "Ecco the Dolphin II".
 GG  ba9cef4f AF60C9ACE9E9A406   Ecco the Dolphin II/COUNTRY=JP/PRODUCT_NO=G-3362/COMMENT=Japanese version of "Ecco - The Tides of Time".
 GG  5e53c7f7 658232077A8D8554   Ernie Els Golf/COUNTRY=EU/PRODUCT_NO=T-120098-50/EMU_MAPPER=3/COMMENT=This cartridge contains an onboard 64 KBit RAM chip.
 GG  04302bbd E46D03796A96D95A   Eternal Legend/COUNTRY=JP/PRODUCT_NO=G-3402,G-3412
@@ -975,8 +1030,8 @@ GG  c2f7928b 62A218D5697EDB4D   James Pond II - Codename: RoboCod/COUNTRY=EU/PRO
 GG  68bb7f71 32FF34928F7D6B92   James Pond 3 - Operation Starfi5h/COUNTRY=EU/PRODUCT_NO=79158-50/EMU_IPERIOD=227/COMMENT=Packaging and in-game screens are inconsistent about the exact name spelling. Packaging, manual and cartridges all says "Operation Starfi5h". In-game screens says "James Pond 3 - Operation Starfish".
 GG  d7820c21 4BB99C103FA92B3D   Jeopardy!/COUNTRY=US/PRODUCT_NO=T-83038
 GG  2dd850b7 2C18F1F2231B2E6D   Jeopardy! Sports Edition/COUNTRY=US/PRODUCT_NO=T-83078
-GG  2e01ba6c 79B3C73C524481BA   Joe Montana Football/COUNTRY=US,EU/PRODUCT_NO=2403
-GG  4a98678b F1553EA2FE16794D   Joe Montana Football/COUNTRY=JP/PRODUCT_NO=G-3305
+GG  2e01ba6c 79B3C73C524481BA   Joe Montana Football [v0]/COUNTRY=US,EU/PRODUCT_NO=2403
+GG  4a98678b F1553EA2FE16794D   Joe Montana Football [v1]/COUNTRY=JP,BR/PRODUCT_NO=G-3305,016040
 GG  a12a28a0 214814EA42B19C0A   J League GG Pro Striker '94/COUNTRY=JP/PRODUCT_NO=G-3417
 GG  abddf0eb CC0DEE292FE1B749   J League Soccer Dream Eleven/COUNTRY=JP/PRODUCT_NO=G-3431
 GG  04d23fc4 3CC3817F0F2AD7F1   Judge Dredd/COUNTRY=US,EU/PRODUCT_NO=T-81228,T-81228-50
@@ -1001,7 +1056,7 @@ GG  d01e784f 3321E82A25113E26   Krusty's Fun House/COUNTRY=US,EU/PRODUCT_NO=T-81
 GG  52dbf3e1 B0B04035A468D44B   Land of Illusion - Starring Mickey Mouse/NAME_BR=Land of Illusion - Estrelando Mickey Mouse/COUNTRY=US,EU,BR/PRODUCT_NO=2509,077020/COMMENT=Export version of "Mickey Mouse no Mahou no Crystal".
 GG  2d367c43 415BEEFFADDCF9F5   Last Action Hero/COUNTRY=US/PRODUCT_NO=T-93048
 GG  ce5ad8b7 4789B713B7475612   Legend of Illusion - Starring Mickey Mouse/COUNTRY=US,EU/PRODUCT_NO=2533,2533-50/COMMENT=Export version of "Mickey Mouse Densetsu no Oukoku".
-GG  0fde7baa 48D2B5FB715B2545   Lemmings/COUNTRY=US,EU,JP/PRODUCT_NO=2431,G-3317
+GG  0fde7baa 48D2B5FB715B2545   Lemmings/COUNTRY=US,EU,JP,BR/PRODUCT_NO=2431,G-3317,075210
 GG  51548f61 B706651F0ECDA044   Lemmings [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  fbc807e1 1A2D0A371C939930   Lemmings 2 - The Tribes [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
 GG  9808d7b3 0DE81165350FE170   Lion King, The (Disney's)/COUNTRY=US/PRODUCT_NO=2549,1205
@@ -1026,7 +1081,7 @@ GG  d9a7f170 EEF607B16825FADD   Man Overboard!/COUNTRY=EU/PRODUCT_NO=T-120088-50
 GG  01d2dd2a 2CB25F033DADD204   Mappy/COUNTRY=JP/PRODUCT_NO=T-14027
 GG  9559e339 B424918FF035A83B   Marble Madness/COUNTRY=US,EU/PRODUCT_NO=T-48058,T-48058-50
 GG  22c418bf 4E62CA7D9E439B8D   Marko's Magic Football/COUNTRY=EU/PRODUCT_NO=T-88078-50
-GG  07d0eb42 91E3936BDE317A05   Master of Darkness/COUNTRY=EU/PRODUCT_NO=2437/COMMENT=European version of "In the Wake of Vampire" (Japan) and "Vampire - Master of Darkness" (Europe).
+GG  07d0eb42 91E3936BDE317A05   Master of Darkness/NAME_BR=Vampire - Master of Darkness/COUNTRY=EU,BR/PRODUCT_NO=2437,075140/COMMENT=European version of "In the Wake of Vampire" (Japan) and "Vampire - Master of Darkness" (Europe).
 GG  1ace93af F0B8660AB1883B74   Mega Man/COUNTRY=US/PRODUCT_NO=?
 GG  2e4ec17b F5296F1E651FF4DD   Megami Tensei Gaiden: Last Bible/COUNTRY=JP/PRODUCT_NO=G-3418
 GG  4ec30806 6FA65308EF07702A   Megami Tensei Gaiden: Last Bible Special/COUNTRY=JP/PRODUCT_NO=G-3427
@@ -1037,13 +1092,14 @@ GG  f7c524f6 51710931D2A8ED9D   Micro Machines/COUNTRY=EU,US/PRODUCT_NO=16001,17
 GG  c21e6cd0 15FFF86F9928C400   Micro Machines [Proto]/FLAGS=PROTO/EMU_MAPPER=3/COMMENT=Prototype version of the game.
 GG  dbe8895c 0D511C6572333844   Micro Machines 2: Turbo Tournament/COUNTRY=EU/PRODUCT_NO=T-120108-50/EMU_MAPPER=3
 GG  9289dfcc 2D785B7B8B594E53   Mighty Morphin Power Rangers/COUNTRY=US,EU/PRODUCT_NO=2548,2548-50
-GG  b47c19e5 F02DEF107C75975C   Mighty Morphin Power Rangers: The Movie/COUNTRY=US,EU/PRODUCT_NO=2564,2564-50
+GG  b47c19e5 F02DEF107C75975C   Mighty Morphin Power Rangers: The Movie/COUNTRY=US,EU,BR/PRODUCT_NO=2564,2564-50,077250
 GG  1ecf07b4 C1D9061468CD789F   MLBPA Baseball/COUNTRY=US/PRODUCT_NO=T-50058
 GG  4d5d15fb 9A15007FFAC7F51C   Moldorian ~Hikari to Yami no Shisutaa~/COUNTRY=JP/PRODUCT_NO=G-3422
 GG  453c5cec 3190F6DA57189070   Monster Truck Wars/COUNTRY=US,EU/PRODUCT_NO=T-81288,T-81288-50
 GG  ea89e0e7 F36CF621FCC28C40   Monster World II - Dragon no Wana/COUNTRY=JP/PRODUCT_NO=G-3308/COMMENT=Japanese version of "Wonder Boy: The Dragon's Trap".
 GG  07494f2a 108F1B645538E075   Mortal Kombat/COUNTRY=US,EU/PRODUCT_NO=T-81198,T-81198-50
 GG  dbff0461 48AEDFE8EA0EEC5F   Mortal Kombat - Shinken Kourin Densetsu/COUNTRY=JP/PRODUCT_NO=T-81017
+GG  16db4f6a 0129822DFA4924C0   Mortal Kombat [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  4b304e0f 607CA3543FEBBE45   Mortal Kombat II/NAME_JP=Mortal Kombat II - Kyukyoku Shinken/COUNTRY=JP,US,EU/PRODUCT_NO=T-81107,T-81278,T-81278-50
 GG  c2be62bb 7CDB14D40344D8A2   Mortal Kombat 3/COUNTRY=EU/PRODUCT_NO=T-81368-50
 GG  5ee88bd5 571564ED798B67D8   Ms. Pac-Man/COUNTRY=US/PRODUCT_NO=T-14048
@@ -1159,7 +1215,7 @@ GG  68f0a776 1BD056AB87F45643   Sonic Drift/COUNTRY=JP/PRODUCT_NO=G-3415
 GG  baac1fc0 2B2C712DA26B07F7   Sonic Drift [Demo]/COUNTRY=JP/COMMENT=Sample demo version. CPU plays automatically to demonstrate the game.
 GG  d6e8a305 0CE1C4FB95A321FB   Sonic Drift 2/NAME_EU=Sonic Drift Racing/COUNTRY=JP,US,EU/PRODUCT_NO=G-3366,2562,2563-50
 GG  5550173b BEFCEE0501199B9E   Sonic Labyrinth/COUNTRY=JP,US,EU/PRODUCT_NO=G-3374,2584
-GG  a9210434 B4010E08A03EFD5A   Sonic Spinball/COUNTRY=US,EU/PRODUCT_NO=2526,1200
+GG  a9210434 B4010E08A03EFD5A   Sonic Spinball/COUNTRY=US,EU,BR/PRODUCT_NO=2526,1200,077060
 GG  8ac0dade 9DC02F576DAE37CB   Sonic & Tails/COUNTRY=JP/PRODUCT_NO=G-3331/COMMENT=Japanese version of "Sonic Chaos".
 GG  e0e3fb6a 4EFA2A6E6334F198   Sonic & Tails [Demo]/COUNTRY=JP/COMMENT=Sample demo version.
 GG  496bce64 866A749727ECB141   Sonic & Tails 2/COUNTRY=JP/PRODUCT_NO=G-3356/COMMENT=Japanese version of "Sonic The Hedgehog Triple Trouble".
@@ -1168,7 +1224,7 @@ GG  d163356e 53D934469DC6E116   Sonic The Hedgehog [v1]/COUNTRY=JP,EU,BR/PRODUCT
 GG  816c0a1e 97222AD3F8DE1D57   Sonic The Hedgehog [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  95a18ec7 D2612363E352F220   Sonic The Hedgehog 2/COUNTRY=JP,US,EU/PRODUCT_NO=G-3321,G-3338,2507
 GG  15ad37a5 0CE7F172FF90100B   Sonic The Hedgehog 2 [Demo]/FLAGS=PROTO
-GG  d23a2a93 0F635FF9B1886A93   Sonic The Hedgehog Triple Trouble/COUNTRY=US,EU/PRODUCT_NO=2530,2530-50/COMMENT=Export version of "Sonic & Tails 2".
+GG  d23a2a93 0F635FF9B1886A93   Sonic The Hedgehog Triple Trouble/COUNTRY=US,EU,BR/PRODUCT_NO=2530,2530-50,077180/COMMENT=Export version of "Sonic & Tails 2".
 GG  0f3e3840 4FFC5704FCA43783   Soukoban/COUNTRY=JP/PRODUCT_NO=T-53017
 GG  600c15b3 308DC2BE252AC7AD   Space Harrier/COUNTRY=JP,US,EU/PRODUCT_NO=G-3212,2314
 GG  bc240779 1D52E7C5C3B8F07A   Spider-Man - Return of the Sinister Six/COUNTRY=US,EU/PRODUCT_NO=T-81128,T-81128-50
@@ -1185,7 +1241,8 @@ GG  80156323 CCD54E587E846A4D   Star Trek: The Next Generation - The Advanced Ho
 GG  db9bc599 E93FF14440FB3434   Star Wars/COUNTRY=EU/PRODUCT_NO=79098-50
 GG  0228769c E93FF24340FB3434   Star Wars/COUNTRY=US/PRODUCT_NO=T-79098
 GG  3d8bcf1d 5AD835BF116EC299   Streets of Rage/NAME_JP=Bare Knuckle/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-3313,2417,015600
-GG  0b618409 85CFE82DBD812633   Streets of Rage II/NAME_US=Streets of Rage 2/NAME_JP=Bare Knuckle II/COUNTRY=JP,US,EU/PRODUCT_NO=G-3328,2517
+GG  0b618409 85CFE82DBD812633   Streets of Rage II/NAME_US=Streets of Rage 2/NAME_JP=Bare Knuckle II/NAME_BR=Streets of Rage 2/COUNTRY=JP,US,EU,BR/PRODUCT_NO=G-3328,2517,077030
+GG  6c395a69 BC45532F90B98FA5   Streets of Rage II [Proto]/NAME_US=Streets of Rage 2/NAME_JP=Bare Knuckle II/FLAGS=PROTO/COMMENT=Prototype version of the game.
 GG  1ebfa5ca 24A227CBB87248D6   Strider Returns (Journey from Darkness)/COUNTRY=US,EU/PRODUCT_NO=T-79048,79048,79048-50
 GG  b421c057 96BD12C62621B8D6   Striker/COUNTRY=EU/PRODUCT_NO=2551-50
 GG  73d6745a 18CC99C9849C9901   Super Battletank/COUNTRY=US/PRODUCT_NO=1239
@@ -1252,7 +1309,7 @@ GG  ea2dd3a7 F6D1E367A83FFA0E   Wonder Boy/COUNTRY=EU/PRODUCT_NO=2302/COMMENT=Eu
 GG  a74c97a7 2CDE35F4553095B3   Wonder Boy - The Dragon's Trap/COUNTRY=EU/PRODUCT_NO=2422/COMMENT=Export version of "Monster World II - Dragon no Wana".
 GG  db1b5b44 885AA4D1B3814E27   Wonder Boy - The Dragon's Trap [Proto]/FLAGS=PROTO/COUNTRY=EU/COMMENT=Export version of "Monster World II - Dragon no Wana". Prototype version of the game. Title screen says "Wonder Boy III: The Dragon's Trap".
 GG  868fe528 747E83E3BEE414F2   World Class Leaderboard/NAME_US=World Class LeaderBoard Golf/COUNTRY=US,EU/PRODUCT_NO=2406,2406-50
-GG  d2bb3690 39D9CF45064E186E   World Cup USA 94/COUNTRY=US,EU,UK,FR/PRODUCT_NO=T-79128,79128-50,79128-09,79128-18
+GG  d2bb3690 39D9CF45064E186E   World Cup USA 94/COUNTRY=US,EU,UK,FR,BR/PRODUCT_NO=T-79128,79128-50,79128-09,79128-18,077130
 GG  1e81861f 756BCDAD19F5D3C5   World Derby/COUNTRY=JP/PRODUCT_NO=T-68017
 GG  3d8d0dd6 B172FFF90B6B79F6   World Series Baseball [v0]/COUNTRY=US/EMU_MAPPER=4
 GG  bb38cfd7 82392945686157B7   World Series Baseball [v1]/COUNTRY=US/EMU_MAPPER=4
@@ -1360,7 +1417,7 @@ SG1 3404fce4 CB3C7627E57DF208   Circus Charlie/COUNTRY=TW/PRODUCT_NO=R-112
 SG1 5eb48a20 330FD0ED616A41F5   Congo Bongo [v0]/COUNTRY=JP/PRODUCT_NO=G-1007
 SG1 5a24c7cf 5BF7BDD18D354618   Congo Bongo [v1]/COUNTRY=JP,AU,NZ,EU/PRODUCT_NO=G-1007
 SG1 f7eb94c5 63F9B8CE8D344617   Congo Bongo [v1]/COUNTRY=TW/PRODUCT_NO=B-007,A103
-SG1 f1506565 8E4A6C26BE92EA5C   Congo Bongo [v1] [40k map]/COUNTRY=JP/PRODUCT_NO=G-1007
+SG1 f1506565 8E4A6C26BE92EA5C   Congo Bongo [v1] [40k map]/COUNTRY=JP,IT/PRODUCT_NO=G-1007
 SG1 be7ed0eb F6C4074F8EB7307B   C_So!/COUNTRY=JP/PRODUCT_NO=C-64
 SG1 82c4e3e5 43FDD850999A3233   C_So!/COUNTRY=TW/PRODUCT_NO=R-068
 SG1 346556b9 211D1B015A77D203   Doki Doki Penguin Land/COUNTRY=JP/PRODUCT_NO=C-50
