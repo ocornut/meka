@@ -67,7 +67,7 @@
  Astro Flash (JP)                               -       Ok
  Astro Warrior                                  -       Ok
  Astro Warrior / Pit Pot                        -       Ok
- Astro Warrior / Pit Pot [Proto]                -      *Ok
+ Astro Warrior / Pit Pot [Proto]                -       Ok
  A-Team, The [Music] [Proto]                    -       Ok
  Aztec Adventure / Nazca '88                    FM      Ok
  Back to the Future Part II                     -       Ok
@@ -77,7 +77,7 @@
  Bart vs. The Space Mutants (The Simpsons)      -       Ok
  Bart vs. The World (The Simpsons)              -       Ok
  Basketball Nightmare                           -       Ok
- Basketball Nightmare [Proto 0]                 -      *Ok
+ Basketball Nightmare [Proto 0]                 -       Ok
  Basketball Nightmare [Proto 1]                 -       Ok
  Batman Returns                                 -       Ok
  Battlemaniacs (BR)                             -       Ok
@@ -164,7 +164,7 @@
  Dr. HELLO (KR)                                 -       Ok
  Dynamite Duke                                  -       Ok
  Dynamite Dux                                   (FM)    Ok (Hidden FM music)
- Dynamite Dux [Proto]                           (FM)   *Ok (Hidden FM music)
+ Dynamite Dux [Proto]                           (FM)    Ok (Hidden FM music)
  Dynamite Headdy (BR)                           -       Ok
  Eagles 5 (KR)                                  -       Ok
  Earthworm Jim (BR)                             -       Ok
@@ -209,7 +209,7 @@
  Forgotten Worlds [HTH] [SMS-GG]                -       Ok
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Gaegujangi Kkachi (KR)                         -       Ok
- Game Mo-eumjip 188 Hap (KR)                    -      *Ok
+ Game Mo-eumjip 188 Hap (KR)                    -       Ok
  Gain Ground                1                   -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
@@ -236,7 +236,7 @@
  G-LOC - Air Battle                             -       Ok
  Gokuaku Doumei Dump Matsumoto (JP)             -       Ok
  Golden Axe                                     -       Ok
- Golden Axe [Demo]                              -      *Ok
+ Golden Axe [Demo]                              -       Ok
  Golden Axe Warrior                             -       Ok
  Golfamania                                     FM      Ok
  Golfamania [Proto]                             FM      Ok
@@ -420,7 +420,7 @@
  Pro Yakyuu Pennant Race, The (JP)              -       Ok
  Psychic World                                  -       Ok
  Psycho Fox                                     -       Ok
- Psycho Fox [Proto]                             -      *Ok
+ Psycho Fox [Proto]                             -       Ok
  Putt & Putter                                  -       Ok
  Putt & Putter [Proto]                          -       Ok
  Puznic (KR)                                    -       Ok
@@ -435,7 +435,7 @@
  Rambo - First Blood Part II                    -       Ok
  Rambo III                                      LP,(FM) Ok (Hidden FM music)
  Rampage                                        FM      Ok
- Rampage [Proto]                                FM     *Ok
+ Rampage [Proto]                                FM      Ok
  Rampart                                        -       Ok
  Rastan                                         FM      Ok
  Rastan [Proto]                                 FM      Ok
@@ -528,7 +528,7 @@
  Submarine Attack [HTH] [SMS-GG] (TW)           -       Ok
  Sukeban Deka II - Shoujo Tekkamen Densetsu (JP)-       Ok
  Summer Games                                   (FM)    Ok (Hidden FM music)
- Summer Games [Proto 0]                         -      *Ok (No audio)
+ Summer Games [Proto 0]                         -       Ok (No audio)
  Summer Games [Proto 1]                         FM      Ok
  Suho Jeonsa (KR)                               -       Ok
  Super Basketball [Demo]                        -       Ok
@@ -539,6 +539,7 @@
  Super Boy 4 (KR)                               -       Ok
  Super Bubble Bobble (KR)                       -       Ok
  Super Columns (KR)                             -       Ok
+ Super Futebol II [Game Box Série Esportes] (BR)-       Ok
  Super Game 200 (KR)                            -      *Ok
  Super Game World 30 Hap (KR)                   -      *Ok
  Super Game World 75 Hap (KR)                   -      *Ok
@@ -550,6 +551,7 @@
  Super Monaco GP [Proto 1]                      -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Multi Game - Super 75 in 1 (KR)          -      *Ok
+ Super Multi Game - Super 125 in 1 (KR)         -      *Ok
  Super Off Road                                 -       Ok
  Super Off Road [Proto]                         -       Ok
  Super Racing (JP)                              FM,(PAD)Ok
@@ -598,7 +600,8 @@
  Wanted                                         LP      Ok
  Where in the World is Carmen Sandiego?         -       Ok
  Where in the World is Carmen Sandiego? (BR)    -       Ok
- Wimbledon                                      -       Ok
+ Wimbledon [v0] (BR) [Game Box Série Esportes]  -       Ok
+ Wimbledon [v1]                                 -       Ok
  Wimbledon II                                   -       Ok
  Winter Olympics                                -       Ok
  Winter Olympics (BR)                           -       Ok
@@ -640,7 +643,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 620 games tested - 617 are "Ok" - Compatibility rate: 99.64%
+ 623 games tested - 620 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1271,6 +1274,7 @@
  Pinball Dreams                                     Ok
  Pocket Jansou (JP)                                 Ok
  Poker Face Paul's Blackjack                        Ok
+ Poker Face Paul's Cribbage [Proto]                 Ok
  Poker Face Paul's Gin                              Ok
  Poker Face Paul's Poker                            Ok
  Poker Face Paul's Solitaire                        Ok
@@ -1464,7 +1468,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 516 games tested - 505 are "Ok" - Compatibility rate: 97.63%
+ 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
