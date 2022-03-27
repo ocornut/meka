@@ -173,7 +173,7 @@ int         Mapper_Autodetect(void)
         return (MAPPER_SMS_4PakAllAction);
 
     // 2 is a security measure, although tests on existing ROM showed it was not needed
-    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1 && cFFFF == 0) // Need to be BEFORE MAPPER_SMS_Korean_MSX_8KB_0003 for 30-in-1
+    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1 && (c0000 + c0100 + c0200 + c0300 > cFFFF)) // Need to be BEFORE MAPPER_SMS_Korean_MSX_8KB_0003 for 30-in-1
         return (MAPPER_SMS_Korean_MSX_8KB_0300);
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_MSX_8KB_0003);
@@ -584,19 +584,19 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
 {
     if ((Addr & 0x6000) == 0x2000) // Configurable segment -----------------------------------------------
     {
-        RAM[0x1FFF] = Value;
+        //RAM[0x1FFF] = Value;
 
         // This is technically incorrect: to mimic the actual hardware
         // we would either need to use an overdumped 2MB ROM, or we
         // would need to preserve all the segment base bits, as page
         // numbers past the end of the ROM return zeroes in real
         // hardware.
-        Value = ((Value ^ 0x1F) & tsms.Pages_Mask_8k) ^ 0x1F;
         g_machine.mapper_regs[0] = Value;
-        Map_8k_ROM(2, g_machine.mapper_regs[0] ^ 0x1f);
-        Map_8k_ROM(3, g_machine.mapper_regs[0] ^ 0x1e);
-        Map_8k_ROM(4, g_machine.mapper_regs[0] ^ 0x1d);
-        Map_8k_ROM(5, g_machine.mapper_regs[0] ^ 0x1c);
+        Value = ((Value ^ 0x1F) & tsms.Pages_Mask_8k) ^ 0x1F;
+        Map_8k_ROM(2, Value ^ 0x1f);
+        Map_8k_ROM(3, Value ^ 0x1e);
+        Map_8k_ROM(4, Value ^ 0x1d);
+        Map_8k_ROM(5, Value ^ 0x1c);
         return;
     }
 
