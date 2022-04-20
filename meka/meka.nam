@@ -1921,6 +1921,8 @@ SC3 e2acecf2 EC85058FEBCDDB68   Skyfox/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=helmh
 ;-----------------------------------------------------------------------------
 
 SC3 f691f9c7 A498D750D50A8638   Basic Level II A/COUNTRY=JP/PRODUCT_NO=B-10/EMU_MAPPER=1
+SC3 a46e3c73 EE421209CF077A65   Basic Level III A/COUNTRY=JP/PRODUCT_NO=B-10/EMU_MAPPER=1
+SC3 5d9f11ca 242CE123F9157D21   Basic Level III A/COUNTRY=EU/PRODUCT_NO=B-10/EMU_MAPPER=1
 SC3 345c8bc8 CD315B439CEE36A4   Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-105/COMMENT=Educational Software: English Grammar (Junior High School 1st year)
 SC3 d4c473b2 577B6DD9FD8F2D2F   Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-112/COMMENT=Educational Software: English Grammar (Junior High School 2nd year)
 SC3 9bafd9e9 F9010E587DA5BFBF   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-104/EMU_MAPPER=5/COMMENT=Educational software: English Composition (Junior High School 1st year)
@@ -1956,6 +1958,33 @@ SC3 b67ea1c4 F563D149DA372558   Music/COUNTRY=AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=E-10
 SF7 ad19c0a0 A55FE3E37F6681D0   Complete Arcade Pack Collection, The/COUNTRY=NZ
 SF7 5aeee6ee 134342342A7B424D   HuCAL
 SF7 a7b1da17 1787122D7B8052D6   Sega Logo v1.0e
+SF7 50a2a040 32505C23950676EE   Sega Disk Basic v1.0p
+SF7 7f51ef65 E474FD8621B1CA89   Sega Disk Basic v1.1p
+SF7 ffdbcd97 04DDAC7564D37A4D   Sega Disk Basic v1.0p + Yeno Demo/COMMENT=This is the original disk to which was added a separately provided demonstration.
+SF7 8c0d8d02 3502047798E07A5C   Sega Base 1.0
+SF7 e8e6cac4 93EA775C57041243   SegaWord 3/COUNTRY=AU
+SF7 67d2f298 0BCD38F1ABB7D7C6   FROGGY Pack (Scorpion) [Froggy + Cube It]/COUNTRY=NZ
+SF7 5ca7b5c4 B8077BB4C4963E7A   Poseidon Wars+Space Panic+Rambo/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain/COMMENT=This disk contains three amators programs by Marc Le Douarain. Rambo is unfinished and so will not be playable past the title screen.
+7654e077 275F28FBF8ADCBE7 Kamikaze/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain/COMMENT=The original tape game was ported to a SF-7000 disk by Marc Le Douarain. It is known not to run properly in auto-boot mode so you first have to load the Disk Basic then boot Kamikaze from it.
+SF7 1d1a96ef 55D83B6B51853F18   Jeux Collection 1/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 06fc874e B792497236522351   Jeux Collection 2/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 3afbcb9c DA21413EFA78A074   Jeux educatifs Collection/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 a93df954 9F25AE2FE0CAB9FC   Board Games Collection/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 95d917dd 0881AD09C96B8508   Olympiades/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 a8c5b0b3 A9E559D20AB8FB8A   Exemples musicaux/FLAGS=HOMEBREW,BAD/AUTHORS=Marc Le Douarain
+SF7 e2956dd0 2D2F639451F2C0AA   Yeno Draw/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 be53243a BE14C62C214ED2FB   Yeno Draw Example Pictures/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 52d68a52 64EA4EF20F233F01   Graphiques Echantillons/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 634fca3e 93AEA16A3F080766   Electricity Utility/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 326b7348 C4CC107478AB3A8F   Utilitaires/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 993fddf9 4EFDB2A2E8B4A61F   102 Progs for Yeno Examples/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 85307975 70E9B7049ED32358   Super Jeux Yeno Examples/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
+SF7 ad19c0a0 A55FE3E37F6681D0   Complete Arcade Pack Collection, The/COUNTRY=NZ
+SF7 615d8d76 287AAD4C8E703B2C   Grandstand Tape Compilation - Educational & Business Programs
+SF7 a200b487 94B00CA45887230A   Grandstand Tape Compilation - Games
+SF7 d76810b8 E74F0AE99B434AAF   Sega Super Control Station IPL/FLAGS=BIOS
+SF7 c98e8e96 89FC7E1D2386B087   Crocky/FLAGS=HOMEBREW,BAD/AUTHORS=Marc Le Douarain
+SF7 ed7a0928 DEA30691EE4B3F70   SF7 Music/FLAGS=HOMEBREW,BAD/AUTHORS=Marc Le Douarain
 
 ;-----------------------------------------------------------------------------
 ; DATA - OTHELLO MULTIVISION (OMV)
