@@ -100,7 +100,8 @@ MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_UNIX -DASM_SYMBOLS_REQUIRE_UNDERSCORE
-INC_OS  = -Ilibs -I../include -I/usr/include/allegro5
+INC_OS  = -Ilibs -I../include
+INC_OS  += $(shell pkg-config --cflags allegro-5)
 #--- Libraries
 LIB_OS  = 
 ALL_FILES=*
