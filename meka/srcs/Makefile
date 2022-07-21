@@ -94,6 +94,10 @@ CC_OUT  = -o
 LINKER  = g++
 ASM     = nasm
 OTYPE   = elf
+ifeq (FreeBSD,$(UNAME_S))
+CC      = c++
+LINKER  = c++
+endif
 #--- Tools
 RM      = rm
 MV      = mv
