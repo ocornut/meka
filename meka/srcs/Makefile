@@ -286,6 +286,8 @@ endif
 ifeq ($(BUILD), debug)
 CFLAGS = -Wall -g -ggdb
 endif
+CFLAGS += -Wno-ignored-optimization-argument
+CFLAGS += -Wno-deprecated-register
 
 endif
 
