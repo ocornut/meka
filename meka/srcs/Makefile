@@ -94,13 +94,18 @@ CC_OUT  = -o
 LINKER  = g++
 ASM     = nasm
 OTYPE   = elf
+ifeq (FreeBSD,$(UNAME_S))
+CC      = c++
+LINKER  = c++
+endif
 #--- Tools
 RM      = rm
 MV      = mv
 MKDIR   = mkdir
 #--- Definitions
 DEF_OS  = -DARCH_UNIX -DASM_SYMBOLS_REQUIRE_UNDERSCORE
-INC_OS  = -Ilibs -I../include -I/usr/include/allegro5
+INC_OS  = -Ilibs -I../include
+INC_OS  += $(shell pkg-config --cflags allegro-5)
 #--- Libraries
 LIB_OS  = 
 ALL_FILES=*
@@ -281,6 +286,8 @@ endif
 ifeq ($(BUILD), debug)
 CFLAGS = -Wall -g -ggdb
 endif
+CFLAGS += -Wno-ignored-optimization-argument
+CFLAGS += -Wno-deprecated-register
 
 endif
 
