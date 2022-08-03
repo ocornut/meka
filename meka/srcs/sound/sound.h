@@ -68,7 +68,6 @@ void            Sound_SetMasterVolume(int volume);
 void            Sound_ResetCycleCounter();
 
 s64             Sound_GetElapsedCycleCounter();
-double          Sound_ConvertSamplesToCycles(double samples_count);
 
 void            Sound_Playback_Start();
 void            Sound_Playback_Stop();

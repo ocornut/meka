@@ -12,6 +12,8 @@
 #include "g_widget.h"
 #include "tvtype.h"
 
+#include "fskipper.h" //Allegro (Wall) output sound rate (Z80cycles/sec) determined by current output framerate
+
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
 //-----------------------------------------------------------------------------
@@ -61,6 +63,17 @@ static t_app_sound_debug    SoundDebugApp;
 //-----------------------------------------------------------------------------
 // FUNCTIONS
 //-----------------------------------------------------------------------------
+
+//Returns the total number of Z80 cpu cycles per frame
+static int GetZ80CyclesPerFrame(t_machine *machine){
+
+  const int cycles_per_line = CPU_GetIPeriod();             //Assuming IPeriod represents cycles per scanline (time between H-blanks)
+  const int lines_per_frame = machine->TV->screen_lines;    //Assuming logical lines per frame (including v-blank time)
+
+  const int cycles_per_frame = cycles_per_line * lines_per_frame;
+  return cycles_per_frame;
+}
+
 
 // Initialize sound structure with its default settings
 void    Sound_Init_Config(void)
@@ -164,12 +177,14 @@ void    Sound_Close()
     Sound.Initialized = FALSE;
 }
 
+
 void    Sound_UpdateClockSpeed()
 {
-    const double throttle_scale = 1.0f;//(double)fskipper.Throttled_Speed / (double)g_machine.TV->screen_frequency;
-    //Sound.CpuClock = g_machine.TV->CPU_clock;
-    Sound.CpuClock = CPU_GetIPeriod() * g_machine.TV->screen_lines * g_machine.TV->screen_frequency;
-    SN76489_SetClock((double)Sound.CpuClock * throttle_scale);
+
+  const int cycles_per_frame = GetZ80CyclesPerFrame(&g_machine);
+  Sound.CpuClock = cycles_per_frame * g_machine.TV->screen_frequency; //Emulated clock rate
+
+  SN76489_SetClock((double)Sound.CpuClock);
     // FIXME-NEWSOUND: FM?
 }
 
@@ -254,10 +269,7 @@ s64 Sound_GetElapsedCycleCounter()
     return Sound.CycleCounter + (iperiod - icount);
 }
 
-double Sound_ConvertSamplesToCycles(double samples_count)
-{
-    return samples_count * (double)Sound.CpuClock / (double)Sound.SampleRate;
-}
+
 
 //-----------------------------------------------------------------------------
 
@@ -321,9 +333,11 @@ void SoundStream_Update(t_sound_stream* stream)
                 continue;
 
             // Need to catch up?
-            if (SoundStream_CountReadableSamples(stream) < SOUND_BUFFERS_SAMPLE_COUNT)
+	    const int samples_underrun = SOUND_BUFFERS_SAMPLE_COUNT - SoundStream_CountReadableSamples(stream);
+            if (samples_underrun > 0)
             {
-                SoundStream_RenderSamples(stream, SOUND_BUFFERS_SAMPLE_COUNT);
+	      //Try to make enough samples to fill up the next Allegro output buffer
+	      SoundStream_RenderSamples(stream, samples_underrun);
                 /*Msg(MSGT_DEBUG, "Sound catchup by %d samples", SOUND_BUFFERS_SIZE);
                 Msg(MSGT_DEBUG, "%lld -> %lld, %lld + %.2f = %lld",
                     stream->last_rendered_cycle_counter, Sound_GetElapsedCycleCounter(),
@@ -379,11 +393,22 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
 
     //elapsed_cycles = MIN(elapsed_cycles, 10000000);   // FIXME-NEWSOUND: how to handle pause, etc?
 
-    // Convert elapsed cycles in 'frames' unit
-    const int cpu_clock = Sound.CpuClock;
-    const double elapsed_emulated_seconds = (double)((double)elapsed_cycles / (double)cpu_clock);
-
-    const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elapsed_emulated_seconds;
+    
+    //The OUTPUT (Wall) sound clock (in Z80cycles/sec) is different from the
+    //emulated sound clock (in Z80cycles/sec) as we may be running at a non-standard FPS (e.g. 10Hz or 200Hz).
+    //We are generating samples for the OUPUT  sound buffers, so we need to base our clock rate and rendered sample
+    //count on the output FPS rate (otherwise we will over/underflow the actual output sound)
+    
+    //We can base the output FPS rate on either fskipper.Throttled_Speed (requested) or fskipper.FPS (measured)
+    //Throttled speed appears to avoid most overflows, but the actually measured FPS rate does better at 10Hz (and might work for unthrottled fps)
+    const double output_FPS = (double) fskipper.Throttled_Speed;
+    const double output_cycles_per_sec = GetZ80CyclesPerFrame(&g_machine) * output_FPS;
+    const double elasped_output_seconds = (double)((double)elapsed_cycles / (double)output_cycles_per_sec);
+    //Note: elapsed_emulated_seconds = elapsed_cycles * Sound.CpuClock;
+    
+    // TL;DR We need enough samples for the elapsed output (Wall) time, not the elapsed emulated time.
+    const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elasped_output_seconds;
+    
     if ((int)samples_to_render > 0)
     {
         //Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)samples_to_render);

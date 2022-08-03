@@ -418,7 +418,7 @@ dist_src :
 #   zip -9 -r Dist/meka-src.zip srcs/z80mk/*.*
 #   zip -9 -r Dist/meka-src.zip srcs/z80raze/*.*
 	@echo Done!
-	
+
 dist_bin_dos :
 	@echo Creating Dist/meka.zip
 	cd ..
@@ -501,6 +501,11 @@ $(OD)/sound/emu2413:
 
 $(OD)/platform/macosx:
 	@$(MKDIR) -p $(OD)/platform/macosx
+
+# Run the target after building
+run: $(EXE)
+	$(EXE)
+
 #------------------------------------------------------
 # EOF
 #------------------------------------------------------

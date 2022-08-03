@@ -151,7 +151,8 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
     else
         display_flags |= ALLEGRO_WINDOWED;
     al_set_new_display_flags(display_flags);
-    al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST);
+    al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST); //ALLEGRO_REQUIRE may be needed for proper fskipper behaviour.
+
     al_set_new_display_refresh_rate(g_config.video_mode_gui_refresh_rate);
     g_display = al_create_display(w, h);
 
