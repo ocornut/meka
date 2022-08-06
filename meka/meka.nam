@@ -1965,7 +1965,7 @@ SF7 8c0d8d02 3502047798E07A5C   Sega Base 1.0
 SF7 e8e6cac4 93EA775C57041243   SegaWord 3/COUNTRY=AU
 SF7 67d2f298 0BCD38F1ABB7D7C6   FROGGY Pack (Scorpion) [Froggy + Cube It]/COUNTRY=NZ
 SF7 5ca7b5c4 B8077BB4C4963E7A   Poseidon Wars+Space Panic+Rambo/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain/COMMENT=This disk contains three amators programs by Marc Le Douarain. Rambo is unfinished and so will not be playable past the title screen.
-SF7 7654e077 275F28FBF8ADCBE7 Kamikaze/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain/COMMENT=The original tape game was ported to a SF-7000 disk by Marc Le Douarain. It is known not to run properly in auto-boot mode so you first have to load the Disk Basic then boot Kamikaze from it.
+SF7 7654e077 275F28FBF8ADCBE7   Kamikaze/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain/COMMENT=The original tape game was ported to a SF-7000 disk by Marc Le Douarain. It is known not to run properly in auto-boot mode so you first have to load the Disk Basic then boot Kamikaze from it.
 SF7 1d1a96ef 55D83B6B51853F18   Jeux Collection 1/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
 SF7 06fc874e B792497236522351   Jeux Collection 2/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
 SF7 3afbcb9c DA21413EFA78A074   Jeux educatifs Collection/FLAGS=HOMEBREW/AUTHORS=Marc Le Douarain
