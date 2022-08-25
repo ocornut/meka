@@ -36,6 +36,7 @@ static const ts_driver_filename_extension   drivers_ext [] =
     { "SG",       DRV_SG1000      },
     { "SC",       DRV_SC3000      },
     { "SF7",      DRV_SF7000      },
+    { "DSK",      DRV_SF7000      },
     { "OMV",      DRV_SG1000      }, // Othello Multivision
     { "COL",      DRV_COLECO      },
     { "ROM",      DRV_COLECO      },

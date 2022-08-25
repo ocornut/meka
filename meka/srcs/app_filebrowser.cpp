@@ -462,6 +462,7 @@ static void     FB_Load_Directory_Internal()
     list_add(&ext_list, (void*)"SG");
     list_add(&ext_list, (void*)"SC");
     list_add(&ext_list, (void*)"SF7");
+    list_add(&ext_list, (void*)"DSK");
     list_add(&ext_list, (void*)"OMV");
     list_add(&ext_list, (void*)"COL");
     list_add(&ext_list, (void*)"BIN");
