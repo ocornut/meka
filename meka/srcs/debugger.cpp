@@ -2891,14 +2891,14 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                 if (address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR)
                     strcpy(buf, ((t_debugger_symbol *)address_start.source_data)->name);
                 else
-                    sprintf(buf, "%04hX", address_start.data);
+                    sprintf(buf, "%04X", address_start.data);
                 if (address_start.data != address_end.data)
                 {
                     strcat(buf, "..");
                     if (address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_end.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR)
                         strcat(buf, ((t_debugger_symbol *)address_end.source_data)->name);
                     else
-                        sprintf(buf+strlen(buf), "%04hX", address_end.data);
+                        sprintf(buf+strlen(buf), "%04X", address_end.data);
                 }
                 desc = buf; // Ok since Debugger_BreakPoint_Add() - called below - does a strcpy
             }
