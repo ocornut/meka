@@ -146,7 +146,7 @@ bool        Skin_IsValid(t_skin *skin)
     int     i;
     for (i = 0; i < SKIN_COLOR_MAX_; i++)
     {
-        if (!skin->colors_defined)
+        if (!skin->colors_defined[i])
             return false;
     }
     return true;
