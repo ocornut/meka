@@ -9,6 +9,8 @@ meka/Dist
 
 # Developer data
 meka/objs
+meka/meka
+meka/meka.cfg
 meka/meka.dsk
 meka/meka.fdb
 meka/mekaw.cfg
@@ -31,3 +33,4 @@ allegro.log
 *.vc.db
 *.vcproj.*.user
 *.vcxproj.user
+.*.swp
