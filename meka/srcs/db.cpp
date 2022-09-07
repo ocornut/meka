@@ -211,7 +211,37 @@ bool            DB_Init(const char* filename, bool verbose)
     DB.entries_counter_format_new   = 0;
 
     DB.current_entry = NULL;
-    return DB_Load(filename, verbose);
+
+    ALLEGRO_FS_ENTRY *entry = al_create_fs_entry(filename);
+
+    if ((al_get_fs_entry_mode(entry) & ALLEGRO_FILEMODE_ISDIR))
+    {
+      if (!al_open_directory(entry))
+      {        
+        return false;
+      }     
+      bool ok=true;
+      for (ALLEGRO_FS_ENTRY *next;next = al_read_directory(entry); )
+      {
+        const char *filename = al_get_fs_entry_name(next);
+        char filename_ext[FILENAME_LEN];
+        
+        strcpy(filename_ext, filename);
+        StrPath_GetExtension(filename_ext);
+        StrUpper(filename_ext);   
+        if (strcmp(filename_ext, "NAM") == 0)
+        {
+          ok &= DB_Load(filename, verbose);          
+        }
+        al_destroy_fs_entry(next);        
+      }
+      al_close_directory(entry);
+      return ok;
+    }
+    else
+    {
+      return DB_Load(filename, verbose);
+    }
 }
 
 // Load DB entry from given line
@@ -587,7 +617,7 @@ static int      DB_Load_Line (char* line)
 static bool     DB_Load (const char* filename, bool verbose)
 {
     if (verbose)
-        ConsolePrint(Msg_Get(MSG_DB_Loading));
+      ConsolePrintf(Msg_Get(MSG_DB_Loading),filename);
 
     // Open and read file
     t_tfile* tf = tfile_read (filename);
