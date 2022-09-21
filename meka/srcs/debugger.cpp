@@ -4084,7 +4084,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
 
         {
             // Process operator
-            int data_size = MAX(value1.data_size, value1.data_size);
+            int data_size = MAX(value1.data_size, value2.data_size);
             switch (op)
             {
             case '&':
@@ -4192,7 +4192,7 @@ int     Debugger_Eval_ParseExpression(char **expr, t_debugger_value *result)
 
         {
             // Process operator
-            int data_size = MAX(value1.data_size, value1.data_size);
+            int data_size = MAX(value1.data_size, value2.data_size);
             switch (op)
             {
             case '+':
