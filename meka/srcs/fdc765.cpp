@@ -230,20 +230,21 @@ void    FDCExecWriteCommand (register byte Value)
         TrackIndex = FDCCurrTrack[FDCCurrDrv] * dsk[FDCCurrDrv].Header.nbof_heads + FDCCurrSide[FDCCurrDrv];
 //        TrackDataStart = ((FDCCommand[4] & 0x0F)-1) << 9;
 //        FDCDataLength = 512 + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<9);
-        switch(dsk[FDCCurrDrv].ImageType)
+        if (dsk[FDCCurrDrv].ImageType == DSK_FORMAT_RAW)
           {
-          case DSK_FORMAT_RAW:
-            TrackDataStart = ((FDCCommand[4] & 0x1F)-1) << 8;
-            FDCDataLength = TrackDataStart+256;// + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<8);
-            break;
-          case DSK_FORMAT_STANDARD_DSK:
-            // TODO
-            break;
-          case DSK_FORMAT_EXTENDED_DSK:
-            unsigned long offset = 0;
+          TrackDataStart = ((FDCCommand[4] & 0x1F)-1) << 8;
+          FDCDataLength = TrackDataStart+256;// + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<8);
+          }
+        else
+          {
+          unsigned long offset;
+          if (dsk[FDCCurrDrv].ImageType == DSK_FORMAT_STANDARD_DSK)
+            offset = FDCCurrTrack[FDCCurrDrv] * dsk[FDCCurrDrv].Header.tracksize;
+          else
+            {
             byte t;
             // FDCCommand[2] should equals FDCCurrTrack[FDCCurrDrv]
-            for (t = 0; t < FDCCurrTrack[FDCCurrDrv]; t++)
+            for (t = 0, offset = 0; t < FDCCurrTrack[FDCCurrDrv]; t++)
               {
               offset += dsk[FDCCurrDrv].Header.tracksizetable[t] << 8;
               }
@@ -251,28 +252,27 @@ void    FDCExecWriteCommand (register byte Value)
             if (dsk[FDCCurrDrv].Header.tracksizetable[t] == 0)
               {
               // Empty track
+              // TODO : error ?
               }
-            else
+            }
+          byte s;
+          byte sector_count = dsk[FDCCurrDrv].Tracks[0].DiscData[offset + 0x15];
+          const byte * sp = dsk[FDCCurrDrv].Tracks[0].DiscData + offset + 0x18;
+          offset += 256;
+          for (s = 0; s < sector_count; s++, sp += 8)
+            {
+            word stored_length = sp[6] + (sp[7] << 8);
+            if (stored_length == 0)
+              stored_length = 0x80 << sp[3];
+            if (FDCCommand[2] == sp[0] && FDCCommand[3] == sp[1] && FDCCommand[4] == sp[2])
               {
-                byte s;
-                byte sector_count = dsk[FDCCurrDrv].Tracks[0].DiscData[offset + 0x15];
-                const byte * sp = dsk[FDCCurrDrv].Tracks[0].DiscData + offset + 0x18;
-                offset += 256;
-                for (s = 0; s < sector_count; s++, sp += 8)
-                  {
-                  word stored_length = sp[6] + (sp[7] << 8);
-                  if (stored_length == 0)
-                    stored_length = 0x80 << sp[3];
-                  if (FDCCommand[2] == sp[0] && FDCCommand[3] == sp[1] && FDCCommand[4] == sp[2])
-                    {
-                    // right sector found
-                    TrackDataStart = offset;
-                    FDCDataLength = TrackDataStart + 0x80 << sp[4];
-                    break;
-                    }
-                  offset += stored_length;
-                  }
+              // right sector found
+              TrackDataStart = offset;
+              FDCDataLength = TrackDataStart + (0x80 << sp[4]);
+              break;
               }
+            offset += stored_length;
+            }
           }
         FDCDataPointer = 0;
         StatusCounter = 100;
