@@ -31,6 +31,10 @@
 // by Omar 'Bock' Cornut
 // in November 2000
 
+// Support added for DSK standard and extended format
+// by Thomas 'Nanard' Bernard
+// in November 2022
+
 // Note from the original author:
 // If you want to make changes, please do not(!) use TABs !!!!!
 // (obviously abused by Omar, anyway it was a big source cleaning that I made)
@@ -72,7 +76,7 @@ unsigned long TrackDataStart;      /* Startposition der Daten des akt. Sektors i
 
 const byte bytes_in_cmd[32] =
 {
-    1,  /*  0 = none                                */
+  1,  /*  0 = none                                */
   1,  /*  1 = none                                */
   9,  /*  2 = READ TRACK, not implemented         */
   3,  /*  3 = SPECIFY                             */
@@ -216,9 +220,12 @@ void    FDCExecWriteCommand (register byte Value)
       break;
 
     case 6:                      /* Read data */
+      // Note FDC765 supports reading several sectors in a row, but
+      // it is currently not supported.
       FDCCurrDrv = FDCCommand[1] & 3;
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
-      FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
+      //FDCCurrTrack[FDCCurrDrv] = FDCCommand[2]; // Physical track should not be read from Read command
+      // It is set using Recalibrate (7) and Seek (15) Commands
       if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
