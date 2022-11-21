@@ -15,6 +15,7 @@
  3D:        Uses 3-D Glasses
  SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
+ 128 Hap (KR)                                   -      *Ok
  20 em 1 (BR)                                   -       Ok
  3D Gunner [Proto]                              LP,3D   Ok
  4 PAK All Action (AU)                          -       Ok
@@ -70,6 +71,7 @@
  Astro Warrior / Pit Pot [Proto]                -       Ok
  A-Team, The [Music] [Proto]                    -       Ok
  Aztec Adventure / Nazca '88                    FM      Ok
+ Aztec Adventure [HTH] [SMS-GG] (TW)            FM     *Ok 
  Back to the Future Part II                     -       Ok
  Back to the Future Part III                    -       Ok
  Baku Baku Animal (BR)                          -       Ok
@@ -368,6 +370,7 @@
  Mortal Kombat II                               -       Ok
  Mortal Kombat 3 (BR)                           -       Ok
  Ms. Pac-Man                                    -       Ok
+ MSX Soccer (KR)                                -      *Ok
  My Hero                                        -       Ok
  NBA Jam [Proto]                                -       Ok
  Nekkyuu Koushien (JP)                          FM      Ok
@@ -377,6 +380,7 @@
  NewZealand Story, The                          -       Ok
  Ninja, The                                     -       Ok
  Ninja, The (JP)                                -       Ok
+ Ninja, The [HTH] [SMS-GG] (TW)                 -      *Ok
  Ninja Gaiden                                   -       Ok
  Ninja Gaiden [Proto]                           -       Ok
  Olympic Gold [v0]                              -       Ok
@@ -554,6 +558,7 @@
  Super Multi Game - Super 125 in 1 (KR)         -      *Ok
  Super Off Road                                 -       Ok
  Super Off Road [Proto]                         -       Ok
+ Super Penguin (KR)                             -      *Ok
  Super Racing (JP)                              FM,(PAD)Ok
  Super Smash T.V.                               -       Ok
  Super Space Invaders                           -       Ok
@@ -643,7 +648,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 623 games tested - 620 are "Ok" - Compatibility rate: 99.64%
+ 628 games tested - 625 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -672,6 +677,7 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
+ Adventure Island [DahJee] (TW)                *Ok
  Bank Panic                                     Ok
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
@@ -862,7 +868,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 189 games tested - 189 are "Ok" - Compatibility rate: 100.00%
+ 190 games tested - 190 are "Ok" - Compatibility rate: 100.00%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
