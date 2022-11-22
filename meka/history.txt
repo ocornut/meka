@@ -56,6 +56,10 @@ They are usually of 2 kinds:
     - Light Phaser: Adding per-game hacky light phaser function to reduce drift 
       between perceived cursor and what the game will end up using, particularly 
       useful for 'Missile Defense 3-D' and '3D Gunner'. [Omar]
+  - Emulation (SF-7000)
+    - Added support for extended DSK format (as .dsk or .sf7 extensions). [Nanard]
+      For future SF-7000 releases we will use this format as our legacy 163840 bytes .SF7 format
+      didn't convey enough information to reliably emulate all available software.
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
     - Referring to a symbol using with the : prefix (in the form ":xxxx") returns the ROM address instead of the CPU address. [Omar]

@@ -140,6 +140,13 @@ void    GetRes7 (void)                      /* Return 7 result bytes */
 /*********************************************************************/
 void    FDCExecWriteCommand (register byte Value)
 {
+    // FIXME: Failed attempt at detecting writes from non IPL code
+    // However even e.g. Burglar Bill fills buffer + call lowest-level IPL function
+    /*
+    if (IPL_Disabled || sms.R.PC.W >= 0x4000)
+        Msg(MSGT_USER_LOG, "FDC765: Command %d from code that isn't in IPL: %04X", FDCCommand[0], sms.R.PC.W);
+    */
+
   switch (FDCCommand [0])
     {
     case 2:             /* Read track */
@@ -222,7 +229,19 @@ void    FDCExecWriteCommand (register byte Value)
     case 6:                      /* Read data */
       // Note FDC765 supports reading several sectors in a row, but
       // it is currently not supported.
+      // In theory LS should be Last Sector we are only getting values of 0x10 
+      // as the SF-7000 IPL always sets 0x10 in it.
       FDCCurrDrv = FDCCommand[1] & 3;
+
+      //Msg(MSGT_USER_LOG, "FDC765: Cmd 6: HU=%02X TR=%02X HD=%02X SC=%02X SZ=%02X LS=%02X GP=%02X SL=%02X",
+      //    FDCCommand[1], FDCCommand[2], FDCCommand[3], FDCCommand[4], FDCCommand[5], FDCCommand[6], FDCCommand[7], FDCCommand[8]);
+
+      if (FDCCurrDrv >= ARRAYSIZE(dsk))
+      {
+          Msg(MSGT_USER_LOG, "FDC765: Cmd 6: Selected unsupported drive: %d", (int)FDCCurrDrv);
+          FDCCurrDrv = 0;
+      }
+
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
       //FDCCurrTrack[FDCCurrDrv] = FDCCommand[2]; // Physical track should not be read from Read command
       // It is set using Recalibrate (7) and Seek (15) Commands
@@ -259,9 +278,9 @@ void    FDCExecWriteCommand (register byte Value)
             if (dsk[FDCCurrDrv].Header.tracksizetable[t] == 0)
               {
               // Empty track
-              // TODO : error ?
+                Msg(MSGT_USER_LOG, "FDC765: Cmd 6: Track %d is empty", (int)t);
               }
-            }
+          }
           byte s;
           byte sector_count = dsk[FDCCurrDrv].Tracks[0].DiscData[offset + 0x15];
           const byte * sp = dsk[FDCCurrDrv].Tracks[0].DiscData + offset + 0x18;
