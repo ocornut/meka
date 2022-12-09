@@ -140,10 +140,14 @@ They are usually of 2 kinds:
           SMS - 6f8e46cf - Alex Kidd in Miracle World [SMS-GG] (TW) --> Alex Kidd in Miracle World [HTH] [SMS-GG] (TW) (labeling HTH release, listing them under SMS)
           SMS - c4bb1676 - E-SWAT [A]                           --> E-SWAT [v0]
           SMS - c10fce39 - E-SWAT [B]                           --> E-SWAT [v1]
+          SMS - b7fe0a9d - King's Quest - Quest for t.. [Proto] --> King's Quest - Quest for the Crown [Proto 1] (earlier proto found)
+          SMS - 7e9d87fc - Monopoly [Proto]                     --> Monopoly [Proto 0] (later proto found)
           SMS - d1a7b1aa - Olympic Gold (KR, BR)                --> Olympic Gold [v0]
           SMS - 6a5a1e39 - Olympic Gold                         --> Olympic Gold [v1]
           SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (US, BR)
           SMS - 80eb1fff - Summer Games [Proto]                 --> Summer Games [Proto 1]
+          SMS - 55bf81a0 - Super Monaco GP                      --> Super Monaco GP [v0]
+          SMS - 3ef12baa - Super Monaco GP (US)                 --> Super Monaco GP [v1] (US)
           SMS - 912d92af - Wimbledon                            --> Wimbledon [v1]
           SMS - 4aaad0d6 - World Grand Prix (EU)                --> World Grand Prix [v0] (also in IT, DE)
           SMS - 7b369892 - World Grand Prix (US)                --> World Grand Prix [v2] (also in BR, KR)

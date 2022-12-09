@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2022/11/06
+; Last updated 2022/12/09
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -386,7 +386,8 @@ SMS 516ed32e 841BF3EB6EAF3E28   Kenseiden/COUNTRY=US,EU,BR/PRODUCT_NO=7013
 SMS 05ea5353 C248674DC457190E   Kenseiden/COUNTRY=JP/PRODUCT_NO=G-1358
 SMS 0ae470e5 212FE2656C8EE887   King & Balloon/COUNTRY=KR
 SMS f8d33bc4 7A69F7D063546D32   King's Quest - Quest for the Crown/COUNTRY=US/PRODUCT_NO=4360
-SMS b7fe0a9d A7EF2C74C4AA61FB   King's Quest - Quest for the Crown [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
+SMS fd27bef1 E9A70F437A8CFE1A   King's Quest - Quest for the Crown [Proto 0]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game. Marked "1989.2.3".
+SMS b7fe0a9d A7EF2C74C4AA61FB   King's Quest - Quest for the Crown [Proto 1]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS 2b435fd6 97D1E5EB0E6664F0   KLAX/COUNTRY=EU/PRODUCT_NO=301040-0160
 SMS f89af3cc 1E40D12DA16EB3E2   Knightmare II: The Maze of Galious/COUNTRY=KR/EMU_MAPPER=12
 SMS 64a585eb 6328C143CB001393   Krusty's Fun House/COUNTRY=EU,BR/PRODUCT_NO=MK 27056-50,026280
@@ -433,7 +434,8 @@ SMS 43def05d 9EFD71605F7B0FAB   Missile Defense 3-D [Proto]/FLAGS=PROTO/EMU_INPU
 SMS 01d67c0b 78D6D79A391713DE   Mônica no Castelo do Dragão/COUNTRY=BR/COMMENT=Brasilian hacked version of "Wonder Boy in Monster Land", released by Tec Toy.
 SMS 026d94a4 486A3C3EC40B37CE   Monopoly/COUNTRY=EU
 SMS 69538469 4D632D43B6FE42EA   Monopoly/COUNTRY=US
-SMS 7e9d87fc BFD80824BC3567E5   Monopoly [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
+SMS 7e9d87fc BFD80824BC3567E5   Monopoly [Proto 0]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
+SMS e0d1049b 69795E6B0DBDB3D8   Monopoly [Proto 1]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game. Marked "1988.04.22".
 SMS 82fda895 E5824AEB86A48CAE   Montezuma's Revenge - Featuring Panama Joe/COUNTRY=US/PRODUCT_NO=4370
 SMS 575d0fcf 530F373A728F5BD1   Montezuma's Revenge - Featuring Panama Joe [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS 56cc906b FA387D6C37963DDB   Moonwalker (Michael Jackson's)/NAME_BR=Moonwalker/COUNTRY=US,EU,BR,KR/PRODUCT_NO=7052,GB2004JG
@@ -636,10 +638,11 @@ SMS c29bb8cd F5394893312A6339   Super Game World 75 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
 SMS 6f9ac98f 8F53B08718544338   Superman - The Man of Steel/COUNTRY=EU,BR/PRODUCT_NO=MK-27050-50,027190
-SMS 55bf81a0 59B3C79CC4A7DE48   Super Monaco GP/COUNTRY=EU,BR/PRODUCT_NO=7043,025310
-SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP/COUNTRY=US/PRODUCT_NO=7043
+SMS 55bf81a0 59B3C79CC4A7DE48   Super Monaco GP [v0]/COUNTRY=EU,BR/PRODUCT_NO=7043,025310
+SMS 3ef12baa 848ACF83D5A4DE49   Super Monaco GP [v1]/COUNTRY=US/PRODUCT_NO=7043
 SMS a1d6d963 CA2E38E7805970A0   Super Monaco GP [Proto 0]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS dd7adbcc C9712D78F61127F3   Super Monaco GP [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
+SMS 3753cc95 8289CE81D5A4DE4F   Super Monaco GP [Proto 2]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game. Marked "1990.07.18". Only 3 header bytes differs from final US release.
 SMS e890331d 0EE799CB6D17E43F   Super Monaco GP II (Ayrton Senna's)/COUNTRY=EU,BR,KR/PRODUCT_NO=9011
 SMS 660bf6ec D093565FC7E8C376   Super Multi Game - Super 75 in 1/COUNTRY=KR/EMU_MAPPER=18
 SMS eb7790de 7A908E975CEC7415   Super Multi Game - Super 125 in 1/COUNTRY=KR/EMU_MAPPER=18

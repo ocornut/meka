@@ -313,7 +313,8 @@
  Kenseiden (JP)                                 FM      Ok
  King & Balloon (KR)                            -       Ok
  King's Quest - Quest for the Crown             -       Ok
- King's Quest - Quest for the Crown [Proto]     -       Ok
+ King's Quest - Quest for the Crown [Proto 0]   -       Ok
+ King's Quest - Quest for the Crown [Proto 1]   -       Ok
  KLAX                                           -       Ok
  Knightmare II: The Maze of Galious (KR)        -       Ok
  Kujakuou (JP)                                  FM      Ok
@@ -360,7 +361,8 @@
  Mônica no Castelo do Dragão (BR)               FM      Ok
  Monopoly                                       -       Ok
  Monopoly (US)                                  -       Ok
- Monopoly [Proto]                               -       Ok
+ Monopoly [Proto 0]                             -       Ok
+ Monopoly [Proto 1]                             -       Ok
  Montezuma's Revenge - Featuring Panama Joe     -       Ok
  Montezuma's Revenge - Featuring Pana.. [Proto] -       Ok
  Moonwalker (Michael Jackson's)                 -       Ok
@@ -549,10 +551,11 @@
  Super Game World 75 Hap (KR)                   -      *Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
- Super Monaco GP                                -       Ok
- Super Monaco GP (US)                           -       Ok
+ Super Monaco GP [v0]                           -       Ok
+ Super Monaco GP [v1] (US)                      -       Ok
  Super Monaco GP [Proto 0]                      -       Ok
  Super Monaco GP [Proto 1]                      -       Ok
+ Super Monaco GP [Proto 2] (US)                 -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Multi Game - Super 75 in 1 (KR)          -      *Ok
  Super Multi Game - Super 125 in 1 (KR)         -      *Ok
@@ -648,7 +651,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 628 games tested - 625 are "Ok" - Compatibility rate: 99.64%
+ 631 games tested - 628 are "Ok" - Compatibility rate: 99.64%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
