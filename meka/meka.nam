@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2022/12/09
+; Last updated 2023/01/08
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -198,6 +198,7 @@ SMS 9d549e08 59868AC9BD4815B4   Comical Machine Gun Joe/COUNTRY=JP/PRODUCT_NO=C-
 SMS 84ad5ae4 A9567EC5B94513AD   Comical Machine Gun Joe/COUNTRY=TW/PRODUCT_NO=K-317
 SMS 643f6bfc 937293CB9A4A16A3   Comical Machine Gun Joe/COUNTRY=KR/PRODUCT_NO=G-40
 SMS 7778e256 16402857F8E8EC5F   Comic Bakery/COUNTRY=KR
+SMS 1e1b9f59 2F0FA880482CC066   Con-Dori/COUNTRY=KR
 SMS 7253c3ec DF1EDD826F58CE0F   Color & Switch Test/FLAGS=PROTO/COMMENT=Official test cartridge. Also referred to as "M4 PAD CHK". The ROM contains a "POWER BASE CHECK" string.
 SMS 665fda92 AA7CEDD6C88CA221   Columns/NAME_BR=Shapes and Columns/COUNTRY=US,EU,BR,KR/PRODUCT_NO=5120,GB-1001,GB-1002JG
 SMS 3fb40043 8418F6420CFBF035   Columns [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -283,6 +284,7 @@ SMS ca5c78a5 BD9E05F283723B7E   Flintstones, The/COUNTRY=EU,BR/PRODUCT_NO=MK-270
 SMS 38c53916 4589A9BD05075E62   Forgotten Worlds/COUNTRY=EU,BR,AU,KR/PRODUCT_NO=7056,GB-2005JG
 SMS 44136a72 269D69A7F7DD4E0B   Forgotten Worlds [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-46/COMMENT=Taiwanese HTH release for Game Gear.
 SMS e6795c53 B637976CB4B28D1D   Fushigi no Oshiro Pit Pot/COUNTRY=JP,KR/PRODUCT_NO=C-507
+SMS 73c76d15 A33D9F71B7AF8822   Fushigi no Oshiro Pit Pot [Proto]/COUNTRY=JP/COMMENT=Prototype version of the game.
 SMS 8b40f6bf 8CE87C3FDC15F4EC   Gaegujangi Kkachi/COUNTRY=KR/PRODUCT_NO=GB-4001/COMMENT=Name translate as "Kkachi, a naughty boy".
 SMS 3ec5e627 C00413DAC7946A8A   Gain Ground/COUNTRY=EU,BR/PRODUCT_NO=7045
 SMS d40d03c7 CC0D11E2CB947461   Gain Ground [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
