@@ -178,6 +178,9 @@ void    Machine_Set_Handler_MemRW(void)
     case MAPPER_SMS_Korean_FFFE:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_FFFE;
         break;
+    case MAPPER_SMS_Korean_FFF3_FFFC:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_FFF3_FFFC;
+        break;
     }
 }
 
@@ -375,6 +378,20 @@ void    Machine_Set_Mapping (void)
         g_machine.mapper_regs_count = 1;
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
             g_machine.mapper_regs[i] = (i == 0) ? 0x01 : 0;
+        break;
+
+    case MAPPER_SMS_Korean_FFF3_FFFC:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 2;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
         break;
     case MAPPER_SC3000_Survivors_Multicart:
         g_machine.mapper_regs_count = 1;

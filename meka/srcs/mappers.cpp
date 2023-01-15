@@ -642,6 +642,106 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE)
     Write_Error (Addr, Value);
 } 
 
+// Mapper #22
+// Super Game 150, Super Game 270
+WRITE_FUNC(Write_Mapper_SMS_Korean_FFF3_FFFC)
+{
+    const int incomplete_address_decoding = 0x4000;
+    const u16 addr_assumed = Addr | incomplete_address_decoding;
+    if (addr_assumed == 0xFFF3 || addr_assumed == 0xFFFC) // Configurable segment -----------------------------------------------
+    {
+        if (addr_assumed == 0xFFF3) {
+            g_machine.mapper_regs[0] = Value;
+        }
+        else if (addr_assumed == 0xFFFC) {
+            g_machine.mapper_regs[1] = Value;
+        }
+        const int Mapper = g_machine.mapper_regs[0];
+        const int Mode = g_machine.mapper_regs[1];
+
+        const int Config = Mode & 0xE0;
+
+        const int Page0 = (Mode & 0x10) * 8 + (Mapper & 0x3E) * 2;
+        const int Page1 = Page0 + 1;
+        const int Page2 = Page0 + 2;
+        const int Page3 = Page0 + 3;
+
+        const int Odd = Mapper & 0x01;
+
+        if (Config == 0x00) {
+            // 16KB SMS
+            Map_8k_ROM(0, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x20) {
+            // 32KB SMS
+            Map_8k_ROM(0, Page0 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, Page1 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, Page2 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, Page3 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x40) {
+            // MSX mapped at 0x4000
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x60) {
+            // MSX mapped at 0x8000
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, 0xFE & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x80) {
+            // MSX (8KB permuted)
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0xA0) {
+            // MSX (16KB permuted)
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (Odd ? Page0 : Page2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (Odd ? Page1 : Page3) & tsms.Pages_Mask_8k);
+        }
+        else {
+            // ???
+            Map_8k_ROM(0, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.

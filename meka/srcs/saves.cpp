@@ -119,6 +119,10 @@ void        Load_Game_Fixup(void)
         case MAPPER_SMS_Korean_FFFE:
             WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[0]);
             break;
+        case MAPPER_SMS_Korean_FFF3_FFFC:
+            WrZ80_NoHook(0xFFF3, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0xFFFC, g_machine.mapper_regs[1]);
+            break;
         }
     }
 
@@ -308,6 +312,7 @@ int     Save_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_FFFF_HiCom:
     case MAPPER_SMS_Korean_2000_xor_1F:
     case MAPPER_SMS_Korean_FFFE:
+    case MAPPER_SMS_Korean_FFF3_FFFC:
     default:                  
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -481,6 +486,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_FFFF_HiCom:
     case MAPPER_SMS_Korean_2000_xor_1F:
     case MAPPER_SMS_Korean_FFFE:
+    case MAPPER_SMS_Korean_FFF3_FFFC:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;

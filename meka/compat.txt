@@ -548,7 +548,9 @@
  Super Bubble Bobble (KR)                       -       Ok
  Super Columns (KR)                             -       Ok
  Super Futebol II [Game Box Série Esportes] (BR)-       Ok
+ Super Game 150 (KR)                            -      *Ok
  Super Game 200 (KR)                            -      *Ok
+ Super Game 270 (KR)                            -      *Ok
  Super Game 45 (KR)                             -      *Ok
  Super Game 52 Hap (KR)                         -      *Ok
  Super Game World 260 Hap (KR)                  -      *Ok
@@ -656,7 +658,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 636 games tested - 633 are "Ok"
+ 638 games tested - 634 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
