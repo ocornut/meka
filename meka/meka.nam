@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2023/01/08
+; Last updated 2023/01/15
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -484,11 +484,11 @@ SMS 445525e2 C78797B1481E0FF5   Penguin Adventure/COUNTRY=KR/EMU_MAPPER=12
 SMS f97e9875 E01345F078025D01   Penguin Land/COUNTRY=US,EU/PRODUCT_NO=5501/COMMENT=Export version of "Doki Doki Penguin Land - Uchuu Daibouken".
 SMS 95b9ea95 5C82866D629F75B9   PGA TOUR Golf/COUNTRY=EU/PRODUCT_NO=27070-50 301045-0160
 SMS 6605d36a 2E083BD3646B9C51   Phantasy Star/COUNTRY=JP/PRODUCT_NO=G-1341
-SMS 07301f83 A8CCBAD5B519DA55   Phantasy Star [Megadrive]/COUNTRY=JP/PRODUCT_NO=G-4534/COMMENT=This is the Sega Megadrive version, as reissued in Japan on April 2nd, 1994. It was later included in "Phantasy Star Collection" for the Sega Saturn.
 SMS e4a65e79 ABD648F1F23F54C1   Phantasy Star [v2]/COUNTRY=US,EU/PRODUCT_NO=9500/COMMENT=This first batch of the English localization has a minor graphic bug. In the interface, when trying to save from certain place, there's garbage on the screen. It was fixed in version 3 of the ROM, which is more common.
 SMS 00bef1d7 ABD447F2F23F56C1   Phantasy Star [v3]/COUNTRY=US,EU/PRODUCT_NO=9500
 SMS 75971bef 1B751562EAF667B2   Phantasy Star/COUNTRY=BR/PRODUCT_NO=029010
 SMS 747e83b5 4CB57E6A76C6CF0C   Phantasy Star/COUNTRY=KR/PRODUCT_NO=GB 4014KS
+SMS 07301f83 A8CCBAD5B519DA55   Phantasy Star Fukkokuban [SMS-MD]/COUNTRY=JP/PRODUCT_NO=G-4534/COMMENT=This is the Sega Megadrive version, as reissued in Japan on April 2nd, 1994. It was later included in "Phantasy Star Collection" for the Sega Saturn.
 SMS b840a446 99682219F73E5738   Pit-Fighter/COUNTRY=EU/PRODUCT_NO=MK 29009-50
 SMS aa4d4b5a B0EEC623306A5986   Pit-Fighter/COUNTRY=BR/PRODUCT_NO=028250
 SMS ca082218 CC2A2FBFE47BE4D9   Pooyan/COUNTRY=KR
@@ -636,6 +636,8 @@ SMS 6ce7f694 8B297D82FFFB75DE   Super Columns/COUNTRY=KR/COMMENT=Unlicensed clon
 SMS 551e6f51 FA1DF196B3DCEDE6   Super Futebol II [Game Box Série Esportes]/COUNTRY=BR/PRODUCT_NO=028560/COMMENT=Part of "Game Box Série Esportes" compilation.
 SMS ba5d2776 1EBAD8829E4FF6EB   Super Game 200/COUNTRY=KR/EMU_MAPPER=20
 SMS edb13847 3EEA007A568DAECD   Super Game 45/COUNTRY=KR/EMU_MAPPER=21
+SMS a841c0b7 82F73F4413D9CF49   Super Game 52 Hap/COUNTRY=KR/EMU_MAPPER=20
+SMS ab07ecd4 BA49364933A43F68   Super Game World 260 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS 0cde0938 2DFBC7EBB5C63576   Super Game World 30 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS c29bb8cd F5394893312A6339   Super Game World 75 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50

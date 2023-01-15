@@ -146,6 +146,7 @@ They are usually of 2 kinds:
           SMS - d1a7b1aa - Olympic Gold (KR, BR)                --> Olympic Gold [v0]
           SMS - 6a5a1e39 - Olympic Gold                         --> Olympic Gold [v1]
           SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (US, BR)
+          SMS - 07301f83 - Phantasy Star [Megadrive] (JP)       --> Phantasy Star Fukkokuban [SMS-MD] (JP) (standardizing 'SMS-MD' labeling)
           SMS - 80eb1fff - Summer Games [Proto]                 --> Summer Games [Proto 1]
           SMS - 55bf81a0 - Super Monaco GP                      --> Super Monaco GP [v0]
           SMS - 3ef12baa - Super Monaco GP (US)                 --> Super Monaco GP [v1] (US)

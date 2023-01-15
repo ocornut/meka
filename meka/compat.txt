@@ -408,9 +408,9 @@
  Phantasy Star [v2]                             -       Ok
  Phantasy Star [v3]                             -       Ok
  Phantasy Star (JP)                             FM      Ok
- Phantasy Star [Megadrive] (JP)                 FM      Ok
  Phantasy Star (BR)                             -       Ok
  Phantasy Star (KR)                             -       Ok
+ Phantasy Star Fukkokuban [SMS-MD] (JP)         FM      Ok
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
@@ -550,6 +550,8 @@
  Super Futebol II [Game Box Série Esportes] (BR)-       Ok
  Super Game 200 (KR)                            -      *Ok
  Super Game 45 (KR)                             -      *Ok
+ Super Game 52 Hap (KR)                         -      *Ok
+ Super Game World 260 Hap (KR)                  -      *Ok
  Super Game World 30 Hap (KR)                   -      *Ok
  Super Game World 75 Hap (KR)                   -      *Ok
  Superman - The Man of Steel                    -       Ok
@@ -654,7 +656,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 634 games tested - 631 are "Ok"
+ 636 games tested - 633 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
