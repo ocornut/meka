@@ -549,6 +549,7 @@
  Super Columns (KR)                             -       Ok
  Super Futebol II [Game Box Série Esportes] (BR)-       Ok
  Super Game 200 (KR)                            -      *Ok
+ Super Game 45 (KR)                             -      *Ok
  Super Game World 30 Hap (KR)                   -      *Ok
  Super Game World 75 Hap (KR)                   -      *Ok
  Superman - The Man of Steel                    -       Ok
@@ -653,7 +654,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 633 games tested - 630 are "Ok" - Compatibility rate: 99.64%
+ 634 games tested - 631 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

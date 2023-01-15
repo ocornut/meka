@@ -503,6 +503,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_A000)
 }
 
 // Write function for Mapper #20: MAPPER_SMS_Korean_BFFC
+// (Note: somehow similar to #21)
 WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
 {
     if (Addr == 0xBFFC)
@@ -598,6 +599,37 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
         Map_8k_ROM(4, Value ^ 0x1d);
         Map_8k_ROM(5, Value ^ 0x1c);
         return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
+
+// Mapper #21
+// (Note: somehow similar to #20, see how #20 is written as it is somehow neater)
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE)
+{
+    if (Addr == 0xFFFE) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        // 0abcccccd
+        //  a (1-bit)  when 0 = map MSX BIOS in page 0 and 1, when 1 = use regular register
+        //  b (1-bit)  
+        //  c (5-bits)
+        //  d (1-bit)  
+        Map_8k_ROM(0, (((Value & 0x40) == 0x40) ? ((Value & 0x1e) * 2) : 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (((Value & 0x40) == 0x40) ? ((Value & 0x1e) * 2 + 1) : 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (((Value & 0x40) == 0x40) ? (((Value & 0x1e) + 1) * 2) : ((Value & 0x1f) * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (((Value & 0x40) == 0x40) ? (((Value & 0x1e) + 1) * 2 + 1) : ((Value & 0x1f) * 2 + 1)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (((Value & 0x60) == 0x20) ? ((Value & 0x1f) * 2 + 1) : 0x3f) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (((Value & 0x60) == 0x20) ? ((Value & 0x1f) * 2) : 0x3f) & tsms.Pages_Mask_8k);
+        //return;
     }
 
     switch (Addr >> 13)
