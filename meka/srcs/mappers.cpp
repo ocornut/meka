@@ -742,6 +742,42 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_FFF3_FFFC)
 
     Write_Error(Addr, Value);
 }
+
+// Mapper #23
+// Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave, Pooyan)
+WRITE_FUNC(Write_Mapper_SMS_Korean_0000_xor_FF)
+{
+    if (Addr == 0x0000) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        if ((Value & 0xF0) == 0xF0)
+        {
+            // 0xFF maps the same 16KB (of all 0xFF bytes!) twice
+            Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 2 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 3 & tsms.Pages_Mask_8k);
+        }
+        else {
+            int segment_start_8k = ((Value ^ 0xF0) & 0xF0) >> 2;
+            Map_8k_ROM(2, segment_start_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (segment_start_8k + 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (segment_start_8k + 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (segment_start_8k + 3) & tsms.Pages_Mask_8k);
+        }
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.

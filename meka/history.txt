@@ -47,6 +47,7 @@ They are usually of 2 kinds:
     - Added support for Korean xx-in-1 mapper at 0xBFFC for: 'Super Game 200'. [bsittler, Omar]
     - Added support for Korean xx-in-1 mapper at 0xFFFE for: 'Super Game 45'. [bsittler]
     - Added support for Korean xx-in-1 mapper at 0xFFF3,0xFFFC for: 'Super Game 150', 'Super Game 270'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0x0000 (xored 0xFF) for 'Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave, Pooyan)'. [bsittler]
     - Added support for SC-3000 Survivors Multicart mapper. [Omar,Honestbob]
     - Fixed 32K "No Mapper" mapper from forwarding 3-D Glasses writes. Fixes '3D Gunner'. [Omar]
     - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]

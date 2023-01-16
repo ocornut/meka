@@ -45,6 +45,9 @@
 ;  18 : sms korean xx-in-1, register at 0x0000 mapping 8 KB at 0x8000, register at 0x0100 mapping 8 KB at 0x4000, register at 0x0200 mapping 8 KB at 0xA000, register at 0x0300 mapping 8 KB at 0x6000
 ;  19 : sms korean xx-in-1, register at 0x2000 mapping 8x4 KB 0x4000-0xBFFF using register xored with 0x1F, 0x1E, 0x1D, 0x1C. 0x0000-0x3FFF stuck on bank 0. 
 ;  20 : sms korean xx-in-1, register at 0xBFFC, sms+msx
+;  21 : sms korean xx-in-1, register at 0xFFFE
+;  22 : sms korean xx-in-1, register at 0xFFF3 and 0xFFFC (mirrored 0xBFF3, 0xBFFC)
+;  23 : sms korean xx-in-1, register at 0x0000, xored with 0xFF
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -741,6 +744,7 @@ SMS b33e2827 6C4C3C65EF39ADD2   Y's: The Vanished Omens/NAME_BR=Y's/COUNTRY=US,E
 SMS e8b82066 06806D7C60FB9C9A   Y's: The Vanished Omens [Demo]/COUNTRY=US/FLAGS=PROTO//EMU_VDP=315-5124/COMMENT=Rolling non-interactive demo to advertise the game. Text in Japanese although this is an US demo cartridge.
 SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU,BR/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
 SMS bba74147 2D689EA985B828BF   Zaxxon 3-D [Proto]/NAME_JP=Zaxxon 3D/FLAGS=PROTO/EMU_3D/COMMENT=Unfinished prototype version of the game.
+SMS 7cd51467 488D49FF0599CE77   Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave, Pooyan)/COUNTRY=KR/EMU_MAPPER=23
 SMS 60c19645 39A919D7DA6933B8   Zillion [v0]/NAME_JP=Akai Koudan Zillion/COUNTRY=JP,EU/PRODUCT_NO=G-1325,5075
 SMS 5718762c 88E69FBAA2DA4974   Zillion [v1]/COUNTRY=US/PRODUCT_NO=5075     ; [EDITOR NOTE] Country listing for all 3 versions are based on what we found so far. It's probable that v1 and v2 were released in both US and EU.
 SMS 7ba54510 8AE29FB6A2DC4B76   Zillion [v2]/COUNTRY=EU/PRODUCT_NO=5075

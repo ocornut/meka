@@ -45,6 +45,7 @@
 #define MAPPER_SMS_Korean_BFFC                  (20)        // Register at 0xBFFC
 #define MAPPER_SMS_Korean_FFFE                  (21)        // Register at 0xFFFE (Super Game 45)
 #define MAPPER_SMS_Korean_FFF3_FFFC             (22)        // Registers at 0xFFF3 and 0xFFFC (Super Game 150, Super Game 270)
+#define MAPPER_SMS_Korean_0000_xor_FF           (23)        // Register at 0x0000 with MSX-oriented paging
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -86,6 +87,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_FFFF_HiCom);
 WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F);
 WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE);
 WRITE_FUNC (Write_Mapper_SMS_Korean_FFF3_FFFC);
+WRITE_FUNC (Write_Mapper_SMS_Korean_0000_xor_FF);
 //-----------------------------------------------------------------------------
 void Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v);
 

@@ -651,6 +651,7 @@
  Y's: The Vanished Omens [Demo]                 FM      Ok
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
  Zaxxon 3-D / Zaxxon 3D [Proto]                 (3D)    Ok
+ Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave..)(KR)-      *Ok
  Zillion [v0] / Akai Koudan Zillion             -       Ok
  Zillion [v1]                                   -       Ok
  Zillion [v2]                                   -       Ok
@@ -658,7 +659,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 638 games tested - 634 are "Ok"
+ 639 games tested - 635 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
