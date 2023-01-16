@@ -48,6 +48,7 @@
 ;  21 : sms korean xx-in-1, register at 0xFFFE
 ;  22 : sms korean xx-in-1, register at 0xFFF3 and 0xFFFC (mirrored 0xBFF3, 0xBFFC)
 ;  23 : sms korean xx-in-1, register at 0x0000, xored with 0xFF
+;  24 : sms korean xx-in-1, register at 0xFFF0, 0xFFFE, 0xFFFE (used in MD multicart with SMS games)
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -427,6 +428,7 @@ SMS 20f40cae 5B02852A4E1B3952   Master of Darkness \/ Vampire [Proto]/FLAGS=PROT
 SMS 93141463 6A32F08336B0FA11   Masters of Combat/COUNTRY=EU,AU,BR/PRODUCT_NO=7124,9028/COMMENT=Master System version of "Buster Fight" on the Game Gear.
 SMS 31b8040b 8775EA954C13F531   Maze Hunter 3-D/COUNTRY=US,EU,BR/PRODUCT_NO=8003/EMU_3D/COMMENT=Export version of "Maze Walker".
 SMS 871562b0 6F10F2363597F697   Maze Walker/COUNTRY=JP,KR/PRODUCT_NO=G-1345,GB-1345/EMU_3D/COMMENT=Japanese version of "Maze Hunter 3-D".
+SMS 919b4b6e A7D1D652604B1D98   Mega Mode Super Game 30 [SMS-MD]/COUNTRY=KR/PRODUCT_NO=SA-3001/EMU_MAPPER=24
 SMS 29bc7fad 9AE49900AF32A95F   Megumi Rescue/COUNTRY=JP/PRODUCT_NO=G-1359/EMU_INPUTS=PADDLE
 SMS d7416b83 0C2287D260615D5B   Mercs/COUNTRY=EU,BR/PRODUCT_NO=9007
 SMS 25051dd5 61223A2720C539FE   Mickey's Ultimate Challenge/COUNTRY=BR/PRODUCT_NO=028700/COMMENT=This is a port from the Game Gear version.
