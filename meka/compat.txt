@@ -299,6 +299,7 @@
  Incredible Hulk, The                           -       Ok
  Indiana Jones and the Last Crusade             -       Ok
  Indiana Jones and the Last Crusade [Proto]     -       Ok
+ Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD]    -      *Ok
  James Bond 007: The Duel                       -       Ok
  James Bond 007: The Duel (BR)                  -       Ok
  James "Buster" Douglas Knockout Boxing         -       Ok
@@ -660,7 +661,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 640 games tested - 636 are "Ok"
+ 641 games tested - 637 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
