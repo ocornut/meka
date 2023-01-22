@@ -520,26 +520,31 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
             upper = (Value & 0x3E) | 1;
             Map_16k_ROM(0, (lower & mask_16) * 2);
             Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (0x3f & mask_16) * 2 + 1); // actually should be open bus
+            Map_8k_ROM(5, (0x3f & mask_16) * 2 + 1); // actually should be open bus
             break;
         case 0x40: // 16 KB SMS/SG game
             lower = upper = (Value & 0x3F);
             Map_16k_ROM(0, (lower & mask_16) * 2);
             Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (0x3f & mask_16) * 2 + 1); // actually should be open bus
+            Map_8k_ROM(5, (0x3f & mask_16) * 2 + 1); // actually should be open bus
             break;
         case 0x80: // MSX Regular (16 KB bios + 16 KB ROM)
             lower = 0x20;
             upper = (Value & 0x3F);
             Map_16k_ROM(0, (lower & mask_16) * 2);
             Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (0x3f & mask_16) * 2 + 1); // actually should be open bus
+            Map_8k_ROM(5, (0x3f & mask_16) * 2 + 1); // actually should be open bus
             break;
-        case 0xC0: // MSX Namco (16 KB bios + 2x8 KB ROM each mirrored once)
+        case 0xC0: // MSX Namco (16 KB bios + 2x8 KB ROM each mirrored once in A B B A order)
             lower = 0x20;
             upper = (Value & 0x3F);
             Map_16k_ROM(0, (lower & mask_16) * 2);
-            Map_8k_ROM (2, (upper & mask_16) * 2);
-            Map_8k_ROM (3, (upper & mask_16) * 2);
-            Map_8k_ROM (4, (upper & mask_16) * 2 + 1);
-            Map_8k_ROM (5, (upper & mask_16) * 2 + 1);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (upper & mask_16) * 2 + 1);
+            Map_8k_ROM(5, (upper & mask_16) * 2);
             break;
         }
 

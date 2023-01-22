@@ -552,6 +552,7 @@
  Super Columns (KR)                             -       Ok
  Super Futebol II [Game Box Série Esportes] (BR)-       Ok
  Super Game 150 (KR)                            -      *Ok
+ Super Game 180 (KR)                            -      *Ok
  Super Game 200 (KR)                            -      *Ok
  Super Game 270 (KR)                            -      *Ok
  Super Game 45 (KR)                             -      *Ok
@@ -662,7 +663,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 642 games tested - 638 are "Ok"
+ 643 games tested - 639 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
