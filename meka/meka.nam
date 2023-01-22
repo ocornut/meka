@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2023/01/15
+; Last updated 2023/01/22
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -49,6 +49,8 @@
 ;  22 : sms korean xx-in-1, register at 0xFFF3 and 0xFFFC (mirrored 0xBFF3, 0xBFFC)
 ;  23 : sms korean xx-in-1, register at 0x0000, xored with 0xFF
 ;  24 : sms korean xx-in-1, register at 0xFFF0, 0xFFFE, 0xFFFE (used in MD multicart with SMS games)
+;  25 : sms korean xx-in-1, register at 0xFFF5, 0xFFFE, 0xFFFE (used in MD multicart with SMS games)
+;  26 : sms korean xx-in-1, register at 0xFFFA, 0xFFFE, 0xFFFE (used in MD multicart with SMS games)
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -299,6 +301,7 @@ SMS a4ac35d8 0B932CEAD9975587   Galaxy Force/COUNTRY=EU,BR/PRODUCT_NO=29001
 SMS 5fc74d2a 1EE251A5D9687455   Gangster Town/COUNTRY=US,EU,BR/EMU_INPUTS=LIGHTPHASER/EMU_IPERIOD=258/PRODUCT_NO=5074,023120   ; [EDITOR-NOTE] BR blue box version is 023120. BR cardboard version has no product_no.
 SMS 1890f407 EF924BC5AE023A85   Game Box Série Esportes Radicais/COUNTRY=BR/PRODUCT_NO=023480/COMMENT=Hacked version of "California Games" with only two events left. Released by Tec Toy.
 SMS 9afab511 F87F393D06469C2B   Game De Check! Koutsuu Anzen [Proto]/COUNTRY=JP/COMMENT=Unreleased not-for-sale educative game.
+SMS c0e098a6 9A232DF2D8AB4A57   Game Jiphap 30 Hap [SMS-MD]/COUNTRY=KR/EMU_MAPPER=26
 SMS 380d7400 DD6520742A9CBCA8   Game Mo-eumjip 188 Hap/COUNTRY=KR/EMU_MAPPER=19
 SMS ad522efd 8D03BD7E1EFB021A   Gangcheol RoboCop/COUNTRY=KR/PRODUCT_NO=SI-3131G
 SMS d9190956 0DD3230F6E789E6A   Gauntlet/COUNTRY=EU,BR/PRODUCT_NO=25006-50

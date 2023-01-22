@@ -878,6 +878,49 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5)
 
     Write_Error (Addr, Value);
 } 
+
+// Mapper #26
+// Game Jiphap 30 Hap [SMS-MD] (KR)
+WRITE_FUNC(Write_Mapper_SMS_Korean_MD_FFFA)
+{
+    if (Addr == 0xFFFA) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        g_machine.mapper_regs[1] = 0;
+        g_machine.mapper_regs[2] = 1;
+        Map_8k_ROM(0, (Value * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (Value * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (Value * 2 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 2 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if (Addr == 0xFFFF)
+    {
+        g_machine.mapper_regs[1] = Value;
+        Map_8k_ROM(4, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if (Addr == 0xFFFE)
+    {
+        g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(2, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
