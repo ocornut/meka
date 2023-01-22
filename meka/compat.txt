@@ -221,6 +221,7 @@
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
+ Game Chongjiphap 200 (KR)                      -      *Ok
  Game De Check! Koutsuu Anzen [Proto] (JP)      FM      Ok
  Game Jiphap 30 Hap [SMS-MD] (KR)               -      *Ok
  Gangcheol RoboCop (KR)                         -       Ok
@@ -555,6 +556,7 @@
  Super Game 180 (KR)                            -      *Ok
  Super Game 200 (KR)                            -      *Ok
  Super Game 270 (KR)                            -      *Ok
+ Super Game 270 Hap ~ Jaemissneun-270 (KR)      -      *Ok
  Super Game 45 (KR)                             -      *Ok
  Super Game 52 Hap (KR)                         -      *Ok
  Super Game World 260 Hap (KR)                  -      *Ok
@@ -663,7 +665,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 643 games tested - 639 are "Ok"
+ 645 games tested - 641 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
