@@ -1000,7 +1000,9 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003)
 // Write function for mapper #18: MAPPER_SMS_Korean_MSX_8KB_0300
 WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_8KB_0300)
 {
-    switch (Addr)
+    const int incomplete_address_decoding_mask = 0xFF00;
+    const u16 addr_assumed = Addr & incomplete_address_decoding_mask;
+    switch (addr_assumed)
     {
     case 0x0000:
     {
