@@ -144,6 +144,26 @@ void        Load_Game_Fixup(void)
         case MAPPER_SMS_Korean_MSX_32KB_2000:
             WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
             break;
+        case MAPPER_GG_Super_12_in_1_FFFE:
+            if (1) {
+                const int in_menu_mode = (g_machine.mapper_regs[0] & 0x08) == 0x00;
+                const int mapbase = g_machine.mapper_regs[0] & 0xF1;
+                const int reg1 = g_machine.mapper_regs[2] & 0x1F;
+                const int reg0 = g_machine.mapper_regs[1] & 0x1F;
+                WrZ80_NoHook(0xFFFE, 0xE0); // Meka extension: mapper reset to menu mode
+                WrZ80_NoHook(0xFFFE, 0x40 | ((mapbase & 0xE0) >> 4) | (mapbase & 0x01));
+                WrZ80_NoHook(0xFFFE, mapbase & 0x10);
+                if (in_menu_mode) {
+                    // Meka extension: reliable mapper register restoration in menu mode
+                    WrZ80_NoHook(0xFFFE, 0x80 | reg1);
+                    WrZ80_NoHook(0xFFFF, reg0);
+                } else {
+                    WrZ80_NoHook(0xFFFF, 0x40);
+                    WrZ80_NoHook(0xFFFE, reg1);
+                    WrZ80_NoHook(0xFFFF, reg0);
+                }
+            }
+            break;
         }
     }
 
@@ -339,6 +359,7 @@ int     Save_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_Super_12_in_1_FFFE:
     default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -518,6 +539,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_Super_12_in_1_FFFE:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;

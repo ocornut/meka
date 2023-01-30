@@ -1405,6 +1405,10 @@
  Street Hero [Proto 1] [SMS-GG]                     Ok
  Strider Returns                                    Ok
  Striker                                            Ok
+ Super 5 in 1 Game Gear [Mortal Kombat] [Super 12 in 1] *Ok
+ Super 7 in 1 Game Gear [Bare Knuckle 2] [Super 12 in 1] *Ok
+ Super 12 in 1 Game Gear [Bare Knuckle 2]          *Ok
+ Super 12 in 1 Game Gear [Mortal Kombat]           *Ok
  Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
@@ -1498,7 +1502,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 521 games tested - 510 are "Ok" - Compatibility rate: 97.89%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
