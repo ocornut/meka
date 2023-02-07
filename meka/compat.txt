@@ -16,6 +16,7 @@
  SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  128 Hap (KR)                                   -      *Ok
+ 2 Hap in 1 - David-2 ~ Moai-ui bomul           -      *Ok
  20 em 1 (BR)                                   -       Ok
  3D Gunner [Proto]                              LP,3D   Ok
  4 PAK All Action (AU)                          -       Ok
@@ -665,7 +666,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 645 games tested - 641 are "Ok"
+ 646 games tested - 642 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
