@@ -13,7 +13,8 @@
  PAD/(PAD): Requires/Supports Paddle Control (ala Steering Wheel)
  SP/(SP):   Requires/Supports Sports Pad Controller
  3D:        Uses 3-D Glasses
- SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
+ SMS-GG:    This version is a GG cartridge using the SMS compatibility mode
+ SMS-MD:    This version is an MD cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  128 Hap (KR)                                   -      *Ok
  20 em 1 (BR)                                   -       Ok
@@ -302,6 +303,7 @@
  Indiana Jones and the Last Crusade             -       Ok
  Indiana Jones and the Last Crusade [Proto]     -       Ok
  Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD]    -      *Ok
+ Jaemiissneun Game Mo-eumjip 65 Hap [SMS-MD]    -      *Ok
  James Bond 007: The Duel                       -       Ok
  James Bond 007: The Duel (BR)                  -       Ok
  James "Buster" Douglas Knockout Boxing         -       Ok
@@ -356,6 +358,7 @@
  Maze Walker (JP)                               FM,3D   Ok
  Megumi Rescue (JP)                             FM,PAD  Ok
  Mercs                                          -       Ok
+ Mega Mode Super Game 138 [SMS-MD] (KR)         -      *Ok
  Mega Mode Super Game 30 [SMS-MD] (KR)          -      *Ok
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
@@ -415,6 +418,7 @@
  Phantasy Star (BR)                             -       Ok
  Phantasy Star (KR)                             -       Ok
  Phantasy Star Fukkokuban [SMS-MD] (JP)         FM      Ok
+ Pigu-Wang 7 Hap ~ Jaemiiss-neun Game Mo-eumjip [SMS-MD] -      *Ok
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
@@ -665,7 +669,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 645 games tested - 641 are "Ok"
+ 648 games tested - 644 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
