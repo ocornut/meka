@@ -926,6 +926,30 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_MD_FFFA)
     Write_Error(Addr, Value);
 }
 
+// Mapper #27
+// 2 Hap in 1 - David-2 ~ Moai-ui bomul
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
+{
+    if (Addr == 0x2000) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(2, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 4 + 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 4 + 5) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
