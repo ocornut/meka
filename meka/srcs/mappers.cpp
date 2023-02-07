@@ -860,7 +860,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5)
         Map_8k_ROM(5, (Value * 4 + 3) & tsms.Pages_Mask_8k);
         //return;
     }
-    Map_8k_ROM(2, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2) & tsms.Pages_Mask_8k);
+    const unsigned int mapper_page_mask_16k = g_machine.mapper_regs[0] >= 0x10 ? 0x1f : 0x0f;
     if ((Addr | incomplete_address_decoding) == 0xFFFE)
     {
         g_machine.mapper_regs[1] = Value;
