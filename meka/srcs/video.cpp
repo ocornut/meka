@@ -143,11 +143,7 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
     // Create new display
     int display_flags = driver->flags;
     if (fullscreen)
-#if ARCH_MACOSX
-        display_flags |= ALLEGRO_FULLSCREEN_WINDOW; // FIXME: Expose/use FULLSCREEN_WINDOW everywhere?
-#else
-        display_flags |= ALLEGRO_FULLSCREEN;
-#endif
+        display_flags |= ALLEGRO_FULLSCREEN_WINDOW;
     else
         display_flags |= ALLEGRO_WINDOWED;
     al_set_new_display_flags(display_flags);
