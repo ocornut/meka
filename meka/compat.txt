@@ -419,7 +419,7 @@
  Phantasy Star (BR)                             -       Ok
  Phantasy Star (KR)                             -       Ok
  Phantasy Star Fukkokuban [SMS-MD] (JP)         FM      Ok
- Pigu-Wang 7 Hap ~ Jaemiiss-neun Game Mo-eumjip [SMS-MD] (KR) - *Ok
+ Pigu-Wang 7 Hap - Jaemiiss-neun Game Mo-eumjip (KR) - *Ok
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
