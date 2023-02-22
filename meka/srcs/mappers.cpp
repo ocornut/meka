@@ -826,7 +826,8 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF0)
 } 
 
 // Mapper #25
-// Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD]
+// Jaemiissneun Game Mo-eumjip 42/65 Hap [SMS-MD]
+// Pigu-Wang 7 Hap ~ Jaemiiss-neun Game Mo-eumjip [SMS-MD]
 WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5)
 {
     // These bits in the address apparently are not checked when
@@ -859,18 +860,19 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5)
         Map_8k_ROM(5, (Value * 4 + 3) & tsms.Pages_Mask_8k);
         //return;
     }
+    const unsigned int mapper_page_mask_16k = g_machine.mapper_regs[0] >= 0x10 ? 0x1f : 0x0f;
     if ((Addr | incomplete_address_decoding) == 0xFFFE)
     {
         g_machine.mapper_regs[1] = Value;
-        Map_8k_ROM(2, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
-        Map_8k_ROM(3, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2 + 1) & tsms.Pages_Mask_8k);
         //return;
     }
     if ((Addr | incomplete_address_decoding) == 0xFFFF)
     {
         g_machine.mapper_regs[2] = Value;
-        Map_8k_ROM(4, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
-        Map_8k_ROM(5, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2 + 1) & tsms.Pages_Mask_8k);
         //return;
     }
 

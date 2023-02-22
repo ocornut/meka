@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2023/01/22
+; Last updated 2023/02/13
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -304,7 +304,8 @@ SMS 1890f407 EF924BC5AE023A85   Game Box Série Esportes Radicais/COUNTRY=BR/PRO
 SMS 38b3a72f 63B3EE2924E6EFDA   Game Chongjiphap 200/COUNTRY=KR/EMU_MAPPER=18
 SMS 9afab511 F87F393D06469C2B   Game De Check! Koutsuu Anzen [Proto]/COUNTRY=JP/COMMENT=Unreleased not-for-sale educative game.
 SMS c0e098a6 9A232DF2D8AB4A57   Game Jiphap 30 Hap [SMS-MD]/COUNTRY=KR/EMU_MAPPER=26
-SMS 380d7400 DD6520742A9CBCA8   Game Mo-eumjip 188 Hap/COUNTRY=KR/EMU_MAPPER=19
+SMS 380d7400 DD6520742A9CBCA8   Game Mo-eumjip 188 Hap [v0]/COUNTRY=KR/EMU_MAPPER=19
+SMS c76601e0 DE651F732B9CBCA8   Game Mo-eumjip 188 Hap [v1]/COUNTRY=KR/EMU_MAPPER=19/COMMENT=Minor variation affecting the starting level of entries 101 to 104.
 SMS ad522efd 8D03BD7E1EFB021A   Gangcheol RoboCop/COUNTRY=KR/PRODUCT_NO=SI-3131G
 SMS d9190956 0DD3230F6E789E6A   Gauntlet/COUNTRY=EU,BR/PRODUCT_NO=25006-50
 SMS a64898ce E466186F844A540D   George Foreman's KO Boxing/COUNTRY=EU,BR/PRODUCT_NO=MK-27041-50,026180
@@ -382,6 +383,7 @@ SMS be9a7071 19CC267376518536   Incredible Hulk, The/COUNTRY=EU,BR/PRODUCT_NO=29
 SMS 8aeb574b 17779413DD492085   Indiana Jones and the Last Crusade/COUNTRY=EU,BR,PT/NAME_BR=Indiana Jones e a Última Cruzada/PRODUCT_NO=27008-50,027079
 SMS acec894d 64EA5CF36D9CD486   Indiana Jones and the Last Crusade [Proto]/FLAGS=PROTO/COUNTRY=US/COMMENT=Prototype version of the game.
 SMS f60e71ec 476097D9BFBB1C53   Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD]/COUNTRY=KR/EMU_MAPPER=25
+SMS 53904167 88554C664810D445   Jaemiissneun Game Mo-eumjip 65 Hap [SMS-MD]/COUNTRY=KR/EMU_MAPPER=25
 SMS 8d23587f 5CEC5CB49DC68FB6   James Bond 007: The Duel/COUNTRY=EU/PRODUCT_NO=MK 27046-50
 SMS 8feff688 A022B16F114CDAE7   James Bond 007: The Duel/COUNTRY=BR/PRODUCT_NO=027230
 SMS 6a664405 97C27C98AF09FCDF   James "Buster" Douglas Knockout Boxing/COUNTRY=US/PRODUCT_NO=7063/COMMENT=Same game as "George Foreman's KO Boxing" and "Heavyweight Champ".
@@ -435,6 +437,7 @@ SMS 93141463 6A32F08336B0FA11   Masters of Combat/COUNTRY=EU,AU,BR/PRODUCT_NO=71
 SMS 31b8040b 8775EA954C13F531   Maze Hunter 3-D/COUNTRY=US,EU,BR/PRODUCT_NO=8003/EMU_3D/COMMENT=Export version of "Maze Walker".
 SMS 871562b0 6F10F2363597F697   Maze Walker/COUNTRY=JP,KR/PRODUCT_NO=G-1345,GB-1345/EMU_3D/COMMENT=Japanese version of "Maze Hunter 3-D".
 SMS 919b4b6e A7D1D652604B1D98   Mega Mode Super Game 30 [SMS-MD]/COUNTRY=KR/PRODUCT_NO=SA-3001/EMU_MAPPER=24
+SMS 7f667485 22B314C00393348D   Mega Mode Super Game 138 [SMS-MD]/COUNTRY=KR/EMU_MAPPER=25
 SMS 29bc7fad 9AE49900AF32A95F   Megumi Rescue/COUNTRY=JP/PRODUCT_NO=G-1359/EMU_INPUTS=PADDLE
 SMS d7416b83 0C2287D260615D5B   Mercs/COUNTRY=EU,BR/PRODUCT_NO=9007
 SMS 25051dd5 61223A2720C539FE   Mickey's Ultimate Challenge/COUNTRY=BR/PRODUCT_NO=028700/COMMENT=This is a port from the Game Gear version.
@@ -500,6 +503,7 @@ SMS 00bef1d7 ABD447F2F23F56C1   Phantasy Star [v3]/COUNTRY=US,EU/PRODUCT_NO=9500
 SMS 75971bef 1B751562EAF667B2   Phantasy Star/COUNTRY=BR/PRODUCT_NO=029010
 SMS 747e83b5 4CB57E6A76C6CF0C   Phantasy Star/COUNTRY=KR/PRODUCT_NO=GB 4014KS
 SMS 07301f83 A8CCBAD5B519DA55   Phantasy Star Fukkokuban [SMS-MD]/COUNTRY=JP/PRODUCT_NO=G-4534/COMMENT=This is the Sega Megadrive version, as reissued in Japan on April 2nd, 1994. It was later included in "Phantasy Star Collection" for the Sega Saturn.
+SMS c0ac6956 468A729CE9D4A6BF   Pigu-Wang 7 Hap - Jaemiiss-neun Game Mo-eumjip/COUNTRY=KR/EMU_MAPPER=25
 SMS b840a446 99682219F73E5738   Pit-Fighter/COUNTRY=EU/PRODUCT_NO=MK 29009-50
 SMS aa4d4b5a B0EEC623306A5986   Pit-Fighter/COUNTRY=BR/PRODUCT_NO=028250
 SMS ca082218 CC2A2FBFE47BE4D9   Pooyan/COUNTRY=KR
@@ -653,7 +657,7 @@ SMS d3056492 1537C90CFD960E3E   Super Game 270 Hap ~ Jaemissneun-270/COUNTRY=KR/
 SMS edb13847 3EEA007A568DAECD   Super Game 45/COUNTRY=KR/EMU_MAPPER=21
 SMS a841c0b7 82F73F4413D9CF49   Super Game 52 Hap/COUNTRY=KR/EMU_MAPPER=20
 SMS ab07ecd4 BA49364933A43F68   Super Game World 260 Hap/COUNTRY=KR/EMU_MAPPER=18
-SMS 0cde0938 2DFBC7EBB5C63576   Super Game World 30 Hap/COUNTRY=KR/EMU_MAPPER=18
+SMS 0cde0938 2DFBC7EBB5C63576   Super Game World 30 Hap/COUNTRY=KR/EMU_MAPPER=18/COMMENT=Variation of "Super World 30 Hap"
 SMS c29bb8cd F5394893312A6339   Super Game World 75 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
@@ -675,6 +679,7 @@ SMS 1d6244ee A2F23281E94DB5CE   Super Space Invaders/COUNTRY=EU/PRODUCT_NO=MK 27
 SMS 914514e3 F799F9C458560EF7   Super Tennis/COUNTRY=US,EU,DE/PRODUCT_NO=4007,4507,41010
 SMS bd1cc7df 230C5D2B35293BB0   Super Tetris/COMMENT=Unlicensed Tetris clone. 
 SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
+SMS e6ad4d4b 4BD0AAA2A4BBE05A   Super World 30 Hap/COUNTRY=KR/EMU_MAPPER=18/COMMENT=Variation of "Super Game World 30 Hap".
 SMS 93ca8152 BC18F17F4F471214   T2: The Arcade Game/COUNTRY=EU/PRODUCT_NO=MK-27061-50
 SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
 SMS 1cdcf415 B68CF0B91B594859   Taito Chase H.Q. [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.

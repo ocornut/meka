@@ -13,7 +13,8 @@
  PAD/(PAD): Requires/Supports Paddle Control (ala Steering Wheel)
  SP/(SP):   Requires/Supports Sports Pad Controller
  3D:        Uses 3-D Glasses
- SMS/GG:    This version is a GG cartridge using the SMS compatibility mode
+ SMS-GG:    This version is a GG cartridge using the SMS compatibility mode
+ SMS-MD:    This version is an MD cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  128 Hap (KR)                                   -      *Ok
  2 Hap in 1 - David-2 ~ Moai-ui bomul           -      *Ok
@@ -214,7 +215,8 @@
  Fushigi no Oshiro Pit Pot (JP)                 -       Ok
  Fushigi no Oshiro Pit Pot [Proto] (JP)         -       Ok
  Gaegujangi Kkachi (KR)                         -       Ok
- Game Mo-eumjip 188 Hap (KR)                    -       Ok
+ Game Mo-eumjip 188 Hap [v0] (KR)               -       Ok
+ Game Mo-eumjip 188 Hap [v1] (KR)               -     **Ok
  Gain Ground                1                   -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
@@ -302,7 +304,8 @@
  Incredible Hulk, The                           -       Ok
  Indiana Jones and the Last Crusade             -       Ok
  Indiana Jones and the Last Crusade [Proto]     -       Ok
- Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD]    -      *Ok
+ Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD] (KR) -    *Ok
+ Jaemiissneun Game Mo-eumjip 65 Hap [SMS-MD] (KR) -    *Ok
  James Bond 007: The Duel                       -       Ok
  James Bond 007: The Duel (BR)                  -       Ok
  James "Buster" Douglas Knockout Boxing         -       Ok
@@ -358,6 +361,7 @@
  Megumi Rescue (JP)                             FM,PAD  Ok
  Mercs                                          -       Ok
  Mega Mode Super Game 30 [SMS-MD] (KR)          -      *Ok
+ Mega Mode Super Game 138 [SMS-MD] (KR)         -      *Ok
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
  Micro Xevious, The (KR)                        -       Ok
@@ -416,6 +420,7 @@
  Phantasy Star (BR)                             -       Ok
  Phantasy Star (KR)                             -       Ok
  Phantasy Star Fukkokuban [SMS-MD] (JP)         FM      Ok
+ Pigu-Wang 7 Hap - Jaemiiss-neun Game Mo-eumjip (KR) - *Ok
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
@@ -553,16 +558,16 @@
  Super Bubble Bobble (KR)                       -       Ok
  Super Columns (KR)                             -       Ok
  Super Futebol II [Game Box Série Esportes] (BR)-       Ok
+ Super Game 45 (KR)                             -      *Ok
+ Super Game 52 Hap (KR)                         -      *Ok
  Super Game 150 (KR)                            -      *Ok
  Super Game 180 (KR)                            -      *Ok
  Super Game 200 (KR)                            -      *Ok
  Super Game 270 (KR)                            -      *Ok
  Super Game 270 Hap ~ Jaemissneun-270 (KR)      -      *Ok
- Super Game 45 (KR)                             -      *Ok
- Super Game 52 Hap (KR)                         -      *Ok
- Super Game World 260 Hap (KR)                  -      *Ok
  Super Game World 30 Hap (KR)                   -      *Ok
  Super Game World 75 Hap (KR)                   -      *Ok
+ Super Game World 260 Hap (KR)                  -      *Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
  Super Monaco GP [v0]                           -       Ok
@@ -582,6 +587,7 @@
  Super Tennis                                   -       Ok
  Super Tetris                                   -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
+ Super World 30 Hap (KR)                        -      *Ok
  T2: The Arcade Game                            -       Ok
  Taito Chase H.Q.                               -       Ok
  Taito Chase H.Q. [Proto]                       -       Ok
@@ -666,7 +672,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 646 games tested - 642 are "Ok"
+ 651 games tested - 647 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
