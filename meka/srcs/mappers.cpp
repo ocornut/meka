@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -950,6 +953,66 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #29
+// Super GG 15 [Cliffhanger] [Gold & Yellow Label]
+WRITE_FUNC(Write_Mapper_GG_Super_GG_15_BFFF_FFFF)
+{
+    // TODO: implement the various restrictions found in the hardware,
+    // e.g. requiring mode bit 0x04 to access the second 512KB of the
+    // ROM.
+    if ((Addr == 0xBFFF) || (Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0xBFFF) {
+            unsigned int high_page_offset = 0;
+            if (g_machine.mapper_regs[0] == 0x0c) {
+                unsigned int mask = (g_machine.mapper_regs[1] & 0xF0) ? 0xF0 : 0xFE;
+                g_machine.mapper_regs[3] = g_machine.mapper_regs[1] & mask;
+                if (mask == 0xF0) {
+                    high_page_offset = g_machine.mapper_regs[1] & 0x0F;
+                }
+            }
+            g_machine.mapper_regs[0] = Value;
+            g_machine.mapper_regs[1] = high_page_offset;
+            g_machine.mapper_regs[2] = 1;
+            if (Value & 0x10) {
+                drv_set(DRV_SMS);
+            } else {
+                drv_set(DRV_GG);
+            }
+            gamebox_resize_all();
+            VDP_UpdateLineLimits();
+            Video_GameMode_UpdateBounds();
+        }
+        else if (Addr == 0xFFFF)
+        {
+            g_machine.mapper_regs[1] = Value;
+        }
+        else if (Addr == 0xFFFE)
+        {
+            g_machine.mapper_regs[2] = Value;
+        }
+        Map_8k_ROM(0, (g_machine.mapper_regs[3] * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (g_machine.mapper_regs[3] * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (g_machine.mapper_regs[3] * 2 + g_machine.mapper_regs[2] * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (g_machine.mapper_regs[3] * 2 + g_machine.mapper_regs[2] * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (g_machine.mapper_regs[3] * 2 + g_machine.mapper_regs[1] * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (g_machine.mapper_regs[3] * 2 + g_machine.mapper_regs[1] * 2 + 1) & tsms.Pages_Mask_8k);
+        if (Addr == 0xBFFF) {
+            // no RAM shadowing for writes to this address
+            return;
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
