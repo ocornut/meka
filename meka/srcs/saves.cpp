@@ -16,6 +16,8 @@
 #include "vmachine.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -26,6 +28,7 @@ void        Load_Game_Fixup(void)
 {
     int     i;
     u8      b;
+    bool    sms_gg_mode_in_mapper = false;
 
     // CPU
     #ifdef MARAT_Z80
@@ -144,6 +147,24 @@ void        Load_Game_Fixup(void)
         case MAPPER_SMS_Korean_MSX_32KB_2000:
             WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
             break;
+        case MAPPER_GG_Gear_20_in_1_FFFF_FFFE_button:
+            SRAM[0x7FFF] = 0xAA;
+            SRAM[0x7FFE] = g_machine.mapper_regs[0];
+            // FIXME: don't know yet how the mapper decides which games need SMS-GG mode
+            if ((g_machine.mapper_regs[0] <= 0x1F) | ((g_machine.mapper_regs[0] >= 0x38) && (g_machine.mapper_regs[0] <= 0x3E))) {
+                drv_set(DRV_GG);
+            } else {
+                drv_set(DRV_SMS);
+            }
+            gamebox_resize_all();
+            VDP_UpdateLineLimits();
+            Video_GameMode_UpdateBounds();
+            Map_8k_ROM(0, ((g_machine.mapper_regs[0]) * 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, ((g_machine.mapper_regs[0]) * 2 + 1) & tsms.Pages_Mask_8k);
+            WrZ80_NoHook(0xFFFF, g_machine.mapper_regs[1]);
+            WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[2]);
+            sms_gg_mode_in_mapper = true;
+            break;
         case MAPPER_SMS_Korean_MSX_SMS_8000:
             {
                 int mapper_page = g_machine.mapper_regs[0];
@@ -155,9 +176,11 @@ void        Load_Game_Fixup(void)
     }
 
     // VDP/Graphic related
-    tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
-    VDP_UpdateLineLimits();
-    // FALSE!!! // tsms.VDP_Line = 224;
+    if (!sms_gg_mode_in_mapper) {
+        tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
+        VDP_UpdateLineLimits();
+        // FALSE!!! // tsms.VDP_Line = 224;
+    }
 
     // Rewrite all VDP registers (we can do that since it has zero side-effect)
     for (i = 0; i < 16; i ++)
@@ -346,6 +369,7 @@ int     Save_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_Gear_20_in_1_FFFF_FFFE_button:
     case MAPPER_SMS_Korean_MSX_SMS_8000:
     default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
@@ -526,6 +550,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_Gear_20_in_1_FFFF_FFFE_button:
     case MAPPER_SMS_Korean_MSX_SMS_8000:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
