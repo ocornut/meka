@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -950,6 +953,66 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #30
+// Turbo 9 in 1
+WRITE_FUNC(Write_Mapper_GG_Turbo_9_in_1_8000_4000)
+{
+    if (Addr == 0x8000 || Addr == 0x4000) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0x8000) {
+            g_machine.mapper_regs[1] = Value;
+        }
+        if (Addr == 0x4000) {
+            g_machine.mapper_regs[2] = Value;
+        }
+        if ((g_machine.mapper_regs[2] == 0x11) && (g_machine.mapper_regs[0] == 0x80)) {
+            // use of 0x80 to signal the initial state is a Meka
+            // extension but does not conflict with the menu code's
+            // use of the mapper
+            g_machine.mapper_regs[0] = g_machine.mapper_regs[1];
+            g_machine.mapper_regs[1] = 0;
+            g_machine.mapper_regs[2] = 1;
+        } else if ((g_machine.mapper_regs[2] == 0x11) && (g_machine.mapper_regs[1] == 0x80)) {
+            // use of 0x80 to return to the initial state is a Meka
+            // extension but does not conflict with the menu code's
+            // use of the mapper, nor does it conflict with the one
+            // game that uses the mapper
+            g_machine.mapper_regs[0] = 0x80;
+            g_machine.mapper_regs[1] = 0;
+            g_machine.mapper_regs[2] = 1;
+        }
+        Map_8k_ROM(0, (g_machine.mapper_regs[0] * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (g_machine.mapper_regs[0] * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, ((g_machine.mapper_regs[0] + g_machine.mapper_regs[2]) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, ((g_machine.mapper_regs[0] + g_machine.mapper_regs[2]) * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, ((g_machine.mapper_regs[0] + g_machine.mapper_regs[1]) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, ((g_machine.mapper_regs[0] + g_machine.mapper_regs[1]) * 2 + 1) & tsms.Pages_Mask_8k);
+        // It is unclear how the cartridge decides whether to switch
+        // from native GG mode (which is the power-on default) to
+        // SMS-GG mode, but it appears to happen at the moment 0x11 is
+        // written to 0x4000 *unless* 0x0a was the most recent value
+        // previously written to 0x4000.
+        if ((g_machine.mapper_regs[0] != 0x80) && (g_machine.mapper_regs[0] != 0x0a)) {
+            drv_set(DRV_SMS);
+        } else {
+            drv_set(DRV_GG);
+        }
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8

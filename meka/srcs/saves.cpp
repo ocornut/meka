@@ -26,6 +26,7 @@ void        Load_Game_Fixup(void)
 {
     int     i;
     u8      b;
+    bool    sms_gg_mode_in_mapper = false;
 
     // CPU
     #ifdef MARAT_Z80
@@ -144,13 +145,33 @@ void        Load_Game_Fixup(void)
         case MAPPER_SMS_Korean_MSX_32KB_2000:
             WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
             break;
+        case MAPPER_GG_Turbo_9_in_1_8000_4000:
+            if (1) {
+                unsigned int base_page_16k = g_machine.mapper_regs[0];
+                unsigned int page_8000_offset_16k = g_machine.mapper_regs[1];
+                unsigned int page_4000_offset_16k = g_machine.mapper_regs[2];
+                // use of 0x80 to return to the initial state is a Meka
+                // extension but does not conflict with the menu code's
+                // use of the mapper, nor does it conflict with the one
+                // game that uses the mapper
+                WrZ80_NoHook(0x8000, 0x80);
+                WrZ80_NoHook(0x4000, 0x11);
+                WrZ80_NoHook(0x8000, base_page_16k);
+                WrZ80_NoHook(0x4000, 0x11);
+                WrZ80_NoHook(0x4000, page_4000_offset_16k);
+                WrZ80_NoHook(0x8000, page_8000_offset_16k);
+                sms_gg_mode_in_mapper = true;
+            }
+            break;
         }
     }
 
     // VDP/Graphic related
-    tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
-    VDP_UpdateLineLimits();
-    // FALSE!!! // tsms.VDP_Line = 224;
+    if (!sms_gg_mode_in_mapper) {
+        tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
+        VDP_UpdateLineLimits();
+        // FALSE!!! // tsms.VDP_Line = 224;
+    }
 
     // Rewrite all VDP registers (we can do that since it has zero side-effect)
     for (i = 0; i < 16; i ++)
@@ -339,6 +360,7 @@ int     Save_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_Turbo_9_in_1_8000_4000:
     default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -518,6 +540,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_Turbo_9_in_1_8000_4000:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
