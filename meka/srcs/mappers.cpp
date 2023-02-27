@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -950,6 +953,65 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #32
+// Super GG 68 in 1 [Sonic Adventure]
+// GG Super 56 in 1 (B) [Mega Man]
+WRITE_FUNC(Write_Mapper_GG_FFF8_FFF9_FFFA_FFFE_FFFF)
+{
+    if ((Addr == 0xFFF8) || (Addr == 0xFFF9) || (Addr == 0xFFFA) || (Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0xFFF8) {
+            g_machine.mapper_regs[5] = Value;
+        } else if (Addr == 0xFFF9) {
+            g_machine.mapper_regs[4] = Value;
+        } else if (Addr == 0xFFFA) {
+            g_machine.mapper_regs[3] = Value;
+        } else if (Addr == 0xFFFE) {
+            g_machine.mapper_regs[2] = Value;
+        } else if (Addr == 0xFFFF) {
+            g_machine.mapper_regs[1] = Value;
+        }
+        if (Addr == 0xFFF8 || Addr == 0xFFFA) {
+            bool second_megabyte_active = (g_machine.mapper_regs[4] & 0x12) || (g_machine.mapper_regs[3] & 0x04);
+            bool sega_mapper_active = (g_machine.mapper_regs[4] & 0x1E) || (g_machine.mapper_regs[3] & 0x04);
+            g_machine.mapper_regs[0] = (g_machine.mapper_regs[5] & 0x1F) | (second_megabyte_active ? 0x20 : 0x00) | (sega_mapper_active ? 0x80 : 0x00);
+            bool sms_gg_mode_active = (g_machine.mapper_regs[4] & 0x80) || (g_machine.mapper_regs[3] & 0x01);
+            if (sms_gg_mode_active) {
+                drv_set(DRV_SMS);
+            } else {
+                drv_set(DRV_GG);
+            }
+        }
+        if (1) {
+            bool sega_mapper_active = g_machine.mapper_regs[0] & 0x80;
+            bool second_megabyte_active = g_machine.mapper_regs[0] & 0x20;
+            unsigned int sega_mapper_mask = sega_mapper_active ? (second_megabyte_active ? 0x1F : 0x0F) : 0x01;
+            unsigned int page_0000_8k = (g_machine.mapper_regs[0] & 0x3F) * 4;
+            unsigned int page_4000_8k = page_0000_8k + ((g_machine.mapper_regs[2] & sega_mapper_mask) * 2);
+            unsigned int page_8000_8k = page_0000_8k + ((g_machine.mapper_regs[1] & sega_mapper_mask) * 2);
+            Map_8k_ROM(0, page_0000_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (page_0000_8k | 0x01) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, page_4000_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (page_4000_8k | 0x01) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, page_8000_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (page_8000_8k | 0x01) & tsms.Pages_Mask_8k);
+        }
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Mapper #40
