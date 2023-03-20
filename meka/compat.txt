@@ -17,7 +17,7 @@
  SMS-MD:    This version is an MD cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
  128 Hap (KR)                                   -      *Ok
- 2 Hap in 1 - David-2 ~ Moai-ui bomul           -      *Ok
+ 2 Hap in 1 (Moai-ui bomul, David-2) (KR)       -      *Ok
  20 em 1 (BR)                                   -       Ok
  3D Gunner [Proto]                              LP,3D   Ok
  4 PAK All Action (AU)                          -       Ok

@@ -929,7 +929,7 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_MD_FFFA)
 }
 
 // Mapper #27
-// 2 Hap in 1 - David-2 ~ Moai-ui bomul
+// 2 Hap in 1 (Moai-ui bomul, David-2)
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
 {
     if (Addr == 0x2000) // Configurable segment -----------------------------------------------
