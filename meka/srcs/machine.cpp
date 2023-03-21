@@ -22,6 +22,7 @@
 #include "tvtype.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -195,6 +196,9 @@ void    Machine_Set_Handler_MemRW(void)
         break;
     case MAPPER_SMS_Korean_MSX_32KB_2000:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_32KB_2000;
+        break;
+    case MAPPER_GG_FFF8_FFF9_FFFA_FFFE_FFFF_15_1:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_GG_FFF8_FFF9_FFFA_FFFE_FFFF_15_1;
         break;
     }
 }
@@ -483,6 +487,24 @@ void    Machine_Set_Mapping (void)
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
             g_machine.mapper_regs[i] = 0;
         g_machine.mapper_regs[0] = 0;
+        break;
+
+    case MAPPER_GG_FFF8_FFF9_FFFA_FFFE_FFFF_15_1:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 5;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        drv_set(DRV_GG);
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
         break;
 
     case MAPPER_SC3000_Survivors_Multicart:
