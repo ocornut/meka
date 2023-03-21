@@ -16,6 +16,7 @@
  SMS-GG:    This version is a GG cartridge using the SMS compatibility mode
  SMS-MD:    This version is an MD cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
+ 11 Hap Gam-Boy (KR)                            -      *Ok
  128 Hap (KR)                                   -      *Ok
  2 Hap in 1 (Moai-ui bomul, David-2) (KR)       -       Ok
  20 em 1 (BR)                                   -       Ok
@@ -676,7 +677,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 655 games tested - 651 are "Ok"
+ 656 games tested - 652 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

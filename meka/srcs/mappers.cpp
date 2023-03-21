@@ -952,6 +952,32 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #39
+// 11 Hap Gam-Boy (KR)
+WRITE_FUNC(Write_Mapper_SMS_Korean_SMS_32KB_2000)
+{
+    if (Addr == 0x2000) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(0, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 // Mapper #40
 // Zemina Best 88 (KR)
 // Zemina Best 25 (KR)
