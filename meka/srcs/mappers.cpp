@@ -952,6 +952,43 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #40
+// Zemina Best 25 [Best 88] (KR)
+// Zemina Best 39 [Best 88] [MISSING 64K] (KR)
+// Zemina Best 88 [MISSING-64K] (KR)
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
+{
+    if (Addr == 0x8000) // Configurable segment -----------------------------------------------
+    {
+        // Special case to support Zemina Best 25 [Best 88] (KR)
+        if (g_machine.mapper_regs[0] == 0xFF) {
+            Value ^= 0x22;
+        }
+        g_machine.mapper_regs[0] = Value;
+        if (Value & 0x80) {
+            Map_8k_ROM(0, (Value ^ 3) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (Value ^ 2) & tsms.Pages_Mask_8k);
+        } else {
+            Map_8k_ROM(0, 0x3c & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x3c & tsms.Pages_Mask_8k);
+        }
+        Map_8k_ROM(2, (Value ^ 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value ^ 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value ^ 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value ^ 2) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
