@@ -52,6 +52,7 @@
 ;  25 : sms korean xx-in-1, register at 0xFFF5, 0xFFFE, 0xFFFE (used in MD multicart with SMS games)
 ;  26 : sms korean xx-in-1, register at 0xFFFA, 0xFFFE, 0xFFFE (used in MD multicart with SMS games)
 ;  27 : sms korean xx-in-1, register at 0x2000
+;  40 : sms korean xx-in-1, register at 0x8000
 ;-----------------------------------------------------------------------------
 
 ;-----------------------------------------------------------------------------
@@ -762,6 +763,9 @@ SMS e8b82066 06806D7C60FB9C9A   Y's: The Vanished Omens [Demo]/COUNTRY=US/FLAGS=
 SMS a3ef13cb 73E4CCD0CC1A69BE   Zaxxon 3-D/NAME_JP=Zaxxon 3D/COUNTRY=JP,US,EU,BR/EMU_3D/PRODUCT_NO=G-1336,8002/COMMENT=The 3-D effect can be removed by pressing Pause on title screen. It works only on non-Japanese systems.
 SMS bba74147 2D689EA985B828BF   Zaxxon 3-D [Proto]/NAME_JP=Zaxxon 3D/FLAGS=PROTO/EMU_3D/COMMENT=Unfinished prototype version of the game.
 SMS 7cd51467 488D49FF0599CE77   Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave, Pooyan)/COUNTRY=KR/EMU_MAPPER=23
+SMS e6c9c046 F4E9FC49C3C374E4   Zemina Best 25/COUNTRY=KR/EMU_MAPPER=40/COMMENT=This is the second 512KB of Zemina Best 88. Evidence of a physical release exist.
+SMS d8169fe2 BF9411BD7824093A   Zemina Best 39/COUNTRY=KR/EMU_MAPPER=40/COMMENT=This is the first 512KB of Zemina Best 88. No evidence yet of a physical release.
+SMS 3c339d9e B37D0D063BE77D1E   Zemina Best 88/COUNTRY=KR/EMU_MAPPER=40
 SMS 60c19645 39A919D7DA6933B8   Zillion [v0]/NAME_JP=Akai Koudan Zillion/COUNTRY=JP,EU/PRODUCT_NO=G-1325,5075
 SMS 5718762c 88E69FBAA2DA4974   Zillion [v1]/COUNTRY=US/PRODUCT_NO=5075     ; [EDITOR NOTE] Country listing for all 3 versions are based on what we found so far. It's probable that v1 and v2 were released in both US and EU.
 SMS 7ba54510 8AE29FB6A2DC4B76   Zillion [v2]/COUNTRY=EU/PRODUCT_NO=5075

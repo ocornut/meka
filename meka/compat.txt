@@ -665,6 +665,9 @@
  Zaxxon 3-D / Zaxxon 3D                         FM,(3D) Ok
  Zaxxon 3-D / Zaxxon 3D [Proto]                 (3D)    Ok
  Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave..)(KR)-      *Ok
+ Zemina Best 25 (KR)                            -      *Ok
+ Zemina Best 39 (KR)                            -      *Ok
+ Zemina Best 88 (KR)                            -      *Ok
  Zillion [v0] / Akai Koudan Zillion             -       Ok
  Zillion [v1]                                   -       Ok
  Zillion [v2]                                   -       Ok
@@ -672,7 +675,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 651 games tested - 647 are "Ok"
+ 654 games tested - 650 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
