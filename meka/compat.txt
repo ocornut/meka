@@ -216,7 +216,7 @@
  Fushigi no Oshiro Pit Pot [Proto] (JP)         -       Ok
  Gaegujangi Kkachi (KR)                         -       Ok
  Game Mo-eumjip 188 Hap [v0] (KR)               -       Ok
- Game Mo-eumjip 188 Hap [v1] (KR)               -     **Ok
+ Game Mo-eumjip 188 Hap [v1] (KR)               -       Ok
  Gain Ground                1                   -       Ok
  Gain Ground [Proto]                            -       Ok
  Galactic Protector (JP)                        FM,PAD  Ok
@@ -224,7 +224,7 @@
  Galaxy Force                                   FM      Ok
  Galaxy Force (US)                              FM      Ok
  Game Box Série Esportes Radicais (BR)          FM      Ok
- Game Chongjiphap 200 (KR)                      -      *Ok
+ Game Chongjiphap 200 (KR)                      -       Ok
  Game De Check! Koutsuu Anzen [Proto] (JP)      FM      Ok
  Game Jiphap 30 Hap [SMS-MD] (KR)               -      *Ok
  Gangcheol RoboCop (KR)                         -       Ok
@@ -420,7 +420,7 @@
  Phantasy Star (BR)                             -       Ok
  Phantasy Star (KR)                             -       Ok
  Phantasy Star Fukkokuban [SMS-MD] (JP)         FM      Ok
- Pigu-Wang 7 Hap - Jaemiiss-neun Game Mo-eumjip (KR) - *Ok
+ Pigu-Wang 7 Hap - Jaemiiss-neun Game Mo-eumjip (KR) -  Ok
  Pit-Fighter                                    -       Ok
  Pit-Fighter (BR)                               -       Ok
  Populous                                       -       Ok
@@ -558,8 +558,8 @@
  Super Bubble Bobble (KR)                       -       Ok
  Super Columns (KR)                             -       Ok
  Super Futebol II [Game Box Série Esportes] (BR)-       Ok
- Super Game 45 (KR)                             -      *Ok
- Super Game 52 Hap (KR)                         -      *Ok
+ Super Game 45 (KR)                             -       Ok
+ Super Game 52 Hap (KR)                         -       Ok
  Super Game 150 (KR)                            -      *Ok
  Super Game 180 (KR)                            -      *Ok
  Super Game 200 (KR)                            -      *Ok
@@ -577,7 +577,7 @@
  Super Monaco GP [Proto 2] (US)                 -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
  Super Multi Game - Super 75 in 1 (KR)          -      *Ok
- Super Multi Game - Super 125 in 1 (KR)         -      *Ok
+ Super Multi Game - Super 125 in 1 (KR)         -       Ok
  Super Off Road                                 -       Ok
  Super Off Road [Proto]                         -       Ok
  Super Penguin (KR)                             -       Ok
