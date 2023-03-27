@@ -511,7 +511,7 @@
   Close current window .............. CTRL+F4
   Cycle thru inputs windows ......... CTRL+TAB
 
-  Quit emulator ..................... F10
+  Quit emulator ..................... ALT+F4
   Save screen to a file ............. PrintScreen
 
   (*1) Debugger must be activated. See "How to use the debugger".

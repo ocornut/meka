@@ -107,6 +107,7 @@ They are usually of 2 kinds:
     - MemoryEditor: fixed display of address when number of columns is not 16. [Omar]
     - Wav Logging: recording in Stereo. [Maxim]
   - GUI:
+    - Disabled F10 key to quit emulator (regular ALT+F4 or OS close works). [Omar]
     - Now possible to resize the game window and some of the tools. [Omar]
     - Now possible to change the font of the tools in the .CFG file. [Omar]
     - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
