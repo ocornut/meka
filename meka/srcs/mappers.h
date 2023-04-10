@@ -50,6 +50,7 @@
 #define MAPPER_SMS_Korean_MD_FFF5               (25)        // Registers at 0xFFF5 and 0xFFFF (Jaemiissneun Game Mo-eumjip 42/65 Hap [SMS-MD], Pigu Wang Hap ~ Jaemiiss-neun Game Mo-eumjip [SMS-MD])
 #define MAPPER_SMS_Korean_MD_FFFA               (26)        // Registers at 0xFFFA and 0xFFFF (Game Jiphap 30 Hap [SMS-MD])
 #define MAPPER_SMS_Korean_MSX_32KB_2000         (27)        // Register at 0x2000 (2 Hap in 1 (Moai-ui bomul, David-2))
+#define MAPPER_GG_Super_68_in_1_FFFE_FFFF       (41)        // Registers at 0xFFFE and 0xFFFF (Super 68 in 1 [Simpson], Super 53 in 1 [Alien 3])
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -96,6 +97,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF0);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFFA);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000);
+WRITE_FUNC (Write_Mapper_GG_Super_68_in_1_FFFE_FFFF);
 //-----------------------------------------------------------------------------
 void Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v);
 

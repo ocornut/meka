@@ -1405,6 +1405,11 @@
  Street Hero [Proto 1] [SMS-GG]                     Ok
  Strider Returns                                    Ok
  Striker                                            Ok
+ Super 21 in 1 [Pacmania] [Super 53 in 1]          *Ok
+ Super 32 in 1 [Alien 3] [Super 53 in 1]           *Ok
+ Super 53 in 1 [Alien 3]                           *Ok
+ Super 53 in 1 [Pacmania]                          *Ok
+ Super 68 in 1 [Simpson]                           *Ok
  Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
@@ -1498,7 +1503,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 522 games tested - 511 are "Ok" - Compatibility rate: 97.89%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
