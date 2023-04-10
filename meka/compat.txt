@@ -1136,6 +1136,7 @@
  Garou Densetsu Special (JP)                        Ok
  Ganbare Gorby! (JP)                                Ok
  Garfield: Caught in the Act                        Ok
+ Gear 6 in 1 [Alien Syndrome]                      *Ok
  Gear Stadium (JP)                                  Ok
  Gear Stadium Heiseiban (JP)                        Ok
  Gear Works                                         Ok
@@ -1498,7 +1499,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 518 games tested - 507 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
