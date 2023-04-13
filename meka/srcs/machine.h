@@ -17,6 +17,7 @@ void    Machine_Pause               (void);
 void    Machine_Debug_Start         (void);
 void    Machine_Debug_Stop          (void);
 void    Machine_Reset               (void);
+void    Machine_Reset_Z80           (void);
 
 void    Machine_Set_Mapper          (void);
 void    Machine_Set_Mapping         (void);
