@@ -286,6 +286,14 @@
  Hi-Com 3-in-1 The Best Game Collection D (KR)  -       Ok
  Hi-Com 3-in-1 The Best Game Collection E (KR)  -       Ok
  Hi-Com 3-in-1 The Best Game Collection F (KR)  -       Ok
+ Hi-Com 3-in-1 The Best Game Collection G (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection A (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection B (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection C (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection D (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection E (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection F (KR)  -      *Ok
+ Hi-Com 4-in-1 The Best Game Collection G (KR)  -      *Ok
  Hi-Com 8-in-1 The Best Game Collection A (KR)  -       Ok
  Hi-Com 8-in-1 The Best Game Collection B (KR)  -       Ok
  Hi-Com 8-in-1 The Best Game Collection C (KR)  -       Ok
@@ -672,7 +680,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 651 games tested - 647 are "Ok"
+ 659 games tested - 655 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
