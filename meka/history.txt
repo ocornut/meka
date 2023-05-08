@@ -106,6 +106,7 @@ They are usually of 2 kinds:
     - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
     - MemoryEditor: fixed display of address when number of columns is not 16. [Omar]
     - Wav Logging: recording in Stereo. [Maxim]
+    - Technical Information: added YM2413 information [Maxim]
   - GUI:
     - Disabled F10 key to quit emulator (regular ALT+F4 or OS close works). [Omar]
     - Now possible to resize the game window and some of the tools. [Omar]
