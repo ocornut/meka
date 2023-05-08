@@ -20,6 +20,8 @@
 
 t_app_tech_info TechInfo;
 
+extern u8 *          FM_Regs;
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
@@ -191,6 +193,36 @@ void        TechInfo_Update(void)
             ((psg->Registers[6] & 0x04) ? "White" : "Periodic"),
             psg->Stereo);
         TechInfo_SetLine(app, line, line_idx++);
+    }
+
+    {
+        if (FM_Regs != NULL)
+        {
+            sprintf(line, " [YM2413] Custom inst: %02X/%02X/%02X/%02X/%02X/%02X/%02X/%02X  Rhythm: %02X",
+                FM_Regs[0], FM_Regs[1], FM_Regs[2], FM_Regs[3], FM_Regs[4], FM_Regs[5], FM_Regs[6], FM_Regs[7],
+                FM_Regs[0xe]);
+            TechInfo_SetLine(app, line, line_idx++);
+            char* p = line;
+            p += sprintf(p, " [YM2413]");
+            for (int i = 0; i < 9; ++i)
+            {
+                p += sprintf(p, " Tone %d: %01X,%03X,%c,%c,%01X,%01X",
+                    i,
+                    (FM_Regs[i + 0x20] & 0x6) >> 1, // Block
+                    FM_Regs[i + 0x10] | ((FM_Regs[i + 0x20] & 1) << 8), // F-num
+                    (FM_Regs[i + 0x20] & 0x20) != 0 ? 'S' : '-', // Sustain
+                    (FM_Regs[i + 0x20] & 0x10) != 0 ? 'K' : '-', // Key
+                    FM_Regs[i + 0x30] & 0x0f, // Volume
+                    FM_Regs[i + 0x30] >> 4 // Instrument
+                    );
+                if (i % 3 == 2) 
+                {
+                    TechInfo_SetLine(app, line, line_idx++);
+                    p = line;
+                    p += sprintf(p, " [YM2413]");
+                }
+            }
+        }
     }
 
     // - Memory
