@@ -1408,6 +1408,10 @@
  Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
+ Super Game Gear 73 in 1 [Sonic 2]                 *Ok
+ Super Game Gear 73 in 1 [Street Fighter 2]        *Ok
+ Super GG 21 in 1 [Sonic Drift] [Gold & Yellow Label] *Ok
+ Super GG 30 in 1 [Sonic 2] [Gold & Yellow Label]  *Ok
  Super Golf (JP)                                    Ok
  Super Kick Off [SMS-GG]                            Ok
  Superman - The Man of Steel                        Ok
@@ -1498,7 +1502,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 521 games tested - 510 are "Ok" - Compatibility rate: 97.89%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
