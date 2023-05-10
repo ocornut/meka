@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -950,6 +953,123 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #41
+// Super 68 in 1 [Simpson]
+// Super 53 in 1 [Alien 3]
+//
+// This also works fine for ghost ROM data:
+//
+// Super 53 in 1 [Pacmania]
+// Super 32 in 1 [Alien 3] [Super 53 in 1]
+// Super 21 in 1 [Pacmania] [Super 53 in 1]
+WRITE_FUNC(Write_Mapper_GG_Super_68_in_1_FFFE_FFFF)
+{
+    if ((Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0xFFFF)
+        {
+            g_machine.mapper_regs[1] = Value;
+            if (! (g_machine.mapper_regs[3] & 0x80)) {
+                // "menu mode"
+                if (Value & 0x08) {
+                    g_machine.mapper_regs[1] = 0;
+                    g_machine.mapper_regs[2] = 1;
+                    // switch to "Sega mode"
+                    g_machine.mapper_regs[3] |= 0x80;
+                    bool sms_gg_mode = false;
+                    if (g_machine.mapper_regs[3] & 0x08) {
+                        // SMS-GG mode according to heuristic
+                        int game_id_low = g_machine.mapper_regs[0] & 0x3F;
+                        sms_gg_mode = (game_id_low < 0x14) || (game_id_low == 0x18) || (game_id_low == 0x28);
+                    } else if (g_machine.mapper_regs[3] & 0x04) {
+                        // SMS-GG mode according to game_id & 0x40
+                        sms_gg_mode = !! (g_machine.mapper_regs[0] & 0x40);
+                    } else {
+                        // SMS-GG mode according to game_id & 0x20
+                        // (game ID limited to six bits in this mode)
+                        sms_gg_mode = !! (g_machine.mapper_regs[0] & 0x20);
+                    }
+                    if (sms_gg_mode) {
+                        drv_set(DRV_SMS);
+                    } else {
+                        drv_set(DRV_GG);
+                    }
+                    gamebox_resize_all();
+                    VDP_UpdateLineLimits();
+                    Video_GameMode_UpdateBounds();
+                }
+            }
+        }
+        else if (Addr == 0xFFFE)
+        {
+            g_machine.mapper_regs[2] = Value;
+            if (! (g_machine.mapper_regs[3] & 0x80)) {
+                // "menu mode"
+                if ((Value & 0x0C) == 0x0C) {
+                    g_machine.mapper_regs[0] &= 0x3F;
+                    g_machine.mapper_regs[0] |= (Value & 0x03) << 6;
+
+                    if (! (g_machine.mapper_regs[3] & 0x08)) {
+                        // choose mechanism for SMS-GG mode signalling in non-heuristic mode:
+                        // store "use game_id & 0x40" bit 0x04 in register 3
+                        g_machine.mapper_regs[3] = 0x04 | (g_machine.mapper_regs[3] & 0xF3);
+                    }
+                } else if (Value & 0x08) {
+                    g_machine.mapper_regs[0] &= 0xCF;
+                    g_machine.mapper_regs[0] |= (Value & 0x03) << 4;
+                } else if (Value & 0x04) {
+                    g_machine.mapper_regs[0] &= 0xF3;
+                    g_machine.mapper_regs[0] |= (Value & 0x03) << 2;
+                } else {
+                    g_machine.mapper_regs[0] &= 0xFC;
+                    g_machine.mapper_regs[0] |= Value & 0x03;
+                    // choose mechanism for SMS-GG mode signalling:
+                    // store "use heuristic" as bit 0x08 in register 3 (and clear bit 0x04)
+                    g_machine.mapper_regs[3] = (g_machine.mapper_regs[0] & 0x08) | (g_machine.mapper_regs[3] & 0xF3);
+                }
+            }
+        }
+
+        unsigned int game_id = g_machine.mapper_regs[0];
+        // when ROM is three megabytes it acts like 4MB layout A B C C
+        // NOTE: tsms.Pages_Count_8k is actually a maximum value -- not a count!
+        unsigned int game_id_mask = ((game_id & 0x40) && ((tsms.Pages_Count_8k + 1) / 4 == 0x60)) ? 0x5F : 0xFF;
+        unsigned int base_page_8k = (game_id & game_id_mask) * 4;
+
+        // NOTE: 68-in-1 hardware masks pages with 0x07 for game_id
+        // less than 0x20 but 53-in-1 doesn't, and a wider mask
+        // doesn't break anything for 68-in-1
+        unsigned int paging_mask = 0x0F;
+
+        if (! (g_machine.mapper_regs[3] & 0x80)) {
+            // "menu mode"
+            Map_8k_ROM(0, base_page_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (base_page_8k | 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (base_page_8k | 3) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, base_page_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+        } else {
+            // "Sega mode"
+            Map_8k_ROM(0, base_page_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (base_page_8k | ((g_machine.mapper_regs[2] & paging_mask) * 2)) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (base_page_8k | ((g_machine.mapper_regs[2] & paging_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (base_page_8k | ((g_machine.mapper_regs[1] & paging_mask) * 2)) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (base_page_8k | ((g_machine.mapper_regs[1] & paging_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
