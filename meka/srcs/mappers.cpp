@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -951,6 +954,76 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
 
     Write_Error (Addr, Value);
 }
+
+// Mapper #35
+// Super GG 15 [Last Action] [Super GG 30 Gold & Green Label]
+// Super GG 30 [Last Action] [Gold & Green Label]
+WRITE_FUNC(Write_Mapper_GG_Super_GG_30_1FFx_FFFx)
+{
+    if ((Addr == 0x1FFE) || (Addr == 0xFFFE) || (Addr == 0xFFFF) || (Addr == 0x1FFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0x1FFF) {
+            // TODO: Value & 0x01 may be "Sega mode" mapper locking
+            // Value & 0x40 indicates chip select/output enable for 2nd half of each megabyte of ROM
+            // Value & 0x10 indicates SMS-GG mode as opposed to native GG mode
+            g_machine.mapper_regs[0] = Value;
+            if (Value & 0x10) {
+                drv_set(DRV_SMS);
+            } else {
+                drv_set(DRV_GG);
+            }
+            gamebox_resize_all();
+            VDP_UpdateLineLimits();
+            Video_GameMode_UpdateBounds();
+        }
+        else if (Addr == 0x1FFE)
+        {
+            // Value & 0x10 indicates chip select/output enable for 2nd megabyte of ROM
+            g_machine.mapper_regs[1] = Value;
+            // Value & 0x04 indicates "Sega mode" as opposed to "menu mode"
+        }
+        else if (Addr == 0xFFFF)
+        {
+            g_machine.mapper_regs[2] = Value;
+        }
+        else if (Addr == 0xFFFE)
+        {
+            g_machine.mapper_regs[3] = Value;
+        }
+        if (g_machine.mapper_regs[1] & 0x04) {
+            // "menu mode"
+            g_machine.mapper_regs[4] = g_machine.mapper_regs[2] & 0xF0;
+            if (! (g_machine.mapper_regs[4] & 0x30)) {
+                g_machine.mapper_regs[4] = g_machine.mapper_regs[2] & 0xFE;
+            }
+            g_machine.mapper_regs[5] = g_machine.mapper_regs[3] & 0xF0;
+            if (! (g_machine.mapper_regs[5] & 0x30)) {
+                g_machine.mapper_regs[5] = g_machine.mapper_regs[3] & 0xFE;
+            }
+        }
+        unsigned int rom_chip_select_and_enable = ((g_machine.mapper_regs[1] & 0x10) ? 0x40 : 0x00) | ((g_machine.mapper_regs[0] & 0x40) ? 0x20 : 0x00);
+        Map_8k_ROM(0, ((rom_chip_select_and_enable * 2) | (g_machine.mapper_regs[5] * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, ((rom_chip_select_and_enable * 2) | (g_machine.mapper_regs[5] * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, ((rom_chip_select_and_enable * 2) | (g_machine.mapper_regs[5] * 2) | (g_machine.mapper_regs[3] * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, ((rom_chip_select_and_enable * 2) | (g_machine.mapper_regs[5] * 2) | (g_machine.mapper_regs[3] * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, ((rom_chip_select_and_enable * 2) | (g_machine.mapper_regs[4] * 2) | (g_machine.mapper_regs[2] * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, ((rom_chip_select_and_enable * 2) | (g_machine.mapper_regs[4] * 2) | (g_machine.mapper_regs[2] * 2) | 1) & tsms.Pages_Mask_8k);
+        if (Addr <= 0xBFFF) {
+            // no RAM shadowing for writes to this address
+            return;
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
