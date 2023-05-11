@@ -22,6 +22,7 @@
 #include "tvtype.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -195,6 +196,9 @@ void    Machine_Set_Handler_MemRW(void)
         break;
     case MAPPER_SMS_Korean_MSX_32KB_2000:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_32KB_2000;
+        break;
+    case MAPPER_GG_Super_9_in_1_FFFE_FFF7_FFFF:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_GG_Super_9_in_1_FFFE_FFF7_FFFF;
         break;
     }
 }
@@ -485,6 +489,24 @@ void    Machine_Set_Mapping (void)
         g_machine.mapper_regs[0] = 0;
         break;
 
+    case MAPPER_GG_Super_9_in_1_FFFE_FFF7_FFFF:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 3;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        drv_set(DRV_GG);
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
+        break;
+
     case MAPPER_SC3000_Survivors_Multicart:
         g_machine.mapper_regs_count = 1;
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
@@ -580,6 +602,18 @@ void    Machine_Set_TV_Lines(void)
     else
         g_machine.TV = TV_Type_User;
     g_machine.TV_lines = g_machine.TV->screen_lines;
+}
+
+// RESET EMULATED CPU ---------------------------------------------------------
+void        Machine_Reset_Z80(void)
+{
+#ifdef MARAT_Z80
+    ResetZ80 (&sms.R);
+#elif MAME_Z80
+    z80_reset (NULL);
+#elif RAZE_Z80
+    z80_reset();
+#endif
 }
 
 // RESET EMULATED MACHINE -----------------------------------------------------

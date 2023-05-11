@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -950,6 +953,66 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #43
+// Super Game Gear 9 in 1 [Sonic II]
+WRITE_FUNC(Write_Mapper_GG_Super_9_in_1_FFFE_FFF7_FFFF)
+{
+    if (((Addr == 0x0A7E) && (Value & 0x20)) || (Addr == 0xFFF7) || (Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0xFFF7)
+        {
+            if (! (g_machine.mapper_regs[2])) {
+                g_machine.mapper_regs[0] |= Value;
+            }
+        }
+        else if (Addr == 0xFFFF)
+        {
+            g_machine.mapper_regs[1] = Value;
+        }
+        else if (Addr == 0xFFFE)
+        {
+            g_machine.mapper_regs[2] = Value;
+        }
+        bool force_reset = false;
+        if ((Addr == 0x0A7E) && (Value & 0x20)) {
+            // This seems to force a reset and apply the mapping
+            g_machine.mapper_regs[1] = 0;
+            g_machine.mapper_regs[2] = 1;
+            force_reset = true;
+        }
+        if (force_reset || (Addr == 0xFFFE) || (Addr == 0xFFFF)) {
+            int mapbase = g_machine.mapper_regs[0] & 0xFE;
+            Map_8k_ROM(0, (mapbase * 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, ((mapbase * 2) | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, ((mapbase * 2) | ((g_machine.mapper_regs[2] & 0x1F) * 2)) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, ((mapbase * 2) | ((g_machine.mapper_regs[2] & 0x1F) * 2) | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, ((mapbase * 2) | ((g_machine.mapper_regs[1] & 0x1F) * 2)) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, ((mapbase * 2) | ((g_machine.mapper_regs[1] & 0x1F) * 2) | 1) & tsms.Pages_Mask_8k);
+        }
+        if (g_machine.mapper_regs[0] & 0x01) {
+            drv_set(DRV_SMS);
+        } else {
+            drv_set(DRV_GG);
+        }
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
+        if (force_reset) {
+            Machine_Reset_Z80();
+            return;
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
