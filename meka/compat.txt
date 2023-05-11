@@ -1454,6 +1454,7 @@
  Tom and Jerry: The Movie (JP)                      Ok
  Torarete Tamaruka!? (JP)                           Ok
  True Lies                                          Ok
+ Turbo 9 in 1 [Street Fighter 2]                   *Ok
  Ultimate Soccer                                    Ok
  Urban Strike                                       Ok
  Vampire - Master of Darkness (US)                  Ok
@@ -1498,7 +1499,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 518 games tested - 507 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
