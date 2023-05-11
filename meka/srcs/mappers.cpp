@@ -952,6 +952,60 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #28
+//
+// Super 5 in 1 Game Gear [Mortal Kombat] [Super 12 in 1]
+// Super 7 in 1 Game Gear [Bare Knuckle 2] [Super 12 in 1]
+// Super 12 in 1 Game Gear [Bare Knuckle 2] (Unl)
+// Super 12 in 1 Game Gear [Mortal Kombat] (Unl)
+WRITE_FUNC (Write_Mapper_GG_Super_12_in_1_FFFE)
+{
+    if ((Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        int in_menu_mode = (g_machine.mapper_regs[0] & 0x08) == 0x00;
+        if (Addr == 0xFFFE) {
+            if (in_menu_mode && ((Value & 0xF0) == 0x40)) {
+                g_machine.mapper_regs[0] = (g_machine.mapper_regs[0] & 0x1E) | (Value & 0x0E) << 4 | (Value & 0x01);
+            } else if (in_menu_mode && ((Value & 0xE0) == 0x00)) {
+                g_machine.mapper_regs[0] = (g_machine.mapper_regs[0] & 0xF0) | ((Value & 0x10) >> 4);
+            } else {
+                g_machine.mapper_regs[2] = Value & 0x1F;
+            }
+        }
+        if (Addr == 0xFFFF) {
+            if (in_menu_mode && ((Value & 0xF0) == 0x40)) {
+                g_machine.mapper_regs[0] |= 0x08;
+                in_menu_mode = 0;
+            } else if ((!in_menu_mode) && ((Value & 0xE0) == 0xE0)) {
+                // Meka extension: this is used to reliably reset the
+                // mapper to menu mode when loading save states
+                g_machine.mapper_regs[0] &= ~0x08;
+                in_menu_mode = 1;
+            }
+            g_machine.mapper_regs[1] = Value & 0x1F;
+        }
+        const int effective_mapbase = (g_machine.mapper_regs[0] & 0xF0) | ((g_machine.mapper_regs[0] & 0x01) << 4);
+        const int fixed_or_reg1 = in_menu_mode ? 1 : (g_machine.mapper_regs[2] & 0x1F);
+        const int fixed_or_reg0 = in_menu_mode ? 0 : (g_machine.mapper_regs[1] & 0x1F);
+        Map_8k_ROM(0, (effective_mapbase << 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, ((effective_mapbase << 1) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, ((effective_mapbase | fixed_or_reg1) << 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (((effective_mapbase | fixed_or_reg1) << 1) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, ((effective_mapbase | fixed_or_reg0) << 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (((effective_mapbase | fixed_or_reg0) << 1) | 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
