@@ -16,6 +16,7 @@
  SMS-GG:    This version is a GG cartridge using the SMS compatibility mode
  SMS-MD:    This version is an MD cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
+ 12 in 1 [Hang On] [SMS-GG] (Unl)               -      *Ok
  128 Hap (KR)                                   -      *Ok
  2 Hap in 1 (Moai-ui bomul, David-2) (KR)       -      *Ok
  20 em 1 (BR)                                   -       Ok
@@ -549,6 +550,7 @@
  Summer Games [Proto 0]                         -       Ok (No audio)
  Summer Games [Proto 1]                         FM      Ok
  Suho Jeonsa (KR)                               -       Ok
+ Super 12 in 1 [Teddy Boy] [SMS-MD] (Unl)       -      *Ok
  Super Basketball [Demo]                        -       Ok
  Super Bioman I (KR)                            -       Ok
  Super Boy I (KR)                               -       Ok
@@ -672,7 +674,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 651 games tested - 647 are "Ok"
+ 653 games tested - 649 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

@@ -952,6 +952,36 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #46
+// 12 in 1 [Hang On] [SMS-GG]
+// Super 12 in 1 [Teddy Boy] [SMS-MD]
+//
+// It is no coincidence that this is very similar to
+// Write_Mapper_SMS_Korean_FFFF_HiCom as this mapper is an extension
+// of that one allowing power-cycle switching between multiple 128KB
+// Hi-Com collections
+WRITE_FUNC(Write_Mapper_SMS_Meta_Power_FFFF_HiCom)
+{
+    if (Addr == 0xFFFF) // Frame 2 -----------------------------------------------
+    {
+        g_machine.mapper_regs[1] = Value & 3;
+        unsigned int base_page_8k = (g_machine.mapper_regs[0] + g_machine.mapper_regs[1]) * 4;
+        Map_8k_ROM(0, base_page_8k & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (base_page_8k | 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (base_page_8k | 3) & tsms.Pages_Mask_8k);
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
