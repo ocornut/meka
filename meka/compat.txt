@@ -549,6 +549,8 @@
  Summer Games [Proto 0]                         -       Ok (No audio)
  Summer Games [Proto 1]                         FM      Ok
  Suho Jeonsa (KR)                               -       Ok
+ Super 2 in 1 - Sonic & Alien Storm [SMS-GG]    -      *Ok
+ Super 2 in 1 - Double Dragon, Ghouls'n Ghosts [SMS-GG] - *Ok
  Super Basketball [Demo]                        -       Ok
  Super Bioman I (KR)                            -       Ok
  Super Boy I (KR)                               -       Ok
@@ -623,6 +625,7 @@
  Ultima IV                                      FM      Ok
  Ultima IV [Proto]                              FM      Ok
  Ultimate Soccer                                -       Ok
+ Untitled 4-in-1 (Moonwalker, Double Dragon, Sagaia & Spider-Man) [SMS-GG] - *Ok
  Vigilante                                      FM      Ok
  Virtua Fighter Animation                       -       Ok
  Walter Payton Football                         -       Ok
@@ -676,7 +679,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 655 games tested - 651 are "Ok"
+ 658 games tested - 654 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
