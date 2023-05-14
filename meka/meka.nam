@@ -88,6 +88,7 @@
 ; DATA - SEGA MASTER SYSTEM (SMS)
 ;-----------------------------------------------------------------------------
 
+SMS ea61eb12 4CB8CC9931B0A313   12 in 1 [Hang On] [SMS-GG]/FLAGS=SMSGG_MODE/EMU_MAPPER=46
 SMS ba5ec0e3 0707EB856DC38BC7   128 Hap (KR)/COUNTRY=KR/EMU_MAPPER=19
 SMS 1b3e032e 8479DA42A3D4F67A   2 Hap in 1 (Moai-ui bomul, David-2)/COUNTRY=KR/EMU_MAPPER=27
 SMS f0f35c22 02079D9D9AF6B27B   20 em 1/COUNTRY=BR
@@ -641,6 +642,7 @@ SMS 8da5c93f AF2D01D4A78C8B91   Summer Games/NAME_BR=Jogos Olímpicos/COUNTRY=EU
 SMS 4f530cb2 D1B42E8EF4C358B0   Summer Games [Proto 0]/FLAGS=PROTO/COMMENT=Early prototype version of the game. No audio.
 SMS 80eb1fff 420EEF0B240F3152   Summer Games [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 01686d67 88E8E8D0608B22CB   Suho Jeonsa/COUNTRY=KR/PRODUCT_NO=DS-G402
+SMS 6037e93b 4CB8CC9931B0A313   Super 12 in 1 [Teddy Boy] [SMS-MD]/EMU_MAPPER=46
 SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
 SMS a66d26cf 5E7FE6D39D642445   Super Bioman I/COUNTRY=KR
 SMS bf5a994a 8DF09E55615029B6   Super Boy I/COUNTRY=KR
