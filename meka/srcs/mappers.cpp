@@ -989,6 +989,70 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #44
+// Super Game 45 [Road Fighter] (KR)
+WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_16KB_BFFE)
+{
+    if (Addr == 0xBFFE) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        unsigned int page_mask = ((Value & 0x3f) == 0x21) ? 0x3f : 0x1f;
+        Map_8k_ROM(2, (((Value & page_mask) * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (((Value & page_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+        if (Value & 0x20) {
+            // "Namco" mapping: A B B A
+            Map_8k_ROM(4, (((Value & page_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (((Value & page_mask) * 2)) & tsms.Pages_Mask_8k);
+        } else {
+            // normal mapping: A B A B
+            Map_8k_ROM(4, (((Value & page_mask) * 2)) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (((Value & page_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+        }
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
+// Mapper #45
+// Super Game 30 [Road Fighter] [Super Game 45] (KR)
+WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_16KB_FFFF)
+{
+    if (Addr == 0xFFFF) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        unsigned int page_mask = ((Value & 0x3f) == 0x21) ? 0x3f : 0x1f;
+        Map_8k_ROM(2, (((Value & page_mask) * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (((Value & page_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+        if (Value & 0x20) {
+            // "Namco" mapping: A B B A
+            Map_8k_ROM(4, (((Value & page_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (((Value & page_mask) * 2)) & tsms.Pages_Mask_8k);
+        } else {
+            // normal mapping: A B A B
+            Map_8k_ROM(4, (((Value & page_mask) * 2)) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (((Value & page_mask) * 2) | 1) & tsms.Pages_Mask_8k);
+        }
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
