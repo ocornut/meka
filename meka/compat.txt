@@ -1140,6 +1140,7 @@
  Gear Stadium Heiseiban (JP)                        Ok
  Gear Works                                         Ok
  George Foreman's KO Boxing                         Ok
+ GG 48 in 1 [Doraemon 2]                           *Ok
  GG Aleste (JP)                                     Ok
  GG Portrait - Pai Chen (JP)                        Ok
  GG Portrait - Yuuki Akira (JP)                     Ok
@@ -1498,7 +1499,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 518 games tested - 507 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
