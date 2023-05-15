@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -987,6 +990,44 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #49
+// 18 in 1 - Super Games Collection [Columns]
+WRITE_FUNC (Write_Mapper_GG_18_in_1_00xx)
+{
+    // FIXME: It is likely the actual hardware does not completely
+    // decode the address bits, but the effective mapper address
+    // decoding mask is not yet known
+    if ((Addr | 0x001F) == 0x001F) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Addr & 0x1F;
+        if (Addr & 0x10) {
+            drv_set(DRV_SMS);
+        } else {
+            drv_set(DRV_GG);
+        }
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
+        unsigned int base_page_8k = (Addr & 0x0F) * 4;
+        Map_8k_ROM(0, base_page_8k & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (base_page_8k | 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (base_page_8k | 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, base_page_8k & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
