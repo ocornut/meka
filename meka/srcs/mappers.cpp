@@ -952,6 +952,84 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #48
+// GG 48 in 1 [Doraemon 2]
+WRITE_FUNC (Write_Mapper_GG_48_in_1_FFF8_FFF9_FFFE_FFFF)
+{
+    // Mapper register allocations:
+    // - Mode and mask: g_machine.mapper_regs[0]
+    //   Bits 0xE0: configuration mode
+    //   - 0x00: not in configuration mode
+    //   - 0x80: expecting paging mask [step 1]
+    //   - 0x40: expecting lower 5 bits of base page [step 2]
+    //   - 0x20: expecting upper 3 bits of base page [step 3]
+    //   - 0xE0: not expecting further configuration bytes
+    //   Bits 0x1F: 16KB paging mask
+    // - Base page: g_machine.mapper_regs[1]
+    //   Bits 0xFF: 16KB base page
+    // - Upper Sega paging register: g_machine.mapper_regs[2]
+    //   Bits 0x1F: 16KB page offset for region 0x8000..0xBFFF
+    // - Lower Sega paging register: g_machine.mapper_regs[3]
+    //   Bits 0x1F: 16KB page offset for region 0x4000..0x7FFF
+    if ((Addr == 0xFFF8) || (Addr == 0xFFF9) || (Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0xFFF8) {
+            // lock mapper
+            g_machine.mapper_regs[0] &= 0x1F;
+            if (Value & 0x10) {
+                // unlock mapper, expect paging mask next
+                g_machine.mapper_regs[0] |= 0x80;
+            }
+        } else if (Addr == 0xFFF9) {
+            if ((g_machine.mapper_regs[0] & 0xE0) == 0x80) {
+                // expecting paging mask
+                g_machine.mapper_regs[0] &= 0xE0;
+                g_machine.mapper_regs[0] |= Value & 0x1F;
+                // expect lower 5 bits of base page next
+                g_machine.mapper_regs[0] &= 0x1F;
+                g_machine.mapper_regs[0] |= 0x40;
+            } else if ((g_machine.mapper_regs[0] & 0xE0) == 0x40) {
+                // expecting lower 5 bits of base page
+                g_machine.mapper_regs[1] &= 0xE0;
+                g_machine.mapper_regs[1] |= Value & 0x1F;
+                // expect upper 3 bits of base page next
+                g_machine.mapper_regs[0] &= 0x1F;
+                g_machine.mapper_regs[0] |= 0x20;
+            } else if (((g_machine.mapper_regs[0] & 0xE0) == 0x20) && ((Value & 0x18) == 0x18)) {
+                // expecting upper 3 bits of base page
+                g_machine.mapper_regs[1] &= 0x1F;
+                g_machine.mapper_regs[1] |= (Value & 0x07) << 5;
+                // subsequent writes to 0xFFF9 ignored
+                g_machine.mapper_regs[0] &= 0x1F;
+                g_machine.mapper_regs[0] |= 0xE0;
+            }
+        } else if (Addr == 0xFFFF) {
+            g_machine.mapper_regs[2] = Value;
+        } else if (Addr == 0xFFFE) {
+            g_machine.mapper_regs[3] = Value;
+        }
+        unsigned int paging_mask = g_machine.mapper_regs[0] & 0x1F;
+        unsigned int base_page_16k = g_machine.mapper_regs[1];
+        unsigned int upper_page_16k = base_page_16k + (g_machine.mapper_regs[2] & paging_mask);
+        unsigned int lower_page_16k = base_page_16k + (g_machine.mapper_regs[3] & paging_mask);
+        Map_8k_ROM(0, (base_page_16k * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, ((base_page_16k * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (lower_page_16k * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, ((lower_page_16k * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (upper_page_16k * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, ((upper_page_16k * 2) | 1) & tsms.Pages_Mask_8k);
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
