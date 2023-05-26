@@ -1144,6 +1144,7 @@
  GG Portrait - Pai Chen (JP)                        Ok
  GG Portrait - Yuuki Akira (JP)                     Ok
  GG Shinobi, The (JP)                               Ok
+ GG Super 68 in 1 [Asterix]                        *Ok
  Global Gladiators                                  Ok
  G-LOC - Air Battle                                 Ok
  G-LOC - Air Battle [v0] (JP)                       Ok
@@ -1408,6 +1409,7 @@
  Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
+ Super GG 15 in 1 [Sonic 5]                        *Ok
  Super Golf (JP)                                    Ok
  Super Kick Off [SMS-GG]                            Ok
  Superman - The Man of Steel                        Ok
@@ -1498,7 +1500,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 519 games tested - 508 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

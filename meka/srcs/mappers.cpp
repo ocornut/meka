@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -950,6 +953,50 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
     }
 
     Write_Error (Addr, Value);
+}
+
+// Mapper #38
+// Super GG 15 in 1 [Sonic 5]
+// GG Super 68 in 1 [Asterix]
+WRITE_FUNC(Write_Mapper_GG_FFF8_FFF9_FFFA_FFFE_FFFF_15_1)
+{
+    if ((Addr == 0xFFF8) || (Addr == 0xFFF9) || (Addr == 0xFFFA) || (Addr == 0xFFFE) || (Addr == 0xFFFF)) // Configurable segment -----------------------------------------------
+    {
+        if (Addr == 0xFFF8) {
+            g_machine.mapper_regs[2] = Value;
+            Map_8k_ROM(0, (g_machine.mapper_regs[2] * 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, ((g_machine.mapper_regs[2] * 2) | 0x01) & tsms.Pages_Mask_8k);
+        } else if (Addr == 0xFFF9) {
+            g_machine.mapper_regs[3] = Value;
+        } else if (Addr == 0xFFFA) {
+            g_machine.mapper_regs[4] = Value;
+            if (Value & 0x40) {
+                drv_set(DRV_SMS);
+            } else {
+                drv_set(DRV_GG);
+            }
+            gamebox_resize_all();
+            VDP_UpdateLineLimits();
+            Video_GameMode_UpdateBounds();
+        } else if (Addr == 0xFFFE) {
+            g_machine.mapper_regs[1] = (Value & ~g_machine.mapper_regs[3]) | (g_machine.mapper_regs[2] & g_machine.mapper_regs[3]);
+            Map_8k_ROM(2, (g_machine.mapper_regs[1] * 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, ((g_machine.mapper_regs[1] * 2) | 0x01) & tsms.Pages_Mask_8k);
+        } else if (Addr == 0xFFFF) {
+            g_machine.mapper_regs[0] = (Value & ~g_machine.mapper_regs[3]) | (g_machine.mapper_regs[2] & g_machine.mapper_regs[3]);
+            Map_8k_ROM(4, (g_machine.mapper_regs[0] * 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, ((g_machine.mapper_regs[0] * 2) | 0x01) & tsms.Pages_Mask_8k);
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
 }
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
