@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -940,6 +943,68 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
         Map_8k_ROM(4, (Value * 4 + 4) & tsms.Pages_Mask_8k);
         Map_8k_ROM(5, (Value * 4 + 5) & tsms.Pages_Mask_8k);
         return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
+// Mapper #50
+// Game Gear Super 16 in 1 ~ Wudi Xilie [Columns] (Unl)
+WRITE_FUNC (Write_Mapper_GG_Super_16_in_1_Columns_FFFx)
+{
+    const unsigned int incomplete_address_decoding_assumed_bits = 0x000F;
+
+    if ((Addr | incomplete_address_decoding_assumed_bits) == 0xFFFF) // Configurable segment -----------------------------------------------
+    {
+        if ((Value & 0xC0) == 0xC0) {
+            g_machine.mapper_regs[0] = (g_machine.mapper_regs[0] & 0x3F) | ((Value & 0x30) << 2);
+        } else if ((Value & 0xC0) == 0x80) {
+            g_machine.mapper_regs[0] = (g_machine.mapper_regs[0] & 0xCF) | (Value & 0x30);
+        } else if ((Value & 0xC0) == 0x40) {
+            g_machine.mapper_regs[0] = (g_machine.mapper_regs[0] & 0xF3) | ((Value & 0x30) >> 2);
+        }
+
+        bool sega_mode = (g_machine.mapper_regs[0] & 0x40) ? true : false;
+        bool sms_gg_mode = (g_machine.mapper_regs[0] & 0x10) ? true : false;
+
+        // not sure whether real hardware aliases these too
+        if (Addr == 0xFFFF) {
+            g_machine.mapper_regs[1] = Value & 0x0F;
+        }
+        if (Addr == 0xFFFE) {
+            g_machine.mapper_regs[2] = Value & 0x0F;
+        }
+
+        if (((Value & 0xC0) == 0x00) && !sega_mode) {
+            g_machine.mapper_regs[0] = (g_machine.mapper_regs[0] & 0xFC) | ((Value & 0x30) >> 4);
+        }
+
+        unsigned int base_page_32k = g_machine.mapper_regs[0] & 0x0F;
+        unsigned int page_8000_offset_16k = sega_mode ? g_machine.mapper_regs[1] : 0;
+        unsigned int page_4000_offset_16k = sega_mode ? g_machine.mapper_regs[2] : 1;
+
+        if (sms_gg_mode) {
+            drv_set(DRV_SMS);
+        } else {
+            drv_set(DRV_GG);
+        }
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
+
+        Map_8k_ROM(0, ((base_page_32k * 4) | 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, ((base_page_32k * 4) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, ((base_page_32k * 4) | (page_4000_offset_16k * 2) | 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, ((base_page_32k * 4) | (page_4000_offset_16k * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, ((base_page_32k * 4) | (page_8000_offset_16k * 2) | 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, ((base_page_32k * 4) | (page_8000_offset_16k * 2) | 1) & tsms.Pages_Mask_8k);
     }
 
     switch (Addr >> 13)
