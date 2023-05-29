@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2023/02/13
+; Last updated 2023/05/29
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -686,6 +686,7 @@ SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODU
 SMS 1cdcf415 B68CF0B91B594859   Taito Chase H.Q. [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 7bb81e3d 508B3E02BE909106   Taito Chase H.Q. [SMS-GG]/COUNTRY=JP/FLAGS=SMSGG_MODE/PRODUCT_NO=T-11017
 SMS c8381def 5EDD7209C4516FC6   Taito Chase H.Q. [SMS-GG]/NAME_US=Chase H.Q./COUNTRY=US/FLAGS=SMSGG_MODE/PRODUCT_NO=T-11018
+SMS 42d911f3 6D2A92A3208C4D3B   Tank Battalion/COUNTRY=KR
 SMS 11ce074c C37CA576419924A8   Taz in Escape from Mars/COUNTRY=BR/PRODUCT_NO=028620/COMMENT=This is a port from the Game Gear version.
 SMS 7cc3e837 3781F099BC8BE494   Taz-Mania/COUNTRY=EU,BR/PRODUCT_NO=7111,027150
 SMS 1b312e04 EFF0F33BC64A548F   Taz-Mania [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
@@ -705,7 +706,7 @@ SMS c0ce19b1 1FE27772C146E52A   Thunder Blade/COUNTRY=JP/PRODUCT_NO=G-1360
 SMS bab9533b 357C1104D326FF42   Thunder Blade [Proto]/COUNTRY=JP/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 98cf1254 394D74D61F0665A6   Thunder Blade [HTH] [SMS-GG] (TW)/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 201-03/COMMENT=Taiwanese HTH release for Game Gear.
 SMS 51bd14be C69000F39D02997F   Time Soldiers/COUNTRY=US,EU,BR/PRODUCT_NO=7024
-SMS bf7b7285 2CAB2FD57FA3D42F   Tom and Jerry: The Movie/COUNTRY=EU,BR/PRODUCT_NO=7070,026150
+SMS bf7b7285 2CAB2FD57FA3D42F   Tom and Jerry: The Movie/COUNTRY=EU,BR,KR/PRODUCT_NO=7070,026150,GB2022JG
 SMS 0c2fc2de CF198685CF743C8E   Tom and Jerry: The Movie [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 4f8d75ec A896A3A30327D280   Toto World 3/COUNTRY=KR/PRODUCT_NO=DS-G301
 SMS 4bc42857 DA63DA8BEB8E7C69   TransBot/NAME_BR=Nuclear Creature/COUNTRY=US,EU,DE,IT,BR/PRODUCT_NO=4004,4502,41003,021050/COMMENT=Export version of "Astro Flash".
