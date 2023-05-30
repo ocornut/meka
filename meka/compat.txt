@@ -1139,6 +1139,8 @@
  Garou Densetsu Special (JP)                        Ok
  Ganbare Gorby! (JP)                                Ok
  Garfield: Caught in the Act                        Ok
+ Gear 30 in 1 [Sonic]                              *Ok
+ Gear 52 in 1 [Sonic]                              *Ok
  Gear Stadium (JP)                                  Ok
  Gear Stadium Heiseiban (JP)                        Ok
  Gear Works                                         Ok
@@ -1501,7 +1503,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 519 games tested - 508 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

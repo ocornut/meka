@@ -199,6 +199,12 @@ void    Machine_Set_Handler_MemRW(void)
     case MAPPER_SMS_Korean_MSX_SMS_8000:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_SMS_8000;
         break;
+    case MAPPER_GG_30_in_1_FFF6_FFFE_FFF7_FFFF:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_GG_30_in_1_FFF6_FFFE_FFF7_FFFF;
+        break;
+    case MAPPER_GG_52_in_1_FFF6_FFFE_FFF7_FFFF:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_GG_52_in_1_FFF6_FFFE_FFF7_FFFF;
+        break;
     }
 }
 
@@ -500,6 +506,36 @@ void    Machine_Set_Mapping (void)
         g_machine.mapper_regs_count = 1;
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
             g_machine.mapper_regs[i] = 0;
+        break;
+
+    case MAPPER_GG_30_in_1_FFF6_FFFE_FFF7_FFFF:
+        Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0x82 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0x83 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0x80 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0x81 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 3;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[2] = 1;
+        break;
+
+    case MAPPER_GG_52_in_1_FFF6_FFFE_FFF7_FFFF:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 3;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[2] = 1;
         break;
 
     case MAPPER_SC3000_Survivors_Multicart:
