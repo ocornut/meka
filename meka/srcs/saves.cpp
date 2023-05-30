@@ -145,8 +145,11 @@ void        Load_Game_Fixup(void)
             WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
             break;
         case MAPPER_SMS_Korean_MSX_SMS_8000:
-            WrZ80_NoHook(0x8000, 0x00); // reset the mapper to avoid the 0xFF special case
-            WrZ80_NoHook(0x8000, g_machine.mapper_regs[0]);
+            {
+                int mapper_page = g_machine.mapper_regs[0];
+                WrZ80_NoHook(0x8000, 0x00); // reset the mapper to avoid the 0xFF special case
+                WrZ80_NoHook(0x8000, mapper_page);
+            }
             break;
         }
     }

@@ -591,6 +591,7 @@
  T2: The Arcade Game                            -       Ok
  Taito Chase H.Q.                               -       Ok
  Taito Chase H.Q. [Proto]                       -       Ok
+ Tank Battalion (KR)                            -      *Ok
  Taz in Escape From Mars (BR)                   -       Ok
  Taz-Mania                                      -       Ok
  Taz-Mania [Proto]                              -       Ok
@@ -675,7 +676,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 654 games tested - 650 are "Ok"
+ 655 games tested - 651 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
