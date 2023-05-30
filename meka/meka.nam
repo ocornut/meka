@@ -1036,6 +1036,8 @@ GG  0593ba24 905D6D377D1F9D36   Galaga '91/COUNTRY=JP/PRODUCT_NO=T-14057/COMMENT
 GG  95ecece2 432C080C09AD5275   Galaga 2/COUNTRY=EU/PRODUCT_NO=2322/COMMENT=Export version of "Galaga '91".
 GG  cd53f3af 5434506F49A77C4D   Garfield: Caught in the Act/COUNTRY=US,EU/PRODUCT_NO=2560,2560-50
 GG  9afb6f33 CE07E49360532BD6   Garou Densetsu Special/COUNTRY=JP/PRODUCT_NO=T-103017/COMMENT=Japanese version of "Fatal Fury Special".
+GG  d17091a3 80C02AAC9B351DFD   Gear 30 in 1 [Sonic]/EMU_MAPPER=51/COMMENT=This is a "ghost ROM" found in "Gear 52 in 1 [Sonic]" by swapping the first and second megabytes. There is some evidence it may have had a physical release.
+GG  66e96412 80C02AAC9B351DFD   Gear 52 in 1 [Sonic]/EMU_MAPPER=52
 GG  0e300223 27BA4F0E3A5DBF6C   Gear Stadium/COUNTRY=JP/PRODUCT_NO=T-14037/COMMENT=Japanese version of "Batter Up".
 GG  a0530664 08ADE585B8DA024D   Gear Stadium Heiseiban/COUNTRY=JP/PRODUCT_NO=T-14077
 GG  e9a2efb4 F9F734AF23CDB28B   Gear Works/COUNTRY=US/PRODUCT_NO=T-93058
