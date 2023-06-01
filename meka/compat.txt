@@ -984,6 +984,7 @@
 -----------------------------------------------------------------------------
  SEGA GAME GEAR (GG) COMPATIBILITY LIST
 -----------------------------------------------------------------------------
+ 18 in 1 - Super Games Collection [Columns]        *Ok
  5 in One Fun Pak                                   Ok
  Aa Harimanada (JP)                                 Ok
  Addams Family, The                                 Ok
@@ -1409,6 +1410,7 @@
  Street Hero [Proto 1] [SMS-GG]                     Ok
  Strider Returns                                    Ok
  Striker                                            Ok
+ Super 18 in 1 - 1993 New Game [Columns]           *Ok
  Super Battletank                                   Ok
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
@@ -1502,7 +1504,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 519 games tested - 508 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
