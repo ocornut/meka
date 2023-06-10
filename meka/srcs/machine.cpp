@@ -199,6 +199,9 @@ void    Machine_Set_Handler_MemRW(void)
     case MAPPER_SMS_Korean_MSX_SMS_8000:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_SMS_8000;
         break;
+    case MAPPER_SMS_Power_256KB_FFFF_FFFE:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Power_256KB_FFFF_FFFE;
+        break;
     }
 }
 
@@ -500,6 +503,37 @@ void    Machine_Set_Mapping (void)
         g_machine.mapper_regs_count = 1;
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
             g_machine.mapper_regs[i] = 0;
+        break;
+
+    case MAPPER_SMS_Power_256KB_FFFF_FFFE:
+        if (true) {
+            // FIXME: Right now this uses reset rather than power-cycle to
+            // trigger the outer multicart cycling. This is because Meka
+            // does not yet have hooks for mappers to respond reliably to
+            // power-cycling, nor does it have key bindings to allow easy
+            // use of power-cycling multicarts
+            g_machine.mapper_regs_count = 3;
+            for (int i = 0; i != MAPPER_REGS_MAX; i++)
+                g_machine.mapper_regs[i] = 0;
+            g_machine.mapper_regs[1] = 1;
+            if (SRAM[0x7FFF] != 0xAA) {
+                SRAM[0x7FFF] = 0xAA;
+                SRAM[0x7FFE] = 0x00;
+            } else {
+                SRAM[0x7FFE] += 0x10;
+                SRAM[0x7FFE] = ((SRAM[0x7FFE] * 2) & tsms.Pages_Mask_8k) / 2;
+            }
+            g_machine.mapper_regs[0] = SRAM[0x7FFE];
+            unsigned int base_page_8k = g_machine.mapper_regs[0] * 2;
+            Map_8k_ROM(0, base_page_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (base_page_8k | 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (base_page_8k | 3) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, base_page_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (base_page_8k | 1) & tsms.Pages_Mask_8k);
+            Map_8k_RAM(6, 0);
+            Map_8k_RAM(7, 0);
+        }
         break;
 
     case MAPPER_SC3000_Survivors_Multicart:

@@ -642,6 +642,8 @@ SMS 8da5c93f AF2D01D4A78C8B91   Summer Games/NAME_BR=Jogos Olímpicos/COUNTRY=EU
 SMS 4f530cb2 D1B42E8EF4C358B0   Summer Games [Proto 0]/FLAGS=PROTO/COMMENT=Early prototype version of the game. No audio.
 SMS 80eb1fff 420EEF0B240F3152   Summer Games [Proto 1]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 01686d67 88E8E8D0608B22CB   Suho Jeonsa/COUNTRY=KR/PRODUCT_NO=DS-G402
+SMS c5c66fa8 414DF3905F54E953   Super 2 in 1 - Sonic & Alien Storm [SMS-GG]/FLAGS=SMSGG_MODE/EMU_MAPPER=47
+SMS 4f72c1fc 0FE54D8F9C2ED591   Super 2 in 1 - Double Dragon, Ghouls'n Ghosts [SMS-GG]/FLAGS=SMSGG_MODE/EMU_MAPPER=47
 SMS 0dbf3b4a 01EF5A009C6701B2   Super Basketball [Demo]/FLAGS=PROTO/COUNTRY=US/COMMENT=Rolling non-interactive demo to advertise unreleased game. Was shown at the CES exposition floor in USA (around 1989?).
 SMS a66d26cf 5E7FE6D39D642445   Super Bioman I/COUNTRY=KR
 SMS bf5a994a 8DF09E55615029B6   Super Boy I/COUNTRY=KR
@@ -719,6 +721,7 @@ SMS e1714a88 830DC65B43CD65DA   TV Colosso (As Aventuras da)/COUNTRY=BR/PRODUCT_
 SMS b52d60c8 3EEC41D938FA3456   Ultima IV/COUNTRY=EU,BR/PRODUCT_NO=9501
 SMS de9f8517 A9FD5B95131658E9   Ultima IV [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 15668ca4 7638A4C78062F114   Ultimate Soccer/COUNTRY=EU,BR/PRODUCT_NO=7119,024440
+SMS f4de22f1 F0B71C1C94F56830   Untitled 4-in-1 (Moonwalker, Double Dragon, Sagaia & Spider-Man) [SMS-GG]/FLAGS=SMSGG_MODE/EMU_MAPPER=47
 SMS dfb0b161 826B0C3B91EAF65B   Vigilante/COUNTRY=US,EU,BR/PRODUCT_NO=7023
 SMS 57f1545b 63CE90266CDA3B98   Virtua Fighter Animation/COUNTRY=BR/PRODUCT_NO=030020/COMMENT=This is a port from the Game Gear version. 
 SMS 3d55759b 2893A79D37A62301   Walter Payton Football/COUNTRY=US/PRODUCT_NO=7020/COMMENT=US version of "American Pro Football".

@@ -989,6 +989,36 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
     Write_Error (Addr, Value);
 }
 
+// Mapper #47
+// Super 2 in 1 - Sonic & Alien Storm [SMS-GG]
+// Untitled 4-in-1 (Moonwalker, Double Dragon, Sagaia & Spider-Man) [SMS-GG]
+WRITE_FUNC(Write_Mapper_SMS_Power_256KB_FFFF_FFFE)
+{
+    if (Addr == 0xFFFF) // Upper reconfigurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[1] = Value & 0x0f;
+        unsigned int upper_page_8k = (g_machine.mapper_regs[0] + g_machine.mapper_regs[1]) * 2;
+        Map_8k_ROM(4, upper_page_8k & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (upper_page_8k | 1) & tsms.Pages_Mask_8k);
+    }
+    else if (Addr == 0xFFFE) // Lower reconfigurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[2] = Value & 0x0f;
+        unsigned int lower_page_8k = (g_machine.mapper_regs[0] + g_machine.mapper_regs[2]) * 2;
+        Map_8k_ROM(2, lower_page_8k & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (lower_page_8k | 1) & tsms.Pages_Mask_8k);
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
