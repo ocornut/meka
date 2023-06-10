@@ -1334,6 +1334,7 @@
  Quiz Gear Fight!!, The (JP)                        Ok
  Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
+ Real 24 in 1 [Sonic II]                           *Ok
  Revenge of Drancon                                 Ok
  Riddick Rowe Boxing (US)                           Ok
  Riddick Rowe Boxing (JP)                           Ok
@@ -1502,7 +1503,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 518 games tested - 507 are "Ok" - Compatibility rate: 97.88%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
