@@ -16,6 +16,8 @@
 #include "vmachine.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -26,6 +28,7 @@ void        Load_Game_Fixup(void)
 {
     int     i;
     u8      b;
+    bool    sms_gg_mode_in_mapper = false;
 
     // CPU
     #ifdef MARAT_Z80
@@ -151,13 +154,21 @@ void        Load_Game_Fixup(void)
                 WrZ80_NoHook(0x8000, mapper_page);
             }
             break;
+        case MAPPER_GG_Real_24_in_1_FFFE_0000_FFFF:
+            // this will restore every other piece of mapper state by side-effect;
+            // this will also configure SMS-GG mode if needed
+            WrZ80_NoHook(0x0000, g_machine.mapper_regs[0]);
+            sms_gg_mode_in_mapper = true;
+            break;
         }
     }
 
     // VDP/Graphic related
-    tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
-    VDP_UpdateLineLimits();
-    // FALSE!!! // tsms.VDP_Line = 224;
+    if (!sms_gg_mode_in_mapper) {
+        tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
+        VDP_UpdateLineLimits();
+        // FALSE!!! // tsms.VDP_Line = 224;
+    }
 
     // Rewrite all VDP registers (we can do that since it has zero side-effect)
     for (i = 0; i < 16; i ++)
@@ -347,6 +358,7 @@ int     Save_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
     case MAPPER_SMS_Korean_MSX_SMS_8000:
+    case MAPPER_GG_Real_24_in_1_FFFE_0000_FFFF:
     default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -527,6 +539,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
     case MAPPER_SMS_Korean_MSX_SMS_8000:
+    case MAPPER_GG_Real_24_in_1_FFFE_0000_FFFF:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;

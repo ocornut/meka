@@ -14,6 +14,9 @@
 #include "shared.h"
 #include "mappers.h"
 #include "eeprom.h"
+#include "vdp.h"
+#include "video.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -977,6 +980,83 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
         Map_8k_ROM(4, (Value ^ 3) & tsms.Pages_Mask_8k);
         Map_8k_ROM(5, (Value ^ 2) & tsms.Pages_Mask_8k);
         return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
+// Mapper #53
+// Real 24 in 1 [Sonic II] (Unl)
+WRITE_FUNC (Write_Mapper_GG_Real_24_in_1_FFFE_0000_FFFF) {
+    if ((Addr == 0x0000) || (Addr == 0xFFFE) || (Addr == 0xFFFF)) { // Configurable segment -----------------------------------------------
+        // mapper register allocation:
+        // 0: 0x0000: outer paging configuration and SMS-GG mode
+        // - bit 0x80: set when mapping the second megabyte, clear otherwise
+        // - bit 0x40: set when activating SMS-GG mode, clear otherwise
+        // - bits 0x3F: 32KB base page for outer page selection
+        //
+        // For paging to work, the base page must be in an eligible region and
+        // all paging-modifiable bits of the 32KB base page must be set
+        //
+        // 16KB paging mask bits:
+        // - 0x10: when base page bit 0x08 is set and base page > 0x30
+        // - 0x08: when base page bit 0x04 is set and base page > 0x20
+        // - 0x04: when base page bit 0x02 is set and base page > 0x14
+        // - 0x02: when base page bit 0x01 is set and base page > 0x12
+        // - 0x01: always available
+        //
+        // 1: 0xFFFF: 16KB paging offset for region 0x8000..0xBFFF (restricted by 16KB paging mask)
+        // 2: 0xFFFE: 16KB paging offset for region 0x4000..0x7FFF (restricted by 16KB paging mask)
+
+        if (Addr == 0x0000) {
+            g_machine.mapper_regs[0] |= Value;
+            bool sms_gg_mode = (g_machine.mapper_regs[0] & 0x40) ? true : false;
+            if (sms_gg_mode) {
+                drv_set(DRV_SMS);
+            } else {
+                drv_set(DRV_GG);
+            }
+            gamebox_resize_all();
+            VDP_UpdateLineLimits();
+            Video_GameMode_UpdateBounds();
+        } else if (Addr == 0xFFFF) {
+            g_machine.mapper_regs[1] = Value;
+        } else if (Addr == 0xFFFE) {
+            if (Value & 0x80) {
+                // 0xB0 is written at startup, no idea what it means
+            } else {
+                g_machine.mapper_regs[2] = Value;
+            }
+        }
+
+        unsigned int base_page_32k = (g_machine.mapper_regs[0] & 0x3F) | ((g_machine.mapper_regs[0] & 0x80) >> 2);
+        unsigned int paging_mask_16k = 0x01 | (2 * (
+            ((base_page_32k > 0x12) ? (base_page_32k & 0x01) : 0x00)
+            | ((base_page_32k > 0x14) ? (base_page_32k & 0x02) : 0x00)
+            | ((base_page_32k > 0x20) ? (base_page_32k & 0x04) : 0x00)
+            | ((base_page_32k > 0x30) ? (base_page_32k & 0x08) : 0x00)));
+        unsigned int base_page_16k = (2 * base_page_32k) & ~paging_mask_16k;
+        unsigned int page_8000_offset_16k = g_machine.mapper_regs[1] & paging_mask_16k;
+        unsigned int page_4000_offset_16k = g_machine.mapper_regs[2] & paging_mask_16k;
+
+        Map_8k_ROM(0, ((base_page_16k * 2) | 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, ((base_page_16k * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (((base_page_16k | page_4000_offset_16k) * 2) | 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (((base_page_16k | page_4000_offset_16k) * 2) | 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (((base_page_16k | page_8000_offset_16k) * 2) | 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (((base_page_16k | page_8000_offset_16k) * 2) | 1) & tsms.Pages_Mask_8k);
+
+        if (Addr == 0x0000) {
+            // no RAM mirroring for register 0x0000
+            return;
+        }
     }
 
     switch (Addr >> 13)
