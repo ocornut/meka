@@ -22,6 +22,7 @@
 #include "tvtype.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "app_game.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -195,6 +196,9 @@ void    Machine_Set_Handler_MemRW(void)
         break;
     case MAPPER_SMS_Korean_MSX_32KB_2000:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_32KB_2000;
+        break;
+    case MAPPER_GG_Gear_20_in_1_FFFF_FFFE_button:
+        WrZ80 = WrZ80_NoHook = Write_Mapper_GG_Gear_20_in_1_FFFF_FFFE_button;
         break;
     case MAPPER_SMS_Korean_MSX_SMS_8000:
         WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_SMS_8000;
@@ -486,6 +490,43 @@ void    Machine_Set_Mapping (void)
         for (int i = 0; i != MAPPER_REGS_MAX; i++)
             g_machine.mapper_regs[i] = 0;
         g_machine.mapper_regs[0] = 0;
+        break;
+
+    case MAPPER_GG_Gear_20_in_1_FFFF_FFFE_button:
+        g_machine.mapper_regs_count = 3;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[2] = 1;
+        if (SRAM[0x7FFF] != 0xAA) {
+            SRAM[0x7FFF] = 0xAA;
+            SRAM[0x7FFE] = 0x00;
+        } else {
+            // FIXME: don't know yet how the mapper decides which games are which sizes
+            if (SRAM[0x7FFE] <= 0x1F) {
+                SRAM[0x7FFE] += 0x08;
+            } else {
+                SRAM[0x7FFE] += 0x02;
+            }
+            SRAM[0x7FFE] = ((SRAM[0x7FFE] * 2) & tsms.Pages_Mask_8k) / 2;
+        }
+        g_machine.mapper_regs[0] = SRAM[0x7FFE];
+        Map_8k_ROM(0, ((g_machine.mapper_regs[0]) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, ((g_machine.mapper_regs[0]) * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, ((g_machine.mapper_regs[0] + 1) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, ((g_machine.mapper_regs[0] + 1) * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, ((g_machine.mapper_regs[0]) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, ((g_machine.mapper_regs[0]) * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        // FIXME: don't know yet how the mapper decides which games need SMS-GG mode
+        if ((g_machine.mapper_regs[0] <= 0x1F) | ((g_machine.mapper_regs[0] >= 0x38) && (g_machine.mapper_regs[0] <= 0x3D))) {
+            drv_set(DRV_GG);
+        } else {
+            drv_set(DRV_SMS);
+        }
+        gamebox_resize_all();
+        VDP_UpdateLineLimits();
+        Video_GameMode_UpdateBounds();
         break;
 
     case MAPPER_SMS_Korean_MSX_SMS_8000:
