@@ -26,6 +26,7 @@ void        Load_Game_Fixup(void)
 {
     int     i;
     u8      b;
+    bool    sms_gg_mode_in_mapper = false;
 
     // CPU
     #ifdef MARAT_Z80
@@ -144,6 +145,41 @@ void        Load_Game_Fixup(void)
         case MAPPER_SMS_Korean_MSX_32KB_2000:
             WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
             break;
+        case MAPPER_GG_FFF8_FFF9_FFFA_FFFE_FFFF:
+            if (1) {
+                bool sega_mapper_active = g_machine.mapper_regs[0] & 0x80;
+                bool second_megabyte_active = g_machine.mapper_regs[0] & 0x20;
+                unsigned int base_page_32k = g_machine.mapper_regs[0] & 0x1F;
+                unsigned int reg_FFF8 = g_machine.mapper_regs[5];
+                unsigned int reg_FFF9 = g_machine.mapper_regs[4];
+                unsigned int reg_FFFA = g_machine.mapper_regs[3];
+                unsigned int reg_FFFE = g_machine.mapper_regs[2];
+                unsigned int reg_FFFF = g_machine.mapper_regs[1];
+                WrZ80_NoHook(0xFFF9, 0x00);
+                WrZ80_NoHook(0xFFF8, 0x00);
+                WrZ80_NoHook(0xFFFA, 0x01);
+                WrZ80_NoHook(0xFFF8, base_page_32k);
+                WrZ80_NoHook(0xFFF9, (reg_FFF9 & 0x80) | ((sega_mapper_active && second_megabyte_active) ? 0x12 : 0x00) | ((sega_mapper_active && !second_megabyte_active) ? 0x0C : 0x00));
+                WrZ80_NoHook(0xFFFA, (reg_FFFA & 0x01) | ((sega_mapper_active && second_megabyte_active) ? 0x04 : 0x00));
+                WrZ80_NoHook(0xFFFE, 0x01);
+                if (g_machine.mapper_regs[1] != reg_FFFF) {
+                    WrZ80_NoHook(0xFFFF, reg_FFFF);
+                }
+                if (g_machine.mapper_regs[2] != reg_FFFE) {
+                    WrZ80_NoHook(0xFFFE, reg_FFFE);
+                }
+                if (g_machine.mapper_regs[4] != reg_FFF9) {
+                    WrZ80_NoHook(0xFFF9, reg_FFF9);
+                }
+                if (g_machine.mapper_regs[5] != reg_FFF8) {
+                    WrZ80_NoHook(0xFFF8, reg_FFF8);
+                }
+                if (g_machine.mapper_regs[3] != reg_FFFA) {
+                    WrZ80_NoHook(0xFFFA, reg_FFFA);
+                }
+                sms_gg_mode_in_mapper = true;
+            }
+            break;
         case MAPPER_SMS_Korean_MSX_SMS_8000:
             {
                 int mapper_page = g_machine.mapper_regs[0];
@@ -155,9 +191,11 @@ void        Load_Game_Fixup(void)
     }
 
     // VDP/Graphic related
-    tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
-    VDP_UpdateLineLimits();
-    // FALSE!!! // tsms.VDP_Line = 224;
+    if (!sms_gg_mode_in_mapper) {
+        tsms.VDP_Video_Change |= VDP_VIDEO_CHANGE_ALL;
+        VDP_UpdateLineLimits();
+        // FALSE!!! // tsms.VDP_Line = 224;
+    }
 
     // Rewrite all VDP registers (we can do that since it has zero side-effect)
     for (i = 0; i < 16; i ++)
@@ -346,6 +384,7 @@ int     Save_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_FFF8_FFF9_FFFA_FFFE_FFFF:
     case MAPPER_SMS_Korean_MSX_SMS_8000:
     default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
@@ -526,6 +565,7 @@ int         Load_Game_MSV(FILE *f)
     case MAPPER_SMS_Korean_MD_FFF5:
     case MAPPER_SMS_Korean_MD_FFFA:
     case MAPPER_SMS_Korean_MSX_32KB_2000:
+    case MAPPER_GG_FFF8_FFF9_FFFA_FFFE_FFFF:
     case MAPPER_SMS_Korean_MSX_SMS_8000:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
