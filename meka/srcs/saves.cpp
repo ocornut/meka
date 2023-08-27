@@ -336,21 +336,9 @@ int     Save_Game_MSV(FILE *f)
         fwrite (RAM, 0x02000, 1, f);
         fwrite (RAM + 0x2000, 0x00800, 1, f);
         break;
+    // All other mappers save 8KB of RAM (0x2000)
+    case MAPPER_Standard:
     case MAPPER_SMS_NoMapper:
-    case MAPPER_SMS_Korean_MSX_8KB_0003:
-    case MAPPER_SMS_Korean_MSX_8KB_0300:
-    case MAPPER_SMS_Korean_Janggun:
-    case MAPPER_SMS_Korean_FFFF_HiCom:
-    case MAPPER_SMS_Korean_2000_xor_1F:
-    case MAPPER_SMS_Korean_FFFE:
-    case MAPPER_SMS_Korean_FFF3_FFFC:
-    case MAPPER_SMS_Korean_0000_xor_FF:
-    case MAPPER_SMS_Korean_MD_FFF0:
-    case MAPPER_SMS_Korean_MD_FFF5:
-    case MAPPER_SMS_Korean_MD_FFFA:
-    case MAPPER_SMS_Korean_MSX_32KB_2000:
-    case MAPPER_SMS_Korean_SMS_32KB_2000:
-    case MAPPER_SMS_Korean_MSX_SMS_8000:
     default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
@@ -517,21 +505,9 @@ int         Load_Game_MSV(FILE *f)
         fread (RAM, 0x2000, 1, f);
         fread (RAM + 0x2000, 0x0800, 1, f);
         break;
+    // All other mappers save 8KB of RAM (0x2000)
+    case MAPPER_Standard:
     case MAPPER_SMS_NoMapper:
-    case MAPPER_SMS_Korean_MSX_8KB_0003:
-    case MAPPER_SMS_Korean_MSX_8KB_0300:
-    case MAPPER_SMS_Korean_Janggun:
-    case MAPPER_SMS_Korean_FFFF_HiCom:
-    case MAPPER_SMS_Korean_2000_xor_1F:
-    case MAPPER_SMS_Korean_FFFE:
-    case MAPPER_SMS_Korean_FFF3_FFFC:
-    case MAPPER_SMS_Korean_0000_xor_FF:
-    case MAPPER_SMS_Korean_MD_FFF0:
-    case MAPPER_SMS_Korean_MD_FFF5:
-    case MAPPER_SMS_Korean_MD_FFFA:
-    case MAPPER_SMS_Korean_MSX_32KB_2000:
-    case MAPPER_SMS_Korean_SMS_32KB_2000:
-    case MAPPER_SMS_Korean_MSX_SMS_8000:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
