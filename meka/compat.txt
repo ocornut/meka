@@ -16,8 +16,8 @@
  SMS-GG:    This version is a GG cartridge using the SMS compatibility mode
  SMS-MD:    This version is an MD cartridge using the SMS compatibility mode
 -----------------------------------------------------------------------------
- 11 Hap Gam-Boy (KR)                            -      *Ok
- 128 Hap (KR)                                   -      *Ok
+ 11 Hap Gam-Boy (KR)                            -       Ok
+ 128 Hap (KR)                                   -       Ok
  2 Hap in 1 (Moai-ui bomul, David-2) (KR)       -       Ok
  20 em 1 (BR)                                   -       Ok
  3D Gunner [Proto]                              LP,3D   Ok
@@ -566,8 +566,9 @@
  Super Game 200 (KR)                            -      *Ok
  Super Game 270 (KR)                            -      *Ok
  Super Game 270 Hap ~ Jaemissneun-270 (KR)      -      *Ok
- Super Game World 30 Hap (KR)                   -      *Ok
- Super Game World 75 Hap (KR)                   -      *Ok
+ Super Game World 30 Hap [v0] (KR)              -       Ok
+ Super Game World 30 Hap [v1] (KR)              -       Ok
+ Super Game World 75 Hap (KR)                   -       Ok
  Super Game World 260 Hap (KR)                  -      *Ok
  Superman - The Man of Steel                    -       Ok
  Super Kick Off                                 -       Ok
@@ -577,7 +578,7 @@
  Super Monaco GP [Proto 1]                      -       Ok
  Super Monaco GP [Proto 2] (US)                 -       Ok
  Super Monaco GP II (Ayrton Senna's)            -       Ok
- Super Multi Game - Super 75 in 1 (KR)          -      *Ok
+ Super Multi Game - Super 75 in 1 (KR)          -       Ok
  Super Multi Game - Super 125 in 1 (KR)         -       Ok
  Super Off Road                                 -       Ok
  Super Off Road [Proto]                         -       Ok
@@ -588,7 +589,6 @@
  Super Tennis                                   -       Ok
  Super Tetris                                   -       Ok
  Super Wonder Boy Monster World (Super...) (JP) FM      Ok
- Super World 30 Hap (KR)                        -      *Ok
  T2: The Arcade Game                            -       Ok
  Taito Chase H.Q.                               -       Ok
  Taito Chase H.Q. [Proto]                       -       Ok

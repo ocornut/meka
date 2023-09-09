@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2023/05/29
+; Last updated 2023/09/09
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -661,7 +661,8 @@ SMS d3056492 1537C90CFD960E3E   Super Game 270 Hap ~ Jaemissneun-270/COUNTRY=KR/
 SMS edb13847 3EEA007A568DAECD   Super Game 45/COUNTRY=KR/EMU_MAPPER=21
 SMS a841c0b7 82F73F4413D9CF49   Super Game 52 Hap/COUNTRY=KR/EMU_MAPPER=20
 SMS ab07ecd4 BA49364933A43F68   Super Game World 260 Hap/COUNTRY=KR/EMU_MAPPER=18
-SMS 0cde0938 2DFBC7EBB5C63576   Super Game World 30 Hap/COUNTRY=KR/EMU_MAPPER=18/COMMENT=Variation of "Super World 30 Hap"
+SMS 0cde0938 2DFBC7EBB5C63576   Super Game World 30 Hap [v0]/COUNTRY=KR/EMU_MAPPER=18
+SMS e6ad4d4b 4BD0AAA2A4BBE05A   Super Game World 30 Hap [v1]/COUNTRY=KR/EMU_MAPPER=18/COMMENT=Label says "Super World 30 Hap".
 SMS c29bb8cd F5394893312A6339   Super Game World 75 Hap/COUNTRY=KR/EMU_MAPPER=18
 SMS 406aa0c2 50701F46EEB21328   Super Kick Off/COUNTRY=EU,BR/PRODUCT_NO=27017-50
 SMS 10dbbef4 30332F1FFBCB8405   Super Kick Off [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=EU/PRODUCT_NO=2415
@@ -683,7 +684,6 @@ SMS 1d6244ee A2F23281E94DB5CE   Super Space Invaders/COUNTRY=EU/PRODUCT_NO=MK 27
 SMS 914514e3 F799F9C458560EF7   Super Tennis/COUNTRY=US,EU,DE/PRODUCT_NO=4007,4507,41010
 SMS bd1cc7df 230C5D2B35293BB0   Super Tetris/COMMENT=Unlicensed Tetris clone. 
 SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
-SMS e6ad4d4b 4BD0AAA2A4BBE05A   Super World 30 Hap/COUNTRY=KR/EMU_MAPPER=18/COMMENT=Variation of "Super Game World 30 Hap".
 SMS 93ca8152 BC18F17F4F471214   T2: The Arcade Game/COUNTRY=EU/PRODUCT_NO=MK-27061-50
 SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
 SMS 1cdcf415 B68CF0B91B594859   Taito Chase H.Q. [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
