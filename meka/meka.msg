@@ -353,7 +353,7 @@ Msg_Machine_Reset                       = "Machine reset"
 Msg_FDB_Loading                         = "Loading MEKA.FDB (filenames database)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Loading MEKA.NAM (games names)... "
+Msg_DB_Loading                          = "Loading %s (games names)... "
 Msg_DB_Name_Default                     = "Game Screen"
 Msg_DB_Name_NoCartridge                 = "No Cartridge"
 Msg_DB_SyntaxError                      = "On line %d: Syntax error!"
@@ -842,7 +842,7 @@ Msg_Machine_Reset                       = "Réinitialisation de la machine"
 Msg_FDB_Loading                         = "Chargement de MEKA.FDB (base de donnée fichiers)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Chargement de MEKA.NAM (noms des jeux)... "
+Msg_DB_Loading                          = "Chargement de %s (noms des jeux)... "
 Msg_DB_Name_Default                     = "Ecran de jeu"
 Msg_DB_Name_NoCartridge                 = "Pas de cartouche"
 Msg_DB_SyntaxError                      = "Ligne %d: Erreur de syntaxe!"
@@ -1326,7 +1326,7 @@ Msg_Machine_Reset                       = "Machine reset"
 Msg_FDB_Loading                         = "Laden van MEKA.FDB (bestandsnamen database)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Laden van MEKA.NAM (Spel namen)... "
+Msg_DB_Loading                          = "Laden van %s (Spel namen)... "
 Msg_DB_Name_Default                     = "Spel scherm"
 Msg_DB_Name_NoCartridge                 = "Geen Cartridge"
 Msg_DB_SyntaxError                      = "Op regel %d: Syntax fout!"
@@ -1790,7 +1790,7 @@ Msg_Machine_Reset                       = "Maquina reseteada"
 ;Msg_VFN_Loading                         = "Cargando MEKA.VFN (nombres de archivo virtuales)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Cargando MEKA.NAM (nombres de juegos)... "
+Msg_DB_Loading                          = "Cargando %s (nombres de juegos)... "
 Msg_DB_Name_Default                     = "Pantalla de juego"
 Msg_DB_Name_NoCartridge                 = "No hay cartucho"
 
@@ -2257,7 +2257,7 @@ Msg_Machine_Reset                       = "Reset maszyny"
 Msg_FDB_Loading                         = "Wczytuje MEKA.FDB (baza danych nazw plikow)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Wczytywanie MEKA.NAM (nazwy gier)... "
+Msg_DB_Loading                          = "Wczytywanie %s (nazwy gier)... "
 Msg_DB_Name_Default                     = "Ekran gry"
 Msg_DB_Name_NoCartridge                 = "Brak kartridza"
 Msg_DB_SyntaxError                      = "W wierszu %d: Blad skladni!"
@@ -2731,7 +2731,7 @@ Msg_Machine_Reset                       = "Reiniciando sistema"
 ;Msg_VFN_Loading                         = "Carregando MEKA.VFN (nomes virtuais dos arquivos)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Carregando MEKA.NAM (nomes dos jogos)... "
+Msg_DB_Loading                          = "Carregando %s (nomes dos jogos)... "
 Msg_DB_Name_Default                     = "Imagem do jogo"
 Msg_DB_Name_NoCartridge                 = "Sem cartucho"
 
@@ -3167,7 +3167,7 @@ Msg_Machine_Reset                       = "Reset del Sistema"
 ;Msg_VFN_Loading                         = "Carico MEKA.VFN (Nomi file virtuali)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Carico MEKA.NAM (nomi giochi)... "
+Msg_DB_Loading                          = "Carico %s (nomi giochi)... "
 Msg_DB_Name_Default                     = "Schermata gioco"
 Msg_DB_Name_NoCartridge                 = "Nessuna Cartuccia Caricata"
 
@@ -3608,7 +3608,7 @@ Msg_Machine_Reset                       = "Reset"
 ;Msg_VFN_Loading                         = "Lade MEKA.VFN (Virtuelle Dateinamen)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Lade MEKA.NAM (Spielnamen)... "
+Msg_DB_Loading                          = "Lade %s (Spielnamen)... "
 Msg_DB_Name_Default                     = "Spielbildschirm"
 Msg_DB_Name_NoCartridge                 = "Keine Cartridge"
 
@@ -4055,7 +4055,7 @@ Msg_Machine_Reset                       = "Maskinen resettad"
 ;Msg_VFN_Loading                         = "Laddar MEKA.VFN (virtuella filnamn).. "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Laddar MEKA.NAM (spelnamn).. "
+Msg_DB_Loading                          = "Laddar %s (spelnamn).. "
 Msg_DB_Name_Default                     = "Spelskärm"
 Msg_DB_Name_NoCartridge                 = "Ingen spelkassett"
 Msg_DB_SyntaxError                      = "På rad %d: Syntaxfel!"
@@ -4504,7 +4504,7 @@ Msg_Machine_Reset                       = "Maskine genstartet"
 ;Msg_VFN_Loading                         = "Indlaeser MEKA.VFN (virtuelle filnavne)... "
 
 ; DataBase / Names -----------------------------------------------------------
-Msg_DB_Loading                          = "Indlaeser MEKA.NAM (spiltitler)... "
+Msg_DB_Loading                          = "Indlaeser %s (spiltitler)... "
 Msg_DB_Name_Default                     = "Spilskærm"
 Msg_DB_Name_NoCartridge                 = "Ingen spilkasette"
 

@@ -562,7 +562,7 @@ SMS e532716f 217A297127BA42A8   R-Type [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=T
 SMS 1fdae719 9815A90C29BA6556   Running Battle/COUNTRY=EU,BR/PRODUCT_NO=7037,024300
 SMS 66388128 D28E2F698C014338   Sagaia/COUNTRY=EU,BR/PRODUCT_NO=7078
 SMS 97d03541 49C0303E13D3CBD8   Samgukji III/NAME_JP=Sangokushi III/COUNTRY=KR/EMU_MAPPER=9
-SMS 0e7a5f9f A98E33A9C7FDAC7D   Sapo Xulé O Mestre do Kung Fu/COUNTRY=BR/PRODUCT_NO=023500/COMMENT=Hacked version of "Kung Fu Kid", released by Tec Toy.
+SMS 890e83e4 A98E33A9C7FDAC7D   Sapo Xulé O Mestre do Kung Fu/COUNTRY=BR/PRODUCT_NO=023500/COMMENT=Hacked version of "Kung Fu Kid", released by Tec Toy.
 SMS 7ab2946a 137517DF00728D83   Sapo Xulé S.O.S. Lagoa Poluída/COUNTRY=BR/PRODUCT_NO=023510/COMMENT=Hacked version of "Astro Warrior" by Tec Toy.
 SMS 9a608327 A55A9508345B7560   Sapo Xulé Vs Os Invasores do Brejo/COUNTRY=BR/PRODUCT_NO=026340/COMMENT=Hacked version of "Psycho Fox", released by Tec Toy.
 SMS 16249e19 ABFBCE1810529280   Satellite 7/COUNTRY=JP/PRODUCT_NO=C-506
@@ -840,49 +840,7 @@ SMS 18086b70 69207F0C7E233219   Taito Chase H.Q. [SMS-GG] [Hack]/FLAGS=BAD,HACK,
 SMS 9dfa67ee B4EAE0440091F6B7   Teddy Boy Blues [Hack]/COUNTRY=JP/FLAGS=HACK/COMMENT=Hack of the game. Some unused game data was overwritten.
 SMS 7522cf0a 5F37D2F71D0F086D   Wonder Boy in Monster Land [Hack]/FLAGS=HACK/COUNTRY=US,EU/COMMENT=This hack does two things: force the game to run in Japanese mode (with an harder difficulty level), and allows to Pause the game by pressing LEFT+RIGHT+Button 2 on joypad 1 (a combination that cannot be done on a normal SMS joypad).
 
-; Homebrews
-SMS ca270f40 6DE7159995D9820E   AntiISDA Warrior [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=Buggy.
-SMS 7408ef2f 6BF3098A9DD38B14   AntiISDA Warrior [v1.01]/FLAGS=HOMEBREW/VERSION=1.01/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=A bit less buggy than version 1.00.
-SMS b3e5986e 57EB138F95E3980C   AntiISDA Warrior [v1.02]/FLAGS=HOMEBREW/VERSION=1.02/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy
-SMS 2734a9b4 79DBBE8D02C64D4C   Blockhead/FLAGS=HOMEBREW/AUTHORS=proppy & tet/COMMENT=4K game, released for 2004 MiniGame Compo.
-SMS 1d43a351 8B4F3D6114DE1086   Bock's Birthday 2002/FLAGS=HOMEBREW/AUTHORS=Maxim
-SMS c07cb738 D489232826DFDA79   Bock's Birthday 2003/FLAGS=HOMEBREW/AUTHORS=Maxim
-SMS 43600bb1 038591ABC985F9F5   Copyright Violation/FLAGS=HOMEBREW/AUTHORS=Heliophobe
-SMS bfee193c 5FED15D30F837BBF   Code 38 - Volume I [French\/NoPSG]/FLAGS=HOMEBREW/AUTHORS=Furrtek\/L.i.N./COMMENT=French version. No music.
-SMS 0299bda4 8EEACEC09980CF12   Crappy/FLAGS=HOMEBREW/AUTHORS=Memetic
-SMS ff67359b BAADC12E0B5E0041   DataStorm/FLAGS=HOMEBREW/EMU_MAPPER=0
-SMS 7cc2a20b 0929A17E9208977E   DCEvolution.net Intro/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Ventzislav Tzvetkov, Maze\/Apathy/COMMENT=Promotional intro for the DCEvolution.net SMS\/GG\/SG-1000 project.
-SMS a95013d3 B788F3842E5B8938   Fri For Fransk! [v1.02]/FLAGS=HOMEBREW/VERSION=1.02/AUTHORS=Marc Klemp
-SMS 07c39ba4 20C7DA1FAAE0375F   Happy Looser/FLAGS=HOMEBREW/AUTHORS=Zoop
-SMS 922954c6 19C6E01FA9E23760   Happy Looser/FLAGS=BAD,HOMEBREW/AUTHORS=Zoop/COMMENT=Corrupted ROM header. This ROM was distributed in the sources package.
-SMS ed169d59 A9A8F900277B8C88   Headbreak for a Scroller/FLAGS=HOMEBREW/AUTHORS=Furrtek\/L.i.N.
-SMS 6eaead07 A05F0BE71505FEF7   Page Frame Register Detect [v0.01]/FLAGS=HOMEBREW/VERSION=0.01/AUTHORS=Eric R. Quinn/EMU_MAPPER=0
-SMS ad0ff4f1 CDABEB55AD267EF7   Page Frame Register Detect [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Eric R. Quinn/EMU_MAPPER=0
-SMS 1f30cb32 ADD696C40348EEEA   Page Frame Register Detect [v2.00]/FLAGS=HOMEBREW/VERSION=2.00/AUTHORS=Eric R. Quinn/EMU_MAPPER=0
-SMS f61874c9 D91BB1A6725E02E3   Robbyie/FLAGS=HOMEBREW/VERSION=0.99/AUTHORS=Ventzislav Tzvetkov/COMMENT=1K game, released for 2004 MiniGame Compo.
-SMS 7cbd4432 7BC5F85A1C32DF41   SALY/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Marc Klemp
-SMS 49790a5a 6CD4D4285F37A589   Sega Mark III Port Test/FLAGS=HOMEBREW/VERSION=0.1/AUTHORS=Enri (T.H)
-SMS 5f1120c8 389C255B45409790   Sega Mark III BG Test/FLAGS=HOMEBREW/VERSION=0.01/AUTHORS=Enri (T.H)
-SMS 297efb87 F6CA6BFD36AE4CA8   SMSPower 7 [v1.00]/FLAGS=HOMEBREW/VERSION=1.00/AUTHORS=Nick Warren (Heliophobe)/COMMENT=SMS Power 7th Anniversary Demo.
-SMS 72506a85 7389804C41C573BF   SMSPower 7 [v1.03]/FLAGS=HOMEBREW/VERSION=1.03/AUTHORS=Nick Warren (Heliophobe)/COMMENT=SMS Power 7th Anniversary Demo. ; SDSC tag says version 1.02 but it is 1.03, really.
-SMS a3e97d04 89D423D3A6865130   Tetracycline [v1]/FLAGS=HOMEBREW/VERSION=1/AUTHORS=Heliophobe
-SMS 983e17e4 D8DB27E4A88354C3   Tetracycline [v2]/FLAGS=HOMEBREW/VERSION=2/AUTHORS=Heliophobe
-SMS fd603aea A19CB1789551FCB8   Tetracycline [v3]/FLAGS=HOMEBREW/VERSION=3/AUTHORS=Heliophobe
-SMS a0bf829b 2D816184804F9806   Tetracycline [v4]/FLAGS=HOMEBREW/VERSION=4/AUTHORS=Heliophobe
-SMS 046ebc1b 795067F611200B9E   Unité Centrale de Huit Bits/FLAGS=HOMEBREW/AUTHORS=Comic Bakery/COMMENT=SMS Demo for Mainframe03.
-SMS ad300bd9 8147C138C1003E40   VIK 01/FLAGS=HOMEBREW/AUTHORS=L.i.N.
-SMS a463ddfa 1DE693E241DE4D1C   Zoom Effect #1/FLAGS=HOMEBREW/AUTHORS=Charles MacDonald/COMMENT=Doesn't run properly in MEKA.
 
-; Translations
-SMS 7338d04e 6399700AAAC09F81   Air Rescue/FLAGS=TRANS/TRANS=PT/AUTHORS=Emutrans
-SMS 7337abb7 8A2B7047E7DBAE24   Air Rescue/FLAGS=BAD,TRANS/TRANS=PT/AUTHORS=Emutrans
-SMS 9a1ecfec 2E30322805F4420D   Ghost House/FLAGS=TRANS/COUNTRY=US,EU/TRANS=BR/AUTHORS=Leo
-SMS 11e19fb1 C24C078D64F2E325   Golvellius - Valley of Doom/FLAGS=TRANS/COUNTRY=US,EU/TRANS=FR/VERSION=1.3/AUTHORS=floflo
-SMS 359141ef 848E8CA2DD44E9B6   Golvellius - Valley of Doom/FLAGS=TRANS/COUNTRY=US,EU/TRANS=DE/AUTHORS=Star-trans
-SMS 00196eba F1227B8A149789B4   Golvellius - Valley of Doom/FLAGS=TRANS/COUNTRY=US,EU/TRANS=BR/AUTHORS=Albert Viudes Dick.
-SMS 0643620e 078F6E3FDB3CDFC7   Ninja Gaiden/FLAGS=TRANS/TRANS=FR/AUTHORS=?/COMMENT=Translation based on the prototype version.
-SMS 41e5b485 6B11424AD07AE6C8   Ninja Gaiden/FLAGS=TRANS/TRANS=FR/AUTHORS=Terminus/COMMENT=Translation based on the prototype version.
-SMS 317f14da 642D4E5E1BB23ABC   Ninja Gaiden/FLAGS=TRANS/TRANS=DE/VERSION=1.00/AUTHORS=Star-trans/COMMENT=Translation based on the prototype version.
 
 ;-----------------------------------------------------------------------------
 ; DATA - SEGA GAME GEAR (GG)
@@ -1409,10 +1367,7 @@ GG  231e5b78 E4B611A11356D972   VR Troopers/FLAGS=BAD/COUNTRY=US,EU/COMMENT=2 ba
 GG  90d40776 8A8E033FAF71E0A6   Lion King, The (Disney's) [Hack]/COUNTRY=US/FLAGS=HACK/COMMENT=Hack of the game. Include a cheat trainer.
 GG  040512ce 8B8D0340AF70E0A6   Lion King, The (Disney's) [Hack]/COUNTRY=EU/FLAGS=HACK/COMMENT=Hack of the game. Include a cheat trainer.
 
-; Homebrews
-GG  820ceb2c 30002377B9BF704E   Chaos/FLAGS=HOMEBREW/AUTHORS=Charles Doty (Raster) & Pickster
-GG  dbdb3a2e 707D62A152450079   Frog/FLAGS=HOMEBREW/VERSION=2/AUTHORS=Charles Doty
-GG  f366b29d 8A4C513A5DD6DD8F   Windows for the GG/FLAGS=HOMEBREW/VERSION=4/AUTHORS=Victor Klemp
+
 
 ;-----------------------------------------------------------------------------
 ; DATA - SEGA GAME 1000 (SG-1000)
@@ -1619,15 +1574,14 @@ SG1 4831210b A9EF65B1A5C8F7EE   Safari Race/FLAGS=BAD
 SG1 54d5bec3 3AB53AF88CD283FE   Sindbad Mystery/FLAGS=BAD/COUNTRY=JP,AU,NZ,EU/COMMENT=1 bad byte.
 SG1 72542786 B4242BD5DE3E2CE0   Monaco GP [24k]/FLAGS=BAD/COUNTRY=JP,AU,NZ,EU/COMMENT=Middle unused 16k memory region contains data from Safari Hunting.
 
-; Homebrews
-SG1 b1cbec5a 781CA0E7EF3207BD   S_sniper/FLAGS=HOMEBREW/AUTHORS=Maechiko
-SG1 56abc493 BA07B1875BCCF2EE   Omikuji/FLAGS=HOMEBREW/AUTHORS=Maechiko
 
 ;-----------------------------------------------------------------------------
 ; DATA - SEGA COMPUTER 3000 (SC-3000)
 ;-----------------------------------------------------------------------------
 
 SC3 f691f9c7 A498D750D50A8638   Basic Level II A/COUNTRY=JP/PRODUCT_NO=B-10/EMU_MAPPER=1
+SC3 a46e3c73 EE421209CF077A65   Basic Level III A/COUNTRY=JP/PRODUCT_NO=B-10/EMU_MAPPER=1
+SC3 5d9f11ca 242CE123F9157D21   Basic Level III A/COUNTRY=EU/PRODUCT_NO=B-10/EMU_MAPPER=1
 SC3 345c8bc8 CD315B439CEE36A4   Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-105/COMMENT=Educational Software: English Grammar (Junior High School 1st year)
 SC3 d4c473b2 577B6DD9FD8F2D2F   Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)/COUNTRY=JP/PRODUCT_NO=E-112/COMMENT=Educational Software: English Grammar (Junior High School 2nd year)
 SC3 9bafd9e9 F9010E587DA5BFBF   Chuugaku Hisshuu Eisakubun (Chuugaku 1-Nen)/COUNTRY=JP/PRODUCT_NO=E-104/EMU_MAPPER=5/COMMENT=Educational software: English Composition (Junior High School 1st year)
@@ -1663,6 +1617,12 @@ SC3 b67ea1c4 F563D149DA372558   Music/COUNTRY=AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=E-10
 SF7 ad19c0a0 A55FE3E37F6681D0   Complete Arcade Pack Collection, The/COUNTRY=NZ
 SF7 5aeee6ee 134342342A7B424D   HuCAL
 SF7 a7b1da17 1787122D7B8052D6   Sega Logo v1.0e
+SF7 50a2a040 32505C23950676EE   Sega Disk Basic v1.0p
+SF7 7f51ef65 E474FD8621B1CA89   Sega Disk Basic v1.1p
+SF7 ffdbcd97 04DDAC7564D37A4D   Sega Disk Basic v1.0p + Yeno Demo/COMMENT=This is the original disk to which was added a separately provided demonstration.
+SF7 8c0d8d02 3502047798E07A5C   Sega Base 1.0
+SF7 e8e6cac4 93EA775C57041243   SegaWord 3/COUNTRY=AU
+SF7 67d2f298 0BCD38F1ABB7D7C6   FROGGY Pack (Scorpion) [Froggy + Cube It]/COUNTRY=NZ
 
 ;-----------------------------------------------------------------------------
 ; DATA - OTHELLO MULTIVISION (OMV)

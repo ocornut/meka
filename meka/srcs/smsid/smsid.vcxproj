@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\db.cpp" />
+    <ClCompile Include="..\tools.cpp" />
     <ClCompile Include="..\libmisc.cpp" />
     <ClCompile Include="..\libparse.cpp" />
     <ClCompile Include="smsid_stubs.cpp" />

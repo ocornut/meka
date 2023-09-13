@@ -381,7 +381,7 @@ int main(int argc, char **argv)
 
     Setup_Interactive_Init (); // Show Interactive Setup if asked to
     Frame_Skipper_Init     (); // Initialize Auto Frame Skipper
-    DB_Init                (g_env.Paths.DataBaseFile); // Initialize and load DataBase file
+    DB_Init                (g_env.Paths.EmulatorDirectory); // Initialize and load DataBase file
     Patches_List_Init      (); // Load Patches List
     VLFN_Init              (); // Load Virtual Long Filename List
     Skins_Init             (); // Load Skin List
