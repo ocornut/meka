@@ -362,6 +362,7 @@
  Megumi Rescue (JP)                             FM,PAD  Ok
  Mercs                                          -       Ok
  Mega Mode Super Game 30 [SMS-MD] (KR)          -      *Ok
+ Mega Mode Super Game 78 [SMS-MD] (KR)          -      *Ok
  Mega Mode Super Game 138 [SMS-MD] (KR)         -      *Ok
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
@@ -677,7 +678,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 656 games tested - 652 are "Ok"
+ 657 games tested - 653 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
