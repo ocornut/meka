@@ -173,6 +173,7 @@ They are usually of 2 kinds:
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           GG  - de25e2d8 - Sports Illustrated - Championship F..--> Sports Illustrated - Championship Football & Baseball [BAD] (was bad dump)
           GG  - 5b5de94d - Sports Trivia - Championship Edition --> Sports Trivia - Championship Edition [Proto] (from old Image dump stash)
+          GG  - 661faeff - Super Monaco GP II (Ayrton...) (JP)  --> Super Monaco GP II (Ayrton Senna's) [v0] (JP) (discovered a v1)
           GG  - e678f264 - Yogi Bear in Yogi Bears Goldrush..   --> Yogi Bear in Yogi Bear's Goldrush [Proto]
           GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
           SG1 - 26f947d1 - Champion Boxing [cart]               --> Champion Boxing [v0]
@@ -571,8 +572,8 @@ They are usually of 2 kinds:
 ##  Some particular renaming includes:
           SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
           SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
-          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
-          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
+          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse [v0]
+          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse [v1]
           SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
           SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
           SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck

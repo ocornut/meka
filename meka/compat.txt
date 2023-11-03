@@ -107,8 +107,8 @@
  Captain Silver [Proto]                         FM      Ok
  Casino Games                                   FM      Ok
  Castelo Rá-Tim-Bum (BR)                        -       Ok
- Castle of Illusion - Starring Mickey Mouse     -       Ok
- Castle of Illusion - Starring Mickey Mouse (US)-       Ok
+ Castle of Illusion - Starring Mickey Mo.. [v0] -       Ok
+ Castle of Illusion - Starring Mickey Mo.. [v1] -       Ok
  Castle of Illusion - Starring Mickey.. [Demo]  -       Ok
  Champions of Europe                            -       Ok
  Championship Hockey                            -       Ok
@@ -1421,7 +1421,8 @@
  Super Monaco GP                                    Ok
  Super Monaco GP (JP)                               Ok
  Super Monaco GP II (Ayrton Senna's)                Flickering title screen (LCD Persistance).
- Super Monaco GP II (Ayrton Senna's) (JP)           Flickering title screen (LCD Persistance).
+ Super Monaco GP II (Ayrton Senna's) [v0] (JP)      Flickering title screen (LCD Persistance).
+ Super Monaco GP II (Ayrton Senna's) [v1] (JP)     *Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) [Proto]        Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
  Super Off Road [Proto]                             Ok
@@ -1476,6 +1477,7 @@
  Wolfchild                                          Ok
  Wonder Boy                                         Ok
  Wonder Boy (JP)                                    Ok
+ Wonder Boy [Proto] (US)                           *Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
  Woody Pop [v0] (JP)                                Ok
@@ -1503,7 +1505,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 517 games tested - 506 are "Ok" - Compatibility rate: 97.63%
+ 519 games tested - 508 are "Ok" - Compatibility rate: 97.63%
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
