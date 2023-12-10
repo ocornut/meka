@@ -148,6 +148,7 @@ They are usually of 2 kinds:
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
           SMS - 6f8e46cf - Alex Kidd in Miracle World [SMS-GG] (TW) --> Alex Kidd in Miracle World [HTH] [SMS-GG] (TW) (labeling HTH release, listing them under SMS)
+          SMS - 58d5fc48 - Blade Eagle 3-D [Proto]              --> Blade Eagle 3-D [Proto 0] (later proto found)
           SMS - c4bb1676 - E-SWAT [A]                           --> E-SWAT [v0]
           SMS - c10fce39 - E-SWAT [B]                           --> E-SWAT [v1]
           SMS - b7fe0a9d - King's Quest - Quest for t.. [Proto] --> King's Quest - Quest for the Crown [Proto 1] (earlier proto found)
@@ -170,10 +171,12 @@ They are usually of 2 kinds:
           GG  - 4a98678b - Joe Montana Football (JP)            --> Joe Montana Football [v1] (JP, BR)
           GG  - a8ef36a7 - Junction                             --> Junction (JP)
           GG  - 23f9150a - Kawasaki Superbike Challenge         --> Kawasaki Superbikes (EU) (now dumped US version)
+          GG  - c1756bee - Pete Sampras Tennis (EU, US)         --> Pete Sampras Tennis (EU) (now dumped US version)
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           GG  - de25e2d8 - Sports Illustrated - Championship F..--> Sports Illustrated - Championship Football & Baseball [BAD] (was bad dump)
           GG  - 5b5de94d - Sports Trivia - Championship Edition --> Sports Trivia - Championship Edition [Proto] (from old Image dump stash)
           GG  - 661faeff - Super Monaco GP II (Ayrton...) (JP)  --> Super Monaco GP II (Ayrton Senna's) [v0] (JP) (discovered a v1)
+          GG  - ca0e11cc - Tesserae                             --> Tesserae [BAD] (corret dump is bf696f94) 
           GG  - e678f264 - Yogi Bear in Yogi Bears Goldrush..   --> Yogi Bear in Yogi Bear's Goldrush [Proto]
           GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
           SG1 - 26f947d1 - Champion Boxing [cart]               --> Champion Boxing [v0]

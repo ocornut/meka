@@ -91,7 +91,8 @@
  Black Belt                                     -       Ok
  Black Belt [HTH] [SMS-GG] (TW)                 -       Ok
  Blade Eagle 3-D / Blade Eagle                  FM,3D   Ok
- Blade Eagle 3-D / Blade Eagle [Proto]          FM,3D   Ok
+ Blade Eagle 3-D / Blade Eagle [Proto 0]        FM,3D   Ok
+ Blade Eagle 3-D / Blade Eagle [Proto 1]        FM,3D  *Ok
  Block Hole (KR)                                -       Ok
  BMX Trial - Alex Kidd (JP)                     FM,PAD  Ok
  Bomber Raid                                    FM      Ok
@@ -200,6 +201,7 @@
  Fantasy Zone II - The Tears of Opa-Opa         FM      Ok
  Fantasy Zone II - Opa-Opa no Namida (JP)       FM      Ok
  Fantasy Zone: The Maze                         FM      Ok
+ Fantasy Zone: The Maze [Proto]                 FM     *Ok
  Family Games (Party Games) (JP)                FM      Ok
  FA Tetris (KR)                                 -       Ok
  Férias Frustradas do Pica Pau (BR)             -       Ok
@@ -239,6 +241,7 @@
  Ghost House [Proto]                            -       Ok
  Ghostbusters                                   -       Ok
  Ghouls'n Ghosts                                -       Ok
+ Ghouls'n Ghosts [HTH] (SMS-GG) (TW)            -      *Ok
  Ghouls'n Ghosts [Demo]                         -       Ok
  Global Defense                                 FM      Ok
  Global Defense [Proto]                         FM      Ok
@@ -321,6 +324,7 @@
  Jurassic Park                                  -       Ok
  Kenseiden                                      FM      Ok
  Kenseiden (JP)                                 FM      Ok
+ Kenseiden [HTH] [SMS-GG] (TW)                  FM     *Ok
  King & Balloon (KR)                            -       Ok
  King's Quest - Quest for the Crown             -       Ok
  King's Quest - Quest for the Crown [Proto 0]   -       Ok
@@ -677,7 +681,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 656 games tested - 652 are "Ok"
+ 660 games tested - 656 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -821,6 +825,7 @@
  Ninja Princess                                 Ok
  Ninja Princess (TW)                            Ok
  Orguss                                         Ok
+ Orguss (TW)                                   *Ok
  Othello                                        Ok
  Othello (TW)                                   Ok
  Pacar                                          Ok
@@ -897,7 +902,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 190 games tested - 190 are "Ok" - Compatibility rate: 100.00%
+ 191 games tested - 191 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -924,7 +929,7 @@
  Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  20 games tested - 19 are "Ok" - Compatibility rate: 95.00%
+  20 games tested - 19 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -961,7 +966,7 @@
  Tanoshii Sansuu (Shougaku 6-Nen Jou)                   E-117   Ok
  Uranai Angel Cutie                                     E-119   Ok
 -----------------------------------------------------------------------------
-  26 roms tested - 26 are "Ok" - Compatibility rate: 100.00%
+  26 roms tested - 26 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1150,6 +1155,7 @@
  GG Portrait - Yuuki Akira (JP)                     Ok
  GG Shinobi, The (JP)                               Ok
  Global Gladiators                                  Ok
+ Global Golf [Proto]                               *Ok
  G-LOC - Air Battle                                 Ok
  G-LOC - Air Battle [v0] (JP)                       Ok
  G-LOC - Air Battle [v1] (JP)                       Ok
@@ -1179,10 +1185,12 @@
  Iron Man X-O Manowar in Heavy Metal                Ok
  Itchy & Scratchy Game, The                         Ok
  James Bond 007: The Duel                           Ok
+ James Bond 007: The Duel [Proto]                  *Ok
  James Pond II - Codename: RoboCod                  Ok
  James Pond II - Codename: RoboCod (US)             Ok
  Jang Pung II [SMS-GG] (KR)                         Ok
  Jeopardy!                                          Ok
+ Jeopardy! [Proto]                                 *Ok
  Jeopardy! - Sports Edition                         Ok
  J League GG Pro Striker '94 (JP)                   Ok
  J League Soccer Dream Eleven (JP)                  Ok
@@ -1223,8 +1231,9 @@
  Madden 96                                          Ok
  Madoh Monogatari I - Mittsu no Madoukyuu (JP)      Ok
  Madoh Monogatari II - Aruru 16-sai (JP)            Ok
- Madoh Monogatari III - Kyuukyoku Joou-sama [v0](JP)Ok
- Madoh Monogatari III - Kyuukyoku Joou-sama [v1](JP)Ok
+ Madoh Monogatari III - Kyuukyoku Joou.. [v0] (JP)  Ok
+ Madoh Monogatari III - Kyuukyoku Joou.. [v1] (JP)  Ok
+ Madoh Monogatari III - Kyuukyoku J.. [Proto] (JP) *Ok
  Madoh Monogatari A - Doki Doki Vacation (JP)       Ok
  Magic Knight Ray Earth (JP)                        Ok
  Magic Knight Ray Earth 2 ~making of magic k.. (JP) Ok
@@ -1300,6 +1309,7 @@
  Pengo (JP)                                         Ok
  Pet Club Inu Dai Suki! (JP)                        Ok
  Pete Sampras Tennis                                Ok
+ Pete Sampras Tennis (US)                          *Ok
  PGA TOUR Golf                                      Ok
  PGA TOUR Golf II                                   Ok
  PGA TOUR 96                                        Ok
@@ -1335,6 +1345,7 @@
  Quiz Gear Fight!!, The (JP)                        Ok
  Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
+ R.C. Grand Prix [Proto] [SMS-GG]                  *Ok 
  Revenge of Drancon                                 Ok
  Riddick Rowe Boxing (US)                           Ok
  Riddick Rowe Boxing (JP)                           Ok
@@ -1414,6 +1425,7 @@
  Super Columns                                      Ok
  Super Columns (JP)                                 Ok
  Super Golf (JP)                                    Ok
+ Super Golf (US)                                    Ok
  Super Kick Off [SMS-GG]                            Ok
  Superman - The Man of Steel                        Ok
  Superman - The Man of Steel [Proto]                Ok
@@ -1453,6 +1465,7 @@
  Terminator, The                                    Ok
  Terminator 2 - Judgment Day                        Ok
  Tesserae                                           Ok
+ Tesserae [Proto]                                  *Ok
  Smurfs, The                                        Ok
  Smurfs Travel the World, The                       Ok
  Tintin in Tibet                                    Ok
@@ -1505,7 +1518,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 519 games tested - 508 are "Ok" - Compatibility rate: 97.63%
+ 525 games tested - 514 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
