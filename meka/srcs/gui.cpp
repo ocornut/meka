@@ -20,8 +20,8 @@ t_gui gui;
 //-----------------------------------------------------------------------------
 
 DrawCursor::DrawCursor(v2i _pos, int font_id)
+    : pos(_pos)
 {
-    this->pos = _pos;
     this->x_base = this->pos.x;
     this->y_spacing = Font_Height((t_font_id)font_id)+2;
 

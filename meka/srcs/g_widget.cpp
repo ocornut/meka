@@ -384,7 +384,6 @@ void        widget_button_redraw(t_widget *w)
         return;
 
     const ALLEGRO_COLOR bg_color = (w->highlight || wd->highlight_on_click>0) ? COLOR_SKIN_WIDGET_GENERIC_SELECTION : COLOR_SKIN_WIDGET_GENERIC_BACKGROUND;
-    const ALLEGRO_COLOR text_color = wd->grayed_out ? COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE : COLOR_SKIN_WIDGET_GENERIC_TEXT;
     const t_frame *frame = &w->frame;
 
     al_set_target_bitmap(w->box->gfx_buffer);
@@ -394,7 +393,10 @@ void        widget_button_redraw(t_widget *w)
     else
         gui_rect(LOOK_THIN, frame->pos.x, frame->pos.y, frame->pos.x + frame->size.x, frame->pos.y + frame->size.y, COLOR_SKIN_WIDGET_GENERIC_BORDER);
     if (wd->label)
+    {
+        const ALLEGRO_COLOR text_color = wd->grayed_out ? COLOR_SKIN_WIDGET_GENERIC_TEXT_UNACTIVE : COLOR_SKIN_WIDGET_GENERIC_TEXT;
         Font_Print(wd->font_id, wd->label, frame->pos.x + ((frame->size.x - Font_TextWidth(wd->font_id, wd->label)) / 2), frame->pos.y + ((frame->size.y - Font_Height(wd->font_id)) / 2) + 1, text_color);
+    }
 }
 
 void    widget_button_set_grayed_out(t_widget *w, bool grayed_out)
