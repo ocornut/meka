@@ -173,7 +173,7 @@ int         Mapper_Autodetect(void)
         return (MAPPER_SMS_4PakAllAction);
 
     // 2 is a security measure, although tests on existing ROM showed it was not needed
-    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1 && cFFFF == 0) // Need to be BEFORE MAPPER_SMS_Korean_MSX_8KB_0003 for 30-in-1
+    if (c0000 >= 1 && c0100 >= 1 && c0200 >= 1 && c0300 >= 1 && (c0000 + c0100 + c0200 + c0300 > cFFFF)) // Need to be BEFORE MAPPER_SMS_Korean_MSX_8KB_0003 for 30-in-1
         return (MAPPER_SMS_Korean_MSX_8KB_0300);
     if (c0002 > cFFFF + 2 || (c0002 > 0 && cFFFF == 0))
         return (MAPPER_SMS_Korean_MSX_8KB_0003);
@@ -503,6 +503,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_A000)
 }
 
 // Write function for Mapper #20: MAPPER_SMS_Korean_BFFC
+// (Note: somehow similar to #21)
 WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
 {
     if (Addr == 0xBFFC)
@@ -519,26 +520,31 @@ WRITE_FUNC(Write_Mapper_SMS_Korean_BFFC)
             upper = (Value & 0x3E) | 1;
             Map_16k_ROM(0, (lower & mask_16) * 2);
             Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (0x3f & mask_16) * 2 + 1); // actually should be open bus
+            Map_8k_ROM(5, (0x3f & mask_16) * 2 + 1); // actually should be open bus
             break;
         case 0x40: // 16 KB SMS/SG game
             lower = upper = (Value & 0x3F);
             Map_16k_ROM(0, (lower & mask_16) * 2);
             Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (0x3f & mask_16) * 2 + 1); // actually should be open bus
+            Map_8k_ROM(5, (0x3f & mask_16) * 2 + 1); // actually should be open bus
             break;
         case 0x80: // MSX Regular (16 KB bios + 16 KB ROM)
             lower = 0x20;
             upper = (Value & 0x3F);
             Map_16k_ROM(0, (lower & mask_16) * 2);
             Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (0x3f & mask_16) * 2 + 1); // actually should be open bus
+            Map_8k_ROM(5, (0x3f & mask_16) * 2 + 1); // actually should be open bus
             break;
-        case 0xC0: // MSX Namco (16 KB bios + 2x8 KB ROM each mirrored once)
+        case 0xC0: // MSX Namco (16 KB bios + 2x8 KB ROM each mirrored once in A B B A order)
             lower = 0x20;
             upper = (Value & 0x3F);
             Map_16k_ROM(0, (lower & mask_16) * 2);
-            Map_8k_ROM (2, (upper & mask_16) * 2);
-            Map_8k_ROM (3, (upper & mask_16) * 2);
-            Map_8k_ROM (4, (upper & mask_16) * 2 + 1);
-            Map_8k_ROM (5, (upper & mask_16) * 2 + 1);
+            Map_16k_ROM(2, (upper & mask_16) * 2);
+            Map_8k_ROM(4, (upper & mask_16) * 2 + 1);
+            Map_8k_ROM(5, (upper & mask_16) * 2);
             break;
         }
 
@@ -584,19 +590,19 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
 {
     if ((Addr & 0x6000) == 0x2000) // Configurable segment -----------------------------------------------
     {
-        RAM[0x1FFF] = Value;
+        //RAM[0x1FFF] = Value;
 
         // This is technically incorrect: to mimic the actual hardware
         // we would either need to use an overdumped 2MB ROM, or we
         // would need to preserve all the segment base bits, as page
         // numbers past the end of the ROM return zeroes in real
         // hardware.
-        Value = ((Value ^ 0x1F) & tsms.Pages_Mask_8k) ^ 0x1F;
         g_machine.mapper_regs[0] = Value;
-        Map_8k_ROM(2, g_machine.mapper_regs[0] ^ 0x1f);
-        Map_8k_ROM(3, g_machine.mapper_regs[0] ^ 0x1e);
-        Map_8k_ROM(4, g_machine.mapper_regs[0] ^ 0x1d);
-        Map_8k_ROM(5, g_machine.mapper_regs[0] ^ 0x1c);
+        Value = ((Value ^ 0x1F) & tsms.Pages_Mask_8k) ^ 0x1F;
+        Map_8k_ROM(2, Value ^ 0x1f);
+        Map_8k_ROM(3, Value ^ 0x1e);
+        Map_8k_ROM(4, Value ^ 0x1d);
+        Map_8k_ROM(5, Value ^ 0x1c);
         return;
     }
 
@@ -609,6 +615,405 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
 
     Write_Error (Addr, Value);
 } 
+
+// Mapper #21
+// (Note: somehow similar to #20, see how #20 is written as it is somehow neater)
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE)
+{
+    if (Addr == 0xFFFE) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        // 0abcccccd
+        //  a (1-bit)  when 0 = map MSX BIOS in page 0 and 1, when 1 = use regular register
+        //  b (1-bit)  
+        //  c (5-bits)
+        //  d (1-bit)  
+        Map_8k_ROM(0, (((Value & 0x40) == 0x40) ? ((Value & 0x1e) * 2) : 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (((Value & 0x40) == 0x40) ? ((Value & 0x1e) * 2 + 1) : 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (((Value & 0x40) == 0x40) ? (((Value & 0x1e) + 1) * 2) : ((Value & 0x1f) * 2)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (((Value & 0x40) == 0x40) ? (((Value & 0x1e) + 1) * 2 + 1) : ((Value & 0x1f) * 2 + 1)) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (((Value & 0x60) == 0x20) ? ((Value & 0x1f) * 2 + 1) : 0x3f) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (((Value & 0x60) == 0x20) ? ((Value & 0x1f) * 2) : 0x3f) & tsms.Pages_Mask_8k);
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
+
+// Mapper #22
+// Super Game 150, Super Game 270
+WRITE_FUNC(Write_Mapper_SMS_Korean_FFF3_FFFC)
+{
+    const int incomplete_address_decoding = 0x4000;
+    const u16 addr_assumed = Addr | incomplete_address_decoding;
+    if (addr_assumed == 0xFFF3 || addr_assumed == 0xFFFC) // Configurable segment -----------------------------------------------
+    {
+        if (addr_assumed == 0xFFF3) {
+            g_machine.mapper_regs[0] = Value;
+        }
+        else if (addr_assumed == 0xFFFC) {
+            g_machine.mapper_regs[1] = Value;
+        }
+        const int Mapper = g_machine.mapper_regs[0];
+        const int Mode = g_machine.mapper_regs[1];
+
+        const int Config = Mode & 0xE0;
+
+        const int Page0 = (Mode & 0x10) * 8 + (Mapper & 0x3E) * 2;
+        const int Page1 = Page0 + 1;
+        const int Page2 = Page0 + 2;
+        const int Page3 = Page0 + 3;
+
+        const int Odd = Mapper & 0x01;
+
+        if (Config == 0x00) {
+            // 16KB SMS
+            Map_8k_ROM(0, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x20) {
+            // 32KB SMS
+            Map_8k_ROM(0, Page0 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, Page1 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, Page2 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, Page3 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x40) {
+            // MSX mapped at 0x4000
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x60) {
+            // MSX mapped at 0x8000
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, 0xFE & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0x80) {
+            // MSX (8KB permuted)
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+        }
+        else if (Config == 0xA0) {
+            // MSX (16KB permuted)
+            Map_8k_ROM(0, 0x80 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x81 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, (Odd ? Page2 : Page0) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (Odd ? Page3 : Page1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (Odd ? Page0 : Page2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (Odd ? Page1 : Page3) & tsms.Pages_Mask_8k);
+        }
+        else {
+            // ???
+            Map_8k_ROM(0, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(2, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        }
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
+// Mapper #23
+// Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave, Pooyan)
+WRITE_FUNC(Write_Mapper_SMS_Korean_0000_xor_FF)
+{
+    if (Addr == 0x0000) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        if ((Value & 0xF0) == 0xF0)
+        {
+            // 0xFF maps the same 16KB (of all 0xFF bytes!) twice
+            Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, 2 & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, 3 & tsms.Pages_Mask_8k);
+        }
+        else {
+            int segment_start_8k = ((Value ^ 0xF0) & 0xF0) >> 2;
+            Map_8k_ROM(2, segment_start_8k & tsms.Pages_Mask_8k);
+            Map_8k_ROM(3, (segment_start_8k + 1) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(4, (segment_start_8k + 2) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(5, (segment_start_8k + 3) & tsms.Pages_Mask_8k);
+        }
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
+// Mapper #24
+// Mega Mode Super Game 30 [SMS-MD] (KR)
+WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF0)
+{
+    if (Addr == 0xFFF0) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        g_machine.mapper_regs[1] = 0;
+        g_machine.mapper_regs[2] = 1;
+        Map_8k_ROM(0, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if (Addr == 0xFFFE)
+    {
+        g_machine.mapper_regs[1] = Value;
+        Map_8k_ROM(2, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if (Addr == 0xFFFF)
+    {
+        g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(4, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (g_machine.mapper_regs[0] * 4 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
+
+// Mapper #25
+// Jaemiissneun Game Mo-eumjip 42/65 Hap [SMS-MD]
+// Pigu-Wang 7 Hap ~ Jaemiiss-neun Game Mo-eumjip [SMS-MD]
+WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5)
+{
+    // These bits in the address apparently are not checked when
+    // determining whether a write corresponds to a mapper register
+    // and are assumed to be set. Some cartridges using this mapper
+    // contain code that accesses the registers by their aliases.
+    const int incomplete_address_decoding = 0x4010;
+    if ((Addr | incomplete_address_decoding) == 0xFFF5) // Configurable segment -----------------------------------------------
+    {
+        // Not yet implemented: some multicarts with this mapper seem
+        // to require the mapping to be left-rotated through the
+        // register one bit at a time. So instead of writing simple
+        // 0x04, you would need to write (in sequence) 0x08, 0x10,
+        // 0x20, 0x40, 0x80, 0x01, 0x02, 0x04.
+        //
+        // However other cartridges have a mapper that does not
+        // require this "unlock" and their code does not perform the unlock.
+        //
+        // For now, only the simpler mapper implementation is present,
+        // as this is apparently sufficient to run the menus and games
+        // for both mapper types.
+        g_machine.mapper_regs[0] = Value;
+        g_machine.mapper_regs[1] = 1;
+        g_machine.mapper_regs[2] = 1;
+        Map_8k_ROM(0, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    const unsigned int mapper_page_mask_16k = g_machine.mapper_regs[0] >= 0x10 ? 0x1f : 0x0f;
+    if ((Addr | incomplete_address_decoding) == 0xFFFE)
+    {
+        g_machine.mapper_regs[1] = Value;
+        Map_8k_ROM(2, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if ((Addr | incomplete_address_decoding) == 0xFFFF)
+    {
+        g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(4, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (g_machine.mapper_regs[0] * 4 + (Value & mapper_page_mask_16k) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+} 
+
+// Mapper #26
+// Game Jiphap 30 Hap [SMS-MD] (KR)
+WRITE_FUNC(Write_Mapper_SMS_Korean_MD_FFFA)
+{
+    if (Addr == 0xFFFA) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        g_machine.mapper_regs[1] = 0;
+        g_machine.mapper_regs[2] = 1;
+        Map_8k_ROM(0, (Value * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (Value * 2 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (Value * 2 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 2 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if (Addr == 0xFFFF)
+    {
+        g_machine.mapper_regs[1] = Value;
+        Map_8k_ROM(4, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+    if (Addr == 0xFFFE)
+    {
+        g_machine.mapper_regs[2] = Value;
+        Map_8k_ROM(2, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (g_machine.mapper_regs[0] * 2 + (Value & 0x0F) * 2 + 1) & tsms.Pages_Mask_8k);
+        //return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
+// Mapper #27
+// 2 Hap in 1 (Moai-ui bomul, David-2)
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000)
+{
+    if (Addr == 0x2000) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(2, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 4 + 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 4 + 5) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
+
+// Mapper #39
+// 11 Hap Gam-Boy (KR)
+WRITE_FUNC(Write_Mapper_SMS_Korean_SMS_32KB_2000)
+{
+    if (Addr == 0x2000) // Configurable segment -----------------------------------------------
+    {
+        g_machine.mapper_regs[0] = Value;
+        Map_8k_ROM(0, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, (Value * 4 + 2) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value * 4 + 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value * 4) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value * 4 + 1) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
+// Mapper #40
+// Zemina Best 88 (KR)
+// Zemina Best 25 (KR)
+// Zemina Best 39 (KR)
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
+{
+    if (Addr == 0x8000) // Configurable segment -----------------------------------------------
+    {
+        // Special case to support Zemina Best 25 [Best 88] (KR)
+        if (g_machine.mapper_regs[0] == 0xFF) {
+            Value ^= 0x22;
+        }
+        g_machine.mapper_regs[0] = Value;
+        if (Value & 0x80) {
+            Map_8k_ROM(0, (Value ^ 3) & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, (Value ^ 2) & tsms.Pages_Mask_8k);
+        } else {
+            Map_8k_ROM(0, 0x3c & tsms.Pages_Mask_8k);
+            Map_8k_ROM(1, 0x3c & tsms.Pages_Mask_8k);
+        }
+        Map_8k_ROM(2, (Value ^ 1) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, (Value ^ 0) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, (Value ^ 3) & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, (Value ^ 2) & tsms.Pages_Mask_8k);
+        return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error (Addr, Value);
+}
 
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
@@ -684,7 +1089,9 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003)
 // Write function for mapper #18: MAPPER_SMS_Korean_MSX_8KB_0300
 WRITE_FUNC(Write_Mapper_SMS_Korean_MSX_8KB_0300)
 {
-    switch (Addr)
+    const int incomplete_address_decoding_mask = 0xFF00;
+    const u16 addr_assumed = Addr & incomplete_address_decoding_mask;
+    switch (addr_assumed)
     {
     case 0x0000:
     {

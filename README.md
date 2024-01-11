@@ -55,7 +55,7 @@ git clone --recursive https://github.com/ocornut/meka.git meka
 Build
 -----
 
-- Windows: Using Visual Studio 2017 (free community edition is ok), open `meka/srcs/projects/msvc/Meka.sln` and build. The project is setup to grab dependencies (Allegro, Nasm) using Nuget.
+- Windows: Using Visual Studio 2022 (free community edition is ok), open `meka/srcs/projects/msvc/Meka.sln` and build. The project is setup to grab dependencies (Allegro, Nasm) using Nuget.
 - Linux: `cd meka/srcs ; make`
 - OSX: `cd meka/srcs ; make` or open `meka/srcs/projects/xcode` with xcode (may be not up to date)
 

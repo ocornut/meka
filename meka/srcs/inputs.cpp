@@ -238,7 +238,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
     }
 
     // Quit emulator
-    if (Inputs_KeyDown(Inputs.Cabinet_Mode ? ALLEGRO_KEY_ESCAPE : ALLEGRO_KEY_F10))
+    if (Inputs.Cabinet_Mode && Inputs_KeyDown(ALLEGRO_KEY_ESCAPE))
         opt.Force_Quit = TRUE;
 
     // Debugger switch

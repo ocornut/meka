@@ -7,8 +7,8 @@
 // Definitions
 //-----------------------------------------------------------------------------
 
-#define TECHINFO_LINES          (10)
-#define TECHINFO_COLUMNS        (80)
+#define TECHINFO_LINES          (14)
+#define TECHINFO_COLUMNS        (90)
 
 //-----------------------------------------------------------------------------
 // Data

@@ -106,76 +106,106 @@ void    Machine_Set_Handler_IO(void)
 
 void    Machine_Set_Handler_MemRW(void)
 {
-    RdZ80 = RdZ80_NoHook = Read_Default;
-    WrZ80 = WrZ80_NoHook = Write_Default;
+    RdZ80 = Read_Default;
+    WrZ80 = Write_Default;
 
     switch (g_machine.mapper)
     {
     case MAPPER_SMS_NoMapper:            // SMS games with no bank switching
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_NoMapper;
+        WrZ80 = Write_Mapper_SMS_NoMapper;
         break;
     case MAPPER_32kRAM:                  // Used by Sega Basic, The Castle, ..
     case MAPPER_SC3000_Survivors_Multicart:
-        WrZ80 = WrZ80_NoHook = Write_Mapper_32kRAM;
+        WrZ80 = Write_Mapper_32kRAM;
         break;
     case MAPPER_ColecoVision:            // Colecovision
-        WrZ80 = WrZ80_NoHook = Write_Mapper_Coleco;
+        WrZ80 = Write_Mapper_Coleco;
         break;
     case MAPPER_CodeMasters:             // CodeMasters games
-        WrZ80 = WrZ80_NoHook = Write_Mapper_CodeMasters;
+        WrZ80 = Write_Mapper_CodeMasters;
         break;
     case MAPPER_93c46:                   // Used by Game Gear baseball games
-        RdZ80 = RdZ80_NoHook = Read_Mapper_93c46;
-        WrZ80 = WrZ80_NoHook = Write_Mapper_93c46;
+        RdZ80 = Read_Mapper_93c46;
+        WrZ80 = Write_Mapper_93c46;
         break;
     case MAPPER_SG1000:                  // 4 kb of RAM
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000;
+        WrZ80 = Write_Mapper_SG1000;
         break;
     case MAPPER_SMS_ActionReplay:        // SMS Action Replay with embedded RAM
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_ActionReplay;
+        WrZ80 = Write_Mapper_SMS_ActionReplay;
         break;
     case MAPPER_TVOekaki:                // Terebi Oekaki Graphic Board
-        RdZ80 = RdZ80_NoHook = Read_Mapper_TVOekaki;
-        WrZ80 = WrZ80_NoHook = Write_Mapper_TVOekaki;
+        RdZ80 = Read_Mapper_TVOekaki;
+        WrZ80 = Write_Mapper_TVOekaki;
         break;
     case MAPPER_SF7000:                  // SF-7000
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SF7000;
+        WrZ80 = Write_Mapper_SF7000;
         break;
     case MAPPER_SMS_Korean_A000:         // SMS Korean games with A000 register
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_A000;
-        break;
+        WrZ80 = Write_Mapper_SMS_Korean_A000;
         break;
     case MAPPER_SMS_Korean_BFFC:         // SMS Korean games with BFFC register
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_BFFC;
+        WrZ80 = Write_Mapper_SMS_Korean_BFFC;
         break;
     case MAPPER_SMS_Korean_MSX_8KB_0003: // SMS Korean games with MSX-based 8KB mapper
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0003;
+        WrZ80 = Write_Mapper_SMS_Korean_MSX_8KB_0003;
         break;
     case MAPPER_SMS_Korean_MSX_8KB_0300: // SMS Korean games with MSX-based 8KB mapper
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_MSX_8KB_0300;
+        WrZ80 = Write_Mapper_SMS_Korean_MSX_8KB_0300;
         break;
     case MAPPER_SMS_Korean_Janggun:      // SMS Korean Janggun-ui Adeul
-        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_Korean_Janggun;
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_Janggun;
+        RdZ80 = Read_Mapper_SMS_Korean_Janggun;
+        WrZ80 = Write_Mapper_SMS_Korean_Janggun;
         break;
     case MAPPER_SMS_4PakAllAction:
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_4PakAllAction;
+        WrZ80 = Write_Mapper_SMS_4PakAllAction;
         break;
     case MAPPER_SMS_DisplayUnit:         // SMS Display Unit (RAM from 4000-47FF)
-        RdZ80 = RdZ80_NoHook = Read_Mapper_SMS_DisplayUnit;
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_DisplayUnit;
+        RdZ80 = Read_Mapper_SMS_DisplayUnit;
+        WrZ80 = Write_Mapper_SMS_DisplayUnit;
         break;
     case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
-        RdZ80 = RdZ80_NoHook = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
+        RdZ80 = Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
+        WrZ80 = Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA;
         break;
     case MAPPER_SMS_Korean_FFFF_HiCom:
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_FFFF_HiCom;
+        WrZ80 = Write_Mapper_SMS_Korean_FFFF_HiCom;
         break;
     case MAPPER_SMS_Korean_2000_xor_1F:
-        WrZ80 = WrZ80_NoHook = Write_Mapper_SMS_Korean_2000_xor_1F;
+        WrZ80 = Write_Mapper_SMS_Korean_2000_xor_1F;
+        break;
+    case MAPPER_SMS_Korean_FFFE:
+        WrZ80 = Write_Mapper_SMS_Korean_FFFE;
+        break;
+    case MAPPER_SMS_Korean_FFF3_FFFC:
+        WrZ80 = Write_Mapper_SMS_Korean_FFF3_FFFC;
+        break;
+    case MAPPER_SMS_Korean_0000_xor_FF:
+        WrZ80 = Write_Mapper_SMS_Korean_0000_xor_FF;
+        break;
+    case MAPPER_SMS_Korean_MD_FFF0:
+        WrZ80 = Write_Mapper_SMS_Korean_MD_FFF0;
+        break;
+    case MAPPER_SMS_Korean_MD_FFF5:
+        WrZ80 = Write_Mapper_SMS_Korean_MD_FFF5;
+        break;
+    case MAPPER_SMS_Korean_MD_FFFA:
+        WrZ80 = Write_Mapper_SMS_Korean_MD_FFFA;
+        break;
+    case MAPPER_SMS_Korean_MSX_32KB_2000:
+        WrZ80 = Write_Mapper_SMS_Korean_MSX_32KB_2000;
+        break;
+    case MAPPER_SMS_Korean_SMS_32KB_2000:
+        WrZ80 = Write_Mapper_SMS_Korean_SMS_32KB_2000;
+        break;
+    case MAPPER_SMS_Korean_MSX_SMS_8000:
+        WrZ80 = Write_Mapper_SMS_Korean_MSX_SMS_8000;
         break;
     }
+
+    // Save the original handlers as "NoHook" versions
+    RdZ80_NoHook = RdZ80;
+    WrZ80_NoHook = WrZ80;
 }
 
 void        Machine_Set_Mapper(void)
@@ -353,6 +383,138 @@ void    Machine_Set_Mapping (void)
         Map_8k_ROM(3, 0x61 & tsms.Pages_Mask_8k);
         Map_8k_ROM(4, 0x62 & tsms.Pages_Mask_8k);
         Map_8k_ROM(5, 0x63 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        break;
+
+    case MAPPER_SMS_Korean_FFFE:
+        Map_8k_ROM(0, 0x00 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 0x01 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0x02 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0x03 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0x3f & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0x3f & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = (i == 0) ? 0x01 : 0;
+        break;
+
+    case MAPPER_SMS_Korean_FFF3_FFFC:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0xFF & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0xFF & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 2;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        break;
+
+    case MAPPER_SMS_Korean_0000_xor_FF:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 3 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[0] = 0xFF;
+        break;
+
+    case MAPPER_SMS_Korean_MD_FFF0:
+        Map_8k_ROM(0, 0x00 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 0x01 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0x02 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0x03 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0x00 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0x01 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 2;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[2] = 1;
+        break;
+
+    case MAPPER_SMS_Korean_MD_FFF5:
+        Map_8k_ROM(0, 0x00 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 0x01 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0x02 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0x03 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0x02 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0x03 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 2;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[1] = 1;
+        g_machine.mapper_regs[2] = 1;
+        break;
+
+    case MAPPER_SMS_Korean_MD_FFFA:
+        Map_8k_ROM(0, 0x00 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 0x01 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 0x02 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0x03 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0x00 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 0x01 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 3;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[2] = 1;
+        break;
+
+    case MAPPER_SMS_Korean_MSX_32KB_2000:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 4 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 5 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        g_machine.mapper_regs[0] = 0;
+        break;
+
+    case MAPPER_SMS_Korean_SMS_32KB_2000:
+        Map_8k_ROM(0, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 2 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 3 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 1 & tsms.Pages_Mask_8k);
+        Map_8k_RAM(6, 0);
+        Map_8k_RAM(7, 0);
+        g_machine.mapper_regs_count = 1;
+        for (int i = 0; i != MAPPER_REGS_MAX; i++)
+            g_machine.mapper_regs[i] = 0;
+        break;
+
+    case MAPPER_SMS_Korean_MSX_SMS_8000:
+        Map_8k_ROM(0, 0x3c & tsms.Pages_Mask_8k);
+        Map_8k_ROM(1, 0x3c & tsms.Pages_Mask_8k);
+        Map_8k_ROM(2, 1 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(3, 0 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(4, 3 & tsms.Pages_Mask_8k);
+        Map_8k_ROM(5, 2 & tsms.Pages_Mask_8k);
         Map_8k_RAM(6, 0);
         Map_8k_RAM(7, 0);
         g_machine.mapper_regs_count = 1;

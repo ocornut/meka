@@ -1,3 +1,5 @@
+feature request: add game name to the front of the window title text because the video capture uses that for the capture filename
+
 dasm 81e1 in wb3 is broken
 
 If you are going to work on it, maybe you can take the opportunity to also add full support for graphics modes 1 & 2 in the Tiles Viewer and Tilemap Viewer?
