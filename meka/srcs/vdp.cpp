@@ -54,14 +54,14 @@ static u8   VDP_Mask [10] [2] =
 int     VDP_Model_FindByName(const char *name)
 {
     if (!strcmp(name, "315-5124"))
-        return (VDP_MODEL_315_5124);
-    else if (!strcmp(name, "315-5226"))
-        return (VDP_MODEL_315_5226);
+        return VDP_MODEL_315_5124;
+    else if (!strcmp(name, "315-5246")) //|| !strcmp(name, "315-5226")) // Prior to 2024 we had this listed (incorrectly) as 315-5226, however it was never used by meka.nam
+        return VDP_MODEL_315_5246;
     else if (!strcmp(name, "315-5378"))
-        return (VDP_MODEL_315_5378);
+        return VDP_MODEL_315_5378;
     else if (!strcmp(name, "315-5313"))
-        return (VDP_MODEL_315_5313);
-    return (-1);
+        return VDP_MODEL_315_5313;
+    return -1;
 }
 
 void    VDP_VideoMode_Change (void)

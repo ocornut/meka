@@ -664,7 +664,7 @@ void        Machine_Reset(void)
         if (g_driver->id == DRV_GG)
             g_machine.VDP.model = VDP_MODEL_315_5378;
         else
-            g_machine.VDP.model = VDP_MODEL_315_5226;
+            g_machine.VDP.model = VDP_MODEL_315_5246;
     }
 
     // 3-D GLASSES ------------------------------------------------------------

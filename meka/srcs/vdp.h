@@ -12,7 +12,7 @@
 // Values below are flags for the purpose of testing VDP for a certain
 // feature more easily (like if (VDP_Model & (VDP_MODEL.. | VDP_MODEL..)))
 #define VDP_MODEL_315_5124      (0x01)      // Mark III, Master System
-#define VDP_MODEL_315_5226      (0x02)      // Later Master System, Master System II
+#define VDP_MODEL_315_5246      (0x02)      // Later Master System, Master System II
 #define VDP_MODEL_315_5378      (0x04)      // Game Gear
 #define VDP_MODEL_315_5313      (0x08)      // Mega Drive
 
