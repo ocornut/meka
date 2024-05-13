@@ -129,7 +129,7 @@ void        TechInfo_Update(void)
         switch (g_machine.VDP.model)
         {
         case VDP_MODEL_315_5124: sprintf(model_str, "315-5124"); break;
-        case VDP_MODEL_315_5226: sprintf(model_str, "315-5226"); break;
+        case VDP_MODEL_315_5226: sprintf(model_str, "315-5246"); break;
         case VDP_MODEL_315_5378: sprintf(model_str, "315-5378"); break;
         case VDP_MODEL_315_5313: sprintf(model_str, "315-5313"); break;
         default: assert(0); break;
