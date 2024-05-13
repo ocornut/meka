@@ -65,8 +65,8 @@
   - Removed "k" and associated donation rambling from the documentation.
     Donations are still welcome, at your own discretion.
   - Emulation:
-    - Added support for "no bank switching" mapper. Used by Korean games such 
-      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for 
+    - Added support for "no bank switching" mapper. Used by Korean games such
+      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for
       its RAM usage but do not expect bank-switching. [Omar]
     - Added support for Korean 8KB banks mapper. Used by Korean games ported
       from MSX such as "Penguin Adventure", "Street Master" or "Won-Si-In". [Omar]
@@ -78,15 +78,15 @@
   - Debugger:
     - Added "SYM @addr" command to search for symbols given an address. [Omar]
     - Added "RMAP addr" command to reverse map of a Z80 address and display
-      the source of data based on machine state (mapper registers, etc). 
+      the source of data based on machine state (mapper registers, etc).
       eg:
         RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
         RMAP $E001      ; eg: print 'RAM $C001'
-      The feature doesn't work 100% in all mappers & bus mirroring cases, 
+      The feature doesn't work 100% in all mappers & bus mirroring cases,
       but should be ok with the standard SMS/GG mapper. [Omar]
     - Duplicate commands are automatically removed from history. [Omar]
     - Increased default height of the debugger. [Omar]
-    - Changed watch point per-frame flood limit from 100 to 50. Will expose in 
+    - Changed watch point per-frame flood limit from 100 to 50. Will expose in
       configuration file if requested. [Omar]
     - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
     - Fixed labels showing one instruction early in "DASM" command. [Omar]
@@ -100,21 +100,21 @@
     - Fixed crash when empty gradient range are specified in theme file. [Omar]
     - File browser: country flag now displayed even on BIOS, Prototypes
       or Homebrew images. [Omar]
-    - Inputs configuration: right-click on input source selection goes 
+    - Inputs configuration: right-click on input source selection goes
       backward, in addition to regular left-click to go forward. [Omar]
   - Localization:
     - Updated Dutch localization [Mark van Tilburg]
   - Miscellaenous:
     - Added "Capture" menu with screen capture menu access and options. [Maxim]
     - Added "Capture All" mode, capturing all emulation frames to disk. [Maxim]
-    - Added "Include GUI" capture option. Disable to only capture game screen 
+    - Added "Include GUI" capture option. Disable to only capture game screen
       when MEKA GUI is enabled. [Maxim]
     - Renamed "Automatically crop and align screen captures" option to
       more explicit "Crop and align screen captures to 8x8 boundaries".
       Previous name was sounding too "cool" and was sometimes activated
       by innocent users who then got their capture all cropped. [Omar]
     - Added "screenshots_crop_scrolling_column" option in configuration
-      file (default to enabled), to disable cropping the empty left-most 
+      file (default to enabled), to disable cropping the empty left-most
       column in horizontally scrolling games. [Omar]
   - Project:
     - (Win32) Fixed standard libraries used by debug builds (using unusual
@@ -248,33 +248,33 @@
   - Updated k.
   - Ports:
     - Preliminary MacOSX port. [Proppy]
-      Compile and run under a x86-based MacOSX system. Missing sound (due 
+      Compile and run under a x86-based MacOSX system. Missing sound (due
       to Seal) and debugger (unknown problem to resolve).
       Looking for someone who wish to improve and maintain this port.
   - Video/Blitters:
-    - Upgraded everything to hi-color video modes and got rid of old, 
+    - Upgraded everything to hi-color video modes and got rid of old,
       8-bit indexed video modes. This is a major change in MEKA core.
       Some of the benefits are:
-      - No more snow and/or color flickering on video card drivers 
+      - No more snow and/or color flickering on video card drivers
         which disliked palette changes.
       - Better integration with desktop (usually run faster).
       - Getting possible to use various kind of graphics filters.
       - No more hassle with color limitation for the programmer
         (meaning more features implemented for the end-user).
-      - Finally possible to show all Game Gear colors at once, 
+      - Finally possible to show all Game Gear colors at once,
         and to implement LCD screen persistence (not yet done).
       Some of the features above goes hand to hand with the blitter
       system, which will be improved soon. [Omar]
     - Fixed HQ2X stretched blitter when target output was not 16-bits. [Omar]
     - Stretching works on all blitters. [Omar]
-    - Video depth, Vsync, Triple Buffering and Page flipping are now global 
-      video settings, removed from each specific blitter. Greatly simplify 
+    - Video depth, Vsync, Triple Buffering and Page flipping are now global
+      video settings, removed from each specific blitter. Greatly simplify
       configuration and tweaking. [Omar]
     - Triple buffering doesn't interfere with the refresh is not supported
       by the current settings (eg: windowed mode), making it safe and more
       simple to always leave it enabled. [Omar]
-    - Changed default fullscreen blitter configuration in the hope of getting 
-      something more compatible (640x480 by default), as so many people have 
+    - Changed default fullscreen blitter configuration in the hope of getting
+      something more compatible (640x480 by default), as so many people have
       problems with fullscreen modes.
     - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
     - Removed "parallel" blitter that displayed both odd and even frame
@@ -288,34 +288,34 @@
     - VDP palette write do not mask out current VDP address, so performing
       the (unprobable) set address/access palette/access VRAM sequence will
       keep address in the full 16KB range. [Omar]
-    - Fixed VDP line interrupts not properly running in overscan area in 
-      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
+    - Fixed VDP line interrupts not properly running in overscan area in
+      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's
       BB2K6 demo. [Omar]
     - CPU:
-      - Z80: Fixed cases were address arithmetic would not wrap in the 
+      - Z80: Fixed cases were address arithmetic would not wrap in the
         16-bit address space, effectively crashing the emulator (those cases
-        were mostly happening on corrupted data, but it also legit Z80 code, 
+        were mostly happening on corrupted data, but it also legit Z80 code,
         and in any case we don't want the emulator to crash). [Omar]
-      - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
-        Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
+      - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1).
+        Fixes pausing in SMS Robocop 3 during legal screens/introduction,
         probably other infrequent cases. [FluBBa, Omar]
       - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
         by Sean Young's "The Undocumented Z80 Documented". [Omar]
     - ColecoVision:
       - Fixed emulation of pending NMI, pending flag is cleared when
-        reading VDP status. Fixes "Rock 'N Bolt" among other. 
+        reading VDP status. Fixes "Rock 'N Bolt" among other.
         Thanks to the anonymous poster on SMS Power! forums. [Omar]
       - Note that the compatibility list for ColecoVision titles is
         severly outdated. At some point, James Carter worked on a new,
         more accurate list, but I lost all contact with him.
       - Removed detection of supposed 128-bytes headers and 512-bytes footers
-        (from some old soft/copiers?), due to many false detections, 
-        particularly on homebrew ROM images (the code was introduced in 2001 
-        when Dig Dug and Pac-Man prototypes were released with such header, 
+        (from some old soft/copiers?), due to many false detections,
+        particularly on homebrew ROM images (the code was introduced in 2001
+        when Dig Dug and Pac-Man prototypes were released with such header,
         but ROM images now circulating are without the header). [Omar]
   - GUI:
     - Sorted default themes, removed non Sega 8-bit related themes.
-      Now embedding background pictures in regular binary distribution. 
+      Now embedding background pictures in regular binary distribution.
       CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
     - KeyPad Enter key now works on input boxes. [Omar]
     - Added shortcut CTRL-F4: closes current window. [Omar]
@@ -323,17 +323,17 @@
     - Reworked theme (skin) system from stratch: [Omar]
       - Changed MEKA.THM file format.
       - Using explicit names for variables.
-      - Added more variables, making the skin system a little more 
+      - Added more variables, making the skin system a little more
         complicated but also more configurable.
       - Using de-facto standard of specifying colors in #RRGGBB format.
-      - Rewrote most code since it was all legacy from old MEKA 0.10. 
+      - Rewrote most code since it was all legacy from old MEKA 0.10.
     - Added link to debugger documentation in HELP menu. [Omar]
-    - Removed closing fadeout since the current hi-color implementation 
+    - Removed closing fadeout since the current hi-color implementation
       is way inefficient and cannot garantee proper speed. [Omar]
   - Development:
     - Debugger:
       - Fixed various command-line parsing bugs. [Omar]
-      - Added line history. Navigate history by pressing Up/Down. 
+      - Added line history. Navigate history by pressing Up/Down.
         List or search in history using HISTORY (HI) command. [Omar]
       - Added conditionnal breakpoints. [Omar]
         eg:
@@ -343,14 +343,14 @@
           BREAK w pram 0 =03            ; break on PRAM write of color 0 as red
       - Added display line event breakpoints/watchpoints. [Omar]
         Useful for debugging line interrupts.
-        eg: 
+        eg:
           BREAK line #13                ; break on display line 13
       - Added "B nopnop" shortcut to break on two successives NOP instructions.
         This is basically equivalent to "B x =0,0". [Omar]
       - REGS (R) command in debugger now display shadow registers as well. [Omar]
       - Added cursor before current instruction in disassembly. [Omar]
       - Added access to shadow registers in expression evaluator. [Omar]
-        eg: 
+        eg:
           PRINT AF',BC',DE',HL'
       - Added SET command to modify Z80 registers. [Omar]
         eg:
@@ -360,7 +360,7 @@
       - Added CLOCK command, to display/reset a Z80 cycle counter.
         Very simple but can be helpful to time Z80 routines. [Omar]
       - (Win32) Forward debugging log to Windows debugging stream via
-        OutputDebugString(), so running MEKA from Microsoft Visual studio 
+        OutputDebugString(), so running MEKA from Microsoft Visual studio
         will display log in the 'Output' window. [Omar]
     - Memory Editor:
       - Added viewing and editing of VDP registers (VREG). [Omar]
@@ -371,14 +371,14 @@
       - Added NES palette switching (8 palettes). [Omar]
     - Tilemap viewer:
       - Added tilemap viewer. [Omar]
-        Shows tilemap, hovering or clicking a tile shows specific info 
-        about it, allows filtering BG/FG, disabling tile flipping, display 
-        of scrolling box, with or without raster effects, manual selection 
+        Shows tilemap, hovering or clicking a tile shows specific info
+        about it, allows filtering BG/FG, disabling tile flipping, display
+        of scrolling box, with or without raster effects, manual selection
         of tilemap address, etc.
     - Made '$' default prefix for hexadecimal values in various places. [Omar]
     - Datadump: [Ambil, Omar]
-      - Fixed "palette" dumping. Blue and green components were inverted. 
-        Replaced dumping of target host RGB values by actual SMS/GG components. 
+      - Fixed "palette" dumping. Blue and green components were inverted.
+        Replaced dumping of target host RGB values by actual SMS/GG components.
       - Added sprite pattern base address in "sprites" dumping.
     - Cleaned Technical Information Viewer content, renamed a few fields
       to their official names, removed redundant information. It's not
@@ -387,8 +387,8 @@
     - Various fixes.
     - Increased max length of directory/filenames. [Musuruan]
     - Added "Automatically crop and align screen captures" option.
-      This option aligns screen captures on the nearest visible tile, 
-      helping to simplify the process of creating game maps by pasting 
+      This option aligns screen captures on the nearest visible tile,
+      helping to simplify the process of creating game maps by pasting
       captures next to each other. [Omar]
       Note: May not work properly on game using scanline based effects.
     - Updated various tidbits in the configuration file. [Omar]
@@ -404,8 +404,8 @@
     - Removed password encryption from MEKA datafile (became useless). [Omar]
     - Fixed a bunch of warnings on higher warning levels. [Omar]
     - Hacked a lot of old GUI code (box, widgets, menus among others), cleaned
-      and renamed various structures, replaced several usage of indexes by 
-      pointers, added const qualifiers, rewrote parts of various applets, 
+      and renamed various structures, replaced several usage of indexes by
+      pointers, added const qualifiers, rewrote parts of various applets,
       got rid of some old obsolete code, etc. Hopefully broke nothing. [Omar]
     - (Win32) Fixed MSVC project to reference LIBPNGDIR.
     - (Win32) Including statically compiled libpng.lib in package. [Omar]
@@ -505,7 +505,7 @@
       blitter. Only 16-bits output is supported as of yet. [MaxSt,DjRobX]
   - GUI:
     - Fixed input box widget missing keys on skipped frames. [Omar]
-      This made key inputs very annoying on certain configuration, and 
+      This made key inputs very annoying on certain configuration, and
       especially with 3-D glasses auto-frame-skipping enabled.
     - Fixed a problem losing focus while dragging GUI windows with certain kind
       of widgets (happened on tile viewer & memory editor, among other). [Omar]
@@ -516,10 +516,10 @@
     - Added label/symbol viewing in Z80 disassembly window. [Omar]
     - Relative offsets are now resolved in Z80 disassembly window. [Omar]
     - Added expression evaluator. [Omar]
-      Supports integer operators +,-,*,/, binary operators &,|,^, 
-      parenthesis, symbols and CPU registers replacement. 
-      Yet missing: unary operators -,!,~. 
-      All commands uses the expression evaluator to get their numeric 
+      Supports integer operators +,-,*,/, binary operators &,|,^,
+      parenthesis, symbols and CPU registers replacement.
+      Yet missing: unary operators -,!,~.
+      All commands uses the expression evaluator to get their numeric
       parameters, so you can use it everywhere.
       eg:
         B function    ; break at given 'function' symbol
@@ -539,13 +539,13 @@
     - Added SYMBOLS (SYM) command to list and search for a symbol. [Omar]
     - Changed breakpoint/watchpoint range syntax to '..' to avoid any
       syntaxical ambiguity with substraction (eg: B 1000..2000). [Omar]
-    - Added "B ENABLE/DISABLE ALL" shortcuts to enable/disable all 
+    - Added "B ENABLE/DISABLE ALL" shortcuts to enable/disable all
       breakpoints at once. [Omar]
     - Added "B CLEAR DISABLED" shortcut to clear disabled breakpoints. [Omar]
     - Added "Reload ROM" functionnality in the debug menu, for quicker reload.
     - Palette viewer now shows color entry data while hovering colors. [Omar]
     - Fixed display of CPU flags (only bit 0 was properly interpreted,
-      because of a typo). Added display of undocumented flags bits 3 
+      because of a typo). Added display of undocumented flags bits 3
       and 5 (partially emulated). [Omar]
     - Made it that debugger log to file is immediately flushed. This allows
       reading the log file in live while the debugger is running. [Omar]
@@ -575,28 +575,28 @@
       GG  - 7b7717b8 - Big War / Daisenryaku G (JP)         --> Taisen-gata Daisenryaku G (JP)
       GG  - a49e9033 - NBA JAM                              --> NBA JAM (JP)
 
-  Note that DjRobX's video/blitter changes were integrated but some features 
+  Note that DjRobX's video/blitter changes were integrated but some features
   may not be compatible with all others, and some need improvements. You are
   welcome to experiment different configuration settings in MEKA.BLT but not
   everything may work properly. The preset "HQ2X" blitter should works, though.
-  
+
   The current blitter system makes it not trivial to do everything we want,
   it is too limited in configuration, and was first made with MS-DOS and low
   end computers in mind. As of next versions, I will work on reoverhauling the
   system, trying to better fits needs of the 21st century (resizing, multiple
-  depth, hi-color, windowed modes without borders, non 4:3 ratio screens, 
-  different refresh rates...) and improve ease of setupping. 
+  depth, hi-color, windowed modes without borders, non 4:3 ratio screens,
+  different refresh rates...) and improve ease of setupping.
   Expect many changes in this area (hopefully). [Omar]
 
   - Sources/Project
     - (Linux) Updated Makefile and some sources tidbits for proper compilation.
       [Omar,Belegdol,Proppy]
     - (Linux,DOS) Object directories are now created automatically. [Omar]
-    - (Linux,DOS) Removed "smscheck" tool building from Makefile. Has nothing 
+    - (Linux,DOS) Removed "smscheck" tool building from Makefile. Has nothing
       to do with MEKA. [Omar]
-    - (Linux,DOS) Added 'BUILD' switch in Makefile to select between release 
+    - (Linux,DOS) Added 'BUILD' switch in Makefile to select between release
       and debug builds.
-    - (Win32) Make it that build date/time stamp in build.c is updated when 
+    - (Win32) Make it that build date/time stamp in build.c is updated when
       rebuilding the solution. Removed buildupd.exe executable from sources. [Omar]
     - (DOS) I'm stopping to maintain the MS-DOS port. A maintener is welcome. [Omar]
 
@@ -611,14 +611,14 @@
     Big thanks to all of them for their great and useful support!
     I'll keep sending news/e-mails to donators.
     MEKA is now officially not having a registration procedure anymore, but
-    your donations are still greatly welcome and are helping me to cover a 
+    your donations are still greatly welcome and are helping me to cover a
     part of my never-ending Sega 8-bit expenses, including buying cartridges
     for dumping and preservation purpose.
     I updated documentation to reflect this, and changed occurences of the
     "registration" word by "donation", as it was always meant to be anyway.
-  - In SMS mode, fixed color filling when VDP rendering is disabled. 
-    Previously disabled parts where filled with black, instead of the current 
-    border color. No commercial game exhibited the problem. Chris Covell's 
+  - In SMS mode, fixed color filling when VDP rendering is disabled.
+    Previously disabled parts where filled with black, instead of the current
+    border color. No commercial game exhibited the problem. Chris Covell's
     port of Aleste 2 from GG to SMS did.
   - Disabling background display now shows a yellow-ish color instead of the
     black/border color, to help sprite ripping. Sorry it's not FF00FF pink,
@@ -637,7 +637,7 @@
       (eg: "HELP B" to get help on breakpoints).
     - Instruction flow disassembly now attempt to display instructions before
       the current one, based on some magical voodoo technique of mine.
-      Don't expect it to work in all cases - it is theorically impossible to 
+      Don't expect it to work in all cases - it is theorically impossible to
       do with variable-sized instructions anyway - but it can be improved.
       This feature helps figuring out what's being executed contextually.
     - The current instruction is now highlighted.
@@ -649,7 +649,7 @@
     - Tile viewer now update information while mouse hovering.
     - Added optional length parameter to "MEM" and "DASM" commands.
     - Fixed ASCII display of memory in "MEM" command.
-    - Added "debugger_console_lines" and "debugger_disassembly_lines" 
+    - Added "debugger_console_lines" and "debugger_disassembly_lines"
       variables in configuration file, allowing to change debugger size.
       Combine with a high-resolution MEKA desktop, and you can't be unhappy.
     - Added debugger session logging to file "debug/debuglog.txt".
@@ -659,14 +659,14 @@
       (press a direction, it immediately apply on the emulated system state).
 
   - When used in the interface, analog peripherals supported by the mouse now
-    only perform their action if the mouse has focus on the game window. 
+    only perform their action if the mouse has focus on the game window.
     This prevent accidental in-game shooting when using tools or debugging.
     Of course, you should not use the interface if you only intend to play.
   - Fixed /LOG command line parameter (broken recently).
   - Added and modified entries in the checksum and compatibility lists.
     Redumped more games, sorted more versionning/country confusion.
-    To avoid certain confusion, all Game Gear games originally running 
-    in Master System mode were moved back in the Game Gear section. 
+    To avoid certain confusion, all Game Gear games originally running
+    in Master System mode were moved back in the Game Gear section.
     This makes the list consistant with actual cartridge releases.
     Some particular renaming includes:
       SMS - 17a40e29 - Alex Kidd in Miracle World (US)      --> Alex Kidd in Miracle World [v0] (US)
@@ -686,20 +686,20 @@
 
  MEKA 0.69b
  ----------
-  - [DOS/UN*X] Fixed ZIP file support which was accidently disabled 
+  - [DOS/UN*X] Fixed ZIP file support which was accidently disabled
     in version 0.69.
   - Improved auto frame-skipper precision by a minor amount.
     (on another hand, it still manage to skip frames badly).
-  - Disabled keys 0 to 9 to set a save state slot directly. 
+  - Disabled keys 0 to 9 to set a save state slot directly.
     Those conflicted with some existing and future features.
     Hope that noone will be annoyed!
   - Added ALT-ENTER hotkey to switch between fullscreen and windowed drivers.
-    It works in both GUI and Game mode, although the setting is not saved in 
-    Game mode (due to the way the MEKA.BLT file works now). 
+    It works in both GUI and Game mode, although the setting is not saved in
+    Game mode (due to the way the MEKA.BLT file works now).
   - Added an option to allows pressing opposite directions on the joypad.
     Although standard SG/SMS/GG controllers do not allow that, certain
-    type of controllers (or a modified or broken one) may allow it. 
-    This serve the purpose of demonstrating a bug in "Wonder Boy in Monster 
+    type of controllers (or a modified or broken one) may allow it.
+    This serve the purpose of demonstrating a bug in "Wonder Boy in Monster
     Land", where pressing Left and Right on the same time confuses the game.
     It is also useful in the case some creative genius SMS programmer would
     want to take advantage of that weird feature to do unusual things for a
@@ -737,26 +737,26 @@
   - Updated documentation.
   - Added a Memory Editor, long awaited by programmers, hackers and cheaters!
     It allows reading and writing to Z80 memory map, ROM, RAM, VRAM, Palette
-    and Battery Backed RAM. Although it is not yet full-featured, it is 
-    already very possible to create your own Pro Action Replay codes, and 
-    perform various real-time hacks. 
+    and Battery Backed RAM. Although it is not yet full-featured, it is
+    already very possible to create your own Pro Action Replay codes, and
+    perform various real-time hacks.
     Please share your questions and hacks on SMS Power forums:
         http://www.smspower.org/forum
     This tool is the result of joint work with my beloved girlfriend, who
     submitted a first version of it that she developped.
-  - Added support for loading and saving pictures in PNG format. PNG is now 
+  - Added support for loading and saving pictures in PNG format. PNG is now
     the default format for screenshots, instead of the badly outdated PCX.
-    (thanks to libpng). 
+    (thanks to libpng).
   - Screenshots are now saved in the "Screenshots/" subdirectory.
-  - Tweaked some themes, reordered them, removed a few. Themes backgrounds 
+  - Tweaked some themes, reordered them, removed a few. Themes backgrounds
     are now in PNG format. Please be sure to download the new picture pack at:
         http://www.smspower.org/meka/themes
   - [Windows] Added a message console that shows up on startup and magically
     disappear before you have time to read anything. If any problem occurs,
     the console will actually stay to let you read it.
   - [Windows] Fixed runtime application icon that wasn't showing.
-  - [Windows] Removed command line parameters uppercase conversion (eg: when 
-    ran from Windows explorer). This inconveniently created uppercase output 
+  - [Windows] Removed command line parameters uppercase conversion (eg: when
+    ran from Windows explorer). This inconveniently created uppercase output
     filenames for savestates, screen captures, etc. This was MS-DOS legacy.
   - Slighty optimized VRAM accesses emulation.
   - Incremented message buffer size to cope with SMS Chip-8 Interpreter 1.1
@@ -788,7 +788,7 @@
  ----------
  As an experiment, I have enabled vsync in all default blitters and enabled
  it by default in the GUI. Blitters are still a bit complicated to configure
- so few people seems to actually tweak them or even enable the "smooth" 
+ so few people seems to actually tweak them or even enable the "smooth"
  blitter. Does it works better for you?
  I'll be working on synchronisation and blitter improvement (stretching...)
  in the future.
@@ -804,71 +804,71 @@
        video mode (the palette isn't updated on a SMS). It only affected
        F-16 Fighter / F-16 Fighting Falcon, but in a non game-visible way.
      - Tweaked heuristical SMS/GG mapper detection.
-     - Fixed SMS/GG scanline counter emulation which was ignoring TV type 
+     - Fixed SMS/GG scanline counter emulation which was ignoring TV type
        (NTSC or PAL/SECAM) override directive from the database.
-       (eg: one game would be forced to PAL/SECAM mode, but scanline counter 
+       (eg: one game would be forced to PAL/SECAM mode, but scanline counter
         emulation still mimic an NTSC system if it is the user selection).
   - Fixed mouse button mapping in the Input Configuration applet.
   - Fixed file browser showing Japanese names after loading SMS Woody Pop
-    or GG Pop Breaker (why those games only? because they both have a default 
+    or GG Pop Breaker (why those games only? because they both have a default
     country information in the DB, as they only works on Japanese systems).
   - Added and modified entries in the checksum and compatibility lists.
     Some particular renaming includes:
       GG  - Ganbare Golby! (JP)             --> Ganbare Gorby!
- 
- 
+
+
  MEKA 0.68
  ---------
- Please report any problems you encounter. 
+ Please report any problems you encounter.
  Suggestions are always welcome.
 
-  - Updated MEKA.NAM database with a new format. 
-    The new format is more robust, includes CRC32, additionnal flags, and 
+  - Updated MEKA.NAM database with a new format.
+    The new format is more robust, includes CRC32, additionnal flags, and
     allows specifiying multiple countries for a same ROM file.
     In addition, while the MEKA database is being repopulated with entries
     in the new format, a high amount of verifications are being done on a
     case by case basis (redump, verified name based on original game media,
     box and manual, analysis of different versions of a same game, etc...).
-    I have already redumped more than a hundred games. This will unsure 
-    having a near-perfect database after the transition. Old formatted 
+    I have already redumped more than a hundred games. This will unsure
+    having a near-perfect database after the transition. Old formatted
     entries are kept during the transition period.
   - SMS-mode Game Gear games are now autodetected and forced to run into
     SMS mode even with a .GG extension. This is because those games are
-    often spread with a .GG extension, although there is no way in software 
-    to distinguish between a native GG game and one running in SMS mode, 
+    often spread with a .GG extension, although there is no way in software
+    to distinguish between a native GG game and one running in SMS mode,
     since the selection is done via a connected pin in the cartridge itself.
   - Updated file browser:
       - Added dedicated icons to known bad dumps, BIOS images, unofficial
-        hacks, homebrew programs (also incorrectly called "public domain"), 
-        prototypes and unofficial translation. A translation is defined as 
+        hacks, homebrew programs (also incorrectly called "public domain"),
+        prototypes and unofficial translation. A translation is defined as
         a hack whose primary purpose is to alter the language of a game.
-        How do you like my icons? 
+        How do you like my icons?
       - Added European, German, Italian, New-Zealand, Portuguese, Spanish,
-        Swedish and United-Kingdom flags. All flags are now displayed with 
-        a border, because some themes may choose a window color matching 
+        Swedish and United-Kingdom flags. All flags are now displayed with
+        a border, because some themes may choose a window color matching
         some flags.
       - The "Load Names" feature is now faster and does not verbose any
         data to the message box while loading all files.
       - Made file browser window bigger by default.
       - Removed the auto-generated MEKA.VFN file, which was crap anyway.
-        Instead, added a new auto-generated MEKA.FDB file, which store 
+        Instead, added a new auto-generated MEKA.FDB file, which store
         association between user ROM file names and MEKA DataBase entries.
   - Emulation:
-      - Emulated VDP 315-5124 behavior of using register 5 bit 0 and 
-        register 6 bits 0-1 as masks on sprite x/tile attributes address 
-        and tile index. No known game relies on this feature, but it is 
+      - Emulated VDP 315-5124 behavior of using register 5 bit 0 and
+        register 6 bits 0-1 as masks on sprite x/tile attributes address
+        and tile index. No known game relies on this feature, but it is
         good for the sake of accuracy and for developpers to check against
-        this particularity in their code (it is often a coding mistake). 
+        this particularity in their code (it is often a coding mistake).
         VDP 315-5124 must be selected for that.
-  - Updated TECH.TXT with SMS controller pinouts, simple SMS/DB-9 controller 
+  - Updated TECH.TXT with SMS controller pinouts, simple SMS/DB-9 controller
     adapter instructions from Gary Pierce, and GNU/Linux notes.
   - Various other fixes and code tweaking.
 
   - Added and modified entries in the checksum and compatibility lists.
-      - Naming and database field usage convention has been changed, 
-        based on the new format. 
+      - Naming and database field usage convention has been changed,
+        based on the new format.
         - "Title (The)" now becomes "Title, The".
-        - Unless specified by the game title, "Name: Subtitle" now 
+        - Unless specified by the game title, "Name: Subtitle" now
           becomes formatted "Name - Subtitle".
         - A few other things related to versionning/country.
       - Replaced all instances of "Tectoy" by "Tec Toy".
@@ -908,7 +908,7 @@
     does not allows fast movements.
   - Updated debugging mode:
       - Scrapped old, buggy, and unusable MS-DOS only text mode debugger.
-      - Added new debugger, well integrated into the GUI and functionnal 
+      - Added new debugger, well integrated into the GUI and functionnal
         with all versions of MEKA. It is a primitive debugger, but it can
         be helpful and it is definitively better than nothing.
         Supports step-into, step-over, breakpoint, jump, disassembly and
@@ -917,19 +917,19 @@
       - [Windows] Data dumping facilities are now working.
   - Updated patching system (see MEKA.PAT file):
       - Updated syntax.
-      - Support for long awaited RAM patches! 
-        One of the side effect to that is that you can now apply 
+      - Support for long awaited RAM patches!
+        One of the side effect to that is that you can now apply
         PRO ACTION REPLAY codes easily. This feature is unfortunately
-        not backuped by a full-featured interface and cheats database, 
-        but is helpful and better than nothing - while waiting for 
+        not backuped by a full-featured interface and cheats database,
+        but is helpful and better than nothing - while waiting for
         advanced cheating functionnalites to be added in the future.
       - Support for CRC32 to specify the game to apply patches on,
         as well as using MEKA proprietary checksum format.
       - Putting * in the CRC field will apply a patch to all games.
       - Minor bug fixes.
   - Inputs:
-      - [Windows] Fixed joystick sliders support (DirectInput < 8.00 
-        usually reports the fourth and fifth axis of a joystick as 
+      - [Windows] Fixed joystick sliders support (DirectInput < 8.00
+        usually reports the fourth and fifth axis of a joystick as
         being sliders, which is a weird little known behavior).
       - File browser now takes exclusive inputs so the emulated game
         is not affected by keypresses.
@@ -939,9 +939,9 @@
   - Closing a box now automatically focus the next one in focus order.
   - Various other fixes.
   - Updated Dutch translation (by Mark van Tilburg).
-  
+
   - Added and modified entries in the checksum and compatibility lists,
-    on the road to perfection. Added many missing (J) flags in the Game Gear 
+    on the road to perfection. Added many missing (J) flags in the Game Gear
     compatibility list. Added a few missing accents.
     Some particular renaming includes:
       SMS - Back to the Future 2            --> Back to the Future II
@@ -989,10 +989,10 @@
       SG  - Rockn' Bolt                     --> Rock n' Bolt
       SG  - Shinnyushain TooruKun           --> Shinnyushain Tooru Kun (Konami no)
       SG  - Sindbad Mystery [A]             --> Sindbad Mystery
-      
+
     Please use SMS Checker for your ROM renaming needs!
     http://www.smspower.org/maxim/smschecker
-    
+
 
  MEKA 0.66
  ---------
@@ -1008,27 +1008,27 @@
   - [Windows] Sega 3-D Glasses support is now properly working in MEKAW!
     If you build the simple 3-D Glasses to COM adapter (as described in
     the TECH.TXT file), it is possible to plug original 3-D glasses and
-    enjoy 3-D games as they were meant to be played - and additionnally, 
+    enjoy 3-D games as they were meant to be played - and additionnally,
     damage your eyes due to intense flickering :)
     Best results are achieved by enabling page flipping or vsync.
   - [DOS] Sega 3-D Glasses support now also works under a Windows 95/98
     command prompt.
   - Increased maximum number of joystick buttons to 32 (instead of 16).
-  - Partly fixed incorrect joystick axis reporting. It was a problem for 
+  - Partly fixed incorrect joystick axis reporting. It was a problem for
     many people, and made it impossible or difficult to configure joysticks
-    using the interface. One extended joystick axis may be missing now, 
+    using the interface. One extended joystick axis may be missing now,
     until I can find a solution to this other problem.
   - Tile viewer can now be configured to displayed all 512 tiles, instead
-    of the first 448 only. The bottom tiles looks awful with most SMS/GG 
+    of the first 448 only. The bottom tiles looks awful with most SMS/GG
     games but some games use this area so it's good to see them.
   - Tile viewer now allows to select all 15 colors to display tiles in
     TMS9918 video modes (used by SG-1000, SC-3000, Coleco Vision, etc.).
   - Loading a ROM now display the full name in the message box.
   - [Windows] Upgraded MSVC compiler from version 5.0 to 7.1 (might bring
-    a small improvement on performance). Removed ZLIB.DLL from the 
+    a small improvement on performance). Removed ZLIB.DLL from the
     distribution and statically linked it to the executable.
   - [Windows] Fixed mekaw.cfg saving location. It was saving in a wrong
-    place in some cases (depending how you run it). 
+    place in some cases (depending how you run it).
   - Updated Danish translation (by Mark Klemp).
   - Added and modified entries in the checksum and compatibility lists.
     Some particular renaming includes:
@@ -1120,7 +1120,7 @@
     redefinition is supported.
   - Added auto-repetition on keys F6/F8 (savestate selection).
   - Added support for mouse wheel in file browser and documentation viewer.
-  - Fixed state saving crash that could happen when sound is completely 
+  - Fixed state saving crash that could happen when sound is completely
     disabled and no FM emulator was selected.
   - Started migrating from my own general purpose C library to standard
     C library (LibC) for various functions.  This should provides speed
@@ -1560,7 +1560,7 @@
  Lots of fixes, for a total of twenty working hours.
  Please also note in documentation that *I HAVE MOVED HOUSE*, that is
  in case you planned to send something.
- 
+
   - Various minor fixes and improvements.
   - Fixed startup delay (and sometimes crash) when autodetecting Sidewinders.
   - Fixed and improved the new dynamic palette handler, avoiding palettes
@@ -2024,7 +2024,7 @@
       - Added blitters definition file (MEKA.BLT) where you can configure
         fullscreen video modes drivers, resolution and effects, and create
         your own video modes this way.
-      - Added "TV Mode" blitter that simulate accurates TV scanlines. 
+      - Added "TV Mode" blitter that simulate accurates TV scanlines.
       - Added "Double" blitter. Nice uses of it are:
           - Doubling screen with 512x384 mode (getting true Fullscreen).
           - Doubling screen in a tweaked mode (Game Gear with big pixels).

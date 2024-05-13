@@ -67,7 +67,7 @@ void    Palette_Emulation_Reload (void)
 {
     switch (g_driver->vdp)
     {
-    case VDP_TMS9918:  
+    case VDP_TMS9918:
         TMS9918_Palette_Setup();
         return;
     }

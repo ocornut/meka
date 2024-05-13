@@ -13,7 +13,7 @@
 void    Decode_Tile_C (int tile_n, u8* dst)
 {
     const u8* src = &VRAM[tile_n << 5];
-    
+
     // byte 0->3: bitplane x for line 0
     int lines = 8;
     while (lines-- != 0)

@@ -28,7 +28,7 @@
 //-----------------------------------------------------------------------------
 // VDP Registers Definitions
 //-----------------------------------------------------------------------------
-// FIXME: Rename below name/macro, use per-bit definitions/mask matching 
+// FIXME: Rename below name/macro, use per-bit definitions/mask matching
 // naming in known/official documentations
 //-----------------------------------------------------------------------------
 // Unknown - 0          (sms.VDP[0] & 0x01) // "External Video Input"

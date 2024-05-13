@@ -4,7 +4,7 @@
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
-; that is to dump, archive, label and version ROM images properly based 
+; that is to dump, archive, label and version ROM images properly based
 ; mostly on verified sources (aka real cartridges) and reverse engineering.
 ; See dumping logs thread
 ; http://www.smspower.org/forums/viewtopic.php?t=8087
@@ -15,7 +15,7 @@
 ;   - 512-bytes header removed
 ;   -  64-bytes footer removed
 ; - ColecoVision:
-;   - 128-bytes header removed 
+;   - 128-bytes header removed
 ;   - 512-bytes footer removed
 ; Dumps nowadays shouldn't have any of those, but old may.
 ;-----------------------------------------------------------------------------
@@ -43,7 +43,7 @@
 ;  16 : sms korean xx-in-1, register at 0xFFFF mapping 32 KB at 0x0000->0x8000 (hi-com cartridges)
 ;  17 : sc-3000 survivors multicart.
 ;  18 : sms korean xx-in-1, register at 0x0000 mapping 8 KB at 0x8000, register at 0x0100 mapping 8 KB at 0x4000, register at 0x0200 mapping 8 KB at 0xA000, register at 0x0300 mapping 8 KB at 0x6000
-;  19 : sms korean xx-in-1, register at 0x2000 mapping 8x4 KB 0x4000-0xBFFF using register xored with 0x1F, 0x1E, 0x1D, 0x1C. 0x0000-0x3FFF stuck on bank 0. 
+;  19 : sms korean xx-in-1, register at 0x2000 mapping 8x4 KB 0x4000-0xBFFF using register xored with 0x1F, 0x1E, 0x1D, 0x1C. 0x0000-0x3FFF stuck on bank 0.
 ;  20 : sms korean xx-in-1, register at 0xBFFC, sms+msx
 ;  21 : sms korean xx-in-1, register at 0xFFFE
 ;  22 : sms korean xx-in-1, register at 0xFFF3 and 0xFFFC (mirrored 0xBFF3, 0xBFFC)
@@ -61,11 +61,11 @@
 ;-----------------------------------------------------------------------------
 ; All data are now being converted to a new, better format. In addition,
 ; extended analysis and verification will be made on a case by case basis,
-; before adding entries to the new format. 
+; before adding entries to the new format.
 ; - Names are verified based on original media/cartridge, box and manuals.
 ;   I am now paying particular attention to exact casing.
 ; - Every cartridge is being redumped and verified.
-; - Each ROM is properly associated to countries where it has been released. 
+; - Each ROM is properly associated to countries where it has been released.
 ;   In some case, not all country version were dumped and some countries are
 ;   being associated to a ROM under the assumption that the version of this
 ;   country contains the same data as the other one.
@@ -125,7 +125,7 @@ SMS b618b144 2C339F1D709F32A4   Alien 3/COUNTRY=EU,BR/PRODUCT_NO=MK-27043-50
 SMS 7f30f793 122165765570939A   Alien Storm/COUNTRY=EU,BR/PRODUCT_NO=7075
 SMS 5cbfe997 468211BFBE1EC3C9   Alien Syndrome/COUNTRY=US,EU,BR/PRODUCT_NO=7006
 SMS 4cc11df9 DCF4C5DA46B94250   Alien Syndrome/COUNTRY=JP/PRODUCT_NO=G-1339
-SMS c148868c C6BA17CDFFEE6748   Alien Syndrome [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game. 
+SMS c148868c C6BA17CDFFEE6748   Alien Syndrome [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS bba2fe98 B604DAE9BC58B6B9   Altered Beast/COUNTRY=US,EU,BR/PRODUCT_NO=7018
 SMS f499034d EC195693CDC41170   Andre Agassi Tennis/COUNTRY=EU,BR/PRODUCT_NO=MK-27051-50,025420
 SMS fff63b0b 706FE01391B816CF   Anmitsu Hime/COUNTRY=JP/PRODUCT_NO=G-1328/COMMENT=Japanese version of "Alex Kidd: High-Tech World".   ; [EDITOR NOTE] SMS checksum is wrong, was verified on original cartridge.
@@ -134,7 +134,7 @@ SMS 3727d8b2 F5E365059B891882   American Pro Football/COUNTRY=EU/PRODUCT_NO=7020
 SMS e4163163 52E64F6379BC4E93   Arcade Smash Hits/COUNTRY=EU/PRODUCT_NO=27032-50
 SMS bae75805 B1B3520AE6A57C39   Argos no Juujiken/COUNTRY=JP/PRODUCT_NO=001/COMMENT=Also known in the west as "Rygar".
 SMS 5e4b454e 3E5F1176876F3DA9   Argos no Juujiken [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-02/COMMENT=Taiwanese HTH release for Game Gear. Box says "Alocos".
-SMS f4b3a7bd A7AF89DB1688A107   Ariel - The Little Mermaid (Disney's)/COUNTRY=BR/PRODUCT_NO=026350/COMMENT=This is a port from the Game Gear version. 
+SMS f4b3a7bd A7AF89DB1688A107   Ariel - The Little Mermaid (Disney's)/COUNTRY=BR/PRODUCT_NO=026350/COMMENT=This is a port from the Game Gear version.
 SMS ae705699 8A53E8116C3E95EB   Ashura/COUNTRY=JP/PRODUCT_NO=G-1307/COMMENT=Japanese version of "Secret Command" (Europe) and "Rambo - First Blood Part II" (USA).
 SMS 0bd8da96 61A53B8B8924BFC8   Assault City/COUNTRY=EU/PRODUCT_NO=7034/COMMENT=A Light Phaser version also exists.
 SMS 861b6e79 3192D86747C4C62D   Assault City [Light Phaser]/COUNTRY=EU,BR/PRODUCT_NO=7040/EMU_INPUTS=LIGHTPHASER/COMMENT=A Joypad version also exists.
@@ -152,7 +152,7 @@ SMS ff614eb3 C0065F686A4316B0   Aztec Adventure/NAME_JP=Nazca '88/COUNTRY=JP,US,
 SMS 7ca37320 9DB2430423F679D8   Aztec Adventure [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUNTRY=TW/PRODUCT_NO=HG 101-26/COMMENT=Taiwanese HTH release for Game Gear.
 SMS e5ff50d8 D2BE59AA0185BE29   Back to the Future Part II/COUNTRY=EU,BR/PRODUCT_NO=27010-50
 SMS 2d48c1d3 84C9B8E5194A882B   Back to the Future Part III/COUNTRY=EU/PRODUCT_NO=MK-27020-50/EMU_TVTYPE=PAL
-SMS 35d84dc2 BE8D0BC44B5555F1   Baku Baku/COUNTRY=BR/PRODUCT_NO=025470/COMMENT=Also referred to as "Baku Baku Animal" in-game. This is a port from the Game Gear version. 
+SMS 35d84dc2 BE8D0BC44B5555F1   Baku Baku/COUNTRY=BR/PRODUCT_NO=025470/COMMENT=Also referred to as "Baku Baku Animal" in-game. This is a port from the Game Gear version.
 SMS 655fb1f4 D8A13BCA59CD77E5   Bank Panic/COUNTRY=EU,DE,IT,BR/PRODUCT_NO=4084,41022,4584,4006
 SMS d1cc08ee 4220E6AA3FBBA074   Bart vs. The Space Mutants (The Simpsons)/COUNTRY=EU,BR,PT/PRODUCT_NO=MK-27031-50
 SMS f6b2370a 98430D51443E0D38   Bart vs. The World (The Simpsons)/COUNTRY=EU,BR/PRODUCT_NO=MK 27053-50,027210
@@ -398,7 +398,7 @@ SMS cfb4bd7b 92C27B97AF09FBE7   James "Buster" Douglas Knockout Boxing [Proto]/F
 SMS 0a9089e5 3B2C5FDB4270713C   Joe Montana Football/COUNTRY=US,EU,BR/PRODUCT_NO=7062
 SMS 102d5fea 0C38C7A1580A24CE   James Pond II - Codename: RoboCod/COUNTRY=EU,BR/PRODUCT_NO=29013-50,028580
 SMS 192949d5 DE089DF319087BEE   Janggun-ui Adeul/COUNTRY=KR/EMU_MAPPER=13
-SMS 929222c4 3D06F62515E53078   Jang Pung II/COUNTRY=KR/PRODUCT_NO=SI-0103G/EMU_MAPPER=9/COMMENT=Unlicensed Street Fighter II clone. 
+SMS 929222c4 3D06F62515E53078   Jang Pung II/COUNTRY=KR/PRODUCT_NO=SI-0103G/EMU_MAPPER=9/COMMENT=Unlicensed Street Fighter II clone.
 SMS 76c5bdfb F6B47C90D268957B   Jang Pung II [SMS-GG]/COUNTRY=KR/FLAGS=SMSGG_MODE/EMU_MAPPER=3/COMMENT=Unlicensed Street Fighter II clone.
 SMS 18fb98a3 3EC6C8A5278C0DCF   Jang Pung 3/COUNTRY=KR/EMU_MAPPER=9
 SMS 695a9a15 C723308C422E8664   Jungle Book, The (Walt Disney's Classic)/NAME_FR=Le Livre de la Jungle (Walt Disney's Classic)/NAME_DE=Das Dschungelbuch (Walt Disney's Classic)/COUNTRY=EU,FR,DE,PT,BR/PRODUCT_NO=MK-27069-50,MK-27069-09,MK-27069-18,027330
@@ -419,7 +419,7 @@ SMS 4762e022 715E94C4B05F03C7   Kung Fu Kid [HTH] [SMS-GG]/FLAGS=SMSGG_MODE/COUN
 SMS 24e97200 37B375B8FEA09AB1   Land of Illusion - Starring Mickey Mouse/COUNTRY=EU,BR/PRODUCT_NO=9014
 SMS 0ca95637 B3C4296E5BC63899   Laser Ghost/COUNTRY=EU/PRODUCT_NO=7074/COMMENT=This game can be played using the Light Phaser. To enable this feature, start the game by pressing a button on the second Control Pad.
 SMS eb71247b DF5DEA1CDB3EC8DD   Lethal Weapon 3 [Music] [Proto]/FLAGS=PROTO/COUNTRY=EU/COMMENT=Sound driver and music tracks by Jeroen Tel, for the unreleased "Lethal Weapon 3" game.
-SMS 6350e649 EBBA1A5F14B6D543   Legend of Illusion - Starring Mickey Mouse/COUNTRY=BR/PRODUCT_NO=028750/COMMENT=This is a port from the Game Gear version. 
+SMS 6350e649 EBBA1A5F14B6D543   Legend of Illusion - Starring Mickey Mouse/COUNTRY=BR/PRODUCT_NO=028750/COMMENT=This is a port from the Game Gear version.
 SMS f369b2d8 C3A7D6B47AE01C96   Lemmings/COUNTRY=EU,BR,KR/PRODUCT_NO=7108,025204,GB2032JG
 SMS 2c61ed88 9841AB54F8EB0441   Lemmings [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS cf5aecca FDA25D3F5F358CA5   Lemmings 2 - The Tribes [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the unreleased game.
@@ -687,7 +687,7 @@ SMS 7e0ef8cb 52DA42A9A94927D0   Super Racing/COUNTRY=JP/PRODUCT_NO=G-1357/COMMEN
 SMS e0b1aff8 55607A442D170643   Super Smash T.V./COUNTRY=EU/PRODUCT_NO=27044-50/COMMENT=Official game material mentions "Super Smash T.V.", but the game shows a "Smash T.V." title screen.
 SMS 1d6244ee A2F23281E94DB5CE   Super Space Invaders/COUNTRY=EU/PRODUCT_NO=MK 27023-50
 SMS 914514e3 F799F9C458560EF7   Super Tennis/COUNTRY=US,EU,DE/PRODUCT_NO=4007,4507,41010
-SMS bd1cc7df 230C5D2B35293BB0   Super Tetris/COMMENT=Unlicensed Tetris clone. 
+SMS bd1cc7df 230C5D2B35293BB0   Super Tetris/COMMENT=Unlicensed Tetris clone.
 SMS b1da6a30 D805179D29845F63   Super Wonder Boy Monster World (Super Wonder Boy Monster Land)/COUNTRY=JP/PRODUCT_NO=G-1346/COMMENT=Japanese version of "Wonder Boy in Monster Land". When ran on an export Master System, the game title screen says "Super Wonder Boy Monster Land". This later title is found on certain US cartridges' label, but never shown in-game elsewhere than in this version.
 SMS 93ca8152 BC18F17F4F471214   T2: The Arcade Game/COUNTRY=EU/PRODUCT_NO=MK-27061-50
 SMS 85cfc9c9 3818020380F03704   Taito Chase H.Q./COUNTRY=EU/EMU_TVTYPE=PAL/PRODUCT_NO=7038  ; [EDITOR NOTE] This game is internally a mess: almost duplicated pages, unused data, etc. I think it could work with only 128 KB but the SMS checksum was computed for 256 KB. The ROM is the exact content you get reading from an original cartridge. Reading from upper pages (256 KB+) return 0xFF so the ROM is really 256 KB.
@@ -727,7 +727,7 @@ SMS b52d60c8 3EEC41D938FA3456   Ultima IV/COUNTRY=EU,BR/PRODUCT_NO=9501
 SMS de9f8517 A9FD5B95131658E9   Ultima IV [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 15668ca4 7638A4C78062F114   Ultimate Soccer/COUNTRY=EU,BR/PRODUCT_NO=7119,024440
 SMS dfb0b161 826B0C3B91EAF65B   Vigilante/COUNTRY=US,EU,BR/PRODUCT_NO=7023
-SMS 57f1545b 63CE90266CDA3B98   Virtua Fighter Animation/COUNTRY=BR/PRODUCT_NO=030020/COMMENT=This is a port from the Game Gear version. 
+SMS 57f1545b 63CE90266CDA3B98   Virtua Fighter Animation/COUNTRY=BR/PRODUCT_NO=030020/COMMENT=This is a port from the Game Gear version.
 SMS 3d55759b 2893A79D37A62301   Walter Payton Football/COUNTRY=US/PRODUCT_NO=7020/COMMENT=US version of "American Pro Football".
 SMS 5359762d 1E9957BF6F2A4B4F   Wanted/COUNTRY=US,EU,BR/PRODUCT_NO=5118/EMU_INPUTS=LIGHTPHASER
 SMS b14b6195 C1F11922544DA4CE   Wimbledon [v0] [Game Box Série Esportes]/COUNTRY=BR,PT/PRODUCT_NO=028560/COMMENT=Part of "Game Box Série Esportes" compilation.
@@ -822,7 +822,7 @@ SMS 9fb7d63b 690DDE11E39C7CA0   Ninja, The/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 283712a9 97682219F73E573A   Pit-Fighter/COUNTRY=EU/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 4902b7a2 A88B7C7AF6466F2C   R.C. Grand Prix [SMS-GG]/COUNTRY=US/FLAGS=BAD/COMMENT=1 bad byte.
 SMS 599901bb 905391ED1B463806   Street Fighter II'/COUNTRY=BR/FLAGS=BAD/COMMENT=5 bad bytes.
-SMS 87aabdfe 8F5391ED1B463906   Street Fighter II'/COUNTRY=BR/FLAGS=BAD/COMMENT=4 bad bytes. 
+SMS 87aabdfe 8F5391ED1B463906   Street Fighter II'/COUNTRY=BR/FLAGS=BAD/COMMENT=4 bad bytes.
 SMS 6f2cf48a C8782C54E741D246   Streets of Rage/COUNTRY=EU,BR/FLAGS=BAD/COMMENT=2 bad bytes.
 SMS 10b1c008 F07A46299069111D   Super Boy 4/COUNTRY=KR/FLAGS=BAD/COMMENT=2 bad bytes.
 SMS 12706a8a EF7A46299169111D   Super Boy 4/COUNTRY=KR/FLAGS=BAD/COMMENT=1 bad byte.

@@ -215,7 +215,7 @@ void        TechInfo_Update(void)
                     FM_Regs[i + 0x30] & 0x0f, // Volume
                     FM_Regs[i + 0x30] >> 4 // Instrument
                     );
-                if (i % 3 == 2) 
+                if (i % 3 == 2)
                 {
                     TechInfo_SetLine(app, line, line_idx++);
                     p = line;

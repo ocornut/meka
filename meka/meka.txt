@@ -21,8 +21,8 @@
    multi.txt     : multiplayer games list
    sources.txt   : how to compile, license
    tech.txt      : technical diagrams
-   
- If you are looking for how to donate to the MEKA project, press Up, Down, 
+
+ If you are looking for how to donate to the MEKA project, press Up, Down,
  Right, Left and start directly at Level 6. Documentation are cool.
 ----------------------------------------------------------------------------
 
@@ -69,28 +69,28 @@
 
  The MS-DOS version has been discontinued after version 0.70 (April 2005).
  You can still grab older versions from the official site.
- 
+
  The Windows version is the main development version.
- 
+
  The GNU/Linux version should be working but needs a maintainer.
  Could it be you?
- 
+
  Now let me tell you more about the cool systems that MEKA emulates!
 
  -- on the Sega side --
 
  The SG-1000, for "Sega Game 1000", was released in Japan in July 1983.
- Bbased on the same components as the MSX1 hardware, it is the first known 
+ Bbased on the same components as the MSX1 hardware, it is the first known
  Sega home console system. It was later distributed by Grandstand in New Zealand.
 
  The SC-3000, for "Sega Computer 3000", is a variation of the SG-1000 extending
- it with a keyboard and the possibility to plug various peripherals. 
+ it with a keyboard and the possibility to plug various peripherals.
  Such peripherals include a tape recorder (SR-1000) for reading data in and out
  from the computer, a printer (SP-400), a modem (John Sands' Micromodem 3) and
  giant extension called the Super Control Station (SF-7000) that extend the
- SC-3000 with a 3" floppy disk drive, a Centronics printer port, and additional 
- memory. The SC-3000 was released in November 1983 in Japan, and then was sold 
- in various countries around the world (mostly Oceania and Europe), usually 
+ SC-3000 with a 3" floppy disk drive, a Centronics printer port, and additional
+ memory. The SC-3000 was released in November 1983 in Japan, and then was sold
+ in various countries around the world (mostly Oceania and Europe), usually
  coming packaged with a BASIC programming cart.
 
  Later, Sega released some updates to these systems, including, but not
@@ -100,14 +100,14 @@
  software such as the BASIC or the Music Editor.
 
  The Mark III, released in 1985, is the first Master System compatible system.
- It still have the necessary ports to plug the keyboard. A FM Unit extension 
+ It still have the necessary ports to plug the keyboard. A FM Unit extension
  was available at the release of the Master System, providing the system with
  a YM2413 chip for FM synthesis. The FM Unit is supported by most games
  released in Japan between 1986 and 1988 and a few games later developped by
  Japanese teams. Out Run is the first game featuring support for the FM Unit.
 
  The Mark III is backward compatible with SG-1000/SC-3000 games, although its
- video chip implement a darker, slighty incorrect color palette (compared to 
+ video chip implement a darker, slighty incorrect color palette (compared to
  an original SG-1000 or SC-3000).
 
  In 1986 came the Sega Master System, two years after Nintendo released their
@@ -121,26 +121,26 @@
 
  The Master System had an interesting success in Brazil, where Tec Toy, the
  official distributor, released plenty of ports from Game Gear, unreleased
- games and sometimes even original games of their own, up to 1997. 
+ games and sometimes even original games of their own, up to 1997.
  The Master System II was rebranded "Master System 3" in Brasil and got
  released countless times under different packaging variants.
  The Master System Super Compact series of systems are handheld systems
  connecting to a TV thru an antenna receptor. It also got released in pink
  color and renamed the Master System Girl.
- 
+
  Tec Toy is still around and continuing to release Sega systems.
  From December 2002 and practically every year until 2009 (more to come?),
  Tec Toy released new variants of "Master System 3 Collection" packaged
  with dozens/hundreds of games.
- 
+
  In July 2004, Tec Toy released the "Master System Handy" in the form of
  a controller (similarly to the Super Compact models) and embedding 8 games.
- 
+
  The Sega Game Gear was released in 1991. It is basically a portable Master
- System with a smaller screen, a communication port (for dual player gaming) 
+ System with a smaller screen, a communication port (for dual player gaming)
  and a bigger palette (4096 colors available instead of 64). Although old
- SG-1000/SC-3000 video modes are still supported, their default palette 
- was removed so most SG-1000/SC-3000 software have wrong colors on a 
+ SG-1000/SC-3000 video modes are still supported, their default palette
+ was removed so most SG-1000/SC-3000 software have wrong colors on a
  Game Gear (software modification allows fixing that).
 
  -- on the other side --
@@ -180,19 +180,19 @@
  some obscure features, so most games should be displaying accurately.
 
  MEKA emulates the following display modes:
-   
+
   - TMS9918 mode 0 (Graphics)
   - TMS9918 mode 1 (Text)
   - TMS9918 mode 2 (Graphics)
   - TMS9918 mode 3 (Multicolor)
   - SMS/GG mode 4
   - SMS PAL extended 224-lines mode
-  
- Including proper scrolling, line-based raster effect and sprite collision, 
+
+ Including proper scrolling, line-based raster effect and sprite collision,
  sprite flickering (optional), and some VDP variation emulation.
- 
- If your computer is slower and cannot cope with MEKA (<300 Mhz), you may 
- want to try using Massage or BrSMS. Both of those MS-DOS based emulators 
+
+ If your computer is slower and cannot cope with MEKA (<300 Mhz), you may
+ want to try using Massage or BrSMS. Both of those MS-DOS based emulators
  are faster, although not as compatible.
 
 
@@ -204,9 +204,9 @@
   - YM-2413 FM Generator (FM) by Yamaha
 
  Although technically better, the FM hardware is only supported by certain
- Master System games, mostly released between between 1986 and 1989. 
- As mentionned earlier, this hardware only exists as an add-on for the 
- Sega Mark III, or in the Japanese Sega Master System. So for most users, 
+ Master System games, mostly released between between 1986 and 1989.
+ As mentionned earlier, this hardware only exists as an add-on for the
+ Sega Mark III, or in the Japanese Sega Master System. So for most users,
  FM music will sound unusual.
 
  FM emulation is disabled by default, but if you are interested in hearing
@@ -214,13 +214,13 @@
  freely enable it back in the SOUND menu of the emulator.
 
  The 4 channels of the Programmable Sound Generator are emulated in near
- perfection. Data gathered from various studies (including, but not 
+ perfection. Data gathered from various studies (including, but not
  limited to excellent work done by Maxim) allows perfection to go as far
- as generating noises using the same sequence of pseudo random numbers 
+ as generating noises using the same sequence of pseudo random numbers
  as a real PSG!
 
  The Yamaha YM-2413 chipset features 9 channels, 15 pre-defined instruments,
- and 1 user definable instrument. 3 channels can be used for percussions, 
+ and 1 user definable instrument. 3 channels can be used for percussions,
  and the chipset provides hardware vibrato and amplitude modulation.
 
 
@@ -242,7 +242,7 @@
   - Paddle Control (ala Steering Wheel):
     [Mark III / Master System]
     This analog paddle is supported by a few japanese games.
-    It is possible to use a standard keyboard or digital joystick, but a 
+    It is possible to use a standard keyboard or digital joystick, but a
     mouse is HIGHLY recommended to simulate a Paddle Control.
     Galactic Protector supports 2 Paddle Controls on the same time.
 
@@ -262,8 +262,8 @@
 
   - 3-D Glasses:
     [Mark III / Master System]
-    MEKA let you play 3-D games using three differents methods. 
-    
+    MEKA let you play 3-D games using three differents methods.
+
     - The first method is handled on the software side and the one you
       are likely to use without any particular hardware.
       MEKA can show either left or right eyes screens, removing the huge
@@ -294,7 +294,7 @@
 
  Using dedicated adapters, it is also possible to plug and use Sega Master
  System controllers into your computer. Please read the TECH.TXT about it.
- 
+
 
  Interface
  ---------
@@ -307,10 +307,10 @@
 
  The graphical user interface is a bit slow, and a fast machine (300+ MHz)
  is recommended to use it in optimal conditions, without having to skip
- frames. Of course, the interface can be disabled (pressing Escape) and 
+ frames. Of course, the interface can be disabled (pressing Escape) and
  emulation speed is not affected.
- 
- The current state of this thing is that I wrote the GUI code a long time 
+
+ The current state of this thing is that I wrote the GUI code a long time
  ago and that it is severely outdated now. I want to make plenty of update
  and add new features to it, but that will be when I'll find enough time.
 
@@ -319,7 +319,7 @@
  ------------
  A lot of work has been done on various things, some described below:
 
-  - ZIP file support: you can keep your ROM compressed in the ZIP file 
+  - ZIP file support: you can keep your ROM compressed in the ZIP file
     format to save space, MEKA does know how to handle them.
 
   - Patching system: this allows you to tell MEKA to patch a ROM on loading,
@@ -339,9 +339,9 @@
     how to access to it (alright, if you forgot, try pressing UP+1+2).
     Originally, MEKA was supposed to use my own reprogrammed BIOS. Then I
     found that someone already dumped them so I stopped working on mine and
-    included the original one instead. 
+    included the original one instead.
     MEKA even includes the Japanese Master System BIOS, which you can check
-    by setting the machine to Japanese and booting it without any game loaded. 
+    by setting the machine to Japanese and booting it without any game loaded.
     It shows a little demo with a scrolling ground and plays the Space Harrier
     music theme, taking advantage of both sound chipsets.
 
@@ -357,13 +357,13 @@
     This database is kept updated to reflect various game versions, and is
     one of the fundation element of a full-featured web site in the work.
 
-  - Logging of sound output to VGM (and WAV) format. VGM is a logging format 
+  - Logging of sound output to VGM (and WAV) format. VGM is a logging format
     developed by the S8-Dev community of SMS Power. For more information,
     and a music archive, go to http://www.smspower.org/Music
     Logging of WAV only works for PSG sound (YM-2413 FM is not yet logged).
 
   - Definable video modes with some nice fullscreen effects available such
-    as TV scanline simulation or HQ2X graphic enhancer. 
+    as TV scanline simulation or HQ2X graphic enhancer.
 
   - Debugging features, making MEKA useful for various programming/debugging
     or even cheating purposes:
@@ -386,8 +386,8 @@
  I tried to make MEKA as compatible I could make it.
  Unfortunatly, not every single game is working perfectly with it. If you
  want to know which, be sure to check the compatibility list provided in
- the COMPAT.TXT file. 
- 
+ the COMPAT.TXT file.
+
  If you found or suspect any bug or glitch that is not mentionned in the
  compatibility list, please report it to me. Your help in spotting bugs
  is precious.
@@ -397,13 +397,13 @@
 ----------------------------------------------------------------------------
 
  SMS Power! - http://www.smspower.org
- 
+
  This is our Internet home, and new ROM images are regularly made available
  from here. However, it is of your responsability to find ROM images.
  You may want to check links or use Internet search engine.
- Although SMS Power's current occupation is to release new ROM images, we 
+ Although SMS Power's current occupation is to release new ROM images, we
  are comitted to slowly evolve into a full-featured Sega 8-bit web museum,
- with hundred of pages that will make you drop Opa Opa tears and consider 
+ with hundred of pages that will make you drop Opa Opa tears and consider
  building a time machine.
 
 ----------------------------------------------------------------------------
@@ -416,9 +416,9 @@
  Command line
  ------------
  You can also run MEKA from the command line and pass it a filename parameter.
- 
+
  Command line options are also available:
- 
+
    -HELP -?         Display command line help
    -SETUP           Start with the setup screen
    -LOAD <n>        Load savestate <n> on startup
@@ -441,17 +441,17 @@
     This is the same pause as if you pressed the button on a real machine.
     It can be used only if the game supports it at the moment you press it.
     On some game, pressing pause will get you a menu, etc..
-    
+
   Hard Pause ........................ F12
     This "special" pause with simply freeze the game, without changing
     anything. It is usable everytime, everywhere.
-    
+
   Soft Reset ........................ Backspace
     This is the same reset as if you pressed the button on a real machine.
     It can be used only if the game supports it at the moment you press it.
     On some emulated systems that does not support software reset, like the
     Game Gear, pressing this key will actually produces an hard reset.
-    
+
   Hard Reset ........................ ALT+Backspace
     This "special" reset with completly reset the emulated system.
     It is usable everytime, everywhere.
@@ -476,7 +476,7 @@
  Because of this, you can also either use the backslash key on the
  bottom left of your keyboard, OR the slash key on the keypad, to
  replace the missing "Pi" key.
- 
+
  See a paragraph below about how to use SC-3000 and SF-7000 software.
 
  ColecoVision
@@ -507,7 +507,7 @@
   Enable/Disable background ......... CTRL+F11
 
   Enable/Disable debugger ........... Scroll Lock (*1)
-  
+
   Close current window .............. CTRL+F4
   Cycle thru inputs windows ......... CTRL+TAB
 
@@ -538,11 +538,11 @@
 
   The cassette drive (CLOAD command on Disk Basic, and LOAD on original)
   is not yet emulated and thus you will not be able to use it now :-(
-  Note that I am always looking for SC-3000 tapes, if you have some you 
+  Note that I am always looking for SC-3000 tapes, if you have some you
   can part, they might prove being useful in the future. I am gathering
-  many of them currently, and of course hope to be able to work on tape 
+  many of them currently, and of course hope to be able to work on tape
   emulation someday (Aaron, I'm hearing you :)
-  
+
  How to use the debugger
  -----------------------
   Please read to the "DEBUGGER.TXT" documentation file.
@@ -552,14 +552,14 @@
  Level 6 : "I still like MEKA !" - How to help
 ----------------------------------------------------------------------------
 
- Thanks. If you want to help further development and support the software 
+ Thanks. If you want to help further development and support the software
  and general Sega 8-bit support, your donations are welcome and helpful.
 
   - Donate Sega 8-bit related items:
     I love it! Software, hardware, cartridges, cards, tapes, posters,
     magazines, goodies, documents, source codes, development kits, samples,
     trivias, prototypes, all welcome!
-     
+
   - Donate money:
     Money helps me to purchase games related to the SMS Power! project, as
     well as getting weird pieces of related Sega 8-bit hardware/items.
@@ -568,14 +568,14 @@
  < This section of the documentation used to contain a detailed equation
  suggesting how much to donate based on your computer power (supposedly
  related to your income) but such practice are so 1998, so I deleted it. >
- 
+
  It is suggested to donate via PayPal.com because it is more convenient.
  My PayPal account is linked to my e-mail address (as seen at the top of
  this documentation).
- 
+
  If you want to use another form of payment or considering an unusual
  type of donation, please contact me to discuss details.
- 
+
  < This section of the documentation used to contain funny treats and
  comments to encourage you to make a donation, but such practice are so
  2001, so I deleted it. >
@@ -592,15 +592,15 @@
  As for 2005/04/03, MEKA source code is now available to all users.
  Your input and improvements are welcome.
  Please refer to SOURCES.TXT for more information about developping for MEKA.
- License is also included in SOURCES.TXT (it is a custom BSD-like license 
+ License is also included in SOURCES.TXT (it is a custom BSD-like license
  for most parts).
 
  You can download the source code on MEKA homepage:
     http://www.smspower.org/meka
-    
+
  Latest work-in-progress version:
     http://www.smspower.org/meka/wip
-    
+
  Any development related dicussion are held in a dedicated forum:
     http://www.smspower.org/forums/viewforum.php?f=7
 
@@ -613,14 +613,14 @@
  --MEKA.CFG-- or --MEKAW.CFG--
  This is the configuration file where MEKA stores most of the options
  and user definable parameters. Some are accessible from the interface,
- but some are only available by manually editing this file. 
+ but some are only available by manually editing this file.
  Most of it should be self explanatory, but here are some comments:
 
  Screenshots and music dump filename templates are configurable using the
  following syntax:
- 
+
     ...%[.name_max_length]s...%[0number_padding]d.file_format
-    
+
  Where things inside brackets are optional and '...' is anything you want.
  When I say "anything you want", you can truly put anything you want, with
  two exceptions:
@@ -663,26 +663,26 @@
  --MEKA.INP--
  This file contains inputs configuration. It is automatically rewritten by
  MEKA when quitting, and most of its options are available from the GUI.
- However, experienced users may want to tweak with it and try to use some 
+ However, experienced users may want to tweak with it and try to use some
  of the top-secret options it offers.
  Maxim's MEKA Configurator allows you to edit this file easily:
     http://www.smspower.org/maxim/mconfig/
 
  --MEKA.MSG--
  This file contains text messages used in MEKA and allows you to create
- translation in new languages or dialect using latin characters. 
+ translation in new languages or dialect using latin characters.
  An extension to use asian (or other) type of characters is planned but
  unfortunately not to be done very soon.
 
  --MEKA.NAM--
  This file contains the name, product numbers and comments database that
- are used by MEKA. 
+ are used by MEKA.
 
  --MEKA.PAT--
  This file allows you to tell MEKA to apply simple patches to a ROM on
  loading, or to memory (RAM, etc.) an runtime.
- Nothing extraordinary but programmers and hackers will find such feature 
- useful. Additionnally, it can be used as a basic cheating functionnality, 
+ Nothing extraordinary but programmers and hackers will find such feature
+ useful. Additionnally, it can be used as a basic cheating functionnality,
  and you can convert Pro Action Replay codes to MEKA patching system easily.
  The file is self documented.
 
@@ -690,7 +690,7 @@
  This file contains themes available from the user interface. If available
  GUI colors are boring you, this is the place to check. The file is also self
  documented.
- Maxim's MEKA Configurator or Lilac's Wonder Theme allows you to edit this 
+ Maxim's MEKA Configurator or Lilac's Wonder Theme allows you to edit this
  file easily. Both tools are linked from MEKA homepage.
  You can also get pictures for uses with some of the default themes at:
     http://www.smspower.org/meka/themes
@@ -708,8 +708,8 @@
  games, hardware hacks and various projects being made by the community.
 
  Check out http://www.smspower.org/Music for a great Sega 8-bit music
- archive, informations, tools and a forum. 
- 
+ archive, informations, tools and a forum.
+
  Check out http://www.smspower.org/meka/wip for latest work-in-progress
  versions of MEKA, with new great features you never dreamed of.
 
@@ -767,7 +767,7 @@
     http://www.talula.demon.co.uk/allegro/
   - zlib (compression library), by Jean-loup Gailly and Mark Adler.
     http://www.gzip.org/zlib/
-  - libpng (PNG file format manipulation), by Guy Eric Schalnat, 
+  - libpng (PNG file format manipulation), by Guy Eric Schalnat,
     Andreas Dilger, Glenn Randers-Pehrson and others.
     http://www.libpng.org/pub/png/libpng.html
 
@@ -793,7 +793,7 @@
  Level 12 : End Credits
 ----------------------------------------------------------------------------
 
- In addition to people listed as MEKA development contributors at the top of 
+ In addition to people listed as MEKA development contributors at the top of
  this document, I would like to thank the following persons:
 
  Maxim,
@@ -814,9 +814,9 @@
   an inspiring and so prolific website. Designed MKI reader.
 
  Nicolas Warren (Heliophobe),
-  Nicolas is the author of SMEG, SMS emulator for Dreamcast, and has made 
-  various contributions to the SMS development scenes such as Tetracycline, 
-  Damiana or the Nine Pixels demo. He was a cheery longtime contributor to 
+  Nicolas is the author of SMEG, SMS emulator for Dreamcast, and has made
+  various contributions to the SMS development scenes such as Tetracycline,
+  Damiana or the Nine Pixels demo. He was a cheery longtime contributor to
   SMS Power! forums and to be missed. RIP.
 
  Charles Mac Donald,
@@ -848,21 +848,21 @@
   http://membres.multimania.fr/mavati/sf7000/
 
  Youltar,
-  for his general support, SmsCartPad adapters, 3-D glasses and rapid fire 
+  for his general support, SmsCartPad adapters, 3-D glasses and rapid fire
   schematics, artworks.
   http://www.smspower.org/smscartpad
 
  Westone team,
   for making Wonder Boy III: The Dragon's Trap - such a lovely game :)
   http://www.westone.co.jp
-  
+
  Lasse Reinikainen & Image/Helsinki/Finland, Emilie Skog, Marat Fayzullin,
  Ricardo Bittencourt, Martin Konrad, Anonymous Jon, Super Majik Spiral Crew,
  Richard Talbot Watkins, Sean Young, MrLee, Billy Jr, Richard Mitton,
  Leonard Silva de Oliveira, Flavio Morsoletto, Charles Doty, Leonardo Pires,
  Christopher Coleman, MXS, Sam Pettus, Chris White, Jonathan Griffith, Puyolin,
  Olivier Aichelbaum (ACBM), Dominique Toussaint, friends and family etc.
-  
+
  Everybody who supported MEKA, SMS Power! or just loves the SMS!
  And of course thanks to SEGA!
 
@@ -874,7 +874,7 @@
  .        __________      .            .            .                  .
     .    /          \        .    .          .           .          .
         |____________|     .            .                       .        .
- .       |     ___  |           .                .      .             . 
+ .       |     ___  |           .                .      .             .
       .  |    |   | |   .     .       .     .                .
   .      |    |   | |             .                .                .   .
 ----------------------------------------------------------------------------

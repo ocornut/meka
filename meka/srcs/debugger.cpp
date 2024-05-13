@@ -51,7 +51,7 @@ static void     Debugger_Applet_UpdateShortcuts();
 
 // Misc
 static void     Debugger_Help(const char *cmd);
-static void     Debugger_SetTrap(int trap); 
+static void     Debugger_SetTrap(int trap);
 static void     Debugger_InputBoxCallback(t_widget *w);
 static bool     Debugger_CompletionCallback(t_widget *w);
 
@@ -712,7 +712,7 @@ int     Debugger_Hook(Z80 *R)
     {
         int cnt = Debugger.cpu_exec_traps[pc];
         bool break_activated = FALSE;
-        
+
         for (t_list* breakpoints = Debugger.breakpoints_cpu_space[pc]; breakpoints != NULL; breakpoints = breakpoints->next)
         {
             t_debugger_breakpoint *breakpoint = (t_debugger_breakpoint *)breakpoints->elem;
@@ -748,7 +748,7 @@ int     Debugger_Hook(Z80 *R)
     //Debugger_Applet_RedrawState();
 
     // Set machine in debugging mode (halted)
-    Machine_Debug_Start();    
+    Machine_Debug_Start();
 
     // Ask Z80 emulator to stop now
     return (0);
@@ -1038,7 +1038,7 @@ const char *                Debugger_BreakPoint_GetTypeName(t_debugger_breakpoin
 {
     switch (breakpoint->type)
     {
-    case BREAKPOINT_TYPE_BREAK: 
+    case BREAKPOINT_TYPE_BREAK:
         return "Breakpoint";
     case BREAKPOINT_TYPE_WATCH:
         return "Watchpoint";
@@ -1052,22 +1052,22 @@ void    Debugger_BreakPoint_GetSummaryLine(t_debugger_breakpoint *breakpoint, ch
     char    addr_string[16];
     int     bus_size;
     t_debugger_bus_info *bus_info = &DebuggerBusInfos[breakpoint->location];
-    
-    bus_size = bus_info->bus_addr_size; 
+
+    bus_size = bus_info->bus_addr_size;
 
     if (breakpoint->address_range[0] != breakpoint->address_range[1])
         sprintf(addr_string, "%0*X..%0*X", bus_size * 2, breakpoint->address_range[0], bus_size * 2, breakpoint->address_range[1]);
     else
         sprintf(addr_string, "%0*X", bus_size * 2, breakpoint->address_range[0]);
 
-    sprintf(buf, "%c%d%c %s %-4s  %c%c%c  %-10s  %s", 
+    sprintf(buf, "%c%d%c %s %-4s  %c%c%c  %-10s  %s",
         breakpoint->enabled ? '[' : '(',
-        breakpoint->id, 
+        breakpoint->id,
         breakpoint->enabled ? ']' : ')',
         (breakpoint->type == BREAKPOINT_TYPE_BREAK) ? "Break" : "Watch",
-        bus_info->name, 
-        (bus_info->access & (BREAKPOINT_ACCESS_R | BREAKPOINT_ACCESS_E) ? 
-            ((breakpoint->access_flags & BREAKPOINT_ACCESS_E) ? ('E') : 
+        bus_info->name,
+        (bus_info->access & (BREAKPOINT_ACCESS_R | BREAKPOINT_ACCESS_E) ?
+            ((breakpoint->access_flags & BREAKPOINT_ACCESS_E) ? ('E') :
     ((breakpoint->access_flags & BREAKPOINT_ACCESS_R) ? 'R' : '.')) : ' '),
         (bus_info->access & BREAKPOINT_ACCESS_W ? ((breakpoint->access_flags & BREAKPOINT_ACCESS_W) ? 'W' : '.') : ' '),
         (bus_info->access & BREAKPOINT_ACCESS_X ? ((breakpoint->access_flags & BREAKPOINT_ACCESS_X) ? 'X' : '.') : ' '),
@@ -1165,7 +1165,7 @@ bool    Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, 
     // Verbose to user
     if (access & BREAKPOINT_ACCESS_R)
     {
-        sprintf(buf, "%04X: [%d] %s %s read from %0*X, read value=%02x", 
+        sprintf(buf, "%04X: [%d] %s %s read from %0*X, read value=%02x",
             Debugger.pc_last,
             breakpoint->id,
             action,
@@ -1176,7 +1176,7 @@ bool    Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, 
     }
     else if (access & BREAKPOINT_ACCESS_W)
     {
-        sprintf(buf, "%04X: [%d] %s %s write to %0*X, writing value=%02x", 
+        sprintf(buf, "%04X: [%d] %s %s write to %0*X, writing value=%02x",
             Debugger.pc_last,
             breakpoint->id,
             action,
@@ -1187,7 +1187,7 @@ bool    Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, 
     }
     else if (access & BREAKPOINT_ACCESS_X)
     {
-        sprintf(buf, "%04X: [%d] %s %s execution", 
+        sprintf(buf, "%04X: [%d] %s %s execution",
             Debugger.pc_last,
             breakpoint->id,
             action,
@@ -1195,7 +1195,7 @@ bool    Debugger_BreakPoint_ActivatedVerbose(t_debugger_breakpoint *breakpoint, 
     }
     else if (access & BREAKPOINT_ACCESS_E)
     {
-        sprintf(buf, "%04X: [%d] %s %s %d event", 
+        sprintf(buf, "%04X: [%d] %s %s %d event",
             Debugger.pc_last,
             breakpoint->id,
             action,
@@ -1622,7 +1622,7 @@ const t_debugger_symbol *     Debugger_Symbols_GetFirstByAddr(u32 cpu_addr)
     return NULL;
 }
 
-// This function is useful because there's often cases where the programmer sets 
+// This function is useful because there's often cases where the programmer sets
 // one 'end' symbol and a following 'start' symbol and they are at the same address.
 // In most of those cases, we want the last one.
 const t_debugger_symbol *     Debugger_Symbols_GetLastByAddr(u32 cpu_addr)
@@ -1766,7 +1766,7 @@ u8          Debugger_RdZ80_Hook(register u16 addr)
 
             // Verbose break/watch point result
             Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_R, addr, value);
-        }        
+        }
     }
     return (value);
 }
@@ -1795,7 +1795,7 @@ static u8       Debugger_InZ80_Hook(register u16 addr)
         {
             // Verbose break/watch point result
             Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_R, addr, value);
-        }        
+        }
     }
     return (value);
 }
@@ -1820,7 +1820,7 @@ void            Debugger_RdVRAM_Hook(register int addr, register u8 value)
         {
             // Verbose break/watch point result
             Debugger_BreakPoint_ActivatedVerbose(breakpoint, BREAKPOINT_ACCESS_R, addr, value);
-        }        
+        }
     }
 }
 
@@ -2090,7 +2090,7 @@ static void     Debugger_Applet_Layout(bool setup)
 //-----------------------------------------------------------------------------
 // Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 //-----------------------------------------------------------------------------
-// Disassemble one instruction at given address and produce a formatted 
+// Disassemble one instruction at given address and produce a formatted
 // string with address, opcode and instruction description.
 // Return instruction length.
 //-----------------------------------------------------------------------------
@@ -2113,7 +2113,7 @@ int         Debugger_Disassemble_Format(char *dst, u16 addr, bool cursor)
 // Debugger_GetZ80SummaryLines(const char ***lines_out, bool simpl)
 // Return array of string pointer containing a Z80 summary
 //-----------------------------------------------------------------------------
-// Note: output array contains reference to static buffers. 
+// Note: output array contains reference to static buffers.
 // Be sure to make a copy if you want to reuse later.
 //-----------------------------------------------------------------------------
 static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
@@ -2140,7 +2140,7 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
             cpu->AF.W, cpu->BC.W, cpu->DE.W, cpu->HL.W, cpu->IX.W, cpu->IY.W);
 
         // Line 2
-        sprintf(line2, "PC:%04X  SP:%04X  Flags:[%s]  R:%02X  %s%s", 
+        sprintf(line2, "PC:%04X  SP:%04X  Flags:[%s]  R:%02X  %s%s",
             cpu->PC.W, cpu->SP.W, flags, (cpu->R & 0x7F) | (cpu->R7),
             (cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
 
@@ -2157,7 +2157,7 @@ static int  Debugger_GetZ80SummaryLines(char *** const lines_out, bool simple)
             cpu->AF1.W, cpu->BC1.W, cpu->DE1.W, cpu->HL1.W);
 
         // Line 3
-        sprintf(line3, "PC:%04X  SP:%04X  Flags:[%s]  R:%02X  %s%s", 
+        sprintf(line3, "PC:%04X  SP:%04X  Flags:[%s]  R:%02X  %s%s",
             cpu->PC.W, cpu->SP.W, flags, (cpu->R & 0x7F) | (cpu->R7),
             (cpu->IFF & IFF_1) ? "EI" : "DI", (cpu->IFF & IFF_HALT) ? " HALT" : "");
 
@@ -2190,7 +2190,7 @@ void    Debugger_Applet_RedrawState()
 
         u16     pc;
         int     skip_labels = 0;    // Number of labels to skip on first instruction to be aligned properly
-        int     trackback_lines_base = (app->disassembly_lines / 3) + 1; 
+        int     trackback_lines_base = (app->disassembly_lines / 3) + 1;
         trackback_lines_base = MIN(trackback_lines_base, 16); // Max 10 because of buffer below
         //  1 -> 1
         //  5 -> 2
@@ -2209,7 +2209,7 @@ void    Debugger_Applet_RedrawState()
 
         // Scroll
         int trackback_lines = trackback_lines_base + Debugger.trackback_scroll_offset;
-        
+
         if (trackback_lines < 0)
         {
             // Forward
@@ -2232,7 +2232,7 @@ void    Debugger_Applet_RedrawState()
                     int inst_start = (int)pc - b;
                     if (inst_start < 0)
                         break;
-                    
+
                     int inst_len = Debugger.pc_exec_points[inst_start];
                     if (inst_len == 0)
                         continue;
@@ -2367,12 +2367,12 @@ void    Debugger_Applet_RedrawState()
 
         // Print Z80 summary lines
         char ** lines;
-        const int lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE); 
+        const int lines_count = Debugger_GetZ80SummaryLines(&lines, TRUE);
         assert(lines_count >= DEBUGGER_APP_CPUSTATE_LINES); // Display first 2 lines
         Font_Print(app->font_id, lines[0], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
         y += app->font_height;
         Font_Print(app->font_id, lines[1], frame.pos.x, y, COLOR_SKIN_WINDOW_TEXT);
-        
+
         // Print Z80 running state with nifty ASCII rotating animation
         if (!(g_machine_flags & (MACHINE_PAUSED | MACHINE_DEBUGGING)))
         {
@@ -2485,7 +2485,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         line = break_nopnop_string;
         parse_getword(arg, sizeof(arg), &line, " ", 0, PARSE_FLAGS_NONE);
     }
-        
+
     // B LIST
     if (!stricmp(arg, "l") || !stricmp(arg, "list"))
     {
@@ -2719,7 +2719,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
     // Parse Adress(es)
     if (strcmp(arg, "..") == 0 || arg[0] == '=')
     {
-        // If given address is '..' or no address but provided a data comparer, 
+        // If given address is '..' or no address but provided a data comparer,
         // use the bus full range.
         t_debugger_bus_info *bus_info = &DebuggerBusInfos[location];
         Debugger_Value_SetDirect(&address_start, (u32)bus_info->addr_min, 16);
@@ -2780,14 +2780,14 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             if (bus_info->location == BREAKPOINT_LOCATION_LINE)
             {
-                Debugger_Printf("Address %X is out of %s range (%d..%d).\n", 
-                    address_start.data, 
+                Debugger_Printf("Address %X is out of %s range (%d..%d).\n",
+                    address_start.data,
                     bus_info->name, bus_info->addr_min, bus_info->addr_max);
             }
             else
             {
-                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).\n", 
-                    address_start.data, 
+                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).\n",
+                    address_start.data,
                     bus_info->name, bus_info->bus_addr_size * 2, bus_info->addr_min, bus_info->bus_addr_size * 2, bus_info->addr_max);
             }
             return;
@@ -2796,14 +2796,14 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             if (bus_info->location == BREAKPOINT_LOCATION_LINE)
             {
-                Debugger_Printf("Address %X is out of %s range (%d..%d).\n", 
-                    address_end.data, 
+                Debugger_Printf("Address %X is out of %s range (%d..%d).\n",
+                    address_end.data,
                     bus_info->name, bus_info->addr_min, bus_info->addr_max);
             }
             else
             {
-                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).\n", 
-                    address_end.data, 
+                Debugger_Printf("Address %X is out of %s range (%0*X..%0*X).\n",
+                    address_end.data,
                     bus_info->name, bus_info->bus_addr_size * 2, bus_info->addr_min, bus_info->bus_addr_size * 2, bus_info->addr_max);
             }
             return;
@@ -2854,8 +2854,8 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             }
             data_compare_bytes[data_compare_length++] = value.data;
         }
-        
-        //sscanf(p, "%02X", 
+
+        //sscanf(p, "%02X",
 
     }
 
@@ -2881,7 +2881,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
                 return;
             }
         }
-        else 
+        else
         {
             // Create automatic description containing symbol
             if (address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_CPU_ADDR || address_start.source == DEBUGGER_VALUE_SOURCE_SYMBOL_ROM_ADDR
@@ -2904,7 +2904,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
             }
         }
     }
-        
+
     // Add breakpoint
     {
         t_debugger_breakpoint *breakpoint;
@@ -2915,7 +2915,7 @@ void        Debugger_InputParseCommand_BreakWatch(char *line, int type)
         {
             Debugger_BreakPoint_SetDataCompare(breakpoint, data_compare_length, data_compare_bytes);
         }
- 
+
         // Verbose
         Debugger_Printf("%s [%d] added.\n", Debugger_BreakPoint_GetTypeName(breakpoint), breakpoint->id);
         Debugger_BreakPoint_GetSummaryLine(breakpoint, buf);
@@ -3314,7 +3314,7 @@ void        Debugger_InputParseCommand(char* line)
                     len = value.data;
                 }
             }
- 
+
             {
                 int i;
                 for (i = 0; i < len; i++)
@@ -3505,7 +3505,7 @@ void        Debugger_InputParseCommand(char* line)
             {
                 const u8 v8 = RdZ80_NoHook(addr & 0xFFFF);
                 const u16 v16 = (RdZ80_NoHook((addr+1) & 0xFFFF) << 8) | v8;
-                
+
                 symbol = Debugger_Symbols_GetClosestPreviousByAddr(v16, 256);
                 if (symbol != NULL)
                     Debugger_Printf(" %04X:   %02X      %04X      %s+%X\n", addr, v8, v16, symbol->name, v16-symbol->cpu_addr);
@@ -3528,7 +3528,7 @@ void        Debugger_InputParseCommand(char* line)
         else
         {
             int cnt = MIN(16, Debugger.pc_detail_log_count);
-        
+
             parse_skip_spaces(&line);
 
             char* line_start = line;
@@ -3590,17 +3590,17 @@ void        Debugger_InputParseCommand(char* line)
                     //for (int i = 0; i < len; i++)
                     //  sprintf(instr_opcodes + (i*3), "%02X ", RdZ80_NoHook((e->pc + i) & 0xFFFF));
                     if (Debugger.pc_detail_log_show_extra_registers)
-                        sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X IX:%04X IY:%04X SP:%04X\n", 
+                        sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X IX:%04X IY:%04X SP:%04X\n",
                             e->pc, instr, e->af, e->bc, e->de, e->hl, e->ix, e->iy, e->sp);
                     else
-                        sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X\n", 
+                        sprintf(buf, "%04X: %-18s ; AF:%04X BC:%04X DE:%04X HL:%04X\n",
                             e->pc, instr, e->af, e->bc, e->de, e->hl);
 
                     if (cnt > 256)
                         Debugger_PrintEx(false, true, false, buf);
                     else
                         Debugger_PrintEx(true, true, true, buf);
-                }       
+                }
             }
             if (cnt > 256)
             {
@@ -3810,7 +3810,7 @@ void     Debugger_Value_SetDirect(t_debugger_value *value, u32 data, int data_si
 // Return TRUE on success and fill result, else return FALSE.
 //-----------------------------------------------------------------------------
 // FIXME:
-// - Should do something better in the future. 
+// - Should do something better in the future.
 //   Generalized abstraction to access system components?
 //   Anyway - this is quick and dirty but it suffise now.
 //-----------------------------------------------------------------------------
@@ -4028,7 +4028,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
     t_debugger_value value1;
     t_debugger_value value2;
 
-    char* p = (char *)*expr; 
+    char* p = (char *)*expr;
     // Debugger_Printf("Debugger_Eval_GetExpression_Block(\"%s\")\n", p);
 
     parse_skip_spaces(&p);
@@ -4057,7 +4057,7 @@ static int  Debugger_Eval_GetExpression_Block(char **expr, t_debugger_value *res
             break;
 
         // Chain of addition/subtraction are handled by Debugger_Eval_GetExpression()
-        if (op == '+' || op == '-') 
+        if (op == '+' || op == '-')
             break;
 
         // Stop parsing here on end-of-string or parenthesis closure
@@ -4141,7 +4141,7 @@ int     Debugger_Eval_ParseExpression(char **expr, t_debugger_value *result)
     t_debugger_value value1;
     t_debugger_value value2;
 
-    p = (char *)*expr; 
+    p = (char *)*expr;
     // Debugger_Printf("Debugger_Eval_GetExpression(\"%s\")\n", p);
 
     parse_skip_spaces(&p);
@@ -4230,7 +4230,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
     t_list *matching_words;
     int     matching_words_count = 0;
     char *  result;
-    
+
     const char* word_delimiters = " \t\r\n,:;";
 
     // Get current word
@@ -4310,10 +4310,10 @@ bool        Debugger_CompletionCallback(t_widget *w)
         // Multiple matches
         int common_prefix_size;
         t_list *matches;
-        
+
         // Sort matches by name
         list_sort(&matching_words, (t_list_cmp_handler)stricmp);
-        
+
         // Print them
         if (current_word_len > 0)
             Debugger_Printf("%d matches for \"%s\":\n", matching_words_count, current_word);
@@ -4336,7 +4336,7 @@ bool        Debugger_CompletionCallback(t_widget *w)
             c = ((char *)matches->elem)[common_prefix_size];
             if (c == '\0')
                 break;
-            
+
             // Compare it with following matches
             for (matches = matches->next; matches != NULL; matches = matches->next)
             {
@@ -4407,7 +4407,7 @@ void    Debugger_History_AddLine(const char *line_to_add)
     // 3 bye        3 hello
     // 2 hello  --> 2 sega
     // 1 sega       1 <line>
-    // 0            0 
+    // 0            0
 
     // Duplicate line and convert to uppercase
     // Even when we find a matching entry, we will replace it by was what typed to keep last character casing.
@@ -4422,7 +4422,7 @@ void    Debugger_History_AddLine(const char *line_to_add)
         if (strcmp(Debugger.history[n].line_uppercase, line_uppercase) == 0)
             break;
     }
-    
+
     //Msg(MSGT_USER, "n = %d, h_count = %d, h_max = %d", n, Debugger.history_count, Debugger.history_max);
 
     if (n < Debugger.history_count || n == Debugger.history_max - 1)
@@ -4526,7 +4526,7 @@ void        Debugger_History_List(const char *search_term_arg)
 
         // Print
         Debugger_Printf(" %*s[%d] %s\n",
-            (Debugger.history_count >= 10 && index < 10) ? 1 : 0, "", 
+            (Debugger.history_count >= 10 && index < 10) ? 1 : 0, "",
             index, Debugger.history[index]);
     }
 
@@ -4555,7 +4555,7 @@ int         Debugger_ReverseMapFindRomAddress(u16 addr, bool* is_bios)
         if (is_bios) *is_bios = false;
         return offset;
     }
-            
+
     // - ROM (special hack for first 1 KB)
     // FIXME: Report ROM instead of SMS BIOS in those cases. Anyway SMS BIOS is poorly emulated.
     offset = (mem_pages_base - Game_ROM_Computed_Page_0) + (addr & 0x1FFF);
@@ -4638,7 +4638,7 @@ void        Debugger_ReverseMap(u16 addr)
     {
         if (is_bios)
             Debugger_Printf(" Z80 $%04X = BIOS $%04X", addr, offset);
-        else            
+        else
             Debugger_Printf(" Z80 $%04X = ROM $%05X (Page %X +%04X)", addr, offset, offset >> 14, addr & 0x3FFF);
     }
 

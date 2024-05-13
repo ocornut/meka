@@ -74,7 +74,7 @@
  Astro Warrior / Pit Pot [Proto]                -       Ok
  A-Team, The [Music] [Proto]                    -       Ok
  Aztec Adventure / Nazca '88                    FM      Ok
- Aztec Adventure [HTH] [SMS-GG] (TW)            FM      Ok 
+ Aztec Adventure [HTH] [SMS-GG] (TW)            FM      Ok
  Back to the Future Part II                     -       Ok
  Back to the Future Part III                    -       Ok
  Baku Baku Animal (BR)                          -       Ok
@@ -337,7 +337,7 @@
  Krusty's Fun House                             -       Ok
  Land of Illusion - Starring Mickey Mouse       -       Ok
  Laser Ghost                                    (LP)    Ok
- Lethal Weapon 3 [Music] [Proto]                -       Ok 
+ Lethal Weapon 3 [Music] [Proto]                -       Ok
  Legend of Illusion - Starring Mickey Mouse (BR)-       Ok
  Lemmings                                       -       Ok
  Lemmings [Proto]                               -       Ok
@@ -438,7 +438,7 @@
  Predator 2 (BR)                                -       Ok
  Prince of Persia                               -       Ok
  Prince of Persia [HTH] [SMS-GG] (TW)           -       Ok
- Promocao Especial M.System III Compact         -       Ok 
+ Promocao Especial M.System III Compact         -       Ok
  Pro Wrestling                                  -       Ok
  Pro Yakyuu Pennant Race, The (JP)              -       Ok
  Psychic World                                  -       Ok
@@ -687,7 +687,7 @@
 -----------------------------------------------------------------------------
  SEGA MASTER SYSTEM (SMS) BIOS IMAGES
 -----------------------------------------------------------------------------
- Note: the games/animations works properly, but full BIOS behavior is not 
+ Note: the games/animations works properly, but full BIOS behavior is not
  emulated. It is not necessary for gaming purpose.
 -----------------------------------------------------------------------------
  Alex Kidd in Miracle World [BIOS]              -       Ok
@@ -972,7 +972,7 @@
 -----------------------------------------------------------------------------
  SUPER CONTROL STATION (SF-7000) COMPATIBILITY LIST
 -----------------------------------------------------------------------------
- Note: 
+ Note:
   Disk writing is not yet well supported, and modified disks are not saved.
   Some of the software are known not to function even on a real system, so
   it's difficult to establish a good compatibility list.
@@ -1077,7 +1077,7 @@
  Cutthroat Island                                   Ok
  Cutthroat Island [Proto]                           Ok
  Daffy Duck in Hollywood                            Ok
- David Robinson's Supreme Court [Demo] [Proto]      Ok 
+ David Robinson's Supreme Court [Demo] [Proto]      Ok
  Deep Duck Trouble - Starring Donald Duck           Ok
  Defenders of Oasis                                 Ok
  Defenders of Oasis [Proto]                         Ok
@@ -1345,7 +1345,7 @@
  Quiz Gear Fight!!, The (JP)                        Ok
  Rastan Saga [SMS-GG] (JP)                          Ok
  R.C. Grand Prix [SMS-GG]                           Ok
- R.C. Grand Prix [Proto] [SMS-GG]                  *Ok 
+ R.C. Grand Prix [Proto] [SMS-GG]                  *Ok
  Revenge of Drancon                                 Ok
  Riddick Rowe Boxing (US)                           Ok
  Riddick Rowe Boxing (JP)                           Ok
@@ -1524,7 +1524,7 @@
 -----------------------------------------------------------------------------
  SEGA GAME GEAR (GG) BIOS IMAGES
 -----------------------------------------------------------------------------
- Note: the games/animations works properly, but full BIOS behavior is not 
+ Note: the games/animations works properly, but full BIOS behavior is not
  emulated. It is not necessary for gaming purpose.
 -----------------------------------------------------------------------------
  Game Gear Majesco [BIOS]                           Ok
@@ -1737,4 +1737,4 @@
 -----------------------------------------------------------------------------
  180 games tested, too many are not Ok
 -----------------------------------------------------------------------------
- 
+

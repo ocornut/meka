@@ -250,7 +250,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // Sprite tile data address ----------------------------------------------
-     case 6: 
+     case 6:
          {
              switch (g_driver->vdp)
                 {
@@ -271,7 +271,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // Horizontal Scrolling --------------------------------------------------
-     case 8: if (CPU_GetICount() >= 8) 
+     case 8: if (CPU_GetICount() >= 8)
                  g_machine.VDP.scroll_x_latched = value;
              // Msg(MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, CPU_GetICount(), value);
              break;

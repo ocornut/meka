@@ -241,7 +241,7 @@ void        Machine_Set_Mapper(void)
     case DRV_GG:
         if (tsms.Size_ROM <= 48*1024)
             g_machine.mapper = MAPPER_SMS_NoMapper;
-        else 
+        else
             g_machine.mapper = MAPPER_Standard;
         if (DB.current_entry == NULL)    // Detect mapper for unknown ROM
         {

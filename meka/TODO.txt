@@ -3,7 +3,7 @@ feature request: add game name to the front of the window title text because the
 dasm 81e1 in wb3 is broken
 
 If you are going to work on it, maybe you can take the opportunity to also add full support for graphics modes 1 & 2 in the Tiles Viewer and Tilemap Viewer?
-Right now the Tiles Viewer only shows up to 512 tiles but graphics 2 supports up to 768. Also Tiles Viewer doesn't seem to use the color table (even though the game screen view seems to use it properly) 
+Right now the Tiles Viewer only shows up to 512 tiles but graphics 2 supports up to 768. Also Tiles Viewer doesn't seem to use the color table (even though the game screen view seems to use it properly)
 Memory Leak
 
 Border Color emulation
@@ -19,9 +19,9 @@ Trackback: replace by ROM sized bitfield?
 Easy save slot select in menu?
 
 - it crashes when I lock the workstation (WinXP)
-- single key shortcuts (with F6 and F7 keys for example) for run over (continue to next) and run into (enter) calls so that I can debug with two fingers on the keyboard and two eyes on the screen :) 
+- single key shortcuts (with F6 and F7 keys for example) for run over (continue to next) and run into (enter) calls so that I can debug with two fingers on the keyboard and two eyes on the screen :)
 
-I just noticed this thread and after fixing this, it appeared that the Korean version of "Circus Charlie" also needs 2KB of RAM at $c000-$ffff 
+I just noticed this thread and after fixing this, it appeared that the Korean version of "Circus Charlie" also needs 2KB of RAM at $c000-$ffff
 
 
 breakpoint crashes
@@ -45,22 +45,22 @@ I've not had time to do much further testing, however one small UI issue that's 
 
 To explain: You can't change 3/6 Joypad 1 to Player 2, nor can you click it's controls and input any other controller except the one listed first by Windows. In my case, I have currently an MS Sidewinder Pro Flightstick and a Logic3 Arcade Stick both in USB ports, and Joypad 1 will only take input from the Sidewinder. 4/6 Joypad 2 takes the Arcade stick input, but not the Flightstick in turn.
 
-Suggested Solution: Drop down box to map specific controller to Player X, or allowing Player 1 to be swapped with Player 2 with a click on that line in the box, thus swapping what controller it maps too. 
+Suggested Solution: Drop down box to map specific controller to Player X, or allowing Player 1 to be swapped with Player 2 with a click on that line in the box, thus swapping what controller it maps too.
 
 --
 
-My build is the 2012/12/31. 
+My build is the 2012/12/31.
 
-markvt: The 'delete' key does not work in the cheat finder for me, only the 'backspace' key does allow to remove a value in the search box. 
+markvt: The 'delete' key does not work in the cheat finder for me, only the 'backspace' key does allow to remove a value in the search box.
 
 Is there any emulator/setting that handles the Sports Pad input in a way that makes the games playable? Meka allows to use the mouse for it, but it always stops where the mouse pointer would reach the border of the screen. I've tried some other emulators, but none of them seemed to support it at all...
 
 [B] Debugger: Variables window with live filter.
-[B] Debugger: Preview memory regions on hovering register/instruction. 
+[B] Debugger: Preview memory regions on hovering register/instruction.
 
 Add a super-fast mode (faster than 1/9 for CLOCK-ing things like zexall)
 
-Debugger seems generally weird at 1/9 frameskip, stepping instructions when not expected?) 
+Debugger seems generally weird at 1/9 frameskip, stepping instructions when not expected?)
 > As for the 1/9 bug: I think it is to do with the keyboard repeat code. Entering "j 0" gets me to 0 + however many instructions the debugger thinks I have held down Enter for. In frameskip mode I guess it is interpreting repeats after a very short pause. It ought to be realtime-based instead of emulated-frame-based?
 
 
@@ -83,7 +83,7 @@ Z80 branch history command
      loop 3
        ..
   ret
-  
+
 
 Meka 0.80 check list
 [A]- fix sound: latency, 50 hz, other modes?
@@ -96,7 +96,7 @@ Meka 0.80 check list
 - new feature: sprite viewer?
 - new feature: audio channel disable? (psg & fm)
 - reorganize inputs configuration panel?
-- pro action replay 
+- pro action replay
 - end-user timing (message time, double click) shouldn't be measured in emulated frames
 - incorrect rom on command-line leaves a zombie thread? (sometimes?)
 //- gui: show shortcuts
@@ -107,7 +107,7 @@ I've noticed that part of the track shows in the background where it shouldn't (
 
 Other than that not noticed any other problems and nice work on the sound :), works fine with my Creative X-Fi Xtreme Gamer, also forgot to mention I'm using the latest 0.80 build.
 - bug reports:
-  - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. " 
+  - "When pausing with the F12 button, the screen becomes out of align by showing a bottom border and a right border. "
   - "Sometimes the mouse freezes for a couple of seconds. (I got this 3 times in about a 20 minute play). "
   - "I plugged in a USB-PSX converter before starting again and it did not crash then but any input instantly went Stick 0 Axis 0 -"
 
@@ -127,7 +127,7 @@ gain more programmers for older SEGA systems
 But the only SEGA console emulators with Sprite viewer capability is a few 16bit Genesis/Mega Drive, Which I could not
 find a modern one yet besides NES/GB(Color) stuff.
 
-So I think it will be more helpful to debuggers for doing Sprites, if there is one for MEKA, It will become superior to 
+So I think it will be more helpful to debuggers for doing Sprites, if there is one for MEKA, It will become superior to
 the other Z80+VDP emulators. Beating MSX(2/+) Somehow
 
 - Speed above 1/9 (for zexall)
@@ -184,10 +184,10 @@ matching labels. This saves me typing "b <label>", and is designed for
 have a label.
 
 http://www.smspower.org/forums/viewtopic.php?t=9478
-Now I have a question. In some Master System games (made at 1993 to be exact) such as 
-Sonic Chaos, Deep Duck Trouble have problems. Sometimes they are fine, other times the 
-games crash after they get to the title card(Level Name) as these problems have been 
-in previous releases. 
+Now I have a question. In some Master System games (made at 1993 to be exact) such as
+Sonic Chaos, Deep Duck Trouble have problems. Sometimes they are fine, other times the
+games crash after they get to the title card(Level Name) as these problems have been
+in previous releases.
 
 Proppy session debugger notes:
 - 'breakpoint' window list
@@ -200,8 +200,8 @@ Debugger: bind RELOAD rom on a key, or add 'reload' command
 
 <cgfm2> can I increase the SMS display window size in GUI mode?
 
-Jacko: Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually 
-(like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once 
+Jacko: Also I was playing Shanghai before with the FM Chip enabled and the music slowed down gradually
+(like a record slowly stopping) and then it slowly speed up again, MEKA has only done it once
 so it is hard to tell if it was my PC doing something or it was MEKA.
 
 - Data
@@ -217,7 +217,7 @@ Game Recording:
   http://bisqwit.iki.fi/nesvideos/DesiredFeatures.html
 
 - Add PAL/SECAM/NTSC (Auto) mode to be more clear
-  See http://www.smspower.org/forums/viewtopic.php?t=6656 
+  See http://www.smspower.org/forums/viewtopic.php?t=6656
 
 "if you have the option fullscreen on load enabled it only fullscreens
  if you load a rom manualy form the filebrowser but if you startup meka
@@ -263,7 +263,7 @@ doing them now and some are quick work.
  VGM
 -----------------------------
  - Built-in VGM player (implement Maxim VGM stub)
- - GD3: 
+ - GD3:
    - Japanese GD3 (for systems at least)
    - Option to create VGM without GD3.
    - Store user name somewhere, now that MEKA.KEY file is obsolete.
@@ -286,7 +286,7 @@ doing them now and some are quick work.
  - Generally:
    - Check Maxim's old & new e-mails.
    - Check Kevin Chase e-mails.
-   - Fixes missing "the". 
+   - Fixes missing "the".
 
 -----------------------------
  PERIPHERALS/INPUTS EMULATION
@@ -332,7 +332,7 @@ doing them now and some are quick work.
    - Keep a flag to know if was automatically or user activated.
      If automatically, then on ROM change it then can be disabled.
  - Clickable picture on the GUI (with sticky keys).
- - When SK-1100 is enabled, Monaco GP difficulty selection runs slower. 
+ - When SK-1100 is enabled, Monaco GP difficulty selection runs slower.
    It is normal behavior?
  - Show sticky keys with PC keyboard leds.
  - SK-1100 is difficult to type with, and Mekaw's keyboard is strange:
@@ -401,7 +401,7 @@ doing them now and some are quick work.
  TECHINFO APPLET
 -----------------------------
  - Standardize names, registers names, etc.
- - Redo from stratch? Separate applets for different system components? 
+ - Redo from stratch? Separate applets for different system components?
 
 -----------------------------
  DEBUGGER
@@ -477,7 +477,7 @@ doing them now and some are quick work.
    Load commands from a text file. Useful for storing per-project breakpoints.
  - Expression evaluator:
    - Unary operators -, !, ~
-   - Proper operator priority. Currently two level: +/- gets low priority and 
+   - Proper operator priority. Currently two level: +/- gets low priority and
      all other higher priority. Requires building a proper evaluation tree.
    - Access to data table RAM[0] (this gets more complex...)
  - Memory Editor:
@@ -488,7 +488,7 @@ doing them now and some are quick work.
    - Dump button (calling datadump)
    - Edit ASCII
    - Lock a writing value
-   - Show modified/written values. 
+   - Show modified/written values.
      How do I do that? Modified since when? Could be useful when stepping in code.
      - Use debugger hooks + highlight feature to show read/written values.
  - Memory find:
@@ -515,7 +515,7 @@ doing them now and some are quick work.
      Could display registers, any part of memory, tiles, etc.
      Allowing to create panels for custom debugging.
  - Input locker
-   - Set input bits manually using check boxes, being able to set inputs 
+   - Set input bits manually using check boxes, being able to set inputs
      at any point.
  - Scripting
     - A breakpoint can trigger a call.
@@ -527,10 +527,10 @@ doing them now and some are quick work.
    - Sprite viewer
      - Select individual sprites, shows infos
    - Sprite ripper
-     " One of the first modified versions of Gens included a sprite ripper. It would 
-       examine the coordinates of the sprites, and when sprites lined up exactly it 
+     " One of the first modified versions of Gens included a sprite ripper. It would
+       examine the coordinates of the sprites, and when sprites lined up exactly it
        would export them to a separate image. So long as a regular grid of 8x8 hardw
-       are sprites is used to build up arbitrarily-sized character sprites (the 
+       are sprites is used to build up arbitrarily-sized character sprites (the
        majority of games), this should work well. "
    - Cycle counter.
    - SDSC Debug Console.
@@ -551,7 +551,7 @@ doing them now and some are quick work.
  - Add IPS support.
  - Add ASM opcodes supports (-> embed an Assembler).
  - Start thinking about this feature in the bigger picture as a part of
-   the debug/hack/cheat stuff. Avoid implementing 2 or 3 times to same 
+   the debug/hack/cheat stuff. Avoid implementing 2 or 3 times to same
    stuff in different components.
 
 -----------------------------
@@ -608,7 +608,7 @@ doing them now and some are quick work.
    - Fix bouncing with pageup/pagedown
  - Move windows bug (press mouse 1, keep 2 pressed, release 1, etc..)
  - Online contextual help (using text viewer applet maybe?)
-   - Eg: You would press F1 anywhere and it pop some info about the current 
+   - Eg: You would press F1 anywhere and it pop some info about the current
      applet or widget focus.
  - Rewrite popup menu code
     - Menu moves instead of going off-screen (see non-english languages!)
@@ -776,7 +776,7 @@ doing them now and some are quick work.
  - Write a program that print R - can its 'period' be simulated better?
    - This is nonsense. Just implement a proper Z80 emulator and it'll do it.
  - Write a program to find original Rapid Fire speed/period.
- - Write a SMS program to figure out exactly which pixel are shown on GG 
+ - Write a SMS program to figure out exactly which pixel are shown on GG
    screen when is SMS mode (this has been discussed on SMS Power dev).
 
 -----------------------------
@@ -809,7 +809,7 @@ doing them now and some are quick work.
 -----------------------------
  MISC
 -----------------------------
- - Detect empty overdump (00/FF). 
+ - Detect empty overdump (00/FF).
    It used to be ok with MekaCRC but not with CRC32.
  - Detect empty half (eg: 256 kb game with another 256 kb full of FF).
    This is often the case on some ROM chip. This would help ROM dumpers.
@@ -887,16 +887,16 @@ doing them now and some are quick work.
  - Hang On / Safari Hunt (cartridge, NOT bios) raster glitches are
    not located at the same place between SMS and Meka (timing?).
  - Cosmic Spacehead: verify scroll glitch during demo when switching scenes
- 
+
  - (
-    "European Prince of Persia has occasional minor graphical glitches 
+    "European Prince of Persia has occasional minor graphical glitches
      in 60Hz mode, but is still playable.
      Jungle Book has (from memory) more serious glitches in 60Hz mode."
 
      buggy Super Monaco Gp 1&2 are buggy when you turn right as far as you can
      go. some times nba jam will lock up and i dont think it is a jp game.
    )
- 
+
 -----------------------------
  SCREEN CAPTURE
 -----------------------------
@@ -971,7 +971,7 @@ doing them now and some are quick work.
  - Disabling sound:
    - Be able to disable sound within the program.
    - Support runtime /nosound switch (does not alter configuration).
-   - With sound disabled, is emulation all the same ? 
+   - With sound disabled, is emulation all the same ?
      What about PSG/FM registers, saved into a savestate ?
  - WAV logging does not saves FM.
    - Require mixing on our side, or retrieval of mixed buffer.
@@ -998,7 +998,7 @@ doing them now and some are quick work.
  - AUpdateAudio() in starting init: it is necessary ?
 
  - Some (old) unsorted feedback:
- 
+
    - "I have detected a error in PSG sound emulation in the game Sonic the
       Hedgehog (Sonic 1). The "ring" sound in the scene is 'consecutive' in
       real Master System, but in the MEKA is not."

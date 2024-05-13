@@ -9,7 +9,7 @@
 -----------------------------------------------------------------------------
  MULTIPLAYER GAMES
 -----------------------------------------------------------------------------
- Note: this list also includes games where players have to alternate, if the 
+ Note: this list also includes games where players have to alternate, if the
  multiplayer mode is actually designed that way (eg: events in sports games).
 -----------------------------------------------------------------------------
  American Baseball                                      2P

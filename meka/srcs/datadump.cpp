@@ -208,7 +208,7 @@ static int  DataDump_Handler_Ascii_CPURegs (FILE *f_dump, int pos, const u8 *dat
     fprintf(f_dump, "%-3s = $%02X\n", "R", (byte)((R->R & 0x7F)|(R->R7)));
     fprintf(f_dump, "IPeriod = %d\n", R->IPeriod);
     fprintf(f_dump, "ICount  = %d\n", R->ICount);
-    fprintf(f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n", 
+    fprintf(f_dump, "IFF1 = %d\nIFF2 = %d\nIM   = %d\nEI   = %d\nHALT = %d\n",
         (R->IFF & IFF_1) ? 1 : 0, (R->IFF & IFF_2) ? 1 : 0, (R->IFF & (IFF_IM1 | IFF_IM2)) >> 1, (R->IFF & IFF_EI) ? 1 : 0, (R->IFF & IFF_HALT) ? 1 : 0);
     fprintf(f_dump, "\n");
     fprintf(f_dump, "(some implementation information were not dumped here.\n");
