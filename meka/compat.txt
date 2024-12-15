@@ -897,6 +897,7 @@
  Yamato (TW)                                    Ok
  Yie Ar Kung-Fu (TW)                            Ok
  Yie Ar Kung-Fu II (TW)                         Ok
+ Zanac [DahJee] (TW)                           *Ok
  Zaxxon                                         Ok
  Zaxxon (TW)                                    Ok
  Zippy Race                                     Ok
@@ -904,7 +905,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 192 games tested - 192 are "Ok"
+ 193 games tested - 193 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -968,7 +969,19 @@
  Tanoshii Sansuu (Shougaku 6-Nen Jou)                   E-117   Ok
  Uranai Angel Cutie                                     E-119   Ok
 -----------------------------------------------------------------------------
-  26 roms tested - 26 are "Ok"
+ John Sands Micromodem cartridges (AU)
+-----------------------------------------------------------------------------
+ AutoCom [Build 3] [v1.1c] [Proto]                      SC0460  Micromodem 4 is not emulated.
+ AutoCom [Build 4] [v1.1c] [Proto]                      SC0460  Micromodem 4 is not emulated.
+ AutoCom [Build 5] [v1.1c] [Proto]                      SC0460  Micromodem 4 is not emulated.
+ AutoCom [Build 6] [v2.0c] [Proto]                      SC0460  Micromodem 4 is not emulated.
+ AutoCom [Build 7] [v2.0c] [Proto]                      SC0460  Micromodem 4 is not emulated.
+ AutoCom [Build 8] [v2.0(T)c] [Proto]                   SC0460  Micromodem 4 is not emulated.
+ SegaCom [Build 0] [Proto]                              SC0430  Micromodem 3 is not emulated.
+ SegaCom [Build 1] [v1.0c]							    SC0430  Micromodem 3 is not emulated.
+ SegaCom [Build 2] [v1.1c]					            SC0430  Micromodem 3 is not emulated.
+-----------------------------------------------------------------------------
+  35 roms tested - 26 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
