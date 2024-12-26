@@ -711,7 +711,7 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SG-1000 games were originally released in Japan.
 -----------------------------------------------------------------------------
- Adventure Island [DahJee] (TW)                *Ok
+ Adventure Island [DahJee] (TW)                 Ok
  Bank Panic                                     Ok
  Bank Panic (TW)                                Ok
  Black Onyx, The                                Ok
@@ -784,7 +784,7 @@
  Girl's Garden                                  Ok
  Girl's Garden (TW)                             Ok
  Golgo 13                                       Ok
- Goonies, The [DahJee] (TW)                    *Ok
+ Goonies, The [DahJee] (TW)                     Ok
  GP World [v0]                                  Ok
  GP World [v1]                                  Ok
  Gulkave                                        Ok
@@ -877,7 +877,7 @@
  Star Force                                     Ok
  Star Force [A] (TW)                            Ok
  Star Force [B] (TW)                            Ok
- Star Force (KR)                               *Ok
+ Star Force (KR)                                Ok
  Star Jacker [v0] (JP)                          Ok
  Star Jacker [v1]                               Ok
  Star Jacker [v1] (TW)                          Ok
@@ -897,7 +897,7 @@
  Yamato (TW)                                    Ok
  Yie Ar Kung-Fu (TW)                            Ok
  Yie Ar Kung-Fu II (TW)                         Ok
- Zanac [DahJee] (TW)                           *Ok
+ Zanac [DahJee] (TW)                            Ok
  Zaxxon                                         Ok
  Zaxxon (TW)                                    Ok
  Zippy Race                                     Ok
@@ -1324,7 +1324,7 @@
  Pengo (JP)                                         Ok
  Pet Club Inu Dai Suki! (JP)                        Ok
  Pete Sampras Tennis                                Ok
- Pete Sampras Tennis (US)                          *Ok
+ Pete Sampras Tennis (US)                           Ok
  PGA TOUR Golf                                      Ok
  PGA TOUR Golf II                                   Ok
  PGA TOUR 96                                        Ok
@@ -1450,7 +1450,7 @@
  Super Monaco GP (JP)                               Ok
  Super Monaco GP II (Ayrton Senna's)                Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) [v0] (JP)      Flickering title screen (LCD Persistance).
- Super Monaco GP II (Ayrton Senna's) [v1] (JP)     *Flickering title screen (LCD Persistance).
+ Super Monaco GP II (Ayrton Senna's) [v1] (JP)      Flickering title screen (LCD Persistance).
  Super Monaco GP II (Ayrton Senna's) [Proto]        Flickering title screen (LCD Persistance).
  Super Off Road                                     Ok
  Super Off Road [Proto]                             Ok
