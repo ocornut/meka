@@ -163,10 +163,12 @@ They are usually of 2 kinds:
           SMS - 912d92af - Wimbledon                            --> Wimbledon [v1]
           SMS - 4aaad0d6 - World Grand Prix (EU)                --> World Grand Prix [v0] (also in IT, DE)
           SMS - 7b369892 - World Grand Prix (US)                --> World Grand Prix [v2] (also in BR, KR)
+          GG  - 1d17d2a0 - Aa Harimanada (JP)                   --> Aah! Harimanada (JP)
           GG  - a6bf865e - Beavis and Butt-Head (MTV's) (EU)    --> Beavis and Butt-Head (MTV's) (US, EU)
           GG  - 3858f14f - Beavis and Butt-Head (MTV's) (US)    --> Beavis and Butt-Head (MTV's) [Proto]
           GG  - f3ca6676 - Columns (JP)                         --> Columns [v0]
           GG  - 83fa26d9 - Columns                              --> Columns [v2]
+          GG  - 9a8b2c16 - Doraemon Nora No Suke No Yabou (JP)  --> GG Doraemon Nora No Suke No Yabou (JP)
           GG  - 2e01ba6c - Joe Montana Football                 --> Joe Montana Football [v0]
           GG  - 4a98678b - Joe Montana Football (JP)            --> Joe Montana Football [v1] (JP, BR)
           GG  - a8ef36a7 - Junction                             --> Junction (JP)

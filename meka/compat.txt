@@ -749,7 +749,8 @@
  Champion Soccer (TW)                           Ok
  Champion Tennis                                Ok
  Championship Lode Runner                       Ok (can't write to tape)
- Championship Lode Runner (TW)                  Ok (can't write to tape)
+ Championship Lode Runner [chinese logo] (TW)  *Ok (can't write to tape)
+ Championship Lode Runner [english logo] (TW)   Ok (can't write to tape)
  Choplifter                                     Ok
  Choplifter (KR)                                Ok
  Choplifter [Proto]                             Ok
@@ -905,7 +906,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 193 games tested - 193 are "Ok"
+ 194 games tested - 194 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -929,10 +930,11 @@
  San-nin Mahjong (TW)                           Ok
  Space Armor [v1.0] [v0] [40k map]              Ok
  Space Armor [v2.0] [v1]                        Ok
+ Space Armor [v2.0] [v1] (TW)                  *Ok
  Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
-  20 games tested - 19 are "Ok"
+  21 games tested - 20 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -1006,7 +1008,7 @@
  SEGA GAME GEAR (GG) COMPATIBILITY LIST
 -----------------------------------------------------------------------------
  5 in One Fun Pak                                   Ok
- Aa Harimanada (JP)                                 Ok
+ Aah! Harimanada (JP)                               Ok
  Addams Family, The                                 Ok
  Adventures of Batman & Robin, The                  Flickering status (LCD persistance).
  Aerial Assault [v0]                                Ok
@@ -1107,7 +1109,6 @@
  Donald Duck no Lucky Dime (JP)                     Ok
  Donald Duck no Yottsu no Hihou (JP)                Ok
  Donald no Magical World (Ronald in the Magic.. (JP)Ok
- Doraemon Nora no Suke no Yabou (JP)                Ok
  Doraemon Waku Waku Pocket Paradise (JP)            Ok
  Double Dragon / Double Dragon - The Revenge of B.. Ok
  Double Dragon [Proto]                              Ok
@@ -1166,6 +1167,7 @@
  Gear Works                                         Ok
  George Foreman's KO Boxing                         Ok
  GG Aleste (JP)                                     Ok
+ GG Doraemon Nora no Suke no Yabou (JP)             Ok
  GG Portrait - Pai Chen (JP)                        Ok
  GG Portrait - Yuuki Akira (JP)                     Ok
  GG Shinobi, The (JP)                               Ok
