@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 
 #define SOUND_BUFFERS_COUNT         (4)
-#define SOUND_BUFFERS_SAMPLE_COUNT  (4096)
+#define SOUND_BUFFERS_SAMPLE_COUNT  (1024)
 #define SOUND_CHANNEL_COUNT         (2)
 
 #define SOUND_DEBUG_APPLET          (1)
