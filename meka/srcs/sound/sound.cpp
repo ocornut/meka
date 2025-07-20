@@ -398,6 +398,7 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
     const double elapsed_output_seconds = elapsed_emulated_seconds * emulated_to_output_ratio;
 
     const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elapsed_output_seconds;
+    
     if ((int)samples_to_render > 0)
     {
         //Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)samples_to_render);
