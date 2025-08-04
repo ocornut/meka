@@ -423,9 +423,7 @@
     <ClInclude Include="..\..\skin.h" />
     <ClInclude Include="..\..\skin_bg.h" />
     <ClInclude Include="..\..\skin_fx.h" />
-    <ClInclude Include="..\..\sound\emu2413\2413tone.h" />
     <ClInclude Include="..\..\sound\emu2413\emu2413.h" />
-    <ClInclude Include="..\..\sound\emu2413\emutypes.h" />
     <ClInclude Include="..\..\sound\emu2413\mekaintf.h" />
     <ClInclude Include="..\..\sound\fmeditor.h" />
     <ClInclude Include="..\..\sound\fmunit.h" />

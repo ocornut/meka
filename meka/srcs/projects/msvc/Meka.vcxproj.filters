@@ -602,13 +602,7 @@
     <ClInclude Include="..\..\sound\psg.h">
       <Filter>Srcs\Sound\PSG</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\sound\emu2413\2413tone.h">
-      <Filter>Srcs\Sound\Emu2413</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\sound\emu2413\emu2413.h">
-      <Filter>Srcs\Sound\Emu2413</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\sound\emu2413\emutypes.h">
       <Filter>Srcs\Sound\Emu2413</Filter>
     </ClInclude>
     <ClInclude Include="..\..\sound\emu2413\mekaintf.h">
