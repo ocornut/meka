@@ -35,6 +35,7 @@ They are usually of 2 kinds:
     - PSG: Added support for Game Gear stereo emulation! [Maxim]
     - PSG: Emulate the PSG volumes "ideally" rather than matching some real systems' suboptimal output. [Maxim]
     - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
+    - Emu2413: Updated to latest version 1.5.9 [Maxim]
   - Emulation (Memory System, Mappers, Peripherals):
     - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
     - Added support for '4 PAK All Action' mapper. [Omar]
