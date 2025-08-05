@@ -3,7 +3,7 @@
 // FDC765 (Floppy Disk Drive) Emulator - Headers
 //-----------------------------------------------------------------------------
 // Originally from Ulrich Cordes
-// Modifications for SF-7000 by Marc Le Douarain, Omar Cornut
+// Modifications for SF-7000 by Marc Le Douarain, Omar Cornut, Thomas Bernard
 //-----------------------------------------------------------------------------
 
 // Original file header:
@@ -31,6 +31,10 @@
 #define FDC765_SPT         (16)   // (sectors per track) (9, max. 18 possible)
 #define FDC765_BPS         (2)    // (bytes per sector) (2 for 0x200 Bytes)
 
+#define DSK_FORMAT_RAW          1
+#define DSK_FORMAT_STANDARD_DSK 2
+#define DSK_FORMAT_EXTENDED_DSK 3
+
 //-----------------------------
 // Disk Header (256 bytes)
 //-----------------------------
@@ -40,10 +44,9 @@ struct FDC765_DiskHeader
                         /* 22-2F  unused (0)                                        */
   byte   nbof_tracks;   /* 30     number of tracks (40)                             */
   byte   nbof_heads;    /* 31     number of heads (1) 2 not yet supported by cpcemu */
-  short  tracksize; /*        short must be 16bit integer                       */
-                        /* 32-33  tracksize (including 0x100 bytes header)          */
+  word   tracksize;     /* 32-33  tracksize (including 0x100 bytes header)          */
                         /*        9 sectors * 0x200 bytes each + header = 0x1300    */
-  byte   unused[0xcc];  /* 34-FF  unused (0)                                        */
+  byte   tracksizetable[0xcc]; /* 34-FF  unused (0) or tracksize table for EXTENDED */
 };
 
 struct FDC765_Track
@@ -54,6 +57,7 @@ struct FDC765_Track
 struct FDC765_Disk
 {
   byte                  HasDisk;                // TRUE if a disk is inserted
+  byte                  ImageType;              // DSK_FORMAT_RAW / etc.
   FDC765_DiskHeader     Header;                 // then the structure is valid
   FDC765_Track         *Tracks;
   int                   TracksSize;

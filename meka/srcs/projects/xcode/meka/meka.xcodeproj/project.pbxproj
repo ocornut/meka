@@ -1,4 +1,4 @@
-.c */// !$*UTF8*$!
+// !$*UTF8*$!
 {
 	archiveVersion = 1;
 	classes = {
@@ -772,7 +772,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = /Users/omar/Work/mekasvn/srcs;
+			buildWorkingDirectory = "$(PROJECT_DIR)/../../../";
 			dependencies = (
 			);
 			name = meka;
@@ -784,11 +784,14 @@
 /* Begin PBXProject section */
 		07D7B3AD141D591600B5EB2A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 07D7B3B0141D591600B5EB2A /* Build configuration list for PBXProject "meka" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 07D7B3AB141D591600B5EB2A;

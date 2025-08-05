@@ -197,7 +197,7 @@ static void Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer)
     al_set_target_bitmap(fs_out);
     if (g_blit.dst_scale == 1)
     {
-        al_draw_bitmap_region(src_buffer, 
+        al_draw_bitmap_region(src_buffer,
             g_blit.src_pos_x, g_blit.src_pos_y,
             g_blit.src_size_x, g_blit.src_size_y,
             g_video.game_area_x1, g_video.game_area_y1,

@@ -14,12 +14,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4B91824-CCCF-4BA5-9CC1-52E75CDA8EE3}</ProjectGuid>
     <RootNamespace>Meka</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <UseOfAtl>false</UseOfAtl>
     <CharacterSet>MultiByte</CharacterSet>
@@ -27,7 +27,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -90,6 +90,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -148,6 +149,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -421,9 +423,7 @@
     <ClInclude Include="..\..\skin.h" />
     <ClInclude Include="..\..\skin_bg.h" />
     <ClInclude Include="..\..\skin_fx.h" />
-    <ClInclude Include="..\..\sound\emu2413\2413tone.h" />
     <ClInclude Include="..\..\sound\emu2413\emu2413.h" />
-    <ClInclude Include="..\..\sound\emu2413\emutypes.h" />
     <ClInclude Include="..\..\sound\emu2413\mekaintf.h" />
     <ClInclude Include="..\..\sound\fmeditor.h" />
     <ClInclude Include="..\..\sound\fmunit.h" />
@@ -469,17 +469,17 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets" Condition="Exists('packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" />
-    <Import Project="packages\Allegro.5.2.4.0\build\native\Allegro.targets" Condition="Exists('packages\Allegro.5.2.4.0\build\native\Allegro.targets')" />
     <Import Project="packages\nasm2.2.13.3.1\build\native\nasm.targets" Condition="Exists('packages\nasm2.2.13.3.1\build\native\nasm.targets')" />
+    <Import Project="packages\AllegroDeps.1.13.0\build\native\AllegroDeps.targets" Condition="Exists('packages\AllegroDeps.1.13.0\build\native\AllegroDeps.targets')" />
+    <Import Project="packages\Allegro.5.2.8\build\native\Allegro.targets" Condition="Exists('packages\Allegro.5.2.8\build\native\Allegro.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets'))" />
-    <Error Condition="!Exists('packages\Allegro.5.2.4.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Allegro.5.2.4.0\build\native\Allegro.targets'))" />
     <Error Condition="!Exists('packages\nasm2.2.13.3.1\build\native\nasm.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nasm2.2.13.3.1\build\native\nasm.props'))" />
     <Error Condition="!Exists('packages\nasm2.2.13.3.1\build\native\nasm.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nasm2.2.13.3.1\build\native\nasm.targets'))" />
+    <Error Condition="!Exists('packages\AllegroDeps.1.13.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\AllegroDeps.1.13.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('packages\Allegro.5.2.8\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Allegro.5.2.8\build\native\Allegro.targets'))" />
   </Target>
 </Project>

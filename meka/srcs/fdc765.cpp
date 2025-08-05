@@ -3,7 +3,7 @@
 // FDC765 (Floppy Disk Drive) Emulator - Code
 //-----------------------------------------------------------------------------
 // Ulrich Cordes
-// Modifications for SF-7000 by Marc Le Douarain, Omar Cornut
+// Modifications for SF-7000 by Marc Le Douarain, Omar Cornut, Thomas Bernard
 //-----------------------------------------------------------------------------
 
 // Original file header:
@@ -31,12 +31,20 @@
 // by Omar 'Bock' Cornut
 // in November 2000
 
+// Support added for DSK standard and extended format
+// by Thomas 'Nanard' Bernard
+// in November 2022
+
 // Note from the original author:
 // If you want to make changes, please do not(!) use TABs !!!!!
 // (obviously abused by Omar, anyway it was a big source cleaning that I made)
 
 #include "shared.h"
 #include "fdc765.h"
+
+#ifndef ARRAYSIZE
+#define ARRAYSIZE(a) (sizeof(a) / sizeof(*(a)))
+#endif
 
 //-----------------------------------------------------------------------------
 // Data
@@ -72,7 +80,7 @@ unsigned long TrackDataStart;      /* Startposition der Daten des akt. Sektors i
 
 const byte bytes_in_cmd[32] =
 {
-    1,  /*  0 = none                                */
+  1,  /*  0 = none                                */
   1,  /*  1 = none                                */
   9,  /*  2 = READ TRACK, not implemented         */
   3,  /*  3 = SPECIFY                             */
@@ -136,6 +144,13 @@ void    GetRes7 (void)                      /* Return 7 result bytes */
 /*********************************************************************/
 void    FDCExecWriteCommand (register byte Value)
 {
+    // FIXME: Failed attempt at detecting writes from non IPL code
+    // However even e.g. Burglar Bill fills buffer + call lowest-level IPL function
+    /*
+    if (IPL_Disabled || sms.R.PC.W >= 0x4000)
+        Msg(MSGT_USER_LOG, "FDC765: Command %d from code that isn't in IPL: %04X", FDCCommand[0], sms.R.PC.W);
+    */
+
   switch (FDCCommand [0])
     {
     case 2:             /* Read track */
@@ -216,9 +231,24 @@ void    FDCExecWriteCommand (register byte Value)
       break;
 
     case 6:                      /* Read data */
+      // Note FDC765 supports reading several sectors in a row, but
+      // it is currently not supported.
+      // In theory LS should be Last Sector we are only getting values of 0x10 
+      // as the SF-7000 IPL always sets 0x10 in it.
       FDCCurrDrv = FDCCommand[1] & 3;
+
+      //Msg(MSGT_USER_LOG, "FDC765: Cmd 6: HU=%02X TR=%02X HD=%02X SC=%02X SZ=%02X LS=%02X GP=%02X SL=%02X",
+      //    FDCCommand[1], FDCCommand[2], FDCCommand[3], FDCCommand[4], FDCCommand[5], FDCCommand[6], FDCCommand[7], FDCCommand[8]);
+
+      if (FDCCurrDrv >= ARRAYSIZE(dsk))
+      {
+          Msg(MSGT_USER_LOG, "FDC765: Cmd 6: Selected unsupported drive: %d", (int)FDCCurrDrv);
+          FDCCurrDrv = 0;
+      }
+
       FDCCurrSide[FDCCurrDrv] = (FDCCommand[1] >> 2) & 1;
-      FDCCurrTrack[FDCCurrDrv] = FDCCommand[2];
+      //FDCCurrTrack[FDCCurrDrv] = FDCCommand[2]; // Physical track should not be read from Read command
+      // It is set using Recalibrate (7) and Seek (15) Commands
       if (dsk[FDCCurrDrv].HasDisk == FALSE)
         {
         st0 = FDCCurrDrv | 0xD8;  /* Equipment check, Not ready */
@@ -230,8 +260,50 @@ void    FDCExecWriteCommand (register byte Value)
         TrackIndex = FDCCurrTrack[FDCCurrDrv] * dsk[FDCCurrDrv].Header.nbof_heads + FDCCurrSide[FDCCurrDrv];
 //        TrackDataStart = ((FDCCommand[4] & 0x0F)-1) << 9;
 //        FDCDataLength = 512 + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<9);
-        TrackDataStart = ((FDCCommand[4] & 0x1F)-1) << 8;
-        FDCDataLength = TrackDataStart+256;// + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<8);
+        if (dsk[FDCCurrDrv].ImageType == DSK_FORMAT_RAW)
+          {
+          TrackDataStart = ((FDCCommand[4] & 0x1F)-1) << 8;
+          FDCDataLength = TrackDataStart+256;// + (((FDCCommand[4] & 0xF) - (FDCCommand[6] & 0xF))<<8);
+          }
+        else
+          {
+          unsigned long offset;
+          if (dsk[FDCCurrDrv].ImageType == DSK_FORMAT_STANDARD_DSK)
+            offset = FDCCurrTrack[FDCCurrDrv] * dsk[FDCCurrDrv].Header.tracksize;
+          else
+            {
+            byte t;
+            // FDCCommand[2] should equals FDCCurrTrack[FDCCurrDrv]
+            for (t = 0, offset = 0; t < FDCCurrTrack[FDCCurrDrv]; t++)
+              {
+              offset += dsk[FDCCurrDrv].Header.tracksizetable[t] << 8;
+              }
+            // offset = track offset
+            if (dsk[FDCCurrDrv].Header.tracksizetable[t] == 0)
+              {
+              // Empty track
+                Msg(MSGT_USER_LOG, "FDC765: Cmd 6: Track %d is empty", (int)t);
+              }
+          }
+          byte s;
+          byte sector_count = dsk[FDCCurrDrv].Tracks[0].DiscData[offset + 0x15];
+          const byte * sp = dsk[FDCCurrDrv].Tracks[0].DiscData + offset + 0x18;
+          offset += 256;
+          for (s = 0; s < sector_count; s++, sp += 8)
+            {
+            word stored_length = sp[6] + (sp[7] << 8);
+            if (stored_length == 0)
+              stored_length = 0x80 << sp[3];
+            if (FDCCommand[2] == sp[0] && FDCCommand[3] == sp[1] && FDCCommand[4] == sp[2])
+              {
+              // right sector found
+              TrackDataStart = offset;
+              FDCDataLength = TrackDataStart + (0x80 << sp[4]);
+              break;
+              }
+            offset += stored_length;
+            }
+          }
         FDCDataPointer = 0;
         StatusCounter = 100;
         StatusRegister = 0xF0; /* RQM=1, DIO=FDC->CPU, EXM=1, CB=1 */
@@ -338,7 +410,10 @@ byte    FDCExecReadCommand (void)
   switch (FDCCommand [0])
     {
     case 2:
-      ret = dsk[FDCCurrDrv].Tracks[TrackIndex].DiscData[TrackDataStart + FDCDataPointer];
+      if (dsk[FDCCurrDrv].ImageType == DSK_FORMAT_RAW)
+        ret = dsk[FDCCurrDrv].Tracks[TrackIndex].DiscData[TrackDataStart + FDCDataPointer];
+      else
+        ret = dsk[FDCCurrDrv].Tracks[0].DiscData[TrackDataStart + FDCDataPointer];
       FDCDataPointer ++;
       if (FDCDataPointer == FDCDataLength)
         {
@@ -349,7 +424,10 @@ byte    FDCExecReadCommand (void)
       break;
 
     case 6:
-      ret = dsk[FDCCurrDrv].Tracks[TrackIndex].DiscData[TrackDataStart + FDCDataPointer];
+      if (dsk[FDCCurrDrv].ImageType == DSK_FORMAT_RAW)
+        ret = dsk[FDCCurrDrv].Tracks[TrackIndex].DiscData[TrackDataStart + FDCDataPointer];
+      else
+        ret = dsk[FDCCurrDrv].Tracks[0].DiscData[TrackDataStart + FDCDataPointer];
       FDCDataPointer ++;
       if (FDCDataPointer == FDCDataLength)
         {
@@ -547,28 +625,46 @@ void    FDC765_Disk_Insert (int DrvNum, void *Data, int DataSize)
   Disk->HasDisk = TRUE;
   FDCWrProtect[DrvNum] = TRUE; // Write protection always ON yet
 
-  // No header in sf7000 image disks, initialization here
-  Disk->Header.nbof_tracks = 40;
-  Disk->Header.nbof_heads = 1;
-  Disk->Header.tracksize = (16 * 0x100);
+  // detect DSK FORMAT -- TB
+  if (memcmp(Data, "MV - CPCEMU Disk-File\r\nDisk-Info\r\n", 34) == 0) {
+    Disk->ImageType = DSK_FORMAT_STANDARD_DSK;
+    memcpy(&Disk->Header, Data, 256);
+    Disk->Header.tracksize = ((const byte *)Data)[32] + (((const byte *)Data)[33] << 8);
+  } else if (memcmp(Data, "EXTENDED CPC DSK File\r\nDisk-Info\r\n", 34) == 0) {
+    dsk->ImageType = DSK_FORMAT_EXTENDED_DSK;
+    memcpy(&Disk->Header, Data, 256);
+  } else {
+    dsk->ImageType = DSK_FORMAT_RAW;
+    // No header in sf7000 image disks, initialization here
+    Disk->Header.nbof_tracks = 40;
+    Disk->Header.nbof_heads = 1;
+    Disk->Header.tracksize = (16 * 0x100);
+  }
+  ConsolePrintf ("FDC765 %d %d head(s) %d tracks\n", Disk->ImageType, Disk->Header.nbof_heads, Disk->Header.nbof_tracks);
 
-  // Calculating track size and allocating memory for it
-  Disk->TracksSize = Disk->Header.tracksize * Disk->Header.nbof_tracks * Disk->Header.nbof_heads;
-  Disk->Tracks = (FDC765_Track *)malloc (Disk->TracksSize);
+  if (dsk->ImageType == DSK_FORMAT_RAW) {
+    // Calculating track size and allocating memory for it
+    Disk->TracksSize = Disk->Header.tracksize * Disk->Header.nbof_tracks * Disk->Header.nbof_heads;
+    Disk->Tracks = (FDC765_Track *)malloc (Disk->TracksSize);
 
-  // Copying memory from data source
-  memcpy (Disk->Tracks, Data, DataSize);
-  if (DataSize > Disk->TracksSize)
-     {
-     Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Large1), DataSize, Disk->TracksSize);
-     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_FDC765_Disk_Too_Large2));
-     }
-  if (DataSize < Disk->TracksSize)
-     {
-     Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Small1), DataSize, Disk->TracksSize);
-     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_FDC765_Disk_Too_Small2));
-     memset ((byte *)Disk->Tracks + DataSize, 0, Disk->TracksSize - DataSize);
-     }
+    // Copying memory from data source
+    memcpy (Disk->Tracks, Data, DataSize);
+    if (DataSize > Disk->TracksSize)
+       {
+       Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Large1), DataSize, Disk->TracksSize);
+       Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_FDC765_Disk_Too_Large2));
+       }
+    if (DataSize < Disk->TracksSize)
+       {
+       Msg(MSGT_USER, Msg_Get(MSG_FDC765_Disk_Too_Small1), DataSize, Disk->TracksSize);
+       Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_FDC765_Disk_Too_Small2));
+       memset ((byte *)Disk->Tracks + DataSize, 0, Disk->TracksSize - DataSize);
+       }
+  } else {
+    Disk->TracksSize = DataSize - 256;
+    Disk->Tracks = (FDC765_Track *)malloc (Disk->TracksSize);
+    memcpy (Disk->Tracks, (const byte *)Data + 256, Disk->TracksSize);
+  }
 }
 
 //-----------------------------------------------------------------------------

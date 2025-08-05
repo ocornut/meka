@@ -1,0 +1,13 @@
+version: 0.8.{build}
+image: Visual Studio 2022
+configuration: Release
+before_build:
+- cmd: nuget restore meka/srcs/projects/msvc/meka.sln
+build:
+  project: meka/srcs/projects/msvc/meka.sln
+  verbosity: minimal
+after_build:
+- cmd: pushd meka\tools
+- cmd: echo | dist_bin_win32.bat
+artifacts:
+- path: 'meka/Dist/*.zip'

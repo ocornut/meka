@@ -3,6 +3,7 @@
 MEKA_APPBIN=Dist/Meka.app/Contents/MacOS/meka
 RESOURCE_DIR=./Dist/Meka.app/Contents/Resources
 BIN_DIR=./Dist/Meka.app/Contents/MacOS
+PLUGINS_DIR=./Dist/Meka.app/Contents/PlugIns
 DIR=`dirname $0`
 
 # Ignoring meka.dat while the 0.8x branch is using the Data/ folder (which we should aim to fix)
@@ -30,6 +31,7 @@ mkdir -p Dist
 cp -r tools/dist_osx/Meka.app_template Dist/Meka.app
 mkdir -p $BIN_DIR
 mkdir -p $RESOURCE_DIR
+mkdir -p $PLUGINS_DIR
 cp meka $BIN_DIR
 
 #copy resources files

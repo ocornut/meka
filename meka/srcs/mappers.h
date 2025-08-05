@@ -31,15 +31,27 @@
 #define MAPPER_SMS_ActionReplay                 (6)
 #define MAPPER_TVOekaki                         (7)
 #define MAPPER_SF7000                           (8)
-#define MAPPER_SMS_Korean                       (9)
+#define MAPPER_SMS_Korean_A000                  (9)         // Register at 0xA000.
 #define MAPPER_SMS_DisplayUnit                  (10)
 #define MAPPER_SMS_NoMapper                     (11)        // 0x0000->0xBFFF map to ROM. No mapper register.
-#define MAPPER_SMS_Korean_MSX_8KB               (12)        // 8KB bank-switching (4 banks)
+#define MAPPER_SMS_Korean_MSX_8KB_0003          (12)        // 8KB bank-switching (4 banks)
 #define MAPPER_SMS_Korean_Janggun               (13)        // 8KB bank-switching (4 banks) mixed with 16KB bank-switching
 #define MAPPER_SMS_4PakAllAction                (14)
 #define MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA  (15)        // 8KB RAM from 0x2000->0x3FFF + regular 2KB ram in 0xC000-0xFFFF range
-#define MAPPER_SMS_Korean_Xin1                  (16)        // Mapping register at 0xFFFF to map 32 KB at 0x0000->0x8000
+#define MAPPER_SMS_Korean_FFFF_HiCom            (16)        // Register at 0xFFFF to map 32 KB at 0x0000->0x8000
 #define MAPPER_SC3000_Survivors_Multicart       (17)
+#define MAPPER_SMS_Korean_MSX_8KB_0300          (18)        // Registers at 0x0000,0x0100,0x0200,0x0300 (Super Multi Game Super 75 in 1, Super Game World 75 etc.)
+#define MAPPER_SMS_Korean_2000_xor_1F           (19)        // Register at 0x2000 (128 Hap, Game Mo-eumjip 188 Hap etc.)
+#define MAPPER_SMS_Korean_BFFC                  (20)        // Register at 0xBFFC
+#define MAPPER_SMS_Korean_FFFE                  (21)        // Register at 0xFFFE (Super Game 45)
+#define MAPPER_SMS_Korean_FFF3_FFFC             (22)        // Registers at 0xFFF3 and 0xFFFC (Super Game 150, Super Game 270)
+#define MAPPER_SMS_Korean_0000_xor_FF           (23)        // Register at 0x0000 with MSX-oriented paging
+#define MAPPER_SMS_Korean_MD_FFF0               (24)        // Registers at 0xFFF0 and 0xFFFF (Mega Mode Super Game 30 [SMS-MD])
+#define MAPPER_SMS_Korean_MD_FFF5               (25)        // Registers at 0xFFF5 and 0xFFFF (Jaemiissneun Game Mo-eumjip 42/65 Hap [SMS-MD], Pigu Wang Hap ~ Jaemiiss-neun Game Mo-eumjip [SMS-MD])
+#define MAPPER_SMS_Korean_MD_FFFA               (26)        // Registers at 0xFFFA and 0xFFFF (Game Jiphap 30 Hap [SMS-MD])
+#define MAPPER_SMS_Korean_MSX_32KB_2000         (27)        // Register at 0x2000 (2 Hap in 1 (Moai-ui bomul, David-2))
+#define MAPPER_SMS_Korean_SMS_32KB_2000         (39)        // Register at 0x2000 (11 Hap Gam-Boy)
+#define MAPPER_SMS_Korean_MSX_SMS_8000          (40)        // Register at 0x8000 with 8KB granularity and both MSX and SMS game support (Zemina Best 88 [MISSING 64K])
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -68,14 +80,26 @@ WRITE_FUNC (Write_Mapper_93c46);
 WRITE_FUNC (Write_Mapper_SMS_ActionReplay);
 WRITE_FUNC (Write_Mapper_TVOekaki);
 WRITE_FUNC (Write_Mapper_SF7000);
-WRITE_FUNC (Write_Mapper_SMS_Korean);
+WRITE_FUNC (Write_Mapper_SMS_Korean_A000);
+WRITE_FUNC (Write_Mapper_SMS_Korean_BFFC);
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit);
 WRITE_FUNC (Write_Mapper_SMS_NoMapper);
-WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0003);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_8KB_0300);
 WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun);
 WRITE_FUNC (Write_Mapper_SMS_4PakAllAction);
 WRITE_FUNC (Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA);
-WRITE_FUNC (Write_Mapper_SMS_Korean_Xin1);
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFF_HiCom);
+WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F);
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE);
+WRITE_FUNC (Write_Mapper_SMS_Korean_FFF3_FFFC);
+WRITE_FUNC (Write_Mapper_SMS_Korean_0000_xor_FF);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF0);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFFA);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000);
+WRITE_FUNC (Write_Mapper_SMS_Korean_SMS_32KB_2000);
+WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000);
 //-----------------------------------------------------------------------------
 void Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v);
 

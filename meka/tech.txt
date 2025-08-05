@@ -37,7 +37,7 @@
          +----------> Button 2
 
  DB-9 joypads (and more generally, inputs peripherals) were of common usage
- on Sega Master System, Megadrive (Genesis), several older consoles, Amiga 
+ on Sega Master System, Megadrive (Genesis), several older consoles, Amiga
  and Atari computers, etc.
  Although the DB-9 connector is shared by many controllers, not all uses
  the same pinouts as the Sega Master System controller. Old joystick might
@@ -49,8 +49,8 @@
     Comments by Mike Gordon.
 -----------------------------------------------------------------------------
  This adapter schematic is natively supported by the MS-DOS version of MEKA
- through the Allegro library. The adapter is also usable under Windows using 
- the DirectPad Pro driver. 
+ through the Allegro library. The adapter is also usable under Windows using
+ the DirectPad Pro driver.
  If you do not plan to use the MS-DOS version, building the second type of
  adapter is recommended.
 -----------------------------------------------------------------------------
@@ -59,8 +59,8 @@
  ----
  This is a copy based on the schematic available on the now defunct
  DirectPad Pro site. A mirror is available at:
-    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/ 
- I'm not sure who is the original author of this schematic, but it is very 
+    http://www.arcadecontrols.com/Mirrors/www.ziplabel.com/dpadpro/
+ I'm not sure who is the original author of this schematic, but it is very
  simple and the common nature of the adapter make it somewhat public domain
  knowledge.
 
@@ -68,15 +68,15 @@
  -------------------
 
  DB-9 SMS Joypad plug:
-     -------------  
-     \ 5 4 3 2 1 /  
+     -------------
+     \ 5 4 3 2 1 /
       \ 9 8 7 6 /
        ---------
 
  DB-25 Parallel connector on PC (female):
      ------------------------------------------
-     \ 13 12 11 10  9  8  7  6  5  4  3  2  1 /    
-      \  25 24 23 22 21 20 19 18 17 16 15 14 / 
+     \ 13 12 11 10  9  8  7  6  5  4  3  2  1 /
+      \  25 24 23 22 21 20 19 18 17 16 15 14 /
        --------------------------------------
 
 
@@ -109,14 +109,14 @@
 
 * You need a 25-pin male D-plug (DB-25) for the parallel port connection (to
   fit the female parallel port socket), and a 9-pin male D-plug (DB-9) for
-  the SMS joypad connection (to fit the female joypad plug). The pin numbers 
+  the SMS joypad connection (to fit the female joypad plug). The pin numbers
   should be marked on the plug itself.
 
 * The type of resistor used (metal film, carbon etc.) is not important. The
   resistors can be soldered directly to the DB-25 connector, i.e. connect one
   resistor between pin 3 and pin 12, another between pin 2 and pin 11. (And
   a wire link, between pins 18 and 19.)
- 
+
   The resistor value (10K) is indicated by coloured bands on the body of the
   resistor, as follows, from left to right:
 
@@ -151,20 +151,20 @@
      DB25:14 <----------------------------------->  DB-9:7      (?)
 
  After some research and digging around this is the diagram I have found to
- work best for me. As you can see above, there is no need for any diodes or 
- resistors. This is a straight-through connection. All one needs to do is 
- connect the proper pins from the DB 9 to the DB 25 connector. 
- 
- I used an old IDE ribbon cable and some crimp on connectors. That's it. 
+ work best for me. As you can see above, there is no need for any diodes or
+ resistors. This is a straight-through connection. All one needs to do is
+ connect the proper pins from the DB 9 to the DB 25 connector.
+
+ I used an old IDE ribbon cable and some crimp on connectors. That's it.
  (I used crimp connectors because my soldering skills are somewhat lacking)
- 
+
  Select the "Linux-DB9" in the driver configuration window.
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
  4. SMS Joypads (DB-9) to Parallel port adapter (GNU/Linux)
 -----------------------------------------------------------------------------
- GNU/Linux kernels starting version 2.2 supports a wide range of joysticks, 
+ GNU/Linux kernels starting version 2.2 supports a wide range of joysticks,
  based on the "Linux Joystick Driver" project:
     http://atrey.karlin.mff.cuni.cz/~vojtech/joystick/
  Please refer to appropriate documentation (joystick-parport.txt) for
@@ -175,7 +175,7 @@
  5. SMS 3-D Glasses to Serial/COM port adapter
     Unknown original author. Comments by Frank and Mike Gordon.
 -----------------------------------------------------------------------------
- This adapter schematic is natively supported by the MS-DOS and Windows 
+ This adapter schematic is natively supported by the MS-DOS and Windows
  versions of MEKA. As of yet, UN*X versions does not support this feature.
 -----------------------------------------------------------------------------
  Please refer to SmsCartPad homepage for more detailed instruction:
@@ -184,8 +184,8 @@
 
  Note
  ----
- About the MS-DOS version of MEKA: the SMS 3-D Glasses adapter should work 
- even under in a Windows 95/98 command prompt, but I have not done extensive 
+ About the MS-DOS version of MEKA: the SMS 3-D Glasses adapter should work
+ even under in a Windows 95/98 command prompt, but I have not done extensive
  testing to confirm. Please e-mail me any problem you may have.
 
  The Nintendo Famicom 3-D Glasses are said to be compatible with the
@@ -271,7 +271,7 @@ presumably is used to switch between left and right frames.
 
 When building the adapter:
 
-* Use a CMOS series 4030B (or 4070B, which is functionally equivalent). Do 
+* Use a CMOS series 4030B (or 4070B, which is functionally equivalent). Do
   not use a 74HC series chip.
 
   Chip pin numbering:
@@ -291,7 +291,7 @@ When building the adapter:
       Negative  -  --|>|--  +  Positive
 
 
-* The resistors should ideally be metal film types (blue-coloured body). 
+* The resistors should ideally be metal film types (blue-coloured body).
   The value is indicated by coloured bands, as follows, from left to right:
 
      22K - Red Red Orange           (gap)  Brown or Gold
@@ -314,9 +314,9 @@ When building the adapter:
 
      Emitter -   o       o   - Collector
 
-             
+
   Metal tab - /_/
-                   
+
 
 * The serial port is a 9-pin D-type male connector, so you need a 9-pin
   female D plug for the adapter. Looking into the serial port itself, this
@@ -326,7 +326,7 @@ When building the adapter:
                -------------
                \ o o o o o /
                 \ o o o o /
-                 ---------               
+                 ---------
                   6 7 8 9
 
 

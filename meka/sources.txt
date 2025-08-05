@@ -16,7 +16,7 @@
  - MEKA FEATURES INCORRECT EMULATION BEHAVIOURS.
  - MEKA IS NOT THE BEST REFERENCE OF HOW THINGS ARE OR WORKS.
  MEKA is an old piece of software, most of which was essentially written
- pre-2000. Although MEKA is still competitive in term of available features, 
+ pre-2000. Although MEKA is still competitive in term of available features,
  newer emulators are generally more accurate emulation-wise.
  The SMS Power! development Forums and Wiki are a betterd place to share
  up to date knowledge about hardware and emulation.
@@ -28,8 +28,8 @@
 
 Applies to hq2x.c, hq2x16.asm, hq2x32.asm:
 
-  HQ2X is originally distributed under GPL license, which legally would 
-  not fit in MEKA (with its current license). An alternate license has 
+  HQ2X is originally distributed under GPL license, which legally would
+  not fit in MEKA (with its current license). An alternate license has
   been requested to the author, Maxim Stephin, who answered:
 
     "Ah, just use it... I don't care much about legal stuff.
@@ -37,11 +37,11 @@ Applies to hq2x.c, hq2x16.asm, hq2x32.asm:
 
   Overidding GPL terms.
   commercial usage).
-  
+
 Apply to all code by Omar Cornut (see MEKA.txt)
- 
+
  #1 This source code comes free, without any warantee given.
- 
+
  #2 Any modification of this software must have this license preserved,
     and source code made available under the same condition.
 
@@ -55,7 +55,7 @@ Please contact us for any question.
 
 
 ---------------------------------------
-INDEX 
+INDEX
 ---------------------------------------
 
 - Before anything else...
@@ -72,9 +72,9 @@ INDEX
 
 This document is only a quick introduction to some aspect of MEKA development.
 For any further discussion, please visit MEKA development forum:
-    
+
         http://www.smspower.org/forums/viewforum.php?f=7
-    
+
 I'd be happy to discuss anything over there, answers questions, and see
 how we can all work together in a happy world while holding hands and
 playing games using yet another hand.
@@ -84,7 +84,7 @@ playing games using yet another hand.
  Introduction
 ---------------------------------------
 
-MEKA has been in development since summer 1998 (it was actually my first 
+MEKA has been in development since summer 1998 (it was actually my first
 proper project using C as programming language), and most of its codebase
 was written in 1998-2000, an era when MEKA was a closed source software.
 
@@ -119,7 +119,7 @@ Anonymous login allows read-only access.
 
 Please e-mail me patches and they will be applied if deemed useful.
 
-SVN write accesses are granted on a per-user basis. 
+SVN write accesses are granted on a per-user basis.
 I am totally open to giving access to people demonstrating their value
 to the project.
 
@@ -147,7 +147,7 @@ II. Compile for GNU/Linux and other UN*X based systems:
    - $ ./configure --enable-static
    - $ make
    - $ make install
-   - $ For Ubuntu see notes on Allegro website 
+   - $ For Ubuntu see notes on Allegro website
  - Compile !
    - Use provided Makefile.
  - Contact us thru the forum for any help. :)

@@ -66,8 +66,6 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
     {                                                                       \
     if (tsms.VDP_Video_Change)                                              \
        VDP_VideoMode_Change();                                             \
-    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)                             \
-       VGM_NewFrame (&Sound.LogVGM);                                        \
     Patches_MEM_Apply();                                                   \
     }
 
@@ -75,6 +73,8 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 
 #define Interrupt_Loop_Misc_Common                                          \
     {                                                                       \
+    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)                             \
+       VGM_NewFrame (&Sound.LogVGM);                                        \
     Sound_Update();                                                         \
     tsms.Control_Check_GUI = TRUE;                                          \
     Inputs_Sources_Update();   /* Poll input sources */                    \

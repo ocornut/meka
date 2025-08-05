@@ -101,7 +101,7 @@ void    Sound_LogWAV_Stop(void)
         WAV_Close(Sound.LogWav, Sound.LogWav_SizeData);
         Sound.LogWav = NULL;
         Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Stop),
-            (double)Sound.LogWav_SizeData / ((16 / 8) * 1 * Sound.SampleRate));
+            (double)Sound.LogWav_SizeData / ((16 / 8) * SOUND_CHANNEL_COUNT * Sound.SampleRate));
         gui_menu_active_range (FALSE, menus_ID.sound_log, 4, 4);
     }
 }

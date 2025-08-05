@@ -17,7 +17,7 @@ They are usually of 2 kinds:
     and performances seems to vary depending on computer settings and video drivers. [Omar, Maxim]
     Please do report if you have any issue/slowdown so we can fix them!
   - Rewrote sound engine and fixed audio issues that many users had. [Omar]
-    The sound is also now functional under Linux and MacOS. [Omar]  
+    The sound is also now functional under Linux and MacOS. [Omar]
   - Changed default key mapping for Player 1 buttons to use Z/X. [Omar]
   - Setup panel allows to select display driver and resolution. [Omar]
   - Added Polish translation. [thr]
@@ -25,26 +25,50 @@ They are usually of 2 kinds:
   - MacOSX:
     - Preliminary MacOSX port. MEKA NEEDS A MAC MAINTENER! [Omar]
     - Use OS compliant directories for storing configuration files. [Dajero] (#12)
-  - Emulation:
+  - Emulation (Main):
+    - Z80: Fixed emulation of R register (fixes 'Bubble Bobble', 'Hong Kil Dong' among others) [Calindro]
+    - Z80: Fixed CPDR running fully and ignoring interrupts. [Calindro]
+    - Z80: Fixed HALT timing. [Calindro]
+    - VDP: Setting address via palette write preserve upper address bits. Fixes tests #4 and #15 of FluBBA's VDP Tester. [Omar]
+    - VDP: Writing to palette sets the read buffer. Fixes test #10 of FluBBA's VDP Tester. [Omar]
+  - Emulation (Audio):
+    - PSG: Added support for Game Gear stereo emulation! [Maxim]
+    - PSG: Emulate the PSG volumes "ideally" rather than matching some real systems' suboptimal output. [Maxim]
+    - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
+    - Emu2413: Updated to latest version 1.5.9 [Maxim]
+  - Emulation (Memory System, Mappers, Peripherals):
     - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
     - Added support for '4 PAK All Action' mapper. [Omar]
     - Added support for 'Janggun-ui Adeul' mapper. [Omar]
     - Added support for Taiwanese DahJee/Jumbo SG-1000 II RAM extension adapter. [Omar]
     - Added support for Sega Graphic Tablet v2.0 prototype hardware. [Maxim,Omar]
     - Added support for Korean Hi-Com 3-in-1 and 8-in-1 mapper. [Omar]
+    - Added support for Korean xx-in-1 mapper at 0x0000,0x0100,0x0200,0x300 for: 'Super Multi Game - Super 75 in 1' and 'Super Game World 75'. [Omar]
+    - Added support for Korean xx-in-1 mapper at 0x2000 for: '128 Hap', 'Game Mo-eumjip 188 Hap'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0xBFFC for: 'Super Game 52 Hap', 'Super Game 180', 'Super Game 200'. [bsittler, Omar]
+    - Added support for Korean xx-in-1 mapper at 0xFFFE for: 'Super Game 45'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0xFFF3,0xFFFC for: 'Super Game 150', 'Super Game 270'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0x0000 (xored 0xFF) for 'Zemina 4-in-1 (Q-Bert, Sports 3, Gulkave, Pooyan)'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0xFFF0,0xFFFE,0xFFFF for: 'Mega Mode Super Game 30 [SMS-MD]'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0xFFF5,0xFFFE,0xFFFF for 'Jaemiissneun Game Mo-eumjip 42 Hap [SMS-MD]'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0xFFFA,0xFFFE,0xFFFF for 'Game Jiphap 30 Hap [SMS-MD]'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0x2000 for '11 Hap Gam-Boy'. [bsittler]
+    - Added support for Korean xx-in-1 mapper at 0x8000 for 'Zemina Best 88', 'Zemina Best 25' etc. [bsittler]
     - Added support for SC-3000 Survivors Multicart mapper. [Omar,Honestbob]
+    - Fixed 32K "No Mapper" mapper from forwarding 3-D Glasses writes. Fixes '3D Gunner'. [Omar]
     - SMS/GG ROM images smaller than 48KB default to using no mapper. [Omar]
     - Hardware reset leaves RAM cleared with $F0 patterns on Japanese SMS.
       This allow 'Ali Baba' and 'Block Hole' to run properly. Better clearing patterns
       could be implemented for other systems/countries after we've done more research. [Omar]
-    - Added support for mirrored VDP ports in $80..$BF range, as required by some 
+    - Added support for mirrored VDP ports in $80..$BF range, as required by some
       Korean games such as 'Pooyan', 'Sky Jaguar' or 'E.I.'. [Omar]
-    - Z80: Fixed emulation of R register (fixes 'Bubble Bobble', 'Hong Kil Dong' among others) [Calindro]
-    - Z80: Fixed CPDR running fully and ignoring interrupts. [Calindro]
-    - Z80: Fixed HALT timing. [Calindro]
-    - VDP: Setting address via palette write preserve upper address bits. Fixes tests #4 and #15 of FluBBA's VDP Tester. [Omar]
-    - VDP: Writing to palette sets the read buffer. Fixes test #10 of FluBBA's VDP Tester. [Omar]
-    - Emu2413: Fixed commands 0x26-0x28 from turning off the drums. [ValleyBell]
+    - Light Phaser: Adding per-game hacky light phaser function to reduce drift
+      between perceived cursor and what the game will end up using, particularly
+      useful for 'Missile Defense 3-D' and '3D Gunner'. [Omar]
+  - Emulation (SF-7000)
+    - Added support for extended DSK format (as .dsk or .sf7 extensions). [Nanard]
+      For future SF-7000 releases we will use this format as our legacy 163840 bytes .SF7 format
+      didn't convey enough information to reliably emulate all available software.
   - Debugger:
     - Added support for setting breakpoint from ROM addresses (perform reverse mapping to validate address). [Omar]
     - Referring to a symbol using with the : prefix (in the form ":xxxx") returns the ROM address instead of the CPU address. [Omar]
@@ -75,7 +99,7 @@ They are usually of 2 kinds:
       - Can search for 1-bit, 8-bit, 16-bit, 24-bit values.
       - Can search in RAM,ROM,VRAM,VREG,PRAM,SRAM,Z80 spaces for maximum flexibility,
         although for actual cheat-finding purpose RAM is likely to be more searched for.
-      - Reduce the match set by using ==,!=,<,>,<=,>= operators, compare with a constant 
+      - Reduce the match set by using ==,!=,<,>,<=,>= operators, compare with a constant
         or the old value stored in each match memory location.
       - Highlight matches in the memory editor for easier visibility.
       - Undo button.
@@ -84,7 +108,11 @@ They are usually of 2 kinds:
     - TileViewer: support for showing full 16 KB range of tiles in legacy graphic modes. [Omar]
     - MemoryEditor: fixed editing of 93c46 EEPROM memory. [Omar]
     - MemoryEditor: fixed display of address when number of columns is not 16. [Omar]
+    - Wav Logging: recording in Stereo. [Maxim]
+    - Technical Information: added YM2413 information [Maxim]
+    - VGM Logging: frame-accurate VGMs are now quantized to the start of VBlank, not line 0 [Maxim]
   - GUI:
+    - Disabled F10 key to quit emulator (regular ALT+F4 or OS close works). [Omar]
     - Now possible to resize the game window and some of the tools. [Omar]
     - Now possible to change the font of the tools in the .CFG file. [Omar]
     - Made "Ocean" the default theme and increased default GUI resolution. [Omar]
@@ -121,19 +149,38 @@ They are usually of 2 kinds:
   - Configuration file is created early on startup if missing. [Omar]
   - Added and modified entries in the checksum and compatibility lists. [Omar]
     Some particular renaming includes:
+          SMS - 6f8e46cf - Alex Kidd in Miracle World [SMS-GG] (TW) --> Alex Kidd in Miracle World [HTH] [SMS-GG] (TW) (labeling HTH release, listing them under SMS)
+          SMS - 58d5fc48 - Blade Eagle 3-D [Proto]              --> Blade Eagle 3-D [Proto 0] (later proto found)
           SMS - c4bb1676 - E-SWAT [A]                           --> E-SWAT [v0]
           SMS - c10fce39 - E-SWAT [B]                           --> E-SWAT [v1]
+          SMS - b7fe0a9d - King's Quest - Quest for t.. [Proto] --> King's Quest - Quest for the Crown [Proto 1] (earlier proto found)
+          SMS - 7e9d87fc - Monopoly [Proto]                     --> Monopoly [Proto 0] (later proto found)
           SMS - d1a7b1aa - Olympic Gold (KR, BR)                --> Olympic Gold [v0]
           SMS - 6a5a1e39 - Olympic Gold                         --> Olympic Gold [v1]
+          SMS - 327a0b4c - Paperboy (US)                        --> Paperboy [v1] (US, BR)
+          SMS - 07301f83 - Phantasy Star [Megadrive] (JP)       --> Phantasy Star Fukkokuban [SMS-MD] (JP) (standardizing 'SMS-MD' labeling)
+          SMS - 80eb1fff - Summer Games [Proto]                 --> Summer Games [Proto 1]
+          SMS - 55bf81a0 - Super Monaco GP                      --> Super Monaco GP [v0]
+          SMS - 3ef12baa - Super Monaco GP (US)                 --> Super Monaco GP [v1] (US)
+          SMS - 912d92af - Wimbledon                            --> Wimbledon [v1]
+          SMS - 4aaad0d6 - World Grand Prix (EU)                --> World Grand Prix [v0] (also in IT, DE)
+          SMS - 7b369892 - World Grand Prix (US)                --> World Grand Prix [v2] (also in BR, KR)
+          GG  - 1d17d2a0 - Aa Harimanada (JP)                   --> Aah! Harimanada (JP)
           GG  - a6bf865e - Beavis and Butt-Head (MTV's) (EU)    --> Beavis and Butt-Head (MTV's) (US, EU)
           GG  - 3858f14f - Beavis and Butt-Head (MTV's) (US)    --> Beavis and Butt-Head (MTV's) [Proto]
           GG  - f3ca6676 - Columns (JP)                         --> Columns [v0]
           GG  - 83fa26d9 - Columns                              --> Columns [v2]
+          GG  - 9a8b2c16 - Doraemon Nora No Suke No Yabou (JP)  --> GG Doraemon Nora No Suke No Yabou (JP)
+          GG  - 2e01ba6c - Joe Montana Football                 --> Joe Montana Football [v0]
+          GG  - 4a98678b - Joe Montana Football (JP)            --> Joe Montana Football [v1] (JP, BR)
           GG  - a8ef36a7 - Junction                             --> Junction (JP)
           GG  - 23f9150a - Kawasaki Superbike Challenge         --> Kawasaki Superbikes (EU) (now dumped US version)
+          GG  - c1756bee - Pete Sampras Tennis (EU, US)         --> Pete Sampras Tennis (EU) (now dumped US version)
           GG  - a45fffb7 - Riddick Bowe Boxing                  --> Riddick Bowe Boxing (JP)
           GG  - de25e2d8 - Sports Illustrated - Championship F..--> Sports Illustrated - Championship Football & Baseball [BAD] (was bad dump)
           GG  - 5b5de94d - Sports Trivia - Championship Edition --> Sports Trivia - Championship Edition [Proto] (from old Image dump stash)
+          GG  - 661faeff - Super Monaco GP II (Ayrton...) (JP)  --> Super Monaco GP II (Ayrton Senna's) [v0] (JP) (discovered a v1)
+          GG  - ca0e11cc - Tesserae                             --> Tesserae [BAD] (corret dump is bf696f94)
           GG  - e678f264 - Yogi Bear in Yogi Bears Goldrush..   --> Yogi Bear in Yogi Bear's Goldrush [Proto]
           GG  - f397f041 - Zoop (US)                            --> Zoop [Proto] (US)
           SG1 - 26f947d1 - Champion Boxing [cart]               --> Champion Boxing [v0]
@@ -141,14 +188,14 @@ They are usually of 2 kinds:
           SG1 - 868419b5 - Champion Golf [cart]                 --> Champion Golf [v0]
           SG1 - 5a904122 - Champion Golf [card]                 --> Champion Golf [v1]
           SG1 - 5eb48a20 - Congo Bongo [v1]                     --> Congo Bongo [v0] (made a mistake originally ordering the versions. see thread on SMS Power! forum)
-          SG1 - 5a24c7cf - Congo Bongo [v0]                     --> Congo Bongo [v1] 
+          SG1 - 5a24c7cf - Congo Bongo [v0]                     --> Congo Bongo [v1]
           SG1 - f7eb94c5 - Congo Bongo [v0] (TW)                --> Congo Bongo [v1] (TW)
           OMV - 90160849 - 007 James Bond                       --> 007 James Bond [v2.7] (version v2.6 found)
           OMV - 76d6c64d - 007 James Bond (TW)                  --> 007 James Bond [v2.7] (TW)
           OMV - d5fdb4a3 - Space Armor [v0]                     --> Space Armor [v2.0] [v1] (earlier build found replacing [v0], v2.0 is found on title screen but doesn't differenciate both v20 builds)
           OMV - ac4f0a5c - Space Armor [v1]                     --> Space Armor [v2.0] [v2]
           SC3 - 22f4f92a - Nihonshi Nenpyou (JP)                --> Nihonshi Nenpyou [BAD] (JP) (was bad dump, correct dump confirmed multiple times)
-          
+
 
  MEKA 0.74 WIP xxxxxxxx
  ----------------------
@@ -196,7 +243,7 @@ They are usually of 2 kinds:
           GG  - 88618afa - Tails' Sky Patrol (JP)               --> Tails' Skypatrol (JP)
           GG  - e678f264 - Yogi Bear [Proto]                    --> Yogi Bear in Yogi Bears Goldrush [Proto]
     Other smaller changes not recorded, please refer to meka.nam SVN history for exact changes.
-          
+
 
  MEKA 0.73 WIP 20100530
  ----------------------
@@ -205,8 +252,8 @@ They are usually of 2 kinds:
   - Removed "k" and associated donation rambling from the documentation.
     Donations are still welcome, at your own discretion.
   - Emulation:
-    - Added support for "no bank switching" mapper. Used by Korean games such 
-      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for 
+    - Added support for "no bank switching" mapper. Used by Korean games such
+      as "FA Tetris" and "Flash Point" which write to $fffe-$ffff range for
       its RAM usage but do not expect bank-switching. [Omar]
     - Added support for Korean 8KB banks mapper. Used by Korean games ported
       from MSX such as "Penguin Adventure", "Street Master" or "Won-Si-In". [Omar]
@@ -226,7 +273,7 @@ They are usually of 2 kinds:
           SMS - 89b79e77 - Dodgeball King (KR)                  --> Dallyeora Pigu-Wang (KR)
           SMS - b8b141f9 - Fantasy Zone II                      --> Fantasy Zone II - The Tears of Opa-Opa
           SMS - c722fb42 - Fantasy Zone II (JP)                 --> Fantasy Zone II - Opa-Opa no Namida (JP)
-          SMS - 45c50294 - Jogos de Verão II                    --> California Games II [50-60 Hz] (also found in Korea).
+          SMS - 45c50294 - Jogos de VerÃ£o II                    --> California Games II [50-60 Hz] (also found in Korea).
           SMS - 5b5f9106 - Nekyuu Kousien (JP)                  --> Nekkyuu Koushien (JP)
           SMS - 0e333b6e - Miracle Warriors - Seal of the Dar.. --> Miracle Warriors - Seal of The Dark Lord (casing on 'The')
           SMS - be57a9a5 - Pacmania                             --> Pac-Mania (the other way, sorry! It seems like the official name of the game)
@@ -339,15 +386,15 @@ They are usually of 2 kinds:
   - Debugger:
     - Added "SYM @addr" command to search for symbols given an address. [Omar]
     - Added "RMAP addr" command to reverse map of a Z80 address and display
-      the source of data based on machine state (mapper registers, etc). 
+      the source of data based on machine state (mapper registers, etc).
       eg:
         RMAP $8001      ; eg: print 'ROM $14001 (Page 5 +0001)'
         RMAP $E001      ; eg: print 'RAM $C001'
-      The feature doesn't work 100% in all mappers & bus mirroring cases, 
+      The feature doesn't work 100% in all mappers & bus mirroring cases,
       but should be ok with the standard SMS/GG mapper. [Omar]
     - Duplicate commands are automatically removed from history. [Omar]
     - Increased default height of the debugger. [Omar]
-    - Changed watch point per-frame flood limit from 100 to 50. Will expose in 
+    - Changed watch point per-frame flood limit from 100 to 50. Will expose in
       configuration file if requested. [Omar]
     - Fixed crash when loading symbols with debugger disabled. [Djbass,Omar]
     - Fixed labels showing one instruction early in "DASM" command. [Omar]
@@ -355,19 +402,19 @@ They are usually of 2 kinds:
   - GUI:
     - File browser: country flag now displayed even on BIOS, Prototypes
       or Homebrew images. [Omar]
-    - Inputs configuration: right-click on input source selection goes 
+    - Inputs configuration: right-click on input source selection goes
       backward, in addition to regular left-click to go forward. [Omar]
   - Miscellaenous:
     - Added "Capture" menu with screen capture menu access and options. [Maxim]
     - Added "Capture All" mode, capturing all emulation frames to disk. [Maxim]
-    - Added "Include GUI" capture option. Disable to only capture game screen 
+    - Added "Include GUI" capture option. Disable to only capture game screen
       when MEKA GUI is enabled. [Maxim]
     - Renamed "Automatically crop and align screen captures" option to
       more explicit "Crop and align screen captures to 8x8 boundaries".
       Previous name was sounding too "cool" and was sometimes activated
       by innocent users who then got their capture all cropped. [Omar]
     - Added "screenshots_crop_scrolling_column" option in configuration
-      file (default to enabled), to disable cropping the empty left-most 
+      file (default to enabled), to disable cropping the empty left-most
       column in horizontally scrolling games. [Omar]
   - Project:
     - (Win32) Fixed standard libraries used by debug builds (using unusual
@@ -401,17 +448,17 @@ They are usually of 2 kinds:
  ----------------------
   - ColecoVision:
     - Removed detection of supposed 128-bytes headers and 512-bytes footers
-      (from some old soft/copiers?), due to many false detections, 
-      particularly on homebrew ROM images (the code was introduced in 2001 
-      when Dig Dug and Pac-Man prototypes were released with such header, 
+      (from some old soft/copiers?), due to many false detections,
+      particularly on homebrew ROM images (the code was introduced in 2001
+      when Dig Dug and Pac-Man prototypes were released with such header,
       but ROM images now circulating are without the header). [Omar]
-      
+
 
  MEKA 0.72 WIP 20070508
  ----------------------
   - Ports:
     - Preliminary MacOSX port. [Proppy]
-      Compile and run under a x86-based MacOSX system. Missing sound (due 
+      Compile and run under a x86-based MacOSX system. Missing sound (due
       to Seal) and debugger (unknown problem to resolve).
       Looking for someone who wish to improve and maintain this port.
   - Blitter/Video:
@@ -420,21 +467,21 @@ They are usually of 2 kinds:
       Implementation is slower than previously, but it works well. [Omar]
     - Removed obsolete "scanlines" blitter, in favor of "tvmode". [Omar]
     - Stretching works on all blitters. [Omar]
-    - Video depth, Vsync, Triple Buffering and Page flipping are now global 
-      video settings, removed from each specific blitter. Greatly simplify 
+    - Video depth, Vsync, Triple Buffering and Page flipping are now global
+      video settings, removed from each specific blitter. Greatly simplify
       configuration and tweaking. [Omar]
     - Triple buffering doesn't interfere with the refresh is not supported
       by the current settings (eg: windowed mode), making it safe and more
       simple to always leave it enabled. [Omar]
   - CPU:
-    - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1). 
-      Fixes pausing in SMS Robocop 3 during legal screens/introduction, 
+    - Z80: Fixed RETI behavior (same as RETN, copying IFF2 to IFF1).
+      Fixes pausing in SMS Robocop 3 during legal screens/introduction,
       probably other infrequent cases. [FluBBa, Omar]
     - Z80: Accepting NMI doesn't copy IFF1 over IFF2, as suggested
       by Sean Young's "The Undocumented Z80 Documented". [Omar]
   - ColecoVision:
     - Fixed emulation of pending NMI, pending flag is cleared when
-      reading VDP status. Fixes "Rock 'N Bolt" among other. 
+      reading VDP status. Fixes "Rock 'N Bolt" among other.
       Thanks to the anonymous poster on SMS Power! forums. [Omar]
     - Note that the compatibility list for ColecoVision titles is
       severly outdated. At some point, James Carter worked on a new,
@@ -446,16 +493,16 @@ They are usually of 2 kinds:
     - Note: NES emulation is humor legacy code and won't be supported.
   - GUI:
     - Sorted default themes, removed non Sega 8-bit related themes.
-      Now embedding background pictures in regular binary distribution. 
+      Now embedding background pictures in regular binary distribution.
       CALL FOR NEW OR IMPROVED THEMES SUBMISSION! Please contribute.
 
 
  MEKA 0.72 WIP 20070426
  ----------------------
   - CPU:
-    - Z80: Fixed cases were address arithmetic would not wrap in the 
+    - Z80: Fixed cases were address arithmetic would not wrap in the
       16-bit address space, effectively crashing the emulator (those cases
-      were mostly happening on corrupted data, but it also legit Z80 code, 
+      were mostly happening on corrupted data, but it also legit Z80 code,
       and in any case we don't want the emulator to crash). [Omar]
   - Tilemap viewer:
 ##  - Fixed leftover of white rectangle when mouse hover last line. [Omar]
@@ -465,8 +512,8 @@ They are usually of 2 kinds:
   - Miscellaenous:
     - Increased max length of directory/filenames. [Musuruan]
     - Added "Automatically crop and align screen captures" option.
-      This option aligns screen captures on the nearest visible tile, 
-      helping to simplify the process of creating game maps by pasting 
+      This option aligns screen captures on the nearest visible tile,
+      helping to simplify the process of creating game maps by pasting
       captures next to each other. [Omar]
       Note: May not work properly on game using scanline based effects.
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
@@ -505,12 +552,12 @@ They are usually of 2 kinds:
     - VDP palette write do not mask out current VDP address, so performing
       the (unprobable) set address/access palette/access VRAM sequence will
       keep address in the full 16KB range. [Omar]
-    - Fixed VDP line interrupts not properly running in overscan area in 
-      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's 
+    - Fixed VDP line interrupts not properly running in overscan area in
+      224 lines mode. Fixes bottom of the screen in Charles Mac Donald's
       BB2K6 demo. [Omar]
   - Video:
-    - Changed default fullscreen blitter configuration in the hope of getting 
-      something more compatible (640x480 by default), as so many people have 
+    - Changed default fullscreen blitter configuration in the hope of getting
+      something more compatible (640x480 by default), as so many people have
       problems with fullscreen modes.
     - Got rid of "parallel" blitter that displayed both odd and even frame
       next to each other. Seems useless now. Could be brought back if some
@@ -519,21 +566,21 @@ They are usually of 2 kinds:
     - Added CLOCK command, to display/reset a Z80 cycle counter.
       Very simple but can be helpful to time Z80 routines. [Omar]
     - (Win32) Forward debugging log to Windows debugging stream via
-      OutputDebugString(), so running MEKA from Microsoft Visual studio 
+      OutputDebugString(), so running MEKA from Microsoft Visual studio
       will display log in the 'Output' window. [Omar]
 ##- Project:
     - (Win32) Added new targets supporting shared standard libraries. [Omar]
     - Updated SOURCES.TXT documentation. [Omar]
 ##- GUI:
 ##  - Fixed background picture not loading on startup. [Omar]
-    - Removed closing fadeout since the current implementation is way 
+    - Removed closing fadeout since the current implementation is way
       inefficient and cannot garantee proper speed. [Omar]
 ##- Added and modified entries in the checksum and compatibility lists. [Omar]
 ##  Some particular renaming includes:
           SMS - e5ff50d8 - Back to the Future II                --> Back to the Future Part II
           SMS - 2d48c1d3 - Back to the Future III               --> Back to the Future Part III
-          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse
-          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse (US)
+          SMS - b9db4282 - Castle of Illusion (US)              --> Castle of Illusion - Starring Mickey Mouse [v0]
+          SMS - 953f42e1 - Castle of Illusion                   --> Castle of Illusion - Starring Mickey Mouse [v1]
           SMS - 59840fd6 - Castle of Illusion [SMS-GG]          --> Castle of Illusion - Starring Mickey Mouse [SMS-GG]
           SMS - 9942b69b - Castle of Illusion [SMS-GG] (JP)     --> Castle of Illusion - Starring Mickey Mouse [SMS-GG] (JP)
           SMS - 42fc3a6e - Deep Duck Trouble                    --> Deep Duck Trouble - Starring Donald Duck
@@ -566,7 +613,7 @@ They are usually of 2 kinds:
  ----------------------
 ##- GUI:
 ##  - Fixed bug with window closing button widget. [Omar]
-##  - Fixed bug when quitting using the menu, configuration files were 
+##  - Fixed bug when quitting using the menu, configuration files were
 ##    not saved. Thanks Jacko. [Omar]
 ##  - (Un*x) Fixed bug where menus would not clear themselves. [Omar]
 ##    (This was due to Allegro.h defining TRUE as -1 and a 1 value being
@@ -595,7 +642,7 @@ They are usually of 2 kinds:
           BREAK w pram 0 =03            ; break on PRAM write of color 0 as red
       - Added display line event breakpoints/watchpoints. [Omar]
         Useful for debugging line interrupts.
-        eg: 
+        eg:
           BREAK line #13                ; break on display line 13
     - Tilemap viewer:
 ##    - Added support for manually selecting map address. [Omar]
@@ -623,7 +670,7 @@ They are usually of 2 kinds:
       SMS - 9dfa67ee - Teddy Boy Blues (JP)                 --> Teddy Boy Blues [Hack] (JP)
       GG  - f6af4b6b - Dynamite Headdy                      --> Dynamite Headdy (JP) (note: US/EU version is another dump)
 
-      
+
  MEKA 0.72 WIP 20050918
  ----------------------
   - Miscellaenous:
@@ -631,9 +678,9 @@ They are usually of 2 kinds:
     - Updated various tidbits in the configuration file. [Omar]
   - Development:
     - Added tilemap viewer. [Omar]
-      - Shows tilemap, hovering or clicking a tile shows specific info 
-        about it, allows filtering BG/FG, disabling tile flipping, display 
-        of scrolling box, with or without raster effects, manual selection 
+      - Shows tilemap, hovering or clicking a tile shows specific info
+        about it, allows filtering BG/FG, disabling tile flipping, display
+        of scrolling box, with or without raster effects, manual selection
         of tilemap address, etc.
     - Cleaned Technical Information Viewer content, renamed a few fields
       to their official names, removed redundant information. It's not
@@ -644,9 +691,9 @@ They are usually of 2 kinds:
  ----------------------
   - Development:
     - Debugger:
-      - Added line history. Navigate history by pressing Up/Down. 
+      - Added line history. Navigate history by pressing Up/Down.
         List or search in history using HISTORY (HI) command. [Omar]
-##- Fixed various bugs: scrollbar display during theme switch, 
+##- Fixed various bugs: scrollbar display during theme switch,
 ##  memory editor scrollbar crashing, etc.
   - Sources/Project
     - (Win32) Now linking to zlib.lib instead of zlibs.lib (name for standard
@@ -656,16 +703,16 @@ They are usually of 2 kinds:
  MEKA 0.72 WIP 20050904
  ----------------------
   - Video:
-    - Upgraded everything to hi-color video modes and got rid of old, 
+    - Upgraded everything to hi-color video modes and got rid of old,
       8-bit indexed video modes. This is a major change in MEKA core.
       Some of the benefits are:
-      - No more snow and/or color flickering on video card drivers 
+      - No more snow and/or color flickering on video card drivers
         which disliked palette changes.
       - Better integration with desktop (usually run faster).
       - Getting possible to use various kind of graphics filters.
       - No more hassle with color limitation for the programmer
         (meaning more features implemented for the end-user).
-      - Finally possible to show all Game Gear colors at once, 
+      - Finally possible to show all Game Gear colors at once,
         and to implement LCD screen persistence (not yet done).
       Some of the features above goes hand to hand with the blitter
       system, which will be improved soon. [Omar]
@@ -676,17 +723,17 @@ They are usually of 2 kinds:
     - Reworked theme (skin) system from stratch: [Omar]
       - Changed MEKA.THM file format.
       - Using explicit names for variables.
-      - Added more variables, making the skin system a little more 
+      - Added more variables, making the skin system a little more
         complicated but also more configurable.
       - Using de-facto standard of specifying colors in #RRGGBB format.
-      - Rewrote most code since it was all legacy from old MEKA 0.10. 
+      - Rewrote most code since it was all legacy from old MEKA 0.10.
   - Miscellaenous:
     - (Win32) Removed flickering from initialization message console. [Maxim]
   - Development:
     - Made '$' default prefix for hexadecimal values in various places. [Omar]
     - Datadump: [Ambil, Omar]
-      - Fixed "palette" dumping. Blue and green components were inverted. 
-        Replaced dumping of target host RGB values by actual SMS/GG components. 
+      - Fixed "palette" dumping. Blue and green components were inverted.
+        Replaced dumping of target host RGB values by actual SMS/GG components.
       - Added sprite pattern base address in "sprites" dumping.
     - Memory Editor:
       - Added viewing and editing of VDP registers (VREG). [Omar]
@@ -696,7 +743,7 @@ They are usually of 2 kinds:
       - REGS (R) command in debugger now display shadow registers as well. [Omar]
       - Added cursor before current instruction in disassembly. [Omar]
       - Added access to shadow registers in expression evaluator. [Omar]
-        eg: 
+        eg:
           PRINT AF',BC',DE',HL'
       - Added SET command to modify Z80 registers. [Omar]
         eg:
@@ -707,8 +754,8 @@ They are usually of 2 kinds:
     - Removed password encryption from MEKA datafile (became useless). [Omar]
     - Fixed a bunch of warnings on higher warning levels. [Omar]
     - Hacked a lot of old GUI code (box, widgets, menus among others), cleaned
-      and renamed various structures, replaced several usage of indexes by 
-      pointers, added const qualifiers, rewrote parts of various applets, 
+      and renamed various structures, replaced several usage of indexes by
+      pointers, added const qualifiers, rewrote parts of various applets,
       got rid of some old obsolete code, etc. Hopefully broke nothing. [Omar]
     - (Win32) Fixed MSVC project to reference LIBPNGDIR.
     - (Win32) Including statically compiled libpng.lib in package. [Omar]
@@ -731,7 +778,7 @@ They are usually of 2 kinds:
  MEKA 0.71 WIP 20050625
  ----------------------
   - Sources/Project
-     - (Linux,DOS) Added 'BUILD' switch in Makefile to select between release 
+     - (Linux,DOS) Added 'BUILD' switch in Makefile to select between release
         and debug builds.
 
 
@@ -758,17 +805,17 @@ They are usually of 2 kinds:
     Some particular renaming includes:
       GG  - 7b7717b8 - Big War / Daisenryaku G (JP)         --> Taisen-gata Daisenryaku G (JP)
 
-  Note that DjRobX's video/blitter changes were integrated but some features 
+  Note that DjRobX's video/blitter changes were integrated but some features
   may not be compatible with all others, and some need improvements. You are
   welcome to experiment different configuration settings in MEKA.BLT but not
   everything may work properly. The preset "HQ2X" blitter should works, though.
-  
+
   The current blitter system makes it not trivial to do everything we want,
   it is too limited in configuration, and was first made with MS-DOS and low
   end computers in mind. As of next versions, I will work on reoverhauling the
   system, trying to better fits needs of the 21st century (resizing, multiple
-  depth, hi-color, windowed modes without borders, non 4:3 ratio screens, 
-  different refresh rates...) and improve ease of setupping. 
+  depth, hi-color, windowed modes without borders, non 4:3 ratio screens,
+  different refresh rates...) and improve ease of setupping.
   Expect many changes in this area (hopefully). [Omar]
 
 
@@ -778,10 +825,10 @@ They are usually of 2 kinds:
 ##   - Fixed text input widget insert mode, could not insert any character,
        and it broke memory editor (bug added in a 0.71 WIP) [Omar]
   - Development:
-##   - Fixed replacement of 8-bit CPU registers variables (low and high 
+##   - Fixed replacement of 8-bit CPU registers variables (low and high
 ##     nibbles were inverted) [Proppy]
      - Fixed display of CPU flags (only bit 0 was properly interpreted,
-       because of a typo). Added display of undocumented flags bits 3 
+       because of a typo). Added display of undocumented flags bits 3
        and 5 (partially emulated). [Omar]
      - Made it that debugger log to file is immediately flushed. This allows
        reading the log file in live while the debugger is running. [Omar]
@@ -796,13 +843,13 @@ They are usually of 2 kinds:
      - (Linux) Updated Makefile and some sources tidbits for proper compilation.
        [Omar,Belegdol,Proppy]
      - (Linux,DOS) Object directories are now created automatically. [Omar]
-     - (Linux,DOS) Removed "smscheck" tool building from Makefile. Has nothing 
+     - (Linux,DOS) Removed "smscheck" tool building from Makefile. Has nothing
        to do with MEKA. [Omar]
-     - (Win32) Make it that build date/time stamp in build.c is updated when 
+     - (Win32) Make it that build date/time stamp in build.c is updated when
        rebuilding the solution. Removed buildupd.exe executable from sources. [Omar]
      - (DOS) I'm stopping to maintain the MS-DOS port. A maintener is welcome. [Omar]
-      
- 
+
+
  MEKA 0.71 WIP 20050418
  ----------------------
   - (Win32) Added a "setup.bat" command file to run the interactive setup.
@@ -815,7 +862,7 @@ They are usually of 2 kinds:
   - (Win32) Fixed crash on early aborting (eg: command line error) due to non
     properly stopping joystick polling thread. [Omar]
   - Fixed input box widget missing keys on skipped frames. [Omar]
-    This made key inputs very annoying on certain configuration, and 
+    This made key inputs very annoying on certain configuration, and
     especially with 3-D glasses auto-frame-skipping enabled.
   - Fixed a problem losing focus while dragging GUI windows with certain kind
     of widgets (happened on tile viewer & memory editor, among other). [Omar]
@@ -826,10 +873,10 @@ They are usually of 2 kinds:
      - Added label/symbol viewing in Z80 disassembly window. [Omar]
      - Relative offsets are now resolved in Z80 disassembly window. [Omar]
      - Added expression evaluator. [Omar]
-       Supports integer operators +,-,*,/, binary operators &,|,^, 
-       parenthesis, symbols and CPU registers replacement. 
-       Yet missing: unary operators -,!,~. 
-       All commands uses the expression evaluator to get their numeric 
+       Supports integer operators +,-,*,/, binary operators &,|,^,
+       parenthesis, symbols and CPU registers replacement.
+       Yet missing: unary operators -,!,~.
+       All commands uses the expression evaluator to get their numeric
        parameters, so you can use it everywhere.
        eg:
          B function    ; break at given 'function' symbol
@@ -849,7 +896,7 @@ They are usually of 2 kinds:
      - Added SYMBOLS (SYM) command to list and search for a symbol. [Omar]
      - Changed breakpoint/watchpoint range syntax to '..' to avoid any
        syntaxical ambiguity with substraction (eg: B 1000..2000). [Omar]
-     - Added "B ENABLE/DISABLE ALL" shortcuts to enable/disable all 
+     - Added "B ENABLE/DISABLE ALL" shortcuts to enable/disable all
        breakpoints at once. [Omar]
      - Added "B CLEAR DISABLED" shortcut to clear disabled breakpoints. [Omar]
      - Added "Reload ROM" functionnality in the debug menu, for quicker reload.
@@ -863,7 +910,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.70                 Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
   - Released source code.
     Added SOURCES.TXT file with some information for programmers.
@@ -873,14 +920,14 @@ They are usually of 2 kinds:
     Big thanks to all of them for their great and useful support!
     I'll keep sending news/e-mails to donators.
     MEKA is now officially not having a registration procedure anymore, but
-    your donations are still greatly welcome and are helping me to cover a 
+    your donations are still greatly welcome and are helping me to cover a
     part of my never-ending Sega 8-bit expenses, including buying cartridges
     for dumping and preservation purpose.
     I updated documentation to reflect this, and changed occurences of the
     "registration" word by "donation", as it was always meant to be anyway.
-  - In SMS mode, fixed color filling when VDP rendering is disabled. 
-    Previously disabled parts where filled with black, instead of the current 
-    border color. No commercial game exhibited the problem. Chris Covell's 
+  - In SMS mode, fixed color filling when VDP rendering is disabled.
+    Previously disabled parts where filled with black, instead of the current
+    border color. No commercial game exhibited the problem. Chris Covell's
     port of Aleste 2 from GG to SMS did.
   - Disabling background display now shows a yellow-ish color instead of the
     black/border color, to help sprite ripping. Sorry it's not FF00FF pink,
@@ -902,7 +949,7 @@ They are usually of 2 kinds:
     - Added DEBUGGER.TXT file with help and summary of debugging features.
     - Instruction flow disassembly now attempt to display instructions before
       the current one, based on some magical voodoo technique of mine.
-      Don't expect it to work in all cases - it is theorically impossible to 
+      Don't expect it to work in all cases - it is theorically impossible to
       do with variable-sized instructions anyway - but it can be improved.
       This feature helps figuring out what's being executed contextually.
     - The current instruction is now highlighted.
@@ -914,7 +961,7 @@ They are usually of 2 kinds:
     - Tile viewer now update information while mouse hovering.
     - Added optional length parameter to "MEM" and "DASM" commands.
     - Fixed ASCII display of memory in "MEM" command.
-    - Added "debugger_console_lines" and "debugger_disassembly_lines" 
+    - Added "debugger_console_lines" and "debugger_disassembly_lines"
       variables in configuration file, allowing to change debugger size.
       Combine with a high-resolution MEKA desktop, and you can't be unhappy.
     - Added debugger session logging to file "debug/debuglog.txt".
@@ -922,16 +969,16 @@ They are usually of 2 kinds:
     - Fixed a bug using the memory editor to write to RAM in Coleco Vision mode.
     - Hacked a way so that you can affect controller inputs data while debugging
       (press a direction, it immediately apply on the emulated system state).
-    
+
   - When used in the interface, analog peripherals supported by the mouse now
-    only perform their action if the mouse has focus on the game window. 
+    only perform their action if the mouse has focus on the game window.
     This prevent accidental in-game shooting when using tools or debugging.
     Of course, you should not use the interface if you only intend to play.
   - Fixed /LOG command line parameter (broken recently).
   - Added and modified entries in the checksum and compatibility lists.
     Redumped more games, sorted more versionning/country confusion.
-    To avoid certain confusion, all Game Gear games originally running 
-    in Master System mode were moved back in the Game Gear section. 
+    To avoid certain confusion, all Game Gear games originally running
+    in Master System mode were moved back in the Game Gear section.
     This makes the list consistant with actual cartridge releases.
     Some particular renaming includes:
       SMS - 17a40e29 - Alex Kidd in Miracle World (US)      --> Alex Kidd in Miracle World [v0] (US)
@@ -958,27 +1005,27 @@ They are usually of 2 kinds:
 
 
  MEKArnosan 0.69b         Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Mekarnosan special release, dedicated to Mr Arnosan, idol among the idols!
 
 
  MEKA 0.69b               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
-  - [DOS/UN*X] Fixed ZIP file support which was accidently disabled 
+  - [DOS/UN*X] Fixed ZIP file support which was accidently disabled
     in version 0.69.
   - Improved auto frame-skipper precision by a minor amount.
     (on another hand, it still manage to skip frames badly).
-  - Disabled keys 0 to 9 to set a save state slot directly. 
+  - Disabled keys 0 to 9 to set a save state slot directly.
     Those conflicted with some existing and future features.
     Hope that noone will be annoyed!
   - Added ALT-ENTER hotkey to switch between fullscreen and windowed drivers.
-    It works in both GUI and Game mode, although the setting is not saved in 
-    Game mode (due to the way the MEKA.BLT file works now). 
+    It works in both GUI and Game mode, although the setting is not saved in
+    Game mode (due to the way the MEKA.BLT file works now).
   - Added an option to allows pressing opposite directions on the joypad.
     Although standard SG/SMS/GG controllers do not allow that, certain
-    type of controllers (or a modified or broken one) may allow it. 
-    This serve the purpose of demonstrating a bug in "Wonder Boy in Monster 
+    type of controllers (or a modified or broken one) may allow it.
+    This serve the purpose of demonstrating a bug in "Wonder Boy in Monster
     Land", where pressing Left and Right on the same time confuses the game.
     It is also useful in the case some creative genius SMS programmer would
     want to take advantage of that weird feature to do unusual things for a
@@ -995,7 +1042,7 @@ They are usually of 2 kinds:
 
   - Added and modified entries in the checksum and compatibility lists.
     Some particular renaming includes:
-      SMS - 31ffd7c3 - Castelo RETim Bum (BR)              --> Castelo RETim-Bum (BR)
+      SMS - 31ffd7c3 - Castelo RÃ¡ Tim Bum (BR)              --> Castelo RÃ¡-Tim-Bum (BR)
       SMS - b137007a - Desert Speedtrap                     --> Desert Speedtrap - Starring Road Runner and Wile E. Coyote
       SMS - 7abc70e9 - Party Games / Family Games (JP)      --> Family Games (Party Games) (JP)
       GG  - 7174b802 - Baku Baku Animal (JP)                --> Baku Baku Animal - Sekai Shiikugakari Senshu-ken (JP)
@@ -1011,32 +1058,32 @@ They are usually of 2 kinds:
 
 
  MEKA 0.69                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
   - Updated k.
   - Updated documentation.
   - Added a Memory Editor, long awaited by programmers, hackers and cheaters!
     It allows reading and writing to Z80 memory map, ROM, RAM, VRAM, Palette
-    and Battery Backed RAM. Although it is not yet full-featured, it is 
-    already very possible to create your own Pro Action Replay codes, and 
-    perform various real-time hacks. 
+    and Battery Backed RAM. Although it is not yet full-featured, it is
+    already very possible to create your own Pro Action Replay codes, and
+    perform various real-time hacks.
     Please share your questions and hacks on SMS Power forums:
         http://www.smspower.org/forum
     This tool is the result of joint work with my beloved girlfriend, who
     submitted a first version of it that she developped.
-  - Added support for loading and saving pictures in PNG format. PNG is now 
+  - Added support for loading and saving pictures in PNG format. PNG is now
     the default format for screenshots, instead of the badly outdated PCX.
-    (thanks to libpng). 
+    (thanks to libpng).
   - Screenshots are now saved in the "Screenshots/" subdirectory.
-  - Tweaked some themes, reordered them, removed a few. Themes backgrounds 
+  - Tweaked some themes, reordered them, removed a few. Themes backgrounds
     are now in PNG format. Please be sure to download the new picture pack at:
         http://www.smspower.org/meka/themes
   - [Windows] Added a message console that shows up on startup and magically
     disappear before you have time to read anything. If any problem occurs,
     the console will actually stay to let you read it.
   - [Windows] Fixed runtime application icon that wasn't showing.
-  - [Windows] Removed command line parameters uppercase conversion (eg: when 
-    ran from Windows explorer). This inconveniently created uppercase output 
+  - [Windows] Removed command line parameters uppercase conversion (eg: when
+    ran from Windows explorer). This inconveniently created uppercase output
     filenames for savestates, screen captures, etc. This was MS-DOS legacy.
   - Slighty optimized VRAM accesses emulation.
   - Incremented message buffer size to cope with SMS Chip-8 Interpreter 1.1
@@ -1065,11 +1112,11 @@ They are usually of 2 kinds:
 
 
  MEKA 0.68b               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
  As an experiment, I have enabled vsync in all default blitters and enabled
  it by default in the GUI. Blitters are still a bit complicated to configure
- so few people seems to actually tweak them or even enable the "smooth" 
+ so few people seems to actually tweak them or even enable the "smooth"
  blitter. Does it works better for you?
  I'll be working on synchronisation and blitter improvement (stretching...)
  in the future.
@@ -1095,13 +1142,13 @@ They are usually of 2 kinds:
        video mode (the palette isn't updated on a SMS). It only affected
        F-16 Fighter / F-16 Fighting Falcon, but in a non game-visible way.
      - Tweaked heuristical SMS/GG mapper detection.
-     - Fixed SMS/GG scanline counter emulation which was ignoring TV type 
+     - Fixed SMS/GG scanline counter emulation which was ignoring TV type
        (NTSC or PAL/SECAM) override directive from the database.
-       (eg: one game would be forced to PAL/SECAM mode, but scanline counter 
+       (eg: one game would be forced to PAL/SECAM mode, but scanline counter
         emulation still mimic an NTSC system if it is the user selection).
   - Fixed mouse button mapping in the Input Configuration applet.
   - Fixed file browser showing Japanese names after loading SMS Woody Pop
-    or GG Pop Breaker (why those games only? because they both have a default 
+    or GG Pop Breaker (why those games only? because they both have a default
     country information in the DB, as they only works on Japanese systems).
   - Added and modified entries in the checksum and compatibility lists.
     Some particular renaming includes:
@@ -1109,58 +1156,58 @@ They are usually of 2 kinds:
 
 
  MEKA 0.68                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
- Please report any problems you encounter. 
+ Please report any problems you encounter.
  Suggestions are always welcome.
 
-  - Updated MEKA.NAM database with a new format. 
-    The new format is more robust, includes CRC32, additionnal flags, and 
+  - Updated MEKA.NAM database with a new format.
+    The new format is more robust, includes CRC32, additionnal flags, and
     allows specifiying multiple countries for a same ROM file.
     In addition, while the MEKA database is being repopulated with entries
     in the new format, a high amount of verifications are being done on a
     case by case basis (redump, verified name based on original game media,
     box and manual, analysis of different versions of a same game, etc...).
-    I have already redumped more than a hundred games. This will unsure 
-    having a near-perfect database after the transition. Old formatted 
+    I have already redumped more than a hundred games. This will unsure
+    having a near-perfect database after the transition. Old formatted
     entries are kept during the transition period.
   - SMS-mode Game Gear games are now autodetected and forced to run into
     SMS mode even with a .GG extension. This is because those games are
-    often spread with a .GG extension, although there is no way in software 
-    to distinguish between a native GG game and one running in SMS mode, 
+    often spread with a .GG extension, although there is no way in software
+    to distinguish between a native GG game and one running in SMS mode,
     since the selection is done via a connected pin in the cartridge itself.
   - Updated file browser:
       - Added dedicated icons to known bad dumps, BIOS images, unofficial
-        hacks, homebrew programs (also incorrectly called "public domain"), 
-        prototypes and unofficial translation. A translation is defined as 
+        hacks, homebrew programs (also incorrectly called "public domain"),
+        prototypes and unofficial translation. A translation is defined as
         a hack whose primary purpose is to alter the language of a game.
-        How do you like my icons? 
+        How do you like my icons?
       - Added European, German, Italian, New-Zealand, Portuguese, Spanish,
-        Swedish and United-Kingdom flags. All flags are now displayed with 
-        a border, because some themes may choose a window color matching 
+        Swedish and United-Kingdom flags. All flags are now displayed with
+        a border, because some themes may choose a window color matching
         some flags.
       - The "Load Names" feature is now faster and does not verbose any
         data to the message box while loading all files.
       - Made file browser window bigger by default.
       - Removed the auto-generated MEKA.VFN file, which was crap anyway.
-        Instead, added a new auto-generated MEKA.FDB file, which store 
+        Instead, added a new auto-generated MEKA.FDB file, which store
         association between user ROM file names and MEKA DataBase entries.
   - Emulation:
-      - Emulated VDP 315-5124 behavior of using register 5 bit 0 and 
-        register 6 bits 0-1 as masks on sprite x/tile attributes address 
-        and tile index. No known game relies on this feature, but it is 
+      - Emulated VDP 315-5124 behavior of using register 5 bit 0 and
+        register 6 bits 0-1 as masks on sprite x/tile attributes address
+        and tile index. No known game relies on this feature, but it is
         good for the sake of accuracy and for developpers to check against
-        this particularity in their code (it is often a coding mistake). 
+        this particularity in their code (it is often a coding mistake).
         VDP 315-5124 must be selected for that.
-  - Updated TECH.TXT with SMS controller pinouts, simple SMS/DB-9 controller 
+  - Updated TECH.TXT with SMS controller pinouts, simple SMS/DB-9 controller
     adapter instructions from Gary Pierce, and GNU/Linux notes.
   - Various other fixes and code tweaking.
 
   - Added and modified entries in the checksum and compatibility lists.
-      - Naming and database field usage convention has been changed, 
-        based on the new format. 
+      - Naming and database field usage convention has been changed,
+        based on the new format.
         - "Title (The)" now becomes "Title, The".
-        - Unless specified by the game title, "Name: Subtitle" now 
+        - Unless specified by the game title, "Name: Subtitle" now
           becomes formatted "Name - Subtitle".
         - A few other things related to versionning/country.
       - Replaced all instances of "Tectoy" by "Tec Toy".
@@ -1196,7 +1243,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.67                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
   - Updated documentation.
   - Tweaked the auto-frame skipper. Please let me know if you notice any
@@ -1207,7 +1254,7 @@ They are usually of 2 kinds:
     does not allows fast movements.
   - Updated debugging mode:
       - Scrapped old, buggy, and unusable MS-DOS only text mode debugger.
-      - Added new debugger, well integrated into the GUI and functionnal 
+      - Added new debugger, well integrated into the GUI and functionnal
         with all versions of MEKA. It is a primitive debugger, but it can
         be helpful and it is definitively better than nothing.
         Supports step-into, step-over, breakpoint, jump, disassembly and
@@ -1216,19 +1263,19 @@ They are usually of 2 kinds:
       - [Windows] Data dumping facilities are now working.
   - Updated patching system (see MEKA.PAT file):
       - Updated syntax.
-      - Support for long awaited RAM patches! 
-        One of the side effect to that is that you can now apply 
+      - Support for long awaited RAM patches!
+        One of the side effect to that is that you can now apply
         PRO ACTION REPLAY codes easily. This feature is unfortunately
-        not backuped by a full-featured interface and cheats database, 
-        but is helpful and better than nothing - while waiting for 
+        not backuped by a full-featured interface and cheats database,
+        but is helpful and better than nothing - while waiting for
         advanced cheating functionnalites to be added in the future.
       - Support for CRC32 to specify the game to apply patches on,
         as well as using MEKA proprietary checksum format.
       - Putting * in the CRC field will apply a patch to all games.
       - Minor bug fixes.
   - Inputs:
-      - [Windows] Fixed joystick sliders support (DirectInput < 8.00 
-        usually reports the fourth and fifth axis of a joystick as 
+      - [Windows] Fixed joystick sliders support (DirectInput < 8.00
+        usually reports the fourth and fifth axis of a joystick as
         being sliders, which is a weird little known behavior).
       - File browser now takes exclusive inputs so the emulated game
         is not affected by keypresses.
@@ -1238,9 +1285,9 @@ They are usually of 2 kinds:
   - Closing a box now automatically focus the next one in focus order.
   - Various other fixes.
   - Updated Dutch translation (by Mark van Tilburg).
-  
+
   - Added and modified entries in the checksum and compatibility lists,
-    on the road to perfection. Added many missing (J) flags in the Game Gear 
+    on the road to perfection. Added many missing (J) flags in the Game Gear
     compatibility list. Added a few missing accents.
     Some particular renaming includes:
       SMS - Back to the Future 2            --> Back to the Future II
@@ -1253,7 +1300,7 @@ They are usually of 2 kinds:
       SMS - Fantasy Zone 3: the Maze        --> Fantasy Zone: The Maze
       SMS - Golvellius                      --> Golvellius: Valley of Doom
       SMS - High School Kimengumi           --> High School! Kimengumi
-      SMS - Jogos de Verao 2                --> Jogos de Verão II
+      SMS - Jogos de Verao 2                --> Jogos de VerÃ£o II
       SMS - Maze Hunter 3D                  --> Maze Hunter 3-D
       SMS - Missile Defense 3D              --> Missile Defense 3-D
       SMS - Out Run 3D                      --> Out Run 3-D
@@ -1265,7 +1312,7 @@ They are usually of 2 kinds:
       SMS - Sport Pad Football              --> Sports Pad Football
       SMS - Sport Pad Soccer                --> Sports Pad Soccer
       SMS - Super Monaco GP 2               --> Super Monaco GP II (Ayrton's Senna)
-      SMS - Turma da Mônica em o Resgate    --> Turma da Mônica em: O Resgate
+      SMS - Turma da MÃ´nica em o Resgate    --> Turma da MÃ´nica em: O Resgate
       SMS - Wonder Boy in Monster Land [A]  --> Wonder Boy in Monster Land
       SMS - Wonder Boy in Monster Land [B]  --> Wonder Boy in Monster Land [Hack]
       SMS - Wonder Boy in Monster Land [C]  --> Super Wonder Boy Monster Land / World [Japan]
@@ -1288,7 +1335,7 @@ They are usually of 2 kinds:
       SG  - Rockn' Bolt                     --> Rock n' Bolt
       SG  - Shinnyushain TooruKun           --> Shinnyushain Tooru Kun (Konami no)
       SG  - Sindbad Mystery [A]             --> Sindbad Mystery
-      
+
     Please use SMS Checker for your ROM renaming needs!
     http://www.smspower.org/maxim/smschecker
 
@@ -1301,7 +1348,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.66                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
  Blitting & synchronisation are still very bad in many cases. This is my
  top priority but I still cannot find a good solution to improve it and
@@ -1315,27 +1362,27 @@ They are usually of 2 kinds:
   - [Windows] Sega 3-D Glasses support is now properly working in MEKAW!
     If you build the simple 3-D Glasses to COM adapter (as described in
     the TECH.TXT file), it is possible to plug original 3-D glasses and
-    enjoy 3-D games as they were meant to be played - and additionnally, 
+    enjoy 3-D games as they were meant to be played - and additionnally,
     damage your eyes due to intense flickering :)
     Best results are achieved by enabling page flipping or vsync.
   - [DOS] Sega 3-D Glasses support now also works under a Windows 95/98
     command prompt.
   - Increased maximum number of joystick buttons to 32 (instead of 16).
-  - Partly fixed incorrect joystick axis reporting. It was a problem for 
+  - Partly fixed incorrect joystick axis reporting. It was a problem for
     many people, and made it impossible or difficult to configure joysticks
-    using the interface. One extended joystick axis may be missing now, 
+    using the interface. One extended joystick axis may be missing now,
     until I can find a solution to this other problem.
   - Tile viewer can now be configured to displayed all 512 tiles, instead
-    of the first 448 only. The bottom tiles looks awful with most SMS/GG 
+    of the first 448 only. The bottom tiles looks awful with most SMS/GG
     games but some games use this area so it's good to see them.
   - Tile viewer now allows to select all 15 colors to display tiles in
     TMS9918 video modes (used by SG-1000, SC-3000, Coleco Vision, etc.).
   - Loading a ROM now display the full name in the message box.
   - [Windows] Upgraded MSVC compiler from version 5.0 to 7.1 (might bring
-    a small improvement on performance). Removed ZLIB.DLL from the 
+    a small improvement on performance). Removed ZLIB.DLL from the
     distribution and statically linked it to the executable.
   - [Windows] Fixed mekaw.cfg saving location. It was saving in a wrong
-    place in some cases (depending how you run it). 
+    place in some cases (depending how you run it).
   - Updated Danish translation (by Mark Klemp).
   - Added and modified entries in the checksum and compatibility lists.
     Some particular renaming includes:
@@ -1369,15 +1416,15 @@ They are usually of 2 kinds:
       GG  - Wonder Boy 3: the Dragon's Trap --> Wonder Boy III: The Dragon's Trap (Proto)
     Please use SMS Checker for your ROM renaming needs!
     http://www.smspower.org/maxim/smschecker
- 
+
  [Sources Changes]
   - Updated project files, Makefile, etc.
   - Various modifications to the video & blitter system.
   - Various modifications to the GUI (added t_frame, etc.).
-  
+
 
  MEKA 0.65c               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed Z80 interruption timing.
     I have tested several "sensitive" games and nothing should have been
     broke, but please e-mail me if you notice anything unusual.
@@ -1414,7 +1461,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.65b               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Updated k.
   - Fixed TV Mode which was accidentaly broken in version 0.65 (due to
     recent palette system rewrite). Sorry for the inconvenience. I also
@@ -1432,7 +1479,7 @@ They are usually of 2 kinds:
     redefinition is supported.
   - Added auto-repetition on keys F6/F8 (savestate selection).
   - Added support for mouse wheel in file browser and documentation viewer.
-  - Fixed state saving crash that could happen when sound is completely 
+  - Fixed state saving crash that could happen when sound is completely
     disabled and no FM emulator was selected.
   - Started migrating from my own general purpose C library to standard
     C library (LibC) for various functions.  This should provides speed
@@ -1448,7 +1495,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.65                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Rewrote palette system in the attempt of reducing palette changes
     even more. As some people noticed, on some computer, the Windows
     version had terrible slowdown and incorrect colors at some occasion
@@ -1499,7 +1546,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.64c               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed the bug that would sometimes shut down sound when resetting
     or loading a savestate in full-screen mode.
   - Fixed the bug that would not save battery backed memory when switching
@@ -1531,7 +1578,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.64b               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added patches to be able to run SMS BIOS images (Alex Kidd in Miracle
     World, Hang On / Safari Hunt, Sonic the Hedgehog...) as standard games.
   - Fixed an amazingly stupid problem that's been around since years, which
@@ -1551,7 +1598,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.64                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
  Important changes were applied to the sound engine. As always, please
  contact me if notice something unusual, if you have any comment or doubt.
@@ -1590,7 +1637,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.63b               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - [Windows] Disabled access to hardware YM-2413 emulation using OPL
     under Windows 2000 and XP, avoiding crashes in certain cases.
   - Removed rare PSG debugging messages that were accidentally left.
@@ -1606,7 +1653,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.63                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Implemented a cyclic color allocation algorythm, reducing palette
     changes even more in some games. Users with videocard/drivers having
     problems changing palette can expect less slowdown in Game Gear games.
@@ -1641,7 +1688,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.62c               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various fixes.
   - Released Windows version.
   - Added "compatibility list" and "changes list" items in the help menu,
@@ -1652,7 +1699,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.62b               Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Sorry for the huge delay in such a minor update. I've tweaked the Z80
     core a bit again to fix a little bug that I introduced myself and which
     puzzled me for a while. I took the occasion also to upgrade to Marat's
@@ -1665,7 +1712,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.62                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Compatibility notes:
   - Sonic Blast [GG] minor glitches on title screen in non Japanese mode
     has been confirmed to appear on a real Game Gear, so the game is now
@@ -1712,7 +1759,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.61                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  This version may or not have minor glitches on certain games (like, a single
  pixel or a single blinking row at the top or the bottom of the screen).
  Please report those glitches if you notice any. Thanks!
@@ -1742,7 +1789,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.60                 Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Improved timing in Z80 core.
   - Fixed voices that weren't ok (Alex Kidd: the Lost Stars..).
     Voices in many many games were tested, finally marked them as 'Ok' in
@@ -1767,7 +1814,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.59b                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed vertical scanline counter emulation.
   - Fixed a minor hardware collision bug introduced in version 0.59.
   - Fixed usage of '%' in ROM comment field.
@@ -1776,7 +1823,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.59                 Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various changes to the sound engine:
      - Fixed PSG Periodic Noise emulation (bass in some Marble Madness tunes,
        Daffy Duck in Hollywood, and few other games). Thanks Ziria and Maxim!
@@ -1794,7 +1841,7 @@ They are usually of 2 kinds:
   - Added Korean mapper (9) emulation, as used by Dodgeball King.
   - Added Italian messages translations (by Andrea Ballandino).
   - Added German messages translations (by Tilman Hesse).
-  - Fixed some PortuguE messages.
+  - Fixed some PortuguÃªs messages.
   - Fixed/added accentued characters in some Brazilian game names.
   - Added new "Mario Must Die" theme, with a nice handdrawn picture :-)
   - Added new entrys to the checksum and compatibility lists.
@@ -1802,7 +1849,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.58c                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed the missing soundcard selection menu in some cases.
   - Added printing of SDSC Header informations when found. The SDSC Header
     has been defined and created by the SMS Power developement team (based
@@ -1811,7 +1858,7 @@ They are usually of 2 kinds:
     Accents are now usable everywhere in MEKA. Be sure to use accents from
     the Latin-Extended table (usually used by Windows programs, not DOS ones).
   - Added Spanish messages translations (by Antonio J. Bazalo).
-  - Added PortuguE messages translations (by Rodrigo C. Rubio).
+  - Added PortuguÃªs messages translations (by Rodrigo C. Rubio).
   - Added "WIP" (Work In Progress) parameter in language definition, to
     disable warnings and informations when the language is uncomplete.
   - Squashed one very minor flag bug in the browser when a ROM had an
@@ -1819,7 +1866,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.58b                Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed various minor bugs.
   - Fixed two scrolling emulation bugs in video mode 5. They did not
     affect any game, but for the sake of accuracy, better fixing them!
@@ -1830,11 +1877,11 @@ They are usually of 2 kinds:
   - Added several new entrys to the checksum and compatibility lists, and
     fixed some existing ones. Added an USA flag and set the flag to all
     SMS games only released in USA (Alf, King's Quest, Montezuma's Revenge).
-  - Added one new happy theme from the french movie "Am‚lie Poulain".
+  - Added one new happy theme from the french movie "AmÃ©lie Poulain".
 
 
  MEKA 0.58                 Emulation: 98%     Speed: 57%     Features: 80%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Again, please report if you notice any bug/glitche with any game, that is
  not mentionned in the compatibility list. The VDP fix applied in this
  version is also a massive compatibility test, and I would like to know
@@ -1879,7 +1926,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.57b                Emulation: 97%     Speed: 57%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Lots of fixes, for a total of twenty working hours.
  Please also note in documentation that *I HAVE MOVED HOUSE*, that is
  in case you planned to send something.
@@ -1917,7 +1964,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.57                 Emulation: 97%     Speed: 57%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Note: I made lots of little sources changes in this version. Things have
  been tested, but in case you notice anything unusual, please contact me.
 
@@ -1983,7 +2030,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.56                 Emulation: 97%     Speed: 57%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added Sega Super Control Station emulation, codename SF-7000.
     The SF-7000 is a rare addon for the Sega Computer 3000, providing it
     with a 3" Floppy Disk Drive, 64 kbytes of RAM, a parallel printer port
@@ -2011,13 +2058,13 @@ They are usually of 2 kinds:
 
 
  MEKA 0.55b                Emulation: 97%     Speed: 57%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added configurable mouse speed values in the MEKA.INP file.
   - Fixed mouse under Windows NT / Windows 2000.
 
 
  MEKA 0.55                 Emulation: 97%     Speed: 57%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added builtin documentation, accessible from the "HELP" menu.
   - Entirely revamped the input system. I originally fixed Paddle Control
     emulation then noticed the problem I was having with Super Racing was
@@ -2113,13 +2160,13 @@ They are usually of 2 kinds:
 
 
  MEKA 0.54b                Emulation: 97%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Made some very minor fixes.
   - Added two new themes (Deep Purple and Deep Brown).
 
 
  MEKA 0.54                 Emulation: 97%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Updated to the documentation, improved many parts and added new things.
     Please read it!
   - Fixed invalid vertical sprite wrapping in video mode 2 (bug introduced
@@ -2150,7 +2197,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.53c                Emulation: 97%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Game Gear compatibility rate is now of 95.80%. It is the only unperfect
  system and that's mainly due to the lack of LCD screen persistence of
  vision emulation.
@@ -2166,7 +2213,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.53b                Emulation: 96%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  I finally figured out what was the problem of the major slow down in
  some video modes when page flipping was enabled. Actually using page
  flipping need to force vertical synchronisation in most video modes, so
@@ -2189,7 +2236,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.53                 Emulation: 96%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Master System compatibility rate has now reached the perfect 100.00%
  assuming out of the 373 tested ROMs none was broken in a recent version.
  Something major have changed in this version and which might screw just
@@ -2254,7 +2301,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.52                 Emulation: 96%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Compatibility rates as of version 0.52:
 
   Master System: 99.72%
@@ -2316,7 +2363,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.51 OC Edition      Emulation: 96%     Speed: 56%     Features: 79%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  SG-1000 perfect compatibility rate is now of 100%
 
   - Added the possibility of adding a custom background picture in themes.
@@ -2331,7 +2378,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.50                 Emulation: 96%     Speed: 56%     Features: 78%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  Master System perfect compatibility rate is now of 98.90%
  Games still causing problems are:
    Back to the Future 2
@@ -2447,7 +2494,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.40                 Emulation: 96%     Speed: 53%     Features: 77%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  [RC2]
   - Fixed names in compatibility and checksum lists, differencied names for
     alternate version, added new Japanese names (thanks to Luke & Casiopea).
@@ -2554,7 +2601,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.32c                Emulation: 95%     Speed: 53%     Features: 77%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   (minor update - version number still the same in the executable)
   - Fixed a stupid little damned bug causing the program to crash under DOS.
   - Added IPERIOD_COLECO setting in the configuration file.
@@ -2562,7 +2609,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.32b                Emulation: 95%     Speed: 53%     Features: 77%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   (minor update - version number still the same in the executable)
   - Fixed slodown bug when loading a non Coleco ROM after a Coleco ROM.
   - Fixed a bug preventing from switching the machine Off in certain cases.
@@ -2572,7 +2619,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.32                 Emulation: 95%     Speed: 53%     Features: 77%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed the following games:
       - Andre Agassi Tennis [SMS, GG]
       - Greendog [GG] (Sega logo now shake, it did not before)
@@ -2591,7 +2638,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.31                 Emulation: 95%     Speed: 53%     Features: 77%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  (YM-2413 emulation is disabled by default because of many people who
   do not know about the existence of that chipset and complain about the
   musics and sound effects not being the same as they used to hear. Now
@@ -2638,7 +2685,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.30                 Emulation: 95%     Speed: 52%     Features: 75%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  [SOUND]
   - Hiroshi added a preliminary FM Voice Editor.
   - Added sound rate variable in the configuration file.
@@ -2684,7 +2731,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.20                 Emulation: 95%     Speed: 52%     Features: 68%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Removed delays when accessing to soundblaster hardware registers,
     resulting in a 20 frame per seconds speedup in R-Type, and no more
     slowdowns in Wonderboy 3 with YM2413 emulation enabled. If you have
@@ -2728,7 +2775,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.13.1                 Emulation: 94%     Speed: 52%     Features: 66%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed many crashing bug introduced in version 0.13.
   - Fixed FM persistant sound when loading a PSG game after a FM game.
   - Fixed a bug when trying to free a ROM when the BIOS logo is running.
@@ -2738,7 +2785,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.13                   Emulation: 94%     Speed: 52%     Features: 66%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non emulation bug fixed.
   - Added an option to free the current loaded ROM (to play the snail game).
   - Added Colecovision emulation.
@@ -2766,7 +2813,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.12                   Emulation: 94%     Speed: 52%     Features: 64%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added preliminary voice emulation.
   - Added joystick and video drivers in the configuration file.
   - Fixed the bug that prevented VESA modes to be usable.
@@ -2785,7 +2832,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.11                   Emulation: 94%     Speed: 52%     Features: 63%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed sound engine, improved FM emulation.
   - Mapped start/pause to joystick.
   - Added Tetris game by Archeide.
@@ -2794,7 +2841,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.10                   Emulation: 94%     Speed: 52%     Features: 62%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added an about box.
   - Added virtual long file name (c)(r)(tm) support.
   - Added video mode integer conversion (for config file).
@@ -2810,7 +2857,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.42 [private]       Emulation: 94%     Speed: 52%     Features: 60%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non-emulation related bugs fixed.
   - Added a file browser / ROM loader, from the GUI !
   - After hundred hours of research, I finally found and corrected *the* bug
@@ -2843,7 +2890,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.41 [private]       Emulation: 93%     Speed: 52%     Features: 54%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed a nationalization bug (Pop Breaker).
   - Added auto country setting in the checksum list (Pop Breaker).
   - Fixed a major bug in checksum calculation. I don't even understand why
@@ -2881,7 +2928,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.40 [private]       Emulation: 92%     Speed: 51%     Features: 53%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  In this version, I have changed a lot of "vital" things in emulation
  (VDP accesses, IPeriod and line interrupts).
  Be sure to tell me if you notice *any* broken game !
@@ -2930,7 +2977,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.39 [private]       Emulation: 87%     Speed: 50%     Features: 51%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various bugs fixed, mainly related to the new sound engine.
   - Wrote documentation, and moved the history section to a separate file.
   - Improved error handling.
@@ -2955,7 +3002,7 @@ They are usually of 2 kinds:
       * Home/Clear = Right Alt
       * Control    = Caps Lock
       * Graph      = Left Control
-    The only exception is the "E key, which is mapped on the tilde, as there
+    The only exception is the "Ã¼E key, which is mapped on the tilde, as there
     is not enough room on the PC keyboard to put it at the left.
     Ins/Del is mapped to Right Control, but also to Backspace as this key is
     unused and is the more regular way to delete characters ;-)
@@ -2974,7 +3021,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.38 [private]       Emulation: 87%     Speed: 49%     Features: 50%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Hiromitsu Shioya has joigned the team and contributed with a very good
     sound engine, featuring *FM emulation* ! MEKA doesn't use Adlib / OPL
     anymore as the waves are generated, and it sounds much better. Please
@@ -3006,7 +3053,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.37 [private]       Emulation: 88%     Speed: 49%     Features: 47%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed graphics bugs in the following games:
      - Rainbow Island (no more black screen)
      - Gangster Town (minor interrupt bug)
@@ -3021,7 +3068,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.36 [private]       Emulation: 88%     Speed: 49%     Features: 46%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
  * Perfect compatibility rate in Game Gear mode is now of 85% !
    (not counting voice emulation, used by many games)
@@ -3056,7 +3103,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.35 [private]       Emulation: 88%     Speed: 49%     Features: 45%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
 
  * Perfect compatibility rate in Master System mode is 85%.
    Voice emulation is still missing, and 18 games (9%) are using it.
@@ -3086,7 +3133,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.34 [private]       Emulation: 85%     Speed: 48%     Features: 44%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Improved VDP emulation, fixing graphic bugs in the following games:
       - Astro Warrior (SMS)
       - Astro Warrior / Pit Pot (SMS)
@@ -3112,7 +3159,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.33 [private]       Emulation: 83%     Speed: 48%     Features: 43%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non-emulation bugs fixed.
   - Fixed a silly input bug introduced in previous version.
   - Fixed country switch when hard reseting.
@@ -3130,7 +3177,7 @@ They are usually of 2 kinds:
 
 
  MEKA 0.0.32 [private]       Emulation: 83%     Speed: 48%     Features: 42%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non-emulation bugs fixed.
   - Renamed emulator to MEKA and started writing the documentation.
   - I ported the emulator to Linux in ONE HOUR !! Ok, it's is still a bit
@@ -3157,7 +3204,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.31 [private]       Emulation: 79%     Speed: 48%     Features: 41%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non-emulation bugs fixed.
   - Fixed a palette problem that was introduced in previous version, and
     affected a few games (Gauntlet, Klax, Indiana Jones..).
@@ -3185,7 +3232,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.30 [private]       Emulation: 78%     Speed: 47%     Features: 41%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non-emulation bugs fixed.
   - Cleaned source code, renamed tons of variables.
   - Added support for dynamic palette effects in Master System and Game Gear
@@ -3220,7 +3267,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.29 [private]       Emulation: 78%     Speed: 47%     Features: 40%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various non-emulation bugs fixed.
   - Added hard reset feature (available from GUI menus).
   - The pause key is now handled a slighty different way. It fixes the bug
@@ -3246,7 +3293,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.28 [private]       Emulation: 78%     Speed: 46%     Features: 38%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
  NOTE: !! Sprites Priorities in SMS/GG mode are screwed in this version !!
 
   - Various non-emulation bugs fixed.
@@ -3264,7 +3311,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.27 [private]       Emulation: 78%     Speed: 45%     Features: 37%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added Game Gear support.
   - Optimized new graphic engine - it's now faster than the old one.
   - Fixed horizontal tile clipping bug in new graphic engine.
@@ -3283,7 +3330,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.26 [private]       Emulation: 78%     Speed: 40%     Features: 36%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - ZSMS now features a real line-per-line engine !
 
     Pros:
@@ -3314,7 +3361,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.25 [private]       Emulation: 85%     Speed: 41%     Features: 35%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Slighty optimized emulation.
   - Various GUI improvements to make Nirv happy.
   - Fixed tons of warnings and potential bugs in the code.
@@ -3324,14 +3371,14 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.24 [private]       Emulation: 85%     Speed: 40%     Features: 34%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various GUI improvements.
   - Added voice recognition, using standard microphone input :)
   - Optimized GUI - now up to 100% faster !
 
 
  ZSms 0.0.23 [private]       Emulation: 85%     Speed: 38%     Features: 33%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various bugs fixed.
   - Now ZSms doesn't crash anymore when run from another directory.
   - Added an unique checksum feature. Coupled with a list of all released
@@ -3340,7 +3387,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.22 [private]       Emulation: 85%     Speed: 38%     Features: 32%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed graphic bug in Golvellius.
   - Fixed various bugs in SG-1000 emulation.
   - Optimized tile decoding (thanks to Tuo !).
@@ -3349,7 +3396,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.21 [private]       Emulation: 84%     Speed: 37%     Features: 32%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Rewrote input code, and added support for Paddles / Steering Wheel,
     used in "Alex Kidd BMX Trial".
   - Now pop-up menus support a "checked" attribute.
@@ -3361,7 +3408,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.20 [private]       Emulation: 82%     Speed: 37%     Features: 31%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - 99% completed menus code. Still not much to see, but "QUIT" works.
     There is a small bug left, causing some entries to be highlighted..
   - Sprites are now displayed in the strange video mode used by Hang On 2
@@ -3372,7 +3419,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.19 [private]       Emulation: 80%     Speed: 37%     Features: 30%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Rewrote memory accesses - slighty faster.
   - Added working *and precise* lightgun emulation (thanks to J.McKay !)
   - Added SRAM emulation (Phantasy Star, Golden Axe Warrior..).
@@ -3380,7 +3427,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.18 [private]       Emulation: 70%     Speed: 36%     Features: 30%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various bugs fixed.
   - Now almost perfect raster effects - more games are working perfectly !
   - Added Eagle support. Add "eagle=1" in the config file to enable it.
@@ -3390,7 +3437,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.17 [private]       Emulation: 63%     Speed: 36%     Features: 27%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Various fixes.
   - Continued working on pop-up menus (although there is not much to see,
     about 50% of the work was already completed).
@@ -3400,7 +3447,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.16 [private]       Emulation: 61%     Speed: 35%     Features: 25%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Optimized screen refresh in GUI.
   - Added preliminary non working pop-up menus.
   - Major clean up of the GUI code, also cleaned up some others things.
@@ -3410,7 +3457,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.15 [private]       Emulation: 60%     Speed: 33%     Features: 23%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed top sprite clipping.
   - Slighty faster screen refresh.
   - Better rasters support (but still bugged).
@@ -3418,7 +3465,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.14 [private]       Emulation: 50%     Speed: 32%     Features: 23%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added preliminary rasters support ! (still fully bugged)
   - Added auto frame skipper and frame per second counter in GUI. Press
     [F4] to activate it (thanks to Archeide for his code).
@@ -3427,7 +3474,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.13 [private]       Emulation: 45%     Speed: 31%     Features: 21%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added support for player 2 inputs and [RESET] button.
   - Support for bit 3 of background/foreground attributes (finally !).
   - Emulated CPU speed is now set to 3.3 mhz, instead of 3 mhz.
@@ -3437,7 +3484,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.12 [private]       Emulation: 40%     Speed: 31%     Features: 20%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Added status bar and status messages.
   - Fixed windows moving code and multitasking code.
   - Various bug fixed in the graphical user interface.
@@ -3445,7 +3492,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.11 [private]       Emulation: 40%     Speed: 30%     Features: 17%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Optimized screen refresh & memory accesses (this version is about
     three times faster !). Now runs at full speed on my p120.
   - Fixed scrolling clipping in graphical user interface.
@@ -3458,34 +3505,34 @@ They are usually of 2 kinds:
   - Rewrote some parts of the GUI/applets code.
 
  ZSms 0.0.10 [private]       Emulation: 40%     Speed: 25%     Features: 15%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed some bugs. Now the program *should* work on all computers.
   - Better command line parsing.
 
 
  ZSms 0.0.09 [private]       Emulation: 40%     Speed: 25%     Features: 15%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Now perfect scrollings.
   - Support for VDP register 0 bit 5.
   - Better synchronisation (now Golden Axe Warrior is playable).
 
 
  ZSms 0.0.08 [private]       Emulation: 35%     Speed: 25%     Features: 15%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Improved graphical user interface code.
   - Added a totally useless feature: multiscreens.
   - Keys are no more hardcoded. Adding a configuration file soon.
 
 
  ZSms 0.0.07 [private]       Emulation: 35%     Speed: 25%     Features: 12%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Support background and foreground transparency.
   - Better scrollings.
   - Re-organized the source code.
 
 
  ZSms 0.0.06 [private]       Emulation: 30%     Speed: 25%     Features: 12%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Support for VDP register 0 bit 6 (two non scrolling chars at the top
     of the screen, used in most scrolling games).
   - Better synchronisation, so more games (Sonic..) are working !
@@ -3494,7 +3541,7 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.05 [private]       Emulation: 25%     Speed: 25%     Features: 11%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Now all 512 kb games work ! Whooooo.. Phantasy Star rocks! :)
   - Better synchronization. Now all games are fast enough on my p120.
   - Fixed problems with the GUI which caused the emulator to crash.
@@ -3503,20 +3550,20 @@ They are usually of 2 kinds:
     japanese. Required with certains games (Wonderboy 3..).
 
  ZSms 0.0.04 [private]       Emulation: 21%     Speed: 20%     Features: 10%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Fixed palette when screen is not updated (VDP register 1, bit 6).
   - Now almost all games display correct sprites (VDP register 6, bit 2).
 
 
  ZSms 0.0.03 [private]       Emulation: 21%     Speed: 20%     Features: 10%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - A few bugs fixed.
   - Better synchronisation: now almost all games work (still sprites pbs).
   - A lot faster than previous version.
 
 
  ZSms 0.0.02 [private]       Emulation: 10%     Speed: 10%     Features: 10%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Vertical and Horizontal fully-bugged scrolling support.
   - 8x16 tiles support (Double Dragon, Rescue Mission..).
   - VDP Register 1 bit 6 support.
@@ -3525,5 +3572,5 @@ They are usually of 2 kinds:
 
 
  ZSms 0.0.01 [private]       Emulation: 05%     Speed: 05%     Features: 10%
-ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ÄÄÄ- ÄÄ- Ä- - E
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ â”€â”€â”€- â”€â”€- â”€- -
   - Initial "release".

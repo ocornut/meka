@@ -54,14 +54,14 @@ static u8   VDP_Mask [10] [2] =
 int     VDP_Model_FindByName(const char *name)
 {
     if (!strcmp(name, "315-5124"))
-        return (VDP_MODEL_315_5124);
-    else if (!strcmp(name, "315-5226"))
-        return (VDP_MODEL_315_5226);
+        return VDP_MODEL_315_5124;
+    else if (!strcmp(name, "315-5246")) //|| !strcmp(name, "315-5226")) // Prior to 2024 we had this listed (incorrectly) as 315-5226, however it was never used by meka.nam
+        return VDP_MODEL_315_5246;
     else if (!strcmp(name, "315-5378"))
-        return (VDP_MODEL_315_5378);
+        return VDP_MODEL_315_5378;
     else if (!strcmp(name, "315-5313"))
-        return (VDP_MODEL_315_5313);
-    return (-1);
+        return VDP_MODEL_315_5313;
+    return -1;
 }
 
 void    VDP_VideoMode_Change (void)
@@ -250,7 +250,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // Sprite tile data address ----------------------------------------------
-     case 6: 
+     case 6:
          {
              switch (g_driver->vdp)
                 {
@@ -271,7 +271,7 @@ void    Tms_VDP_Out (int vdp_register, int value)
              break;
 
      // Horizontal Scrolling --------------------------------------------------
-     case 8: if (CPU_GetICount() >= 8) 
+     case 8: if (CPU_GetICount() >= 8)
                  g_machine.VDP.scroll_x_latched = value;
              // Msg(MSGT_DEBUG, "%d @ ICount = % 3d, VDP[8] = %d", tsms.VDP_Line, CPU_GetICount(), value);
              break;

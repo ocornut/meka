@@ -43,6 +43,8 @@
 #ifdef ARCH_WIN32
   #define stricmp _stricmp
     #define ALLEGRO_BITMAP WINDOWS_BITMAP
+    #define NOMINMAX
+    #define WIN32_LEAN_AND_MEAN
     #include <windows.h>
     #include <crtdbg.h>
     #undef ALLEGRO_BITMAP

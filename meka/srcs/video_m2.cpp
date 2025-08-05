@@ -306,7 +306,7 @@ void    Display_Background_3 (void)
                 PIXEL_TYPE *dst;
                 const PIXEL_TYPE color1 = PIXEL_PALETTE_TABLE[*tiles_data >> 4];
                 const PIXEL_TYPE color2 = PIXEL_PALETTE_TABLE[*tiles_data & 0x0F];
-                
+
                 dst = GFX_ScreenData + GFX_ScreenPitch * (y + 0) + x;
                 dst[0] = dst[1] = dst[2] = dst[3] = color1;
                 dst[4] = dst[5] = dst[6] = dst[7] = color2;
@@ -331,7 +331,7 @@ void    Display_Background_3 (void)
 // DRAW A MAGNIFIED MONOCHROME SPRITE TILE ------------------------------------
 void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
 {
-    if (fcolor_idx & 0x80) 
+    if (fcolor_idx & 0x80)
         x -= 32;
     fcolor_idx &= 0x0F;
     if (fcolor_idx == 0)
@@ -383,7 +383,7 @@ void    Draw_Sprite_Mono_Double (const u8 *src, int x, int y, int fcolor_idx)
 // DRAW A MONOCHROME SPRITE TILE ----------------------------------------------
 void    Draw_Sprite_Mono (const u8 *src, int x, int y, int fcolor_idx)
 {
-    if (fcolor_idx & 0x80) 
+    if (fcolor_idx & 0x80)
         x -= 32;
     fcolor_idx &= 0x0F;
     if (fcolor_idx == 0)
@@ -398,14 +398,14 @@ void    Draw_Sprite_Mono (const u8 *src, int x, int y, int fcolor_idx)
         {
             const u8     src8 = *src;
             PIXEL_TYPE* dst8 = GFX_ScreenData + GFX_ScreenPitch * y + x;
-            if  (src8 & 0x80) dst8[0] = fcolor; 
-            if  (src8 & 0x40) dst8[1] = fcolor; 
-            if  (src8 & 0x20) dst8[2] = fcolor; 
-            if  (src8 & 0x10) dst8[3] = fcolor; 
-            if  (src8 & 0x08) dst8[4] = fcolor; 
-            if  (src8 & 0x04) dst8[5] = fcolor; 
-            if  (src8 & 0x02) dst8[6] = fcolor; 
-            if  (src8 & 0x01) dst8[7] = fcolor; 
+            if  (src8 & 0x80) dst8[0] = fcolor;
+            if  (src8 & 0x40) dst8[1] = fcolor;
+            if  (src8 & 0x20) dst8[2] = fcolor;
+            if  (src8 & 0x10) dst8[3] = fcolor;
+            if  (src8 & 0x08) dst8[4] = fcolor;
+            if  (src8 & 0x04) dst8[5] = fcolor;
+            if  (src8 & 0x02) dst8[6] = fcolor;
+            if  (src8 & 0x01) dst8[7] = fcolor;
         }
         // if (Sprites_On_Line [y] == 5) { }
     }
@@ -433,7 +433,7 @@ void    Display_Sprites_1_2_3 (void)
     for (i = 0; i < 32 * 4; i += 4)
     {
         int y = sat[i];
-        if ((y ++) == 0xD0) 
+        if ((y ++) == 0xD0)
             break;
         if (y > 0xD0) y -= 0xFF;
         for (int j = y; j < y + sprites_height; j++)
@@ -447,9 +447,9 @@ void    Display_Sprites_1_2_3 (void)
     {
         // Calculate vertical position and handle special meanings ----------------
         int y = sat[i];
-        if ((y ++) == 0xD0) 
+        if ((y ++) == 0xD0)
             break;
-        if (y > 0xD0) 
+        if (y > 0xD0)
             y -= 0x100;
         // Calculate horizontal position ------------------------------------------
         int x = sat[i + 1];
@@ -481,8 +481,8 @@ void    Display_Sprites_1_2_3 (void)
         }
         i -= 4;
         // Decrease Sprites_On_Line values ----------------------------------------
-        for (int j = y; j < y + sprites_height; j++) 
-            if (j >= 0) 
+        for (int j = y; j < y + sprites_height; j++)
+            if (j >= 0)
                 Sprites_On_Line [j]--;
     }
 }

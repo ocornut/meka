@@ -94,7 +94,7 @@ static int  Blitters_Parse_Line(char *s, char *s_case)
     }
 
     // Skip line when we're inside a blitter we can ignore
-    if (Blitters.current == NULL) 
+    if (Blitters.current == NULL)
         return (MEKA_ERR_OK);
 
     // Set attributes

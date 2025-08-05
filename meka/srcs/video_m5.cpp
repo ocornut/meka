@@ -360,7 +360,7 @@ void    Display_BackGround_Line_5(void)
 
             switch (tile_attr & 0x12)
             {
-            case 0x00: 
+            case 0x00:
                 {
                     // 0x00 - Not Flipped - Background Tile
                     dst_buf[0] = tile_palette[tile_pixels[0]];
@@ -375,7 +375,7 @@ void    Display_BackGround_Line_5(void)
                     ((int *)sprite_mask)[1] = 0;
                     break;
                 }
-            case 0x02: 
+            case 0x02:
                 {
                     // 0x02 -  X Flipped - Background Tile
                     dst_buf[0] = tile_palette[tile_pixels[7]];
@@ -390,7 +390,7 @@ void    Display_BackGround_Line_5(void)
                     ((int *)sprite_mask)[1] = 0;
                     break;
                 }
-            case 0x10: 
+            case 0x10:
                 {
                     // 0x10 - Not Flipped - Foreground Tile
                     int color;
@@ -466,7 +466,7 @@ INLINE void     Sprite_Collide_Line_C (byte *p_src, int x)
     if (p_src[7]) { if ((p_collision_table[7])++ > 0) goto collide; }
     return;
 collide:
-    sms.VDP_Status |= VDP_STATUS_SpriteCollision; 
+    sms.VDP_Status |= VDP_STATUS_SpriteCollision;
     Do_Collision = FALSE;
 }
 
@@ -486,7 +486,7 @@ INLINE void     Sprite_Collide_Line_Double (byte *p_src, int x)
     if (p_src[7]) { if ((p_collision_table[14])++ > 0 || (p_collision_table[15])++ > 0) goto collide; }
     return;
 collide:
-    sms.VDP_Status |= VDP_STATUS_SpriteCollision; 
+    sms.VDP_Status |= VDP_STATUS_SpriteCollision;
     Do_Collision = FALSE;
 }
 
@@ -542,9 +542,9 @@ void        Refresh_Sprites_5 (bool draw)
     {
         // Calculate Sprite Height
         int height = 8;
-        if (Sprites_Double) 
+        if (Sprites_Double)
             height <<= 1;
-        if (Sprites_8x16)   
+        if (Sprites_8x16)
             height <<= 1;
 
         Sprite_Last = 0;

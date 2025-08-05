@@ -56,11 +56,17 @@ void        Load_Game_Fixup(void)
             b = RAM[0x1FFE]; WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[1]);  RAM[0x1FFE] = b;
             b = RAM[0x1FFF]; WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[2]);  RAM[0x1FFF] = b;
             break;
-        case MAPPER_SMS_Korean_MSX_8KB:
+        case MAPPER_SMS_Korean_MSX_8KB_0003:
             WrZ80_NoHook (0x0000, g_machine.mapper_regs[0]);
             WrZ80_NoHook (0x0001, g_machine.mapper_regs[1]);
             WrZ80_NoHook (0x0002, g_machine.mapper_regs[2]);
             WrZ80_NoHook (0x0003, g_machine.mapper_regs[3]);
+            break;
+        case MAPPER_SMS_Korean_MSX_8KB_0300:
+            WrZ80_NoHook(0x0000, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0x0100, g_machine.mapper_regs[1]);
+            WrZ80_NoHook(0x0200, g_machine.mapper_regs[2]);
+            WrZ80_NoHook(0x0300, g_machine.mapper_regs[3]);
             break;
         case MAPPER_SMS_Korean_Janggun:
             WrZ80_NoHook (0xFFFE, g_machine.mapper_regs[0]);
@@ -80,8 +86,11 @@ void        Load_Game_Fixup(void)
             WrZ80_NoHook (0x7FFF, g_machine.mapper_regs[1]);
             WrZ80_NoHook (0xBFFF, g_machine.mapper_regs[2]);
             break;
-        case MAPPER_SMS_Korean:
+        case MAPPER_SMS_Korean_A000:
             WrZ80_NoHook (0xA000, g_machine.mapper_regs[2]);
+            break;
+        case MAPPER_SMS_Korean_BFFC:
+            WrZ80_NoHook(0xBFFC, g_machine.mapper_regs[0]);
             break;
         case MAPPER_ColecoVision:
             for (i = 0x0400; i < 0x2000; i += 0x400)
@@ -98,11 +107,52 @@ void        Load_Game_Fixup(void)
             break;
         case MAPPER_SG1000_Taiwan_MSX_Adapter_TypeA:
             break;
-        case MAPPER_SMS_Korean_Xin1:
+        case MAPPER_SMS_Korean_FFFF_HiCom:
             WrZ80_NoHook (0xFFFF, g_machine.mapper_regs[0]);
             break;
         case MAPPER_SC3000_Survivors_Multicart:
             Out_SMS(0xE0, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SMS_Korean_2000_xor_1F:
+            WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SMS_Korean_FFFE:
+            WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SMS_Korean_FFF3_FFFC:
+            WrZ80_NoHook(0xFFF3, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0xFFFC, g_machine.mapper_regs[1]);
+            break;
+        case MAPPER_SMS_Korean_0000_xor_FF:
+            WrZ80_NoHook(0x0000, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SMS_Korean_MD_FFF0:
+            WrZ80_NoHook(0xFFF0, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[1]);
+            WrZ80_NoHook(0xFFFF, g_machine.mapper_regs[2]);
+            break;
+        case MAPPER_SMS_Korean_MD_FFF5:
+            WrZ80_NoHook(0xFFF5, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[1]);
+            WrZ80_NoHook(0xFFFF, g_machine.mapper_regs[2]);
+            break;
+        case MAPPER_SMS_Korean_MD_FFFA:
+            WrZ80_NoHook(0xFFFA, g_machine.mapper_regs[0]);
+            WrZ80_NoHook(0xFFFF, g_machine.mapper_regs[1]);
+            WrZ80_NoHook(0xFFFE, g_machine.mapper_regs[2]);
+            break;
+        case MAPPER_SMS_Korean_MSX_32KB_2000:
+            WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SMS_Korean_SMS_32KB_2000:
+            WrZ80_NoHook(0x2000, g_machine.mapper_regs[0]);
+            break;
+        case MAPPER_SMS_Korean_MSX_SMS_8000:
+            {
+                int mapper_page = g_machine.mapper_regs[0];
+                WrZ80_NoHook(0x8000, 0x00); // reset the mapper to avoid the 0xFF special case
+                WrZ80_NoHook(0x8000, mapper_page);
+            }
             break;
         }
     }
@@ -222,7 +272,7 @@ void        SaveState_Load()
 }
 
 // Save current state to given file, in MEKA save state format
-int     Save_Game_MSV (FILE *f)
+int     Save_Game_MSV(FILE *f)
 {
     u8  b;
     u16 w;
@@ -286,11 +336,10 @@ int     Save_Game_MSV (FILE *f)
         fwrite (RAM, 0x02000, 1, f);
         fwrite (RAM + 0x2000, 0x00800, 1, f);
         break;
+    // All other mappers save 8KB of RAM (0x2000)
+    case MAPPER_Standard:
     case MAPPER_SMS_NoMapper:
-    case MAPPER_SMS_Korean_MSX_8KB:
-    case MAPPER_SMS_Korean_Janggun:
-    case MAPPER_SMS_Korean_Xin1:
-    default:                  
+    default:
         fwrite (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;
     }
@@ -393,7 +442,7 @@ int         Load_Game_MSV(FILE *f)
         fread(&g_machine.mapper_regs[0], sizeof(u8), 3+1, f);
         for (int i = 3; i != MAPPER_REGS_MAX; i++)              // 4th value was padding so we also invalid it.
             g_machine.mapper_regs[i] = 0;
-        if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB)
+        if (g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB_0003 || g_machine.mapper == MAPPER_SMS_Korean_MSX_8KB_0300)
         {
             u8 r[3];
             r[0] = g_machine.mapper_regs[0];
@@ -456,10 +505,9 @@ int         Load_Game_MSV(FILE *f)
         fread (RAM, 0x2000, 1, f);
         fread (RAM + 0x2000, 0x0800, 1, f);
         break;
+    // All other mappers save 8KB of RAM (0x2000)
+    case MAPPER_Standard:
     case MAPPER_SMS_NoMapper:
-    case MAPPER_SMS_Korean_MSX_8KB:
-    case MAPPER_SMS_Korean_Janggun:
-    case MAPPER_SMS_Korean_Xin1:
     default:
         fread (RAM, 0x2000, 1, f); // Do not use g_driver->ram because of g_driver video mode change
         break;

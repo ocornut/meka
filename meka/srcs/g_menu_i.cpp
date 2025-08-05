@@ -93,7 +93,7 @@ void    gui_menus_init()
     menu_add_separator(menus_ID.file);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),           "Alt+O",    MENU_ITEM_FLAG_ACTIVE | Is_Checked (Options.active), (t_menu_callback)Options_Switch, NULL);
     Langs_Menu_Add    (menus_ID.file);
-    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),              "F10",      MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
+    menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),              "Alt+F4",   MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
 
     //-------------------------------------------------------------------------
     // DEBUG

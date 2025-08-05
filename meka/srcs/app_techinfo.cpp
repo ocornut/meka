@@ -20,6 +20,8 @@
 
 t_app_tech_info TechInfo;
 
+extern u8 *          FM_Regs;
+
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
@@ -46,7 +48,7 @@ void        TechInfo_Init()
     frame.pos.y = 482;
     frame.size.x = TECHINFO_COLUMNS * Font_TextWidth(font_id, " ");
     frame.size.y = TECHINFO_LINES * Font_Height(font_id);
-    
+
     TechInfo.active = FALSE;
     TechInfo.box = gui_box_new(&frame, Msg_Get(MSG_TechInfo_BoxTitle));
     Desktop_Register_Box("TECHINFO", TechInfo.box, 0, &TechInfo.active);
@@ -127,7 +129,7 @@ void        TechInfo_Update(void)
         switch (g_machine.VDP.model)
         {
         case VDP_MODEL_315_5124: sprintf(model_str, "315-5124"); break;
-        case VDP_MODEL_315_5226: sprintf(model_str, "315-5226"); break;
+        case VDP_MODEL_315_5246: sprintf(model_str, "315-5246"); break;
         case VDP_MODEL_315_5378: sprintf(model_str, "315-5378"); break;
         case VDP_MODEL_315_5313: sprintf(model_str, "315-5313"); break;
         default: assert(0); break;
@@ -177,7 +179,7 @@ void        TechInfo_Update(void)
 
     // - TMS9918
     {
-        sprintf(line, "[TMS9918] Name:%04X - Color:%04X - Pattern:%04X - SPG:%04X", 
+        sprintf(line, "[TMS9918] Name:$%04X - Color:$%04X - Pattern:$%04X - SPG:$%04X",
             (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
         TechInfo_SetLine(app, line, line_idx++);
     }
@@ -185,11 +187,42 @@ void        TechInfo_Update(void)
     // - PSG
     {
         t_psg *psg = &PSG;
-        sprintf(line, "    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)",
+        sprintf(line, "    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)  Stereo:%02X",
             psg->Registers[0], psg->Registers[1], psg->Registers[2], psg->Registers[3],
             psg->Registers[4], psg->Registers[5], psg->Registers[6], psg->Registers[7],
-            ((psg->Registers[6] & 0x04) ? "White" : "Periodic"));
+            ((psg->Registers[6] & 0x04) ? "White" : "Periodic"),
+            psg->Stereo);
         TechInfo_SetLine(app, line, line_idx++);
+    }
+
+    {
+        if (FM_Regs != NULL)
+        {
+            sprintf(line, " [YM2413] Custom inst: %02X/%02X/%02X/%02X/%02X/%02X/%02X/%02X  Rhythm: %02X",
+                FM_Regs[0], FM_Regs[1], FM_Regs[2], FM_Regs[3], FM_Regs[4], FM_Regs[5], FM_Regs[6], FM_Regs[7],
+                FM_Regs[0xe]);
+            TechInfo_SetLine(app, line, line_idx++);
+            char* p = line;
+            p += sprintf(p, " [YM2413]");
+            for (int i = 0; i < 9; ++i)
+            {
+                p += sprintf(p, " Tone %d: %01X,%03X,%c,%c,%01X,%01X",
+                    i,
+                    (FM_Regs[i + 0x20] & 0x6) >> 1, // Block
+                    FM_Regs[i + 0x10] | ((FM_Regs[i + 0x20] & 1) << 8), // F-num
+                    (FM_Regs[i + 0x20] & 0x20) != 0 ? 'S' : '-', // Sustain
+                    (FM_Regs[i + 0x20] & 0x10) != 0 ? 'K' : '-', // Key
+                    FM_Regs[i + 0x30] & 0x0f, // Volume
+                    FM_Regs[i + 0x30] >> 4 // Instrument
+                    );
+                if (i % 3 == 2)
+                {
+                    TechInfo_SetLine(app, line, line_idx++);
+                    p = line;
+                    p += sprintf(p, " [YM2413]");
+                }
+            }
+        }
     }
 
     // - Memory
@@ -201,7 +234,7 @@ void        TechInfo_Update(void)
             char s[16];
             if (i == 0)
                 sprintf(s, "$%02X", g_machine.mapper_regs[i]);
-            else 
+            else
                 sprintf(s, ",$%02X", g_machine.mapper_regs[i]);
             strcat(mapper_regs, s);
         }
