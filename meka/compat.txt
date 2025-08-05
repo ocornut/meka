@@ -127,6 +127,7 @@
  Circuit, The (JP)                              -       Ok
  Circuit, The (TW)                              -       Ok
  Cloud Master / Chuka Taisen                    FM      Ok
+ Cloud Master / Chuka Taisen [HTH] [SMS-GG] (TW) FM    *Ok
  Color & Switch Test                            -       Ok
  Con-Dori (KR)                                  -       Ok
  Columns                                        -       Ok
@@ -146,6 +147,7 @@
  Cyborg Z (KR)                                  -       Ok
  Daffy Duck in Hollywood                        -       Ok
  Danan: The Jungle Fighter                      -       Ok
+ Danan: The Jungle Fighter [HTH] [SMS-GG] (TW)  -      *Ok
  Dead Angle                                     -       Ok
  Dead Angle [Proto]                             -       Ok
  Deep Duck Trouble - Starring Donald Duck       -       Ok
@@ -384,6 +386,7 @@
  Montezuma's Revenge - Featuring Pana.. [Proto] -       Ok
  Moonwalker (Michael Jackson's)                 -       Ok
  Moonwalker (Michael Jackson's) [Proto]         -       Ok
+ Moonwalker (Michael Jackson's) [HTH] [SMS-GG] (TW)    *Ok
  Mopiranger (KR)                                -       Ok
  Mortal Kombat                                  -       Ok
  Mortal Kombat II                               -       Ok
@@ -476,6 +479,7 @@
  Running Battle                                 -       Ok
  SDI (JP)                                       FM      Ok
  Sagaia                                         -       Ok
+ Sagaia [HTH] [SMS-GG] (TW)                     -      *Ok
  Samgukji III (KR)                              -       Ok
  Sapo Xulé O Mestre do Kung Fu (BR)             -       Ok
  Sapo Xulé S.O.S. Lagoa Poluída (BR)            -       Ok
@@ -665,6 +669,7 @@
  X-Men: Mojo World (BR)                         -       Ok
  Xenon 2 - Megablast [Image Works]              -       Ok
  Xenon 2 - Megablast [Virgin]                   -       Ok
+ Xenon 2 - Megablast [HTH] [SMS-GG] (TW)        -      *Ok
  Xyzolog (KR)                                   -       Ok
  Ys (JP)                                        FM      Ok
  Y's: The Vanished Omens                        -       Ok
@@ -682,7 +687,7 @@
  Zillion II: The Tri Formation [Proto]          FM      Ok
  Zool                                           -       Ok
 -----------------------------------------------------------------------------
- 661 games tested - 657 are "Ok"
+ 666 games tested - 659 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
