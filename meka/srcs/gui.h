@@ -43,9 +43,7 @@ struct t_frame
     v2i  pos;
     v2i  size;
 
-    t_frame()
-    {
-    }
+    t_frame() = default;
 
     t_frame(v2i _pos, v2i _size)
     {
