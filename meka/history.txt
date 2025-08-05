@@ -35,8 +35,8 @@ They are usually of 2 kinds:
     - PSG: Added support for Game Gear stereo emulation! [Maxim]
     - PSG: Emulate the PSG volumes "ideally" rather than matching some real systems' suboptimal output. [Maxim]
     - Emu2413: Updated to latest version 1.5.9 (revision 813cff619f5f01c47bd5c0588c1fd8435530b125 in https://github.com/digital-sound-antiques/emu2413) [Maxim]
-      - Improved instrument ROM
       - Various emulation fixes and improvements
+    - Emu2413: Use the real YM2413 instrument ROM patches
   - Emulation (Memory System, Mappers, Peripherals):
     - Added support for variant of MSX-based Korean 8KB mapper used by 'Nemesis'. [Omar]
     - Added support for '4 PAK All Action' mapper. [Omar]
