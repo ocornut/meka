@@ -32,8 +32,7 @@ allegro.log
 *.ipch
 .vs/
 *.vc.db
-*.vcproj.*.user
-*.vcxproj.user
+*.user
 .*.swp
 *~
 .*~

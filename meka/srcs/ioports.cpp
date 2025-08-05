@@ -19,6 +19,7 @@
 #include "vmachine.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "sdsc.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -84,6 +85,14 @@ void    Out_SMS(u16 Port, u8 Value)
         {
             sms.FM_Magic = Value;
         }
+        return;
+
+    case 0xFC:
+        SDSC_Debug_Console_Control(Value);
+        return;
+
+    case 0xFD:
+        SDSC_Debug_Console_Data(Value);
         return;
 
        // 0x7E, 0x7F: SN76489 PSG
