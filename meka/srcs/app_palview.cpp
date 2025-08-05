@@ -52,7 +52,7 @@ void    PaletteViewer_Init()
     pv->box->size_max.x = 32*16-1;//frame.size.x;
     pv->box->size_max.y = 88;
     pv->box->size_step.x = 32;
-    pv->box->size_step.y = 1;
+    pv->box->size_step.y = 2;
 
     // Register to desktop (applet is enabled by default)
     Desktop_Register_Box ("PALETTE", pv->box, TRUE, &pv->active);
