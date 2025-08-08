@@ -11,6 +11,7 @@
 #include "desktop.h"
 #include "g_widget.h"
 #include "tvtype.h"
+#include "fskipper.h"
 
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
@@ -259,6 +260,14 @@ double Sound_ConvertSamplesToCycles(double samples_count)
     return samples_count * (double)Sound.CpuClock / (double)Sound.SampleRate;
 }
 
+double Sound_GetOutputClockFrequency(const t_fskipper* fskipper)
+{
+    const double throttled_frequency   = fskipper->Throttled_Speed;
+    const double unthrottled_frequency = fskipper->FPS*fskipper->Unthrottled_Frameskip;
+    const double output_frequency      = (fskipper->Mode == FRAMESKIP_MODE_THROTTLED) ? throttled_frequency : unthrottled_frequency;
+    return output_frequency;
+}
+
 //-----------------------------------------------------------------------------
 
 t_sound_stream* SoundStream_Create(void (*sample_writer)(s16*,int))
@@ -367,6 +376,7 @@ void SoundStream_RenderSamples(t_sound_stream* stream, int samples_count)
             stream->sample_writer(wbuf2, wbuf2_samples_count);
         stream->samples_rendered1 += wbuf1_samples_count + wbuf2_samples_count;
     }
+    
 }
 
 void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
@@ -383,10 +393,16 @@ void SoundStream_RenderUpToCurrentTime(t_sound_stream* stream)
     const int cpu_clock = Sound.CpuClock;
     const double elapsed_emulated_seconds = (double)((double)elapsed_cycles / (double)cpu_clock);
 
-    const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elapsed_emulated_seconds;
+    const double output_frequency = Sound_GetOutputClockFrequency(&fskipper);
+    const double emulated_to_output_ratio = g_machine.TV->screen_frequency / (double)output_frequency;
+    const double elapsed_output_seconds = elapsed_emulated_seconds * emulated_to_output_ratio;
+
+    const double samples_to_render = stream->samples_leftover + (double)Sound.SampleRate * elapsed_output_seconds;
+    
     if ((int)samples_to_render > 0)
     {
         //Msg(MSGT_DEBUG, "RenderUpToCurrent() %d cycles -> %.2f samples", (int)elapsed_cycles, (float)samples_to_render);
+     
         SoundStream_RenderSamples(stream, (int)samples_to_render);
 
         {
