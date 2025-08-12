@@ -50,7 +50,7 @@ void    gui_menus_init()
     menus_ID.root     = menu_new();
     //menus_ID.file     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Main),    MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.machine  = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Machine), MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
@@ -113,6 +113,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // VIDEO
     //-------------------------------------------------------------------------
+#if 0
     menu_add_item     (menus_ID.video,    Msg_Get(MSG_Menu_Video_FullScreen),              "Escape",        MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Switch_Mode, NULL);
 
     // VIDEO -> CAPTURE
@@ -142,6 +143,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.glasses,  Msg_Get(MSG_Menu_Video_3DGlasses_ShowLeftSide),  NULL,            Is_Active (Glasses.Enabled) | Is_Checked (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT), (t_menu_callback)Glasses_Switch_Mode_Show_Left, NULL);
     menu_add_item     (menus_ID.glasses,  Msg_Get(MSG_Menu_Video_3DGlasses_ShowRightSide), NULL,            Is_Active (Glasses.Enabled) | Is_Checked (Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT), (t_menu_callback)Glasses_Switch_Mode_Show_Right, NULL);
     menu_add_item     (menus_ID.glasses,  Msg_Get(MSG_Menu_Video_3DGlasses_UsesCOMPort),   NULL,            Is_Active (Glasses.Enabled) | Is_Checked (Glasses.Mode == GLASSES_MODE_COM_PORT), (t_menu_callback)Glasses_Switch_Mode_Com_Port, NULL);
+#endif
 
     //-------------------------------------------------------------------------
     // SOUND

@@ -510,7 +510,7 @@ Msg_Menu_Machine_PauseEmulation         = "Pause Emulation"
 Msg_Menu_Machine_ResetEmulation         = "Reset Emulation"
 
 ; Menu: Video ----------------------------------------------------------------
-Msg_Menu_Video                          = "VIDEO"
+Msg_Menu_Video                          = "Video"
 Msg_Menu_Video_FullScreen               = "Fullscreen"
 Msg_Menu_Video_Themes                   = "Themes"
 Msg_Menu_Video_Blitters                 = "Blitters"

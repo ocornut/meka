@@ -21,7 +21,6 @@ void    Capture_Update();
 
 void    Capture_MenuHandler_Capture();
 void    Capture_MenuHandler_AllFrames();
-void    Capture_MenuHandler_IncludeGui();
 
 //-----------------------------------------------------------------------------
 // Data
