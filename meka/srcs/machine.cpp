@@ -201,6 +201,9 @@ void    Machine_Set_Handler_MemRW()
     case MAPPER_SMS_Korean_MSX_SMS_8000:
         WrZ80 = Write_Mapper_SMS_Korean_MSX_SMS_8000;
         break;
+    case MAPPER_MSX_Generic16_8000:
+        WrZ80 = Write_Mapper_MSX_Generic16_8000;
+        break;
     }
 
     // Save the original handlers as "NoHook" versions
@@ -565,6 +568,11 @@ void    Machine_Set_Mapping()
             break;
         case MAPPER_TVOekaki:
             TVOekaki_Init();
+            break;
+        case MAPPER_MSX_Generic16_8000:
+            Map_16k_ROM(0, 0);
+            Map_16k_ROM(1, 0); // This is key to getting WonderKid working.
+            Map_16k_ROM(2, 0);
             break;
         default:
             // RAM [0x1FFC] = 0; RAM [0x1FFD] = 0; RAM [0x1FFE] = 1; RAM [0x1FFF] = 2;

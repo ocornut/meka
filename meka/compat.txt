@@ -1516,6 +1516,7 @@
  Wonder Boy [Proto] (US)                            Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
+ Wonder Kid [Proto] [SMS-GG] (US)                  *Ok
  Woody Pop [v0] (JP)                                Ok
  Woody Pop [v1]                                     Ok
  World Class Leaderboard Golf / World Class Leade.. Ok
@@ -1541,7 +1542,7 @@
  Zoop (US)                                          Ok
  Zoop [Proto] (US)                                  Ok
 -----------------------------------------------------------------------------
- 526 games tested - 515 are "Ok"
+ 527 games tested - 516 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------

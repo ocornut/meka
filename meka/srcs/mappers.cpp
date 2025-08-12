@@ -1190,6 +1190,33 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_Janggun)
     Write_Error (Addr, Value);
 }
 
+// Write function for mapper #41
+WRITE_FUNC(Write_Mapper_MSX_Generic16_8000)
+{
+    switch (Addr)
+    {
+    case 0x4000:
+    Value = (Value & tsms.Pages_Mask_16k);
+    g_machine.mapper_regs[1] = Value;
+    Map_16k_ROM(2, g_machine.mapper_regs[1] * 2);
+    return;
+    case 0x8000:
+    Value = (Value & tsms.Pages_Mask_16k);
+    g_machine.mapper_regs[2] = Value;
+    Map_16k_ROM(4, g_machine.mapper_regs[2] * 2);
+    return;
+    }
+
+    switch (Addr >> 13)
+    {
+        // RAM [0xC000] = [0xE000] ------------------------------------------------
+    case 6: Mem_Pages[6][Addr] = Value; return;
+    case 7: Mem_Pages[7][Addr] = Value; return;
+    }
+
+    Write_Error(Addr, Value);
+}
+
 WRITE_FUNC (Write_Mapper_SMS_DisplayUnit)
 {
     switch (Addr >> 13)

@@ -52,6 +52,7 @@
 #define MAPPER_SMS_Korean_MSX_32KB_2000         (27)        // Register at 0x2000 (2 Hap in 1 (Moai-ui bomul, David-2))
 #define MAPPER_SMS_Korean_SMS_32KB_2000         (39)        // Register at 0x2000 (11 Hap Gam-Boy)
 #define MAPPER_SMS_Korean_MSX_SMS_8000          (40)        // Register at 0x8000 with 8KB granularity and both MSX and SMS game support (Zemina Best 88 [MISSING 64K])
+#define MAPPER_MSX_Generic16_8000               (41)        // Register at 0x8000 with 16KB granularity. Same as CodeMasters except initial mapping is 0 for all slots.
 
 #define READ_FUNC(_NAME)   u8 _NAME(register u16 Addr)
 #define WRITE_FUNC(_NAME)  void _NAME(register u16 Addr, register u8 Value)
@@ -100,6 +101,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFFA);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_32KB_2000);
 WRITE_FUNC (Write_Mapper_SMS_Korean_SMS_32KB_2000);
 WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000);
+WRITE_FUNC (Write_Mapper_MSX_Generic16_8000);
 //-----------------------------------------------------------------------------
 void Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v);
 

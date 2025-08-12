@@ -1,6 +1,6 @@
 ;-----------------------------------------------------------------------------
 ; MEKA - Software Database
-; Last updated 2025/06/23
+; Last updated 2025/08/17
 ;-----------------------------------------------------------------------------
 ; Database maintained by Omar Cornut (Bock).
 ; This file relates to an important part of the MEKA / SMS Power projects,
@@ -750,6 +750,7 @@ SMS 8312c429 FEE7F612ED897726   Wonder Boy in Monster Land [Proto]/FLAGS=PROTO/C
 SMS 7d7ce80b 9ECDFDB1438755C8   Wonder Boy in Monster World/COUNTRY=EU,KR/PRODUCT_NO=9012,9012-50,GB4021JG
 SMS 81bff9bb 2AC27C1DAA5E640F   Wonder Boy in Monster World [Proto]/FLAGS=PROTO/COMMENT=Prototype version of the game.
 SMS 679e1676 9C7847B5CB3F875F   Wonder Boy III: The Dragon's Trap/NAME_JP=Monster World II/COUNTRY=US,EU,KR,AU/PRODUCT_NO=7026,GB-2004
+SMS 5e7b18c8 24E29B513CCE7B89   Wonder Kid [Proto] [SMS-GG]/FLAGS=SMSGG_MODE,PROTO/COUNTRY=US/COMMENT=Prototype version of the game, based on 'Adventure Kid' available in '4 Pak All Action'/EMU_MAPPER=41
 SMS a05258f5 7DA12B7293A88D7D   Wonsiin/COUNTRY=KR/EMU_MAPPER=12
 SMS 315917d4 96069693DD5753B4   Woody Pop - Shinjinrui no Block Kuzushi/COUNTRY=JP/PRODUCT_NO=C-519/EMU_COUNTRY=1/EMU_INPUTS=PADDLE
 SMS c9dd4e5f 7B26A0ABD55647A2   Woody Pop (Super Arkanoid)/COUNTRY=KR/PRODUCT_NO=G-2101
@@ -1639,8 +1640,8 @@ SG1 9943fc2b 8C2C4196989F0C2E   Zoom 909/COUNTRY=TW/PRODUCT_NO=R-047
 
 ; Bad dumps
 SG1 8201b53d 005544CB075676C9   Championship Lode Runner/COUNTRY=JP,AU/FLAGS=BAD/COMMENT=2 bad bytes.
-SG1 dc4383cc 5BF7BDD18D354618   Congo Bongo/COUNTRY=JP,AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=G-1007/COMMENT=Overdump, padded with 00.
-SG1 b09e2e6d 5BF7BDD18D354618   Congo Bongo/COUNTRY=JP,AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=G-1007/COMMENT=Overdump, padded with FF.
+SG1 dc4383cc 5BF7BDD18D354618   Congo Bongo [v1] [Overdump]/COUNTRY=JP,AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=G-1007/COMMENT=Overdump, padded with 00.
+SG1 b09e2e6d 5BF7BDD18D354618   Congo Bongo [v1] [Overdump]/COUNTRY=JP,AU,NZ,EU/FLAGS=BAD/PRODUCT_NO=G-1007/COMMENT=Overdump, padded with FF.
 SG1 d4c8c6d7 E3234656B5D7438F   Flicky/FLAGS=BAD/COUNTRY=JP/COMMENT=3 bad bytes.
 SG1 4831210b A9EF65B1A5C8F7EE   Safari Race/FLAGS=BAD
 SG1 54d5bec3 3AB53AF88CD283FE   Sindbad Mystery/FLAGS=BAD/COUNTRY=JP,AU,NZ,EU/COMMENT=1 bad byte.
