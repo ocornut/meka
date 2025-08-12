@@ -12,6 +12,7 @@
 #include "app_game.h"
 #include "app_mapview.h"
 #include "app_memview.h"
+#include "app_textview.h"
 #include "app_tileview.h"
 #include "datadump.h"
 #include "debugger.h"
@@ -709,6 +710,18 @@ void    NewGui_MainMenu()
 
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Help)))
     {
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Help_Documentation), NULL, TextViewer.active))
+            TextViewer_Switch_Doc_Main();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Help_Compat)))
+            TextViewer_Switch_Doc_Compat();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Help_Multiplayer_Games)))
+            TextViewer_Switch_Doc_Multiplayer_Games();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Help_Changes)))
+            TextViewer_Switch_Doc_Changes();
+#ifdef MEKA_Z80_DEBUGGER
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Help_Debugger)))
+            TextViewer_Switch_Doc_Debugger();
+#endif // MEKA_Z80_DEBUGGR
         ImGui::MenuItem(Msg_Get(MSG_Menu_Help_About), NULL, &g_config.about_active);
         ImGui::EndMenu();
     }
