@@ -23,10 +23,50 @@ int     CPU_ForceNMI;   // Set to force a NMI (currently only supported by the S
 // Note: only MARAT_Z80 is functional/compiles now.
 //-----------------------------------------------------------------------------
 
-// Z80 scanline handler
-word    Loop_SMS (void)
+void Interrupt_Loop_Misc_Line_Zero()
 {
-    int Interrupt = INT_NONE;
+    if (tsms.VDP_Video_Change)
+        VDP_VideoMode_Change();
+    Patches_MEM_Apply();
+}
+
+bool Interrupt_Loop_Misc_Common()
+{
+    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
+        VGM_NewFrame(&Sound.LogVGM);
+    Sound_Update();
+    tsms.Control_Check_GUI = TRUE;
+    Inputs_Sources_Update(); // Poll input sources
+    Inputs_Emulation_Update(TRUE); // Might disable Control_Check_GUI
+    Inputs_Check_GUI(!tsms.Control_Check_GUI);
+    if ((opt.Force_Quit) || (CPU_Loop_Stop))
+    {
+        /*tsms.VDP_Line --;*/ // Not sure about its usefulness
+        return true; // -> will call Macro_Stop_CPU
+    }
+    return false;
+}
+
+bool Interrupt_Loop_Misc(int* out_interrupt)
+{
+    bool stop = Interrupt_Loop_Misc_Common();
+    if (Inputs.SK1100_Enabled)
+    {
+        if (Inputs_KeyDown(ALLEGRO_KEY_SCROLLLOCK))
+            *out_interrupt = INT_NMI;
+    }
+    else if ((tsms.Control_Start_Pause == 1) && (g_driver->id != DRV_GG))
+    {
+        tsms.Control_Start_Pause = 2;
+        *out_interrupt = INT_NMI;
+    }
+    return stop;
+}
+
+// Z80 scanline handler
+word    Loop_SMS()
+{
+    int interrupt = INT_NONE;
 
     tsms.VDP_Line = (tsms.VDP_Line + 1) % g_machine.TV_lines;
     // Debugger hook
@@ -77,7 +117,7 @@ word    Loop_SMS (void)
             #endif
         }
         if ((sms.Pending_HBlank) && (HBlank_ON))
-            Interrupt = INT_IRQ;
+            interrupt = INT_IRQ;
     }
     else
 #if 1
@@ -90,12 +130,11 @@ word    Loop_SMS (void)
         // --------------------------------------------------------------------------
         if (tsms.VDP_Line == g_driver->y_int + 1)
             sms.VDP_Status |= VDP_STATUS_VBlank;
-        else
-            if (tsms.VDP_Line > g_driver->y_int && tsms.VDP_Line <= (g_driver->y_int + 32) && (sms.VDP_Status & VDP_STATUS_VBlank) && (VBlank_ON))
-                Interrupt = INT_IRQ;
-            else
-                if (tsms.VDP_Line == g_driver->y_int + 33)   // Interruption duration. Isn't that scary-lame?
-                    Interrupt_Loop_Misc;
+        else if (tsms.VDP_Line > g_driver->y_int && tsms.VDP_Line <= (g_driver->y_int + 32) && (sms.VDP_Status & VDP_STATUS_VBlank) && (VBlank_ON))
+            interrupt = INT_IRQ;
+        else if (tsms.VDP_Line == g_driver->y_int + 33)   // Interruption duration. Isn't that scary-lame?
+            if (Interrupt_Loop_Misc(&interrupt))
+                Macro_Stop_CPU;
     }
 #else
         // --------------------------------------------------------------------------
@@ -104,16 +143,15 @@ word    Loop_SMS (void)
     {
         if (tsms.VDP_Line == 193)
             sms.VDP_Status |= VDP_STATUS_VBlank;
-        else
-            if (tsms.VDP_Line <= 224 && (sms.VDP_Status & 0x80) && (VBlank_ON))
-                Interrupt = INT_IRQ;
-            else
-                if (tsms.VDP_Line == 225)
-                    Interrupt_Loop_Misc;
+        else if (tsms.VDP_Line <= 224 && (sms.VDP_Status & 0x80) && (VBlank_ON))
+            interrupt = INT_IRQ;
+        else if (tsms.VDP_Line == 225)
+            if (Interrupt_Loop_Misc(&interrupt))
+                Macro_Stop_CPU;
     }
 #endif
     // ----------------------------------------------------------------------------
-    if (Interrupt == INT_IRQ)
+    if (interrupt == INT_IRQ)
     {
         #ifdef MARAT_Z80
             sms.R.IRequest = INT_IRQ;
@@ -122,7 +160,7 @@ word    Loop_SMS (void)
         #endif
     }
 
-    return (Interrupt);
+    return (interrupt);
 }
 
 //-----------------------------------------------------------------------------

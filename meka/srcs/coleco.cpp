@@ -188,7 +188,8 @@ word    Loop_Coleco (void)
 
     if (tsms.VDP_Line == 192)
     {
-        Interrupt_Loop_Misc_Common;
+        if (Interrupt_Loop_Misc_Common())
+            Macro_Stop_CPU;
         if (fskipper.Show_Current_Frame)
             Refresh_Modes_0_1_2_3();
 

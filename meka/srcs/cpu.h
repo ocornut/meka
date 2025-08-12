@@ -62,45 +62,9 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 
 //-----------------------------------------------------------------------------
 
-#define Interrupt_Loop_Misc_Line_Zero()                                     \
-    {                                                                       \
-    if (tsms.VDP_Video_Change)                                              \
-       VDP_VideoMode_Change();                                             \
-    Patches_MEM_Apply();                                                   \
-    }
-
-//-----------------------------------------------------------------------------
-
-#define Interrupt_Loop_Misc_Common                                          \
-    {                                                                       \
-    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)                             \
-       VGM_NewFrame (&Sound.LogVGM);                                        \
-    Sound_Update();                                                         \
-    tsms.Control_Check_GUI = TRUE;                                          \
-    Inputs_Sources_Update();   /* Poll input sources */                    \
-    Inputs_Emulation_Update (TRUE); /* Might disable Control_Check_GUI */   \
-    Inputs_Check_GUI (!tsms.Control_Check_GUI);                             \
-    if ((opt.Force_Quit) || (CPU_Loop_Stop))                                \
-       {                                                                    \
-       /*tsms.VDP_Line --;*/ /* Not sure about its usefulness */            \
-       Macro_Stop_CPU;                                                      \
-       }                                                                    \
-    }
-
-//-----------------------------------------------------------------------------
-
-#define Interrupt_Loop_Misc                                                 \
-    {                                                                       \
-    Interrupt_Loop_Misc_Common;                                             \
-    if (Inputs.SK1100_Enabled)                                              \
-       {                                                                    \
-       if (Inputs_KeyDown(ALLEGRO_KEY_SCROLLLOCK))                          \
-          Interrupt = INT_NMI;                                              \
-       }                                                                    \
-    else                                                                    \
-    if ((tsms.Control_Start_Pause == 1) && (g_driver->id != DRV_GG))         \
-       { tsms.Control_Start_Pause = 2; Interrupt = INT_NMI; }               \
-    }
+void Interrupt_Loop_Misc_Line_Zero();
+bool Interrupt_Loop_Misc_Common();                  // Return true when need to leave loop
+bool Interrupt_Loop_Misc(int* out_interrupt);       // Return true when need to leave loop
 
 //-----------------------------------------------------------------------------
 

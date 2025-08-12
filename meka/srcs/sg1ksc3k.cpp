@@ -18,7 +18,7 @@
 
 word    Loop_SG1000_SC3000 (void)
 {
-    int Interrupt = INT_NONE;
+    int interrupt = INT_NONE;
 
     // Update sound cycle counter
     Sound.CycleCounter += opt.Cur_IPeriod;
@@ -33,7 +33,8 @@ word    Loop_SG1000_SC3000 (void)
 
     if (tsms.VDP_Line == 0)
     {
-        Interrupt_Loop_Misc;
+        if (Interrupt_Loop_Misc(&interrupt))
+            Macro_Stop_CPU;
         Interrupt_Loop_Misc_Line_Zero();
     }
 
@@ -68,14 +69,14 @@ word    Loop_SG1000_SC3000 (void)
     if ((VBlank_ON) /* && (sms.VDP_Access_Mode == VDP_Access_Mode_1) */
         && (sms.VDP_Status & VDP_STATUS_VBlank))
     {
-        Interrupt = INT_IRQ;
+        interrupt = INT_IRQ;
         // Msg(MSGT_DEBUG, "At PC=%04X: V-Blank", CPU_GetPC);
     }
 
-    if (Interrupt == INT_IRQ)
+    if (interrupt == INT_IRQ)
     {
         #ifdef MARAT_Z80
-            sms.R.IRequest = Interrupt;
+            sms.R.IRequest = interrupt;
         #elif MAME_Z80
             z80_set_irq_line (0, ASSERT_LINE);
         #endif
@@ -87,11 +88,11 @@ word    Loop_SG1000_SC3000 (void)
         if (CPU_ForceNMI)
         {
             CPU_ForceNMI = FALSE;
-            sms.R.IRequest = Interrupt;
+            sms.R.IRequest = interrupt;
             return (INT_NMI);
         }
 
-        return (Interrupt);
+        return (interrupt);
 }
 
 //-----------------------------------------------------------------------------
