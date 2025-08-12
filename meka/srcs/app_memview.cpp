@@ -42,7 +42,6 @@ static void     MemoryViewer_UpdateAllMemoryRanges(t_memory_viewer *mv);
 
 static void     MemoryViewer_Switch(t_widget *w);
 
-static void     MemoryViewer_ViewPane(t_memory_viewer *mv, t_memory_type memtype);
 static void     MemoryViewer_ViewPaneCallback(t_widget *w);
 
 static void     MemoryViewer_InputBoxAddress_EnterCallback(t_widget *w);
@@ -639,7 +638,7 @@ void    MemoryViewer_SwitchMainInstance()
     gui_box_show(app->box, app->active, TRUE);
 }
 
-static void MemoryViewer_ViewPane(t_memory_viewer* app, t_memory_type memtype)
+void MemoryViewer_ViewPane(t_memory_viewer* app, t_memory_type memtype)
 {
     t_memory_pane* pane = &app->panes[memtype];
     if (app->pane_current == pane)

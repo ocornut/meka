@@ -87,6 +87,7 @@ t_memory_viewer *       MemoryViewer_New(bool register_desktop, int size_columns
 void                    MemoryViewer_Delete(t_memory_viewer* app);
 void                    MemoryViewer_GotoAddress(t_memory_viewer* app, t_memory_type memtype, u32 offset);
 void                    MemoryViewer_SwitchMainInstance();
+void                    MemoryViewer_ViewPane(t_memory_viewer* app, t_memory_type memtype);
 
 void                    MemoryViewers_Update();
 void                    MemoryViewers_MediaReload();
