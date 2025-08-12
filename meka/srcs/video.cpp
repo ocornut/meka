@@ -159,10 +159,10 @@ static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool full
 #if ARCH_MACOSX
         display_flags |= ALLEGRO_FULLSCREEN_WINDOW; // FIXME: Expose/use FULLSCREEN_WINDOW everywhere?
 #else
-        display_flags |= ALLEGRO_FULLSCREEN;
+        display_flags |= ALLEGRO_FULLSCREEN_WINDOW;
 #endif
     else
-        display_flags |= ALLEGRO_WINDOWED;
+        display_flags |= ALLEGRO_WINDOWED | ALLEGRO_RESIZABLE;
     al_set_new_display_flags(display_flags);
     al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_SUGGEST);
     al_set_new_display_refresh_rate(g_config.video_mode_gui_refresh_rate);
@@ -403,6 +403,15 @@ void    Video_UpdateEvents()
             if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
                 break;
             opt.Force_Quit = TRUE;
+            break;
+        case ALLEGRO_EVENT_DISPLAY_RESIZE:
+            g_config.video_mode_gui_res_x = event.display.width;
+            g_config.video_mode_gui_res_y = event.display.height;
+            Video_CreateVideoBuffers();
+            Screenbuffer_ReleaseLock();
+            al_acknowledge_resize(event.display.source);
+            gui.info.must_redraw = TRUE;
+            //al_resize_display(g_display, event.display.width, event.display.height);
             break;
         case ALLEGRO_EVENT_DISPLAY_SWITCH_IN:
             //Msg(MSGT_USER, "ALLEGRO_EVENT_DISPLAY_SWITCH_IN");
