@@ -434,68 +434,49 @@ static void NewGui_TechInfoDraw()
         return;
     }
 
-    ImGui::Text("   [MODE] %s (%s)", g_driver->full_name, g_driver->short_name);
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, { 0, 0 }); // Compact
 
-    const char* vdp_model = "";
-    switch (g_machine.VDP.model)
+    ImGui::Text("Driver: %s (%s), %s", g_driver->full_name, g_driver->short_name, (sms.Country == COUNTRY_EXPORT) ? "Export" : "Japan");
+
+    if (ImGui::TreeNodeEx("CPU", ImGuiTreeNodeFlags_DefaultOpen))
     {
-    case VDP_MODEL_315_5124: vdp_model = "315-5124"; break;
-    case VDP_MODEL_315_5246: vdp_model = "315-5246"; break;
-    case VDP_MODEL_315_5378: vdp_model = "315-5378"; break;
-    case VDP_MODEL_315_5313: vdp_model = "315-5313"; break;
+        if (Debugger.enabled && Debugger.active)
+            ImGui::Text("IPeriod:%d/%d - Lines:%d/%d", CPU_GetICount(), CPU_GetIPeriod(), tsms.VDP_Line, g_machine.TV_lines);
+        else
+            ImGui::Text("IPeriod:%d - Lines:%d", CPU_GetIPeriod(), g_machine.TV_lines);
+        ImGui::TreePop();
     }
-    ImGui::Text("    [VDP] Model:%s - Display Mode:%d", vdp_model, tsms.VDP_VideoMode);
-    ImGui::Text("    [VDP] Status:$%02X - Address:$%04X - Latch:$%02X - IE0:%d - IE1:%d - DIS:%d", sms.VDP_Status, sms.VDP_Address, sms.VDP_Access_First, (VBlank_ON ? 1 : 0), (HBlank_ON ? 1 : 0), (Display_ON ? 1 : 0));
-    ImGui::Text(" [SCROLL] X:$%02X - Y:$%02X - LeftColumnBlank:%d - HSI:%d - VSI:%d", sms.VDP[8], sms.VDP[9], (Mask_Left_8 ? 1 : 0), (Top_No_Scroll ? 1 : 0), (Right_No_Scroll ? 1 : 0));
-    ImGui::Text("[SPRITES] Size:%s - Double:%d - EarlyClock:%d - SAT:$%04X - SPG:$%04X", (Sprites_8x16 ? "8x16" : "8x8"), (Sprites_Double ? 1 : 0), (Sprites_Left_8 ? 1 : 0), (int)(g_machine.VDP.sprite_attribute_table - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
-    ImGui::Text(" [INPUTS] PortDE:$%02X - Port3F:$%02X - Joy:$%04X - GG:$%02X - Paddle:$%02X,$%02X", (sms.Input_Mode), (tsms.Port3F), tsms.Control[7], (tsms.Control_GG), (Inputs.Paddle[0].x), (Inputs.Paddle[1].x));
 
-#ifdef MEKA_Z80_DEBUGGER
-    if (Debugger.enabled && Debugger.active)
-        ImGui::Text("[VARIOUS] Country:%s - Border:%d - IPeriod:%d/%d - Lines:%d/%d", (sms.Country == COUNTRY_EXPORT) ? "Export" : "Japan", (sms.VDP[7] & 15), CPU_GetICount(), CPU_GetIPeriod(), tsms.VDP_Line, g_machine.TV_lines);
-    else
-#endif
-        ImGui::Text("[VARIOUS] Country:%s - Border:%d - IPeriod:%d - Lines:%d", (sms.Country == COUNTRY_EXPORT) ? "Export" : "Japan", (sms.VDP[7] & 15), CPU_GetIPeriod(), g_machine.TV_lines);
-
-    ImGui::Text("[TMS9918] Name:$%04X - Color:$%04X - Pattern:$%04X - SPG:$%04X", (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
-
-    t_psg* psg = &PSG;
-    ImGui::Text("    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)  Stereo:%02X",
-        psg->Registers[0], psg->Registers[1], psg->Registers[2], psg->Registers[3],
-        psg->Registers[4], psg->Registers[5], psg->Registers[6], psg->Registers[7],
-        ((psg->Registers[6] & 0x04) ? "White" : "Periodic"), psg->Stereo);
-
-    char buf[256] = "";
-
-    if (FM_Regs != NULL)
+    if (ImGui::TreeNodeEx("IO", ImGuiTreeNodeFlags_DefaultOpen))
     {
-        ImGui::Text(" [YM2413] Custom inst: %02X/%02X/%02X/%02X/%02X/%02X/%02X/%02X  Rhythm: %02X",
-            FM_Regs[0], FM_Regs[1], FM_Regs[2], FM_Regs[3], FM_Regs[4], FM_Regs[5], FM_Regs[6], FM_Regs[7],
-            FM_Regs[0xe]);
-        char* p = buf;
-        p += sprintf(p, " [YM2413]");
-        for (int i = 0; i < 9; ++i)
+        ImGui::Text("Port $DE:$%02X - Port $3F:$%02X - Joy:$%04X - GG:$%02X - Paddle:$%02X,$%02X", (sms.Input_Mode), (tsms.Port3F), tsms.Control[7], (tsms.Control_GG), (Inputs.Paddle[0].x), (Inputs.Paddle[1].x));
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNodeEx("VDP", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        const char* vdp_model = "";
+        switch (g_machine.VDP.model)
         {
-            p += sprintf(p, " Tone %d: %01X,%03X,%c,%c,%01X,%01X",
-                i,
-                (FM_Regs[i + 0x20] & 0x6) >> 1, // Block
-                FM_Regs[i + 0x10] | ((FM_Regs[i + 0x20] & 1) << 8), // F-num
-                (FM_Regs[i + 0x20] & 0x20) != 0 ? 'S' : '-', // Sustain
-                (FM_Regs[i + 0x20] & 0x10) != 0 ? 'K' : '-', // Key
-                FM_Regs[i + 0x30] & 0x0f, // Volume
-                FM_Regs[i + 0x30] >> 4 // Instrument
-            );
-            if (i % 3 == 2)
-            {
-                ImGui::Text("%s", buf);
-                p = buf;
-                p += sprintf(p, " [YM2413]");
-            }
+        case VDP_MODEL_315_5124: vdp_model = "315-5124"; break;
+        case VDP_MODEL_315_5246: vdp_model = "315-5246"; break;
+        case VDP_MODEL_315_5378: vdp_model = "315-5378"; break;
+        case VDP_MODEL_315_5313: vdp_model = "315-5313"; break;
         }
+        ImGui::Text("Model:%s - Display Mode:%d", vdp_model, tsms.VDP_VideoMode);
+        ImGui::Text("Status:$%02X - Address:$%04X - Latch:$%02X - IE0:%d - IE1:%d - DIS:%d", sms.VDP_Status, sms.VDP_Address, sms.VDP_Access_First, (VBlank_ON ? 1 : 0), (HBlank_ON ? 1 : 0), (Display_ON ? 1 : 0));
+        ImGui::Text("Scroll: X:$%02X - Y:$%02X - LeftColumnBlank:%d - HSI:%d - VSI:%d", sms.VDP[8], sms.VDP[9], (Mask_Left_8 ? 1 : 0), (Top_No_Scroll ? 1 : 0), (Right_No_Scroll ? 1 : 0));
+        ImGui::Text("Sprites: Size:%s - Double:%d - EarlyClock:%d - SAT:$%04X - SPG:$%04X", (Sprites_8x16 ? "8x16" : "8x8"), (Sprites_Double ? 1 : 0), (Sprites_Left_8 ? 1 : 0), (int)(g_machine.VDP.sprite_attribute_table - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
+        ImGui::Text("Border Color: %d", (sms.VDP[7] & 15));
+        ImGui::SameLine();
+        ImGui::ColorButton("##Border", *(ImVec4*)&Palette_Emulation[sms.VDP[7] & 15]);
+        ImGui::Text("TMS9918: Name:$%04X - Color:$%04X - Pattern:$%04X - SPG:$%04X", (int)(g_machine.VDP.name_table_address - VRAM), (int)(g_machine.VDP.sg_color_table_address - VRAM), (int)(g_machine.VDP.sg_pattern_gen_address - VRAM), (int)(g_machine.VDP.sprite_pattern_gen_address - VRAM));
+        ImGui::TreePop();
     }
 
-    // Memory
+    if (ImGui::TreeNodeEx("Mapper", ImGuiTreeNodeFlags_DefaultOpen))
     {
+        char buf[256] = "";
         char* p = buf;
         for (int i = 0; i != g_machine.mapper_regs_count; i++)
         {
@@ -503,10 +484,38 @@ static void NewGui_TechInfoDraw()
                 p += sprintf(p, ",");
             p += sprintf(p, "$%02X", g_machine.mapper_regs[i]);
         }
-        ImGui::Text(" [MAPPER] Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
+        ImGui::Text("Type:%d - Ctrl:$%02X - Regs:%s - Pages:[%d/%d][%d/%d]",
             g_machine.mapper, sms.SRAM_Mapping_Register, buf, tsms.Pages_Count_8k, tsms.Pages_Mask_8k, tsms.Pages_Count_16k, tsms.Pages_Mask_16k);
+        ImGui::TreePop();
     }
 
+    if (ImGui::TreeNodeEx("PSG", ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        t_psg* psg = &PSG;
+        ImGui::Text("Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)  Stereo:%02X",
+            psg->Registers[0], psg->Registers[1], psg->Registers[2], psg->Registers[3],
+            psg->Registers[4], psg->Registers[5], psg->Registers[6], psg->Registers[7],
+            ((psg->Registers[6] & 0x04) ? "White" : "Periodic"), psg->Stereo);
+        ImGui::TreePop();
+    }
+
+    if (FM_Regs != NULL && ImGui::TreeNode("YM2413"))
+    {
+        ImGui::Text("Custom inst: %02X/%02X/%02X/%02X/%02X/%02X/%02X/%02X  Rhythm: %02X",
+            FM_Regs[0], FM_Regs[1], FM_Regs[2], FM_Regs[3], FM_Regs[4], FM_Regs[5], FM_Regs[6], FM_Regs[7], FM_Regs[0xe]);
+        for (int i = 0; i < 9; ++i)
+            ImGui::Text(" Tone %d: %01X,%03X,%c,%c,%01X,%01X", i,
+                (FM_Regs[i + 0x20] & 0x6) >> 1, // Block
+                FM_Regs[i + 0x10] | ((FM_Regs[i + 0x20] & 1) << 8), // F-num
+                (FM_Regs[i + 0x20] & 0x20) != 0 ? 'S' : '-', // Sustain
+                (FM_Regs[i + 0x20] & 0x10) != 0 ? 'K' : '-', // Key
+                FM_Regs[i + 0x30] & 0x0f, // Volume
+                FM_Regs[i + 0x30] >> 4 // Instrument
+            );
+        ImGui::TreePop();
+    }
+
+    ImGui::PopStyleVar();
     ImGui::End();
 }
 
