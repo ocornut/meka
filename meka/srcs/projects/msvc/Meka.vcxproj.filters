@@ -309,15 +309,6 @@
     <ClCompile Include="..\..\g_init.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\g_menu.cpp">
-      <Filter>Srcs\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\g_menu_i.cpp">
-      <Filter>Srcs\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\g_menu_t.cpp">
-      <Filter>Srcs\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\g_mouse.cpp">
       <Filter>Srcs\GUI</Filter>
     </ClCompile>
@@ -669,15 +660,6 @@
       <Filter>Srcs\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\g_init.h">
-      <Filter>Srcs\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\g_menu.h">
-      <Filter>Srcs\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\g_menu_i.h">
-      <Filter>Srcs\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\g_menu_t.h">
       <Filter>Srcs\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\g_mouse.h">
