@@ -215,22 +215,55 @@ void    NewGui_LogAddTextLine(const char* line)
 
 static void NewGui_MemEditorDraw()
 {
-    if (!MemoryViewer_MainInstance->active)
+    t_memory_viewer* app = MemoryViewer_MainInstance;
+    if (!app->active)
         return;
 
     Str128f title("%s###Memory Editor", Msg_Get(MSG_MemoryEditor_BoxTitle));
-    if (!ImGui::Begin(title.c_str(), &MemoryViewer_MainInstance->active))
+    if (!ImGui::Begin(title.c_str(), &app->active))
     {
         ImGui::End();
         return;
     }
 
-    t_memory_range range;
-    MemoryRange_GetDetails(MEMTYPE_RAM, &range);
+    if (ImGui::BeginTabBar("##MemType"))
+    {
+        for (int i = 0; i != MEMTYPE_MAX_; i++)
+        {
+            t_memory_pane* pane = &app->panes[i];
+            t_memory_type memtype = (t_memory_type)i;
+            MemoryRange_GetDetails(memtype, &pane->memrange);
+            if (ImGui::BeginTabItem(pane->memrange.name))
+            {
+                MemoryViewer_ViewPane(app, (t_memory_type)i);
+                ImGui::EndTabItem();
+            }
+        }
+        ImGui::EndTabBar();
+    }
 
-    static MemoryEditor me;
-    me.OptAddrDigitsCount = range.addr_hex_length;
-    me.DrawContents(range.data, range.size, range.addr_start);
+    t_memory_range* memrange = &app->pane_current->memrange;
+    static MemoryEditor me; // FIXME-IMGUI: Move to instance.
+    me.OptAddrDigitsCount = 5; // memrange->addr_hex_length;
+    me.ReadFn = [](const ImU8*, size_t off, void* user_data)
+    {
+        t_memory_range* memrange = (t_memory_range*)user_data;
+        return memrange->ReadByte(off);
+    };
+    me.WriteFn = [](ImU8*, size_t off, ImU8 d, void* user_data)
+    {
+        t_memory_range* memrange = (t_memory_range*)user_data;
+        memrange->WriteByte(off, d);
+    };
+    me.UserData = (void*)memrange;
+    me.DrawContents(NULL, memrange->size, memrange->addr_start);
+
+    if (memrange->size == 0)
+    {
+        ImGui::BeginChild("##scrolling"); // FIXME-IMGUI: Knows internals of memory editor.
+        ImGui::Text("None");
+        ImGui::EndChild();
+    }
 
     ImGui::End();
 }
