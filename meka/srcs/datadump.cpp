@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "mappers.h"
 #include "datadump.h"
+#include "imgui.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -23,66 +24,46 @@ typedef int (*t_data_dump_handler_ascii)(FILE *f_dump, int pos, u8 const *data, 
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// DataDump_Init ()
-// Initialize data dumping functionnality
-//-----------------------------------------------------------------------------
-void    DataDump_Init (void)
+void    DataDump_Init()
 {
     DataDump.Mode = DATADUMP_MODE_ASCII;
 }
 
-//-----------------------------------------------------------------------------
-// DataDump_Init_Menus ()
 // Create data dumping menu items in given GUI menu
-//-----------------------------------------------------------------------------
-void    DataDump_Init_Menus (int menu_id)
+void    DataDump_DrawMenu()
 {
-    menu_add_item (menu_id, "RAM",           NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_RAM,           NULL);
-    menu_add_item (menu_id, "VRAM",          NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRAM,          NULL);
-    menu_add_item (menu_id, "Palette",       NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Palette,       NULL);
-    menu_add_item (menu_id, "Sprites",       NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_Sprites,       NULL);
-    //menu_add_item (menu_id, "BG/FG Map",   0,         (t_menu_callback)DataDump_BgFgMap,      NULL);
-    menu_add_item (menu_id, "CPU Regs",      NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_CPURegs,       NULL);
-    menu_add_item (menu_id, "VDP Regs",      NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_VRegs,         NULL);
-    menu_add_item (menu_id, "OnBoardMemory", NULL,  MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)DataDump_OnBoardMemory, NULL);
-
-    menus_ID.dump_cfg = menu_add_menu (menu_id, "Configuration",   MENU_ITEM_FLAG_ACTIVE);
-    menu_add_item (menus_ID.dump_cfg, "ASCII",  NULL,   MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_ASCII) ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Ascii,        NULL);
-    menu_add_item (menus_ID.dump_cfg, "Raw",    NULL,   MENU_ITEM_FLAG_ACTIVE | ((DataDump.Mode == DATADUMP_MODE_RAW)   ? MENU_ITEM_FLAG_CHECKED : 0), (t_menu_callback)DataDump_Mode_Raw,      NULL);
+    if (ImGui::MenuItem("RAM"))
+        DataDump_RAM();
+    if (ImGui::MenuItem("VRAM"))
+        DataDump_VRAM();
+    if (ImGui::MenuItem("Palette"))
+        DataDump_Palette();
+    if (ImGui::MenuItem("Sprites"))
+        DataDump_Sprites();
+    //if (ImGui::MenuItem("BG/FG Map"))
+    //    DataDump_BgFgMap();
+    if (ImGui::MenuItem("CPU Regs"))
+        DataDump_CPURegs();
+    if (ImGui::MenuItem("VDP Regs"))
+        DataDump_VRegs();
+    if (ImGui::MenuItem("OnBoardMemory"))
+        DataDump_OnBoardMemory();
+    if (ImGui::BeginMenu("Output Format")) // FIXME-LOC
+    {
+        if (ImGui::MenuItem("ASCII", NULL, DataDump.Mode == DATADUMP_MODE_ASCII))
+            DataDump_SetOutputMode(DATADUMP_MODE_ASCII);
+        if (ImGui::MenuItem("Raw", NULL, DataDump.Mode == DATADUMP_MODE_RAW))
+            DataDump_SetOutputMode(DATADUMP_MODE_RAW);
+        ImGui::EndMenu();
+    }
 }
 
-//-----------------------------------------------------------------------------
-// DataDump_Mode_Ascii ()
-// Activate ASCII dumping mode
-//-----------------------------------------------------------------------------
-void    DataDump_Mode_Ascii (void)
+void    DataDump_SetOutputMode(int output_mode)
 {
-    // Set ASCII mode
-    DataDump.Mode = DATADUMP_MODE_ASCII;
-
-    // Update GUI checks & print message to user
-    gui_menu_uncheck_all (menus_ID.dump_cfg);
-    gui_menu_check (menus_ID.dump_cfg, 0);
-    Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Mode_Ascii));
+    DataDump.Mode = output_mode;
 }
 
-//-----------------------------------------------------------------------------
-// DataDump_Mode_Raw ()
-// Activate RAW dumping mode
-//-----------------------------------------------------------------------------
-void    DataDump_Mode_Raw (void)
-{
-    // Set RAW mode
-    DataDump.Mode = DATADUMP_MODE_RAW;
-
-    // Update GUI checks & print message to user
-    gui_menu_uncheck_all (menus_ID.dump_cfg);
-    gui_menu_check (menus_ID.dump_cfg, 1);
-    Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Mode_Raw));
-}
-
-static void     DataDump_Write_Filename (char *s, const char *name)
+static void     DataDump_Write_Filename(char *s, const char *name)
 {
     if (!al_filename_exists (g_env.Paths.DebugDirectory))
         al_make_directory (g_env.Paths.DebugDirectory);
@@ -423,12 +404,12 @@ void    DataDump_VRegs()
 //-----------------------------------------------------------------------------
 // Dump OnBoard Memory
 //-----------------------------------------------------------------------------
-void        DataDump_OnBoardMemory (void)
+void        DataDump_OnBoardMemory()
 {
     void *  data;
     int     len;
 
-    BMemory_Get_Infos (&data, &len);
+    BMemory_Get_Infos(&data, &len);
     if (data == NULL)
     {
         Msg(MSGT_USER, "%s", Msg_Get(MSG_DataDump_Error_OB_Memory));

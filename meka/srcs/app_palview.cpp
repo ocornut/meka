@@ -102,7 +102,6 @@ void    PaletteViewer_Switch()
     else
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Palette_Disabled));
     gui_box_show (pv->box, g_config.palette_active, TRUE);
-    gui_menu_toggle_check (menus_ID.tools, 1);
 }
 
 // Note: has to be executed after tileviewer::update

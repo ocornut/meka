@@ -143,7 +143,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
     int tile_current = (app->tile_hovered != -1) ? app->tile_hovered : app->tile_selected;
     bool tile_current_refresh = /*(tile_current == -1) ? FALSE : */ (((tile_current != app->tile_displayed) || dirty_all || tgfx.Tile_Dirty [tile_current]));
     int tile_current_addr = -1;
-	
+
 	const v2i tiles_frame_pos = app->tiles_display_frame.pos;
 	const v2i tile_selected_pos = v2i(app->tile_selected_frame.pos.x + 2, app->tile_selected_frame.pos.y + 2);
 
@@ -200,7 +200,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
             const u8 * addr = VRAM + vram_addr_min;
 			//VRAM = g_machine.VDP.sg_pattern_gen_address;
             // addr = &VRAM[apps.opt.Tiles_Base];
-           
+
             int n = 0;
             for (int y = 0; y != app->tiles_height; y ++)
 			{
@@ -305,7 +305,6 @@ void    TileViewer_Switch()
     else
         Msg(MSGT_USER, "%s", Msg_Get(MSG_TilesViewer_Disabled));
     gui_box_show (TileViewer.box, TileViewer.active, TRUE);
-    gui_menu_toggle_check (menus_ID.tools, 2);
 }
 
 //-----------------------------------------------------------------------------

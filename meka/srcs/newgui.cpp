@@ -14,7 +14,9 @@
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_tileview.h"
+#include "datadump.h"
 #include "debugger.h"
+#include "file.h"
 #include "palette.h"
 #include "saves.h"
 #include "tvtype.h"
@@ -643,6 +645,32 @@ void    NewGui_MainMenu()
         ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_TechInfo), "", &g_config.techinfo_active);
         ImGui::EndMenu();
     }
+
+#ifdef MEKA_Z80_DEBUGGER
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Debug)))
+    {
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Debug_Enabled), "Scroll Lock", Debugger.active))
+            Debugger_Switch();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Debug_ReloadROM)))
+            Reload_ROM();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Debug_ReloadSymbols)))
+            Debugger_Symbols_Load();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Debug_StepFrame), "Ctrl+F12"))
+            Debugger_StepFrame();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Debug_LoadStateAndContinue), "Ctrl+F7"))
+        {
+            SaveState_Load();
+            char command[128] = "CONT";
+            Debugger_InputParseCommand(command); // non-const input
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Debug_Dump)))
+        {
+            DataDump_DrawMenu();
+            ImGui::EndMenu();
+        }
+        ImGui::EndMenu();
+    }
+#endif
 
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Help)))
     {
