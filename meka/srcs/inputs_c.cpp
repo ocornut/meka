@@ -45,8 +45,7 @@ static void Inputs_CFG_Layout(t_app_inputs_config *app, bool setup);
 void    Inputs_CFG_Switch()
 {
     Inputs_CFG.active ^= 1;
-    gui_box_show (Inputs_CFG.box, Inputs_CFG.active, TRUE);
-    gui_menu_toggle_check (menus_ID.inputs, 10);
+    gui_box_show(Inputs_CFG.box, Inputs_CFG.active, TRUE);
 }
 
 void    Inputs_CFG_Init_Applet()
