@@ -75,6 +75,7 @@ void Video_DestroyVideoBuffers()
         al_destroy_bitmap(screenbuffer_2);
 
     screenbuffer_1 = screenbuffer_2 = NULL;
+    screenbuffer = screenbuffer_next = NULL;
 
     GUI_DestroyVideoBuffers();
     Data_DestroyVideoBuffers();
@@ -82,6 +83,10 @@ void Video_DestroyVideoBuffers()
     SkinFx_DestroyVideoBuffers();
 
     ImGui_ImplAllegro5_InvalidateDeviceObjects();
+    // FIXME-IMGUI: Workaround for https://github.com/ocornut/imgui/pull/8811
+    for (ImTextureData* tex : ImGui::GetPlatformIO().Textures)
+        if (tex->Status == ImTextureStatus_Destroyed && tex->WantDestroyNextFrame == false)
+            tex->Status = ImTextureStatus_WantCreate; // Destroy was done was backend (e.g. freed resources mid-run)
 }
 
 void Video_CreateVideoBuffers()
@@ -108,7 +113,6 @@ void Video_CreateVideoBuffers()
         GUI_SetupNewVideoMode();
 
     ImGui_ImplAllegro5_CreateDeviceObjects();
-
 }
 
 static int Video_ChangeVideoMode(t_video_driver* driver, int w, int h, bool fullscreen, int refresh_rate, bool fatal)
@@ -347,8 +351,8 @@ void    Video_Setup_State()
             const int gui_res_x = g_config.video_mode_gui_res_x;
             const int gui_res_y = g_config.video_mode_gui_res_y;
             Video_ChangeVideoMode(g_config.video_driver, gui_res_x, gui_res_y, g_config.video_fullscreen, refresh_rate, TRUE);
-            if (opt.GUI_Inited)
-                gui_redraw_everything_now_once();
+            //if (opt.GUI_Inited)
+            //    gui_redraw_everything_now_once();
         }
         break;
     }
