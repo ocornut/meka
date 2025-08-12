@@ -99,7 +99,7 @@ char *  SDSC_String_Get (int offset, int verbose_error)
 // Read SDSC Header and display it if found
 // Return whether something has been displayed or not
 // (return value currently not used)
-int         SDSC_Read_and_Display (void)
+int         SDSC_Read_and_Display()
 {
     char *  s;
     u8 *    header;
@@ -213,18 +213,18 @@ void SDSC_Debug_Console_Control(char c)
             {
                 static const char* colours[]
                 {
-                    "Black", "Dark blue", "Dark green", "Dark cyan", "Dark red", "Dark magenta", "Dark yellow", "Dark gray", 
+                    "Black", "Dark blue", "Dark green", "Dark cyan", "Dark red", "Dark magenta", "Dark yellow", "Dark gray",
                     "Light gray", "Light blue", "Light green", "Light cyan", "Light red", "Light magenta", "Light yellow", "White"
                 };
-                Debugger_Printf("SDSC debug console control: set attribute to %02x (%s on %s) (not implemented)", 
-                    byte_buffer[1], 
-                    colours[byte_buffer[1] & 0xf], 
+                Debugger_Printf("SDSC debug console control: set attribute to %02x (%s on %s) (not implemented)",
+                    byte_buffer[1],
+                    colours[byte_buffer[1] & 0xf],
                     colours[byte_buffer[1] >> 4]);
             }
             break;
         case 4:
-            Debugger_Printf("SDSC debug console control: set cursor position to row %d, column %d (not implemented)", 
-                byte_buffer[1] % 25, 
+            Debugger_Printf("SDSC debug console control: set cursor position to row %d, column %d (not implemented)",
+                byte_buffer[1] % 25,
                 byte_buffer[2] % 80);
             break;
         default:
@@ -538,7 +538,7 @@ int SDSC_Print_ASCII(char* buffer, int buffer_size, bool is_vram, bool is_char, 
 // Tries to format the text and emit it to the console
 // Leaves global state untouched when there is insufficient data to produce a result
 // (either successful formatting or an error message due to an invalid format string)
-void SDSC_Try_Format(void)
+void SDSC_Try_Format()
 {
     // First parse the format
     int width;

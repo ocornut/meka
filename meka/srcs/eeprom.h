@@ -16,11 +16,11 @@ void    BMemory_93c46_Get_Infos         (void **data, int *len);
 //-----------------------------------------------------------------------------
 
 void    EEPROM_93c46_Init               (int Init);
-void    EEPROM_93c46_Clear              (void);
+void    EEPROM_93c46_Clear              ();
 void    EEPROM_93c46_Control            (byte v);
 
 void    EEPROM_93c46_Set_Lines          (byte lines);
-byte    EEPROM_93c46_Read               (void);
+byte    EEPROM_93c46_Read               ();
 
 void    EEPROM_93c46_Direct_Write       (int Addr, byte Data);
 byte    EEPROM_93c46_Direct_Read        (int Addr);

@@ -61,15 +61,15 @@
 
 int     VDP_Model_FindByName    (const char *name);
 
-void    VDP_VideoMode_Change    (void);
-void    VDP_VideoMode_Update    (void);
-void    VDP_UpdateLineLimits    (void);
+void    VDP_VideoMode_Change    ();
+void    VDP_VideoMode_Update    ();
+void    VDP_UpdateLineLimits    ();
 
 void    Tms_VDP_Out             (int vdp_register, int value);
 void    Tms_VDP_Out_Data        (int value);
 void    Tms_VDP_Out_Address     (int value);
-u8      Tms_VDP_In_Status       (void);
-u8      Tms_VDP_In_Data         (void);
+u8      Tms_VDP_In_Status       ();
+u8      Tms_VDP_In_Data         ();
 void    Tms_VDP_Palette_Write   (int addr, int value);
 
 //-----------------------------------------------------------------------------

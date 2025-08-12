@@ -16,10 +16,10 @@ extern u8*  BIOS_ROM_Coleco;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    BIOS_Load (void);
-void    BIOS_Unload (void);
-void    BIOS_Switch_to_Game (void);
-void    BIOS_Free_Roms (void);
+void    BIOS_Load();
+void    BIOS_Unload();
+void    BIOS_Switch_to_Game();
+void    BIOS_Free_Roms();
 
 //-----------------------------------------------------------------------------
 

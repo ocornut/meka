@@ -101,7 +101,7 @@ byte    Coleco_Inputs (word Port)
 }
 
 // Colecovision keypad 1, emulation -------------------------------------------
-byte    Coleco_Keypad_1 (void)
+byte    Coleco_Keypad_1()
 {
     int    v;
 
@@ -125,7 +125,7 @@ byte    Coleco_Keypad_1 (void)
 
 // Colecovision keypad 2, non working emulation -------------------------------
 // FIXME: ...
-byte        Coleco_Keypad_2 (void)
+byte        Coleco_Keypad_2()
 {
     int     v = 0x0F;
     if ((tsms.Control[7] >> 8) & 0x20)
@@ -135,7 +135,7 @@ byte        Coleco_Keypad_2 (void)
 
 // Build Coleco Input Conversion table
 // This is because the input system currently fills input value for Sega 8-bit
-void        Coleco_Init_Table_Inputs (void)
+void        Coleco_Init_Table_Inputs()
 {
     int     i;
 
@@ -161,7 +161,7 @@ void        Coleco_Init_Table_Inputs (void)
     }
 }
 
-word    Loop_Coleco (void)
+word    Loop_Coleco()
 {
     // Update sound cycle counter
     Sound.CycleCounter += opt.Cur_IPeriod;

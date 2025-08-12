@@ -20,7 +20,7 @@
 
 int     Z80_Opcodes_Usage [MEKA_Z80_OPCODE_PREFIX_MAX] [256];
 
-void    Z80_Opcodes_Usage_Reset (void)
+void    Z80_Opcodes_Usage_Reset()
 {
  memset (Z80_Opcodes_Usage, 0, sizeof (Z80_Opcodes_Usage));
 }
@@ -29,7 +29,7 @@ extern  byte  *ROM;
 extern  byte  *Mem_Pages[8];
 extern  int    Z80_Disassemble(char *S, word A, bool display_symbols, bool display_symbols_for_current_index_registers, bool resolve_indirect_offsets);
 
-void    Z80_Opcodes_Usage_Print (void)
+void    Z80_Opcodes_Usage_Print()
 {
  int    i, j;
  byte  *op_code = Mem_Pages[0] = ROM; // Note: this will screws up data in ROM

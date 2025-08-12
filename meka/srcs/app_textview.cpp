@@ -157,32 +157,32 @@ int     TextViewer_Open(t_app_textviewer* app, const char* title, const char* fi
 #define DOC_DEBUGGER    (4)
 #define DOC_MAX         (5)
 
-void            TextViewer_Switch_Doc_Main(void)
-{ 
-    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain, DOC_MAIN); 
+void            TextViewer_Switch_Doc_Main()
+{
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMain, DOC_MAIN);
 }
 
-void            TextViewer_Switch_Doc_Compat(void)
-{ 
+void            TextViewer_Switch_Doc_Compat()
+{
     TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationCompat, DOC_COMPAT);
 }
 
-void            TextViewer_Switch_Doc_Multiplayer_Games(void)
-{ 
-    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMulti, DOC_MULTI); 
+void            TextViewer_Switch_Doc_Multiplayer_Games()
+{
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationMulti, DOC_MULTI);
 }
 
-void            TextViewer_Switch_Doc_Changes(void)
-{ 
-    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationChanges, DOC_CHANGES); 
+void            TextViewer_Switch_Doc_Changes()
+{
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationChanges, DOC_CHANGES);
 }
 
-void            TextViewer_Switch_Doc_Debugger(void)
-{ 
-    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationDebugger, DOC_DEBUGGER); 
+void            TextViewer_Switch_Doc_Debugger()
+{
+    TextViewer_Switch(&TextViewer, Msg_Get(MSG_Doc_BoxTitle), g_env.Paths.DocumentationDebugger, DOC_DEBUGGER);
 }
 
-void    TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *filename, int current_file)
+void    TextViewer_Switch(t_app_textviewer* tv, const char* title, const char* filename, int current_file)
 {
     if (tv->current_file != current_file)
     {
@@ -205,7 +205,7 @@ void    TextViewer_Switch(t_app_textviewer *tv, const char *title, const char *f
         gui_menu_check(menus_ID.help, current_file);
 }
 
-void    TextViewer_Switch_Close(void)
+void    TextViewer_Switch_Close()
 {
     t_app_textviewer *tv = &TextViewer; // Global instance
     tv->active = FALSE;
@@ -214,7 +214,7 @@ void    TextViewer_Switch_Close(void)
     gui_menu_uncheck_range(menus_ID.help, 0, DOC_MAX - 1);
 }
 
-static void     TextViewer_ScrollbarCallback(void)
+static void     TextViewer_ScrollbarCallback()
 {
     t_app_textviewer *tv = &TextViewer; // Global instance
     tv->dirty = TRUE;
@@ -238,7 +238,7 @@ void    TextViewer_Update(t_app_textviewer *tv)
     TextViewer_Update_Inputs(tv);
 
     // Update velocity
-    tv->scroll_velocity_y = Clamp(tv->scroll_velocity_y, -TEXTVIEWER_SCROLL_VELOCITY_MAX, +TEXTVIEWER_SCROLL_VELOCITY_MAX); 
+    tv->scroll_velocity_y = Clamp(tv->scroll_velocity_y, -TEXTVIEWER_SCROLL_VELOCITY_MAX, +TEXTVIEWER_SCROLL_VELOCITY_MAX);
     if (fabsf(tv->scroll_velocity_y) > 0.01f)
     {
         tv->dirty = TRUE;
@@ -273,7 +273,7 @@ void    TextViewer_Update(t_app_textviewer *tv)
 
         // Clear all since Allegro 5 doesn't seem to do clipping on font
         al_clear_to_color(COLOR_SKIN_WINDOW_BACKGROUND);
-        
+
         // Draw separator between text and scrollbar
         t_frame frame = tv->widget_scrollbar->frame;
         al_draw_line(frame.pos.x, frame.pos.y, frame.pos.x, frame.pos.y + frame.size.y + 1, COLOR_SKIN_WINDOW_SEPARATORS, 0);

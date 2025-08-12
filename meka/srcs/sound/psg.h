@@ -8,11 +8,11 @@
 
 int     PSG_Init();
 void    PSG_WriteSamples(s16 *buffer, int length);
-void    PSG_Reset(void);
+void    PSG_Reset();
 void    PSG_Save(FILE *f);
 void    PSG_Load(FILE *f, int version);
-void    PSG_Regenerate(void);
-void    PSG_Mute(void);
+void    PSG_Regenerate();
+void    PSG_Mute();
 
 //-----------------------------------------------------------------------------
 

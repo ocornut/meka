@@ -17,7 +17,7 @@ t_93c46  EEPROM_93c46;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    BMemory_93c46_Load (FILE *f)
+void    BMemory_93c46_Load(FILE *f)
 {
   if (fread (EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE, 1, f) == 1)
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Loaded), EEPROM_93C46_DATA_SIZE);
@@ -25,7 +25,7 @@ void    BMemory_93c46_Load (FILE *f)
      Msg(MSGT_USER, "%s", Msg_Get(MSG_93c46_Load_Unable));
 }
 
-void    BMemory_93c46_Save (FILE *f)
+void    BMemory_93c46_Save(FILE *f)
 {
   if (f && fwrite (EEPROM_93c46.Data, EEPROM_93C46_DATA_SIZE, 1, f) == 1)
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Wrote), EEPROM_93C46_DATA_SIZE);
@@ -33,17 +33,17 @@ void    BMemory_93c46_Save (FILE *f)
      Msg(MSGT_USER, Msg_Get(MSG_93c46_Write_Unable), EEPROM_93C46_DATA_SIZE);
 }
 
-void    BMemory_93c46_Load_State (FILE *f)
+void    BMemory_93c46_Load_State(FILE *f)
 {
   fread (&EEPROM_93c46, sizeof (EEPROM_93c46), 1, f);
 }
 
-void    BMemory_93c46_Save_State (FILE *f)
+void    BMemory_93c46_Save_State(FILE *f)
 {
   fwrite (&EEPROM_93c46, sizeof (EEPROM_93c46), 1, f);
 }
 
-void    BMemory_93c46_Get_Infos (void **data, int *len)
+void    BMemory_93c46_Get_Infos(void **data, int *len)
 {
   (*data) = EEPROM_93c46.Data;
   (*len)  = EEPROM_93C46_DATA_SIZE;
@@ -51,8 +51,8 @@ void    BMemory_93c46_Get_Infos (void **data, int *len)
 
 //-----------------------------------------------------------------------------
 
-/* Write to 0xFFFC */
-void    EEPROM_93c46_Control (byte v)
+// Write to 0xFFFC
+void    EEPROM_93c46_Control(byte v)
 {
   if (v & 0x80)
      {
@@ -68,14 +68,14 @@ void    EEPROM_93c46_Control (byte v)
   #endif
 }
 
-/* Clear 93c46 EEPROM data */
-void    EEPROM_93c46_Clear (void)
+// Clear 93c46 EEPROM data
+void    EEPROM_93c46_Clear()
 {
   memset (EEPROM_93c46.Data, 0xFF, EEPROM_93C46_DATA_SIZE);
 }
 
-/* Initialiaze 93c46 EEPROM - do NOT clear its data! */
-void    EEPROM_93c46_Init (int Init)
+// Initialize 93c46 EEPROM - do NOT clear its data!
+void    EEPROM_93c46_Init(int Init)
 {
   if (Init == EEPROM_93C46_INIT_ALL)
      {
@@ -88,8 +88,8 @@ void    EEPROM_93c46_Init (int Init)
   EEPROM_93c46.Position = 0;
 }
 
-/* Write to 0x8000 when 93c46 EEPROM is enabled */
-void    EEPROM_93c46_Set_Lines (byte lines)
+// Write to 0x8000 when 93c46 EEPROM is enabled
+void    EEPROM_93c46_Set_Lines(byte lines)
 {
   #ifdef DEBUG_EEPROM
     {
@@ -287,7 +287,7 @@ void    EEPROM_93c46_Set_Lines (byte lines)
 }
 
 /* Read from 0x8000 when 93c46 is enabled */
-byte    EEPROM_93c46_Read (void)
+byte    EEPROM_93c46_Read()
 {
   int   ret;
 
@@ -301,16 +301,15 @@ byte    EEPROM_93c46_Read (void)
 }
 
 // For Nomo's World Series Baseball
-void    EEPROM_93c46_Direct_Write       (int Addr, byte Data)
+void    EEPROM_93c46_Direct_Write(int Addr, byte Data)
 {
   EEPROM_93c46.Data[Addr] = Data;
 }
 
 // For Nomo's World Series Baseball
-byte    EEPROM_93c46_Direct_Read        (int Addr)
+byte    EEPROM_93c46_Direct_Read(int Addr)
 {
-  return (EEPROM_93c46.Data[Addr]);
+  return EEPROM_93c46.Data[Addr];
 }
 
 //-----------------------------------------------------------------------------
-

@@ -220,7 +220,7 @@ void    VDP_Mode4_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_regio
     }
 }
 
-void    Refresh_Line_5 (void)
+void    Refresh_Line_5()
 {
     // Point to current video line
     GFX_LineRegionData = (u16*)( (u8*)g_screenbuffer_locked_region->data + g_screenbuffer_locked_region->pitch * tsms.VDP_Line );
@@ -280,7 +280,7 @@ void    Refresh_Line_5 (void)
 }
 
 // DISPLAY A BACKGROUND LINE --------------------------------------------------
-void    Display_BackGround_Line_5(void)
+void    Display_BackGround_Line_5()
 {
     // X scrolling computations
     int x_scroll = ((Top_No_Scroll) && (tsms.VDP_Line < 16)) ? 0 : g_machine.VDP.scroll_x_latched;

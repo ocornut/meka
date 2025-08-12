@@ -23,13 +23,13 @@ extern int RapidFire_Count;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    RapidFire_Init          (void);
-void    RapidFire_Update        (void);
+void    RapidFire_Init();
+void    RapidFire_Update();
 
-void    RapidFire_Switch_J1B1   (void);
-void    RapidFire_Switch_J1B2   (void);
-void    RapidFire_Switch_J2B1   (void);
-void    RapidFire_Switch_J2B2   (void);
+void    RapidFire_Switch_J1B1();
+void    RapidFire_Switch_J1B2();
+void    RapidFire_Switch_J2B1();
+void    RapidFire_Switch_J2B2();
 
 //-----------------------------------------------------------------------------
 

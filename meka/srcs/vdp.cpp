@@ -64,7 +64,7 @@ int     VDP_Model_FindByName(const char *name)
     return -1;
 }
 
-void    VDP_VideoMode_Change (void)
+void    VDP_VideoMode_Change()
 {
     int   i;
 
@@ -111,7 +111,7 @@ void    VDP_VideoMode_Change (void)
 }
 
 // See table in Charles' VDP documentation.
-void    VDP_VideoMode_Update (void)
+void    VDP_VideoMode_Update()
 {
     // Transform into M1/M2/M3/M4 as in Charles' VDP documentation (this is confusing).
     //int mode;
@@ -140,7 +140,7 @@ void    VDP_VideoMode_Update (void)
     }
 }
 
-void    VDP_UpdateLineLimits(void)
+void    VDP_UpdateLineLimits()
 {
     if (g_driver->id == DRV_GG && Wide_Screen_28)
         g_driver->y_show_start = g_driver->y_start + 16;
@@ -427,7 +427,7 @@ void    Tms_VDP_Out_Address (int value)
     }
 }
 
-u8      Tms_VDP_In_Data (void)
+u8      Tms_VDP_In_Data()
 {
     sms.VDP_Access_Mode = VDP_Access_Mode_1;
     // if (sms.VDP_Pal)
@@ -454,7 +454,7 @@ u8      Tms_VDP_In_Data (void)
     }
 }
 
-u8          Tms_VDP_In_Status (void)
+u8          Tms_VDP_In_Status()
 {
     u8      b;
 

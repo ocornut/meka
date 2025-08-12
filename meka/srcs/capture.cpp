@@ -22,39 +22,30 @@ t_capture   Capture;
 // Functions
 //-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
-// Capture_Init()
 // Initialize screen capture system
 // Needs to be called before loading the configuration file
-//-----------------------------------------------------------------------------
-void        Capture_Init(void)
+void        Capture_Init()
 {
     Capture.request = FALSE;
     Capture.request_all_frames = FALSE;
     Capture_Init_Game();
 }
 
-//-----------------------------------------------------------------------------
-// Capture_Init_Game()
 // Screen capture per-game initialization
 // Called each time a new Game/ROM is loaded
-//-----------------------------------------------------------------------------
-void        Capture_Init_Game(void)
+void        Capture_Init_Game()
 {
     Capture.id_number = 1;
 }
 
-//-----------------------------------------------------------------------------
-// Capture_Request()
 // Request a screen capture (will be actually done on next rendering)
-//-----------------------------------------------------------------------------
-void        Capture_Request(void)
+void        Capture_Request()
 {
     Capture.request = TRUE;
 }
 
 // Compute filename for next screen capture
-static void Capture_FileName_Get(char *dst)
+static void Capture_FileName_Get(char* dst)
 {
     // Create directory if necessary
     if (!al_filename_exists(g_env.Paths.ScreenshotDirectory))
@@ -174,7 +165,7 @@ static void     Capture_Screen()
     Msg(MSGT_USER, Msg_Get(MSG_Capture_Done), filename);
 }
 
-void    Capture_Update(void)
+void    Capture_Update()
 {
     if (Capture.request)
     {
@@ -189,12 +180,12 @@ void    Capture_Update(void)
 
 //-----------------------------------------------------------------------------
 
-void    Capture_MenuHandler_Capture(void)
+void    Capture_MenuHandler_Capture()
 {
     Capture_Request();
 }
 
-void    Capture_MenuHandler_AllFrames(void)
+void    Capture_MenuHandler_AllFrames()
 {
     Capture.request_all_frames = !Capture.request_all_frames;
     gui_menu_toggle_check(menus_ID.screenshots, 1);
@@ -204,7 +195,7 @@ void    Capture_MenuHandler_AllFrames(void)
     }
 }
 
-void    Capture_MenuHandler_IncludeGui(void)
+void    Capture_MenuHandler_IncludeGui()
 {
     g_config.capture_include_gui = !g_config.capture_include_gui;
     gui_menu_toggle_check(menus_ID.screenshots, 2);

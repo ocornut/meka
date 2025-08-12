@@ -16,8 +16,8 @@ extern int  Sound_Rate_Default_Table[];
 // Functions
 //-----------------------------------------------------------------------------
 
-void    FM_Disable                      (void);
-void    FM_Enable                       (void);
+void    FM_Disable();
+void    FM_Enable();
 
 void    Sound_Volume_Menu_Init          (int menu_id);
 

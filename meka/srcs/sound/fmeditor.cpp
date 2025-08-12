@@ -115,7 +115,7 @@ extern int              vcref[9];
 /************************************************/
 // FM Editor Redraw function
 /************************************************/
-void    FM_Editor_Redraw (void)
+void    FM_Editor_Redraw()
 {
   int   i, line;
   int   vmax;
@@ -213,7 +213,7 @@ void    FM_Editor_CallBack (t_widget *w)
 /************************************************/
 // Initialize FM Editor Applet
 /************************************************/
-void        FM_Editor_Init (void)
+void        FM_Editor_Init()
 {
     int     i;
     t_frame frame;
@@ -257,7 +257,7 @@ void        FM_Editor_Init (void)
 /************************************************/
 // Switch FM Editor Applet
 /************************************************/
-void    FM_Editor_Switch (void)
+void    FM_Editor_Switch()
 {
     apps.active.FM_Editor ^= 1;
     gui_box_show (gui.box[apps.id.FM_Editor], apps.active.FM_Editor, TRUE);

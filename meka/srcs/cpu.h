@@ -18,7 +18,7 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
 //-----------------------------------------------------------------------------
 
 #ifdef MARAT_Z80
-  u16 Loop_SMS (void);
+  u16 Loop_SMS();
   #define Macro_Stop_CPU    { return (INT_QUIT); }
   #define CPU_GetPC()       (sms.R.PC.W)
   #define CPU_GetICount()   (sms.R.ICount)
@@ -39,13 +39,13 @@ extern int     CPU_ForceNMI;   // Set to force a NMI (currently only supported b
   byte (*RdZ80)(word);
   word (*LoopZ80)();
   void CPU_Loop();
-  int Get_Active_CPU (void);
-  int Get_IRQ_Vector (int p);
+  int Get_Active_CPU();
+  int Get_IRQ_Vector(int p);
   #define Macro_Stop_CPU    z80_exit()
   #define CPU_GetPC         z80_get_pc()
   #define Get_ICount        z80_ICount
   #define Get_IPeriod       opt.Cur_IPeriod
-  word Loop_SMS (void);
+  word Loop_SMS();
 #endif
 
 #ifdef RAZE_Z80

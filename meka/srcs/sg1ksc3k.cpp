@@ -16,7 +16,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-word    Loop_SG1000_SC3000 (void)
+word    Loop_SG1000_SC3000()
 {
     int interrupt = INT_NONE;
 

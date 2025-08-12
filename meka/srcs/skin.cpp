@@ -84,7 +84,7 @@ static t_skin *     Skin_New(const char *name);
 static void         Skin_Delete(t_skin *skin);
 static bool         Skin_IsValid(t_skin *skin);
 
-static void         Skins_UpdateNativeColorTable(void);
+static void         Skins_UpdateNativeColorTable();
 
 //-----------------------------------------------------------------------------
 // SKIN - Functions
@@ -199,11 +199,8 @@ void        Skins_Init_Values()
     Skins.skin_configuration_name = NULL;
 }
 
-//-----------------------------------------------------------------------------
-// Skins_Init(void)
 // Initialize skin system
-//-----------------------------------------------------------------------------
-void        Skins_Init(void)
+void        Skins_Init()
 {
     t_skin *skin_first_valid = NULL;
 
@@ -463,7 +460,7 @@ void        Skins_Load(const char *filename)
     tfile_free(tf);
 }
 
-void        Skins_Close(void)
+void        Skins_Close()
 {
     // Free all strings
     list_free_custom (&Skins.skins, (t_list_free_handler)Skin_Delete);
@@ -490,7 +487,7 @@ t_skin *    Skins_FindSkinByName(const char *skin_name)
     return (NULL);
 }
 
-void        Skins_Apply(void)
+void        Skins_Apply()
 {
     // Update native color table
     Skins_UpdateNativeColorTable();
@@ -503,7 +500,7 @@ void        Skins_Apply(void)
     gui_relayout_all();
 }
 
-void        Skins_StartupFadeIn(void)
+void        Skins_StartupFadeIn()
 {
     // Setup fade-in from black, or using some special effect?
     t_skin *skin = Skins.skin_current;
@@ -546,7 +543,7 @@ void        Skins_Select(t_skin *skin, bool fade)
     }
 }
 
-void        Skins_Update(void)
+void        Skins_Update()
 {
     //{
     //    char buf[128];
@@ -627,7 +624,7 @@ static void Skins_UpdateNativeGradient(t_skin_gradient *gradient, u32 color_star
     }
 }
 
-static void Skins_UpdateNativeColorTable(void)
+static void Skins_UpdateNativeColorTable()
 {
     int     i;
     t_skin *skin = Skins.skin_current;
@@ -691,17 +688,17 @@ void        Skins_MenuInit(int menu_id)
     }
 }
 
-void        Skins_QuitAfterFade(void)
+void        Skins_QuitAfterFade()
 {
     Skins.quit_after_fade = TRUE;
 }
 
-t_skin *    Skins_GetCurrentSkin(void)
+t_skin *    Skins_GetCurrentSkin()
 {
     return Skins.skin_current;
 }
 
-ALLEGRO_BITMAP *    Skins_GetBackgroundPicture(void)
+ALLEGRO_BITMAP *    Skins_GetBackgroundPicture()
 {
     return Skins.background_picture;
 }

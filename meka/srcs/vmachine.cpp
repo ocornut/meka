@@ -22,7 +22,7 @@ int     g_machine_flags = 0;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    VMachine_Draw (void)
+void    VMachine_Draw()
 {
     int    x, y;
 
@@ -56,12 +56,12 @@ void    VMachine_Draw (void)
     }
 }
 
-void    Machine_Init (void)
+void    Machine_Init()
 {
     g_machine_flags = 0;
 }
 
-void    Machine_ON (void)
+void    Machine_ON()
 {
 #ifdef DEBUG_WHOLE
     Msg(MSGT_DEBUG, "Machine_ON()");
@@ -83,7 +83,7 @@ void    Machine_ON (void)
     }
 }
 
-void    Machine_OFF (void)
+void    Machine_OFF()
 {
     if (g_machine_flags & MACHINE_POWER_ON)
     {
@@ -97,13 +97,13 @@ void    Machine_OFF (void)
     }
 }
 
-void    Machine_Insert_Cartridge (void)
+void    Machine_Insert_Cartridge()
 {
     g_machine_flags |= MACHINE_CART_INSERTED;
     Skins_Background_Redraw();
 }
 
-void    Machine_Remove_Cartridge (void)
+void    Machine_Remove_Cartridge()
 {
     if (g_machine_flags & MACHINE_CART_INSERTED)
     {
@@ -113,7 +113,7 @@ void    Machine_Remove_Cartridge (void)
     Skins_Background_Redraw();
 }
 
-void    Free_ROM (void)
+void    Free_ROM()
 {
     // Call BMemory_Save() only if Machine_Off() won't call it
     // FIXME: this is some crap hack, the whole machine thing need to be rewritten

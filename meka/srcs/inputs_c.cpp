@@ -199,7 +199,7 @@ byte        Inputs_CFG_Current_Source_Draw_Map(int i, ALLEGRO_COLOR Color)
     return TRUE;
 }
 
-void    Inputs_CFG_Current_Source_Draw (void)
+void    Inputs_CFG_Current_Source_Draw()
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
     ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
@@ -309,7 +309,7 @@ void    Inputs_CFG_Current_Source_Change (t_widget *w)
     }
 }
 
-void        Inputs_CFG_Peripherals_Draw (void)
+void        Inputs_CFG_Peripherals_Draw()
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
     ALLEGRO_BITMAP *bmp = app->box->gfx_buffer;
@@ -325,7 +325,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     al_draw_filled_rectangle(10, 58, 10 + al_get_bitmap_width(Graphics.Inputs.InputsBase) + 1, 121 + 1, COLOR_SKIN_WINDOW_BACKGROUND);
 
     // Print 'click to select peripheral' message
-    Font_PrintCentered(FONTID_CUR, Msg_Get(MSG_Inputs_Config_Peripheral_Click), 
+    Font_PrintCentered(FONTID_CUR, Msg_Get(MSG_Inputs_Config_Peripheral_Click),
         10 + 11 + (64 / 2) + (58 / 2),
         4, COLOR_SKIN_WINDOW_TEXT);
 
@@ -334,7 +334,7 @@ void        Inputs_CFG_Peripherals_Draw (void)
     {
         // Print name
         const char *name = Inputs_Peripheral_Infos[Inputs.Peripheral[i]].name;
-        Font_PrintCentered(FONTID_CUR, name, 
+        Font_PrintCentered(FONTID_CUR, name,
             10 + 11 + (i ? 64 : 0) + (58 / 2), // X
             20, // Y
             COLOR_SKIN_WINDOW_TEXT);
@@ -461,7 +461,7 @@ void    Inputs_CFG_Update(t_app_inputs_config *app)
     app->dirty = FALSE;
 }
 
-void    Inputs_CFG_Map_Change_Update (void)
+void    Inputs_CFG_Map_Change_Update()
 {
     t_app_inputs_config *app = &Inputs_CFG; // Global instance
 
@@ -633,7 +633,7 @@ void    Inputs_CFG_Map_Change_Update (void)
     app->dirty = TRUE;
 }
 
-void    Inputs_CFG_Map_Change_End (void)
+void    Inputs_CFG_Map_Change_End()
 {
     // Need to restore cursor.
     // FIXME: the method sucks! need to sort those functions anyway.

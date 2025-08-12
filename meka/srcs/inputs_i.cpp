@@ -18,7 +18,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Inputs_Init (void)
+void    Inputs_Init()
 {
     // Keyboard
     Inputs.KeyPressedQueue = NULL;
@@ -35,7 +35,7 @@ void    Inputs_Init (void)
 
 #ifdef MEKA_JOYPAD
 
-void    Inputs_Joystick_Init(void)
+void    Inputs_Joystick_Init()
 {
     int     i;
     int     num_joy;
@@ -75,7 +75,7 @@ void    Inputs_Joystick_Init(void)
     }
 }
 
-void    Inputs_Joystick_Close(void)
+void    Inputs_Joystick_Close()
 {
     al_uninstall_joystick();
 }

@@ -78,14 +78,14 @@ void    StrPath_RemoveDirectory(char *dst, const char *src)
 // Time Functions
 //-----------------------------------------------------------------------------
 
-char *  meka_date_getf (void)
+char *  meka_date_getf()
 {
     time_t t;
     time (&t);
     return (ctime (&t));
 }
 
-char *  meka_time_getf (char *str)
+char *  meka_time_getf(char* str)
 {
 #ifdef ARCH_WIN32
     SYSTEMTIME t;

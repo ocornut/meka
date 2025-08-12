@@ -46,12 +46,12 @@ static const ts_driver_filename_extension   drivers_ext [] =
 
 //-----------------------------------------------------------------------------
 
-void    drv_init (void)
+void    drv_init()
 {
     drv_set (DRV_SMS);
 }
 
-void    drv_set (int num)
+void    drv_set(int num)
 {
     if (num < 0 || num >= DRV_MAX)
     {

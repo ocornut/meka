@@ -7,12 +7,12 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Inputs_Init             (void);
-void    Inputs_Close            (void);
+void    Inputs_Init();
+void    Inputs_Close();
 
 #ifdef MEKA_JOYPAD
-void    Inputs_Joystick_Init    (void);
-void    Inputs_Joystick_Close   (void);
+void    Inputs_Joystick_Init();
+void    Inputs_Joystick_Close();
 #endif
 
 //-----------------------------------------------------------------------------

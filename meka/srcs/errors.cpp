@@ -16,7 +16,7 @@ int meka_errno = MEKA_ERR_OK;
 //-----------------------------------------------------------------------------
 
 // FIXME: switch that to a table with the #define inside
-const char *  meka_strerror(void)
+const char *  meka_strerror()
 {
     switch (meka_errno)
     {
@@ -32,7 +32,7 @@ const char *  meka_strerror(void)
 }
 
 #ifdef ARCH_WIN32
-static LPVOID   GetWindowsErrorMessage(void)
+static LPVOID   GetWindowsErrorMessage()
 {
     LPVOID lpMsgBuf;
 
@@ -46,7 +46,7 @@ static LPVOID   GetWindowsErrorMessage(void)
     return (lpMsgBuf);
 }
 
-void            ShowWindowsErrorMessage(void)
+void            ShowWindowsErrorMessage()
 {
     LPVOID lpMsgBuf;
 

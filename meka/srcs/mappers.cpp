@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 // FIXME: Need to refactor this whole file. Some things we want:
 // - Create proper named mapper-id and try to standardize with community.
-// - Gather all infos and code about a mapper in a central place (grep for MAPPER_* 
+// - Gather all infos and code about a mapper in a central place (grep for MAPPER_*
 //   usage in code, mainly the switches in machine.c and saves.c)
 // - Generally clean up implementation.
 //-----------------------------------------------------------------------------
@@ -28,12 +28,12 @@ u8 RAM_IsUninitialized[0x2000];
 //-----------------------------------------------------------------------------
 
 void Map_8k_Other (int page, void *data)
-{ 
-    Mem_Pages [page] = (u8 *)data - (page * 0x2000); 
+{
+    Mem_Pages [page] = (u8 *)data - (page * 0x2000);
 }
 
 void Map_16k_Other (int page, void *data)
-{ 
+{
     Mem_Pages [page] = Mem_Pages [page + 1] = (u8*)data - (page * 0x2000);
 }
 
@@ -44,7 +44,7 @@ void Map_8k_RAM (int page, int ram_page)
 
 void Map_8k_ROM (int page, int rom_page)
 {
-    Mem_Pages [page] = ROM + ((rom_page - page) * 0x2000); 
+    Mem_Pages [page] = ROM + ((rom_page - page) * 0x2000);
 }
 
 void Map_16k_ROM (int page, int rom_page)
@@ -78,7 +78,7 @@ void    Mapper_InitializeLookupTables()
 void    Out_SC3000_SurvivorsMulticarts_DataWrite(u8 v)
 {
     // Control Byte format
-    // Q0..Q4 controls the A15 to A19 address lines on the EPROMs.  
+    // Q0..Q4 controls the A15 to A19 address lines on the EPROMs.
     //        So these 5 bits let you select a 32KB logical block within one of the EPROMs.  Q0 => A15, Q1 => A16, Q2 => A17, Q3 => A18, Q4 => A19
     // Q5     is not connected to anything
     // Q6     ROM 0 / ROM 1 select (0 =>ROM 0, 1 => ROM 1)
@@ -118,7 +118,7 @@ void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
 }
 
 // Return -1 if can't tell, else a mapper number
-int         Mapper_Autodetect(void)
+int         Mapper_Autodetect()
 {
     // If ROM is smaller than 32KB, auto-detected SMS mapper are not needed
     if (tsms.Size_ROM <= 0x8000)
@@ -206,7 +206,7 @@ WRITE_FUNC (Write_Default)
                 }
                 else
                 {
-                    if (sms.SRAM_Pages < 2) 
+                    if (sms.SRAM_Pages < 2)
                         sms.SRAM_Pages = 2; // 2 x 8 kB
                     Map_8k_Other (4, &SRAM [0x0000]);
                 }
@@ -370,7 +370,7 @@ WRITE_FUNC (Write_Mapper_SG1000)
 
 WRITE_FUNC (Write_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA)
 {
-    // RAM 
+    // RAM
     switch (Addr >> 13)
     {
     case 1: Mem_Pages [1] [Addr] = Value; return;
@@ -614,7 +614,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_2000_xor_1F)
     }
 
     Write_Error (Addr, Value);
-} 
+}
 
 // Mapper #21
 // (Note: somehow similar to #20, see how #20 is written as it is somehow neater)
@@ -625,9 +625,9 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE)
         g_machine.mapper_regs[0] = Value;
         // 0abcccccd
         //  a (1-bit)  when 0 = map MSX BIOS in page 0 and 1, when 1 = use regular register
-        //  b (1-bit)  
+        //  b (1-bit)
         //  c (5-bits)
-        //  d (1-bit)  
+        //  d (1-bit)
         Map_8k_ROM(0, (((Value & 0x40) == 0x40) ? ((Value & 0x1e) * 2) : 0) & tsms.Pages_Mask_8k);
         Map_8k_ROM(1, (((Value & 0x40) == 0x40) ? ((Value & 0x1e) * 2 + 1) : 1) & tsms.Pages_Mask_8k);
         Map_8k_ROM(2, (((Value & 0x40) == 0x40) ? (((Value & 0x1e) + 1) * 2) : ((Value & 0x1f) * 2)) & tsms.Pages_Mask_8k);
@@ -645,7 +645,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_FFFE)
     }
 
     Write_Error (Addr, Value);
-} 
+}
 
 // Mapper #22
 // Super Game 150, Super Game 270
@@ -823,7 +823,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF0)
     }
 
     Write_Error (Addr, Value);
-} 
+}
 
 // Mapper #25
 // Jaemiissneun Game Mo-eumjip 42/65 Hap [SMS-MD]
@@ -884,7 +884,7 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MD_FFF5)
     }
 
     Write_Error (Addr, Value);
-} 
+}
 
 // Mapper #26
 // Game Jiphap 30 Hap [SMS-MD] (KR)
@@ -1018,10 +1018,10 @@ WRITE_FUNC (Write_Mapper_SMS_Korean_MSX_SMS_8000)
 // Based on MSX ASCII 8KB mapper? http://bifi.msxnet.org/msxnet/tech/megaroms.html#ascii8
 // - This mapper requires 4 registers to save bank switching state.
 //   However, all other mappers so far used only 3 registers, stored as 3 bytes.
-//   Because of the current development state of MEKA and to avoid breaking save-state format 
+//   Because of the current development state of MEKA and to avoid breaking save-state format
 //   for emulators that import the current MEKA save format (because the 3 mapper bytes are
 //   in the static "SMS_TYPE" structure), I decided to store those 4 registers packed each
-//   into 4-bits of 2 of the available bytes. It's not technically incorrect anyway since 
+//   into 4-bits of 2 of the available bytes. It's not technically incorrect anyway since
 //   those variable are just our own representation of the hardware, but its error prone.
 // - Using 4-bits limits number of banks to 16 which is 128 KB, corresponding to the maximum
 //   game size currently known for this mapper.
@@ -1308,7 +1308,7 @@ READ_FUNC (Read_Mapper_SMS_Korean_Janggun)
 READ_FUNC (Read_Mapper_SG1000_Taiwan_MSX_Adapter_TypeA)
 {
     const unsigned int page = (Addr >> 13);
-    
+
     // 0xC000->0xFFFF: SG-1000 work RAM
     if (page >= 6)
         Addr &= ~0x1800;

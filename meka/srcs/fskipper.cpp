@@ -20,7 +20,7 @@ ALLEGRO_EVENT_QUEUE*    g_timer_seconds_event_queue = NULL;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Frame_Skipper_Init_Values (void)
+void    Frame_Skipper_Init_Values()
 {
     fskipper.Mode                       = FRAMESKIP_MODE_THROTTLED;
     fskipper.Throttled_Speed            = 60;

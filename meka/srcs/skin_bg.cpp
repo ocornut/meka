@@ -11,7 +11,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-static void     Skins_Background_Redraw_Grid(void)
+static void     Skins_Background_Redraw_Grid()
 {
     al_clear_to_color(COLOR_SKIN_BACKGROUND);
 

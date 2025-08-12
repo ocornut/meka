@@ -100,7 +100,7 @@ ALLEGRO_COLOR COLOR_DEBUG_BACKDROP = al_map_rgb_f(222.0f/255.0f,222.0f/255.0f,10
 #if defined(_MSC_VER)
 FILE _iob[] = { *stdin, *stdout, *stderr };
 
-extern "C" FILE * __cdecl __iob_func(void)
+extern "C" FILE * __cdecl __iob_func()
 {
     return _iob;
 }
@@ -240,7 +240,7 @@ static void Init_Default_Values()
     #endif
 }
 
-static void Free_Memory (void)
+static void Free_Memory()
 {
     free(Game_ROM_Computed_Page_0);
     BIOS_Free_Roms();
@@ -251,7 +251,7 @@ static void Free_Memory (void)
     }
 }
 
-static void Close_Emulator (void)
+static void Close_Emulator()
 {
     Sound_Close         ();
     Desktop_Close       ();
@@ -275,7 +275,7 @@ static void Close_Emulator (void)
 // This is the first function to call on shutdown, to avoid getting called
 // during the shutdown process (which sometimes makes things crash).
 /*
-static void Close_Callback (void)
+static void Close_Callback()
 {
     al_set_close_button_callback(NULL);
 }
@@ -327,7 +327,7 @@ static void Close_Allegro()
     al_uninstall_system();
 }
 
-static void Init_GUI(void)
+static void Init_GUI()
 {
     ConsolePrintf ("%s\n", Msg_Get(MSG_Init_GUI));
     GUI_Init();

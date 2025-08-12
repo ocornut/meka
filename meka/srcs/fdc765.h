@@ -64,9 +64,9 @@ struct FDC765_Disk
 };
 
 // Initialize/Close funtions --------------------------------------------------
-void    FDC765_Init             (void);         // Initialization
-void    FDC765_Close            (void);         // Final Closure
-void    FDC765_Reset            (void);         // Reset
+void    FDC765_Init             ();         // Initialization
+void    FDC765_Close            ();         // Final Closure
+void    FDC765_Reset            ();         // Reset
 //-----------------------------------------------------------------------------
 
 // Disk Management functions --------------------------------------------------
@@ -77,8 +77,8 @@ void    FDC765_Disk_Write_Get   (int DrvNum, void **Data, int *DataSize);
 
 // Emulation functions --------------------------------------------------------
 void    FDC765_Data_Write       (register byte Value);
-byte    FDC765_Data_Read        (void);
-byte    FDC765_Status_Read      (void);
+byte    FDC765_Data_Read        ();
+byte    FDC765_Status_Read      ();
 //-----------------------------------------------------------------------------
 
 // Added by Marc Le Douarain for SF-7000 emulation ----------------------------

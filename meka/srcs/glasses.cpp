@@ -19,15 +19,15 @@ t_glasses   Glasses;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-int     Glasses_ComPort_Initialize      (void);
-void    Glasses_ComPort_Close           (void);
-void    Glasses_ComPort_Write           (int left_enable, int right_enable);
+int     Glasses_ComPort_Initialize();
+void    Glasses_ComPort_Close();
+void    Glasses_ComPort_Write(int left_enable, int right_enable);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Glasses_Init_Values (void)
+void    Glasses_Init_Values()
 {
     Glasses.Enabled = FALSE;
     Glasses_Set_Mode (GLASSES_MODE_SHOW_ONLY_RIGHT);
@@ -44,7 +44,7 @@ void    Glasses_Init_Values (void)
 #endif
 }
 
-void    Glasses_Close (void)
+void    Glasses_Close()
 {
     if (Glasses.Enabled && Glasses.Mode == GLASSES_MODE_COM_PORT)
     {
@@ -53,7 +53,7 @@ void    Glasses_Close (void)
     }
 }
 
-int     Glasses_Must_Skip_Frame(void)
+int     Glasses_Must_Skip_Frame()
 {
     static int security_cnt = 0;
     // Msg(MSGT_DEBUG, "%02X-%02X-%02X-%02X", RAM[0x1FF8], RAM[0x1FF9], RAM[0x1FFA], RAM[0x1FFB]);
@@ -77,7 +77,7 @@ int     Glasses_Must_Skip_Frame(void)
     return (ret);
 }
 
-void    Glasses_Set_Mode (int mode)
+void    Glasses_Set_Mode(int mode)
 {
     if (Glasses.Mode == GLASSES_MODE_COM_PORT && mode != GLASSES_MODE_COM_PORT)
         Glasses_ComPort_Close();
@@ -89,7 +89,7 @@ void    Glasses_Set_Mode (int mode)
         }
 }
 
-void    Glasses_Set_ComPort (int port)
+void    Glasses_Set_ComPort(int port)
 {
     Glasses.ComPort = port;
     if (Glasses.Mode == GLASSES_MODE_COM_PORT)
@@ -99,7 +99,7 @@ void    Glasses_Set_ComPort (int port)
         }
 }
 
-int     Glasses_ComPort_Initialize (void)
+int     Glasses_ComPort_Initialize()
 {
 #ifdef ARCH_DOS
 
@@ -173,7 +173,7 @@ int     Glasses_ComPort_Initialize (void)
 #endif
 }
 
-void    Glasses_ComPort_Close (void)
+void    Glasses_ComPort_Close()
 {
 #ifdef ARCH_WIN32
     if (Glasses.ComHandle == INVALID_HANDLE_VALUE)
@@ -183,7 +183,7 @@ void    Glasses_ComPort_Close (void)
 #endif
 }
 
-void    Glasses_ComPort_Write (int left_enable, int right_enable)
+void    Glasses_ComPort_Write(int left_enable, int right_enable)
 {
 #ifdef ARCH_DOS
 
@@ -230,7 +230,7 @@ void    Glasses_ComPort_Write (int left_enable, int right_enable)
 #endif
 }
 
-void    Glasses_Update (void)
+void    Glasses_Update()
 {
     if (Glasses.Mode == GLASSES_MODE_COM_PORT)
     {
@@ -241,7 +241,7 @@ void    Glasses_Update (void)
     }
 }
 
-void    Glasses_Switch_Enable (void)
+void    Glasses_Switch_Enable()
 {
     Glasses_Close();
     Glasses.Enabled ^= 1;
@@ -259,7 +259,7 @@ void    Glasses_Switch_Enable (void)
     Inputs_CFG_Peripherals_Draw();
 }
 
-void    Glasses_Switch_Mode_Show_Both (void)
+void    Glasses_Switch_Mode_Show_Both()
 {
     Glasses_Close();
     Glasses.Mode = GLASSES_MODE_SHOW_BOTH;
@@ -268,7 +268,7 @@ void    Glasses_Switch_Mode_Show_Both (void)
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Show_Both));
 }
 
-void    Glasses_Switch_Mode_Show_Left (void)
+void    Glasses_Switch_Mode_Show_Left()
 {
     Glasses_Close();
     Glasses.Mode = GLASSES_MODE_SHOW_ONLY_LEFT;
@@ -277,7 +277,7 @@ void    Glasses_Switch_Mode_Show_Left (void)
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Show_Left));
 }
 
-void    Glasses_Switch_Mode_Show_Right (void)
+void    Glasses_Switch_Mode_Show_Right()
 {
     Glasses_Close();
     Glasses.Mode = GLASSES_MODE_SHOW_ONLY_RIGHT;
@@ -286,7 +286,7 @@ void    Glasses_Switch_Mode_Show_Right (void)
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Glasses_Show_Right));
 }
 
-void    Glasses_Switch_Mode_Com_Port (void)
+void    Glasses_Switch_Mode_Com_Port()
 {
     Glasses.Mode = GLASSES_MODE_COM_PORT;
     gui_menu_uncheck_range (menus_ID.glasses, 1, 4);

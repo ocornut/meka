@@ -43,7 +43,7 @@ struct t_tilemap_viewer
     int                     config_tilemap_addr;
     bool                    config_tilemap_addr_auto;
     int                     config_tilemap_addr_manual_base_addr;       // SMS: $0000  Wide: $0700  SG/SC: $0000
-    int                     config_tilemap_addr_manual_step_size;       // SMS: $0800  Wide: $1000  SG/SC: $0400  
+    int                     config_tilemap_addr_manual_step_size;       // SMS: $0800  Wide: $1000  SG/SC: $0400
     int                     config_tilemap_addr_manual_step_count;      // SMS: 8      Wide: 4      SG/SC: 16
     int                     tile_hovered;
     int                     tile_selected;
@@ -57,9 +57,9 @@ extern t_list *             TilemapViewers;
 //-----------------------------------------------------------------------------
 
 t_tilemap_viewer *          TilemapViewer_New(bool register_desktop);
-void                        TilemapViewer_Delete(t_tilemap_viewer *app);
-void                        TilemapViewer_SwitchMainInstance(void);
+void                        TilemapViewer_Delete(t_tilemap_viewer* app);
+void                        TilemapViewer_SwitchMainInstance();
 
-void                        TilemapViewers_Update(void);
+void                        TilemapViewers_Update();
 
 //-----------------------------------------------------------------------------

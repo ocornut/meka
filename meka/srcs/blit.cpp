@@ -58,7 +58,7 @@ t_blit_cfg  g_blit;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Blit_Init (void)
+void    Blit_Init()
 {
     g_blit.src_pos_x = 0;
     g_blit.src_pos_y = 0;
@@ -104,7 +104,7 @@ static const t_blitters_table_entry     Blitters_Table[BLITTER_MAX] =
     { Blit_Fullscreen_HQ2X,             2,      2 },
 };
 
-static void Blit_Fullscreen_Misc(void)
+static void Blit_Fullscreen_Misc()
 {
     // Wait for VSync if necessary
     // (not done if speed is higher than 70 hz)
@@ -214,13 +214,13 @@ static void Blit_Fullscreen_CopyStretch(ALLEGRO_BITMAP *src_buffer)
     }
 }
 
-void    Blit_Fullscreen_Normal(void)
+void    Blit_Fullscreen_Normal()
 {
     Blit_Fullscreen_Misc();
     Blit_Fullscreen_CopyStretch(screenbuffer);
 }
 
-void    Blit_Fullscreen_HQ2X (void)
+void    Blit_Fullscreen_HQ2X()
 {
     // Perform HQ2X into double buffer
     // FIXME-OPT: Applied on full width.
@@ -238,7 +238,7 @@ void    Blit_Fullscreen_HQ2X (void)
     Blit_Fullscreen_CopyStretch(Blit_Buffer_Double);
 }
 
-void    Blit_Fullscreen_TV_Mode (void)
+void    Blit_Fullscreen_TV_Mode()
 {
 #if 0 // FIXME-ALLEGRO5: blitter tv mode
     int i;
@@ -265,7 +265,7 @@ void    Blit_Fullscreen_TV_Mode (void)
 }
 
 // FIXME-OPT: Obviously this is very slow. Just trying to get something working for 0.72. Later shall work better solution (generating inline assembly, etc).
-void    Blit_Fullscreen_TV_Mode_Double (void)
+void    Blit_Fullscreen_TV_Mode_Double()
 {
 #if 0 // FIXME-ALLEGRO5: blitter tv mode double
     int i;
@@ -297,7 +297,7 @@ void    Blit_Fullscreen_TV_Mode_Double (void)
 }
 
 // Blit screenbuffer to video memory in fullscreen mode
-void    Blit_Fullscreen(void)
+void    Blit_Fullscreen()
 {
     Blit_Fullscreen_UpdateBounds();
 
@@ -325,7 +325,7 @@ void    Blit_Fullscreen(void)
     al_flip_display();
 }
 
-void    Blit_GUI(void)
+void    Blit_GUI()
 {
     // Wait for VSync if necessary
     if (g_config.video_mode_gui_vsync)

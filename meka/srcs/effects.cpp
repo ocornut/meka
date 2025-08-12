@@ -34,17 +34,17 @@ static t_tv_effect  tv_effect;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Effects_TV_Init(void)
+void    Effects_TV_Init()
 {
     tv_effect.start_line = SMS_RES_Y / 2;
 }
 
-void    Effects_TV_Reset(void)
+void    Effects_TV_Reset()
 {
     tv_effect.start_line = SMS_RES_Y / 2;
 }
 
-void    Effects_TV_Update (void)
+void    Effects_TV_Update()
 {
     // Update color palette
     for (int i = 0; i != TV_EFFECT_COLORS_MAX; i++)

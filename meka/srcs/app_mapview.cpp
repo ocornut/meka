@@ -204,42 +204,42 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
         frame.pos.x  = app->frame_config.pos.x;
         frame.pos.y += frame.size.y + 3;
         if (setup)
-            widget_checkbox_add(app->box, &frame, &app->config_bg, NULL); 
+            widget_checkbox_add(app->box, &frame, &app->config_bg, NULL);
         frame.pos.x += frame.size.x + 6;
         Font_Print(FONTID_MEDIUM, "BG", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
         frame.pos.x  = app->frame_config.pos.x;
         frame.pos.y += frame.size.y + 3;
         if (setup)
-            widget_checkbox_add(app->box, &frame, &app->config_fg, NULL); 
+            widget_checkbox_add(app->box, &frame, &app->config_fg, NULL);
         frame.pos.x += frame.size.x + 6;
         Font_Print(FONTID_MEDIUM, "FG", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
         frame.pos.x  = app->frame_config.pos.x;
         frame.pos.y += frame.size.y + 3;
         if (setup)
-            widget_checkbox_add(app->box, &frame, &app->config_hflip, NULL); 
+            widget_checkbox_add(app->box, &frame, &app->config_hflip, NULL);
         frame.pos.x += frame.size.x + 6;
         Font_Print(FONTID_MEDIUM, "H Flip", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
         frame.pos.x  = app->frame_config.pos.x;
         frame.pos.y += frame.size.y + 3;
         if (setup)
-            widget_checkbox_add(app->box, &frame, &app->config_vflip, NULL); 
+            widget_checkbox_add(app->box, &frame, &app->config_vflip, NULL);
         frame.pos.x += frame.size.x + 6;
         Font_Print(FONTID_MEDIUM, "V Flip", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
         frame.pos.x  = app->frame_config.pos.x;
         frame.pos.y += frame.size.y + 3;
         if (setup)
-            widget_checkbox_add(app->box, &frame, &app->config_scroll, NULL); 
+            widget_checkbox_add(app->box, &frame, &app->config_scroll, NULL);
         frame.pos.x += frame.size.x + 6;
         Font_Print(FONTID_MEDIUM, "Scroll", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 
         frame.pos.x  = app->frame_config.pos.x;
         frame.pos.y += frame.size.y + 3;
         if (setup)
-            widget_checkbox_add(app->box, &frame, &app->config_scroll_raster, NULL); 
+            widget_checkbox_add(app->box, &frame, &app->config_scroll_raster, NULL);
         frame.pos.x += frame.size.x + 6;
         Font_Print(FONTID_MEDIUM, "Raster", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
     }
@@ -258,7 +258,7 @@ void         TilemapViewer_Layout(t_tilemap_viewer *app, bool setup)
     frame.pos.y  = app->frame_tilemap_addr.pos.y + 3;
     frame.SetSize(10, 10);
     if (setup)
-        app->widget_tilemap_addr_auto_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL); 
+        app->widget_tilemap_addr_auto_checkbox = widget_checkbox_add(app->box, &frame, &app->config_tilemap_addr_auto, NULL);
     frame.pos.x += frame.size.x + 6;
     Font_Print(FONTID_MEDIUM, "Auto", frame.pos.x, frame.pos.y + 2, COLOR_SKIN_WINDOW_TEXT);
 }
@@ -306,7 +306,7 @@ void         TilemapViewer_Switch(t_widget *w)
     }
 }
 
-void         TilemapViewer_SwitchMainInstance(void)
+void         TilemapViewer_SwitchMainInstance()
 {
     t_tilemap_viewer *app = TilemapViewer_MainInstance;
     app->active ^= 1;
@@ -440,7 +440,7 @@ void         TilemapViewer_Update(t_tilemap_viewer *app)
 
     // Tilemap rectangle
     al_draw_rectangle(
-        app->frame_tilemap.pos.x - 0.5f, app->frame_tilemap.pos.y - 0.5f, 
+        app->frame_tilemap.pos.x - 0.5f, app->frame_tilemap.pos.y - 0.5f,
         app->frame_tilemap.pos.x + app->frame_tilemap.size.x + 0.5f, app->frame_tilemap.pos.y + app->frame_tilemap.size.y + 0.5f,
         COLOR_SKIN_WIDGET_GENERIC_BORDER, 1.0f);
 
@@ -581,7 +581,7 @@ static void     TilemapViewer_UpdateInfos(t_tilemap_viewer *app)
     }
 
     al_draw_rectangle(
-        app->frame_tilemap.pos.x+tile_current_x*8-0.5f, app->frame_tilemap.pos.y+tile_current_y*8-0.5f, 
+        app->frame_tilemap.pos.x+tile_current_x*8-0.5f, app->frame_tilemap.pos.y+tile_current_y*8-0.5f,
         app->frame_tilemap.pos.x+tile_current_x*8+8.5f, app->frame_tilemap.pos.y+tile_current_y*8+8.5f, COLOR_WHITE, 1.0f);
 
     // Tilemap Address
@@ -695,7 +695,7 @@ static void     TilemapViewer_UpdateScroll(t_tilemap_viewer *app)
 
 //-----------------------------------------------------------------------------
 
-void    TilemapViewers_Update(void)
+void    TilemapViewers_Update()
 {
     t_list *apps;
     for (apps = TilemapViewers; apps != NULL; apps = apps->next)

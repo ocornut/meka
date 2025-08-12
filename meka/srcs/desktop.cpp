@@ -36,13 +36,13 @@ static void     Desktop_GetStateFromBoxes();
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Desktop_Init (void)
+void    Desktop_Init()
 {
     Desktop.items = NULL;
     Desktop_Load();
 }
 
-void    Desktop_Close (void)
+void    Desktop_Close()
 {
     Desktop_GetStateFromBoxes();
     Desktop_Save();

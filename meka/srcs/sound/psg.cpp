@@ -207,7 +207,7 @@ void        PSG_Load (FILE *f, int version)
 // Regenerate various PSG data from registers
 // This is called after a PSG state loading
 //-----------------------------------------------------------------------------
-void        PSG_Regenerate (void)
+void        PSG_Regenerate()
 {
     // Set channels volume
     for (int i = 0; i < 4; i++)
@@ -218,7 +218,7 @@ void        PSG_Regenerate (void)
 }
 
 // Mute PSG by setting all Volumes to 15
-void        PSG_Mute (void)
+void        PSG_Mute()
 {
     SN76489_Write (0x9F); // Channel 0 Volume 15
     SN76489_Write (0xBF); // Channel 1 Volume 15

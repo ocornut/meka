@@ -235,7 +235,7 @@ static int     Blitters_Str2Num(const char *s)
     return (BLITTER_NORMAL);
 }
 
-void    Blitters_Switch_Common (void)
+void    Blitters_Switch_Common()
 {
     if (g_env.state == MEKA_STATE_GAME)
         Video_Setup_State();
@@ -244,7 +244,7 @@ void    Blitters_Switch_Common (void)
     gui_menu_check (menus_ID.blitters, Blitters.current->index);
 }
 
-void    Blitters_SwitchNext(void)
+void    Blitters_SwitchNext()
 {
     int index = (Blitters.current->index + 1) % Blitters.count;
     t_list* blitters;

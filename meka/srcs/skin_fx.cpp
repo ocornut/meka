@@ -72,10 +72,10 @@ void SkinFx_DestroyVideoBuffers()
     }
 }
 
-static void SkinFx_UpdateBlood(void)
+static void SkinFx_UpdateBlood()
 {
     int i;
-    
+
     // This is the colors originally used when MEKA was working in palette mode
     // Nowadays, I guess the logic should be changed to take a single base color and create altered variations of it
     ALLEGRO_COLOR blood_colors[4];
@@ -97,7 +97,7 @@ static void SkinFx_UpdateBlood(void)
     {
         for (i = 0; i < 4; i ++)
         {
-            gui_applet_blood_create(RandomInt(4), 
+            gui_applet_blood_create(RandomInt(4),
                 b->frame.pos.x - 2 + RandomInt(b->frame.size.x + 4), b->frame.pos.y + b->frame.size.y + 2);
         }
     }
@@ -168,7 +168,7 @@ static void SkinFx_UpdateHearts()
     }
 }
 
-void    special_effects_update_after (void)
+void    special_effects_update_after()
 {
 return;
     t_skin *skin = Skins_GetCurrentSkin();
@@ -183,7 +183,7 @@ return;
     }
 }
 
-void    special_effects_update_before (void)
+void    special_effects_update_before()
 {
 return;
     t_skin *skin = Skins_GetCurrentSkin();

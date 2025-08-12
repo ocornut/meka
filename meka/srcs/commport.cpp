@@ -57,57 +57,57 @@ t_gear_to_gear  Gear_to_Gear;
 //-----------------------------------------------------------------------------
 
 // Reset emulated communication port
-void    Comm_Reset (void)
+void    Comm_Reset()
 {
   Gear_to_Gear.Config = 0;
   Gear_to_Gear.Data_Direction_NMIe = 0;
   Gear_to_Gear.Data_01 = 0;
 }
 
-int     Comm_Read_01 (void)
+int     Comm_Read_01()
 {
   return (Gear_to_Gear.Data_01 & 0x7F);
 }
 
-void    Comm_Write_01 (int value)
+void    Comm_Write_01(int value)
 {
   Gear_to_Gear.Config |= 1;                      // not yet sent (never sent!)
   Gear_to_Gear.Data_01 = value & 0x7F;
 }
 
 // Read Data Direction and NMI Configuration
-int     Comm_Read_02 (void)
+int     Comm_Read_02()
 {
   return (Gear_to_Gear.Data_Direction_NMIe);
 }
 
 // Write Data Direction and NMI Configuration
-void    Comm_Write_02 (int value)
+void    Comm_Write_02(int value)
 {
   Gear_to_Gear.Data_Direction_NMIe = value & 0xFF;
 }
 
 // Read Data During Serial Communication
-int     Comm_Read_03 (void)
+int     Comm_Read_03()
 {
   return (0x00);
 }
 
 // Send Data During Serial Communication
-void    Comm_Write_03 (int value)
+void    Comm_Write_03(int value)
 {
   Gear_to_Gear.Config |= 1;                      // not yet sent (never sent!)
  /* Ignoring actual write */
 }
 
 // Receive Data During Serial Communications ----------------------------------
-int     Comm_Read_04 (void)
+int     Comm_Read_04()
 {
   return (0x00);
 }
 
 // Configuration / Status byte ------------------------------------------------
-int     Comm_Read_05 (void)
+int     Comm_Read_05()
 {
   byte t = Gear_to_Gear.Config;
   // return (0);
@@ -116,7 +116,7 @@ int     Comm_Read_05 (void)
 }
 
 // Configuration / Status byte ------------------------------------------------
-void    Comm_Write_05 (int value)
+void    Comm_Write_05(int value)
 {
   Gear_to_Gear.Config |= (value & /*0x38*/ 0xF8);
   // 0x38 = 0x08 | 0x10 | 0x20

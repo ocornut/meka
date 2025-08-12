@@ -50,20 +50,20 @@ void    Video_Setup_State();
 void    Video_EnumerateDisplayModes();
 int     Video_FindClosestDisplayMode(int w, int h, int refresh_rate);
 
-void    Video_GameMode_UpdateBounds(void);
+void    Video_GameMode_UpdateBounds();
 void    Video_GameMode_ScreenPosToEmulatedPos(int screen_x, int screen_y, int* pemu_x, int* pemu_y, bool clamp);
 void    Video_GameMode_EmulatedPosToScreenPos(int emu_x, int emu_y, int* pscreen_x, int* pscreen_y, bool clamp);
 void    Video_GameMode_GetScreenCenterPos(int* pscreen_x, int* pscreen_y);
 
-void    Video_RefreshScreen(void);
+void    Video_RefreshScreen();
 void    Video_UpdateEvents();
 
-void    Screenbuffer_AcquireLock(void);
-void    Screenbuffer_ReleaseLock(void);
-bool    Screenbuffer_IsLocked(void);
+void    Screenbuffer_AcquireLock();
+void    Screenbuffer_ReleaseLock();
+bool    Screenbuffer_IsLocked();
 
-void    Screen_Save_to_Next_Buffer (void);
-void    Screen_Restore_from_Next_Buffer (void);
+void    Screen_Save_to_Next_Buffer();
+void    Screen_Restore_from_Next_Buffer();
 
 t_video_driver* VideoDriver_FindByName(const char* name);
 

@@ -25,14 +25,14 @@ t_app_tile_viewer   TileViewer;
 
 void    TileViewer_Layout(t_app_tile_viewer *app, bool setup);
 
-void    TileViewer_Change_Palette(void);
+void    TileViewer_Change_Palette();
 void    TileViewer_SelectedTile_Select(t_widget *w);
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TileViewer_Init_Values (void)
+void    TileViewer_Init_Values()
 {
     TileViewer.active               = FALSE;
     TileViewer.dirty                = TRUE;
@@ -48,7 +48,7 @@ void    TileViewer_Init_Values (void)
 }
 
 // CREATE AND INITIALIZE TILE VIEWER APPLET ----------------------------------
-void    TileViewer_Init (void)
+void    TileViewer_Init()
 {
     t_app_tile_viewer *app = &TileViewer; // Global instance
 
@@ -273,7 +273,7 @@ void    TileViewer_Update(t_app_tile_viewer *app)
         app->dirty = FALSE;
 }
 
-void    TileViewer_Change_Palette (void)
+void    TileViewer_Change_Palette()
 {
     //int   i;
     TileViewer.palette = (TileViewer.palette + 1) % TileViewer.palette_max;
@@ -292,13 +292,13 @@ void        TileViewer_Configure_PaletteMax (int palette_max)
     TileViewer.dirty = TRUE;
 }
 
-void    TileViewer_SelectedTile_Select (t_widget *w)
+void    TileViewer_SelectedTile_Select(t_widget *w)
 {
     if (w->mouse_action & WIDGET_MOUSE_ACTION_HOVER)
         TileViewer.tile_selected = ((w->mouse_y / 8) * 16) + (w->mouse_x / 8);
 }
 
-void    TileViewer_Switch (void)
+void    TileViewer_Switch()
 {
     if (TileViewer.active ^= 1)
         Msg(MSGT_USER, "%s", Msg_Get(MSG_TilesViewer_Enabled));

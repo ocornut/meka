@@ -32,20 +32,20 @@ extern t_glasses   Glasses;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Glasses_Init_Values             (void);
-void    Glasses_Close                   (void);
-void    Glasses_Set_Mode                (int mode);
-void    Glasses_Set_ComPort             (int port);
-void    Glasses_Write                   (int LeftEnable, int RightEnable);
-void    Glasses_Update                  (void);
+void    Glasses_Init_Values();
+void    Glasses_Close();
+void    Glasses_Set_Mode(int mode);
+void    Glasses_Set_ComPort(int port);
+void    Glasses_Write(int LeftEnable, int RightEnable);
+void    Glasses_Update();
 
-int     Glasses_Must_Skip_Frame         (void);
+int     Glasses_Must_Skip_Frame();
 
-void    Glasses_Switch_Enable           (void);
-void    Glasses_Switch_Mode_Show_Both   (void);
-void    Glasses_Switch_Mode_Show_Left   (void);
-void    Glasses_Switch_Mode_Show_Right  (void);
-void    Glasses_Switch_Mode_Com_Port    (void);
+void    Glasses_Switch_Enable();
+void    Glasses_Switch_Mode_Show_Both();
+void    Glasses_Switch_Mode_Show_Left();
+void    Glasses_Switch_Mode_Show_Right();
+void    Glasses_Switch_Mode_Com_Port();
 
 //-----------------------------------------------------------------------------
 

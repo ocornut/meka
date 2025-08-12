@@ -28,8 +28,8 @@ enum t_gui_focus
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_init_mouse(void);
-void    gui_update_mouse(void);
+void    gui_init_mouse();
+void    gui_update_mouse();
 bool    gui_is_mouse_hovering_area(int x1, int y1, int x2, int y2);
 bool    gui_is_mouse_hovering_area(const t_frame* frame);
 

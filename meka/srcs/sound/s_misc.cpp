@@ -17,9 +17,9 @@ static void     Sound_Volume_Menu_Handler(t_menu_event *event);
 //-----------------------------------------------------------------------------
 
 int     Sound_Rate_Default_Table[] =
-{ 
-    22050, 
-    44100, 
+{
+    22050,
+    44100,
     -1
 };
 
@@ -27,7 +27,7 @@ int     Sound_Rate_Default_Table[] =
 // Functions
 //-----------------------------------------------------------------------------
 
-void    FM_Disable (void)
+void    FM_Disable()
 {
     Sound.FM_Enabled = FALSE;
     Msg(MSGT_USER, "%s", Msg_Get(MSG_FM_Disabled));
@@ -36,7 +36,7 @@ void    FM_Disable (void)
     gui_menu_check (menus_ID.fm, 1);
 }
 
-void    FM_Enable (void)
+void    FM_Enable()
 {
     Sound.FM_Enabled = TRUE;
     Msg(MSGT_USER, "%s", Msg_Get(MSG_FM_Enabled));
@@ -57,7 +57,7 @@ void    Sound_Volume_Menu_Init(int menu_id)
             snprintf(buffer, countof(buffer), "%s", Msg_Get(MSG_Menu_Sound_Volume_Mute));
         else
             snprintf(buffer, countof(buffer), Msg_Get(MSG_Menu_Sound_Volume_Value), i);
-        menu_add_item(menu_id, buffer, NULL, Is_Checked(i - 9 < master_volume_100 && i + 9 > master_volume_100), 
+        menu_add_item(menu_id, buffer, NULL, Is_Checked(i - 9 < master_volume_100 && i + 9 > master_volume_100),
             (t_menu_callback)Sound_Volume_Menu_Handler, (void *)(int)((float)i * ((float)128 / 100)));
     }
 }

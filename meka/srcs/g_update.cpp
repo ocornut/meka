@@ -28,7 +28,6 @@
 
 void    gui_update_applets();
 void    gui_update_applets_after_redraw();
-void    gui_update_applets_before();
 
 // Update the differents GUI applets
 void    gui_update_applets()

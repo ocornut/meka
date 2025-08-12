@@ -28,8 +28,8 @@ typedef enum
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Palette_Init(void);
-void    Palette_Close(void);
+void    Palette_Init();
+void    Palette_Close();
 void    Palette_UpdateAfterRedraw();
 
 void    Palette_Emulation_Reset();

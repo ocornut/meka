@@ -636,7 +636,7 @@ static bool     DB_Load (const char* filename, bool verbose)
 //-----------------------------------------------------------------------------
 // Release all Meka DB data
 //-----------------------------------------------------------------------------
-void            DB_Close (void)
+void            DB_Close()
 {
     list_free_custom (&DB.entries, (t_list_free_handler)DB_Entry_Delete);
     DB.entries = NULL;

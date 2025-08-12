@@ -30,18 +30,18 @@ void    Inputs_CFG_Switch                       ();
 void    Inputs_CFG_Init_Applet                  ();
 void    Inputs_CFG_Update                       (t_app_inputs_config *app);
 
-void    Inputs_CFG_Current_Source_Draw          (void);
+void    Inputs_CFG_Current_Source_Draw          ();
 byte    Inputs_CFG_Current_Source_Draw_Map      (int i, ALLEGRO_COLOR Color);
 void    Inputs_CFG_Current_Source_Change        (t_widget *w);
 
-void    Inputs_CFG_Peripherals_Draw             (void);
+void    Inputs_CFG_Peripherals_Draw             ();
 
 void    Inputs_CFG_Peripheral_Change            (int Player, t_input_peripheral Periph);
 void    Inputs_CFG_Peripheral_Change_Handler    (t_widget *w);
 
 void    Inputs_CFG_Map_Change_Handler           (t_widget *w);
-void    Inputs_CFG_Map_Change_Update            (void);
-void    Inputs_CFG_Map_Change_End               (void);
+void    Inputs_CFG_Map_Change_Update            ();
+void    Inputs_CFG_Map_Change_End               ();
 
 void    Inputs_CFG_Emulate_Digital_Handler      (t_widget *w);
 

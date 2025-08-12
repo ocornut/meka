@@ -146,13 +146,13 @@ u8      t_memory_range::ReadByte(int addr) const
     assert(addr >= 0 && addr < this->size);
     switch (this->memtype)
         {
-        case MEMTYPE_Z80: 
+        case MEMTYPE_Z80:
             if (!(g_machine_flags & MACHINE_POWER_ON))
                 return 0x00;
             return RdZ80_NoHook(addr);
-        case MEMTYPE_ROM: 
-        case MEMTYPE_RAM: 
-        case MEMTYPE_VRAM: 
+        case MEMTYPE_ROM:
+        case MEMTYPE_RAM:
+        case MEMTYPE_VRAM:
         case MEMTYPE_PRAM:
         case MEMTYPE_SRAM:
         case MEMTYPE_VREG:
@@ -176,10 +176,10 @@ bool    t_memory_range::WriteByte(int addr, u8 v)
             WrZ80_NoHook(addr, v);
             return true;
         }
-    case MEMTYPE_ROM:     
+    case MEMTYPE_ROM:
         {
             this->data[addr] = v;
-            // We have a special handling there, because SMS/GG mapper emulation is using a 
+            // We have a special handling there, because SMS/GG mapper emulation is using a
             // different memory area for addresses between 0x0000 and 0x0400
             if (addr < 0x4000)
                 if (Mem_Pages[0] == Game_ROM_Computed_Page_0)
@@ -194,10 +194,10 @@ bool    t_memory_range::WriteByte(int addr, u8 v)
                 this->data[addr] = v;
             return true;
         }
-    case MEMTYPE_VRAM:    
+    case MEMTYPE_VRAM:
         {
             // Mark corresponding tile as dirty
-            this->data[addr] = v;     
+            this->data[addr] = v;
             tgfx.Tile_Dirty[addr >> 5] |= TILE_DIRTY_DECODE;
             return true;
         }
@@ -255,7 +255,7 @@ t_memory_viewer *   MemoryViewer_New(bool register_desktop, int size_columns, in
     frame.size.x += MEMVIEW_COLUMNS_8_PADDING;              // Padding
     frame.size.x += app->frame_ascii.size.x;                // ASCII
     frame.size.x += 4 + 7;                                  // Padding, Scrollbar
-    
+
     frame.size.y = 4 + app->frame_hex.size.y + 3;
     frame.size.y += 1 + 1 + Font_Height(FONTID_SMALL) + 2;  // Bottom bar
 
@@ -343,7 +343,7 @@ static void MemoryViewer_Layout(t_memory_viewer* app, bool setup)
     // Add closebox widget
     if (setup)
         widget_closebox_add(app->box, MemoryViewer_Switch);
-        
+
     // Horizontal line to separate buttons from memory
     al_draw_hline(0, app->frame_view.size.y, app->box->frame.size.x, COLOR_SKIN_WINDOW_SEPARATORS);
 
@@ -452,7 +452,7 @@ static void MemoryViewer_Layout(t_memory_viewer* app, bool setup)
 
 static const std::vector<u32>* MemoryViewer_GetHighlightList(t_memory_viewer* app)
 {
-    const t_cheat_finder* cheat_finder = g_CheatFinder_MainInstance; 
+    const t_cheat_finder* cheat_finder = g_CheatFinder_MainInstance;
     if (cheat_finder && cheat_finder->active && !cheat_finder->addresses_to_highlight_in_memory_editor.empty() && cheat_finder->memtype == app->pane_current->memrange.memtype)
         return &cheat_finder->addresses_to_highlight_in_memory_editor;
     return NULL;
@@ -500,7 +500,7 @@ static void        MemoryViewer_Update(t_memory_viewer* app)
 
     int y = 4;
     int addr = app->memblock_first * app->size_columns;
-    
+
     //const u8* memory = mv->pane_current->memrange.data;
 
     // Lines to separate address/hex/ascii
@@ -534,7 +534,7 @@ static void        MemoryViewer_Update(t_memory_viewer* app)
         app->values_edit_active = false;
         MemoryViewer_SetupEditValueBox(app);
     }
-    else 
+    else
     {
         // Highlight request
         const std::vector<u32>* highlight_list = MemoryViewer_GetHighlightList(app);
@@ -759,7 +759,7 @@ static void      MemoryViewer_InputBoxValue_EditCallback(t_widget *w)
     if (cursor == 2)
     {
         // Simulate validation, then re-enable edit box
-        MemoryViewer_InputBoxValue_EnterCallback(w); 
+        MemoryViewer_InputBoxValue_EnterCallback(w);
         mv->values_edit_active = TRUE;
 
         // Go to next

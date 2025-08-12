@@ -7,7 +7,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-int     SDSC_Read_and_Display (void);
+int     SDSC_Read_and_Display();
 void    SDSC_Debug_Console_Control(char c);
 void    SDSC_Debug_Console_Data(char c);
 

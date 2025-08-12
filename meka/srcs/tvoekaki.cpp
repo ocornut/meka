@@ -17,7 +17,7 @@ t_tvoekaki  TVOekaki;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TVOekaki_Init (void)
+void    TVOekaki_Init()
 {
     TVOekaki.X = TVOekaki.Y = 0;
     TVOekaki.Infos = TVOEKAKI_BIT_AXIS | TVOEKAKI_BIT_ON_BOARD;

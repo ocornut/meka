@@ -167,7 +167,7 @@ word    Loop_SMS()
 
 #ifdef MAME_Z80
 // MAIN EMULATION LOOP (MAME CORE) --------------------------------------------
-void    CPU_Loop (void)
+void    CPU_Loop()
 {
     for (;;)
     {
@@ -187,7 +187,7 @@ void    CPU_Loop (void)
 
 #ifdef RAZE_Z80
 // MAIN EMULATION LOOP (RAZE CORE) --------------------------------------------
-void    CPU_Loop (void)
+void    CPU_Loop()
 {
     for (;;)
     {
@@ -207,12 +207,12 @@ void    CPU_Loop (void)
 //-----------------------------------------------------------------------------
 
 #ifdef MARAT_Z80
-    void  PatchZ80 (Z80 *R) { }
+    void  PatchZ80(Z80 *R) { }
 #endif
 
 #ifdef MAME_Z80
-    INLINE int Get_Active_CPU (void)      { return (0);    }
-    INLINE int Get_IRQ_Vector (int p)     { return (0x38); }
+    INLINE int Get_Active_CPU()         { return (0);    }
+    INLINE int Get_IRQ_Vector(int p)    { return (0x38); }
 #endif
 
 //-----------------------------------------------------------------------------

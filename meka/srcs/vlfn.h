@@ -25,8 +25,8 @@ extern t_vlfn_db VLFN_DataBase;
 // Functions
 //-----------------------------------------------------------------------------
 
-void            VLFN_Init           (void);
-void            VLFN_Close          (void);
+void            VLFN_Init           ();
+void            VLFN_Close          ();
 
 t_vlfn_entry *  VLFN_FindByFileName (const char *file_name);
 void            VLFN_AddEntry       (const char *file_name, t_db_entry *db_entry);

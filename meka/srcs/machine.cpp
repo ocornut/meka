@@ -54,7 +54,7 @@ void    Machine_Pause()
     }
 }
 
-void    Machine_Debug_Start (void)
+void    Machine_Debug_Start()
 {
     // Msg(MSGT_DEBUG, "Machine_Debug_Start()");
     g_machine_flags |= MACHINE_PAUSED | MACHINE_DEBUGGING;
@@ -62,7 +62,7 @@ void    Machine_Debug_Start (void)
     Screen_Save_to_Next_Buffer();
 }
 
-void    Machine_Debug_Stop (void)
+void    Machine_Debug_Stop()
 {
     // Msg(MSGT_DEBUG, "Machine_Debug_Stop()");
     g_machine_flags &= ~(MACHINE_PAUSED | MACHINE_DEBUGGING);
@@ -73,7 +73,7 @@ void    Machine_Debug_Stop (void)
 }
 
 // Note: called everytime we change video mode.
-void    Machine_Set_Handler_Loop(void)
+void    Machine_Set_Handler_Loop()
 {
     switch (g_driver->id)
     {
@@ -84,7 +84,7 @@ void    Machine_Set_Handler_Loop(void)
     }
 }
 
-void    Machine_Set_Handler_IO(void)
+void    Machine_Set_Handler_IO()
 {
     switch (g_driver->id)
     {
@@ -104,7 +104,7 @@ void    Machine_Set_Handler_IO(void)
     }
 }
 
-void    Machine_Set_Handler_MemRW(void)
+void    Machine_Set_Handler_MemRW()
 {
     RdZ80 = Read_Default;
     WrZ80 = Write_Default;
@@ -208,7 +208,7 @@ void    Machine_Set_Handler_MemRW(void)
     WrZ80_NoHook = WrZ80;
 }
 
-void        Machine_Set_Mapper(void)
+void        Machine_Set_Mapper()
 {
     if (DB.current_entry != NULL && DB.current_entry->emu_mapper != -1)
     {
@@ -256,7 +256,7 @@ void        Machine_Set_Mapper(void)
     }
 }
 
-void    Machine_Set_Mapping (void)
+void    Machine_Set_Mapping()
 {
     sms.SRAM_Mapping_Register = 0;
     sms.SRAM_Pages = 0;
@@ -577,7 +577,7 @@ void    Machine_Set_Mapping (void)
     }
 }
 
-void    Machine_Set_Country(void)
+void    Machine_Set_Country()
 {
     if (DB.current_entry && DB.current_entry->emu_country != -1)
         sms.Country = DB.current_entry->emu_country;
@@ -585,7 +585,7 @@ void    Machine_Set_Country(void)
         sms.Country = g_config.country;
 }
 
-void    Machine_Set_IPeriod(void)
+void    Machine_Set_IPeriod()
 {
     if (DB.current_entry && DB.current_entry->emu_iperiod != -1)
     {
@@ -610,7 +610,7 @@ void    Machine_Set_IPeriod(void)
 }
 
 // FIXME: rename function
-void    Machine_Set_TV_Lines(void)
+void    Machine_Set_TV_Lines()
 {
     if (DB.current_entry && DB.current_entry->emu_tvtype != -1)
         g_machine.TV = &TV_Type_Table [DB.current_entry->emu_tvtype];
@@ -620,7 +620,7 @@ void    Machine_Set_TV_Lines(void)
 }
 
 // RESET EMULATED MACHINE -----------------------------------------------------
-void        Machine_Reset(void)
+void        Machine_Reset()
 {
     int     i;
     static byte VDPInit [16] =

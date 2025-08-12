@@ -7,8 +7,8 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Setup_Interactive_Init (void);
-int     Setup_Interactive (void);
+void    Setup_Interactive_Init();
+int     Setup_Interactive();
 
 //-----------------------------------------------------------------------------
 

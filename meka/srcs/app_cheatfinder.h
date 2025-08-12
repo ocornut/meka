@@ -86,8 +86,8 @@ extern t_list *             g_CheatFinders;
 
 t_cheat_finder *            CheatFinder_New(bool register_desktop);
 void                        CheatFinder_Delete(t_cheat_finder* app);
-void                        CheatFinder_SwitchMainInstance(void);
+void                        CheatFinder_SwitchMainInstance();
 
-void                        CheatFinders_Update(void);
+void                        CheatFinders_Update();
 
 //-----------------------------------------------------------------------------

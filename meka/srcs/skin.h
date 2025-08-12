@@ -98,24 +98,24 @@ struct t_skin
 // Functions
 //-----------------------------------------------------------------------------
 
-void                Skins_Init_Values               (void);
-void                Skins_Init                      (void);
+void                Skins_Init_Values               ();
+void                Skins_Init                      ();
 void                Skins_Load                      (const char *filename);
-void                Skins_Close                     (void);
+void                Skins_Close                     ();
 
-void                Skins_StartupFadeIn             (void);
-void                Skins_Apply                     (void);
-void                Skins_Update                    (void);
+void                Skins_StartupFadeIn             ();
+void                Skins_Apply                     ();
+void                Skins_Update                    ();
 void                Skins_MenuInit                  (int menu_id);
 void                Skins_Select                    (t_skin *skin, bool fade);
 
-void                Skins_QuitAfterFade             (void);
+void                Skins_QuitAfterFade             ();
 
 void                Skins_SetSkinConfiguration      (const char *skin_name);
 
-t_skin *            Skins_GetCurrentSkin            (void);
+t_skin *            Skins_GetCurrentSkin            ();
 t_skin *            Skins_FindSkinByName            (const char *skin_name);
-ALLEGRO_BITMAP *    Skins_GetBackgroundPicture      (void);
+ALLEGRO_BITMAP *    Skins_GetBackgroundPicture      ();
 
 //-----------------------------------------------------------------------------
 

@@ -60,13 +60,13 @@ extern t_blitters Blitters;
 // Blitters Functions
 //-----------------------------------------------------------------------------
 
-void        Blitters_Init_Values(void);
-void        Blitters_Init(void);
-void        Blitters_Close(void);
+void        Blitters_Init_Values();
+void        Blitters_Init();
+void        Blitters_Close();
 
 t_blitter * Blitters_FindBlitterByName(const char *name);
 
-void        Blitters_SwitchNext(void);
+void        Blitters_SwitchNext();
 void        Blitters_Menu_Init(int menu_id);
 
 //-----------------------------------------------------------------------------

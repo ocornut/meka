@@ -25,20 +25,20 @@
 static FILE *       CFG_File;
 
 static void  CFG_Write_Line(const char* fmt, ...)
-{ 
+{
     va_list args;
     va_start(args, fmt);
-    vfprintf(CFG_File, fmt, args); 
+    vfprintf(CFG_File, fmt, args);
     va_end(args);
-    fprintf(CFG_File, "\n"); 
+    fprintf(CFG_File, "\n");
 }
 static void  CFG_Write_Int(const char *name, int value)
-{ 
-    fprintf(CFG_File, "%s = %d\n", name, value); 
+{
+    fprintf(CFG_File, "%s = %d\n", name, value);
 }
-static void  CFG_Write_Str(const char *name, const char *str) 
-{ 
-    fprintf(CFG_File, "%s = %s\n", name, str); 
+static void  CFG_Write_Str(const char *name, const char *str)
+{
+    fprintf(CFG_File, "%s = %s\n", name, str);
 }
 
 static void  CFG_Write_StrEscape (const char *name, const char *str)
@@ -117,7 +117,7 @@ static void     Configuration_Load_Line (char *var, char *value)
     if (!strcmp(var, "show_product_number"))            { g_config.show_product_number = (bool)atoi(value); return; }
     if (!strcmp(var, "show_messages_fullscreen"))       { g_config.show_fullscreen_messages = (bool)atoi(value); return; }
     if (!strcmp(var, "screenshot_template"))
-    { 
+    {
         // Note: Obsolete variable name, see below
         StrReplace(value, '*', ' ');
         g_config.capture_filename_template = strdup(value);
@@ -294,7 +294,7 @@ void Configuration_Save()
     CFG_Write_Line ("-----< GRAPHICAL USER INTERFACE CONFIGURATION >------------------------------");
     CFG_Write_Int  ("start_in_gui", g_config.start_in_gui);
     CFG_Write_StrEscape("theme", Skins_GetCurrentSkin()->name);
-    fprintf(CFG_File, "game_window_scale = %.2f\n", g_config.game_window_scale); 
+    fprintf(CFG_File, "game_window_scale = %.2f\n", g_config.game_window_scale);
     CFG_Write_Int  ("fb_uses_db", g_config.fb_uses_DB);
     CFG_Write_Int  ("fb_close_after_load", g_config.fb_close_after_load);
     CFG_Write_Int  ("fb_fullscreen_after_load", g_config.fullscreen_after_load);
@@ -454,7 +454,7 @@ void    Command_Line_Parse()
     }
 }
 
-void    Command_Line_Help(void)
+void    Command_Line_Help()
 {
     // Note: this help screen is not localized.
     Quit_Msg(

@@ -11,8 +11,8 @@ void SkinFx_Init();
 void SkinFx_CreateVideoBuffers();
 void SkinFx_DestroyVideoBuffers();
 
-void special_effects_update_after       (void);
-void special_effects_update_before      (void);
+void special_effects_update_after();
+void special_effects_update_before();
 
 //-----------------------------------------------------------------------------
 

@@ -504,11 +504,11 @@ void        Msg(int attr, const char *format, ...) FORMAT_PRINTF (2);
 // Functions - Console
 //-----------------------------------------------------------------------------
 
-void    ConsoleInit         (void);
-void    ConsoleClose        (void);
-void    ConsolePrintf       (const char *format, ...) FORMAT_PRINTF (1);
-void    ConsolePrint        (const char *msg);
-void    ConsoleEnablePause  (void);
+void    ConsoleInit();
+void    ConsoleClose();
+void    ConsolePrintf(const char *format, ...) FORMAT_PRINTF (1);
+void    ConsolePrint(const char *msg);
+void    ConsoleEnablePause();
 bool    ConsoleWaitForAnswer(bool allow_run);
 
 //-----------------------------------------------------------------------------

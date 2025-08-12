@@ -7,7 +7,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TVOekaki_Init(void);
+void    TVOekaki_Init();
 void    TVOekaki_Update(int device_x, int device_y, int device_b_field);
 
 //-----------------------------------------------------------------------------

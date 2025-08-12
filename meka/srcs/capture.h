@@ -14,14 +14,14 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Capture_Init                    (void);
-void    Capture_Init_Game               (void);
-void    Capture_Request                 (void);
-void    Capture_Update                  (void);
+void    Capture_Init();
+void    Capture_Init_Game();
+void    Capture_Request();
+void    Capture_Update();
 
-void    Capture_MenuHandler_Capture     (void);
-void    Capture_MenuHandler_AllFrames   (void);
-void    Capture_MenuHandler_IncludeGui  (void);
+void    Capture_MenuHandler_Capture();
+void    Capture_MenuHandler_AllFrames();
+void    Capture_MenuHandler_IncludeGui();
 
 //-----------------------------------------------------------------------------
 // Data

@@ -18,7 +18,7 @@ t_light_phaser          LightPhaser;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    LightPhaser_Init(void)
+void    LightPhaser_Init()
 {
     LightPhaser.Enabled = FALSE;
     LightPhaser.LastSync = 0;
@@ -27,7 +27,7 @@ void    LightPhaser_Init(void)
     LightPhaser.EmuFunc = LIGHTPHASER_EMU_FUNC_DEFAULT;
 }
 
-u8      LightPhaser_GetX(void)
+u8      LightPhaser_GetX()
 {
     const int r = LightPhaser.X[LightPhaser.LastSync];
 

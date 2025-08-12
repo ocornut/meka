@@ -81,7 +81,7 @@
 
 t_sf7000 SF7000;
 
-void    SF7000_Reset (void)
+void    SF7000_Reset()
 {
     SF7000.Port_E4 = 0x00;
     SF7000.Port_E5 = 0x00;
@@ -91,7 +91,7 @@ void    SF7000_Reset (void)
     SF7000.Port_E9 = 0x00;
 }
 
-void    SF7000_IPL_Mapping_Update (void)
+void    SF7000_IPL_Mapping_Update()
 {
     if (IPL_Disabled)
     {

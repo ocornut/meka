@@ -74,7 +74,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Setup_Video_Driver),
     __MSG_ADD(MSG_Setup_Video_DisplayMode),
     __MSG_ADD(MSG_Setup_SampleRate_Select),
-    
+
     __MSG_ADD(MSG_Capture_Done),
     __MSG_ADD(MSG_Capture_Error),
     __MSG_ADD(MSG_Capture_Error_File),
@@ -732,17 +732,17 @@ int     Messages_Init()
         // ConsolePrintf ("%d: %s--\n", line_cnt, line);
         switch (Messages_Init_Parse_Line(line))
         {
-        case MEKA_ERR_MISSING:    
+        case MEKA_ERR_MISSING:
             ConsolePrintf ("On line %d: No language defined for storing message !", line_cnt);
             tfile_free(tf);
             Quit();
             break;
-        case MEKA_ERR_UNKNOWN:    
+        case MEKA_ERR_UNKNOWN:
             ConsolePrintf ("On line %d: Unknown message \"%s\", skipping it.\n", line_cnt, line);
             // tfile_free(tf);
             // Quit();
             break;
-        case MEKA_ERR_SYNTAX:     
+        case MEKA_ERR_SYNTAX:
             ConsolePrintf ("On line %d: Syntax error.\n%s\n", line_cnt, line);
             tfile_free(tf);
             Quit();
@@ -781,11 +781,8 @@ void    Messages_Close()
     list_free_no_elem(&Messages.Langs);
 }
 
-//-----------------------------------------------------------------------------
-// ConsoleInit (void)
 // Initialize text output console.
-//-----------------------------------------------------------------------------
-void            ConsoleInit (void)
+void            ConsoleInit()
 {
     // Reset pause flag
     ConsolePause = FALSE;
@@ -799,11 +796,8 @@ void            ConsoleInit (void)
     #endif
 }
 
-//-----------------------------------------------------------------------------
-// ConsoleClose (void)
 // Close console.
-//-----------------------------------------------------------------------------
-void            ConsoleClose (void)
+void            ConsoleClose()
 {
     // Close Win32 console
     #ifdef ARCH_WIN32
@@ -851,18 +845,14 @@ void            ConsolePrint(const char *msg)
     #endif
 }
 
-//-----------------------------------------------------------------------------
-// ConsoleEnablePause (void)
-// Enable console pausing. The Win32 console will display until user
-// has choosen "Quit" or "Run".
-//-----------------------------------------------------------------------------
-void            ConsoleEnablePause (void)
+// Enable console pausing. The Win32 console will display until user has chosen "Quit" or "Run".
+void            ConsoleEnablePause()
 {
     // Set pause flag
     ConsolePause = TRUE;
 }
 
-bool            ConsoleWaitForAnswer (bool allow_run)
+bool            ConsoleWaitForAnswer(bool allow_run)
 {
 #ifndef ARCH_WIN32
     return TRUE;

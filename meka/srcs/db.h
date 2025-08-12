@@ -95,7 +95,7 @@ extern t_db         DB;
 //-----------------------------------------------------------------------------
 
 bool                DB_Init                     (const char* filename, bool verbose = true);
-void                DB_Close                    (void);
+void                DB_Close                    ();
 
 t_db_entry*         DB_Entry_Find               (u32 crc32, const t_meka_crc* mekacrc = NULL);
 

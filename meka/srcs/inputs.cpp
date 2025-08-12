@@ -38,7 +38,7 @@ t_inputs Inputs;
 //-----------------------------------------------------------------------------
 
 // SWITCH TO INPUT CURRENTLY DEFINED ------------------------------------------
-void    Inputs_Switch_Current (void)
+void    Inputs_Switch_Current()
 {
     switch (Inputs.Peripheral [PLAYER_1])
     {
@@ -53,7 +53,7 @@ void    Inputs_Switch_Current (void)
 }
 
 // SWITCH TO NEXT INPUT PERIPHERAL --------------------------------------------
-void    Inputs_Peripheral_Next (int Player)
+void    Inputs_Peripheral_Next(int Player)
 {
     if (Inputs.Peripheral [Player] == INPUT_SPORTSPAD) // Skip TV Oekaki
         Inputs.Peripheral [Player] = INPUT_JOYPAD;
@@ -343,7 +343,7 @@ void    Input_ROM_Change()
     }
 }
 
-u8  Input_Port_DC (void)
+u8  Input_Port_DC()
 {
     static int paddle_flip_flop = 0;
 
@@ -442,7 +442,7 @@ u8  Input_Port_DC (void)
     return (v);
 }
 
-u8  Input_Port_DD (void)
+u8  Input_Port_DD()
 {
     static int paddle_flip_flop = 0;    // FIXME
 

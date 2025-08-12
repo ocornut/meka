@@ -153,7 +153,7 @@ void    FB_Layout(t_filebrowser *app, bool setup)
     const int bb_w = app->box->frame.size.x;
 
     // Setup widgets
-    t_frame frame; 
+    t_frame frame;
 
     // Add scrollbar
     frame.pos.x = bb_w - FB_PAD_X - FB_SCROLL_X + 1;
@@ -260,7 +260,7 @@ static INLINE int   FB_Sort_Files_GetEntryPriority (t_filebrowser_entry *entry)
     if (!db_entry)
         return (-1);
 
-    // Priority order : 
+    // Priority order :
     // - no country flag
     // - country flag
     // - proto
@@ -356,7 +356,7 @@ void    FB_Add_Entries(t_list *ext_list, int type)
         else if (type == FB_ENTRY_TYPE_FILE && (dirent_stat.st_mode & S_IFMT) == S_IFREG)
         {
             const char *ext = strrchr (name, '.');
-            if (ext == NULL) 
+            if (ext == NULL)
                 ext = "";
             if (!FB_Ext_In_List (ext_list, ext + 1))
                 continue;
@@ -557,7 +557,7 @@ void    FB_Draw_List()
                 // Name
                 sprintf(name_buffer, Msg_Get(MSG_FileBrowser_Drive), entry->file_name[0]);
                 // Width usage for drive '>' marker
-                x_usage = 8; 
+                x_usage = 8;
                 break;
             }
         case FB_ENTRY_TYPE_FILE:
@@ -579,19 +579,19 @@ void    FB_Draw_List()
                         x_usage += 18 + 18;
                         entry_file_flag = DB_Entry_GetTranslationFlag(entry->db_entry);
                     }
-                    else 
+                    else
                     {
                         entry_file_flag = DB_Entry_SelectDisplayFlag(entry->db_entry);
                         if (entry_file_flag != -1)
                         {
                             // Country flag
-                            x_usage += 18; 
+                            x_usage += 18;
                         }
                     }
                     if (entry->db_entry->flags & (DB_FLAG_BAD|DB_FLAG_BIOS|DB_FLAG_HACK|DB_FLAG_HOMEBREW|DB_FLAG_PROTO))
                     {
                         // Any of BAD|BIOS|HACK|HOMEBREW|PROTO = +18 as well
-                        x_usage += 18; 
+                        x_usage += 18;
                     }
                 }
             }
@@ -698,19 +698,19 @@ void    FB_Draw_List()
 
 void    FB_Check_and_Repos()
 {
-    if (FB.file_pos >= FB.files_max) 
+    if (FB.file_pos >= FB.files_max)
         FB.file_pos = FB.files_max - 1;
-    if (FB.file_pos < 0) 
+    if (FB.file_pos < 0)
         FB.file_pos = 0;
 
-    if (FB.file_pos < (FB.files_display_count >> 1)) 
+    if (FB.file_pos < (FB.files_display_count >> 1))
         FB.file_display_first = 0;
-    else if (FB.file_pos >= FB.files_max - (FB.files_display_count / 2)) 
+    else if (FB.file_pos >= FB.files_max - (FB.files_display_count / 2))
         FB.file_display_first = FB.files_max - FB.files_display_count;
     else
         FB.file_display_first = FB.file_pos - (FB.files_display_count / 2);
 
-    if (FB.file_display_first < 0) 
+    if (FB.file_display_first < 0)
         FB.file_display_first = 0;
 }
 
@@ -794,9 +794,9 @@ void    FB_Update()
                             continue;
                         const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name[0];
                         if (toupper(c) == keychar)
-                        { 
-                            FB.file_pos = j; 
-                            break; 
+                        {
+                            FB.file_pos = j;
+                            break;
                         }
                     }
                     if (j == FB.files_max)
@@ -808,16 +808,16 @@ void    FB_Update()
                                 continue;
                             const char c = entry->db_entry_name ? entry->db_entry_name[0] : entry->file_name[0];
                             if (toupper (c) == keychar)
-                            { 
-                                FB.file_pos = j; 
-                                break; 
+                            {
+                                FB.file_pos = j;
+                                break;
                             }
                         }
                     }
                     break;
                 }
             }
-            if (i != 26) 
+            if (i != 26)
                 dirty = TRUE;
         }
 
@@ -999,7 +999,7 @@ void    FB_Click_List (t_widget *w)
     {
         app->file_pos = i;
         app->last_click = i;
-        if (app->file_pos >= app->files_max) 
+        if (app->file_pos >= app->files_max)
             app->file_pos = app->files_max - 1;
         FB_Draw_List();
     }

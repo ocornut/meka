@@ -49,7 +49,7 @@ static int  GFX_ScreenPitch = 0;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TMS9918_Palette_Setup(void)
+void    TMS9918_Palette_Setup()
 {
     int i;
 
@@ -172,7 +172,7 @@ void    VDP_Mode0123_DrawTile(ALLEGRO_BITMAP *dst, ALLEGRO_LOCKED_REGION* dst_re
     }
 }
 
-void    Display_Text_0 (void)
+void    Display_Text_0()
 {
     int         i, j;
     const PIXEL_TYPE fgcolor = PIXEL_PALETTE_TABLE[sms.VDP[7] >> 4];
@@ -210,7 +210,7 @@ void    Display_Text_0 (void)
     }
 }
 
-void    Display_Background_1 (void)
+void    Display_Background_1()
 {
     int    i, j, j2;
     int    x, y = 0;
@@ -247,7 +247,7 @@ void    Display_Background_1 (void)
     }
 }
 
-void    Display_Background_2 (void)
+void    Display_Background_2 ()
 {
     const u8* pattern_name_table = g_machine.VDP.name_table_address;
     const int vsection_mask = sms.VDP[4] & 3;
@@ -291,7 +291,7 @@ void    Display_Background_2 (void)
     }
 }
 
-void    Display_Background_3 (void)
+void    Display_Background_3()
 {
     int         x, y, z;
     const u8 *  pattern = g_machine.VDP.name_table_address;
@@ -415,7 +415,7 @@ static const int Table_Height [4] = { 8, 16, 16, 32 };
 static const int Table_Mask [4] =   { 0xFF, 0xFF, 0xFC, 0xFC };
 
 // DISPLAY SPRITES IN VIDEO MODE 1/2/3 ----------------------------------------
-void    Display_Sprites_1_2_3 (void)
+void    Display_Sprites_1_2_3()
 {
     const int Sprite_Mode = Sprites_Double | Sprites_16x16;
     const int Mask = Table_Mask [Sprite_Mode];
@@ -487,7 +487,7 @@ void    Display_Sprites_1_2_3 (void)
     }
 }
 
-void    Refresh_Modes_0_1_2_3(void)
+void    Refresh_Modes_0_1_2_3()
 {
     GFX_ScreenData = (u16*)g_screenbuffer_locked_region->data;
     GFX_ScreenPitch = g_screenbuffer_locked_region->pitch / sizeof(u16);    // Pitch in u16 pixel unit to ease pointer manipulations
@@ -536,7 +536,7 @@ void    Refresh_Modes_0_1_2_3(void)
 */
 // FIXME: Zoomed sprites are actually not handled well in the collision tests
 /*
-void    Check_Sprites_Collision_Modes_1_2_3 (void)
+void    Check_Sprites_Collision_Modes_1_2_3()
 {
  int    Mask = Table_Mask [Sprites_Double | Sprites_16x16];
  int    Size = Table_Height [Sprites_Double | Sprites_16x16];

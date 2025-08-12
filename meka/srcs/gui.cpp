@@ -46,7 +46,7 @@ void    DrawCursor::VerticalSeparator()
 
 //-----------------------------------------------------------------------------
 
-void    gui_redraw_everything_now_once (void)
+void    gui_redraw_everything_now_once()
 {
     gui_update();
     gui_draw();

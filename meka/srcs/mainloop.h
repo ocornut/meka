@@ -3,8 +3,8 @@
 // Main Emulation / GUI loop - Headers
 //-----------------------------------------------------------------------------
 
-void    Main_Loop (void);
-void    Main_Loop_No_Emulation (void);
+void    Main_Loop();
+void    Main_Loop_No_Emulation();
 
 //-----------------------------------------------------------------------------
 

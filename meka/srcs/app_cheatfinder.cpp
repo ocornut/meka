@@ -336,7 +336,7 @@ void    CheatFinder_Update(t_cheat_finder* app)
     {
         widget_set_enabled(app->w_matches_memedit_buttons[i], displaying_matches && ((int)app->matches.size()>i));
     }
-    
+
     widget_set_highlight(app->w_compare_to_buttons[0], app->compare_to == CHEAT_FINDER_COMPARE_TO_OLD_VALUE);
     widget_set_highlight(app->w_compare_to_buttons[1], app->compare_to == CHEAT_FINDER_COMPARE_TO_CONSTANT);
 
@@ -370,7 +370,7 @@ static u32 CheatFinder_IndexToAddr(t_cheat_finder* app, const t_cheat_finder_mat
 static u32 CheatFinder_ReadValue(t_cheat_finder* app, const t_memory_range* memrange, t_cheat_finder_match* match)
 {
     const u32 addr = CheatFinder_IndexToAddr(app, match);
-    
+
     u32 v;
     switch (match->type)
     {
@@ -543,7 +543,7 @@ static void CheatFinder_SelectOneMatch(t_cheat_finder* app, int match_index)
 }
 
 static void CheatFinder_CallbackMemtypeSelect(t_widget* w)
-{   
+{
     t_cheat_finder* app = (t_cheat_finder*)w->box->user_data;
     app->memtype = (t_memory_type)(intptr_t)w->user_data;
     CheatFinder_ResetMatches(app);

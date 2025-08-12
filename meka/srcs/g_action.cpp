@@ -77,7 +77,7 @@ void    Action_Quit()
 }
 
 // ACTION: SHOW OR HIDE SPRITES LAYER -----------------------------------------------
-void    Action_Switch_Layer_Sprites (void)
+void    Action_Switch_Layer_Sprites()
 {
     opt.Layer_Mask ^= LAYER_SPRITES;
     gui_menu_toggle_check (menus_ID.layers, 0);
@@ -92,7 +92,7 @@ void    Action_Switch_Layer_Sprites (void)
 }
 
 // ACTION: SHOW OR HIDE BACKGROUND LAYER --------------------------------------
-void    Action_Switch_Layer_Background (void)
+void    Action_Switch_Layer_Background()
 {
     opt.Layer_Mask ^= LAYER_BACKGROUND;
     gui_menu_toggle_check (menus_ID.layers, 1);
@@ -107,7 +107,7 @@ void    Action_Switch_Layer_Background (void)
 }
 
 // ACTION: SWITCH SPRITE FLICKERING TO 'AUTOMATIC' ----------------------------
-void    Action_Switch_Flickering_Auto (void)
+void    Action_Switch_Flickering_Auto()
 {
     g_config.sprite_flickering = SPRITE_FLICKERING_AUTO;
     if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
@@ -118,7 +118,7 @@ void    Action_Switch_Flickering_Auto (void)
 }
 
 // ACTION: SWITCH SPRITE FLICKERING TO 'TRUE' ----------------------------------
-void    Action_Switch_Flickering_Yes (void)
+void    Action_Switch_Flickering_Yes()
 {
     g_config.sprite_flickering = SPRITE_FLICKERING_ENABLED;
     gui_menu_uncheck_all (menus_ID.flickering);
@@ -127,7 +127,7 @@ void    Action_Switch_Flickering_Yes (void)
 }
 
 // ACTION: SWITCH SPRITE FLICKERING TO 'FALSE' -----------------------------------
-void    Action_Switch_Flickering_No (void)
+void    Action_Switch_Flickering_No()
 {
     g_config.sprite_flickering = SPRITE_FLICKERING_NO;
     gui_menu_uncheck_all (menus_ID.flickering);
@@ -136,7 +136,7 @@ void    Action_Switch_Flickering_No (void)
 }
 
 // ACTION: SWITCH BETWEEN FULLSCREEN AND INTERFACE MODES ----------------------
-void    Action_Switch_Mode(void)
+void    Action_Switch_Mode()
 {
     switch (g_env.state)
     {

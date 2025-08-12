@@ -63,7 +63,7 @@ void    Palette_Emulation_Reset()
 
 // Reload palette data (fixed or from PRAM)
 // Called when changing video mode on the fly
-void    Palette_Emulation_Reload (void)
+void    Palette_Emulation_Reload()
 {
     switch (g_driver->vdp)
     {

@@ -137,7 +137,7 @@ bool    widgets_update_box(t_gui_box *b, int mouse_x, int mouse_y)
     return widget_active;
 }
 
-void    widgets_call_update(void)
+void    widgets_call_update()
 {
     for (t_list* boxes = gui.boxes; boxes != NULL; boxes = boxes->next)
     {

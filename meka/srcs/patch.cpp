@@ -15,11 +15,8 @@
 
 t_patches Patches;
 
-//-----------------------------------------------------------------------------
-// Patch_New (void)
 // Create a new patch
-//-----------------------------------------------------------------------------
-t_patch *       Patch_New (void)
+t_patch *       Patch_New()
 {
     // Allocate new patch
     t_patch* patch = (t_patch*)malloc(sizeof (t_patch));
@@ -40,10 +37,7 @@ t_patch *       Patch_New (void)
     return (patch);
 }
 
-//-----------------------------------------------------------------------------
-// Patch_Action_New (void)
 // Create a new patch action
-//-----------------------------------------------------------------------------
 t_patch_action *        Patch_Action_New()
 {
     t_patch_action* action = (t_patch_action*)malloc (sizeof (t_patch_action));
@@ -171,11 +165,8 @@ int Patches_List_Parse_Line(const char *line)
     return (0);
 }
 
-//-----------------------------------------------------------------------------
-// Patches_List_Init (void)
 // Load MEKA.PAT
-//-----------------------------------------------------------------------------
-void            Patches_List_Init (void)
+void            Patches_List_Init()
 {
     t_tfile *   tf;
     t_list *    lines;
@@ -266,21 +257,15 @@ t_patch *   Patch_Find (t_media_image *media_image)
     return (NULL);
 }
 
-//-----------------------------------------------------------------------------
-// Patches_ROM_Initialize (void)
 // Find patch for current ROM
-//-----------------------------------------------------------------------------
-void        Patches_ROM_Initialize (void)
+void        Patches_ROM_Initialize()
 {
     // Find patch for current ROM
     Patches.patch_current = Patch_Find (&g_media_rom);
 }
 
-//-----------------------------------------------------------------------------
-// Patches_ROM_Apply (void)
 // Apply patches to current ROM
-//-----------------------------------------------------------------------------
-void        Patches_ROM_Apply (void)
+void        Patches_ROM_Apply()
 {
     t_patch *patch = Patches.patch_current;
     if (patch == NULL)
@@ -308,11 +293,8 @@ void        Patches_ROM_Apply (void)
     }
 }
 
-//-----------------------------------------------------------------------------
-// Patches_MEM_Apply (void)
 // Apply real-time patches to memory map
-//-----------------------------------------------------------------------------
-void        Patches_MEM_Apply (void)
+void        Patches_MEM_Apply()
 {
     t_patch *patch = Patches.patch_current;
     t_list *actions;

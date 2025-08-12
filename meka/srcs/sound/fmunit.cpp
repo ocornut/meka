@@ -13,7 +13,7 @@
 u8 *          FM_Regs = NULL;
 
 // Interface
-void                    FM_Null_Interface_Function(void) { }
+void                    FM_Null_Interface_Function() { }
 t_fm_unit_interface     FM_Null_Interface =
 {
   "FM Null Interface",

@@ -63,7 +63,7 @@ static t_app_sound_debug    SoundDebugApp;
 //-----------------------------------------------------------------------------
 
 // Initialize sound structure with its default settings
-void    Sound_Init_Config(void)
+void    Sound_Init_Config()
 {
     // General
     Sound.Enabled       = TRUE;
@@ -78,7 +78,7 @@ void    Sound_Init_Config(void)
 }
 
 // Initialize actual sound engine ---------------------------------------------
-int     Sound_Init(void)
+int     Sound_Init()
 {
     // Temporarily set fake/null FM interface
     // This is to avoid crashing when using FM registers (savestates...) if sound is disabled.
@@ -190,13 +190,13 @@ void    Sound_Update()
     SoundStream_Update(g_ym2413_stream);
 }
 
-void    Sound_Playback_Start(void)
+void    Sound_Playback_Start()
 {
     Sound.Paused = TRUE;
     Sound_Playback_Resume();
 }
 
-void    Sound_Playback_Stop(void)
+void    Sound_Playback_Stop()
 {
     Sound.Paused = FALSE;
     Sound_Playback_Mute();
@@ -204,7 +204,7 @@ void    Sound_Playback_Stop(void)
 
 // Mute sound playback
 // Increase 'Sound.Paused' counter and mute sound on >= 1
-void    Sound_Playback_Mute(void)
+void    Sound_Playback_Mute()
 {
     if (Sound.Paused == 0)
     {
@@ -215,7 +215,7 @@ void    Sound_Playback_Mute(void)
 
 // Resume sound playback
 // Decrease Sound.Paused counter and resume sound on zero
-void    Sound_Playback_Resume(void)
+void    Sound_Playback_Resume()
 {
     Sound.Paused--;
     if (Sound.Paused == 0)

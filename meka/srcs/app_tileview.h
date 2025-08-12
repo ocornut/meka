@@ -34,13 +34,13 @@ extern t_app_tile_viewer   TileViewer;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TileViewer_Init_Values  (void);
-void    TileViewer_Init         (void);
+void    TileViewer_Init_Values();
+void    TileViewer_Init();
 
-void    TileViewer_Update       (t_app_tile_viewer *app);
+void    TileViewer_Update(t_app_tile_viewer* app);
 
-void    TileViewer_Switch       (void);
-void    TileViewer_Configure_PaletteMax (int palette_max);
+void    TileViewer_Switch();
+void    TileViewer_Configure_PaletteMax(int palette_max);
 
 //-----------------------------------------------------------------------------
 

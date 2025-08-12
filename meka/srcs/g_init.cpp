@@ -27,7 +27,7 @@
 // Forward Declaration
 //-----------------------------------------------------------------------------
 
-static void    GUI_InitApplets(void);
+static void    GUI_InitApplets();
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -129,14 +129,14 @@ void    GUI_CreateVideoBuffers()
     }
 }
 
-void    GUI_Close(void)
+void    GUI_Close()
 {
     // FIXME: Nice....
 
     TextViewer_Close(&TextViewer);
 }
 
-void    GUI_InitApplets(void)
+void    GUI_InitApplets()
 {
     AboutBox_Init();
     TB_Message_Init();

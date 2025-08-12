@@ -13,18 +13,18 @@ extern int g_machine_pause_requests;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Machine_Pause               (void);
-void    Machine_Debug_Start         (void);
-void    Machine_Debug_Stop          (void);
-void    Machine_Reset               (void);
+void    Machine_Pause();
+void    Machine_Debug_Start();
+void    Machine_Debug_Stop();
+void    Machine_Reset();
 
-void    Machine_Set_Mapper          (void);
-void    Machine_Set_Mapping         (void);
-void    Machine_Set_Handler_IO      (void);
-void    Machine_Set_Handler_Loop    (void);
-void    Machine_Set_Handler_MemRW   (void);
-void    Machine_Set_Country         (void);
-void    Machine_Set_IPeriod         (void);
-void    Machine_Set_TV_Lines        (void);
+void    Machine_Set_Mapper();
+void    Machine_Set_Mapping();
+void    Machine_Set_Handler_IO();
+void    Machine_Set_Handler_Loop();
+void    Machine_Set_Handler_MemRW();
+void    Machine_Set_Country();
+void    Machine_Set_IPeriod();
+void    Machine_Set_TV_Lines();
 
 //-----------------------------------------------------------------------------

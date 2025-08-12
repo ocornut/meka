@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 
 // Fix up emulator data after loading a save state
-void        Load_Game_Fixup(void)
+void        Load_Game_Fixup()
 {
     int     i;
     u8      b;

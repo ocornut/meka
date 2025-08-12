@@ -14,13 +14,13 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-bool    Frame_Skipper (void);
-void    Frame_Skipper_Configure (int v);
-void    Frame_Skipper_Switch (void);
-void    Frame_Skipper_Switch_FPS_Counter (void);
-void    Frame_Skipper_Show (void);
-void    Frame_Skipper_Init (void);
-void    Frame_Skipper_Init_Values (void);
+bool    Frame_Skipper();
+void    Frame_Skipper_Configure(int v);
+void    Frame_Skipper_Switch();
+void    Frame_Skipper_Switch_FPS_Counter();
+void    Frame_Skipper_Show();
+void    Frame_Skipper_Init();
+void    Frame_Skipper_Init_Values();
 
 //-----------------------------------------------------------------------------
 // Data
@@ -28,7 +28,7 @@ void    Frame_Skipper_Init_Values (void);
 
 struct t_fskipper
 {
-    // Frame skipper    
+    // Frame skipper
     int             Mode;                       // Automatic (sync) or standard
     int             Throttled_Speed;
     volatile int    Throttled_Frame_Elapsed;

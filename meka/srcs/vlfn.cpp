@@ -21,23 +21,23 @@ t_vlfn_db VLFN_DataBase;
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static t_vlfn_entry *   VLFN_Entry_New      (const char *file_name, t_db_entry *db_entry);
-static void             VLFN_Entry_Delete   (t_vlfn_entry *entry);
+static t_vlfn_entry *   VLFN_Entry_New(const char *file_name, t_db_entry *db_entry);
+static void             VLFN_Entry_Delete(t_vlfn_entry *entry);
 
-static void             VLFN_DataBase_Load  (void);
-static void             VLFN_DataBase_Save  (void);
+static void             VLFN_DataBase_Load();
+static void             VLFN_DataBase_Save();
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void            VLFN_Init (void)
+void            VLFN_Init()
 {
     VLFN_DataBase.entries = NULL;
     VLFN_DataBase_Load();
 }
 
-void            VLFN_Close (void)
+void            VLFN_Close()
 {
     VLFN_DataBase_Save();
 }
@@ -51,22 +51,19 @@ static t_vlfn_entry *   VLFN_Entry_New (const char *file_name, t_db_entry *db_en
     return (entry);
 }
 
-static void      VLFN_Entry_Delete (t_vlfn_entry *entry)
+static void      VLFN_Entry_Delete(t_vlfn_entry *entry)
 {
     free (entry->filename);
     free (entry);
 }
 
-static int       VLFN_Entries_Compare (t_vlfn_entry *entry1, t_vlfn_entry *entry2)
+static int       VLFN_Entries_Compare(t_vlfn_entry *entry1, t_vlfn_entry *entry2)
 {
     return (strcmp(entry1->filename, entry2->filename));
 }
 
-//-----------------------------------------------------------------------------
-// VLFN_DataBase_Load (void)
 // Load VLFN database from MEKA.FDB file.
-//-----------------------------------------------------------------------------
-void            VLFN_DataBase_Load (void)
+void            VLFN_DataBase_Load()
 {
     t_tfile *   tf;
     t_list *    lines;
@@ -146,11 +143,8 @@ void            VLFN_DataBase_Load (void)
     tfile_free(tf);
 }
 
-//-----------------------------------------------------------------------------
-// VLFN_DataBase_Save (void)
 // Save VLFN database back to MEKA.FDB file.
-//-----------------------------------------------------------------------------
-void        VLFN_DataBase_Save (void)
+void        VLFN_DataBase_Save()
 {
     FILE *  f;
     t_list *list;
@@ -190,11 +184,8 @@ void        VLFN_DataBase_Save (void)
     list_free_custom (&VLFN_DataBase.entries, (t_list_free_handler)VLFN_Entry_Delete);
 }
 
-//-----------------------------------------------------------------------------
-// VLFN_FindByFileName (const char *file_name)
 // Retrieve VLFN entry from filename.
-//-----------------------------------------------------------------------------
-t_vlfn_entry *  VLFN_FindByFileName (const char *file_name)
+t_vlfn_entry *  VLFN_FindByFileName(const char *file_name)
 {
     // Linear find
     for (t_list* list = VLFN_DataBase.entries; list != NULL; list = list->next)
@@ -206,7 +197,7 @@ t_vlfn_entry *  VLFN_FindByFileName (const char *file_name)
     return (NULL);
 }
 
-void        VLFN_AddEntry (const char *file_name, t_db_entry *db_entry)
+void        VLFN_AddEntry(const char *file_name, t_db_entry *db_entry)
 {
     t_vlfn_entry *entry;
 
@@ -224,7 +215,7 @@ void        VLFN_AddEntry (const char *file_name, t_db_entry *db_entry)
     }
 }
 
-void        VLFN_RemoveEntry (const char *file_name)
+void        VLFN_RemoveEntry(const char *file_name)
 {
     t_vlfn_entry *entry = VLFN_FindByFileName (file_name);
     if (entry != NULL)

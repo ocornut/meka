@@ -23,6 +23,6 @@ void    hq2x_16(unsigned char*, unsigned char*, int, int, int);
 void    hq2x_32(unsigned char*, unsigned char*, int, int, int);
 }
 
-void    HQ2X_Init(void);
+void    HQ2X_Init();
 
 //-----------------------------------------------------------------------------

@@ -315,7 +315,7 @@ static int  DataDump_Handler_Ascii_Sprite (FILE *f_dump, int pos, const u8 *data
 //-----------------------------------------------------------------------------
 // Dump RAM
 //-----------------------------------------------------------------------------
-void        DataDump_RAM (void)
+void        DataDump_RAM()
 {
     int     len;
     int     start_addr;
@@ -330,7 +330,7 @@ void        DataDump_RAM (void)
 //-----------------------------------------------------------------------------
 // Dump VRAM
 //-----------------------------------------------------------------------------
-void        DataDump_VRAM (void)
+void        DataDump_VRAM()
 {
     if (DataDump.Mode == DATADUMP_MODE_RAW)
         DataDump_Main_Raw   ("VRAM", VRAM, 0x4000);
@@ -341,7 +341,7 @@ void        DataDump_VRAM (void)
 //-----------------------------------------------------------------------------
 // Dump Palette
 //-----------------------------------------------------------------------------
-void        DataDump_Palette (void)
+void        DataDump_Palette()
 {
     int     len;
 
@@ -365,7 +365,7 @@ void        DataDump_Palette (void)
 //-----------------------------------------------------------------------------
 // Dump Sprites
 //-----------------------------------------------------------------------------
-void    DataDump_Sprites (void)
+void    DataDump_Sprites()
 {
     int n_sprites = 0;
 
@@ -394,14 +394,14 @@ void    DataDump_Sprites (void)
 // Dump BackGround/ForeGround screen map
 // FIXME: To do
 //-----------------------------------------------------------------------------
-void    DataDump_BgFgMap (void)
+void    DataDump_BgFgMap()
 {
 }
 
 //-----------------------------------------------------------------------------
 // Dump CPU Registers
 //-----------------------------------------------------------------------------
-void    DataDump_CPURegs (void)
+void    DataDump_CPURegs()
 {
     if (DataDump.Mode == DATADUMP_MODE_RAW)
         DataDump_Main_Raw   ("CPURegs", (byte *)&sms.R, sizeof (sms.R));
@@ -412,7 +412,7 @@ void    DataDump_CPURegs (void)
 //-----------------------------------------------------------------------------
 // Dump VDP Registers
 //-----------------------------------------------------------------------------
-void    DataDump_VRegs (void)
+void    DataDump_VRegs()
 {
     if (DataDump.Mode == DATADUMP_MODE_RAW)
         DataDump_Main_Raw   ("VRegs", sms.VDP, 16);

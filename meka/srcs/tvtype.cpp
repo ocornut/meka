@@ -22,7 +22,7 @@ t_tv_type TV_Type_Table [] =
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TVType_Init_Values (void)
+void    TVType_Init_Values()
 {
     TV_Type_User = &TV_Type_Table[TVTYPE_NTSC];
     g_machine.TV = TV_Type_User;
@@ -30,12 +30,12 @@ void    TVType_Init_Values (void)
     TVType_Update_Values();
 }
 
-void    TVType_Update_Values (void)
+void    TVType_Update_Values()
 {
     // FIXME: Update VGM stuff
 }
 
-void    TVType_Set (int tv_type, bool verbose)
+void    TVType_Set(int tv_type, bool verbose)
 {
     TV_Type_User = &TV_Type_Table[tv_type];
     g_machine.TV = TV_Type_User;

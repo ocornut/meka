@@ -41,7 +41,7 @@ unsigned int   HQ2X_RGBtoYUV[65536];
 // Functions
 //-----------------------------------------------------------------------------
 
-void    HQ2X_Init(void)
+void    HQ2X_Init()
 {
     int i, j, k, r, g, b, Y, u, v;
 

@@ -142,7 +142,7 @@ bool Data_LoadFont(ALLEGRO_FONT** pfont, const char* name, int size)
 static void Data_LoadBinaries();
 static void Data_ProcessVideoBitmaps();
 
-void Data_Init(void)
+void Data_Init()
 {
     // Print loading message to console
     ConsolePrint(Msg_Get(MSG_Datafile_Loading));
@@ -250,7 +250,7 @@ void Data_LoadBinaries()
     BIOS_ROM_SF7000[0x1D8] = BIOS_ROM_SF7000[0x1D9] = BIOS_ROM_SF7000[0x1DA] = 0x00;
 }
 
-void    Data_Close(void)
+void    Data_Close()
 {
     Data_DestroyVideoBuffers();
 }

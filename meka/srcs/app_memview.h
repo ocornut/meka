@@ -86,10 +86,10 @@ extern t_list *         MemoryViewers;
 t_memory_viewer *       MemoryViewer_New(bool register_desktop, int size_columns, int size_lines);
 void                    MemoryViewer_Delete(t_memory_viewer* app);
 void                    MemoryViewer_GotoAddress(t_memory_viewer* app, t_memory_type memtype, u32 offset);
-void                    MemoryViewer_SwitchMainInstance(void);
+void                    MemoryViewer_SwitchMainInstance();
 
-void                    MemoryViewers_Update(void);
-void                    MemoryViewers_MediaReload(void);
+void                    MemoryViewers_Update();
+void                    MemoryViewers_MediaReload();
 
 void                    MemoryRange_GetDetails(t_memory_type memtype, t_memory_range* out);
 

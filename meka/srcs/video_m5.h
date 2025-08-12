@@ -13,7 +13,7 @@ void    Sprite_Collide_Line_C (byte *p_src, int x);
 void    Find_Last_Sprite(int sprites_height, int VDP_Line);
 void    Find_Last_Sprite_Wide(int sprites_height, int VDP_Line);
 
-void    Display_BackGround_Line_5(void);
+void    Display_BackGround_Line_5();
 
 extern "C"
 {
@@ -21,8 +21,8 @@ extern int      Sprite_Last;
 extern int      Sprites_on_Line;
 }
 
-void            Refresh_Line_5 (void);
-void            Refresh_Sprites_5 (bool draw);
+void            Refresh_Line_5();
+void            Refresh_Sprites_5(bool draw);
 
 //-----------------------------------------------------------------------------
 

@@ -31,7 +31,7 @@ void    Inputs_KeyPressQueue_Remove(t_key_press *keypress)
     free(keypress);
 }
 
-void    Inputs_KeyPressQueue_Clear(void)
+void    Inputs_KeyPressQueue_Clear()
 {
     list_free(&Inputs.KeyPressedQueue);
 }

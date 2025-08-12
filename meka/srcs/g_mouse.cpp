@@ -9,7 +9,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    gui_init_mouse (void)
+void    gui_init_mouse()
 {
     gui.mouse.x = 0;
     gui.mouse.y = 0;

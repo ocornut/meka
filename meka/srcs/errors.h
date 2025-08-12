@@ -42,10 +42,10 @@ extern int      meka_errno;
 // Functions
 //-----------------------------------------------------------------------------
 
-const char *    meka_strerror(void);
+const char *    meka_strerror();
 
 #ifdef ARCH_WIN32
-void            ShowWindowsErrorMessage(void);
+void            ShowWindowsErrorMessage();
 #endif
 
 //-----------------------------------------------------------------------------

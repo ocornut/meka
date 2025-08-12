@@ -20,12 +20,12 @@ int RapidFire_Count;
 // Functions
 //-----------------------------------------------------------------------------
 
-void    RapidFire_Init (void)
+void    RapidFire_Init()
 {
     RapidFire = 0;
 }
 
-void    RapidFire_Update (void)
+void    RapidFire_Update()
 {
     RapidFire_Count = (RapidFire_Count + 1) & 7;
     if (RapidFire_Count & 4)
@@ -37,7 +37,7 @@ void    RapidFire_Update (void)
     }
 }
 
-void    RapidFire_Switch_J1B1 (void)
+void    RapidFire_Switch_J1B1()
 {
     RapidFire ^= RAPIDFIRE_J1B1;
     gui_menu_toggle_check (menus_ID.rapidfire, 0);
@@ -46,7 +46,7 @@ void    RapidFire_Switch_J1B1 (void)
     else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 1, 1);
 }
 
-void    RapidFire_Switch_J1B2 (void)
+void    RapidFire_Switch_J1B2()
 {
     RapidFire ^= RAPIDFIRE_J1B2;
     gui_menu_toggle_check (menus_ID.rapidfire, 1);
@@ -55,7 +55,7 @@ void    RapidFire_Switch_J1B2 (void)
     else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 1, 2);
 }
 
-void    RapidFire_Switch_J2B1 (void)
+void    RapidFire_Switch_J2B1()
 {
     RapidFire ^= RAPIDFIRE_J2B1;
     gui_menu_toggle_check (menus_ID.rapidfire, 2);
@@ -64,7 +64,7 @@ void    RapidFire_Switch_J2B1 (void)
     else Msg(MSGT_USER, Msg_Get(MSG_RapidFire_JxBx_Off), 2, 1);
 }
 
-void    RapidFire_Switch_J2B2 (void)
+void    RapidFire_Switch_J2B2()
 {
     RapidFire ^= RAPIDFIRE_J2B2;
     gui_menu_toggle_check (menus_ID.rapidfire, 3);

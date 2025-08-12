@@ -171,7 +171,7 @@ byte    DebugZ80(register Z80 *R);
 extern word    (*LoopZ80)(/*register Z80 *R*/ void);
 
 /**** Opcode usage statistics ********************************/
-void    Z80_Opcodes_Usage_Print (void);
+void    Z80_Opcodes_Usage_Print();
 
 #endif /* Z80_H */
 

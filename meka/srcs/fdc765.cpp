@@ -121,7 +121,7 @@ const byte bytes_in_cmd[32] =
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-void    GetRes7 (void)                      /* Return 7 result bytes */
+void    GetRes7()                       /* Return 7 result bytes */
 {
   FDCResult[0] = st0;
   FDCResult[1] = st1;
@@ -233,7 +233,7 @@ void    FDCExecWriteCommand (register byte Value)
     case 6:                      /* Read data */
       // Note FDC765 supports reading several sectors in a row, but
       // it is currently not supported.
-      // In theory LS should be Last Sector we are only getting values of 0x10 
+      // In theory LS should be Last Sector we are only getting values of 0x10
       // as the SF-7000 IPL always sets 0x10 in it.
       FDCCurrDrv = FDCCommand[1] & 3;
 
@@ -403,7 +403,7 @@ st0 &= 0x3F;
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-byte    FDCExecReadCommand (void)
+byte    FDCExecReadCommand()
 {
   byte  ret = 0;
 
@@ -447,7 +447,7 @@ byte    FDCExecReadCommand (void)
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-byte    FDCGetResult (void)
+byte    FDCGetResult()
 {
   byte  ret = FDCResult[FDCResPointer];
 
@@ -463,7 +463,7 @@ byte    FDCGetResult (void)
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-void    FDC765_Init (void)
+void    FDC765_Init()
 {
   int   i;
 
@@ -479,7 +479,7 @@ void    FDC765_Init (void)
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-void    FDC765_Close (void)
+void    FDC765_Close()
 {
   int   i;
 
@@ -493,7 +493,7 @@ void    FDC765_Close (void)
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-void    FDC765_Reset (void)
+void    FDC765_Reset()
 {
   int   i;
 
@@ -551,7 +551,7 @@ void    FDC765_Data_Write (register byte Value)
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-byte    FDC765_Data_Read (void)
+byte    FDC765_Data_Read()
 {
   FDC765_Cmd_For_SF7000 = FALSE;
   if (ExecCmdPhase)
@@ -564,7 +564,7 @@ byte    FDC765_Data_Read (void)
 /*********************************************************************/
 /**                                                                 **/
 /*********************************************************************/
-byte    FDC765_Status_Read (void)
+byte    FDC765_Status_Read()
 {
   // if (StatusCounter > 0)
   //    {

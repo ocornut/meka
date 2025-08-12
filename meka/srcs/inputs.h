@@ -129,8 +129,8 @@ struct t_input_map_entry
 
 struct t_input_src
 {
-    char *              name;                  
-    int                 flags;                      // enum t_input_src_flags // FIXME-ENUM               
+    char *              name;
+    int                 flags;                      // enum t_input_src_flags // FIXME-ENUM
     t_input_src_type    type;
     bool                enabled;
     int                 player;                     // PLAYER_1 or PLAYER_2
@@ -179,7 +179,7 @@ struct t_inputs
 
     // Keyboard
     t_list *        KeyPressedQueue;                // Queued keypresses
-    
+
     // GUI
     bool            Cabinet_Mode;                   // Boolean. Invert ESC and F10 (this is until inputs keys are fully configurable)
 };
@@ -189,28 +189,28 @@ extern t_inputs Inputs;
 const char *    Inputs_Get_MapName(int Type, int MapIdx);
 void            Inputs_Peripheral_Next(int Player);
 int             Inputs_Peripheral_Result_Type(int Periph);
-void            Inputs_Peripheral_Change_Update(void);
+void            Inputs_Peripheral_Change_Update();
 
 //-----------------------------------------------------------------------------
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Input_ROM_Change            (void);
+void    Input_ROM_Change();
 
-void    Inputs_SetMouseCursor       (t_mouse_cursor mouse_cursor);
+void    Inputs_SetMouseCursor(t_mouse_cursor mouse_cursor);
 
-void    Inputs_Check_GUI            (bool sk1100_pressed);
+void    Inputs_Check_GUI(bool sk1100_pressed);
 
-void    Inputs_Switch_Current       (void);
-void    Inputs_Switch_Joypad        (void);
-void    Inputs_Switch_LightPhaser   (void);
-void    Inputs_Switch_PaddleControl (void);
-void    Inputs_Switch_SportsPad     (void);
-void    Inputs_Switch_GraphicBoard  (void);
-void    Inputs_Switch_GraphicBoardV2(void);
+void    Inputs_Switch_Current();
+void    Inputs_Switch_Joypad();
+void    Inputs_Switch_LightPhaser();
+void    Inputs_Switch_PaddleControl();
+void    Inputs_Switch_SportsPad();
+void    Inputs_Switch_GraphicBoard();
+void    Inputs_Switch_GraphicBoardV2();
 
-u8      Input_Port_DC               (void);
-u8      Input_Port_DD               (void);
+u8      Input_Port_DC();
+u8      Input_Port_DD();
 
 //-----------------------------------------------------------------------------
 

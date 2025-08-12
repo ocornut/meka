@@ -7,8 +7,8 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Load_Inputs_Src_List (void);
-void    Write_Inputs_Src_List (void);
+void    Load_Inputs_Src_List();
+void    Write_Inputs_Src_List();
 
 //-----------------------------------------------------------------------------
 

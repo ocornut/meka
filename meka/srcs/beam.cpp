@@ -19,7 +19,7 @@
 // F4h ---- FFh | 00h --------- 20h --LCD-- 6FH -------- 93H | E9H ---- F3H
 //  <-- 12 --->   <------------------ 148 ----------------->   <--- 11 --->
 
-int         Beam_Calc_X (void)
+int         Beam_Calc_X()
 {
     int     c;
 
@@ -38,7 +38,7 @@ int         Beam_Calc_X (void)
   return (c + 72);*/
 }
 
-int         Beam_X (void)
+int         Beam_X()
 {
     return (LightPhaser_GetX ()); // FIXME: ...
     // return (Beam_Calc_X () / 2);
@@ -56,7 +56,7 @@ int         Beam_X (void)
 // 1 frame = 313 lines
 // 00h -- F2h | BAh -- FFh (unconfirmed)
 
-INLINE int  Beam_Calc_Y (void)
+INLINE int  Beam_Calc_Y()
 {
     int c = tsms.VDP_Line;
     if (CPU_GetICount() < 8)
@@ -95,9 +95,9 @@ INLINE int  Beam_Calc_Y (void)
     }
 }
 
-int         Beam_Y (void)
+int         Beam_Y()
 {
-    return (Beam_Calc_Y ());
+    return Beam_Calc_Y();
 }
 
 //-----------------------------------------------------------------------------

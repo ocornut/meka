@@ -8,7 +8,7 @@
 #include "vmachine.h"
 #include "wav.h"
 
-void    Sound_Log_Init(void)
+void    Sound_Log_Init()
 {
     Sound.LogWav                   = NULL;
     Sound.LogWav_SizeData          = 0;
@@ -20,7 +20,7 @@ void    Sound_Log_Init(void)
     Sound.LogVGM_ID                = 0;
 }
 
-void    Sound_Log_Close(void)
+void    Sound_Log_Close()
 {
     if (Sound.LogWav != NULL)
         Sound_LogWAV_Stop();
@@ -28,7 +28,7 @@ void    Sound_Log_Close(void)
         Sound_LogVGM_Stop();
 }
 
-void    Sound_Log_Init_Game(void)
+void    Sound_Log_Init_Game()
 {
     Sound.LogWav_ID = Sound.LogVGM_ID = 1; // Reset counter for a new game
 }
@@ -65,7 +65,7 @@ void    Sound_Log_FileName_Get(char *result, const char *filename_template, int 
     while (al_filename_exists(result) != 0 && *id < SOUND_LOG_ID_MAX);
 }
 
-void    Sound_LogWAV_Start(void)
+void    Sound_LogWAV_Start()
 {
     if (Sound.LogWav != NULL)
         Sound_LogWAV_Stop();
@@ -94,7 +94,7 @@ void    Sound_LogWAV_Start(void)
     }
 }
 
-void    Sound_LogWAV_Stop(void)
+void    Sound_LogWAV_Stop()
 {
     if (Sound.LogWav != NULL)
     {
@@ -106,7 +106,7 @@ void    Sound_LogWAV_Stop(void)
     }
 }
 
-void    Sound_LogVGM_Start(void)
+void    Sound_LogVGM_Start()
 {
     char   FileName[FILENAME_LEN];
 
@@ -134,7 +134,7 @@ void    Sound_LogVGM_Start(void)
     }
 }
 
-void    Sound_LogVGM_Stop(void)
+void    Sound_LogVGM_Stop()
 {
     if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
     {
@@ -145,7 +145,7 @@ void    Sound_LogVGM_Stop(void)
     }
 }
 
-void    Sound_LogVGM_Accuracy_Switch(void)
+void    Sound_LogVGM_Accuracy_Switch()
 {
     if (Sound.LogVGM_Logging_Accuracy == VGM_LOGGING_ACCURACY_SAMPLE)
     {

@@ -15,12 +15,12 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    TVType_Init_Values      (void);
-void    TVType_Update_Values    (void);
+void    TVType_Init_Values();
+void    TVType_Update_Values();
 
-void    TVType_Set              (int tv_type, bool verbose);
-void    TVType_Set_NTSC         (void);
-void    TVType_Set_PAL_SECAM    (void);
+void    TVType_Set(int tv_type, bool verbose);
+void    TVType_Set_NTSC();
+void    TVType_Set_PAL_SECAM();
 
 //-----------------------------------------------------------------------------
 // Data
@@ -30,7 +30,7 @@ struct t_tv_type
 {
     int     id;
     const char *  name;
-    int     screen_lines;      
+    int     screen_lines;
     int     screen_frequency;  // in Hz
     int     CPU_clock;
 };

@@ -3,11 +3,11 @@
 // VDP Refresh Beam Position - Headers
 //-----------------------------------------------------------------------------
 
-        int     Beam_X (void);
-        int     Beam_Y (void);
+int     Beam_X();
+int     Beam_Y();
 
-        int     Beam_Calc_X (void);
-INLINE  int     Beam_Calc_Y (void);
+int     Beam_Calc_X();
+int     Beam_Calc_Y();
 
 //-----------------------------------------------------------------------------
 

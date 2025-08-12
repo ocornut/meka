@@ -14,7 +14,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    BMemory_Verify_Usage (void)
+void    BMemory_Verify_Usage()
 {
     int   i;
     const byte *p;
@@ -29,7 +29,7 @@ void    BMemory_Verify_Usage (void)
     }
 }
 
-void    BMemory_Get_Infos (void **data, int *len)
+void    BMemory_Get_Infos(void** data, int* len)
 {
     switch (g_machine.mapper)
     {
@@ -37,7 +37,7 @@ void    BMemory_Get_Infos (void **data, int *len)
         BMemory_SRAM_Get_Infos (data, len);
         return;
     case MAPPER_93c46:
-        BMemory_93c46_Get_Infos (data, len);
+        BMemory_93c46_Get_Infos(data, len);
         return;
     default:
         (*data) = NULL;
@@ -48,17 +48,15 @@ void    BMemory_Get_Infos (void **data, int *len)
 
 //-----------------------------------------------------------------------------
 
-void        BMemory_Load (void)
+void        BMemory_Load()
 {
-    FILE *  f;
-
     // FIXME: Clear() handler
     // May want to totally move BMemory stuff to a driver based system
     memset (SRAM, 0, 0x8000);
     if (g_machine.mapper == MAPPER_93c46)
         EEPROM_93c46_Clear();
 
-    f = fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
+    FILE* f = fopen(g_env.Paths.BatteryBackedMemoryFile, "rb");
     if (f == NULL)
         return;
     switch (g_machine.mapper)
@@ -69,7 +67,7 @@ void        BMemory_Load (void)
     fclose (f);
 }
 
-void        BMemory_Save (void)
+void        BMemory_Save()
 {
     FILE *  f;
 
@@ -92,7 +90,7 @@ void        BMemory_Save (void)
         fclose (f);
 }
 
-void    BMemory_Load_State (FILE *f)
+void    BMemory_Load_State(FILE* f)
 {
     switch (g_machine.mapper)
     {
@@ -101,7 +99,7 @@ void    BMemory_Load_State (FILE *f)
     }
 }
 
-void    BMemory_Save_State (FILE *f)
+void    BMemory_Save_State(FILE* f)
 {
     switch (g_machine.mapper)
     {
@@ -114,7 +112,7 @@ void    BMemory_Save_State (FILE *f)
 // SRAM
 //-----------------------------------------------------------------------------
 
-void    BMemory_SRAM_Load (FILE *f)
+void    BMemory_SRAM_Load(FILE* f)
 {
     sms.SRAM_Pages = 0;
     do
@@ -132,7 +130,7 @@ void    BMemory_SRAM_Load (FILE *f)
         Msg(MSGT_USER, "%s", Msg_Get(MSG_SRAM_Load_Unable));
 }
 
-void    BMemory_SRAM_Save (FILE *f)
+void    BMemory_SRAM_Save(FILE* f)
 {
     if (f && fwrite (SRAM, sms.SRAM_Pages * 0x2000, 1, f) == 1)
         Msg(MSGT_USER, Msg_Get(MSG_SRAM_Wrote), sms.SRAM_Pages * 8);
@@ -140,20 +138,20 @@ void    BMemory_SRAM_Save (FILE *f)
         Msg(MSGT_USER, Msg_Get(MSG_SRAM_Write_Unable), sms.SRAM_Pages * 8);
 }
 
-void    BMemory_SRAM_Load_State (FILE *f)
+void    BMemory_SRAM_Load_State(FILE* f)
 {
     fread (SRAM, sms.SRAM_Pages * 0x2000, 1, f);
     if (sms.SRAM_Pages < 4)
         memset (SRAM + sms.SRAM_Pages * 0x2000, 0, (4 - sms.SRAM_Pages) * 0x2000);
 }
 
-void    BMemory_SRAM_Save_State (FILE *f)
+void    BMemory_SRAM_Save_State(FILE* f)
 {
     if (sms.SRAM_Pages > 0)
         fwrite (SRAM, sms.SRAM_Pages * 0x2000, 1, f);
 }
 
-void    BMemory_SRAM_Get_Infos (void **data, int *len)
+void    BMemory_SRAM_Get_Infos(void** data, int* len)
 {
     if (sms.SRAM_Pages > 0)
     {

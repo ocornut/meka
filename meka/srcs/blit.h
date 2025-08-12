@@ -26,18 +26,17 @@ void    Blit_Fullscreen_UpdateBounds();
 
 void    Blit_GUI();
 
-void    Blit_Fullscreen_Normal          (void);
-void    Blit_Fullscreen_Double          (void);
-void    Blit_Fullscreen_TV_Mode         (void);
-void    Blit_Fullscreen_TV_Mode_Double  (void);
-void    Blit_Fullscreen_HQ2X            (void);
+void    Blit_Fullscreen_Normal();
+void    Blit_Fullscreen_TV_Mode();
+void    Blit_Fullscreen_TV_Mode_Double();
+void    Blit_Fullscreen_HQ2X();
 
 //-----------------------------------------------------------------------------
 // Data
 //-----------------------------------------------------------------------------
 
 // Buffers
-extern ALLEGRO_BITMAP *         Blit_Buffer_LineScratch;    // Line buffer scratch pad
-extern ALLEGRO_BITMAP *         Blit_Buffer_Double;         // Double-sized buffer
+extern ALLEGRO_BITMAP*  Blit_Buffer_LineScratch;    // Line buffer scratch pad
+extern ALLEGRO_BITMAP*  Blit_Buffer_Double;         // Double-sized buffer
 
 //-----------------------------------------------------------------------------
