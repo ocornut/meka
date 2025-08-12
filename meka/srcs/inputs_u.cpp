@@ -15,7 +15,7 @@
 #include "vmachine.h"
 #include "vdp.h"
 #include "imgui.h"
-#include "imgui_impl_allegro5.h"
+#include "backends/imgui_impl_allegro5.h"
 
 // #define DEBUG_JOY
 
