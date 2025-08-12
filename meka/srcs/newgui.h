@@ -21,6 +21,7 @@ struct t_newgui
 
 void    NewGui_Init();
 void    NewGui_Close();
+void    NewGui_NewFrame();
 void    NewGui_Draw();
 
 void    NewGui_InitStyle();

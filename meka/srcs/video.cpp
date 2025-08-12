@@ -441,11 +441,6 @@ void    Video_RefreshScreen()
 
     if (fskipper.Show_Current_Frame)
     {
-        // Start the dear imgui frame
-        // FIXME-IMGUI: We could aim to extend the scope of NewFrame..EndFrame so NewFrame appears earlier in the main loop.
-        ImGui_ImplAllegro5_NewFrame();
-        ImGui::NewFrame();
-        
         Capture_Update();
 
         if (g_machine_pause_requests > 0)

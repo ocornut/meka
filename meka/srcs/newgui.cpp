@@ -638,7 +638,6 @@ void    NewGui_InitStyle()
 void    NewGui_UpdateStyle()
 {
     // Setup Dear ImGui style
-
     ImGuiStyle& style = ImGui::GetStyle();
     ImVec4 backup_colors[ImGuiCol_COUNT];
     memcpy(backup_colors, &style.Colors, sizeof(style.Colors));
@@ -649,11 +648,23 @@ void    NewGui_UpdateStyle()
     style.ScaleAllSizes(g_config.ui_scale);
 }
 
-void    NewGui_Draw()
+void    NewGui_NewFrame()
 {
+    // FIXME-IMGUI: Hack before some of our code path abort current frame, e.g. break in Main_Loop_No_Emulation()
+    ImGuiContext& g = *ImGui::GetCurrentContext();
+    if (g.FrameCount > 0 && g.FrameCountEnded < g.FrameCount)
+        ImGui::EndFrame();
+
+    // Start the dear imgui frame
+    ImGui_ImplAllegro5_NewFrame();
+    ImGui::NewFrame();
+
     g_config.ui_scale = g_config.ui_scale_next;
     NewGui_UpdateStyle();
+}
 
+void    NewGui_Draw()
+{
     NewGui_MainMenu();
 
     //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);

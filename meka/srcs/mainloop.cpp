@@ -10,7 +10,7 @@
 #include "video.h"
 #include "vmachine.h"
 #include "imgui.h"
-#include "backends/imgui_impl_allegro5.h"
+#include "newgui.h"
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -93,7 +93,7 @@ void    Main_Loop_No_Emulation()
     for (;;)
     {
         Inputs_Sources_Update();
-
+        NewGui_NewFrame();
         Inputs_Emulation_Update(FALSE); // [Omar-20050327] Allows changing inputs data from the debugger.// FIXME: but the debugger has exclusive inputs.
         Inputs_Check_GUI(FALSE);
         if ((opt.Force_Quit) || ((g_machine_flags & (MACHINE_POWER_ON | MACHINE_PAUSED)) == MACHINE_POWER_ON))

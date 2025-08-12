@@ -11,6 +11,7 @@
 #include "video_m2.h"
 #include "video_m5.h"
 #include "debugger.h"
+#include "newgui.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -39,6 +40,7 @@ bool Interrupt_Loop_Misc_Common()
     Sound_Update();
     tsms.Control_Check_GUI = TRUE;
     Inputs_Sources_Update(); // Poll input sources
+    NewGui_NewFrame();
     Inputs_Emulation_Update(TRUE); // Might disable Control_Check_GUI
     Inputs_Check_GUI(!tsms.Control_Check_GUI);
     if ((opt.Force_Quit) || (CPU_Loop_Stop))
