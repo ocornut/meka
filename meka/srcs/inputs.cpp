@@ -65,14 +65,10 @@ void    Inputs_Peripheral_Next (int Player)
         Inputs_CFG_Peripheral_Change (Player, Inputs.Peripheral [Player]);
 }
 
-//-----------------------------------------------------------------------------
-// Inputs_Check_GUI ()
 // Check for GUI related inputs
-//-----------------------------------------------------------------------------
-// Note: 'sk1100_pressed' tells if SK-1100 emulation has taken a key yet.
-// Specific checks are being done here to avoid collision.
-//-----------------------------------------------------------------------------
-void        Inputs_Check_GUI (bool sk1100_pressed)
+// - Note: 'sk1100_pressed' tells if SK-1100 emulation has taken a key yet.
+// - Specific checks are being done here to avoid collision.
+void        Inputs_Check_GUI(bool sk1100_pressed)
 {
     // Update INPUTS configuration in priority, since it eat some keys
     Inputs_CFG_Update(&Inputs_CFG);
@@ -107,16 +103,16 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                     if (Inputs_KeyPressed (ALLEGRO_KEY_9, FALSE))  Save_Set_Slot (9);
                 }
             */
-            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F6, FALSE, 30, 3)) 
+            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F6, FALSE, 30, 3))
                 SaveState_SetPrevSlot();
-            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F8, FALSE, 30, 3)) 
+            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F8, FALSE, 30, 3))
                 SaveState_SetNextSlot();
 
             // Blitters switch
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F1, FALSE))    
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F1, FALSE))
                 Blitters_SwitchNext();
 
-            // Speed & Frame skip 
+            // Speed & Frame skip
             if (Inputs_KeyPressed (ALLEGRO_KEY_F2, FALSE))
                 Frame_Skipper_Switch();
             if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F3, FALSE, 30, 3))
@@ -148,7 +144,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
                 Machine_Reset();
 
             // Background Display
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE)) 
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
                 Action_Switch_Layer_Background();
 
             // Next frame (pause hack)
@@ -167,7 +163,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
             }
 
             // SK-1100 Keyboard switch
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))        
+            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))
                 SK1100_Switch();
 
             // CTRL-TAB cycle thru boxes with TAB_STOP flag
@@ -202,7 +198,7 @@ void        Inputs_Check_GUI (bool sk1100_pressed)
            if (!sk1100_pressed)
            {
                // FPS Counter switch
-               if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))         
+               if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))
                    Frame_Skipper_Switch_FPS_Counter();
                // Applets hotkeys
                if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE)) FB_Switch();
@@ -528,7 +524,7 @@ void    Inputs_Peripheral_Change_Update()
     if (g_env.mouse_installed == -1)
         return;
 
-    t_mouse_cursor cursor = MEKA_MOUSE_CURSOR_STANDARD; 
+    t_mouse_cursor cursor = MEKA_MOUSE_CURSOR_STANDARD;
     int player = PLAYER_1;
 
     // Note: Player 1 has priority over Player 2 for cursor
@@ -588,26 +584,26 @@ void    Inputs_SetMouseCursor(t_mouse_cursor mouse_cursor)
         return;
     switch (mouse_cursor)
     {
-    case MEKA_MOUSE_CURSOR_NONE: 
+    case MEKA_MOUSE_CURSOR_NONE:
         al_hide_mouse_cursor(g_display);
         break;
-    case MEKA_MOUSE_CURSOR_STANDARD: 
+    case MEKA_MOUSE_CURSOR_STANDARD:
         al_set_mouse_cursor(g_display, Graphics.Cursors.Main);
         al_show_mouse_cursor(g_display);
         break;
-    case MEKA_MOUSE_CURSOR_LIGHT_PHASER: 
+    case MEKA_MOUSE_CURSOR_LIGHT_PHASER:
         al_set_mouse_cursor(g_display, Graphics.Cursors.LightPhaser);
         al_show_mouse_cursor(g_display);
         break;
-    case MEKA_MOUSE_CURSOR_SPORTS_PAD: 
+    case MEKA_MOUSE_CURSOR_SPORTS_PAD:
         al_set_mouse_cursor(g_display, Graphics.Cursors.SportsPad);
         al_show_mouse_cursor(g_display);
         break;
-    case MEKA_MOUSE_CURSOR_TV_OEKAKI: 
+    case MEKA_MOUSE_CURSOR_TV_OEKAKI:
         al_set_mouse_cursor(g_display, Graphics.Cursors.TvOekaki);
         al_show_mouse_cursor(g_display);
         break;
-    case MEKA_MOUSE_CURSOR_WAIT: 
+    case MEKA_MOUSE_CURSOR_WAIT:
         al_set_mouse_cursor(g_display, Graphics.Cursors.Wait);
         al_show_mouse_cursor(g_display);
         break;

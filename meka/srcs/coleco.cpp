@@ -149,7 +149,7 @@ void        Coleco_Init_Table_Inputs (void)
 
     for (i = 0; i <= 0x3F; i ++)
     {
-        Coleco_Joy_Table_Conv [i] = 
+        Coleco_Joy_Table_Conv [i] =
             0x10 | 0x20 //| 0x80
             | ((i & 0x01) ? 0x01 : 0)
             | ((i & 0x02) ? 0x04 : 0)

@@ -17,9 +17,9 @@
 ;              Updated:          Msg_Options_Capture_Crop_Align
 ;              Renamed:          Msg_Options_Capture_Automatic_Crop_Align -> Msg_Options_Capture_Crop_Align
 ;              Removed:          Msg_Menu_Video_Screens*
-; MEKA 0.72  : Added:            Msg_Inputs_Config_Peripheral_Click     
-;                                Msg_Inputs_Config_Source_Enabled       
-;                                Msg_Inputs_Config_Source_Player        
+; MEKA 0.72  : Added:            Msg_Inputs_Config_Peripheral_Click
+;                                Msg_Inputs_Config_Source_Enabled
+;                                Msg_Inputs_Config_Source_Player
 ;                                Msg_Inputs_Config_Source_Emulate_Joypad
 ;                                Msg_Theme_Error_Syntax
 ;                                Msg_Theme_Error_Attribute_Defined
@@ -65,18 +65,18 @@
 ; How does it work ?
 ;
 ; - [xxx] define a new language
-; - You can add messages for the same language at different places, as long 
+; - You can add messages for the same language at different places, as long
 ;	as they are defined after the corresponding [xxx] line.
 ;   However, for the purpose of easing maintainance, try to stick to
 ;   same order as the reference language (english).
 ; - First language (english) is the default language.
-;   If another language is missing sentences, it will use the ones from the 
-;	default language. The default language must not be missing any sentence! 
+;   If another language is missing sentences, it will use the ones from the
+;	default language. The default language must not be missing any sentence!
 ; - Messages are using printf() style format markers:
 ;		%s	:	string replacement
 ;		%d	:	integer number replacement
 ;		%i	:	integer number replacement
-;	Those markers are to be kept in the same order as defined by the reference 
+;	Those markers are to be kept in the same order as defined by the reference
 ;	English text. Removing or re-ordering markers will likely lead to MEKA crashing.
 ;	Please contact me if your language requires a better solution for localisation.
 ; - ';' is the comment character in this file

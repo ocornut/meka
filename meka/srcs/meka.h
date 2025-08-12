@@ -270,7 +270,7 @@ struct t_meka_config
     int     sprite_flickering;          // Set to emulate sprite flickering.
     bool    allow_opposite_directions;  // Allows pressing of LEFT-RIGHT / UP-DOWN simultaneously.
     bool    enable_BIOS;
-    bool    enable_NES;             
+    bool    enable_NES;
     bool    show_fullscreen_messages;
     bool    show_product_number;
     bool    start_in_gui;
@@ -362,9 +362,9 @@ extern int                      g_gui_buffer_format;
 
 // Video buffers
 extern ALLEGRO_BITMAP* screenbuffer;            // Pointers to screen memory buffers
-extern ALLEGRO_BITMAP* screenbuffer_next;               
+extern ALLEGRO_BITMAP* screenbuffer_next;
 extern ALLEGRO_BITMAP* screenbuffer_1;          // Screen memory buffers
-extern ALLEGRO_BITMAP* screenbuffer_2;                  
+extern ALLEGRO_BITMAP* screenbuffer_2;
 extern ALLEGRO_BITMAP* fs_out;                  // Fullscreen video buffer
 extern ALLEGRO_BITMAP* gui_buffer;              // GUI memory buffer
 extern ALLEGRO_BITMAP* gui_background;          // GUI Background

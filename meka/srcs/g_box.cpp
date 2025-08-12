@@ -43,7 +43,7 @@ void    gui_update_boxes()
                 do_resize = gui.mouse.focus_is_resizing == true;
                 break;
             }
-            
+
             const bool hovering_window = gui_is_mouse_hovering_area(b->frame.pos.x - 2, b->frame.pos.y - 20, b->frame.pos.x + b->frame.size.x + 2, b->frame.pos.y + b->frame.size.y + 2);
             if (hovering_window)
             {
@@ -449,7 +449,6 @@ void    gui_box_resize(t_gui_box *box, int size_x, int size_y, bool interactive)
 
         if (box->size_fixed_ratio)
             inc_ratio_x = inc_ratio_y = MIN(inc_ratio_x, inc_ratio_y);
-    
         size_x = box->size_min.x + (int)inc_ratio_x * box->size_step.x;
         size_y = box->size_min.y + (int)inc_ratio_y * box->size_step.y;
     }

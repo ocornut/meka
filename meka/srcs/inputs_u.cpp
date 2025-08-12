@@ -103,13 +103,13 @@ void    Inputs_Emulation_Update(bool running)
     u16* c = &tsms.Control[7];
     *c |= 0x1FFF;
 
-    // If we are in GUI mode, check if the focused box has the exclusive inputs flag. 
+    // If we are in GUI mode, check if the focused box has the exclusive inputs flag.
     // If it has it and the machine is running (not paused or being debugged), return.
-    // The reason for doing that is that handling inputs priority is a mess with the 
-    // current GUI system, because applet/widget updating code is mostly only run on 
+    // The reason for doing that is that handling inputs priority is a mess with the
+    // current GUI system, because applet/widget updating code is mostly only run on
     // emulation frame that are not skipped, while inputs for emulation should run for
     // all frames (including skipped ones).
-    // So it is a bit complicated to handle a way for an applet to 'eat' a key, 
+    // So it is a bit complicated to handle a way for an applet to 'eat' a key,
     // and I use an easy path.
     if (g_env.state == MEKA_STATE_GUI && !(g_machine_flags & MACHINE_PAUSED))
     {
@@ -191,7 +191,7 @@ void    Inputs_Emulation_Update(bool running)
                     {
                         // Using digital
                         // Linear maxed acceleration
-                        const int dx_table[1+5] = 
+                        const int dx_table[1+5] =
                         { 0, 1, 2, 3, 5, 7 };
                         //0  1  2  3  4  5, 6
                         //Msg(MSGT_DEBUG, "Map[DIGITAL_LEFT].pressed_counter = %d, [DIGITAL_RIGHT] = %d", src->Map[INPUT_MAP_DIGITAL_LEFT].pressed_counter, src->Map[INPUT_MAP_DIGITAL_RIGHT].pressed_counter);
@@ -430,7 +430,7 @@ void    Inputs_Sources_Update()
                 {
                     const int num_sticks = al_get_joystick_num_sticks(joystick);
                     const int num_buttons = al_get_joystick_num_buttons(joystick);
-                    
+
                     Msg(MSGT_DEBUG, "Joystick %d", Src->Connection_Port);
                     for (int i = 0; i < num_sticks; i++)
                     {
@@ -497,7 +497,7 @@ void    Inputs_Sources_Update()
                     int y = g_mouse_state.y - gamebox_instance->frame.pos.y;
                     if (x < 0 || y < 0 || x >= gamebox_instance->frame.size.x || y >= gamebox_instance->frame.size.y)
                         disable_mouse_button = true;
-                    if (x < 0) x = 0; 
+                    if (x < 0) x = 0;
                     // if (x > 255) x = 255;
                     if (y < 0) y = 0;
 
@@ -578,7 +578,7 @@ void Inputs_UpdateMouseRange()
     Video_GameMode_ScreenPosToEmulatedPos(g_mouse_state.x, g_mouse_state.y, &sx_org, &sy_org, false);
 
     if (Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_LIGHT_PHASER || Inputs.mouse_cursor == MEKA_MOUSE_CURSOR_TV_OEKAKI)
-    { 
+    {
         const int sx = Clamp<int>(sx_org, (Mask_Left_8) ? 8 : 0, g_driver->x_res);
         const int sy = Clamp<int>(sy_org, 0, g_driver->y_res);
         if (sx != sx_org || sy != sy_org)

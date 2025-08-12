@@ -41,7 +41,7 @@ void Setup_Interactive_Init()
         if (ret == MEKA_ERR_CANCEL)
         {
             // Note: the only reason for setting the state to SHUTDOWN is so that Quit() doesn't pause on the console.
-            g_env.state = MEKA_STATE_SHUTDOWN;   
+            g_env.state = MEKA_STATE_SHUTDOWN;
             Quit();
         }
     }
@@ -243,7 +243,7 @@ static int Setup_Interactive_Console()
 //#ifdef ARCH_WIN32
 //  ConsolePrintf("%s\n", Msg_Get(MSG_Setup_Soundcard_Select_Tips_Win32));
 //#endif
-    
+
     return MEKA_ERR_OK;
 }
 

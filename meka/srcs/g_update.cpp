@@ -34,7 +34,7 @@ void    gui_update_applets_before();
 void    gui_update_applets()
 {
     // Update Memory Editors first,
-    // because it allows changing tile data/palette so we want that to be reflected 
+    // because it allows changing tile data/palette so we want that to be reflected
     // (especially since dirty flags are being cleared each frame)
     MemoryViewers_Update();
     PROFILE_STEP("- MemoryViewers_Update");
@@ -92,7 +92,7 @@ void    gui_update()
 
     // Menus update
     // Note: must be done before updating applets
-    gui_update_menus();        
+    gui_update_menus();
 
     // Boxes update (move / compute dirtyness)
     gui_update_boxes();

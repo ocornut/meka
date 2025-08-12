@@ -150,7 +150,7 @@ void    PaletteViewer_Update()
         if (pv->dirty || Palette_EmulationFlags[i] & PALETTE_EMULATION_FLAGS_DIRTY)
         {
             al_draw_filled_rectangle(
-                (i * color_box_size), 0, 
+                (i * color_box_size), 0,
                 (i * color_box_size) + color_box_size, pv->frame_palette.size.y,
                 Palette_Emulation[i]);
             Palette_EmulationFlags[i] &= ~PALETTE_EMULATION_FLAGS_DIRTY;
@@ -172,7 +172,7 @@ void    PaletteViewer_Update()
 
             // Color square
             al_draw_filled_rectangle(4, pv->frame_info.pos.y + 3, 4 + 8, pv->frame_info.pos.y + 3 + 8, Palette_Emulation[color_current]);
-    
+
             // Description
             sprintf(buf, "Color %d ($%02X)", color_current, color_current);
             switch (g_driver->id)

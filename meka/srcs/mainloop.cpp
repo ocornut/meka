@@ -14,7 +14,7 @@
 // Functions
 //-----------------------------------------------------------------------------
 
-void    Main_Loop (void)
+void    Main_Loop()
 {
     #ifdef DEBUG_WHOLE
         Msg(MSGT_DEBUG, "Main_Loop();");
@@ -82,7 +82,7 @@ void    Main_Loop (void)
 }
 
 // MAIN LOOP WHEN FALSE ROM IS LOADED --------------------------------------------
-void    Main_Loop_No_Emulation (void)
+void    Main_Loop_No_Emulation()
 {
 #ifdef DEBUG_WHOLE
     Msg(MSGT_DEBUG, "Main_Loop_No_Emulation();");

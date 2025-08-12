@@ -47,7 +47,7 @@ static void Debug_StepFrame_Callback(t_menu_event*)
 
 static void Debug_LoadStateAndContinue_Callback(t_menu_event*)
 {
-    
+
 }
 
 //-----------------------------------------------------------------------------

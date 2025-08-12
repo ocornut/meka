@@ -378,10 +378,10 @@ bool    Screenbuffer_IsLocked()
 
 void    Video_UpdateEvents()
 {
-    ALLEGRO_EVENT key_event;
-    while (al_get_next_event(g_display_event_queue, &key_event))
+    ALLEGRO_EVENT event;
+    while (al_get_next_event(g_display_event_queue, &event))
     {
-        switch (key_event.type)
+        switch (event.type)
         {
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             if (g_env.state == MEKA_STATE_INIT || g_env.state == MEKA_STATE_SHUTDOWN)
