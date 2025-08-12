@@ -57,7 +57,7 @@ void    gui_menus_init()
     menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.debug    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.help     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Help),    MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.help     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Help),    MENU_ITEM_FLAG_ACTIVE);
 
     //-------------------------------------------------------------------------
     // MAIN
@@ -215,6 +215,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // HELP
     //-------------------------------------------------------------------------
+#if 0
     menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_Documentation),  NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (TextViewer.active), (t_menu_callback)TextViewer_Switch_Doc_Main, NULL);
     menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_Compat),         NULL,     MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)TextViewer_Switch_Doc_Compat, NULL);
     menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_Multiplayer_Games),NULL,   MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)TextViewer_Switch_Doc_Multiplayer_Games, NULL);
@@ -223,6 +224,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_Debugger),       NULL,     MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)TextViewer_Switch_Doc_Debugger, NULL);
 #endif // MEKA_Z80_DEBUGGER
     menu_add_item     (menus_ID.help,      Msg_Get(MSG_Menu_Help_About),          NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked(g_config.about_active), [](t_menu_event*) { g_config.about_active ^= 1; }, NULL);
+#endif
 
     // ...
     gui_menu_un_mouse_over(menus_ID.root);
