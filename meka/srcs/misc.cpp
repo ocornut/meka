@@ -133,7 +133,7 @@ void    Profile_Step(const char* name)
 // Show the ending ASCII message
 void    Show_End_Message()
 {
-    ConsolePrintf (" %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS_SHORT);
+    ConsolePrintf (" %s (c) %s\n", MEKA_NAME_VERSION, MEKA_AUTHORS);
     ConsolePrintf (" Built on %s at %s\n", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
     ConsolePrintf (" " MEKA_HOMEPAGE "\n");
 }
