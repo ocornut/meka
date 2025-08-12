@@ -502,7 +502,7 @@ Msg_Menu_Debug_LoadStateAndContinue     = "Load State & Continue"
 Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------
-Msg_Menu_Machine                        = "MACHINE"
+Msg_Menu_Machine                        = "Machine"
 Msg_Menu_Machine_Power                  = "Power"
 Msg_Menu_Machine_Power_On               = "On"
 Msg_Menu_Machine_Power_Off              = "Off"

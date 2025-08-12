@@ -17,6 +17,7 @@
 #include "debugger.h"
 #include "palette.h"
 #include "saves.h"
+#include "tvtype.h"
 #include "vmachine.h"
 #include "vdp.h"
 #include "sound/fmunit.h"
@@ -314,14 +315,14 @@ static void NewGui_PaletteDraw()
         if (pram_entry_size == 1)
         {
             StrWriteBitfield(PRAM[hovered_n], 8, color_bits);
-            ImGui::Text("VDP Data: %%%s", color_bits);
+            ImGui::Text("VDP Data: %%%s ($%02X)", color_bits, PRAM[hovered_n]);
         }
         else if (pram_entry_size == 2)
         {
             StrWriteBitfield(PRAM[hovered_n * 2 + 1], 8, color_bits);
             StrWriteBitfield(PRAM[hovered_n * 2 + 0], 8, color_bits + 8+1);
             color_bits[8] = '.';
-            ImGui::Text("VDP Data: %%%s", color_bits);
+            ImGui::Text("VDP Data: %%%s ($%02X%02X", color_bits, PRAM[hovered_n * 2 + 1], PRAM[hovered_n * 2 + 0]); // FIXME-IMGUI: Is endianness correct?
         }
 
         // FIXME-IMGUI: More details, e.g R/G/B value in system bit depth
@@ -350,7 +351,7 @@ static void NewGui_PaletteDraw()
 
     if (opt_show_memory)
     {
-        static MemoryEditor me;
+        static MemoryEditor me; // FIXME-IMGUI: move to instance.
         me.Cols = 16;
         me.Lines = range.size / me.Cols;
         me.OptShowAscii = false;
@@ -593,6 +594,40 @@ void    NewGui_MainMenu()
             ImGui::EndMenu();
         }
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Quit), "F10")) Action_Quit();
+
+        ImGui::EndMenu();
+    }
+
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Machine)))
+    {
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Machine_Power)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_Power_On), NULL, (g_machine_flags & MACHINE_POWER_ON) != 0))
+                Machine_ON();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_Power_Off), NULL, (g_machine_flags & MACHINE_POWER_ON) == 0))
+                Machine_OFF();
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Machine_Region)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_Region_Export), NULL, g_config.country == COUNTRY_EXPORT))
+                Set_Country(COUNTRY_EXPORT);
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_Region_Japan), NULL, g_config.country == COUNTRY_JAPAN))
+                Set_Country(COUNTRY_JAPAN);
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Machine_TVType)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_TVType_NTSC), NULL, TV_Type_User->id == TVTYPE_NTSC))
+                TVType_Set(TVTYPE_NTSC, TRUE);
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_TVType_PALSECAM), NULL, TV_Type_User->id == TVTYPE_PAL_SECAM))
+                TVType_Set(TVTYPE_PAL_SECAM, TRUE);
+            ImGui::EndMenu();
+        }
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Machine_PauseEmulation), "F12", (g_machine_flags & MACHINE_PAUSED) != 0))
+            Machine_Pause();
+        if (ImGui::MenuItem(Msg_Get(Msg_Menu_Machine_ResetEmulation), "Alt+Backspace"))
+            Machine_Reset();
 
         ImGui::EndMenu();
     }

@@ -17,10 +17,7 @@
 
 void    TVType_Init_Values();
 void    TVType_Update_Values();
-
 void    TVType_Set(int tv_type, bool verbose);
-void    TVType_Set_NTSC();
-void    TVType_Set_PAL_SECAM();
 
 //-----------------------------------------------------------------------------
 // Data

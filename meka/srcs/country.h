@@ -18,9 +18,8 @@ enum t_country
 // Functions
 //-----------------------------------------------------------------------------
 
-void            Nationalize             (u8* v);
-void            Set_Country_Export      ();
-void            Set_Country_Japan       ();
+void            Nationalize(u8* v);
+void            Set_Country(t_country country);
 
 //-----------------------------------------------------------------------------
 
