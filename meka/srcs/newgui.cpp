@@ -27,6 +27,8 @@
 #include "vdp.h"
 #include "sound/fmunit.h"
 #include "sound/psg.h"
+#include "sound/s_misc.h"
+#include "sound/sound_logging.h"
 
 // FIXME-IMGUI: Skinning: font, colors, etc.
 
@@ -623,6 +625,7 @@ void    NewGui_MainMenu()
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Options), "Alt+O", &g_config.options_active)) {}
         if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Main_Language)))
         {
+            ImGui::PushItemFlag(ImGuiItemFlags_AutoClosePopups, false); // FIXME-IMGUI: doesn't work because Parent menu name will change, missing ### in loc data.
             for (t_list* langs = Messages.Langs; langs; langs = langs->next)
             {
                 t_lang* lang = (t_lang*)langs->elem;
@@ -632,6 +635,7 @@ void    NewGui_MainMenu()
                     Msg(MSGT_USER, Msg_Get(MSG_Language_Set), Messages.Lang_Cur->Name);
                 }
             }
+            ImGui::PopItemFlag();
             ImGui::EndMenu();
         }
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Quit), "F10")) Action_Quit();
@@ -670,6 +674,53 @@ void    NewGui_MainMenu()
         if (ImGui::MenuItem(Msg_Get(Msg_Menu_Machine_ResetEmulation), "Alt+Backspace"))
             Machine_Reset();
 
+        ImGui::EndMenu();
+    }
+
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Sound)))
+    {
+        ImGui::Text(Msg_Get(MSG_Menu_Sound_Volume));
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        ImGui::BeginDisabled(); // FIXME-IMGUI: value doesn't actually work
+        ImGui::SliderInt("##Volume", &Sound.MasterVolume, 0, 128);
+        ImGui::EndDisabled();
+        ImGui::Separator();
+
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Sound_FM)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_FM_Enabled), NULL, Sound.FM_Enabled == true))
+                FM_Enable();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_FM_Disabled), NULL, Sound.FM_Enabled == false))
+                FM_Disable();
+            //if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_FM_Editor), NULL, apps.active.FM_Editor))
+            //    FM_Editor_Switch();
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Sound_Channels)))
+        {
+            for (int n = 0; n < 3; n++)
+                ImGui::Checkbox(Str30f(Msg_Get(MSG_Menu_Sound_Channels_Tone), n + 1).c_str(), &PSG.Channels[n].Active);
+            ImGui::Checkbox(Msg_Get(MSG_Menu_Sound_Channels_Noises), &PSG.Channels[3].Active);
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Sound_Capture)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_Capture_VGM_Start), (Sound.LogVGM.Logging == VGM_LOGGING_NO) ? "Alt+V" : "", false, (Sound.LogVGM.Logging == VGM_LOGGING_NO)))
+                Sound_LogVGM_Start();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_Capture_VGM_Stop), (Sound.LogVGM.Logging != VGM_LOGGING_NO) ? "Alt+V" : "", false, (Sound.LogVGM.Logging != VGM_LOGGING_NO)))
+                Sound_LogVGM_Stop();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_Capture_VGM_SampleAccurate), NULL, Sound.LogVGM_Logging_Accuracy == VGM_LOGGING_ACCURACY_SAMPLE))
+                Sound_LogVGM_Accuracy_Switch();
+            ImGui::Separator();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_Capture_WAV_Start), NULL, false, Sound.LogWav == NULL))
+                Sound_LogWAV_Start();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Sound_Capture_WAV_Stop), NULL, false, Sound.LogWav != NULL))
+                Sound_LogWAV_Stop();
+            ImGui::EndMenu();
+        }
+        //SoundDebugApp_DrawMenu();
         ImGui::EndMenu();
     }
 

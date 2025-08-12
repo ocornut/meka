@@ -89,7 +89,6 @@ void    Sound_LogWAV_Start()
         {
             Sound.LogWav_SizeData = 0;
             Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Start), FileName);
-            gui_menu_active_range (TRUE, menus_ID.sound_log, 4, 4);
         }
     }
 }
@@ -102,7 +101,6 @@ void    Sound_LogWAV_Stop()
         Sound.LogWav = NULL;
         Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Stop),
             (double)Sound.LogWav_SizeData / ((16 / 8) * SOUND_CHANNEL_COUNT * Sound.SampleRate));
-        gui_menu_active_range (FALSE, menus_ID.sound_log, 4, 4);
     }
 }
 
@@ -130,7 +128,6 @@ void    Sound_LogVGM_Start()
     {
         StrPath_RemoveDirectory (FileName);
         Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Start), FileName);
-        gui_menu_active_range (TRUE, menus_ID.sound_log, 1, 1);
     }
 }
 
@@ -141,7 +138,6 @@ void    Sound_LogVGM_Stop()
         VGM_Close(&Sound.LogVGM);
         Msg(MSGT_USER, Msg_Get(MSG_Sound_Dumping_Stop),
             (double)Sound.LogVGM.vgm_header.total_samples / 44100);
-        gui_menu_active_range (FALSE, menus_ID.sound_log, 1, 1);
     }
 }
 
@@ -157,7 +153,6 @@ void    Sound_LogVGM_Accuracy_Switch()
         Sound.LogVGM_Logging_Accuracy = VGM_LOGGING_ACCURACY_SAMPLE;
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Sample));
     }
-    gui_menu_toggle_check (menus_ID.sound_log, 2);
     if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
     {
         Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Sound_Dumping_VGM_Acc_Change));

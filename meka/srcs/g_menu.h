@@ -120,12 +120,12 @@ struct t_gui_menus_id
     //t_menu_id   machine, power, region, tvtype;
     t_menu_id   video, themes, blitters, layers, flickering, glasses, screenshots;
     //t_menu_id   inputs, rapidfire;
-    t_menu_id   sound, volume, rate, channels, fm;
+    //t_menu_id   sound, volume, rate, channels, fm;
     //t_menu_id   tools;
     //t_menu_id   watch; // debug, dump, dump_cfg,
     //t_menu_id   help;
-    t_menu_id   languages;
-    t_menu_id   sound_log;
+    //t_menu_id   languages;
+    //t_menu_id   sound_log;
 };
 
 extern t_gui_menus_id menus_ID;

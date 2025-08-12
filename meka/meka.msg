@@ -375,7 +375,6 @@ Msg_Sound_Init_Soundcard_No             = "Can't initialize audio: no sound card
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
 Msg_Sound_Stream_Error                  = "Sound buffer stop. Restarting stream."
-Msg_Sound_Volume_Changed                = "Volume changed to %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Loading MEKA.THM (interface themes)... "
@@ -534,7 +533,7 @@ Msg_Menu_Video_ScreenCapture_CaptureRepeat = "Screen Capture (every frame)"
 Msg_Menu_Video_ScreenCapture_IncludeGUI = "Include GUI"
 
 ; Menu: Sound ----------------------------------------------------------------
-Msg_Menu_Sound                          = "SOUND"
+Msg_Menu_Sound                          = "Sound"
 Msg_Menu_Sound_FM                       = "FM Unit"
 Msg_Menu_Sound_FM_Enabled               = "Enabled"
 Msg_Menu_Sound_FM_Disabled              = "Disabled"
@@ -857,7 +856,6 @@ Msg_Sound_Init_Soundcard_No             = "Impossible d'initialiser l'audio: auc
 Msg_Sound_Init_SN76496                  = " - Emulateur SN76496 digital:"
 Msg_Sound_Init_YM2413_Digital           = " - Emulateur YM2413 digital:"
 Msg_Sound_Stream_Error                  = "Arrêt du tampon son. Redémarrage du flux."
-Msg_Sound_Volume_Changed                = "Volume changé à %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Chargement de MEKA.THM (thêmes de l'interface)... "
@@ -1334,7 +1332,6 @@ Msg_Sound_Init_Soundcard_No             = "Kan audio niet initialiseren: geen ge
 Msg_Sound_Init_SN76496                  = " - SN76496 digitale emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digitale emulator:"
 Msg_Sound_Stream_Error                  = "Sound buffer stop. herstarten van stream."
-Msg_Sound_Volume_Changed                = "Volume gewijzigd naar %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Laden van MEKA.THM (interface themes)... "
@@ -2251,7 +2248,6 @@ Msg_Sound_Init_Soundcard_No             = "Nie mozna zainicjalizowac dzwieku: ni
 Msg_Sound_Init_SN76496                  = " - Cyfrowy emulator SN76496:"
 Msg_Sound_Init_YM2413_Digital           = " - Cyfrowy emulator YM2413:"
 Msg_Sound_Stream_Error                  = "Zatrzymanie bufora dzwieku. Ponowne puszczanie strumienia."
-Msg_Sound_Volume_Changed                = "Zmieniono glosnosc na %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Wczytywanie MEKA.THM (tematy interfejsu)... "
@@ -4021,7 +4017,6 @@ Msg_Sound_Init_Soundcard_No             = "Kan ej initialisera ljud: inget ljudk
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
 Msg_Sound_Stream_Error                  = "Ljudbuffer stop. Startar om strömmen."
-Msg_Sound_Volume_Changed                = "Volym ändrad till %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Laddar MEKA.THM (gränssnittsteman).. "
@@ -4462,7 +4457,6 @@ Msg_Sound_Init_Soundcard_No             = "Kan ikke initialisere lyd: intet lydk
 Msg_Sound_Init_SN76496                  = " - SN76496 digital emulator:"
 Msg_Sound_Init_YM2413_Digital           = " - YM2413 digital emulator:"
 Msg_Sound_Stream_Error                  = "Lyd buffer stop. Genstarter datastrømmen."
-Msg_Sound_Volume_Changed                = "Volumen ændret til %d%%."
 
 ; Theme ----------------------------------------------------------------------
 Msg_Theme_Loading                       = "Indlaeser MEKA.THM (brugergraenseflade temaer)... "

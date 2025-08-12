@@ -86,8 +86,7 @@ bool            SoundStream_PushSamplesRequestBufs(t_sound_stream* stream, int s
 int             SoundStream_PopSamples(t_sound_stream* stream, s16* buf, int samples_wanted);
 
 void            SoundDebugApp_Init();
-void            SoundDebugApp_InstallMenuItems(int menu_parent);
+void            SoundDebugApp_DrawMenu();
 void            SoundDebugApp_Update();
-void            SoundDebugApp_Switch();
 
 //-----------------------------------------------------------------------------
