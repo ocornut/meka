@@ -23,10 +23,8 @@ void    NewGui_Init();
 void    NewGui_Close();
 void    NewGui_Draw();
 
-void    NewGui_GameDraw();
-void    NewGui_MemEditorDraw();
-void    NewGui_PaletteDraw();
-void    NewGui_OptionsDraw();
+void    NewGui_InitStyle();
+void    NewGui_UpdateStyle();
 
 void    NewGui_LogDraw();
 void    NewGui_LogAddTextLine(const char* line);

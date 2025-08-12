@@ -481,7 +481,7 @@ Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumps will now be sample accurate
 Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumping will have to be restarted to take account of new accuracy)"
 
 ; Menu: Main -----------------------------------------------------------------
-Msg_Menu_Main                           = "MAIN"
+Msg_Menu_Main                           = "Main"
 Msg_Menu_Main_LoadROM                   = "Load ROM…"
 Msg_Menu_Main_FreeROM                   = "Free ROM"
 Msg_Menu_Main_SaveState_Save            = "Save State"
@@ -493,7 +493,7 @@ Msg_Menu_Main_Language                  = "Language"
 Msg_Menu_Main_Quit                      = "Quit"
 
 ; Menu: Debug ----------------------------------------------------------------
-Msg_Menu_Debug                          = "DEBUG"
+Msg_Menu_Debug                          = "Debug"
 Msg_Menu_Debug_Enabled                  = "Enabled…"
 Msg_Menu_Debug_ReloadROM                = "Reload ROM"
 Msg_Menu_Debug_ReloadSymbols            = "Reload Symbols"
@@ -573,7 +573,7 @@ Msg_Menu_Inputs_RapidFire_PxBx          = "Player %d Button %d"
 Msg_Menu_Inputs_Configuration           = "Configuration…"
 
 ; Menu: Tools ----------------------------------------------------------------
-Msg_Menu_Tools                          = "TOOLS"
+Msg_Menu_Tools                          = "Tools"
 Msg_Menu_Tools_Messages                 = "Messages…"
 Msg_Menu_Tools_Palette                  = "Palette…"
 Msg_Menu_Tools_TilesViewer              = "Tiles Viewer…"
@@ -583,7 +583,7 @@ Msg_Menu_Tools_TechInfo                 = "Tech Info…"
 Msg_Menu_Tools_MemoryEditor             = "Memory Editor…"
 
 ; Menu: Help -----------------------------------------------------------------
-Msg_Menu_Help                           = "HELP"
+Msg_Menu_Help                           = "Help"
 Msg_Menu_Help_Documentation             = "Documentation…"
 Msg_Menu_Help_Compat                    = "Compatibility List…"
 Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List…"
