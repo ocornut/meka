@@ -9,7 +9,6 @@
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_palview.h"
-#include "app_techinfo.h"
 #include "app_textview.h"
 #include "app_tileview.h"
 #include "blitintf.h"
@@ -221,7 +220,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilemapViewer), NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (TilemapViewer_MainInstance->active), (t_menu_callback)TilemapViewer_SwitchMainInstance,   NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_MemoryEditor),  NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (MemoryViewer_MainInstance->active),  (t_menu_callback)MemoryViewer_SwitchMainInstance,    NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_CheatFinder),   NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_CheatFinder_MainInstance->active), (t_menu_callback)CheatFinder_SwitchMainInstance,     NULL);
-    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TechInfo),      "Alt+I",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (TechInfo.active),                    (t_menu_callback)TechInfo_Switch,                    NULL);
+    menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TechInfo),      "Alt+I",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.techinfo_active),           [](t_menu_event*) { g_config.techinfo_active ^= 1; },NULL);
 
     //-------------------------------------------------------------------------
     // HELP

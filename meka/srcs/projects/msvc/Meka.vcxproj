@@ -246,7 +246,6 @@
     <ClCompile Include="..\..\app_mapview.cpp" />
     <ClCompile Include="..\..\app_memview.cpp" />
     <ClCompile Include="..\..\app_palview.cpp" />
-    <ClCompile Include="..\..\app_techinfo.cpp" />
     <ClCompile Include="..\..\app_textview.cpp" />
     <ClCompile Include="..\..\app_tileview.cpp" />
     <ClCompile Include="..\..\areplay.cpp" />
@@ -379,7 +378,6 @@
     <ClInclude Include="..\..\app_mapview.h" />
     <ClInclude Include="..\..\app_memview.h" />
     <ClInclude Include="..\..\app_palview.h" />
-    <ClInclude Include="..\..\app_techinfo.h" />
     <ClInclude Include="..\..\app_textview.h" />
     <ClInclude Include="..\..\app_tileview.h" />
     <ClInclude Include="..\..\areplay.h" />
