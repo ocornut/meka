@@ -261,8 +261,6 @@ void    Inputs_Switch_Joypad()
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_JOYPAD);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_Joypad));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Digital));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 // INPUTS: SET INPUT TO LIGHT PHASER ------------------------------------------
@@ -271,8 +269,6 @@ void    Inputs_Switch_LightPhaser()
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_LIGHTPHASER);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_LightPhaser));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Mouse));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 // INPUTS: SET INPUT TO PADDLE CONTROLLER -------------------------------------
@@ -282,8 +278,6 @@ void    Inputs_Switch_PaddleControl()
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_PaddleControl));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Mouse));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Digital_Unrecommended));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 void    Inputs_Switch_SportsPad()
@@ -291,8 +285,6 @@ void    Inputs_Switch_SportsPad()
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_SPORTSPAD);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_SportsPad));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Mouse));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 void    Inputs_Switch_GraphicBoard()
@@ -300,8 +292,6 @@ void    Inputs_Switch_GraphicBoard()
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_GRAPHICBOARD);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_GraphicBoard));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Pen));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 void    Inputs_Switch_GraphicBoardV2()
@@ -309,8 +299,6 @@ void    Inputs_Switch_GraphicBoardV2()
     Inputs_CFG_Peripheral_Change (PLAYER_1, INPUT_GRAPHICBOARD_V2);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Inputs_GraphicBoardV2));
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Inputs_Play_Pen));
-    gui_menu_uncheck_range (menus_ID.inputs, 0, 5);
-    gui_menu_check (menus_ID.inputs, Inputs.Peripheral[PLAYER_1]);
 }
 
 void    Input_ROM_Change()

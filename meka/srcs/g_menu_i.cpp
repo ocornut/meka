@@ -54,7 +54,7 @@ void    gui_menus_init()
     //menus_ID.machine  = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Machine), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.debug    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.help     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Help),    MENU_ITEM_FLAG_ACTIVE);
@@ -177,6 +177,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // INPUTS
     //-------------------------------------------------------------------------
+#if 0
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_Joypad),          "F9",       MENU_ITEM_FLAG_ACTIVE | MENU_ITEM_FLAG_CHECKED, (t_menu_callback)Inputs_Switch_Joypad, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_LightPhaser),     NULL,       MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_LightPhaser, NULL);
     menu_add_item     (menus_ID.inputs,   Msg_Get(MSG_Menu_Inputs_PaddleControl),   NULL,       MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Inputs_Switch_PaddleControl, NULL);
@@ -198,6 +199,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.rapidfire, buffer, NULL, MENU_ITEM_FLAG_ACTIVE | Is_Checked (RapidFire & RAPIDFIRE_J2B2), (t_menu_callback)RapidFire_Switch_J2B2, NULL);
     // INPUTS (misc)
     menu_add_item     (menus_ID.inputs,    Msg_Get(MSG_Menu_Inputs_Configuration), NULL,    MENU_ITEM_FLAG_ACTIVE | Is_Checked (Inputs_CFG.active), (t_menu_callback)Inputs_CFG_Switch, NULL);
+#endif
 
     //-------------------------------------------------------------------------
     // TOOLS
