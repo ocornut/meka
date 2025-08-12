@@ -200,9 +200,6 @@ void    TextViewer_Switch(t_app_textviewer* tv, const char* title, const char* f
     }
 
     gui_box_show(tv->box, tv->active, TRUE);
-    gui_menu_uncheck_range(menus_ID.help, 0, DOC_MAX - 1);
-    if (tv->active)
-        gui_menu_check(menus_ID.help, current_file);
 }
 
 void    TextViewer_Switch_Close()
@@ -211,7 +208,6 @@ void    TextViewer_Switch_Close()
     tv->active = FALSE;
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Doc_Disabled));
     gui_box_show(tv->box, tv->active, TRUE);
-    gui_menu_uncheck_range(menus_ID.help, 0, DOC_MAX - 1);
 }
 
 static void     TextViewer_ScrollbarCallback()
