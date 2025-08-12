@@ -67,7 +67,7 @@ void        Blitters_Close();
 t_blitter * Blitters_FindBlitterByName(const char *name);
 
 void        Blitters_SwitchNext();
-void        Blitters_Menu_Init(int menu_id);
+void        Blitters_DrawMenu();
 
 //-----------------------------------------------------------------------------
 

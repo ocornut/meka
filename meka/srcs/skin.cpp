@@ -8,6 +8,7 @@
 #include "shared.h"
 #include "skin_bg.h"
 #include "libparse.h"
+#include "imgui.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -434,11 +435,11 @@ void        Skins_Load(const char *filename)
         switch (Skins_ParseLine(line))
         {
         case MEKA_ERR_SYNTAX:
-            tfile_free(tf); 
+            tfile_free(tf);
             Quit_Msg(Msg_Get(MSG_Theme_Error_Syntax), line_cnt);
             break;
         case MEKA_ERR_MISSING:
-            tfile_free(tf); 
+            tfile_free(tf);
             Quit_Msg(Msg_Get(MSG_Theme_Error_Missing_Theme_Name), line_cnt);
             break;
         case MEKA_ERR_ALREADY_DEFINED:
@@ -643,10 +644,10 @@ static void Skins_UpdateNativeColorTable()
             SkinCurrent_NativeColorTable[i] = Skins_ColorBlendToNative(skin1->colors[i], skin2->colors[i], fact1, fact2);
 
         // Update gradient data
-        Skins_UpdateNativeGradient(&skin->gradient_menu, 
+        Skins_UpdateNativeGradient(&skin->gradient_menu,
             Skins_ColorBlend(skin1->gradient_menu.color_start, skin2->gradient_menu.color_start, fact1, fact2),
             Skins_ColorBlend(skin1->gradient_menu.color_end,   skin2->gradient_menu.color_end,   fact1, fact2));
-        Skins_UpdateNativeGradient(&skin->gradient_window_titlebar, 
+        Skins_UpdateNativeGradient(&skin->gradient_window_titlebar,
             Skins_ColorBlend(skin1->gradient_window_titlebar.color_start, skin2->gradient_window_titlebar.color_start, fact1, fact2),
             Skins_ColorBlend(skin1->gradient_window_titlebar.color_end,   skin2->gradient_window_titlebar.color_end,   fact1, fact2));
     }
@@ -662,28 +663,17 @@ static void Skins_UpdateNativeColorTable()
     }
 }
 
-static void Skins_MenuHandlerSelectSkin(t_menu_event *event)
-{
-    // Switch smoothly to new theme
-    t_skin* skin = (t_skin*)event->user_data;
-    Skins_Select(skin, TRUE);
-    Skins_Apply();
-
-    // Check new selected theme in menu
-    gui_menu_uncheck_all (menus_ID.themes);
-    gui_menu_check (menus_ID.themes, event->menu_item_idx);
-}
-
-void        Skins_MenuInit(int menu_id)
+void        Skins_DrawMenu()
 {
     for (t_list* skins = Skins.skins; skins != NULL; skins = skins->next)
     {
         t_skin* skin = (t_skin*)skins->elem;
-        if (skin->enabled)
+        if (!skin->enabled)
+            continue;
+        if (ImGui::MenuItem(skin->name, NULL, Skins.skin_current == skin))
         {
-            menu_add_item(menu_id, skin->name, NULL,
-                MENU_ITEM_FLAG_ACTIVE | ((Skins.skin_current == skin) ? MENU_ITEM_FLAG_CHECKED : 0),
-                (t_menu_callback)Skins_MenuHandlerSelectSkin, skin);
+            Skins_Select(skin, TRUE);
+            Skins_Apply();
         }
     }
 }
