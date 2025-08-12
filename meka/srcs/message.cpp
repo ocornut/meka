@@ -39,7 +39,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_About_BoxTitle),
     __MSG_ADD(MSG_About_Line_Meka_Date),
     __MSG_ADD(MSG_About_Line_Authors),
-    __MSG_ADD(MSG_About_Line_Homepage),
 
     __MSG_ADD(MSG_Ok),
     __MSG_ADD(MSG_Failed),

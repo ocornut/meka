@@ -32,7 +32,6 @@ enum
     MSG_About_BoxTitle,
     MSG_About_Line_Meka_Date,
     MSG_About_Line_Authors,
-    MSG_About_Line_Homepage,
 
     MSG_Ok,
     MSG_Failed,

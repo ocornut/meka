@@ -116,7 +116,6 @@ Msg_Quit                                = "Good night, brave warrior. Good night
 Msg_About_BoxTitle                      = "About Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Ok                                  = "Ok"
@@ -608,7 +607,6 @@ Msg_Quit                                = "Good night, brave warrior. Good night
 Msg_About_BoxTitle                      = "A propos de Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "par %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Ok                                  = "Ok"
@@ -1082,7 +1080,6 @@ Msg_Quit                                = "Slaap lekker, dappere strijder. goede
 Msg_About_BoxTitle                      = "Over Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Ok                                  = "Ok"
@@ -1569,7 +1566,6 @@ Msg_Quit                                = "Good night, brave warrior. Good night
 Msg_About_BoxTitle                      = "Acerca de"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "por %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Failed                              = "¡Fallo!"
@@ -2005,7 +2001,6 @@ Msg_Quit                                = "Dobrej nocy, dzielny woju. Dobrej noc
 Msg_About_BoxTitle                      = "O Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Ok                                  = "Ok"
@@ -2502,7 +2497,6 @@ Msg_Quit                                = "Boa noite, bravo guerreiro. Boa noite
 Msg_About_BoxTitle                      = "Sobre Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "por %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Failed                              = "Falhou!"
@@ -2934,7 +2928,6 @@ Msg_Quit                                = "Buona notte, valoroso guerriero. Nott
 Msg_About_BoxTitle                      = "About Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "by %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Failed                              = "Fallito!"
@@ -3371,7 +3364,6 @@ Msg_Quit                                = "Gute Nacht, mutiger Krieger. Gute Nac
 Msg_About_BoxTitle                      = "Über Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "von %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ----------------------------------------------------------------------
 Msg_Failed                              = "Fehlschlag!"
@@ -3807,7 +3799,6 @@ Msg_Quit                                = "God natt, modiga krigare. God natt, m
 Msg_About_BoxTitle                      = "Om Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "av %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Ok                                  = "Ok"
@@ -4255,7 +4246,6 @@ Msg_Quit                                = "Godnat modige kriger. Godnat monster-
 Msg_About_BoxTitle                      = "Om Meka"
 Msg_About_Line_Meka_Date                = "%s (c) %s"
 Msg_About_Line_Authors                  = "af %s"
-Msg_About_Line_Homepage                 = "%s"
 
 ; Errors ---------------------------------------------------------------------
 Msg_Ok                                  = "Ok"
