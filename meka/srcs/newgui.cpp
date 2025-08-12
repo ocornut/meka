@@ -1,10 +1,10 @@
 #include "shared.h"
 #include "newgui.h"
-#include "imgui.h"
 #define IMGUI_DEFINE_MATH_OPERATORS
+#include "imgui.h"
 #include "imgui_internal.h"
 #include "imgui_memory_editor.h"
-#include "imgui_impl_allegro5.h"
+#include "backends/imgui_impl_allegro5.h"
 #include "IconsFontAwesome5.h"  // See https://fontawesome.com/icons?d=gallery
 
 #include "app_cheatfinder.h"
@@ -37,7 +37,9 @@ static void NewGui_InitImGui()
     ConsolePrintf("Initializing dear imgui %s...\n", IMGUI_VERSION);
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+#ifdef IMGUI_HAS_DOCK
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+#endif
 
     // Setup Dear ImGui fonts
     {
@@ -359,7 +361,7 @@ void    NewGui_PaletteDraw()
         {
             me.HighlightMin = me.HighlightMax = (size_t)-1;
         }
-        me.WriteFn = [](u8* data, size_t off, u8 v) // FIXME-IMGUI: memory editor need user data
+        me.WriteFn = [](u8* data, size_t off, u8 v, void*)
         {
             t_memory_range range;
             MemoryRange_GetDetails(MEMTYPE_PRAM, &range);
@@ -436,7 +438,7 @@ void    NewGui_AboutDraw()
 
     ImGui::Dummy(ImVec2(8.0f, 1.0f));
     ImGui::SameLine();
-    ImGui::Image(bmp, ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)));
+    ImGui::Image((ImTextureID)bmp, ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)));
     ImGui::SameLine();
     ImGui::Dummy(ImVec2(8.0f, 1.0f));
     ImGui::SameLine();
