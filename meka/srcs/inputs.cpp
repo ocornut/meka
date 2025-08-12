@@ -24,6 +24,7 @@
 #include "vmachine.h"
 #include "sound/sound_logging.h"
 #include "newgui.h"
+#include "imgui.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -74,6 +75,18 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update();
 
+    // Switch mode (Fullscreen <-> GUI)
+    if (ImGui::Shortcut(Inputs.Cabinet_Mode ? ImGuiKey_F10 : ImGuiKey_Escape, ImGuiInputFlags_RouteGlobal))
+        Action_Switch_Mode();
+
+    // GUI fullscreen/windowed
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_Enter, ImGuiInputFlags_RouteGlobal))
+    {
+        g_config.video_fullscreen ^= 1;
+        Video_Setup_State();
+        return;
+    }
+
     switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
     {
     case 0: // No modifiers
@@ -121,10 +134,6 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
             // Input peripheral
             if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))
                 Inputs_Peripheral_Next (PLAYER_1);
-
-            // Switch mode (Fullscreen <-> GUI)
-            if (Inputs_KeyPressed (Inputs.Cabinet_Mode ? ALLEGRO_KEY_F10 : ALLEGRO_KEY_ESCAPE, FALSE))
-                Action_Switch_Mode();
 
             // Sprites Display
             if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
@@ -216,16 +225,6 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
                // Hard Reset
                if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
                    Machine_Reset();
-
-               // GUI fullscreen/windowed
-                if (Inputs_KeyPressed (ALLEGRO_KEY_ENTER, FALSE))
-                {
-                    g_config.video_fullscreen ^= 1;
-                    //al_toggle_display_flag(g_display, ALLEGRO_FULLSCREEN_WINDOW, g_config.video_fullscreen);
-                    Video_Setup_State();
-                    return;
-                }
-
            }
        }
        break;
@@ -245,7 +244,7 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
     #endif
 
     // Screen capture
-    if (Inputs_KeyPressed(ALLEGRO_KEY_PRINTSCREEN, FALSE))
+    if (ImGui::Shortcut(ImGuiKey_PrintScreen, ImGuiInputFlags_RouteGlobal))
         Capture_Request();
 
     // SF-7000 Disk 21 Bomber Raid

@@ -358,15 +358,6 @@ void    Inputs_Sources_Update()
     }
     else
     {
-        // Allegro 5 doesn't receive PrintScreen under Windows because of the high-level API it is using.
-#ifdef ARCH_WIN32
-        if (GetAsyncKeyState(VK_SNAPSHOT))
-            g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] < 0.0f ? 0.0f : g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] + dt;
-        else
-            g_keyboard_state[ALLEGRO_KEY_PRINTSCREEN] = -1.0f;
-        // g_keyboard_state.__key_down__internal__[ALLEGRO_KEY_PRINTSCREEN/32] |= (1 << (ALLEGRO_KEY_PRINTSCREEN & 31));
-#endif
-
         // Update keyboard modifiers flags
         g_keyboard_modifiers = 0;
         if (Inputs_KeyDown(ALLEGRO_KEY_LCTRL) || Inputs_KeyDown(ALLEGRO_KEY_RCTRL))
