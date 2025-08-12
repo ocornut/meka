@@ -532,8 +532,9 @@ static void NewGui_AboutDraw()
         return;
 
     Str128f title("%s###About", Msg_Get(MSG_About_BoxTitle));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12, 12));
-    bool open = ImGui::Begin(title.c_str(), &g_config.about_active, ImGuiWindowFlags_AlwaysAutoResize);
+    const float ui_scale = g_config.ui_scale;
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(12, 12) * ui_scale);
+    bool open = ImGui::Begin(title.c_str(), &g_config.about_active, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoScrollbar);
     ImGui::PopStyleVar();
     if (!open)
     {
@@ -542,19 +543,20 @@ static void NewGui_AboutDraw()
     }
 
     ALLEGRO_BITMAP* bmp = Graphics.Misc.Dragon;
-    const float ui_scale = g_config.ui_scale;
 
-    ImGui::Dummy(ImVec2(8.0f, 1.0f));
-    ImGui::SameLine();
-    ImGui::Image((ImTextureID)bmp, ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)) * ui_scale);
-    ImGui::SameLine();
-    ImGui::Dummy(ImVec2(8.0f, 1.0f) * ui_scale);
-    ImGui::SameLine();
+    ImVec2 p = ImGui::GetCursorScreenPos();
 
+    float text_height = ImGui::GetTextLineHeightWithSpacing() * 4.0f;
+    ImVec2 image_size = ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)) * ui_scale;
+
+    ImGui::SetCursorScreenPos({ p.x + 8.0f * ui_scale, p.y + ImMax(0.0f, (text_height - image_size.y) * 0.5f)});
+    ImGui::Image((ImTextureID)bmp, image_size);
+
+    ImGui::SetCursorScreenPos({ p.x + image_size.x + 8.0f * ui_scale * 3.0f, p.y });
     ImGui::BeginGroup();
     ImGui::Text(Msg_Get(MSG_About_Line_Meka_Date), MEKA_NAME_VERSION, MEKA_DATE);
     ImGui::Text(Msg_Get(MSG_About_Line_Authors), MEKA_AUTHORS_SHORT);
-    ImGui::Text(Msg_Get(MSG_About_Line_Homepage), MEKA_HOMEPAGE);
+    ImGui::TextLinkOpenURL(MEKA_HOMEPAGE);
     ImGui::Text("Built %s, %s", MEKA_BUILD_DATE, MEKA_BUILD_TIME);
     ImGui::EndGroup();
 
