@@ -555,7 +555,7 @@ Msg_Menu_Sound_Capture_VGM_Stop            = "VGM Stop"
 Msg_Menu_Sound_Capture_VGM_SampleAccurate  = "VGM Sample Accurate"
 
 ; Menu: Inputs ---------------------------------------------------------------
-Msg_Menu_Inputs                         = "INPUTS"
+Msg_Menu_Inputs                         = "Inputs"
 Msg_Menu_Inputs_Joypad                  = "Joypad"
 Msg_Menu_Inputs_LightPhaser             = "Light Phaser"
 Msg_Menu_Inputs_PaddleControl           = "Paddle Control"

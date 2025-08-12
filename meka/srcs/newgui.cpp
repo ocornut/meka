@@ -17,8 +17,11 @@
 #include "datadump.h"
 #include "debugger.h"
 #include "file.h"
+#include "inputs_c.h"
 #include "palette.h"
+#include "rapidfir.h"
 #include "saves.h"
+#include "sk1100.h"
 #include "tvtype.h"
 #include "vmachine.h"
 #include "vdp.h"
@@ -666,6 +669,45 @@ void    NewGui_MainMenu()
             Machine_Pause();
         if (ImGui::MenuItem(Msg_Get(Msg_Menu_Machine_ResetEmulation), "Alt+Backspace"))
             Machine_Reset();
+
+        ImGui::EndMenu();
+    }
+
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Inputs)))
+    {
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_Joypad), "F9", (Inputs.Peripheral[0] == INPUT_JOYPAD)))
+            Inputs_Switch_Joypad();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_LightPhaser), "", (Inputs.Peripheral[0] == INPUT_LIGHTPHASER)))
+            Inputs_Switch_LightPhaser();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_PaddleControl), "", (Inputs.Peripheral[0] == INPUT_PADDLECONTROL)))
+            Inputs_Switch_PaddleControl();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_SportsPad), "", (Inputs.Peripheral[0] == INPUT_SPORTSPAD)))
+            Inputs_Switch_SportsPad();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_GraphicBoard), "", (Inputs.Peripheral[0] == INPUT_GRAPHICBOARD)))
+            Inputs_Switch_GraphicBoard();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_GraphicBoardV2), "", (Inputs.Peripheral[0] == INPUT_GRAPHICBOARD_V2)))
+            Inputs_Switch_GraphicBoardV2();
+        ImGui::Separator();
+
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_SK1100), "CTRL+F9", Inputs.SK1100_Enabled))
+            SK1100_Switch();
+        ImGui::Separator();
+
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Inputs_RapidFire)))
+        {
+            if (ImGui::MenuItem(Str30f(Msg_Get(MSG_Menu_Inputs_RapidFire_PxBx), 1, 1).c_str(), "", (RapidFire & RAPIDFIRE_J1B1) != 0))
+                RapidFire_Switch_J1B1();
+            if (ImGui::MenuItem(Str30f(Msg_Get(MSG_Menu_Inputs_RapidFire_PxBx), 1, 2).c_str(), "", (RapidFire & RAPIDFIRE_J1B2) != 0))
+                RapidFire_Switch_J1B2();
+            if (ImGui::MenuItem(Str30f(Msg_Get(MSG_Menu_Inputs_RapidFire_PxBx), 2, 1).c_str(), "", (RapidFire & RAPIDFIRE_J2B1) != 0))
+                RapidFire_Switch_J2B1();
+            if (ImGui::MenuItem(Str30f(Msg_Get(MSG_Menu_Inputs_RapidFire_PxBx), 2, 2).c_str(), "", (RapidFire & RAPIDFIRE_J2B2) != 0))
+                RapidFire_Switch_J2B2();
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_Configuration), NULL, Inputs_CFG.active))
+            Inputs_CFG_Switch();
 
         ImGui::EndMenu();
     }
