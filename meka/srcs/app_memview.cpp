@@ -637,7 +637,6 @@ void    MemoryViewer_SwitchMainInstance()
     else
         Msg(MSGT_USER, "%s", Msg_Get(MSG_MemoryEditor_Disabled));
     gui_box_show(app->box, app->active, TRUE);
-    gui_menu_toggle_check(menus_ID.tools, 4);
 }
 
 static void MemoryViewer_ViewPane(t_memory_viewer* app, t_memory_type memtype)

@@ -32,23 +32,6 @@
 // FUNCTIONS
 //-----------------------------------------------------------------------------
 
-static void Debug_ReloadSymbols_Callback(t_menu_event*)
-{
-    Debugger_Symbols_Load();
-}
-
-static void Debug_StepFrame_Callback(t_menu_event*)
-{
-    g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
-}
-
-static void Debug_LoadStateAndContinue_Callback(t_menu_event*)
-{
-
-}
-
-//-----------------------------------------------------------------------------
-
 // Initialize and create GUI menus
 void    gui_menus_init()
 {
@@ -73,8 +56,8 @@ void    gui_menus_init()
     menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.debug    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.debug    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.help     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Help),    MENU_ITEM_FLAG_ACTIVE);
 
     //-------------------------------------------------------------------------
@@ -97,6 +80,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // DEBUG
     //-------------------------------------------------------------------------
+#if 0
 #ifdef MEKA_Z80_DEBUGGER
     menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_Enabled),        "Scroll Lock",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (Debugger.active), (t_menu_callback)Debugger_Switch, NULL);
     menu_add_item (menus_ID.debug,  Msg_Get(MSG_Menu_Debug_ReloadROM),      NULL,           MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Reload_ROM, NULL);
@@ -107,6 +91,7 @@ void    gui_menus_init()
     DataDump_Init_Menus (menus_ID.dump);
     //menus_ID.watch = menu_add_menu (menus_ID.debug, Msg_Get(MSG_Menu_Debug_Watch),      0);
 #endif // MEKA_Z80_DEBUGGER
+#endif
 
     //-------------------------------------------------------------------------
     // MACHINE
@@ -218,6 +203,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // TOOLS
     //-------------------------------------------------------------------------
+#if 0
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Messages),      "Alt+M",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.log_active),                [](t_menu_event*) { g_config.log_active ^= 1; },     NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_Palette),       "Alt+P",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.palette_active),            (t_menu_callback)PaletteViewer_Switch,               NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TilesViewer),   "Alt+T",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (TileViewer.active),                  (t_menu_callback)TileViewer_Switch,                  NULL);
@@ -225,6 +211,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_MemoryEditor),  NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (MemoryViewer_MainInstance->active),  (t_menu_callback)MemoryViewer_SwitchMainInstance,    NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_CheatFinder),   NULL,     MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_CheatFinder_MainInstance->active), (t_menu_callback)CheatFinder_SwitchMainInstance,     NULL);
     menu_add_item     (menus_ID.tools,     Msg_Get(MSG_Menu_Tools_TechInfo),      "Alt+I",  MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.techinfo_active),           [](t_menu_event*) { g_config.techinfo_active ^= 1; },NULL);
+#endif
 
     //-------------------------------------------------------------------------
     // HELP

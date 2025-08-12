@@ -155,8 +155,8 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
                 Action_Switch_Layer_Background();
 
             // Next frame (pause hack)
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-                g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+            if (Inputs_KeyPressed(ALLEGRO_KEY_F12, FALSE))
+                Debugger_StepFrame();
 
             // Load State & Continue
             if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))

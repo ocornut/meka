@@ -134,7 +134,7 @@ struct t_debugger
     t_list *                    breakpoints_pram_space[0x40];
     t_list *                    breakpoints_line_space[313];
 
-    // This is like with breakpoints_cpu_space but with direct access to merged CPU read breakpoints. 
+    // This is like with breakpoints_cpu_space but with direct access to merged CPU read breakpoints.
     // The Z80 emulator use that to trap CPU read of first opcode byte *BEFORE* execution started.
     // Whereas normal breakpoints are stopping the CPU after the event happened.
     int                         cpu_exec_traps[0x10000];
@@ -152,7 +152,7 @@ struct t_debugger
     FILE *                      log_file;
     const char *                log_filename;
     int                         watch_counter;                  // For current frame
-    long long                   cycle_counter;                  // Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80(). 
+    long long                   cycle_counter;                  // Cycle counting accumulator. Only increment in RunZ80_Debugging(), not RunZ80().
 
     // PC logging/trackbacking
     u16                         pc_last;
@@ -171,16 +171,17 @@ extern t_debugger   Debugger;
 //-----------------------------------------------------------------------------
 
 // Init
-void                        Debugger_Init_Values(void);
-void                        Debugger_Init(void);
-void                        Debugger_Close(void);
+void                        Debugger_Init_Values();
+void                        Debugger_Init();
+void                        Debugger_Close();
 
 // Main
-void                        Debugger_MachineReset(void);
-void                        Debugger_MediaReload(void);
-void                        Debugger_Enable(void);
-void                        Debugger_Update(void);
-void                        Debugger_Switch(void);
+void                        Debugger_MachineReset();
+void                        Debugger_MediaReload();
+void                        Debugger_Enable();
+void                        Debugger_Update();
+void                        Debugger_StepFrame();
+void                        Debugger_Switch();
 void                        Debugger_Printf(const char *format, ...);
 void                        Debugger_InputParseCommand(char* line);
 

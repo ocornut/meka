@@ -110,8 +110,6 @@ enum
     MSG_Debug_Symbols_Error,
     MSG_Debug_Symbols_Error_Line,
 
-    MSG_DataDump_Mode_Ascii,
-    MSG_DataDump_Mode_Raw,
     MSG_DataDump_Error,
     MSG_DataDump_Error_OB_Memory,
     MSG_DataDump_Error_Palette,

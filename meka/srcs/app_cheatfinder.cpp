@@ -612,7 +612,6 @@ void    CheatFinder_SwitchMainInstance()
     t_cheat_finder *app = g_CheatFinder_MainInstance;
     app->active ^= 1;
     gui_box_show(app->box, app->active, TRUE);
-    gui_menu_toggle_check(menus_ID.tools, 5);
 }
 
 //-----------------------------------------------------------------------------

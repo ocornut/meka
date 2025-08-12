@@ -117,8 +117,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Debug_Symbols_Error),
     __MSG_ADD(MSG_Debug_Symbols_Error_Line),
 
-    __MSG_ADD(MSG_DataDump_Mode_Ascii),
-    __MSG_ADD(MSG_DataDump_Mode_Raw),
     __MSG_ADD(MSG_DataDump_Error),
     __MSG_ADD(MSG_DataDump_Error_OB_Memory),
     __MSG_ADD(MSG_DataDump_Error_Palette),
