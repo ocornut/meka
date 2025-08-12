@@ -275,8 +275,12 @@ struct t_meka_config
     bool    show_product_number;
     bool    start_in_gui;
 
+    // UI scale
+    float   ui_scale = 1.50f;
+    float   ui_scale_next = 1.50f;
+
     // Applet: Game Screen
-    float   game_window_scale;
+    float   game_window_scale = 1.0f;
 
     // Applet: File Browser
     bool    fb_close_after_load;

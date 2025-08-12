@@ -37,6 +37,7 @@ static void NewGui_InitImGui()
     ConsolePrintf("Initializing dear imgui %s...\n", IMGUI_VERSION);
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 #ifdef IMGUI_HAS_DOCK
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 #endif
@@ -45,21 +46,20 @@ static void NewGui_InitImGui()
     {
         ImFontConfig icon_font_cfg;
         icon_font_cfg.MergeMode = true;
-        icon_font_cfg.GlyphMinAdvanceX = 13.0f;
-        icon_font_cfg.OversampleH = icon_font_cfg.OversampleV = 1.0f;
-        static ImWchar icon_font_ranges[] = { ICON_MIN_FA , ICON_MAX_FA, 0 };
-        Str128f filename("%s/Data/fonts/Font Awesome 5 Free-Solid-900.otf", g_env.Paths.EmulatorDirectory);
-        io.Fonts->AddFontDefault();
-        io.Fonts->AddFontFromFileTTF(filename.c_str(), 13.0f, &icon_font_cfg, icon_font_ranges);
+        icon_font_cfg.GlyphMinAdvanceX = 20.0f;
+        //icon_font_cfg.OversampleH = icon_font_cfg.OversampleV = 1.0f;
+        //static ImWchar icon_font_ranges[] = { ICON_MIN_FA , ICON_MAX_FA, 0 };
+
+        Str128 filename;
+        //io.Fonts->AddFontDefault();
+        filename.setf("%s/Data/fonts/DroidSansMono.ttf", g_env.Paths.EmulatorDirectory);
+        io.Fonts->AddFontFromFileTTF(filename.c_str(), 20.0f);
+
+        filename.setf("%s/Data/fonts/Font Awesome 5 Free-Solid-900.otf", g_env.Paths.EmulatorDirectory);
+        io.Fonts->AddFontFromFileTTF(filename.c_str(), 13.0f, &icon_font_cfg);// , icon_font_ranges);
     }
 
-    // Setup Dear ImGui style
-    {
-        ImGui::StyleColorsDark();
-        ImVec4* colors = ImGui::GetStyle().Colors;
-        colors[ImGuiCol_WindowBg] = ImVec4(0.09f, 0.09f, 0.00f, 0.94f);
-        colors[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.16f, 0.26f, 1.00f);
-    }
+    NewGui_InitStyle();
 
     // Setup Dear ImGui bindings
     ImGui_ImplAllegro5_Init(NULL);
@@ -115,7 +115,7 @@ void    NewGui_Close()
 // APPLET: Game
 //-----------------------------------------------------------------------------
 
-void    NewGui_GameDraw()
+static void NewGui_GameDraw()
 {
     // FIXME-IMGUI: Resize in fixed steps
     // FIXME-IMGUI: Calculate client size
@@ -157,7 +157,7 @@ void    NewGui_GameDraw()
 // APPLET: Log/Messages
 //-----------------------------------------------------------------------------
 
-void    NewGui_LogDraw()
+static void NewGui_LogDraw()
 {
     t_newgui* ng = &g_newgui;
     if (!g_config.log_active)
@@ -207,7 +207,7 @@ void    NewGui_LogAddTextLine(const char* line)
 // APPLET: Memory Editor
 //-----------------------------------------------------------------------------
 
-void    NewGui_MemEditorDraw()
+static void NewGui_MemEditorDraw()
 {
     if (!MemoryViewer_MainInstance->active)
         return;
@@ -234,7 +234,7 @@ void    NewGui_MemEditorDraw()
 //-----------------------------------------------------------------------------
 
 // FIXME-IMGUI: Resize mechanism. Window resize steps? Zoom button?
-void    NewGui_PaletteDraw()
+static void NewGui_PaletteDraw()
 {
     if (!g_config.palette_active)
         return;
@@ -254,8 +254,10 @@ void    NewGui_PaletteDraw()
 
     // Runtime
     ImGuiStyle& style = ImGui::GetStyle();
-    ImVec2 icon_size(opt_icon_size, opt_icon_size);
-    ImVec2 spacing(2, 2);
+    float ui_scale = g_config.ui_scale;
+
+    ImVec2 icon_size(opt_icon_size * ui_scale, opt_icon_size * ui_scale);
+    ImVec2 spacing(2 * ui_scale, 2 * ui_scale);
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
 
     int hovered_n = -1;
@@ -327,11 +329,10 @@ void    NewGui_PaletteDraw()
         ImGui::EndTooltip();
     }
 
-    float button_w = 60.0f;
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));  // FIXME-IMGUI: Helper for "tight mode"
-    ImGui::PushItemWidth(button_w);
+    float button_w = 70.0f * ui_scale;
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2) * ui_scale);  // FIXME-IMGUI: Helper for "tight mode"
+    ImGui::SetNextItemWidth(button_w);
     ImGui::DragInt("##zoom", &opt_icon_size, 0.10f, 8.0f, 48.0f, ICON_FA_EXPAND " %d");
-    ImGui::PopItemWidth();
 #if 0
     ImGui::SameLine();
     if (ImGui::Button(ICON_FA_COPY " Copy", ImVec2(button_w, 0.0f)))
@@ -377,7 +378,7 @@ void    NewGui_PaletteDraw()
 // APPLET: Options
 //-----------------------------------------------------------------------------
 
-void    NewGui_OptionsDraw()
+static void NewGui_OptionsDraw()
 {
     if (!g_config.options_active)
         return;
@@ -389,14 +390,13 @@ void    NewGui_OptionsDraw()
         return;
     }
 
-    ImGui::Text("Emulation");
-    ImGui::Separator();
+    ImGui::SeparatorText("Emulation");
     ImGui::Checkbox(Msg_Get(MSG_Options_BIOS_Enable), &g_config.enable_BIOS);
     //if (ImGui::Checkbox(Msg_Get(MSG_Options_Bright_Palette), &g_config.palette_type)) Palette_Emu_Reload();
     ImGui::Checkbox(Msg_Get(MSG_Options_Allow_Opposite_Directions), &g_config.allow_opposite_directions);
 
     ImGui::Spacing();
-    ImGui::Text("User Interface");
+    ImGui::SeparatorText("User Interface");
     ImGui::Separator();
     if (ImGui::Checkbox(Msg_Get(MSG_Options_DB_Display), &g_config.fb_uses_DB))
         FB_Load_Directory();
@@ -419,7 +419,7 @@ void    NewGui_OptionsDraw()
 // APPLET: About Box
 //-----------------------------------------------------------------------------
 
-void    NewGui_AboutDraw()
+static void NewGui_AboutDraw()
 {
     if (!g_config.about_active)
         return;
@@ -435,12 +435,13 @@ void    NewGui_AboutDraw()
     }
 
     ALLEGRO_BITMAP* bmp = Graphics.Misc.Dragon;
+    const float ui_scale = g_config.ui_scale;
 
     ImGui::Dummy(ImVec2(8.0f, 1.0f));
     ImGui::SameLine();
-    ImGui::Image((ImTextureID)bmp, ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)));
+    ImGui::Image((ImTextureID)bmp, ImVec2(al_get_bitmap_width(bmp), al_get_bitmap_height(bmp)) * ui_scale);
     ImGui::SameLine();
-    ImGui::Dummy(ImVec2(8.0f, 1.0f));
+    ImGui::Dummy(ImVec2(8.0f, 1.0f) * ui_scale);
     ImGui::SameLine();
 
     ImGui::BeginGroup();
@@ -462,7 +463,7 @@ void    NewGui_MainMenu()
     if (!ImGui::BeginMainMenuBar())
         return;
 
-    if (ImGui::BeginMenu("File"))//Msg_Get(MSG_Menu_Main)))
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Main)))
     {
         // FIXME-IMGUI: FB_Switch() toggle
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_LoadROM), "ALT+L", FB.active))        FB_Switch();
@@ -471,7 +472,7 @@ void    NewGui_MainMenu()
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_Save), "F5"))               SaveState_Save();
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_Load), "F7"))               SaveState_Load();
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_PrevSlot), "F6"))           SaveState_SetPrevSlot();
-        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_PrevSlot), "F8"))           SaveState_SetNextSlot();
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_SaveState_NextSlot), "F8"))           SaveState_SetNextSlot();
         ImGui::Separator();
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Main_Options), "Alt+O", &g_config.options_active)) {}
         if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Main_Language)))
@@ -510,16 +511,50 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    ImGui::SameLine(0.0f, 20.0f);;
+    ImGui::SetNextItemWidth(ImGui::CalcTextSize("999999").x);
+    ImGui::DragFloat("Scale", &g_config.ui_scale_next, 0.01f, 0.5f, 6.0f, "%0.2f");
+
     ImGui::EndMainMenuBar();
+}
+
+void    NewGui_InitStyle()
+{
+    ImGui::StyleColorsDark();
+
+    ImVec4* colors = ImGui::GetStyle().Colors;
+    //colors[ImGuiCol_WindowBg] = ImVec4(0.09f, 0.09f, 0.00f, 0.94f);
+    colors[ImGuiCol_TitleBg] = ImVec4(0.18f, 0.25f, 0.35f, 1.00f);
+    colors[ImGuiCol_TitleBgActive] = ImVec4(0.21f, 0.37f, 0.62f, 1.00f);
+
+    NewGui_UpdateStyle();
+}
+
+// Called every frame
+void    NewGui_UpdateStyle()
+{
+    // Setup Dear ImGui style
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImVec4 backup_colors[ImGuiCol_COUNT];
+    memcpy(backup_colors, &style.Colors, sizeof(style.Colors));
+    style = ImGuiStyle(); // Reset sizes etc.
+    memcpy(&style.Colors, backup_colors, sizeof(style.Colors));
+
+    style.FontScaleMain = g_config.ui_scale;
+    style.ScaleAllSizes(g_config.ui_scale);
 }
 
 void    NewGui_Draw()
 {
+    g_config.ui_scale = g_config.ui_scale_next;
+    NewGui_UpdateStyle();
+
     NewGui_MainMenu();
 
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 3.0f);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(6,6));
+    //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
+    //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 3.0f);
+    //ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(6,6));
 
     NewGui_GameDraw();
     NewGui_LogDraw();
@@ -530,5 +565,5 @@ void    NewGui_Draw()
 
     ImGui::ShowDemoWindow();
 
-    ImGui::PopStyleVar(3);
+    //ImGui::PopStyleVar(3);
 }
