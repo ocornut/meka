@@ -15,7 +15,7 @@
 // Forward declaration
 //-----------------------------------------------------------------------------
 
-static void     Lang_Set(t_menu_event *event);
+static void     Lang_Set(t_lang* lang);
 
 //-----------------------------------------------------------------------------
 // Data
@@ -593,9 +593,9 @@ int     Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
     return (MEKA_ERR_OK);
 }
 
-static void     Lang_Set (t_menu_event *event)
+static void     Lang_Set(t_lang* lang)
 {
-    Messages.Lang_Cur = (t_lang *)event->user_data;
+    Messages.Lang_Cur = lang;
     Msg(MSGT_USER, Msg_Get(MSG_Language_Set), Messages.Lang_Cur->Name);
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Language_Set_Warning));
 

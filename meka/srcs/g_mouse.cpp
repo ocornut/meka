@@ -101,10 +101,6 @@ void    gui_update_mouse()
         gui.mouse.focus = GUI_FOCUS_NONE;
         gui.mouse.focus_box = NULL;
         gui.mouse.focus_widget = NULL;
-
-        menus_opt.c_menu = -1;
-        menus_opt.c_entry = -1;
-        menus_opt.c_generation = -1;
     }
 }
 

@@ -58,7 +58,11 @@ void    GUI_Init()
     SkinFx_Init();
 
     Desktop_SetStateToBoxes();     // Set all boxes state based on MEKA.DSK data
-    gui_menus_init();              // Create menus (Note: need to be done after Desktop_SetStateToBoxes because it uses the 'active' flags to check items)
+
+    g_gui_status.x = 10;
+    Msg(MSGT_USER_LOG, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
+    Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
+
     gui_init_mouse();
 }
 

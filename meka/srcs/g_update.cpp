@@ -72,10 +72,6 @@ void    gui_update()
     // Skins update
     Skins_Update();
 
-    // Menus update
-    // Note: must be done before updating applets
-    gui_update_menus();
-
     // Boxes update (move / compute dirtyness)
     gui_update_boxes();
     PROFILE_STEP("gui_update_boxes()");

@@ -280,9 +280,6 @@
     <ClCompile Include="..\..\g_action.cpp" />
     <ClCompile Include="..\..\g_box.cpp" />
     <ClCompile Include="..\..\g_init.cpp" />
-    <ClCompile Include="..\..\g_menu.cpp" />
-    <ClCompile Include="..\..\g_menu_i.cpp" />
-    <ClCompile Include="..\..\g_menu_t.cpp" />
     <ClCompile Include="..\..\g_mouse.cpp" />
     <ClCompile Include="..\..\g_tools.cpp" />
     <ClCompile Include="..\..\g_update.cpp" />
@@ -411,9 +408,6 @@
     <ClInclude Include="..\..\g_action.h" />
     <ClInclude Include="..\..\g_box.h" />
     <ClInclude Include="..\..\g_init.h" />
-    <ClInclude Include="..\..\g_menu.h" />
-    <ClInclude Include="..\..\g_menu_i.h" />
-    <ClInclude Include="..\..\g_menu_t.h" />
     <ClInclude Include="..\..\g_mouse.h" />
     <ClInclude Include="..\..\g_tools.h" />
     <ClInclude Include="..\..\g_update.h" />

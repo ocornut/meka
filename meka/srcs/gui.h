@@ -115,11 +115,7 @@ struct DrawCursor
 #include "g_action.h"
 #include "g_mouse.h"
 #include "g_update.h"
-
 #include "g_init.h"
-#include "g_menu.h"
-#include "g_menu_i.h"
-#include "g_menu_t.h"
 
 //-----------------------------------------------------------------------------
 // Definitions
@@ -237,5 +233,14 @@ struct t_gui
 };
 
 extern t_gui        gui;
+
+struct t_gui_status_bar
+{
+    char  message[1024];
+    int   x;
+    int   timeleft;
+};
+
+extern t_gui_status_bar g_gui_status;
 
 //-----------------------------------------------------------------------------

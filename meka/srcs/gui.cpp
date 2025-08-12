@@ -6,6 +6,7 @@
 #include "shared.h"
 #include "blit.h"
 #include "app_game.h"
+#include "fskipper.h"
 #include "g_tools.h"
 #include "g_widget.h"
 
@@ -14,6 +15,7 @@
 //-----------------------------------------------------------------------------
 
 t_gui gui;
+t_gui_status_bar g_gui_status;
 
 //-----------------------------------------------------------------------------
 // Functions
@@ -59,6 +61,36 @@ void    gui_draw_background()
     al_draw_bitmap(gui_background, 0, 0, 0x0000);
 }
 
+void    gui_draw_statusbar()
+{
+    // Redraw status bar
+    al_set_target_bitmap(gui_buffer);
+    al_draw_filled_rectangle(0, g_config.video_mode_gui_res_y - gui.info.bars_height, g_config.video_mode_gui_res_x + 1, g_config.video_mode_gui_res_y + 1, COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    al_draw_filled_rectangle(0, g_config.video_mode_gui_res_y - gui.info.bars_height - 2, g_config.video_mode_gui_res_x + 1, g_config.video_mode_gui_res_y - gui.info.bars_height, COLOR_SKIN_WIDGET_STATUSBAR_BORDER);
+
+    t_font_id font_id = (t_font_id)g_config.font_menus;
+
+    // Show status bar message
+    if (g_gui_status.timeleft)
+    {
+        Font_Print(font_id, g_gui_status.message, g_gui_status.x, g_config.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+        g_gui_status.timeleft--;
+    }
+
+    // Show FPS counter
+    if (fskipper.FPS_Display)
+    {
+        char s[16];
+        sprintf(s, "%.1f FPS", fskipper.FPS);
+        Font_Print(font_id, s, g_config.video_mode_gui_res_x - 100 - Font_TextWidth(FONTID_CUR, s), g_config.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+    }
+
+    // Show current time
+    char s[16];
+    meka_time_getf(s);
+    Font_Print(font_id, s, g_config.video_mode_gui_res_x - 10 - Font_TextWidth(FONTID_CUR, s), g_config.video_mode_gui_res_y - 16, COLOR_SKIN_WIDGET_STATUSBAR_TEXT);
+}
+
 void    gui_draw()
 {
     // If we were asked to redraw everything, redraw the background as well
@@ -88,11 +120,11 @@ void    gui_draw()
         // Blit content
         switch (b->type)
         {
-        case GUI_BOX_TYPE_STANDARD: 
+        case GUI_BOX_TYPE_STANDARD:
             al_set_target_bitmap(gui_buffer);
             al_draw_bitmap_region(b->gfx_buffer, 0, 0, bb.size.x + 1, bb.size.y + 1, bb.pos.x, bb.pos.y, 0x0000);
             break;
-        case GUI_BOX_TYPE_GAME: 
+        case GUI_BOX_TYPE_GAME:
             gamebox_draw(b, screenbuffer);
             break;
         }
@@ -155,8 +187,8 @@ void    gui_draw()
         }
     }
 
-    // Redraw menus on top of the desktop
-    gui_redraw_menus();
+    // Redraw status bus
+    gui_draw_statusbar();
 
     // Update applets that comes after the redraw
     gui_update_applets_after_redraw();
