@@ -8,7 +8,6 @@
 #include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
-#include "app_palview.h"
 #include "app_textview.h"
 #include "app_tileview.h"
 #include "blitintf.h"

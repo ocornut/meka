@@ -9,7 +9,6 @@
 #include "app_game.h"
 #include "app_mapview.h"
 #include "app_memview.h"
-#include "app_palview.h"
 #include "app_textview.h"
 #include "app_tileview.h"
 #include "datadump.h"
@@ -146,7 +145,6 @@ void    GUI_InitApplets()
     TextViewer.current_file = 0; // FIXME: Remove this field
 
     TileViewer_Init();
-    PaletteViewer_Init();
     // FM_Editor_Init();
     FB_Init();
     Inputs_CFG_Init_Applet();

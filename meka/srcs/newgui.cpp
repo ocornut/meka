@@ -10,7 +10,6 @@
 #include "app_cheatfinder.h"
 #include "app_filebrowser.h"
 #include "app_game.h"
-#include "app_palview.h"
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_tileview.h"
@@ -303,9 +302,10 @@ static void NewGui_PaletteDraw()
 
     // Draw palette colors
     // We use a single item to avoid hovering gaps between the color blocks.
+    const int colors_count = g_driver->colors;
     const int columns = 16;
-    const int lines = (PaletteViewer.palette_size + columns - 1) / columns;
-    for (int n = 0; n < PaletteViewer.palette_size; n++)
+    const int lines = (colors_count + columns - 1) / columns;
+    for (int n = 0; n < colors_count; n++)
     {
         int nx = n % columns;
         int ny = n / columns;

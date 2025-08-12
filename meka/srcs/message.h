@@ -137,8 +137,6 @@ enum
     MSG_FDC765_Disk_Too_Small2,
 
     MSG_Palette_BoxTitle,
-    MSG_Palette_Disabled,
-    MSG_Palette_Enabled,
 
     MSG_Message_BoxTitle,
 

@@ -144,8 +144,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_FDC765_Disk_Too_Small2),
 
     __MSG_ADD(MSG_Palette_BoxTitle),
-    __MSG_ADD(MSG_Palette_Disabled),
-    __MSG_ADD(MSG_Palette_Enabled),
 
     __MSG_ADD(MSG_Message_BoxTitle),
 
