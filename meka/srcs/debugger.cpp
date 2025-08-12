@@ -770,6 +770,11 @@ void    Debugger_SetTrap(int trap)
     }
 }
 
+void    Debugger_StepFrame()
+{
+    g_machine_pause_requests = (g_machine_flags & MACHINE_PAUSED) ? 2 : 1;
+}
+
 //-----------------------------------------------------------------------------
 // FUNCTIONS - Breakpoints Manager
 //-----------------------------------------------------------------------------
@@ -1861,27 +1866,21 @@ void    Debugger_Switch()
     gui_box_show(DebuggerApp.box, Debugger.active, true);
     if (Debugger.active)
     {
-        gui_menu_check(menus_ID.debug, 0);
         Machine_Debug_Start();
         // ??
         // Meka_Z80_Debugger_SetBreakPoint (Debugger.break_point_address);
     }
     else
     {
-        gui_menu_uncheck_range(menus_ID.debug, 0, 0);
         Machine_Debug_Stop();
         sms.R.Trap = 0xFFFF;
     }
 
     // Setup/disable hooks
     if (Debugger.active)
-    {
         Debugger_Hooks_Install();
-    }
     else
-    {
         Debugger_Hooks_Uninstall();
-    }
 
     // Open log file (if not already open)
     if (Debugger.active)

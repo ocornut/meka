@@ -208,8 +208,6 @@ Msg_Debug_Symbols_Error                 = "Error loading symbols from \"%s\":"
 Msg_Debug_Symbols_Error_Line            = "On line %d: unrecognized syntax."
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Data dumps will now be made in ASCII mode."
-Msg_DataDump_Mode_Raw                   = "Data dumps will now be made in Raw mode."
 Msg_DataDump_Error                      = "Error creating file to dump %s!"
 Msg_DataDump_Error_OB_Memory            = "No on-board memory to dump!"
 Msg_DataDump_Error_Palette              = "No palette to dump!"
@@ -696,8 +694,6 @@ Msg_Debug_Trap_Port_Read                = "A PC:%04X - Lecture Port [%02X] "
 Msg_Debug_Trap_Port_Write               = "A PC:%04X - Ecriture %02X Port [%02X] "
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "L'acquisition des données sera maintenant faite en mode ASCII."
-Msg_DataDump_Mode_Raw                   = "L'acquisition des données sera maintenant faite en mode Raw."
 Msg_DataDump_Error                      = "Erreur en créant le fichier d'acquisition %s!"
 Msg_DataDump_Error_OB_Memory            = "Pas de mémoire sur carte à acquérir!"
 Msg_DataDump_Error_Palette              = "Pas de palette à acquérir!"
@@ -1178,8 +1174,6 @@ Msg_Debug_Symbols_Error                 = "Error bij het laden van de symbolen u
 Msg_Debug_Symbols_Error_Line            = "Op regel %d: niet herkende syntax."
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Data dumps zullen gemaakt worden in ASCII mode"
-Msg_DataDump_Mode_Raw                   = "Data dumps zullen gemaakt worden in RAW mode."
 Msg_DataDump_Error                      = "Fout bij het maken van het bestand voor de dump %s!"
 Msg_DataDump_Error_OB_Memory            = "Geen memory om te dumpen!"
 Msg_DataDump_Error_Palette              = "Geen palet om te dumpen!"
@@ -1656,8 +1650,6 @@ Msg_Debug_Trap_Port_Read                = "A PC:%04X - Puerto [%02X] Leido"
 Msg_Debug_Trap_Port_Write               = "A PC:%04X - Puerto [%02X] Escrito %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Datos de dumpeo ahora estaran hechos en codigo ASCII"
-Msg_DataDump_Mode_Raw                   = "Datos de dumpeo ahora estaran hechos en modo Raw."
 Msg_DataDump_Error                      = "Error creando archivo a dumpear %s!"
 Msg_DataDump_Error_OB_Memory            = "Sin memoria en placa para dumpear!"
 Msg_DataDump_Error_Palette              = "Sin paleta para dumpear!"
@@ -2105,8 +2097,6 @@ Msg_Debug_Symbols_Error                 = "Blad przy wczytywaniu symboli \"%s\":
 Msg_Debug_Symbols_Error_Line            = "W wierszu %d: nierozpoznana skladnia."
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Zrzuty danych beda teraz tworzone w trybie ASCII."
-Msg_DataDump_Mode_Raw                   = "Zrzuty danych beda teraz tworzone w trybie surowym."
 Msg_DataDump_Error                      = "Blad tworzenia pliku zrzutu %s!"
 Msg_DataDump_Error_OB_Memory            = "Nie ma wczytanej pamieci, ktora mozna zrzucic!"
 Msg_DataDump_Error_Palette              = "Nie ma palety, ktora mozna zrzucic!"
@@ -2593,8 +2583,6 @@ Msg_Debug_Trap_Port_Read                = "Em PC:%04X - Porta [%02X] leitura"
 Msg_Debug_Trap_Port_Write               = "Em PC:%04X - Porta [%02X] escrita %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Cópia de dados será agora feitas em modo ASCII."
-Msg_DataDump_Mode_Raw                   = "Cópia de dados será agora feitas em modo RAW."
 Msg_DataDump_Error                      = "Erro ao criar arquivo de cópia %s!"
 Msg_DataDump_Error_OB_Memory            = "Não há memória para cópia!"
 Msg_DataDump_Error_Palette              = "Não há paleta para copiar!"
@@ -3027,8 +3015,6 @@ Msg_Debug_Trap_Port_Read                = "At PC:%04X - Porta [%02X] Leggo"
 Msg_Debug_Trap_Port_Write               = "At PC:%04X - Porta [%02X] Scrivo %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Dump dei dati in modalita' ASCII."
-Msg_DataDump_Mode_Raw                   = "Dump dei dati in modalita' Raw."
 Msg_DataDump_Error                      = "Errore creazione del file per il dump %s!"
 Msg_DataDump_Error_OB_Memory            = "Insufficiente memoria per il dump!"
 Msg_DataDump_Error_Palette              = "Nessuna palette per il dump!"
@@ -3466,8 +3452,6 @@ Msg_Debug_Trap_Port_Read                = "Bei PC:%04X - Port [%02X] Lesen"
 Msg_Debug_Trap_Port_Write               = "Bei PC:%04X - Port [%02X] Schreiben %02X"
 
 ; Data Dumper -----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Daten werden als ASCII gespeichert."
-Msg_DataDump_Mode_Raw                   = "Daten werden als RAW gespeichert."
 Msg_DataDump_Error                      = "Fehler: Kann Datei %s nicht erstellen!"
 Msg_DataDump_Error_OB_Memory            = "Kein on-board Speicher zum Sichern!"
 Msg_DataDump_Error_Palette              = "Keine Palette zum Sichern!"
@@ -3908,8 +3892,6 @@ Msg_Debug_Trap_Port_Read                = "Vid PC:%04X - Port [%02X] Läsning"
 Msg_Debug_Trap_Port_Write               = "Vid PC:%04X - Port [%02X] Skrivning %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Data dumpar kommer nu att göras i ASCII läge."
-Msg_DataDump_Mode_Raw                   = "Data dumpar kommer nu att göras i Raw läge."
 Msg_DataDump_Error                      = "Fel vid skapande av fil att dumpa %s till!"
 Msg_DataDump_Error_OB_Memory            = "Inget on-board minne att dumpa!"
 Msg_DataDump_Error_Palette              = "Ingen palett att dumpa!"
@@ -4358,8 +4340,6 @@ Msg_Debug_Trap_Port_Read                = "Ved PC:%04X - Port [%02X] læs"
 Msg_Debug_Trap_Port_Write               = "Ved PC:%04X - Port [%02X] Skriv %02X"
 
 ; Data Dumper ----------------------------------------------------------------
-Msg_DataDump_Mode_Ascii                 = "Datadumps vil nu blive skrevet i ASCII mode."
-Msg_DataDump_Mode_Raw                   = "Datadumps vil nu blive skrevet i Raw mode."
 Msg_DataDump_Error                      = "Fejl ved oprettelse af fil til dump %s!"
 Msg_DataDump_Error_OB_Memory            = "Ingen on-board hukommelse at dumpe!"
 Msg_DataDump_Error_Palette              = "Ingen palette at dumpe!"
