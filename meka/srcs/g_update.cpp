@@ -10,7 +10,6 @@
 #include "app_filebrowser.h"
 #include "app_mapview.h"
 #include "app_memview.h"
-#include "app_palview.h"
 #include "app_textview.h"
 #include "app_tileview.h"
 #include "debugger.h"
@@ -43,9 +42,6 @@ void    gui_update_applets()
     // Tile Viewer flag appropriate decoded VRAM tiles before emulation run
     TileViewer_Update(&TileViewer);
     PROFILE_STEP("- TileViewer_Update");
-
-    PaletteViewer_Update();
-    PROFILE_STEP("- PaletteViewer_Update");
 
     FB_Update();
     TextViewer_Update(&TextViewer);

@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 #include "shared.h"
-#include "app_palview.h"
 #include "app_tileview.h"
 
 //-----------------------------------------------------------------------------
@@ -69,7 +68,6 @@ void    drv_set(int num)
                 case VDP_TMS9918:   palette_max = 15; break;
             }
             TileViewer_Configure_PaletteMax(palette_max);
-            PaletteViewer_SetPaletteSize(&PaletteViewer, g_driver->colors);
         }
     }
 }

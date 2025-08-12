@@ -435,9 +435,6 @@
     <ClCompile Include="..\..\app_memview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\app_palview.cpp">
-      <Filter>Srcs\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\app_textview.cpp">
       <Filter>Srcs\Applets</Filter>
     </ClCompile>
@@ -461,9 +458,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\libs\imgui\imgui_widgets.cpp">
       <Filter>Libs\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\libs\imgui\examples\imgui_impl_allegro5.cpp">
-      <Filter>Libs\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\newgui.cpp">
       <Filter>Srcs\NewGui</Filter>
@@ -803,9 +797,6 @@
     <ClInclude Include="..\..\app_memview.h">
       <Filter>Srcs\Applets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\app_palview.h">
-      <Filter>Srcs\Applets</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\app_textview.h">
       <Filter>Srcs\Applets</Filter>
     </ClInclude>
@@ -835,9 +826,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\libs\imgui\imstb_truetype.h">
       <Filter>Libs\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\libs\imgui\examples\imgui_impl_allegro5.h">
-      <Filter>Libs\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\newgui.h">
       <Filter>Srcs\NewGui</Filter>

@@ -240,8 +240,6 @@ Msg_FDC765_Disk_Too_Small2              = "Missing data will be assumed as empty
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Palette viewer disabled"
-Msg_Palette_Enabled                     = "Palette viewer enabled"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messages"
@@ -725,8 +723,6 @@ Msg_FDC765_Disk_Too_Small2              = "Les données manquantes seront consid
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Visualisateur de palette désactivé"
-Msg_Palette_Enabled                     = "Visualisateur de palette activé"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messages"
@@ -1204,8 +1200,6 @@ Msg_FDC765_Disk_Too_Small2              = "Missende data wordt aangenomen als le
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Kleuren pallet"
-Msg_Palette_Disabled                    = "Palet bekijker uit"
-Msg_Palette_Enabled                     = "Palet bekijker aan"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Berichten"
@@ -1679,8 +1673,6 @@ Msg_FDC765_Disk_Too_Small2              = "Datos perdidos serán asumidos como v
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Paletas"
-Msg_Palette_Disabled                    = "Visor de paletas desactivado"
-Msg_Palette_Enabled                     = "Visor de paletas activado"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Mensajes"
@@ -2125,8 +2117,6 @@ Msg_FDC765_Disk_Too_Small2              = "Brakujace dane zostana uznane za pust
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Paleta"
-Msg_Palette_Disabled                    = "Wylaczono przegladarke palet"
-Msg_Palette_Enabled                     = "Wlaczono przegladarke palet"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Komunikaty"
@@ -2610,8 +2600,6 @@ Msg_FDC765_Disk_Too_Small2              = "Dados faltantes serão tratados como 
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Paleta"
-Msg_Palette_Disabled                    = "Visualização de paleta desativada"
-Msg_Palette_Enabled                     = "Visualização de paleta ativa"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Mensagens"
@@ -3041,8 +3029,6 @@ Msg_FDC765_Disk_Too_Small2              = "Dati assenti saranno presi come vuoti
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Visore Palette disabilitato"
-Msg_Palette_Enabled                     = "Visore Palette attivato"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Messaggi"
@@ -3477,8 +3463,6 @@ Msg_FDC765_Disk_Too_Small2              = "Fehlende Daten werden als 0 gelesen"
 
 ; Palette Viewer --------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Palettenbetrachter geschlossen"
-Msg_Palette_Enabled                     = "Palettenbetrachter aktiviert"
 
 ; Message box -----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Meldungen"
@@ -3916,8 +3900,6 @@ Msg_FDC765_Disk_Too_Small2              = "Saknad data kommer att antas vara tom
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palett"
-Msg_Palette_Disabled                    = "Palettgranskare av"
-Msg_Palette_Enabled                     = "Palettgranskare på"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Meddelanden"
@@ -4363,8 +4345,6 @@ Msg_FDC765_Disk_Too_Small2              = "Manglende data vil blive regnet som t
 
 ; Palette Viewer -------------------------------------------------------------
 Msg_Palette_BoxTitle                    = "Palette"
-Msg_Palette_Disabled                    = "Paletteviser slået fra"
-Msg_Palette_Enabled                     = "Paletteviser slået til"
 
 ; Message box ----------------------------------------------------------------
 Msg_Message_BoxTitle                    = "Beskeder"
