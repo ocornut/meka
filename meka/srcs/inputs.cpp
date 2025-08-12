@@ -6,7 +6,6 @@
 #include "shared.h"
 #include "app_filebrowser.h"
 #include "app_palview.h"
-#include "app_techinfo.h"
 #include "app_tileview.h"
 #include "blitintf.h"
 #include "capture.h"
@@ -205,7 +204,7 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
                if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE)) g_config.log_active ^= 1;
                if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)) PaletteViewer_Switch();
                if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE)) TileViewer_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE)) TechInfo_Switch();
+               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE)) g_config.techinfo_active ^= 1;
                if (Inputs_KeyPressed (ALLEGRO_KEY_V, FALSE))
                {
                    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
