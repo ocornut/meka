@@ -100,7 +100,6 @@ void    FB_Switch()
 {
     FB.active ^= 1;
     gui_box_show(FB.box, FB.active, TRUE);
-    //gui_menu_toggle_check(menus_ID.file, 0);
 }
 
 void    FB_Init()

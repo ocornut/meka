@@ -11,6 +11,7 @@
 #include "desktop.h"
 #include "g_widget.h"
 #include "tvtype.h"
+#include "imgui.h"
 
 //-----------------------------------------------------------------------------
 // FORWARD DECLARATIONS
@@ -35,7 +36,7 @@ struct t_sound_stream
     ALLEGRO_AUDIO_STREAM *  audio_stream;
     s16 *                   audio_buffer;
     int                     audio_buffer_size;
-    int                     audio_buffer_wpos;  // write position for chip emulator 
+    int                     audio_buffer_wpos;  // write position for chip emulator
     int                     audio_buffer_rpos;  // read position for audio system
     void                    (*sample_writer)(s16*,int);
 
@@ -126,7 +127,7 @@ int     Sound_Init()
 {
     static int val = 0;
     static int pitch = 0x10000;
-    for (int i = 0; i < ken; i++) 
+    for (int i = 0; i < ken; i++)
     {
         buf[i] = ((val >> 16) & 0xff)*100;
         val += pitch;
@@ -533,14 +534,14 @@ void SoundDebugApp_Init()
     app->box = gui_box_new(&frame, "Sound Debug");
     app->box->user_data = app;
     app->box->update = SoundDebugApp_Update;
-    widget_closebox_add(app->box, (t_widget_callback)SoundDebugApp_Switch);
+    //widget_closebox_add(app->box, (t_widget_callback)SoundDebugApp_Switch);
     Desktop_Register_Box("SOUND_DEBUG", app->box, 0, &app->active);
 }
 
-void SoundDebugApp_InstallMenuItems(int menu_parent)
+void SoundDebugApp_DrawMenu()
 {
     t_app_sound_debug* app = &SoundDebugApp;
-    menu_add_item(menu_parent, "Sound Debug..", NULL, MENU_ITEM_FLAG_ACTIVE | Is_Checked(app->active), (t_menu_callback)SoundDebugApp_Switch, app);
+    ImGui::MenuItem("Sound Debug", NULL, &app->active);
 }
 
 static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
@@ -552,7 +553,7 @@ static void SoundDebugApp_Printf(int* px, int* py, const char* format, ...)
     va_start(args, format);
     vsnprintf(buf, countof(buf), format, args);
     va_end(args);
-    
+
     al_set_target_bitmap(app->box->gfx_buffer);
     Font_Print(FONTID_MEDIUM, buf, *px, *py, COLOR_SKIN_WINDOW_TEXT);
     *py += Font_Height(FONTID_MEDIUM);
@@ -583,15 +584,6 @@ void SoundDebugApp_Update()
 
     samples = SoundStream_CountWritableSamples(stream);
     SoundDebugApp_Printf(&x, &y, "WritableSamples: %-6d [%-32s]", samples, stars64+(64-MIN(32,samples/1024)));
-}
-
-// Called from closebox widget and menu handler
-void SoundDebugApp_Switch()
-{
-    t_app_sound_debug *app = &SoundDebugApp;
-    app->active ^= 1;
-    gui_box_show(app->box, app->active, TRUE);
-    gui_menu_toggle_check (menus_ID.sound, 4);  // FIXME-UGLY
 }
 
 //-----------------------------------------------------------------------------

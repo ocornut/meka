@@ -34,8 +34,6 @@
 // Initialize and create GUI menus
 void    gui_menus_init()
 {
-    char buffer[256];
-
     t_font_id font_id = (t_font_id)g_config.font_menus;
 
     g_gui_status.x = 10;
@@ -53,7 +51,7 @@ void    gui_menus_init()
     //menus_ID.file     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Main),    MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.machine  = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Machine), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.tools    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Tools),   MENU_ITEM_FLAG_ACTIVE);
     //menus_ID.debug    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Debug),   MENU_ITEM_FLAG_ACTIVE);
@@ -148,6 +146,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // SOUND
     //-------------------------------------------------------------------------
+#if 0
     // SOUND -> FM
     menus_ID.fm       = menu_add_menu (menus_ID.sound, Msg_Get(MSG_Menu_Sound_FM),        MENU_ITEM_FLAG_ACTIVE);
     menu_add_item     (menus_ID.fm,       Msg_Get(MSG_Menu_Sound_FM_Enabled),             NULL,         MENU_ITEM_FLAG_ACTIVE | Is_Checked (Sound.FM_Enabled == TRUE),     (t_menu_callback)FM_Enable, NULL);
@@ -173,6 +172,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.sound_log, Msg_Get(MSG_Menu_Sound_Capture_WAV_Stop),            NULL,   0, (t_menu_callback)Sound_LogWAV_Stop, NULL);
 
     SoundDebugApp_InstallMenuItems(menus_ID.sound);
+#endif
 
     //-------------------------------------------------------------------------
     // INPUTS

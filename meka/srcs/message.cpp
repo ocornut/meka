@@ -258,7 +258,6 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Sound_Init_SN76496),
     __MSG_ADD(MSG_Sound_Init_YM2413_Digital),
     __MSG_ADD(MSG_Sound_Stream_Error),
-    __MSG_ADD(MSG_Sound_Volume_Changed),
 
     __MSG_ADD(MSG_Theme_Loading),
     __MSG_ADD(MSG_Theme_Error_Not_Enough),
@@ -597,8 +596,6 @@ int     Lang_Message_Add (t_lang *lang, char *msg_id, char *msg)
 static void     Lang_Set (t_menu_event *event)
 {
     Messages.Lang_Cur = (t_lang *)event->user_data;
-    gui_menu_uncheck_all (menus_ID.languages);
-    gui_menu_check (menus_ID.languages, event->menu_item_idx);
     Msg(MSGT_USER, Msg_Get(MSG_Language_Set), Messages.Lang_Cur->Name);
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Language_Set_Warning));
 

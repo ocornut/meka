@@ -251,7 +251,6 @@ enum
     MSG_Sound_Init_SN76496,
     MSG_Sound_Init_YM2413_Digital,
     MSG_Sound_Stream_Error,
-    MSG_Sound_Volume_Changed,
 
     MSG_Theme_Loading,
     MSG_Theme_Error_Not_Enough,
