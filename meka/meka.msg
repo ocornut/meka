@@ -482,19 +482,19 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumping will have to be restarte
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "MAIN"
-Msg_Menu_Main_LoadROM                   = "Load ROM.."
+Msg_Menu_Main_LoadROM                   = "Load ROM…"
 Msg_Menu_Main_FreeROM                   = "Free ROM"
 Msg_Menu_Main_SaveState_Save            = "Save State"
 Msg_Menu_Main_SaveState_Load            = "Load State"
 Msg_Menu_Main_SaveState_PrevSlot        = "Previous Slot"
 Msg_Menu_Main_SaveState_NextSlot        = "Next Slot"
-Msg_Menu_Main_Options                   = "Options.."
+Msg_Menu_Main_Options                   = "Options…"
 Msg_Menu_Main_Language                  = "Language"
 Msg_Menu_Main_Quit                      = "Quit"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Enabled.."
+Msg_Menu_Debug_Enabled                  = "Enabled…"
 Msg_Menu_Debug_ReloadROM                = "Reload ROM"
 Msg_Menu_Debug_ReloadSymbols            = "Reload Symbols"
 Msg_Menu_Debug_StepFrame                = "Step Frame"
@@ -570,26 +570,26 @@ Msg_Menu_Inputs_GraphicBoardV2          = "Graphic Board v2.0"
 Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
 Msg_Menu_Inputs_RapidFire               = "Rapid Fire"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Player %d Button %d"
-Msg_Menu_Inputs_Configuration           = "Configuration.."
+Msg_Menu_Inputs_Configuration           = "Configuration…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "TOOLS"
-Msg_Menu_Tools_Messages                 = "Messages.."
-Msg_Menu_Tools_Palette                  = "Palette.."
-Msg_Menu_Tools_TilesViewer              = "Tiles Viewer.."
-Msg_Menu_Tools_TilemapViewer            = "Tilemap Viewer.."
-Msg_Menu_Tools_CheatFinder              = "Cheat Finder.."
-Msg_Menu_Tools_TechInfo                 = "Tech Info.."
-Msg_Menu_Tools_MemoryEditor             = "Memory Editor.."
+Msg_Menu_Tools_Messages                 = "Messages…"
+Msg_Menu_Tools_Palette                  = "Palette…"
+Msg_Menu_Tools_TilesViewer              = "Tiles Viewer…"
+Msg_Menu_Tools_TilemapViewer            = "Tilemap Viewer…"
+Msg_Menu_Tools_CheatFinder              = "Cheat Finder…"
+Msg_Menu_Tools_TechInfo                 = "Tech Info…"
+Msg_Menu_Tools_MemoryEditor             = "Memory Editor…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HELP"
-Msg_Menu_Help_Documentation             = "Documentation.."
-Msg_Menu_Help_Compat                    = "Compatibility List.."
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List.."
-Msg_Menu_Help_Changes                   = "Changes List.."
-Msg_Menu_Help_Debugger					= "Debugger.."
-Msg_Menu_Help_About                     = "About.."
+Msg_Menu_Help_Documentation             = "Documentation…"
+Msg_Menu_Help_Compat                    = "Compatibility List…"
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayer Games List…"
+Msg_Menu_Help_Changes                   = "Changes List…"
+Msg_Menu_Help_Debugger					= "Debugger…"
+Msg_Menu_Help_About                     = "About…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -965,17 +965,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(l'acquisition VGM devra être redém
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
-Msg_Menu_Main_LoadROM                   = "Charger ROM.."
+Msg_Menu_Main_LoadROM                   = "Charger ROM…"
 Msg_Menu_Main_FreeROM                   = "Libérer ROM"
 Msg_Menu_Main_SaveState_Save            = "Sauver état"
 Msg_Menu_Main_SaveState_Load            = "Charger état"
-Msg_Menu_Main_Options                   = "Options.."
+Msg_Menu_Main_Options                   = "Options…"
 Msg_Menu_Main_Language                  = "Langue"
 Msg_Menu_Main_Quit                      = "Quitter"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Activé.."
+Msg_Menu_Debug_Enabled                  = "Activé…"
 Msg_Menu_Debug_Dump                     = "Acquisition"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -1047,23 +1047,23 @@ Msg_Menu_Inputs_GraphicBoardV2          = "Table Graphique v2.0"
 Msg_Menu_Inputs_SK1100                  = "Clavier Sega"
 Msg_Menu_Inputs_RapidFire               = "Tir Automatique"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Joueur %d Bouton %d"
-Msg_Menu_Inputs_Configuration           = "Configuration.."
+Msg_Menu_Inputs_Configuration           = "Configuration…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "OUTILS"
-Msg_Menu_Tools_Messages                 = "Messages.."
-Msg_Menu_Tools_Palette                  = "Palette.."
-Msg_Menu_Tools_TilesViewer              = "Visionneur de tiles.."
-Msg_Menu_Tools_TechInfo                 = "Informations techniques.."
-Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire.."
+Msg_Menu_Tools_Messages                 = "Messages…"
+Msg_Menu_Tools_Palette                  = "Palette…"
+Msg_Menu_Tools_TilesViewer              = "Visionneur de tiles…"
+Msg_Menu_Tools_TechInfo                 = "Informations techniques…"
+Msg_Menu_Tools_MemoryEditor				= "Editeur mémoire…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AIDE"
-Msg_Menu_Help_Documentation             = "Documentation.."
-Msg_Menu_Help_Compat                    = "Compatibilité.."
-Msg_Menu_Help_Multiplayer_Games         = "Jeux Multijoueurs.."
-Msg_Menu_Help_Changes                   = "Mises à jour.."
-Msg_Menu_Help_About                     = "A propos.."
+Msg_Menu_Help_Documentation             = "Documentation…"
+Msg_Menu_Help_Compat                    = "Compatibilité…"
+Msg_Menu_Help_Multiplayer_Games         = "Jeux Multijoueurs…"
+Msg_Menu_Help_Changes                   = "Mises à jour…"
+Msg_Menu_Help_About                     = "A propos…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -1453,17 +1453,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpen moet opnieuw opgestart wo
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "BESTAND"
-Msg_Menu_Main_LoadROM                   = "Laad ROM.."
+Msg_Menu_Main_LoadROM                   = "Laad ROM…"
 Msg_Menu_Main_FreeROM                   = "Haal ROM eruit"
 Msg_Menu_Main_SaveState_Save                 = "Status opslaan"
 Msg_Menu_Main_SaveState_Load                 = "Status laden"
-Msg_Menu_Main_Options                   = "Opties.."
+Msg_Menu_Main_Options                   = "Opties…"
 Msg_Menu_Main_Language                  = "Taal"
 Msg_Menu_Main_Quit                      = "Stoppen"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Ingeschakeld.."
+Msg_Menu_Debug_Enabled                  = "Ingeschakeld…"
 Msg_Menu_Debug_ReloadROM                = "Herlaad ROM"
 Msg_Menu_Debug_Dump                     = "Opslaan"
 
@@ -1535,26 +1535,26 @@ Msg_Menu_Inputs_GraphicBoard            = "Teken tablet (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Sega Toetsenbord"
 Msg_Menu_Inputs_RapidFire               = "Snel vuren"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Speler %d Knop %d"
-Msg_Menu_Inputs_Configuration           = "Configuratie.."
+Msg_Menu_Inputs_Configuration           = "Configuratie…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "WERKSET"
-Msg_Menu_Tools_Messages                 = "Berichten.."
-Msg_Menu_Tools_Palette                  = "Kleuren Palet.."
-Msg_Menu_Tools_TilesViewer              = "Tegel bekijker.."
+Msg_Menu_Tools_Messages                 = "Berichten…"
+Msg_Menu_Tools_Palette                  = "Kleuren Palet…"
+Msg_Menu_Tools_TilesViewer              = "Tegel bekijker…"
 Msg_Menu_Tools_TilemapViewer            = "Tegelkaart Viewerv
-Msg_Menu_Tools_CheatFinder              = "Cheat Finder.."
-Msg_Menu_Tools_TechInfo                 = "Technische Info.."
-Msg_Menu_Tools_MemoryEditor             = "Geheugen Editor.."
+Msg_Menu_Tools_CheatFinder              = "Cheat Finder…"
+Msg_Menu_Tools_TechInfo                 = "Technische Info…"
+Msg_Menu_Tools_MemoryEditor             = "Geheugen Editor…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HELP"
-Msg_Menu_Help_Documentation             = "Documentatie.."
-Msg_Menu_Help_Compat                    = "Compatibiliteits lijst.."
-Msg_Menu_Help_Multiplayer_Games         = "Mp spellen lijst.."
-Msg_Menu_Help_Changes                   = "Veranderingen.."
-Msg_Menu_Help_Debugger					= "Debugger.."
-Msg_Menu_Help_About                     = "Over.."
+Msg_Menu_Help_Documentation             = "Documentatie…"
+Msg_Menu_Help_Compat                    = "Compatibiliteits lijst…"
+Msg_Menu_Help_Multiplayer_Games         = "Mp spellen lijst…"
+Msg_Menu_Help_Changes                   = "Veranderingen…"
+Msg_Menu_Help_Debugger					= "Debugger…"
+Msg_Menu_Help_About                     = "Over…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -1901,11 +1901,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(El dumpeo VGM tendrá que reempezar 
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
-Msg_Menu_Main_LoadROM                   = "Cargar ROM.."
+Msg_Menu_Main_LoadROM                   = "Cargar ROM…"
 Msg_Menu_Main_FreeROM                   = "Liberar ROM"
 Msg_Menu_Main_SaveState_Save                 = "Salvar estado"
 Msg_Menu_Main_SaveState_Load                 = "Cargar estado"
-Msg_Menu_Main_Options                   = "Opciones.."
+Msg_Menu_Main_Options                   = "Opciones…"
 Msg_Menu_Main_Language                  = "Idioma"
 Msg_Menu_Main_Quit                      = "Salir"
 
@@ -1977,22 +1977,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Tableta gráfica (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "TEclado Sega"
 Msg_Menu_Inputs_RapidFire               = "Fuego rápido"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Jugador %d Botón %d"
-Msg_Menu_Inputs_Configuration           = "Configuración.."
+Msg_Menu_Inputs_Configuration           = "Configuración…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "UTILES"
-Msg_Menu_Tools_Messages                 = "Mensajes.."
-Msg_Menu_Tools_Palette                  = "Paletas.."
-Msg_Menu_Tools_TilesViewer              = "Visor de Retales.."
-Msg_Menu_Tools_TechInfo                 = "Tech Info.."
+Msg_Menu_Tools_Messages                 = "Mensajes…"
+Msg_Menu_Tools_Palette                  = "Paletas…"
+Msg_Menu_Tools_TilesViewer              = "Visor de Retales…"
+Msg_Menu_Tools_TechInfo                 = "Tech Info…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AYUDA"
-Msg_Menu_Help_Documentation             = "Documentación.."
-Msg_Menu_Help_Compat                    = "Lista de compatibilidad.."
-Msg_Menu_Help_Multiplayer_Games         = "Lista de juegos multijugador.."
-Msg_Menu_Help_Changes                   = "Lista de cambios.."
-Msg_Menu_Help_About                     = "Acerca de.."
+Msg_Menu_Help_Documentation             = "Documentación…"
+Msg_Menu_Help_Compat                    = "Lista de compatibilidad…"
+Msg_Menu_Help_Multiplayer_Games         = "Lista de juegos multijugador…"
+Msg_Menu_Help_Changes                   = "Lista de cambios…"
+Msg_Menu_Help_About                     = "Acerca de…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2377,17 +2377,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(By zastosowac nowy tryb dokladnosci 
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "GLOWNE"
-Msg_Menu_Main_LoadROM                   = "Wczytaj ROM.."
+Msg_Menu_Main_LoadROM                   = "Wczytaj ROM…"
 Msg_Menu_Main_FreeROM                   = "Wyladuj ROM"
 Msg_Menu_Main_SaveState_Save                 = "Zapisz stan"
 Msg_Menu_Main_SaveState_Load                 = "Wczytaj stan"
-Msg_Menu_Main_Options                   = "Opcje.."
+Msg_Menu_Main_Options                   = "Opcje…"
 Msg_Menu_Main_Language                  = "Jezyk"
 Msg_Menu_Main_Quit                      = "Wyjscie"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Wlaczony.."
+Msg_Menu_Debug_Enabled                  = "Wlaczony…"
 Msg_Menu_Debug_ReloadROM                = "Ponownie wczytaj ROM"
 Msg_Menu_Debug_Dump                     = "Zrzut"
 
@@ -2459,26 +2459,26 @@ Msg_Menu_Inputs_GraphicBoard            = "Karta graficzna (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Klawiatura Sega"
 Msg_Menu_Inputs_RapidFire               = "Autofire"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Gracz %d Przycisk %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguracja.."
+Msg_Menu_Inputs_Configuration           = "Konfiguracja…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "NARZEDZIA"
-Msg_Menu_Tools_Messages                 = "Komunikaty.."
-Msg_Menu_Tools_Palette                  = "Paleta.."
-Msg_Menu_Tools_TilesViewer              = "Przegladarka plytek.."
-Msg_Menu_Tools_TilemapViewer            = "Przegladarka map plytek.."
-Msg_Menu_Tools_CheatFinder              = "Wyszukiwarka cheatow.."
-Msg_Menu_Tools_TechInfo                 = "Informacje techniczne.."
-Msg_Menu_Tools_MemoryEditor             = "Edytor pamieci.."
+Msg_Menu_Tools_Messages                 = "Komunikaty…"
+Msg_Menu_Tools_Palette                  = "Paleta…"
+Msg_Menu_Tools_TilesViewer              = "Przegladarka plytek…"
+Msg_Menu_Tools_TilemapViewer            = "Przegladarka map plytek…"
+Msg_Menu_Tools_CheatFinder              = "Wyszukiwarka cheatow…"
+Msg_Menu_Tools_TechInfo                 = "Informacje techniczne…"
+Msg_Menu_Tools_MemoryEditor             = "Edytor pamieci…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "POMOC"
-Msg_Menu_Help_Documentation             = "Dokumentacja.."
-Msg_Menu_Help_Compat                    = "Lista kompatybilnosci.."
-Msg_Menu_Help_Multiplayer_Games         = "Lista gier dla wielu graczy.."
-Msg_Menu_Help_Changes                   = "Lista zmian.."
-Msg_Menu_Help_Debugger					= "Debugger.."
-Msg_Menu_Help_About                     = "O.."
+Msg_Menu_Help_Documentation             = "Dokumentacja…"
+Msg_Menu_Help_Compat                    = "Lista kompatybilnosci…"
+Msg_Menu_Help_Multiplayer_Games         = "Lista gier dla wielu graczy…"
+Msg_Menu_Help_Changes                   = "Lista zmian…"
+Msg_Menu_Help_Debugger					= "Debugger…"
+Msg_Menu_Help_About                     = "O…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -2837,11 +2837,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(A cópia de VGM deverá ser reinicia
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPAL"
-Msg_Menu_Main_LoadROM                   = "Abre ROM.."
+Msg_Menu_Main_LoadROM                   = "Abre ROM…"
 Msg_Menu_Main_FreeROM                   = "Fecha ROM"
 Msg_Menu_Main_SaveState_Save                 = "Gravar Estado"
 Msg_Menu_Main_SaveState_Load                 = "Carregar Estado"
-Msg_Menu_Main_Options                   = "Opções.."
+Msg_Menu_Main_Options                   = "Opções…"
 Msg_Menu_Main_Language                  = "Idioma"
 Msg_Menu_Main_Quit                      = "Sair"
 
@@ -2913,19 +2913,19 @@ Msg_Menu_Inputs_GraphicBoard            = "Prancheta gráfica (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Teclado Sega"
 Msg_Menu_Inputs_RapidFire               = "Turbo"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Jogador %d Botão %d"
-Msg_Menu_Inputs_Configuration           = "Configuração.."
+Msg_Menu_Inputs_Configuration           = "Configuração…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "FERRAMENTAS"
-Msg_Menu_Tools_Messages                 = "Mensagens.."
-Msg_Menu_Tools_Palette                  = "Paleta.."
-Msg_Menu_Tools_TilesViewer              = "Visualizador de Tiles.."
-Msg_Menu_Tools_TechInfo                 = "Informações Técnicas.."
+Msg_Menu_Tools_Messages                 = "Mensagens…"
+Msg_Menu_Tools_Palette                  = "Paleta…"
+Msg_Menu_Tools_TilesViewer              = "Visualizador de Tiles…"
+Msg_Menu_Tools_TechInfo                 = "Informações Técnicas…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AJUDA"
-Msg_Menu_Help_Documentation             = "Ajuda.."
-Msg_Menu_Help_About                     = "Sobre.."
+Msg_Menu_Help_Documentation             = "Ajuda…"
+Msg_Menu_Help_About                     = "Sobre…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3272,11 +3272,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "Ricomincio Dump VGM (tengo conto dell
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "PRINCIPALE"
-Msg_Menu_Main_LoadROM                   = "Carica ROM.."
+Msg_Menu_Main_LoadROM                   = "Carica ROM…"
 Msg_Menu_Main_FreeROM                   = "Libera ROM"
 Msg_Menu_Main_SaveState_Save                 = "Salva  Stato"
 Msg_Menu_Main_SaveState_Load                 = "Carica Stato"
-Msg_Menu_Main_Options                   = "Opzioni.."
+Msg_Menu_Main_Options                   = "Opzioni…"
 Msg_Menu_Main_Language                  = "Lingua"
 Msg_Menu_Main_Quit                      = "Chiudi"
 
@@ -3348,22 +3348,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Tavoletta grafica (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Tastiera Sega"
 Msg_Menu_Inputs_RapidFire               = "Fuoco Rapido"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Giocatore %d Buttone %d"
-Msg_Menu_Inputs_Configuration           = "Configurazione.."
+Msg_Menu_Inputs_Configuration           = "Configurazione…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "STRUMENTI"
-Msg_Menu_Tools_Messages                 = "Messaggi.."
-Msg_Menu_Tools_Palette                  = "Palette.."
-Msg_Menu_Tools_TilesViewer              = "Visore di Tiles.."
-Msg_Menu_Tools_TechInfo                 = "Informazioni Tecniche.."
+Msg_Menu_Tools_Messages                 = "Messaggi…"
+Msg_Menu_Tools_Palette                  = "Palette…"
+Msg_Menu_Tools_TilesViewer              = "Visore di Tiles…"
+Msg_Menu_Tools_TechInfo                 = "Informazioni Tecniche…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "AIUTO"
-Msg_Menu_Help_Documentation             = "Documentazione.."
-Msg_Menu_Help_Compat                    = "Lista giochi compatibili.."
-Msg_Menu_Help_Multiplayer_Games         = "Lista giochi multiplayer.."
-Msg_Menu_Help_Changes                   = "Lista cambiamenti.."
-Msg_Menu_Help_About                     = "About.."
+Msg_Menu_Help_Documentation             = "Documentazione…"
+Msg_Menu_Help_Compat                    = "Lista giochi compatibili…"
+Msg_Menu_Help_Multiplayer_Games         = "Lista giochi multiplayer…"
+Msg_Menu_Help_Changes                   = "Lista cambiamenti…"
+Msg_Menu_Help_About                     = "About…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -3711,11 +3711,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(Der VGM-Dump muß neu gestartet werd
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "DATEI"
-Msg_Menu_Main_LoadROM                   = "ROM laden.."
+Msg_Menu_Main_LoadROM                   = "ROM laden…"
 Msg_Menu_Main_FreeROM                   = "ROM schließen"
 Msg_Menu_Main_SaveState_Save                 = "Status sichern"
 Msg_Menu_Main_SaveState_Load                 = "Status laden"
-Msg_Menu_Main_Options                   = "Optionen.."
+Msg_Menu_Main_Options                   = "Optionen…"
 Msg_Menu_Main_Language                  = "Sprache"
 Msg_Menu_Main_Quit                      = "Ende"
 
@@ -3761,7 +3761,7 @@ Msg_Menu_Sound                          = "SOUND"
 Msg_Menu_Sound_FM                       = "FM-Chip"
 Msg_Menu_Sound_FM_Enabled               = "Aktiviert"
 Msg_Menu_Sound_FM_Disabled              = "Deaktiviert"
-Msg_Menu_Sound_FM_Editor                = "Instrumente.."
+Msg_Menu_Sound_FM_Editor                = "Instrumente…"
 Msg_Menu_Sound_Volume                   = "Lautstärke"
 Msg_Menu_Sound_Volume_Mute              = "Stumm"
 Msg_Menu_Sound_Volume_Value             = "%d%%"
@@ -3787,22 +3787,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Graphiktablett (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
 Msg_Menu_Inputs_RapidFire               = "Dauerfeuer"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Spieler %d Knopf %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguration.."
+Msg_Menu_Inputs_Configuration           = "Konfiguration…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "WERKZEUGE"
-Msg_Menu_Tools_Messages                 = "Meldungen.."
-Msg_Menu_Tools_Palette                  = "Palette.."
-Msg_Menu_Tools_TilesViewer              = "Kachelbetrachter.."
-Msg_Menu_Tools_TechInfo                 = "Technische Infos.."
+Msg_Menu_Tools_Messages                 = "Meldungen…"
+Msg_Menu_Tools_Palette                  = "Palette…"
+Msg_Menu_Tools_TilesViewer              = "Kachelbetrachter…"
+Msg_Menu_Tools_TechInfo                 = "Technische Infos…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HILFE"
-Msg_Menu_Help_Documentation             = "Dokumentation.."
-Msg_Menu_Help_Compat                    = "Unterstützte Spiele.."
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer.."
-Msg_Menu_Help_Changes                   = "Was ist neu.."
-Msg_Menu_Help_About                     = "Über.."
+Msg_Menu_Help_Documentation             = "Dokumentation…"
+Msg_Menu_Help_Compat                    = "Unterstützte Spiele…"
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayer…"
+Msg_Menu_Help_Changes                   = "Was ist neu…"
+Msg_Menu_Help_About                     = "Über…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
@@ -4159,17 +4159,17 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning måste startas om för 
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "ARKIV"
-Msg_Menu_Main_LoadROM                   = "Ladda ROM.."
+Msg_Menu_Main_LoadROM                   = "Ladda ROM…"
 Msg_Menu_Main_FreeROM                   = "Frigör ROM"
 Msg_Menu_Main_SaveState_Save                 = "Spara tillstånd"
 Msg_Menu_Main_SaveState_Load                 = "Ladda tillstånd"
-Msg_Menu_Main_Options                   = "Inställningar.."
+Msg_Menu_Main_Options                   = "Inställningar…"
 Msg_Menu_Main_Language                  = "Språk"
 Msg_Menu_Main_Quit                      = "Avsluta"
 
 ; Menu: Debug ----------------------------------------------------------------
 Msg_Menu_Debug                          = "DEBUG"
-Msg_Menu_Debug_Enabled                  = "Aktiverad.."
+Msg_Menu_Debug_Enabled                  = "Aktiverad…"
 Msg_Menu_Debug_Dump                     = "Dump"
 
 ; Menu: Machine --------------------------------------------------------------
@@ -4236,22 +4236,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Grafikbord (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Sega Tangentbord"
 Msg_Menu_Inputs_RapidFire               = "Automateld"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Spelare %d Knapp %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguration.."
+Msg_Menu_Inputs_Configuration           = "Konfiguration…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "VERKTYG"
-Msg_Menu_Tools_Messages                 = "Meddelanden.."
-Msg_Menu_Tools_Palette                  = "Palett.."
-Msg_Menu_Tools_TilesViewer              = "Tilegranskare.."
-Msg_Menu_Tools_TechInfo                 = "Teknisk information.."
+Msg_Menu_Tools_Messages                 = "Meddelanden…"
+Msg_Menu_Tools_Palette                  = "Palett…"
+Msg_Menu_Tools_TilesViewer              = "Tilegranskare…"
+Msg_Menu_Tools_TechInfo                 = "Teknisk information…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HJÄLP"
-Msg_Menu_Help_Documentation             = "Dokumentation.."
-Msg_Menu_Help_Compat                    = "Kompatabilitet.."
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayerspel.."
-Msg_Menu_Help_Changes                   = "Ändringar.."
-Msg_Menu_Help_About                     = "Om MEKA.."
+Msg_Menu_Help_Documentation             = "Dokumentation…"
+Msg_Menu_Help_Compat                    = "Kompatabilitet…"
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayerspel…"
+Msg_Menu_Help_Changes                   = "Ändringar…"
+Msg_Menu_Help_About                     = "Om MEKA…"
 
 
 ;-----------------------------------------------------------------------------
@@ -4604,11 +4604,11 @@ Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumpning bliver nødt til at bli
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "FILER"
-Msg_Menu_Main_LoadROM                   = "Indlæs ROM.."
+Msg_Menu_Main_LoadROM                   = "Indlæs ROM…"
 Msg_Menu_Main_FreeROM                   = "Frigør ROM"
 Msg_Menu_Main_SaveState_Save                 = "Gem Savestate"
 Msg_Menu_Main_SaveState_Load                 = "Hent Savestate"
-Msg_Menu_Main_Options                   = "Indstilninger.."
+Msg_Menu_Main_Options                   = "Indstilninger…"
 Msg_Menu_Main_Language                  = "Sprog"
 Msg_Menu_Main_Quit                      = "Afslut"
 
@@ -4680,22 +4680,22 @@ Msg_Menu_Inputs_GraphicBoard            = "Graphic Board (Terebi Oekaki)"
 Msg_Menu_Inputs_SK1100                  = "Sega Keyboard"
 Msg_Menu_Inputs_RapidFire               = "Rapid Fire"
 Msg_Menu_Inputs_RapidFire_PxBx          = "Spiller %d Knap %d"
-Msg_Menu_Inputs_Configuration           = "Konfiguration.."
+Msg_Menu_Inputs_Configuration           = "Konfiguration…"
 
 ; Menu: Tools ----------------------------------------------------------------
 Msg_Menu_Tools                          = "VÆRKTØJER"
-Msg_Menu_Tools_Messages                 = "Beskeder.."
-Msg_Menu_Tools_Palette                  = "Palette.."
-Msg_Menu_Tools_TilesViewer              = "Tiles.."
-Msg_Menu_Tools_TechInfo                 = "Teknisk Info.."
+Msg_Menu_Tools_Messages                 = "Beskeder…"
+Msg_Menu_Tools_Palette                  = "Palette…"
+Msg_Menu_Tools_TilesViewer              = "Tiles…"
+Msg_Menu_Tools_TechInfo                 = "Teknisk Info…"
 
 ; Menu: Help -----------------------------------------------------------------
 Msg_Menu_Help                           = "HJÆLP"
-Msg_Menu_Help_Documentation             = "Dokumentation.."
-Msg_Menu_Help_Compat                    = "Kompatibilitetsliste.."
-Msg_Menu_Help_Multiplayer_Games         = "Multiplayer-spilsliste.."
-Msg_Menu_Help_Changes                   = "Ændringer.."
-Msg_Menu_Help_About                     = "Om.."
+Msg_Menu_Help_Documentation             = "Dokumentation…"
+Msg_Menu_Help_Compat                    = "Kompatibilitetsliste…"
+Msg_Menu_Help_Multiplayer_Games         = "Multiplayer-spilsliste…"
+Msg_Menu_Help_Changes                   = "Ændringer…"
+Msg_Menu_Help_About                     = "Om…"
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
