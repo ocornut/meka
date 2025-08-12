@@ -20,7 +20,7 @@
 #include "vmachine.h"
 
 #include "imgui.h"
-#include "../imgui_misc/imgui_impl_allegro5.h"
+#include "backends/imgui_impl_allegro5.h"
 #include "newgui.h"
 
 //-----------------------------------------------------------------------------

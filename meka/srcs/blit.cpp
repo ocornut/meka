@@ -28,7 +28,7 @@
 #include "vdp.h"
 #include "video.h"
 #include "imgui.h"
-#include "imgui_impl_allegro5.h"
+#include "backends/imgui_impl_allegro5.h"
 
 //-----------------------------------------------------------------------------
 // Data

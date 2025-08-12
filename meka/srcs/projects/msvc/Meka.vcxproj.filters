@@ -127,6 +127,9 @@
       <Filter>Srcs</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="..\..\..\libs\imgui\misc\debuggers\imgui.natstepfilter">
+      <Filter>Libs\imgui</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\allegro4to5.cpp">
@@ -467,6 +470,12 @@
     </ClCompile>
     <ClCompile Include="..\..\newgui.cpp">
       <Filter>Srcs\NewGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libs\imgui\imgui_tables.cpp">
+      <Filter>Libs\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\libs\imgui\backends\imgui_impl_allegro5.cpp">
+      <Filter>Libs\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -848,6 +857,9 @@
     <ClInclude Include="..\..\..\libs\imgui_misc\imgui_memory_editor.h">
       <Filter>Libs\imgui_misc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\libs\imgui\backends\imgui_impl_allegro5.h">
+      <Filter>Libs\imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Meka.rc">
@@ -873,7 +885,7 @@
     </Manifest>
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="..\..\..\libs\imgui\misc\natvis\imgui.natvis">
+    <Natvis Include="..\..\..\libs\imgui\misc\debuggers\imgui.natvis">
       <Filter>Libs\imgui</Filter>
     </Natvis>
     <Natvis Include="..\..\..\libs\str\Str.natvis">
