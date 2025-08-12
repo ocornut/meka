@@ -80,30 +80,20 @@ void    Action_Quit()
 void    Action_Switch_Layer_Sprites()
 {
     opt.Layer_Mask ^= LAYER_SPRITES;
-    gui_menu_toggle_check (menus_ID.layers, 0);
     if (opt.Layer_Mask & LAYER_SPRITES)
-    {
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_Spr_Enabled));
-    }
     else
-    {
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_Spr_Disabled));
-    }
 }
 
 // ACTION: SHOW OR HIDE BACKGROUND LAYER --------------------------------------
 void    Action_Switch_Layer_Background()
 {
     opt.Layer_Mask ^= LAYER_BACKGROUND;
-    gui_menu_toggle_check (menus_ID.layers, 1);
     if (opt.Layer_Mask & LAYER_BACKGROUND)
-    {
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_BG_Enabled));
-    }
     else
-    {
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Layer_BG_Disabled));
-    }
 }
 
 // ACTION: SWITCH SPRITE FLICKERING TO 'AUTOMATIC' ----------------------------
@@ -112,8 +102,6 @@ void    Action_Switch_Flickering_Auto()
     g_config.sprite_flickering = SPRITE_FLICKERING_AUTO;
     if (DB.current_entry && (DB.current_entry->flags & DB_FLAG_EMU_SPRITE_FLICKER))
         g_config.sprite_flickering |= SPRITE_FLICKERING_ENABLED;
-    gui_menu_uncheck_all (menus_ID.flickering);
-    gui_menu_check (menus_ID.flickering, 0);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_Auto));
 }
 
@@ -121,8 +109,6 @@ void    Action_Switch_Flickering_Auto()
 void    Action_Switch_Flickering_Yes()
 {
     g_config.sprite_flickering = SPRITE_FLICKERING_ENABLED;
-    gui_menu_uncheck_all (menus_ID.flickering);
-    gui_menu_check (menus_ID.flickering, 1);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_Yes));
 }
 
@@ -130,8 +116,6 @@ void    Action_Switch_Flickering_Yes()
 void    Action_Switch_Flickering_No()
 {
     g_config.sprite_flickering = SPRITE_FLICKERING_NO;
-    gui_menu_uncheck_all (menus_ID.flickering);
-    gui_menu_check (menus_ID.flickering, 2);
     Msg(MSGT_USER, "%s", Msg_Get(MSG_Flickering_No));
 }
 

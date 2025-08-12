@@ -14,9 +14,12 @@
 #include "app_memview.h"
 #include "app_textview.h"
 #include "app_tileview.h"
+#include "blitintf.h"
+#include "capture.h"
 #include "datadump.h"
 #include "debugger.h"
 #include "file.h"
+#include "glasses.h"
 #include "inputs_c.h"
 #include "palette.h"
 #include "rapidfir.h"
@@ -611,6 +614,7 @@ void    NewGui_MainMenu()
     if (!ImGui::BeginMainMenuBar())
         return;
 
+    // MAIN/FILE
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Main)))
     {
         // FIXME-IMGUI: FB_Switch() toggle
@@ -643,6 +647,7 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    // MACHINE
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Machine)))
     {
         if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Machine_Power)))
@@ -677,6 +682,67 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    // VIDEO
+    if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Video)))
+    {
+        if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_FullScreen), "Escape"))
+            Action_Switch_Mode();
+        if (ImGui::BeginMenu(Msg_Get(Msg_Menu_Video_ScreenCapture)))
+        {
+            if (ImGui::MenuItem(Msg_Get(Msg_Menu_Video_ScreenCapture_Capture), "PrintScreen"))
+                Capture_MenuHandler_Capture();
+            if (ImGui::MenuItem(Msg_Get(Msg_Menu_Video_ScreenCapture_CaptureRepeat)))
+                Capture_MenuHandler_AllFrames();
+            ImGui::MenuItem(Msg_Get(Msg_Menu_Video_ScreenCapture_IncludeGui), NULL, &g_config.capture_include_gui);
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Video_Themes)))
+        {
+            Skins_DrawMenu();
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Video_Blitters)))
+        {
+            Blitters_DrawMenu();
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Video_Layers)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_Layers_Sprites), "F11", (opt.Layer_Mask & LAYER_SPRITES) != 0))
+                Action_Switch_Layer_Sprites();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_Layers_Sprites), "Ctrl+F11", (opt.Layer_Mask & LAYER_BACKGROUND) != 0))
+                Action_Switch_Layer_Background();
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Video_Flickering)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_Flickering_Auto), NULL, (g_config.sprite_flickering & SPRITE_FLICKERING_AUTO) != 0))
+                Action_Switch_Flickering_Auto();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_Flickering_Yes), NULL, !(g_config.sprite_flickering & SPRITE_FLICKERING_AUTO) && (g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED)))
+                Action_Switch_Flickering_Yes();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_Flickering_No), NULL, !(g_config.sprite_flickering & SPRITE_FLICKERING_AUTO) && !(g_config.sprite_flickering & SPRITE_FLICKERING_ENABLED)))
+                Action_Switch_Flickering_No();
+            ImGui::EndMenu();
+        }
+        if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Video_3DGlasses)))
+        {
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_3DGlasses_Enabled), NULL, Glasses.Enabled))
+                Glasses_Switch_Enable();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_3DGlasses_ShowBothSides), NULL, Glasses.Mode == GLASSES_MODE_SHOW_BOTH, Glasses.Enabled))
+                Glasses_Switch_Mode_Show_Both();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_3DGlasses_ShowLeftSide), NULL, Glasses.Mode == GLASSES_MODE_SHOW_ONLY_LEFT, Glasses.Enabled))
+                Glasses_Switch_Mode_Show_Left();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_3DGlasses_ShowRightSide), NULL, Glasses.Mode == GLASSES_MODE_SHOW_ONLY_RIGHT, Glasses.Enabled))
+                Glasses_Switch_Mode_Show_Right();
+            if (ImGui::MenuItem(Msg_Get(MSG_Menu_Video_3DGlasses_UsesCOMPort), NULL, Glasses.Mode == GLASSES_MODE_COM_PORT, Glasses.Enabled))
+                Glasses_Switch_Mode_Com_Port();
+            ImGui::EndMenu();
+        }
+
+        ImGui::EndMenu();
+    }
+
+    // SOUND/AUDIO
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Sound)))
     {
         ImGui::Text(Msg_Get(MSG_Menu_Sound_Volume));
@@ -724,6 +790,7 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    // INPUTS
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Inputs)))
     {
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Inputs_Joypad), "F9", (Inputs.Peripheral[0] == INPUT_JOYPAD)))
@@ -763,6 +830,7 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    // TOOLS
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Tools)))
     {
         ImGui::MenuItem(Msg_Get(MSG_Menu_Tools_Messages), "Alt+M", &g_config.log_active);    // FIXME: Rename "Messages" to "Log" in the end user mesages
@@ -775,6 +843,7 @@ void    NewGui_MainMenu()
         ImGui::EndMenu();
     }
 
+    // DEBUG
 #ifdef MEKA_Z80_DEBUGGER
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Debug)))
     {
@@ -801,6 +870,7 @@ void    NewGui_MainMenu()
     }
 #endif
 
+    // HELP
     if (ImGui::BeginMenu(Msg_Get(MSG_Menu_Help)))
     {
         if (ImGui::MenuItem(Msg_Get(MSG_Menu_Help_Documentation), NULL, TextViewer.active))

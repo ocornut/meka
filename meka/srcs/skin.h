@@ -106,7 +106,7 @@ void                Skins_Close                     ();
 void                Skins_StartupFadeIn             ();
 void                Skins_Apply                     ();
 void                Skins_Update                    ();
-void                Skins_MenuInit                  (int menu_id);
+void                Skins_DrawMenu                  ();
 void                Skins_Select                    (t_skin *skin, bool fade);
 
 void                Skins_QuitAfterFade             ();

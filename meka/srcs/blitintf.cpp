@@ -8,6 +8,7 @@
 #include "blitintf.h"
 #include "video.h"
 #include "libparse.h"
+#include "imgui.h"
 
 //-----------------------------------------------------------------------------
 // Data
@@ -240,8 +241,6 @@ void    Blitters_Switch_Common()
     if (g_env.state == MEKA_STATE_GAME)
         Video_Setup_State();
     Msg(MSGT_USER, Msg_Get(MSG_Blitters_Set), Blitters.current->name);
-    gui_menu_uncheck_all (menus_ID.blitters);
-    gui_menu_check (menus_ID.blitters, Blitters.current->index);
 }
 
 void    Blitters_SwitchNext()
@@ -256,22 +255,16 @@ void    Blitters_SwitchNext()
     Blitters_Switch_Common();
 }
 
-static void    Blitters_Switch_Handler (t_menu_event *event)
-{
-    Blitters.current = (t_blitter *)event->user_data;
-    Blitters_Switch_Common();
-}
-
-void    Blitters_Menu_Init (int menu_id)
+void    Blitters_DrawMenu()
 {
     for (t_list* blitters = Blitters.list; blitters != NULL; blitters = blitters->next)
     {
         t_blitter* blitter = (t_blitter*)blitters->elem;
-        menu_add_item(menu_id,
-            blitter->name,
-            NULL,
-            MENU_ITEM_FLAG_ACTIVE | ((blitter == Blitters.current) ? MENU_ITEM_FLAG_CHECKED : 0),
-            (t_menu_callback)Blitters_Switch_Handler, blitter);
+        if (ImGui::MenuItem(blitter->name, NULL, blitter == Blitters.current))
+        {
+            Blitters.current = blitter;
+            Blitters_Switch_Common();
+        }
     }
 }
 

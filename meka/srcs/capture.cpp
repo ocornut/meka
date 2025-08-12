@@ -96,7 +96,7 @@ static void     Capture_Screen()
     int x_start, x_len;
     int y_start, y_len;
     ALLEGRO_BITMAP* source = NULL;
-    if ((g_env.state == MEKA_STATE_GAME) || (!g_config.capture_include_gui)) 
+    if ((g_env.state == MEKA_STATE_GAME) || (!g_config.capture_include_gui))
     {
         // Fullscreen
         source = screenbuffer;
@@ -188,7 +188,6 @@ void    Capture_MenuHandler_Capture()
 void    Capture_MenuHandler_AllFrames()
 {
     Capture.request_all_frames = !Capture.request_all_frames;
-    gui_menu_toggle_check(menus_ID.screenshots, 1);
     if (Capture.request_all_frames)
     {
         // FIXME-CAPTURE
@@ -198,7 +197,6 @@ void    Capture_MenuHandler_AllFrames()
 void    Capture_MenuHandler_IncludeGui()
 {
     g_config.capture_include_gui = !g_config.capture_include_gui;
-    gui_menu_toggle_check(menus_ID.screenshots, 2);
 }
 
 //-----------------------------------------------------------------------------
