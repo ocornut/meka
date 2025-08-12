@@ -299,6 +299,7 @@ struct t_meka_config
     bool            log_active = true;
     bool            palette_active = true;
     bool            options_active = false;
+    bool            techinfo_active = false;
     bool            about_active = false;
 
     // Video

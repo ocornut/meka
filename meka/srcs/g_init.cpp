@@ -10,7 +10,6 @@
 #include "app_mapview.h"
 #include "app_memview.h"
 #include "app_palview.h"
-#include "app_techinfo.h"
 #include "app_textview.h"
 #include "app_tileview.h"
 #include "datadump.h"
@@ -146,7 +145,6 @@ void    GUI_InitApplets()
         Msg(MSGT_USER, "%s", Msg_Get(MSG_Doc_File_Error));
     TextViewer.current_file = 0; // FIXME: Remove this field
 
-    TechInfo_Init();
     TileViewer_Init();
     PaletteViewer_Init();
     // FM_Editor_Init();
