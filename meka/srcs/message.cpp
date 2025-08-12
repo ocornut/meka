@@ -613,7 +613,7 @@ static void     Lang_Set (t_menu_event *event)
     gui_relayout_all();
 }
 
-void            Lang_Set_by_Name (char *name)
+void    Lang_Set_by_Name(const char *name)
 {
     for (t_list* langs = Messages.Langs; langs; langs = langs->next)
     {
@@ -622,20 +622,6 @@ void            Lang_Set_by_Name (char *name)
         {
             Messages.Lang_Cur = lang;
             return;
-        }
-    }
-}
-
-void            Langs_Menu_Add (int menu_id)
-{
-    const int s = list_size(Messages.Langs);
-    if (s > 1)
-    {
-        menus_ID.languages = menu_add_menu (menu_id, Msg_Get(MSG_Menu_Main_Language), MENU_ITEM_FLAG_ACTIVE);
-        for (t_list* langs = Messages.Langs; langs; langs = langs->next)
-        {
-            t_lang* lang = (t_lang*)langs->elem;
-            menu_add_item(menus_ID.languages, lang->Name, NULL, MENU_ITEM_FLAG_ACTIVE | Is_Checked (lang == Messages.Lang_Cur), (t_menu_callback)Lang_Set, lang);
         }
     }
 }

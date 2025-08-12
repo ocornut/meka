@@ -21,33 +21,18 @@
 
 //-----------------------------------------------------------------------------
 
-void    Set_Country_Export()
+void    Set_Country(t_country country)
 {
-    Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_European_US));
+    if (country == COUNTRY_EXPORT)
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_European_US));
+    else if (country == COUNTRY_JAPAN)
+        Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_JAP));
+
     if (g_machine_flags & MACHINE_POWER_ON)
         Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Must_Reset));
-    g_config.country = COUNTRY_EXPORT;
-    gui_menu_uncheck_all(menus_ID.region);
-    gui_menu_check(menus_ID.region, 0);
 
-    // Set emulation country
-    sms.Country = g_config.country;
-
-    // Update game boxes name and file browser
-    gamebox_rename_all();
-    FB_Reload_Names();
-}
-
-void    Set_Country_Japan()
-{
-    Msg(MSGT_USER, "%s", Msg_Get(MSG_Country_JAP));
-    if (g_machine_flags & MACHINE_POWER_ON)
-        Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_Must_Reset));
-    g_config.country = COUNTRY_JAPAN;
-    gui_menu_uncheck_all (menus_ID.region);
-    gui_menu_check (menus_ID.region, 1);
-
-    // Set emulation country
+    // Set config + emulation country
+    g_config.country = country;
     sms.Country = g_config.country;
 
     // Update game boxes name and file browser
@@ -61,13 +46,9 @@ void    Nationalize (byte *v)
         if ((tsms.Port3F & 0xF) == 0x5)
         {
             if ((tsms.Port3F & 0xF0) == 0xF0)
-            {
                 *v |= 0xC0; // set bits 6 and 7
-            }
             else
-            {
                 *v &= 0x3F; // clear bits 6 and 7
-            }
         }
 }
 

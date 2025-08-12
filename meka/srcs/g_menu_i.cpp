@@ -68,8 +68,8 @@ void    gui_menus_init()
     // <ROOT>
     //-------------------------------------------------------------------------
     menus_ID.root     = menu_new();
-    menus_ID.file     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Main),    MENU_ITEM_FLAG_ACTIVE);
-    menus_ID.machine  = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Machine), MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.file     = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Main),    MENU_ITEM_FLAG_ACTIVE);
+    //menus_ID.machine  = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Machine), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.video    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Video),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.sound    = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Sound),   MENU_ITEM_FLAG_ACTIVE);
     menus_ID.inputs   = menu_add_menu (menus_ID.root, Msg_Get(MSG_Menu_Inputs),  MENU_ITEM_FLAG_ACTIVE);
@@ -80,6 +80,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // MAIN
     //-------------------------------------------------------------------------
+#if 0
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_LoadROM),           "Alt+L",    MENU_ITEM_FLAG_ACTIVE | Is_Checked (FB.active), (t_menu_callback)FB_Switch, NULL);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_FreeROM),           NULL,       MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Free_ROM, NULL);
     menu_add_separator(menus_ID.file);
@@ -91,6 +92,7 @@ void    gui_menus_init()
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Options),           "Alt+O",    MENU_ITEM_FLAG_ACTIVE | Is_Checked (g_config.options_active), [](t_menu_event*) { g_config.options_active ^= 1; }, NULL);
     Langs_Menu_Add    (menus_ID.file);
     menu_add_item     (menus_ID.file, Msg_Get(MSG_Menu_Main_Quit),              "Alt+F4",   MENU_ITEM_FLAG_ACTIVE, (t_menu_callback)Action_Quit, NULL);
+#endif
 
     //-------------------------------------------------------------------------
     // DEBUG
@@ -109,6 +111,7 @@ void    gui_menus_init()
     //-------------------------------------------------------------------------
     // MACHINE
     //-------------------------------------------------------------------------
+#if 0
     menus_ID.power    = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_Power),  MENU_ITEM_FLAG_ACTIVE);
     menus_ID.region   = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_Region), MENU_ITEM_FLAG_ACTIVE);
     menus_ID.tvtype   = menu_add_menu (menus_ID.machine, Msg_Get(MSG_Menu_Machine_TVType), MENU_ITEM_FLAG_ACTIVE);
@@ -123,6 +126,7 @@ void    gui_menus_init()
     // MACHINE -> TV TYPE
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_NTSC),           NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_NTSC), (t_menu_callback)TVType_Set_NTSC, NULL);
     menu_add_item     (menus_ID.tvtype,   Msg_Get(MSG_Menu_Machine_TVType_PALSECAM),       NULL,            MENU_ITEM_FLAG_ACTIVE | Is_Checked (TV_Type_User->id == TVTYPE_PAL_SECAM), (t_menu_callback)TVType_Set_PAL_SECAM, NULL);
+#endif
 
     //-------------------------------------------------------------------------
     // VIDEO

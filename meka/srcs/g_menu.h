@@ -116,8 +116,8 @@ extern t_gui_status_bar g_gui_status;
 struct t_gui_menus_id
 {
     t_menu_id   root;
-    t_menu_id   file;
-    t_menu_id   machine, power, region, tvtype;
+    //t_menu_id file;
+    //t_menu_id   machine, power, region, tvtype;
     t_menu_id   video, themes, blitters, layers, flickering, glasses, screenshots;
     t_menu_id   inputs, rapidfire;
     t_menu_id   sound, volume, rate, channels, fm;

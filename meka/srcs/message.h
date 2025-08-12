@@ -467,8 +467,7 @@ struct t_lang
 
 //-----------------------------------------------------------------------------
 
-void            Lang_Set_by_Name (char *name);
-void            Langs_Menu_Add (int menu_id);
+void            Lang_Set_by_Name(const char* name);
 
 //-----------------------------------------------------------------------------
 
