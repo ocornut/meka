@@ -28,6 +28,7 @@
 #include "vdp.h"
 #include "video.h"
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "backends/imgui_impl_allegro5.h"
 
 //-----------------------------------------------------------------------------
@@ -130,14 +131,14 @@ static void Blit_Fullscreen_Misc()
         Glasses_Update();
 }
 
-static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, int time_left)
+static void Blit_Fullscreen_Message(ALLEGRO_BITMAP* dst, float time_remaining)
 {
     al_set_target_bitmap(dst);
 
     int x = 10;
     int y = al_get_bitmap_height(dst) - 16;
-    if (time_left < 20)
-        y += (20 - time_left);
+    if (time_remaining < 0.4f)
+        y += (int)ImLinearRemapClamp(0.4f, 0.0f, 0.0f, 20.0f, time_remaining);
     al_draw_filled_rectangle(0, y-6, al_get_bitmap_width(dst), al_get_bitmap_height(dst), al_map_rgba(0,0,0,128));
 
     // FIXME-OPT: use a dedicated font. This is slow as hell!!
@@ -325,10 +326,10 @@ void    Blit_Fullscreen()
 
     Blitters_Table[Blitters.current->blitter].blit_func();
 
-    if (g_gui_status.timeleft && g_config.show_fullscreen_messages)
+    if (g_gui_status.time_remaining > 0.0f && g_config.show_fullscreen_messages)
     {
-        Blit_Fullscreen_Message(fs_out, g_gui_status.timeleft);
-        g_gui_status.timeleft --;
+        Blit_Fullscreen_Message(fs_out, g_gui_status.time_remaining);
+        g_gui_status.time_remaining -= ImGui::GetIO().DeltaTime;
     }
 
     Blit_RenderImGui();
