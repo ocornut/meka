@@ -19,6 +19,7 @@
 #include "datadump.h"
 #include "debugger.h"
 #include "file.h"
+#include "fskipper.h"
 #include "glasses.h"
 #include "inputs_c.h"
 #include "palette.h"
@@ -609,7 +610,7 @@ static void NewGui_AboutDraw()
 // Main Menu Bar
 //-----------------------------------------------------------------------------
 
-void    NewGui_MainMenu()
+static void    NewGui_DrawMenu()
 {
     if (!ImGui::BeginMainMenuBar())
         return;
@@ -896,6 +897,43 @@ void    NewGui_MainMenu()
     ImGui::EndMainMenuBar();
 }
 
+void    NewGui_DrawStatusBar()
+{
+    float height = ImGui::GetFrameHeight();
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, style.FramePadding);
+    bool ret = ImGui::BeginViewportSideBar("##StatusBar", ImGui::GetMainViewport(), ImGuiDir_Down, height, ImGuiWindowFlags_NoSavedSettings);
+    ImGui::PopStyleVar();
+    if (!ret)
+        return;
+
+    ImVec2 p1 = ImGui::GetCursorScreenPos();
+    ImVec2 p2 = p1 + ImGui::GetContentRegionAvail();
+
+    // Time
+    const float time_w = ImGui::CalcTextSize("99:99::99 ").x;
+    char buf[16];
+    p2.x -= time_w;
+    ImGui::SetCursorScreenPos({ p2.x, p1.y });
+    ImGui::TextAligned(0.0f, time_w, "%s", meka_time_getf(buf));
+
+    // FPS
+    const float fps_w = ImGui::CalcTextSize("9999 FPS").x;
+    p2.x -= time_w;
+    ImGui::SetCursorScreenPos({ p2.x, p1.y });
+    ImGui::TextAligned(0.0f, fps_w, "%.1f FPS", fskipper.FPS);
+
+    // Message
+    if (g_gui_status.time_remaining > 0.0f)
+    {
+        ImGui::SetCursorScreenPos(p1);
+        ImGui::TextAligned(0.0f, p2.x - p1.x, "%s", g_gui_status.message);
+        g_gui_status.time_remaining -= ImGui::GetIO().DeltaTime;
+    }
+
+    ImGui::End();
+}
+
 void    NewGui_InitStyle()
 {
     ImGui::StyleColorsDark();
@@ -939,7 +977,8 @@ void    NewGui_NewFrame()
 
 void    NewGui_Draw()
 {
-    NewGui_MainMenu();
+    NewGui_DrawMenu();
+    NewGui_DrawStatusBar();
 
     //ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 2.0f);
     //ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 3.0f);

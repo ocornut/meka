@@ -887,7 +887,7 @@ void            Msg(int attr, const char *format, ...)
         if (attr & MSGT_STATUS_BAR)
         {
             strcpy(g_gui_status.message, src);
-            g_gui_status.timeleft = 120;
+            g_gui_status.time_remaining = 2.0f;
         }
 
         // Add to user text box

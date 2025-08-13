@@ -10,6 +10,12 @@ They are usually of 2 kinds:
 - Fixes or addition to things changed during WIP.
 - Programmer/hacker centric information.
 
+ WIP Dear ImGui branch
+ ---------------------
+
+ - GUI: Fixed status bar message time to use wall-clock time instead of frame count.
+
+
  MEKA 0.8x WIP Allegro 5
  -----------------------
   - Updated from Allegro 4 (software rendering based) to Allegro 5.2.10 (with OpenGL/DirectX backends).

@@ -59,7 +59,6 @@ void    GUI_Init()
 
     Desktop_SetStateToBoxes();     // Set all boxes state based on MEKA.DSK data
 
-    g_gui_status.x = 10;
     Msg(MSGT_USER_LOG, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
     Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Welcome), MEKA_NAME_VERSION, MEKA_DATE " " MEKA_AUTHORS);
 
