@@ -934,6 +934,8 @@ void    NewGui_DrawStatusBar()
     ImGui::End();
 }
 
+static ImVec4 ImVec4_From_AllegroColor(const ALLEGRO_COLOR& c) { return ImColor(c.r, c.g, c.b, c.a).Value; }
+
 void    NewGui_InitStyle()
 {
     ImGui::StyleColorsDark();
@@ -956,6 +958,23 @@ void    NewGui_UpdateStyle()
     style = ImGuiStyle(); // Reset sizes etc.
     memcpy(&style.Colors, backup_colors, sizeof(style.Colors));
 
+    // Apply old fashioned MEKA style
+#if 1
+    style.WindowRounding = 6.0f;
+    ImVec4* colors = style.Colors;
+    colors[ImGuiCol_WindowBg] = ImVec4_From_AllegroColor(COLOR_SKIN_WINDOW_BACKGROUND);
+    colors[ImGuiCol_MenuBarBg] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_STATUSBAR_BACKGROUND);
+    colors[ImGuiCol_Border] = ImVec4_From_AllegroColor(COLOR_SKIN_WINDOW_BORDER);
+    colors[ImGuiCol_TitleBg] = ImVec4_From_AllegroColor(COLOR_SKIN_WINDOW_TITLEBAR);
+    colors[ImGuiCol_TitleBgActive] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_GENERIC_SELECTION);
+    colors[ImGuiCol_FrameBg] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+    colors[ImGuiCol_Button] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+    colors[ImGuiCol_Header] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+    colors[ImGuiCol_Tab] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_GENERIC_BACKGROUND);
+    colors[ImGuiCol_TabActive] = ImVec4_From_AllegroColor(COLOR_SKIN_WIDGET_GENERIC_SELECTION);
+#endif
+
+    // Apply scale
     style.FontScaleMain = g_config.ui_scale;
     style.ScaleAllSizes(g_config.ui_scale);
 }
