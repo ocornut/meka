@@ -236,9 +236,8 @@ extern t_gui        gui;
 
 struct t_gui_status_bar
 {
-    char  message[1024];
-    int   x;
-    int   timeleft;
+    char    message[1024];
+    float   time_remaining;
 };
 
 extern t_gui_status_bar g_gui_status;
