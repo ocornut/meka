@@ -74,11 +74,11 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
     //if (Inputs_CFG.active)
     //    Inputs_CFG.Box->update();
 
-    // Switch mode (Fullscreen <-> GUI)
+    // Switch Game<>GUI
     if (ImGui::Shortcut(Inputs.Cabinet_Mode ? ImGuiKey_F10 : ImGuiKey_Escape, ImGuiInputFlags_RouteGlobal))
         Action_Switch_Mode();
 
-    // GUI fullscreen/windowed
+    // Switch OS fullscreen/windowed
     if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_Enter, ImGuiInputFlags_RouteGlobal))
     {
         g_config.video_fullscreen ^= 1;
@@ -86,161 +86,122 @@ void        Inputs_Check_GUI(bool sk1100_pressed)
         return;
     }
 
-    switch (g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT))
+    // Blitters switch
+    if (ImGui::Shortcut(ImGuiKey_F1, ImGuiInputFlags_RouteGlobal))
+        Blitters_SwitchNext();
+
+    // Emulation speed, Frameskip
+    if (ImGui::Shortcut(ImGuiKey_F2, ImGuiInputFlags_RouteGlobal))
+        Frame_Skipper_Switch();
+    if (ImGui::Shortcut(ImGuiKey_F3, ImGuiInputFlags_RouteGlobal | ImGuiInputFlags_Repeat))
+        Frame_Skipper_Configure(-1);
+    if (ImGui::Shortcut(ImGuiKey_F4, ImGuiInputFlags_RouteGlobal | ImGuiInputFlags_Repeat))
+        Frame_Skipper_Configure(1);
+
+    // Save states
+    if (ImGui::Shortcut(ImGuiKey_F5, ImGuiInputFlags_RouteGlobal))
+        SaveState_Save();
+    if (ImGui::Shortcut(ImGuiKey_F7, ImGuiInputFlags_RouteGlobal))
+        SaveState_Load();
+    if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_F7, ImGuiInputFlags_RouteGlobal))
     {
-    case 0: // No modifiers
+        // Load State & Continue
+        SaveState_Load();
+        if (Debugger.active)
         {
-            // State save/load
-            if (Inputs_KeyPressed(ALLEGRO_KEY_F5, FALSE))
-                SaveState_Save();
-            if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))
-                SaveState_Load();
-
-            // State change slot
-            /*
-            if (g_driver->id != DRV_COLECO)
-                if (!gui.box_z_ordered[0]->focus_inputs_exclusive) // check note in inputs_u.c::Inputs_Emulation_Update()
-                {
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_0, FALSE))  Save_Set_Slot (0);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_1, FALSE))  Save_Set_Slot (1);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_2, FALSE))  Save_Set_Slot (2);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_3, FALSE))  Save_Set_Slot (3);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_4, FALSE))  Save_Set_Slot (4);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_5, FALSE))  Save_Set_Slot (5);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_6, FALSE))  Save_Set_Slot (6);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_7, FALSE))  Save_Set_Slot (7);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_8, FALSE))  Save_Set_Slot (8);
-                    if (Inputs_KeyPressed (ALLEGRO_KEY_9, FALSE))  Save_Set_Slot (9);
-                }
-            */
-            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F6, FALSE, 30, 3))
-                SaveState_SetPrevSlot();
-            if (Inputs_KeyPressed_Repeat(ALLEGRO_KEY_F8, FALSE, 30, 3))
-                SaveState_SetNextSlot();
-
-            // Blitters switch
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F1, FALSE))
-                Blitters_SwitchNext();
-
-            // Speed & Frame skip
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F2, FALSE))
-                Frame_Skipper_Switch();
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F3, FALSE, 30, 3))
-                Frame_Skipper_Configure (-1);
-            if (Inputs_KeyPressed_Repeat (ALLEGRO_KEY_F4, FALSE, 30, 3))
-                Frame_Skipper_Configure (1);
-
-            // Input peripheral
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))
-                Inputs_Peripheral_Next (PLAYER_1);
-
-            // Sprites Display
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
-                Action_Switch_Layer_Sprites();
-
-            // Hard Pause
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F12, FALSE))
-                g_machine_pause_requests = 1;
+            char command[128] = "CONT";
+            Debugger_InputParseCommand(command); // non-const input
         }
-        break;
-    case ALLEGRO_KEYMOD_CTRL:
-        {
-            // Hard Reset
-            if (!sk1100_pressed && Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE)) // Note: eat backspace to avoid triggering software reset as well
-                Machine_Reset();
+    }
+    if (ImGui::Shortcut(ImGuiKey_F6, ImGuiInputFlags_RouteGlobal | ImGuiInputFlags_Repeat))
+        SaveState_SetPrevSlot();
+    if (ImGui::Shortcut(ImGuiKey_F8, ImGuiInputFlags_RouteGlobal | ImGuiInputFlags_Repeat))
+        SaveState_SetNextSlot();
 
-            // Background Display
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F11, FALSE))
-                Action_Switch_Layer_Background();
+    // Input peripheral
+    if (ImGui::Shortcut(ImGuiKey_F9, ImGuiInputFlags_RouteGlobal))
+        Inputs_Peripheral_Next(PLAYER_1);
+    if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_F9, ImGuiInputFlags_RouteGlobal))
+        SK1100_Switch();
 
-            // Next frame (pause hack)
-            if (Inputs_KeyPressed(ALLEGRO_KEY_F12, FALSE))
-                Debugger_StepFrame();
+    // Sprites/Background Display
+    if (ImGui::Shortcut(ImGuiKey_F11, ImGuiInputFlags_RouteGlobal))
+        Action_Switch_Layer_Sprites();
+    if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_F11, ImGuiInputFlags_RouteGlobal))
+        Action_Switch_Layer_Background();
 
-            // Load State & Continue
-            if (Inputs_KeyPressed(ALLEGRO_KEY_F7, FALSE))
-            {
-                SaveState_Load();
-                if (Debugger.active)
-                {
-                    char command[128] = "CONT";
-                    Debugger_InputParseCommand(command);        // non-const input
-                }
-            }
+    // Hard Pause, Next Frame (pause hack)
+    if (ImGui::Shortcut(ImGuiKey_F12, ImGuiInputFlags_RouteGlobal))
+        g_machine_pause_requests = 1;
+    if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_F12, ImGuiInputFlags_RouteGlobal))
+        Debugger_StepFrame();
 
-            // SK-1100 Keyboard switch
-            if (Inputs_KeyPressed (ALLEGRO_KEY_F9, FALSE))
-                SK1100_Switch();
-
-            // CTRL-TAB cycle thru boxes with TAB_STOP flag
-            if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
-            {
-                // Remove keypress
-                // FIXME-KEYPRESS
-                for (t_list* keypresses = Inputs.KeyPressedQueue; keypresses != NULL; )
-                {
-                    t_key_press* keypress = (t_key_press*)keypresses->elem;
-                    keypresses = keypresses->next;
-                    if (keypress->scancode == ALLEGRO_KEY_TAB)
-                        list_remove(&Inputs.KeyPressedQueue, keypress);
-                }
-
-                // Cycle focus
-                for (int n = gui.boxes_count - 1; n >= 0; n--)
-                {
-                    t_gui_box* b = gui.boxes_z_ordered[n];
-                    if ((b->flags & GUI_BOX_FLAGS_TAB_STOP) && (b->flags & GUI_BOX_FLAGS_ACTIVE))
-                    {
-                        gui_box_set_focus(b);
-                        break;
-                    }
-                }
-            }
-
-        }
-        break;
-   case ALLEGRO_KEYMOD_ALT:
-       {
-           if (!sk1100_pressed)
-           {
-               // FPS Counter switch
-               if (Inputs_KeyPressed (ALLEGRO_KEY_F, FALSE))
-                   Frame_Skipper_Switch_FPS_Counter();
-               // Applets hotkeys
-               if (Inputs_KeyPressed (ALLEGRO_KEY_L, FALSE)) FB_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_O, FALSE)) g_config.options_active ^= 1;
-               if (Inputs_KeyPressed (ALLEGRO_KEY_M, FALSE)) g_config.log_active ^= 1;
-               if (Inputs_KeyPressed (ALLEGRO_KEY_P, FALSE)) g_config.palette_active ^= 1;
-               if (Inputs_KeyPressed (ALLEGRO_KEY_T, FALSE)) TileViewer_Switch();
-               if (Inputs_KeyPressed (ALLEGRO_KEY_I, FALSE)) g_config.techinfo_active ^= 1;
-               if (Inputs_KeyPressed (ALLEGRO_KEY_V, FALSE))
-               {
-                   if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
-                       Sound_LogVGM_Stop();
-                   else
-                       Sound_LogVGM_Start();
-               }
-
-               // Hard Reset
-               if (Inputs_KeyPressed(ALLEGRO_KEY_BACKSPACE, TRUE))  // Note: eat backspace to avoid triggering software reset as well
-                   Machine_Reset();
-           }
-       }
-       break;
+    // Reset
+    if (!sk1100_pressed && ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_Backspace, ImGuiInputFlags_RouteGlobal))
+    {
+        Inputs_KeyEat(ALLEGRO_KEY_BACKSPACE); // Note: eat backspace to avoid triggering software reset as well
+        Machine_Reset();
+    }
+    if (!sk1100_pressed && ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_Backspace, ImGuiInputFlags_RouteGlobal))
+    {
+        Inputs_KeyEat(ALLEGRO_KEY_BACKSPACE); // Note: eat backspace to avoid triggering software reset as well
+        Machine_Reset();
     }
 
+    // Applets
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_F, ImGuiInputFlags_RouteGlobal)) { Frame_Skipper_Switch_FPS_Counter(); }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_L, ImGuiInputFlags_RouteGlobal)) { FB_Switch(); }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_O, ImGuiInputFlags_RouteGlobal)) { g_config.options_active ^= 1; }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_M, ImGuiInputFlags_RouteGlobal)) { g_config.log_active ^= 1; }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_P, ImGuiInputFlags_RouteGlobal)) { g_config.palette_active ^= 1; }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_T, ImGuiInputFlags_RouteGlobal)) { TileViewer_Switch(); }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_I, ImGuiInputFlags_RouteGlobal)) { g_config.techinfo_active ^= 1; }
+    if (ImGui::Shortcut(ImGuiMod_Alt | ImGuiKey_V, ImGuiInputFlags_RouteGlobal))
+    {
+        if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
+            Sound_LogVGM_Stop();
+        else
+            Sound_LogVGM_Start();
+    }
+
+    // CTRL-TAB cycle through boxes with TAB_STOP flag
+    // FIXME-IMGUI: Remove
+    if ((g_keyboard_modifiers & (ALLEGRO_KEYMOD_CTRL | ALLEGRO_KEYMOD_ALT | ALLEGRO_KEYMOD_SHIFT)) == ALLEGRO_KEYMOD_CTRL)
+        if (Inputs_KeyPressed(ALLEGRO_KEY_TAB, FALSE))
+        {
+            // Remove keypress
+            // FIXME-KEYPRESS
+            for (t_list* keypresses = Inputs.KeyPressedQueue; keypresses != NULL; )
+            {
+                t_key_press* keypress = (t_key_press*)keypresses->elem;
+                keypresses = keypresses->next;
+                if (keypress->scancode == ALLEGRO_KEY_TAB)
+                    list_remove(&Inputs.KeyPressedQueue, keypress);
+            }
+
+            // Cycle focus
+            for (int n = gui.boxes_count - 1; n >= 0; n--)
+            {
+                t_gui_box* b = gui.boxes_z_ordered[n];
+                if ((b->flags & GUI_BOX_FLAGS_TAB_STOP) && (b->flags & GUI_BOX_FLAGS_ACTIVE))
+                {
+                    gui_box_set_focus(b);
+                    break;
+                }
+            }
+        }
+
     // Quit emulator
-    if (Inputs.Cabinet_Mode && Inputs_KeyDown(ALLEGRO_KEY_ESCAPE))
+    if (Inputs.Cabinet_Mode && ImGui::Shortcut(ImGuiKey_Escape, ImGuiInputFlags_RouteGlobal))
         opt.Force_Quit = TRUE;
 
     // Debugger switch
-    #ifdef MEKA_Z80_DEBUGGER
-        // Disabled when SK-1100 is emulated because of collision in usage of ScrollLock key
-        // Actually on SC-3000 it is hardwired to NMI
-        if (!Inputs.SK1100_Enabled && Inputs_KeyPressed(ALLEGRO_KEY_SCROLLLOCK, TRUE))
-        //if (!sk1100_pressed && Inputs_KeyPressed (ALLEGRO_KEY_SCROLLLOCK, TRUE))
-            Debugger_Switch();
-    #endif
+#ifdef MEKA_Z80_DEBUGGER
+    // Disabled when SK-1100 is emulated because of collision in usage of ScrollLock key
+    // Actually on SC-3000 it is hardwired to NMI
+    if (!Inputs.SK1100_Enabled && ImGui::Shortcut(ImGuiKey_ScrollLock, ImGuiInputFlags_RouteGlobal)) // FIXME-IMGUI: Was eating input (why?)
+        Debugger_Switch();
+#endif
 
     // Screen capture
     if (ImGui::Shortcut(ImGuiKey_PrintScreen, ImGuiInputFlags_RouteGlobal))
