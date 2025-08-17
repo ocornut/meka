@@ -26,6 +26,7 @@ meka/srcs/projects/msvc/packages/
 meka/libs/allegro
 meka/libs/allegro_deps
 allegro.log
+imgui.ini
 *.opensdf
 *.sdf
 *.suo
