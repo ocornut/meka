@@ -368,8 +368,8 @@
  Maze Walker (JP)                               FM,3D   Ok
  Megumi Rescue (JP)                             FM,PAD  Ok
  Mercs                                          -       Ok
- Mega Mode Super Game 30 [SMS-MD] (KR)          -      *Ok
- Mega Mode Super Game 138 [SMS-MD] (KR)         -      *Ok
+ Mega Mode Super Game 30 [SMS-MD] (KR)          -       Ok
+ Mega Mode Super Game 138 [SMS-MD] (KR)         -       Ok
  Mickey's Ultimate Challenge (BR)               -       Ok
  Micro Machines                                 -       Ok
  Micro Xevious, The (KR)                        -       Ok
@@ -754,7 +754,7 @@
  Champion Soccer (TW)                           Ok
  Champion Tennis                                Ok
  Championship Lode Runner                       Ok (can't write to tape)
- Championship Lode Runner [chinese logo] (TW)  *Ok (can't write to tape)
+ Championship Lode Runner [chinese logo] (TW)   Ok (can't write to tape)
  Championship Lode Runner [english logo] (TW)   Ok (can't write to tape)
  Choplifter                                     Ok
  Choplifter (KR)                                Ok
@@ -841,6 +841,7 @@
  Pachinko                                       Ok
  Pachinko II                                    Ok
  Pachinko II (TW)                               Ok
+ Pac-Man [DahJee] (TW)                         *Ok
  Ping Pong (Konami's) (TW)                      Ok
  Pippols [Jumbo] (TW)                           Ok
  Pitfall II ~The Lost Caverns~ [v0]             Ok
@@ -911,7 +912,7 @@
  Zoom 909                                       Ok
  Zoom 909 (TW)                                  Ok
 -----------------------------------------------------------------------------
- 194 games tested - 194 are "Ok"
+ 195 games tested - 195 are "Ok"
 -----------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------
@@ -935,7 +936,7 @@
  San-nin Mahjong (TW)                           Ok
  Space Armor [v1.0] [v0] [40k map]              Ok
  Space Armor [v2.0] [v1]                        Ok
- Space Armor [v2.0] [v1] (TW)                  *Ok
+ Space Armor [v2.0] [v1] (TW)                   Ok
  Space Armor [v2.0] [v2]                        Ok
  Space Mountain                                 Ok
 -----------------------------------------------------------------------------
@@ -948,10 +949,13 @@
  Note: (JP) flags are not marked there unless when there's several version.
  All SC-3000 cartridge software were originally released in Japan.
 -----------------------------------------------------------------------------
- Basic Level II (JP)                                    B-30    Ok (can't write to tape)
- Basic Level III 1.0                                    B-40    Ok (can't write to tape)
- Basic Level III 1.1 (JP)                               B-41   *Ok (can't write to tape)
- Home Basic                                             B-50    Ok (can't write to tape)
+ Basic Level II [v1.0] (JP)                                     Ok (can't write to tape)
+ Basic Level II [v1.0b] (JP)                                   *Ok (can't write to tape)
+ Basic Level II [v1.0] (PAL)                                   *Ok (can't write to tape)
+ Basic Level III [v1.0] (JP)                                 ***Ok (can't write to tape)
+ Basic Level III [v1.1] (JP)                                   *Ok (can't write to tape)
+ Basic Level III [v1.0] (PAL)                                   Ok (can't write to tape)
+ Home Basic (JP)                                                Ok (can't write to tape)
 -----------------------------------------------------------------------------
  Chuugaku Hisshuu Eibunpou (Chuugaku 1-Nen)             E-105   Ok
  Chuugaku Hisshuu Eibunpou (Chuugaku 2-Nen)             E-112   Ok
@@ -1516,7 +1520,7 @@
  Wonder Boy [Proto] (US)                            Ok
  Wonder Boy: The Dragon's Trap                      Ok
  Wonder Boy: The Dragon's Trap [Proto]              Ok
- Wonder Kid [Proto] [SMS-GG] (US)                  *Ok
+ Wonder Kid [Proto] [SMS-GG] (US)                   Ok
  Woody Pop [v0] (JP)                                Ok
  Woody Pop [v1]                                     Ok
  World Class Leaderboard Golf / World Class Leade.. Ok
