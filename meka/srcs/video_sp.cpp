@@ -8,8 +8,10 @@
 //   certains checks depending on screen size
 //-----------------------------------------------------------------------------
 
+#include <stdint.h> // For C and C++
+
  int    line;
- byte * p_src;
+ uint8_t * p_src;
 
  // Now parse the actual sprites ----------------------------------------------
  switch (sms.VDP[1] & (1 + 2))
