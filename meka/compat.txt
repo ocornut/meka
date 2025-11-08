@@ -950,10 +950,10 @@
  All SC-3000 cartridge software were originally released in Japan.
 -----------------------------------------------------------------------------
  Basic Level II [v1.0] (JP)                                     Ok (can't write to tape)
- Basic Level II [v1.0b] (JP)                                   *Ok (can't write to tape)
- Basic Level II [v1.0] (PAL)                                   *Ok (can't write to tape)
- Basic Level III [v1.0] (JP)                                 ***Ok (can't write to tape)
- Basic Level III [v1.1] (JP)                                   *Ok (can't write to tape)
+ Basic Level II [v1.0b] (JP)                                    Ok (can't write to tape)
+ Basic Level II [v1.0] (PAL)                                    Ok (can't write to tape)
+ Basic Level III [v1.0] (JP)                                    Ok (can't write to tape)
+ Basic Level III [v1.1] (JP)                                    Ok (can't write to tape)
  Basic Level III [v1.0] (PAL)                                   Ok (can't write to tape)
  Home Basic (JP)                                                Ok (can't write to tape)
 -----------------------------------------------------------------------------
