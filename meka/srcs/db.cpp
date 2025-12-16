@@ -399,7 +399,7 @@ static int      DB_Load_Entry (char* line)
         {
             // No error for empty fields (",,")
             // This is mainly to handle end of line comments ("FIELD=heh    ; comment")
-            if (strlen(w) > 0)
+            if (w[0] != '\0')
                 return (0);
         }
     }
