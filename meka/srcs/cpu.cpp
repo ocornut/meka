@@ -27,13 +27,15 @@ void Interrupt_Loop_Misc_Line_Zero()
 {
     if (tsms.VDP_Video_Change)
         VDP_VideoMode_Change();
+    if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
+        VGM_NewFrame(&Sound.LogVGM); // For sample accurate, we want to reset its state on line 0
     Patches_MEM_Apply();
 }
 
 bool Interrupt_Loop_Misc_Common()
 {
-    if (Sound.LogVGM.Logging != VGM_LOGGING_NO)
-        VGM_NewFrame(&Sound.LogVGM);
+    if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_FRAME)
+        VGM_NewFrame(&Sound.LogVGM); // For frame accurate, we want to consolidate data at the VBlank point
     Sound_Update();
     tsms.Control_Check_GUI = TRUE;
     Inputs_Sources_Update(); // Poll input sources
