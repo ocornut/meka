@@ -250,7 +250,7 @@ bool SDSC_Format_Error(const char* format, ...)
     // Print the message over the format string
     va_list params;
     va_start(params, format);
-    const int chars_added = vsprintf_s(p_format_start, sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer), format, params);
+    const int chars_added = vsnprintf(p_format_start, sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer), format, params);
     va_end(params);
     // Point to the following char
     p_next_char = p_format_start + chars_added;
@@ -574,19 +574,19 @@ void SDSC_Try_Format()
     {
     case 'd':
         // Signed decimal
-        formatted_length = sprintf_s(buffer, buffer_size, "%d", is_byte ? (s8)data : (s16)data);
+        formatted_length = snprintf(buffer, buffer_size, "%d", is_byte ? (s8)data : (s16)data);
         break;
     case 'u':
         // Unsigned decimal
-        formatted_length = sprintf_s(buffer, buffer_size, "%u", is_byte ? (u8)data : data);
+        formatted_length = snprintf(buffer, buffer_size, "%u", is_byte ? (u8)data : data);
         break;
     case 'x':
         // Lowercase hex
-        formatted_length = sprintf_s(buffer, buffer_size, "%x", is_byte ? (u8)data : data);
+        formatted_length = snprintf(buffer, buffer_size, "%x", is_byte ? (u8)data : data);
         break;
     case 'X':
         // Uppercase hex
-        formatted_length = sprintf_s(buffer, buffer_size, "%X", is_byte ? (u8)data : data);
+        formatted_length = snprintf(buffer, buffer_size, "%X", is_byte ? (u8)data : data);
         break;
     case 'b':
         // Binary
@@ -649,7 +649,12 @@ void SDSC_Try_Format()
     }
 
     // Replace the format string with the result
-    strncpy_s(p_format_start, sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer), p, width);
+    // Copy 'width' bytes from 'p' to 'p_format_start', then null-terminate
+    int copy_len = width;
+    int buffer_space = sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer);
+    if (copy_len > buffer_space - 1) copy_len = buffer_space - 1; // leave space for null terminator
+    memcpy(p_format_start, p, copy_len);
+    p_format_start[copy_len] = '\0';
     p_next_char = p_format_start + formatted_length;
     // And signal that we are done
     p_format_start = NULL;
