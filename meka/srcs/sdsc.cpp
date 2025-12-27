@@ -8,6 +8,20 @@
 #include "debugger.h"
 
 //-----------------------------------------------------------------------------
+// Linux/Unix Compatibility Shim
+//-----------------------------------------------------------------------------
+#ifndef _WIN32
+#include "cstdio"
+#include "cstring"
+#include "cstdarg"
+
+// Map Microsoft-specific secure functions to standard C++ equivalents
+#define vsprintf_s(buf, size, fmt, args) vsnprintf(buf, size, fmt, args)
+#define sprintf_s(buf, size, fmt, ...) snprintf(buf, size, fmt, __VA_ARGS__)
+#define strncpy_s(dest, size, src, count) strncpy(dest, src, count)
+#endif
+
+//-----------------------------------------------------------------------------
 // Definitions
 //-----------------------------------------------------------------------------
 
@@ -705,4 +719,3 @@ void SDSC_Debug_Console_Data(char c)
 }
 
 //-----------------------------------------------------------------------------
-
