@@ -18,25 +18,31 @@ bool have_sdsc_tag = false;
 //-----------------------------------------------------------------------------
 // SDSC command buffer state
 //-----------------------------------------------------------------------------
-int num_pending_bytes = 0;
-u8 byte_buffer[3]; // We fill this in for multi-byte commands
-u8* p_next_byte = byte_buffer; // Points to the next one to write
+
+// FIXME: Consider moving all those states into a struct.
+
+int     num_pending_bytes = 0;
+u8      byte_buffer[3];             // We fill this in for multi-byte commands
+u8*     p_next_byte = byte_buffer;  // Points to the next one to write
 
 //-----------------------------------------------------------------------------
 // State for formatting
 //-----------------------------------------------------------------------------
+
 // This is the size of the buffer we accumulate into. We flush when we get a newline.
 // Overflow is not handled particularly well.
 const int sdsc_console_buffer_size = 16 * 1024;
+
 // This is the buffer we accumulate into
-char sdsc_console_buffer[sdsc_console_buffer_size];
+char    sdsc_console_buffer[sdsc_console_buffer_size];
+
 // This is the location in the buffer for the next character to go to
-char* p_next_char = sdsc_console_buffer;
+char*   p_next_char = sdsc_console_buffer;
+
 // This is the offset in the buffer of the most recent format string,
 // pointing at the leading '%'. We set it to NULL when not in a format
 // string, and thus it also signals whether formatting is needed.
-char* p_format_start = NULL;
-
+char*   p_format_start = NULL;
 
 //-----------------------------------------------------------------------------
 // SDSC ROM Tag - Version 1.01
@@ -56,13 +62,10 @@ char* p_format_start = NULL;
 
 // Convert a BCD number to decimal
 // Note: no error handling is done, if using A-F values
-static int     BCD_to_Dec(int bcd)
+static int BCD_to_Dec(int bcd)
 {
-    int    ret;
-    int    pow;
-
-    ret = 0;
-    pow = 1;
+    int ret = 0;
+    int pow = 1;
     while (bcd > 0)
     {
         ret += (bcd & 0xF) * pow;
@@ -80,17 +83,18 @@ static int     BCD_to_Dec(int bcd)
 char *  SDSC_String_Get (int offset, int verbose_error)
 {
     if (offset == 0x0000 || offset == 0xFFFF)
-        return (verbose_error ? strdup (Msg_Get(MSG_LoadROM_SDSC_Unknown)) : NULL);
+        return (verbose_error ? strdup(Msg_Get(MSG_LoadROM_SDSC_Unknown)) : NULL);
     if (offset >= tsms.Size_ROM)
-        return (verbose_error ? strdup (Msg_Get(MSG_LoadROM_SDSC_Error)) : NULL);
+        return (verbose_error ? strdup(Msg_Get(MSG_LoadROM_SDSC_Error)) : NULL);
 
     int len = 0;
     char* src = (char *)(Game_ROM + offset);
     while (src[len] != EOSTR && offset + len < tsms.Size_ROM)
         len++;
+
     // Note: we are not relying on StrNDup there, since it relies on strlen
     char* result = (char*)malloc(sizeof (char) * (len + 1));
-    strncpy (result, src, len);
+    strncpy(result, src, len);
     result[len] = EOSTR;
     return (result);
 }
@@ -101,15 +105,11 @@ char *  SDSC_String_Get (int offset, int verbose_error)
 // (return value currently not used)
 int         SDSC_Read_and_Display()
 {
-    char *  s;
-    u8 *    header;
-    int     offset;
-
     have_sdsc_tag = false;
 
     if (tsms.Size_ROM < 0x4000)
         return false;
-    header = Game_ROM + 0x3fe0;
+    u8* header = Game_ROM + 0x3fe0;
     if (strncmp((const char *)header, SDSC_MAGIC, 4) != 0)
     {
         if (tsms.Size_ROM < 0x8000)
@@ -122,8 +122,8 @@ int         SDSC_Read_and_Display()
     Msg(MSGT_USER_LOG, "%s", Msg_Get(MSG_LoadROM_SDSC));
 
     // Name
-    offset = *(u16 *)(header + 0xc);
-    s = SDSC_String_Get (offset, TRUE);
+    int offset = *(u16 *)(header + 0xc);
+    char* s = SDSC_String_Get(offset, TRUE);
     Msg(MSGT_USER_LOG, Msg_Get(MSG_LoadROM_SDSC_Name), s);
     free (s);
 
@@ -170,9 +170,7 @@ int         SDSC_Read_and_Display()
 void SDSC_Debug_Console_Control(char c)
 {
     if (!have_sdsc_tag)
-    {
         return;
-    }
 
     *p_next_byte++ = c;
     if (--num_pending_bytes == -1)
@@ -243,9 +241,7 @@ void SDSC_Debug_Console_Control(char c)
 bool SDSC_Format_Error(const char* format, ...)
 {
     if (!have_sdsc_tag)
-    {
         return false;
-    }
 
     // Print the message over the format string
     va_list params;
@@ -268,6 +264,7 @@ bool SDSC_Try_Parse_Format(int& width, char& format, int& data_type, int& parame
     // We iterate through and use this to determine which part we are working on
     int state = 0;
     int parameter_bytes_remaining = 0;
+    
     // We stick a bit in here so we can shift more in and detect when we're done
     // when this reaches the third byte
     data_type = 1;
@@ -524,9 +521,7 @@ int SDSC_Print_ASCII(char* buffer, int buffer_size, bool is_vram, bool is_char, 
         const char c = is_vram ? VRAM[offset & 0x3fff] : RdZ80_NoHook(offset & 0xffff);
         // Stop on null for strings
         if (c == 0 && !is_char)
-        {
             break;
-        }
         // Put into buffer
         *p++ = isprint(c) ? c : '.';
         // Move on
@@ -546,9 +541,7 @@ void SDSC_Try_Format()
     int data_type;
     int parameter;
     if (!SDSC_Try_Parse_Format(width, format, data_type, parameter))
-    {
         return;
-    }
 
     // Handle "%%" -> "%"
     if (format == '%')
@@ -643,10 +636,7 @@ void SDSC_Try_Format()
     // Now copy from buffer into the global buffer
     char* p = buffer;
     if (width < formatted_length)
-    {
-        // Skip leading chars to fit
-        p += formatted_length - width;
-    }
+        p += formatted_length - width; // Skip leading chars to fit
 
     // Replace the format string with the result
     snprintf(p_format_start, sdsc_console_buffer_size - (p_format_start - sdsc_console_buffer), p, width);
