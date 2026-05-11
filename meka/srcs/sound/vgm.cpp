@@ -81,6 +81,8 @@ int             VGM_Start(t_vgm *VGM, const char *FileName, int Logging_Accuracy
     VGM_Data_Add_PSG (VGM, 0xF0 | (PSG.Registers[7] & 0x0F));
     VGM_Data_Add_PSG (VGM, 0xE0 | (PSG.Registers[6] & 0x0F));
 
+    VGM_Data_Add_GG_Stereo(VGM, PSG.Stereo);
+
     // Initialize FM State
     VGM->FM_Used = FALSE;
     for (i = 0; i < YM2413_REGISTERS; i++)
