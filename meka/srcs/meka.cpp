@@ -418,14 +418,15 @@ int main(int argc, char **argv)
     FB_Init_2              (); // Finish initializing the file browser
 
     // Load ROM from command line if necessary
-    Load_ROM_Command_Line();
-    
-    // Re-evaluate startup display state after loading ROM from command-line.
-    // This allows start_in_gui = 0 to take effect if a ROM was loaded at startup.
-    if (!g_config.start_in_gui && (g_machine_flags & MACHINE_RUN) == MACHINE_RUN)
+    if (Load_ROM_Command_Line())
     {
-        g_env.state = MEKA_STATE_GAME;
-        Video_Setup_State();
+        // Re-evaluate startup display state after loading ROM from command-line.
+        // This allows start_in_gui = 0 to take effect if a ROM was loaded at startup.
+        if (!g_config.start_in_gui && (g_machine_flags & MACHINE_RUN) == MACHINE_RUN)
+        {
+            g_env.state = MEKA_STATE_GAME;
+            Video_Setup_State();
+        }
     }
     
     // Wait for Win32 console signal
