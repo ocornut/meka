@@ -96,7 +96,7 @@ byte    Coleco_Inputs (word Port)
         // Player 2
         if (sms.Input_Mode == 0)
             return (Coleco_Keypad_2 ());
-        return (Coleco_Joy_Table_Conv [(tsms.Control[7] >> 8) & 0x3F]);
+        return (Coleco_Joy_Table_Conv [(tsms.Control[7] >> 6) & 0x3F]);
     }
 }
 
@@ -128,7 +128,7 @@ byte    Coleco_Keypad_1()
 byte        Coleco_Keypad_2()
 {
     int     v = 0x0F;
-    if ((tsms.Control[7] >> 8) & 0x20)
+    if ((tsms.Control[7] >> 6) & 0x20)
         v |= 0x40;
     return (v | 0x10 | 0x20 /*| 0x80*/);
 }
@@ -216,4 +216,5 @@ word    Loop_Coleco()
 }
 
 //-----------------------------------------------------------------------------
+
 
