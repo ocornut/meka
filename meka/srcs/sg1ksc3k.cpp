@@ -57,6 +57,9 @@ word    Loop_SG1000_SC3000()
         //if (!(sms.VDP_Status & VDP_STATUS_SpriteCollision))
         //   Check_Sprites_Collision_Modes_1_2_3();
 
+        if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_FRAME)
+            VGM_NewFrame(&Sound.LogVGM); // For frame accurate, we want to consolidate data at the VBlank point
+
         // Note: refresh screen may reset the system, so you can NOT change
         // the status AFTER it, or else it would screw the newly emulated code
         // Msg(MSGT_DEBUG, "Loop_SG1000_SC3000: Video_RefreshScreen()");
