@@ -51,6 +51,7 @@ void    GUI_Init()
     gui.info.screen.x = g_config.video_mode_gui_res_x;
     gui.info.screen.y = g_config.video_mode_gui_res_y;
     GUI_CreateVideoBuffers();
+    Skins_StartupFadeIn();
 
     Desktop_Init();
 
