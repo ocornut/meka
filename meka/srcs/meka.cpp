@@ -410,10 +410,7 @@ int main(int argc, char **argv)
         Configuration_Save();
 
     // Setup display (fullscreen/GUI)
-    if ((g_machine_flags & MACHINE_RUN) == MACHINE_RUN && !g_config.start_in_gui)
-        g_env.state = MEKA_STATE_GAME;
-    else
-        g_env.state = MEKA_STATE_GUI;
+    g_env.state = g_config.start_in_gui ? MEKA_STATE_GUI : MEKA_STATE_GAME;
     Video_Setup_State();
 
     Machine_Reset          (); // Reset Emulated Machine (set default values)
