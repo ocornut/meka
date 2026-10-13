@@ -61,10 +61,16 @@ bool Frame_Skipper()
 
         while (fskipper.Throttled_Frame_Elapsed == 0)
         {
-            // Blocking
-            al_wait_for_event(g_timer_throttle_event_queue, &timer_event);
-            if (timer_event.type == ALLEGRO_EVENT_TIMER)
-                fskipper.Throttled_Frame_Elapsed++;
+            ALLEGRO_TIMEOUT soundupdate_timeout = {};
+            const double sound_buffers_max_capacity_seconds = SOUND_BUFFERS_SAMPLE_COUNT/(double)Sound.SampleRate;
+            al_init_timeout(&soundupdate_timeout, sound_buffers_max_capacity_seconds);
+            
+            if(al_wait_for_event_until(g_timer_throttle_event_queue, &timer_event, &soundupdate_timeout)){
+                if (timer_event.type == ALLEGRO_EVENT_TIMER)
+                    fskipper.Throttled_Frame_Elapsed++;
+            } else {
+                Sound_Update();
+            }
         }
 
         // If retard is too high, force drawing a frame so it doesn't freeze
