@@ -187,7 +187,7 @@ int      Font_TextWidth(t_font_id font_id, const char* text, const char* text_en
     {
         // FIXME-OPT: allegro needs better API
         static char buf[MSG_MAX_LEN];
-        snprintf(buf, countof(buf), "%.*s", text_end-text, text);
+        snprintf(buf, countof(buf), "%.*s", (int)(text_end-text), text);
         buf[countof(buf)-1] = 0;
         return al_get_text_width(font->library_data, buf);
     }
