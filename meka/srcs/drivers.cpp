@@ -17,12 +17,12 @@ static ts_driver drivers [DRV_MAX] =
   // Driver ----- Name ------- Full Name ------------ CPU ----- VDP Chip --- SND Chip ------ X -- Y -- XS - YS - XE - YSS/SE/INT - C - RAM -----
   {  DRV_SMS,    "SMS",      "Sega Master System",    CPU_Z80,  VDP_SMSGG,   SND_SN76489,    256, 192,  0,  0,   255, 0,  0,  0,  32,  0x02000 },
   {  DRV_GG,     "GG",       "Sega Game Gear",        CPU_Z80,  VDP_SMSGG,   SND_SN76489,    160, 144, 48, 24,   207, 0,  0,  0,  32,  0x02000 },
-  {  DRV_SG1000, "SG-1000",  "Sega Game 1000",        CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x01000 },
-  {  DRV_SC3000, "SC-3000",  "Sega Computer 3000",    CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x08000 },
-  {  DRV_COLECO, "COLECO",   "Coleco Vision",         CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x00400 },
-  {  DRV_MSX___, "MSX",      "MSX-1",                 CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0 /*?*/ },
+  {  DRV_SG1000, "SG-1000",  "Sega Game 1000",        CPU_Z80,  VDP_TMS9918, SND_SEGA_PSG,   256, 192,  0,  0,   255, 0,  0,  0,  16,  0x01000 },
+  {  DRV_SC3000, "SC-3000",  "Sega Computer 3000",    CPU_Z80,  VDP_TMS9918, SND_SEGA_PSG,   256, 192,  0,  0,   255, 0,  0,  0,  16,  0x08000 },
+  {  DRV_COLECO, "COLECO",   "Coleco Vision",         CPU_Z80,  VDP_TMS9918, SND_SEGA_PSG,   256, 192,  0,  0,   255, 0,  0,  0,  16,  0x00400 },
+  {  DRV_MSX___, "MSX",      "MSX-1",                 CPU_Z80,  VDP_TMS9918, SND_SEGA_PSG,   256, 192,  0,  0,   255, 0,  0,  0,  16,  0 /*?*/ },
   {  DRV_NES___, "NES",      "Nintendo",              0,    0,       0,        256, 240,  0,  0,   255, 0,  0,  0,  32,  0x00800 },
-  {  DRV_SF7000, "SF-7000",  "Super Control Station", CPU_Z80,  VDP_TMS9918, SND_SN76489AN,  256, 192,  0,  0,   255, 0,  0,  0,  16,  0x10000 }
+  {  DRV_SF7000, "SF-7000",  "Super Control Station", CPU_Z80,  VDP_TMS9918, SND_SEGA_PSG,   256, 192,  0,  0,   255, 0,  0,  0,  16,  0x10000 }
   // Driver ----- Name ------- Full Name ------------ CPU ----- VDP Chip --- SND Chip ------ X -- Y -- XS - YS - XE - YSS/SE/INT - C - RAM -----
 };
 

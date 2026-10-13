@@ -1,3 +1,4 @@
+#pragma once
 //
 // Meka - PSG.H
 // PSG Emulation, by Maxim
@@ -8,7 +9,6 @@
 
 int     PSG_Init();
 void    PSG_WriteSamples(s16 *buffer, int length);
-void    PSG_Reset();
 void    PSG_Save(FILE *f);
 void    PSG_Load(FILE *f, int version);
 void    PSG_Regenerate();
@@ -25,6 +25,12 @@ struct t_psg_channel
                  int    Active;                 // Set to 0 to mute
 };
 
+enum t_chip_type
+{
+    CHIP_TYPE_SEGA_PSG,
+    CHIP_TYPE_SN76489
+};
+
 struct t_psg
 {
   t_psg_channel         Channels[4];            //
@@ -37,13 +43,14 @@ struct t_psg
                  float  dClock;
   unsigned       int    NumClocksForSample;
                  int    SamplingRate;           // fixed
+  t_chip_type           ChipType;
 };
 
 extern t_psg            PSG;
 
 //-----------------------------------------------------------------------------
 
-void    SN76489_Reset           (const unsigned long PSGClockValue, const unsigned long SamplingRate);
+void    SN76489_Reset           (const unsigned long PSGClockValue, const unsigned long SamplingRate, t_chip_type ChipType);
 void    SN76489_SetClock        (const unsigned long PSGClockValue);
 void    SN76489_Write           (const unsigned char data);
 void    SN76489_StereoWrite     (const unsigned char data);

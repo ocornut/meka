@@ -34,6 +34,7 @@ They are usually of 2 kinds:
   - Emulation (Audio):
     - PSG: Added support for Game Gear stereo emulation! [Maxim]
     - PSG: Emulate the PSG volumes "ideally" rather than matching some real systems' suboptimal output. [Maxim]
+    - PSG: Emulate the SN76489 chip differences for SG-1000, SC-3000, SF-7000, OMV [Maxim]
     - Emu2413: Updated to latest version 1.5.9 (revision 813cff619f5f01c47bd5c0588c1fd8435530b125 in https://github.com/digital-sound-antiques/emu2413) [Maxim]
       - Various emulation fixes and improvements
     - Emu2413: Use the real YM2413 instrument ROM patches

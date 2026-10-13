@@ -30,7 +30,7 @@ void            VGM_Header_Init(t_vgm_header *h)
         h->sn76489_feedback     = 0x0009;
         h->sn76489_shift_width  = 16;
     }
-    else if (g_driver->snd == SND_SN76489AN)
+    else if (g_driver->snd == SND_SEGA_PSG)
     {
         h->sn76489_feedback     = 0x0003;   // 2005/11/12: VGM specs are incorrect, says 0x0006
         h->sn76489_shift_width  = 15;

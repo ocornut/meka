@@ -29,10 +29,6 @@
 
 // Constants
 #define NoiseInitialState           0x4000
-#define NoiseWhiteFeedback_SMSGG    0x0009  // Bits 0 and 3
-#define NoiseWhiteFeedback_SGSC     0x0006  // Bits 1 and 2
-
-#define NoiseWhiteFeedback          NoiseWhiteFeedback_SMSGG
 
 static const unsigned short int PSGVolumeValues[16] =
 {
@@ -70,7 +66,7 @@ int         PSG_Init()
 
     for (int i = 0; i < 4; i++)               // FIXME: to be done in sound.c ?
         PSG.Channels[i].Active = TRUE;
-    SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate);
+    SN76489_Reset (Z80_DEFAULT_CPU_CLOCK, Sound.SampleRate, CHIP_TYPE_SEGA_PSG);
 
     ConsolePrintf ("%s\n", Msg_Get(MSG_Ok));
     return (MEKA_ERR_OK);
@@ -227,7 +223,7 @@ void        PSG_Mute()
 }
 
 // Initialise and reset emulated PSG, given clock and sampling rate
-void        SN76489_Reset(const unsigned long PSGClockValue, const unsigned long SamplingRate)
+void        SN76489_Reset(const unsigned long PSGClockValue, const unsigned long SamplingRate, t_chip_type ChipType)
 {
     // Probably unnecessarily verbose
     Active = (PSGClockValue > 0);
@@ -261,6 +257,8 @@ void        SN76489_Reset(const unsigned long PSGClockValue, const unsigned long
     // Noise channels default parameters
     PSG.NoiseFreq = 0x10;
     PSG.NoiseShiftRegister = NoiseInitialState;
+
+    PSG.ChipType = ChipType;
 }
 
 // Set PSG clock based on master CPU clock
@@ -505,13 +503,25 @@ void    SN76489_GetValues(int *result_left, int *result_right)
             */
 
             // SMS-only method, probably a bit faster:
-            int Feedback = 0;
+            int Feedback;
             if (PSG.Registers[6] & 0x04)  // White Noise
-                Feedback = ((PSG.NoiseShiftRegister & 0x9) && ((PSG.NoiseShiftRegister & 0x9) ^ 0x9));
+            {
+                if (PSG.ChipType == CHIP_TYPE_SEGA_PSG)
+                    // SMS/GG PSG: mask is %1001
+                    Feedback = ((PSG.NoiseShiftRegister >> 3) ^ (PSG.NoiseShiftRegister >> 0)) & 1; 
+                else
+                    // SN76489: mask is %11
+                    Feedback = ((PSG.NoiseShiftRegister >> 1) ^ (PSG.NoiseShiftRegister >> 0)) & 1; 
+            }
             else    // Periodic Noise
                 Feedback = PSG.NoiseShiftRegister & 1;    // For periodic: feedback=output
-            PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 15);
+            if (PSG.ChipType == CHIP_TYPE_SEGA_PSG)
+                // SMS/GG PSG: 16 bits
+                PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 15);
+            else
+                // SN76489: 15 bits
+                PSG.NoiseShiftRegister = (PSG.NoiseShiftRegister >> 1) | (Feedback << 14);
         }
-    };
+    }
 };
 

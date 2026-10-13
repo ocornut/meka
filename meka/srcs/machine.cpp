@@ -814,7 +814,7 @@ void        Machine_Reset()
     // if (fm_use == TRUE) fm_init (FM_ALL_INIT);
     // resume_fm();
     FM_Reset();
-    SN76489_Reset (g_machine.TV->CPU_clock, Sound.SampleRate);
+    SN76489_Reset (g_machine.TV->CPU_clock, Sound.SampleRate, g_driver->snd == SND_SN76489 ? CHIP_TYPE_SEGA_PSG : CHIP_TYPE_SN76489);
     if (Sound.LogVGM.Logging == VGM_LOGGING_ACCURACY_SAMPLE)
         VGM_Update_Timing (&Sound.LogVGM);
 

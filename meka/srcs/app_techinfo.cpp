@@ -187,9 +187,10 @@ void        TechInfo_Update(void)
     // - PSG
     {
         t_psg *psg = &PSG;
-        sprintf(line, "    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s)  Stereo:%02X",
+        sprintf(line, "    [PSG] Tone 0: %03X,%01X  Tone 1: %03X,%01X  Tone 2: %03X,%01X  Noise:%02X,%01X (%s, %s)  Stereo:%02X",
             psg->Registers[0], psg->Registers[1], psg->Registers[2], psg->Registers[3],
             psg->Registers[4], psg->Registers[5], psg->Registers[6], psg->Registers[7],
+            (psg->ChipType == CHIP_TYPE_SEGA_PSG ? "SMS/GG" : "SN76489"),
             ((psg->Registers[6] & 0x04) ? "White" : "Periodic"),
             psg->Stereo);
         TechInfo_SetLine(app, line, line_idx++);

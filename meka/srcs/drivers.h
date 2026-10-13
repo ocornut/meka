@@ -29,7 +29,7 @@ enum t_machine_driver
 #define VDP_TMS9918     (1)
 
 // Sound Type
-#define SND_SN76489AN   (0)
+#define SND_SEGA_PSG    (0)
 #define SND_SN76489     (1)
 
 //-----------------------------------------------------------------------------
