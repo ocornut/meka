@@ -62,6 +62,8 @@ int             VGM_Start(t_vgm *VGM, const char *FileName, int Logging_Accuracy
 
     VGM->DataSize = 0;
     VGM->Cycles_Counter = 0;
+    VGM->Seconds = 0;
+    VGM->SamplesSinceLastSecond = 0;
     VGM_Update_Timing (VGM);
 
     // Initialize PSG State
@@ -159,6 +161,18 @@ void            VGM_NewFrame(t_vgm *VGM)
     else
     {
         VGM->Cycles_Counter += VGM->Cycles_per_Frame;
+    }
+
+    VGM->SamplesSinceLastSecond += g_machine.TV->id == TVTYPE_NTSC ? 735 : 882;
+    if (VGM->SamplesSinceLastSecond >= 44100)
+    {
+        ++VGM->Seconds;
+        VGM->SamplesSinceLastSecond -= 44100;
+    }
+    if (g_gui_status.timeleft == 0)
+    {
+        Msg(MSGT_STATUS_BAR, Msg_Get(MSG_Sound_Dumping_VGM_Progress), VGM->Seconds / 60, VGM->Seconds % 60);
+        g_gui_status.timeleft = 1;
     }
 }
 

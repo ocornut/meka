@@ -481,6 +481,7 @@ Msg_Sound_Dumping_Error_File_2          = "Error opening output file %s for dump
 Msg_Sound_Dumping_VGM_Acc_Frame         = "VGM dumps will now be frame accurate (smaller files, skip voices)"
 Msg_Sound_Dumping_VGM_Acc_Sample        = "VGM dumps will now be sample accurate (bigger files, dump voices)"
 Msg_Sound_Dumping_VGM_Acc_Change        = "(VGM dumping will have to be restarted to take account of new accuracy)"
+Msg_Sound_Dumping_VGM_Progress          = "VGM dumping: %d:%02d"
 
 ; Menu: Main -----------------------------------------------------------------
 Msg_Menu_Main                           = "MAIN"

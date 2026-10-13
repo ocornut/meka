@@ -354,6 +354,7 @@ static const S2I_TYPE Msg_Translation_Table [] =
     __MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Frame),
     __MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Sample),
     __MSG_ADD(MSG_Sound_Dumping_VGM_Acc_Change),
+    __MSG_ADD(MSG_Sound_Dumping_VGM_Progress),
 
     __MSG_ADD(MSG_Menu_Main),
     __MSG_ADD(MSG_Menu_Main_LoadROM),

@@ -87,6 +87,8 @@ struct t_vgm
     int             Cycles_Counter;         //
     double          Samples_per_Cycle;      //
     double          Cycles_per_Sample;      //
+    int             Seconds;
+    int             SamplesSinceLastSecond;
 };
 
 int             VGM_Start(t_vgm *VGM, const char *filename, int logging_accuracy);

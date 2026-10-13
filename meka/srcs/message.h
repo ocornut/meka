@@ -347,6 +347,7 @@ enum
     MSG_Sound_Dumping_VGM_Acc_Frame,
     MSG_Sound_Dumping_VGM_Acc_Sample,
     MSG_Sound_Dumping_VGM_Acc_Change,
+    MSG_Sound_Dumping_VGM_Progress,
 
     MSG_Menu_Main,
     MSG_Menu_Main_LoadROM,
