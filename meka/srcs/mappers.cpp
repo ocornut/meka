@@ -101,7 +101,7 @@ void    Mapper_Get_RAM_Infos(int *plen, int *pstart_addr)
     {
         case MAPPER_32kRAM:                         len = 0x08000; start_addr = 0x8000; break;
         case MAPPER_ColecoVision:                   len = 0x00400; start_addr = 0x6000; break;
-        case MAPPER_SG1000:                         len = 0x01000; start_addr = 0xC000; break;
+        case MAPPER_SG1000:                         len = 0x00400; start_addr = 0xC000; break;
         case MAPPER_TVOekaki:                       len = 0x01000; start_addr = 0xC000; break;
         case MAPPER_SF7000:                         len = 0x10000; start_addr = 0x0000; break;
         case MAPPER_SMS_DisplayUnit:                len = 0x02800; start_addr = 0x4000; break; // FIXME: Incorrect, due to scattered mapping!
